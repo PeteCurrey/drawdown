@@ -1,6 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/utils";
+import { BadgeGrid, allBadges } from "@/components/badges/BadgeGrid";
 import { 
   Play, 
   ArrowUpRight, 
@@ -11,7 +12,7 @@ import {
 
 export default function DashboardPage() {
   return (
-    <div className="space-y-10">
+    <div className="space-y-10 stagger-children">
       {/* Header */}
       <div>
         <h1 className="text-3xl font-display font-bold uppercase mb-2">Morning, Trader.</h1>
@@ -37,7 +38,6 @@ export default function DashboardPage() {
             Full Analysis
           </button>
         </div>
-        {/* Subtle background glyph */}
         <TrendingUp className="absolute -bottom-10 -right-10 w-64 h-64 text-accent/5 -rotate-12 pointer-events-none" />
       </div>
 
@@ -99,7 +99,7 @@ export default function DashboardPage() {
         </div>
       </div>
 
-      {/* Upcoming Sessions */}
+      {/* Account Stats */}
       <div className="space-y-6">
         <h4 className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary">Account Stats</h4>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
@@ -115,6 +115,12 @@ export default function DashboardPage() {
             </div>
           ))}
         </div>
+      </div>
+
+      {/* Achievements */}
+      <div className="space-y-6">
+        <h4 className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary">Achievements</h4>
+        <BadgeGrid badges={allBadges} />
       </div>
     </div>
   );

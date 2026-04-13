@@ -122,7 +122,45 @@ export interface Database {
           notes?: string | null
           created_at?: string
         }
+      },
+      ai_usage_logs: {
+        Row: {
+          id: string
+          user_id: string
+          scope: string
+          model: string
+          tokens_estimated: number
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          scope: string
+          model: string
+          tokens_estimated?: number
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          scope?: string
+          model?: string
+          tokens_estimated?: number
+          created_at?: string
+        }
       }
+    }
+    Views: {
+      [_ in never]: never
+    }
+    Functions: {
+      [_ in never]: never
+    }
+    Enums: {
+      [_ in never]: never
+    }
+    CompositeTypes: {
+      [_ in never]: never
     }
   }
 }

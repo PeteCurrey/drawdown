@@ -1,0 +1,51 @@
+{
+  "topics": [
+    {
+      "slug": "day-trading",
+      "title": "Day Trading",
+      "description": "Learn the essentials of day trading: fast-paced markets, risk management, and the discipline needed to trade intraday without the hype.",
+      "content": [
+        {
+          "heading": "What is Day Trading?",
+          "text": "Day trading involves buying and selling financial instruments within the same trading day. All positions are closed before the market closes to avoid unmanageable overnight risk. It's a high-intensity strategy that requires significant time, focus, and a precise 'edge' over the market."
+        },
+        {
+          "heading": "The 90% Rule",
+          "text": "Most day traders lose money because they treat the market like a casino. Successful day trading is about process over outcome. You don't need a 90% win rate; you need a strategy where your winners outsize your losers and the discipline to walk away when your rules aren't met."
+        },
+        {
+          "heading": "Essential Day Trading Tools",
+          "text": "To succeed, you need a high-speed execution platform, a reliable data feed, and most importantly, a Trade Journal. Tracking every entry and exit allows you to see the patterns in your own behavior that lead to drawdowns."
+        }
+      ],
+      "faqs": [
+        {
+          "question": "Can I day trade with a small account?",
+          "answer": "Yes, but you must be extremely cautious with leverage. Position sizing is critical. Trading a small account requires more discipline, not more risk."
+        },
+        {
+          "question": "How much time does day trading take?",
+          "answer": "Active day trading typically requires being present during high-volume sessions, such as the London/New York overlap (1pm - 4pm GMT)."
+        }
+      ]
+    },
+    {
+      "slug": "forex-trading",
+      "title": "Forex Trading",
+      "description": "Master the foreign exchange market. Understand currency pairs, pips, and market sessions without the guru promises of overnight wealth.",
+      "content": [
+        {
+          "heading": "Understanding the Forex Market",
+          "text": "Forex is the largest and most liquid financial market in the world. It operates 24 hours a day, 5 days a week, and is driven by global economic data, interest rates, and geopolitical events."
+        }
+      ],
+      "faqs": []
+    }
+  ],
+  "locations": [
+    "London", "Manchester", "Birmingham", "Leeds", "Sheffield", "Bristol", 
+    "Liverpool", "Edinburgh", "Glasgow", "Cardiff", "Nottingham", "Newcastle", 
+    "Brighton", "Leicester", "Southampton", "Plymouth", "Derby", "Chesterfield", 
+    "Oxford", "Cambridge"
+  ]
+}

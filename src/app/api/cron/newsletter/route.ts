@@ -41,7 +41,7 @@ export async function GET(request: NextRequest) {
       .select('email')
       .eq('is_active', true);
 
-    if (subError || !subers || subscribers.length === 0) {
+    if (subError || !subscribers || subscribers.length === 0) {
       return NextResponse.json({ message: "No active subscribers found." });
     }
 

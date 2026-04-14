@@ -3,7 +3,7 @@
 import Script from "next/script";
 
 interface StructuredDataProps {
-  type: "Organization" | "Course" | "Article" | "Product" | "FAQPage" | "WebSite" | "Person" | "BreadcrumbList";
+  type: "Organization" | "Course" | "Article" | "Product" | "FAQPage" | "WebSite" | "Person" | "BreadcrumbList" | "ItemList";
   data: any;
 }
 

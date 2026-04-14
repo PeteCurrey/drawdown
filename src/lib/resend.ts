@@ -4,8 +4,6 @@ if (!process.env.RESEND_API_KEY) {
   console.warn("RESEND_API_KEY is missing. Email dispatch will fail.");
 }
 
-export const resend = new Resend(process.env.RESEND_API_KEY);
-
 interface NewsletterParams {
   subject: string;
   html: string;
@@ -19,6 +17,7 @@ export async function sendNewsletter({
   recipients,
   fromName = "Pete | Drawdown",
 }: NewsletterParams) {
+  const resend = new Resend(process.env.RESEND_API_KEY);
   try {
     const { data, error } = await resend.emails.send({
       from: `${fromName} <news@drawdown.trade>`, // Assumes domain is verified in Resend

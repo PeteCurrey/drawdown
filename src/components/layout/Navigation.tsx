@@ -6,7 +6,7 @@ import Image from "next/image";
 import { cn } from "@/lib/utils";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { Menu, X, ChevronDown, Play, Clock, Shield, Zap, Brain, LineChart } from "lucide-react";
+import { Menu, X, ChevronDown, Play, Clock, Shield, Zap, Brain, LineChart, Lock } from "lucide-react";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);

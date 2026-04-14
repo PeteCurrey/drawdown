@@ -1,3 +1,5 @@
+"use client";
+
 import { useState, useRef, useEffect } from "react";
 import { createChart, ColorType, ISeriesApi } from "lightweight-charts";
 import { cn } from "@/lib/utils";

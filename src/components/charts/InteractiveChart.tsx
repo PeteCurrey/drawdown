@@ -1,8 +1,9 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { createChart, ColorType, ISeriesApi } from "lightweight-charts";
+import { createChart, ColorType, ISeriesApi, CandlestickSeries } from "lightweight-charts";
 import { cn } from "@/lib/utils";
+
 import { 
   Zap, 
   Settings, 
@@ -65,7 +66,7 @@ export function InteractiveChart({ initialData = [], symbol = "GBPUSD", userTier
       },
     });
 
-    const candlestickSeries = chart.addCandlestickSeries({
+    const candlestickSeries = chart.addSeries(CandlestickSeries, {
       upColor: "#00E676",
       downColor: "#FF3D57",
       borderVisible: false,

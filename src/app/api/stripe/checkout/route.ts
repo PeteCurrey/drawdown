@@ -3,11 +3,10 @@ import { type NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 import { STRIPE_CONFIG } from "@/config/stripe";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: "2023-10-16" as any,
-});
-
 export async function POST(request: NextRequest) {
+  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
+    apiVersion: "2023-10-16" as any,
+  });
   try {
     const { priceId, tier } = await request.json();
     const supabase = await createClient();

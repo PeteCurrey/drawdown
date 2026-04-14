@@ -36,7 +36,7 @@ export async function proxy(request: NextRequest, event: NextFetchEvent) {
     request.nextUrl.pathname.startsWith('/dashboard') ||
     request.nextUrl.pathname.startsWith('/learn') ||
     request.nextUrl.pathname.startsWith('/live') ||
-    request.nextUrl.pathname.startsWith('/tools') ||
+    request.nextUrl.pathname.startsWith('/tools/') ||
     request.nextUrl.pathname.startsWith('/profile')
 
   if (isProtectedRoute && !user) {

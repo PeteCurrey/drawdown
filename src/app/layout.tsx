@@ -3,6 +3,7 @@ import { Syne, DM_Sans, JetBrains_Mono } from "next/font/google";
 import { SmoothScroll } from "@/components/providers/SmoothScroll";
 import { Navigation } from "@/components/layout/Navigation";
 import { Footer } from "@/components/layout/Footer";
+import { GrainOverlay } from "@/components/ui/GrainOverlay";
 import "./globals.css";
 
 const syne = Syne({
@@ -46,7 +47,7 @@ export default function RootLayout({
           </main>
           <Footer />
         </SmoothScroll>
-        <div className="noise-overlay" />
+        <GrainOverlay />
       </body>
     </html>
   );

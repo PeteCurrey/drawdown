@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { BadgeGrid, allBadges } from "@/components/badges/BadgeGrid";
 import { 
@@ -11,11 +12,21 @@ import {
 } from "lucide-react";
 
 export default function DashboardPage() {
+  const [greeting, setGreeting] = useState("Morning");
+  const [name] = useState("Pete"); // Mock user name
+
+  useEffect(() => {
+    const hour = new Date().getHours();
+    if (hour < 12) setGreeting("Morning");
+    else if (hour < 18) setGreeting("Afternoon");
+    else setGreeting("Evening");
+  }, []);
+
   return (
     <div className="space-y-10 stagger-children">
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-display font-bold uppercase mb-2">Morning, Trader.</h1>
+        <h1 className="text-3xl font-display font-bold uppercase mb-2">{greeting}, {name}.</h1>
         <p className="text-text-secondary font-mono text-xs uppercase tracking-widest">// Market Status: London Open</p>
       </div>
 

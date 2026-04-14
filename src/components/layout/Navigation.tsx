@@ -53,7 +53,7 @@ const phases = [
 
 const navLinks = [
   { name: "Learn", href: "/learn", hasMegaMenu: true },
-  { name: "Tools", href: "/tools/risk-calculator" },
+  { name: "Tools", href: "/tools" },
   { name: "Pricing", href: "/pricing" },
   { name: "Blog", href: "/blog" },
   { name: "About", href: "/about" },

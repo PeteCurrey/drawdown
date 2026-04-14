@@ -11,8 +11,11 @@ import {
   Link as LinkIcon,
   CheckCircle2,
   AlertCircle,
-  ExternalLink
+  ExternalLink,
+  ChevronDown,
+  Plus
 } from "lucide-react";
+import { BadgeGrid, allBadges } from "@/components/badges/BadgeGrid";
 
 export default function ProfilePage() {
   const [discordConnected, setDiscordConnected] = useState(false);
@@ -60,7 +63,6 @@ export default function ProfilePage() {
               </div>
             </div>
 
-            {/* Subscription Section */}
             <div className="bg-background-surface border border-border-slate p-8 md:p-12">
                <div className="flex justify-between items-center mb-8">
                   <div className="flex items-center gap-3">
@@ -85,6 +87,15 @@ export default function ProfilePage() {
                   <button className="flex-grow py-4 bg-background-elevated border border-border-slate text-[10px] font-bold uppercase tracking-widest hover:border-text-tertiary transition-colors">Cancel Subscription</button>
                   <button className="flex-grow py-4 bg-accent text-background-primary text-[10px] font-bold uppercase tracking-widest hover:bg-accent-hover transition-colors">Upgrade Tier</button>
                </div>
+            </div>
+
+            {/* Achievements */}
+            <div className="space-y-8">
+               <div className="flex items-center gap-3">
+                  <Shield className="w-5 h-5 text-accent" />
+                  <h3 className="text-xl font-display font-bold uppercase">Achievements.</h3>
+               </div>
+               <BadgeGrid badges={allBadges} />
             </div>
           </div>
 
@@ -145,16 +156,4 @@ export default function ProfilePage() {
       </div>
     </div>
   );
-}
-
-function Plus({ className }: { className?: string }) {
-  return (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M5 12h14"/><path d="M12 5v14"/></svg>
-  )
-}
-
-function ChevronDown({ className }: { className?: string }) {
-  return (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="m6 9 6 6 6-6"/></svg>
-  )
 }

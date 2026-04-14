@@ -22,6 +22,7 @@ const phases = [
     tier: "Free",
     modules: 8,
     duration: "4.5h",
+    image: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?q=80&w=1200",
   },
   {
     number: "02",
@@ -32,6 +33,7 @@ const phases = [
     tier: "Foundation",
     modules: 12,
     duration: "8h",
+    image: "https://images.unsplash.com/photo-1642543492481-44e81e3914a7?q=80&w=1200",
   },
   {
     number: "03",
@@ -42,6 +44,7 @@ const phases = [
     tier: "Foundation",
     modules: 10,
     duration: "6.5h",
+    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1200",
   },
   {
     number: "04",
@@ -52,6 +55,7 @@ const phases = [
     tier: "Foundation",
     modules: 6,
     duration: "3h",
+    image: "https://images.unsplash.com/photo-1614028674026-a65e31bfd27c?q=80&w=1200",
   },
   {
     number: "05",
@@ -62,6 +66,7 @@ const phases = [
     tier: "Edge",
     modules: 10,
     duration: "5h",
+    image: "https://images.unsplash.com/photo-1543286386-2e659306cd6c?q=80&w=1200",
   },
   {
     number: "06",
@@ -72,6 +77,7 @@ const phases = [
     tier: "Edge",
     modules: 14,
     duration: "12h",
+    image: "https://images.unsplash.com/photo-1551434678-e076c223a692?q=80&w=1200",
   },
 ];
 

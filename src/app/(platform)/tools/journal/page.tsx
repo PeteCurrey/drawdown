@@ -28,7 +28,7 @@ export default function TradeJournalPage() {
   const [analysis, setAnalysis] = useState<string | null>(null);
   const [isLockedByTier, setIsLockedByTier] = useState(false);
   
-  const userTier: "free" | "foundation" | "edge" | "floor" = "foundation"; // Mock tier
+  const userTier = "foundation" as "free" | "foundation" | "edge" | "floor"; // Mock tier
 
   const runAIAnalysis = () => {
     setIsAnalyzing(true);

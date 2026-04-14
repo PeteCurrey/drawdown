@@ -125,9 +125,30 @@ export function Footer() {
             </p>
           </div>
           
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-[10px] font-mono uppercase tracking-widest text-text-tertiary">
-            <p>© 2026 DRAWDOWN. TRADE THE TRUTH.</p>
-            <p>Built by traders for traders.</p>
+          <div className="flex flex-col md:flex-row justify-between items-end gap-12 border-t border-border-slate pt-8">
+            <div className="space-y-4">
+              <p className="text-[10px] font-mono uppercase tracking-[0.2em] text-text-tertiary mb-2">Platform Lead</p>
+              <div className="group">
+                <p className="text-3xl font-serif italic text-text-primary tracking-wide opacity-80 group-hover:opacity-100 transition-opacity select-none" style={{ fontFamily: 'serif' }}>
+                  Pete Currey
+                </p>
+                <div className="w-12 h-[1px] bg-accent/30 mt-1" />
+              </div>
+            </div>
+
+            <div className="flex flex-col items-end gap-2 text-right">
+              <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-[10px] font-mono uppercase tracking-widest text-text-tertiary">
+                <p>© 2026 DRAWDOWN. TRADE THE TRUTH.</p>
+              </div>
+              <a 
+                href="https://avorria.co.uk" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="text-[9px] font-mono uppercase tracking-[0.2em] text-text-tertiary hover:text-accent transition-colors group"
+              >
+                A signature build by <span className="text-text-secondary group-hover:text-accent font-bold">Avorria</span>
+              </a>
+            </div>
           </div>
         </div>
       </div>

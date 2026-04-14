@@ -1,14 +1,19 @@
 import { MetadataRoute } from "next";
+import { siteConfig } from "@/lib/metadata";
 
 export default function robots(): MetadataRoute.Robots {
   return {
-    rules: [
-      {
-        userAgent: "*",
-        allow: "/",
-        disallow: ["/dashboard", "/learn/", "/tools/", "/profile", "/admin", "/api/"],
-      },
-    ],
-    sitemap: "https://drawdown.trade/sitemap.xml",
+    rules: {
+      userAgent: "*",
+      allow: "/",
+      disallow: [
+        "/admin/",
+        "/dashboard/",
+        "/tools/",
+        "/api/",
+        "/auth/callback",
+      ],
+    },
+    sitemap: `${siteConfig.url}/sitemap.xml`,
   };
 }

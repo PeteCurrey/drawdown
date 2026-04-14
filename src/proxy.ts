@@ -1,7 +1,7 @@
 import { createServerClient } from '@supabase/ssr'
-import { NextResponse, type NextRequest, type NextFetchEvent } from 'next/server'
+import { NextResponse, type NextRequest } from 'next/server'
 
-export async function proxy(request: NextRequest, event: NextFetchEvent) {
+export async function proxy(request: NextRequest) {
   let response = NextResponse.next({
     request: {
       headers: request.headers,
@@ -9,8 +9,8 @@ export async function proxy(request: NextRequest, event: NextFetchEvent) {
   })
 
   const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co',
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder',
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     {
       cookies: {
         getAll() {
@@ -31,20 +31,23 @@ export async function proxy(request: NextRequest, event: NextFetchEvent) {
 
   const { data: { user } } = await supabase.auth.getUser()
 
-  // Protected routes
+  const path = request.nextUrl.pathname
+  
+  // Define protected routes
   const isProtectedRoute = 
-    request.nextUrl.pathname.startsWith('/dashboard') ||
-    request.nextUrl.pathname.startsWith('/learn') ||
-    request.nextUrl.pathname.startsWith('/live') ||
-    request.nextUrl.pathname.startsWith('/tools/') ||
-    request.nextUrl.pathname.startsWith('/profile')
+    path.startsWith('/dashboard') ||
+    (path.startsWith('/learn/') && path.split('/').length > 3) || // Gate /learn/[phase]/[id] but not /learn or /learn/[phase]
+    path.startsWith('/live') ||
+    path.startsWith('/tools/') ||
+    path.startsWith('/profile') ||
+    path.startsWith('/admin')
 
   if (isProtectedRoute && !user) {
     return NextResponse.redirect(new URL('/login', request.url))
   }
 
-  // Auth pages (redirect to dashboard if logged in)
-  if ((request.nextUrl.pathname === '/login' || request.nextUrl.pathname === '/signup') && user) {
+  // Redirect to dashboard if logged in and trying to access auth pages
+  if ((path === '/login' || path === '/signup') && user) {
     return NextResponse.redirect(new URL('/dashboard', request.url))
   }
 

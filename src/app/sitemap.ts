@@ -1,51 +1,43 @@
 import { MetadataRoute } from "next";
-
-const BASE_URL = "https://drawdown.trade";
+import { siteConfig } from "@/lib/metadata";
+import seoData from "@/data/seo/topics.json";
+import { blogPosts } from "@/data/blog";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const staticRoutes = [
+  const baseUrl = siteConfig.url;
+
+  // Static routes
+  const routes = [
     "",
     "/about",
     "/pricing",
     "/blog",
-    "/login",
-    "/signup",
+    "/courses",
+    "/contact",
+    "/privacy",
+    "/disclaimer",
   ].map((route) => ({
-    url: `${BASE_URL}${route}`,
+    url: `${baseUrl}${route}`,
     lastModified: new Date(),
     changeFrequency: "weekly" as const,
-    priority: route === "" ? 1.0 : 0.8,
+    priority: 1.0,
   }));
 
-  // Programmatic SEO pages
-  const topics = [
-    "day-trading", "forex-trading", "swing-trading", "scalping",
-    "price-action", "technical-analysis", "risk-management",
-    "trading-psychology", "cryptocurrency-trading", "stock-trading",
-  ];
+  // Topic routes
+  const topics = seoData.topics.map((topic) => ({
+    url: `${baseUrl}/learn-to-trade/${topic.slug}`,
+    lastModified: new Date(),
+    changeFrequency: "monthly" as const,
+    priority: 0.8,
+  }));
 
-  const cities = [
-    "london", "manchester", "birmingham", "leeds", "glasgow",
-    "edinburgh", "bristol", "liverpool", "sheffield", "cardiff",
-    "belfast", "nottingham", "newcastle", "southampton", "leicester",
-    "brighton", "plymouth", "reading", "coventry", "cambridge",
-  ];
-
-  const topicRoutes = topics.map((topic) => ({
-    url: `${BASE_URL}/learn-to-trade/${topic}`,
+  // Blog routes
+  const blogs = blogPosts.map((post) => ({
+    url: `${baseUrl}/blog/${post.slug}`,
     lastModified: new Date(),
     changeFrequency: "monthly" as const,
     priority: 0.7,
   }));
 
-  const locationRoutes = topics.flatMap((topic) =>
-    cities.map((city) => ({
-      url: `${BASE_URL}/learn-to-trade/${topic}/${city}`,
-      lastModified: new Date(),
-      changeFrequency: "monthly" as const,
-      priority: 0.5,
-    }))
-  );
-
-  return [...staticRoutes, ...topicRoutes, ...locationRoutes];
+  return [...routes, ...topics, ...blogs];
 }

@@ -87,16 +87,55 @@ export default function AboutPage() {
           ))}
         </div>
 
-        {/* Founder note */}
-        <div className="bg-background-surface p-12 md:p-24 border border-border-slate mb-24 reveal-text">
-          <div className="max-w-3xl">
-            <h2 className="text-3xl font-display font-bold uppercase mb-8">From the Founder</h2>
-            <p className="text-lg text-text-secondary leading-relaxed mb-8">
-              "I've made £100K in a single day. I've also blown accounts and spent months in deep drawdowns. 
-              Both experiences taught me the same thing: Success in trading isn't about being right. 
-              It's about being disciplined when you're wrong."
+        {/* The Founder's Journey */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center mb-32 pt-24 border-t border-border-slate">
+          <div className="reveal-text">
+            <h2 className="text-4xl font-display font-bold uppercase mb-8">The Man Behind the Data.</h2>
+            <div className="space-y-6 text-text-secondary leading-relaxed">
+              <p>
+                Pete Currey didn't start as a systematic trader. Like most, he started as a speculator, lured by the high-octane 
+                volatility of the London open and the promise of rapid wealth. 
+              </p>
+              <p>
+                "I remember my first £50k week," Pete says. "I thought I was a genius. I bought the watch, I booked the holiday. 
+                Two weeks later, I'd given it all back plus 20%. That was the moment I realized the industry isn't built to 
+                help you win—it's built to keep you playing until you lose."
+              </p>
+              <p>
+                The next three years were spent in deep study. Not just of price action, but of human psychology and 
+                probability theory. Pete stripped away every indicator that didn't have a mathematical edge and began 
+                building the precursor to what would eventually become the Drawdown Framework.
+              </p>
+              <p className="font-bold text-text-primary">
+                Drawdown was built out of a necessity for survival. It represents ten years of hard-won experience, 
+                distilled into a platform that treats trading like the high-stakes business it is.
+              </p>
+            </div>
+          </div>
+          <div className="relative group">
+            <div className="aspect-[4/5] bg-background-elevated border border-border-slate overflow-hidden relative">
+              <img 
+                src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1200" 
+                alt="Pete Currey, Founder" 
+                className="w-full h-full object-cover grayscale opacity-60 group-hover:opacity-100 group-hover:scale-105 transition-all duration-1000"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-background-primary via-transparent to-transparent opacity-60" />
+            </div>
+            <div className="absolute -bottom-6 -right-6 p-8 bg-accent text-background-primary font-mono text-xs uppercase tracking-[0.2em] font-bold">
+              EST. 2024 // LDN
+            </div>
+          </div>
+        </div>
+
+        {/* Closing Mission */}
+        <div className="bg-background-surface p-12 md:p-32 border border-border-slate mb-24 reveal-text text-center">
+          <div className="max-w-3xl mx-auto">
+            <h2 className="text-4xl font-display font-bold uppercase mb-8 italic">"We don't trade for the thrill. We trade for the edge."</h2>
+            <p className="text-xl text-text-secondary leading-relaxed mb-12">
+              Our commitment is to transparency. Every tool we build, every lesson we teach, and every update we push is 
+              focused on one goal: Keeping you in the game long enough to find your consistency.
             </p>
-            <p className="font-mono text-accent uppercase tracking-widest">// PETE, FOUNDER</p>
+            <p className="font-mono text-accent uppercase tracking-widest text-sm">// PETE CURREY, FOUNDER</p>
           </div>
         </div>
       </div>

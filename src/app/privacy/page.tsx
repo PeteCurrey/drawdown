@@ -1,67 +1,73 @@
-"use client";
+import { getMetadata } from "@/lib/metadata";
+import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 
-import { Shield, Lock, Eye, Server } from "lucide-react";
+export const metadata = getMetadata({
+  title: "Privacy Policy",
+  description: "How we handle your data at Drawdown.",
+});
 
 export default function PrivacyPage() {
-  const sections = [
-    {
-      title: "Data We Collect",
-      icon: Shield,
-      content: "We collect only what is necessary to provide our services. This includes your email for account access, and optional profile information. If you use our AI tools, we log usage metadata to ensure fair usage tier compliance."
-    },
-    {
-      title: "AI & Your Data",
-      icon: Server,
-      content: "When using our AI Trade Journal or Strategy Backtester, your data is processed through secure API endpoints. We do not use your personal trade data to train public AI models. Your edge remains yours."
-    },
-    {
-      title: "Discord Synchronization",
-      icon: Lock,
-      content: "When you connect your Discord account, we only access your basic profile (ID and Username) to synchronize your subscription tier with our server roles. We cannot read your private messages."
-    },
-    {
-      title: "Third Party Partners",
-      icon: Eye,
-      content: "We use Stripe for payment processing and Supabase for secure authentication. These partners have their own strict privacy protocols. We never sell your data to third-party marketers."
-    }
-  ];
-
   return (
     <div className="pt-32 pb-24 bg-background-primary min-h-screen">
       <div className="container mx-auto px-6 max-w-4xl">
-        <div className="mb-20">
-          <span className="text-accent font-mono text-[10px] uppercase tracking-widest block mb-4">
-            // LEGAL COMMAND
-          </span>
-          <h1 className="text-4xl md:text-7xl font-display font-bold uppercase mb-8">
-            Privacy <span className="text-accent">Protocol.</span>
-          </h1>
-          <p className="text-text-secondary text-lg leading-relaxed">
-            We value your privacy as much as your pips. This document outlines how we handle 
-            your digital footprint on the Drawdown platform.
-          </p>
-        </div>
+        <Breadcrumbs />
+        
+        <header className="mb-16">
+          <h1 className="text-4xl md:text-6xl font-display font-bold uppercase mb-4">Privacy Policy</h1>
+          <p className="text-text-tertiary font-mono uppercase tracking-widest text-xs">Last Updated: April 14, 2026</p>
+        </header>
 
-        <div className="space-y-12">
-          {sections.map((section, i) => (
-            <div key={i} className="p-8 md:p-12 bg-background-surface border border-border-slate group hover:border-accent/30 transition-colors">
-              <div className="flex items-center gap-4 mb-6">
-                <div className="w-10 h-10 bg-background-elevated border border-border-slate flex items-center justify-center group-hover:border-accent/40 transition-colors">
-                  <section.icon className="w-5 h-5 text-text-tertiary group-hover:text-accent transition-colors" />
-                </div>
-                <h3 className="text-xl font-display font-bold uppercase tracking-tight">{section.title}</h3>
-              </div>
-              <p className="text-text-secondary leading-relaxed text-sm md:text-base">
-                {section.content}
-              </p>
-            </div>
-          ))}
-        </div>
+        <div className="prose prose-invert prose-drawdown max-w-none space-y-12 text-text-secondary leading-relaxed">
+          <section className="space-y-4">
+            <h2 className="text-2xl font-display font-bold uppercase text-text-primary">1. Information We Collect</h2>
+            <p>
+              At Drawdown, we collect information that you provide directly to us when you create an account, subscribe to our newsletter, or purchase a Tier. This includes your name, email address, and billing information (processed securely through Stripe).
+            </p>
+            <p>
+              We also collect data through your use of our platform, including your trade journal entries (if using the AI Trade Journal) and analysis requested from our scanner tools.
+            </p>
+          </section>
 
-        <div className="mt-20 pt-12 border-t border-border-slate text-center">
-          <p className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary">
-            Last Updated: April 14, 2026 // Version 1.0.4
-          </p>
+          <section className="space-y-4">
+            <h2 className="text-2xl font-display font-bold uppercase text-text-primary">2. How We Use Your Data</h2>
+            <p>
+              Your data is used solely to provide and improve our educational services. Specifically:
+            </p>
+            <ul className="list-disc pl-6 space-y-2">
+              <li>To manage your subscription and provide access to gated curriculum phases.</li>
+              <li>To provide personalised AI-driven analysis of your trading behavior.</li>
+              <li>To send you "The Wire" daily briefing and platform updates (you can unsubscribe at any time).</li>
+              <li>To improve our tools based on aggregated, anonymized usage patterns.</li>
+            </ul>
+          </section>
+
+          <section className="space-y-4">
+            <h2 className="text-2xl font-display font-bold uppercase text-text-primary">3. Data Security & Storage</h2>
+            <p>
+              We prioritize the security of your trading data. We use industry-standard encryption and secure cloud infrastructure (Supabase) to protect your information. We do not store your credit card details; all payments are handled by Stripe, a Tier 1 PCI-compliant payment processor.
+            </p>
+          </section>
+
+          <section className="space-y-4">
+            <h2 className="text-2xl font-display font-bold uppercase text-text-primary">4. Cookies & Tracking</h2>
+            <p>
+              We use essential cookies to maintain your login session and track platform performance. We do not use intrusive tracking or sell your data to third-party advertisers. We hate gurus, and we hate spam.
+            </p>
+          </section>
+
+          <section className="space-y-4">
+            <h2 className="text-2xl font-display font-bold uppercase text-text-primary">5. Your Rights</h2>
+            <p>
+              Under GDPR, you have the right to access, rectify, or delete your personal data. You can export your trade journal data at any time from your profile dashboard.
+            </p>
+          </section>
+
+          <section className="p-8 bg-background-elevated border border-border-slate">
+            <h3 className="text-sm font-display font-bold uppercase mb-2 text-text-primary">Contact Us regarding privacy</h3>
+            <p className="text-xs">
+              If you have any questions about this policy, please email us at <span className="text-accent">privacy@drawdown.trade</span>.
+            </p>
+          </section>
         </div>
       </div>
     </div>

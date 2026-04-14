@@ -4,6 +4,8 @@ import { SmoothScroll } from "@/components/providers/SmoothScroll";
 import { Navigation } from "@/components/layout/Navigation";
 import { Footer } from "@/components/layout/Footer";
 import { GrainOverlay } from "@/components/ui/GrainOverlay";
+import { ScrollProgress } from "@/components/ui/ScrollProgress";
+import { getMetadata } from "@/lib/metadata";
 import "./globals.css";
 
 const syne = Syne({
@@ -24,10 +26,7 @@ const jetbrainsMono = JetBrains_Mono({
   weight: ["400", "500"],
 });
 
-export const metadata: Metadata = {
-  title: "Drawdown — Trade the Truth.",
-  description: "Trading education for people who want to learn properly. No shortcuts. Just edge.",
-};
+export const metadata: Metadata = getMetadata();
 
 export default function RootLayout({
   children,
@@ -40,6 +39,7 @@ export default function RootLayout({
       className={`${syne.variable} ${dmSans.variable} ${jetbrainsMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-background-primary text-text-primary selection:bg-accent selection:text-background-primary">
+        <ScrollProgress />
         <SmoothScroll>
           <Navigation />
           <main className="flex-grow">

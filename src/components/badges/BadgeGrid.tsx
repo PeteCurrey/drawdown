@@ -46,16 +46,12 @@ const tierColors = {
 };
 
 export const allBadges: Badge[] = [
-  { key: "first_login", name: "First Blood", description: "Logged into the platform for the first time.", icon: Zap, tier: "bronze", earned: true, earnedAt: "2026-04-13" },
-  { key: "phase_1_complete", name: "Ground Zero", description: "Completed all modules in Phase 1.", icon: Shield, tier: "silver", earned: true, earnedAt: "2026-04-12" },
-  { key: "first_quiz_pass", name: "Sharp Mind", description: "Passed your first module quiz with 70%+.", icon: Brain, tier: "bronze", earned: true, earnedAt: "2026-04-11" },
-  { key: "perfect_quiz", name: "Precision", description: "Scored 100% on any module quiz.", icon: Target, tier: "gold", earned: false },
-  { key: "journal_10", name: "Discipline", description: "Logged 10 trades in the AI Journal.", icon: BookOpen, tier: "bronze", earned: false },
-  { key: "journal_50", name: "Consistency", description: "Logged 50 trades in the AI Journal.", icon: BookOpen, tier: "silver", earned: false },
-  { key: "streak_7", name: "On Fire", description: "Maintained a 7-day learning streak.", icon: Flame, tier: "silver", earned: false },
-  { key: "streak_30", name: "Unstoppable", description: "Maintained a 30-day learning streak.", icon: Flame, tier: "gold", earned: false },
-  { key: "first_backtest", name: "Theorist", description: "Ran your first strategy backtest.", icon: TrendingUp, tier: "bronze", earned: false },
-  { key: "all_phases", name: "The Edge", description: "Completed every phase of the curriculum.", icon: Award, tier: "gold", earned: false },
+  { key: "first_flight", name: "First Flight", description: "Successfully logged your first performance entry.", icon: Zap, tier: "bronze", earned: true, earnedAt: "2026-04-13" },
+  { key: "math_master", name: "Math Master", description: "Scored 100% on the Math of Survivability quiz.", icon: Brain, tier: "silver", earned: true, earnedAt: "2026-04-12" },
+  { key: "disciplined", name: "Disciplined", description: "Maintained a 5-day journaling streak without error.", icon: Target, tier: "gold", earned: false },
+  { key: "pete_approved", name: "Pete Approved", description: "Directly recognised for mechanical integrity.", icon: Award, tier: "gold", earned: false },
+  { key: "edge_unlocked", name: "Edge Unlocked", description: "Gained full access to the AI intelligence engine.", icon: Shield, tier: "silver", earned: false },
+  { key: "survivor", name: "The Survivor", description: "Recovered a 5% drawdown while maintaining risk rules.", icon: Flame, tier: "gold", earned: false },
 ];
 
 export function BadgeGrid({ badges }: { badges: Badge[] }) {

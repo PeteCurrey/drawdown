@@ -7,13 +7,13 @@ import {
   Search, 
   Filter, 
   TrendingUp, 
-  Smile, 
-  Calendar as CalendarIcon,
-  ChevronDown,
-  BarChart3,
   BrainCircuit,
-  Loader2
+  Loader2,
+  Zap
 } from "lucide-react";
+import { LogTradeModal } from "@/components/tools/LogTradeModal";
+import { PerformanceHeatmap } from "@/components/tools/PerformanceHeatmap";
+import { TierLockOverlay } from "@/components/ui/TierLockOverlay";
 
 const stats = [
   { label: "Win Rate", value: "64.2%", color: "text-profit" },
@@ -26,10 +26,12 @@ export default function TradeJournalPage() {
   const [isEntryModalOpen, setIsEntryModalOpen] = useState(false);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [analysis, setAnalysis] = useState<string | null>(null);
+  const [isLockedByTier, setIsLockedByTier] = useState(false);
+  
+  const userTier = "foundation"; // Mock tier
 
   const runAIAnalysis = () => {
     setIsAnalyzing(true);
-    // Simulate streaming for now
     setTimeout(() => {
       setAnalysis("Based on your last 50 trades, you perform 22% better during the London session. Your 'Revenge' emotional state accounts for 80% of your largest drawdowns. Recommendation: Tighten stop losses on GBPUSD and avoid trading after 4pm GMT.");
       setIsAnalyzing(false);
@@ -52,56 +54,79 @@ export default function TradeJournalPage() {
           </button>
         </div>
 
-        {/* Stats Grid */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-          {stats.map((stat, i) => (
-            <div key={i} className="p-8 bg-background-surface border border-border-slate flex flex-col items-center text-center">
-              <p className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary mb-2">{stat.label}</p>
-              <p className={cn("text-3xl font-display font-black", stat.color)}>{stat.value}</p>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 mb-12">
+          {/* Stats & Heatmap */}
+          <div className="lg:col-span-2 space-y-12">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+              {stats.map((stat, i) => (
+                <div key={i} className="p-6 bg-background-surface border border-border-slate flex flex-col items-center text-center">
+                  <p className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary mb-2">{stat.label}</p>
+                  <p className={cn("text-2xl font-display font-black", stat.color)}>{stat.value}</p>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
 
-        {/* AI Analysis Section */}
-        <div className="mb-12 p-8 md:p-12 bg-background-elevated border border-border-slate relative overflow-hidden group">
-          <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:opacity-20 transition-opacity">
-            <BrainCircuit className="w-32 h-32 text-accent" />
-          </div>
-          <div className="relative z-10">
-            <div className="flex items-center gap-3 text-accent mb-6">
-              <BrainCircuit className="w-5 h-5" />
-              <span className="text-xs font-mono uppercase font-bold tracking-widest">AI Pattern Recognition</span>
+            <div className="bg-background-surface border border-border-slate p-8">
+              <PerformanceHeatmap />
             </div>
-            
-            {analysis ? (
-              <div className="max-w-3xl space-y-6">
-                <p className="text-xl text-text-primary leading-relaxed font-sans itali">
-                  "{analysis}"
-                </p>
-                <div className="flex gap-4">
-                  <button className="text-[10px] font-bold uppercase tracking-widest text-accent hover:underline">Full Report</button>
+          </div>
+
+          {/* AI Analysis Section */}
+          <div className="p-8 md:p-10 bg-background-elevated border border-border-slate relative overflow-hidden group h-fit">
+            <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:opacity-20 transition-opacity">
+              <BrainCircuit className="w-32 h-32 text-accent" />
+            </div>
+            <div className="relative z-10 space-y-8">
+              <div className="flex items-center gap-3 text-accent">
+                <BrainCircuit className="w-5 h-5" />
+                <span className="text-xs font-mono uppercase font-bold tracking-widest">AI Performance Intelligence</span>
+              </div>
+              
+              {analysis ? (
+                <div className="space-y-6">
+                  <p className="text-lg text-text-primary leading-relaxed font-sans italic">
+                    "{analysis}"
+                  </p>
+                  <div className="flex gap-4">
+                    <button className="text-[10px] font-bold uppercase tracking-widest text-accent hover:underline">Full Analytics</button>
+                    <button 
+                      onClick={() => setAnalysis(null)}
+                      className="text-[10px] font-bold uppercase tracking-widest text-text-tertiary hover:text-text-primary"
+                    >
+                      Dismiss
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <div className="space-y-6">
+                  <h3 className="text-2xl font-display font-bold uppercase leading-tight">Identify your <br /> psychological edge.</h3>
+                  <p className="text-text-secondary text-xs leading-relaxed">
+                    Pete's AI voice analyzes your session timing and emotional states to find where you're leaking capital. Edge+ required.
+                  </p>
                   <button 
-                    onClick={() => setAnalysis(null)}
-                    className="text-[10px] font-bold uppercase tracking-widest text-text-tertiary hover:text-text-primary"
+                    onClick={() => {
+                      if (userTier === "free" || userTier === "foundation") {
+                        setIsLockedByTier(true);
+                      } else {
+                        runAIAnalysis();
+                      }
+                    }}
+                    disabled={isAnalyzing}
+                    className="w-full py-4 border border-accent text-accent text-[10px] font-bold uppercase tracking-widest hover:bg-accent hover:text-background-primary transition-all disabled:opacity-50 flex items-center justify-center gap-2"
                   >
-                    Dismiss
+                    {isAnalyzing ? <Loader2 className="w-3 h-3 animate-spin" /> : <Zap className="w-3 h-3 fill-current" />}
+                    {isAnalyzing ? "Processing Stats..." : "Analyse My Trading"}
                   </button>
                 </div>
-              </div>
-            ) : (
-              <div className="max-w-2xl space-y-6">
-                <h3 className="text-3xl font-display font-bold uppercase">Unlock your trading edge.</h3>
-                <p className="text-text-secondary text-sm leading-relaxed">
-                  Our AI analyzes your performance, psychological state, and market timing to find the specific patterns holding you back. Edge tier required for advanced mapping.
-                </p>
-                <button 
-                  onClick={runAIAnalysis}
-                  disabled={isAnalyzing}
-                  className="px-8 py-4 border border-accent text-accent text-[10px] font-bold uppercase tracking-widest hover:bg-accent hover:text-background-primary transition-all disabled:opacity-50"
-                >
-                  {isAnalyzing ? <><Loader2 className="w-3 h-3 animate-spin mr-2" /> Analyzing...</> : "Run AI Analysis"}
-                </button>
-              </div>
+              )}
+            </div>
+            {isLockedByTier && (
+              <TierLockOverlay 
+                requiredTier="edge" 
+                featureName="Psychological Edge Analysis" 
+                description="Our AI identifies exactly where emotions are causing you to blow your risk rules."
+                className="z-50"
+              />
             )}
           </div>
         </div>
@@ -171,6 +196,11 @@ export default function TradeJournalPage() {
           </div>
         </div>
       </div>
+
+      <LogTradeModal 
+        isOpen={isEntryModalOpen}
+        onClose={() => setIsEntryModalOpen(false)}
+      />
     </div>
   );
 }

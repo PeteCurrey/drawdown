@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { getMetadata } from "@/lib/metadata";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { StructuredData } from "@/components/StructuredData";
+import { blogPosts } from "@/data/blog";
 import Link from "next/link";
 import { Clock, Calendar, ChevronLeft, Share2 } from "lucide-react";
 
@@ -10,44 +11,24 @@ interface Props {
   params: { slug: string };
 }
 
-// Mock single post fetch
-const getPost = (slug: string) => {
-  if (slug === "the-myth-of-the-100-percent-win-rate") {
-    return {
-      title: "The Myth of the 100% Win Rate",
-      excerpt: "Why chasing perfection is the fastest way to blow your account, and what to focus on instead.",
-      content: `
-        <p>In the world of social media trading, we are constantly bombarded with screenshots of "100% win rate" strategies and perfectly green P&L charts. But in the reality of the institutions and high-level retail traders, a 100% win rate is not just impossible—it's irrelevant.</p>
-        
-        <h2>The Profit Factor vs. The Win Rate</h2>
-        <p>A trader with a 40% win rate can be significantly more profitable than a trader with an 80% win rate. It all comes down to the risk-reward ratio (R:R). If your winners are three times the size of your losers, you only need to be right 25% of the time to break even.</p>
-        
-        <h2>Psychology and the Need for Certainty</h2>
-        <p>Why do traders chase high win rates? It's human nature. We hate being wrong. Our brains are wired to avoid the "pain" of a loss, leading many to move their stop losses or "hope" that a trade turns around. This is the fastest way to a blown account.</p>
-        
-        <h2>The Cold Reality</h2>
-        <p>To trade properly, you must embrace the drawdown. You must accept that losses are the operating cost of the business. Once you stop trying to be right and start trying to be profitable, your entire approach changes.</p>
-      `,
-      category: "Psychology",
-      date: "April 12, 2026",
-      readingTime: "5 min",
-      author: "Pete",
-    };
-  }
-  return null;
-};
+export async function generateStaticParams() {
+  return blogPosts.map((post) => ({
+    slug: post.slug,
+  }));
+}
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const post = getPost(params.slug);
+  const post = blogPosts.find((p) => p.slug === params.slug);
   if (!post) return {};
   return getMetadata({
     title: post.title,
     description: post.excerpt,
+    path: `/blog/${post.slug}`,
   });
 }
 
 export default function BlogPostPage({ params }: Props) {
-  const post = getPost(params.slug);
+  const post = blogPosts.find((p) => p.slug === params.slug);
   if (!post) notFound();
 
   const articleSchema = {
@@ -58,6 +39,7 @@ export default function BlogPostPage({ params }: Props) {
       "@type": "Person",
       "name": post.author,
     },
+    image: post.ogImage || "https://drawdown.trade/og/default.png",
   };
 
   return (
@@ -67,34 +49,58 @@ export default function BlogPostPage({ params }: Props) {
         <StructuredData type="Article" data={articleSchema} />
 
         <div className="max-w-4xl mx-auto">
-          <Link href="/blog" className="flex items-center gap-2 text-[10px] font-mono uppercase tracking-widest text-text-tertiary hover:text-accent transition-colors mb-12">
-            <ChevronLeft className="w-3 h-3" /> Back to Insights
+          <Link href="/blog" className="flex items-center gap-2 text-[10px] font-mono uppercase tracking-widest text-text-tertiary hover:text-accent transition-colors mb-12 group">
+            <ChevronLeft className="w-3 h-3 group-hover:-translate-x-1 transition-transform" /> Back to Insights
           </Link>
 
           <header className="space-y-8 mb-16">
             <span className="inline-block px-3 py-1 bg-accent/10 border border-accent/20 text-accent text-[10px] font-mono uppercase tracking-widest">
               {post.category}
             </span>
-            <h1 className="text-4xl md:text-6xl font-display font-bold uppercase leading-tight">
+            <h1 className="text-4xl md:text-7xl font-display font-bold uppercase leading-tight">
               {post.title}
             </h1>
             <div className="flex flex-wrap items-center gap-8 text-[10px] font-mono uppercase tracking-widest text-text-tertiary border-y border-border-slate py-6">
-              <div className="flex items-center gap-2"><Calendar className="w-3 h-3" /> {post.date}</div>
-              <div className="flex items-center gap-2"><Clock className="w-3 h-3" /> {post.readingTime} read</div>
-              <div className="flex items-center gap-2"><Share2 className="w-3 h-3 cursor-pointer hover:text-accent" /> Share</div>
+              <div className="flex items-center gap-2"><Calendar className="w-3 h-3 text-accent" /> {post.date}</div>
+              <div className="flex items-center gap-2"><Clock className="w-3 h-3 text-accent" /> {post.readingTime} read</div>
+              <div className="flex items-center gap-1 cursor-pointer hover:text-accent transition-colors"><Share2 className="w-3 h-3" /> Share</div>
             </div>
           </header>
 
           <article 
-            className="prose prose-invert prose-drawdown max-w-none"
+            className="prose prose-invert prose-drawdown max-w-none prose-headings:font-display prose-headings:uppercase prose-h2:text-3xl prose-h2:mt-12 prose-h3:text-xl prose-p:text-text-secondary prose-p:leading-relaxed prose-p:text-lg prose-strong:text-text-primary prose-blockquote:border-l-4 prose-blockquote:border-accent prose-blockquote:bg-background-elevated/30 prose-blockquote:p-6 prose-blockquote:italic"
             dangerouslySetInnerHTML={{ __html: post.content }}
           />
 
-          <div className="mt-24 p-12 bg-background-surface border border-border-slate">
-            <h4 className="text-xl font-display font-bold uppercase mb-4">About the Author</h4>
-            <p className="text-text-secondary leading-relaxed">
-              Pete is the founder of Drawdown and a professional trader with over a decade of experience in the UK markets. He built this platform to bring honesty back to trading education.
-            </p>
+          {/* CTA Section */}
+          <div className="mt-24 p-12 bg-background-elevated border border-border-slate relative overflow-hidden group">
+            <div className="absolute top-0 left-0 w-1 h-full bg-accent" />
+            <div className="relative z-10 flex flex-col md:flex-row justify-between items-center gap-8">
+              <div className="space-y-4">
+                <h4 className="text-2xl font-display font-bold uppercase">Ready to trade properly?</h4>
+                <p className="text-text-secondary text-sm max-w-md">
+                  Join 2,000+ traders using our AI tools and structured curriculum. Start your free trial today.
+                </p>
+              </div>
+              <Link 
+                href="/signup" 
+                className="px-10 py-4 bg-accent text-background-primary font-bold uppercase tracking-widest text-[10px] hover:bg-accent-hover transition-colors whitespace-nowrap"
+              >
+                Join Now
+              </Link>
+            </div>
+          </div>
+
+          <div className="mt-12 p-8 border border-border-slate flex items-start gap-6">
+             <div className="w-16 h-16 bg-background-elevated border border-border-slate flex items-center justify-center shrink-0">
+               <span className="text-xl font-display font-black text-accent/20">P</span>
+             </div>
+             <div className="space-y-2">
+               <h5 className="text-sm font-display font-bold uppercase">{post.author}</h5>
+               <p className="text-xs text-text-tertiary leading-relaxed">
+                 Professional trader and founder of Drawdown. Focusing on technical analysis, market geometry, and the psychology of discipline.
+               </p>
+             </div>
           </div>
         </div>
       </div>

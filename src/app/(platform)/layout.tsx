@@ -16,6 +16,7 @@ import {
   LogOut
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
+import { DashboardStatusBar } from "@/components/market/DashboardStatusBar";
 
 const sidebarLinks = [
   { name: "Overview", href: "/dashboard", icon: LayoutDashboard },
@@ -93,26 +94,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
       {/* Main Content Area */}
       <div className="flex-grow flex flex-col overflow-hidden">
-        {/* Top Bar Ticker */}
-        <header className="h-14 border-b border-border-slate bg-background-surface flex items-center px-6 overflow-hidden">
-          <div className="flex items-center gap-8 whitespace-nowrap animate-ticker">
-            {[
-              { symbol: "FTSE 100", price: "8,234.50", change: "+0.45%" },
-              { symbol: "S&P 500", price: "5,432.12", change: "+1.23%" },
-              { symbol: "BTC/USD", price: "64,231.00", change: "-0.87%" },
-              { symbol: "GBP/USD", price: "1.2745", change: "+0.12%" },
-              { symbol: "GOLD", price: "2,345.60", change: "+0.32%" },
-            ].map((market, i) => (
-              <div key={i} className="flex items-center gap-3 font-mono text-[10px] uppercase tracking-widest">
-                <span className="text-text-tertiary">{market.symbol}</span>
-                <span className="text-text-primary font-bold">{market.price}</span>
-                <span className={market.change.startsWith('+') ? 'text-profit' : 'text-loss'}>
-                  {market.change}
-                </span>
-              </div>
-            ))}
-          </div>
-        </header>
+        <DashboardStatusBar />
 
         <main className="flex-grow overflow-y-auto p-6 md:p-10">
           {children}

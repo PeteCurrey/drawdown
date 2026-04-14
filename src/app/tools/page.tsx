@@ -21,6 +21,7 @@ const tools = [
     icon: Calculator,
     tier: "free",
     status: "live",
+    image: "https://images.unsplash.com/photo-1551288049-bbbda536ad0a?q=80&w=800"
   },
   {
     name: "AI Trade Journal",
@@ -29,6 +30,7 @@ const tools = [
     icon: BookOpen,
     tier: "edge",
     status: "live",
+    image: "https://images.unsplash.com/photo-1611974717514-cc4ac649b85a?q=80&w=800"
   },
   {
     name: "Market Scanner",
@@ -37,6 +39,7 @@ const tools = [
     icon: Radar,
     tier: "edge",
     status: "live",
+    image: "https://images.unsplash.com/photo-1518186239751-2467ef7f194a?q=80&w=800"
   },
   {
     name: "Strategy Backtester",
@@ -45,6 +48,7 @@ const tools = [
     icon: History,
     tier: "floor",
     status: "live",
+    image: "https://images.unsplash.com/photo-1642790106117-e829e14a795f?q=80&w=800"
   },
   {
     name: "The Wire — Daily Briefing",
@@ -53,6 +57,7 @@ const tools = [
     icon: CloudSun,
     tier: "edge",
     status: "live",
+    image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=800"
   },
 ];
 
@@ -90,26 +95,38 @@ export default function ToolsLandingPage() {
               <Link
                 key={tool.name}
                 href={tool.href}
-                className="group p-8 bg-background-surface border border-border-slate hover:border-accent/40 transition-all duration-500 hover:-translate-y-1 flex flex-col"
+                className="group relative p-8 bg-background-surface border border-border-slate hover:border-accent/40 transition-all duration-700 hover:-translate-y-1 flex flex-col overflow-hidden"
               >
-                <div className="flex items-center justify-between mb-8">
-                  <div className="w-14 h-14 bg-background-elevated border border-border-slate flex items-center justify-center group-hover:border-accent/30 transition-colors">
-                    <Icon className="w-6 h-6 text-text-secondary group-hover:text-accent transition-colors" />
-                  </div>
-                  <span className={cn("text-[8px] font-bold uppercase tracking-widest px-2 py-0.5 border", tier.color)}>
-                    {tier.label}
-                  </span>
+                {/* Hover Reveal Image */}
+                <div className="absolute inset-0 z-0 opacity-0 group-hover:opacity-10 transition-all duration-700 scale-110 group-hover:scale-100">
+                  <img 
+                    src={tool.image} 
+                    alt={tool.name} 
+                    className="w-full h-full object-cover grayscale"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-background-surface via-background-surface/80 to-transparent" />
                 </div>
 
-                <h3 className="text-xl font-display font-bold uppercase mb-3 group-hover:text-accent transition-colors">
-                  {tool.name}
-                </h3>
-                <p className="text-sm text-text-secondary leading-relaxed flex-grow mb-8">
-                  {tool.description}
-                </p>
+                <div className="relative z-10 flex flex-col h-full">
+                  <div className="flex items-center justify-between mb-8">
+                    <div className="w-14 h-14 bg-background-elevated border border-border-slate flex items-center justify-center group-hover:border-accent/30 transition-colors">
+                      <Icon className="w-6 h-6 text-text-secondary group-hover:text-accent transition-colors" />
+                    </div>
+                    <span className={cn("text-[8px] font-bold uppercase tracking-widest px-2 py-0.5 border", tier.color)}>
+                      {tier.label}
+                    </span>
+                  </div>
 
-                <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-accent opacity-0 group-hover:opacity-100 transition-opacity mt-auto">
-                  Launch Tool <ArrowRight className="w-3 h-3" />
+                  <h3 className="text-xl font-display font-bold uppercase mb-3 group-hover:text-accent transition-colors">
+                    {tool.name}
+                  </h3>
+                  <p className="text-sm text-text-secondary leading-relaxed flex-grow mb-8">
+                    {tool.description}
+                  </p>
+
+                  <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-accent opacity-0 group-hover:opacity-100 transition-opacity mt-auto">
+                    Launch Tool <ArrowRight className="w-3 h-3" />
+                  </div>
                 </div>
               </Link>
             );

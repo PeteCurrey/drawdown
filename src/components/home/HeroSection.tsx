@@ -17,7 +17,7 @@ export function HeroSection() {
         opacity: 0,
         duration: 1.2,
         stagger: 0.2,
-        ease: "premium",
+        ease: "power4.out",
       });
 
       // Animate candlestick chart background
@@ -31,6 +31,18 @@ export function HeroSection() {
           transformOrigin: "bottom",
           ease: "back.out(1.7)",
           delay: 0.5,
+        });
+
+        // "Live Market" breathing animation
+        candles.forEach((candle, i) => {
+          gsap.to(candle, {
+            opacity: 0.1 + Math.random() * 0.3,
+            duration: 2 + Math.random() * 2,
+            repeat: -1,
+            yoyo: true,
+            ease: "sine.inOut",
+            delay: i * 0.1,
+          });
         });
       }
     }, containerRef);

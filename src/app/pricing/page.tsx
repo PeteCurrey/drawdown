@@ -61,8 +61,39 @@ const tiers = [
   },
 ];
 
+import { STRIPE_CONFIG } from "@/config/stripe";
+
 export default function PricingPage() {
   const [billingCycle, setBillingCycle] = useState<"monthly" | "yearly">("monthly");
+  const [loadingTier, setLoadingTier] = useState<string | null>(null);
+
+  const handleSubscribe = async (tierName: string) => {
+    setLoadingTier(tierName);
+    try {
+      const tierId = tierName.toLowerCase().replace('the ', '');
+      const priceId = STRIPE_CONFIG.prices[tierId as keyof typeof STRIPE_CONFIG.prices][billingCycle === 'monthly' ? 'monthly' : 'annual'];
+
+      const response = await fetch("/api/stripe/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ priceId, tier: tierId }),
+      });
+
+      const data = await response.json();
+      if (data.url) {
+        window.location.href = data.url;
+      } else if (response.status === 401) {
+        window.location.href = "/login?redirect=/pricing";
+      } else {
+        throw new Error(data.error || "Something went wrong");
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Failed to start checkout. Please try again.");
+    } finally {
+      setLoadingTier(null);
+    }
+  };
 
   return (
     <div className="pt-32 pb-24 min-h-screen bg-background-primary">
@@ -130,18 +161,22 @@ export default function PricingPage() {
                 </div>
                 {billingCycle === 'yearly' && (
                   <p className="text-profit text-[10px] uppercase font-mono mt-2 tracking-widest">
-                    Bill annually (Save £{tier.name === 'Foundation' ? '118' : tier.name === 'Edge' ? '358' : '718'})
+                    Bill annually (Save £{tier.name === 'Foundation' ? '120' : tier.name === 'Edge' ? '360' : '720'})
                   </p>
                 )}
               </div>
 
-              <button className={cn(
-                "w-full py-5 text-sm font-bold uppercase tracking-widest mb-12 transition-colors",
-                tier.name === 'Edge' ? 'bg-accent text-background-primary hover:bg-accent-hover' : 
-                tier.name === 'Floor' ? 'bg-premium text-background-primary hover:bg-premium/90' :
-                'bg-background-elevated border border-border-slate hover:border-text-primary'
-              )}>
-                {tier.buttonText}
+              <button 
+                onClick={() => handleSubscribe(tier.name)}
+                disabled={loadingTier !== null}
+                className={cn(
+                  "w-full py-5 text-sm font-bold uppercase tracking-widest mb-12 transition-colors flex items-center justify-center gap-2",
+                  tier.name === 'Edge' ? 'bg-accent text-background-primary hover:bg-accent-hover' : 
+                  tier.name === 'Floor' ? 'bg-premium text-background-primary hover:bg-premium/90' :
+                  'bg-background-elevated border border-border-slate hover:border-text-primary'
+                )}
+              >
+                {loadingTier === tier.name ? "Processing..." : tier.buttonText}
               </button>
 
               <div className="space-y-4">

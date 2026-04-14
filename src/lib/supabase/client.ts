@@ -2,12 +2,17 @@ import { createBrowserClient } from '@supabase/ssr'
 import { Database } from './types'
 
 export function createClient() {
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co';
-  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder';
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
-  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
-    if (process.env.NODE_ENV === 'production') {
-      console.warn("Supabase environment variables are missing. Prerendering with placeholders.");
+  const isPlaceholder = !supabaseUrl || supabaseUrl.includes('placeholder') || !supabaseAnonKey || supabaseAnonKey.includes('placeholder');
+
+  if (isPlaceholder) {
+    if (process.env.NODE_ENV === 'development') {
+      console.error(
+        "CRITICAL: Supabase credentials are missing or set to placeholders in .env. " +
+        "Sign-up and Login will fail until valid keys are provided."
+      );
     }
   }
 

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { QuizEngine } from "@/components/quiz/QuizEngine";
 import { quizData } from "@/data/quizzes";
+import { CoursePlayer } from "@/components/video/CoursePlayer";
 import {
   ChevronLeft,
   ChevronRight,
@@ -26,6 +27,10 @@ export default function ModulePage({ params }: Props) {
   const handleQuizComplete = (score: number, total: number) => {
     const pct = Math.round((score / total) * 100);
     if (pct >= 70) setModuleCompleted(true);
+  };
+
+  const handleVideoProgress = (currentTime: number, duration: number) => {
+    // Optionally track video progress to API here every N seconds
   };
 
   return (
@@ -64,16 +69,16 @@ export default function ModulePage({ params }: Props) {
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
           {/* Main Content Area */}
           <div className="lg:col-span-3 space-y-12">
-            {/* Video Player Placeholder */}
-            <div className="aspect-video bg-background-surface border border-border-slate flex flex-col items-center justify-center group relative overflow-hidden cursor-pointer">
-              <div className="absolute inset-0 bg-gradient-to-t from-background-primary/40 to-transparent" />
-              <div className="w-20 h-20 bg-accent text-background-primary rounded-full flex items-center justify-center group-hover:scale-110 transition-transform relative z-10 shadow-2xl">
-                <Play className="w-8 h-8 fill-current ml-1" />
-              </div>
-              <p className="mt-6 text-[10px] font-mono uppercase tracking-widest text-text-secondary relative z-10">
-                Mux Player Integration Ready
-              </p>
-            </div>
+            <CoursePlayer 
+              playbackId="FuM49N00B9bC2o01Q01q6M6Hh1m16V86S00kUSF02y01y7yA" // Standard Mux public test video
+              title="The Math of Survivability"
+              onProgress={handleVideoProgress}
+              onEnded={() => {
+                if (!moduleCompleted) {
+                  // Optionally mark watch complete or prompt for quiz
+                }
+              }}
+            />
 
             {/* Lesson Content Tabs */}
             <div className="space-y-8">

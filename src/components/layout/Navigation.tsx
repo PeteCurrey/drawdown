@@ -14,45 +14,69 @@ if (typeof window !== "undefined") {
 
 const phases = [
   {
+    number: "01",
     name: "Ground Zero",
-    subtitle: "The Foundation",
-    href: "/learn",
+    subtitle: "The Foundation of Discipline",
+    href: "/learn/ground-zero",
     icon: Shield,
-    image: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?q=80&w=600&auto=format&fit=crop",
+    tier: "Free",
     modules: 8,
     duration: "4.5h",
   },
   {
+    number: "02",
     name: "Chart Reader",
-    subtitle: "Price Action Mastery",
-    href: "/learn",
+    subtitle: "Technical Foundations",
+    href: "/learn/chart-reader",
     icon: LineChart,
-    image: "https://images.unsplash.com/photo-1642790106117-e829e14a795f?q=80&w=600&auto=format&fit=crop",
+    tier: "Foundation",
     modules: 12,
     duration: "8h",
   },
   {
+    number: "03",
     name: "Strategist",
-    subtitle: "Building Your Edge",
-    href: "/learn",
+    subtitle: "Strategy Development",
+    href: "/learn/strategist",
     icon: Zap,
-    image: "https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?q=80&w=600&auto=format&fit=crop",
+    tier: "Foundation",
     modules: 10,
     duration: "6.5h",
   },
   {
-    name: "Mind Over Market",
-    subtitle: "Advanced Psychology",
-    href: "/learn",
+    number: "04",
+    name: "Staying Alive",
+    subtitle: "Risk Management",
+    href: "/learn/risk-manager",
+    icon: Lock,
+    tier: "Foundation",
+    modules: 6,
+    duration: "3h",
+  },
+  {
+    number: "05",
+    name: "The 80%",
+    subtitle: "Psychology & Discipline",
+    href: "/learn/mind-over-market",
     icon: Brain,
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=600&auto=format&fit=crop",
+    tier: "Edge",
     modules: 10,
     duration: "5h",
+  },
+  {
+    number: "06",
+    name: "The Edge",
+    subtitle: "Advanced Techniques",
+    href: "/learn/the-edge",
+    icon: Play,
+    tier: "Edge",
+    modules: 14,
+    duration: "12h",
   },
 ];
 
 const navLinks = [
-  { name: "Learn", href: "/learn", hasMegaMenu: true },
+  { name: "Learn", href: "/courses", hasMegaMenu: true },
   { name: "Tools", href: "/tools" },
   { name: "Pricing", href: "/pricing" },
   { name: "Blog", href: "/blog" },
@@ -179,35 +203,51 @@ export function Navigation() {
                       <Link
                         key={phase.name}
                         href={phase.href}
-                        className="group flex gap-5 p-5 border border-transparent hover:border-border-slate hover:bg-background-elevated/50 transition-all duration-300"
+                        className="group flex gap-5 p-4 border border-border-slate/30 bg-background-elevated/20 hover:border-accent hover:bg-background-elevated transition-all duration-500 relative overflow-hidden"
                         onClick={() => setIsMegaMenuOpen(false)}
                       >
-                        <div className="relative w-24 h-20 shrink-0 overflow-hidden bg-background-elevated">
-                          <Image
-                            src={phase.image}
-                            alt={phase.name}
-                            fill
-                            className="object-cover opacity-60 grayscale group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500"
+                        {/* Hover Reveal Image */}
+                        <div className="absolute inset-0 z-0 opacity-0 group-hover:opacity-10 transition-all duration-700 scale-110 group-hover:scale-100">
+                          <img 
+                            src={phase.image} 
+                            alt={phase.name} 
+                            className="w-full h-full object-cover grayscale"
                           />
-                          <div className="absolute inset-0 bg-gradient-to-r from-background-primary/60 to-transparent" />
-                          <div className="absolute inset-0 flex items-center justify-center">
-                            <Icon className="w-6 h-6 text-accent opacity-80" />
-                          </div>
+                          <div className="absolute inset-0 bg-background-surface/80" />
                         </div>
-                        <div className="flex-grow min-w-0">
-                          <h4 className="text-sm font-display font-bold uppercase tracking-tight group-hover:text-accent transition-colors">
-                            {phase.name}
-                          </h4>
-                          <p className="text-[10px] text-text-tertiary font-mono uppercase tracking-widest mt-1">
-                            {phase.subtitle}
-                          </p>
-                          <div className="flex items-center gap-4 mt-3">
-                            <span className="text-[9px] font-mono text-text-tertiary uppercase tracking-widest flex items-center gap-1">
-                              <Play className="w-2.5 h-2.5" /> {phase.modules} modules
+
+                        <div className="relative z-10 flex gap-5 w-full">
+                          <div className="relative w-16 h-16 shrink-0 flex items-center justify-center bg-background-primary border border-border-slate group-hover:border-accent/40 transition-colors">
+                            <span className="absolute -top-1 -left-1 text-2xl font-mono font-black text-accent/5 group-hover:text-accent/10 transition-colors">
+                              {phase.number}
                             </span>
-                            <span className="text-[9px] font-mono text-text-tertiary uppercase tracking-widest flex items-center gap-1">
-                              <Clock className="w-2.5 h-2.5" /> {phase.duration}
-                            </span>
+                            <Icon className="w-5 h-5 text-accent opacity-60 group-hover:opacity-100 group-hover:scale-110 transition-all" />
+                          </div>
+                          <div className="flex-grow min-w-0">
+                            <div className="flex justify-between items-start">
+                              <h4 className="text-xs font-display font-bold uppercase tracking-tight group-hover:text-accent transition-colors">
+                                {phase.name}
+                              </h4>
+                              <span className={cn(
+                                "text-[7px] font-mono uppercase tracking-widest px-1.5 py-0.5 border",
+                                phase.tier === 'Free' ? "text-text-primary border-border-slate" : 
+                                phase.tier === 'Foundation' ? "text-accent border-accent/30" : 
+                                "text-premium border-premium/30"
+                              )}>
+                                {phase.tier}
+                              </span>
+                            </div>
+                            <p className="text-[9px] text-text-tertiary font-mono uppercase tracking-widest mt-1">
+                              {phase.subtitle}
+                            </p>
+                            <div className="flex items-center gap-3 mt-2">
+                              <span className="text-[8px] font-mono text-text-tertiary uppercase tracking-widest flex items-center gap-1">
+                                <Play className="w-2.5 h-2.5" /> {phase.modules}
+                              </span>
+                              <span className="text-[8px] font-mono text-text-tertiary uppercase tracking-widest flex items-center gap-1">
+                                <Clock className="w-2.5 h-2.5" /> {phase.duration}
+                              </span>
+                            </div>
                           </div>
                         </div>
                       </Link>

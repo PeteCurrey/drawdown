@@ -92,3 +92,20 @@ export async function streamAnalysis(prompt: string, systemPrompt: string, userI
 
   return stream;
 }
+
+/**
+ * Standard analysis (not streaming) for background tasks
+ */
+export async function getAnalysis(prompt: string, systemPrompt: string, scope: AIScope) {
+  const response = await anthropic.messages.create({
+    model: "claude-3-5-sonnet-20240620",
+    max_tokens: 2000,
+    system: systemPrompt + "\n\nDISCLAIMER: This is for educational purposes only and does not constitute financial advice.",
+    messages: [{ role: "user", content: prompt }],
+  });
+
+  // Log usage (scope 'automated' if needed, but using existing scope)
+  // logAIUsage('SYSTEM', scope, "claude-3-5-sonnet", 0);
+
+  return response.content[0].type === 'text' ? response.content[0].text : '';
+}

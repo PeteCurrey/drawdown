@@ -26,6 +26,12 @@ export function AuthForm({ mode }: AuthFormProps) {
     setMessage(null);
 
     try {
+      // Check for placeholders
+      const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+      if (!supabaseUrl || supabaseUrl.includes('placeholder')) {
+        throw new Error("Supabase is not configured. Please update your .env with valid credentials.");
+      }
+
       if (mode === "signup") {
         const { error } = await supabase.auth.signUp({
           email,
@@ -45,7 +51,11 @@ export function AuthForm({ mode }: AuthFormProps) {
         window.location.href = "/dashboard";
       }
     } catch (err: any) {
-      setError(err.message);
+      if (err.message.includes('fetch')) {
+        setError("Network error: Failed to reach auth server. Check your Supabase URL in .env.");
+      } else {
+        setError(err.message);
+      }
     } finally {
       setIsLoading(false);
     }

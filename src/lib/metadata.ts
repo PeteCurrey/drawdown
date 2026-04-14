@@ -5,6 +5,7 @@ interface MetadataProps {
   description?: string;
   image?: string;
   noIndex?: boolean;
+  path?: string;
 }
 
 export const siteConfig = {
@@ -12,7 +13,7 @@ export const siteConfig = {
   title: "Drawdown — Trade the Truth",
   description: "Learn to trade properly with structured courses, AI-powered tools, and honest mentorship. No gurus. No hype. Just edge.",
   url: "https://drawdown.trade",
-  ogImage: "/og-image.png", // Default OG image
+  ogImage: "/og/default-og.png",
   links: {
     twitter: "https://twitter.com/drawdown",
     discord: "https://discord.gg/drawdown",
@@ -24,10 +25,13 @@ export function getMetadata({
   description = siteConfig.description,
   image = siteConfig.ogImage,
   noIndex = false,
+  path = "",
 }: MetadataProps = {}): Metadata {
   const fullTitle = title 
     ? `${title} | ${siteConfig.name}` 
     : siteConfig.title;
+
+  const url = `${siteConfig.url}${path}`;
 
   return {
     title: fullTitle,
@@ -39,23 +43,26 @@ export function getMetadata({
       "forex education",
       "trading courses UK",
       "AI trading tools",
+      "trading psychology",
+      "risk management",
+      "technical analysis"
     ],
     authors: [
       {
-        name: "Pete Currey",
+        name: "Pete (Founder)",
         url: "https://drawdown.trade/about",
       },
     ],
     openGraph: {
       type: "website",
       locale: "en_GB",
-      url: siteConfig.url,
+      url,
       title: fullTitle,
       description,
       siteName: siteConfig.name,
       images: [
         {
-          url: image,
+          url: image.startsWith('http') ? image : `${siteConfig.url}${image}`,
           width: 1200,
           height: 630,
           alt: fullTitle,
@@ -66,16 +73,18 @@ export function getMetadata({
       card: "summary_large_image",
       title: fullTitle,
       description,
-      images: [image],
+      images: [image.startsWith('http') ? image : `${siteConfig.url}${image}`],
       creator: "@drawdown",
     },
     icons: {
-      icon: "/favicon.ico",
-      shortcut: "/favicon.ico",
-      apple: "/apple-touch-icon.png",
+      icon: "/icon.svg",
+      shortcut: "/icon.svg",
+      apple: "/icon.svg",
     },
-    manifest: `${siteConfig.url}/site.webmanifest`,
     metadataBase: new URL(siteConfig.url),
+    alternates: {
+      canonical: url,
+    },
     ...(noIndex && {
       robots: {
         index: false,

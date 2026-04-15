@@ -1,6 +1,6 @@
 "use client";
 
-import { Lock, Zap, ArrowRight, ShieldCheck } from "lucide-react";
+import { Lock, Zap, ArrowRight, ShieldCheck, X } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 
@@ -9,6 +9,7 @@ interface TierLockOverlayProps {
   featureName: string;
   description?: string;
   className?: string;
+  onClose?: () => void;
 }
 
 const tierContent = {
@@ -32,7 +33,7 @@ const tierContent = {
   }
 };
 
-export function TierLockOverlay({ requiredTier, featureName, description, className }: TierLockOverlayProps) {
+export function TierLockOverlay({ requiredTier, featureName, description, className, onClose }: TierLockOverlayProps) {
   const content = tierContent[requiredTier];
 
   return (
@@ -44,6 +45,15 @@ export function TierLockOverlay({ requiredTier, featureName, description, classN
         {/* Background Accent */}
         <div className={cn("absolute -top-24 -right-24 w-48 h-48 rounded-full blur-3xl opacity-20 transition-all group-hover:opacity-30", content.bgColor)} />
         
+        {onClose && (
+          <button 
+            onClick={onClose}
+            className="absolute top-4 right-4 p-2 text-text-tertiary hover:text-text-primary z-20 transition-colors"
+          >
+            <X className="w-5 h-5" />
+          </button>
+        )}
+
         <div className="relative z-10 space-y-8 text-center">
           <div className={cn("w-16 h-16 mx-auto flex items-center justify-center rounded-2xl border transition-transform group-hover:scale-110", content.bgColor, content.borderColor)}>
             <Lock className={cn("w-8 h-8", content.color)} />

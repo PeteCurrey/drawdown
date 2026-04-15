@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { InteractiveChart } from "@/components/charts/InteractiveChart";
 import { MarketTicker } from "@/components/market/MarketTicker";
-import { Navbar } from "@/components/layout/Navbar";
+import { Navigation } from "@/components/layout/Navigation";
 import { Footer } from "@/components/layout/Footer";
 
 interface Props {
@@ -25,7 +25,7 @@ export default function MarketPairPage({ params }: Props) {
 
   return (
     <main className="min-h-screen bg-background-primary">
-      <Navbar />
+      <Navigation />
       <MarketTicker />
       
       <div className="pt-32 pb-24 container mx-auto px-6">

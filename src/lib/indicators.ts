@@ -26,30 +26,25 @@ export function calculateEMA(data: any[], period: number) {
 }
 
 export function calculateRSI(data: any[], period: number = 14) {
-  const rsi = [];
-  let gains = 0;
-  let losses = 0;
+  const rsi: ({ time: any; value: number } | null)[] = [];
 
   for (let i = 1; i < data.length; i++) {
-    const difference = data[i].close - data[i - 1].close;
-    if (difference >= 0) {
-      gains += difference;
-    } else {
-      losses -= difference;
-    }
-
-    if (i >= period) {
-      const avgGain = gains / period;
-      const avgLoss = losses / period;
-      const rs = avgGain / avgLoss;
-      const rsiValue = 100 - (100 / (1 + rs));
-      rsi.push({ time: data[i].time, value: rsiValue });
-      
-      if (prevDiff >= 0) gains -= prevDiff;
-      else losses += prevDiff;
-    } else {
+    if (i < period) {
       rsi.push(null);
+      continue;
     }
+    let gains = 0;
+    let losses = 0;
+    for (let j = i - period + 1; j <= i; j++) {
+      const diff = data[j].close - data[j - 1].close;
+      if (diff >= 0) gains += diff;
+      else losses -= diff;
+    }
+    const avgGain = gains / period;
+    const avgLoss = losses / period;
+    const rs = avgLoss === 0 ? 100 : avgGain / avgLoss;
+    const rsiValue = 100 - (100 / (1 + rs));
+    rsi.push({ time: data[i].time, value: rsiValue });
   }
   return rsi;
 }
@@ -80,7 +75,7 @@ export function calculateMACD(data: any[], fastPeriod = 12, slowPeriod = 26, sig
     } else {
       const sigLine = signalIndex < signalEma.length ? signalEma[signalIndex].value : null;
       signalIndex++;
-      const hist = sigLine !== null ? macdArray[i].value - sigLine : null;
+      const hist = sigLine !== null && macdArray[i].value !== null ? (macdArray[i].value as number) - sigLine : null;
       result.push({ 
         time: data[i].time, 
         macd: macdArray[i].value, 
@@ -116,7 +111,7 @@ export function calculateStochastic(data: any[], kPeriod = 14, dPeriod = 3) {
     if (stochData[i].k === null) {
       result.push({ time: stochData[i].time, k: null, d: null });
     } else {
-      const dVal = dIndex < dSeries.length ? dSeries[dIndex].value : null;
+      const dVal = dIndex < dSeries.length ? (dSeries[dIndex] as { time: any; value: number } | null)?.value ?? null : null;
       dIndex++;
       result.push({ time: stochData[i].time, k: stochData[i].k, d: dVal });
     }

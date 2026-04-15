@@ -13,7 +13,7 @@ const anthropic = new Anthropic({
   apiKey: process.env.ANTHROPIC_API_KEY,
 });
 
-export type AIScope = 'journal_analysis' | 'market_scanner' | 'backtest_coach' | 'daily_briefing';
+export type AIScope = 'journal_analysis' | 'market_scanner' | 'backtest_coach' | 'daily_briefing' | 'chart_analysis' | 'news_explanation' | 'weekly_roundup' | 'blog_drafting';
 
 /**
  * Checks if a user has remaining AI quota for the current month

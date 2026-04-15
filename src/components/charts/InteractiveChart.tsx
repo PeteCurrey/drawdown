@@ -197,7 +197,7 @@ export function InteractiveChart({ initialData = [], symbol = "GBPUSD", userTier
       const chart = createChart(atrContainer, { ...commonOptions, height: 100 });
       const atrData = calculateATR(data);
       const atrSeries = chart.addSeries(LineSeries, { color: "#00C2FF", lineWidth: 2, priceLineVisible: true });
-      atrSeries.setData(atrData.filter(d => d.value !== null).map(d => ({ time: d.time as any, value: d.value as number })));
+      atrSeries.setData(atrData.filter(d => d.value !== null).map(d => ({ time: d.time as any, value: d.value! })));
       atrChartRef.current = chart;
     } else if (!indicators.atr && atrChartRef.current) {
       atrChartRef.current.remove();

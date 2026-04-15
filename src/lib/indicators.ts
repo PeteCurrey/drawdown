@@ -124,8 +124,8 @@ export function calculateStochastic(data: any[], kPeriod = 14, dPeriod = 3) {
   return result;
 }
 
-export function calculateATR(data: any[], period = 14) {
-  const atrData = [{ time: data[0].time, value: null }];
+export function calculateATR(data: any[], period = 14): { time: any; value: number | null }[] {
+  const atrData: { time: any; value: number | null }[] = [{ time: data[0].time, value: null }];
   const tr = [data[0].high - data[0].low];
   
   for (let i = 1; i < data.length; i++) {

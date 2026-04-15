@@ -1,12 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { X, Shield, History, Smile, Activity, AlertCircle, TrendingUp, TrendingDown } from "lucide-react";
+import { X, Shield, History, Smile, Activity, AlertCircle, TrendingUp, TrendingDown, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { createClient } from "@/lib/supabase/client";
 
 interface LogTradeModalProps {
   isOpen: boolean;
   onClose: () => void;
+  onSuccess?: () => void;
 }
 
 const sessions = ["London", "New York", "Asia", "Overlap", "Other"];
@@ -19,31 +21,95 @@ const emotions = [
   { label: "Revenge", emoji: "😤" }
 ];
 
-export function LogTradeModal({ isOpen, onClose }: LogTradeModalProps) {
+export function LogTradeModal({ isOpen, onClose, onSuccess }: LogTradeModalProps) {
   const [step, setStep] = useState(1);
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     instrument: "",
     marketType: "Forex",
     direction: "Long",
     entryPrice: "",
     exitPrice: "",
-    positionSize: "",
     stopLoss: "",
     takeProfit: "",
     strategy: "",
     session: "London",
     emotion: "Neutral",
-    quality: 3,
     notes: ""
   });
 
   if (!isOpen) return null;
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Submitting trade:", formData);
-    onClose();
-    // In production, sync with Supabase
+    setLoading(true);
+    
+    const supabase = createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+
+    if (!user) {
+      alert("Please log in to save trades.");
+      setLoading(false);
+      return;
+    }
+
+    // Calculate PnL if possible
+    const entry = parseFloat(formData.entryPrice);
+    const exit = parseFloat(formData.exitPrice);
+    let pnlAmount = 0;
+    let pnlPercent = 0;
+
+    if (!isNaN(entry) && !isNaN(exit)) {
+      if (formData.direction === "Long") {
+        pnlPercent = ((exit - entry) / entry) * 100;
+      } else {
+        pnlPercent = ((entry - exit) / entry) * 100;
+      }
+      pnlAmount = pnlPercent * 100; // Mock multiplier for dollar value
+    }
+
+    try {
+      const { error } = await supabase
+        .from('trade_logs')
+        .insert({
+          user_id: user.id,
+          date: new Date().toISOString(),
+          symbol: formData.instrument.toUpperCase(),
+          type: formData.direction,
+          entry_price: entry,
+          exit_price: exit || null,
+          pnl_amount: pnlAmount,
+          pnl_percent: pnlPercent,
+          strategy: formData.strategy,
+          session: formData.session,
+          feeling: formData.emotion,
+          notes: formData.notes
+        });
+
+      if (error) throw error;
+      
+      onSuccess?.();
+      onClose();
+      setStep(1);
+      setFormData({
+        instrument: "",
+        marketType: "Forex",
+        direction: "Long",
+        entryPrice: "",
+        exitPrice: "",
+        stopLoss: "",
+        takeProfit: "",
+        strategy: "",
+        session: "London",
+        emotion: "Neutral",
+        notes: ""
+      });
+    } catch (err: any) {
+      console.error("Save trade error:", err);
+      alert("Failed to save trade log.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -77,9 +143,16 @@ export function LogTradeModal({ isOpen, onClose }: LogTradeModalProps) {
                     <input 
                       type="text" 
                       placeholder="INSTRUMENT (e.g. GBPUSD)" 
+                      required
+                      value={formData.instrument}
+                      onChange={(e) => setFormData({...formData, instrument: e.target.value})}
                       className="bg-background-primary border border-border-slate p-4 text-[10px] uppercase font-mono focus:border-accent outline-none"
                     />
-                    <select className="bg-background-primary border border-border-slate p-4 text-[10px] uppercase font-mono focus:border-accent outline-none">
+                    <select 
+                      value={formData.marketType}
+                      onChange={(e) => setFormData({...formData, marketType: e.target.value})}
+                      className="bg-background-primary border border-border-slate p-4 text-[10px] uppercase font-mono focus:border-accent outline-none"
+                    >
                       <option>Forex</option>
                       <option>Stocks</option>
                       <option>Crypto</option>
@@ -117,11 +190,25 @@ export function LogTradeModal({ isOpen, onClose }: LogTradeModalProps) {
                 <div className="grid grid-cols-2 gap-8">
                   <div className="space-y-4">
                     <label className="text-[10px] font-mono uppercase text-text-tertiary tracking-widest">Entry Price</label>
-                    <input type="number" step="any" className="w-full bg-background-primary border border-border-slate p-4 text-sm font-mono focus:border-accent outline-none" />
+                    <input 
+                      type="number" 
+                      step="any" 
+                      required
+                      value={formData.entryPrice}
+                      onChange={(e) => setFormData({...formData, entryPrice: e.target.value})}
+                      className="w-full bg-background-primary border border-border-slate p-4 text-sm font-mono focus:border-accent outline-none" 
+                    />
                   </div>
                   <div className="space-y-4">
                     <label className="text-[10px] font-mono uppercase text-text-tertiary tracking-widest">Exit Price</label>
-                    <input type="number" step="any" className="w-full bg-background-primary border border-border-slate p-4 text-sm font-mono focus:border-accent outline-none" placeholder="OPTIONAL" />
+                    <input 
+                      type="number" 
+                      step="any" 
+                      value={formData.exitPrice}
+                      onChange={(e) => setFormData({...formData, exitPrice: e.target.value})}
+                      className="w-full bg-background-primary border border-border-slate p-4 text-sm font-mono focus:border-accent outline-none" 
+                      placeholder="OPTIONAL" 
+                    />
                   </div>
                 </div>
               </div>
@@ -129,12 +216,25 @@ export function LogTradeModal({ isOpen, onClose }: LogTradeModalProps) {
               <div className="p-8 bg-background-elevated border border-border-slate flex flex-col justify-center text-center space-y-6">
                 <Shield className="w-12 h-12 text-accent mx-auto opacity-20" />
                 <h3 className="text-xl font-display font-bold uppercase leading-tight">Risk Integrity Check</h3>
-                <p className="text-xs text-text-secondary leading-relaxed">
-                  Always provide your Stop Loss. Without it, our AI can't calculate your Risk:Reward or identify drawdown sensitivity patterns.
-                </p>
+                <div className="space-y-4 text-left">
+                  <label className="text-[10px] font-mono uppercase text-text-tertiary tracking-widest">Strategy</label>
+                  <input 
+                    type="text" 
+                    placeholder="e.g. BREAKOUT"
+                    value={formData.strategy}
+                    onChange={(e) => setFormData({...formData, strategy: e.target.value})}
+                    className="w-full bg-background-primary border border-border-slate p-4 text-sm font-mono focus:border-accent outline-none" 
+                  />
+                </div>
                 <div className="space-y-4 text-left">
                   <label className="text-[10px] font-mono uppercase text-text-tertiary tracking-widest">Stop Loss Price</label>
-                  <input type="number" step="any" className="w-full bg-background-primary border border-accent/30 p-4 text-sm font-mono focus:border-accent outline-none" />
+                  <input 
+                    type="number" 
+                    step="any" 
+                    value={formData.stopLoss}
+                    onChange={(e) => setFormData({...formData, stopLoss: e.target.value})}
+                    className="w-full bg-background-primary border border-accent/30 p-4 text-sm font-mono focus:border-accent outline-none" 
+                  />
                 </div>
               </div>
             </div>
@@ -185,6 +285,8 @@ export function LogTradeModal({ isOpen, onClose }: LogTradeModalProps) {
                 <label className="text-[10px] font-mono uppercase text-text-tertiary tracking-widest">Decision Notes — Be Raw</label>
                 <textarea 
                   rows={4} 
+                  value={formData.notes}
+                  onChange={(e) => setFormData({...formData, notes: e.target.value})}
                   placeholder="WHAT WERE YOU THINKING? WHY DID YOU ENTER HERE? WHAT WOULD PETE SAY?"
                   className="w-full bg-background-primary border border-border-slate p-6 text-sm leading-relaxed focus:border-accent outline-none"
                 />
@@ -220,8 +322,10 @@ export function LogTradeModal({ isOpen, onClose }: LogTradeModalProps) {
             <button 
               type="button"
               onClick={() => step === 1 ? setStep(2) : handleSubmit({} as any)}
-              className="px-12 py-4 bg-accent text-background-primary text-[10px] font-bold uppercase tracking-widest hover:bg-accent-hover transition-colors shadow-2xl shadow-accent/20"
+              disabled={loading}
+              className="px-12 py-4 bg-accent text-background-primary text-[10px] font-bold uppercase tracking-widest hover:bg-accent-hover transition-colors shadow-2xl shadow-accent/20 flex items-center gap-2"
             >
+              {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : null}
               {step === 1 ? "Next Step" : "Save Performance Log"}
             </button>
           </div>

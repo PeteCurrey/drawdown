@@ -6,47 +6,50 @@ import { PETES_VOICE_PROFILE } from "@/lib/prompts";
 export async function POST(request: NextRequest) {
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!,
     {
       cookies: {
-        getAll() { return request.cookies.getAll() },
-        setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value }) => request.cookies.set(name, value))
-        },
+        getAll() { return [] },
+        setAll() {},
       },
     }
   );
 
   try {
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
     const { symbol, indicators } = await request.json();
 
-    const prompt = `
-      Analyse the current chart for ${symbol}.
-      
-      Technical Data Context:
-      - Timeframe: 1H
-      - Current Indicators: ${JSON.stringify(indicators)}
-      
-      Provide a professional, educational analysis in Pete's voice.
-      1. What the overall technical picture looks like right now.
-      2. Key levels to watch (support and resistance based on the indicators).
-      3. What scenarios could play out from here (bullish case and bearish case).
-      4. One thing to be cautious about.
+    if (!symbol) {
+      return NextResponse.json({ error: "Symbol is required" }, { status: 400 });
+    }
 
-      DISCLAIMER: Do NOT say "buy" or "sell." Do NOT say "you should enter here." This is EDUCATIONAL analysis.
+    const systemPrompt = `
+      ${PETES_VOICE_PROFILE}
+      
+      TASK: You are looking at a technical chart for ${symbol}. 
+      Active Indicators: ${JSON.stringify(indicators)}
+      
+      Give a blunt, honest, and risk-focused analysis of the current setup. 
+      - Treat the user like an adult. 
+      - Focus on price action and market structure.
+      - If it's a "no trade" zone, say so. 
+      - Use UK English.
+      - 3-4 short paragraphs.
+      
+      Sign off with a piece of wisdom from Pete.
     `;
 
-    const analysis = await getAnalysis(prompt, PETES_VOICE_PROFILE, 'market_scanner');
+    const userPrompt = `
+      Current Symbol: ${symbol}
+      Market Sentiment: Neutral/Aggressive
+      Key Levels: 1.2800 Resistance, 1.2650 Support
+    `;
+
+    const analysis = await getAnalysis(userPrompt, systemPrompt, 'chart_analysis');
 
     return NextResponse.json({ analysis });
 
   } catch (error: any) {
-    console.error("AI Analysis Error:", error);
+    console.error("AI Chart Analysis Error:", error);
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }

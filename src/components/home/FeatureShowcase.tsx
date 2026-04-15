@@ -97,13 +97,13 @@ export function FeatureShowcase() {
               href={`/features/${feature.slug}`}
               className="feature-card group relative w-[80vw] md:w-[400px] h-[500px] bg-background-surface border border-border-slate p-12 flex flex-col justify-between transition-premium hover:border-accent/50 overflow-hidden"
             >
-              <div className="absolute inset-0 z-0 opacity-0 group-hover:opacity-10 transition-all duration-700 scale-110 group-hover:scale-100">
+              <div className="absolute inset-0 z-0 opacity-0 group-hover:opacity-100 transition-all duration-700 scale-110 group-hover:scale-100">
                 <img 
                   src={feature.image} 
                   alt={feature.name} 
-                  className="w-full h-full object-cover grayscale"
+                  className="w-full h-full object-cover grayscale opacity-50"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-background-surface via-background-surface/80 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-background-surface via-background-surface/90 to-background-surface/40" />
               </div>
 
               <div className="relative z-10 flex flex-col h-full justify-between pointer-events-none">

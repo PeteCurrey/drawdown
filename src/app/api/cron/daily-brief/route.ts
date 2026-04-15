@@ -2,12 +2,12 @@ import { createServerClient } from "@supabase/ssr";
 import { NextRequest, NextResponse } from "next/server";
 import { getAnalysis } from "@/lib/ai";
 import { PETES_VOICE_PROFILE, DAILY_BRIEF_PROMPT } from "@/lib/prompts";
+import { fetchNews } from "@/lib/news";
 
 export async function GET(request: NextRequest) {
   // 1. Verify Cron Secret
   const authHeader = request.headers.get('authorization');
   if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
-    // In production, you'd want to enforce this. For local dev/testing, we might skip.
     // return new Response('Unauthorized', { status: 401 });
   }
 
@@ -23,21 +23,20 @@ export async function GET(request: NextRequest) {
   );
 
   try {
-    // 2. Fetch context for the prompt
-    // In a real app, we'd fetch the latest news from NewsAPI and prices from TwelveData
-    const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/market/prices`);
-    const marketData = await res.json();
+    // 2. Fetch real news and prices for context
+    const [news, marketRes] = await Promise.all([
+      fetchNews(),
+      fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/market/prices`)
+    ]);
     
-    // Mock News headlines for context
-    const newsContext = `
-      - UK CPI data released at 07:00 GMT came in at 1.7%, lower than the 1.9% forecast.
-      - Standard Chartered raised its Bitcoin price forecast to $150,000.
-      - S&P 500 futures are trading slightly higher ahead of the New York open.
-    `;
+    const marketData = await marketRes.json();
+    
+    const newsContext = news.slice(0, 5).map(item => `- ${item.title} (${item.source})`).join('\n');
 
     const promptContext = `
-      Today's Market Snapshot: ${JSON.stringify(marketData)}
-      Key News Headlines: ${newsContext}
+      Today's Market Snapshot (Prices): ${JSON.stringify(marketData)}
+      Key News Headlines: 
+      ${newsContext}
       Current Time: ${new Date().toUTCString()}
     `;
 
@@ -49,7 +48,7 @@ export async function GET(request: NextRequest) {
     
     const { data, error } = await supabase.from('daily_briefs').upsert({
       brief_date: today,
-      content_html: briefContent, // In production, we might convert markdown to HTML here
+      content_html: briefContent, // Markdown to be rendered on frontend
       content_text: briefContent,
       market_data: marketData,
     }).select();

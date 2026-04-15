@@ -24,9 +24,28 @@ export default function ModulePage({ params }: Props) {
   const quizKey = `${params.phase}/${params.id}`;
   const questions = quizData[quizKey] || quizData["ground-zero/module-3"] || [];
 
-  const handleQuizComplete = (score: number, total: number) => {
+  const handleQuizComplete = async (score: number, total: number) => {
     const pct = Math.round((score / total) * 100);
-    if (pct >= 70) setModuleCompleted(true);
+    if (pct >= 70) {
+      setModuleCompleted(true);
+      await trackProgress(true);
+    }
+  };
+
+  const trackProgress = async (completed: boolean) => {
+    try {
+      await fetch("/api/learn/track-progress", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          module_id: params.id,
+          phase_id: params.phase,
+          completed
+        })
+      });
+    } catch (err) {
+      console.error("Progress save error:", err);
+    }
   };
 
   const handleVideoProgress = (currentTime: number, duration: number) => {

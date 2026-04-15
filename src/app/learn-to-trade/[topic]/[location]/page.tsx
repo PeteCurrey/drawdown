@@ -1,91 +1,146 @@
-import { Metadata } from "next";
+import { UK_LOCATIONS, TRADING_TOPICS } from "@/lib/seo-locations";
 import { notFound } from "next/navigation";
-import { getMetadata } from "@/lib/metadata";
-import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
-import { StructuredData } from "@/components/StructuredData";
-import seoData from "@/data/seo/topics.json";
+import { Metadata } from "next";
 import Link from "next/link";
-import { MapPin } from "lucide-react";
+import { ArrowRight, CheckCircle2, TrendingUp, Compass, MapPin } from "lucide-react";
 
-interface Props {
-  params: { topic: string; location: string };
+interface PageProps {
+  params: Promise<{
+    topic: string;
+    location: string;
+  }>;
 }
 
 export async function generateStaticParams() {
-  const params: any[] = [];
-  seoData.topics.forEach((topic) => {
-    seoData.locations.forEach((location) => {
+  const params: { topic: string; location: string }[] = [];
+  
+  TRADING_TOPICS.forEach(t => {
+    UK_LOCATIONS.forEach(l => {
       params.push({
-        topic: topic.slug,
-        location: location.toLowerCase(),
+        topic: t.id,
+        location: l.id
       });
     });
   });
+
   return params;
 }
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const topic = seoData.topics.find((t) => t.slug === params.topic);
-  const location = seoData.locations.find((l) => l.toLowerCase() === params.location);
-  
-  if (!topic || !location) return {};
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const resolvedParams = await params;
+  const locationData = UK_LOCATIONS.find(l => l.id === resolvedParams.location);
+  const topicData = TRADING_TOPICS.find(t => t.id === resolvedParams.topic);
 
-  return getMetadata({
-    title: `${topic.title} Courses in ${location} | The Honest Guide`,
-    description: `Professional ${topic.title} education for traders in ${location}. Online, self-paced, and built for the UK market. No hype, just edge.`,
-  });
+  if (!locationData || !topicData) {
+    return { title: 'Not Found' };
+  }
+
+  return {
+    title: `Learn ${topicData.title} in ${locationData.name} | Drawdown Academy`,
+    description: `Master ${topicData.short.toLowerCase()} with Pete's professional framework in ${locationData.name}, ${locationData.region}. Access institutional-grade trading education locally.`,
+  };
 }
 
-export default function LocationPage({ params }: Props) {
-  const topic = seoData.topics.find((t) => t.slug === params.topic);
-  const location = seoData.locations.find((l) => l.toLowerCase() === params.location);
-  
-  if (!topic || !location) notFound();
+export default async function LocationTopicPage({ params }: PageProps) {
+  const resolvedParams = await params;
+  const locationData = UK_LOCATIONS.find(l => l.id === resolvedParams.location);
+  const topicData = TRADING_TOPICS.find(t => t.id === resolvedParams.topic);
+
+  if (!locationData || !topicData) {
+    notFound();
+  }
 
   return (
-    <div className="pt-32 pb-24 bg-background-primary min-h-screen">
-      <div className="container mx-auto px-6">
-        <Breadcrumbs />
-        
-        <div className="max-w-4xl">
-          <div className="inline-flex items-center gap-2 px-3 py-1 bg-accent/10 border border-accent/20 rounded-full text-accent font-mono text-[10px] uppercase tracking-widest mb-6">
-            <MapPin className="w-3 h-3" /> {location}, UK
+    <div className="pt-32 pb-24 space-y-24">
+      {/* Hero Section */}
+      <section className="container mx-auto px-6 max-w-6xl">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+          <div className="space-y-8">
+            <div className="flex items-center gap-2 text-accent text-[10px] font-mono uppercase tracking-widest bg-accent/5 w-fit px-3 py-1.5 border border-accent/20">
+              <MapPin className="w-3 h-3" />
+              <span>Available in {locationData.name}, {locationData.region}</span>
+            </div>
+            
+            <h1 className="text-4xl md:text-6xl font-display font-black uppercase tracking-tight leading-[1.1]">
+              Master <span className="text-accent">{topicData.short}</span> <br />
+              <span className="text-text-secondary font-light">From {locationData.name}</span>
+            </h1>
+            
+            <p className="text-lg md:text-xl text-text-secondary leading-relaxed font-light max-w-xl">
+              Join the growing community of traders in {locationData.region} building their edge. 
+              Our comprehensive course covers the exact institutional concepts you need to succeed at {topicData.title.toLowerCase()}.
+            </p>
+            
+            <div className="pt-4 flex flex-col sm:flex-row gap-4">
+              <Link 
+                href="/pricing"
+                className="px-8 py-4 bg-accent hover:bg-accent-hover text-background-primary transition-colors font-bold uppercase tracking-widest text-[10px] flex items-center justify-center gap-2"
+              >
+                Access The Academy <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
           </div>
+          
+          <div className="relative aspect-square md:aspect-[4/3] bg-background-surface border border-border-slate overflow-hidden group">
+             <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center opacity-30 group-hover:opacity-40 transition-opacity duration-700 mix-blend-luminosity grayscale" />
+             <div className="absolute inset-0 bg-gradient-to-t from-[#08090D] via-transparent to-transparent" />
+             <div className="absolute bottom-8 left-8 right-8 border border-border-slate bg-background-elevated/80 backdrop-blur-md p-6">
+                <div className="flex items-center gap-4 mb-4">
+                  <TrendingUp className="w-8 h-8 text-accent" />
+                  <div>
+                    <p className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary">Live Module</p>
+                    <p className="text-sm font-display font-bold uppercase">{topicData.title}</p>
+                  </div>
+                </div>
+                <div className="h-2 bg-background-primary overflow-hidden">
+                  <div className="w-1/3 h-full bg-accent" />
+                </div>
+             </div>
+          </div>
+        </div>
+      </section>
 
-          <h1 className="text-5xl md:text-7xl font-display font-bold uppercase mb-8 leading-tight">
-            {topic.title} Courses <br /> in <span className="text-accent">{location}.</span>
-          </h1>
-
-          <p className="text-xl text-text-secondary leading-relaxed mb-12 max-w-2xl font-sans">
-            Whether you're trading from {location} or anywhere in the UK, Drawdown gives you the 
-            structured education and AI-powered tools needed to trade {topic.title} without falling 
-            for guru promises.
-          </p>
-
-          <div className="space-y-12 mb-20">
-            {topic.content.map((section, i) => (
-              <div key={i} className="space-y-4">
-                <h2 className="text-2xl font-display font-bold uppercase">{section.heading}</h2>
-                <p className="text-text-secondary leading-relaxed">{section.text}</p>
+      {/* Localised Core Curriculum Section */}
+      <section className="bg-background-surface border-y border-border-slate py-24">
+        <div className="container mx-auto px-6 max-w-6xl space-y-16">
+          <div className="text-center max-w-2xl mx-auto space-y-4">
+            <h2 className="text-3xl md:text-4xl font-display font-bold uppercase">The {locationData.name} Edge</h2>
+            <p className="text-text-secondary">
+              We provide traders in {locationData.name} with the exact technical frameworks required to navigate global markets. Here is what you'll master in the {topicData.short} module.
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[
+              { title: "Institutional Concepts", desc: "Move beyond retail lagging indicators. Understand liquidity pools, fair value gaps, and market manipulation." },
+              { title: "Psychological Discipline", desc: "Build the emotional resilience required to execute systems flawlessly without hesitation or FOMO." },
+              { title: "Risk Frameworks", desc: "Deploy professional capital preservation strategies to protect your downside while hunting asymmetrical risk/reward." }
+            ].map((feature, i) => (
+              <div key={i} className="p-8 border border-border-slate bg-background-primary hover:border-accent/40 transition-colors">
+                <Compass className="w-8 h-8 text-accent mb-6" />
+                <h3 className="text-xl font-display font-bold uppercase mb-3">{feature.title}</h3>
+                <p className="text-sm text-text-secondary leading-relaxed">{feature.desc}</p>
               </div>
             ))}
           </div>
-
-          <div className="p-12 bg-background-surface border border-border-slate text-center">
-            <h3 className="text-3xl font-display font-bold uppercase mb-4">UK-Focused Education</h3>
-            <p className="text-text-secondary mb-10 max-w-xl mx-auto">
-              Our {topic.title} curriculum is built by UK traders for UK traders. We focus on 
-              discipline, stats, and the cold truth of the markets.
-            </p>
-            <Link 
-              href="/signup" 
-              className="inline-block px-12 py-5 bg-accent text-background-primary text-[10px] font-bold uppercase tracking-widest hover:bg-accent-hover transition-colors"
-            >
-              Start Learning Now
-            </Link>
-          </div>
         </div>
-      </div>
+      </section>
+      
+      {/* Proof/Testimonial Placeholder */}
+      <section className="container mx-auto px-6 max-w-4xl text-center space-y-8">
+         <h2 className="text-3xl font-display font-bold uppercase">Ready to trade from {locationData.name}?</h2>
+         <p className="text-text-secondary max-w-2xl mx-auto">
+            Get instant access to Pete's comprehensive {topicData.short.toLowerCase()} training, community discord, and daily market briefs.
+         </p>
+         <div className="pt-6">
+            <Link 
+              href="/dashboard"
+              className="inline-flex px-12 py-5 bg-text-primary hover:bg-white text-background-primary transition-colors font-bold uppercase tracking-widest text-[10px]"
+            >
+              Start Your Journey
+            </Link>
+         </div>
+      </section>
     </div>
   );
 }

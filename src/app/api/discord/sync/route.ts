@@ -1,95 +1,72 @@
-import { NextResponse } from "next/server";
+import { createServerClient } from "@supabase/ssr";
+import { NextRequest, NextResponse } from "next/server";
 
-const DISCORD_BOT_TOKEN = process.env.DISCORD_BOT_TOKEN;
-const DISCORD_GUILD_ID = process.env.DISCORD_GUILD_ID;
+const DISCORD_API_BASE = "https://discord.com/api/v10";
+const BOT_TOKEN = process.env.DISCORD_BOT_TOKEN;
+const GUILD_ID = process.env.DISCORD_GUILD_ID;
 
-const TIER_ROLE_MAP: Record<string, string> = {
-  foundation: process.env.DISCORD_ROLE_FOUNDATION || "",
-  edge: process.env.DISCORD_ROLE_EDGE || "",
-  floor: process.env.DISCORD_ROLE_FLOOR || "",
+const TIER_ROLES: Record<string, string> = {
+  "foundation": process.env.DISCORD_ROLE_FOUNDATION || "",
+  "edge": process.env.DISCORD_ROLE_EDGE || "",
+  "floor": process.env.DISCORD_ROLE_FLOOR || "",
 };
 
-/**
- * POST /api/discord/sync
- * Syncs a user's subscription tier to Discord roles.
- * Called by Stripe webhook handler after subscription changes.
- */
-export async function POST(req: Request) {
-  try {
-    const { discordUserId, tier, action } = await req.json();
-
-    if (!discordUserId || !tier) {
-      return NextResponse.json(
-        { error: "discordUserId and tier are required." },
-        { status: 400 }
-      );
-    }
-
-    if (!DISCORD_BOT_TOKEN || !DISCORD_GUILD_ID) {
-      console.warn("[Discord] Bot token or Guild ID not configured.");
-      return NextResponse.json(
-        { error: "Discord integration not configured." },
-        { status: 503 }
-      );
-    }
-
-    const roleId = TIER_ROLE_MAP[tier];
-    if (!roleId) {
-      return NextResponse.json(
-        { error: `No Discord role mapped for tier: ${tier}` },
-        { status: 400 }
-      );
-    }
-
-    const endpoint = `https://discord.com/api/v10/guilds/${DISCORD_GUILD_ID}/members/${discordUserId}/roles/${roleId}`;
-
-    const method = action === "remove" ? "DELETE" : "PUT";
-
-    const response = await fetch(endpoint, {
-      method,
-      headers: {
-        Authorization: `Bot ${DISCORD_BOT_TOKEN}`,
-        "Content-Type": "application/json",
+export async function POST(request: NextRequest) {
+  const supabase = createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!,
+    {
+      cookies: {
+        getAll() { return [] },
+        setAll() {},
       },
-    });
+    }
+  );
 
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error(`[Discord] Role sync failed: ${response.status}`, errorText);
-      return NextResponse.json(
-        { error: "Failed to sync Discord role.", details: errorText },
-        { status: response.status }
-      );
+  try {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+
+    const discordId = user.user_metadata?.discord_id;
+    if (!discordId) {
+      return NextResponse.json({ error: "Discord not linked" }, { status: 400 });
     }
 
-    // If upgrading, remove old tier roles
-    if (action !== "remove") {
-      const otherRoles = Object.entries(TIER_ROLE_MAP)
-        .filter(([key]) => key !== tier && TIER_ROLE_MAP[key])
-        .map(([, id]) => id);
+    // 1. Get user's tier from Stripe/Supabase
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('tier')
+      .eq('id', user.id)
+      .single();
 
-      await Promise.allSettled(
-        otherRoles.map((oldRoleId) =>
-          fetch(
-            `https://discord.com/api/v10/guilds/${DISCORD_GUILD_ID}/members/${discordUserId}/roles/${oldRoleId}`,
-            {
-              method: "DELETE",
-              headers: { Authorization: `Bot ${DISCORD_BOT_TOKEN}` },
-            }
-          )
-        )
-      );
+    const tier = profile?.tier || "free";
+    const roleId = TIER_ROLES[tier.toLowerCase()];
+
+    if (!roleId || !BOT_TOKEN || !GUILD_ID) {
+      return NextResponse.json({ 
+        message: "Sync logic prepared. Awaiting Discord credentials.", 
+        tier 
+      });
     }
 
-    return NextResponse.json({
-      success: true,
-      message: `${action === "remove" ? "Removed" : "Applied"} ${tier} role for user ${discordUserId}`,
+    // 2. Add role via Discord API
+    const res = await fetch(`${DISCORD_API_BASE}/guilds/${GUILD_ID}/members/${discordId}/roles/${roleId}`, {
+      method: "PUT",
+      headers: {
+        "Authorization": `Bot ${BOT_TOKEN}`,
+        "Content-Type": "application/json",
+      }
     });
-  } catch (error) {
-    console.error("[Discord] Sync error:", error);
-    return NextResponse.json(
-      { error: "Internal server error during Discord sync." },
-      { status: 500 }
-    );
+
+    if (!res.ok) {
+      const err = await res.json();
+      throw new Error(err.message || "Discord API failure");
+    }
+
+    return NextResponse.json({ success: true, tier });
+
+  } catch (error: any) {
+    console.error("Discord Sync Error:", error);
+    return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }

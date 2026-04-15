@@ -212,14 +212,13 @@ export function Navigation() {
                         className="group flex gap-5 p-4 border border-border-slate/30 bg-background-elevated/20 hover:border-accent hover:bg-background-elevated transition-all duration-500 relative overflow-hidden"
                         onClick={() => setIsMegaMenuOpen(false)}
                       >
-                        {/* Hover Reveal Image */}
-                        <div className="absolute inset-0 z-0 opacity-0 group-hover:opacity-10 transition-all duration-700 scale-110 group-hover:scale-100">
+                        <div className="absolute inset-0 z-0 opacity-0 group-hover:opacity-100 transition-all duration-700 scale-110 group-hover:scale-100">
                           <img 
                             src={phase.image} 
                             alt={phase.name} 
-                            className="w-full h-full object-cover grayscale"
+                            className="w-full h-full object-cover grayscale opacity-60"
                           />
-                          <div className="absolute inset-0 bg-background-surface/80" />
+                          <div className="absolute inset-0 bg-gradient-to-r from-background-surface via-background-surface/80 to-transparent" />
                         </div>
 
                         <div className="relative z-10 flex gap-5 w-full">

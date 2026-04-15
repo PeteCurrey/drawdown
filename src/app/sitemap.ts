@@ -2,6 +2,13 @@ import { MetadataRoute } from "next";
 import { siteConfig } from "@/lib/metadata";
 import seoData from "@/data/seo/topics.json";
 import { blogPosts } from "@/data/blog";
+import { UK_LOCATIONS, TRADING_TOPICS } from "@/lib/seo-locations";
+
+const PAIRS = [
+  "gbpusd", "eurusd", "usdjpy", "audusd", "usdcad", "nzdusd", "usdchf",
+  "eurgbp", "eurjpy", "gbpjpy", "btcusd", "ethusd", "solusd", "xauusd",
+  "wti", "uk100", "spx500", "nsdq100"
+];
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = siteConfig.url;
@@ -16,6 +23,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/contact",
     "/privacy",
     "/disclaimer",
+    "/brokers",
+    "/tools/scanner",
+    "/dashboard/news",
   ].map((route) => ({
     url: `${baseUrl}${route}`,
     lastModified: new Date(),
@@ -39,5 +49,27 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.7,
   }));
 
-  return [...routes, ...topics, ...blogs];
+  // Programmatic Market Pair routes
+  const markets = PAIRS.map((symbol) => ({
+    url: `${baseUrl}/market/${symbol}`,
+    lastModified: new Date(),
+    changeFrequency: "daily" as const,
+    priority: 0.9,
+  }));
+
+  // Location programmatic routes
+  const locationRoutes: { url: string, lastModified: Date, changeFrequency: "always" | "hourly" | "daily" | "weekly" | "monthly" | "yearly" | "never" | undefined, priority: number }[] = [];
+  
+  TRADING_TOPICS.forEach(topic => {
+    UK_LOCATIONS.forEach(loc => {
+      locationRoutes.push({
+        url: `${baseUrl}/learn-to-trade/${topic.id}/${loc.id}`,
+        lastModified: new Date(),
+        changeFrequency: "monthly" as const,
+        priority: 0.6,
+      });
+    });
+  });
+
+  return [...routes, ...topics, ...blogs, ...markets, ...locationRoutes];
 }

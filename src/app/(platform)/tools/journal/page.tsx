@@ -1,42 +1,75 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { 
   Plus, 
   Search, 
   Filter, 
-  TrendingUp, 
   BrainCircuit,
   Loader2,
   Zap
 } from "lucide-react";
 import { LogTradeModal } from "@/components/tools/LogTradeModal";
 import { PerformanceHeatmap } from "@/components/tools/PerformanceHeatmap";
+import { EmotionCharts } from "@/components/tools/EmotionCharts";
 import { TierLockOverlay } from "@/components/ui/TierLockOverlay";
-
-const stats = [
-  { label: "Win Rate", value: "64.2%", color: "text-profit" },
-  { label: "Profit Factor", value: "1.85", color: "text-accent" },
-  { label: "Avg R:R", value: "1:2.4", color: "text-text-primary" },
-  { label: "Losing Streak", value: "3", color: "text-loss" },
-];
+import { createClient } from "@/lib/supabase/client";
 
 export default function TradeJournalPage() {
+  const [trades, setTrades] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
   const [isEntryModalOpen, setIsEntryModalOpen] = useState(false);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [analysis, setAnalysis] = useState<string | null>(null);
   const [isLockedByTier, setIsLockedByTier] = useState(false);
+  const [search, setSearch] = useState("");
   
-  const userTier = "foundation" as "free" | "foundation" | "edge" | "floor"; // Mock tier
+  const userTier = "edge" as "free" | "foundation" | "edge" | "floor"; // Mock for dev
 
-  const runAIAnalysis = () => {
-    setIsAnalyzing(true);
-    setTimeout(() => {
-      setAnalysis("Based on your last 50 trades, you perform 22% better during the London session. Your 'Revenge' emotional state accounts for 80% of your largest drawdowns. Recommendation: Tighten stop losses on GBPUSD and avoid trading after 4pm GMT.");
-      setIsAnalyzing(false);
-    }, 2000);
+  const fetchTrades = async () => {
+    setLoading(true);
+    const supabase = createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return;
+
+    const { data, error } = await supabase
+      .from('trade_logs')
+      .select('*')
+      .eq('user_id', user.id)
+      .order('date', { ascending: false });
+
+    if (data) setTrades(data);
+    setLoading(false);
   };
+
+  useEffect(() => {
+    fetchTrades();
+  }, []);
+
+  const runAIAnalysis = async () => {
+    setIsAnalyzing(true);
+    try {
+      const res = await fetch("/api/ai/journal-analysis", { method: "POST" });
+      const data = await res.json();
+      if (data.analysis) setAnalysis(data.analysis);
+    } catch (err) {
+      console.error("Analysis error:", err);
+    } finally {
+      setIsAnalyzing(false);
+    }
+  };
+
+  const filteredTrades = trades.filter(t => 
+    t.symbol.toLowerCase().includes(search.toLowerCase())
+  );
+
+  const stats = [
+    { label: "Win Rate", value: trades.length > 0 ? `${((trades.filter(t => t.pnl_amount > 0).length / trades.length) * 100).toFixed(1)}%` : "0%", color: "text-profit" },
+    { label: "Total Profit", value: `£${trades.reduce((acc, t) => acc + (t.pnl_amount || 0), 0).toFixed(2)}`, color: "text-accent" },
+    { label: "Total Trades", value: trades.length.toString(), color: "text-text-primary" },
+    { label: "Last Session", value: trades[0]?.session || "N/A", color: "text-text-tertiary" },
+  ];
 
   return (
     <div className="pt-32 pb-24 bg-background-primary min-h-screen">
@@ -55,7 +88,6 @@ export default function TradeJournalPage() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 mb-12">
-          {/* Stats & Heatmap */}
           <div className="lg:col-span-2 space-y-12">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
               {stats.map((stat, i) => (
@@ -65,6 +97,8 @@ export default function TradeJournalPage() {
                 </div>
               ))}
             </div>
+
+            <EmotionCharts trades={trades} />
 
             <div className="bg-background-surface border border-border-slate p-8">
               <PerformanceHeatmap />
@@ -84,11 +118,10 @@ export default function TradeJournalPage() {
               
               {analysis ? (
                 <div className="space-y-6">
-                  <p className="text-lg text-text-primary leading-relaxed font-sans italic">
-                    "{analysis}"
-                  </p>
+                  <div className="text-sm text-text-primary leading-relaxed font-sans prose prose-invert">
+                    {analysis.split('\n').map((para, i) => <p key={i}>{para}</p>)}
+                  </div>
                   <div className="flex gap-4">
-                    <button className="text-[10px] font-bold uppercase tracking-widest text-accent hover:underline">Full Analytics</button>
                     <button 
                       onClick={() => setAnalysis(null)}
                       className="text-[10px] font-bold uppercase tracking-widest text-text-tertiary hover:text-text-primary"
@@ -104,13 +137,7 @@ export default function TradeJournalPage() {
                     Pete's AI voice analyzes your session timing and emotional states to find where you're leaking capital. Edge+ required.
                   </p>
                   <button 
-                    onClick={() => {
-                      if (userTier === "free" || userTier === "foundation") {
-                        setIsLockedByTier(true);
-                      } else {
-                        runAIAnalysis();
-                      }
-                    }}
+                    onClick={() => (userTier === "free" || userTier === "foundation" ? setIsLockedByTier(true) : runAIAnalysis())}
                     disabled={isAnalyzing}
                     className="w-full py-4 border border-accent text-accent text-[10px] font-bold uppercase tracking-widest hover:bg-accent hover:text-background-primary transition-all disabled:opacity-50 flex items-center justify-center gap-2"
                   >
@@ -125,6 +152,7 @@ export default function TradeJournalPage() {
                 requiredTier="edge" 
                 featureName="Psychological Edge Analysis" 
                 description="Our AI identifies exactly where emotions are causing you to blow your risk rules."
+                onClose={() => setIsLockedByTier(false)}
                 className="z-50"
               />
             )}
@@ -140,15 +168,14 @@ export default function TradeJournalPage() {
                 <input 
                   type="text" 
                   placeholder="SEARCH INSTRUMENT..."
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
                   className="w-full bg-background-primary border border-border-slate pl-10 pr-4 py-2 text-[10px] font-mono uppercase tracking-widest focus:border-accent outline-none"
                 />
               </div>
-              <button className="flex items-center gap-2 px-4 py-2 border border-border-slate text-[10px] font-bold uppercase tracking-widest hover:text-accent transition-colors">
-                <Filter className="w-3 h-3" /> Filter
-              </button>
             </div>
             <div className="text-[10px] font-mono text-text-tertiary uppercase tracking-widest">
-              Showing last 20 trades
+              Showing {filteredTrades.length} trades
             </div>
           </div>
 
@@ -167,28 +194,26 @@ export default function TradeJournalPage() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-border-slate/30">
-                {[
-                  { date: "12/04/26", pair: "GBPJPY", type: "LONG", pnl: "+1,240.20", ret: "+2.4%", strategy: "BREAKOUT", session: "LONDON", feel: "🎯" },
-                  { date: "11/04/26", pair: "XAUUSD", type: "SHORT", pnl: "-450.00", ret: "-0.8%", strategy: "REVERSAL", session: "NY", feel: "😰" },
-                  { date: "10/04/26", pair: "GBPUSD", type: "LONG", pnl: "+890.15", ret: "+1.7%", strategy: "TREND", session: "BOTH", feel: "😎" },
-                ].map((trade, i) => (
+                {loading ? (
+                  <tr><td colSpan={8} className="p-20 text-center font-mono text-[10px] uppercase animate-pulse">Syncing data...</td></tr>
+                ) : filteredTrades.map((trade, i) => (
                   <tr key={i} className="hover:bg-background-elevated/50 transition-colors cursor-pointer group">
-                    <td className="px-6 py-6 font-mono text-xs">{trade.date}</td>
-                    <td className="px-6 py-6 font-display font-bold text-sm tracking-widest uppercase">{trade.pair}</td>
+                    <td className="px-6 py-6 font-mono text-xs">{new Date(trade.date).toLocaleDateString()}</td>
+                    <td className="px-6 py-6 font-display font-bold text-sm tracking-widest uppercase">{trade.symbol}</td>
                     <td className="px-6 py-6 text-[10px] font-bold uppercase tracking-widest">
-                      <span className={cn(trade.type === 'LONG' ? 'text-profit' : 'text-loss')}>
+                      <span className={cn(trade.type === 'Long' ? 'text-profit' : 'text-loss')}>
                         {trade.type}
                       </span>
                     </td>
-                    <td className={cn("px-6 py-6 font-mono font-bold text-sm", trade.pnl.startsWith('+') ? 'text-profit' : 'text-loss')}>
-                      {trade.pnl}
+                    <td className={cn("px-6 py-6 font-mono font-bold text-sm", trade.pnl_amount >= 0 ? 'text-profit' : 'text-loss')}>
+                      {trade.pnl_amount >= 0 ? '+' : ''}{trade.pnl_amount.toFixed(2)}
                     </td>
-                    <td className={cn("px-6 py-6 font-mono text-xs", trade.ret.startsWith('+') ? 'text-profit' : 'text-loss')}>
-                      {trade.ret}
+                    <td className={cn("px-6 py-6 font-mono text-xs", trade.pnl_percent >= 0 ? 'text-profit' : 'text-loss')}>
+                      {trade.pnl_percent >= 0 ? '+' : ''}{trade.pnl_percent.toFixed(2)}%
                     </td>
-                    <td className="px-6 py-6 text-[10px] font-mono uppercase tracking-widest text-text-secondary">{trade.strategy}</td>
+                    <td className="px-6 py-6 text-[10px] font-mono uppercase tracking-widest text-text-secondary">{trade.strategy || '-'}</td>
                     <td className="px-6 py-6 text-[10px] font-mono uppercase tracking-widest text-text-secondary">{trade.session}</td>
-                    <td className="px-6 py-6 text-lg">{trade.feel}</td>
+                    <td className="px-6 py-6 text-lg">{trade.feeling}</td>
                   </tr>
                 ))}
               </tbody>
@@ -200,6 +225,7 @@ export default function TradeJournalPage() {
       <LogTradeModal 
         isOpen={isEntryModalOpen}
         onClose={() => setIsEntryModalOpen(false)}
+        onSuccess={fetchTrades}
       />
     </div>
   );

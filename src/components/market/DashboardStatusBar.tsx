@@ -11,6 +11,8 @@ interface MarketItem {
   change: string;
   changePercent: string;
   sparkline?: number[];
+  high?: string;
+  low?: string;
 }
 
 export function DashboardStatusBar() {
@@ -23,23 +25,32 @@ export function DashboardStatusBar() {
         const res = await fetch("/api/market/prices");
         const json = await res.json();
         if (Array.isArray(json)) {
-          // Add random sparkline data for UI demo
-          const augmented = json.map(item => ({
-            ...item,
-            sparkline: Array.from({ length: 15 }, () => Math.random() * 100)
-          }));
+          // Add random sparkline data and high/low for UI demo
+          const augmented = json.map(item => {
+            const p = parseFloat(item.price);
+            const variation = p * 0.005;
+            return {
+              ...item,
+              sparkline: Array.from({ length: 15 }, () => p + (Math.random() - 0.5) * variation),
+              high: (p * 1.002).toFixed(item.symbol.includes("/") ? 4 : 2),
+              low: (p * 0.998).toFixed(item.symbol.includes("/") ? 4 : 2),
+            };
+          });
           setData(augmented);
         }
       } catch (err) {
         console.error("Dashboard status fetch error:", err);
       }
     };
-// ... rest of useEffect
 
     const updateSession = () => {
       const gmtHour = new Date().getUTCHours();
-      if (gmtHour >= 8 && gmtHour < 16) setSession({ name: "London Session", open: true });
-      else if (gmtHour >= 13 && gmtHour < 21) setSession({ name: "New York Session", open: true });
+      // London: 08:00 - 16:00
+      // NY: 13:00 - 21:00
+      // Tokyo: 00:00 - 08:00
+      if (gmtHour >= 8 && gmtHour < 13) setSession({ name: "London Session", open: true });
+      else if (gmtHour >= 13 && gmtHour < 16) setSession({ name: "London/NY Overlap", open: true });
+      else if (gmtHour >= 16 && gmtHour < 21) setSession({ name: "New York Session", open: true });
       else if (gmtHour >= 22 || gmtHour < 7) setSession({ name: "Tokyo Session", open: true });
       else setSession({ name: "Market Closed", open: false });
     };
@@ -53,18 +64,18 @@ export function DashboardStatusBar() {
   return (
     <div className="flex items-center gap-6 px-4 py-3 bg-background-elevated border-b border-white/5 overflow-x-auto scrollbar-hide">
       {/* Session Indicator */}
-      <div className="flex items-center gap-2 shrink-0 pr-6 border-r border-white/10">
+      <div className="flex items-center gap-3 shrink-0 pr-6 border-r border-white/10">
         <div className={cn(
-          "w-2 h-2 rounded-full",
+          "w-2 h-2 rounded-full shadow-[0_0_8px_rgba(0,0,0,0.5)]",
           session.open ? "bg-profit animate-pulse" : "bg-text-tertiary"
         )} />
-        <span className="text-[10px] font-mono uppercase tracking-widest text-text-primary">
+        <span className="text-[10px] font-mono uppercase tracking-widest text-text-primary whitespace-nowrap">
           {session.name}
         </span>
       </div>
 
       {/* Instruments */}
-      <div className="flex items-center gap-8">
+      <div className="flex items-center gap-10">
         {data.map((item) => (
           <div key={item.symbol} className="flex items-center gap-4 shrink-0">
             <div className="flex flex-col gap-1">
@@ -82,10 +93,24 @@ export function DashboardStatusBar() {
                 {item.price}
               </span>
             </div>
+
+            {/* Range Bar */}
+            <div className="flex flex-col gap-1 w-20">
+               <div className="flex justify-between items-center text-[7px] font-mono text-text-tertiary uppercase">
+                 <span>L: {item.low}</span>
+                 <span>H: {item.high}</span>
+               </div>
+               <div className="h-0.5 w-full bg-white/5 relative overflow-hidden">
+                 <div className="absolute top-0 bottom-0 left-[20%] right-[30%] bg-white/20" />
+               </div>
+            </div>
+
             {item.sparkline && (
               <Sparkline 
                 data={item.sparkline} 
                 color={parseFloat(item.changePercent) >= 0 ? "#00E676" : "#FF3D57"} 
+                width={50}
+                height={16}
               />
             )}
           </div>

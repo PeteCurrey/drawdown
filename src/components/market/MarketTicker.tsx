@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
 
 interface MarketItem {
   symbol: string;
@@ -34,28 +35,32 @@ export function MarketTicker() {
 
   if (data.length === 0) return null;
 
-  // Double the data for seamless infinite marquee
-  const displayItems = [...data, ...data];
+  // Quadruple the data for a very long, seamless infinite marquee
+  const displayItems = [...data, ...data, ...data, ...data];
 
   return (
-    <div className="w-full bg-[#06070A] border-b border-white/5 py-2 overflow-hidden flex whitespace-nowrap relative z-50">
+    <div className="w-full bg-[#06070A] border-b border-white/5 py-2.5 overflow-hidden flex whitespace-nowrap relative z-50">
       <div className="animate-marquee flex items-center gap-12">
         {displayItems.map((item, i) => (
-          <div key={`${item.symbol}-${i}`} className="flex items-center gap-3">
-            <span className="text-[10px] font-mono uppercase text-text-tertiary">
+          <Link 
+            key={`${item.symbol}-${i}`} 
+            href={`/tools/scanner?symbol=${item.symbol}`}
+            className="flex items-center gap-3 hover:opacity-80 transition-opacity group"
+          >
+            <span className="text-[10px] font-mono uppercase text-text-tertiary group-hover:text-text-primary transition-colors">
               {item.name}
             </span>
-            <span className="text-[11px] font-mono font-bold text-text-primary">
+            <span className="text-[11px] font-mono font-bold text-text-primary whitespace-nowrap">
               {item.price}
             </span>
             <span className={cn(
-              "text-[9px] font-mono font-bold flex items-center gap-1",
+              "text-[9px] font-mono font-bold flex items-center gap-0.5",
               parseFloat(item.changePercent) >= 0 ? "text-profit" : "text-loss"
             )}>
               {parseFloat(item.changePercent) >= 0 ? "▲" : "▼"}
               {Math.abs(parseFloat(item.changePercent))}%
             </span>
-          </div>
+          </Link>
         ))}
       </div>
       
@@ -65,7 +70,10 @@ export function MarketTicker() {
           100% { transform: translateX(-50%); }
         }
         .animate-marquee {
-          animation: marquee 40s linear infinite;
+          animation: marquee 60s linear infinite;
+        }
+        .animate-marquee:hover {
+          animation-play-state: paused;
         }
       `}</style>
     </div>

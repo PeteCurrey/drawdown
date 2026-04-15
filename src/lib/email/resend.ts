@@ -27,13 +27,15 @@ export async function sendNewsletterBroadcast({ subject, html, audience }: SendB
     // Resend broadcast limits usually require batching for large lists (e.g. 50 per send)
     // We mock the send here for the demonstration.
     
-    const data = await resend.emails.send({
+    const { data, error: sendError } = await resend.emails.send({
       from: 'Pete <pete@drawdown.com>', // Replace with verified domain
       to: 'update@drawdown.com', // Sending to self, BCC the audience
       bcc: bccList,
       subject: subject,
       html: html,
     });
+
+    if (sendError) throw sendError;
 
     return { success: true, count: bccList.length, id: data?.id };
   } catch (error) {

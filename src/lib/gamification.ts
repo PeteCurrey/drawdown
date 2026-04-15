@@ -65,7 +65,7 @@ export async function awardBadge(userId: string, badgeKey: BadgeType) {
         title: `Achievement Unlocked: ${badge.title}`,
         message: badge.description,
         action_url: "/profile"
-      });
+      } as any);
 
     if (notifError) throw notifError;
 

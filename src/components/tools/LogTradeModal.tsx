@@ -84,7 +84,7 @@ export function LogTradeModal({ isOpen, onClose, onSuccess }: LogTradeModalProps
           session: formData.session,
           feeling: formData.emotion,
           notes: formData.notes
-        });
+        } as any);
 
       if (error) throw error;
       

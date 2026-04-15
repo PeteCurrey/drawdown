@@ -62,8 +62,8 @@ export async function GET(request: NextRequest) {
       category: "Weekly Roundup",
       is_published: true,
       published_at: new Date().toISOString(),
-      author_id: (await supabase.auth.getUser()).data.user?.id || null, // Mock or actual admin ID
-    });
+      author_id: (await supabase.auth.getUser()).data.user?.id || null,
+    } as any);
 
     return NextResponse.json({ 
       success: true, 

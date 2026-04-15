@@ -80,7 +80,7 @@ export async function GET(request: NextRequest) {
       subject: `The Wire — Weekly Edition: ${roundup.week_ending}`,
       content_html: roundup.content_html,
       recipient_count: recipientEmails.length,
-    });
+    } as any);
 
     return NextResponse.json({ 
       success: true, 

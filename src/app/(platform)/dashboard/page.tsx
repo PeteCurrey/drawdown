@@ -16,11 +16,34 @@ export default function DashboardPage() {
   const [greeting, setGreeting] = useState("Morning");
   const [name] = useState("Pete"); // Mock user name
 
+  const [latestBrief, setLatestBrief] = useState<any>(null);
+  const [loadingBrief, setLoadingBrief] = useState(true);
+
   useEffect(() => {
     const hour = new Date().getHours();
     if (hour < 12) setGreeting("Morning");
     else if (hour < 18) setGreeting("Afternoon");
     else setGreeting("Evening");
+
+    const fetchBrief = async () => {
+      try {
+        const supabase = createClient();
+        const { data } = await supabase
+          .from('daily_briefs')
+          .select('*')
+          .order('brief_date', { ascending: false })
+          .limit(1)
+          .single();
+        
+        if (data) setLatestBrief(data);
+      } catch (err) {
+        // Silently fail, use fallback
+      } finally {
+        setLoadingBrief(false);
+      }
+    };
+
+    fetchBrief();
   }, []);
 
   return (
@@ -31,24 +54,46 @@ export default function DashboardPage() {
         <p className="text-text-secondary font-mono text-xs uppercase tracking-widest">// Market Status: London Open</p>
       </div>
 
-      {/* Daily Briefing Card */}
+      {/* Daily Briefing Card ("The Wire") */}
       <div className="p-8 bg-background-elevated border border-border-slate relative group overflow-hidden">
         <div className="absolute top-0 left-0 w-1 h-full bg-accent" />
         <div className="flex flex-col md:flex-row justify-between gap-8 relative z-10">
-          <div className="space-y-4 max-w-2xl">
+          <div className="space-y-4 max-w-2xl text-left">
             <div className="flex items-center gap-2 text-accent">
               <AlertCircle className="w-4 h-4" />
-              <span className="text-[10px] font-mono uppercase font-bold tracking-widest">Daily Briefing</span>
+              <span className="text-[10px] font-mono uppercase font-bold tracking-widest">The Wire — Latest Briefing</span>
             </div>
-            <h3 className="text-2xl font-display font-bold uppercase">UK CPI data came in below expectations.</h3>
-            <p className="text-text-secondary text-sm leading-relaxed">
-              Inflation cooled more than forecast this morning, putting pressure on GBP. 
-              Keep an eye on the 1.2680 level for potential support. No high-impact US news until 1:30 PM.
-            </p>
+            
+            {loadingBrief ? (
+              <div className="space-y-3 animate-pulse">
+                <div className="h-6 bg-white/5 w-3/4 rounded-sm" />
+                <div className="h-4 bg-white/5 w-full rounded-sm" />
+              </div>
+            ) : latestBrief ? (
+              <>
+                <h3 className="text-2xl font-display font-bold uppercase leading-tight">
+                  {latestBrief.content_html.split('\n')[0].replace('#', '').replace('*', '').trim() || "Market Update"}
+                </h3>
+                <div className="text-text-secondary text-sm leading-relaxed prose prose-invert prose-sm max-w-none line-clamp-3">
+                  {latestBrief.content_text.replace(/#/g, '').slice(0, 200)}...
+                </div>
+              </>
+            ) : (
+              <>
+                <h3 className="text-2xl font-display font-bold uppercase">UK CPI data came in below expectations.</h3>
+                <p className="text-text-secondary text-sm leading-relaxed">
+                  Inflation cooled more than forecast this morning, putting pressure on GBP. 
+                  Keep an eye on the 1.2680 level for potential support. No high-impact US news until 1:30 PM.
+                </p>
+              </>
+            )}
           </div>
-          <button className="self-end md:self-center px-8 py-3 border border-border-slate hover:border-accent hover:text-accent transition-colors text-xs font-bold uppercase tracking-widest">
-            Full Analysis
-          </button>
+          <Link 
+            href="/dashboard/news"
+            className="self-start md:self-center px-8 py-3 border border-border-slate hover:border-accent hover:text-accent transition-colors text-xs font-bold uppercase tracking-widest shrink-0"
+          >
+            {latestBrief ? "Read Full Brief" : "Full Analysis"}
+          </Link>
         </div>
         <TrendingUp className="absolute -bottom-10 -right-10 w-64 h-64 text-accent/5 -rotate-12 pointer-events-none" />
       </div>
@@ -100,6 +145,11 @@ export default function DashboardPage() {
               ))}
             </div>
           </div>
+
+          {/* Market Intelligence / Consensus */}
+          <section className="pt-4">
+            <MarketConsensus />
+          </section>
         </div>
 
         {/* Right Column: Sidebar Widgets */}

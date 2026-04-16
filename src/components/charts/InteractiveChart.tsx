@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import { createChart, ColorType, CandlestickSeries, LineSeries, HistogramSeries, CrosshairMode } from "lightweight-charts";
 import { cn } from "@/lib/utils";
 import { calculateSMA, calculateEMA, calculateRSI, calculateMACD, calculateStochastic, calculateATR } from "@/lib/indicators";
+import { identifyMSS, identifyLiquidityPools } from "@/lib/scanner";
 
 import { 
   Zap, 
@@ -48,7 +49,9 @@ export function InteractiveChart({ initialData = [], symbol = "GBPUSD", userTier
     macd: false,
     stoch: false,
     atr: false,
-    volume: true
+    volume: true,
+    mss: true,
+    liquidity: true
   });
 
   const [consensus] = useState({
@@ -110,6 +113,34 @@ export function InteractiveChart({ initialData = [], symbol = "GBPUSD", userTier
       const candleSeries = chart.addSeries(CandlestickSeries, { upColor: "#00E676", downColor: "#FF3D57", borderVisible: false, wickUpColor: "#00E676", wickDownColor: "#FF3D57" });
       candleSeries.setData(data);
       mainChartRef.current = chart;
+
+      // Phase 3: MSS Markers
+      if (indicators.mss) {
+        const mssSignals = identifyMSS(data);
+        candleSeries.setMarkers(mssSignals.map(sig => ({
+          time: sig.time as any,
+          position: sig.type === 'MSS_BULLISH' ? 'belowBar' : 'aboveBar',
+          color: sig.type === 'MSS_BULLISH' ? '#00E676' : '#FF3D57',
+          shape: sig.type === 'MSS_BULLISH' ? 'arrowUp' : 'arrowDown',
+          text: 'MSS',
+          size: 1
+        })));
+      }
+
+      // Phase 3: Liquidity Pools
+      if (indicators.liquidity) {
+        const pools = identifyLiquidityPools(data);
+        pools.forEach((pool, i) => {
+          candleSeries.createPriceLine({
+            price: pool.price,
+            color: 'rgba(0, 194, 255, 0.15)',
+            lineWidth: 2,
+            lineStyle: 0,
+            axisLabelVisible: true,
+            title: `LIQ POOL ${i + 1}`,
+          });
+        });
+      }
 
       if (indicators.ma20) {
         const s = chart.addSeries(LineSeries, { color: "#00C2FF", lineWidth: 1, priceLineVisible: false });

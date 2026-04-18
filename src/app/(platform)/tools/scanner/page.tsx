@@ -1,6 +1,7 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
+import Link from "next/link";
 import { InteractiveChart } from "@/components/charts/InteractiveChart";
 import { MarketConsensus } from "@/components/market/MarketConsensus";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";

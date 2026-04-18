@@ -6,7 +6,7 @@ import Image from "next/image";
 import { cn } from "@/lib/utils";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { Menu, X, ChevronDown, Play, Clock, Shield, Zap, Brain, LineChart, Lock } from "lucide-react";
+import { Menu, X, ChevronDown, Play, Clock, Shield, Zap, Brain, LineChart, Lock, LayoutDashboard, Calendar, Percent, Gauge, Radio, BarChart3 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { User } from "@supabase/supabase-js";
 

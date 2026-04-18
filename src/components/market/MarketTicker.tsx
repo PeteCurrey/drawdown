@@ -39,7 +39,7 @@ export function MarketTicker() {
   const displayItems = [...data, ...data, ...data, ...data];
 
   return (
-    <div className="w-full bg-[#06070A] border-b border-white/5 py-2.5 overflow-hidden flex whitespace-nowrap relative z-50">
+    <div className="fixed top-0 left-0 w-full h-[36px] bg-[#06070A] border-b border-white/5 overflow-hidden flex items-center whitespace-nowrap z-[60]">
       <div className="animate-marquee flex items-center gap-12">
         {displayItems.map((item, i) => (
           <Link 

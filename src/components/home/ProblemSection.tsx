@@ -60,7 +60,7 @@ export function ProblemSection() {
   }, []);
 
   return (
-    <section ref={sectionRef} className="relative z-0 py-32 md:py-56 bg-background-primary overflow-hidden">
+    <section ref={sectionRef} className="relative z-0 py-32 md:py-56 bg-background-primary">
       <div className="container mx-auto px-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center mb-32">
           <div className="problem-stat">

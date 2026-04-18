@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, use } from "react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { QuizEngine } from "@/components/quiz/QuizEngine";
@@ -14,14 +14,15 @@ import {
 } from "lucide-react";
 
 interface Props {
-  params: { phase: string; id: string };
+  params: Promise<{ phase: string; id: string }>;
 }
 
 export default function ModulePage({ params }: Props) {
+  const { phase, id } = use(params);
   const [activeTab, setActiveTab] = useState<"notes" | "quiz" | "discussion">("notes");
   const [moduleCompleted, setModuleCompleted] = useState(false);
 
-  const quizKey = `${params.phase}/${params.id}`;
+  const quizKey = `${phase}/${id}`;
   const questions = quizData[quizKey] || quizData["ground-zero/module-3"] || [];
 
   const handleQuizComplete = async (score: number, total: number) => {
@@ -38,8 +39,8 @@ export default function ModulePage({ params }: Props) {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          module_id: params.id,
-          phase_id: params.phase,
+          module_id: id,
+          phase_id: phase,
           completed
         })
       });
@@ -58,7 +59,7 @@ export default function ModulePage({ params }: Props) {
       <div className="border-b border-border-slate bg-background-surface/50 backdrop-blur-md sticky top-0 z-40">
         <div className="container mx-auto px-6 py-4 flex items-center justify-between">
           <Link
-            href={`/learn/${params.phase}`}
+            href={`/learn/${phase}`}
             className="flex items-center gap-2 text-[10px] font-mono uppercase tracking-widest text-text-tertiary hover:text-accent transition-colors"
           >
             <ChevronLeft className="w-4 h-4" /> Back to Phase

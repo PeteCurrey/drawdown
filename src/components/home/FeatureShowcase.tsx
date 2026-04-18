@@ -61,10 +61,11 @@ export function FeatureShowcase() {
         scrollTrigger: {
           trigger: scrollRef.current,
           pin: true,
+          pinSpacing: true,
           scrub: 1,
           snap: 1 / (cards.length - 1),
-          start: "top top",
-          end: () => `+=${cards.length * 400}`, // Match card width x count
+          start: "top 120px",
+          end: () => `+=${cards.length * 400}`,
           anticipatePin: 1,
         }
       });
@@ -74,9 +75,9 @@ export function FeatureShowcase() {
   }, []);
 
   return (
-    <section ref={scrollRef} className="relative z-10 bg-background-elevated overflow-hidden">
-      <div className="h-screen flex items-center">
-        <div className="container mx-auto px-6 mb-12 absolute top-24 left-0 right-0 z-10">
+    <section ref={scrollRef} className="relative z-10 bg-background-elevated">
+      <div className="h-screen flex items-center overflow-hidden">
+        <div className="container mx-auto px-6 mb-12 absolute top-32 left-0 right-0 z-10">
           <span className="text-accent font-mono tracking-widest uppercase text-sm mb-4 block">
             // PLATFORM TOOLS
           </span>
@@ -92,11 +93,18 @@ export function FeatureShowcase() {
               href={`/features/${feature.slug}`}
               className="feature-card group relative w-[80vw] md:w-[400px] h-[500px] bg-background-surface border border-border-slate p-12 flex flex-col justify-between transition-premium hover:border-accent/50 overflow-hidden"
             >
-              {/* Geometric Grid Background */}
-              <div className="absolute inset-0 z-0 opacity-0 group-hover:opacity-20 transition-all duration-700">
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-accent/20 via-transparent to-transparent" />
+              {/* Technical Reveal Image */}
+              <div className="absolute inset-0 z-0 opacity-0 group-hover:opacity-100 transition-all duration-1000 ease-out scale-110 group-hover:scale-100 grayscale group-hover:grayscale-0">
+                <div className="absolute inset-0 bg-accent/20 z-10 mix-blend-overlay" />
+                <div className="absolute inset-0 bg-gradient-to-t from-background-elevated via-transparent to-transparent z-10" />
+                {/* Abstract technical pattern or high-fi asset */}
+                <div className="h-full w-full bg-[radial-gradient(circle_at_20%_20%,#00E67608_0%,transparent_50%),radial-gradient(circle_at_80%_80%,#00E67608_0%,transparent_50%)]" />
+                <div className="h-full w-full opacity-30 bg-[url('https://images.unsplash.com/photo-1639762681485-074b7f938ba0?auto=format&fit=crop&q=80&w=800')] bg-cover bg-center" />
+              </div>
+
+              {/* Geometric Grid Background (Secondary) */}
+              <div className="absolute inset-0 z-0 opacity-20 pointer-events-none">
                 <div className="h-full w-full bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:32px_32px]" />
-                <div className="h-full w-full bg-[linear-gradient(to_right,#80808008_1px,transparent_1px),linear-gradient(to_bottom,#80808008_1px,transparent_1px)] bg-[size:8px_8px]" />
               </div>
 
               <div className="relative z-10 flex flex-col h-full justify-between pointer-events-none">

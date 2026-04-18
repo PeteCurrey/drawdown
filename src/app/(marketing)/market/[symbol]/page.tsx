@@ -1,16 +1,14 @@
 import { Metadata } from "next";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { InteractiveChart } from "@/components/charts/InteractiveChart";
-import { MarketTicker } from "@/components/market/MarketTicker";
-import { Navigation } from "@/components/layout/Navigation";
-import { Footer } from "@/components/layout/Footer";
 
 interface Props {
-  params: { symbol: string };
+  params: Promise<{ symbol: string }>;
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const symbol = params.symbol.toUpperCase();
+  const { symbol: rawSymbol } = await params;
+  const symbol = rawSymbol.toUpperCase();
   return {
     title: `${symbol} Live Price, Chart & Analysis | Drawdown`,
     description: `Track real-time ${symbol} prices, interactive technical charts, and AI-powered market analysis. Build your trading edge with Drawdown's professional tools.`,
@@ -20,15 +18,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default function MarketPairPage({ params }: Props) {
-  const symbol = params.symbol.toUpperCase();
+export default async function MarketPairPage({ params }: Props) {
+  const { symbol: rawSymbol } = await params;
+  const symbol = rawSymbol.toUpperCase();
 
   return (
-    <main className="min-h-screen bg-background-primary">
-      <Navigation />
-      <MarketTicker />
-      
-      <div className="pt-32 pb-24 container mx-auto px-6">
+    <div className="min-h-screen bg-background-primary">
+      <div className="container mx-auto px-6 pt-32 pb-24">
         <header className="mb-12 space-y-6">
           <Breadcrumbs />
           <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 border-b border-border-slate pb-12">
@@ -98,7 +94,7 @@ export default function MarketPairPage({ params }: Props) {
         </section>
       </div>
 
-      <Footer />
-    </main>
+      </div>
+    </div>
   );
 }

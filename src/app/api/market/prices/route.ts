@@ -9,12 +9,17 @@ const INSTRUMENTS = [
   { symbol: "SPX", name: "S&P 500" },
   { symbol: "DJI", name: "Dow Jones" },
   { symbol: "IXIC", name: "NASDAQ" },
+  { symbol: "DAX:DAX", name: "DAX 40" },
+  { symbol: "N225", name: "Nikkei 225" },
   { symbol: "GBP/USD", name: "GBPUSD" },
   { symbol: "EUR/USD", name: "EURUSD" },
   { symbol: "USD/JPY", name: "USDJPY" },
   { symbol: "BTC/USD", name: "BTCUSD" },
-  { symbol: "ETH/USD", name: "ETHUSD" },
   { symbol: "XAU/USD", name: "Gold" },
+  { symbol: "XAG/USD", name: "Silver" },
+  { symbol: "CL:F", name: "Crude Oil (WTI)" },
+  { symbol: "BZ:F", name: "Brent Oil" },
+  { symbol: "NG:F", name: "Natural Gas" },
 ];
 
 export async function GET(request: NextRequest) {

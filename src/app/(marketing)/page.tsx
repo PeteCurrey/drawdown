@@ -3,13 +3,11 @@ import { ProblemSection } from "@/components/home/ProblemSection";
 import { FounderVideo } from "@/components/home/FounderVideo";
 import { FeatureShowcase } from "@/components/home/FeatureShowcase";
 import { PhasePreview } from "@/components/home/PhasePreview";
-import { MarketTicker } from "@/components/market/MarketTicker";
 import Link from "next/link";
 
 export default function Home() {
   return (
     <div className="flex flex-col">
-      <MarketTicker />
       <HeroSection />
       <ProblemSection />
       <FounderVideo />

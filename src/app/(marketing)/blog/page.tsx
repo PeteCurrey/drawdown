@@ -78,9 +78,16 @@ export default function BlogListingPage() {
             <Link 
               key={post.slug} 
               href={`/blog/${post.slug}`}
-              className="group p-8 bg-background-surface border border-border-slate hover:bg-background-elevated transition-premium flex flex-col justify-between h-[400px]"
+              className="group relative p-8 bg-background-surface border border-border-slate transition-all duration-500 flex flex-col justify-between h-[400px] overflow-hidden"
             >
-              <div>
+              {/* Hover Reveal Image */}
+              <div className="absolute inset-0 z-0 opacity-0 group-hover:opacity-100 transition-all duration-1000 ease-out scale-110 group-hover:scale-100 grayscale hover:grayscale-0">
+                <div className="absolute inset-0 bg-accent/10 z-10" />
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,#00E67605_0%,transparent_70%)]" />
+                <div className="h-full w-full opacity-20 bg-[url('https://images.unsplash.com/photo-1642104704074-907c0698cbd9?auto=format&fit=crop&q=80&w=800')] bg-cover bg-center" />
+              </div>
+
+              <div className="relative z-10">
                 <span className="text-[10px] font-mono uppercase tracking-widest text-accent mb-4 block">
                   {post.category}
                 </span>
@@ -91,7 +98,7 @@ export default function BlogListingPage() {
                   {post.excerpt}
                 </p>
               </div>
-              <div className="flex items-center justify-between text-[10px] font-mono uppercase tracking-widest text-text-tertiary pt-6 border-t border-border-slate/50">
+              <div className="relative z-10 flex items-center justify-between text-[10px] font-mono uppercase tracking-widest text-text-tertiary pt-6 border-t border-border-slate/50">
                 <span>{post.date}</span>
                 <span>{post.readingTime}</span>
               </div>

@@ -1,5 +1,6 @@
 "use client";
 
+import { use } from "react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { 
@@ -13,7 +14,7 @@ import {
 } from "lucide-react";
 
 interface Props {
-  params: { phase: string };
+  params: Promise<{ phase: string }>;
 }
 
 const modules = [
@@ -26,7 +27,8 @@ const modules = [
 ];
 
 export default function PhasePage({ params }: Props) {
-  const phaseName = params.phase.replace(/-/g, " ");
+  const { phase } = use(params);
+  const phaseName = phase.replace(/-/g, " ");
 
   return (
     <div className="pt-32 pb-24 bg-background-primary min-h-screen">
@@ -110,7 +112,7 @@ export default function PhasePage({ params }: Props) {
                 {module.status === 'locked' && <Lock className="w-5 h-5 text-text-tertiary" />}
                 {module.status !== 'locked' && (
                   <Link 
-                    href={`/learn/${params.phase}/module-${module.id}`}
+                    href={`/learn/${phase}/module-${module.id}`}
                     className={cn(
                       "px-8 py-3 text-[10px] font-bold uppercase tracking-widest transition-all",
                       module.status === 'current' ? "bg-accent text-background-primary" : "bg-background-elevated border border-border-slate hover:bg-background-surface"

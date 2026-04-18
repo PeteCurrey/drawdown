@@ -139,7 +139,7 @@ export function Navigation() {
       <nav
         ref={navRef}
         className={cn(
-          "fixed top-0 left-0 w-full z-50 py-6 transition-all duration-500 transition-premium",
+          "fixed top-[36px] left-0 w-full z-[70] py-6 transition-all duration-500 transition-premium",
           isScrolled ? "bg-background-primary/90 backdrop-blur-md border-b border-border-slate py-4" : "bg-transparent"
         )}
       >
@@ -200,7 +200,7 @@ export function Navigation() {
       {/* Mega Menu — Learn */}
       <div
         className={cn(
-          "fixed top-0 left-0 w-full z-40 pt-[80px] transition-all duration-500 hidden lg:block",
+          "fixed top-[36px] left-0 w-full z-40 pt-[80px] transition-all duration-500 hidden lg:block",
           isMegaMenuOpen
             ? "opacity-100 translate-y-0 pointer-events-auto"
             : "opacity-0 -translate-y-4 pointer-events-none"
@@ -319,7 +319,7 @@ export function Navigation() {
           isMobileMenuOpen ? "translate-x-0" : "translate-x-full"
         )}
       >
-        <div className="flex flex-col h-full pt-28 px-6 pb-12">
+        <div className="flex flex-col h-full pt-32 px-6 pb-12">
           <div className="flex flex-col gap-8">
             {navLinks.map((link) => (
               <Link

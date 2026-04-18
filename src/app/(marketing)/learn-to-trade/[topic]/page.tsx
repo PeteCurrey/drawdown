@@ -18,7 +18,8 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const topic = seoData.topics.find((t) => t.slug === params.topic);
+  const { topic: topicSlug } = await params;
+  const topic = seoData.topics.find((t) => t.slug === topicSlug);
   if (!topic) return {};
 
   return getMetadata({
@@ -27,8 +28,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   });
 }
 
-export default function TopicPage({ params }: Props) {
-  const topic = seoData.topics.find((t) => t.slug === params.topic);
+export default async function TopicPage({ params }: Props) {
+  const { topic: topicSlug } = await params;
+  const topic = seoData.topics.find((t) => t.slug === topicSlug);
   if (!topic) notFound();
 
   const faqSchema = {
@@ -89,7 +91,7 @@ export default function TopicPage({ params }: Props) {
             <div>
               <h4 className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary mb-6">Related Topics</h4>
               <div className="space-y-4">
-                {seoData.topics.filter(t => t.slug !== params.topic).map(t => (
+                {seoData.topics.filter(t => t.slug !== topicSlug).map(t => (
                   <Link 
                     key={t.slug} 
                     href={`/learn-to-trade/${t.slug}`}

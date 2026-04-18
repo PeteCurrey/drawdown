@@ -24,24 +24,23 @@ export function HeroSection() {
       const candles = chartRef.current?.querySelectorAll(".candle");
       if (candles) {
         gsap.from(candles, {
-          scaleY: 0,
+          y: 40,
           opacity: 0,
-          duration: 1.5,
-          stagger: 0.05,
-          transformOrigin: "bottom",
-          ease: "back.out(1.7)",
+          duration: 3,
+          stagger: 0.1,
+          ease: "power2.out",
           delay: 0.5,
         });
 
         // "Live Market" breathing animation
         candles.forEach((candle, i) => {
           gsap.to(candle, {
-            opacity: 0.1 + Math.random() * 0.3,
-            duration: 2 + Math.random() * 2,
+            opacity: 0.3 + Math.random() * 0.5,
+            duration: 3 + Math.random() * 3,
             repeat: -1,
             yoyo: true,
             ease: "sine.inOut",
-            delay: i * 0.1,
+            delay: i * 0.1 + 3,
           });
         });
       }
@@ -56,7 +55,7 @@ export function HeroSection() {
       className="relative min-h-[90vh] flex items-center justify-center overflow-hidden pt-20"
     >
       {/* Candlestick Chart Background */}
-      <div className="absolute inset-0 z-0 opacity-20 pointer-events-none overflow-hidden">
+      <div className="absolute inset-0 z-0 opacity-40 pointer-events-none overflow-hidden">
         <svg
           ref={chartRef}
           viewBox="0 0 1000 500"

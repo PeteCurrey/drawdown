@@ -22,9 +22,30 @@
   --ease-premium: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+/* Theme Transition Utility */
+.theme-transition {
+  transition: background-color 0.5s var(--ease-premium), 
+              border-color 0.5s var(--ease-premium), 
+              color 0.5s var(--ease-premium), 
+              opacity 0.5s var(--ease-premium),
+              box-shadow 0.5s var(--ease-premium);
+}
+
 :root {
   --background: #08090D;
   --foreground: #E4E2DD;
+}
+
+[data-theme="light"] {
+  --color-background-primary: #F4F5F7;
+  --color-background-surface: #FFFFFF;
+  --color-background-elevated: #E9EBEE;
+  --color-border-slate: #DBDFE5;
+  --color-text-primary: #121417;
+  --color-text-secondary: #5F6771;
+  --color-text-tertiary: #9AA2AC;
+  --background: #F4F5F7;
+  --foreground: #121417;
 }
 
 * {

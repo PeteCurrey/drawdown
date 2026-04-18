@@ -62,9 +62,9 @@ export function DashboardStatusBar() {
   }, []);
 
   return (
-    <div className="flex items-center gap-6 px-4 py-3 bg-background-elevated border-b border-white/5 overflow-x-auto scrollbar-hide">
+    <div className="flex items-center gap-6 px-4 py-3 bg-background-elevated border-b border-border-slate overflow-x-auto scrollbar-hide theme-transition">
       {/* Session Indicator */}
-      <div className="flex items-center gap-3 shrink-0 pr-6 border-r border-white/10">
+      <div className="flex items-center gap-3 shrink-0 pr-6 border-r border-border-slate">
         <div className={cn(
           "w-2 h-2 rounded-full shadow-[0_0_8px_rgba(0,0,0,0.5)]",
           session.open ? "bg-profit animate-pulse" : "bg-text-tertiary"

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
@@ -17,20 +17,33 @@ import {
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { DashboardStatusBar } from "@/components/market/DashboardStatusBar";
+import { ThemeToggle } from "@/components/dashboard/ThemeToggle";
 
 const sidebarLinks = [
   { name: "Overview", href: "/dashboard", icon: LayoutDashboard },
   { name: "Learn", href: "/learn", icon: Library },
   { name: "Live Sessions", href: "/live", icon: Video },
-  { name: "AI Tools", href: "/tools", icon: Wrench },
+  { name: "AI Tools", href: "/dashboard/tools", icon: Wrench },
   { name: "Community", href: "/community", icon: Users },
   { name: "Profile", href: "/profile", icon: UserCircle },
 ];
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const [theme, setTheme] = useState<"dark" | "light">("dark");
   const pathname = usePathname();
   const supabase = createClient();
+
+  useEffect(() => {
+    const savedTheme = localStorage.getItem("dashboard-theme") as "dark" | "light";
+    if (savedTheme) setTheme(savedTheme);
+  }, []);
+
+  const toggleTheme = () => {
+    const newTheme = theme === "dark" ? "light" : "dark";
+    setTheme(newTheme);
+    localStorage.setItem("dashboard-theme", newTheme);
+  };
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
@@ -38,17 +51,20 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   };
 
   return (
-    <div className="flex h-screen bg-background-primary overflow-hidden">
+    <div 
+      data-theme={theme}
+      className="flex h-screen bg-background-primary overflow-hidden theme-transition"
+    >
       {/* Sidebar */}
       <aside 
         className={cn(
-          "bg-background-surface border-r border-border-slate transition-all duration-300 flex flex-col z-30",
+          "bg-background-surface border-r border-border-slate transition-all duration-300 flex flex-col z-30 theme-transition",
           isCollapsed ? "w-20" : "w-64"
         )}
       >
         <div className="p-6 flex items-center justify-between">
           {!isCollapsed && (
-            <Link href="/" className="text-xl font-display font-extrabold tracking-widest uppercase">
+            <Link href="/" className="text-xl font-display font-extrabold tracking-widest uppercase text-text-primary">
               Drawdown
             </Link>
           )}
@@ -81,7 +97,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           })}
         </nav>
 
-        <div className="p-4 border-t border-border-slate">
+        <div className="p-4 border-t border-border-slate space-y-2">
+          <ThemeToggle theme={theme} onToggle={toggleTheme} isCollapsed={isCollapsed} />
+          
           <button 
             onClick={handleLogout}
             className="w-full flex items-center gap-4 px-4 py-3 text-sm text-text-tertiary hover:text-loss transition-colors group"
@@ -93,10 +111,10 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       </aside>
 
       {/* Main Content Area */}
-      <div className="flex-grow flex flex-col overflow-hidden">
+      <div className="flex-grow flex flex-col overflow-hidden min-w-0 min-h-0">
         <DashboardStatusBar />
 
-        <main className="flex-grow overflow-y-auto p-6 md:p-10">
+        <main className="flex-grow overflow-y-auto overflow-x-hidden p-6 md:p-10 min-h-0 relative">
           {children}
         </main>
       </div>

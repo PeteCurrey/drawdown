@@ -4,7 +4,8 @@ import { useSearchParams } from "next/navigation";
 import { InteractiveChart } from "@/components/charts/InteractiveChart";
 import { MarketConsensus } from "@/components/market/MarketConsensus";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
-import { Suspense } from "react";
+import { Suspense, useState, useEffect } from "react";
+import { cn } from "@/lib/utils";
 
 import { SectorHeatmap } from "@/components/market/SectorHeatmap";
 import { identifyMSS, ScannerSignal } from "@/lib/scanner";

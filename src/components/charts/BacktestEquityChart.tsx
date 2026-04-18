@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { createChart, ColorType, IChartApi } from "lightweight-charts";
+import { createChart, ColorType, IChartApi, AreaSeries } from "lightweight-charts";
 
 interface BacktestEquityChartProps {
   data: { time: any; value: number }[];
@@ -30,7 +30,7 @@ export function BacktestEquityChart({ data }: BacktestEquityChartProps) {
       },
     });
 
-    const series = chart.addAreaSeries({
+    const series = chart.addSeries(AreaSeries, {
       lineColor: "#10b981",
       topColor: "rgba(16, 185, 129, 0.3)",
       bottomColor: "rgba(16, 185, 129, 0)",

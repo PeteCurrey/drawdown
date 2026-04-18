@@ -42,8 +42,8 @@ export function Footer() {
       <div className="container mx-auto px-6">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 mb-16">
           <div className="lg:col-span-2 space-y-8">
-            <Link href="/" className="text-xl font-display font-extrabold tracking-widest uppercase">
-              Drawdown
+            <Link href="/" className="text-xl font-display font-extrabold tracking-widest uppercase flex items-end">
+              Drawdown<span className="text-accent ml-0.5">.</span>
             </Link>
             <p className="text-text-secondary text-sm max-w-sm leading-relaxed">
               Trading education for people who want to learn properly. No shortcuts. Just edge. Join our mailing list for weekly market intel.

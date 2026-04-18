@@ -191,8 +191,8 @@ export function Navigation() {
       >
         <div className="container mx-auto px-6 flex justify-between items-center">
           {/* Logo */}
-          <Link href="/" className="text-2xl font-display font-extrabold tracking-widest-xl uppercase hover:opacity-80 transition-opacity">
-            Drawdown
+          <Link href="/" className="text-2xl font-display font-extrabold tracking-widest-xl uppercase hover:opacity-80 transition-opacity flex items-end">
+            Drawdown<span className="text-accent ml-0.5">.</span>
           </Link>
 
           {/* Desktop Links */}

@@ -32,6 +32,16 @@ export function ProblemSection() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
+      gsap.from(".nine-zero-text", {
+        scrollTrigger: {
+          trigger: ".problem-stat",
+          start: "top 80%",
+        },
+        opacity: 0,
+        duration: 2,
+        ease: "power2.out",
+      });
+
       gsap.from(".problem-stat", {
         scrollTrigger: {
           trigger: ".problem-stat",
@@ -40,7 +50,7 @@ export function ProblemSection() {
         y: 40,
         opacity: 0,
         duration: 1,
-        ease: "premium",
+        ease: "power2.out",
       });
 
       gsap.from(".problem-card", {
@@ -52,7 +62,7 @@ export function ProblemSection() {
         opacity: 0,
         duration: 0.8,
         stagger: 0.2,
-        ease: "premium",
+        ease: "power2.out",
       });
     }, sectionRef);
 
@@ -62,11 +72,11 @@ export function ProblemSection() {
   return (
     <section ref={sectionRef} className="relative z-0 py-32 md:py-56 bg-background-primary">
       <div className="container mx-auto px-6">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center mb-32">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center mb-4">
           <div className="problem-stat">
             <div className="w-64 h-40 md:w-96 md:h-64 mb-6 md:mb-8 -ml-2">
               <svg viewBox="0 0 500 300" className="w-full h-full overflow-visible">
-                {/* Background Track with Delayed Fade-in */}
+                {/* Simple Border Fade-in */}
                 <text 
                   x="0" 
                   y="250" 
@@ -76,22 +86,7 @@ export function ProblemSection() {
                   fill="transparent" 
                   stroke="#00C2FF" 
                   strokeWidth="2"
-                  className="text-outline-fade select-none"
-                >
-                  90%
-                </text>
-                {/* Animated Beam (Thinner) */}
-                <text 
-                  x="0" 
-                  y="250" 
-                  fontFamily="var(--font-display)" 
-                  fontSize="280"
-                  fontWeight="800"
-                  fill="transparent" 
-                  stroke="#00C2FF" 
-                  strokeWidth="2"
-                  className="text-beam-animated select-none"
-                  strokeLinecap="round"
+                  className="nine-zero-text select-none"
                 >
                   90%
                 </text>

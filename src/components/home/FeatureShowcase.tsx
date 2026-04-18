@@ -17,6 +17,7 @@ const features = [
     name: "AI Trade Journal",
     description: "Your data is your edge. AI analyzes your patterns to find where you're actually winning.",
     tier: "Edge+",
+    image: "/images/tools/terminal.png",
   },
   {
     slug: "risk-calculator",
@@ -24,6 +25,7 @@ const features = [
     name: "Risk Calculator",
     description: "Position sizing is how you stay alive. Protect your capital with professional grade risk tools.",
     tier: "Foundation+",
+    image: "/images/tools/terminal.png",
   },
   {
     slug: "ai-market-scanner",
@@ -31,6 +33,7 @@ const features = [
     name: "AI Market Scanner",
     description: "Don't just see what's moving — understand why. Real-time context for major market shifts.",
     tier: "Edge+",
+    image: "/images/tools/scanner.png",
   },
   {
     slug: "strategy-backtester",
@@ -38,6 +41,7 @@ const features = [
     name: "Strategy Backtester",
     description: "Test your ideas against history before risking a penny. Data-backed confidence for every entry.",
     tier: "Edge+",
+    image: "/images/tools/terminal.png",
   },
   {
     slug: "ai-daily-briefing",
@@ -45,6 +49,7 @@ const features = [
     name: "AI Daily Briefing",
     description: "Personalised morning brief based on your watchlist and preferred trading markets.",
     tier: "Edge+",
+    image: "/images/tools/scanner.png",
   }
 ];
 
@@ -93,13 +98,13 @@ export function FeatureShowcase() {
               href={`/features/${feature.slug}`}
               className="feature-card group relative w-[80vw] md:w-[400px] h-[500px] bg-background-surface border border-border-slate p-12 flex flex-col justify-between transition-premium hover:border-accent/50 overflow-hidden"
             >
-              {/* Technical Reveal Image */}
-              <div className="absolute inset-0 z-0 opacity-0 group-hover:opacity-100 transition-all duration-1000 ease-out scale-110 group-hover:scale-100 grayscale group-hover:grayscale-0">
-                <div className="absolute inset-0 bg-accent/20 z-10 mix-blend-overlay" />
-                <div className="absolute inset-0 bg-gradient-to-t from-background-elevated via-transparent to-transparent z-10" />
-                {/* Abstract technical pattern or high-fi asset */}
-                <div className="h-full w-full bg-[radial-gradient(circle_at_20%_20%,#00E67608_0%,transparent_50%),radial-gradient(circle_at_80%_80%,#00E67608_0%,transparent_50%)]" />
-                <div className="h-full w-full opacity-30 bg-gradient-to-tr from-accent/10 to-transparent bg-cover bg-center" />
+              {/* Image Reveal Background */}
+              <div 
+                className="absolute inset-0 z-0 opacity-0 group-hover:opacity-100 transition-all duration-1000 ease-out scale-110 group-hover:scale-100 grayscale-[50%] group-hover:grayscale-0 bg-cover bg-center"
+                style={{ backgroundImage: `url(${feature.image})` }}
+              >
+                <div className="absolute inset-0 bg-background-elevated/80 z-10 mix-blend-overlay group-hover:bg-background-elevated/40 transition-colors duration-1000" />
+                <div className="absolute inset-0 bg-gradient-to-t from-background-elevated via-background-elevated/80 to-transparent z-10" />
               </div>
 
               {/* Geometric Grid Background (Secondary) */}

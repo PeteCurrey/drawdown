@@ -69,7 +69,7 @@ export function PhasePreview() {
         opacity: 0,
         duration: 0.8,
         stagger: 0.1,
-        ease: "premium",
+        ease: "power2.out",
       });
     }, containerRef);
 
@@ -77,7 +77,7 @@ export function PhasePreview() {
   }, []);
 
   return (
-    <section ref={containerRef} className="relative z-0 py-24 md:py-32 bg-background-primary border-y border-border-slate">
+    <section ref={containerRef} className="relative z-0 py-32 md:py-48 bg-background-primary border-y border-border-slate min-h-[600px]">
       <div className="container mx-auto px-6">
         <div className="mb-20">
           <span className="text-accent font-mono tracking-widest uppercase text-sm mb-4 block">

@@ -11,7 +11,8 @@ import {
   BrainCircuit,
   AlertCircle,
   ChevronRight,
-  Loader2
+  Loader2,
+  Activity
 } from "lucide-react";
 
 type BacktestStep = 'define' | 'params' | 'results';
@@ -19,7 +20,7 @@ type BacktestStep = 'define' | 'params' | 'results';
 import { simulateStrategy, BacktestResult, StrategyConfig } from "@/lib/backtester";
 import { BacktestEquityChart } from "@/components/charts/BacktestEquityChart";
 
-type BacktestStep = 'define' | 'params' | 'results';
+
 
 export default function BacktesterPage() {
   const [step, setStep] = useState<BacktestStep>('define');

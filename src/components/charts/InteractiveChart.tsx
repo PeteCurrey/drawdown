@@ -124,7 +124,7 @@ export function InteractiveChart({ initialData = [], symbol = "GBPUSD", userTier
     // 1. MAIN CHART
     if (mainContainer) {
       const chart = createChart(mainContainer, { ...commonOptions, height: 400 });
-      const candleSeries = chart.addSeries(CandlestickSeries, { 
+      const candleSeries: any = chart.addSeries(CandlestickSeries, { 
         upColor: "#00E676", 
         downColor: "#FF3D57", 
         borderVisible: false, 

@@ -22,7 +22,7 @@ const posts = [
     readingTime: "5 min",
   },
   {
-    slug: "understanding-bank-of-england-rate-decisions",
+    slug: "understanding-boe-rate-decisions",
     title: "Understanding BoE Rate Decisions",
     excerpt: "How UK interest rate changes impact the GBP and how to position yourself for the volatility.",
     category: "Market Analysis",

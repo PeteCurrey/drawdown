@@ -1,55 +1,14 @@
-export const UK_LOCATIONS = [
-  { id: "london", name: "London", region: "Greater London" },
-  { id: "manchester", name: "Manchester", region: "North West" },
-  { id: "birmingham", name: "Birmingham", region: "West Midlands" },
-  { id: "leeds", name: "Leeds", region: "Yorkshire" },
-  { id: "glasgow", name: "Glasgow", region: "Scotland" },
-  { id: "edinburgh", name: "Edinburgh", region: "Scotland" },
-  { id: "liverpool", name: "Liverpool", region: "North West" },
-  { id: "bristol", name: "Bristol", region: "South West" },
-  { id: "sheffield", name: "Sheffield", region: "Yorkshire" },
-  { id: "newcastle", name: "Newcastle", region: "North East" },
-  { id: "nottingham", name: "Nottingham", region: "East Midlands" },
-  { id: "cardiff", name: "Cardiff", region: "Wales" },
-  { id: "belfast", name: "Belfast", region: "Northern Ireland" },
-  { id: "leicester", name: "Leicester", region: "East Midlands" },
-  { id: "brighton", name: "Brighton", region: "South East" },
-  { id: "southampton", name: "Southampton", region: "South East" },
-  { id: "plymouth", name: "Plymouth", region: "South West" },
-  { id: "aberdeen", name: "Aberdeen", region: "Scotland" },
-  { id: "oxford", name: "Oxford", region: "South East" },
-  { id: "cambridge", name: "Cambridge", region: "East of England" },
-  { id: "york", name: "York", region: "Yorkshire" },
-  { id: "bath", name: "Bath", region: "South West" },
-  { id: "chester", name: "Chester", region: "North West" },
-  { id: "bournemouth", name: "Bournemouth", region: "South West" },
-  { id: "norwich", name: "Norwich", region: "East of England" },
-  { id: "reading", name: "Reading", region: "South East" },
-  { id: "exeter", name: "Exeter", region: "South West" },
-  { id: "swansea", name: "Swansea", region: "Wales" },
-  { id: "dundee", name: "Dundee", region: "Scotland" },
-  { id: "milton-keynes", name: "Milton Keynes", region: "South East" }
-];
+import locationsData from "@/data/seo/locations.json";
+import topicsData from "@/data/seo/topics.json";
 
-export const TRADING_TOPICS = [
-  { id: "forex-trading", title: "Forex Trading Strategies", short: "Forex Trading" },
-  { id: "prop-firm-funding", title: "Passing Prop Firm Funding Challenges", short: "Prop Firms" },
-  { id: "day-trading", title: "Day Trading Masterclass", short: "Day Trading" },
-  { id: "swing-trading", title: "Swing Trading Mechanics", short: "Swing Trading" },
-  { id: "crypto-trading", title: "Crypto Currency Patterns", short: "Crypto Trading" },
-  { id: "technical-analysis", title: "Advanced Technical Analysis", short: "Technical Analysis" },
-  { id: "fundamental-analysis", title: "Trading the Fundamentals", short: "Fundamentals" },
-  { id: "risk-management", title: "Pro Risk Management & Capital Preservation", short: "Risk Management" },
-  { id: "trading-psychology", title: "Mastering Trading Psychology", short: "Trading Psychology" },
-  { id: "price-action", title: "Naked Price Action Trading", short: "Price Action" },
-  { id: "algorithmic-trading", title: "Algorithmic & Automated Systems", short: "Algorithmic Trading" },
-  { id: "options-trading", title: "Options Trading Basics", short: "Options Strategy" },
-  { id: "commodities-trading", title: "Trading Gold and Oil", short: "Commodities" },
-  { id: "scalping", title: "High-Frequency Scalping", short: "Scalping" },
-  { id: "elliott-wave", title: "Elliott Wave Theory Applied", short: "Elliott Wave" },
-  { id: "order-block", title: "Smart Money Concepts & Order Blocks", short: "SMC" },
-  { id: "volume-profile", title: "Volume Profile Context", short: "Volume Profile" },
-  { id: "fibonacci", title: "Advanced Fibonacci Retracements", short: "Fibonacci" },
-  { id: "chart-patterns", title: "Trading Classic Chart Patterns", short: "Chart Patterns" },
-  { id: "session-trading", title: "London & NY Session Breakouts", short: "Session Trading" }
-];
+export const UK_LOCATIONS = locationsData.locations.map(l => ({
+  id: l.slug,
+  name: l.name,
+  region: l.region
+}));
+
+export const TRADING_TOPICS = topicsData.topics.map(t => ({
+  id: t.slug,
+  title: t.title,
+  short: t.title // Using title as short for consistency in this scale-up
+}));

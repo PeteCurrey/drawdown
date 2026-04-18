@@ -114,11 +114,7 @@ export default function AboutPage() {
           </div>
           <div className="relative group">
             <div className="aspect-[4/5] bg-background-elevated border border-border-slate overflow-hidden relative">
-              <img 
-                src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1200" 
-                alt="Pete Currey, Founder" 
-                className="w-full h-full object-cover grayscale opacity-60 group-hover:opacity-100 group-hover:scale-105 transition-all duration-1000"
-              />
+              <div className="absolute inset-0 bg-[#06070A] bg-[linear-gradient(to_right,#80808008_1px,transparent_1px),linear-gradient(to_bottom,#80808008_1px,transparent_1px)] bg-[size:32px_32px] opacity-30 group-hover:opacity-40 transition-opacity duration-700" />
               <div className="absolute inset-0 bg-gradient-to-t from-background-primary via-transparent to-transparent opacity-60" />
             </div>
             <div className="absolute -bottom-6 -right-6 p-8 bg-accent text-background-primary font-mono text-xs uppercase tracking-[0.2em] font-bold">

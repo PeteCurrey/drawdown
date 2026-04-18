@@ -7,6 +7,8 @@ import { cn } from "@/lib/utils";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Menu, X, ChevronDown, Play, Clock, Shield, Zap, Brain, LineChart, Lock } from "lucide-react";
+import { createClient } from "@/lib/supabase/client";
+import { User } from "@supabase/supabase-js";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -22,7 +24,6 @@ const phases = [
     tier: "Free",
     modules: 8,
     duration: "4.5h",
-    image: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?q=80&w=1200",
   },
   {
     number: "02",
@@ -33,7 +34,6 @@ const phases = [
     tier: "Foundation",
     modules: 12,
     duration: "8h",
-    image: "https://images.unsplash.com/photo-1642543492481-44e81e3914a7?q=80&w=1200",
   },
   {
     number: "03",
@@ -44,7 +44,6 @@ const phases = [
     tier: "Foundation",
     modules: 10,
     duration: "6.5h",
-    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1200",
   },
   {
     number: "04",
@@ -55,7 +54,6 @@ const phases = [
     tier: "Foundation",
     modules: 6,
     duration: "3h",
-    image: "https://images.unsplash.com/photo-1614028674026-a65e31bfd27c?q=80&w=1200",
   },
   {
     number: "05",
@@ -66,7 +64,6 @@ const phases = [
     tier: "Edge",
     modules: 10,
     duration: "5h",
-    image: "https://images.unsplash.com/photo-1543286386-2e659306cd6c?q=80&w=1200",
   },
   {
     number: "06",
@@ -77,24 +74,41 @@ const phases = [
     tier: "Edge",
     modules: 14,
     duration: "12h",
-    image: "https://images.unsplash.com/photo-1551434678-e076c223a692?q=80&w=1200",
   },
-];
-
-const navLinks = [
-  { name: "Learn", href: "/courses", hasMegaMenu: true },
-  { name: "Tools", href: "/tools" },
-  { name: "Pricing", href: "/pricing" },
-  { name: "Blog", href: "/blog" },
-  { name: "About", href: "/about" },
 ];
 
 export function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isMegaMenuOpen, setIsMegaMenuOpen] = useState(false);
+  const [user, setUser] = useState<User | null>(null);
   const megaMenuTimeout = useRef<NodeJS.Timeout | null>(null);
   const navRef = useRef<HTMLElement>(null);
+  const supabase = createClient();
+
+  useEffect(() => {
+    const getUser = async () => {
+      const { data } = await supabase.auth.getUser();
+      setUser(data.user);
+    };
+    getUser();
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+    });
+
+    return () => subscription.unsubscribe();
+  }, [supabase.auth]);
+
+  const learnHref = user ? "/learn" : "/courses";
+
+  const navLinks = [
+    { name: "Learn", href: learnHref, hasMegaMenu: true },
+    { name: "Tools", href: "/tools" },
+    { name: "Pricing", href: "/pricing" },
+    { name: "Blog", href: "/blog" },
+    { name: "About", href: "/about" },
+  ];
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -209,28 +223,25 @@ export function Navigation() {
                       <Link
                         key={phase.name}
                         href={phase.href}
-                        className="group flex gap-5 p-4 border border-border-slate/30 bg-background-elevated/20 hover:border-accent hover:bg-background-elevated transition-all duration-500 relative overflow-hidden"
+                        className="group flex gap-5 p-4 border border-border-slate/30 bg-[#111318] hover:border-accent hover:bg-[#15181f] transition-all duration-500 relative overflow-hidden"
                         onClick={() => setIsMegaMenuOpen(false)}
                       >
-                        <div className="absolute inset-0 z-0 opacity-0 group-hover:opacity-100 transition-all duration-700 scale-110 group-hover:scale-100">
-                          <img 
-                            src={phase.image} 
-                            alt={phase.name} 
-                            className="w-full h-full object-cover grayscale opacity-60"
-                          />
-                          <div className="absolute inset-0 bg-gradient-to-r from-background-surface via-background-surface/80 to-transparent" />
+                        {/* Typographic background element */}
+                        <div className="absolute top-0 right-0 p-2 opacity-5 group-hover:opacity-10 transition-opacity">
+                           <span className="text-4xl font-mono font-black text-accent">
+                             {phase.number}
+                           </span>
                         </div>
 
                         <div className="relative z-10 flex gap-5 w-full">
                           <div className="relative w-16 h-16 shrink-0 flex items-center justify-center bg-background-primary border border-border-slate group-hover:border-accent/40 transition-colors">
-                            <span className="absolute -top-1 -left-1 text-2xl font-mono font-black text-accent/5 group-hover:text-accent/10 transition-colors">
+                            <span className="text-2xl font-mono font-black text-accent/20 group-hover:text-accent/30 transition-colors">
                               {phase.number}
                             </span>
-                            <Icon className="w-5 h-5 text-accent opacity-60 group-hover:opacity-100 group-hover:scale-110 transition-all" />
                           </div>
                           <div className="flex-grow min-w-0">
                             <div className="flex justify-between items-start">
-                              <h4 className="text-xs font-display font-bold uppercase tracking-tight group-hover:text-accent transition-colors">
+                              <h4 className="text-xs font-display font-bold uppercase tracking-tight text-[#E4E2DD] group-hover:text-accent transition-colors">
                                 {phase.name}
                               </h4>
                               <span className={cn(
@@ -242,12 +253,12 @@ export function Navigation() {
                                 {phase.tier}
                               </span>
                             </div>
-                            <p className="text-[9px] text-text-tertiary font-mono uppercase tracking-widest mt-1">
+                            <p className="text-[9px] text-[#7A7D85] font-sans uppercase tracking-widest mt-1">
                               {phase.subtitle}
                             </p>
                             <div className="flex items-center gap-3 mt-2">
                               <span className="text-[8px] font-mono text-text-tertiary uppercase tracking-widest flex items-center gap-1">
-                                <Play className="w-2.5 h-2.5" /> {phase.modules}
+                                <Play className="w-2.5 h-2.5" /> {phase.modules} Modules
                               </span>
                               <span className="text-[8px] font-mono text-text-tertiary uppercase tracking-widest flex items-center gap-1">
                                 <Clock className="w-2.5 h-2.5" /> {phase.duration}
@@ -268,7 +279,7 @@ export function Navigation() {
                 </p>
                 <div className="flex-grow space-y-4">
                   <Link
-                    href="/learn"
+                    href={learnHref}
                     className="block p-6 bg-background-elevated border border-border-slate hover:border-accent transition-all group"
                     onClick={() => setIsMegaMenuOpen(false)}
                   >

@@ -11,6 +11,9 @@ import {
 } from "lucide-react";
 import { BrokerWidget } from "@/components/market/BrokerWidget";
 import { NewsWidget } from "@/components/market/NewsWidget";
+import { MarketConsensus } from "@/components/market/MarketConsensus";
+import { createClient } from "@/lib/supabase/client";
+import Link from "next/link";
 
 export default function DashboardPage() {
   const [greeting, setGreeting] = useState("Morning");

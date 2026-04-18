@@ -82,7 +82,7 @@ export default async function LocationTopicPage({ params }: PageProps) {
           </div>
           
           <div className="relative aspect-square md:aspect-[4/3] bg-background-surface border border-border-slate overflow-hidden group">
-             <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center opacity-30 group-hover:opacity-40 transition-opacity duration-700 mix-blend-luminosity grayscale" />
+             <div className="absolute inset-0 bg-[#06070A] bg-[linear-gradient(to_right,#80808008_1px,transparent_1px),linear-gradient(to_bottom,#80808008_1px,transparent_1px)] bg-[size:32px_32px] opacity-30 group-hover:opacity-40 transition-opacity duration-700" />
              <div className="absolute inset-0 bg-gradient-to-t from-[#08090D] via-transparent to-transparent" />
              <div className="absolute bottom-8 left-8 right-8 border border-border-slate bg-background-elevated/80 backdrop-blur-md p-6">
                 <div className="flex items-center gap-4 mb-4">

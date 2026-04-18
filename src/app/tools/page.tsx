@@ -21,7 +21,6 @@ const tools = [
     icon: Calculator,
     tier: "free",
     status: "live",
-    image: "https://images.unsplash.com/photo-1551288049-bbbda536ad0a?q=80&w=800"
   },
   {
     name: "AI Trade Journal",
@@ -30,7 +29,6 @@ const tools = [
     icon: BookOpen,
     tier: "edge",
     status: "live",
-    image: "https://images.unsplash.com/photo-1611974717514-cc4ac649b85a?q=80&w=800"
   },
   {
     name: "Market Scanner",
@@ -39,7 +37,6 @@ const tools = [
     icon: Radar,
     tier: "edge",
     status: "live",
-    image: "https://images.unsplash.com/photo-1518186239751-2467ef7f194a?q=80&w=800"
   },
   {
     name: "Strategy Backtester",
@@ -48,7 +45,6 @@ const tools = [
     icon: History,
     tier: "floor",
     status: "live",
-    image: "https://images.unsplash.com/photo-1642790106117-e829e14a795f?q=80&w=800"
   },
   {
     name: "The Wire — Daily Briefing",
@@ -57,7 +53,6 @@ const tools = [
     icon: CloudSun,
     tier: "edge",
     status: "live",
-    image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=800"
   },
 ];
 
@@ -97,14 +92,10 @@ export default function ToolsLandingPage() {
                 href={tool.href}
                 className="group relative p-8 bg-background-surface border border-border-slate hover:border-accent/40 transition-all duration-700 hover:-translate-y-1 flex flex-col overflow-hidden"
               >
-                {/* Hover Reveal Image */}
-                <div className="absolute inset-0 z-0 opacity-0 group-hover:opacity-10 transition-all duration-700 scale-110 group-hover:scale-100">
-                  <img 
-                    src={tool.image} 
-                    alt={tool.name} 
-                    className="w-full h-full object-cover grayscale"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-background-surface via-background-surface/80 to-transparent" />
+                {/* Geometric Pattern Background */}
+                <div className="absolute inset-0 z-0 opacity-0 group-hover:opacity-10 transition-all duration-700">
+                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-accent/20 via-transparent to-transparent" />
+                  <div className="h-full w-full bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]" />
                 </div>
 
                 <div className="relative z-10 flex flex-col h-full">

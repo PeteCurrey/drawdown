@@ -37,6 +37,7 @@ export function InteractiveChart({ initialData = [], symbol = "GBPUSD", userTier
   const [showLevels, setShowLevels] = useState(false);
   
   const [levels, setLevels] = useState({ entry: "", sl: "", tp: "" });
+  const candleSeriesRef = useRef<any>(null);
   const entryLineRef = useRef<any>(null);
   const slLineRef = useRef<any>(null);
   const tpLineRef = useRef<any>(null);
@@ -94,6 +95,19 @@ export function InteractiveChart({ initialData = [], symbol = "GBPUSD", userTier
   useEffect(() => {
     if (!containerRef.current) return;
 
+    // Cleanup existing charts if they exist
+    if (mainChartRef.current) mainChartRef.current.remove();
+    if (rsiChartRef.current) rsiChartRef.current.remove();
+    if (macdChartRef.current) macdChartRef.current.remove();
+    if (stochChartRef.current) stochChartRef.current.remove();
+    if (atrChartRef.current) atrChartRef.current.remove();
+
+    mainChartRef.current = null;
+    rsiChartRef.current = null;
+    macdChartRef.current = null;
+    stochChartRef.current = null;
+    atrChartRef.current = null;
+
     const mainContainer = document.getElementById('main-chart');
     const rsiContainer = document.getElementById('rsi-chart');
     const macdContainer = document.getElementById('macd-chart');
@@ -108,13 +122,20 @@ export function InteractiveChart({ initialData = [], symbol = "GBPUSD", userTier
     };
 
     // 1. MAIN CHART
-    if (mainContainer && !mainChartRef.current) {
+    if (mainContainer) {
       const chart = createChart(mainContainer, { ...commonOptions, height: 400 });
-      const candleSeries = chart.addSeries(CandlestickSeries, { upColor: "#00E676", downColor: "#FF3D57", borderVisible: false, wickUpColor: "#00E676", wickDownColor: "#FF3D57" });
+      const candleSeries = chart.addSeries(CandlestickSeries, { 
+        upColor: "#00E676", 
+        downColor: "#FF3D57", 
+        borderVisible: false, 
+        wickUpColor: "#00E676", 
+        wickDownColor: "#FF3D57" 
+      });
       candleSeries.setData(data);
       mainChartRef.current = chart;
+      candleSeriesRef.current = candleSeries;
 
-      // Phase 3: MSS Markers
+      // MSS Markers
       if (indicators.mss) {
         const mssSignals = identifyMSS(data);
         candleSeries.setMarkers(mssSignals.map(sig => ({
@@ -127,7 +148,7 @@ export function InteractiveChart({ initialData = [], symbol = "GBPUSD", userTier
         })));
       }
 
-      // Phase 3: Liquidity Pools
+      // Liquidity Pools
       if (indicators.liquidity) {
         const pools = identifyLiquidityPools(data);
         pools.forEach((pool, i) => {
@@ -157,82 +178,57 @@ export function InteractiveChart({ initialData = [], symbol = "GBPUSD", userTier
     }
 
     // 2. RSI CHART
-    if (indicators.rsi && rsiContainer && !rsiChartRef.current) {
+    if (indicators.rsi && rsiContainer) {
       const chart = createChart(rsiContainer, { ...commonOptions, height: 120 });
       const rsiSeries = chart.addSeries(LineSeries, { color: "#E4E2DD", lineWidth: 2, priceLineVisible: false });
       const rsiData = calculateRSI(data, 14);
-      
       const mapped = rsiData.filter(d => d && d.value !== null).map(d => ({
         time: d!.time as any,
         value: d!.value as number,
-        color: (d!.value as number) > 70 ? "#FF3D57" : (d!.value as number) < 30 ? "#00E676" : "#00C2FF"
       }));
-      
       rsiSeries.setData(mapped);
-      
-      // Lines
       rsiSeries.createPriceLine({ price: 70, color: '#FF3D57', lineWidth: 1, lineStyle: 2, axisLabelVisible: true, title: 'OB' });
       rsiSeries.createPriceLine({ price: 30, color: '#00E676', lineWidth: 1, lineStyle: 2, axisLabelVisible: true, title: 'OS' });
       rsiChartRef.current = chart;
-    } else if (!indicators.rsi && rsiChartRef.current) {
-      rsiChartRef.current.remove();
-      rsiChartRef.current = null;
     }
 
     // 3. MACD CHART
-    if (indicators.macd && macdContainer && !macdChartRef.current) {
+    if (indicators.macd && macdContainer) {
       const chart = createChart(macdContainer, { ...commonOptions, height: 150 });
       const macdData = calculateMACD(data);
-      
       const histSeries = chart.addSeries(HistogramSeries, { priceLineVisible: false });
       histSeries.setData(macdData.filter(d => d.histogram !== null).map(d => ({
         time: d.time as any,
         value: d.histogram as number,
         color: (d.histogram as number) >= 0 ? "#00E676" : "#FF3D57"
       })));
-
       const macdLine = chart.addSeries(LineSeries, { color: "#00C2FF", lineWidth: 2, priceLineVisible: false });
       macdLine.setData(macdData.filter(d => d.macd !== null).map(d => ({ time: d.time as any, value: d.macd as number })));
-
       const signalLine = chart.addSeries(LineSeries, { color: "#7A7D85", lineWidth: 2, priceLineVisible: false });
       signalLine.setData(macdData.filter(d => d.signal !== null).map(d => ({ time: d.time as any, value: d.signal as number })));
-      
       macdChartRef.current = chart;
-    } else if (!indicators.macd && macdChartRef.current) {
-      macdChartRef.current.remove();
-      macdChartRef.current = null;
     }
 
     // 4. STOCHASTIC CHART
-    if (indicators.stoch && stochContainer && !stochChartRef.current) {
+    if (indicators.stoch && stochContainer) {
       const chart = createChart(stochContainer, { ...commonOptions, height: 120 });
       const stochData = calculateStochastic(data);
-      
       const kLine = chart.addSeries(LineSeries, { color: "#00C2FF", lineWidth: 2, priceLineVisible: false });
       kLine.setData(stochData.filter(d => d.k !== null).map(d => ({ time: d.time as any, value: d.k as number })));
-
       const dLine = chart.addSeries(LineSeries, { color: "#7A7D85", lineWidth: 2, priceLineVisible: false });
       dLine.setData(stochData.filter(d => d.d !== null).map(d => ({ time: d.time as any, value: d.d as number })));
-
       kLine.createPriceLine({ price: 80, color: '#FF3D57', lineWidth: 1, lineStyle: 2, axisLabelVisible: true, title: 'OB' });
       kLine.createPriceLine({ price: 20, color: '#00E676', lineWidth: 1, lineStyle: 2, axisLabelVisible: true, title: 'OS' });
-
       stochChartRef.current = chart;
-    } else if (!indicators.stoch && stochChartRef.current) {
-      stochChartRef.current.remove();
-      stochChartRef.current = null;
     }
 
     // 5. ATR CHART
-    if (indicators.atr && atrContainer && !atrChartRef.current) {
+    if (indicators.atr && atrContainer) {
       const chart = createChart(atrContainer, { ...commonOptions, height: 100 });
       const atrData = calculateATR(data);
       const atrSeries = chart.addSeries(LineSeries, { color: "#00C2FF", lineWidth: 2, priceLineVisible: true });
       atrSeries.setData(atrData.filter(d => d.value !== null).map(d => ({ time: d.time as any, value: d.value! })));
       atrChartRef.current = chart;
-    } else if (!indicators.atr && atrChartRef.current) {
-      atrChartRef.current.remove();
-      atrChartRef.current = null;
     }
 
     const activeCharts = [mainChartRef.current, rsiChartRef.current, macdChartRef.current, stochChartRef.current, atrChartRef.current].filter(Boolean);
@@ -248,30 +244,63 @@ export function InteractiveChart({ initialData = [], symbol = "GBPUSD", userTier
 
     return () => {
       window.removeEventListener("resize", handleResize);
+      activeCharts.forEach(c => c.remove());
     };
-  }, [indicators, data]); // Re-run effect when indicators toggle
+  }, [indicators, data]);
 
-  // Drawing Price Lines on Main Chart manually
+  // Handle Price Lines (Entry, SL, TP)
   useEffect(() => {
-    if (!mainChartRef.current) return;
-    const series = mainChartRef.current.timeScale()._options ? mainChartRef.current.series()[0] : null; // Safe fetch
-    if (!series) {
-      // In lw charts, series() exists on the chart object since V4
-      try {
-         const mainSeries = mainChartRef.current._series ? mainChartRef.current._series[0] : null; 
-      } catch(e) {}
+    if (!candleSeriesRef.current || !showLevels) return;
+
+    const series = candleSeriesRef.current;
+
+    // Clean old lines
+    if (entryLineRef.current) series.removePriceLine(entryLineRef.current);
+    if (slLineRef.current) series.removePriceLine(slLineRef.current);
+    if (tpLineRef.current) series.removePriceLine(tpLineRef.current);
+
+    if (levels.entry && !isNaN(parseFloat(levels.entry))) {
+      entryLineRef.current = series.createPriceLine({
+        price: parseFloat(levels.entry),
+        color: '#00C2FF',
+        lineWidth: 2,
+        lineStyle: 0,
+        axisLabelVisible: true,
+        title: 'ENTRY',
+      });
     }
 
-    // If API changes restrict direct series access without storing the ref, we'll brute force recreate it or fetch via stored ref
+    if (levels.sl && !isNaN(parseFloat(levels.sl))) {
+      slLineRef.current = series.createPriceLine({
+        price: parseFloat(levels.sl),
+        color: '#FF3D57',
+        lineWidth: 2,
+        lineStyle: 1,
+        axisLabelVisible: true,
+        title: 'STOP LOSS',
+      });
+    }
+
+    if (levels.tp && !isNaN(parseFloat(levels.tp))) {
+      tpLineRef.current = series.createPriceLine({
+        price: parseFloat(levels.tp),
+        color: '#00E676',
+        lineWidth: 2,
+        lineStyle: 0,
+        axisLabelVisible: true,
+        title: 'TAKE PROFIT',
+      });
+    }
+
+    return () => {
+      if (entryLineRef.current) series.removePriceLine(entryLineRef.current);
+      if (slLineRef.current) series.removePriceLine(slLineRef.current);
+      if (tpLineRef.current) series.removePriceLine(tpLineRef.current);
+    };
   }, [levels, showLevels]);
 
   const toggleIndicator = (key: keyof typeof indicators) => {
     setIndicators(prev => ({ ...prev, [key]: !prev[key] }));
-    // Hard refresh components by returning clean state in hook is fine for simplistic approach
-    // We remove the mainChartRef logic here to let useEffect handle lifecycle completely.
-    if (key === 'ma20' || key === 'ma50' || key === 'ma200') {
-      window.location.reload(); // Simple brute force in this iteration to avoid complex state tracking
-    }
   };
 
   return (

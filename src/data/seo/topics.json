@@ -7,25 +7,50 @@
       "content": [
         {
           "heading": "What is Day Trading?",
-          "text": "Day trading involves buying and selling financial instruments within the same trading day. All positions are closed before the market closes to avoid unmanageable overnight risk. It's a high-intensity strategy that requires significant time, focus, and a precise 'edge' over the market."
+          "text": "Day trading involves buying and selling financial instruments within the same trading day. All positions are closed before the market closes to avoid unmanageable overnight risk. It's a high-intensity strategy that requires significant time, focus, and a precise 'edge' over the market. Unlike swing trading or long-term investing, day traders look to exploit small price movements in highly liquid stocks or currency pairs. In the UK, this often involves spread betting or CFD trading to avoid stamp duty and leverage capital efficiently."
         },
         {
-          "heading": "The 90% Rule",
-          "text": "Most day traders lose money because they treat the market like a casino. Successful day trading is about process over outcome. You don't need a 90% win rate; you need a strategy where your winners outsize your losers and the discipline to walk away when your rules aren't met."
+          "heading": "The 90% Rule of Intraday Failure",
+          "text": "Most day traders lose money because they treat the market like a casino. Successful day trading is about process over outcome. You don't need a 90% win rate; you need a strategy where your winners outsize your losers and the discipline to walk away when your rules aren't met. The statistical reality is that 90% of retail traders lose 90% of their capital within 90 days. This is almost always due to over-leveraging and emotional management failures rather than 'wrong' technical analysis. To succeed, you must move from the gambling majority into the professional minority by treating your trading as a business with strict overheads (losses) and revenue streams (wins)."
+        },
+        {
+          "heading": "Managing Volatility and Liquidity",
+          "text": "Day trading requires volatility. If the market isn't moving, you can't make money. However, volatility is a double-edged sword. High-impact news events like the BoE rate decisions or US NFP can cause massive price swings that can blow through stop losses if liquidity thins out. A professional day trader knows when to be in the market and, more importantly, when to stay on the sidelines. We focus on high-volume sessions, typically the London Open (8:00 AM GMT) and the New York Overlap (1:00 PM - 4:00 PM GMT), where the highest number of participants ensures tighter spreads and more predictable price action."
         },
         {
           "heading": "Essential Day Trading Tools",
-          "text": "To succeed, you need a high-speed execution platform, a reliable data feed, and most importantly, a Trade Journal. Tracking every entry and exit allows you to see the patterns in your own behavior that lead to drawdowns."
+          "text": "To succeed, you need a high-speed execution platform, a reliable data feed, and most importantly, a Trade Journal. At Drawdown, we teach that your journal is your most valuable asset. Tracking every entry and exit allows you to see the patterns in your own behavior that lead to drawdowns. While many beginners obsess over indicators like the RSI or MACD, the pros focus on order flow, volume profile, and price action. Your tools should simplify the market, not complicate it. A cluttered chart is a sign of a cluttered mind."
         }
       ],
       "faqs": [
         {
           "question": "Can I day trade with a small account?",
-          "answer": "Yes, but you must be extremely cautious with leverage. Position sizing is critical. Trading a small account requires more discipline, not more risk."
+          "answer": "Yes, but you must be extremely cautious with leverage. In the UK, spread betting allows you to trade in small stake sizes (e.g., £1 per point), making it accessible for accounts under £5,000. However, the smaller the account, the less room you have for errors in risk management."
         },
         {
           "question": "How much time does day trading take?",
-          "answer": "Active day trading typically requires being present during high-volume sessions, such as the London/New York overlap (1pm - 4pm GMT)."
+          "answer": "Active day trading typically requires being present during high-volume sessions. Most successful UK traders focus on the 3-hour overlap between London and New York. You don't need to be at your screen all day; in fact, over-trading is a major cause of failure."
+        }
+      ]
+    },
+    {
+      "slug": "swing-trading",
+      "title": "Swing Trading",
+      "description": "Capture medium-term price moves. Ideal for those with full-time jobs who want to trade the daily and 4-hour timeframes with precision.",
+      "content": [
+        {
+          "heading": "The Art of the Swing",
+          "text": "Swing trading is the practice of holding a trade for more than one day but typically no longer than a few weeks. The goal is to capture a 'swing' in price action—the move from one high to one low or vice versa. This style is often preferred by UK traders who have full-time commitments, as it focuses on higher timeframes like the 4-hour and Daily charts, which require significantly less 'screen time' than day trading."
+        },
+        {
+          "heading": "Technical Setups for Swing Traders",
+          "text": "Swing traders rely heavily on trend analysis and support/resistance levels. Common strategies include trend following (buying the dip in an uptrend) and mean reversion (trading back to a moving average). Because the holding time is longer, swing traders must be comfortable with overnight 'swap' fees and the potential for price gaps when the market opens on Sunday evening. The key is to have a wide enough stop loss to survive the 'noise' of daily volatility while still maintaining a positive Risk-to-Reward ratio."
+        }
+      ],
+      "faqs": [
+        {
+          "question": "Is swing trading less risky than day trading?",
+          "answer": "Not necessarily. While the pace is slower, you take on 'overnight risk'—the possibility that major news breaks while the market is closed or while you aren't watching. Your position size should reflect this increased risk."
         }
       ]
     },
@@ -35,17 +60,128 @@
       "description": "Master the foreign exchange market. Understand currency pairs, pips, and market sessions without the guru promises of overnight wealth.",
       "content": [
         {
-          "heading": "Understanding the Forex Market",
-          "text": "Forex is the largest and most liquid financial market in the world. It operates 24 hours a day, 5 days a week, and is driven by global economic data, interest rates, and geopolitical events."
+          "heading": "The 24/5 Marketplace",
+          "text": "Forex is the largest and most liquid financial market in the world, with over $6 trillion traded daily. It operates 24 hours a day, 5 days a week, moving from Sydney to Tokyo, London, and finally New York. In the UK, we are perfectly positioned to trade the London sessions and the crossover with the US, which provides the highest liquidity for major pairs like GBPUSD (Cable) and EURUSD."
+        },
+        {
+          "heading": "Pips, Lots, and Leverage",
+          "text": "Currency moves are measured in 'pips' (usually the fourth decimal place). Because these moves are so small, traders use leverage to multiply their gains—and their losses. Understanding how to calculate your 'cost per pip' based on your lot size or spread betting stake is the first technical skill any forex trader must master. Without this, you cannot manage your risk effectively."
+        }
+      ],
+      "faqs": [
+        {
+          "question": "What are the best currency pairs for beginners?",
+          "answer": "The 'Majors'—GBPUSD, EURUSD, and USDJPY. They have the highest liquidity and the lowest spreads, making them the most cost-effective pairs to trade."
+        }
+      ]
+    },
+    {
+      "slug": "crypto-trading",
+      "title": "Crypto Trading",
+      "description": "Navigate the high-volatility world of digital assets. Learn to trade BTC, ETH, and altcoins with a focus on risk management.",
+      "content": [
+        {
+          "heading": "Trading the Digital Frontier",
+          "text": "Crypto trading involves speculating on the price movements of cryptocurrencies like Bitcoin and Ethereum. Unlike traditional markets, crypto never sleeps—it's a 24/7/365 environment. This leads to extreme volatility, which offers huge opportunities but also extreme risks. UK traders should be aware of specific FCA regulations regarding crypto derivatives (like CFDs), which are restricted for retail users, often requiring trading the underlying 'spot' assets or regulated ETPs."
+        }
+      ],
+      "faqs": []
+    },
+    {
+      "slug": "stock-trading-uk",
+      "title": "Stock Trading (UK)",
+      "description": "A guide to the London Stock Exchange and UK-specific equities. Learn about dividends, stamp duty, and LSE market hours.",
+      "content": [
+        {
+          "heading": "The London Stock Exchange",
+          "text": "Trading UK stocks means navigating the LSE. From FTSE 100 blue-chips to AIM growth stocks, the UK market has unique characteristics, including the 0.5% Stamp Duty Reserve Tax on purchases (though this can be avoided via spread betting). Success in UK equities requires an understanding of how our domestic economy interacts with global sectors like energy, mining, and banking."
+        }
+      ],
+      "faqs": []
+    },
+    {
+      "slug": "spread-betting",
+      "title": "Spread Betting",
+      "description": "The tax-efficient way to trade in the UK. Understand how it works, why it's popular, and the risks of leverage.",
+      "content": [
+        {
+          "heading": "Tax-Free Trading in the UK",
+          "text": "Spread betting is a uniquely British way to trade the financial markets. It's categorised as gambling for tax purposes in the UK, which means your profits are currently free from Capital Gains Tax (CGT) and Stamp Duty. However, this is only true if trading is not your primary source of income. While the tax benefits are clear, it is still a leveraged product, meaning losses can exceed deposits if not managed correctly."
+        }
+      ],
+      "faqs": []
+    },
+    {
+      "slug": "risk-management",
+      "title": "Risk Management",
+      "description": "The most important skill in trading. Plan your losses so they never destroy your account. Capital preservation is priority one.",
+      "content": [
+        {
+          "heading": "Defense First",
+          "text": "In trading, your capital is your inventory. If you run out of inventory, you are out of business. Risk management is the set of rules that ensures you never blow your account on a single trade or a string of bad luck. We teach the 1% rule: never risk more than 1% of your total account value on a single setup. This allows you to survive the inevitable 'drawdown' periods that every strategy faces."
+        }
+      ],
+      "faqs": []
+    },
+    {
+      "slug": "trading-psychology",
+      "title": "Trading Psychology",
+      "description": "Master your mind to master the markets. Learn to manage fear, greed, and impatience—the real reasons traders fail.",
+      "content": [
+        {
+          "heading": "The Internal Struggle",
+          "text": "Trading is 10% strategy and 90% psychology. Your biggest enemy isn't the 'big banks' or the 'algorithm'—it's your own biology. Fear of losing money causes you to cut winners short, while the ego's need to be right causes you to hold onto losers. Mastering psychology means developing a 'mechanical' mindset where you execute your plan without emotional attachment to the outcome."
+        }
+      ],
+      "faqs": []
+    },
+    {
+      "slug": "technical-analysis",
+      "title": "Technical Analysis",
+      "description": "Read the story told by price action. Learn about support, resistance, trends, and volume to identify high-probability setups.",
+      "content": [
+        {
+          "heading": "The Language of the Charts",
+          "text": "Technical analysis (TA) is the study of past market data, primarily price and volume, to forecast future price movements. It is based on the idea that market action 'discounts' everything—it reflects the collective knowledge and emotions of all participants. We focus on clean charts (Price Action) over complex indicators, teaching you to see where big money is entering and exiting the market."
+        }
+      ],
+      "faqs": []
+    },
+    {
+      "slug": "candlestick-patterns",
+      "title": "Candlestick Patterns",
+      "description": "Visual signals of market sentiment. Learn to identify hammers, engulfing bars, and dojis to time your entries.",
+      "content": [
+        {
+          "heading": "Price Action Visualization",
+          "text": "Japanese candlesticks provide a visual representation of the battle between buyers and sellers within a specific timeframe. A single candle tells you the open, close, high, and low. Patterns like the 'Bullish Engulfing' or 'Pin Bar' can signal a reversal in sentiment, providing high-conviction entry points when they occur at key support or resistance levels."
+        }
+      ],
+      "faqs": []
+    },
+    {
+      "slug": "position-sizing",
+      "title": "Position Sizing",
+      "description": "The maths of survival. Learn how to calculate exactly how much to trade based on your stop loss and account size.",
+      "content": [
+        {
+          "heading": "Mathematical Edge",
+          "text": "Position sizing is the 'how much' of trading. Most beginners simply pick a number (e.g., £10 a point), but a professional calculates their size based on the distance between their entry and their stop loss. This ensures that every losing trade has the exact same impact on the account, allowing the strategy's 'edge' to work over time without emotional interference."
+        }
+      ],
+      "faqs": []
+    },
+    {
+      "slug": "trading-tax-uk",
+      "title": "Trading Tax (UK)",
+      "description": "An honest look at HMRC rules for UK traders. Stamp duty, Capital Gains Tax, and the benefits of Spread Betting vs CFDs.",
+      "content": [
+        {
+          "heading": "HMRC and the Trader",
+          "text": "Navigating taxes is part of being a professional. In the UK, how you trade determines how you are taxed. Spread betting is currently tax-free, while CFDs and traditional stock dealing are subject to Capital Gains Tax. Awareness of the 'annual exempt amount' and how to offset losses against future gains is essential for long-term wealth preservation. *Note: We are not tax advisors; always consult a professional for your specific situation.*"
         }
       ],
       "faqs": []
     }
-  ],
-  "locations": [
-    "London", "Manchester", "Birmingham", "Leeds", "Sheffield", "Bristol", 
-    "Liverpool", "Edinburgh", "Glasgow", "Cardiff", "Nottingham", "Newcastle", 
-    "Brighton", "Leicester", "Southampton", "Plymouth", "Derby", "Chesterfield", 
-    "Oxford", "Cambridge"
   ]
 }

@@ -27,34 +27,32 @@ export default function Home() {
               <h2 className="text-4xl md:text-6xl font-display font-bold uppercase leading-tight">
                 No Lambos. <br /> No Beach Photos. <br /> <span className="text-accent underline decoration-accent/30 underline-offset-8">Just Data.</span>
               </h2>
-              <p className="text-lg text-text-secondary leading-relaxed max-w-xl italic">
-                "Trading is a business of probabilities and emotional detachment. Drawdown is the only platform I've found that treats it with the seriousness it deserves."
-              </p>
-              <div className="flex items-center gap-4">
-                <div className="w-10 h-10 bg-background-elevated border border-border-slate flex items-center justify-center font-display font-black text-accent/20">A</div>
-                <div className="text-[10px] font-mono tracking-widest uppercase">
-                  <p className="text-text-primary">Alex M.</p>
-                  <p className="text-text-tertiary">Prop Firm Funded Trader</p>
-                </div>
+              <div className="space-y-4 max-w-xl">
+                <p className="text-lg text-text-secondary leading-relaxed">
+                  Trading is a business of probabilities, risk management, and emotional detachment. We don't sell dreams; we provide the data and the discipline to survive the markets.
+                </p>
+                <p className="text-sm text-text-tertiary font-mono uppercase tracking-widest leading-relaxed">
+                  // Established in Chesterfield, UK. Built for traders who value truth over hype.
+                </p>
               </div>
             </div>
             
             <div className="grid grid-cols-2 gap-4">
               <div className="p-8 bg-background-surface border border-border-slate">
-                <p className="text-4xl font-display font-black text-accent mb-2">2.4k+</p>
-                <p className="text-[10px] font-mono tracking-widest uppercase text-text-tertiary">Active Strategies</p>
+                <p className="text-4xl font-display font-black text-accent mb-2">6</p>
+                <p className="text-[10px] font-mono tracking-widest uppercase text-text-tertiary">Curriculum Phases</p>
               </div>
               <div className="p-8 bg-background-surface border border-border-slate">
-                <p className="text-4xl font-display font-black text-accent mb-2">£14M+</p>
-                <p className="text-[10px] font-mono tracking-widest uppercase text-text-tertiary">Logged Edge</p>
+                <p className="text-4xl font-display font-black text-accent mb-2">60+</p>
+                <p className="text-[10px] font-mono tracking-widest uppercase text-text-tertiary">Learning Modules</p>
               </div>
               <div className="p-8 bg-background-surface border border-border-slate">
-                <p className="text-4xl font-display font-black text-accent mb-2">94%</p>
-                <p className="text-[10px] font-mono tracking-widest uppercase text-text-tertiary">Course Completion</p>
+                <p className="text-4xl font-display font-black text-accent mb-2">5</p>
+                <p className="text-[10px] font-mono tracking-widest uppercase text-text-tertiary">AI-Powered Tools</p>
               </div>
               <div className="p-8 bg-background-surface border border-border-slate">
-                <p className="text-4xl font-display font-black text-accent mb-2">UK</p>
-                <p className="text-[10px] font-mono tracking-widest uppercase text-text-tertiary">HMRC Compliant</p>
+                <p className="text-4xl font-display font-black text-accent mb-2">100%</p>
+                <p className="text-[10px] font-mono tracking-widest uppercase text-text-tertiary">UK Focused</p>
               </div>
             </div>
           </div>

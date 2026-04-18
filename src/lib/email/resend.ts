@@ -1,7 +1,12 @@
-import { Resend } from 'resend';
+import { createClient } from '@supabase/supabase-js';
 
-// Initialize Resend with the API key from environment variables
 const resend = new Resend(process.env.RESEND_API_KEY || "re_mock_key_for_dev_mode");
+
+// Administrative client for listing users/emails
+const supabaseAdmin = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.SUPABASE_SERVICE_ROLE_KEY!
+);
 
 interface SendBroadcastOptions {
   subject: string;
@@ -9,30 +14,64 @@ interface SendBroadcastOptions {
   audience: "all" | "foundation" | "edge" | "floor";
 }
 
-/**
- * Mocks fetching addresses by tier. 
- * In a real app this would query Supabase for user.email where tier = audience.
- */
 async function getEmailAddressesByTier(audience: string): Promise<string[]> {
-  // Mock data for development
-  if (audience === "all") return ["test1@example.com", "test2@example.com", "test3@example.com"];
-  if (audience === "edge") return ["edge_user@example.com"];
-  return ["dev@example.com"];
+  const emails = new Set<string>();
+
+  // 1. Fetch from newsletter_subscribers (guests)
+  if (audience === "all") {
+    const { data: subs } = await supabaseAdmin
+      .from('newsletter_subscribers')
+      .select('email')
+      .eq('confirmed', true)
+      .is('unsubscribed_at', null);
+    
+    subs?.forEach(s => emails.add(s.email));
+  }
+
+  // 2. Fetch from profiles + auth users
+  // Note: We query profiles for the tier, then intersect with auth emails
+  const query = supabaseAdmin.from('profiles').select('id, subscription_tier');
+  
+  if (audience !== "all") {
+    query.eq('subscription_tier', audience);
+  }
+
+  const { data: profiles } = await query;
+  
+  if (profiles && profiles.length > 0) {
+    // In a real production environment with 10k+ users, we'd use a more efficient join or pagination.
+    // For Drawdown's launch scale, fetching the emails for the IDs is sufficient.
+    const { data: users } = await supabaseAdmin.auth.admin.listUsers();
+    const profileIds = new Set(profiles.map(p => p.id));
+    
+    users.users.forEach(u => {
+      if (profileIds.has(u.id) && u.email) {
+        emails.add(u.email);
+      }
+    });
+  }
+
+  return Array.from(emails);
 }
 
 export async function sendNewsletterBroadcast({ subject, html, audience }: SendBroadcastOptions) {
   try {
     const bccList = await getEmailAddressesByTier(audience);
     
-    // Resend broadcast limits usually require batching for large lists (e.g. 50 per send)
-    // We mock the send here for the demonstration.
-    
+    if (bccList.length === 0) {
+      return { success: true, count: 0, message: "No subscribers found for this audience." };
+    }
+
+    // Using a verified 'from' address is mandatory for Resend
     const { data, error: sendError } = await resend.emails.send({
-      from: 'Pete <pete@drawdown.com>', // Replace with verified domain
-      to: 'update@drawdown.com', // Sending to self, BCC the audience
+      from: 'Pete <pete@updates.drawdown.com>',
+      to: 'broadcast@drawdown.com', // Sent to a dead-end list, audience in BCC
       bcc: bccList,
       subject: subject,
       html: html,
+      headers: {
+        'X-Entity-Ref-ID': Date.now().toString(),
+      },
     });
 
     if (sendError) throw sendError;

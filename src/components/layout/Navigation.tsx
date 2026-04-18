@@ -214,7 +214,7 @@ export function Navigation() {
               {/* Left Column — Phases */}
               <div className="col-span-8">
                 <p className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary mb-6">
-                  // Curriculum Phases
+                  Curriculum Phases
                 </p>
                 <div className="grid grid-cols-2 gap-4">
                   {phases.map((phase) => {
@@ -275,7 +275,7 @@ export function Navigation() {
               {/* Right Column — CTA */}
               <div className="col-span-4 flex flex-col">
                 <p className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary mb-6">
-                  // Quick Access
+                  Quick Access
                 </p>
                 <div className="flex-grow space-y-4">
                   <Link

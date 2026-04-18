@@ -10,7 +10,7 @@ export function FounderVideo() {
           {/* Text Content */}
           <div className="space-y-8 order-2 lg:order-1">
             <span className="text-accent font-mono tracking-widest uppercase text-xs block">
-              // THE FOUNDER'S PLEDGE
+              THE FOUNDER'S PLEDGE
             </span>
             <h2 className="text-4xl md:text-6xl font-display font-bold uppercase leading-tight">
               A Platform Built <br /> on <span className="text-accent">Integrity.</span>

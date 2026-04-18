@@ -34,7 +34,7 @@ export default async function MarketPairPage({ params }: Props) {
                   Live Market
                 </span>
                 <span className="text-text-tertiary font-mono text-[10px] uppercase tracking-widest">
-                  // Real-time synchronization active
+                  Real-time synchronization active
                 </span>
               </div>
               <h1 className="text-5xl md:text-7xl font-display font-black uppercase tracking-tighter leading-none">
@@ -92,8 +92,6 @@ export default async function MarketPairPage({ params }: Props) {
             <div className="absolute -bottom-10 -right-10 w-64 h-64 bg-background-primary/10 rounded-full blur-3xl group-hover:bg-background-primary/20 transition-colors" />
           </div>
         </section>
-      </div>
-
       </div>
     </div>
   );

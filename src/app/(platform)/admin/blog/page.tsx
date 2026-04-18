@@ -64,7 +64,7 @@ export default function BlogAdminPage() {
         <div>
           <h1 className="text-3xl font-display font-bold uppercase tracking-tight text-accent">AI Blog Crafter</h1>
           <p className="text-text-tertiary font-mono text-[10px] uppercase tracking-widest mt-1">
-            // Produce 3-5 high-quality articles a week in Pete's Voice
+            Produce 3-5 high-quality articles a week in Pete's Voice
           </p>
         </div>
       </header>

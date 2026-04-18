@@ -38,7 +38,7 @@ export function SectorHeatmap({ sectors, onSelect }: SectorHeatmapProps) {
                   {sector.name}
                 </h3>
                 <p className="text-[9px] font-mono text-text-tertiary uppercase tracking-widest mt-1">
-                  // {sector.topInstruments.join(', ')}
+                  
                 </p>
               </div>
               <div className={cn(

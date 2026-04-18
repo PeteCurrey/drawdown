@@ -46,7 +46,7 @@ export default function AboutPage() {
         {/* Anti-Guru Manifesto */}
         <div className="max-w-4xl mx-auto mb-32">
           <span className="text-accent font-mono tracking-widest uppercase text-sm mb-4 block">
-            // OUR MANIFESTO
+            OUR MANIFESTO
           </span>
           <h1 className="text-5xl md:text-8xl font-display font-extrabold uppercase leading-tight mb-12 reveal-text">
             Trading is hard. <br /> 

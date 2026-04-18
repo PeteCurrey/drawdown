@@ -93,7 +93,7 @@ export default function NewsPage() {
           <div>
             <h1 className="text-3xl font-display font-bold uppercase tracking-tight">World News Feed</h1>
             <p className="text-text-tertiary font-mono text-[10px] uppercase tracking-widest mt-1">
-              // Real-time financial insights from global sources
+              Real-time financial insights from global sources
             </p>
           </div>
           <button 

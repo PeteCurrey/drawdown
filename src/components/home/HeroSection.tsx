@@ -98,7 +98,7 @@ export function HeroSection() {
       <div className="container mx-auto px-6 relative z-10 hero-content text-center">
         <div className="inline-block mb-8">
           <span className="text-xs md:text-sm font-mono tracking-widest-xl text-text-secondary uppercase">
-            // TRADING EDUCATION
+            TRADING EDUCATION
           </span>
         </div>
         

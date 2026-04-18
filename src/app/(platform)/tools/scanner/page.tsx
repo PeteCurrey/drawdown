@@ -83,7 +83,7 @@ function ScannerContent() {
               Intelligence: {symbol}
             </h1>
             <p className="text-text-tertiary font-mono text-[10px] uppercase tracking-widest mt-1">
-              // Advanced technical analysis and AI intelligence for {symbol}
+              Advanced technical analysis and AI intelligence for {symbol}
             </p>
           </div>
         </header>
@@ -102,7 +102,7 @@ function ScannerContent() {
               Market Radar
             </h1>
             <p className="text-text-tertiary font-mono text-[10px] uppercase tracking-widest mt-1">
-              // Global technical consensus and structural signals
+              Global technical consensus and structural signals
             </p>
           </div>
 

@@ -45,7 +45,7 @@ export default function NewsletterAdminPage() {
         <div>
           <h1 className="text-3xl font-display font-bold uppercase tracking-tight text-accent">Broadcast Dispatch</h1>
           <p className="text-text-tertiary font-mono text-[10px] uppercase tracking-widest mt-1">
-            // Pete's Global Communication Hub
+            Pete's Global Communication Hub
           </p>
         </div>
       </header>

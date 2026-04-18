@@ -79,7 +79,7 @@ export function FeatureShowcase() {
       <div className="h-screen flex items-center overflow-hidden">
         <div className="container mx-auto px-6 mb-12 absolute top-32 left-0 right-0 z-10">
           <span className="text-accent font-mono tracking-widest uppercase text-sm mb-4 block">
-            // PLATFORM TOOLS
+            PLATFORM TOOLS
           </span>
           <h2 className="text-4xl md:text-6xl font-display font-bold uppercase">
             Built by Traders. <br /> Enhanced by AI.

@@ -51,7 +51,7 @@ export function MarketConsensus() {
         <div>
           <h2 className="text-2xl font-display font-black uppercase tracking-tight">Market Intelligence</h2>
           <p className="text-text-tertiary font-mono text-[10px] uppercase tracking-widest mt-1">
-            // Real-time technical consensus across 20+ pairs
+            Real-time technical consensus across 20+ pairs
           </p>
         </div>
         

@@ -148,7 +148,7 @@ export default function CoursesPage() {
 
         <header className="mb-24 max-w-4xl">
           <span className="text-accent font-mono text-[10px] uppercase tracking-widest block mb-4">
-            // THE CURRICULUM
+            THE CURRICULUM
           </span>
           <h1 className="text-5xl md:text-8xl font-display font-bold uppercase mb-8 leading-tight">
             A Phase-Based <br /> Learning Path.

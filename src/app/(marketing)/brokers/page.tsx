@@ -17,7 +17,7 @@ export default function BrokersPage() {
         
         <header className="max-w-4xl mt-12 mb-20">
           <span className="text-[10px] font-mono tracking-widest uppercase text-accent mb-4 block">
-            // BROKER GUIDE
+            BROKER GUIDE
           </span>
           <h1 className="text-5xl md:text-8xl font-display font-black uppercase leading-none mb-8">
             Brokers We <br /> <span className="text-accent underline decoration-accent/30 underline-offset-8">Actually Use.</span>

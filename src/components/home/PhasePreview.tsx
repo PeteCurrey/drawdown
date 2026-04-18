@@ -81,7 +81,7 @@ export function PhasePreview() {
       <div className="container mx-auto px-6">
         <div className="mb-20">
           <span className="text-accent font-mono tracking-widest uppercase text-sm mb-4 block">
-            // THE CURRICULUM
+            THE CURRICULUM
           </span>
           <h2 className="text-4xl md:text-6xl font-display font-bold uppercase">
             A Phase-Based <br /> Learning Path.

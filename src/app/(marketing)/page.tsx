@@ -20,7 +20,7 @@ export default function Home() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
             <div className="space-y-8">
               <span className="text-[10px] font-mono tracking-widest uppercase text-text-tertiary">
-                // PLATFORM INTEGRITY
+                PLATFORM INTEGRITY
               </span>
               <h2 className="text-4xl md:text-6xl font-display font-bold uppercase leading-tight">
                 No Lambos. <br /> No Beach Photos. <br /> <span className="text-accent underline decoration-accent/30 underline-offset-8">Just Data.</span>
@@ -30,7 +30,7 @@ export default function Home() {
                   Trading is a business of probabilities, risk management, and emotional detachment. We don't sell dreams; we provide the data and the discipline to survive the markets.
                 </p>
                 <p className="text-sm text-text-tertiary font-mono uppercase tracking-widest leading-relaxed">
-                  // Established in Chesterfield, UK. Built for traders who value truth over hype.
+                  Established in Chesterfield, UK. Built for traders who value truth over hype.
                 </p>
               </div>
             </div>

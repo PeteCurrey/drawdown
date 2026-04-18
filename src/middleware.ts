@@ -54,6 +54,10 @@ export default async function middleware(request: NextRequest) {
     path.startsWith("/profile") ||
     path.startsWith("/admin");
 
+  if (path.startsWith("/learn-to-trade")) {
+    return response;
+  }
+
   if (isProtectedRoute && !user) {
     return NextResponse.redirect(new URL("/login", request.url));
   }

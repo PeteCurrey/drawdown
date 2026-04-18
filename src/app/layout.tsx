@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import { Syne, DM_Sans, JetBrains_Mono } from "next/font/google";
 import { SmoothScroll } from "@/components/providers/SmoothScroll";
-import { Navigation } from "@/components/layout/Navigation";
-import { Footer } from "@/components/layout/Footer";
 import { GrainOverlay } from "@/components/ui/GrainOverlay";
 import { ScrollProgress } from "@/components/ui/ScrollProgress";
 import { getMetadata } from "@/lib/metadata";
@@ -41,11 +39,9 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col bg-background-primary text-text-primary selection:bg-accent selection:text-background-primary">
         <ScrollProgress />
         <SmoothScroll>
-          <Navigation />
           <main className="flex-grow">
             {children}
           </main>
-          <Footer />
         </SmoothScroll>
         <GrainOverlay />
       </body>

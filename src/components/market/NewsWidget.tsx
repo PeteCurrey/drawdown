@@ -45,26 +45,48 @@ export function NewsWidget() {
           {loading && news.length === 0 ? (
             <p className="text-[10px] font-mono text-text-tertiary animate-pulse">Fetching latest headlines...</p>
           ) : (
-            news.map((item, i) => (
-              <div key={i} className="group space-y-2 pb-5 border-b border-border-slate/30 last:border-0 last:pb-0">
-                <div className="flex justify-between items-start gap-4">
-                  <a 
-                    href={item.url} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="text-xs font-display font-bold uppercase leading-tight hover:text-accent transition-colors block flex-grow"
-                  >
-                    {item.title}
-                  </a>
-                  <ExternalLink className="w-3 h-3 text-text-tertiary shrink-0 opacity-0 group-hover:opacity-100 transition-opacity" />
+            news.map((item, i) => {
+              const isHighImpact = /BOE|Bank of England|MPC|CPI|Inflation|Employment|Rates/i.test(item.title);
+              const isBoE = /BOE|Bank of England|MPC/i.test(item.title);
+              
+              return (
+                <div key={i} className={cn(
+                  "group space-y-2 pb-5 border-b border-border-slate/30 last:border-0 last:pb-0",
+                  isHighImpact && "bg-accent/[0.03] -mx-4 px-4 py-3 border-l-2 border-l-accent"
+                )}>
+                  <div className="flex justify-between items-start gap-4">
+                    <div className="space-y-1.5 flex-grow">
+                      <div className="flex items-center gap-2">
+                        {isHighImpact && (
+                          <span className="text-[7px] font-mono bg-accent text-background-primary px-1 py-0.5 font-black uppercase tracking-tighter">
+                            High Impact
+                          </span>
+                        )}
+                        {isBoE && (
+                          <span className="text-[7px] font-mono bg-background-elevated border border-accent/30 text-accent px-1 py-0.5 font-bold uppercase tracking-tighter">
+                            BoE Specific
+                          </span>
+                        )}
+                      </div>
+                      <a 
+                        href={item.url} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="text-xs font-display font-bold uppercase leading-tight hover:text-accent transition-colors block"
+                      >
+                        {item.title}
+                      </a>
+                    </div>
+                    <ExternalLink className="w-3 h-3 text-text-tertiary shrink-0 opacity-0 group-hover:opacity-100 transition-opacity mt-1" />
+                  </div>
+                  <div className="flex items-center gap-3 text-[8px] font-mono uppercase tracking-widest text-text-tertiary">
+                    <span>{item.source}</span>
+                    <span className="w-1 h-1 bg-border-slate rounded-full" />
+                    <span>{new Date(item.publishedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+                  </div>
                 </div>
-                <div className="flex items-center gap-3 text-[8px] font-mono uppercase tracking-widest text-text-tertiary">
-                  <span>{item.source}</span>
-                  <span className="w-1 h-1 bg-border-slate rounded-full" />
-                  <span>{new Date(item.publishedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
-                </div>
-              </div>
-            ))
+              );
+            })
           )}
         </div>
 

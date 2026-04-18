@@ -12,6 +12,7 @@ import {
 import { BrokerWidget } from "@/components/market/BrokerWidget";
 import { NewsWidget } from "@/components/market/NewsWidget";
 import { MarketConsensus } from "@/components/market/MarketConsensus";
+import { EmotionalPnL } from "@/components/dashboard/EmotionalPnL";
 import { createClient } from "@/lib/supabase/client";
 import Link from "next/link";
 
@@ -186,6 +187,7 @@ export default function DashboardPage() {
           </div>
 
           <BrokerWidget />
+          <EmotionalPnL />
           <NewsWidget />
         </div>
       </div>

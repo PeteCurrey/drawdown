@@ -11,35 +11,10 @@ export const metadata: Metadata = getMetadata({
 
 const categories = ["All", "Market Analysis", "Education", "Psychology", "Tools", "UK Trading"];
 
-// Mock data for MVP
-const posts = [
-  {
-    slug: "the-myth-of-the-100-percent-win-rate",
-    title: "The Myth of the 100% Win Rate",
-    excerpt: "Why chasing perfection is the fastest way to blow your account, and what to focus on instead.",
-    category: "Psychology",
-    date: "April 12, 2026",
-    readingTime: "5 min",
-  },
-  {
-    slug: "understanding-boe-rate-decisions",
-    title: "Understanding BoE Rate Decisions",
-    excerpt: "How UK interest rate changes impact the GBP and how to position yourself for the volatility.",
-    category: "Market Analysis",
-    date: "April 10, 2026",
-    readingTime: "8 min",
-  },
-  {
-    slug: "why-you-need-a-trade-journal",
-    title: "Why You Need a Trade Journal",
-    excerpt: "If you aren't tracking your stats, you aren't trading; you're gambling. Here's how to start.",
-    category: "Education",
-    date: "April 08, 2026",
-    readingTime: "6 min",
-  },
-];
+import { blogPosts } from "@/data/blog";
 
 export default function BlogListingPage() {
+  const posts = blogPosts;
   return (
     <div className="pt-32 pb-24 bg-background-primary min-h-screen">
       <div className="container mx-auto px-6">

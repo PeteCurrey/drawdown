@@ -317,6 +317,26 @@ export function InteractiveChart({ initialData = [], symbol = "GBPUSD", userTier
         </div>
         
         <div className="flex items-center gap-2">
+          <button 
+            onClick={() => {
+              const pools = identifyLiquidityPools(data);
+              if (pools.length >= 2) {
+                const currentPrice = data[data.length - 1].close;
+                const entry = pools[0].price; // Use first pool as entry
+                const sl = pools[1].price > entry ? entry - (pools[1].price - entry) : pools[1].price; // Logical SL
+                const tp = entry + (entry - sl) * 2; // Default 2R
+                setLevels({
+                  entry: entry.toFixed(5),
+                  sl: sl.toFixed(5),
+                  tp: tp.toFixed(5)
+                });
+                setShowLevels(true);
+              }
+            }} 
+            className="p-2 text-xs font-mono uppercase tracking-widest border border-accent/40 text-accent hover:bg-accent/10 transition-colors flex items-center gap-2"
+          >
+            <Zap className="w-4 h-4" /> Suggest Levels
+          </button>
           <button onClick={() => setShowLevels(!showLevels)} className={cn("p-2 text-xs font-mono uppercase tracking-widest border transition-colors flex items-center gap-2", showLevels ? "border-accent text-accent bg-accent/10" : "border-border-slate text-text-tertiary hover:text-text-primary")}>
             <Layers className="w-4 h-4" /> Zones
           </button>

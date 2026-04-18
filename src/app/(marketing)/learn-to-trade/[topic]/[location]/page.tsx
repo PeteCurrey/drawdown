@@ -67,8 +67,13 @@ export default async function LocationTopicPage({ params }: PageProps) {
             </h1>
             
             <p className="text-lg md:text-xl text-text-secondary leading-relaxed font-light max-w-xl">
-              Join the growing community of traders in {locationData.region} building their edge. 
-              Our comprehensive course covers the exact institutional concepts you need to succeed at {topicData.title.toLowerCase()}.
+              {locationData.id === 'chesterfield' ? (
+                <span className="block border-l-2 border-accent pl-6 py-2 italic bg-accent/5">
+                  "As the hometown of Drawdown, Chesterfield holds a special place in our mission. We're proud to support the local trading community with the same institutional edge we provide globally."
+                </span>
+              ) : (
+                <>Join the growing community of traders in {locationData.region} building their edge. Our comprehensive course covers the exact institutional concepts you need to succeed at {topicData.title.toLowerCase()}.</>
+              )}
             </p>
             
             <div className="pt-4 flex flex-col sm:flex-row gap-4">

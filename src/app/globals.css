@@ -182,6 +182,45 @@ h1, h2, h3, h4, h5, h6 {
 .no-scrollbar::-webkit-scrollbar { display: none; }
 .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
+/* === BORDER BEAM === */
+
+.border-beam-wrap {
+  /* The rotating conic gradient acts as the travelling light beam */
+  --beam-color: #00C2FF;
+  --beam-size: 120deg;
+}
+
+.border-beam {
+  position: absolute;
+  inset: -50%;
+  width: 200%;
+  height: 200%;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    transparent calc(360deg - var(--beam-size) - 20deg),
+    color-mix(in srgb, var(--beam-color) 0%, transparent) calc(360deg - var(--beam-size) - 20deg),
+    color-mix(in srgb, var(--beam-color) 60%, transparent) calc(360deg - (var(--beam-size) / 2)),
+    var(--beam-color) calc(360deg - 20deg),
+    transparent 360deg
+  );
+  animation: border-beam-spin 3s linear infinite;
+  opacity: 0.9;
+  /* Mask to only show the outer ring (the "border") */
+  mask-image: radial-gradient(
+    closest-side circle at center,
+    transparent 48%,
+    black 49%,
+    black 51%,
+    transparent 52%
+  );
+}
+
+@keyframes border-beam-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
 /* Prose overrides for course content */
 .prose-drawdown h2 { font-family: var(--font-display); text-transform: uppercase; letter-spacing: -0.02em; }
 .prose-drawdown a { color: var(--color-accent); text-decoration: underline; text-underline-offset: 4px; }

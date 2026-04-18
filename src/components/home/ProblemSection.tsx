@@ -64,9 +64,18 @@ export function ProblemSection() {
       <div className="container mx-auto px-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center mb-32">
           <div className="problem-stat">
-            <h2 className="text-[12rem] md:text-[18rem] font-display font-extrabold leading-none text-accent/10 select-none">
-              90%
-            </h2>
+            {/* Border Beam Container */}
+            <div className="relative inline-block">
+              {/* The beam track border */}
+              <div className="absolute inset-0 rounded-none border border-accent/10 pointer-events-none" />
+              {/* Animated beam */}
+              <div className="border-beam-wrap absolute inset-0 rounded-none overflow-hidden pointer-events-none">
+                <div className="border-beam" />
+              </div>
+              <h2 className="text-[12rem] md:text-[18rem] font-display font-extrabold leading-none text-accent/10 select-none px-4">
+                90%
+              </h2>
+            </div>
             <div className="-mt-12 md:-mt-20">
               <h3 className="text-3xl md:text-5xl font-display font-bold uppercase mb-6">
                 Of retail traders lose money.

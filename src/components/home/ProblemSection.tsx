@@ -64,17 +64,38 @@ export function ProblemSection() {
       <div className="container mx-auto px-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center mb-32">
           <div className="problem-stat">
-            {/* Border Beam Container */}
-            <div className="relative inline-block">
-              {/* The beam track border */}
-              <div className="absolute inset-0 rounded-none border border-accent/10 pointer-events-none" />
-              {/* Animated beam */}
-              <div className="border-beam-wrap absolute inset-0 rounded-none overflow-hidden pointer-events-none">
-                <div className="border-beam" />
-              </div>
-              <h2 className="text-[12rem] md:text-[18rem] font-display font-extrabold leading-none text-accent/10 select-none px-4">
-                90%
-              </h2>
+            <div className="w-64 h-40 md:w-96 md:h-64 mb-6 md:mb-8 -ml-2">
+              <svg viewBox="0 0 500 300" className="w-full h-full overflow-visible">
+                {/* Background Track */}
+                <text 
+                  x="0" 
+                  y="250" 
+                  fontFamily="var(--font-display)" 
+                  fontSize="280"
+                  fontWeight="800"
+                  fill="transparent" 
+                  stroke="rgba(0, 194, 255, 0.1)" 
+                  strokeWidth="6"
+                  className="select-none"
+                >
+                  90%
+                </text>
+                {/* Animated Beam */}
+                <text 
+                  x="0" 
+                  y="250" 
+                  fontFamily="var(--font-display)" 
+                  fontSize="280"
+                  fontWeight="800"
+                  fill="transparent" 
+                  stroke="#00C2FF" 
+                  strokeWidth="6"
+                  className="text-beam-animated select-none"
+                  strokeLinecap="round"
+                >
+                  90%
+                </text>
+              </svg>
             </div>
             <div className="-mt-12 md:-mt-20">
               <h3 className="text-3xl md:text-5xl font-display font-bold uppercase mb-6">

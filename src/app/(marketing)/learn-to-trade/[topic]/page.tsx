@@ -8,7 +8,7 @@ import Link from "next/link";
 import { ArrowUpRight, AlertTriangle } from "lucide-react";
 
 interface Props {
-  params: { topic: string };
+  params: Promise<{ topic: string }>;
 }
 
 export async function generateStaticParams() {

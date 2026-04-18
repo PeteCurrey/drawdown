@@ -84,7 +84,7 @@ export default function BlogListingPage() {
               <div className="absolute inset-0 z-0 opacity-0 group-hover:opacity-100 transition-all duration-1000 ease-out scale-110 group-hover:scale-100 grayscale hover:grayscale-0">
                 <div className="absolute inset-0 bg-accent/10 z-10" />
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,#00E67605_0%,transparent_70%)]" />
-                <div className="h-full w-full opacity-20 bg-[url('https://images.unsplash.com/photo-1642104704074-907c0698cbd9?auto=format&fit=crop&q=80&w=800')] bg-cover bg-center" />
+                <div className="h-full w-full opacity-20 bg-gradient-to-br from-accent/20 to-background-surface bg-cover bg-center" />
               </div>
 
               <div className="relative z-10">

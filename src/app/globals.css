@@ -184,16 +184,30 @@ h1, h2, h3, h4, h5, h6 {
 
 /* === TEXT SVG BEAM === */
 .text-beam-animated {
-  stroke-dasharray: 800;
-  stroke-dashoffset: 800;
+  stroke-dasharray: 400;
+  stroke-dashoffset: 400;
   animation: text-beam-spin 4s linear infinite;
-  opacity: 0.9;
+  filter: drop-shadow(0 0 8px #00C2FF);
+  opacity: 1;
 }
 
 @keyframes text-beam-spin {
   0% { stroke-dashoffset: 800; }
-  50% { stroke-dashoffset: 0; }
   100% { stroke-dashoffset: -800; }
+}
+
+.text-outline-fade {
+  animation: text-outline-reveal 2s ease-out 2s forwards;
+  opacity: 0;
+}
+
+@keyframes text-outline-reveal {
+  from { opacity: 0; }
+  to { opacity: 0.15; }
+}
+
+.text-outline-glow {
+  filter: drop-shadow(0 0 4px rgba(0, 194, 255, 0.3));
 }
 
 /* Prose overrides for course content */

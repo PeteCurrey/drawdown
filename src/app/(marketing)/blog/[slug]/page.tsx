@@ -8,7 +8,7 @@ import Link from "next/link";
 import { Clock, Calendar, ChevronLeft, Share2 } from "lucide-react";
 
 interface Props {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }
 
 export async function generateStaticParams() {

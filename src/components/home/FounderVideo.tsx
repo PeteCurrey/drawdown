@@ -50,27 +50,31 @@ export function FounderVideo() {
             </div>
           </div>
 
-          {/* Video Placeholder — Coming Soon State */}
-          <div className="relative group order-1 lg:order-2">
-            <div className="aspect-video w-full bg-[#0D0F14] border border-border-slate overflow-hidden relative flex flex-col items-center justify-center gap-6">
-              {/* Coming Soon Graphic */}
-              <div className="relative w-20 h-20 md:w-24 md:h-24 border-2 border-accent/20 rounded-full flex items-center justify-center text-accent group-hover:border-accent group-hover:scale-105 transition-all duration-500">
-                <Play className="w-8 h-8 opacity-40 group-hover:opacity-100 transition-opacity" />
+          {/* Typographic Quote Layout */}
+          <div className="relative order-1 lg:order-2">
+            <div className="p-12 md:p-20 bg-background-elevated border border-border-slate relative overflow-hidden group">
+              <div className="absolute top-0 right-0 p-4 opacity-5 pointer-events-none">
+                <span className="text-[10rem] font-display font-black text-accent leading-none">"</span>
               </div>
               
-              <div className="text-center space-y-2">
-                <p className="text-sm font-display font-bold uppercase tracking-widest text-text-primary">Founder&apos;s Orientation</p>
-                <p className="text-[9px] font-mono uppercase tracking-widest text-accent">Status: In Recording // Coming Soon</p>
+              <div className="relative z-10">
+                <blockquote className="text-2xl md:text-3xl font-display font-medium italic leading-relaxed text-text-primary mb-12">
+                  "I didn't build Drawdown to sell you another technical indicator. I built it because I wanted a tool that would have saved me from my own worst impulses ten years ago."
+                </blockquote>
+                
+                <div className="flex items-center gap-6">
+                  <div className="w-16 h-16 bg-background-primary border border-border-slate flex items-center justify-center shrink-0">
+                    <span className="text-2xl font-display font-black text-accent/20">P</span>
+                  </div>
+                  <div>
+                    <p className="text-sm font-display font-bold uppercase tracking-widest text-text-primary">Pete Currey</p>
+                    <p className="text-[10px] font-mono uppercase tracking-widest text-accent">Founder // Lead Mentor</p>
+                  </div>
+                </div>
               </div>
 
               {/* Decorative scanline effect */}
               <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-transparent via-accent/5 to-transparent h-1/2 animate-scanline opacity-10" />
-            </div>
-
-            {/* Subtitle/Metadata */}
-            <div className="mt-4 flex justify-between items-center px-2">
-              <span className="text-[9px] font-mono uppercase text-text-tertiary tracking-widest">ORIENTATION_v1.0.mp4</span>
-              <span className="text-[9px] font-mono text-accent animate-pulse">RECORDING...</span>
             </div>
           </div>
         </div>

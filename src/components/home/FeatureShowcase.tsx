@@ -99,7 +99,7 @@ export function FeatureShowcase() {
                 <div className="absolute inset-0 bg-gradient-to-t from-background-elevated via-transparent to-transparent z-10" />
                 {/* Abstract technical pattern or high-fi asset */}
                 <div className="h-full w-full bg-[radial-gradient(circle_at_20%_20%,#00E67608_0%,transparent_50%),radial-gradient(circle_at_80%_80%,#00E67608_0%,transparent_50%)]" />
-                <div className="h-full w-full opacity-30 bg-[url('https://images.unsplash.com/photo-1639762681485-074b7f938ba0?auto=format&fit=crop&q=80&w=800')] bg-cover bg-center" />
+                <div className="h-full w-full opacity-30 bg-gradient-to-tr from-accent/10 to-transparent bg-cover bg-center" />
               </div>
 
               {/* Geometric Grid Background (Secondary) */}

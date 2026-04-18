@@ -3,16 +3,20 @@ import { ProblemSection } from "@/components/home/ProblemSection";
 import { FounderVideo } from "@/components/home/FounderVideo";
 import { FeatureShowcase } from "@/components/home/FeatureShowcase";
 import { PhasePreview } from "@/components/home/PhasePreview";
+import { MarketPulse } from "@/components/home/MarketPulse";
+import { HubPreview } from "@/components/home/HubPreview";
 import Link from "next/link";
 
 export default function Home() {
   return (
     <div className="flex flex-col">
       <HeroSection />
+      <MarketPulse />
+      <HubPreview />
       <ProblemSection />
       <FounderVideo />
-      <FeatureShowcase />
       <PhasePreview />
+      <FeatureShowcase />
       
           {/* Social Proof & Integrity Section */}
       <section className="py-24 md:py-32 bg-background-primary border-t border-border-slate overflow-hidden">
@@ -35,24 +39,27 @@ export default function Home() {
               </div>
             </div>
             
-            <div className="grid grid-cols-2 gap-4">
-              <div className="p-8 bg-background-surface border border-border-slate">
-                <p className="text-4xl font-display font-black text-accent mb-2">6</p>
-                <p className="text-[10px] font-mono tracking-widest uppercase text-text-tertiary">Curriculum Phases</p>
+              <div className="flex flex-col md:flex-row gap-8 py-10 border-y border-border-slate/50">
+                <div className="flex flex-col">
+                  <span className="text-3xl font-display font-black text-accent">6</span>
+                  <span className="text-[10px] font-mono tracking-widest uppercase text-text-tertiary">Phases</span>
+                </div>
+                <div className="hidden md:block w-px h-10 bg-border-slate/30 self-center" />
+                <div className="flex flex-col">
+                  <span className="text-3xl font-display font-black text-accent">60+</span>
+                  <span className="text-[10px] font-mono tracking-widest uppercase text-text-tertiary">Modules</span>
+                </div>
+                <div className="hidden md:block w-px h-10 bg-border-slate/30 self-center" />
+                <div className="flex flex-col">
+                  <span className="text-3xl font-display font-black text-accent">5</span>
+                  <span className="text-[10px] font-mono tracking-widest uppercase text-text-tertiary">AI Tools</span>
+                </div>
+                <div className="hidden md:block w-px h-10 bg-border-slate/30 self-center" />
+                <div className="flex flex-col">
+                  <span className="text-3xl font-display font-black text-accent">100%</span>
+                  <span className="text-[10px] font-mono tracking-widest uppercase text-text-tertiary">UK Focused</span>
+                </div>
               </div>
-              <div className="p-8 bg-background-surface border border-border-slate">
-                <p className="text-4xl font-display font-black text-accent mb-2">60+</p>
-                <p className="text-[10px] font-mono tracking-widest uppercase text-text-tertiary">Learning Modules</p>
-              </div>
-              <div className="p-8 bg-background-surface border border-border-slate">
-                <p className="text-4xl font-display font-black text-accent mb-2">5</p>
-                <p className="text-[10px] font-mono tracking-widest uppercase text-text-tertiary">AI-Powered Tools</p>
-              </div>
-              <div className="p-8 bg-background-surface border border-border-slate">
-                <p className="text-4xl font-display font-black text-accent mb-2">100%</p>
-                <p className="text-[10px] font-mono tracking-widest uppercase text-text-tertiary">UK Focused</p>
-              </div>
-            </div>
           </div>
         </div>
       </section>

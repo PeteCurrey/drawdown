@@ -66,21 +66,7 @@ export function ProblemSection() {
           <div className="problem-stat">
             <div className="w-64 h-40 md:w-96 md:h-64 mb-6 md:mb-8 -ml-2">
               <svg viewBox="0 0 500 300" className="w-full h-full overflow-visible">
-                {/* Background Track */}
-                <text 
-                  x="0" 
-                  y="250" 
-                  fontFamily="var(--font-display)" 
-                  fontSize="280"
-                  fontWeight="800"
-                  fill="transparent" 
-                  stroke="rgba(0, 194, 255, 0.1)" 
-                  strokeWidth="6"
-                  className="select-none"
-                >
-                  90%
-                </text>
-                {/* Animated Beam */}
+                {/* Background Track with Delayed Fade-in */}
                 <text 
                   x="0" 
                   y="250" 
@@ -89,7 +75,21 @@ export function ProblemSection() {
                   fontWeight="800"
                   fill="transparent" 
                   stroke="#00C2FF" 
-                  strokeWidth="6"
+                  strokeWidth="2"
+                  className="text-outline-fade select-none"
+                >
+                  90%
+                </text>
+                {/* Animated Beam (Thinner) */}
+                <text 
+                  x="0" 
+                  y="250" 
+                  fontFamily="var(--font-display)" 
+                  fontSize="280"
+                  fontWeight="800"
+                  fill="transparent" 
+                  stroke="#00C2FF" 
+                  strokeWidth="2"
                   className="text-beam-animated select-none"
                   strokeLinecap="round"
                 >

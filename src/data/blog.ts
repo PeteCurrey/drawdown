@@ -52,8 +52,6 @@ export const blogPosts: BlogPost[] = [
       <p>3. <strong>Use a Trade Journal.</strong> This is non-negotiable. When you see that your strategy actually works over a sample size of 100 trades, despite 40 or 50 losses, those individual losses lose their power over you. They just become data points in a larger, profitable curve. At Drawdown, we advocate tracking not just the result, but your MAEO (Maximum Adverse Excursion)—how much heat you took before the trade worked. If you're getting stopped out but the trade eventually goes to target, your stops are too tight or your entries are premature. That's a data-driven fix, not an emotional one.</p>
       <p>Drawdown isn't a failure. It's the truth of the market. It's the friction of capitalism. Stop counting wins. Start measuring edge. The moment you stop trying to be 100% right is the moment you start making 100% certain progress as a professional trader. In the UK, we don't buy into the 'get rich quick' influencer culture. We build businesses. Trade like a CEO, not a gambler.</p>
     `
-al.</p>
-    `
   },
   {
     slug: "understanding-boe-rate-decisions",

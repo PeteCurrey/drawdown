@@ -92,8 +92,9 @@ export default function AppToolsHub() {
           .eq('id', user.id)
           .single();
         
-        if (profile?.subscription_tier) {
-          setUserTier(profile.subscription_tier as any);
+        const tier = (profile as any)?.subscription_tier;
+        if (tier) {
+          setUserTier(tier as any);
         }
       }
       setLoading(false);

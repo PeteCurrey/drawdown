@@ -2,9 +2,10 @@ import { createServerClient } from "@supabase/ssr";
 import { NextRequest, NextResponse } from "next/server";
 import { getAnalysis } from "@/lib/ai";
 import { PETES_VOICE_PROFILE } from "@/lib/prompts";
+import { Database } from "@/lib/supabase/types";
 
 export async function POST(request: NextRequest) {
-  const supabase = createServerClient(
+  const supabase = createServerClient<Database>(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.SUPABASE_SERVICE_ROLE_KEY!,
     {

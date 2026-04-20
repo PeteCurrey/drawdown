@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Radio, ArrowRight, TrendingUp, Globe2, Activity } from "lucide-react";
+import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { NewsSourceLogo } from "@/components/ui/NewsSourceLogo";
 

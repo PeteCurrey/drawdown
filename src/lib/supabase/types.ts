@@ -79,46 +79,52 @@ export interface Database {
           created_at?: string
         }
       }
-      journal_entries: {
+      trade_logs: {
         Row: {
           id: string
           user_id: string
-          instrument: string
-          direction: 'long' | 'short'
+          date: string
+          symbol: string
+          type: string
           entry_price: number
           exit_price: number | null
-          position_size: number
-          pnl: number | null
-          trade_date: string
-          emotional_state: string | null
+          pnl_amount: number | null
+          pnl_percent: number | null
+          strategy: string | null
+          session: string | null
+          feeling: string | null
           notes: string | null
           created_at: string
         }
         Insert: {
           id?: string
           user_id: string
-          instrument: string
-          direction: 'long' | 'short'
+          date?: string
+          symbol: string
+          type: string
           entry_price: number
           exit_price?: number | null
-          position_size: number
-          pnl?: number | null
-          trade_date: string
-          emotional_state?: string | null
+          pnl_amount?: number | null
+          pnl_percent?: number | null
+          strategy?: string | null
+          session?: string | null
+          feeling?: string | null
           notes?: string | null
           created_at?: string
         }
         Update: {
           id?: string
           user_id?: string
-          instrument?: string
-          direction?: 'long' | 'short'
+          date?: string
+          symbol?: string
+          type?: string
           entry_price?: number
           exit_price?: number | null
-          position_size?: number
-          pnl?: number | null
-          trade_date?: string
-          emotional_state?: string | null
+          pnl_amount?: number | null
+          pnl_percent?: number | null
+          strategy?: string | null
+          session?: string | null
+          feeling?: string | null
           notes?: string | null
           created_at?: string
         }

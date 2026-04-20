@@ -24,6 +24,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/privacy",
     "/disclaimer",
     "/brokers",
+    "/markets/pulse",
     "/tools/scanner",
     "/dashboard/news",
   ].map((route) => ({
@@ -31,6 +32,21 @@ export default function sitemap(): MetadataRoute.Sitemap {
     lastModified: new Date(),
     changeFrequency: "weekly" as const,
     priority: 1.0,
+  }));
+
+  // Tool marketing routes
+  const toolRoutes = [
+    "ai-trade-journal",
+    "risk-calculator",
+    "institutional-scanner",
+    "backtester",
+    "market-charts",
+    "daily-briefing"
+  ].map((slug) => ({
+    url: `${baseUrl}/tools/${slug}`,
+    lastModified: new Date(),
+    changeFrequency: "monthly" as const,
+    priority: 0.9,
   }));
 
   // Topic routes
@@ -71,5 +87,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     });
   });
 
-  return [...routes, ...topics, ...blogs, ...markets, ...locationRoutes];
+  return [...routes, ...toolRoutes, ...topics, ...blogs, ...markets, ...locationRoutes];
 }

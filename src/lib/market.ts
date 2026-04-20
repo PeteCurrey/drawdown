@@ -58,6 +58,48 @@ export async function getMarketPrices(symbols: string[]): Promise<MarketPrice[]>
   }
 }
 
+/**
+ * Fetches historical OHLC data for a symbol. 
+ * Used for technical scanning and backtesting.
+ */
+export async function getMarketHistory(symbol: string, interval: string = "1h", outputsize: number = 72) {
+  if (!TWELVEDATA_API_KEY) {
+    return generateMockHistory(symbol, outputsize);
+  }
+
+  const cacheKey = `history:${symbol}:${interval}:${outputsize}`;
+  const cached = await getCachedData(cacheKey);
+  if (cached) return cached;
+
+  try {
+    const response = await fetch(
+      `https://api.twelvedata.com/time_series?symbol=${symbol}&interval=${interval}&outputsize=${outputsize}&apikey=${TWELVEDATA_API_KEY}`
+    );
+    const data = await response.json();
+    
+    if (!data.values) {
+      console.warn(`No history for ${symbol}, using mock.`);
+      return generateMockHistory(symbol, outputsize);
+    }
+
+    // Format to consistent OHLC structure
+    const history = data.values.map((v: any) => ({
+      time: v.datetime,
+      open: parseFloat(v.open),
+      high: parseFloat(v.high),
+      low: parseFloat(v.low),
+      close: parseFloat(v.close),
+      volume: parseInt(v.volume || "0")
+    })).reverse(); // Oldest to newest
+
+    await setCacheData(cacheKey, history, 300); // 5 minutes cache
+    return history;
+  } catch (error) {
+    console.error("History API Error:", error);
+    return generateMockHistory(symbol, outputsize);
+  }
+}
+
 // Economic Calendar
 export async function getEconomicCalendar() {
   if (!FINNHUB_API_KEY) return [];
@@ -185,4 +227,26 @@ function generateMockPrice(symbol: string): MarketPrice {
     volume: Math.floor(Math.random() * 1000000),
     sparkline: Array.from({ length: 20 }, () => Math.random() * 100)
   };
+}
+
+function generateMockHistory(symbol: string, size: number) {
+  const base = symbol.includes("USD") ? 1.2 : symbol.includes("BTC") ? 65000 : 150;
+  let lastClose = base;
+  
+  return Array.from({ length: size }).map((_, i) => {
+    const open = lastClose;
+    const high = open + (Math.random() * 0.02 * base);
+    const low = open - (Math.random() * 0.02 * base);
+    const close = low + (Math.random() * (high - low));
+    lastClose = close;
+    
+    return {
+      time: new Date(Date.now() - (size - i) * 3600000).toISOString(),
+      open,
+      high,
+      low,
+      close,
+      volume: Math.floor(Math.random() * 1000000)
+    };
+  });
 }

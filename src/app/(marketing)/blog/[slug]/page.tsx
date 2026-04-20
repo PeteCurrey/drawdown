@@ -30,7 +30,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function BlogPostPage({ params }: Props) {
   const { slug } = await params;
-  const post = blogPosts.find((p) => p.slug === slug);
+  
+  // Robust lookup: case-insensitive and dash-normalised
+  const post = blogPosts.find((p) => 
+    p.slug.toLowerCase() === slug.toLowerCase() || 
+    p.slug.replace(/-/g, '') === slug.replace(/-/g, '')
+  );
+  
   if (!post) notFound();
 
   const articleSchema = {

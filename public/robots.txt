@@ -1,0 +1,14 @@
+User-agent: *
+Allow: /
+Allow: /tools
+Allow: /tools/ai-trade-journal
+Allow: /tools/risk-calculator
+Allow: /tools/institutional-scanner
+Allow: /tools/backtester
+Allow: /tools/market-charts
+Allow: /tools/daily-briefing
+Disallow: /dashboard
+Disallow: /profile
+Disallow: /api
+
+Sitemap: https://drawdown-alpha.vercel.app/sitemap.xml

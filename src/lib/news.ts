@@ -7,6 +7,7 @@ export interface NewsItem {
   publishedAt: string;
   excerpt: string;
   categories: string[];
+  imageUrl?: string;
 }
 
 const RSS_FEEDS = [
@@ -49,6 +50,13 @@ export async function fetchNews(): Promise<NewsItem[]> {
             const rawExcerpt = extract("description") || extract("content:encoded") || "";
             const excerpt = rawExcerpt.replace(/<[^>]*>?/gm, '').trim().slice(0, 180).replace(/\s+/g, ' ') + "...";
 
+            // Extract image from enclosure, media:content, or media:thumbnail
+            const enclosureMatch = content.match(/<enclosure[^>]+url=["']([^"']+)["'][^>]*type=["']image/i);
+            const mediaMatch = content.match(/<media:content[^>]+url=["']([^"']+)["']/i);
+            const mediaThumbnail = content.match(/<media:thumbnail[^>]+url=["']([^"']+)["']/i);
+            const imgInDesc = rawExcerpt.match(/<img[^>]+src=["']([^"']+)["']/i);
+            const imageUrl = enclosureMatch?.[1] || mediaMatch?.[1] || mediaThumbnail?.[1] || imgInDesc?.[1] || undefined;
+
             if (title && url) {
               items.push({
                 title,
@@ -57,6 +65,7 @@ export async function fetchNews(): Promise<NewsItem[]> {
                 publishedAt,
                 excerpt,
                 categories: categoriseArticle(title, excerpt),
+                imageUrl,
               });
               count++;
             }

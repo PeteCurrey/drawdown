@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { 
   Wrench, 
   BarChart3, 
@@ -8,21 +9,30 @@ import {
   History, 
   Cpu, 
   ArrowRight,
-  ShieldCheck,
   Zap,
   Lock,
   ExternalLink
 } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { createClient } from "@/lib/supabase/client";
 
-const appTools = [
+interface ToolDef {
+  slug: string;
+  title: string;
+  description: string;
+  icon: any;
+  minTier: 'free' | 'foundation' | 'edge' | 'floor';
+  color: string;
+}
+
+const appTools: ToolDef[] = [
   {
     slug: "journal",
     title: "AI Trade Journal",
     description: "Launch your institutional logging suite.",
     icon: LayoutDashboard,
-    status: "Active",
+    minTier: "foundation",
     color: "accent"
   },
   {
@@ -30,7 +40,7 @@ const appTools = [
     title: "Risk Calculator",
     description: "Multi-asset position sizer & modeler.",
     icon: Percent,
-    status: "Active",
+    minTier: "free",
     color: "profit"
   },
   {
@@ -38,7 +48,7 @@ const appTools = [
     title: "Market Scanner",
     description: "Live cross-asset technical consensus.",
     icon: Zap,
-    status: "Active",
+    minTier: "foundation",
     color: "premium"
   },
   {
@@ -46,7 +56,7 @@ const appTools = [
     title: "Backtest Engine",
     description: "Systematic strategy validation lab.",
     icon: History,
-    status: "Locked",
+    minTier: "edge",
     color: "accent"
   },
   {
@@ -54,7 +64,7 @@ const appTools = [
     title: "Drawdown Charts",
     description: "High-performance charting terminal.",
     icon: BarChart3,
-    status: "Active",
+    minTier: "foundation",
     color: "accent"
   },
   {
@@ -62,12 +72,37 @@ const appTools = [
     title: "Daily Briefing",
     description: "Pete's expert session intelligence.",
     icon: Cpu,
-    status: "Active",
+    minTier: "edge",
     color: "warning"
   }
 ];
 
 export default function AppToolsHub() {
+  const [userTier, setUserTier] = useState<'free' | 'foundation' | 'edge' | 'floor'>('free');
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function getTier() {
+      const supabase = createClient();
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('subscription_tier')
+          .eq('id', user.id)
+          .single();
+        
+        if (profile?.subscription_tier) {
+          setUserTier(profile.subscription_tier as any);
+        }
+      }
+      setLoading(false);
+    }
+    getTier();
+  }, []);
+
+  const tierWeight = { free: 0, foundation: 1, edge: 2, floor: 3 };
+
   return (
     <div className="space-y-12 fade-in">
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-border-slate pb-8">
@@ -80,39 +115,39 @@ export default function AppToolsHub() {
             Tool <span className="text-accent">Hub.</span>
           </h1>
         </div>
-        <p className="text-sm text-text-tertiary font-mono uppercase tracking-widest max-w-sm">
-          Proprietary analytics and execution support for verified traders.
+        <p className="text-sm text-text-tertiary font-mono uppercase tracking-widest max-w-sm text-right">
+          Proprietary analytics and execution support for <span className="text-white underline decoration-accent underline-offset-4">{userTier}</span> verified traders.
         </p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {appTools.map((tool) => {
           const Icon = tool.icon;
-          const isLocked = tool.status === "Locked";
+          const isLocked = tierWeight[userTier] < tierWeight[tool.minTier];
 
           return (
             <div 
               key={tool.slug} 
               className={cn(
                 "group p-8 bg-background-surface border transition-all duration-300 relative overflow-hidden",
-                isLocked ? "border-border-slate opacity-60 grayscale" : "border-border-slate hover:border-accent hover:bg-background-elevated"
+                isLocked ? "border-border-slate/50 opacity-70" : "border-border-slate hover:border-accent hover:bg-background-elevated"
               )}
             >
               <div className="flex justify-between items-start mb-6">
                 <div className={cn(
-                  "p-3 rounded-lg border",
-                  isLocked ? "border-border-slate bg-background-primary" : "border-accent/20 bg-accent/5 transition-all group-hover:scale-110"
+                  "p-3 rounded-lg border transition-all duration-500",
+                  isLocked ? "border-border-slate bg-background-primary grayscale" : "border-accent/20 bg-accent/5 group-hover:scale-110 group-hover:border-accent/50"
                 )}>
                   <Icon className={cn("w-6 h-6", isLocked ? "text-text-tertiary" : "text-accent")} />
                 </div>
                 {isLocked ? (
                   <div className="flex items-center gap-1.5 px-2 py-1 bg-background-primary border border-border-slate">
                      <Lock className="w-2 h-2 text-text-tertiary" />
-                     <span className="text-[8px] font-mono text-text-tertiary uppercase">Upgrade Required</span>
+                     <span className="text-[8px] font-mono text-text-tertiary uppercase">{tool.minTier}+ Required</span>
                   </div>
                 ) : (
                   <div className="px-2 py-1 bg-profit/10 border border-profit/20">
-                     <span className="text-[8px] font-mono text-profit uppercase">Full Access</span>
+                     <span className="text-[8px] font-mono text-profit uppercase">Access Verified</span>
                   </div>
                 )}
               </div>
@@ -126,19 +161,21 @@ export default function AppToolsHub() {
                 </p>
               </div>
 
-              {isLocked ? (
+              {loading ? (
+                <div className="w-full h-[50px] bg-background-primary animate-pulse" />
+              ) : isLocked ? (
                 <Link 
                   href="/pricing"
                   className="flex items-center justify-between w-full p-4 bg-background-primary border border-border-slate text-[10px] font-bold uppercase tracking-widest text-text-secondary hover:text-accent transition-colors"
                 >
-                   Unlock Feature <ExternalLink className="w-3 h-3" />
+                   Unlock with {tool.minTier} <ExternalLink className="w-3 h-3" />
                 </Link>
               ) : (
                 <Link 
                   href={`/dashboard/tools/${tool.slug}`}
                   className="flex items-center justify-between w-full p-4 bg-accent text-background-primary text-[10px] font-black uppercase tracking-[0.2em] transition-all hover:bg-accent-hover group-hover:shadow-[0_0_20px_rgba(0,194,255,0.2)]"
                 >
-                   Launch Tool <ArrowRight className="w-3 h-3 transition-transform group-hover:translate-x-1" />
+                   Launch Module <ArrowRight className="w-3 h-3 transition-transform group-hover:translate-x-1" />
                 </Link>
               )}
 
@@ -154,7 +191,7 @@ export default function AppToolsHub() {
       <div className="mt-20 p-8 border-l-2 border-accent bg-accent/5 space-y-4">
          <h4 className="text-sm font-display font-bold uppercase tracking-widest text-accent">Deployment Update</h4>
          <p className="text-xs text-text-secondary leading-relaxed max-w-2xl">
-            You are currently on version <span className="text-text-primary font-mono">v4.2.0</span> of the Drawdown Tech Stack. All tools are running with real-time institutional connectivity. If you experience latency, please check your network status in the profile settings.
+            You are currently on version <span className="text-text-primary font-mono">v4.5.1</span>. All modules are now running on live sessional data with Pete's technical consensus active.
          </p>
       </div>
     </div>

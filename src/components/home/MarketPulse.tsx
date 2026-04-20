@@ -10,13 +10,13 @@ const dataPartners = [
   "REUTERS", "BLOOMBERG", "FINANCIAL TIMES", "CNBC", "TWELVEDATA", "FINNHUB"
 ];
 
-// Fallback technical images for news cards if none provided
+// Fallback theoretical data visualisations (CSS gradients/patterns)
 const fallbackImages = [
-  "https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?q=80&w=800",
-  "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?q=80&w=800",
-  "https://images.unsplash.com/photo-1642543492481-44e81e3914a7?q=80&w=800",
-  "https://images.unsplash.com/photo-1509099836639-18ba1795216d?q=80&w=800",
-  "https://images.unsplash.com/photo-1633158829585-23ba8f7c8caf?q=80&w=800"
+  "linear-gradient(to bottom right, #00C2FF10, #001A24)",
+  "linear-gradient(to bottom right, #00E67605, #012415)",
+  "linear-gradient(to bottom right, #FF3D5705, #240105)",
+  "linear-gradient(to bottom right, #00C2FF05, #001A24)",
+  "linear-gradient(to bottom right, #111318, #1a1d24)"
 ];
 
 export function MarketPulse() {
@@ -104,8 +104,12 @@ export function MarketPulse() {
                   className="group relative bg-background-surface flex flex-col justify-end h-[450px] transition-all duration-700 overflow-hidden"
                 >
                   <div 
-                     className="absolute inset-0 z-0 opacity-10 grayscale group-hover:grayscale-0 group-hover:opacity-60 transition-all duration-1000 scale-110 group-hover:scale-100 bg-cover bg-center"
-                     style={{ backgroundImage: `url(${item.imageUrl || fallbackImages[i % fallbackImages.length]})` }}
+                     className="absolute inset-0 z-0 opacity-20 grayscale group-hover:grayscale-0 group-hover:opacity-40 transition-all duration-1000 scale-110 group-hover:scale-100 bg-cover bg-center"
+                     style={{ 
+                       background: item.imageUrl ? `url(${item.imageUrl})` : fallbackImages[i % fallbackImages.length],
+                       backgroundSize: 'cover',
+                       backgroundPosition: 'center'
+                     }}
                   />
                   <div className="absolute inset-0 z-10 bg-gradient-to-t from-background-elevated via-background-primary/95 to-transparent" />
                   
@@ -136,16 +140,18 @@ export function MarketPulse() {
               
               <Link 
                 href="/markets"
-                className="lg:col-span-1 bg-accent flex flex-col items-center justify-center text-center group relative overflow-hidden h-[450px]"
+                className="lg:col-span-1 bg-accent flex flex-col items-center justify-center text-center group relative overflow-hidden h-[450px] p-4"
               >
                 <div className="absolute inset-0 bg-background-elevated z-0 translate-y-full group-hover:translate-y-0 transition-transform duration-700" />
-                <div className="relative z-10 text-background-primary group-hover:text-accent space-y-8 transition-colors duration-700">
-                  <div className="w-20 h-20 rounded-full border border-current flex items-center justify-center mx-auto mb-4 group-hover:rotate-45 transition-transform duration-700">
-                    <Activity className="w-10 h-10" />
+                <div className="relative z-10 text-background-primary group-hover:text-accent space-y-4 transition-colors duration-700 w-full px-2">
+                  <div className="w-12 h-12 rounded-full border border-current flex items-center justify-center mx-auto mb-2 group-hover:rotate-45 transition-transform duration-700">
+                    <Activity className="w-6 h-6" />
                   </div>
                   <div>
-                     <h4 className="text-3xl font-display font-black uppercase leading-none mb-3">Intelligence Hub</h4>
-                     <p className="text-[9px] font-mono font-bold uppercase tracking-widest opacity-80 max-w-[150px] mx-auto border-t border-current pt-4">
+                     <h4 className="text-base font-display font-black uppercase leading-tight mb-2 tracking-tight">
+                        Intelligence<br />Hub
+                     </h4>
+                     <p className="text-[7.5px] font-mono font-bold uppercase tracking-widest opacity-80 max-w-[100px] mx-auto border-t border-current pt-3">
                        Full Scanner & Data Suite
                      </p>
                   </div>

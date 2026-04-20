@@ -33,35 +33,17 @@ function ScannerContent() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [sectorRes, consensusRes] = await Promise.all([
+        const [sectorRes, consensusRes, scannerRes] = await Promise.all([
           fetch('/api/market/sectors'),
-          fetch('/api/market/consensus')
+          fetch('/api/market/consensus'),
+          fetch('/api/market/scanner')
         ]);
         
         const sectorData = await sectorRes.json();
         setSectors(sectorData);
 
-        // For the demo signals, we'll generate some based on recent consensus
-        // In reality, this would use identifyMSS(ohlcData)
-        const mockSignals: ScannerSignal[] = [
-          {
-            symbol: 'GBPUSD',
-            type: 'MSS_BULLISH',
-            time: new Date().toISOString(),
-            price: 1.2642,
-            strength: 'high',
-            context: '1H Structural Shift: Lower-high broken after liquidity sweep.'
-          },
-          {
-            symbol: 'FTSE:UKX',
-            type: 'MSS_BEARISH',
-            time: new Date().toISOString(),
-            price: 7842.10,
-            strength: 'medium',
-            context: 'Market Structural Shift: Break of 7850 HL on 15M.'
-          }
-        ];
-        setSignals(mockSignals);
+        const scannerData = await scannerRes.json();
+        setSignals(scannerData);
 
       } catch (err) {
         console.error("Scanner fetch error:", err);

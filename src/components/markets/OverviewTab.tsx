@@ -26,21 +26,43 @@ export function OverviewTab() {
         ]);
 
         const [pData, eData, nData, sData] = await Promise.all([
-          pRes.json(), eRes.json(), nRes.json(), sRes.json()
+          pRes.ok ? pRes.json() : Promise.resolve([]),
+          eRes.ok ? eRes.json() : Promise.resolve([]),
+          nRes.ok ? nRes.json() : Promise.resolve([]),
+          sRes.ok ? sRes.json() : Promise.resolve(null)
         ]);
 
-        setPrices(pData);
-        setEvents(eData.slice(0, 5));
-        setNews(nData.slice(0, 4));
+        setPrices(Array.isArray(pData) ? pData : []);
+        setEvents(Array.isArray(eData) ? eData.slice(0, 5) : []);
+        setNews(Array.isArray(nData) ? nData.slice(0, 4) : []);
         setSentiment(sData);
       } catch (err) {
         console.error("Overview Fetch Error:", err);
       } finally {
-        setLoading(setLoading(false) as any);
+        setLoading(false);
       }
     }
     fetchData();
   }, []);
+
+  if (loading) {
+    return (
+      <div className="space-y-12 animate-pulse">
+        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4">
+          {Array.from({ length: 7 }).map((_, i) => (
+            <div key={i} className="h-24 bg-background-surface border border-border-slate" />
+          ))}
+        </div>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+          <div className="lg:col-span-2 space-y-8">
+            <div className="h-64 bg-background-elevated/30 border border-border-slate" />
+            <div className="h-64 bg-background-elevated/30 border border-border-slate" />
+          </div>
+          <div className="h-96 bg-background-elevated border border-border-slate" />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-12">

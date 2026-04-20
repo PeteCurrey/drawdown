@@ -4,6 +4,7 @@ import { useState } from "react";
 import { NewsItem } from "@/lib/news";
 import { cn } from "@/lib/utils";
 import { Share2, ArrowUpRight, TrendingUp } from "lucide-react";
+import { NewsSourceLogo } from "@/components/ui/NewsSourceLogo";
 
 interface PulseFeedProps {
   news: NewsItem[];
@@ -76,7 +77,7 @@ export function PulseFeed({ news, loading }: PulseFeedProps) {
               <div className="flex-grow space-y-4">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <span className="text-[9px] font-mono text-accent uppercase tracking-widest">{item.source}</span>
+                    <NewsSourceLogo source={item.source} className="bg-white/10 px-2 py-0.5" />
                     <span className="w-1 h-1 rounded-full bg-border-slate" />
                     <span className="text-[9px] font-mono text-text-tertiary uppercase tracking-widest">{item.publishedAt}</span>
                   </div>

@@ -5,6 +5,7 @@ import { NewsItem } from "@/lib/news";
 import { ExternalLink, RefreshCw, MessageSquare } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
+import { NewsSourceLogo } from "@/components/ui/NewsSourceLogo";
 
 export function NewsWidget() {
   const [news, setNews] = useState<NewsItem[]>([]);
@@ -80,7 +81,7 @@ export function NewsWidget() {
                     <ExternalLink className="w-3 h-3 text-text-tertiary shrink-0 opacity-0 group-hover:opacity-100 transition-opacity mt-1" />
                   </div>
                   <div className="flex items-center gap-3 text-[8px] font-mono uppercase tracking-widest text-text-tertiary">
-                    <span>{item.source}</span>
+                    <NewsSourceLogo source={item.source} showText={true} size="xs" />
                     <span className="w-1 h-1 bg-border-slate rounded-full" />
                     <span>{new Date(item.publishedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
                   </div>

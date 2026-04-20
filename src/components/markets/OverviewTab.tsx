@@ -5,6 +5,7 @@ import { ArrowUpRight, ArrowDownRight, Globe, AlertCircle, Radio } from "lucide-
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { expertAnalysis } from "@/data/analysis";
+import { NewsSourceLogo } from "@/components/ui/NewsSourceLogo";
 
 export function OverviewTab() {
   const [prices, setPrices] = useState<any[]>([]);
@@ -129,7 +130,10 @@ export function OverviewTab() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {news.map((item, i) => (
                 <a key={i} href={item.url} target="_blank" rel="noopener noreferrer" className="p-6 bg-background-surface border border-border-slate hover:border-accent transition-colors group">
-                  <span className="text-[9px] font-mono text-text-tertiary uppercase mb-2 block">{item.source} // {item.publishedAt}</span>
+                  <div className="flex items-center gap-2 mb-2">
+                    <NewsSourceLogo source={item.source} className="bg-white/10 px-2 py-0.5" />
+                    <span className="text-[9px] font-mono text-text-tertiary uppercase">// {item.publishedAt}</span>
+                  </div>
                   <h4 className="text-sm font-bold uppercase leading-tight group-hover:text-accent transition-colors line-clamp-2">{item.title}</h4>
                 </a>
               ))}

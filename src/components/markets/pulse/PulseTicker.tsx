@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
 import { Zap } from "lucide-react";
+import { NewsSourceLogo } from "@/components/ui/NewsSourceLogo";
 
 interface TickerItem {
   id: string;
@@ -45,7 +45,7 @@ export function PulseTicker() {
       <div className="flex animate-marquee whitespace-nowrap items-center hover:pause-animation">
         {[...items, ...items].map((item, idx) => (
           <div key={`${item.id}-${idx / items.length}`} className="inline-flex items-center gap-4 px-8 border-r border-border-slate/30">
-            <span className="text-[8px] font-mono text-text-tertiary uppercase tracking-tight">[{item.source}]</span>
+            <NewsSourceLogo source={item.source} showText={false} size="xs" className="opacity-70 group-hover:opacity-100 transition-opacity" />
             <span className="text-[11px] font-medium text-text-primary uppercase tracking-wide hover:text-accent cursor-default transition-colors">
               {item.text}
             </span>

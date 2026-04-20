@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { Radio, Search, ExternalLink, Hash } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { NewsSourceLogo } from "@/components/ui/NewsSourceLogo";
 
 export function NewsTab() {
   const [news, setNews] = useState<any[]>([]);
@@ -66,7 +67,7 @@ export function NewsTab() {
           >
             <div>
               <div className="flex justify-between items-start mb-4">
-                <span className="text-[10px] font-mono text-accent uppercase tracking-widest">{item.source}</span>
+                <NewsSourceLogo source={item.source} className="bg-white/10 px-2 py-0.5" />
                 <span className="text-[9px] font-mono text-text-tertiary uppercase">{item.publishedAt}</span>
               </div>
               <h3 className="text-lg font-display font-bold uppercase group-hover:text-accent transition-colors leading-tight mb-4 line-clamp-2">

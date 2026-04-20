@@ -60,16 +60,23 @@ export function PhasePreview() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.from(".phase-card", {
+      // Set initial state for cards to avoid flash or sticking at 0
+      gsap.set(".phase-card", { opacity: 0, y: 40 });
+
+      gsap.to(".phase-card", {
         scrollTrigger: {
           trigger: ".phase-grid",
-          start: "top 80%",
+          start: "top 85%",
+          toggleActions: "play none none none"
         },
-        y: 40,
-        opacity: 0,
-        duration: 0.8,
-        stagger: 0.1,
-        ease: "power2.out",
+        y: 0,
+        opacity: 1,
+        duration: 1,
+        stagger: 0.15,
+        ease: "power3.out",
+        onComplete: () => {
+          ScrollTrigger.refresh();
+        }
       });
     }, containerRef);
 

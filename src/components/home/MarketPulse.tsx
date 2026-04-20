@@ -2,12 +2,13 @@
 
 import { useEffect, useState } from "react";
 import { Radio, ArrowRight, TrendingUp, Globe2, Activity } from "lucide-react";
-import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { NewsSourceLogo } from "@/components/ui/NewsSourceLogo";
 
 // Dummy logos for visual aesthetic
+// Real institutional logos for the partners section
 const dataPartners = [
-  "REUTERS", "BLOOMBERG", "FINANCIAL TIMES", "CNBC", "TWELVEDATA", "FINNHUB"
+  "Reuters", "Bloomberg", "Financial Times", "CNBC", "Investing.com", "ForexLive"
 ];
 
 // Fallback theoretical data visualisations (CSS gradients/patterns)
@@ -117,9 +118,7 @@ export function MarketPulse() {
                      <div>
                        <div className="flex items-center gap-2 mb-4">
                           <span className="w-2 h-2 rounded-full bg-accent animate-pulse" />
-                          <span className="text-[8px] font-mono text-accent uppercase tracking-widest bg-accent/5 px-2 py-1 border border-accent/20">
-                            {item.source}
-                          </span>
+                          <NewsSourceLogo source={item.source} className="bg-white/10 px-2 py-0.5" />
                        </div>
                        <h3 className="text-sm md:text-md font-bold uppercase leading-tight text-text-primary group-hover:text-accent transition-colors line-clamp-5">
                          {item.title}
@@ -169,13 +168,11 @@ export function MarketPulse() {
                  <div className="h-px w-full bg-border-slate" />
               </div>
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-12 items-center opacity-30 grayscale hover:opacity-100 hover:grayscale-0 transition-all duration-700">
-                 {dataPartners.map((partner, idx) => (
-                    <div key={idx} className="flex justify-center group">
-                       <span className="text-sm md:text-lg font-display font-black tracking-[0.3em] uppercase text-text-secondary group-hover:text-text-primary transition-colors cursor-default">
-                          {partner}
-                       </span>
+                  {dataPartners.map((partner, idx) => (
+                    <div key={idx} className="flex justify-center group grayscale hover:grayscale-0 transition-all">
+                       <NewsSourceLogo source={partner} showText={true} size="md" />
                     </div>
-                 ))}
+                  ))}
               </div>
            </div>
         </div>

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
 import { 
   User, 
   Mail, 
@@ -55,9 +56,14 @@ export default function ProfilePage() {
                  </div>
                  <div className="space-y-2">
                     <label className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary">Experience Level</label>
-                    <div className="flex items-center justify-between py-2 border-b border-border-slate/50">
-                       <span className="text-sm font-sans uppercase font-bold text-accent">Intermediate</span>
-                       <ChevronDown className="w-3 h-3 text-text-tertiary" />
+                    <div className="relative border-b border-border-slate/50 py-1">
+                       <select className="w-full appearance-none bg-transparent text-sm font-sans uppercase font-bold text-accent focus:outline-none cursor-pointer">
+                          <option className="bg-background-surface">Beginner</option>
+                          <option className="bg-background-surface" selected>Intermediate</option>
+                          <option className="bg-background-surface">Advanced</option>
+                          <option className="bg-background-surface">Professional</option>
+                       </select>
+                       <ChevronDown className="absolute right-0 top-1/2 -translate-y-1/2 w-3 h-3 text-text-tertiary pointer-events-none" />
                     </div>
                  </div>
               </div>
@@ -85,7 +91,7 @@ export default function ProfilePage() {
 
                <div className="flex gap-4">
                   <button className="flex-grow py-4 bg-background-elevated border border-border-slate text-[10px] font-bold uppercase tracking-widest hover:border-text-tertiary transition-colors">Cancel Subscription</button>
-                  <button className="flex-grow py-4 bg-accent text-background-primary text-[10px] font-bold uppercase tracking-widest hover:bg-accent-hover transition-colors">Upgrade Tier</button>
+                  <Link href="/pricing" className="flex-grow py-4 bg-accent text-background-primary text-[10px] font-bold uppercase tracking-widest hover:bg-accent-hover transition-colors text-center">Upgrade Tier</Link>
                </div>
             </div>
 

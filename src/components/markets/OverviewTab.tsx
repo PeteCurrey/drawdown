@@ -68,23 +68,27 @@ export function OverviewTab() {
   return (
     <div className="space-y-12">
       {/* 1. Market Status Bar */}
-      <section className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4">
+      <section className="grid grid-cols-2 lg:grid-cols-4 xl:grid-cols-7 gap-3">
         {prices.map((item) => (
-          <div key={item.symbol} className="p-4 bg-background-surface border border-border-slate">
-            <div className="flex justify-between items-start mb-2">
-              <span className="text-[10px] font-mono text-text-tertiary uppercase tracking-widest">{item.symbol}</span>
-              {item.change >= 0 
-                ? <ArrowUpRight className="w-3 h-3 text-profit" /> 
-                : <ArrowDownRight className="w-3 h-3 text-loss" />
-              }
+          <div key={item.symbol} className="p-3 bg-background-surface border border-border-slate flex flex-col justify-between">
+            <div className="flex justify-between items-start gap-1 mb-2">
+              <span className="text-[10px] font-mono text-text-tertiary uppercase tracking-wider truncate" title={item.symbol}>{item.symbol}</span>
+              <div className="shrink-0 mt-0.5">
+                {item.change >= 0 
+                  ? <ArrowUpRight className="w-3 h-3 text-profit" /> 
+                  : <ArrowDownRight className="w-3 h-3 text-loss" />
+                }
+              </div>
             </div>
-            <p className="text-xl font-mono font-bold">{item.price.toFixed(2)}</p>
-            <p className={cn(
-              "text-[9px] font-mono",
-              item.change >= 0 ? "text-profit" : "text-loss"
-            )}>
-              {item.change >= 0 ? "+" : ""}{item.changePercent.toFixed(2)}%
-            </p>
+            <div>
+              <p className="text-lg font-mono font-bold truncate">{item.price.toFixed(2)}</p>
+              <p className={cn(
+                "text-[9px] font-mono",
+                item.change >= 0 ? "text-profit" : "text-loss"
+              )}>
+                {item.change >= 0 ? "+" : ""}{item.changePercent.toFixed(2)}%
+              </p>
+            </div>
           </div>
         ))}
       </section>

@@ -41,11 +41,11 @@
   --color-background-surface: #FFFFFF;
   --color-background-elevated: #E9EBEE;
   --color-border-slate: #DBDFE5;
-  --color-text-primary: #121417;
-  --color-text-secondary: #5F6771;
-  --color-text-tertiary: #9AA2AC;
+  --color-text-primary: #000000;
+  --color-text-secondary: #334155;
+  --color-text-tertiary: #64748B;
   --background: #F4F5F7;
-  --foreground: #121417;
+  --foreground: #000000;
 }
 
 * {

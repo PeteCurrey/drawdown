@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState, useRef } from "react";
 import { Zap } from "lucide-react";
 import { NewsSourceLogo } from "@/components/ui/NewsSourceLogo";
 

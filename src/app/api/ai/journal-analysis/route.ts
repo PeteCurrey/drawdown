@@ -30,14 +30,16 @@ export async function POST(request: NextRequest) {
 
     if (tradesError) throw tradesError;
 
-    if (!trades || trades.length < 3) {
+    const typedTrades = (trades || []) as any[];
+
+    if (typedTrades.length < 3) {
       return NextResponse.json({ 
         analysis: "Look, I can't give you an honest breakdown with only one or two trades. Log at least 3-5 sessions. Once the data starts talking, we'll find your edge. For now, focus on the process, not the outcome." 
       });
     }
 
     // 2. Format trades for the prompt with emotional context
-    const tradeSummary = trades.map(t => {
+    const tradeSummary = typedTrades.map(t => {
       const pnlSign = (t.pnl_amount || 0) >= 0 ? "+" : "";
       return `- [${new Date(t.date).toLocaleDateString()}] ${t.symbol} ${t.type}: ${pnlSign}£${t.pnl_amount?.toFixed(2)} (${t.pnl_percent?.toFixed(2)}%). Feel: ${t.feeling}. Strategy: ${t.strategy}. Session: ${t.session}. Notes: ${t.notes || 'None'}`;
     }).join('\n');

@@ -44,7 +44,8 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ message: "No active subscribers found." });
     }
 
-    const recipientEmails = subscribers.map(s => s.email);
+    const typedSubscribers = (subscribers || []) as any[];
+    const recipientEmails = typedSubscribers.map(s => s.email);
 
     // 4. Send Email via Resend
     // Note: Resend has a batch send limit per request, but for MVP we send as BCC or individually

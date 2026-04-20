@@ -4,23 +4,48 @@ import { FounderVideo } from "@/components/home/FounderVideo";
 import { FeatureShowcase } from "@/components/home/FeatureShowcase";
 import { PhasePreview } from "@/components/home/PhasePreview";
 import { MarketPulse } from "@/components/home/MarketPulse";
-import { HubPreview } from "@/components/home/HubPreview";
+import { LiveDashboardPreview } from "@/components/home/LiveDashboardPreview";
+import { EconomicCalendarWidget } from "@/components/home/EconomicCalendarWidget";
+import { BrokerHubPreview } from "@/components/home/BrokerHubPreview";
+import { PetesDailyTakeExcerpt } from "@/components/home/PetesDailyTakeExcerpt";
 import Link from "next/link";
 
 export default function Home() {
   return (
     <div className="flex flex-col">
+      {/* 2. Hero (Condensed) */}
       <HeroSection />
-      <MarketPulse />
-      <HubPreview />
+
+      {/* 3. Live Dashboard Preview (THE differentiator) */}
+      <LiveDashboardPreview />
+
+      {/* 90% Problem Section (KEEP as per Section 1.5) */}
       <ProblemSection />
-      <FounderVideo />
-      <PhasePreview />
+
+      {/* 4. Market Pulse (News Cards) */}
+      <MarketPulse />
+
+      {/* 5. Economic Calendar Widget */}
+      <EconomicCalendarWidget />
+
+      {/* 6. Platform Tools (FeatureShowcase) */}
       <FeatureShowcase />
+
+      {/* 7. The Curriculum (PhasePreview) */}
+      <PhasePreview />
+
+      {/* 8. Broker Hub Preview */}
+      <BrokerHubPreview />
+
+      {/* Founder Pledge (KEEP as per Section 1.5) */}
+      <FounderVideo />
+
+      {/* 9. Pete's Daily Take */}
+      <PetesDailyTakeExcerpt />
       
-          {/* Social Proof & Integrity Section */}
+      {/* 1.5: No Lambos Section (Updated Stats) */}
       <section className="py-24 md:py-32 bg-background-primary border-t border-border-slate overflow-hidden">
-        <div className="container mx-auto px-6">
+        <div className="container mx-auto px-6 text-center lg:text-left">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
             <div className="space-y-8">
               <span className="text-[10px] font-mono tracking-widest uppercase text-text-tertiary">
@@ -29,7 +54,7 @@ export default function Home() {
               <h2 className="text-4xl md:text-6xl font-display font-bold uppercase leading-tight">
                 No Lambos. <br /> No Beach Photos. <br /> <span className="text-accent underline decoration-accent/30 underline-offset-8">Just Data.</span>
               </h2>
-              <div className="space-y-4 max-w-xl">
+              <div className="space-y-4 max-w-xl mx-auto lg:mx-0">
                 <p className="text-lg text-text-secondary leading-relaxed">
                   Trading is a business of probabilities, risk management, and emotional detachment. We don't sell dreams; we provide the data and the discipline to survive the markets.
                 </p>
@@ -39,32 +64,33 @@ export default function Home() {
               </div>
             </div>
             
-              <div className="flex flex-col md:flex-row gap-8 py-10 border-y border-border-slate/50">
-                <div className="flex flex-col">
-                  <span className="text-3xl font-display font-black text-accent">6</span>
-                  <span className="text-[10px] font-mono tracking-widest uppercase text-text-tertiary">Phases</span>
-                </div>
-                <div className="hidden md:block w-px h-10 bg-border-slate/30 self-center" />
-                <div className="flex flex-col">
-                  <span className="text-3xl font-display font-black text-accent">60+</span>
-                  <span className="text-[10px] font-mono tracking-widest uppercase text-text-tertiary">Modules</span>
-                </div>
-                <div className="hidden md:block w-px h-10 bg-border-slate/30 self-center" />
-                <div className="flex flex-col">
-                  <span className="text-3xl font-display font-black text-accent">5</span>
-                  <span className="text-[10px] font-mono tracking-widest uppercase text-text-tertiary">AI Tools</span>
-                </div>
-                <div className="hidden md:block w-px h-10 bg-border-slate/30 self-center" />
-                <div className="flex flex-col">
-                  <span className="text-3xl font-display font-black text-accent">100%</span>
-                  <span className="text-[10px] font-mono tracking-widest uppercase text-text-tertiary">UK Focused</span>
-                </div>
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-2 gap-8 py-10 border-y border-border-slate/50">
+              <div className="flex flex-col">
+                <span className="text-3xl font-display font-black text-accent">6</span>
+                <span className="text-[10px] font-mono tracking-widest uppercase text-text-tertiary">Phases</span>
               </div>
+              <div className="flex flex-col">
+                <span className="text-3xl font-display font-black text-accent">60+</span>
+                <span className="text-[10px] font-mono tracking-widest uppercase text-text-tertiary">Modules</span>
+              </div>
+              <div className="flex flex-col">
+                <span className="text-3xl font-display font-black text-accent">5</span>
+                <span className="text-[10px] font-mono tracking-widest uppercase text-text-tertiary">AI Tools</span>
+              </div>
+              <div className="flex flex-col">
+                <span className="text-3xl font-display font-black text-accent">LIVE</span>
+                <span className="text-[10px] font-mono tracking-widest uppercase text-text-tertiary">Market Data</span>
+              </div>
+              <div className="flex flex-col col-span-2 md:col-span-1 lg:col-span-2">
+                <span className="text-3xl font-display font-black text-accent">100%</span>
+                <span className="text-[10px] font-mono tracking-widest uppercase text-text-tertiary">UK Focused</span>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Final CTA */}
+      {/* 10. Final CTA */}
       <section className="py-24 md:py-48 bg-background-elevated relative overflow-hidden group">
         <div className="absolute inset-0 bg-accent/5 opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
         <div className="container mx-auto px-6 text-center relative z-10">
@@ -76,7 +102,7 @@ export default function Home() {
               href="/signup" 
               className="w-full sm:w-auto px-16 py-8 bg-accent hover:bg-accent-hover text-background-primary text-xs font-bold uppercase tracking-widest transition-all shadow-2xl shadow-accent/20 hover:-translate-y-1"
             >
-              Start Your Free Trial
+              Start Free Trial
             </Link>
             <div className="text-left">
               <p className="text-text-primary text-xs font-bold uppercase tracking-widest mb-1">Phase 1 is Free.</p>
@@ -84,7 +110,6 @@ export default function Home() {
             </div>
           </div>
         </div>
-        {/* Abstract shapes for premium feel */}
         <div className="absolute -bottom-24 -left-24 w-96 h-96 border border-accent/10 rounded-full blur-3xl" />
         <div className="absolute -top-24 -right-24 w-96 h-96 border border-accent/10 rounded-full blur-3xl" />
       </section>

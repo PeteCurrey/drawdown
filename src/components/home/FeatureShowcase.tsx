@@ -80,11 +80,11 @@ export function FeatureShowcase() {
   }, []);
 
   return (
-    <section ref={scrollRef} className="relative z-10 bg-background-elevated">
+    <section ref={scrollRef} className="relative z-10 bg-background-elevated border-y border-border-slate/50">
       <div className="h-screen flex items-center overflow-hidden">
         <div className="container mx-auto px-6 mb-12 absolute top-32 left-0 right-0 z-10">
-          <span className="text-accent font-mono tracking-widest uppercase text-sm mb-4 block">
-            PLATFORM TOOLS
+          <span className="text-accent font-mono tracking-widest uppercase text-xs mb-4 block">
+            // PLATFORM TOOLS
           </span>
           <h2 className="text-4xl md:text-6xl font-display font-bold uppercase">
             Built by Traders. <br /> Enhanced by AI.
@@ -95,41 +95,46 @@ export function FeatureShowcase() {
           {features.map((feature, i) => (
             <Link 
               key={i} 
-              href={`/features/${feature.slug}`}
-              className="feature-card group relative w-[80vw] md:w-[400px] h-[500px] bg-background-surface border border-border-slate p-12 flex flex-col justify-between transition-premium hover:border-accent/50 overflow-hidden"
+              href={`/tools/${feature.slug}`}
+              className="feature-card group relative w-[85vw] md:w-[450px] h-[550px] bg-[#111318] border border-border-slate p-12 flex flex-col justify-between transition-premium hover:border-accent/50 overflow-hidden"
             >
-              {/* Image Reveal Background */}
-              <div 
-                className="absolute inset-0 z-0 opacity-0 group-hover:opacity-100 transition-all duration-1000 ease-out scale-110 group-hover:scale-100 grayscale-[50%] group-hover:grayscale-0 bg-cover bg-center"
-                style={{ backgroundImage: `url(${feature.image})` }}
-              >
-                <div className="absolute inset-0 bg-background-elevated/80 z-10 mix-blend-overlay group-hover:bg-background-elevated/40 transition-colors duration-1000" />
-                <div className="absolute inset-0 bg-gradient-to-t from-background-elevated via-background-elevated/80 to-transparent z-10" />
+              {/* Technical Grid Background */}
+              <div className="absolute inset-0 z-0 opacity-[0.03] pointer-events-none group-hover:opacity-[0.07] transition-opacity duration-1000">
+                <div className="h-full w-full bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]" />
               </div>
 
-              {/* Geometric Grid Background (Secondary) */}
-              <div className="absolute inset-0 z-0 opacity-20 pointer-events-none">
-                <div className="h-full w-full bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:32px_32px]" />
-              </div>
+              {/* Decorative Corner Accents */}
+              <div className="absolute top-0 right-0 w-16 h-16 border-t border-r border-accent/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <div className="absolute bottom-0 left-0 w-16 h-16 border-b border-l border-accent/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
               <div className="relative z-10 flex flex-col h-full justify-between pointer-events-none">
                 <div>
-                  <div className="text-accent mb-8 group-hover:scale-110 transition-transform duration-500">
-                    <feature.icon className="w-12 h-12" />
+                  <div className="w-16 h-16 bg-accent/5 border border-accent/10 flex items-center justify-center text-accent mb-12 group-hover:scale-110 group-hover:bg-accent/10 transition-all duration-500">
+                    <feature.icon className="w-8 h-8" />
                   </div>
-                  <h4 className="text-2xl font-display font-bold uppercase mb-4 group-hover:text-accent transition-colors">
+                  <h4 className="text-3xl font-display font-bold uppercase mb-6 tracking-tight group-hover:text-accent transition-colors">
                     {feature.name}
                   </h4>
-                  <p className="text-text-secondary leading-relaxed">
+                  <p className="text-text-secondary leading-relaxed text-sm max-w-sm">
                     {feature.description}
                   </p>
                 </div>
                 
-                <div className="flex justify-between items-center">
-                  <span className="text-[10px] uppercase font-bold tracking-widest text-text-tertiary">
-                    Tier: {feature.tier}
-                  </span>
-                  <div className="w-8 h-[1px] bg-border-slate group-hover:bg-accent group-hover:w-12 transition-all" />
+                <div className="flex justify-between items-end">
+                  <div className="flex flex-col gap-1">
+                    <span className="text-[10px] uppercase font-mono font-bold tracking-widest text-text-tertiary">
+                      Access Tier
+                    </span>
+                    <span className="text-xs font-mono font-bold text-accent">
+                      {feature.tier}
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-4">
+                    <span className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary group-hover:text-text-primary transition-colors">
+                      View Tool
+                    </span>
+                    <div className="w-8 h-[1px] bg-border-slate group-hover:bg-accent group-hover:w-16 transition-all duration-500" />
+                  </div>
                 </div>
               </div>
             </Link>

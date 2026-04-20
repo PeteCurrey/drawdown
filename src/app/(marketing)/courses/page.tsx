@@ -16,110 +16,7 @@ import {
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { StructuredData } from "@/components/StructuredData";
 
-const phases = [
-  {
-    number: "01",
-    name: "Ground Zero",
-    subtitle: "The Foundation of Discipline",
-    tier: "Free",
-    duration: "4.5 Hours",
-    description: "Unlearn the noise. Build the fundamental psychological and mechanical foundation every trader needs before touching a chart.",
-    modules: [
-      "The Honest Reality of Trading",
-      "Setting Up Your Professional Environment",
-      "Risk First: The Survival Mindset",
-      "Market Theory & Mechanics",
-      "Order Types & Execution",
-      "The Power of the Daily Routine",
-      "Introduction to the Trade Journal",
-      "Phase 1 Assessment"
-    ]
-  },
-  {
-    number: "02",
-    name: "Chart Reader",
-    subtitle: "Technical Foundations",
-    tier: "Foundation",
-    duration: "8 Hours",
-    description: "Master naked price action. Learn to see what the institutions are doing without relying on lagging indicators or guru 'signals'.",
-    modules: [
-      "Structure: Higher Highs & Lower Lows",
-      "The Truth About Support & Resistance",
-      "Identifying Market Phases",
-      "Candlestick Geometry",
-      "Liquidity Zones & Balsa Wood",
-      "Trend Identification & Strength",
-      "Multi-Timeframe Confluence",
-      "Volume Profile Basics"
-    ]
-  },
-  {
-    number: "03",
-    name: "Strategist",
-    subtitle: "Strategy Development",
-    tier: "Foundation",
-    duration: "6.5 Hours",
-    description: "Develop, test, and refine high-probability setups. We move from theory to a specific, repeatable mechanical edge.",
-    modules: [
-      "Building a Mechanical Ruleset",
-      "Session-Based Strategy Selection",
-      "Breakout vs. Reversal Entry Models",
-      "The Pullback & Retest Protocol",
-      "Backtesting Excellence",
-      "Analyzing Statistical Edge",
-      "Standardizing Your Setups",
-      "Strategy Compliance Tracking"
-    ]
-  },
-  {
-    number: "04",
-    name: "Staying Alive",
-    subtitle: "Risk Management",
-    tier: "Foundation",
-    duration: "3 Hours",
-    description: "The most important phase. Learn the professional position sizing and account management that keeps you in the game.",
-    modules: [
-      "The Math of Ruin",
-      "Position Sizing Formulas",
-      "Fixed vs. Percentage Risk Models",
-      "Drawdown Psychology & Recovery",
-      "Compounding Capital Safely",
-      "Handling Correlation Risk"
-    ]
-  },
-  {
-    number: "05",
-    name: "The 80%",
-    subtitle: "Psychology & Discipline",
-    tier: "Edge",
-    duration: "5 Hours",
-    description: "Conquer the internal battles. Dealing with streaks, tilt, and the loneliness of the screens.",
-    modules: [
-      "Identifying Cognitive Biases",
-      "Trading the Curve of Discipline",
-      "Post-Trade Emotional Analysis",
-      "The Professional Routine",
-      "Handling a Winning Streak",
-      "Conquering the Fear of Missing Out"
-    ]
-  },
-  {
-    number: "06",
-    name: "The Edge",
-    subtitle: "Advanced Techniques",
-    tier: "Edge",
-    duration: "12 Hours",
-    description: "Scaling up. Integrating custom AI workflows, portfolio diversification, and long-term wealth management.",
-    modules: [
-      "Institutional Order Flow",
-      "Delta & Footprint Analysis",
-      "Scalping the Tape",
-      "AI-Assisted Journaling",
-      "Portfolio Diversification",
-      "Scaling for Prop Firms"
-    ]
-  }
-];
+import { phases, phaseIconMap } from "@/data/courses";
 
 export default function CoursesPage() {
   const courseSchema = {
@@ -203,13 +100,21 @@ export default function CoursesPage() {
                       {phase.description}
                     </p>
 
-                    <Link 
-                      href="/signup" 
-                      className="inline-flex items-center gap-4 px-10 py-5 bg-accent text-background-primary font-bold uppercase tracking-widest text-[10px] hover:bg-accent-hover transition-colors"
-                    >
-                      {phase.tier === 'Free' ? 'Start Free' : 'Begin This Phase'}
-                      <ChevronRight className="w-3 h-3" />
-                    </Link>
+                    <div className="flex flex-col sm:flex-row gap-4">
+                      <Link 
+                        href={`/courses/${phase.slug}`}
+                        className="inline-flex items-center gap-4 px-10 py-5 bg-accent text-background-primary font-bold uppercase tracking-widest text-[10px] hover:bg-accent-hover transition-colors"
+                      >
+                        View Course Details
+                        <ChevronRight className="w-3 h-3" />
+                      </Link>
+                      <Link 
+                        href="/signup" 
+                        className="inline-flex items-center gap-4 px-10 py-5 bg-background-surface border border-border-slate text-text-primary font-bold uppercase tracking-widest text-[10px] hover:border-accent transition-colors"
+                      >
+                        {phase.tier === 'Free' ? 'Start Free' : 'Create Account'}
+                      </Link>
+                    </div>
                   </div>
 
                   {/* Module List */}
@@ -219,7 +124,7 @@ export default function CoursesPage() {
                       <h4 className="text-[10px] font-mono uppercase tracking-widest font-bold">Included Modules</h4>
                     </div>
                     <ul className="space-y-4">
-                      {phase.modules.map((module, idx) => (
+                      {phase.modules_list.map((module, idx) => (
                         <li key={idx} className="flex gap-4 items-start text-sm text-text-secondary group/item">
                           <span className="text-[10px] font-mono text-accent/40 mt-1">{(idx+1).toString().padStart(2, '0')}</span>
                           <span className="group-hover/item:text-text-primary transition-colors">{module}</span>

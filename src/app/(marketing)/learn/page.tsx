@@ -13,80 +13,13 @@ import {
   Zap
 } from "lucide-react";
 
-const phases = [
-  {
-    id: 1,
-    slug: "ground-zero",
-    name: "Ground Zero",
-    subtitle: "The Foundation of Discipline",
-    modules: 8,
-    duration: "4.5h",
-    icon: ShieldCheck,
-    tier: "free",
-    description: "Unlearn the noise. Build the fundamental psychological and mechanical foundation every trader needs.",
-  },
-  {
-    id: 2,
-    slug: "chart-reader",
-    name: "Chart Reader",
-    subtitle: "Market Geometry & Price Action",
-    modules: 12,
-    duration: "8h",
-    icon: LineChart,
-    tier: "foundation",
-    description: "Master naked price action. Learn to see what the institutions are doing without relying on lagging indicators.",
-  },
-  {
-    id: 3,
-    slug: "strategist",
-    name: "Strategist",
-    subtitle: "Building Your Edge",
-    modules: 10,
-    duration: "6.5h",
-    icon: Zap,
-    tier: "foundation",
-    description: "Develop, test, and refine high-probability setups. We move from theory to a specific, repeatable mechanical edge.",
-  },
-  {
-    id: 4,
-    slug: "risk-manager",
-    name: "Risk Manager",
-    subtitle: "The Math of Survival",
-    modules: 6,
-    duration: "3h",
-    icon: Lock,
-    tier: "edge",
-    description: "The most important phase. Learn the professional position sizing and account management that keeps you in the game.",
-  },
-  {
-    id: 5,
-    slug: "mind-over-market",
-    name: "Mind Over Market",
-    subtitle: "Advanced Psychology",
-    modules: 10,
-    duration: "5h",
-    icon: BrainCircuit,
-    tier: "edge",
-    description: "Conquer the internal battles. Dealing with streaks, tilt, and the loneliness of the screens.",
-  },
-  {
-    id: 6,
-    slug: "the-edge",
-    name: "The Edge",
-    subtitle: "Portfolio & AI Integration",
-    modules: 14,
-    duration: "12h",
-    icon: Play,
-    tier: "floor",
-    description: "Scaling up. Integrating custom AI workflows, portfolio diversification, and long-term wealth management.",
-  },
-];
+import { phases, phaseIconMap } from "@/data/courses";
 
 export default function CourseLibraryPage() {
   const userTier = "foundation"; // Mock tier for UI testing
 
   return (
-    <div className="pt-32 pb-24 bg-background-primary min-h-screen">
+    <div className="pt-12 pb-24 bg-background-primary min-h-screen">
       <div className="container mx-auto px-6">
         <div className="mb-20">
           <span className="text-accent font-mono text-[10px] uppercase tracking-widest block mb-4">// CURRICULUM</span>
@@ -98,8 +31,8 @@ export default function CourseLibraryPage() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {phases.map((phase) => {
-            const isLocked = phase.tier === "edge" || phase.tier === "floor"; // Simple lock logic for UI
-            const Icon = phase.icon;
+            const isLocked = phase.tier === "Edge" || phase.tier === "Floor"; // Simple lock logic for UI
+            const Icon = phaseIconMap[phase.icon] || ShieldCheck;
 
             return (
               <Link 
@@ -113,7 +46,7 @@ export default function CourseLibraryPage() {
                 <div className="flex justify-between items-start mb-12">
                   <div className="flex items-center gap-4">
                     <span className="text-4xl font-display font-black text-accent/20 group-hover:text-accent transition-colors">
-                      0{phase.id}
+                      {phase.number}
                     </span>
                     <div className="w-10 h-10 bg-background-elevated flex items-center justify-center border border-border-slate">
                       <Icon className="w-5 h-5 text-text-secondary group-hover:text-accent transition-colors" />
@@ -142,7 +75,7 @@ export default function CourseLibraryPage() {
 
                 <div className="flex items-center justify-between pt-8 border-t border-border-slate/50">
                   <div className="flex items-center gap-4 text-[10px] font-mono text-text-tertiary uppercase tracking-widest">
-                    <span className="flex items-center gap-1"><Play className="w-3 h-3" /> {phase.modules} Modules</span>
+                    <span className="flex items-center gap-1"><Play className="w-3 h-3" /> {phase.modules_count} Modules</span>
                     <span className="flex items-center gap-1"><Clock className="w-3 h-3" /> {phase.duration}</span>
                   </div>
                   {!isLocked && (

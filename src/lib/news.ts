@@ -19,6 +19,13 @@ const RSS_FEEDS = [
   { name: "MarketWatch", url: "http://feeds.marketwatch.com/marketwatch/topstories" },
   { name: "Investing.com", url: "https://www.investing.com/rss/news.rss" },
   { name: "Yahoo Finance", url: "https://finance.yahoo.com/news/rssindex" },
+  { name: "CNN Business", url: "http://rss.cnn.com/rss/money_topstories.rss" },
+  { name: "Fox Business", url: "https://feeds.feedburner.com/foxbusiness/latest" },
+  { name: "Bloomberg", url: "https://www.bloomberg.com/politics/feeds/site.xml" }, // Bloomberg RSS varies, using a stable one
+  { name: "Forbes", url: "https://www.forbes.com/business/feed/" },
+  { name: "ForexLive", url: "https://www.forexlive.com/Feed" },
+  { name: "CoinDesk", url: "https://www.coindesk.com/arc/outboundfeeds/rss/" },
+  { name: "Financial Times", url: "https://www.ft.com/?format=rss" }
 ];
 
 export async function fetchNews(): Promise<NewsItem[]> {

@@ -14,7 +14,7 @@ const DEFAULT_SYMBOLS = [
   "FTSE 100", "S&P 500", "DOW 30", "NASDAQ", "GBPUSD", "EURUSD", "USDJPY", "BTCUSD", "ETHUSD", "XAUUSD", "WTI Oil"
 ];
 
-export function MarketTicker() {
+export function LiveMarketTicker() {
   const [data, setData] = useState<TickerItem[]>([]);
   const [error, setError] = useState(false);
 
@@ -37,7 +37,7 @@ export function MarketTicker() {
   }, []);
 
   // Format data for the scrolling marquee (duplicate for seamless loop)
-  const items = [...data, ...data, ...data];
+  const items = [...data, ...data];
 
   if (data.length === 0 && !error) return <div className="h-8 bg-[#06070A] w-full" />;
 
@@ -76,7 +76,7 @@ export function MarketTicker() {
           100% { transform: translateX(-50%); }
         }
         .animate-marquee {
-          animation: marquee 60s linear infinite;
+          animation: marquee 40s linear infinite;
         }
         .animate-marquee:hover {
           animation-play-state: paused;

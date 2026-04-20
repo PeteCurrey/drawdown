@@ -31,7 +31,7 @@ export default function PhasePage({ params }: Props) {
   const phaseName = phase.replace(/-/g, " ");
 
   return (
-    <div className="pt-32 pb-24 bg-background-primary min-h-screen">
+    <div className="pt-12 pb-24 bg-background-primary min-h-screen">
       <div className="container mx-auto px-6">
         <Link 
           href="/learn" 
@@ -115,7 +115,9 @@ export default function PhasePage({ params }: Props) {
                     href={`/learn/${phase}/module-${module.id}`}
                     className={cn(
                       "px-8 py-3 text-[10px] font-bold uppercase tracking-widest transition-all",
-                      module.status === 'current' ? "bg-accent text-background-primary" : "bg-background-elevated border border-border-slate text-text-primary hover:bg-background-surface hover:text-text-primary"
+                      module.status === 'current' 
+                        ? "bg-accent text-background-primary" 
+                        : "bg-background-elevated border border-border-slate text-text-primary hover:bg-background-surface"
                     )}
                   >
                     {module.status === 'completed' ? "Review" : "Start"}

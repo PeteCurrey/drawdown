@@ -20,13 +20,14 @@ import { BadgeGrid, allBadges } from "@/components/badges/BadgeGrid";
 
 export default function ProfilePage() {
   const [discordConnected, setDiscordConnected] = useState(false);
+  const [experienceLevel, setExperienceLevel] = useState("Intermediate");
 
   return (
-    <div className="pt-32 pb-24 bg-background-primary min-h-screen">
+    <div className="pt-12 pb-24 bg-background-primary min-h-screen">
       <div className="container mx-auto px-6 max-w-5xl">
         <div className="mb-12">
-          <span className="text-accent font-mono text-[10px] uppercase tracking-widest block mb-4">// ACCOUNT COMMAND</span>
-          <h1 className="text-4xl md:text-6xl font-display font-bold uppercase">Profile.</h1>
+          <span className="text-accent font-mono text-[10px] uppercase tracking-widest block mb-4 uppercase tracking-[0.2em]">// ACCOUNT COMMAND</span>
+          <h1 className="text-4xl md:text-6xl font-display font-bold uppercase text-text-primary">Profile.</h1>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
@@ -41,7 +42,7 @@ export default function ProfilePage() {
                   </button>
                 </div>
                 <div>
-                   <h2 className="text-2xl font-display font-bold uppercase leading-none mb-2">Pete Currey</h2>
+                   <h2 className="text-2xl font-display font-bold uppercase leading-none mb-2 text-text-primary">Pete Currey</h2>
                    <p className="text-xs font-mono uppercase tracking-widest text-text-tertiary">Member since April 2026</p>
                 </div>
               </div>
@@ -50,18 +51,22 @@ export default function ProfilePage() {
                  <div className="space-y-2">
                     <label className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary">Email Address</label>
                     <div className="flex items-center justify-between py-2 border-b border-border-slate/50">
-                       <span className="text-sm font-sans">pete@drawdown.trade</span>
+                       <span className="text-sm font-sans text-text-primary">pete@drawdown.trade</span>
                        <CheckCircle2 className="w-3 h-3 text-profit" />
                     </div>
                  </div>
                  <div className="space-y-2">
                     <label className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary">Experience Level</label>
                     <div className="relative border-b border-border-slate/50 py-1">
-                       <select className="w-full appearance-none bg-transparent text-sm font-sans uppercase font-bold text-accent focus:outline-none cursor-pointer">
-                          <option className="bg-background-surface">Beginner</option>
-                          <option className="bg-background-surface" selected>Intermediate</option>
-                          <option className="bg-background-surface">Advanced</option>
-                          <option className="bg-background-surface">Professional</option>
+                       <select 
+                         value={experienceLevel}
+                         onChange={(e) => setExperienceLevel(e.target.value)}
+                         className="w-full appearance-none bg-transparent text-sm font-sans uppercase font-bold text-accent focus:outline-none cursor-pointer"
+                       >
+                          <option value="Beginner" className="bg-background-surface">Beginner</option>
+                          <option value="Intermediate" className="bg-background-surface">Intermediate</option>
+                          <option value="Advanced" className="bg-background-surface">Advanced</option>
+                          <option value="Professional" className="bg-background-surface">Professional</option>
                        </select>
                        <ChevronDown className="absolute right-0 top-1/2 -translate-y-1/2 w-3 h-3 text-text-tertiary pointer-events-none" />
                     </div>
@@ -73,7 +78,7 @@ export default function ProfilePage() {
                <div className="flex justify-between items-center mb-8">
                   <div className="flex items-center gap-3">
                     <Shield className="w-5 h-5 text-accent" />
-                    <h3 className="text-xl font-display font-bold uppercase">Subscription.</h3>
+                    <h3 className="text-xl font-display font-bold uppercase text-text-primary">Subscription.</h3>
                   </div>
                   <span className="text-[10px] font-mono font-bold uppercase tracking-widest px-3 py-1 bg-accent text-background-primary">Edge Tier</span>
                </div>
@@ -82,16 +87,16 @@ export default function ProfilePage() {
                   <div className="flex items-center gap-4">
                      <CreditCard className="w-5 h-5 text-text-tertiary" />
                      <div className="flex flex-col">
-                        <span className="text-xs font-bold uppercase tracking-widest">Monthly Billing</span>
+                        <span className="text-xs font-bold uppercase tracking-widest text-text-primary">Monthly Billing</span>
                         <span className="text-[10px] font-mono text-text-tertiary">Next invoice: May 12, 2026</span>
                      </div>
                   </div>
                   <button className="text-[10px] font-bold uppercase tracking-widest text-text-tertiary hover:text-text-primary transition-colors">Manage Billing</button>
                </div>
 
-               <div className="flex gap-4">
-                  <button className="flex-grow py-4 bg-background-elevated border border-border-slate text-[10px] font-bold uppercase tracking-widest hover:border-text-tertiary transition-colors">Cancel Subscription</button>
-                  <Link href="/pricing" className="flex-grow py-4 bg-accent text-background-primary text-[10px] font-bold uppercase tracking-widest hover:bg-accent-hover transition-colors text-center">Upgrade Tier</Link>
+               <div className="flex flex-col sm:flex-row gap-4">
+                  <button className="w-full py-4 bg-background-elevated border border-border-slate text-[10px] font-bold uppercase tracking-widest hover:border-text-tertiary transition-colors">Cancel Subscription</button>
+                  <Link href="/pricing" className="w-full py-4 bg-accent text-background-primary text-[10px] font-bold uppercase tracking-widest hover:bg-accent-hover transition-colors text-center shadow-lg shadow-accent/10">Upgrade Tier</Link>
                </div>
             </div>
 

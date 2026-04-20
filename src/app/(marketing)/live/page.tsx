@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 
 export default function LiveSessionsPage() {
   return (
-    <div className="pt-32 pb-24 bg-background-primary min-h-screen">
+    <div className="pt-12 pb-24 bg-background-primary min-h-screen">
       <div className="container mx-auto px-6 max-w-6xl">
         <div className="mb-12">
           <span className="text-accent font-mono text-[10px] uppercase tracking-widest block mb-4">// LIVE EDGE</span>

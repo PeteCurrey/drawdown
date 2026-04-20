@@ -14,68 +14,18 @@ if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
 }
 
-const phases = [
-  {
-    number: "01",
-    name: "Ground Zero",
-    subtitle: "The Foundation of Discipline",
-    href: "/learn/ground-zero",
-    icon: Shield,
-    tier: "Free",
-    modules: 8,
-    duration: "4.5h",
-  },
-  {
-    number: "02",
-    name: "Chart Reader",
-    subtitle: "Technical Foundations",
-    href: "/learn/chart-reader",
-    icon: LineChart,
-    tier: "Foundation",
-    modules: 12,
-    duration: "8h",
-  },
-  {
-    number: "03",
-    name: "Strategist",
-    subtitle: "Strategy Development",
-    href: "/learn/strategist",
-    icon: Zap,
-    tier: "Foundation",
-    modules: 10,
-    duration: "6.5h",
-  },
-  {
-    number: "04",
-    name: "Staying Alive",
-    subtitle: "Risk Management",
-    href: "/learn/risk-manager",
-    icon: Lock,
-    tier: "Foundation",
-    modules: 6,
-    duration: "3h",
-  },
-  {
-    number: "05",
-    name: "The 80%",
-    subtitle: "Psychology & Discipline",
-    href: "/learn/mind-over-market",
-    icon: Brain,
-    tier: "Edge",
-    modules: 10,
-    duration: "5h",
-  },
-  {
-    number: "06",
-    name: "The Edge",
-    subtitle: "Advanced Techniques",
-    href: "/learn/the-edge",
-    icon: Play,
-    tier: "Edge",
-    modules: 14,
-    duration: "12h",
-  },
-];
+import { phases } from "@/data/courses";
+import { ShieldCheck, LineChart, Zap, Lock, BrainCircuit, Play as PlayIcon } from "lucide-react";
+
+// Mapping icons to phases for Lucide components
+const iconMap: Record<string, any> = {
+  ShieldCheck,
+  LineChart,
+  Zap,
+  Lock,
+  BrainCircuit,
+  PlayIcon
+};
 
 const marketTools = [
   {
@@ -151,9 +101,9 @@ export function Navigation() {
     { name: "Learn", href: learnHref, hasMegaMenu: true },
     { name: "Markets", href: "/markets", hasMegaMenu: true },
     { name: "Tools", href: "/tools" },
+    { name: "Brokers", href: "/brokers" },
     { name: "Pricing", href: "/pricing" },
     { name: "Blog", href: "/blog" },
-    { name: "About", href: "/about" },
   ];
 
   useEffect(() => {
@@ -185,7 +135,7 @@ export function Navigation() {
       <nav
         ref={navRef}
         className={cn(
-          "fixed top-[36px] left-0 w-full z-[70] py-6 transition-all duration-500 transition-premium",
+          "fixed top-8 left-0 w-full z-[70] py-6 transition-all duration-500 transition-premium",
           isScrolled ? "bg-background-primary/90 backdrop-blur-md border-b border-border-slate py-4" : "bg-transparent"
         )}
       >
@@ -246,7 +196,7 @@ export function Navigation() {
       {/* Mega Menu Dropdown */}
       <div
         className={cn(
-          "fixed top-[36px] left-0 w-full z-40 pt-[80px] transition-all duration-500 hidden lg:block",
+          "fixed top-8 left-0 w-full z-40 pt-[80px] transition-all duration-500 hidden lg:block",
           activeMegaMenu
             ? "opacity-100 translate-y-0 pointer-events-auto"
             : "opacity-0 -translate-y-4 pointer-events-none"
@@ -265,11 +215,13 @@ export function Navigation() {
                   </p>
                   <div className="grid grid-cols-2 gap-4">
                     {phases.map((phase) => {
-                      const Icon = phase.icon;
+                      const Icon = iconMap[phase.icon] || ShieldCheck;
+                      const phaseHref = user ? `/learn/${phase.slug}` : `/courses/${phase.slug}`;
+                      
                       return (
                         <Link
                           key={phase.name}
-                          href={phase.href}
+                          href={phaseHref}
                           className="group flex gap-5 p-4 border border-border-slate/30 bg-[#111318] hover:border-accent hover:bg-[#15181f] transition-all duration-500 relative overflow-hidden"
                           onClick={() => setActiveMegaMenu(null)}
                         >
@@ -304,7 +256,7 @@ export function Navigation() {
                               </p>
                               <div className="flex items-center gap-3 mt-2">
                                 <span className="text-[8px] font-mono text-text-tertiary uppercase tracking-widest flex items-center gap-1">
-                                  <Play className="w-2.5 h-2.5" /> {phase.modules} Modules
+                                  <PlayIcon className="w-2.5 h-2.5" /> {phase.modules_count} Modules
                                 </span>
                                 <span className="text-[8px] font-mono text-text-tertiary uppercase tracking-widest flex items-center gap-1">
                                   <Clock className="w-2.5 h-2.5" /> {phase.duration}

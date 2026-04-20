@@ -73,36 +73,36 @@ export function MarketConsensus() {
             <div key={i} className="h-40 bg-background-surface border border-border-slate animate-pulse" />
           ))
         ) : filtered.map((item) => (
-          <div key={item.symbol} className="group bg-background-surface border border-border-slate hover:border-accent/40 transition-premium p-6 space-y-6">
-            <div className="flex justify-between items-start">
-              <div>
-                <h3 className="text-xl font-display font-black uppercase tracking-tight">{item.symbol}</h3>
-                <div className="flex items-center gap-2 mt-1">
+          <div key={item.symbol} className="group bg-background-surface border border-border-slate hover:border-accent/40 transition-premium p-5 space-y-4">
+            <div className="flex justify-between items-start gap-2">
+              <div className="min-w-0">
+                <h3 className="text-lg font-display font-black uppercase tracking-tight truncate">{item.symbol}</h3>
+                <div className="flex items-center gap-1.5 mt-1">
                   <Activity className="w-3 h-3 text-text-tertiary" />
-                  <span className="text-[9px] font-mono text-text-tertiary uppercase">Technical Consensus</span>
+                  <span className="text-[8px] font-mono text-text-tertiary uppercase truncate">Technical Consensus</span>
                 </div>
               </div>
               <div className={cn(
-                "w-10 h-10 rounded-lg flex items-center justify-center",
+                "w-8 h-8 rounded-lg flex items-center justify-center shrink-0",
                 item.score > 60 ? "bg-profit/10" : item.score < 40 ? "bg-loss/10" : "bg-white/5"
               )}>
                 {item.trend === "Bullish" ? (
-                  <TrendingUp className={cn("w-5 h-5", item.score > 60 ? "text-profit" : "text-text-tertiary")} />
+                  <TrendingUp className={cn("w-4 h-4", item.score > 60 ? "text-profit" : "text-text-tertiary")} />
                 ) : (
-                  <TrendingDown className={cn("w-5 h-5", item.score < 40 ? "text-loss" : "text-text-tertiary")} />
+                  <TrendingDown className={cn("w-4 h-4", item.score < 40 ? "text-loss" : "text-text-tertiary")} />
                 )}
               </div>
             </div>
 
-            <div className="space-y-4">
-              <div className="flex justify-between items-end">
+            <div className="space-y-3">
+              <div className="flex justify-between items-end gap-2">
                 <span className={cn(
-                  "text-lg font-display font-bold uppercase",
+                  "text-base font-display font-bold uppercase truncate",
                   item.verdict.includes("Buy") ? "text-profit" : item.verdict.includes("Sell") ? "text-loss" : "text-text-secondary"
                 )}>
                   {item.verdict}
                 </span>
-                <span className="text-[10px] font-mono text-text-tertiary uppercase">Score: {item.score}%</span>
+                <span className="text-[9px] font-mono text-text-tertiary uppercase shrink-0">{item.score}%</span>
               </div>
               
               <div className="h-1 w-full bg-background-elevated relative overflow-hidden">
@@ -116,23 +116,23 @@ export function MarketConsensus() {
               </div>
             </div>
 
-            <div className="pt-4 border-t border-border-slate/50 flex justify-between items-center">
-              <div className="flex gap-4">
+            <div className="pt-3 border-t border-border-slate/50 flex justify-between items-center">
+              <div className="flex gap-3">
                 <div className="flex flex-col">
-                  <span className="text-[7px] font-mono text-text-tertiary uppercase">RSI</span>
-                  <span className="text-[10px] font-mono font-bold text-text-primary">{item.rsi}</span>
+                  <span className="text-[6px] font-mono text-text-tertiary uppercase">RSI</span>
+                  <span className="text-[9px] font-mono font-bold text-text-primary">{item.rsi}</span>
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-[7px] font-mono text-text-tertiary uppercase">Trend</span>
-                  <span className="text-[10px] font-mono font-bold text-text-primary">{item.trend}</span>
+                  <span className="text-[6px] font-mono text-text-tertiary uppercase">Trend</span>
+                  <span className="text-[9px] font-mono font-bold text-text-primary">{item.trend}</span>
                 </div>
               </div>
               <Link 
                 href={`/tools/scanner?symbol=${item.symbol}`}
-                className="p-2 hover:bg-background-elevated text-text-tertiary hover:text-accent transition-colors"
+                className="p-1.5 hover:bg-background-elevated text-text-tertiary hover:text-accent transition-colors"
                 title="View Full Analysis"
               >
-                <ChevronRight className="w-4 h-4" />
+                <ChevronRight className="w-3.5 h-3.5" />
               </Link>
             </div>
           </div>

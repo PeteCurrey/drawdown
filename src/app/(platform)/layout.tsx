@@ -64,7 +64,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       >
         <div className="p-6 flex items-center justify-between">
           {!isCollapsed && (
-            <Link href="/" className="text-lg font-display font-extrabold tracking-wider uppercase text-text-primary truncate">
+            <Link href="/" className="text-base font-display font-extrabold tracking-wider uppercase text-text-primary truncate">
               Drawdown
             </Link>
           )}

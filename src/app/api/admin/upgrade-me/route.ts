@@ -59,6 +59,6 @@ export async function GET(request: Request) {
   return NextResponse.json({ 
     success: true, 
     message: "User upgraded to Floor (Top-Level) tier.",
-    user_id: user.id
+    user_id: targetUserId
   });
 }

@@ -114,7 +114,10 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       <div className="flex-grow flex flex-col overflow-hidden min-w-0 min-h-0">
         <DashboardStatusBar />
 
-        <main className="flex-grow overflow-y-auto overflow-x-hidden p-6 md:p-10 min-h-0 relative">
+        <main 
+          className="flex-grow overflow-y-auto overflow-x-hidden p-6 md:p-10 min-h-0 relative"
+          data-lenis-prevent
+        >
           {children}
         </main>
       </div>

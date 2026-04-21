@@ -111,7 +111,7 @@ export default function PartnerDashboard() {
                 fontSize={10} 
                 tickLine={false} 
                 axisLine={false}
-                tick={{ fontVariantCaps: 'all-small-caps', letterSpacing: '0.1em' }}
+                tick={{ fontVariant: 'all-small-caps', letterSpacing: '0.1em' }}
               />
               <YAxis 
                 stroke="#4B5563" 

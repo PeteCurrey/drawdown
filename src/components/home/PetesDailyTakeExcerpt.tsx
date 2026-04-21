@@ -18,9 +18,9 @@ export function PetesDailyTakeExcerpt() {
   useEffect(() => {
     async function fetchTake() {
       // Fetch latest daily brief from Supabase
-      const { data } = await supabase
+      const { data } = await (supabase
         .from("daily_briefs")
-        .select("summary, created_at")
+        .select("summary, created_at") as any)
         .order("created_at", { ascending: false })
         .limit(1)
         .single();

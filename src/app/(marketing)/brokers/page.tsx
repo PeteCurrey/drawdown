@@ -14,6 +14,8 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 
+const TV_AFFILIATE_URL = "https://www.tradingview.com/?aff_id=165855";
+
 const categories = [
   "All", 
   "Best for Beginners", 
@@ -120,6 +122,44 @@ export default function BrokersPage() {
               <p className="text-xs text-text-tertiary leading-relaxed uppercase tracking-widest font-mono">
                 DISCLOSURE: CFDs are complex instruments and come with a high risk of losing money rapidly due to leverage. 67-84% of retail investor accounts lose money when trading CFDs.
               </p>
+            </div>
+          </div>
+        </div>
+
+        {/* TradingView Essential Tool Banner */}
+        <div className="mb-16 p-8 md:p-10 bg-[#131722] border border-accent/30 relative overflow-hidden group">
+          <div className="absolute inset-0 bg-gradient-to-r from-accent/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+          <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
+            <div className="flex items-start gap-6">
+              <div className="shrink-0 w-16 h-16 bg-[#2962FF] flex items-center justify-center font-display font-black text-white text-xl shadow-lg shadow-[#2962FF]/30">
+                TV
+              </div>
+              <div>
+                <div className="flex items-center gap-3 mb-2">
+                  <span className="text-accent font-mono text-[9px] uppercase tracking-widest">// ESSENTIAL TOOL</span>
+                  <span className="px-2 py-0.5 bg-accent/10 border border-accent/30 text-[8px] font-bold uppercase tracking-widest text-accent">Recommended by Pete</span>
+                </div>
+                <h3 className="text-2xl md:text-3xl font-display font-bold uppercase text-text-primary mb-2">
+                  TradingView — Start Here Before Any Broker.
+                </h3>
+                <p className="text-sm text-text-secondary leading-relaxed max-w-2xl">
+                  Before you open a live account, you need a chart platform. TradingView is the industry standard used by professional traders globally. Every strategy and pattern in Drawdown is taught using TradingView — get it free before you commit to a broker.
+                </p>
+                <p className="text-[9px] font-mono text-text-tertiary uppercase tracking-widest mt-3">
+                  Affiliate link • We may earn a commission at no cost to you
+                </p>
+              </div>
+            </div>
+            <div className="flex flex-col gap-3 shrink-0">
+              <a
+                href={TV_AFFILIATE_URL}
+                target="_blank"
+                rel="noopener noreferrer sponsored"
+                className="flex items-center gap-2 px-8 py-4 bg-accent hover:bg-accent-hover text-background-primary text-[10px] font-bold uppercase tracking-widest transition-premium whitespace-nowrap"
+              >
+                Get TradingView Free <ExternalLink className="w-3.5 h-3.5" />
+              </a>
+              <p className="text-[9px] font-mono text-text-tertiary text-center">Free plan • No card required</p>
             </div>
           </div>
         </div>

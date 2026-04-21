@@ -8,6 +8,7 @@ import { MarketPulse } from "@/components/home/MarketPulse";
 import { LiveDashboardPreview } from "@/components/home/LiveDashboardPreview";
 import { EconomicCalendarWidget } from "@/components/home/EconomicCalendarWidget";
 import { BrokerHubPreview } from "@/components/home/BrokerHubPreview";
+import { TradingViewSection } from "@/components/home/TradingViewSection";
 import { PetesDailyTakeExcerpt } from "@/components/home/PetesDailyTakeExcerpt";
 import Link from "next/link";
 
@@ -41,7 +42,10 @@ export default function Home() {
       {/* 8. Broker Hub Preview */}
       <BrokerHubPreview />
 
-      {/* Founder Pledge (KEEP as per Section 1.5) */}
+      {/* TradingView Partner Section */}
+      <TradingViewSection />
+
+      {/* Founder Pledge */}
       <FounderVideo />
 
       {/* 9. Pete's Daily Take */}

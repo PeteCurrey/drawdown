@@ -9,7 +9,8 @@ import {
   Newspaper, 
   Calendar,
   ChevronRight,
-  Circle
+  Circle,
+  ArrowUpRight
 } from "lucide-react";
 import Link from "next/link";
 

@@ -138,12 +138,13 @@ export default function BrokersPage() {
                 <div className="flex items-center gap-3 mb-2">
                   <span className="text-accent font-mono text-[9px] uppercase tracking-widest">// ESSENTIAL TOOL</span>
                   <span className="px-2 py-0.5 bg-accent/10 border border-accent/30 text-[8px] font-bold uppercase tracking-widest text-accent">Recommended by Pete</span>
+                  <span className="px-2 py-0.5 bg-profit/10 border border-profit/30 text-[8px] font-black uppercase tracking-widest text-profit">$15 OFF via this link</span>
                 </div>
                 <h3 className="text-2xl md:text-3xl font-display font-bold uppercase text-text-primary mb-2">
                   TradingView — Start Here Before Any Broker.
                 </h3>
                 <p className="text-sm text-text-secondary leading-relaxed max-w-2xl">
-                  Before you open a live account, you need a chart platform. TradingView is the industry standard used by professional traders globally. Every strategy and pattern in Drawdown is taught using TradingView — get it free before you commit to a broker.
+                  Before you open a live account, you need a chart platform. TradingView is the industry standard used by professional traders globally. Every strategy and pattern in Drawdown is taught using TradingView — get <span className="text-profit font-bold">$15 off a paid plan</span> via our exclusive partner link.
                 </p>
                 <p className="text-[9px] font-mono text-text-tertiary uppercase tracking-widest mt-3">
                   Affiliate link • We may earn a commission at no cost to you
@@ -155,11 +156,11 @@ export default function BrokersPage() {
                 href={TV_AFFILIATE_URL}
                 target="_blank"
                 rel="noopener noreferrer sponsored"
-                className="flex items-center gap-2 px-8 py-4 bg-accent hover:bg-accent-hover text-background-primary text-[10px] font-bold uppercase tracking-widest transition-premium whitespace-nowrap"
+                className="flex items-center gap-2 px-8 py-4 bg-profit hover:opacity-90 text-background-primary text-[10px] font-bold uppercase tracking-widest transition-premium whitespace-nowrap"
               >
-                Get TradingView Free <ExternalLink className="w-3.5 h-3.5" />
+                Claim $15 Off <ExternalLink className="w-3.5 h-3.5" />
               </a>
-              <p className="text-[9px] font-mono text-text-tertiary text-center">Free plan • No card required</p>
+              <p className="text-[9px] font-mono text-text-tertiary text-center">Applied automatically • No code needed</p>
             </div>
           </div>
         </div>

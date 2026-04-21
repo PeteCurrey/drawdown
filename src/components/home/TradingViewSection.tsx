@@ -43,9 +43,19 @@ export function TradingViewSection() {
             <span className="text-accent font-mono text-[10px] uppercase tracking-[0.3em] block mb-4">
               // RECOMMENDED TOOLKIT
             </span>
-            <h2 className="text-4xl md:text-6xl font-display font-bold uppercase leading-tight mb-8">
-              The Chart Platform <br />We Use Every Day.
-            </h2>
+            <div className="flex items-center gap-4 mb-6">
+              <h2 className="text-4xl md:text-6xl font-display font-bold uppercase leading-tight">
+                The Chart Platform <br />We Use Every Day.
+              </h2>
+            </div>
+            {/* Discount Badge */}
+            <div className="inline-flex items-center gap-3 px-5 py-3 bg-profit/10 border border-profit/30 mb-8">
+              <span className="text-2xl font-display font-black text-profit">$15 OFF</span>
+              <div>
+                <p className="text-[10px] font-bold uppercase tracking-widest text-profit">Exclusive via Drawdown</p>
+                <p className="text-[9px] font-mono text-text-tertiary uppercase">Use our link for instant savings</p>
+              </div>
+            </div>
             <p className="text-lg text-text-secondary leading-relaxed mb-8">
               TradingView is the industry standard for charting. Every pattern, indicator, and analysis concept taught in Drawdown is demonstrated using TradingView — because it&apos;s simply the best tool available.
             </p>
@@ -55,7 +65,7 @@ export function TradingViewSection() {
               rel="noopener noreferrer sponsored"
               className="inline-flex items-center gap-3 px-10 py-5 bg-accent hover:bg-accent-hover text-background-primary text-[10px] font-bold uppercase tracking-widest transition-premium shadow-xl shadow-accent/20 hover:-translate-y-0.5"
             >
-              Get TradingView Free <ExternalLink className="w-4 h-4" />
+              Claim $15 Off TradingView <ExternalLink className="w-4 h-4" />
             </a>
             <p className="text-[9px] font-mono text-text-tertiary uppercase tracking-widest mt-4">
               Affiliate link • We may earn a commission at no cost to you
@@ -127,18 +137,25 @@ export function TradingViewSection() {
         </div>
 
         {/* Bottom CTA strip */}
-        <div className="mt-12 flex flex-col sm:flex-row items-center justify-between gap-6 p-8 bg-background-primary border border-accent/20">
-          <div>
-            <p className="text-sm font-display font-bold uppercase text-text-primary mb-1">Free plan available. No credit card required.</p>
-            <p className="text-[10px] font-mono text-text-tertiary uppercase tracking-widest">TradingView Pro plans from $14.95/mo — upgraded features for serious traders.</p>
+        <div className="mt-12 flex flex-col sm:flex-row items-center justify-between gap-6 p-8 bg-background-primary border border-profit/20">
+          <div className="flex items-center gap-6">
+            <div className="shrink-0 text-center">
+              <p className="text-3xl font-display font-black text-profit">$15</p>
+              <p className="text-[8px] font-mono font-bold uppercase tracking-widest text-profit">Savings</p>
+            </div>
+            <div className="w-px h-12 bg-border-slate" />
+            <div>
+              <p className="text-sm font-display font-bold uppercase text-text-primary mb-1">Save $15 via our exclusive partner link.</p>
+              <p className="text-[10px] font-mono text-text-tertiary uppercase tracking-widest">Applied automatically at checkout — no code required. Pro plans from $14.95/mo.</p>
+            </div>
           </div>
           <a
             href={TV_AFFILIATE_URL}
             target="_blank"
             rel="noopener noreferrer sponsored"
-            className="shrink-0 flex items-center gap-2 px-8 py-4 border border-accent text-accent text-[10px] font-bold uppercase tracking-widest hover:bg-accent hover:text-background-primary transition-premium"
+            className="shrink-0 flex items-center gap-2 px-8 py-4 bg-profit text-background-primary text-[10px] font-bold uppercase tracking-widest hover:opacity-90 transition-premium"
           >
-            Start Free <ChevronRight className="w-4 h-4" />
+            Claim Discount <ChevronRight className="w-4 h-4" />
           </a>
         </div>
       </div>

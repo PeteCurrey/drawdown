@@ -55,7 +55,7 @@ export function PetesDailyTakeExcerpt() {
     <section className="py-24 bg-background-primary relative overflow-hidden">
       <div className="container mx-auto px-6">
         <div className="max-w-4xl mx-auto">
-          <div className="bg-[#111318] border-l-4 border-accent border-y border-r border-border-slate p-12 relative group transition-premium hover:border-accent/30">
+          <div className="bg-background-surface border-l-4 border-accent border-y border-r border-border-slate p-12 relative group transition-premium hover:border-accent/30">
             <div className="flex items-center gap-3 mb-8">
               <span className="text-[10px] font-mono tracking-widest uppercase text-accent font-bold">
                 // PETE'S TAKE

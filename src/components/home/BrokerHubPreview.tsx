@@ -54,7 +54,7 @@ export function BrokerHubPreview() {
           {brokers.map((broker) => (
             <div 
               key={broker.id}
-              className="bg-[#111318] border border-border-slate p-8 flex flex-col justify-between group hover:border-accent/30 transition-premium"
+              className="bg-background-surface border border-border-slate p-8 flex flex-col justify-between group hover:border-accent/30 transition-premium"
             >
               <div>
                 <div className="flex items-center justify-between mb-8">

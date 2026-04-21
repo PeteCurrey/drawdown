@@ -26,7 +26,7 @@ export default function BrokerReviewPage({ params }: Props) {
   const brokerName = slug.split("-").map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(" ");
 
   return (
-    <div className="pt-12 pb-24 bg-background-primary min-h-screen">
+    <div className="pt-12 pb-24 bg-background-primary min-h-screen transition-colors duration-500">
       <div className="container mx-auto px-6 max-w-5xl">
         <Link 
           href="/brokers" 
@@ -36,7 +36,7 @@ export default function BrokerReviewPage({ params }: Props) {
         </Link>
 
         {/* Review Header */}
-        <div className="bg-[#111318] border border-border-slate p-8 md:p-16 mb-12 relative overflow-hidden">
+        <div className="bg-background-surface border border-border-slate p-8 md:p-16 mb-12 relative overflow-hidden">
            <div className="flex flex-col md:flex-row items-center justify-between gap-10 relative z-10">
               <div className="flex flex-col items-center md:items-start text-center md:text-left">
                  <div className="flex items-center gap-2 mb-4">
@@ -176,7 +176,7 @@ export default function BrokerReviewPage({ params }: Props) {
 
            {/* Sidebar */}
            <div className="lg:col-span-4 space-y-8">
-              <div className="bg-[#111318] border border-border-slate p-8 sticky top-32">
+              <div className="bg-background-surface border border-border-slate p-8 sticky top-32">
                  <h4 className="text-[10px] font-mono font-black uppercase tracking-widest text-accent mb-6">Our Verdict</h4>
                  <p className="text-base italic leading-relaxed text-text-primary mb-8 font-serif">
                    "{brokerName} is arguably the most reliable all-rounder for serious traders. If you value execution speed and institutional safety over 'bonus' gimmicks, this is your home."
@@ -191,16 +191,16 @@ export default function BrokerReviewPage({ params }: Props) {
 
               <div className="p-8 border border-border-slate">
                  <h4 className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary mb-6">Alternative Picks</h4>
-                 <div className="space-y-4">
-                    <Link href="/brokers/pepperstone" className="block p-4 bg-background-elevated hover:bg-white/5 transition-colors border-l-2 border-accent">
+                  <div className="space-y-4">
+                    <Link href="/brokers/pepperstone" className="block p-4 bg-background-elevated hover:bg-accent/5 transition-colors border-l-2 border-accent">
                        <p className="text-[8px] font-mono text-accent uppercase tracking-widest mb-1">BEST FOR FOREX</p>
-                       <p className="text-xs font-bold uppercase">Pepperstone</p>
+                       <p className="text-xs font-bold uppercase text-text-primary">Pepperstone</p>
                     </Link>
-                    <Link href="/brokers/ic-markets" className="block p-4 bg-background-elevated hover:bg-white/5 transition-colors border-l-2 border-border-slate">
+                    <Link href="/brokers/ic-markets" className="block p-4 bg-background-elevated hover:bg-accent/5 transition-colors border-l-2 border-border-slate">
                        <p className="text-[8px] font-mono text-text-tertiary uppercase tracking-widest mb-1">LOWEST FEES</p>
-                       <p className="text-xs font-bold uppercase">IC Markets</p>
+                       <p className="text-xs font-bold uppercase text-text-primary">IC Markets</p>
                     </Link>
-                 </div>
+                  </div>
               </div>
            </div>
         </div>

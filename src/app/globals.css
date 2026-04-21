@@ -1,13 +1,13 @@
 @import "tailwindcss";
 
 @theme {
-  --color-background-primary: #08090D;
-  --color-background-surface: #111318;
-  --color-background-elevated: #1A1D24;
-  --color-border-slate: #2A2D35;
-  --color-text-primary: #E4E2DD;
-  --color-text-secondary: #7A7D85;
-  --color-text-tertiary: #4A4D55;
+  --color-background-primary: var(--background);
+  --color-background-surface: var(--surface);
+  --color-background-elevated: var(--elevated);
+  --color-border-slate: var(--border);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-tertiary: var(--text-tertiary);
   --color-accent: #00C2FF;
   --color-accent-hover: #33CFFF;
   --color-profit: #00E676;
@@ -22,30 +22,26 @@
   --ease-premium: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Theme Transition Utility */
-.theme-transition {
-  transition: background-color 0.5s var(--ease-premium), 
-              border-color 0.5s var(--ease-premium), 
-              color 0.5s var(--ease-premium), 
-              opacity 0.5s var(--ease-premium),
-              box-shadow 0.5s var(--ease-premium);
-}
-
 :root {
   --background: #08090D;
+  --surface: #111318;
+  --elevated: #1A1D24;
+  --border: #2A2D35;
+  --text-primary: #E4E2DD;
+  --text-secondary: #7A7D85;
+  --text-tertiary: #4A4D55;
   --foreground: #E4E2DD;
 }
 
 [data-theme="light"] {
-  --color-background-primary: #F4F5F7;
-  --color-background-surface: #FFFFFF;
-  --color-background-elevated: #E9EBEE;
-  --color-border-slate: #DBDFE5;
-  --color-text-primary: #000000;
-  --color-text-secondary: #334155;
-  --color-text-tertiary: #64748B;
   --background: #F4F5F7;
-  --foreground: #000000;
+  --surface: #FFFFFF;
+  --elevated: #E9EBEE;
+  --border: #DBDFE5;
+  --text-primary: #08090D;
+  --text-secondary: #4A4D55;
+  --text-tertiary: #7A7D85;
+  --foreground: #08090D;
 }
 
 * {

@@ -96,7 +96,7 @@ export function FeatureShowcase() {
             <Link 
               key={i} 
               href={`/tools/${feature.slug}`}
-              className="feature-card group relative w-[85vw] md:w-[450px] h-[550px] bg-[#111318] border border-border-slate p-12 flex flex-col justify-between transition-premium hover:border-accent/50 overflow-hidden"
+              className="feature-card group relative w-[85vw] md:w-[450px] h-[550px] bg-background-surface border border-border-slate p-12 flex flex-col justify-between transition-premium hover:border-accent/50 overflow-hidden"
             >
               {/* Feature Background Image (Hover Reveal) */}
               <div className="absolute inset-0 z-0">
@@ -105,7 +105,7 @@ export function FeatureShowcase() {
                   alt="" 
                   className="w-full h-full object-cover transition-all duration-1000 scale-110 group-hover:scale-100 opacity-0 group-hover:opacity-20"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#111318] via-[#111318]/50 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-background-surface via-background-surface/50 to-transparent" />
               </div>
 
               {/* Technical Grid Background */}

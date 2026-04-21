@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { createChart, ColorType, CandlestickSeries, LineSeries, HistogramSeries, CrosshairMode } from "lightweight-charts";
+import { useTheme } from "next-themes";
 import { cn } from "@/lib/utils";
 import { calculateSMA, calculateEMA, calculateRSI, calculateMACD, calculateStochastic, calculateATR } from "@/lib/indicators";
 import { identifyMSS, identifyLiquidityPools } from "@/lib/scanner";
@@ -24,6 +25,10 @@ interface ChartProps {
 }
 
 export function InteractiveChart({ initialData = [], symbol = "GBPUSD", userTier = "foundation" }: ChartProps) {
+  const { theme, resolvedTheme } = useTheme();
+  const currentTheme = resolvedTheme || theme;
+  const isDark = currentTheme === "dark";
+
   const containerRef = useRef<HTMLDivElement>(null);
   
   const mainChartRef = useRef<any>(null);
@@ -115,9 +120,16 @@ export function InteractiveChart({ initialData = [], symbol = "GBPUSD", userTier
     const atrContainer = document.getElementById('atr-chart');
 
     const commonOptions = {
-      layout: { background: { type: ColorType.Solid, color: "#08090D" }, textColor: "#8C8B87", fontFamily: "JetBrains Mono" },
-      grid: { vertLines: { color: "#1A1D24" }, horzLines: { color: "#1A1D24" } },
-      timeScale: { borderColor: "#1A1D24" },
+      layout: { 
+        background: { type: ColorType.Solid, color: isDark ? "#08090D" : "#FFFFFF" }, 
+        textColor: isDark ? "#8C8B87" : "#4A4D55", 
+        fontFamily: "JetBrains Mono" 
+      },
+      grid: { 
+        vertLines: { color: isDark ? "#1A1D24" : "#E9EBEE" }, 
+        horzLines: { color: isDark ? "#1A1D24" : "#E9EBEE" } 
+      },
+      timeScale: { borderColor: isDark ? "#1A1D24" : "#DBDFE5" },
       crosshair: { mode: CrosshairMode.Normal },
     };
 
@@ -180,7 +192,7 @@ export function InteractiveChart({ initialData = [], symbol = "GBPUSD", userTier
     // 2. RSI CHART
     if (indicators.rsi && rsiContainer) {
       const chart = createChart(rsiContainer, { ...commonOptions, height: 120 });
-      const rsiSeries = chart.addSeries(LineSeries, { color: "#E4E2DD", lineWidth: 2, priceLineVisible: false });
+      const rsiSeries = chart.addSeries(LineSeries, { color: isDark ? "#E4E2DD" : "#08090D", lineWidth: 2, priceLineVisible: false });
       const rsiData = calculateRSI(data, 14);
       const mapped = rsiData.filter(d => d && d.value !== null).map(d => ({
         time: d!.time as any,
@@ -246,7 +258,7 @@ export function InteractiveChart({ initialData = [], symbol = "GBPUSD", userTier
       window.removeEventListener("resize", handleResize);
       activeCharts.forEach(c => c.remove());
     };
-  }, [indicators, data]);
+  }, [indicators, data, isDark]);
 
   // Handle Price Lines (Entry, SL, TP)
   useEffect(() => {
@@ -353,27 +365,27 @@ export function InteractiveChart({ initialData = [], symbol = "GBPUSD", userTier
         <div className="lg:col-span-3 space-y-2">
           <div ref={containerRef} className="flex flex-col gap-[2px]">
             {/* Main Chart */}
-            <div className="relative border border-border-slate bg-[#08090D] overflow-hidden">
+            <div className="relative border border-border-slate bg-background-primary overflow-hidden">
               <div id="main-chart" className="w-full" />
             </div>
 
             {/* Sub-panels */}
-            <div className={cn("relative border border-border-slate bg-[#08090D]", indicators.rsi ? "block" : "hidden")}>
+            <div className={cn("relative border border-border-slate bg-background-primary", indicators.rsi ? "block" : "hidden")}>
                <span className="absolute top-2 left-2 z-10 text-[10px] font-mono text-text-tertiary tracking-widest">RSI (14)</span>
                <div id="rsi-chart" className="w-full" />
             </div>
 
-            <div className={cn("relative border border-border-slate bg-[#08090D]", indicators.macd ? "block" : "hidden")}>
+            <div className={cn("relative border border-border-slate bg-background-primary", indicators.macd ? "block" : "hidden")}>
                <span className="absolute top-2 left-2 z-10 text-[10px] font-mono text-text-tertiary tracking-widest">MACD (12, 26, 9)</span>
                <div id="macd-chart" className="w-full" />
             </div>
 
-            <div className={cn("relative border border-border-slate bg-[#08090D]", indicators.stoch ? "block" : "hidden")}>
+            <div className={cn("relative border border-border-slate bg-background-primary", indicators.stoch ? "block" : "hidden")}>
                <span className="absolute top-2 left-2 z-10 text-[10px] font-mono text-text-tertiary tracking-widest">STOCH (14, 3, 3)</span>
                <div id="stoch-chart" className="w-full" />
             </div>
 
-            <div className={cn("relative border border-border-slate bg-[#08090D]", indicators.atr ? "block" : "hidden")}>
+            <div className={cn("relative border border-border-slate bg-background-primary", indicators.atr ? "block" : "hidden")}>
                <span className="absolute top-2 left-2 z-10 text-[10px] font-mono text-text-tertiary tracking-widest">ATR (14)</span>
                <div id="atr-chart" className="w-full" />
             </div>
@@ -412,7 +424,7 @@ export function InteractiveChart({ initialData = [], symbol = "GBPUSD", userTier
             <div className="flex flex-col items-center text-center space-y-4">
               <div className="relative w-32 h-32 flex items-center justify-center">
                 <svg className="w-full h-full -rotate-90">
-                  <circle cx="64" cy="64" r="60" fill="none" stroke="#1A1D24" strokeWidth="8" />
+                  <circle cx="64" cy="64" r="60" fill="none" stroke={isDark ? "#1A1D24" : "#E9EBEE"} strokeWidth="8" />
                   <circle 
                     cx="64" cy="64" r="60" fill="none" stroke="#00C2FF" strokeWidth="8" 
                     strokeDasharray={377} 

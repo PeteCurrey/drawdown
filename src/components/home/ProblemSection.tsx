@@ -70,7 +70,7 @@ export function ProblemSection() {
   }, []);
 
   return (
-    <section ref={sectionRef} className="relative z-0 py-32 md:py-56 bg-background-primary">
+    <section ref={sectionRef} className="relative z-0 py-32 md:py-56 bg-background-primary transition-colors duration-500">
       <div className="container mx-auto px-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center mb-4">
           <div className="problem-stat">
@@ -84,7 +84,7 @@ export function ProblemSection() {
                   fontSize="280"
                   fontWeight="800"
                   fill="transparent" 
-                  stroke="#00C2FF" 
+                  stroke="var(--color-accent)" 
                   strokeWidth="2"
                   className="nine-zero-text select-none"
                 >
@@ -93,7 +93,7 @@ export function ProblemSection() {
               </svg>
             </div>
             <div className="-mt-12 md:-mt-20">
-              <h3 className="text-3xl md:text-5xl font-display font-bold uppercase mb-6">
+              <h3 className="text-3xl md:text-5xl font-display font-bold uppercase mb-6 text-text-primary">
                 Of retail traders lose money.
               </h3>
               <p className="text-xl text-text-secondary max-w-xl leading-relaxed">

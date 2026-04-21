@@ -26,6 +26,8 @@ const jetbrainsMono = JetBrains_Mono({
 
 export const metadata: Metadata = getMetadata();
 
+import { ThemeProvider } from "@/components/providers/ThemeProvider";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -35,15 +37,23 @@ export default function RootLayout({
     <html
       lang="en"
       className={`${syne.variable} ${dmSans.variable} ${jetbrainsMono.variable} h-full antialiased`}
+      suppressHydrationWarning
     >
-      <body className="min-h-full flex flex-col bg-background-primary text-text-primary selection:bg-accent selection:text-background-primary">
-        <ScrollProgress />
-        <SmoothScroll>
-          <main className="flex-grow">
-            {children}
-          </main>
-        </SmoothScroll>
-        <GrainOverlay />
+      <body className="min-h-full flex flex-col bg-background-primary text-text-primary selection:bg-accent selection:text-background-primary transition-colors duration-500">
+        <ThemeProvider
+          attribute="data-theme"
+          defaultTheme="dark"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <ScrollProgress />
+          <SmoothScroll>
+            <main className="flex-grow">
+              {children}
+            </main>
+          </SmoothScroll>
+          <GrainOverlay />
+        </ThemeProvider>
       </body>
     </html>
   );

@@ -122,7 +122,7 @@ export default function NewsletterAdminPage() {
             </div>
           </div>
           
-          <div className="p-6 border border-border-slate bg-[#111318] text-center space-y-4">
+          <div className="p-6 border border-border-slate bg-background-surface text-center space-y-4">
             <Eye className="w-8 h-8 text-text-tertiary mx-auto" />
             <h3 className="text-xs font-display font-bold uppercase text-text-secondary">Template Preview</h3>
             <p className="text-[10px] text-text-tertiary font-mono">Your email will be wrapped in the Drawdown Master Template automatically.</p>

@@ -15,7 +15,7 @@ import Link from "next/link";
 
 export default function PartnersPage() {
   return (
-    <div className="pt-12 pb-24 bg-background-primary min-h-screen">
+    <div className="pt-12 pb-24 bg-background-primary min-h-screen transition-colors duration-500">
       <div className="container mx-auto px-6 max-w-7xl">
         {/* Hero Section */}
         <div className="mb-24 text-center lg:text-left">
@@ -47,7 +47,7 @@ export default function PartnersPage() {
               icon: BarChart4
             }
           ].map((cat, i) => (
-            <div key={i} className="p-10 bg-[#111318] border border-border-slate flex flex-col gap-6 group hover:border-accent/30 transition-premium">
+            <div key={i} className="p-10 bg-background-surface border border-border-slate flex flex-col gap-6 group hover:border-accent/30 transition-premium">
               <div className="w-12 h-12 bg-accent/10 flex items-center justify-center text-accent">
                 <cat.icon className="w-6 h-6" />
               </div>

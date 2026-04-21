@@ -39,50 +39,64 @@ export default function CourseLibraryPage() {
                 key={phase.id}
                 href={isLocked ? "#" : `/learn/${phase.slug}`}
                 className={cn(
-                  "group relative p-8 bg-background-surface border-2 transition-premium flex flex-col h-full",
+                  "group relative p-8 bg-background-surface border-2 transition-premium flex flex-col h-full overflow-hidden",
                   isLocked ? "border-border-slate opacity-60 cursor-not-allowed" : "border-transparent hover:border-accent hover:bg-background-elevated"
                 )}
               >
-                <div className="flex justify-between items-start mb-12">
-                  <div className="flex items-center gap-4">
-                    <span className="text-4xl font-display font-black text-accent/20 group-hover:text-accent transition-colors">
-                      {phase.number}
-                    </span>
-                    <div className="w-10 h-10 bg-background-elevated flex items-center justify-center border border-border-slate">
-                      <Icon className="w-5 h-5 text-text-secondary group-hover:text-accent transition-colors" />
-                    </div>
+                {/* Hover Background Image */}
+                {!isLocked && (
+                  <div className="absolute inset-0 z-0 overflow-hidden">
+                    <img 
+                      src={phase.image} 
+                      alt="" 
+                      className="w-full h-full object-cover transition-all duration-1000 scale-110 group-hover:scale-100 opacity-0 group-hover:opacity-10"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-background-surface via-background-surface/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
                   </div>
-                  {isLocked ? (
-                    <div className="flex items-center gap-2 px-3 py-1 bg-background-primary border border-border-slate text-[8px] font-mono uppercase tracking-widest text-text-tertiary">
-                      <Lock className="w-3 h-3" /> {phase.tier}
+                )}
+
+                <div className="relative z-10 flex flex-col h-full">
+                  <div className="flex justify-between items-start mb-12">
+                    <div className="flex items-center gap-4">
+                      <span className="text-4xl font-display font-black text-accent/20 group-hover:text-accent transition-colors">
+                        {phase.number}
+                      </span>
+                      <div className="w-10 h-10 bg-background-elevated flex items-center justify-center border border-border-slate">
+                        <Icon className="w-5 h-5 text-text-secondary group-hover:text-accent transition-colors" />
+                      </div>
                     </div>
-                  ) : (
-                    <div className="w-2 h-2 rounded-full bg-profit animate-pulse" />
-                  )}
-                </div>
-
-                <div className="flex-grow space-y-4 mb-12">
-                  <h3 className="text-2xl font-display font-bold uppercase leading-tight group-hover:text-accent transition-colors">
-                    {phase.name}
-                  </h3>
-                  <p className="text-text-tertiary text-xs font-mono uppercase tracking-widest leading-none">
-                    {phase.subtitle}
-                  </p>
-                  <p className="text-text-secondary text-sm leading-relaxed line-clamp-3">
-                    {phase.description}
-                  </p>
-                </div>
-
-                <div className="flex items-center justify-between pt-8 border-t border-border-slate/50">
-                  <div className="flex items-center gap-4 text-[10px] font-mono text-text-tertiary uppercase tracking-widest">
-                    <span className="flex items-center gap-1"><Play className="w-3 h-3" /> {phase.modules_count} Modules</span>
-                    <span className="flex items-center gap-1"><Clock className="w-3 h-3" /> {phase.duration}</span>
+                    {isLocked ? (
+                      <div className="flex items-center gap-2 px-3 py-1 bg-background-primary border border-border-slate text-[8px] font-mono uppercase tracking-widest text-text-tertiary">
+                        <Lock className="w-3 h-3" /> {phase.tier}
+                      </div>
+                    ) : (
+                      <div className="w-2 h-2 rounded-full bg-profit animate-pulse" />
+                    )}
                   </div>
-                  {!isLocked && (
-                    <span className="text-[10px] font-bold uppercase tracking-widest text-accent group-hover:translate-x-1 transition-transform">
-                      Continue →
-                    </span>
-                  )}
+
+                  <div className="flex-grow space-y-4 mb-12">
+                    <h3 className="text-2xl font-display font-bold uppercase leading-tight group-hover:text-accent transition-colors">
+                      {phase.name}
+                    </h3>
+                    <p className="text-text-tertiary text-xs font-mono uppercase tracking-widest leading-none">
+                      {phase.subtitle}
+                    </p>
+                    <p className="text-text-secondary text-sm leading-relaxed line-clamp-3">
+                      {phase.description}
+                    </p>
+                  </div>
+
+                  <div className="flex items-center justify-between pt-8 border-t border-border-slate/50">
+                    <div className="flex items-center gap-4 text-[10px] font-mono text-text-tertiary uppercase tracking-widest">
+                      <span className="flex items-center gap-1"><Play className="w-3 h-3" /> {phase.modules_count} Modules</span>
+                      <span className="flex items-center gap-1"><Clock className="w-3 h-3" /> {phase.duration}</span>
+                    </div>
+                    {!isLocked && (
+                      <span className="text-[10px] font-bold uppercase tracking-widest text-accent group-hover:translate-x-1 transition-transform">
+                        Continue →
+                      </span>
+                    )}
+                  </div>
                 </div>
               </Link>
             );

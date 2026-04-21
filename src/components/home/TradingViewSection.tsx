@@ -29,7 +29,7 @@ const features = [
 
 export function TradingViewSection() {
   return (
-    <section className="py-24 md:py-32 bg-background-elevated border-y border-border-slate relative overflow-hidden">
+    <section className="py-24 md:py-32 bg-background-elevated border-y border-border-slate relative overflow-hidden transition-colors duration-500">
       {/* Background pattern */}
       <div className="absolute inset-0 opacity-5 pointer-events-none" style={{
         backgroundImage: "repeating-linear-gradient(45deg, #00C2FF 0, #00C2FF 1px, transparent 0, transparent 50%)",
@@ -130,7 +130,7 @@ export function TradingViewSection() {
           {features.map((feature, i) => (
             <div key={i} className="bg-background-primary border border-border-slate p-8 group hover:border-accent/50 transition-premium">
               <feature.icon className="w-8 h-8 text-accent mb-6 group-hover:scale-110 transition-transform duration-300" />
-              <h3 className="text-base font-display font-bold uppercase mb-3 group-hover:text-accent transition-colors">{feature.title}</h3>
+              <h3 className="text-base font-display font-bold uppercase mb-3 text-text-primary group-hover:text-accent transition-colors">{feature.title}</h3>
               <p className="text-xs text-text-tertiary leading-relaxed">{feature.description}</p>
             </div>
           ))}

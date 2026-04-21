@@ -5,6 +5,7 @@ import {
   BarChart, Bar, XAxis, YAxis, Tooltip as RechartsTooltip, ResponsiveContainer, Cell, ReferenceLine,
   PieChart, Pie, Cell as PieCell, Legend
 } from "recharts";
+import { useTheme } from "next-themes";
 import { cn } from "@/lib/utils";
 
 interface Trade {
@@ -26,6 +27,10 @@ const EMOTION_COLORS: Record<string, string> = {
 };
 
 export function EmotionCharts({ trades }: EmotionChartsProps) {
+  const { theme, resolvedTheme } = useTheme();
+  const currentTheme = resolvedTheme || theme;
+  const isDark = currentTheme === "dark";
+
   const pnlData = useMemo(() => {
     if (!trades || trades.length === 0) return [];
     
@@ -89,14 +94,14 @@ export function EmotionCharts({ trades }: EmotionChartsProps) {
         <div className="h-64">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={pnlData} layout="vertical" margin={{ left: 20, right: 30 }}>
-              <XAxis type="number" stroke="#4A4D55" tick={{ fill: '#7A7D85', fontSize: 10, fontFamily: 'monospace' }} />
-              <YAxis dataKey="emotion" type="category" stroke="#4A4D55" tick={{ fill: '#E4E2DD', fontSize: 12, fontWeight: 'bold' }} width={100} />
+              <XAxis type="number" stroke={isDark ? "#4A4D55" : "#DBDFE5"} tick={{ fill: isDark ? '#7A7D85' : '#4A4D55', fontSize: 10, fontFamily: 'monospace' }} />
+              <YAxis dataKey="emotion" type="category" stroke={isDark ? "#4A4D55" : "#DBDFE5"} tick={{ fill: isDark ? '#E4E2DD' : '#08090D', fontSize: 12, fontWeight: 'bold' }} width={100} />
               <RechartsTooltip 
-                cursor={{ fill: '#1A1D24' }}
-                contentStyle={{ backgroundColor: '#111318', borderColor: '#2A2D35', fontFamily: 'monospace', fontSize: '12px' }}
+                cursor={{ fill: isDark ? '#1A1D24' : '#F4F5F7' }}
+                contentStyle={{ backgroundColor: isDark ? '#111318' : '#FFFFFF', borderColor: isDark ? '#2A2D35' : '#DBDFE5', fontFamily: 'monospace', fontSize: '12px', color: isDark ? '#E4E2DD' : '#08090D' }}
                 formatter={(value: number) => [`£${value.toFixed(2)}`, 'P&L']}
               />
-              <ReferenceLine x={0} stroke="#4A4D55" />
+              <ReferenceLine x={0} stroke={isDark ? "#4A4D55" : "#DBDFE5"} />
               <Bar dataKey="pnl" radius={[0, 4, 4, 0]}>
                 {pnlData.map((entry, index) => (
                   <Cell key={`cell-${index}`} fill={entry.pnl >= 0 ? '#00E676' : '#FF3D57'} fillOpacity={entry.pnl >= 0 ? 0.8 : 0.9} />
@@ -155,7 +160,7 @@ export function EmotionCharts({ trades }: EmotionChartsProps) {
                   ))}
                 </Pie>
                 <RechartsTooltip 
-                  contentStyle={{ backgroundColor: '#111318', borderColor: '#2A2D35', fontFamily: 'monospace', fontSize: '10px' }}
+                  contentStyle={{ backgroundColor: isDark ? '#111318' : '#FFFFFF', borderColor: isDark ? '#2A2D35' : '#DBDFE5', fontFamily: 'monospace', fontSize: '10px', color: isDark ? '#E4E2DD' : '#08090D' }}
                 />
                 <Legend 
                   layout="horizontal" 

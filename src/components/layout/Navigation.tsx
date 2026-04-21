@@ -16,6 +16,7 @@ if (typeof window !== "undefined") {
 
 import { phases } from "@/data/courses";
 import { ShieldCheck, BrainCircuit, Play as PlayIcon } from "lucide-react";
+import { ThemeToggle } from "@/components/ui/ThemeToggle";
 
 // Mapping icons to phases for Lucide components
 const iconMap: Record<string, any> = {
@@ -27,6 +28,7 @@ const iconMap: Record<string, any> = {
   PlayIcon
 };
 
+const marketTools = [
   {
     name: "Markets Overview",
     subtitle: "Real-time Ticker & Macro",
@@ -177,6 +179,7 @@ export function Navigation() {
 
           {/* Auth Actions */}
           <div className="hidden lg:flex items-center gap-6">
+            <ThemeToggle />
             <Link href="/login" className="text-sm font-medium uppercase tracking-widest text-text-secondary hover:text-text-primary transition-colors">
               Login
             </Link>
@@ -227,7 +230,7 @@ export function Navigation() {
                         <Link
                           key={phase.name}
                           href={phaseHref}
-                          className="group flex gap-5 p-4 border border-border-slate/30 bg-[#111318] hover:border-accent hover:bg-[#15181f] transition-all duration-500 relative overflow-hidden"
+                          className="group flex gap-5 p-4 border border-border-slate/30 bg-background-surface hover:border-accent hover:bg-background-elevated transition-all duration-500 relative overflow-hidden"
                           onClick={() => setActiveMegaMenu(null)}
                         >
                           {/* Hover Background Image */}
@@ -237,7 +240,7 @@ export function Navigation() {
                               alt="" 
                               className="w-full h-full object-cover transition-all duration-1000 scale-110 group-hover:scale-100 opacity-0 group-hover:opacity-20"
                             />
-                            <div className="absolute inset-0 bg-gradient-to-t from-[#111318] via-[#111318]/50 to-transparent" />
+                            <div className="absolute inset-0 bg-gradient-to-t from-background-surface via-background-surface/50 to-transparent" />
                           </div>
 
                           <div className="absolute top-0 right-0 p-2 opacity-5 group-hover:opacity-10 transition-opacity">
@@ -254,7 +257,7 @@ export function Navigation() {
                             </div>
                             <div className="flex-grow min-w-0">
                               <div className="flex justify-between items-start">
-                                <h4 className="text-xs font-display font-bold uppercase tracking-tight text-[#E4E2DD] group-hover:text-accent transition-colors">
+                                <h4 className="text-xs font-display font-bold uppercase tracking-tight text-text-primary group-hover:text-accent transition-colors">
                                   {phase.name}
                                 </h4>
                                 <span className={cn(
@@ -266,7 +269,7 @@ export function Navigation() {
                                   {phase.tier}
                                 </span>
                               </div>
-                              <p className="text-[9px] text-[#7A7D85] font-sans uppercase tracking-widest mt-1">
+                              <p className="text-[9px] text-text-secondary font-sans uppercase tracking-widest mt-1">
                                 {phase.subtitle}
                               </p>
                               <div className="flex items-center gap-3 mt-2">
@@ -340,7 +343,7 @@ export function Navigation() {
                         <Link
                           key={tool.name}
                           href={tool.href}
-                          className="group flex gap-5 p-4 border border-border-slate/30 bg-[#111318] hover:border-accent hover:bg-[#15181f] transition-all duration-500 relative overflow-hidden"
+                          className="group flex gap-5 p-4 border border-border-slate/30 bg-background-surface hover:border-accent hover:bg-background-elevated transition-all duration-500 relative overflow-hidden"
                           onClick={() => setActiveMegaMenu(null)}
                         >
                           {/* Hover Background Image */}
@@ -350,7 +353,7 @@ export function Navigation() {
                               alt="" 
                               className="w-full h-full object-cover transition-all duration-1000 scale-110 group-hover:scale-100 opacity-0 group-hover:opacity-20"
                             />
-                            <div className="absolute inset-0 bg-gradient-to-t from-[#111318] via-[#111318]/50 to-transparent" />
+                            <div className="absolute inset-0 bg-gradient-to-t from-background-surface via-background-surface/50 to-transparent" />
                           </div>
 
                           <div className="relative z-10 flex gap-5 w-full">
@@ -359,7 +362,7 @@ export function Navigation() {
                             </div>
                             <div className="flex-grow min-w-0">
                               <div className="flex justify-between items-start">
-                                <h4 className="text-xs font-display font-bold uppercase tracking-tight text-[#E4E2DD] group-hover:text-accent transition-colors">
+                                <h4 className="text-xs font-display font-bold uppercase tracking-tight text-text-primary group-hover:text-accent transition-colors">
                                   {tool.name}
                                 </h4>
                                 <span className={cn(
@@ -368,7 +371,7 @@ export function Navigation() {
                                   {tool.type}
                                 </span>
                               </div>
-                              <p className="text-[9px] text-[#7A7D85] font-sans uppercase tracking-widest mt-1">
+                              <p className="text-[9px] text-text-secondary font-sans uppercase tracking-widest mt-1">
                                 {tool.subtitle}
                               </p>
                             </div>

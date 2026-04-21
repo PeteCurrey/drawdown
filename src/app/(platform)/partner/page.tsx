@@ -20,6 +20,7 @@ import {
   Tooltip, 
   CartesianGrid 
 } from "recharts";
+import { useTheme } from "next-themes";
 import { cn } from "@/lib/utils";
 
 // Mock data for initial development
@@ -34,6 +35,9 @@ const chartData = [
 ];
 
 export default function PartnerDashboard() {
+  const { theme, resolvedTheme } = useTheme();
+  const currentTheme = resolvedTheme || theme;
+  const isDark = currentTheme === "dark";
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -104,17 +108,17 @@ export default function PartnerDashboard() {
         <div className="h-[350px] w-full">
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={chartData}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#1F2937" vertical={false} />
+              <CartesianGrid strokeDasharray="3 3" stroke={isDark ? "#1F2937" : "#E9EBEE"} vertical={false} />
               <XAxis 
                 dataKey="date" 
-                stroke="#4B5563" 
+                stroke={isDark ? "#4B5563" : "#8C8B87"} 
                 fontSize={10} 
                 tickLine={false} 
                 axisLine={false}
                 tick={{ fontVariant: 'all-small-caps', letterSpacing: '0.1em' }}
               />
               <YAxis 
-                stroke="#4B5563" 
+                stroke={isDark ? "#4B5563" : "#8C8B87"} 
                 fontSize={10} 
                 tickLine={false} 
                 axisLine={false}
@@ -122,22 +126,23 @@ export default function PartnerDashboard() {
               />
               <Tooltip 
                 contentStyle={{ 
-                  backgroundColor: '#08090D', 
-                  border: '1px solid #1F2937',
+                  backgroundColor: isDark ? '#08090D' : '#FFFFFF', 
+                  border: isDark ? '1px solid #1F2937' : '1px solid #DBDFE5',
                   borderRadius: '0px',
                   fontFamily: 'var(--font-mono)',
                   fontSize: '10px',
-                  textTransform: 'uppercase'
+                  textTransform: 'uppercase',
+                  color: isDark ? '#E4E2DD' : '#08090D'
                 }}
-                itemStyle={{ color: '#00F0FF' }}
+                itemStyle={{ color: '#00C2FF' }}
               />
               <Line 
                 type="monotone" 
                 dataKey="clicks" 
-                stroke="#00F0FF" 
+                stroke="#00C2FF" 
                 strokeWidth={3} 
-                dot={{ r: 4, fill: '#00F0FF', strokeWidth: 0 }}
-                activeDot={{ r: 6, fill: '#00F0FF', stroke: '#08090D', strokeWidth: 2 }}
+                dot={{ r: 4, fill: '#00C2FF', strokeWidth: 0 }}
+                activeDot={{ r: 6, fill: '#00C2FF', stroke: isDark ? '#08090D' : '#FFFFFF', strokeWidth: 2 }}
               />
             </LineChart>
           </ResponsiveContainer>

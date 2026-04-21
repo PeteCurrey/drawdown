@@ -156,7 +156,7 @@ export function MarketPulse() {
   }, []);
 
   return (
-    <section className="py-24 bg-background-primary relative overflow-hidden">
+    <section className="py-24 bg-background-primary relative overflow-hidden transition-colors duration-500">
       <div className="container mx-auto px-6">
         <div className="mb-16">
           <div className="flex items-center gap-3 mb-4">
@@ -168,7 +168,7 @@ export function MarketPulse() {
               <span className="text-[8px] font-mono font-bold text-profit uppercase tracking-widest">LIVE</span>
             </div>
           </div>
-          <h2 className="text-4xl md:text-6xl font-display font-bold uppercase">
+          <h2 className="text-4xl md:text-6xl font-display font-bold uppercase text-text-primary">
             What the World <br /> Is Talking About.
           </h2>
         </div>

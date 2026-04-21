@@ -105,7 +105,7 @@ export default function BrokersPage() {
   const [activeCategory, setActiveCategory] = useState("All");
 
   return (
-    <div className="pt-12 pb-24 bg-background-primary min-h-screen">
+    <div className="pt-12 pb-24 bg-background-primary min-h-screen transition-colors duration-500">
       <div className="container mx-auto px-6 max-w-7xl">
         {/* Header */}
         <div className="mb-16">
@@ -127,7 +127,7 @@ export default function BrokersPage() {
         </div>
 
         {/* TradingView Essential Tool Banner */}
-        <div className="mb-16 p-8 md:p-10 bg-[#131722] border border-accent/30 relative overflow-hidden group">
+        <div className="mb-16 p-8 md:p-10 bg-background-elevated border border-accent/30 relative overflow-hidden group">
           <div className="absolute inset-0 bg-gradient-to-r from-accent/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
           <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
             <div className="flex items-start gap-6">
@@ -188,7 +188,7 @@ export default function BrokersPage() {
           {brokers.map((broker) => (
             <div 
               key={broker.id}
-              className="bg-[#111318] border border-border-slate overflow-hidden group hover:border-accent/30 transition-premium"
+              className="bg-background-surface border border-border-slate overflow-hidden group hover:border-accent/30 transition-premium"
             >
               <div className="grid grid-cols-1 lg:grid-cols-12">
                 {/* Logo & Rating */}
@@ -320,7 +320,7 @@ export default function BrokersPage() {
             <p className="text-sm font-sans text-text-secondary font-mono uppercase tracking-widest">Full feature comparison of every reviewed broker.</p>
           </div>
 
-          <div className="bg-[#111318] border border-border-slate overflow-x-auto">
+          <div className="bg-background-surface border border-border-slate overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
                 <tr className="bg-background-primary/50 border-b border-border-slate">
@@ -334,7 +334,7 @@ export default function BrokersPage() {
               </thead>
               <tbody className="divide-y divide-border-slate/50">
                 {brokers.map((broker) => (
-                  <tr key={broker.id} className="hover:bg-white/[0.02] transition-colors">
+                  <tr key={broker.id} className="hover:bg-accent/5 transition-colors">
                     <td className="p-6 font-bold uppercase text-sm tracking-tight">{broker.name}</td>
                     <td className="p-6 font-mono text-xs">{broker.fca ? '🇬🇧 FCA' : '🌎 Global'}</td>
                     <td className="p-6 font-mono text-xs">{broker.minDeposit}</td>

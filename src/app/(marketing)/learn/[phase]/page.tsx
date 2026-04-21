@@ -1,6 +1,4 @@
-"use client";
-
-import { use } from "react";
+import { Metadata } from "next";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { 
@@ -8,30 +6,46 @@ import {
   CheckCircle2, 
   Clock, 
   ChevronLeft,
-  FileText,
-  HelpCircle,
-  Lock
+  ShieldCheck,
+  Zap,
+  Lock,
+  BrainCircuit,
+  ArrowRight
 } from "lucide-react";
+import { phases, phaseIconMap } from "@/data/courses";
+import { notFound } from "next/navigation";
 
-interface Props {
+interface PageProps {
   params: Promise<{ phase: string }>;
 }
 
-const modules = [
-  { id: 1, title: "The Industry's Toxic Incentive", duration: "24m", status: "completed", type: "video" },
-  { id: 2, title: "Why Your Edge Isn't Working", duration: "45m", status: "completed", type: "video" },
-  { id: 3, title: "The Math of Survivability", duration: "18m", status: "current", type: "video" },
-  { id: 4, title: "Capital vs. Ego", duration: "32m", status: "locked", type: "video" },
-  { id: 5, title: "Basics of Risk (Quiz)", duration: "15m", status: "locked", type: "quiz" },
-  { id: 6, title: "Phase 1 Workshop", duration: "60m", status: "locked", type: "video" },
-];
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { phase: slug } = await params;
+  const phase = phases.find(p => p.slug === slug);
 
-export default function PhasePage({ params }: Props) {
-  const { phase } = use(params);
-  const phaseName = phase.replace(/-/g, " ");
+  if (!phase) return { title: "Phase Not Found" };
+
+  return {
+    title: `Phase ${phase.number}: ${phase.name} | Drawdown Academy`,
+    description: phase.description,
+    openGraph: {
+      title: `${phase.name} - Professional Trading Education`,
+      description: phase.description,
+      images: [phase.image],
+    },
+  };
+}
+
+export default async function PhasePage({ params }: PageProps) {
+  const { phase: slug } = await params;
+  const phase = phases.find(p => p.slug === slug);
+
+  if (!phase) notFound();
+
+  const Icon = phaseIconMap[phase.icon] || ShieldCheck;
 
   return (
-    <div className="pt-12 pb-24 bg-background-primary min-h-screen">
+    <div className="pt-12 pb-24 bg-background-primary min-h-screen transition-colors duration-500">
       <div className="container mx-auto px-6">
         <Link 
           href="/learn" 
@@ -41,91 +55,119 @@ export default function PhasePage({ params }: Props) {
         </Link>
 
         {/* Phase Header */}
-        <div className="mb-20">
-          <div className="flex items-center gap-4 mb-6">
-            <span className="text-4xl font-display font-black text-accent uppercase tracking-tighter">Phase 01</span>
-            <div className="flex-grow h-[1px] bg-border-slate" />
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 mb-24">
+          <div className="lg:col-span-8 space-y-8">
+            <div className="flex items-center gap-4">
+               <span className="text-sm font-mono font-bold text-accent uppercase tracking-[0.3em] bg-accent/5 px-3 py-1 border border-accent/20">
+                 Phase {phase.number}
+               </span>
+               <div className="flex-grow h-[1px] bg-border-slate/30" />
+            </div>
+            
+            <h1 className="text-5xl md:text-8xl font-display font-bold uppercase leading-[0.9] tracking-tighter">
+              {phase.name}<span className="text-accent">.</span>
+            </h1>
+
+            <p className="text-2xl font-display font-medium text-text-secondary leading-tight uppercase tracking-tight max-w-2xl">
+              {phase.subtitle}
+            </p>
+
+            <p className="text-lg text-text-secondary leading-relaxed max-w-3xl font-light">
+              {phase.full_description}
+            </p>
+
+            <div className="flex items-center gap-8 pt-8 border-t border-border-slate/30">
+               <div className="flex flex-col gap-1">
+                  <span className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary">Estimated Time</span>
+                  <span className="text-sm font-bold uppercase">{phase.duration}</span>
+               </div>
+               <div className="flex flex-col gap-1">
+                  <span className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary">Curriculum Tier</span>
+                  <span className={cn(
+                    "text-sm font-bold uppercase",
+                    phase.tier === 'Free' ? "text-profit" : "text-accent"
+                  )}>{phase.tier}</span>
+               </div>
+            </div>
           </div>
-          <h1 className="text-5xl md:text-8xl font-display font-bold uppercase mb-8 leading-tight">
-            {phaseName}.
-          </h1>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl">
-            <div className="space-y-2">
-              <p className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary">Current Progress</p>
-              <div className="flex items-center gap-4">
-                <div className="flex-grow h-1 bg-background-elevated">
-                  <div className="h-full bg-accent w-[33%]" />
+
+          <div className="lg:col-span-4 hidden lg:block">
+             <div className="sticky top-32 p-10 bg-background-surface border border-border-slate space-y-8">
+                <div className="space-y-4">
+                   <div className="w-12 h-12 bg-background-elevated flex items-center justify-center border border-border-slate">
+                      <Icon className="w-6 h-6 text-accent" />
+                   </div>
+                   <h4 className="text-lg font-display font-bold uppercase">Ready to Start?</h4>
+                   <p className="text-xs text-text-tertiary leading-relaxed">
+                     This phase marks the beginning of your professional transition. No indicators, no noise. Just Pure Market Geometry.
+                   </p>
                 </div>
-                <span className="text-xs font-mono font-bold">33%</span>
-              </div>
-            </div>
-            <div className="space-y-2">
-              <p className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary">Complexity</p>
-              <p className="text-sm font-bold uppercase tracking-widest text-text-primary">Foundational</p>
-            </div>
-            <div className="space-y-2">
-              <p className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary">Estimated Time</p>
-              <p className="text-sm font-bold uppercase tracking-widest text-text-primary">4.5 Hours</p>
-            </div>
+                <Link 
+                  href="/signup" 
+                  className="block w-full py-5 bg-accent hover:bg-accent-hover text-background-primary text-center font-bold uppercase tracking-widest text-[10px] transition-colors"
+                >
+                  Access Module 01
+                </Link>
+             </div>
           </div>
         </div>
 
-        {/* Module List */}
-        <div className="space-y-4 max-w-5xl">
-          {modules.map((module) => (
-            <div 
-              key={module.id}
-              className={cn(
-                "group p-6 flex flex-col md:flex-row items-center justify-between gap-6 border transition-premium",
-                module.status === 'locked' ? "bg-background-primary border-border-slate opacity-50" : 
-                module.status === 'current' ? "bg-background-elevated border-accent" :
-                "bg-background-surface border-border-slate hover:border-text-tertiary"
-              )}
-            >
-              <div className="flex items-center gap-8 w-full md:w-auto">
-                <span className="text-2xl font-mono text-text-tertiary group-hover:text-text-primary transition-colors">
-                  {module.id < 10 ? `0${module.id}` : module.id}
-                </span>
-                
-                <div className="flex-grow">
-                  <h3 className={cn(
-                    "text-lg font-display font-bold uppercase tracking-tight",
-                    module.status === 'current' ? "text-accent" : "text-text-primary"
-                  )}>
-                    {module.title}
-                  </h3>
-                  <div className="flex items-center gap-4 mt-2">
-                    <span className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary flex items-center gap-2">
-                      <Clock className="w-3 h-3" /> {module.duration}
-                    </span>
-                    <span className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary flex items-center gap-2">
-                      {module.type === 'video' ? <Play className="w-3 h-3" /> : <HelpCircle className="w-3 h-3" />}
-                      {module.type}
-                    </span>
-                  </div>
+        {/* Phase Breakdown */}
+        <div className="mb-24">
+           <h2 className="text-3xl font-display font-bold uppercase mb-12 flex items-center gap-4">
+              <span className="text-accent underline decoration-accent/30 underline-offset-8">01.</span> Curriculum Breakdown
+           </h2>
+           
+           <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-border-slate/30 border border-border-slate/30">
+              {phase.modules_list.map((module, i) => (
+                <div key={i} className="bg-background-primary p-8 hover:bg-background-elevated transition-colors group">
+                   <div className="flex items-start gap-6">
+                      <span className="text-sm font-mono text-text-tertiary font-bold">
+                        {i + 1 < 10 ? `0${i + 1}` : i + 1}
+                      </span>
+                      <div className="space-y-2">
+                        <h3 className="text-lg font-display font-bold uppercase group-hover:text-accent transition-colors leading-tight">
+                          {module}
+                        </h3>
+                        <p className="text-[10px] font-mono text-text-tertiary uppercase tracking-widest">
+                          {module.includes("Quiz") || module.includes("Assessment") ? "Technical Evaluation" : "Video Strategic Deep-Dive"}
+                        </p>
+                      </div>
+                   </div>
                 </div>
-              </div>
+              ))}
+           </div>
+        </div>
 
-              <div className="w-full md:w-auto flex items-center justify-end gap-6">
-                {module.status === 'completed' && <CheckCircle2 className="w-6 h-6 text-profit" />}
-                {module.status === 'locked' && <Lock className="w-5 h-5 text-text-tertiary" />}
-                {module.status !== 'locked' && (
-                  <Link 
-                    href={`/learn/${phase}/module-${module.id}`}
-                    className={cn(
-                      "px-8 py-3 text-[10px] font-bold uppercase tracking-widest transition-all",
-                      module.status === 'current' 
-                        ? "bg-accent text-background-primary" 
-                        : "bg-background-elevated border border-border-slate text-text-primary hover:bg-background-surface"
-                    )}
-                  >
-                    {module.status === 'completed' ? "Review" : "Start"}
-                  </Link>
-                )}
-              </div>
+        {/* Lead Branding */}
+        <div className="pt-24 border-t border-border-slate/30 flex flex-col items-center text-center space-y-12">
+            <div className="space-y-4">
+               <p className="text-[10px] font-mono uppercase tracking-[0.3em] text-text-tertiary mb-2">Platform Lead</p>
+               <div className="group">
+                 <p className="text-5xl md:text-7xl font-serif italic text-text-primary tracking-wide opacity-80 group-hover:opacity-100 transition-opacity select-none" style={{ fontFamily: 'serif' }}>
+                   Pete Currey
+                 </p>
+               </div>
             </div>
-          ))}
+            
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-12 max-w-4xl w-full">
+               {[
+                 { label: "Institutional Accuracy", value: "Verified data from actual funded accounts." },
+                 { label: "UK Based Mastery", value: "Built and taught from our hub in Chesterfield, UK." },
+                 { label: "No Retail Indicators", value: "We teach you to read the pure price action of the tape." }
+               ].map((item, i) => (
+                 <div key={i} className="space-y-2">
+                    <h5 className="text-xs font-bold uppercase text-accent tracking-widest">{item.label}</h5>
+                    <p className="text-xs text-text-tertiary leading-relaxed uppercase font-mono">{item.value}</p>
+                 </div>
+               ))}
+            </div>
+            
+            <div className="pt-12">
+               <Link href="/pricing" className="inline-flex items-center gap-3 text-xs font-bold uppercase tracking-widest text-text-primary hover:text-accent transition-colors">
+                  Join 2,400+ Students <ArrowRight className="w-4 h-4" />
+               </Link>
+            </div>
         </div>
       </div>
     </div>

@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 
 export default function LiveSessionsPage() {
   return (
-    <div className="pt-12 pb-24 bg-background-primary min-h-screen">
+    <div className="pt-12 pb-24 bg-background-primary min-h-screen transition-colors duration-500">
       <div className="container mx-auto px-6 max-w-6xl">
         <div className="mb-12">
           <span className="text-accent font-mono text-[10px] uppercase tracking-widest block mb-4">// LIVE EDGE</span>
@@ -21,7 +21,7 @@ export default function LiveSessionsPage() {
             <div className="aspect-video bg-background-surface border border-border-slate relative flex flex-col items-center justify-center p-8 text-center group overflow-hidden">
               <div className="absolute inset-0 bg-accent/5 opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
               <Video className="w-12 h-12 text-text-tertiary mb-6 opacity-50" />
-              <h2 className="text-2xl font-display font-bold uppercase mb-4">Stream Offline</h2>
+              <h2 className="text-2xl font-display font-bold uppercase mb-4 text-text-primary">Stream Offline</h2>
               <p className="text-xs font-mono text-text-secondary">
                 The next live session begins at 08:00 AM GMT (London Open).
               </p>
@@ -33,7 +33,7 @@ export default function LiveSessionsPage() {
             </div>
 
             <div className="bg-background-surface border border-border-slate p-8">
-              <h3 className="text-lg font-display font-bold uppercase mb-6 flex items-center gap-2">
+              <h3 className="text-lg font-display font-bold uppercase mb-6 flex items-center gap-2 text-text-primary">
                 <CalendarDays className="w-5 h-5 text-accent" /> Upcoming Schedule
               </h3>
               
@@ -64,7 +64,7 @@ export default function LiveSessionsPage() {
           {/* Chat / Sidebar Area */}
           <div className="bg-background-surface border border-border-slate flex flex-col h-[600px] lg:h-auto">
             <div className="p-6 border-b border-border-slate flex items-center justify-between">
-               <h3 className="text-lg font-display font-bold uppercase flex items-center gap-2">
+               <h3 className="text-lg font-display font-bold uppercase flex items-center gap-2 text-text-primary">
                  <Users className="w-5 h-5 text-accent" /> Live Chat
                </h3>
                <span className="text-[9px] font-mono uppercase tracking-widest text-text-tertiary flex items-center gap-1">
@@ -73,7 +73,7 @@ export default function LiveSessionsPage() {
             </div>
             
             <div className="flex-grow p-6 flex flex-col items-center justify-center text-center px-8 relative overflow-hidden">
-               <div className="absolute inset-0 bg-[#111318]/50 backdrop-blur-sm z-10" />
+               <div className="absolute inset-0 bg-background-surface/50 backdrop-blur-sm z-10" />
                <div className="relative z-20 space-y-4">
                   <Lock className="w-8 h-8 text-text-tertiary mx-auto mb-4" />
                   <p className="text-sm font-bold uppercase">Offline Chat Disabled</p>

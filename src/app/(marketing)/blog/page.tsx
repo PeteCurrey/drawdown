@@ -92,7 +92,7 @@ export default function BlogListingPage() {
                 </p>
               </div>
               <div className="relative z-10 flex items-center justify-between text-[10px] font-mono uppercase tracking-widest text-text-tertiary pt-6 border-t border-border-slate/50">
-                <span>{new Date(post.publishedAt).toLocaleDateString('en-GB', { day: 'short', month: 'short', year: 'numeric' })}</span>
+                <span>{new Date(post.publishedAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
                 <span>{post.readingTime} min</span>
               </div>
             </Link>

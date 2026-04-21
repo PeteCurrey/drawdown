@@ -13,6 +13,7 @@ import {
   Filter
 } from "lucide-react";
 import Link from "next/link";
+import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 
 const TV_AFFILIATE_URL = "https://www.tradingview.com/?aff_id=165855";
 

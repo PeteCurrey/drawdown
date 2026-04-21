@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import { ArrowUpRight, Newspaper, TrendingUp, TrendingDown } from "lucide-react";
 import Link from "next/link";
+import { NewsSourceLogo } from "@/components/ui/NewsSourceLogo";
 
 interface NewsItem {
   source: string;
@@ -61,9 +62,7 @@ export function MarketPulse() {
             >
               <div className="relative z-10">
                 <div className="flex items-center justify-between mb-8">
-                  <span className="text-[10px] font-mono font-bold uppercase tracking-[0.2em] text-text-tertiary">
-                    {item.source}
-                  </span>
+                  <NewsSourceLogo source={item.source} size="sm" monochrome={true} />
                   <span className="text-[9px] font-mono text-text-tertiary">
                     {new Date(item.publishedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                   </span>

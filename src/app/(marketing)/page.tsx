@@ -1,4 +1,5 @@
 import { HeroSection } from "@/components/home/HeroSection";
+import { NewsSourceStrip } from "@/components/home/NewsSourceStrip";
 import { ProblemSection } from "@/components/home/ProblemSection";
 import { FounderVideo } from "@/components/home/FounderVideo";
 import { FeatureShowcase } from "@/components/home/FeatureShowcase";
@@ -15,6 +16,9 @@ export default function Home() {
     <div className="flex flex-col">
       {/* 2. Hero (Condensed) */}
       <HeroSection />
+
+      {/* Institutional Logo Strip */}
+      <NewsSourceStrip />
 
       {/* 3. Live Dashboard Preview (THE differentiator) */}
       <LiveDashboardPreview />

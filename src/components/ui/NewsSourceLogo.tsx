@@ -4,7 +4,8 @@ interface NewsSourceLogoProps {
   source: string;
   className?: string;
   showText?: boolean;
-  size?: "xs" | "sm" | "md";
+  size?: "xs" | "sm" | "md" | "lg";
+  monochrome?: boolean;
 }
 
 const logoMap: Record<string, { domain: string; color?: string }> = {
@@ -30,13 +31,20 @@ const logoMap: Record<string, { domain: string; color?: string }> = {
   "Benzinga": { domain: "benzinga.com", color: "#FF9100" },
 };
 
-export function NewsSourceLogo({ source, className, showText = true, size = "sm" }: NewsSourceLogoProps) {
+export function NewsSourceLogo({ 
+  source, 
+  className, 
+  showText = true, 
+  size = "sm",
+  monochrome = false
+}: NewsSourceLogoProps) {
   const mapping = logoMap[source] || Object.entries(logoMap).find(([key]) => source.toLowerCase().includes(key.toLowerCase()))?.[1];
 
   const sizeClasses = {
     xs: "h-3 w-3",
     sm: "h-4 w-4",
     md: "h-6 w-6",
+    lg: "h-8 w-8",
   };
 
   if (!mapping) {
@@ -49,11 +57,17 @@ export function NewsSourceLogo({ source, className, showText = true, size = "sm"
 
   return (
     <div className={cn("inline-flex items-center gap-2", className)}>
-      <div className={cn("relative flex-shrink-0 bg-white rounded-sm overflow-hidden", sizeClasses[size])}>
+      <div className={cn(
+        "relative flex-shrink-0 bg-white rounded-sm overflow-hidden flex items-center justify-center p-0.5", 
+        sizeClasses[size]
+      )}>
         <img 
           src={`https://logo.clearbit.com/${mapping.domain}`}
           alt={source}
-          className="w-full h-full object-contain p-0.5"
+          className={cn(
+            "w-full h-full object-contain",
+            monochrome && "grayscale brightness-0 invert opacity-40 hover:opacity-100 transition-opacity"
+          )}
           onError={(e) => {
             (e.target as HTMLImageElement).style.display = 'none';
           }}

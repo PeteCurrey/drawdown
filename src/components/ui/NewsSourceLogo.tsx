@@ -66,7 +66,7 @@ export function NewsSourceLogo({
           alt={source}
           className={cn(
             "w-full h-full object-contain",
-            monochrome && "grayscale brightness-0 invert opacity-40 hover:opacity-100 transition-opacity"
+            monochrome && "grayscale brightness-0 dark:invert opacity-40 hover:opacity-100 transition-opacity"
           )}
           onError={(e) => {
             (e.target as HTMLImageElement).style.display = 'none';

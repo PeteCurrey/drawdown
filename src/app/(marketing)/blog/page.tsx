@@ -3,25 +3,25 @@ import { getMetadata } from "@/lib/metadata";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { BLOG_POSTS } from "@/lib/data/blog-posts";
 
 export const metadata: Metadata = getMetadata({
   title: "Insights | Market Analysis & Trading Education",
   description: "Market analysis, trading education, and honest commentary from the Drawdown team. No hype, just edge.",
 });
 
-const categories = ["All", "Market Analysis", "Education", "Psychology", "Tools", "UK Trading"];
-
-import { blogPosts } from "@/data/blog";
+const categories = ["All", "Market Analysis", "Education", "Psychology"];
 
 export default function BlogListingPage() {
-  const posts = blogPosts;
+  const posts = BLOG_POSTS;
+  
   return (
     <div className="pt-32 pb-24 bg-background-primary min-h-screen">
       <div className="container mx-auto px-6">
         <Breadcrumbs />
 
         <div className="mb-20">
-          <h1 className="text-5xl md:text-8xl font-display font-extrabold uppercase mb-6">
+          <h1 className="text-5xl md:text-8xl font-display font-extrabold uppercase mb-6 text-text-primary">
             Insights.
           </h1>
           <p className="text-xl text-text-secondary max-w-2xl font-sans">
@@ -46,13 +46,13 @@ export default function BlogListingPage() {
 
         {/* Featured Post */}
         <div className="mb-20">
-          <Link href={`/blog/${posts[0].slug}`} className="group grid grid-cols-1 lg:grid-cols-2 gap-12 items-center bg-background-surface border border-border-slate overflow-hidden">
+          <Link href={`/blog/${posts[0].slug}`} className="group grid grid-cols-1 lg:grid-cols-2 gap-12 items-center bg-background-surface border border-border-slate overflow-hidden hover:border-accent/30 transition-premium">
             <div className="aspect-video bg-background-elevated relative overflow-hidden">
               <div className="absolute inset-0 bg-gradient-to-t from-background-primary/80 to-transparent" />
-              {/* Image placeholder */}
+              <div className="absolute inset-0 bg-accent/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
               <div className="absolute inset-x-8 bottom-8">
                  <span className="text-[10px] font-mono uppercase tracking-widest text-accent mb-2 block">// Featured Post</span>
-                 <h2 className="text-3xl font-display font-bold uppercase group-hover:text-accent transition-colors">
+                 <h2 className="text-3xl md:text-4xl font-display font-bold uppercase group-hover:text-accent transition-colors leading-tight text-text-primary">
                   {posts[0].title}
                  </h2>
               </div>
@@ -62,10 +62,10 @@ export default function BlogListingPage() {
                 {posts[0].excerpt}
               </p>
               <div className="flex items-center gap-6 text-[10px] font-mono uppercase tracking-widest text-text-tertiary">
-                <span>{posts[0].date}</span>
-                <span>{posts[0].readingTime} read</span>
+                <span>{new Date(posts[0].publishedAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}</span>
+                <span>{posts[0].readingTime} min read</span>
               </div>
-              <span className="inline-block py-2 text-accent border-b border-accent font-bold uppercase tracking-widest text-xs">
+              <span className="inline-block py-2 text-accent border-b border-accent font-bold uppercase tracking-widest text-xs group-hover:translate-x-2 transition-transform">
                 Read Article
               </span>
             </div>
@@ -78,20 +78,13 @@ export default function BlogListingPage() {
             <Link 
               key={post.slug} 
               href={`/blog/${post.slug}`}
-              className="group relative p-8 bg-background-surface border border-border-slate transition-all duration-500 flex flex-col justify-between h-[400px] overflow-hidden"
+              className="group relative p-8 bg-background-surface border border-border-slate transition-all duration-500 flex flex-col justify-between h-[400px] overflow-hidden hover:border-accent/30"
             >
-              {/* Hover Reveal Image */}
-              <div className="absolute inset-0 z-0 opacity-0 group-hover:opacity-100 transition-all duration-1000 ease-out scale-110 group-hover:scale-100 grayscale hover:grayscale-0">
-                <div className="absolute inset-0 bg-accent/10 z-10" />
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,#00E67605_0%,transparent_70%)]" />
-                <div className="h-full w-full opacity-20 bg-gradient-to-br from-accent/20 to-background-surface bg-cover bg-center" />
-              </div>
-
               <div className="relative z-10">
                 <span className="text-[10px] font-mono uppercase tracking-widest text-accent mb-4 block">
                   {post.category}
                 </span>
-                <h3 className="text-2xl font-display font-bold uppercase group-hover:text-accent transition-colors leading-tight mb-4">
+                <h3 className="text-2xl font-display font-bold uppercase group-hover:text-accent transition-colors leading-tight mb-4 text-text-primary">
                   {post.title}
                 </h3>
                 <p className="text-text-secondary text-sm leading-relaxed line-clamp-3">
@@ -99,8 +92,8 @@ export default function BlogListingPage() {
                 </p>
               </div>
               <div className="relative z-10 flex items-center justify-between text-[10px] font-mono uppercase tracking-widest text-text-tertiary pt-6 border-t border-border-slate/50">
-                <span>{post.date}</span>
-                <span>{post.readingTime}</span>
+                <span>{new Date(post.publishedAt).toLocaleDateString('en-GB', { day: 'short', month: 'short', year: 'numeric' })}</span>
+                <span>{post.readingTime} min</span>
               </div>
             </Link>
           ))}

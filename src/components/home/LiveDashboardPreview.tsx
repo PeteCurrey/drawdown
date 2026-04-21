@@ -36,6 +36,26 @@ interface EconomicEvent {
   previous: string;
 }
 
+const FALLBACK_MARKETS: MarketItem[] = [
+  { symbol: "GBPUSD", price: 1.26450, changePercent: 0.12, sparkline: [10, 20, 15, 30, 25, 40, 35, 50, 45, 60] },
+  { symbol: "EURUSD", price: 1.08230, changePercent: -0.05, sparkline: [60, 50, 55, 45, 50, 35, 40, 25, 30, 10] },
+  { symbol: "FTSE100", price: 7924.30, changePercent: 0.45, sparkline: [20, 30, 40, 35, 50, 60, 55, 70, 75, 80] },
+  { symbol: "S&P500", price: 5243.50, changePercent: 0.22, sparkline: [40, 45, 42, 50, 48, 55, 52, 60, 58, 65] },
+  { symbol: "NASDAQ", price: 18335.20, changePercent: 0.31, sparkline: [30, 40, 35, 50, 45, 60, 55, 70, 65, 80] },
+  { symbol: "XAUUSD", price: 2345.10, changePercent: -0.15, sparkline: [70, 65, 68, 60, 62, 55, 58, 50, 52, 40] }
+];
+
+const FALLBACK_NEWS: NewsItem[] = [
+  { source: "Bloomberg", title: "Middle East Tensions Drive Volatility in Crude Oil Benchmarks", timeAgo: "12m ago", url: "#" },
+  { source: "FT", title: "UK Inflation Drops to 3.2%, Beating Market Projections", timeAgo: "45m ago", url: "#" },
+  { source: "Reuters", title: "Tech Rally Continues as Nvidia Reaches All-Time High", timeAgo: "1h ago", url: "#" }
+];
+
+const FALLBACK_CALENDAR: EconomicEvent[] = [
+  { time: "13:30", event: "US Non-Farm Payrolls", country: "🇺🇸", impact: 'High', forecast: "190K", previous: "210K" },
+  { time: "12:00", event: "BoE Rate Decision", country: "🇬🇧", impact: 'High', forecast: "5.25%", previous: "5.25%" }
+];
+
 export function LiveDashboardPreview() {
   const [markets, setMarkets] = useState<MarketItem[]>([]);
   const [news, setNews] = useState<NewsItem[]>([]);
@@ -44,95 +64,109 @@ export function LiveDashboardPreview() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 5000);
+
     async function fetchData() {
       try {
         const [marketRes, newsRes, calendarRes] = await Promise.all([
-          fetch("/api/market/prices?symbols=GBPUSD,EURUSD,FTSE,S&P500,NASDAQ,BTCUSD,ETHUSD,XAUUSD,WTIOil,USDJPY"),
-          fetch("/api/news/feed"),
-          fetch("/api/market/calendar")
+          fetch("/api/market/prices?symbols=GBPUSD,EURUSD,FTSE,S&P500,NASDAQ,BTCUSD,ETHUSD,XAUUSD,WTIOil,USDJPY", { signal: controller.signal }),
+          fetch("/api/news/feed", { signal: controller.signal }),
+          fetch("/api/market/calendar", { signal: controller.signal })
         ]);
 
         const marketsData = await marketRes.json();
         const newsData = await newsRes.json();
         const calendarData = await calendarRes.json();
 
-        setMarkets(marketsData.slice(0, 10));
-        
-        // Transform and slice news
-        setNews(newsData.slice(0, 5).map((item: any) => ({
+        setMarkets(marketsData.length > 0 ? marketsData.slice(0, 10) : FALLBACK_MARKETS);
+        setNews(newsData.length > 0 ? newsData.slice(0, 5).map((item: any) => ({
           source: item.source,
           title: item.title,
-          timeAgo: "15m ago", // Simplified for preview
+          timeAgo: "15m ago",
           url: item.url
-        })));
+        })) : FALLBACK_NEWS);
 
-        // Economic Calendar
         if (calendarData.length > 0) {
           setNextEvent(calendarData[0]);
           setUpcomingEvents(calendarData.slice(1, 4));
+        } else {
+          setNextEvent(FALLBACK_CALENDAR[0]);
+          setUpcomingEvents(FALLBACK_CALENDAR.slice(1));
         }
 
         setLoading(false);
       } catch (err) {
-        console.error("Dashboard preview fetch error:", err);
+        console.error("Dashboard preview fetch error, using fallbacks:", err);
+        setMarkets(FALLBACK_MARKETS);
+        setNews(FALLBACK_NEWS);
+        setNextEvent(FALLBACK_CALENDAR[0]);
+        setUpcomingEvents(FALLBACK_CALENDAR.slice(1));
+        setLoading(false);
+      } finally {
+        clearTimeout(timeoutId);
       }
     }
 
     fetchData();
-    const interval = setInterval(fetchData, 60000); // 1 minute refresh
-    return () => clearInterval(interval);
+    const interval = setInterval(fetchData, 60000);
+    return () => {
+      clearInterval(interval);
+      controller.abort();
+    };
   }, []);
 
   return (
     <section className="py-20 bg-background-primary relative z-10 -mt-20">
       <div className="container mx-auto px-6">
-        <div className="bg-[#111318] border border-border-slate rounded-2xl overflow-hidden shadow-2xl">
+        <div className={cn(
+          "bg-background-surface border border-border-slate rounded-2xl overflow-hidden shadow-2xl transition-all duration-700",
+          loading ? "opacity-50 blur-sm" : "opacity-100 blur-0"
+        )}>
           <div className="grid grid-cols-1 lg:grid-cols-10 divide-y lg:divide-y-0 lg:divide-x divide-border-slate/50">
             
             {/* Column 1: Markets Now */}
-            <div className="lg:col-span-3 p-8 space-y-8">
+            <div className="lg:col-span-3 p-8 space-y-8 bg-background-primary/30">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 rounded-full bg-profit animate-pulse" />
-                  <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-text-primary">
-                    LONDON SESSION OPEN
+                  <div className="w-1.5 h-1.5 rounded-full bg-profit animate-pulse" />
+                  <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-text-secondary">
+                    SESSION ACTIVE
                   </span>
                 </div>
                 <div className="flex items-center gap-2 text-text-tertiary">
-                  <Clock className="w-3 h-3" />
-                  <span className="text-[10px] font-mono">08:42:15 GMT</span>
+                  <Clock className="w-3.5 h-3.5" />
+                  <span className="text-[10px] font-mono">LIVE FEED</span>
                 </div>
               </div>
 
               <div className="space-y-4">
                 {markets.map((item) => (
-                  <div key={item.symbol} className="flex items-center justify-between group cursor-pointer hover:bg-white/5 p-2 -m-2 transition-colors">
+                  <div key={item.symbol} className="flex items-center justify-between group cursor-pointer hover:bg-white/5 p-2 -m-2 transition- premium active:scale-95">
                     <div className="flex flex-col">
-                      <span className="text-xs font-bold font-mono text-text-primary uppercase">{item.symbol}</span>
-                      <span className="text-[10px] text-text-tertiary font-mono">Forex</span>
+                      <span className="text-xs font-bold font-mono text-text-primary uppercase tracking-tighter">{item.symbol}</span>
+                      <span className="text-[8px] text-text-tertiary font-mono uppercase">Live Market</span>
                     </div>
                     
-                    <div className="flex items-center gap-6">
-                      {/* Mini Sparkline SVG */}
-                      <svg width="60" height="20" className="hidden sm:block">
+                    <div className="flex items-center gap-4">
+                      <svg width="40" height="16" className="hidden sm:block opacity-40 group-hover:opacity-100 transition-opacity">
                         <polyline
                           fill="none"
                           stroke={item.changePercent >= 0 ? "#00E676" : "#FF3D57"}
-                          strokeWidth="1.5"
-                          points={item.sparkline?.map((v, i) => `${(i / (item.sparkline.length - 1)) * 60},${20 - (v / 100) * 20}`).join(" ")}
+                          strokeWidth="2"
+                          points={item.sparkline?.map((v, i) => `${(i / (item.sparkline.length - 1)) * 40},${16 - (v / 100) * 16}`).join(" ")}
                         />
                       </svg>
                       
                       <div className="text-right flex flex-col">
-                        <span className="text-sm font-bold font-mono text-text-primary">
-                          {item.price.toFixed(5)}
+                        <span className="text-sm font-bold font-mono text-text-primary tracking-tighter">
+                          {item.price > 100 ? item.price.toFixed(2) : item.price.toFixed(5)}
                         </span>
                         <span className={cn(
                           "text-[9px] font-mono font-bold flex items-center justify-end gap-0.5",
                           item.changePercent >= 0 ? "text-profit" : "text-loss"
                         )}>
-                          {item.changePercent >= 0 ? <TrendingUp className="w-2.5 h-2.5" /> : <TrendingDown className="w-2.5 h-2.5" />}
-                          {Math.abs(item.changePercent).toFixed(2)}%
+                          {item.changePercent >= 0 ? "+" : ""}{item.changePercent.toFixed(2)}%
                         </span>
                       </div>
                     </div>
@@ -140,109 +174,122 @@ export function LiveDashboardPreview() {
                 ))}
               </div>
 
-              <Link href="/markets" className="flex items-center justify-center gap-2 py-4 border border-border-slate text-[10px] font-bold uppercase tracking-widest hover:border-accent transition-colors">
-                View All Markets <ChevronRight className="w-3 h-3" />
+              <Link href="/markets" className="flex items-center justify-center gap-2 py-4 bg-background-elevated border border-border-slate text-[9px] font-bold uppercase tracking-widest hover:border-accent hover:text-accent transition-all">
+                Full Intelligence Hub <ChevronRight className="w-3.5 h-3.5" />
               </Link>
             </div>
 
             {/* Column 2: Latest News */}
-            <div className="lg:col-span-4 p-8 flex flex-col h-full">
-              <div className="flex items-center gap-3 mb-8">
-                <div className="p-2 bg-accent/10 rounded-lg">
+            <div className="lg:col-span-4 p-10 flex flex-col h-full bg-background-surface">
+              <div className="flex items-center gap-4 mb-10">
+                <div className="p-2.5 bg-accent/10 rounded-none border border-accent/20">
                   <Newspaper className="w-5 h-5 text-accent" />
                 </div>
-                <h3 className="text-lg font-display font-bold uppercase">Live Intelligence.</h3>
+                <div className="space-y-0.5">
+                  <h3 className="text-xl font-display font-bold uppercase tracking-tight text-text-primary">Global Flux.</h3>
+                  <p className="text-[9px] font-mono text-text-tertiary uppercase tracking-widest">Real-time Intelligence Feed</p>
+                </div>
               </div>
 
-              <div className="flex-grow space-y-6">
+              <div className="flex-grow space-y-8">
                 {news.map((item, i) => (
                   <a 
                     key={i} 
                     href={item.url} 
                     target="_blank" 
                     rel="noopener noreferrer"
-                    className="block group"
+                    className="block group relative"
                   >
-                    <div className="flex items-center gap-2 mb-1.5">
-                      <span className="text-[9px] font-mono font-bold uppercase tracking-widest text-text-tertiary px-1.5 py-0.5 border border-border-slate">
+                    <div className="flex items-center gap-3 mb-2">
+                      <span className="text-[10px] font-mono font-black uppercase tracking-tighter text-accent">
                         {item.source}
                       </span>
-                      <span className="text-[9px] font-mono text-text-tertiary">
+                      <span className="text-[9px] font-mono text-text-tertiary uppercase">
                         {item.timeAgo}
                       </span>
                     </div>
-                    <h4 className="text-sm font-bold text-text-primary group-hover:text-accent transition-colors leading-snug line-clamp-2">
+                    <h4 className="text-base font-bold text-text-primary group-hover:text-accent transition-colors leading-snug line-clamp-2">
                       {item.title}
                     </h4>
                   </a>
                 ))}
               </div>
 
-              <div className="pt-8 mt-8 border-t border-border-slate/30">
-                <Link href="/markets/pulse" className="text-xs font-bold uppercase tracking-widest text-accent hover:underline flex items-center gap-2">
-                  Explore Market Pulse <ChevronRight className="w-3 h-3" />
+              <div className="pt-10 mt-10 border-t border-border-slate/50">
+                <Link href="/markets" className="text-[10px] font-black uppercase tracking-widest text-accent hover:opacity-80 flex items-center justify-between group">
+                  EXPLORE MARKET PULSE <ArrowUpRight className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
                 </Link>
               </div>
             </div>
 
             {/* Column 3: Economic Calendar */}
-            <div className="lg:col-span-3 p-8 space-y-8">
-              <div className="flex items-center gap-3">
-                <div className="p-2 bg-accent/10 rounded-lg">
+            <div className="lg:col-span-3 p-10 space-y-10 bg-background-primary/30">
+              <div className="flex items-center gap-4">
+                <div className="p-2.5 bg-accent/10 rounded-none border border-accent/20">
                   <Calendar className="w-5 h-5 text-accent" />
                 </div>
-                <h3 className="text-lg font-display font-bold uppercase">Economic.</h3>
+                <div className="space-y-0.5">
+                  <h3 className="text-xl font-display font-bold uppercase tracking-tight text-text-primary">Volatility.</h3>
+                  <p className="text-[9px] font-mono text-text-tertiary uppercase tracking-widest">Critical Macro Events</p>
+                </div>
               </div>
 
               {nextEvent && (
-                <div className="p-6 bg-background-elevated border border-border-slate rounded-xl space-y-4">
-                  <div className="flex items-center justify-between">
-                    <span className="text-[10px] font-mono text-text-tertiary uppercase tracking-widest">NEXT HIGH IMPACT</span>
-                    <Circle className="w-2 h-2 fill-loss text-loss" />
+                <div className="p-8 bg-background-elevated border-l-4 border-l-loss border border-border-slate space-y-6 relative overflow-hidden group">
+                  <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
+                     <Calendar className="w-12 h-12" />
                   </div>
                   
-                  <div className="space-y-1">
-                    <p className="text-2xl font-mono font-bold text-accent tracking-tight">2h 14m 33s</p>
-                    <p className="text-sm font-bold uppercase">{nextEvent.event}</p>
+                  <div className="flex items-center justify-between relative z-10">
+                    <span className="text-[9px] font-mono text-text-tertiary uppercase tracking-widest font-bold px-2 py-0.5 bg-loss/10 text-loss">HIGH IMPACT</span>
+                  </div>
+                  
+                  <div className="space-y-2 relative z-10">
+                    <p className="text-sm font-black uppercase text-text-primary leading-tight">{nextEvent.event}</p>
+                    <p className="text-[10px] font-mono text-text-secondary">{nextEvent.time} GMT • {nextEvent.country}</p>
                   </div>
 
-                  <div className="flex items-center gap-4 pt-4 border-t border-border-slate/30">
+                  <div className="grid grid-cols-2 gap-4 pt-6 mt-6 border-t border-border-slate/50 relative z-10">
                     <div className="flex flex-col">
-                      <span className="text-[8px] font-mono text-text-tertiary uppercase">Time</span>
-                      <span className="text-xs font-mono">{nextEvent.time}</span>
+                      <span className="text-[8px] font-mono text-text-tertiary uppercase font-bold tracking-tighter">Consensus</span>
+                      <span className="text-xs font-mono font-bold text-text-primary">{nextEvent.forecast || "—"}</span>
                     </div>
                     <div className="flex flex-col">
-                      <span className="text-[8px] font-mono text-text-tertiary uppercase">Impact</span>
-                      <span className="text-xs font-mono text-loss">HIGH</span>
+                      <span className="text-[8px] font-mono text-text-tertiary uppercase font-bold tracking-tighter">Previous</span>
+                      <span className="text-xs font-mono text-text-secondary">{nextEvent.previous || "—"}</span>
                     </div>
                   </div>
                 </div>
               )}
 
-              <div className="space-y-4">
-                <p className="text-[10px] font-mono text-text-tertiary uppercase tracking-widest">UPCOMING TODAY</p>
+              <div className="space-y-6">
+                <p className="text-[10px] font-mono text-text-tertiary uppercase tracking-widest font-black border-b border-border-slate pb-2">Upcoming Intelligence</p>
                 {upcomingEvents.map((event, i) => (
-                  <div key={i} className="flex items-center justify-between py-2 border-b border-border-slate/30 last:border-0">
+                  <div key={i} className="flex items-center justify-between group cursor-default">
                     <div className="flex flex-col">
-                      <span className="text-xs font-bold uppercase truncate max-w-[150px]">{event.event}</span>
-                      <span className="text-[9px] font-mono text-text-tertiary">{event.time}</span>
+                      <span className="text-xs font-bold uppercase text-text-secondary group-hover:text-text-primary transition-colors">{event.event}</span>
+                      <span className="text-[9px] font-mono text-text-tertiary uppercase">{event.time}</span>
                     </div>
-                    <span className="text-xs font-mono font-bold text-text-primary">{event.country}</span>
+                    <span className="text-xs font-mono font-black text-accent">{event.country}</span>
                   </div>
                 ))}
               </div>
 
-              <Link href="/markets?tab=calendar" className="flex items-center justify-center gap-2 py-4 border border-border-slate text-[10px] font-bold uppercase tracking-widest hover:border-accent transition-colors">
-                Full Calendar <ChevronRight className="w-3 h-3" />
+              <Link href="/markets?tab=calendar" className="flex items-center justify-center gap-2 py-4 bg-background-elevated border border-border-slate text-[9px] font-bold uppercase tracking-widest hover:border-accent hover:text-accent transition-all mt-auto">
+                Full Economic Matrix <ChevronRight className="w-3.5 h-3.5" />
               </Link>
             </div>
 
           </div>
         </div>
         
-        <div className="mt-8 text-center">
-          <p className="text-[10px] font-mono text-text-tertiary uppercase tracking-widest">
-            This is what your dashboard looks like. Imagine it personalised to your watchlist. <Link href="/signup" className="text-accent hover:underline ml-2">Start Free &rarr;</Link>
+        <div className="mt-12 text-center">
+          <p className="text-[10px] font-mono text-text-tertiary uppercase tracking-widest flex items-center justify-center gap-4">
+             <span>Institutional Grade Infrastructure</span>
+             <span className="w-1 h-1 bg-border-slate rounded-full" />
+             <span>Low-Latency Aggregation</span>
+             <span className="w-1 h-1 bg-border-slate rounded-full" />
+             <Link href="/signup" className="text-accent underline decoration-accent/30 underline-offset-4 hover:decoration-accent transition-all font-bold">Launch Full Terminal &rarr;</Link>
           </p>
         </div>
       </div>

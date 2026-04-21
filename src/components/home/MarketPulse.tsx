@@ -124,6 +124,76 @@ function NewsCard({ item, index }: { item: NewsItem; index: number }) {
   );
 }
 
+const FALLBACK_NEWS: NewsItem[] = [
+  {
+    source: "Bloomberg",
+    title: "Global Equity Markets Stabilize as Inflation Fears Recede",
+    publishedAt: new Date().toISOString(),
+    url: "#",
+    categories: ["Equities", "Macro"],
+    instruments: ["SPX", "NDX"]
+  },
+  {
+    source: "Reuters",
+    title: "BoE Holds Rates; Signal Shift in Monetary Policy Outlook",
+    publishedAt: new Date().toISOString(),
+    url: "#",
+    categories: ["UK", "Currencies"],
+    instruments: ["GBPUSD", "UK100"]
+  },
+  {
+    source: "Financial Times",
+    title: "Eurozone GDP Growth Exceeds Analyst Expectations in Q1",
+    publishedAt: new Date().toISOString(),
+    url: "#",
+    categories: ["Europe", "Economy"],
+    instruments: ["EURUSD", "DAX"]
+  },
+  {
+    source: "CNBC",
+    title: "Tech Giants Rally on Strong AI Infrastructure Spending",
+    publishedAt: new Date().toISOString(),
+    url: "#",
+    categories: ["Tech", "Nasdaq"],
+    instruments: ["NVDA", "AAPL"]
+  },
+  {
+    source: "WSJ",
+    title: "Oil Prices Under Pressure Amid Rising Global Stocks",
+    publishedAt: new Date().toISOString(),
+    url: "#",
+    categories: ["Commodities", "Energy"],
+    instruments: ["OIL", "XTI"]
+  },
+  {
+    source: "MarketWatch",
+    title: "US Treasury Yields Flatten Ahead of Key Employment Data",
+    publishedAt: new Date().toISOString(),
+    url: "#",
+    categories: ["Bonds", "US"],
+    instruments: ["US10Y"]
+  }
+];
+
+function PulseSkeleton() {
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {[1, 2, 3, 4, 5, 6].map((i) => (
+        <div key={i} className="bg-background-elevated border border-border-slate animate-pulse min-h-[320px] relative overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
+          <div className="p-8 space-y-6 relative z-10">
+            <div className="h-4 w-32 bg-white/10" />
+            <div className="space-y-3">
+              <div className="h-6 w-full bg-white/10" />
+              <div className="h-6 w-3/4 bg-white/10" />
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 export function MarketPulse() {
   const [news, setNews] = useState<NewsItem[]>([]);
   const [loading, setLoading] = useState(true);
@@ -131,18 +201,29 @@ export function MarketPulse() {
   const sectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 5000);
+
     async function fetchNews() {
       try {
-        const res = await fetch("/api/news/feed");
+        const res = await fetch("/api/news/feed", { signal: controller.signal });
         const data = await res.json();
-        setNews(data.slice(0, 6));
+        if (data && data.length > 0) {
+          setNews(data.slice(0, 6));
+        } else {
+          setNews(FALLBACK_NEWS);
+        }
         setLoading(false);
       } catch (err) {
-        console.error("News fetch error:", err);
+        console.error("News fetch error, using fallbacks:", err);
+        setNews(FALLBACK_NEWS);
         setLoading(false);
+      } finally {
+        clearTimeout(timeoutId);
       }
     }
     fetchNews();
+    return () => controller.abort();
   }, []);
 
   // Intersection Observer for card entrance animation
@@ -156,67 +237,64 @@ export function MarketPulse() {
   }, []);
 
   return (
-    <section className="py-24 bg-background-primary relative overflow-hidden transition-colors duration-500">
+    <section ref={sectionRef} className="py-24 bg-background-primary relative overflow-hidden transition-colors duration-500">
       <div className="container mx-auto px-6">
         <div className="mb-16">
           <div className="flex items-center gap-3 mb-4">
             <span className="text-[10px] font-mono tracking-widest uppercase text-accent font-bold">
-              // MARKET PULSE
+              // GLOBAL INTELLIGENCE
             </span>
-            <div className="flex items-center gap-1.5 px-2 py-0.5 bg-profit/10 border border-profit/20 rounded-full">
+            <div className="flex items-center gap-1.5 px-3 py-1 bg-profit/10 border border-profit/20">
               <div className="w-1.5 h-1.5 rounded-full bg-profit animate-pulse" />
-              <span className="text-[8px] font-mono font-bold text-profit uppercase tracking-widest">LIVE</span>
+              <span className="text-[8px] font-mono font-bold text-profit uppercase tracking-widest">LIVE PULSE</span>
             </div>
           </div>
-          <h2 className="text-4xl md:text-6xl font-display font-bold uppercase text-text-primary">
-            What the World <br /> Is Talking About.
+          <h2 className="text-4xl md:text-8xl font-display font-bold uppercase text-text-primary leading-tight">
+            Institutional <br /><span className="text-accent underline decoration-accent/10">Pulse.</span>
           </h2>
         </div>
 
-        <div ref={sectionRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {loading ? (
-            // Skeleton loaders
-            Array.from({ length: 6 }).map((_, i) => (
-              <div key={i} className="bg-background-elevated border border-border-slate animate-pulse min-h-[320px]" />
-            ))
-          ) : (
-            news.map((item, i) => (
+        {loading ? (
+          <PulseSkeleton />
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {news.map((item, i) => (
               <div
                 key={i}
-                className={`transition-all duration-700 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}
-                style={{ transitionDelay: `${i * 80}ms` }}
+                className={`transition-all duration-1000 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
+                style={{ transitionDelay: `${i * 100}ms` }}
               >
                 <NewsCard item={item} index={i} />
               </div>
-            ))
-          )}
+            ))}
 
-          {/* CTA Card */}
-          {!loading && (
+            {/* CTA Card */}
             <Link
-              href="/markets/pulse"
-              className="group border border-accent/20 hover:border-accent/50 transition-premium flex flex-col justify-center items-center text-center gap-4 min-h-[320px] relative overflow-hidden"
+              href="/markets"
+              className={`group border border-accent/20 hover:border-accent/40 transition-premium flex flex-col justify-center items-center text-center gap-4 min-h-[320px] relative overflow-hidden ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
               style={{
                 background: "linear-gradient(135deg, #00C2FF08, #00C2FF15)",
-                transitionDelay: `${6 * 80}ms`
+                transitionDelay: `${news.length * 100}ms`
               }}
             >
-              <div className="absolute inset-0 bg-gradient-to-br from-accent/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-              <div className="relative z-10 space-y-4 p-8">
-                <div className="w-16 h-16 rounded-full bg-accent/10 border border-accent/20 flex items-center justify-center mx-auto mb-2 group-hover:scale-110 transition-transform">
-                  <Newspaper className="w-7 h-7 text-accent" />
+              <div className="absolute inset-0 bg-gradient-to-br from-accent/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+              <div className="relative z-10 space-y-6 p-10">
+                <div className="w-20 h-20 bg-accent/10 border border-accent/20 flex items-center justify-center mx-auto mb-2 group-hover:scale-110 group-hover:rotate-6 transition-all duration-500">
+                  <Newspaper className="w-8 h-8 text-accent" />
                 </div>
-                <h3 className="text-2xl font-display font-bold uppercase group-hover:text-accent transition-colors">
-                  Explore <br /> Market Pulse
+                <h3 className="text-3xl font-display font-bold uppercase group-hover:text-accent transition-colors leading-tight">
+                  Enter The <br /> Hub
                 </h3>
                 <p className="text-[10px] font-mono text-text-tertiary uppercase tracking-widest leading-relaxed">
-                  Live news, economic calendar, sentiment & AI analysis
+                  Consolidated technical analysis, news, and AI scanning.
                 </p>
-                <ArrowUpRight className="w-5 h-5 text-accent mx-auto mt-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                <div className="flex items-center justify-center gap-2 text-accent font-bold uppercase text-[10px] tracking-widest mt-4">
+                  Full View <ArrowUpRight className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                </div>
               </div>
             </Link>
-          )}
-        </div>
+          </div>
+        )}
       </div>
     </section>
   );

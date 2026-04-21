@@ -5,55 +5,12 @@ import Link from "next/link";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Lock } from "lucide-react";
+import { phases } from "@/data/courses";
+import { cn } from "@/lib/utils";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
 }
-
-const phases = [
-  {
-    number: "01",
-    title: "Foundations",
-    subtitle: "Ground Zero",
-    tier: "Free",
-    modules: ["What is Trading?", "Broker Setup", "Reading a Chart", "Order Types"]
-  },
-  {
-    number: "02",
-    title: "Technical",
-    subtitle: "Reading the Room",
-    tier: "Foundation",
-    modules: ["Support & Resistance", "Trend ID", "Candlestick Patterns", "Indicators"]
-  },
-  {
-    number: "03",
-    title: "Strategy",
-    subtitle: "Your Playbook",
-    tier: "Foundation",
-    modules: ["Entry & Exit", "Momentum Trading", "Swing Strategies", "Backtesting"]
-  },
-  {
-    number: "04",
-    title: "Risk",
-    subtitle: "Staying Alive",
-    tier: "Foundation",
-    modules: ["Position Sizing", "Stop Losses", "Drawdown Management", "Correlation"]
-  },
-  {
-    number: "05",
-    title: "Psychology",
-    subtitle: "The 80%",
-    tier: "Edge",
-    modules: ["FOMO & Overtrading", "Trading Routines", "Identity", "Losing Streaks"]
-  },
-  {
-    number: "06",
-    title: "Advanced",
-    subtitle: "The Edge",
-    tier: "Edge",
-    modules: ["Order Flow", "Options Basics", "Algo Introduction", "Scaling"]
-  }
-];
 
 export function PhasePreview() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -96,54 +53,67 @@ export function PhasePreview() {
         </div>
 
         <div className="phase-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {phases.map((phase, i) => (
+          {phases.map((phase) => (
             <div 
-              key={i} 
-              className="phase-card group relative p-8 bg-background-surface border border-border-slate hover:border-accent/40 transition-premium"
+              key={phase.id} 
+              className="phase-card group relative p-8 bg-background-surface border border-border-slate hover:border-accent/40 transition-premium overflow-hidden"
             >
-              <div className="flex justify-between items-start mb-8">
-                <span className="text-4xl font-mono font-bold text-text-tertiary group-hover:text-accent transition-colors">
-                  {phase.number}
-                </span>
-                <span className={`px-3 py-1 text-[10px] font-bold uppercase tracking-widest border border-border-slate ${
-                  phase.tier === 'Free' ? 'text-text-primary' : 
-                  phase.tier === 'Foundation' ? 'text-accent border-accent/30' : 
-                  'text-premium border-premium/30'
-                }`}>
-                  {phase.tier}
-                </span>
-              </div>
-              
-              <div className="mb-8">
-                <h4 className="text-2xl font-display font-bold uppercase group-hover:translate-x-2 transition-transform duration-500">
-                  {phase.title}
-                </h4>
-                <p className="text-text-tertiary text-xs uppercase tracking-widest font-mono group-hover:translate-x-2 transition-transform duration-500 delay-75">
-                  {phase.subtitle}
-                </p>
+              {/* Background Image with Overlay */}
+              <div className="absolute inset-0 z-0">
+                <img 
+                  src={phase.image} 
+                  alt="" 
+                  className="w-full h-full object-cover opacity-5 group-hover:opacity-10 transition-opacity duration-700" 
+                />
+                <div className="absolute inset-0 bg-gradient-to-tr from-background-surface via-background-surface/90 to-transparent" />
               </div>
 
-              <ul className="space-y-3 pt-8 border-t border-border-slate/50">
-                {phase.modules.map((module, j) => (
-                  <li key={j} className="text-sm text-text-secondary flex items-center gap-2">
-                    <div className="w-1 h-1 bg-accent/50 rounded-full" />
-                    {module}
-                  </li>
-                ))}
-              </ul>
-
-              {phase.tier !== 'Free' && (
-                <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-40 transition-opacity">
-                  <Lock className="w-4 h-4" />
+              <div className="relative z-10">
+                <div className="flex justify-between items-start mb-8">
+                  <span className="text-4xl font-mono font-bold text-text-tertiary group-hover:text-accent transition-colors">
+                    {phase.number}
+                  </span>
+                  <span className={cn(
+                    "px-3 py-1 text-[10px] font-bold uppercase tracking-widest border",
+                    phase.tier === 'Free' ? 'text-profit border-profit/30' : 
+                    phase.tier === 'Foundation' ? 'text-accent border-accent/30' : 
+                    'text-premium border-premium/30'
+                  )}>
+                    {phase.tier}
+                  </span>
                 </div>
-              )}
+                
+                <div className="mb-8">
+                  <h4 className="text-2xl font-display font-bold uppercase group-hover:translate-x-2 transition-transform duration-500">
+                    {phase.name}
+                  </h4>
+                  <p className="text-text-tertiary text-xs uppercase tracking-widest font-mono group-hover:translate-x-2 transition-transform duration-500 delay-75">
+                    {phase.subtitle}
+                  </p>
+                </div>
+
+                <ul className="space-y-3 pt-8 border-t border-border-slate/50">
+                  {phase.modules_list.slice(0, 4).map((module, j) => (
+                    <li key={j} className="text-sm text-text-secondary flex items-center gap-2">
+                      <div className="w-1 h-1 bg-accent/50 rounded-full" />
+                      {module}
+                    </li>
+                  ))}
+                </ul>
+
+                {phase.tier !== 'Free' && (
+                  <div className="absolute top-0 right-0 opacity-0 group-hover:opacity-40 transition-opacity -translate-y-2 translate-x-2">
+                    <Lock className="w-3 h-3" />
+                  </div>
+                )}
+              </div>
             </div>
           ))}
         </div>
 
         <div className="mt-20 text-center">
           <Link 
-            href="/courses" 
+            href="/learn" 
             className="inline-flex items-center gap-4 text-sm font-bold uppercase tracking-widest text-text-primary hover:text-accent transition-colors"
           >
             Explore Full Curriculum

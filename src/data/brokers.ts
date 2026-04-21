@@ -18,17 +18,22 @@ export interface Broker {
 export const brokers: Broker[] = [
   {
     id: "ig",
-    name: "IG",
+    name: "IG Markets",
     slug: "ig-review",
     logo: "/brokers/ig.svg",
-    oneLine: "Best for UK spread betting and CFDs",
-    rating: 4.8,
-    minDeposit: "£250",
+    oneLine: "The gold standard for UK spread betting and CFDs",
+    rating: 4.9,
+    minDeposit: "£0",
     spreads: "0.6 pips",
-    platforms: ["IG Platform", "MT4", "L2 Dealer"],
+    platforms: ["IG Platform", "MT4", "ProRealTime", "L2 Dealer"],
     fcaRegulated: true,
-    pros: ["Largest UK provider", "Excellent education", "Reliable execution"],
-    cons: ["Higher share commissions", "Interface takes time to learn"],
+    pros: [
+      "Founded in 1974 (London)",
+      "FCA regulated & FTSE 250 listed",
+      "Massive range of 17,000+ markets",
+      "Best-in-class proprietary platform"
+    ],
+    cons: ["Share dealing fees can be higher", "Interface takes time to master"],
     affiliateUrl: "https://www.ig.com/uk",
     category: "Stocks"
   },

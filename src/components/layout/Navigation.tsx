@@ -15,7 +15,7 @@ if (typeof window !== "undefined") {
 }
 
 import { phases } from "@/data/courses";
-import { ShieldCheck, LineChart, Zap, Lock, BrainCircuit, Play as PlayIcon } from "lucide-react";
+import { ShieldCheck, BrainCircuit, Play as PlayIcon } from "lucide-react";
 
 // Mapping icons to phases for Lucide components
 const iconMap: Record<string, any> = {

@@ -90,7 +90,7 @@ export function MarketPulse() {
               <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
                 <ArrowUpRight className="w-4 h-4 text-accent" />
               </div>
-            </div>
+            </a>
           ))}
 
           {/* CTA Card */}

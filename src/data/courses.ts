@@ -10,7 +10,8 @@ export interface CoursePhase {
   duration: string;
   modules_count: number;
   modules_list: string[];
-  icon: string; // Storing as string to avoid LucideIcon issues in some contexts, or we can export a mapping
+  icon: string;
+  image: string;
   description: string;
   full_description: string;
 }
@@ -26,6 +27,7 @@ export const phases: CoursePhase[] = [
     duration: "4.5 Hours",
     modules_count: 8,
     icon: "ShieldCheck",
+    image: "/images/nav/phase-01.png",
     description: "Unlearn the noise. Build the fundamental psychological and mechanical foundation every trader needs before touching a chart.",
     full_description: "Phase 01 is designed to strip away the bad habits and false expectations that plague most retail traders. We focus on the environment, the routine, and the mathematics of risk before we ever look for a trade setup. This is where professional discipline begins.",
     modules_list: [
@@ -49,6 +51,7 @@ export const phases: CoursePhase[] = [
     duration: "8 Hours",
     modules_count: 12,
     icon: "LineChart",
+    image: "/images/tools/strategy-backtester.png",
     description: "Master naked price action. Learn to see what the institutions are doing without relying on lagging indicators or guru 'signals'.",
     full_description: "Stop relying on indicators that only tell you what has already happened. In Phase 02, you will learn to read the story of the tape through raw price action, market structure, and liquidity zones. You'll develop the ability to identify high-probability areas for institutional interest.",
     modules_list: [
@@ -72,6 +75,7 @@ export const phases: CoursePhase[] = [
     duration: "6.5 Hours",
     modules_count: 10,
     icon: "Zap",
+    image: "/images/tools/ai-trade-journal.png",
     description: "Develop, test, and refine high-probability setups. We move from theory to a specific, repeatable mechanical edge.",
     full_description: "A professional trader has a mechanical process. Phase 03 takes your chart reading skills and turns them into a repeatable strategist. We define entry models, exit protocols, and strict rulesets that remove the guesswork from your trading day.",
     modules_list: [
@@ -95,6 +99,7 @@ export const phases: CoursePhase[] = [
     duration: "3 Hours",
     modules_count: 6,
     icon: "Lock",
+    image: "/images/tools/risk-calculator.png",
     description: "The most important phase. Learn the professional position sizing and account management that keeps you in the game.",
     full_description: "You can be right 80% of the time and still go broke. Phase 04 is the defensive wall. We cover advanced position sizing, correlation risk, and the psychology of drawdowns. Learn the formulas that the big funds use to survive decades, not days.",
     modules_list: [
@@ -116,6 +121,7 @@ export const phases: CoursePhase[] = [
     duration: "5 Hours",
     modules_count: 10,
     icon: "BrainCircuit",
+    image: "/images/tools/ai-daily-briefing.png",
     description: "Conquer the internal battles. Dealing with streaks, tilt, and the loneliness of the screens.",
     full_description: "Trading is 20% strategy and 80% mind management. Once you have a mechanical edge, the only thing that can break it is you. Phase 05 dives deep into cognitive biases, emotional regulation, and the performance psychology required to execute under pressure.",
     modules_list: [
@@ -137,6 +143,7 @@ export const phases: CoursePhase[] = [
     duration: "12 Hours",
     modules_count: 14,
     icon: "Play",
+    image: "/images/tools/ai-market-scanner.png",
     description: "Scaling up. Integrating custom AI workflows, portfolio diversification, and long-term wealth management.",
     full_description: "At the highest level, trading is about optimization and scale. Phase 06 introduces advanced institutional tools: order flow depth, AI-assisted journaling, and complex portfolio management. This is designed for those looking to manage six and seven-figure capital.",
     modules_list: [

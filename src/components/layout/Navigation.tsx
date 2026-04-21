@@ -27,48 +27,53 @@ const iconMap: Record<string, any> = {
   PlayIcon
 };
 
-const marketTools = [
   {
     name: "Markets Overview",
     subtitle: "Real-time Ticker & Macro",
     href: "/markets?tab=overview",
     icon: LayoutDashboard,
-    type: "Command Center"
+    type: "Command Center",
+    image: "/images/tools/terminal.png"
   },
   {
     name: "Economic Calendar",
     subtitle: "Global Macro Events",
     href: "/markets?tab=calendar",
     icon: Calendar,
-    type: "Macro Data"
+    type: "Macro Data",
+    image: "/images/tools/scanner.png"
   },
   {
     name: "Market Scanner",
     subtitle: "Technical Price Action",
     href: "/markets?tab=scanner",
     icon: Percent,
-    type: "Institutional"
+    type: "Institutional",
+    image: "/images/tools/ai-market-scanner.png"
   },
   {
     name: "Sentiment Index",
     subtitle: "Psychology & Volatility",
     href: "/markets?tab=sentiment",
     icon: Gauge,
-    type: "Contrarian"
+    type: "Contrarian",
+    image: "/images/tools/ai-daily-briefing.png"
   },
   {
     name: "Live News Feed",
     subtitle: "Sentiment Aggregation",
     href: "/markets?tab=news",
     icon: Radio,
-    type: "Real-time"
+    type: "Real-time",
+    image: "/images/tools/ai-trade-journal.png"
   },
   {
     name: "Earnings Guide",
     subtitle: "Corporate Reporting",
     href: "/markets?tab=earnings",
     icon: BarChart3,
-    type: "Fundamental"
+    type: "Fundamental",
+    image: "/images/tools/risk-calculator.png"
   }
 ];
 
@@ -225,6 +230,16 @@ export function Navigation() {
                           className="group flex gap-5 p-4 border border-border-slate/30 bg-[#111318] hover:border-accent hover:bg-[#15181f] transition-all duration-500 relative overflow-hidden"
                           onClick={() => setActiveMegaMenu(null)}
                         >
+                          {/* Hover Background Image */}
+                          <div className="absolute inset-0 z-0">
+                            <img 
+                              src={phase.image} 
+                              alt="" 
+                              className="w-full h-full object-cover transition-all duration-1000 scale-110 group-hover:scale-100 opacity-0 group-hover:opacity-20"
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-t from-[#111318] via-[#111318]/50 to-transparent" />
+                          </div>
+
                           <div className="absolute top-0 right-0 p-2 opacity-5 group-hover:opacity-10 transition-opacity">
                              <span className="text-4xl font-mono font-black text-accent">
                                {phase.number}
@@ -233,7 +248,7 @@ export function Navigation() {
 
                           <div className="relative z-10 flex gap-5 w-full">
                             <div className="relative w-16 h-16 shrink-0 flex items-center justify-center bg-background-primary border border-border-slate group-hover:border-accent/40 transition-colors">
-                              <span className="text-2xl font-mono font-black text-accent/20 group-hover:text-accent/30 transition-colors">
+                              <span className="text-2xl font-mono font-black text-accent/20 group-hover:text-accent/3 transition-colors">
                                 {phase.number}
                               </span>
                             </div>
@@ -328,6 +343,16 @@ export function Navigation() {
                           className="group flex gap-5 p-4 border border-border-slate/30 bg-[#111318] hover:border-accent hover:bg-[#15181f] transition-all duration-500 relative overflow-hidden"
                           onClick={() => setActiveMegaMenu(null)}
                         >
+                          {/* Hover Background Image */}
+                          <div className="absolute inset-0 z-0">
+                            <img 
+                              src={tool.image} 
+                              alt="" 
+                              className="w-full h-full object-cover transition-all duration-1000 scale-110 group-hover:scale-100 opacity-0 group-hover:opacity-20"
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-t from-[#111318] via-[#111318]/50 to-transparent" />
+                          </div>
+
                           <div className="relative z-10 flex gap-5 w-full">
                             <div className="relative w-16 h-16 shrink-0 flex items-center justify-center bg-background-primary border border-border-slate group-hover:border-accent/40 transition-colors">
                                <Icon className="w-6 h-6 text-accent/40 group-hover:text-accent transition-colors" />

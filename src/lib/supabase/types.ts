@@ -19,6 +19,8 @@ export interface Database {
           stripe_customer_id: string | null
           subscription_tier: 'free' | 'foundation' | 'edge' | 'floor'
           subscription_status: 'active' | 'cancelled' | 'past_due' | 'trialing' | null
+          role: 'student' | 'partner' | 'admin'
+          partner_id: string | null
           updated_at: string | null
           created_at: string
         }
@@ -31,6 +33,8 @@ export interface Database {
           stripe_customer_id?: string | null
           subscription_tier?: 'free' | 'foundation' | 'edge' | 'floor'
           subscription_status?: 'active' | 'cancelled' | 'past_due' | 'trialing' | null
+          role?: 'student' | 'partner' | 'admin'
+          partner_id?: string | null
           updated_at?: string | null
           created_at?: string
         }
@@ -43,6 +47,8 @@ export interface Database {
           stripe_customer_id?: string | null
           subscription_tier?: 'free' | 'foundation' | 'edge' | 'floor'
           subscription_status?: 'active' | 'cancelled' | 'past_due' | 'trialing' | null
+          role?: 'student' | 'partner' | 'admin'
+          partner_id?: string | null
           updated_at?: string | null
           created_at?: string
         }

@@ -52,7 +52,8 @@ export default async function middleware(request: NextRequest) {
     path.startsWith("/live") ||
     path.startsWith("/tools/") ||
     path.startsWith("/profile") ||
-    path.startsWith("/admin");
+    path.startsWith("/admin") ||
+    path.startsWith("/partner");
 
   if (path.startsWith("/learn-to-trade")) {
     return response;
@@ -60,6 +61,19 @@ export default async function middleware(request: NextRequest) {
 
   if (isProtectedRoute && !user) {
     return NextResponse.redirect(new URL("/login", request.url));
+  }
+
+  // Role-based protection for /partner
+  if (path.startsWith("/partner") && user) {
+    const { data: profile } = await supabase
+      .from("profiles")
+      .select("role")
+      .eq("id", user.id)
+      .single();
+
+    if (profile?.role !== "partner" && profile?.role !== "admin") {
+      return NextResponse.redirect(new URL("/dashboard", request.url));
+    }
   }
 
   // Redirect to dashboard if logged in and trying to access auth pages

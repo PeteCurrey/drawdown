@@ -17,7 +17,7 @@ const features = [
     name: "AI Trade Journal",
     description: "Your data is your edge. AI analyzes your patterns to find where you're actually winning.",
     tier: "Edge+",
-    image: "/images/tools/terminal.png",
+    image: "/images/tools/ai-trade-journal.png",
   },
   {
     slug: "risk-calculator",
@@ -25,7 +25,7 @@ const features = [
     name: "Risk Calculator",
     description: "Position sizing is how you stay alive. Protect your capital with professional grade risk tools.",
     tier: "Foundation+",
-    image: "/images/tools/terminal.png",
+    image: "/images/tools/risk-calculator.png",
   },
   {
     slug: "ai-market-scanner",
@@ -33,7 +33,7 @@ const features = [
     name: "AI Market Scanner",
     description: "Don't just see what's moving — understand why. Real-time context for major market shifts.",
     tier: "Edge+",
-    image: "/images/tools/scanner.png",
+    image: "/images/tools/ai-market-scanner.png",
   },
   {
     slug: "strategy-backtester",
@@ -41,7 +41,7 @@ const features = [
     name: "Strategy Backtester",
     description: "Test your ideas against history before risking a penny. Data-backed confidence for every entry.",
     tier: "Edge+",
-    image: "/images/tools/terminal.png",
+    image: "/images/tools/strategy-backtester.png",
   },
   {
     slug: "ai-daily-briefing",
@@ -49,7 +49,7 @@ const features = [
     name: "AI Daily Briefing",
     description: "Personalised morning brief based on your watchlist and preferred trading markets.",
     tier: "Edge+",
-    image: "/images/tools/scanner.png",
+    image: "/images/tools/ai-daily-briefing.png",
   }
 ];
 
@@ -98,6 +98,16 @@ export function FeatureShowcase() {
               href={`/tools/${feature.slug}`}
               className="feature-card group relative w-[85vw] md:w-[450px] h-[550px] bg-[#111318] border border-border-slate p-12 flex flex-col justify-between transition-premium hover:border-accent/50 overflow-hidden"
             >
+              {/* Feature Background Image (Hover Reveal) */}
+              <div className="absolute inset-0 z-0">
+                <img 
+                  src={feature.image} 
+                  alt="" 
+                  className="w-full h-full object-cover transition-all duration-1000 scale-110 group-hover:scale-100 opacity-0 group-hover:opacity-20"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#111318] via-[#111318]/50 to-transparent" />
+              </div>
+
               {/* Technical Grid Background */}
               <div className="absolute inset-0 z-0 opacity-[0.03] pointer-events-none group-hover:opacity-[0.07] transition-opacity duration-1000">
                 <div className="h-full w-full bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]" />

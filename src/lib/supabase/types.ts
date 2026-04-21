@@ -160,6 +160,126 @@ export interface Database {
           tokens_estimated?: number
           created_at?: string
         }
+      },
+      daily_briefs: {
+        Row: {
+          id: string
+          summary: string
+          audio_url: string | null
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          summary: string
+          audio_url?: string | null
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          summary?: string
+          audio_url?: string | null
+          created_at?: string
+        }
+      },
+      broker_affiliates: {
+        Row: {
+          id: string
+          name: string
+          slug: string
+          logo_url: string | null
+          type: 'broker' | 'prop_firm' | 'tool'
+          affiliate_url: string
+          best_for: string | null
+          rating: number | null
+          min_deposit: string | null
+          spread_from: string | null
+          platforms: string[] | null
+          leverage: string | null
+          fca_regulated: boolean
+          pros: string[] | null
+          cons: string[] | null
+          review_content: string | null
+          category_tags: string[] | null
+          display_order: number
+          is_active: boolean
+          commission_type: string | null
+          commission_detail: string | null
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          name: string
+          slug: string
+          logo_url?: string | null
+          type: 'broker' | 'prop_firm' | 'tool'
+          affiliate_url: string
+          best_for?: string | null
+          rating?: number | null
+          min_deposit?: string | null
+          spread_from?: string | null
+          platforms?: string[] | null
+          leverage?: string | null
+          fca_regulated?: boolean
+          pros?: string[] | null
+          cons?: string[] | null
+          review_content?: string | null
+          category_tags?: string[] | null
+          display_order?: number
+          is_active?: boolean
+          commission_type?: string | null
+          commission_detail?: string | null
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          name?: string
+          slug?: string
+          logo_url?: string | null
+          type?: 'broker' | 'prop_firm' | 'tool'
+          affiliate_url?: string
+          best_for?: string | null
+          rating?: number | null
+          min_deposit?: string | null
+          spread_from?: string | null
+          platforms?: string[] | null
+          leverage?: string | null
+          fca_regulated?: boolean
+          pros?: string[] | null
+          cons?: string[] | null
+          review_content?: string | null
+          category_tags?: string[] | null
+          display_order?: number
+          is_active?: boolean
+          commission_type?: string | null
+          commission_detail?: string | null
+          created_at?: string
+        }
+      },
+      broker_clicks: {
+        Row: {
+          id: string
+          broker_id: string
+          user_id: string | null
+          source_page: string | null
+          clicked_at: string
+          ip_hash: string | null
+        }
+        Insert: {
+          id?: string
+          broker_id: string
+          user_id?: string | null
+          source_page?: string | null
+          clicked_at?: string
+          ip_hash?: string | null
+        }
+        Update: {
+          id?: string
+          broker_id?: string
+          user_id?: string | null
+          source_page?: string | null
+          clicked_at?: string
+          ip_hash?: string | null
+        }
       }
     }
     Views: {

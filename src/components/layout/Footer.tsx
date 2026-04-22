@@ -5,10 +5,15 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { Send, Loader2, CheckCircle2 } from "lucide-react";
 
+import { useRegion } from "@/components/layout/RegionalLayout";
+
 export function Footer() {
+  const { region } = useRegion();
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [message, setMessage] = useState("");
+
+  const regionPrefix = region === "uk" ? "" : `/${region}`;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -42,7 +47,7 @@ export function Footer() {
       <div className="container mx-auto px-6">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 mb-16">
           <div className="lg:col-span-2 space-y-8">
-            <Link href="/" className="text-xl font-display font-extrabold tracking-widest uppercase flex items-end">
+            <Link href={region === 'uk' ? "/" : `/${region}`} className="text-xl font-display font-extrabold tracking-widest uppercase flex items-end">
               Drawdown<span className="text-accent ml-0.5">.</span>
             </Link>
             <p className="text-text-secondary text-sm max-w-sm leading-relaxed">
@@ -85,31 +90,31 @@ export function Footer() {
           <div>
             <h4 className="font-display font-bold uppercase tracking-widest text-sm mb-6">Platform</h4>
             <ul className="space-y-4 text-sm text-text-secondary">
-              <li><Link href="/courses" className="hover:text-accent transition-colors">Curriculum</Link></li>
-              <li><Link href="/markets" className="hover:text-accent transition-colors">Markets Hub</Link></li>
-              <li><Link href="/brokers" className="hover:text-accent transition-colors font-bold text-accent">Broker Guide</Link></li>
-              <li><Link href="/pricing" className="hover:text-accent transition-colors">Pricing</Link></li>
-              <li><Link href="/blog" className="hover:text-accent transition-colors">Blog</Link></li>
+              <li><Link href={`${regionPrefix}/courses`} className="hover:text-accent transition-colors">Curriculum</Link></li>
+              <li><Link href={`${regionPrefix}/markets`} className="hover:text-accent transition-colors">Markets Hub</Link></li>
+              <li><Link href={`${regionPrefix}/brokers`} className="hover:text-accent transition-colors font-bold text-accent">Broker Guide</Link></li>
+              <li><Link href={`${regionPrefix}/pricing`} className="hover:text-accent transition-colors">Pricing</Link></li>
+              <li><Link href={`${regionPrefix}/blog`} className="hover:text-accent transition-colors">Blog</Link></li>
             </ul>
           </div>
 
           <div>
             <h4 className="font-display font-bold uppercase tracking-widest text-sm mb-6">Learn</h4>
             <ul className="space-y-4 text-sm text-text-secondary">
-              <li><Link href="/learn-to-trade/day-trading" className="hover:text-accent transition-colors">Day Trading</Link></li>
-              <li><Link href="/learn-to-trade/forex-trading" className="hover:text-accent transition-colors">Forex Mastery</Link></li>
-              <li><Link href="/learn-to-trade/risk-management" className="hover:text-accent transition-colors">Risk Mgmt</Link></li>
-              <li><Link href="/learn-to-trade" className="hover:text-accent transition-colors font-bold text-accent">Educational Hub</Link></li>
+              <li><Link href={`${regionPrefix}/learn-to-trade/day-trading`} className="hover:text-accent transition-colors">Day Trading</Link></li>
+              <li><Link href={`${regionPrefix}/learn-to-trade/forex-trading`} className="hover:text-accent transition-colors">Forex Mastery</Link></li>
+              <li><Link href={`${regionPrefix}/learn-to-trade/risk-management`} className="hover:text-accent transition-colors">Risk Mgmt</Link></li>
+              <li><Link href={`${regionPrefix}/learn-to-trade`} className="hover:text-accent transition-colors font-bold text-accent">Educational Hub</Link></li>
             </ul>
           </div>
 
           <div>
             <h4 className="font-display font-bold uppercase tracking-widest text-sm mb-6">Resources</h4>
             <ul className="space-y-4 text-sm text-text-secondary">
-              <li><Link href="/glossary" className="hover:text-accent transition-colors">Glossary</Link></li>
-              <li><Link href="/how-to" className="hover:text-accent transition-colors">How-To Guides</Link></li>
-              <li><Link href="/compare" className="hover:text-accent transition-colors">Compare Tools</Link></li>
-              <li><Link href="/best" className="hover:text-accent transition-colors">Best Platforms</Link></li>
+              <li><Link href={`${regionPrefix}/glossary`} className="hover:text-accent transition-colors">Glossary</Link></li>
+              <li><Link href={`${regionPrefix}/how-to`} className="hover:text-accent transition-colors">How-To Guides</Link></li>
+              <li><Link href={`${regionPrefix}/compare`} className="hover:text-accent transition-colors">Compare Tools</Link></li>
+              <li><Link href={`${regionPrefix}/best`} className="hover:text-accent transition-colors">Best Platforms</Link></li>
             </ul>
           </div>
 

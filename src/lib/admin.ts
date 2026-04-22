@@ -136,8 +136,8 @@ export function getAllSEOPages(): SEOPageInfo[] {
     });
   });
 
-  // REGIONAL PAGES (Batch 7-9)
-  const regions = ["au", "us", "sg", "hk"];
+  // REGIONAL PAGES (Batch 7-10)
+  const regions = ["au", "us", "sg", "hk", "ca", "de", "ae", "in", "my", "ph"];
 
   // Regional Homes
   regions.forEach(reg => {

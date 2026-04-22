@@ -6,8 +6,10 @@ import { TrackPageView } from "@/components/admin/TrackPageView";
 import { RegionalProvider } from "@/components/layout/RegionalLayout";
 import { getMetadata } from "@/lib/metadata";
 
+import { Region, REGIONS } from "@/lib/seo/hreflang";
+
 interface RegionalHowToPageProps {
-  region: "au" | "us" | "sg" | "hk";
+  region: Region;
   slug: string;
   data: any[];
 }
@@ -17,7 +19,7 @@ export function RegionalHowToPage({ region, slug, data }: RegionalHowToPageProps
 
   if (!page) notFound();
 
-  const regionName = region === "au" ? "Australia" : region === "us" ? "USA" : region === "sg" ? "Singapore" : "Hong Kong";
+  const regionName = REGIONS[region].label;
 
   return (
     <RegionalProvider region={region}>

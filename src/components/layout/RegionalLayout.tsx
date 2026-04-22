@@ -53,6 +53,36 @@ const REGIONAL_METADATA: Record<Region, Partial<RegionalContextType>> = {
     regulatoryBody: "SFC (Securities and Futures Commission)",
     riskDisclaimer: "Leveraged foreign exchange trading is risky. SFC Type 3 licensing rules apply. No capital gains tax applies to trading profits in Hong Kong.",
   },
+  ca: {
+    currencySymbol: "C$",
+    regulatoryBody: "IIROC (Investment Industry Regulatory Organization of Canada)",
+    riskDisclaimer: "Trading on margin carries a high level of risk. IIROC leverage limits apply. Ensure you understand the risks before trading.",
+  },
+  de: {
+    currencySymbol: "€",
+    regulatoryBody: "BaFin (Bundesanstalt für Finanzdienstleistungsaufsicht)",
+    riskDisclaimer: "CFDs sind komplexe Instrumente und gehen wegen der Hebelwirkung mit dem hohen Risiko einher, schnell Geld zu verlieren. 75% der Kleinanlegerkonten verlieren Geld beim CFD-Handel.",
+  },
+  ae: {
+    currencySymbol: "DH",
+    regulatoryBody: "DFSA (Dubai Financial Services Authority)",
+    riskDisclaimer: "Trading in derivatives is risky. DFSA regulations for retail clients in the DIFC apply. Ensure you understand the volatility of the regional markets.",
+  },
+  in: {
+    currencySymbol: "₹",
+    regulatoryBody: "SEBI (Securities and Exchange Board of India)",
+    riskDisclaimer: "Forex trading in India is heavily restricted. Only trade pairs involving INR through SEBI-regulated exchanges. Participation in non-regulated offshore forex is prohibited.",
+  },
+  my: {
+    currencySymbol: "RM",
+    regulatoryBody: "SC (Securities Commission Malaysia)",
+    riskDisclaimer: "Trading in derivatives and forex carries risk. SC Malaysia guidelines apply. Ensure you use regulated platforms and understand local tax implications.",
+  },
+  ph: {
+    currencySymbol: "₱",
+    regulatoryBody: "SEC (Securities and Exchange Commission Philippines)",
+    riskDisclaimer: "Trading on margin is speculative and carries high risk. Philippines SEC rules for retail trading apply. Consult a financial advisor before committing capital.",
+  },
 };
 
 export function RegionalProvider({ region, children }: RegionalProviderProps) {

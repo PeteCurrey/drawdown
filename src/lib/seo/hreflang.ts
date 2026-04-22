@@ -1,6 +1,6 @@
 import { siteConfig } from "@/lib/metadata";
 
-export type Region = "uk" | "au" | "us" | "sg" | "hk";
+export type Region = "uk" | "au" | "us" | "sg" | "hk" | "ca" | "de" | "ae" | "in" | "my" | "ph";
 
 interface HreflangTag {
   rel: string;
@@ -14,6 +14,12 @@ export const REGIONS: Record<Region, { code: string; label: string; flag: string
   us: { code: "en-US", label: "United States", flag: "🇺🇸", currency: "USD" },
   sg: { code: "en-SG", label: "Singapore", flag: "🇸🇬", currency: "SGD" },
   hk: { code: "en-HK", label: "Hong Kong", flag: "🇭🇰", currency: "HKD" },
+  ca: { code: "en-CA", label: "Canada", flag: "🇨🇦", currency: "CAD" },
+  de: { code: "de-DE", label: "Germany", flag: "🇩🇪", currency: "EUR" },
+  ae: { code: "en-AE", label: "UAE", flag: "🇦🇪", currency: "AED" },
+  in: { code: "en-IN", label: "India", flag: "🇮🇳", currency: "INR" },
+  my: { code: "en-MY", label: "Malaysia", flag: "🇲🇾", currency: "MYR" },
+  ph: { code: "en-PH", label: "Philippines", flag: "🇵🇭", currency: "PHP" },
 };
 
 /**
@@ -21,7 +27,7 @@ export const REGIONS: Record<Region, { code: string; label: string; flag: string
  * Assumes that if a page exists in one region, it has a corresponding path in others.
  * Note: Not all pages exist in all regions, so this should be used selectively.
  */
-export function getHreflangTags(path: string, activeRegions: Region[] = ["uk", "au", "us", "sg", "hk"]): HreflangTag[] {
+export function getHreflangTags(path: string, activeRegions: Region[] = ["uk", "au", "us", "sg", "hk", "ca", "de", "ae", "in", "my", "ph"]): HreflangTag[] {
   const baseUrl = siteConfig.url;
   const tags: HreflangTag[] = [];
 

@@ -6,8 +6,10 @@ import { TrackPageView } from "@/components/admin/TrackPageView";
 import { RegionalProvider } from "@/components/layout/RegionalLayout";
 import { getMetadata } from "@/lib/metadata";
 
+import { Region, REGIONS } from "@/lib/seo/hreflang";
+
 interface RegionalComparePageProps {
-  region: "au" | "us" | "sg" | "hk";
+  region: Region;
   slug: string;
   data: any[];
 }
@@ -18,7 +20,7 @@ export function RegionalComparePage({ region, slug, data }: RegionalComparePageP
   if (!page) notFound();
 
   const brokers = page.slug.split('-vs-');
-  const regionName = region === "au" ? "Australia" : region === "us" ? "USA" : region === "sg" ? "Singapore" : "Hong Kong";
+  const regionName = REGIONS[region].label;
 
   return (
     <RegionalProvider region={region}>

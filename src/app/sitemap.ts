@@ -10,6 +10,16 @@ import { HOW_TO_PAGES } from "@/data/seo/howto";
 import { BEST_OF_PAGES } from "@/data/seo/best";
 import { COMPARISON_PAGES } from "@/data/seo/compare";
 
+// Regional SEO Data
+import { AU_CITIES, AU_TOPICS } from "@/data/seo/locations-au";
+import { BEST_OF_PAGES_AU } from "@/data/seo/best-au";
+import { HOW_TO_PAGES_AU } from "@/data/seo/how-to-au";
+import { COMPARE_PAGES_AU } from "@/data/seo/compare-au";
+
+import { US_CITIES, US_TOPICS, BEST_OF_PAGES_US, HOW_TO_PAGES_US, COMPARE_PAGES_US } from "@/data/seo/us-data";
+import { SG_CITIES, SG_TOPICS, BEST_OF_PAGES_SG, HOW_TO_PAGES_SG } from "@/data/seo/sg-data";
+import { HK_CITIES, HK_TOPICS, BEST_OF_PAGES_HK } from "@/data/seo/hk-data";
+
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = siteConfig.url;
 
@@ -131,5 +141,65 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.7,
   }));
 
-  return [...routes, ...toolRoutes, ...topics, ...blogs, ...markets, ...locationRoutes, ...glossary, ...howTos, ...bestOfs, ...brokerReviews, ...comparisons];
+  // Regional Location programmatic routes
+  const intlLocationRoutes: { url: string, lastModified: Date, changeFrequency: "monthly", priority: number }[] = [];
+  
+  const regions = [
+    { code: "au", topics: AU_TOPICS, cities: AU_CITIES },
+    { code: "us", topics: US_TOPICS, cities: US_CITIES },
+    { code: "sg", topics: SG_TOPICS, cities: SG_CITIES },
+    { code: "hk", topics: HK_TOPICS, cities: HK_CITIES },
+  ];
+
+  regions.forEach(region => {
+    region.topics.forEach(topic => {
+      region.cities.forEach(city => {
+        intlLocationRoutes.push({
+          url: `${baseUrl}/${region.code}/learn-to-trade/${topic}/${city}`,
+          lastModified: new Date(),
+          changeFrequency: "monthly",
+          priority: 0.5,
+        });
+      });
+    });
+  });
+
+  // Regional Best-of routes
+  const intlBestOfs = [
+    ...BEST_OF_PAGES_AU.map(p => ({ url: `${baseUrl}/au/best/${p.slug}`, lastModified: new Date(), changeFrequency: "monthly" as const, priority: 0.8 })),
+    ...BEST_OF_PAGES_US.map(p => ({ url: `${baseUrl}/us/best/${p.slug}`, lastModified: new Date(), changeFrequency: "monthly" as const, priority: 0.8 })),
+    ...BEST_OF_PAGES_SG.map(p => ({ url: `${baseUrl}/sg/best/${p.slug}`, lastModified: new Date(), changeFrequency: "monthly" as const, priority: 0.8 })),
+    ...BEST_OF_PAGES_HK.map(p => ({ url: `${baseUrl}/hk/best/${p.slug}`, lastModified: new Date(), changeFrequency: "monthly" as const, priority: 0.8 })),
+  ];
+
+  // Regional How-To routes
+  const intlHowTos = [
+    ...HOW_TO_PAGES_AU.map(p => ({ url: `${baseUrl}/au/how-to/${p.slug}`, lastModified: new Date(), changeFrequency: "monthly" as const, priority: 0.6 })),
+    ...HOW_TO_PAGES_US.map(p => ({ url: `${baseUrl}/us/how-to/${p.slug}`, lastModified: new Date(), changeFrequency: "monthly" as const, priority: 0.6 })),
+    ...HOW_TO_PAGES_SG.map(p => ({ url: `${baseUrl}/sg/how-to/${p.slug}`, lastModified: new Date(), changeFrequency: "monthly" as const, priority: 0.6 })),
+  ];
+
+  // Regional Comparison routes
+  const intlComparisons = [
+    ...COMPARE_PAGES_AU.map(p => ({ url: `${baseUrl}/au/compare/${p.slug}`, lastModified: new Date(), changeFrequency: "monthly" as const, priority: 0.7 })),
+    ...COMPARE_PAGES_US.map(p => ({ url: `${baseUrl}/us/compare/${p.slug}`, lastModified: new Date(), changeFrequency: "monthly" as const, priority: 0.7 })),
+  ];
+
+  return [
+    ...routes, 
+    ...toolRoutes, 
+    ...topics, 
+    ...blogs, 
+    ...markets, 
+    ...locationRoutes, 
+    ...intlLocationRoutes,
+    ...glossary, 
+    ...howTos, 
+    ...intlHowTos,
+    ...bestOfs, 
+    ...intlBestOfs,
+    ...brokerReviews, 
+    ...comparisons,
+    ...intlComparisons
+  ];
 }

@@ -47,11 +47,11 @@ export const HOW_TO_PAGES_SG = [
 ];
 
 export const SG_CITIES = [
-  "central-area", "jurong-east", "woodlands", "tampines", "orchard", "marina-bay"
+  "central-area", "jurong-east", "woodlands", "tampines", "orchard", "marina-bay", "changi", "bukit-timah"
 ];
 
 export const SG_TOPICS = [
-  "forex-trading", "stock-trading", "options-trading", "crypto-trading", "day-trading"
+  "forex-trading", "stock-trading", "crypto-trading", "day-trading"
 ];
 
 export const CITY_CONTEXT_SG: Record<string, string> = {
@@ -61,6 +61,8 @@ export const CITY_CONTEXT_SG: Record<string, string> = {
   tampines: "The bustling eastern regional center is home to a growing community of disciplined retail traders.",
   orchard: "Sophisticated traders in the Orchard area demand premium tools and institutional-grade intelligence.",
   "marina-bay": "At the pinnacle of Singapore's financial scene, Marina Bay traders operate at the highest level of the market.",
+  "changi": "Changi's global connectivity is mirrored in its forward-thinking trading community.",
+  "bukit-timah": "Bukit Timah residents access institutional-grade insights for building resilient, long-term portfolios."
 };
 
 export const TOPIC_DISPLAY_SG: Record<string, string> = {

@@ -12,7 +12,7 @@ import {
   ArrowUpRight,
   Info,
   Zap,
-  Twitter,
+  MessageCircle,
   Newspaper,
   Gauge
 } from "lucide-react";
@@ -186,7 +186,7 @@ export default async function IntelligenceHub() {
           <div className="p-8 bg-background-surface border border-border-slate flex flex-col gap-8">
             <div className="flex justify-between items-center">
               <div className="flex items-center gap-3">
-                <Twitter className="w-5 h-5 text-[#1DA1F2]" />
+                <MessageCircle className="w-5 h-5 text-[#1DA1F2]" />
                 <h3 className="text-sm font-bold uppercase tracking-widest">Social Buzz (Reddit/X)</h3>
               </div>
               <span className="text-[10px] font-mono text-text-tertiary">NVDA — LAST 24H</span>

@@ -774,5 +774,167 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     example: 'The yield on the UK 10-year Gilt has risen to 4.5%.',
     relatedTerms: ['Interest Rate', 'Dividend', 'Return on Investment'],
     faqs: []
+  },
+  {
+    term: 'Algorithm',
+    slug: 'algorithm',
+    definition: 'A set of rules designed to execute a trading strategy automatically.',
+    detailedExplanation: 'Algorithms use mathematical models to make high-speed decisions based on price, timing, and volume.',
+    example: 'An algorithm automatically buys EUR/USD when the 50 SMA crosses the 200 SMA.',
+    relatedTerms: ['HFT', 'Quant', 'Automated Trading'],
+    faqs: []
+  },
+  {
+    term: 'Base Currency',
+    slug: 'base-currency',
+    definition: 'The first currency in a forex pair quotation.',
+    detailedExplanation: 'In EUR/USD, the EUR is the base currency. The exchange rate shows how much of the quote currency is needed to buy one unit of the base currency.',
+    example: 'If EUR/USD is 1.10, one Euro (base) costs 1.10 US Dollars (quote).',
+    relatedTerms: ['Quote Currency', 'Forex Pair', 'Exchange Rate'],
+    faqs: []
+  },
+  {
+    term: 'Block Trade',
+    slug: 'block-trade',
+    definition: 'A significantly large trade, typically executed outside the open market.',
+    detailedExplanation: 'Institutional investors use block trades to avoid causing a massive price spike or drop that would occur if the order was placed on public exchanges.',
+    example: 'A mutual fund executes a block trade of 1 million shares of Apple.',
+    relatedTerms: ['Dark Pool', 'Institutional Trading', 'Liquidity'],
+    faqs: []
+  },
+  {
+    term: 'Break-Even',
+    slug: 'break-even',
+    definition: 'The price point at which a trade has zero profit and zero loss.',
+    detailedExplanation: 'Traders often move their stop loss to the break-even point once a trade is in profit, ensuring a risk-free position.',
+    example: 'You buy at 100, the price goes to 110, you move your stop loss to 100. It is now a break-even trade.',
+    relatedTerms: ['Risk-Free Trade', 'Stop Loss', 'Trailing Stop'],
+    faqs: []
+  },
+  {
+    term: 'Contango',
+    slug: 'contango',
+    definition: 'A situation in the futures market where the forward price of a commodity is higher than the spot price.',
+    detailedExplanation: 'This usually implies that investors are willing to pay a premium for a commodity in the future, often due to storage costs.',
+    example: 'The oil market is in contango, with the 6-month contract priced higher than the current spot price.',
+    relatedTerms: ['Backwardation', 'Futures', 'Spot Price'],
+    faqs: []
+  },
+  {
+    term: 'Dead Cat Bounce',
+    slug: 'dead-cat-bounce',
+    definition: 'A temporary recovery in asset prices after a prolonged decline.',
+    detailedExplanation: 'Derived from the phrase "even a dead cat will bounce if it falls from a great height," it represents a false signal that a downtrend has ended.',
+    example: 'The stock dropped 40%, bounced up 5% in a dead cat bounce, and then continued to fall.',
+    relatedTerms: ['Bear Market Rally', 'Downtrend', 'False Breakout'],
+    faqs: []
+  },
+  {
+    term: 'Dark Pool',
+    slug: 'dark-pool',
+    definition: 'A private financial exchange where institutional investors can trade without exposing their orders to the public.',
+    detailedExplanation: 'Dark pools prevent heavy market impact and slippage for large block trades.',
+    example: 'A pension fund uses a dark pool to silently accumulate 500,000 shares of a tech company.',
+    relatedTerms: ['Block Trade', 'Liquidity', 'Institutional Trading'],
+    faqs: []
+  },
+  {
+    term: 'Drawdown Limit',
+    slug: 'drawdown-limit',
+    definition: 'The maximum allowed loss on a trading account before trading privileges are suspended.',
+    detailedExplanation: 'Commonly used by proprietary trading firms to enforce strict risk management protocols on funded traders.',
+    example: 'The prop firm enforces a strict 10% maximum drawdown limit on all accounts.',
+    relatedTerms: ['Prop Firm', 'Risk Management', 'Max Drawdown'],
+    faqs: []
+  },
+  {
+    term: 'ECN Broker',
+    slug: 'ecn-broker',
+    definition: 'Electronic Communication Network; a broker that connects retail traders directly to Tier 1 liquidity providers.',
+    detailedExplanation: 'ECN brokers typically offer raw spreads (often 0.0 pips) and charge a fixed commission per lot, providing highly transparent execution.',
+    example: 'The trader prefers an ECN broker because it eliminates the conflict of interest found with market makers.',
+    relatedTerms: ['Market Maker', 'STP', 'Liquidity Provider'],
+    faqs: []
+  },
+  {
+    term: 'Elliott Wave',
+    slug: 'elliott-wave',
+    definition: 'A form of technical analysis that looks for recurrent long-term price patterns related to persistent changes in investor sentiment.',
+    detailedExplanation: 'The theory states that markets move in 5-wave impulse sequences and 3-wave corrective sequences.',
+    example: 'An analyst predicts a major market top based on the completion of a 5th Elliott Wave.',
+    relatedTerms: ['Technical Analysis', 'Fibonacci', 'Market Cycles'],
+    faqs: []
+  },
+  {
+    term: 'Fiat Currency',
+    slug: 'fiat-currency',
+    definition: 'A national currency that is not pegged to the price of a commodity such as gold or silver.',
+    detailedExplanation: 'The value of fiat money is derived entirely from the trust and backing of the issuing government.',
+    example: 'The US Dollar, Euro, and British Pound are all fiat currencies.',
+    relatedTerms: ['Central Bank', 'Monetary Policy', 'Forex'],
+    faqs: []
+  },
+  {
+    term: 'Going Long',
+    slug: 'going-long',
+    definition: 'The act of buying an asset with the expectation that it will rise in value.',
+    detailedExplanation: 'If you go long, your risk is technically limited to the amount invested (the asset cannot go below 0), while potential profit is theoretically infinite.',
+    example: 'The trader is going long on Apple stock ahead of the earnings report.',
+    relatedTerms: ['Bullish', 'Long Position', 'Buy'],
+    faqs: []
+  },
+  {
+    term: 'Going Short',
+    slug: 'going-short',
+    definition: 'The act of selling an asset you do not own with the expectation that it will fall in value.',
+    detailedExplanation: 'Going short carries infinite theoretical risk, as there is no limit to how high a price can rise.',
+    example: 'The hedge fund is going short on the overvalued tech stock.',
+    relatedTerms: ['Bearish', 'Short Position', 'Sell'],
+    faqs: []
+  },
+  {
+    term: 'Half-Pip',
+    slug: 'half-pip',
+    definition: 'A price movement equal to 0.5 of a standard pip.',
+    detailedExplanation: 'Often used by high-frequency traders and scalpers where extremely tight spreads are available.',
+    example: 'The broker\'s commission structure equates to a cost of half-a-pip per round turn.',
+    relatedTerms: ['Pip', 'Pipette', 'Spread'],
+    faqs: []
+  },
+  {
+    term: 'HFT',
+    slug: 'hft',
+    definition: 'High-Frequency Trading; a method of trading that uses powerful computer programs to transact a large number of orders in fractions of a second.',
+    detailedExplanation: 'HFT algorithms are designed to capture microscopic market inefficiencies and rely heavily on co-location and ultra-low latency.',
+    example: 'HFT firms dominate the order book liquidity in modern equity markets.',
+    relatedTerms: ['Algorithmic Trading', 'Latency', 'Arbitrage'],
+    faqs: []
+  },
+  {
+    term: 'Intraday',
+    slug: 'intraday',
+    definition: 'Occurring within the course of a single business day.',
+    detailedExplanation: 'Intraday price movements are significant to day traders who aim to execute multiple trades within a single session.',
+    example: 'The stock experienced massive intraday volatility following the CPI announcement.',
+    relatedTerms: ['Day Trading', 'Scalping', 'Session'],
+    faqs: []
+  },
+  {
+    term: 'Order Book',
+    slug: 'order-book',
+    definition: 'An electronic list of buy and sell orders for a specific security or financial instrument, organized by price level.',
+    detailedExplanation: 'The order book shows the depth of market (DOM) and helps traders identify where the liquidity is concentrated.',
+    example: 'The trader checked the order book and noticed a massive sell wall at the $50 level.',
+    relatedTerms: ['Depth of Market', 'Level 2 Data', 'Liquidity'],
+    faqs: []
+  },
+  {
+    term: 'Quote Currency',
+    slug: 'quote-currency',
+    definition: 'The second currency in a forex pair quotation.',
+    detailedExplanation: 'In EUR/USD, USD is the quote currency. It indicates how much of the quote currency is needed to buy one unit of the base currency.',
+    example: 'If EUR/USD is 1.10, the quote currency (USD) is worth less than the base currency.',
+    relatedTerms: ['Base Currency', 'Exchange Rate', 'Forex Pair'],
+    faqs: []
   }
 ];

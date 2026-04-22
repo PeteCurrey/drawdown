@@ -36,4 +36,7 @@ export const UK_LOCATIONS: UKLocation[] = [
   { slug: 'sunderland', name: 'Sunderland', region: 'North East', context: 'Sunderland\'s digital transformation and growing tech sector have opened new opportunities for residents exploring online trading and financial education.' },
   { slug: 'bath', name: 'Bath', region: 'South West', context: 'Bath\'s professional services economy and high quality of life attract traders who want to combine serious market participation with a balanced lifestyle.' },
   { slug: 'york', name: 'York', region: 'North Yorkshire', context: 'York\'s blend of historic character and modern digital infrastructure supports a growing community of remote workers and online traders.' },
+  { slug: 'hull', name: 'Hull', region: 'East Riding of Yorkshire', context: 'Hull\'s rapidly advancing digital economy offers excellent connectivity for independent retail traders.' },
+  { slug: 'exeter', name: 'Exeter', region: 'South West', context: 'Exeter\'s university and science park create a strong environment for quantitative and systematic traders.' },
+  { slug: 'preston', name: 'Preston', region: 'North West', context: 'Preston traders benefit from lower living costs while accessing the exact same global markets as London-based professionals.' }
 ];

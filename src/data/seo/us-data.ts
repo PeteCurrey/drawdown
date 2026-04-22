@@ -116,11 +116,12 @@ export const COMPARE_PAGES_US = [
 ];
 
 export const US_CITIES = [
-  "new-york", "chicago", "miami", "austin", "los-angeles", "houston", "san-francisco", "denver"
+  "new-york", "chicago", "miami", "austin", "los-angeles", "houston", "san-francisco", "denver",
+  "boston", "seattle", "atlanta", "dallas", "philadelphia", "phoenix", "las-vegas"
 ];
 
 export const US_TOPICS = [
-  "forex-trading", "stock-trading", "options-trading", "futures-trading", "day-trading"
+  "forex-trading", "stock-trading", "options-trading", "futures-trading", "day-trading", "prop-firm-trading", "algorithmic-trading"
 ];
 
 export const CITY_CONTEXT_US: Record<string, string> = {
@@ -132,6 +133,13 @@ export const CITY_CONTEXT_US: Record<string, string> = {
   houston: "Houston's energy focus makes it a unique hub for commodity and energy futures trading.",
   "san-francisco": "Silicon Valley traders lead the way in algorithmic trading and the integration of AI into their market strategies.",
   denver: "Denver's growing finance sector provides a sophisticated base for traders focused on risk management and long-term edge.",
+  boston: "Boston's academic environment fosters a highly analytical trading community focused on statistical advantages.",
+  seattle: "Seattle traders combine tech expertise with robust market analysis to build resilient trading portfolios.",
+  atlanta: "Atlanta's booming professional sector supports a fast-growing retail and institutional trading demographic.",
+  dallas: "Dallas provides a business-friendly environment for proprietary trading firms and independent market participants.",
+  philadelphia: "Philadelphia's historic financial roots support a disciplined trading culture focused on consistent returns.",
+  phoenix: "Phoenix traders leverage Drawdown's cloud tools to maintain an edge while enjoying a flexible lifestyle.",
+  "las-vegas": "Las Vegas traders understand the critical difference between gambling and statistical probability in the financial markets."
 };
 
 export const TOPIC_DISPLAY_US: Record<string, string> = {
@@ -140,4 +148,6 @@ export const TOPIC_DISPLAY_US: Record<string, string> = {
   "options-trading": "Options Trading",
   "futures-trading": "Futures Trading",
   "day-trading": "Day Trading",
+  "prop-firm-trading": "Prop Firm Trading",
+  "algorithmic-trading": "Algorithmic Trading",
 };

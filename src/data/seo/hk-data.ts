@@ -28,7 +28,7 @@ export const BEST_OF_PAGES_HK = [
 ];
 
 export const HK_CITIES = [
-  "central", "tst", "kowloon", "wan-chai", "causeway-bay", "mong-kok", "shatin"
+  "central", "tst", "kowloon", "wan-chai", "causeway-bay"
 ];
 
 export const HK_TOPICS = [
@@ -41,8 +41,6 @@ export const CITY_CONTEXT_HK: Record<string, string> = {
   kowloon: "Kowloon is a major hub for independent traders who leverage the city's world-class digital infrastructure.",
   "wan-chai": "Wan Chai's dynamic business environment is home to many sophisticated multi-asset traders.",
   "causeway-bay": "Traders in Causeway Bay demand the best-in-class mobile tools for fast-paced market analysis.",
-  "mong-kok": "The density and speed of Mong Kok are reflected in its active day-trading community.",
-  shatin: "Sha Tin's growing population includes many disciplined traders focused on long-term market edge.",
 };
 
 export const TOPIC_DISPLAY_HK: Record<string, string> = {

@@ -5,7 +5,6 @@ import {
   ArrowRight,
   Zap,
   MessageCircle,
-  Twitter,
   Newspaper,
   Waves,
   Gauge
@@ -57,7 +56,7 @@ export default async function SentimentPulseLanding() {
             {
               title: "Social Buzz Tracking",
               desc: "Real-time monitoring of Reddit (r/wallstreetbets) and FinTwit mentions.",
-              icon: Twitter
+              icon: MessageCircle
             },
             {
               title: "News Bias Analysis",
@@ -83,7 +82,7 @@ export default async function SentimentPulseLanding() {
            <div className="p-8 bg-background-surface border border-border-slate space-y-8">
               <div className="flex justify-between items-center">
                  <h3 className="text-sm font-mono uppercase tracking-widest flex items-center gap-2">
-                    <Twitter className="w-4 h-4 text-accent" /> Social Media Sentiment
+                    <MessageCircle className="w-4 h-4 text-accent" /> Social Media Sentiment
                  </h3>
                  <span className="text-[10px] font-mono text-text-tertiary">SYMBOL: NVDA</span>
               </div>

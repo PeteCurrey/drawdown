@@ -1,5 +1,6 @@
 export const AU_CITIES = [
-  "sydney", "melbourne", "brisbane", "perth", "adelaide", "gold-coast", "canberra", "hobart"
+  "sydney", "melbourne", "brisbane", "perth", "adelaide", "gold-coast", "canberra", "hobart",
+  "darwin", "newcastle", "wollongong", "geelong", "townsville", "cairns", "toowoomba", "ballarat"
 ];
 
 export const AU_TOPICS = [
@@ -15,6 +16,14 @@ export const CITY_CONTEXT_AU: Record<string, string> = {
   "gold-coast": "The Gold Coast is a hub for remote traders who prioritize lifestyle alongside high-performance market execution.",
   canberra: "Canberra's sophisticated population demands institutional-grade trading education and data-driven tools.",
   hobart: "Hobart traders leverage Drawdown's cloud-based tools to compete in the global markets from anywhere.",
+  darwin: "Darwin's proximity to Asia provides a unique perspective for traders focused on regional markets.",
+  newcastle: "Newcastle's growing professional sector includes many part-time traders leveraging the Drawdown Intelligence Hub.",
+  wollongong: "Wollongong traders use algorithmic tools to maintain a competitive edge without needing to be in the CBD.",
+  geelong: "Geelong is home to an expanding community of independent retail traders building long-term portfolios.",
+  townsville: "Townsville traders rely on Drawdown's cloud infrastructure for seamless execution across all global sessions.",
+  cairns: "Cairns offers a perfect lifestyle balance for traders utilizing our automated 'set and forget' market insights.",
+  toowoomba: "Toowoomba's rapidly developing tech economy supports a new wave of data-driven market participants.",
+  ballarat: "Ballarat traders prioritize robust risk management and consistent daily routines in their trading operations.",
 };
 
 export const TOPIC_DISPLAY_AU: Record<string, string> = {

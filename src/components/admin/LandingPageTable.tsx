@@ -97,9 +97,13 @@ export function LandingPageTable({ allPages }: Props) {
                     >
                       <ExternalLink className="w-3 h-3" />
                     </Link>
-                    <button className="p-2 border border-border-slate hover:border-text-primary transition-colors text-text-tertiary">
+                    <Link 
+                      href={`/admin/seo/analytics?path=${page.slug}`}
+                      className="p-2 border border-border-slate hover:border-accent text-text-tertiary hover:text-accent transition-colors"
+                      title="View Analytics"
+                    >
                       <MoreVertical className="w-3 h-3" />
-                    </button>
+                    </Link>
                   </div>
                 </td>
               </tr>

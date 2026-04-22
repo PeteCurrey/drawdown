@@ -34,7 +34,7 @@ const toolCategories = [
     color: "profit"
   },
   {
-    slug: "institutional-scanner",
+    slug: "ai-market-scanner",
     title: "Technical Scanner",
     description: "Cross-asset technical consensus & price action relative to key macro levels.",
     icon: Zap,
@@ -43,7 +43,7 @@ const toolCategories = [
     color: "premium"
   },
   {
-    slug: "backtester",
+    slug: "strategy-backtester",
     title: "Strategy Backtester",
     description: "Validate your edge on decade-long historical data with sub-millisecond precision.",
     icon: History,
@@ -61,7 +61,7 @@ const toolCategories = [
     color: "accent"
   },
   {
-    slug: "daily-briefing",
+    slug: "ai-daily-briefing",
     title: "Intelligence Hub",
     description: "Expert market takes and analysis delivered to your dashboard every session.",
     icon: Cpu,

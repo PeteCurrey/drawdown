@@ -101,7 +101,7 @@ export const FEATURES_DATA: Record<string, FeatureDetail> = {
     image: "typographic-card",
     tier: "Edge+",
     theEdge: "Our backtester isn't just about the numbers; it's about the 'Why'. We provide a detailed failure analysis for every losing trade in your backtest set.",
-    toolUrl: "/tools/backtester",
+    toolUrl: "/tools/strategy-backtester",
     capabilities: [
       {
         title: "Fast-Forward Data",

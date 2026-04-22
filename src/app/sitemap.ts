@@ -38,10 +38,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const toolRoutes = [
     "ai-trade-journal",
     "risk-calculator",
-    "institutional-scanner",
-    "backtester",
+    "ai-market-scanner",
+    "strategy-backtester",
     "market-charts",
-    "daily-briefing"
+    "ai-daily-briefing"
   ].map((slug) => ({
     url: `${baseUrl}/tools/${slug}`,
     lastModified: new Date(),

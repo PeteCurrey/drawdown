@@ -188,7 +188,7 @@ Trading is a business of probabilities. Probabilities only work over large sampl
     }
   },
   {
-    slug: "institutional-scanner",
+    slug: "ai-market-scanner",
     title: "Institutional Scanner",
     tagline: "Stop chasing indicators. Track the flow.",
     description: "Identify where high-volume participants are actively defending levels. Cross-asset technical consensus for the serious retail trader.",
@@ -259,7 +259,7 @@ By focusing on high-volume zones and multi-asset confluence, you move from being
     }
   },
   {
-    slug: "backtester",
+    slug: "strategy-backtester",
     title: "Strategy Backtester",
     tagline: "Stress-test your edge to 2012.",
     description: "Manual backtesting is prone to bias. Our sub-tick engine runs systematic, emotionless simulations on decade-long data to prove your statistical expectancy.",
@@ -405,7 +405,7 @@ When you draw a level on the Daily, it appears on the 15-minute chart automatica
     }
   },
   {
-    slug: "daily-briefing",
+    slug: "ai-daily-briefing",
     title: "Expert Intelligence Hub",
     tagline: "Information is liquidity.",
     description: "Direct access to the same market intel that Pete uses to trade. High-impact macro data, institutional bias, and technical zones delivered daily.",

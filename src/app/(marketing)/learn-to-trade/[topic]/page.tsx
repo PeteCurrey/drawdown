@@ -128,6 +128,32 @@ export default async function TopicPage({ params }: Props) {
               </div>
             </div>
 
+            <div className="p-10 bg-background-surface border border-border-slate hover:border-accent/30 transition-premium">
+              <h4 className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary mb-8">Regional Learning</h4>
+              <div className="space-y-4">
+                <p className="text-xs text-text-secondary leading-relaxed">
+                  We offer localized {topic.title} insights across the UK.
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  {require("@/lib/data/locations").UK_LOCATIONS.slice(0, 6).map((loc: any) => (
+                    <Link 
+                      key={loc.slug} 
+                      href={`/learn-to-trade/${topicSlug}/${loc.slug}`}
+                      className="px-2 py-1 bg-background-primary border border-border-slate text-[8px] font-mono uppercase tracking-widest text-text-tertiary hover:border-accent hover:text-accent transition-colors"
+                    >
+                      {loc.name}
+                    </Link>
+                  ))}
+                </div>
+                <button 
+                  onClick={() => document.getElementById('regional-hub')?.scrollIntoView({ behavior: 'smooth' })}
+                  className="text-[9px] font-bold uppercase tracking-widest text-accent hover:underline mt-4"
+                >
+                  View All 30 Locations
+                </button>
+              </div>
+            </div>
+
             <div className="p-10 bg-accent text-background-primary relative overflow-hidden group">
               <div className="relative z-10">
                 <h4 className="text-2xl font-display font-bold uppercase mb-4 leading-tight">Master Your Edge.</h4>
@@ -160,6 +186,21 @@ export default async function TopicPage({ params }: Props) {
             </div>
           </div>
         )}
+        {/* Localized Links for SEO Hub & Spoke */}
+        <div id="regional-hub" className="mt-32 pt-20 border-t border-border-slate/30">
+          <h2 className="text-3xl font-display font-bold uppercase mb-12 text-text-primary">Learn {topic.title} Near You.</h2>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+            {require("@/lib/data/locations").UK_LOCATIONS.map((loc: any) => (
+              <Link 
+                key={loc.slug}
+                href={`/learn-to-trade/${topicSlug}/${loc.slug}`}
+                className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary hover:text-accent transition-colors py-2 border-b border-border-slate/10"
+              >
+                {topic.title} {loc.name}
+              </Link>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );

@@ -1,10 +1,10 @@
 import { notFound } from "next/navigation";
-import { seoHowToData } from "@/data/seo-samples";
+import { howToData } from "@/data/glossary";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { Metadata } from "next";
 
 export async function generateStaticParams() {
-  return seoHowToData.map((guide) => ({
+  return howToData.map((guide) => ({
     slug: guide.slug,
   }));
 }
@@ -13,7 +13,7 @@ export async function generateMetadata(
   { params }: { params: Promise<{ slug: string }> }
 ): Promise<Metadata> {
   const { slug } = await params;
-  const guide = seoHowToData.find(g => g.slug === slug);
+  const guide = howToData.find(g => g.slug === slug);
   if (!guide) return {};
 
   return {
@@ -24,7 +24,7 @@ export async function generateMetadata(
 
 export default async function HowToPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const guide = seoHowToData.find((g) => g.slug === slug);
+  const guide = howToData.find((g) => g.slug === slug);
 
   if (!guide) {
     notFound();

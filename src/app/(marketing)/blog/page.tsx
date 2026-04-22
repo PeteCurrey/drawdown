@@ -3,7 +3,7 @@ import { getMetadata } from "@/lib/metadata";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-import { BLOG_POSTS } from "@/lib/data/blog-posts";
+import { getAllPosts } from "@/lib/blog";
 
 export const metadata: Metadata = getMetadata({
   title: "Insights | Market Analysis & Trading Education",
@@ -13,8 +13,20 @@ export const metadata: Metadata = getMetadata({
 const categories = ["All", "Market Analysis", "Education", "Psychology"];
 
 export default function BlogListingPage() {
-  const posts = BLOG_POSTS;
+  const posts = getAllPosts();
   
+  if (posts.length === 0) {
+    return (
+      <div className="pt-32 pb-24 bg-background-primary min-h-screen">
+        <div className="container mx-auto px-6">
+          <Breadcrumbs />
+          <h1 className="text-5xl md:text-8xl font-display font-extrabold uppercase mb-6 text-text-primary">Insights.</h1>
+          <p className="text-xl text-text-tertiary uppercase font-mono tracking-widest">No articles found yet. Check back soon.</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="pt-32 pb-24 bg-background-primary min-h-screen">
       <div className="container mx-auto px-6">

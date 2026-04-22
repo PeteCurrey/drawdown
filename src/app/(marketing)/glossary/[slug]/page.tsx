@@ -1,10 +1,10 @@
 import { notFound } from "next/navigation";
-import { seoGlossaryData } from "@/data/seo-samples";
+import { glossaryData } from "@/data/glossary";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { Metadata } from "next";
 
 export async function generateStaticParams() {
-  return seoGlossaryData.map((term) => ({
+  return glossaryData.map((term) => ({
     slug: term.slug,
   }));
 }
@@ -13,7 +13,7 @@ export async function generateMetadata(
   { params }: { params: Promise<{ slug: string }> }
 ): Promise<Metadata> {
   const { slug } = await params;
-  const term = seoGlossaryData.find(t => t.slug === slug);
+  const term = glossaryData.find(t => t.slug === slug);
   if (!term) return {};
 
   return {
@@ -24,7 +24,7 @@ export async function generateMetadata(
 
 export default async function GlossaryPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const term = seoGlossaryData.find((t) => t.slug === slug);
+  const term = glossaryData.find((t) => t.slug === slug);
 
   if (!term) {
     notFound();

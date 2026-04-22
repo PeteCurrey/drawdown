@@ -1,151 +1,264 @@
-import { UK_LOCATIONS, TRADING_TOPICS } from "@/lib/seo-locations";
-import { notFound } from "next/navigation";
 import { Metadata } from "next";
+import { notFound } from "next/navigation";
+import { getMetadata } from "@/lib/metadata";
+import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
+import { StructuredData } from "@/components/StructuredData";
+import { LEARN_TOPICS } from "@/lib/data/learn-to-trade";
+import { UK_LOCATIONS } from "@/lib/data/locations";
 import Link from "next/link";
-import { ArrowRight, CheckCircle2, TrendingUp, Compass, MapPin } from "lucide-react";
+import { ArrowUpRight, AlertTriangle, MapPin, Globe, CheckCircle2 } from "lucide-react";
 
-interface PageProps {
-  params: Promise<{
-    topic: string;
-    location: string;
-  }>;
+interface Props {
+  params: Promise<{ topic: string; location: string }>;
 }
 
 export async function generateStaticParams() {
   const params: { topic: string; location: string }[] = [];
   
-  TRADING_TOPICS.forEach(t => {
-    UK_LOCATIONS.forEach(l => {
+  LEARN_TOPICS.forEach((topic) => {
+    UK_LOCATIONS.forEach((location) => {
       params.push({
-        topic: t.id,
-        location: l.id
+        topic: topic.slug,
+        location: location.slug,
       });
     });
   });
-
+  
   return params;
 }
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  const resolvedParams = await params;
-  const locationData = UK_LOCATIONS.find(l => l.id === resolvedParams.location);
-  const topicData = TRADING_TOPICS.find(t => t.id === resolvedParams.topic);
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { topic: topicSlug, location: locationSlug } = await params;
+  const topic = LEARN_TOPICS.find((t) => t.slug === topicSlug);
+  const location = UK_LOCATIONS.find((l) => l.slug === locationSlug);
+  
+  if (!topic || !location) return {};
 
-  if (!locationData || !topicData) {
-    return { title: 'Not Found' };
-  }
-
-  return {
-    title: `Learn ${topicData.title} in ${locationData.name} | Drawdown Academy`,
-    description: `Master ${topicData.short.toLowerCase()} with Pete's professional framework in ${locationData.name}, ${locationData.region}. Access institutional-grade trading education locally.`,
-  };
+  return getMetadata({
+    title: `${topic.title} in ${location.name} — Learn Online | Drawdown`,
+    description: `Learn ${topic.title} from ${location.name} with Drawdown. Structured courses, AI tools, and UK-focused education. Start free today.`,
+  });
 }
 
-export default async function LocationTopicPage({ params }: PageProps) {
-  const resolvedParams = await params;
-  const locationData = UK_LOCATIONS.find(l => l.id === resolvedParams.location);
-  const topicData = TRADING_TOPICS.find(t => t.id === resolvedParams.topic);
+export default async function LocationTopicPage({ params }: Props) {
+  const { topic: topicSlug, location: locationSlug } = await params;
+  const topic = LEARN_TOPICS.find((t) => t.slug === topicSlug);
+  const location = UK_LOCATIONS.find((l) => l.slug === locationSlug);
+  
+  if (!topic || !location) notFound();
 
-  if (!locationData || !topicData) {
-    notFound();
-  }
+  // Custom FAQs for this location
+  const locationFaqs = [
+    {
+      question: `Are there trading courses in ${location.name}?`,
+      answer: `While there may be physical seminars in ${location.name}, they often cost thousands for a few days of training. Drawdown provides a comprehensive online alternative that you can access from anywhere in ${location.region}, covering everything from basics to advanced institutional strategies.`
+    },
+    {
+      question: `Can I learn ${topic.title} from ${location.name}?`,
+      answer: `Absolutely. Since the financial markets are global and digital, you can learn ${topic.title} perfectly well from your home in ${location.name}. Drawdown's platform is designed for UK traders, focusing on the specific regulatory and tax environment (like Spread Betting) relevant to you.`
+    },
+    {
+      question: `How much does it cost to learn trading in ${location.name}?`,
+      answer: `Traditional trading education in ${location.name} is notoriously expensive. Drawdown offers a structured 6-phase curriculum and professional-grade AI tools starting from just £49/month, making elite trading education accessible to everyone in ${location.region}.`
+    },
+    {
+      question: `Do I need qualifications to trade from ${location.name}?`,
+      answer: `No formal qualifications are required to start retail trading in the UK. However, without proper education, the risk of capital loss is high. Our mission at Drawdown is to provide the professional-standard training that traders in ${location.name} need to survive and thrive in the markets.`
+    }
+  ];
+
+  const faqSchema = {
+    mainEntity: locationFaqs.map((f) => ({
+      "@type": "Question",
+      "name": f.question,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": f.answer,
+      },
+    })),
+  };
 
   return (
-    <div className="pt-32 pb-24 space-y-24 transition-colors duration-500">
-      {/* Hero Section */}
-      <section className="container mx-auto px-6 max-w-6xl">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-          <div className="space-y-8">
-            <div className="flex items-center gap-2 text-accent text-[10px] font-mono uppercase tracking-widest bg-accent/5 w-fit px-3 py-1.5 border border-accent/20">
-              <MapPin className="w-3 h-3" />
-              <span>Available in {locationData.name}, {locationData.region}</span>
+    <div className="pt-32 pb-24 bg-background-primary min-h-screen">
+      <div className="container mx-auto px-6">
+        <Breadcrumbs />
+        <StructuredData type="FAQPage" data={faqSchema} />
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-16 items-start">
+          <div className="lg:col-span-2">
+            <div className="flex items-center gap-3 mb-6">
+              <span className="px-3 py-1 bg-accent/10 border border-accent/20 text-accent text-[10px] font-mono uppercase tracking-widest">
+                Local Curriculum
+              </span>
+              <span className="text-[10px] font-mono text-text-tertiary uppercase tracking-widest flex items-center gap-2">
+                <MapPin className="w-3 h-3" /> {location.name}, {location.region}
+              </span>
             </div>
-            
-            <h1 className="text-4xl md:text-6xl font-display font-black uppercase tracking-tight leading-[1.1]">
-              Master <span className="text-accent">{topicData.short}</span> <br />
-              <span className="text-text-secondary font-light">From {locationData.name}</span>
+
+            <h1 className="text-5xl md:text-8xl font-display font-bold uppercase mb-8 leading-tight text-text-primary">
+              {topic.title} in <span className="text-accent">{location.name}</span> <br className="hidden md:block" />
+              <span className="opacity-50">— Learn Online.</span>
             </h1>
             
-            <p className="text-lg md:text-xl text-text-secondary leading-relaxed font-light max-w-xl">
-              {locationData.id === 'chesterfield' ? (
-                <span className="block border-l-2 border-accent pl-6 py-2 italic bg-accent/5">
-                  "As the hometown of Drawdown, Chesterfield holds a special place in our mission. We're proud to support the local trading community with the same institutional edge we provide globally."
-                </span>
-              ) : (
-                <>Join the growing community of traders in {locationData.region} building their edge. Our comprehensive course covers the exact institutional concepts you need to succeed at {topicData.title.toLowerCase()}.</>
-              )}
-            </p>
+            <div className="prose prose-invert prose-lg max-w-none mb-16">
+              <p className="text-xl text-text-secondary leading-relaxed font-sans">
+                Whether you're trading from a home office in <strong>{location.name}</strong> or catching charts on the commute, Drawdown gives you everything you need to learn {topic.title.toLowerCase()} properly — at your own pace, on your own schedule.
+              </p>
+              <p className="text-xl text-text-secondary leading-relaxed font-sans">
+                {location.context}
+              </p>
+              <p className="text-xl text-text-secondary leading-relaxed font-sans">
+                With Drawdown's online platform, you don't need to travel to London for quality trading education. Our entire curriculum is available online, built specifically for UK traders who demand institutional-grade intelligence without the gatekeeping.
+              </p>
+            </div>
+
+            {/* Shared Topic Content Section */}
+            <div className="space-y-20 py-16 border-y border-border-slate/30 mb-16">
+              <div className="flex items-center gap-4 mb-8">
+                <div className="h-px flex-1 bg-border-slate/30" />
+                <h2 className="text-xs font-mono uppercase tracking-[0.3em] text-text-tertiary">Core Educational Intelligence</h2>
+                <div className="h-px flex-1 bg-border-slate/30" />
+              </div>
+              
+              {topic.content.map((section, i) => (
+                <section key={i} className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
+                  <h2 className="text-3xl md:text-4xl font-display font-bold uppercase tracking-tight text-text-primary">
+                    {i + 1}. {section.heading}
+                  </h2>
+                  <p className="text-text-secondary leading-relaxed text-lg whitespace-pre-line">
+                    {section.text}
+                  </p>
+                  {section.bullets && (
+                    <ul className="space-y-4 pt-4">
+                      {section.bullets.map((bullet, j) => (
+                        <li key={j} className="flex gap-4 text-text-secondary">
+                          <span className="text-accent font-bold">/</span>
+                          {bullet}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </section>
+              ))}
+            </div>
+
+            {/* Why Learn Online Section */}
+            <section className="mb-24">
+              <h2 className="text-4xl font-display font-bold uppercase mb-12 text-text-primary">Why Learn Online?</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div className="p-8 bg-background-surface border border-border-slate">
+                  <h3 className="text-xl font-bold uppercase mb-4 text-accent">Cost Efficiency</h3>
+                  <p className="text-text-secondary leading-relaxed">
+                    Traditional trading courses in <strong>{location.name}</strong> typically cost £1,000 to £5,000+ for a few days of classroom training. With Drawdown, you get 6 phases of structured education and AI-powered analysis tools starting from £49/month.
+                  </p>
+                </div>
+                <div className="p-8 bg-background-surface border border-border-slate">
+                  <h3 className="text-xl font-bold uppercase mb-4 text-accent">Flexible Pace</h3>
+                  <p className="text-text-secondary leading-relaxed">
+                    The markets don't wait for a classroom schedule. Learning online from {location.name} allows you to study when the markets are actually moving, integrating your education into your real-life routine.
+                  </p>
+                </div>
+              </div>
+            </section>
+
+            {/* UK Specific Benefits */}
+            <section className="mb-24 p-10 bg-background-surface border border-border-slate relative overflow-hidden">
+               <div className="relative z-10">
+                <h2 className="text-4xl font-display font-bold uppercase mb-12 text-text-primary">Built for the UK Trader</h2>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                  {[
+                    "UK-regulated broker recommendations",
+                    "Spread betting tax guidance",
+                    "HMRC-compliant education",
+                    "GBP-denominated tools",
+                    "GMT/BST session coverage",
+                    "Local community of UK traders"
+                  ].map((benefit, i) => (
+                    <div key={i} className="flex items-center gap-3 text-text-secondary">
+                      <CheckCircle2 className="w-5 h-5 text-accent" />
+                      <span className="text-sm font-medium uppercase tracking-wider">{benefit}</span>
+                    </div>
+                  ))}
+                </div>
+               </div>
+               <Globe className="absolute -bottom-12 -right-12 w-64 h-64 text-accent/5" />
+            </section>
+
+            {/* FAQ Section */}
+            <section className="mb-24">
+              <h2 className="text-4xl font-display font-bold uppercase mb-16 text-text-primary">FAQs for {location.name} Traders.</h2>
+              <div className="space-y-12">
+                {locationFaqs.map((faq, i) => (
+                  <div key={i} className="space-y-4">
+                    <h4 className="text-2xl font-display font-bold uppercase text-text-primary">{faq.question}</h4>
+                    <p className="text-text-secondary leading-relaxed text-lg">{faq.answer}</p>
+                  </div>
+                ))}
+              </div>
+            </section>
+
+            {/* Anti-Guru Mistake Section */}
+            <section className="p-10 bg-loss/5 border border-loss/20 relative overflow-hidden group mb-16">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-loss/10 blur-3xl rounded-full -mr-16 -mt-16 group-hover:scale-150 transition-transform duration-700" />
+              <div className="relative z-10">
+                <div className="flex items-center gap-3 text-loss mb-6">
+                  <AlertTriangle className="w-6 h-6" />
+                  <h3 className="text-xs font-mono uppercase font-bold tracking-widest">Crucial Warning: The Guru Trap</h3>
+                </div>
+                <p className="text-lg text-text-secondary leading-relaxed italic max-w-3xl">
+                  Most online guides for "{topic.title}" in {location.name} are designed to sell you indicators or signal groups. At Drawdown, we teach you strategy and discipline. No shortcuts. No scams.
+                </p>
+              </div>
+            </section>
             
-            <div className="pt-4 flex flex-col sm:flex-row gap-4">
-              <Link 
-                href="/pricing"
-                className="px-8 py-4 bg-accent hover:bg-accent-hover text-background-primary transition-colors font-bold uppercase tracking-widest text-[10px] flex items-center justify-center gap-2"
-              >
-                Access The Academy <ArrowRight className="w-4 h-4" />
-              </Link>
+            <div className="py-16 border-t border-border-slate/30">
+               <h3 className="text-3xl font-display font-bold uppercase mb-8 text-text-primary">Start learning {topic.title} today — from {location.name} or anywhere in the UK.</h3>
+               <Link 
+                href="/signup" 
+                className="inline-block px-12 py-6 bg-accent text-background-primary font-bold uppercase tracking-[0.2em] text-xs hover:invert transition-all"
+               >
+                Begin Phase 1 Free
+               </Link>
             </div>
           </div>
-          
-          <div className="relative aspect-square md:aspect-[4/3] bg-background-surface border border-border-slate overflow-hidden group">
-             <div className="absolute inset-0 bg-background-primary bg-[linear-gradient(to_right,#80808008_1px,transparent_1px),linear-gradient(to_bottom,#80808008_1px,transparent_1px)] bg-[size:32px_32px] opacity-30 group-hover:opacity-40 transition-opacity duration-700" />
-             <div className="absolute inset-0 bg-gradient-to-t from-background-primary via-transparent to-transparent" />
-             <div className="absolute bottom-8 left-8 right-8 border border-border-slate bg-background-elevated/80 backdrop-blur-md p-6">
-                <div className="flex items-center gap-4 mb-4">
-                  <TrendingUp className="w-8 h-8 text-accent" />
-                  <div>
-                    <p className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary">Live Module</p>
-                    <p className="text-sm font-display font-bold uppercase">{topicData.title}</p>
-                  </div>
-                </div>
-                <div className="h-2 bg-background-primary overflow-hidden">
-                  <div className="w-1/3 h-full bg-accent" />
-                </div>
-             </div>
-          </div>
-        </div>
-      </section>
 
-      {/* Localised Core Curriculum Section */}
-      <section className="bg-background-surface border-y border-border-slate py-24">
-        <div className="container mx-auto px-6 max-w-6xl space-y-16">
-          <div className="text-center max-w-2xl mx-auto space-y-4">
-            <h2 className="text-3xl md:text-4xl font-display font-bold uppercase">The {locationData.name} Edge</h2>
-            <p className="text-text-secondary">
-              We provide traders in {locationData.name} with the exact technical frameworks required to navigate global markets. Here is what you'll master in the {topicData.short} module.
-            </p>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              { title: "Institutional Concepts", desc: "Move beyond retail lagging indicators. Understand liquidity pools, fair value gaps, and market manipulation." },
-              { title: "Psychological Discipline", desc: "Build the emotional resilience required to execute systems flawlessly without hesitation or FOMO." },
-              { title: "Risk Frameworks", desc: "Deploy professional capital preservation strategies to protect your downside while hunting asymmetrical risk/reward." }
-            ].map((feature, i) => (
-              <div key={i} className="p-8 border border-border-slate bg-background-primary hover:border-accent/40 transition-colors">
-                <Compass className="w-8 h-8 text-accent mb-6" />
-                <h3 className="text-xl font-display font-bold uppercase mb-3">{feature.title}</h3>
-                <p className="text-sm text-text-secondary leading-relaxed">{feature.desc}</p>
+          {/* Sidebar */}
+          <aside className="sticky top-32 space-y-12">
+            <div className="p-10 bg-background-surface border border-border-slate hover:border-accent/30 transition-premium">
+              <h4 className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary mb-8">Other Topics in {location.name}</h4>
+              <div className="space-y-6">
+                {LEARN_TOPICS.filter(t => t.slug !== topicSlug).slice(0, 6).map(t => (
+                  <Link 
+                    key={t.slug} 
+                    href={`/learn-to-trade/${t.slug}/${locationSlug}`}
+                    className="flex items-center justify-between group py-3 border-b border-border-slate/30"
+                  >
+                    <span className="text-xs font-bold uppercase tracking-widest text-text-secondary group-hover:text-accent transition-colors">
+                      {t.title}
+                    </span>
+                    <ArrowUpRight className="w-4 h-4 text-text-tertiary group-hover:text-accent transition-transform group-hover:-translate-y-1 group-hover:translate-x-1" />
+                  </Link>
+                ))}
               </div>
-            ))}
-          </div>
+            </div>
+
+            <div className="p-10 bg-background-surface border border-border-slate hover:border-accent/30 transition-premium">
+              <h4 className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary mb-8">Quick Navigation</h4>
+              <div className="space-y-4">
+                <Link href={`/learn-to-trade/${topicSlug}`} className="block text-xs font-bold uppercase tracking-widest text-accent hover:underline">
+                  Main {topic.title} Guide
+                </Link>
+                <Link href="/brokers" className="block text-xs font-bold uppercase tracking-widest text-text-secondary hover:text-accent">
+                  Compare UK Brokers
+                </Link>
+                <Link href="/glossary" className="block text-xs font-bold uppercase tracking-widest text-text-secondary hover:text-accent">
+                  Trading Glossary
+                </Link>
+              </div>
+            </div>
+          </aside>
         </div>
-      </section>
-      
-      {/* Proof/Testimonial Placeholder */}
-      <section className="container mx-auto px-6 max-w-4xl text-center space-y-8">
-         <h2 className="text-3xl font-display font-bold uppercase">Ready to trade from {locationData.name}?</h2>
-         <p className="text-text-secondary max-w-2xl mx-auto">
-            Get instant access to Pete's comprehensive {topicData.short.toLowerCase()} training, community discord, and daily market briefs.
-         </p>
-         <div className="pt-6">
-            <Link 
-              href="/dashboard"
-              className="inline-flex px-12 py-5 bg-text-primary hover:bg-white text-background-primary transition-colors font-bold uppercase tracking-widest text-[10px]"
-            >
-              Start Your Journey
-            </Link>
-         </div>
-      </section>
+      </div>
     </div>
   );
 }

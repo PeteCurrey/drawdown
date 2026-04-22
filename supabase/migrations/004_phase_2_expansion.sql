@@ -184,8 +184,8 @@ CREATE POLICY "Public read for broker_affiliates" ON broker_affiliates FOR SELEC
 ALTER TABLE seo_pages ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "Public read for seo_pages" ON seo_pages FOR SELECT USING (is_published = true);
 
--- Journal Entries (Owner only)
-ALTER TABLE journal_entries ENABLE ROW LEVEL SECURITY;
+-- Trade Logs (Owner only)
+ALTER TABLE trade_logs ENABLE ROW LEVEL SECURITY;
 -- (Assuming owner policy already exists)
 
 -- Market Data Cache (Public read, internal write)

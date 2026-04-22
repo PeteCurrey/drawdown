@@ -1,13 +1,13 @@
 "use client";
 
+import { useMemo } from "react";
 import { cn } from "@/lib/utils";
+import { getAllSEOPages } from "@/lib/admin";
 import { 
-  Search, 
   TrendingUp, 
   Target, 
   BarChart2,
   Crosshair,
-  AlertTriangle,
   CheckCircle2,
   Zap,
   Eye,
@@ -16,6 +16,8 @@ import {
 } from "lucide-react";
 
 export default function SEOSuitePage() {
+  const allPages = useMemo(() => getAllSEOPages(), []);
+
   return (
     <div className="space-y-12 animate-in fade-in duration-700 pb-24">
       {/* Header */}
@@ -32,7 +34,7 @@ export default function SEOSuitePage() {
           { label: "Total Impressions", value: "248.5K", trend: "+14%", icon: Eye },
           { label: "Total Clicks", value: "12.4K", trend: "+8%", icon: MousePointerClick },
           { label: "Avg Position", value: "14.2", trend: "-2.1", icon: BarChart2 },
-          { label: "Indexed Pages", value: "482", trend: "+12", icon: Globe },
+          { label: "Indexed Pages", value: allPages.length.toString(), trend: `+${allPages.length - 120}`, icon: Globe },
         ].map((stat, i) => {
           const isPositive = stat.trend.startsWith('+') || stat.label === "Avg Position";
           return (
@@ -119,4 +121,3 @@ export default function SEOSuitePage() {
     </div>
   );
 }
-

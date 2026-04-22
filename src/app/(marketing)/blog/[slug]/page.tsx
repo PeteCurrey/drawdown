@@ -3,7 +3,8 @@ import { notFound } from "next/navigation";
 import { getMetadata } from "@/lib/metadata";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { StructuredData } from "@/components/StructuredData";
-import { BLOG_POSTS } from "@/lib/data/blog-posts";
+import { getAllPosts, getPostBySlug } from "@/lib/blog";
+import { MDXRemote } from "next-mdx-remote/rsc";
 import Link from "next/link";
 import { Clock, Calendar, ChevronLeft, Share2 } from "lucide-react";
 
@@ -12,15 +13,17 @@ interface Props {
 }
 
 export async function generateStaticParams() {
-  return BLOG_POSTS.map((post) => ({
+  const posts = getAllPosts();
+  return posts.map((post) => ({
     slug: post.slug,
   }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const post = BLOG_POSTS.find((p) => p.slug === slug);
+  const post = getPostBySlug(slug);
   if (!post) return {};
+  
   return getMetadata({
     title: `${post.title} | Drawdown Blog`,
     description: post.excerpt,
@@ -30,8 +33,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function BlogPostPage({ params }: Props) {
   const { slug } = await params;
-  
-  const post = BLOG_POSTS.find((p) => p.slug === slug);
+  const post = getPostBySlug(slug);
   
   if (!post) notFound();
 
@@ -98,8 +100,9 @@ export default async function BlogPostPage({ params }: Props) {
               prose-ul:list-disc prose-ul:pl-6 prose-ul:mb-8
               prose-li:text-text-secondary prose-li:mb-2
               prose-a:text-accent prose-a:underline hover:prose-a:text-accent-hover"
-            dangerouslySetInnerHTML={{ __html: post.content }}
-          />
+          >
+            <MDXRemote source={post.content} />
+          </article>
 
           {/* CTA Section */}
           <div className="mt-24 p-12 bg-background-elevated border border-border-slate relative overflow-hidden group">

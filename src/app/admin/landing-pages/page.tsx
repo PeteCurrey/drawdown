@@ -9,11 +9,13 @@ import {
 } from "lucide-react";
 import { LandingPageTable } from "@/components/admin/LandingPageTable";
 
-export default function LandingPageManager() {
-  const allPages = getAllSEOPages();
+import { getAdminStats } from "@/lib/admin-data";
 
-  // Simulated metrics for display
-  const totalViews = allPages.length * 420; // Simulated
+export default async function LandingPageManager() {
+  const allPages = getAllSEOPages();
+  const stats = await getAdminStats();
+
+  const totalViews = stats.totalSEOViews;
   const avgConv = 4.2;
 
   return (

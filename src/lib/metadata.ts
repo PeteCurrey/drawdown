@@ -6,6 +6,7 @@ interface MetadataProps {
   image?: string;
   noIndex?: boolean;
   path?: string;
+  hasRegionalVariants?: boolean;
 }
 
 export const siteConfig = {
@@ -26,12 +27,23 @@ export function getMetadata({
   image = siteConfig.ogImage,
   noIndex = false,
   path = "",
+  hasRegionalVariants = false,
 }: MetadataProps = {}): Metadata {
   const fullTitle = title 
     ? `${title} | ${siteConfig.name}` 
     : siteConfig.title;
 
   const url = `${siteConfig.url}${path}`;
+
+  const languages: Record<string, string> = {};
+  if (hasRegionalVariants) {
+    languages['en-GB'] = `${siteConfig.url}${path}`;
+    languages['en-AU'] = `${siteConfig.url}/au${path}`;
+    languages['en-US'] = `${siteConfig.url}/us${path}`;
+    languages['en-SG'] = `${siteConfig.url}/sg${path}`;
+    languages['en-HK'] = `${siteConfig.url}/hk${path}`;
+    languages['x-default'] = `${siteConfig.url}${path}`;
+  }
 
   return {
     title: fullTitle,
@@ -84,6 +96,7 @@ export function getMetadata({
     metadataBase: new URL(siteConfig.url),
     alternates: {
       canonical: url,
+      languages: hasRegionalVariants ? languages : undefined,
     },
     ...(noIndex && {
       robots: {

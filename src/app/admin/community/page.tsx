@@ -12,7 +12,12 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-export default function DiscordManagerPage() {
+import { getAdminStats } from "@/lib/admin-data";
+
+export default async function DiscordManagerPage() {
+  const stats = await getAdminStats();
+  const isOnline = stats.health.discord === 'connected';
+
   return (
     <div className="space-y-12 animate-in fade-in duration-700 pb-24">
       {/* Header */}
@@ -21,12 +26,15 @@ export default function DiscordManagerPage() {
           <h1 className="text-3xl font-display font-bold uppercase mb-2">Discord Engine</h1>
           <p className="text-xs text-text-tertiary">Manage community roles, broadcast announcements, and monitor server health.</p>
         </div>
-        <div className="flex items-center gap-3 px-4 py-2 bg-[#5865F2]/10 border border-[#5865F2]/20 text-[#5865F2]">
+        <div className={cn(
+          "flex items-center gap-3 px-4 py-2 border",
+          isOnline ? "bg-profit/10 border-profit/20 text-profit" : "bg-loss/10 border-loss/20 text-loss"
+        )}>
           <span className="relative flex h-2 w-2">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#5865F2] opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-[#5865F2]"></span>
+            {isOnline && <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-profit opacity-75"></span>}
+            <span className={cn("relative inline-flex rounded-full h-2 w-2", isOnline ? "bg-profit" : "bg-loss")}></span>
           </span>
-          <span className="text-[10px] font-bold uppercase tracking-widest">Bot Online</span>
+          <span className="text-[10px] font-bold uppercase tracking-widest">{isOnline ? 'Bot Online' : 'Bot Offline'}</span>
         </div>
       </div>
 

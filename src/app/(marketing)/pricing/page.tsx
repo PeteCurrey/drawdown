@@ -71,7 +71,10 @@ export default function PricingPage() {
     setLoadingTier(tierName);
     try {
       const tierId = tierName.toLowerCase().replace('the ', '');
-      const priceId = STRIPE_CONFIG.prices[tierId as keyof typeof STRIPE_CONFIG.prices][billingCycle === 'monthly' ? 'monthly' : 'annual'];
+      const priceConfig = STRIPE_CONFIG.prices[tierId as keyof typeof STRIPE_CONFIG.prices][billingCycle === 'monthly' ? 'monthly' : 'annual'];
+      
+      // Default to GBP for UK page
+      const priceId = (priceConfig as any)['gbp'];
 
       const response = await fetch("/api/stripe/checkout", {
         method: "POST",

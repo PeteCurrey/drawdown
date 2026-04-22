@@ -1,182 +1,118 @@
-"use client";
-
-import { useSearchParams } from "next/navigation";
-import Link from "next/link";
-import { InteractiveChart } from "@/components/charts/InteractiveChart";
-import { MarketConsensus } from "@/components/market/MarketConsensus";
-import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
-import { Suspense, useState, useEffect } from "react";
+import { getTechnicalPatterns } from "@/lib/market";
+import { 
+  Zap, 
+  Search, 
+  Target, 
+  TrendingUp, 
+  TrendingDown,
+  Activity,
+  ChevronRight,
+  ShieldCheck,
+  AlertCircle
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 
-import { SectorHeatmap } from "@/components/market/SectorHeatmap";
-import { identifyMSS, ScannerSignal } from "@/lib/scanner";
-import { MarketSector } from "@/lib/data/sectors";
-import { 
-  Grid3X3, 
-  Zap, 
-  Activity,
-  AlertCircle,
-  TrendingUp,
-  TrendingDown
-} from "lucide-react";
+export default async function MarketScannerPage() {
+  // Fetch sample patterns for key assets
+  const symbols = ["AAPL", "TSLA", "NVDA", "GBPUSD", "EURUSD"];
+  const allPatterns = await Promise.all(
+    symbols.map(async (s) => ({
+      symbol: s,
+      patterns: await getTechnicalPatterns(s)
+    }))
+  );
 
-type ScannerTab = 'heatmap' | 'signals' | 'consensus';
-
-function ScannerContent() {
-  const searchParams = useSearchParams();
-  const symbol = searchParams.get("symbol");
-  const [activeTab, setActiveTab] = useState<ScannerTab>('heatmap');
-  const [sectors, setSectors] = useState<MarketSector[]>([]);
-  const [signals, setSignals] = useState<ScannerSignal[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const [sectorRes, consensusRes, scannerRes] = await Promise.all([
-          fetch('/api/market/sectors'),
-          fetch('/api/market/consensus'),
-          fetch('/api/market/scanner')
-        ]);
-        
-        const sectorData = await sectorRes.json();
-        setSectors(sectorData);
-
-        const scannerData = await scannerRes.json();
-        setSignals(scannerData);
-
-      } catch (err) {
-        console.error("Scanner fetch error:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  if (symbol) {
-    return (
-      <div className="space-y-10 pb-24 animate-in fade-in duration-700">
-        <header className="space-y-4">
-          <Breadcrumbs />
-          <div>
-            <h1 className="text-3xl font-display font-black uppercase tracking-tight text-white">
-              Intelligence: {symbol}
-            </h1>
-            <p className="text-text-tertiary font-mono text-[10px] uppercase tracking-widest mt-1">
-              Advanced technical analysis and AI intelligence for {symbol}
-            </p>
-          </div>
-        </header>
-        <InteractiveChart symbol={symbol} userTier="edge" />
-      </div>
-    );
-  }
+  const flatPatterns = allPatterns.flatMap(p => 
+    p.patterns.map((pt: any) => ({ ...pt, symbol: p.symbol }))
+  ).sort((a, b) => b.atrp - a.atrp); // Sorting by ATRP (pattern strength)
 
   return (
-    <div className="space-y-10 pb-24">
-      <header className="space-y-4">
-        <Breadcrumbs />
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
-          <div>
-            <h1 className="text-3xl font-display font-black uppercase tracking-tight text-white">
-              Market Radar
-            </h1>
-            <p className="text-text-tertiary font-mono text-[10px] uppercase tracking-widest mt-1">
-              Global technical consensus and structural signals
-            </p>
+    <div className="space-y-12 animate-in fade-in duration-700 pb-24">
+      <header className="border-b border-border-slate pb-8 flex justify-between items-end">
+        <div>
+          <div className="flex items-center gap-2 text-premium mb-4">
+            <Zap className="w-4 h-4 fill-premium" />
+            <span className="text-[10px] font-mono uppercase tracking-[0.3em]">Consensus_Engine // v2.0</span>
           </div>
-
-          <div className="flex bg-background-surface border border-border-slate p-1">
-            {[
-              { id: 'heatmap', icon: Grid3X3, label: 'Sector Heatmap' },
-              { id: 'signals', icon: Zap, label: 'Structural Signals' },
-              { id: 'consensus', icon: Activity, label: 'Global Consensus' },
-            ].map((tab) => (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id as ScannerTab)}
-                className={cn(
-                  "flex items-center gap-2 px-4 py-2 text-[10px] font-bold uppercase tracking-widest transition-all",
-                  activeTab === tab.id 
-                    ? "bg-accent text-background-primary shadow-lg" 
-                    : "text-text-tertiary hover:text-text-primary hover:bg-white/5"
-                )}
-              >
-                <tab.icon className="w-3 h-3" />
-                <span className="hidden md:inline">{tab.label}</span>
-              </button>
-            ))}
-          </div>
+          <h1 className="text-4xl font-display font-bold uppercase tracking-tight">Market <span className="text-premium">Scanner.</span></h1>
+          <p className="text-sm text-text-tertiary mt-2">Automated pattern recognition and institutional technical consensus.</p>
+        </div>
+        <div className="flex items-center gap-4 px-6 py-3 bg-background-elevated border border-border-slate">
+           <Activity className="w-4 h-4 text-profit animate-pulse" />
+           <span className="text-[10px] font-mono uppercase tracking-widest text-text-primary">Live Scan Active</span>
         </div>
       </header>
 
-      {activeTab === 'heatmap' && (
-        <div className="animate-in fade-in slide-in-from-bottom-4 duration-700">
-          <SectorHeatmap sectors={sectors} />
-        </div>
-      )}
-
-      {activeTab === 'signals' && (
-        <div className="space-y-4 animate-in fade-in slide-in-from-bottom-4 duration-700">
-          {signals.map((signal, i) => (
-            <div key={i} className="p-6 bg-background-surface border border-border-slate flex flex-col md:flex-row justify-between items-start md:items-center gap-6 group hover:border-accent/40 transition-colors">
-              <div className="flex items-center gap-6">
-                <div className={cn(
-                  "w-12 h-12 flex items-center justify-center border",
-                  signal.type === 'MSS_BULLISH' ? "border-profit/20 bg-profit/5 text-profit" : "border-loss/20 bg-loss/5 text-loss"
-                )}>
-                  {signal.type === 'MSS_BULLISH' ? <TrendingUp className="w-5 h-5" /> : <TrendingDown className="w-5 h-5" />}
-                </div>
-                <div>
-                  <div className="flex items-center gap-3">
-                    <h3 className="text-xl font-display font-black uppercase tracking-tight">{signal.symbol}</h3>
-                    <span className={cn(
-                      "text-[8px] font-bold uppercase tracking-widest px-2 py-0.5 border",
-                      signal.type === 'MSS_BULLISH' ? "border-profit/30 text-profit" : "border-loss/30 text-loss"
-                    )}>
-                      {signal.type.replace('_', ' ')}
-                    </span>
-                  </div>
-                  <p className="text-text-secondary text-xs mt-1">{signal.context}</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-4 w-full md:w-auto">
-                <div className="text-right hidden md:block">
-                  <p className="text-[10px] font-mono text-text-tertiary uppercase uppercase">Trigger Price</p>
-                  <p className="text-sm font-mono font-bold">{signal.price.toFixed(4)}</p>
-                </div>
-                <Link 
-                  href={`/tools/scanner?symbol=${signal.symbol}`}
-                  className="flex-grow md:flex-grow-0 px-6 py-3 bg-background-elevated hover:bg-accent hover:text-background-primary border border-border-slate text-[10px] font-bold uppercase tracking-widest transition-all"
-                >
-                  Analyze Context
-                </Link>
-              </div>
-            </div>
-          ))}
-          <div className="p-10 border border-dashed border-border-slate text-center space-y-2">
-            <AlertCircle className="w-8 h-8 text-text-tertiary mx-auto mb-2" />
-            <p className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary">Scanning 20+ markets for institutional block orders and structural shifts...</p>
+      {/* Pattern Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {flatPatterns.length === 0 ? (
+          <div className="col-span-full p-20 bg-background-surface border border-border-slate border-dashed text-center">
+             <AlertCircle className="w-8 h-8 text-text-tertiary mx-auto mb-4" />
+             <p className="text-xs text-text-tertiary font-mono uppercase">No high-conviction patterns detected in current cycle.</p>
           </div>
-        </div>
-      )}
+        ) : flatPatterns.slice(0, 9).map((pattern: any, i: number) => (
+          <div key={i} className="p-8 bg-background-surface border border-border-slate hover:border-premium/50 transition-all group relative overflow-hidden">
+             <div className="flex justify-between items-start mb-8">
+                <div>
+                   <h3 className="text-xl font-display font-bold uppercase tracking-tight group-hover:text-premium transition-colors">{pattern.symbol}</h3>
+                   <p className="text-[10px] font-mono text-text-tertiary uppercase tracking-widest">Daily Chart</p>
+                </div>
+                <div className={cn(
+                  "px-2 py-1 text-[8px] font-mono font-bold uppercase border",
+                  pattern.type === 'bullish' ? "border-profit/20 bg-profit/5 text-profit" : "border-loss/20 bg-loss/5 text-loss"
+                )}>
+                  {pattern.type}
+                </div>
+             </div>
 
-      {activeTab === 'consensus' && (
-        <div className="animate-in fade-in slide-in-from-bottom-4 duration-700">
-          <MarketConsensus />
-        </div>
-      )}
+             <div className="space-y-4">
+                <div className="flex justify-between items-center text-xs">
+                   <span className="text-text-tertiary font-mono">Pattern</span>
+                   <span className="font-bold text-text-secondary uppercase">{pattern.patternname}</span>
+                </div>
+                <div className="flex justify-between items-center text-xs">
+                   <span className="text-text-tertiary font-mono">Conviction</span>
+                   <div className="flex gap-0.5">
+                      {Array.from({ length: 5 }).map((_, j) => (
+                        <div key={j} className={cn(
+                          "w-3 h-1",
+                          j < Math.round(pattern.atrp / 2) ? "bg-premium" : "bg-background-elevated"
+                        )} />
+                      ))}
+                   </div>
+                </div>
+             </div>
+
+             <div className="mt-8 pt-6 border-t border-border-slate/50 flex justify-between items-center">
+                <span className="text-[9px] font-mono text-text-tertiary">SIGNAL AGE: 4H</span>
+                <button className="flex items-center gap-1 text-[9px] font-bold uppercase text-premium hover:underline">
+                   View Analysis <ChevronRight className="w-3 h-3" />
+                </button>
+             </div>
+
+             {/* Background Decoration */}
+             <div className="absolute top-0 right-0 p-4 opacity-[0.03] group-hover:opacity-[0.07] transition-opacity pointer-events-none">
+                <Target className="w-24 h-24" />
+             </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Institutional Insights Footer */}
+      <section className="p-10 bg-background-elevated border border-border-slate flex flex-col md:flex-row items-center justify-between gap-10">
+         <div className="flex items-start gap-6">
+            <ShieldCheck className="w-10 h-10 text-premium shrink-0 mt-1" />
+            <div className="space-y-2">
+               <h3 className="text-xl font-display font-bold uppercase tracking-tight">Technical Consensus</h3>
+               <p className="text-xs text-text-secondary max-w-xl leading-relaxed">
+                  Our scanner cross-references 14 indicators and 22 price patterns to find institutional-grade setups. High ATRP scores indicate multi-timeframe alignment.
+               </p>
+            </div>
+         </div>
+         <button className="px-10 py-4 bg-premium text-background-primary text-[10px] font-black uppercase tracking-[0.2em] hover:bg-white transition-all whitespace-nowrap">
+            Configure Alerts
+         </button>
+      </section>
     </div>
   );
 }
-
-export default function ScannerPage() {
-  return (
-    <Suspense fallback={<div className="p-20 text-center font-mono text-xs uppercase animate-pulse">Loading Radar...</div>}>
-      <ScannerContent />
-    </Suspense>
-  );
-}
-

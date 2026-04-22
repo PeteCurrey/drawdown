@@ -2,10 +2,13 @@ import { LEARN_TOPICS } from "@/lib/data/learn-to-trade";
 import { UK_LOCATIONS } from "@/lib/data/locations";
 import { INSTRUMENT_SLUGS } from "@/lib/data/instruments";
 import { GLOSSARY_TERMS } from "@/data/seo/glossary";
-import { HOW_TO_PAGES } from "@/data/seo/howto";
-import { BEST_OF_PAGES } from "@/data/seo/best";
-import { COMPARISON_PAGES } from "@/data/seo/compare";
-import { brokers } from "@/data/brokers";
+import { HOW_TO_PAGES_AU } from "@/data/seo/how-to-au";
+import { BEST_OF_PAGES_AU } from "@/data/seo/best-au";
+import { COMPARE_PAGES_AU } from "@/data/seo/compare-au";
+import { AU_CITIES, AU_TOPICS, TOPIC_DISPLAY_AU } from "@/data/seo/locations-au";
+import { brokersAu } from "@/data/brokers-au";
+import { brokersUs } from "@/data/brokers-us";
+import { brokersSg, brokersHk } from "@/data/brokers-asia";
 import { getAllPosts } from "@/lib/blog";
 
 export interface SEOPageInfo {
@@ -127,6 +130,68 @@ export function getAllSEOPages(): SEOPageInfo[] {
       category: "Insights",
       type: 'blog'
     });
+  });
+
+  // REGIONAL PAGES (Batch 7-9)
+  const regions = ["au", "us", "sg", "hk"];
+
+  // Regional Homes
+  regions.forEach(reg => {
+    pages.push({
+      title: `${reg.toUpperCase()} Home`,
+      slug: `/${reg}`,
+      category: "Regional",
+      type: 'static'
+    });
+    pages.push({
+      title: `${reg.toUpperCase()} Pricing`,
+      slug: `/${reg}/pricing`,
+      category: "Regional",
+      type: 'static'
+    });
+    pages.push({
+      title: `${reg.toUpperCase()} Brokers Hub`,
+      slug: `/${reg}/brokers`,
+      category: "Regional",
+      type: 'static'
+    });
+  });
+
+  // Australia Specific (Batch 7)
+  brokersAu.forEach(b => {
+    pages.push({ title: `${b.name} Review (AU)`, slug: `/au/brokers/${b.slug}`, category: "Regional AU", type: 'broker' });
+  });
+  BEST_OF_PAGES_AU.forEach(p => {
+    pages.push({ title: p.title, slug: `/au/best/${p.slug}`, category: "Regional AU", type: 'ranking' });
+  });
+  HOW_TO_PAGES_AU.forEach(p => {
+    pages.push({ title: p.title, slug: `/au/how-to/${p.slug}`, category: "Regional AU", type: 'howto' });
+  });
+  COMPARE_PAGES_AU.forEach(p => {
+    pages.push({ title: p.title, slug: `/au/compare/${p.slug}`, category: "Regional AU", type: 'comparison' });
+  });
+  AU_TOPICS.forEach(topic => {
+    AU_CITIES.forEach(city => {
+      pages.push({
+        title: `${TOPIC_DISPLAY_AU[topic]} in ${city}`,
+        slug: `/au/learn-to-trade/${topic}/${city}`,
+        category: "Regional AU Localized",
+        type: 'location'
+      });
+    });
+  });
+
+  // US Specific (Batch 8)
+  brokersUs.forEach(b => {
+    pages.push({ title: `${b.name} Review (US)`, slug: `/us/brokers/${b.slug}`, category: "Regional US", type: 'broker' });
+  });
+
+  // Asia Specific (Batch 9)
+  brokersSg.forEach(b => {
+    pages.push({ title: `${b.name} Review (SG)`, slug: `/sg/brokers/${b.slug}`, category: "Regional SG", type: 'broker' });
+  });
+  brokersHk.forEach(b => {
+    pages.push({ title: `${b.name} Review (HK)`, slug: `/hk/brokers/${b.slug}`, category: "Regional HK", type: 'broker' });
   });
 
   return pages;

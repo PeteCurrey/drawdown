@@ -4,7 +4,12 @@ import { cn } from "@/lib/utils";
 import { Shield, ChevronRight, ExternalLink } from "lucide-react";
 import Link from "next/link";
 
-const brokers = [
+import { useRegion } from "@/components/layout/RegionalLayout";
+import { brokersAu } from "@/data/brokers-au";
+import { brokersUs } from "@/data/brokers-us";
+import { brokersSg, brokersHk } from "@/data/brokers-asia";
+
+const ukBrokers = [
   {
     id: "ig-markets",
     name: "IG Markets",
@@ -12,7 +17,8 @@ const brokers = [
     bestFor: "Best for UK spread betting",
     stat: "Spreads from 0.6 pips",
     features: ["FCA Regulated", "Institutional Grade", "Pete's pick"],
-    color: "#E11A27"
+    color: "#E11A27",
+    regulation: "FCA PROTECTED"
   },
   {
     id: "pepperstone",
@@ -21,7 +27,8 @@ const brokers = [
     bestFor: "Best for forex",
     stat: "Raw spreads from 0.0 pips",
     features: ["FCA Regulated", "Fast Execution", "Low Commission"],
-    color: "#0032FF"
+    color: "#0032FF",
+    regulation: "FCA PROTECTED"
   },
   {
     id: "ic-markets",
@@ -30,11 +37,82 @@ const brokers = [
     bestFor: "Best for active traders",
     stat: "Ultra-low commissions",
     features: ["Global Depth", "Raw Spreads", "High Leverage"],
-    color: "#2C2F36"
+    color: "#2C2F36",
+    regulation: "GLOBAL DEPTH"
   }
 ];
 
 export function BrokerHubPreview() {
+  const { region } = useRegion();
+
+  const getRegionalData = () => {
+    switch (region) {
+      case "au":
+        return {
+          brokers: brokersAu.slice(0, 3).map(b => ({
+            id: b.slug,
+            name: b.name,
+            logoPlaceholder: b.name.substring(0, 2).toUpperCase(),
+            bestFor: b.bestFor,
+            stat: b.minDeposit === "$0" ? "No Minimum Deposit" : `Min Deposit: ${b.minDeposit}`,
+            features: b.features,
+            color: b.name.includes("Pepperstone") ? "#0032FF" : b.name.includes("IG") ? "#E11A27" : "#2C2F36",
+            regulation: "ASIC REGULATED"
+          })),
+          link: "/au/brokers"
+        };
+      case "us":
+        return {
+          brokers: brokersUs.slice(0, 3).map(b => ({
+            id: b.slug,
+            name: b.name,
+            logoPlaceholder: b.name.substring(0, 2).toUpperCase(),
+            bestFor: b.bestFor,
+            stat: b.maxLeverage,
+            features: b.features,
+            color: b.name.includes("tastyfx") ? "#E11A27" : b.name.includes("OANDA") ? "#0032FF" : "#2C2F36",
+            regulation: "CFTC / NFA"
+          })),
+          link: "/us/brokers"
+        };
+      case "sg":
+        return {
+          brokers: brokersSg.slice(0, 3).map(b => ({
+            id: b.slug,
+            name: b.name,
+            logoPlaceholder: b.name.substring(0, 2).toUpperCase(),
+            bestFor: b.bestFor,
+            stat: b.maxLeverage,
+            features: b.features,
+            color: b.name.includes("IG") ? "#E11A27" : b.name.includes("Saxo") ? "#0032FF" : "#2C2F36",
+            regulation: "MAS REGULATED"
+          })),
+          link: "/sg/brokers"
+        };
+      case "hk":
+        return {
+          brokers: brokersHk.slice(0, 3).map(b => ({
+            id: b.slug,
+            name: b.name,
+            logoPlaceholder: b.name.substring(0, 2).toUpperCase(),
+            bestFor: b.bestFor,
+            stat: b.maxLeverage,
+            features: b.features,
+            color: b.name.includes("IG") ? "#E11A27" : "#2C2F36",
+            regulation: "SFC REGULATED"
+          })),
+          link: "/hk/brokers"
+        };
+      default:
+        return {
+          brokers: ukBrokers,
+          link: "/brokers"
+        };
+    }
+  };
+
+  const { brokers: regionalBrokers, link } = getRegionalData();
+
   return (
     <section className="py-24 bg-background-primary relative overflow-hidden">
       <div className="container mx-auto px-6">
@@ -51,7 +129,7 @@ export function BrokerHubPreview() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {brokers.map((broker) => (
+          {regionalBrokers.map((broker) => (
             <div 
               key={broker.id}
               className="bg-background-surface border border-border-slate p-8 flex flex-col justify-between group hover:border-accent/30 transition-premium"
@@ -65,7 +143,7 @@ export function BrokerHubPreview() {
                     {broker.logoPlaceholder}
                   </div>
                   <div className="flex items-center gap-1 text-[10px] font-mono text-profit uppercase">
-                    <Shield className="w-3 h-3" /> FCA PROTECTED
+                    <Shield className="w-3 h-3" /> {broker.regulation}
                   </div>
                 </div>
 
@@ -97,10 +175,10 @@ export function BrokerHubPreview() {
 
         <div className="mt-12 pt-12 border-t border-border-slate/30 flex flex-col md:flex-row items-center justify-between gap-6">
           <p className="text-[10px] font-mono text-text-tertiary uppercase tracking-widest italic">
-            See our full broker Disclosure & Review Methodology at /brokers.
+            See our full broker Disclosure & Review Methodology at {link}.
           </p>
           <Link 
-            href="/brokers" 
+            href={link}
             className="text-xs font-bold uppercase tracking-widest text-text-primary hover:text-accent transition-colors flex items-center gap-2"
           >
             See All Broker Reviews <ChevronRight className="w-4 h-4" />

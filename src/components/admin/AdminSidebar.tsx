@@ -17,12 +17,14 @@ import {
 
 const NAV_ITEMS = [
   { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
+  { href: "/admin/users", label: "Traders & Users", icon: Users },
   { href: "/admin/leads", label: "Leads Inbox", icon: Inbox },
+  { href: "/admin/partners", label: "Partners", icon: Network },
   { href: "/admin/content", label: "Content & Institutes", icon: BookOpen },
   { href: "/admin/landing-pages", label: "Landing Pages", icon: LayoutTemplate },
   { href: "/admin/seo", label: "SEO Suite", icon: Search },
   { href: "/admin/community", label: "Discord Manager", icon: MessageSquare },
-  { href: "/admin/integrations", label: "API Integrations", icon: Network },
+  { href: "/admin/integrations", label: "API Integrations", icon: Settings },
 ];
 
 export function AdminSidebar() {
@@ -61,10 +63,13 @@ export function AdminSidebar() {
         })}
         
         <div className="pt-8 mt-8 border-t border-border-slate/30">
-          <button className="w-full flex items-center gap-4 px-6 py-3 text-[10px] font-bold uppercase tracking-widest text-text-tertiary hover:text-text-primary transition-colors">
+          <Link 
+            href="/admin/integrations"
+            className="w-full flex items-center gap-4 px-6 py-3 text-[10px] font-bold uppercase tracking-widest text-text-tertiary hover:text-text-primary transition-colors"
+          >
             <Settings className="w-4 h-4" />
             Settings
-          </button>
+          </Link>
         </div>
       </nav>
     </aside>

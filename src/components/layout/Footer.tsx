@@ -147,7 +147,28 @@ export function Footer() {
               </div>
             </div>
 
-            <div className="flex flex-col items-end gap-2 text-right">
+            <div className="flex flex-col items-end gap-6 text-right">
+              {/* Region Selector */}
+              <div className="flex items-center gap-4 py-2 px-4 bg-background-elevated/50 border border-border-slate/50">
+                <span className="text-[9px] font-mono text-text-tertiary uppercase tracking-widest mr-2 border-r border-border-slate/50 pr-4">Market Region</span>
+                {[
+                  { id: "uk", flag: "🇬🇧", label: "UK", href: "/" },
+                  { id: "au", flag: "🇦🇺", label: "AU", href: "/au" },
+                  { id: "us", flag: "🇺🇸", label: "US", href: "/us" },
+                  { id: "sg", flag: "🇸🇬", label: "SG", href: "/sg" },
+                  { id: "hk", flag: "🇭🇰", label: "HK", href: "/hk" },
+                ].map((reg) => (
+                  <Link 
+                    key={reg.id}
+                    href={reg.href}
+                    className="flex items-center gap-1 text-[9px] font-mono font-bold text-text-tertiary hover:text-accent transition-colors group"
+                  >
+                    <span className="text-xs grayscale group-hover:grayscale-0 transition-all">{reg.flag}</span>
+                    <span>{reg.label}</span>
+                  </Link>
+                ))}
+              </div>
+
               <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-[10px] font-mono uppercase tracking-widest text-text-tertiary">
                 <p>© 2026 DRAWDOWN. TRADE THE TRUTH.</p>
               </div>

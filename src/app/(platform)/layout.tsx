@@ -13,17 +13,22 @@ import {
   UserCircle,
   ChevronLeft,
   ChevronRight,
-  LogOut
+  LogOut,
+  Brain,
+  Share2
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { DashboardStatusBar } from "@/components/market/DashboardStatusBar";
 import { ThemeToggle } from "@/components/dashboard/ThemeToggle";
+import { OnboardingWizard } from "@/components/dashboard/OnboardingWizard";
 
 const sidebarLinks = [
   { name: "Overview", href: "/dashboard", icon: LayoutDashboard },
+  { name: "Intelligence", href: "/dashboard/intelligence", icon: Brain },
   { name: "Learn", href: "/learn", icon: Library },
   { name: "Live Sessions", href: "/live", icon: Video },
   { name: "AI Tools", href: "/dashboard/tools", icon: Wrench },
+  { name: "Partner Portal", href: "/partner", icon: Share2 },
   { name: "Community", href: "/community", icon: Users },
   { name: "Profile", href: "/profile", icon: UserCircle },
 ];
@@ -31,12 +36,32 @@ const sidebarLinks = [
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [theme, setTheme] = useState<"dark" | "light">("dark");
+  const [profile, setProfile] = useState<any>(null);
+  const [showOnboarding, setShowOnboarding] = useState(false);
+  
   const pathname = usePathname();
   const supabase = createClient();
 
   useEffect(() => {
     const savedTheme = localStorage.getItem("dashboard-theme") as "dark" | "light";
     if (savedTheme) setTheme(savedTheme);
+
+    async function checkOnboarding() {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        const { data } = await supabase
+          .from('profiles')
+          .select('*')
+          .eq('id', user.id)
+          .single();
+        
+        setProfile(data);
+        if (data && !data.has_onboarded) {
+          setShowOnboarding(true);
+        }
+      }
+    }
+    checkOnboarding();
   }, []);
 
   const toggleTheme = () => {
@@ -55,6 +80,12 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       data-theme={theme}
       className="flex h-screen bg-background-primary overflow-hidden theme-transition"
     >
+      {showOnboarding && profile && (
+        <OnboardingWizard 
+          userProfile={profile} 
+          onComplete={() => setShowOnboarding(false)} 
+        />
+      )}
       {/* Sidebar */}
       <aside 
         className={cn(

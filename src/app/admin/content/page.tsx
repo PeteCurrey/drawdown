@@ -1,7 +1,3 @@
-"use client";
-
-import { useState } from "react";
-import { cn } from "@/lib/utils";
 import { 
   Building2, 
   Link as LinkIcon, 
@@ -12,25 +8,19 @@ import {
   CheckCircle2,
   AlertCircle
 } from "lucide-react";
+import { createClient } from "@/lib/supabase/server";
+import { cn } from "@/lib/utils";
+import Link from "next/link";
 
-interface Institute {
-  id: string;
-  name: string;
-  type: 'University' | 'Central Bank' | 'Research Firm' | 'News Outlet';
-  url: string;
-  status: 'active' | 'broken';
-  lastChecked: string;
-}
+export default async function ExternalContentManager() {
+  const supabase = await createClient();
+  const { data: institutes } = await supabase
+    .from('institutes')
+    .select('*')
+    .order('name');
 
-const MOCK_INSTITUTES: Institute[] = [
-  { id: "1", name: "Bank of England", type: "Central Bank", url: "https://www.bankofengland.co.uk", status: "active", lastChecked: "Today" },
-  { id: "2", name: "London School of Economics", type: "University", url: "https://www.lse.ac.uk", status: "active", lastChecked: "Today" },
-  { id: "3", name: "Bloomberg Terminal Docs", type: "Research Firm", url: "https://www.bloomberg.com/professional/support/", status: "broken", lastChecked: "Yesterday" },
-  { id: "4", name: "Financial Times", type: "News Outlet", url: "https://www.ft.com", status: "active", lastChecked: "2d ago" },
-];
-
-export default function ExternalContentManager() {
-  const [institutes] = useState<Institute[]>(MOCK_INSTITUTES);
+  const brokenCount = institutes?.filter(i => i.status === 'broken').length || 0;
+  const healthScore = institutes?.length ? Math.round(((institutes.length - brokenCount) / institutes.length) * 100) : 100;
 
   return (
     <div className="space-y-8 animate-in fade-in duration-700">
@@ -45,26 +35,26 @@ export default function ExternalContentManager() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="p-6 bg-background-surface border border-border-slate flex flex-col justify-between">
-          <div className="flex justify-between items-start mb-4">
+        <div className="p-6 bg-background-surface border border-border-slate flex flex-col justify-between h-32">
+          <div className="flex justify-between items-start">
             <span className="text-[9px] font-mono text-text-tertiary uppercase tracking-widest">Total Sources</span>
             <Building2 className="w-4 h-4 text-text-tertiary/50" />
           </div>
-          <span className="text-2xl font-display font-black">48</span>
+          <span className="text-2xl font-display font-black">{institutes?.length || 0}</span>
         </div>
-        <div className="p-6 bg-background-surface border border-border-slate flex flex-col justify-between">
-          <div className="flex justify-between items-start mb-4">
+        <div className="p-6 bg-background-surface border border-border-slate flex flex-col justify-between h-32">
+          <div className="flex justify-between items-start">
             <span className="text-[9px] font-mono text-text-tertiary uppercase tracking-widest">Broken Links</span>
             <AlertCircle className="w-4 h-4 text-loss" />
           </div>
-          <span className="text-2xl font-display font-black text-loss">3</span>
+          <span className="text-2xl font-display font-black text-loss">{brokenCount}</span>
         </div>
-        <div className="p-6 bg-background-surface border border-border-slate flex flex-col justify-between">
-          <div className="flex justify-between items-start mb-4">
-            <span className="text-[9px] font-mono text-text-tertiary uppercase tracking-widest">Link Health Score</span>
+        <div className="p-6 bg-background-surface border border-border-slate flex flex-col justify-between h-32">
+          <div className="flex justify-between items-start">
+            <span className="text-[9px] font-mono text-text-tertiary uppercase tracking-widest">Health Score</span>
             <CheckCircle2 className="w-4 h-4 text-profit" />
           </div>
-          <span className="text-2xl font-display font-black text-profit">94%</span>
+          <span className="text-2xl font-display font-black text-profit">{healthScore}%</span>
         </div>
       </div>
 
@@ -95,7 +85,7 @@ export default function ExternalContentManager() {
               </tr>
             </thead>
             <tbody className="divide-y divide-border-slate/50">
-              {institutes.map((inst) => (
+              {institutes?.map((inst) => (
                 <tr key={inst.id} className="hover:bg-background-elevated/30 transition-colors group">
                   <td className="px-6 py-4 font-display font-bold text-sm tracking-tight">{inst.name}</td>
                   <td className="px-6 py-4">

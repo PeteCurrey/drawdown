@@ -4,18 +4,31 @@ import { useState } from "react";
 import { getMetadata } from "@/lib/metadata";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { Send, Mail, MessageSquare, MapPin, Loader2, CheckCircle2 } from "lucide-react";
+import { submitContactForm } from "./actions";
 import { cn } from "@/lib/utils";
 
 export default function ContactPage() {
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setStatus("loading");
-    // Mocking the contact submission
-    setTimeout(() => {
+    
+    const formData = new FormData(e.currentTarget);
+    const data = {
+      name: formData.get("name") as string,
+      email: formData.get("email") as string,
+      subject: formData.get("subject") as string,
+      message: formData.get("message") as string,
+    };
+
+    const result = await submitContactForm(data);
+    
+    if (result.success) {
       setStatus("success");
-    }, 1500);
+    } else {
+      setStatus("error");
+    }
   };
 
   return (
@@ -101,6 +114,7 @@ export default function ContactPage() {
                     <label className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary">Full Name</label>
                     <input 
                       type="text" 
+                      name="name"
                       required 
                       placeholder="ENTER NAME"
                       className="w-full bg-background-primary border-b border-border-slate focus:border-accent p-3 text-sm outline-none transition-colors"
@@ -110,6 +124,7 @@ export default function ContactPage() {
                     <label className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary">Email Address</label>
                     <input 
                       type="email" 
+                      name="email"
                       required 
                       placeholder="ENTER EMAIL"
                       className="w-full bg-background-primary border-b border-border-slate focus:border-accent p-3 text-sm outline-none transition-colors"
@@ -119,18 +134,19 @@ export default function ContactPage() {
 
                 <div className="space-y-4">
                   <label className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary">Reason for Inquiry</label>
-                  <select className="w-full bg-background-primary border-b border-border-slate focus:border-accent p-3 text-sm outline-none transition-colors appearance-none cursor-pointer">
-                    <option>General Support</option>
-                    <option>Tier & Billing Inquiry</option>
-                    <option>Curriculum Question</option>
-                    <option>AI Tool Technical Issue</option>
-                    <option>Corporate & Partnerships</option>
+                  <select name="subject" className="w-full bg-background-primary border-b border-border-slate focus:border-accent p-3 text-sm outline-none transition-colors appearance-none cursor-pointer">
+                    <option value="General Support">General Support</option>
+                    <option value="Tier & Billing Inquiry">Tier & Billing Inquiry</option>
+                    <option value="Curriculum Question">Curriculum Question</option>
+                    <option value="AI Tool Technical Issue">AI Tool Technical Issue</option>
+                    <option value="Corporate & Partnerships">Corporate & Partnerships</option>
                   </select>
                 </div>
 
                 <div className="space-y-4">
                   <label className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary">Your Message</label>
                   <textarea 
+                    name="message"
                     rows={6} 
                     required 
                     placeholder="WHAT IS ON YOUR MIND?"

@@ -1,0 +1,8 @@
+{
+  "crons": [
+    {
+      "path": "/api/cron/market-sync?secret=drawdown_sync_7722",
+      "schedule": "0 * * * *"
+    }
+  ]
+}

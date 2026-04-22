@@ -1,16 +1,52 @@
 export const STRIPE_CONFIG = {
   prices: {
     foundation: {
-      monthly: process.env.STRIPE_PRICE_FOUNDATION_MONTHLY || 'price_foundation_monthly_placeholder',
-      annual: process.env.STRIPE_PRICE_FOUNDATION_ANNUAL || 'price_foundation_annual_placeholder',
+      monthly: {
+        gbp: process.env.STRIPE_PRICE_FOUNDATION_MONTHLY_GBP || 'price_foundation_monthly_gbp_placeholder',
+        aud: process.env.STRIPE_PRICE_FOUNDATION_MONTHLY_AUD || 'price_foundation_monthly_aud_placeholder',
+        usd: process.env.STRIPE_PRICE_FOUNDATION_MONTHLY_USD || 'price_foundation_monthly_usd_placeholder',
+        sgd: process.env.STRIPE_PRICE_FOUNDATION_MONTHLY_SGD || 'price_foundation_monthly_sgd_placeholder',
+        hkd: process.env.STRIPE_PRICE_FOUNDATION_MONTHLY_HKD || 'price_foundation_monthly_hkd_placeholder',
+      },
+      annual: {
+        gbp: process.env.STRIPE_PRICE_FOUNDATION_ANNUAL_GBP || 'price_foundation_annual_gbp_placeholder',
+        aud: process.env.STRIPE_PRICE_FOUNDATION_ANNUAL_AUD || 'price_foundation_annual_aud_placeholder',
+        usd: process.env.STRIPE_PRICE_FOUNDATION_ANNUAL_USD || 'price_foundation_annual_usd_placeholder',
+        sgd: process.env.STRIPE_PRICE_FOUNDATION_ANNUAL_SGD || 'price_foundation_annual_sgd_placeholder',
+        hkd: process.env.STRIPE_PRICE_FOUNDATION_ANNUAL_HKD || 'price_foundation_annual_hkd_placeholder',
+      },
     },
     edge: {
-      monthly: process.env.STRIPE_PRICE_EDGE_MONTHLY || 'price_edge_monthly_placeholder',
-      annual: process.env.STRIPE_PRICE_EDGE_ANNUAL || 'price_edge_annual_placeholder',
+      monthly: {
+        gbp: process.env.STRIPE_PRICE_EDGE_MONTHLY_GBP || 'price_edge_monthly_gbp_placeholder',
+        aud: process.env.STRIPE_PRICE_EDGE_MONTHLY_AUD || 'price_edge_monthly_aud_placeholder',
+        usd: process.env.STRIPE_PRICE_EDGE_MONTHLY_USD || 'price_edge_monthly_usd_placeholder',
+        sgd: process.env.STRIPE_PRICE_EDGE_MONTHLY_SGD || 'price_edge_monthly_sgd_placeholder',
+        hkd: process.env.STRIPE_PRICE_EDGE_MONTHLY_HKD || 'price_edge_monthly_hkd_placeholder',
+      },
+      annual: {
+        gbp: process.env.STRIPE_PRICE_EDGE_ANNUAL_GBP || 'price_edge_annual_gbp_placeholder',
+        aud: process.env.STRIPE_PRICE_EDGE_ANNUAL_AUD || 'price_edge_annual_aud_placeholder',
+        usd: process.env.STRIPE_PRICE_EDGE_ANNUAL_USD || 'price_edge_annual_usd_placeholder',
+        sgd: process.env.STRIPE_PRICE_EDGE_ANNUAL_SGD || 'price_edge_annual_sgd_placeholder',
+        hkd: process.env.STRIPE_PRICE_EDGE_ANNUAL_HKD || 'price_edge_annual_hkd_placeholder',
+      },
     },
     floor: {
-      monthly: process.env.STRIPE_PRICE_FLOOR_MONTHLY || 'price_floor_monthly_placeholder',
-      annual: process.env.STRIPE_PRICE_FLOOR_ANNUAL || 'price_floor_annual_placeholder',
+      monthly: {
+        gbp: process.env.STRIPE_PRICE_FLOOR_MONTHLY_GBP || 'price_floor_monthly_gbp_placeholder',
+        aud: process.env.STRIPE_PRICE_FLOOR_MONTHLY_AUD || 'price_floor_monthly_aud_placeholder',
+        usd: process.env.STRIPE_PRICE_FLOOR_MONTHLY_USD || 'price_floor_monthly_usd_placeholder',
+        sgd: process.env.STRIPE_PRICE_FLOOR_MONTHLY_SGD || 'price_floor_monthly_sgd_placeholder',
+        hkd: process.env.STRIPE_PRICE_FLOOR_MONTHLY_HKD || 'price_floor_monthly_hkd_placeholder',
+      },
+      annual: {
+        gbp: process.env.STRIPE_PRICE_FLOOR_ANNUAL_GBP || 'price_floor_annual_gbp_placeholder',
+        aud: process.env.STRIPE_PRICE_FLOOR_ANNUAL_AUD || 'price_floor_annual_aud_placeholder',
+        usd: process.env.STRIPE_PRICE_FLOOR_ANNUAL_USD || 'price_floor_annual_usd_placeholder',
+        sgd: process.env.STRIPE_PRICE_FLOOR_ANNUAL_SGD || 'price_floor_annual_sgd_placeholder',
+        hkd: process.env.STRIPE_PRICE_FLOOR_ANNUAL_HKD || 'price_floor_annual_hkd_placeholder',
+      },
     },
   },
   plans: {

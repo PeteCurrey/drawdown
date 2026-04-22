@@ -28,6 +28,14 @@ interface ToolDef {
 
 const appTools: ToolDef[] = [
   {
+    slug: "intelligence",
+    title: "Intelligence Hub",
+    description: "Follow the flows of insiders and politicians.",
+    icon: Cpu,
+    minTier: "edge",
+    color: "accent"
+  },
+  {
     slug: "journal",
     title: "AI Trade Journal",
     description: "Launch your institutional logging suite.",
@@ -66,14 +74,6 @@ const appTools: ToolDef[] = [
     icon: BarChart3,
     minTier: "foundation",
     color: "accent"
-  },
-  {
-    slug: "briefing",
-    title: "Daily Briefing",
-    description: "Pete's expert session intelligence.",
-    icon: Cpu,
-    minTier: "edge",
-    color: "warning"
   }
 ];
 
@@ -170,10 +170,10 @@ export default function AppToolsHub() {
                   className="flex items-center justify-between w-full p-4 bg-background-primary border border-border-slate text-[10px] font-bold uppercase tracking-widest text-text-secondary hover:text-accent transition-colors"
                 >
                    Unlock with {tool.minTier} <ExternalLink className="w-3 h-3" />
-                </Link>
+                 </Link>
               ) : (
                 <Link 
-                  href={`/dashboard/tools/${tool.slug}`}
+                  href={tool.slug === 'intelligence' ? '/dashboard/intelligence' : `/dashboard/tools/${tool.slug}`}
                   className="flex items-center justify-between w-full p-4 bg-accent text-background-primary text-[10px] font-black uppercase tracking-[0.2em] transition-all hover:bg-accent-hover group-hover:shadow-[0_0_20px_rgba(0,194,255,0.2)]"
                 >
                    Launch Module <ArrowRight className="w-3 h-3 transition-transform group-hover:translate-x-1" />

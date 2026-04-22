@@ -1,213 +1,163 @@
-"use client";
-
-import { useState, useEffect } from "react";
+import { createClient } from "@/lib/supabase/server";
 import { 
   Users, 
-  MousePointer2, 
+  Share2, 
   TrendingUp, 
-  ArrowUpRight,
-  Shield,
-  Calendar,
-  Filter
+  DollarSign, 
+  Copy,
+  ChevronRight,
+  ShieldCheck,
+  AlertCircle
 } from "lucide-react";
-import { MetricCard } from "@/components/partner/MetricCard";
-import { 
-  ResponsiveContainer, 
-  LineChart, 
-  Line, 
-  XAxis, 
-  YAxis, 
-  Tooltip, 
-  CartesianGrid 
-} from "recharts";
-import { useTheme } from "next-themes";
 import { cn } from "@/lib/utils";
+import { redirect } from "next/navigation";
 
-// Mock data for initial development
-const chartData = [
-  { date: "Apr 14", clicks: 45, signups: 2 },
-  { date: "Apr 15", clicks: 52, signups: 4 },
-  { date: "Apr 16", clicks: 38, signups: 1 },
-  { date: "Apr 17", clicks: 65, signups: 5 },
-  { date: "Apr 18", clicks: 48, signups: 3 },
-  { date: "Apr 19", clicks: 72, signups: 6 },
-  { date: "Apr 20", clicks: 88, signups: 8 },
-];
+export default async function PartnerPortalPage() {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
 
-export default function PartnerDashboard() {
-  const { theme, resolvedTheme } = useTheme();
-  const currentTheme = resolvedTheme || theme;
-  const isDark = currentTheme === "dark";
-  const [isLoading, setIsLoading] = useState(true);
+  if (!user) redirect("/login");
 
-  useEffect(() => {
-    // Simulate loading
-    const timer = setTimeout(() => setIsLoading(false), 800);
-    return () => clearTimeout(timer);
-  }, []);
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('*')
+    .eq('id', user.id)
+    .single();
+
+  if (profile?.role !== 'partner' && profile?.role !== 'admin') {
+    return (
+      <div className="flex flex-col items-center justify-center h-[70vh] text-center space-y-8 animate-in fade-in duration-700">
+         <div className="p-8 bg-background-elevated rounded-full border border-border-slate border-dashed">
+            <Share2 className="w-16 h-16 text-text-tertiary opacity-30" />
+         </div>
+         <div className="space-y-4 max-w-lg">
+            <h1 className="text-4xl font-display font-bold uppercase tracking-tight">Become a <span className="text-accent">Partner.</span></h1>
+            <p className="text-text-secondary leading-relaxed">
+               You are not currently enrolled in our Partnership Program. Join our network of elite traders and earn recurring commissions for every referral.
+            </p>
+         </div>
+         <button className="px-10 py-5 bg-accent text-background-primary text-[10px] font-black uppercase tracking-[0.2em] hover:bg-accent-hover transition-all">
+            Apply for Partnership
+         </button>
+      </div>
+    );
+  }
+
+  // Fetch referrals
+  const { data: referrals } = await supabase
+    .from('profiles')
+    .select('*')
+    .eq('partner_id', user.id);
+
+  const stats = [
+    { label: "Total Referrals", value: referrals?.length || 0, icon: Users },
+    { label: "Conversion Rate", value: "14.2%", icon: TrendingUp },
+    { label: "Unpaid Earnings", value: "$1,450", icon: DollarSign, color: "text-profit" },
+  ];
+
+  const referralLink = `https://drawdown.trading/signup?ref=${user.id.slice(0, 8)}`;
 
   return (
-    <div className="space-y-10">
-      {/* Header */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+    <div className="space-y-12 animate-in fade-in duration-700">
+      <header className="border-b border-border-slate pb-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
         <div>
-          <span className="text-accent font-mono text-[10px] uppercase tracking-[0.3em] block mb-2">// PARTNER VERTICAL</span>
-          <h1 className="text-4xl font-display font-bold uppercase text-text-primary">Overview.</h1>
-        </div>
-        <div className="flex items-center gap-3">
-          <div className="flex items-center gap-2 px-4 py-2 bg-background-surface border border-border-slate text-[10px] font-mono text-text-tertiary uppercase tracking-widest">
-            <Calendar className="w-3 h-3" /> Last 7 Days
+          <div className="flex items-center gap-2 text-accent mb-4">
+            <Share2 className="w-4 h-4" />
+            <span className="text-[10px] font-mono uppercase tracking-[0.3em]">Partner_Network // v4.2</span>
           </div>
-          <button className="p-2 bg-background-surface border border-border-slate hover:border-text-tertiary transition-colors">
-            <Filter className="w-4 h-4 text-text-tertiary" />
-          </button>
+          <h1 className="text-4xl font-display font-bold uppercase tracking-tight">Partner <span className="text-accent">Portal.</span></h1>
+          <p className="text-sm text-text-tertiary mt-2">Manage your referrals, track commissions, and scale your influence.</p>
         </div>
+        <div className="flex items-center gap-3 px-4 py-2 bg-profit/10 border border-profit/20 text-profit">
+           <ShieldCheck className="w-4 h-4" />
+           <span className="text-[10px] font-bold uppercase tracking-widest">Active Partner</span>
+        </div>
+      </header>
+
+      {/* Stats Bar */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {stats.map((stat, i) => (
+          <div key={i} className="p-10 bg-background-surface border border-border-slate flex flex-col justify-between h-40 group hover:border-accent transition-colors">
+             <div className="flex justify-between items-start">
+                <span className="text-[10px] font-mono text-text-tertiary uppercase tracking-widest">{stat.label}</span>
+                <stat.icon className={cn("w-5 h-5", stat.color || "text-text-tertiary/50")} />
+             </div>
+             <span className={cn("text-4xl font-display font-black", stat.color)}>{stat.value}</span>
+          </div>
+        ))}
       </div>
 
-      {/* KPI Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <MetricCard 
-          title="Total Referrals"
-          value="1,402"
-          change="12%"
-          changeType="positive"
-          icon={MousePointer2}
-        />
-        <MetricCard 
-          title="Conversion Rate"
-          value="3.8%"
-          change="0.5%"
-          changeType="positive"
-          icon={TrendingUp}
-        />
-        <MetricCard 
-          title="Institutional Trust"
-          value="AA"
-          subValue="Rating"
-          icon={Shield}
-        />
-        <MetricCard 
-          title="Active Campaigns"
-          value="4"
-          icon={ArrowUpRight}
-        />
-      </div>
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        {/* Referral Link & Tools */}
+        <div className="lg:col-span-7 space-y-8">
+           <div className="p-10 bg-background-surface border border-border-slate space-y-8">
+              <div className="space-y-4">
+                 <h3 className="text-xl font-display font-bold uppercase tracking-tight">Your Referral Engine</h3>
+                 <p className="text-xs text-text-secondary leading-relaxed">
+                    Share your unique link with your community. Every user who signs up through this link will be permanently tagged as your referral.
+                 </p>
+              </div>
+              <div className="flex items-center gap-2">
+                 <input 
+                   type="text" 
+                   readOnly 
+                   value={referralLink}
+                   className="flex-grow bg-background-primary border border-border-slate p-4 text-xs font-mono text-text-secondary"
+                 />
+                 <button className="p-4 bg-accent text-background-primary hover:bg-accent-hover transition-colors">
+                    <Copy className="w-5 h-5" />
+                 </button>
+              </div>
+           </div>
 
-      {/* Analytics Chart */}
-      <div className="bg-background-surface border border-border-slate p-8">
-        <div className="flex items-center justify-between mb-8">
-          <h3 className="text-lg font-display font-bold uppercase text-text-primary">Traffic Analytics.</h3>
-          <div className="flex items-center gap-6">
-            <div className="flex items-center gap-2">
-              <div className="w-3 h-3 bg-accent" />
-              <span className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary">Clicks</span>
-            </div>
-          </div>
-        </div>
-        
-        <div className="h-[350px] w-full">
-          <ResponsiveContainer width="100%" height="100%">
-            <LineChart data={chartData}>
-              <CartesianGrid strokeDasharray="3 3" stroke={isDark ? "#1F2937" : "#E9EBEE"} vertical={false} />
-              <XAxis 
-                dataKey="date" 
-                stroke={isDark ? "#4B5563" : "#8C8B87"} 
-                fontSize={10} 
-                tickLine={false} 
-                axisLine={false}
-                tick={{ fontVariant: 'all-small-caps', letterSpacing: '0.1em' }}
-              />
-              <YAxis 
-                stroke={isDark ? "#4B5563" : "#8C8B87"} 
-                fontSize={10} 
-                tickLine={false} 
-                axisLine={false}
-                tickFormatter={(value) => `${value}`}
-              />
-              <Tooltip 
-                contentStyle={{ 
-                  backgroundColor: isDark ? '#08090D' : '#FFFFFF', 
-                  border: isDark ? '1px solid #1F2937' : '1px solid #DBDFE5',
-                  borderRadius: '0px',
-                  fontFamily: 'var(--font-mono)',
-                  fontSize: '10px',
-                  textTransform: 'uppercase',
-                  color: isDark ? '#E4E2DD' : '#08090D'
-                }}
-                itemStyle={{ color: '#00C2FF' }}
-              />
-              <Line 
-                type="monotone" 
-                dataKey="clicks" 
-                stroke="#00C2FF" 
-                strokeWidth={3} 
-                dot={{ r: 4, fill: '#00C2FF', strokeWidth: 0 }}
-                activeDot={{ r: 6, fill: '#00C2FF', stroke: isDark ? '#08090D' : '#FFFFFF', strokeWidth: 2 }}
-              />
-            </LineChart>
-          </ResponsiveContainer>
-        </div>
-      </div>
-
-      {/* Recent Activity Mini-Table */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <div className="lg:col-span-2 bg-background-surface border border-border-slate overflow-hidden">
-          <div className="p-6 border-b border-border-slate flex items-center justify-between">
-            <h3 className="text-sm font-display font-bold uppercase text-text-primary">Recent Clickstream.</h3>
-            <button className="text-[9px] font-bold uppercase tracking-widest text-text-tertiary hover:text-accent transition-colors">View All</button>
-          </div>
-          <div className="overflow-x-auto">
-            <table className="w-full text-left">
-              <thead>
-                <tr className="border-b border-border-slate bg-background-elevated/30">
-                  <th className="px-6 py-4 text-[9px] font-mono uppercase tracking-[0.2em] text-text-tertiary">Date / Time</th>
-                  <th className="px-6 py-4 text-[9px] font-mono uppercase tracking-[0.2em] text-text-tertiary">Source Page</th>
-                  <th className="px-6 py-4 text-[9px] font-mono uppercase tracking-[0.2em] text-text-tertiary">Status</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-border-slate/50">
-                {[
-                  { time: "Today, 14:22", page: "/learn/phase-1", status: "Logged" },
-                  { time: "Today, 13:45", page: "/brokers/ig-markets", status: "Logged" },
-                  { time: "Today, 12:10", page: "/tools/risk-calc", status: "Logged" },
-                  { time: "Today, 11:30", page: "/dashboard", status: "Logged" },
-                ].map((row, i) => (
-                  <tr key={i} className="hover:bg-background-elevated/20 transition-colors">
-                    <td className="px-6 py-4 text-xs font-mono text-text-secondary">{row.time}</td>
-                    <td className="px-6 py-4 text-xs font-sans text-text-primary">{row.page}</td>
-                    <td className="px-6 py-4">
-                      <span className="text-[9px] font-bold uppercase tracking-widest px-2 py-0.5 bg-profit/10 text-profit">
-                        {row.status}
-                      </span>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+           <div className="p-10 bg-background-elevated border border-border-slate space-y-6">
+              <h3 className="text-xl font-display font-bold uppercase tracking-tight">Partner Assets</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                 {[
+                   { title: "Social Media Kit", size: "45MB" },
+                   { title: "Brand Guidelines", size: "12MB" },
+                   { title: "High-Res Logos", size: "8MB" },
+                   { title: "Email Templates", size: "2MB" }
+                 ].map((asset, i) => (
+                   <button key={i} className="p-4 border border-border-slate bg-background-surface hover:bg-background-elevated transition-all flex justify-between items-center group">
+                      <span className="text-[10px] font-bold uppercase tracking-widest">{asset.title}</span>
+                      <span className="text-[9px] font-mono text-text-tertiary">{asset.size}</span>
+                   </button>
+                 ))}
+              </div>
+           </div>
         </div>
 
-        <div className="space-y-6">
-          <div className="bg-background-surface border border-border-slate p-6">
-            <h3 className="text-sm font-display font-bold uppercase text-text-primary mb-4">Partner Status.</h3>
-            <div className="p-4 bg-background-primary border border-border-slate space-y-4">
-              <div className="flex justify-between items-center text-[10px] font-mono uppercase tracking-widest">
-                <span className="text-text-tertiary">Account Tier</span>
-                <span className="text-accent font-bold">Premium Affiliate</span>
-              </div>
-              <div className="flex justify-between items-center text-[10px] font-mono uppercase tracking-widest">
-                <span className="text-text-tertiary">API Status</span>
-                <span className="text-profit font-bold">Optimal</span>
-              </div>
-              <div className="flex justify-between items-center text-[10px] font-mono uppercase tracking-widest">
-                <span className="text-text-tertiary">Integrations</span>
-                <span className="text-text-primary font-bold">Linked</span>
-              </div>
-            </div>
-            <button className="w-full mt-6 py-3 bg-background-elevated border border-border-slate text-[10px] font-bold uppercase tracking-widest hover:border-text-tertiary transition-colors">
-              Manage Integration
-            </button>
-          </div>
+        {/* Recent Activity */}
+        <div className="lg:col-span-5 bg-background-surface border border-border-slate flex flex-col">
+           <div className="p-6 border-b border-border-slate bg-background-elevated/30">
+              <h3 className="text-sm font-display font-bold uppercase tracking-widest">Recent Conversions</h3>
+           </div>
+           <div className="flex-grow overflow-y-auto max-h-[400px]">
+              {referrals && referrals.length > 0 ? (
+                <div className="divide-y divide-border-slate/30">
+                  {referrals.map((ref) => (
+                    <div key={ref.id} className="p-6 flex justify-between items-center hover:bg-background-elevated/20 transition-colors">
+                       <div className="flex flex-col">
+                          <span className="text-[10px] font-bold uppercase tracking-widest">{ref.display_name || 'STUDENT_USER'}</span>
+                          <span className="text-[9px] font-mono text-text-tertiary">JOINED: {new Date(ref.created_at).toLocaleDateString()}</span>
+                       </div>
+                       <span className="text-[10px] font-mono text-profit uppercase font-bold">Commission Active</span>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="p-20 text-center space-y-4">
+                   <AlertCircle className="w-8 h-8 text-text-tertiary mx-auto opacity-50" />
+                   <p className="text-[9px] font-mono text-text-tertiary uppercase tracking-widest">No conversions recorded in this period.</p>
+                </div>
+              )}
+           </div>
+           <div className="p-6 border-t border-border-slate bg-background-elevated/10">
+              <button className="w-full py-4 border border-border-slate text-[10px] font-bold uppercase tracking-widest hover:border-accent hover:text-accent transition-all flex items-center justify-center gap-2">
+                 View Full Ledger <ChevronRight className="w-4 h-4" />
+              </button>
+           </div>
         </div>
       </div>
     </div>

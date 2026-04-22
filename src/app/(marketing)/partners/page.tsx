@@ -102,7 +102,7 @@ export default function PartnersPage() {
         <div className="text-center py-24 border-t border-border-slate/50">
            <h2 className="text-3xl md:text-5xl font-display font-bold uppercase mb-8">Build the Future of <br /> Trading With Us.</h2>
            <p className="text-text-tertiary mb-12 max-w-xl mx-auto uppercase font-mono tracking-widest text-xs">
-             contact@drawdown.trade // partner inquiries only
+             contact@drawdown.trading // partner inquiries only
            </p>
            <Link href="/contact" className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-accent hover:underline">
               Get in Touch <ArrowRight className="w-4 h-4" />

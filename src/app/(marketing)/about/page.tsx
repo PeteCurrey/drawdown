@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { TrackPageView } from "@/components/admin/TrackPageView";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -42,6 +43,7 @@ export default function AboutPage() {
 
   return (
     <div ref={containerRef} className="pt-32 bg-background-primary min-h-screen">
+      <TrackPageView path="/about" />
       <div className="container mx-auto px-6">
         {/* Anti-Guru Manifesto */}
         <div className="max-w-4xl mx-auto mb-32">

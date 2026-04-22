@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
+import { TrackPageView } from "@/components/admin/TrackPageView";
 
 const TV_AFFILIATE_URL = "https://www.tradingview.com/?aff_id=165855";
 
@@ -46,6 +47,7 @@ export default function BrokersPage() {
     <div className="pt-32 pb-24 bg-background-primary min-h-screen transition-colors duration-500">
       <div className="container mx-auto px-6 max-w-7xl">
         <Breadcrumbs />
+        <TrackPageView path="/brokers" />
         
         {/* Header */}
         <div className="mb-16">

@@ -31,7 +31,7 @@ export default function CoursesPage() {
         "provider": {
           "@type": "Organization",
           "name": "Drawdown",
-          "sameAs": "https://drawdown.trade"
+          "sameAs": "https://drawdown.trading"
         }
       }
     }))

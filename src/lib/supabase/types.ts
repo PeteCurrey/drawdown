@@ -286,7 +286,12 @@ export interface Database {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      increment_page_view: {
+        Args: {
+          page_path: string
+        }
+        Returns: undefined
+      }
     }
     Enums: {
       [_ in never]: never

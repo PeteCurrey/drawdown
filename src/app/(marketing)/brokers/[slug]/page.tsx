@@ -1,31 +1,33 @@
-"use client";
-
-import { use } from "react";
 import { cn } from "@/lib/utils";
 import { 
   Shield, 
-  ExternalLink, 
-  CheckCircle2, 
-  AlertTriangle,
-  Star,
   ChevronLeft,
   Banknote,
   Cpu,
   Globe,
-  HeadphonesIcon,
-  HelpCircle
+  HelpCircle,
+  Star,
+  CheckCircle2,
+  AlertTriangle
 } from "lucide-react";
 import Link from "next/link";
 import { brokers } from "@/data/brokers";
 import { notFound } from "next/navigation";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
+import { TrackPageView } from "@/components/admin/TrackPageView";
+
+export function generateStaticParams() {
+  return brokers.map((broker) => ({
+    slug: broker.slug,
+  }));
+}
 
 interface Props {
   params: Promise<{ slug: string }>;
 }
 
-export default function BrokerReviewPage({ params }: Props) {
-  const { slug } = use(params);
+export default async function BrokerReviewPage({ params }: Props) {
+  const { slug } = await params;
   const broker = brokers.find(b => b.slug === slug);
 
   if (!broker) return notFound();
@@ -34,6 +36,7 @@ export default function BrokerReviewPage({ params }: Props) {
     <div className="pt-32 pb-24 bg-background-primary min-h-screen transition-colors duration-500">
       <div className="container mx-auto px-6 max-w-5xl">
         <Breadcrumbs />
+        <TrackPageView path={`/brokers/${slug}`} />
         
         <Link 
           href="/brokers" 

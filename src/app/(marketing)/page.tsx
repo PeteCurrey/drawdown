@@ -11,10 +11,12 @@ import { BrokerHubPreview } from "@/components/home/BrokerHubPreview";
 import { TradingViewSection } from "@/components/home/TradingViewSection";
 import { PetesDailyTakeExcerpt } from "@/components/home/PetesDailyTakeExcerpt";
 import Link from "next/link";
+import { TrackPageView } from "@/components/admin/TrackPageView";
 
 export default function Home() {
   return (
     <div className="flex flex-col">
+      <TrackPageView path="/" />
       {/* 2. Hero (Condensed) */}
       <HeroSection />
 

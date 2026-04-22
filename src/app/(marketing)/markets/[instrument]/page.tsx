@@ -15,6 +15,7 @@ import {
   AlertTriangle,
   Info
 } from "lucide-react";
+import { TrackPageView } from "@/components/admin/TrackPageView";
 
 interface Props {
   params: Promise<{ instrument: string }>;
@@ -59,6 +60,7 @@ export default async function InstrumentPage({ params }: Props) {
     <div className="pt-32 pb-24 bg-background-primary min-h-screen">
       <div className="container mx-auto px-6">
         <Breadcrumbs />
+        <TrackPageView path={`/markets/${slug}`} />
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-16 items-start">
           <div className="lg:col-span-2">

@@ -6,6 +6,7 @@ import { StructuredData } from "@/components/StructuredData";
 import { LEARN_TOPICS } from "@/lib/data/learn-to-trade";
 import Link from "next/link";
 import { ArrowUpRight, AlertTriangle } from "lucide-react";
+import { TrackPageView } from "@/components/admin/TrackPageView";
 
 interface Props {
   params: Promise<{ topic: string }>;
@@ -48,6 +49,7 @@ export default async function TopicPage({ params }: Props) {
     <div className="pt-32 pb-24 bg-background-primary min-h-screen">
       <div className="container mx-auto px-6">
         <Breadcrumbs />
+        <TrackPageView path={`/learn-to-trade/${topicSlug}`} />
         <StructuredData type="FAQPage" data={faqSchema} />
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-16 items-start">
@@ -145,12 +147,12 @@ export default async function TopicPage({ params }: Props) {
                     </Link>
                   ))}
                 </div>
-                <button 
-                  onClick={() => document.getElementById('regional-hub')?.scrollIntoView({ behavior: 'smooth' })}
-                  className="text-[9px] font-bold uppercase tracking-widest text-accent hover:underline mt-4"
+                <Link 
+                  href="#regional-hub"
+                  className="text-[9px] font-bold uppercase tracking-widest text-accent hover:underline mt-4 inline-block"
                 >
                   View All 30 Locations
-                </button>
+                </Link>
               </div>
             </div>
 
@@ -158,13 +160,13 @@ export default async function TopicPage({ params }: Props) {
               <div className="relative z-10">
                 <h4 className="text-2xl font-display font-bold uppercase mb-4 leading-tight">Master Your Edge.</h4>
                 <p className="text-sm opacity-80 leading-relaxed mb-8">
-                  Ready to apply {topic.title} strategies properly? Join 2,000+ traders using Drawdown for institutional-grade tools.
+                  Start learning with Drawdown and master the business of risk.
                 </p>
                 <Link 
                   href="/signup" 
                   className="block w-full py-5 bg-background-primary text-text-primary text-center text-[10px] font-bold uppercase tracking-widest hover:invert transition-all"
                 >
-                  Join Drawdown Pro
+                  Join Drawdown Free
                 </Link>
               </div>
               <div className="absolute top-0 right-0 w-32 h-32 bg-white/20 blur-3xl rounded-full -mr-16 -mt-16 group-hover:scale-150 transition-transform duration-700" />

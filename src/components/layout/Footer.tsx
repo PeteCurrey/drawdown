@@ -99,7 +99,17 @@ export function Footer() {
               <li><Link href="/learn-to-trade/day-trading" className="hover:text-accent transition-colors">Day Trading</Link></li>
               <li><Link href="/learn-to-trade/forex-trading" className="hover:text-accent transition-colors">Forex Mastery</Link></li>
               <li><Link href="/learn-to-trade/risk-management" className="hover:text-accent transition-colors">Risk Mgmt</Link></li>
-              <li><Link href="/learn-to-trade/trading-psychology" className="hover:text-accent transition-colors">Psychology</Link></li>
+              <li><Link href="/learn-to-trade" className="hover:text-accent transition-colors font-bold text-accent">Educational Hub</Link></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 className="font-display font-bold uppercase tracking-widest text-sm mb-6">Resources</h4>
+            <ul className="space-y-4 text-sm text-text-secondary">
+              <li><Link href="/glossary" className="hover:text-accent transition-colors">Glossary</Link></li>
+              <li><Link href="/how-to" className="hover:text-accent transition-colors">How-To Guides</Link></li>
+              <li><Link href="/compare" className="hover:text-accent transition-colors">Compare Tools</Link></li>
+              <li><Link href="/best" className="hover:text-accent transition-colors">Best Platforms</Link></li>
             </ul>
           </div>
 

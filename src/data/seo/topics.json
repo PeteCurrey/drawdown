@@ -182,6 +182,102 @@
         }
       ],
       "faqs": []
+    },
+    {
+      "slug": "cfd-trading",
+      "title": "CFD Trading",
+      "description": "Contracts for Difference explained. Learn how to use leverage, go short, and manage the unique risks of CFD markets.",
+      "content": [
+        {
+          "heading": "Understanding CFDs",
+          "text": "A Contract for Difference (CFD) is a financial derivative that allows you to speculate on the price movement of an asset without owning the underlying instrument. When you trade a CFD, you are entering into a contract with your broker to exchange the difference in the price of an asset between the time the contract is opened and when it is closed. This allows for easy 'shorting' (betting on price falling) and high leverage, but it also means you are responsible for overnight financing costs."
+        }
+      ],
+      "faqs": []
+    },
+    {
+      "slug": "options-trading",
+      "title": "Options Trading",
+      "description": "A guide to calls, puts, and volatility. Learn how to use options for hedging and speculative leverage in the US and UK markets.",
+      "content": [
+        {
+          "heading": "The Power of Choice",
+          "text": "Options are contracts that give you the right, but not the obligation, to buy or sell an asset at a specific price within a specific timeframe. They are complex instruments often used by professionals to hedge existing portfolios or to take high-leverage speculative positions on volatility. For retail traders, options require a deep understanding of 'The Greeks'—mathematical variables that determine how the option price changes relative to time, volatility, and the underlying price."
+        }
+      ],
+      "faqs": []
+    },
+    {
+      "slug": "algorithmic-trading",
+      "title": "Algorithmic Trading",
+      "description": "Trading with code. Learn how to automate your strategy, remove emotion, and use data-driven execution to scale your performance.",
+      "content": [
+        {
+          "heading": "Systematic Execution",
+          "text": "Algorithmic trading (or 'algo trading') uses computer programs to execute trades based on a pre-defined set of rules. This removes human emotion from the execution process and allows for backtesting on years of data in seconds. While it's often associated with 'High Frequency Trading', many retail traders use simple algorithms to monitor markets and execute strategies 24/7. Success in algo trading requires a mix of market knowledge and technical coding skill (typically in Python or Pine Script)."
+        }
+      ],
+      "faqs": []
+    },
+    {
+      "slug": "price-action",
+      "title": "Price Action",
+      "description": "The purest form of market analysis. Learn to read raw charts without indicators to see where big money is moving.",
+      "content": [
+        {
+          "heading": "The Raw Truth",
+          "text": "Price Action trading is the practice of making decisions based solely on the movement of price on a chart, without the use of lagging indicators. We believe price is the ultimate truth—indicators are just mathematical derivatives of what has already happened. By studying market structure (highs and lows), supply and demand zones, and momentum, you can see the intentions of institutional participants before they are reflected in 'buy' or 'sell' signals."
+        }
+      ],
+      "faqs": []
+    },
+    {
+      "slug": "order-flow",
+      "title": "Order Flow",
+      "description": "Look under the hood of the market. Learn to read the tape, footprint charts, and depth of market (DOM) to see buyer/seller balance.",
+      "content": [
+        {
+          "heading": "The Engine of Price",
+          "text": "Order Flow is the study of actual buy and sell orders hitting the market. While price action shows you what happened, order flow shows you *why* it happened. By looking at 'The Tape' or a Footprint chart, you can see if a price move was driven by aggressive buying or a lack of selling. This is the closest a retail trader can get to seeing the internal mechanics of a financial exchange."
+        }
+      ],
+      "faqs": []
+    },
+    {
+      "slug": "trading-courses",
+      "title": "Trading Courses",
+      "description": "How to choose a professional education. Learn what to look for in a curriculum and how to avoid the 'guru' trap.",
+      "content": [
+        {
+          "heading": "Investing in Yourself",
+          "text": "A good trading course should provide a structured framework, not a 'magic button'. Look for curricula that focus on risk management, psychology, and logic-based setups rather than 'signal groups' or unverified profit screenshots. A professional education is about learning to think like a trader, not just copying someone else's homework. At Drawdown, we believe your education should be as rigorous as a university degree."
+        }
+      ],
+      "faqs": []
+    },
+    {
+      "slug": "online-trading",
+      "title": "Online Trading",
+      "description": "The evolution of the markets. Learn about the technology that allows you to access global exchanges from your laptop.",
+      "content": [
+        {
+          "heading": "Access to the World",
+          "text": "Online trading has democratized the financial markets. Ten years ago, you needed a broker on a phone to place a trade; today, you have more computing power in your pocket than the early hedge fund managers had in their offices. This access is a double-edged sword: it allows for incredible opportunity, but it also allows people to lose money faster than ever before. Understanding the infrastructure—from your ISP to the exchange servers—is a key part of modern trading."
+        }
+      ],
+      "faqs": []
+    },
+    {
+      "slug": "futures-trading",
+      "title": "Futures Trading",
+      "description": "Trade the world's most liquid contracts. Learn about the CME, margin requirements, and the leverage of index futures.",
+      "content": [
+        {
+          "heading": "Standardized Speculation",
+          "text": "Futures are standardized contracts to buy or sell an asset at a future date. They are the preferred instrument for institutional speculators and hedgers. Unlike the decentralized Forex market, futures are traded on centralized exchanges like the CME (Chicago Mercantile Exchange), providing more transparency in volume and price. Futures offer high leverage and significant tax advantages for some traders, but they also require higher initial capital than spread betting."
+        }
+      ],
+      "faqs": []
     }
   ]
 }

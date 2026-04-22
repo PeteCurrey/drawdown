@@ -16,6 +16,7 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { tools } from "@/data/tools";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
+import { TrackPageView } from "@/components/admin/TrackPageView";
 
 export default function ToolDetailPage() {
   const { slug } = useParams();
@@ -32,6 +33,7 @@ export default function ToolDetailPage() {
       <div className="container mx-auto px-6">
         <div className="mb-12">
           <Breadcrumbs />
+          <TrackPageView path={`/tools/${slug}`} />
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-20">

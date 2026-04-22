@@ -37,29 +37,42 @@ export const LEARN_TOPICS: LearnTopic[] = [
       },
       {
         heading: "Essential Tools for the Day Trader",
-        text: "You don't need a Bloomberg terminal to start, but you do need professional tools. At Drawdown, we advocate for TradingView as the industry standard for charting. For execution, focus on brokers with direct market access (DMA) or ultra-low latency ECN execution. In the UK, spread betting is often the preferred vehicle due to its tax-free status, but you must ensure your broker has deep liquidity and honest pricing. Beyond charts, a reliable economic calendar and a low-latency news feed are non-negotiable."
-      },
-      {
-        heading: "The 'No-Hype' Strategy: Price Action and Volume",
-        text: "Most beginners clutter their charts with too many indicators. At Drawdown, we strip it back to basics: Price, Volume, and Level. We teach you how to identify 'Institutional Footprints' — areas where big banks are accumulating or distributing positions. The goal is to enter on a high-probability retest after a breakout, with a stop loss positioned where the trade idea is invalidated. If you can't explain why a trade is valid in two sentences, it's not a trade; it's a gamble."
-      },
-      {
-        heading: "The Psychology of Intraday Fatigue",
-        text: "Day trading is mentally exhausting. Decision fatigue is a real threat to your capital. This is why we advocate for 'Session Trading' — pick a 2-3 hour window (like the London/NY overlap) and trade ONLY during that time. Sitting in front of the charts for 12 hours a day will only lead to revenge trading and poor decision making. A professional knows when to step away. If your plan says walk away after two wins or one loss, you walk away. No exceptions."
+        text: "You don't need a Bloomberg terminal to start, but you do need professional tools. At Drawdown, we advocate for TradingView as the industry standard for charting. For execution, focus on brokers with direct market access (DMA) or ultra-low latency ECN execution. In the UK, spread betting is often the preferred vehicle due to its tax-free status, but you must ensure your broker has deep liquidity and honest pricing."
       },
       {
         heading: "Risk Management: The Survivor's Edge",
-        text: "Day trading is a game of probability. You will lose trades. Anyone telling you otherwise is selling something. Your job isn't to avoid losses; it's to ensure no single loss ruins you. We advocate for risking no more than 0.5% to 1% of your account per trade. This allows you to survive a 'losing streak' without losing your mental capital. The math of drawdown is unforgiving — losing 50% of your account requires a 100% gain just to break even. Protect your downside, and the upside takes care of itself."
+        text: "Day trading is a game of probability. You will lose trades. Anyone telling you otherwise is selling something. Your job isn't to avoid losses; it's to ensure no single loss ruins you. We advocate for risking no more than 0.5% to 1% of your account per trade. This allows you to survive a 'losing streak' without losing your mental capital."
       }
     ],
     faqs: [
       {
         question: "How much money do I need to start day trading in the UK?",
-        answer: "While some brokers allow £100 accounts, we recommend at least £1,000 to allow for proper risk management. With £1,000, risking 1% is £10. On some pairs, this is the minimum position size allowed by spread betting brokers."
+        answer: "While some brokers allow £100 accounts, we recommend at least £1,000 to allow for proper risk management. With £1,000, risking 1% is £10."
+      }
+    ]
+  },
+  {
+    slug: "swing-trading",
+    title: "Swing Trading",
+    description: "Capture medium-term price moves. Ideal for those with full-time jobs who want to trade the daily and 4-hour timeframes with precision.",
+    category: "Strategy",
+    heroImage: "/images/learn/swing-trading.jpg",
+    metaTitle: "Swing Trading Strategy UK | Trade Part-Time | Drawdown",
+    metaDescription: "Learn swing trading for the UK markets. Perfect for part-time traders, focusing on daily and 4-hour timeframes for consistent medium-term gains.",
+    content: [
+      {
+        heading: "The Art of the Swing",
+        text: "Swing trading is the practice of holding a trade for more than one day but typically no longer than a few weeks. The goal is to capture a 'swing' in price action—the move from one high to one low or vice versa. This style is often preferred by UK traders who have full-time commitments, as it focuses on higher timeframes like the 4-hour and Daily charts, which require significantly less 'screen time' than day trading."
       },
       {
-        question: "Is day trading taxable in the UK?",
-        answer: "If you use spread betting, profits are currently exempt from Capital Gains Tax and Stamp Duty in the UK. However, if you trade CFDs or direct stocks, you are liable for CGT. Always consult a tax professional."
+        heading: "Technical Setups for Swing Traders",
+        text: "Swing traders rely heavily on trend analysis and support/resistance levels. Common strategies include trend following (buying the dip in an uptrend) and mean reversion (trading back to a moving average). Because the holding time is longer, swing traders must be comfortable with overnight 'swap' fees and the potential for price gaps."
+      }
+    ],
+    faqs: [
+      {
+        question: "Is swing trading less risky than day trading?",
+        answer: "Not necessarily. While the pace is slower, you take on 'overnight risk'—the possibility that major news breaks while the market is closed. Your position size should reflect this increased risk."
       }
     ]
   },
@@ -74,33 +87,80 @@ export const LEARN_TOPICS: LearnTopic[] = [
     content: [
       {
         heading: "Understanding the Global FX Machine",
-        text: "The Foreign Exchange (Forex) market is the largest financial market in the world, with over $6 trillion traded daily. Unlike the stock market, Forex has no central exchange. It's a decentralized global network of banks, hedge funds, and retail traders. You are essentially betting on the relative strength of one country's economy against another. In the FX world, you always trade in pairs (e.g., GBP/USD). You are buying the base currency and selling the quote currency simultaneously."
+        text: "The Foreign Exchange (Forex) market is the largest financial market in the world, with over $6 trillion traded daily. Unlike the stock market, Forex has no central exchange. It's a decentralized global network of banks, hedge funds, and retail traders. You are essentially betting on the relative strength of one country's economy against another."
       },
       {
         heading: "The Mechanics: Pips, Lots, and Leverage",
-        text: "In Forex, price movements are measured in 'pips' (Percentage in Point). For most pairs, this is the fourth decimal place. A 'pipette' is the fifth decimal place. To make meaningful money from these tiny moves, traders use 'lots' (Standard, Mini, or Micro) and 'leverage'. Leverage allows you to control a large position with a small amount of capital. While it magnifies profits, it equally magnifies losses. In the UK, FCA regulations cap leverage for retail traders at 1:30 for major pairs to prevent catastrophic losses."
-      },
-      {
-        heading: "Fundamental Analysis: The Central Bank Pulse",
-        text: "Forex is driven by the 'Big Picture'. Interest rates are the primary driver of currency value. When the Bank of England raises rates, the pound typically becomes more attractive to global investors, increasing demand. We teach you how to read economic indicators like CPI (Inflation), GDP (Growth), and NFP (US Employment) to understand where the 'fundamental trend' is heading. If the fundamentals are bullish and the technicals are bullish, that's where the institutional-grade edge lies."
-      },
-      {
-        heading: "Technical Analysis: Mapping the Levels",
-        text: "While fundamentals tell you 'what', technicals tell you 'when'. We focus on market structure — identifying highs and lows to determine if a market is trending or ranging. We emphasize the importance of 'Supply and Demand Zones' rather than just support and resistance lines. These are the specific areas where massive sell or buy orders were previously sitting. When price returns to these zones, it often reacts predictably. Mastering 'Price Action' means learning to read the chart like a map, not a crystal ball."
-      },
-      {
-        heading: "The Importance of Currency Correlation",
-        text: "Many beginners make the mistake of trading multiple pairs that move in the same direction. For example, GBPUSD and EURUSD are highly correlated. If you buy both, you are effectively doubling your risk on the US Dollar. A professional trader understands these relationships. We teach you how to use correlation matrices to ensure you aren't over-exposed to a single currency without realizing it. Diversification in FX is about trading uncorrelated assets, not just more pairs."
+        text: "In Forex, price movements are measured in 'pips' (Percentage in Point). For most pairs, this is the fourth decimal place. To make meaningful money from these tiny moves, traders use 'lots' and 'leverage'. Leverage allows you to control a large position with a small amount of capital. In the UK, FCA regulations cap leverage for retail traders at 1:30 for major pairs."
       }
     ],
     faqs: [
       {
-        question: "What is the best time to trade Forex in the UK?",
-        answer: "The best time is during the London-New York overlap (1:00 PM to 4:00 PM GMT). This is when liquidity is highest and spreads are narrowest. The London open (8:00 AM GMT) is also excellent for volatility."
-      },
+        question: "What are the best currency pairs for beginners?",
+        answer: "The 'Majors'—GBPUSD, EURUSD, and USDJPY. They have the highest liquidity and the lowest spreads."
+      }
+    ]
+  },
+  {
+    slug: "crypto-trading",
+    title: "Crypto Trading",
+    description: "Navigate the high-volatility world of digital assets. Learn to trade BTC, ETH, and altcoins with a focus on risk management.",
+    category: "Market",
+    heroImage: "/images/learn/crypto-trading.jpg",
+    metaTitle: "Crypto Trading Guide | Trade Bitcoin & Ethereum | Drawdown",
+    metaDescription: "Learn to trade cryptocurrencies safely. From volatility management to cold storage, understand how to trade digital assets in the UK.",
+    content: [
       {
-        question: "Can I trade Forex on a part-time basis?",
-        answer: "Yes. Many successful traders use 'Swing Trading' strategies on the daily or 4-hour charts, which only require 30 minutes of analysis per day. You don't need to be glued to the screen 24/5."
+        heading: "Trading the Digital Frontier",
+        text: "Crypto trading involves speculating on the price movements of cryptocurrencies like Bitcoin and Ethereum. Unlike traditional markets, crypto never sleeps—it's a 24/7/365 environment. This leads to extreme volatility, which offers huge opportunities but also extreme risks. UK traders should be aware of specific FCA regulations regarding crypto derivatives."
+      }
+    ],
+    faqs: [
+      {
+        question: "Is crypto trading legal in the UK?",
+        answer: "Yes, buying and selling the underlying crypto assets is legal. However, the FCA has banned the sale of crypto derivatives (like CFDs) to retail consumers."
+      }
+    ]
+  },
+  {
+    slug: "stock-trading-uk",
+    title: "Stock Trading (UK)",
+    description: "A guide to the London Stock Exchange and UK-specific equities. Learn about dividends, stamp duty, and LSE market hours.",
+    category: "Market",
+    heroImage: "/images/learn/stock-trading.jpg",
+    metaTitle: "UK Stock Trading Guide | London Stock Exchange Essentials | Drawdown",
+    metaDescription: "Master the UK stock market. Learn how to trade LSE-listed companies, understand stamp duty, and navigate the FTSE 100 with confidence.",
+    content: [
+      {
+        heading: "The London Stock Exchange",
+        text: "Trading UK stocks means navigating the LSE. From FTSE 100 blue-chips to AIM growth stocks, the UK market has unique characteristics, including the 0.5% Stamp Duty Reserve Tax on purchases (though this can be avoided via spread betting). Success in UK equities requires an understanding of how our domestic economy interacts with global sectors like energy, mining, and banking."
+      }
+    ],
+    faqs: [
+      {
+        question: "What is the best time to trade UK stocks?",
+        answer: "The London Stock Exchange is open from 8:00 AM to 4:30 PM GMT. The most volume typically occurs during the open and the close (the 'closing auction')."
+      }
+    ]
+  },
+  {
+    slug: "spread-betting",
+    title: "Spread Betting",
+    description: "The tax-efficient way to trade in the UK. Understand how it works, why it's popular, and the risks of leverage.",
+    category: "Foundation",
+    heroImage: "/images/learn/spread-betting.jpg",
+    metaTitle: "Spread Betting UK Guide | Tax-Free Trading Explained | Drawdown",
+    metaDescription: "Understand the benefits and risks of spread betting in the UK. Learn about its tax-free status and how to manage leverage effectively.",
+    content: [
+      {
+        heading: "Tax-Free Trading in the UK",
+        text: "Spread betting is a uniquely British way to trade the financial markets. It's categorised as gambling for tax purposes in the UK, which means your profits are currently free from Capital Gains Tax (CGT) and Stamp Duty. However, this is only true if trading is not your primary source of income. While the tax benefits are clear, it is still a leveraged product, meaning losses can exceed deposits if not managed correctly."
+      }
+    ],
+    faqs: [
+      {
+        question: "Why is spread betting tax-free?",
+        answer: "HMRC currently classifies spread betting as gambling rather than investment, and gambling winnings are not subject to Capital Gains Tax in the UK."
       }
     ]
   },
@@ -115,33 +175,17 @@ export const LEARN_TOPICS: LearnTopic[] = [
     content: [
       {
         heading: "The Business of Trading: Managing Overhead",
-        text: "Think of trading like any other business. Your losses are your 'overhead' or your 'rent'. A business that can't manage its overhead will eventually go bust. In trading, 'risk management' is the process of ensuring that no single loss — or even a string of losses — puts you out of business. Most traders focus 90% of their time on finding the perfect entry, but it's the 10% of time spent on risk management that actually determines if they will be profitable in a year's time."
+        text: "Think of trading like any other business. Your losses are your 'overhead' or your 'rent'. A business that can't manage its overhead will eventually go bust. In trading, 'risk management' is the process of ensuring that no single loss — or even a string of losses — puts you out of business."
       },
       {
         heading: "The Golden Rule: The 1% Risk Model",
-        text: "We advocate for the 'Fixed Fractional' risk model. This means never risking more than 1% of your current account balance on any single trade. If you have £10,000, you risk £100. If you lose, your next trade's risk is based on £9,900. This automatically scales down your risk during a losing streak and scales it up during a winning streak. It is the most robust way to protect your capital. Beginners often confuse 'risk' with 'position size'. Your risk is the distance between your entry and your stop loss, multiplied by your position size."
-      },
-      {
-        heading: "Understanding the Mathematics of Drawdown",
-        text: "Drawdown is the peak-to-trough decline in your account balance. It is inevitable. The problem is that the math of recovery is non-linear. If you lose 10%, you need an 11% gain to get back to even. If you lose 25%, you need a 33% gain. If you lose 50%, you need a 100% gain. This is why preserving your capital is so critical. The deeper you go into drawdown, the harder it is to climb out. Professional traders are risk-averse; they only click the button when the potential reward significantly outweighs the risk."
-      },
-      {
-        heading: "The R-Multiple: Measuring Your Edge",
-        text: "Profit is a vanity metric. What matters is your 'R-Multiple'. If you risk £100 to make £300, that is a 3R trade. If you have a strategy with a 40% win rate and an average 3R winner, you are a profitable trader. You can lose 60% of your time and still build wealth. Most beginners struggle because they take '1R' or '0.5R' winners but let their losers hit '2R' or '3R'. This inverse risk-reward is a mathematical death sentence. You must aim for a positive expectancy over a large sample size of trades."
-      },
-      {
-        heading: "The Psychology of a Stop Loss",
-        text: "A stop loss is not a failure. It is a data point. It tells you that your current trade idea was wrong, and it prevents a 'wrong idea' from becoming a 'catastrophic financial event'. Moving your stop loss into wider territory is the ultimate sin in trading — it's emotional denial. A professional trader accepts the loss immediately and moves on to the next opportunity. Discipline isn't about being right; it's about following your risk rules even when it hurts your ego."
+        text: "We advocate for the 'Fixed Fractional' risk model. This means never risking more than 1% of your current account balance on any single trade. If you have £10,000, you risk £100."
       }
     ],
     faqs: [
       {
         question: "Should I always use a hard stop loss?",
-        answer: "Yes. Always. A 'mental stop' is an invitation for your ego to negotiate. In volatile markets or during news events, price can move hundreds of pips in seconds. A hard stop loss is your only insurance against a total account wipeout."
-      },
-      {
-        question: "How do I calculate my position size?",
-        answer: "Use the formula: Position Size = (Account Balance * Risk %) / (Stop Loss Distance in Pips * Value per Pip). Or use a dedicated position size calculator tool to do the math for you before every entry."
+        answer: "Yes. Always. A 'mental stop' is an invitation for your ego to negotiate. A hard stop loss is your only insurance against a total account wipeout."
       }
     ]
   },
@@ -156,34 +200,267 @@ export const LEARN_TOPICS: LearnTopic[] = [
     content: [
       {
         heading: "Your Brain: The Trading Saboteur",
-        text: "The human brain evolved to survive on the savannah, not to trade digital numbers on a screen. Our biological impulses — fear and greed — were life-saving millions of years ago, but in the markets, they are lethal. Fear makes us cut winners early to 'protect' profit. Greed makes us hold losers too long hoping for a 'recovery'. To become a professional trader, you must learn to override your biology. You aren't just fighting the market; you are fighting your own amygdala."
-      },
-      {
-        heading: "The Trap of Social Proof",
-        text: "We are social creatures. We want to be part of the 'crowd'. When everyone on social media is buying Bitcoin, your brain screams at you to join in. This is 'FOMO' (Fear of Missing Out). However, the market is a zero-sum game. If everyone is already buying, the buying power is exhausted and a reversal is usually imminent. Professional traders are often contrarians — they have the psychological strength to stand alone when the data contradicts the crowd."
-      },
-      {
-        heading: "Recency Bias: The Memory Myth",
-        text: "Our brains overemphasize recent events. If your last three trades were losers, you will feel 'fearful' on the fourth trade, even if the setup is perfect. If your last three were winners, you will feel 'overconfident' and might increase your risk. This is a cognitive bias. Each trade is an independent event with a unique outcome. A professional views their performance in blocks of 20 or 50 trades, never letting the outcome of the 'last one' influence the 'next one'."
-      },
-      {
-        heading: "Developing Institutional Discipline",
-        text: "Discipline is the bridge between a strategy and a profit. A strategy is just words on a page until it's executed with 100% consistency. We teach you how to build a 'Trading Routine' — a set of non-negotiable rules that remove the need for 'choice' and 'emotion' during market hours. The goal is to reach a state of 'Unconscious Competence' where following your plan becomes as automatic as breathing. If you can't follow your rules, the best strategy in the world won't save you."
-      },
-      {
-        heading: "The Concept of Probabilistic Thinking",
-        text: "Most beginners think in 'Certainty'. They want to know 'will this trade work?'. The professional thinks in 'Probability'. They know that over 100 trades, their strategy will win 45 times and lose 55 times, and they will make money. They don't care about the outcome of a single trade because they believe in their 'Edge'. This shift from 'Certainty' to 'Probability' is the single most important psychological breakthrough a trader can make. It removes the stress of being 'wrong'."
+        text: "The human brain evolved to survive on the savannah, not to trade digital numbers on a screen. Our biological impulses — fear and greed — were life-saving millions of years ago, but in the markets, they are lethal. You aren't just fighting the market; you are fighting your own amygdala."
       }
     ],
     faqs: [
       {
         question: "How do I deal with a long losing streak?",
-        answer: "Lower your risk to 0.25%, take a break from the screens for 24 hours, and review your journal. Ensure you are actually following your rules. If you are, then the losing streak is just a statistical probability playing out. Don't change your strategy because of a week of bad luck."
-      },
+        answer: "Lower your risk to 0.25%, take a break from the screens, and review your journal. Don't change your strategy because of a week of bad luck."
+      }
+    ]
+  },
+  {
+    slug: "technical-analysis",
+    title: "Technical Analysis",
+    description: "Read the story told by price action. Learn about support, resistance, trends, and volume to identify high-probability setups.",
+    category: "Strategy",
+    heroImage: "/images/learn/technical-analysis.jpg",
+    metaTitle: "Technical Analysis Guide | Master Price Action & Trends | Drawdown",
+    metaDescription: "Learn to read market charts properly. From support and resistance to advanced trend analysis, master the tools of technical trading.",
+    content: [
       {
-        question: "Why do I feel so much stress when I have a trade open?",
-        answer: "Usually, it's because your position size is too large. If you are stressed, you are risking too much money. Lower your risk until you can watch price move against you without feeling a physical reaction. Trading should be boring, not an adrenaline rush."
+        heading: "The Language of the Charts",
+        text: "Technical analysis (TA) is the study of past market data, primarily price and volume, to forecast future price movements. It is based on the idea that market action 'discounts' everything—it reflects the collective knowledge and emotions of all participants. We focus on clean charts (Price Action) over complex indicators."
+      }
+    ],
+    faqs: [
+      {
+        question: "Does technical analysis actually work?",
+        answer: "It works because enough participants use it to create self-fulfilling prophecies, and because it identifies areas where institutional liquidity is likely to reside."
+      }
+    ]
+  },
+  {
+    slug: "candlestick-patterns",
+    title: "Candlestick Patterns",
+    description: "Visual signals of market sentiment. Learn to identify hammers, engulfing bars, and dojis to time your entries.",
+    category: "Strategy",
+    heroImage: "/images/learn/candlesticks.jpg",
+    metaTitle: "Candlestick Pattern Guide | Timing Your Entries | Drawdown",
+    metaDescription: "Learn the visual language of the markets. Master hammers, shooting stars, and engulfing patterns to improve your trade timing.",
+    content: [
+      {
+        heading: "Price Action Visualization",
+        text: "Japanese candlesticks provide a visual representation of the battle between buyers and sellers within a specific timeframe. A single candle tells you the open, close, high, and low. Patterns like the 'Bullish Engulfing' or 'Pin Bar' can signal a reversal in sentiment."
+      }
+    ],
+    faqs: [
+      {
+        question: "Which candlestick pattern is most reliable?",
+        answer: "The 'Pin Bar' (or Hammer) and the 'Engulfing Bar' are widely considered the most reliable, especially when they occur at high-timeframe key levels."
+      }
+    ]
+  },
+  {
+    slug: "position-sizing",
+    title: "Position Sizing",
+    description: "The maths of survival. Learn how to calculate exactly how much to trade based on your stop loss and account size.",
+    category: "Foundation",
+    heroImage: "/images/learn/position-sizing.jpg",
+    metaTitle: "Position Sizing Guide | The Maths of Trading Survival | Drawdown",
+    metaDescription: "Never blow an account again. Learn the exact formula for calculating position size based on risk and stop-loss distance.",
+    content: [
+      {
+        heading: "Mathematical Edge",
+        text: "Position sizing is the 'how much' of trading. Most beginners simply pick a number (e.g., £10 a point), but a professional calculates their size based on the distance between their entry and their stop loss."
+      }
+    ],
+    faqs: [
+      {
+        question: "How do I calculate position size for Forex?",
+        answer: "Position Size = (Account Risk in £) / (Stop Loss in Pips * Pip Value). Most traders use a calculator tool to ensure accuracy."
+      }
+    ]
+  },
+  {
+    slug: "trading-tax-uk",
+    title: "Trading Tax (UK)",
+    description: "An honest look at HMRC rules for UK traders. Stamp duty, Capital Gains Tax, and the benefits of Spread Betting vs CFDs.",
+    category: "Foundation",
+    heroImage: "/images/learn/trading-tax.jpg",
+    metaTitle: "UK Trading Tax Guide | HMRC Rules for Traders | Drawdown",
+    metaDescription: "Understand your tax obligations as a UK trader. Learn about the differences between spread betting, CFDs, and traditional share dealing.",
+    content: [
+      {
+        heading: "HMRC and the Trader",
+        text: "Navigating taxes is part of being a professional. In the UK, how you trade determines how you are taxed. Spread betting is currently tax-free, while CFDs and traditional stock dealing are subject to Capital Gains Tax."
+      }
+    ],
+    faqs: [
+      {
+        question: "Is trading a full-time job taxable?",
+        answer: "If HMRC deems you to be 'trading as a trade' (i.e., your primary income), you may be subject to Income Tax instead of CGT. Always consult a tax professional."
+      }
+    ]
+  },
+  {
+    slug: "commodity-trading",
+    title: "Commodity Trading",
+    description: "Trade Gold, Oil, and other raw materials. Understand global supply chains and geopolitical impact on price.",
+    category: "Market",
+    heroImage: "/images/learn/commodities.jpg",
+    metaTitle: "Commodity Trading Guide | Trade Gold & Oil | Drawdown",
+    metaDescription: "Learn to trade global commodities. Understand the drivers of Gold, Silver, and Crude Oil and how to use them to diversify your portfolio.",
+    content: [
+      {
+        heading: "Trading Real-World Assets",
+        text: "Commodities are the raw materials that power the global economy. From 'Hard Commodities' like Gold and Oil to 'Soft Commodities' like Wheat and Coffee, these markets move based on global supply and demand. Gold is often traded as a 'Safe Haven' during geopolitical uncertainty, while Oil is a direct play on global economic growth."
+      }
+    ],
+    faqs: [
+      {
+        question: "Is Gold a good hedge for a UK trader?",
+        answer: "Yes, Gold often has an inverse correlation with equities, making it an excellent diversifier during stock market drawdowns."
+      }
+    ]
+  },
+  {
+    slug: "index-trading",
+    title: "Index Trading",
+    description: "Master the FTSE 100, S&P 500, and DAX. Learn to trade baskets of stocks for broader market exposure.",
+    category: "Market",
+    heroImage: "/images/learn/indices.jpg",
+    metaTitle: "Index Trading Guide | Master the FTSE & S&P 500 | Drawdown",
+    metaDescription: "Learn to trade global stock indices. Master the volatility of the DAX, the stability of the FTSE, and the momentum of the Nasdaq.",
+    content: [
+      {
+        heading: "Trading the Market Sentiment",
+        text: "An index represents a basket of stocks from a specific exchange or sector. Trading an index like the FTSE 100 allows you to take a position on the entire UK economy rather than picking individual companies. Indices are generally less volatile than single stocks but offer excellent liquidity and 'clean' technical patterns."
+      }
+    ],
+    faqs: [
+      {
+        question: "What is the best index for beginners?",
+        answer: "The S&P 500 (US 500) and the FTSE 100 (UK 100) are generally the best due to their high liquidity and relatively stable movements."
+      }
+    ]
+  },
+  {
+    slug: "scalping-strategies",
+    title: "Scalping Strategies",
+    description: "The fastest game in town. Learn how to profit from tiny price moves using high-frequency execution and tight spreads.",
+    category: "Strategy",
+    heroImage: "/images/learn/scalping.jpg",
+    metaTitle: "Forex Scalping Guide | Fast-Paced Intraday Trading | Drawdown",
+    metaDescription: "Master the art of scalping. Learn to extract small profits from hundreds of daily trades using precise timing and institutional tools.",
+    content: [
+      {
+        heading: "The 1-Minute Battlefield",
+        text: "Scalping is the fastest trading style, focusing on capturing 2-5 pips of movement on the 1-minute or 5-minute charts. It requires intense focus, a very high win rate, and ultra-low spreads. Scalpers aren't looking for 'the big move'; they are looking for high-probability 'micro-moves' where they can enter and exit in seconds."
+      }
+    ],
+    faqs: [
+      {
+        question: "Is scalping profitable for retail traders?",
+        answer: "It can be, but only if you have a broker with near-zero spreads and no commission. In the UK, this usually requires a 'Raw Spread' account."
+      }
+    ]
+  },
+  {
+    slug: "fundamental-analysis",
+    title: "Fundamental Analysis",
+    description: "Go beyond the charts. Understand GDP, inflation, and interest rates to build a high-conviction macro bias.",
+    category: "Strategy",
+    heroImage: "/images/learn/fundamentals.jpg",
+    metaTitle: "Fundamental Analysis Guide | Master Macro Trading | Drawdown",
+    metaDescription: "Learn the drivers of market value. Master interest rate policy, economic indicators, and geopolitical events to improve your trading edge.",
+    content: [
+      {
+        heading: "The 'Why' Behind the 'What'",
+        text: "Fundamental analysis is the study of the underlying economic and political factors that determine an asset's value. In the FX market, this centers on Central Bank policy. If the technicals show a 'buy' signal but the fundamentals are 'bearish', a professional trader will often skip the trade. Fundamentals provide the 'conviction' for your technical setups."
+      }
+    ],
+    faqs: [
+      {
+        question: "Do I need a finance degree to learn fundamentals?",
+        answer: "No. You just need to understand the relationship between interest rates and currency value. Everything else follows from that simple core."
+      }
+    ]
+  },
+  {
+    slug: "order-flow-trading",
+    title: "Order Flow Trading",
+    description: "See the tape. Use Level 2 data, DOM, and footprint charts to see where the big money is actually buying and selling.",
+    category: "Strategy",
+    heroImage: "/images/learn/order-flow.jpg",
+    metaTitle: "Order Flow Trading Guide | See Inside the Candles | Drawdown",
+    metaDescription: "Master institutional order flow. Learn to read the DOM, Level 2 data, and footprint charts to identify where the big money is moving.",
+    content: [
+      {
+        heading: "Trading the Tape",
+        text: "Order flow is the study of the actual buy and sell orders entering the market. While a candlestick chart shows you the 'result' of the battle, order flow shows you the 'battle' itself in real-time. By looking at 'imbalances' and 'absorption', you can see when a trend is about to reverse before it even shows up on a standard chart."
+      }
+    ],
+    faqs: [
+      {
+        question: "Can I use order flow for Forex?",
+        answer: "Yes, but since Forex is decentralized, you must use 'Futures Volume' (from the CME) as a proxy for the total market volume. It is remarkably accurate."
+      }
+    ]
+  },
+  {
+    slug: "fibonacci-retracement",
+    title: "Fibonacci Retracement",
+    description: "Master the Golden Ratio. Learn how to identify natural pulling points in the market for precise entries and exits.",
+    category: "Strategy",
+    heroImage: "/images/learn/fibonacci.jpg",
+    metaTitle: "Fibonacci Trading Guide | Master the Golden Ratio | Drawdown",
+    metaDescription: "Learn to use Fibonacci retracement and extension levels like a professional. Identify high-probability reversal zones and profit targets.",
+    content: [
+      {
+        heading: "The Geometry of the Markets",
+        text: "Fibonacci levels are horizontal lines that indicate where support and resistance are likely to occur. They are based on the Fibonacci sequence found in nature. In trading, the 50% and 61.8% levels (The Golden Ratio) are the most watched, acting as 'magnets' where price often retraces before continuing its primary trend."
+      }
+    ],
+    faqs: [
+      {
+        question: "Why do Fibonacci levels work?",
+        answer: "They work largely because they are a self-fulfilling prophecy—millions of traders and institutional algorithms use them as anchor points for their orders."
+      }
+    ]
+  },
+  {
+    slug: "moving-averages",
+    title: "Moving Averages",
+    description: "Smooth out the noise. Learn how to use the 50, 100, and 200 EMA to identify the dominant trend and dynamic support.",
+    category: "Strategy",
+    heroImage: "/images/learn/moving-averages.jpg",
+    metaTitle: "Moving Average Guide | Master Trend Following | Drawdown",
+    metaDescription: "Learn to use SMAs and EMAs properly. From the 'Golden Cross' to dynamic support, master the most popular indicators in trading.",
+    content: [
+      {
+        heading: "Filtering the Market Noise",
+        text: "Moving averages smooth out price data by creating a constantly updated average price. We focus on Exponential Moving Averages (EMA), which give more weight to recent prices. The 200 EMA on the Daily chart is the 'ultimate line in the sand' for institutional traders—if price is above it, the macro trend is bullish."
+      }
+    ],
+    faqs: [
+      {
+        question: "Which moving average is best for day trading?",
+        answer: "The 9 EMA and 20 EMA are very popular for intraday momentum, while the 50 EMA is often used for trend confirmation on the 5-minute or 15-minute charts."
+      }
+    ]
+  },
+  {
+    slug: "volume-profile",
+    title: "Volume Profile",
+    description: "Find the Point of Control. Learn how to use volume by price to see where the market has found fair value and where it is imbalanced.",
+    category: "Strategy",
+    heroImage: "/images/learn/volume-profile.jpg",
+    metaTitle: "Volume Profile Guide | Master Value Area Trading | Drawdown",
+    metaDescription: "Learn to trade using Volume Profile. Identify the Point of Control (POC) and Value Areas to understand where institutional orders are clustered.",
+    content: [
+      {
+        heading: "Trading Value, Not Just Price",
+        text: "Unlike standard volume which shows volume by 'time', Volume Profile shows volume by 'price'. This identifies the 'Point of Control' (POC)—the price at which the most volume has traded. This is considered 'Fair Value' by the market. Professional traders use 'Value Area Highs and Lows' as target points for their mean-reversion strategies."
+      }
+    ],
+    faqs: [
+      {
+        question: "Is Volume Profile better than standard volume?",
+        answer: "It is much more precise for identifying where large orders are sitting. Standard volume tells you 'when' the market was active; Volume Profile tells you 'at what price' they were active."
       }
     ]
   }
 ];
+

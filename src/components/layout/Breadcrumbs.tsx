@@ -18,13 +18,13 @@ export function Breadcrumbs() {
         "@type": "ListItem",
         "position": 1,
         "name": "Home",
-        "item": "https://drawdown.trade"
+        "item": "https://drawdown.trading"
       },
       ...paths.map((path, index) => ({
         "@type": "ListItem",
         "position": index + 2,
         "name": path.charAt(0).toUpperCase() + path.slice(1).replace(/-/g, " "),
-        "item": `https://drawdown.trade/${paths.slice(0, index + 1).join("/")}`
+        "item": `https://drawdown.trading/${paths.slice(0, index + 1).join("/")}`
       }))
     ]
   };

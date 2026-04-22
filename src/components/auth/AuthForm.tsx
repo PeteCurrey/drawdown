@@ -87,7 +87,7 @@ export function AuthForm({ mode }: AuthFormProps) {
           <input 
             type="email" 
             required 
-            placeholder="trader@drawdown.trade"
+            placeholder="trader@drawdown.trading"
             className="w-full bg-background-primary border border-border-slate px-4 py-3 text-sm focus:border-accent outline-none transition-colors"
             value={email}
             onChange={(e) => setEmail(e.target.value)}

@@ -43,7 +43,7 @@ export default function ContactPage() {
                 <div>
                   <p className="text-sm font-display font-bold uppercase mb-1">Email Support</p>
                   <p className="text-xs text-text-secondary mb-4">Response within 24 hours.</p>
-                  <a href="mailto:support@drawdown.trade" className="text-xs font-mono text-accent hover:underline">support@drawdown.trade</a>
+                  <a href="mailto:support@drawdown.trading" className="text-xs font-mono text-accent hover:underline">support@drawdown.trading</a>
                 </div>
               </div>
             </div>

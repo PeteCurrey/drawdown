@@ -1,6 +1,3 @@
-"use client";
-
-import { useMemo } from "react";
 import { cn } from "@/lib/utils";
 import { getAllSEOPages } from "@/lib/admin";
 import { 
@@ -16,7 +13,7 @@ import {
 } from "lucide-react";
 
 export default function SEOSuitePage() {
-  const allPages = useMemo(() => getAllSEOPages(), []);
+  const allPages = getAllSEOPages();
 
   return (
     <div className="space-y-12 animate-in fade-in duration-700 pb-24">

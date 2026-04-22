@@ -7,6 +7,7 @@ import { PulseFeed } from "@/components/markets/pulse/PulseFeed";
 import { PulseSidebar } from "@/components/markets/pulse/PulseSidebar";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { NewsItem } from "@/lib/news";
+import { TrackPageView } from "@/components/admin/TrackPageView";
 
 export default function MarketPulseHubPage() {
   const [news, setNews] = useState<NewsItem[]>([]);
@@ -35,6 +36,7 @@ export default function MarketPulseHubPage() {
   return (
     <div className="bg-background-primary min-h-screen">
       <PulseTicker />
+      <TrackPageView path="/markets/pulse" />
       
       <div className="container mx-auto px-6 py-12">
         <div className="mb-12">

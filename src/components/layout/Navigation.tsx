@@ -6,7 +6,7 @@ import Image from "next/image";
 import { cn } from "@/lib/utils";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { Menu, X, ChevronDown, Play, Clock, Shield, Zap, Brain, LineChart, Lock, LayoutDashboard, Calendar, Percent, Gauge, Radio, BarChart3 } from "lucide-react";
+import { Menu, X, ChevronDown, Play, Clock, Shield, Zap, Brain, LineChart, Lock, LayoutDashboard, Calendar, Percent, Gauge, Radio, BarChart3, ArrowUpRight } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { User } from "@supabase/supabase-js";
 
@@ -107,10 +107,9 @@ export function Navigation() {
   const navLinks = [
     { name: "Learn", href: learnHref, hasMegaMenu: true },
     { name: "Markets", href: "/markets", hasMegaMenu: true },
-    { name: "Tools", href: "/tools" },
     { name: "Brokers", href: "/brokers" },
-    { name: "Pricing", href: "/pricing" },
-    { name: "Blog", href: "/blog" },
+    { name: "Tools", href: "/tools" },
+    { name: "Resources", href: "/learn-to-trade", hasMegaMenu: true },
   ];
 
   useEffect(() => {
@@ -409,6 +408,47 @@ export function Navigation() {
                 </div>
               </div>
             )}
+
+            {activeMegaMenu === "Resources" && (
+              <div className="grid grid-cols-12 gap-10">
+                <div className="col-span-8">
+                  <p className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary mb-6">
+                    Trading Intelligence Hub
+                  </p>
+                  <div className="grid grid-cols-2 gap-4">
+                    <Link href="/glossary" className="p-6 border border-border-slate hover:border-accent transition-all group" onClick={() => setActiveMegaMenu(null)}>
+                      <h4 className="text-sm font-bold uppercase text-text-primary group-hover:text-accent">Trading Glossary</h4>
+                      <p className="text-[10px] text-text-tertiary mt-2 uppercase tracking-widest">A-Z of Institutional Jargon</p>
+                    </Link>
+                    <Link href="/how-to" className="p-6 border border-border-slate hover:border-accent transition-all group" onClick={() => setActiveMegaMenu(null)}>
+                      <h4 className="text-sm font-bold uppercase text-text-primary group-hover:text-accent">How-To Guides</h4>
+                      <p className="text-[10px] text-text-tertiary mt-2 uppercase tracking-widest">Step-by-Step Execution</p>
+                    </Link>
+                    <Link href="/compare" className="p-6 border border-border-slate hover:border-accent transition-all group" onClick={() => setActiveMegaMenu(null)}>
+                      <h4 className="text-sm font-bold uppercase text-text-primary group-hover:text-accent">Comparison Hub</h4>
+                      <p className="text-[10px] text-text-tertiary mt-2 uppercase tracking-widest">Broker & Tool Benchmarks</p>
+                    </Link>
+                    <Link href="/best" className="p-10 border border-accent/20 bg-accent/5 hover:bg-accent/10 transition-all group flex items-center justify-between" onClick={() => setActiveMegaMenu(null)}>
+                      <div>
+                        <h4 className="text-lg font-display font-bold uppercase text-accent">Best of 2026</h4>
+                        <p className="text-xs text-text-secondary mt-1">Our Verified Recommendations</p>
+                      </div>
+                      <ArrowUpRight className="w-6 h-6 text-accent group-hover:-translate-y-1 group-hover:translate-x-1 transition-transform" />
+                    </Link>
+                  </div>
+                </div>
+                <div className="col-span-4 space-y-6">
+                   <Link href="/blog" className="block p-8 bg-background-elevated border border-border-slate hover:border-accent transition-all group" onClick={() => setActiveMegaMenu(null)}>
+                      <h4 className="text-sm font-bold uppercase text-text-primary group-hover:text-accent">Insights & Blog</h4>
+                      <p className="text-xs text-text-secondary mt-2">Latest market commentary and psychological deep-dives.</p>
+                   </Link>
+                   <Link href="/pricing" className="block p-8 bg-background-elevated border border-border-slate hover:border-accent transition-all group" onClick={() => setActiveMegaMenu(null)}>
+                      <h4 className="text-sm font-bold uppercase text-text-primary group-hover:text-accent">Pricing & Plans</h4>
+                      <p className="text-xs text-text-secondary mt-2">View our membership tiers and institutional features.</p>
+                   </Link>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -432,6 +472,12 @@ export function Navigation() {
                 {link.name}
               </Link>
             ))}
+            <div className="h-px bg-border-slate/50 my-4" />
+            <Link href="/glossary" className="text-xl font-display font-bold uppercase tracking-widest text-text-secondary hover:text-accent" onClick={() => setIsMobileMenuOpen(false)}>Glossary</Link>
+            <Link href="/how-to" className="text-xl font-display font-bold uppercase tracking-widest text-text-secondary hover:text-accent" onClick={() => setIsMobileMenuOpen(false)}>How-To Guides</Link>
+            <Link href="/compare" className="text-xl font-display font-bold uppercase tracking-widest text-text-secondary hover:text-accent" onClick={() => setIsMobileMenuOpen(false)}>Comparisons</Link>
+            <Link href="/blog" className="text-xl font-display font-bold uppercase tracking-widest text-text-secondary hover:text-accent" onClick={() => setIsMobileMenuOpen(false)}>Blog</Link>
+            <Link href="/pricing" className="text-xl font-display font-bold uppercase tracking-widest text-text-secondary hover:text-accent" onClick={() => setIsMobileMenuOpen(false)}>Pricing</Link>
           </div>
           <div className="mt-auto flex flex-col gap-6">
             <Link 

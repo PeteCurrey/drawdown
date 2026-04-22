@@ -7,6 +7,7 @@ import { LEARN_TOPICS } from "@/lib/data/learn-to-trade";
 import { UK_LOCATIONS } from "@/lib/data/locations";
 import Link from "next/link";
 import { ArrowUpRight, AlertTriangle, MapPin, Globe, CheckCircle2 } from "lucide-react";
+import { TrackPageView } from "@/components/admin/TrackPageView";
 
 interface Props {
   params: Promise<{ topic: string; location: string }>;
@@ -82,6 +83,7 @@ export default async function LocationTopicPage({ params }: Props) {
     <div className="pt-32 pb-24 bg-background-primary min-h-screen">
       <div className="container mx-auto px-6">
         <Breadcrumbs />
+        <TrackPageView path={`/learn-to-trade/${topicSlug}/${locationSlug}`} />
         <StructuredData type="FAQPage" data={faqSchema} />
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-16 items-start">

@@ -1,60 +1,162 @@
 import { notFound } from "next/navigation";
-import { howToData } from "@/data/glossary";
-import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
+import { HOW_TO_PAGES } from "@/data/seo/howto";
 import { Metadata } from "next";
+import Link from "next/link";
+import { ChevronRight, Clock, AlertTriangle, CheckCircle2, ArrowRight } from "lucide-react";
+import { TrackPageView } from "@/components/admin/TrackPageView";
+
+interface Props {
+  params: Promise<{ slug: string }>;
+}
 
 export async function generateStaticParams() {
-  return howToData.map((guide) => ({
-    slug: guide.slug,
+  return HOW_TO_PAGES.map((page) => ({
+    slug: page.slug,
   }));
 }
 
-export async function generateMetadata(
-  { params }: { params: Promise<{ slug: string }> }
-): Promise<Metadata> {
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const guide = howToData.find(g => g.slug === slug);
-  if (!guide) return {};
+  const page = HOW_TO_PAGES.find((p) => p.slug === slug);
+
+  if (!page) return {};
 
   return {
-    title: guide.seo_title,
-    description: guide.seo_description,
+    title: page.title,
+    description: page.metaDescription,
+    alternates: {
+      canonical: `https://drawdown.trading/how-to/${slug}`,
+    },
   };
 }
 
-export default async function HowToPage({ params }: { params: Promise<{ slug: string }> }) {
+export default async function HowToPage({ params }: Props) {
   const { slug } = await params;
-  const guide = howToData.find((g) => g.slug === slug);
+  const page = HOW_TO_PAGES.find((p) => p.slug === slug);
 
-  if (!guide) {
-    notFound();
-  }
-
-  // Basic markdown to HTML logic for the MVP
-  let htmlContent = guide.content;
-  htmlContent = htmlContent.replace(/# (.*?)\n/g, '<h1 class="text-4xl md:text-5xl font-display font-black uppercase mb-8">$1</h1>\n');
-  htmlContent = htmlContent.replace(/## (.*?)\n/g, '<h2 class="text-2xl font-display font-bold uppercase mt-12 mb-6 border-b border-border-slate pb-4">$1</h2>\n');
-  htmlContent = htmlContent.replace(/### (.*?)\n/g, '<h3 class="text-xl font-display font-bold uppercase mt-8 mb-4 text-accent">$1</h3>\n');
-  htmlContent = htmlContent.replace(/\*\*(.*?)\*\*/g, '<strong class="text-text-primary">$1</strong>');
-  htmlContent = htmlContent.replace(/\*(.*?)\*/g, '<em class="text-text-secondary">$1</em>');
+  if (!page) notFound();
 
   return (
-    <div className="bg-background-primary min-h-screen pt-32 pb-24">
-      <div className="container mx-auto px-6 max-w-4xl">
-        <Breadcrumbs />
-        
-        <article className="mt-12 space-y-8 animate-in fade-in duration-700">
-          <div className="prose prose-invert prose-drawdown max-w-none">
-            <div dangerouslySetInnerHTML={{ __html: htmlContent }} />
-          </div>
+    <main className="min-h-screen bg-background-primary pt-32 pb-20 px-6">
+      <TrackPageView path={`/how-to/${slug}`} />
+      
+      <div className="max-w-4xl mx-auto">
+        {/* Breadcrumbs */}
+        <nav className="flex items-center space-x-2 text-[10px] font-mono uppercase tracking-widest text-text-tertiary mb-8">
+          <Link href="/" className="hover:text-accent transition-colors">Home</Link>
+          <ChevronRight className="w-3 h-3" />
+          <Link href="/how-to" className="hover:text-accent transition-colors">How-To</Link>
+          <ChevronRight className="w-3 h-3" />
+          <span className="text-text-primary">{page.slug.replace(/-/g, ' ')}</span>
+        </nav>
 
-          <div className="mt-16 p-8 bg-background-elevated border border-border-slate text-center space-y-4">
-            <h4 className="text-xl font-display font-bold uppercase">Ready to put this into practice?</h4>
-            <p className="text-sm text-text-secondary">Join The Drawdown platform and master risk management with our advanced curriculum.</p>
-            <a href="/signup" className="inline-block px-8 py-4 bg-accent text-background-primary text-[10px] font-bold uppercase tracking-widest hover:bg-accent-hover transition-colors">Start Free Trial</a>
+        {/* Header */}
+        <div className="space-y-6 mb-16">
+          <div className="flex items-center space-x-3">
+            <span className="text-accent font-mono text-xs tracking-[0.2em] uppercase">
+              {page.eyebrow}
+            </span>
+            <div className="flex items-center space-x-2 text-[10px] font-mono text-text-tertiary border-l border-border-slate pl-3">
+              <Clock className="w-3 h-3" />
+              <span>{page.readingTime} READ</span>
+            </div>
           </div>
-        </article>
+          <h1 className="text-5xl md:text-8xl font-display font-bold leading-[0.9] uppercase tracking-tighter text-text-primary">
+            {page.title}
+          </h1>
+          <p className="text-xl text-text-secondary leading-relaxed max-w-2xl font-sans italic border-l-2 border-accent pl-6 py-2">
+            {page.introduction}
+          </p>
+        </div>
+
+        {/* Steps */}
+        <div className="space-y-24 mb-24">
+          {page.steps.map((step, index) => (
+            <section key={step.title} className="relative group">
+              <div className="absolute -left-12 top-0 text-8xl font-display font-black text-accent/5 select-none transition-colors group-hover:text-accent/10">
+                0{index + 1}
+              </div>
+              <div className="relative space-y-6">
+                <h2 className="text-3xl md:text-4xl font-display font-bold uppercase tracking-tight text-text-primary pt-4">
+                  {step.title}
+                </h2>
+                <div className="text-text-secondary leading-relaxed text-lg whitespace-pre-line">
+                  {step.content}
+                </div>
+              </div>
+            </section>
+          ))}
+        </div>
+
+        {/* Common Mistakes */}
+        <section className="mb-24 p-10 bg-loss/5 border border-loss/20 relative overflow-hidden">
+          <div className="relative z-10">
+            <div className="flex items-center gap-3 text-loss mb-8">
+              <AlertTriangle className="w-6 h-6" />
+              <h3 className="text-xs font-mono uppercase font-bold tracking-[0.3em]">Common Mistakes to Avoid</h3>
+            </div>
+            <ul className="grid md:grid-cols-2 gap-6">
+              {page.commonMistakes.map((mistake, i) => (
+                <li key={i} className="flex items-start space-x-3 text-sm text-text-secondary">
+                  <span className="text-loss font-bold mt-0.5">/</span>
+                  <span>{mistake}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+
+        {/* Drawdown Approach */}
+        <section className="mb-24 p-10 bg-background-surface border border-border-slate flex flex-col md:flex-row items-center justify-between gap-8">
+          <div className="space-y-4 text-center md:text-left">
+            <h3 className="text-xs font-mono uppercase tracking-[0.3em] text-accent">The Drawdown Way</h3>
+            <p className="text-text-primary font-medium max-w-lg leading-relaxed">
+              {page.drawdownApproach.text}
+            </p>
+          </div>
+          <Link 
+            href={page.drawdownApproach.link}
+            className="whitespace-nowrap px-8 py-4 bg-text-primary text-background-primary text-[10px] font-bold uppercase tracking-widest hover:bg-accent hover:text-background-primary transition-all"
+          >
+            {page.drawdownApproach.linkText}
+          </Link>
+        </section>
+
+        {/* FAQs */}
+        <section className="mb-24 space-y-12">
+          <h2 className="text-4xl font-display font-bold uppercase text-text-primary">Questions & Answers.</h2>
+          <div className="space-y-4">
+            {page.faqs.map((faq) => (
+              <div key={faq.question} className="border border-border-slate p-8 hover:border-accent/30 transition-colors bg-background-surface/30">
+                <h3 className="text-xl font-bold mb-4 uppercase tracking-tight">{faq.question}</h3>
+                <p className="text-text-secondary leading-relaxed">{faq.answer}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Final CTA */}
+        <section className="bg-accent p-16 text-center space-y-8 relative overflow-hidden group">
+          <div className="relative z-10 space-y-6">
+            <h2 className="text-4xl md:text-6xl font-display font-bold text-background-primary uppercase tracking-tighter">
+              Ready to trade the truth?
+            </h2>
+            <p className="text-background-primary/80 font-mono text-sm max-w-md mx-auto">
+              Stop guessing. Start learning with Drawdown and master the business of managing risk.
+            </p>
+            <Link 
+              href="/signup" 
+              className="inline-flex items-center space-x-4 bg-background-primary text-text-primary px-12 py-6 text-xs font-bold uppercase tracking-[0.2em] hover:invert transition-all"
+              id="how-to-final-cta"
+            >
+              <span>Join Drawdown Free</span>
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+          {/* Decorative elements */}
+          <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 blur-[100px] rounded-full -mr-32 -mt-32 group-hover:scale-150 transition-transform duration-1000" />
+        </section>
       </div>
-    </div>
+    </main>
   );
 }

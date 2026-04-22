@@ -12,7 +12,7 @@ export const siteConfig = {
   name: "Drawdown",
   title: "Drawdown — Trade the Truth",
   description: "Learn to trade properly with structured courses, AI-powered tools, and honest mentorship. No gurus. No hype. Just edge.",
-  url: "https://drawdown.trade",
+  url: "https://drawdown.trading",
   ogImage: "/og/default-og.png",
   links: {
     twitter: "https://twitter.com/drawdown",
@@ -50,7 +50,7 @@ export function getMetadata({
     authors: [
       {
         name: "Pete (Founder)",
-        url: "https://drawdown.trade/about",
+        url: "https://drawdown.trading/about",
       },
     ],
     openGraph: {

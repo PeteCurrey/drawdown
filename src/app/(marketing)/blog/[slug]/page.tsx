@@ -7,6 +7,7 @@ import { getAllPosts, getPostBySlug } from "@/lib/blog";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import Link from "next/link";
 import { Clock, Calendar, ChevronLeft, Share2 } from "lucide-react";
+import { TrackPageView } from "@/components/admin/TrackPageView";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -45,13 +46,14 @@ export default async function BlogPostPage({ params }: Props) {
       "@type": "Person",
       "name": post.author,
     },
-    image: "https://drawdown.trade/og/default.png",
+    image: "https://drawdown.trading/og/default.png",
   };
 
   return (
     <div className="pt-32 pb-24 bg-background-primary min-h-screen">
       <div className="container mx-auto px-6">
         <Breadcrumbs />
+        <TrackPageView path={`/blog/${slug}`} />
         <StructuredData type="Article" data={articleSchema} />
 
         <div className="max-w-4xl mx-auto">
@@ -111,14 +113,14 @@ export default async function BlogPostPage({ params }: Props) {
               <div className="space-y-4">
                 <h4 className="text-2xl font-display font-bold uppercase text-text-primary">Ready to trade properly?</h4>
                 <p className="text-text-secondary text-sm max-w-md">
-                  Join 2,000+ traders using our AI tools and structured curriculum. Start your free trial today.
+                  Start learning with Drawdown and master the business of risk.
                 </p>
               </div>
               <Link 
                 href="/signup" 
                 className="px-10 py-4 bg-accent text-background-primary font-bold uppercase tracking-widest text-[10px] hover:bg-accent-hover transition-colors whitespace-nowrap"
               >
-                Join Now
+                Join Drawdown Free
               </Link>
             </div>
           </div>

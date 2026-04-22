@@ -1,92 +1,88 @@
-"use client";
-
-import { useState } from "react";
+import { Metadata } from "next";
 import Link from "next/link";
-import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
-import { glossaryData } from "@/data/glossary";
+import { GLOSSARY_TERMS } from "@/data/seo/glossary";
 import { Search, ArrowRight } from "lucide-react";
+import { TrackPageView } from "@/components/admin/TrackPageView";
 
-export default function GlossaryIndexPage() {
-  const [searchQuery, setSearchQuery] = useState("");
+export const metadata: Metadata = {
+  title: "Trading Glossary | Drawdown — Trade the Truth",
+  description: "Comprehensive A-Z glossary of trading terms, concepts, and jargon explained in plain English for UK traders.",
+};
 
-  const filteredTerms = glossaryData.filter((term) =>
-    term.title.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+export default function GlossaryIndex() {
+  // Group terms by first letter
+  const groupedTerms = GLOSSARY_TERMS.reduce((acc, term) => {
+    const letter = term.term[0].toUpperCase();
+    if (!acc[letter]) acc[letter] = [];
+    acc[letter].push(term);
+    return acc;
+  }, {} as Record<string, typeof GLOSSARY_TERMS>);
 
   const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
-  
-  const groupedTerms = alphabet.reduce((acc, letter) => {
-    const terms = filteredTerms.filter((term) =>
-      term.title.toUpperCase().startsWith(letter)
-    );
-    if (terms.length > 0) {
-      acc[letter] = terms;
-    }
-    return acc;
-  }, {} as Record<string, typeof glossaryData>);
 
   return (
-    <div className="bg-background-primary min-h-screen pt-32 pb-24">
-      <div className="container mx-auto px-6">
-        <Breadcrumbs />
-        
-        <div className="mt-12 mb-20">
-          <h1 className="text-5xl md:text-8xl font-display font-bold uppercase mb-8 leading-tight text-text-primary">
-            Trading <span className="text-accent">Glossary.</span>
-          </h1>
-          <p className="text-xl text-text-secondary max-w-2xl mb-12">
-            Master the language of the markets. From basic concepts to advanced institutional terminology, our glossary covers everything you need to trade with intelligence.
+    <main className="min-h-screen bg-background-primary pt-32 pb-20 px-6">
+      <TrackPageView path="/glossary" />
+      <div className="max-w-6xl mx-auto">
+        {/* Header */}
+        <div className="text-center mb-16 space-y-6">
+          <h1 className="text-5xl md:text-7xl font-display font-bold uppercase tracking-tighter">Trading Glossary</h1>
+          <p className="text-text-tertiary font-mono text-sm uppercase tracking-[0.3em] max-w-2xl mx-auto">
+            Every essential term, concept, and piece of jargon explained with honest, UK-focused clarity.
           </p>
-
-          <div className="relative max-w-2xl">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-text-tertiary w-5 h-5" />
-            <input
-              type="text"
-              placeholder="Search terms (e.g. Drawdown, Order Block)..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-background-surface border border-border-slate pl-12 pr-4 py-6 text-lg outline-none focus:border-accent transition-colors uppercase font-mono tracking-wider"
-            />
-          </div>
         </div>
 
-        <div className="space-y-24">
-          {Object.entries(groupedTerms).sort(([a], [b]) => a.localeCompare(b)).map(([letter, terms]) => (
-            <div key={letter} className="grid grid-cols-1 md:grid-cols-4 gap-8 border-t border-border-slate/30 pt-12">
-              <div className="md:col-span-1">
-                <span className="text-6xl font-display font-black text-accent/20 leading-none">
-                  {letter}
-                </span>
+        {/* Alpha Nav */}
+        <nav className="flex flex-wrap justify-center gap-2 mb-16 border-y border-border-slate py-6">
+          {alphabet.map((letter) => (
+            <a 
+              key={letter} 
+              href={`#${letter}`}
+              className={`w-8 h-8 flex items-center justify-center font-mono text-xs rounded hover:bg-accent hover:text-background-primary transition-colors ${groupedTerms[letter] ? 'text-text-primary' : 'text-text-tertiary pointer-events-none'}`}
+            >
+              {letter}
+            </a>
+          ))}
+        </nav>
+
+        {/* Search (Placeholder for functionality) */}
+        <div className="max-w-xl mx-auto mb-20 relative">
+          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-text-tertiary" />
+          <input 
+            type="text" 
+            placeholder="Search glossary terms..." 
+            className="w-full bg-background-elevated border border-border-slate px-12 py-4 text-sm focus:border-accent outline-none transition-colors font-mono"
+          />
+        </div>
+
+        {/* Terms Grid */}
+        <div className="space-y-20">
+          {alphabet.filter(l => groupedTerms[l]).map((letter) => (
+            <section key={letter} id={letter} className="scroll-mt-32">
+              <div className="flex items-center space-x-6 mb-8">
+                <h2 className="text-6xl font-display font-bold text-accent/20 select-none">{letter}</h2>
+                <div className="h-px flex-1 bg-border-slate" />
               </div>
-              <div className="md:col-span-3 grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {terms.sort((a, b) => a.title.localeCompare(b.title)).map((term) => (
-                  <Link
-                    key={term.slug}
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {groupedTerms[letter].map((term) => (
+                  <Link 
+                    key={term.slug} 
                     href={`/glossary/${term.slug}`}
-                    className="group p-6 bg-background-surface border border-border-slate hover:border-accent transition-all flex items-center justify-between"
+                    className="group bg-background-elevated border border-border-slate p-6 hover:border-accent transition-all hover:-translate-y-1"
                   >
-                    <div>
-                      <h3 className="font-display font-bold uppercase tracking-tight group-hover:text-accent transition-colors">
-                        {term.title}
-                      </h3>
-                      <p className="text-[10px] text-text-tertiary uppercase font-mono mt-1">
-                        {term.seo_description.slice(0, 40)}...
-                      </p>
-                    </div>
-                    <ArrowRight className="w-4 h-4 text-text-tertiary group-hover:text-accent group-hover:translate-x-1 transition-all" />
+                    <h3 className="text-lg font-bold mb-2 group-hover:text-accent transition-colors">{term.term}</h3>
+                    <p className="text-xs text-text-tertiary font-mono uppercase tracking-wider mb-4">{term.definition.slice(0, 80)}...</p>
+                    <span className="text-[10px] font-mono uppercase tracking-widest text-accent flex items-center space-x-2">
+                      <span>Define Term</span>
+                      <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
+                    </span>
                   </Link>
                 ))}
               </div>
-            </div>
+            </section>
           ))}
-
-          {Object.keys(groupedTerms).length === 0 && (
-            <div className="text-center py-20 border border-dashed border-border-slate">
-              <p className="text-text-tertiary uppercase font-mono tracking-widest">No terms found matching your search.</p>
-            </div>
-          )}
         </div>
       </div>
-    </div>
+    </main>
   );
 }

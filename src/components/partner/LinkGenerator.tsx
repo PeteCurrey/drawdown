@@ -9,7 +9,7 @@ export function LinkGenerator() {
   const [campaign, setCampaign] = useState("spring_launch");
   const [copied, setCopied] = useState(false);
   
-  const baseUrl = "https://drawdown.trade/api/market/brokers/redirect";
+  const baseUrl = "https://drawdown.trading/api/market/brokers/redirect";
   const brokerSlug = "ig-markets"; // In reality, this would be the partner's linked broker slug
   const finalUrl = `${baseUrl}?broker=${brokerSlug}&source=${source}&campaign=${campaign}`;
 

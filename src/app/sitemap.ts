@@ -5,7 +5,10 @@ import { UK_LOCATIONS } from "@/lib/data/locations";
 import { getAllPosts } from "@/lib/blog";
 
 import { INSTRUMENT_SLUGS } from "@/lib/data/instruments";
-import { glossaryData, howToData } from "@/data/glossary";
+import { GLOSSARY_TERMS } from "@/data/seo/glossary";
+import { HOW_TO_PAGES } from "@/data/seo/howto";
+import { BEST_OF_PAGES } from "@/data/seo/best";
+import { COMPARISON_PAGES } from "@/data/seo/compare";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = siteConfig.url;
@@ -21,6 +24,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/privacy",
     "/disclaimer",
     "/brokers",
+    "/glossary",
+    "/how-to",
+    "/best",
+    "/compare",
     "/markets/pulse",
     "/tools/scanner",
     "/dashboard/news",
@@ -84,8 +91,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     });
   });
 
-  // Glossary routes (100 pages)
-  const glossary = glossaryData.map((term) => ({
+  // Glossary routes
+  const glossary = GLOSSARY_TERMS.map((term) => ({
     url: `${baseUrl}/glossary/${term.slug}`,
     lastModified: new Date(),
     changeFrequency: "monthly" as const,
@@ -93,12 +100,36 @@ export default function sitemap(): MetadataRoute.Sitemap {
   }));
 
   // How-to routes
-  const howTos = howToData.map((guide) => ({
+  const howTos = HOW_TO_PAGES.map((guide) => ({
     url: `${baseUrl}/how-to/${guide.slug}`,
     lastModified: new Date(),
     changeFrequency: "monthly" as const,
     priority: 0.6,
   }));
 
-  return [...routes, ...toolRoutes, ...topics, ...blogs, ...markets, ...locationRoutes, ...glossary, ...howTos];
+  // Best-of routes
+  const bestOfs = BEST_OF_PAGES.map((page) => ({
+    url: `${baseUrl}/best/${page.slug}`,
+    lastModified: new Date(),
+    changeFrequency: "monthly" as const,
+    priority: 0.8,
+  }));
+
+  // Broker review routes
+  const brokerReviews = require("@/data/brokers").brokers.map((broker: any) => ({
+    url: `${baseUrl}/brokers/${broker.slug}`,
+    lastModified: new Date(),
+    changeFrequency: "monthly" as const,
+    priority: 0.8,
+  }));
+
+  // Comparison routes
+  const comparisons = COMPARISON_PAGES.map((page) => ({
+    url: `${baseUrl}/compare/${page.slug}`,
+    lastModified: new Date(),
+    changeFrequency: "monthly" as const,
+    priority: 0.7,
+  }));
+
+  return [...routes, ...toolRoutes, ...topics, ...blogs, ...markets, ...locationRoutes, ...glossary, ...howTos, ...bestOfs, ...brokerReviews, ...comparisons];
 }

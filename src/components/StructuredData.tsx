@@ -28,8 +28,8 @@ export function StructuredData({ type, data }: StructuredDataProps) {
  */
 export const defaultOrgSchema = {
   name: "Drawdown",
-  url: "https://drawdown.trade",
-  logo: "https://drawdown.trade/logo.png",
+  url: "https://drawdown.trading",
+  logo: "https://drawdown.trading/logo.png",
   sameAs: [
     "https://twitter.com/drawdown",
     "https://discord.gg/drawdown",

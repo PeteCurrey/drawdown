@@ -4,6 +4,7 @@ import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { getAllPosts } from "@/lib/blog";
+import { TrackPageView } from "@/components/admin/TrackPageView";
 
 export const metadata: Metadata = getMetadata({
   title: "Insights | Market Analysis & Trading Education",
@@ -18,6 +19,7 @@ export default function BlogListingPage() {
   if (posts.length === 0) {
     return (
       <div className="pt-32 pb-24 bg-background-primary min-h-screen">
+        <TrackPageView path="/blog" />
         <div className="container mx-auto px-6">
           <Breadcrumbs />
           <h1 className="text-5xl md:text-8xl font-display font-extrabold uppercase mb-6 text-text-primary">Insights.</h1>
@@ -29,6 +31,7 @@ export default function BlogListingPage() {
 
   return (
     <div className="pt-32 pb-24 bg-background-primary min-h-screen">
+      <TrackPageView path="/blog" />
       <div className="container mx-auto px-6">
         <Breadcrumbs />
 

@@ -20,8 +20,8 @@ export async function sendNewsletter({
   const resend = new Resend(process.env.RESEND_API_KEY);
   try {
     const { data, error } = await resend.emails.send({
-      from: `${fromName} <news@drawdown.trade>`, // Assumes domain is verified in Resend
-      to: "subscribers@drawdown.trade", // Use a placeholder for internal tracking if needed
+      from: `${fromName} <news@drawdown.trading>`, // Assumes domain is verified in Resend
+      to: "subscribers@drawdown.trading", // Use a placeholder for internal tracking if needed
       bcc: recipients, // Use BCC for privacy and batch sending
       subject: subject,
       html: html,

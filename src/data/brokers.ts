@@ -19,7 +19,7 @@ export const brokers: Broker[] = [
   {
     id: "ig",
     name: "IG Markets",
-    slug: "ig-review",
+    slug: "ig",
     logo: "/brokers/ig.svg",
     oneLine: "The gold standard for UK spread betting and CFDs",
     rating: 4.9,
@@ -40,7 +40,7 @@ export const brokers: Broker[] = [
   {
     id: "interactive-brokers",
     name: "Interactive Brokers",
-    slug: "ibkr-review",
+    slug: "ibkr",
     logo: "/brokers/ibkr.svg",
     oneLine: "The gold standard for serious multi-asset traders",
     rating: 4.9,
@@ -56,7 +56,7 @@ export const brokers: Broker[] = [
   {
     id: "trading-212",
     name: "Trading 212",
-    slug: "trading-212-review",
+    slug: "trading-212",
     logo: "/brokers/t212.svg",
     oneLine: "Best commission-free platform for UK investors",
     rating: 4.6,
@@ -72,7 +72,7 @@ export const brokers: Broker[] = [
   {
     id: "pepperstone",
     name: "Pepperstone",
-    slug: "pepperstone-review",
+    slug: "pepperstone",
     logo: "/brokers/pepperstone.svg",
     oneLine: "Our top pick for dedicated Forex traders",
     rating: 4.7,
@@ -88,7 +88,7 @@ export const brokers: Broker[] = [
   {
     id: "etoro",
     name: "eToro",
-    slug: "etoro-review",
+    slug: "etoro",
     logo: "/brokers/etoro.svg",
     oneLine: "Best for social trading and copy trading",
     rating: 4.4,
@@ -104,7 +104,7 @@ export const brokers: Broker[] = [
   {
     id: "xtb",
     name: "XTB",
-    slug: "xtb-review",
+    slug: "xtb",
     logo: "/brokers/xtb.svg",
     oneLine: "Solid all-rounder with a powerful proprietary platform",
     rating: 4.5,
@@ -120,7 +120,7 @@ export const brokers: Broker[] = [
   {
     id: "cmc-markets",
     name: "CMC Markets",
-    slug: "cmc-markets-review",
+    slug: "cmc-markets",
     logo: "/brokers/cmc.svg",
     oneLine: "UK pioneer with professional-grade charting",
     rating: 4.6,
@@ -136,7 +136,7 @@ export const brokers: Broker[] = [
   {
     id: "plus500",
     name: "Plus500",
-    slug: "plus500-review",
+    slug: "plus500",
     logo: "/brokers/plus500.svg",
     oneLine: "Clean, simple mobile-first CFD trading",
     rating: 4.2,

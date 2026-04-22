@@ -65,7 +65,7 @@ export default function PrivacyPage() {
           <section className="p-8 bg-background-elevated border border-border-slate">
             <h3 className="text-sm font-display font-bold uppercase mb-2 text-text-primary">Contact Us regarding privacy</h3>
             <p className="text-xs">
-              If you have any questions about this policy, please email us at <span className="text-accent">privacy@drawdown.trade</span>.
+              If you have any questions about this policy, please email us at <span className="text-accent">privacy@drawdown.trading</span>.
             </p>
           </section>
         </div>

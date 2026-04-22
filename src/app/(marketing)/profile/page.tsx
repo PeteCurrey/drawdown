@@ -51,7 +51,7 @@ export default function ProfilePage() {
                  <div className="space-y-2">
                     <label className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary">Email Address</label>
                     <div className="flex items-center justify-between py-2 border-b border-border-slate/50">
-                       <span className="text-sm font-sans text-text-primary">pete@drawdown.trade</span>
+                       <span className="text-sm font-sans text-text-primary">pete@drawdown.trading</span>
                        <CheckCircle2 className="w-3 h-3 text-profit" />
                     </div>
                  </div>

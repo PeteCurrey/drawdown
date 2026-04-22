@@ -21,6 +21,9 @@ export interface Database {
           subscription_status: 'active' | 'cancelled' | 'past_due' | 'trialing' | null
           role: 'student' | 'partner' | 'admin'
           partner_id: string | null
+          country: string | null
+          currency: string | null
+          has_onboarded: boolean
           updated_at: string | null
           created_at: string
         }
@@ -35,6 +38,9 @@ export interface Database {
           subscription_status?: 'active' | 'cancelled' | 'past_due' | 'trialing' | null
           role?: 'student' | 'partner' | 'admin'
           partner_id?: string | null
+          country?: string | null
+          currency?: string | null
+          has_onboarded?: boolean
           updated_at?: string | null
           created_at?: string
         }
@@ -49,6 +55,9 @@ export interface Database {
           subscription_status?: 'active' | 'cancelled' | 'past_due' | 'trialing' | null
           role?: 'student' | 'partner' | 'admin'
           partner_id?: string | null
+          country?: string | null
+          currency?: string | null
+          has_onboarded?: boolean
           updated_at?: string | null
           created_at?: string
         }

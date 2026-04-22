@@ -32,7 +32,7 @@ export function OnboardingWizard({ userProfile, onComplete }: Props) {
 
   const handleComplete = async () => {
     setIsSubmitting(true);
-    const { error } = await supabase
+    const { error } = await (supabase as any)
       .from('profiles')
       .update({
         experience_level: experience,

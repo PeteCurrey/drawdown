@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { getCongressionalTrading } from "@/lib/market";
+import { cn } from "@/lib/utils";
 
 export const metadata = getMetadata({
   title: "Political Alpha Tracker — Trade Like Congress",

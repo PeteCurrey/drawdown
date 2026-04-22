@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import { COMPARE_PAGES_AU } from "@/data/seo/compare-au";
 import { Metadata } from "next";
 import Link from "next/link";
-import { ChevronRight, Calendar, Info, Check, ArrowRight, Versus } from "lucide-react";
+import { ChevronRight, Calendar, Info, Check, ArrowRight } from "lucide-react";
 import { TrackPageView } from "@/components/admin/TrackPageView";
 import { RegionalProvider } from "@/components/layout/RegionalLayout";
 import { getMetadata } from "@/lib/metadata";

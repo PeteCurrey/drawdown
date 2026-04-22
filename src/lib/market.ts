@@ -37,7 +37,8 @@ export interface CongressionalTrade {
 
 export interface SentimentData {
   symbol: string;
-  score: number; // 0 to 1
+  /** 0 to 1 */
+  score: number;
   bullishPercent: number;
   bearishPercent: number;
   buzz: number;

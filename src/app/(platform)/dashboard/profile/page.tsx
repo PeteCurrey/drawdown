@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { createClient } from "@/lib/supabase/client";
+import Link from "next/link";
 
 export default function ProfileSettingsPage() {
   const [loading, setLoading] = useState(true);
@@ -49,10 +50,10 @@ export default function ProfileSettingsPage() {
     const formData = new FormData(e.currentTarget);
     
     const updates = {
-      display_name: formData.get('display_name'),
+      display_name: formData.get('display_name') as string,
     };
 
-    const { error } = await supabase
+    const { error } = await (supabase as any)
       .from('profiles')
       .update(updates)
       .eq('id', profile.id);

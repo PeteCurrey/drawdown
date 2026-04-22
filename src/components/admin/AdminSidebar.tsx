@@ -10,6 +10,7 @@ import {
   LayoutTemplate, 
   Search, 
   Network, 
+  Users,
   MessageSquare,
   Settings,
   ShieldAlert

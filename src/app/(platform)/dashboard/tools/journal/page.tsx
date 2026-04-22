@@ -45,7 +45,7 @@ export default function TradeJournalPage() {
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return;
 
-    const { data, error } = await supabase
+    const { data, error } = await (supabase as any)
       .from('trade_logs')
       .select('*')
       .eq('user_id', user.id)
@@ -72,7 +72,7 @@ export default function TradeJournalPage() {
       notes: formData.get('notes')
     };
 
-    const { error } = await supabase.from('trade_logs').insert([newTrade]);
+    const { error } = await (supabase as any).from('trade_logs').insert([newTrade]);
     
     if (!error) {
       setShowAddForm(false);

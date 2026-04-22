@@ -1,5 +1,6 @@
 import { BarChart4, Users, ArrowUpRight, Activity, MessageSquare, Handshake } from "lucide-react";
 import { getAdminStats } from "@/lib/admin-data";
+import { cn } from "@/lib/utils";
 import Link from "next/link";
 
 export default async function AdminOverviewPage() {

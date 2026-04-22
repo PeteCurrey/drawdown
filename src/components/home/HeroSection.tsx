@@ -1,11 +1,12 @@
 "use client";
-
 import { useEffect, useRef } from "react";
 import Link from "next/link";
 import gsap from "gsap";
 import { cn } from "@/lib/utils";
+import { useRegion } from "@/components/layout/RegionalLayout";
 
 export function HeroSection() {
+  const { label } = useRegion();
   const containerRef = useRef<HTMLDivElement>(null);
   const gridRef = useRef<HTMLDivElement>(null);
 
@@ -59,7 +60,7 @@ export function HeroSection() {
         </h1>
         
         <p className="text-base md:text-lg text-text-secondary max-w-xl mx-auto mb-12 font-sans leading-relaxed">
-          Live market intelligence. AI-powered tools. Honest education. <br className="hidden md:block" /> Built for UK traders.
+          Live market intelligence. AI-powered tools. Honest education. <br className="hidden md:block" /> Built for {label} traders.
         </p>
         
         <div className="flex flex-col sm:flex-row items-center justify-center gap-6 w-full sm:w-auto">

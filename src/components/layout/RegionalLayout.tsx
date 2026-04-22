@@ -5,6 +5,7 @@ import { Region, REGIONS } from "@/lib/seo/hreflang";
 
 interface RegionalContextType {
   region: Region;
+  label: string;
   currency: string;
   currencySymbol: string;
   regulatoryBody: string;
@@ -56,10 +57,12 @@ const REGIONAL_METADATA: Record<Region, Partial<RegionalContextType>> = {
 
 export function RegionalProvider({ region, children }: RegionalProviderProps) {
   const metadata = REGIONAL_METADATA[region];
+  const regionInfo = REGIONS[region];
   
   const value: RegionalContextType = {
     region,
-    currency: REGIONS[region].currency,
+    label: regionInfo.label,
+    currency: regionInfo.currency,
     currencySymbol: metadata.currencySymbol || "$",
     regulatoryBody: metadata.regulatoryBody || "",
     riskDisclaimer: metadata.riskDisclaimer || "",

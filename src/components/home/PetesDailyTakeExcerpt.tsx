@@ -37,7 +37,7 @@ export function PetesDailyTakeExcerpt() {
       } else {
         // Fallback mockup
         setTake({
-          content: "The FTSE is showing strong resilience at the 8200 level despite mixed signals from the US. Watch the 09:30 UK GDP release closely — any upside surprise will likely trigger a sharp rally in GBP/USD.",
+          content: "Major indices are showing strong resilience at key psychological levels despite mixed signals. Watch the upcoming volatility index release closely — any upside surprise will likely trigger a sharp rotation into safety.",
           date: new Date().toLocaleDateString("en-GB", {
             day: "2-digit",
             month: "short",

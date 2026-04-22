@@ -1,7 +1,7 @@
 import { Navigation } from "@/components/layout/Navigation";
 import { Footer } from "@/components/layout/Footer";
 import { MarketTicker } from "@/components/market/MarketTicker";
-import { RegionalProvider } from "@/components/layout/RegionalLayout";
+import { DynamicRegionalProvider } from "@/components/layout/DynamicRegionalProvider";
 
 export default function MarketingLayout({
   children,
@@ -9,7 +9,7 @@ export default function MarketingLayout({
   children: React.ReactNode;
 }) {
   return (
-    <RegionalProvider region="uk">
+    <DynamicRegionalProvider>
       <div className="flex flex-col min-h-screen">
         <MarketTicker />
         <Navigation />
@@ -18,6 +18,6 @@ export default function MarketingLayout({
         </main>
         <Footer />
       </div>
-    </RegionalProvider>
+    </DynamicRegionalProvider>
   );
 }

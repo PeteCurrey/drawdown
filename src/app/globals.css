@@ -232,3 +232,43 @@ h1, h2, h3, h4, h5, h6 {
 .prose-drawdown a { color: var(--color-accent); text-decoration: underline; text-underline-offset: 4px; }
 .prose-drawdown strong { color: var(--color-text-primary); }
 .prose-drawdown li::marker { color: var(--color-accent); }
+
+/* === NATIVE APP OVERRIDES === */
+.is-native {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  user-select: none;
+  /* Prevent scrolling past content on iOS */
+  overscroll-behavior: none;
+}
+
+/* Re-enable selection for inputs and text areas in native */
+.is-native input, 
+.is-native textarea,
+.is-native [contenteditable="true"] {
+  user-select: text !important;
+}
+
+/* Safe Area Padding - for notches and home bars */
+.is-native .safe-top {
+  padding-top: env(safe-area-inset-top);
+}
+
+.is-native .safe-bottom {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* Hide desktop-only elements in native */
+.is-native .desktop-only {
+  display: none !important;
+}
+
+/* App-only elements */
+.app-only {
+  display: none;
+}
+
+.is-native .app-only {
+  display: block;
+}
+

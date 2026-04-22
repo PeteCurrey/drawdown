@@ -135,11 +135,11 @@ const FALLBACK_NEWS: NewsItem[] = [
   },
   {
     source: "Reuters",
-    title: "BoE Holds Rates; Signal Shift in Monetary Policy Outlook",
+    title: "Central Bank Sentiment Index Shows Shift in Global Outlook",
     publishedAt: new Date().toISOString(),
     url: "#",
-    categories: ["UK", "Currencies"],
-    instruments: ["GBPUSD", "UK100"]
+    categories: ["Global", "Macro"],
+    instruments: ["DXY", "XAUUSD"]
   },
   {
     source: "Financial Times",

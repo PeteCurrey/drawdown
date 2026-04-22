@@ -27,6 +27,7 @@ const jetbrainsMono = JetBrains_Mono({
 export const metadata: Metadata = getMetadata();
 
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
+import { NativeAppProvider } from "@/components/providers/NativeAppProvider";
 
 export default function RootLayout({
   children,
@@ -40,20 +41,22 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className="min-h-full flex flex-col bg-background-primary text-text-primary selection:bg-accent selection:text-background-primary transition-colors duration-500">
-        <ThemeProvider
-          attribute="data-theme"
-          defaultTheme="dark"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <ScrollProgress />
-          <SmoothScroll>
-            <main className="flex-grow">
-              {children}
-            </main>
-          </SmoothScroll>
-          <GrainOverlay />
-        </ThemeProvider>
+        <NativeAppProvider>
+          <ThemeProvider
+            attribute="data-theme"
+            defaultTheme="dark"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <ScrollProgress />
+            <SmoothScroll>
+              <main className="flex-grow">
+                {children}
+              </main>
+            </SmoothScroll>
+            <GrainOverlay />
+          </ThemeProvider>
+        </NativeAppProvider>
       </body>
     </html>
   );

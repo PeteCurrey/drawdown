@@ -69,6 +69,21 @@ export function NewsletterDashboardClient({ data }: NewsletterDashboardProps) {
     }
   };
 
+  const handleUpdateSettings = async (updates: any) => {
+    try {
+      const resp = await fetch('/api/newsletter/settings', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...updates, id: data.settings.id })
+      });
+      if (resp.ok) {
+        window.location.reload();
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   return (
     <div className="space-y-12 animate-in fade-in duration-700">
       {/* Header */}
@@ -147,7 +162,7 @@ export function NewsletterDashboardClient({ data }: NewsletterDashboardProps) {
                  <p className="text-3xl font-display font-black text-text-primary">{data.activeSubscribers.toLocaleString()}</p>
                  <div className="mt-4 flex items-center gap-2">
                     <Users className="w-3 h-3 text-profit" />
-                    <span className="text-[9px] font-mono text-profit uppercase">+12% this month</span>
+                    <span className="text-[9px] font-mono text-profit uppercase">Sync Active</span>
                  </div>
               </div>
               <div className="p-8 bg-background-surface border border-border-slate">
@@ -155,7 +170,7 @@ export function NewsletterDashboardClient({ data }: NewsletterDashboardProps) {
                  <p className="text-3xl font-display font-black text-text-primary">{data.stats.avgOpenRate}%</p>
                  <div className="mt-4 flex items-center gap-2">
                     <BarChart3 className="w-3 h-3 text-profit" />
-                    <span className="text-[9px] font-mono text-profit uppercase">Above Benchmark</span>
+                    <span className="text-[9px] font-mono text-profit uppercase">Real-time Data</span>
                  </div>
               </div>
            </div>
@@ -163,22 +178,21 @@ export function NewsletterDashboardClient({ data }: NewsletterDashboardProps) {
            <div className="p-8 bg-background-surface border border-border-slate">
               <h3 className="text-[10px] font-mono font-bold uppercase tracking-widest mb-8 border-b border-border-slate pb-4">Performance Velocity</h3>
               <div className="h-48 flex items-end gap-2 px-2">
-                 {[45, 52, 48, 61, 55, 67, 72].map((h, i) => (
-                   <div key={i} className="flex-1 bg-accent/20 hover:bg-accent transition-colors relative group" style={{ height: `${h}%` }}>
+                 {data.editions.filter(e => e.status === 'sent').slice(0, 7).map((e, i) => (
+                   <div key={i} className="flex-1 bg-accent/20 hover:bg-accent transition-colors relative group" style={{ height: `${e.open_rate || 5}%` }}>
                       <div className="absolute -top-8 left-1/2 -translate-x-1/2 bg-background-elevated border border-border-slate px-2 py-1 text-[8px] font-mono opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
-                         {h}% Open
+                         {e.open_rate || 0}% Open
                       </div>
                    </div>
                  ))}
+                 {data.editions.filter(e => e.status === 'sent').length === 0 && (
+                    <div className="w-full h-full flex items-center justify-center border border-dashed border-border-slate">
+                       <p className="text-[9px] font-mono text-text-tertiary uppercase tracking-widest">Waiting for first send...</p>
+                    </div>
+                 )}
               </div>
               <div className="flex justify-between mt-4 text-[8px] font-mono text-text-tertiary uppercase tracking-tighter">
-                 <span>Mon</span>
-                 <span>Tue</span>
-                 <span>Wed</span>
-                 <span>Thu</span>
-                 <span>Fri</span>
-                 <span>Sat</span>
-                 <span>Sun</span>
+                 <span>Latest Distributions</span>
               </div>
            </div>
         </div>
@@ -196,10 +210,13 @@ export function NewsletterDashboardClient({ data }: NewsletterDashboardProps) {
                        <p className="text-[10px] font-bold uppercase text-text-primary">Auto-Send</p>
                        <p className="text-[8px] text-text-tertiary font-mono uppercase tracking-widest">Pilot Autonomous</p>
                     </div>
-                    <div className={cn(
-                      "w-10 h-5 rounded-full p-1 transition-colors cursor-pointer",
-                      data.settings.auto_send_enabled ? "bg-profit" : "bg-background-elevated"
-                    )}>
+                    <div 
+                      onClick={() => handleUpdateSettings({ auto_send_enabled: !data.settings.auto_send_enabled })}
+                      className={cn(
+                        "w-10 h-5 rounded-full p-1 transition-colors cursor-pointer",
+                        data.settings.auto_send_enabled ? "bg-profit" : "bg-background-elevated"
+                      )}
+                    >
                        <div className={cn(
                          "w-3 h-3 rounded-full bg-white transition-transform",
                          data.settings.auto_send_enabled ? "translate-x-5" : "translate-x-0"
@@ -212,10 +229,13 @@ export function NewsletterDashboardClient({ data }: NewsletterDashboardProps) {
                        <p className="text-[10px] font-bold uppercase text-text-primary">Approval Required</p>
                        <p className="text-[8px] text-text-tertiary font-mono uppercase tracking-widest">Human Gatekeeper</p>
                     </div>
-                    <div className={cn(
-                      "w-10 h-5 rounded-full p-1 transition-colors cursor-pointer",
-                      data.settings.require_approval ? "bg-accent" : "bg-background-elevated"
-                    )}>
+                    <div 
+                      onClick={() => handleUpdateSettings({ require_approval: !data.settings.require_approval })}
+                      className={cn(
+                        "w-10 h-5 rounded-full p-1 transition-colors cursor-pointer",
+                        data.settings.require_approval ? "bg-accent" : "bg-background-elevated"
+                      )}
+                    >
                        <div className={cn(
                          "w-3 h-3 rounded-full bg-white transition-transform",
                          data.settings.require_approval ? "translate-x-5" : "translate-x-0"

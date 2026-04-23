@@ -40,9 +40,12 @@ export function NewsletterDashboardClient({ data }: NewsletterDashboardProps) {
       });
       if (resp.ok) {
         window.location.reload();
+      } else {
+        const errData = await resp.json();
+        alert("Generation failed: " + (errData.error || resp.statusText));
       }
-    } catch (err) {
-      console.error(err);
+    } catch (err: any) {
+      alert("Network error: " + err.message);
     } finally {
       setIsGenerating(false);
     }
@@ -78,9 +81,12 @@ export function NewsletterDashboardClient({ data }: NewsletterDashboardProps) {
       });
       if (resp.ok) {
         window.location.reload();
+      } else {
+        const errData = await resp.json();
+        alert("Failed to update settings: " + (errData.error || resp.statusText));
       }
-    } catch (err) {
-      console.error(err);
+    } catch (err: any) {
+      alert("Network error: " + err.message);
     }
   };
 

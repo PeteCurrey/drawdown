@@ -4,12 +4,13 @@ import { Mail, ArrowLeft, Send } from "lucide-react";
 import Link from "next/link";
 import { WireSubscribeForm } from "@/components/newsletter/WireSubscribeForm";
 
-export async function generateMetadata({ params }: { params: { id: string } }) {
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   const supabase = await createClient();
   const { data: edition } = await supabase
     .from('newsletter_editions')
     .select('subject_line')
-    .eq('id', params.id)
+    .eq('id', id)
     .single();
 
   return {
@@ -17,13 +18,14 @@ export async function generateMetadata({ params }: { params: { id: string } }) {
   };
 }
 
-export default async function NewsletterEditionPage({ params }: { params: { id: string } }) {
+export default async function NewsletterEditionPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   const supabase = await createClient();
 
   const { data: edition } = await supabase
     .from('newsletter_editions')
     .select('*, newsletter_sections(*)')
-    .eq('id', params.id)
+    .eq('id', id)
     .single();
 
   if (!edition || edition.status !== 'sent') {

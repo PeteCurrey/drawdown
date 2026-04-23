@@ -28,6 +28,26 @@ interface NewsletterDashboardProps {
 }
 
 export function NewsletterDashboardClient({ data }: NewsletterDashboardProps) {
+  const [isGenerating, setIsGenerating] = useState(false);
+
+  const handleGenerateManual = async (type: 'daily' | 'weekend') => {
+    setIsGenerating(true);
+    try {
+      const resp = await fetch('/api/newsletter/generate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ edition_type: type })
+      });
+      if (resp.ok) {
+        window.location.reload();
+      }
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setIsGenerating(false);
+    }
+  };
+
   const handleInstantBroadcast = async () => {
     setIsGenerating(true);
     try {

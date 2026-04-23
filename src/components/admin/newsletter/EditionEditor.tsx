@@ -17,12 +17,20 @@ import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 
+interface NewsletterSection {
+  id: string;
+  section_title: string;
+  section_key: string;
+  ai_content: string;
+  edited_content: string | null;
+}
+
 interface EditionEditorProps {
   edition: any;
 }
 
 export function EditionEditorClient({ edition }: EditionEditorProps) {
-  const [sections, setSections] = useState(edition.newsletter_sections || []);
+  const [sections, setSections] = useState<NewsletterSection[]>(edition.newsletter_sections || []);
   const [subject, setSubject] = useState(edition.subject_line || "");
   const [previewText, setPreviewText] = useState(edition.preview_text || "");
   const [viewMode, setViewMode] = useState<'desktop' | 'mobile'>('desktop');
@@ -30,7 +38,9 @@ export function EditionEditorClient({ edition }: EditionEditorProps) {
   const [isSaving, setIsSaving] = useState(false);
 
   const handleUpdateSection = (id: string, content: string) => {
-    setSections(prev => prev.map(s => s.id === id ? { ...s, edited_content: content } : s));
+    setSections((prev: NewsletterSection[]) => 
+      prev.map(s => s.id === id ? { ...s, edited_content: content } : s)
+    );
   };
 
   const handleSave = async (status?: string) => {

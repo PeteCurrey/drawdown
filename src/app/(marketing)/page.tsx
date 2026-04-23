@@ -8,6 +8,7 @@ import { MarketPulse } from "@/components/home/MarketPulse";
 import { LiveDashboardPreview } from "@/components/home/LiveDashboardPreview";
 import { EconomicCalendarWidget } from "@/components/home/EconomicCalendarWidget";
 import { BrokerHubPreview } from "@/components/home/BrokerHubPreview";
+import { PropFirmSection } from "@/components/home/PropFirmSection";
 import { TradingViewSection } from "@/components/home/TradingViewSection";
 import { PetesDailyTakeExcerpt } from "@/components/home/PetesDailyTakeExcerpt";
 import Link from "next/link";
@@ -57,6 +58,11 @@ export default function Home() {
       {/* 8. Broker Hub Preview */}
       <GSAPReveal direction="up">
         <BrokerHubPreview />
+      </GSAPReveal>
+
+      {/* Prop Firm Section */}
+      <GSAPReveal direction="up">
+        <PropFirmSection />
       </GSAPReveal>
 
       {/* TradingView Partner Section */}

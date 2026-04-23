@@ -47,7 +47,17 @@ export async function getAdminStats() {
     .select('*', { count: 'exact', head: true })
     .gte('created_at', last30d);
 
-  // 7. API Health (FinnHub, Anthropic, Stripe, Supabase, Discord)
+  // 7. Detailed Marketing Stats
+  const { data: pagePerformance } = await supabase
+    .from('seo_analytics')
+    .select('*')
+    .order('views', { ascending: false });
+
+  const { data: clickPerformance } = await supabase
+    .from('broker_clicks')
+    .select('broker_id, clicked_at');
+
+  // 8. API Health (FinnHub, Anthropic, Stripe, Supabase, Discord)
   const health: Record<string, 'connected' | 'error'> = {
     supabase: 'connected',
   };
@@ -89,6 +99,12 @@ export async function getAdminStats() {
     userGrowth: userGrowth || 0,
     mrr: (activeSubs || 0) * 49,
     totalSEOViews,
+    pagePerformance: pagePerformance || [],
+    clickPerformance: clickPerformance || [],
+    competitors: (await supabase.from('competitors').select('*')).data || [],
+    intelligence: (await supabase.from('competitor_intelligence').select('*, competitors(name)').order('created_at', { ascending: false })).data || [],
     health
   };
 }
+
+

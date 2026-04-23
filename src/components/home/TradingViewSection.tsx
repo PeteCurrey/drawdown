@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { ExternalLink, BarChart2, Monitor, Layers, Zap, ChevronRight } from "lucide-react";
 
 const TV_AFFILIATE_URL = "https://www.tradingview.com/?aff_id=165855";
@@ -67,9 +68,18 @@ export function TradingViewSection() {
             >
               Claim $15 Off TradingView <ExternalLink className="w-4 h-4" />
             </a>
-            <p className="text-[9px] font-mono text-text-tertiary uppercase tracking-widest mt-4">
-              Affiliate link • We may earn a commission at no cost to you
-            </p>
+            <div className="mt-4 flex items-center gap-4">
+              <p className="text-[9px] font-mono text-text-tertiary uppercase tracking-widest">
+                Affiliate link • We may earn a commission
+              </p>
+              <div className="w-px h-3 bg-border-slate" />
+              <Link 
+                href="/best/tradingview-review-uk" 
+                className="text-[9px] font-mono text-accent uppercase tracking-widest hover:underline flex items-center gap-1"
+              >
+                Read Our Full Review <ChevronRight className="w-2.5 h-2.5" />
+              </Link>
+            </div>
           </div>
 
           {/* TradingView "terminal" mockup */}

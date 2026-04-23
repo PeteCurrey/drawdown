@@ -111,7 +111,7 @@ export function Navigation() {
   const navLinks = [
     { name: "Learn", href: learnHref, hasMegaMenu: true },
     { name: "Markets", href: `${regionPrefix}/markets`, hasMegaMenu: true },
-    { name: "Brokers", href: `${regionPrefix}/brokers` },
+    { name: "Brokers", href: `${regionPrefix}/brokers`, hasMegaMenu: true },
     { name: "Pricing", href: `${regionPrefix}/pricing` },
     { name: "Tools", href: "/tools" },
     { name: "Resources", href: `${regionPrefix}/learn-to-trade`, hasMegaMenu: true },
@@ -420,42 +420,91 @@ export function Navigation() {
               </div>
             )}
 
-            {activeMegaMenu === "Resources" && (
+            {activeMegaMenu === "Brokers" && (
               <div className="grid grid-cols-12 gap-10">
                 <div className="col-span-8">
                   <p className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary mb-6">
-                    Trading Intelligence Hub
+                    Broker Categories
                   </p>
                   <div className="grid grid-cols-2 gap-4">
-                    <Link href={`${regionPrefix}/glossary`} className="p-6 border border-border-slate hover:border-accent transition-all group" onClick={() => setActiveMegaMenu(null)}>
-                      <h4 className="text-sm font-bold uppercase text-text-primary group-hover:text-accent">Trading Glossary</h4>
-                      <p className="text-[10px] text-text-tertiary mt-2 uppercase tracking-widest">A-Z of Institutional Jargon</p>
+                    <Link href="/best/forex-broker-uk" className="p-6 border border-border-slate hover:border-accent transition-all group" onClick={() => setActiveMegaMenu(null)}>
+                      <h4 className="text-sm font-bold uppercase text-text-primary group-hover:text-accent">Best Forex Broker UK</h4>
+                      <p className="text-[10px] text-text-tertiary mt-2 uppercase tracking-widest">Raw Spreads & ECN Execution</p>
                     </Link>
-                    <Link href={`${regionPrefix}/how-to`} className="p-6 border border-border-slate hover:border-accent transition-all group" onClick={() => setActiveMegaMenu(null)}>
-                      <h4 className="text-sm font-bold uppercase text-text-primary group-hover:text-accent">How-To Guides</h4>
-                      <p className="text-[10px] text-text-tertiary mt-2 uppercase tracking-widest">Step-by-Step Execution</p>
+                    <Link href="/best/spread-betting-broker-uk" className="p-6 border border-border-slate hover:border-accent transition-all group" onClick={() => setActiveMegaMenu(null)}>
+                      <h4 className="text-sm font-bold uppercase text-text-primary group-hover:text-accent">Best Spread Betting</h4>
+                      <p className="text-[10px] text-text-tertiary mt-2 uppercase tracking-widest">Tax-Free UK Platforms</p>
                     </Link>
-                    <Link href={`${regionPrefix}/compare`} className="p-6 border border-border-slate hover:border-accent transition-all group" onClick={() => setActiveMegaMenu(null)}>
-                      <h4 className="text-sm font-bold uppercase text-text-primary group-hover:text-accent">Comparison Hub</h4>
-                      <p className="text-[10px] text-text-tertiary mt-2 uppercase tracking-widest">Broker & Tool Benchmarks</p>
+                    <Link href="/best/broker-for-beginners-uk" className="p-6 border border-border-slate hover:border-accent transition-all group" onClick={() => setActiveMegaMenu(null)}>
+                      <h4 className="text-sm font-bold uppercase text-text-primary group-hover:text-accent">Best for Beginners</h4>
+                      <p className="text-[10px] text-text-tertiary mt-2 uppercase tracking-widest">Simplified UI & Education</p>
                     </Link>
-                    <Link href={`${regionPrefix}/best`} className="p-10 border border-accent/20 bg-accent/5 hover:bg-accent/10 transition-all group flex items-center justify-between" onClick={() => setActiveMegaMenu(null)}>
+                    <Link href="/brokers" className="p-10 border border-accent/20 bg-accent/5 hover:bg-accent/10 transition-all group flex items-center justify-between" onClick={() => setActiveMegaMenu(null)}>
                       <div>
-                        <h4 className="text-lg font-display font-bold uppercase text-accent">Best of 2026</h4>
-                        <p className="text-xs text-text-secondary mt-1">Our Verified Recommendations</p>
+                        <h4 className="text-lg font-display font-bold uppercase text-accent">Broker Directory</h4>
+                        <p className="text-xs text-text-secondary mt-1">Compare 20+ FCA Regulated Brokers</p>
                       </div>
                       <ArrowUpRight className="w-6 h-6 text-accent group-hover:-translate-y-1 group-hover:translate-x-1 transition-transform" />
                     </Link>
                   </div>
                 </div>
-                <div className="col-span-4 space-y-6">
+                <div className="col-span-4 flex flex-col">
+                  <p className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary mb-6">
+                    Institutional Choice
+                  </p>
+                  <div className="flex-grow p-10 bg-background-elevated border border-border-slate">
+                     <h4 className="text-xl font-display font-bold uppercase mb-4 text-text-primary">IG Markets</h4>
+                     <p className="text-xs text-text-secondary leading-relaxed mb-8">
+                       The gold standard for UK retail traders. FTSE 250 listed and FCA regulated since 1974.
+                     </p>
+                     <Link href="/brokers/ig" className="text-[10px] font-bold uppercase tracking-widest text-accent hover:underline">Read Pete's IG Review →</Link>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {activeMegaMenu === "Resources" && (
+              <div className="grid grid-cols-12 gap-10">
+                <div className="col-span-4">
+                  <p className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary mb-6">
+                    Prop Firms
+                  </p>
+                  <div className="flex flex-col gap-2">
+                    <Link href="/best/prop-firm-uk" className="p-4 border border-border-slate hover:border-accent transition-all group" onClick={() => setActiveMegaMenu(null)}>
+                      <h4 className="text-xs font-bold uppercase text-text-primary group-hover:text-accent">Best Prop Firm UK</h4>
+                    </Link>
+                    <Link href="/best/prop-firm-challenge-worth-it" className="p-4 border border-border-slate hover:border-accent transition-all group" onClick={() => setActiveMegaMenu(null)}>
+                      <h4 className="text-xs font-bold uppercase text-text-primary group-hover:text-accent">Is a Challenge Worth It?</h4>
+                    </Link>
+                    <Link href="/prop-firms" className="p-4 border border-accent/20 bg-accent/5 hover:bg-accent/10 transition-all group" onClick={() => setActiveMegaMenu(null)}>
+                      <h4 className="text-xs font-bold uppercase text-accent">All Prop Firm Reviews →</h4>
+                    </Link>
+                  </div>
+                </div>
+                <div className="col-span-4 border-l border-border-slate/50 pl-10">
+                  <p className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary mb-6">
+                    Trading Intelligence
+                  </p>
+                  <div className="flex flex-col gap-2">
+                    <Link href={`${regionPrefix}/glossary`} className="p-4 border border-border-slate hover:border-accent transition-all group" onClick={() => setActiveMegaMenu(null)}>
+                      <h4 className="text-xs font-bold uppercase text-text-primary group-hover:text-accent">Trading Glossary</h4>
+                    </Link>
+                    <Link href={`${regionPrefix}/how-to`} className="p-4 border border-border-slate hover:border-accent transition-all group" onClick={() => setActiveMegaMenu(null)}>
+                      <h4 className="text-xs font-bold uppercase text-text-primary group-hover:text-accent">How-To Guides</h4>
+                    </Link>
+                    <Link href={`${regionPrefix}/compare`} className="p-4 border border-border-slate hover:border-accent transition-all group" onClick={() => setActiveMegaMenu(null)}>
+                      <h4 className="text-xs font-bold uppercase text-text-primary group-hover:text-accent">Comparison Hub</h4>
+                    </Link>
+                  </div>
+                </div>
+                <div className="col-span-4 flex flex-col gap-6">
                    <Link href={`${regionPrefix}/blog`} className="block p-8 bg-background-elevated border border-border-slate hover:border-accent transition-all group" onClick={() => setActiveMegaMenu(null)}>
                       <h4 className="text-sm font-bold uppercase text-text-primary group-hover:text-accent">Insights & Blog</h4>
                       <p className="text-xs text-text-secondary mt-2">Latest market commentary and psychological deep-dives.</p>
                    </Link>
-                   <Link href={`${regionPrefix}/pricing`} className="block p-8 bg-background-elevated border border-border-slate hover:border-accent transition-all group" onClick={() => setActiveMegaMenu(null)}>
-                      <h4 className="text-sm font-bold uppercase text-text-primary group-hover:text-accent">Pricing & Plans</h4>
-                      <p className="text-xs text-text-secondary mt-2">View our membership tiers and institutional features.</p>
+                   <Link href={`${regionPrefix}/best`} className="block p-8 bg-accent/5 border border-accent/20 hover:bg-accent/10 transition-all group" onClick={() => setActiveMegaMenu(null)}>
+                      <h4 className="text-sm font-bold uppercase text-accent">Best of 2026 Hub</h4>
+                      <p className="text-xs text-text-secondary mt-2">Our verified institutional recommendations.</p>
                    </Link>
                 </div>
               </div>

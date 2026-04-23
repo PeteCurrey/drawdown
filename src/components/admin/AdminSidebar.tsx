@@ -13,15 +13,21 @@ import {
   Users,
   MessageSquare,
   Settings,
-  ShieldAlert
+  ShieldAlert,
+  Target,
+  Brain,
+  Mail
 } from "lucide-react";
 
 const NAV_ITEMS = [
   { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
+  { href: "/admin/intelligence", label: "Intelligence Suite", icon: Brain },
   { href: "/admin/users", label: "Traders & Users", icon: Users },
   { href: "/admin/leads", label: "Leads Inbox", icon: Inbox },
   { href: "/admin/partners", label: "Partners", icon: Network },
   { href: "/admin/content", label: "Content & Institutes", icon: BookOpen },
+  { href: "/admin/marketing", label: "Marketing & SEO", icon: Target },
+  { href: "/admin/newsletter", label: "The Wire Newsletter", icon: Mail },
   { href: "/admin/landing-pages", label: "Landing Pages", icon: LayoutTemplate },
   { href: "/admin/seo", label: "SEO Suite", icon: Search },
   { href: "/admin/community", label: "Discord Manager", icon: MessageSquare },

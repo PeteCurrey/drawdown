@@ -111,11 +111,25 @@ export default async function PageAnalytics({ searchParams }: Props) {
                 </span>
               </div>
               <div>
+                <span className="block text-[10px] font-mono text-text-tertiary uppercase mb-1">Market Region</span>
+                <span className="text-xs font-bold uppercase tracking-widest flex items-center gap-2">
+                   <Globe className="w-3 h-3 text-accent" /> {pageInfo?.region || 'Global'}
+                </span>
+              </div>
+              <div>
+                <span className="block text-[10px] font-mono text-text-tertiary uppercase mb-1">Affiliate Status</span>
+                {pageInfo?.isAffiliate ? (
+                  <span className="text-[10px] text-profit font-bold">● PARTNER LINKED</span>
+                ) : (
+                  <span className="text-[10px] text-text-tertiary font-bold">INTERNAL ASSET</span>
+                )}
+              </div>
+              <div>
                 <span className="block text-[10px] font-mono text-text-tertiary uppercase mb-1">Last Crawl</span>
                 <span className="text-xs font-mono">22 APR 2026</span>
               </div>
               <div>
-                <span className="block text-[10px] font-mono text-text-tertiary uppercase mb-1">Status</span>
+                <span className="block text-[10px] font-mono text-text-tertiary uppercase mb-1">Index Status</span>
                 <span className="text-[10px] text-profit font-bold">● INDEXED</span>
               </div>
             </div>

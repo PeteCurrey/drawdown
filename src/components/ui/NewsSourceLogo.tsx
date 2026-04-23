@@ -9,14 +9,14 @@ interface NewsSourceLogoProps {
 }
 
 const logoMap: Record<string, { domain: string; color?: string; customUrl?: string }> = {
-  "Bloomberg": { domain: "bloomberg.com", color: "#2800D8" }, // Fallback to text
-  "Reuters": { domain: "reuters.com", color: "#FF8000", customUrl: "https://upload.wikimedia.org/wikipedia/commons/e/e2/Reuters_logo.svg" },
-  "Financial Times": { domain: "ft.com", color: "#FCD0B1", customUrl: "https://upload.wikimedia.org/wikipedia/commons/6/6a/Financial_Times_corporate_logo.svg" },
-  "FT": { domain: "ft.com", color: "#FCD0B1", customUrl: "https://upload.wikimedia.org/wikipedia/commons/6/6a/Financial_Times_corporate_logo.svg" },
-  "CNBC Markets": { domain: "cnbc.com", color: "#005596", customUrl: "https://upload.wikimedia.org/wikipedia/commons/e/e3/CNBC_logo.svg" },
-  "CNBC": { domain: "cnbc.com", color: "#005596", customUrl: "https://upload.wikimedia.org/wikipedia/commons/e/e3/CNBC_logo.svg" },
-  "WSJ Markets": { domain: "wsj.com", color: "#000000", customUrl: "https://upload.wikimedia.org/wikipedia/commons/4/4a/WSJ_Logo.svg" },
-  "WSJ": { domain: "wsj.com", color: "#000000", customUrl: "https://upload.wikimedia.org/wikipedia/commons/4/4a/WSJ_Logo.svg" },
+  "Bloomberg": { domain: "bloomberg.com", color: "#2800D8" },
+  "Reuters": { domain: "reuters.com", color: "#FF8000" },
+  "Financial Times": { domain: "ft.com", color: "#FCD0B1" },
+  "FT": { domain: "ft.com", color: "#FCD0B1" },
+  "CNBC Markets": { domain: "cnbc.com", color: "#005596" },
+  "CNBC": { domain: "cnbc.com", color: "#005596" },
+  "WSJ Markets": { domain: "wsj.com", color: "#000000" },
+  "WSJ": { domain: "wsj.com", color: "#000000" },
   "MarketWatch": { domain: "marketwatch.com", color: "#3B2E2A" },
   "Yahoo Finance": { domain: "yahoo.com", color: "#720099" },
   "Investing.com": { domain: "investing.com", color: "#2B2B2B" },

@@ -117,7 +117,58 @@ export default function ToolsMarketingPage() {
         </div>
       </section>
 
-      {/* Tools Grid */}
+      {/* Intro / Philosophy Section */}
+      <section className="py-24 bg-background-surface border-b border-border-slate">
+        <div className="container mx-auto px-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <div className="space-y-6">
+              <span className="text-[10px] font-mono tracking-widest uppercase text-accent font-bold">
+                // THE DRAWDOWN DIFFERENCE
+              </span>
+              <h2 className="text-3xl md:text-5xl font-display font-black uppercase leading-tight text-text-primary">
+                We Built What <br />
+                <span className="text-text-secondary">We Couldn't Find.</span>
+              </h2>
+              <div className="w-12 h-1 bg-accent mb-8" />
+              <p className="text-lg text-text-secondary leading-relaxed font-medium">
+                The retail trading industry is built on lagging indicators, arbitrary patterns, and false promises. We got tired of using scattered, retail-grade tools to manage serious capital. 
+              </p>
+              <p className="text-lg text-text-secondary leading-relaxed font-medium">
+                Drawdown's tool suite is engineered from the ground up for precision, speed, and statistical validity. Every scanner, backtester, and journal feature was built because our own trading desk demanded it.
+              </p>
+              
+              <div className="pt-6 grid grid-cols-2 gap-8">
+                <div>
+                  <div className="text-3xl font-display font-black text-white mb-2">100%</div>
+                  <p className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary">Data-Driven Logic</p>
+                </div>
+                <div>
+                  <div className="text-3xl font-display font-black text-white mb-2">&lt;1ms</div>
+                  <p className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary">Execution Speed</p>
+                </div>
+              </div>
+            </div>
+            
+            <div className="relative">
+              <div className="absolute inset-0 bg-gradient-to-tr from-accent/20 to-transparent blur-3xl opacity-50" />
+              <div className="relative bg-background-primary border border-border-slate p-8 shadow-2xl">
+                <div className="flex items-center gap-4 mb-8 pb-8 border-b border-border-slate">
+                  <div className="w-12 h-12 rounded-full bg-border-slate overflow-hidden">
+                    <img src="/images/pete.jpg" alt="Pete" className="w-full h-full object-cover grayscale" />
+                  </div>
+                  <div>
+                    <h4 className="text-white font-bold uppercase tracking-widest text-sm">Pete Currey</h4>
+                    <p className="text-[10px] font-mono text-accent uppercase tracking-widest">Head of Trading</p>
+                  </div>
+                </div>
+                <blockquote className="text-xl font-display italic text-text-secondary leading-relaxed">
+                  "If a tool doesn't give us a measurable statistical edge, we don't build it. Period. We aren't here to sell you magic signals; we're here to give you the infrastructure to execute properly."
+                </blockquote>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
       <section className="py-24 bg-background-surface">
         <div className="container mx-auto px-6">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1px bg-border-slate border border-border-slate">
@@ -173,6 +224,55 @@ export default function ToolsMarketingPage() {
              })}
           </div>
         </div>
+      </section>
+
+      {/* Trust & Verification Section */}
+      <section className="py-24 bg-background-primary border-t border-border-slate overflow-hidden relative">
+         <div className="container mx-auto px-6 relative z-10">
+            <div className="text-center max-w-3xl mx-auto mb-16">
+               <span className="text-[10px] font-mono tracking-widest uppercase text-accent font-bold block mb-4">
+                 // INSTITUTIONAL STANDARDS
+               </span>
+               <h2 className="text-3xl md:text-5xl font-display font-black uppercase leading-tight mb-6">
+                 Built for <span className="text-white">Survival.</span>
+               </h2>
+               <p className="text-text-secondary leading-relaxed text-lg">
+                 The tools you use dictate the quality of your execution. We don't compromise on speed, accuracy, or data integrity.
+               </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+               <div className="p-8 border border-border-slate bg-background-surface hover:border-accent/30 transition-colors">
+                  <div className="w-12 h-12 bg-accent/10 flex items-center justify-center mb-6">
+                     <History className="w-6 h-6 text-accent" />
+                  </div>
+                  <h3 className="text-xl font-display font-bold uppercase mb-4">Rigorously Backtested</h3>
+                  <p className="text-sm text-text-secondary leading-relaxed">
+                     Every indicator and scanner algorithm is tested against 10+ years of tick-data across multiple asset classes before deployment. We don't release theories; we release proven statistical edges.
+                  </p>
+               </div>
+               
+               <div className="p-8 border border-border-slate bg-background-surface hover:border-accent/30 transition-colors">
+                  <div className="w-12 h-12 bg-profit/10 flex items-center justify-center mb-6">
+                     <Zap className="w-6 h-6 text-profit" />
+                  </div>
+                  <h3 className="text-xl font-display font-bold uppercase mb-4">Zero-Lag Execution</h3>
+                  <p className="text-sm text-text-secondary leading-relaxed">
+                     Our infrastructure runs on the edge. Pricing data, scanner alerts, and journal entries are processed with sub-millisecond latency, ensuring you never miss a critical market shift.
+                  </p>
+               </div>
+
+               <div className="p-8 border border-border-slate bg-background-surface hover:border-accent/30 transition-colors">
+                  <div className="w-12 h-12 bg-premium/10 flex items-center justify-center mb-6">
+                     <ShieldCheck className="w-6 h-6 text-premium" />
+                  </div>
+                  <h3 className="text-xl font-display font-bold uppercase mb-4">Secure & Private</h3>
+                  <p className="text-sm text-text-secondary leading-relaxed">
+                     Your trade history and API keys are heavily encrypted. We don't sell your data, we don't counter-trade you, and we don't share your proprietary strategies with anyone.
+                  </p>
+               </div>
+            </div>
+         </div>
       </section>
 
       {/* CTA Footer */}

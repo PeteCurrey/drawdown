@@ -60,7 +60,7 @@ Institutional Tone: Direct, efficient, and focused on risk.`;
 
       for await (const chunk of stream) {
         if (chunk.type === 'content_block_delta' && chunk.delta.type === 'text_delta') {
-          setGeneratedCode(prev => prev + chunk.delta.text);
+          setGeneratedCode(prev => prev + (chunk.delta as any).text);
         }
       }
     } catch (err: any) {

@@ -28,6 +28,7 @@ export const metadata: Metadata = getMetadata();
 
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import { NativeAppProvider } from "@/components/providers/NativeAppProvider";
+import { NativeBottomNav } from "@/components/layout/NativeBottomNav";
 
 export default function RootLayout({
   children,
@@ -54,6 +55,7 @@ export default function RootLayout({
                 {children}
               </main>
             </SmoothScroll>
+            <NativeBottomNav />
             <GrainOverlay />
           </ThemeProvider>
         </NativeAppProvider>

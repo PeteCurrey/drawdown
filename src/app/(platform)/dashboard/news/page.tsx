@@ -12,6 +12,8 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
+import { WatchlistManager } from "@/components/dashboard/WatchlistManager";
+import { Bell } from "lucide-react";
 
 export default function NewsPage() {
   const [news, setNews] = useState<NewsItem[]>([]);
@@ -70,10 +72,12 @@ export default function NewsPage() {
     { id: "forex", label: "Forex" },
     { id: "crypto", label: "Crypto" },
     { id: "commodities", label: "Commodities" },
-    { id: "world-economy", label: "World Economy" }
+    { id: "world-economy", label: "World Economy" },
+    { id: "watchlist", label: "My Watchlist", icon: Bell }
   ];
 
   const filteredNews = news.filter(item => {
+    if (activeCategory === "watchlist") return false;
     const matchesSearch = search === "" || 
       item.title.toLowerCase().includes(search.toLowerCase()) || 
       item.source.toLowerCase().includes(search.toLowerCase());
@@ -157,7 +161,9 @@ export default function NewsPage() {
       </div>
 
       <div className="grid grid-cols-1 gap-8">
-        {loading && news.length === 0 ? (
+        {activeCategory === "watchlist" ? (
+          <WatchlistManager />
+        ) : loading && news.length === 0 ? (
           <div className="space-y-8">
             {[...Array(5)].map((_, i) => (
               <div key={i} className="h-48 bg-background-surface animate-pulse border border-border-slate" />

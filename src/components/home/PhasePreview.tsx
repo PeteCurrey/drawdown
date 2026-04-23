@@ -7,6 +7,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Lock } from "lucide-react";
 import { phases } from "@/data/courses";
 import { cn } from "@/lib/utils";
+import { useRegion } from "@/components/layout/RegionalLayout";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);

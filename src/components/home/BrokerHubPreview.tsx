@@ -13,6 +13,7 @@ const ukBrokers = [
   {
     id: "ig-markets",
     name: "IG Markets",
+    logoUrl: "https://upload.wikimedia.org/wikipedia/commons/d/d7/IG_Group_logo.svg",
     logoPlaceholder: "IG",
     bestFor: "Best for UK spread betting",
     stat: "Spreads from 0.6 pips",
@@ -23,6 +24,7 @@ const ukBrokers = [
   {
     id: "pepperstone",
     name: "Pepperstone",
+    logoUrl: "https://upload.wikimedia.org/wikipedia/en/2/2a/Pepperstone_Logo.svg",
     logoPlaceholder: "PS",
     bestFor: "Best for forex",
     stat: "Raw spreads from 0.0 pips",
@@ -33,6 +35,7 @@ const ukBrokers = [
   {
     id: "ic-markets",
     name: "IC Markets",
+    logoUrl: "https://upload.wikimedia.org/wikipedia/commons/9/9e/IC_Markets_Logo.svg",
     logoPlaceholder: "IC",
     bestFor: "Best for active traders",
     stat: "Ultra-low commissions",
@@ -137,10 +140,14 @@ export function BrokerHubPreview() {
               <div>
                 <div className="flex items-center justify-between mb-8">
                   <div 
-                    className="w-12 h-12 flex items-center justify-center font-display font-black text-white text-xl"
-                    style={{ backgroundColor: broker.color }}
+                    className="w-12 h-12 flex items-center justify-center font-display font-black text-white text-xl overflow-hidden bg-white p-1"
+                    style={{ backgroundColor: broker.logoUrl ? '#FFFFFF' : broker.color }}
                   >
-                    {broker.logoPlaceholder}
+                    {broker.logoUrl ? (
+                      <img src={broker.logoUrl} alt={broker.name} className="w-full h-full object-contain" />
+                    ) : (
+                      broker.logoPlaceholder
+                    )}
                   </div>
                   <div className="flex items-center gap-1 text-[10px] font-mono text-profit uppercase">
                     <Shield className="w-3 h-3" /> {broker.regulation}

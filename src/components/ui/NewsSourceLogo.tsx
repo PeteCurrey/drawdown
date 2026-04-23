@@ -8,27 +8,18 @@ interface NewsSourceLogoProps {
   monochrome?: boolean;
 }
 
-const logoMap: Record<string, { domain: string; color?: string }> = {
-  "Bloomberg": { domain: "bloomberg.com", color: "#2800D8" },
-  "Reuters": { domain: "reuters.com", color: "#FF8000" },
-  "Financial Times": { domain: "ft.com", color: "#FCD0B1" },
-  "FT": { domain: "ft.com", color: "#FCD0B1" },
-  "BBC Business": { domain: "bbc.co.uk", color: "#BB1919" },
-  "BBC": { domain: "bbc.co.uk", color: "#BB1919" },
-  "CNBC Markets": { domain: "cnbc.com", color: "#005596" },
-  "CNBC": { domain: "cnbc.com", color: "#005596" },
-  "ForexLive": { domain: "forexlive.com", color: "#00C2FF" },
-  "Investing.com": { domain: "investing.com", color: "#2B2B2B" },
-  "Sky News Business": { domain: "sky.com", color: "#CC0000" },
-  "Sky News": { domain: "sky.com", color: "#CC0000" },
-  "Sky": { domain: "sky.com", color: "#CC0000" },
-  "WSJ Markets": { domain: "wsj.com", color: "#000000" },
-  "WSJ": { domain: "wsj.com", color: "#000000" },
-  "MarketWatch": { domain: "marketwatch.com", color: "#3B2E2A" },
-  "Yahoo Finance": { domain: "yahoo.com", color: "#720099" },
-  "CNN": { domain: "cnn.com", color: "#CC0000" },
-  "CNN Business": { domain: "cnn.com", color: "#CC0000" },
-  "Benzinga": { domain: "benzinga.com", color: "#FF9100" },
+const logoMap: Record<string, { domain: string; color?: string; customUrl?: string }> = {
+  "Bloomberg": { domain: "bloomberg.com", color: "#2800D8", customUrl: "https://upload.wikimedia.org/wikipedia/commons/5/5f/Bloomberg_Logo.svg" },
+  "Reuters": { domain: "reuters.com", color: "#FF8000", customUrl: "https://upload.wikimedia.org/wikipedia/commons/f/fa/Reuters_logo.svg" },
+  "Financial Times": { domain: "ft.com", color: "#FCD0B1", customUrl: "https://upload.wikimedia.org/wikipedia/commons/3/36/Financial_Times_logo_2014.svg" },
+  "FT": { domain: "ft.com", color: "#FCD0B1", customUrl: "https://upload.wikimedia.org/wikipedia/commons/3/36/Financial_Times_logo_2014.svg" },
+  "CNBC Markets": { domain: "cnbc.com", color: "#005596", customUrl: "https://upload.wikimedia.org/wikipedia/commons/e/e3/CNBC_logo.svg" },
+  "CNBC": { domain: "cnbc.com", color: "#005596", customUrl: "https://upload.wikimedia.org/wikipedia/commons/e/e3/CNBC_logo.svg" },
+  "WSJ Markets": { domain: "wsj.com", color: "#000000", customUrl: "https://upload.wikimedia.org/wikipedia/commons/4/4a/WSJ_Logo.svg" },
+  "WSJ": { domain: "wsj.com", color: "#000000", customUrl: "https://upload.wikimedia.org/wikipedia/commons/4/4a/WSJ_Logo.svg" },
+  "MarketWatch": { domain: "marketwatch.com", color: "#3B2E2A", customUrl: "https://upload.wikimedia.org/wikipedia/commons/2/22/MarketWatch_logo.svg" },
+  "Yahoo Finance": { domain: "yahoo.com", color: "#720099", customUrl: "https://upload.wikimedia.org/wikipedia/commons/8/8f/Yahoo%21_Finance_logo_2019.svg" },
+  "Investing.com": { domain: "investing.com", color: "#2B2B2B", customUrl: "https://upload.wikimedia.org/wikipedia/commons/4/46/Investing.com_logo.svg" },
 };
 
 export function NewsSourceLogo({ 
@@ -62,7 +53,7 @@ export function NewsSourceLogo({
         sizeClasses[size]
       )}>
         <img 
-          src={`https://unavatar.io/${mapping.domain}?fallback=https://www.google.com/s2/favicons?domain=${mapping.domain}&sz=128`}
+          src={mapping.customUrl || `https://unavatar.io/${mapping.domain}?fallback=https://www.google.com/s2/favicons?domain=${mapping.domain}&sz=128`}
           alt={source}
           className={cn(
             "w-full h-full object-contain transition-all duration-500",

@@ -44,7 +44,7 @@ export default async function AdminOverviewPage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         <PushBroadcast />
-        <div className="bg-background-surface border border-border-slate p-8">
+        <div className="bg-background-surface border border-border-slate p-8 relative group">
            <div className="absolute inset-0 bg-gradient-to-t from-accent/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
            <BarChart4 className="w-8 h-8 text-accent/20 group-hover:text-accent transition-colors relative z-10" />
            <p className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary relative z-10 mt-4 text-center">MRR Growth Data: Syncing with Stripe Webhooks</p>

@@ -67,7 +67,7 @@ export function BrokerHubPreview() {
           brokers: brokersAu.slice(0, 3).map(b => ({
             id: b.slug,
             name: b.name,
-            logoUrl: b.name.includes("Pepperstone") ? "https://upload.wikimedia.org/wikipedia/en/2/2a/Pepperstone_Logo.svg" : b.name.includes("IG") ? "https://upload.wikimedia.org/wikipedia/commons/d/d7/IG_Group_logo.svg" : undefined,
+            logoUrl: b.name.includes("IG") ? "https://upload.wikimedia.org/wikipedia/commons/2/2d/IG_Group_logo.svg" : undefined,
             logoPlaceholder: b.name.substring(0, 2).toUpperCase(),
             bestFor: b.bestFor,
             stat: b.minDeposit === "$0" ? "No Minimum Deposit" : `Min Deposit: ${b.minDeposit}`,
@@ -82,7 +82,7 @@ export function BrokerHubPreview() {
           brokers: brokersUs.slice(0, 3).map(b => ({
             id: b.slug,
             name: b.name,
-            logoUrl: b.name.includes("OANDA") ? "https://upload.wikimedia.org/wikipedia/commons/2/29/Oanda_logo.svg" : undefined,
+            logoUrl: undefined,
             logoPlaceholder: b.name.substring(0, 2).toUpperCase(),
             bestFor: b.bestFor,
             stat: b.maxLeverage,
@@ -97,7 +97,7 @@ export function BrokerHubPreview() {
           brokers: brokersSg.slice(0, 3).map(b => ({
             id: b.slug,
             name: b.name,
-            logoUrl: b.name.includes("IG") ? "https://upload.wikimedia.org/wikipedia/commons/d/d7/IG_Group_logo.svg" : undefined,
+            logoUrl: b.name.includes("IG") ? "https://upload.wikimedia.org/wikipedia/commons/2/2d/IG_Group_logo.svg" : undefined,
             logoPlaceholder: b.name.substring(0, 2).toUpperCase(),
             bestFor: b.bestFor,
             stat: b.maxLeverage,
@@ -112,7 +112,7 @@ export function BrokerHubPreview() {
           brokers: brokersHk.slice(0, 3).map(b => ({
             id: b.slug,
             name: b.name,
-            logoUrl: b.name.includes("IG") ? "https://upload.wikimedia.org/wikipedia/commons/d/d7/IG_Group_logo.svg" : undefined,
+            logoUrl: b.name.includes("IG") ? "https://upload.wikimedia.org/wikipedia/commons/2/2d/IG_Group_logo.svg" : undefined,
             logoPlaceholder: b.name.substring(0, 2).toUpperCase(),
             bestFor: b.bestFor,
             stat: b.maxLeverage,

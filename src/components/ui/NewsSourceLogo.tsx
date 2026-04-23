@@ -9,17 +9,17 @@ interface NewsSourceLogoProps {
 }
 
 const logoMap: Record<string, { domain: string; color?: string; customUrl?: string }> = {
-  "Bloomberg": { domain: "bloomberg.com", color: "#2800D8", customUrl: "https://upload.wikimedia.org/wikipedia/commons/5/5f/Bloomberg_Logo.svg" },
-  "Reuters": { domain: "reuters.com", color: "#FF8000", customUrl: "https://upload.wikimedia.org/wikipedia/commons/f/fa/Reuters_logo.svg" },
-  "Financial Times": { domain: "ft.com", color: "#FCD0B1", customUrl: "https://upload.wikimedia.org/wikipedia/commons/3/36/Financial_Times_logo_2014.svg" },
-  "FT": { domain: "ft.com", color: "#FCD0B1", customUrl: "https://upload.wikimedia.org/wikipedia/commons/3/36/Financial_Times_logo_2014.svg" },
+  "Bloomberg": { domain: "bloomberg.com", color: "#2800D8" }, // Fallback to text
+  "Reuters": { domain: "reuters.com", color: "#FF8000", customUrl: "https://upload.wikimedia.org/wikipedia/commons/e/e2/Reuters_logo.svg" },
+  "Financial Times": { domain: "ft.com", color: "#FCD0B1", customUrl: "https://upload.wikimedia.org/wikipedia/commons/6/6a/Financial_Times_corporate_logo.svg" },
+  "FT": { domain: "ft.com", color: "#FCD0B1", customUrl: "https://upload.wikimedia.org/wikipedia/commons/6/6a/Financial_Times_corporate_logo.svg" },
   "CNBC Markets": { domain: "cnbc.com", color: "#005596", customUrl: "https://upload.wikimedia.org/wikipedia/commons/e/e3/CNBC_logo.svg" },
   "CNBC": { domain: "cnbc.com", color: "#005596", customUrl: "https://upload.wikimedia.org/wikipedia/commons/e/e3/CNBC_logo.svg" },
   "WSJ Markets": { domain: "wsj.com", color: "#000000", customUrl: "https://upload.wikimedia.org/wikipedia/commons/4/4a/WSJ_Logo.svg" },
   "WSJ": { domain: "wsj.com", color: "#000000", customUrl: "https://upload.wikimedia.org/wikipedia/commons/4/4a/WSJ_Logo.svg" },
-  "MarketWatch": { domain: "marketwatch.com", color: "#3B2E2A", customUrl: "https://upload.wikimedia.org/wikipedia/commons/2/22/MarketWatch_logo.svg" },
-  "Yahoo Finance": { domain: "yahoo.com", color: "#720099", customUrl: "https://upload.wikimedia.org/wikipedia/commons/8/8f/Yahoo%21_Finance_logo_2019.svg" },
-  "Investing.com": { domain: "investing.com", color: "#2B2B2B", customUrl: "https://upload.wikimedia.org/wikipedia/commons/4/46/Investing.com_logo.svg" },
+  "MarketWatch": { domain: "marketwatch.com", color: "#3B2E2A" },
+  "Yahoo Finance": { domain: "yahoo.com", color: "#720099" },
+  "Investing.com": { domain: "investing.com", color: "#2B2B2B" },
 };
 
 export function NewsSourceLogo({ 

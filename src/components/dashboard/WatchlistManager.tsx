@@ -62,11 +62,11 @@ export const WatchlistManager = () => {
 
       // Fetch current prices for these symbols
       if (data && data.length > 0) {
-        const symbols = data.map(item => item.symbol);
+        const symbols = (data as any[]).map(item => item.symbol);
         const priceRes = await fetch(`/api/market/prices?symbols=${symbols.join(',')}`);
         const prices = await priceRes.json();
         
-        const combined = data.map(item => {
+        const combined = (data as any[]).map(item => {
           const priceData = prices.find((p: any) => p.symbol === item.symbol);
           return {
             ...item,

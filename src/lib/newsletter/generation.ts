@@ -16,7 +16,14 @@ export async function generateNewsletterEdition(editionType: 'daily' | 'weekend'
     year: 'numeric' 
   });
 
-  // Mock economic data for context - in production, fetch from /api/markets/calendar
+  const { data: news } = await supabase
+    .from('intelligence_signals')
+    .select('title, content, created_at')
+    .order('created_at', { ascending: false })
+    .limit(5);
+
+  const newsContext = news?.map(n => `- ${n.title}: ${n.content}`).join('\n') || "No recent news signals found.";
+
   const calendarContext = `
     Upcoming High Impact Events:
     - US Non-Farm Payrolls (NFP) • Friday 13:30 GMT • USD • Forecast: 185k
@@ -60,7 +67,7 @@ export async function generateNewsletterEdition(editionType: 'daily' | 'weekend'
       max_tokens: editionType === 'weekend' ? 6000 : 4000,
       temperature: 0.4,
       messages: [
-        { role: "user", content: `${systemPrompt}\n\n${userPrompt}` }
+        { role: "user", content: `${systemPrompt}\n\nLATEST NEWS:\n${newsContext}\n\nCALENDAR:\n${calendarContext}\n\n${userPrompt}` }
       ],
     });
 

@@ -1,9 +1,33 @@
 "use client";
 
-import { CheckCircle2, ShieldAlert, Download, Lock, ChevronRight, Zap } from "lucide-react";
+import { useState } from "react";
+import { CheckCircle2, ShieldAlert, Download, Lock, Zap } from "lucide-react";
 import Link from "next/link";
 
 export default function PropSurvivalKitPage() {
+  const [includeBump, setIncludeBump] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const handleCheckout = async () => {
+    setLoading(true);
+    try {
+      const res = await fetch("/api/store/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ productId: "prop-survival-kit", includeBump }),
+      });
+      const data = await res.json();
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        alert("Checkout failed. Please try again.");
+      }
+    } catch {
+      alert("Checkout failed. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <div className="flex flex-col">
       {/* Direct Response Hero */}
@@ -145,8 +169,13 @@ export default function PropSurvivalKitPage() {
                </div>
 
                {/* Bump Offer */}
-               <div className="bg-accent/5 border border-accent/30 p-6 flex gap-4 items-start cursor-pointer hover:bg-accent/10 transition-colors">
-                  <input type="checkbox" className="mt-1 w-5 h-5 accent-accent" />
+               <label className="bg-accent/5 border border-accent/30 p-6 flex gap-4 items-start cursor-pointer hover:bg-accent/10 transition-colors">
+                  <input
+                    type="checkbox"
+                    checked={includeBump}
+                    onChange={(e) => setIncludeBump(e.target.checked)}
+                    className="mt-1 w-5 h-5 accent-accent"
+                  />
                   <div>
                      <p className="text-sm font-bold uppercase text-accent flex items-center gap-2">
                         <Zap className="w-4 h-4" /> Add 30 Days of Drawdown Edge
@@ -155,11 +184,15 @@ export default function PropSurvivalKitPage() {
                         Yes! Give me 30 days full access to the AI Trade Journal and Market Scanner to execute my challenge flawlessly. (Normally £29/mo, add today for just £19).
                      </p>
                   </div>
-               </div>
+               </label>
             </div>
 
-            <button className="w-full py-6 bg-accent text-background-primary font-display font-black uppercase tracking-[0.2em] text-lg hover:translate-y-[-2px] transition-all shadow-xl shadow-accent/20">
-               Complete Purchase — £14
+            <button
+               onClick={handleCheckout}
+               disabled={loading}
+               className="w-full py-6 bg-accent text-background-primary font-display font-black uppercase tracking-[0.2em] text-lg hover:translate-y-[-2px] transition-all shadow-xl shadow-accent/20 disabled:opacity-60"
+            >
+               {loading ? "Redirecting to Checkout..." : `Complete Purchase — £${includeBump ? '33' : '14'}`}
             </button>
             
             <p className="mt-8 text-xs text-text-tertiary leading-relaxed">

@@ -111,8 +111,8 @@ export function Navigation() {
   const navLinks = [
     { name: "Learn", href: learnHref, hasMegaMenu: true },
     { name: "Markets", href: `${regionPrefix}/markets`, hasMegaMenu: true },
+    { name: "Prop Firms", href: "/prop-firms", hasMegaMenu: true },
     { name: "Brokers", href: `${regionPrefix}/brokers`, hasMegaMenu: true },
-    { name: "Pricing", href: `${regionPrefix}/pricing` },
     { name: "Tools", href: "/tools" },
     { name: "Resources", href: `${regionPrefix}/learn-to-trade`, hasMegaMenu: true },
   ];
@@ -420,6 +420,52 @@ export function Navigation() {
               </div>
             )}
 
+            {activeMegaMenu === "Prop Firms" && (
+              <div className="grid grid-cols-12 gap-10">
+                <div className="col-span-8">
+                  <p className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary mb-6">
+                    Funded Trading
+                  </p>
+                  <div className="grid grid-cols-2 gap-4">
+                    <Link href="/prop-firms/quiz" className="p-6 border border-accent/30 bg-accent/5 hover:bg-accent/10 transition-all group" onClick={() => setActiveMegaMenu(null)}>
+                      <h4 className="text-sm font-bold uppercase text-accent group-hover:text-white mb-2">Which Firm Fits You? →</h4>
+                      <p className="text-[10px] text-text-tertiary uppercase tracking-widest">4-question diagnostic quiz</p>
+                    </Link>
+                    <Link href="/prop-firms" className="p-6 border border-border-slate hover:border-accent transition-all group" onClick={() => setActiveMegaMenu(null)}>
+                      <h4 className="text-sm font-bold uppercase text-text-primary group-hover:text-accent">Comparison Matrix</h4>
+                      <p className="text-[10px] text-text-tertiary mt-2 uppercase tracking-widest">Rules, Payouts & Drawdown Limits</p>
+                    </Link>
+                    <Link href="/prop-firms/ftmo-vs-the5ers" className="p-6 border border-border-slate hover:border-accent transition-all group" onClick={() => setActiveMegaMenu(null)}>
+                      <h4 className="text-sm font-bold uppercase text-text-primary group-hover:text-accent">FTMO vs The5%ers</h4>
+                      <p className="text-[10px] text-text-tertiary mt-2 uppercase tracking-widest">Data-Driven 2026 Verdict</p>
+                    </Link>
+                    <Link href="/store/prop-survival-kit" className="p-6 border border-border-slate hover:border-accent transition-all group" onClick={() => setActiveMegaMenu(null)}>
+                      <h4 className="text-sm font-bold uppercase text-text-primary group-hover:text-accent">Challenge Survival Kit</h4>
+                      <p className="text-[10px] text-text-tertiary mt-2 uppercase tracking-widest">£14 — Risk models & checklists</p>
+                    </Link>
+                  </div>
+                </div>
+                <div className="col-span-4 flex flex-col">
+                  <p className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary mb-6">
+                    Survival Rate
+                  </p>
+                  <div className="flex-grow p-8 bg-loss/5 border border-loss/20">
+                    <div className="text-5xl font-display font-black text-loss mb-4">90%</div>
+                    <p className="text-sm text-text-secondary leading-relaxed mb-6">
+                      of traders fail their evaluation. The data says it's not your strategy — it's your risk model.
+                    </p>
+                    <Link
+                      href="/prop-firms/quiz"
+                      className="block text-center py-4 bg-accent text-background-primary font-bold uppercase tracking-widest text-xs hover:bg-accent-hover transition-colors"
+                      onClick={() => setActiveMegaMenu(null)}
+                    >
+                      Find My Optimal Firm
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            )}
+
             {activeMegaMenu === "Brokers" && (
               <div className="grid grid-cols-12 gap-10">
                 <div className="col-span-8">
@@ -538,7 +584,9 @@ export function Navigation() {
                 {link.name}
               </Link>
             ))}
-            <div className="h-px bg-border-slate/50 my-4" />
+            <Link href="/prop-firms" className="text-3xl font-display font-bold uppercase tracking-widest text-text-primary" onClick={() => setIsMobileMenuOpen(false)}>
+              Prop Firms
+            </Link>
             <Link href={`${regionPrefix}/glossary`} className="text-xl font-display font-bold uppercase tracking-widest text-text-secondary hover:text-accent" onClick={() => setIsMobileMenuOpen(false)}>Glossary</Link>
             <Link href={`${regionPrefix}/how-to`} className="text-xl font-display font-bold uppercase tracking-widest text-text-secondary hover:text-accent" onClick={() => setIsMobileMenuOpen(false)}>How-To Guides</Link>
             <Link href={`${regionPrefix}/compare`} className="text-xl font-display font-bold uppercase tracking-widest text-text-secondary hover:text-accent" onClick={() => setIsMobileMenuOpen(false)}>Comparisons</Link>

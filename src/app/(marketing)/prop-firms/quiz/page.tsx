@@ -75,9 +75,22 @@ export default function PropFirmQuizPage() {
     return topFirm;
   };
 
-  const handleEmailSubmit = (e: React.FormEvent) => {
+  const handleEmailSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Here you would integrate with your email provider (e.g. Resend / Loops)
+    const firm = calculateResult();
+    try {
+      await fetch("/api/prop-firms/quiz-capture", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email,
+          firmMatch: firm,
+          tradingStyle: answers["style"] ?? "unknown",
+        }),
+      });
+    } catch {
+      // Non-blocking — still show result even if email call fails
+    }
     setShowEmailCapture(false);
     setShowResult(true);
   };

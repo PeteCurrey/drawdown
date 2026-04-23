@@ -46,15 +46,15 @@ export function MarketTicker() {
       <div className="flex animate-marquee whitespace-nowrap items-center">
         {items.map((item, i) => (
           <div key={i} className="flex items-center gap-4 px-8 border-r border-white/5 last:border-r-0">
-            <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-text-primary">
+            <span className="text-[10px] font-mono font-black uppercase tracking-widest text-[#E4E2DD]">
               {item.symbol}
             </span>
-            <span className="text-[10px] font-mono text-text-primary">
+            <span className="text-[10px] font-mono text-[#E4E2DD]/70">
               {item.price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
             </span>
             <span className={cn(
-              "text-[9px] font-mono flex items-center gap-0.5",
-              item.changePercent >= 0 ? "text-profit" : "text-loss"
+              "text-[9px] font-mono flex items-center gap-0.5 font-bold",
+              item.changePercent >= 0 ? "text-[#00E676]" : "text-[#FF3D57]"
             )}>
               {item.changePercent >= 0 ? (
                 <MoveUpRight className="w-2.5 h-2.5" />
@@ -64,7 +64,7 @@ export function MarketTicker() {
               {Math.abs(item.changePercent).toFixed(2)}%
             </span>
             {error && i === 0 && (
-              <span className="text-[8px] font-mono text-text-tertiary ml-2 italic">(delayed)</span>
+              <span className="text-[8px] font-mono text-white/30 ml-2 italic">(delayed)</span>
             )}
           </div>
         ))}

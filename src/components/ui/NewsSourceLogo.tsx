@@ -62,14 +62,23 @@ export function NewsSourceLogo({
         sizeClasses[size]
       )}>
         <img 
-          src={`https://logo.clearbit.com/${mapping.domain}`}
+          src={`https://www.google.com/s2/favicons?domain=${mapping.domain}&sz=128`}
           alt={source}
           className={cn(
-            "w-full h-full object-contain",
-            monochrome && "grayscale brightness-0 dark:invert opacity-40 hover:opacity-100 transition-opacity"
+            "w-full h-full object-contain transition-all duration-500",
+            monochrome ? "grayscale brightness-0 dark:invert opacity-60 contrast-125" : "opacity-100"
           )}
           onError={(e) => {
-            (e.target as HTMLImageElement).style.display = 'none';
+            // Fallback to text if image fails
+            const target = e.target as HTMLImageElement;
+            target.style.display = 'none';
+            const parent = target.parentElement;
+            if (parent) {
+              const fallback = document.createElement('span');
+              fallback.innerText = source.charAt(0);
+              fallback.className = 'text-[10px] font-mono font-bold text-accent';
+              parent.appendChild(fallback);
+            }
           }}
         />
       </div>

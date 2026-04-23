@@ -433,6 +433,230 @@ Without backtesting, you do not have a strategy; you have a hypothesis. By rigor
 ## Why it matters to traders
 It represents a complete shift in momentum and psychology. A bullish engulfing at a key support level indicates that buyers have violently overwhelmed sellers, making it one of the most reliable entry triggers in price action trading.
     `
+  },
+  {
+    slug: "jump-diffusion",
+    title: "Jump Diffusion",
+    seo_title: "Jump Diffusion Model in Trading | Drawdown Glossary",
+    seo_description: "Learn about the Jump Diffusion model and how it accounts for sudden, discontinuous price changes in financial markets.",
+    content: `
+# Jump Diffusion
+
+**Definition:** A mathematical model used in quant finance that accounts for sudden, discontinuous price jumps in an asset, extending the standard geometric Brownian motion model.
+
+## Why it matters to traders
+Standard risk models often assume price moves are continuous and normally distributed. Jump diffusion accounts for "fat tails" and sudden shocks (like a black swan event or a surprise central bank decision). Understanding that the market can "gap" through your stop loss is a critical lesson in institutional risk management.
+    `
+  },
+  {
+    slug: "keltner-channel",
+    title: "Keltner Channel",
+    seo_title: "How to Use Keltner Channels | Drawdown Glossary",
+    seo_description: "Understand the Keltner Channel indicator, how it differs from Bollinger Bands, and how to use it for trend following.",
+    content: `
+# Keltner Channel
+
+**Definition:** A volatility-based envelope indicator set above and below an exponential moving average (EMA), typically using Average True Range (ATR) to determine the channel width.
+
+## Why it matters to traders
+Unlike Bollinger Bands which use standard deviation, Keltner Channels use ATR. This makes them more effective for identifying trend direction and potential breakouts without the "extreme" sensitivity of Bollinger Bands. When price breaks out of a Keltner Channel, it often signals the start of a strong momentum move.
+    `
+  },
+  {
+    slug: "unrealised-p-l",
+    title: "Unrealised P&L",
+    seo_title: "Unrealised vs Realised P&L | Drawdown Glossary",
+    seo_description: "Understand the difference between unrealised (floating) profit/loss and realised P&L.",
+    content: `
+# Unrealised P&L
+
+**Definition:** The profit or loss on an open position that has not yet been closed. Also commonly referred to as "floating" P&L.
+
+## Why it matters to traders
+Amateur traders often confuse unrealised profit with actual balance. Until a trade is closed, that profit belongs to the market. Managing your emotions during large fluctuations in unrealised P&L is the hallmark of a disciplined trader.
+    `
+  },
+  {
+    slug: "underlying-asset",
+    title: "Underlying Asset",
+    seo_title: "What is an Underlying Asset? | Drawdown Glossary",
+    seo_description: "Learn what an underlying asset is in the context of derivatives, CFDs, and options.",
+    content: `
+# Underlying Asset
+
+**Definition:** The financial instrument (currency, index, commodity, stock) on which a derivative contract, such as an option or a CFD, is based and derives its value from.
+
+## Why it matters to traders
+When you trade a CFD or spread bet, you do not own the asset. You are speculating on the price movement of the underlying. Understanding the characteristics (volatility, liquidity, hours) of the underlying is essential for successful derivative trading.
+    `
+  },
+  {
+    slug: "xau",
+    title: "XAU",
+    seo_title: "XAU/USD Trading Explained | Drawdown Glossary",
+    seo_description: "Learn about XAU, the ISO currency code for gold, and how to trade it against the US Dollar.",
+    content: `
+# XAU
+
+**Definition:** The ISO currency code for Gold. In trading, it is most commonly paired with the US Dollar as XAU/USD.
+
+## Why it matters to traders
+Gold is a unique asset that behaves as both a commodity and a currency. It is the primary "Safe Haven" asset. When global uncertainty rises (Risk-Off), capital typically flows into XAU. It is one of the most liquid and volatile instruments available to retail traders.
+    `
+  },
+  {
+    slug: "xag",
+    title: "XAG",
+    seo_title: "XAG/USD Silver Trading | Drawdown Glossary",
+    seo_description: "Understand XAG, the symbol for silver, and its correlation with gold and the US Dollar.",
+    content: `
+# XAG
+
+**Definition:** The ISO currency code for Silver. Similar to gold, it is often traded against the US Dollar as XAG/USD.
+
+## Why it matters to traders
+Silver often moves in high correlation with gold but with significantly higher volatility. Because of its industrial uses, it is also sensitive to global manufacturing cycles. It is known as a "faster" market than gold, often leading or lagging gold moves in predictable patterns.
+    `
+  },
+  {
+    slug: "expert-advisor",
+    title: "Expert Advisor (EA)",
+    seo_title: "What is an Expert Advisor (EA)? | Drawdown Glossary",
+    seo_description: "Learn about Expert Advisors (EAs) in MetaTrader and how they automate trading strategies.",
+    content: `
+# Expert Advisor (EA)
+
+**Definition:** An automated trading script or software used within the MetaTrader 4 (MT4) or MetaTrader 5 (MT5) platforms that executes trades based on pre-programmed rules.
+
+## Why it matters to traders
+EAs allow for 24/7 market monitoring and execution without human intervention. While they remove emotional bias, they require rigorous testing and an understanding of VPS (Virtual Private Server) infrastructure to ensure they run correctly during market volatility.
+    `
+  },
+  {
+    slug: "pine-script",
+    title: "Pine Script",
+    seo_title: "Pine Script for TradingView | Drawdown Glossary",
+    seo_description: "Understand Pine Script, TradingView's proprietary language for custom indicators and backtesting.",
+    content: `
+# Pine Script
+
+**Definition:** TradingView's proprietary scripting language used by traders to create custom indicators, alerts, and automated backtesting strategies.
+
+## Why it matters to traders
+Pine Script is one of the most accessible languages for retail traders to codify their edge. Because it is cloud-based and integrated directly into the charts, it allows for rapid prototyping and validation of strategies across thousands of markets with minimal coding knowledge.
+    `
+  },
+  {
+    slug: "walk-forward-testing",
+    title: "Walk-Forward Testing",
+    seo_title: "Walk-Forward Analysis in Trading | Drawdown Glossary",
+    seo_description: "Learn how walk-forward testing prevents curve-fitting and validates a strategy for live markets.",
+    content: `
+# Walk-Forward Testing
+
+**Definition:** A method of validating a trading strategy by optimising it on a set of historical data and then testing it on a subsequent, unseen "out-of-sample" period to ensure the edge holds in different conditions.
+
+## Why it matters to traders
+Most backtests fail because they are "over-fitted" to the past. Walk-forward testing is the institutional gold standard for proving that a strategy has predictive power and isn't just a result of coincidental price movements in a specific historical window.
+    `
+  },
+  {
+    slug: "overfitting",
+    title: "Overfitting",
+    seo_title: "The Danger of Overfitting in Trading | Drawdown Glossary",
+    seo_description: "Understand overfitting (curve-fitting) and why over-optimised strategies fail in live market conditions.",
+    content: `
+# Overfitting
+
+**Definition:** Also known as curve-fitting, this occurs when a trading strategy is so highly optimised to fit the "noise" of a specific historical data set that it loses its ability to perform in live, unseen market conditions.
+
+## Why it matters to traders
+An over-fitted backtest looks like a perfect equity curve with no losses. In reality, it's a trap. A robust strategy should be simple and work across multiple timeframes and assets. If you need 10 different indicators to make a strategy work in the past, it is almost certainly over-fitted.
+    `
+  },
+  {
+    slug: "mean-reversion",
+    title: "Mean Reversion",
+    seo_title: "Mean Reversion Trading Strategy | Drawdown Glossary",
+    seo_description: "Learn the theory of mean reversion and why asset prices tend to return to their historical average.",
+    content: `
+# Mean Reversion
+
+**Definition:** A trading theory suggesting that asset prices and historical returns eventually return to their long-term mean or average level after an extreme move.
+
+## Why it matters to traders
+Markets spend about 70-80% of their time in ranges or mean-reverting states. Understanding when a market is "overextended" (using tools like VWAP or RSI) allows traders to fade the herd and profit from the inevitable pull-back to value.
+    `
+  },
+  {
+    slug: "execution-algorithm",
+    title: "Execution Algorithm",
+    seo_title: "What is an Execution Algorithm? | Drawdown Glossary",
+    seo_description: "Learn how institutional execution algorithms like TWAP and VWAP work to minimize market impact.",
+    content: `
+# Execution Algorithm
+
+**Definition:** A programme designed to execute large orders efficiently by breaking them into smaller child orders over time, aiming to minimize market impact and slippage.
+
+## Why it matters to traders
+When you see price "grinding" slowly in one direction with very little volatility, you are often seeing an execution algorithm (like a VWAP or TWAP bot) at work. Recognizing these patterns helps retail traders avoid standing in the way of a massive institutional buy or sell programme.
+    `
+  },
+  {
+    slug: "api-trading",
+    title: "API Trading",
+    seo_title: "API Trading for Retail Traders | Drawdown Glossary",
+    seo_description: "Understand API trading and how to connect your algorithms directly to broker execution engines.",
+    content: `
+# API Trading
+
+**Definition:** Using a broker's Application Programming Interface (API) to place, modify, and close trades programmatically, bypassing the standard manual user interface.
+
+## Why it matters to traders
+API trading is the bridge between a strategy idea and a live trading bot. It allows for faster execution, custom risk management modules, and the ability to trade across multiple accounts or brokers from a single piece of code.
+    `
+  },
+  {
+    slug: "latency",
+    title: "Latency",
+    seo_title: "Why Latency Matters in Trading | Drawdown Glossary",
+    seo_description: "Understand the impact of latency on execution speed and slippage.",
+    content: `
+# Latency
+
+**Definition:** The time delay between a trading signal being generated and the order being successfully executed in the market. Usually measured in milliseconds.
+
+## Why it matters to traders
+In fast-moving markets, even a 500ms delay can mean the difference between a profitable fill and getting slipped by 5 pips. High-frequency traders spend millions reducing latency, but retail traders can manage it by using high-quality brokers and VPS (Virtual Private Servers) located near the exchange.
+    `
+  },
+  {
+    slug: "monte-carlo-simulation",
+    title: "Monte Carlo Simulation",
+    seo_title: "Monte Carlo Simulation in Trading | Drawdown Glossary",
+    seo_description: "Learn how Monte Carlo simulations model the probability of different trading outcomes and risk of ruin.",
+    content: `
+# Monte Carlo Simulation
+
+**Definition:** A statistical technique that models the probability of different outcomes in a trading strategy by running thousands of randomised scenarios based on historical trade data.
+
+## Why it matters to traders
+A backtest shows one version of the past. A Monte Carlo simulation shows 5,000 versions of the future. It helps you understand the probability of hitting a specific drawdown (e.g., "There is a 5% chance this strategy will hit a 20% drawdown"). This is the ultimate tool for determining if your position sizing is safe.
+    `
+  },
+  {
+    slug: "quant",
+    title: "Quant",
+    seo_title: "What is a Quant Trader? | Drawdown Glossary",
+    seo_description: "Learn about quantitative trading and how quants use mathematics and data to find an edge.",
+    content: `
+# Quant
+
+**Definition:** Short for Quantitative Analyst. A trader who relies on mathematical and statistical models, rather than intuition or subjective technical analysis, to identify and execute trading opportunities.
+
+## Why it matters to traders
+The modern market is a Quant market. Even if you are a discretionary trader, you are competing against mathematical models. Learning the basics of quantitative analysis—like expectancy, standard deviation, and correlation—is no longer optional if you want to maintain a long-term edge.
+    `
   }
 ];
 

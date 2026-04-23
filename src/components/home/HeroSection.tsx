@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 import { useRegion } from "@/components/layout/RegionalLayout";
 
 export function HeroSection() {
-  const { label } = useRegion();
+  const { region, demonym } = useRegion();
   const containerRef = useRef<HTMLDivElement>(null);
   const gridRef = useRef<HTMLDivElement>(null);
 
@@ -36,6 +36,8 @@ export function HeroSection() {
     return () => ctx.revert();
   }, []);
 
+  const regionPrefix = region === "uk" ? "" : `/${region}`;
+
   return (
     <section 
       ref={containerRef}
@@ -60,18 +62,18 @@ export function HeroSection() {
         </h1>
         
         <p className="text-base md:text-lg text-text-secondary max-w-xl mx-auto mb-12 font-sans leading-relaxed">
-          Live market intelligence. AI-powered tools. Honest education. <br className="hidden md:block" /> Built for {label} traders.
+          Live market intelligence. AI-powered tools. Honest education. <br className="hidden md:block" /> Built for {demonym} traders.
         </p>
         
         <div className="flex flex-col sm:flex-row items-center justify-center gap-6 w-full sm:w-auto">
           <Link 
-            href="/signup" 
+            href={`${regionPrefix}/signup`} 
             className="w-full sm:w-auto px-10 py-5 bg-accent hover:bg-accent-hover text-background-primary text-[10px] font-bold uppercase tracking-[0.2em] transition-premium shadow-2xl shadow-accent/20"
           >
             Start Free
           </Link>
           <Link 
-            href="/markets" 
+            href={`${regionPrefix}/markets`} 
             className="w-full sm:w-auto px-10 py-5 border border-border-slate hover:border-text-primary text-text-primary text-[10px] font-bold uppercase tracking-[0.2em] transition-premium backdrop-blur-sm"
           >
             Explore Markets

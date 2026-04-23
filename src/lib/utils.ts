@@ -11,3 +11,23 @@ export function formatCurrency(amount: number, currency: string = "GBP") {
     currency,
   }).format(amount);
 }
+
+export async function copyToClipboard(text: string) {
+  if (!navigator.clipboard) return false;
+  try {
+    await navigator.clipboard.writeText(text);
+    return true;
+  } catch (err) {
+    return false;
+  }
+}
+
+export function slugify(text: string) {
+  return text
+    .toString()
+    .toLowerCase()
+    .trim()
+    .replace(/\s+/g, "-")
+    .replace(/[^\w-]+/g, "")
+    .replace(/--+/g, "-");
+}

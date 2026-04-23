@@ -14,27 +14,30 @@ export const GET_DEFAULT_FEATURES = () => [
   { name: "Full Course Library (Phases 1–4)", included: true },
   { name: "Weekly Video Market Breakdowns", included: true },
   { name: "Trade Journal (Manual)", included: true },
-  { name: "Position Size Calculator", included: true },
+  { name: "Position Sizer", included: true },
+  { name: "Intelligence Hub", included: true },
+  { name: "Technical Charts", included: true },
   { name: "Community Discord Access", included: true },
   { name: "The Wire (Daily Edition)", included: true },
   { name: "AI Trade Journal", included: false },
   { name: "AI Market Scanner", included: false },
-  { name: "AI Strategy Backtester", included: false },
+  { name: "Strategy Backtester", included: false },
+  { name: "Algo Strategy Builder", included: false },
 ];
 
 export const GET_EDGE_FEATURES = () => [
   { name: "Everything in Foundation", included: true },
   { name: "AI Trade Journal", included: true },
-  { name: "AI Market Scanner & Alerting", included: true },
-  { name: "AI Strategy Backtester", included: true },
+  { name: "AI Market Scanner", included: true },
+  { name: "Strategy Backtester", included: true },
   { name: "Daily Live Trading Sessions", included: true },
   { name: "Bi-weekly Group Mentorship", included: true },
-  { name: "AI Daily Briefing", included: true },
   { name: "Advanced Strategy Modules", included: true },
 ];
 
 export const GET_FLOOR_FEATURES = () => [
   { name: "Everything in Edge", included: true },
+  { name: "Algo Strategy Builder", included: true },
   { name: "Monthly 1-to-1 Mentorship (45m)", included: true },
   { name: "Custom AI Portfolio Analysis", included: true },
   { name: "Private Small-Group Masterclasses", included: true },

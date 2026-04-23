@@ -1,0 +1,25 @@
+---
+title: "Why Your Backtest is Lying to You"
+excerpt: "The dangers of overfitting and look-ahead bias in automated strategy development."
+category: "Education"
+publishedAt: "2026-04-26T09:00:00Z"
+readingTime: 8
+author: "Pete Currey"
+---
+
+# Why Your Backtest is Lying to You
+
+You've spent weeks building a strategy. You run it through a backtest, and the equity curve is a beautiful, straight line going up at 45 degrees. You've found the holy grail, right?
+
+Wrong. You've likely just discovered **Overfitting**.
+
+## The Overfitting Trap
+Overfitting (or curve-fitting) happens when you tweak your strategy parameters so specifically to fit historical data that the strategy loses all its predictive power. You aren't finding a market edge; you are just memorizing the noise of the past.
+
+## Look-Ahead Bias
+Another common backtesting error is look-ahead bias — where your algorithm 'knows' the future price because of how the data is handled. For example, using the 'close' of a daily candle to enter a trade at the 'open' of that same day. It sounds obvious, but in complex code, these errors are surprisingly common.
+
+## The Solution: Walk-Forward Analysis
+Professional quants use Walk-Forward testing. They optimize on one set of data (In-Sample) and then test it on a completely different, unseen set (Out-of-Sample). If the strategy fails on the unseen data, the 'edge' was just a statistical fluke.
+
+Before you risk a single pound on an automated strategy, ask yourself: Is this edge robust, or is it just a perfectly tailored suit for a ghost?

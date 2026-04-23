@@ -8,18 +8,18 @@ interface HreflangTag {
   href: string;
 }
 
-export const REGIONS: Record<Region, { code: string; label: string; flag: string; currency: string }> = {
-  uk: { code: "en-GB", label: "UK", flag: "🇬🇧", currency: "GBP" },
-  au: { code: "en-AU", label: "Australia", flag: "🇦🇺", currency: "AUD" },
-  us: { code: "en-US", label: "United States", flag: "🇺🇸", currency: "USD" },
-  sg: { code: "en-SG", label: "Singapore", flag: "🇸🇬", currency: "SGD" },
-  hk: { code: "en-HK", label: "Hong Kong", flag: "🇭🇰", currency: "HKD" },
-  ca: { code: "en-CA", label: "Canada", flag: "🇨🇦", currency: "CAD" },
-  de: { code: "de-DE", label: "Germany", flag: "🇩🇪", currency: "EUR" },
-  ae: { code: "en-AE", label: "UAE", flag: "🇦🇪", currency: "AED" },
-  in: { code: "en-IN", label: "India", flag: "🇮🇳", currency: "INR" },
-  my: { code: "en-MY", label: "Malaysia", flag: "🇲🇾", currency: "MYR" },
-  ph: { code: "en-PH", label: "Philippines", flag: "🇵🇭", currency: "PHP" },
+export const REGIONS: Record<Region, { code: string; label: string; demonym: string; flag: string; currency: string }> = {
+  uk: { code: "en-GB", label: "UK", demonym: "UK", flag: "🇬🇧", currency: "GBP" },
+  au: { code: "en-AU", label: "Australia", demonym: "Australian", flag: "🇦🇺", currency: "AUD" },
+  us: { code: "en-US", label: "United States", demonym: "US", flag: "🇺🇸", currency: "USD" },
+  sg: { code: "en-SG", label: "Singapore", demonym: "Singaporean", flag: "🇸🇬", currency: "SGD" },
+  hk: { code: "en-HK", label: "Hong Kong", demonym: "Hong Kong", flag: "🇭🇰", currency: "HKD" },
+  ca: { code: "en-CA", label: "Canada", demonym: "Canadian", flag: "🇨🇦", currency: "CAD" },
+  de: { code: "de-DE", label: "Germany", demonym: "German", flag: "🇩🇪", currency: "EUR" },
+  ae: { code: "en-AE", label: "UAE", demonym: "UAE", flag: "🇦🇪", currency: "AED" },
+  in: { code: "en-IN", label: "India", demonym: "Indian", flag: "🇮🇳", currency: "INR" },
+  my: { code: "en-MY", label: "Malaysia", demonym: "Malaysian", flag: "🇲🇾", currency: "MYR" },
+  ph: { code: "en-PH", label: "Philippines", demonym: "Filipino", flag: "🇵🇭", currency: "PHP" },
 };
 
 /**

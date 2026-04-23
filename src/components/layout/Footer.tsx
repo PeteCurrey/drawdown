@@ -158,10 +158,16 @@ export function Footer() {
                 <span className="text-[9px] font-mono text-text-tertiary uppercase tracking-widest mr-2 border-r border-border-slate/50 pr-4">Market Region</span>
                 {[
                   { id: "uk", flag: "🇬🇧", label: "UK", href: "/" },
-                  { id: "au", flag: "🇦🇺", label: "AU", href: "/au" },
                   { id: "us", flag: "🇺🇸", label: "US", href: "/us" },
+                  { id: "au", flag: "🇦🇺", label: "AU", href: "/au" },
+                  { id: "ca", flag: "🇨🇦", label: "CA", href: "/ca" },
+                  { id: "de", flag: "🇩🇪", label: "DE", href: "/de" },
+                  { id: "ae", flag: "🇦🇪", label: "AE", href: "/ae" },
                   { id: "sg", flag: "🇸🇬", label: "SG", href: "/sg" },
                   { id: "hk", flag: "🇭🇰", label: "HK", href: "/hk" },
+                  { id: "in", flag: "🇮🇳", label: "IN", href: "/in" },
+                  { id: "my", flag: "🇲🇾", label: "MY", href: "/my" },
+                  { id: "ph", flag: "🇵🇭", label: "PH", href: "/ph" },
                 ].map((reg) => (
                   <Link 
                     key={reg.id}

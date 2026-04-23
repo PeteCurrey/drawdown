@@ -461,6 +461,43 @@ export const LEARN_TOPICS: LearnTopic[] = [
         answer: "It is much more precise for identifying where large orders are sitting. Standard volume tells you 'when' the market was active; Volume Profile tells you 'at what price' they were active."
       }
     ]
+  },
+  {
+    slug: "algorithmic-trading",
+    title: "Algorithmic Trading",
+    description: "The complete guide to institutional-grade automated trading. Learn to codify your edge and remove biological emotion from your execution.",
+    category: "Strategy",
+    heroImage: "/images/learn/algo-trading.jpg",
+    metaTitle: "Algorithmic Trading Guide | Systematic Edge & Automation | Drawdown",
+    metaDescription: "Master algorithmic trading. From Pine Script to Python, learn how to build, backtest, and deploy automated trading systems with institutional discipline.",
+    content: [
+      {
+        heading: "The Systematic Edge",
+        text: "Algorithmic trading (or 'algo trading') is the process of using computer programmes to follow a defined set of instructions for placing a trade. In a world where 70% of market volume is driven by machines, manual traders are at a significant disadvantage unless they understand how these systems operate. The primary benefit of an algorithm isn't speed — it's the total removal of human emotion, fear, and greed from the execution process."
+      },
+      {
+        heading: "Pine Script vs. Python: Choosing Your Stack",
+        text: "For most retail traders, the journey begins with Pine Script (TradingView). It is highly accessible and integrated directly into the charts. However, for those seeking institutional-grade data analysis, machine learning integration, and complex multi-asset execution, Python is the industry standard. At Drawdown, we teach you how to prototype in Pine and scale into Python using libraries like Pandas, Backtrader, and TA-Lib."
+      },
+      {
+        heading: "The Backtesting Trap: Avoiding Overfitting",
+        text: "The biggest mistake new algo traders make is 'curve-fitting' — tweaking a strategy until it looks perfect in the past, only for it to fail miserably in live markets. We teach you 'Walk-Forward Analysis' and 'Monte Carlo Simulations' to ensure your strategy has a true predictive edge and isn't just a result of coincidental historical data."
+      },
+      {
+        heading: "Connecting the API: Going Live",
+        text: "Moving from a backtest to a live execution bot requires an API (Application Programming Interface). This allows your script to communicate directly with your broker's execution engine. We provide frameworks for connecting to major ECN brokers and prop firm platforms, ensuring your trades are executed with minimal latency and slippage."
+      }
+    ],
+    faqs: [
+      {
+        question: "Do I need to be a professional coder to start?",
+        answer: "No. With modern tools like Pine Script and the Drawdown Algo Builder, you can codify basic strategies with zero prior programming experience. We focus on 'Logic First, Syntax Second'."
+      },
+      {
+        question: "Is algorithmic trading better than manual trading?",
+        answer: "It is more consistent. An algorithm will never skip a trade because it's 'scared' or over-leverage because it's 'angry'. It simply executes the math."
+      }
+    ]
   }
 ];
 

@@ -1,4 +1,4 @@
-import { LucideIcon, LayoutDashboard, Calculator, Scan, History, LineChart, Mail } from "lucide-react";
+import { LucideIcon, LayoutDashboard, Calculator, Scan, History, LineChart, Mail, Terminal, Cpu, Code } from "lucide-react";
 
 export interface ToolContent {
   slug: string;
@@ -405,7 +405,7 @@ When you draw a level on the Daily, it appears on the 15-minute chart automatica
     }
   },
   {
-    slug: "ai-daily-briefing",
+    slug: "intelligence-hub",
     title: "Expert Intelligence Hub",
     tagline: "Information is liquidity.",
     description: "Direct access to the same market intel that Pete uses to trade. High-impact macro data, institutional bias, and technical zones delivered daily.",
@@ -472,6 +472,86 @@ Most traders get caught on the wrong side of the trend because they are trying t
 The London Open is a different beast to the New York Overlap. The players are different, the liquidity is different, and the objectives are different.
 
 We provide **Session-Specific Briefings**. We tell you what the "Theme" is for the specifically upcoming session. We identify the specific news "Spoilers" that could invalidate your technical setups, giving you the confidence to either aggressive execute or safely sit on your hands. Knowledge is the only true protection against market volatility.
+      `
+    }
+  },
+  {
+    slug: "algo-strategy-builder",
+    title: "Algo Strategy Builder",
+    tagline: "Trade the Machine. Without the Code.",
+    description: "Convert your trading rules into professional-grade Pine Script or Python. Describe your edge, get the code, and validate your hypothesis instantly.",
+    icon: Terminal,
+    sections: {
+      peteTake: "The market is a math problem. This tool helps you write the solution without spending 3 years learning Python. It's about codifying your discipline.",
+      problem: {
+        title: "The Barrier to Systematization",
+        content: "Most retail traders have a 'feel' for the market but no way to prove it. Manual backtesting takes hundreds of hours and is plagued by human bias and hindsight. To compete with institutional algorithms, you need to codify your logic, but learning to code is a massive barrier to entry."
+      },
+      howItWorks: {
+        steps: [
+          {
+            title: "Define Your Logic",
+            description: "Describe your entry and exit rules in plain English. For example: 'Buy when RSI is below 30 and price is at the 200 EMA'."
+          },
+          {
+            title: "AI Translation",
+            description: "Our institutional-grade AI translates your natural language into optimized, bug-free Pine Script (v5) or Python."
+          },
+          {
+            title: "Instant Validation",
+            description: "Copy your code directly into TradingView or our Backtester to see the equity curve and drawdown metrics immediately."
+          },
+          {
+            title: "Refine & Scale",
+            description: "Adjust your parameters and export your code to a live execution bot via API."
+          }
+        ]
+      },
+      features: {
+        title: "Institutional Specs",
+        items: [
+          {
+            title: "Pine Script v5",
+            description: "Full support for the latest TradingView features, including alerts and complex strategy modules."
+          },
+          {
+            title: "Python Backtrader",
+            description: "Export clean, production-ready Python code for professional-grade quantitative analysis."
+          },
+          {
+            title: "Logic Error Detection",
+            description: "AI-powered detection of look-ahead bias and illogical rule sets before you waste capital."
+          }
+        ]
+      },
+      whoItIsFor: {
+        title: "Built for Quants-in-Training",
+        content: "Whether you are a discretionary trader looking to automate a simple rule-set, or an aspiring quant building complex models, this tool bridges the gap from idea to execution."
+      },
+      aiPowered: {
+        title: "Edge Engine v2.0",
+        content: "Utilizing custom-trained models on 10+ years of institutional code patterns to ensure your strategies are built on a solid foundation."
+      }
+    },
+    deepDive: {
+      title: "The Mechanics of Automation",
+      content: `
+## Stop Chasing, Start Systematising
+
+Algorithmic trading is not about speed; it's about consistency. By codifying your rules, you remove the biological impulses that sabotage most retail traders.
+
+### Why Logic Beats Emotion
+
+A human trader sees a setup and hesitates because they lost the last trade. An algorithm sees a setup and executes because the math dictates it. This disconnect from the P&L is the single greatest edge an institutional trader has.
+
+### The Architecture of a Strategy
+
+A robust automated strategy requires three core components:
+* **Entry Signal**: The precise mathematical trigger for a trade.
+* **Exit Logic**: Both the take-profit target and the invalidation (stop loss) level.
+* **Position Sizing**: The dynamic calculation of risk based on current account equity.
+
+Our builder handles all three, ensuring your code isn't just an indicator, but a complete trading system.
       `
     }
   }

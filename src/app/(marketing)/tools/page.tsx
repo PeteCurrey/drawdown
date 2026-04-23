@@ -21,7 +21,7 @@ const toolCategories = [
     description: "Institutional-grade logging with sentiment analysis and performance attribution.",
     icon: LayoutDashboard,
     features: ["Automated Logging", "Sentiment Tracking", "Visual Equity Curve"],
-    tier: "Foundation",
+    tier: "Edge+",
     color: "accent"
   },
   {
@@ -39,7 +39,7 @@ const toolCategories = [
     description: "Cross-asset technical consensus & price action relative to key macro levels.",
     icon: Zap,
     features: ["Macro Correlation", "Technical Consensus", "Multi-Timeframe Scan"],
-    tier: "Edge",
+    tier: "Edge+",
     color: "premium"
   },
   {
@@ -48,7 +48,7 @@ const toolCategories = [
     description: "Validate your edge on decade-long historical data with sub-millisecond precision.",
     icon: History,
     features: ["Optimization Engine", "Monte Carlo Sim", "Detailed Stats"],
-    tier: "Edge",
+    tier: "Edge+",
     color: "accent"
   },
   {
@@ -57,17 +57,26 @@ const toolCategories = [
     description: "High-performance charting with internal institutional indicators and logic.",
     icon: BarChart3,
     features: ["Custom Indicators", "Drawing Tools", "Multi-Device Sync"],
-    tier: "Foundation",
+    tier: "Foundation+",
     color: "accent"
   },
   {
-    slug: "ai-daily-briefing",
+    slug: "intelligence-hub",
     title: "Intelligence Hub",
     description: "Expert market takes and analysis delivered to your dashboard every session.",
     icon: Cpu,
     features: ["Pete's Daily Bias", "Macro Calendar", "Sentiment Gauge"],
-    tier: "Free",
+    tier: "Foundation+",
     color: "warning"
+  },
+  {
+    slug: "algo-strategy-builder",
+    title: "Algo Strategy Builder",
+    description: "Describe your strategy. Get the code. AI-powered conversion of rules to Pine Script or Python.",
+    icon: Cpu,
+    features: ["Natural Language Input", "Pine Script v5", "Python Backtrader"],
+    tier: "Floor",
+    color: "premium"
   }
 ];
 
@@ -123,8 +132,9 @@ export default function ToolsMarketingPage() {
                        <span className={cn(
                           "text-[8px] font-mono uppercase tracking-widest px-2 py-1 border",
                           tool.tier === "Free" ? "text-profit border-profit/30" : 
-                          tool.tier === "Foundation" ? "text-accent border-accent/30" : 
-                          "text-premium border-premium/30"
+                          tool.tier === "Foundation+" ? "text-accent border-accent/30" : 
+                          tool.tier === "Edge+" ? "text-premium border-premium/30" :
+                          "text-accent border-accent/30 bg-accent/5"
                        )}>
                           {tool.tier}
                        </span>

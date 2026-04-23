@@ -40,6 +40,9 @@ export function PhasePreview() {
     return () => ctx.revert();
   }, []);
 
+  const { region } = useRegion();
+  const regionPrefix = region === "uk" ? "" : `/${region}`;
+
   return (
     <section ref={containerRef} className="relative z-0 py-32 md:py-48 bg-background-primary border-y border-border-slate min-h-[600px]">
       <div className="container mx-auto px-6">
@@ -113,7 +116,7 @@ export function PhasePreview() {
 
         <div className="mt-20 text-center">
           <Link 
-            href="/learn" 
+            href={`${regionPrefix}/courses`} 
             className="inline-flex items-center gap-4 text-sm font-bold uppercase tracking-widest text-text-primary hover:text-accent transition-colors"
           >
             Explore Full Curriculum

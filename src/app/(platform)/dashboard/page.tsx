@@ -7,12 +7,15 @@ import {
   Play, 
   ArrowUpRight, 
   TrendingUp, 
-  AlertCircle
+  AlertCircle,
+  Zap
 } from "lucide-react";
 import { BrokerWidget } from "@/components/market/BrokerWidget";
 import { NewsWidget } from "@/components/market/NewsWidget";
 import { MarketConsensus } from "@/components/market/MarketConsensus";
 import { EmotionalPnL } from "@/components/dashboard/EmotionalPnL";
+import { WatchlistManager } from "@/components/dashboard/WatchlistManager";
+import { AlertCentre } from "@/components/dashboard/AlertCentre";
 import { createClient } from "@/lib/supabase/client";
 import Link from "next/link";
 
@@ -191,6 +194,36 @@ export default function DashboardPage() {
           <NewsWidget />
         </div>
       </div>
+
+      {/* Execution Hub: Watchlist & Alerts */}
+      <section className="space-y-6">
+        <h4 className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary">Execution Hub</h4>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 h-[500px]">
+          <div className="lg:col-span-1">
+            <WatchlistManager />
+          </div>
+          <div className="lg:col-span-1">
+            <AlertCentre />
+          </div>
+          <div className="lg:col-span-1 p-8 bg-background-elevated border border-border-slate flex flex-col justify-center items-center text-center space-y-6">
+             <div className="w-16 h-16 bg-accent/10 border border-accent/20 rounded-full flex items-center justify-center">
+                <Zap className="w-8 h-8 text-accent animate-pulse" />
+             </div>
+             <div className="space-y-2">
+                <h5 className="text-sm font-display font-bold uppercase">Ready to Automate?</h5>
+                <p className="text-xs text-text-tertiary leading-relaxed px-4">
+                   Use the Algo Strategy Builder to convert your manual rules into professional code.
+                </p>
+             </div>
+             <Link 
+               href="/dashboard/tools/algo-builder"
+               className="px-8 py-3 bg-accent text-background-primary text-[10px] font-bold uppercase tracking-widest hover:bg-accent-hover transition-colors"
+             >
+                Open Algo Builder
+             </Link>
+          </div>
+        </div>
+      </section>
 
       {/* Achievements at Bottom */}
       <div className="space-y-6">

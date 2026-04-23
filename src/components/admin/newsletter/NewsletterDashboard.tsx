@@ -63,10 +63,10 @@ export function NewsletterDashboardClient({ data }: NewsletterDashboardProps) {
         alert(data.message);
         window.location.reload();
       } else {
-        alert("Broadcast failed: " + data.error);
+        alert("Broadcast failed: " + (data.error || resp.statusText));
       }
-    } catch (err) {
-      console.error(err);
+    } catch (err: any) {
+      alert("Network error: " + err.message);
     } finally {
       setIsGenerating(false);
     }

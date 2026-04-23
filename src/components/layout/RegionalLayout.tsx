@@ -6,6 +6,7 @@ import { Region, REGIONS } from "@/lib/seo/hreflang";
 interface RegionalContextType {
   region: Region;
   label: string;
+  flag: string;
   currency: string;
   currencySymbol: string;
   regulatoryBody: string;
@@ -92,6 +93,7 @@ export function RegionalProvider({ region, children }: RegionalProviderProps) {
   const value: RegionalContextType = {
     region,
     label: regionInfo.label,
+    flag: regionInfo.flag,
     currency: regionInfo.currency,
     currencySymbol: metadata.currencySymbol || "$",
     regulatoryBody: metadata.regulatoryBody || "",

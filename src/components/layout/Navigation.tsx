@@ -82,7 +82,7 @@ const marketTools = [
 import { useRegion } from "@/components/layout/RegionalLayout";
 
 export function Navigation() {
-  const { label, region } = useRegion();
+  const { label, region, flag } = useRegion();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeMegaMenu, setActiveMegaMenu] = useState<string | null>(null);
@@ -151,10 +151,16 @@ export function Navigation() {
         )}
       >
         <div className="container mx-auto px-6 flex justify-between items-center">
-          {/* Logo */}
-          <Link href={region === 'uk' ? "/" : `/${region}`} className="text-2xl font-display font-extrabold tracking-widest-xl uppercase hover:opacity-80 transition-opacity flex items-end">
-            Drawdown<span className="text-accent ml-0.5">.</span>
-          </Link>
+          {/* Logo & Flag */}
+          <div className="flex items-center gap-4">
+            <Link href={region === 'uk' ? "/" : `/${region}`} className="text-2xl font-display font-extrabold tracking-widest-xl uppercase hover:opacity-80 transition-opacity flex items-end">
+              Drawdown<span className="text-accent ml-0.5">.</span>
+            </Link>
+            <div className="flex items-center gap-2 px-2.5 py-1 bg-background-elevated border border-border-slate/50 rounded-full group cursor-default">
+              <span className="text-sm grayscale group-hover:grayscale-0 transition-all duration-500 leading-none">{flag}</span>
+              <span className="text-[9px] font-mono font-bold text-text-tertiary uppercase tracking-widest border-l border-border-slate/50 pl-2">{label}</span>
+            </div>
+          </div>
 
           {/* Desktop Links */}
           <div className="hidden lg:flex items-center gap-10">
@@ -466,6 +472,12 @@ export function Navigation() {
         )}
       >
         <div className="flex flex-col h-full pt-32 px-6 pb-12">
+          {/* Regional Indicator */}
+          <div className="flex items-center gap-3 mb-10 px-4 py-2 bg-background-elevated border border-border-slate/50 w-fit">
+            <span className="text-xl">{flag}</span>
+            <span className="text-xs font-mono font-bold text-text-tertiary uppercase tracking-widest">{label}</span>
+          </div>
+
           <div className="flex flex-col gap-8">
             {navLinks.map((link) => (
               <Link

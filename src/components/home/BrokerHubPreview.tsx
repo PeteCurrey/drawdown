@@ -45,16 +45,29 @@ const ukBrokers = [
   }
 ];
 
+interface Broker {
+  id: string;
+  name: string;
+  logoUrl?: string;
+  logoPlaceholder: string;
+  bestFor: string;
+  stat: string;
+  features: string[];
+  color: string;
+  regulation: string;
+}
+
 export function BrokerHubPreview() {
   const { region } = useRegion();
 
-  const getRegionalData = () => {
+  const getRegionalData = (): { brokers: Broker[], link: string } => {
     switch (region) {
       case "au":
         return {
           brokers: brokersAu.slice(0, 3).map(b => ({
             id: b.slug,
             name: b.name,
+            logoUrl: b.name.includes("Pepperstone") ? "https://upload.wikimedia.org/wikipedia/en/2/2a/Pepperstone_Logo.svg" : b.name.includes("IG") ? "https://upload.wikimedia.org/wikipedia/commons/d/d7/IG_Group_logo.svg" : undefined,
             logoPlaceholder: b.name.substring(0, 2).toUpperCase(),
             bestFor: b.bestFor,
             stat: b.minDeposit === "$0" ? "No Minimum Deposit" : `Min Deposit: ${b.minDeposit}`,
@@ -69,6 +82,7 @@ export function BrokerHubPreview() {
           brokers: brokersUs.slice(0, 3).map(b => ({
             id: b.slug,
             name: b.name,
+            logoUrl: b.name.includes("OANDA") ? "https://upload.wikimedia.org/wikipedia/commons/2/29/Oanda_logo.svg" : undefined,
             logoPlaceholder: b.name.substring(0, 2).toUpperCase(),
             bestFor: b.bestFor,
             stat: b.maxLeverage,
@@ -83,6 +97,7 @@ export function BrokerHubPreview() {
           brokers: brokersSg.slice(0, 3).map(b => ({
             id: b.slug,
             name: b.name,
+            logoUrl: b.name.includes("IG") ? "https://upload.wikimedia.org/wikipedia/commons/d/d7/IG_Group_logo.svg" : undefined,
             logoPlaceholder: b.name.substring(0, 2).toUpperCase(),
             bestFor: b.bestFor,
             stat: b.maxLeverage,
@@ -97,6 +112,7 @@ export function BrokerHubPreview() {
           brokers: brokersHk.slice(0, 3).map(b => ({
             id: b.slug,
             name: b.name,
+            logoUrl: b.name.includes("IG") ? "https://upload.wikimedia.org/wikipedia/commons/d/d7/IG_Group_logo.svg" : undefined,
             logoPlaceholder: b.name.substring(0, 2).toUpperCase(),
             bestFor: b.bestFor,
             stat: b.maxLeverage,
@@ -108,7 +124,7 @@ export function BrokerHubPreview() {
         };
       default:
         return {
-          brokers: ukBrokers,
+          brokers: ukBrokers as Broker[],
           link: "/brokers"
         };
     }

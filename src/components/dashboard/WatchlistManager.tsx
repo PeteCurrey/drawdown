@@ -42,7 +42,7 @@ export const WatchlistManager = () => {
   const fetchActiveAlerts = async () => {
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return;
-    const { data } = await supabase.from('price_alerts').select('*').eq('user_id', user.id).eq('is_active', true);
+    const { data } = await (supabase as any).from('price_alerts').select('*').eq('user_id', user.id).eq('is_active', true);
     setActiveAlerts(data || []);
   };
 
@@ -52,7 +52,7 @@ export const WatchlistManager = () => {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) return;
 
-      const { data, error } = await supabase
+      const { data, error } = await (supabase as any)
         .from('user_watchlists')
         .select('*')
         .eq('user_id', user.id)
@@ -98,7 +98,7 @@ export const WatchlistManager = () => {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) return;
 
-      const { error } = await supabase
+      const { error } = await (supabase as any)
         .from('price_alerts')
         .insert({
           user_id: user.id,
@@ -125,7 +125,7 @@ export const WatchlistManager = () => {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) return;
 
-      const { error } = await supabase
+      const { error } = await (supabase as any)
         .from('user_watchlists')
         .insert({
           user_id: user.id,
@@ -147,7 +147,7 @@ export const WatchlistManager = () => {
   const removeFromWatchlist = async (id: string) => {
     triggerHaptic();
     try {
-      const { error } = await supabase
+      const { error } = await (supabase as any)
         .from('user_watchlists')
         .delete()
         .eq('id', id);
@@ -162,7 +162,7 @@ export const WatchlistManager = () => {
   const toggleAlerts = async (item: WatchlistItem) => {
     triggerHaptic();
     try {
-      const { error } = await supabase
+      const { error } = await (supabase as any)
         .from('user_watchlists')
         .update({ alerts_enabled: !item.alerts_enabled })
         .eq('id', item.id);

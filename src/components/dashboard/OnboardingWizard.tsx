@@ -31,23 +31,34 @@ export function OnboardingWizard({ userProfile, onComplete }: Props) {
   const supabase = createClient();
 
   const handleComplete = async () => {
+    console.log("Onboarding initialization started...");
     setIsSubmitting(true);
-    const { error } = await (supabase as any)
-      .from('profiles')
-      .update({
-        experience_level: experience,
-        country: country,
-        currency: currency,
-        preferred_markets: markets,
-        has_onboarded: true,
-        updated_at: new Date().toISOString()
-      })
-      .eq('id', userProfile.id);
+    
+    try {
+      const { error } = await (supabase as any)
+        .from('profiles')
+        .update({
+          experience_level: experience,
+          country: country,
+          currency: currency,
+          preferred_markets: markets,
+          has_onboarded: true,
+          updated_at: new Date().toISOString()
+        })
+        .eq('id', userProfile.id);
 
-    if (!error) {
+      if (error) {
+        console.error("Onboarding database update error:", error);
+      } else {
+        console.log("Onboarding database update successful.");
+      }
+    } catch (err) {
+      console.error("Onboarding unexpected error:", err);
+    } finally {
+      console.log("Closing onboarding wizard.");
       onComplete();
+      setIsSubmitting(false);
     }
-    setIsSubmitting(false);
   };
 
   const steps = [
@@ -65,7 +76,7 @@ export function OnboardingWizard({ userProfile, onComplete }: Props) {
         <div className="w-full md:w-80 bg-background-elevated p-10 border-r border-border-slate space-y-12">
            <div className="space-y-1">
              <span className="text-[10px] font-mono text-accent uppercase tracking-widest">// DEPLOYMENT</span>
-             <h2 className="text-2xl font-display font-black uppercase">Initialization</h2>
+             <h2 className="text-xl font-display font-black uppercase">Initialization</h2>
            </div>
            
            <div className="space-y-8">

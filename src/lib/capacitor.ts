@@ -48,7 +48,7 @@ export const setupPushNotifications = async (userId: string) => {
     const { createClient } = await import('@/lib/supabase/client');
     const supabase = createClient();
     
-    const { error } = await supabase
+    const { error } = await (supabase as any)
       .from('push_tokens')
       .upsert({
         user_id: userId,

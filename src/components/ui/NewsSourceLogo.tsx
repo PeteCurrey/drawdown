@@ -58,25 +58,24 @@ export function NewsSourceLogo({
   return (
     <div className={cn("inline-flex items-center gap-2", className)}>
       <div className={cn(
-        "relative flex-shrink-0 bg-white rounded-sm overflow-hidden flex items-center justify-center p-0.5", 
+        "relative flex-shrink-0 overflow-hidden flex items-center justify-center", 
         sizeClasses[size]
       )}>
         <img 
-          src={`https://www.google.com/s2/favicons?domain=${mapping.domain}&sz=128`}
+          src={`https://unavatar.io/${mapping.domain}?fallback=https://www.google.com/s2/favicons?domain=${mapping.domain}&sz=128`}
           alt={source}
           className={cn(
             "w-full h-full object-contain transition-all duration-500",
-            monochrome ? "grayscale brightness-0 dark:invert opacity-60 contrast-125" : "opacity-100"
+            monochrome ? "grayscale opacity-50 hover:opacity-100 dark:invert" : "opacity-100"
           )}
           onError={(e) => {
-            // Fallback to text if image fails
             const target = e.target as HTMLImageElement;
             target.style.display = 'none';
             const parent = target.parentElement;
-            if (parent) {
+            if (parent && !parent.querySelector('.fallback-text')) {
               const fallback = document.createElement('span');
               fallback.innerText = source.charAt(0);
-              fallback.className = 'text-[10px] font-mono font-bold text-accent';
+              fallback.className = 'fallback-text text-[10px] font-mono font-bold text-accent';
               parent.appendChild(fallback);
             }
           }}

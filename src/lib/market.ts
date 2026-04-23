@@ -388,7 +388,11 @@ function createInternalSupabase() {
 }
 
 function generateMockPrice(symbol: string): MarketPrice {
-  const base = symbol.includes("USD") ? 1.2 : symbol.includes("BTC") ? 65000 : 150;
+  const isUSD = symbol.includes("USD") || symbol.includes("/");
+  const isCrypto = symbol.includes("BTC") || symbol.includes("ETH") || symbol.includes("XRP");
+  const isGold = symbol.includes("XAU");
+  
+  const base = isGold ? 2300 : isCrypto ? (symbol.includes("BTC") ? 65000 : symbol.includes("ETH") ? 3500 : 0.6) : isUSD ? 1.2 : 150;
   const change = (Math.random() - 0.5) * 2;
   return {
     symbol,

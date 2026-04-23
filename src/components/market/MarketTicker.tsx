@@ -11,7 +11,7 @@ interface TickerItem {
 }
 
 const DEFAULT_SYMBOLS = [
-  "FTSE 100", "S&P 500", "DOW 30", "NASDAQ", "GBPUSD", "EURUSD", "USDJPY", "BTCUSD", "ETHUSD", "XAUUSD", "WTI Oil"
+  "FTSE", "SPX", "IXIC", "XAU/USD", "GBP/USD", "EUR/USD", "USD/JPY", "BTC/USD", "ETH/USD", "XRP/USD"
 ];
 
 export function MarketTicker() {

@@ -27,7 +27,7 @@ export default function ProfilePage() {
       <div className="container mx-auto px-6 max-w-5xl">
         <div className="mb-12">
           <span className="text-accent font-mono text-[10px] uppercase tracking-widest block mb-4 uppercase tracking-[0.2em]">// ACCOUNT COMMAND</span>
-          <h1 className="text-4xl md:text-6xl font-display font-bold uppercase text-text-primary">Profile.</h1>
+          <h1 className="  font-display font-bold uppercase text-text-primary">Profile.</h1>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">

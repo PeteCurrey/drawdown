@@ -138,7 +138,7 @@ export default async function HowToPage({ params }: Props) {
         {/* Final CTA */}
         <section className="bg-accent p-16 text-center space-y-8 relative overflow-hidden group">
           <div className="relative z-10 space-y-6">
-            <h2 className="text-4xl md:text-6xl font-display font-bold text-background-primary uppercase tracking-tighter">
+            <h2 className="  font-display font-bold text-background-primary uppercase tracking-tighter">
               Ready to trade the truth?
             </h2>
             <p className="text-background-primary/80 font-mono text-sm max-w-md mx-auto">

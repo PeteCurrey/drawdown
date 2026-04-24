@@ -23,7 +23,7 @@ export default function CourseLibraryPage() {
       <div className="container mx-auto px-6">
         <div className="mb-20">
           <span className="text-accent font-mono text-[10px] uppercase tracking-widest block mb-4">// CURRICULUM</span>
-          <h1 className="text-4xl md:text-6xl font-display font-bold uppercase mb-4">The Truth.</h1>
+          <h1 className="  font-display font-bold uppercase mb-4">The Truth.</h1>
           <p className="text-text-secondary max-w-xl">
             Six phases of increasing complexity. No shortcuts. Each phase must be mastered before moving to the next.
           </p>

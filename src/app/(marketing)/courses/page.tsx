@@ -142,7 +142,7 @@ export default function CoursesPage() {
         <div className="mt-48 p-12 md:p-24 bg-background-elevated border border-border-slate text-center relative overflow-hidden group">
           <div className="absolute top-0 left-0 w-full h-1 bg-accent" />
           <div className="max-w-2xl mx-auto space-y-10 relative z-10">
-            <h2 className="text-4xl md:text-6xl font-display font-bold uppercase">Ready to learn properly?</h2>
+            <h2 className="  font-display font-bold uppercase">Ready to learn properly?</h2>
             <p className="text-text-secondary text-lg leading-relaxed">
               Start with Phase 1 — completely free. No credit card required. Experience why Drawdown is the choice for disciplined traders.
             </p>

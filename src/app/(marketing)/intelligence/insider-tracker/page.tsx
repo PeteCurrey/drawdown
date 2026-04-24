@@ -117,7 +117,7 @@ export default async function InsiderTrackerLanding() {
 
         {/* CTA Section */}
         <section className="bg-accent p-12 md:p-20 text-center space-y-8">
-          <h2 className="text-4xl md:text-6xl font-display font-bold text-background-primary uppercase leading-tight">
+          <h2 className="  font-display font-bold text-background-primary uppercase leading-tight">
             Stop Guessing. <br /> Follow the Truth.
           </h2>
           <p className="text-background-primary/80 font-mono text-sm max-w-xl mx-auto uppercase tracking-wider">

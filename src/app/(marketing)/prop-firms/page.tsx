@@ -61,7 +61,7 @@ export default function PropFirmsHubPage() {
                <span className="text-[10px] font-mono uppercase tracking-[0.3em]">INSTITUTIONAL CAPITAL</span>
             </div>
             
-            <h1 className="text-6xl md:text-8xl font-display font-extrabold uppercase tracking-tight leading-[0.9]">
+            <h1 className="  font-display font-extrabold uppercase tracking-tight leading-[0.9]">
               Don't Fund Another <br />
               <span className="text-loss underline decoration-loss/20">Failed Challenge.</span>
             </h1>

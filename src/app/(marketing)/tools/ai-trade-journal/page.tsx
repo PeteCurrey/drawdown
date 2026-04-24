@@ -16,7 +16,7 @@ export default function AITradeJournalPage() {
              <div className="w-8 h-[1px] bg-accent" />
           </div>
           
-          <h1 className="text-6xl md:text-8xl font-display font-extrabold uppercase tracking-tight leading-[0.9] mb-8">
+          <h1 className="  font-display font-extrabold uppercase tracking-tight leading-[0.9] mb-8">
             Data Beats <br />
             <span className="text-text-primary">Dopamine.</span>
           </h1>
@@ -164,7 +164,7 @@ export default function AITradeJournalPage() {
       {/* Bottom CTA / Pricing Hook */}
       <section className="py-32 bg-background-primary">
          <div className="container mx-auto px-6 text-center max-w-3xl">
-            <h2 className="text-5xl md:text-7xl font-display font-black uppercase tracking-tighter leading-none mb-6">
+            <h2 className="  font-display font-black uppercase tracking-tighter leading-none mb-6">
                Find Your Edge Today.
             </h2>
             <p className="text-xl text-text-secondary leading-relaxed mb-10">

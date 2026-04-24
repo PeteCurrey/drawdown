@@ -22,7 +22,7 @@ export default function MarketsHubPage() {
                <span className="text-[10px] font-mono uppercase tracking-[0.3em] font-bold">LIVE INTELLIGENCE</span>
             </div>
             
-            <h1 className="text-5xl md:text-7xl font-display font-extrabold uppercase tracking-tight leading-[0.9]">
+            <h1 className="  font-display font-extrabold uppercase tracking-tight leading-[0.9]">
               Market Intelligence <br />
               <span className="text-text-primary">Command Center.</span>
             </h1>

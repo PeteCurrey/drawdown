@@ -92,7 +92,7 @@ export default function ToolsMarketingPage() {
                <span className="text-[10px] font-mono uppercase tracking-[0.3em]">PROPRIETARY_TECH_STACK</span>
             </div>
             
-            <h1 className="text-6xl md:text-8xl font-display font-extrabold uppercase tracking-tight leading-[0.9]">
+            <h1 className="  font-display font-extrabold uppercase tracking-tight leading-[0.9]">
               The <span className="text-accent underline decoration-accent/20">Alpha</span> Stack.
             </h1>
             
@@ -279,7 +279,7 @@ export default function ToolsMarketingPage() {
       <section className="py-32 bg-background-primary border-t border-border-slate">
          <div className="container mx-auto px-6 text-center">
             <div className="max-w-3xl mx-auto space-y-10">
-               <h2 className="text-5xl md:text-7xl font-display font-black uppercase tracking-tighter leading-none">
+               <h2 className="  font-display font-black uppercase tracking-tighter leading-none">
                   Ready to stop <span className="text-loss">guessing?</span>
                </h2>
                <p className="text-xl text-text-secondary leading-relaxed uppercase tracking-widest font-mono text-sm opacity-60">

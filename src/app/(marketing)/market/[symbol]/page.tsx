@@ -37,7 +37,7 @@ export default async function MarketPairPage({ params }: Props) {
                   Real-time synchronization active
                 </span>
               </div>
-              <h1 className="text-5xl md:text-7xl font-display font-black uppercase tracking-tighter leading-none">
+              <h1 className="  font-display font-black uppercase tracking-tighter leading-none">
                 {symbol}.
               </h1>
               <p className="text-text-secondary text-lg max-w-2xl leading-relaxed">

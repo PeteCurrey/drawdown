@@ -144,7 +144,7 @@ export default async function PhasePage({ params }: PageProps) {
             <div className="space-y-4">
                <p className="text-[10px] font-mono uppercase tracking-[0.3em] text-text-tertiary mb-2">Platform Lead</p>
                <div className="group">
-                 <p className="text-5xl md:text-7xl font-serif italic text-text-primary tracking-wide opacity-80 group-hover:opacity-100 transition-opacity select-none" style={{ fontFamily: 'serif' }}>
+                 <p className="  font-serif italic text-text-primary tracking-wide opacity-80 group-hover:opacity-100 transition-opacity select-none" style={{ fontFamily: 'serif' }}>
                    Pete Currey
                  </p>
                </div>

@@ -40,7 +40,7 @@ export default function PropSurvivalKitPage() {
                   <span className="text-[10px] font-mono uppercase tracking-[0.3em] font-bold">DIGITAL DOWNLOAD • INSTANT ACCESS</span>
                </div>
                
-               <h1 className="text-5xl md:text-7xl font-display font-extrabold uppercase tracking-tight leading-[0.95]">
+               <h1 className="  font-display font-extrabold uppercase tracking-tight leading-[0.95]">
                  The Architecture of a <br />
                  <span className="text-text-primary">Passed Challenge.</span>
                </h1>

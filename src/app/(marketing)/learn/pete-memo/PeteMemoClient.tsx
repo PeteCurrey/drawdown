@@ -27,7 +27,7 @@ export default function PeteMemoPage({ tier }: Props) {
                 </span>
               )}
             </div>
-            <h1 className="text-5xl md:text-7xl font-display font-extrabold uppercase tracking-tight leading-[0.9]">
+            <h1 className="  font-display font-extrabold uppercase tracking-tight leading-[0.9]">
               Sunday Prep: <br />
               <span className="text-text-primary">Navigating the <br /> Liquidity Trap.</span>
             </h1>

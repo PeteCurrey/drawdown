@@ -208,7 +208,7 @@ export default function PropFirmQuizPage() {
                 <span className="text-[10px] font-mono tracking-widest uppercase text-text-tertiary font-bold block mb-4">
                   // OPTIMAL MATCH DETERMINED
                 </span>
-                <h1 className={cn("text-6xl md:text-8xl font-display font-black uppercase mb-4", firmData.color)}>
+                <h1 className={cn("  font-display font-black uppercase mb-4", firmData.color)}>
                   {firmData.name}
                 </h1>
                 <p className="text-xl text-text-secondary mb-8">

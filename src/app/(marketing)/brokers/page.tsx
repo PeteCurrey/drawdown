@@ -57,7 +57,7 @@ export default function BrokerComparisonHub() {
                <span className="text-[10px] font-mono uppercase tracking-[0.3em] font-bold">VERIFIED LIQUIDITY PROVIDERS</span>
             </div>
             
-            <h1 className="text-6xl md:text-8xl font-display font-extrabold uppercase tracking-tight leading-[0.9]">
+            <h1 className="  font-display font-extrabold uppercase tracking-tight leading-[0.9]">
               Trade With Brokers <br />
               <span className="text-text-primary">We Actually Use.</span>
             </h1>
@@ -128,7 +128,7 @@ export default function BrokerComparisonHub() {
                         </div>
 
                         {/* Stats Grid */}
-                        <div className="w-full lg:w-2/4 grid grid-cols-2 gap-y-6 gap-x-8">
+                        <div className="w-full lg:w-2/4 grid grid-cols-1 md:grid-cols-2 gap-y-6 gap-x-8">
                            <div>
                               <p className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary mb-1">Execution & Spreads</p>
                               <p className="text-sm font-bold text-text-primary">{broker.spreads}</p>

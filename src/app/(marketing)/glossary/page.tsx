@@ -26,7 +26,7 @@ export default function GlossaryIndex() {
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="text-center mb-16 space-y-6">
-          <h1 className="text-5xl md:text-7xl font-display font-bold uppercase tracking-tighter">Trading Glossary</h1>
+          <h1 className="  font-display font-bold uppercase tracking-tighter">Trading Glossary</h1>
           <p className="text-text-tertiary font-mono text-sm uppercase tracking-[0.3em] max-w-2xl mx-auto">
             Every essential term, concept, and piece of jargon explained with honest, UK-focused clarity.
           </p>

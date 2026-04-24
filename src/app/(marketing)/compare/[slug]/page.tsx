@@ -54,7 +54,7 @@ export default async function ComparisonPage({ params }: Props) {
           <div className="text-accent font-mono text-xs tracking-[0.2em] uppercase">
             {page.eyebrow}
           </div>
-          <h1 className="text-4xl md:text-6xl font-display font-bold leading-tight uppercase tracking-tighter">
+          <h1 className="  font-display font-bold leading-tight uppercase tracking-tighter">
             {page.title}
           </h1>
         </div>

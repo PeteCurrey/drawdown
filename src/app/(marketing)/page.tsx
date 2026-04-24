@@ -89,7 +89,7 @@ export default function Home() {
                 <span className="text-[10px] font-mono tracking-widest uppercase text-text-tertiary">
                   PLATFORM INTEGRITY
                 </span>
-                <h2 className="text-4xl md:text-6xl font-display font-bold uppercase leading-tight">
+                <h2 className="  font-display font-bold uppercase leading-tight">
                   No Lambos. <br /> No Beach Photos. <br /> <span className="text-accent underline decoration-accent/30 underline-offset-8">Just Data.</span>
                 </h2>
                 <div className="space-y-4 max-w-xl mx-auto lg:mx-0">

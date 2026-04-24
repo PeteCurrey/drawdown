@@ -21,7 +21,7 @@ function SuccessContent() {
         <p className="text-[10px] font-mono uppercase tracking-widest text-accent font-bold mb-4">
           // PURCHASE CONFIRMED
         </p>
-        <h1 className="text-4xl md:text-6xl font-display font-black uppercase tracking-tight leading-none mb-6">
+        <h1 className="  font-display font-black uppercase tracking-tight leading-none mb-6">
           You're Armed. <br />
           <span className="text-text-primary">Now Execute.</span>
         </h1>

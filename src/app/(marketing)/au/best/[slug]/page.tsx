@@ -56,7 +56,7 @@ export default async function AustralianBestOfPage({ params }: Props) {
             <div className="text-accent font-mono text-xs tracking-[0.2em] uppercase">
               {page.eyebrow}
             </div>
-            <h1 className="text-4xl md:text-6xl font-display font-bold leading-tight uppercase">
+            <h1 className="  font-display font-bold leading-tight uppercase">
               {page.title}
             </h1>
             <div className="flex items-center space-x-4 text-xs font-mono text-text-tertiary border-y border-border-slate py-4">

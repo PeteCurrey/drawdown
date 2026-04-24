@@ -82,25 +82,27 @@ export default function FtmoVsThe5ersPage() {
             <p className="text-sm text-text-tertiary font-mono uppercase tracking-widest">Verified as of April 2026 — always confirm with the firm's official T&Cs</p>
           </div>
 
-          <div className="border border-border-slate overflow-hidden">
-            {/* Table Header */}
-            <div className="grid grid-cols-3 bg-background-surface border-b border-border-slate">
-              <div className="p-4 text-[10px] font-mono uppercase tracking-widest text-text-tertiary">Rule</div>
-              <div className="p-4 text-sm font-display font-bold uppercase text-text-primary text-center border-l border-border-slate">FTMO</div>
-              <div className="p-4 text-sm font-display font-bold uppercase text-accent text-center border-l border-border-slate">The5%ers</div>
-            </div>
-
-            {comparisonRows.map((row, i) => (
-              <div key={i} className={`grid grid-cols-3 border-b border-border-slate/40 last:border-none ${row.highlight === "5ers" ? "bg-accent/3" : ""}`}>
-                <div className="p-4 text-xs font-mono uppercase tracking-wider text-text-tertiary">{row.label}</div>
-                <div className={`p-4 text-xs font-bold text-center border-l border-border-slate/40 ${row.highlight === "ftmo" ? "text-text-primary" : "text-text-secondary"}`}>
-                  {row.ftmo}
-                </div>
-                <div className={`p-4 text-xs font-bold text-center border-l border-border-slate/40 ${row.highlight === "5ers" ? "text-accent" : "text-text-secondary"}`}>
-                  {row.the5ers}
-                </div>
+          <div className="overflow-x-auto -mx-6 px-6 md:mx-0 md:px-0">
+            <div className="border border-border-slate overflow-hidden min-w-[600px] md:min-w-0">
+              {/* Table Header */}
+              <div className="grid grid-cols-3 bg-background-surface border-b border-border-slate">
+                <div className="p-4 text-[10px] font-mono uppercase tracking-widest text-text-tertiary">Rule</div>
+                <div className="p-4 text-sm font-display font-bold uppercase text-text-primary text-center border-l border-border-slate">FTMO</div>
+                <div className="p-4 text-sm font-display font-bold uppercase text-accent text-center border-l border-border-slate">The5%ers</div>
               </div>
-            ))}
+
+              {comparisonRows.map((row, i) => (
+                <div key={i} className={`grid grid-cols-3 border-b border-border-slate/40 last:border-none ${row.highlight === "5ers" ? "bg-accent/3" : ""}`}>
+                  <div className="p-4 text-xs font-mono uppercase tracking-wider text-text-tertiary">{row.label}</div>
+                  <div className={`p-4 text-xs font-bold text-center border-l border-border-slate/40 ${row.highlight === "ftmo" ? "text-text-primary" : "text-text-secondary"}`}>
+                    {row.ftmo}
+                  </div>
+                  <div className={`p-4 text-xs font-bold text-center border-l border-border-slate/40 ${row.highlight === "5ers" ? "text-accent" : "text-text-secondary"}`}>
+                    {row.the5ers}
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>

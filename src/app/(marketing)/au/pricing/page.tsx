@@ -108,7 +108,7 @@ function PricingContent() {
           <span className="text-accent font-mono tracking-widest uppercase text-sm mb-4 block">
             AUSTRALIA PRICING // AUD
           </span>
-          <h1 className="text-5xl md:text-7xl font-display font-bold uppercase mb-8">
+          <h1 className="  font-display font-bold uppercase mb-8">
             Choose Your <span className="text-accent">Truth.</span>
           </h1>
           <p className="text-text-secondary max-w-2xl mx-auto mb-12">

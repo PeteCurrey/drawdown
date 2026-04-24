@@ -64,7 +64,7 @@ export default async function AnalysisPostPage({ params }: Props) {
               )}
             </div>
 
-            <h1 className="text-4xl md:text-6xl font-display font-extrabold uppercase leading-tight mb-8">
+            <h1 className="  font-display font-extrabold uppercase leading-tight mb-8">
               {post.title}
             </h1>
             

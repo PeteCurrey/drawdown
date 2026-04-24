@@ -74,7 +74,7 @@ export default function BestBrokerForGoldPage() {
                <span className="text-[10px] font-mono uppercase tracking-[0.3em] font-bold">REAL CAPITAL TESTED</span>
             </div>
             
-            <h1 className="text-5xl md:text-7xl font-display font-extrabold uppercase tracking-tight leading-[0.9]">
+            <h1 className="  font-display font-extrabold uppercase tracking-tight leading-[0.9]">
               Best Brokers for <br />
               <span className="text-text-primary">Gold Trading</span> <br />
               <span className="text-text-secondary text-3xl md:text-4xl">(XAU/USD) 2026</span>

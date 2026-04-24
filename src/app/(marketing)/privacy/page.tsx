@@ -13,7 +13,7 @@ export default function PrivacyPage() {
         <Breadcrumbs />
         
         <header className="mb-16">
-          <h1 className="text-4xl md:text-6xl font-display font-bold uppercase mb-4">Privacy Policy</h1>
+          <h1 className="  font-display font-bold uppercase mb-4">Privacy Policy</h1>
           <p className="text-text-tertiary font-mono uppercase tracking-widest text-xs">Last Updated: April 14, 2026</p>
         </header>
 

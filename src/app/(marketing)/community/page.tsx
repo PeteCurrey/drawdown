@@ -10,7 +10,7 @@ export default function CommunityPage() {
       <div className="container mx-auto px-6 max-w-6xl">
         <div className="mb-12">
           <span className="text-accent font-mono text-[10px] uppercase tracking-widest block mb-4">// THE FLOOR</span>
-          <h1 className="text-4xl md:text-6xl font-display font-bold uppercase">Community.</h1>
+          <h1 className="  font-display font-bold uppercase">Community.</h1>
           <p className="text-sm font-mono text-text-tertiary mt-4 max-w-2xl">
             A curated network of serious traders. Share analysis, discuss setups, and elevate your edge alongside peers and mentors.
           </p>

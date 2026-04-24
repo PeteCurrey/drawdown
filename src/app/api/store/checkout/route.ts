@@ -11,12 +11,7 @@ const PRODUCTS: Record<string, { name: string; amount: number; currency: string;
   },
 };
 
-const BUMP_PRODUCTS: Record<string, { price_id_env: string; name: string }> = {
-  "edge-30day": {
-    price_id_env: "STRIPE_PRICE_EDGE_MONTHLY_GBP",
-    name: "30 Days Drawdown Edge Access",
-  },
-};
+
 
 export async function POST(request: NextRequest) {
   const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
@@ -36,7 +31,7 @@ export async function POST(request: NextRequest) {
     const origin = request.headers.get("origin") ?? process.env.NEXT_PUBLIC_APP_URL;
 
     // Build line items — one-time product
-    const lineItems: Stripe.Checkout.SessionCreateParams.LineItem[] = [
+    const lineItems = [
       {
         price_data: {
           currency: product.currency,
@@ -65,7 +60,7 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    const sessionParams: Stripe.Checkout.SessionCreateParams = {
+    const session = await stripe.checkout.sessions.create({
       line_items: lineItems,
       mode: "payment",
       success_url: `${origin}/store/prop-survival-kit/success?session_id={CHECKOUT_SESSION_ID}`,
@@ -75,15 +70,11 @@ export async function POST(request: NextRequest) {
         user_id: user?.id ?? "guest",
         include_bump: String(includeBump),
       },
-      // Collect email if guest
       ...(user?.email
         ? { customer_email: user.email }
         : { customer_creation: "always" }),
-      // Allow promotion codes
       allow_promotion_codes: true,
-    };
-
-    const session = await stripe.checkout.sessions.create(sessionParams);
+    } as any);
 
     return NextResponse.json({ url: session.url });
   } catch (err: any) {

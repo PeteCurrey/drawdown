@@ -71,7 +71,7 @@ export default function PropFirmsHubPage() {
             </p>
 
             <div className="flex flex-wrap gap-4 pt-4">
-              <Link href="/prop-firms/quiz" className="px-8 py-4 bg-accent text-background-primary font-bold uppercase tracking-widest text-xs hover:bg-accent-hover transition-colors flex items-center gap-2">
+              <Link href="/prop-firms/quiz" className="px-8 py-4 bg-accent text-[#08090D] font-bold uppercase tracking-widest text-xs hover:bg-accent-hover transition-colors flex items-center gap-2">
                 Find Your Match <ArrowRight className="w-4 h-4" />
               </Link>
               <a href="#comparison" className="px-8 py-4 border border-border-slate hover:border-accent text-text-primary font-bold uppercase tracking-widest text-xs transition-colors">
@@ -96,7 +96,7 @@ export default function PropFirmsHubPage() {
                      The Math <br className="hidden md:block"/> Is Against You.
                   </h2>
                   <p className="text-lg text-text-secondary leading-relaxed">
-                     <span className="text-white font-bold">90% of traders fail their evaluations</span> because they trade the firm's rules, not their own edge. They over-leverage to hit arbitrary profit targets and blow their accounts on day three.
+                     <span className="text-text-primary font-bold">90% of traders fail their evaluations</span> because they trade the firm's rules, not their own edge. They over-leverage to hit arbitrary profit targets and blow their accounts on day three.
                   </p>
                   <p className="text-lg text-text-secondary leading-relaxed mt-4">
                      We break down the math, the latency, and the hidden restrictions so you can survive the drawdown and secure the funding.
@@ -105,12 +105,12 @@ export default function PropFirmsHubPage() {
                <div className="grid grid-cols-2 gap-4">
                   <div className="p-6 bg-background-primary border border-border-slate">
                      <Crosshair className="w-6 h-6 text-loss mb-4" />
-                     <div className="text-3xl font-display font-black text-white mb-1">90%</div>
+                     <div className="text-3xl font-display font-black text-text-primary mb-1">90%</div>
                      <p className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary">Failure Rate</p>
                   </div>
                   <div className="p-6 bg-background-primary border border-border-slate">
                      <Target className="w-6 h-6 text-accent mb-4" />
-                     <div className="text-3xl font-display font-black text-white mb-1">&lt;1%</div>
+                     <div className="text-3xl font-display font-black text-text-primary mb-1">&lt;1%</div>
                      <p className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary">Reach First Payout</p>
                   </div>
                </div>
@@ -134,20 +134,20 @@ export default function PropFirmsHubPage() {
                {propFirms.map((firm) => (
                   <div key={firm.id} className="bg-background-surface border border-border-slate hover:border-accent/30 transition-all p-8 relative flex flex-col group">
                      {firm.badge && (
-                        <div className="absolute top-0 right-0 bg-accent text-background-primary px-3 py-1 text-[10px] font-bold uppercase tracking-widest">
+                        <div className="absolute top-0 right-0 bg-accent text-[#08090D] px-3 py-1 text-[10px] font-bold uppercase tracking-widest">
                            {firm.badge}
                         </div>
                      )}
                      
-                     <div className="mb-8">
-                        <h3 className="text-3xl font-display font-black uppercase mb-2 text-white">{firm.name}</h3>
+                      <div className="mb-8">
+                        <h3 className="text-3xl font-display font-black uppercase mb-2 text-text-primary">{firm.name}</h3>
                         <p className="text-sm text-text-secondary h-10">{firm.description}</p>
                      </div>
 
                      <div className="space-y-4 mb-8 flex-grow">
                         <div className="flex justify-between items-center py-2 border-b border-border-slate/50">
                            <span className="text-xs font-mono uppercase text-text-tertiary">Profit Target</span>
-                           <span className="text-sm font-bold text-white">{firm.profitTarget}</span>
+                           <span className="text-sm font-bold text-text-primary">{firm.profitTarget}</span>
                         </div>
                         <div className="flex justify-between items-center py-2 border-b border-border-slate/50">
                            <span className="text-xs font-mono uppercase text-text-tertiary">Max Drawdown</span>
@@ -159,7 +159,7 @@ export default function PropFirmsHubPage() {
                         </div>
                         <div className="flex justify-between items-center py-2 border-b border-border-slate/50">
                            <span className="text-xs font-mono uppercase text-text-tertiary">News Trading</span>
-                           <span className="text-sm font-bold text-white">{firm.newsTrading}</span>
+                           <span className="text-sm font-bold text-text-primary">{firm.newsTrading}</span>
                         </div>
                         <div className="flex justify-between items-center py-2 border-b border-border-slate/50">
                            <span className="text-xs font-mono uppercase text-text-tertiary">Payout Split</span>
@@ -170,13 +170,13 @@ export default function PropFirmsHubPage() {
                      <div className="space-y-3">
                         <Link 
                            href={`/api/market/prop-firms/redirect?id=${firm.id}&source=prop_hub`}
-                           className="w-full py-4 border border-accent hover:bg-accent hover:text-background-primary transition-premium text-center text-[10px] font-bold uppercase tracking-widest block"
+                           className="w-full py-4 border border-accent hover:bg-accent hover:text-[#08090D] transition-premium text-center text-[10px] font-bold uppercase tracking-widest block"
                         >
                            Start Challenge
                         </Link>
                         <Link 
                            href={firm.link}
-                           className="w-full py-3 text-center text-[10px] font-bold uppercase tracking-widest text-text-secondary hover:text-white transition-colors block"
+                           className="w-full py-3 text-center text-[10px] font-bold uppercase tracking-widest text-text-secondary hover:text-text-primary transition-colors block"
                         >
                            Read Deep Dive Review
                         </Link>
@@ -198,9 +198,9 @@ export default function PropFirmsHubPage() {
                   Pass Your Next Evaluation.
                </h2>
                <p className="text-lg text-text-secondary leading-relaxed mb-10">
-                  Get the exact <span className="text-white font-bold">£14 Survival Kit</span> our desk uses to manage challenge risk. Includes the Max-Drawdown Calculator Sheet, 30-Day Evaluation Checklist, and "The Tilt Protocol".
+                  Get the exact <span className="text-text-primary font-bold">£14 Survival Kit</span> our desk uses to manage challenge risk. Includes the Max-Drawdown Calculator Sheet, 30-Day Evaluation Checklist, and "The Tilt Protocol".
                </p>
-               <Link href="/store/prop-survival-kit" className="inline-flex items-center gap-4 bg-accent text-background-primary px-10 py-5 font-display font-black uppercase tracking-[0.2em] text-sm hover:translate-y-[-2px] transition-all shadow-xl shadow-accent/20">
+               <Link href="/store/prop-survival-kit" className="inline-flex items-center gap-4 bg-accent text-[#08090D] px-10 py-5 font-display font-black uppercase tracking-[0.2em] text-sm hover:translate-y-[-2px] transition-all shadow-xl shadow-accent/20">
                   Get The Playbook — £14
                </Link>
             </div>

@@ -25,7 +25,7 @@ export default function FtmoVsThe5ersPage() {
       <section className="relative pt-32 pb-16 bg-background-primary overflow-hidden border-b border-border-slate">
         <div className="container mx-auto px-6 relative z-10 max-w-5xl">
           <div className="flex items-center gap-3 text-text-tertiary text-[10px] font-mono uppercase tracking-widest mb-6">
-            <Link href="/prop-firms" className="hover:text-white transition-colors">Prop Firms</Link>
+            <Link href="/prop-firms" className="hover:text-text-primary transition-colors">Prop Firms</Link>
             <span>/</span>
             <span className="text-accent">FTMO vs The5%ers</span>
           </div>
@@ -34,7 +34,7 @@ export default function FtmoVsThe5ersPage() {
             <div className="space-y-6">
               <h1 className="text-5xl md:text-6xl font-display font-extrabold uppercase tracking-tight leading-[0.9]">
                 FTMO vs <br />
-                <span className="text-white">The5%ers.</span> <br />
+                <span className="text-text-primary">The5%ers.</span> <br />
                 <span className="text-text-secondary text-2xl">The Data-Driven <br className="hidden md:block"/>Verdict (2026).</span>
               </h1>
               <p className="text-lg text-text-secondary leading-relaxed max-w-xl font-medium">
@@ -49,23 +49,23 @@ export default function FtmoVsThe5ersPage() {
                 <div className="flex items-start gap-3 mb-4">
                   <CheckCircle2 className="w-5 h-5 text-profit shrink-0 mt-0.5" />
                   <div>
-                    <p className="text-sm font-bold text-white uppercase tracking-wider mb-1">Choose FTMO if:</p>
+                    <p className="text-sm font-bold text-text-primary uppercase tracking-wider mb-1">Choose FTMO if:</p>
                     <p className="text-xs text-text-secondary">You are an aggressive intraday trader or scalper who wants an established, high-trust firm with a large funded account ceiling.</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
                   <CheckCircle2 className="w-5 h-5 text-accent shrink-0 mt-0.5" />
                   <div>
-                    <p className="text-sm font-bold text-white uppercase tracking-wider mb-1">Choose The5%ers if:</p>
+                    <p className="text-sm font-bold text-text-primary uppercase tracking-wider mb-1">Choose The5%ers if:</p>
                     <p className="text-xs text-text-secondary">You are a consistent swing trader who wants an aggressive scaling plan and are willing to work toward a 100% profit split.</p>
                   </div>
                 </div>
               </div>
               <div className="flex gap-4 pt-4 border-t border-border-slate/50">
-                <a href="/api/market/prop-firms/redirect?id=ftmo&source=comparison" className="flex-1 py-3 bg-accent text-background-primary text-center text-[10px] font-bold uppercase tracking-widest hover:bg-accent-hover transition-colors">
+                <a href="/api/market/prop-firms/redirect?id=ftmo&source=comparison" className="flex-1 py-3 bg-accent text-[#08090D] text-center text-[10px] font-bold uppercase tracking-widest hover:bg-accent-hover transition-colors">
                   Start FTMO
                 </a>
-                <a href="/api/market/prop-firms/redirect?id=the5ers&source=comparison" className="flex-1 py-3 border border-border-slate hover:border-white text-text-primary text-center text-[10px] font-bold uppercase tracking-widest transition-colors">
+                <a href="/api/market/prop-firms/redirect?id=the5ers&source=comparison" className="flex-1 py-3 border border-border-slate hover:border-text-primary text-text-primary text-center text-[10px] font-bold uppercase tracking-widest transition-colors">
                   Join The5%ers
                 </a>
               </div>
@@ -86,14 +86,14 @@ export default function FtmoVsThe5ersPage() {
             {/* Table Header */}
             <div className="grid grid-cols-3 bg-background-surface border-b border-border-slate">
               <div className="p-4 text-[10px] font-mono uppercase tracking-widest text-text-tertiary">Rule</div>
-              <div className="p-4 text-sm font-display font-bold uppercase text-white text-center border-l border-border-slate">FTMO</div>
+              <div className="p-4 text-sm font-display font-bold uppercase text-text-primary text-center border-l border-border-slate">FTMO</div>
               <div className="p-4 text-sm font-display font-bold uppercase text-accent text-center border-l border-border-slate">The5%ers</div>
             </div>
 
             {comparisonRows.map((row, i) => (
               <div key={i} className={`grid grid-cols-3 border-b border-border-slate/40 last:border-none ${row.highlight === "5ers" ? "bg-accent/3" : ""}`}>
                 <div className="p-4 text-xs font-mono uppercase tracking-wider text-text-tertiary">{row.label}</div>
-                <div className={`p-4 text-xs font-bold text-center border-l border-border-slate/40 ${row.highlight === "ftmo" ? "text-white" : "text-text-secondary"}`}>
+                <div className={`p-4 text-xs font-bold text-center border-l border-border-slate/40 ${row.highlight === "ftmo" ? "text-text-primary" : "text-text-secondary"}`}>
                   {row.ftmo}
                 </div>
                 <div className={`p-4 text-xs font-bold text-center border-l border-border-slate/40 ${row.highlight === "5ers" ? "text-accent" : "text-text-secondary"}`}>
@@ -134,10 +134,10 @@ export default function FtmoVsThe5ersPage() {
             Ready to choose? Start your evaluation today.
           </p>
           <div className="flex gap-4 w-full md:w-auto">
-            <a href="/api/market/prop-firms/redirect?id=ftmo&source=comparison_sticky" className="flex-1 md:flex-none px-8 py-3 bg-accent text-background-primary text-center text-xs font-bold uppercase tracking-widest hover:bg-accent-hover transition-colors">
+            <a href="/api/market/prop-firms/redirect?id=ftmo&source=comparison_sticky" className="flex-1 md:flex-none px-8 py-3 bg-accent text-[#08090D] text-center text-xs font-bold uppercase tracking-widest hover:bg-accent-hover transition-colors">
               Start FTMO Challenge
             </a>
-            <a href="/api/market/prop-firms/redirect?id=the5ers&source=comparison_sticky" className="flex-1 md:flex-none px-8 py-3 border border-border-slate hover:border-white text-text-primary text-center text-xs font-bold uppercase tracking-widest transition-colors">
+            <a href="/api/market/prop-firms/redirect?id=the5ers&source=comparison_sticky" className="flex-1 md:flex-none px-8 py-3 border border-border-slate hover:border-text-primary text-text-primary text-center text-xs font-bold uppercase tracking-widest transition-colors">
               Get Funded with The5%ers
             </a>
           </div>

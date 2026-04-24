@@ -64,7 +64,7 @@ export default function BestBrokerForGoldPage() {
         <div className="container mx-auto px-6 relative z-10 max-w-4xl">
           <div className="space-y-6">
             <div className="flex items-center gap-3 text-text-tertiary text-[10px] font-mono uppercase tracking-widest">
-              <Link href="/brokers" className="hover:text-white transition-colors">Brokers</Link>
+              <Link href="/brokers" className="hover:text-text-primary transition-colors">Brokers</Link>
               <span>/</span>
               <span className="text-accent">Best for Gold Trading</span>
             </div>
@@ -76,7 +76,7 @@ export default function BestBrokerForGoldPage() {
             
             <h1 className="text-5xl md:text-7xl font-display font-extrabold uppercase tracking-tight leading-[0.9]">
               Best Brokers for <br />
-              <span className="text-white">Gold Trading</span> <br />
+              <span className="text-text-primary">Gold Trading</span> <br />
               <span className="text-text-secondary text-3xl md:text-4xl">(XAU/USD) 2026</span>
             </h1>
             
@@ -88,8 +88,8 @@ export default function BestBrokerForGoldPage() {
             <div className="bg-background-surface border border-accent/30 p-6 max-w-xl">
               <p className="text-[10px] font-mono uppercase tracking-widest text-accent font-bold mb-3">// QUICK VERDICT</p>
               <p className="text-sm text-text-secondary leading-relaxed">
-                <span className="text-white font-bold">Best overall:</span> Pepperstone (Raw spreads from 0.0 pips, FCA regulated).<br />
-                <span className="text-white font-bold">Best for UK traders:</span> IG Markets (Tax-free spread betting on XAU/USD).
+                <span className="text-text-primary font-bold">Best overall:</span> Pepperstone (Raw spreads from 0.0 pips, FCA regulated).<br />
+                <span className="text-text-primary font-bold">Best for UK traders:</span> IG Markets (Tax-free spread betting on XAU/USD).
               </p>
             </div>
           </div>
@@ -138,17 +138,17 @@ export default function BestBrokerForGoldPage() {
                         <img src={broker.logoUrl} alt={broker.name} className="h-full object-contain max-w-[100px]" />
                       </div>
                     ) : (
-                      <div className="w-14 h-14 flex items-center justify-center font-display font-black text-white text-2xl mb-4" style={{ backgroundColor: broker.color }}>
+                      <div className="w-14 h-14 flex items-center justify-center font-display font-black text-text-primary text-2xl mb-4" style={{ backgroundColor: broker.color }}>
                         {broker.logoFallback}
                       </div>
                     )}
-                    <h3 className="text-2xl font-display font-bold uppercase text-white mb-2">{broker.name}</h3>
+                    <h3 className="text-2xl font-display font-bold uppercase text-text-primary mb-2">{broker.name}</h3>
                     <p className="text-xs text-accent font-bold uppercase tracking-wider mb-4">{broker.verdict}</p>
                     <div className="flex items-center gap-1">
                       {[...Array(5)].map((_, i) => (
                         <Star key={i} className={`w-4 h-4 ${i < Math.round(broker.score / 2) ? "text-warning fill-warning" : "text-border-slate"}`} />
                       ))}
-                      <span className="text-sm font-bold text-white ml-2">{broker.score}/10</span>
+                      <span className="text-sm font-bold text-text-primary ml-2">{broker.score}/10</span>
                     </div>
                   </div>
 
@@ -156,15 +156,15 @@ export default function BestBrokerForGoldPage() {
                   <div className="flex-grow grid grid-cols-2 gap-y-5 gap-x-8">
                     <div>
                       <p className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary mb-1">XAU/USD Spread</p>
-                      <p className="text-sm font-bold text-white">{broker.spread}</p>
+                      <p className="text-sm font-bold text-text-primary">{broker.spread}</p>
                     </div>
                     <div>
                       <p className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary mb-1">Commission</p>
-                      <p className="text-sm font-bold text-white">{broker.commission}</p>
+                      <p className="text-sm font-bold text-text-primary">{broker.commission}</p>
                     </div>
                     <div>
                       <p className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary mb-1">Platforms</p>
-                      <p className="text-sm font-bold text-white">{broker.platforms}</p>
+                      <p className="text-sm font-bold text-text-primary">{broker.platforms}</p>
                     </div>
                     <div>
                       <p className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary mb-1">Regulation</p>
@@ -184,10 +184,10 @@ export default function BestBrokerForGoldPage() {
 
                   {/* Right: CTA */}
                   <div className="w-full lg:w-48 shrink-0 flex flex-col gap-3 justify-center">
-                    <a href={broker.link} target="_blank" rel="nofollow" className="w-full py-4 bg-accent text-background-primary text-center text-xs font-bold uppercase tracking-widest hover:bg-accent-hover transition-colors">
+                    <a href={broker.link} target="_blank" rel="nofollow" className="w-full py-4 bg-accent text-[#08090D] text-center text-xs font-bold uppercase tracking-widest hover:bg-accent-hover transition-colors">
                       Open Account
                     </a>
-                    <Link href={`/brokers/${broker.id}-review`} className="w-full py-4 border border-border-slate text-text-secondary text-center text-xs font-bold uppercase tracking-widest hover:border-white hover:text-white transition-colors">
+                    <Link href={`/brokers/${broker.id}-review`} className="w-full py-4 border border-border-slate text-text-secondary text-center text-xs font-bold uppercase tracking-widest hover:border-text-primary hover:text-text-primary transition-colors">
                       Full Review
                     </Link>
                   </div>

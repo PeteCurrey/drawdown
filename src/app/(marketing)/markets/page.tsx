@@ -24,7 +24,7 @@ export default function MarketsHubPage() {
             
             <h1 className="text-5xl md:text-7xl font-display font-extrabold uppercase tracking-tight leading-[0.9]">
               Market Intelligence <br />
-              <span className="text-white">Command Center.</span>
+              <span className="text-text-primary">Command Center.</span>
             </h1>
             
             <p className="text-lg md:text-xl text-text-secondary leading-relaxed max-w-3xl font-medium">
@@ -49,7 +49,7 @@ export default function MarketsHubPage() {
                 <AlertTriangle className="w-4 h-4" />
                 <span className="text-[10px] font-mono uppercase tracking-widest font-bold">Current Macro Bias</span>
               </div>
-              <h2 className="text-2xl font-display font-bold text-white mb-2">Risk-Off: DXY Strength Dominating</h2>
+              <h2 className="text-2xl font-display font-bold text-text-primary mb-2">Risk-Off: DXY Strength Dominating</h2>
               <p className="text-sm text-text-secondary max-w-2xl leading-relaxed">
                 "Yields are pushing higher ahead of Friday's PCE print. Expect equity weakness and USD pairs to drift lower. Do not try to catch falling knives in tech today." — Pete C.
               </p>
@@ -69,7 +69,7 @@ export default function MarketsHubPage() {
                {/* Forex Block */}
                <div className="bg-background-surface border border-border-slate flex flex-col group hover:border-accent/30 transition-all">
                   <div className="p-6 border-b border-border-slate/50 flex justify-between items-center">
-                     <h3 className="text-xl font-display font-bold uppercase text-white flex items-center gap-2">
+                     <h3 className="text-xl font-display font-bold uppercase text-text-primary flex items-center gap-2">
                         <Globe className="w-5 h-5 text-accent" /> Forex
                      </h3>
                      <span className="text-[10px] font-mono text-profit uppercase tracking-widest bg-profit/10 px-2 py-1">High Volatility</span>
@@ -80,11 +80,11 @@ export default function MarketsHubPage() {
                         <p className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary mb-3">Top Movers (24H)</p>
                         <div className="space-y-3">
                            <div className="flex justify-between items-center">
-                              <span className="text-sm font-bold text-white">EUR/USD</span>
+                              <span className="text-sm font-bold text-text-primary">EUR/USD</span>
                               <span className="text-sm text-loss font-mono">-0.45%</span>
                            </div>
                            <div className="flex justify-between items-center">
-                              <span className="text-sm font-bold text-white">USD/JPY</span>
+                              <span className="text-sm font-bold text-text-primary">USD/JPY</span>
                               <span className="text-sm text-profit font-mono">+0.82%</span>
                            </div>
                         </div>
@@ -95,7 +95,7 @@ export default function MarketsHubPage() {
                         <div className="flex items-start gap-3">
                            <Clock className="w-4 h-4 text-warning shrink-0 mt-0.5" />
                            <div>
-                              <p className="text-sm text-white font-bold">13:30 GMT - US Core CPI</p>
+                              <p className="text-sm text-text-primary font-bold">13:30 GMT - US Core CPI</p>
                               <p className="text-xs text-text-secondary mt-1">Expected: 0.3% | Prev: 0.4%</p>
                            </div>
                         </div>
@@ -105,7 +105,7 @@ export default function MarketsHubPage() {
                   {/* Affiliate Monetization */}
                   <div className="p-6 bg-background-primary border-t border-border-slate/50">
                      <p className="text-xs text-text-secondary mb-3">Trading Forex?</p>
-                     <a href="/api/market/brokers/redirect?id=pepperstone" className="flex items-center justify-between text-sm font-bold text-white hover:text-accent transition-colors">
+                     <a href="/api/market/brokers/redirect?id=pepperstone" className="flex items-center justify-between text-sm font-bold text-text-primary hover:text-accent transition-colors">
                         Trade on Pepperstone (Raw Spreads) <ArrowRight className="w-4 h-4" />
                      </a>
                   </div>
@@ -114,7 +114,7 @@ export default function MarketsHubPage() {
                {/* Indices Block */}
                <div className="bg-background-surface border border-border-slate flex flex-col group hover:border-accent/30 transition-all">
                   <div className="p-6 border-b border-border-slate/50 flex justify-between items-center">
-                     <h3 className="text-xl font-display font-bold uppercase text-white flex items-center gap-2">
+                     <h3 className="text-xl font-display font-bold uppercase text-text-primary flex items-center gap-2">
                         <BarChart3 className="w-5 h-5 text-accent" /> Indices
                      </h3>
                      <span className="text-[10px] font-mono text-loss uppercase tracking-widest bg-loss/10 px-2 py-1">Risk-Off</span>
@@ -125,11 +125,11 @@ export default function MarketsHubPage() {
                         <p className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary mb-3">Market Proximity</p>
                         <div className="space-y-3">
                            <div className="flex justify-between items-center">
-                              <span className="text-sm font-bold text-white">S&P 500</span>
+                              <span className="text-sm font-bold text-text-primary">S&P 500</span>
                               <span className="text-xs text-text-secondary">Testing 50 SMA</span>
                            </div>
                            <div className="flex justify-between items-center">
-                              <span className="text-sm font-bold text-white">NASDAQ 100</span>
+                              <span className="text-sm font-bold text-text-primary">NASDAQ 100</span>
                               <span className="text-xs text-loss">Broke Support</span>
                            </div>
                         </div>
@@ -137,7 +137,7 @@ export default function MarketsHubPage() {
 
                      <div className="pt-6 border-t border-border-slate/50">
                         <p className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary mb-3">Educational Primer</p>
-                        <Link href="/learn/trading-nasdaq-open" className="text-sm font-bold text-white hover:text-accent transition-colors block">
+                        <Link href="/learn/trading-nasdaq-open" className="text-sm font-bold text-text-primary hover:text-accent transition-colors block">
                            How to trade the NY Equity Open Volatility &rarr;
                         </Link>
                      </div>
@@ -146,7 +146,7 @@ export default function MarketsHubPage() {
                   {/* Affiliate Monetization */}
                   <div className="p-6 bg-background-primary border-t border-border-slate/50">
                      <p className="text-xs text-text-secondary mb-3">Trading Indices?</p>
-                     <a href="/api/market/brokers/redirect?id=ig-markets" className="flex items-center justify-between text-sm font-bold text-white hover:text-accent transition-colors">
+                     <a href="/api/market/brokers/redirect?id=ig-markets" className="flex items-center justify-between text-sm font-bold text-text-primary hover:text-accent transition-colors">
                         Trade on IG (Tax-Free UK) <ArrowRight className="w-4 h-4" />
                      </a>
                   </div>
@@ -155,7 +155,7 @@ export default function MarketsHubPage() {
                {/* Crypto & Metals Block */}
                <div className="bg-background-surface border border-border-slate flex flex-col group hover:border-accent/30 transition-all">
                   <div className="p-6 border-b border-border-slate/50 flex justify-between items-center">
-                     <h3 className="text-xl font-display font-bold uppercase text-white flex items-center gap-2">
+                     <h3 className="text-xl font-display font-bold uppercase text-text-primary flex items-center gap-2">
                         <TrendingUp className="w-5 h-5 text-accent" /> Crypto & Gold
                      </h3>
                      <span className="text-[10px] font-mono text-warning uppercase tracking-widest bg-warning/10 px-2 py-1">Consolidating</span>
@@ -166,11 +166,11 @@ export default function MarketsHubPage() {
                         <p className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary mb-3">Key Assets</p>
                         <div className="space-y-3">
                            <div className="flex justify-between items-center">
-                              <span className="text-sm font-bold text-white">XAU/USD</span>
+                              <span className="text-sm font-bold text-text-primary">XAU/USD</span>
                               <span className="text-sm text-profit font-mono">+0.15%</span>
                            </div>
                            <div className="flex justify-between items-center">
-                              <span className="text-sm font-bold text-white">BTC/USD</span>
+                              <span className="text-sm font-bold text-text-primary">BTC/USD</span>
                               <span className="text-sm text-loss font-mono">-2.10%</span>
                            </div>
                         </div>
@@ -187,7 +187,7 @@ export default function MarketsHubPage() {
                   {/* Affiliate Monetization */}
                   <div className="p-6 bg-background-primary border-t border-border-slate/50">
                      <p className="text-xs text-text-secondary mb-3">Trading Gold?</p>
-                     <Link href="/brokers/best-for-gold" className="flex items-center justify-between text-sm font-bold text-white hover:text-accent transition-colors">
+                     <Link href="/brokers/best-for-gold" className="flex items-center justify-between text-sm font-bold text-text-primary hover:text-accent transition-colors">
                         Find the Best Broker for XAU <ArrowRight className="w-4 h-4" />
                      </Link>
                   </div>

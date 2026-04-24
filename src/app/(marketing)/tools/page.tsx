@@ -139,11 +139,11 @@ export default function ToolsMarketingPage() {
               
               <div className="pt-6 grid grid-cols-2 gap-8">
                 <div>
-                  <div className="text-3xl font-display font-black text-white mb-2">100%</div>
+                  <div className="text-3xl font-display font-black text-text-primary mb-2">100%</div>
                   <p className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary">Data-Driven Logic</p>
                 </div>
                 <div>
-                  <div className="text-3xl font-display font-black text-white mb-2">&lt;1ms</div>
+                  <div className="text-3xl font-display font-black text-text-primary mb-2">&lt;1ms</div>
                   <p className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary">Execution Speed</p>
                 </div>
               </div>
@@ -157,7 +157,7 @@ export default function ToolsMarketingPage() {
                     <img src="/images/pete.jpg" alt="Pete" className="w-full h-full object-cover grayscale" />
                   </div>
                   <div>
-                    <h4 className="text-white font-bold uppercase tracking-widest text-sm">Pete Currey</h4>
+                    <h4 className="text-text-primary font-bold uppercase tracking-widest text-sm">Pete Currey</h4>
                     <p className="text-[10px] font-mono text-accent uppercase tracking-widest">Head of Trading</p>
                   </div>
                 </div>
@@ -234,7 +234,7 @@ export default function ToolsMarketingPage() {
                  // INSTITUTIONAL STANDARDS
                </span>
                <h2 className="text-3xl md:text-5xl font-display font-black uppercase leading-tight mb-6">
-                 Built for <span className="text-white">Survival.</span>
+                 Built for <span className="text-text-primary">Survival.</span>
                </h2>
                <p className="text-text-secondary leading-relaxed text-lg">
                  The tools you use dictate the quality of your execution. We don't compromise on speed, accuracy, or data integrity.

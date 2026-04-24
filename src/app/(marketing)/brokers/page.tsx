@@ -59,7 +59,7 @@ export default function BrokerComparisonHub() {
             
             <h1 className="text-6xl md:text-8xl font-display font-extrabold uppercase tracking-tight leading-[0.9]">
               Trade With Brokers <br />
-              <span className="text-white">We Actually Use.</span>
+              <span className="text-text-primary">We Actually Use.</span>
             </h1>
             
             <p className="text-xl md:text-2xl text-text-secondary leading-relaxed max-w-3xl font-medium">
@@ -67,7 +67,7 @@ export default function BrokerComparisonHub() {
             </p>
 
             <div className="flex flex-wrap gap-4 pt-4">
-              <Link href="/brokers/quiz" className="px-8 py-4 bg-accent text-background-primary font-bold uppercase tracking-widest text-xs hover:bg-accent-hover transition-colors flex items-center gap-2">
+              <Link href="/brokers/quiz" className="px-8 py-4 bg-accent text-[#08090D] font-bold uppercase tracking-widest text-xs hover:bg-accent-hover transition-colors flex items-center gap-2">
                 Find Your Broker Match <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
@@ -88,9 +88,9 @@ export default function BrokerComparisonHub() {
                   <Filter className="w-4 h-4" /> Filter By:
                </div>
                <button className="px-4 py-2 border border-accent text-accent hover:bg-accent/10 transition-colors">All Brokers</button>
-               <button className="px-4 py-2 border border-border-slate text-text-secondary hover:border-white hover:text-white transition-colors">UK Spread Betting</button>
-               <button className="px-4 py-2 border border-border-slate text-text-secondary hover:border-white hover:text-white transition-colors">Forex / Gold</button>
-               <button className="px-4 py-2 border border-border-slate text-text-secondary hover:border-white hover:text-white transition-colors">High Leverage</button>
+               <button className="px-4 py-2 border border-border-slate text-text-secondary hover:border-text-primary hover:text-text-primary transition-colors">UK Spread Betting</button>
+               <button className="px-4 py-2 border border-border-slate text-text-secondary hover:border-text-primary hover:text-text-primary transition-colors">Forex / Gold</button>
+               <button className="px-4 py-2 border border-border-slate text-text-secondary hover:border-text-primary hover:text-text-primary transition-colors">High Leverage</button>
             </div>
          </div>
       </section>
@@ -102,7 +102,7 @@ export default function BrokerComparisonHub() {
                {topBrokers.map((broker, index) => (
                   <div key={broker.id} className="bg-background-surface border border-border-slate p-8 hover:border-accent/30 transition-colors relative overflow-hidden group">
                      {index === 0 && (
-                        <div className="absolute top-0 right-0 bg-profit text-background-primary px-4 py-1 text-[10px] font-bold uppercase tracking-widest z-10">
+                        <div className="absolute top-0 right-0 bg-profit text-[#08090D] px-4 py-1 text-[10px] font-bold uppercase tracking-widest z-10">
                            Top Overall Pick
                         </div>
                      )}
@@ -119,23 +119,23 @@ export default function BrokerComparisonHub() {
                                     <img src={broker.logoUrl} alt={broker.name} className="h-full object-contain max-w-[120px]" />
                                  </div>
                               ) : (
-                                 <div className="w-16 h-16 flex items-center justify-center font-display font-black text-white text-2xl" style={{ backgroundColor: broker.color }}>
+                                 <div className="w-16 h-16 flex items-center justify-center font-display font-black text-text-primary text-2xl" style={{ backgroundColor: broker.color }}>
                                     {broker.fallback}
                                  </div>
                               )}
                            </div>
-                           <h3 className="text-2xl font-display font-bold uppercase text-white">{broker.name}</h3>
+                           <h3 className="text-2xl font-display font-bold uppercase text-text-primary">{broker.name}</h3>
                         </div>
 
                         {/* Stats Grid */}
                         <div className="w-full lg:w-2/4 grid grid-cols-2 gap-y-6 gap-x-8">
                            <div>
                               <p className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary mb-1">Execution & Spreads</p>
-                              <p className="text-sm font-bold text-white">{broker.spreads}</p>
+                              <p className="text-sm font-bold text-text-primary">{broker.spreads}</p>
                            </div>
                            <div>
                               <p className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary mb-1">Supported Platforms</p>
-                              <p className="text-sm font-bold text-white">{broker.platforms}</p>
+                              <p className="text-sm font-bold text-text-primary">{broker.platforms}</p>
                            </div>
                            <div className="col-span-2">
                               <p className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary mb-3">Key Edges</p>
@@ -155,13 +155,13 @@ export default function BrokerComparisonHub() {
                               href={broker.link}
                               target="_blank"
                               rel="nofollow"
-                              className="w-full py-4 bg-accent text-background-primary hover:bg-accent-hover transition-colors text-center text-xs font-bold uppercase tracking-widest block"
+                              className="w-full py-4 bg-accent text-[#08090D] hover:bg-accent-hover transition-colors text-center text-xs font-bold uppercase tracking-widest block"
                            >
                               Open Account
                            </a>
                            <Link 
                               href={`/brokers/${broker.id}-review`}
-                              className="w-full py-4 border border-border-slate hover:border-white text-text-primary transition-colors text-center text-xs font-bold uppercase tracking-widest block"
+                              className="w-full py-4 border border-border-slate hover:border-text-primary text-text-primary transition-colors text-center text-xs font-bold uppercase tracking-widest block"
                            >
                               Read Full Review
                            </Link>

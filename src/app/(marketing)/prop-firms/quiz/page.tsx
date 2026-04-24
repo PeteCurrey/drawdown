@@ -134,7 +134,7 @@ export default function PropFirmQuizPage() {
             {currentStep > 0 && (
               <button 
                 onClick={() => setCurrentStep(prev => prev - 1)}
-                className="flex items-center gap-2 text-[10px] font-mono uppercase tracking-widest text-text-tertiary hover:text-white transition-colors mb-8"
+                className="flex items-center gap-2 text-[10px] font-mono uppercase tracking-widest text-text-tertiary hover:text-text-primary transition-colors mb-8"
               >
                 <ArrowLeft className="w-3 h-3" /> Previous
               </button>
@@ -151,7 +151,7 @@ export default function PropFirmQuizPage() {
                   onClick={() => handleOptionSelect(questions[currentStep].id, option.propFirmBias)}
                   className="w-full text-left p-6 border border-border-slate hover:border-accent hover:bg-accent/5 transition-all group flex justify-between items-center"
                 >
-                  <span className="text-sm font-bold text-text-secondary group-hover:text-white transition-colors">
+                  <span className="text-sm font-bold text-text-secondary group-hover:text-text-primary transition-colors">
                     {option.label}
                   </span>
                   <div className="w-4 h-4 border border-border-slate rounded-full group-hover:border-accent group-hover:bg-accent/20 transition-all" />
@@ -169,7 +169,7 @@ export default function PropFirmQuizPage() {
               Analysis Complete.
             </h2>
             <p className="text-text-secondary mb-8">
-              Enter your email to reveal your mathematically optimal prop firm match and receive your <span className="text-white font-bold">Free Challenge Survival Checklist</span>.
+              Enter your email to reveal your mathematically optimal prop firm match and receive your <span className="text-text-primary font-bold">Free Challenge Survival Checklist</span>.
             </p>
             
             <form onSubmit={handleEmailSubmit} className="max-w-md mx-auto space-y-4">
@@ -181,12 +181,12 @@ export default function PropFirmQuizPage() {
                   placeholder="Enter your best email..."
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full bg-background-primary border border-border-slate pl-12 pr-4 py-4 text-sm focus:border-accent focus:outline-none transition-colors text-white placeholder:text-text-tertiary"
+                  className="w-full bg-background-primary border border-border-slate pl-12 pr-4 py-4 text-sm focus:border-accent focus:outline-none transition-colors text-text-primary placeholder:text-text-tertiary"
                 />
               </div>
               <button 
                 type="submit"
-                className="w-full py-4 bg-accent text-background-primary font-bold uppercase tracking-widest text-xs hover:bg-accent-hover transition-colors flex items-center justify-center gap-2"
+                className="w-full py-4 bg-accent text-[#08090D] font-bold uppercase tracking-widest text-xs hover:bg-accent-hover transition-colors flex items-center justify-center gap-2"
               >
                 Reveal My Match <ArrowRight className="w-4 h-4" />
               </button>
@@ -217,13 +217,13 @@ export default function PropFirmQuizPage() {
                 <div className="flex flex-wrap justify-center gap-4">
                   <a 
                     href={`/api/market/prop-firms/redirect?id=${result}&source=quiz_result`}
-                    className="px-8 py-4 bg-white text-black font-bold uppercase tracking-widest text-xs hover:bg-gray-200 transition-colors"
+                    className="px-8 py-4 bg-text-primary text-background-primary font-bold uppercase tracking-widest text-xs hover:bg-accent-hover transition-colors"
                   >
                     Start {firmData.name} Challenge
                   </a>
                   <Link 
                     href={`/prop-firms/${result}-review`}
-                    className="px-8 py-4 border border-border-slate hover:border-white text-text-primary font-bold uppercase tracking-widest text-xs transition-colors"
+                    className="px-8 py-4 border border-border-slate hover:border-text-primary text-text-primary font-bold uppercase tracking-widest text-xs transition-colors"
                   >
                     Read The Data Review
                   </Link>
@@ -243,7 +243,7 @@ export default function PropFirmQuizPage() {
                   Don't start your {firmData.name} evaluation without a math-backed risk model. Get our internal drawdown recovery sheets and daily routines.
                 </p>
               </div>
-              <Link href="/store/prop-survival-kit" className="shrink-0 px-8 py-4 bg-accent text-background-primary font-bold uppercase tracking-widest text-xs hover:bg-accent-hover transition-colors">
+              <Link href="/store/prop-survival-kit" className="shrink-0 px-8 py-4 bg-accent text-[#08090D] font-bold uppercase tracking-widest text-xs hover:bg-accent-hover transition-colors">
                 Get The Kit — £14
               </Link>
             </div>

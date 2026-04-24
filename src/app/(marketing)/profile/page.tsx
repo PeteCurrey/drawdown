@@ -124,7 +124,7 @@ export default function ProfilePage() {
                 )}>
                    <div className={cn(
                       "w-12 h-12 flex items-center justify-center rounded-full mb-2",
-                      discordConnected ? "bg-profit text-background-primary" : "bg-[#5865F2] text-white"
+                      discordConnected ? "bg-profit text-background-primary" : "bg-[#5865F2] text-text-primary"
                    )}>
                       {discordConnected ? <CheckCircle2 className="w-6 h-6" /> : <MessageSquare className="w-6 h-6" />}
                    </div>
@@ -136,7 +136,7 @@ export default function ProfilePage() {
                     onClick={() => setDiscordConnected(!discordConnected)}
                     className={cn(
                       "w-full py-3 text-[10px] font-bold uppercase tracking-widest flex items-center justify-center gap-2 transition-all",
-                      discordConnected ? "border border-border-slate text-text-tertiary hover:text-loss hover:border-loss" : "bg-[#5865F2] text-white hover:opacity-90"
+                      discordConnected ? "border border-border-slate text-text-tertiary hover:text-loss hover:border-loss" : "bg-[#5865F2] text-text-primary hover:opacity-90"
                     )}
                    >
                      {discordConnected ? "Disconnect Account" : <><LinkIcon className="w-3 h-3" /> Connect Discord</>}

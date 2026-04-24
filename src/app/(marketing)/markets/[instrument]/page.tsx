@@ -231,7 +231,7 @@ export default async function InstrumentPage({ params }: Props) {
                     Compare Broker Spreads
                   </Link>
                </div>
-               <Zap className="absolute -bottom-8 -right-8 w-48 h-48 text-white/10" />
+               <Zap className="absolute -bottom-8 -right-8 w-48 h-48 text-text-primary/10" />
             </div>
 
             {/* Related Instruments */}

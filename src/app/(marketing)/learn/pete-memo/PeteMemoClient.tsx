@@ -29,7 +29,7 @@ export default function PeteMemoPage({ tier }: Props) {
             </div>
             <h1 className="text-5xl md:text-7xl font-display font-extrabold uppercase tracking-tight leading-[0.9]">
               Sunday Prep: <br />
-              <span className="text-white">Navigating the <br /> Liquidity Trap.</span>
+              <span className="text-text-primary">Navigating the <br /> Liquidity Trap.</span>
             </h1>
             <p className="text-xl text-text-secondary leading-relaxed max-w-2xl pt-4 font-medium">
               The Fed is trapped, yields are at multi-year highs, and the market has been trained to buy every dip. Here's what our desk is watching this week — and why we are being extremely selective.
@@ -41,7 +41,7 @@ export default function PeteMemoPage({ tier }: Props) {
               P
             </div>
             <div>
-              <p className="text-sm font-bold uppercase text-white tracking-widest">Pete Currey</p>
+              <p className="text-sm font-bold uppercase text-text-primary tracking-widest">Pete Currey</p>
               <p className="text-[10px] font-mono text-accent uppercase tracking-widest mt-1">Head of Trading, Drawdown</p>
             </div>
           </div>
@@ -67,7 +67,7 @@ export default function PeteMemoPage({ tier }: Props) {
                     Inflation is still sticky. Growth is slowing. And Jerome Powell has exactly zero attractive options. This week's PCE print will be critical — if it comes in hot, we expect a risk-off flush across equities and a renewed DXY bid. If it misses, the market will price in rate cuts it probably won't get.
                   </p>
                   <p>
-                    Either way, <span className="text-white font-bold">we are not chasing either move.</span> The asymmetric risk is to the downside in equities and to the upside in USD until we see genuine evidence of disinflation in services.
+                    Either way, <span className="text-text-primary font-bold">we are not chasing either move.</span> The asymmetric risk is to the downside in equities and to the upside in USD until we see genuine evidence of disinflation in services.
                   </p>
                 </div>
               </div>
@@ -94,11 +94,11 @@ export default function PeteMemoPage({ tier }: Props) {
                   <div className="absolute inset-0 flex items-end justify-center pb-0">
                     <div className="w-full bg-gradient-to-t from-background-primary via-background-primary/90 to-transparent pt-16 text-center pb-4">
                       <Lock className="w-10 h-10 text-accent mx-auto mb-4" />
-                      <h4 className="text-2xl font-display font-black uppercase mb-3 text-white">Continue Reading</h4>
+                      <h4 className="text-2xl font-display font-black uppercase mb-3 text-text-primary">Continue Reading</h4>
                       <p className="text-text-secondary mb-6 text-sm leading-relaxed max-w-sm mx-auto">
                         Levels, Bias, and Behavioural Nudge sections are available to Foundation members and above.
                       </p>
-                      <Link href="/pricing" className="inline-flex items-center gap-2 px-8 py-4 bg-accent text-background-primary font-bold uppercase tracking-widest text-xs hover:bg-accent-hover transition-colors mb-3">
+                      <Link href="/pricing" className="inline-flex items-center gap-2 px-8 py-4 bg-accent text-[#08090D] font-bold uppercase tracking-widest text-xs hover:bg-accent-hover transition-colors mb-3">
                         Unlock Full Access <ArrowRight className="w-4 h-4" />
                       </Link>
                       <p className="text-[10px] font-mono text-text-tertiary uppercase tracking-widest">
@@ -140,7 +140,7 @@ export default function PeteMemoPage({ tier }: Props) {
             <div className="space-y-8">
               {!isMember ? (
                 <div className="bg-background-surface border border-border-slate p-6">
-                  <h3 className="text-sm font-bold uppercase tracking-widest text-white mb-6">What's Inside Full Access</h3>
+                  <h3 className="text-sm font-bold uppercase tracking-widest text-text-primary mb-6">What's Inside Full Access</h3>
                   <ul className="space-y-3 mb-6">
                     {[
                       "Full macro reality breakdown",
@@ -154,7 +154,7 @@ export default function PeteMemoPage({ tier }: Props) {
                       </li>
                     ))}
                   </ul>
-                  <Link href="/pricing" className="w-full py-4 bg-accent text-background-primary font-bold uppercase tracking-widest text-xs hover:bg-accent-hover transition-colors flex items-center justify-center gap-2 block text-center">
+                  <Link href="/pricing" className="w-full py-4 bg-accent text-[#08090D] font-bold uppercase tracking-widest text-xs hover:bg-accent-hover transition-colors flex items-center justify-center gap-2 block text-center">
                     Start Foundation — £29/mo
                   </Link>
                 </div>
@@ -177,7 +177,7 @@ export default function PeteMemoPage({ tier }: Props) {
                 <div className="flex items-start gap-3">
                   <ShieldCheck className="w-5 h-5 text-premium shrink-0 mt-1" />
                   <div>
-                    <h4 className="text-xs font-bold uppercase tracking-widest text-white mb-2">Not Financial Advice</h4>
+                    <h4 className="text-xs font-bold uppercase tracking-widest text-text-primary mb-2">Not Financial Advice</h4>
                     <p className="text-xs text-text-tertiary leading-relaxed">
                       Pete's Memo is framed as market perspective, process, and structured thinking. It is explicitly not a signal service or financial advice. Trading involves significant risk. You are responsible for your own capital.
                     </p>

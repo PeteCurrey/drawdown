@@ -23,10 +23,10 @@ function SuccessContent() {
         </p>
         <h1 className="text-4xl md:text-6xl font-display font-black uppercase tracking-tight leading-none mb-6">
           You're Armed. <br />
-          <span className="text-white">Now Execute.</span>
+          <span className="text-text-primary">Now Execute.</span>
         </h1>
         <p className="text-lg text-text-secondary leading-relaxed mb-10">
-          Your <strong className="text-white">Prop Challenge Survival Kit</strong> is ready. Check your inbox — delivery lands within the next 2 minutes. Add <strong className="text-white">thewire@drawdown.trading</strong> to your contacts to ensure delivery.
+          Your <strong className="text-text-primary">Prop Challenge Survival Kit</strong> is ready. Check your inbox — delivery lands within the next 2 minutes. Add <strong className="text-text-primary">thewire@drawdown.trading</strong> to your contacts to ensure delivery.
         </p>
 
         {/* What's next */}
@@ -49,18 +49,18 @@ function SuccessContent() {
           <p className="text-[10px] font-mono uppercase tracking-widest text-accent font-bold mb-4">// COMPLETE THE SETUP</p>
           <h3 className="text-2xl font-display font-bold uppercase mb-3">Track Your Evaluation in Real-Time.</h3>
           <p className="text-sm text-text-secondary leading-relaxed mb-6">
-            The Survival Kit handles your risk model. The <strong className="text-white">AI Trade Journal</strong> handles your execution data. Log every trade, tag every emotion, and know exactly where your edge lives before your evaluation ends.
+            The Survival Kit handles your risk model. The <strong className="text-text-primary">AI Trade Journal</strong> handles your execution data. Log every trade, tag every emotion, and know exactly where your edge lives before your evaluation ends.
           </p>
-          <Link href="/pricing" className="w-full py-4 bg-accent text-background-primary font-bold uppercase tracking-widest text-xs hover:bg-accent-hover transition-colors flex items-center justify-center gap-2">
+          <Link href="/pricing" className="w-full py-4 bg-accent text-[#08090D] font-bold uppercase tracking-widest text-xs hover:bg-accent-hover transition-colors flex items-center justify-center gap-2">
             Start Edge Tier — 14-Day Free Trial <ArrowRight className="w-4 h-4" />
           </Link>
         </div>
 
         <div className="flex flex-wrap gap-4 justify-center">
-          <Link href="/prop-firms" className="px-6 py-3 border border-border-slate hover:border-white text-text-secondary hover:text-white transition-colors text-xs font-bold uppercase tracking-widest">
+          <Link href="/prop-firms" className="px-6 py-3 border border-border-slate hover:border-text-primary text-text-secondary hover:text-text-primary transition-colors text-xs font-bold uppercase tracking-widest">
             Back to Prop Firm Hub
           </Link>
-          <Link href="/prop-firms/quiz" className="px-6 py-3 border border-border-slate hover:border-white text-text-secondary hover:text-white transition-colors text-xs font-bold uppercase tracking-widest">
+          <Link href="/prop-firms/quiz" className="px-6 py-3 border border-border-slate hover:border-text-primary text-text-secondary hover:text-text-primary transition-colors text-xs font-bold uppercase tracking-widest">
             Retake the Firm Quiz
           </Link>
         </div>

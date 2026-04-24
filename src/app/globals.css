@@ -39,8 +39,8 @@
   --elevated: #E9EBEE;
   --border: #DBDFE5;
   --text-primary: #08090D;
-  --text-secondary: #4A4D55;
-  --text-tertiary: #7A7D85;
+  --text-secondary: #3A3D45;
+  --text-tertiary: #5A5D65;
   --foreground: #08090D;
 }
 
@@ -58,7 +58,13 @@ body {
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-display);
   letter-spacing: -0.02em;
+  overflow-wrap: break-word;
 }
+
+h1 { font-size: clamp(2.5rem, 8vw, 4.5rem); }
+h2 { font-size: clamp(2rem, 6vw, 3.5rem); }
+h3 { font-size: clamp(1.5rem, 5vw, 2.5rem); }
+
 
 /* Noise Overlay */
 .noise-overlay {
@@ -220,7 +226,15 @@ h1, h2, h3, h4, h5, h6 {
 
 @keyframes text-outline-reveal {
   from { opacity: 0; }
-  to { opacity: 0.15; }
+  to { opacity: var(--outline-opacity, 0.15); }
+}
+
+:root {
+  --outline-opacity: 0.15;
+}
+
+[data-theme="light"] {
+  --outline-opacity: 0.35;
 }
 
 .text-outline-glow {

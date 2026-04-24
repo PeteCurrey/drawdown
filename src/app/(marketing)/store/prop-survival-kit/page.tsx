@@ -42,7 +42,7 @@ export default function PropSurvivalKitPage() {
                
                <h1 className="text-5xl md:text-7xl font-display font-extrabold uppercase tracking-tight leading-[0.95]">
                  The Architecture of a <br />
-                 <span className="text-white">Passed Challenge.</span>
+                 <span className="text-text-primary">Passed Challenge.</span>
                </h1>
                
                <p className="text-lg md:text-xl text-text-secondary leading-relaxed font-medium">
@@ -50,7 +50,7 @@ export default function PropSurvivalKitPage() {
                </p>
 
                <div className="pt-4">
-                  <button className="w-full md:w-auto px-12 py-5 bg-accent text-background-primary font-display font-black uppercase tracking-[0.2em] text-sm hover:translate-y-[-2px] transition-all shadow-xl shadow-accent/20 flex items-center justify-center gap-3">
+                  <button className="w-full md:w-auto px-12 py-5 bg-accent text-[#08090D] font-display font-black uppercase tracking-[0.2em] text-sm hover:translate-y-[-2px] transition-all shadow-xl shadow-accent/20 flex items-center justify-center gap-3">
                      <Download className="w-5 h-5" /> Download The Kit — £14
                   </button>
                   <p className="mt-4 text-[10px] font-mono uppercase tracking-widest text-text-tertiary flex items-center gap-2">
@@ -64,7 +64,7 @@ export default function PropSurvivalKitPage() {
                 <div className="absolute -inset-1 bg-gradient-to-tr from-accent to-background-primary opacity-20 blur-xl" />
                 <div className="relative bg-background-primary p-8 aspect-square flex flex-col items-center justify-center text-center border border-border-slate/50">
                    <ShieldAlert className="w-16 h-16 text-loss mb-6" />
-                   <h3 className="text-2xl font-display font-black uppercase mb-4 text-white">Stop Donating Evaluation Fees.</h3>
+                   <h3 className="text-2xl font-display font-black uppercase mb-4 text-text-primary">Stop Donating Evaluation Fees.</h3>
                    <p className="text-text-secondary text-sm">You are trading against a math formula designed to make you fail. It's time to use our math to beat theirs.</p>
                 </div>
              </div>
@@ -82,7 +82,7 @@ export default function PropSurvivalKitPage() {
             <p className="text-lg text-text-secondary leading-relaxed mb-6 text-left md:text-center">
                The prop firms are banking on your lack of structure. They know that after one bad loss, you will over-leverage to "make it back" and violate the daily drawdown limit. They rely on your emotional tilt to keep their business model highly profitable.
             </p>
-            <p className="text-lg text-white font-bold leading-relaxed text-left md:text-center">
+            <p className="text-lg text-text-primary font-bold leading-relaxed text-left md:text-center">
                You don't need a better strategy. You need a better defense.
             </p>
          </div>
@@ -103,7 +103,7 @@ export default function PropSurvivalKitPage() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
                <div className="p-8 border border-border-slate bg-background-surface hover:border-accent/30 transition-colors">
                   <div className="text-accent mb-6 font-display font-black text-4xl">01</div>
-                  <h3 className="text-xl font-display font-bold uppercase mb-4 text-white">The Max-Drawdown Calculator</h3>
+                  <h3 className="text-xl font-display font-bold uppercase mb-4 text-text-primary">The Max-Drawdown Calculator</h3>
                   <p className="text-sm text-text-secondary leading-relaxed mb-6">
                      A plug-and-play Google Sheet that calculates your exact lot size based on your current equity and the firm's specific trailing drawdown rules. Never accidentally breach a limit again.
                   </p>
@@ -119,7 +119,7 @@ export default function PropSurvivalKitPage() {
 
                <div className="p-8 border border-border-slate bg-background-surface hover:border-accent/30 transition-colors">
                   <div className="text-accent mb-6 font-display font-black text-4xl">02</div>
-                  <h3 className="text-xl font-display font-bold uppercase mb-4 text-white">30-Day Evaluation Checklist</h3>
+                  <h3 className="text-xl font-display font-bold uppercase mb-4 text-text-primary">30-Day Evaluation Checklist</h3>
                   <p className="text-sm text-text-secondary leading-relaxed mb-6">
                      A daily protocol to follow before you execute a single trade. It forces you to check news events, verify your bias, and confirm your risk parameters.
                   </p>
@@ -135,7 +135,7 @@ export default function PropSurvivalKitPage() {
 
                <div className="p-8 border border-border-slate bg-background-surface hover:border-accent/30 transition-colors">
                   <div className="text-accent mb-6 font-display font-black text-4xl">03</div>
-                  <h3 className="text-xl font-display font-bold uppercase mb-4 text-white">"The Tilt Protocol"</h3>
+                  <h3 className="text-xl font-display font-bold uppercase mb-4 text-text-primary">"The Tilt Protocol"</h3>
                   <p className="text-sm text-text-secondary leading-relaxed mb-6">
                      The exact psychological framework our desk uses to stop a drawdown spiral. Step-by-step instructions on what to do immediately after a loss to prevent emotional contagion.
                   </p>
@@ -162,7 +162,7 @@ export default function PropSurvivalKitPage() {
             <div className="bg-background-primary border border-border-slate p-8 mb-8 text-left">
                <div className="flex justify-between items-center mb-6 pb-6 border-b border-border-slate">
                   <div>
-                     <h4 className="text-lg font-bold uppercase text-white">Prop Challenge Survival Kit</h4>
+                     <h4 className="text-lg font-bold uppercase text-text-primary">Prop Challenge Survival Kit</h4>
                      <p className="text-xs text-text-secondary">Digital PDF & Google Sheets Templates</p>
                   </div>
                   <div className="text-2xl font-display font-black">£14</div>
@@ -190,13 +190,13 @@ export default function PropSurvivalKitPage() {
             <button
                onClick={handleCheckout}
                disabled={loading}
-               className="w-full py-6 bg-accent text-background-primary font-display font-black uppercase tracking-[0.2em] text-lg hover:translate-y-[-2px] transition-all shadow-xl shadow-accent/20 disabled:opacity-60"
+               className="w-full py-6 bg-accent text-[#08090D] font-display font-black uppercase tracking-[0.2em] text-lg hover:translate-y-[-2px] transition-all shadow-xl shadow-accent/20 disabled:opacity-60"
             >
                {loading ? "Redirecting to Checkout..." : `Complete Purchase — £${includeBump ? '33' : '14'}`}
             </button>
             
             <p className="mt-8 text-xs text-text-tertiary leading-relaxed">
-               <strong className="text-white">100% No-BS 14-Day Guarantee.</strong> If you apply these frameworks and still feel unprepared for your challenge, email us. We will refund your £14 immediately. No questions asked.
+               <strong className="text-text-primary">100% No-BS 14-Day Guarantee.</strong> If you apply these frameworks and still feel unprepared for your challenge, email us. We will refund your £14 immediately. No questions asked.
             </p>
          </div>
       </section>

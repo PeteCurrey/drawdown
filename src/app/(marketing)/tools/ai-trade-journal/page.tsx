@@ -18,7 +18,7 @@ export default function AITradeJournalPage() {
           
           <h1 className="text-6xl md:text-8xl font-display font-extrabold uppercase tracking-tight leading-[0.9] mb-8">
             Data Beats <br />
-            <span className="text-white">Dopamine.</span>
+            <span className="text-text-primary">Dopamine.</span>
           </h1>
           
           <p className="text-xl md:text-2xl text-text-secondary leading-relaxed max-w-3xl mx-auto font-medium mb-12">
@@ -26,10 +26,10 @@ export default function AITradeJournalPage() {
           </p>
 
           <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <Link href="/pricing" className="px-10 py-5 bg-accent text-background-primary font-display font-black uppercase tracking-[0.2em] text-sm hover:translate-y-[-2px] transition-all shadow-xl shadow-accent/20">
+            <Link href="/pricing" className="px-10 py-5 bg-accent text-[#08090D] font-display font-black uppercase tracking-[0.2em] text-sm hover:translate-y-[-2px] transition-all shadow-xl shadow-accent/20">
               Start 14-Day Free Trial
             </Link>
-            <a href="#demo" className="px-10 py-5 border border-border-slate hover:border-white text-text-primary font-display font-bold uppercase tracking-[0.2em] text-sm transition-colors flex items-center justify-center gap-2">
+            <a href="#demo" className="px-10 py-5 border border-border-slate hover:border-text-primary text-text-primary font-display font-bold uppercase tracking-[0.2em] text-sm transition-colors flex items-center justify-center gap-2">
               Watch Walkthrough
             </a>
           </div>
@@ -51,7 +51,7 @@ export default function AITradeJournalPage() {
                      <span className="text-loss">Revenge Trading.</span>
                   </h2>
                   <p className="text-lg text-text-secondary leading-relaxed">
-                     A standard journal just records what happened. Our AI Journal actively tells you <span className="text-white font-bold">why it happened.</span>
+                     A standard journal just records what happened. Our AI Journal actively tells you <span className="text-text-primary font-bold">why it happened.</span>
                   </p>
                   <p className="text-lg text-text-secondary leading-relaxed">
                      It automatically correlates your PnL with your pre-trade emotional state, session time, and setup type to isolate the exact behaviors draining your account.
@@ -63,7 +63,7 @@ export default function AITradeJournalPage() {
                            <Activity className="w-4 h-4 text-loss" />
                         </div>
                         <div>
-                           <h4 className="text-white font-bold uppercase tracking-widest text-sm mb-1">Identify Tilt Triggers</h4>
+                           <h4 className="text-text-primary font-bold uppercase tracking-widest text-sm mb-1">Identify Tilt Triggers</h4>
                            <p className="text-xs text-text-tertiary">"You give back 40% of your profits on Fridays after 2 PM."</p>
                         </div>
                      </li>
@@ -72,7 +72,7 @@ export default function AITradeJournalPage() {
                            <BarChart4 className="w-4 h-4 text-profit" />
                         </div>
                         <div>
-                           <h4 className="text-white font-bold uppercase tracking-widest text-sm mb-1">Isolate The Edge</h4>
+                           <h4 className="text-text-primary font-bold uppercase tracking-widest text-sm mb-1">Isolate The Edge</h4>
                            <p className="text-xs text-text-tertiary">"Your A+ setup has a 68% win rate when holding over 2 hours."</p>
                         </div>
                      </li>
@@ -119,7 +119,7 @@ export default function AITradeJournalPage() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                <div className="p-8 border border-border-slate bg-background-surface hover:border-accent/30 transition-colors">
                   <Zap className="w-8 h-8 text-accent mb-6" />
-                  <h3 className="text-xl font-display font-bold uppercase mb-4 text-white">Automated Import</h3>
+                  <h3 className="text-xl font-display font-bold uppercase mb-4 text-text-primary">Automated Import</h3>
                   <p className="text-sm text-text-secondary leading-relaxed">
                      Syncs with MT4, MT5, cTrader, and major prop firms via read-only API in seconds. No more manual data entry or missed trades.
                   </p>
@@ -127,7 +127,7 @@ export default function AITradeJournalPage() {
                
                <div className="p-8 border border-border-slate bg-background-surface hover:border-accent/30 transition-colors">
                   <BrainCircuit className="w-8 h-8 text-premium mb-6" />
-                  <h3 className="text-xl font-display font-bold uppercase mb-4 text-white">Sentiment Tagging</h3>
+                  <h3 className="text-xl font-display font-bold uppercase mb-4 text-text-primary">Sentiment Tagging</h3>
                   <p className="text-sm text-text-secondary leading-relaxed">
                      Log your physiological state before entry. The AI automatically cross-references your emotional state with your win rate.
                   </p>
@@ -135,7 +135,7 @@ export default function AITradeJournalPage() {
 
                <div className="p-8 border border-border-slate bg-background-surface hover:border-accent/30 transition-colors">
                   <ShieldCheck className="w-8 h-8 text-profit mb-6" />
-                  <h3 className="text-xl font-display font-bold uppercase mb-4 text-white">Performance Attribution</h3>
+                  <h3 className="text-xl font-display font-bold uppercase mb-4 text-text-primary">Performance Attribution</h3>
                   <p className="text-sm text-text-secondary leading-relaxed">
                      Know exactly which asset class, session time, and setup pays you, and which ones are slowly bleeding your capital.
                   </p>
@@ -148,13 +148,13 @@ export default function AITradeJournalPage() {
       <section className="py-24 bg-background-surface border-y border-border-slate relative overflow-hidden">
          <div className="absolute top-0 right-0 w-64 h-64 bg-accent/5 rounded-full blur-3xl" />
          <div className="container mx-auto px-6 relative z-10 text-center max-w-4xl">
-            <h3 className="text-2xl md:text-4xl font-display italic text-white leading-relaxed mb-8">
+            <h3 className="text-2xl md:text-4xl font-display italic text-text-primary leading-relaxed mb-8">
                "I realized I was giving back 40% of my profits on Friday afternoons trying to force a weekly quota. The data doesn't lie. I simply stopped trading Fridays and passed my evaluation."
             </h3>
             <div className="flex items-center justify-center gap-4">
                <div className="w-12 h-12 rounded-full bg-border-slate border border-accent/30" />
                <div className="text-left">
-                  <p className="text-sm font-bold uppercase text-white tracking-widest">James T.</p>
+                  <p className="text-sm font-bold uppercase text-text-primary tracking-widest">James T.</p>
                   <p className="text-[10px] font-mono text-accent uppercase tracking-widest">Funded Trader ($200k)</p>
                </div>
             </div>
@@ -169,13 +169,13 @@ export default function AITradeJournalPage() {
             </h2>
             <p className="text-xl text-text-secondary leading-relaxed mb-10">
                Access the AI Trade Journal, Market Scanner, and Strategy Backtester. <br />
-               <span className="text-white font-bold">Starts at £29/mo. Cheaper than one bad trade.</span>
+               <span className="text-text-primary font-bold">Starts at £29/mo. Cheaper than one bad trade.</span>
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-4">
-               <Link href="/pricing" className="px-12 py-6 bg-accent text-background-primary font-display font-black uppercase tracking-[0.2em] text-sm hover:translate-y-[-2px] transition-all shadow-xl shadow-accent/20">
+               <Link href="/pricing" className="px-12 py-6 bg-accent text-[#08090D] font-display font-black uppercase tracking-[0.2em] text-sm hover:translate-y-[-2px] transition-all shadow-xl shadow-accent/20">
                   View Edge Tier Pricing
                </Link>
-               <Link href="/tools" className="px-12 py-6 border border-border-slate hover:border-white text-text-primary font-display font-bold uppercase tracking-[0.2em] text-sm transition-colors">
+               <Link href="/tools" className="px-12 py-6 border border-border-slate hover:border-text-primary text-text-primary font-display font-bold uppercase tracking-[0.2em] text-sm transition-colors">
                   Explore Other Tools
                </Link>
             </div>

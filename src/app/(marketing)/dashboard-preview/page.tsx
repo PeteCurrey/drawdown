@@ -60,7 +60,7 @@ export default function DashboardConceptPage() {
             </h1>
           </div>
           <div className="flex gap-4">
-            <Link href="/journal" className="px-6 py-3 bg-accent text-background-primary font-bold uppercase tracking-widest text-xs hover:bg-accent-hover transition-colors flex items-center gap-2">
+            <Link href="/journal" className="px-6 py-3 bg-accent text-[#08090D] font-bold uppercase tracking-widest text-xs hover:bg-accent-hover transition-colors flex items-center gap-2">
               Log A Trade <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
@@ -85,10 +85,10 @@ export default function DashboardConceptPage() {
           {/* Equity Curve (Large) */}
           <div className="lg:col-span-2 bg-background-surface border border-border-slate p-6 flex flex-col">
             <div className="flex justify-between items-center mb-6">
-              <h2 className="text-sm font-bold uppercase tracking-widest text-white">Equity Curve</h2>
+              <h2 className="text-sm font-bold uppercase tracking-widest text-text-primary">Equity Curve</h2>
               <div className="flex gap-2">
                 {["1W","1M","3M"].map(t => (
-                  <button key={t} className={`text-[10px] font-mono px-3 py-1 border transition-colors ${t === "1M" ? "border-accent text-accent" : "border-border-slate text-text-tertiary hover:text-white hover:border-white"}`}>{t}</button>
+                  <button key={t} className={`text-[10px] font-mono px-3 py-1 border transition-colors ${t === "1M" ? "border-accent text-accent" : "border-border-slate text-text-tertiary hover:text-text-primary hover:border-text-primary"}`}>{t}</button>
                 ))}
               </div>
             </div>
@@ -130,7 +130,7 @@ export default function DashboardConceptPage() {
 
             {/* Macro Events */}
             <div className="bg-background-surface border border-border-slate p-6">
-              <h3 className="text-sm font-bold uppercase tracking-widest text-white mb-4">This Week That Matters</h3>
+              <h3 className="text-sm font-bold uppercase tracking-widest text-text-primary mb-4">This Week That Matters</h3>
               <div className="space-y-3">
                 {[
                   { time: "Thu 13:30", event: "US Core PCE m/m", impact: "HIGH" },
@@ -139,7 +139,7 @@ export default function DashboardConceptPage() {
                   <div key={i} className="flex items-center justify-between py-2 border-b border-border-slate/40 last:border-none">
                     <div>
                       <p className="text-xs font-mono text-text-tertiary">{ev.time}</p>
-                      <p className="text-sm text-white font-bold">{ev.event}</p>
+                      <p className="text-sm text-text-primary font-bold">{ev.event}</p>
                     </div>
                     <span className={`text-[10px] font-mono px-2 py-1 uppercase ${ev.impact === "HIGH" ? "text-loss bg-loss/10" : "text-warning bg-warning/10"}`}>
                       {ev.impact}
@@ -153,7 +153,7 @@ export default function DashboardConceptPage() {
 
         {/* Action Items */}
         <div className="bg-background-surface border border-border-slate p-6">
-          <h2 className="text-sm font-bold uppercase tracking-widest text-white mb-6 flex items-center gap-2">
+          <h2 className="text-sm font-bold uppercase tracking-widest text-text-primary mb-6 flex items-center gap-2">
             <Shield className="w-4 h-4 text-accent" /> Action Items
           </h2>
           <div className="space-y-4">
@@ -180,11 +180,11 @@ export default function DashboardConceptPage() {
             <div className="flex items-center gap-4">
               <Lock className="w-10 h-10 text-premium shrink-0" />
               <div>
-                <h3 className="text-white font-bold uppercase tracking-widest text-sm mb-1">AI Performance Attribution</h3>
+                <h3 className="text-text-primary font-bold uppercase tracking-widest text-sm mb-1">AI Performance Attribution</h3>
                 <p className="text-xs text-text-secondary">Unlock your full breakdown of win rate by session, setup, and psychological state.</p>
               </div>
             </div>
-            <Link href="/pricing" className="shrink-0 px-6 py-3 bg-premium text-background-primary font-bold uppercase tracking-widest text-xs hover:opacity-90 transition-opacity flex items-center gap-2">
+            <Link href="/pricing" className="shrink-0 px-6 py-3 bg-premium text-[#08090D] font-bold uppercase tracking-widest text-xs hover:opacity-90 transition-opacity flex items-center gap-2">
               Upgrade to Edge <TrendingUp className="w-4 h-4" />
             </Link>
           </div>

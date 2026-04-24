@@ -104,7 +104,7 @@ export default function CommunityPage() {
                <p className="text-xs text-text-secondary leading-relaxed">
                  For real-time chat, exclusive voice sessions, and instant market alerts, connect your Drawdown account to our private Discord server.
                </p>
-               <Link href="/profile" className="inline-flex items-center justify-center gap-2 w-full py-4 bg-[#5865F2] hover:bg-[#4752C4] text-white text-[10px] font-bold uppercase tracking-widest transition-colors mb-2">
+               <Link href="/profile" className="inline-flex items-center justify-center gap-2 w-full py-4 bg-[#5865F2] hover:bg-[#4752C4] text-text-primary text-[10px] font-bold uppercase tracking-widest transition-colors mb-2">
                   Connect Account <ArrowRight className="w-4 h-4" />
                </Link>
             </div>

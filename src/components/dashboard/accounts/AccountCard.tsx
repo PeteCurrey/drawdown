@@ -12,9 +12,9 @@ interface AccountCardProps {
 export function AccountCard({ account }: AccountCardProps) {
   const snapshot = account.latest_snapshot;
   
-  const status = snapshot?.daily_loss_used_pct >= 100 || snapshot?.max_drawdown_used_pct >= 100 ? 'breached' :
-                snapshot?.daily_loss_used_pct > 75 || snapshot?.max_drawdown_used_pct > 75 ? 'critical' :
-                snapshot?.daily_loss_used_pct > 50 || snapshot?.max_drawdown_used_pct > 50 ? 'warning' : 'safe';
+  const status = (snapshot?.daily_loss_used_pct ?? 0) >= 100 || (snapshot?.max_drawdown_used_pct ?? 0) >= 100 ? 'breached' :
+                (snapshot?.daily_loss_used_pct ?? 0) > 75 || (snapshot?.max_drawdown_used_pct ?? 0) > 75 ? 'critical' :
+                (snapshot?.daily_loss_used_pct ?? 0) > 50 || (snapshot?.max_drawdown_used_pct ?? 0) > 50 ? 'warning' : 'safe';
 
   const statusColors = {
     safe: "text-profit border-profit/20 bg-profit/5",

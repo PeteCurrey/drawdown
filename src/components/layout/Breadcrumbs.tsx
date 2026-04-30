@@ -6,12 +6,26 @@ import { ChevronRight, Home } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { StructuredData } from "../StructuredData";
 
-export function Breadcrumbs() {
-  const pathname = usePathname();
-  if (pathname === "/") return null;
+interface BreadcrumbItem {
+  label: string;
+  href: string;
+}
 
-  const paths = pathname.split("/").filter(Boolean);
+interface BreadcrumbsProps {
+  items?: BreadcrumbItem[];
+}
+
+export function Breadcrumbs({ items }: BreadcrumbsProps = {}) {
+  const pathname = usePathname();
   
+  // Determine the items to display: use props if provided, otherwise parse the pathname
+  const displayItems = items || pathname.split("/").filter(Boolean).map((path, index, arr) => ({
+    label: path.replace(/-/g, " "),
+    href: `/${arr.slice(0, index + 1).join("/")}`
+  }));
+
+  if (displayItems.length === 0) return null;
+
   const breadcrumbData = {
     itemListElement: [
       {
@@ -20,11 +34,11 @@ export function Breadcrumbs() {
         "name": "Home",
         "item": "https://drawdown.trading"
       },
-      ...paths.map((path, index) => ({
+      ...displayItems.map((item, index) => ({
         "@type": "ListItem",
         "position": index + 2,
-        "name": path.charAt(0).toUpperCase() + path.slice(1).replace(/-/g, " "),
-        "item": `https://drawdown.trading/${paths.slice(0, index + 1).join("/")}`
+        "name": item.label.charAt(0).toUpperCase() + item.label.slice(1),
+        "item": `https://drawdown.trading${item.href.startsWith("/") ? "" : "/"}${item.href}`
       }))
     ]
   };
@@ -36,19 +50,17 @@ export function Breadcrumbs() {
         <Link href="/" className="hover:text-accent transition-colors flex items-center gap-1">
           <Home className="w-3 h-3" />
         </Link>
-        {paths.map((path, index) => {
-          const href = `/${paths.slice(0, index + 1).join("/")}`;
-          const isLast = index === paths.length - 1;
-          const label = path.replace(/-/g, " ");
+        {displayItems.map((item, index) => {
+          const isLast = index === displayItems.length - 1;
 
           return (
-            <div key={path} className="flex items-center gap-2">
+            <div key={`${item.href}-${index}`} className="flex items-center gap-2">
               <ChevronRight className="w-3 h-3 opacity-20" />
               {isLast ? (
-                <span className="text-text-secondary">{label}</span>
+                <span className="text-text-secondary">{item.label}</span>
               ) : (
-                <Link href={href} className="hover:text-accent transition-colors">
-                  {label}
+                <Link href={item.href} className="hover:text-accent transition-colors">
+                  {item.label}
                 </Link>
               )}
             </div>

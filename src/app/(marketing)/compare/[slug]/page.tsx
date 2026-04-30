@@ -102,36 +102,42 @@ export default async function ComparisonPage({ params }: Props) {
         </div>
 
         {/* Choice Guides */}
-        <div className="grid md:grid-cols-2 gap-8 mb-20">
-          <div className="bg-background-elevated border border-border-slate p-8">
-            <h3 className="text-lg font-display font-bold mb-6 uppercase tracking-widest flex items-center space-x-2">
-              <Zap className="w-4 h-4 text-accent" />
-              <span>Choose Option A If...</span>
-            </h3>
-            <ul className="space-y-4">
-              {page.whoShouldChooseA.map((point) => (
-                <li key={point} className="flex items-start space-x-3 text-sm text-text-secondary">
-                  <Check className="w-4 h-4 text-profit mt-1 shrink-0" />
-                  <span>{point}</span>
-                </li>
-              ))}
-            </ul>
+        {(page.whoShouldChooseA || page.whoShouldChooseB) && (
+          <div className="grid md:grid-cols-2 gap-8 mb-20">
+            {page.whoShouldChooseA && (
+              <div className="bg-background-elevated border border-border-slate p-8">
+                <h3 className="text-lg font-display font-bold mb-6 uppercase tracking-widest flex items-center space-x-2">
+                  <Zap className="w-4 h-4 text-accent" />
+                  <span>Choose Option A If...</span>
+                </h3>
+                <ul className="space-y-4">
+                  {page.whoShouldChooseA.map((point) => (
+                    <li key={point} className="flex items-start space-x-3 text-sm text-text-secondary">
+                      <Check className="w-4 h-4 text-profit mt-1 shrink-0" />
+                      <span>{point}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+            {page.whoShouldChooseB && (
+              <div className="bg-background-elevated border border-border-slate p-8">
+                <h3 className="text-lg font-display font-bold mb-6 uppercase tracking-widest flex items-center space-x-2">
+                  <Zap className="w-4 h-4 text-accent" />
+                  <span>Choose Option B If...</span>
+                </h3>
+                <ul className="space-y-4">
+                  {page.whoShouldChooseB.map((point) => (
+                    <li key={point} className="flex items-start space-x-3 text-sm text-text-secondary">
+                      <Check className="w-4 h-4 text-profit mt-1 shrink-0" />
+                      <span>{point}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </div>
-          <div className="bg-background-elevated border border-border-slate p-8">
-            <h3 className="text-lg font-display font-bold mb-6 uppercase tracking-widest flex items-center space-x-2">
-              <Zap className="w-4 h-4 text-accent" />
-              <span>Choose Option B If...</span>
-            </h3>
-            <ul className="space-y-4">
-              {page.whoShouldChooseB.map((point) => (
-                <li key={point} className="flex items-start space-x-3 text-sm text-text-secondary">
-                  <Check className="w-4 h-4 text-profit mt-1 shrink-0" />
-                  <span>{point}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
+        )}
 
         {/* Footer CTA */}
         <section className="bg-accent p-12 text-center space-y-6">

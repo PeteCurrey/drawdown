@@ -1,7 +1,7 @@
 import { siteConfig } from "@/lib/metadata";
 
-export type Region = 'uk' | 'au' | 'us' | 'sg' | 'hk';
-export const REGIONS: Region[] = ['uk', 'au', 'us', 'sg', 'hk'];
+export type Region = 'uk' | 'au' | 'us' | 'sg' | 'hk' | 'ca' | 'de' | 'ae' | 'in' | 'my' | 'ph';
+export const REGIONS: Region[] = ['uk', 'au', 'us', 'sg', 'hk', 'ca', 'de', 'ae', 'in', 'my', 'ph'];
 
 const REGION_CONFIG: Record<Region, { hreflang: string; locale: string }> = {
   uk: { hreflang: 'en-GB', locale: 'en_GB' },
@@ -9,6 +9,12 @@ const REGION_CONFIG: Record<Region, { hreflang: string; locale: string }> = {
   us: { hreflang: 'en-US', locale: 'en_US' },
   sg: { hreflang: 'en-SG', locale: 'en_SG' },
   hk: { hreflang: 'en-HK', locale: 'en_HK' },
+  ca: { hreflang: 'en-CA', locale: 'en_CA' },
+  de: { hreflang: 'de-DE', locale: 'de_DE' },
+  ae: { hreflang: 'en-AE', locale: 'en_AE' },
+  in: { hreflang: 'en-IN', locale: 'en_IN' },
+  my: { hreflang: 'en-MY', locale: 'en_MY' },
+  ph: { hreflang: 'en-PH', locale: 'en_PH' },
 };
 
 export function getHreflangTags(path: string) {
@@ -16,9 +22,17 @@ export function getHreflangTags(path: string) {
   
   // Strip existing region prefix if any to get the base path
   let basePath = path;
-  if (path.startsWith('/au/') || path.startsWith('/us/') || path.startsWith('/sg/') || path.startsWith('/hk/')) {
-    basePath = path.substring(3);
-  } else if (path === '/au' || path === '/us' || path === '/sg' || path === '/hk') {
+  const prefixes = REGIONS.filter(r => r !== 'uk').map(r => `/${r}/`);
+  const exacts = REGIONS.filter(r => r !== 'uk').map(r => `/${r}`);
+
+  const activePrefix = prefixes.find(p => path.startsWith(p));
+  const activeExact = exacts.find(e => path === e);
+
+  if (activePrefix) {
+    basePath = path.substring(3); // This only works for 2-char regions.
+    // Wait, all our regions are 2 chars except 'uk' which we don't prefix here.
+    // Actually, 'uk' is the root.
+  } else if (activeExact) {
     basePath = '/';
   }
 

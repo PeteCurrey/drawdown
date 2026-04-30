@@ -46,18 +46,48 @@ export const HK_BROKERS = [
   }
 ];
 
-export const HK_BEST_OF = [
+export const BEST_OF_PAGES_HK = [
   'forex-broker-hong-kong', 'trading-platform-hong-kong', 'cfd-broker-hong-kong', 
   'broker-for-beginners-hong-kong', 'crypto-trading-hong-kong', 'trading-course-hong-kong', 
   'trading-app-hong-kong', 'prop-firm-hong-kong'
-];
+].map(slug => ({
+  slug,
+  title: `Best ${slug.replace(/-/g, ' ').toUpperCase()} 2026`,
+  metaDescription: `Reviewing the top ${slug.replace(/-/g, ' ')} for HK traders.`
+}));
 
-export const HK_HOW_TO = [
+export const HOW_TO_PAGES_HK = [
   'start-trading-hong-kong', 'trade-forex-hong-kong', 'choose-broker-hong-kong', 
   'trade-hsi', 'trading-tax-hong-kong', 'trade-us-stocks-from-hong-kong',
   'trade-asia-session', 'trade-during-london-from-asia'
-];
+].map(slug => ({
+  slug,
+  title: `How to ${slug.replace(/-/g, ' ').toUpperCase()}`,
+  metaDescription: `Guide on ${slug.replace(/-/g, ' ')} for Hong Kong investors.`
+}));
 
-export const HK_COMPARE = [
+export const COMPARE_PAGES_HK = [
   'ig-vs-saxo-hong-kong', 'interactive-brokers-vs-saxo-hong-kong'
-];
+].map(slug => ({
+  slug,
+  title: `${slug.replace(/-/g, ' ').toUpperCase()} Comparison`,
+  metaDescription: `Comparing top platforms in Hong Kong: ${slug.replace(/-/g, ' ')}.`
+}));
+
+export const HK_CITIES = ['Central', 'Tsim Sha Tsui', 'Causeway Bay', 'Wan Chai', 'Mong Kok'];
+export const HK_TOPICS = ['forex', 'stocks', 'options', 'crypto'];
+
+export const CITY_CONTEXT_HK: Record<string, string> = {
+  'Central': 'the heart of the financial district',
+  'Tsim Sha Tsui': 'a major retail and commercial hub',
+  'Causeway Bay': 'one of the world\'s most vibrant shopping districts',
+  'Wan Chai': 'a dynamic business and residential area',
+  'Mong Kok': 'the highest population density area in HK'
+};
+
+export const TOPIC_DISPLAY_HK: Record<string, string> = {
+  'forex': 'Foreign Exchange',
+  'stocks': 'Equity Markets',
+  'options': 'Derivative Options',
+  'crypto': 'Digital Assets'
+};

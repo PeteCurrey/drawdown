@@ -6,27 +6,39 @@ export const US_TOPICS = [
   'day-trading', 'forex-trading', 'stock-trading', 'options-trading', 'trading-courses'
 ];
 
-export const US_BEST_OF = [
+export const BEST_OF_PAGES_US = [
   'forex-broker-us', 'trading-platform-us', 'stock-broker-us', 'broker-for-beginners-us', 
   'day-trading-platform-us', 'options-trading-platform-us', 'crypto-trading-platform-us', 
   'broker-for-scalping-us', 'prop-firm-us', 'trading-course-us', 'trading-app-us', 
   'paper-trading-platform-us', 'broker-for-options-us', 'free-trading-tools-us', 
   'ai-trading-tools-us', 'trading-journal-us', 'futures-broker-us', 'penny-stock-broker-us', 
   'swing-trading-platform-us', 'broker-no-pdt-rule'
-];
+].map(slug => ({
+  slug,
+  title: `Best ${slug.replace(/-/g, ' ').toUpperCase()} 2026`,
+  metaDescription: `Reviewing the top-rated ${slug.replace(/-/g, ' ')} for American traders.`
+}));
 
-export const US_HOW_TO = [
+export const HOW_TO_PAGES_US = [
   'start-trading-us', 'trade-forex-us', 'day-trade-stocks-us', 'choose-broker-us', 
   'trade-options', 'trade-futures-us', 'avoid-pdt-rule', 'trade-with-small-account-us', 
   'trade-penny-stocks-us', 'pay-tax-trading-us', 'open-margin-account-us', 
   'trade-premarket-afterhours', 'use-level-2-data', 'trade-spy-options', 'pass-prop-firm-us'
-];
+].map(slug => ({
+  slug,
+  title: `How to ${slug.replace(/-/g, ' ').toUpperCase()} in the US`,
+  metaDescription: `Complete guide on ${slug.replace(/-/g, ' ')} for US-based traders.`
+}));
 
-export const US_COMPARE = [
+export const COMPARE_PAGES_US = [
   'oanda-vs-forex-com', 'tastyfx-vs-oanda', 'schwab-vs-fidelity', 'robinhood-vs-webull', 
   'interactive-brokers-vs-schwab', 'stocks-vs-forex-us', 'options-vs-futures', 
   'cash-account-vs-margin-account'
-];
+].map(slug => ({
+  slug,
+  title: `${slug.replace(/-/g, ' ').toUpperCase()} Comparison`,
+  metaDescription: `Comparing the top US platforms: ${slug.replace(/-/g, ' ')}.`
+}));
 
 export const US_BROKERS = [
   {
@@ -111,7 +123,7 @@ export const US_BROKERS = [
   }
 ];
 
-export const CITY_CONTEXTS: Record<string, string> = {
+export const CITY_CONTEXT_US: Record<string, string> = {
   'new-york': "Wall Street is literally in your backyard. New York traders benefit from direct proximity to the NYSE and NASDAQ, plus the deepest liquidity pools during the US session.",
   'chicago': "Home to the CME and CBOT, Chicago is the futures capital of the world. Institutional order flow and commodity cycles define the local trading culture.",
   'miami': "Miami's growing finance scene and international trading community make it a hub for forex and crypto traders looking for a cross-border edge.",
@@ -122,4 +134,12 @@ export const CITY_CONTEXTS: Record<string, string> = {
   'seattle': "Seattle's Amazon and Microsoft ecosystem has produced data-driven traders who apply cloud-scale engineering thinking to market micro-structure.",
   'denver': "Denver's growing tech scene and outdoor lifestyle attract traders building flexible income streams in the Mountain Time zone.",
   'atlanta': "Atlanta's major corporate hub and growing fintech scene support a community of active retail traders in the Southeast United States."
+};
+
+export const TOPIC_DISPLAY_US: Record<string, string> = {
+  'day-trading': 'Day Trading',
+  'forex-trading': 'Forex Markets',
+  'stock-trading': 'Equity Trading',
+  'options-trading': 'Options & Derivatives',
+  'trading-courses': 'Education'
 };

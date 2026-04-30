@@ -55,20 +55,50 @@ export const SG_BROKERS = [
   }
 ];
 
-export const SG_BEST_OF = [
+export const BEST_OF_PAGES_SG = [
   'forex-broker-singapore', 'trading-platform-singapore', 'cfd-broker-singapore', 
   'broker-for-beginners-singapore', 'crypto-trading-singapore', 'trading-course-singapore', 
   'broker-low-deposit-singapore', 'trading-app-singapore', 'prop-firm-singapore', 
   'ai-trading-tools-singapore'
-];
+].map(slug => ({
+  slug,
+  title: `Best ${slug.replace(/-/g, ' ').toUpperCase()} 2026`,
+  metaDescription: `Reviewing the top ${slug.replace(/-/g, ' ')} for Singaporean traders.`
+}));
 
-export const SG_HOW_TO = [
+export const HOW_TO_PAGES_SG = [
   'start-trading-singapore', 'trade-forex-singapore', 'choose-broker-singapore', 
   'trade-sgx', 'trade-crypto-singapore', 'trading-tax-singapore', 
   'open-trading-account-singapore', 'trade-us-stocks-from-singapore',
   'trade-asia-session', 'trade-during-london-from-asia'
-];
+].map(slug => ({
+  slug,
+  title: `How to ${slug.replace(/-/g, ' ').toUpperCase()}`,
+  metaDescription: `Guide on ${slug.replace(/-/g, ' ')} for Singapore investors.`
+}));
 
-export const SG_COMPARE = [
+export const COMPARE_PAGES_SG = [
   'ig-vs-saxo-singapore', 'cmc-vs-oanda-singapore', 'cfd-vs-stocks-singapore'
-];
+].map(slug => ({
+  slug,
+  title: `${slug.replace(/-/g, ' ').toUpperCase()} Comparison`,
+  metaDescription: `Comparing top platforms in Singapore: ${slug.replace(/-/g, ' ')}.`
+}));
+
+export const SG_CITIES = ['Marina Bay', 'Orchard', 'Jurong', 'Tampines', 'Woodlands'];
+export const SG_TOPICS = ['forex', 'stocks', 'options', 'crypto'];
+
+export const CITY_CONTEXT_SG: Record<string, string> = {
+  'Marina Bay': 'the global financial hub of the city',
+  'Orchard': 'the premier retail and lifestyle destination',
+  'Jurong': 'the industrial and innovation powerhouse',
+  'Tampines': 'a major regional commercial center',
+  'Woodlands': 'the strategic northern gateway'
+};
+
+export const TOPIC_DISPLAY_SG: Record<string, string> = {
+  'forex': 'Foreign Exchange',
+  'stocks': 'Equity Markets',
+  'options': 'Derivative Options',
+  'crypto': 'Digital Assets'
+};

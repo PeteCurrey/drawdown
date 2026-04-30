@@ -160,7 +160,7 @@ export default function UnitedStatesBrokerReviewPage({ params }: Props) {
                      </div>
                   </div>
                </div>
-            </div>
+            </aside>
           </div>
         </div>
       </section>

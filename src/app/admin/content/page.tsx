@@ -4,8 +4,8 @@ import { useState } from 'react';
 import { 
   Sparkles, 
   FileText, 
-  Twitter, 
-  Linkedin, 
+  Globe, 
+  Share2, 
   Mail, 
   Loader2, 
   ChevronRight, 
@@ -141,11 +141,11 @@ export default function ContentGeneratorPage() {
               <h4 className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary">Social Multiplying</h4>
               <div className="flex gap-2">
                  <button className="flex-1 p-4 bg-background-surface border border-border-slate hover:border-accent transition-colors flex flex-col items-center gap-2 group">
-                    <Twitter className="w-4 h-4 text-text-tertiary group-hover:text-[#1DA1F2]" />
+                    <Globe className="w-4 h-4 text-text-tertiary group-hover:text-[#1DA1F2]" />
                     <span className="text-[8px] font-mono uppercase">Twitter Thread</span>
                  </button>
                  <button className="flex-1 p-4 bg-background-surface border border-border-slate hover:border-accent transition-colors flex flex-col items-center gap-2 group">
-                    <Linkedin className="w-4 h-4 text-text-tertiary group-hover:text-[#0A66C2]" />
+                    <Share2 className="w-4 h-4 text-text-tertiary group-hover:text-[#0A66C2]" />
                     <span className="text-[8px] font-mono uppercase">LinkedIn Post</span>
                  </button>
               </div>

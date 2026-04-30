@@ -928,6 +928,11 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     relatedTerms: ['Depth of Market', 'Level 2 Data', 'Liquidity'],
     faqs: []
   },
+  {
+    term: 'Quote Currency',
+    slug: 'quote-currency',
+    definition: 'The second currency in a currency pair quote.',
+    detailedExplanation: 'In a forex pair (e.g., EUR/USD), the quote currency is the one on the right. It represents how much of that currency is needed to buy one unit of the base currency.',
     example: 'If EUR/USD is 1.10, the quote currency (USD) is worth less than the base currency.',
     relatedTerms: ['Base Currency', 'Exchange Rate', 'Forex Pair'],
     faqs: []

@@ -1,6 +1,7 @@
 import { siteConfig } from "@/lib/metadata";
 
 export type Region = 'uk' | 'au' | 'us' | 'sg' | 'hk';
+export const REGIONS: Region[] = ['uk', 'au', 'us', 'sg', 'hk'];
 
 const REGION_CONFIG: Record<Region, { hreflang: string; locale: string }> = {
   uk: { hreflang: 'en-GB', locale: 'en_GB' },

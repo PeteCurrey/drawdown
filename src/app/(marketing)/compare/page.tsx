@@ -60,7 +60,7 @@ export default function CompareHub() {
                 <div className="p-4 bg-background-elevated/50 border border-border-slate/50">
                    <p className="text-[10px] font-mono text-text-tertiary uppercase mb-2">Verdict:</p>
                    <p className="text-sm text-text-secondary italic">
-                      "{featured.quickVerdict.reasoning.slice(0, 100)}..."
+                      "{featured.quickVerdict.reason.slice(0, 100)}..."
                    </p>
                 </div>
                 <div className="flex items-center justify-between pt-4 border-t border-border-slate/50">

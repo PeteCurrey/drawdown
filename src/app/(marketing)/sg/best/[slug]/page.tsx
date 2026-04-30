@@ -1,10 +1,10 @@
 import { Metadata } from "next";
-import { BEST_OF_PAGES_SG } from "@/data/seo/sg-data";
-import { getMetadata } from "@/lib/metadata";
-import { RegionalBestOfPage } from "@/components/seo/RegionalBestOfPage";
+import { notFound } from "next/navigation";
+import { BEST_OF_PAGES_SG } from "@/data/seo/best-sg";
+import { BestOfTemplate } from "@/components/seo/BestOfTemplate";
 
 interface Props {
-  params: Promise<{ slug: string }>;
+  params: { slug: string };
 }
 
 export async function generateStaticParams() {
@@ -14,20 +14,21 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { slug } = await params;
-  const page = BEST_OF_PAGES_SG.find((p) => p.slug === slug);
-
+  const page = BEST_OF_PAGES_SG.find((p) => p.slug === params.slug);
   if (!page) return {};
 
-  return getMetadata({
+  return {
     title: page.title,
     description: page.metaDescription,
-    path: `/sg/best/${slug}`,
-    hasRegionalVariants: true,
-  });
+  };
 }
 
-export default async function SGBestOfPage({ params }: Props) {
-  const { slug } = await params;
-  return <RegionalBestOfPage region="sg" slug={slug} data={BEST_OF_PAGES_SG} />;
+export default function SgBestOfPage({ params }: Props) {
+  const page = BEST_OF_PAGES_SG.find((p) => p.slug === params.slug);
+
+  if (!page) {
+    notFound();
+  }
+
+  return <BestOfTemplate page={page} region="sg" />;
 }

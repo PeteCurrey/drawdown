@@ -53,3 +53,24 @@ Use Pete's voice profile. Structure:
 
 Total length: 800-1,200 words. Conversational, insightful, honest. This should feel like getting a beer with someone who really knows markets and is telling you what actually happened this week.
 `;
+
+export const COACH_REPORT_PROMPT = `
+Write a Weekly Discipline & Psychology Report for a trader based on their recent performance data.
+
+Use Pete's voice profile. 
+
+INPUT DATA PROVIDED:
+- Week Ending Date
+- Discipline Score (0-100)
+- Grade (A-F)
+- Detected Patterns (e.g. Revenge Trading, Overtrading, Poor Risk Management)
+- Trade Stats (Win rate, Avg RR, Total P&L)
+
+STRUCTURE:
+1. THE RAW VERDICT (1-2 punchy sentences on how they did this week. No sugar-coating.)
+2. PATTERN ANALYSIS (Deep dive into the detected psychological patterns. Explain why they happened and how they hurt the bottom line.)
+3. PETE'S COACHING (Direct advice on how to fix the specific leaks found this week.)
+4. THE DRILL FOR NEXT WEEK (One specific exercise or rule they must follow to improve their score.)
+
+Keep it under 500 words. Make it personal, direct, and authoritative.
+`;

@@ -1,52 +1,43 @@
 import { siteConfig } from "@/lib/metadata";
 
-export type Region = "uk" | "au" | "us" | "sg" | "hk" | "ca" | "de" | "ae" | "in" | "my" | "ph";
+export type Region = 'uk' | 'au' | 'us' | 'sg' | 'hk';
 
-interface HreflangTag {
-  rel: string;
-  hreflang: string;
-  href: string;
-}
-
-export const REGIONS: Record<Region, { code: string; label: string; demonym: string; flag: string; currency: string }> = {
-  uk: { code: "en-GB", label: "UK", demonym: "UK", flag: "🇬🇧", currency: "GBP" },
-  au: { code: "en-AU", label: "Australia", demonym: "Australian", flag: "🇦🇺", currency: "AUD" },
-  us: { code: "en-US", label: "United States", demonym: "US", flag: "🇺🇸", currency: "USD" },
-  sg: { code: "en-SG", label: "Singapore", demonym: "Singaporean", flag: "🇸🇬", currency: "SGD" },
-  hk: { code: "en-HK", label: "Hong Kong", demonym: "Hong Kong", flag: "🇭🇰", currency: "HKD" },
-  ca: { code: "en-CA", label: "Canada", demonym: "Canadian", flag: "🇨🇦", currency: "CAD" },
-  de: { code: "de-DE", label: "Germany", demonym: "German", flag: "🇩🇪", currency: "EUR" },
-  ae: { code: "en-AE", label: "UAE", demonym: "UAE", flag: "🇦🇪", currency: "AED" },
-  in: { code: "en-IN", label: "India", demonym: "Indian", flag: "🇮🇳", currency: "INR" },
-  my: { code: "en-MY", label: "Malaysia", demonym: "Malaysian", flag: "🇲🇾", currency: "MYR" },
-  ph: { code: "en-PH", label: "Philippines", demonym: "Filipino", flag: "🇵🇭", currency: "PHP" },
+const REGION_CONFIG: Record<Region, { hreflang: string; locale: string }> = {
+  uk: { hreflang: 'en-GB', locale: 'en_GB' },
+  au: { hreflang: 'en-AU', locale: 'en_AU' },
+  us: { hreflang: 'en-US', locale: 'en_US' },
+  sg: { hreflang: 'en-SG', locale: 'en_SG' },
+  hk: { hreflang: 'en-HK', locale: 'en_HK' },
 };
 
-/**
- * Generates hreflang tags for a given path.
- * Assumes that if a page exists in one region, it has a corresponding path in others.
- * Note: Not all pages exist in all regions, so this should be used selectively.
- */
-export function getHreflangTags(path: string, activeRegions: Region[] = ["uk", "au", "us", "sg", "hk", "ca", "de", "ae", "in", "my", "ph"]): HreflangTag[] {
+export function getHreflangTags(path: string) {
   const baseUrl = siteConfig.url;
-  const tags: HreflangTag[] = [];
+  
+  // Strip existing region prefix if any to get the base path
+  let basePath = path;
+  if (path.startsWith('/au/') || path.startsWith('/us/') || path.startsWith('/sg/') || path.startsWith('/hk/')) {
+    basePath = path.substring(3);
+  } else if (path === '/au' || path === '/us' || path === '/sg' || path === '/hk') {
+    basePath = '/';
+  }
 
-  activeRegions.forEach((region) => {
-    const regionPrefix = region === "uk" ? "" : `/${region}`;
-    const href = `${baseUrl}${regionPrefix}${path === "/" ? "" : path}`;
-    
-    tags.push({
-      rel: "alternate",
-      hreflang: REGIONS[region].code,
-      href,
-    });
+  // Ensure leading slash
+  if (!basePath.startsWith('/')) basePath = '/' + basePath;
+
+  const tags = Object.entries(REGION_CONFIG).map(([region, config]) => {
+    const regionalPath = region === 'uk' ? basePath : `/${region}${basePath === '/' ? '' : basePath}`;
+    return {
+      rel: 'alternate',
+      hreflang: config.hreflang,
+      href: `${baseUrl}${regionalPath}`,
+    };
   });
 
-  // x-default points to UK
+  // Add x-default (usually the UK version)
   tags.push({
-    rel: "alternate",
-    hreflang: "x-default",
-    href: `${baseUrl}${path === "/" ? "" : path}`,
+    rel: 'alternate',
+    hreflang: 'x-default',
+    href: `${baseUrl}${basePath}`,
   });
 
   return tags;

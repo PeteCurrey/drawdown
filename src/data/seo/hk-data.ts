@@ -1,52 +1,63 @@
-export const BEST_OF_PAGES_HK = [
+export const HK_BROKERS = [
   {
-    slug: "forex-broker-hong-kong",
-    eyebrow: "TRADING GATEWAYS // HONG KONG",
-    title: "Best Forex Brokers in Hong Kong for 2026",
-    metaDescription: "Compare the best SFC-regulated forex brokers in Hong Kong. Expert reviews of IG, Interactive Brokers, and Saxo HK.",
-    lastUpdated: "APRIL 2026",
-    introduction: "Hong Kong remains a critical gateway to global markets. For traders in HK, using an Securities and Futures Commission (SFC) regulated broker is essential for regulatory protection.",
-    methodology: "We analyzed SFC Type 3 licensed brokers, focusing on their multi-asset capabilities, HKD funding efficiency, and platform localized for the HK market.",
-    comparisonTable: [
-      { rank: 1, name: "IG Hong Kong", bestFor: "Overall / Global Reach", keyStat: "SFC Licensed", rating: 4.9, link: "https://ig.com/hk" },
-      { rank: 2, name: "Interactive Brokers HK", bestFor: "Low Cost / Professional", keyStat: "Global Assets", rating: 4.8, link: "https://interactivebrokers.com.hk" },
-    ],
-    reviews: [
-      {
-        name: "IG Hong Kong",
-        description: "IG is a premier SFC-regulated broker in Hong Kong, providing access to thousands of global markets with a highly reliable platform.",
-        pros: ["SFC Licensed (Type 3)", "HKD Denominated Accounts", "Advanced Technical Tools", "Professional Support"],
-        cons: ["Leverage capped at 1:20", "Higher margin requirements for retail"],
-        bestFor: "PROFESSIONAL RETAIL TRADERS",
-        ctaLink: "https://ig.com/hk"
-      }
-    ],
-    faqs: [
-      { question: "Is trading tax-free in Hong Kong?", answer: "Yes, Hong Kong generally does not tax capital gains for individuals. This makes it one of the best places in the world to trade." }
-    ]
+    slug: 'ig-hong-kong',
+    name: 'IG Hong Kong',
+    regulation: 'SFC (Type 3)',
+    badge: 'Best Overall',
+    description: 'SFC-regulated powerhouse providing professional Hong Kong traders with access to global markets and deep liquidity.',
+    pros: ['SFC Licensed', '17,000+ Markets', 'Local HK Support'],
+    link: 'https://ig.com/hk'
+  },
+  {
+    slug: 'saxo-markets-hong-kong',
+    name: 'Saxo Markets',
+    regulation: 'SFC',
+    badge: 'Premium Choice',
+    description: 'A top-tier investment bank platform offering extensive asset classes and professional-grade research for HK investors.',
+    pros: ['Multi-asset leader', 'SFC Type 1, 2, 3', 'High-net-worth services'],
+    link: 'https://home.saxo/en-hk'
+  },
+  {
+    slug: 'interactive-brokers-hong-kong',
+    name: 'Interactive Brokers',
+    regulation: 'SFC',
+    badge: 'Pro Trader Choice',
+    description: 'The global standard for professional execution, providing HK traders with the lowest margin rates and direct market access.',
+    pros: ['Lowest commissions', '150+ Markets', 'Robust API'],
+    link: 'https://interactivebrokers.com.hk'
+  },
+  {
+    slug: 'cmc-markets-hong-kong',
+    name: 'CMC Markets',
+    regulation: 'SFC',
+    badge: 'Best for CFDs',
+    description: 'SFC-regulated CFD provider featuring advanced charting and institutional-grade pricing on global indices and FX.',
+    pros: ['Award-winning tech', 'Competitive spreads', 'Professional education'],
+    link: 'https://cmcmarkets.com/en-hk'
+  },
+  {
+    slug: 'oanda-hong-kong',
+    name: 'OANDA',
+    regulation: 'SFC',
+    badge: 'Beginner Friendly',
+    description: 'Specializing in forex education and reliable execution for Hong Kong retail traders. No minimum deposit.',
+    pros: ['No minimum deposit', 'Superior UI', 'SFC Type 3 Licensed'],
+    link: 'https://oanda.com/hk-en'
   }
 ];
 
-export const HK_CITIES = [
-  "central", "tst", "kowloon", "wan-chai", "causeway-bay"
+export const HK_BEST_OF = [
+  'forex-broker-hong-kong', 'trading-platform-hong-kong', 'cfd-broker-hong-kong', 
+  'broker-for-beginners-hong-kong', 'crypto-trading-hong-kong', 'trading-course-hong-kong', 
+  'trading-app-hong-kong', 'prop-firm-hong-kong'
 ];
 
-export const HK_TOPICS = [
-  "forex-trading", "stock-trading", "options-trading", "crypto-trading", "day-trading"
+export const HK_HOW_TO = [
+  'start-trading-hong-kong', 'trade-forex-hong-kong', 'choose-broker-hong-kong', 
+  'trade-hsi', 'trading-tax-hong-kong', 'trade-us-stocks-from-hong-kong',
+  'trade-asia-session', 'trade-during-london-from-asia'
 ];
 
-export const CITY_CONTEXT_HK: Record<string, string> = {
-  central: "In the heart of the global financial engine, Central traders operate with institutional precision.",
-  tst: "Tsim Sha Tsui's vibrant energy is matched by its community of high-performance retail traders.",
-  kowloon: "Kowloon is a major hub for independent traders who leverage the city's world-class digital infrastructure.",
-  "wan-chai": "Wan Chai's dynamic business environment is home to many sophisticated multi-asset traders.",
-  "causeway-bay": "Traders in Causeway Bay demand the best-in-class mobile tools for fast-paced market analysis.",
-};
-
-export const TOPIC_DISPLAY_HK: Record<string, string> = {
-  "forex-trading": "Forex Trading",
-  "stock-trading": "Stock Trading",
-  "options-trading": "Options Trading",
-  "crypto-trading": "Crypto Trading",
-  "day-trading": "Day Trading",
-};
+export const HK_COMPARE = [
+  'ig-vs-saxo-hong-kong', 'interactive-brokers-vs-saxo-hong-kong'
+];

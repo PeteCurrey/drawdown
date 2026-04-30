@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import Link from "next/link";
 import { GLOSSARY_TERMS } from "@/data/seo/glossary";
 import { Search, ArrowRight } from "lucide-react";
+import { cn } from "@/lib/utils";
 import { TrackPageView } from "@/components/admin/TrackPageView";
 
 export const metadata: Metadata = {
@@ -20,62 +21,99 @@ export default function GlossaryIndex() {
 
   const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
 
+  // Mock trending terms
+  const trending = GLOSSARY_TERMS.slice(0, 6);
+
   return (
     <main className="min-h-screen bg-background-primary pt-32 pb-20 px-6">
       <TrackPageView path="/glossary" />
       <div className="max-w-6xl mx-auto">
         {/* Header */}
-        <div className="text-center mb-16 space-y-6">
-          <h1 className="  font-display font-bold uppercase tracking-tighter">Trading Glossary</h1>
-          <p className="text-text-tertiary font-mono text-sm uppercase tracking-[0.3em] max-w-2xl mx-auto">
-            Every essential term, concept, and piece of jargon explained with honest, UK-focused clarity.
+        <div className="mb-20">
+          <span className="text-accent font-mono text-[10px] uppercase tracking-widest block mb-4 underline decoration-accent/30 underline-offset-8 decoration-2">// TERMINOLOGY DATABASE</span>
+          <h1 className="text-5xl md:text-8xl font-display font-bold uppercase mb-8 text-text-primary leading-[0.85]">
+             The Market <br /> Dictionary.
+          </h1>
+          <p className="text-xl text-text-secondary max-w-2xl font-sans leading-relaxed">
+            Every essential term, concept, and piece of jargon explained with honest, UK-focused clarity. From "Alpha" to "Zero-Day Options."
           </p>
         </div>
 
-        {/* Alpha Nav */}
-        <nav className="flex flex-wrap justify-center gap-2 mb-16 border-y border-border-slate py-6">
-          {alphabet.map((letter) => (
-            <a 
-              key={letter} 
-              href={`#${letter}`}
-              className={`w-8 h-8 flex items-center justify-center font-mono text-xs rounded hover:bg-accent hover:text-background-primary transition-colors ${groupedTerms[letter] ? 'text-text-primary' : 'text-text-tertiary pointer-events-none'}`}
-            >
-              {letter}
-            </a>
-          ))}
-        </nav>
+        {/* Search & Trending */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 mb-24">
+          <div className="lg:col-span-2 space-y-12">
+             <div className="relative group">
+                <Search className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-text-tertiary group-focus-within:text-accent transition-colors" />
+                <input 
+                  type="text" 
+                  placeholder="Search the dictionary..." 
+                  className="w-full bg-background-surface border border-border-slate px-16 py-6 text-lg focus:border-accent outline-none transition-premium font-display uppercase tracking-wider"
+                />
+             </div>
 
-        {/* Search (Placeholder for functionality) */}
-        <div className="max-w-xl mx-auto mb-20 relative">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-text-tertiary" />
-          <input 
-            type="text" 
-            placeholder="Search glossary terms..." 
-            className="w-full bg-background-elevated border border-border-slate px-12 py-4 text-sm focus:border-accent outline-none transition-colors font-mono"
-          />
+             <div className="space-y-6">
+                <h4 className="text-[10px] font-mono uppercase tracking-[0.3em] text-text-tertiary">Quick Navigation</h4>
+                <nav className="flex flex-wrap gap-2 border-y border-border-slate/30 py-8">
+                  {alphabet.map((letter) => (
+                    <a 
+                      key={letter} 
+                      href={`#${letter}`}
+                      className={cn(
+                        "w-10 h-10 flex items-center justify-center font-display text-sm border transition-all",
+                        groupedTerms[letter] 
+                          ? "text-text-primary border-border-slate hover:border-accent hover:text-accent" 
+                          : "text-text-tertiary border-transparent pointer-events-none opacity-30"
+                      )}
+                    >
+                      {letter}
+                    </a>
+                  ))}
+                </nav>
+             </div>
+          </div>
+
+          <div className="bg-background-surface border border-border-slate p-8 space-y-8">
+             <h4 className="text-[10px] font-mono uppercase tracking-widest text-accent font-bold">Trending Terms</h4>
+             <div className="space-y-4">
+                {trending.map((term) => (
+                   <Link 
+                     key={term.slug}
+                     href={`/glossary/${term.slug}`}
+                     className="flex items-center justify-between group py-2 border-b border-border-slate/30 last:border-0"
+                   >
+                      <span className="text-sm font-bold uppercase group-hover:text-accent transition-colors">{term.term}</span>
+                      <ArrowRight className="w-3 h-3 text-text-tertiary group-hover:translate-x-1 transition-all" />
+                   </Link>
+                ))}
+             </div>
+          </div>
         </div>
 
         {/* Terms Grid */}
-        <div className="space-y-20">
+        <div className="space-y-32">
           {alphabet.filter(l => groupedTerms[l]).map((letter) => (
             <section key={letter} id={letter} className="scroll-mt-32">
-              <div className="flex items-center space-x-6 mb-8">
-                <h2 className="text-6xl font-display font-bold text-accent/20 select-none">{letter}</h2>
-                <div className="h-px flex-1 bg-border-slate" />
+              <div className="flex items-center space-x-8 mb-12">
+                <h2 className="text-8xl font-display font-bold text-accent/10 select-none leading-none">{letter}</h2>
+                <div className="h-px flex-1 bg-gradient-to-r from-border-slate to-transparent" />
               </div>
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
                 {groupedTerms[letter].map((term) => (
                   <Link 
                     key={term.slug} 
                     href={`/glossary/${term.slug}`}
-                    className="group bg-background-elevated border border-border-slate p-6 hover:border-accent transition-all hover:-translate-y-1"
+                    className="group flex flex-col justify-between py-6 border-b border-border-slate/50 hover:border-accent transition-all"
                   >
-                    <h3 className="text-lg font-bold mb-2 group-hover:text-accent transition-colors">{term.term}</h3>
-                    <p className="text-xs text-text-tertiary font-mono uppercase tracking-wider mb-4">{term.definition.slice(0, 80)}...</p>
-                    <span className="text-[10px] font-mono uppercase tracking-widest text-accent flex items-center space-x-2">
-                      <span>Define Term</span>
-                      <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
-                    </span>
+                    <div>
+                       <h3 className="text-xl font-display font-bold uppercase mb-4 group-hover:text-accent transition-colors">{term.term}</h3>
+                       <p className="text-sm text-text-secondary leading-relaxed line-clamp-2 font-sans">
+                         {term.definition}
+                       </p>
+                    </div>
+                    <div className="mt-6 flex items-center justify-between">
+                       <span className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary group-hover:text-accent transition-colors">Definition</span>
+                       <ArrowRight className="w-4 h-4 text-text-tertiary group-hover:translate-x-2 transition-all" />
+                    </div>
                   </Link>
                 ))}
               </div>

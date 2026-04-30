@@ -1,4 +1,7 @@
 import { notFound } from "next/navigation";
+
+export const dynamic = "force-static";
+export const dynamicParams = true;
 import { BEST_OF_PAGES } from "@/data/seo/best";
 import { brokers } from "@/data/brokers";
 import { Metadata } from "next";

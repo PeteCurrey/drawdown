@@ -159,16 +159,10 @@ export function Footer() {
                 <div className="flex flex-wrap items-center justify-end gap-x-4 gap-y-2">
                   {[
                     { id: "uk", flag: "🇬🇧", label: "UK", href: "/" },
-                    { id: "us", flag: "🇺🇸", label: "US", href: "/us" },
                     { id: "au", flag: "🇦🇺", label: "AU", href: "/au" },
-                    { id: "ca", flag: "🇨🇦", label: "CA", href: "/ca" },
-                    { id: "de", flag: "🇩🇪", label: "DE", href: "/de" },
-                    { id: "ae", flag: "🇦🇪", label: "AE", href: "/ae" },
+                    { id: "us", flag: "🇺🇸", label: "US", href: "/us" },
                     { id: "sg", flag: "🇸🇬", label: "SG", href: "/sg" },
                     { id: "hk", flag: "🇭🇰", label: "HK", href: "/hk" },
-                    { id: "in", flag: "🇮🇳", label: "IN", href: "/in" },
-                    { id: "my", flag: "🇲🇾", label: "MY", href: "/my" },
-                    { id: "ph", flag: "🇵🇭", label: "PH", href: "/ph" },
                   ].map((reg) => (
                     <Link 
                       key={reg.id}

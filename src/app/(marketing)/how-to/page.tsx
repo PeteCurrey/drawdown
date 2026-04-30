@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import Link from "next/link";
 import { HOW_TO_PAGES } from "@/data/seo/howto";
 import { ArrowRight, Clock, ChevronRight } from "lucide-react";
+import { cn } from "@/lib/utils";
 import { TrackPageView } from "@/components/admin/TrackPageView";
 
 export const metadata: Metadata = {
@@ -10,6 +11,9 @@ export const metadata: Metadata = {
 };
 
 export default function HowToHub() {
+  const categories = ["All", "Psychology", "Technical", "Strategy", "Basics"];
+  const featured = HOW_TO_PAGES.find(p => p.slug === 'start-trading-uk') || HOW_TO_PAGES[0];
+
   return (
     <main className="min-h-screen bg-background-primary pt-32 pb-20 px-6">
       <TrackPageView path="/how-to" />
@@ -21,15 +25,62 @@ export default function HowToHub() {
           <span className="text-text-primary">How-To</span>
         </nav>
 
-        {/* Header */}
-        <div className="mb-20">
-          <span className="text-accent font-mono text-[10px] uppercase tracking-widest block mb-4">// EXECUTION GUIDES</span>
-          <h1 className="text-5xl md:text-8xl font-display font-bold uppercase mb-8 text-text-primary">
-            Master the <br className="hidden md:block" /> Process.
-          </h1>
-          <p className="text-xl text-text-secondary max-w-2xl font-sans">
-            Trading isn't about being right; it's about being prepared. Our step-by-step guides show you the exact mechanics of professional risk management and execution.
-          </p>
+        {/* Hero Section */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 mb-24 items-center">
+          <div className="space-y-8">
+            <div>
+              <span className="text-accent font-mono text-[10px] uppercase tracking-widest block mb-4">// EXECUTION GUIDES</span>
+              <h1 className="text-5xl md:text-8xl font-display font-bold uppercase text-text-primary leading-[0.85]">
+                Master the <br /> Process.
+              </h1>
+            </div>
+            <p className="text-xl text-text-secondary max-w-xl font-sans leading-relaxed">
+              Trading isn't about being right; it's about being prepared. Our step-by-step guides show you the exact mechanics of professional risk management and execution.
+            </p>
+          </div>
+
+          {/* Featured Guide Spotlight */}
+          <div className="relative group">
+            <div className="absolute inset-0 bg-accent/20 blur-[100px] group-hover:bg-accent/30 transition-all" />
+            <Link 
+              href={`/how-to/${featured.slug}`}
+              className="relative block bg-background-surface border border-accent/30 p-10 hover:border-accent transition-premium overflow-hidden"
+            >
+              <div className="space-y-6 relative z-10">
+                <div className="flex items-center justify-between">
+                   <span className="text-accent font-mono text-[10px] uppercase tracking-widest">Recommended Starter</span>
+                   <div className="flex items-center gap-2 text-[10px] font-mono text-text-tertiary">
+                      <Clock className="w-3 h-3" />
+                      <span>{featured.readingTime}</span>
+                   </div>
+                </div>
+                <h3 className="text-4xl font-display font-bold uppercase">{featured.title.split('—')[0]}</h3>
+                <p className="text-text-secondary text-sm leading-relaxed line-clamp-2">
+                  {featured.metaDescription}
+                </p>
+                <div className="flex items-center justify-between pt-4 border-t border-border-slate/50">
+                   <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-text-primary group-hover:text-accent transition-colors">Begin Training</span>
+                   <ArrowRight className="w-5 h-5 text-accent" />
+                </div>
+              </div>
+            </Link>
+          </div>
+        </div>
+
+        {/* Filter Bar */}
+        <div className="flex flex-wrap items-center gap-4 mb-12 border-b border-border-slate/50 pb-8">
+           <span className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary mr-4">Topic:</span>
+           {categories.map((cat, i) => (
+             <button 
+               key={cat}
+               className={cn(
+                 "px-6 py-2 text-[10px] font-mono uppercase tracking-widest border transition-all",
+                 i === 0 ? "bg-accent border-accent text-background-primary font-bold" : "bg-transparent border-border-slate text-text-tertiary hover:border-text-primary hover:text-text-primary"
+               )}
+             >
+               {cat}
+             </button>
+           ))}
         </div>
 
         {/* Grid */}
@@ -38,7 +89,7 @@ export default function HowToHub() {
             <Link 
               key={page.slug} 
               href={`/how-to/${page.slug}`}
-              className="group bg-background-surface border border-border-slate p-10 hover:border-accent transition-premium flex flex-col justify-between h-[400px] relative overflow-hidden"
+              className="group bg-background-surface border border-border-slate p-10 hover:border-accent transition-premium flex flex-col justify-between h-[380px] relative overflow-hidden"
             >
               <div className="relative z-10 space-y-6">
                 <div className="flex items-center justify-between">
@@ -51,7 +102,7 @@ export default function HowToHub() {
                 <h2 className="text-3xl font-display font-bold uppercase leading-tight group-hover:text-accent transition-colors">
                   {page.title.split('—')[0]}
                 </h2>
-                <p className="text-text-secondary text-sm leading-relaxed line-clamp-3">
+                <p className="text-text-secondary text-xs leading-relaxed line-clamp-3 font-mono uppercase tracking-tight">
                   {page.metaDescription}
                 </p>
               </div>
@@ -61,9 +112,9 @@ export default function HowToHub() {
                 <ArrowRight className="w-4 h-4 text-text-tertiary group-hover:text-accent group-hover:translate-x-2 transition-all" />
               </div>
 
-              {/* Decorative background number */}
+              {/* Decorative background number/element */}
               <div className="absolute -right-8 -bottom-8 text-[120px] font-display font-black text-accent/5 select-none transition-colors group-hover:text-accent/10">
-                ?
+                //
               </div>
             </Link>
           ))}

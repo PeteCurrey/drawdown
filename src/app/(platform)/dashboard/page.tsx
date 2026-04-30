@@ -16,8 +16,59 @@ import { MarketConsensus } from "@/components/market/MarketConsensus";
 import { EmotionalPnL } from "@/components/dashboard/EmotionalPnL";
 import { WatchlistManager } from "@/components/dashboard/WatchlistManager";
 import { AlertCentre } from "@/components/dashboard/AlertCentre";
+import { PsychologyCoach } from "@/components/dashboard/PsychologyCoach";
 import { createClient } from "@/lib/supabase/client";
 import Link from "next/link";
+
+// Mock data for the coach demonstration
+const mockAccount = {
+  id: "acc_1",
+  user_id: "user_1",
+  prop_firm_id: "ftmo",
+  account_name: "FTMO Challenge",
+  account_size: 100000,
+  current_balance: 98500,
+  daily_loss_limit: 5000,
+  daily_loss_type: 'balance_based' as const,
+  max_drawdown_limit: 10000,
+  max_drawdown_type: 'static' as const,
+  days_traded: 12,
+  account_phase: 'challenge_phase1' as const,
+  account_status: 'active' as const,
+  currency: "USD",
+  platform: 'mt5' as const,
+  created_at: new Date().toISOString(),
+  updated_at: new Date().toISOString()
+};
+
+const mockTrades = [
+  {
+    id: "t1",
+    account_id: "acc_1",
+    user_id: "user_1",
+    instrument: "GBPUSD",
+    direction: 'long' as const,
+    lot_size: 5.0,
+    entry_price: 1.2650,
+    exit_price: 1.2680,
+    entry_time: new Date().toISOString(),
+    exit_time: new Date().toISOString(),
+    net_pnl: 1500,
+  },
+  {
+    id: "t2",
+    account_id: "acc_1",
+    user_id: "user_1",
+    instrument: "GBPUSD",
+    direction: 'long' as const,
+    lot_size: 10.0, // Aggressive increase detected!
+    entry_price: 1.2680,
+    exit_price: 1.2640,
+    entry_time: new Date(Date.now() - 1000 * 60 * 15).toISOString(), // 15 mins ago
+    exit_time: new Date(Date.now() - 1000 * 60 * 5).toISOString(),
+    net_pnl: -4000, // Large loss detected!
+  }
+];
 
 export default function DashboardPage() {
   const [greeting, setGreeting] = useState("Morning");
@@ -161,33 +212,8 @@ export default function DashboardPage() {
 
         {/* Right Column: Sidebar Widgets */}
         <div className="space-y-12">
-          {/* Recent Trades */}
-          <div className="space-y-6">
-            <h4 className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary">Recent Trades</h4>
-            <div className="p-8 bg-background-surface border border-border-slate space-y-6">
-              {[
-                { pair: "GBPUSD", type: "Long", pnl: "+£450.00", status: "win" },
-                { pair: "BTCUSD", type: "Short", pnl: "-£120.50", status: "loss" },
-                { pair: "EURJPY", type: "Long", pnl: "+£890.12", status: "win" },
-              ].map((trade, i) => (
-                <div key={i} className="flex justify-between items-center py-2 border-b border-border-slate/50 last:border-0">
-                  <div>
-                    <p className="text-xs font-bold uppercase tracking-widest">{trade.pair}</p>
-                    <p className="text-[10px] font-mono text-text-tertiary uppercase">{trade.type}</p>
-                  </div>
-                  <p className={cn(
-                    "text-xs font-mono font-bold",
-                    trade.status === 'win' ? 'text-profit' : 'text-loss'
-                  )}>
-                    {trade.pnl}
-                  </p>
-                </div>
-              ))}
-              <button className="w-full py-3 bg-background-elevated border border-border-slate text-[10px] font-bold uppercase tracking-widest hover:border-text-primary transition-colors">
-                View Journal
-              </button>
-            </div>
-          </div>
+          {/* AI Psychology Coach */}
+          <PsychologyCoach trades={mockTrades as any} account={mockAccount as any} />
 
           <BrokerWidget />
           <EmotionalPnL />

@@ -1,17 +1,39 @@
-export const COMPARE_PAGES_AU = [
+import { ComparisonPage } from "./compare";
+
+export const COMPARE_PAGES_AU: ComparisonPage[] = [
   {
-    slug: "pepperstone-vs-ic-markets",
-    eyebrow: "BROKER DUEL // AUSTRALIA",
-    title: "Pepperstone vs IC Markets: Which AU Broker is Better?",
-    metaDescription: "A deep dive comparison between Australia's two biggest brokers. We compare execution speed, AUD funding, and ASIC security.",
-    lastUpdated: "APRIL 2026",
-    introduction: "Pepperstone and IC Markets are the two giants of the Australian trading landscape. Both are headquartered in Australia, both are ASIC regulated, and both claim to offer the lowest spreads. But which one is right for your strategy?",
-    comparisonMatrix: [
-      { feature: "Regulation", b1: "ASIC (AU), FCA (UK)", b2: "ASIC (AU), CySEC" },
-      { feature: "Min Deposit", b1: "A$200", b2: "A$200" },
-      { feature: "EURUSD Spread", b1: "0.0 - 0.3 Pips", b2: "0.0 - 0.2 Pips" },
-      { feature: "Headquarters", b1: "Melbourne", b2: "Sydney" },
+    slug: 'pepperstone-vs-ic-markets',
+    title: 'Pepperstone vs IC Markets — Which Australia-Based Broker Wins?',
+    eyebrow: '// BROKER SHOWDOWN',
+    metaDescription: 'A detailed comparison between Australia\'s two biggest brokers. We compare Pepperstone and IC Markets on speed, spreads, and local support.',
+    quickVerdict: {
+      winner: 'Pepperstone',
+      reason: 'Slightly better execution speed and a more intuitive client portal, though IC Markets is a close second for raw spreads.',
+      prosA: ['Sub-30ms latency', 'Superior support', 'TradingView integration'],
+      prosB: ['Lowest raw spreads', 'Deep liquidity', 'Global reputation']
+    },
+    comparisonTable: [
+      { feature: 'ASIC Regulated', a: 'Yes', b: 'Yes' },
+      { feature: 'Avg Spread (EURUSD)', a: '0.1 Pips', b: '0.0 Pips' },
+      { feature: 'Commission', a: 'A$3.50', b: 'A$3.50' },
     ],
-    verdict: "If you prioritize customer service and a polished user experience, Pepperstone wins. If you are an ultra-high-frequency scalper looking for the absolute lowest raw spreads at all times, IC Markets has a slight edge."
-  }
+    sections: [
+      { title: 'Execution Performance', content: 'Both brokers utilize NY4 and LD5 data centers to ensure minimal slippage for their clients.' }
+    ],
+    whoShouldChooseA: ['Active day traders', 'TradingView users'],
+    whoShouldChooseB: ['High-volume scalpers', 'EA users'],
+    faqs: []
+  },
+  ...['fp-markets-vs-fusion-markets', 'eightcap-vs-pepperstone', 'axi-vs-ic-markets', 'cfd-vs-shares-australia'].map(slug => ({
+    slug,
+    title: `${slug.replace(/-/g, ' ').toUpperCase()} Comparison`,
+    eyebrow: '// AUSTRALIA COMPARE',
+    metaDescription: `Comparing ${slug.replace(/-/g, ' ')} for Australian traders. Professional analysis and data-driven results.`,
+    quickVerdict: { winner: 'TBD', reason: 'Depends on your trading style.', prosA: [], prosB: [] },
+    comparisonTable: [],
+    sections: [],
+    whoShouldChooseA: [],
+    whoShouldChooseB: [],
+    faqs: []
+  }))
 ];

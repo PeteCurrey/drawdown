@@ -1,10 +1,10 @@
 import { Metadata } from "next";
-import { BEST_OF_PAGES_HK } from "@/data/seo/hk-data";
-import { getMetadata } from "@/lib/metadata";
-import { RegionalBestOfPage } from "@/components/seo/RegionalBestOfPage";
+import { notFound } from "next/navigation";
+import { BEST_OF_PAGES_HK } from "@/data/seo/best-hk";
+import { BestOfTemplate } from "@/components/seo/BestOfTemplate";
 
 interface Props {
-  params: Promise<{ slug: string }>;
+  params: { slug: string };
 }
 
 export async function generateStaticParams() {
@@ -14,20 +14,21 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { slug } = await params;
-  const page = BEST_OF_PAGES_HK.find((p) => p.slug === slug);
-
+  const page = BEST_OF_PAGES_HK.find((p) => p.slug === params.slug);
   if (!page) return {};
 
-  return getMetadata({
+  return {
     title: page.title,
     description: page.metaDescription,
-    path: `/hk/best/${slug}`,
-    hasRegionalVariants: true,
-  });
+  };
 }
 
-export default async function HKBestOfPage({ params }: Props) {
-  const { slug } = await params;
-  return <RegionalBestOfPage region="hk" slug={slug} data={BEST_OF_PAGES_HK} />;
+export default function HkBestOfPage({ params }: Props) {
+  const page = BEST_OF_PAGES_HK.find((p) => p.slug === params.slug);
+
+  if (!page) {
+    notFound();
+  }
+
+  return <BestOfTemplate page={page} region="hk" />;
 }

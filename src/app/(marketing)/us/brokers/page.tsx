@@ -1,96 +1,149 @@
-import { Metadata } from "next";
-import { getMetadata } from "@/lib/metadata";
-import { brokersUs } from "@/data/brokers-us";
-import { BrokerCard } from "@/components/brokers/BrokerCard";
-import { RegionalProvider } from "@/components/layout/RegionalLayout";
-import { TrackPageView } from "@/components/admin/TrackPageView";
-import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
-import { ShieldCheck, Info, AlertTriangle } from "lucide-react";
+import { Shield, Target, Activity, TrendingUp, ArrowRight, ExternalLink, AlertTriangle } from "lucide-react";
+import Link from "next/link";
+import { US_BROKERS } from "@/data/seo/us-data";
 
-export const metadata: Metadata = getMetadata({
-  title: "Best Brokers for US Traders — CFTC & NFA Regulated | Drawdown",
-  description: "Compare the top regulated forex and stock brokers in the USA. Expert reviews of tastyfx, OANDA, FOREX.com, and Schwab. Built for the US market.",
-  path: "/us/brokers",
-});
+export default function UnitedStatesBrokerHub() {
+  const forexBrokers = US_BROKERS.filter(b => b.type === 'Forex' || b.type === 'Multi-Asset');
+  const stockBrokers = US_BROKERS.filter(b => b.type === 'Stocks' || b.type === 'Stocks/Options' || b.type === 'Stocks/Crypto');
 
-export default function USBrokersPage() {
   return (
-    <RegionalProvider region="us">
-      <div className="pt-32 pb-24 bg-background-primary min-h-screen">
-        <TrackPageView path="/us/brokers" />
-        <div className="container mx-auto px-6">
-          <Breadcrumbs />
-          
-          <header className="mb-16 max-w-4xl">
-            <div className="flex items-center gap-3 mb-6">
-              <span className="px-3 py-1 bg-accent/10 border border-accent/20 text-accent text-[10px] font-mono uppercase tracking-widest">
-                Market Intelligence
-              </span>
-              <span className="text-[10px] font-mono text-text-tertiary uppercase tracking-widest">
-                Region: United States
-              </span>
+    <div className="flex flex-col min-h-screen bg-background-primary">
+      {/* Hero Section */}
+      <section className="relative pt-32 pb-20 border-b border-border-slate overflow-hidden">
+        <div className="container mx-auto px-6 relative z-10">
+          <div className="max-w-4xl space-y-8">
+            <div className="flex items-center gap-3 text-accent transition-all duration-700">
+               <div className="w-8 h-[1px] bg-accent" />
+               <span className="text-[10px] font-mono uppercase tracking-[0.3em]">CFTC & SEC COMPLIANT DIRECTORY</span>
             </div>
-            <h1 className="text-4xl md:text-7xl font-display font-bold uppercase mb-8 leading-tight">
-              Regulated Brokers for <br />
-              <span className="text-accent">US Traders.</span>
+            
+            <h1 className="text-4xl md:text-7xl font-display font-black uppercase leading-[0.95] tracking-tight">
+              Best Brokers for <br />
+              <span className="text-accent underline decoration-accent/20">United States.</span>
             </h1>
-            <p className="text-xl text-text-secondary leading-relaxed font-sans">
-              The US market has some of the strictest financial regulations in the world. We only recommend brokers that are CFTC registered and NFA members for forex, or SEC/FINRA regulated for stocks and options.
+            
+            <p className="text-lg md:text-xl text-text-secondary leading-relaxed max-w-2xl font-medium">
+              We only list brokers registered with the CFTC/NFA for forex, and SEC/FINRA for equities. No offshore entities. No unregulated platforms. Only institutional-grade US compliance.
             </p>
-          </header>
+          </div>
+        </div>
+      </section>
 
-          {/* US Warning Box */}
-          <div className="mb-16 p-8 bg-background-elevated border border-border-slate flex flex-col md:flex-row gap-8 items-center">
-            <div className="w-16 h-16 bg-loss/10 rounded-full flex items-center justify-center shrink-0">
-               <AlertTriangle className="w-8 h-8 text-loss" />
+      {/* CFTC Disclaimer */}
+      <section className="py-8 bg-background-surface border-b border-border-slate">
+         <div className="container mx-auto px-6">
+            <div className="flex items-start gap-4 p-6 bg-background-primary border border-warning/20">
+               <AlertTriangle className="w-6 h-6 text-warning shrink-0" />
+               <div className="space-y-2">
+                  <p className="text-[10px] font-mono uppercase font-bold text-warning">Required CFTC Disclaimer</p>
+                  <p className="text-[10px] font-mono text-text-tertiary leading-relaxed uppercase">
+                    FOREX TRADING INVOLVES SIGNIFICANT RISK OF LOSS AND IS NOT SUITABLE FOR ALL INVESTORS. INCREASING LEVERAGE INCREASES RISK. HYPOTHETICAL PERFORMANCE RESULTS HAVE MANY INHERENT LIMITATIONS.
+                  </p>
+               </div>
             </div>
-            <div className="space-y-2">
-               <h3 className="text-lg font-bold uppercase tracking-tight text-loss">A Note on CFDs & Spread Betting</h3>
-               <p className="text-sm text-text-tertiary leading-relaxed">
-                 Retail CFD trading and Spread Betting are prohibited for US residents. If a broker offers these services to you from an offshore entity, they are likely not regulated and provide no protection for your funds. We only list US-compliant alternatives.
+         </div>
+      </section>
+
+      {/* Broker Categories */}
+      <section className="py-24">
+        <div className="container mx-auto px-6 space-y-32">
+          
+          {/* Forex & Futures Section */}
+          <div className="space-y-12">
+            <div className="space-y-4">
+               <h2 className="text-3xl font-display font-bold uppercase tracking-tight">Regulated Forex & Futures</h2>
+               <div className="w-24 h-1 bg-accent" />
+            </div>
+            <div className="grid grid-cols-1 gap-8">
+               {forexBrokers.map((broker) => (
+                  <BrokerRow key={broker.slug} broker={broker} />
+               ))}
+            </div>
+          </div>
+
+          {/* Stocks & Options Section */}
+          <div className="space-y-12">
+            <div className="space-y-4">
+               <h2 className="text-3xl font-display font-bold uppercase tracking-tight">Equities, Options & Bonds</h2>
+               <div className="w-24 h-1 bg-accent" />
+            </div>
+            <div className="grid grid-cols-1 gap-8">
+               {stockBrokers.map((broker) => (
+                  <BrokerRow key={broker.slug} broker={broker} />
+               ))}
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      {/* Educational Note */}
+      <section className="py-24 bg-background-surface border-y border-border-slate">
+         <div className="container mx-auto px-6 text-center">
+            <div className="max-w-2xl mx-auto space-y-8">
+               <Activity className="w-12 h-12 text-accent mx-auto" />
+               <h2 className="text-3xl md:text-5xl font-display font-black uppercase">Understand Your Data.</h2>
+               <p className="text-text-secondary leading-relaxed">
+                  US markets offer the deepest liquidity on earth, but they also have the strictest rules. From FIFO (First In First Out) to the PDT rule, your strategy must be built for the American environment.
                </p>
+               <Link href="/us/courses" className="inline-flex items-center gap-4 bg-white text-[#08090D] px-10 py-5 font-display font-black uppercase tracking-[0.2em] text-sm hover:translate-y-[-2px] transition-all">
+                  Access US Curriculum <ArrowRight className="w-4 h-4" />
+               </Link>
             </div>
+         </div>
+      </section>
+    </div>
+  );
+}
+
+function BrokerRow({ broker }: { broker: any }) {
+  return (
+    <div className="bg-background-surface border border-border-slate hover:border-accent/30 transition-all p-8 md:p-12 relative overflow-hidden group">
+      <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        <div className="lg:col-span-4 space-y-4">
+          <div className="flex items-center gap-3">
+            <h3 className="text-3xl font-display font-black uppercase text-text-primary">{broker.name}</h3>
+            {broker.badge && (
+              <span className="px-3 py-1 bg-accent/10 border border-accent/20 text-accent text-[8px] font-mono uppercase tracking-widest font-bold">
+                {broker.badge}
+              </span>
+            )}
           </div>
-
-          <div className="grid grid-cols-1 gap-8">
-            {brokersUs.map((broker, i) => (
-              <BrokerCard key={broker.slug} broker={broker} index={i} region="us" />
-            ))}
+          <div className="flex items-center gap-2 text-[10px] font-mono text-text-tertiary tracking-widest">
+            <Shield className="w-3 h-3 text-accent" />
+            {broker.regulation}
           </div>
+          <p className="text-sm text-text-secondary leading-relaxed opacity-70">
+            {broker.description}
+          </p>
+        </div>
 
-          <section className="mt-24 pt-24 border-t border-border-slate">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
-              <div className="space-y-8">
-                <h2 className="text-3xl font-display font-bold uppercase">US Market <br /> Realities.</h2>
-                <div className="space-y-6">
-                  <div className="flex gap-4">
-                    <ShieldCheck className="w-5 h-5 text-accent shrink-0" />
-                    <div>
-                      <h4 className="font-bold uppercase text-sm mb-1">PDT Rule Awareness</h4>
-                      <p className="text-xs text-text-tertiary leading-relaxed">Traders with less than $25,000 in a margin account are limited to 3 day trades in a rolling 5-day period for stocks/options. Our curriculum includes strategies to navigate this constraint.</p>
-                    </div>
-                  </div>
-                  <div className="flex gap-4">
-                    <ShieldCheck className="w-5 h-5 text-profit shrink-0" />
-                    <div>
-                      <h4 className="font-bold uppercase text-sm mb-1">FIFO Compliance</h4>
-                      <p className="text-xs text-text-tertiary leading-relaxed">US forex rules require trades to be closed in the order they were opened (First-In, First-Out). Our tools are built to handle these specific accounting requirements.</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="p-10 bg-background-surface border border-border-slate space-y-6">
-                <Info className="w-8 h-8 text-text-tertiary" />
-                <h3 className="text-xl font-display font-bold uppercase">US Tax (IRS)</h3>
-                <p className="text-sm text-text-secondary leading-relaxed">
-                  Forex trading is typically taxed under Section 988 (ordinary income) or Section 1256 (60/40 capital gains split). The tax treatment of your trades can significantly impact your net edge.
-                </p>
-              </div>
+        <div className="lg:col-span-4 grid grid-cols-1 gap-4">
+          {broker.pros.map((pro: string, i: number) => (
+            <div key={i} className="flex items-center gap-3 py-2 px-4 bg-background-primary/50 border border-border-slate/50">
+              <div className="w-1.5 h-1.5 rounded-full bg-profit" />
+              <span className="text-[10px] font-mono uppercase tracking-widest text-text-secondary">{pro}</span>
             </div>
-          </section>
+          ))}
+        </div>
+
+        <div className="lg:col-span-4 flex flex-col sm:flex-row lg:flex-col gap-4">
+          <Link 
+            href={`/us/brokers/${broker.slug}`}
+            className="flex-1 py-4 bg-background-elevated border border-border-slate hover:border-accent text-center text-[10px] font-bold uppercase tracking-widest transition-all"
+          >
+            Read Review
+          </Link>
+          <a 
+            href={broker.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex-1 py-4 bg-accent text-[#08090D] hover:bg-accent-hover text-center text-[10px] font-bold uppercase tracking-widest transition-all flex items-center justify-center gap-2"
+          >
+            Visit Official Site <ExternalLink className="w-3 h-3" />
+          </a>
         </div>
       </div>
-    </RegionalProvider>
+    </div>
   );
 }

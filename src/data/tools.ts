@@ -554,5 +554,132 @@ A robust automated strategy requires three core components:
 Our builder handles all three, ensuring your code isn't just an indicator, but a complete trading system.
       `
     }
+  },
+  {
+    slug: "challenge-simulator",
+    title: "Challenge Simulator",
+    tagline: "Stress-test your data against prop firm rules.",
+    description: "Don't guess if you can pass a challenge. Prove it by replaying your actual trading data against the exact rules of FTMO, Topstep, and more.",
+    icon: Cpu,
+    sections: {
+      problem: {
+        title: "The Breach Trap",
+        content: "Most traders fail prop firm challenges not because of their strategy, but because they don't understand the nuance of the rules. Trailing drawdowns, daily loss limits based on equity, and minimum trading days are all designed to catch you out. Guessing your risk exposure is a recipe for a failed fee."
+      },
+      howItWorks: {
+        steps: [
+          { title: "Select Firm", description: "Choose from our database of 20+ prop firms with real-time updated rules." },
+          { title: "Ingest Trades", description: "Upload your CSV or sync your account via API." },
+          { title: "Run Replay", description: "Our engine replays every trade, second-by-second, to check for rule breaches." },
+          { title: "AI Analysis", description: "Get a breakdown of exactly why you failed or how close you came to breaching." }
+        ]
+      },
+      features: {
+        title: "Simulation Suite",
+        items: [
+          { title: "Exact Rule Mapping", description: "From static to trailing intraday drawdowns, we model every detail." },
+          { title: "Risk Exposure Score", description: "A proprietary 1-100 score on how likely you are to breach under pressure." },
+          { title: "Profit Target Projection", description: "See the probability of hitting the target before the time limit expires." },
+          { title: "Equity Curve Stress Test", description: "Visualise your worst-case drawdown scenarios." }
+        ]
+      },
+      aiPowered: {
+        title: "The Breaker Engine",
+        content: "Our AI identifies 'Breach Clusters'—times of day or specific instruments where you are most likely to violate prop firm rules. It then generates a 30-day preparation plan to fix these specific leaks."
+      },
+      whoItIsFor: {
+        title: "The Funded Trader",
+        content: "Essential for anyone planning to take a $50k+ challenge. It's cheaper to fail a simulation than to fail a real evaluation."
+      },
+      peteTake: "I've reviewed thousands of accounts. Most traders don't have a strategy problem; they have a data problem. They are blind to their own failures. The AI Journal is the mirror that doesn't lie."
+    },
+    deepDive: {
+      title: "Mastering the Evaluation",
+      content: `
+## The Mathematics of the Challenge
+
+Prop firms are in the business of risk management. Their rules are designed to find traders who can manage capital, not just make profit. Most retail traders approach a challenge like a gamble. Professional traders approach it as a mathematical hurdle.
+
+### Understanding Drawdown Types
+
+Not all drawdowns are created equal. This is the #1 reason for failure:
+* **Static Drawdown:** Based on your starting balance. The easiest to manage.
+* **Trailing EOD Drawdown:** The floor moves up at the end of the day if your balance increased.
+* **Trailing Intraday Drawdown:** The most dangerous. The floor moves up in real-time as your equity peaks.
+
+Our simulator replays your trades against ALL of these types simultaneously, so you can see which firm's rules actually suit your trading style.
+
+### The Buffer Strategy
+
+To pass a challenge, you need a 'Buffer'. This is the space between your current balance and the breach point. Our AI calculates your 'Buffer Decay'—how fast you are consuming your allowed risk relative to your profit progress. If your decay is too high, you will breach before you hit the target.
+
+### Preparing for the Funded Life
+
+Passing the challenge is just the beginning. Staying funded is the real goal. Use this simulator to find your 'Sustainable Risk' level. Once you know you can pass a simulation 10 times in a row, the real challenge becomes a formality.
+      `
+    }
+  },
+  {
+    slug: "ai-coach",
+    title: "AI Psychology Coach",
+    tagline: "Fix the brain, fix the P&L.",
+    description: "The market is a psychological battleground. Our AI coach identifies your emotional triggers and behavioral biases in real-time.",
+    icon: Brain,
+    sections: {
+      problem: {
+        title: "The 12-Inch Gap",
+        content: "You can have the best strategy in the world, but if you 'tilt' after a loss, move your stops, or revenge trade, the strategy is irrelevant. Most traders fail because of their own biology. High cortisol leads to poor decision-making, and without a third-party audit, you'll keep making the same mistakes."
+      },
+      howItWorks: {
+        steps: [
+          { title: "Behavioral Sync", description: "Connect your trade journal or log your session state." },
+          { title: "Pattern Detection", description: "AI identifies revenge trading, overtrading, and inconsistent sizing." },
+          { title: "Real-time Alerts", description: "Receive warnings when your behavior matches your 'Tilt Profile'." },
+          { title: "Weekly Audit", description: "A full psychology report with a grade (A-F) and actionable fixes." }
+        ]
+      },
+      features: {
+        title: "Coach Mechanics",
+        items: [
+          { title: "Tilt Detection", description: "Spot the early signs of emotional trading before you click." },
+          { title: "Discipline Scoring", description: "Gamify your process adherence, not just your profit." },
+          { title: "Session Protocols", description: "Guided pre-trade and post-trade checklists to regulate your state." },
+          { title: "Bias Identification", description: "Are you a victim of FOMO, Recency Bias, or Loss Aversion?" }
+        ]
+      },
+      aiPowered: {
+        title: "The Neural Mentor",
+        content: "Using Claude 3.5, the coach acts as a seasoned institutional mentor. It doesn't just see the numbers; it sees the *intent* behind the trades. It provides direct, sometimes harsh, feedback to force the discipline required for professional trading."
+      },
+      whoItIsFor: {
+        title: "The Developing Professional",
+        content: "For traders who are profitable on paper but struggle with consistency and execution under pressure."
+      },
+      peteTake: "I've blown accounts because I thought I was 'smarter' than the market. I wasn't. I was just emotional. This coach is the mentor I wish I had 10 years ago."
+    },
+    deepDive: {
+      title: "The Psychology of Performance",
+      content: `
+## Trading is 90% Mental
+
+If you've ever closed a winner too early or let a loser run too long, you've experienced the 'Psychological Drawdown'. This is the gap between what you *know* you should do and what you *actually* do.
+
+### The Biological Reality
+
+When you are in a trade, your brain's amygdala—the 'fear center'—is hyper-active. This shifts your thinking from the rational pre-frontal cortex to the primal 'fight or flight' response. In this state, your ability to process risk is compromised.
+
+Our AI coach monitors your execution speed and frequency to detect this shift. If you start clicking too fast after a loss, that's your amygdala talking. We flag it, and we force a 'Cool Down' period.
+
+### Gamifying Discipline
+
+Most traders focus on the 'Win'. We focus on the 'Process'. 
+
+Our **Discipline Score** rewards you for following your rules, regardless of the outcome. A 'Perfect Loss' (followed all rules) is scored higher than a 'Lucky Win' (broke rules but made money). By shifting your dopamine reward from 'Money' to 'Discipline', we help you build the neural pathways of a professional.
+
+### The Power of the Audit
+
+Every Sunday, the coach generates a **Discipline Report**. It's a mirror. It shows you exactly which days you were a professional and which days you were a gambler. Over time, seeing these patterns is the only way to permanently fix them. You cannot fix what you do not measure.
+      `
+    }
   }
 ];

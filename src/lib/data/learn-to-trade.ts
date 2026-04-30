@@ -498,6 +498,114 @@ export const LEARN_TOPICS: LearnTopic[] = [
         answer: "It is more consistent. An algorithm will never skip a trade because it's 'scared' or over-leverage because it's 'angry'. It simply executes the math."
       }
     ]
+  },
+  {
+    slug: "cfd-trading",
+    title: "CFD Trading",
+    description: "The complete guide to Contracts for Difference. Learn how to trade price movements without owning the underlying asset.",
+    category: "Foundation",
+    heroImage: "/images/learn/cfd-trading.jpg",
+    metaTitle: "CFD Trading Guide UK | Leverage & Margin Explained | Drawdown",
+    metaDescription: "Master CFD trading. Understand how to use contracts for difference to trade global markets, manage leverage, and offset losses for tax purposes.",
+    content: [
+      {
+        heading: "What is a CFD?",
+        text: "A Contract for Difference (CFD) is a financial derivative that allows you to speculate on the rising or falling prices of fast-moving global financial markets. You don't buy the asset; you buy a contract that pays the difference in price between when you open and close the position. In the UK, CFDs are subject to Capital Gains Tax, unlike spread betting."
+      }
+    ],
+    faqs: [
+      { question: "Is CFD trading risky?", answer: "Yes, because it is a leveraged product. You can lose more than your initial deposit if you don't use stop-losses correctly." }
+    ]
+  },
+  {
+    slug: "options-trading",
+    title: "Options Trading",
+    description: "Learn to trade volatility and time. Understand calls, puts, and how to use options to hedge your portfolio.",
+    category: "Strategy",
+    heroImage: "/images/learn/options-trading.jpg",
+    metaTitle: "Options Trading Guide | Master Greeks & Volatility | Drawdown",
+    metaDescription: "Learn to trade options like a professional. Understand calls, puts, and 'The Greeks' to manage risk and profit from market volatility.",
+    content: [
+      {
+        heading: "Trading Time and Volatility",
+        text: "Options are contracts that give you the right, but not the obligation, to buy or sell an asset at a set price. Unlike stocks, options have an expiration date. Success in options requires understanding 'The Greeks' — Delta, Gamma, Theta, and Vega — which measure how the price reacts to time and volatility."
+      }
+    ],
+    faqs: [
+      { question: "What is the difference between a call and a put?", answer: "A 'Call' option gives you the right to buy (bullish), while a 'Put' option gives you the right to sell (bearish)." }
+    ]
+  },
+  {
+    slug: "price-action",
+    title: "Price Action Trading",
+    description: "The purest form of technical analysis. Learn to read the story of the market without any lagging indicators.",
+    category: "Strategy",
+    heroImage: "/images/learn/price-action.jpg",
+    metaTitle: "Price Action Trading Guide | Read the Naked Charts | Drawdown",
+    metaDescription: "Master price action trading. Learn to identify market structure, trends, and reversal signals using only the 'naked' price chart.",
+    content: [
+      {
+        heading: "The Naked Chart Philosophy",
+        text: "Price action traders believe that all available information is already reflected in the price. Instead of using indicators like RSI or MACD, we look at market structure (Higher Highs and Higher Lows) and key horizontal levels. This is how institutional traders often view the market — as a series of liquidity pools and supply/demand imbalances."
+      }
+    ],
+    faqs: [
+      { question: "Is price action better than indicators?", answer: "Price action is 'leading', while indicators are 'lagging' (calculated from past price). Most professionals prefer price action for its speed and clarity." }
+    ]
+  },
+  {
+    slug: "trading-courses",
+    title: "Trading Courses",
+    description: "Navigate the education minefield. Learn how to choose a legitimate trading course and what to avoid.",
+    category: "Education",
+    heroImage: "/images/learn/courses.jpg",
+    metaTitle: "Trading Courses Guide | How to Choose Legit Education | Drawdown",
+    metaDescription: "Avoid the gurus. Learn how to identify high-quality trading education that focuses on risk management and institutional process.",
+    content: [
+      {
+        heading: "Cutting Through the Guru Fluff",
+        text: "The trading education industry is full of 'get rich quick' promises. A legitimate trading course should focus on risk management, psychology, and a proven process, rather than showing off luxury cars. At Drawdown, we advocate for structured, phase-based learning that starts with the foundations."
+      }
+    ],
+    faqs: [
+      { question: "Are expensive trading courses worth it?", answer: "Only if they provide a community, a proven mentor, and a focus on long-term sustainability. Be wary of anything promising over 20% returns per month." }
+    ]
+  },
+  {
+    slug: "online-trading",
+    title: "Online Trading",
+    description: "The digital gateway to the world's markets. Learn how online trading has evolved and how to stay safe in 2026.",
+    category: "Foundation",
+    heroImage: "/images/learn/online-trading.jpg",
+    metaTitle: "Online Trading Guide | Safety & Technology in 2026 | Drawdown",
+    metaDescription: "Learn the essentials of online trading. From cybersecurity to platform choice, understand how to trade safely in the modern digital age.",
+    content: [
+      {
+        heading: "The Digital Evolution",
+        text: "Online trading has democratized the markets, allowing anyone with a smartphone to trade global assets. However, this accessibility comes with risks. In 2026, cybersecurity and choosing a high-speed, stable platform are just as important as your trading strategy."
+      }
+    ],
+    faqs: [
+      { question: "What is the best device for online trading?", answer: "A high-performance desktop or laptop with dual monitors is best for analysis, but a modern mobile app (like TradingView or IG) is essential for monitoring positions." }
+    ]
+  },
+  {
+    slug: "futures-trading",
+    title: "Futures Trading",
+    description: "Master the professional's market. Learn to trade standardized contracts for indices, commodities, and currencies.",
+    category: "Market",
+    heroImage: "/images/learn/futures-trading.jpg",
+    metaTitle: "Futures Trading Guide | Master CME & Eurex Markets | Drawdown",
+    metaDescription: "Learn to trade futures contracts. Master the mechanics of margin, expiration, and standardized contracts for global financial markets.",
+    content: [
+      {
+        heading: "Institutional-Grade Contracts",
+        text: "Futures are standardized contracts to buy or sell an asset at a future date. They are traded on centralized exchanges like the CME. Unlike CFDs, futures provide transparent volume data, making them the preferred choice for professional order flow traders."
+      }
+    ],
+    faqs: [
+      { question: "How much capital do I need for futures?", answer: "Futures typically require more capital than CFDs or spread betting, though 'Micro Futures' have made the market much more accessible to retail traders." }
+    ]
   }
 ];
 

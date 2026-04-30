@@ -928,13 +928,571 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     relatedTerms: ['Depth of Market', 'Level 2 Data', 'Liquidity'],
     faqs: []
   },
-  {
-    term: 'Quote Currency',
-    slug: 'quote-currency',
-    definition: 'The second currency in a forex pair quotation.',
-    detailedExplanation: 'In EUR/USD, USD is the quote currency. It indicates how much of the quote currency is needed to buy one unit of the base currency.',
     example: 'If EUR/USD is 1.10, the quote currency (USD) is worth less than the base currency.',
     relatedTerms: ['Base Currency', 'Exchange Rate', 'Forex Pair'],
+    faqs: []
+  },
+  {
+    term: 'Black Swan Event',
+    slug: 'black-swan-event',
+    definition: 'An unpredictable event that is beyond what is normally expected of a situation and has potentially severe consequences.',
+    detailedExplanation: 'Black swan events are characterized by their extreme rarity, severe impact, and the widespread insistence that they were obvious in hindsight.',
+    example: 'The 2008 financial crisis and the 2020 COVID-19 pandemic are classic black swan events.',
+    relatedTerms: ['Volatility', 'Risk Management', 'Flash Crash'],
+    faqs: []
+  },
+  {
+    term: 'Capitulation',
+    slug: 'capitulation',
+    definition: 'The point in time when investors give up any previous gains by selling their positions during periods of decline.',
+    detailedExplanation: 'Capitulation often marks the bottom of a bear market, as the "weak hands" have finished selling and only long-term holders remain.',
+    example: 'After a 30% drop, the market saw a final 5% spike in volume, signaling capitulation.',
+    relatedTerms: ['Panic Selling', 'Bear Market', 'Bottoming Out'],
+    faqs: []
+  },
+  {
+    term: 'Confirmation',
+    slug: 'confirmation',
+    definition: 'The use of an additional indicator or signal to verify a trade setup.',
+    detailedExplanation: 'Traders use confirmation to avoid "false signals." For example, a breakout might be confirmed by a spike in volume or an RSI crossover.',
+    example: 'The price broke resistance, but the trader waited for the 1H candle to close for confirmation.',
+    relatedTerms: ['Confluence', 'Technical Analysis', 'Signal'],
+    faqs: []
+  },
+  {
+    term: 'Correlation Coefficient',
+    slug: 'correlation-coefficient',
+    definition: 'A statistical measure that calculates the strength of the relationship between the relative movements of two securities.',
+    detailedExplanation: 'The values range between -1.0 and 1.0. A correlation of 1.0 means they move in perfect sync; -1.0 means they move in opposite directions.',
+    example: 'The correlation coefficient between Gold and the US Dollar is often strongly negative.',
+    relatedTerms: ['Correlation', 'Diversification', 'Risk Management'],
+    faqs: []
+  },
+  {
+    term: 'Direct Market Access (DMA)',
+    slug: 'direct-market-access',
+    definition: 'Electronic facilities that allow traders to interact directly with the order book of an exchange.',
+    detailedExplanation: 'DMA provides greater transparency and faster execution than traditional broker routing. It is preferred by professional traders.',
+    example: 'Advanced CFD traders use DMA to see the full depth of the order book before entering.',
+    relatedTerms: ['ECN Broker', 'Order Book', 'Execution'],
+    faqs: []
+  },
+  {
+    term: 'Drawdown Recovery',
+    slug: 'drawdown-recovery',
+    definition: 'The amount of profit required to return an account to its previous peak after a loss.',
+    detailedExplanation: 'Because losses are calculated from a smaller base, you always need a larger percentage gain to recover. For example, a 50% loss requires a 100% gain to break even.',
+    example: 'The trader focused on drawdown recovery after a series of five losing trades.',
+    relatedTerms: ['Drawdown', 'Risk Management', 'Compounding'],
+    faqs: []
+  },
+  {
+    term: 'Expert Advisor (EA)',
+    slug: 'expert-advisor',
+    definition: 'An automated trading system used in the MetaTrader platform.',
+    detailedExplanation: 'EAs are written in MQL4 or MQL5 and can monitor markets, identify setups, and execute trades without human intervention.',
+    example: 'The trader uses a trend-following Expert Advisor to manage their trades during the London session.',
+    relatedTerms: ['Algorithmic Trading', 'MT4', 'MT5'],
+    faqs: []
+  },
+  {
+    term: 'Fat Finger Trade',
+    slug: 'fat-finger-trade',
+    definition: 'An error in an electronic trade caused by a human typing the wrong price or volume.',
+    detailedExplanation: 'Fat finger trades can cause massive, short-term price spikes or crashes (flash crashes) if the order is large enough.',
+    example: 'A trader accidentally sold 100 million units instead of 1 million, causing a sudden drop in the currency pair.',
+    relatedTerms: ['Flash Crash', 'Execution', 'Slippage'],
+    faqs: []
+  },
+  {
+    term: 'Fibonacci Extension',
+    slug: 'fibonacci-extension',
+    definition: 'A tool used to predict potential price targets beyond the current trend.',
+    detailedExplanation: 'Extensions are typically used to find where to take profit after a breakout. Common levels include 161.8% and 261.8%.',
+    example: 'After the breakout, the price moved exactly to the 161.8% Fibonacci extension level.',
+    relatedTerms: ['Fibonacci Retracement', 'Take Profit', 'Support'],
+    faqs: []
+  },
+  {
+    term: 'Hedging Strategy',
+    slug: 'hedging-strategy',
+    definition: 'A method of reducing risk by taking offsetting positions in related assets.',
+    detailedExplanation: 'Hedging is not about making money; it is about protecting the money you have from adverse market moves.',
+    example: 'An investor hedges their US stock portfolio by buying "Put" options on the S&P 500.',
+    relatedTerms: ['Hedging', 'Risk Management', 'Options'],
+    faqs: []
+  },
+  {
+    term: 'Margin Call',
+    slug: 'margin-call-definition',
+    definition: 'A broker\'s demand that a trader deposit more money to cover potential losses on open positions.',
+    detailedExplanation: 'If you do not meet the margin call, the broker will automatically close your positions (liquidate) to prevent your account from going negative.',
+    example: 'The trader ignored the margin call and was automatically stopped out of all trades.',
+    relatedTerms: ['Margin', 'Liquidation', 'Leverage'],
+    faqs: []
+  },
+  {
+    term: 'Market Sentiment Analysis',
+    slug: 'market-sentiment-analysis',
+    definition: 'The process of gauging the overall "mood" of market participants.',
+    detailedExplanation: 'Includes analyzing COT reports, retail sentiment indices, and social media activity to find if the market is overly bullish or bearish.',
+    example: 'Sentiment analysis showed that 90% of retail traders were long, suggesting a potential short opportunity.',
+    relatedTerms: ['Sentiment', 'Contrarian Trading', 'COT Report'],
+    faqs: []
+  },
+  {
+    term: 'No Dealing Desk (NDD)',
+    slug: 'no-dealing-desk',
+    definition: 'A broker model where orders are passed directly to liquidity providers without being handled by a dealer.',
+    detailedExplanation: 'NDD brokers (like ECN or STP) reduce the conflict of interest between the broker and the trader.',
+    example: 'Professional scalpers prefer NDD brokers for their transparent execution and low latency.',
+    relatedTerms: ['ECN Broker', 'STP', 'Market Maker'],
+    faqs: []
+  },
+  {
+    term: 'Over-Leveraging',
+    slug: 'over-leveraging',
+    definition: 'The practice of using too much borrowed capital relative to your account size.',
+    detailedExplanation: 'Over-leveraging is the #1 reason why retail traders blow their accounts. It makes small price moves have a devastating impact on account equity.',
+    example: 'The trader blew their account in one day due to extreme over-leveraging.',
+    relatedTerms: ['Leverage', 'Margin', 'Risk Management'],
+    faqs: []
+  },
+  {
+    term: 'Pyramiding',
+    slug: 'pyramiding',
+    definition: 'The strategy of adding to a winning position as the price moves in your favor.',
+    detailedExplanation: 'Pyramiding allows you to maximize profits in a strong trend while keeping your overall risk low by trailing your stops.',
+    example: 'The trader added to their long position every time the price pulled back to the 20 EMA.',
+    relatedTerms: ['Scaling In', 'Position Sizing', 'Trend Following'],
+    faqs: []
+  },
+  {
+    term: 'Risk-On / Risk-Off',
+    slug: 'risk-on-risk-off',
+    definition: 'A market environment where investors either seek out risk (Risk-On) or flee to safety (Risk-Off).',
+    detailedExplanation: 'In Risk-On, stocks and high-yield currencies (AUD, NZD) rise. In Risk-Off, Gold and safe-haven currencies (USD, JPY) rise.',
+    example: 'The geopolitical news caused a sudden shift to a Risk-Off sentiment.',
+    relatedTerms: ['Safe Haven', 'Sentiment', 'Volatility'],
+    faqs: []
+  },
+  {
+    term: 'Scalp Trading',
+    slug: 'scalp-trading',
+    definition: 'A hyper-short-term trading style focusing on capturing tiny price moves.',
+    detailedExplanation: 'Scalp trading requires high focus and very low spreads to be profitable over time.',
+    example: 'The scalp trader makes 100 trades a day, targeting 1-3 pips per trade.',
+    relatedTerms: ['Scalping', 'Day Trading', 'ECN Broker'],
+    faqs: []
+  },
+  {
+    term: 'Slippage Tolerance',
+    slug: 'slippage-tolerance-def',
+    definition: 'The maximum amount of price difference a trader is willing to accept to get an order filled.',
+    detailedExplanation: 'If you set a tolerance of 1 pip and the market moves 2 pips before you are filled, the order will be rejected.',
+    example: 'During the news release, the trader increased their slippage tolerance to ensure a fill.',
+    relatedTerms: ['Slippage', 'Execution', 'Limit Order'],
+    faqs: []
+  },
+  {
+    term: 'Stop-Out Level',
+    slug: 'stop-out-level',
+    definition: 'The specific margin level at which a broker automatically closes a trader\'s open positions.',
+    detailedExplanation: 'Usually expressed as a percentage (e.g., 50% margin level). It is the "safety net" to prevent an account from falling into negative balance.',
+    example: 'The trader hit their stop-out level after the unexpected market gap.',
+    relatedTerms: ['Margin Call', 'Liquidation', 'Margin'],
+    faqs: []
+  },
+  {
+    term: 'Trading Journal',
+    slug: 'trading-journal',
+    definition: 'A record of all trades made, including the rationale, entry/exit points, and psychological state.',
+    detailedExplanation: 'A journal is the most powerful tool for improvement, allowing you to identify patterns in your own behavior.',
+    example: 'Pete insists that all Drawdown students maintain a detailed trading journal.',
+    relatedTerms: ['Psychology', 'Risk Management', 'Drawdown'],
+    faqs: []
+  },
+  {
+    term: 'Wash Trading',
+    slug: 'wash-trading',
+    definition: 'A form of market manipulation where a trader buys and sells the same asset to create misleading market activity.',
+    detailedExplanation: 'Wash trading is illegal in regulated markets as it creates artificial volume and price movement.',
+    example: 'The regulator investigated the firm for suspected wash trading to inflate the asset\'s value.',
+    relatedTerms: ['Market Manipulation', 'Volume', 'FCA'],
+    faqs: []
+  },
+  {
+    term: 'Yield Curve',
+    slug: 'yield-curve',
+    definition: 'A line that plots the interest rates of bonds having equal credit quality but differing maturity dates.',
+    detailedExplanation: 'An "Inverted Yield Curve" is historically one of the most reliable predictors of an upcoming economic recession.',
+    example: 'Economists are watching the inverted yield curve as a sign of trouble ahead.',
+    relatedTerms: ['Recession', 'Bonds', 'Interest Rate'],
+    faqs: []
+  },
+  // INTERMEDIATE (25)
+  {
+    term: 'Risk of Ruin',
+    slug: 'risk-of-ruin',
+    definition: 'The probability that a trader will lose so much capital that they can no longer continue trading.',
+    detailedExplanation: 'Risk of ruin is a mathematical concept that factors in win rate, risk-to-reward ratio, and the percentage of capital risked per trade. Even a profitable strategy can have a high risk of ruin if the position sizing is too aggressive.',
+    example: 'If you risk 10% per trade, your risk of ruin is significantly higher than if you risk 1%, even with a 60% win rate.',
+    relatedTerms: ['Kelly Criterion', 'Position Sizing', 'Max Drawdown'],
+    faqs: []
+  },
+  {
+    term: 'Kelly Criterion',
+    slug: 'kelly-criterion',
+    definition: 'A mathematical formula used to determine the optimal size of a series of bets to maximize long-term wealth.',
+    detailedExplanation: 'In trading, it helps determine what percentage of your account to risk on a single trade based on your historical edge (win rate and average win/loss). Most traders use a "Fractional Kelly" (e.g., half-Kelly) to account for market uncertainty.',
+    example: 'Using the Kelly Criterion, a trader with a 55% win rate and 1:2 R:R might calculate an optimal risk of 3.5% per trade.',
+    relatedTerms: ['Position Sizing', 'Risk of Ruin', 'Probability'],
+    faqs: []
+  },
+  {
+    term: 'Convergence',
+    slug: 'convergence',
+    definition: 'When the price of an asset and a technical indicator move in the same direction, confirming the current trend.',
+    detailedExplanation: 'Convergence suggests that the momentum behind a move is strong and the trend is likely to continue. It is the opposite of divergence.',
+    example: 'The price makes a higher high and the RSI also makes a higher high, showing bullish convergence.',
+    relatedTerms: ['Divergence', 'Momentum', 'Trend Following'],
+    faqs: []
+  },
+  {
+    term: 'Accumulation',
+    slug: 'accumulation',
+    definition: 'A phase in the market cycle where institutional investors are quietly buying a large position in an asset.',
+    detailedExplanation: 'Accumulation typically occurs after a long downtrend or during a period of consolidation. It is characterized by sideways price action as the "smart money" absorbs supply without driving the price up too quickly.',
+    example: 'After a year-long bear market, Bitcoin enters a 3-month accumulation phase before breaking higher.',
+    relatedTerms: ['Distribution', 'Smart Money', 'Wyckoff Theory'],
+    faqs: []
+  },
+  {
+    term: 'Distribution',
+    slug: 'distribution',
+    definition: 'A phase in the market cycle where institutional investors are quietly selling their large positions to retail traders.',
+    detailedExplanation: 'Distribution often happens at the top of a bull market. While retail traders are buying due to "FOMO," institutional players are exiting their positions, leading to a period of sideways or volatile price action before a trend reversal.',
+    example: 'The stock market shows signs of distribution as volume increases while price fails to make new highs.',
+    relatedTerms: ['Accumulation', 'Market Cycles', 'Retail Trader'],
+    faqs: []
+  },
+  {
+    term: 'Order Block',
+    slug: 'order-block',
+    definition: 'A specific area on a chart where institutional participants have placed large buy or sell orders.',
+    detailedExplanation: 'Order blocks are identified by the last "opposite" candle before a strong move. They often act as powerful support or resistance zones when the price returns to them, as institutions may have unfilled orders left at those levels.',
+    example: 'A bullish order block is formed at the bottom of a range before a massive 200-pip breakout.',
+    relatedTerms: ['Fair Value Gap', 'Smart Money Concepts', 'Supply and Demand'],
+    faqs: []
+  },
+  {
+    term: 'Fair Value Gap (FVG)',
+    slug: 'fair-value-gap',
+    definition: 'An imbalance in price action where a candle moves so quickly that it leaves a "gap" in the price delivery.',
+    detailedExplanation: 'FVGs are identified on a three-candle sequence where the wicks of the first and third candles do not overlap. Markets often return to "fill" these gaps to achieve price equilibrium.',
+    example: 'The price gapped down so fast during the news that it left a 30-pip fair value gap that was filled later in the session.',
+    relatedTerms: ['Imbalance', 'Order Flow', 'Liquidity'],
+    faqs: []
+  },
+  {
+    term: 'Imbalance',
+    slug: 'imbalance',
+    definition: 'A situation in the market where there is an excess of buy orders over sell orders (or vice versa).',
+    detailedExplanation: 'Imbalances lead to rapid price movements as the market searches for the next level of liquidity to match the orders. In order flow trading, imbalances are visible on footprint charts.',
+    example: 'A massive buying imbalance at the London open drove the FTSE 100 up by 50 points in minutes.',
+    relatedTerms: ['Order Flow', 'Fair Value Gap', 'Liquidity'],
+    faqs: []
+  },
+  {
+    term: 'Liquidity Grab',
+    slug: 'liquidity-grab',
+    definition: 'A price movement designed to trigger stop-loss orders in order to "collect" liquidity for a larger move in the opposite direction.',
+    detailedExplanation: 'Institutional players need high liquidity to enter large positions. They may push the price into a "pocket" of stops (e.g., just above a recent high) to fill their sell orders.',
+    example: 'The price spiked above yesterday\'s high, triggered all the stops (liquidity grab), and then immediately reversed 100 pips lower.',
+    relatedTerms: ['Stop Hunt', 'Smart Money', 'Market Maker'],
+    faqs: []
+  },
+  {
+    term: 'Stop Hunt',
+    slug: 'stop-hunt',
+    definition: 'A deliberate attempt to push the price of an asset to a level where many traders have placed their stop-loss orders.',
+    detailedExplanation: 'While often blamed on "manipulation," stop hunts are a natural result of the market seeking liquidity. They typically occur at psychological levels or obvious structural highs and lows.',
+    example: 'The market "hunted" the stops sitting at 1.2500 before continuing the original uptrend.',
+    relatedTerms: ['Liquidity Grab', 'Support', 'Resistance'],
+    faqs: []
+  },
+  {
+    term: 'Market Maker',
+    slug: 'market-maker',
+    definition: 'A firm or individual that provides liquidity to a market by being ready to buy and sell at all times.',
+    detailedExplanation: 'Market makers "make the market" by quoting both a bid and an ask price. They profit from the spread between these prices and help ensure that traders can always execute their orders.',
+    example: 'Big banks like JP Morgan and Goldman Sachs act as major market makers in the Forex world.',
+    relatedTerms: ['Liquidity Provider', 'Bid-Ask Spread', 'ECN Broker'],
+    faqs: []
+  },
+  {
+    term: 'Institutional Trading',
+    slug: 'institutional-trading',
+    definition: 'The buying and selling of assets by large organizations, such as banks, hedge funds, and pension funds.',
+    detailedExplanation: 'Institutions account for the vast majority of market volume. Their trades are often so large that they must be executed in pieces or through private "dark pools" to avoid moving the market.',
+    example: 'Institutional trading volume typically increases significantly during the New York session.',
+    relatedTerms: ['Smart Money', 'Block Trade', 'Dark Pool'],
+    faqs: []
+  },
+  {
+    term: 'Smart Money',
+    slug: 'smart-money',
+    definition: 'Capital controlled by institutional investors, central banks, and other financial professionals.',
+    detailedExplanation: 'Smart money is thought to be managed by those with a deeper understanding of the markets. Retail traders often try to "follow the smart money" by identifying institutional footprints on a chart.',
+    example: 'The "Smart Money" began accumulating the asset weeks before the public breakout occurred.',
+    relatedTerms: ['Retail Trader', 'Institutional Trading', 'Order Block'],
+    faqs: []
+  },
+  {
+    term: 'Retail Trader',
+    slug: 'retail-trader',
+    definition: 'An individual trader who trades for their own account, rather than for an organization.',
+    detailedExplanation: 'Retail traders typically have smaller accounts and use retail brokers. While they are a small part of total volume, they are a significant source of "exit liquidity" for institutional players.',
+    example: 'Most retail traders focus on technical analysis and use platforms like MetaTrader or TradingView.',
+    relatedTerms: ['Smart Money', 'Broker', 'CFD'],
+    faqs: []
+  },
+  {
+    term: 'Pip Value',
+    slug: 'pip-value',
+    definition: 'The monetary value of a one-pip move in a currency pair, based on the position size.',
+    detailedExplanation: 'Pip value changes depending on the pair you are trading and your account currency. For a standard lot (100k) of EUR/USD on a USD account, the pip value is exactly $10.',
+    example: 'To risk exactly £100 on a trade with a 20-pip stop, your pip value must be £5 per pip.',
+    relatedTerms: ['Pip', 'Lot Size', 'Position Sizing'],
+    faqs: []
+  },
+  {
+    term: 'Swap Rate',
+    slug: 'swap-rate',
+    definition: 'The interest rate differential between the two currencies in a forex pair, applied to positions held overnight.',
+    detailedExplanation: 'Also known as "Rollover." If you hold a currency with a higher interest rate than the one you are shorting, you receive a "positive swap." If the opposite is true, you pay a "negative swap."',
+    example: 'A trader earns a positive swap by holding a long position in a high-yielding currency like the Mexican Peso.',
+    relatedTerms: ['Rollover', 'Carry Trade', 'Interest Rate'],
+    faqs: []
+  },
+  {
+    term: 'Rollover',
+    slug: 'rollover',
+    definition: 'The process of extending the settlement date of an open position to the next business day.',
+    detailedExplanation: 'In Forex, rollover occurs at the end of the New York session (5:00 PM EST). This is when swap rates are calculated and applied to the account.',
+    example: 'The trader closed their position before 5:00 PM to avoid the high rollover costs over the weekend.',
+    relatedTerms: ['Swap Rate', 'Carry Trade', 'Forex'],
+    faqs: []
+  },
+  {
+    term: 'Carry Trade',
+    slug: 'carry-trade',
+    definition: 'A strategy that involves borrowing a currency with a low interest rate to buy a currency with a higher interest rate.',
+    detailedExplanation: 'The goal is to profit from the interest rate differential (the "carry") while also potentially gaining from the exchange rate movement.',
+    example: 'Borrowing Japanese Yen at 0% to buy Australian Dollars at 4.5% is a classic carry trade.',
+    relatedTerms: ['Swap Rate', 'Interest Rate', 'Yield'],
+    faqs: []
+  },
+  {
+    term: 'Diversification',
+    slug: 'diversification',
+    definition: 'The practice of spreading investments across different assets to reduce overall risk.',
+    detailedExplanation: 'By holding assets that are not perfectly correlated, a trader can reduce the impact of any single asset\'s poor performance on the total portfolio.',
+    example: 'Instead of only trading Tech stocks, the investor adds Gold and Commodities for diversification.',
+    relatedTerms: ['Correlation', 'Risk Management', 'Portfolio'],
+    faqs: []
+  },
+  {
+    term: 'Monte Carlo Simulation',
+    slug: 'monte-carlo-simulation',
+    definition: 'A mathematical technique used to estimate the probability of various outcomes in a process that cannot easily be predicted due to the intervention of random variables.',
+    detailedExplanation: 'Traders use Monte Carlo simulations to test how a strategy might perform over thousands of randomized sequences of historical trades, helping to identify the worst-case drawdown.',
+    example: 'A Monte Carlo simulation showed that the strategy had a 5% chance of hitting a 40% drawdown.',
+    relatedTerms: ['Backtesting', 'Max Drawdown', 'Probability'],
+    faqs: []
+  },
+
+  // ADVANCED (15)
+  {
+    term: 'Order Flow',
+    slug: 'order-flow',
+    definition: 'The stream of buy and sell orders currently entering the market.',
+    detailedExplanation: 'Order flow analysis looks at the "immediacy" of the market—who is aggressive, who is passive, and where the "resting" orders are located on the book.',
+    example: 'The trader switched to order flow analysis to see if large sellers were exhausting their supply at the low.',
+    relatedTerms: ['Tape Reading', 'Depth of Market', 'Footprint Chart'],
+    faqs: []
+  },
+  {
+    term: 'Delta Volume',
+    slug: 'delta-volume',
+    definition: 'The difference between the volume traded at the ask price and the volume traded at the bid price.',
+    detailedExplanation: 'Positive delta means more aggressive buying; negative delta means more aggressive selling. Delta helps identify who is in control of the price action at a granular level.',
+    example: 'A high positive delta on a red candle suggests that sellers are struggling to push the price lower despite aggressive selling.',
+    relatedTerms: ['Order Flow', 'Footprint Chart', 'Aggressive Order'],
+    faqs: []
+  },
+  {
+    term: 'Footprint Chart',
+    slug: 'footprint-chart',
+    definition: 'A type of candlestick chart that shows the specific volume traded at every price level within each candle.',
+    detailedExplanation: 'Footprint charts provide a "look inside" the candle to see the battle between buyers and sellers. They are essential for advanced order flow trading.',
+    example: 'The footprint chart revealed a massive buy imbalance at the very bottom of the wick.',
+    relatedTerms: ['Order Flow', 'Delta Volume', 'Depth of Market'],
+    faqs: []
+  },
+  {
+    term: 'VWAP (Volume Weighted Average Price)',
+    slug: 'vwap',
+    definition: 'A technical indicator that calculates the average price of an asset weighted by total volume traded during a specific period (usually daily).',
+    detailedExplanation: 'VWAP is considered the "fair value" for the day. Institutional traders often use it as a benchmark for their execution—buying below VWAP and selling above it.',
+    example: 'The price pulled back to the VWAP line before continuing its intraday trend.',
+    relatedTerms: ['Institutional Trading', 'Moving Average', 'TWAP'],
+    faqs: []
+  },
+  {
+    term: 'TWAP (Time Weighted Average Price)',
+    slug: 'twap',
+    definition: 'An algorithmic execution strategy that calculates the average price of an asset over a specific time period.',
+    detailedExplanation: 'TWAP is used by large institutions to execute orders slowly over time to minimize market impact, rather than executing a single large block trade.',
+    example: 'The hedge fund used a TWAP algorithm to exit their position over the course of the entire trading day.',
+    relatedTerms: ['VWAP', 'Algorithmic Trading', 'Institutional Trading'],
+    faqs: []
+  },
+  {
+    term: 'Market Microstructure',
+    slug: 'market-microstructure',
+    definition: 'The study of how the specific rules and mechanisms of an exchange affect the trading process.',
+    detailedExplanation: 'Microstructure analysis looks at things like latency, order types, matching engines, and the behavior of market makers and HFT algorithms.',
+    example: 'Understanding market microstructure is vital for developing high-frequency trading strategies.',
+    relatedTerms: ['HFT', 'Order Book', 'Liquidity'],
+    faqs: []
+  },
+  {
+    term: 'Backtesting',
+    slug: 'backtesting',
+    definition: 'The process of testing a trading strategy using historical data to see how it would have performed in the past.',
+    detailedExplanation: 'Backtesting allows traders to identify the strengths and weaknesses of a strategy before risking real capital. It is the foundation of systematic trading.',
+    example: 'After backtesting the strategy over 5 years of data, the trader found it had a 65% win rate.',
+    relatedTerms: ['Forward Testing', 'Curve Fitting', 'Monte Carlo'],
+    faqs: []
+  },
+  {
+    term: 'Walk Forward Analysis',
+    slug: 'walk-forward-analysis',
+    definition: 'A technique for evaluating a trading strategy by optimizing it on one segment of data and testing it on a subsequent "out-of-sample" segment.',
+    detailedExplanation: 'This process is repeated "walking forward" through time to ensure the strategy is robust and not simply "over-optimized" for a specific period.',
+    example: 'The walk-forward analysis revealed that the strategy\'s performance decayed significantly outside of the original optimization period.',
+    relatedTerms: ['Backtesting', 'Optimization', 'Curve Fitting'],
+    faqs: []
+  },
+  {
+    term: 'Curve Fitting',
+    slug: 'curve-fitting',
+    definition: 'The error of over-optimizing a trading strategy to fit historical data so perfectly that it fails in real-time trading.',
+    detailedExplanation: 'A curve-fitted strategy looks "too good to be true" on paper but is useless for predicting future price movements because it has captured "noise" instead of market "signal."',
+    example: 'The trader added 15 filters to their strategy to make the backtest look perfect, resulting in extreme curve fitting.',
+    relatedTerms: ['Overfitting', 'Backtesting', 'Optimization'],
+    faqs: []
+  },
+  {
+    term: 'Overfitting',
+    slug: 'overfitting',
+    definition: 'A modeling error where a trading algorithm is so complex that it "memorizes" historical data rather than learning underlying patterns.',
+    detailedExplanation: 'Overfitting is a common trap in quantitative trading and machine learning. Overfit models typically have excellent backtest results but fail immediately when exposed to new data.',
+    example: 'The neural network was overfitted to the 2021 bull market and failed to handle the 2022 volatility.',
+    relatedTerms: ['Curve Fitting', 'Quantitative Trading', 'Backtesting'],
+    faqs: []
+  },
+
+  // CHART PATTERNS (10)
+  {
+    term: 'Bull Flag',
+    slug: 'bull-flag',
+    definition: 'A continuation pattern that occurs after a sharp price increase (the pole) followed by a short period of consolidation (the flag).',
+    detailedExplanation: 'A breakout above the upper trendline of the flag signals a continuation of the previous uptrend. It is one of the most reliable bullish patterns.',
+    example: 'The Nasdaq 100 broke out of a bull flag on the daily chart, leading to another 5% gain.',
+    relatedTerms: ['Bear Flag', 'Continuation Pattern', 'Breakout'],
+    faqs: []
+  },
+  {
+    term: 'Bear Flag',
+    slug: 'bear-flag',
+    definition: 'A continuation pattern that occurs after a sharp price decline followed by a short period of upward consolidation.',
+    detailedExplanation: 'A breakout below the lower trendline of the flag signals that the previous downtrend is resuming.',
+    example: 'The currency pair formed a bear flag after the interest rate cut, suggesting further weakness.',
+    relatedTerms: ['Bull Flag', 'Downtrend', 'Breakout'],
+    faqs: []
+  },
+  {
+    term: 'Head and Shoulders',
+    slug: 'head-and-shoulders',
+    definition: 'A reversal pattern consisting of a large peak (the head) between two smaller peaks (the shoulders).',
+    detailedExplanation: 'A break below the "neckline" (the support level connecting the lows) confirms the pattern and suggests a major trend reversal from bullish to bearish.',
+    example: 'The S&P 500 completed a head and shoulders pattern, signaling the end of the summer rally.',
+    relatedTerms: ['Inverse Head and Shoulders', 'Reversal Pattern', 'Neckline'],
+    faqs: []
+  },
+  {
+    term: 'Double Top',
+    slug: 'double-top',
+    definition: 'A bearish reversal pattern that occurs after an asset reaches a high price twice with a moderate decline between the two peaks.',
+    detailedExplanation: 'It is confirmed once price falls below the support level (the "valley" between the peaks). It shows that buyers have failed twice to push price higher.',
+    example: 'Bitcoin formed a double top at $69,000 before entering a prolonged bear market.',
+    relatedTerms: ['Double Bottom', 'Resistance', 'Reversal Pattern'],
+    faqs: []
+  },
+  {
+    term: 'Double Bottom',
+    slug: 'double-bottom',
+    definition: 'A bullish reversal pattern that occurs after an asset reaches a low price twice with a moderate rise between the two lows.',
+    detailedExplanation: 'It is confirmed once price breaks above the resistance level between the two lows. It shows that sellers have exhausted their supply at that level.',
+    example: 'The FTSE 100 formed a clear double bottom at 7,200 before rallying back to 7,500.',
+    relatedTerms: ['Double Top', 'Support', 'W Bottom'],
+    faqs: []
+  },
+  {
+    term: 'Ascending Triangle',
+    slug: 'ascending-triangle',
+    definition: 'A continuation pattern characterized by a horizontal resistance line and an ascending support line.',
+    detailedExplanation: 'It shows that while sellers are holding a specific price, buyers are becoming more aggressive and pushing the lows higher. It usually breaks to the upside.',
+    example: 'Gold is consolidating in an ascending triangle on the 4H chart, suggesting a potential breakout.',
+    relatedTerms: ['Descending Triangle', 'Breakout', 'Consolidation'],
+    faqs: []
+  },
+  {
+    term: 'Descending Triangle',
+    slug: 'descending-triangle',
+    definition: 'A continuation pattern characterized by a horizontal support line and a descending resistance line.',
+    detailedExplanation: 'It shows that while buyers are holding a specific floor, sellers are becoming more aggressive and pushing the highs lower. It usually breaks to the downside.',
+    example: 'The stock formed a descending triangle before falling below the $50 support level.',
+    relatedTerms: ['Ascending Triangle', 'Bearish', 'Consolidation'],
+    faqs: []
+  },
+  {
+    term: 'Wedge Pattern',
+    slug: 'wedge-pattern',
+    definition: 'A chart pattern characterized by two converging trendlines, either rising or falling.',
+    detailedExplanation: 'A "Rising Wedge" is typically bearish (as momentum slows), while a "Falling Wedge" is typically bullish. They represent a period of narrowing volatility before a breakout.',
+    example: 'The market broke out of a massive falling wedge, signaling the start of a new bull run.',
+    relatedTerms: ['Consolidation', 'Breakout', 'Volatility'],
+    faqs: []
+  },
+  {
+    term: 'Cup and Handle',
+    slug: 'cup-and-handle',
+    definition: 'A bullish continuation pattern where the price forms a "U" shape (the cup) followed by a slight downward drift (the handle).',
+    detailedExplanation: 'The handle represents a final period of consolidation before the price breaks above the cup\'s resistance level to continue the uptrend.',
+    example: 'The tech stock formed a perfect cup and handle over 6 months before breaking to all-time highs.',
+    relatedTerms: ['Continuation Pattern', 'Breakout', 'Bullish'],
+    faqs: []
+  },
+  {
+    term: 'Engulfing Candle',
+    slug: 'engulfing-candle',
+    definition: 'A reversal pattern consisting of two candlesticks where the second candle completely "engulfs" the body of the first.',
+    detailedExplanation: 'A Bullish Engulfing candle at the bottom of a trend is a strong buy signal, while a Bearish Engulfing candle at the top is a strong sell signal.',
+    example: 'A massive bearish engulfing candle on the daily chart ended the three-week rally.',
+    relatedTerms: ['Engulfing Pattern', 'Price Action', 'Reversal'],
     faqs: []
   }
 ];

@@ -1,108 +1,179 @@
-import { notFound } from "next/navigation";
-import { AU_CITIES, AU_TOPICS, CITY_CONTEXT_AU, TOPIC_DISPLAY_AU } from "@/data/seo/locations-au";
 import { Metadata } from "next";
+import { notFound } from "next/navigation";
 import Link from "next/link";
-import { ChevronRight, MapPin, Target, ArrowRight, ShieldCheck } from "lucide-react";
+import { LEARN_TOPICS } from "@/lib/data/learn-to-trade";
+import { AU_LOCATIONS } from "@/data/seo/au-locations";
+import { AU_TOPICS } from "@/data/seo/au-data";
+import { ArrowRight, BookOpen, ChevronRight, GraduationCap, MapPin, ShieldCheck, Zap, AlertTriangle } from "lucide-react";
+import { cn } from "@/lib/utils";
 import { TrackPageView } from "@/components/admin/TrackPageView";
-import { RegionalProvider } from "@/components/layout/RegionalLayout";
-import { getMetadata } from "@/lib/metadata";
+import { StructuredData } from "@/components/StructuredData";
 
 interface Props {
-  params: Promise<{ topic: string; city: string }>;
+  params: { topic: string; city: string };
 }
 
 export async function generateStaticParams() {
-  const params = [];
-  for (const topic of AU_TOPICS) {
-    for (const city of AU_CITIES) {
-      params.push({ topic, city });
-    }
-  }
+  const params: { topic: string; city: string }[] = [];
+  
+  AU_TOPICS.forEach((topicSlug) => {
+    AU_LOCATIONS.forEach((location) => {
+      params.push({
+        topic: topicSlug,
+        city: location.slug,
+      });
+    });
+  });
+
   return params;
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { topic, city } = await params;
-  const topicLabel = TOPIC_DISPLAY_AU[topic];
-  const cityLabel = city.replace(/-/g, ' ');
+  const { topic: topicSlug, city: citySlug } = params;
+  const topic = LEARN_TOPICS.find((t) => t.slug === topicSlug);
+  const city = AU_LOCATIONS.find((l) => l.slug === citySlug);
+  
+  if (!topic || !city) return {};
 
-  if (!topicLabel || !AU_CITIES.includes(city)) return {};
-
-  return getMetadata({
-    title: `${topicLabel} in ${cityLabel.charAt(0).toUpperCase() + cityLabel.slice(1)} | Drawdown Australia`,
-    description: `Professional ${topicLabel} education and tools for traders in ${cityLabel}. Join the Drawdown community in Australia.`,
-    path: `/au/learn-to-trade/${topic}/${city}`,
-  });
+  return {
+    title: `${topic.title} in ${city.name} — Learn Online | Drawdown AU`,
+    description: `Learn ${topic.title} from ${city.name} with Drawdown. Structured courses, ASIC-regulated data, and Australian-focused trading education.`,
+  };
 }
 
-export default async function AustralianLocationPage({ params }: Props) {
-  const { topic, city } = await params;
-  const topicLabel = TOPIC_DISPLAY_AU[topic];
-  const cityLabel = city.replace(/-/g, ' ');
-  const cityContext = CITY_CONTEXT_AU[city];
+export default function AustralianLocationTopicPage({ params }: Props) {
+  const { topic: topicSlug, city: citySlug } = params;
+  const topic = LEARN_TOPICS.find((t) => t.slug === topicSlug);
+  const city = AU_LOCATIONS.find((l) => l.slug === citySlug);
 
-  if (!topicLabel || !cityContext) notFound();
+  if (!topic || !city) notFound();
+
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": `Are there trading courses in ${city.name}?`,
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": `Yes, while there are some traditional courses in ${city.name}, Drawdown offers a professional-grade online alternative. You can access institutional ${topic.title} education from ${city.name} starting at A$79/month.`
+        }
+      },
+      {
+        "@type": "Question",
+        "name": `Is trading ${topic.title} legal in Australia?`,
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": `Yes, trading ${topic.title} is legal and regulated by ASIC in Australia. We recommend using an AFSL-licensed broker.`
+        }
+      }
+    ]
+  };
 
   return (
-    <RegionalProvider region="au">
-      <main className="min-h-screen bg-background-primary pt-32 pb-20 px-6">
-        <TrackPageView path={`/au/learn-to-trade/${topic}/${city}`} />
-        <div className="max-w-4xl mx-auto">
-          {/* Breadcrumbs */}
-          <nav className="flex items-center space-x-2 text-[10px] font-mono uppercase tracking-widest text-text-tertiary mb-12">
-            <Link href="/au" className="hover:text-accent transition-colors">AU Home</Link>
-            <ChevronRight className="w-3 h-3" />
-            <Link href="/au/learn-to-trade" className="hover:text-accent transition-colors">Learn</Link>
-            <ChevronRight className="w-3 h-3" />
-            <span className="text-text-primary">{cityLabel}</span>
-          </nav>
+    <main className="min-h-screen bg-background-primary pt-32 pb-20">
+      <TrackPageView path={`/au/learn-to-trade/${topicSlug}/${citySlug}`} />
+      <StructuredData type="FAQPage" data={faqSchema} />
+      
+      <div className="max-w-6xl mx-auto px-6">
+        {/* Breadcrumbs */}
+        <nav className="flex items-center space-x-2 text-[10px] font-mono uppercase tracking-widest text-text-tertiary mb-12">
+          <Link href="/au" className="hover:text-accent transition-colors">Home</Link>
+          <ChevronRight className="w-3 h-3" />
+          <Link href="/au/learn-to-trade" className="hover:text-accent transition-colors">Learn</Link>
+          <ChevronRight className="w-3 h-3" />
+          <span className="text-text-primary">{city.name}</span>
+        </nav>
 
-          {/* Header */}
-          <header className="mb-20">
-            <div className="flex items-center gap-3 mb-6">
-              <MapPin className="w-4 h-4 text-accent" />
-              <span className="text-accent font-mono text-xs uppercase tracking-widest">{cityLabel} // Australia</span>
-            </div>
-            <h1 className="text-5xl md:text-8xl font-display font-bold uppercase leading-tight mb-8">
-              {topicLabel} <br />
-              <span className="text-text-tertiary italic">in</span> {cityLabel}.
-            </h1>
-            <p className="text-xl text-text-secondary leading-relaxed max-w-2xl border-l-2 border-accent/30 pl-8 py-2">
-              {cityContext} Drawdown provides the institutional-grade framework you need to master the markets from {cityLabel.charAt(0).toUpperCase() + cityLabel.slice(1)}.
-            </p>
-          </header>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-20">
-            <div className="p-10 bg-background-surface border border-border-slate space-y-6">
-              <Target className="w-8 h-8 text-accent" />
-              <h3 className="text-2xl font-display font-bold uppercase">Localized Edge</h3>
-              <p className="text-sm text-text-tertiary leading-relaxed">
-                We provide specific guidance for {cityLabel}-based traders, including optimization for the Asian and London session overlaps and AUD-denominated risk models.
+        {/* Hero Header */}
+        <div className="mb-24">
+          <div className="flex items-center gap-3 mb-6">
+             <MapPin className="w-4 h-4 text-accent" />
+             <span className="text-accent font-mono text-[10px] uppercase tracking-widest">Australian Hub // {city.name}</span>
+          </div>
+          <h1 className="text-5xl md:text-8xl font-display font-bold uppercase mb-8 text-text-primary leading-[0.85]">
+            {topic.title} in <br /> {city.name}.
+          </h1>
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 mt-12">
+            <div className="lg:col-span-2 space-y-6">
+              <p className="text-2xl text-text-primary font-display uppercase leading-tight italic border-l-4 border-accent pl-8">
+                {city.context}
+              </p>
+              <p className="text-lg text-text-secondary leading-relaxed">
+                As a trader in {city.name}, you have access to the ASX and a sophisticated regional market. Drawdown provides the institutional-grade ${topic.title} education you need to succeed in Australia's competitive financial landscape.
               </p>
             </div>
-            <div className="p-10 bg-background-surface border border-border-slate space-y-6">
-              <ShieldCheck className="w-8 h-8 text-profit" />
-              <h3 className="text-2xl font-display font-bold uppercase">ASIC Compliance</h3>
-              <p className="text-sm text-text-tertiary leading-relaxed">
-                Our curriculum is built to help Australian traders navigate the ASIC-regulated landscape safely, avoiding the pitfalls of non-regulated offshore entities.
-              </p>
+            <div className="bg-background-surface border border-border-slate p-8 space-y-6">
+               <div className="flex items-center gap-2">
+                  <ShieldCheck className="w-5 h-5 text-profit" />
+                  <span className="text-[10px] font-mono uppercase tracking-widest font-bold">ASIC Compliance</span>
+               </div>
+               <ul className="space-y-4">
+                  {[
+                    "ASIC Regulated Brokers",
+                    "AUD Denominated Tools",
+                    "ATO Tax Optimization",
+                    "ASX Market Integration"
+                  ].map(item => (
+                    <li key={item} className="flex items-center gap-3 text-xs text-text-secondary">
+                       <span className="w-1 h-1 bg-accent rounded-full" />
+                       {item}
+                    </li>
+                  ))}
+               </ul>
             </div>
           </div>
-
-          <section className="bg-background-elevated border border-border-slate p-12 md:p-20 text-center space-y-8">
-            <h2 className="text-3xl md:text-5xl font-display font-bold uppercase">Ready to learn properly?</h2>
-            <p className="text-text-secondary text-lg max-w-xl mx-auto">
-              Join the Drawdown community and access the same tools and education used by professional traders across Australia.
-            </p>
-            <div className="pt-4">
-              <Link href="/signup" className="inline-flex items-center gap-4 bg-accent text-background-primary px-10 py-5 text-xs font-bold uppercase tracking-[0.2em] hover:bg-accent-hover transition-all">
-                <span>Join Drawdown Australia</span>
-                <ArrowRight className="w-4 h-4" />
-              </Link>
-            </div>
-          </section>
         </div>
-      </main>
-    </RegionalProvider>
+
+        {/* Topic Content */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-16 items-start mb-32">
+          <div className="lg:col-span-2 space-y-20">
+            {topic.content.map((section, i) => (
+              <section key={i} className="space-y-8">
+                <h2 className="text-3xl md:text-4xl font-display font-bold uppercase tracking-tight text-text-primary">
+                  {i + 1}. {section.heading}
+                </h2>
+                <p className="text-text-secondary leading-relaxed text-lg whitespace-pre-line">
+                  {section.text}
+                </p>
+              </section>
+            ))}
+          </div>
+
+          {/* Sidebar */}
+          <aside className="sticky top-32 space-y-12">
+            <div className="p-8 bg-background-surface border border-accent/30 space-y-6 text-center">
+               <GraduationCap className="w-10 h-10 text-accent mx-auto" />
+               <h4 className="text-xl font-display font-bold uppercase">Master {topic.title}</h4>
+               <p className="text-xs text-text-secondary leading-relaxed">
+                  Join Australia's premier trading curriculum and master the business of risk properly.
+               </p>
+               <Link href="/au/courses" className="w-full py-4 bg-accent text-[#08090D] font-bold uppercase tracking-widest text-[10px] block">
+                  Access Curriculum
+               </Link>
+            </div>
+          </aside>
+        </div>
+
+        {/* CTA */}
+        <section className="p-16 bg-accent text-background-primary relative overflow-hidden text-center">
+           <div className="relative z-10 space-y-8">
+              <h2 className="text-4xl md:text-6xl font-display font-bold uppercase leading-none">
+                 Join 10,000+ Traders <br /> Across Australia.
+              </h2>
+              <Link 
+                href="/au/signup"
+                className="inline-block px-12 py-6 bg-background-primary text-text-primary text-[12px] font-bold uppercase tracking-widest hover:invert transition-all"
+              >
+                 Join Drawdown Free
+              </Link>
+           </div>
+           <div className="absolute -right-20 -bottom-20 text-[300px] font-display font-black text-white/10 select-none uppercase">
+              {city.name[0]}
+           </div>
+        </section>
+      </div>
+    </main>
   );
 }

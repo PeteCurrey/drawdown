@@ -1,10 +1,10 @@
 import { Metadata } from "next";
-import { HOW_TO_PAGES_US } from "@/data/seo/us-data";
-import { getMetadata } from "@/lib/metadata";
-import { RegionalHowToPage } from "@/components/seo/RegionalHowToPage";
+import { notFound } from "next/navigation";
+import { HOW_TO_PAGES_US } from "@/data/seo/how-to-us";
+import { HowToTemplate } from "@/components/seo/HowToTemplate";
 
 interface Props {
-  params: Promise<{ slug: string }>;
+  params: { slug: string };
 }
 
 export async function generateStaticParams() {
@@ -14,20 +14,21 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { slug } = await params;
-  const page = HOW_TO_PAGES_US.find((p) => p.slug === slug);
-
+  const page = HOW_TO_PAGES_US.find((p) => p.slug === params.slug);
   if (!page) return {};
 
-  return getMetadata({
+  return {
     title: page.title,
     description: page.metaDescription,
-    path: `/us/how-to/${slug}`,
-    hasRegionalVariants: true,
-  });
+  };
 }
 
-export default async function USHowToPage({ params }: Props) {
-  const { slug } = await params;
-  return <RegionalHowToPage region="us" slug={slug} data={HOW_TO_PAGES_US} />;
+export default function UsHowToPage({ params }: Props) {
+  const page = HOW_TO_PAGES_US.find((p) => p.slug === params.slug);
+
+  if (!page) {
+    notFound();
+  }
+
+  return <HowToTemplate page={page} region="us" />;
 }

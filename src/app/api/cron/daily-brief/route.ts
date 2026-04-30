@@ -45,9 +45,11 @@ export async function GET(request: NextRequest) {
 
     // 4. Store in database
     const today = new Date().toISOString().split('T')[0];
+    const subjectLine = briefContent.split('\n')[0].replace(/[#*]/g, '').trim();
     
     const { data, error } = await supabase.from('daily_briefs').upsert({
       brief_date: today,
+      subject_line: subjectLine || `Daily Brief — ${today}`,
       content_html: briefContent, // Markdown to be rendered on frontend
       content_text: briefContent,
       market_data: marketData,

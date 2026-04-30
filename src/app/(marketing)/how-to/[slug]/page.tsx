@@ -1,4 +1,7 @@
 import { notFound } from "next/navigation";
+
+export const dynamic = "force-static";
+export const dynamicParams = true;
 import { HOW_TO_PAGES } from "@/data/seo/howto";
 import { Metadata } from "next";
 import Link from "next/link";

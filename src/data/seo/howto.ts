@@ -639,5 +639,579 @@ export const HOW_TO_PAGES: HowToPage[] = [
     faqs: [
       { question: 'Which is better, RSI or MACD?', answer: 'Neither is "better." RSI measures price speed, while MACD measures the relationship between two moving averages. Many traders use both for confirmation.' }
     ]
+  },
+  {
+    slug: 'choose-broker-uk',
+    title: 'How to Choose a Trading Broker in the UK',
+    eyebrow: '// HOW-TO GUIDE',
+    readingTime: '10 min',
+    metaDescription: 'Don\'t get scammed. Learn exactly how to evaluate a UK broker based on FCA regulation, spreads, and payout reliability.',
+    introduction: 'Your broker is your only partner in the markets. Choose the wrong one, and even a winning strategy won\'t save you from slippage, high fees, or withdrawal delays. Here is how to audit a broker like a professional.',
+    steps: [
+      { title: 'Check the FCA Register', content: 'Go to the Financial Services Register and verify the broker\'s firm reference number (FRN). If they aren\'t authorized for "investment services," walk away.' },
+      { title: 'Compare Total Cost of Trade', content: 'Don\'t just look at the spread. Check for commissions, overnight swap rates, and inactivity fees. A "zero spread" account often has high commissions that make it more expensive.' },
+      { title: 'Test Customer Support', content: 'Send a technical question to their support team. If they take 48 hours to reply now, imagine how long they\'ll take when you have a trade execution issue.' }
+    ],
+    commonMistakes: ['Falling for "deposit bonuses"', 'Ignoring the spread on the assets you actually trade', 'Trading with offshore, unregulated brokers'],
+    drawdownApproach: {
+      text: 'We only recommend brokers that we have personally funded and traded with.',
+      link: '/best/forex-broker-uk',
+      linkText: 'View Our Ranked Brokers'
+    },
+    faqs: [
+      { question: 'Is a larger broker always better?', answer: 'Not necessarily, but larger, publicly-listed brokers (like IG) offer a level of transparency and capital security that smaller firms can\'t match.' }
+    ]
+  },
+  {
+    slug: 'start-spread-betting',
+    title: 'How to Start Spread Betting — UK Beginner Guide',
+    eyebrow: '// HOW-TO GUIDE',
+    readingTime: '14 min',
+    metaDescription: 'The ultimate guide to UK spread betting. Learn how to use this tax-efficient instrument to trade forex, stocks, and indices.',
+    introduction: 'Spread betting is a uniquely British way to trade the financial markets. It is classified as betting, which makes it tax-free for most. However, it uses leverage, meaning you need to understand exactly how "pounds per point" works before you start.',
+    steps: [
+      { title: 'Understand "Pounds Per Point"', content: 'Unlike buying shares, you are betting a certain amount of money for every "point" the market moves. If you bet £1 per point on the FTSE 100 and it moves 10 points, you make or lose £10.' },
+      { title: 'Select Your Instrument', content: 'You can spread bet on almost anything — GBP/USD, Gold, individual UK/US stocks, and global indices. Start with a major index like the FTSE 100 as it has lower volatility.' },
+      { title: 'Calculate Your Margin', content: 'Leverage means you only need a small percentage of the trade value in your account. But remember, your losses are based on the full trade value, not just your margin.' }
+    ],
+    commonMistakes: ['Calculating risk based on "pounds" instead of "points"', 'Forgetting that spread betting is not available outside the UK/Ireland', 'Over-leveraging because of the low margin requirements'],
+    drawdownApproach: {
+      text: 'Spread betting is our preferred vehicle for UK-based swing trading.',
+      link: '/best/spread-betting-platform-uk',
+      linkText: 'Best Spread Betting Platforms'
+    },
+    faqs: [
+      { question: 'Is spread betting really tax-free?', answer: 'Yes, as of 2026, spread betting is exempt from Capital Gains Tax and Stamp Duty in the UK. This can save you up to 20-28% on your profits compared to CFDs or real shares.' }
+    ]
+  },
+  {
+    slug: 'trade-with-100-pounds',
+    title: 'How to Trade with £100 — A Survival Guide',
+    eyebrow: '// HOW-TO GUIDE',
+    readingTime: '8 min',
+    metaDescription: 'Can you trade with just £100? Yes, but your goal isn\'t to get rich—it\'s to survive. Learn the math of small account trading.',
+    introduction: 'Trading with £100 is "Hard Mode." Your biggest enemy isn\'t the market; it\'s your own impatience. If you try to double this in a week, you will lose it in a day. Here is how to treat £100 with the respect of £100,000.',
+    steps: [
+      { title: 'Use a Micro-Lot Broker', content: 'You must use a broker that allows 0.01 lot sizes. On a £100 account, a standard lot would blow your account in a single pip move.' },
+      { title: 'Limit Your Risk per Trade', content: 'Even on a tiny account, you should only risk 1-2% (£1-£2) per trade. This requires very tight stop-losses and disciplined entry.' },
+      { title: 'Focus on Process, Not Profit', content: 'You won\'t buy a Ferrari with £100. Your goal is to prove you can trade for 3 months without blowing the account. The skill is the asset, not the £100.' }
+    ],
+    commonMistakes: ['Using high leverage to "gamble" the £100', 'Ignoring the spread (which is a large % of a £100 account)', 'Expecting life-changing returns immediately'],
+    drawdownApproach: {
+      text: 'We recommend small accounts use our Risk Calculator to ensure they never over-leverage.',
+      link: '/tools/risk-calculator',
+      linkText: 'Use Risk Calculator'
+    },
+    faqs: [
+      { question: 'Can I grow £100 into a career?', answer: 'Only if you use it to practice for a prop firm challenge. £100 is for learning; prop firms are for earning.' }
+    ]
+  },
+  {
+    slug: 'trade-with-1000-pounds',
+    title: 'How to Trade with £1,000 — Professional Setup',
+    eyebrow: '// HOW-TO GUIDE',
+    readingTime: '11 min',
+    metaDescription: 'A £1,000 account is the "sweet spot" for serious beginners. Learn how to allocate this capital across a professional trading plan.',
+    introduction: 'With £1,000, you finally have enough capital to practice real risk management. You can survive a losing streak and actually see your P&L move in meaningful ways. Here is the professional roadmap for a four-figure account.',
+    steps: [
+      { title: 'The 1% Rule', content: 'Risk exactly £10 per trade. This gives you 100 "lives" before your account is gone. Most professionals never exceed this risk level.' },
+      { title: 'Stick to 2-3 Pairs', content: 'Don\'t try to watch the whole market. Pick two major pairs (like GBP/USD and EUR/USD) and learn their personality intimately.' },
+      { title: 'Build a Weekly Routine', content: 'Analyze on Sunday, trade Tuesday to Thursday, and review on Saturday. Trading is a job; treat it like one.' }
+    ],
+    commonMistakes: ['Thinking £1,000 is enough to quit your job', 'Taking "revenge trades" after a £10 loss', 'Adding to losing positions'],
+    drawdownApproach: {
+      text: 'Our Foundation course is specifically designed for traders starting with £1,000 - £5,000.',
+      link: '/learn/foundation',
+      linkText: 'Join Foundation'
+    },
+    faqs: [
+      { question: 'How much can I make with £1,000?', answer: 'A realistic goal for a good trader is 2-5% per month (£20-£50). It sounds small, but compounding that consistently is how you build a real bankroll.' }
+    ]
+  },
+  {
+    slug: 'grow-small-trading-account',
+    title: 'How to Grow a Small Trading Account Safely',
+    eyebrow: '// HOW-TO GUIDE',
+    readingTime: '13 min',
+    metaDescription: 'Compounding is the 8th wonder of the world. Learn the mathematical reality of growing a small account into a significant fund.',
+    introduction: 'Growing a small account is a marathon, not a sprint. The "secret" isn\'t finding a 90% win-rate strategy; it\'s staying in the game long enough for the math of compounding to take over. Here is the blueprint.',
+    steps: [
+      { title: 'The Power of Compounding', content: 'If you make 5% a month on £1,000, you don\'t just have £1,600 after a year. If you leave the profits in, you have nearly £1,800. After 3 years, you have over £5,000. Patience is your edge.' },
+      { title: 'Avoid the "Lotto" Trade', content: 'Small accounts often blow up because the trader tries to "hit it big" on a single event. One bad trade can wipe out 6 months of disciplined growth.' },
+      { title: 'Scale Your Position Sizing', content: 'As your account grows from £1,000 to £1,200, your 1% risk moves from £10 to £12. This "auto-scaling" is how you grow without increasing your emotional stress.' }
+    ],
+    commonMistakes: ['Withdrawing profits too early', 'Increasing risk percentage because you feel "bored"', 'Comparing your growth to fake accounts on Instagram'],
+    drawdownApproach: {
+      text: 'Track your growth path with our AI Trade Journal to see the compounding math in real-time.',
+      link: '/tools/ai-trade-journal',
+      linkText: 'Start Journaling'
+    },
+    faqs: [
+      { question: 'What is the fastest way to grow a small account?', answer: 'The fastest way is to not blow it up. Consistency beats intensity every single time.' }
+    ]
+  },
+  {
+    slug: 'avoid-revenge-trading',
+    title: 'How to Avoid Revenge Trading — Stop the Tilt',
+    eyebrow: '// HOW-TO GUIDE',
+    readingTime: '9 min',
+    metaDescription: 'Revenge trading is the #1 account killer. Learn how to recognize the biological triggers and implement a "circuit breaker" for your trading.',
+    introduction: 'We have all been there. A "perfect" setup fails, you feel cheated by the market, and you immediately double your position size to "get it back." This is revenge trading, and it is a biological response that you must learn to override.',
+    steps: [
+      { title: 'Recognize the Physiological Signs', content: 'When you lose a trade, your body releases cortisol. If you feel your heart racing, your face getting hot, or a desperate need to be "right," you are tilted. Your brain is no longer capable of objective analysis.' },
+      { title: 'Walk Away Immediately', content: 'The only cure for tilt is time. Close your laptop, put your phone in another room, and go for a 15-minute walk. Do not look at the charts. The market will be there when your pre-frontal cortex is back in control.' },
+      { title: 'Implement a Daily Loss Limit', content: 'Use a hard stop. If you lose 3% of your account in a day, you are done. No exceptions. This "circuit breaker" ensures that one bad day doesn\'t turn into a blown account.' }
+    ],
+    commonMistakes: ['Thinking you can "force" the market to pay you back', 'Increasing position size after a loss', 'Trading while emotional or tired'],
+    drawdownApproach: {
+      text: 'Our AI Psychology Coach is built specifically to detect and prevent revenge trading patterns.',
+      link: '/tools/ai-coach',
+      linkText: 'Get an AI Discipline Report'
+    },
+    faqs: [
+      { question: 'Is revenge trading a sign I\'m a bad trader?', answer: 'No, it\'s a sign you are a human. Even pros feel the urge; the difference is they have the systems to prevent themselves from acting on it.' }
+    ]
+  },
+  {
+    slug: 'deal-with-losing-streak',
+    title: 'How to Deal with a Losing Streak Like a Pro',
+    eyebrow: '// HOW-TO GUIDE',
+    readingTime: '12 min',
+    metaDescription: 'Losing streaks are inevitable. Learn how to manage your capital and your confidence when the market isn\'t cooperating with your strategy.',
+    introduction: 'Even the world\'s best strategies have periods where they don\'t work. A "Drawdown" is a normal part of the business. The goal isn\'t to avoid losing streaks; it\'s to survive them with your capital and your sanity intact.',
+    steps: [
+      { title: 'Verify Your Edge', content: 'Is the strategy failing, or are you? Review your journal. If you followed your rules and still lost, the market environment has simply changed. If you broke your rules, you don\'t have a losing streak; you have a discipline problem.' },
+      { title: 'Reduce Your Risk', content: 'When in a drawdown, cut your risk in half. If you usually risk 1%, drop to 0.5%. This reduces the mathematical "slope" of your losses and preserves your capital while you wait for the market to align with your edge again.' },
+      { title: 'Step Back to Demo', content: 'If you lose 5-10% of your account, stop trading live. Go back to a demo account until you have 5 winning trades in a row. This restores your confidence without costing you a penny.' }
+    ],
+    commonMistakes: ['Changing your strategy in the middle of a streak', 'Trying to "trade your way out" of a hole', 'Ignoring the psychological toll of consecutive losses'],
+    drawdownApproach: {
+      text: 'We use the "Equity Curve Simulator" to show traders that 10 losses in a row is statistically normal.',
+      link: '/tools/simulator',
+      linkText: 'Simulate Your Strategy'
+    },
+    faqs: [
+      { question: 'When should I give up on a strategy?', answer: 'Only after at least 100 trades. A 5-trade losing streak is noise; a 50-trade losing streak is a failed strategy.' }
+    ]
+  },
+  {
+    slug: 'trade-london-session',
+    title: 'How to Trade the London Session — The Volatility Hub',
+    eyebrow: '// HOW-TO GUIDE',
+    readingTime: '15 min',
+    metaDescription: 'The London session is the world\'s liquidity engine. Learn how to trade the "London Open" breakout and the mid-morning trend.',
+    introduction: 'London accounts for nearly 40% of global forex volume. If you want big moves and tight spreads, you need to be at your desk at 8 AM GMT. This guide covers the specific mechanics of the most important session in the world.',
+    steps: [
+      { title: 'The 8 AM "Initial Move"', content: 'When London opens, there is a massive injection of liquidity. This often leads to a "fakeout" move in the first 15 minutes followed by the real trend. Wait for the 8:15 AM candle to close before committing.' },
+      { title: 'Identify the Session High/Low', content: 'The high and low set in the first hour of London trading often hold for the rest of the day. Trading breakouts of these levels is a classic institutional strategy.' },
+      { title: 'Watch the "London Lunch" Fade', content: 'Around 12 PM GMT, volume often drops as European traders go to lunch. This is a dangerous time to enter new trades as liquidity is thin and moves can be erratic.' }
+    ],
+    commonMistakes: ['Trading before the 8 AM open', 'Ignoring the impact of the New York overlap at 1 PM', 'Trying to trade GBP pairs during the Asian session'],
+    drawdownApproach: {
+      text: 'Our "Session Pulse" tool shows you exactly when volume is peaking in London.',
+      link: '/markets/pulse',
+      linkText: 'Check Market Pulse'
+    },
+    faqs: [
+      { question: 'What are the best pairs for the London session?', answer: 'Anything involving the GBP, EUR, or CHF. GBP/USD (The Cable) is the undisputed king of the London session.' }
+    ]
+  },
+  {
+    slug: 'trade-news-events',
+    title: 'How to Trade News Events without Blowing Your Account',
+    eyebrow: '// HOW-TO GUIDE',
+    readingTime: '11 min',
+    metaDescription: 'News trading can be lucrative or lethal. Learn how to manage the volatility of NFP, CPI, and interest rate decisions.',
+    introduction: 'Economic news events like Non-Farm Payrolls (NFP) can move the market 100 pips in seconds. While tempting, news trading is where most beginners blow their accounts due to "slippage" and "spread widening." Here is the safe way to play it.',
+    steps: [
+      { title: 'The "No Trade" Zone', content: 'For most retail traders, the safest way to trade news is to NOT trade during the release. Wait 15-30 minutes for the initial volatility to settle and a clear direction to emerge.' },
+      { title: 'Check the Economic Calendar', content: 'Use a tool like Forex Factory. Any "Red Folder" event means you should have no open trades or have your stops moved to break-even before the release.' },
+      { title: 'Account for Slippage', content: 'During high-impact news, your stop-loss is NOT guaranteed. If the market "gaps" over your price, you will be filled at the next available price. Never risk more than you can afford to lose on a gap.' }
+    ],
+    commonMistakes: ['Trying to "guess" the news result', 'Using tight stops during high volatility', 'Trading with a broker that has poor news execution'],
+    drawdownApproach: {
+      text: 'We provide a Daily Briefing that highlights the "Red Folder" risks for the day.',
+      link: '/dashboard/news',
+      linkText: 'Read Today\'s Briefing'
+    },
+    faqs: [
+      { question: 'What is the most important news event?', answer: 'US Consumer Price Index (CPI) and the Federal Reserve Interest Rate decisions (FOMC) are currently the biggest market movers in 2026.' }
+    ]
+  },
+  {
+    slug: 'use-tradingview',
+    title: 'How to Use TradingView Like a Professional',
+    eyebrow: '// HOW-TO GUIDE',
+    readingTime: '14 min',
+    metaDescription: 'TradingView is the most powerful charting tool in the world. Learn how to set up your workspace, use hotkeys, and create alerts.',
+    introduction: 'If you are still using MT4/MT5 for your analysis, you are living in the stone age. TradingView is the industry standard for charting. This guide shows you how to optimize your setup for professional speed and clarity.',
+    steps: [
+      { title: 'Master the Keyboard Hotkeys', content: 'Efficiency is edge. Use "Alt + T" for trendlines, "Alt + H" for horizontal lines, and the number keys to switch timeframes instantly. You should be able to navigate your charts without touching your mouse.' },
+      { title: 'Set Up Multi-Timeframe Layouts', content: 'Don\'t just look at one chart. Use the "Split Screen" feature to see the Daily, 4-Hour, and 15-Minute charts side-by-side. This ensures you never trade against the higher-timeframe trend.' },
+      { title: 'Configure "Smart" Alerts', content: 'Don\'t stare at the screen all day. Set alerts on your key levels (support/resistance) and wait for TradingView to ping your phone. This prevents "boredom trading" and keeps your eyes fresh.' }
+    ],
+    commonMistakes: ['Cluttering charts with too many indicators', 'Using the "Free" version for serious multi-asset analysis', 'Ignoring the "Object Tree" for organization'],
+    drawdownApproach: {
+      text: 'Check our recommended list of indicators to supercharge your TradingView setup.',
+      link: '/best/tradingview-indicators',
+      linkText: 'Best TV Indicators'
+    },
+    faqs: [
+      { question: 'Is TradingView free?', answer: 'There is a free version, but for serious traders, the "Pro" or "Pro+" plans are essential for multi-chart layouts and more alerts.' }
+    ]
+  },
+  {
+    slug: 'pass-prop-firm-challenge',
+    title: 'How to Pass a Prop Firm Challenge — The Statistical Edge',
+    eyebrow: '// HOW-TO GUIDE',
+    readingTime: '18 min',
+    metaDescription: '90% of traders fail their prop firm challenge. Learn the risk management secrets and psychological discipline needed to get funded.',
+    introduction: 'Passing a prop firm challenge isn\'t about being a "great trader." It is about understanding the specific math of the rules. You are playing a game with strict boundaries, and if you play it like a normal account, you will lose.',
+    steps: [
+      { title: 'The Math of Drawdown', content: 'In a challenge, your "Daily Loss Limit" is your most important number. If you have a $100k account with a 5% daily limit ($5,000), you should never risk more than $500 per trade. This gives you 10 "shots" before you hit your daily limit.' },
+      { title: 'Avoid "Big Win" Hunting', content: 'Most challenges have a 8-10% profit target. Traders fail because they try to hit this in 2 days. The secret is to aim for 0.5% - 1% per day. Slow and steady wins the funding.' },
+      { title: 'Master the "Trailing Drawdown"', content: 'Some firms use a trailing drawdown based on your high-water mark. If you go up $2,000, your drawdown floor also moves up $2,000. You must lock in profits or close positions to prevent the floor from catching you.' }
+    ],
+    commonMistakes: ['Risking too much on the first trade', 'Trading through high-impact news', 'Over-trading to "get it over with"'],
+    drawdownApproach: {
+      text: 'Run your trade history through our Challenge Simulator before you pay for a real one.',
+      link: '/tools/challenge-simulator',
+      linkText: 'Test Your Edge'
+    },
+    faqs: [
+      { question: 'Which firm is the easiest to pass?', answer: 'Firms with no time limits (like The5ers or FTMO) are the easiest because they remove the emotional pressure of a deadline.' }
+    ]
+  },
+  {
+    slug: 'trade-gbpusd',
+    title: 'How to Trade GBP/USD — Mastering "The Cable"',
+    eyebrow: '// HOW-TO GUIDE',
+    readingTime: '13 min',
+    metaDescription: 'GBP/USD is one of the most volatile and rewarding pairs. Learn the personality of the Pound and how to trade the London-NY overlap.',
+    introduction: 'GBP/USD, known as "The Cable," is famous for its massive ranges and sharp reversals. It is the lifeblood of the London session. To trade it, you need to understand the relationship between the Bank of England and the Federal Reserve.',
+    steps: [
+      { title: 'Watch the 7 AM GMT "Pre-Open"', content: 'The Pound often starts moving an hour before London officially opens. This "pre-open" liquidity can provide early clues about the day\'s direction.' },
+      { title: 'Understand the "Big Figure" Levels', content: 'GBP/USD loves round numbers (e.g., 1.2500, 1.3000). Institutional orders are often clustered at these levels, leading to significant support or resistance.' },
+      { title: 'The 1 PM GMT Volatility Spike', content: 'When New York opens at 1 PM GMT, the overlap begins. This is the most volatile time for the Cable as both London and NY desks are active simultaneously.' }
+    ],
+    commonMistakes: ['Ignoring UK economic data (GDP, CPI)', 'Using too tight a stop-loss (The Cable is volatile)', 'Trading late in the New York session'],
+    drawdownApproach: {
+      text: 'Our Daily Briefing covers the specific BoE and Fed risks for the Cable every morning.',
+      link: '/dashboard/news',
+      linkText: 'Check GBP/USD Outlook'
+    },
+    faqs: [
+      { question: 'Why is it called "The Cable"?', answer: 'It refers to the actual physical telegraph cable that was laid across the Atlantic in the 19th century to sync the exchange rates between London and New York.' }
+    ]
+  },
+  {
+    slug: 'trade-gold',
+    title: 'How to Trade Gold (XAU/USD) — Safe Haven or Chaos?',
+    eyebrow: '// HOW-TO GUIDE',
+    readingTime: '16 min',
+    metaDescription: 'Gold is a unique asset that reacts to inflation, war, and interest rates. Learn how to navigate the volatility of XAU/USD.',
+    introduction: 'Gold is the ultimate "fear" gauge. It doesn\'t pay a dividend or interest, so its value is purely based on sentiment and the value of the US Dollar. It is one of the most respected technical assets in the world.',
+    steps: [
+      { title: 'The Inverse USD Correlation', content: '90% of the time, Gold moves opposite to the US Dollar. If the Dollar is strong, Gold is weak. Always check the DXY (Dollar Index) before taking a gold trade.' },
+      { title: 'Trade the NY Open', content: 'Gold volume explodes at 1:30 PM GMT when the New York pits open. This is when the largest moves occur. Be careful with wide spreads during the Asian session.' },
+      { title: 'Respect the Daily High/Low', content: 'Gold has a memory. It often revisits the previous day\'s high or low before continuing a trend. These levels are critical for placing your stop-losses.' }
+    ],
+    commonMistakes: ['Over-leveraging (Gold moves much faster than Forex)', 'Ignoring the "Real Yield" of US Treasuries', 'Trading Gold during quiet bank holidays'],
+    drawdownApproach: {
+      text: 'Gold is a core asset in our Institutional Mastery course.',
+      link: '/learn/institutional',
+      linkText: 'Master Gold Trading'
+    },
+    faqs: [
+      { question: 'Is gold a good investment?', answer: 'As a trade, it\'s excellent for volatility. As an investment, it\'s a hedge against currency devaluation.' }
+    ]
+  },
+  {
+    slug: 'trade-bitcoin',
+    title: 'How to Trade Bitcoin — Volatility Management',
+    eyebrow: '// HOW-TO GUIDE',
+    readingTime: '14 min',
+    metaDescription: 'Bitcoin is the most volatile asset in the world. Learn how to apply professional risk management to the crypto markets.',
+    introduction: 'Bitcoin trading isn\'t like forex. It is a 24/7 market driven by social sentiment, "whales," and institutional adoption. To survive, you need a strategy that accounts for 10% moves in a single hour.',
+    steps: [
+      { title: 'Ignore the Noise, Watch the Level', content: 'Crypto Twitter is full of "moon" predictions. Ignore them. Bitcoin respects horizontal support and resistance levels more than almost any other asset.' },
+      { title: 'Check the "Funding Rate"', content: 'In crypto, if everyone is buying (long), they have to pay a fee to the sellers. If the funding rate is very high, a "long squeeze" is likely. This is a leading indicator of a price drop.' },
+      { title: 'Use a Regulated UK Exchange', content: 'For UK traders, safety of funds is paramount. Use an FCA-registered entity or a reputable broker like Pepperstone for your Bitcoin exposure.' }
+    ],
+    commonMistakes: ['Keeping all your capital on an exchange', 'Trading with 100x leverage', 'FOMO (Fear Of Missing Out) after a big pump'],
+    drawdownApproach: {
+      text: 'Our AI Scanner tracks Bitcoin sentiment 24/7 to find high-probability setups.',
+      link: '/tools/scanner',
+      linkText: 'Check BTC Sentiment'
+    },
+    faqs: [
+      { question: 'What is the best time to trade Bitcoin?', answer: 'Unlike Forex, Bitcoin is active 24/7, but the highest volume still occurs during the New York stock market hours.' }
+    ]
+  },
+  {
+    slug: 'use-leverage-safely',
+    title: 'How to Use Leverage Safely — The Double-Edged Sword',
+    eyebrow: '// HOW-TO GUIDE',
+    readingTime: '12 min',
+    metaDescription: 'Leverage is how you build wealth, and how you blow accounts. Learn the professional math of margin and effective leverage.',
+    introduction: 'Leverage is simply a tool that allows you to control a large amount of money with a small amount of capital. Used correctly, it magnifies your edge. Used incorrectly, it is a mathematical certainty that you will go to zero.',
+    steps: [
+      { title: 'Distinguish Margin from Risk', content: 'Just because a broker gives you 30:1 leverage doesn\'t mean you should use it. Your "Risk" is determined by your stop-loss, not your leverage. Never risk more than 1% of your account regardless of leverage.' },
+      { title: 'Calculate Your "Effective Leverage"', content: 'If you have £1,000 and control a £10,000 position, your effective leverage is 10:1. Professionals rarely exceed 5:1 effective leverage on their total account equity.' },
+      { title: 'Always Have a Hard Stop', content: 'Leverage without a stop-loss is suicide. A small move against you can trigger a "Margin Call," where the broker closes your trades automatically at the worst possible price.' }
+    ],
+    commonMistakes: ['Trading with "Max" leverage to save money', 'Not understanding the "Margin Call" level', 'Ignoring the cost of leverage (swap rates)'],
+    drawdownApproach: {
+      text: 'Our Risk Calculator automatically calculates your required margin and leverage for every trade.',
+      link: '/tools/risk-calculator',
+      linkText: 'Calculate Your Risk'
+    },
+    faqs: [
+      { question: 'Is high leverage bad?', answer: 'No, high leverage is actually safer because it requires less of your capital to be held by the broker. The "Bad" part is over-leveraging (trading too many lots).' }
+    ]
+  },
+  {
+    slug: 'create-trading-routine',
+    title: 'How to Create a Winning Trading Routine',
+    eyebrow: '// HOW-TO GUIDE',
+    readingTime: '10 min',
+    metaDescription: 'Trading is won before the market opens. Learn how to build a daily routine that ensures you are prepared, calm, and disciplined.',
+    introduction: 'The difference between a gambler and a professional is their routine. If you sit down at your computer and start looking for trades immediately, you have already lost. You need a process that primes your brain for objective decision making.',
+    steps: [
+      { title: 'The Pre-Market Scan', content: 'Every morning at 7:30 AM GMT, check the economic calendar for "Red Folders." Scan your 10 favorite pairs and identify the "Key Levels" where you will take action.' },
+      { title: 'The Psychological Check-In', content: 'Are you tired? Angry? Distracted? If you aren\'t at 100%, do not trade. Your "Session Quality" is more important than the number of trades you take.' },
+      { title: 'The Post-Session Review', content: 'At the end of your session, journal every trade—even the ones you didn\'t take. What did you learn? Did you follow your rules? This is where the real growth happens.' }
+    ],
+    commonMistakes: ['Trading while working your 9-5 job', 'Skipping the weekend review', 'Not having a "Daily Stop" rule'],
+    drawdownApproach: {
+      text: 'Our Pre-Session Check-in tool helps you document your mindset before every trade.',
+      link: '/dashboard/coach',
+      linkText: 'Start Pre-Session Check-in'
+    },
+    faqs: [
+      { question: 'How long should a routine take?', answer: 'A professional pre-market routine should take 30-45 minutes. Any less and you are guessing; any more and you are over-analyzing.' }
+    ]
+  },
+  {
+    slug: 'pay-trading-tax-uk',
+    title: 'How to Pay Trading Tax in the UK — HMRC Guide',
+    eyebrow: '// HOW-TO GUIDE',
+    readingTime: '15 min',
+    metaDescription: 'Don\'t let HMRC surprise you. Learn the difference between Spread Betting, CFDs, and Share Dealing taxes for UK residents.',
+    introduction: 'If you are making money trading, you owe the taxman a cut. In the UK, how much you pay depends entirely on WHICH instrument you use. This guide simplifies the complex world of HMRC trading tax.',
+    steps: [
+      { title: 'Spread Betting: The Tax-Free Haven', content: 'Currently, spread betting is classified as "betting" and is exempt from Capital Gains Tax and Stamp Duty for individuals. This is the most tax-efficient way for UK retail traders to operate.' },
+      { title: 'CFDs: Capital Gains Tax (CGT)', content: 'CFDs are subject to CGT (currently 10-20% depending on your bracket). The advantage is that you can "offset" your losses against other gains to reduce your overall tax bill.' },
+      { title: 'Professional Status', content: 'If trading is your primary source of income and you trade with high frequency, HMRC may classify you as a "Trader" (Business), making you subject to Income Tax instead of CGT. This is a complex area—consult a specialist.' }
+    ],
+    commonMistakes: ['Not keeping records of your trades', 'Forgetting about the annual CGT allowance', 'Ignoring Stamp Duty on real UK share purchases'],
+    drawdownApproach: {
+      text: 'Our AI Trade Journal exports all your data in a format ready for your accountant.',
+      link: '/tools/ai-trade-journal',
+      linkText: 'Export Tax Data'
+    },
+    faqs: [
+      { question: 'Do I need to report spread betting wins?', answer: 'Generally, no. Since it\'s tax-free, it doesn\'t need to be declared on a standard self-assessment, provided it is not your primary trade.' }
+    ]
+  },
+  {
+    slug: 'trade-indices',
+    title: 'How to Trade Stock Indices (FTSE, S&P 500, DAX)',
+    eyebrow: '// HOW-TO GUIDE',
+    readingTime: '15 min',
+    metaDescription: 'Learn how to trade global stock indices. A complete guide for UK traders on market hours, volatility, and the best strategies for index trading.',
+    introduction: 'Trading indices allows you to speculate on the performance of an entire economy rather than a single company. This guide covers the mechanics and risks of index trading.',
+    steps: [
+      { title: 'Select Your Index', content: 'Each index has its own personality. The FTSE 100 is stable and dividend-heavy; the Nasdaq 100 is high-growth and volatile. Choose one that fits your risk profile.' },
+      { title: 'Monitor Market Hours', content: 'Indices are most active during their local exchange hours. For the FTSE 100, this is 08:00 to 16:30 GMT. Trading outside these hours can lead to wider spreads.' },
+      { title: 'Understand Weights', content: 'Indices are weighted. A big move in one or two major stocks (like Apple in the S&P 500) can move the entire index.' }
+    ],
+    commonMistakes: ['Ignoring correlation between indices', 'Trading during low-liquidity gaps'],
+    drawdownApproach: {
+      text: 'Our Market Scanner monitors all major indices for institutional volume spikes.',
+      link: '/tools/ai-market-scanner',
+      linkText: 'Scan Indices'
+    },
+    faqs: []
+  },
+  {
+    slug: 'trade-commodities',
+    title: 'How to Trade Commodities (Gold, Oil, Natural Gas)',
+    eyebrow: '// HOW-TO GUIDE',
+    readingTime: '18 min',
+    metaDescription: 'Commodities are the raw materials of the global economy. Learn how to trade Gold, Oil, and Gas with this professional UK guide.',
+    introduction: 'Commodity trading requires an understanding of global supply chains and geopolitical events. It is a high-reward, high-risk sector for active traders.',
+    steps: [
+      { title: 'Choose Your Commodity', content: 'Gold is a safe haven; Oil is a bet on global growth. Understand the fundamental drivers of the asset you choose.' },
+      { title: 'Watch the US Dollar', content: 'Most commodities are priced in USD. A stronger Dollar usually makes commodities more expensive, leading to price declines.' },
+      { title: 'Monitor Inventory Reports', content: 'For Oil and Gas, weekly inventory reports (like the EIA in the US) can cause massive, instantaneous price swings.' }
+    ],
+    commonMistakes: ['Over-leveraging on volatile oil moves', 'Ignoring the impact of seasonal demand'],
+    drawdownApproach: {
+      text: 'We provide real-time fundamental briefings for all major commodities.',
+      link: '/tools/ai-daily-briefing',
+      linkText: 'View Commodity Briefing'
+    },
+    faqs: []
+  },
+  {
+    slug: 'use-fibonacci',
+    title: 'How to Use Fibonacci Retracement Like a Pro',
+    eyebrow: '// HOW-TO GUIDE',
+    readingTime: '10 min',
+    metaDescription: 'Master the Fibonacci tool. Learn how to identify hidden support and resistance levels to time your entries with institutional precision.',
+    introduction: 'Fibonacci is a mathematical tool that reveals the "natural" retracement levels of a market trend. Professional traders use it to find value in an existing move.',
+    steps: [
+      { title: 'Identify the Trend', content: 'Fibonacci only works in a trending market. Find a clear move from a "Swing High" to a "Swing Low" (or vice versa).' },
+      { title: 'Draw the Tool', content: 'Pull the tool from the start of the move to the end. Focus on the "Golden Zone" between 50% and 61.8%.' },
+      { title: 'Wait for Confluence', content: 'Don\'t trade a Fib level in isolation. Look for a moving average or a previous support level to align with your Fib level.' }
+    ],
+    commonMistakes: ['Drawing the tool on a range-bound market', 'Using too many extension levels'],
+    drawdownApproach: {
+      text: 'Our charting tools automatically calculate institutional Fib levels.',
+      link: '/tools/market-charts',
+      linkText: 'Open Fibonacci Charts'
+    },
+    faqs: []
+  },
+  {
+    slug: 'identify-trend',
+    title: 'How to Identify a Market Trend (Uptrend vs Downtrend)',
+    eyebrow: '// HOW-TO GUIDE',
+    readingTime: '8 min',
+    metaDescription: 'The trend is your friend. Learn the objective rules for identifying market direction using price action and moving averages.',
+    introduction: 'Identifying the trend is the most basic yet most important skill in trading. If you are on the wrong side of the trend, the best entry in the world won\'t save you.',
+    steps: [
+      { title: 'Observe Market Structure', content: 'An uptrend is defined by Higher Highs and Higher Lows. A downtrend is defined by Lower Highs and Lower Lows.' },
+      { title: 'Use a Filter (200 SMA)', content: 'If the price is above the 200-day Simple Moving Average, the long-term trend is bullish. If below, it is bearish.' },
+      { title: 'Check Multiple Timeframes', content: 'A trend on the 15-minute chart might be a small correction on the Daily chart. Always align with the higher timeframe.' }
+    ],
+    commonMistakes: ['Trying to pick tops and bottoms', 'Ignoring the higher-timeframe trend'],
+    drawdownApproach: {
+      text: 'Our Trend Dashboard gives you a bird\'s-eye view of all market directions.',
+      link: '/dashboard/pulse',
+      linkText: 'Check Trends'
+    },
+    faqs: []
+  },
+  {
+    slug: 'trade-breakouts',
+    title: 'How to Trade Breakouts Safely (Avoid the Fakeout)',
+    eyebrow: '// HOW-TO GUIDE',
+    readingTime: '12 min',
+    metaDescription: 'Breakouts offer high volatility and fast profits. Learn the professional strategy for entering breakouts while avoiding false signals.',
+    introduction: 'Breakout trading is where big moves start, but it\'s also where most retail traders get "trapped." Learn how to identify high-probability breakouts.',
+    steps: [
+      { title: 'Identify a Range or Pattern', content: 'Look for a clear resistance or support level that has been tested at least 3 times. The tighter the range, the bigger the breakout.' },
+      { title: 'Monitor Volume', content: 'A true breakout should be accompanied by a spike in volume. If price breaks out on low volume, it is likely a fakeout.' },
+      { title: 'Wait for the Retest', content: 'The safest way to trade a breakout is to wait for price to return to the breakout level and confirm it as new support/resistance.' }
+    ],
+    commonMistakes: ['Entering before the candle closes', 'Placing stops too close to the breakout level'],
+    drawdownApproach: {
+      text: 'Our AI Scanner alerts you to volume-confirmed breakouts in real-time.',
+      link: '/tools/ai-market-scanner',
+      linkText: 'Find Breakouts'
+    },
+    faqs: []
+  },
+  {
+    slug: 'trade-reversals',
+    title: 'How to Trade Reversals (Catching the Turning Point)',
+    eyebrow: '// HOW-TO GUIDE',
+    readingTime: '14 min',
+    metaDescription: 'Learn how to identify when a trend is ending. Master the reversal signals that professional traders use to enter at the very start of a new move.',
+    introduction: 'Reversal trading is about identifying exhaustion in a trend. It offers the highest risk-to-reward ratios but requires extreme patience and precision.',
+    steps: [
+      { title: 'Look for Trend Exhaustion', content: 'Watch for signs like Divergence (Price making a higher high while RSI makes a lower high) or shrinking candle bodies.' },
+      { title: 'Wait for a Structure Break', content: 'Do not sell an uptrend until the price makes a "Lower Low" on your timeframe of choice.' },
+      { title: 'Identify a Reversal Pattern', content: 'Confirmation often comes in the form of a Head and Shoulders, Double Top, or a massive Engulfing Candle.' }
+    ],
+    commonMistakes: ['Fighting a strong trend too early', 'Ignoring higher-timeframe momentum'],
+    drawdownApproach: {
+      text: 'Our Reversal Dashboard monitors 50+ assets for institutional exhaustion signals.',
+      link: '/dashboard/pulse',
+      linkText: 'Scan for Reversals'
+    },
+    faqs: []
+  },
+  {
+    slug: 'use-bollinger-bands',
+    title: 'How to Use Bollinger Bands for Volatility Trading',
+    eyebrow: '// HOW-TO GUIDE',
+    readingTime: '11 min',
+    metaDescription: 'Master the Bollinger Bands. Learn how to trade the "Squeeze" and identifying overextended markets with this professional guide.',
+    introduction: 'Bollinger Bands are a volatility-based tool that help you identify when a market is quiet (the squeeze) or overextended (touching the bands).',
+    steps: [
+      { title: 'Identify the Squeeze', content: 'When the bands contract and become narrow, it signals low volatility. This is often the calm before a massive breakout.' },
+      { title: 'Trade the Breakout', content: 'Enter in the direction of the candle that closes OUTSIDE the bands. Use the middle band (20 SMA) as your trailing stop.' },
+      { title: 'Watch for Mean Reversion', content: 'In a range-bound market, the outer bands act as dynamic support and resistance. Sell at the top band, buy at the bottom.' }
+    ],
+    commonMistakes: ['Buying every touch of the upper band in a trend', 'Ignoring the slope of the bands'],
+    drawdownApproach: {
+      text: 'Our Charting Engine features custom Bollinger Band alerts for all timeframes.',
+      link: '/tools/market-charts',
+      linkText: 'Setup Band Alerts'
+    },
+    faqs: []
+  },
+  {
+    slug: 'manage-multiple-positions',
+    title: 'How to Manage Multiple Positions Without Stress',
+    eyebrow: '// HOW-TO GUIDE',
+    readingTime: '16 min',
+    metaDescription: 'Scaling your trading requires managing multiple positions. Learn the professional workflow for tracking risk across a diverse portfolio.',
+    introduction: 'Managing one trade is easy; managing five is a business. Learn how to track your total risk exposure and correlation across multiple markets.',
+    steps: [
+      { title: 'Calculate Total Account Risk', content: 'Ensure your total risk (the sum of all stops) does not exceed 5% of your account. Individual trades should still be 1% or less.' },
+      { title: 'Check Correlation', content: 'If you are long EUR/USD and long GBP/USD, you are effectively double-exposed to the US Dollar. Treat them as one large position.' },
+      { title: 'Use a Trade Journal', content: 'Log every entry and exit immediately. This keeps you focused on the plan rather than the floating profit/loss.' }
+    ],
+    commonMistakes: ['Over-exposure to a single currency', 'Getting overwhelmed by multiple alerts'],
+    drawdownApproach: {
+      text: 'The Drawdown Dashboard aggregates all your risk metrics into a single high-fidelity view.',
+      link: '/dashboard/accounts',
+      linkText: 'Manage Portfolio'
+    },
+    faqs: []
+  },
+  {
+    slug: 'trade-part-time',
+    title: 'How to Trade Part-Time While Working a Full-Time Job',
+    eyebrow: '// HOW-TO GUIDE',
+    readingTime: '13 min',
+    metaDescription: 'You don\'t need to quit your job to trade. Learn the swing trading strategies that work for professionals with 9-to-5 commitments.',
+    introduction: 'The most successful traders often start part-time. By removing the pressure to "make rent" from your trading, you can make more rational, objective decisions.',
+    steps: [
+      { title: 'Focus on Higher Timeframes', content: 'If you work a 9-to-5, ignore the 5-minute charts. Focus on the Daily and 4-Hour charts, which only require a few minutes of analysis per day.' },
+      { title: 'Set Alerts, Not Orders', content: 'Use TradingView alerts to notify your phone when price hits a key level. This allows you to check the market only when something is actually happening.' },
+      { title: 'Automate Your Exits', content: 'Always set your Stop Loss and Take Profit at the same time you enter. "Set and forget" is the best approach for part-time traders.' }
+    ],
+    commonMistakes: ['Trying to scalp during your lunch break', 'Overtiring yourself with late-night analysis'],
+    drawdownApproach: {
+      text: 'Our AI Briefing gives you a 2-minute summary of the market every morning before work.',
+      link: '/tools/ai-daily-briefing',
+      linkText: 'Get Morning Briefing'
+    },
+    faqs: []
+  },
+  {
+    slug: 'build-trading-watchlist',
+    title: 'How to Build a Professional Trading Watchlist',
+    eyebrow: '// HOW-TO GUIDE',
+    readingTime: '9 min',
+    metaDescription: 'Stop chasing every move. Learn how to curate a high-probability watchlist of assets that fit your specific trading strategy.',
+    introduction: 'A bloated watchlist leads to confusion. A professional watchlist is a curated list of assets that are currently showing the most potential for a setup.',
+    steps: [
+      { title: 'Filter for Liquidity', content: 'Only add assets that have high volume. This ensures tight spreads and reliable technical analysis. Avoid "exotic" pairs unless you have a specific reason.' },
+      { title: 'Identify Assets with Setup Potential', content: 'Each weekend, scan 20-30 assets. Only move those that are approaching a major level or pattern to your "Active" list.' },
+      { title: 'Refresh Daily', content: 'Remove assets that have invalidated their setup. A clean watchlist is a focused mind.' }
+    ],
+    commonMistakes: ['Keeping 50+ assets on a single list', 'Ignoring correlation between watchlist items'],
+    drawdownApproach: {
+      text: 'Our Global Pulse tool automatically highlights the 10 most "ready" assets every day.',
+      link: '/dashboard/pulse',
+      linkText: 'View Today\'s Watchlist'
+    },
+    faqs: []
   }
 ];

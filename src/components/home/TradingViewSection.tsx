@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { ExternalLink, BarChart2, Monitor, Layers, Zap, ChevronRight } from "lucide-react";
 
-const TV_AFFILIATE_URL = "https://www.tradingview.com/?aff_id=165855";
+const TV_AFFILIATE_URL = "/go/tradingview";
 
 const features = [
   {
@@ -62,7 +62,6 @@ export function TradingViewSection() {
             </p>
             <a
               href={TV_AFFILIATE_URL}
-              target="_blank"
               rel="noopener noreferrer sponsored"
               className="inline-flex items-center gap-3 px-10 py-5 bg-accent hover:bg-accent-hover text-background-primary text-[10px] font-bold uppercase tracking-widest transition-premium shadow-xl shadow-accent/20 hover:-translate-y-0.5"
             >
@@ -161,7 +160,6 @@ export function TradingViewSection() {
           </div>
           <a
             href={TV_AFFILIATE_URL}
-            target="_blank"
             rel="noopener noreferrer sponsored"
             className="shrink-0 flex items-center gap-2 px-8 py-4 bg-profit text-background-primary text-[10px] font-bold uppercase tracking-widest hover:opacity-90 transition-premium"
           >

@@ -4,8 +4,9 @@ import { getMetadata } from "@/lib/metadata";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { StructuredData } from "@/components/StructuredData";
 import { LEARN_TOPICS } from "@/lib/data/learn-to-trade";
+import { UK_LOCATIONS } from "@/lib/data/locations";
 import Link from "next/link";
-import { ArrowUpRight, AlertTriangle } from "lucide-react";
+import { ArrowUpRight, AlertTriangle, MapPin } from "lucide-react";
 import { TrackPageView } from "@/components/admin/TrackPageView";
 
 interface Props {
@@ -190,15 +191,19 @@ export default async function TopicPage({ params }: Props) {
         )}
         {/* Localized Links for SEO Hub & Spoke */}
         <div id="regional-hub" className="mt-32 pt-20 border-t border-border-slate/30">
-          <h2 className="text-3xl font-display font-bold uppercase mb-12 text-text-primary">Learn {topic.title} Near You.</h2>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-            {require("@/lib/data/locations").UK_LOCATIONS.map((loc: any) => (
+          <div className="flex items-center gap-3 mb-8">
+             <MapPin className="w-4 h-4 text-accent" />
+             <h2 className="text-3xl font-display font-bold uppercase text-text-primary tracking-tight">Learn {topic.title} Near You.</h2>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-y-4 gap-x-8">
+            {UK_LOCATIONS.map((loc) => (
               <Link 
                 key={loc.slug}
                 href={`/learn-to-trade/${topicSlug}/${loc.slug}`}
-                className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary hover:text-accent transition-colors py-2 border-b border-border-slate/10"
+                className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary hover:text-accent transition-colors py-2 border-b border-border-slate/10 hover:border-accent/30 flex items-center justify-between group"
               >
-                {topic.title} {loc.name}
+                <span>{topic.title} in {loc.name}</span>
+                <ArrowUpRight className="w-2.5 h-2.5 opacity-0 group-hover:opacity-100 transition-all" />
               </Link>
             ))}
           </div>

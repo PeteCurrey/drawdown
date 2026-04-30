@@ -37,12 +37,13 @@ export function getMetadata({
 
   const languages: Record<string, string> = {};
   if (hasRegionalVariants) {
-    languages['en-GB'] = `${siteConfig.url}${path}`;
-    languages['en-AU'] = `${siteConfig.url}/au${path}`;
-    languages['en-US'] = `${siteConfig.url}/us${path}`;
-    languages['en-SG'] = `${siteConfig.url}/sg${path}`;
-    languages['en-HK'] = `${siteConfig.url}/hk${path}`;
-    languages['x-default'] = `${siteConfig.url}${path}`;
+    const cleanPath = path === "/" ? "" : path.startsWith("/") ? path : `/${path}`;
+    languages['en-GB'] = `${siteConfig.url}${cleanPath}`;
+    languages['en-AU'] = `${siteConfig.url}/au${cleanPath}`;
+    languages['en-US'] = `${siteConfig.url}/us${cleanPath}`;
+    languages['en-SG'] = `${siteConfig.url}/sg${cleanPath}`;
+    languages['en-HK'] = `${siteConfig.url}/hk${cleanPath}`;
+    languages['x-default'] = `${siteConfig.url}${cleanPath}`;
   }
 
   return {

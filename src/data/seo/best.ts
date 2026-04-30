@@ -1,4 +1,4 @@
-export interface ComparisonItem {
+﻿export interface ComparisonItem {
   rank: number;
   name: string;
   bestFor: string;
@@ -40,7 +40,7 @@ export interface BestOfPage {
 export const BEST_OF_PAGES: BestOfPage[] = [
   {
     slug: 'trading-platform-uk',
-    title: 'Best Trading Platform UK — 2026 UK Guide',
+    title: 'Best Trading Platform UK â€” 2026 UK Guide',
     eyebrow: '// DRAWDOWN GUIDE',
     lastUpdated: '2026-04-22',
     targetKeywords: ['best trading platform UK', 'best trading platform UK 2026'],
@@ -79,25 +79,25 @@ export const BEST_OF_PAGES: BestOfPage[] = [
       },
       {
         question: 'Are my funds safe with UK trading platforms?',
-        answer: 'Yes, provided the platform is regulated by the Financial Conduct Authority (FCA). This ensures your funds are kept in segregated accounts and you are protected by the FSCS up to £85,000.'
+        answer: 'Yes, provided the platform is regulated by the Financial Conduct Authority (FCA). This ensures your funds are kept in segregated accounts and you are protected by the FSCS up to Â£85,000.'
       }
     ]
   },
   {
     slug: 'forex-broker-uk',
-    title: 'Best Forex Brokers UK 2026 — Honest Reviews',
+    title: 'Best Forex Brokers UK 2026 â€” Honest Reviews',
     eyebrow: '// INSTITUTIONAL REVIEW',
     lastUpdated: '2026-04-23',
     targetKeywords: ['best forex broker UK', 'fca regulated forex brokers'],
-    metaDescription: 'The UK\'s most honest forex broker comparison. FCA-regulated picks for every trading style — from raw spread accounts to beginner-friendly platforms.',
+    metaDescription: 'The UK\'s most honest forex broker comparison. FCA-regulated picks for every trading style â€” from raw spread accounts to beginner-friendly platforms.',
     topPickId: 'pepperstone',
     top3Ids: ['pepperstone', 'ig', 'interactive-brokers'],
     whoIsNotFor: 'If you are looking for offshore leverage or unregulated binary options, this guide is not for you. We only review FCA-regulated entities.',
-    introduction: 'Choosing a forex broker in the UK is a minefield of marketing noise. While most sites rank based on who pays the most, we rank based on execution quality, GBP liquidity, and regulatory transparency. The London session is the world\'s liquidity hub — you need a broker that connects you to it without getting in your way.',
+    introduction: 'Choosing a forex broker in the UK is a minefield of marketing noise. While most sites rank based on who pays the most, we rank based on execution quality, GBP liquidity, and regulatory transparency. The London session is the world\'s liquidity hub â€” you need a broker that connects you to it without getting in your way.',
     comparisonTable: [
-      { rank: 1, name: 'Pepperstone', bestFor: 'Forex Pricing', keyStat: '0.0 Pips', rating: 4.9, link: '/api/market/brokers/redirect?id=pepperstone&source=best-forex-uk' },
-      { rank: 2, name: 'IG Markets', bestFor: 'Market Range', keyStat: '17k+ Assets', rating: 4.8, link: '/api/market/brokers/redirect?id=ig&source=best-forex-uk' },
-      { rank: 3, name: 'Interactive Brokers', bestFor: 'Institutional', keyStat: 'Direct Access', rating: 4.8, link: '/api/market/brokers/redirect?id=ibkr&source=best-forex-uk' },
+      { rank: 1, name: 'Pepperstone', bestFor: 'Forex Pricing', keyStat: '0.0 Pips', rating: 4.9, link: '/go/pepperstone' },
+      { rank: 2, name: 'IG Markets', bestFor: 'Market Range', keyStat: '17k+ Assets', rating: 4.8, link: '/go/ig-markets' },
+      { rank: 3, name: 'Interactive Brokers', bestFor: 'Institutional', keyStat: 'Direct Access', rating: 4.8, link: '/go/ibkr' },
     ],
     reviews: [
       {
@@ -108,7 +108,7 @@ export const BEST_OF_PAGES: BestOfPage[] = [
         pros: ['Ultra-low spreads on majors', 'Superior cTrader support', 'Lightning-fast execution'],
         cons: ['Forex/CFD focused only', 'No direct share ownership'],
         bestFor: 'Active day traders and scalpers',
-        ctaLink: '/api/market/brokers/redirect?id=pepperstone&source=best-forex-uk'
+        ctaLink: '/go/pepperstone'
       },
       {
         id: 'ig',
@@ -118,7 +118,7 @@ export const BEST_OF_PAGES: BestOfPage[] = [
         pros: ['Massive range of 17,000+ markets', 'Best-in-class proprietary platform', 'FCA regulated & FTSE 250 listed'],
         cons: ['Share dealing fees can be higher', 'Interface takes time to master'],
         bestFor: 'Swing traders and multi-asset investors',
-        ctaLink: '/api/market/brokers/redirect?id=ig&source=best-forex-uk'
+        ctaLink: '/go/ig-markets'
       },
       {
         id: 'interactive-brokers',
@@ -128,7 +128,7 @@ export const BEST_OF_PAGES: BestOfPage[] = [
         pros: ['Lowest commissions', 'Near-infinite asset list', 'Institutional tools'],
         cons: ['Very complex software', 'Inactive account fees may apply'],
         bestFor: 'Professional day traders',
-        ctaLink: '/api/market/brokers/redirect?id=ibkr&source=best-forex-uk'
+        ctaLink: '/go/ibkr'
       },
       {
         id: 'xtb',
@@ -138,7 +138,7 @@ export const BEST_OF_PAGES: BestOfPage[] = [
         pros: ['Superior platform technology', 'No commission on real stocks', 'Excellent support'],
         cons: ['Limited crypto options'],
         bestFor: 'Modern traders who hate MT4',
-        ctaLink: '/api/market/brokers/redirect?id=xtb&source=best-forex-uk'
+        ctaLink: '/go/xtb'
       },
       {
         id: 'cmc-markets',
@@ -148,14 +148,14 @@ export const BEST_OF_PAGES: BestOfPage[] = [
         pros: ['Incredible charting', 'Thousands of markets', 'UK listed company'],
         cons: ['Platform can be overwhelming', 'Higher costs for small accounts'],
         bestFor: 'Technical analysis power users',
-        ctaLink: '/api/market/brokers/redirect?id=cmc-markets&source=best-forex-uk'
+        ctaLink: '/go/cmc-markets'
       }
     ],
     methodology: 'Our methodology focuses on three core pillars: Execution (slippage and speed), Costs (spreads and overnight fees), and Trust (FCA regulation and capital safety). We do not accept payment for higher rankings.',
     faqs: [
       { question: 'Is forex trading legal in the UK?', answer: 'Yes, forex trading is completely legal in the UK. It is regulated by the Financial Conduct Authority (FCA), which ensures that brokers follow strict rules regarding client fund protection and fair pricing.' },
       { question: 'Do I need to pay tax on forex trading profits in the UK?', answer: 'It depends on your status. If you trade via CFDs, you are subject to Capital Gains Tax (CGT). However, if you use spread betting, profits are currently tax-free for most UK residents. Always consult a tax professional.' },
-      { question: 'What is the minimum deposit to start forex trading?', answer: 'Many brokers like IG and XTB have no minimum deposit, while others like Pepperstone require £200. We recommend starting with at least £500 to allow for proper risk management.' },
+      { question: 'What is the minimum deposit to start forex trading?', answer: 'Many brokers like IG and XTB have no minimum deposit, while others like Pepperstone require Â£200. We recommend starting with at least Â£500 to allow for proper risk management.' },
       { question: 'What leverage is available to UK retail forex traders?', answer: 'Under FCA rules, retail leverage is capped at 30:1 for major pairs and 20:1 for minors. Professional clients can access higher leverage if they meet specific criteria.' },
       { question: 'What\'s the difference between a market maker and an ECN broker?', answer: 'Market makers (like IG) provide their own quotes and internalize trades, whereas ECN brokers (like Pepperstone) connect you directly to a network of liquidity providers. ECNs typically offer tighter spreads but charge a commission.' },
       { question: 'Is spread betting or CFDs better for forex in the UK?', answer: 'Spread betting is often preferred due to its tax-free status. CFDs are useful if you want to offset losses against other capital gains.' }
@@ -168,20 +168,20 @@ export const BEST_OF_PAGES: BestOfPage[] = [
     ]
   },
   {
-    slug: 'spread-betting-broker-uk',
+    slug: 'spread-betting-platform-uk',
     title: 'Best Spread Betting Brokers UK 2026 | Drawdown',
     eyebrow: '// TAX-FREE TRADING',
     lastUpdated: '2026-04-23',
     targetKeywords: ['best spread betting broker UK', 'tax free trading UK'],
-    metaDescription: 'Tax-free spread betting picks for UK traders. FCA-regulated platforms reviewed honestly — no sponsored rankings, no fluff.',
+    metaDescription: 'Tax-free spread betting picks for UK traders. FCA-regulated platforms reviewed honestly â€” no sponsored rankings, no fluff.',
     topPickId: 'ig',
     top3Ids: ['ig', 'cmc-markets', 'spreadex'],
     whoIsNotFor: 'Spread betting is for UK and Ireland residents only. If you are trading from outside these regions, CFDs are your only option.',
     introduction: 'Spread betting is the single greatest technical advantage a UK trader has. Because it is classified as betting, profits are currently exempt from Capital Gains Tax and Stamp Duty. However, this tax efficiency shouldn\'t blind you to the importance of platform reliability and fair spreads.',
     comparisonTable: [
-      { rank: 1, name: 'IG Markets', bestFor: 'Overall Standard', keyStat: '17k+ Markets', rating: 4.9, link: '/api/market/brokers/redirect?id=ig&source=best-spread-betting-uk' },
-      { rank: 2, name: 'CMC Markets', bestFor: 'Advanced Charts', keyStat: 'NextGen Tech', rating: 4.8, link: '/api/market/brokers/redirect?id=cmc-markets&source=best-spread-betting-uk' },
-      { rank: 3, name: 'Spreadex', bestFor: 'Specialist', keyStat: 'Fixed Odds', rating: 4.5, link: '/api/market/brokers/redirect?id=spreadex&source=best-spread-betting-uk' },
+      { rank: 1, name: 'IG Markets', bestFor: 'Overall Standard', keyStat: '17k+ Markets', rating: 4.9, link: '/go/ig-markets' },
+      { rank: 2, name: 'CMC Markets', bestFor: 'Advanced Charts', keyStat: 'NextGen Tech', rating: 4.8, link: '/go/cmc-markets' },
+      { rank: 3, name: 'Spreadex', bestFor: 'Specialist', keyStat: 'Fixed Odds', rating: 4.5, link: '/go/spreadex' },
     ],
     reviews: [
       {
@@ -192,7 +192,7 @@ export const BEST_OF_PAGES: BestOfPage[] = [
         pros: ['Largest range of spread betting markets', 'Guaranteed stop losses available', 'Tax-free profits'],
         cons: ['Platform can be complex', 'Occasional slippage on exotics'],
         bestFor: 'Serious UK spread bettors',
-        ctaLink: '/api/market/brokers/redirect?id=ig&source=best-spread-betting-uk'
+        ctaLink: '/go/ig-markets'
       },
       {
         id: 'cmc-markets',
@@ -202,7 +202,7 @@ export const BEST_OF_PAGES: BestOfPage[] = [
         pros: ['Award-winning NextGen platform', 'Competitive spreads on indices', 'UK listed & highly secure'],
         cons: ['Mobile app takes getting used to'],
         bestFor: 'Traders who value analytics',
-        ctaLink: '/api/market/brokers/redirect?id=cmc-markets&source=best-spread-betting-uk'
+        ctaLink: '/go/cmc-markets'
       },
       {
         id: 'spreadex',
@@ -212,7 +212,7 @@ export const BEST_OF_PAGES: BestOfPage[] = [
         pros: ['Great customer service', 'Simple, clean interface', 'Unique sports spread betting integration'],
         cons: ['Dated desktop platform', 'Limited international shares'],
         bestFor: 'Pure spread betting enthusiasts',
-        ctaLink: '/api/market/brokers/redirect?id=spreadex&source=best-spread-betting-uk'
+        ctaLink: '/go/spreadex'
       },
       {
         id: 'city-index',
@@ -222,7 +222,7 @@ export const BEST_OF_PAGES: BestOfPage[] = [
         pros: ['Reliable execution', 'Professional charting', 'StoneX listed parent'],
         cons: ['Withdrawals can be slow'],
         bestFor: 'General multi-asset traders',
-        ctaLink: '/api/market/brokers/redirect?id=city-index&source=best-spread-betting-uk'
+        ctaLink: '/go/city-index'
       }
     ],
     methodology: 'We prioritize brokers with FCA regulation, UK-based client service, and clear, transparent spread betting cost structures.',
@@ -245,15 +245,15 @@ export const BEST_OF_PAGES: BestOfPage[] = [
     eyebrow: '// START HERE',
     lastUpdated: '2026-04-23',
     targetKeywords: ['best broker for beginners UK', 'best trading app for beginners'],
-    metaDescription: 'Choosing your first broker is one of the most important decisions you\'ll make. Here\'s our honest guide for UK beginners — no complexity, no hype.',
+    metaDescription: 'Choosing your first broker is one of the most important decisions you\'ll make. Here\'s our honest guide for UK beginners â€” no complexity, no hype.',
     topPickId: 'trading-212',
     top3Ids: ['trading-212', 'etoro', 'xtb'],
-    whoIsNotFor: 'If you\'re already comfortable with leverage, CFDs, and position sizing, you\'ll outgrow these platforms — head to our Forex Broker or Day Trading pages instead.',
+    whoIsNotFor: 'If you\'re already comfortable with leverage, CFDs, and position sizing, you\'ll outgrow these platforms â€” head to our Forex Broker or Day Trading pages instead.',
     introduction: 'The best broker for a beginner is rarely the same as the best broker for an experienced trader. For a newcomer, complexity is the enemy. You need a platform that focuses on user experience, education, and low barriers to entry without sacrificing safety.',
     comparisonTable: [
-      { rank: 1, name: 'Trading 212', bestFor: 'Absolute Beginners', keyStat: '£1 Min Deposit', rating: 4.8, link: '/api/market/brokers/redirect?id=trading-212&source=best-beginners-uk' },
-      { rank: 2, name: 'eToro', bestFor: 'Social Learning', keyStat: 'CopyTrader Tech', rating: 4.6, link: '/api/market/brokers/redirect?id=etoro&source=best-beginners-uk' },
-      { rank: 3, name: 'XTB', bestFor: 'Educational Content', keyStat: 'Academy Access', rating: 4.6, link: '/api/market/brokers/redirect?id=xtb&source=best-beginners-uk' },
+      { rank: 1, name: 'Trading 212', bestFor: 'Absolute Beginners', keyStat: 'Â£1 Min Deposit', rating: 4.8, link: '/go/trading-212' },
+      { rank: 2, name: 'eToro', bestFor: 'Social Learning', keyStat: 'CopyTrader Tech', rating: 4.6, link: '/go/etoro' },
+      { rank: 3, name: 'XTB', bestFor: 'Educational Content', keyStat: 'Academy Access', rating: 4.6, link: '/go/xtb' },
     ],
     reviews: [
       {
@@ -264,7 +264,7 @@ export const BEST_OF_PAGES: BestOfPage[] = [
         pros: ['Commission-free trading', 'Exceptional mobile app', 'Fractional shares enabled'],
         cons: ['Limited advanced technical tools', 'Higher spreads during volatility'],
         bestFor: 'Absolute beginners and small accounts',
-        ctaLink: '/api/market/brokers/redirect?id=trading-212&source=best-beginners-uk'
+        ctaLink: '/go/trading-212'
       },
       {
         id: 'etoro',
@@ -274,7 +274,7 @@ export const BEST_OF_PAGES: BestOfPage[] = [
         pros: ['Very easy to use', 'CopyTrader technology', 'Huge social community'],
         cons: ['High withdrawal fees', 'Spreads can be wide'],
         bestFor: 'Social learning and passive investing',
-        ctaLink: '/api/market/brokers/redirect?id=etoro&source=best-beginners-uk'
+        ctaLink: '/go/etoro'
       },
       {
         id: 'xtb',
@@ -284,7 +284,7 @@ export const BEST_OF_PAGES: BestOfPage[] = [
         pros: ['Intuitive xStation platform', 'Strong educational library', 'Zero commission on real stocks'],
         cons: ['Limited commodity pairs'],
         bestFor: 'Beginners planning to grow fast',
-        ctaLink: '/api/market/brokers/redirect?id=xtb&source=best-beginners-uk'
+        ctaLink: '/go/xtb'
       },
       {
         id: 'ig',
@@ -294,14 +294,14 @@ export const BEST_OF_PAGES: BestOfPage[] = [
         pros: ['World-class education', 'Stable, long-term broker', 'Massive market range'],
         cons: ['Complex interface', 'Higher costs for small accounts'],
         bestFor: 'Committed lifelong learners',
-        ctaLink: '/api/market/brokers/redirect?id=ig&source=best-beginners-uk'
+        ctaLink: '/go/ig-markets'
       }
     ],
     methodology: 'We prioritize brokers with simple interfaces, low minimum deposits, and high-quality integrated education.',
     faqs: [
-      { question: 'How much money do I need to start trading in the UK?', answer: 'You can start with as little as £1 with Trading 212. However, to trade meaningfully, we suggest starting with £200-£500.' },
+      { question: 'How much money do I need to start trading in the UK?', answer: 'You can start with as little as Â£1 with Trading 212. However, to trade meaningfully, we suggest starting with Â£200-Â£500.' },
       { question: 'Should a beginner use leverage?', answer: 'Generally, no. Leverage magnifies both wins and losses. We recommend beginners start with 1:1 (real shares) or 2:1 before moving to 30:1 forex.' },
-      { question: 'What is a demo account and should I use one?', answer: 'A demo account uses "paper money" to simulate real market conditions. It is the most important tool for any beginner — use it for at least 3 months.' },
+      { question: 'What is a demo account and should I use one?', answer: 'A demo account uses "paper money" to simulate real market conditions. It is the most important tool for any beginner â€” use it for at least 3 months.' },
       { question: 'Is eToro safe for beginners in the UK?', answer: 'Yes, eToro (UK) Ltd is authorized and regulated by the FCA.' },
       { question: 'What\'s the difference between investing and trading for a beginner?', answer: 'Investing is buying assets for the long term (years). Trading is speculating on price movements for the short term (days or weeks).' }
     ],
@@ -312,7 +312,7 @@ export const BEST_OF_PAGES: BestOfPage[] = [
     ]
   },
   {
-    slug: 'broker-for-day-trading-uk',
+    slug: 'day-trading-platform-uk',
     title: 'Best Day Trading Brokers UK 2026',
     eyebrow: '// INTRADAY EXECUTION',
     lastUpdated: '2026-04-23',
@@ -323,9 +323,9 @@ export const BEST_OF_PAGES: BestOfPage[] = [
     whoIsNotFor: 'If you are a long-term investor who only trades once a month, these platforms are overkill. You don\'t need sub-millisecond execution for a 5-year trade.',
     introduction: 'Speed, reliability, and cost matter more for day traders than any other style. If your platform freezes for two seconds during a news event, you lose. We rank these brokers based on their ability to handle high-frequency execution and low-latency data feeds.',
     comparisonTable: [
-      { rank: 1, name: 'Pepperstone', bestFor: 'Low Latency', keyStat: 'Raw Spreads', rating: 4.9, link: '/api/market/brokers/redirect?id=pepperstone&source=best-day-trading-uk' },
-      { rank: 2, name: 'IG Markets', bestFor: 'Direct Access', keyStat: 'L2 Dealer', rating: 4.8, link: '/api/market/brokers/redirect?id=ig&source=best-day-trading-uk' },
-      { rank: 3, name: 'Interactive Brokers', bestFor: 'Pro Tools', keyStat: 'TWS Workstation', rating: 4.8, link: '/api/market/brokers/redirect?id=ibkr&source=best-day-trading-uk' },
+      { rank: 1, name: 'Pepperstone', bestFor: 'Low Latency', keyStat: 'Raw Spreads', rating: 4.9, link: '/go/pepperstone' },
+      { rank: 2, name: 'IG Markets', bestFor: 'Direct Access', keyStat: 'L2 Dealer', rating: 4.8, link: '/go/ig-markets' },
+      { rank: 3, name: 'Interactive Brokers', bestFor: 'Pro Tools', keyStat: 'TWS Workstation', rating: 4.8, link: '/go/ibkr' },
     ],
     reviews: [
       {
@@ -336,7 +336,7 @@ export const BEST_OF_PAGES: BestOfPage[] = [
         pros: ['Sub-30ms execution speed', 'Raw spreads from 0.0 pips', 'Multiple high-end platforms'],
         cons: ['Customer service is chat-first', 'Basic mobile app'],
         bestFor: 'Forex day traders and scalpers',
-        ctaLink: '/api/market/brokers/redirect?id=pepperstone&source=best-day-trading-uk'
+        ctaLink: '/go/pepperstone'
       },
       {
         id: 'ig',
@@ -346,7 +346,7 @@ export const BEST_OF_PAGES: BestOfPage[] = [
         pros: ['Direct Market Access (DMA)', 'ProRealTime integration', 'Industry-leading reliability'],
         cons: ['DMA has higher complexity', 'Strict margin requirements'],
         bestFor: 'Professional day traders using spread betting',
-        ctaLink: '/api/market/brokers/redirect?id=ig&source=best-day-trading-uk'
+        ctaLink: '/go/ig-markets'
       },
       {
         id: 'interactive-brokers',
@@ -356,7 +356,7 @@ export const BEST_OF_PAGES: BestOfPage[] = [
         pros: ['Deepest market liquidity', 'SmartRouting execution', 'Advanced risk management'],
         cons: ['Steep learning curve', 'Complex fee structure'],
         bestFor: 'Multi-asset professional day traders',
-        ctaLink: '/api/market/brokers/redirect?id=ibkr&source=best-day-trading-uk'
+        ctaLink: '/go/ibkr'
       },
       {
         id: 'cmc-markets',
@@ -366,7 +366,7 @@ export const BEST_OF_PAGES: BestOfPage[] = [
         pros: ['Award-winning charting', 'Fast one-click trading', 'UK-listed reliability'],
         cons: ['Proprietary platform only'],
         bestFor: 'Technical day traders',
-        ctaLink: '/api/market/brokers/redirect?id=cmc-markets&source=best-day-trading-uk'
+        ctaLink: '/go/cmc-markets'
       }
     ],
     methodology: 'Day trading rankings are weighted heavily toward execution speed, platform stability during peak volume, and low total cost of trade (spread + commission).',
@@ -374,7 +374,7 @@ export const BEST_OF_PAGES: BestOfPage[] = [
       { question: 'Is day trading legal in the UK?', answer: 'Yes, day trading is completely legal and regulated in the UK by the FCA.' },
       { question: 'Do UK day traders pay tax?', answer: 'Yes, day trading is usually treated as capital gains or self-employment income depending on your volume. Spread betting is the exception (tax-free).' },
       { question: 'What is the PDT rule and does it apply to UK traders?', answer: 'The Pattern Day Trader (PDT) rule is a US regulation. It does not apply to UK-regulated brokers unless you are trading through a US-registered entity.' },
-      { question: 'How much capital do I need to day trade in the UK?', answer: 'Technically £100, but realistically £2,000+ to manage risk effectively on intraday volatility.' },
+      { question: 'How much capital do I need to day trade in the UK?', answer: 'Technically Â£100, but realistically Â£2,000+ to manage risk effectively on intraday volatility.' },
       { question: 'What spread should I expect when day trading forex in the UK?', answer: 'On EURUSD, you should look for spreads under 0.2 pips on a raw account or 0.6 pips on a standard account.' }
     ],
     relatedPages: [
@@ -395,20 +395,20 @@ export const BEST_OF_PAGES: BestOfPage[] = [
     whoIsNotFor: 'If you trade infrequently, a standard "no commission" account is usually better. Raw spread accounts charge a flat commission which adds up if your volume is low.',
     introduction: 'In the world of forex, a 0.5 pip difference in spread can be the difference between a profitable strategy and a failing one. We compare "Raw Spread" accounts that charge a commission vs "Standard" accounts that build the cost into the price.',
     comparisonTable: [
-      { rank: 1, name: 'Pepperstone', bestFor: 'FX Pricing', keyStat: '0.0 Pips Raw', rating: 4.9, link: '/api/market/brokers/redirect?id=pepperstone&source=best-low-spread-uk' },
-      { rank: 2, name: 'IC Markets', bestFor: 'Deep Liquidity', keyStat: 'Raw ECN', rating: 4.8, link: '/api/market/brokers/redirect?id=ic-markets&source=best-low-spread-uk' },
-      { rank: 3, name: 'Interactive Brokers', bestFor: 'High Volume', keyStat: 'Lowest Comm.', rating: 4.8, link: '/api/market/brokers/redirect?id=ibkr&source=best-low-spread-uk' },
+      { rank: 1, name: 'Pepperstone', bestFor: 'FX Pricing', keyStat: '0.0 Pips Raw', rating: 4.9, link: '/go/pepperstone' },
+      { rank: 2, name: 'IC Markets', bestFor: 'Deep Liquidity', keyStat: 'Raw ECN', rating: 4.8, link: '/go/ic-markets' },
+      { rank: 3, name: 'Interactive Brokers', bestFor: 'High Volume', keyStat: 'Lowest Comm.', rating: 4.8, link: '/go/ibkr' },
     ],
     reviews: [
       {
         id: 'pepperstone',
         name: 'Pepperstone (Razor)',
-        description: 'Pepperstone\'s Razor account provides raw spreads from top-tier liquidity providers with a fixed commission of £4.50 per round turn.',
+        description: 'Pepperstone\'s Razor account provides raw spreads from top-tier liquidity providers with a fixed commission of Â£4.50 per round turn.',
         verdict: 'Pete\'s Pick. 0.0 pips raw + commission model.',
         pros: ['Genuinely zero spreads on EURUSD', 'Deep liquidity for large orders', 'FCA regulated'],
         cons: ['Commission-based model only'],
         bestFor: 'Scalpers and high-volume day traders',
-        ctaLink: '/api/market/brokers/redirect?id=pepperstone&source=best-low-spread-uk'
+        ctaLink: '/go/pepperstone'
       },
       {
         id: 'ic-markets',
@@ -418,7 +418,7 @@ export const BEST_OF_PAGES: BestOfPage[] = [
         pros: ['True ECN environment', 'Excellent MT4/MT5 speeds', 'Very low slippage history'],
         cons: ['Basic client portal'],
         bestFor: 'Algo traders and EA users',
-        ctaLink: '/api/market/brokers/redirect?id=ic-markets&source=best-low-spread-uk'
+        ctaLink: '/go/ic-markets'
       },
       {
         id: 'interactive-brokers',
@@ -428,7 +428,7 @@ export const BEST_OF_PAGES: BestOfPage[] = [
         pros: ['Institutional pricing tiers', 'No hidden markups', 'Global market access'],
         cons: ['Complex for small retail traders'],
         bestFor: 'Professional traders',
-        ctaLink: '/api/market/brokers/redirect?id=ibkr&source=best-low-spread-uk'
+        ctaLink: '/go/ibkr'
       },
       {
         id: 'xtb',
@@ -438,13 +438,13 @@ export const BEST_OF_PAGES: BestOfPage[] = [
         pros: ['No hidden commissions', 'Stable pricing', 'Superior xStation platform'],
         cons: ['Wider spreads than raw accounts'],
         bestFor: 'Low-volume retail traders',
-        ctaLink: '/api/market/brokers/redirect?id=xtb&source=best-low-spread-uk'
+        ctaLink: '/go/xtb'
       }
     ],
     methodology: 'Low spread rankings are calculated using live data on major pairs during the London/NY overlap, including the cost of commission to find the "Total Cost of Trade".',
     faqs: [
       { question: 'What is a raw spread account?', answer: 'A raw spread account passes the price directly from liquidity providers without any markup from the broker. Instead, you pay a flat commission per trade.' },
-      { question: 'Is a commission-based account cheaper than a spread-only account?', answer: 'Usually yes for active traders. For example, a 0.0 pip spread + £5 commission is almost always cheaper than a 1.0 pip "zero commission" spread.' },
+      { question: 'Is a commission-based account cheaper than a spread-only account?', answer: 'Usually yes for active traders. For example, a 0.0 pip spread + Â£5 commission is almost always cheaper than a 1.0 pip "zero commission" spread.' },
       { question: 'What is the average spread on EURUSD for UK brokers?', answer: 'On raw accounts, 0.0 to 0.2 pips. On standard accounts, 0.6 to 1.0 pips.' },
       { question: 'Do spreads widen during news events?', answer: 'Yes, liquidity can thin out during major news (like NFP), causing spreads to widen significantly even on raw accounts.' },
       { question: 'What is ECN execution and why does it matter for spreads?', answer: 'ECN (Electronic Communication Network) means you are trading against a network of banks and other traders, rather than the broker itself. This usually leads to much tighter spreads.' }
@@ -463,58 +463,58 @@ export const BEST_OF_PAGES: BestOfPage[] = [
     metaDescription: 'Start trading without a minimum deposit barrier. Honest picks for UK traders who want to begin small and scale up.',
     topPickId: 'trading-212',
     top3Ids: ['trading-212', 'ig', 'xtb'],
-    whoIsNotFor: 'If you have £10,000 to deposit, you should ignore this guide and go for institutional-grade brokers like IBKR who have higher minimums but better execution.',
-    introduction: 'The "minimum deposit" is often a hurdle for new traders. Fortunately, many of the UK\'s top-regulated brokers have removed this barrier entirely, allowing you to open an account with as little as £1.',
+    whoIsNotFor: 'If you have Â£10,000 to deposit, you should ignore this guide and go for institutional-grade brokers like IBKR who have higher minimums but better execution.',
+    introduction: 'The "minimum deposit" is often a hurdle for new traders. Fortunately, many of the UK\'s top-regulated brokers have removed this barrier entirely, allowing you to open an account with as little as Â£1.',
     comparisonTable: [
-      { rank: 1, name: 'Trading 212', bestFor: 'Small Accounts', keyStat: '£1 Min', rating: 4.8, link: '/api/market/brokers/redirect?id=trading-212&source=best-no-min-uk' },
-      { rank: 2, name: 'IG Markets', bestFor: 'Professional Tech', keyStat: '£0 Min', rating: 4.8, link: '/api/market/brokers/redirect?id=ig&source=best-no-min-uk' },
-      { rank: 3, name: 'XTB', bestFor: 'Intuitive UI', keyStat: '£0 Min', rating: 4.7, link: '/api/market/brokers/redirect?id=xtb&source=best-no-min-uk' },
+      { rank: 1, name: 'Trading 212', bestFor: 'Small Accounts', keyStat: 'Â£1 Min', rating: 4.8, link: '/go/trading-212' },
+      { rank: 2, name: 'IG Markets', bestFor: 'Professional Tech', keyStat: 'Â£0 Min', rating: 4.8, link: '/go/ig-markets' },
+      { rank: 3, name: 'XTB', bestFor: 'Intuitive UI', keyStat: 'Â£0 Min', rating: 4.7, link: '/go/xtb' },
     ],
     reviews: [
       {
         id: 'trading-212',
         name: 'Trading 212',
-        description: 'With a £1 minimum deposit, Trading 212 has effectively removed the entry barrier for UK retail traders.',
-        verdict: 'Trading 212 — £1 minimum, effectively zero barrier.',
-        pros: ['Start with £1', 'Zero commission', 'Top-rated UK app'],
+        description: 'With a Â£1 minimum deposit, Trading 212 has effectively removed the entry barrier for UK retail traders.',
+        verdict: 'Trading 212 â€” Â£1 minimum, effectively zero barrier.',
+        pros: ['Start with Â£1', 'Zero commission', 'Top-rated UK app'],
         cons: ['Higher spreads on small caps'],
         bestFor: 'Micro-investors and beginners',
-        ctaLink: '/api/market/brokers/redirect?id=trading-212&source=best-no-min-uk'
+        ctaLink: '/go/trading-212'
       },
       {
         id: 'ig',
         name: 'IG Markets',
         description: 'Surprisingly for such a large firm, IG has no minimum deposit for their standard spread betting and CFD accounts.',
-        verdict: 'IG Markets — No minimum deposit for spread betting or CFD accounts.',
+        verdict: 'IG Markets â€” No minimum deposit for spread betting or CFD accounts.',
         pros: ['No minimum barrier', 'Access to 17,000+ markets', 'FTSE 250 listed safety'],
         cons: ['Inactivity fees apply'],
         bestFor: 'Traders who want pro tools on a small budget',
-        ctaLink: '/api/market/brokers/redirect?id=ig&source=best-no-min-uk'
+        ctaLink: '/go/ig-markets'
       },
       {
         id: 'xtb',
         name: 'XTB',
         description: 'XTB encourages new traders with a zero minimum deposit policy and a wealth of free education.',
-        verdict: 'XTB — No minimum deposit, solid education for new traders.',
+        verdict: 'XTB â€” No minimum deposit, solid education for new traders.',
         pros: ['Zero deposit requirement', 'Market-leading xStation platform', 'Strong UK regulation'],
         cons: ['Only MT4 or xStation (no cTrader)'],
         bestFor: 'Beginners who want to start small',
-        ctaLink: '/api/market/brokers/redirect?id=xtb&source=best-no-min-uk'
+        ctaLink: '/go/xtb'
       },
       {
         id: 'interactive-brokers',
         name: 'Interactive Brokers',
         description: 'The "IBKR Lite" account has no minimum deposit, though professional tiers still require substantial capital.',
-        verdict: 'Interactive Brokers — No minimum for IBKR Lite.',
-        pros: ['Professional tools for £0 min', 'Lowest fees in industry', 'Global scale'],
+        verdict: 'Interactive Brokers â€” No minimum for IBKR Lite.',
+        pros: ['Professional tools for Â£0 min', 'Lowest fees in industry', 'Global scale'],
         cons: ['Software can be overwhelming'],
         bestFor: 'Small accounts wanting pro features',
-        ctaLink: '/api/market/brokers/redirect?id=ibkr&source=best-no-min-uk'
+        ctaLink: '/go/ibkr'
       }
     ],
-    methodology: 'We verify "No Minimum Deposit" claims by checking current account opening terms and testing account funding with small amounts (£10 or less).',
+    methodology: 'We verify "No Minimum Deposit" claims by checking current account opening terms and testing account funding with small amounts (Â£10 or less).',
     faqs: [
-      { question: 'Is it really possible to start with £1?', answer: 'Yes, with Trading 212. However, with £1, you won\'t have enough margin to trade most instruments. You\'ll need more to actually place a trade.' },
+      { question: 'Is it really possible to start with Â£1?', answer: 'Yes, with Trading 212. However, with Â£1, you won\'t have enough margin to trade most instruments. You\'ll need more to actually place a trade.' },
       { question: 'Do "no minimum deposit" brokers have higher fees?', answer: 'Not necessarily. IG and XTB are industry leaders with competitive fees despite having no minimum deposit.' }
     ],
     relatedPages: [
@@ -524,19 +524,19 @@ export const BEST_OF_PAGES: BestOfPage[] = [
   },
   {
     slug: 'cfd-broker-uk',
-    title: 'Best CFD Brokers UK 2026 — FCA Regulated',
+    title: 'Best CFD Brokers UK 2026 â€” FCA Regulated',
     eyebrow: '// LEVERAGED TRADING',
     lastUpdated: '2026-04-23',
     targetKeywords: ['best CFD broker UK', 'CFD trading platform UK'],
-    metaDescription: 'CFD trading gives UK traders access to global markets with leverage. Here are the FCA-regulated platforms worth using — and the ones to avoid.',
+    metaDescription: 'CFD trading gives UK traders access to global markets with leverage. Here are the FCA-regulated platforms worth using â€” and the ones to avoid.',
     topPickId: 'ig',
     top3Ids: ['ig', 'pepperstone', 'cmc-markets'],
-    whoIsNotFor: 'CFDs are complex instruments and come with a high risk of losing money rapidly due to leverage. 67–84% of retail investor accounts lose money when trading CFDs. If you cannot afford the risk, do not trade CFDs.',
+    whoIsNotFor: 'CFDs are complex instruments and come with a high risk of losing money rapidly due to leverage. 67â€“84% of retail investor accounts lose money when trading CFDs. If you cannot afford the risk, do not trade CFDs.',
     introduction: 'CFDs (Contracts for Difference) allow you to speculate on price movements without owning the underlying asset. For UK traders, CFDs offer a way to hedge portfolios and access international markets with leverage, but they lack the tax-free benefits of spread betting.',
     comparisonTable: [
-      { rank: 1, name: 'IG Markets', bestFor: 'Market Range', keyStat: '17k+ CFDs', rating: 4.9, link: '/api/market/brokers/redirect?id=ig&source=best-cfd-uk' },
-      { rank: 2, name: 'Pepperstone', bestFor: 'Low Cost FX', keyStat: 'Raw Spreads', rating: 4.8, link: '/api/market/brokers/redirect?id=pepperstone&source=best-cfd-uk' },
-      { rank: 3, name: 'CMC Markets', bestFor: 'Technical Analysis', keyStat: 'NextGen Tech', rating: 4.8, link: '/api/market/brokers/redirect?id=cmc-markets&source=best-cfd-uk' },
+      { rank: 1, name: 'IG Markets', bestFor: 'Market Range', keyStat: '17k+ CFDs', rating: 4.9, link: '/go/ig-markets' },
+      { rank: 2, name: 'Pepperstone', bestFor: 'Low Cost FX', keyStat: 'Raw Spreads', rating: 4.8, link: '/go/pepperstone' },
+      { rank: 3, name: 'CMC Markets', bestFor: 'Technical Analysis', keyStat: 'NextGen Tech', rating: 4.8, link: '/go/cmc-markets' },
     ],
     reviews: [
       {
@@ -547,7 +547,7 @@ export const BEST_OF_PAGES: BestOfPage[] = [
         pros: ['Industry-leading asset range', 'High reliability and trust', 'Negative balance protection'],
         cons: ['Slightly wider spreads on exotics', 'Higher financing costs'],
         bestFor: 'Multi-asset CFD traders',
-        ctaLink: '/api/market/brokers/redirect?id=ig&source=best-cfd-uk'
+        ctaLink: '/go/ig-markets'
       },
       {
         id: 'pepperstone',
@@ -557,7 +557,7 @@ export const BEST_OF_PAGES: BestOfPage[] = [
         pros: ['Deep liquidity', 'Raw spread pricing', 'Superior customer support'],
         cons: ['Limited stock CFDs compared to IG'],
         bestFor: 'Forex-focused CFD traders',
-        ctaLink: '/api/market/brokers/redirect?id=pepperstone&source=best-cfd-uk'
+        ctaLink: '/go/pepperstone'
       },
       {
         id: 'cmc-markets',
@@ -567,7 +567,7 @@ export const BEST_OF_PAGES: BestOfPage[] = [
         pros: ['NextGen charting tech', 'Competitive index spreads', 'FCA regulated'],
         cons: ['Platform complexity for beginners'],
         bestFor: 'Technical CFD analysts',
-        ctaLink: '/api/market/brokers/redirect?id=cmc-markets&source=best-cfd-uk'
+        ctaLink: '/go/cmc-markets'
       },
       {
         id: 'plus500',
@@ -577,7 +577,7 @@ export const BEST_OF_PAGES: BestOfPage[] = [
         pros: ['Cleanest mobile app', 'Very simple onboarding', 'Publicly listed company'],
         cons: ['Lacks advanced charting', 'Limited research tools'],
         bestFor: 'Mobile-only CFD traders',
-        ctaLink: '/api/market/brokers/redirect?id=plus500&source=best-cfd-uk'
+        ctaLink: '/go/plus500'
       }
     ],
     methodology: 'CFD brokers are evaluated on their transparent fee structures, the quality of their mobile execution, and their adherence to FCA client protection rules.',
@@ -602,9 +602,9 @@ export const BEST_OF_PAGES: BestOfPage[] = [
     whoIsNotFor: 'If you hold trades for more than 5 minutes, you are not a scalper. This guide is specifically for those trading seconds-to-minutes who need the absolute lowest latency.',
     introduction: 'Many brokers claim to allow scalping but punish it in practice through slippage and widened spreads. True scalping requires a "No Dealing Desk" environment where the broker doesn\'t trade against you.',
     comparisonTable: [
-      { rank: 1, name: 'Pepperstone', bestFor: 'Low Latency', keyStat: 'Sub-30ms', rating: 4.9, link: '/api/market/brokers/redirect?id=pepperstone&source=best-scalping-uk' },
-      { rank: 2, name: 'IC Markets', bestFor: 'True ECN', keyStat: 'Raw Spreads', rating: 4.8, link: '/api/market/brokers/redirect?id=ic-markets&source=best-scalping-uk' },
-      { rank: 3, name: 'Interactive Brokers', bestFor: 'Equities', keyStat: 'Tiered Comm.', rating: 4.8, link: '/api/market/brokers/redirect?id=ibkr&source=best-scalping-uk' },
+      { rank: 1, name: 'Pepperstone', bestFor: 'Low Latency', keyStat: 'Sub-30ms', rating: 4.9, link: '/go/pepperstone' },
+      { rank: 2, name: 'IC Markets', bestFor: 'True ECN', keyStat: 'Raw Spreads', rating: 4.8, link: '/go/ic-markets' },
+      { rank: 3, name: 'Interactive Brokers', bestFor: 'Equities', keyStat: 'Tiered Comm.', rating: 4.8, link: '/go/ibkr' },
     ],
     reviews: [
       {
@@ -615,7 +615,7 @@ export const BEST_OF_PAGES: BestOfPage[] = [
         pros: ['Equinix NY4 servers', 'Zero spread on majors (Razor)', 'Superior cTrader integration'],
         cons: ['Basic proprietary platform'],
         bestFor: 'Forex scalpers',
-        ctaLink: '/api/market/brokers/redirect?id=pepperstone&source=best-scalping-uk'
+        ctaLink: '/go/pepperstone'
       },
       {
         id: 'ic-markets',
@@ -625,7 +625,7 @@ export const BEST_OF_PAGES: BestOfPage[] = [
         pros: ['Deep liquidity pool', 'Consistently low spreads', 'No restrictions on EAs'],
         cons: ['Lacks modern charting'],
         bestFor: 'Algo scalpers',
-        ctaLink: '/api/market/brokers/redirect?id=ic-markets&source=best-scalping-uk'
+        ctaLink: '/go/ic-markets'
       }
     ],
     methodology: 'Scalping brokers are ranked based on their slippage stats, their historical server uptime, and their policy on high-frequency trading.',
@@ -646,9 +646,9 @@ export const BEST_OF_PAGES: BestOfPage[] = [
     whoIsNotFor: 'If you are in and out of trades in minutes, these platforms might be too expensive for you due to their standard spreads. Check our Scalping or Day Trading guides instead.',
     introduction: 'Swing trading is about the "Business of Risk Management" over days and weeks. The biggest hidden cost for swing traders is "Swap" or overnight financing. We rank these brokers on their holding costs and charting reliability.',
     comparisonTable: [
-      { rank: 1, name: 'IG Markets', bestFor: 'Market Variety', keyStat: '17k+ Markets', rating: 4.9, link: '/api/market/brokers/redirect?id=ig&source=best-swing-uk' },
-      { rank: 2, name: 'Interactive Brokers', bestFor: 'International Stocks', keyStat: 'Global Access', rating: 4.8, link: '/api/market/brokers/redirect?id=ibkr&source=best-swing-uk' },
-      { rank: 3, name: 'Pepperstone', bestFor: 'Forex Swaps', keyStat: 'Low Overnight', rating: 4.7, link: '/api/market/brokers/redirect?id=pepperstone&source=best-swing-uk' },
+      { rank: 1, name: 'IG Markets', bestFor: 'Market Variety', keyStat: '17k+ Markets', rating: 4.9, link: '/go/ig-markets' },
+      { rank: 2, name: 'Interactive Brokers', bestFor: 'International Stocks', keyStat: 'Global Access', rating: 4.8, link: '/go/ibkr' },
+      { rank: 3, name: 'Pepperstone', bestFor: 'Forex Swaps', keyStat: 'Low Overnight', rating: 4.7, link: '/go/pepperstone' },
     ],
     reviews: [
       {
@@ -659,7 +659,7 @@ export const BEST_OF_PAGES: BestOfPage[] = [
         pros: ['Lower overnight financing on spread bets', 'Guaranteed stop losses', 'Exceptional research tools'],
         cons: ['Higher spreads than raw-spread brokers'],
         bestFor: 'Retail swing traders',
-        ctaLink: '/api/market/brokers/redirect?id=ig&source=best-swing-uk'
+        ctaLink: '/go/ig-markets'
       },
       {
         id: 'interactive-brokers',
@@ -669,7 +669,7 @@ export const BEST_OF_PAGES: BestOfPage[] = [
         pros: ['Lowest margin rates', 'Huge asset range', 'Institutional research'],
         cons: ['Complex platform'],
         bestFor: 'Professional multi-asset swing traders',
-        ctaLink: '/api/market/brokers/redirect?id=ibkr&source=best-swing-uk'
+        ctaLink: '/go/ibkr'
       }
     ],
     methodology: 'Swing trading rankings are weighted toward swap rates, the quality of fundamental research tools, and platform stability for multi-day analysis.',
@@ -680,7 +680,7 @@ export const BEST_OF_PAGES: BestOfPage[] = [
   },
   {
     slug: 'crypto-trading-platform-uk',
-    title: 'Best Crypto Trading Platform UK — 2026 Guide',
+    title: 'Best Crypto Trading Platform UK â€” 2026 Guide',
     eyebrow: '// DRAWDOWN GUIDE',
     lastUpdated: '2026-04-22',
     targetKeywords: ['best crypto trading platform UK', 'best crypto exchange UK'],
@@ -711,11 +711,11 @@ export const BEST_OF_PAGES: BestOfPage[] = [
   },
   {
     slug: 'trading-journal',
-    title: 'Best Trading Journal — 2026 Comparison',
+    title: 'Best Trading Journal â€” 2026 Comparison',
     eyebrow: '// DRAWDOWN GUIDE',
     lastUpdated: '2026-04-22',
     targetKeywords: ['best trading journal', 'best trading journal app'],
-    metaDescription: 'If you don\'t track your trades, you aren\'t trading — you\'re gambling. We compare the best trading journals, from spreadsheets to AI-powered journals.',
+    metaDescription: 'If you don\'t track your trades, you aren\'t trading â€” you\'re gambling. We compare the best trading journals, from spreadsheets to AI-powered journals.',
     comparisonTable: [
       { rank: 1, name: 'Drawdown AI Journal', bestFor: 'Psychology Tracking', keyStat: 'AI Analysis', rating: 5.0, link: '/tools/ai-trade-journal' },
       { rank: 2, name: 'Edgewonk', bestFor: 'Customization', keyStat: 'Desktop Based', rating: 4.8, link: 'https://edgewonk.com' },
@@ -752,7 +752,7 @@ export const BEST_OF_PAGES: BestOfPage[] = [
   },
   {
     slug: 'risk-calculator',
-    title: 'Best Position Size Calculator — 2026 Guide',
+    title: 'Best Position Size Calculator â€” 2026 Guide',
     eyebrow: '// DRAWDOWN GUIDE',
     lastUpdated: '2026-04-22',
     targetKeywords: ['best position size calculator', 'trading risk calculator'],
@@ -784,7 +784,7 @@ export const BEST_OF_PAGES: BestOfPage[] = [
   },
   {
     slug: 'trading-course-uk',
-    title: 'Best Trading Course UK — 2026 Honest Reviews',
+    title: 'Best Trading Course UK â€” 2026 Honest Reviews',
     eyebrow: '// DRAWDOWN GUIDE',
     lastUpdated: '2026-04-22',
     targetKeywords: ['best trading course UK', 'best day trading course UK 2026'],
@@ -825,7 +825,7 @@ export const BEST_OF_PAGES: BestOfPage[] = [
   },
   {
     slug: 'prop-firm',
-    title: 'Best Prop Firm 2026 — Ranked & Verified',
+    title: 'Best Prop Firm 2026 â€” Ranked & Verified',
     eyebrow: '// DRAWDOWN GUIDE',
     lastUpdated: '2026-04-22',
     targetKeywords: ['best prop firm', 'best prop firm 2026', 'best funded trader programme'],
@@ -857,7 +857,7 @@ export const BEST_OF_PAGES: BestOfPage[] = [
   },
   {
     slug: 'tradingview-indicators',
-    title: 'Best TradingView Indicators — 2026 Guide',
+    title: 'Best TradingView Indicators â€” 2026 Guide',
     eyebrow: '// DRAWDOWN GUIDE',
     lastUpdated: '2026-04-22',
     targetKeywords: ['best TradingView indicators', 'best free TradingView indicators'],
@@ -888,7 +888,7 @@ export const BEST_OF_PAGES: BestOfPage[] = [
   },
   {
     slug: 'trading-books',
-    title: 'Best Trading Books — Pete\'s Honest Picks',
+    title: 'Best Trading Books â€” Pete\'s Honest Picks',
     eyebrow: '// DRAWDOWN GUIDE',
     lastUpdated: '2026-04-22',
     targetKeywords: ['best trading books', 'best trading books for beginners'],
@@ -920,7 +920,7 @@ export const BEST_OF_PAGES: BestOfPage[] = [
   },
   {
     slug: 'forex-pairs-to-trade',
-    title: 'Best Forex Pairs to Trade — 2026 Analysis',
+    title: 'Best Forex Pairs to Trade â€” 2026 Analysis',
     eyebrow: '// DRAWDOWN GUIDE',
     lastUpdated: '2026-04-22',
     targetKeywords: ['best forex pairs to trade', 'most profitable forex pairs'],
@@ -952,7 +952,7 @@ export const BEST_OF_PAGES: BestOfPage[] = [
   },
   {
     slug: 'time-to-trade-forex',
-    title: 'Best Time to Trade Forex UK — Session Guide',
+    title: 'Best Time to Trade Forex UK â€” Session Guide',
     eyebrow: '// DRAWDOWN GUIDE',
     lastUpdated: '2026-04-22',
     targetKeywords: ['best time to trade forex', 'best time to trade forex UK'],
@@ -984,7 +984,7 @@ export const BEST_OF_PAGES: BestOfPage[] = [
   },
   {
     slug: 'moving-average-strategy',
-    title: 'Best Moving Average Strategy — 2026 Comparison',
+    title: 'Best Moving Average Strategy â€” 2026 Comparison',
     eyebrow: '// DRAWDOWN GUIDE',
     lastUpdated: '2026-04-22',
     targetKeywords: ['best moving average strategy', 'best moving average for day trading'],
@@ -1016,7 +1016,7 @@ export const BEST_OF_PAGES: BestOfPage[] = [
   },
   {
     slug: 'trading-youtube-channels',
-    title: 'Best Trading YouTube Channels — Honest Reviews',
+    title: 'Best Trading YouTube Channels â€” Honest Reviews',
     eyebrow: '// DRAWDOWN GUIDE',
     lastUpdated: '2026-04-22',
     targetKeywords: ['best trading YouTube channels', 'best day trading YouTubers'],
@@ -1048,11 +1048,11 @@ export const BEST_OF_PAGES: BestOfPage[] = [
   },
   {
     slug: 'free-trading-tools',
-    title: 'Best Free Trading Tools 2026 — Zero Cost Edge',
+    title: 'Best Free Trading Tools 2026 â€” Zero Cost Edge',
     eyebrow: '// DRAWDOWN GUIDE',
     lastUpdated: '2026-04-22',
     targetKeywords: ['best free trading tools', 'free trading tools 2026'],
-    metaDescription: 'You don\'t need a £500/month Bloomberg terminal. We curate the best free tools for analysis, risk management, and news.',
+    metaDescription: 'You don\'t need a Â£500/month Bloomberg terminal. We curate the best free tools for analysis, risk management, and news.',
     comparisonTable: [
       { rank: 1, name: 'TradingView Free', bestFor: 'Charting', keyStat: 'Cloud Based', rating: 4.9, link: 'https://tradingview.com' },
       { rank: 2, name: 'Drawdown Free Hub', bestFor: 'Daily Insight', keyStat: 'AI Analysis', rating: 4.8, link: '/' },
@@ -1080,7 +1080,7 @@ export const BEST_OF_PAGES: BestOfPage[] = [
   },
   {
     slug: 'ai-trading-tools',
-    title: 'Best AI Trading Tools 2026 — The Future of Edge',
+    title: 'Best AI Trading Tools 2026 â€” The Future of Edge',
     eyebrow: '// DRAWDOWN GUIDE',
     lastUpdated: '2026-04-22',
     targetKeywords: ['best AI trading tools', 'AI for trading 2026'],
@@ -1106,13 +1106,13 @@ export const BEST_OF_PAGES: BestOfPage[] = [
     faqs: [
       {
         question: 'Will AI replace manual traders?',
-        answer: 'No. AI is a tool, not a replacement. The best results come from "Centaur Trading" — a human making the final decisions based on AI-processed data.'
+        answer: 'No. AI is a tool, not a replacement. The best results come from "Centaur Trading" â€” a human making the final decisions based on AI-processed data.'
       }
     ]
   },
   {
     slug: 'trading-strategies-for-beginners',
-    title: 'Best Trading Strategies for Beginners — 2026 Guide',
+    title: 'Best Trading Strategies for Beginners â€” 2026 Guide',
     eyebrow: '// DRAWDOWN GUIDE',
     lastUpdated: '2026-04-22',
     targetKeywords: ['best trading strategy for beginners', 'simple trading strategies'],
@@ -1141,5 +1141,433 @@ export const BEST_OF_PAGES: BestOfPage[] = [
         answer: 'Trend-following (buying in an uptrend, selling in a downtrend) is generally the most forgiving strategy for new traders.'
       }
     ]
+  },
+  {
+    slug: 'trading-course-uk',
+    eyebrow: 'EDUCATION // UK',
+    title: 'Best Trading Courses in the UK for 2026',
+    metaDescription: 'Stop buying "magic" indicators. We rank the best UK trading courses based on transparency, strategy depth, and mentor availability. No guru nonsense.',
+    lastUpdated: 'APRIL 2026',
+    introduction: 'The trading education space is a minefield of fake gurus and overpromised returns. To find a course that actually works, you need to look for institutional principles, verified results, and a focus on risk management over "signals."',
+    whoIsNotFor: 'This is not for anyone looking for a "get rich quick" scheme or a magic button. Trading is a business, and these courses treat it as such.',
+    methodology: 'We audited 15+ UK-based trading courses, evaluating their curriculum depth, community support, and the professional background of the instructors.',
+    topPickId: 'drawdown-academy',
+    top3Ids: ['drawdown-academy', 'itp', 'biz-academy'],
+    comparisonTable: [
+      { rank: 1, name: 'Drawdown Academy', bestFor: 'Professional Discipline', keyStat: '12-Week Path', rating: 4.9, link: '/learn/academy' },
+      { rank: 2, name: 'Institute of Trading', bestFor: 'Macro Analysis', keyStat: 'Institutional', rating: 4.7, link: '#' },
+      { rank: 3, name: 'The Alpha Course', bestFor: 'Basics', keyStat: 'Introductory', rating: 4.5, link: '#' },
+    ],
+    reviews: [
+      {
+        id: 'drawdown-academy',
+        name: 'Drawdown Academy',
+        description: 'Our flagship program focuses on the behavioral and technical reality of the markets. We don\'t sell dreams; we build disciplined risk managers.',
+        pros: ['Direct Mentor Access', 'Institutional Risk Engine', 'Lifetime Community'],
+        cons: ['Highly Selective', 'Intensive Workload'],
+        bestFor: 'SERIOUS PROFESSIONAL ASPIRANTS',
+        verdict: 'The only course that prioritizes your psychology as much as your strategy.',
+        ctaLink: '/learn/academy'
+      }
+    ],
+    faqs: [
+      { question: 'Do I need a degree to trade?', answer: 'No, but you do need a professional education. The market doesn\'t care about your diploma; it only cares about your discipline.' },
+      { question: 'How long does it take to learn?', answer: 'Expect at least 6-12 months of consistent study and practice before you see reliable results. Anyone telling you otherwise is lying.' }
+    ],
+    relatedPages: [
+      { title: 'How to Start Trading UK', slug: 'start-trading-uk' },
+      { title: 'Best Trading Platforms UK', slug: 'trading-platform-uk' }
+    ]
+  },
+  {
+    slug: 'trading-indicator',
+    title: 'Best Trading Indicators 2026 â€” The Institutional Toolkit',
+    eyebrow: '// TECHNICAL ANALYSIS',
+    lastUpdated: '2026-04-30',
+    targetKeywords: ['best trading indicators', 'top indicators for day trading'],
+    metaDescription: 'Discover the most effective trading indicators for 2026. From VWAP to RSI, we rank the tools used by institutional traders for clarity and edge.',
+    introduction: 'Indicators are often misused as "magic signals." In reality, the best indicators are simply mathematical filters that clarify price action. This guide breaks down the essential toolkit for modern traders.',
+    comparisonTable: [
+      { rank: 1, name: 'VWAP', bestFor: 'Intraday Value', keyStat: 'Volume Weighted', rating: 4.9, link: '/glossary/vwap' },
+      { rank: 2, name: 'ATR', bestFor: 'Volatility/Stops', keyStat: 'Average Range', rating: 4.8, link: '/glossary/atr' },
+    ],
+    reviews: [
+      {
+        id: 'vwap',
+        name: 'VWAP (Volume Weighted Average Price)',
+        description: 'The "fair value" indicator for intraday trading. It is used by institutions to benchmark their execution.',
+        pros: ['Reflects true market value', 'Great for identifying trend health', 'High institutional relevance'],
+        cons: ['Only useful for intraday', 'Can be lagging in extreme volatility'],
+        bestFor: 'Day traders and institutional execution',
+        ctaLink: '/glossary/vwap'
+      }
+    ],
+    methodology: 'We rank indicators based on their mathematical robustness and widespread adoption by professional participants.',
+    faqs: []
+  },
+  {
+    slug: 'candlestick-pattern',
+    title: 'Best Candlestick Patterns for High-Probability Trading',
+    eyebrow: '// PRICE ACTION',
+    lastUpdated: '2026-04-30',
+    targetKeywords: ['best candlestick patterns', 'high probability price action'],
+    metaDescription: 'Master the candlestick patterns that actually work. We rank the top patterns for reversals and continuations with real-world examples.',
+    introduction: 'Not all candlestick patterns are created equal. While hundreds exist, only a handful provide a statistically significant edge when traded in the right context.',
+    comparisonTable: [
+      { rank: 1, name: 'Engulfing', bestFor: 'Reversals', keyStat: 'High Conviction', rating: 4.9, link: '/glossary/engulfing-pattern' },
+      { rank: 2, name: 'Hammer', bestFor: 'Bottom Fishing', keyStat: 'Price Rejection', rating: 4.7, link: '/glossary/hammer-candle' },
+    ],
+    reviews: [
+      {
+        id: 'engulfing',
+        name: 'Engulfing Pattern',
+        description: 'A two-candle reversal signal that shows a total shift in market sentiment.',
+        pros: ['Easy to identify', 'Works across all timeframes', 'Clear stop-loss placement'],
+        cons: ['Requires context (trend)', 'Can result in large stops if candles are huge'],
+        bestFor: 'Identifying major swing points',
+        ctaLink: '/glossary/engulfing-pattern'
+      }
+    ],
+    methodology: 'Patterns are ranked by their visual clarity and historical success in liquid markets.',
+    faqs: []
+  },
+  {
+    slug: 'trading-routine',
+    title: 'The Best Trading Routines for Peak Performance',
+    eyebrow: '// PERFORMANCE PSYCHOLOGY',
+    lastUpdated: '2026-04-30',
+    targetKeywords: ['best trading routine', 'morning routine for traders'],
+    metaDescription: 'The difference between success and failure is often found in your routine. We break down the prep, execution, and review cycles of elite traders.',
+    introduction: 'Amateurs trade when they feel like it; professionals trade a system. That system starts long before the market opens and ends long after it closes.',
+    comparisonTable: [
+      { rank: 1, name: 'The London Prep', bestFor: 'Day Traders', keyStat: '45-Min Setup', rating: 4.9, link: '#' },
+      { rank: 2, name: 'The Weekend Review', bestFor: 'Swing Traders', keyStat: 'Weekly Reset', rating: 4.8, link: '#' },
+    ],
+    reviews: [
+      {
+        id: 'prep-routine',
+        name: 'London Market Prep',
+        description: 'A rigorous 45-minute routine before the 08:00 AM London open to identify levels and macro bias.',
+        pros: ['Removes emotional decision making', 'Ensures you are prepared for news', 'Aligns with peak liquidity'],
+        cons: ['Requires early start in UK', 'Can be mentally draining if not structured'],
+        bestFor: 'UK-based day traders',
+        ctaLink: '/courses'
+      }
+    ],
+    methodology: 'Based on the habits of consistently profitable traders in the Drawdown community.',
+    faqs: []
+  },
+  {
+    slug: 'broker-for-scalping-uk',
+    title: 'Best Broker for Scalping UK 2026 â€” Low Spreads & Fast Execution',
+    eyebrow: '// BROKER COMPARISON',
+    lastUpdated: '2026-04-30',
+    targetKeywords: ['best broker for scalping UK', 'lowest spread brokers UK'],
+    metaDescription: 'Scalping requires near-zero spreads and sub-millisecond execution. Compare the best FCA-regulated brokers for high-frequency strategies.',
+    introduction: 'If you are scalping, the spread is your biggest enemy. A half-pip difference can be the difference between a profitable month and a losing one.',
+    comparisonTable: [
+      { rank: 1, name: 'Pepperstone', bestFor: 'Raw Spreads', keyStat: '0.0 Pips', rating: 4.9, link: '/redirect/pepperstone' },
+      { rank: 2, name: 'IC Markets', bestFor: 'Latency', keyStat: '<15ms', rating: 4.8, link: '/redirect/ic-markets' },
+    ],
+    reviews: [
+      {
+        id: 'pepperstone-scalp',
+        name: 'Pepperstone Razor',
+        description: 'Widely regarded as the best scalping account in the UK due to its raw spreads and deep liquidity.',
+        pros: ['True ECN-style execution', 'No requotes', 'Supports all EAs and HFT'],
+        cons: ['Commission based (not spread-only)', 'Requires active trading to justify fees'],
+        bestFor: 'Professional scalpers and algo traders',
+        ctaLink: '/redirect/pepperstone'
+      }
+    ],
+    methodology: 'Ranked by average spread on EUR/USD and execution latency to London servers.',
+    faqs: []
+  },
+  {
+    slug: 'trading-laptop',
+    title: 'Best Trading Laptops 2026 â€” Power, Portability & Screen Real Estate',
+    eyebrow: '// HARDWARE GUIDE',
+    lastUpdated: '2026-04-30',
+    targetKeywords: ['best trading laptop 2026', 'laptop for day trading'],
+    metaDescription: 'Don\'t let hardware lag cost you money. We review the best laptops for trading â€” from the MacBook Pro to high-end Windows workstations.',
+    introduction: 'Trading software like TradingView or MT5 can be surprisingly resource-intensive, especially when running multiple charts and indicators simultaneously.',
+    comparisonTable: [
+      { rank: 1, name: 'MacBook Pro M3', bestFor: 'Battery/Reliability', keyStat: 'M3 Max Chip', rating: 4.9, link: '#' },
+      { rank: 2, name: 'Dell XPS 15', bestFor: 'Windows Trading', keyStat: '4K Display', rating: 4.7, link: '#' },
+    ],
+    reviews: [
+      {
+        id: 'mbp-m3',
+        name: 'Apple MacBook Pro (M3)',
+        description: 'The gold standard for mobile traders. Exceptional battery life and the ability to drive multiple external monitors without overheating.',
+        pros: ['Incredible performance', 'Silent operation', 'Best-in-class display'],
+        cons: ['Expensive', 'Some legacy trading software requires Parallels'],
+        bestFor: 'Digital nomads and professional traders',
+        ctaLink: '#'
+      }
+    ],
+    methodology: 'Tested for thermal throttling during high-volatility sessions and multi-monitor support.',
+    faqs: []
+  },
+  {
+    slug: 'trading-monitor-setup',
+    title: 'Best Trading Monitor Setups 2026 â€” Ultimate Multi-Chart Displays',
+    eyebrow: '// HARDWARE GUIDE',
+    lastUpdated: '2026-04-30',
+    targetKeywords: ['best trading monitors', '4-monitor trading setup'],
+    metaDescription: 'Level up your station. We review the best monitors for trading, from ultrawides to professional 4-monitor arrays.',
+    introduction: 'Seeing the whole market at once is a competitive advantage. A poor monitor setup leads to "tab fatigue" and missed entries.',
+    comparisonTable: [
+      { rank: 1, name: 'Samsung Odyssey G9', bestFor: 'Ultrawide Solo', keyStat: '49-inch Curved', rating: 4.9, link: '#' },
+      { rank: 2, name: 'Dell UltraSharp', bestFor: 'Color/Accuracy', keyStat: '4K Daisy Chain', rating: 4.8, link: '#' },
+    ],
+    reviews: [
+      {
+        id: 'odyssey-g9',
+        name: 'Samsung Odyssey G9',
+        description: 'The ultimate single-monitor solution. Equivalent to two 27-inch monitors without the bezel in the middle.',
+        pros: ['Massive workspace', 'High refresh rate', 'Stunning aesthetics'],
+        cons: ['Takes up a huge amount of desk space', 'Expensive'],
+        bestFor: 'Traders who hate bezels and want a "cockpit" feel',
+        ctaLink: '#'
+      }
+    ],
+    methodology: 'Ranked by pixel density, eye strain reduction (blue light filters), and mounting flexibility.',
+    faqs: []
+  },
+  {
+    slug: 'broker-for-swing-trading',
+    title: 'Best Broker for Swing Trading UK 2026 â€” Low Overnight Fees',
+    eyebrow: '// BROKER COMPARISON',
+    lastUpdated: '2026-04-30',
+    targetKeywords: ['best broker for swing trading UK', 'lowest swap rates broker'],
+    metaDescription: 'Swing traders hold positions for days or weeks. We rank the best brokers based on swap rates, margin requirements, and market range.',
+    introduction: 'For swing traders, the intraday spread matters less than the overnight "swap" fees. High swap rates can eat 20-30% of your total profit over time.',
+    comparisonTable: [
+      { rank: 1, name: 'IG Index', bestFor: 'Market Range', keyStat: '18,000+ Assets', rating: 4.9, link: '/redirect/ig' },
+      { rank: 2, name: 'Interactive Brokers', bestFor: 'Low Swaps', keyStat: 'Institutional Rates', rating: 4.8, link: '/redirect/ibkr' },
+    ],
+    reviews: [
+      {
+        id: 'ig-swing',
+        name: 'IG Index',
+        description: 'The best all-rounder for swing trading. Their platform is incredibly stable and they offer guaranteed stops for weekend risk.',
+        pros: ['Widest market access', 'Excellent mobile app', 'Tax-free spread betting'],
+        cons: ['Higher spreads than raw-spread brokers', 'Swap rates can be average'],
+        bestFor: 'UK-based swing traders using multi-asset strategies',
+        ctaLink: '/redirect/ig'
+      }
+    ],
+    methodology: 'Ranked by average swap rate across 10 major pairs and platform stability over 24/7 cycles.',
+    faqs: []
+  },
+  {
+    slug: 'trading-simulator',
+    title: 'Best Trading Simulators 2026 â€” Master the Market Without Risk',
+    eyebrow: '// TOOLS GUIDE',
+    lastUpdated: '2026-04-30',
+    targetKeywords: ['best trading simulator', 'paper trading software'],
+    metaDescription: 'Don\'t blow your capital on a learning curve. We review the best trading simulators for realistic practice and strategy testing.',
+    introduction: 'A simulator is your flight training. You wouldn\'t fly a Boeing 747 without 1000 hours in a sim â€” why would you trade your life savings without practice?',
+    comparisonTable: [
+      { rank: 1, name: 'TradingView Paper', bestFor: 'Ease of Use', keyStat: 'Browser Based', rating: 4.9, link: '#' },
+      { rank: 2, name: 'Soft4FX', bestFor: 'Realistic Replay', keyStat: 'Tick Data', rating: 4.7, link: '#' },
+    ],
+    reviews: [
+      {
+        id: 'tv-paper',
+        name: 'TradingView Paper Trading',
+        description: 'The most accessible way to start. It uses real-time data but virtual money, integrated directly into your charts.',
+        pros: ['Free to use', 'Identical to live trading interface', 'Good for testing psychology'],
+        cons: ['Does not simulate "slippage" well', 'Can lead to over-trading in demo'],
+        bestFor: 'Beginners and intermediate traders testing new ideas',
+        ctaLink: '#'
+      }
+    ],
+    methodology: 'Ranked by data accuracy, execution realism, and ease of setup.',
+    faqs: []
+  },
+  {
+    slug: 'trading-discord',
+    title: 'Best Trading Discord Communities 2026 â€” Fact vs Fiction',
+    eyebrow: '// COMMUNITY REVIEW',
+    lastUpdated: '2026-04-30',
+    targetKeywords: ['best trading discord', 'top forex discord servers'],
+    metaDescription: 'The world of trading Discords is full of scams. We review the few communities actually focused on education and professional networking.',
+    introduction: 'Most trading Discords are just "signal groups" designed to take your money. We look for the communities where the goal is to make you an independent trader.',
+    comparisonTable: [
+      { rank: 1, name: 'The Drawdown Hub', bestFor: 'UK Education', keyStat: 'Proprietary Tools', rating: 4.9, link: '/signup' },
+      { rank: 2, name: 'Market Wash', bestFor: 'Order Flow', keyStat: 'Live Streams', rating: 4.7, link: '#' },
+    ],
+    reviews: [
+      {
+        id: 'drawdown-discord',
+        name: 'Drawdown Community',
+        description: 'Our internal community focused on institutional logic and behavioral data. No "lambos," just hard work.',
+        pros: ['Deep educational focus', 'Direct access to experienced traders', 'Integrated with Drawdown tools'],
+        cons: ['Not for those looking for quick "signals"', 'Monthly fee (unless funded)'],
+        bestFor: 'Serious traders looking for a professional environment',
+        ctaLink: '/signup'
+      }
+    ],
+    methodology: 'Ranked by the quality of educational content, lack of "get rich quick" marketing, and community support.',
+    faqs: []
+  },
+  {
+    slug: 'trading-podcast',
+    title: 'Best Trading Podcasts 2026 â€” Market Wisdom in Your Ears',
+    eyebrow: '// EDUCATION GUIDE',
+    lastUpdated: '2026-04-30',
+    targetKeywords: ['best trading podcasts', 'podcasts for stock traders'],
+    metaDescription: 'Learn from the best while you commute. We review the top trading podcasts that feature real hedge fund managers and retail legends.',
+    introduction: 'Podcasts are a "passive" way to absorb the mindset of elite traders. Hearing how pros handle losses is often more valuable than any technical setup.',
+    comparisonTable: [
+      { rank: 1, name: 'Chat With Traders', bestFor: 'Interviews', keyStat: '300+ Episodes', rating: 4.9, link: '#' },
+      { rank: 2, name: 'The Macro Voices', bestFor: 'Global Macro', keyStat: 'Weekly Deep Dives', rating: 4.8, link: '#' },
+    ],
+    reviews: [
+      {
+        id: 'chat-with-traders',
+        name: 'Chat With Traders',
+        description: 'The industry gold standard. Aaron Fifield interviews everyone from high-frequency quants to floor trading veterans.',
+        pros: ['Incredible variety of guests', 'Focuses on the struggle, not just the wins', 'Very high production quality'],
+        cons: ['Can be overwhelming for absolute beginners', 'Episodes are long (1hr+)'],
+        bestFor: 'Traders at all levels looking for inspiration and logic',
+        ctaLink: '#'
+      }
+    ],
+    methodology: 'Ranked by guest quality, interviewer skill, and educational value.',
+    faqs: []
+  },
+  {
+    slug: 'trading-app-uk',
+    title: 'Best Trading App UK 2026 â€” Trade on the Move Securely',
+    eyebrow: '// MOBILE TRADING',
+    lastUpdated: '2026-04-30',
+    targetKeywords: ['best trading app UK', 'mobile trading apps 2026'],
+    metaDescription: 'Your phone is a powerful trading station. We review the best UK trading apps for speed, security, and charting capability.',
+    introduction: 'In 2026, mobile trading isn\'t just for checking balances. With 5G and advanced chips, you can run full technical analysis from the palm of your hand.',
+    comparisonTable: [
+      { rank: 1, name: 'TradingView Mobile', bestFor: 'Charting', keyStat: 'Cloud Sync', rating: 4.9, link: '#' },
+      { rank: 2, name: 'Pepperstone App', bestFor: 'Execution', keyStat: 'One-Tap Trade', rating: 4.8, link: '/redirect/pepperstone' },
+    ],
+    reviews: [
+      {
+        id: 'tv-mobile',
+        name: 'TradingView App',
+        description: 'Unbeatable for analysis. Your desktop charts sync instantly to your phone, maintaining all indicators and alerts.',
+        pros: ['Best mobile charts in the world', 'Instant push alerts', 'Clean, modern UI'],
+        cons: ['Trading execution depends on your linked broker', 'Small screen can be limiting for complex setups'],
+        bestFor: 'Traders who prioritize analysis and price alerts',
+        ctaLink: '#'
+      }
+    ],
+    methodology: 'Tested for biometric security, push notification latency, and chart rendering speed.',
+    faqs: []
+  },
+  {
+    slug: 'broker-for-options-uk',
+    title: 'Best Options Broker UK 2026 â€” Trade Volatility Safely',
+    eyebrow: '// BROKER COMPARISON',
+    lastUpdated: '2026-04-30',
+    targetKeywords: ['best options broker UK', 'US options trading UK'],
+    metaDescription: 'Options trading in the UK requires specific access. We rank the brokers that offer the best tools for Greeks, spreads, and hedging.',
+    introduction: 'Vanilla options are different from "Binary Options" (which are banned in the UK for retail). This guide focuses on professional-grade exchange-traded options.',
+    comparisonTable: [
+      { rank: 1, name: 'Interactive Brokers', bestFor: 'US Options', keyStat: 'Lowest Comm', rating: 4.9, link: '/redirect/ibkr' },
+      { rank: 2, name: 'Saxo Bank', bestFor: 'Global Access', keyStat: 'Professional Tools', rating: 4.7, link: '#' },
+    ],
+    reviews: [
+      {
+        id: 'ibkr-options',
+        name: 'Interactive Brokers',
+        description: 'The undisputed king of options. Access to every major global exchange with advanced "OptionTrader" software.',
+        pros: ['Deepest liquidity', 'Lowest commissions in the industry', 'Powerful "Greeks" analysis'],
+        cons: ['Platform has a steep learning curve', 'Account opening process is rigorous'],
+        bestFor: 'Serious options traders and institutional-style investors',
+        ctaLink: '/redirect/ibkr'
+      }
+    ],
+    methodology: 'Ranked by commission structure, platform tools (Option Greeks), and market access.',
+    faqs: []
+  },
+  {
+    slug: 'broker-low-deposit',
+    title: 'Best Low Deposit Brokers UK 2026 â€” Start Small, Grow Big',
+    eyebrow: '// BROKER COMPARISON',
+    lastUpdated: '2026-04-30',
+    targetKeywords: ['best low deposit broker UK', 'trade with Â£100'],
+    metaDescription: 'You don\'t need thousands to start. We review the best FCA-regulated brokers with low or zero minimum deposits.',
+    introduction: 'Starting with a small account is a smart way to learn without risking your life savings. We look for brokers that treat Â£100 accounts with the same respect as Â£10,000 ones.',
+    comparisonTable: [
+      { rank: 1, name: 'Pepperstone', bestFor: 'No Minimum', keyStat: 'Â£0 Deposit', rating: 4.9, link: '/redirect/pepperstone' },
+      { rank: 2, name: 'Trading 212', bestFor: 'Beginners', keyStat: 'Â£1 Minimum', rating: 4.7, link: '#' },
+    ],
+    reviews: [
+      {
+        id: 'pepperstone-low',
+        name: 'Pepperstone',
+        description: 'Unique in the professional space for having no minimum deposit requirement. You can start with whatever you can afford.',
+        pros: ['No artificial barriers to entry', 'Micro-lot trading supported', 'Institutional pricing for small accounts'],
+        cons: ['Low leverage in UK (30:1) means Â£100 goes slowly', 'No "bonus" offers (FCA rules)'],
+        bestFor: 'New traders looking to practice with small real-money accounts',
+        ctaLink: '/redirect/pepperstone'
+      }
+    ],
+    methodology: 'Ranked by minimum deposit, fractional lot availability, and educational support for small accounts.',
+    faqs: []
+  },
+  {
+    slug: 'risk-management-strategy',
+    title: 'Best Risk Management Strategies 2026 â€” Protect Your Capital',
+    eyebrow: '// SURVIVAL GUIDE',
+    lastUpdated: '2026-04-30',
+    targetKeywords: ['best risk management strategies', 'trading risk rules'],
+    metaDescription: 'Trading is the business of managing risk. We rank the top strategies used by pros to ensure they stay in the game forever.',
+    introduction: 'The best strategy in the world will fail without risk management. Your job is to be a professional risk manager who happens to trade.',
+    comparisonTable: [
+      { rank: 1, name: 'The 1% Rule', bestFor: 'Standardization', keyStat: 'Fixed % Risk', rating: 4.9, link: '/glossary/risk-management' },
+      { rank: 2, name: 'Fixed Ratio', bestFor: 'Aggressive Growth', keyStat: 'Dynamic Sizing', rating: 4.6, link: '#' },
+    ],
+    reviews: [
+      {
+        id: 'one-percent',
+        name: 'The 1% Rule',
+        description: 'The foundation of professional trading. Never risk more than 1% of your total account equity on a single trade.',
+        pros: ['Impossible to blow your account quickly', 'Removes emotional stress', 'Calculated based on volatility'],
+        cons: ['Growth can feel slow on small accounts', 'Requires discipline to stick to'],
+        bestFor: 'Every trader, from beginner to hedge fund manager',
+        ctaLink: '/tools/risk-calculator'
+      }
+    ],
+    methodology: 'Based on mathematical "Risk of Ruin" calculations and long-term equity curve stability.',
+    faqs: []
+  },
+  {
+    slug: 'trading-mindset-books',
+    title: 'Best Trading Mindset Books 2026 â€” Master the Inner Game',
+    eyebrow: '// EDUCATION GUIDE',
+    lastUpdated: '2026-04-30',
+    targetKeywords: ['best trading psychology books', 'trading mindset'],
+    metaDescription: 'Trading is 90% psychology. We review the essential reading list for mastering your emotions and thinking in probabilities.',
+    introduction: 'You don\'t trade the markets; you trade your beliefs about the markets. These books help you rewrite your internal code for success.',
+    comparisonTable: [
+      { rank: 1, name: 'Trading in the Zone', bestFor: 'Probability', keyStat: 'Mark Douglas', rating: 5.0, link: '#' },
+      { rank: 2, name: 'The Daily Trading Coach', bestFor: 'Practicality', keyStat: 'Brett Steenbarger', rating: 4.9, link: '#' },
+    ],
+    reviews: [
+      {
+        id: 'douglas-zone',
+        name: 'Trading in the Zone by Mark Douglas',
+        description: 'The undisputed bible of trading psychology. It teaches you how to think in probabilities and overcome the fear of being wrong.',
+        pros: ['Life-changing perspective shift', 'Universal principles', 'Easy to read'],
+        cons: ['Can feel repetitive at times', 'No technical "strategies" included'],
+        bestFor: 'Traders struggling with discipline or emotional execution',
+        ctaLink: '#'
+      }
+    ],
+    methodology: 'Ranked by their impact on professional traders\' longevity and clarity.',
+    faqs: []
   }
 ];
+

@@ -62,7 +62,8 @@ export default function TradingViewReviewUK() {
               "TradingView is the only software I use every single day without fail. While MetaTrader is for execution, TradingView is for intelligence. If you are serious about technical analysis, you cannot avoid this platform. But most people overpay for the Premium plan when 'Essential' is all they actually need."
             </p>
             <a 
-              href="https://www.tradingview.com/?aff_id=165855"
+              href="/go/tradingview"
+              rel="noopener noreferrer sponsored"
               className="inline-flex items-center gap-4 bg-accent text-background-primary px-12 py-5 text-xs font-black uppercase tracking-widest hover:bg-accent-hover transition-premium"
             >
               Get $15 Off TradingView <ExternalLink className="w-4 h-4" />
@@ -213,7 +214,8 @@ export default function TradingViewReviewUK() {
             Stop limiting your analysis. Get $15 off your first TradingView plan when you upgrade via Drawdown.
           </p>
           <a 
-            href="https://www.tradingview.com/?aff_id=165855"
+            href="/go/tradingview"
+            rel="noopener noreferrer sponsored"
             className="inline-flex items-center gap-4 bg-accent text-background-primary px-16 py-6 text-sm font-black uppercase tracking-widest hover:bg-accent-hover transition-premium"
           >
             Claim Your $15 Discount <ExternalLink className="w-4 h-4" />

@@ -6,7 +6,7 @@ import { StructuredData } from "@/components/StructuredData";
 import { getAllPosts, getPostBySlug } from "@/lib/blog";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import Link from "next/link";
-import { Clock, Calendar, ChevronLeft, Share2 } from "lucide-react";
+import { Clock, Calendar, ChevronLeft, Share2, ArrowRight } from "lucide-react";
 import { TrackPageView } from "@/components/admin/TrackPageView";
 
 interface Props {
@@ -32,11 +32,29 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   });
 }
 
+function extractHeadings(content: string) {
+  const headingRegex = /^## (.*$)/gim;
+  const headings = [];
+  let match;
+  while ((match = headingRegex.exec(content)) !== null) {
+    headings.push(match[1]);
+  }
+  return headings;
+}
+
 export default async function BlogPostPage({ params }: Props) {
   const { slug } = await params;
   const post = getPostBySlug(slug);
   
   if (!post) notFound();
+
+  const allPosts = getAllPosts();
+  const relatedPosts = allPosts
+    .filter(p => p.slug !== slug && p.category === post.category)
+    .slice(0, 3);
+
+  const headings = extractHeadings(post.content);
+  const showTOC = post.content.split(' ').length > 800 && headings.length > 0;
 
   const articleSchema = {
     headline: post.title,
@@ -44,7 +62,13 @@ export default async function BlogPostPage({ params }: Props) {
     datePublished: post.publishedAt,
     author: {
       "@type": "Person",
-      "name": post.author,
+      "name": "Pete Currey",
+      "url": "https://drawdown.trading/about"
+    },
+    publisher: {
+      "@type": "Organization",
+      "name": "Drawdown",
+      "logo": "https://drawdown.trading/logo.png"
     },
     image: "https://drawdown.trading/og/default.png",
   };
@@ -67,11 +91,11 @@ export default async function BlogPostPage({ params }: Props) {
                 {post.category}
               </span>
               <span className="text-[10px] font-mono text-text-tertiary uppercase tracking-widest">
-                {post.author}
+                By {post.author}
               </span>
             </div>
             
-            <h1 className="text-4xl md:text-7xl font-display font-bold uppercase leading-tight text-text-primary">
+            <h1 className="text-4xl md:text-7xl font-display font-bold uppercase leading-[1.1] text-text-primary tracking-tight">
               {post.title}
             </h1>
             
@@ -86,55 +110,103 @@ export default async function BlogPostPage({ params }: Props) {
               </div>
               <div className="flex items-center gap-1 cursor-pointer hover:text-accent transition-colors">
                 <Share2 className="w-3 h-3" /> 
-                Share
+                Share Insight
               </div>
             </div>
           </header>
 
+          {/* Table of Contents */}
+          {showTOC && (
+            <div className="mb-16 p-8 bg-background-surface border border-border-slate">
+               <h4 className="text-[10px] font-mono uppercase tracking-widest text-accent mb-6 font-bold">// Table of Contents</h4>
+               <ul className="space-y-4">
+                  {headings.map((heading, i) => (
+                    <li key={i}>
+                      <a 
+                        href={`#${heading.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`}
+                        className="text-sm text-text-secondary hover:text-accent transition-colors flex items-center gap-3"
+                      >
+                        <span className="text-[10px] font-mono text-text-tertiary">0{i+1}</span>
+                        {heading}
+                      </a>
+                    </li>
+                  ))}
+               </ul>
+            </div>
+          )}
+
           <article 
             className="prose prose-invert prose-drawdown max-w-none 
               prose-headings:font-display prose-headings:uppercase prose-headings:text-text-primary
-              prose-h2:text-3xl prose-h2:mt-12 prose-h2:mb-6
-              prose-h3:text-xl prose-h3:mt-8
-              prose-p:text-text-secondary prose-p:leading-relaxed prose-p:text-lg prose-p:mb-6
+              prose-h2:text-3xl prose-h2:mt-16 prose-h2:mb-8 prose-h2:pt-16 prose-h2:border-t prose-h2:border-border-slate/30
+              prose-h3:text-xl prose-h3:mt-10
+              prose-p:text-text-secondary prose-p:leading-relaxed prose-p:text-lg prose-p:mb-8
               prose-strong:text-text-primary prose-strong:font-bold
-              prose-blockquote:border-l-4 prose-blockquote:border-accent prose-blockquote:bg-background-elevated/30 prose-blockquote:p-6 prose-blockquote:italic
-              prose-ul:list-disc prose-ul:pl-6 prose-ul:mb-8
-              prose-li:text-text-secondary prose-li:mb-2
+              prose-blockquote:border-l-4 prose-blockquote:border-accent prose-blockquote:bg-background-elevated/30 prose-blockquote:p-8 prose-blockquote:italic prose-blockquote:text-text-primary
+              prose-ul:list-disc prose-ul:pl-6 prose-ul:mb-10
+              prose-li:text-text-secondary prose-li:mb-4
               prose-a:text-accent prose-a:underline hover:prose-a:text-accent-hover"
           >
             <MDXRemote source={post.content} />
           </article>
 
-          {/* CTA Section */}
-          <div className="mt-24 p-12 bg-background-elevated border border-border-slate relative overflow-hidden group">
+          {/* Author Bio */}
+          <div className="mt-24 p-10 bg-background-surface border border-border-slate relative overflow-hidden">
+             <div className="absolute top-0 right-0 w-24 h-24 opacity-[0.03] pointer-events-none">
+                <svg className="w-full h-full" fill="currentColor" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+             </div>
+             <div className="flex flex-col md:flex-row items-center md:items-start gap-8 relative z-10">
+                <div className="w-24 h-24 bg-background-primary border border-border-slate flex items-center justify-center shrink-0">
+                  <span className="text-3xl font-display font-black text-accent/20">PC</span>
+                </div>
+                <div className="space-y-4 text-center md:text-left">
+                   <div>
+                      <h5 className="text-xl font-display font-bold uppercase text-text-primary">Pete Currey</h5>
+                      <p className="text-[10px] font-mono uppercase tracking-widest text-accent">Founder of Drawdown // 15+ Years Trading</p>
+                   </div>
+                   <p className="text-sm text-text-secondary leading-relaxed">
+                      Professional trader and algorithmic systems architect. Pete built Drawdown to strip away the marketing fluff of the retail industry and focus on the cold reality of institutional risk management.
+                   </p>
+                   <Link href="/about" className="inline-flex items-center gap-2 text-[10px] font-mono uppercase tracking-widest text-text-tertiary hover:text-accent transition-colors">
+                      Read Pete's Full Story <ArrowRight className="w-3 h-3" />
+                   </Link>
+                </div>
+             </div>
+          </div>
+
+          {/* Related Posts */}
+          {relatedPosts.length > 0 && (
+            <div className="mt-32 space-y-12">
+               <h4 className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary border-b border-border-slate pb-4">// Related Insights</h4>
+               <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                  {relatedPosts.map(p => (
+                    <Link key={p.slug} href={`/blog/${p.slug}`} className="group space-y-4">
+                       <span className="text-[8px] font-mono uppercase tracking-widest text-accent">{p.category}</span>
+                       <h5 className="text-lg font-display font-bold uppercase leading-tight group-hover:text-accent transition-colors">{p.title}</h5>
+                       <p className="text-xs text-text-tertiary line-clamp-2">{p.excerpt}</p>
+                    </Link>
+                  ))}
+               </div>
+            </div>
+          )}
+
+          {/* Final CTA */}
+          <div className="mt-32 p-12 bg-background-elevated border border-border-slate relative overflow-hidden group">
             <div className="absolute top-0 left-0 w-1 h-full bg-accent" />
             <div className="relative z-10 flex flex-col md:flex-row justify-between items-center gap-8">
               <div className="space-y-4">
-                <h4 className="text-2xl font-display font-bold uppercase text-text-primary">Ready to trade properly?</h4>
+                <h4 className="text-3xl font-display font-bold uppercase text-text-primary leading-none">Stop Gambling. <br /> Start Trading.</h4>
                 <p className="text-text-secondary text-sm max-w-md">
-                  Start learning with Drawdown and master the business of risk.
+                  Join 10,000+ traders mastering the business of risk with our institutional-grade tools and education.
                 </p>
               </div>
               <Link 
                 href="/signup" 
-                className="px-10 py-4 bg-accent text-background-primary font-bold uppercase tracking-widest text-[10px] hover:bg-accent-hover transition-colors whitespace-nowrap"
+                className="px-10 py-5 bg-accent text-background-primary font-bold uppercase tracking-widest text-[10px] hover:bg-accent-hover transition-all shadow-xl shadow-accent/20 whitespace-nowrap"
               >
-                Join Drawdown Free
+                Create Free Account
               </Link>
             </div>
-          </div>
-
-          <div className="mt-12 p-8 border border-border-slate flex items-start gap-6">
-             <div className="w-16 h-16 bg-background-elevated border border-border-slate flex items-center justify-center shrink-0">
-               <span className="text-xl font-display font-black text-accent/20">{post.author.charAt(0)}</span>
-             </div>
-             <div className="space-y-2">
-               <h5 className="text-sm font-display font-bold uppercase text-text-primary">{post.author}</h5>
-               <p className="text-xs text-text-tertiary leading-relaxed">
-                 Professional trader and founder of Drawdown. Focusing on technical analysis, market geometry, and the psychology of discipline.
-               </p>
-             </div>
           </div>
         </div>
       </div>

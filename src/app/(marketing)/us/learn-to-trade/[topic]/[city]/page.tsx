@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { LEARN_TOPICS } from "@/lib/data/learn-to-trade";
-import { US_CITIES, US_TOPICS, CITY_CONTEXTS } from "@/data/seo/us-data";
+import { US_CITIES, US_TOPICS, CITY_CONTEXT_US } from "@/data/seo/us-data";
 import { ArrowRight, BookOpen, ChevronRight, GraduationCap, MapPin, ShieldCheck, Zap, AlertTriangle } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { TrackPageView } from "@/components/admin/TrackPageView";
@@ -44,7 +44,7 @@ export default function UnitedStatesLocationTopicPage({ params }: Props) {
   const { topic: topicSlug, city: citySlug } = params;
   const topic = LEARN_TOPICS.find((t) => t.slug === topicSlug);
   const cityName = citySlug.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
-  const cityContext = CITY_CONTEXTS[citySlug];
+  const cityContext = CITY_CONTEXT_US[citySlug];
 
   if (!topic || !US_CITIES.includes(citySlug)) notFound();
 

@@ -114,14 +114,14 @@ export default async function HowToPage({ params }: Props) {
           <div className="space-y-4 text-center md:text-left">
             <h3 className="text-xs font-mono uppercase tracking-[0.3em] text-accent">The Drawdown Way</h3>
             <p className="text-text-primary font-medium max-w-lg leading-relaxed">
-              {page.drawdownApproach.text}
+              {page.drawdownApproach.text || page.drawdownApproach.content}
             </p>
           </div>
           <Link 
-            href={page.drawdownApproach.link}
+            href={page.drawdownApproach.link || page.drawdownApproach.ctaLink || "#"}
             className="whitespace-nowrap px-8 py-4 bg-text-primary text-background-primary text-[10px] font-bold uppercase tracking-widest hover:bg-accent hover:text-background-primary transition-all"
           >
-            {page.drawdownApproach.linkText}
+            {page.drawdownApproach.linkText || page.drawdownApproach.ctaText || "Learn More"}
           </Link>
         </section>
 

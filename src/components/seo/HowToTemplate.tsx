@@ -86,16 +86,18 @@ export function HowToTemplate({ page, region = 'uk' }: { page: HowToPage; region
             <div className="mt-20 p-12 bg-background-surface border border-border-slate space-y-8">
                <div className="flex items-center gap-4">
                   <Target className="w-8 h-8 text-accent" />
-                  <h3 className="text-2xl font-display font-black uppercase m-0">{page.drawdownApproach.title}</h3>
+                  <h3 className="text-2xl font-display font-black uppercase m-0">
+                    {page.drawdownApproach.title || "The Drawdown Approach"}
+                  </h3>
                </div>
                <p className="text-lg text-text-secondary leading-relaxed">
-                 {page.drawdownApproach.content}
+                 {page.drawdownApproach.content || page.drawdownApproach.text}
                </p>
                <Link 
-                  href={page.drawdownApproach.ctaLink}
+                  href={page.drawdownApproach.ctaLink || page.drawdownApproach.link || "#"}
                   className="inline-flex items-center gap-4 bg-accent text-[#08090D] px-10 py-5 font-display font-black uppercase tracking-[0.2em] text-sm hover:translate-y-[-2px] transition-all"
                >
-                 {page.drawdownApproach.ctaText} <ArrowRight className="w-4 h-4" />
+                 {page.drawdownApproach.ctaText || page.drawdownApproach.linkText || "Learn More"} <ArrowRight className="w-4 h-4" />
                </Link>
             </div>
           </article>

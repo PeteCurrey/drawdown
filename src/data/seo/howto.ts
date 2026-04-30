@@ -13,9 +13,13 @@ export interface HowToPage {
   steps: HowToStep[];
   commonMistakes: string[];
   drawdownApproach: {
-    text: string;
-    link: string;
-    linkText: string;
+    title?: string;
+    content?: string;
+    ctaText?: string;
+    ctaLink?: string;
+    text?: string;
+    link?: string;
+    linkText?: string;
   };
   faqs: {
     question: string;

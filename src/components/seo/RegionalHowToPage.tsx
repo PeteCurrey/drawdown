@@ -6,7 +6,7 @@ import { TrackPageView } from "@/components/admin/TrackPageView";
 import { RegionalProvider } from "@/components/layout/RegionalLayout";
 import { getMetadata } from "@/lib/metadata";
 
-import { Region, REGIONS } from "@/lib/seo/hreflang";
+import { Region, REGIONS, REGIONS_MAP } from "@/lib/seo/hreflang";
 
 interface RegionalHowToPageProps {
   region: Region;
@@ -19,7 +19,7 @@ export function RegionalHowToPage({ region, slug, data }: RegionalHowToPageProps
 
   if (!page) notFound();
 
-  const regionName = REGIONS[region].label;
+  const regionName = REGIONS_MAP[region].label;
 
   return (
     <RegionalProvider region={region}>

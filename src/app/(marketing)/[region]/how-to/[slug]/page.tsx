@@ -25,7 +25,7 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { region, slug } = await params;
-  if (!REGIONS[region as Region]) return {};
+  if (!REGIONS.includes(region as Region)) return {};
 
   const data = getRegionalHowToData(region as Region);
   const page = data.find((p) => p.slug === slug);
@@ -44,7 +44,7 @@ export default async function DynamicRegionalHowToPage({ params }: Props) {
   const { region: regionParam, slug } = await params;
   const region = regionParam as Region;
 
-  if (!REGIONS[region]) notFound();
+  if (!REGIONS.includes(region)) notFound();
 
   const data = getRegionalHowToData(region);
   

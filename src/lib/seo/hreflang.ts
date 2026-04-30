@@ -3,18 +3,27 @@ import { siteConfig } from "@/lib/metadata";
 export type Region = 'uk' | 'au' | 'us' | 'sg' | 'hk' | 'ca' | 'de' | 'ae' | 'in' | 'my' | 'ph';
 export const REGIONS: Region[] = ['uk', 'au', 'us', 'sg', 'hk', 'ca', 'de', 'ae', 'in', 'my', 'ph'];
 
-const REGION_CONFIG: Record<Region, { hreflang: string; locale: string }> = {
-  uk: { hreflang: 'en-GB', locale: 'en_GB' },
-  au: { hreflang: 'en-AU', locale: 'en_AU' },
-  us: { hreflang: 'en-US', locale: 'en_US' },
-  sg: { hreflang: 'en-SG', locale: 'en_SG' },
-  hk: { hreflang: 'en-HK', locale: 'en_HK' },
-  ca: { hreflang: 'en-CA', locale: 'en_CA' },
-  de: { hreflang: 'de-DE', locale: 'de_DE' },
-  ae: { hreflang: 'en-AE', locale: 'en_AE' },
-  in: { hreflang: 'en-IN', locale: 'en_IN' },
-  my: { hreflang: 'en-MY', locale: 'en_MY' },
-  ph: { hreflang: 'en-PH', locale: 'en_PH' },
+export interface RegionData {
+  hreflang: string;
+  locale: string;
+  label: string;
+  currency: string;
+  demonym: string;
+  flag: string;
+}
+
+export const REGIONS_MAP: Record<Region, RegionData> = {
+  uk: { hreflang: 'en-GB', locale: 'en_GB', label: 'United Kingdom', currency: 'GBP', demonym: 'British', flag: '🇬🇧' },
+  au: { hreflang: 'en-AU', locale: 'en_AU', label: 'Australia', currency: 'AUD', demonym: 'Australian', flag: '🇦🇺' },
+  us: { hreflang: 'en-US', locale: 'en_US', label: 'United States', currency: 'USD', demonym: 'American', flag: '🇺🇸' },
+  sg: { hreflang: 'en-SG', locale: 'en_SG', label: 'Singapore', currency: 'SGD', demonym: 'Singaporean', flag: '🇸🇬' },
+  hk: { hreflang: 'en-HK', locale: 'en_HK', label: 'Hong Kong', currency: 'HKD', demonym: 'Hong Konger', flag: '🇭🇰' },
+  ca: { hreflang: 'en-CA', locale: 'en_CA', label: 'Canada', currency: 'CAD', demonym: 'Canadian', flag: '🇨🇦' },
+  de: { hreflang: 'de-DE', locale: 'de_DE', label: 'Germany', currency: 'EUR', demonym: 'German', flag: '🇩🇪' },
+  ae: { hreflang: 'en-AE', locale: 'en_AE', label: 'United Arab Emirates', currency: 'AED', demonym: 'Emirati', flag: '🇦🇪' },
+  in: { hreflang: 'en-IN', locale: 'en_IN', label: 'India', currency: 'INR', demonym: 'Indian', flag: '🇮🇳' },
+  my: { hreflang: 'en-MY', locale: 'en_MY', label: 'Malaysia', currency: 'MYR', demonym: 'Malaysian', flag: '🇲🇾' },
+  ph: { hreflang: 'en-PH', locale: 'en_PH', label: 'Philippines', currency: 'PHP', demonym: 'Filipino', flag: '🇵🇭' },
 };
 
 export function getHreflangTags(path: string) {
@@ -29,9 +38,7 @@ export function getHreflangTags(path: string) {
   const activeExact = exacts.find(e => path === e);
 
   if (activePrefix) {
-    basePath = path.substring(3); // This only works for 2-char regions.
-    // Wait, all our regions are 2 chars except 'uk' which we don't prefix here.
-    // Actually, 'uk' is the root.
+    basePath = path.substring(3);
   } else if (activeExact) {
     basePath = '/';
   }
@@ -39,7 +46,7 @@ export function getHreflangTags(path: string) {
   // Ensure leading slash
   if (!basePath.startsWith('/')) basePath = '/' + basePath;
 
-  const tags = Object.entries(REGION_CONFIG).map(([region, config]) => {
+  const tags = Object.entries(REGIONS_MAP).map(([region, config]) => {
     const regionalPath = region === 'uk' ? basePath : `/${region}${basePath === '/' ? '' : basePath}`;
     return {
       rel: 'alternate',

@@ -8,7 +8,7 @@ import { STRIPE_CONFIG } from "@/config/stripe";
 import { TrackPageView } from "@/components/admin/TrackPageView";
 import { REGIONAL_PRICING, PricingTier } from "@/data/pricing";
 import { useParams } from "next/navigation";
-import { Region, REGIONS } from "@/lib/seo/hreflang";
+import { Region, REGIONS, REGIONS_MAP } from "@/lib/seo/hreflang";
 
 function PricingContent() {
   const { region, currencySymbol, label } = useRegion();
@@ -53,7 +53,7 @@ function PricingContent() {
       <div className="container mx-auto px-6">
         <div className="text-center mb-20">
           <span className="text-accent font-mono tracking-widest uppercase text-sm mb-4 block">
-            {label.toUpperCase()} PRICING // {REGIONS[region].currency}
+            {label.toUpperCase()} PRICING // {REGIONS_MAP[region].currency}
           </span>
           <h1 className="  font-display font-bold uppercase mb-8">
             Choose Your <span className="text-accent">Truth.</span>
@@ -156,7 +156,7 @@ function PricingContent() {
         <div className="mt-24 p-8 bg-background-elevated border border-border-slate max-w-4xl mx-auto">
           <h4 className="text-xs font-mono uppercase tracking-widest text-text-secondary mb-4">{label} Regulatory Notice</h4>
           <p className="text-[10px] text-text-tertiary leading-relaxed font-mono">
-            Subscription tiers represent access levels to educational content and proprietary analysis tools. Drawdown does not provide investment advice or financial services as defined by local laws. All prices in {REGIONS[region].currency}.
+            Subscription tiers represent access levels to educational content and proprietary analysis tools. Drawdown does not provide investment advice or financial services as defined by local laws. All prices in {REGIONS_MAP[region].currency}.
           </p>
         </div>
       </div>

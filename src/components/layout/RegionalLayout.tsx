@@ -1,7 +1,7 @@
 "use client";
 
 import React, { createContext, useContext } from "react";
-import { Region, REGIONS } from "@/lib/seo/hreflang";
+import { Region, REGIONS, REGIONS_MAP } from "@/lib/seo/hreflang";
 
 interface RegionalContextType {
   region: Region;
@@ -89,7 +89,7 @@ const REGIONAL_METADATA: Record<Region, Partial<RegionalContextType>> = {
 
 export function RegionalProvider({ region, children }: RegionalProviderProps) {
   const metadata = REGIONAL_METADATA[region];
-  const regionInfo = REGIONS[region];
+  const regionInfo = REGIONS_MAP[region];
   
   const value: RegionalContextType = {
     region,

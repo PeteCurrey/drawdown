@@ -12,7 +12,7 @@ import { BrokerHubPreview } from "@/components/home/BrokerHubPreview";
 import { TradingViewSection } from "@/components/home/TradingViewSection";
 import { RegionalProvider } from "@/components/layout/RegionalLayout";
 import { TrackPageView } from "@/components/admin/TrackPageView";
-import { Region, REGIONS } from "@/lib/seo/hreflang";
+import { Region, REGIONS, REGIONS_MAP } from "@/lib/seo/hreflang";
 import { notFound } from "next/navigation";
 
 interface Props {
@@ -28,9 +28,11 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { region } = await params;
-  if (!REGIONS[region as Region]) return {};
+  const regionKey = region as Region;
+  if (!REGIONS.includes(regionKey)) return {};
 
-  const regionName = REGIONS[region as Region].label;
+  const regionData = REGIONS_MAP[regionKey];
+  const regionName = regionData.label;
   
   return getMetadata({
     title: `Drawdown ${regionName} — Trade the Truth`,
@@ -44,11 +46,11 @@ export default async function RegionalHome({ params }: Props) {
   const { region: regionParam } = await params;
   const region = regionParam as Region;
 
-  if (!REGIONS[region]) {
+  if (!REGIONS.includes(region)) {
     notFound();
   }
 
-  const regionName = REGIONS[region].label;
+  const regionName = REGIONS_MAP[region].label;
 
   return (
     <RegionalProvider region={region}>

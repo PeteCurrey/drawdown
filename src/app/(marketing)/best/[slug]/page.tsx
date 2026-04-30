@@ -40,7 +40,7 @@ export default async function BestOfPage({ params }: Props) {
   if (!page) notFound();
 
   // Map the SEO reviews to full broker objects for the template
-  const detailedBrokers = page.reviews.map(review => {
+  const detailedBrokers = (page.reviews || []).map(review => {
     const baseBroker = brokers.find(b => b.id === review.id);
     if (!baseBroker) return null;
     
@@ -65,8 +65,8 @@ export default async function BestOfPage({ params }: Props) {
         topPickId={page.topPickId || ""}
         top3Ids={page.top3Ids || []}
         brokers={detailedBrokers}
-        methodology={page.methodology}
-        faqs={page.faqs}
+        methodology={page.methodology || "Our methodology focuses on three core pillars: Execution (slippage and speed), Costs (spreads and overnight fees), and Trust (FCA regulation and capital safety)."}
+        faqs={page.faqs || []}
         relatedPages={page.relatedPages || []}
         slug={page.slug}
       />

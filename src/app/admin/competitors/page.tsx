@@ -13,7 +13,8 @@ import {
   ExternalLink, 
   Loader2,
   RefreshCw,
-  MoreVertical
+  MoreVertical,
+  ChevronRight
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { createClient } from '@/lib/supabase/client';

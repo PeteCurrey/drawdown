@@ -94,28 +94,34 @@ export function CompareTemplate({ page, region = 'uk' }: { page: ComparisonPage;
                 </div>
               ))}
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mt-20">
-                 <div className="p-10 bg-background-surface border border-border-slate">
-                    <h3 className="text-xl font-display font-bold uppercase mb-6">Choose Broker A If...</h3>
-                    <ul className="space-y-4 list-none p-0">
-                       {page.whoShouldChooseA.map((item, i) => (
-                          <li key={i} className="text-sm text-text-secondary leading-relaxed flex gap-3">
-                             <span className="text-accent">»</span> {item}
-                          </li>
-                       ))}
-                    </ul>
-                 </div>
-                 <div className="p-10 bg-background-surface border border-border-slate">
-                    <h3 className="text-xl font-display font-bold uppercase mb-6">Choose Broker B If...</h3>
-                    <ul className="space-y-4 list-none p-0">
-                       {page.whoShouldChooseB.map((item, i) => (
-                          <li key={i} className="text-sm text-text-secondary leading-relaxed flex gap-3">
-                             <span className="text-accent">»</span> {item}
-                          </li>
-                       ))}
-                    </ul>
-                 </div>
-              </div>
+              {(page.whoShouldChooseA || page.whoShouldChooseB) && (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mt-20">
+                  {page.whoShouldChooseA && (
+                    <div className="p-10 bg-background-surface border border-border-slate">
+                        <h3 className="text-xl font-display font-bold uppercase mb-6">Choose Broker A If...</h3>
+                        <ul className="space-y-4 list-none p-0">
+                          {page.whoShouldChooseA.map((item, i) => (
+                              <li key={i} className="text-sm text-text-secondary leading-relaxed flex gap-3">
+                                <span className="text-accent">»</span> {item}
+                              </li>
+                          ))}
+                        </ul>
+                    </div>
+                  )}
+                  {page.whoShouldChooseB && (
+                    <div className="p-10 bg-background-surface border border-border-slate">
+                        <h3 className="text-xl font-display font-bold uppercase mb-6">Choose Broker B If...</h3>
+                        <ul className="space-y-4 list-none p-0">
+                          {page.whoShouldChooseB.map((item, i) => (
+                              <li key={i} className="text-sm text-text-secondary leading-relaxed flex gap-3">
+                                <span className="text-accent">»</span> {item}
+                              </li>
+                          ))}
+                        </ul>
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
           </div>
 

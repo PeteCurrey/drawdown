@@ -16,8 +16,8 @@ export interface ComparisonPage {
   };
   comparisonTable: any[];
   sections: ComparisonSection[];
-  whoShouldChooseA: string[];
-  whoShouldChooseB: string[];
+  whoShouldChooseA?: string[];
+  whoShouldChooseB?: string[];
   faqs?: {
     question: string;
     answer: string;

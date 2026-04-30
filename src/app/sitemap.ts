@@ -53,21 +53,21 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const blogs = getAllPosts().map((post) => ({ url: `${baseUrl}/blog/${post.slug}`, lastModified: new Date(), changeFrequency: "monthly" as const, priority: 0.7 }));
 
   // Location programmatic routes
-  const ukLocationRoutes = [];
+  const ukLocationRoutes: MetadataRoute.Sitemap = [];
   LEARN_TOPICS.forEach(topic => {
     UK_LOCATIONS.forEach(loc => {
       ukLocationRoutes.push({ url: `${baseUrl}/learn-to-trade/${topic.slug}/${loc.slug}`, lastModified: new Date(), changeFrequency: "monthly" as const, priority: 0.5 });
     });
   });
 
-  const auLocationRoutes = [];
+  const auLocationRoutes: MetadataRoute.Sitemap = [];
   AU_TOPICS.forEach(topicSlug => {
     AU_CITIES.forEach(citySlug => {
       auLocationRoutes.push({ url: `${baseUrl}/au/learn-to-trade/${topicSlug}/${citySlug}`, lastModified: new Date(), changeFrequency: "monthly" as const, priority: 0.5 });
     });
   });
 
-  const usLocationRoutes = [];
+  const usLocationRoutes: MetadataRoute.Sitemap = [];
   US_TOPICS.forEach(topicSlug => {
     US_CITIES.forEach(citySlug => {
       usLocationRoutes.push({ url: `${baseUrl}/us/learn-to-trade/${topicSlug}/${citySlug}`, lastModified: new Date(), changeFrequency: "monthly" as const, priority: 0.5 });

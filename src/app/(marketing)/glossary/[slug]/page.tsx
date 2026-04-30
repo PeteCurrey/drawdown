@@ -1,9 +1,18 @@
 import { notFound } from "next/navigation";
 import { GLOSSARY_TERMS } from "@/data/seo/glossary";
+import { RichBlock } from "@/lib/data/learn-to-trade";
 import { Metadata } from "next";
 import Link from "next/link";
 import { ChevronRight, ArrowRight, BookOpen, Calculator, Play } from "lucide-react";
 import { TrackPageView } from "@/components/admin/TrackPageView";
+import {
+  StatCallout,
+  TradeExample,
+  ProTip,
+  RiskWarning,
+  BrokerCard,
+  ToolCard,
+} from "@/components/content";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -28,6 +37,57 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       canonical: `https://drawdown.trading/glossary/${slug}`,
     },
   };
+}
+
+function RichBlockRenderer({ block }: { block: RichBlock }) {
+  switch (block.type) {
+    case 'statCallout':
+      return <StatCallout stat={block.stat} context={block.context} source={block.source} />;
+    case 'tradeExample':
+      return (
+        <TradeExample
+          title={block.title}
+          instrument={block.instrument}
+          session={block.session}
+          entry={block.entry}
+          stopLoss={block.stopLoss}
+          takeProfit={block.takeProfit}
+          riskReward={block.riskReward}
+          accountSize={block.accountSize}
+          riskPercent={block.riskPercent}
+          positionSize={block.positionSize}
+          result={block.result}
+          isProfit={block.isProfit}
+        />
+      );
+    case 'proTip':
+      return <ProTip tip={block.tip} />;
+    case 'riskWarning':
+      return <RiskWarning message={block.message} />;
+    case 'brokerCard':
+      return (
+        <BrokerCard
+          brokerSlug={block.brokerSlug}
+          brokerName={block.brokerName}
+          bestFor={block.bestFor}
+          regulation={block.regulation}
+          affiliateSlug={block.affiliateSlug}
+          stat={block.stat}
+        />
+      );
+    case 'toolCard':
+      return (
+        <ToolCard
+          toolSlug={block.toolSlug}
+          toolName={block.toolName}
+          description={block.description}
+          features={block.features}
+          tier={block.tier}
+        />
+      );
+    default:
+      return null;
+  }
 }
 
 export default async function GlossaryTermPage({ params }: Props) {
@@ -72,10 +132,19 @@ export default async function GlossaryTermPage({ params }: Props) {
         {/* Detailed Explanation */}
         <div className="prose prose-invert prose-slate max-w-none mb-16">
           <h2 className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary mb-6">In-Depth Explanation</h2>
-          <div className="text-text-secondary text-lg leading-relaxed space-y-6">
+          <div className="text-text-secondary text-lg leading-relaxed space-y-6 whitespace-pre-wrap">
             {glossaryTerm.detailedExplanation}
           </div>
         </div>
+
+        {/* Rich Blocks */}
+        {glossaryTerm.richBlocks && glossaryTerm.richBlocks.length > 0 && (
+          <div className="space-y-8 mb-16">
+            {glossaryTerm.richBlocks.map((block, index) => (
+              <RichBlockRenderer key={index} block={block} />
+            ))}
+          </div>
+        )}
 
         {/* Practical Example */}
         <section className="mb-16 bg-background-surface border border-border-slate p-8">

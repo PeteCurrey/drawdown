@@ -102,7 +102,7 @@ export function BestBrokerTemplate({
                     <td className="p-6 text-text-secondary font-mono text-[10px]">{broker.oneLine}</td>
                     <td className="p-6 text-right">
                       <a 
-                        href={`/api/market/brokers/redirect?id=${broker.id}&source=${slug}`}
+                        href={`/go/${broker.slug}`}
                         className="inline-flex items-center gap-2 bg-accent text-background-primary px-4 py-2 text-[10px] font-black uppercase tracking-widest hover:bg-accent-hover transition-colors"
                       >
                         Open Account <ExternalLink className="w-3 h-3" />
@@ -207,7 +207,7 @@ export function BestBrokerTemplate({
 
                   <div className="flex flex-col sm:flex-row gap-4 pt-4">
                     <a 
-                      href={`/api/market/brokers/redirect?id=${broker.id}&source=${slug}`}
+                      href={`/go/${broker.slug}`}
                       className="flex-1 py-4 bg-accent text-background-primary text-center text-[10px] font-black uppercase tracking-widest hover:bg-accent-hover transition-colors flex items-center justify-center gap-2"
                     >
                       Open Account <ExternalLink className="w-3 h-3" />

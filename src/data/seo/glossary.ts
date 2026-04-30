@@ -1,9 +1,12 @@
+import { RichBlock, ProTipBlock, StatCalloutBlock, RiskWarningBlock, ToolCardBlock, BrokerCardBlock, TradeExampleBlock } from "@/lib/data/learn-to-trade";
+
 export interface GlossaryTerm {
   term: string;
   slug: string;
   definition: string;
   detailedExplanation: string;
   example: string;
+  richBlocks?: RichBlock[];
   relatedTerms: string[];
   relatedCoursePhase?: string;
   relatedTool?: string;
@@ -17,9 +20,21 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
   {
     term: 'Pip',
     slug: 'pip',
-    definition: 'A "pip" (percentage in point) is the smallest price move that a given exchange rate makes based on market convention.',
-    detailedExplanation: 'For most currency pairs, such as the EUR/USD, it is the fourth decimal place. For example, a move from 1.0800 to 1.0801 is one pip. For JPY pairs, a pip is the second decimal place (e.g., 145.01 to 145.02). Understanding pips is fundamental to calculating your profit, loss, and risk per trade.',
-    example: 'If you buy GBP/USD at 1.2500 and the price rises to 1.2550, the price has moved up by 50 pips.',
+    definition: 'A "pip" (percentage in point) is the foundational unit of measurement in forex trading, representing the smallest standard price move in an exchange rate.',
+    detailedExplanation: 'If you cannot calculate pip value instantly, you have no business trading live capital. \n\nFor most currency pairs (like GBP/USD or EUR/USD), a pip is the fourth decimal place. A move from 1.2500 to 1.2501 is exactly one pip. For pairs containing the Japanese Yen (JPY), the pip is the second decimal place (e.g., a move from 150.00 to 150.01). \n\nUnderstanding pips is the absolute bedrock of risk management. Without knowing exactly how much a 10-pip stop loss will cost you in cold, hard cash, you are not trading—you are gambling blindly.',
+    example: 'If you go long on GBP/USD at 1.2600 and your take profit is hit at 1.2650, you have captured 50 pips of profit. If you risked £10 per pip, that is a £500 gain.',
+    richBlocks: [
+      {
+        type: 'proTip',
+        tip: 'Modern brokers use 5-digit pricing (or 3-digit for JPY). The final digit is a "pipette" (a tenth of a pip). Do not confuse pipettes with pips when setting your stop loss in MT4/MT5, or your stop will be 10x tighter than intended.'
+      } as ProTipBlock,
+      {
+        type: 'statCallout',
+        stat: '10 Pipettes = 1 Pip',
+        context: 'If EUR/USD moves from 1.08000 to 1.08005, it has moved 5 pipettes (0.5 pips).',
+        source: 'Pricing Mechanics'
+      } as StatCalloutBlock
+    ],
     relatedTerms: ['Spread', 'Lot Size', 'Leverage'],
     relatedCoursePhase: 'Phase 1: Foundations',
     relatedTool: 'Risk Calculator',
@@ -33,9 +48,19 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
   {
     term: 'Spread',
     slug: 'spread',
-    definition: 'The spread is the difference between the buy (bid) price and the sell (ask) price of a financial instrument.',
-    detailedExplanation: 'The spread is essentially the cost of the trade. Brokers often do not charge a separate commission on spread betting accounts, instead making their money through the spread. A "tight" spread means there is a small difference between the prices, which is better for the trader.',
-    example: 'If the bid price for FTSE 100 is 7600 and the ask price is 7601, the spread is 1 point.',
+    definition: 'The spread is the difference between the bid (sell) price and the ask (buy) price. It is the immediate cost of executing a trade.',
+    detailedExplanation: 'The spread is the broker’s primary source of revenue. When you open a trade, you are immediately down by the cost of the spread. If the EUR/USD bid price is 1.0800 and the ask price is 1.0801, the spread is 1 pip. \n\nSpreads are variable. During high-impact news events (like NFP or CPI), brokers pull their liquidity, causing spreads to "widen" massively. A spread that is normally 1 pip can instantly widen to 20 pips. This is why trading directly through news announcements is notoriously dangerous and often leads to catastrophic slippage on your stop loss.',
+    example: 'You buy the FTSE 100 at 7601 (ask) while the sell price is 7600 (bid). You are instantly down 1 point. The market must move up 1 point just for you to break even.',
+    richBlocks: [
+      {
+        type: 'riskWarning',
+        message: 'Beware of "Zero Spread" accounts. Brokers will often advertise 0.0 pip spreads, but they compensate by charging a massive flat commission per lot traded. Always calculate the total cost of the trade (Spread + Commission).'
+      } as RiskWarningBlock,
+      {
+        type: 'proTip',
+        tip: 'Never hold a short-term day trade over the weekend. Spreads frequently widen to ridiculous levels when the market re-opens on Sunday night, easily triggering stop losses before the price stabilizes.'
+      } as ProTipBlock
+    ],
     relatedTerms: ['Pip', 'Liquidity', 'Slippage'],
     relatedCoursePhase: 'Phase 1: Foundations',
     faqs: [
@@ -48,9 +73,25 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
   {
     term: 'Lot Size',
     slug: 'lot-size',
-    definition: 'The standardized quantity of a financial instrument used in trading.',
-    detailedExplanation: 'In Forex, a standard lot is 100,000 units of the base currency. A mini lot is 10,000 (0.1), and a micro lot is 1,000 (0.01). Your lot size determines how much each pip movement is worth in your currency.',
-    example: 'On a standard lot of EUR/USD, 1 pip is worth $10. On a micro lot, 1 pip is worth $0.10.',
+    definition: 'A lot is the standardized unit used to measure the volume of a trade. It dictates exactly how much money each pip of movement is worth.',
+    detailedExplanation: 'You do not buy "100 pounds" of a currency. You buy lots. \n\nIn Forex, a Standard Lot is 100,000 units of the base currency. A Mini Lot (0.1) is 10,000 units, and a Micro Lot (0.01) is 1,000 units. \n\nIf your account size is £1,000 and you open a 1.0 Standard Lot, you are massively over-leveraged. For a Standard Lot on EUR/USD, every pip movement is worth roughly $10. A standard 20-pip stop loss would cost you $200 (20% of your account). Position sizing based on lot size is the only mathematical way to ensure you never risk more than 1% of your account per trade.',
+    example: 'You want to risk £50 on a trade with a 20-pip stop loss. You calculate that each pip must be worth £2.50. You adjust your lot size accordingly (roughly 0.25 lots) before entering the trade.',
+    richBlocks: [
+      {
+        type: 'statCallout',
+        stat: '1.0 Lot = 100,000 Units',
+        context: 'For most major USD-quote pairs, trading 1 Standard Lot means 1 pip of movement equals exactly $10.',
+        source: 'Volume Metrics'
+      } as StatCalloutBlock,
+      {
+        type: 'toolCard',
+        toolSlug: 'position-size-calculator',
+        toolName: 'Position Size Calculator',
+        description: 'Never guess your lot size. Use our calculator to instantly determine the exact lot size needed to maintain a strict 1% risk rule.',
+        features: ['Exact Lot Sizing', 'Account Currency Conversion', 'Risk % Input'],
+        tier: 'Free Tool'
+      } as ToolCardBlock
+    ],
     relatedTerms: ['Pip', 'Margin', 'Leverage'],
     relatedTool: 'Risk Calculator',
     faqs: []
@@ -58,18 +99,36 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
   {
     term: 'Leverage',
     slug: 'leverage',
-    definition: 'The use of borrowed capital to increase the potential return (and risk) of an investment.',
-    detailedExplanation: 'Leverage allows you to control a large position with a small amount of capital (margin). In the UK, retail leverage is capped at 30:1 for major forex pairs by the FCA.',
-    example: 'With 30:1 leverage, you can control £30,000 worth of currency with a £1,000 deposit.',
+    definition: 'Leverage is borrowed capital provided by your broker, allowing you to control a massive position with a relatively small account balance.',
+    detailedExplanation: 'Leverage is a double-edged sword. It amplifies your profits, but it mathematically amplifies your losses at the exact same rate. \n\nIn the UK, the FCA restricts retail leverage to a maximum of 30:1 on major forex pairs to protect beginners from blowing their accounts in minutes. This means with £1,000 in your account, you can control a position worth £30,000. \n\nHowever, using maximum leverage is a sign of an amateur. Professional traders rarely utilize more than 5:1 true leverage, as high leverage dramatically reduces the distance the market needs to move against you to trigger a margin call.',
+    example: 'With 30:1 leverage, a 3.33% drop in the asset\'s price will completely wipe out 100% of your account margin.',
+    richBlocks: [
+      {
+        type: 'riskWarning',
+        message: 'Offshore brokers offering 500:1 or 1000:1 leverage are a trap. At 500:1 leverage, a tiny 0.2% price fluctuation against your position will instantly liquidate your entire account.'
+      } as RiskWarningBlock,
+      {
+        type: 'statCallout',
+        stat: '30:1 Max Leverage',
+        context: 'The strict maximum leverage allowed for retail traders by the UK Financial Conduct Authority (FCA).',
+        source: 'FCA Regulations'
+      } as StatCalloutBlock
+    ],
     relatedTerms: ['Margin', 'Margin Call', 'Drawdown'],
     faqs: []
   },
   {
     term: 'Margin',
     slug: 'margin',
-    definition: 'The amount of money required in your account to open and maintain a leveraged position.',
-    detailedExplanation: 'Margin is not a fee; it is a portion of your account balance "locked" by the broker as collateral for your leveraged trade. If your account equity falls below the required margin, your positions may be liquidated.',
-    example: 'To open a £100,000 trade with 30:1 leverage, you need £3,333.33 in margin.',
+    definition: 'Margin is the portion of your account balance that the broker "locks away" as collateral to keep your leveraged position open.',
+    detailedExplanation: 'Margin is not a transaction fee. It is a security deposit. \n\nIf you want to open a £100,000 position using 30:1 leverage, you must have at least £3,333 in your account as Margin. The broker freezes this amount. The remaining cash in your account is your "Free Margin." \n\nIf a trade goes against you and your floating losses eat through your Free Margin, your broker will issue a "Margin Call" (or simply auto-liquidate the position). This is the broker stepping in to protect themselves from you going into negative balance. You must always maintain sufficient Free Margin to allow your trades room to breathe.',
+    example: 'Your account balance is £5,000. You open a trade that requires £1,000 in margin. You have £4,000 in Free Margin to absorb any temporary floating losses.',
+    richBlocks: [
+      {
+        type: 'proTip',
+        tip: 'Never risk your entire account on a single trade. A healthy risk management profile ensures that your required margin rarely exceeds 5-10% of your total account equity.'
+      } as ProTipBlock
+    ],
     relatedTerms: ['Leverage', 'Equity', 'Free Margin'],
     faqs: []
   },

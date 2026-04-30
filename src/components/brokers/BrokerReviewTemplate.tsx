@@ -83,7 +83,7 @@ export function BrokerReviewTemplate({
             </div>
             <div className="md:w-1/4 w-full">
               <a 
-                href={`/api/market/brokers/redirect?id=${broker.id}&source=review-${slug}`}
+                href={`/go/${broker.slug}`}
                 className="w-full py-5 bg-accent text-background-primary text-center text-[10px] font-black uppercase tracking-widest hover:bg-accent-hover transition-premium flex items-center justify-center gap-2"
               >
                 Open Account <ExternalLink className="w-4 h-4" />
@@ -252,7 +252,7 @@ export function BrokerReviewTemplate({
                 <p className="whitespace-pre-line text-lg font-medium">{content.verdict}</p>
               </div>
               <a 
-                href={`/api/market/brokers/redirect?id=${broker.id}&source=review-${slug}`}
+                href={`/go/${broker.slug}`}
                 className="inline-flex items-center gap-4 bg-accent text-background-primary px-16 py-6 text-sm font-black uppercase tracking-widest hover:bg-accent-hover transition-premium"
               >
                 Join {broker.name} Today <ExternalLink className="w-4 h-4" />
@@ -309,7 +309,7 @@ export function BrokerReviewTemplate({
                   Join {broker.name} via Drawdown and gain institutional-grade execution on global markets.
                 </p>
                 <a 
-                  href={`/api/market/brokers/redirect?id=${broker.id}&source=review-sidebar-${slug}`}
+                  href={`/go/${broker.slug}`}
                   className="w-full py-4 bg-accent text-background-primary text-center text-[10px] font-black uppercase tracking-widest hover:bg-accent-hover transition-premium flex items-center justify-center gap-2"
                 >
                   Visit Site <ExternalLink className="w-3 h-3" />

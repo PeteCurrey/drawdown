@@ -187,7 +187,7 @@ export function BrokerHubPreview() {
               </div>
 
               <a 
-                href={`/api/market/brokers/redirect?id=${broker.id}&source=home_preview`}
+                href={`/go/${broker.id}`}
                 className="w-full py-4 border border-accent hover:bg-accent hover:text-background-primary transition-premium text-center text-[10px] font-bold uppercase tracking-widest flex items-center justify-center gap-2"
               >
                 Open Account <ExternalLink className="w-3 h-3" />

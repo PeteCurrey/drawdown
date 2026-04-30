@@ -57,7 +57,7 @@ export function PropFirmCard({ firm, source = "prop_firm_card", isPetesPick }: P
 
       <div className="space-y-3">
         <a 
-          href={`/api/market/prop-firms/redirect?id=${firm.slug}&source=${source}`}
+          href={`/go/${firm.slug}`}
           className="w-full py-4 bg-accent text-background-primary hover:bg-accent-hover transition-premium text-center text-[10px] font-bold uppercase tracking-widest flex items-center justify-center gap-2"
         >
           Start Challenge <ExternalLink className="w-3 h-3" />

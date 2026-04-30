@@ -3,6 +3,7 @@ import Link from "next/link";
 import { BEST_OF_PAGES } from "@/data/seo/best";
 import { cn } from "@/lib/utils";
 import { TrackPageView } from "@/components/admin/TrackPageView";
+import { ChevronRight, Star, ArrowRight, ShieldCheck } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Best Trading Platforms & Tools 2026 | Drawdown",

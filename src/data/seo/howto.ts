@@ -7,7 +7,7 @@ export interface HowToPage {
   slug: string;
   title: string;
   eyebrow: string;
-  readingTime: string;
+  readingTime: string | number;
   metaDescription: string;
   introduction: string;
   steps: HowToStep[];

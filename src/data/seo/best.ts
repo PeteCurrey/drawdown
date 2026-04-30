@@ -1,4 +1,4 @@
-﻿export interface ComparisonItem {
+export interface ComparisonItem {
   rank: number;
   name: string;
   bestFor: string;
@@ -11,26 +11,42 @@ export interface BestOfPage {
   slug: string;
   title: string;
   eyebrow: string;
-  lastUpdated: string;
-  targetKeywords: string[];
+  lastUpdated?: string;
+  readingTime?: number;
+  targetKeywords?: string[];
   metaDescription: string;
-  comparisonTable: ComparisonItem[];
+  comparisonTable: any[];
   introduction: string;
   whoIsNotFor?: string;
   topPickId?: string;
   top3Ids?: string[];
-  reviews: {
+  bestOverall?: {
     name: string;
-    id: string; // Added to match with data/brokers.ts
+    reason: string;
+    link: string;
+  };
+  reviews?: {
+    name: string;
+    id: string;
     description: string;
     pros: string[];
     cons: string[];
     bestFor: string;
     ctaLink: string;
-    verdict?: string; // Pete's honest take
+    verdict?: string;
   }[];
-  methodology: string;
-  faqs: {
+  sections?: {
+    title: string;
+    content: string;
+  }[];
+  drawdownApproach?: {
+    title: string;
+    content: string;
+    ctaText: string;
+    ctaLink: string;
+  };
+  methodology?: string;
+  faqs?: {
     question: string;
     answer: string;
   }[];

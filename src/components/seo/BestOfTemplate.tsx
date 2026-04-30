@@ -51,31 +51,32 @@ export function BestOfTemplate({ page, region = 'uk' }: { page: BestOfPage; regi
                 {page.introduction}
               </p>
 
-              {/* Best Overall Module */}
-              <div className="my-16 p-10 bg-accent/5 border border-accent/20 relative overflow-hidden group">
-                 <div className="relative z-10 space-y-6">
-                    <div className="inline-flex items-center gap-2 px-3 py-1 bg-accent text-[#08090D] text-[10px] font-bold uppercase tracking-widest">
-                       <TrendingUp className="w-3 h-3" />
-                       Best Overall Choice
-                    </div>
-                    <h2 className="text-3xl font-display font-black uppercase m-0">{page.bestOverall.name}</h2>
-                    <p className="text-lg text-text-secondary m-0">{page.bestOverall.reason}</p>
-                    <a 
-                      href={page.bestOverall.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-4 bg-accent text-[#08090D] px-8 py-4 font-display font-black uppercase tracking-[0.2em] text-xs hover:translate-y-[-2px] transition-all"
-                    >
-                      Visit Official Site <ExternalLink className="w-4 h-4" />
-                    </a>
-                 </div>
-                 <div className="absolute -bottom-8 -right-8 opacity-[0.03] group-hover:opacity-[0.05] transition-opacity">
-                    <ShieldCheck className="w-48 h-48" />
-                 </div>
-              </div>
+              {page.bestOverall && (
+                <div className="my-16 p-10 bg-accent/5 border border-accent/20 relative overflow-hidden group">
+                   <div className="relative z-10 space-y-6">
+                      <div className="inline-flex items-center gap-2 px-3 py-1 bg-accent text-[#08090D] text-[10px] font-bold uppercase tracking-widest">
+                         <TrendingUp className="w-3 h-3" />
+                         Best Overall Choice
+                      </div>
+                      <h2 className="text-3xl font-display font-black uppercase m-0">{page.bestOverall.name}</h2>
+                      <p className="text-lg text-text-secondary m-0">{page.bestOverall.reason}</p>
+                      <a 
+                        href={page.bestOverall.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-4 bg-accent text-[#08090D] px-8 py-4 font-display font-black uppercase tracking-[0.2em] text-xs hover:translate-y-[-2px] transition-all"
+                      >
+                        Visit Official Site <ExternalLink className="w-4 h-4" />
+                      </a>
+                   </div>
+                   <div className="absolute -bottom-8 -right-8 opacity-[0.03] group-hover:opacity-[0.05] transition-opacity">
+                      <ShieldCheck className="w-48 h-48" />
+                   </div>
+                </div>
+              )}
 
               {/* Comparison Table */}
-              {page.comparisonTable.length > 0 && (
+              {page.comparisonTable && page.comparisonTable.length > 0 && (
                 <div className="my-16 overflow-x-auto border border-border-slate">
                   <table className="w-full text-left border-collapse">
                     <thead>
@@ -87,11 +88,11 @@ export function BestOfTemplate({ page, region = 'uk' }: { page: BestOfPage; regi
                       </tr>
                     </thead>
                     <tbody>
-                      {page.comparisonTable.map((row, i) => (
+                      {page.comparisonTable.map((row: any, i: number) => (
                         <tr key={i} className="hover:bg-background-elevated/30 transition-colors">
-                          <td className="p-6 text-sm font-bold border-b border-border-slate/50">{row.broker}</td>
-                          <td className="p-6 text-sm text-profit border-b border-border-slate/50">{row.spread}</td>
-                          <td className="p-6 text-sm text-text-secondary border-b border-border-slate/50">{row.leverage}</td>
+                          <td className="p-6 text-sm font-bold border-b border-border-slate/50">{row.broker || row.name}</td>
+                          <td className="p-6 text-sm text-profit border-b border-border-slate/50">{row.spread || row.keyStat}</td>
+                          <td className="p-6 text-sm text-text-secondary border-b border-border-slate/50">{row.leverage || row.bestFor}</td>
                           <td className="p-6 text-sm text-text-primary border-b border-border-slate/50">{row.rating}</td>
                         </tr>
                       ))}
@@ -100,7 +101,7 @@ export function BestOfTemplate({ page, region = 'uk' }: { page: BestOfPage; regi
                 </div>
               )}
 
-              {page.sections.map((section, i) => (
+              {page.sections && page.sections.map((section, i) => (
                 <div key={i} className="mb-12">
                    <h2 className="text-3xl font-display font-bold uppercase tracking-tight mb-6">{section.title}</h2>
                    <p className="text-lg text-text-secondary leading-relaxed">{section.content}</p>
@@ -109,21 +110,23 @@ export function BestOfTemplate({ page, region = 'uk' }: { page: BestOfPage; regi
             </div>
 
             {/* Approach Module */}
-            <div className="p-12 bg-background-surface border border-border-slate space-y-8">
-               <div className="flex items-center gap-4">
-                  <Info className="w-8 h-8 text-accent" />
-                  <h3 className="text-2xl font-display font-black uppercase m-0">{page.drawdownApproach.title}</h3>
-               </div>
-               <p className="text-lg text-text-secondary leading-relaxed">
-                 {page.drawdownApproach.content}
-               </p>
-               <Link 
-                  href={page.drawdownApproach.ctaLink}
-                  className="inline-flex items-center gap-4 bg-white text-[#08090D] px-10 py-5 font-display font-black uppercase tracking-[0.2em] text-sm hover:translate-y-[-2px] transition-all"
-               >
-                 {page.drawdownApproach.ctaText} <ArrowRight className="w-4 h-4" />
-               </Link>
-            </div>
+            {page.drawdownApproach && (
+              <div className="p-12 bg-background-surface border border-border-slate space-y-8">
+                 <div className="flex items-center gap-4">
+                    <Info className="w-8 h-8 text-accent" />
+                    <h3 className="text-2xl font-display font-black uppercase m-0">{page.drawdownApproach.title}</h3>
+                 </div>
+                 <p className="text-lg text-text-secondary leading-relaxed">
+                   {page.drawdownApproach.content}
+                 </p>
+                 <Link 
+                    href={page.drawdownApproach.ctaLink}
+                    className="inline-flex items-center gap-4 bg-white text-[#08090D] px-10 py-5 font-display font-black uppercase tracking-[0.2em] text-sm hover:translate-y-[-2px] transition-all"
+                 >
+                   {page.drawdownApproach.ctaText} <ArrowRight className="w-4 h-4" />
+                 </Link>
+              </div>
+            )}
           </div>
 
           {/* Sidebar */}

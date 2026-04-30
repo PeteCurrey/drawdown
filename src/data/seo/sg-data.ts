@@ -63,7 +63,8 @@ export const BEST_OF_PAGES_SG = [
 ].map(slug => ({
   slug,
   title: `Best ${slug.replace(/-/g, ' ').toUpperCase()} 2026`,
-  metaDescription: `Reviewing the top ${slug.replace(/-/g, ' ')} for Singaporean traders.`
+  metaDescription: `Reviewing the top ${slug.replace(/-/g, ' ')} for Singaporean traders.`,
+  eyebrow: '// REGIONAL ANALYSIS'
 }));
 
 export const HOW_TO_PAGES_SG = [

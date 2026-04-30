@@ -16,7 +16,8 @@ export const BEST_OF_PAGES_US = [
 ].map(slug => ({
   slug,
   title: `Best ${slug.replace(/-/g, ' ').toUpperCase()} 2026`,
-  metaDescription: `Reviewing the top-rated ${slug.replace(/-/g, ' ')} for American traders.`
+  metaDescription: `Reviewing the top-rated ${slug.replace(/-/g, ' ')} for American traders.`,
+  eyebrow: '// REGIONAL ANALYSIS'
 }));
 
 export const HOW_TO_PAGES_US = [

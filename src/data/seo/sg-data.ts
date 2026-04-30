@@ -6,7 +6,7 @@ export const SG_BROKERS = [
     badge: 'Best Overall',
     description: 'MAS-regulated market leader offering 17,000+ markets with world-class technology and deep liquidity.',
     pros: ['MAS Regulated', '17,000+ Markets', 'Premium Academy'],
-    link: 'https://ig.com/sg'
+    link: '/go/ig-markets'
   },
   {
     slug: 'saxo-markets-singapore',
@@ -24,7 +24,7 @@ export const SG_BROKERS = [
     badge: 'Best Platform',
     description: 'Offering the proprietary Next Generation platform with advanced charting and institutional-grade features.',
     pros: ['Award-winning tech', 'Competitive spreads', '12,000+ CFDs'],
-    link: 'https://cmcmarkets.com/en-sg'
+    link: '/go/cmc-markets'
   },
   {
     slug: 'plus500-singapore',
@@ -33,7 +33,7 @@ export const SG_BROKERS = [
     badge: 'Most Intuitive',
     description: 'A publicly-listed CFD provider focused on a simple, intuitive user experience for retail traders.',
     pros: ['Clean interface', 'No commissions', 'Reliable mobile app'],
-    link: 'https://plus500.com.sg'
+    link: '/go/plus500'
   },
   {
     slug: 'oanda-singapore',

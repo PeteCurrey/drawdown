@@ -27,7 +27,7 @@ export const propFirms: PropFirm[] = [
     isRegulated: false,
     pros: ["Longest track record in the industry", "Very reliable payouts", "Excellent proprietary apps"],
     cons: ["Strict daily drawdown rules", "Higher challenge fees than competitors"],
-    affiliateUrl: "https://ftmo.com/en/",
+    affiliateUrl: "/go/ftmo",
     verdict: "The gold standard for prop trading. If you can pass here, you're the real deal."
   },
   {
@@ -42,7 +42,7 @@ export const propFirms: PropFirm[] = [
     isRegulated: false,
     pros: ["Unique hyper-growth scaling plan", "Low entry cost", "Real capital allocation (not just demo)"],
     cons: ["Scaling takes time", "Initial profit splits are lower"],
-    affiliateUrl: "https://the5ers.com",
+    affiliateUrl: "/go/the5ers",
     verdict: "Pete's Pick. The best choice for disciplined traders who want to scale into millions."
   },
   {

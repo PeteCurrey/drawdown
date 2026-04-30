@@ -53,7 +53,7 @@ export const AU_BROKERS = [
     afsl: '414530',
     description: 'Best for forex and ECN execution. Founded in Melbourne.',
     pros: ['Ultra-fast execution', 'Tier 1 liquidity', 'ASIC regulated'],
-    link: 'https://pepperstone.com'
+    link: '/go/pepperstone'
   },
   {
     slug: 'ic-markets',
@@ -107,6 +107,6 @@ export const AU_BROKERS = [
     afsl: 'ASIC Regulated',
     description: 'Best for professional range of markets and advanced charting.',
     pros: ['Next Generation platform', '12,000+ markets', 'Publicly listed'],
-    link: 'https://cmcmarkets.com'
+    link: '/go/cmc-markets'
   }
 ];

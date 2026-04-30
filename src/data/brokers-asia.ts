@@ -10,7 +10,7 @@ export const brokersSg = [
     maxLeverage: "1:20 (Forex)",
     platforms: ["IG Platform", "MT4", "L2 Dealer"],
     features: ["17,000+ Markets", "MAS Compliant", "Deep Liquidity", "Educational Hub"],
-    affiliateLink: "https://ig.com/sg",
+    affiliateLink: "/go/ig-markets",
   },
   {
     slug: "saxo-singapore",
@@ -52,7 +52,7 @@ export const brokersHk = [
     maxLeverage: "1:20 (Forex)",
     platforms: ["IG Platform", "MT4"],
     features: ["SFC Licensed", "Global Reach", "Advanced Charting"],
-    affiliateLink: "https://ig.com/hk",
+    affiliateLink: "/go/ig-markets",
   },
   {
     slug: "interactive-brokers-hk",
@@ -65,6 +65,6 @@ export const brokersHk = [
     maxLeverage: "1:20 (Forex)",
     platforms: ["TWS", "IBKR Desktop"],
     features: ["Lowest Margin Rates", "Direct Market Access", "SFC Compliant"],
-    affiliateLink: "https://interactivebrokers.com.hk",
+    affiliateLink: "/go/interactive-brokers",
   }
 ];

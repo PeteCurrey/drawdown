@@ -8,7 +8,7 @@ export const BEST_OF_PAGES_SG: BestOfPage[] = [
     readingTime: 12,
     metaDescription: 'Compare the best MAS-regulated forex brokers in Singapore. We review IG, Saxo, and OANDA on execution, spreads, and local support.',
     introduction: 'Singapore is Asia\'s premier forex hub. With MAS oversight and a sophisticated financial infrastructure, Singaporean traders have access to world-class platforms. Here is our 2026 shortlist.',
-    bestOverall: { name: 'IG Singapore', reason: 'Unmatched market access and deep liquidity under MAS regulation.', link: 'https://ig.com/sg' },
+    bestOverall: { name: 'IG Singapore', reason: 'Unmatched market access and deep liquidity under MAS regulation.', link: '/go/ig-markets' },
     comparisonTable: [
       { broker: 'IG Singapore', spread: '0.6 Pips', leverage: '20:1', rating: '4.9/5' },
       { broker: 'Saxo Markets', spread: '0.8 Pips', leverage: '20:1', rating: '4.8/5' },

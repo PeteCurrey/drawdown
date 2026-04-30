@@ -8,9 +8,9 @@ export const BEST_OF_PAGES_DE = [
     introduction: "Deutsche Trader genießen den Schutz der BaFin und ESMA-Richtlinien. Die Wahl eines regulierten Brokers ist entscheidend für die Sicherheit Ihrer Einlagen.",
     methodology: "Wir haben Broker nach BaFin-Regulierung, Einlagensicherung und Supportqualität in deutscher Sprache bewertet.",
     comparisonTable: [
-      { rank: 1, name: "IG Deutschland", bestFor: "Gesamtpaket", keyStat: "BaFin Reguliert", rating: 4.9, link: "https://ig.com/de" },
+      { rank: 1, name: "IG Deutschland", bestFor: "Gesamtpaket", keyStat: "BaFin Reguliert", rating: 4.9, link: "/go/ig-markets" },
       { rank: 2, name: "Interactive Brokers", bestFor: "Profis", keyStat: "Niedrige Kosten", rating: 4.8, link: "https://ibkr.de" },
-      { rank: 3, name: "XTB", bestFor: "Bildung", keyStat: "0% Kommission", rating: 4.7, link: "https://xtb.com/de" },
+      { rank: 3, name: "XTB", bestFor: "Bildung", keyStat: "0% Kommission", rating: 4.7, link: "/go/xtb" },
     ],
     reviews: [
       {
@@ -19,7 +19,7 @@ export const BEST_OF_PAGES_DE = [
         pros: ["BaFin Reguliert", "Hervorragende Plattform", "Große Auswahl", "Deutscher Support"],
         cons: ["Höhere Spreads bei manchen Paaren"],
         bestFor: "ERFAHRENE TRADER",
-        ctaLink: "https://ig.com/de"
+        ctaLink: "/go/ig-markets"
       }
     ],
     faqs: [

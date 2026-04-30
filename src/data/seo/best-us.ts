@@ -42,7 +42,7 @@ export const BEST_OF_PAGES_US: BestOfPage[] = [
     readingTime: 12,
     metaDescription: `Reviewing the top-rated ${slug.replace(/-/g, ' ')} for American traders. SEC, FINRA, and NFA compliant platforms only.`,
     introduction: `Finding the right ${slug.replace(/-/g, ' ')} is the foundation of any successful US trading career.`,
-    bestOverall: { name: 'Interactive Brokers', reason: 'Institutional grade tools and lowest margin rates in the industry.', link: 'https://interactivebrokers.com' },
+    bestOverall: { name: 'Interactive Brokers', reason: 'Institutional grade tools and lowest margin rates in the industry.', link: '/go/interactive-brokers' },
     comparisonTable: [],
     sections: [],
     drawdownApproach: { title: 'The Drawdown Standard', content: 'Compliance is the first layer of edge.', ctaText: 'Join Drawdown', ctaLink: '/us/signup' },

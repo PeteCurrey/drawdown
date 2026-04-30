@@ -20,7 +20,7 @@ export const brokersAu = [
     maxLeverage: "1:30 (Retail)",
     platforms: ["MT4", "MT5", "cTrader", "TradingView"],
     features: ["Raw Spreads", "Razor Account", "24/7 Support", "Fast Execution"],
-    affiliateLink: "https://pepperstone.com",
+    affiliateLink: "/go/pepperstone",
     isPartner: true,
   },
   {

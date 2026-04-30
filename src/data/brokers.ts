@@ -34,7 +34,7 @@ export const brokers: Broker[] = [
       "Best-in-class proprietary platform"
     ],
     cons: ["Share dealing fees can be higher", "Interface takes time to master"],
-    affiliateUrl: "https://www.ig.com/uk",
+    affiliateUrl: "/go/ig-markets",
     category: "Stocks"
   },
   {
@@ -66,7 +66,7 @@ export const brokers: Broker[] = [
     fcaRegulated: true,
     pros: ["Zero commission", "Cleanest UI in the industry", "Easy ISA accounts"],
     cons: ["Limited technical tools", "Customer support can be slow"],
-    affiliateUrl: "https://www.trading212.com",
+    affiliateUrl: "/go/trading-212",
     category: "Beginner"
   },
   {
@@ -82,7 +82,7 @@ export const brokers: Broker[] = [
     fcaRegulated: true,
     pros: ["Ultra-low spreads", "Superior cTrader support", "Lightning-fast execution"],
     cons: ["Forex/CFD focused only", "No direct share ownership"],
-    affiliateUrl: "https://pepperstone.com",
+    affiliateUrl: "/go/pepperstone",
     category: "Forex"
   },
   {
@@ -98,7 +98,7 @@ export const brokers: Broker[] = [
     fcaRegulated: true,
     pros: ["Social trading community", "Zero commission stocks", "User-friendly"],
     cons: ["Higher spreads on forex", "Withdrawal fees apply"],
-    affiliateUrl: "https://www.etoro.com",
+    affiliateUrl: "/go/etoro",
     category: "Beginner"
   },
   {
@@ -114,7 +114,7 @@ export const brokers: Broker[] = [
     fcaRegulated: true,
     pros: ["Superior platform (xStation)", "No commission on stocks", "Excellent support"],
     cons: ["No MT4/MT5 support", "Limited crypto range for UK"],
-    affiliateUrl: "https://www.xtb.com",
+    affiliateUrl: "/go/xtb",
     category: "Global"
   },
   {
@@ -130,7 +130,7 @@ export const brokers: Broker[] = [
     fcaRegulated: true,
     pros: ["Incredible charting", "Thousands of markets", "UK listed company"],
     cons: ["Platform can be overwhelming", "Higher costs for small accounts"],
-    affiliateUrl: "https://www.cmcmarkets.com",
+    affiliateUrl: "/go/cmc-markets",
     category: "Stocks"
   },
   {
@@ -146,7 +146,7 @@ export const brokers: Broker[] = [
     fcaRegulated: true,
     pros: ["Easiest UI for mobile", "Fast onboarding", "Publicly listed company"],
     cons: ["CFD only (no dividends)", "Limited technical indicators"],
-    affiliateUrl: "https://www.plus500.com",
+    affiliateUrl: "/go/plus500",
     category: "Beginner"
   },
   {

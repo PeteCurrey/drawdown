@@ -6,7 +6,7 @@ export const HK_BROKERS = [
     badge: 'Best Overall',
     description: 'SFC-regulated powerhouse providing professional Hong Kong traders with access to global markets and deep liquidity.',
     pros: ['SFC Licensed', '17,000+ Markets', 'Local HK Support'],
-    link: 'https://ig.com/hk'
+    link: '/go/ig-markets'
   },
   {
     slug: 'saxo-markets-hong-kong',
@@ -24,7 +24,7 @@ export const HK_BROKERS = [
     badge: 'Pro Trader Choice',
     description: 'The global standard for professional execution, providing HK traders with the lowest margin rates and direct market access.',
     pros: ['Lowest commissions', '150+ Markets', 'Robust API'],
-    link: 'https://interactivebrokers.com.hk'
+    link: '/go/interactive-brokers'
   },
   {
     slug: 'cmc-markets-hong-kong',
@@ -33,7 +33,7 @@ export const HK_BROKERS = [
     badge: 'Best for CFDs',
     description: 'SFC-regulated CFD provider featuring advanced charting and institutional-grade pricing on global indices and FX.',
     pros: ['Award-winning tech', 'Competitive spreads', 'Professional education'],
-    link: 'https://cmcmarkets.com/en-hk'
+    link: '/go/cmc-markets'
   },
   {
     slug: 'oanda-hong-kong',

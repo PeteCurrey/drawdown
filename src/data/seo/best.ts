@@ -847,9 +847,9 @@ export const BEST_OF_PAGES: BestOfPage[] = [
     targetKeywords: ['best prop firm', 'best prop firm 2026', 'best funded trader programme'],
     metaDescription: 'Want to trade with institutional capital? We rank the best prop firms in 2026 based on payout reliability and challenge fairness.',
     comparisonTable: [
-      { rank: 1, name: 'FTMO', bestFor: 'Reliability', keyStat: '90% Payout', rating: 4.9, link: 'https://ftmo.com' },
-      { rank: 2, name: 'The5ers', bestFor: 'Low Risk', keyStat: 'Instant Funding', rating: 4.8, link: 'https://the5ers.com' },
-      { rank: 3, name: 'FundedNext', bestFor: 'Profit Split', keyStat: '95% Max', rating: 4.6, link: 'https://fundednext.com' },
+      { rank: 1, name: 'FTMO', bestFor: 'Reliability', keyStat: '90% Payout', rating: 4.9, link: '/go/ftmo' },
+      { rank: 2, name: 'The5ers', bestFor: 'Low Risk', keyStat: 'Instant Funding', rating: 4.8, link: '/go/the5ers' },
+      { rank: 3, name: 'FundedNext', bestFor: 'Profit Split', keyStat: '95% Max', rating: 4.6, link: '/go/fundednext' },
     ],
     introduction: 'Prop firms allow you to trade using their money and keep a majority of the profit. It\'s the fastest way to scale, but the challenges are notoriously difficult. We rank the firms that actually pay out their traders.',
     reviews: [
@@ -860,7 +860,7 @@ export const BEST_OF_PAGES: BestOfPage[] = [
         pros: ['Perfect payout history', 'Excellent trading conditions', 'Great support'],
         cons: ['Two-step challenge can be stressful'],
         bestFor: 'Proven traders ready to scale',
-        ctaLink: 'https://ftmo.com'
+        ctaLink: '/go/ftmo'
       }
     ],
     methodology: 'Prop firms are ranked on their payout history, the fairness of their drawdown rules, their trading conditions (slippage/spreads), and their reputation in the community.',

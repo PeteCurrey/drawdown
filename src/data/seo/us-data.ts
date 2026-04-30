@@ -80,7 +80,7 @@ export const US_BROKERS = [
     regulation: 'SEC, CFTC, NFA, FINRA',
     description: 'The ultimate platform for professional traders, providing access to 150+ global markets from a single account.',
     pros: ['Lowest margin rates', '100+ FX pairs', 'Institutional tools'],
-    link: 'https://interactivebrokers.com'
+    link: '/go/interactive-brokers'
   },
   {
     slug: 'schwab',

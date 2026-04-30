@@ -49,7 +49,7 @@ export const brokersUs = [
     maxLeverage: "1:50 (Forex)",
     platforms: ["TWS", "IBKR Desktop", "IBKR Mobile"],
     features: ["Lowest Commissions", "Massive Market Range", "Advanced Order Types", "Institutional Grade"],
-    affiliateLink: "https://interactivebrokers.com",
+    affiliateLink: "/go/interactive-brokers",
   },
   {
     slug: "schwab",

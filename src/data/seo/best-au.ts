@@ -11,7 +11,7 @@ export const BEST_OF_PAGES_AU: BestOfPage[] = [
     bestOverall: {
       name: 'Pepperstone',
       reason: 'Unmatched execution speed and deep liquidity for active day traders.',
-      link: 'https://pepperstone.com'
+      link: '/go/pepperstone'
     },
     comparisonTable: [
       { broker: 'Pepperstone', spread: '0.1 Pips', leverage: '30:1', rating: '4.9/5' },
@@ -42,7 +42,7 @@ export const BEST_OF_PAGES_AU: BestOfPage[] = [
     readingTime: 10,
     metaDescription: `Reviewing the top ${slug.replace(/-/g, ' ')} for Australian traders. ASIC regulated and professional grade.`,
     introduction: `Finding the right ${slug.replace(/-/g, ' ')} is essential for success in the Australian markets.`,
-    bestOverall: { name: 'Pepperstone', reason: 'Consistently top-tier performance across all metrics.', link: 'https://pepperstone.com' },
+    bestOverall: { name: 'Pepperstone', reason: 'Consistently top-tier performance across all metrics.', link: '/go/pepperstone' },
     comparisonTable: [],
     sections: [],
     drawdownApproach: { title: 'The Drawdown Choice', content: 'We prioritize security and execution above all else.', ctaText: 'Join Drawdown', ctaLink: '/au/signup' },

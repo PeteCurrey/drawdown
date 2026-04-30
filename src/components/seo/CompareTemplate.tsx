@@ -46,17 +46,19 @@ export function CompareTemplate({ page, region = 'uk' }: { page: ComparisonPage;
                      <h2 className="text-3xl font-display font-black uppercase m-0">Winner: <span className="text-accent">{page.quickVerdict.winner}</span></h2>
                      <p className="text-lg text-text-secondary m-0">{page.quickVerdict.reason}</p>
                   </div>
-                  <div className="space-y-6 bg-background-primary p-8 border border-border-slate/50">
-                     <h3 className="text-sm font-mono uppercase tracking-widest text-text-tertiary font-bold">Key Strengths</h3>
-                     <ul className="space-y-4 list-none p-0">
-                        {page.quickVerdict.prosA.map((pro, i) => (
-                           <li key={i} className="flex items-center gap-3 text-xs text-text-secondary m-0">
-                              <CheckCircle2 className="w-3.5 h-3.5 text-profit" />
-                              {pro}
-                           </li>
-                        ))}
-                     </ul>
-                  </div>
+                  {page.quickVerdict.prosA && (
+                    <div className="space-y-6 bg-background-primary p-8 border border-border-slate/50">
+                       <h3 className="text-sm font-mono uppercase tracking-widest text-text-tertiary font-bold">Key Strengths</h3>
+                       <ul className="space-y-4 list-none p-0">
+                          {page.quickVerdict.prosA.map((pro, i) => (
+                             <li key={i} className="flex items-center gap-3 text-xs text-text-secondary m-0">
+                                <CheckCircle2 className="w-3.5 h-3.5 text-profit" />
+                                {pro}
+                             </li>
+                          ))}
+                       </ul>
+                    </div>
+                  )}
                </div>
             </div>
 
@@ -72,11 +74,11 @@ export function CompareTemplate({ page, region = 'uk' }: { page: ComparisonPage;
                     </tr>
                   </thead>
                   <tbody>
-                    {page.comparisonTable.map((row, i) => (
+                    {page.comparisonTable.map((row: any, i: number) => (
                       <tr key={i} className="hover:bg-background-elevated/30 transition-colors">
                         <td className="p-6 text-sm font-bold border-b border-border-slate/50 text-text-tertiary">{row.feature}</td>
-                        <td className="p-6 text-sm text-text-primary border-b border-border-slate/50">{row.a}</td>
-                        <td className="p-6 text-sm text-text-primary border-b border-border-slate/50">{row.b}</td>
+                        <td className="p-6 text-sm text-text-primary border-b border-border-slate/50">{row.a || row.optionA}</td>
+                        <td className="p-6 text-sm text-text-primary border-b border-border-slate/50">{row.b || row.optionB}</td>
                       </tr>
                     ))}
                   </tbody>

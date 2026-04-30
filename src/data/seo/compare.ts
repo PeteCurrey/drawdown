@@ -11,16 +11,14 @@ export interface ComparisonPage {
   quickVerdict: {
     winner: string;
     reason: string;
+    prosA?: string[];
+    prosB?: string[];
   };
-  comparisonTable: {
-    feature: string;
-    optionA: string;
-    optionB: string;
-  }[];
+  comparisonTable: any[];
   sections: ComparisonSection[];
   whoShouldChooseA: string[];
   whoShouldChooseB: string[];
-  faqs: {
+  faqs?: {
     question: string;
     answer: string;
   }[];

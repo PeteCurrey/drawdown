@@ -1,4 +1,4 @@
-import { LucideIcon, LayoutDashboard, Calculator, Scan, History, LineChart, Mail, Terminal, Cpu, Code } from "lucide-react";
+import { LucideIcon, LayoutDashboard, Calculator, Scan, History, LineChart, Mail, Terminal, Cpu, Code, Brain } from "lucide-react";
 
 export interface ToolContent {
   slug: string;

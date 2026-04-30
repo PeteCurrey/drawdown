@@ -5,7 +5,7 @@ import { render } from "@react-email/render";
 import { TheWireTemplate } from "@/components/newsletter/TheWireTemplate";
 import * as React from "react";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+const resend = new Resend(process.env.RESEND_API_KEY || "re_placeholder");
 
 export async function GET(request: NextRequest) {
   const authHeader = request.headers.get('authorization');

@@ -37,18 +37,24 @@ export function RegionalHowToPage({ region, slug, data }: RegionalHowToPageProps
 
           {/* Header */}
           <div className="space-y-4 mb-12">
-            <div className="text-accent font-mono text-xs tracking-[0.2em] uppercase">
-              {page.eyebrow}
-            </div>
+            {page.eyebrow && (
+              <div className="text-accent font-mono text-xs tracking-[0.2em] uppercase">
+                {page.eyebrow}
+              </div>
+            )}
             <h1 className="text-4xl md:text-7xl font-display font-bold leading-tight uppercase">
               {page.title}
             </h1>
             <div className="flex items-center space-x-4 text-xs font-mono text-text-tertiary border-y border-border-slate py-4">
-              <div className="flex items-center space-x-2">
-                <Calendar className="w-3 h-3" />
-                <span>LAST UPDATED: {page.lastUpdated}</span>
-              </div>
-              <div className="w-1 h-1 rounded-full bg-border-slate" />
+              {page.lastUpdated && (
+                <>
+                  <div className="flex items-center space-x-2">
+                    <Calendar className="w-3 h-3" />
+                    <span>LAST UPDATED: {page.lastUpdated}</span>
+                  </div>
+                  <div className="w-1 h-1 rounded-full bg-border-slate" />
+                </>
+              )}
               <span>REGION: {regionName.toUpperCase()}</span>
             </div>
           </div>
@@ -61,21 +67,23 @@ export function RegionalHowToPage({ region, slug, data }: RegionalHowToPageProps
           </div>
 
           {/* Steps */}
-          <div className="space-y-12 mb-20">
-            {page.steps.map((step: any, index: number) => (
-              <div key={step.title} className="flex gap-8 group">
-                <div className="flex-shrink-0 w-12 h-12 bg-background-elevated border border-border-slate flex items-center justify-center font-display font-bold text-accent group-hover:bg-accent group-hover:text-background-primary transition-colors">
-                  {index + 1}
+          {page.steps && page.steps.length > 0 && (
+            <div className="space-y-12 mb-20">
+              {page.steps.map((step: any, index: number) => (
+                <div key={step.title} className="flex gap-8 group">
+                  <div className="flex-shrink-0 w-12 h-12 bg-background-elevated border border-border-slate flex items-center justify-center font-display font-bold text-accent group-hover:bg-accent group-hover:text-background-primary transition-colors">
+                    {index + 1}
+                  </div>
+                  <div className="space-y-4">
+                    <h3 className="text-2xl font-display font-bold uppercase">{step.title}</h3>
+                    <p className="text-text-secondary leading-relaxed text-lg">
+                      {step.content}
+                    </p>
+                  </div>
                 </div>
-                <div className="space-y-4">
-                  <h3 className="text-2xl font-display font-bold uppercase">{step.title}</h3>
-                  <p className="text-text-secondary leading-relaxed text-lg">
-                    {step.content}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
 
           {/* Localized Info Box */}
           <section className="mb-20 bg-background-surface border border-border-slate p-8 relative overflow-hidden">
@@ -90,17 +98,19 @@ export function RegionalHowToPage({ region, slug, data }: RegionalHowToPageProps
           </section>
 
           {/* FAQs */}
-          <section className="mb-20 space-y-8 border-t border-border-slate pt-16">
-            <h2 className="text-3xl font-display font-bold uppercase">FAQs</h2>
-            <div className="space-y-8">
-              {page.faqs.map((faq: any) => (
-                <div key={faq.question} className="space-y-3">
-                  <h3 className="text-xl font-bold text-text-primary">{faq.question}</h3>
-                  <p className="text-text-secondary leading-relaxed">{faq.answer}</p>
-                </div>
-              ))}
-            </div>
-          </section>
+          {page.faqs && page.faqs.length > 0 && (
+            <section className="mb-20 space-y-8 border-t border-border-slate pt-16">
+              <h2 className="text-3xl font-display font-bold uppercase">FAQs</h2>
+              <div className="space-y-8">
+                {page.faqs.map((faq: any) => (
+                  <div key={faq.question} className="space-y-3">
+                    <h3 className="text-xl font-bold text-text-primary">{faq.question}</h3>
+                    <p className="text-text-secondary leading-relaxed">{faq.answer}</p>
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
 
           {/* Footer CTA */}
           <section className="bg-background-elevated border border-border-slate p-12 text-center space-y-6">

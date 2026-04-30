@@ -14,7 +14,8 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const page = COMPARE_PAGES_SG.find((p) => p.slug === params.slug);
+  const { slug } = await params;
+  const page = COMPARE_PAGES_SG.find((p) => p.slug === slug);
   if (!page) return {};
 
   return {
@@ -23,8 +24,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default function SgComparePage({ params }: Props) {
-  const page = COMPARE_PAGES_SG.find((p) => p.slug === params.slug);
+export default async function SgComparePage({ params }: Props) {
+  const { slug } = await params;
+  const page = COMPARE_PAGES_SG.find((p) => p.slug === slug);
 
   if (!page) {
     notFound();

@@ -14,7 +14,8 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const page = HOW_TO_PAGES_US.find((p) => p.slug === params.slug);
+  const { slug } = await params;
+  const page = HOW_TO_PAGES_US.find((p) => p.slug === slug);
   if (!page) return {};
 
   return {
@@ -23,8 +24,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default function UsHowToPage({ params }: Props) {
-  const page = HOW_TO_PAGES_US.find((p) => p.slug === params.slug);
+export default async function UsHowToPage({ params }: Props) {
+  const { slug } = await params;
+  const page = HOW_TO_PAGES_US.find((p) => p.slug === slug);
 
   if (!page) {
     notFound();

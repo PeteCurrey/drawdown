@@ -28,9 +28,9 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { topic: topicSlug, city: citySlug } = params;
+  const { topic: topicSlug, city: citySlug } = await params;
   const topic = LEARN_TOPICS.find((t) => t.slug === topicSlug);
-  const cityName = citySlug.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+  const cityName = citySlug ? citySlug.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ') : '';
   
   if (!topic || !US_CITIES.includes(citySlug)) return {};
 
@@ -40,10 +40,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default function UnitedStatesLocationTopicPage({ params }: Props) {
-  const { topic: topicSlug, city: citySlug } = params;
+export default async function UnitedStatesLocationTopicPage({ params }: Props) {
+  const { topic: topicSlug, city: citySlug } = await params;
   const topic = LEARN_TOPICS.find((t) => t.slug === topicSlug);
-  const cityName = citySlug.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+  const cityName = citySlug ? citySlug.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ') : '';
   const cityContext = CITY_CONTEXT_US[citySlug];
 
   if (!topic || !US_CITIES.includes(citySlug)) notFound();

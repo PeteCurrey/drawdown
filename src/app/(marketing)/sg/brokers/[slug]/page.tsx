@@ -16,17 +16,19 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const broker = SG_BROKERS.find((b) => b.slug === params.slug);
+  const { slug } = await params;
+  const broker = SG_BROKERS.find((b) => b.slug === slug);
   if (!broker) return {};
 
   return {
     title: `${broker.name} Singapore Review 2026 | MAS Regulated Broker`,
-    description: `Complete ${broker.name} review for Singapore traders. We test MAS compliance, execution quality, and SGD-denominated account features.`,
+    description: `${broker.name} review for Singapore traders. We test MAS compliance, execution quality, and SGD-denominated account features.`,
   };
 }
 
-export default function SingaporeBrokerReviewPage({ params }: Props) {
-  const broker = SG_BROKERS.find((b) => b.slug === params.slug);
+export default async function SingaporeBrokerReviewPage({ params }: Props) {
+  const { slug } = await params;
+  const broker = SG_BROKERS.find((b) => b.slug === slug);
 
   if (!broker) {
     notFound();

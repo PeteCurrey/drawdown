@@ -1,6 +1,6 @@
 import { Resend } from "resend";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+const resend = new Resend(process.env.RESEND_API_KEY || "re_placeholder");
 
 export async function sendTradeSignalEmail(email: string, signal: { title: string; content: string; related_symbols: string[] }) {
   if (!process.env.RESEND_API_KEY) return;

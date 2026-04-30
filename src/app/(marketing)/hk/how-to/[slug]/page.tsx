@@ -14,7 +14,8 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const page = HOW_TO_PAGES_HK.find((p) => p.slug === params.slug);
+  const { slug } = await params;
+  const page = HOW_TO_PAGES_HK.find((p) => p.slug === slug);
   if (!page) return {};
 
   return {
@@ -23,8 +24,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default function HkHowToPage({ params }: Props) {
-  const page = HOW_TO_PAGES_HK.find((p) => p.slug === params.slug);
+export default async function HkHowToPage({ params }: Props) {
+  const { slug } = await params;
+  const page = HOW_TO_PAGES_HK.find((p) => p.slug === slug);
 
   if (!page) {
     notFound();

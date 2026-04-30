@@ -48,53 +48,59 @@ export function RegionalComparePage({ region, slug, data }: RegionalComparePageP
           </div>
 
           {/* Introduction */}
-          <div className="prose prose-invert prose-slate max-w-none mb-16">
-            <p className="text-xl text-text-secondary leading-relaxed font-medium text-center max-w-3xl mx-auto italic">
-              &quot;{page.introduction}&quot;
-            </p>
-          </div>
+          {page.introduction && (
+            <div className="prose prose-invert prose-slate max-w-none mb-16">
+              <p className="text-xl text-text-secondary leading-relaxed font-medium text-center max-w-3xl mx-auto italic">
+                &quot;{page.introduction}&quot;
+              </p>
+            </div>
+          )}
 
           {/* Comparison Matrix */}
-          <div className="mb-20">
-            <div className="bg-background-elevated border border-border-slate overflow-hidden">
-              <table className="w-full border-collapse">
-                <thead>
-                  <tr className="border-b border-border-slate bg-background-surface">
-                    <th className="p-6 text-left text-[10px] font-mono uppercase tracking-widest text-text-tertiary">Feature</th>
-                    <th className="p-6 text-center text-sm font-display font-bold uppercase">{brokers[0]}</th>
-                    <th className="p-6 text-center text-sm font-display font-bold uppercase">{brokers[1]}</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-border-slate/50">
-                  {page.comparisonMatrix.map((row: any) => (
-                    <tr key={row.feature} className="hover:bg-background-surface/30 transition-colors">
-                      <td className="p-6 text-[10px] font-mono uppercase tracking-widest text-text-tertiary">{row.feature}</td>
-                      <td className="p-6 text-center text-sm font-bold text-text-primary">{row.b1}</td>
-                      <td className="p-6 text-center text-sm font-bold text-text-primary">{row.b2}</td>
+          {page.comparisonMatrix && page.comparisonMatrix.length > 0 && (
+            <div className="mb-20">
+              <div className="bg-background-elevated border border-border-slate overflow-hidden">
+                <table className="w-full border-collapse">
+                  <thead>
+                    <tr className="border-b border-border-slate bg-background-surface">
+                      <th className="p-6 text-left text-[10px] font-mono uppercase tracking-widest text-text-tertiary">Feature</th>
+                      <th className="p-6 text-center text-sm font-display font-bold uppercase">{brokers[0]}</th>
+                      <th className="p-6 text-center text-sm font-display font-bold uppercase">{brokers[1]}</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody className="divide-y divide-border-slate/50">
+                    {page.comparisonMatrix.map((row: any) => (
+                      <tr key={row.feature} className="hover:bg-background-surface/30 transition-colors">
+                        <td className="p-6 text-[10px] font-mono uppercase tracking-widest text-text-tertiary">{row.feature}</td>
+                        <td className="p-6 text-center text-sm font-bold text-text-primary">{row.b1}</td>
+                        <td className="p-6 text-center text-sm font-bold text-text-primary">{row.b2}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </div>
-          </div>
+          )}
 
           {/* Verdict */}
-          <section className="bg-background-surface border border-border-slate p-12 relative overflow-hidden mb-20">
-            <div className="absolute top-0 left-0 w-2 h-full bg-accent" />
-            <div className="flex items-center space-x-4 mb-8">
-              <div className="w-12 h-12 bg-accent/10 rounded-full flex items-center justify-center">
-                <Info className="w-6 h-6 text-accent" />
+          {page.verdict && (
+            <section className="bg-background-surface border border-border-slate p-12 relative overflow-hidden mb-20">
+              <div className="absolute top-0 left-0 w-2 h-full bg-accent" />
+              <div className="flex items-center space-x-4 mb-8">
+                <div className="w-12 h-12 bg-accent/10 rounded-full flex items-center justify-center">
+                  <Info className="w-6 h-6 text-accent" />
+                </div>
+                <h2 className="text-2xl font-display font-bold uppercase">The Drawdown Verdict</h2>
               </div>
-              <h2 className="text-2xl font-display font-bold uppercase">The Drawdown Verdict</h2>
-            </div>
-            <p className="text-lg text-text-secondary leading-relaxed mb-10">
-              {page.verdict}
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4">
-              <a href="#" className="flex-1 py-4 bg-background-elevated border border-border-slate text-center text-[10px] font-bold uppercase tracking-widest hover:border-accent transition-colors">Visit {brokers[0].toUpperCase()}</a>
-              <a href="#" className="flex-1 py-4 bg-background-elevated border border-border-slate text-center text-[10px] font-bold uppercase tracking-widest hover:border-accent transition-colors">Visit {brokers[1].toUpperCase()}</a>
-            </div>
-          </section>
+              <p className="text-lg text-text-secondary leading-relaxed mb-10">
+                {page.verdict}
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4">
+                <a href="#" className="flex-1 py-4 bg-background-elevated border border-border-slate text-center text-[10px] font-bold uppercase tracking-widest hover:border-accent transition-colors">Visit {brokers[0].toUpperCase()}</a>
+                <a href="#" className="flex-1 py-4 bg-background-elevated border border-border-slate text-center text-[10px] font-bold uppercase tracking-widest hover:border-accent transition-colors">Visit {brokers[1].toUpperCase()}</a>
+              </div>
+            </section>
+          )}
 
           {/* Footer CTA */}
           <section className="text-center space-y-6">

@@ -16,7 +16,8 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const broker = US_BROKERS.find((b) => b.slug === params.slug);
+  const { slug } = await params;
+  const broker = US_BROKERS.find((b) => b.slug === slug);
   if (!broker) return {};
 
   return {
@@ -25,8 +26,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default function UnitedStatesBrokerReviewPage({ params }: Props) {
-  const broker = US_BROKERS.find((b) => b.slug === params.slug);
+export default async function UnitedStatesBrokerReviewPage({ params }: Props) {
+  const { slug } = await params;
+  const broker = US_BROKERS.find((b) => b.slug === slug);
 
   if (!broker) {
     notFound();

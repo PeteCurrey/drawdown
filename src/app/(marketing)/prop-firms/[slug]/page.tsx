@@ -17,7 +17,8 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const review = PROP_FIRM_REVIEWS.find((r) => r.slug === params.slug);
+  const { slug } = await params;
+  const review = PROP_FIRM_REVIEWS.find((r) => r.slug === slug);
   if (!review) return {};
 
   return {
@@ -26,8 +27,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default function PropFirmReviewPage({ params }: Props) {
-  const review = PROP_FIRM_REVIEWS.find((r) => r.slug === params.slug);
+export default async function PropFirmReviewPage({ params }: Props) {
+  const { slug } = await params;
+  const review = PROP_FIRM_REVIEWS.find((r) => r.slug === slug);
 
   if (!review) {
     notFound();

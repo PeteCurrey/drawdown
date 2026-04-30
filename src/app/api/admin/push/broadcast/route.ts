@@ -1,11 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createClient } from "@supabase/supabase-js";
+import { createInternalSupabase } from "@/lib/supabase/server";
 
-// Use service role key to bypass RLS for administrative broadcasting
-const supabaseAdmin = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
+const supabaseAdmin = createInternalSupabase();
 
 export async function POST(request: NextRequest) {
   try {

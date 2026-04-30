@@ -29,8 +29,18 @@ const TYPE_BADGES: Record<string, string> = {
   other: 'bg-text-tertiary/15 text-text-tertiary border-text-tertiary/30',
 };
 
-const EMPTY_FORM = {
-  slug: '', display_name: '', type: 'broker' as const,
+interface FormState {
+  slug: string;
+  display_name: string;
+  type: 'broker' | 'prop_firm' | 'tool' | 'other';
+  destination_url: string;
+  commission_type: string;
+  commission_detail: string;
+  notes: string;
+}
+
+const EMPTY_FORM: FormState = {
+  slug: '', display_name: '', type: 'broker',
   destination_url: '', commission_type: '', commission_detail: '', notes: '',
 };
 

@@ -39,9 +39,9 @@ export default function CoachPage() {
     const fetchData = async () => {
       const supabase = createClient();
       
-      const reportsRes = await supabase.from('discipline_reports').select('*').order('week_ending', { ascending: false });
-      const tradesRes = await supabase.from('individual_trades').select('*').order('entry_time', { ascending: false }).limit(20);
-      const accountRes = await supabase.from('funded_accounts').select('*').eq('account_status', 'active').limit(1).single();
+      const reportsRes = await supabase.from('discipline_reports').select('*').order('week_ending', { ascending: false }) as any;
+      const tradesRes = await supabase.from('individual_trades').select('*').order('entry_time', { ascending: false }).limit(20) as any;
+      const accountRes = await supabase.from('funded_accounts').select('*').eq('account_status', 'active').limit(1).single() as any;
 
       if (reportsRes.data) setReports(reportsRes.data);
       else setReports(MOCK_REPORTS);

@@ -50,7 +50,7 @@ export interface BestOfPage {
     question: string;
     answer: string;
   }[];
-  relatedPages?: { title: string; href: string }[];
+  relatedPages?: { title: string; href?: string; slug?: string }[];
 }
 
 export const BEST_OF_PAGES: BestOfPage[] = [

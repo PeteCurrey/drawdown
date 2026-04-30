@@ -19,7 +19,7 @@ interface BestBrokerTemplateProps {
   top3Ids: string[]; // IDs for the quick-pick table
   methodology: string;
   faqs: FAQItem[];
-  relatedPages: { title: string; href: string }[];
+  relatedPages: { title: string; href?: string; slug?: string }[];
   slug: string;
 }
 
@@ -315,7 +315,7 @@ export function BestBrokerTemplate({
             {relatedPages.map((page, i) => (
               <Link 
                 key={i} 
-                href={page.href}
+                href={page.href || (page.slug ? `/best/${page.slug}` : "#")}
                 className="group p-6 bg-background-surface border border-border-slate hover:border-accent transition-premium"
               >
                 <span className="text-[10px] font-mono text-accent block mb-2 font-bold uppercase tracking-widest">Internal Link // 0{i+1}</span>

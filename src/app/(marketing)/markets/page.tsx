@@ -105,7 +105,7 @@ export default function MarketsHubPage() {
                   {/* Affiliate Monetization */}
                   <div className="p-6 bg-background-primary border-t border-border-slate/50">
                      <p className="text-xs text-text-secondary mb-3">Trading Forex?</p>
-                     <a href="/api/market/brokers/redirect?id=pepperstone" className="flex items-center justify-between text-sm font-bold text-text-primary hover:text-accent transition-colors">
+                     <a href="/go/pepperstone" className="flex items-center justify-between text-sm font-bold text-text-primary hover:text-accent transition-colors">
                         Trade on Pepperstone (Raw Spreads) <ArrowRight className="w-4 h-4" />
                      </a>
                   </div>
@@ -146,7 +146,7 @@ export default function MarketsHubPage() {
                   {/* Affiliate Monetization */}
                   <div className="p-6 bg-background-primary border-t border-border-slate/50">
                      <p className="text-xs text-text-secondary mb-3">Trading Indices?</p>
-                     <a href="/api/market/brokers/redirect?id=ig-markets" className="flex items-center justify-between text-sm font-bold text-text-primary hover:text-accent transition-colors">
+                     <a href="/go/ig-markets" className="flex items-center justify-between text-sm font-bold text-text-primary hover:text-accent transition-colors">
                         Trade on IG (Tax-Free UK) <ArrowRight className="w-4 h-4" />
                      </a>
                   </div>

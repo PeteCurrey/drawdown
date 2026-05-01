@@ -18,7 +18,7 @@ const goldBrokers = [
     pros: ["Tightest raw spread on XAU/USD", "Sub-30ms execution", "TradingView native integration"],
     cons: ["Commission on Raw accounts"],
     score: 9.4,
-    link: "/api/market/brokers/redirect?id=pepperstone"
+    link: "/go/pepperstone"
   },
   {
     rank: 2,
@@ -34,7 +34,7 @@ const goldBrokers = [
     pros: ["Lowest commission per lot", "Deep liquidity during NY session", "Scalping permitted"],
     cons: ["No TradingView direct integration", "Weaker UK regulation"],
     score: 9.1,
-    link: "/api/market/brokers/redirect?id=ic-markets"
+    link: "/go/ic-markets"
   },
   {
     rank: 3,
@@ -51,7 +51,7 @@ const goldBrokers = [
     pros: ["Tax-free for UK traders (spread bet)", "Strongest UK regulation", "Gold CFD and spread bet"],
     cons: ["Wider spread than raw brokers", "Less suitable for scalpers"],
     score: 8.8,
-    link: "/api/market/brokers/redirect?id=ig-markets"
+    link: "/go/ig-markets"
   }
 ];
 

@@ -25,7 +25,7 @@ export const brokers: Broker[] = [
     rating: 4.9,
     minDeposit: "£0",
     spreads: "0.6 pips",
-    platforms: ["IG Platform", "MT4", "ProRealTime", "L2 Dealer"],
+    platforms: ["IG Platform", "MT4", "ProRealTime", "L2 Dealer", "TradingView"],
     fcaRegulated: true,
     pros: [
       "Founded in 1974 (London)",
@@ -78,7 +78,7 @@ export const brokers: Broker[] = [
     rating: 4.7,
     minDeposit: "£200",
     spreads: "0.0 pips (Razor)",
-    platforms: ["cTrader", "MT4", "MT5", "TradingView"],
+    platforms: ["MT4", "MT5", "TradingView", "Pepperstone Web"],
     fcaRegulated: true,
     pros: ["Ultra-low spreads", "Superior cTrader support", "Lightning-fast execution"],
     cons: ["Forex/CFD focused only", "No direct share ownership"],

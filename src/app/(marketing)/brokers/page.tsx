@@ -12,10 +12,10 @@ const topBrokers = [
     logoUrl: "https://upload.wikimedia.org/wikipedia/commons/2/2d/IG_Group_logo.svg",
     color: "#E11A27",
     spreads: "From 0.6 pips",
-    platforms: "ProRealTime, MT4, L2 Dealer",
+    platforms: "IG Platform, MT4, TradingView",
     regulation: "FCA, ASIC, NFA",
     features: ["Tax-Free UK Trading", "Institutional Liquidity", "Extended Hours"],
-    link: "/api/market/brokers/redirect?id=ig-markets"
+    link: "/go/ig-markets"
   },
   {
     id: "pepperstone",
@@ -25,10 +25,10 @@ const topBrokers = [
     fallback: "PS",
     color: "#0032FF",
     spreads: "Raw 0.0 pips",
-    platforms: "cTrader, MT4, MT5, TradingView",
+    platforms: "MT4, MT5, TradingView, Web",
     regulation: "FCA, ASIC, DFSA",
     features: ["Zero Spread Accounts", "Sub-30ms Execution", "Active Trader Rebates"],
-    link: "/api/market/brokers/redirect?id=pepperstone"
+    link: "/go/pepperstone"
   },
   {
     id: "ic-markets",
@@ -38,10 +38,10 @@ const topBrokers = [
     fallback: "IC",
     color: "#2C2F36",
     spreads: "Raw 0.0 pips",
-    platforms: "MT4, MT5, cTrader",
+    platforms: "MT4, MT5, cTrader, TradingView",
     regulation: "ASIC, CySEC, FSA",
     features: ["High Leverage Options", "Deep Liquidity Pools", "No Dealing Desk"],
-    link: "/api/market/brokers/redirect?id=ic-markets"
+    link: "/go/ic-markets"
   }
 ];
 

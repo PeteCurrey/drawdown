@@ -169,7 +169,7 @@ export default function PropFirmsHubPage() {
 
                      <div className="space-y-3">
                         <Link 
-                           href={`/api/market/prop-firms/redirect?id=${firm.id}&source=prop_hub`}
+                           href={`/go/${firm.id}`}
                            className="w-full py-4 border border-accent hover:bg-accent hover:text-[#08090D] transition-premium text-center text-[10px] font-bold uppercase tracking-widest block"
                         >
                            Start Challenge

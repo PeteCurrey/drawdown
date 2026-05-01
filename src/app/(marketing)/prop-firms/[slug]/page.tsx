@@ -165,7 +165,7 @@ export default async function PropFirmReviewPage({ params }: Props) {
                  </p>
                  <div className="pt-8">
                    <Link 
-                      href={`/api/market/prop-firms/redirect?id=${review.slug}&source=review_page`}
+                      href={`/go/${review.slug}`}
                       className="inline-flex items-center gap-4 bg-accent text-[#08090D] px-10 py-5 font-display font-black uppercase tracking-[0.2em] text-sm hover:translate-y-[-2px] transition-all shadow-xl shadow-accent/20"
                    >
                       Start Your Challenge <ArrowRight className="w-4 h-4" />
@@ -210,7 +210,7 @@ export default async function PropFirmReviewPage({ params }: Props) {
                    </div>
                 </div>
                 <Link 
-                   href={`/api/market/prop-firms/redirect?id=${review.slug}&source=sidebar`}
+                   href={`/go/${review.slug}`}
                    className="w-full py-4 bg-accent text-[#08090D] font-bold uppercase tracking-widest text-[10px] flex items-center justify-center gap-2"
                 >
                    Visit Official Site <ArrowRight className="w-3 h-3" />

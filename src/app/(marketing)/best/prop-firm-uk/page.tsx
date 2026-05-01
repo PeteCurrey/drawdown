@@ -76,7 +76,7 @@ export default function BestPropFirmUK() {
                   <td className="p-6">{firm.profitSplit}</td>
                   <td className="p-6 text-right">
                     <a 
-                      href={`/api/market/prop-firms/redirect?id=${firm.slug}&source=best-prop-firm-uk`}
+                      href={`/go/${firm.slug}`}
                       className="inline-flex items-center gap-2 bg-accent text-background-primary px-4 py-2 text-[10px] font-black uppercase tracking-widest hover:bg-accent-hover transition-colors"
                     >
                       Start Challenge <ExternalLink className="w-3 h-3" />

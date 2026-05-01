@@ -86,171 +86,146 @@ export interface LearnTopic {
 }
 
 export const LEARN_TOPICS: LearnTopic[] = [
-  {
+    {
     slug: "day-trading",
     title: "Day Trading",
-    subtitle: "Day trading is one of the hardest ways to make money. It's also one of the most rewarding when done properly.",
-    description: "The complete guide to day trading in the UK. From the London session dynamics to worked risk calculations — honest, specific, and written by someone who actually trades.",
+    subtitle: "The reality of intraday execution. No Lamborghinis. No signal groups. Just process, risk management, and statistical edge.",
+    description: "Master the highest-intensity trading environment. Learn how to navigate the London Open, manage intraday volatility, and treat day trading like a mechanical business rather than a casino.",
     category: "Strategy",
     difficulty: "Advanced",
     timeToLearn: "12-24 months",
     riskLevel: "Very High",
     heroImage: "/images/learn/day-trading.jpg",
-    metaTitle: "Day Trading Guide UK 2026 — The Honest Beginner's Guide | Drawdown",
-    metaDescription: "Learn day trading the right way. Specific London session strategies, worked risk-management examples, and the honest statistics most trading sites won't show you. UK-focused, FCA-broker recommendations included.",
-    honestReality: "Before we teach you anything about day trading, here's what the data says: roughly 70-80% of retail day traders lose money. Not because the markets are rigged — but because most people start trading without understanding risk management, without a proven edge, and without the psychological discipline to execute consistently. The research from ESMA (the European Securities and Markets Authority) shows that between 74% and 89% of retail CFD traders lose money. In the US, studies of retail day traders show similar or worse outcomes. We lead with this not to discourage you, but because the first step to becoming a profitable trader is understanding why most people fail. Drawdown exists to change that. We teach the hard stuff first.",
+    metaTitle: "Day Trading Guide UK 2026 | The Institutional Path | Drawdown",
+    metaDescription: "Learn to day trade the UK markets without the guru fluff. Master the London Open, manage risk like a professional, and build a profitable edge.",
+    honestReality: "The internet will tell you that day trading is a path to quick wealth. The honest reality is that 90% of day traders fail within 90 days. It takes a minimum of 12 to 24 months of consistent, disciplined practice to achieve profitability. You will not get rich this week. You will blow an account. But if you survive the learning curve, build a strict mechanical edge, and treat it like a data-driven business, it is a highly scalable profession. Stop looking for shortcuts.",
     content: [
       {
         heading: "What Day Trading Actually Is",
-        text: "Day trading is the practice of buying and selling financial instruments within the same trading day — all positions are closed before the market shuts. You are not investing. You are speculating on short-term price movements, typically over minutes to hours. In the UK, day trading typically centres around four markets: major forex pairs (GBPUSD, EURUSD), UK indices like the FTSE 100, US indices (S&P 500, Nasdaq), and gold (XAUUSD). Each has different volatility profiles, session times, and risk characteristics.\n\nThe biggest myth about day trading is that it requires constant screen-watching. Professional day traders typically work 2-4 hours per day, focused on specific high-probability sessions. The rest of the time is preparation and review, not staring at charts.",
+        text: "Day trading involves opening and closing financial positions within the same trading day. Unlike swing trading or investing, a day trader never holds a position overnight. The primary objective is to exploit small, highly liquid price movements during the most volatile hours of the day.\n\nRetail traders often view day trading as a fast-paced adrenaline rush. Professional day traders view it as incredibly boring. It is the repetitive execution of a strictly defined edge over hundreds of trades. The goal is not to 'make a killing' on a single trade, but to capture small, consistent percentage gains that compound over time.\n\nThe biggest advantage of day trading is the elimination of 'overnight risk.' Because you close all positions before the market closes, you are completely immune to catastrophic news events that happen while you are asleep. If a major geopolitical crisis breaks out on a Saturday, a day trader's capital is safely sitting in cash, while swing traders wake up on Monday morning to massive, unpreventable losses.",
         richBlocks: [
           {
-            type: 'statCallout',
-            stat: '74-89%',
-            context: 'of retail CFD traders lose money, according to ESMA data across regulated European brokers.',
-            source: 'ESMA (European Securities and Markets Authority)'
-          } as StatCalloutBlock
+            type: 'proTip',
+            tip: 'If you feel adrenaline while in a trade, your position size is too big. Trading should feel like data entry. It should be entirely mechanical and devoid of emotion.'
+          } as ProTipBlock
         ]
       },
       {
         heading: "The London Session — Your Home Advantage",
-        text: "For UK traders, the London session (8:00 AM – 4:30 PM GMT) is the most important window in the trading day. The London Open at 8:00 AM GMT is where the majority of institutional volume enters the market. Banks, hedge funds, and large asset managers in London begin positioning for the day, creating the directional moves that day traders look to capitalise on.\n\nThe most active period for UK traders is the first two hours: 8:00 AM – 10:00 AM GMT. During this window, GBPUSD and EURUSD see their tightest spreads and highest volume. The London-New York overlap (1:00 PM – 4:00 PM GMT) is the second high-probability window — this is when both the world's largest financial centres are open simultaneously, creating maximum liquidity.\n\nAvoid trading between 11:00 AM and 12:30 PM GMT. This 'dead zone' sees volume drop significantly as London traders break for lunch. Trends established at the open often stall or reverse during this period. Many traders simply stop trading during this window.",
-        richBlocks: [
-          {
-            type: 'statCallout',
-            stat: '~50%',
-            context: 'of daily forex volume occurs during the London-New York overlap (1pm–4pm GMT). Outside this window, liquidity thins significantly.',
-            source: 'BIS Triennial Central Bank Survey'
-          } as StatCalloutBlock
-        ]
-      },
-      {
-        heading: "What You Actually Need to Start",
-        text: "Here is the honest minimum setup for a UK day trader:\n\n1. Capital: We recommend at least £2,000. With £2,000 and a strict 1% risk rule, your maximum loss per trade is £20. This is enough for meaningful practice while protecting your capital. With less than £1,000, proper position sizing becomes nearly impossible — you end up taking on disproportionate risk to make the trades 'feel worth it'.\n\n2. Broker: An FCA-regulated broker that supports spread betting (for tax efficiency) or CFDs. For day trading specifically, you need tight spreads and fast execution. We recommend IG Markets for spread betting and Pepperstone for ECN-style CFD trading.\n\n3. Platform: TradingView for charting (free plan is sufficient to start). Your broker's execution platform for placing trades.\n\n4. Connection: A reliable internet connection. Sounds obvious, but a dropped connection during an open position is a serious risk.\n\n5. Time: A consistent 2-3 hour block during either the London Open (8-11am GMT) or the London-NY overlap (1-4pm GMT). You cannot day trade effectively in 15-minute windows.",
-        richBlocks: [
-          {
-            type: 'brokerCard',
-            brokerSlug: 'ig',
-            brokerName: 'IG Markets',
-            bestFor: 'Best for UK spread betting — Pete\'s platform of choice',
-            regulation: 'FCA Regulated',
-            affiliateSlug: 'ig',
-            stat: 'Spread betting from 0.6 pips — tax-free profits for UK residents'
-          } as BrokerCardBlock,
-          {
-            type: 'brokerCard',
-            brokerSlug: 'pepperstone',
-            brokerName: 'Pepperstone',
-            bestFor: 'Best for tight-spread ECN CFD trading',
-            regulation: 'FCA Regulated',
-            affiliateSlug: 'pepperstone',
-            stat: 'Raw spreads from 0.0 pips on Razor account'
-          } as BrokerCardBlock
-        ]
-      },
-      {
-        heading: "Risk Management: The Only Rule That Matters",
-        text: "Every profitable trader follows one version of the same rule: never risk more than 1-2% of your account on a single trade. This is not a suggestion — it is the difference between surviving and not.\n\nHere is how the 1% rule works in practice:\n\n— Account size: £5,000\n— Risk per trade (1%): £50\n— Trade: GBPUSD long\n— Entry: 1.2650\n— Stop loss: 20 pips below entry at 1.2630\n— Pip value (0.5 lots): approximately £5 per pip\n— To risk £50 with a 20-pip stop: position size = £50 ÷ (20 pips × £5) = 0.5 lots\n\nWith this calculation, if the trade hits your stop, you lose exactly £50 — 1% of your account. You can then have 20 consecutive losing trades before losing 18% of your account. That is survivability. Most beginners trade with no stop loss, or they size positions based on what 'feels right' — which is a path to account destruction.\n\nThe key psychological shift: stop thinking in pound amounts and start thinking in percentages.",
-        richBlocks: [
-          {
-            type: 'tradeExample',
-            title: 'London Open Breakout — GBPUSD',
-            instrument: 'GBP/USD',
-            session: 'London Open, 8:15am GMT',
-            entry: '1.2654',
-            stopLoss: '1.2638 (16 pips)',
-            takeProfit: '1.2686 (32 pips)',
-            riskReward: '1:2',
-            accountSize: '£5,000',
-            riskPercent: '1% (£50)',
-            positionSize: '0.3 lots',
-            result: '+£96 (+1.9%)',
-            isProfit: true
-          } as TradeExampleBlock,
-          {
-            type: 'proTip',
-            tip: 'I always calculate my position size BEFORE I enter the trade, never during it. Once you\'re watching a position move against you, your judgement is compromised. Set the size in cold blood — before emotions are involved.'
-          } as ProTipBlock,
-          {
-            type: 'statCallout',
-            stat: '20 losses',
-            context: 'At 1% risk per trade, you can sustain 20 consecutive losing trades before losing just 18% of your account. This is what "survivability" means in trading.',
-          } as StatCalloutBlock
-        ]
-      },
-      {
-        heading: "The Three Day Trading Setups That Actually Work",
-        text: "Most retail traders try to learn 15 different setups and end up mastering none. Professional day traders typically have 2-3 setups they know intimately well. Here are the three that form the foundation of our curriculum:\n\n1. The London Breakout: Price consolidates in a tight range during the pre-market Asian session (typically 2am–7:30am GMT). At the London Open, institutional flow breaks the range in a directional move. You wait for the break with confirmation — a close above the range high — then enter with a stop below the range low.\n\n2. The Morning Trend Continuation: After the initial London Open volatility settles (around 9am GMT), look for a clear intraday trend to establish itself. Trade pullbacks to the 20 EMA on the 15-minute chart in the direction of the trend. This is a lower-volatility, higher-consistency setup.\n\n3. The Liquidity Grab Reversal: Markets frequently sweep above recent highs or below recent lows to 'grab' the stop-loss orders sitting there, before reversing sharply. These sweeps happen fast — within 1-2 candles — and are followed by strong reversals. Spotting them requires understanding where retail traders have their stops, which requires time and practice.",
+        text: "The financial markets are active 24/5, but they are not created equal. The most critical advantage a UK-based trader has is geography. The London session is the undisputed center of global foreign exchange trading, accounting for over 40% of all daily FX volume. \n\nThe London Open (8:00 AM GMT) provides the massive injection of institutional liquidity required for clean, directional price action. When the New York session opens at 1:00 PM GMT, creating the 'London/New York Overlap,' the market reaches its absolute peak volume.\n\nYou do not need to sit in front of the charts for 12 hours a day. The highest probability setups occur specifically during the first two hours of the London Open, and the first two hours of the New York Open. If you can dedicate 2-3 focused hours a day during these specific windows, you have access to the cleanest price action in the world.\n\nTrading outside of these high-volume windows (such as the late Asian session) often results in 'choppy,' unpredictable price action where technical setups fail due to a lack of institutional momentum.",
         bullets: [
-          "London Breakout: Trade the range break at 8am GMT with a stop inside the range",
-          "Morning Trend Continuation: Pullback entries on the 15M chart to the 20 EMA after 9am",
-          "Liquidity Grab: Enter on the reversal after a false break of a key high/low"
+          "London Open (8:00 AM GMT): Highest volatility, ideal for breakout and momentum strategies.",
+          "London/NY Overlap (1:00 PM - 4:00 PM GMT): Maximum liquidity, ideal for trading major US economic data.",
+          "Asian Session: Lower volume, best avoided by beginner day traders looking for large directional moves."
         ]
       },
       {
-        heading: "The Most Common Day Trading Mistakes",
-        text: "These mistakes are not theory — they are the most common patterns identified in thousands of trade journals reviewed across the Drawdown community:\n\n1. Overtrading: The urge to be in a trade at all times. Professionals wait. Most trading sessions should have 1-2 quality setups, not 10.\n\n2. No stop loss (or moving it): Removing or widening a stop after price moves against you is the single most catastrophic mistake a trader can make. The stop exists because that is the point where your trade idea is invalidated — not where it 'hurts'.\n\n3. Trading during the lunch lull: The 11am–12:30pm GMT window is a graveyard for trend traders. Volume evaporates, spreads widen, and price movements are erratic.\n\n4. Revenge trading: Losing a trade and immediately trying to 'make it back' with a larger position. This is biology, not strategy — your brain wants to restore a loss, but the market does not care what you lost. Walk away after any loss that feels emotional.\n\n5. Ignoring the spread cost: On a £100 account, a 1.5 pip spread on a micro lot costs £0.15 per trade. Sounds tiny. But if you make 10 trades a day, that is £1.50 — 1.5% of your account — in spread costs alone before you make a single pound in profit.",
+        heading: "UK-Specific Advantages: The Structural Edge",
+        text: "Trading in the UK provides massive structural advantages over traders in the US or Europe. If you are serious about day trading, you must utilize these domestic benefits.\n\nFirst is the tax structure. Under current HMRC regulations, profits made from Spread Betting are classified as gambling, making them completely exempt from Capital Gains Tax (CGT) and Stamp Duty. This means you keep 100% of your profits. Conversely, trading via CFDs or traditional shares subjects you to CGT.\n\nSecond is the absence of the Pattern Day Trader (PDT) rule. In the United States, traders with under $25,000 in their account are legally restricted from taking more than three day trades in a five-day period. In the UK, there is no PDT rule. You can execute 50 trades a day on a £500 account if you wish.\n\nFinally, there is the Financial Services Compensation Scheme (FSCS). If you trade with an FCA-regulated broker, your capital is protected up to £85,000 if the broker goes bankrupt. This is a massive layer of security that offshore, unregulated brokers cannot provide.",
         richBlocks: [
           {
-            type: 'riskWarning'
+            type: 'riskWarning',
+            title: 'HMRC and Spread Betting',
+            warning: 'While spread betting is currently tax-free, this is only true if it is not your primary source of income. If you trade full-time and have no other income, HMRC may classify you as a professional, making your profits taxable. Always consult a tax professional.'
           } as RiskWarningBlock
         ]
       },
       {
-        heading: "How Long Does It Actually Take?",
-        text: "The honest answer: most traders who eventually become profitable take between 12 and 24 months of consistent practice, journaling, and review before seeing consistent results. The 'can you learn in a weekend?' courses are selling you a fantasy.\n\nHere is a realistic timeline:\n\nMonths 1-3: Learn the fundamentals. Platform setup, reading charts, understanding pips and leverage. Trade demo only.\n\nMonths 3-6: Learn your 2-3 core setups. Journal every trade. Review weekly. Still demo or very small live account (£100-£500).\n\nMonths 6-12: Live account with strict 1% risk. The goal here is consistency of process, not profitability. Are you following your rules? Every time?\n\nMonths 12-24: This is where edge emerges if you have been journaling properly. You can now identify which setups work for you, during which sessions, with which instruments. You have data.\n\nMonth 24+: Consistent profitability is achievable. But even then, expect drawdown periods. Every professional trader goes through them.",
+        heading: "What You Actually Need to Start",
+        text: "You do not need six monitors and a Bloomberg terminal to be a profitable day trader. You need three things: capital you can afford to lose, a fast execution platform, and a rigid data-collection system.\n\nCapital: Do not start day trading with money you need for rent or groceries. The psychological pressure of 'needing' to make money will force you to take terrible trades. Start with a small amount of risk capital, or better yet, use a demo account for the first 6 months to prove you have a statistical edge before risking real money.\n\nExecution: You need a broker with Direct Market Access (DMA) or an ECN model that provides 'raw spreads.' In day trading, you are fighting for pips. If your broker has a 2-pip spread on EUR/USD, you are starting every trade heavily in the negative. You need spreads of 0.0 to 0.2 pips with a small fixed commission per lot.\n\nData Collection: This is what separates the professionals from the gamblers. You must use a digital trade journal (like TradeZella or a custom spreadsheet) to track every single entry, exit, win rate, and drawdown. You cannot improve what you do not measure.",
         richBlocks: [
           {
             type: 'toolCard',
-            toolSlug: 'ai-trade-journal',
-            toolName: 'AI Trade Journal',
-            description: 'Track your day trading patterns automatically. The AI identifies when your "losing streak" is actually a discipline problem, not a strategy problem.',
-            features: ['Automated trade logging', 'Sentiment and psychology tracking', 'Visual equity curve', 'Pattern identification'],
-            tier: 'Edge+'
-          } as ToolCardBlock,
-          {
-            type: 'toolCard',
-            toolSlug: 'risk-calculator',
-            toolName: 'Position Sizer',
-            description: 'Calculate your exact lot size for any stop distance and account size. Never over-leverage again.',
-            features: ['Instant pip value calculation', 'Multi-pair support', 'XAUUSD/Gold optimised', 'Free to use'],
-            tier: 'Free'
+            toolSlug: 'tradingview',
+            toolName: 'TradingView',
+            description: 'The industry standard for charting. Clean UI, custom alerts, and essential for multi-timeframe analysis.',
+            features: ['Cloud charting', 'Server-side alerts', 'Volume profile'],
+            tier: 'Pro/Premium Recommended'
           } as ToolCardBlock
         ]
       },
       {
-        heading: "UK-Specific Considerations",
-        text: "As a UK trader, you have several advantages that traders in other countries do not:\n\n1. Spread Betting Tax Efficiency: Under current HMRC rules, profits from spread betting are exempt from Capital Gains Tax and Income Tax. This is a massive advantage. On a £10,000 profit, a UK spread bettor pays £0 in tax; a US trader pays up to 60% (40% ordinary income + 20% capital gains on short-term positions). Use this advantage.\n\n2. FCA Protection: All FCA-regulated brokers must segregate client funds, maintain minimum capital requirements, and are subject to strict conduct rules. Always verify FCA regulation on the FCA Register (register.fca.org.uk) before depositing.\n\n3. FSCS Protection: For FCA-regulated brokers, your funds are protected up to £85,000 per firm under the Financial Services Compensation Scheme.\n\n4. No PDT Rule: The US Pattern Day Trader (PDT) rule requires a minimum $25,000 account to make more than 3 day trades per week. UK traders are not subject to this rule.\n\n5. GMT Timing: The London session (8am–4:30pm GMT) is your home session. You have a natural advantage trading markets you can monitor in real-time during normal waking hours."
+        heading: "Risk Management: The Only Rule That Matters",
+        text: "Risk management is the only thing standing between you and a blown account. The market is an inherently chaotic environment; you cannot control what the price will do next. The only thing you can absolutely control is how much money you lose when you are wrong.\n\nThe golden rule of institutional trading is the 1% Rule. You must never risk more than 1% of your total account equity on any single trade. If you have a £10,000 account, your maximum acceptable loss per trade is £100.\n\nBy risking only 1%, you guarantee your survival. Even if you hit a terrible losing streak and lose 10 trades in a row, you have only lost roughly 10% of your account. You live to trade another day. Retail traders who risk 10% or 20% per trade will inevitably blow their entire account during their first normal drawdown period.",
+        richBlocks: [
+          {
+            type: 'tradeExample',
+            title: 'Mathematical Position Sizing',
+            instrument: 'GBP/USD',
+            session: 'London Open',
+            entry: '1.2500',
+            stopLoss: '1.2480 (20 Pips Risk)',
+            takeProfit: '1.2540 (40 Pips Reward)',
+            riskReward: '1:2',
+            accountSize: '£5,000',
+            riskPercent: '1% (£50 maximum loss)',
+            positionSize: '£2.50 per pip (Spread Betting)',
+            result: '+£100 Profit',
+            isProfit: true
+          } as TradeExampleBlock
+        ]
+      },
+      {
+        heading: "The Three Day Trading Setups That Actually Work",
+        text: "To succeed in day trading, you do not need to know 50 different strategies. You only need to master one or two high-probability setups and execute them flawlessly. The following three setups are the foundation of institutional retail trading.\n\n1. The Liquidity Sweep: This occurs when price approaches a highly obvious support or resistance level (where retail traders have placed their stop-losses). The institutions drive the price quickly through the level, trigger the stops (absorbing the liquidity), and immediately reverse the price. You enter on the reversal back inside the range, placing your stop tightly behind the newly created wick.\n\n2. The Break and Retest: When a major market structure level is broken with high volume, do not chase the breakout. Wait for the inevitable 'pullback' or 'retest' of that broken level. What was once resistance becomes support. Enter on the retest, using a lower-timeframe confirmation (like an engulfing candle) to validate the entry.\n\n3. The Session Open Momentum Trade: This is specifically traded at 8:00 AM London Open or 1:00 PM NY Open. You identify the consolidation range that formed during the quiet Asian session. As London volume hits the market, price will aggressively break out of this range. You trade in the direction of the initial high-volume institutional push.",
+        bullets: [
+          "Never trade the initial breakout; always wait for the retest or the sweep.",
+          "Volume is the ultimate validator. A breakout with low volume is a trap.",
+          "Pick ONE of these three setups and master it. Ignore everything else."
+        ]
+      },
+      {
+        heading: "The Most Common Day Trading Mistakes",
+        text: "The reason 90% of day traders fail is because human psychology is biologically wired to do the exact opposite of what profitable trading requires. \n\nThe most destructive mistake is 'Revenge Trading.' This occurs immediately after taking a painful loss. Instead of accepting the loss as a business expense, the trader gets angry and immediately re-enters the market with double the size, desperate to win their money back. This is how accounts are blown in a single afternoon.\n\nThe second major mistake is 'Over-Trading.' Because day trading is fast-paced, beginners feel the need to always be in a trade. If you take 10 trades a day, you are almost certainly forcing sub-par setups. A professional day trader might only take 2 or 3 extremely high-quality setups per week.\n\nFinally, there is the failure to use a hard stop-loss. Mental stop-losses do not work. When the price hits your mental stop, your ego will convince you to 'give it just a little more room to breathe.' A hard stop-loss removes the decision-making process entirely.",
+        richBlocks: [
+          {
+            type: 'statCallout',
+            stat: '80%',
+            context: 'of day trading success is entirely psychological. Your ability to execute your plan perfectly after three consecutive losses is what separates the amateur from the professional.',
+          } as StatCalloutBlock
+        ]
+      },
+      {
+        heading: "Choosing the Right UK Broker",
+        text: "If you are day trading, your broker is your most critical business partner. You cannot trade effectively if your broker has massive slippage, wide spreads, or freezes during high-impact news events.\n\nFor UK day traders, we recommend FCA-regulated brokers that offer 'raw spread' accounts or tight spread betting options. You want a broker that uses an ECN (Electronic Communication Network) execution model, which routes your orders directly to tier-1 liquidity providers rather than taking the other side of your trade (B-Booking).\n\nAlways verify that the broker is fully regulated by the Financial Conduct Authority (FCA). This ensures your funds are segregated from the broker's operating capital and protects you under the FSCS framework.",
+        richBlocks: [
+          {
+            type: 'brokerCard',
+            brokerSlug: 'pepperstone',
+            brokerName: 'Pepperstone',
+            bestFor: 'Best for raw spreads and instant execution',
+            regulation: 'FCA Regulated',
+            affiliateSlug: 'pepperstone',
+            stat: 'Razor account features 0.0 pip minimum spreads'
+          } as BrokerCardBlock,
+          {
+            type: 'brokerCard',
+            brokerSlug: 'ig',
+            brokerName: 'IG Markets',
+            bestFor: 'Best for advanced UK spread betting',
+            regulation: 'FCA Regulated',
+            affiliateSlug: 'ig',
+            stat: 'Largest spread betting provider in the UK'
+          } as BrokerCardBlock
+        ]
       }
     ],
     faqs: [
       {
         question: "How much money do I need to start day trading in the UK?",
-        answer: "We recommend a minimum of £1,000-£2,000 for spread betting in the UK. With £1,000 and a strict 1% risk rule, your maximum loss per trade is £10. This gives you meaningful practice while protecting your capital. Anything under £500 makes proper position sizing very difficult — you end up forced into either too much risk or positions so small they have no learning value."
+        answer: "You can open an account with as little as £100, but to trade safely with proper risk management (risking only 1% per trade), a starting balance of £1,000 to £5,000 is highly recommended. Spread betting allows for very small stake sizes (e.g., £0.50 per point), which makes small accounts viable if you are strict with your risk."
       },
       {
-        question: "Is day trading legal in the UK?",
-        answer: "Yes, completely legal. UK traders typically use spread betting (which makes profits tax-free under current HMRC rules) or CFDs. Both are regulated by the FCA. You do not need a special licence or registration to trade your own capital."
+        question: "How long does it realistically take to become profitable?",
+        answer: "The honest timeline is 12 to 24 months. The first 6 months are spent losing money and learning the mechanics. The next 6 months are spent breaking even and learning emotional control. The second year is when statistical profitability typically begins for the traders who survive the learning curve."
       },
       {
-        question: "How long does it take to become a profitable day trader?",
-        answer: "Honestly? Most traders who eventually succeed take 12-24 months before seeing consistent profitability. This assumes consistent practice (trading or reviewing daily), rigorous journaling, and learning from mistakes rather than repeating them. Anyone promising you can learn in a weekend is selling you something."
+        question: "Is day trading tax-free in the UK?",
+        answer: "If you use a Spread Betting account, your profits are currently exempt from Capital Gains Tax and Stamp Duty. However, if you trade via CFDs or direct share dealing, your profits are subject to CGT. Always consult a tax professional."
       },
       {
-        question: "What's the best market for day trading in the UK?",
-        answer: "GBPUSD is the most popular for UK traders due to familiarity, timezone alignment (it's most active during London hours), and high liquidity. FTSE 100 is excellent for UK indices. Gold (XAUUSD) is very popular during the London-NY overlap but requires wider stops due to its volatility. We recommend starting with one instrument and learning it well before expanding."
-      },
-      {
-        question: "Do I pay tax on day trading profits in the UK?",
-        answer: "If you use spread betting, profits are currently exempt from Capital Gains Tax and Income Tax under HMRC rules. CFD trading is subject to CGT. If trading becomes your primary source of income, HMRC may treat it as trading income rather than capital gains regardless of instrument — always consult a tax professional who specialises in financial trading."
-      },
-      {
-        question: "What's the PDT rule and does it affect UK traders?",
-        answer: "The Pattern Day Trader (PDT) rule is a US FINRA regulation requiring traders to maintain $25,000 in their account to make more than 3 day trades in a 5-day period. As a UK trader using FCA-regulated brokers or spread betting, the PDT rule does NOT apply to you. You can make as many trades per day as your strategy requires."
-      },
-      {
-        question: "What's better for day trading — spread betting or CFDs?",
-        answer: "For most UK retail traders, spread betting is preferable due to tax efficiency. CFDs may offer tighter spreads on some instruments through ECN brokers like Pepperstone. Many UK day traders use spread betting for their primary FX trades and CFDs for US stocks where spread betting tax status is less clear-cut."
+        question: "Do I have to quit my job to day trade?",
+        answer: "Absolutely not. In fact, keeping your job is recommended to remove the psychological pressure of 'needing' to make money from the markets. Because the London Open is at 8:00 AM, many UK traders trade the first 90 minutes of the session before starting their normal workday."
       }
     ]
   },
@@ -279,151 +254,146 @@ export const LEARN_TOPICS: LearnTopic[] = [
       }
     ]
   },
-  {
+    {
     slug: "forex-trading",
     title: "Forex Trading",
-    subtitle: "The world's most liquid market is also its most ruthless. Here's how institutional forex actually works.",
-    description: "Navigate the global FX machine. From calculating true pip value to trading the London Open, master the mechanics of the foreign exchange market.",
+    subtitle: "The most liquid market on earth. Master currency pairs, leverage, and macroeconomic drivers without the guru promises of overnight wealth.",
+    description: "The complete institutional guide to trading the Foreign Exchange market. Learn how to trade the major pairs, understand central bank policy, and manage extreme leverage.",
     category: "Market",
-    difficulty: "Intermediate",
-    timeToLearn: "6-12 months",
+    difficulty: "Advanced",
+    timeToLearn: "12-24 months",
     riskLevel: "High",
     heroImage: "/images/learn/forex-trading.jpg",
-    metaTitle: "Forex Trading Guide UK 2026 | Master FX Market Mechanics | Drawdown",
-    metaDescription: "Learn Forex trading properly. Understand currency pairs, calculate precise pip values, and master leverage with our comprehensive institutional FX guide.",
-    honestReality: "The forex market is heavily romanticised. You will see social media traders claiming to make thousands from their phones on the beach. Here is the reality: Forex is a zero-sum game played against central banks, multi-billion dollar hedge funds, and sophisticated algorithmic trading desks. When you execute a trade, someone else is taking the other side of that position. To win consistently, your edge must be sharper than theirs. Most retail traders lose because they trade random chart patterns without understanding the underlying liquidity drivers or the impact of macroeconomic data. We will teach you how to view the market structurally, the way institutional traders do.",
+    metaTitle: "Forex Trading Guide UK 2026 | Master the Currency Markets | Drawdown",
+    metaDescription: "Learn to trade Forex properly. Understand pips, lots, leverage, and the macroeconomic forces that actually move the currency markets.",
+    honestReality: "The Forex industry is heavily marketed as a 'get rich quick' scheme to retail traders. The reality is that Forex is a highly efficient, hyper-competitive market dominated by central banks and institutional algorithms. The extreme leverage offered by brokers means you can double your money in a day, but it also means you can blow your entire account in a single bad trade. Success in FX requires a 12-24 month commitment to mastering both technical execution and deep macroeconomic understanding.",
     content: [
       {
-        heading: "Understanding the Global FX Machine",
-        text: "The Foreign Exchange (Forex) market is the largest and most liquid financial market in the world, processing over $7 trillion in daily volume. Unlike the stock market (like the LSE or NYSE), Forex has no central exchange. It is a decentralized, 'Over-The-Counter' (OTC) network of global banks, institutions, and retail brokers operating 24 hours a day, 5 days a week.\n\nWhen you trade forex, you are always trading a 'pair'. You are simultaneously buying one currency and selling another, betting on the relative strength of one country's economy against another. If you buy GBP/USD, you are betting that the British Pound will strengthen against the US Dollar.",
-        richBlocks: [
-          {
-            type: 'statCallout',
-            stat: '$7.5 Trillion',
-            context: 'Average daily volume in the global foreign exchange market, making it significantly larger than all global stock markets combined.',
-            source: 'Bank for International Settlements (BIS) 2022'
-          } as StatCalloutBlock
-        ]
-      },
-      {
-        heading: "The Mechanics: Pips, Lots, and Leverage",
-        text: "To trade forex safely, you must understand the mathematics behind your risk. Price movements in forex are measured in 'pips' (Percentage in Point). For most pairs (like EUR/USD or GBP/USD), a pip is the fourth decimal place. If GBP/USD moves from 1.2500 to 1.2501, that is a 1-pip move. For pairs involving the Japanese Yen (JPY), a pip is the second decimal place.\n\nBecause currency fluctuations are microscopic (often fractions of a cent), traders use 'leverage' and trade in standardized sizes called 'lots'.\n\n— Standard Lot (1.00) = 100,000 units of currency. 1 pip movement ≈ $10.\n— Mini Lot (0.10) = 10,000 units of currency. 1 pip movement ≈ $1.\n— Micro Lot (0.01) = 1,000 units of currency. 1 pip movement ≈ $0.10.\n\nLeverage is borrowed capital provided by your broker, allowing you to control these large positions with a smaller deposit. In the UK, FCA regulations cap retail leverage at 30:1 for major currency pairs. This means you need £3,333 to control a £100,000 position.",
+        heading: "The Mechanics of the FX Market",
+        text: "The Foreign Exchange (Forex) market is the largest and most liquid financial market in the world, processing over $7 trillion in daily volume. Unlike the stock market, which operates through centralized exchanges like the LSE or NYSE, Forex is completely decentralized. It is an Over-The-Counter (OTC) market where a global network of banks, institutions, and retail brokers trade currencies directly with one another.\n\nForex operates 24 hours a day, 5 days a week. The trading day follows the sun, opening in Sydney, moving to Tokyo, then to London, and finally closing in New York. \n\nCurrencies are always traded in pairs (e.g., GBP/USD). When you trade a pair, you are simultaneously buying one currency and selling the other. If you go 'long' on GBP/USD, you are betting that the British Pound will strengthen relative to the US Dollar. The extreme liquidity of the FX market means that 'slippage' is rarely an issue for major pairs, and execution is nearly instantaneous.",
         richBlocks: [
           {
             type: 'proTip',
-            tip: 'Do not focus on leverage; focus on position sizing. If you risk exactly 1% of your account per trade, the leverage your broker provides is largely irrelevant to your survival.'
-          } as ProTipBlock,
+            tip: 'Focus exclusively on the "Majors" (pairs containing the US Dollar, like EUR/USD, GBP/USD, USD/JPY) for your first year. They have the tightest spreads, the cleanest technical structure, and the most predictable volume.'
+          } as ProTipBlock
+        ]
+      },
+      {
+        heading: "Understanding Pips, Lots, and Leverage",
+        text: "To trade Forex, you must understand the mathematical language of the market.\n\n**The Pip:** A 'pip' (Percentage in Point) is the standard unit of measurement for price movement in Forex. For most pairs, it is the fourth decimal place. If GBP/USD moves from 1.2500 to 1.2501, it has moved 1 pip. \n\n**The Lot:** Because a 1-pip movement is mathematically tiny, you have to trade large amounts of currency to make a meaningful profit. A 'Standard Lot' is 100,000 units of currency. A 'Mini Lot' (0.10) is 10,000 units. A 'Micro Lot' (0.01) is 1,000 units.\n\n**Leverage:** How does a retail trader buy 100,000 units of currency? Leverage. Your broker lends you the money. Under UK FCA rules, retail traders are limited to 30:1 leverage for major pairs. This means to control a £100,000 position, you only need £3,333 in your account as 'margin.' Leverage multiplies your profits, but it equally multiplies your losses. It is a tool of destruction in the hands of an amateur.",
+        bullets: [
+          "Standard Lot (1.00) = Roughly $10 per pip movement.",
+          "Mini Lot (0.10) = Roughly $1 per pip movement.",
+          "Micro Lot (0.01) = Roughly $0.10 per pip movement."
+        ]
+      },
+      {
+        heading: "UK-Specific Advantages: The Structural Edge",
+        text: "Trading Forex in the UK provides massive structural advantages over traders in the US or Europe. If you are serious about FX, you must utilize these domestic benefits.\n\nFirst is the tax structure. Under current HMRC regulations, profits made from Spread Betting are classified as gambling, making them completely exempt from Capital Gains Tax (CGT). You can trade the exact same FX pairs, with the exact same charts, but keep 100% of your profits. \n\nSecond is the absence of the Pattern Day Trader (PDT) rule. In the US, traders with small accounts are restricted from taking multiple day trades. In the UK, there is no PDT rule. \n\nFinally, there is the Financial Services Compensation Scheme (FSCS). If you trade with an FCA-regulated broker, your capital is protected up to £85,000 if the broker fails. This is a massive layer of security.",
+        richBlocks: [
+          {
+            type: 'riskWarning',
+            title: 'HMRC and Spread Betting',
+            warning: 'While spread betting is currently tax-free, this is only true if it is not your primary source of income. If you trade full-time and have no other income, HMRC may classify you as a professional, making your profits taxable.'
+          } as RiskWarningBlock
+        ]
+      },
+      {
+        heading: "The Three Specific Trading Setups",
+        text: "You do not need to know 50 different strategies to trade FX. You need to master one or two high-probability setups.\n\n1. **The London Breakout (Session Open):** The Asian session (Tokyo/Sydney) is typically low-volume, causing price to consolidate in a tight range. When London opens at 8:00 AM GMT, massive institutional volume hits the market. You trade the aggressive breakout of the Asian consolidation range, following the institutional momentum.\n\n2. **The Liquidity Sweep:** Institutions need liquidity to fill massive orders. They find this liquidity where retail traders place their stop-losses (just above major highs or below major lows). The setup involves waiting for price to pierce a major level, trigger the retail stops, and then aggressively reverse back inside the range. You enter on the reversal.\n\n3. **The Break and Retest:** When a major support or resistance level is broken with high volume, do not chase the breakout. Wait for price to pull back and 'retest' the broken level. What was once resistance often becomes support. Enter on the retest using a lower-timeframe confirmation.",
+        richBlocks: [
           {
             type: 'toolCard',
-            toolSlug: 'risk-calculator',
-            toolName: 'Position Sizer',
-            description: 'Calculate exact lot sizes based on your account balance and stop loss distance. Never guess your risk again.',
-            features: ['Live pip value calculation', 'Multi-currency support', 'Instant lot sizing'],
-            tier: 'Free'
+            toolSlug: 'tradingview',
+            toolName: 'TradingView',
+            description: 'The industry standard for charting. Clean UI, custom alerts, and essential for multi-timeframe analysis.',
+            features: ['Cloud charting', 'Server-side alerts', 'Volume profile'],
+            tier: 'Pro/Premium Recommended'
           } as ToolCardBlock
         ]
       },
       {
-        heading: "Major, Minor, and Exotic Pairs",
-        text: "Forex pairs are categorized into three distinct groups based on liquidity and trading volume. As a beginner, you should strictly limit your trading to the Major pairs.\n\nMajor Pairs: Any pair containing the US Dollar (USD) and another major global currency (EUR, GBP, JPY, CHF, CAD, AUD, NZD). Examples: EUR/USD, GBP/USD, USD/JPY. These pairs offer the tightest spreads, the deepest liquidity, and the most predictable execution. They account for over 80% of daily global forex volume.\n\nCross Pairs (Minors): Pairs consisting of major currencies but excluding the US Dollar. Examples: EUR/GBP, GBP/JPY, EUR/AUD. These can be highly volatile and typically have slightly wider spreads.\n\nExotic Pairs: A major currency paired with a developing economy's currency. Examples: USD/TRY (Turkish Lira), USD/ZAR (South African Rand). Exotics are characterized by extreme volatility, very wide spreads, and significant overnight holding costs. Avoid these until you are a seasoned professional.",
-        bullets: [
-          "Stick to the Majors: EUR/USD, GBP/USD, and USD/JPY offer the best trading conditions.",
-          "Beware the Spread: Exotic pairs can have spreads 10x wider than major pairs, eating into profits instantly.",
-          "Understand Correlation: If you are long EUR/USD and long GBP/USD, you are effectively taking a double-sized short position on the US Dollar."
+        heading: "Position Sizing: The Maths of Survival",
+        text: "Risk management is the only thing standing between you and a blown account. The golden rule is the 1% Rule. You must never risk more than 1% of your total account equity on any single trade.\n\nTo do this, you must calculate your position size mathematically before every trade. You do not just guess and pick '0.5 lots'. You calculate the exact distance between your entry and your stop-loss, and adjust your lot size so that if the stop is hit, you lose exactly 1%.",
+        richBlocks: [
+          {
+            type: 'tradeExample',
+            title: 'Mathematical Position Sizing',
+            instrument: 'GBP/USD',
+            session: 'London Open',
+            entry: '1.2500',
+            stopLoss: '1.2480 (20 Pips Risk)',
+            takeProfit: '1.2540 (40 Pips Reward)',
+            riskReward: '1:2',
+            accountSize: '£5,000',
+            riskPercent: '1% (£50 maximum loss)',
+            positionSize: '£2.50 per pip (Spread Betting)',
+            result: '+£100 Profit',
+            isProfit: true
+          } as TradeExampleBlock
         ]
       },
       {
-        heading: "What You Need to Trade Forex in the UK",
-        text: "To trade forex efficiently in the UK, you need the right infrastructure. Your execution speed and trading costs will directly impact your edge.\n\n1. Capital: £1,000 to £2,000 minimum. This allows you to trade micro-lots (0.01) while adhering to strict 1% risk management rules.\n\n2. The Right Account Type: UK residents have a massive advantage in 'Spread Betting'. Spread betting on forex allows you to trade price movements tax-free (under current HMRC rules), whereas standard CFD trading may incur Capital Gains Tax.\n\n3. An ECN or DMA Broker: Avoid 'Market Maker' brokers (often called 'b-book' brokers) who take the opposite side of your trade and profit when you lose. You want an ECN (Electronic Communication Network) or DMA (Direct Market Access) broker. These route your orders directly to liquidity providers, ensuring tighter spreads and no conflict of interest.",
+        heading: "Macroeconomics: The Engine of FX",
+        text: "Technical analysis tells you *when* to enter a trade, but Macroeconomics tells you *why* the market is moving. Currencies are ultimately valued based on the economic health of their respective countries and the monetary policies of their Central Banks.\n\nThe single most important driver of currency valuation is Interest Rates. If the Bank of England (BoE) raises interest rates, it makes holding British Pounds more attractive to global investors, causing GBP to appreciate against other currencies. \n\nYou must track the 'Economic Calendar' daily. Major news events—like the US Non-Farm Payrolls (NFP) or Central Bank press conferences—will cause massive, immediate volatility. Professional traders do not guess what the news will be; they wait for the news to drop, let the algorithms battle it out, and then trade the resulting structural trend.",
+        bullets: [
+          "Always check the Economic Calendar before trading.",
+          "Never hold a day trade through a major Tier-1 news event like CPI or NFP.",
+          "Interest rate divergence between two countries dictates the long-term trend of their currency pair."
+        ]
+      },
+      {
+        heading: "The Danger of Correlation",
+        text: "One of the most common ways retail traders blow their accounts is by ignoring currency correlation. \n\nIf you buy EUR/USD, buy GBP/USD, and buy AUD/USD at the same time, you might think you have taken three diversified trades. In reality, you have essentially taken the exact same trade three times: you are heavily shorting the US Dollar. \n\nIf the US Dollar suddenly strengthens due to a surprise news event, all three trades will hit your stop-loss simultaneously. Instead of risking 1% on one trade, you have just lost 3% on a highly correlated portfolio error. Always be aware of your total exposure to a single currency across all your open positions.",
+        richBlocks: [
+          {
+            type: 'statCallout',
+            stat: '80%',
+            context: 'of day trading success is entirely psychological. Your ability to execute your plan perfectly after three consecutive losses is what separates the amateur from the professional.',
+          } as StatCalloutBlock
+        ]
+      },
+      {
+        heading: "Choosing the Right UK Broker",
+        text: "If you are trading Forex, your broker is your most critical business partner. You cannot trade effectively if your broker has massive slippage, wide spreads, or freezes during high-impact news events.\n\nFor UK traders, we recommend FCA-regulated brokers that offer 'raw spread' accounts or tight spread betting options. You want a broker that uses an ECN (Electronic Communication Network) execution model, which routes your orders directly to tier-1 liquidity providers.",
         richBlocks: [
           {
             type: 'brokerCard',
             brokerSlug: 'pepperstone',
             brokerName: 'Pepperstone',
-            bestFor: 'Best for tight-spread ECN CFD trading',
+            bestFor: 'Best for raw spreads and instant execution',
             regulation: 'FCA Regulated',
             affiliateSlug: 'pepperstone',
-            stat: 'Raw spreads from 0.0 pips on Razor account'
+            stat: 'Razor account features 0.0 pip minimum spreads'
           } as BrokerCardBlock,
           {
             type: 'brokerCard',
-            brokerSlug: 'ic-markets',
-            brokerName: 'IC Markets',
-            bestFor: 'Best for algorithmic traders and cTrader',
+            brokerSlug: 'ig',
+            brokerName: 'IG Markets',
+            bestFor: 'Best for advanced UK spread betting',
             regulation: 'FCA Regulated',
-            affiliateSlug: 'ic-markets',
-            stat: 'Average EUR/USD spread of 0.1 pips'
+            affiliateSlug: 'ig',
+            stat: 'Largest spread betting provider in the UK'
           } as BrokerCardBlock
-        ]
-      },
-      {
-        heading: "The Forex Trading Sessions",
-        text: "The forex market operates 24 hours a day, but volatility (and therefore opportunity) is not evenly distributed. The market is divided into four major trading sessions:\n\nSydney Session (10pm - 7am GMT)\nTokyo Session (12am - 9am GMT)\nLondon Session (8am - 4pm GMT)\nNew York Session (1pm - 10pm GMT)\n\nFor UK traders, the absolute optimal time to trade is the London-New York Overlap (1pm to 4pm GMT). During this 3-hour window, the world's two largest financial centres are open simultaneously. This is when the majority of daily trends are established, liquidity is at its absolute peak, and spreads are at their tightest. Trading during the 'Asian session' (midnight to 8am GMT) often yields frustrating, consolidating markets with low volatility, unless you are specifically trading JPY or AUD pairs.",
-        richBlocks: [
-          {
-            type: 'statCallout',
-            stat: '43%',
-            context: 'of all global forex trading volume is routed through London, making the UK session the undeniable driver of daily market direction.',
-            source: 'BIS Triennial Central Bank Survey'
-          } as StatCalloutBlock
-        ]
-      },
-      {
-        heading: "Fundamental Analysis: Trading the News",
-        text: "While technical analysis (reading charts) is crucial for timing your entries, fundamental analysis (economic data) is what actually moves the forex market. Central banks control the supply of money, and their decisions dictate long-term currency trends.\n\nAs a forex trader, you must track the Economic Calendar daily. The most critical data releases to watch are:\n\n1. Interest Rate Decisions: (Fed, BoE, ECB). Higher interest rates typically attract foreign investment, strengthening the currency.\n2. Non-Farm Payrolls (NFP): US employment data released on the first Friday of every month. It is notoriously volatile.\n3. CPI (Inflation Data): High inflation forces central banks to raise interest rates.\n\nNever trade directly *during* a major news release (like NFP). Institutional algorithms will widen spreads to 20+ pips in a millisecond, causing severe slippage that will bypass your stop loss. The professional approach is to wait for the news to release, let the initial volatility settle, and then trade the resulting trend.",
-        richBlocks: [
-          {
-            type: 'riskWarning',
-            message: 'Trading during major news events (like NFP or FOMC) can result in severe slippage. Your stop loss is not guaranteed, and you can lose significantly more than your intended risk.'
-          } as RiskWarningBlock
-        ]
-      },
-      {
-        heading: "An Institutional Forex Strategy: The Liquidity Sweep",
-        text: "Retail traders are taught to trade 'support and resistance' bounces. Institutional traders are taught to hunt the stop losses sitting behind those support and resistance levels. This is called a Liquidity Sweep.\n\nIf price is approaching a major daily support level, thousands of retail traders will buy early, placing their stop losses just beneath the support line. An institutional algorithm will intentionally drive the price below the support line to trigger those stop losses (which become market sell orders). The algorithm buys those sell orders to fill their massive long positions at a discount, causing the price to rapidly reverse upward.",
-        richBlocks: [
-          {
-            type: 'tradeExample',
-            title: 'EUR/USD Liquidity Sweep',
-            instrument: 'EUR/USD',
-            session: 'London Open, 8:30am GMT',
-            entry: '1.0845 (After false breakdown)',
-            stopLoss: '1.0830 (15 pips)',
-            takeProfit: '1.0890 (45 pips)',
-            riskReward: '1:3',
-            accountSize: '£10,000',
-            riskPercent: '1% (£100)',
-            positionSize: '0.84 lots',
-            result: '+£300 (+3.0%)',
-            isProfit: true
-          } as TradeExampleBlock
         ]
       }
     ],
     faqs: [
       {
-        question: "How much money do I need to start trading forex?",
-        answer: "We recommend a minimum of £1,000 to £2,000. This amount allows you to trade micro-lots (0.01) while strictly risking only 1% of your account per trade. Starting with £100 makes proper risk management impossible."
+        question: "How much money do I need to start trading Forex?",
+        answer: "You can open an account with as little as £100, but to trade safely with proper risk management (risking only 1% per trade), a starting balance of £1,000 to £5,000 is highly recommended. Spread betting allows for very small stake sizes (e.g., £0.50 per point), which makes small accounts viable if you are strict with your risk."
       },
       {
-        question: "Is forex trading tax-free in the UK?",
-        answer: "If you trade forex via a Spread Betting account, your profits are currently exempt from Capital Gains Tax and Income Tax in the UK. If you trade via CFDs, your profits are subject to Capital Gains Tax."
+        question: "How long does it realistically take to become profitable?",
+        answer: "The honest timeline is 12 to 24 months. The first 6 months are spent losing money and learning the mechanics. The next 6 months are spent breaking even and learning emotional control. The second year is when statistical profitability typically begins for the traders who survive the learning curve."
       },
       {
-        question: "What is the best time to trade forex in the UK?",
-        answer: "The optimal time is the London-New York overlap (1:00 PM to 4:00 PM GMT). This 3-hour window provides the highest liquidity, tightest spreads, and most predictable trend movements."
+        question: "Is Forex trading tax-free in the UK?",
+        answer: "If you use a Spread Betting account, your profits are currently exempt from Capital Gains Tax and Stamp Duty. However, if you trade via CFDs, your profits are subject to CGT. Always consult a tax professional."
       },
       {
-        question: "Can I trade forex on weekends?",
-        answer: "No, the retail forex market is closed on weekends. It opens on Sunday evening (around 10 PM GMT) with the Sydney session and closes on Friday evening (10 PM GMT) when New York closes."
-      },
-      {
-        question: "What is a 'pip' in forex?",
-        answer: "A pip (Percentage in Point) is the standard unit of measurement for price movement in forex. For most pairs, it is the 4th decimal place (e.g., 1.2501 to 1.2502 is 1 pip). Your position size determines how much monetary value each pip represents."
-      },
-      {
-        question: "What is slippage?",
-        answer: "Slippage occurs when a trade is executed at a different price than requested. It usually happens during periods of high volatility (like news releases) when there isn't enough liquidity to fill your order at your desired price. A stop-loss does not protect against severe slippage unless it is a 'Guaranteed Stop Loss'."
+        question: "What is the best time of day to trade Forex?",
+        answer: "For UK traders, the best time is the London Open (8:00 AM GMT) and the overlap with the New York Open (1:00 PM to 4:00 PM GMT). These windows offer the highest liquidity and the most predictable directional moves."
       }
     ]
   },
@@ -549,312 +519,413 @@ export const LEARN_TOPICS: LearnTopic[] = [
       }
     ]
   },
-  {
+    {
     slug: "spread-betting",
     title: "Spread Betting",
-    subtitle: "The ultimate UK trading advantage. Tax-free profits, no stamp duty, but identical market risk.",
-    description: "The complete guide to financial spread betting in the UK. Understand how it differs from CFDs, why HMRC classifies it as tax-free, and how to use it safely.",
-    category: "Foundation",
-    difficulty: "Beginner",
-    timeToLearn: "1-2 weeks",
-    riskLevel: "Medium",
+    subtitle: "The UK's tax-free trading loophole. Master the mechanics of stake size, margin, and keeping 100% of your profits.",
+    description: "The complete guide to financial spread betting in the UK. Learn how to trade the global markets tax-free, understand how 'pounds per point' sizing works, and navigate the risks of high leverage.",
+    category: "Market",
+    difficulty: "Advanced",
+    timeToLearn: "12-24 months",
+    riskLevel: "High",
     heroImage: "/images/learn/spread-betting.jpg",
-    metaTitle: "Spread Betting UK Guide 2026 | Tax-Free Trading Explained | Drawdown",
-    metaDescription: "Understand the massive benefits and hidden risks of spread betting in the UK. Learn about its tax-free status under HMRC and how to manage leverage.",
-    honestReality: "Spread betting is the greatest structural edge available to a UK retail trader. Keeping 100% of your profits instead of losing 20-40% to Capital Gains Tax mathematically transforms the profitability of any trading system. However, the exact same mechanism that makes it tax-free (it is legally classified as gambling) means you are using leverage. And leverage is a double-edged sword. Brokers aggressively market spread betting because the majority of clients over-leverage and blow their accounts. You must treat spread betting not as a trip to the casino, but as a tax-efficient vehicle for executing institutional-grade market analysis.",
+    metaTitle: "Spread Betting Guide UK 2026 | Tax-Free Trading | Drawdown",
+    metaDescription: "Learn how to use financial spread betting to trade tax-free in the UK. Master 'pounds per point' risk sizing, leverage, and the HMRC rules.",
+    honestReality: "Spread betting is actively marketed as a tax-free wonderland for UK residents. While the tax benefits are entirely real and massive, spread betting is a highly leveraged derivative product. The broker is lending you money to multiply your exposure. This means you can wipe out your entire account in a matter of hours if you do not understand position sizing. You must treat spread betting as a dangerous, institutional-grade weapon that requires strict 1% risk management to wield effectively.",
     content: [
       {
-        heading: "What Exactly is Spread Betting?",
-        text: "Financial spread betting is a derivative product. You do not actually buy or own the underlying asset (like a share of Apple stock or a barrel of oil). Instead, you are placing a bet on whether the price of that asset will go up or down.\n\nYou bet a specific amount of money per 'point' (or pip) of movement.\n— If you bet £10 per point that the FTSE 100 will go up.\n— If it goes up 50 points, you win £500 (50 x £10).\n— If it goes down 50 points, you lose £500.\n\nBecause you never own the asset, there are no clearing fees, no exchange fees, and in the UK, no Stamp Duty to pay on UK shares.",
+        heading: "What is Financial Spread Betting?",
+        text: "Financial spread betting is a derivative product available exclusively in the UK and Ireland. It allows you to speculate on the price movement of global financial markets (Forex, Indices, Commodities, Shares) without actually owning the underlying asset.\n\nInstead of buying 100 shares of Apple, you 'bet' a certain amount of money (e.g., £5) per 'point' that the price of Apple will move. If you bet £5 per point that the price will go up, and the price moves up 10 points, you make £50. If the price moves down 10 points, you lose £50.\n\nBecause it is legally structured as a 'bet' rather than an investment, HMRC classifies it under gambling laws. This provides UK traders with the single greatest structural advantage in global retail trading.",
         richBlocks: [
           {
-            type: 'statCallout',
-            stat: '0%',
-            context: 'The current rate of Capital Gains Tax and Stamp Duty applied to spread betting profits in the UK under HMRC regulations.',
-            source: 'HMRC Guidance'
-          } as StatCalloutBlock
+            type: 'proTip',
+            tip: 'The core mechanic is simple: Stake Size (£ per point) multiplied by Point Movement equals your total Profit or Loss.'
+          } as ProTipBlock
         ]
       },
       {
-        heading: "Why is it Tax-Free in the UK?",
-        text: "Under current HMRC rules, spread betting is legally classified as betting/gambling. In the UK, gambling winnings are not taxable. \n\nHowever, there is a catch. If HMRC determines that spread betting is your primary source of income—meaning you have no other job and you rely solely on your trading profits to pay your rent and buy your groceries—they may attempt to classify your profits as 'taxable trading income'. For the vast majority of retail traders who trade alongside a full-time job or run a separate business, spread betting profits remain entirely tax-free.",
+        heading: "The Massive UK Tax Advantage",
+        text: "The primary reason professional retail traders in the UK use spread betting over traditional CFDs or share dealing is the tax structure.\n\nCurrently, all profits generated from financial spread betting are completely exempt from Capital Gains Tax (CGT). Furthermore, because you are not purchasing the underlying asset, you are entirely exempt from the 0.5% UK Stamp Duty Reserve Tax.\n\nIf you make £50,000 trading CFDs, you must declare it to HMRC and pay Capital Gains Tax on the profits above your annual allowance. If you make £50,000 trading via a Spread Betting account, you keep every single penny.\n\nHowever, there is a catch. Because profits are tax-free, any losses you incur cannot be written off against other income. Additionally, if spread betting becomes your sole, primary source of income, HMRC *may* classify it as a taxable trade. Always consult a certified tax professional.",
         richBlocks: [
           {
             type: 'riskWarning',
-            message: 'Tax laws are subject to change. While spread betting is currently tax-free, Drawdown provides educational information, not financial or tax advice. Always consult a qualified tax professional regarding your personal circumstances.'
+            title: 'HMRC and Professional Status',
+            warning: 'The tax-free status relies on spread betting being viewed as speculative gambling. If you trade full-time with no other income, HMRC may challenge this status. Consult an accountant.'
           } as RiskWarningBlock
         ]
       },
       {
-        heading: "Spread Betting vs. CFDs: What's the Difference?",
-        text: "Spread betting and Contracts for Difference (CFDs) are very similar. Both are leveraged derivatives that allow you to go long (buy) or short (sell). The differences lie in how they are taxed and how positions are sized.\n\nTaxation:\n— Spread Betting: Tax-free (No CGT, No Stamp Duty).\n— CFDs: Subject to Capital Gains Tax (but exempt from Stamp Duty).\n\nSizing:\n— Spread Betting: You stake pounds per point (e.g., £5 per point).\n— CFDs: You buy standardized contracts or 'lots' (e.g., buying 100 contracts of Apple).\n\nFor 95% of UK retail traders, spread betting is the superior product simply because of the tax advantage. The only time CFDs are preferable is if you are using an ECN broker (like Pepperstone) to get 'raw' 0.0 pip spreads on forex, which spread betting firms cannot typically offer as they build their fees directly into a slightly wider spread.",
-        richBlocks: [
-          {
-            type: 'brokerCard',
-            brokerSlug: 'ig',
-            brokerName: 'IG Markets',
-            bestFor: 'Best for UK spread betting — Pete\'s platform of choice',
-            regulation: 'FCA Regulated',
-            affiliateSlug: 'ig',
-            stat: 'Spread betting from 0.6 pips — tax-free profits for UK residents'
-          } as BrokerCardBlock
-        ]
-      },
-      {
-        heading: "The Mechanics of Leverage and Margin",
-        text: "Spread betting is a leveraged product. Leverage allows you to control a large position with a relatively small deposit, known as 'Margin'.\n\nIf you want to place a £10 per point bet on the FTSE 100, and the FTSE is at 8,000, the total exposure of your trade is £80,000 (£10 x 8,000). \nBecause the FCA limits retail leverage on major indices to 20:1 (5% margin), you only need to deposit 5% of that £80,000 to open the trade. That means you need just £4,000 in your account to control an £80,000 position.\n\nThis is where beginners blow their accounts. They see that they only need £4,000 to open the trade, so they open it. But if the FTSE drops just 100 points (a very normal daily fluctuation), they lose £1,000 — which is 25% of their account balance gone in a single day. \n\nAlways calculate your risk based on the distance to your stop loss, never based on the minimum margin required to open the trade.",
-        richBlocks: [
-          {
-            type: 'proTip',
-            tip: 'Margin is the deposit required to OPEN a trade. It has nothing to do with how much you can LOSE on a trade. Always calculate your exact monetary risk to your stop loss before entering.'
-          } as ProTipBlock
-        ]
-      },
-      {
-        heading: "Overnight Financing Costs (Swap Rates)",
-        text: "Spread betting is designed for short-term trading. If you hold a daily spread bet open past 10:00 PM UK time, you will be charged an overnight financing fee.\n\nThis fee is essentially interest on the leverage the broker is providing you. The calculation is typically based on the central bank interest rate (like SONIA in the UK) plus an administrative markup by the broker (often around 2.5%).\n\nFor day traders who close all positions before the market shuts, overnight funding is irrelevant. But for swing traders holding positions for weeks or months, these fees can severely eat into profits. If you plan to hold a position for months, you should use 'Forward' or 'Futures' spread bets, which have the funding costs baked into the spread rather than charged daily.",
+        heading: "Margin and Leverage Explained",
+        text: "Spread betting is a leveraged product. This means you only need to deposit a small fraction of the total trade value (the 'margin') to open a massive position.\n\nUnder FCA regulations, retail traders are offered up to 30:1 leverage on major Forex pairs. This requires a margin of just 3.33%. To control a £10,000 position on GBP/USD, you only need £333 in your account.\n\nLeverage is a double-edged sword. It amplifies your buying power, allowing small accounts to generate significant returns. But it equally amplifies your losses. If you use max leverage on a trade and the market moves against you by just 3%, your entire £333 margin will be wiped out, and the broker will close your trade (a Margin Call).",
         bullets: [
-          "Day Trades: Closed before 10pm. No overnight fees.",
-          "Daily Funded Bets (DFBs): Held past 10pm. Incurs nightly interest charges.",
-          "Forward/Futures Bets: Expire months in the future. Wider spread, but no nightly fees."
-        ]
-      }
-    ],
-    faqs: [
-      {
-        question: "Can I lose more than my initial deposit?",
-        answer: "Historically, yes. However, under current FCA regulations, retail accounts are provided with 'Negative Balance Protection'. This means it is legally impossible for a retail trader to lose more than the total funds deposited in their account. If a market gaps aggressively and skips your stop loss, the broker must absorb the negative balance."
-      },
-      {
-        question: "Why do brokers offer spread betting if they don't charge commissions?",
-        answer: "Brokers make their money on the 'Spread'. If the actual market price of the FTSE is 8000, the broker might offer you a buy price of 8000.5 and a sell price of 7999.5. That 1-point difference is their profit. You start every trade slightly in the red to cover this cost."
-      },
-      {
-        question: "Is spread betting only available in the UK?",
-        answer: "Financial spread betting is primarily a UK and Ireland product due to the specific tax laws in these countries. It is illegal in many other jurisdictions, including the United States, where traders must use futures, options, or standard forex accounts instead."
-      },
-      {
-        question: "What's the difference between spread betting and buying shares?",
-        answer: "When you buy shares, you own a piece of the company, you receive dividends, and your maximum loss is your initial investment (if the company goes bankrupt). In spread betting, you own nothing, you pay no stamp duty, and because of leverage, your profits and losses are heavily magnified."
-      }
-    ]
-  },
-  {
-    slug: "risk-management",
-    title: "Risk Management",
-    subtitle: "The boring part of trading that determines if you survive the year. Protect the capital first, profit second.",
-    description: "The complete guide to institutional risk management. Learn the mathematics of survival, position sizing, drawdown recovery, and why protecting your capital is your only real job.",
-    category: "Foundation",
-    difficulty: "Beginner",
-    timeToLearn: "1-2 weeks",
-    riskLevel: "Low",
-    heroImage: "/images/learn/risk-management.jpg",
-    metaTitle: "Trading Risk Management UK | The Mathematics of Survival | Drawdown",
-    metaDescription: "Master the most important skill in trading: Risk Management. Learn exact position sizing formulas, drawdown recovery mathematics, and the psychology of losing safely.",
-    honestReality: "Nobody starts trading because they are excited about 'risk management'. They start because they want to make money. But the harsh reality of the markets is this: you cannot control how much money you make. The market dictates your profit based on how far a trend runs. The *only* thing you have absolute control over is how much money you lose. Professional traders view themselves as risk managers first, and speculators second. Retail traders who ignore risk management might get lucky for a few weeks, but mathematical probability guarantees they will eventually blow their entire account. Master this section before you ever place a live trade.",
-    content: [
-      {
-        heading: "The Business of Trading: Managing Overhead",
-        text: "Think of trading like running a traditional business. In a normal business, you have overhead: rent, payroll, electricity. You expect to pay these costs to stay in business. In trading, your losing trades are your overhead.\n\nLosses are not mistakes (assuming you followed your plan). Losses are the cost of doing business in a probabilistic environment. If you buy a pair of shoes for £50 and sell them for £100, you made £50 profit, but you still had to spend the initial £50. In trading, you take four £50 losses to find one £300 winner. The net result is a £100 profit. A business that cannot manage its overhead goes bankrupt. A trader who cannot manage their losses blows their account.",
-        richBlocks: [
-          {
-            type: 'proTip',
-            tip: 'Stop viewing a losing trade as a failure. A loss taken strictly according to your trading plan is a successful execution of risk management. A profit made by breaking your rules is a catastrophic failure that reinforces bad habits.'
-          } as ProTipBlock
+          "Leverage multiplies both profits and losses.",
+          "Never use your entire account balance as margin for a single trade.",
+          "The 1% risk rule applies to your total equity, regardless of leverage."
         ]
       },
       {
-        heading: "The Mathematics of Drawdown",
-        text: "A 'drawdown' is the percentage reduction in your trading capital after a series of losing trades. Understanding the mathematics of drawdown recovery is the single most sobering lesson a trader can learn.\n\nThe recovery requirement is not linear. If you lose 10% of your account, you need an 11.1% gain to get back to breakeven. That is manageable. But look what happens when the drawdown increases:\n\n— A 20% loss requires a 25% gain to recover.\n— A 30% loss requires a 43% gain to recover.\n— A 50% loss requires a 100% gain just to get back to where you started.\n\nIf you take a £10,000 account down to £5,000, you don't need a 50% return to fix it. You need a 100% return. Earning a 100% return on an account typically requires taking on massive, reckless risk — which is why traders in deep drawdown almost always lose the rest of their money trying to 'win it back'.",
-        richBlocks: [
-          {
-            type: 'statCallout',
-            stat: '100%',
-            context: 'The return required to recover from a 50% drawdown. This asymmetrical math is why aggressive risk-takers inevitably wipe out.',
-            source: 'The Mathematics of Trading'
-          } as StatCalloutBlock
-        ]
-      },
-      {
-        heading: "The Golden Rule: The 1% Risk Model",
-        text: "To avoid the catastrophic drawdowns mentioned above, professional traders use a 'Fixed Fractional' risk model. The industry standard is risking exactly 1% of your current account equity on any single trade.\n\nIf you have a £5,000 account, your absolute maximum risk per trade is £50.\nIf your account grows to £6,000, your risk increases to £60.\nIf your account shrinks to £4,000, your risk decreases to £40.\n\nThis model is brilliant because it automatically scales your position size up when you are winning, and scales it down when you are losing. At 1% risk per trade, you would have to lose 69 consecutive trades to lose 50% of your account. It gives you the ultimate trader superpower: survivability.",
-        bullets: [
-          "Beginner Risk: 0.5% per trade (Requires 138 consecutive losses to hit 50% drawdown)",
-          "Standard Risk: 1.0% per trade (Requires 69 consecutive losses to hit 50% drawdown)",
-          "Aggressive Risk: 2.0% per trade (Requires 34 consecutive losses to hit 50% drawdown)"
-        ]
-      },
-      {
-        heading: "R-Multiples and Expectancy",
-        text: "Professionals do not measure trades in pounds or pips; they measure them in 'R' (Risk). If your standard 1% risk is £100, then 1R = £100.\n\nIf you risk £100 (1R) to make £300, that is a 1:3 Risk/Reward ratio. If the trade is successful, you made +3R.\nIf you risk £100 and get stopped out, you lost -1R.\n\nThis standardizes your trading history. A +3R trade on a £1,000 account and a +3R trade on a £1,000,000 account represent the exact same level of trading skill. By focusing on R-multiples, you decouple your emotions from the monetary value.\n\nYour 'Expectancy' is the mathematical formula that determines if your strategy makes money over time: \nExpectancy = (Win Rate × Average Win Size) - (Loss Rate × Average Loss Size)\n\nIf you win 40% of the time, and your average win is 2.5R, while your average loss is 1R:\n(0.40 × 2.5) - (0.60 × 1.0) = +0.4R per trade. \nYou have a profitable system, even while losing the majority of your trades.",
+        heading: "Calculating 'Pounds Per Point' Risk",
+        text: "In Forex, you calculate risk via lot sizes. In spread betting, you calculate risk via your 'Stake Size' (Pounds per Point). This requires strict mathematical discipline.\n\nIf you have a £5,000 account and use the 1% Rule, your maximum allowed loss per trade is £50.\n\nIf you identify a long setup on the FTSE 100 with an entry at 8,000 and a technical stop loss at 7,980, your stop distance is 20 points.\nTo ensure you only lose exactly £50 if the 20-point stop is hit, you divide your risk by the distance: £50 / 20 = £2.50 per point.\n\nYou place your spread bet at £2.50 per point. If the trade hits your stop, you lose exactly £50. If the trade hits your target 40 points higher, you make £100. This is professional risk management.",
         richBlocks: [
           {
             type: 'tradeExample',
-            title: 'R-Multiple Calculation',
-            instrument: 'Any',
-            session: 'N/A',
-            entry: '100.00',
-            stopLoss: '99.00 (Risk: £50 = 1R)',
-            takeProfit: '103.00 (Reward: £150)',
+            title: 'Spread Betting Mathematics',
+            instrument: 'FTSE 100',
+            session: 'London Open',
+            entry: '8,100',
+            stopLoss: '8,080 (20 Points)',
+            takeProfit: '8,160 (60 Points)',
             riskReward: '1:3',
-            accountSize: '£5,000',
-            riskPercent: '1% (£50)',
-            positionSize: 'Varies',
-            result: '+£150 (+3R)',
+            accountSize: '£10,000',
+            riskPercent: '1% (£100 maximum loss)',
+            positionSize: '£5.00 per point',
+            result: '+£300 Profit (Tax Free)',
             isProfit: true
           } as TradeExampleBlock
         ]
       },
       {
-        heading: "The Hard Stop Loss: Non-Negotiable",
-        text: "A stop loss is an automated order placed with your broker to exit a position when it hits a specific price, capping your loss. Using a 'mental stop loss' (telling yourself you will close it manually if it drops) is the most common lie traders tell themselves.\n\nWhen a trade moves against you, your brain experiences the biological pain of loss. To avoid that pain, you will invent reasons why the market is 'about to turn around.' You will widen your mental stop. You will hold a losing trade hoping it comes back to breakeven. A hard stop loss removes the decision from your emotional brain. You set it before the trade begins, in cold blood, and you never widen it.\n\nIf the stop is hit, your trade thesis was wrong. Accept the 1R overhead cost, and look for the next setup.",
-        richBlocks: [
-          {
-            type: 'riskWarning',
-            message: 'Moving a stop loss further away as price approaches it is the cardinal sin of trading. It turns a managed 1% risk into a catastrophic account-destroying event. Never widen a stop loss.'
-          } as RiskWarningBlock
-        ]
-      },
-      {
-        heading: "Correlation Risk: The Silent Killer",
-        text: "Many beginners think they are managing risk perfectly because they risk 1% on EUR/USD, 1% on GBP/USD, and 1% on AUD/USD. They believe they are diversified.\n\nThey are not. All three pairs are heavily correlated against the US Dollar. If the US Dollar suddenly strengthens due to an unexpected news event, all three trades will likely hit their stop losses simultaneously. You didn't take three separate 1% risks; you took a massive 3% risk on a single macroeconomic factor (the US Dollar).\n\nIf you have multiple positions open, you must understand how they correlate. If they are highly correlated, you should split your standard 1% risk across them (e.g., risking 0.33% on each).",
-        richBlocks: [
-          {
-            type: 'toolCard',
-            toolSlug: 'correlation-matrix',
-            toolName: 'FX Correlation Matrix',
-            description: 'Check real-time correlations between currency pairs before opening multiple positions to avoid overlapping risk.',
-            features: ['Live correlation data', 'Multiple timeframes', 'Avoid double-exposure'],
-            tier: 'Pro'
-          } as ToolCardBlock
-        ]
-      }
-    ],
-    faqs: [
-      {
-        question: "Should I always use a hard stop loss?",
-        answer: "Yes. Always. A 'mental stop' is an invitation for your ego to negotiate. A hard stop loss is your only insurance against a total account wipeout. The only exception is if you are trading a tiny position size where a drop to zero is less than 1% of your account (common in some crypto strategies), but for leveraged trading, a hard stop is mandatory."
-      },
-      {
-        question: "What is a good Risk/Reward ratio?",
-        answer: "Professional day traders typically aim for a minimum of 1:2 (risking £1 to make £2). Swing traders often target 1:3 or higher. A higher Risk/Reward ratio means you can have a lower win rate and still be highly profitable."
-      },
-      {
-        question: "How do I calculate position size?",
-        answer: "Position Size = (Account Balance × Risk Percentage) ÷ (Stop Loss Distance in Pips × Pip Value). You should always use an automated Position Size Calculator to ensure exact mathematical precision before taking a trade."
-      },
-      {
-        question: "Should I move my stop loss to breakeven?",
-        answer: "Moving your stop to breakeven (the price you entered at) once the trade is significantly in profit is a common and valid strategy to secure a 'risk-free' trade. However, do not do it too early, or normal market noise will stop you out before the real trend begins."
-      },
-      {
-        question: "Is it okay to risk more than 1% if the setup is 'perfect'?",
-        answer: "No. There is no such thing as a guaranteed setup in trading. Every trade is a unique, independent probabilistic event. Even a 'perfect A+ setup' can fail due to an unexpected news headline. Strict 1% risk ensures you survive the statistical anomalies."
-      }
-    ]
-  },
-  {
-    slug: "trading-psychology",
-    title: "Trading Psychology",
-    subtitle: "The market is a mirror. It exposes your impatience, your greed, and your fear. Master yourself before you try to master the charts.",
-    description: "The complete guide to institutional trading psychology. Learn how to conquer fear, greed, FOMO, and the biological impulses that sabotage retail traders.",
-    category: "Mindset",
-    difficulty: "Advanced",
-    timeToLearn: "Lifetime",
-    riskLevel: "Low",
-    heroImage: "/images/learn/trading-psychology.jpg",
-    metaTitle: "Trading Psychology Guide UK | Conquering Fear & Greed | Drawdown",
-    metaDescription: "Master your mindset. Understand the cognitive biases that ruin traders and learn how to develop the institutional discipline required for consistent profitability.",
-    honestReality: "If you give a novice trader a highly profitable strategy with a proven edge, they will almost certainly lose money with it. Why? Because executing a strategy flawlessly requires extreme psychological discipline. Human biology is fundamentally misaligned with profitable trading. We are wired to seek immediate gratification (taking profits too early), avoid pain (moving stop losses to avoid taking a loss), and follow the herd (buying the absolute top of a hype cycle). The single greatest edge you can develop in the market is not a new indicator; it is emotional numbness. You must learn to execute your trading plan like a machine.",
-    content: [
-      {
-        heading: "Your Brain: The Trading Saboteur",
-        text: "The human brain evolved to survive in an environment where threats were physical and immediate. The part of your brain responsible for processing fear—the amygdala—cannot distinguish between a physical threat (a predator) and a financial threat (a trade moving against you). \n\nWhen a position enters drawdown, your brain triggers a 'fight or flight' response. Adrenaline spikes. Logical reasoning (handled by the prefrontal cortex) shuts down, and emotional reactivity takes over. This biological reaction is why traders do irrational things like doubling down on losing positions or moving their stop losses. You are literally trading under the influence of panic-inducing chemicals.",
-        richBlocks: [
-          {
-            type: 'proTip',
-            tip: 'You cannot suppress your biological response, but you can manage your environment. If you risk 1% per trade, the financial threat is too small to trigger the amygdala\'s panic response. Proper position sizing is the ultimate psychological hack.'
-          } as ProTipBlock
-        ]
-      },
-      {
-        heading: "The Four Horsemen of Trading Failure",
-        text: "Every blown account in the history of retail trading can be traced back to one of these four psychological failures:\n\n1. FOMO (Fear Of Missing Out): Entering a trade late, chasing a massive green candle because you feel the pain of missing the profit. Institutional algorithms specifically design 'fake-outs' to trigger retail FOMO before reversing the market.\n\n2. Revenge Trading: Taking a loss, feeling angry or violated, and immediately jumping into a new (often larger) trade to 'make it back' from the market. The market does not know or care that you lost money. Revenge trading is ego-driven suicide.\n\n3. Overtrading: The inability to sit on your hands. If your strategy yields 3 good setups a week, but you place 15 trades because you feel you 'should be doing something,' you are gambling out of boredom.\n\n4. Loss Aversion: The psychological principle that the pain of losing is twice as powerful as the joy of winning. This causes traders to close winning trades too early (to secure the joy) and hold losing trades too long (to avoid finalizing the pain).",
+        heading: "The Three Setups for Spread Betting",
+        text: "Because spread betting is leveraged, you must trade setups that offer tight stop-losses and massive directional momentum. \n\n1. **The London Session Index Breakout:** Trading the FTSE 100 or DAX 40 precisely at 8:00 AM GMT. The massive influx of institutional volume at the open creates strong directional trends. You wait for the first 15-minute consolidation to break, and trade the momentum.\n\n2. **The Liquidity Sweep (FX Majors):** Waiting for major pairs like GBP/USD to sweep liquidity below a daily support level, trap retail sellers, and violently reverse. This allows for a very tight stop-loss below the 'sweep' wick.\n\n3. **The 4-Hour Trend Continuation:** For those with day jobs, this is a swing-trading approach. Identify the macro trend on the Daily chart, wait for a pullback into a 4-Hour structural demand/supply zone, and enter the continuation with a wider stop-loss but a smaller 'pound per point' stake size.",
         bullets: [
-          "FOMO: Buying the top because you can't bear watching others profit.",
-          "Revenge Trading: Trying to punish the market for taking your money.",
-          "Overtrading: Confusing activity with productivity.",
-          "Loss Aversion: Cutting winners short and letting losers run."
+          "Indices (FTSE/DAX) offer the best volatility during the London session.",
+          "FX Majors (GBP/USD, EUR/USD) offer the tightest spreads.",
+          "Always adjust your stake size based on the volatility of the asset."
         ]
       },
       {
-        heading: "How to Build Institutional Discipline",
-        text: "Institutional traders are not immune to emotion, but they operate within strict frameworks that prevent emotion from dictating action. You must build your own institutional framework.\n\nFirst, you must have a written Trading Plan. This is a physical document that explicitly defines your entry criteria, your exit criteria (both profit and loss), and your risk management rules. If a trade does not meet every criteria on the list, you do not take it.\n\nSecond, you must accept the outcome *before* you enter the trade. When you set your 1% stop loss, you must mentally spend that money. Consider it gone. It is the cost of buying the ticket to see if your edge plays out. If you cannot accept the total loss of that 1%, your position size is too big.",
+        heading: "Overnight Financing (Holding Costs)",
+        text: "Spread betting is primarily designed for short-term trading. If you hold a spread bet position overnight past the daily cutoff time (usually 10:00 PM UK time), you will be charged an overnight financing fee.\n\nThis fee is calculated based on the total leveraged value of your position, plus an admin fee from the broker. Over a few days, this cost is negligible. However, if you attempt to 'invest' via spread betting and hold a position for 6 months, the compounding daily financing fees will severely eat into your profits.\n\nFor long-term investing, use a traditional Stocks and Shares ISA. Use spread betting strictly for intraday and short-term swing trading.",
         richBlocks: [
           {
             type: 'statCallout',
-            stat: '90%',
-            context: 'of trading is waiting. The most profitable traders spend the vast majority of their time observing, not executing.',
+            stat: '10:00 PM',
+            context: 'The typical daily cutoff time in the UK. If you close your spread bet at 9:55 PM, you pay zero overnight financing costs.',
           } as StatCalloutBlock
         ]
       },
       {
-        heading: "The Power of the Trade Journal",
-        text: "You cannot improve what you do not measure. A trade journal is the most important tool in a professional trader's arsenal. It is not just a ledger of profits and losses; it is a diagnostic tool for your psychology.\n\nFor every trade, you should record:\n— The fundamental/technical reason for entry.\n— A screenshot of the chart at entry.\n— How you felt entering the trade (anxious, confident, bored).\n— How you managed the trade.\n— Did you follow your rules? (Yes/No).\n\nAfter 50 trades, your journal will reveal your psychological leaks. You might find that you have a 60% win rate on trades taken during the London Open, but a 20% win rate on trades taken on Friday afternoons when you are tired. The math will expose your lack of discipline.",
+        heading: "The 12-24 Month Timeline",
+        text: "Mastering the mechanics of spread betting takes time. The extreme leverage means that mistakes are punished instantly and severely. \n\nYou must dedicate the first 6 months to trading minimum stake sizes (e.g., 50p per point) to learn the platform mechanics, how spreads widen during news events, and how to control your emotions when the numbers turn red.\n\nIt typically takes 12 to 24 months of rigorous, disciplined execution to build the mechanical edge required to pull consistent, tax-free profits from the market.",
         richBlocks: [
           {
-            type: 'toolCard',
-            toolSlug: 'ai-trade-journal',
-            toolName: 'AI Trade Journal',
-            description: 'Automate your psychological diagnostics. Track your mood, your rule adherence, and your exact equity curve to pinpoint exactly where your discipline breaks down.',
-            features: ['Automated screenshot logging', 'Emotional state tracking', 'Strategy profitability breakdown'],
-            tier: 'Edge+'
-          } as ToolCardBlock
+            type: 'proTip',
+            tip: 'Use a demo account for the first 3 months to practice calculating your pound-per-point sizing rapidly before trading live capital.'
+          } as ProTipBlock
         ]
       },
       {
-        heading: "Embracing Probabilistic Thinking",
-        text: "Mark Douglas, author of 'Trading in the Zone,' famously stated that the best traders think in probabilities. \n\nMost beginners are desperate to be 'right' on every single trade. If they lose, they feel they failed. A professional trader knows that any individual trade is essentially a coin flip. The outcome is random. However, over a sample size of 100 trades, their defined edge will guarantee profitability. \n\nWhen you truly think in probabilities, taking a loss no longer hurts your ego. It is simply one of the statistical losses required to achieve the long-term profitable outcome. A casino does not panic when a player wins a hand of blackjack; they know the mathematical edge ensures the house wins over the next 1,000 hands. You are the casino.",
+        heading: "Choosing an FCA-Regulated Broker",
+        text: "You can only spread bet legally if you are a UK or Ireland resident. Therefore, you must use a broker regulated by the UK Financial Conduct Authority (FCA).\n\nThe FCA mandates strict rules, including 'Negative Balance Protection' for retail clients. This guarantees that no matter how violently the market gaps against you, you cannot lose more than the total funds deposited in your account. \n\nFurthermore, your funds are segregated and protected by the FSCS up to £85,000. Never trade with an offshore broker attempting to bypass FCA leverage restrictions.",
         richBlocks: [
           {
-            type: 'riskWarning',
-            message: 'If a losing trade ruins your mood for the day, you are not trading in probabilities. You are trading with your ego, and your position size is too large.'
-          } as RiskWarningBlock
+            type: 'brokerCard',
+            brokerSlug: 'ig',
+            brokerName: 'IG Markets',
+            bestFor: 'Best for advanced UK spread betting',
+            regulation: 'FCA Regulated',
+            affiliateSlug: 'ig',
+            stat: 'Largest spread betting provider in the UK'
+          } as BrokerCardBlock,
+          {
+            type: 'brokerCard',
+            brokerSlug: 'pepperstone',
+            brokerName: 'Pepperstone',
+            bestFor: 'Best for raw spreads and fast execution',
+            regulation: 'FCA Regulated',
+            affiliateSlug: 'pepperstone',
+            stat: 'Integrates directly with TradingView'
+          } as BrokerCardBlock
         ]
       }
     ],
     faqs: [
       {
-        question: "How do I stop revenge trading?",
-        answer: "Implement a 'circuit breaker' rule in your trading plan. For example: 'If I take two consecutive losses, or lose 2% of my account in one day, I must shut down my platform until tomorrow.' Physical distance from the screen is the only cure for an amygdala hijack."
+        question: "Is spread betting completely tax-free?",
+        answer: "Currently, yes. Under HMRC rules, spread betting is classified as gambling, making it exempt from Capital Gains Tax and Stamp Duty. However, if it is your sole source of income, HMRC may classify you as a professional, making it taxable. Consult a tax advisor."
       },
       {
-        question: "Why do I always close my winning trades too early?",
-        answer: "This is Loss Aversion. You are afraid the market will take away the unrealized profit you currently have. To fix this, stop looking at your floating P&L (profit and loss) while a trade is open. Look only at the chart structure. Let the market hit your predefined Take Profit or Stop Loss."
+        question: "Can I lose more than my deposit?",
+        answer: "No. FCA regulations require brokers to provide Negative Balance Protection to retail clients. The maximum you can lose is the total amount deposited in your account."
       },
       {
-        question: "How do I deal with the anxiety of being in a trade?",
-        answer: "Trading anxiety is almost entirely caused by improper position sizing. If you risk £500 on an account of £1,000, you will be terrified. If you risk £10 on that same account, you won't care. Lower your position size until the anxiety disappears."
+        question: "What is the minimum stake size?",
+        answer: "Most UK spread betting brokers allow a minimum stake size of £0.50 (50p) per point, making it highly accessible for beginners with small accounts."
       },
       {
-        question: "Is paper trading (demo trading) useful for psychology?",
-        answer: "Demo trading is excellent for learning platform mechanics and testing strategy execution. However, it is useless for training your psychology. Because there is no real financial risk, there is no fear or greed. You must trade live, even with microscopic sizes (e.g., risking £1 per trade), to feel the actual emotional weight of the market."
+        question: "How is it different from CFDs?",
+        answer: "Mechanically they are similar (both are leveraged derivatives). The main difference is tax. CFDs are subject to Capital Gains Tax in the UK, while Spread Betting is currently tax-free. Spread betting also prices in 'pounds per point' rather than lots."
       }
     ]
   },
     {
+    slug: "risk-management",
+    title: "Risk Management",
+    subtitle: "The mathematics of survival. How to structure your account so that blowing it becomes mathematically impossible.",
+    description: "The most important skill in trading. Learn the 1% rule, how to calculate precise position sizing, and how to survive the inevitable drawdowns without emotional damage.",
+    category: "Psychology",
+    difficulty: "Intermediate",
+    timeToLearn: "12-24 months",
+    riskLevel: "Low",
+    heroImage: "/images/learn/risk-management.jpg",
+    metaTitle: "Risk Management in Trading UK | Position Sizing Guide | Drawdown",
+    metaDescription: "Master the mathematics of trading survival. Learn the 1% rule, how to calculate position size, and how institutions manage risk.",
+    honestReality: "You can have the best technical strategy in the world, with an 80% win rate, and you will still blow your account if you do not understand risk management. Professional trading is not about predicting the market; it is about risk control. The harsh reality is that most beginners trade too large, get emotional, and lose everything on a single bad day. You must spend your first 12-24 months learning how to *not lose money* before you can focus on making it. Capital preservation is priority one.",
+    content: [
+      {
+        heading: "Defense First: The Primary Directive",
+        text: "In trading, your capital is your inventory. If you own a shoe store and all your shoes burn in a fire, you are out of business. In trading, if your capital drops to zero, you are out of business. The primary directive of any professional trader is not 'make money.' The primary directive is 'protect capital.'\n\nEvery strategy experiences 'drawdown'—a string of consecutive losses. Even a strategy with a 60% win rate will occasionally experience 8 or 9 losses in a row purely due to statistical variance. If you risk 10% of your account per trade, an 8-trade losing streak wipes out 80% of your account. You are mathematically ruined. If you risk 1% per trade, an 8-trade losing streak takes you down 8%. You survive.",
+        richBlocks: [
+          {
+            type: 'statCallout',
+            stat: '100%',
+            context: 'The return required to recover from a 50% drawdown. If you lose half your account, you have to double the remainder just to get back to breakeven. Do not go into deep drawdown.',
+          } as StatCalloutBlock
+        ]
+      },
+      {
+        heading: "The 1% Rule of Survival",
+        text: "The institutional standard for retail traders is the 1% Rule. You must never, under any circumstances, risk more than 1% of your total account equity on a single trade. \n\nIf you have a £10,000 account, your absolute maximum loss on any setup must be capped at £100. This is the non-negotiable cost of doing business. When you limit your risk to 1%, you completely detach your ego from the trade. Losing £100 on a £10,000 account does not trigger the 'fight or flight' response. It does not cause panic. It allows you to operate mechanically.\n\nOnce you prove you are profitable over a 100-trade sample size, you do not increase your risk percentage; you increase your account size.",
+        bullets: [
+          "Risk 1% per trade. If you take 5 losses in a week, you are only down 5%.",
+          "Never move your stop loss once the trade is active. A 1% loss is a business expense; a 5% loss is a lack of discipline.",
+          "Use a hard stop-loss. 'Mental stops' do not work under pressure."
+        ]
+      },
+      {
+        heading: "Mathematical Position Sizing",
+        text: "How do you ensure you only lose exactly 1%? You must calculate your position size before every single trade based on the distance to your stop loss. \n\nIf your entry is at 1.2500 and your technical stop loss is at 1.2480 (20 pips away), and you have a £5,000 account, your 1% risk is £50. \nTo lose exactly £50 if the 20-pip stop is hit, you divide your risk by your stop distance: £50 / 20 pips = £2.50 per pip. \n\nIf the next trade requires a 50-pip stop loss because the volatility is higher, you run the math again: £50 / 50 pips = £1.00 per pip. Your risk in pounds never changes, only your lot size changes.",
+        richBlocks: [
+          {
+            type: 'tradeExample',
+            title: 'Calculating the 1% Risk',
+            instrument: 'EUR/USD',
+            session: 'New York Open',
+            entry: '1.0800',
+            stopLoss: '1.0775 (25 Pips)',
+            takeProfit: '1.0850 (50 Pips)',
+            riskReward: '1:2',
+            accountSize: '£10,000',
+            riskPercent: '1% (£100)',
+            positionSize: '£4.00 per pip',
+            result: 'Risk is perfectly contained.',
+            isProfit: true
+          } as TradeExampleBlock
+        ]
+      },
+      {
+        heading: "Risk-to-Reward Ratio (RR)",
+        text: "Risk-to-Reward (RR) is the mathematical ratio between what you stand to lose and what you stand to gain on a trade. \n\nIf you risk £100 to make £200, your RR is 1:2. This is the holy grail of profitable trading. If you maintain an average RR of 1:2, you only need to win 34% of your trades to break even. If you win 50% of your trades with a 1:2 RR, you will be massively profitable over the long term. \n\nRetail traders often do the opposite. They take small £20 profits because they are scared of losing the win, but they let their losers run to -£100 because they refuse to be wrong. This creates a negative RR. With a negative RR, even a 90% win rate will eventually blow your account.",
+        bullets: [
+          "Always aim for a minimum 1:2 RR on every setup.",
+          "Do not take a trade if the technical target does not provide at least a 1:2 ratio.",
+          "Let your winners run to the target. Cut your losers immediately at the stop."
+        ]
+      },
+      {
+        heading: "The Three Setups for Capital Defense",
+        text: "Professional risk management isn't just about math; it's about choosing the right setups. Here are three setups that provide inherently strong risk-to-reward ratios:\n\n1. **The Deep Pullback:** Waiting for a trend to pull back deeply into a massive 4-hour demand zone. Entering at the absolute extreme of the zone allows you to place a very tight stop loss (e.g., 10 pips) while targeting the high of the trend (e.g., 100 pips). This provides a massive 1:10 RR.\n\n2. **The Failed Breakout (Trap):** When price breaks a major high, triggers retail FOMO buyers, and immediately reverses. Entering short on the reversal allows you to put your stop loss tightly above the newly formed 'trap' wick. The risk is tiny, but the reward is the entire range.\n\n3. **The Inside Bar Breakout:** An inside bar represents severe volatility contraction. Placing an entry on the break of the inside bar allows you to place your stop loss just below the inside bar. Because the candle is so small, the stop is tight, but the resulting expansion is often explosive.",
+        richBlocks: [
+          {
+            type: 'proTip',
+            tip: 'The best risk management is sometimes taking no risk at all. Cash is a position. If the setups are not there, protecting your capital by doing nothing is a highly profitable decision.'
+          } as ProTipBlock
+        ]
+      },
+      {
+        heading: "Understanding UK-Specific Risks",
+        text: "If you are trading in the UK, there are specific structural risks you must mitigate. \n\nFirst is the danger of Spread Betting leverage. Because spread betting is tax-free and allows for high leverage (up to 30:1 for retail), it is very easy to over-leverage a small account. You must be hyper-vigilant that your 'per pip' stake does not exceed your 1% risk rule.\n\nSecond is broker risk. Always use an FCA-regulated broker. Unregulated offshore brokers may offer 500:1 leverage, but they operate 'B-Book' models where they actively trade against you. Furthermore, if an unregulated broker collapses, your money is gone. With an FCA broker, the Financial Services Compensation Scheme (FSCS) protects your deposits up to £85,000.",
+        richBlocks: [
+          {
+            type: 'riskWarning',
+            title: 'The Danger of 500:1 Leverage',
+            warning: 'Offshore brokers offer massive leverage to entice beginners. At 500:1 leverage, a 0.2% move against you will completely wipe out your account. Stick to FCA-regulated brokers.'
+          } as RiskWarningBlock
+        ]
+      },
+      {
+        heading: "The Psychology of Accepting the Loss",
+        text: "You can know the math perfectly, but if you cannot psychologically accept the loss, you will fail. \n\nA loss is not a reflection of your intelligence. It is not the market 'punishing' you. A loss is simply the statistical cost of doing business. If you own a restaurant, you have to buy ingredients. You don't get angry at the supplier for charging you for flour. In trading, a 1% loss is your overhead.\n\nYou must reframe how you view a stop loss. Hitting a stop loss is not a failure. Hitting a stop loss *and sticking to your 1% risk limit* is a massive victory of discipline.",
+        bullets: [
+          "Reframe the loss: It is a business expense, not a personal failure.",
+          "If you feel anger when stopped out, your position size is too large.",
+          "The market owes you nothing. You must protect yourself."
+        ]
+      },
+      {
+        heading: "Tools for Professional Risk Management",
+        text: "Do not rely on mental math when the market is moving fast. You need professional tools to automate your risk management.\n\nUse position size calculators before every entry. Many modern platforms allow you to input your risk percentage and automatically calculate the correct lot size based on where you drag your stop loss line on the chart.\n\nAdditionally, maintaining a strict trade journal is a form of risk management. By tracking your performance, you can identify 'drawdown days' (e.g., Fridays) and actively reduce your risk parameters on those days to protect capital.",
+        richBlocks: [
+          {
+            type: 'toolCard',
+            toolSlug: 'tradingview',
+            toolName: 'TradingView Risk Tool',
+            description: 'TradingView has built-in Long/Short position tools that visually calculate your Risk-to-Reward ratio and precise position size.',
+            features: ['Visual RR calculation', 'Account size integration', 'Risk % inputs'],
+            tier: 'Free / Pro'
+          } as ToolCardBlock
+        ]
+      }
+    ],
+    faqs: [
+      {
+        question: "What is the 1% Rule?",
+        answer: "The 1% Rule states that you must never risk more than 1% of your total account equity on a single trade. If you have £10,000, your maximum loss is £100. This ensures you can survive a long streak of losing trades without blowing your account."
+      },
+      {
+        question: "How do I calculate position size?",
+        answer: "Determine your risk amount in pounds (e.g., £50). Measure the distance from your entry to your stop loss in pips (e.g., 20 pips). Divide the risk by the pips (£50 / 20 = £2.50). You must stake £2.50 per pip."
+      },
+      {
+        question: "What is a good Risk-to-Reward ratio?",
+        answer: "A professional minimum is 1:2. You risk £1 to make £2. With a 1:2 RR, you only need to win 34% of your trades to be profitable."
+      },
+      {
+        question: "Why do I keep moving my stop loss?",
+        answer: "Because you are trading with ego rather than math. You are afraid to be 'wrong.' You must reframe the loss as a business expense. A hard stop-loss removes the decision-making process."
+      }
+    ]
+  },
+    {
+    slug: "trading-psychology",
+    title: "Trading Psychology",
+    subtitle: "The hardest battle isn't with the market; it's with yourself. Mastering fear, greed, and the illusion of control.",
+    description: "Your technical analysis is useless if your psychology is compromised. Learn to build an emotionless, mechanical mindset that treats trading as a strict probability business.",
+    category: "Psychology",
+    difficulty: "Advanced",
+    timeToLearn: "12-24 months",
+    riskLevel: "Low",
+    heroImage: "/images/learn/psychology.jpg",
+    metaTitle: "Trading Psychology Guide UK | Master Your Mindset | Drawdown",
+    metaDescription: "Learn the psychology of institutional traders. Conquer FOMO, stop revenge trading, and develop the discipline required for long-term profitability.",
+    honestReality: "You will spend your first year blaming your strategy, your broker, or 'the algorithm' for your losses. The reality is that you are losing because of your own biological wiring. Human beings are biologically programmed to seek comfort, avoid pain, and follow the herd. In the financial markets, these exact instincts will destroy your capital. Achieving profitability requires actively rewiring your brain over 12-24 months to embrace probability, accept losses mechanically, and execute without emotion.",
+    content: [
+      {
+        heading: "The Myth of the 'Perfect Setup'",
+        text: "Retail traders are obsessed with finding the 'Holy Grail' indicator or the perfect technical setup that never fails. This is a psychological defense mechanism against the fear of uncertainty. \n\nThe market is an infinitely chaotic environment. There is no such thing as a guaranteed outcome. Once you accept that every single trade—no matter how perfect the setup looks—has a random outcome, your psychology changes. You stop trying to predict the market and start trying to manage probability.\n\nA professional trader executes their edge mechanically, knowing that over 100 trades, the math will work in their favor, even if the next 5 trades are losers.",
+        richBlocks: [
+          {
+            type: 'proTip',
+            tip: 'Think in probabilities, not certainties. If your strategy has a 60% win rate, that means 40 out of 100 perfect setups will fail. Expect the failure. Plan for it.'
+          } as ProTipBlock
+        ]
+      },
+      {
+        heading: "Revenge Trading: The Account Killer",
+        text: "Revenge trading is the single fastest way to annihilate a trading account. It happens when you take a painful loss, feel a visceral sense of injustice, and immediately re-enter the market with double the size to 'prove the market wrong' and win your money back.\n\nWhen you revenge trade, the analytical part of your brain shuts down completely, and the primitive emotional brain takes over. You are no longer trading a statistical edge; you are gambling out of anger.\n\nThe only cure for revenge trading is a hard structural rule: the 'Walk Away' rule. If you take two consecutive losses, or if you feel your heart rate elevate, you must physically close your laptop and walk away for at least two hours.",
+        bullets: [
+          "Revenge trading ignores all risk management rules.",
+          "It is driven by ego and the refusal to accept a loss.",
+          "Use platform limits to lock yourself out if you hit a daily drawdown."
+        ]
+      },
+      {
+        heading: "The Fear of Missing Out (FOMO)",
+        text: "You open your charts and see a massive, violent 100-pip green candle on GBP/USD. You missed the entry. As the price keeps climbing, the psychological pain of 'missing the money' becomes unbearable. You hit the 'Buy' button right at the absolute top of the spike.\n\nThe moment you enter, the institutional traders who bought the bottom begin taking their profit. The market violently reverses, and you are instantly trapped in a massive loss.\n\nFOMO is the market's mechanism for generating exit liquidity for the smart money. You must train yourself to feel absolutely nothing when you miss a move. The market provides infinite opportunities. Capital preservation is paramount.",
+        richBlocks: [
+          {
+            type: 'tradeExample',
+            title: 'The FOMO Trap',
+            instrument: 'GBP/JPY',
+            session: 'London Open',
+            entry: '190.50 (Buying the absolute top of a spike)',
+            stopLoss: 'No stop loss (Emotion-driven)',
+            takeProfit: 'None',
+            riskReward: 'Negative',
+            accountSize: '£10,000',
+            riskPercent: '5% (Over-leveraged)',
+            positionSize: '£10 per pip',
+            result: '-£500 (Market reversed immediately)',
+            isProfit: false
+          } as TradeExampleBlock
+        ]
+      },
+      {
+        heading: "The Three Psychological Trading Traps",
+        text: "The market is designed to exploit three specific human psychological flaws. \n\n1. **The Need to be Right:** Traders will hold onto a losing position, moving their stop loss further and further away, simply because they refuse to admit their initial analysis was wrong. They would rather blow their account than damage their ego.\n\n2. **The Fear of Success:** You are in a winning trade. Your target is 50 pips away. The trade goes 20 pips in profit, pulls back slightly, and panic sets in. You close the trade early for a tiny profit because you are terrified the market will take it away. You just ruined your Risk-to-Reward ratio.\n\n3. **The Recency Bias:** You take three losing trades in a row. A perfect setup forms. Because you are traumatized by the recent losses, you freeze and do not take the trade. The trade goes perfectly to target without you.",
+        bullets: [
+          "Accepting a loss is a victory of discipline.",
+          "Let your winners run to the predetermined target.",
+          "Execute every valid setup, regardless of the previous trade's outcome."
+        ]
+      },
+      {
+        heading: "Building a Mechanical Mindset",
+        text: "How do you overcome these biological flaws? By removing discretion from your trading.\n\nYou must build a trading plan that is so strict and mechanical that a computer could execute it. 'If A happens, and B happens, I execute C, with a stop loss at D.' There is no room for 'I feel like the market is going up.'\n\nWhen your rules are mechanical, trading becomes boring. Boring trading is profitable trading. You execute the data entry, walk away, and let the probabilities play out over a 100-trade sample size.",
+        richBlocks: [
+          {
+            type: 'statCallout',
+            stat: '100 Trades',
+            context: 'The minimum sample size required to determine if a strategy is actually profitable. Do not judge your performance or change your strategy based on 5 trades.',
+          } as StatCalloutBlock
+        ]
+      },
+      {
+        heading: "The 12-24 Month Timeline",
+        text: "You must completely reset your expectations. You are learning a high-performance profession. You would not expect to perform surgery after watching a YouTube video; do not expect to extract money from institutional algorithms after a weekend course.\n\nThe first 6 months are for losing money and learning the brutal reality of the market. The next 6 months are for breaking even and learning to control your emotions. The second year is when statistical profitability begins to emerge for the traders who have built a rigid, mechanical discipline.\n\nGive yourself permission to be a beginner. Survive the learning curve.",
+        richBlocks: [
+          {
+            type: 'proTip',
+            tip: 'Trade on a demo account for the first 6 months. If you cannot make fake money following your rules, you will definitely not make real money when real emotion is involved.'
+          } as ProTipBlock
+        ]
+      },
+      {
+        heading: "UK Regulatory Peace of Mind",
+        text: "One way to improve your trading psychology is to remove external stressors. In the UK, trading with an FCA-regulated broker provides immense peace of mind.\n\nKnowing that your capital is protected up to £85,000 by the Financial Services Compensation Scheme (FSCS) allows you to focus entirely on the charts, rather than worrying if your offshore broker is going to steal your deposit. Furthermore, knowing that spread betting profits are tax-free under HMRC rules removes the complex anxiety of calculating Capital Gains Tax on hundreds of intraday trades.",
+        bullets: [
+          "Only use FCA-regulated brokers.",
+          "Ensure negative balance protection is active on your account.",
+          "Trade with capital you can mathematically afford to lose."
+        ]
+      },
+      {
+        heading: "The Power of the Trade Journal",
+        text: "A trade journal is not just a ledger of profits and losses; it is a mirror reflecting your psychology. \n\nWhen you log every trade, you must log your emotional state. Did you take the trade out of boredom? Were you angry? Were you following your plan? \n\nOver time, the data will clearly show that the trades taken when you felt 'FOMO' or 'Revenge' resulted in massive drawdowns, while the trades taken when you felt 'Bored' and 'Mechanical' generated your profits. The journal provides the mathematical proof required to finally change your behavior.",
+        richBlocks: [
+          {
+            type: 'toolCard',
+            toolSlug: 'tradezella',
+            toolName: 'TradeZella',
+            description: 'The premier automated trading journal. Essential for tracking the psychological impact of your trades and finding the leaks in your strategy.',
+            features: ['Automated syncing', 'Playbook tracking', 'Advanced analytics'],
+            tier: 'Pro Recommended'
+          } as ToolCardBlock
+        ]
+      }
+    ],
+    faqs: [
+      {
+        question: "Why do I keep closing my winning trades too early?",
+        answer: "This is the 'Fear of Success' driven by loss aversion. You are so terrified of the market taking away your small unrealized profit that you close it, ruining your Risk-to-Reward ratio. You must trust your initial technical target and let the math play out."
+      },
+      {
+        question: "How do I stop revenge trading?",
+        answer: "Implement a strict 'Walk Away' rule. If you lose two trades in a row, you must physically step away from the computer for at least two hours. Use broker platform limits to lock your account for the day if a daily loss limit is hit."
+      },
+      {
+        question: "Is trading essentially gambling?",
+        answer: "If you trade without a proven edge and without strict risk management, yes, it is gambling. If you trade a mechanical system with positive expectancy and strict 1% risk rules over a large sample size, it is a statistical business."
+      },
+      {
+        question: "How long does it take to control my emotions?",
+        answer: "For most traders, it takes 12 to 24 months of consistent screen time. You have to experience the pain of blowing an account (or a demo account) multiple times before the psychological lessons truly override your biological instincts."
+      }
+    ]
+  },
+      {
     slug: "technical-analysis",
     title: "Technical Analysis",
     subtitle: "The art of reading institutional footprints. Forget magic indicators; focus on structure, liquidity, and momentum.",
     description: "The complete guide to technical analysis for modern traders. Learn how to read price action, identify true support and resistance, and trade alongside institutional order flow.",
     category: "Strategy",
     difficulty: "Intermediate",
-    timeToLearn: "2-4 weeks",
+    timeToLearn: "12-24 months",
     riskLevel: "Medium",
     heroImage: "/images/learn/technical-analysis.jpg",
     metaTitle: "Technical Analysis Guide UK 2026 | Master Price Action | Drawdown",
     metaDescription: "Learn to read market charts properly. From institutional support and resistance to advanced trend analysis, master the tools of technical trading.",
-    honestReality: "The internet is flooded with 'gurus' selling complex trading algorithms that look like spaghetti on a chart. The reality is that institutional traders at hedge funds do not use MACD, RSI, or Stochastics to make million-dollar decisions. They use raw price action. They look at structure, volume, and areas of deep liquidity. Technical indicators are mathematically derived from past price; they are inherently lagging. By the time the moving average crosses over, the institutional move is already finished. We teach you to strip your charts bare and read the raw data: price and volume.",
+    honestReality: "The internet is flooded with 'gurus' selling complex trading algorithms that look like spaghetti on a chart. The reality is that institutional traders at hedge funds do not use MACD, RSI, or Stochastics to make million-dollar decisions. They use raw price action. They look at structure, volume, and areas of deep liquidity. Technical indicators are mathematically derived from past price; they are inherently lagging. By the time the moving average crosses over, the institutional move is already finished. We teach you to strip your charts bare and read the raw data.",
     content: [
       {
         heading: "The Language of the Market: Price Action",
@@ -881,33 +952,33 @@ export const LEARN_TOPICS: LearnTopic[] = [
         richBlocks: [
           {
             type: 'tradeExample',
-            title: 'Demand Zone Rejection',
+            title: 'Mathematical Position Sizing in TA',
             instrument: 'S&P 500',
             session: 'New York Open',
             entry: '5,100 (Tap into 4H Demand Zone)',
-            stopLoss: '5,080 (Below the zone)',
-            takeProfit: '5,160 (Next Supply Zone)',
+            stopLoss: '5,080 (20 Points Risk)',
+            takeProfit: '5,160 (60 Points Reward)',
             riskReward: '1:3',
             accountSize: '£10,000',
-            riskPercent: '1% (£100)',
-            positionSize: '£5 per point',
+            riskPercent: '1% (£100 maximum loss)',
+            positionSize: '£5.00 per point',
             result: '+£300 (+3%)',
             isProfit: true
           } as TradeExampleBlock
         ]
       },
       {
-        heading: "Liquidity Sweeps and Stop Hunts",
-        text: "Have you ever placed a logical stop loss below a major support level, only to watch the price dip down, hit your stop loss, and immediately reverse in your intended direction? This is not bad luck; this is a liquidity sweep.\n\nInstitutions need massive amounts of liquidity (opposing orders) to fill their massive positions. If they want to buy, they need sellers. The largest concentration of sell orders sits directly beneath retail support levels (as stop-losses). Institutions will intentionally drive the price below support, trigger the retail stops, absorb the sell orders, and then reverse the market.",
+        heading: "The Three Setups of Technical Mastery",
+        text: "To succeed with Technical Analysis, you must master the execution of specific, repeatable setups. Here are the three primary setups used by professionals:\n\n1. **The Liquidity Sweep (The Trap):** Retail traders place their stop losses directly above obvious Resistance or below obvious Support. Institutions know this. They will intentionally drive the price slightly past the level, hit the retail stops (absorbing their liquidity), and immediately reverse the price. You enter on the reversal back inside the level.\n\n2. **The Break and Retest:** When a major structure level breaks with high volume, do not chase it. Wait for the inevitable pullback to retest the broken level. What was once resistance becomes support. Enter on the retest.\n\n3. **The Inside Bar Breakout:** An inside bar occurs when a candle's high and low are completely contained within the previous candle. It signals extreme volatility contraction. You trade the breakout of this contraction, placing a tight stop loss below the inside bar.",
         bullets: [
           "Never place your stop loss exactly on a major level. Always leave a buffer.",
-          "Wait for the sweep to occur before entering.",
+          "Wait for the sweep to occur before entering a reversal.",
           "A fast wick below a key level followed by a strong close back inside the range is a powerful entry signal."
         ]
       },
       {
         heading: "Top-Down Analysis",
-        text: "You can never look at a single timeframe in isolation. A 5-minute chart might look incredibly bullish, while the Daily chart shows you are driving directly into a massive institutional supply zone.\n\nProfessional traders use 'Top-Down Analysis'. This means determining the overall trend on the highest timeframe, and then dropping down to lower timeframes to find a precise entry.\n\n1. The Daily Chart (The Compass): Use this to determine the overall trend. Are we making Higher Highs or Lower Lows?\n2. The 4-Hour Chart (The Map): Use this to draw your major Supply and Demand zones and identify key structure points.\n3. The 15-Minute Chart (The Sniper Rifle): Use this to wait for price to enter your 4H zone, watch for a change of character (like a bullish engulfing candle), and execute the trade with a tight stop loss.",
+        text: "You can never look at a single timeframe in isolation. A 5-minute chart might look incredibly bullish, while the Daily chart shows you are driving directly into a massive institutional supply zone.\n\nProfessional traders use 'Top-Down Analysis'. This means determining the overall trend on the highest timeframe, and then dropping down to lower timeframes to find a precise entry.\n\n1. The Daily Chart (The Compass): Use this to determine the overall trend. Are we making Higher Highs or Lower Lows?\n2. The 4-Hour Chart (The Map): Use this to draw your major Supply and Demand zones and identify key structure points.\n3. The 15-Minute Chart (The Sniper Rifle): Use this to wait for price to enter your 4H zone, watch for a change of character, and execute the trade with a tight stop loss.",
         richBlocks: [
           {
             type: 'toolCard',
@@ -932,8 +1003,8 @@ export const LEARN_TOPICS: LearnTopic[] = [
         ]
       },
       {
-        heading: "The Danger of Pattern Recognition",
-        text: "Retail traders love patterns: Head and Shoulders, Double Tops, Flags, and Pennants. The problem is that when a pattern becomes too obvious, institutions will exploit it. If a perfect Double Top forms, retail traders will aggressively short the market, placing their stop-losses directly above the Double Top.\n\nInstitutions will then drive the price slightly above the Double Top, triggering all those buy-stops (liquidity), before taking the price down. We teach you to trade the failure of the pattern, not the pattern itself.",
+        heading: "The 12-24 Month Timeline",
+        text: "You will not master Technical Analysis in a weekend. Reading price action is a visual skill that requires thousands of hours of screen time. It is exactly like learning to read a new language.\n\nIt typically takes 12 to 24 months to achieve profitability. The first 6 months are spent memorizing the patterns and losing money because you apply them in the wrong context. The next 6 months are spent learning that context is everything. The second year is when you finally develop the discipline to only trade your 3 specific setups.",
         bullets: [
           "Obvious patterns are usually traps.",
           "Trade the 'break and retest' rather than the initial break.",
@@ -941,8 +1012,8 @@ export const LEARN_TOPICS: LearnTopic[] = [
         ]
       },
       {
-        heading: "Brokers for Technical Execution",
-        text: "Technical analysis is useless if your broker has terrible execution, massive slippage, or freezes during high volatility. You need a broker with direct market access (DMA) or an ECN model that provides raw spreads and instant execution.",
+        heading: "UK Trading Advantages for TA",
+        text: "Applying Technical Analysis in the UK comes with distinct structural advantages. If you use a Spread Betting account to execute your technical setups, your profits are entirely exempt from Capital Gains Tax (CGT) under HMRC rules.\n\nFurthermore, because the UK has no Pattern Day Trader (PDT) rule, you can execute as many intraday technical setups as your strategy demands, even on a small account. Finally, trading with an FCA-regulated broker ensures your capital is protected by the FSCS, allowing you to focus entirely on the charts.",
         richBlocks: [
           {
             type: 'brokerCard',
@@ -968,7 +1039,7 @@ export const LEARN_TOPICS: LearnTopic[] = [
     faqs: [
       {
         question: "Does technical analysis work on all markets?",
-        answer: "Yes, because TA is ultimately the study of human psychology (fear and greed) visualized on a chart. Human psychology does not change whether you are trading Forex, Crypto, or UK Stocks. However, high-liquidity markets (like major FX pairs and large-cap stocks) respect technical levels much cleaner than low-liquidity penny stocks."
+        answer: "Yes, because TA is ultimately the study of human psychology (fear and greed) visualized on a chart. Human psychology does not change whether you are trading Forex, Crypto, or UK Stocks. However, high-liquidity markets respect technical levels much cleaner than low-liquidity penny stocks."
       },
       {
         question: "What is the best technical indicator?",
@@ -979,27 +1050,19 @@ export const LEARN_TOPICS: LearnTopic[] = [
         answer: "Because you are trading obvious retail liquidity. If a support line is too obvious, institutional algorithms will intentionally push the price below it to trigger retail stop-losses (a 'liquidity sweep') before reversing the price in the original direction."
       },
       {
-        question: "How long does it take to learn technical analysis?",
-        answer: "You can learn the basic terminology in a weekend. However, developing the 'screen time' required to instantly recognize subtle shifts in momentum and structure in live, moving markets takes hundreds of hours of deliberate practice."
-      },
-      {
-        question: "Can TA predict the news?",
-        answer: "No, but it can predict the *reaction* to the news. The chart often sets up in a specific technical structure (like a tight consolidation near a major level) right before a news event, providing the required liquidity for the impending move."
-      },
-      {
-        question: "Do I need multiple screens for top-down analysis?",
-        answer: "No. While multiple screens are convenient, you can easily perform top-down analysis on a single laptop screen by simply switching timeframes on TradingView."
+        question: "How do I size my positions technically?",
+        answer: "You must use mathematical position sizing. Place your technical stop loss (e.g., 20 pips away) based on market structure. If your 1% risk is £50, you divide £50 by 20 pips to stake £2.50 per pip via spread betting."
       }
     ]
   },
-    {
+      {
     slug: "candlestick-patterns",
     title: "Candlestick Patterns",
     subtitle: "The visual language of the market. Learn to read the battle between buyers and sellers in real-time.",
     description: "Master Japanese candlestick patterns to time your entries. Learn to identify hammers, engulfing bars, and institutional footprints before the trend reverses.",
     category: "Strategy",
     difficulty: "Beginner",
-    timeToLearn: "1-2 weeks",
+    timeToLearn: "12-24 months",
     riskLevel: "Low",
     heroImage: "/images/learn/candlesticks.jpg",
     metaTitle: "Candlestick Patterns Guide UK 2026 | Timing Your Entries | Drawdown",
@@ -1017,8 +1080,17 @@ export const LEARN_TOPICS: LearnTopic[] = [
         ]
       },
       {
-        heading: "The Pin Bar (Hammer / Shooting Star)",
-        text: "The Pin Bar (short for Pinocchio Bar, because it 'lies' about the direction of the market) is arguably the most powerful single-candle reversal pattern.\n\nBullish Pin Bar (Hammer): It has a small body near the top of the candle, and a long lower wick. This shows that sellers pushed the price down significantly, but institutional buyers stepped in and aggressively bought the dip, forcing the price back up to close near the high.\n\nBearish Pin Bar (Shooting Star): It has a small body near the bottom, and a long upper wick. Buyers tried to break higher, but sellers violently rejected the advance.\n\nTo trade a Pin Bar, you place your entry order just past the close of the candle, and your stop loss safely beyond the extreme end of the long wick.",
+        heading: "The Three Specific Setups",
+        text: "Do not memorize 50 patterns. Master these three high-probability setups:\n\n1. **The Pin Bar (Liquidity Sweep):** The Pin Bar (or Hammer) has a small body and a long wick. It shows violent rejection. The setup is to wait for price to sweep below a major support level, trigger retail stops, and form a Bullish Pin Bar. You buy on the break of the Pin Bar's high.\n\n2. **The Engulfing Break and Retest:** An Engulfing pattern occurs when a large candle completely covers the body of the previous smaller candle. Trade this on the 'retest' of a broken structure level to confirm the new trend.\n\n3. **The Inside Bar Breakout:** An Inside Bar represents massive volatility contraction. The entire candle is inside the previous candle. Trade the breakout of the 'Mother Bar' during high-volume sessions like the London Open.",
+        bullets: [
+          "Wait for the Close: The engulfing candle must close completely enveloping the previous body.",
+          "Volume Confirmation: The engulfing candle should ideally have higher volume than the previous candle.",
+          "Location is Everything: Only trade engulfing patterns at high-timeframe key levels."
+        ]
+      },
+      {
+        heading: "Mathematical Position Sizing",
+        text: "When trading candlestick patterns, your stop loss placement is critical, and it dictates your position size.\n\nIf you are trading a Bullish Pin Bar on GBP/USD, your stop loss MUST go below the extreme low of the wick. If the distance from your entry to the bottom of the wick is 30 pips, and your 1% account risk is £150, you divide £150 by 30 pips. Your stake size is £5 per pip.\n\nThis ensures that if the pattern fails (which it will 40% of the time), you only lose your strictly defined 1% overhead.",
         richBlocks: [
           {
             type: 'tradeExample',
@@ -1031,24 +1103,15 @@ export const LEARN_TOPICS: LearnTopic[] = [
             riskReward: '1:3',
             accountSize: '£5,000',
             riskPercent: '1% (£50)',
-            positionSize: '0.25 lots (£2.50/pip)',
+            positionSize: '£2.50 per pip (Spread Betting)',
             result: '+£150 (+3.0%)',
             isProfit: true
           } as TradeExampleBlock
         ]
       },
       {
-        heading: "The Engulfing Pattern",
-        text: "An engulfing pattern is a two-candle reversal signal that indicates a violent shift in momentum.\n\nBullish Engulfing: Occurs at the bottom of a downtrend. Candle 1 is a small bearish (red) candle. Candle 2 is a massive bullish (green) candle whose body completely 'engulfs' or covers the entire body of Candle 1. This signals that buyers have completely overpowered the sellers.\n\nBearish Engulfing: Occurs at the top of an uptrend. A small bullish candle is instantly followed by a massive bearish candle that wipes out the previous candle's gains.\n\nEngulfing candles are highly reliable triggers when they occur immediately after price touches a major Support or Resistance level.",
-        bullets: [
-          "Wait for the Close: The engulfing candle must close completely enveloping the previous body.",
-          "Volume Confirmation: The engulfing candle should ideally have higher volume than the previous candle.",
-          "Location is Everything: Only trade engulfing patterns at high-timeframe key levels."
-        ]
-      },
-      {
-        heading: "The Inside Bar Pattern",
-        text: "Unlike Pin Bars and Engulfing patterns which signal reversals, the Inside Bar is typically a continuation pattern.\n\nAn Inside Bar occurs when the entire body and wicks of the current candle are completely contained within the high and low of the previous candle (the 'Mother Bar'). This represents a pause in the market—a moment of consolidation and volatility contraction.\n\nWhen an Inside Bar forms during a strong trend, it provides a low-risk entry opportunity to join the trend upon the breakout of the Mother Bar's high or low.",
+        heading: "Combining Patterns with Confluence",
+        text: "The secret to institutional trading is 'Confluence'—stacking multiple technical factors in your favor before executing a trade.\n\nA Bullish Engulfing pattern in the middle of a chart has a 50/50 win rate. But a Bullish Engulfing pattern that forms:\n1. In the direction of the Daily trend.\n2. At a 4-Hour Demand Zone.\n3. Immediately following a liquidity sweep of a previous low.\n\nThat pattern now has an 80%+ probability of playing out. Never trade the candle alone. Trade the context.",
         richBlocks: [
           {
             type: 'statCallout',
@@ -1058,17 +1121,12 @@ export const LEARN_TOPICS: LearnTopic[] = [
         ]
       },
       {
-        heading: "The Doji: Total Indecision",
-        text: "A Doji is a candle where the open and close are almost exactly the same price, resulting in a cross-like shape. It means that despite all the buying and selling activity during the session, neither side could gain control.\n\nA Doji on its own is neutral. However, a Doji that appears after a prolonged uptrend or downtrend often serves as an early warning sign that the current trend is exhausting and a reversal may be imminent.",
-        bullets: [
-          "Standard Doji: Cross shape, equal wicks.",
-          "Gravestone Doji: Long upper wick, close at the low (bearish warning).",
-          "Dragonfly Doji: Long lower wick, close at the high (bullish warning)."
-        ]
+        heading: "Timeframes and Reliability",
+        text: "Not all candlestick patterns are created equal. The reliability of a pattern is directly proportional to the timeframe it forms on.\n\nA Pin Bar on the Daily chart represents 24 hours of sustained buying or selling pressure. It is highly significant and difficult for retail traders to manipulate. A Pin Bar on the 1-Minute chart represents 60 seconds of noise and is highly susceptible to random volatility.\n\nWe recommend beginners focus exclusively on identifying patterns on the 4-Hour and Daily charts until they achieve consistent profitability."
       },
       {
-        heading: "Combining Patterns with Confluence",
-        text: "The secret to institutional trading is 'Confluence'—stacking multiple technical factors in your favor before executing a trade.\n\nA Bullish Engulfing pattern in the middle of a chart has a 50/50 win rate. But a Bullish Engulfing pattern that forms:\n1. In the direction of the Daily trend.\n2. At a 4-Hour Demand Zone.\n3. Immediately following a liquidity sweep of a previous low.\n\nThat pattern now has an 80%+ probability of playing out. Never trade the candle alone. Trade the context.",
+        heading: "The 12-24 Month Timeline",
+        text: "You can memorize the shapes of candlesticks in an afternoon. You cannot master the execution of them in less than 12 to 24 months.\n\nDeveloping the 'screen time' required to instantly recognize subtle shifts in momentum, to understand when an Engulfing bar is a trap vs when it is a true institutional entry, requires thousands of hours of deliberate practice. Be patient. Survive your first year by using minimal risk.",
         richBlocks: [
           {
             type: 'toolCard',
@@ -1081,8 +1139,8 @@ export const LEARN_TOPICS: LearnTopic[] = [
         ]
       },
       {
-        heading: "Timeframes and Reliability",
-        text: "Not all candlestick patterns are created equal. The reliability of a pattern is directly proportional to the timeframe it forms on.\n\nA Pin Bar on the Daily chart represents 24 hours of sustained buying or selling pressure. It is highly significant and difficult for retail traders to manipulate. A Pin Bar on the 1-Minute chart represents 60 seconds of noise and is highly susceptible to random volatility.\n\nWe recommend beginners focus exclusively on identifying patterns on the 4-Hour and Daily charts until they achieve consistent profitability."
+        heading: "UK-Specific Advantages",
+        text: "UK traders utilizing Candlestick patterns have significant structural advantages. By executing these patterns via a Spread Betting account, you can precisely control your 'pound per point' risk without having to calculate complex lot sizes.\n\nFurthermore, because spread betting profits are currently tax-free under HMRC (as they are classified as gambling), you keep 100% of your gains. Additionally, trading with an FCA-regulated broker means you have Negative Balance Protection, ensuring a massive market gap against your candlestick pattern will never put you in debt to the broker."
       },
       {
         heading: "Recommended Brokers for Charting",
@@ -1120,19 +1178,11 @@ export const LEARN_TOPICS: LearnTopic[] = [
       },
       {
         question: "What is a Doji?",
-        answer: "A Doji is a candle where the open and close are almost exactly the same price, resulting in a cross-like shape. It represents total market indecision. The battle between buyers and sellers ended in a tie. A Doji after a long trend can signal an impending reversal."
+        answer: "A Doji is a candle where the open and close are almost exactly the same price, resulting in a cross-like shape. It represents total market indecision. A Doji after a long trend can signal an impending reversal."
       },
       {
-        question: "Are candlestick patterns better than indicators?",
-        answer: "Yes. Indicators lag because they use a formula based on past price. Candlesticks represent the raw, current data of price action. They are the most immediate feedback mechanism available to a trader."
-      },
-      {
-        question: "Why did my perfect pattern fail?",
-        answer: "Because the context was wrong. Even a perfect pattern will fail if it's traded counter-trend, into major resistance, or during a low-volume session. The pattern is just the trigger; the context is the weapon."
-      },
-      {
-        question: "Can algorithms read candlestick patterns?",
-        answer: "Yes, institutional algorithms are heavily programmed to recognize these patterns. In fact, they often intentionally form false patterns to trap retail traders before moving the market in the opposite direction."
+        question: "How do I size my trade for a Pin Bar?",
+        answer: "Place your stop loss behind the wick. Measure the distance from entry to stop in pips. Divide your total 1% risk amount by the pip distance to find your exact stake size per pip."
       }
     ]
   },

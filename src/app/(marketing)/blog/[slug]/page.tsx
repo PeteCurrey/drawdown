@@ -197,7 +197,7 @@ export default async function BlogPostPage({ params }: Props) {
               <div className="space-y-4">
                 <h4 className="text-3xl font-display font-bold uppercase text-text-primary leading-none">Stop Gambling. <br /> Start Trading.</h4>
                 <p className="text-text-secondary text-sm max-w-md">
-                  Join 10,000+ traders mastering the business of risk with our institutional-grade tools and education.
+                  Start mastering the business of risk with our institutional-grade tools and education.
                 </p>
               </div>
               <Link 

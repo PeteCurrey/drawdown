@@ -107,7 +107,7 @@ export function HowToTemplate({ page, region = 'uk' }: { page: HowToPage; region
                <div className="p-8 bg-background-surface border border-border-slate space-y-8">
                   <h4 className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary font-bold">// THE PLAYBOOK</h4>
                   <p className="text-sm text-text-secondary leading-relaxed">
-                    This guide is part of the Drawdown Institutional Curriculum. Join 10,000+ traders mastering the business of risk.
+                    This guide is part of the Drawdown Institutional Curriculum. Start mastering the business of risk with Drawdown.
                   </p>
                   <Link href={`${regionPrefix}/courses`} className="w-full py-4 border border-accent hover:bg-accent hover:text-[#08090D] transition-all text-center text-[10px] font-bold uppercase tracking-widest block">
                      Access Full Curriculum

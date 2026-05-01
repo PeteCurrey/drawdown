@@ -160,7 +160,7 @@ export default function AustralianLocationTopicPage({ params }: Props) {
         <section className="p-16 bg-accent text-background-primary relative overflow-hidden text-center">
            <div className="relative z-10 space-y-8">
               <h2 className="text-4xl md:text-6xl font-display font-bold uppercase leading-none">
-                 Join 10,000+ Traders <br /> Across Australia.
+                 Start Learning With Drawdown Today.
               </h2>
               <Link 
                 href="/au/signup"

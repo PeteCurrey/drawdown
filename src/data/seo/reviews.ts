@@ -113,7 +113,7 @@ Deposit/Withdrawal: Zero fees for bank transfers or cards. Fast processing to UK
       "Traders who want raw, institutional-grade spreads"
     ],
     whoShouldNotUse: [
-      "Traders who need 15,000+ individual stocks (use IG)",
+      "Traders who need 1Join Drawdown Free individual stocks (use IG)",
       "Long-term investors looking for tax-free ISAs",
       "Absolute beginners who want a community-driven social feed"
     ],
@@ -332,7 +332,7 @@ Market Analysis: XTB has one of the best in-house research teams, providing dail
   "cmc-markets": {
     overview: `CMC Markets is a pioneer of the UK trading industry, founded in 1989 by Lord Peter Cruddas. As a FTSE 250 listed company, they are one of the most stable and respected names in the spread betting and CFD space.
 
-Their "Next Generation" platform is often cited by technical analysts as having the best native charting tools in the industry. They offer a staggering 12,000+ instruments, ensuring that no matter how niche your strategy, you can find a market on CMC.
+Their "Next Generation" platform is often cited by technical analysts as having the best native charting tools in the industry. They offer a staggering 1Join Drawdown Free instruments, ensuring that no matter how niche your strategy, you can find a market on CMC.
 
 For the serious UK trader, CMC provides a professional-grade alternative to IG, often preferred by those who find IG's interface too cluttered or who need more advanced charting capabilities.`,
     accountTypes: `CMC Markets offers a few distinct account paths:

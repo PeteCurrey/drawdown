@@ -10,7 +10,7 @@ export const BEST_OF_PAGES_CA = [
     comparisonTable: [
       { rank: 1, name: "Interactive Brokers", bestFor: "Institutional Tech", keyStat: "Direct CAD Access", rating: 4.9, link: "https://ibkr.ca" },
       { rank: 2, name: "OANDA Canada", bestFor: "User Experience", keyStat: "IIROC Regulated", rating: 4.8, link: "https://oanda.ca" },
-      { rank: 3, name: "CMC Markets", bestFor: "Advanced Charting", keyStat: "10,000+ Instruments", rating: 4.7, link: "https://cmcmarkets.ca" },
+      { rank: 3, name: "CMC Markets", bestFor: "Advanced Charting", keyStat: "Start learning with Drawdown Instruments", rating: 4.7, link: "https://cmcmarkets.ca" },
     ],
     reviews: [
       {

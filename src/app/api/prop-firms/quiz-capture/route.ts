@@ -40,7 +40,7 @@ export async function POST(request: NextRequest) {
     };
     const firmName = firmNames[firmMatch] ?? firmMatch;
     const firmLinks: Record<string, string> = {
-      ftmo: "https://drawdown.trading/api/market/prop-firms/redirect?id=ftmo&source=quiz_email",
+      ftmo: "/go/ftmo",
       "the5ers": "https://drawdown.trading/api/market/prop-firms/redirect?id=the5ers&source=quiz_email",
       "funding-pips": "https://drawdown.trading/api/market/prop-firms/redirect?id=funding-pips&source=quiz_email",
     };

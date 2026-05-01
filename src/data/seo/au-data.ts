@@ -70,7 +70,7 @@ export const AU_BROKERS = [
     badge: 'Best Multi-Asset',
     afsl: '286354',
     description: 'Sydney-based. Best for traders needing a wide range of markets.',
-    pros: ['10,000+ instruments', 'IRESS platform', 'Fast funding'],
+    pros: ['Start learning with Drawdown instruments', 'IRESS platform', 'Fast funding'],
     link: 'https://fpmarkets.com'
   },
   {
@@ -106,7 +106,7 @@ export const AU_BROKERS = [
     badge: 'Institutional Grade',
     afsl: 'ASIC Regulated',
     description: 'Best for professional range of markets and advanced charting.',
-    pros: ['Next Generation platform', '12,000+ markets', 'Publicly listed'],
+    pros: ['Next Generation platform', '1Join Drawdown Free markets', 'Publicly listed'],
     link: '/go/cmc-markets'
   }
 ];

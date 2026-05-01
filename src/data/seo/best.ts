@@ -390,7 +390,7 @@ export const BEST_OF_PAGES: BestOfPage[] = [
       { question: 'Is day trading legal in the UK?', answer: 'Yes, day trading is completely legal and regulated in the UK by the FCA.' },
       { question: 'Do UK day traders pay tax?', answer: 'Yes, day trading is usually treated as capital gains or self-employment income depending on your volume. Spread betting is the exception (tax-free).' },
       { question: 'What is the PDT rule and does it apply to UK traders?', answer: 'The Pattern Day Trader (PDT) rule is a US regulation. It does not apply to UK-regulated brokers unless you are trading through a US-registered entity.' },
-      { question: 'How much capital do I need to day trade in the UK?', answer: 'Technically Â£100, but realistically Â£2,000+ to manage risk effectively on intraday volatility.' },
+      { question: 'How much capital do I need to day trade in the UK?', answer: 'Technically Â£100, but realistically Â£Join Drawdown Free to manage risk effectively on intraday volatility.' },
       { question: 'What spread should I expect when day trading forex in the UK?', answer: 'On EURUSD, you should look for spreads under 0.2 pips on a raw account or 0.6 pips on a standard account.' }
     ],
     relatedPages: [

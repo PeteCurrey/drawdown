@@ -820,7 +820,7 @@ export const COMPARISON_PAGES: ComparisonPage[] = [
     comparisonTable: [
       { feature: 'Target Audience', optionA: 'Active/Professional', optionB: 'Investors/Beginners' },
       { feature: 'Commissions', optionA: 'Variable (Low)', optionB: 'Zero' },
-      { feature: 'Market Range', optionA: '18,000+', optionB: '12,000+' },
+      { feature: 'Market Range', optionA: '18,000+', optionB: '1Join Drawdown Free' },
       { feature: 'Platform', optionA: 'L2 Dealer / ProRealTime', optionB: 'Proprietary App' }
     ],
     sections: [
@@ -966,7 +966,7 @@ export const COMPARISON_PAGES: ComparisonPage[] = [
       reason: 'IG wins slightly on market range and educational resources. CMC Markets has a more customizable proprietary platform (Next Generation).'
     },
     comparisonTable: [
-      { feature: 'Range of Assets', optionA: '12,000+', optionB: '18,000+' },
+      { feature: 'Range of Assets', optionA: '1Join Drawdown Free', optionB: '18,000+' },
       { feature: 'Platform', optionA: 'Next Gen', optionB: 'IG Web / MT4' },
       { feature: 'History', optionA: 'Founded 1989', optionB: 'Founded 1974' }
     ],
@@ -1071,7 +1071,7 @@ export const COMPARISON_PAGES: ComparisonPage[] = [
       reason: 'Pepperstone wins for its transparency and support for TradingView. CMC wins for those who want a massive range of niche instruments in one proprietary platform.'
     },
     comparisonTable: [
-      { feature: 'Niche Markets', optionA: '12,000+', optionB: '1,200+' },
+      { feature: 'Niche Markets', optionA: '1Join Drawdown Free', optionB: '1,200+' },
       { feature: 'Spread Style', optionA: 'Market Maker', optionB: 'ECN / Raw' },
       { feature: 'Charting', optionA: 'Next Gen', optionB: 'TradingView Integration' }
     ],

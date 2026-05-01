@@ -121,10 +121,10 @@ export default async function LocationTopicPage({ params }: Props) {
                 {location.context}
               </p>
               <p className="text-lg text-text-secondary leading-relaxed">
-                While ${location.name} has its own unique financial landscape, the beauty of modern markets is that your location no longer dictates your edge. By choosing to learn ${topic.title} online with Drawdown, you gain access to institutional-grade tools and community intelligence that was once reserved for the square mile.
+                While {location.name} has its own unique financial landscape, the beauty of modern markets is that your location no longer dictates your edge. By choosing to learn {topic.title} online with Drawdown, you gain access to institutional-grade tools and community intelligence that was once reserved for the square mile.
               </p>
               <p className="text-lg text-text-secondary leading-relaxed">
-                We've built Drawdown specifically for traders in hubs like ${location.name} who demand professional-level education without the archaic costs of physical classroom seminars.
+                We've built Drawdown specifically for traders in hubs like {location.name} who demand professional-level education without the archaic costs of physical classroom seminars.
               </p>
             </div>
             <div className="bg-background-surface border border-border-slate p-8 space-y-6">
@@ -236,7 +236,7 @@ export default async function LocationTopicPage({ params }: Props) {
                  Start Learning {topic.title} <br /> from {location.name} Today.
               </h2>
               <p className="text-lg opacity-80 max-w-2xl mx-auto">
-                 Join 5,000+ UK traders using the institutional path. No fluff. No gurus. Just process.
+                 Start learning with Drawdown. No fluff. No gurus. Just process.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
                  <Link 

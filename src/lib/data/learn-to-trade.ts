@@ -842,7 +842,7 @@ export const LEARN_TOPICS: LearnTopic[] = [
       }
     ]
   },
-  {
+    {
     slug: "technical-analysis",
     title: "Technical Analysis",
     subtitle: "The art of reading institutional footprints. Forget magic indicators; focus on structure, liquidity, and momentum.",
@@ -897,6 +897,15 @@ export const LEARN_TOPICS: LearnTopic[] = [
         ]
       },
       {
+        heading: "Liquidity Sweeps and Stop Hunts",
+        text: "Have you ever placed a logical stop loss below a major support level, only to watch the price dip down, hit your stop loss, and immediately reverse in your intended direction? This is not bad luck; this is a liquidity sweep.\n\nInstitutions need massive amounts of liquidity (opposing orders) to fill their massive positions. If they want to buy, they need sellers. The largest concentration of sell orders sits directly beneath retail support levels (as stop-losses). Institutions will intentionally drive the price below support, trigger the retail stops, absorb the sell orders, and then reverse the market.",
+        bullets: [
+          "Never place your stop loss exactly on a major level. Always leave a buffer.",
+          "Wait for the sweep to occur before entering.",
+          "A fast wick below a key level followed by a strong close back inside the range is a powerful entry signal."
+        ]
+      },
+      {
         heading: "Top-Down Analysis",
         text: "You can never look at a single timeframe in isolation. A 5-minute chart might look incredibly bullish, while the Daily chart shows you are driving directly into a massive institutional supply zone.\n\nProfessional traders use 'Top-Down Analysis'. This means determining the overall trend on the highest timeframe, and then dropping down to lower timeframes to find a precise entry.\n\n1. The Daily Chart (The Compass): Use this to determine the overall trend. Are we making Higher Highs or Lower Lows?\n2. The 4-Hour Chart (The Map): Use this to draw your major Supply and Demand zones and identify key structure points.\n3. The 15-Minute Chart (The Sniper Rifle): Use this to wait for price to enter your 4H zone, watch for a change of character (like a bullish engulfing candle), and execute the trade with a tight stop loss.",
         richBlocks: [
@@ -908,6 +917,51 @@ export const LEARN_TOPICS: LearnTopic[] = [
             features: ['Cloud-based charting', 'Custom alerts', 'Multi-chart layouts'],
             tier: 'Free / Pro'
           } as ToolCardBlock
+        ]
+      },
+      {
+        heading: "Volume as the Ultimate Validator",
+        text: "Price can be manipulated on lower timeframes, but volume cannot be hidden. Volume is the actual footprint of institutional participation. If price breaks out of a major resistance level, but the volume is significantly lower than average, it is likely a false breakout.\n\nConversely, if price is dropping rapidly into a demand zone, but the volume on the down-candles is decreasing while the volume on the up-candles is increasing, it suggests that institutional selling pressure is exhausting and buyers are stepping in.",
+        richBlocks: [
+          {
+            type: 'statCallout',
+            stat: '80%',
+            context: 'of false breakouts are accompanied by below-average volume. Always wait for volume confirmation before trading a break of structure.',
+            source: 'Proprietary Trading Data'
+          } as StatCalloutBlock
+        ]
+      },
+      {
+        heading: "The Danger of Pattern Recognition",
+        text: "Retail traders love patterns: Head and Shoulders, Double Tops, Flags, and Pennants. The problem is that when a pattern becomes too obvious, institutions will exploit it. If a perfect Double Top forms, retail traders will aggressively short the market, placing their stop-losses directly above the Double Top.\n\nInstitutions will then drive the price slightly above the Double Top, triggering all those buy-stops (liquidity), before taking the price down. We teach you to trade the failure of the pattern, not the pattern itself.",
+        bullets: [
+          "Obvious patterns are usually traps.",
+          "Trade the 'break and retest' rather than the initial break.",
+          "Always ask: Where is the trapped retail liquidity?"
+        ]
+      },
+      {
+        heading: "Brokers for Technical Execution",
+        text: "Technical analysis is useless if your broker has terrible execution, massive slippage, or freezes during high volatility. You need a broker with direct market access (DMA) or an ECN model that provides raw spreads and instant execution.",
+        richBlocks: [
+          {
+            type: 'brokerCard',
+            brokerSlug: 'pepperstone',
+            brokerName: 'Pepperstone',
+            bestFor: 'Best for raw spreads and fast execution',
+            regulation: 'FCA Regulated',
+            affiliateSlug: 'pepperstone',
+            stat: 'Average execution speed of 30ms'
+          } as BrokerCardBlock,
+          {
+            type: 'brokerCard',
+            brokerSlug: 'ig',
+            brokerName: 'IG Markets',
+            bestFor: 'Best for advanced charting integration',
+            regulation: 'FCA Regulated',
+            affiliateSlug: 'ig',
+            stat: 'Direct TradingView integration'
+          } as BrokerCardBlock
         ]
       }
     ],
@@ -926,11 +980,19 @@ export const LEARN_TOPICS: LearnTopic[] = [
       },
       {
         question: "How long does it take to learn technical analysis?",
-        answer: "You can learn the basic patterns and terminology in a weekend. However, developing the 'screen time' required to instantly recognize subtle shifts in momentum and structure in live, moving markets takes hundreds of hours of deliberate practice."
+        answer: "You can learn the basic terminology in a weekend. However, developing the 'screen time' required to instantly recognize subtle shifts in momentum and structure in live, moving markets takes hundreds of hours of deliberate practice."
+      },
+      {
+        question: "Can TA predict the news?",
+        answer: "No, but it can predict the *reaction* to the news. The chart often sets up in a specific technical structure (like a tight consolidation near a major level) right before a news event, providing the required liquidity for the impending move."
+      },
+      {
+        question: "Do I need multiple screens for top-down analysis?",
+        answer: "No. While multiple screens are convenient, you can easily perform top-down analysis on a single laptop screen by simply switching timeframes on TradingView."
       }
     ]
   },
-  {
+    {
     slug: "candlestick-patterns",
     title: "Candlestick Patterns",
     subtitle: "The visual language of the market. Learn to read the battle between buyers and sellers in real-time.",
@@ -983,6 +1045,68 @@ export const LEARN_TOPICS: LearnTopic[] = [
           "Volume Confirmation: The engulfing candle should ideally have higher volume than the previous candle.",
           "Location is Everything: Only trade engulfing patterns at high-timeframe key levels."
         ]
+      },
+      {
+        heading: "The Inside Bar Pattern",
+        text: "Unlike Pin Bars and Engulfing patterns which signal reversals, the Inside Bar is typically a continuation pattern.\n\nAn Inside Bar occurs when the entire body and wicks of the current candle are completely contained within the high and low of the previous candle (the 'Mother Bar'). This represents a pause in the market—a moment of consolidation and volatility contraction.\n\nWhen an Inside Bar forms during a strong trend, it provides a low-risk entry opportunity to join the trend upon the breakout of the Mother Bar's high or low.",
+        richBlocks: [
+          {
+            type: 'statCallout',
+            stat: 'Contraction leads to Expansion',
+            context: 'The tighter the Inside Bar consolidation, the more violent the subsequent breakout tends to be as trapped traders are forced to cover their positions.',
+          } as StatCalloutBlock
+        ]
+      },
+      {
+        heading: "The Doji: Total Indecision",
+        text: "A Doji is a candle where the open and close are almost exactly the same price, resulting in a cross-like shape. It means that despite all the buying and selling activity during the session, neither side could gain control.\n\nA Doji on its own is neutral. However, a Doji that appears after a prolonged uptrend or downtrend often serves as an early warning sign that the current trend is exhausting and a reversal may be imminent.",
+        bullets: [
+          "Standard Doji: Cross shape, equal wicks.",
+          "Gravestone Doji: Long upper wick, close at the low (bearish warning).",
+          "Dragonfly Doji: Long lower wick, close at the high (bullish warning)."
+        ]
+      },
+      {
+        heading: "Combining Patterns with Confluence",
+        text: "The secret to institutional trading is 'Confluence'—stacking multiple technical factors in your favor before executing a trade.\n\nA Bullish Engulfing pattern in the middle of a chart has a 50/50 win rate. But a Bullish Engulfing pattern that forms:\n1. In the direction of the Daily trend.\n2. At a 4-Hour Demand Zone.\n3. Immediately following a liquidity sweep of a previous low.\n\nThat pattern now has an 80%+ probability of playing out. Never trade the candle alone. Trade the context.",
+        richBlocks: [
+          {
+            type: 'toolCard',
+            toolSlug: 'tradingview',
+            toolName: 'TradingView',
+            description: 'The best platform for identifying candlestick patterns and drawing zones of confluence.',
+            features: ['Auto-pattern recognition', 'Custom timeframe candles', 'Volume analysis'],
+            tier: 'Free / Pro'
+          } as ToolCardBlock
+        ]
+      },
+      {
+        heading: "Timeframes and Reliability",
+        text: "Not all candlestick patterns are created equal. The reliability of a pattern is directly proportional to the timeframe it forms on.\n\nA Pin Bar on the Daily chart represents 24 hours of sustained buying or selling pressure. It is highly significant and difficult for retail traders to manipulate. A Pin Bar on the 1-Minute chart represents 60 seconds of noise and is highly susceptible to random volatility.\n\nWe recommend beginners focus exclusively on identifying patterns on the 4-Hour and Daily charts until they achieve consistent profitability."
+      },
+      {
+        heading: "Recommended Brokers for Charting",
+        text: "To effectively trade candlestick patterns, you need a broker with high-quality data feeds. A delayed or inaccurate data feed can literally change the shape of the candle, causing you to see an Engulfing pattern that doesn't actually exist on the institutional feed.",
+        richBlocks: [
+          {
+            type: 'brokerCard',
+            brokerSlug: 'pepperstone',
+            brokerName: 'Pepperstone',
+            bestFor: 'Best for institutional-grade data feeds',
+            regulation: 'FCA Regulated',
+            affiliateSlug: 'pepperstone',
+            stat: 'Raw pricing directly from tier-1 liquidity providers'
+          } as BrokerCardBlock,
+          {
+            type: 'brokerCard',
+            brokerSlug: 'ig',
+            brokerName: 'IG Markets',
+            bestFor: 'Best for proprietary charting platform',
+            regulation: 'FCA Regulated',
+            affiliateSlug: 'ig',
+            stat: 'Award-winning native charts with pattern recognition'
+          } as BrokerCardBlock
+        ]
       }
     ],
     faqs: [
@@ -997,6 +1121,18 @@ export const LEARN_TOPICS: LearnTopic[] = [
       {
         question: "What is a Doji?",
         answer: "A Doji is a candle where the open and close are almost exactly the same price, resulting in a cross-like shape. It represents total market indecision. The battle between buyers and sellers ended in a tie. A Doji after a long trend can signal an impending reversal."
+      },
+      {
+        question: "Are candlestick patterns better than indicators?",
+        answer: "Yes. Indicators lag because they use a formula based on past price. Candlesticks represent the raw, current data of price action. They are the most immediate feedback mechanism available to a trader."
+      },
+      {
+        question: "Why did my perfect pattern fail?",
+        answer: "Because the context was wrong. Even a perfect pattern will fail if it's traded counter-trend, into major resistance, or during a low-volume session. The pattern is just the trigger; the context is the weapon."
+      },
+      {
+        question: "Can algorithms read candlestick patterns?",
+        answer: "Yes, institutional algorithms are heavily programmed to recognize these patterns. In fact, they often intentionally form false patterns to trap retail traders before moving the market in the opposite direction."
       }
     ]
   },

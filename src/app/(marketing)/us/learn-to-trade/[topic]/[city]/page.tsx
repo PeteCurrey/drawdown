@@ -101,7 +101,7 @@ export default async function UnitedStatesLocationTopicPage({ params }: Props) {
                 {cityContext}
               </p>
               <p className="text-lg text-text-secondary leading-relaxed">
-                As a trader in {cityName}, you are operating within the world's most liquid financial ecosystem. Drawdown provides the institutional-grade ${topic.title} education you need to navigate the US regulatory landscape—from SEC compliance to CFTC-registered execution.
+                As a trader in {cityName}, you are operating within the world's most liquid financial ecosystem. Drawdown provides the institutional-grade {topic.title} education you need to navigate the US regulatory landscape—from SEC compliance to CFTC-registered execution.
               </p>
             </div>
             <div className="bg-background-surface border border-border-slate p-8 space-y-6">
@@ -160,7 +160,7 @@ export default async function UnitedStatesLocationTopicPage({ params }: Props) {
         <section className="p-16 bg-accent text-background-primary relative overflow-hidden text-center">
            <div className="relative z-10 space-y-8">
               <h2 className="text-4xl md:text-6xl font-display font-bold uppercase leading-none">
-                 Join 20,000+ Traders <br /> Across the United States.
+                 Start Learning With <br /> Drawdown Today.
               </h2>
               <Link 
                 href="/us/signup"

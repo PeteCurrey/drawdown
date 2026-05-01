@@ -16,7 +16,8 @@ import {
   ShieldAlert,
   Target,
   Brain,
-  Mail
+  Mail,
+  Link2
 } from "lucide-react";
 
 const NAV_ITEMS = [
@@ -28,6 +29,7 @@ const NAV_ITEMS = [
   { href: "/admin/content", label: "Content & Institutes", icon: BookOpen },
   { href: "/admin/marketing", label: "Marketing & SEO", icon: Target },
   { href: "/admin/newsletter", label: "The Wire Newsletter", icon: Mail },
+  { href: "/admin/affiliates", label: "Affiliate Manager", icon: Link2 },
   { href: "/admin/landing-pages", label: "Landing Pages", icon: LayoutTemplate },
   { href: "/admin/seo", label: "SEO Suite", icon: Search },
   { href: "/admin/community", label: "Discord Manager", icon: MessageSquare },

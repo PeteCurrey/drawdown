@@ -10,7 +10,7 @@ export default function MarketingLayout({
 }) {
   return (
     <DynamicRegionalProvider>
-      <div className="flex flex-col min-h-screen">
+      <div className="marketing-light flex flex-col min-h-screen bg-background-primary text-text-primary">
         <MarketTicker />
         <Navigation />
         <main className="flex-grow pt-[120px]">

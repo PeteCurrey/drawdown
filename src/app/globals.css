@@ -15,6 +15,20 @@
   --color-warning: #FFB020;
   --color-premium: #B8962E;
 
+  --color-mkt-bg: var(--mkt-bg);
+  --color-mkt-bg-subtle: var(--mkt-bg-subtle);
+  --color-mkt-bg-raised: var(--mkt-bg-raised);
+  --color-mkt-border: var(--mkt-border);
+  --color-mkt-border-strong: var(--mkt-border-strong);
+  --color-mkt-text-primary: var(--mkt-text-primary);
+  --color-mkt-text-secondary: var(--mkt-text-secondary);
+  --color-mkt-text-tertiary: var(--mkt-text-tertiary);
+  --color-mkt-accent: var(--mkt-accent);
+  --color-mkt-accent-text: var(--mkt-accent-text);
+  --color-mkt-accent-green: var(--mkt-accent-green);
+  --color-mkt-accent-red: var(--mkt-accent-red);
+  --color-mkt-accent-amber: var(--mkt-accent-amber);
+
   --font-display: var(--font-syne), ui-sans-serif, system-ui;
   --font-sans: var(--font-dm-sans), ui-sans-serif, system-ui;
   --font-mono: var(--font-mono), ui-monospace, monospace;
@@ -288,5 +302,44 @@ h3 { font-size: clamp(1.5rem, 5vw, 2.5rem); }
 
 .is-native body {
   padding-bottom: 5rem; /* 80px for the bottom nav */
+}
+
+/* Scoped marketing light mode variables */
+.marketing-light {
+  --mkt-bg: #FFFFFF;
+  --mkt-bg-subtle: #F7F7F7;
+  --mkt-bg-raised: #FAFAFA;
+  --mkt-border: #E8E8E8;
+  --mkt-border-strong: #D0D0D0;
+  --mkt-text-primary: #0A0A0A;
+  --mkt-text-secondary: #6B6B6B;
+  --mkt-text-tertiary: #9B9B9B;
+  --mkt-accent: #0A0A0A;
+  --mkt-accent-text: #FFFFFF;
+  --mkt-accent-green: #16A34A;
+  --mkt-accent-red: #DC2626;
+  --mkt-accent-amber: #D97706;
+
+  /* Map standard variables to light counterparts inside scope */
+  --background: var(--mkt-bg);
+  --surface: var(--mkt-bg-raised);
+  --elevated: var(--mkt-bg-subtle);
+  --border: var(--mkt-border);
+  --text-primary: var(--mkt-text-primary);
+  --text-secondary: var(--mkt-text-secondary);
+  --text-tertiary: var(--mkt-text-tertiary);
+  --foreground: var(--mkt-text-primary);
+  
+  /* Additional Tailwind overrides */
+  --color-background-primary: var(--mkt-bg);
+  --color-background-surface: var(--mkt-bg-raised);
+  --color-background-elevated: var(--mkt-bg-subtle);
+  --color-border-slate: var(--mkt-border);
+  --color-text-primary: var(--mkt-text-primary);
+  --color-text-secondary: var(--mkt-text-secondary);
+  --color-text-tertiary: var(--mkt-text-tertiary);
+  
+  background-color: var(--mkt-bg);
+  color: var(--mkt-text-primary);
 }
 

@@ -1,8 +1,9 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { Shield, ChevronRight, ExternalLink } from "lucide-react";
+import { Shield, ChevronRight } from "lucide-react";
 import Link from "next/link";
+import { motion } from "framer-motion";
 
 import { useRegion } from "@/components/layout/RegionalLayout";
 import { brokersAu } from "@/data/brokers-au";
@@ -133,54 +134,58 @@ export function BrokerHubPreview() {
   const { brokers: regionalBrokers, link } = getRegionalData();
 
   return (
-    <section className="py-12 md:py-20 bg-background-primary relative overflow-hidden">
-      <div className="container mx-auto px-6">
-        <div className="mb-16">
-          <span className="text-[10px] font-mono tracking-widest uppercase text-accent font-bold block mb-4">
+    <section className="py-24 bg-white border-y border-[#E8E8E8] relative overflow-hidden z-20">
+      <div className="max-w-7xl mx-auto px-6">
+        
+        {/* Section Heading */}
+        <div className="mb-16 text-center">
+          <span className="text-xs font-semibold tracking-widest text-neutral-400 border border-neutral-200 rounded-full px-3 py-1 inline-block uppercase font-sans mb-4">
             // RECOMMENDED BROKERS
           </span>
-          <h2 className="text-4xl md:text-6xl font-display font-bold uppercase mb-6">
-            Trade With Brokers <br /> We Actually Use.
+          <h2 className="text-4xl md:text-5xl font-display font-bold uppercase mb-4 text-[#0A0A0A] leading-tight">
+            Trade With Brokers We Actually Use.
           </h2>
-          <p className="text-sm font-sans text-text-secondary max-w-xl">
+          <p className="text-base font-sans text-neutral-500 max-w-xl mx-auto leading-relaxed">
             Honest recommendations. No pay-to-play rankings. We may earn a referral fee — but only from platforms we personally trade on.
           </p>
         </div>
 
+        {/* Card Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {regionalBrokers.map((broker) => (
-            <div 
+            <motion.div 
               key={broker.id}
-              className="bg-background-surface border border-border-slate p-8 flex flex-col justify-between group hover:border-accent/30 transition-premium rounded-xl"
+              className="bg-white border border-neutral-100 rounded-xl p-6 flex flex-col justify-between shadow-sm hover:shadow-md hover:border-neutral-200 transition-all duration-200"
+              whileHover={{ y: -2, transition: { duration: 0.2 } }}
             >
               <div>
-                <div className="flex items-center justify-between mb-8">
-                  <div 
-                    className="w-12 h-12 flex items-center justify-center font-display font-black text-white text-xl overflow-hidden bg-white p-1"
-                    style={{ backgroundColor: broker.logoUrl ? '#FFFFFF' : broker.color }}
-                  >
+                <div className="flex items-center justify-between mb-6">
+                  {/* Logo Container */}
+                  <div className="h-8 flex items-center justify-start">
                     {broker.logoUrl ? (
-                      <img src={broker.logoUrl} alt={broker.name} className="w-full h-full object-contain" />
+                      <img src={broker.logoUrl} alt={broker.name} className="max-h-8 object-contain" />
                     ) : (
-                      broker.logoPlaceholder
+                      <span className="font-display font-semibold text-neutral-900 text-lg uppercase tracking-wider">{broker.logoPlaceholder}</span>
                     )}
                   </div>
-                  <div className="flex items-center gap-1 text-[10px] font-mono text-profit uppercase">
+                  
+                  {/* Regulation Badge */}
+                  <span className="text-[11px] font-sans font-semibold text-green-700 bg-green-50 border border-green-200 rounded-full px-2.5 py-0.5 uppercase tracking-wide flex items-center gap-1">
                     <Shield className="w-3 h-3" /> {broker.regulation}
-                  </div>
+                  </span>
                 </div>
 
-                <h3 className="text-2xl font-display font-bold uppercase mb-2">{broker.name}</h3>
-                <p className="text-[10px] font-mono text-text-tertiary uppercase tracking-widest mb-8">{broker.bestFor}</p>
+                <h3 className="text-xl font-display font-bold uppercase text-[#0A0A0A] mt-4 mb-1">{broker.name}</h3>
+                <p className="text-xs font-sans text-neutral-500 uppercase tracking-widest font-semibold mb-6">{broker.bestFor}</p>
                 
-                <div className="py-4 border-y border-border-slate/30 mb-8">
-                  <p className="text-sm font-bold text-accent">{broker.stat}</p>
+                <div className="py-3 border-y border-neutral-100 mb-6">
+                  <p className="text-sm font-mono text-[#0A0A0A] font-semibold">{broker.stat}</p>
                 </div>
 
-                <ul className="space-y-3 mb-10">
+                <ul className="space-y-3 mb-8">
                   {broker.features.map((f, i) => (
-                    <li key={i} className="flex items-center gap-2 text-[10px] font-mono text-text-secondary uppercase tracking-widest">
-                      <div className="w-1 h-1 bg-accent" /> {f}
+                    <li key={i} className="flex items-center gap-2 text-sm text-neutral-600 font-sans">
+                      <span className="text-green-600 font-bold">✓</span> {f}
                     </li>
                   ))}
                 </ul>
@@ -188,25 +193,27 @@ export function BrokerHubPreview() {
 
               <a 
                 href={`/go/${broker.id}`}
-                className="w-full py-4 border border-accent hover:bg-accent hover:text-background-primary transition-premium text-center text-[10px] font-bold uppercase tracking-widest flex items-center justify-center gap-2 rounded-lg"
+                className="w-full bg-black hover:bg-neutral-800 text-white rounded-lg py-3 text-sm font-medium text-center transition-colors font-sans flex items-center justify-center gap-2"
               >
-                Open Account <ExternalLink className="w-3 h-3" />
+                Open Account &rarr;
               </a>
-            </div>
+            </motion.div>
           ))}
         </div>
 
-        <div className="mt-12 pt-12 border-t border-border-slate/30 flex flex-col md:flex-row items-center justify-between gap-6">
-          <p className="text-[10px] font-mono text-text-tertiary uppercase tracking-widest italic">
-            See our full broker Disclosure & Review Methodology at {link}.
+        {/* Disclosure & Footer Links */}
+        <div className="mt-12 pt-8 border-t border-neutral-100 flex flex-col md:flex-row items-center justify-between gap-6">
+          <p className="text-xs text-neutral-400 font-sans text-center md:text-left">
+            Honest recommendations. We may earn a referral fee — disclosed on every link.
           </p>
           <Link 
             href={link}
-            className="text-sm md:text-xs font-bold uppercase tracking-widest text-text-primary hover:text-accent transition-colors flex items-center gap-2"
+            className="text-xs font-bold uppercase tracking-widest text-[#0A0A0A] hover:underline flex items-center gap-1.5 font-sans"
           >
             See All Broker Reviews <ChevronRight className="w-4 h-4" />
           </Link>
         </div>
+
       </div>
     </section>
   );

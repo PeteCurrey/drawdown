@@ -1,34 +1,34 @@
 "use client";
 
-import { ReactLenis } from "lenis/react";
-import { ReactNode, useEffect } from "react";
+import { useEffect } from "react";
+import Lenis from "lenis";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-export function SmoothScroll({ children }: { children: ReactNode }) {
+export function SmoothScroll() {
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
-    
-    // Ensure GSAP and Lenis are locked
+
+    const lenis = new Lenis({
+      lerp: 0.1,
+      duration: 1.5,
+      smoothWheel: true,
+      syncTouch: true,
+    });
+
     function update(time: number) {
+      lenis.raf(time * 1000);
       ScrollTrigger.update();
     }
-    
+
     gsap.ticker.add(update);
-    
+    gsap.ticker.lagSmoothing(0);
+
     return () => {
       gsap.ticker.remove(update);
+      lenis.destroy();
     };
   }, []);
 
-  return (
-    <ReactLenis root options={{ 
-      lerp: 0.1, 
-      duration: 1.5, 
-      smoothWheel: true,
-      syncTouch: true 
-    }}>
-      {children}
-    </ReactLenis>
-  );
+  return null;
 }

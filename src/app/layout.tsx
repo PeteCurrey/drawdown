@@ -48,12 +48,11 @@ export default function RootLayout({
             disableTransitionOnChange
           >
             <ScrollProgress />
-            <SmoothScroll>
-              <main className="flex-grow">
-                {children}
-              </main>
-            </SmoothScroll>
+            <main className="flex-grow">
+              {children}
+            </main>
             <GrainOverlay />
+            <SmoothScroll />
           </ThemeProvider>
       </body>
     </html>

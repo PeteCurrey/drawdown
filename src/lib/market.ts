@@ -48,7 +48,16 @@ export interface SentimentData {
 export async function getMarketPrices(symbols: string[]): Promise<MarketPrice[]> {
   const cacheKey = `prices:${symbols.sort().join(",")}`;
   const cached = await getCachedData(cacheKey);
-  if (cached) return cached;
+  // Sanitise cached data — price may be null if it was cached from a failed API call
+  if (cached && Array.isArray(cached)) {
+    return (cached as MarketPrice[]).map(item => ({
+      ...item,
+      price: (typeof item.price === 'number' && !Number.isNaN(item.price)) ? item.price : NaN,
+      changePercent: (typeof item.changePercent === 'number' && !Number.isNaN(item.changePercent)) ? item.changePercent : 0,
+      change: (typeof item.change === 'number' && !Number.isNaN(item.change)) ? item.change : 0,
+    }));
+  }
+
 
   const results: MarketPrice[] = [];
 

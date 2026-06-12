@@ -50,7 +50,7 @@ export function MarketTicker() {
               {item.symbol}
             </span>
             <span className="text-[10px] font-mono text-[#E4E2DD]/70">
-              {Number.isNaN(item.price) ? "--" : item.price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+              {typeof item.price !== 'number' || Number.isNaN(item.price) ? "--" : item.price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
             </span>
             <span className={cn(
               "text-[9px] font-mono flex items-center gap-0.5 font-bold",
@@ -61,7 +61,7 @@ export function MarketTicker() {
               ) : (
                 <MoveDownRight className="w-2.5 h-2.5" />
               )}
-              {Math.abs(item.changePercent).toFixed(2)}%
+              {(item.changePercent == null || typeof item.changePercent !== 'number' || Number.isNaN(item.changePercent)) ? "0.00" : Math.abs(item.changePercent).toFixed(2)}%
             </span>
             {i === 0 && (
               <span className="text-[8px] font-mono text-white/30 ml-2 italic">(Prices delayed 60s)</span>

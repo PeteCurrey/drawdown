@@ -161,13 +161,13 @@ export function LiveDashboardPreview() {
                       
                       <div className="text-right flex flex-col">
                         <span className="text-sm font-bold font-mono text-text-primary tracking-tighter">
-                          {item.price > 100 ? item.price.toFixed(2) : item.price.toFixed(5)}
+                          {(item.price == null || typeof item.price !== 'number' || Number.isNaN(item.price)) ? "--" : (item.price > 100 ? item.price.toFixed(2) : item.price.toFixed(5))}
                         </span>
                         <span className={cn(
                           "text-[9px] font-mono font-bold flex items-center justify-end gap-0.5",
-                          item.changePercent >= 0 ? "text-profit" : "text-loss"
+                          (item.changePercent ?? 0) >= 0 ? "text-profit" : "text-loss"
                         )}>
-                          {item.changePercent >= 0 ? "+" : ""}{item.changePercent.toFixed(2)}%
+                          {(item.changePercent ?? 0) >= 0 ? "+" : ""}{(item.changePercent == null || typeof item.changePercent !== 'number' || Number.isNaN(item.changePercent)) ? "0.00" : item.changePercent.toFixed(2)}%
                         </span>
                       </div>
                     </div>

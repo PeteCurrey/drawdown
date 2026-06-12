@@ -40,7 +40,7 @@ const goldBrokers = [
     rank: 3,
     id: "ig-markets",
     name: "IG Markets",
-    logoUrl: "https://upload.wikimedia.org/wikipedia/commons/2/2d/IG_Group_logo.svg",
+    logoUrl: "/logos/brokers/ig-markets.svg",
     logoFallback: "IG",
     color: "#E11A27",
     verdict: "Best for UK Spread Betting on Gold",

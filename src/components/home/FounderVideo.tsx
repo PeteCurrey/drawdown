@@ -20,7 +20,7 @@ export function FounderVideo() {
                 "I didn't build Drawdown to sell you another technical indicator. I built it because I wanted a tool that would have saved me from my own worst impulses ten years ago."
               </p>
               <p>
-                Pete is currently recording the Founder's Orientation. Subscribe to <b>The Wire</b> below to be notified the moment it drops and get exclusive early access to the Mind Over Market phase.
+                Every decision on this platform — every broker we recommend, every affiliate link we post, every course module — is filtered through one question: does this make you a better trader? Subscribe to The Wire for weekly market intelligence, no noise.
               </p>
             </div>
 
@@ -33,7 +33,7 @@ export function FounderVideo() {
                   className="flex-grow bg-background-elevated border border-border-slate px-4 py-3 text-sm md:text-xs font-mono focus:border-accent outline-none transition-colors"
                 />
                 <button className="px-6 py-3 bg-accent text-background-primary text-[10px] font-bold uppercase tracking-widest hover:bg-accent-hover transition-colors">
-                  Notify Me
+                  Join The Wire
                 </button>
               </form>
             </div>

@@ -13,7 +13,7 @@ const ukBrokers = [
   {
     id: "ig-markets",
     name: "IG Markets",
-    logoUrl: "https://upload.wikimedia.org/wikipedia/commons/d/d7/IG_Group_logo.svg",
+    logoUrl: "/logos/brokers/ig-markets.svg",
     logoPlaceholder: "IG",
     bestFor: "Best for UK spread betting",
     stat: "Spreads from 0.6 pips",
@@ -24,7 +24,7 @@ const ukBrokers = [
   {
     id: "pepperstone",
     name: "Pepperstone",
-    logoUrl: "https://upload.wikimedia.org/wikipedia/en/2/2a/Pepperstone_Logo.svg",
+    logoUrl: undefined,
     logoPlaceholder: "PS",
     bestFor: "Best for forex",
     stat: "Raw spreads from 0.0 pips",
@@ -35,7 +35,7 @@ const ukBrokers = [
   {
     id: "ic-markets",
     name: "IC Markets",
-    logoUrl: "https://upload.wikimedia.org/wikipedia/commons/9/9e/IC_Markets_Logo.svg",
+    logoUrl: undefined,
     logoPlaceholder: "IC",
     bestFor: "Best for active traders",
     stat: "Ultra-low commissions",
@@ -67,7 +67,7 @@ export function BrokerHubPreview() {
           brokers: brokersAu.slice(0, 3).map(b => ({
             id: b.slug,
             name: b.name,
-            logoUrl: b.name.includes("IG") ? "https://upload.wikimedia.org/wikipedia/commons/2/2d/IG_Group_logo.svg" : undefined,
+            logoUrl: b.name.includes("IG") ? "/logos/brokers/ig-markets.svg" : undefined,
             logoPlaceholder: b.name.substring(0, 2).toUpperCase(),
             bestFor: b.bestFor,
             stat: b.minDeposit === "$0" ? "No Minimum Deposit" : `Min Deposit: ${b.minDeposit}`,
@@ -97,7 +97,7 @@ export function BrokerHubPreview() {
           brokers: brokersSg.slice(0, 3).map(b => ({
             id: b.slug,
             name: b.name,
-            logoUrl: b.name.includes("IG") ? "https://upload.wikimedia.org/wikipedia/commons/2/2d/IG_Group_logo.svg" : undefined,
+            logoUrl: b.name.includes("IG") ? "/logos/brokers/ig-markets.svg" : undefined,
             logoPlaceholder: b.name.substring(0, 2).toUpperCase(),
             bestFor: b.bestFor,
             stat: b.maxLeverage,
@@ -112,7 +112,7 @@ export function BrokerHubPreview() {
           brokers: brokersHk.slice(0, 3).map(b => ({
             id: b.slug,
             name: b.name,
-            logoUrl: b.name.includes("IG") ? "https://upload.wikimedia.org/wikipedia/commons/2/2d/IG_Group_logo.svg" : undefined,
+            logoUrl: b.name.includes("IG") ? "/logos/brokers/ig-markets.svg" : undefined,
             logoPlaceholder: b.name.substring(0, 2).toUpperCase(),
             bestFor: b.bestFor,
             stat: b.maxLeverage,

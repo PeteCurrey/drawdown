@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useRef } from "react";
 import Link from "next/link";
 import { ExternalLink, BarChart2, Monitor, Layers, Zap, ChevronRight } from "lucide-react";
 
@@ -29,6 +30,71 @@ const features = [
 ];
 
 export function TradingViewSection() {
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    let scriptElement: HTMLScriptElement | null = null;
+    let observer: IntersectionObserver | null = null;
+
+    const initWidget = () => {
+      // Clear container in case something is already there
+      container.innerHTML = `<div id="tradingview_eurusd" style="height: 100%; width: 100%;"></div>`;
+
+      scriptElement = document.createElement("script");
+      scriptElement.src = "https://s3.tradingview.com/tv.js";
+      scriptElement.async = true;
+      scriptElement.onload = () => {
+        if (typeof window !== "undefined" && (window as any).TradingView) {
+          new (window as any).TradingView.widget({
+            autosize: true,
+            symbol: "FX:EURUSD",
+            interval: "60",
+            timezone: "Etc/UTC",
+            theme: "dark",
+            style: "1",
+            locale: "en",
+            enable_publishing: false,
+            hide_side_toolbar: false,
+            allow_symbol_change: false,
+            container_id: "tradingview_eurusd",
+          });
+        }
+      };
+      document.head.appendChild(scriptElement);
+    };
+
+    observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            initWidget();
+            if (observer) {
+              observer.disconnect();
+            }
+          }
+        });
+      },
+      { rootMargin: "200px" }
+    );
+
+    observer.observe(container);
+
+    return () => {
+      if (observer) {
+        observer.disconnect();
+      }
+      if (scriptElement && scriptElement.parentNode) {
+        scriptElement.parentNode.removeChild(scriptElement);
+      }
+      if (container) {
+        container.innerHTML = "";
+      }
+    };
+  }, []);
+
   return (
     <section className="py-12 md:py-20 bg-background-elevated border-y border-border-slate relative overflow-hidden transition-colors duration-500">
       {/* Background pattern */}
@@ -83,52 +149,18 @@ export function TradingViewSection() {
 
           {/* TradingView "terminal" mockup */}
           <div className="relative">
-            <div className="bg-[#131722] border border-border-slate overflow-hidden shadow-2xl">
+            <div className="bg-[#131722] border border-border-slate overflow-hidden shadow-2xl h-[400px] md:h-[450px]">
               {/* Titlebar */}
               <div className="flex items-center gap-3 px-4 py-3 border-b border-border-slate/50 bg-black/20">
                 <div className="w-2.5 h-2.5 rounded-full bg-loss/70" />
                 <div className="w-2.5 h-2.5 rounded-full bg-accent/70" />
                 <div className="w-2.5 h-2.5 rounded-full bg-profit/70" />
-                <span className="ml-4 text-[9px] font-mono text-text-tertiary uppercase tracking-widest">EURUSD • 1H • TradingView</span>
+                <span className="ml-4 text-[9px] font-mono text-text-tertiary uppercase tracking-widest">EURUSD • 1H • Live Chart</span>
               </div>
-              {/* Chart lines mockup using CSS */}
-              <div className="p-6 h-48 relative">
-                <svg viewBox="0 0 400 150" className="w-full h-full" preserveAspectRatio="none">
-                  {/* Grid lines */}
-                  {[0, 30, 60, 90, 120, 150].map((y) => (
-                    <line key={y} x1="0" y1={y} x2="400" y2={y} stroke="#1F2937" strokeWidth="0.5" />
-                  ))}
-                  {/* Candlestick approximation */}
-                  <polyline
-                    points="0,120 40,110 80,95 120,105 160,80 200,60 240,75 280,55 320,40 360,50 400,35"
-                    fill="none"
-                    stroke="#00C2FF"
-                    strokeWidth="2"
-                  />
-                  <polyline
-                    points="0,120 40,110 80,95 120,105 160,80 200,60 240,75 280,55 320,40 360,50 400,35"
-                    fill="url(#tvGrad)"
-                    strokeWidth="0"
-                    opacity="0.15"
-                  />
-                  <defs>
-                    <linearGradient id="tvGrad" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0%" stopColor="#00C2FF" stopOpacity="0.5" />
-                      <stop offset="100%" stopColor="#00C2FF" stopOpacity="0" />
-                    </linearGradient>
-                  </defs>
-                  {/* Current price tag */}
-                  <rect x="330" y="28" width="70" height="16" fill="#00C2FF" />
-                  <text x="365" y="40" fontSize="8" fill="#0A0B0F" fontFamily="monospace" textAnchor="middle" fontWeight="bold">1.08412</text>
-                </svg>
-                <div className="absolute bottom-2 right-4 flex gap-4">
-                  <span className="text-[8px] font-mono text-accent">RSI(14): 62.4</span>
-                  <span className="text-[8px] font-mono text-profit">MACD: +0.0012</span>
-                </div>
-              </div>
+              <div ref={containerRef} className="w-full h-[calc(100%-37px)]" />
             </div>
             {/* Overlay badge */}
-            <div className="absolute -top-4 -right-4 bg-accent px-4 py-2 text-background-primary text-[9px] font-black uppercase tracking-widest shadow-lg">
+            <div className="absolute -top-4 -right-4 bg-accent px-4 py-2 text-background-primary text-[9px] font-black uppercase tracking-widest shadow-lg z-20">
               Our #1 Recommended
             </div>
           </div>

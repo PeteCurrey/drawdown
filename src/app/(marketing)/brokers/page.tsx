@@ -9,7 +9,7 @@ const topBrokers = [
     id: "ig-markets",
     name: "IG Markets",
     category: "Best for UK Spread Betting",
-    logoUrl: "https://upload.wikimedia.org/wikipedia/commons/2/2d/IG_Group_logo.svg",
+    logoUrl: "/logos/brokers/ig-markets.svg",
     color: "#E11A27",
     spreads: "From 0.6 pips",
     platforms: "IG Platform, MT4, TradingView",

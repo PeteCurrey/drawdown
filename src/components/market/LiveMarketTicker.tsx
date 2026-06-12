@@ -50,7 +50,7 @@ export function LiveMarketTicker() {
               {item.symbol}
             </span>
             <span className="text-[10px] font-mono text-text-primary">
-              {item.price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+              {Number.isNaN(item.price) ? "--" : item.price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
             </span>
             <span className={cn(
               "text-[9px] font-mono flex items-center gap-0.5",
@@ -63,8 +63,8 @@ export function LiveMarketTicker() {
               )}
               {Math.abs(item.changePercent).toFixed(2)}%
             </span>
-            {error && i === 0 && (
-              <span className="text-[8px] font-mono text-text-tertiary ml-2 italic">(delayed)</span>
+            {i === 0 && (
+              <span className="text-[8px] font-mono text-text-tertiary ml-2 italic">(Prices delayed 60s)</span>
             )}
           </div>
         ))}

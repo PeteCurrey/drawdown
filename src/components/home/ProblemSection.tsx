@@ -70,18 +70,18 @@ export function ProblemSection() {
   }, []);
 
   return (
-    <section ref={sectionRef} className="relative z-0 py-32 md:py-56 bg-background-primary transition-colors duration-500">
+    <section ref={sectionRef} className="relative z-0 py-12 md:py-20 bg-background-primary transition-colors duration-500">
       <div className="container mx-auto px-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center mb-4">
           <div className="problem-stat">
-            <div className="w-64 h-40 md:w-96 md:h-64 mb-6 md:mb-8 -ml-2">
+            <div className="w-48 h-32 md:w-72 md:h-48 mb-6 md:mb-8 -ml-2">
               <svg viewBox="0 0 500 300" className="w-full h-full overflow-visible">
                 {/* Simple Border Fade-in */}
                 <text 
                   x="0" 
                   y="250" 
                   fontFamily="var(--font-display)" 
-                  fontSize="280"
+                  fontSize="240"
                   fontWeight="800"
                   fill="transparent" 
                   stroke="var(--color-accent)" 
@@ -108,7 +108,7 @@ export function ProblemSection() {
           {problems.map((problem, i) => (
             <div 
               key={i} 
-              className="problem-card group p-8 md:p-12 bg-background-surface border border-border-slate hover:border-accent/50 transition-premium"
+              className="problem-card group p-8 md:p-12 bg-background-surface border border-border-slate hover:border-accent/50 transition-premium rounded-xl"
             >
               <problem.icon className="w-12 h-12 text-accent mb-8 group-hover:scale-110 transition-transform duration-500" />
               <h4 className="text-xl font-display font-bold uppercase tracking-wider mb-4">

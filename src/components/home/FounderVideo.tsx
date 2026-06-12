@@ -4,12 +4,12 @@ import { Play } from "lucide-react";
 
 export function FounderVideo() {
   return (
-    <section className="py-24 bg-background-primary relative overflow-hidden">
+    <section className="py-12 md:py-20 bg-background-primary relative overflow-hidden">
       <div className="container mx-auto px-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           {/* Text Content */}
           <div className="space-y-8 order-2 lg:order-1">
-            <span className="text-accent font-mono tracking-widest uppercase text-xs block">
+            <span className="text-accent font-mono tracking-widest uppercase text-sm md:text-xs block">
               THE FOUNDER'S PLEDGE
             </span>
             <h2 className="text-4xl md:text-6xl font-display font-bold uppercase leading-tight">
@@ -30,7 +30,7 @@ export function FounderVideo() {
                 <input 
                   type="email" 
                   placeholder="name@email.com" 
-                  className="flex-grow bg-background-elevated border border-border-slate px-4 py-3 text-xs font-mono focus:border-accent outline-none transition-colors"
+                  className="flex-grow bg-background-elevated border border-border-slate px-4 py-3 text-sm md:text-xs font-mono focus:border-accent outline-none transition-colors"
                 />
                 <button className="px-6 py-3 bg-accent text-background-primary text-[10px] font-bold uppercase tracking-widest hover:bg-accent-hover transition-colors">
                   Notify Me

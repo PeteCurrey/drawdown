@@ -45,7 +45,7 @@ export function PhasePreview() {
   const regionPrefix = region === "uk" ? "" : `/${region}`;
 
   return (
-    <section ref={containerRef} className="relative z-0 py-32 md:py-48 bg-background-primary border-y border-border-slate min-h-[600px]">
+    <section ref={containerRef} className="relative z-0 py-12 md:py-20 bg-background-primary border-y border-border-slate min-h-[600px]">
       <div className="container mx-auto px-6">
         <div className="mb-20">
           <span className="text-accent font-mono tracking-widest uppercase text-sm mb-4 block">
@@ -60,7 +60,7 @@ export function PhasePreview() {
           {phases.map((phase) => (
             <div 
               key={phase.id} 
-              className="phase-card group relative p-8 bg-background-surface border border-border-slate hover:border-accent/40 transition-premium overflow-hidden"
+              className="phase-card group relative p-8 bg-background-surface border border-border-slate hover:border-accent/40 transition-premium overflow-hidden rounded-xl"
             >
               {/* Background Image with Overlay */}
               <div className="absolute inset-0 z-0">
@@ -91,7 +91,7 @@ export function PhasePreview() {
                   <h4 className="text-2xl font-display font-bold uppercase group-hover:translate-x-2 transition-transform duration-500">
                     {phase.name}
                   </h4>
-                  <p className="text-text-tertiary text-xs uppercase tracking-widest font-mono group-hover:translate-x-2 transition-transform duration-500 delay-75">
+                  <p className="text-text-tertiary text-sm md:text-xs uppercase tracking-widest font-mono group-hover:translate-x-2 transition-transform duration-500 delay-75">
                     {phase.subtitle}
                   </p>
                 </div>

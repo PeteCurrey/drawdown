@@ -13,17 +13,17 @@ export interface RegionData {
 }
 
 export const REGIONS_MAP: Record<Region, RegionData> = {
-  uk: { hreflang: 'en-GB', locale: 'en_GB', label: 'United Kingdom', currency: 'GBP', demonym: 'British', flag: '🇬🇧' },
-  au: { hreflang: 'en-AU', locale: 'en_AU', label: 'Australia', currency: 'AUD', demonym: 'Australian', flag: '🇦🇺' },
-  us: { hreflang: 'en-US', locale: 'en_US', label: 'United States', currency: 'USD', demonym: 'American', flag: '🇺🇸' },
-  sg: { hreflang: 'en-SG', locale: 'en_SG', label: 'Singapore', currency: 'SGD', demonym: 'Singaporean', flag: '🇸🇬' },
-  hk: { hreflang: 'en-HK', locale: 'en_HK', label: 'Hong Kong', currency: 'HKD', demonym: 'Hong Konger', flag: '🇭🇰' },
-  ca: { hreflang: 'en-CA', locale: 'en_CA', label: 'Canada', currency: 'CAD', demonym: 'Canadian', flag: '🇨🇦' },
-  de: { hreflang: 'de-DE', locale: 'de_DE', label: 'Germany', currency: 'EUR', demonym: 'German', flag: '🇩🇪' },
-  ae: { hreflang: 'en-AE', locale: 'en_AE', label: 'United Arab Emirates', currency: 'AED', demonym: 'Emirati', flag: '🇦🇪' },
-  in: { hreflang: 'en-IN', locale: 'en_IN', label: 'India', currency: 'INR', demonym: 'Indian', flag: '🇮🇳' },
-  my: { hreflang: 'en-MY', locale: 'en_MY', label: 'Malaysia', currency: 'MYR', demonym: 'Malaysian', flag: '🇲🇾' },
-  ph: { hreflang: 'en-PH', locale: 'en_PH', label: 'Philippines', currency: 'PHP', demonym: 'Filipino', flag: '🇵🇭' },
+  uk: { hreflang: 'en-GB', locale: 'en_GB', label: 'United Kingdom', currency: 'GBP', demonym: 'British', flag: 'gb' },
+  au: { hreflang: 'en-AU', locale: 'en_AU', label: 'Australia', currency: 'AUD', demonym: 'Australian', flag: 'au' },
+  us: { hreflang: 'en-US', locale: 'en_US', label: 'United States', currency: 'USD', demonym: 'American', flag: 'us' },
+  sg: { hreflang: 'en-SG', locale: 'en_SG', label: 'Singapore', currency: 'SGD', demonym: 'Singaporean', flag: 'sg' },
+  hk: { hreflang: 'en-HK', locale: 'en_HK', label: 'Hong Kong', currency: 'HKD', demonym: 'Hong Konger', flag: 'hk' },
+  ca: { hreflang: 'en-CA', locale: 'en_CA', label: 'Canada', currency: 'CAD', demonym: 'Canadian', flag: 'ca' },
+  de: { hreflang: 'de-DE', locale: 'de_DE', label: 'Germany', currency: 'EUR', demonym: 'German', flag: 'de' },
+  ae: { hreflang: 'en-AE', locale: 'en_AE', label: 'United Arab Emirates', currency: 'AED', demonym: 'Emirati', flag: 'ae' },
+  in: { hreflang: 'en-IN', locale: 'en_IN', label: 'India', currency: 'INR', demonym: 'Indian', flag: 'in' },
+  my: { hreflang: 'en-MY', locale: 'en_MY', label: 'Malaysia', currency: 'MYR', demonym: 'Malaysian', flag: 'my' },
+  ph: { hreflang: 'en-PH', locale: 'en_PH', label: 'Philippines', currency: 'PHP', demonym: 'Filipino', flag: 'ph' },
 };
 
 export function getHreflangTags(path: string) {

@@ -46,46 +46,91 @@ export interface SentimentData {
 }
 
 export async function getMarketPrices(symbols: string[]): Promise<MarketPrice[]> {
-  if (!TWELVEDATA_API_KEY) {
-    console.warn("TWELVEDATA_API_KEY missing, returning mock data");
-    return symbols.map(s => generateMockPrice(s));
-  }
-
   const cacheKey = `prices:${symbols.sort().join(",")}`;
   const cached = await getCachedData(cacheKey);
   if (cached) return cached;
 
-  try {
-    const response = await fetch(
-      `https://api.twelvedata.com/quote?symbol=${symbols.join(",")}&apikey=${TWELVEDATA_API_KEY}`
-    );
-    const data = await response.json();
+  const results: MarketPrice[] = [];
 
-    // TwelveData returns either one object if single symbol, or a map if multiple
-    const results: MarketPrice[] = [];
-    
-    symbols.forEach(symbol => {
-      const quote = symbols.length === 1 ? data : data[symbol];
-      if (quote && quote.price) {
-        results.push({
-          symbol,
-          price: parseFloat(quote.close || quote.price),
-          change: parseFloat(quote.change || "0"),
-          changePercent: parseFloat(quote.percent_change || "0"),
-          volume: parseInt(quote.volume || "0"),
-          high: parseFloat(quote.high || "0"),
-          low: parseFloat(quote.low || "0"),
-        });
-      } else {
-        results.push(generateMockPrice(symbol));
+  // TwelveData API key required for indices and commodities — add TWELVEDATA_API_KEY to Vercel environment variables to enable.
+  if (TWELVEDATA_API_KEY) {
+    try {
+      const response = await fetch(
+        `https://api.twelvedata.com/quote?symbol=${symbols.join(",")}&apikey=${TWELVEDATA_API_KEY}`
+      );
+      const data = await response.json();
+      symbols.forEach(symbol => {
+        const quote = symbols.length === 1 ? data : data[symbol];
+        if (quote && quote.price) {
+          results.push({
+            symbol,
+            price: parseFloat(quote.close || quote.price),
+            change: parseFloat(quote.change || "0"),
+            changePercent: parseFloat(quote.percent_change || "0"),
+            volume: parseInt(quote.volume || "0"),
+            high: parseFloat(quote.high || "0"),
+            low: parseFloat(quote.low || "0"),
+          });
+        }
+      });
+      if (results.length > 0) {
+        await setCacheData(cacheKey, results, 60);
+        return results;
       }
-    });
+    } catch (error) {
+      console.error("TwelveData API Error:", error);
+    }
+  }
 
-    await setCacheData(cacheKey, results, 60); // 60 seconds cache
+  // Free Fallback: Frankfurter (Forex) and CoinGecko (Crypto)
+  try {
+    const fxRes = await fetch("https://api.frankfurter.app/latest?from=GBP&to=USD,EUR,JPY,AUD,CAD,CHF");
+    const fxData = fxRes.ok ? await fxRes.json() : null;
+
+    const cgRes = await fetch("https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,ripple&vs_currencies=usd&include_24hr_change=true");
+    const cgData = cgRes.ok ? await cgRes.json() : null;
+
+    for (const symbol of symbols) {
+      if (symbol.includes("BTC")) {
+        const p = cgData?.bitcoin?.usd;
+        const c = cgData?.bitcoin?.usd_24h_change;
+        if (p) results.push({ symbol, price: p, change: 0, changePercent: c || 0, volume: 0 });
+      } else if (symbol.includes("ETH")) {
+        const p = cgData?.ethereum?.usd;
+        const c = cgData?.ethereum?.usd_24h_change;
+        if (p) results.push({ symbol, price: p, change: 0, changePercent: c || 0, volume: 0 });
+      } else if (symbol.includes("XRP")) {
+        const p = cgData?.ripple?.usd;
+        const c = cgData?.ripple?.usd_24h_change;
+        if (p) results.push({ symbol, price: p, change: 0, changePercent: c || 0, volume: 0 });
+      } else if (symbol === "GBP/USD" || symbol === "GBPUSD") {
+        const rate = fxData?.rates?.USD;
+        if (rate) results.push({ symbol, price: rate, change: 0, changePercent: 0, volume: 0 });
+      } else if (symbol === "EUR/USD" || symbol === "EURUSD") {
+        const usdRate = fxData?.rates?.USD;
+        const eurRate = fxData?.rates?.EUR;
+        if (usdRate && eurRate) results.push({ symbol, price: usdRate / eurRate, change: 0, changePercent: 0, volume: 0 });
+      } else if (symbol === "USD/JPY" || symbol === "USDJPY") {
+        const usdRate = fxData?.rates?.USD;
+        const jpyRate = fxData?.rates?.JPY;
+        if (usdRate && jpyRate) results.push({ symbol, price: jpyRate / usdRate, change: 0, changePercent: 0, volume: 0 });
+      } else if (symbol === "AUD/USD" || symbol === "AUDUSD") {
+        const usdRate = fxData?.rates?.USD;
+        const audRate = fxData?.rates?.AUD;
+        if (usdRate && audRate) results.push({ symbol, price: usdRate / audRate, change: 0, changePercent: 0, volume: 0 });
+      } else {
+        // Unhandled symbol or missing data, push mock structure showing '--'
+        results.push({ symbol, price: NaN, change: 0, changePercent: 0, volume: 0 });
+      }
+    }
+
+    if (results.length > 0) {
+      await setCacheData(cacheKey, results, 60); // 60 seconds cache
+    }
     return results;
   } catch (error) {
-    console.error("TwelveData API Error:", error);
-    return symbols.map(s => generateMockPrice(s));
+    console.error("Price API Error:", error);
+    return symbols.map(s => ({ symbol: s, price: NaN, change: 0, changePercent: 0, volume: 0 }));
   }
 }
 
@@ -385,23 +430,6 @@ function createInternalSupabase() {
       cookies: { getAll() { return [] }, setAll() {} }
     }
   );
-}
-
-function generateMockPrice(symbol: string): MarketPrice {
-  const isUSD = symbol.includes("USD") || symbol.includes("/");
-  const isCrypto = symbol.includes("BTC") || symbol.includes("ETH") || symbol.includes("XRP");
-  const isGold = symbol.includes("XAU");
-  
-  const base = isGold ? 2300 : isCrypto ? (symbol.includes("BTC") ? 65000 : symbol.includes("ETH") ? 3500 : 0.6) : isUSD ? 1.2 : 150;
-  const change = (Math.random() - 0.5) * 2;
-  return {
-    symbol,
-    price: base + (Math.random() * 5),
-    change,
-    changePercent: (change / base) * 100,
-    volume: Math.floor(Math.random() * 1000000),
-    sparkline: Array.from({ length: 20 }, () => Math.random() * 100)
-  };
 }
 
 function generateMockHistory(symbol: string, size: number) {

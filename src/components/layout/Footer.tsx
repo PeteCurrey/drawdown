@@ -61,7 +61,7 @@ export function Footer() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 disabled={status === 'loading' || status === 'success'}
-                className="w-full bg-background-elevated border border-border-slate focus:border-accent p-4 text-xs font-mono uppercase tracking-widest outline-none transition-colors"
+                className="w-full bg-background-elevated border border-border-slate focus:border-accent p-4 text-sm md:text-xs font-mono uppercase tracking-widest outline-none transition-colors"
               />
               <button 
                 type="submit"
@@ -169,7 +169,7 @@ export function Footer() {
                       href={reg.href}
                       className="flex items-center gap-1 text-[9px] font-mono font-bold text-text-tertiary hover:text-accent transition-colors group"
                     >
-                      <span className="text-xs grayscale group-hover:grayscale-0 transition-all">{reg.flag}</span>
+                      <span className={`fi fi-${reg.flag} text-sm md:text-xs grayscale group-hover:grayscale-0 transition-all`} />
                       <span>{reg.label}</span>
                     </Link>
                   ))}

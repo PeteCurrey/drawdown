@@ -133,7 +133,7 @@ export function BrokerHubPreview() {
   const { brokers: regionalBrokers, link } = getRegionalData();
 
   return (
-    <section className="py-24 bg-background-primary relative overflow-hidden">
+    <section className="py-12 md:py-20 bg-background-primary relative overflow-hidden">
       <div className="container mx-auto px-6">
         <div className="mb-16">
           <span className="text-[10px] font-mono tracking-widest uppercase text-accent font-bold block mb-4">
@@ -151,7 +151,7 @@ export function BrokerHubPreview() {
           {regionalBrokers.map((broker) => (
             <div 
               key={broker.id}
-              className="bg-background-surface border border-border-slate p-8 flex flex-col justify-between group hover:border-accent/30 transition-premium"
+              className="bg-background-surface border border-border-slate p-8 flex flex-col justify-between group hover:border-accent/30 transition-premium rounded-xl"
             >
               <div>
                 <div className="flex items-center justify-between mb-8">
@@ -188,7 +188,7 @@ export function BrokerHubPreview() {
 
               <a 
                 href={`/go/${broker.id}`}
-                className="w-full py-4 border border-accent hover:bg-accent hover:text-background-primary transition-premium text-center text-[10px] font-bold uppercase tracking-widest flex items-center justify-center gap-2"
+                className="w-full py-4 border border-accent hover:bg-accent hover:text-background-primary transition-premium text-center text-[10px] font-bold uppercase tracking-widest flex items-center justify-center gap-2 rounded-lg"
               >
                 Open Account <ExternalLink className="w-3 h-3" />
               </a>
@@ -202,7 +202,7 @@ export function BrokerHubPreview() {
           </p>
           <Link 
             href={link}
-            className="text-xs font-bold uppercase tracking-widest text-text-primary hover:text-accent transition-colors flex items-center gap-2"
+            className="text-sm md:text-xs font-bold uppercase tracking-widest text-text-primary hover:text-accent transition-colors flex items-center gap-2"
           >
             See All Broker Reviews <ChevronRight className="w-4 h-4" />
           </Link>

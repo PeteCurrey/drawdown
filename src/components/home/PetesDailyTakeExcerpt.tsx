@@ -52,10 +52,10 @@ export function PetesDailyTakeExcerpt() {
   if (!take) return null;
 
   return (
-    <section className="py-24 bg-background-primary relative overflow-hidden">
+    <section className="py-12 md:py-20 bg-background-primary relative overflow-hidden">
       <div className="container mx-auto px-6">
         <div className="max-w-4xl mx-auto">
-          <div className="bg-background-surface border-l-4 border-accent border-y border-r border-border-slate p-12 relative group transition-premium hover:border-accent/30">
+          <div className="bg-background-surface border-l-4 border-accent border-y border-r border-border-slate p-12 relative group transition-premium hover:border-accent/30 rounded-xl">
             <div className="flex items-center gap-3 mb-8">
               <span className="text-[10px] font-mono tracking-widest uppercase text-accent font-bold">
                 // PETE'S TAKE
@@ -84,7 +84,7 @@ export function PetesDailyTakeExcerpt() {
 
                 <Link 
                   href="/tools/briefing" 
-                  className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-accent hover:underline group"
+                  className="flex items-center gap-2 text-sm md:text-xs font-bold uppercase tracking-widest text-accent hover:underline group"
                 >
                   Read Full Brief <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </Link>

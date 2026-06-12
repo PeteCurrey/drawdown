@@ -86,13 +86,13 @@ export function EconomicCalendarWidget() {
   }, []);
 
   return (
-    <section className="py-24 bg-background-elevated relative overflow-hidden">
+    <section className="py-12 md:py-20 bg-background-elevated relative overflow-hidden">
       <div className="container mx-auto px-6">
         <div className="mb-16">
           <span className="text-[10px] font-mono tracking-widest uppercase text-accent font-bold block mb-4">
             // ECONOMIC INTELLIGENCE
           </span>
-          <h2 className="text-4xl md:text-7xl font-display font-bold uppercase text-text-primary">
+          <h2 className="text-4xl md:text-6xl font-display font-bold uppercase text-text-primary">
             The Institutional <br /><span className="text-accent underline decoration-accent/20">Consensus.</span>
           </h2>
         </div>
@@ -102,7 +102,7 @@ export function EconomicCalendarWidget() {
             <div className="p-8"><CalendarSkeleton /></div>
           ) : (
             <div className="overflow-x-auto">
-              <table className="w-full text-left border-collapse">
+              <table className="w-full text-left border-collapse min-w-[800px]">
                 <thead>
                   <tr className="border-b border-border-slate bg-background-primary/50">
                     <th className="p-6 text-[10px] font-mono uppercase tracking-widest text-text-tertiary">Period</th>

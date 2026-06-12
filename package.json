@@ -21,6 +21,7 @@
     "canvas-confetti": "^1.9.4",
     "clsx": "^2.1.1",
     "dotenv": "^17.4.2",
+    "flag-icons": "^7.5.0",
     "framer-motion": "^12.38.0",
     "gray-matter": "^4.0.3",
     "gsap": "^3.14.2",

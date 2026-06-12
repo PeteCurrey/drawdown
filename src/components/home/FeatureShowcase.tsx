@@ -83,7 +83,7 @@ export function FeatureShowcase() {
     <section ref={scrollRef} className="relative z-10 bg-background-elevated border-y border-border-slate/50">
       <div className="h-screen flex items-center overflow-hidden">
         <div className="container mx-auto px-6 mb-12 absolute top-32 left-0 right-0 z-10">
-          <span className="text-accent font-mono tracking-widest uppercase text-xs mb-4 block">
+          <span className="text-accent font-mono tracking-widest uppercase text-sm md:text-xs mb-4 block">
             // PLATFORM TOOLS
           </span>
           <h2 className="text-4xl md:text-6xl font-display font-bold uppercase">
@@ -96,7 +96,7 @@ export function FeatureShowcase() {
             <Link 
               key={i} 
               href={`/tools/${feature.slug}`}
-              className="feature-card group relative w-[85vw] md:w-[450px] h-[550px] bg-background-surface border border-border-slate p-12 flex flex-col justify-between transition-premium hover:border-accent/50 overflow-hidden"
+              className="feature-card group relative w-[85vw] md:w-[450px] h-[550px] bg-background-surface border border-border-slate p-12 flex flex-col justify-between transition-premium hover:border-accent/50 overflow-hidden rounded-xl"
             >
               {/* Feature Background Image (Hover Reveal) */}
               <div className="absolute inset-0 z-0">
@@ -135,7 +135,7 @@ export function FeatureShowcase() {
                     <span className="text-[10px] uppercase font-mono font-bold tracking-widest text-text-tertiary">
                       Access Tier
                     </span>
-                    <span className="text-xs font-mono font-bold text-accent">
+                    <span className="text-sm md:text-xs font-mono font-bold text-accent">
                       {feature.tier}
                     </span>
                   </div>

@@ -160,7 +160,7 @@ export default function Home() {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-8">
             <Link 
               href="/signup" 
-              className="w-full sm:w-auto px-16 py-8 bg-accent hover:bg-accent-hover text-background-primary text-xs font-bold uppercase tracking-widest transition-all shadow-2xl shadow-accent/20 hover:-translate-y-1"
+              className="w-full sm:w-auto px-16 py-8 bg-accent hover:bg-accent-hover text-background-primary text-xs font-bold uppercase tracking-widest transition-all shadow-2xl shadow-accent/20 hover:-translate-y-1 rounded-lg"
             >
               Start Free Trial
             </Link>

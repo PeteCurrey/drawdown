@@ -30,7 +30,7 @@ const features = [
 
 export function TradingViewSection() {
   return (
-    <section className="py-24 md:py-32 bg-background-elevated border-y border-border-slate relative overflow-hidden transition-colors duration-500">
+    <section className="py-12 md:py-20 bg-background-elevated border-y border-border-slate relative overflow-hidden transition-colors duration-500">
       {/* Background pattern */}
       <div className="absolute inset-0 opacity-5 pointer-events-none" style={{
         backgroundImage: "repeating-linear-gradient(45deg, #00C2FF 0, #00C2FF 1px, transparent 0, transparent 50%)",
@@ -63,7 +63,7 @@ export function TradingViewSection() {
             <a
               href={TV_AFFILIATE_URL}
               rel="noopener noreferrer sponsored"
-              className="inline-flex items-center gap-3 px-10 py-5 bg-accent hover:bg-accent-hover text-background-primary text-[10px] font-bold uppercase tracking-widest transition-premium shadow-xl shadow-accent/20 hover:-translate-y-0.5"
+              className="inline-flex items-center gap-3 px-10 py-5 bg-accent hover:bg-accent-hover text-background-primary text-[10px] font-bold uppercase tracking-widest transition-premium shadow-xl shadow-accent/20 hover:-translate-y-0.5 rounded-lg"
             >
               Claim $15 Off TradingView <ExternalLink className="w-4 h-4" />
             </a>
@@ -140,7 +140,7 @@ export function TradingViewSection() {
             <div key={i} className="bg-background-primary border border-border-slate p-8 group hover:border-accent/50 transition-premium">
               <feature.icon className="w-8 h-8 text-accent mb-6 group-hover:scale-110 transition-transform duration-300" />
               <h3 className="text-base font-display font-bold uppercase mb-3 text-text-primary group-hover:text-accent transition-colors">{feature.title}</h3>
-              <p className="text-xs text-text-tertiary leading-relaxed">{feature.description}</p>
+              <p className="text-sm md:text-xs text-text-tertiary leading-relaxed">{feature.description}</p>
             </div>
           ))}
         </div>
@@ -161,7 +161,7 @@ export function TradingViewSection() {
           <a
             href={TV_AFFILIATE_URL}
             rel="noopener noreferrer sponsored"
-            className="shrink-0 flex items-center gap-2 px-8 py-4 bg-profit text-background-primary text-[10px] font-bold uppercase tracking-widest hover:opacity-90 transition-premium"
+            className="shrink-0 flex items-center gap-2 px-8 py-4 bg-profit text-background-primary text-[10px] font-bold uppercase tracking-widest hover:opacity-90 transition-premium rounded-lg"
           >
             Claim Discount <ChevronRight className="w-4 h-4" />
           </a>

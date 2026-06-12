@@ -10,14 +10,14 @@ export function PropFirmSection() {
   const featuredFirms = propFirms.filter(f => ["ftmo", "the5ers", "funding-pips"].includes(f.id));
 
   return (
-    <section className="py-24 md:py-32 bg-background-primary border-t border-border-slate">
+    <section className="py-12 md:py-20 bg-background-primary border-t border-border-slate">
       <div className="container mx-auto px-6">
         <div className="flex flex-col lg:flex-row justify-between items-end gap-8 mb-16">
           <div className="max-w-2xl space-y-4">
             <span className="text-[10px] font-mono tracking-widest uppercase text-accent font-bold">
               // INSTITUTIONAL CAPITAL
             </span>
-            <h2 className="text-4xl md:text-6xl font-display font-black uppercase leading-tight">
+            <h2 className="text-4xl md:text-6xl font-display font-bold uppercase leading-tight">
               Prop Firm <span className="text-accent italic">Directory</span>
             </h2>
             <p className="text-lg text-text-secondary leading-relaxed font-medium">
@@ -26,7 +26,7 @@ export function PropFirmSection() {
           </div>
           <Link 
             href="/prop-firms" 
-            className="group flex items-center gap-3 px-8 py-4 border border-border-slate hover:border-text-primary transition-all text-xs font-black uppercase tracking-widest text-text-tertiary hover:text-text-primary"
+            className="group flex items-center gap-3 px-8 py-4 border border-border-slate hover:border-text-primary transition-all text-sm md:text-xs font-black uppercase tracking-widest text-text-tertiary hover:text-text-primary"
           >
             View All Firms <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </Link>

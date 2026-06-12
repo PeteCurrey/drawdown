@@ -13,7 +13,7 @@ const features = [
 
 export function HubPreview() {
   return (
-    <section className="py-24 bg-background-elevated border-b border-border-slate overflow-hidden relative">
+    <section className="py-12 md:py-20 bg-background-elevated border-b border-border-slate overflow-hidden relative">
       {/* Aesthetic Background Grid */}
       <div className="absolute inset-0 opacity-5 pointer-events-none bg-[radial-gradient(#ffffff,transparent_1px)] [background-size:32px_32px]" />
       
@@ -25,7 +25,7 @@ export function HubPreview() {
                <span className="text-[10px] font-mono uppercase tracking-[0.3em]">INTELLIGENCE_LAYER_v4.0</span>
             </div>
             
-            <h2 className="text-5xl md:text-7xl font-display font-extrabold uppercase tracking-tight leading-none">
+            <h2 className="text-4xl md:text-6xl font-display font-bold uppercase leading-tight">
               The Hub <span className="text-accent underline decoration-accent/20">Preview.</span>
             </h2>
             
@@ -40,7 +40,7 @@ export function HubPreview() {
                    <div key={i} className="space-y-3 group">
                       <div className="flex items-center gap-3">
                          <Icon className="w-5 h-5 text-accent transition-transform group-hover:scale-110" />
-                         <span className="text-xs font-display font-bold uppercase tracking-widest">{feature.label}</span>
+                         <span className="text-sm md:text-xs font-display font-bold uppercase tracking-widest">{feature.label}</span>
                       </div>
                       <p className="text-[10px] font-mono text-text-tertiary leading-relaxed uppercase tracking-widest">
                         {feature.description}
@@ -50,7 +50,7 @@ export function HubPreview() {
                })}
             </div>
 
-            <Link href="/markets" className="inline-flex items-center gap-4 bg-accent text-background-primary px-10 py-5 font-bold uppercase tracking-widest text-xs hover:bg-accent-hover transition-all group mt-8">
+            <Link href="/markets" className="inline-flex items-center gap-4 bg-accent text-background-primary px-10 py-5 font-bold uppercase tracking-widest text-sm md:text-xs hover:bg-accent-hover transition-all group mt-8">
                Enter The Room
                <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-2" />
             </Link>

@@ -156,8 +156,8 @@ export function Navigation() {
             <Link href={region === 'uk' ? "/" : `/${region}`} className="text-2xl font-display font-extrabold tracking-widest-xl uppercase hover:opacity-80 transition-opacity flex items-end">
               Drawdown<span className="text-accent ml-0.5">.</span>
             </Link>
-            <div className="flex items-center gap-2 px-2.5 py-1 bg-background-elevated border border-border-slate/50 rounded-full group cursor-default">
-              <span className="text-sm transition-all duration-500 leading-none">{flag}</span>
+            <div className="hidden md:flex items-center gap-2 px-2.5 py-1 bg-background-elevated border border-border-slate/50 rounded-full group cursor-default">
+              <span className={`fi fi-${flag} text-sm transition-all duration-500 leading-none`} />
               <span className="text-[9px] font-mono font-bold text-text-tertiary uppercase tracking-widest border-l border-border-slate/50 pl-2">{label}</span>
             </div>
           </div>
@@ -195,7 +195,7 @@ export function Navigation() {
             </Link>
             <Link 
               href={`${regionPrefix}/signup`} 
-              className="px-6 py-2.5 bg-accent hover:bg-accent-hover text-background-primary text-sm font-bold uppercase tracking-widest transition-colors rounded-none"
+              className="px-6 py-2.5 bg-accent hover:bg-accent-hover text-background-primary text-sm font-bold uppercase tracking-widest transition-colors rounded-lg"
             >
               Start Free
             </Link>
@@ -267,7 +267,7 @@ export function Navigation() {
                             </div>
                             <div className="flex-grow min-w-0">
                               <div className="flex justify-between items-start">
-                                <h4 className="text-xs font-display font-bold uppercase tracking-tight text-text-primary group-hover:text-accent transition-colors">
+                                <h4 className="text-sm md:text-xs font-display font-bold uppercase tracking-tight text-text-primary group-hover:text-accent transition-colors">
                                   {phase.name}
                                 </h4>
                                 <span className={cn(
@@ -312,7 +312,7 @@ export function Navigation() {
                       <h4 className="text-lg font-display font-bold uppercase group-hover:text-accent transition-colors">
                         Full Course Library
                       </h4>
-                      <p className="text-xs text-text-secondary mt-2 leading-relaxed">
+                      <p className="text-sm md:text-xs text-text-secondary mt-2 leading-relaxed">
                         6 phases. 60+ modules. From zero to professional-grade edge.
                       </p>
                       <span className="inline-block mt-4 text-[10px] font-bold uppercase tracking-widest text-accent">
@@ -327,7 +327,7 @@ export function Navigation() {
                       <h4 className="text-lg font-display font-bold uppercase group-hover:text-accent transition-colors">
                         Pro Membership
                       </h4>
-                      <p className="text-xs text-text-secondary mt-2 leading-relaxed">
+                      <p className="text-sm md:text-xs text-text-secondary mt-2 leading-relaxed">
                         Unlock Expert Analysis, Live Ticker, and advanced AI signals.
                       </p>
                       <span className="inline-block mt-4 text-[10px] font-bold uppercase tracking-widest text-accent">
@@ -372,7 +372,7 @@ export function Navigation() {
                             </div>
                             <div className="flex-grow min-w-0">
                               <div className="flex justify-between items-start">
-                                <h4 className="text-xs font-display font-bold uppercase tracking-tight text-text-primary group-hover:text-accent transition-colors">
+                                <h4 className="text-sm md:text-xs font-display font-bold uppercase tracking-tight text-text-primary group-hover:text-accent transition-colors">
                                   {tool.name}
                                 </h4>
                                 <span className={cn(
@@ -401,13 +401,13 @@ export function Navigation() {
                      <div className="relative z-10 space-y-6">
                         <div className="space-y-2">
                            <h4 className="text-xl font-display font-bold uppercase text-accent">Live Trading Room</h4>
-                           <p className="text-xs text-text-secondary leading-relaxed">
+                           <p className="text-sm md:text-xs text-text-secondary leading-relaxed">
                              Watch institutional-grade execution in real-time. Full analysis on all major {label} news events.
                            </p>
                         </div>
                         <Link 
                           href="/login" 
-                          className="block text-center py-4 bg-accent text-background-primary font-bold uppercase tracking-widest text-xs hover:bg-accent-hover transition-colors"
+                          className="block text-center py-4 bg-accent text-background-primary font-bold uppercase tracking-widest text-sm md:text-xs hover:bg-accent-hover transition-colors"
                           onClick={() => setActiveMegaMenu(null)}
                         >
                           Join Live Room
@@ -456,7 +456,7 @@ export function Navigation() {
                     </p>
                     <Link
                       href="/prop-firms/quiz"
-                      className="block text-center py-4 bg-accent text-background-primary font-bold uppercase tracking-widest text-xs hover:bg-accent-hover transition-colors"
+                      className="block text-center py-4 bg-accent text-background-primary font-bold uppercase tracking-widest text-sm md:text-xs hover:bg-accent-hover transition-colors"
                       onClick={() => setActiveMegaMenu(null)}
                     >
                       Find My Optimal Firm
@@ -488,7 +488,7 @@ export function Navigation() {
                     <Link href="/brokers" className="p-10 border border-accent/20 bg-accent/5 hover:bg-accent/10 transition-all group flex items-center justify-between" onClick={() => setActiveMegaMenu(null)}>
                       <div>
                         <h4 className="text-lg font-display font-bold uppercase text-accent">Broker Directory</h4>
-                        <p className="text-xs text-text-secondary mt-1">Compare 20+ FCA Regulated Brokers</p>
+                        <p className="text-sm md:text-xs text-text-secondary mt-1">Compare 20+ FCA Regulated Brokers</p>
                       </div>
                       <ArrowUpRight className="w-6 h-6 text-accent group-hover:-translate-y-1 group-hover:translate-x-1 transition-transform" />
                     </Link>
@@ -500,7 +500,7 @@ export function Navigation() {
                   </p>
                   <div className="flex-grow p-10 bg-background-elevated border border-border-slate">
                      <h4 className="text-xl font-display font-bold uppercase mb-4 text-text-primary">IG Markets</h4>
-                     <p className="text-xs text-text-secondary leading-relaxed mb-8">
+                     <p className="text-sm md:text-xs text-text-secondary leading-relaxed mb-8">
                        The gold standard for UK retail traders. FTSE 250 listed and FCA regulated since 1974.
                      </p>
                      <Link href="/brokers/ig" className="text-[10px] font-bold uppercase tracking-widest text-accent hover:underline">Read Pete's IG Review →</Link>
@@ -517,13 +517,13 @@ export function Navigation() {
                   </p>
                   <div className="flex flex-col gap-2">
                     <Link href="/best/prop-firm-uk" className="p-4 border border-border-slate hover:border-accent transition-all group" onClick={() => setActiveMegaMenu(null)}>
-                      <h4 className="text-xs font-bold uppercase text-text-primary group-hover:text-accent">Best Prop Firm UK</h4>
+                      <h4 className="text-sm md:text-xs font-bold uppercase text-text-primary group-hover:text-accent">Best Prop Firm UK</h4>
                     </Link>
                     <Link href="/best/prop-firm-challenge-worth-it" className="p-4 border border-border-slate hover:border-accent transition-all group" onClick={() => setActiveMegaMenu(null)}>
-                      <h4 className="text-xs font-bold uppercase text-text-primary group-hover:text-accent">Is a Challenge Worth It?</h4>
+                      <h4 className="text-sm md:text-xs font-bold uppercase text-text-primary group-hover:text-accent">Is a Challenge Worth It?</h4>
                     </Link>
                     <Link href="/prop-firms" className="p-4 border border-accent/20 bg-accent/5 hover:bg-accent/10 transition-all group" onClick={() => setActiveMegaMenu(null)}>
-                      <h4 className="text-xs font-bold uppercase text-accent">All Prop Firm Reviews →</h4>
+                      <h4 className="text-sm md:text-xs font-bold uppercase text-accent">All Prop Firm Reviews →</h4>
                     </Link>
                   </div>
                 </div>
@@ -533,24 +533,24 @@ export function Navigation() {
                   </p>
                   <div className="flex flex-col gap-2">
                     <Link href={`${regionPrefix}/glossary`} className="p-4 border border-border-slate hover:border-accent transition-all group" onClick={() => setActiveMegaMenu(null)}>
-                      <h4 className="text-xs font-bold uppercase text-text-primary group-hover:text-accent">Trading Glossary</h4>
+                      <h4 className="text-sm md:text-xs font-bold uppercase text-text-primary group-hover:text-accent">Trading Glossary</h4>
                     </Link>
                     <Link href={`${regionPrefix}/how-to`} className="p-4 border border-border-slate hover:border-accent transition-all group" onClick={() => setActiveMegaMenu(null)}>
-                      <h4 className="text-xs font-bold uppercase text-text-primary group-hover:text-accent">How-To Guides</h4>
+                      <h4 className="text-sm md:text-xs font-bold uppercase text-text-primary group-hover:text-accent">How-To Guides</h4>
                     </Link>
                     <Link href={`${regionPrefix}/compare`} className="p-4 border border-border-slate hover:border-accent transition-all group" onClick={() => setActiveMegaMenu(null)}>
-                      <h4 className="text-xs font-bold uppercase text-text-primary group-hover:text-accent">Comparison Hub</h4>
+                      <h4 className="text-sm md:text-xs font-bold uppercase text-text-primary group-hover:text-accent">Comparison Hub</h4>
                     </Link>
                   </div>
                 </div>
                 <div className="col-span-4 flex flex-col gap-6">
                    <Link href={`${regionPrefix}/blog`} className="block p-8 bg-background-elevated border border-border-slate hover:border-accent transition-all group" onClick={() => setActiveMegaMenu(null)}>
                       <h4 className="text-sm font-bold uppercase text-text-primary group-hover:text-accent">Insights & Blog</h4>
-                      <p className="text-xs text-text-secondary mt-2">Latest market commentary and psychological deep-dives.</p>
+                      <p className="text-sm md:text-xs text-text-secondary mt-2">Latest market commentary and psychological deep-dives.</p>
                    </Link>
                    <Link href={`${regionPrefix}/best`} className="block p-8 bg-accent/5 border border-accent/20 hover:bg-accent/10 transition-all group" onClick={() => setActiveMegaMenu(null)}>
                       <h4 className="text-sm font-bold uppercase text-accent">Best of 2026 Hub</h4>
-                      <p className="text-xs text-text-secondary mt-2">Our verified institutional recommendations.</p>
+                      <p className="text-sm md:text-xs text-text-secondary mt-2">Our verified institutional recommendations.</p>
                    </Link>
                 </div>
               </div>
@@ -569,8 +569,8 @@ export function Navigation() {
         <div className="flex flex-col h-full pt-32 px-6 pb-12">
           {/* Regional Indicator */}
           <div className="flex items-center gap-3 mb-10 px-4 py-2 bg-background-elevated border border-border-slate/50 w-fit">
-            <span className="text-xl">{flag}</span>
-            <span className="text-xs font-mono font-bold text-text-tertiary uppercase tracking-widest">{label}</span>
+            <span className={`fi fi-${flag} text-xl`} />
+            <span className="text-sm md:text-xs font-mono font-bold text-text-tertiary uppercase tracking-widest">{label}</span>
           </div>
 
           <div className="flex flex-col gap-8">

@@ -68,13 +68,13 @@ export function HeroSection() {
         <div className="flex flex-col sm:flex-row items-center justify-center gap-6 w-full sm:w-auto">
           <Link 
             href={`${regionPrefix}/signup`} 
-            className="w-full sm:w-auto px-10 py-5 bg-accent hover:bg-accent-hover text-background-primary text-[10px] font-bold uppercase tracking-[0.2em] transition-premium shadow-2xl shadow-accent/20"
+            className="w-full sm:w-auto px-10 py-5 bg-accent hover:bg-accent-hover text-background-primary text-[10px] font-bold uppercase tracking-[0.2em] transition-premium shadow-2xl shadow-accent/20 rounded-lg"
           >
             Start Free
           </Link>
           <Link 
             href={`${regionPrefix}/markets`} 
-            className="w-full sm:w-auto px-10 py-5 border border-border-slate hover:border-text-primary text-text-primary text-[10px] font-bold uppercase tracking-[0.2em] transition-premium backdrop-blur-sm"
+            className="w-full sm:w-auto px-10 py-5 border border-border-slate hover:border-text-primary text-text-primary text-[10px] font-bold uppercase tracking-[0.2em] transition-premium backdrop-blur-sm rounded-lg"
           >
             Explore Markets
           </Link>

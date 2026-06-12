@@ -32,11 +32,16 @@ export function NewsSourceStrip() {
   });
 
   return (
-    <div className="w-full bg-white border-y border-[#E8E8E8] py-10 overflow-hidden relative z-20">
+    <div className="w-full bg-white border-y border-[#E8E8E8] py-12 overflow-hidden relative z-20">
       <div className="container mx-auto px-6 relative z-10 flex flex-col items-center">
-        <h3 className="text-[11px] font-semibold tracking-widest text-neutral-400 text-center mb-8 uppercase font-sans">
-          Aggregating institutional data from
+        
+        {/* Centered Heading Layout matching reference design */}
+        <h3 className="text-sm font-semibold tracking-wide text-neutral-800 text-center mb-1 uppercase font-sans">
+          Trusted by active traders across markets.
         </h3>
+        <p className="text-xs text-neutral-450 text-center mb-8 font-sans">
+          Aggregating institutional data from key global networks.
+        </p>
         
         {/* Scrolling Marquee Container */}
         <div className="w-full overflow-hidden flex items-center relative py-2">

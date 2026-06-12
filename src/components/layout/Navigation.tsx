@@ -157,7 +157,7 @@ export function Navigation() {
               Drawdown<span className="text-accent ml-0.5">.</span>
             </Link>
             <div className="flex items-center gap-2 px-2.5 py-1 bg-background-elevated border border-border-slate/50 rounded-full group cursor-default">
-              <span className="text-sm grayscale group-hover:grayscale-0 transition-all duration-500 leading-none">{flag}</span>
+              <span className="text-sm transition-all duration-500 leading-none">{flag}</span>
               <span className="text-[9px] font-mono font-bold text-text-tertiary uppercase tracking-widest border-l border-border-slate/50 pl-2">{label}</span>
             </div>
           </div>
@@ -584,9 +584,7 @@ export function Navigation() {
                 {link.name}
               </Link>
             ))}
-            <Link href="/prop-firms" className="text-3xl font-display font-bold uppercase tracking-widest text-text-primary" onClick={() => setIsMobileMenuOpen(false)}>
-              Prop Firms
-            </Link>
+
             <Link href={`${regionPrefix}/glossary`} className="text-xl font-display font-bold uppercase tracking-widest text-text-secondary hover:text-accent" onClick={() => setIsMobileMenuOpen(false)}>Glossary</Link>
             <Link href={`${regionPrefix}/how-to`} className="text-xl font-display font-bold uppercase tracking-widest text-text-secondary hover:text-accent" onClick={() => setIsMobileMenuOpen(false)}>How-To Guides</Link>
             <Link href={`${regionPrefix}/compare`} className="text-xl font-display font-bold uppercase tracking-widest text-text-secondary hover:text-accent" onClick={() => setIsMobileMenuOpen(false)}>Comparisons</Link>

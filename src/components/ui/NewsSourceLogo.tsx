@@ -9,12 +9,12 @@ interface NewsSourceLogoProps {
 }
 
 const logoMap: Record<string, { domain: string; color?: string; customUrl?: string }> = {
-  "Bloomberg": { domain: "bloomberg.com", color: "#2800D8" },
+  "Bloomberg": { domain: "bloomberg.com", color: "#2800D8", customUrl: "/logos/partners/bloomberg.svg" },
   "Reuters": { domain: "reuters.com", color: "#FF8000" },
   "Financial Times": { domain: "ft.com", color: "#FCD0B1" },
   "FT": { domain: "ft.com", color: "#FCD0B1" },
-  "CNBC Markets": { domain: "cnbc.com", color: "#005596" },
-  "CNBC": { domain: "cnbc.com", color: "#005596" },
+  "CNBC Markets": { domain: "cnbc.com", color: "#005596", customUrl: "/logos/partners/cnbc.svg" },
+  "CNBC": { domain: "cnbc.com", color: "#005596", customUrl: "/logos/partners/cnbc.svg" },
   "WSJ Markets": { domain: "wsj.com", color: "#000000" },
   "WSJ": { domain: "wsj.com", color: "#000000" },
   "MarketWatch": { domain: "marketwatch.com", color: "#3B2E2A" },
@@ -38,9 +38,13 @@ export function NewsSourceLogo({
     lg: "h-8 w-8",
   };
 
-  if (!mapping) {
+  if (!mapping || !mapping.customUrl) {
     return (
-      <span className={cn("text-[9px] font-mono font-bold uppercase tracking-widest text-accent", className)}>
+      <span className={cn(
+        "text-[10px] font-mono font-bold uppercase tracking-widest", 
+        monochrome ? "text-text-secondary" : "text-accent", 
+        className
+      )}>
         {source}
       </span>
     );
@@ -53,23 +57,12 @@ export function NewsSourceLogo({
         sizeClasses[size]
       )}>
         <img 
-          src={mapping.customUrl || `https://unavatar.io/${mapping.domain}?fallback=https://www.google.com/s2/favicons?domain=${mapping.domain}&sz=128`}
+          src={mapping.customUrl}
           alt={source}
           className={cn(
             "w-full h-full object-contain transition-all duration-500",
             monochrome ? "grayscale opacity-50 hover:opacity-100 dark:invert" : "opacity-100"
           )}
-          onError={(e) => {
-            const target = e.target as HTMLImageElement;
-            target.style.display = 'none';
-            const parent = target.parentElement;
-            if (parent && !parent.querySelector('.fallback-text')) {
-              const fallback = document.createElement('span');
-              fallback.innerText = source.charAt(0);
-              fallback.className = 'fallback-text text-[10px] font-mono font-bold text-accent';
-              parent.appendChild(fallback);
-            }
-          }}
         />
       </div>
       {showText && (

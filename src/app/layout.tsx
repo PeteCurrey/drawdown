@@ -27,8 +27,6 @@ const jetbrainsMono = JetBrains_Mono({
 export const metadata: Metadata = getMetadata();
 
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
-import { NativeAppProvider } from "@/components/providers/NativeAppProvider";
-import { NativeBottomNav } from "@/components/layout/NativeBottomNav";
 
 export default function RootLayout({
   children,
@@ -42,7 +40,6 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className="min-h-full flex flex-col bg-background-primary text-text-primary selection:bg-accent selection:text-background-primary transition-colors duration-500">
-        <NativeAppProvider>
           <ThemeProvider
             attribute="data-theme"
             defaultTheme="dark"
@@ -55,10 +52,8 @@ export default function RootLayout({
                 {children}
               </main>
             </SmoothScroll>
-            <NativeBottomNav />
             <GrainOverlay />
           </ThemeProvider>
-        </NativeAppProvider>
       </body>
     </html>
   );

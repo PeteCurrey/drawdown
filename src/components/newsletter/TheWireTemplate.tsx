@@ -104,7 +104,7 @@ export const TheWireTemplate = ({
               <a href="#" style={footerLink}>Manage preferences</a> • 
               <a href="#" style={footerLink}>View in browser</a>
             </Text>
-            <Text style={footerText}>A Signature Build by Avorria</Text>
+
           </Section>
         </Container>
       </Body>

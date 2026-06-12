@@ -14,11 +14,32 @@ import { PetesDailyTakeExcerpt } from "@/components/home/PetesDailyTakeExcerpt";
 import Link from "next/link";
 import { TrackPageView } from "@/components/admin/TrackPageView";
 import { GSAPReveal } from "@/components/animations/GSAPReveal";
+import { getMetadata } from "@/lib/metadata";
+import { StructuredData } from "@/components/StructuredData";
+
+export const metadata = getMetadata({
+  path: "/",
+});
 
 export default function Home() {
+  const orgSchema = {
+    "name": "Drawdown",
+    "url": "https://drawdown.trading",
+    "logo": "https://drawdown.trading/og/default-og.png",
+    "founder": {
+      "@type": "Person",
+      "name": "Pete Currey"
+    },
+    "sameAs": [
+      "https://twitter.com/drawdowntrading",
+      "https://youtube.com/@drawdowntrading"
+    ]
+  };
+
   return (
     <div className="flex flex-col">
       <TrackPageView path="/" />
+      <StructuredData type="Organization" data={orgSchema} />
       {/* 2. Hero (Condensed) */}
       <HeroSection />
 

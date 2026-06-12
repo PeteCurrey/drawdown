@@ -16,7 +16,6 @@ import {
   X
 } from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
-import { triggerHaptic } from '@/lib/capacitor';
 import { cn } from '@/lib/utils';
 
 interface WatchlistItem {
@@ -92,7 +91,6 @@ export const WatchlistManager = () => {
 
   const savePriceAlert = async () => {
     if (!alertingItem || !alertPrice) return;
-    triggerHaptic();
 
     try {
       const { data: { user } } = await supabase.auth.getUser();
@@ -119,7 +117,6 @@ export const WatchlistManager = () => {
   const addToWatchlist = async () => {
     if (!newSymbol) return;
     setAdding(true);
-    triggerHaptic();
     
     try {
       const { data: { user } } = await supabase.auth.getUser();
@@ -145,7 +142,6 @@ export const WatchlistManager = () => {
   };
 
   const removeFromWatchlist = async (id: string) => {
-    triggerHaptic();
     try {
       const { error } = await (supabase as any)
         .from('user_watchlists')
@@ -160,7 +156,6 @@ export const WatchlistManager = () => {
   };
 
   const toggleAlerts = async (item: WatchlistItem) => {
-    triggerHaptic();
     try {
       const { error } = await (supabase as any)
         .from('user_watchlists')

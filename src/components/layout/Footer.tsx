@@ -179,14 +179,7 @@ export function Footer() {
               <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-[10px] font-mono uppercase tracking-widest text-text-tertiary">
                 <p>© 2026 DRAWDOWN. TRADE THE TRUTH.</p>
               </div>
-              <a 
-                href="https://avorria.co.uk" 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                className="text-[9px] font-mono uppercase tracking-[0.2em] text-text-tertiary hover:text-accent transition-colors group"
-              >
-                A signature build by <span className="text-text-secondary group-hover:text-accent font-bold">Avorria</span>
-              </a>
+
             </div>
           </div>
         </div>

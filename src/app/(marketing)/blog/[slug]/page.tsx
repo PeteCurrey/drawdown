@@ -25,11 +25,22 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const post = getPostBySlug(slug);
   if (!post) return {};
   
-  return getMetadata({
+  const baseMetadata = getMetadata({
     title: `${post.title} | Drawdown Blog`,
     description: post.excerpt,
     path: `/blog/${post.slug}`,
   });
+
+  return {
+    ...baseMetadata,
+    openGraph: {
+      ...baseMetadata.openGraph,
+      type: "article",
+      publishedTime: new Date(post.publishedAt).toISOString(),
+      modifiedTime: new Date((post as any).updatedAt || post.publishedAt).toISOString(),
+      authors: ["Pete Currey"],
+    },
+  };
 }
 
 function extractHeadings(content: string) {
@@ -57,9 +68,10 @@ export default async function BlogPostPage({ params }: Props) {
   const showTOC = post.content.split(' ').length > 800 && headings.length > 0;
 
   const articleSchema = {
+    "@context": "https://schema.org",
     headline: post.title,
     description: post.excerpt,
-    datePublished: post.publishedAt,
+    image: "https://drawdown.trading/og/default-og.png",
     author: {
       "@type": "Person",
       "name": "Pete Currey",
@@ -68,9 +80,17 @@ export default async function BlogPostPage({ params }: Props) {
     publisher: {
       "@type": "Organization",
       "name": "Drawdown",
-      "logo": "https://drawdown.trading/logo.png"
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://drawdown.trading/og/default-og.png"
+      }
     },
-    image: "https://drawdown.trading/og/default.png",
+    datePublished: new Date(post.publishedAt).toISOString(),
+    dateModified: new Date((post as any).updatedAt || post.publishedAt).toISOString(),
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": `https://drawdown.trading/blog/${post.slug}`
+    }
   };
 
   return (

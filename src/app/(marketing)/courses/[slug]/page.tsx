@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { notFound } from "next/navigation";
+import { StructuredData } from "@/components/StructuredData";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -33,10 +34,22 @@ export default function CourseLandingPage({ params }: Props) {
 
   const Icon = phaseIconMap[phase.icon] || Shield;
 
+  const courseSchema = {
+    "name": phase.name,
+    "description": phase.full_description,
+    "provider": {
+      "@type": "Organization",
+      "name": "Drawdown",
+      "sameAs": "https://drawdown.trading"
+    },
+    "coursePrerequisites": phase.id > 1 ? `Completion of Phase ${phase.id - 1}` : "None"
+  };
+
   return (
     <div className="pt-32 pb-24 bg-background-primary min-h-screen">
       <div className="container mx-auto px-6">
         <Breadcrumbs />
+        <StructuredData type="Course" data={courseSchema} />
 
         <header className="mb-24 mt-12 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           <div className="space-y-8">

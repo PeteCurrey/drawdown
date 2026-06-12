@@ -41,7 +41,7 @@ export default function DisclaimerPage() {
               Drawdown is a trading education and software platform. All content provided, including courses, blog posts, AI-generated analysis, and community discussions, is for <strong>educational purposes only</strong>. 
             </p>
             <p>
-              Pete (Founder) and the Drawdown team are not licensed financial advisors. We do not provide personalised investment recommendations, trade signals, or managed account services. Any trades you place are solely your responsibility.
+              Pete Currey and the Drawdown team are not licensed financial advisors. We do not provide personalised investment recommendations, trade signals, or managed account services. Any trades you place are solely your responsibility.
             </p>
           </section>
 

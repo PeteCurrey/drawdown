@@ -19,7 +19,7 @@ const propFirms = [
     newsTrading: "Allowed",
     badge: "Most Trusted",
     color: "#00A7E1",
-    link: "/prop-firms/ftmo-review"
+    link: "/prop-firms/ftmo"
   },
   {
     id: "the5ers",
@@ -34,7 +34,7 @@ const propFirms = [
     newsTrading: "Allowed",
     badge: "Best Scaling",
     color: "#D4A373",
-    link: "/prop-firms/the5ers-review"
+    link: "/prop-firms/the5ers"
   },
   {
     id: "funding-pips",
@@ -49,7 +49,7 @@ const propFirms = [
     newsTrading: "Restricted",
     badge: "Budget Friendly",
     color: "#00E676",
-    link: "/prop-firms/funding-pips-review"
+    link: "/prop-firms/funding-pips"
   }
 ];
 

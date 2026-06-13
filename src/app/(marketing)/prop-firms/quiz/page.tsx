@@ -222,8 +222,8 @@ export default function PropFirmQuizPage() {
                     Start {firmData.name} Challenge
                   </a>
                   <Link 
-                    href={`/prop-firms/${result}-review`}
-                    className="px-8 py-4 border border-border-slate/50 hover:border-border-slate text-text-primary font-bold uppercase tracking-widest text-xs transition-colors"
+                    href={`/prop-firms/${result}`}
+                    className="flex-1 py-4 bg-background-elevated/40 backdrop-blur-md border border-border-slate/50 font-bold hover:bg-background-elevated text-text-primary transition-colors flex items-center justify-center"
                   >
                     Read The Data Review
                   </Link>

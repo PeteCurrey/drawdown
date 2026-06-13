@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { BookOpen, Calculator, Scan, LineChart, Newspaper, Cpu } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -16,35 +17,109 @@ const tools = [
     icon: BookOpen,
     name: "AI Trade Journal",
     description: "Uploads raw CSV executions and outputs natural language emotional profiles, identifying systemic leakage.",
-    isFree: true
+    isFree: true,
+    // Faded Indigo
+    baseBg: "rgba(99, 102, 241, 0.015)",
+    hoverBg: "rgba(99, 102, 241, 0.045)",
+    borderColor: "rgba(99, 102, 241, 0.25)",
+    iconColor: "rgb(99, 102, 241)",
+    iconBg: "rgba(99, 102, 241, 0.08)",
+    svgPath: (
+      <svg className="absolute bottom-[-10px] right-[-10px] w-24 h-24 text-indigo-500 transition-opacity duration-500 pointer-events-none" viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="0.5">
+        <rect x="20" y="15" width="60" height="70" rx="4" />
+        <line x1="30" y1="30" x2="70" y2="30" />
+        <line x1="30" y1="45" x2="70" y2="45" />
+        <line x1="30" y1="60" x2="55" y2="60" />
+      </svg>
+    )
   },
   {
     icon: Calculator,
     name: "Risk Calculator",
     description: "Computes kelly-criterion fraction allocations relative to your current drawdown boundaries.",
-    isFree: true
+    isFree: true,
+    // Faded Emerald
+    baseBg: "rgba(16, 185, 129, 0.015)",
+    hoverBg: "rgba(16, 185, 129, 0.045)",
+    borderColor: "rgba(16, 185, 129, 0.25)",
+    iconColor: "rgb(16, 185, 129)",
+    iconBg: "rgba(16, 185, 129, 0.08)",
+    svgPath: (
+      <svg className="absolute bottom-[-10px] right-[-10px] w-24 h-24 text-emerald-500 transition-opacity duration-500 pointer-events-none" viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="0.5">
+        <rect x="25" y="25" width="50" height="50" rx="6" />
+        <circle cx="40" cy="40" r="4" />
+        <circle cx="60" cy="40" r="4" />
+        <line x1="35" y1="55" x2="65" y2="55" />
+        <line x1="35" y1="62" x2="65" y2="62" />
+      </svg>
+    )
   },
   {
     icon: Scan,
     name: "AI Market Scanner",
     description: "Monitors order flow delta and volume profiles across 40 FX/Crypto pairs to isolate structural sweeps.",
-    isFree: false
+    isFree: false,
+    // Faded Cyan
+    baseBg: "rgba(6, 182, 212, 0.015)",
+    hoverBg: "rgba(6, 182, 212, 0.045)",
+    borderColor: "rgba(6, 182, 212, 0.25)",
+    iconColor: "rgb(6, 182, 212)",
+    iconBg: "rgba(6, 182, 212, 0.08)",
+    svgPath: (
+      <svg className="absolute bottom-[-10px] right-[-10px] w-24 h-24 text-cyan-500 transition-opacity duration-500 pointer-events-none" viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="0.5">
+        <circle cx="50" cy="50" r="30" strokeDasharray="3 3" />
+        <circle cx="50" cy="50" r="15" />
+        <line x1="50" y1="10" x2="50" y2="90" />
+        <line x1="10" y1="50" x2="90" y2="50" />
+      </svg>
+    )
   },
   {
     icon: LineChart,
     name: "Strategy Backtester",
     description: "Simulates strategy rulesets against 10 years of historical tick data, outputting Monte Carlo risk profiles.",
-    isFree: false
+    isFree: false,
+    // Faded Rose
+    baseBg: "rgba(244, 63, 94, 0.015)",
+    hoverBg: "rgba(244, 63, 94, 0.045)",
+    borderColor: "rgba(244, 63, 94, 0.25)",
+    iconColor: "rgb(244, 63, 94)",
+    iconBg: "rgba(244, 63, 94, 0.08)",
+    svgPath: (
+      <svg className="absolute bottom-[-10px] right-[-10px] w-24 h-24 text-rose-500 transition-opacity duration-500 pointer-events-none" viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="0.5">
+        <path d="M20,70 L35,50 L50,55 L65,30 L80,35" />
+        <path d="M20,70 L80,70" />
+        <circle cx="35" cy="50" r="2.5" fill="currentColor" />
+        <circle cx="65" cy="30" r="2.5" fill="currentColor" />
+      </svg>
+    )
   },
   {
     icon: Newspaper,
     name: "Daily Intelligence Brief",
     description: "A pre-market systemic breakdown of institutional flows, macro events, and major consensus changes.",
-    isFree: true
+    isFree: true,
+    // Faded Amber
+    baseBg: "rgba(245, 158, 11, 0.015)",
+    hoverBg: "rgba(245, 158, 11, 0.045)",
+    borderColor: "rgba(245, 158, 11, 0.25)",
+    iconColor: "rgb(245, 158, 11)",
+    iconBg: "rgba(245, 158, 11, 0.08)",
+    svgPath: (
+      <svg className="absolute bottom-[-10px] right-[-10px] w-24 h-24 text-amber-500 transition-opacity duration-500 pointer-events-none" viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="0.5">
+        <rect x="20" y="20" width="60" height="60" rx="2" />
+        <line x1="28" y1="32" x2="72" y2="32" strokeWidth="1" />
+        <line x1="28" y1="45" x2="45" y2="45" />
+        <line x1="28" y1="55" x2="45" y2="55" />
+        <rect x="52" y="42" width="20" height="25" />
+      </svg>
+    )
   }
 ];
 
 export function AIToolsSection() {
+  const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
+
   const cardVariants = {
     hidden: { opacity: 0, x: 20 },
     visible: (i: number) => ({
@@ -105,6 +180,8 @@ export function AIToolsSection() {
             <div className="space-y-3">
               {tools.map((tool, idx) => {
                 const Icon = tool.icon;
+                const isHovered = hoveredIdx === idx;
+                
                 return (
                   <motion.div
                     key={idx}
@@ -113,24 +190,46 @@ export function AIToolsSection() {
                     whileInView="visible"
                     viewport={{ once: true, margin: "-20px" }}
                     variants={cardVariants}
-                    className="bg-white border border-mkt-bd rounded-[14px] p-5 hover:-translate-y-0.5 hover:shadow-[0_8px_32px_rgba(0,0,0,0.06)] transition-all duration-300 flex items-start gap-4"
+                    onMouseEnter={() => setHoveredIdx(idx)}
+                    onMouseLeave={() => setHoveredIdx(null)}
+                    className="relative border rounded-[14px] p-5 flex items-start gap-4 cursor-pointer overflow-hidden transition-all duration-300"
+                    style={{
+                      backgroundColor: isHovered ? tool.hoverBg : tool.baseBg,
+                      borderColor: isHovered ? tool.borderColor : "rgba(229, 229, 229, 0.7)",
+                      transform: isHovered ? "translateY(-2px)" : "translateY(0px)",
+                      boxShadow: isHovered ? "0 8px 32px rgba(0, 0, 0, 0.04)" : "none"
+                    }}
                   >
-                    {/* Dark Icon Container */}
-                    <div className="w-10 h-10 bg-neutral-950 text-white rounded-lg flex items-center justify-center shrink-0">
-                      <Icon className="w-5 h-5 text-white" />
+                    {/* Subtle bottom-right SVG decorative illustration */}
+                    <div 
+                      className="absolute inset-0 z-0 overflow-hidden pointer-events-none transition-opacity duration-300"
+                      style={{ opacity: isHovered ? 0.07 : 0.015 }}
+                    >
+                      {tool.svgPath}
+                    </div>
+
+                    {/* Animated Icon Container */}
+                    <div 
+                      className="w-10 h-10 rounded-lg flex items-center justify-center shrink-0 z-10 transition-all duration-350"
+                      style={{
+                        backgroundColor: isHovered ? tool.iconColor : tool.iconBg,
+                        color: isHovered ? "#FFFFFF" : tool.iconColor
+                      }}
+                    >
+                      <Icon className="w-5 h-5 transition-transform duration-300" style={{ transform: isHovered ? "scale(1.08)" : "scale(1)" }} />
                     </div>
 
                     {/* Content */}
-                    <div className="flex-grow space-y-1">
+                    <div className="flex-grow space-y-1 z-10">
                       <div className="flex items-center justify-between">
                         <h4 className="text-sm font-sans font-bold text-mkt-ink leading-tight">
                           {tool.name}
                         </h4>
                         <span className={cn(
-                          "text-[9px] font-mono font-bold px-2 py-0.5 rounded border uppercase tracking-wider",
+                          "text-[9px] font-mono font-bold px-2 py-0.5 rounded border uppercase tracking-wider transition-colors duration-300",
                           tool.isFree
                             ? "text-mkt-grn bg-mkt-gbg border-mkt-gbd"
-                            : "text-mkt-i3 bg-neutral-150 border-neutral-200"
+                            : "text-mkt-i3 bg-neutral-100 border-neutral-200"
                         )}>
                           {tool.isFree ? "Free" : "Premium"}
                         </span>

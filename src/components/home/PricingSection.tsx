@@ -62,6 +62,7 @@ const tiers = [
 export function PricingSection() {
   const [billingCycle, setBillingCycle] = useState<"monthly" | "yearly">("monthly");
   const [loadingTier, setLoadingTier] = useState<string | null>(null);
+  const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
   const { region } = useRegion();
 
   const getPlanDetails = (tierId: "foundation" | "edge" | "floor") => {
@@ -185,7 +186,30 @@ export function PricingSection() {
           {tiers.map((tier, idx) => {
             const { price, symbol, priceId } = getPlanDetails(tier.id);
             const isEdge = tier.id === "edge";
+            const isHovered = hoveredIdx === idx;
             
+            // Subtle, corporate theme styling details
+            const cardTheme = tier.id === "foundation" 
+              ? {
+                  baseBg: "rgba(16, 185, 129, 0.005)",
+                  hoverBg: "rgba(16, 185, 129, 0.035)",
+                  borderColor: "rgba(16, 185, 129, 0.22)",
+                  shadow: "0 8px 32px rgba(16, 185, 129, 0.03)"
+                }
+              : tier.id === "floor"
+              ? {
+                  baseBg: "rgba(217, 119, 6, 0.005)",
+                  hoverBg: "rgba(217, 119, 6, 0.035)",
+                  borderColor: "rgba(217, 119, 6, 0.22)",
+                  shadow: "0 8px 32px rgba(217, 119, 6, 0.03)"
+                }
+              : { // Edge (dark card)
+                  baseBg: "rgb(10, 10, 10)",
+                  hoverBg: "rgb(12, 12, 12)",
+                  borderColor: "rgba(34, 197, 94, 0.45)",
+                  shadow: "0 12px 40px rgba(34, 197, 94, 0.08)"
+                };
+
             return (
               <motion.div
                 key={tier.id}
@@ -194,15 +218,21 @@ export function PricingSection() {
                 whileInView="visible"
                 viewport={{ once: true, margin: "-20px" }}
                 variants={cardVariants}
+                onMouseEnter={() => setHoveredIdx(idx)}
+                onMouseLeave={() => setHoveredIdx(null)}
                 className={cn(
-                  "border rounded-[14px] p-8 flex flex-col justify-between hover:-translate-y-0.5 transition-all duration-300",
-                  isEdge 
-                    ? "bg-neutral-950 text-white border-neutral-800 shadow-xl shadow-black/10 relative"
-                    : "bg-white text-mkt-ink border-mkt-bd hover:shadow-[0_8px_32px_rgba(0,0,0,0.06)]"
+                  "border rounded-[14px] p-8 flex flex-col justify-between cursor-pointer transition-all duration-300 relative",
+                  isEdge ? "text-white" : "text-mkt-ink"
                 )}
+                style={{
+                  backgroundColor: isHovered ? cardTheme.hoverBg : (isEdge ? "rgb(10, 10, 10)" : cardTheme.baseBg),
+                  borderColor: isHovered ? cardTheme.borderColor : (isEdge ? "rgba(255, 255, 255, 0.08)" : "rgba(229, 229, 229, 0.7)"),
+                  transform: isHovered ? "translateY(-3px)" : "translateY(0px)",
+                  boxShadow: isHovered ? cardTheme.shadow : (isEdge ? "0 10px 30px rgba(0,0,0,0.15)" : "none")
+                }}
               >
                 {isEdge && (
-                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-mkt-grn text-white px-3 py-0.5 text-[9px] font-bold uppercase tracking-widest rounded-full">
+                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-mkt-grn text-white px-3 py-0.5 text-[9px] font-bold uppercase tracking-widest rounded-full shadow-md z-10">
                     Most Popular
                   </div>
                 )}
@@ -241,9 +271,9 @@ export function PricingSection() {
                     onClick={() => handleSubscribe(tier.id, priceId)}
                     disabled={loadingTier !== null}
                     className={cn(
-                      "w-full py-4 text-xs font-sans font-bold uppercase tracking-widest mb-10 transition-colors rounded-lg flex items-center justify-center gap-2",
+                      "w-full py-4 text-xs font-sans font-bold uppercase tracking-widest mb-10 transition-all rounded-lg flex items-center justify-center gap-2",
                       isEdge 
-                        ? "bg-mkt-grn text-white hover:bg-green-700" 
+                        ? "bg-mkt-grn text-white hover:bg-green-700 hover:shadow-lg hover:shadow-green-500/20" 
                         : "bg-white border border-mkt-bd text-mkt-ink hover:border-mkt-ink"
                     )}
                   >

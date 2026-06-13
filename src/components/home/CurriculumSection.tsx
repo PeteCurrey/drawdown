@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { BookOpen, ChevronRight } from "lucide-react";
 import { phases } from "@/data/courses";
@@ -7,9 +8,103 @@ import { cn } from "@/lib/utils";
 import { useRegion } from "@/components/layout/RegionalLayout";
 import { motion } from "framer-motion";
 
+const phaseThemeStyles = [
+  {
+    // Phase 1: Ground Zero - Slate
+    baseBg: "rgba(71, 85, 105, 0.015)",
+    hoverBg: "rgba(71, 85, 105, 0.045)",
+    borderColor: "rgba(71, 85, 105, 0.22)",
+    textColor: "rgb(71, 85, 105)",
+    svgPath: (
+      <svg className="absolute bottom-[-10px] right-[-10px] w-24 h-24 text-slate-500 transition-opacity duration-500 pointer-events-none" viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="0.5">
+        <path d="M50,15 L20,30 L20,55 C20,72 35,83 50,88 C65,83 80,72 80,55 L80,30 L50,15 Z" />
+        <path d="M50,25 L50,78" strokeDasharray="3 3" />
+      </svg>
+    )
+  },
+  {
+    // Phase 2: Chart Reader - Emerald
+    baseBg: "rgba(16, 185, 129, 0.015)",
+    hoverBg: "rgba(16, 185, 129, 0.045)",
+    borderColor: "rgba(16, 185, 129, 0.22)",
+    textColor: "rgb(16, 185, 129)",
+    svgPath: (
+      <svg className="absolute bottom-[-10px] right-[-10px] w-24 h-24 text-emerald-500 transition-opacity duration-500 pointer-events-none" viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="0.5">
+        <rect x="25" y="35" width="12" height="30" />
+        <line x1="31" y1="20" x2="31" y2="80" />
+        <rect x="50" y="25" width="12" height="40" />
+        <line x1="56" y1="15" x2="56" y2="85" />
+        <rect x="75" y="45" width="12" height="20" />
+        <line x1="81" y1="30" x2="81" y2="75" />
+      </svg>
+    )
+  },
+  {
+    // Phase 3: Strategist - Indigo
+    baseBg: "rgba(99, 102, 241, 0.015)",
+    hoverBg: "rgba(99, 102, 241, 0.045)",
+    borderColor: "rgba(99, 102, 241, 0.22)",
+    textColor: "rgb(99, 102, 241)",
+    svgPath: (
+      <svg className="absolute bottom-[-10px] right-[-10px] w-24 h-24 text-indigo-500 transition-opacity duration-500 pointer-events-none" viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="0.5">
+        <circle cx="50" cy="30" r="8" />
+        <circle cx="30" cy="65" r="8" />
+        <circle cx="70" cy="65" r="8" />
+        <line x1="45" y1="37" x2="35" y2="58" />
+        <line x1="55" y1="37" x2="65" y2="58" />
+        <line x1="38" y1="65" x2="62" y2="65" />
+      </svg>
+    )
+  },
+  {
+    // Phase 4: Risk Manager - Rose
+    baseBg: "rgba(244, 63, 94, 0.015)",
+    hoverBg: "rgba(244, 63, 94, 0.045)",
+    borderColor: "rgba(244, 63, 94, 0.22)",
+    textColor: "rgb(244, 63, 94)",
+    svgPath: (
+      <svg className="absolute bottom-[-10px] right-[-10px] w-24 h-24 text-rose-500 transition-opacity duration-500 pointer-events-none" viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="0.5">
+        <rect x="30" y="45" width="40" height="35" rx="3" />
+        <path d="M40,45 L40,30 C40,23 60,23 60,30 L60,45" />
+        <circle cx="50" cy="60" r="3" fill="currentColor" />
+      </svg>
+    )
+  },
+  {
+    // Phase 5: Mind Over Market - Purple
+    baseBg: "rgba(217, 70, 239, 0.015)",
+    hoverBg: "rgba(217, 70, 239, 0.045)",
+    borderColor: "rgba(217, 70, 239, 0.22)",
+    textColor: "rgb(217, 70, 239)",
+    svgPath: (
+      <svg className="absolute bottom-[-10px] right-[-10px] w-24 h-24 text-fuchsia-500 transition-opacity duration-500 pointer-events-none" viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="0.5">
+        <circle cx="50" cy="50" r="35" strokeDasharray="2 2" />
+        <path d="M50,15 C60,25 70,40 50,55 C30,40 40,25 50,15 Z" fill="none" />
+        <path d="M50,55 C40,65 30,80 50,85 C70,80 60,65 50,55 Z" fill="none" />
+        <circle cx="50" cy="50" r="4" fill="currentColor" />
+      </svg>
+    )
+  },
+  {
+    // Phase 6: The Edge - Cyan
+    baseBg: "rgba(6, 182, 212, 0.015)",
+    hoverBg: "rgba(6, 182, 212, 0.045)",
+    borderColor: "rgba(6, 182, 212, 0.22)",
+    textColor: "rgb(6, 182, 212)",
+    svgPath: (
+      <svg className="absolute bottom-[-10px] right-[-10px] w-24 h-24 text-cyan-500 transition-opacity duration-500 pointer-events-none" viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="0.5">
+        <path d="M25,25 L45,25 L45,45 L25,45 Z" />
+        <path d="M55,55 L75,55 L75,75 L55,75 Z" />
+        <path d="M45,35 L55,65" strokeDasharray="3 3" />
+      </svg>
+    )
+  }
+];
+
 export function CurriculumSection() {
   const { region } = useRegion();
   const regionPrefix = region === "uk" ? "" : `/${region}`;
+  const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
 
   const cardVariants = {
     hidden: { opacity: 0, y: 15 },
@@ -45,6 +140,8 @@ export function CurriculumSection() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {phases.map((phase, idx) => {
             const isFree = phase.tier === "Free";
+            const theme = phaseThemeStyles[idx] || phaseThemeStyles[0];
+            const isHovered = hoveredIdx === idx;
             
             return (
               <motion.div
@@ -54,16 +151,35 @@ export function CurriculumSection() {
                 whileInView="visible"
                 viewport={{ once: true, margin: "-20px" }}
                 variants={cardVariants}
-                className="bg-white border border-mkt-bd rounded-[14px] p-6 hover:-translate-y-0.5 hover:shadow-[0_8px_32px_rgba(0,0,0,0.06)] transition-all duration-300 flex flex-col justify-between"
+                onMouseEnter={() => setHoveredIdx(idx)}
+                onMouseLeave={() => setHoveredIdx(null)}
+                className="relative border rounded-[14px] p-6 flex flex-col justify-between cursor-pointer overflow-hidden transition-all duration-300"
+                style={{
+                  backgroundColor: isHovered ? theme.hoverBg : theme.baseBg,
+                  borderColor: isHovered ? theme.borderColor : "rgba(229, 229, 229, 0.7)",
+                  transform: isHovered ? "translateY(-2px)" : "translateY(0px)",
+                  boxShadow: isHovered ? "0 8px 32px rgba(0, 0, 0, 0.04)" : "none"
+                }}
               >
-                <div>
+                {/* Subtle bottom-right SVG decorative illustration */}
+                <div 
+                  className="absolute inset-0 z-0 overflow-hidden pointer-events-none transition-opacity duration-300"
+                  style={{ opacity: isHovered ? 0.07 : 0.015 }}
+                >
+                  {theme.svgPath}
+                </div>
+
+                <div className="z-10">
                   {/* Top: Phase Number & Tier Badge */}
                   <div className="flex items-center justify-between mb-6">
-                    <span className="text-3xl font-mono font-extrabold text-mkt-ink tracking-tighter">
+                    <span 
+                      className="text-3xl font-mono font-extrabold tracking-tighter transition-colors duration-300"
+                      style={{ color: isHovered ? theme.textColor : "var(--mkt-ink)" }}
+                    >
                       {phase.number}
                     </span>
                     <span className={cn(
-                      "text-[9px] font-mono font-bold px-2 py-0.5 rounded border uppercase tracking-wider",
+                      "text-[9px] font-mono font-bold px-2 py-0.5 rounded border uppercase tracking-wider transition-colors duration-300",
                       isFree
                         ? "text-mkt-grn bg-mkt-gbg border-mkt-gbd"
                         : "text-mkt-i3 bg-neutral-100 border-neutral-200"
@@ -84,7 +200,7 @@ export function CurriculumSection() {
                 </div>
 
                 {/* Bottom Stats: Modules Count & Lock Info */}
-                <div className="pt-4 border-t border-neutral-100 flex items-center justify-between">
+                <div className="pt-4 border-t border-neutral-100 flex items-center justify-between z-10">
                   <span className="text-[10px] font-sans font-medium text-mkt-i4 uppercase tracking-wider flex items-center gap-1.5">
                     <BookOpen className="w-3.5 h-3.5 text-mkt-i3" /> {phase.modules_count} Modules
                   </span>

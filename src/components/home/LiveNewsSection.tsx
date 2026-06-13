@@ -9,6 +9,7 @@ const featuredNews = {
   source: "Reuters",
   title: "BoE Holds Rates at 5.25% as Inflation Matches 2% Target",
   excerpt: "The Bank of England voted 7-2 to maintain interest rates, stating policy must remain restrictive until core service sector pricing pressures subside.",
+  imageUrl: "https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?q=80&w=800&auto=format&fit=crop"
 };
 
 const newsList = [
@@ -17,21 +18,21 @@ const newsList = [
     source: "Bloomberg",
     title: "US Retail Sales Rise Modestly, Suggesting Consumer Spending Resilience",
     excerpt: "May sales figures increase 0.1%, coming in below economists' estimates but indicating stable retail demand.",
-    thumbnailText: "RET"
+    imageUrl: "https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?q=80&w=600&auto=format&fit=crop"
   },
   {
     date: "2 Hours Ago // 11:30 AM",
     source: "Financial Times",
     title: "ECB Policymakers Cautious on July Cut as Wage Growth Accelerates",
     excerpt: "Governing council members signal interest rate reductions might pause next month due to persistent wage pressures.",
-    thumbnailText: "ECB"
+    imageUrl: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=600&auto=format&fit=crop"
   },
   {
     date: "4 Hours Ago // 09:15 AM",
     source: "WSJ",
     title: "Tokyo CPI Acceleration Boosts Speculation of Summer BoJ Rate Increase",
     excerpt: "Core consumer prices in Tokyo rose 2.1% in June, supporting the case for Bank of Japan monetary tightening.",
-    thumbnailText: "BOJ"
+    imageUrl: "https://images.unsplash.com/photo-1503899036084-c55cdd92da26?q=80&w=600&auto=format&fit=crop"
   }
 ];
 
@@ -76,30 +77,35 @@ export function LiveNewsSection() {
           <div className="lg:col-span-7 space-y-6">
             
             {/* Featured news card */}
-            <div className={cn(cardClasses, "p-0 overflow-hidden")}>
+            <div className={cn(cardClasses, "p-0 overflow-hidden group")}>
               {/* Image Area */}
-              <div className="h-56 bg-gradient-to-br from-neutral-950 to-neutral-900 flex flex-col justify-between p-6 relative">
-                <div className="absolute inset-0 opacity-[0.03] pointer-events-none">
-                  <div className="h-full w-full bg-[linear-gradient(to_right,#fff_1px,transparent_1px),linear-gradient(to_bottom,#fff_1px,transparent_1px)] bg-[size:24px_24px]" />
-                </div>
+              <div className="h-64 flex flex-col justify-between p-6 relative overflow-hidden">
+                {/* Background Image */}
+                <div 
+                  className="absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-105"
+                  style={{ backgroundImage: `url(${featuredNews.imageUrl})` }}
+                />
+                {/* Dark gradient overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-black/25 z-0" />
+                
                 <div className="flex justify-between items-center z-10">
-                  <span className="text-[10px] font-bold text-white bg-mkt-grn px-2 py-0.5 rounded-sm uppercase tracking-wider font-sans">
+                  <span className="text-[10px] font-bold text-white bg-mkt-grn px-2.5 py-1 rounded-sm uppercase tracking-wider font-sans shadow-md">
                     BREAKING
                   </span>
-                  <Newspaper className="w-5 h-5 text-white/40" />
+                  <Newspaper className="w-5 h-5 text-white/70 drop-shadow" />
                 </div>
                 <div className="z-10">
-                  <p className="text-[10px] font-mono text-neutral-400 uppercase tracking-widest">
+                  <p className="text-[10px] font-mono text-neutral-300 uppercase tracking-widest drop-shadow">
                     {featuredNews.date} &bull; {featuredNews.source}
                   </p>
-                  <h3 className="text-xl md:text-2xl font-sans font-extrabold text-white mt-1 leading-tight tracking-tight">
+                  <h3 className="text-xl md:text-2xl font-sans font-extrabold text-white mt-1.5 leading-tight tracking-tight drop-shadow-md">
                     {featuredNews.title}
                   </h3>
                 </div>
               </div>
               
               {/* Body */}
-              <div className="p-6">
+              <div className="p-6 bg-white">
                 <p className="text-sm text-mkt-i3 leading-relaxed font-sans">
                   {featuredNews.excerpt}
                 </p>
@@ -114,26 +120,32 @@ export function LiveNewsSection() {
               </div>
             </div>
 
-            {/* Three news list items */}
-            <div className="bg-white border border-mkt-bd rounded-[14px] p-6 space-y-4">
+            {/* Three news list items - Individual Image Cards */}
+            <div className="space-y-4">
               {newsList.map((item, index) => (
                 <div 
                   key={index}
-                  className="flex gap-4 py-4 border-b border-neutral-100 last:border-b-0 last:pb-0 first:pt-0 items-start group cursor-pointer"
+                  className="relative overflow-hidden rounded-[14px] p-6 border border-mkt-bd min-h-[120px] flex flex-col justify-end group cursor-pointer transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_8px_32px_rgba(0,0,0,0.08)] bg-black"
                 >
-                  {/* Icon Thumbnail */}
-                  <div className="w-14 h-14 bg-neutral-50 border border-mkt-bd rounded flex items-center justify-center shrink-0">
-                    <span className="text-xs font-mono font-bold text-mkt-i3 uppercase">{item.thumbnailText}</span>
-                  </div>
+                  {/* Background Image */}
+                  <div 
+                    className="absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-105"
+                    style={{ backgroundImage: `url(${item.imageUrl})` }}
+                  />
+                  {/* Dark overlay with side gradient */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-black/95 via-black/80 to-black/30 z-0 transition-opacity duration-300 group-hover:opacity-95" />
+                  
                   {/* Content */}
-                  <div className="space-y-1">
-                    <p className="text-[9px] font-mono text-mkt-i4 uppercase tracking-widest">
-                      {item.date} &bull; {item.source}
-                    </p>
-                    <h4 className="text-sm font-sans font-bold text-mkt-ink group-hover:text-mkt-grn transition-colors duration-150 leading-tight">
+                  <div className="relative z-10 space-y-1">
+                    <div className="flex items-center gap-2">
+                      <p className="text-[9px] font-mono text-neutral-300 uppercase tracking-widest">
+                        {item.date} &bull; {item.source}
+                      </p>
+                    </div>
+                    <h4 className="text-sm md:text-base font-sans font-bold text-white group-hover:text-mkt-grn transition-colors duration-150 leading-tight">
                       {item.title}
                     </h4>
-                    <p className="text-xs text-mkt-i3 leading-normal font-sans">
+                    <p className="text-xs text-neutral-300 leading-normal font-sans line-clamp-2">
                       {item.excerpt}
                     </p>
                   </div>

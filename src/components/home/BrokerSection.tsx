@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { Shield, ChevronRight } from "lucide-react";
 import Link from "next/link";
 import { motion } from "framer-motion";
@@ -57,8 +58,24 @@ interface Broker {
   regulation: string;
 }
 
+function hexToRGBA(hex: string, alpha: number) {
+  const cleanHex = hex.replace("#", "");
+  // fallback if shorthand hex
+  if (cleanHex.length === 3) {
+    const r = parseInt(cleanHex[0] + cleanHex[0], 16);
+    const g = parseInt(cleanHex[1] + cleanHex[1], 16);
+    const b = parseInt(cleanHex[2] + cleanHex[2], 16);
+    return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+  }
+  const r = parseInt(cleanHex.substring(0, 2), 16) || 0;
+  const g = parseInt(cleanHex.substring(2, 4), 16) || 0;
+  const b = parseInt(cleanHex.substring(4, 6), 16) || 0;
+  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+}
+
 export function BrokerSection() {
   const { region } = useRegion();
+  const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
 
   const getRegionalData = (): { brokers: Broker[], link: string } => {
     switch (region) {
@@ -164,63 +181,79 @@ export function BrokerSection() {
 
         {/* Card Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {regionalBrokers.map((broker, idx) => (
-            <motion.div 
-              key={broker.id}
-              custom={idx}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, margin: "-20px" }}
-              variants={cardVariants}
-              className="bg-white border border-mkt-bd rounded-[14px] p-6 flex flex-col justify-between hover:-translate-y-0.5 hover:shadow-[0_8px_32px_rgba(0,0,0,0.06)] transition-all duration-300"
-            >
-              <div>
-                <div className="flex items-center justify-between mb-6">
-                  {/* Logo Container */}
-                  <div className="h-8 flex items-center justify-start">
-                    {broker.logoUrl ? (
-                      <img src={broker.logoUrl} alt={broker.name} className="max-h-8 object-contain" />
-                    ) : (
-                      <span 
-                        className="font-sans font-extrabold text-mkt-ink text-lg uppercase tracking-wider"
-                        style={{ color: broker.color }}
-                      >
-                        {broker.logoPlaceholder}
-                      </span>
-                    )}
-                  </div>
-                  
-                  {/* Regulation Badge */}
-                  <span className="text-[10px] font-sans font-bold text-mkt-grn bg-mkt-gbg border border-mkt-gbd rounded-full px-2.5 py-0.5 uppercase tracking-wide flex items-center gap-1">
-                    <Shield className="w-3 h-3" /> {broker.regulation}
-                  </span>
-                </div>
-
-                <h3 className="text-xl font-sans font-bold text-mkt-ink leading-tight mt-6 mb-1">{broker.name}</h3>
-                <p className="text-[10px] font-sans font-bold text-mkt-i4 uppercase tracking-widest mb-6">{broker.bestFor}</p>
-                
-                <div className="py-3 border-y border-neutral-100 mb-6">
-                  <p className="text-sm font-mono text-mkt-ink font-semibold">{broker.stat}</p>
-                </div>
-
-                <ul className="space-y-3 mb-8">
-                  {broker.features.map((f, i) => (
-                    <li key={i} className="flex items-center gap-2 text-xs text-mkt-i3 font-sans">
-                      <span className="text-mkt-grn font-bold">✓</span> {f}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              {/* Keeping the exactly mandated /go/ link routing */}
-              <a 
-                href={`/go/${broker.id}`}
-                className="w-full bg-black hover:bg-neutral-900 text-white rounded-lg py-3 text-sm font-medium text-center transition-colors font-sans flex items-center justify-center gap-2"
+          {regionalBrokers.map((broker, idx) => {
+            const isHovered = hoveredIdx === idx;
+            const brandColor = broker.color || "#2C2F36";
+            
+            return (
+              <motion.div 
+                key={broker.id}
+                custom={idx}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: "-20px" }}
+                variants={cardVariants}
+                onMouseEnter={() => setHoveredIdx(idx)}
+                onMouseLeave={() => setHoveredIdx(null)}
+                className="border rounded-[14px] p-6 flex flex-col justify-between cursor-pointer transition-all duration-300 relative overflow-hidden"
+                style={{
+                  backgroundColor: isHovered ? hexToRGBA(brandColor, 0.04) : hexToRGBA(brandColor, 0.01),
+                  borderColor: isHovered ? hexToRGBA(brandColor, 0.22) : "rgba(229, 229, 229, 0.7)",
+                  transform: isHovered ? "translateY(-3px)" : "translateY(0px)",
+                  boxShadow: isHovered ? `0 8px 32px ${hexToRGBA(brandColor, 0.05)}` : "none"
+                }}
               >
-                Open Account &rarr;
-              </a>
-            </motion.div>
-          ))}
+                <div>
+                  <div className="flex items-center justify-between mb-6">
+                    {/* Logo Container */}
+                    <div className="h-8 flex items-center justify-start">
+                      {broker.logoUrl ? (
+                        <img src={broker.logoUrl} alt={broker.name} className="max-h-8 object-contain" />
+                      ) : (
+                        <span 
+                          className="font-sans font-extrabold text-lg uppercase tracking-wider transition-colors duration-300"
+                          style={{ color: brandColor }}
+                        >
+                          {broker.logoPlaceholder}
+                        </span>
+                      )}
+                    </div>
+                    
+                    {/* Regulation Badge */}
+                    <span className="text-[10px] font-sans font-bold text-mkt-grn bg-mkt-gbg border border-mkt-gbd rounded-full px-2.5 py-0.5 uppercase tracking-wide flex items-center gap-1">
+                      <Shield className="w-3 h-3" /> {broker.regulation}
+                    </span>
+                  </div>
+
+                  <h3 className="text-xl font-sans font-bold text-mkt-ink leading-tight mt-6 mb-1">{broker.name}</h3>
+                  <p className="text-[10px] font-sans font-bold text-mkt-i4 uppercase tracking-widest mb-6">{broker.bestFor}</p>
+                  
+                  <div className="py-3 border-y border-neutral-100 mb-6">
+                    <p className="text-sm font-mono text-mkt-ink font-semibold">{broker.stat}</p>
+                  </div>
+
+                  <ul className="space-y-3 mb-8">
+                    {broker.features.map((f, i) => (
+                      <li key={i} className="flex items-center gap-2 text-xs text-mkt-i3 font-sans">
+                        <span className="text-mkt-grn font-bold">✓</span> {f}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                {/* Keeping the exactly mandated /go/ link routing */}
+                <a 
+                  href={`/go/${broker.id}`}
+                  className="w-full text-white rounded-lg py-3 text-sm font-semibold text-center transition-all font-sans flex items-center justify-center gap-2"
+                  style={{
+                    backgroundColor: isHovered ? brandColor : "#0A0A0A"
+                  }}
+                >
+                  Open Account &rarr;
+                </a>
+              </motion.div>
+            );
+          })}
         </div>
 
         {/* Disclosure & Footer Links */}

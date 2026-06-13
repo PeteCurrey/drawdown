@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { ShieldCheck, Crosshair, Target, ChevronRight, Activity, Percent, ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
@@ -9,6 +10,7 @@ const propFirms = [
     id: "ftmo",
     name: "FTMO",
     description: "The industry standard. Best for aggressive day traders.",
+    bgUrl: "/images/prop-firms/ftmo-bg.png",
     profitTarget: "10%",
     maxDrawdown: "10%",
     dailyDrawdown: "5%",
@@ -16,13 +18,14 @@ const propFirms = [
     payoutSplit: "Up to 90%",
     newsTrading: "Allowed",
     badge: "Most Trusted",
-    color: "#00A7E1", // FTMO brand color vibe
+    color: "#00A7E1",
     link: "/prop-firms/ftmo-review"
   },
   {
     id: "the5ers",
     name: "The5%ers",
     description: "Aggressive scaling plan. Best for consistent swing traders.",
+    bgUrl: "/images/prop-firms/the5ers-bg.png",
     profitTarget: "10%",
     maxDrawdown: "10%",
     dailyDrawdown: "5%",
@@ -30,13 +33,14 @@ const propFirms = [
     payoutSplit: "Up to 100%",
     newsTrading: "Allowed",
     badge: "Best Scaling",
-    color: "#D4A373", // Premium vibe
+    color: "#D4A373",
     link: "/prop-firms/the5ers-review"
   },
   {
     id: "funding-pips",
     name: "Funding Pips",
     description: "Low entry cost and tight rules. Best for tight risk models.",
+    bgUrl: "/images/prop-firms/funding-pips-bg.png",
     profitTarget: "8%",
     maxDrawdown: "10%",
     dailyDrawdown: "5%",
@@ -44,12 +48,14 @@ const propFirms = [
     payoutSplit: "Up to 90%",
     newsTrading: "Restricted",
     badge: "Budget Friendly",
-    color: "#00E676", // Growth vibe
+    color: "#00E676",
     link: "/prop-firms/funding-pips-review"
   }
 ];
 
 export default function PropFirmsHubPage() {
+  const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
+
   return (
     <div className="flex flex-col">
       {/* Hero Section */}
@@ -130,20 +136,51 @@ export default function PropFirmsHubPage() {
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-               {propFirms.map((firm) => (
-                  <div key={firm.id} className="bg-white border border-mkt-bd rounded-[14px] hover:shadow-[0_8px_32px_rgba(0,0,0,0.07)] hover:-translate-y-0.5 transition-all duration-300 p-8 relative flex flex-col group">
+               {propFirms.map((firm, index) => (
+                  <div 
+                    key={firm.id} 
+                    className="bg-white border border-mkt-bd rounded-[14px] transition-all duration-300 p-8 relative flex flex-col group overflow-hidden"
+                    style={{
+                      transform: hoveredIdx === index ? "translateY(-2px)" : "translateY(0px)",
+                      boxShadow: hoveredIdx === index ? "0 8px 32px rgba(0,0,0,0.07)" : "none",
+                      borderColor: hoveredIdx === index ? "rgba(0,0,0,0.14)" : undefined
+                    }}
+                    onMouseEnter={() => setHoveredIdx(index)}
+                    onMouseLeave={() => setHoveredIdx(null)}
+                  >
+                     {/* Premium Background Reveal */}
+                     <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
+                       {firm.bgUrl && (
+                         <div
+                           className="absolute inset-0 bg-cover bg-center transition-all duration-700 ease-out"
+                           style={{
+                             backgroundImage: `url(${firm.bgUrl})`,
+                             opacity: hoveredIdx === index ? 0.08 : 0.02,
+                             transform: hoveredIdx === index ? "scale(1.05)" : "scale(1)",
+                           }}
+                         />
+                       )}
+                       <div 
+                         className="absolute inset-0 transition-opacity duration-700 ease-out"
+                         style={{
+                           background: `linear-gradient(to top right, transparent, ${firm.color})`,
+                           opacity: hoveredIdx === index ? 0.08 : 0
+                         }}
+                       />
+                     </div>
+
                      {firm.badge && (
-                        <div className="absolute top-0 right-0 bg-mkt-ink text-white px-3 py-1.5 rounded-bl-[10px] rounded-tr-[14px] text-[9px] font-sans font-bold uppercase tracking-widest">
+                        <div className="absolute top-0 right-0 bg-mkt-ink text-white px-3 py-1.5 rounded-bl-[10px] rounded-tr-[14px] text-[9px] font-sans font-bold uppercase tracking-widest z-10">
                            {firm.badge}
                         </div>
                      )}
                      
-                      <div className="mb-8">
+                      <div className="mb-8 relative z-10">
                         <h3 className="text-3xl font-sans font-black uppercase mb-2 text-mkt-ink">{firm.name}</h3>
                         <p className="text-sm text-mkt-i2 h-10">{firm.description}</p>
                      </div>
 
-                     <div className="space-y-4 mb-8 flex-grow">
+                     <div className="space-y-4 mb-8 flex-grow relative z-10">
                         <div className="flex justify-between items-center py-2 border-b border-mkt-bd/50">
                            <span className="text-xs font-mono uppercase text-mkt-i4">Profit Target</span>
                            <span className="text-sm font-bold text-mkt-ink">{firm.profitTarget}</span>
@@ -166,7 +203,7 @@ export default function PropFirmsHubPage() {
                         </div>
                      </div>
 
-                     <div className="space-y-3">
+                     <div className="space-y-3 relative z-10">
                         <Link 
                            href={`/go/${firm.id}`}
                            className="w-full py-3 rounded-lg bg-mkt-ink text-white hover:bg-mkt-i2 transition-colors text-center text-xs font-sans font-semibold block"

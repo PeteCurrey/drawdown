@@ -15,6 +15,7 @@ const ukBrokers = [
     id: "ig-markets",
     name: "IG Markets",
     logoUrl: "https://upload.wikimedia.org/wikipedia/commons/e/ea/IG_Logo.svg",
+    bgUrl: "/images/brokers/ig-bg.png",
     logoPlaceholder: "IG",
     bestFor: "Best for UK spread betting",
     stat: "Spreads from 0.6 pips",
@@ -26,6 +27,7 @@ const ukBrokers = [
     id: "pepperstone",
     name: "Pepperstone",
     logoUrl: "https://upload.wikimedia.org/wikipedia/commons/2/23/Pepperstone_logo.svg",
+    bgUrl: "/images/brokers/pepperstone-bg.png",
     logoPlaceholder: "PS",
     bestFor: "Best for forex",
     stat: "Raw spreads from 0.0 pips",
@@ -37,6 +39,7 @@ const ukBrokers = [
     id: "ic-markets",
     name: "IC Markets",
     logoUrl: "https://cdn.icmarkets.com/uploads/IC-logo-fsa.png",
+    bgUrl: "/images/brokers/ic-bg.png",
     logoPlaceholder: "IC",
     bestFor: "Best for active traders",
     stat: "Ultra-low commissions",
@@ -50,6 +53,7 @@ interface Broker {
   id: string;
   name: string;
   logoUrl?: string;
+  bgUrl?: string;
   logoPlaceholder: string;
   bestFor: string;
   stat: string;
@@ -85,6 +89,7 @@ export function BrokerSection() {
             id: b.slug,
             name: b.name,
             logoUrl: b.name.includes("IG") ? "https://upload.wikimedia.org/wikipedia/commons/e/ea/IG_Logo.svg" : b.name.includes("Pepperstone") ? "https://upload.wikimedia.org/wikipedia/commons/2/23/Pepperstone_logo.svg" : b.name.includes("IC Markets") ? "https://cdn.icmarkets.com/uploads/IC-logo-fsa.png" : undefined,
+            bgUrl: b.name.includes("IG") ? "/images/brokers/ig-bg.png" : b.name.includes("Pepperstone") ? "/images/brokers/pepperstone-bg.png" : b.name.includes("IC Markets") ? "/images/brokers/ic-bg.png" : undefined,
             logoPlaceholder: b.name.substring(0, 2).toUpperCase(),
             bestFor: b.bestFor,
             stat: b.minDeposit === "$0" ? "No Minimum Deposit" : `Min Deposit: ${b.minDeposit}`,
@@ -100,6 +105,7 @@ export function BrokerSection() {
             id: b.slug,
             name: b.name,
             logoUrl: undefined,
+            bgUrl: b.name.includes("tastyfx") ? "/images/brokers/ig-bg.png" : b.name.includes("OANDA") ? "/images/brokers/pepperstone-bg.png" : undefined,
             logoPlaceholder: b.name.substring(0, 2).toUpperCase(),
             bestFor: b.bestFor,
             stat: b.maxLeverage,
@@ -115,6 +121,7 @@ export function BrokerSection() {
             id: b.slug,
             name: b.name,
             logoUrl: b.name.includes("IG") ? "https://upload.wikimedia.org/wikipedia/commons/e/ea/IG_Logo.svg" : undefined,
+            bgUrl: b.name.includes("IG") ? "/images/brokers/ig-bg.png" : b.name.includes("Saxo") ? "/images/brokers/pepperstone-bg.png" : undefined,
             logoPlaceholder: b.name.substring(0, 2).toUpperCase(),
             bestFor: b.bestFor,
             stat: b.maxLeverage,
@@ -130,6 +137,7 @@ export function BrokerSection() {
             id: b.slug,
             name: b.name,
             logoUrl: b.name.includes("IG") ? "https://upload.wikimedia.org/wikipedia/commons/e/ea/IG_Logo.svg" : undefined,
+            bgUrl: b.name.includes("IG") ? "/images/brokers/ig-bg.png" : undefined,
             logoPlaceholder: b.name.substring(0, 2).toUpperCase(),
             bestFor: b.bestFor,
             stat: b.maxLeverage,
@@ -195,28 +203,27 @@ export function BrokerSection() {
                 variants={cardVariants}
                 onMouseEnter={() => setHoveredIdx(idx)}
                 onMouseLeave={() => setHoveredIdx(null)}
-                className="border rounded-[14px] p-6 flex flex-col justify-between cursor-pointer transition-all duration-300 relative overflow-hidden"
+                className="border rounded-[14px] p-6 flex flex-col justify-between cursor-pointer transition-all duration-300 relative overflow-hidden group"
                 style={{
                   backgroundColor: "white",
                   borderColor: isHovered ? hexToRGBA(brandColor, 0.22) : "rgba(229, 229, 229, 0.7)",
-                  transform: isHovered ? "translateY(-3px)" : "translateY(0px)",
-                  boxShadow: isHovered ? `0 8px 32px ${hexToRGBA(brandColor, 0.05)}` : "none"
+                  transform: isHovered ? "translateY(-3px)" : "translateY(0px)"
                 }}
               >
-                {/* Background logo reveal & branding tint */}
-                <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
+                {/* Image background reveal */}
+                <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden rounded-[14px]">
                   <div
-                    className="absolute -right-4 -bottom-4 w-full h-full bg-contain bg-no-repeat bg-right-bottom transition-all duration-700 ease-out"
+                    className="absolute inset-0 bg-cover bg-center transition-all duration-700 ease-out"
                     style={{
-                      backgroundImage: broker.logoUrl ? `url(${broker.logoUrl})` : "none",
-                      opacity: isHovered ? 0.12 : 0.02,
-                      transform: isHovered ? "scale(1.2) translate(-5%, -5%)" : "scale(1.1)",
+                      backgroundImage: broker.bgUrl ? `url(${broker.bgUrl})` : "none",
+                      opacity: isHovered ? 0.08 : 0.02,
+                      transform: isHovered ? "scale(1.05)" : "scale(1)",
                     }}
                   />
                   <div 
                     className="absolute inset-0 transition-opacity duration-700 ease-out"
                     style={{
-                      background: `linear-gradient(135deg, transparent 40%, ${brandColor})`,
+                      background: `linear-gradient(to top right, transparent, ${brandColor})`,
                       opacity: isHovered ? 0.08 : 0
                     }}
                   />

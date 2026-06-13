@@ -11,6 +11,7 @@ const topBrokers = [
     name: "IG Markets",
     category: "Best for UK Spread Betting",
     logoUrl: "https://upload.wikimedia.org/wikipedia/commons/e/ea/IG_Logo.svg",
+    bgUrl: "/images/brokers/ig-bg.png",
     color: "#E11A27",
     spreads: "From 0.6 pips",
     platforms: "IG Platform, MT4, TradingView",
@@ -23,6 +24,7 @@ const topBrokers = [
     name: "Pepperstone",
     category: "Best for Raw Spreads (Gold & FX)",
     logoUrl: "https://upload.wikimedia.org/wikipedia/commons/2/23/Pepperstone_logo.svg",
+    bgUrl: "/images/brokers/pepperstone-bg.png",
     fallback: "PS",
     color: "#0054FE",
     spreads: "Raw 0.0 pips",
@@ -36,6 +38,7 @@ const topBrokers = [
     name: "IC Markets",
     category: "Best for Global Liquidity Depth",
     logoUrl: "https://cdn.icmarkets.com/uploads/IC-logo-fsa.png",
+    bgUrl: "/images/brokers/ic-bg.png",
     fallback: "IC",
     color: "#00A382",
     spreads: "Raw 0.0 pips",
@@ -113,20 +116,20 @@ export default function BrokerComparisonHub() {
                     onMouseEnter={() => setHoveredIdx(index)}
                     onMouseLeave={() => setHoveredIdx(null)}
                   >
-                     {/* Background logo reveal & branding tint */}
-                     <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
+                     {/* Premium Background Reveal */}
+                     <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden rounded-[14px]">
                        <div
-                         className="absolute -right-4 -bottom-4 w-full h-full bg-contain bg-no-repeat bg-right-bottom transition-all duration-700 ease-out"
+                         className="absolute inset-0 bg-cover bg-center transition-all duration-700 ease-out"
                          style={{
-                           backgroundImage: broker.logoUrl ? `url(${broker.logoUrl})` : "none",
-                           opacity: hoveredIdx === index ? 0.12 : 0.02,
-                           transform: hoveredIdx === index ? "scale(1.2) translate(-5%, -5%)" : "scale(1.1)",
+                           backgroundImage: broker.bgUrl ? `url(${broker.bgUrl})` : "none",
+                           opacity: hoveredIdx === index ? 0.08 : 0.02,
+                           transform: hoveredIdx === index ? "scale(1.05)" : "scale(1)",
                          }}
                        />
                        <div 
                          className="absolute inset-0 transition-opacity duration-700 ease-out"
                          style={{
-                           background: `linear-gradient(135deg, transparent 40%, ${broker.color})`,
+                           background: `linear-gradient(to top right, transparent, ${broker.color})`,
                            opacity: hoveredIdx === index ? 0.08 : 0
                          }}
                        />

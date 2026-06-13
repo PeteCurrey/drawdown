@@ -16,6 +16,7 @@ const ukBrokers = [
     id: "ig-markets",
     name: "IG Markets",
     logoUrl: "https://upload.wikimedia.org/wikipedia/commons/e/ea/IG_Logo.svg",
+    bgUrl: "/images/brokers/ig-bg.png",
     logoPlaceholder: "IG",
     bestFor: "Best for UK spread betting",
     stat: "Spreads from 0.6 pips",
@@ -27,6 +28,7 @@ const ukBrokers = [
     id: "pepperstone",
     name: "Pepperstone",
     logoUrl: "https://upload.wikimedia.org/wikipedia/commons/2/23/Pepperstone_logo.svg",
+    bgUrl: "/images/brokers/pepperstone-bg.png",
     logoPlaceholder: "PS",
     bestFor: "Best for forex",
     stat: "Raw spreads from 0.0 pips",
@@ -38,6 +40,7 @@ const ukBrokers = [
     id: "ic-markets",
     name: "IC Markets",
     logoUrl: "https://cdn.icmarkets.com/uploads/IC-logo-fsa.png",
+    bgUrl: "/images/brokers/ic-bg.png",
     logoPlaceholder: "IC",
     bestFor: "Best for active traders",
     stat: "Ultra-low commissions",
@@ -47,10 +50,18 @@ const ukBrokers = [
   }
 ];
 
+function hexToRGBA(hex: string, alpha: number) {
+  const r = parseInt(hex.slice(1, 3), 16);
+  const g = parseInt(hex.slice(3, 5), 16);
+  const b = parseInt(hex.slice(5, 7), 16);
+  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+}
+
 interface Broker {
   id: string;
   name: string;
   logoUrl?: string;
+  bgUrl?: string;
   logoPlaceholder: string;
   bestFor: string;
   stat: string;
@@ -156,25 +167,28 @@ export function BrokerHubPreview() {
           {regionalBrokers.map((broker, idx) => (
             <motion.div 
               key={broker.id}
-              className="bg-white border border-neutral-100 rounded-xl p-6 flex flex-col justify-between shadow-sm hover:shadow-md hover:border-neutral-200 transition-all duration-200 relative overflow-hidden group"
-              whileHover={{ y: -2, transition: { duration: 0.2 } }}
+              className="bg-white border border-neutral-100 rounded-[14px] p-6 flex flex-col justify-between cursor-pointer transition-all duration-300 relative overflow-hidden group"
+              style={{
+                borderColor: hoveredIdx === idx ? hexToRGBA(broker.color, 0.22) : "rgba(229, 229, 229, 0.7)",
+                transform: hoveredIdx === idx ? "translateY(-3px)" : "translateY(0px)"
+              }}
               onMouseEnter={() => setHoveredIdx(idx)}
               onMouseLeave={() => setHoveredIdx(null)}
             >
-              {/* Background logo reveal & branding tint */}
-              <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
+              {/* Image background reveal */}
+              <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden rounded-[14px]">
                 <div
-                  className="absolute -right-4 -bottom-4 w-full h-full bg-contain bg-no-repeat bg-right-bottom transition-all duration-700 ease-out"
+                  className="absolute inset-0 bg-cover bg-center transition-all duration-700 ease-out"
                   style={{
-                    backgroundImage: broker.logoUrl ? `url(${broker.logoUrl})` : "none",
-                    opacity: hoveredIdx === idx ? 0.12 : 0.02,
-                    transform: hoveredIdx === idx ? "scale(1.2) translate(-5%, -5%)" : "scale(1.1)",
+                    backgroundImage: broker.bgUrl ? `url(${broker.bgUrl})` : "none",
+                    opacity: hoveredIdx === idx ? 0.08 : 0.02,
+                    transform: hoveredIdx === idx ? "scale(1.05)" : "scale(1)",
                   }}
                 />
                 <div 
                   className="absolute inset-0 transition-opacity duration-700 ease-out"
                   style={{
-                    background: `linear-gradient(135deg, transparent 40%, ${broker.color})`,
+                    background: `linear-gradient(to top right, transparent, ${broker.color})`,
                     opacity: hoveredIdx === idx ? 0.08 : 0
                   }}
                 />

@@ -1,8 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import { Check, X, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { Check, X } from "lucide-react";
+import { STRIPE_CONFIG } from "@/config/stripe";
 
 const tiers = [
   {
@@ -11,7 +12,10 @@ const tiers = [
     description: "For beginners building their knowledge base.",
     buttonText: "Start Foundation",
     highlight: false,
-    borderColor: "border-text-primary/20",
+    imageUrl: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=600&auto=format&fit=crop",
+    accentColor: "rgba(99, 102, 241, 0.12)",
+    borderAccent: "rgba(99, 102, 241, 0.25)",
+    savings: "120",
     features: [
       { name: "Full Course Library (Phases 1–4)", included: true },
       { name: "Weekly Video Market Breakdowns", included: true },
@@ -30,7 +34,10 @@ const tiers = [
     description: "For active traders seeking AI-powered edge.",
     buttonText: "Join Edge",
     highlight: true,
-    borderColor: "border-accent",
+    imageUrl: "https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=600&auto=format&fit=crop",
+    accentColor: "rgba(6, 182, 212, 0.10)",
+    borderAccent: "rgba(6, 182, 212, 0.28)",
+    savings: "360",
     features: [
       { name: "Everything in Foundation", included: true },
       { name: "AI Trade Journal", included: true },
@@ -48,7 +55,10 @@ const tiers = [
     description: "Direct access and bespoke strategy analysis.",
     buttonText: "Enter the Floor",
     highlight: false,
-    borderColor: "border-premium",
+    imageUrl: "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?q=80&w=600&auto=format&fit=crop",
+    accentColor: "rgba(217, 119, 6, 0.08)",
+    borderAccent: "rgba(217, 119, 6, 0.25)",
+    savings: "720",
     features: [
       { name: "Everything in Edge", included: true },
       { name: "Monthly 1-to-1 Mentorship (45m)", included: true },
@@ -61,20 +71,19 @@ const tiers = [
   },
 ];
 
-import { STRIPE_CONFIG } from "@/config/stripe";
-
 export default function PricingPage() {
   const [billingCycle, setBillingCycle] = useState<"monthly" | "yearly">("monthly");
   const [loadingTier, setLoadingTier] = useState<string | null>(null);
+  const [hoveredTier, setHoveredTier] = useState<string | null>(null);
 
   const handleSubscribe = async (tierName: string) => {
     setLoadingTier(tierName);
     try {
-      const tierId = tierName.toLowerCase().replace('the ', '');
-      const priceConfig = STRIPE_CONFIG.prices[tierId as keyof typeof STRIPE_CONFIG.prices][billingCycle === 'monthly' ? 'monthly' : 'annual'];
-      
-      // Default to GBP for UK page
-      const priceId = (priceConfig as any)['gbp'];
+      const tierId = tierName.toLowerCase().replace("the ", "");
+      const priceConfig = STRIPE_CONFIG.prices[tierId as keyof typeof STRIPE_CONFIG.prices][
+        billingCycle === "monthly" ? "monthly" : "annual"
+      ];
+      const priceId = (priceConfig as any)["gbp"];
 
       const response = await fetch("/api/stripe/checkout", {
         method: "POST",
@@ -99,116 +108,151 @@ export default function PricingPage() {
   };
 
   return (
-    <div className="pt-32 pb-24 min-h-screen bg-background-primary">
-      <div className="container mx-auto px-6">
-        <div className="text-center mb-20">
-          <span className="text-accent font-mono tracking-widest uppercase text-sm mb-4 block">
-            PRICING
+    <div className="pt-28 pb-24 min-h-screen bg-white">
+      <div className="max-w-7xl mx-auto px-6">
+
+        {/* Page Header */}
+        <div className="text-center mb-16">
+          <span className="text-[11px] font-sans font-bold text-mkt-i4 uppercase tracking-widest block mb-4">
+            // PRICING
           </span>
-          <h1 className="  font-display font-bold uppercase mb-8">
-            Choose Your <span className="text-accent">Truth.</span>
+          <h1 className="text-4xl md:text-6xl font-sans font-extrabold tracking-tight text-mkt-ink mb-4">
+            Choose Your Level.
           </h1>
-          <p className="text-text-secondary max-w-2xl mx-auto mb-12">
-            Professional education and tools for traders who are tired of the noise. 
+          <p className="text-base text-mkt-i3 max-w-xl mx-auto font-sans leading-relaxed">
+            Professional education and tools for traders who are tired of the noise.
             Select the tier that matches your commitment.
           </p>
-
-          {/* Toggle */}
-          <div className="flex items-center justify-center gap-4">
-            <span className={cn("text-sm font-mono uppercase tracking-widest transition-colors", billingCycle === 'monthly' ? 'text-text-primary' : 'text-text-tertiary')}>Monthly</span>
-            <button 
-              onClick={() => setBillingCycle(prev => prev === 'monthly' ? 'yearly' : 'monthly')}
-              className="w-16 h-8 bg-background-elevated rounded-full p-1 relative transition-colors border border-border-slate"
-            >
-              <div className={cn(
-                "absolute top-1 left-1 w-6 h-6 bg-accent rounded-full transition-transform duration-300",
-                billingCycle === 'yearly' ? 'translate-x-8' : 'translate-x-0'
-              )} />
-            </button>
-            <span className={cn("text-sm font-mono uppercase tracking-widest transition-colors", billingCycle === 'yearly' ? 'text-text-primary' : 'text-text-tertiary')}>
-              Yearly <span className="text-profit text-[10px] ml-1">Save 20%</span>
-            </span>
-          </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
-          {tiers.map((tier) => (
-            <div 
-              key={tier.name}
-              className={cn(
-                "relative flex flex-col p-8 md:p-12 bg-background-surface border-2 transition-premium hover:bg-background-elevated",
-                tier.borderColor,
-                tier.highlight ? "scale-105 z-10 shadow-2xl shadow-accent/10" : "opacity-80 hover:opacity-100"
-              )}
-            >
-              {tier.highlight && (
-                <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-accent text-background-primary px-4 py-1 text-[10px] font-bold uppercase tracking-widest">
-                  Most Popular
-                </div>
-              )}
-              
-              <div className="mb-12">
-                <h3 className="text-2xl font-display font-bold uppercase mb-2">
-                  {tier.name}
-                </h3>
-                <p className="text-text-secondary text-sm mb-8 min-h-[40px]">
-                  {tier.description}
-                </p>
-                <div className="flex items-baseline gap-2">
-                  <span className="text-5xl font-display font-black">
-                    £{tier.price[billingCycle]}
-                  </span>
-                  <span className="text-text-tertiary text-sm font-mono uppercase tracking-widest">
-                    /{billingCycle === 'monthly' ? 'mo' : 'mo'}
-                  </span>
-                </div>
-                {billingCycle === 'yearly' && (
-                  <p className="text-profit text-[10px] uppercase font-mono mt-2 tracking-widest">
-                    Bill annually (Save £{tier.name === 'Foundation' ? '120' : tier.name === 'Edge' ? '360' : '720'})
-                  </p>
-                )}
-              </div>
+        {/* Billing Toggle */}
+        <div className="flex items-center justify-center gap-4 mb-14">
+          <span className={cn("text-sm font-sans transition-colors", billingCycle === "monthly" ? "text-mkt-ink font-semibold" : "text-mkt-i4")}>
+            Monthly
+          </span>
+          <button
+            onClick={() => setBillingCycle(prev => prev === "monthly" ? "yearly" : "monthly")}
+            className="w-14 h-7 bg-[#F0F0F0] border border-mkt-bd rounded-full p-0.5 relative transition-colors"
+          >
+            <div
+              className="absolute top-0.5 left-0.5 w-6 h-6 bg-mkt-ink rounded-full transition-transform duration-300"
+              style={{ transform: billingCycle === "yearly" ? "translateX(28px)" : "translateX(0)" }}
+            />
+          </button>
+          <span className={cn("text-sm font-sans transition-colors", billingCycle === "yearly" ? "text-mkt-ink font-semibold" : "text-mkt-i4")}>
+            Yearly{" "}
+            <span className="text-[10px] font-sans font-bold text-mkt-grn ml-1">Save 20%</span>
+          </span>
+        </div>
 
-              <button 
-                onClick={() => handleSubscribe(tier.name)}
-                disabled={loadingTier !== null}
+        {/* Tier Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
+          {tiers.map((tier) => {
+            const isHovered = hoveredTier === tier.name;
+            return (
+              <div
+                key={tier.name}
+                onMouseEnter={() => setHoveredTier(tier.name)}
+                onMouseLeave={() => setHoveredTier(null)}
                 className={cn(
-                  "w-full py-5 text-sm font-bold uppercase tracking-widest mb-12 transition-colors flex items-center justify-center gap-2",
-                  tier.name === 'Edge' ? 'bg-accent text-background-primary hover:bg-accent-hover' : 
-                  tier.name === 'Floor' ? 'bg-premium text-background-primary hover:bg-premium/90' :
-                  'bg-background-elevated border border-border-slate hover:border-text-primary'
+                  "relative flex flex-col border rounded-[14px] overflow-hidden transition-all duration-300",
+                  tier.highlight ? "md:-translate-y-2 shadow-[0_12px_48px_rgba(0,0,0,0.09)]" : ""
                 )}
+                style={{
+                  borderColor: isHovered ? tier.borderAccent : "rgba(229,229,229,0.8)",
+                  transform: isHovered && !tier.highlight ? "translateY(-3px)" : tier.highlight ? "translateY(-8px)" : "translateY(0)",
+                  boxShadow: isHovered ? `0 12px 48px rgba(0,0,0,0.08)` : tier.highlight ? "0 12px 48px rgba(0,0,0,0.09)" : "none",
+                }}
               >
-                {loadingTier === tier.name ? "Processing..." : tier.buttonText}
-              </button>
+                {/* Background image reveal */}
+                <div className="absolute inset-0 pointer-events-none">
+                  <div
+                    className="absolute inset-0 bg-cover bg-center transition-all duration-700 ease-out"
+                    style={{
+                      backgroundImage: `url(${tier.imageUrl})`,
+                      opacity: isHovered ? 0.07 : 0.03,
+                      transform: isHovered ? "scale(1)" : "scale(1.04)",
+                    }}
+                  />
+                </div>
 
-              <div className="space-y-4">
-                <p className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary mb-6">Included features</p>
-                {tier.features.map((feature, i) => (
-                  <div key={i} className="flex items-start gap-3">
-                    {feature.included ? (
-                      <Check className="w-4 h-4 text-profit shrink-0" />
-                    ) : (
-                      <X className="w-4 h-4 text-text-tertiary shrink-0" />
-                    )}
-                    <span className={cn(
-                      "text-xs leading-none",
-                      feature.included ? "text-text-primary" : "text-text-tertiary"
-                    )}>
-                      {feature.name}
-                    </span>
+                {tier.highlight && (
+                  <div className="relative z-10 bg-mkt-ink text-white text-center py-2 text-[10px] font-sans font-bold uppercase tracking-widest">
+                    Most Popular
                   </div>
-                ))}
+                )}
+
+                <div className="relative z-10 p-8 flex flex-col flex-1 bg-white/95">
+                  {/* Tier name + description */}
+                  <div className="mb-8">
+                    <h3 className="text-xl font-sans font-extrabold tracking-tight text-mkt-ink mb-1">{tier.name}</h3>
+                    <p className="text-xs text-mkt-i3 font-sans leading-relaxed min-h-[36px]">{tier.description}</p>
+                  </div>
+
+                  {/* Price */}
+                  <div className="mb-8">
+                    <div className="flex items-baseline gap-1">
+                      <span className="text-5xl font-sans font-extrabold text-mkt-ink tracking-tight">
+                        £{tier.price[billingCycle]}
+                      </span>
+                      <span className="text-xs text-mkt-i4 font-sans ml-1">/mo</span>
+                    </div>
+                    {billingCycle === "yearly" && (
+                      <p className="text-[10px] font-sans text-mkt-grn mt-1 font-semibold">
+                        Billed annually — save £{tier.savings}/yr
+                      </p>
+                    )}
+                  </div>
+
+                  {/* CTA */}
+                  <button
+                    onClick={() => handleSubscribe(tier.name)}
+                    disabled={loadingTier !== null}
+                    className={cn(
+                      "w-full py-3 rounded-lg text-sm font-sans font-semibold mb-8 transition-colors duration-150 flex items-center justify-center gap-2 disabled:opacity-60",
+                      tier.highlight
+                        ? "bg-mkt-ink text-white hover:bg-mkt-i2"
+                        : "bg-[#F7F7F7] border border-mkt-bd text-mkt-ink hover:bg-[#EEEEEE]"
+                    )}
+                  >
+                    {loadingTier === tier.name ? "Processing..." : tier.buttonText}
+                    {loadingTier !== tier.name && <ChevronRight className="w-3.5 h-3.5" />}
+                  </button>
+
+                  {/* Features */}
+                  <div className="space-y-3 border-t border-mkt-bd pt-6">
+                    <p className="text-[10px] font-sans font-bold text-mkt-i4 uppercase tracking-widest mb-4">
+                      What's included
+                    </p>
+                    {tier.features.map((feature, i) => (
+                      <div key={i} className="flex items-start gap-2.5">
+                        {feature.included ? (
+                          <Check className="w-4 h-4 text-mkt-grn shrink-0 mt-0.5" />
+                        ) : (
+                          <X className="w-4 h-4 text-mkt-bd shrink-0 mt-0.5" />
+                        )}
+                        <span className={cn("text-xs font-sans leading-relaxed", feature.included ? "text-mkt-i2" : "text-mkt-i4")}>
+                          {feature.name}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
-        {/* FCA Note */}
-        <div className="mt-24 p-8 bg-background-elevated border border-border-slate max-w-4xl mx-auto">
-          <h4 className="text-xs font-mono uppercase tracking-widest text-text-secondary mb-4">Educational Platform Notice</h4>
-          <p className="text-[10px] text-text-tertiary leading-relaxed font-mono">
-            Subscription tiers represent access levels to educational content and proprietary analysis tools. Drawdown does not provide financial advice or trade signals. All strategies tested or journals analyzed remain the intellectual property of the user. Past performance as logged in the AI Trade Journal is not indicative of future results.
+        {/* Educational notice */}
+        <div className="mt-16 p-6 bg-[#F7F7F7] border border-mkt-bd rounded-[14px] max-w-4xl mx-auto">
+          <h4 className="text-[10px] font-sans font-bold text-mkt-i3 uppercase tracking-widest mb-3">
+            Educational Platform Notice
+          </h4>
+          <p className="text-[10px] text-mkt-i4 leading-relaxed font-sans">
+            Subscription tiers represent access levels to educational content and proprietary analysis tools.
+            Drawdown does not provide financial advice or trade signals. All strategies tested or journals
+            analyzed remain the intellectual property of the user. Past performance as logged in the AI Trade
+            Journal is not indicative of future results.
           </p>
         </div>
       </div>

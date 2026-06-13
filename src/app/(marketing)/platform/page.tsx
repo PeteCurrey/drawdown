@@ -64,7 +64,7 @@ export default function PlatformPage() {
             </p>
             
             <div className="flex flex-wrap gap-4 pt-4">
-              <Link href="/signup" className="px-8 py-4 rounded-lg bg-mkt-ink text-white font-bold text-sm hover:bg-mkt-i2 transition-colors flex items-center gap-2">
+              <Link href="/signup" className="px-8 py-4 rounded-lg bg-mkt-ink text-mkt-bg font-bold text-sm hover:bg-mkt-i2 transition-colors flex items-center gap-2">
                 Start Free — No Card Required <ArrowRight className="w-4 h-4" />
               </Link>
               <Link href="/pricing" className="px-8 py-4 rounded-lg border border-border-slate/50 text-text-primary font-bold text-sm hover:border-border-slate transition-colors flex items-center gap-2">
@@ -105,59 +105,79 @@ export default function PlatformPage() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               {/* Block 1 */}
-              <div className="p-8 md:p-10 bg-white border border-border-slate/50 rounded-[20px] transition-all hover:shadow-lg group">
-                <div className="w-14 h-14 rounded-full bg-[rgba(29,78,216,0.04)] text-blue-600 flex items-center justify-center mb-6">
-                  <Activity className="w-6 h-6" />
+              <div className="relative p-8 md:p-10 bg-white border border-border-slate/50 rounded-[20px] transition-all duration-300 hover:shadow-[0_8px_32px_rgba(0,0,0,0.06)] hover:-translate-y-0.5 group overflow-hidden">
+                <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none rounded-[20px]">
+                  <div className="absolute inset-0 bg-cover bg-center transition-all duration-700 ease-out opacity-[0.06] scale-[1.03] group-hover:opacity-[0.18] group-hover:scale-100" style={{ backgroundImage: `url(https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?q=80&w=800&auto=format&fit=crop)` }} />
                 </div>
-                <h3 className="text-2xl font-bold mb-4">Live Market Intelligence</h3>
-                <p className="text-text-secondary leading-relaxed mb-8">
-                  A real-time market hub updated every 60 seconds. Aggregated from Bloomberg, Reuters, FT, and institutional sources. Economic calendar, top movers, volatility windows, and institutional consensus data — all in one dashboard. The kind of intelligence retail traders don't usually have access to.
-                </p>
-                <Link href="/markets" className="inline-flex items-center gap-2 text-sm font-bold text-blue-600 hover:text-blue-700 transition-colors">
-                  Explore Markets <ArrowRight className="w-4 h-4" />
-                </Link>
+                <div className="relative z-10">
+                  <div className="w-14 h-14 rounded-full bg-[rgba(29,78,216,0.04)] text-blue-600 flex items-center justify-center mb-6">
+                    <Activity className="w-6 h-6" />
+                  </div>
+                  <h3 className="text-2xl font-bold mb-4">Live Market Intelligence</h3>
+                  <p className="text-text-secondary leading-relaxed mb-8">
+                    A real-time market hub updated every 60 seconds. Aggregated from Bloomberg, Reuters, FT, and institutional sources. Economic calendar, top movers, volatility windows, and institutional consensus data — all in one dashboard. The kind of intelligence retail traders don't usually have access to.
+                  </p>
+                  <Link href="/markets" className="inline-flex items-center gap-2 text-sm font-bold text-blue-600 hover:text-blue-700 transition-colors">
+                    Explore Markets <ArrowRight className="w-4 h-4" />
+                  </Link>
+                </div>
               </div>
 
               {/* Block 2 */}
-              <div className="p-8 md:p-10 bg-white border border-border-slate/50 rounded-[20px] transition-all hover:shadow-lg group">
-                <div className="w-14 h-14 rounded-full bg-[rgba(124,58,237,0.04)] text-purple-600 flex items-center justify-center mb-6">
-                  <Brain className="w-6 h-6" />
+              <div className="relative p-8 md:p-10 bg-white border border-border-slate/50 rounded-[20px] transition-all duration-300 hover:shadow-[0_8px_32px_rgba(0,0,0,0.06)] hover:-translate-y-0.5 group overflow-hidden">
+                <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none rounded-[20px]">
+                  <div className="absolute inset-0 bg-cover bg-center transition-all duration-700 ease-out opacity-[0.06] scale-[1.03] group-hover:opacity-[0.18] group-hover:scale-100" style={{ backgroundImage: `url(https://images.unsplash.com/photo-1620712943543-bcc4688e7485?q=80&w=800&auto=format&fit=crop)` }} />
                 </div>
-                <h3 className="text-2xl font-bold mb-4">AI-Powered Trading Tools</h3>
-                <p className="text-text-secondary leading-relaxed mb-8">
-                  Five purpose-built AI tools that do real work. The Trade Journal detects emotional patterns in your trading history. The Risk Calculator sizes positions precisely. The Market Scanner identifies confluence across 40+ instruments. The Backtester tests your edge against 3 years of historical data. These aren't generic AI wrappers — they're built specifically for traders.
-                </p>
-                <a href="#ai-tools" className="inline-flex items-center gap-2 text-sm font-bold text-purple-600 hover:text-purple-700 transition-colors">
-                  See the tools <ArrowRight className="w-4 h-4" />
-                </a>
+                <div className="relative z-10">
+                  <div className="w-14 h-14 rounded-full bg-[rgba(124,58,237,0.04)] text-purple-600 flex items-center justify-center mb-6">
+                    <Brain className="w-6 h-6" />
+                  </div>
+                  <h3 className="text-2xl font-bold mb-4">AI-Powered Trading Tools</h3>
+                  <p className="text-text-secondary leading-relaxed mb-8">
+                    Five purpose-built AI tools that do real work. The Trade Journal detects emotional patterns in your trading history. The Risk Calculator sizes positions precisely. The Market Scanner identifies confluence across 40+ instruments. The Backtester tests your edge against 3 years of historical data. These aren't generic AI wrappers — they're built specifically for traders.
+                  </p>
+                  <a href="#ai-tools" className="inline-flex items-center gap-2 text-sm font-bold text-purple-600 hover:text-purple-700 transition-colors">
+                    See the tools <ArrowRight className="w-4 h-4" />
+                  </a>
+                </div>
               </div>
 
               {/* Block 3 */}
-              <div className="p-8 md:p-10 bg-white border border-border-slate/50 rounded-[20px] transition-all hover:shadow-lg group">
-                <div className="w-14 h-14 rounded-full bg-[rgba(22,163,74,0.04)] text-green-600 flex items-center justify-center mb-6">
-                  <span className="text-2xl">🎓</span>
+              <div className="relative p-8 md:p-10 bg-white border border-border-slate/50 rounded-[20px] transition-all duration-300 hover:shadow-[0_8px_32px_rgba(0,0,0,0.06)] hover:-translate-y-0.5 group overflow-hidden">
+                <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none rounded-[20px]">
+                  <div className="absolute inset-0 bg-cover bg-center transition-all duration-700 ease-out opacity-[0.06] scale-[1.03] group-hover:opacity-[0.18] group-hover:scale-100" style={{ backgroundImage: `url(https://images.unsplash.com/photo-1532012197267-da84d127e765?q=80&w=800&auto=format&fit=crop)` }} />
                 </div>
-                <h3 className="text-2xl font-bold mb-4">Structured Trading Education</h3>
-                <p className="text-text-secondary leading-relaxed mb-8">
-                  Six phases. 60+ modules. A curriculum built in the order you actually need it — risk management first, chart reading second, psychology throughout. Not the order that makes a good marketing brochure. Every phase has clear outcomes and connects directly to the tools you'll use on your own account.
-                </p>
-                <Link href="/courses" className="inline-flex items-center gap-2 text-sm font-bold text-green-600 hover:text-green-700 transition-colors">
-                  View the curriculum <ArrowRight className="w-4 h-4" />
-                </Link>
+                <div className="relative z-10">
+                  <div className="w-14 h-14 rounded-full bg-[rgba(22,163,74,0.04)] text-green-600 flex items-center justify-center mb-6">
+                    <span className="text-2xl">🎓</span>
+                  </div>
+                  <h3 className="text-2xl font-bold mb-4">Structured Trading Education</h3>
+                  <p className="text-text-secondary leading-relaxed mb-8">
+                    Six phases. 60+ modules. A curriculum built in the order you actually need it — risk management first, chart reading second, psychology throughout. Not the order that makes a good marketing brochure. Every phase has clear outcomes and connects directly to the tools you'll use on your own account.
+                  </p>
+                  <Link href="/courses" className="inline-flex items-center gap-2 text-sm font-bold text-green-600 hover:text-green-700 transition-colors">
+                    View the curriculum <ArrowRight className="w-4 h-4" />
+                  </Link>
+                </div>
               </div>
 
               {/* Block 4 */}
-              <div className="p-8 md:p-10 bg-white border border-border-slate/50 rounded-[20px] transition-all hover:shadow-lg group">
-                <div className="w-14 h-14 rounded-full bg-[rgba(217,119,6,0.04)] text-amber-600 flex items-center justify-center mb-6">
-                  <Newspaper className="w-6 h-6" />
+              <div className="relative p-8 md:p-10 bg-white border border-border-slate/50 rounded-[20px] transition-all duration-300 hover:shadow-[0_8px_32px_rgba(0,0,0,0.06)] hover:-translate-y-0.5 group overflow-hidden">
+                <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none rounded-[20px]">
+                  <div className="absolute inset-0 bg-cover bg-center transition-all duration-700 ease-out opacity-[0.06] scale-[1.03] group-hover:opacity-[0.18] group-hover:scale-100" style={{ backgroundImage: `url(https://images.unsplash.com/photo-1504711434969-e33886168f5c?q=80&w=800&auto=format&fit=crop)` }} />
                 </div>
-                <h3 className="text-2xl font-bold mb-4">The Wire — Daily Intelligence Brief</h3>
-                <p className="text-text-secondary leading-relaxed mb-8">
-                  A curated market briefing at 7am and 4:30pm GMT. What's moving, why it's moving, and what to watch in the next session. Sent to your inbox every trading day. Free for all registered users — no subscription required.
-                </p>
-                <Link href="/signup" className="inline-flex items-center gap-2 text-sm font-bold text-amber-600 hover:text-amber-700 transition-colors">
-                  Subscribe free <ArrowRight className="w-4 h-4" />
-                </Link>
+                <div className="relative z-10">
+                  <div className="w-14 h-14 rounded-full bg-[rgba(217,119,6,0.04)] text-amber-600 flex items-center justify-center mb-6">
+                    <Newspaper className="w-6 h-6" />
+                  </div>
+                  <h3 className="text-2xl font-bold mb-4">The Wire — Daily Intelligence Brief</h3>
+                  <p className="text-text-secondary leading-relaxed mb-8">
+                    A curated market briefing at 7am and 4:30pm GMT. What's moving, why it's moving, and what to watch in the next session. Sent to your inbox every trading day. Free for all registered users — no subscription required.
+                  </p>
+                  <Link href="/signup" className="inline-flex items-center gap-2 text-sm font-bold text-amber-600 hover:text-amber-700 transition-colors">
+                    Subscribe free <ArrowRight className="w-4 h-4" />
+                  </Link>
+                </div>
               </div>
             </div>
           </div>
@@ -321,15 +341,20 @@ export default function PlatformPage() {
               </div>
               <div className="space-y-6">
                 {[
-                  { title: "Trading Journal Reviews", icon: <MessageSquare className="w-5 h-5 text-blue-600" />, desc: "Post your trade journal for community review. Get honest feedback on your edge, your risk management, and your decision-making process." },
-                  { title: "Weekly Market Analysis Sessions", icon: <Video className="w-5 h-5 text-purple-600" />, desc: "Edge and Floor members get live market analysis sessions during the London session. Recorded for replay if you can't attend live." },
-                  { title: "No Signal Sharing. No Copy Trading.", icon: <ShieldCheck className="w-5 h-5 text-green-600" />, desc: "The community is explicitly not a place to share trade signals. We develop independent traders, not copy traders. This is a rule, not a preference." }
+                  { title: "Trading Journal Reviews", icon: <MessageSquare className="w-5 h-5 text-blue-600" />, desc: "Post your trade journal for community review. Get honest feedback on your edge, your risk management, and your decision-making process.", img: "https://images.unsplash.com/photo-1517842645767-c639042777db?q=80&w=800&auto=format&fit=crop" },
+                  { title: "Weekly Market Analysis Sessions", icon: <Video className="w-5 h-5 text-purple-600" />, desc: "Edge and Floor members get live market analysis sessions during the London session. Recorded for replay if you can't attend live.", img: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=800&auto=format&fit=crop" },
+                  { title: "No Signal Sharing. No Copy Trading.", icon: <ShieldCheck className="w-5 h-5 text-green-600" />, desc: "The community is explicitly not a place to share trade signals. We develop independent traders, not copy traders. This is a rule, not a preference.", img: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?q=80&w=800&auto=format&fit=crop" }
                 ].map((card, idx) => (
-                  <div key={idx} className="p-6 bg-white border border-border-slate/50 rounded-xl flex gap-4">
-                    <div className="mt-1">{card.icon}</div>
-                    <div>
-                      <h4 className="font-bold mb-2 text-text-primary">{card.title}</h4>
-                      <p className="text-sm text-text-secondary leading-relaxed">{card.desc}</p>
+                  <div key={idx} className="relative p-6 bg-white border border-border-slate/50 rounded-xl overflow-hidden group transition-all duration-300 hover:shadow-[0_8px_32px_rgba(0,0,0,0.06)] hover:-translate-y-0.5">
+                    <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none rounded-xl">
+                      <div className="absolute inset-0 bg-cover bg-center transition-all duration-700 ease-out opacity-[0.03] scale-[1.03] group-hover:opacity-[0.12] group-hover:scale-100" style={{ backgroundImage: `url(${card.img})` }} />
+                    </div>
+                    <div className="relative z-10 flex gap-4">
+                      <div className="mt-1">{card.icon}</div>
+                      <div>
+                        <h4 className="font-bold mb-2 text-text-primary">{card.title}</h4>
+                        <p className="text-sm text-text-secondary leading-relaxed">{card.desc}</p>
+                      </div>
                     </div>
                   </div>
                 ))}
@@ -387,7 +412,7 @@ export default function PlatformPage() {
             </div>
 
             <div className="flex flex-wrap justify-center gap-4 pt-8">
-              <Link href="/signup" className="px-8 py-4 rounded-lg bg-mkt-ink text-white font-bold text-sm hover:bg-mkt-i2 transition-colors flex items-center gap-2">
+              <Link href="/signup" className="px-8 py-4 rounded-lg bg-mkt-ink text-mkt-bg font-bold text-sm hover:bg-mkt-i2 transition-colors flex items-center gap-2">
                 Start Free — No Card Required <ArrowRight className="w-4 h-4" />
               </Link>
               <Link href="/pricing" className="px-8 py-4 rounded-lg border border-border-slate/50 text-text-primary font-bold text-sm hover:border-border-slate transition-colors flex items-center gap-2">

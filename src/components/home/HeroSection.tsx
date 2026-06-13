@@ -7,6 +7,7 @@ import { useRegion } from "@/components/layout/RegionalLayout";
 
 export function HeroSection() {
   const { region, demonym } = useRegion();
+  const regionPrefix = region === "uk" ? "" : `/${region}`;
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -52,14 +53,117 @@ export function HeroSection() {
     },
   };
 
-  const regionPrefix = region === "uk" ? "" : `/${region}`;
+  const backgroundCandles = [
+    { x: 40, open: 220, close: 200, high: 230, low: 190 },
+    { x: 80, open: 200, close: 210, high: 215, low: 195 },
+    { x: 120, open: 210, close: 190, high: 220, low: 180 },
+    { x: 160, open: 190, close: 170, high: 200, low: 160 },
+    { x: 200, open: 170, close: 180, high: 185, low: 165 },
+    { x: 240, open: 180, close: 150, high: 190, low: 140 },
+    { x: 280, open: 150, close: 130, high: 160, low: 120 },
+    { x: 320, open: 130, close: 140, high: 145, low: 125 },
+    { x: 360, open: 140, close: 110, high: 150, low: 100 },
+    { x: 400, open: 110, close: 90, high: 120, low: 80 },
+    { x: 440, open: 90, close: 100, high: 105, low: 85 },
+    { x: 480, open: 100, close: 80, high: 110, low: 70 },
+    { x: 520, open: 80, close: 70, high: 90, low: 60 },
+    { x: 560, open: 70, close: 95, high: 105, low: 65 },
+    { x: 600, open: 95, close: 85, high: 100, low: 80 },
+    { x: 640, open: 85, close: 110, high: 120, low: 80 },
+    { x: 680, open: 110, close: 100, high: 115, low: 95 },
+    { x: 720, open: 100, close: 125, high: 135, low: 95 },
+    { x: 760, open: 125, close: 115, high: 130, low: 110 },
+    { x: 800, open: 115, close: 140, high: 150, low: 110 },
+    { x: 840, open: 140, close: 130, high: 145, low: 125 },
+    { x: 880, open: 130, close: 160, high: 170, low: 125 },
+    { x: 920, open: 160, close: 150, high: 165, low: 145 },
+    { x: 960, open: 150, close: 180, high: 190, low: 140 },
+    { x: 1000, open: 180, close: 170, high: 185, low: 165 },
+    { x: 1040, open: 170, close: 200, high: 210, low: 160 },
+    { x: 1080, open: 200, close: 190, high: 205, low: 185 },
+    { x: 1120, open: 190, close: 220, high: 230, low: 180 },
+    { x: 1160, open: 220, close: 210, high: 225, low: 200 }
+  ];
+
+  // Moving average line computations for the background chart effect
+  const maPeriod = 5;
+  const longMaPeriod = 12;
+
+  const maPathPoints = backgroundCandles.map((c, idx) => {
+    const start = Math.max(0, idx - maPeriod + 1);
+    const subset = backgroundCandles.slice(start, idx + 1);
+    const sum = subset.reduce((acc, curr) => acc + (curr.open + curr.close) / 2, 0);
+    const avg = sum / subset.length;
+    return `${c.x},${avg}`;
+  });
+
+  const longMaPathPoints = backgroundCandles.map((c, idx) => {
+    const start = Math.max(0, idx - longMaPeriod + 1);
+    const subset = backgroundCandles.slice(start, idx + 1);
+    const sum = subset.reduce((acc, curr) => acc + (curr.open + curr.close) / 2, 0);
+    const avg = sum / subset.length;
+    return `${c.x},${avg}`;
+  });
+
+  const maPathD = `M ${maPathPoints.join(" L ")}`;
+  const longMaPathD = `M ${longMaPathPoints.join(" L ")}`;
 
   return (
     <section className="relative w-full min-h-[85vh] flex items-center overflow-hidden bg-white py-16 md:py-24 border-b border-mkt-bd z-20">
-      {/* Background pattern */}
-      <div className="absolute inset-0 z-0 opacity-[0.02] pointer-events-none">
-        <div className="h-full w-full bg-[linear-gradient(to_right,#000_1px,transparent_1px),linear-gradient(to_bottom,#000_1px,transparent_1px)] bg-[size:48px_48px]" />
+      {/* Background candle chart pattern */}
+      <div className="absolute inset-0 z-0 opacity-[0.035] pointer-events-none select-none flex items-center justify-center overflow-hidden">
+        <svg className="w-full h-[70%] min-h-[350px]" viewBox="0 0 1200 300" fill="none" preserveAspectRatio="none">
+          {/* Moving Averages */}
+          <path 
+            d={maPathD} 
+            fill="none" 
+            stroke="#9ca3af" 
+            strokeWidth="1.5" 
+            strokeDasharray="4 4" 
+          />
+          <path 
+            d={longMaPathD} 
+            fill="none" 
+            stroke="#6b7280" 
+            strokeWidth="1.5" 
+          />
+
+          {/* Candlesticks */}
+          {backgroundCandles.map((c, i) => {
+            const isBullish = c.close < c.open;
+            const color = isBullish ? "#22c55e" : "#ef4444";
+            const bodyY = Math.min(c.open, c.close);
+            const bodyHeight = Math.max(Math.abs(c.open - c.close), 2);
+            return (
+              <g key={i}>
+                {/* Wick */}
+                <line 
+                  x1={c.x} 
+                  y1={c.high} 
+                  x2={c.x} 
+                  y2={c.low} 
+                  stroke={color} 
+                  strokeWidth="1.5" 
+                />
+                {/* Body */}
+                <rect 
+                  x={c.x - 5} 
+                  y={bodyY} 
+                  width="10" 
+                  height={bodyHeight} 
+                  fill={color} 
+                  rx="1"
+                />
+              </g>
+            );
+          })}
+        </svg>
       </div>
+
+      {/* Fade masks for visual blending */}
+      <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-white to-transparent pointer-events-none z-0" />
+      <div className="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-white to-transparent pointer-events-none z-0" />
+      <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-white to-transparent pointer-events-none z-0" />
 
       <div className="w-full max-w-7xl mx-auto px-6 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">

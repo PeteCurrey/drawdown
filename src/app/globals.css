@@ -369,18 +369,6 @@ h3 { font-size: clamp(1.5rem, 5vw, 2.5rem); }
   --text-secondary: var(--mkt-i2);
   --text-tertiary: var(--mkt-i3);
   --foreground: var(--mkt-ink);
-  
-  /* Additional Tailwind overrides */
-  --color-background-primary: var(--mkt-bg);
-  --color-background-surface: var(--mkt-sur);
-  --color-background-elevated: var(--mkt-bg);
-  --color-border-slate: var(--mkt-bd);
-  --color-text-primary: var(--mkt-ink);
-  --color-text-secondary: var(--mkt-i2);
-  --color-text-tertiary: var(--mkt-i3);
-  
-  background-color: var(--mkt-bg);
-  color: var(--mkt-ink);
 }
 
 /* 3D Perspective Card Tilt for Hero mockup */

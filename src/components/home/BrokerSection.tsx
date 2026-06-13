@@ -204,20 +204,20 @@ export function BrokerSection() {
                 }}
               >
                 {/* Background logo reveal & branding tint */}
-                <div className="absolute inset-0 pointer-events-none z-0">
+                <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
                   <div
-                    className="absolute inset-0 bg-contain bg-center bg-no-repeat transition-all duration-700 ease-out"
+                    className="absolute -right-4 -bottom-4 w-full h-full bg-contain bg-no-repeat bg-right-bottom transition-all duration-700 ease-out"
                     style={{
                       backgroundImage: broker.logoUrl ? `url(${broker.logoUrl})` : "none",
-                      opacity: isHovered ? 0.06 : 0.01,
-                      transform: isHovered ? "scale(1.05)" : "scale(1.1)",
+                      opacity: isHovered ? 0.12 : 0.02,
+                      transform: isHovered ? "scale(1.2) translate(-5%, -5%)" : "scale(1.1)",
                     }}
                   />
                   <div 
                     className="absolute inset-0 transition-opacity duration-700 ease-out"
                     style={{
-                      background: `linear-gradient(to bottom right, transparent, ${brandColor})`,
-                      opacity: isHovered ? 0.03 : 0
+                      background: `linear-gradient(135deg, transparent 40%, ${brandColor})`,
+                      opacity: isHovered ? 0.08 : 0
                     }}
                   />
                 </div>

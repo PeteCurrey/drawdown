@@ -56,6 +56,8 @@ export function OnboardingWizard({ userProfile, onComplete }: Props) {
       console.error("Onboarding unexpected error:", err);
     } finally {
       console.log("Closing onboarding wizard.");
+      // Always mark as onboarded in localStorage so wizard never reappears
+      localStorage.setItem("drawdown_onboarded", "true");
       onComplete();
       setIsSubmitting(false);
     }

@@ -47,6 +47,12 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     if (savedTheme) setTheme(savedTheme);
 
     async function checkOnboarding() {
+      // Check localStorage first as a reliable fallback
+      const locallyOnboarded = localStorage.getItem("drawdown_onboarded");
+      if (locallyOnboarded === "true") {
+        return; // Never show again if completed before
+      }
+
       const { data: { user } } = await supabase.auth.getUser();
       if (user) {
         const { data } = await (supabase as any)
@@ -59,6 +65,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         setProfile(profile);
         if (profile && !profile.has_onboarded) {
           setShowOnboarding(true);
+        } else if (profile?.has_onboarded) {
+          // Sync localStorage with DB state
+          localStorage.setItem("drawdown_onboarded", "true");
         }
       }
     }

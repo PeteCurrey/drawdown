@@ -29,9 +29,9 @@ export default function PropSurvivalKitPage() {
     }
   };
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col" data-theme="dark" style={{ backgroundColor: "#08090D", color: "#E4E2DD" }}>
       {/* Direct Response Hero */}
-      <section className="relative pt-32 pb-20 overflow-hidden border-b border-border-slate/50">
+      <section className="relative pt-32 pb-20 overflow-hidden border-b border-border-slate/50" style={{ backgroundColor: "#08090D" }}>
         <div className="max-w-7xl mx-auto px-6 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
              <div className="max-w-2xl space-y-8">

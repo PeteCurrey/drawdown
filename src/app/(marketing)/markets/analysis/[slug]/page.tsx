@@ -33,14 +33,14 @@ export default async function AnalysisPostPage({ params }: Props) {
   if (!post) notFound();
 
   return (
-    <div className="pt-28 pb-24 bg-white min-h-screen">
+    <div className="pt-28 pb-24 min-h-screen">
       <div className="max-w-7xl mx-auto px-6">
         <Breadcrumbs />
 
         <div className="max-w-4xl mx-auto">
           <Link 
             href="/markets" 
-            className="flex items-center gap-2 text-[10px] font-mono uppercase text-mkt-i4 hover:text-accent mb-12 group transition-colors"
+            className="flex items-center gap-2 text-[10px] font-mono uppercase text-text-tertiary hover:text-accent mb-12 group transition-colors"
           >
             <ChevronLeft className="w-3 h-3 group-hover:-translate-x-1 transition-transform" />
             Back to Markets Hub
@@ -50,39 +50,39 @@ export default async function AnalysisPostPage({ params }: Props) {
             <div className="flex items-center gap-4 mb-6">
               <span className={cn(
                 "px-2 py-0.5 text-[8px] font-mono uppercase tracking-[0.2em] border",
-                post.type === 'daily' ? "text-accent border-mkt-bd/30" : "text-premium border-premium/30"
+                post.type === 'daily' ? "text-accent border-border-slate/50/30" : "text-premium border-premium/30"
               )}>
                 {post.type} Report
               </span>
-              <span className="text-[10px] font-mono text-mkt-i4 uppercase tracking-widest flex items-center gap-2">
+              <span className="text-[10px] font-mono text-text-tertiary uppercase tracking-widest flex items-center gap-2">
                 <Calendar className="w-3 h-3" /> {post.date}
               </span>
               {post.instrument && (
-                <span className="text-[10px] font-mono text-mkt-i4 uppercase tracking-widest flex items-center gap-2">
+                <span className="text-[10px] font-mono text-text-tertiary uppercase tracking-widest flex items-center gap-2">
                   <Tag className="w-3 h-3" /> {post.instrument}
                 </span>
               )}
             </div>
 
-            <h1 className="  font-sans font-extrabold uppercase leading-tight mb-8">
+            <h1 className="font-sans font-extrabold uppercase leading-tight mb-8">
               {post.title}
             </h1>
             
-            <p className="text-xl text-mkt-i2 leading-relaxed italic border-l-2 border-mkt-bd/20 pl-8">
+            <p className="text-xl text-text-secondary leading-relaxed italic border-l-2 border-border-slate/50/20 pl-8">
               {post.excerpt}
             </p>
           </header>
 
           <div 
-            className="prose prose-invert prose-lg max-w-none prose-headings:font-sans prose-headings:uppercase prose-headings:tracking-tight prose-a:text-accent prose-strong:text-mkt-ink"
+            className="prose prose-invert prose-lg max-w-none prose-headings:font-sans prose-headings:uppercase prose-headings:tracking-tight prose-a:text-accent prose-strong:text-text-primary"
             dangerouslySetInnerHTML={{ __html: post.content }}
           />
 
-          <footer className="mt-20 pt-12 border-t border-mkt-bd">
-            <div className="p-12 bg-[#F7F7F7] border border-mkt-bd flex flex-col md:flex-row items-center justify-between gap-8">
+          <footer className="mt-20 pt-12 border-t border-border-slate/50">
+            <div className="p-12 bg-background-elevated/40 border border-border-slate/50 flex flex-col md:flex-row items-center justify-between gap-8">
               <div className="space-y-2">
                 <h4 className="text-xl font-sans font-bold uppercase">Ready to trade this setup?</h4>
-                <p className="text-sm text-mkt-i2">Join Drawdown Pro for live institutional-grade analysis every day.</p>
+                <p className="text-sm text-text-secondary">Join Drawdown Pro for live institutional-grade analysis every day.</p>
               </div>
               <Link 
                 href="/signup" 

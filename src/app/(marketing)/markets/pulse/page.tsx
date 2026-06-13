@@ -34,7 +34,7 @@ export default function MarketPulseHubPage() {
   const feedStories = news.slice(1);
 
   return (
-    <div className="bg-white min-h-screen">
+    <div className="min-h-screen">
       <PulseTicker />
       <TrackPageView path="/markets/pulse" />
       
@@ -44,7 +44,7 @@ export default function MarketPulseHubPage() {
           <h1 className="text-5xl md:text-8xl font-sans font-black uppercase tracking-tight mt-8">
             The <span className="text-accent underline decoration-accent/20">Pulse.</span>
           </h1>
-          <p className="text-lg text-mkt-i2 mt-4 max-w-2xl">
+          <p className="text-lg text-text-secondary mt-4 max-w-2xl">
             Real-time institutional news aggregation and macro intelligence for professional-grade retail traders. Bookmark this room for your daily edge.
           </p>
         </div>
@@ -59,7 +59,7 @@ export default function MarketPulseHubPage() {
           {/* Main Feed (Left) */}
           <div className="lg:col-span-8">
              <div className="flex items-center gap-4 mb-10">
-                <span className="text-[10px] font-mono uppercase tracking-[0.4em] text-mkt-i4">Live_News_Flow</span>
+                <span className="text-[10px] font-mono uppercase tracking-[0.4em] text-text-tertiary">Live_News_Flow</span>
                 <div className="h-px flex-grow bg-border-slate/30" />
              </div>
              <PulseFeed news={feedStories} loading={loading} />
@@ -68,7 +68,7 @@ export default function MarketPulseHubPage() {
           {/* Sidebar (Right) */}
           <aside className="lg:col-span-4 space-y-12">
              <div className="flex items-center gap-4 mb-2">
-                <span className="text-[10px] font-mono uppercase tracking-[0.4em] text-mkt-i4">Market_Context</span>
+                <span className="text-[10px] font-mono uppercase tracking-[0.4em] text-text-tertiary">Market_Context</span>
                 <div className="h-px flex-grow bg-border-slate/30" />
              </div>
              <PulseSidebar />

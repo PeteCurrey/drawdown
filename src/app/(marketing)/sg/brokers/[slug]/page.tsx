@@ -35,9 +35,9 @@ export default async function SingaporeBrokerReviewPage({ params }: Props) {
   }
 
   return (
-    <div className="flex flex-col min-h-screen bg-white">
+    <div className="flex flex-col min-h-screen">
       {/* Article Header */}
-      <header className="relative pt-32 pb-20 border-b border-mkt-bd overflow-hidden">
+      <header className="relative pt-32 pb-20 border-b border-border-slate/50 overflow-hidden">
         <div className="max-w-7xl mx-auto px-6 relative z-10">
           <div className="max-w-4xl">
             <Breadcrumbs 
@@ -53,10 +53,10 @@ export default async function SingaporeBrokerReviewPage({ params }: Props) {
             </div>
 
             <h1 className="text-4xl md:text-7xl font-sans font-black uppercase leading-[0.95] tracking-tight mb-8">
-              {broker.name} <span className="text-mkt-i4">Singapore Review.</span>
+              {broker.name} <span className="text-text-tertiary">Singapore Review.</span>
             </h1>
 
-            <p className="text-xl md:text-2xl text-mkt-i2 leading-relaxed max-w-2xl font-medium">
+            <p className="text-xl md:text-2xl text-text-secondary leading-relaxed max-w-2xl font-medium">
               We break down the slippage, latency, and regulatory status of {broker.name} for active Singaporean traders.
             </p>
           </div>
@@ -75,39 +75,39 @@ export default async function SingaporeBrokerReviewPage({ params }: Props) {
                     { label: "Max Leverage", value: "20:1 (Retail)", icon: Target },
                     { label: "Base Currency", value: "SGD Available", icon: Info },
                   ].map((spec, i) => (
-                    <div key={i} className="p-6 bg-white border border-mkt-bd">
+                    <div key={i} className="p-6 bg-background-surface/40 backdrop-blur-md border border-border-slate/50 transition-all duration-300 hover:shadow-[0_0_20px_rgba(0,0,0,0.2)] hover:border-border-slate hover:-translate-y-0.5">
                        <spec.icon className="w-4 h-4 text-accent mb-4" />
-                       <p className="text-[8px] font-mono uppercase tracking-widest text-mkt-i4 mb-1">{spec.label}</p>
-                       <p className="text-sm font-bold text-mkt-ink uppercase">{spec.value}</p>
+                       <p className="text-[8px] font-mono uppercase tracking-widest text-text-tertiary mb-1">{spec.label}</p>
+                       <p className="text-sm font-bold text-text-primary uppercase">{spec.value}</p>
                     </div>
                   ))}
                </div>
 
                <div className="prose prose-invert prose-slate max-w-none">
                   <h2 className="text-3xl font-sans font-black uppercase tracking-tight">Executive Summary</h2>
-                  <p className="text-lg text-mkt-i2 leading-relaxed">
+                  <p className="text-lg text-text-secondary leading-relaxed">
                     {broker.description} Our live tests from Singapore-based servers confirm that {broker.name} maintains exceptional uptime and provides deep liquidity for Asian session instruments like USD/SGD and USD/JPY.
                   </p>
 
                   <h3 className="text-2xl font-sans font-bold uppercase tracking-tight mt-12">Key Advantages</h3>
                   <ul className="grid grid-cols-1 md:grid-cols-2 gap-4 list-none p-0">
                     {broker.pros.map((pro, i) => (
-                      <li key={i} className="flex items-center gap-3 p-4 bg-profit/5 border border-profit/20 text-sm text-mkt-ink m-0">
-                        <CheckCircle2 className="w-4 h-4 text-mkt-grn" />
+                      <li key={i} className="flex items-center gap-3 p-4 bg-profit/5 border border-profit/20 text-sm text-text-primary m-0">
+                        <CheckCircle2 className="w-4 h-4 text-profit" />
                         {pro}
                       </li>
                     ))}
                   </ul>
 
                   <h3 className="text-2xl font-sans font-bold uppercase tracking-tight mt-12">Tax & Regulation</h3>
-                  <p className="text-lg text-mkt-i2 leading-relaxed">
+                  <p className="text-lg text-text-secondary leading-relaxed">
                     As an MAS-regulated broker, {broker.name} complies with strict client money handling rules. For Singaporean individuals, all capital gains generated through {broker.name} are currently tax-exempt, providing a significant compounding advantage over other global hubs.
                   </p>
                </div>
 
-               <div className="p-12 bg-[#F7F7F7] border border-mkt-bd text-center space-y-8">
+               <div className="p-12 bg-background-elevated/40 border border-border-slate/50 text-center space-y-8">
                   <h3 className="text-3xl font-sans font-black uppercase leading-none">Ready to Trade?</h3>
-                  <p className="text-mkt-i2">Open a live account with {broker.name} and start your journey today.</p>
+                  <p className="text-text-secondary">Open a live account with {broker.name} and start your journey today.</p>
                   <a 
                     href={broker.link}
                     target="_blank"
@@ -121,13 +121,13 @@ export default async function SingaporeBrokerReviewPage({ params }: Props) {
 
             {/* Sidebar */}
             <aside className="lg:col-span-4 space-y-8">
-               <div className="p-8 bg-white border border-mkt-bd">
+               <div className="p-8 bg-background-surface/40 backdrop-blur-md border border-border-slate/50 transition-all duration-300 hover:shadow-[0_0_20px_rgba(0,0,0,0.2)] hover:border-border-slate hover:-translate-y-0.5">
                   <h4 className="text-[10px] font-mono uppercase tracking-widest text-accent font-bold mb-6">// VERDICT</h4>
                   <div className="flex items-center gap-4 mb-8">
-                     <div className="text-5xl font-sans font-black text-mkt-ink">4.9</div>
+                     <div className="text-5xl font-sans font-black text-text-primary">4.9</div>
                      <div className="flex flex-col">
-                        <span className="text-[10px] font-mono uppercase tracking-widest text-mkt-i4">Institutional</span>
-                        <span className="text-sm font-bold text-mkt-grn uppercase tracking-widest">A-Grade</span>
+                        <span className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary">Institutional</span>
+                        <span className="text-sm font-bold text-profit uppercase tracking-widest">A-Grade</span>
                      </div>
                   </div>
                </div>

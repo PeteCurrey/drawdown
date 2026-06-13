@@ -29,7 +29,7 @@ export default async function SentimentPulseLanding() {
   const newsScore = news?.sentiment || 0.58;
 
   return (
-    <div className="pt-28 pb-24 bg-white min-h-screen">
+    <div className="pt-28 pb-24 min-h-screen">
       <div className="max-w-7xl mx-auto px-6">
         <Breadcrumbs />
         
@@ -40,7 +40,7 @@ export default async function SentimentPulseLanding() {
           <h1 className="text-5xl md:text-8xl font-sans font-bold uppercase mb-8 leading-[0.9]">
             The Crowd <br /> <span className="text-accent">Pulse.</span>
           </h1>
-          <p className="text-xl text-mkt-i2 leading-relaxed font-sans max-w-2xl">
+          <p className="text-xl text-text-secondary leading-relaxed font-sans max-w-2xl">
             Markets aren't just numbers; they are human emotion. Our Sentiment Pulse tracks millions of data points across social media and news to show you when the crowd is hitting a fever pitch.
           </p>
           <div className="mt-10">
@@ -69,24 +69,24 @@ export default async function SentimentPulseLanding() {
               icon: Gauge
             }
           ].map((feature, i) => (
-            <div key={i} className="p-10 bg-white border border-mkt-bd group hover:border-mkt-bds/50 transition-all">
+            <div key={i} className="p-10 bg-background-surface/40 backdrop-blur-md border border-border-slate/50 transition-all duration-300 hover:shadow-[0_0_20px_rgba(0,0,0,0.2)] hover:border-border-slate hover:-translate-y-0.5 group hover:border-border-slate/50 transition-all">
               <feature.icon className="w-8 h-8 text-accent mb-8 group-hover:scale-110 transition-transform" />
               <h3 className="text-xl font-sans font-bold uppercase mb-4">{feature.title}</h3>
-              <p className="text-sm text-mkt-i2 leading-relaxed">{feature.desc}</p>
+              <p className="text-sm text-text-secondary leading-relaxed">{feature.desc}</p>
             </div>
           ))}
         </div>
 
         {/* Live Gauges (Visual Hook) */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-32">
-           <div className="p-8 bg-white border border-mkt-bd space-y-8">
+           <div className="p-8 bg-background-surface/40 backdrop-blur-md border border-border-slate/50 transition-all duration-300 hover:shadow-[0_0_20px_rgba(0,0,0,0.2)] hover:border-border-slate hover:-translate-y-0.5 space-y-8">
               <div className="flex justify-between items-center">
                  <h3 className="text-sm font-mono uppercase tracking-widest flex items-center gap-2">
                     <MessageCircle className="w-4 h-4 text-accent" /> Social Media Sentiment
                  </h3>
-                 <span className="text-[10px] font-mono text-mkt-i4">SYMBOL: NVDA</span>
+                 <span className="text-[10px] font-mono text-text-tertiary">SYMBOL: NVDA</span>
               </div>
-              <div className="relative h-4 bg-[#F7F7F7] rounded-full overflow-hidden border border-mkt-bd">
+              <div className="relative h-4 bg-background-elevated/40 rounded-full overflow-hidden border border-border-slate/50">
                  <div 
                    className="absolute inset-y-0 left-0 bg-gradient-to-r from-loss via-accent to-profit transition-all duration-1000"
                    style={{ width: `${socialScore * 100}%` }}
@@ -95,43 +95,43 @@ export default async function SentimentPulseLanding() {
               <div className="flex justify-between text-[10px] font-mono uppercase tracking-widest">
                  <span className="text-red-500">Extreme Fear</span>
                  <span className="text-accent">Neutral</span>
-                 <span className="text-mkt-grn">Extreme Greed</span>
+                 <span className="text-profit">Extreme Greed</span>
               </div>
-              <p className="text-xs text-mkt-i4 leading-relaxed text-center italic">
+              <p className="text-xs text-text-tertiary leading-relaxed text-center italic">
                 "NVDA buzz is up 42% this week on Reddit. Sentiment is shifting toward 'Overbought' territory."
               </p>
            </div>
 
-           <div className="p-8 bg-white border border-mkt-bd space-y-8">
+           <div className="p-8 bg-background-surface/40 backdrop-blur-md border border-border-slate/50 transition-all duration-300 hover:shadow-[0_0_20px_rgba(0,0,0,0.2)] hover:border-border-slate hover:-translate-y-0.5 space-y-8">
               <div className="flex justify-between items-center">
                  <h3 className="text-sm font-mono uppercase tracking-widest flex items-center gap-2">
                     <Newspaper className="w-4 h-4 text-accent" /> Institutional News Bias
                  </h3>
-                 <span className="text-[10px] font-mono text-mkt-i4">SYMBOL: NVDA</span>
+                 <span className="text-[10px] font-mono text-text-tertiary">SYMBOL: NVDA</span>
               </div>
-              <div className="relative h-4 bg-[#F7F7F7] rounded-full overflow-hidden border border-mkt-bd">
+              <div className="relative h-4 bg-background-elevated/40 rounded-full overflow-hidden border border-border-slate/50">
                  <div 
                    className="absolute inset-y-0 left-0 bg-profit/60 transition-all duration-1000"
                    style={{ width: `${newsScore * 100}%` }}
                  />
               </div>
-              <div className="flex justify-between text-[10px] font-mono uppercase tracking-widest text-mkt-i4">
+              <div className="flex justify-between text-[10px] font-mono uppercase tracking-widest text-text-tertiary">
                  <span>0% Bullish</span>
                  <span>50%</span>
                  <span>100% Bullish</span>
               </div>
-              <p className="text-xs text-mkt-i4 leading-relaxed text-center italic">
+              <p className="text-xs text-text-tertiary leading-relaxed text-center italic">
                 "News coverage remains moderately bullish with strong institutional support in semi-conductors."
               </p>
            </div>
         </div>
 
         {/* CTA */}
-        <section className="py-24 border-t border-mkt-bd text-center space-y-12">
+        <section className="py-24 border-t border-border-slate/50 text-center space-y-12">
            <h2 className="text-4xl md:text-7xl font-sans font-bold uppercase leading-tight">
              Don't trade <br /> the crowd. <span className="text-accent">Trade the truth.</span>
            </h2>
-           <p className="text-mkt-i2 max-w-xl mx-auto text-lg leading-relaxed">
+           <p className="text-text-secondary max-w-xl mx-auto text-lg leading-relaxed">
              Our Sentiment Pulse is designed to show you what everyone else is thinking, so you can make decisions based on what is actually happening.
            </p>
            <Link href="/signup" className="inline-flex items-center gap-4 px-12 py-6 bg-mkt-ink text-white font-bold uppercase tracking-[0.2em] text-xs hover:scale-105 transition-all">

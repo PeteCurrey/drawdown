@@ -72,18 +72,18 @@ export default async function UnitedStatesLocationTopicPage({ params }: Props) {
   };
 
   return (
-    <main className="min-h-screen bg-white pt-32 pb-20">
+    <main className="min-h-screen pt-32 pb-20">
       <TrackPageView path={`/us/learn-to-trade/${topicSlug}/${citySlug}`} />
       <StructuredData type="FAQPage" data={faqSchema} />
       
       <div className="max-w-6xl mx-auto px-6">
         {/* Breadcrumbs */}
-        <nav className="flex items-center space-x-2 text-[10px] font-mono uppercase tracking-widest text-mkt-i4 mb-12">
+        <nav className="flex items-center space-x-2 text-[10px] font-mono uppercase tracking-widest text-text-tertiary mb-12">
           <Link href="/us" className="hover:text-accent transition-colors">Home</Link>
           <ChevronRight className="w-3 h-3" />
           <Link href="/us/learn-to-trade" className="hover:text-accent transition-colors">Learn</Link>
           <ChevronRight className="w-3 h-3" />
-          <span className="text-mkt-ink">{cityName}</span>
+          <span className="text-text-primary">{cityName}</span>
         </nav>
 
         {/* Hero Header */}
@@ -92,21 +92,21 @@ export default async function UnitedStatesLocationTopicPage({ params }: Props) {
              <MapPin className="w-4 h-4 text-accent" />
              <span className="text-accent font-mono text-[10px] uppercase tracking-widest">US Regional Hub // {cityName}</span>
           </div>
-          <h1 className="text-5xl md:text-8xl font-sans font-bold uppercase mb-8 text-mkt-ink leading-[0.85]">
+          <h1 className="text-5xl md:text-8xl font-sans font-bold uppercase mb-8 text-text-primary leading-[0.85]">
             {topic.title} in <br /> {cityName}.
           </h1>
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 mt-12">
             <div className="lg:col-span-2 space-y-6">
-              <p className="text-2xl text-mkt-ink font-sans uppercase leading-tight italic border-l-4 border-mkt-bd pl-8">
+              <p className="text-2xl text-text-primary font-sans uppercase leading-tight italic border-l-4 border-border-slate/50 pl-8">
                 {cityContext}
               </p>
-              <p className="text-lg text-mkt-i2 leading-relaxed">
+              <p className="text-lg text-text-secondary leading-relaxed">
                 As a trader in {cityName}, you are operating within the world's most liquid financial ecosystem. Drawdown provides the institutional-grade {topic.title} education you need to navigate the US regulatory landscape—from SEC compliance to CFTC-registered execution.
               </p>
             </div>
-            <div className="bg-white border border-mkt-bd p-8 space-y-6">
+            <div className="bg-background-surface/40 backdrop-blur-md border border-border-slate/50 transition-all duration-300 hover:shadow-[0_0_20px_rgba(0,0,0,0.2)] hover:border-border-slate hover:-translate-y-0.5 p-8 space-y-6">
                <div className="flex items-center gap-2">
-                  <ShieldCheck className="w-5 h-5 text-mkt-grn" />
+                  <ShieldCheck className="w-5 h-5 text-profit" />
                   <span className="text-[10px] font-mono uppercase tracking-widest font-bold">US Compliance</span>
                </div>
                <ul className="space-y-4">
@@ -116,7 +116,7 @@ export default async function UnitedStatesLocationTopicPage({ params }: Props) {
                     "IRS Tax Optimization",
                     "PDT Rule Guidance"
                   ].map(item => (
-                    <li key={item} className="flex items-center gap-3 text-xs text-mkt-i2">
+                    <li key={item} className="flex items-center gap-3 text-xs text-text-secondary">
                        <span className="w-1 h-1 bg-accent rounded-full" />
                        {item}
                     </li>
@@ -131,10 +131,10 @@ export default async function UnitedStatesLocationTopicPage({ params }: Props) {
           <div className="lg:col-span-2 space-y-20">
             {topic.content.map((section, i) => (
               <section key={i} className="space-y-8">
-                <h2 className="text-3xl md:text-4xl font-sans font-bold uppercase tracking-tight text-mkt-ink">
+                <h2 className="text-3xl md:text-4xl font-sans font-bold uppercase tracking-tight text-text-primary">
                   {i + 1}. {section.heading}
                 </h2>
-                <p className="text-mkt-i2 leading-relaxed text-lg whitespace-pre-line">
+                <p className="text-text-secondary leading-relaxed text-lg whitespace-pre-line">
                   {section.text}
                 </p>
               </section>
@@ -143,10 +143,10 @@ export default async function UnitedStatesLocationTopicPage({ params }: Props) {
 
           {/* Sidebar */}
           <aside className="sticky top-32 space-y-12">
-            <div className="p-8 bg-white border border-mkt-bd/30 space-y-6 text-center">
+            <div className="p-8 bg-background-surface/40 backdrop-blur-md border border-border-slate/50 transition-all duration-300 hover:shadow-[0_0_20px_rgba(0,0,0,0.2)] hover:border-border-slate hover:-translate-y-0.5/30 space-y-6 text-center">
                <GraduationCap className="w-10 h-10 text-accent mx-auto" />
                <h4 className="text-xl font-sans font-bold uppercase">Master {topic.title}</h4>
-               <p className="text-xs text-mkt-i2 leading-relaxed">
+               <p className="text-xs text-text-secondary leading-relaxed">
                   Join America's premier trading curriculum and master the business of risk properly.
                </p>
                <Link href="/us/courses" className="w-full py-4 bg-accent text-[#08090D] font-bold uppercase tracking-widest text-[10px] block">
@@ -164,7 +164,7 @@ export default async function UnitedStatesLocationTopicPage({ params }: Props) {
               </h2>
               <Link 
                 href="/us/signup"
-                className="inline-block px-12 py-6 bg-white text-mkt-ink text-[12px] font-bold uppercase tracking-widest hover:invert transition-all shadow-2xl"
+                className="inline-block px-12 py-6 text-text-primary text-[12px] font-bold uppercase tracking-widest hover:invert transition-all shadow-2xl"
               >
                  Join Drawdown Free
               </Link>

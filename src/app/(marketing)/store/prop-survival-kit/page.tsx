@@ -40,7 +40,7 @@ export default function PropSurvivalKitPage() {
                   <span className="text-[10px] font-mono uppercase tracking-[0.3em] font-bold">DIGITAL DOWNLOAD • INSTANT ACCESS</span>
                </div>
                
-               <h1 className="  font-sans font-extrabold uppercase tracking-tight leading-[0.95] text-text-primary">
+               <h1 className="font-sans font-extrabold uppercase tracking-tight leading-[0.95] text-text-primary">
                  The Architecture of a <br />
                  <span className="text-text-secondary">Passed Challenge.</span>
                </h1>
@@ -53,7 +53,7 @@ export default function PropSurvivalKitPage() {
                   <button className="w-full md:w-auto px-12 py-5 bg-accent text-[#08090D] font-sans font-black uppercase tracking-[0.2em] text-sm hover:translate-y-[-2px] transition-all shadow-xl shadow-accent/20 flex items-center justify-center gap-3">
                      <Download className="w-5 h-5" /> Download The Kit — £14
                   </button>
-                  <p className="mt-4 text-[10px] font-mono uppercase tracking-widest text-mkt-i4 flex items-center gap-2">
+                  <p className="mt-4 text-[10px] font-mono uppercase tracking-widest text-text-tertiary flex items-center gap-2">
                      <Lock className="w-3 h-3" /> Secure Checkout via Stripe
                   </p>
                </div>

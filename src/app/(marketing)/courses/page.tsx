@@ -20,7 +20,7 @@ const phaseImages = [
 ];
 
 const tierStyles: Record<string, { accent: string; badge: string }> = {
-  Free:       { accent: "text-mkt-grn", badge: "bg-mkt-gbg border-mkt-gbd text-mkt-grn" },
+  Free:       { accent: "text-profit", badge: "bg-mkt-gbg border-mkt-gbd text-profit" },
   Foundation: { accent: "text-indigo-600", badge: "bg-indigo-50 border-indigo-200 text-indigo-700" },
   Edge:       { accent: "text-cyan-600",   badge: "bg-cyan-50 border-cyan-200 text-cyan-700" },
   Floor:      { accent: "text-amber-600",  badge: "bg-amber-50 border-amber-200 text-amber-700" },
@@ -44,20 +44,20 @@ export default function CoursesPage() {
   };
 
   return (
-    <div className="pt-28 pb-24 bg-white min-h-screen">
+    <div className="pt-28 pb-24 min-h-screen">
       <div className="max-w-7xl mx-auto px-6">
         <Breadcrumbs />
         <StructuredData type="ItemList" data={courseSchema} />
 
         {/* Page Header */}
         <header className="mb-20 max-w-3xl">
-          <span className="text-[11px] font-sans font-bold text-mkt-i4 uppercase tracking-widest block mb-4">
+          <span className="text-[11px] font-sans font-bold text-text-tertiary uppercase tracking-widest block mb-4">
             // THE CURRICULUM
           </span>
-          <h1 className="text-4xl md:text-6xl font-sans font-extrabold tracking-tight text-mkt-ink mb-6 leading-tight">
+          <h1 className="text-4xl md:text-6xl font-sans font-extrabold tracking-tight text-text-primary mb-6 leading-tight">
             A Phase-Based<br />Learning Path.
           </h1>
-          <p className="text-lg text-mkt-i3 leading-relaxed font-sans max-w-2xl">
+          <p className="text-lg text-text-tertiary leading-relaxed font-sans max-w-2xl">
             From complete beginner to professional-grade edge. 6 phases. 60+ modules.
             Built for traders who want to learn properly. No shortcuts. Just the truth.
           </p>
@@ -79,7 +79,7 @@ export default function CoursesPage() {
                 transition={{ delay: i * 0.06, duration: 0.5, ease: "easeOut" }}
                 onMouseEnter={() => setHoveredIdx(i)}
                 onMouseLeave={() => setHoveredIdx(null)}
-                className="relative border border-mkt-bd rounded-[14px] overflow-hidden transition-all duration-300"
+                className="relative border border-border-slate/50 rounded-[14px] overflow-hidden transition-all duration-300"
                 style={{
                   backgroundColor: "white",
                   transform: isHovered ? "translateY(-2px)" : "translateY(0)",
@@ -116,19 +116,19 @@ export default function CoursesPage() {
                       <span className={cn("text-[9px] font-sans font-bold px-2.5 py-1 rounded border uppercase tracking-wider", tier.badge)}>
                         {phase.tier} Tier
                       </span>
-                      <span className="text-[10px] font-sans text-mkt-i4 flex items-center gap-1">
+                      <span className="text-[10px] font-sans text-text-tertiary flex items-center gap-1">
                         <Clock className="w-3 h-3" /> {phase.duration}
                       </span>
                     </div>
 
                     <div>
-                      <h2 className="text-2xl md:text-3xl font-sans font-extrabold tracking-tight text-mkt-ink leading-snug">
+                      <h2 className="text-2xl md:text-3xl font-sans font-extrabold tracking-tight text-text-primary leading-snug">
                         {phase.name}
                       </h2>
-                      <p className="text-xs text-mkt-i4 uppercase tracking-widest mt-1 font-sans">{phase.subtitle}</p>
+                      <p className="text-xs text-text-tertiary uppercase tracking-widest mt-1 font-sans">{phase.subtitle}</p>
                     </div>
 
-                    <p className="text-sm text-mkt-i3 leading-relaxed font-sans border-l-2 border-mkt-bd pl-4 italic">
+                    <p className="text-sm text-text-tertiary leading-relaxed font-sans border-l-2 border-border-slate/50 pl-4 italic">
                       {phase.description}
                     </p>
 
@@ -144,7 +144,7 @@ export default function CoursesPage() {
                       </Link>
                       <Link
                         href="/signup"
-                        className="inline-flex items-center gap-2 px-6 py-2.5 rounded-lg font-sans font-semibold text-sm text-mkt-ink border border-mkt-bd hover:border-mkt-bds transition-colors duration-150"
+                        className="inline-flex items-center gap-2 px-6 py-2.5 rounded-lg font-sans font-semibold text-sm text-text-primary border border-border-slate/50 hover:border-border-slate transition-colors duration-150"
                       >
                         {phase.tier === "Free" ? "Start Free" : "Create Account"}
                       </Link>
@@ -153,24 +153,24 @@ export default function CoursesPage() {
 
                   {/* Module list */}
                   <div className="lg:col-span-4">
-                    <div className="bg-[#F7F7F7] border border-mkt-bd rounded-[12px] p-6">
+                    <div className="bg-background-elevated/40 border border-border-slate/50 rounded-[12px] p-6">
                       <div className="flex items-center gap-2 mb-4">
-                        <Layers className="w-3.5 h-3.5 text-mkt-i3" />
-                        <span className="text-[10px] font-sans font-bold text-mkt-i3 uppercase tracking-widest">
+                        <Layers className="w-3.5 h-3.5 text-text-tertiary" />
+                        <span className="text-[10px] font-sans font-bold text-text-tertiary uppercase tracking-widest">
                           {phase.modules_count} Modules
                         </span>
                       </div>
                       <ul className="space-y-2.5">
                         {phase.modules_list.slice(0, 5).map((mod, idx) => (
-                          <li key={idx} className="flex items-start gap-2.5 text-xs text-mkt-i3 font-sans">
-                            <span className="text-[9px] font-mono text-mkt-i4 mt-0.5 shrink-0">
+                          <li key={idx} className="flex items-start gap-2.5 text-xs text-text-tertiary font-sans">
+                            <span className="text-[9px] font-mono text-text-tertiary mt-0.5 shrink-0">
                               {(idx + 1).toString().padStart(2, "0")}
                             </span>
                             <span className="leading-relaxed">{mod}</span>
                           </li>
                         ))}
                         {phase.modules_list.length > 5 && (
-                          <li className="text-[10px] font-sans text-mkt-i4 pt-1">
+                          <li className="text-[10px] font-sans text-text-tertiary pt-1">
                             +{phase.modules_list.length - 5} more modules →
                           </li>
                         )}
@@ -184,13 +184,13 @@ export default function CoursesPage() {
         </div>
 
         {/* Final CTA */}
-        <div className="mt-20 border border-mkt-bd rounded-[14px] p-12 md:p-16 text-center relative overflow-hidden bg-[#F7F7F7]">
+        <div className="mt-20 border border-border-slate/50 rounded-[14px] p-12 md:p-16 text-center relative overflow-hidden bg-background-elevated/40">
           <div className="absolute top-0 left-0 right-0 h-[3px] bg-mkt-ink rounded-t-[14px]" />
           <div className="max-w-xl mx-auto space-y-6 relative z-10">
-            <h2 className="text-2xl md:text-3xl font-sans font-extrabold tracking-tight text-mkt-ink">
+            <h2 className="text-2xl md:text-3xl font-sans font-extrabold tracking-tight text-text-primary">
               Ready to learn properly?
             </h2>
-            <p className="text-sm text-mkt-i3 leading-relaxed font-sans">
+            <p className="text-sm text-text-tertiary leading-relaxed font-sans">
               Start with Phase 1 — completely free. No credit card required.
               Experience why Drawdown is the choice for disciplined traders.
             </p>

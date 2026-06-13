@@ -7,9 +7,9 @@ export default function UnitedStatesBrokerHub() {
   const stockBrokers = US_BROKERS.filter(b => b.type === 'Stocks' || b.type === 'Stocks/Options' || b.type === 'Stocks/Crypto');
 
   return (
-    <div className="flex flex-col min-h-screen bg-white">
+    <div className="flex flex-col min-h-screen">
       {/* Hero Section */}
-      <section className="relative pt-32 pb-20 border-b border-mkt-bd overflow-hidden">
+      <section className="relative pt-32 pb-20 border-b border-border-slate/50 overflow-hidden">
         <div className="max-w-7xl mx-auto px-6 relative z-10">
           <div className="max-w-4xl space-y-8">
             <div className="flex items-center gap-3 text-accent transition-all duration-700">
@@ -22,7 +22,7 @@ export default function UnitedStatesBrokerHub() {
               <span className="text-accent underline decoration-accent/20">United States.</span>
             </h1>
             
-            <p className="text-lg md:text-xl text-mkt-i2 leading-relaxed max-w-2xl font-medium">
+            <p className="text-lg md:text-xl text-text-secondary leading-relaxed max-w-2xl font-medium">
               We only list brokers registered with the CFTC/NFA for forex, and SEC/FINRA for equities. No offshore entities. No unregulated platforms. Only institutional-grade US compliance.
             </p>
           </div>
@@ -30,13 +30,13 @@ export default function UnitedStatesBrokerHub() {
       </section>
 
       {/* CFTC Disclaimer */}
-      <section className="py-8 bg-white border-b border-mkt-bd">
+      <section className="py-8 border-b border-border-slate/50">
          <div className="max-w-7xl mx-auto px-6">
-            <div className="flex items-start gap-4 p-6 bg-white border border-warning/20">
+            <div className="flex items-start gap-4 p-6 border border-warning/20">
                <AlertTriangle className="w-6 h-6 text-warning shrink-0" />
                <div className="space-y-2">
                   <p className="text-[10px] font-mono uppercase font-bold text-warning">Required CFTC Disclaimer</p>
-                  <p className="text-[10px] font-mono text-mkt-i4 leading-relaxed uppercase">
+                  <p className="text-[10px] font-mono text-text-tertiary leading-relaxed uppercase">
                     FOREX TRADING INVOLVES SIGNIFICANT RISK OF LOSS AND IS NOT SUITABLE FOR ALL INVESTORS. INCREASING LEVERAGE INCREASES RISK. HYPOTHETICAL PERFORMANCE RESULTS HAVE MANY INHERENT LIMITATIONS.
                   </p>
                </div>
@@ -78,15 +78,15 @@ export default function UnitedStatesBrokerHub() {
       </section>
 
       {/* Educational Note */}
-      <section className="py-24 bg-white border-y border-mkt-bd">
+      <section className="py-24 border-y border-border-slate/50">
          <div className="max-w-7xl mx-auto px-6 text-center">
             <div className="max-w-2xl mx-auto space-y-8">
                <Activity className="w-12 h-12 text-accent mx-auto" />
                <h2 className="text-3xl md:text-5xl font-sans font-black uppercase">Understand Your Data.</h2>
-               <p className="text-mkt-i2 leading-relaxed">
+               <p className="text-text-secondary leading-relaxed">
                   US markets offer the deepest liquidity on earth, but they also have the strictest rules. From FIFO (First In First Out) to the PDT rule, your strategy must be built for the American environment.
                </p>
-               <Link href="/us/courses" className="inline-flex items-center gap-4 bg-white text-[#08090D] px-10 py-5 font-sans font-black uppercase tracking-[0.2em] text-sm hover:translate-y-[-2px] transition-all">
+               <Link href="/us/courses" className="inline-flex items-center gap-4 text-[#08090D] px-10 py-5 font-sans font-black uppercase tracking-[0.2em] text-sm hover:translate-y-[-2px] transition-all">
                   Access US Curriculum <ArrowRight className="w-4 h-4" />
                </Link>
             </div>
@@ -98,31 +98,31 @@ export default function UnitedStatesBrokerHub() {
 
 function BrokerRow({ broker }: { broker: any }) {
   return (
-    <div className="bg-white border border-mkt-bd hover:border-mkt-bds/30 transition-all p-8 md:p-12 relative overflow-hidden group">
+    <div className="bg-background-surface/40 backdrop-blur-md border border-border-slate/50 transition-all duration-300 hover:shadow-[0_0_20px_rgba(0,0,0,0.2)] hover:border-border-slate hover:-translate-y-0.5 hover:border-border-slate/70 transition-all p-8 md:p-12 relative overflow-hidden group">
       <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
         <div className="lg:col-span-4 space-y-4">
           <div className="flex items-center gap-3">
-            <h3 className="text-3xl font-sans font-black uppercase text-mkt-ink">{broker.name}</h3>
+            <h3 className="text-3xl font-sans font-black uppercase text-text-primary">{broker.name}</h3>
             {broker.badge && (
-              <span className="px-3 py-1 bg-accent/10 border border-mkt-bd/20 text-accent text-[8px] font-mono uppercase tracking-widest font-bold">
+              <span className="px-3 py-1 bg-accent/10 border border-border-slate/50/20 text-accent text-[8px] font-mono uppercase tracking-widest font-bold">
                 {broker.badge}
               </span>
             )}
           </div>
-          <div className="flex items-center gap-2 text-[10px] font-mono text-mkt-i4 tracking-widest">
+          <div className="flex items-center gap-2 text-[10px] font-mono text-text-tertiary tracking-widest">
             <Shield className="w-3 h-3 text-accent" />
             {broker.regulation}
           </div>
-          <p className="text-sm text-mkt-i2 leading-relaxed opacity-70">
+          <p className="text-sm text-text-secondary leading-relaxed opacity-70">
             {broker.description}
           </p>
         </div>
 
         <div className="lg:col-span-4 grid grid-cols-1 gap-4">
           {broker.pros.map((pro: string, i: number) => (
-            <div key={i} className="flex items-center gap-3 py-2 px-4 bg-white/50 border border-mkt-bd/50">
+            <div key={i} className="flex items-center gap-3 py-2 px-4 /50 border border-border-slate/30">
               <div className="w-1.5 h-1.5 rounded-full bg-profit" />
-              <span className="text-[10px] font-mono uppercase tracking-widest text-mkt-i2">{pro}</span>
+              <span className="text-[10px] font-mono uppercase tracking-widest text-text-secondary">{pro}</span>
             </div>
           ))}
         </div>
@@ -130,7 +130,7 @@ function BrokerRow({ broker }: { broker: any }) {
         <div className="lg:col-span-4 flex flex-col sm:flex-row lg:flex-col gap-4">
           <Link 
             href={`/us/brokers/${broker.slug}`}
-            className="flex-1 py-4 bg-[#F7F7F7] border border-mkt-bd hover:border-mkt-bds text-center text-[10px] font-bold uppercase tracking-widest transition-all"
+            className="flex-1 py-4 bg-background-elevated/40 border border-border-slate/50 hover:border-border-slate text-center text-[10px] font-bold uppercase tracking-widest transition-all"
           >
             Read Review
           </Link>

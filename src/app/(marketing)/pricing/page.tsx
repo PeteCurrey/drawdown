@@ -108,18 +108,18 @@ export default function PricingPage() {
   };
 
   return (
-    <div className="pt-28 pb-24 min-h-screen bg-white">
+    <div className="pt-28 pb-24 min-h-screen">
       <div className="max-w-7xl mx-auto px-6">
 
         {/* Page Header */}
         <div className="text-center mb-16">
-          <span className="text-[11px] font-sans font-bold text-mkt-i4 uppercase tracking-widest block mb-4">
+          <span className="text-[11px] font-sans font-bold text-text-tertiary uppercase tracking-widest block mb-4">
             // PRICING
           </span>
-          <h1 className="text-4xl md:text-6xl font-sans font-extrabold tracking-tight text-mkt-ink mb-4">
+          <h1 className="text-4xl md:text-6xl font-sans font-extrabold tracking-tight text-text-primary mb-4">
             Choose Your Level.
           </h1>
-          <p className="text-base text-mkt-i3 max-w-xl mx-auto font-sans leading-relaxed">
+          <p className="text-base text-text-tertiary max-w-xl mx-auto font-sans leading-relaxed">
             Professional education and tools for traders who are tired of the noise.
             Select the tier that matches your commitment.
           </p>
@@ -127,21 +127,21 @@ export default function PricingPage() {
 
         {/* Billing Toggle */}
         <div className="flex items-center justify-center gap-4 mb-14">
-          <span className={cn("text-sm font-sans transition-colors", billingCycle === "monthly" ? "text-mkt-ink font-semibold" : "text-mkt-i4")}>
+          <span className={cn("text-sm font-sans transition-colors", billingCycle === "monthly" ? "text-text-primary font-semibold" : "text-text-tertiary")}>
             Monthly
           </span>
           <button
             onClick={() => setBillingCycle(prev => prev === "monthly" ? "yearly" : "monthly")}
-            className="w-14 h-7 bg-[#F0F0F0] border border-mkt-bd rounded-full p-0.5 relative transition-colors"
+            className="w-14 h-7 bg-[#F0F0F0] border border-border-slate/50 rounded-full p-0.5 relative transition-colors"
           >
             <div
               className="absolute top-0.5 left-0.5 w-6 h-6 bg-mkt-ink rounded-full transition-transform duration-300"
               style={{ transform: billingCycle === "yearly" ? "translateX(28px)" : "translateX(0)" }}
             />
           </button>
-          <span className={cn("text-sm font-sans transition-colors", billingCycle === "yearly" ? "text-mkt-ink font-semibold" : "text-mkt-i4")}>
+          <span className={cn("text-sm font-sans transition-colors", billingCycle === "yearly" ? "text-text-primary font-semibold" : "text-text-tertiary")}>
             Yearly{" "}
-            <span className="text-[10px] font-sans font-bold text-mkt-grn ml-1">Save 20%</span>
+            <span className="text-[10px] font-sans font-bold text-profit ml-1">Save 20%</span>
           </span>
         </div>
 
@@ -182,23 +182,23 @@ export default function PricingPage() {
                   </div>
                 )}
 
-                <div className="relative z-10 p-8 flex flex-col flex-1 bg-white/95">
+                <div className="relative z-10 p-8 flex flex-col flex-1 /95">
                   {/* Tier name + description */}
                   <div className="mb-8">
-                    <h3 className="text-xl font-sans font-extrabold tracking-tight text-mkt-ink mb-1">{tier.name}</h3>
-                    <p className="text-xs text-mkt-i3 font-sans leading-relaxed min-h-[36px]">{tier.description}</p>
+                    <h3 className="text-xl font-sans font-extrabold tracking-tight text-text-primary mb-1">{tier.name}</h3>
+                    <p className="text-xs text-text-tertiary font-sans leading-relaxed min-h-[36px]">{tier.description}</p>
                   </div>
 
                   {/* Price */}
                   <div className="mb-8">
                     <div className="flex items-baseline gap-1">
-                      <span className="text-5xl font-sans font-extrabold text-mkt-ink tracking-tight">
+                      <span className="text-5xl font-sans font-extrabold text-text-primary tracking-tight">
                         £{tier.price[billingCycle]}
                       </span>
-                      <span className="text-xs text-mkt-i4 font-sans ml-1">/mo</span>
+                      <span className="text-xs text-text-tertiary font-sans ml-1">/mo</span>
                     </div>
                     {billingCycle === "yearly" && (
-                      <p className="text-[10px] font-sans text-mkt-grn mt-1 font-semibold">
+                      <p className="text-[10px] font-sans text-profit mt-1 font-semibold">
                         Billed annually — save £{tier.savings}/yr
                       </p>
                     )}
@@ -212,7 +212,7 @@ export default function PricingPage() {
                       "w-full py-3 rounded-lg text-sm font-sans font-semibold mb-8 transition-colors duration-150 flex items-center justify-center gap-2 disabled:opacity-60",
                       tier.highlight
                         ? "bg-mkt-ink text-white hover:bg-mkt-i2"
-                        : "bg-[#F7F7F7] border border-mkt-bd text-mkt-ink hover:bg-[#EEEEEE]"
+                        : "bg-background-elevated/40 border border-border-slate/50 text-text-primary hover:bg-[#EEEEEE]"
                     )}
                   >
                     {loadingTier === tier.name ? "Processing..." : tier.buttonText}
@@ -220,18 +220,18 @@ export default function PricingPage() {
                   </button>
 
                   {/* Features */}
-                  <div className="space-y-3 border-t border-mkt-bd pt-6">
-                    <p className="text-[10px] font-sans font-bold text-mkt-i4 uppercase tracking-widest mb-4">
+                  <div className="space-y-3 border-t border-border-slate/50 pt-6">
+                    <p className="text-[10px] font-sans font-bold text-text-tertiary uppercase tracking-widest mb-4">
                       What's included
                     </p>
                     {tier.features.map((feature, i) => (
                       <div key={i} className="flex items-start gap-2.5">
                         {feature.included ? (
-                          <Check className="w-4 h-4 text-mkt-grn shrink-0 mt-0.5" />
+                          <Check className="w-4 h-4 text-profit shrink-0 mt-0.5" />
                         ) : (
                           <X className="w-4 h-4 text-mkt-bd shrink-0 mt-0.5" />
                         )}
-                        <span className={cn("text-xs font-sans leading-relaxed", feature.included ? "text-mkt-i2" : "text-mkt-i4")}>
+                        <span className={cn("text-xs font-sans leading-relaxed", feature.included ? "text-text-secondary" : "text-text-tertiary")}>
                           {feature.name}
                         </span>
                       </div>
@@ -244,11 +244,11 @@ export default function PricingPage() {
         </div>
 
         {/* Educational notice */}
-        <div className="mt-16 p-6 bg-[#F7F7F7] border border-mkt-bd rounded-[14px] max-w-4xl mx-auto">
-          <h4 className="text-[10px] font-sans font-bold text-mkt-i3 uppercase tracking-widest mb-3">
+        <div className="mt-16 p-6 bg-background-elevated/40 border border-border-slate/50 rounded-[14px] max-w-4xl mx-auto">
+          <h4 className="text-[10px] font-sans font-bold text-text-tertiary uppercase tracking-widest mb-3">
             Educational Platform Notice
           </h4>
-          <p className="text-[10px] text-mkt-i4 leading-relaxed font-sans">
+          <p className="text-[10px] text-text-tertiary leading-relaxed font-sans">
             Subscription tiers represent access levels to educational content and proprietary analysis tools.
             Drawdown does not provide financial advice or trade signals. All strategies tested or journals
             analyzed remain the intellectual property of the user. Past performance as logged in the AI Trade

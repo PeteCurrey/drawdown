@@ -60,11 +60,11 @@ export default function BestBrokerForGoldPage() {
     <div className="flex flex-col">
 
       {/* Hero */}
-      <section className="relative pt-32 pb-16 bg-white overflow-hidden border-b border-mkt-bd">
+      <section className="relative pt-32 pb-16 overflow-hidden border-b border-border-slate/50">
         <div className="max-w-7xl mx-auto px-6 relative z-10 max-w-4xl">
           <div className="space-y-6">
-            <div className="flex items-center gap-3 text-mkt-i4 text-[10px] font-mono uppercase tracking-widest">
-              <Link href="/brokers" className="hover:text-mkt-ink transition-colors">Brokers</Link>
+            <div className="flex items-center gap-3 text-text-tertiary text-[10px] font-mono uppercase tracking-widest">
+              <Link href="/brokers" className="hover:text-text-primary transition-colors">Brokers</Link>
               <span>/</span>
               <span className="text-accent">Best for Gold Trading</span>
             </div>
@@ -74,22 +74,22 @@ export default function BestBrokerForGoldPage() {
                <span className="text-[10px] font-mono uppercase tracking-[0.3em] font-bold">REAL CAPITAL TESTED</span>
             </div>
             
-            <h1 className="  font-sans font-extrabold uppercase tracking-tight leading-[0.9]">
+            <h1 className="font-sans font-extrabold uppercase tracking-tight leading-[0.9]">
               Best Brokers for <br />
-              <span className="text-mkt-ink">Gold Trading</span> <br />
-              <span className="text-mkt-i2 text-3xl md:text-4xl">(XAU/USD) 2026</span>
+              <span className="text-text-primary">Gold Trading</span> <br />
+              <span className="text-text-secondary text-3xl md:text-4xl">(XAU/USD) 2026</span>
             </h1>
             
-            <p className="text-lg md:text-xl text-mkt-i2 leading-relaxed max-w-3xl font-medium">
+            <p className="text-lg md:text-xl text-text-secondary leading-relaxed max-w-3xl font-medium">
               When volatility spikes on NFP Friday, your spread shouldn't. We tested 20+ regulated brokers using real capital to find the tightest institutional pricing and fastest execution for XAU/USD.
             </p>
 
             {/* Quick Summary Box */}
-            <div className="bg-white border border-mkt-bd/30 p-6 max-w-xl">
+            <div className="bg-background-surface/40 backdrop-blur-md border border-border-slate/50 transition-all duration-300 hover:shadow-[0_0_20px_rgba(0,0,0,0.2)] hover:border-border-slate hover:-translate-y-0.5/30 p-6 max-w-xl">
               <p className="text-[10px] font-mono uppercase tracking-widest text-accent font-bold mb-3">// QUICK VERDICT</p>
-              <p className="text-sm text-mkt-i2 leading-relaxed">
-                <span className="text-mkt-ink font-bold">Best overall:</span> Pepperstone (Raw spreads from 0.0 pips, FCA regulated).<br />
-                <span className="text-mkt-ink font-bold">Best for UK traders:</span> IG Markets (Tax-free spread betting on XAU/USD).
+              <p className="text-sm text-text-secondary leading-relaxed">
+                <span className="text-text-primary font-bold">Best overall:</span> Pepperstone (Raw spreads from 0.0 pips, FCA regulated).<br />
+                <span className="text-text-primary font-bold">Best for UK traders:</span> IG Markets (Tax-free spread betting on XAU/USD).
               </p>
             </div>
           </div>
@@ -97,17 +97,17 @@ export default function BestBrokerForGoldPage() {
       </section>
 
       {/* Methodology / Trust */}
-      <section className="py-8 bg-white border-b border-mkt-bd">
+      <section className="py-8 border-b border-border-slate/50">
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex flex-wrap gap-6 items-center justify-between">
             <div className="flex flex-wrap gap-6">
               {["Real Capital Testing", "Spread Verified During NFP", "Withdrawal Tested"].map((item, i) => (
-                <span key={i} className="flex items-center gap-2 text-[10px] font-mono uppercase tracking-widest text-mkt-i4">
-                  <CheckCircle2 className="w-3 h-3 text-mkt-grn" /> {item}
+                <span key={i} className="flex items-center gap-2 text-[10px] font-mono uppercase tracking-widest text-text-tertiary">
+                  <CheckCircle2 className="w-3 h-3 text-profit" /> {item}
                 </span>
               ))}
             </div>
-            <div className="flex items-center gap-2 text-[10px] font-mono text-mkt-i4">
+            <div className="flex items-center gap-2 text-[10px] font-mono text-text-tertiary">
               <AlertTriangle className="w-3 h-3 text-warning" />
               Last updated: April 2026
             </div>
@@ -116,10 +116,10 @@ export default function BestBrokerForGoldPage() {
       </section>
 
       {/* Brokers List */}
-      <section className="py-16 bg-white">
+      <section className="py-16">
         <div className="max-w-7xl mx-auto px-6 max-w-5xl space-y-8">
           {goldBrokers.map((broker) => (
-            <div key={broker.id} className="bg-white border border-mkt-bd hover:border-mkt-bds/30 transition-all relative overflow-hidden">
+            <div key={broker.id} className="bg-background-surface/40 backdrop-blur-md border border-border-slate/50 transition-all duration-300 hover:shadow-[0_0_20px_rgba(0,0,0,0.2)] hover:border-border-slate hover:-translate-y-0.5 hover:border-border-slate/70 transition-all relative overflow-hidden">
 
               {broker.rank === 1 && (
                 <div className="absolute top-0 left-0 right-0 h-1 bg-accent" />
@@ -130,52 +130,52 @@ export default function BestBrokerForGoldPage() {
 
                   {/* Left: Name, verdict, score */}
                   <div className="w-full lg:w-1/4 shrink-0">
-                    <div className="text-[10px] font-mono text-mkt-i4 uppercase tracking-widest mb-3">
+                    <div className="text-[10px] font-mono text-text-tertiary uppercase tracking-widest mb-3">
                       #{broker.rank} Pick
                     </div>
                     {broker.logoUrl ? (
-                      <div className="h-12 bg-white px-3 py-2 flex items-center mb-4 w-fit">
+                      <div className="h-12 px-3 py-2 flex items-center mb-4 w-fit">
                         <img src={broker.logoUrl} alt={broker.name} className="h-full object-contain max-w-[100px]" />
                       </div>
                     ) : (
-                      <div className="w-14 h-14 flex items-center justify-center font-sans font-black text-mkt-ink text-2xl mb-4" style={{ backgroundColor: broker.color }}>
+                      <div className="w-14 h-14 flex items-center justify-center font-sans font-black text-text-primary text-2xl mb-4" style={{ backgroundColor: broker.color }}>
                         {broker.logoFallback}
                       </div>
                     )}
-                    <h3 className="text-2xl font-sans font-bold uppercase text-mkt-ink mb-2">{broker.name}</h3>
+                    <h3 className="text-2xl font-sans font-bold uppercase text-text-primary mb-2">{broker.name}</h3>
                     <p className="text-xs text-accent font-bold uppercase tracking-wider mb-4">{broker.verdict}</p>
                     <div className="flex items-center gap-1">
                       {[...Array(5)].map((_, i) => (
                         <Star key={i} className={`w-4 h-4 ${i < Math.round(broker.score / 2) ? "text-warning fill-warning" : "text-border-slate"}`} />
                       ))}
-                      <span className="text-sm font-bold text-mkt-ink ml-2">{broker.score}/10</span>
+                      <span className="text-sm font-bold text-text-primary ml-2">{broker.score}/10</span>
                     </div>
                   </div>
 
                   {/* Middle: Stats */}
                   <div className="flex-grow grid grid-cols-2 gap-y-5 gap-x-8">
                     <div>
-                      <p className="text-[10px] font-mono uppercase tracking-widest text-mkt-i4 mb-1">XAU/USD Spread</p>
-                      <p className="text-sm font-bold text-mkt-ink">{broker.spread}</p>
+                      <p className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary mb-1">XAU/USD Spread</p>
+                      <p className="text-sm font-bold text-text-primary">{broker.spread}</p>
                     </div>
                     <div>
-                      <p className="text-[10px] font-mono uppercase tracking-widest text-mkt-i4 mb-1">Commission</p>
-                      <p className="text-sm font-bold text-mkt-ink">{broker.commission}</p>
+                      <p className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary mb-1">Commission</p>
+                      <p className="text-sm font-bold text-text-primary">{broker.commission}</p>
                     </div>
                     <div>
-                      <p className="text-[10px] font-mono uppercase tracking-widest text-mkt-i4 mb-1">Platforms</p>
-                      <p className="text-sm font-bold text-mkt-ink">{broker.platforms}</p>
+                      <p className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary mb-1">Platforms</p>
+                      <p className="text-sm font-bold text-text-primary">{broker.platforms}</p>
                     </div>
                     <div>
-                      <p className="text-[10px] font-mono uppercase tracking-widest text-mkt-i4 mb-1">Regulation</p>
-                      <p className="text-sm font-bold text-mkt-grn">{broker.regulation}</p>
+                      <p className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary mb-1">Regulation</p>
+                      <p className="text-sm font-bold text-profit">{broker.regulation}</p>
                     </div>
                     <div className="col-span-2">
-                      <p className="text-[10px] font-mono uppercase tracking-widest text-mkt-i4 mb-2">Pros</p>
+                      <p className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary mb-2">Pros</p>
                       <ul className="space-y-1">
                         {broker.pros.map((p, i) => (
-                          <li key={i} className="flex items-center gap-2 text-xs text-mkt-i2">
-                            <CheckCircle2 className="w-3 h-3 text-mkt-grn shrink-0" /> {p}
+                          <li key={i} className="flex items-center gap-2 text-xs text-text-secondary">
+                            <CheckCircle2 className="w-3 h-3 text-profit shrink-0" /> {p}
                           </li>
                         ))}
                       </ul>
@@ -187,7 +187,7 @@ export default function BestBrokerForGoldPage() {
                     <a href={broker.link} target="_blank" rel="nofollow" className="w-full py-4 bg-accent text-[#08090D] text-center text-xs font-bold uppercase tracking-widest hover:bg-accent-hover transition-colors">
                       Open Account
                     </a>
-                    <Link href={`/brokers/${broker.id}-review`} className="w-full py-4 border border-mkt-bd text-mkt-i2 text-center text-xs font-bold uppercase tracking-widest hover:border-text-primary hover:text-mkt-ink transition-colors">
+                    <Link href={`/brokers/${broker.id}-review`} className="w-full py-4 border border-border-slate/50 text-text-secondary text-center text-xs font-bold uppercase tracking-widest hover:border-text-primary hover:text-text-primary transition-colors">
                       Full Review
                     </Link>
                   </div>
@@ -199,19 +199,19 @@ export default function BestBrokerForGoldPage() {
       </section>
 
       {/* What to Look For (Educational) */}
-      <section className="py-16 bg-white border-t border-mkt-bd">
+      <section className="py-16 border-t border-border-slate/50">
         <div className="max-w-7xl mx-auto px-6 max-w-4xl">
           <h2 className="text-3xl font-sans font-bold uppercase mb-8">What to Look For When Trading Gold</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="space-y-4">
               <h3 className="text-base font-bold uppercase tracking-widest text-accent">Spread Widening</h3>
-              <p className="text-sm text-mkt-i2 leading-relaxed">
+              <p className="text-sm text-text-secondary leading-relaxed">
                 Gold spreads can spike 5x during NFP, CPI, and FOMC events. A raw spread of 0.0 pips can become 8 pips in milliseconds. Always test your broker's spread behavior during tier-1 news.
               </p>
             </div>
             <div className="space-y-4">
               <h3 className="text-base font-bold uppercase tracking-widest text-accent">Overnight Swap Rates</h3>
-              <p className="text-sm text-mkt-i2 leading-relaxed">
+              <p className="text-sm text-text-secondary leading-relaxed">
                 Swing traders holding gold positions overnight face significant swap costs. Pepperstone and IC Markets typically offer the most competitive swap rates on XAU/USD. Always compare before holding multi-day positions.
               </p>
             </div>
@@ -220,9 +220,9 @@ export default function BestBrokerForGoldPage() {
       </section>
 
       {/* Affiliate Disclosure */}
-      <section className="py-8 bg-white border-t border-mkt-bd">
+      <section className="py-8 border-t border-border-slate/50">
         <div className="max-w-7xl mx-auto px-6 max-w-4xl">
-          <p className="text-[10px] font-mono text-mkt-i4 uppercase tracking-widest leading-relaxed opacity-60">
+          <p className="text-[10px] font-mono text-text-tertiary uppercase tracking-widest leading-relaxed opacity-60">
             Affiliate Disclosure: Drawdown may earn a commission if you sign up via links on this page. Rankings are determined by our internal scoring methodology — not commission payouts. We only recommend brokers our team has personally tested with live capital.
           </p>
         </div>

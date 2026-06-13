@@ -84,7 +84,7 @@ export default function ToolsMarketingPage() {
   return (
     <div className="flex flex-col">
       {/* Hero Section */}
-      <section className="relative pt-32 pb-20 bg-white overflow-hidden border-b border-mkt-bd">
+      <section className="relative pt-32 pb-20 overflow-hidden border-b border-border-slate/50">
         <div className="max-w-7xl mx-auto px-6 relative z-10">
           <div className="max-w-4xl space-y-8">
             <div className="flex items-center gap-3 text-accent transition-all duration-700">
@@ -92,11 +92,11 @@ export default function ToolsMarketingPage() {
                <span className="text-[10px] font-mono uppercase tracking-[0.3em]">PROPRIETARY_TECH_STACK</span>
             </div>
             
-            <h1 className="  font-sans font-extrabold uppercase tracking-tight leading-[0.9]">
+            <h1 className="font-sans font-extrabold uppercase tracking-tight leading-[0.9]">
               The <span className="text-accent underline decoration-accent/20">Alpha</span> Stack.
             </h1>
             
-            <p className="text-xl md:text-2xl text-mkt-i2 leading-relaxed max-w-2xl">
+            <p className="text-xl md:text-2xl text-text-secondary leading-relaxed max-w-2xl">
               Professional-grade tools built by traders, for traders. No generic alerts. No retail noise. Just institutional-grade execution.
             </p>
 
@@ -104,7 +104,7 @@ export default function ToolsMarketingPage() {
               <Link href="/signup" className="px-8 py-4 bg-mkt-ink text-white font-bold uppercase tracking-widest text-xs hover:bg-accent-hover transition-colors">
                 Get All Access
               </Link>
-              <Link href="/pricing" className="px-8 py-4 border border-mkt-bd hover:border-mkt-bds text-mkt-ink font-bold uppercase tracking-widest text-xs transition-colors">
+              <Link href="/pricing" className="px-8 py-4 border border-border-slate/50 hover:border-border-slate text-text-primary font-bold uppercase tracking-widest text-xs transition-colors">
                 View Pricing
               </Link>
             </div>
@@ -118,50 +118,50 @@ export default function ToolsMarketingPage() {
       </section>
 
       {/* Intro / Philosophy Section */}
-      <section className="py-24 bg-white border-b border-mkt-bd">
+      <section className="py-24 border-b border-border-slate/50">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div className="space-y-6">
               <span className="text-[10px] font-mono tracking-widest uppercase text-accent font-bold">
                 // THE DRAWDOWN DIFFERENCE
               </span>
-              <h2 className="text-3xl md:text-5xl font-sans font-black uppercase leading-tight text-mkt-ink">
+              <h2 className="text-3xl md:text-5xl font-sans font-black uppercase leading-tight text-text-primary">
                 We Built What <br />
-                <span className="text-mkt-i2">We Couldn't Find.</span>
+                <span className="text-text-secondary">We Couldn't Find.</span>
               </h2>
               <div className="w-12 h-1 bg-accent mb-8" />
-              <p className="text-lg text-mkt-i2 leading-relaxed font-medium">
+              <p className="text-lg text-text-secondary leading-relaxed font-medium">
                 The retail trading industry is built on lagging indicators, arbitrary patterns, and false promises. We got tired of using scattered, retail-grade tools to manage serious capital. 
               </p>
-              <p className="text-lg text-mkt-i2 leading-relaxed font-medium">
+              <p className="text-lg text-text-secondary leading-relaxed font-medium">
                 Drawdown's tool suite is engineered from the ground up for precision, speed, and statistical validity. Every scanner, backtester, and journal feature was built because our own trading desk demanded it.
               </p>
               
               <div className="pt-6 grid grid-cols-2 gap-8">
                 <div>
-                  <div className="text-3xl font-sans font-black text-mkt-ink mb-2">100%</div>
-                  <p className="text-[10px] font-mono uppercase tracking-widest text-mkt-i4">Data-Driven Logic</p>
+                  <div className="text-3xl font-sans font-black text-text-primary mb-2">100%</div>
+                  <p className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary">Data-Driven Logic</p>
                 </div>
                 <div>
-                  <div className="text-3xl font-sans font-black text-mkt-ink mb-2">&lt;1ms</div>
-                  <p className="text-[10px] font-mono uppercase tracking-widest text-mkt-i4">Execution Speed</p>
+                  <div className="text-3xl font-sans font-black text-text-primary mb-2">&lt;1ms</div>
+                  <p className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary">Execution Speed</p>
                 </div>
               </div>
             </div>
             
             <div className="relative">
               <div className="absolute inset-0 bg-gradient-to-tr from-accent/20 to-transparent blur-3xl opacity-50" />
-              <div className="relative bg-white border border-mkt-bd p-8 shadow-2xl">
-                <div className="flex items-center gap-4 mb-8 pb-8 border-b border-mkt-bd">
+              <div className="relative bg-background-surface/40 backdrop-blur-md border border-border-slate/50 transition-all duration-300 hover:shadow-[0_0_20px_rgba(0,0,0,0.2)] hover:border-border-slate hover:-translate-y-0.5 p-8 shadow-2xl">
+                <div className="flex items-center gap-4 mb-8 pb-8 border-b border-border-slate/50">
                   <div className="w-12 h-12 rounded-full bg-border-slate overflow-hidden">
                     <img src="/images/pete.jpg" alt="Pete" className="w-full h-full object-cover grayscale" />
                   </div>
                   <div>
-                    <h4 className="text-mkt-ink font-bold uppercase tracking-widest text-sm">Pete Currey</h4>
+                    <h4 className="text-text-primary font-bold uppercase tracking-widest text-sm">Pete Currey</h4>
                     <p className="text-[10px] font-mono text-accent uppercase tracking-widest">Head of Trading</p>
                   </div>
                 </div>
-                <blockquote className="text-xl font-sans italic text-mkt-i2 leading-relaxed">
+                <blockquote className="text-xl font-sans italic text-text-secondary leading-relaxed">
                   "If a tool doesn't give us a measurable statistical edge, we don't build it. Period. We aren't here to sell you magic signals; we're here to give you the infrastructure to execute properly."
                 </blockquote>
               </div>
@@ -169,40 +169,40 @@ export default function ToolsMarketingPage() {
           </div>
         </div>
       </section>
-      <section className="py-24 bg-white">
+      <section className="py-24">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1px bg-border-slate border border-mkt-bd">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1px bg-border-slate border border-border-slate/50">
              {toolCategories.map((tool) => {
                const Icon = tool.icon;
                return (
-                 <div key={tool.slug} className="group p-10 bg-white hover:bg-[#F7F7F7] transition-all duration-500 relative overflow-hidden">
+                 <div key={tool.slug} className="group p-10 hover:bg-background-elevated transition-all duration-500 relative overflow-hidden">
                     <div className="text-accent mb-8 flex justify-between items-start">
-                       <div className="p-3 bg-[#F7F7F7] border border-mkt-bd group-hover:border-mkt-bds group-hover:bg-accent/5 transition-all">
+                       <div className="p-3 bg-background-elevated/40 border border-border-slate/50 group-hover:border-border-slate group-hover:bg-accent/5 transition-all">
                           <Icon className="w-8 h-8" />
                        </div>
                        <span className={cn(
                           "text-[8px] font-mono uppercase tracking-widest px-2 py-1 border",
-                          tool.tier === "Free" ? "text-mkt-grn border-profit/30" : 
-                          tool.tier === "Foundation+" ? "text-accent border-mkt-bd/30" : 
+                          tool.tier === "Free" ? "text-profit border-profit/30" : 
+                          tool.tier === "Foundation+" ? "text-accent border-border-slate/50/30" : 
                           tool.tier === "Edge+" ? "text-premium border-premium/30" :
-                          "text-accent border-mkt-bd/30 bg-accent/5"
+                          "text-accent border-border-slate/50/30 bg-accent/5"
                        )}>
                           {tool.tier}
                        </span>
                     </div>
 
-                    <h3 className="text-2xl font-sans font-bold uppercase mb-4 text-mkt-ink group-hover:text-accent transition-colors">
+                    <h3 className="text-2xl font-sans font-bold uppercase mb-4 text-text-primary group-hover:text-accent transition-colors">
                        {tool.title}
                     </h3>
                     
-                    <p className="text-sm text-mkt-i2 leading-relaxed mb-8 h-12">
+                    <p className="text-sm text-text-secondary leading-relaxed mb-8 h-12">
                        {tool.description}
                     </p>
 
                     <div className="space-y-3 mb-10">
                        {tool.features.map((feature, i) => (
-                         <div key={i} className="flex items-center gap-3 text-mkt-i4">
-                            <ShieldCheck className="w-4 h-4 text-mkt-grn" />
+                         <div key={i} className="flex items-center gap-3 text-text-tertiary">
+                            <ShieldCheck className="w-4 h-4 text-profit" />
                             <span className="text-[10px] font-mono uppercase tracking-widest">{feature}</span>
                          </div>
                        ))}
@@ -227,47 +227,47 @@ export default function ToolsMarketingPage() {
       </section>
 
       {/* Trust & Verification Section */}
-      <section className="py-24 bg-white border-t border-mkt-bd overflow-hidden relative">
+      <section className="py-24 border-t border-border-slate/50 overflow-hidden relative">
          <div className="max-w-7xl mx-auto px-6 relative z-10">
             <div className="text-center max-w-3xl mx-auto mb-16">
                <span className="text-[10px] font-mono tracking-widest uppercase text-accent font-bold block mb-4">
                  // INSTITUTIONAL STANDARDS
                </span>
                <h2 className="text-3xl md:text-5xl font-sans font-black uppercase leading-tight mb-6">
-                 Built for <span className="text-mkt-ink">Survival.</span>
+                 Built for <span className="text-text-primary">Survival.</span>
                </h2>
-               <p className="text-mkt-i2 leading-relaxed text-lg">
+               <p className="text-text-secondary leading-relaxed text-lg">
                  The tools you use dictate the quality of your execution. We don't compromise on speed, accuracy, or data integrity.
                </p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-               <div className="p-8 border border-mkt-bd bg-white hover:border-mkt-bds/30 transition-colors">
+               <div className="p-8 border border-border-slate/50 hover:border-border-slate/70 transition-colors">
                   <div className="w-12 h-12 bg-accent/10 flex items-center justify-center mb-6">
                      <History className="w-6 h-6 text-accent" />
                   </div>
                   <h3 className="text-xl font-sans font-bold uppercase mb-4">Rigorously Backtested</h3>
-                  <p className="text-sm text-mkt-i2 leading-relaxed">
+                  <p className="text-sm text-text-secondary leading-relaxed">
                      Every indicator and scanner algorithm is tested against 10+ years of tick-data across multiple asset classes before deployment. We don't release theories; we release proven statistical edges.
                   </p>
                </div>
                
-               <div className="p-8 border border-mkt-bd bg-white hover:border-mkt-bds/30 transition-colors">
+               <div className="p-8 border border-border-slate/50 hover:border-border-slate/70 transition-colors">
                   <div className="w-12 h-12 bg-profit/10 flex items-center justify-center mb-6">
-                     <Zap className="w-6 h-6 text-mkt-grn" />
+                     <Zap className="w-6 h-6 text-profit" />
                   </div>
                   <h3 className="text-xl font-sans font-bold uppercase mb-4">Zero-Lag Execution</h3>
-                  <p className="text-sm text-mkt-i2 leading-relaxed">
+                  <p className="text-sm text-text-secondary leading-relaxed">
                      Our infrastructure runs on the edge. Pricing data, scanner alerts, and journal entries are processed with sub-millisecond latency, ensuring you never miss a critical market shift.
                   </p>
                </div>
 
-               <div className="p-8 border border-mkt-bd bg-white hover:border-mkt-bds/30 transition-colors">
+               <div className="p-8 border border-border-slate/50 hover:border-border-slate/70 transition-colors">
                   <div className="w-12 h-12 bg-premium/10 flex items-center justify-center mb-6">
                      <ShieldCheck className="w-6 h-6 text-premium" />
                   </div>
                   <h3 className="text-xl font-sans font-bold uppercase mb-4">Secure & Private</h3>
-                  <p className="text-sm text-mkt-i2 leading-relaxed">
+                  <p className="text-sm text-text-secondary leading-relaxed">
                      Your trade history and API keys are heavily encrypted. We don't sell your data, we don't counter-trade you, and we don't share your proprietary strategies with anyone.
                   </p>
                </div>
@@ -276,13 +276,13 @@ export default function ToolsMarketingPage() {
       </section>
 
       {/* CTA Footer */}
-      <section className="py-32 bg-white border-t border-mkt-bd">
+      <section className="py-32 border-t border-border-slate/50">
          <div className="max-w-7xl mx-auto px-6 text-center">
             <div className="max-w-3xl mx-auto space-y-10">
-               <h2 className="  font-sans font-black uppercase tracking-tighter leading-none">
+               <h2 className="font-sans font-black uppercase tracking-tighter leading-none">
                   Ready to stop <span className="text-red-500">guessing?</span>
                </h2>
-               <p className="text-xl text-mkt-i2 leading-relaxed uppercase tracking-widest font-mono text-sm opacity-60">
+               <p className="text-xl text-text-secondary leading-relaxed uppercase tracking-widest font-mono text-sm opacity-60">
                   Data-driven edge is only one decision away.
                </p>
                <Link href="/signup" className="inline-flex items-center gap-4 bg-mkt-ink text-white px-12 py-6 font-sans font-black uppercase tracking-[0.2em] text-sm hover:translate-y-[-2px] transition-all shadow-xl shadow-accent/20">

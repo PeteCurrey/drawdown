@@ -54,13 +54,13 @@ export default function ModulePage({ params }: Props) {
   };
 
   return (
-    <div className="pt-24 min-h-screen bg-white">
+    <div className="pt-24 min-h-screen">
       {/* Module Navigation Header */}
-      <div className="border-b border-mkt-bd bg-white/50 backdrop-blur-md sticky top-0 z-40">
+      <div className="border-b border-border-slate/50 /50 backdrop-blur-md sticky top-0 z-40">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           <Link
             href={`/learn/${phase}`}
-            className="flex items-center gap-2 text-[10px] font-mono uppercase tracking-widest text-mkt-i4 hover:text-accent transition-colors"
+            className="flex items-center gap-2 text-[10px] font-mono uppercase tracking-widest text-text-tertiary hover:text-accent transition-colors"
           >
             <ChevronLeft className="w-4 h-4" /> Back to Phase
           </Link>
@@ -75,10 +75,10 @@ export default function ModulePage({ params }: Props) {
           </div>
 
           <div className="flex items-center gap-4">
-            <button className="p-2 border border-mkt-bd hover:border-mkt-bds text-mkt-i4 hover:text-accent transition-all">
+            <button className="p-2 border border-border-slate/50 hover:border-border-slate text-text-tertiary hover:text-accent transition-all">
               <ChevronLeft className="w-4 h-4" />
             </button>
-            <button className="p-2 border border-mkt-bd hover:border-mkt-bds text-mkt-i4 hover:text-accent transition-all">
+            <button className="p-2 border border-border-slate/50 hover:border-border-slate text-text-tertiary hover:text-accent transition-all">
               <ChevronRight className="w-4 h-4" />
             </button>
           </div>
@@ -102,7 +102,7 @@ export default function ModulePage({ params }: Props) {
 
             {/* Lesson Content Tabs */}
             <div className="space-y-8">
-              <div className="flex gap-8 border-b border-mkt-bd">
+              <div className="flex gap-8 border-b border-border-slate/50">
                 {(["notes", "quiz", "discussion"] as const).map((tab) => (
                   <button
                     key={tab}
@@ -111,7 +111,7 @@ export default function ModulePage({ params }: Props) {
                       "pb-4 text-[10px] font-bold uppercase tracking-widest transition-all relative",
                       activeTab === tab
                         ? "text-accent"
-                        : "text-mkt-i4 hover:text-mkt-ink"
+                        : "text-text-tertiary hover:text-text-primary"
                     )}
                   >
                     {tab}
@@ -155,24 +155,24 @@ export default function ModulePage({ params }: Props) {
 
                 {activeTab === "discussion" && (
                   <div className="space-y-8">
-                    <div className="p-6 bg-[#F7F7F7] border border-mkt-bd flex gap-4">
-                      <div className="w-10 h-10 bg-accent/20 border border-mkt-bd/20 rounded-full shrink-0" />
+                    <div className="p-6 bg-background-elevated/40 border border-border-slate/50 flex gap-4">
+                      <div className="w-10 h-10 bg-accent/20 border border-border-slate/50/20 rounded-full shrink-0" />
                       <textarea
                         placeholder="Add to the discussion..."
                         className="flex-grow bg-transparent outline-none h-24 text-sm font-sans resize-none"
                       />
                     </div>
                     <div className="space-y-6">
-                      <div className="p-6 border-l-2 border-mkt-bd ml-4 space-y-4">
+                      <div className="p-6 border-l-2 border-border-slate/50 ml-4 space-y-4">
                         <div className="flex items-center gap-3">
-                          <span className="text-[10px] font-bold uppercase tracking-widest text-mkt-ink">
+                          <span className="text-[10px] font-bold uppercase tracking-widest text-text-primary">
                             Admin_Pete
                           </span>
-                          <span className="text-[8px] font-mono text-accent uppercase tracking-widest border border-mkt-bd/30 px-2">
+                          <span className="text-[8px] font-mono text-accent uppercase tracking-widest border border-border-slate/50/30 px-2">
                             Floor
                           </span>
                         </div>
-                        <p className="text-sm text-mkt-i2">
+                        <p className="text-sm text-text-secondary">
                           If you&apos;re struggling with the EV formula, check out the
                           resources tab in Phase 1 Module 2.
                         </p>
@@ -186,8 +186,8 @@ export default function ModulePage({ params }: Props) {
 
           {/* Right Sidebar - Module Outline */}
           <aside className="space-y-8 h-fit lg:sticky lg:top-32">
-            <div className="bg-white border border-mkt-bd p-8">
-              <h4 className="text-[10px] font-mono uppercase tracking-widest text-mkt-i4 mb-6">
+            <div className="bg-background-surface/40 backdrop-blur-md border border-border-slate/50 transition-all duration-300 hover:shadow-[0_0_20px_rgba(0,0,0,0.2)] hover:border-border-slate hover:-translate-y-0.5 p-8">
+              <h4 className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary mb-6">
                 Course Outline
               </h4>
               <div className="space-y-4">
@@ -200,7 +200,7 @@ export default function ModulePage({ params }: Props) {
                   <div
                     key={mod.id}
                     className={cn(
-                      "flex items-center gap-4 py-3 group cursor-pointer border-b border-mkt-bd/30",
+                      "flex items-center gap-4 py-3 group cursor-pointer border-b border-border-slate/50/30",
                       mod.status === "locked" && "opacity-40"
                     )}
                   >
@@ -209,7 +209,7 @@ export default function ModulePage({ params }: Props) {
                         "text-lg font-sans font-bold",
                         mod.status === "current"
                           ? "text-accent"
-                          : "text-mkt-i4"
+                          : "text-text-tertiary"
                       )}
                     >
                       0{mod.id}
@@ -218,14 +218,14 @@ export default function ModulePage({ params }: Props) {
                       className={cn(
                         "text-[10px] font-bold uppercase tracking-widest",
                         mod.status === "current"
-                          ? "text-mkt-ink"
-                          : "text-mkt-i4 group-hover:text-mkt-ink transition-colors"
+                          ? "text-text-primary"
+                          : "text-text-tertiary group-hover:text-text-primary transition-colors"
                       )}
                     >
                       {mod.title}
                     </p>
                     {mod.status === "complete" && (
-                      <CheckCircle2 className="w-3 h-3 text-mkt-grn ml-auto" />
+                      <CheckCircle2 className="w-3 h-3 text-profit ml-auto" />
                     )}
                   </div>
                 ))}
@@ -237,7 +237,7 @@ export default function ModulePage({ params }: Props) {
               className={cn(
                 "w-full py-5 text-[10px] font-bold uppercase tracking-widest transition-all flex items-center justify-center gap-2",
                 moduleCompleted
-                  ? "bg-profit/20 text-mkt-grn border border-profit/30 cursor-default"
+                  ? "bg-profit/20 text-profit border border-profit/30 cursor-default"
                   : "bg-profit text-background-primary hover:bg-profit/90"
               )}
             >

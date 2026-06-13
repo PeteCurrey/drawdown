@@ -208,7 +208,10 @@ export function HeroSection() {
           >
             <Link 
               href={`${regionPrefix}/signup`} 
-              className="bg-mkt-ink hover:bg-mkt-i2 text-white px-7 py-4 rounded-lg font-medium text-center transition-colors duration-200 text-sm md:text-base font-sans shadow-lg shadow-black/10"
+              className="px-7 py-4 rounded-lg font-semibold text-center transition-colors duration-200 text-sm md:text-base font-sans shadow-lg shadow-black/10"
+              style={{ backgroundColor: "#0A0A0A", color: "#FFFFFF" }}
+              onMouseEnter={e => (e.currentTarget.style.backgroundColor = "#3A3A3A")}
+              onMouseLeave={e => (e.currentTarget.style.backgroundColor = "#0A0A0A")}
             >
               Start Free — No Card Required
             </Link>
@@ -238,7 +241,13 @@ export function HeroSection() {
         </motion.div>
 
         {/* Centered Tilted Mockup Container */}
-        <div className="w-full flex justify-center items-center select-none mt-16 md:mt-24 relative hero-3d-card-container">
+        <div
+          className="w-full flex justify-center items-center select-none mt-16 md:mt-24 relative hero-3d-card-container"
+          style={{
+            WebkitMaskImage: "linear-gradient(to bottom, black 0%, black 55%, transparent 100%)",
+            maskImage: "linear-gradient(to bottom, black 0%, black 55%, transparent 100%)",
+          }}
+        >
           <motion.div
             className="w-full relative max-w-5xl transform-gpu"
             variants={dashboardVariants}
@@ -319,7 +328,9 @@ export function HeroSection() {
                         d="M0,60 Q40,40 80,45 T160,30 T240,55 T300,20" 
                         fill="none" 
                         stroke="#16A34A" 
-                        strokeWidth="1.5" 
+                        strokeWidth="2.5" 
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
                       />
                     </svg>
                   </div>

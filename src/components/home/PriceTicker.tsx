@@ -23,8 +23,13 @@ export function PriceTicker() {
         const res = await fetch(`/api/market/prices?symbols=${TICKER_SYMBOLS.join(",")}`);
         if (!res.ok) throw new Error();
         const prices = await res.json();
-        setData(prices);
-        setError(false);
+        // Ensure valid array is returned
+        if (Array.isArray(prices)) {
+          setData(prices);
+          setError(false);
+        } else {
+          throw new Error();
+        }
       } catch (err) {
         setError(true);
       }
@@ -42,7 +47,10 @@ export function PriceTicker() {
     return sym;
   };
 
-  const formatPrice = (price: number, symbol: string) => {
+  const formatPrice = (price: number | null | undefined, symbol: string) => {
+    if (price == null || typeof price !== "number" || Number.isNaN(price)) {
+      return "--";
+    }
     if (symbol.includes("JPY")) return price.toFixed(2);
     if (symbol.includes("BTC") || symbol.includes("ETH")) {
       return price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
@@ -50,50 +58,71 @@ export function PriceTicker() {
     return price.toFixed(4);
   };
 
-  // Duplicate items for seamless CSS marquee scroll
-  const marqueeItems = [...data, ...data, ...data];
+  const formatChange = (change: number | null | undefined) => {
+    if (change == null || typeof change !== "number" || Number.isNaN(change)) {
+      return "";
+    }
+    return `${change >= 0 ? "▲" : "▼"} ${Math.abs(change).toFixed(2)}%`;
+  };
+
+  // Compile ticker list: use live data if available, otherwise fallback list with "--"
+  const activeList: { symbol: string; price?: number; changePercent?: number }[] = 
+    data.length > 0 && !error 
+      ? data 
+      : TICKER_SYMBOLS.map(sym => ({ symbol: sym }));
+
+  // Triplicate the items for seamless CSS marquee scroll
+  const marqueeItems = [...activeList, ...activeList, ...activeList];
 
   return (
-    <div className="w-full bg-[#0A0A0A] h-[44px] flex items-center overflow-hidden border-y border-[#1A1D24] select-none relative z-20">
+    <div className="w-full bg-[#0A0A0A] h-[44px] flex items-center overflow-hidden border-y border-mkt-i2 select-none relative z-10">
       
       {/* Live Badge */}
-      <div className="absolute left-0 top-0 bottom-0 bg-[#0A0A0A] z-30 flex items-center px-4 border-r border-[#1A1D24]">
-        <span className="text-[10px] font-bold text-black bg-emerald-400 px-2 py-0.5 rounded-sm uppercase tracking-wider">
+      <div className="absolute left-0 top-0 bottom-0 bg-[#0A0A0A] z-30 flex items-center px-4 border-r border-mkt-i2">
+        <span className="text-[10px] font-bold text-white bg-mkt-grn px-2 py-0.5 rounded-sm uppercase tracking-wider font-sans">
           LIVE
         </span>
       </div>
 
       {/* Marquee Wrapper */}
-      <div className="flex-grow overflow-hidden flex items-center pl-20 pr-40">
+      <div className="flex-grow overflow-hidden flex items-center pl-24 pr-44">
         <div className="flex animate-marquee-ticker whitespace-nowrap items-center hover:[animation-play-state:paused] cursor-pointer">
-          {data.length > 0 ? (
-            marqueeItems.map((item, i) => (
-              <div key={i} className="flex items-center gap-2">
-                <span className="text-neutral-400 text-xs font-mono tracking-wide uppercase">
+          {marqueeItems.map((item, i) => {
+            const hasData = item.price !== undefined;
+            const isPositive = item.changePercent !== undefined && item.changePercent >= 0;
+
+            return (
+              <div key={i} className="flex items-center gap-2 pr-12">
+                {/* Pair Name: Geist Mono, dim */}
+                <span className="text-mkt-i4 text-xs font-mono tracking-wide uppercase">
                   {formatSymbol(item.symbol)}
                 </span>
-                <span className="text-white text-xs font-mono font-semibold">
+                
+                {/* Price: Geist Mono, white, bold */}
+                <span className="text-white text-xs font-mono font-bold">
                   {formatPrice(item.price, item.symbol)}
                 </span>
-                <span className={cn(
-                  "text-xs font-mono font-semibold",
-                  item.changePercent >= 0 ? "text-emerald-400" : "text-rose-500"
-                )}>
-                  {item.changePercent >= 0 ? "▲" : "▼"} {Math.abs(item.changePercent).toFixed(2)}%
-                </span>
-                <span className="text-neutral-700 mx-6 select-none font-sans">&bull;</span>
+                
+                {/* Change: Geist Mono, green if positive, red if negative */}
+                {hasData && (
+                  <span className={cn(
+                    "text-xs font-mono font-semibold",
+                    isPositive ? "text-mkt-grn" : "text-mkt-red"
+                  )}>
+                    {formatChange(item.changePercent)}
+                  </span>
+                )}
+                
+                {/* Dot separator */}
+                <span className="text-neutral-800 ml-6 select-none font-sans">&bull;</span>
               </div>
-            ))
-          ) : (
-            <div className="text-neutral-500 text-xs font-mono pl-4">
-              Connecting to market data feed...
-            </div>
-          )}
+            );
+          })}
         </div>
       </div>
 
       {/* Delayed pricing info */}
-      <div className="absolute right-0 top-0 bottom-0 bg-[#0A0A0A] z-30 flex items-center px-4 border-l border-[#1A1D24] text-neutral-500 text-[10px] uppercase font-mono tracking-widest">
+      <div className="absolute right-0 top-0 bottom-0 bg-[#0A0A0A] z-30 flex items-center px-4 border-l border-mkt-i2 text-mkt-i4 text-[10px] uppercase font-mono tracking-widest">
         Prices delayed 60s
       </div>
 
@@ -103,7 +132,7 @@ export function PriceTicker() {
           100% { transform: translateX(-33.333%); }
         }
         .animate-marquee-ticker {
-          animation: marquee-ticker 40s linear infinite;
+          animation: marquee-ticker 38s linear infinite;
         }
       `}</style>
     </div>

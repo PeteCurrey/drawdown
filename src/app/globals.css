@@ -15,19 +15,22 @@
   --color-warning: #FFB020;
   --color-premium: #B8962E;
 
+  --color-mkt-w: var(--mkt-w);
   --color-mkt-bg: var(--mkt-bg);
-  --color-mkt-bg-subtle: var(--mkt-bg-subtle);
-  --color-mkt-bg-raised: var(--mkt-bg-raised);
-  --color-mkt-border: var(--mkt-border);
-  --color-mkt-border-strong: var(--mkt-border-strong);
-  --color-mkt-text-primary: var(--mkt-text-primary);
-  --color-mkt-text-secondary: var(--mkt-text-secondary);
-  --color-mkt-text-tertiary: var(--mkt-text-tertiary);
-  --color-mkt-accent: var(--mkt-accent);
-  --color-mkt-accent-text: var(--mkt-accent-text);
-  --color-mkt-accent-green: var(--mkt-accent-green);
-  --color-mkt-accent-red: var(--mkt-accent-red);
-  --color-mkt-accent-amber: var(--mkt-accent-amber);
+  --color-mkt-sur: var(--mkt-sur);
+  --color-mkt-bd: var(--mkt-bd);
+  --color-mkt-bds: var(--mkt-bds);
+  --color-mkt-ink: var(--mkt-ink);
+  --color-mkt-i2: var(--mkt-i2);
+  --color-mkt-i3: var(--mkt-i3);
+  --color-mkt-i4: var(--mkt-i4);
+  --color-mkt-grn: var(--mkt-grn);
+  --color-mkt-gbg: var(--mkt-gbg);
+  --color-mkt-gbd: var(--mkt-gbd);
+  --color-mkt-red: var(--mkt-red);
+  --color-mkt-rbg: var(--mkt-rbg);
+  --color-mkt-amb: var(--mkt-amb);
+  --color-mkt-tk: var(--mkt-tk);
 
   --font-display: var(--font-syne), ui-sans-serif, system-ui;
   --font-sans: var(--font-dm-sans), ui-sans-serif, system-ui;
@@ -304,43 +307,52 @@ h3 { font-size: clamp(1.5rem, 5vw, 2.5rem); }
   padding-bottom: 5rem; /* 80px for the bottom nav */
 }
 
-/* Scoped marketing light mode variables */
-.marketing-light {
-  --mkt-bg: #FFFFFF;
-  --mkt-bg-subtle: #F7F7F7;
-  --mkt-bg-raised: #FAFAFA;
-  --mkt-border: #E8E8E8;
-  --mkt-border-strong: #D0D0D0;
-  --mkt-text-primary: #0A0A0A;
-  --mkt-text-secondary: #6B6B6B;
-  --mkt-text-tertiary: #9B9B9B;
-  --mkt-accent: #0A0A0A;
-  --mkt-accent-text: #FFFFFF;
-  --mkt-accent-green: #16A34A;
-  --mkt-accent-red: #DC2626;
-  --mkt-accent-amber: #D97706;
+/* Scoped marketing light mode variables (Geist standard) */
+.marketing {
+  --mkt-w: #FFFFFF;
+  --mkt-bg: #F7F7F7;
+  --mkt-sur: #FFFFFF;
+  --mkt-bd: #E5E5E5;
+  --mkt-bds: #C8C8C8;
+  --mkt-ink: #0A0A0A;
+  --mkt-i2: #3A3A3A;
+  --mkt-i3: #666666;
+  --mkt-i4: #999999;
+  --mkt-grn: #16A34A;
+  --mkt-gbg: #F0FDF4;
+  --mkt-gbd: #BBF7D0;
+  --mkt-red: #DC2626;
+  --mkt-rbg: #FEF2F2;
+  --mkt-amb: #D97706;
+  --mkt-tk: #0A0A0A;
 
-  /* Map standard variables to light counterparts inside scope */
+  /* Font mappings for marketing pages */
+  font-family: var(--font-geist), ui-sans-serif, system-ui;
+  --font-sans: var(--font-geist);
+  --font-display: var(--font-geist);
+  --font-mono: var(--font-geist-mono);
+
+  /* Map standard color variables inside scope so unmigrated cards render beautifully */
   --background: var(--mkt-bg);
-  --surface: var(--mkt-bg-raised);
-  --elevated: var(--mkt-bg-subtle);
-  --border: var(--mkt-border);
-  --text-primary: var(--mkt-text-primary);
-  --text-secondary: var(--mkt-text-secondary);
-  --text-tertiary: var(--mkt-text-tertiary);
-  --foreground: var(--mkt-text-primary);
+  --surface: var(--mkt-sur);
+  --elevated: var(--mkt-bg);
+  --border: var(--mkt-bd);
+  --text-primary: var(--mkt-ink);
+  --text-secondary: var(--mkt-i2);
+  --text-tertiary: var(--mkt-i3);
+  --foreground: var(--mkt-ink);
   
   /* Additional Tailwind overrides */
   --color-background-primary: var(--mkt-bg);
-  --color-background-surface: var(--mkt-bg-raised);
-  --color-background-elevated: var(--mkt-bg-subtle);
-  --color-border-slate: var(--mkt-border);
-  --color-text-primary: var(--mkt-text-primary);
-  --color-text-secondary: var(--mkt-text-secondary);
-  --color-text-tertiary: var(--mkt-text-tertiary);
+  --color-background-surface: var(--mkt-sur);
+  --color-background-elevated: var(--mkt-bg);
+  --color-border-slate: var(--mkt-bd);
+  --color-text-primary: var(--mkt-ink);
+  --color-text-secondary: var(--mkt-i2);
+  --color-text-tertiary: var(--mkt-i3);
   
   background-color: var(--mkt-bg);
-  color: var(--mkt-text-primary);
+  color: var(--mkt-ink);
 }
 
 /* 3D Perspective Card Tilt for Hero mockup */

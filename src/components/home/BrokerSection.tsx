@@ -1,0 +1,242 @@
+"use client";
+
+import { Shield, ChevronRight } from "lucide-react";
+import Link from "next/link";
+import { motion } from "framer-motion";
+import { useRegion } from "@/components/layout/RegionalLayout";
+import { brokersAu } from "@/data/brokers-au";
+import { brokersUs } from "@/data/brokers-us";
+import { brokersSg, brokersHk } from "@/data/brokers-asia";
+import { cn } from "@/lib/utils";
+
+const ukBrokers = [
+  {
+    id: "ig-markets",
+    name: "IG Markets",
+    logoUrl: "/logos/brokers/ig-markets.svg",
+    logoPlaceholder: "IG",
+    bestFor: "Best for UK spread betting",
+    stat: "Spreads from 0.6 pips",
+    features: ["FCA Regulated", "Institutional Grade", "Pete's pick"],
+    color: "#E11A27",
+    regulation: "FCA PROTECTED"
+  },
+  {
+    id: "pepperstone",
+    name: "Pepperstone",
+    logoUrl: undefined,
+    logoPlaceholder: "PS",
+    bestFor: "Best for forex",
+    stat: "Raw spreads from 0.0 pips",
+    features: ["FCA Regulated", "Fast Execution", "Low Commission"],
+    color: "#0032FF",
+    regulation: "FCA PROTECTED"
+  },
+  {
+    id: "ic-markets",
+    name: "IC Markets",
+    logoUrl: undefined,
+    logoPlaceholder: "IC",
+    bestFor: "Best for active traders",
+    stat: "Ultra-low commissions",
+    features: ["Global Depth", "Raw Spreads", "High Leverage"],
+    color: "#2C2F36",
+    regulation: "GLOBAL DEPTH"
+  }
+];
+
+interface Broker {
+  id: string;
+  name: string;
+  logoUrl?: string;
+  logoPlaceholder: string;
+  bestFor: string;
+  stat: string;
+  features: string[];
+  color: string;
+  regulation: string;
+}
+
+export function BrokerSection() {
+  const { region } = useRegion();
+
+  const getRegionalData = (): { brokers: Broker[], link: string } => {
+    switch (region) {
+      case "au":
+        return {
+          brokers: brokersAu.slice(0, 3).map(b => ({
+            id: b.slug,
+            name: b.name,
+            logoUrl: b.name.includes("IG") ? "/logos/brokers/ig-markets.svg" : undefined,
+            logoPlaceholder: b.name.substring(0, 2).toUpperCase(),
+            bestFor: b.bestFor,
+            stat: b.minDeposit === "$0" ? "No Minimum Deposit" : `Min Deposit: ${b.minDeposit}`,
+            features: b.features,
+            color: b.name.includes("Pepperstone") ? "#0032FF" : b.name.includes("IG") ? "#E11A27" : "#2C2F36",
+            regulation: "ASIC REGULATED"
+          })),
+          link: "/au/brokers"
+        };
+      case "us":
+        return {
+          brokers: brokersUs.slice(0, 3).map(b => ({
+            id: b.slug,
+            name: b.name,
+            logoUrl: undefined,
+            logoPlaceholder: b.name.substring(0, 2).toUpperCase(),
+            bestFor: b.bestFor,
+            stat: b.maxLeverage,
+            features: b.features,
+            color: b.name.includes("tastyfx") ? "#E11A27" : b.name.includes("OANDA") ? "#0032FF" : "#2C2F36",
+            regulation: "CFTC / NFA"
+          })),
+          link: "/us/brokers"
+        };
+      case "sg":
+        return {
+          brokers: brokersSg.slice(0, 3).map(b => ({
+            id: b.slug,
+            name: b.name,
+            logoUrl: b.name.includes("IG") ? "/logos/brokers/ig-markets.svg" : undefined,
+            logoPlaceholder: b.name.substring(0, 2).toUpperCase(),
+            bestFor: b.bestFor,
+            stat: b.maxLeverage,
+            features: b.features,
+            color: b.name.includes("IG") ? "#E11A27" : b.name.includes("Saxo") ? "#0032FF" : "#2C2F36",
+            regulation: "MAS REGULATED"
+          })),
+          link: "/sg/brokers"
+        };
+      case "hk":
+        return {
+          brokers: brokersHk.slice(0, 3).map(b => ({
+            id: b.slug,
+            name: b.name,
+            logoUrl: b.name.includes("IG") ? "/logos/brokers/ig-markets.svg" : undefined,
+            logoPlaceholder: b.name.substring(0, 2).toUpperCase(),
+            bestFor: b.bestFor,
+            stat: b.maxLeverage,
+            features: b.features,
+            color: b.name.includes("IG") ? "#E11A27" : "#2C2F36",
+            regulation: "SFC REGULATED"
+          })),
+          link: "/hk/brokers"
+        };
+      default:
+        return {
+          brokers: ukBrokers as Broker[],
+          link: "/brokers"
+        };
+    }
+  };
+
+  const { brokers: regionalBrokers, link } = getRegionalData();
+
+  const cardVariants = {
+    hidden: { opacity: 0, y: 15 },
+    visible: (i: number) => ({
+      opacity: 1,
+      y: 0,
+      transition: {
+        delay: i * 0.08,
+        duration: 0.5,
+        ease: "easeOut" as const
+      }
+    })
+  };
+
+  return (
+    <section className="w-full bg-white border-b border-mkt-bd py-24 select-none relative z-10">
+      <div className="max-w-7xl mx-auto px-6">
+        
+        {/* Section Heading */}
+        <div className="mb-16 text-center">
+          <span className="text-[11px] font-sans font-bold text-mkt-i4 uppercase tracking-widest block mb-4">
+            // RECOMMENDED BROKERS
+          </span>
+          <h2 className="text-3xl md:text-5xl font-sans font-extrabold text-mkt-ink tracking-tight mb-4">
+            Trade with brokers we actually use
+          </h2>
+          <p className="text-base text-mkt-i3 max-w-xl mx-auto font-sans">
+            Honest recommendations. No pay-to-play rankings. We may earn a referral fee — but only from platforms we personally trade on.
+          </p>
+        </div>
+
+        {/* Card Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {regionalBrokers.map((broker, idx) => (
+            <motion.div 
+              key={broker.id}
+              custom={idx}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-20px" }}
+              variants={cardVariants}
+              className="bg-white border border-mkt-bd rounded-[14px] p-6 flex flex-col justify-between hover:-translate-y-0.5 hover:shadow-[0_8px_32px_rgba(0,0,0,0.06)] transition-all duration-300"
+            >
+              <div>
+                <div className="flex items-center justify-between mb-6">
+                  {/* Logo Container */}
+                  <div className="h-8 flex items-center justify-start">
+                    {broker.logoUrl ? (
+                      <img src={broker.logoUrl} alt={broker.name} className="max-h-8 object-contain" />
+                    ) : (
+                      <span 
+                        className="font-sans font-extrabold text-mkt-ink text-lg uppercase tracking-wider"
+                        style={{ color: broker.color }}
+                      >
+                        {broker.logoPlaceholder}
+                      </span>
+                    )}
+                  </div>
+                  
+                  {/* Regulation Badge */}
+                  <span className="text-[10px] font-sans font-bold text-mkt-grn bg-mkt-gbg border border-mkt-gbd rounded-full px-2.5 py-0.5 uppercase tracking-wide flex items-center gap-1">
+                    <Shield className="w-3 h-3" /> {broker.regulation}
+                  </span>
+                </div>
+
+                <h3 className="text-xl font-sans font-bold text-mkt-ink leading-tight mt-6 mb-1">{broker.name}</h3>
+                <p className="text-[10px] font-sans font-bold text-mkt-i4 uppercase tracking-widest mb-6">{broker.bestFor}</p>
+                
+                <div className="py-3 border-y border-neutral-100 mb-6">
+                  <p className="text-sm font-mono text-mkt-ink font-semibold">{broker.stat}</p>
+                </div>
+
+                <ul className="space-y-3 mb-8">
+                  {broker.features.map((f, i) => (
+                    <li key={i} className="flex items-center gap-2 text-xs text-mkt-i3 font-sans">
+                      <span className="text-mkt-grn font-bold">✓</span> {f}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Keeping the exactly mandated /go/ link routing */}
+              <a 
+                href={`/go/${broker.id}`}
+                className="w-full bg-black hover:bg-neutral-900 text-white rounded-lg py-3 text-sm font-medium text-center transition-colors font-sans flex items-center justify-center gap-2"
+              >
+                Open Account &rarr;
+              </a>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Disclosure & Footer Links */}
+        <div className="mt-12 pt-8 border-t border-neutral-100 flex flex-col md:flex-row items-center justify-between gap-6">
+          <p className="text-xs text-mkt-i4 font-sans text-center md:text-left">
+            Honest recommendations. We may earn a referral fee — disclosed on every link.
+          </p>
+          <Link 
+            href={link}
+            className="text-xs font-sans font-bold uppercase tracking-widest text-mkt-ink hover:underline flex items-center gap-1.5"
+          >
+            See All Broker Reviews <ChevronRight className="w-4 h-4" />
+          </Link>
+        </div>
+
+      </div>
+    </section>
+  );
+}

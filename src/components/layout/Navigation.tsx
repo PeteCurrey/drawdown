@@ -10,7 +10,6 @@ import { useRegion } from "@/components/layout/RegionalLayout";
 
 export function Navigation() {
   const { region } = useRegion();
-  const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [user, setUser] = useState<User | null>(null);
   const supabase = createClient();
@@ -29,14 +28,6 @@ export function Navigation() {
     return () => subscription.unsubscribe();
   }, [supabase.auth]);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
   const regionPrefix = region === "uk" ? "" : `/${region}`;
 
   const navLinks = [
@@ -50,20 +41,16 @@ export function Navigation() {
 
   return (
     <header
-      className={cn(
-        "fixed top-0 left-0 w-full z-[70] transition-all duration-300 border-b",
-        isScrolled
-          ? "bg-white/90 backdrop-blur-sm border-[#E8E8E8] py-4 shadow-sm"
-          : "bg-white/50 backdrop-blur-sm border-transparent py-5"
-      )}
+      className="fixed top-0 left-0 w-full z-[200] h-[58px] bg-[rgba(255,255,255,0.94)] backdrop-blur-[16px] border-b border-mkt-bd flex items-center select-none"
     >
-      <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
+      <div className="w-full max-w-7xl mx-auto px-6 flex justify-between items-center">
         {/* Logo */}
         <Link
           href={region === 'uk' ? "/" : `/${region}`}
-          className="text-2xl font-display font-bold text-[#0A0A0A] hover:opacity-85 transition-opacity"
+          className="text-2xl font-sans font-extrabold tracking-[-0.04em] text-mkt-ink hover:opacity-85 transition-opacity"
+          style={{ fontWeight: 800 }}
         >
-          Drawdown.
+          Drawdown<span className="text-mkt-grn">.</span>
         </Link>
 
         {/* Desktop Navigation Links */}
@@ -72,7 +59,7 @@ export function Navigation() {
             <Link
               key={link.name}
               href={link.href}
-              className="text-sm font-medium text-[#6B6B6B] hover:text-[#0A0A0A] transition-colors duration-150 font-sans"
+              className="text-sm font-medium text-mkt-i3 hover:text-mkt-ink transition-colors duration-150 font-sans"
             >
               {link.name}
             </Link>
@@ -82,25 +69,23 @@ export function Navigation() {
         {/* Desktop Action Buttons */}
         <div className="hidden lg:flex items-center">
           {user ? (
-            <>
-              <Link
-                href="/dashboard"
-                className="bg-black hover:bg-neutral-800 text-white px-5 py-2 rounded-lg text-sm font-medium transition-colors font-sans"
-              >
-                Go to Dashboard
-              </Link>
-            </>
+            <Link
+              href="/dashboard"
+              className="bg-mkt-ink hover:bg-mkt-i2 text-white px-5 py-2 rounded-lg text-sm font-medium transition-colors font-sans"
+            >
+              Go to Dashboard
+            </Link>
           ) : (
             <>
               <Link
                 href="/login"
-                className="text-sm font-medium text-neutral-500 hover:text-black mr-6 transition-colors font-sans"
+                className="text-sm font-medium text-mkt-i3 hover:text-mkt-ink mr-6 transition-colors font-sans"
               >
                 Login
               </Link>
               <Link
                 href="/signup"
-                className="bg-black hover:bg-neutral-800 text-white px-5 py-2 rounded-lg text-sm font-medium transition-colors font-sans"
+                className="bg-mkt-ink hover:bg-mkt-i2 text-white px-5 py-2 rounded-lg text-sm font-medium transition-colors font-sans"
               >
                 Start Free
               </Link>
@@ -111,7 +96,7 @@ export function Navigation() {
         {/* Mobile Menu Toggle */}
         <button
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          className="lg:hidden p-2 text-neutral-600 hover:text-black transition-colors"
+          className="lg:hidden p-2 text-mkt-i3 hover:text-mkt-ink transition-colors"
           aria-label="Toggle menu"
         >
           {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -120,14 +105,14 @@ export function Navigation() {
 
       {/* Mobile Menu Overlay */}
       {isMobileMenuOpen && (
-        <div className="fixed inset-0 top-[65px] bg-white z-50 lg:hidden flex flex-col px-6 py-8 border-t border-[#E8E8E8]">
-          <nav className="flex flex-col gap-6">
+        <div className="fixed inset-0 top-[58px] bg-white z-[199] lg:hidden flex flex-col px-6 py-8 border-t border-mkt-bd">
+          <nav className="flex flex-col gap-4">
             {navLinks.map((link) => (
               <Link
                 key={link.name}
                 href={link.href}
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="text-lg font-medium text-[#6B6B6B] hover:text-[#0A0A0A] py-3 border-b border-neutral-100 flex items-center transition-colors min-h-[48px] font-sans"
+                className="text-lg font-medium text-mkt-i3 hover:text-mkt-ink py-3 border-b border-neutral-100 flex items-center transition-colors min-h-[48px] font-sans"
               >
                 {link.name}
               </Link>
@@ -138,7 +123,7 @@ export function Navigation() {
               <Link
                 href="/dashboard"
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="bg-black hover:bg-neutral-800 text-white text-center py-3 rounded-lg text-sm font-medium transition-colors min-h-[48px] flex items-center justify-center font-sans"
+                className="bg-mkt-ink hover:bg-mkt-i2 text-white text-center py-3 rounded-lg text-sm font-medium transition-colors min-h-[48px] flex items-center justify-center font-sans"
               >
                 Go to Dashboard
               </Link>
@@ -147,14 +132,14 @@ export function Navigation() {
                 <Link
                   href="/login"
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="text-[#6B6B6B] hover:text-[#0A0A0A] text-center py-3 text-sm font-medium transition-colors min-h-[48px] flex items-center justify-center font-sans"
+                  className="text-mkt-i3 hover:text-mkt-ink text-center py-3 text-sm font-medium transition-colors min-h-[48px] flex items-center justify-center font-sans"
                 >
                   Login
                 </Link>
                 <Link
                   href="/signup"
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="bg-black hover:bg-neutral-800 text-white text-center py-3 rounded-lg text-sm font-medium transition-colors min-h-[48px] flex items-center justify-center font-sans"
+                  className="bg-mkt-ink hover:bg-mkt-i2 text-white text-center py-3 rounded-lg text-sm font-medium transition-colors min-h-[48px] flex items-center justify-center font-sans"
                 >
                   Start Free
                 </Link>

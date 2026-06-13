@@ -75,10 +75,10 @@ export function PriceTicker() {
   const marqueeItems = [...activeList, ...activeList, ...activeList];
 
   return (
-    <div className="w-full bg-[#0A0A0A] h-[44px] flex items-center overflow-hidden border-y border-mkt-i2 select-none relative z-10">
+    <div className="w-full bg-white h-[44px] flex items-center overflow-hidden border-y border-mkt-bd select-none relative z-10">
       
       {/* Live Badge */}
-      <div className="absolute left-0 top-0 bottom-0 bg-[#0A0A0A] z-30 flex items-center px-4 border-r border-mkt-i2">
+      <div className="absolute left-0 top-0 bottom-0 bg-white z-30 flex items-center px-4 border-r border-mkt-bd">
         <span className="text-[10px] font-bold text-white bg-mkt-grn px-2 py-0.5 rounded-sm uppercase tracking-wider font-sans">
           LIVE
         </span>
@@ -94,12 +94,12 @@ export function PriceTicker() {
             return (
               <div key={i} className="flex items-center gap-2 pr-12">
                 {/* Pair Name: Geist Mono, dim */}
-                <span className="text-mkt-i4 text-xs font-mono tracking-wide uppercase">
+                <span className="text-mkt-i3 text-xs font-mono tracking-wide uppercase">
                   {formatSymbol(item.symbol)}
                 </span>
                 
-                {/* Price: Geist Mono, white, bold */}
-                <span className="text-white text-xs font-mono font-bold">
+                {/* Price: Geist Mono, dark, bold */}
+                <span className="text-mkt-ink text-xs font-mono font-bold">
                   {formatPrice(item.price, item.symbol)}
                 </span>
                 
@@ -114,7 +114,7 @@ export function PriceTicker() {
                 )}
                 
                 {/* Dot separator */}
-                <span className="text-neutral-800 ml-6 select-none font-sans">&bull;</span>
+                <span className="text-mkt-bd ml-6 select-none font-sans">&bull;</span>
               </div>
             );
           })}
@@ -122,7 +122,7 @@ export function PriceTicker() {
       </div>
 
       {/* Delayed pricing info */}
-      <div className="absolute right-0 top-0 bottom-0 bg-[#0A0A0A] z-30 flex items-center px-4 border-l border-mkt-i2 text-mkt-i4 text-[10px] uppercase font-mono tracking-widest">
+      <div className="absolute right-0 top-0 bottom-0 bg-white z-30 flex items-center px-4 border-l border-mkt-bd text-mkt-i3 text-[10px] uppercase font-mono tracking-widest">
         Prices delayed 60s
       </div>
 

@@ -111,18 +111,18 @@ export function InstitutionalConsensusSection() {
   };
 
   return (
-    <section className="w-full bg-[#0A0A0A] border-b border-neutral-900 py-24 select-none relative z-10">
+    <section className="w-full bg-white border-b border-mkt-bd py-24 select-none relative z-10">
       <div className="max-w-7xl mx-auto px-6">
         
         {/* Section Heading */}
         <div className="mb-16 text-center">
-          <span className="text-[11px] font-sans font-bold text-neutral-500 uppercase tracking-widest block mb-4">
+          <span className="text-[11px] font-sans font-bold text-mkt-i4 uppercase tracking-widest block mb-4">
             // ACCUMULATION MATRIX
           </span>
-          <h2 className="text-3xl md:text-5xl font-sans font-extrabold text-white tracking-tight mb-4">
+          <h2 className="text-3xl md:text-5xl font-sans font-extrabold text-mkt-ink tracking-tight mb-4">
             Institutional Consensus
           </h2>
-          <p className="text-base text-neutral-400 max-w-xl mx-auto font-sans">
+          <p className="text-base text-mkt-i3 max-w-xl mx-auto font-sans">
             Aggregate long/short ratios, positioning grids, and daily directional bias across primary assets.
           </p>
         </div>
@@ -144,12 +144,12 @@ export function InstitutionalConsensusSection() {
                 whileInView="visible"
                 viewport={{ once: true, margin: "-20px" }}
                 variants={cardVariants}
-                className="bg-white/[0.04] border border-white/[0.08] rounded-[14px] p-6 hover:-translate-y-0.5 hover:bg-white/[0.08] hover:border-white/[0.15] transition-all duration-300 flex flex-col justify-between"
+                className="bg-white border border-mkt-bd rounded-[14px] p-6 hover:-translate-y-0.5 hover:shadow-[0_8px_32px_rgba(0,0,0,0.06)] transition-all duration-300 flex flex-col justify-between"
               >
                 <div>
                   {/* Top Bar: Asset and Signal Badge */}
                   <div className="flex items-center justify-between mb-6">
-                    <span className="text-sm font-sans font-bold text-white tracking-tight uppercase">
+                    <span className="text-sm font-sans font-bold text-mkt-ink tracking-tight uppercase">
                       {config.label}
                     </span>
                     <span className={cn(
@@ -162,7 +162,7 @@ export function InstitutionalConsensusSection() {
 
                   {/* Price info */}
                   <div className="mb-6">
-                    <span className="text-2xl font-mono font-bold text-white tracking-tight block">
+                    <span className="text-2xl font-mono font-bold text-mkt-ink tracking-tight block">
                       {loading && !item ? "--" : formatPrice(price, config.symbol)}
                     </span>
                     <span className={cn(
@@ -175,14 +175,14 @@ export function InstitutionalConsensusSection() {
                 </div>
 
                 {/* Progress bars (Buy % and Sell %) */}
-                <div className="space-y-4 pt-4 border-t border-white/[0.05]">
+                <div className="space-y-4 pt-4 border-t border-mkt-bd">
                   {/* Buy Progress */}
                   <div className="space-y-1">
                     <div className="flex items-center justify-between text-[10px]">
-                      <span className="font-sans font-medium text-neutral-400 uppercase tracking-wider">L/S Buy Ratio</span>
+                      <span className="font-sans font-medium text-mkt-i3 uppercase tracking-wider">L/S Buy Ratio</span>
                       <span className="font-mono font-bold text-mkt-grn">{config.buyPct}%</span>
                     </div>
-                    <div className="w-full h-1.5 bg-white/[0.05] rounded-full overflow-hidden">
+                    <div className="w-full h-1.5 bg-neutral-100 rounded-full overflow-hidden">
                       <div className="h-full bg-mkt-grn rounded-full" style={{ width: `${config.buyPct}%` }} />
                     </div>
                   </div>
@@ -190,17 +190,17 @@ export function InstitutionalConsensusSection() {
                   {/* Sell Progress */}
                   <div className="space-y-1">
                     <div className="flex items-center justify-between text-[10px]">
-                      <span className="font-sans font-medium text-neutral-400 uppercase tracking-wider">L/S Sell Ratio</span>
+                      <span className="font-sans font-medium text-mkt-i3 uppercase tracking-wider">L/S Sell Ratio</span>
                       <span className="font-mono font-bold text-mkt-red">{config.sellPct}%</span>
                     </div>
-                    <div className="w-full h-1.5 bg-white/[0.05] rounded-full overflow-hidden">
+                    <div className="w-full h-1.5 bg-neutral-100 rounded-full overflow-hidden">
                       <div className="h-full bg-mkt-red rounded-full" style={{ width: `${config.sellPct}%` }} />
                     </div>
                   </div>
                 </div>
 
                 {/* Bottom Source Note */}
-                <div className="mt-6 flex items-center gap-1.5 text-[9px] font-sans text-neutral-500 uppercase tracking-widest">
+                <div className="mt-6 flex items-center gap-1.5 text-[9px] font-sans text-mkt-i3 uppercase tracking-widest">
                   <Users className="w-3 h-3" /> Consensus Ratio
                 </div>
 

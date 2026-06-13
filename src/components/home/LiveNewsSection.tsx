@@ -53,7 +53,7 @@ export function LiveNewsSection() {
   const cardClasses = "bg-white border border-mkt-bd rounded-[14px] p-6 hover:-translate-y-0.5 hover:shadow-[0_8px_32px_rgba(0,0,0,0.07)] transition-all duration-300";
 
   return (
-    <section className="w-full bg-[#F7F7F7] border-b border-mkt-bd py-24 select-none relative z-10">
+    <section className="w-full bg-white border-b border-mkt-bd py-24 select-none relative z-10">
       <div className="max-w-7xl mx-auto px-6">
         
         {/* Section Heading */}

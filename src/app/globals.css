@@ -310,7 +310,7 @@ h3 { font-size: clamp(1.5rem, 5vw, 2.5rem); }
 /* Scoped marketing light mode variables (Geist standard) */
 .marketing {
   --mkt-w: #FFFFFF;
-  --mkt-bg: #F7F7F7;
+  --mkt-bg: #FFFFFF;
   --mkt-sur: #FFFFFF;
   --mkt-bd: #E5E5E5;
   --mkt-bds: #C8C8C8;

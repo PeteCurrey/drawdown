@@ -77,7 +77,7 @@ export function InstitutionalPulseSection() {
   };
 
   return (
-    <section className="w-full bg-[#F7F7F7] border-b border-mkt-bd py-24 select-none relative z-10">
+    <section className="w-full bg-white border-b border-mkt-bd py-24 select-none relative z-10">
       <div className="max-w-7xl mx-auto px-6">
         
         {/* Section Heading */}

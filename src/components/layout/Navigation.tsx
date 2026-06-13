@@ -41,7 +41,7 @@ export function Navigation() {
 
   return (
     <header
-      className="fixed top-0 left-0 w-full z-[200] h-[58px] bg-[rgba(255,255,255,0.94)] backdrop-blur-[16px] border-b border-mkt-bd flex items-center select-none"
+      className="fixed top-0 left-0 w-full z-[200] h-[58px] bg-white flex items-center select-none"
     >
       <div className="w-full max-w-7xl mx-auto px-6 flex justify-between items-center">
         {/* Logo */}

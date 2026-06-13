@@ -34,19 +34,21 @@ export function HeroSection() {
   const dashboardVariants = {
     hidden: { 
       opacity: 0, 
-      y: 20,
-      rotateY: -7,
-      rotateX: 2.5,
-      transformPerspective: 1100
+      y: 40,
+      rotateX: 42,
+      rotateY: 0,
+      rotateZ: -12,
+      transformPerspective: 1200
     },
     visible: {
       opacity: 1,
       y: 0,
-      rotateY: -7,
-      rotateX: 2.5,
-      transformPerspective: 1100,
+      rotateX: 42,
+      rotateY: 0,
+      rotateZ: -12,
+      transformPerspective: 1200,
       transition: {
-        duration: 0.6,
+        duration: 0.8,
         delay: 0.3,
         ease: "easeOut" as const,
       },
@@ -109,7 +111,7 @@ export function HeroSection() {
   const longMaPathD = `M ${longMaPathPoints.join(" L ")}`;
 
   return (
-    <section className="relative w-full min-h-[85vh] flex items-center overflow-hidden bg-white py-16 md:py-24 border-b border-mkt-bd z-20">
+    <section className="relative w-full min-h-[85vh] flex flex-col justify-center overflow-hidden bg-white pt-24 pb-36 md:pt-32 md:pb-52 border-b border-mkt-bd z-20">
       {/* Background candle chart pattern */}
       <div className="absolute inset-0 z-0 opacity-[0.035] pointer-events-none select-none flex items-center justify-center overflow-hidden">
         <svg className="w-full h-[70%] min-h-[350px]" viewBox="0 0 1200 300" fill="none" preserveAspectRatio="none">
@@ -165,189 +167,187 @@ export function HeroSection() {
       <div className="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-white to-transparent pointer-events-none z-0" />
       <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-white to-transparent pointer-events-none z-0" />
 
-      <div className="w-full max-w-7xl mx-auto px-6 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-          
-          {/* Left Column (50%) */}
-          <motion.div 
-            className="space-y-6 text-left flex flex-col items-start"
-            variants={containerVariants}
-            initial="hidden"
-            animate="visible"
-          >
-            {/* Eyebrow Pill with blinking green dot */}
-            <motion.div variants={itemVariants} className="flex items-center gap-2 px-3 py-1 border border-mkt-bd rounded-full">
-              <span className="w-2 h-2 rounded-full bg-mkt-grn inline-block animate-pulse" />
-              <span className="text-[11px] font-semibold tracking-wider text-mkt-i3 uppercase font-sans">
-                TRADING EDUCATION + INTELLIGENCE
-              </span>
-            </motion.div>
-
-            {/* Headline */}
-            <motion.h1 
-              variants={itemVariants}
-              className="text-[clamp(40px,5vw,72px)] font-sans font-extrabold text-mkt-ink leading-[1.05] tracking-tight"
-              style={{ fontWeight: 800 }}
-            >
-              Trade the <span className="text-mkt-grn">Truth.</span>
-            </motion.h1>
-
-            {/* Sub-headline */}
-            <motion.p 
-              variants={itemVariants}
-              className="text-lg md:text-xl font-sans text-mkt-i3 max-w-lg leading-relaxed mt-2"
-            >
-              Live market intelligence. AI-powered tools. Honest education. Built for {demonym} traders.
-            </motion.p>
-
-            {/* CTAs */}
-            <motion.div 
-              variants={itemVariants}
-              className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 w-full sm:w-auto pt-4"
-            >
-              <Link 
-                href={`${regionPrefix}/signup`} 
-                className="bg-mkt-ink hover:bg-mkt-i2 text-white px-7 py-4 rounded-lg font-medium text-center transition-colors duration-200 text-sm md:text-base font-sans"
-              >
-                Start Free — No Card Required
-              </Link>
-              <Link 
-                href={`${regionPrefix}/courses`} 
-                className="text-mkt-ink hover:underline underline-offset-4 text-sm md:text-base font-medium text-center py-2 transition-all font-sans"
-              >
-                Explore the Platform &rarr;
-              </Link>
-            </motion.div>
-
-            {/* Trust Signals */}
-            <motion.div 
-              variants={itemVariants}
-              className="flex flex-col sm:flex-row flex-wrap gap-x-6 gap-y-3 pt-6 text-sm text-mkt-i3 font-sans border-t border-mkt-bd w-full"
-            >
-              <div className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-mkt-grn" /> Phase 1 Free Forever
-              </div>
-              <div className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-mkt-grn" /> FCA-Registered Brokers Only
-              </div>
-              <div className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-mkt-grn" /> No Affiliate Hidden Rankings
-              </div>
-            </motion.div>
+      <div className="w-full max-w-7xl mx-auto px-6 relative z-10 flex flex-col items-start pt-8 md:pt-12">
+        
+        {/* Top Text Content Block */}
+        <motion.div 
+          className="space-y-6 text-left flex flex-col items-start max-w-3xl"
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+        >
+          {/* Eyebrow Pill with blinking green dot */}
+          <motion.div variants={itemVariants} className="flex items-center gap-2 px-3 py-1 border border-mkt-bd rounded-full">
+            <span className="w-2 h-2 rounded-full bg-mkt-grn inline-block animate-pulse" />
+            <span className="text-[11px] font-semibold tracking-wider text-mkt-i3 uppercase font-sans">
+              TRADING EDUCATION + INTELLIGENCE
+            </span>
           </motion.div>
 
-          {/* Right Column (50%) */}
-          <div className="relative w-full flex justify-center items-center select-none lg:h-[450px]">
-            <motion.div
-              className="w-full relative max-w-md lg:max-w-none transform-gpu"
-              variants={dashboardVariants}
-              initial="hidden"
-              animate="visible"
-              whileHover={{ 
-                rotateY: -1, 
-                rotateX: 0,
-                transition: { duration: 0.6, ease: "easeOut" }
-              }}
-              style={{
-                filter: "drop-shadow(0 25px 50px rgba(0, 0, 0, 0.15))"
-              }}
+          {/* Headline */}
+          <motion.h1 
+            variants={itemVariants}
+            className="text-[clamp(44px,6vw,84px)] font-sans font-extrabold text-mkt-ink leading-[1.05] tracking-tight"
+            style={{ fontWeight: 800 }}
+          >
+            Trade the <span className="text-mkt-grn">Truth.</span>
+          </motion.h1>
+
+          {/* Sub-headline */}
+          <motion.p 
+            variants={itemVariants}
+            className="text-lg md:text-xl font-sans text-mkt-i3 max-w-2xl leading-relaxed mt-2"
+          >
+            Live market intelligence. AI-powered tools. Honest education. Built for {demonym} traders.
+          </motion.p>
+
+          {/* CTAs */}
+          <motion.div 
+            variants={itemVariants}
+            className="flex flex-col sm:flex-row items-stretch sm:items-center gap-6 w-full sm:w-auto pt-4"
+          >
+            <Link 
+              href={`${regionPrefix}/signup`} 
+              className="bg-mkt-ink hover:bg-mkt-i2 text-white px-7 py-4 rounded-lg font-medium text-center transition-colors duration-200 text-sm md:text-base font-sans shadow-lg shadow-black/10"
             >
-              {/* Dark Card Dashboard Mockup */}
-              <div className="relative w-full bg-[#0D0D0D] border border-neutral-800 rounded-2xl p-6 overflow-hidden flex flex-col justify-between font-sans">
-                
-                {/* Topbar */}
-                <div className="flex justify-between items-center pb-4 border-b border-neutral-850 mb-6">
-                  {/* Traffic Lights */}
-                  <div className="flex gap-1.5">
-                    <span className="w-2.5 h-2.5 rounded-full bg-[#FF5F56]" />
-                    <span className="w-2.5 h-2.5 rounded-full bg-[#FFBD2E]" />
-                    <span className="w-2.5 h-2.5 rounded-full bg-[#27C93F]" />
-                  </div>
-                  {/* LIVE badge */}
-                  <div className="flex items-center gap-1.5">
-                    <span className="w-1.5 h-1.5 rounded-full bg-mkt-grn animate-pulse" />
-                    <span className="text-[10px] font-bold text-mkt-grn bg-mkt-gbg/10 border border-mkt-grn/30 px-2 py-0.5 rounded uppercase tracking-wider font-mono">
-                      LIVE
-                    </span>
-                  </div>
+              Start Free — No Card Required
+            </Link>
+            <Link 
+              href={`${regionPrefix}/courses`} 
+              className="text-mkt-ink hover:underline underline-offset-4 text-sm md:text-base font-semibold text-center py-2 transition-all font-sans flex items-center gap-1.5"
+            >
+              Explore the Platform &rarr;
+            </Link>
+          </motion.div>
+
+          {/* Trust Signals */}
+          <motion.div 
+            variants={itemVariants}
+            className="flex flex-col sm:flex-row flex-wrap gap-x-6 gap-y-3 pt-6 text-sm text-mkt-i3 font-sans border-t border-mkt-bd w-full max-w-2xl"
+          >
+            <div className="flex items-center gap-2">
+              <CheckCircle2 className="w-4 h-4 text-mkt-grn" /> Phase 1 Free Forever
+            </div>
+            <div className="flex items-center gap-2">
+              <CheckCircle2 className="w-4 h-4 text-mkt-grn" /> FCA-Registered Brokers Only
+            </div>
+            <div className="flex items-center gap-2">
+              <CheckCircle2 className="w-4 h-4 text-mkt-grn" /> No Affiliate Hidden Rankings
+            </div>
+          </motion.div>
+        </motion.div>
+
+        {/* Centered Tilted Mockup Container */}
+        <div className="w-full flex justify-center items-center select-none mt-16 md:mt-24 relative hero-3d-card-container">
+          <motion.div
+            className="w-full relative max-w-5xl transform-gpu"
+            variants={dashboardVariants}
+            initial="hidden"
+            animate="visible"
+            whileHover={{ 
+              rotateX: 25, 
+              rotateY: 0, 
+              rotateZ: -6,
+              transition: { duration: 0.6, ease: "easeOut" }
+            }}
+            style={{
+              filter: "drop-shadow(0 35px 70px rgba(0, 0, 0, 0.2))"
+            }}
+          >
+            {/* Dark Card Dashboard Mockup */}
+            <div className="relative w-full bg-[#0D0D0D] border border-neutral-800 rounded-2xl p-6 overflow-hidden flex flex-col justify-between font-sans">
+              
+              {/* Topbar */}
+              <div className="flex justify-between items-center pb-4 border-b border-neutral-850 mb-6">
+                {/* Traffic Lights */}
+                <div className="flex gap-1.5">
+                  <span className="w-2.5 h-2.5 rounded-full bg-[#FF5F56]" />
+                  <span className="w-2.5 h-2.5 rounded-full bg-[#FFBD2E]" />
+                  <span className="w-2.5 h-2.5 rounded-full bg-[#27C93F]" />
                 </div>
-
-                {/* Grid container */}
-                <div className="space-y-6">
-                  {/* Three Stat Tiles */}
-                  <div className="grid grid-cols-3 gap-3">
-                    <div className="bg-[#141414] border border-neutral-800 rounded-lg p-3">
-                      <p className="text-[10px] font-mono text-neutral-500 uppercase">GBP/USD</p>
-                      <p className="text-xs font-mono font-bold text-white mt-1">1.2734</p>
-                      <p className="text-[9px] font-mono text-mkt-grn mt-0.5">+0.12%</p>
-                    </div>
-                    <div className="bg-[#141414] border border-neutral-800 rounded-lg p-3">
-                      <p className="text-[10px] font-mono text-neutral-500 uppercase">EUR/USD</p>
-                      <p className="text-xs font-mono font-bold text-white mt-1">1.0845</p>
-                      <p className="text-[9px] font-mono text-neutral-500 mt-0.5">0.00%</p>
-                    </div>
-                    <div className="bg-[#141414] border border-neutral-800 rounded-lg p-3">
-                      <p className="text-[10px] font-mono text-neutral-500 uppercase">BTC/USD</p>
-                      <p className="text-xs font-mono font-bold text-white mt-1">67,420</p>
-                      <p className="text-[9px] font-mono text-mkt-grn mt-0.5">+1.45%</p>
-                    </div>
-                  </div>
-
-                  {/* SVG Area Chart */}
-                  <div className="relative h-28 bg-[#141414] border border-neutral-800 rounded-lg p-3 flex flex-col justify-between overflow-hidden">
-                    <div className="flex justify-between items-center z-10">
-                      <span className="text-[9px] font-mono text-neutral-400 uppercase tracking-widest">GBPUSD 1H CHART</span>
-                      <span className="text-[10px] font-mono text-white font-bold">1.2734</span>
-                    </div>
-                    
-                    {/* SVG Chart paths */}
-                    <div className="absolute inset-0 pt-6">
-                      <svg className="w-full h-full" viewBox="0 0 300 80" preserveAspectRatio="none">
-                        <defs>
-                          <linearGradient id="chartGrad" x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="0%" stopColor="#16A34A" stopOpacity="0.25" />
-                            <stop offset="100%" stopColor="#16A34A" stopOpacity="0" />
-                          </linearGradient>
-                        </defs>
-                        <path 
-                          d="M0,60 Q40,40 80,45 T160,30 T240,55 T300,20 L300,80 L0,80 Z" 
-                          fill="url(#chartGrad)" 
-                        />
-                        <path 
-                          d="M0,60 Q40,40 80,45 T160,30 T240,55 T300,20" 
-                          fill="none" 
-                          stroke="#16A34A" 
-                          strokeWidth="1.5" 
-                        />
-                      </svg>
-                    </div>
-                  </div>
-
-                  {/* Four Pair Tiles 2x2 grid */}
-                  <div className="grid grid-cols-2 gap-3">
-                    <div className="flex justify-between items-center bg-[#141414] border border-neutral-800 rounded-lg p-2.5">
-                      <span className="text-[10px] font-mono text-neutral-450">USDJPY</span>
-                      <span className="text-[10px] font-mono font-bold text-white">156.42</span>
-                    </div>
-                    <div className="flex justify-between items-center bg-[#141414] border border-neutral-800 rounded-lg p-2.5">
-                      <span className="text-[10px] font-mono text-neutral-450">GBPJPY</span>
-                      <span className="text-[10px] font-mono font-bold text-white">199.12</span>
-                    </div>
-                    <div className="flex justify-between items-center bg-[#141414] border border-neutral-800 rounded-lg p-2.5">
-                      <span className="text-[10px] font-mono text-neutral-450">AUDUSD</span>
-                      <span className="text-[10px] font-mono font-bold text-white">0.6654</span>
-                    </div>
-                    <div className="flex justify-between items-center bg-[#141414] border border-neutral-800 rounded-lg p-2.5">
-                      <span className="text-[10px] font-mono text-neutral-450">EURGBP</span>
-                      <span className="text-[10px] font-mono font-bold text-white">0.8512</span>
-                    </div>
-                  </div>
+                {/* LIVE badge */}
+                <div className="flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-mkt-grn animate-pulse" />
+                  <span className="text-[10px] font-bold text-mkt-grn bg-mkt-gbg/10 border border-mkt-grn/30 px-2 py-0.5 rounded uppercase tracking-wider font-mono">
+                    LIVE
+                  </span>
                 </div>
-
               </div>
-            </motion.div>
-          </div>
 
+              {/* Grid container */}
+              <div className="space-y-6">
+                {/* Three Stat Tiles */}
+                <div className="grid grid-cols-3 gap-3">
+                  <div className="bg-[#141414] border border-neutral-800 rounded-lg p-3">
+                    <p className="text-[10px] font-mono text-neutral-500 uppercase">GBP/USD</p>
+                    <p className="text-xs font-mono font-bold text-white mt-1">1.2734</p>
+                    <p className="text-[9px] font-mono text-mkt-grn mt-0.5">+0.12%</p>
+                  </div>
+                  <div className="bg-[#141414] border border-neutral-800 rounded-lg p-3">
+                    <p className="text-[10px] font-mono text-neutral-500 uppercase">EUR/USD</p>
+                    <p className="text-xs font-mono font-bold text-white mt-1">1.0845</p>
+                    <p className="text-[9px] font-mono text-neutral-500 mt-0.5">0.00%</p>
+                  </div>
+                  <div className="bg-[#141414] border border-neutral-800 rounded-lg p-3">
+                    <p className="text-[10px] font-mono text-neutral-500 uppercase">BTC/USD</p>
+                    <p className="text-xs font-mono font-bold text-white mt-1">67,420</p>
+                    <p className="text-[9px] font-mono text-mkt-grn mt-0.5">+1.45%</p>
+                  </div>
+                </div>
+
+                {/* SVG Area Chart */}
+                <div className="relative h-28 bg-[#141414] border border-neutral-800 rounded-lg p-3 flex flex-col justify-between overflow-hidden">
+                  <div className="flex justify-between items-center z-10">
+                    <span className="text-[9px] font-mono text-neutral-400 uppercase tracking-widest">GBPUSD 1H CHART</span>
+                    <span className="text-[10px] font-mono text-white font-bold">1.2734</span>
+                  </div>
+                  
+                  {/* SVG Chart paths */}
+                  <div className="absolute inset-0 pt-6">
+                    <svg className="w-full h-full" viewBox="0 0 300 80" preserveAspectRatio="none">
+                      <defs>
+                        <linearGradient id="chartGrad" x1="0" y1="0" x2="0" y2="1">
+                          <stop offset="0%" stopColor="#16A34A" stopOpacity="0.25" />
+                          <stop offset="100%" stopColor="#16A34A" stopOpacity="0" />
+                        </linearGradient>
+                      </defs>
+                      <path 
+                        d="M0,60 Q40,40 80,45 T160,30 T240,55 T300,20 L300,80 L0,80 Z" 
+                        fill="url(#chartGrad)" 
+                      />
+                      <path 
+                        d="M0,60 Q40,40 80,45 T160,30 T240,55 T300,20" 
+                        fill="none" 
+                        stroke="#16A34A" 
+                        strokeWidth="1.5" 
+                      />
+                    </svg>
+                  </div>
+                </div>
+
+                {/* Four Pair Tiles 2x2 grid */}
+                <div className="grid grid-cols-2 gap-3">
+                  <div className="flex justify-between items-center bg-[#141414] border border-neutral-800 rounded-lg p-2.5">
+                    <span className="text-[10px] font-mono text-neutral-450">USDJPY</span>
+                    <span className="text-[10px] font-mono font-bold text-white">156.42</span>
+                  </div>
+                  <div className="flex justify-between items-center bg-[#141414] border border-neutral-800 rounded-lg p-2.5">
+                    <span className="text-[10px] font-mono text-neutral-450">GBPJPY</span>
+                    <span className="text-[10px] font-mono font-bold text-white">199.12</span>
+                  </div>
+                  <div className="flex justify-between items-center bg-[#141414] border border-neutral-800 rounded-lg p-2.5">
+                    <span className="text-[10px] font-mono text-neutral-450">AUDUSD</span>
+                    <span className="text-[10px] font-mono font-bold text-white">0.6654</span>
+                  </div>
+                  <div className="flex justify-between items-center bg-[#141414] border border-neutral-800 rounded-lg p-2.5">
+                    <span className="text-[10px] font-mono text-neutral-450">EURGBP</span>
+                    <span className="text-[10px] font-mono font-bold text-white">0.8512</span>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </motion.div>
         </div>
       </div>
     </section>

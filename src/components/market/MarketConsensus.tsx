@@ -49,18 +49,18 @@ export function MarketConsensus() {
     <div className="space-y-10">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
         <div>
-          <h2 className="text-2xl font-sans font-black uppercase tracking-tight">Market Intelligence</h2>
-          <p className="text-mkt-i4 font-mono text-[10px] uppercase tracking-widest mt-1">
+          <h2 className="text-2xl font-sans font-black uppercase tracking-tight text-text-primary">Market Intelligence</h2>
+          <p className="text-text-tertiary font-mono text-[10px] uppercase tracking-widest mt-1">
             Real-time technical consensus across 20+ pairs
           </p>
         </div>
         
-        <div className="flex items-center gap-4 p-3 bg-white border border-mkt-bd focus-within:border-accent transition-colors w-full md:w-80">
-          <Search className="w-4 h-4 text-mkt-i4" />
+        <div className="flex items-center gap-4 p-3 bg-background-surface/40 backdrop-blur-md border border-border-slate/50 focus-within:border-accent transition-colors w-full md:w-80">
+          <Search className="w-4 h-4 text-text-tertiary" />
           <input 
             type="text" 
             placeholder="FILTER SYMBOLS..."
-            className="bg-transparent border-none outline-none font-mono text-[9px] uppercase tracking-widest text-mkt-ink w-full"
+            className="bg-transparent border-none outline-none font-mono text-[9px] uppercase tracking-widest text-text-primary w-full placeholder-text-tertiary/50"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
@@ -70,16 +70,16 @@ export function MarketConsensus() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         {loading ? (
           [...Array(12)].map((_, i) => (
-            <div key={i} className="h-40 bg-white border border-mkt-bd animate-pulse" />
+            <div key={i} className="h-40 bg-background-surface/40 backdrop-blur-md border border-border-slate/50 animate-pulse" />
           ))
         ) : filtered.map((item) => (
-          <div key={item.symbol} className="group bg-white border border-mkt-bd hover:border-mkt-bds/40 transition-premium p-5 space-y-4">
+          <div key={item.symbol} className="group bg-background-surface/40 backdrop-blur-md border border-border-slate/50 hover:shadow-[0_0_20px_rgba(0,0,0,0.2)] hover:border-border-slate hover:-translate-y-0.5 transition-all duration-300 p-5 space-y-4">
             <div className="flex justify-between items-start gap-2">
               <div className="min-w-0">
-                <h3 className="text-lg font-sans font-black uppercase tracking-tight truncate">{item.symbol}</h3>
+                <h3 className="text-lg font-sans font-black uppercase tracking-tight truncate text-text-primary">{item.symbol}</h3>
                 <div className="flex items-center gap-1.5 mt-1">
-                  <Activity className="w-3 h-3 text-mkt-i4" />
-                  <span className="text-[8px] font-mono text-mkt-i4 uppercase truncate">Technical Consensus</span>
+                  <Activity className="w-3 h-3 text-text-tertiary" />
+                  <span className="text-[8px] font-mono text-text-tertiary uppercase truncate">Technical Consensus</span>
                 </div>
               </div>
               <div className={cn(
@@ -87,9 +87,9 @@ export function MarketConsensus() {
                 item.score > 60 ? "bg-profit/10" : item.score < 40 ? "bg-loss/10" : "bg-white/5"
               )}>
                 {item.trend === "Bullish" ? (
-                  <TrendingUp className={cn("w-4 h-4", item.score > 60 ? "text-mkt-grn" : "text-mkt-i4")} />
+                  <TrendingUp className={cn("w-4 h-4", item.score > 60 ? "text-profit" : "text-text-tertiary")} />
                 ) : (
-                  <TrendingDown className={cn("w-4 h-4", item.score < 40 ? "text-red-500" : "text-mkt-i4")} />
+                  <TrendingDown className={cn("w-4 h-4", item.score < 40 ? "text-loss" : "text-text-tertiary")} />
                 )}
               </div>
             </div>
@@ -98,14 +98,14 @@ export function MarketConsensus() {
               <div className="flex justify-between items-end gap-2">
                 <span className={cn(
                   "text-base font-sans font-bold uppercase truncate",
-                  item.verdict.includes("Buy") ? "text-mkt-grn" : item.verdict.includes("Sell") ? "text-red-500" : "text-mkt-i2"
+                  item.verdict.includes("Buy") ? "text-profit" : item.verdict.includes("Sell") ? "text-loss" : "text-text-secondary"
                 )}>
                   {item.verdict}
                 </span>
-                <span className="text-[9px] font-mono text-mkt-i4 uppercase shrink-0">{item.score}%</span>
+                <span className="text-[9px] font-mono text-text-tertiary uppercase shrink-0">{item.score}%</span>
               </div>
               
-              <div className="h-1 w-full bg-[#F7F7F7] relative overflow-hidden">
+              <div className="h-1 w-full bg-background-elevated relative overflow-hidden">
                 <div 
                   className={cn(
                     "h-full transition-all duration-1000",
@@ -116,20 +116,20 @@ export function MarketConsensus() {
               </div>
             </div>
 
-            <div className="pt-3 border-t border-mkt-bd/50 flex justify-between items-center">
+            <div className="pt-3 border-t border-border-slate/50 flex justify-between items-center">
               <div className="flex gap-3">
                 <div className="flex flex-col">
-                  <span className="text-[6px] font-mono text-mkt-i4 uppercase">RSI</span>
-                  <span className="text-[9px] font-mono font-bold text-mkt-ink">{item.rsi}</span>
+                  <span className="text-[6px] font-mono text-text-tertiary uppercase">RSI</span>
+                  <span className="text-[9px] font-mono font-bold text-text-primary">{item.rsi}</span>
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-[6px] font-mono text-mkt-i4 uppercase">Trend</span>
-                  <span className="text-[9px] font-mono font-bold text-mkt-ink">{item.trend}</span>
+                  <span className="text-[6px] font-mono text-text-tertiary uppercase">Trend</span>
+                  <span className="text-[9px] font-mono font-bold text-text-primary">{item.trend}</span>
                 </div>
               </div>
               <Link 
                 href={`/tools/scanner?symbol=${item.symbol}`}
-                className="p-1.5 hover:bg-[#F7F7F7] text-mkt-i4 hover:text-accent transition-colors"
+                className="p-1.5 hover:bg-background-elevated text-text-tertiary hover:text-accent transition-colors"
                 title="View Full Analysis"
               >
                 <ChevronRight className="w-3.5 h-3.5" />
@@ -139,18 +139,20 @@ export function MarketConsensus() {
         ))}
       </div>
 
-      <div className="p-8 border border-mkt-bd bg-[#F7F7F7]/50 flex flex-col md:flex-row gap-6 items-center justify-between">
+      <div className="p-8 border border-border-slate/50 bg-background-elevated/40 backdrop-blur-md flex flex-col md:flex-row gap-6 items-center justify-between transition-all duration-300 hover:shadow-[0_0_20px_rgba(0,167,225,0.1)] hover:border-accent/30 hover:-translate-y-0.5">
         <div className="flex gap-4 items-start max-w-2xl">
-          <Zap className="w-5 h-5 text-accent shrink-0 mt-1" />
+          <div className="w-10 h-10 rounded-full bg-accent/10 border border-accent/20 flex items-center justify-center shrink-0">
+             <Zap className="w-5 h-5 text-accent animate-pulse" />
+          </div>
           <div className="space-y-1">
-            <p className="text-xs font-bold uppercase tracking-widest text-mkt-ink">AI Signal Synthesis</p>
-            <p className="text-xs text-mkt-i2 leading-relaxed">
+            <p className="text-xs font-bold uppercase tracking-widest text-text-primary">AI Signal Synthesis</p>
+            <p className="text-xs text-text-secondary leading-relaxed">
               These ratings are derived from a combination of EMA, RSI, and MACD indicators. 
               Always use your own judgment and risk management.
             </p>
           </div>
         </div>
-        <button className="px-10 py-4 bg-mkt-ink hover:bg-mkt-i2 text-background-primary text-[10px] font-bold uppercase tracking-widest transition-all">
+        <button className="px-10 py-4 bg-accent hover:bg-accent-hover text-background-primary text-[10px] font-bold uppercase tracking-widest transition-all">
           Upgrade for Edge Signals
         </button>
       </div>

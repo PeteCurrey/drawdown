@@ -21,7 +21,7 @@ export function EmotionalPnL() {
         <Brain className="w-3 h-3 text-text-tertiary" />
       </div>
 
-      <div className="p-8 bg-background-surface border border-border-slate space-y-8">
+      <div className="p-8 bg-background-surface/40 backdrop-blur-md border border-border-slate/50 space-y-8 transition-all duration-300 hover:shadow-[0_0_20px_rgba(0,0,0,0.2)] hover:border-border-slate hover:-translate-y-0.5">
         <div className="space-y-6">
           {emotionData.map((item, i) => (
             <div key={i} className="space-y-2">
@@ -31,7 +31,7 @@ export function EmotionalPnL() {
                   {item.pnl >= 0 ? "+" : "-"}{Math.abs(item.pnl).toLocaleString('en-GB', { style: 'currency', currency: 'GBP' })}
                 </span>
               </div>
-              <div className="h-1.5 bg-background-elevated relative overflow-hidden flex items-center">
+              <div className="h-1.5 bg-background-elevated/50 relative overflow-hidden flex items-center">
                 <div 
                   className={cn(
                     "h-full transition-all duration-1000",

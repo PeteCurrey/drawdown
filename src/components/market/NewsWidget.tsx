@@ -35,37 +35,31 @@ export function NewsWidget() {
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h4 className="text-[10px] font-mono uppercase tracking-widest text-mkt-i4">Market News</h4>
-        <button onClick={fetchLatestNews} disabled={loading} className="text-mkt-i4 hover:text-accent transition-colors">
-          <RefreshCw className={cn("w-3 h-3", loading && "animate-spin")} />
+        <h4 className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary">Market News</h4>
+        <button onClick={fetchLatestNews} disabled={loading} className="text-text-tertiary hover:text-accent transition-colors">
+          <RefreshCw className={cn("w-3 h-3", loading && "animate-spin text-accent")} />
         </button>
       </div>
 
-      <div className="p-8 bg-white border border-mkt-bd space-y-6">
+      <div className="p-8 bg-background-surface/40 backdrop-blur-md border border-border-slate/50 space-y-6 transition-all duration-300 hover:shadow-[0_0_20px_rgba(0,0,0,0.2)] hover:border-border-slate hover:-translate-y-0.5">
         <div className="space-y-5">
-          {loading && news.length === 0 ? (
-            <p className="text-[10px] font-mono text-mkt-i4 animate-pulse">Fetching latest headlines...</p>
+          {loading ? (
+            <p className="text-[10px] font-mono text-text-tertiary animate-pulse">Fetching latest headlines...</p>
           ) : (
             news.map((item, i) => {
               const isHighImpact = /BOE|Bank of England|MPC|CPI|Inflation|Employment|Rates/i.test(item.title);
-              const isBoE = /BOE|Bank of England|MPC/i.test(item.title);
               
               return (
                 <div key={i} className={cn(
-                  "group space-y-2 pb-5 border-b border-mkt-bd/30 last:border-0 last:pb-0",
+                  "group space-y-2 pb-5 border-b border-border-slate/30 last:border-0 last:pb-0",
                   isHighImpact && "bg-accent/[0.03] -mx-4 px-4 py-3 border-l-2 border-l-accent"
                 )}>
                   <div className="flex justify-between items-start gap-4">
                     <div className="space-y-1.5 flex-grow">
                       <div className="flex items-center gap-2">
                         {isHighImpact && (
-                          <span className="text-[7px] font-mono bg-mkt-ink text-white px-1 py-0.5 font-black uppercase tracking-tighter">
+                          <span className="text-[7px] font-mono bg-text-primary text-background-primary px-1 py-0.5 font-black uppercase tracking-tighter">
                             High Impact
-                          </span>
-                        )}
-                        {isBoE && (
-                          <span className="text-[7px] font-mono bg-[#F7F7F7] border border-accent/30 text-accent px-1 py-0.5 font-bold uppercase tracking-tighter">
-                            BoE Specific
                           </span>
                         )}
                       </div>
@@ -78,9 +72,9 @@ export function NewsWidget() {
                         {item.title}
                       </a>
                     </div>
-                    <ExternalLink className="w-3 h-3 text-mkt-i4 shrink-0 opacity-0 group-hover:opacity-100 transition-opacity mt-1" />
+                    <ExternalLink className="w-3 h-3 text-text-tertiary shrink-0 opacity-0 group-hover:opacity-100 transition-opacity mt-1" />
                   </div>
-                  <div className="flex items-center gap-3 text-[8px] font-mono uppercase tracking-widest text-mkt-i4">
+                  <div className="flex items-center gap-3 text-[8px] font-mono uppercase tracking-widest text-text-tertiary">
                     <NewsSourceLogo source={item.source} showText={true} size="xs" />
                     <span className="w-1 h-1 bg-border-slate rounded-full" />
                     <span>{new Date(item.publishedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
@@ -93,7 +87,7 @@ export function NewsWidget() {
 
         <Link 
           href="/dashboard/news" 
-          className="w-full py-3 bg-[#F7F7F7] border border-mkt-bd text-[10px] font-bold uppercase tracking-widest hover:border-text-primary transition-colors flex items-center justify-center gap-2 group"
+          className="w-full py-3 bg-background-elevated/50 border border-border-slate/50 text-[10px] font-bold uppercase tracking-widest hover:border-accent transition-colors flex items-center justify-center gap-2 group text-text-primary"
         >
           Full News Feed <ExternalLink className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
         </Link>

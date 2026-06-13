@@ -79,8 +79,19 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   return (
     <div 
       data-theme={theme}
-      className="flex h-screen bg-background-primary overflow-hidden theme-transition"
+      className="flex h-screen bg-background-primary overflow-hidden theme-transition relative"
     >
+      {/* Premium Dashboard Background */}
+      <div 
+        className="absolute inset-0 z-0 opacity-15 mix-blend-screen pointer-events-none"
+        style={{
+          backgroundImage: "url('/images/dashboard-bg.png')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat"
+        }}
+      />
+      
       {showOnboarding && profile && (
         <OnboardingWizard 
           userProfile={profile} 
@@ -90,7 +101,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       {/* Sidebar */}
       <aside 
         className={cn(
-          "bg-background-surface border-r border-border-slate transition-all duration-300 flex flex-col z-30 theme-transition",
+          "bg-background-surface/60 backdrop-blur-xl border-r border-border-slate/50 transition-all duration-300 flex flex-col z-30 theme-transition shadow-[4px_0_24px_rgba(0,0,0,0.2)]",
           isCollapsed ? "w-20" : "w-64"
         )}
       >
@@ -143,7 +154,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       </aside>
 
       {/* Main Content Area */}
-      <div className="flex-grow flex flex-col overflow-hidden min-w-0 min-h-0">
+      <div className="flex-grow flex flex-col overflow-hidden min-w-0 min-h-0 relative z-10">
         <DashboardStatusBar />
 
         <main 

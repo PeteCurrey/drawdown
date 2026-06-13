@@ -32,8 +32,8 @@ export function AlertCentre() {
   const [alerts, setAlerts] = useState(initialAlerts);
 
   return (
-    <div className="bg-background-surface border border-border-slate flex flex-col h-full group">
-      <div className="p-6 border-b border-border-slate flex items-center justify-between bg-background-elevated/30">
+    <div className="bg-background-surface/40 backdrop-blur-md border border-border-slate/50 flex flex-col h-full group transition-all duration-300 hover:shadow-[0_0_20px_rgba(0,0,0,0.2)] hover:border-border-slate hover:-translate-y-0.5">
+      <div className="p-6 border-b border-border-slate/50 flex items-center justify-between bg-background-elevated/20">
         <div className="flex items-center gap-3 text-accent">
           <Bell className="w-4 h-4" />
           <h3 className="text-[10px] font-mono font-bold uppercase tracking-widest">Signal_Centre_v2</h3>
@@ -68,7 +68,7 @@ export function AlertCentre() {
                 </div>
               </div>
 
-              <div className="flex items-center justify-between bg-background-primary/30 p-3 border border-border-slate/50">
+              <div className="flex items-center justify-between bg-background-primary/20 backdrop-blur-sm p-3 border border-border-slate/30">
                  <div className="flex items-center gap-2">
                     {alert.type === "price" ? <Clock className="w-3 h-3 text-accent" /> : <Zap className="w-3 h-3 text-premium" />}
                     <span className="text-[9px] font-mono text-text-secondary uppercase">

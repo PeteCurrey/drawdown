@@ -113,7 +113,7 @@ export default function DashboardPage() {
       </div>
 
       {/* Daily Briefing Card ("The Wire") */}
-      <div className="p-8 bg-background-elevated border border-border-slate relative group overflow-hidden">
+      <div className="p-8 bg-background-elevated/40 backdrop-blur-md border border-border-slate/50 relative group overflow-hidden transition-all duration-300 hover:shadow-[0_0_30px_rgba(0,167,225,0.05)] hover:border-accent/30 hover:-translate-y-0.5">
         <div className="absolute top-0 left-0 w-1 h-full bg-accent" />
         <div className="flex flex-col md:flex-row justify-between gap-8 relative z-10">
           <div className="space-y-4 max-w-2xl text-left">
@@ -161,7 +161,7 @@ export default function DashboardPage() {
         <div className="lg:col-span-2 space-y-10">
           <div className="space-y-6">
             <h4 className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary">Continue Learning</h4>
-            <div className="p-8 bg-background-surface border border-border-slate flex flex-col md:flex-row gap-8">
+            <div className="p-8 bg-background-surface/40 backdrop-blur-md border border-border-slate/50 flex flex-col md:flex-row gap-8 transition-all duration-300 hover:shadow-[0_0_20px_rgba(0,0,0,0.2)] hover:border-border-slate hover:-translate-y-0.5">
               <div className="w-full md:w-48 aspect-video bg-background-elevated flex items-center justify-center border border-border-slate group cursor-pointer">
                 <Play className="w-8 h-8 text-accent group-hover:scale-110 transition-transform" />
               </div>
@@ -196,7 +196,7 @@ export default function DashboardPage() {
                 { label: "Total Profit", value: "£4,231.10", color: "text-profit" },
                 { label: "Current Streak", value: "3 Wins", color: "text-profit" },
               ].map((stat, i) => (
-                <div key={i} className="p-6 bg-background-surface border border-border-slate text-center">
+                <div key={i} className="p-6 bg-background-surface/40 backdrop-blur-md border border-border-slate/50 text-center transition-all duration-300 hover:bg-background-surface/60 hover:border-border-slate hover:-translate-y-0.5">
                   <p className="text-[8px] font-mono uppercase tracking-widest text-text-tertiary mb-2">{stat.label}</p>
                   <p className={cn("text-lg font-display font-bold uppercase", stat.color)}>{stat.value}</p>
                 </div>
@@ -231,7 +231,7 @@ export default function DashboardPage() {
           <div className="lg:col-span-1">
             <AlertCentre />
           </div>
-          <div className="lg:col-span-1 p-8 bg-background-elevated border border-border-slate flex flex-col justify-center items-center text-center space-y-6">
+          <div className="lg:col-span-1 p-8 bg-background-elevated/40 backdrop-blur-md border border-border-slate/50 flex flex-col justify-center items-center text-center space-y-6 transition-all duration-300 hover:border-accent/30 hover:shadow-[0_0_30px_rgba(0,167,225,0.1)] hover:-translate-y-0.5">
              <div className="w-16 h-16 bg-accent/10 border border-accent/20 rounded-full flex items-center justify-center">
                 <Zap className="w-8 h-8 text-accent animate-pulse" />
              </div>
@@ -254,7 +254,7 @@ export default function DashboardPage() {
       {/* Achievements at Bottom */}
       <div className="space-y-6">
         <h4 className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary">Achievements</h4>
-        <div className="p-8 bg-background-surface border border-border-slate">
+        <div className="p-8 bg-background-surface/40 backdrop-blur-md border border-border-slate/50">
           <BadgeGrid badges={allBadges} />
         </div>
       </div>

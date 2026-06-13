@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Shield, ArrowRight, Filter, ShieldCheck, CheckCircle2, ChevronRight } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { SectionA, SectionB, SectionC, SectionD } from "@/components/brokers/BrokerSections";
 
 const topBrokers = [
   {
@@ -216,21 +217,10 @@ export default function BrokerComparisonHub() {
          </div>
       </section>
 
-      {/* Trust & Methodology Disclosure */}
-      <section className="py-24 border-t border-border-slate/50">
-         <div className="max-w-7xl mx-auto px-6 max-w-4xl text-center">
-            <ShieldCheck className="w-12 h-12 text-premium mx-auto mb-6" />
-            <h2 className="text-3xl font-sans font-black uppercase mb-6">Our Review Methodology.</h2>
-            <p className="text-text-secondary leading-relaxed mb-8">
-               Unlike other portals, we do not rank brokers based on who pays the highest affiliate commission. Our engineering and trading desk tests every platform using real capital. We run automated latency scripts to verify execution speeds and cross-reference spread widening during NFP and CPI events.
-            </p>
-            <div className="flex flex-wrap justify-center gap-8 text-[10px] font-mono text-text-tertiary uppercase tracking-widest">
-               <span className="flex items-center gap-2"><CheckCircle2 className="w-3 h-3 text-premium" /> Real Capital Testing</span>
-               <span className="flex items-center gap-2"><CheckCircle2 className="w-3 h-3 text-premium" /> Latency Benchmarking</span>
-               <span className="flex items-center gap-2"><CheckCircle2 className="w-3 h-3 text-premium" /> Withdrawal Verification</span>
-            </div>
-         </div>
-      </section>
+      <SectionA />
+      <SectionB />
+      <SectionC />
+      <SectionD />
     </div>
   );
 }

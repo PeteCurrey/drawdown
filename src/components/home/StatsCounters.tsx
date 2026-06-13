@@ -8,6 +8,14 @@ function useCountUp(target: number, duration: number = 1500) {
   const [hasStarted, setHasStarted] = useState(false);
 
   useEffect(() => {
+    const currentElement = elementRef.current;
+    if (currentElement) {
+      const rect = currentElement.getBoundingClientRect();
+      if (rect.top < window.innerHeight && rect.bottom >= 0) {
+        setHasStarted(true);
+      }
+    }
+
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting) {
@@ -17,11 +25,14 @@ function useCountUp(target: number, duration: number = 1500) {
       { threshold: 0.1 }
     );
 
-    if (elementRef.current) {
-      observer.observe(elementRef.current);
+    if (currentElement) {
+      observer.observe(currentElement);
     }
 
-    return () => observer.disconnect();
+    return () => {
+      if (currentElement) observer.unobserve(currentElement);
+      observer.disconnect();
+    };
   }, []);
 
   useEffect(() => {

@@ -31,7 +31,8 @@ export function Navigation() {
   const regionPrefix = region === "uk" ? "" : `/${region}`;
 
   const navLinks = [
-    { name: "Platform", href: `${regionPrefix}/courses` },
+    { name: "Platform", href: `${regionPrefix}/platform` },
+    { name: "Learn", href: `${regionPrefix}/courses` },
     { name: "Markets", href: `${regionPrefix}/markets` },
     { name: "Brokers", href: `${regionPrefix}/brokers` },
     { name: "Prop Firms", href: "/prop-firms" },

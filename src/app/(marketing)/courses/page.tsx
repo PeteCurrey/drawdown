@@ -8,6 +8,7 @@ import { StructuredData } from "@/components/StructuredData";
 import { phases } from "@/data/courses";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
+import { SectionA, SectionB, SectionC, SectionD, SectionE } from "@/components/courses/CourseSections";
 
 // Contextually relevant Unsplash images per phase
 const phaseImages = [
@@ -62,6 +63,10 @@ export default function CoursesPage() {
             Built for traders who want to learn properly. No shortcuts. Just the truth.
           </p>
         </header>
+
+        <SectionA />
+        <SectionB />
+        <SectionC />
 
         {/* Phase Rows */}
         <div className="space-y-6">
@@ -182,6 +187,9 @@ export default function CoursesPage() {
             );
           })}
         </div>
+
+        <SectionD />
+        <SectionE />
 
         {/* Final CTA */}
         <div className="mt-20 border border-border-slate/50 rounded-[14px] p-12 md:p-16 text-center relative overflow-hidden bg-background-elevated/40">

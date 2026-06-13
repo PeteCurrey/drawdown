@@ -4,6 +4,7 @@ import { useState } from "react";
 import { ShieldCheck, Crosshair, Target, ChevronRight, Activity, Percent, ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { SectionA, SectionB, SectionD, SectionE, SectionF } from "@/components/prop-firms/PropFirmSections";
 
 const propFirms = [
   {
@@ -50,6 +51,51 @@ const propFirms = [
     badge: "Budget Friendly",
     color: "#00E676",
     link: "/prop-firms/funding-pips"
+  },
+  {
+    id: "fxify",
+    name: "FXIFY",
+    description: "High leverage and fast scaling. Best for technical traders.",
+    bgUrl: "/images/prop-firms/fxify-bg.png",
+    profitTarget: "10%",
+    maxDrawdown: "10%",
+    dailyDrawdown: "5%",
+    timeLimit: "Unlimited",
+    payoutSplit: "Up to 90%",
+    newsTrading: "Allowed",
+    badge: "High Leverage",
+    color: "#00B4D8",
+    link: "/prop-firms/fxify"
+  },
+  {
+    id: "e8-funding",
+    name: "E8 Funding",
+    description: "Customizable drawdowns. Best for tailored risk management.",
+    bgUrl: "/images/prop-firms/e8-bg.png",
+    profitTarget: "8%",
+    maxDrawdown: "8%",
+    dailyDrawdown: "5%",
+    timeLimit: "Unlimited",
+    payoutSplit: "Up to 80%",
+    newsTrading: "Restricted",
+    badge: "Flexible Rules",
+    color: "#F4A261",
+    link: "/prop-firms/e8-funding"
+  },
+  {
+    id: "lux-trading",
+    name: "Lux Trading Firm",
+    description: "Real capital from day one. Best for institutional pathways.",
+    bgUrl: "/images/prop-firms/lux-bg.png",
+    profitTarget: "6%",
+    maxDrawdown: "6%",
+    dailyDrawdown: "None",
+    timeLimit: "Unlimited",
+    payoutSplit: "75%",
+    newsTrading: "Allowed",
+    badge: "Real Capital",
+    color: "#E9C46A",
+    link: "/prop-firms/lux-trading"
   }
 ];
 
@@ -91,6 +137,8 @@ export default function PropFirmsHubPage() {
            <div className="absolute inset-0 bg-[linear-gradient(90deg,transparent_10%,var(--color-profit)_10.5%,transparent_11%)] [background-size:2vw_100%]" />
         </div>
       </section>
+
+      <SectionA />
 
       {/* Trust / Reality Check Module */}
       <section className="py-16 border-b border-border-slate/50">
@@ -222,6 +270,11 @@ export default function PropFirmsHubPage() {
             </div>
          </div>
       </section>
+
+      <SectionB />
+      <SectionD />
+      <SectionE />
+      <SectionF />
 
       {/* Low-Ticket Upsell Banner */}
       <section className="py-24 border-y border-border-slate/50 relative overflow-hidden">

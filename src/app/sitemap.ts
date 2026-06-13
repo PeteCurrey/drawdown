@@ -32,7 +32,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   // Static routes (Global & Root)
   const routes = [
-    "", "/about", "/pricing", "/blog", "/courses", "/contact", "/privacy", "/disclaimer",
+    "", "/about", "/pricing", "/blog", "/courses", "/platform", "/contact", "/privacy", "/disclaimer",
     "/brokers", "/glossary", "/how-to", "/best", "/compare", "/markets/pulse",
     "/tools/scanner", "/dashboard/news", "/prop-firms", "/guides/tradingview",
     "/au", "/au/brokers", "/au/pricing",

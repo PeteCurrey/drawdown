@@ -8,6 +8,15 @@ function useCountUp(target: number, duration: number = 1500) {
   const [hasStarted, setHasStarted] = useState(false);
 
   useEffect(() => {
+    const currentElement = elementRef.current;
+    if (currentElement) {
+      // Immediate check in case it's already in view on mount
+      const rect = currentElement.getBoundingClientRect();
+      if (rect.top < window.innerHeight && rect.bottom >= 0) {
+        setHasStarted(true);
+      }
+    }
+
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting) {
@@ -17,15 +26,12 @@ function useCountUp(target: number, duration: number = 1500) {
       { threshold: 0.1 }
     );
 
-    const currentElement = elementRef.current;
     if (currentElement) {
       observer.observe(currentElement);
     }
 
     return () => {
-      if (currentElement) {
-        observer.unobserve(currentElement);
-      }
+      if (currentElement) observer.unobserve(currentElement);
       observer.disconnect();
     };
   }, []);

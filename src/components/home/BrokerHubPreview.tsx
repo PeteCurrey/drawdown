@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { Shield, ChevronRight } from "lucide-react";
 import Link from "next/link";
@@ -60,6 +61,7 @@ interface Broker {
 
 export function BrokerHubPreview() {
   const { region } = useRegion();
+  const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
 
   const getRegionalData = (): { brokers: Broker[], link: string } => {
     switch (region) {
@@ -150,15 +152,35 @@ export function BrokerHubPreview() {
           </p>
         </div>
 
-        {/* Card Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {regionalBrokers.map((broker) => (
+          {regionalBrokers.map((broker, idx) => (
             <motion.div 
               key={broker.id}
-              className="bg-white border border-neutral-100 rounded-xl p-6 flex flex-col justify-between shadow-sm hover:shadow-md hover:border-neutral-200 transition-all duration-200"
+              className="bg-white border border-neutral-100 rounded-xl p-6 flex flex-col justify-between shadow-sm hover:shadow-md hover:border-neutral-200 transition-all duration-200 relative overflow-hidden group"
               whileHover={{ y: -2, transition: { duration: 0.2 } }}
+              onMouseEnter={() => setHoveredIdx(idx)}
+              onMouseLeave={() => setHoveredIdx(null)}
             >
-              <div>
+              {/* Background logo reveal & branding tint */}
+              <div className="absolute inset-0 pointer-events-none z-0">
+                <div
+                  className="absolute inset-0 bg-contain bg-center bg-no-repeat transition-all duration-700 ease-out"
+                  style={{
+                    backgroundImage: broker.logoUrl ? `url(${broker.logoUrl})` : "none",
+                    opacity: hoveredIdx === idx ? 0.04 : 0.01,
+                    transform: hoveredIdx === idx ? "scale(1)" : "scale(1.05)",
+                  }}
+                />
+                <div 
+                  className="absolute inset-0 transition-opacity duration-700 ease-out"
+                  style={{
+                    background: `linear-gradient(to bottom right, transparent, ${broker.color})`,
+                    opacity: hoveredIdx === idx ? 0.05 : 0
+                  }}
+                />
+              </div>
+
+              <div className="relative z-10">
                 <div className="flex items-center justify-between mb-6">
                   {/* Logo Container */}
                   <div className="h-8 flex items-center justify-start">
@@ -193,7 +215,7 @@ export function BrokerHubPreview() {
 
               <a 
                 href={`/go/${broker.id}`}
-                className="w-full bg-black hover:bg-neutral-800 text-white rounded-lg py-3 text-sm font-medium text-center transition-colors font-sans flex items-center justify-center gap-2"
+                className="w-full relative z-10 bg-black hover:bg-neutral-800 text-white rounded-lg py-3 text-sm font-medium text-center transition-colors font-sans flex items-center justify-center gap-2"
               >
                 Open Account &rarr;
               </a>

@@ -197,13 +197,32 @@ export function BrokerSection() {
                 onMouseLeave={() => setHoveredIdx(null)}
                 className="border rounded-[14px] p-6 flex flex-col justify-between cursor-pointer transition-all duration-300 relative overflow-hidden"
                 style={{
-                  backgroundColor: isHovered ? hexToRGBA(brandColor, 0.04) : hexToRGBA(brandColor, 0.01),
+                  backgroundColor: "white",
                   borderColor: isHovered ? hexToRGBA(brandColor, 0.22) : "rgba(229, 229, 229, 0.7)",
                   transform: isHovered ? "translateY(-3px)" : "translateY(0px)",
                   boxShadow: isHovered ? `0 8px 32px ${hexToRGBA(brandColor, 0.05)}` : "none"
                 }}
               >
-                <div>
+                {/* Background logo reveal & branding tint */}
+                <div className="absolute inset-0 pointer-events-none z-0">
+                  <div
+                    className="absolute inset-0 bg-contain bg-center bg-no-repeat transition-all duration-700 ease-out"
+                    style={{
+                      backgroundImage: broker.logoUrl ? `url(${broker.logoUrl})` : "none",
+                      opacity: isHovered ? 0.06 : 0.01,
+                      transform: isHovered ? "scale(1.05)" : "scale(1.1)",
+                    }}
+                  />
+                  <div 
+                    className="absolute inset-0 transition-opacity duration-700 ease-out"
+                    style={{
+                      background: `linear-gradient(to bottom right, transparent, ${brandColor})`,
+                      opacity: isHovered ? 0.03 : 0
+                    }}
+                  />
+                </div>
+
+                <div className="relative z-10">
                   <div className="flex items-center justify-between mb-6">
                     {/* Logo Container */}
                     <div className="h-8 flex items-center justify-start">
@@ -241,10 +260,9 @@ export function BrokerSection() {
                   </ul>
                 </div>
 
-                {/* Keeping the exactly mandated /go/ link routing */}
                 <a 
                   href={`/go/${broker.id}`}
-                  className="w-full text-white rounded-lg py-3 text-sm font-semibold text-center transition-all font-sans flex items-center justify-center gap-2"
+                  className="w-full relative z-10 text-white rounded-lg py-3 text-sm font-semibold text-center transition-all font-sans flex items-center justify-center gap-2"
                   style={{
                     backgroundColor: isHovered ? brandColor : "#0A0A0A"
                   }}

@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { Shield, ArrowRight, Filter, ShieldCheck, CheckCircle2, ChevronRight } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
@@ -46,6 +47,8 @@ const topBrokers = [
 ];
 
 export default function BrokerComparisonHub() {
+  const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
+
   return (
     <div className="flex flex-col">
       {/* Hero Section */}
@@ -99,14 +102,43 @@ export default function BrokerComparisonHub() {
          <div className="max-w-7xl mx-auto px-6">
             <div className="space-y-12">
                {topBrokers.map((broker, index) => (
-                  <div key={broker.id} className="bg-white border border-mkt-bd rounded-[14px] p-8 hover:shadow-[0_8px_32px_rgba(0,0,0,0.07)] hover:-translate-y-0.5 transition-all duration-300 relative overflow-hidden group">
+                  <div 
+                    key={broker.id} 
+                    className="bg-white border border-mkt-bd rounded-[14px] p-8 transition-all duration-300 relative overflow-hidden group"
+                    style={{
+                      transform: hoveredIdx === index ? "translateY(-2px)" : "translateY(0px)",
+                      boxShadow: hoveredIdx === index ? "0 8px 32px rgba(0,0,0,0.07)" : "none",
+                      borderColor: hoveredIdx === index ? "rgba(0,0,0,0.14)" : undefined
+                    }}
+                    onMouseEnter={() => setHoveredIdx(index)}
+                    onMouseLeave={() => setHoveredIdx(null)}
+                  >
+                     {/* Background logo reveal & branding tint */}
+                     <div className="absolute inset-0 pointer-events-none z-0">
+                       <div
+                         className="absolute inset-0 bg-contain bg-center bg-no-repeat transition-all duration-700 ease-out"
+                         style={{
+                           backgroundImage: broker.logoUrl ? `url(${broker.logoUrl})` : "none",
+                           opacity: hoveredIdx === index ? 0.04 : 0.01,
+                           transform: hoveredIdx === index ? "scale(1)" : "scale(1.05)",
+                         }}
+                       />
+                       <div 
+                         className="absolute inset-0 transition-opacity duration-700 ease-out"
+                         style={{
+                           background: `linear-gradient(to bottom right, transparent, ${broker.color})`,
+                           opacity: hoveredIdx === index ? 0.05 : 0
+                         }}
+                       />
+                     </div>
+
                      {index === 0 && (
                         <div className="absolute top-0 right-0 bg-mkt-ink text-white px-4 py-1.5 rounded-bl-[10px] text-[9px] font-sans font-bold uppercase tracking-widest z-10">
                            Top Overall Pick
                         </div>
                      )}
                      
-                     <div className="flex flex-col lg:flex-row gap-8 lg:items-center">
+                     <div className="flex flex-col lg:flex-row gap-8 lg:items-center relative z-10">
                         {/* Logo & Category */}
                         <div className="w-full lg:w-1/4 shrink-0 border-b lg:border-b-0 lg:border-r border-mkt-bd/50 pb-8 lg:pb-0 lg:pr-8">
                            <div className="text-[10px] font-sans tracking-widest uppercase text-mkt-grn font-bold mb-4">

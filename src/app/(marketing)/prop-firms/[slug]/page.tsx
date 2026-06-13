@@ -36,7 +36,7 @@ export default async function PropFirmReviewPage({ params }: Props) {
   }
 
   return (
-    <div className="flex flex-col min-h-screen" data-theme="dark" style={{ backgroundColor: "#08090D", color: "#E4E2DD" }}>
+    <div className="flex flex-col min-h-screen">
       {/* Hero Section */}
       <section className="relative pt-32 pb-20 border-b border-border-slate/50 overflow-hidden bg-background-primary">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,rgba(0,194,255,0.05)_0%,transparent_60%)] pointer-events-none" />

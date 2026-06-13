@@ -35,18 +35,18 @@ export function HeroSection() {
     hidden: { 
       opacity: 0, 
       y: 40,
-      rotateX: 42,
+      rotateX: 18,
       rotateY: 0,
-      rotateZ: -12,
-      transformPerspective: 1200
+      rotateZ: -18,
+      transformPerspective: 1400
     },
     visible: {
       opacity: 1,
       y: 0,
-      rotateX: 42,
+      rotateX: 18,
       rotateY: 0,
-      rotateZ: -12,
-      transformPerspective: 1200,
+      rotateZ: -18,
+      transformPerspective: 1400,
       transition: {
         duration: 0.8,
         delay: 0.3,
@@ -245,20 +245,20 @@ export function HeroSection() {
             initial="hidden"
             animate="visible"
             whileHover={{ 
-              rotateX: 25, 
+              rotateX: 10, 
               rotateY: 0, 
-              rotateZ: -6,
+              rotateZ: -10,
               transition: { duration: 0.6, ease: "easeOut" }
             }}
             style={{
-              filter: "drop-shadow(0 35px 70px rgba(0, 0, 0, 0.2))"
+              filter: "drop-shadow(0 30px 60px rgba(0, 0, 0, 0.12))"
             }}
           >
-            {/* Dark Card Dashboard Mockup */}
-            <div className="relative w-full bg-[#0D0D0D] border border-neutral-800 rounded-2xl p-6 overflow-hidden flex flex-col justify-between font-sans">
+            {/* Light Card Dashboard Mockup */}
+            <div className="relative w-full bg-white border border-[#E2E2E2] rounded-2xl p-6 overflow-hidden flex flex-col justify-between font-sans shadow-sm">
               
               {/* Topbar */}
-              <div className="flex justify-between items-center pb-4 border-b border-neutral-850 mb-6">
+              <div className="flex justify-between items-center pb-4 border-b border-[#EBEBEB] mb-6">
                 {/* Traffic Lights */}
                 <div className="flex gap-1.5">
                   <span className="w-2.5 h-2.5 rounded-full bg-[#FF5F56]" />
@@ -268,52 +268,52 @@ export function HeroSection() {
                 {/* LIVE badge */}
                 <div className="flex items-center gap-1.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-mkt-grn animate-pulse" />
-                  <span className="text-[10px] font-bold text-mkt-grn bg-mkt-gbg/10 border border-mkt-grn/30 px-2 py-0.5 rounded uppercase tracking-wider font-mono">
+                  <span className="text-[10px] font-bold text-mkt-grn bg-green-50 border border-green-200 px-2 py-0.5 rounded uppercase tracking-wider font-mono">
                     LIVE
                   </span>
                 </div>
               </div>
 
               {/* Grid container */}
-              <div className="space-y-6">
+              <div className="space-y-4">
                 {/* Three Stat Tiles */}
                 <div className="grid grid-cols-3 gap-3">
-                  <div className="bg-[#141414] border border-neutral-800 rounded-lg p-3">
-                    <p className="text-[10px] font-mono text-neutral-500 uppercase">GBP/USD</p>
-                    <p className="text-xs font-mono font-bold text-white mt-1">1.2734</p>
+                  <div className="bg-[#F5F5F5] border border-[#E8E8E8] rounded-lg p-3">
+                    <p className="text-[10px] font-mono text-[#888888] uppercase">GBP/USD</p>
+                    <p className="text-xs font-mono font-bold text-[#0A0A0A] mt-1">1.2734</p>
                     <p className="text-[9px] font-mono text-mkt-grn mt-0.5">+0.12%</p>
                   </div>
-                  <div className="bg-[#141414] border border-neutral-800 rounded-lg p-3">
-                    <p className="text-[10px] font-mono text-neutral-500 uppercase">EUR/USD</p>
-                    <p className="text-xs font-mono font-bold text-white mt-1">1.0845</p>
-                    <p className="text-[9px] font-mono text-neutral-500 mt-0.5">0.00%</p>
+                  <div className="bg-[#F5F5F5] border border-[#E8E8E8] rounded-lg p-3">
+                    <p className="text-[10px] font-mono text-[#888888] uppercase">EUR/USD</p>
+                    <p className="text-xs font-mono font-bold text-[#0A0A0A] mt-1">1.0845</p>
+                    <p className="text-[9px] font-mono text-[#888888] mt-0.5">0.00%</p>
                   </div>
-                  <div className="bg-[#141414] border border-neutral-800 rounded-lg p-3">
-                    <p className="text-[10px] font-mono text-neutral-500 uppercase">BTC/USD</p>
-                    <p className="text-xs font-mono font-bold text-white mt-1">67,420</p>
+                  <div className="bg-[#F5F5F5] border border-[#E8E8E8] rounded-lg p-3">
+                    <p className="text-[10px] font-mono text-[#888888] uppercase">BTC/USD</p>
+                    <p className="text-xs font-mono font-bold text-[#0A0A0A] mt-1">67,420</p>
                     <p className="text-[9px] font-mono text-mkt-grn mt-0.5">+1.45%</p>
                   </div>
                 </div>
 
                 {/* SVG Area Chart */}
-                <div className="relative h-28 bg-[#141414] border border-neutral-800 rounded-lg p-3 flex flex-col justify-between overflow-hidden">
+                <div className="relative h-32 bg-[#F5F5F5] border border-[#E8E8E8] rounded-lg p-3 flex flex-col justify-between overflow-hidden">
                   <div className="flex justify-between items-center z-10">
-                    <span className="text-[9px] font-mono text-neutral-400 uppercase tracking-widest">GBPUSD 1H CHART</span>
-                    <span className="text-[10px] font-mono text-white font-bold">1.2734</span>
+                    <span className="text-[9px] font-mono text-[#888888] uppercase tracking-widest">GBPUSD 1H CHART</span>
+                    <span className="text-[10px] font-mono text-[#0A0A0A] font-bold">1.2734</span>
                   </div>
                   
                   {/* SVG Chart paths */}
                   <div className="absolute inset-0 pt-6">
                     <svg className="w-full h-full" viewBox="0 0 300 80" preserveAspectRatio="none">
                       <defs>
-                        <linearGradient id="chartGrad" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="0%" stopColor="#16A34A" stopOpacity="0.25" />
+                        <linearGradient id="chartGradLight" x1="0" y1="0" x2="0" y2="1">
+                          <stop offset="0%" stopColor="#16A34A" stopOpacity="0.18" />
                           <stop offset="100%" stopColor="#16A34A" stopOpacity="0" />
                         </linearGradient>
                       </defs>
                       <path 
                         d="M0,60 Q40,40 80,45 T160,30 T240,55 T300,20 L300,80 L0,80 Z" 
-                        fill="url(#chartGrad)" 
+                        fill="url(#chartGradLight)" 
                       />
                       <path 
                         d="M0,60 Q40,40 80,45 T160,30 T240,55 T300,20" 
@@ -327,21 +327,21 @@ export function HeroSection() {
 
                 {/* Four Pair Tiles 2x2 grid */}
                 <div className="grid grid-cols-2 gap-3">
-                  <div className="flex justify-between items-center bg-[#141414] border border-neutral-800 rounded-lg p-2.5">
-                    <span className="text-[10px] font-mono text-neutral-450">USDJPY</span>
-                    <span className="text-[10px] font-mono font-bold text-white">156.42</span>
+                  <div className="flex justify-between items-center bg-[#F5F5F5] border border-[#E8E8E8] rounded-lg p-2.5">
+                    <span className="text-[10px] font-mono text-[#888888]">USDJPY</span>
+                    <span className="text-[10px] font-mono font-bold text-[#0A0A0A]">156.42</span>
                   </div>
-                  <div className="flex justify-between items-center bg-[#141414] border border-neutral-800 rounded-lg p-2.5">
-                    <span className="text-[10px] font-mono text-neutral-450">GBPJPY</span>
-                    <span className="text-[10px] font-mono font-bold text-white">199.12</span>
+                  <div className="flex justify-between items-center bg-[#F5F5F5] border border-[#E8E8E8] rounded-lg p-2.5">
+                    <span className="text-[10px] font-mono text-[#888888]">GBPJPY</span>
+                    <span className="text-[10px] font-mono font-bold text-[#0A0A0A]">199.12</span>
                   </div>
-                  <div className="flex justify-between items-center bg-[#141414] border border-neutral-800 rounded-lg p-2.5">
-                    <span className="text-[10px] font-mono text-neutral-450">AUDUSD</span>
-                    <span className="text-[10px] font-mono font-bold text-white">0.6654</span>
+                  <div className="flex justify-between items-center bg-[#F5F5F5] border border-[#E8E8E8] rounded-lg p-2.5">
+                    <span className="text-[10px] font-mono text-[#888888]">AUDUSD</span>
+                    <span className="text-[10px] font-mono font-bold text-[#0A0A0A]">0.6654</span>
                   </div>
-                  <div className="flex justify-between items-center bg-[#141414] border border-neutral-800 rounded-lg p-2.5">
-                    <span className="text-[10px] font-mono text-neutral-450">EURGBP</span>
-                    <span className="text-[10px] font-mono font-bold text-white">0.8512</span>
+                  <div className="flex justify-between items-center bg-[#F5F5F5] border border-[#E8E8E8] rounded-lg p-2.5">
+                    <span className="text-[10px] font-mono text-[#888888]">EURGBP</span>
+                    <span className="text-[10px] font-mono font-bold text-[#0A0A0A]">0.8512</span>
                   </div>
                 </div>
               </div>

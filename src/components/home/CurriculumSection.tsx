@@ -15,6 +15,8 @@ const phaseThemeStyles = [
     hoverBg: "rgba(71, 85, 105, 0.045)",
     borderColor: "rgba(71, 85, 105, 0.22)",
     textColor: "rgb(71, 85, 105)",
+    // Trading floor / discipline — person at desk with screens
+    imageUrl: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?q=80&w=800&auto=format&fit=crop",
     svgPath: (
       <svg className="absolute bottom-[-10px] right-[-10px] w-24 h-24 text-slate-500 transition-opacity duration-500 pointer-events-none" viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="0.5">
         <path d="M50,15 L20,30 L20,55 C20,72 35,83 50,88 C65,83 80,72 80,55 L80,30 L50,15 Z" />
@@ -28,6 +30,8 @@ const phaseThemeStyles = [
     hoverBg: "rgba(16, 185, 129, 0.045)",
     borderColor: "rgba(16, 185, 129, 0.22)",
     textColor: "rgb(16, 185, 129)",
+    // Candlestick / price chart on monitor
+    imageUrl: "https://images.unsplash.com/photo-1642790106117-e829e14a795f?q=80&w=800&auto=format&fit=crop",
     svgPath: (
       <svg className="absolute bottom-[-10px] right-[-10px] w-24 h-24 text-emerald-500 transition-opacity duration-500 pointer-events-none" viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="0.5">
         <rect x="25" y="35" width="12" height="30" />
@@ -45,6 +49,8 @@ const phaseThemeStyles = [
     hoverBg: "rgba(99, 102, 241, 0.045)",
     borderColor: "rgba(99, 102, 241, 0.22)",
     textColor: "rgb(99, 102, 241)",
+    // Strategy chess board / analytical thinking
+    imageUrl: "https://images.unsplash.com/photo-1529699211952-734e80c4d42b?q=80&w=800&auto=format&fit=crop",
     svgPath: (
       <svg className="absolute bottom-[-10px] right-[-10px] w-24 h-24 text-indigo-500 transition-opacity duration-500 pointer-events-none" viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="0.5">
         <circle cx="50" cy="30" r="8" />
@@ -62,6 +68,8 @@ const phaseThemeStyles = [
     hoverBg: "rgba(244, 63, 94, 0.045)",
     borderColor: "rgba(244, 63, 94, 0.22)",
     textColor: "rgb(244, 63, 94)",
+    // Risk / balance — financial dashboard with red/green indicators
+    imageUrl: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800&auto=format&fit=crop",
     svgPath: (
       <svg className="absolute bottom-[-10px] right-[-10px] w-24 h-24 text-rose-500 transition-opacity duration-500 pointer-events-none" viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="0.5">
         <rect x="30" y="45" width="40" height="35" rx="3" />
@@ -76,6 +84,8 @@ const phaseThemeStyles = [
     hoverBg: "rgba(217, 70, 239, 0.045)",
     borderColor: "rgba(217, 70, 239, 0.22)",
     textColor: "rgb(217, 70, 239)",
+    // Psychology / mindset — meditation, focus, calm
+    imageUrl: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=800&auto=format&fit=crop",
     svgPath: (
       <svg className="absolute bottom-[-10px] right-[-10px] w-24 h-24 text-fuchsia-500 transition-opacity duration-500 pointer-events-none" viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="0.5">
         <circle cx="50" cy="50" r="35" strokeDasharray="2 2" />
@@ -91,6 +101,8 @@ const phaseThemeStyles = [
     hoverBg: "rgba(6, 182, 212, 0.045)",
     borderColor: "rgba(6, 182, 212, 0.22)",
     textColor: "rgb(6, 182, 212)",
+    // AI / technology — neural network or AI data streams
+    imageUrl: "https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=800&auto=format&fit=crop",
     svgPath: (
       <svg className="absolute bottom-[-10px] right-[-10px] w-24 h-24 text-cyan-500 transition-opacity duration-500 pointer-events-none" viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="0.5">
         <path d="M25,25 L45,25 L45,45 L25,45 Z" />
@@ -158,9 +170,23 @@ export function CurriculumSection() {
                   backgroundColor: isHovered ? theme.hoverBg : theme.baseBg,
                   borderColor: isHovered ? theme.borderColor : "rgba(229, 229, 229, 0.7)",
                   transform: isHovered ? "translateY(-2px)" : "translateY(0px)",
-                  boxShadow: isHovered ? "0 8px 32px rgba(0, 0, 0, 0.04)" : "none"
+                  boxShadow: isHovered ? "0 8px 32px rgba(0, 0, 0, 0.06)" : "none"
                 }}
               >
+                {/* Background image — gentle reveal on hover */}
+                <div
+                  className="absolute inset-0 z-0 overflow-hidden pointer-events-none rounded-[14px]"
+                >
+                  <div
+                    className="absolute inset-0 bg-cover bg-center transition-all duration-700 ease-out"
+                    style={{
+                      backgroundImage: `url(${theme.imageUrl})`,
+                      opacity: isHovered ? 0.13 : 0,
+                      transform: isHovered ? "scale(1)" : "scale(1.06)"
+                    }}
+                  />
+                </div>
+
                 {/* Subtle bottom-right SVG decorative illustration */}
                 <div 
                   className="absolute inset-0 z-0 overflow-hidden pointer-events-none transition-opacity duration-300"

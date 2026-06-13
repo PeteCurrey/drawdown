@@ -3,7 +3,6 @@
 import { usePathname } from "next/navigation";
 import { Navigation } from "@/components/layout/Navigation";
 import { Footer } from "@/components/layout/Footer";
-import { MarketTicker } from "@/components/market/MarketTicker";
 import { DynamicRegionalProvider } from "@/components/layout/DynamicRegionalProvider";
 
 export default function MarketingLayout({
@@ -18,9 +17,8 @@ export default function MarketingLayout({
   return (
     <DynamicRegionalProvider>
       <div className="marketing flex flex-col min-h-screen bg-background-primary text-text-primary">
-        {!isHomepage && <MarketTicker />}
         {!isHomepage && <Navigation />}
-        <main className={isHomepage ? "flex-grow" : "flex-grow pt-[120px]"}>
+        <main className={isHomepage ? "flex-grow" : "flex-grow pt-[58px]"}>
           {children}
         </main>
         {!isHomepage && <Footer />}

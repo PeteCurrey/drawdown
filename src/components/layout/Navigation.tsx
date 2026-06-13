@@ -42,7 +42,7 @@ export function Navigation() {
 
   return (
     <header
-      className="fixed top-0 left-0 w-full z-[200] h-[58px] bg-white flex items-center select-none"
+      className="fixed top-0 left-0 w-full z-[200] h-[58px] bg-mkt-bg flex items-center select-none"
     >
       <div className="w-full max-w-7xl mx-auto px-6 flex justify-between items-center">
         {/* Logo */}
@@ -72,7 +72,7 @@ export function Navigation() {
           {user ? (
             <Link
               href="/dashboard"
-              className="bg-mkt-ink hover:bg-mkt-i2 text-white px-5 py-2 rounded-lg text-sm font-medium transition-colors font-sans"
+              className="bg-mkt-ink hover:bg-mkt-i2 text-mkt-bg px-5 py-2 rounded-lg text-sm font-medium transition-colors font-sans"
             >
               Go to Dashboard
             </Link>
@@ -86,7 +86,7 @@ export function Navigation() {
               </Link>
               <Link
                 href="/signup"
-                className="bg-mkt-ink hover:bg-mkt-i2 text-white px-5 py-2 rounded-lg text-sm font-medium transition-colors font-sans"
+                className="bg-mkt-ink hover:bg-mkt-i2 text-mkt-bg px-5 py-2 rounded-lg text-sm font-medium transition-colors font-sans"
               >
                 Start Free
               </Link>
@@ -106,7 +106,7 @@ export function Navigation() {
 
       {/* Mobile Menu Overlay */}
       {isMobileMenuOpen && (
-        <div className="fixed inset-0 top-[58px] bg-white z-[199] lg:hidden flex flex-col px-6 py-8 border-t border-mkt-bd">
+        <div className="fixed inset-0 top-[58px] bg-mkt-bg z-[199] lg:hidden flex flex-col px-6 py-8 border-t border-mkt-bd">
           <nav className="flex flex-col gap-4">
             {navLinks.map((link) => (
               <Link
@@ -124,7 +124,7 @@ export function Navigation() {
               <Link
                 href="/dashboard"
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="bg-mkt-ink hover:bg-mkt-i2 text-white text-center py-3 rounded-lg text-sm font-medium transition-colors min-h-[48px] flex items-center justify-center font-sans"
+                className="bg-mkt-ink hover:bg-mkt-i2 text-mkt-bg text-center py-3 rounded-lg text-sm font-medium transition-colors min-h-[48px] flex items-center justify-center font-sans"
               >
                 Go to Dashboard
               </Link>
@@ -140,7 +140,7 @@ export function Navigation() {
                 <Link
                   href="/signup"
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="bg-mkt-ink hover:bg-mkt-i2 text-white text-center py-3 rounded-lg text-sm font-medium transition-colors min-h-[48px] flex items-center justify-center font-sans"
+                  className="bg-mkt-ink hover:bg-mkt-i2 text-mkt-bg text-center py-3 rounded-lg text-sm font-medium transition-colors min-h-[48px] flex items-center justify-center font-sans"
                 >
                   Start Free
                 </Link>

@@ -55,7 +55,7 @@ export default function RootLayout({
       <body className="min-h-screen flex flex-col bg-background-primary text-text-primary selection:bg-accent selection:text-background-primary transition-colors duration-500">
           <ThemeProvider
             attribute="data-theme"
-            defaultTheme="dark"
+            defaultTheme="light"
             enableSystem
             disableTransitionOnChange
           >

@@ -12,14 +12,14 @@ interface PulseHeroProps {
 export function PulseHero({ story, loading }: PulseHeroProps) {
   if (loading) {
     return (
-      <div className="w-full aspect-[21/9] md:aspect-[24/7] bg-background-surface animate-pulse border border-border-slate" />
+      <div className="w-full aspect-[21/9] md:aspect-[24/7] bg-white animate-pulse border border-mkt-bd" />
     );
   }
 
   if (!story) return null;
 
   return (
-    <div className="relative w-full aspect-[21/9] md:aspect-[24/7] border border-border-slate bg-background-surface group overflow-hidden">
+    <div className="relative w-full aspect-[21/9] md:aspect-[24/7] border border-mkt-bd bg-white group overflow-hidden">
       {/* Background Image with Reveal */}
       <div className="absolute inset-0 z-0">
         {story.imageUrl ? (
@@ -40,19 +40,19 @@ export function PulseHero({ story, loading }: PulseHeroProps) {
           <span className="px-2 py-0.5 bg-accent/10 border border-accent/20 text-accent text-[10px] font-mono font-bold uppercase tracking-widest">
             {story.source}
           </span>
-          <span className="flex items-center gap-1.5 text-text-tertiary text-[10px] font-mono uppercase tracking-widest">
+          <span className="flex items-center gap-1.5 text-mkt-i4 text-[10px] font-mono uppercase tracking-widest">
             <Clock className="w-3 h-3" /> {story.publishedAt}
           </span>
-          <span className="flex items-center gap-1.5 text-profit text-[10px] font-mono uppercase tracking-widest font-bold">
+          <span className="flex items-center gap-1.5 text-mkt-grn text-[10px] font-mono uppercase tracking-widest font-bold">
             <ShieldCheck className="w-3 h-3" /> Institutional Feed
           </span>
         </div>
 
-        <h1 className="text-3xl md:text-5xl lg:text-6xl font-display font-black uppercase tracking-tight leading-[0.9] group-hover:text-accent transition-colors duration-500">
+        <h1 className="text-3xl md:text-5xl lg:text-6xl font-sans font-black uppercase tracking-tight leading-[0.9] group-hover:text-accent transition-colors duration-500">
           {story.title}
         </h1>
 
-        <p className="text-sm md:text-base text-text-secondary leading-relaxed max-w-2xl line-clamp-2 md:line-clamp-none opacity-80">
+        <p className="text-sm md:text-base text-mkt-i2 leading-relaxed max-w-2xl line-clamp-2 md:line-clamp-none opacity-80">
           {story.excerpt}
         </p>
 

@@ -21,7 +21,7 @@ export function SectorHeatmap({ sectors, onSelect }: SectorHeatmapProps) {
             key={sector.id}
             onClick={() => onSelect?.(sector)}
             className={cn(
-              "group p-6 bg-background-surface border border-border-slate hover:border-accent transition-premium cursor-pointer relative overflow-hidden",
+              "group p-6 bg-white border border-mkt-bd hover:border-mkt-bds transition-premium cursor-pointer relative overflow-hidden",
               isBullish && "hover:bg-profit/5",
               isBearish && "hover:bg-loss/5"
             )}
@@ -34,16 +34,16 @@ export function SectorHeatmap({ sectors, onSelect }: SectorHeatmapProps) {
 
             <div className="flex justify-between items-start mb-6 relative z-10">
               <div>
-                <h3 className="text-sm font-display font-black uppercase tracking-tight text-text-primary">
+                <h3 className="text-sm font-sans font-black uppercase tracking-tight text-mkt-ink">
                   {sector.name}
                 </h3>
-                <p className="text-[9px] font-mono text-text-tertiary uppercase tracking-widest mt-1">
+                <p className="text-[9px] font-mono text-mkt-i4 uppercase tracking-widest mt-1">
                   
                 </p>
               </div>
               <div className={cn(
                 "w-8 h-8 flex items-center justify-center border",
-                isBullish ? "border-profit/20 text-profit" : isBearish ? "border-loss/20 text-loss" : "border-border-slate text-text-tertiary"
+                isBullish ? "border-profit/20 text-mkt-grn" : isBearish ? "border-loss/20 text-red-500" : "border-mkt-bd text-mkt-i4"
               )}>
                 {isBullish ? <ArrowUpRight className="w-4 h-4" /> : isBearish ? <ArrowDownRight className="w-4 h-4" /> : <Minus className="w-4 h-4" />}
               </div>
@@ -51,7 +51,7 @@ export function SectorHeatmap({ sectors, onSelect }: SectorHeatmapProps) {
 
             <div className="flex justify-between items-end relative z-10">
               <div className="space-y-1">
-                <span className="text-[7px] font-mono text-text-tertiary uppercase tracking-widest">Weight</span>
+                <span className="text-[7px] font-mono text-mkt-i4 uppercase tracking-widest">Weight</span>
                 <div className="flex gap-1">
                   {[...Array(5)].map((_, i) => (
                     <div 
@@ -65,8 +65,8 @@ export function SectorHeatmap({ sectors, onSelect }: SectorHeatmapProps) {
                 </div>
               </div>
               <span className={cn(
-                "text-2xl font-display font-black",
-                isBullish ? "text-profit" : isBearish ? "text-loss" : "text-text-primary"
+                "text-2xl font-sans font-black",
+                isBullish ? "text-mkt-grn" : isBearish ? "text-red-500" : "text-mkt-ink"
               )}>
                 {isBullish ? '+' : ''}{sector.performance.toFixed(2)}%
               </span>

@@ -20,12 +20,12 @@ export function ThemeToggle() {
   }
 
   return (
-    <div className="flex items-center gap-1 p-1 bg-background-elevated border border-border-slate rounded-full">
+    <div className="flex items-center gap-1 p-1 bg-[#F7F7F7] border border-mkt-bd rounded-full">
       <button
         onClick={() => setTheme("light")}
         className={cn(
           "p-1.5 rounded-full transition-all duration-300",
-          theme === "light" ? "bg-accent text-background-primary shadow-lg" : "text-text-secondary hover:text-text-primary"
+          theme === "light" ? "bg-mkt-ink text-white shadow-lg" : "text-mkt-i2 hover:text-mkt-ink"
         )}
         aria-label="Light Mode"
       >
@@ -35,7 +35,7 @@ export function ThemeToggle() {
         onClick={() => setTheme("dark")}
         className={cn(
           "p-1.5 rounded-full transition-all duration-300",
-          theme === "dark" ? "bg-accent text-background-primary shadow-lg" : "text-text-secondary hover:text-text-primary"
+          theme === "dark" ? "bg-mkt-ink text-white shadow-lg" : "text-mkt-i2 hover:text-mkt-ink"
         )}
         aria-label="Dark Mode"
       >
@@ -45,7 +45,7 @@ export function ThemeToggle() {
         onClick={() => setTheme("system")}
         className={cn(
           "p-1.5 rounded-full transition-all duration-300",
-          theme === "system" ? "bg-accent text-background-primary shadow-lg" : "text-text-secondary hover:text-text-primary"
+          theme === "system" ? "bg-mkt-ink text-white shadow-lg" : "text-mkt-i2 hover:text-mkt-ink"
         )}
         aria-label="System Theme"
       >

@@ -109,17 +109,17 @@ export default function PropFirmQuizPage() {
   const firmData = getFirmDetails(result);
 
   return (
-    <div className="min-h-[80vh] flex flex-col bg-background-primary pt-32 pb-24">
-      <div className="container mx-auto px-6 max-w-3xl flex-grow flex flex-col justify-center">
+    <div className="min-h-[80vh] flex flex-col bg-white pt-28 pb-24">
+      <div className="max-w-7xl mx-auto px-6 max-w-3xl flex-grow flex flex-col justify-center">
         
         {/* Progress Bar */}
         {!showResult && !showEmailCapture && (
           <div className="mb-12">
-            <div className="flex justify-between text-[10px] font-mono text-text-tertiary uppercase tracking-widest mb-2">
+            <div className="flex justify-between text-[10px] font-mono text-mkt-i4 uppercase tracking-widest mb-2">
               <span>Diagnostic Phase</span>
               <span>{Math.round(((currentStep) / questions.length) * 100)}%</span>
             </div>
-            <div className="h-1 bg-background-surface w-full overflow-hidden">
+            <div className="h-1 bg-white w-full overflow-hidden">
               <div 
                 className="h-full bg-accent transition-all duration-500 ease-out"
                 style={{ width: `${((currentStep) / questions.length) * 100}%` }}
@@ -130,17 +130,17 @@ export default function PropFirmQuizPage() {
 
         {/* Quiz Questions */}
         {!showResult && !showEmailCapture && (
-          <div className="bg-background-surface border border-border-slate p-8 md:p-12 shadow-2xl">
+          <div className="bg-white border border-mkt-bd p-8 md:p-12 shadow-2xl">
             {currentStep > 0 && (
               <button 
                 onClick={() => setCurrentStep(prev => prev - 1)}
-                className="flex items-center gap-2 text-[10px] font-mono uppercase tracking-widest text-text-tertiary hover:text-text-primary transition-colors mb-8"
+                className="flex items-center gap-2 text-[10px] font-mono uppercase tracking-widest text-mkt-i4 hover:text-mkt-ink transition-colors mb-8"
               >
                 <ArrowLeft className="w-3 h-3" /> Previous
               </button>
             )}
             
-            <h2 className="text-3xl md:text-4xl font-display font-black uppercase mb-8 leading-tight">
+            <h2 className="text-3xl md:text-4xl font-sans font-black uppercase mb-8 leading-tight">
               {questions[currentStep].title}
             </h2>
             
@@ -149,12 +149,12 @@ export default function PropFirmQuizPage() {
                 <button
                   key={idx}
                   onClick={() => handleOptionSelect(questions[currentStep].id, option.propFirmBias)}
-                  className="w-full text-left p-6 border border-border-slate hover:border-accent hover:bg-accent/5 transition-all group flex justify-between items-center"
+                  className="w-full text-left p-6 border border-mkt-bd hover:border-mkt-bds hover:bg-accent/5 transition-all group flex justify-between items-center"
                 >
-                  <span className="text-sm font-bold text-text-secondary group-hover:text-text-primary transition-colors">
+                  <span className="text-sm font-bold text-mkt-i2 group-hover:text-mkt-ink transition-colors">
                     {option.label}
                   </span>
-                  <div className="w-4 h-4 border border-border-slate rounded-full group-hover:border-accent group-hover:bg-accent/20 transition-all" />
+                  <div className="w-4 h-4 border border-mkt-bd rounded-full group-hover:border-mkt-bds group-hover:bg-accent/20 transition-all" />
                 </button>
               ))}
             </div>
@@ -163,25 +163,25 @@ export default function PropFirmQuizPage() {
 
         {/* Email Capture (Lead Gen) */}
         {showEmailCapture && (
-          <div className="bg-background-surface border border-border-slate p-8 md:p-12 shadow-2xl text-center">
+          <div className="bg-white border border-mkt-bd p-8 md:p-12 shadow-2xl text-center">
             <Target className="w-16 h-16 text-accent mx-auto mb-6" />
-            <h2 className="text-3xl font-display font-black uppercase mb-4">
+            <h2 className="text-3xl font-sans font-black uppercase mb-4">
               Analysis Complete.
             </h2>
-            <p className="text-text-secondary mb-8">
-              Enter your email to reveal your mathematically optimal prop firm match and receive your <span className="text-text-primary font-bold">Free Challenge Survival Checklist</span>.
+            <p className="text-mkt-i2 mb-8">
+              Enter your email to reveal your mathematically optimal prop firm match and receive your <span className="text-mkt-ink font-bold">Free Challenge Survival Checklist</span>.
             </p>
             
             <form onSubmit={handleEmailSubmit} className="max-w-md mx-auto space-y-4">
               <div className="relative">
-                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-text-tertiary" />
+                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-mkt-i4" />
                 <input 
                   type="email" 
                   required
                   placeholder="Enter your best email..."
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full bg-background-primary border border-border-slate pl-12 pr-4 py-4 text-sm focus:border-accent focus:outline-none transition-colors text-text-primary placeholder:text-text-tertiary"
+                  className="w-full bg-white border border-mkt-bd pl-12 pr-4 py-4 text-sm focus:border-mkt-bd focus:outline-none transition-colors text-mkt-ink placeholder:text-mkt-i4"
                 />
               </div>
               <button 
@@ -190,7 +190,7 @@ export default function PropFirmQuizPage() {
               >
                 Reveal My Match <ArrowRight className="w-4 h-4" />
               </button>
-              <p className="text-[10px] font-mono text-text-tertiary uppercase tracking-widest mt-4">
+              <p className="text-[10px] font-mono text-mkt-i4 uppercase tracking-widest mt-4">
                 We protect your data. No spam. Unsubscribe anytime.
               </p>
             </form>
@@ -201,17 +201,17 @@ export default function PropFirmQuizPage() {
         {showResult && (
           <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
             {/* The Result */}
-            <div className={cn("bg-background-surface border p-8 md:p-12 text-center relative overflow-hidden", firmData.border)}>
+            <div className={cn("bg-white border p-8 md:p-12 text-center relative overflow-hidden", firmData.border)}>
               <div className={cn("absolute inset-0 opacity-5 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-current via-background-primary to-background-primary", firmData.color)} />
               
               <div className="relative z-10">
-                <span className="text-[10px] font-mono tracking-widest uppercase text-text-tertiary font-bold block mb-4">
+                <span className="text-[10px] font-mono tracking-widest uppercase text-mkt-i4 font-bold block mb-4">
                   // OPTIMAL MATCH DETERMINED
                 </span>
-                <h1 className={cn("  font-display font-black uppercase mb-4", firmData.color)}>
+                <h1 className={cn("  font-sans font-black uppercase mb-4", firmData.color)}>
                   {firmData.name}
                 </h1>
-                <p className="text-xl text-text-secondary mb-8">
+                <p className="text-xl text-mkt-i2 mb-8">
                   {firmData.desc} Based on your parameters, this is the most statistically viable environment for your capital.
                 </p>
                 <div className="flex flex-wrap justify-center gap-4">
@@ -223,7 +223,7 @@ export default function PropFirmQuizPage() {
                   </a>
                   <Link 
                     href={`/prop-firms/${result}-review`}
-                    className="px-8 py-4 border border-border-slate hover:border-text-primary text-text-primary font-bold uppercase tracking-widest text-xs transition-colors"
+                    className="px-8 py-4 border border-mkt-bd hover:border-text-primary text-mkt-ink font-bold uppercase tracking-widest text-xs transition-colors"
                   >
                     Read The Data Review
                   </Link>
@@ -232,14 +232,14 @@ export default function PropFirmQuizPage() {
             </div>
 
             {/* The Low-Ticket Upsell */}
-            <div className="bg-background-primary border border-accent/30 p-8 shadow-2xl flex flex-col md:flex-row gap-8 items-center justify-between">
+            <div className="bg-white border border-mkt-bd/30 p-8 shadow-2xl flex flex-col md:flex-row gap-8 items-center justify-between">
               <div>
                 <div className="flex items-center gap-2 text-accent mb-2">
                   <ShieldCheck className="w-5 h-5" />
                   <span className="text-[10px] font-mono uppercase tracking-widest font-bold">Recommended Add-On</span>
                 </div>
-                <h3 className="text-2xl font-display font-bold uppercase mb-2">The Challenge Survival Kit</h3>
-                <p className="text-sm text-text-secondary">
+                <h3 className="text-2xl font-sans font-bold uppercase mb-2">The Challenge Survival Kit</h3>
+                <p className="text-sm text-mkt-i2">
                   Don't start your {firmData.name} evaluation without a math-backed risk model. Get our internal drawdown recovery sheets and daily routines.
                 </p>
               </div>

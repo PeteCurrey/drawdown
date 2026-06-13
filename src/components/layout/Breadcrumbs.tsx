@@ -46,7 +46,7 @@ export function Breadcrumbs({ items }: BreadcrumbsProps = {}) {
   return (
     <>
       <StructuredData type="BreadcrumbList" data={breadcrumbData} />
-      <nav className="flex items-center gap-2 text-[10px] font-mono uppercase tracking-widest text-text-tertiary mb-8">
+      <nav className="flex items-center gap-2 text-[10px] font-mono uppercase tracking-widest text-mkt-i4 mb-8">
         <Link href="/" className="hover:text-accent transition-colors flex items-center gap-1">
           <Home className="w-3 h-3" />
         </Link>
@@ -57,7 +57,7 @@ export function Breadcrumbs({ items }: BreadcrumbsProps = {}) {
             <div key={`${item.href}-${index}`} className="flex items-center gap-2">
               <ChevronRight className="w-3 h-3 opacity-20" />
               {isLast ? (
-                <span className="text-text-secondary">{item.label}</span>
+                <span className="text-mkt-i2">{item.label}</span>
               ) : (
                 <Link href={item.href} className="hover:text-accent transition-colors">
                   {item.label}

@@ -96,7 +96,7 @@ export function TradingViewSection() {
   }, []);
 
   return (
-    <section className="py-12 md:py-20 bg-background-elevated border-y border-border-slate relative overflow-hidden transition-colors duration-500">
+    <section className="py-12 md:py-20 bg-[#F7F7F7] border-y border-mkt-bd relative overflow-hidden transition-colors duration-500">
       {/* Background pattern */}
       <div className="absolute inset-0 opacity-5 pointer-events-none" style={{
         backgroundImage: "repeating-linear-gradient(45deg, #00C2FF 0, #00C2FF 1px, transparent 0, transparent 50%)",
@@ -111,30 +111,30 @@ export function TradingViewSection() {
               // RECOMMENDED TOOLKIT
             </span>
             <div className="flex items-center gap-4 mb-6">
-              <h2 className="text-4xl md:text-6xl font-display font-bold uppercase leading-tight">
+              <h2 className="text-4xl md:text-6xl font-sans font-bold uppercase leading-tight">
                 The Chart Platform <br />We Use Every Day.
               </h2>
             </div>
             {/* Discount Badge */}
             <div className="inline-flex items-center gap-3 px-5 py-3 bg-profit/10 border border-profit/30 mb-8">
-              <span className="text-2xl font-display font-black text-profit">$15 OFF</span>
+              <span className="text-2xl font-sans font-black text-mkt-grn">$15 OFF</span>
               <div>
-                <p className="text-[10px] font-bold uppercase tracking-widest text-profit">Exclusive via Drawdown</p>
-                <p className="text-[9px] font-mono text-text-tertiary uppercase">Use our link for instant savings</p>
+                <p className="text-[10px] font-bold uppercase tracking-widest text-mkt-grn">Exclusive via Drawdown</p>
+                <p className="text-[9px] font-mono text-mkt-i4 uppercase">Use our link for instant savings</p>
               </div>
             </div>
-            <p className="text-lg text-text-secondary leading-relaxed mb-8">
+            <p className="text-lg text-mkt-i2 leading-relaxed mb-8">
               TradingView is the industry standard for charting. Every pattern, indicator, and analysis concept taught in Drawdown is demonstrated using TradingView — because it&apos;s simply the best tool available.
             </p>
             <a
               href={TV_AFFILIATE_URL}
               rel="noopener noreferrer sponsored"
-              className="inline-flex items-center gap-3 px-10 py-5 bg-accent hover:bg-accent-hover text-background-primary text-[10px] font-bold uppercase tracking-widest transition-premium shadow-xl shadow-accent/20 hover:-translate-y-0.5 rounded-lg"
+              className="inline-flex items-center gap-3 px-10 py-5 bg-mkt-ink hover:bg-mkt-i2 text-background-primary text-[10px] font-bold uppercase tracking-widest transition-premium shadow-xl shadow-accent/20 hover:-translate-y-0.5 rounded-lg"
             >
               Claim $15 Off TradingView <ExternalLink className="w-4 h-4" />
             </a>
             <div className="mt-4 flex items-center gap-4">
-              <p className="text-[9px] font-mono text-text-tertiary uppercase tracking-widest">
+              <p className="text-[9px] font-mono text-mkt-i4 uppercase tracking-widest">
                 Affiliate link • We may earn a commission
               </p>
               <div className="w-px h-3 bg-border-slate" />
@@ -149,13 +149,13 @@ export function TradingViewSection() {
 
           {/* TradingView "terminal" mockup */}
           <div className="relative">
-            <div className="bg-[#131722] border border-border-slate overflow-hidden shadow-2xl h-[400px] md:h-[450px]">
+            <div className="bg-[#131722] border border-mkt-bd overflow-hidden shadow-2xl h-[400px] md:h-[450px]">
               {/* Titlebar */}
-              <div className="flex items-center gap-3 px-4 py-3 border-b border-border-slate/50 bg-black/20">
+              <div className="flex items-center gap-3 px-4 py-3 border-b border-mkt-bd/50 bg-black/20">
                 <div className="w-2.5 h-2.5 rounded-full bg-loss/70" />
                 <div className="w-2.5 h-2.5 rounded-full bg-accent/70" />
                 <div className="w-2.5 h-2.5 rounded-full bg-profit/70" />
-                <span className="ml-4 text-[9px] font-mono text-text-tertiary uppercase tracking-widest">EURUSD • 1H • Live Chart</span>
+                <span className="ml-4 text-[9px] font-mono text-mkt-i4 uppercase tracking-widest">EURUSD • 1H • Live Chart</span>
               </div>
               <div ref={containerRef} className="w-full h-[calc(100%-37px)]" />
             </div>
@@ -169,25 +169,25 @@ export function TradingViewSection() {
         {/* Feature Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {features.map((feature, i) => (
-            <div key={i} className="bg-background-primary border border-border-slate p-8 group hover:border-accent/50 transition-premium">
+            <div key={i} className="bg-white border border-mkt-bd p-8 group hover:border-mkt-bds/50 transition-premium">
               <feature.icon className="w-8 h-8 text-accent mb-6 group-hover:scale-110 transition-transform duration-300" />
-              <h3 className="text-base font-display font-bold uppercase mb-3 text-text-primary group-hover:text-accent transition-colors">{feature.title}</h3>
-              <p className="text-sm md:text-xs text-text-tertiary leading-relaxed">{feature.description}</p>
+              <h3 className="text-base font-sans font-bold uppercase mb-3 text-mkt-ink group-hover:text-accent transition-colors">{feature.title}</h3>
+              <p className="text-sm md:text-xs text-mkt-i4 leading-relaxed">{feature.description}</p>
             </div>
           ))}
         </div>
 
         {/* Bottom CTA strip */}
-        <div className="mt-12 flex flex-col sm:flex-row items-center justify-between gap-6 p-8 bg-background-primary border border-profit/20">
+        <div className="mt-12 flex flex-col sm:flex-row items-center justify-between gap-6 p-8 bg-white border border-profit/20">
           <div className="flex items-center gap-6">
             <div className="shrink-0 text-center">
-              <p className="text-3xl font-display font-black text-profit">$15</p>
-              <p className="text-[8px] font-mono font-bold uppercase tracking-widest text-profit">Savings</p>
+              <p className="text-3xl font-sans font-black text-mkt-grn">$15</p>
+              <p className="text-[8px] font-mono font-bold uppercase tracking-widest text-mkt-grn">Savings</p>
             </div>
             <div className="w-px h-12 bg-border-slate" />
             <div>
-              <p className="text-sm font-display font-bold uppercase text-text-primary mb-1">Save $15 via our exclusive partner link.</p>
-              <p className="text-[10px] font-mono text-text-tertiary uppercase tracking-widest">Applied automatically at checkout — no code required. Pro plans from $14.95/mo.</p>
+              <p className="text-sm font-sans font-bold uppercase text-mkt-ink mb-1">Save $15 via our exclusive partner link.</p>
+              <p className="text-[10px] font-mono text-mkt-i4 uppercase tracking-widest">Applied automatically at checkout — no code required. Pro plans from $14.95/mo.</p>
             </div>
           </div>
           <a

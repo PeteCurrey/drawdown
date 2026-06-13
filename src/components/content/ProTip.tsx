@@ -11,7 +11,7 @@ export const ProTip: React.FC<ProTipProps> = ({ tip }) => {
   return (
     <div className="my-8 bg-surface border-l-4 border-profit p-6 md:p-8 rounded-r-lg relative overflow-hidden group">
       <div className="flex items-start gap-4">
-        <div className="mt-1 bg-profit/10 p-2 rounded-lg text-profit">
+        <div className="mt-1 bg-profit/10 p-2 rounded-lg text-mkt-grn">
           <Brain size={20} className="animate-pulse" />
         </div>
         <div>

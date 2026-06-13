@@ -8,9 +8,9 @@ export function CompareTemplate({ page, region = 'uk' }: { page: ComparisonPage;
   const regionPrefix = region === 'uk' ? '' : `/${region}`;
 
   return (
-    <div className="flex flex-col min-h-screen bg-background-primary">
+    <div className="flex flex-col min-h-screen bg-white">
       {/* Header */}
-      <header className="relative pt-32 pb-20 border-b border-border-slate overflow-hidden">
+      <header className="relative pt-32 pb-20 border-b border-mkt-bd overflow-hidden">
         <div className="container mx-auto px-6 relative z-10">
           <div className="max-w-4xl">
             <Breadcrumbs 
@@ -25,7 +25,7 @@ export function CompareTemplate({ page, region = 'uk' }: { page: ComparisonPage;
                <span className="text-[10px] font-mono uppercase tracking-[0.3em] font-bold">{page.eyebrow}</span>
             </div>
 
-            <h1 className="text-4xl md:text-7xl font-display font-black uppercase leading-[0.95] tracking-tight mb-8">
+            <h1 className="text-4xl md:text-7xl font-sans font-black uppercase leading-[0.95] tracking-tight mb-8">
               {page.title}
             </h1>
           </div>
@@ -36,23 +36,23 @@ export function CompareTemplate({ page, region = 'uk' }: { page: ComparisonPage;
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
           <div className="lg:col-span-8 space-y-20">
             {/* Quick Verdict */}
-            <div className="p-10 bg-background-surface border border-border-slate relative overflow-hidden group">
+            <div className="p-10 bg-white border border-mkt-bd relative overflow-hidden group">
                <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
                   <div className="space-y-6">
-                     <div className="inline-flex items-center gap-2 px-3 py-1 bg-profit/10 border border-profit/20 text-profit text-[10px] font-bold uppercase tracking-widest">
+                     <div className="inline-flex items-center gap-2 px-3 py-1 bg-profit/10 border border-profit/20 text-mkt-grn text-[10px] font-bold uppercase tracking-widest">
                         <Zap className="w-3 h-3" />
                         Quick Verdict
                      </div>
-                     <h2 className="text-3xl font-display font-black uppercase m-0">Winner: <span className="text-accent">{page.quickVerdict.winner}</span></h2>
-                     <p className="text-lg text-text-secondary m-0">{page.quickVerdict.reason}</p>
+                     <h2 className="text-3xl font-sans font-black uppercase m-0">Winner: <span className="text-accent">{page.quickVerdict.winner}</span></h2>
+                     <p className="text-lg text-mkt-i2 m-0">{page.quickVerdict.reason}</p>
                   </div>
                   {page.quickVerdict.prosA && (
-                    <div className="space-y-6 bg-background-primary p-8 border border-border-slate/50">
-                       <h3 className="text-sm font-mono uppercase tracking-widest text-text-tertiary font-bold">Key Strengths</h3>
+                    <div className="space-y-6 bg-white p-8 border border-mkt-bd/50">
+                       <h3 className="text-sm font-mono uppercase tracking-widest text-mkt-i4 font-bold">Key Strengths</h3>
                        <ul className="space-y-4 list-none p-0">
                           {page.quickVerdict.prosA.map((pro, i) => (
-                             <li key={i} className="flex items-center gap-3 text-xs text-text-secondary m-0">
-                                <CheckCircle2 className="w-3.5 h-3.5 text-profit" />
+                             <li key={i} className="flex items-center gap-3 text-xs text-mkt-i2 m-0">
+                                <CheckCircle2 className="w-3.5 h-3.5 text-mkt-grn" />
                                 {pro}
                              </li>
                           ))}
@@ -64,21 +64,21 @@ export function CompareTemplate({ page, region = 'uk' }: { page: ComparisonPage;
 
             {/* Comparison Table */}
             {page.comparisonTable.length > 0 && (
-              <div className="overflow-x-auto border border-border-slate">
+              <div className="overflow-x-auto border border-mkt-bd">
                 <table className="w-full text-left border-collapse">
                   <thead>
-                    <tr className="bg-background-surface">
-                      <th className="p-6 text-[10px] font-mono uppercase tracking-widest text-text-tertiary border-b border-border-slate">Feature</th>
-                      <th className="p-6 text-[10px] font-mono uppercase tracking-widest text-text-tertiary border-b border-border-slate">Broker A</th>
-                      <th className="p-6 text-[10px] font-mono uppercase tracking-widest text-text-tertiary border-b border-border-slate">Broker B</th>
+                    <tr className="bg-white">
+                      <th className="p-6 text-[10px] font-mono uppercase tracking-widest text-mkt-i4 border-b border-mkt-bd">Feature</th>
+                      <th className="p-6 text-[10px] font-mono uppercase tracking-widest text-mkt-i4 border-b border-mkt-bd">Broker A</th>
+                      <th className="p-6 text-[10px] font-mono uppercase tracking-widest text-mkt-i4 border-b border-mkt-bd">Broker B</th>
                     </tr>
                   </thead>
                   <tbody>
                     {page.comparisonTable.map((row: any, i: number) => (
-                      <tr key={i} className="hover:bg-background-elevated/30 transition-colors">
-                        <td className="p-6 text-sm font-bold border-b border-border-slate/50 text-text-tertiary">{row.feature}</td>
-                        <td className="p-6 text-sm text-text-primary border-b border-border-slate/50">{row.a || row.optionA}</td>
-                        <td className="p-6 text-sm text-text-primary border-b border-border-slate/50">{row.b || row.optionB}</td>
+                      <tr key={i} className="hover:bg-[#F7F7F7]/30 transition-colors">
+                        <td className="p-6 text-sm font-bold border-b border-mkt-bd/50 text-mkt-i4">{row.feature}</td>
+                        <td className="p-6 text-sm text-mkt-ink border-b border-mkt-bd/50">{row.a || row.optionA}</td>
+                        <td className="p-6 text-sm text-mkt-ink border-b border-mkt-bd/50">{row.b || row.optionB}</td>
                       </tr>
                     ))}
                   </tbody>
@@ -89,19 +89,19 @@ export function CompareTemplate({ page, region = 'uk' }: { page: ComparisonPage;
             <div className="prose prose-invert prose-slate max-w-none">
               {page.sections.map((section, i) => (
                 <div key={i} className="mb-12">
-                   <h2 className="text-3xl font-display font-bold uppercase tracking-tight mb-6">{section.title}</h2>
-                   <p className="text-lg text-text-secondary leading-relaxed">{section.content}</p>
+                   <h2 className="text-3xl font-sans font-bold uppercase tracking-tight mb-6">{section.title}</h2>
+                   <p className="text-lg text-mkt-i2 leading-relaxed">{section.content}</p>
                 </div>
               ))}
 
               {(page.whoShouldChooseA || page.whoShouldChooseB) && (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mt-20">
                   {page.whoShouldChooseA && (
-                    <div className="p-10 bg-background-surface border border-border-slate">
-                        <h3 className="text-xl font-display font-bold uppercase mb-6">Choose Broker A If...</h3>
+                    <div className="p-10 bg-white border border-mkt-bd">
+                        <h3 className="text-xl font-sans font-bold uppercase mb-6">Choose Broker A If...</h3>
                         <ul className="space-y-4 list-none p-0">
                           {page.whoShouldChooseA.map((item, i) => (
-                              <li key={i} className="text-sm text-text-secondary leading-relaxed flex gap-3">
+                              <li key={i} className="text-sm text-mkt-i2 leading-relaxed flex gap-3">
                                 <span className="text-accent">»</span> {item}
                               </li>
                           ))}
@@ -109,11 +109,11 @@ export function CompareTemplate({ page, region = 'uk' }: { page: ComparisonPage;
                     </div>
                   )}
                   {page.whoShouldChooseB && (
-                    <div className="p-10 bg-background-surface border border-border-slate">
-                        <h3 className="text-xl font-display font-bold uppercase mb-6">Choose Broker B If...</h3>
+                    <div className="p-10 bg-white border border-mkt-bd">
+                        <h3 className="text-xl font-sans font-bold uppercase mb-6">Choose Broker B If...</h3>
                         <ul className="space-y-4 list-none p-0">
                           {page.whoShouldChooseB.map((item, i) => (
-                              <li key={i} className="text-sm text-text-secondary leading-relaxed flex gap-3">
+                              <li key={i} className="text-sm text-mkt-i2 leading-relaxed flex gap-3">
                                 <span className="text-accent">»</span> {item}
                               </li>
                           ))}
@@ -127,13 +127,13 @@ export function CompareTemplate({ page, region = 'uk' }: { page: ComparisonPage;
 
           <aside className="lg:col-span-4">
              <div className="sticky top-32 space-y-8">
-                <div className="p-8 border border-border-slate bg-background-surface space-y-8 text-center">
+                <div className="p-8 border border-mkt-bd bg-white space-y-8 text-center">
                    <Activity className="w-12 h-12 text-accent mx-auto" />
-                   <h4 className="text-xl font-display font-bold uppercase">Ready to start?</h4>
-                   <p className="text-sm text-text-secondary leading-relaxed">
+                   <h4 className="text-xl font-sans font-bold uppercase">Ready to start?</h4>
+                   <p className="text-sm text-mkt-i2 leading-relaxed">
                       Don't let analysis paralysis stop you. Both platforms provide institutional-grade conditions.
                    </p>
-                   <Link href={`${regionPrefix}/brokers`} className="w-full py-5 bg-accent text-[#08090D] font-display font-black uppercase tracking-widest text-xs block">
+                   <Link href={`${regionPrefix}/brokers`} className="w-full py-5 bg-accent text-[#08090D] font-sans font-black uppercase tracking-widest text-xs block">
                       Compare All Brokers
                    </Link>
                 </div>

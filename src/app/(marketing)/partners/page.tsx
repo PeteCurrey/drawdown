@@ -15,15 +15,15 @@ import Link from "next/link";
 
 export default function PartnersPage() {
   return (
-    <div className="pt-12 pb-24 bg-background-primary min-h-screen transition-colors duration-500">
-      <div className="container mx-auto px-6 max-w-7xl">
+    <div className="pt-12 pb-24 bg-white min-h-screen transition-colors duration-500">
+      <div className="max-w-7xl mx-auto px-6 max-w-7xl">
         {/* Hero Section */}
         <div className="mb-24 text-center lg:text-left">
           <span className="text-accent font-mono text-[10px] uppercase tracking-widest block mb-4">// PARTNERSHIPS</span>
-          <h1 className="text-5xl md:text-8xl font-display font-bold uppercase mb-8">
+          <h1 className="text-5xl md:text-8xl font-sans font-bold uppercase mb-8">
             Growth Through <br className="hidden md:block" /> Integrity.
           </h1>
-          <p className="text-xl text-text-secondary max-w-3xl leading-relaxed">
+          <p className="text-xl text-mkt-i2 max-w-3xl leading-relaxed">
             Drawdown doesn't just host ads. We build deep integrations with brokers, prop firms, and fintech tools that share our commitment to data-driven trading and user protection.
           </p>
         </div>
@@ -47,21 +47,21 @@ export default function PartnersPage() {
               icon: BarChart4
             }
           ].map((cat, i) => (
-            <div key={i} className="p-10 bg-background-surface border border-border-slate flex flex-col gap-6 group hover:border-accent/30 transition-premium">
+            <div key={i} className="p-10 bg-white border border-mkt-bd flex flex-col gap-6 group hover:border-mkt-bds/30 transition-premium">
               <div className="w-12 h-12 bg-accent/10 flex items-center justify-center text-accent">
                 <cat.icon className="w-6 h-6" />
               </div>
-              <h3 className="text-2xl font-display font-bold uppercase">{cat.title}</h3>
-              <p className="text-sm text-text-tertiary leading-relaxed">{cat.desc}</p>
+              <h3 className="text-2xl font-sans font-bold uppercase">{cat.title}</h3>
+              <p className="text-sm text-mkt-i4 leading-relaxed">{cat.desc}</p>
             </div>
           ))}
         </div>
 
         {/* Why Partner Section */}
-        <div className="bg-background-elevated border border-border-slate p-12 md:p-24 mb-24">
+        <div className="bg-[#F7F7F7] border border-mkt-bd p-12 md:p-24 mb-24">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
             <div className="space-y-8">
-               <h2 className="text-4xl md:text-5xl font-display font-bold uppercase">The Drawdown <br /> Advantage.</h2>
+               <h2 className="text-4xl md:text-5xl font-sans font-bold uppercase">The Drawdown <br /> Advantage.</h2>
                <div className="space-y-6">
                   {[
                     "Highly engaged UK-based trading audience.",
@@ -71,12 +71,12 @@ export default function PartnersPage() {
                   ].map((item, i) => (
                     <div key={i} className="flex items-center gap-4">
                        <div className="w-2 h-2 bg-accent rounded-full" />
-                       <span className="text-sm font-bold uppercase tracking-wide text-text-primary">{item}</span>
+                       <span className="text-sm font-bold uppercase tracking-wide text-mkt-ink">{item}</span>
                     </div>
                   ))}
                </div>
                <div className="pt-8">
-                  <button className="px-10 py-5 bg-accent text-background-primary text-[10px] font-bold uppercase tracking-widest hover:bg-accent-hover transition-colors">
+                  <button className="px-10 py-5 bg-mkt-ink text-white text-[10px] font-bold uppercase tracking-widest hover:bg-accent-hover transition-colors">
                      Apply to Partner
                   </button>
                </div>
@@ -89,9 +89,9 @@ export default function PartnersPage() {
                  { label: "Avg. Deposit", val: "£2.5k" },
                  { label: "UK Reach", val: "90%" }
                ].map((stat, i) => (
-                 <div key={i} className="p-8 border border-border-slate/50 bg-background-primary/30 flex flex-col items-center justify-center gap-2">
-                    <span className="text-3xl font-display font-black text-accent">{stat.val}</span>
-                    <span className="text-[9px] font-mono text-text-tertiary uppercase tracking-widest">{stat.label}</span>
+                 <div key={i} className="p-8 border border-mkt-bd/50 bg-white/30 flex flex-col items-center justify-center gap-2">
+                    <span className="text-3xl font-sans font-black text-accent">{stat.val}</span>
+                    <span className="text-[9px] font-mono text-mkt-i4 uppercase tracking-widest">{stat.label}</span>
                  </div>
                ))}
             </div>
@@ -99,9 +99,9 @@ export default function PartnersPage() {
         </div>
 
         {/* Footer CTA */}
-        <div className="text-center py-24 border-t border-border-slate/50">
-           <h2 className="text-3xl md:text-5xl font-display font-bold uppercase mb-8">Build the Future of <br /> Trading With Us.</h2>
-           <p className="text-text-tertiary mb-12 max-w-xl mx-auto uppercase font-mono tracking-widest text-xs">
+        <div className="text-center py-24 border-t border-mkt-bd/50">
+           <h2 className="text-3xl md:text-5xl font-sans font-bold uppercase mb-8">Build the Future of <br /> Trading With Us.</h2>
+           <p className="text-mkt-i4 mb-12 max-w-xl mx-auto uppercase font-mono tracking-widest text-xs">
              contact@drawdown.trading // partner inquiries only
            </p>
            <Link href="/contact" className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-accent hover:underline">

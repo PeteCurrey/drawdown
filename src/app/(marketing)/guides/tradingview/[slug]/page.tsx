@@ -34,10 +34,10 @@ export default function TradingViewGuidePage({ params }: Props) {
   }
 
   return (
-    <div className="flex flex-col min-h-screen bg-background-primary">
+    <div className="flex flex-col min-h-screen bg-white">
       {/* Article Header */}
-      <header className="relative pt-32 pb-20 border-b border-border-slate overflow-hidden bg-background-surface">
-        <div className="container mx-auto px-6 relative z-10">
+      <header className="relative pt-32 pb-20 border-b border-mkt-bd overflow-hidden bg-white">
+        <div className="max-w-7xl mx-auto px-6 relative z-10">
           <div className="max-w-4xl">
             <Breadcrumbs 
               items={[
@@ -52,16 +52,16 @@ export default function TradingViewGuidePage({ params }: Props) {
                <span className="text-[10px] font-mono uppercase tracking-[0.3em] font-bold">{guide.eyebrow}</span>
             </div>
 
-            <h1 className="text-4xl md:text-6xl font-display font-black uppercase leading-[0.95] tracking-tight mb-8">
+            <h1 className="text-4xl md:text-6xl font-sans font-black uppercase leading-[0.95] tracking-tight mb-8">
               {guide.title}
             </h1>
 
             <div className="flex flex-wrap gap-8 items-center pt-4">
-              <div className="flex items-center gap-2 text-text-tertiary">
+              <div className="flex items-center gap-2 text-mkt-i4">
                 <Clock className="w-4 h-4" />
                 <span className="text-xs font-mono uppercase tracking-widest">Updated {guide.lastUpdated}</span>
               </div>
-              <div className="flex items-center gap-2 text-text-tertiary">
+              <div className="flex items-center gap-2 text-mkt-i4">
                 <BookOpen className="w-4 h-4" />
                 <span className="text-xs font-mono uppercase tracking-widest">Mastery Level: Intermediate</span>
               </div>
@@ -75,22 +75,22 @@ export default function TradingViewGuidePage({ params }: Props) {
         </div>
       </header>
 
-      <div className="container mx-auto px-6 py-20">
+      <div className="max-w-7xl mx-auto px-6 py-20">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
           {/* Main Article Content */}
           <article className="lg:col-span-8">
             <div className="prose prose-invert prose-slate max-w-none">
-              <p className="text-xl md:text-2xl text-text-secondary leading-relaxed font-medium mb-16 border-l-4 border-accent pl-8 py-2">
+              <p className="text-xl md:text-2xl text-mkt-i2 leading-relaxed font-medium mb-16 border-l-4 border-mkt-bd pl-8 py-2">
                 {guide.introduction}
               </p>
 
               {guide.sections.map((section, i) => (
                 <div key={i} className="mb-20">
-                  <h2 className="text-3xl font-display font-bold uppercase tracking-tight mb-8 flex items-baseline gap-4">
+                  <h2 className="text-3xl font-sans font-bold uppercase tracking-tight mb-8 flex items-baseline gap-4">
                     <span className="text-accent font-mono text-sm opacity-50">0{i + 1}</span>
                     {section.title}
                   </h2>
-                  <div className="text-lg leading-relaxed text-text-secondary space-y-6">
+                  <div className="text-lg leading-relaxed text-mkt-i2 space-y-6">
                     {section.content.split('\n').map((paragraph, pIndex) => (
                       <p key={pIndex}>{paragraph}</p>
                     ))}
@@ -99,17 +99,17 @@ export default function TradingViewGuidePage({ params }: Props) {
               ))}
 
               {/* Pro Tips Module */}
-              <div className="my-20 p-10 bg-accent/5 border border-accent/20 relative overflow-hidden group">
+              <div className="my-20 p-10 bg-accent/5 border border-mkt-bd/20 relative overflow-hidden group">
                  <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
                     <Lightbulb className="w-24 h-24 text-accent" />
                  </div>
-                 <h3 className="text-2xl font-display font-black uppercase tracking-tight mb-8 flex items-center gap-3">
+                 <h3 className="text-2xl font-sans font-black uppercase tracking-tight mb-8 flex items-center gap-3">
                     <Lightbulb className="w-6 h-6 text-accent" />
                     Pro Tips for Success.
                  </h3>
                  <ul className="grid grid-cols-1 md:grid-cols-2 gap-6 list-none p-0 m-0">
                     {guide.tips.map((tip, i) => (
-                      <li key={i} className="flex gap-4 text-sm text-text-secondary leading-relaxed m-0">
+                      <li key={i} className="flex gap-4 text-sm text-mkt-i2 leading-relaxed m-0">
                         <span className="text-accent font-mono font-bold">»</span>
                         {tip}
                       </li>
@@ -119,16 +119,16 @@ export default function TradingViewGuidePage({ params }: Props) {
 
               {/* FAQs Section */}
               {guide.faqs.length > 0 && (
-                <div className="pt-20 border-t border-border-slate">
-                   <h3 className="text-3xl font-display font-black uppercase tracking-tight mb-12 flex items-center gap-4">
+                <div className="pt-20 border-t border-mkt-bd">
+                   <h3 className="text-3xl font-sans font-black uppercase tracking-tight mb-12 flex items-center gap-4">
                       <HelpCircle className="w-8 h-8 text-accent" />
                       Frequently Asked.
                    </h3>
                    <div className="space-y-6">
                       {guide.faqs.map((faq, i) => (
-                        <div key={i} className="p-8 bg-background-surface border border-border-slate">
-                           <h4 className="text-lg font-bold text-text-primary mb-4">{faq.question}</h4>
-                           <p className="text-text-secondary leading-relaxed m-0">{faq.answer}</p>
+                        <div key={i} className="p-8 bg-white border border-mkt-bd">
+                           <h4 className="text-lg font-bold text-mkt-ink mb-4">{faq.question}</h4>
+                           <p className="text-mkt-i2 leading-relaxed m-0">{faq.answer}</p>
                         </div>
                       ))}
                    </div>
@@ -141,12 +141,12 @@ export default function TradingViewGuidePage({ params }: Props) {
           <aside className="lg:col-span-4 space-y-12">
             <div className="sticky top-32 space-y-12">
                {/* Call to Action: Tools */}
-               <div className="p-8 bg-background-surface border border-border-slate space-y-8 relative overflow-hidden">
+               <div className="p-8 bg-white border border-mkt-bd space-y-8 relative overflow-hidden">
                   <div className="relative z-10">
-                    <h3 className="text-xl font-display font-bold uppercase tracking-tight leading-none mb-4">
+                    <h3 className="text-xl font-sans font-bold uppercase tracking-tight leading-none mb-4">
                        Scale Your Analysis.
                     </h3>
-                    <p className="text-sm text-text-secondary leading-relaxed mb-8">
+                    <p className="text-sm text-mkt-i2 leading-relaxed mb-8">
                        Stop drawing manual support levels. Our AI Market Scanner identifies institutional zones across 50+ pairs instantly.
                     </p>
                     <Link 
@@ -163,7 +163,7 @@ export default function TradingViewGuidePage({ params }: Props) {
 
                {/* More in Series */}
                <div className="space-y-6">
-                  <h3 className="text-[10px] font-mono uppercase tracking-[0.3em] text-text-tertiary font-bold">
+                  <h3 className="text-[10px] font-mono uppercase tracking-[0.3em] text-mkt-i4 font-bold">
                      More TradingView Mastery
                   </h3>
                   <div className="space-y-4">
@@ -171,14 +171,14 @@ export default function TradingViewGuidePage({ params }: Props) {
                         <Link 
                            key={g.slug} 
                            href={`/guides/tradingview/${g.slug}`}
-                           className="group block p-6 border border-border-slate hover:border-accent/30 transition-all"
+                           className="group block p-6 border border-mkt-bd hover:border-mkt-bds/30 transition-all"
                         >
-                           <h4 className="text-sm font-bold text-text-primary group-hover:text-accent transition-colors mb-2">
+                           <h4 className="text-sm font-bold text-mkt-ink group-hover:text-accent transition-colors mb-2">
                               {g.title}
                            </h4>
                            <div className="flex items-center justify-between">
-                              <span className="text-[10px] font-mono uppercase text-text-tertiary">Read Guide</span>
-                              <ChevronRight className="w-4 h-4 text-text-tertiary group-hover:text-accent transition-all group-hover:translate-x-1" />
+                              <span className="text-[10px] font-mono uppercase text-mkt-i4">Read Guide</span>
+                              <ChevronRight className="w-4 h-4 text-mkt-i4 group-hover:text-accent transition-all group-hover:translate-x-1" />
                            </div>
                         </Link>
                      ))}

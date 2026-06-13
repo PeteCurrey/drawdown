@@ -29,13 +29,13 @@ export function CoursePlayer({ playbackId, title, onEnded, onProgress }: CourseP
 
   return (
     <div className={cn(
-      "w-full aspect-video bg-background-elevated border border-border-slate relative overflow-hidden flex items-center justify-center",
+      "w-full aspect-video bg-[#F7F7F7] border border-mkt-bd relative overflow-hidden flex items-center justify-center",
       !isReady && "animate-pulse"
     )}>
       {!isReady && (
         <div className="absolute inset-0 flex flex-col items-center justify-center space-y-4">
           <Loader2 className="w-8 h-8 text-accent animate-spin" />
-          <p className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary">Loading Video Stream...</p>
+          <p className="text-[10px] font-mono uppercase tracking-widest text-mkt-i4">Loading Video Stream...</p>
         </div>
       )}
       

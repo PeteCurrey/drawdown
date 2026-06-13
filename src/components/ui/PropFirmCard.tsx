@@ -24,7 +24,7 @@ export function PropFirmCard({ firm, source = "prop_firm_card", isPetesPick }: P
       <div>
         <div className="flex items-center justify-between mb-6">
           <div className="w-10 h-10 flex items-center justify-center bg-neutral-50 border border-neutral-200/50 rounded-lg">
-             <span className="font-display font-bold text-neutral-900 text-base">{firm.name.substring(0, 2).toUpperCase()}</span>
+             <span className="font-sans font-bold text-neutral-900 text-base">{firm.name.substring(0, 2).toUpperCase()}</span>
           </div>
           <div className="flex items-center gap-1 text-amber-500">
             {[...Array(5)].map((_, i) => (
@@ -39,7 +39,7 @@ export function PropFirmCard({ firm, source = "prop_firm_card", isPetesPick }: P
           </div>
         </div>
 
-        <h3 className="text-xl font-display font-bold uppercase text-[#0A0A0A] mb-1">{firm.name}</h3>
+        <h3 className="text-xl font-sans font-bold uppercase text-[#0A0A0A] mb-1">{firm.name}</h3>
         <p className="text-xs font-sans text-neutral-500 uppercase tracking-widest font-semibold mb-6">
           {firm.profitSplit} Profit Split // {firm.maxFunding} Max
         </p>

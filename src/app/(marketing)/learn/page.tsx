@@ -19,12 +19,12 @@ export default function CourseLibraryPage() {
   const userTier = "foundation"; // Mock tier for UI testing
 
   return (
-    <div className="pt-12 pb-24 bg-background-primary min-h-screen">
-      <div className="container mx-auto px-6">
+    <div className="pt-12 pb-24 bg-white min-h-screen">
+      <div className="max-w-7xl mx-auto px-6">
         <div className="mb-20">
           <span className="text-accent font-mono text-[10px] uppercase tracking-widest block mb-4">// CURRICULUM</span>
-          <h1 className="  font-display font-bold uppercase mb-4">The Truth.</h1>
-          <p className="text-text-secondary max-w-xl">
+          <h1 className="  font-sans font-bold uppercase mb-4">The Truth.</h1>
+          <p className="text-mkt-i2 max-w-xl">
             Six phases of increasing complexity. No shortcuts. Each phase must be mastered before moving to the next.
           </p>
         </div>
@@ -39,8 +39,8 @@ export default function CourseLibraryPage() {
                 key={phase.id}
                 href={isLocked ? "#" : `/learn/${phase.slug}`}
                 className={cn(
-                  "group relative p-8 bg-background-surface border-2 transition-premium flex flex-col h-full overflow-hidden",
-                  isLocked ? "border-border-slate opacity-60 cursor-not-allowed" : "border-transparent hover:border-accent hover:bg-background-elevated"
+                  "group relative p-8 bg-white border-2 transition-premium flex flex-col h-full overflow-hidden",
+                  isLocked ? "border-mkt-bd opacity-60 cursor-not-allowed" : "border-transparent hover:border-mkt-bds hover:bg-[#F7F7F7]"
                 )}
               >
                 {/* Hover Background Image */}
@@ -58,15 +58,15 @@ export default function CourseLibraryPage() {
                 <div className="relative z-10 flex flex-col h-full">
                   <div className="flex justify-between items-start mb-12">
                     <div className="flex items-center gap-4">
-                      <span className="text-4xl font-display font-black text-accent/20 group-hover:text-accent transition-colors">
+                      <span className="text-4xl font-sans font-black text-mkt-grn group-hover:text-accent transition-colors">
                         {phase.number}
                       </span>
-                      <div className="w-10 h-10 bg-background-elevated flex items-center justify-center border border-border-slate">
-                        <Icon className="w-5 h-5 text-text-secondary group-hover:text-accent transition-colors" />
+                      <div className="w-10 h-10 bg-[#F7F7F7] flex items-center justify-center border border-mkt-bd">
+                        <Icon className="w-5 h-5 text-mkt-i2 group-hover:text-accent transition-colors" />
                       </div>
                     </div>
                     {isLocked ? (
-                      <div className="flex items-center gap-2 px-3 py-1 bg-background-primary border border-border-slate text-[8px] font-mono uppercase tracking-widest text-text-tertiary">
+                      <div className="flex items-center gap-2 px-3 py-1 bg-white border border-mkt-bd text-[8px] font-mono uppercase tracking-widest text-mkt-i4">
                         <Lock className="w-3 h-3" /> {phase.tier}
                       </div>
                     ) : (
@@ -75,19 +75,19 @@ export default function CourseLibraryPage() {
                   </div>
 
                   <div className="flex-grow space-y-4 mb-12">
-                    <h3 className="text-2xl font-display font-bold uppercase leading-tight group-hover:text-accent transition-colors">
+                    <h3 className="text-2xl font-sans font-bold uppercase leading-tight group-hover:text-accent transition-colors">
                       {phase.name}
                     </h3>
-                    <p className="text-text-tertiary text-xs font-mono uppercase tracking-widest leading-none">
+                    <p className="text-mkt-i4 text-xs font-mono uppercase tracking-widest leading-none">
                       {phase.subtitle}
                     </p>
-                    <p className="text-text-secondary text-sm leading-relaxed line-clamp-3">
+                    <p className="text-mkt-i2 text-sm leading-relaxed line-clamp-3">
                       {phase.description}
                     </p>
                   </div>
 
-                  <div className="flex items-center justify-between pt-8 border-t border-border-slate/50">
-                    <div className="flex items-center gap-4 text-[10px] font-mono text-text-tertiary uppercase tracking-widest">
+                  <div className="flex items-center justify-between pt-8 border-t border-mkt-bd/50">
+                    <div className="flex items-center gap-4 text-[10px] font-mono text-mkt-i4 uppercase tracking-widest">
                       <span className="flex items-center gap-1"><Play className="w-3 h-3" /> {phase.modules_count} Modules</span>
                       <span className="flex items-center gap-1"><Clock className="w-3 h-3" /> {phase.duration}</span>
                     </div>
@@ -104,14 +104,14 @@ export default function CourseLibraryPage() {
         </div>
 
         {/* Support Section */}
-        <div className="mt-32 p-12 bg-background-elevated border border-border-slate flex flex-col md:flex-row items-center justify-between gap-8">
+        <div className="mt-32 p-12 bg-[#F7F7F7] border border-mkt-bd flex flex-col md:flex-row items-center justify-between gap-8">
           <div className="space-y-4 max-w-xl">
-            <h4 className="text-2xl font-display font-bold uppercase">Stuck in a Drawdown?</h4>
-            <p className="text-text-secondary text-sm leading-relaxed">
+            <h4 className="text-2xl font-sans font-bold uppercase">Stuck in a Drawdown?</h4>
+            <p className="text-mkt-i2 text-sm leading-relaxed">
               Don't trade alone. Join our community Discord to discuss lessons, share analysis, and get direct feedback from senior traders.
             </p>
           </div>
-          <button className="px-12 py-5 bg-background-surface border border-border-slate hover:border-accent hover:text-accent text-[10px] font-bold uppercase tracking-widest transition-all">
+          <button className="px-12 py-5 bg-white border border-mkt-bd hover:border-mkt-bds hover:text-accent text-[10px] font-bold uppercase tracking-widest transition-all">
             Join the Discord
           </button>
         </div>

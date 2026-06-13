@@ -42,7 +42,7 @@ export function NewsSourceLogo({
     return (
       <span className={cn(
         "text-[10px] font-mono font-bold uppercase tracking-widest", 
-        monochrome ? "text-text-secondary" : "text-accent", 
+        monochrome ? "text-mkt-i2" : "text-accent", 
         className
       )}>
         {source}
@@ -66,7 +66,7 @@ export function NewsSourceLogo({
         />
       </div>
       {showText && (
-        <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-text-primary">
+        <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-mkt-ink">
           {source}
         </span>
       )}

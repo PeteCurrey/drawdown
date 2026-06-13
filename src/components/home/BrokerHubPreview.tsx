@@ -142,7 +142,7 @@ export function BrokerHubPreview() {
           <span className="text-xs font-semibold tracking-widest text-neutral-400 border border-neutral-200 rounded-full px-3 py-1 inline-block uppercase font-sans mb-4">
             // RECOMMENDED BROKERS
           </span>
-          <h2 className="text-4xl md:text-5xl font-display font-bold uppercase mb-4 text-[#0A0A0A] leading-tight">
+          <h2 className="text-4xl md:text-5xl font-sans font-bold uppercase mb-4 text-[#0A0A0A] leading-tight">
             Trade With Brokers We Actually Use.
           </h2>
           <p className="text-base font-sans text-neutral-500 max-w-xl mx-auto leading-relaxed">
@@ -165,7 +165,7 @@ export function BrokerHubPreview() {
                     {broker.logoUrl ? (
                       <img src={broker.logoUrl} alt={broker.name} className="max-h-8 object-contain" />
                     ) : (
-                      <span className="font-display font-semibold text-neutral-900 text-lg uppercase tracking-wider">{broker.logoPlaceholder}</span>
+                      <span className="font-sans font-semibold text-neutral-900 text-lg uppercase tracking-wider">{broker.logoPlaceholder}</span>
                     )}
                   </div>
                   
@@ -175,7 +175,7 @@ export function BrokerHubPreview() {
                   </span>
                 </div>
 
-                <h3 className="text-xl font-display font-bold uppercase text-[#0A0A0A] mt-4 mb-1">{broker.name}</h3>
+                <h3 className="text-xl font-sans font-bold uppercase text-[#0A0A0A] mt-4 mb-1">{broker.name}</h3>
                 <p className="text-xs font-sans text-neutral-500 uppercase tracking-widest font-semibold mb-6">{broker.bestFor}</p>
                 
                 <div className="py-3 border-y border-neutral-100 mb-6">

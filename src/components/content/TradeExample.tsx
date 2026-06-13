@@ -34,10 +34,10 @@ export const TradeExample: React.FC<TradeExampleProps> = ({
   return (
     <div className="my-10 bg-surface border border-border rounded-lg overflow-hidden animate-in zoom-in-95">
       <div className="bg-elevated px-6 py-4 border-b border-border flex justify-between items-center">
-        <h4 className="font-display text-lg uppercase tracking-tight text-white m-0">
+        <h4 className="font-sans text-lg uppercase tracking-tight text-white m-0">
           EXAMPLE: {title}
         </h4>
-        <span className={`font-mono text-xs px-2 py-1 rounded ${isProfit ? 'bg-profit/10 text-profit' : 'bg-loss/10 text-loss'}`}>
+        <span className={`font-mono text-xs px-2 py-1 rounded ${isProfit ? 'bg-profit/10 text-mkt-grn' : 'bg-loss/10 text-red-500'}`}>
           {isProfit ? 'WIN' : 'LOSS'}
         </span>
       </div>
@@ -46,54 +46,54 @@ export const TradeExample: React.FC<TradeExampleProps> = ({
         {/* Left: Setup */}
         <div className="space-y-4">
           <div className="flex justify-between items-center border-b border-border/50 pb-2">
-            <span className="text-text-secondary text-sm">Instrument</span>
+            <span className="text-mkt-i2 text-sm">Instrument</span>
             <span className="font-mono text-white">{instrument}</span>
           </div>
           <div className="flex justify-between items-center border-b border-border/50 pb-2">
-            <span className="text-text-secondary text-sm">Session</span>
+            <span className="text-mkt-i2 text-sm">Session</span>
             <span className="font-mono text-white">{session}</span>
           </div>
           <div className="flex justify-between items-center border-b border-border/50 pb-2">
-            <span className="text-text-secondary text-sm">Entry Price</span>
+            <span className="text-mkt-i2 text-sm">Entry Price</span>
             <span className="font-mono text-white">{entry}</span>
           </div>
           <div className="flex justify-between items-center border-b border-border/50 pb-2">
-            <span className="text-text-secondary text-sm">Stop Loss</span>
-            <span className="font-mono text-loss">{stopLoss}</span>
+            <span className="text-mkt-i2 text-sm">Stop Loss</span>
+            <span className="font-mono text-red-500">{stopLoss}</span>
           </div>
           <div className="flex justify-between items-center border-b border-border/50 pb-2">
-            <span className="text-text-secondary text-sm">Take Profit</span>
-            <span className="font-mono text-profit">{takeProfit}</span>
+            <span className="text-mkt-i2 text-sm">Take Profit</span>
+            <span className="font-mono text-mkt-grn">{takeProfit}</span>
           </div>
         </div>
 
         {/* Right: Numbers */}
         <div className="bg-elevated/50 rounded-lg p-5 space-y-4">
           <div className="flex justify-between items-center">
-            <span className="text-text-secondary text-sm">Risk:Reward</span>
+            <span className="text-mkt-i2 text-sm">Risk:Reward</span>
             <span className="font-mono text-white">{riskReward}</span>
           </div>
           {accountSize && (
             <div className="flex justify-between items-center">
-              <span className="text-text-secondary text-sm">Account Size</span>
+              <span className="text-mkt-i2 text-sm">Account Size</span>
               <span className="font-mono text-white">{accountSize}</span>
             </div>
           )}
           {riskPercent && (
             <div className="flex justify-between items-center">
-              <span className="text-text-secondary text-sm">Risk %</span>
+              <span className="text-mkt-i2 text-sm">Risk %</span>
               <span className="font-mono text-warning">{riskPercent}</span>
             </div>
           )}
           {positionSize && (
             <div className="flex justify-between items-center">
-              <span className="text-text-secondary text-sm">Position Size</span>
+              <span className="text-mkt-i2 text-sm">Position Size</span>
               <span className="font-mono text-accent">{positionSize}</span>
             </div>
           )}
           <div className="pt-2 mt-2 border-t border-border flex justify-between items-center">
-            <span className="text-text-primary font-bold">RESULT</span>
-            <span className={`font-mono font-bold text-lg ${isProfit ? 'text-profit' : 'text-loss'}`}>
+            <span className="text-mkt-ink font-bold">RESULT</span>
+            <span className={`font-mono font-bold text-lg ${isProfit ? 'text-mkt-grn' : 'text-red-500'}`}>
               {result}
             </span>
           </div>

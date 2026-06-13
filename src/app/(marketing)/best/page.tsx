@@ -17,24 +17,24 @@ export default function BestHub() {
   const featured = BEST_OF_PAGES.find(p => p.slug === 'forex-broker-uk') || BEST_OF_PAGES[0];
 
   return (
-    <main className="min-h-screen bg-background-primary pt-32 pb-20 px-6">
+    <main className="min-h-screen bg-white pt-32 pb-20 px-6">
       <TrackPageView path="/best" />
       <div className="max-w-6xl mx-auto">
         {/* Breadcrumbs */}
-        <nav className="flex items-center space-x-2 text-[10px] font-mono uppercase tracking-widest text-text-tertiary mb-8">
+        <nav className="flex items-center space-x-2 text-[10px] font-mono uppercase tracking-widest text-mkt-i4 mb-8">
           <Link href="/" className="hover:text-accent transition-colors">Home</Link>
           <ChevronRight className="w-3 h-3" />
-          <span className="text-text-primary">Best Rankings</span>
+          <span className="text-mkt-ink">Best Rankings</span>
         </nav>
 
         {/* Hero Section */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 mb-24 items-center">
           <div>
             <span className="text-accent font-mono text-[10px] uppercase tracking-widest block mb-4 underline decoration-accent/30 underline-offset-8 decoration-2">// INDEPENDENT RANKINGS</span>
-            <h1 className="text-5xl md:text-8xl font-display font-bold uppercase mb-8 text-text-primary leading-[0.85]">
+            <h1 className="text-5xl md:text-8xl font-sans font-bold uppercase mb-8 text-mkt-ink leading-[0.85]">
               The Gold <br /> Standard.
             </h1>
-            <p className="text-xl text-text-secondary max-w-xl font-sans leading-relaxed">
+            <p className="text-xl text-mkt-i2 max-w-xl font-sans leading-relaxed">
               We don't do "top 10" lists for SEO. We only rank tools and platforms that meet our institutional testing standards. If it's on this list, it's because we trust it.
             </p>
           </div>
@@ -44,10 +44,10 @@ export default function BestHub() {
             <div className="absolute inset-0 bg-accent/20 blur-[100px] group-hover:bg-accent/30 transition-all" />
             <Link 
               href={`/best/${featured.slug}`}
-              className="relative block bg-background-surface border border-accent/30 p-12 hover:border-accent transition-premium overflow-hidden"
+              className="relative block bg-white border border-mkt-bd/30 p-12 hover:border-mkt-bds transition-premium overflow-hidden"
             >
               <div className="absolute top-0 right-0 p-6">
-                 <div className="bg-accent text-background-primary text-[8px] font-mono font-black uppercase tracking-[0.2em] px-3 py-1">
+                 <div className="bg-mkt-ink text-white text-[8px] font-mono font-black uppercase tracking-[0.2em] px-3 py-1">
                     2026 Top Pick
                  </div>
               </div>
@@ -55,23 +55,23 @@ export default function BestHub() {
               <div className="space-y-8 relative z-10">
                 <div className="space-y-2">
                   <span className="text-accent font-mono text-[10px] uppercase tracking-widest">{featured.eyebrow}</span>
-                  <h3 className="text-4xl font-display font-bold uppercase">{featured.title}</h3>
+                  <h3 className="text-4xl font-sans font-bold uppercase">{featured.title}</h3>
                 </div>
                 
-                <div className="p-6 bg-background-elevated/50 border border-border-slate/50">
+                <div className="p-6 bg-[#F7F7F7]/50 border border-mkt-bd/50">
                    <div className="flex items-center justify-between mb-4">
-                      <span className="text-[10px] font-mono text-text-tertiary uppercase">Winner: {featured.comparisonTable[0].name}</span>
+                      <span className="text-[10px] font-mono text-mkt-i4 uppercase">Winner: {featured.comparisonTable[0].name}</span>
                       <div className="flex items-center gap-1">
                          {[1,2,3,4,5].map(s => <Star key={s} className="w-2.5 h-2.5 text-accent fill-accent" />)}
                       </div>
                    </div>
-                   <p className="text-sm text-text-secondary line-clamp-2 italic">
+                   <p className="text-sm text-mkt-i2 line-clamp-2 italic">
                       "{featured.introduction.slice(0, 120)}..."
                    </p>
                 </div>
 
                 <div className="flex items-center justify-between pt-4">
-                   <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-text-primary group-hover:text-accent transition-colors">Read Full Analysis</span>
+                   <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-mkt-ink group-hover:text-accent transition-colors">Read Full Analysis</span>
                    <ArrowRight className="w-5 h-5 text-accent" />
                 </div>
               </div>
@@ -80,14 +80,14 @@ export default function BestHub() {
         </div>
 
         {/* Filter Bar */}
-        <div className="flex flex-wrap items-center gap-4 mb-12 border-b border-border-slate/50 pb-8">
-           <span className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary mr-4">Filter By:</span>
+        <div className="flex flex-wrap items-center gap-4 mb-12 border-b border-mkt-bd/50 pb-8">
+           <span className="text-[10px] font-mono uppercase tracking-widest text-mkt-i4 mr-4">Filter By:</span>
            {categories.map((cat, i) => (
              <button 
                key={cat}
                className={cn(
                  "px-6 py-2 text-[10px] font-mono uppercase tracking-widest border transition-all",
-                 i === 0 ? "bg-accent border-accent text-background-primary font-bold" : "bg-transparent border-border-slate text-text-tertiary hover:border-text-primary hover:text-text-primary"
+                 i === 0 ? "bg-accent border-mkt-bd text-background-primary font-bold" : "bg-transparent border-mkt-bd text-mkt-i4 hover:border-text-primary hover:text-mkt-ink"
                )}
              >
                {cat}
@@ -101,32 +101,32 @@ export default function BestHub() {
             <Link 
               key={page.slug} 
               href={`/best/${page.slug}`}
-              className="group bg-background-surface border border-border-slate p-10 hover:border-accent transition-premium flex flex-col justify-between h-[420px] relative overflow-hidden"
+              className="group bg-white border border-mkt-bd p-10 hover:border-mkt-bds transition-premium flex flex-col justify-between h-[420px] relative overflow-hidden"
             >
               <div className="relative z-10 space-y-6">
                 <div className="flex items-center justify-between">
                   <span className="text-accent font-mono text-[10px] uppercase tracking-widest">{page.eyebrow}</span>
-                  <div className="flex items-center space-x-2 text-[10px] font-mono text-text-tertiary uppercase">
-                    <ShieldCheck className="w-3 h-3 text-profit" />
+                  <div className="flex items-center space-x-2 text-[10px] font-mono text-mkt-i4 uppercase">
+                    <ShieldCheck className="w-3 h-3 text-mkt-grn" />
                     <span>Verified Review</span>
                   </div>
                 </div>
-                <h2 className="text-4xl font-display font-bold uppercase leading-[0.9] group-hover:text-accent transition-colors">
+                <h2 className="text-4xl font-sans font-bold uppercase leading-[0.9] group-hover:text-accent transition-colors">
                   {page.title.split('—')[0]}
                 </h2>
-                <p className="text-text-secondary text-sm leading-relaxed line-clamp-3">
+                <p className="text-mkt-i2 text-sm leading-relaxed line-clamp-3">
                   {page.metaDescription}
                 </p>
               </div>
               
-              <div className="relative z-10 pt-8 border-t border-border-slate/50 flex items-center justify-between">
+              <div className="relative z-10 pt-8 border-t border-mkt-bd/50 flex items-center justify-between">
                 <div className="flex items-center space-x-4">
                   <div className="flex items-center space-x-1">
                     <Star className="w-3 h-3 text-accent fill-accent" />
-                    <span className="text-[10px] font-mono uppercase text-text-primary">Top Choice: {page.comparisonTable[0].name}</span>
+                    <span className="text-[10px] font-mono uppercase text-mkt-ink">Top Choice: {page.comparisonTable[0].name}</span>
                   </div>
                 </div>
-                <ArrowRight className="w-5 h-5 text-text-tertiary group-hover:text-accent group-hover:translate-x-2 transition-all" />
+                <ArrowRight className="w-5 h-5 text-mkt-i4 group-hover:text-accent group-hover:translate-x-2 transition-all" />
               </div>
 
               {/* Decorative background circle */}

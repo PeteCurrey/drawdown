@@ -52,22 +52,22 @@ export function PetesDailyTakeExcerpt() {
   if (!take) return null;
 
   return (
-    <section className="py-12 md:py-20 bg-background-primary relative overflow-hidden">
+    <section className="py-12 md:py-20 bg-white relative overflow-hidden">
       <div className="container mx-auto px-6">
         <div className="max-w-4xl mx-auto">
-          <div className="bg-background-surface border-l-4 border-accent border-y border-r border-border-slate p-12 relative group transition-premium hover:border-accent/30 rounded-xl">
+          <div className="bg-white border-l-4 border-accent border-y border-r border-mkt-bd p-12 relative group transition-premium hover:border-mkt-bds/30 rounded-xl">
             <div className="flex items-center gap-3 mb-8">
               <span className="text-[10px] font-mono tracking-widest uppercase text-accent font-bold">
                 // PETE'S TAKE
               </span>
               <div className="h-px w-8 bg-border-slate" />
-              <span className="text-[10px] font-mono tracking-widest uppercase text-text-tertiary">
+              <span className="text-[10px] font-mono tracking-widest uppercase text-mkt-i4">
                 {take.date}
               </span>
             </div>
 
             <div className="space-y-6">
-              <h3 className="text-2xl md:text-3xl font-display font-medium leading-relaxed italic text-text-primary">
+              <h3 className="text-2xl md:text-3xl font-sans font-medium leading-relaxed italic text-mkt-ink">
                 "{take.content.length > 200 ? take.content.slice(0, 200) + "..." : take.content}"
               </h3>
               
@@ -78,7 +78,7 @@ export function PetesDailyTakeExcerpt() {
                   </div>
                   <div className="flex flex-col">
                     <span className="text-[10px] font-mono font-bold uppercase tracking-widest">Pete Currey</span>
-                    <span className="text-[10px] font-mono text-text-tertiary uppercase tracking-widest">Founder, Drawdown</span>
+                    <span className="text-[10px] font-mono text-mkt-i4 uppercase tracking-widest">Founder, Drawdown</span>
                   </div>
                 </div>
 

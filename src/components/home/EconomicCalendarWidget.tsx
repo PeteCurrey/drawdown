@@ -49,7 +49,7 @@ function CalendarSkeleton() {
   return (
     <div className="space-y-4 animate-pulse">
       {[1, 2, 3, 4, 5].map((i) => (
-        <div key={i} className="h-16 bg-background-surface border border-border-slate/50" />
+        <div key={i} className="h-16 bg-white border border-mkt-bd/50" />
       ))}
     </div>
   );
@@ -86,32 +86,32 @@ export function EconomicCalendarWidget() {
   }, []);
 
   return (
-    <section className="py-12 md:py-20 bg-background-elevated relative overflow-hidden">
+    <section className="py-12 md:py-20 bg-[#F7F7F7] relative overflow-hidden">
       <div className="container mx-auto px-6">
         <div className="mb-16">
           <span className="text-[10px] font-mono tracking-widest uppercase text-accent font-bold block mb-4">
             // ECONOMIC INTELLIGENCE
           </span>
-          <h2 className="text-4xl md:text-6xl font-display font-bold uppercase text-text-primary">
+          <h2 className="text-4xl md:text-6xl font-sans font-bold uppercase text-mkt-ink">
             The Institutional <br /><span className="text-accent underline decoration-accent/20">Consensus.</span>
           </h2>
         </div>
 
-        <div className="bg-background-surface border border-border-slate overflow-hidden group hover:border-accent/30 transition-premium">
+        <div className="bg-white border border-mkt-bd overflow-hidden group hover:border-mkt-bds/30 transition-premium">
           {loading ? (
             <div className="p-8"><CalendarSkeleton /></div>
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full text-left border-collapse min-w-[800px]">
                 <thead>
-                  <tr className="border-b border-border-slate bg-background-primary/50">
-                    <th className="p-6 text-[10px] font-mono uppercase tracking-widest text-text-tertiary">Period</th>
-                    <th className="p-6 text-[10px] font-mono uppercase tracking-widest text-text-tertiary">Time (GMT)</th>
-                    <th className="p-6 text-[10px] font-mono uppercase tracking-widest text-text-tertiary">Intelligence Event</th>
-                    <th className="p-6 text-[10px] font-mono uppercase tracking-widest text-text-tertiary text-center">Country</th>
-                    <th className="p-6 text-[10px] font-mono uppercase tracking-widest text-text-tertiary">Volatility</th>
-                    <th className="p-6 text-[10px] font-mono uppercase tracking-widest text-text-tertiary">Consensus</th>
-                    <th className="p-6 text-[10px] font-mono uppercase tracking-widest text-text-tertiary">Previous</th>
+                  <tr className="border-b border-mkt-bd bg-white/50">
+                    <th className="p-6 text-[10px] font-mono uppercase tracking-widest text-mkt-i4">Period</th>
+                    <th className="p-6 text-[10px] font-mono uppercase tracking-widest text-mkt-i4">Time (GMT)</th>
+                    <th className="p-6 text-[10px] font-mono uppercase tracking-widest text-mkt-i4">Intelligence Event</th>
+                    <th className="p-6 text-[10px] font-mono uppercase tracking-widest text-mkt-i4 text-center">Country</th>
+                    <th className="p-6 text-[10px] font-mono uppercase tracking-widest text-mkt-i4">Volatility</th>
+                    <th className="p-6 text-[10px] font-mono uppercase tracking-widest text-mkt-i4">Consensus</th>
+                    <th className="p-6 text-[10px] font-mono uppercase tracking-widest text-mkt-i4">Previous</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-border-slate/30">
@@ -123,9 +123,9 @@ export function EconomicCalendarWidget() {
                         event.date === "Today" ? "border-l-4 border-l-accent" : ""
                       )}
                     >
-                      <td className="p-6 text-sm font-sans text-text-primary whitespace-nowrap">{event.date}</td>
-                      <td className="p-6 text-sm font-mono text-text-primary">{event.time}</td>
-                      <td className="p-6 text-sm font-bold uppercase text-text-primary tracking-tight">{event.event}</td>
+                      <td className="p-6 text-sm font-sans text-mkt-ink whitespace-nowrap">{event.date}</td>
+                      <td className="p-6 text-sm font-mono text-mkt-ink">{event.time}</td>
+                      <td className="p-6 text-sm font-bold uppercase text-mkt-ink tracking-tight">{event.event}</td>
                       <td className="p-6 text-2xl text-center">{event.country}</td>
                       <td className="p-6">
                         <div className="flex items-center gap-3">
@@ -135,14 +135,14 @@ export function EconomicCalendarWidget() {
                           )} />
                           <span className={cn(
                             "text-[10px] font-mono font-black uppercase tracking-tighter px-2 py-0.5 border",
-                            event.impact === 'High' ? "text-loss border-loss/20 bg-loss/5" : 
+                            event.impact === 'High' ? "text-red-500 border-loss/20 bg-loss/5" : 
                             event.impact === 'Medium' ? "text-amber-400 border-amber-400/20 bg-amber-400/5" : 
-                            "text-profit border-profit/20 bg-profit/5"
+                            "text-mkt-grn border-profit/20 bg-profit/5"
                           )}>{event.impact} Impact</span>
                         </div>
                       </td>
-                      <td className="p-6 text-sm font-mono text-text-primary font-bold">{event.forecast || "—"}</td>
-                      <td className="p-6 text-sm font-mono text-text-tertiary">{event.previous || "—"}</td>
+                      <td className="p-6 text-sm font-mono text-mkt-ink font-bold">{event.forecast || "—"}</td>
+                      <td className="p-6 text-sm font-mono text-mkt-i4">{event.previous || "—"}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -150,13 +150,13 @@ export function EconomicCalendarWidget() {
             </div>
           )}
           
-          <div className="p-8 bg-background-primary/30 border-t border-border-slate flex md:flex-row flex-col justify-between items-center gap-6">
-            <p className="text-[10px] font-mono text-text-tertiary uppercase tracking-widest">
+          <div className="p-8 bg-white/30 border-t border-mkt-bd flex md:flex-row flex-col justify-between items-center gap-6">
+            <p className="text-[10px] font-mono text-mkt-i4 uppercase tracking-widest">
               Live data feed periodically synced with central bank releases.
             </p>
             <Link 
               href="/markets?tab=calendar" 
-              className="inline-flex items-center gap-2 px-10 py-4 bg-accent text-background-primary text-[10px] font-bold uppercase tracking-widest hover:bg-accent-hover transition-colors"
+              className="inline-flex items-center gap-2 px-10 py-4 bg-mkt-ink text-white text-[10px] font-bold uppercase tracking-widest hover:bg-accent-hover transition-colors"
             >
               Full Calendar Detail <ChevronRight className="w-4 h-4" />
             </Link>

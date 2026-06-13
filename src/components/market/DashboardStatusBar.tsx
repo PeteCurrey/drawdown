@@ -62,14 +62,14 @@ export function DashboardStatusBar() {
   }, []);
 
   return (
-    <div className="flex items-center gap-6 px-4 py-3 bg-background-elevated border-b border-border-slate overflow-x-auto scrollbar-hide theme-transition">
+    <div className="flex items-center gap-6 px-4 py-3 bg-[#F7F7F7] border-b border-mkt-bd overflow-x-auto scrollbar-hide theme-transition">
       {/* Session Indicator */}
-      <div className="flex items-center gap-3 shrink-0 pr-6 border-r border-border-slate">
+      <div className="flex items-center gap-3 shrink-0 pr-6 border-r border-mkt-bd">
         <div className={cn(
           "w-2 h-2 rounded-full shadow-[0_0_8px_rgba(0,0,0,0.5)]",
           session.open ? "bg-profit animate-pulse" : "bg-text-tertiary"
         )} />
-        <span className="text-[10px] font-mono uppercase tracking-widest text-text-primary whitespace-nowrap">
+        <span className="text-[10px] font-mono uppercase tracking-widest text-mkt-ink whitespace-nowrap">
           {session.name}
         </span>
       </div>
@@ -80,23 +80,23 @@ export function DashboardStatusBar() {
           <div key={item.symbol} className="flex items-center gap-4 shrink-0">
             <div className="flex flex-col gap-1">
               <div className="flex items-center gap-2">
-                <span className="text-[9px] font-mono uppercase text-text-tertiary">{item.name}</span>
+                <span className="text-[9px] font-mono uppercase text-mkt-i4">{item.name}</span>
                 <span className={cn(
                   "text-[9px] font-mono font-bold",
-                  parseFloat(item.changePercent) >= 0 ? "text-profit" : "text-loss"
+                  parseFloat(item.changePercent) >= 0 ? "text-mkt-grn" : "text-red-500"
                 )}>
                   {parseFloat(item.changePercent) >= 0 ? "▲" : "▼"}
                   {Math.abs(parseFloat(item.changePercent))}%
                 </span>
               </div>
-              <span className="text-xs font-mono font-bold text-text-primary leading-none">
+              <span className="text-xs font-mono font-bold text-mkt-ink leading-none">
                 {item.price}
               </span>
             </div>
 
             {/* Range Bar */}
             <div className="flex flex-col gap-1 w-20">
-               <div className="flex justify-between items-center text-[7px] font-mono text-text-tertiary uppercase">
+               <div className="flex justify-between items-center text-[7px] font-mono text-mkt-i4 uppercase">
                  <span>L: {item.low}</span>
                  <span>H: {item.high}</span>
                </div>

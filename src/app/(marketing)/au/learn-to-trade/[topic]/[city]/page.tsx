@@ -72,18 +72,18 @@ export default function AustralianLocationTopicPage({ params }: Props) {
   };
 
   return (
-    <main className="min-h-screen bg-background-primary pt-32 pb-20">
+    <main className="min-h-screen bg-white pt-32 pb-20">
       <TrackPageView path={`/au/learn-to-trade/${topicSlug}/${citySlug}`} />
       <StructuredData type="FAQPage" data={faqSchema} />
       
       <div className="max-w-6xl mx-auto px-6">
         {/* Breadcrumbs */}
-        <nav className="flex items-center space-x-2 text-[10px] font-mono uppercase tracking-widest text-text-tertiary mb-12">
+        <nav className="flex items-center space-x-2 text-[10px] font-mono uppercase tracking-widest text-mkt-i4 mb-12">
           <Link href="/au" className="hover:text-accent transition-colors">Home</Link>
           <ChevronRight className="w-3 h-3" />
           <Link href="/au/learn-to-trade" className="hover:text-accent transition-colors">Learn</Link>
           <ChevronRight className="w-3 h-3" />
-          <span className="text-text-primary">{city.name}</span>
+          <span className="text-mkt-ink">{city.name}</span>
         </nav>
 
         {/* Hero Header */}
@@ -92,21 +92,21 @@ export default function AustralianLocationTopicPage({ params }: Props) {
              <MapPin className="w-4 h-4 text-accent" />
              <span className="text-accent font-mono text-[10px] uppercase tracking-widest">Australian Hub // {city.name}</span>
           </div>
-          <h1 className="text-5xl md:text-8xl font-display font-bold uppercase mb-8 text-text-primary leading-[0.85]">
+          <h1 className="text-5xl md:text-8xl font-sans font-bold uppercase mb-8 text-mkt-ink leading-[0.85]">
             {topic.title} in <br /> {city.name}.
           </h1>
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 mt-12">
             <div className="lg:col-span-2 space-y-6">
-              <p className="text-2xl text-text-primary font-display uppercase leading-tight italic border-l-4 border-accent pl-8">
+              <p className="text-2xl text-mkt-ink font-sans uppercase leading-tight italic border-l-4 border-mkt-bd pl-8">
                 {city.context}
               </p>
-              <p className="text-lg text-text-secondary leading-relaxed">
+              <p className="text-lg text-mkt-i2 leading-relaxed">
                 As a trader in {city.name}, you have access to the ASX and a sophisticated regional market. Drawdown provides the institutional-grade ${topic.title} education you need to succeed in Australia's competitive financial landscape.
               </p>
             </div>
-            <div className="bg-background-surface border border-border-slate p-8 space-y-6">
+            <div className="bg-white border border-mkt-bd p-8 space-y-6">
                <div className="flex items-center gap-2">
-                  <ShieldCheck className="w-5 h-5 text-profit" />
+                  <ShieldCheck className="w-5 h-5 text-mkt-grn" />
                   <span className="text-[10px] font-mono uppercase tracking-widest font-bold">ASIC Compliance</span>
                </div>
                <ul className="space-y-4">
@@ -116,7 +116,7 @@ export default function AustralianLocationTopicPage({ params }: Props) {
                     "ATO Tax Optimization",
                     "ASX Market Integration"
                   ].map(item => (
-                    <li key={item} className="flex items-center gap-3 text-xs text-text-secondary">
+                    <li key={item} className="flex items-center gap-3 text-xs text-mkt-i2">
                        <span className="w-1 h-1 bg-accent rounded-full" />
                        {item}
                     </li>
@@ -131,10 +131,10 @@ export default function AustralianLocationTopicPage({ params }: Props) {
           <div className="lg:col-span-2 space-y-20">
             {topic.content.map((section, i) => (
               <section key={i} className="space-y-8">
-                <h2 className="text-3xl md:text-4xl font-display font-bold uppercase tracking-tight text-text-primary">
+                <h2 className="text-3xl md:text-4xl font-sans font-bold uppercase tracking-tight text-mkt-ink">
                   {i + 1}. {section.heading}
                 </h2>
-                <p className="text-text-secondary leading-relaxed text-lg whitespace-pre-line">
+                <p className="text-mkt-i2 leading-relaxed text-lg whitespace-pre-line">
                   {section.text}
                 </p>
               </section>
@@ -143,10 +143,10 @@ export default function AustralianLocationTopicPage({ params }: Props) {
 
           {/* Sidebar */}
           <aside className="sticky top-32 space-y-12">
-            <div className="p-8 bg-background-surface border border-accent/30 space-y-6 text-center">
+            <div className="p-8 bg-white border border-mkt-bd/30 space-y-6 text-center">
                <GraduationCap className="w-10 h-10 text-accent mx-auto" />
-               <h4 className="text-xl font-display font-bold uppercase">Master {topic.title}</h4>
-               <p className="text-xs text-text-secondary leading-relaxed">
+               <h4 className="text-xl font-sans font-bold uppercase">Master {topic.title}</h4>
+               <p className="text-xs text-mkt-i2 leading-relaxed">
                   Join Australia's premier trading curriculum and master the business of risk properly.
                </p>
                <Link href="/au/courses" className="w-full py-4 bg-accent text-[#08090D] font-bold uppercase tracking-widest text-[10px] block">
@@ -157,19 +157,19 @@ export default function AustralianLocationTopicPage({ params }: Props) {
         </div>
 
         {/* CTA */}
-        <section className="p-16 bg-accent text-background-primary relative overflow-hidden text-center">
+        <section className="p-16 bg-mkt-ink text-white relative overflow-hidden text-center">
            <div className="relative z-10 space-y-8">
-              <h2 className="text-4xl md:text-6xl font-display font-bold uppercase leading-none">
+              <h2 className="text-4xl md:text-6xl font-sans font-bold uppercase leading-none">
                  Start Learning With Drawdown Today.
               </h2>
               <Link 
                 href="/au/signup"
-                className="inline-block px-12 py-6 bg-background-primary text-text-primary text-[12px] font-bold uppercase tracking-widest hover:invert transition-all"
+                className="inline-block px-12 py-6 bg-white text-mkt-ink text-[12px] font-bold uppercase tracking-widest hover:invert transition-all"
               >
                  Join Drawdown Free
               </Link>
            </div>
-           <div className="absolute -right-20 -bottom-20 text-[300px] font-display font-black text-white/10 select-none uppercase">
+           <div className="absolute -right-20 -bottom-20 text-[300px] font-sans font-black text-white/10 select-none uppercase">
               {city.name[0]}
            </div>
         </section>

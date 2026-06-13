@@ -33,7 +33,7 @@ export function NewsTab() {
 
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
-      <div className="flex flex-col md:flex-row justify-between gap-6 pb-8 border-b border-border-slate">
+      <div className="flex flex-col md:flex-row justify-between gap-6 pb-8 border-b border-mkt-bd">
          <div className="flex flex-wrap gap-2">
             {categories.map((cat) => (
               <button
@@ -42,8 +42,8 @@ export function NewsTab() {
                 className={cn(
                   "px-4 py-2 text-[9px] font-bold uppercase tracking-widest transition-all border",
                   filter === cat 
-                    ? "bg-accent text-background-primary border-accent" 
-                    : "bg-background-surface text-text-tertiary border-border-slate hover:border-accent/40"
+                    ? "bg-mkt-ink text-white border-accent" 
+                    : "bg-white text-mkt-i4 border-mkt-bd hover:border-mkt-bds/40"
                 )}
               >
                 {cat.replace('-', ' ')}
@@ -55,7 +55,7 @@ export function NewsTab() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {loading ? (
           Array(6).fill(0).map((_, i) => (
-            <div key={i} className="h-40 bg-background-surface border border-border-slate animate-pulse" />
+            <div key={i} className="h-40 bg-white border border-mkt-bd animate-pulse" />
           ))
         ) : filteredNews.map((item, i) => (
           <a 
@@ -63,28 +63,28 @@ export function NewsTab() {
             href={item.url} 
             target="_blank" 
             rel="noopener noreferrer"
-            className="group p-8 bg-background-surface border border-border-slate hover:border-accent transition-all duration-500 flex flex-col justify-between"
+            className="group p-8 bg-white border border-mkt-bd hover:border-mkt-bds transition-all duration-500 flex flex-col justify-between"
           >
             <div>
               <div className="flex justify-between items-start mb-4">
                 <NewsSourceLogo source={item.source} className="bg-white/10 px-2 py-0.5" />
-                <span className="text-[9px] font-mono text-text-tertiary uppercase">{item.publishedAt}</span>
+                <span className="text-[9px] font-mono text-mkt-i4 uppercase">{item.publishedAt}</span>
               </div>
-              <h3 className="text-lg font-display font-bold uppercase group-hover:text-accent transition-colors leading-tight mb-4 line-clamp-2">
+              <h3 className="text-lg font-sans font-bold uppercase group-hover:text-accent transition-colors leading-tight mb-4 line-clamp-2">
                 {item.title}
               </h3>
-              <p className="text-sm text-text-secondary leading-relaxed line-clamp-3 mb-6">
+              <p className="text-sm text-mkt-i2 leading-relaxed line-clamp-3 mb-6">
                 {item.excerpt}
               </p>
             </div>
             
-            <div className="flex flex-wrap gap-2 pt-6 border-t border-border-slate/30">
+            <div className="flex flex-wrap gap-2 pt-6 border-t border-mkt-bd/30">
                {item.categories.map((cat: string) => (
-                 <span key={cat} className="text-[8px] font-mono uppercase text-text-tertiary flex items-center gap-1">
+                 <span key={cat} className="text-[8px] font-mono uppercase text-mkt-i4 flex items-center gap-1">
                    <Hash className="w-2.5 h-2.5" /> {cat.replace('-', ' ')}
                  </span>
                ))}
-               <ExternalLink className="w-3.5 h-3.5 text-text-tertiary ml-auto opacity-0 group-hover:opacity-100 transition-opacity" />
+               <ExternalLink className="w-3.5 h-3.5 text-mkt-i4 ml-auto opacity-0 group-hover:opacity-100 transition-opacity" />
             </div>
           </a>
         ))}

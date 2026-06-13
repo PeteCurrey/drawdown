@@ -27,8 +27,8 @@ const tierContent = {
   },
   floor: {
     color: "text-white",
-    bgColor: "bg-background-elevated",
-    borderColor: "border-border-slate",
+    bgColor: "bg-[#F7F7F7]",
+    borderColor: "border-mkt-bd",
     benefits: ["Full AI Integration", "Portfolio Management", "Direct Admin Access"]
   }
 };
@@ -38,17 +38,17 @@ export function TierLockOverlay({ requiredTier, featureName, description, classN
 
   return (
     <div className={cn(
-      "absolute inset-0 z-50 flex items-center justify-center p-8 bg-background-primary/60 backdrop-blur-sm animate-in fade-in duration-500",
+      "absolute inset-0 z-50 flex items-center justify-center p-8 bg-white/60 backdrop-blur-sm animate-in fade-in duration-500",
       className
     )}>
-      <div className="max-w-md w-full bg-background-surface border border-border-slate p-8 md:p-10 shadow-2xl relative overflow-hidden group">
+      <div className="max-w-md w-full bg-white border border-mkt-bd p-8 md:p-10 shadow-2xl relative overflow-hidden group">
         {/* Background Accent */}
         <div className={cn("absolute -top-24 -right-24 w-48 h-48 rounded-full blur-3xl opacity-20 transition-all group-hover:opacity-30", content.bgColor)} />
         
         {onClose && (
           <button 
             onClick={onClose}
-            className="absolute top-4 right-4 p-2 text-text-tertiary hover:text-text-primary z-20 transition-colors"
+            className="absolute top-4 right-4 p-2 text-mkt-i4 hover:text-mkt-ink z-20 transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
@@ -60,10 +60,10 @@ export function TierLockOverlay({ requiredTier, featureName, description, classN
           </div>
 
           <div className="space-y-3">
-            <h3 className="text-2xl font-display font-bold uppercase tracking-tight">
+            <h3 className="text-2xl font-sans font-bold uppercase tracking-tight">
               Unlock {featureName}
             </h3>
-            <p className="text-xs text-text-secondary leading-relaxed uppercase tracking-widest font-mono">
+            <p className="text-xs text-mkt-i2 leading-relaxed uppercase tracking-widest font-mono">
               {description || `This high-performance tool requires the ${requiredTier} tier to process data loops.`}
             </p>
           </div>
@@ -71,7 +71,7 @@ export function TierLockOverlay({ requiredTier, featureName, description, classN
           <div className="space-y-4 pt-4">
             <div className="space-y-2">
               {content.benefits.map((benefit, i) => (
-                <div key={i} className="flex items-center gap-2 justify-center text-[10px] font-bold uppercase tracking-widest text-text-tertiary">
+                <div key={i} className="flex items-center gap-2 justify-center text-[10px] font-bold uppercase tracking-widest text-mkt-i4">
                   <ShieldCheck className={cn("w-3 h-3", content.color)} />
                   {benefit}
                 </div>
@@ -82,7 +82,7 @@ export function TierLockOverlay({ requiredTier, featureName, description, classN
               href="/pricing"
               className={cn(
                 "w-full py-4 px-8 inline-flex items-center justify-center gap-2 text-[10px] font-bold uppercase tracking-widest transition-all hover:translate-x-1",
-                requiredTier === 'edge' ? "bg-premium text-background-primary hover:bg-premium-hover" : "bg-accent text-background-primary hover:bg-accent-hover"
+                requiredTier === 'edge' ? "bg-premium text-background-primary hover:bg-premium-hover" : "bg-mkt-ink text-white hover:bg-accent-hover"
               )}
             >
               Upgrade to {requiredTier} <ArrowRight className="w-4 h-4" />

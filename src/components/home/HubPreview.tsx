@@ -13,7 +13,7 @@ const features = [
 
 export function HubPreview() {
   return (
-    <section className="py-12 md:py-20 bg-background-elevated border-b border-border-slate overflow-hidden relative">
+    <section className="py-12 md:py-20 bg-[#F7F7F7] border-b border-mkt-bd overflow-hidden relative">
       {/* Aesthetic Background Grid */}
       <div className="absolute inset-0 opacity-5 pointer-events-none bg-[radial-gradient(#ffffff,transparent_1px)] [background-size:32px_32px]" />
       
@@ -25,24 +25,24 @@ export function HubPreview() {
                <span className="text-[10px] font-mono uppercase tracking-[0.3em]">INTELLIGENCE_LAYER_v4.0</span>
             </div>
             
-            <h2 className="text-4xl md:text-6xl font-display font-bold uppercase leading-tight">
+            <h2 className="text-4xl md:text-6xl font-sans font-bold uppercase leading-tight">
               The Hub <span className="text-accent underline decoration-accent/20">Preview.</span>
             </h2>
             
-            <p className="text-xl text-text-secondary leading-relaxed max-w-xl">
+            <p className="text-xl text-mkt-i2 leading-relaxed max-w-xl">
               Don't trade blind. Access the same data feeds institutional desks use, simplified for the high-performance retail trader.
             </p>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-8 border-t border-border-slate/50">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-8 border-t border-mkt-bd/50">
                {features.map((feature, i) => {
                  const Icon = feature.icon;
                  return (
                    <div key={i} className="space-y-3 group">
                       <div className="flex items-center gap-3">
                          <Icon className="w-5 h-5 text-accent transition-transform group-hover:scale-110" />
-                         <span className="text-sm md:text-xs font-display font-bold uppercase tracking-widest">{feature.label}</span>
+                         <span className="text-sm md:text-xs font-sans font-bold uppercase tracking-widest">{feature.label}</span>
                       </div>
-                      <p className="text-[10px] font-mono text-text-tertiary leading-relaxed uppercase tracking-widest">
+                      <p className="text-[10px] font-mono text-mkt-i4 leading-relaxed uppercase tracking-widest">
                         {feature.description}
                       </p>
                    </div>
@@ -50,7 +50,7 @@ export function HubPreview() {
                })}
             </div>
 
-            <Link href="/markets" className="inline-flex items-center gap-4 bg-accent text-background-primary px-10 py-5 font-bold uppercase tracking-widest text-sm md:text-xs hover:bg-accent-hover transition-all group mt-8">
+            <Link href="/markets" className="inline-flex items-center gap-4 bg-mkt-ink text-white px-10 py-5 font-bold uppercase tracking-widest text-sm md:text-xs hover:bg-accent-hover transition-all group mt-8">
                Enter The Room
                <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-2" />
             </Link>
@@ -58,19 +58,19 @@ export function HubPreview() {
 
           {/* High-Fi Visual Representation */}
           <div className="relative">
-            <div className="aspect-square bg-background-primary border border-border-slate p-8 relative overflow-hidden shadow-2xl shadow-accent/10">
+            <div className="aspect-square bg-white border border-mkt-bd p-8 relative overflow-hidden shadow-2xl shadow-accent/10">
                {/* Mock Dashboard UI */}
-               <div className="absolute top-0 left-0 w-full h-12 border-b border-border-slate bg-background-elevated flex items-center px-6 justify-between">
+               <div className="absolute top-0 left-0 w-full h-12 border-b border-mkt-bd bg-[#F7F7F7] flex items-center px-6 justify-between">
                   <div className="flex gap-2">
                      <div className="w-2 h-2 rounded-full bg-loss" />
                      <div className="w-2 h-2 rounded-full bg-accent" />
                      <div className="w-2 h-2 rounded-full bg-profit" />
                   </div>
-                  <span className="text-[8px] font-mono text-text-tertiary uppercase tracking-widest">SYSTEM_STATUS_ACTIVE // 24.04.18</span>
+                  <span className="text-[8px] font-mono text-mkt-i4 uppercase tracking-widest">SYSTEM_STATUS_ACTIVE // 24.04.18</span>
                </div>
 
                <div className="pt-12 grid grid-cols-2 gap-4 h-full">
-                  <div className="border border-border-slate bg-background-elevated/50 p-4 space-y-4">
+                  <div className="border border-mkt-bd bg-[#F7F7F7]/50 p-4 space-y-4">
                      <div className="w-full h-1 bg-accent/20" />
                      <div className="w-2/3 h-1 bg-accent/10" />
                      <div className="flex justify-between items-end h-32">
@@ -80,10 +80,10 @@ export function HubPreview() {
                      </div>
                   </div>
                   <div className="space-y-4">
-                     <div className="border border-border-slate bg-background-elevated/50 p-4 h-24 flex items-center justify-center">
-                        <span className="text-4xl font-display font-black text-accent opacity-40 animate-pulse">82</span>
+                     <div className="border border-mkt-bd bg-[#F7F7F7]/50 p-4 h-24 flex items-center justify-center">
+                        <span className="text-4xl font-sans font-black text-accent opacity-40 animate-pulse">82</span>
                      </div>
-                     <div className="border border-border-slate bg-background-elevated/30 p-4 h-32 flex flex-col justify-between">
+                     <div className="border border-mkt-bd bg-[#F7F7F7]/30 p-4 h-32 flex flex-col justify-between">
                          <div className="space-y-2">
                             <div className="w-full h-[1px] bg-border-slate" />
                             <div className="w-full h-[1px] bg-border-slate" />

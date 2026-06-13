@@ -44,13 +44,13 @@ export const CurriculumPreview: React.FC<CurriculumPreviewProps> = ({ highlightP
             <span className="font-mono text-xs uppercase tracking-widest text-accent mb-2 block">
               // THE DRAWDOWN PATH
             </span>
-            <h3 className="font-display text-2xl md:text-3xl text-white m-0">
+            <h3 className="font-sans text-2xl md:text-3xl text-white m-0">
               Institutional-Grade Curriculum
             </h3>
           </div>
           <Link 
             href="/signup"
-            className="group bg-accent hover:bg-accent-hover text-background-primary px-6 py-3 rounded-full font-display text-sm font-bold flex items-center gap-2 transition-all duration-300"
+            className="group bg-mkt-ink hover:bg-mkt-i2 text-background-primary px-6 py-3 rounded-full font-sans text-sm font-bold flex items-center gap-2 transition-all duration-300"
           >
             Start Phase 1 Free
             <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
@@ -68,20 +68,20 @@ export const CurriculumPreview: React.FC<CurriculumPreviewProps> = ({ highlightP
               }`}
             >
               <div className="flex justify-between items-start mb-4">
-                <span className={`font-mono text-xs font-bold ${phase.number === highlightPhase ? 'text-accent' : 'text-text-tertiary'}`}>
+                <span className={`font-mono text-xs font-bold ${phase.number === highlightPhase ? 'text-accent' : 'text-mkt-i4'}`}>
                   PHASE 0{phase.number}
                 </span>
                 {phase.number < highlightPhase && (
-                  <CheckCircle2 size={16} className="text-profit" />
+                  <CheckCircle2 size={16} className="text-mkt-grn" />
                 )}
               </div>
-              <h4 className="font-display text-lg text-white mb-2 uppercase tracking-tight">
+              <h4 className="font-sans text-lg text-white mb-2 uppercase tracking-tight">
                 {phase.title}
               </h4>
-              <p className="font-sans text-xs text-text-secondary leading-relaxed mb-4">
+              <p className="font-sans text-xs text-mkt-i2 leading-relaxed mb-4">
                 {phase.description}
               </p>
-              <span className="font-mono text-[10px] text-text-tertiary uppercase">
+              <span className="font-mono text-[10px] text-mkt-i4 uppercase">
                 {phase.duration}
               </span>
             </div>

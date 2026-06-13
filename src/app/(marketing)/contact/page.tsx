@@ -32,54 +32,54 @@ export default function ContactPage() {
   };
 
   return (
-    <div className="pt-32 pb-24 bg-background-primary min-h-screen">
-      <div className="container mx-auto px-6">
+    <div className="pt-28 pb-24 bg-white min-h-screen">
+      <div className="max-w-7xl mx-auto px-6">
         <Breadcrumbs />
         
-        <header className="mb-24">
-          <span className="text-accent font-mono text-[10px] uppercase tracking-widest block mb-4">// CONNECT</span>
-          <h1 className="text-5xl md:text-8xl font-display font-bold uppercase mb-8 leading-tight">
+        <header className="mb-24 max-w-3xl">
+          <span className="text-[11px] font-sans font-bold text-mkt-i4 uppercase tracking-widest block mb-4">// CONNECT</span>
+          <h1 className="text-4xl md:text-6xl font-sans font-extrabold tracking-tight text-mkt-ink mb-6 leading-tight">
             Ask Your <br /> Questions.
           </h1>
-          <p className="text-xl text-text-secondary leading-relaxed font-sans max-w-2xl">
+          <p className="text-base text-mkt-i3 leading-relaxed font-sans max-w-2xl">
             Whether you're stuck in a drawdown, have a question about the curriculum, or need technical support with our AI tools — we're here to help.
           </p>
         </header>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
           {/* Contact Methods */}
-          <div className="lg:col-span-4 space-y-12">
+          <div className="lg:col-span-4 space-y-8">
             <div>
-              <h4 className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary mb-6">Channel 01 — Support</h4>
-              <div className="flex items-start gap-4 p-6 bg-background-surface border border-border-slate">
-                <Mail className="w-5 h-5 text-accent mt-1" />
+              <h4 className="text-[10px] font-sans font-bold uppercase tracking-widest text-mkt-i4 mb-4">Channel 01 — Support</h4>
+              <div className="flex items-start gap-4 p-6 bg-white border border-mkt-bd rounded-[14px]">
+                <Mail className="w-5 h-5 text-mkt-grn mt-1 shrink-0" />
                 <div>
-                  <p className="text-sm font-display font-bold uppercase mb-1">Email Support</p>
-                  <p className="text-xs text-text-secondary mb-4">Response within 24 hours.</p>
-                  <a href="mailto:support@drawdown.trading" className="text-xs font-mono text-accent hover:underline">support@drawdown.trading</a>
+                  <p className="text-sm font-sans font-extrabold text-mkt-ink mb-1 tracking-tight">Email Support</p>
+                  <p className="text-xs text-mkt-i3 mb-3 font-sans">Response within 24 hours.</p>
+                  <a href="mailto:support@drawdown.trading" className="text-[11px] font-sans font-semibold text-mkt-ink hover:underline underline-offset-2">support@drawdown.trading</a>
                 </div>
               </div>
             </div>
 
             <div>
-              <h4 className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary mb-6">Channel 02 — Community</h4>
-              <div className="flex items-start gap-4 p-6 bg-background-surface border border-border-slate">
-                <MessageSquare className="w-5 h-5 text-accent mt-1" />
+              <h4 className="text-[10px] font-sans font-bold uppercase tracking-widest text-mkt-i4 mb-4">Channel 02 — Community</h4>
+              <div className="flex items-start gap-4 p-6 bg-white border border-mkt-bd rounded-[14px]">
+                <MessageSquare className="w-5 h-5 text-mkt-grn mt-1 shrink-0" />
                 <div>
-                  <p className="text-sm font-display font-bold uppercase mb-1">Discord Hub</p>
-                  <p className="text-xs text-text-secondary mb-4">Real-time discussion with other traders.</p>
-                  <a href="https://discord.gg/drawdown" className="text-xs font-mono text-accent hover:underline">Join the Server →</a>
+                  <p className="text-sm font-sans font-extrabold text-mkt-ink mb-1 tracking-tight">Discord Hub</p>
+                  <p className="text-xs text-mkt-i3 mb-3 font-sans">Real-time discussion with other traders.</p>
+                  <a href="https://discord.gg/drawdown" className="text-[11px] font-sans font-semibold text-mkt-ink hover:underline underline-offset-2">Join the Server →</a>
                 </div>
               </div>
             </div>
 
             <div>
-              <h4 className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary mb-6">HQ</h4>
-              <div className="flex items-start gap-4 p-6 border border-border-slate/30">
-                <MapPin className="w-5 h-5 text-text-tertiary mt-1" />
+              <h4 className="text-[10px] font-sans font-bold uppercase tracking-widest text-mkt-i4 mb-4">HQ</h4>
+              <div className="flex items-start gap-4 p-6 border border-mkt-bd rounded-[14px] bg-[#F7F7F7]">
+                <MapPin className="w-5 h-5 text-mkt-i3 mt-1 shrink-0" />
                 <div>
-                  <p className="text-sm font-display font-bold uppercase mb-1">London, UK</p>
-                  <p className="text-xs text-text-tertiary leading-relaxed">
+                  <p className="text-sm font-sans font-extrabold text-mkt-ink mb-1 tracking-tight">London, UK</p>
+                  <p className="text-xs text-mkt-i3 leading-relaxed font-sans">
                     Canary Wharf, <br />
                     E14 5AB
                   </p>
@@ -90,51 +90,51 @@ export default function ContactPage() {
 
           {/* Contact Form */}
           <div className="lg:col-span-8">
-            <div className="p-8 md:p-16 bg-background-surface border border-border-slate relative overflow-hidden">
+            <div className="p-8 md:p-12 bg-white border border-mkt-bd rounded-[14px] relative overflow-hidden">
               <div className={cn(
-                "absolute inset-0 bg-background-surface flex flex-col items-center justify-center z-20 transition-all duration-500",
+                "absolute inset-0 bg-white flex flex-col items-center justify-center z-20 transition-all duration-500",
                 status === 'success' ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
               )}>
-                <CheckCircle2 className="w-16 h-16 text-profit mb-6" />
-                <h3 className="text-3xl font-display font-bold uppercase mb-4 text-center">Message Received.</h3>
-                <p className="text-text-secondary text-sm font-mono uppercase tracking-widest mb-10 text-center">We will get back to you shortly.</p>
+                <CheckCircle2 className="w-16 h-16 text-mkt-grn mb-6" />
+                <h3 className="text-2xl font-sans font-extrabold tracking-tight text-mkt-ink mb-3 text-center">Message Received.</h3>
+                <p className="text-mkt-i3 text-sm font-sans mb-8 text-center">We will get back to you shortly.</p>
                 <button 
                   onClick={() => setStatus('idle')}
-                  className="text-[10px] font-bold uppercase tracking-widest text-accent hover:underline"
+                  className="text-[11px] font-sans font-semibold text-mkt-ink hover:underline underline-offset-2"
                 >
                   Send Another Message
                 </button>
               </div>
 
-              <h4 className="text-2xl font-display font-bold uppercase mb-12">Send a Secure Message</h4>
+              <h4 className="text-2xl font-sans font-extrabold tracking-tight text-mkt-ink mb-10">Send a Secure Message</h4>
               
-              <form onSubmit={handleSubmit} className="space-y-10">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-                  <div className="space-y-4">
-                    <label className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary">Full Name</label>
+              <form onSubmit={handleSubmit} className="space-y-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  <div className="space-y-2">
+                    <label className="text-[11px] font-sans font-semibold text-mkt-i2 uppercase tracking-wider block">Full Name</label>
                     <input 
                       type="text" 
                       name="name"
                       required 
-                      placeholder="ENTER NAME"
-                      className="w-full bg-background-primary border-b border-border-slate focus:border-accent p-3 text-sm outline-none transition-colors"
+                      placeholder="Jane Doe"
+                      className="w-full bg-[#F7F7F7] border border-mkt-bd focus:border-mkt-bds rounded-lg px-4 py-3 text-sm text-mkt-ink font-sans outline-none transition-colors placeholder:text-mkt-i4"
                     />
                   </div>
-                  <div className="space-y-4">
-                    <label className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary">Email Address</label>
+                  <div className="space-y-2">
+                    <label className="text-[11px] font-sans font-semibold text-mkt-i2 uppercase tracking-wider block">Email Address</label>
                     <input 
                       type="email" 
                       name="email"
                       required 
-                      placeholder="ENTER EMAIL"
-                      className="w-full bg-background-primary border-b border-border-slate focus:border-accent p-3 text-sm outline-none transition-colors"
+                      placeholder="jane@example.com"
+                      className="w-full bg-[#F7F7F7] border border-mkt-bd focus:border-mkt-bds rounded-lg px-4 py-3 text-sm text-mkt-ink font-sans outline-none transition-colors placeholder:text-mkt-i4"
                     />
                   </div>
                 </div>
 
-                <div className="space-y-4">
-                  <label className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary">Reason for Inquiry</label>
-                  <select name="subject" className="w-full bg-background-primary border-b border-border-slate focus:border-accent p-3 text-sm outline-none transition-colors appearance-none cursor-pointer">
+                <div className="space-y-2">
+                  <label className="text-[11px] font-sans font-semibold text-mkt-i2 uppercase tracking-wider block">Reason for Inquiry</label>
+                  <select name="subject" className="w-full bg-[#F7F7F7] border border-mkt-bd focus:border-mkt-bds rounded-lg px-4 py-3 text-sm text-mkt-ink font-sans outline-none transition-colors appearance-none cursor-pointer">
                     <option value="General Support">General Support</option>
                     <option value="Tier & Billing Inquiry">Tier & Billing Inquiry</option>
                     <option value="Curriculum Question">Curriculum Question</option>
@@ -143,26 +143,29 @@ export default function ContactPage() {
                   </select>
                 </div>
 
-                <div className="space-y-4">
-                  <label className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary">Your Message</label>
+                <div className="space-y-2">
+                  <label className="text-[11px] font-sans font-semibold text-mkt-i2 uppercase tracking-wider block">Your Message</label>
                   <textarea 
                     name="message"
                     rows={6} 
                     required 
-                    placeholder="WHAT IS ON YOUR MIND?"
-                    className="w-full bg-background-primary border border-border-slate focus:border-accent p-4 text-sm outline-none transition-colors resize-none"
+                    placeholder="How can we help you today?"
+                    className="w-full bg-[#F7F7F7] border border-mkt-bd focus:border-mkt-bds rounded-lg px-4 py-3 text-sm text-mkt-ink font-sans outline-none transition-colors resize-none placeholder:text-mkt-i4"
                   />
                 </div>
 
                 <button 
                   type="submit"
                   disabled={status === 'loading'}
-                  className="w-full py-6 bg-accent text-background-primary font-bold uppercase tracking-widest text-[10px] hover:bg-accent-hover transition-colors flex items-center justify-center gap-3"
+                  className="w-full py-3.5 rounded-lg font-sans font-semibold text-sm text-white transition-colors duration-150 flex items-center justify-center gap-2 disabled:opacity-60"
+                  style={{ backgroundColor: "#0A0A0A" }}
+                  onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#3A3A3A")}
+                  onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#0A0A0A")}
                 >
                   {status === 'loading' ? <Loader2 className="w-4 h-4 animate-spin" /> : (
                     <>
                       Transmit Message
-                      <Send className="w-3 h-3" />
+                      <Send className="w-4 h-4" />
                     </>
                   )}
                 </button>

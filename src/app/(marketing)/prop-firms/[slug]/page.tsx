@@ -36,10 +36,10 @@ export default async function PropFirmReviewPage({ params }: Props) {
   }
 
   return (
-    <div className="flex flex-col min-h-screen bg-background-primary">
+    <div className="flex flex-col min-h-screen bg-white">
       {/* Hero Section */}
-      <section className="relative pt-32 pb-20 border-b border-border-slate overflow-hidden">
-        <div className="container mx-auto px-6 relative z-10">
+      <section className="relative pt-32 pb-20 border-b border-mkt-bd overflow-hidden">
+        <div className="max-w-7xl mx-auto px-6 relative z-10">
           <div className="max-w-4xl">
             <Breadcrumbs 
               items={[
@@ -53,8 +53,8 @@ export default async function PropFirmReviewPage({ params }: Props) {
               <span className="text-[10px] font-mono uppercase tracking-[0.3em]">{review.eyebrow}</span>
             </div>
             
-            <h1 className="text-4xl md:text-6xl font-display font-black uppercase leading-[0.9] mb-8">
-              {review.name} <span className="text-text-tertiary">Review.</span>
+            <h1 className="text-4xl md:text-6xl font-sans font-black uppercase leading-[0.9] mb-8">
+              {review.name} <span className="text-mkt-i4">Review.</span>
             </h1>
 
             <div className="flex flex-wrap gap-8 items-center pt-4">
@@ -64,9 +64,9 @@ export default async function PropFirmReviewPage({ params }: Props) {
                     <div key={i} className={cn("w-3 h-3 rotate-45", i < Math.floor(review.rating) ? "bg-accent" : "bg-border-slate")} />
                   ))}
                 </div>
-                <span className="text-sm font-bold text-text-primary">{review.rating}/5.0</span>
+                <span className="text-sm font-bold text-mkt-ink">{review.rating}/5.0</span>
               </div>
-              <div className="text-xs font-mono uppercase text-text-tertiary tracking-widest">
+              <div className="text-xs font-mono uppercase text-mkt-i4 tracking-widest">
                 Last Updated: {review.lastUpdated}
               </div>
             </div>
@@ -75,8 +75,8 @@ export default async function PropFirmReviewPage({ params }: Props) {
       </section>
 
       {/* Quick Specs Grid */}
-      <section className="py-12 bg-background-surface border-b border-border-slate">
-        <div className="container mx-auto px-6">
+      <section className="py-12 bg-white border-b border-mkt-bd">
+        <div className="max-w-7xl mx-auto px-6">
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-8">
             {[
               { label: "Profit Split", value: review.payoutSplit, icon: Percent },
@@ -87,11 +87,11 @@ export default async function PropFirmReviewPage({ params }: Props) {
               { label: "Evaluation", value: review.feeStructure, icon: ShieldCheck },
             ].map((spec, i) => (
               <div key={i} className="space-y-2">
-                <div className="flex items-center gap-2 text-text-tertiary">
+                <div className="flex items-center gap-2 text-mkt-i4">
                   <spec.icon className="w-3 h-3" />
                   <span className="text-[10px] font-mono uppercase tracking-widest">{spec.label}</span>
                 </div>
-                <div className="text-lg font-display font-bold text-text-primary tracking-tight">
+                <div className="text-lg font-sans font-bold text-mkt-ink tracking-tight">
                   {spec.value}
                 </div>
               </div>
@@ -100,29 +100,29 @@ export default async function PropFirmReviewPage({ params }: Props) {
         </div>
       </section>
 
-      <div className="container mx-auto px-6 py-20">
+      <div className="max-w-7xl mx-auto px-6 py-20">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
           {/* Main Content */}
           <div className="lg:col-span-8 space-y-16">
             <div className="prose prose-invert prose-slate max-w-none">
-              <p className="text-xl text-text-secondary leading-relaxed font-medium">
+              <p className="text-xl text-mkt-i2 leading-relaxed font-medium">
                 {review.introduction}
               </p>
 
-              <h2 className="text-3xl font-display font-bold uppercase tracking-tight mt-12 mb-6">The Challenge Rules</h2>
-              <p className="text-lg leading-relaxed text-text-secondary">
+              <h2 className="text-3xl font-sans font-bold uppercase tracking-tight mt-12 mb-6">The Challenge Rules</h2>
+              <p className="text-lg leading-relaxed text-mkt-i2">
                 {review.challengeRules}
               </p>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 my-12">
                 <div className="p-8 bg-profit/5 border border-profit/20">
-                  <div className="flex items-center gap-3 mb-4 text-profit">
+                  <div className="flex items-center gap-3 mb-4 text-mkt-grn">
                     <Check className="w-5 h-5" />
-                    <h3 className="text-lg font-bold uppercase tracking-tight m-0 text-profit">What We Like</h3>
+                    <h3 className="text-lg font-bold uppercase tracking-tight m-0 text-mkt-grn">What We Like</h3>
                   </div>
                   <ul className="space-y-3 m-0 p-0 list-none">
                     {review.pros.map((pro, i) => (
-                      <li key={i} className="text-sm text-text-secondary flex items-start gap-2 m-0">
+                      <li key={i} className="text-sm text-mkt-i2 flex items-start gap-2 m-0">
                         <span className="w-1.5 h-1.5 bg-profit/40 rounded-full mt-1.5 shrink-0" />
                         {pro}
                       </li>
@@ -130,13 +130,13 @@ export default async function PropFirmReviewPage({ params }: Props) {
                   </ul>
                 </div>
                 <div className="p-8 bg-loss/5 border border-loss/20">
-                  <div className="flex items-center gap-3 mb-4 text-loss">
+                  <div className="flex items-center gap-3 mb-4 text-red-500">
                     <X className="w-5 h-5" />
-                    <h3 className="text-lg font-bold uppercase tracking-tight m-0 text-loss">What We Don't</h3>
+                    <h3 className="text-lg font-bold uppercase tracking-tight m-0 text-red-500">What We Don't</h3>
                   </div>
                   <ul className="space-y-3 m-0 p-0 list-none">
                     {review.cons.map((con, i) => (
-                      <li key={i} className="text-sm text-text-secondary flex items-start gap-2 m-0">
+                      <li key={i} className="text-sm text-mkt-i2 flex items-start gap-2 m-0">
                         <span className="w-1.5 h-1.5 bg-loss/40 rounded-full mt-1.5 shrink-0" />
                         {con}
                       </li>
@@ -145,28 +145,28 @@ export default async function PropFirmReviewPage({ params }: Props) {
                 </div>
               </div>
 
-              <h2 className="text-3xl font-display font-bold uppercase tracking-tight mt-12 mb-6">Fee Structure & Refunds</h2>
-              <p className="text-lg leading-relaxed text-text-secondary">
+              <h2 className="text-3xl font-sans font-bold uppercase tracking-tight mt-12 mb-6">Fee Structure & Refunds</h2>
+              <p className="text-lg leading-relaxed text-mkt-i2">
                 {review.feeAndRefund}
               </p>
 
-              <h2 className="text-3xl font-display font-bold uppercase tracking-tight mt-12 mb-6">Trading Conditions & Spreads</h2>
-              <p className="text-lg leading-relaxed text-text-secondary">
+              <h2 className="text-3xl font-sans font-bold uppercase tracking-tight mt-12 mb-6">Trading Conditions & Spreads</h2>
+              <p className="text-lg leading-relaxed text-mkt-i2">
                 {review.tradingConditions}
               </p>
 
-              <div className="bg-background-surface border border-border-slate p-10 my-16">
+              <div className="bg-white border border-mkt-bd p-10 my-16">
                  <div className="flex items-center gap-4 mb-6">
                     <AlertCircle className="w-8 h-8 text-accent" />
-                    <h2 className="text-3xl font-display font-black uppercase m-0">The Verdict.</h2>
+                    <h2 className="text-3xl font-sans font-black uppercase m-0">The Verdict.</h2>
                  </div>
-                 <p className="text-xl text-text-primary leading-relaxed font-medium italic">
+                 <p className="text-xl text-mkt-ink leading-relaxed font-medium italic">
                    "{review.verdict}"
                  </p>
                  <div className="pt-8">
                    <Link 
                       href={`/go/${review.slug}`}
-                      className="inline-flex items-center gap-4 bg-accent text-[#08090D] px-10 py-5 font-display font-black uppercase tracking-[0.2em] text-sm hover:translate-y-[-2px] transition-all shadow-xl shadow-accent/20"
+                      className="inline-flex items-center gap-4 bg-accent text-[#08090D] px-10 py-5 font-sans font-black uppercase tracking-[0.2em] text-sm hover:translate-y-[-2px] transition-all shadow-xl shadow-accent/20"
                    >
                       Start Your Challenge <ArrowRight className="w-4 h-4" />
                    </Link>
@@ -176,13 +176,13 @@ export default async function PropFirmReviewPage({ params }: Props) {
 
             {/* FAQs */}
             {review.faqs.length > 0 && (
-              <div className="space-y-8 pt-12 border-t border-border-slate">
-                <h2 className="text-3xl font-display font-bold uppercase tracking-tight">Common Questions</h2>
+              <div className="space-y-8 pt-12 border-t border-mkt-bd">
+                <h2 className="text-3xl font-sans font-bold uppercase tracking-tight">Common Questions</h2>
                 <div className="grid grid-cols-1 gap-6">
                   {review.faqs.map((faq, i) => (
-                    <div key={i} className="p-8 bg-background-surface border border-border-slate">
-                      <h4 className="text-lg font-bold text-text-primary mb-4">{faq.question}</h4>
-                      <p className="text-text-secondary leading-relaxed">{faq.answer}</p>
+                    <div key={i} className="p-8 bg-white border border-mkt-bd">
+                      <h4 className="text-lg font-bold text-mkt-ink mb-4">{faq.question}</h4>
+                      <p className="text-mkt-i2 leading-relaxed">{faq.answer}</p>
                     </div>
                   ))}
                 </div>
@@ -193,20 +193,20 @@ export default async function PropFirmReviewPage({ params }: Props) {
           {/* Sidebar */}
           <div className="lg:col-span-4 space-y-8">
             <div className="sticky top-32 space-y-8">
-              <div className="p-8 bg-background-surface border border-border-slate space-y-6">
-                <h3 className="text-xl font-display font-bold uppercase tracking-tight">Quick Comparison</h3>
+              <div className="p-8 bg-white border border-mkt-bd space-y-6">
+                <h3 className="text-xl font-sans font-bold uppercase tracking-tight">Quick Comparison</h3>
                 <div className="space-y-4">
-                   <div className="flex justify-between items-center py-2 border-b border-border-slate/50">
-                      <span className="text-[10px] font-mono uppercase text-text-tertiary">Daily Limit</span>
-                      <span className="text-sm font-bold text-loss">{review.dailyDrawdown}</span>
+                   <div className="flex justify-between items-center py-2 border-b border-mkt-bd/50">
+                      <span className="text-[10px] font-mono uppercase text-mkt-i4">Daily Limit</span>
+                      <span className="text-sm font-bold text-red-500">{review.dailyDrawdown}</span>
                    </div>
-                   <div className="flex justify-between items-center py-2 border-b border-border-slate/50">
-                      <span className="text-[10px] font-mono uppercase text-text-tertiary">Total Limit</span>
-                      <span className="text-sm font-bold text-loss">{review.maxDrawdown}</span>
+                   <div className="flex justify-between items-center py-2 border-b border-mkt-bd/50">
+                      <span className="text-[10px] font-mono uppercase text-mkt-i4">Total Limit</span>
+                      <span className="text-sm font-bold text-red-500">{review.maxDrawdown}</span>
                    </div>
-                   <div className="flex justify-between items-center py-2 border-b border-border-slate/50">
-                      <span className="text-[10px] font-mono uppercase text-text-tertiary">Profit Share</span>
-                      <span className="text-sm font-bold text-profit">{review.payoutSplit}</span>
+                   <div className="flex justify-between items-center py-2 border-b border-mkt-bd/50">
+                      <span className="text-[10px] font-mono uppercase text-mkt-i4">Profit Share</span>
+                      <span className="text-sm font-bold text-mkt-grn">{review.payoutSplit}</span>
                    </div>
                 </div>
                 <Link 
@@ -217,11 +217,11 @@ export default async function PropFirmReviewPage({ params }: Props) {
                 </Link>
               </div>
 
-              <div className="p-8 border border-border-slate space-y-6">
-                 <h3 className="text-xs font-mono uppercase tracking-[0.2em] text-text-tertiary">Other Reviews</h3>
+              <div className="p-8 border border-mkt-bd space-y-6">
+                 <h3 className="text-xs font-mono uppercase tracking-[0.2em] text-mkt-i4">Other Reviews</h3>
                  <div className="space-y-4">
                     {PROP_FIRM_REVIEWS.filter(r => r.slug !== review.slug).map(r => (
-                      <Link key={r.slug} href={`/prop-firms/${r.slug}`} className="group flex items-center justify-between text-sm text-text-secondary hover:text-text-primary transition-colors">
+                      <Link key={r.slug} href={`/prop-firms/${r.slug}`} className="group flex items-center justify-between text-sm text-mkt-i2 hover:text-mkt-ink transition-colors">
                         <span>{r.name} Review</span>
                         <ChevronRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" />
                       </Link>

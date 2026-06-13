@@ -22,7 +22,7 @@ export function PropFirmSection() {
               <span className="text-xs font-semibold tracking-widest text-neutral-400 border border-neutral-200 rounded-full px-3 py-1 inline-block uppercase font-sans">
                 // INSTITUTIONAL CAPITAL
               </span>
-              <h2 className="text-4xl md:text-5xl font-display font-bold uppercase text-[#0A0A0A] leading-tight">
+              <h2 className="text-4xl md:text-5xl font-sans font-bold uppercase text-[#0A0A0A] leading-tight">
                 Prop Firm Directory.
               </h2>
               <p className="text-base font-sans text-neutral-500 leading-relaxed">

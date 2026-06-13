@@ -8,7 +8,7 @@ interface AffiliateDisclosureProps {
 export function AffiliateDisclosure({ className }: AffiliateDisclosureProps) {
   return (
     <div className={cn(
-      "p-6 bg-background-elevated/50 border border-border-slate/50 backdrop-blur-sm",
+      "p-6 bg-[#F7F7F7]/50 border border-mkt-bd/50 backdrop-blur-sm",
       className
     )}>
       <div className="flex items-start gap-4">
@@ -17,11 +17,11 @@ export function AffiliateDisclosure({ className }: AffiliateDisclosureProps) {
           <span className="text-[10px] font-mono font-bold text-accent uppercase tracking-widest">
             Institutional Transparency
           </span>
-          <p className="text-[11px] leading-relaxed text-text-secondary uppercase">
+          <p className="text-[11px] leading-relaxed text-mkt-i2 uppercase">
             Drawdown may earn a referral commission if you open an account via our links. 
             This never influences our recommendations — we only feature brokers and platforms 
             we have personally used or thoroughly evaluated. See our full{" "}
-            <a href="/brokers#methodology" className="text-text-primary underline underline-offset-4 decoration-accent/30 hover:decoration-accent transition-all">
+            <a href="/brokers#methodology" className="text-mkt-ink underline underline-offset-4 decoration-accent/30 hover:decoration-accent transition-all">
               Review Methodology
             </a>.
           </p>

@@ -181,8 +181,8 @@ export function CurriculumSection() {
                     className="absolute inset-0 bg-cover bg-center transition-all duration-700 ease-out"
                     style={{
                       backgroundImage: `url(${theme.imageUrl})`,
-                      opacity: isHovered ? 0.13 : 0,
-                      transform: isHovered ? "scale(1)" : "scale(1.06)"
+                      opacity: isHovered ? 0.18 : 0.06,
+                      transform: isHovered ? "scale(1)" : "scale(1.03)"
                     }}
                   />
                 </div>

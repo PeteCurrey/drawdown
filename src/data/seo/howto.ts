@@ -259,7 +259,7 @@ export const HOW_TO_PAGES: HowToPage[] = [
     commonMistakes: ['Cluttering charts with too many indicators', 'Not using the "Alerts" feature to save screen time'],
     drawdownApproach: {
       text: 'We provide custom TradingView templates for our members to match our institutional style.',
-      link: 'https://tradingview.com',
+      link: '/go/tradingview',
       linkText: 'Go to TradingView'
     },
     faqs: [

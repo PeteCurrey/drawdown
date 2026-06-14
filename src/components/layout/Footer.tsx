@@ -102,6 +102,7 @@ export function Footer() {
               <li><Link href={`${regionPrefix}/courses`} className="hover:text-mkt-ink transition-colors">Curriculum</Link></li>
               <li><Link href={`${regionPrefix}/markets`} className="hover:text-mkt-ink transition-colors">Markets Hub</Link></li>
               <li><Link href={`${regionPrefix}/brokers`} className="hover:text-mkt-ink transition-colors font-bold text-mkt-grn">Broker Guide</Link></li>
+              <li><Link href={`${regionPrefix}/tools/tradingview`} className="hover:text-mkt-ink transition-colors">TradingView Review</Link></li>
               <li><Link href={`${regionPrefix}/pricing`} className="hover:text-mkt-ink transition-colors">Pricing</Link></li>
               <li><Link href={`${regionPrefix}/blog`} className="hover:text-mkt-ink transition-colors">Blog</Link></li>
             </ul>

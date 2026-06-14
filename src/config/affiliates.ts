@@ -46,9 +46,9 @@ export const affiliateLinks: Record<string, {
 
   // TOOLS
   'tradingview': {
-    url: 'https://tradingview.com', // PLACEHOLDER - replace with referral URL
+    url: 'https://www.tradingview.com/?aff_id=165855',
     name: 'TradingView',
     category: 'tool',
-    hasAffiliateLink: false,
+    hasAffiliateLink: true,
   },
 };

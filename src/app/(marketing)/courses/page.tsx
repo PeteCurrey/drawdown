@@ -51,7 +51,7 @@ export default function CoursesPage() {
         <StructuredData type="ItemList" data={courseSchema} />
 
         {/* Page Header */}
-        <header className="mb-20 max-w-3xl">
+        <header className="mb-20 max-w-3xl min-h-[calc(100vh-150px)] flex flex-col justify-center">
           <span className="text-[11px] font-sans font-bold text-text-tertiary uppercase tracking-widest block mb-4">
             // THE CURRICULUM
           </span>

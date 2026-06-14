@@ -56,7 +56,7 @@ export default function BrokerComparisonHub() {
   return (
     <div className="flex flex-col">
       {/* Hero Section */}
-      <section className="relative pt-32 pb-20 overflow-hidden border-b border-border-slate/50">
+      <section className="relative pt-32 pb-20 overflow-hidden border-b border-border-slate/50 min-h-screen flex flex-col justify-center">
         <div className="max-w-7xl mx-auto px-6 relative z-10">
           <div className="max-w-3xl space-y-8">
             <span className="text-[11px] font-sans font-bold text-text-tertiary uppercase tracking-widest block">
@@ -170,7 +170,18 @@ export default function BrokerComparisonHub() {
                            </div>
                            <div>
                               <p className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary mb-1">Supported Platforms</p>
-                              <p className="text-sm font-bold text-text-primary">{broker.platforms}</p>
+                              <p className="text-sm font-bold text-text-primary">
+                                {broker.platforms.split('TradingView').map((part, i, arr) => (
+                                  <span key={i}>
+                                    {part}
+                                    {i < arr.length - 1 && (
+                                      <Link href="/tools/tradingview" className="text-blue-600 hover:underline">
+                                        TradingView
+                                      </Link>
+                                    )}
+                                  </span>
+                                ))}
+                              </p>
                            </div>
                            <div className="col-span-2">
                               <p className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary mb-3">Key Edges</p>

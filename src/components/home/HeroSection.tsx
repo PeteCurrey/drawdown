@@ -111,7 +111,7 @@ export function HeroSection() {
   const longMaPathD = `M ${longMaPathPoints.join(" L ")}`;
 
   return (
-    <section className="relative w-full min-h-[85vh] flex flex-col justify-center overflow-hidden bg-white pt-24 pb-36 md:pt-32 md:pb-52 border-b border-mkt-bd z-20">
+    <section className="relative w-full min-h-screen flex flex-col justify-center overflow-hidden bg-white pt-24 pb-36 md:pt-32 md:pb-52 border-b border-mkt-bd z-20">
       {/* Background candle chart pattern */}
       <div className="absolute inset-0 z-0 opacity-[0.035] pointer-events-none select-none flex items-center justify-center overflow-hidden">
         <svg className="w-full h-[70%] min-h-[350px]" viewBox="0 0 1200 300" fill="none" preserveAspectRatio="none">

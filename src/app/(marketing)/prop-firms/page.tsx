@@ -105,7 +105,7 @@ export default function PropFirmsHubPage() {
   return (
     <div className="flex flex-col">
       {/* Hero Section */}
-      <section className="relative pt-32 pb-20 overflow-hidden border-b border-border-slate/50">
+      <section className="relative pt-32 pb-20 min-h-screen flex flex-col justify-center overflow-hidden border-b border-border-slate/50">
         <div className="max-w-7xl mx-auto px-6 relative z-10">
           <div className="max-w-3xl space-y-8">
             <span className="text-[11px] font-sans font-bold text-text-tertiary uppercase tracking-widest block">

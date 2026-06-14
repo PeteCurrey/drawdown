@@ -33,7 +33,11 @@ export default function PlatformPage() {
     },
     {
       q: "How is this different from just using TradingView?",
-      a: "TradingView is a charting platform. Drawdown is an education and intelligence platform. They serve different purposes — we actually recommend TradingView for charting and integrate with it directly. Drawdown provides the education, the risk tools, the AI analysis, the market context, and the community that TradingView doesn't provide."
+      a: (
+        <>
+          <Link href="/tools/tradingview" className="text-blue-600 hover:underline">TradingView</Link> is a charting platform. Drawdown is an education and intelligence platform. They serve different purposes — we actually recommend TradingView for charting and integrate with it directly. Drawdown provides the education, the risk tools, the AI analysis, the market context, and the community that TradingView doesn't provide.
+        </>
+      )
     },
     {
       q: "Can I access the platform on multiple devices?",
@@ -50,7 +54,7 @@ export default function PlatformPage() {
       <StructuredData type="WebSite" data={jsonLd} />
 
       {/* SECTION 1: PAGE HERO */}
-      <section className="py-16 md:py-24 border-b border-border-slate/50">
+      <section className="py-16 md:py-24 border-b border-border-slate/50 min-h-screen flex flex-col justify-center">
         <div className="max-w-7xl mx-auto px-6">
           <div className="max-w-4xl space-y-8">
             <span className="text-[11px] font-bold text-text-tertiary uppercase tracking-widest block">
@@ -117,9 +121,14 @@ export default function PlatformPage() {
                   <p className="text-text-secondary leading-relaxed mb-8">
                     A real-time market hub updated every 60 seconds. Aggregated from Bloomberg, Reuters, FT, and institutional sources. Economic calendar, top movers, volatility windows, and institutional consensus data — all in one dashboard. The kind of intelligence retail traders don't usually have access to.
                   </p>
-                  <Link href="/markets" className="inline-flex items-center gap-2 text-sm font-bold text-blue-600 hover:text-blue-700 transition-colors">
-                    Explore Markets <ArrowRight className="w-4 h-4" />
-                  </Link>
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6">
+                    <Link href="/markets" className="inline-flex items-center gap-2 text-sm font-bold text-blue-600 hover:text-blue-700 transition-colors">
+                      Explore Markets <ArrowRight className="w-4 h-4" />
+                    </Link>
+                    <Link href="/tools/tradingview" className="inline-flex items-center gap-2 text-sm font-bold text-text-tertiary hover:text-text-primary transition-colors">
+                      Recommended Charting Tool <ArrowRight className="w-4 h-4" />
+                    </Link>
+                  </div>
                 </div>
               </div>
 

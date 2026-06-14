@@ -34,7 +34,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const routes = [
     "", "/about", "/pricing", "/blog", "/courses", "/platform", "/contact", "/privacy", "/disclaimer",
     "/brokers", "/glossary", "/how-to", "/best", "/compare", "/markets/pulse",
-    "/tools/scanner", "/dashboard/news", "/prop-firms", "/guides/tradingview",
+    "/tools/scanner", "/tools/tradingview", "/dashboard/news", "/prop-firms", "/guides/tradingview",
     "/au", "/au/brokers", "/au/pricing",
     "/us", "/us/brokers", "/us/pricing", "/us/disclaimer",
     "/sg", "/sg/brokers", "/sg/pricing", "/sg/disclaimer",

@@ -71,22 +71,6 @@
   --text-secondary: #7A7D85;
   --text-tertiary: #4A4D55;
   --foreground: #E4E2DD;
-  /* Override marketing scope variables */
-  --mkt-bg: #08090D;
-  --mkt-sur: #111318;
-  --mkt-bd: #2A2D35;
-  --mkt-bds: #3A3D45;
-  --mkt-ink: #E4E2DD;
-  --mkt-i2: #B4B7BF;
-  --mkt-i3: #7A7D85;
-  --mkt-i4: #4A4D55;
-  --color-background-primary: #08090D;
-  --color-background-surface: #111318;
-  --color-background-elevated: #1A1D24;
-  --color-border-slate: #2A2D35;
-  --color-text-primary: #E4E2DD;
-  --color-text-secondary: #7A7D85;
-  --color-text-tertiary: #4A4D55;
 }
 
 * {

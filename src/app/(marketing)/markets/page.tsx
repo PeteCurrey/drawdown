@@ -9,7 +9,7 @@ export default function MarketsHubPage() {
       
       {/* Hero Section */}
       <section className="relative pt-20 pb-16 min-h-screen flex flex-col justify-center overflow-hidden border-b border-border-slate/50 bg-white">
-        <div className="max-w-7xl mx-auto px-6 relative z-10">
+        <div className="w-full max-w-7xl mx-auto px-6 relative z-10">
           <div className="max-w-4xl space-y-6">
             <div className="flex items-center gap-3 text-accent">
                <div className="w-8 h-[1px] bg-accent" />

@@ -46,7 +46,7 @@ export default function CoursesPage() {
 
   return (
     <div className="pt-28 pb-24 min-h-screen">
-      <div className="max-w-7xl mx-auto px-6">
+      <div className="w-full max-w-7xl mx-auto px-6">
         <Breadcrumbs />
         <StructuredData type="ItemList" data={courseSchema} />
 

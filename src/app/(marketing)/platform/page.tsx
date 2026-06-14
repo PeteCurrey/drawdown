@@ -55,7 +55,7 @@ export default function PlatformPage() {
 
       {/* SECTION 1: PAGE HERO */}
       <section className="py-16 md:py-24 border-b border-border-slate/50 min-h-screen flex flex-col justify-center">
-        <div className="max-w-7xl mx-auto px-6">
+        <div className="w-full max-w-7xl mx-auto px-6">
           <div className="max-w-4xl space-y-8">
             <span className="text-[11px] font-bold text-text-tertiary uppercase tracking-widest block">
               // THE PLATFORM

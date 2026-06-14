@@ -89,6 +89,8 @@ export function BrokerReviewTemplate({
             <div className="md:w-1/4 w-full">
               <a 
                 href={`/go/${broker.slug}`}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="w-full py-5 bg-mkt-ink text-white text-center text-[10px] font-black uppercase tracking-widest hover:bg-accent-hover transition-premium flex items-center justify-center gap-2"
               >
                 Open Account <ExternalLink className="w-4 h-4" />
@@ -313,6 +315,8 @@ export function BrokerReviewTemplate({
               </div>
               <a 
                 href={`/go/${broker.slug}`}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="inline-flex items-center gap-4 bg-mkt-ink text-white px-16 py-6 text-sm font-black uppercase tracking-widest hover:bg-accent-hover transition-premium"
               >
                 Join {broker.name} Today <ExternalLink className="w-4 h-4" />
@@ -406,6 +410,8 @@ export function BrokerReviewTemplate({
                 </p>
                 <a 
                   href={`/go/${broker.slug}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="w-full py-4 bg-mkt-ink text-white text-center text-[10px] font-black uppercase tracking-widest hover:bg-accent-hover transition-premium flex items-center justify-center gap-2"
                 >
                   Visit Site <ExternalLink className="w-3 h-3" />

@@ -1,12 +1,13 @@
 import { notFound } from "next/navigation";
-
-export const dynamic = "force-static";
-export const dynamicParams = true;
 import { BEST_OF_PAGES } from "@/data/seo/best";
-import { brokers } from "@/data/brokers";
+import { brokers, Broker } from "@/data/brokers";
 import { Metadata } from "next";
 import { TrackPageView } from "@/components/admin/TrackPageView";
 import { BestBrokerTemplate } from "@/components/brokers/BestBrokerTemplate";
+import { resolveProgrammaticSeo } from "@/lib/seo-generator";
+
+export const dynamic = "force-static";
+export const dynamicParams = true;
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -20,7 +21,7 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const page = BEST_OF_PAGES.find((p) => p.slug === slug);
+  const page = BEST_OF_PAGES.find((p) => p.slug === slug) || resolveProgrammaticSeo(slug);
 
   if (!page) return {};
 
@@ -35,17 +36,36 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function BestOfPage({ params }: Props) {
   const { slug } = await params;
-  const page = BEST_OF_PAGES.find((p) => p.slug === slug);
+  const page = BEST_OF_PAGES.find((p) => p.slug === slug) || resolveProgrammaticSeo(slug);
 
   if (!page) notFound();
 
-  // Map the SEO reviews to full broker objects for the template
+  // Map the SEO reviews to full broker-like objects for the template
   const detailedBrokers = (page.reviews || []).map(review => {
     const baseBroker = brokers.find(b => b.id === review.id);
-    if (!baseBroker) return null;
+    
+    // Create a fallback object if the item is a prop firm or trading tool
+    const fallbackItem = {
+      id: review.id,
+      name: review.id.split("-").map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(" "),
+      slug: review.id,
+      logo: `/logos/${review.id}.svg`,
+      oneLine: review.bestFor,
+      rating: 4.8,
+      minDeposit: "N/A",
+      spreads: "N/A",
+      platforms: [],
+      fcaRegulated: false,
+      affiliateUrl: review.ctaLink,
+      category: "Global" as const,
+      pros: review.pros,
+      cons: review.cons
+    };
+
+    const base = baseBroker || fallbackItem;
     
     return {
-      ...baseBroker,
+      ...base,
       pros: review.pros,
       cons: review.cons,
       description: review.description,
@@ -53,7 +73,7 @@ export default async function BestOfPage({ params }: Props) {
       bestFor: review.bestFor,
       ctaLink: review.ctaLink
     };
-  }).filter(Boolean) as any[];
+  }).filter(Boolean) as Broker[];
 
   return (
     <>
@@ -65,7 +85,7 @@ export default async function BestOfPage({ params }: Props) {
         topPickId={page.topPickId || ""}
         top3Ids={page.top3Ids || []}
         brokers={detailedBrokers}
-        methodology={page.methodology || "Our methodology focuses on three core pillars: Execution (slippage and speed), Costs (spreads and overnight fees), and Trust (FCA regulation and capital safety)."}
+        methodology={page.methodology || "Our methodology focuses on three core pillars: Execution (slippage and speed), Costs (spreads and overnight fees), and Trust (regulation and capital safety)."}
         faqs={page.faqs || []}
         relatedPages={page.relatedPages || []}
         slug={page.slug}
@@ -73,4 +93,3 @@ export default async function BestOfPage({ params }: Props) {
     </>
   );
 }
-

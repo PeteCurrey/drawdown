@@ -4,7 +4,6 @@ import { LEARN_TOPICS } from "@/lib/data/learn-to-trade";
 import { UK_LOCATIONS } from "@/lib/data/locations";
 import { getAllPosts } from "@/lib/blog";
 
-import { INSTRUMENT_SLUGS } from "@/lib/data/instruments";
 import { GLOSSARY_TERMS } from "@/data/seo/glossary";
 import { HOW_TO_PAGES } from "@/data/seo/howto";
 import { BEST_OF_PAGES } from "@/data/seo/best";
@@ -24,8 +23,7 @@ import { COMPARE_PAGES_US } from "@/data/seo/compare-us";
 import { SG_BROKERS, BEST_OF_PAGES_SG, HOW_TO_PAGES_SG, COMPARE_PAGES_SG } from "@/data/seo/sg-data";
 import { HK_BROKERS, BEST_OF_PAGES_HK, HOW_TO_PAGES_HK, COMPARE_PAGES_HK } from "@/data/seo/hk-data";
 
-import { PROP_FIRM_REVIEWS } from "@/data/seo/prop-firms";
-import { TRADINGVIEW_GUIDES } from "@/data/seo/tradingview";
+import { tradingTools } from "@/data/trading-tools";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = siteConfig.url;
@@ -39,6 +37,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/us", "/us/brokers", "/us/pricing", "/us/disclaimer",
     "/sg", "/sg/brokers", "/sg/pricing", "/sg/disclaimer",
     "/hk", "/hk/brokers", "/hk/pricing", "/hk/disclaimer",
+    "/calculators", "/calculators/position-size", "/calculators/risk", "/calculators/drawdown",
+    "/calculators/drawdown-recovery", "/calculators/compounding", "/calculators/risk-of-ruin",
+    "/calculators/pip-value", "/calculators/prop-firm-daily-loss", "/calculators/prop-firm-maximum-loss",
+    "/trading-tools"
   ].map((route) => ({
     url: `${baseUrl}${route}`,
     lastModified: new Date(),
@@ -107,6 +109,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...HOW_TO_PAGES.map(t => ({ url: `${baseUrl}/how-to/${t.slug}`, priority: 0.6 })),
     ...BEST_OF_PAGES.map(t => ({ url: `${baseUrl}/best/${t.slug}`, priority: 0.8 })),
     ...COMPARISON_PAGES.map(t => ({ url: `${baseUrl}/compare/${t.slug}`, priority: 0.7 })),
+    ...tradingTools.map(t => ({ url: `${baseUrl}/trading-tools/${t.slug}`, priority: 0.8 })),
   ].map(route => ({
     ...route,
     lastModified: new Date(),

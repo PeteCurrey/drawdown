@@ -1,9 +1,11 @@
 import React from "react";
 import Link from "next/link";
-import { Shield, Star, Check, X, ExternalLink, ChevronRight, Info, AlertTriangle, HelpCircle } from "lucide-react";
+import { Shield, Star, Check, X, ExternalLink, ChevronRight, AlertTriangle, HelpCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { AffiliateDisclosure } from "@/components/seo/AffiliateDisclosure";
 import { Broker } from "@/data/brokers";
+import { getRelatedLinks } from "@/lib/linking";
+import { LeadMagnet } from "@/components/seo/LeadMagnet";
 
 interface FAQItem {
   question: string;
@@ -21,6 +23,9 @@ interface ReviewContent {
   whoShouldNotUseLong: string;
   verdict: string;
   faqs: FAQItem[];
+  fundingMethods?: string;
+  suitabilitySummary?: string;
+  alternatives?: { name: string; slug: string; rating: number; bestFor: string }[];
 }
 
 interface BrokerReviewTemplateProps {
@@ -75,10 +80,10 @@ export function BrokerReviewTemplate({
             </div>
             <div className="md:w-1/2">
               <h3 className="text-xl font-sans font-black uppercase mb-4 flex items-center gap-3">
-                <span className="text-accent">//</span> Pete's Honest Take
+                <span className="text-accent">{"//"}</span> Pete&apos;s Honest Take
               </h3>
               <p className="text-lg text-mkt-i2 leading-relaxed italic mb-0">
-                "{broker.oneLine}"
+                &quot;{broker.oneLine}&quot;
               </p>
             </div>
             <div className="md:w-1/4 w-full">
@@ -135,7 +140,7 @@ export function BrokerReviewTemplate({
             <section id="pros-cons" className="scroll-mt-32 grid grid-cols-1 md:grid-cols-2 gap-8">
               <div className="space-y-6">
                 <h3 className="text-xl font-sans font-black uppercase flex items-center gap-3">
-                  <span className="text-mkt-grn">//</span> What We Like
+                  <span className="text-mkt-grn">{"//"}</span> What We Like
                 </h3>
                 <ul className="space-y-4">
                   {broker.pros.map((pro, i) => (
@@ -148,7 +153,7 @@ export function BrokerReviewTemplate({
               </div>
               <div className="space-y-6">
                 <h3 className="text-xl font-sans font-black uppercase flex items-center gap-3">
-                  <span className="text-red-500">//</span> What We Don't Like
+                  <span className="text-red-500">{"//"}</span> What We Don&apos;t Like
                 </h3>
                 <ul className="space-y-4">
                   {broker.cons.map((con, i) => (
@@ -191,10 +196,22 @@ export function BrokerReviewTemplate({
               </div>
             </section>
 
+            {/* Funding Methods */}
+            {content.fundingMethods && (
+              <section id="funding" className="scroll-mt-32">
+                <h2 className="text-3xl font-sans font-black uppercase mb-8 flex items-center gap-4">
+                  <span className="text-accent text-sm font-mono tracking-tighter">06 //</span> Funding & Payments
+                </h2>
+                <div className="prose prose-invert prose-slate max-w-none text-mkt-i2 leading-relaxed">
+                  <p className="whitespace-pre-line">{content.fundingMethods}</p>
+                </div>
+              </section>
+            )}
+
             {/* 10. Regulation & Safety */}
             <section id="regulation" className="scroll-mt-32">
               <h2 className="text-3xl font-sans font-black uppercase mb-8 flex items-center gap-4">
-                <span className="text-accent text-sm font-mono tracking-tighter">06 //</span> Regulation & Safety
+                <span className="text-accent text-sm font-mono tracking-tighter">07 //</span> Regulation & Safety
               </h2>
               <div className="p-8 bg-profit/5 border border-profit/20 mb-8 flex items-center gap-6">
                 <Shield className="w-12 h-12 text-mkt-grn" />
@@ -207,6 +224,16 @@ export function BrokerReviewTemplate({
                 <p className="whitespace-pre-line">{content.regulationSafety}</p>
               </div>
             </section>
+
+            {/* Suitability Summary */}
+            {content.suitabilitySummary && (
+              <div className="p-8 bg-[#F7F7F7] border border-mkt-bd">
+                <h4 className="text-[10px] font-mono font-black uppercase tracking-widest text-accent mb-4">{"//"} Trader Suitability</h4>
+                <p className="text-sm text-mkt-i2 leading-relaxed italic m-0">
+                  {content.suitabilitySummary}
+                </p>
+              </div>
+            )}
 
             {/* 11. Who Should Use / NOT Use */}
             <section id="audience" className="scroll-mt-32 grid grid-cols-1 md:grid-cols-2 gap-12">
@@ -245,6 +272,39 @@ export function BrokerReviewTemplate({
                </p>
             </section>
 
+            {/* Alternatives */}
+            {content.alternatives && content.alternatives.length > 0 && (
+              <section id="alternatives" className="scroll-mt-32 border-t border-mkt-bd pt-24">
+                <h2 className="text-3xl font-sans font-black uppercase mb-8 flex items-center gap-4">
+                  <span className="text-accent text-sm font-mono tracking-tighter">08 //</span> Top Alternatives
+                </h2>
+                <p className="text-sm text-mkt-i2 mb-8 leading-relaxed">
+                  If {broker.name} doesn&apos;t fit your trading style, consider these highly-rated alternatives:
+                </p>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {content.alternatives.map((alt) => (
+                    <div key={alt.slug} className="p-8 bg-white border border-mkt-bd flex flex-col justify-between hover:border-accent transition-colors">
+                      <div className="space-y-4">
+                        <div className="flex justify-between items-start">
+                          <h4 className="text-lg font-sans font-black uppercase tracking-tight text-mkt-ink">{alt.name}</h4>
+                          <span className="text-xs font-mono font-bold text-accent">★ {alt.rating.toFixed(1)}</span>
+                        </div>
+                        <p className="text-xs text-mkt-i2 leading-relaxed">{alt.bestFor}</p>
+                      </div>
+                      <div className="pt-6">
+                        <Link
+                          href={`/brokers/${alt.slug}`}
+                          className="text-[10px] font-mono font-bold uppercase tracking-widest text-accent hover:text-mkt-ink transition-colors flex items-center gap-1 inline-flex"
+                        >
+                          Read Review <ChevronRight className="w-3.5 h-3.5" />
+                        </Link>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </section>
+            )}
+
             {/* 12. The Verdict */}
             <section id="verdict" className="scroll-mt-32 border-t border-mkt-bd pt-24">
               <h2 className="text-4xl md:text-6xl font-sans font-black uppercase mb-8">The <span className="text-accent italic">Verdict</span></h2>
@@ -273,13 +333,46 @@ export function BrokerReviewTemplate({
                 ))}
               </div>
             </section>
+
+            {/* Related items / Topic clusters */}
+            <section id="related" className="scroll-mt-32 pt-24 border-t border-mkt-bd">
+              <h2 className="text-3xl font-sans font-black uppercase mb-12 flex items-center gap-4">
+                <span className="text-accent text-sm font-mono tracking-tighter">09 //</span> Related Resources
+              </h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {getRelatedLinks(`/brokers/${slug}`).map((link, idx) => (
+                  <Link 
+                    key={idx}
+                    href={link.href}
+                    className="p-6 border border-mkt-bd hover:border-accent bg-white flex flex-col justify-between group transition-colors"
+                  >
+                    <div className="space-y-2">
+                      <span className="text-[8px] font-mono uppercase tracking-widest text-accent font-bold">[{link.category}]</span>
+                      <h4 className="text-sm font-black uppercase text-mkt-ink group-hover:text-accent transition-colors leading-tight">{link.title}</h4>
+                    </div>
+                    <div className="pt-4 text-[8px] font-mono font-bold uppercase tracking-widest text-mkt-i4 flex items-center gap-1 inline-flex">
+                      Explore <ChevronRight className="w-3.5 h-3.5 text-accent" />
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </section>
+
+            {/* Lead Magnet box */}
+            <div className="pt-24 border-t border-mkt-bd">
+              <LeadMagnet 
+                resourceId="risk-guide"
+                title="Download Pete's Risk Management PDF Guide"
+                description="Equip yourself with the same risk management sheet and volatility boundaries that our trading desk utilizes daily."
+              />
+            </div>
           </div>
 
           {/* Sidebar / Table of Contents */}
           <div className="lg:col-span-4">
             <div className="sticky top-32 space-y-8">
               <div className="p-8 bg-white border border-mkt-bd">
-                <h4 className="text-[10px] font-mono font-black uppercase tracking-widest text-mkt-i4 mb-6">// ON THIS PAGE</h4>
+                <h4 className="text-[10px] font-mono font-black uppercase tracking-widest text-mkt-i4 mb-6">{"//"} ON THIS PAGE</h4>
                 <nav className="space-y-4">
                   {[
                     { id: "overview", label: "Overview" },
@@ -288,9 +381,12 @@ export function BrokerReviewTemplate({
                     { id: "accounts", label: "Account Types" },
                     { id: "platforms", label: "Platforms" },
                     { id: "fees", label: "Fees & Costs" },
+                    ...(content.fundingMethods ? [{ id: "funding", label: "Funding & Payments" }] : []),
                     { id: "regulation", label: "Regulation" },
+                    ...(content.alternatives && content.alternatives.length > 0 ? [{ id: "alternatives", label: "Alternatives" }] : []),
                     { id: "verdict", label: "Final Verdict" },
-                    { id: "faq", label: "FAQs" }
+                    { id: "faq", label: "FAQs" },
+                    { id: "related", label: "Related Resources" }
                   ].map((item) => (
                     <a 
                       key={item.id} 

@@ -24,6 +24,13 @@ export interface PropFirmReview {
     question: string;
     answer: string;
   }[];
+  challengeStructure?: string;
+  dailyDrawdownRules?: string;
+  maxDrawdownRules?: string;
+  profitSplitsDetail?: string;
+  scalingPlan?: string;
+  payoutHistory?: string;
+  alternatives?: { name: string; slug: string; rating: number; maxFunding: string; bestFor: string }[];
 }
 
 export const PROP_FIRM_REVIEWS: PropFirmReview[] = [
@@ -67,6 +74,16 @@ export const PROP_FIRM_REVIEWS: PropFirmReview[] = [
         question: 'Does FTMO allow news trading?',
         answer: 'Yes, news trading is allowed on the evaluation accounts. However, restrictions apply to certain "Swing" account types on the funded stage.'
       }
+    ],
+    challengeStructure: 'FTMO relies on a standardized 2-Step Evaluation process. Phase 1 (10% target) has no time limit, followed by Phase 2 Verification (5% target), also with no time limit. Upon passing both, you receive a funded account demo and a full refund of your entry fee with your first payout.',
+    dailyDrawdownRules: 'FTMO implements a 5% daily drawdown limit, calculated based on the previous day\'s midnight CET balance or equity, whichever is higher. Violating this rule at any millisecond results in immediate account breaches.',
+    maxDrawdownRules: 'FTMO has a maximum static drawdown limit of 10% of the initial account balance. Unlike some newer firms, this limit does not trail your balance or equity, meaning it remains fixed relative to your starting size.',
+    profitSplitsDetail: 'Funded FTMO Traders receive an 80% profit split by default. However, if you qualify for the scaling plan, your profit split can scale up to 90%. Payouts can be requested bi-weekly on-demand.',
+    scalingPlan: 'The FTMO scaling plan increases your account size by 25% every 4 months, provided you meet the consistency criteria: achieving at least 10% net profit (20% for aggressive accounts) across four consecutive months, with at least two payouts processed.',
+    payoutHistory: 'FTMO is legendary for its payout speed and reliability. Since 2015, they have paid out over $150M+ to retail traders globally, processing wire transfers, crypto (BTC, USDT), and Skrill/Neteller requests in under 8-24 hours.',
+    alternatives: [
+      { name: 'The5%ers', slug: 'the5ers', rating: 4.8, maxFunding: '$4,000,000', bestFor: 'Swing trading and scaling programs' },
+      { name: 'FundedNext', slug: 'fundednext', rating: 4.7, maxFunding: '$200,000', bestFor: 'Balance-based drawdown models' }
     ]
   },
   {
@@ -105,6 +122,16 @@ export const PROP_FIRM_REVIEWS: PropFirmReview[] = [
         question: 'Do The5%ers allow holding trades over the weekend?',
         answer: 'Yes, their Hyper-Growth and Bootcamp programs are specifically designed for swing traders and allow weekend holding.'
       }
+    ],
+    challengeStructure: 'The5%ers offer three paths: Hyper-Growth (instant funding starting with real money), High-Stakes (standard 2-step evaluation), and Bootcamp (a low-cost 3-stage demo program where you pay the rest of the fee only when you pass).',
+    dailyDrawdownRules: 'The5%ers use a 5% daily drawdown limit on their High-Stakes accounts. Hyper-Growth accounts rely on a static overall maximum drawdown without daily drawdown limits, which is highly suited for swing trading.',
+    maxDrawdownRules: 'High-Stakes accounts feature a 10% maximum static drawdown limit. Hyper-Growth accounts have a 6% overall drawdown limit relative to your starting balance.',
+    profitSplitsDetail: 'The profit split starts at 50% for Hyper-Growth accounts but quickly scales up to 100% as you hit milestones. High-Stakes accounts feature an 80% to 100% split.',
+    scalingPlan: 'The5%ers offer the best scaling plan in the industry. For Hyper-Growth, every time you hit a 10% profit target, they double your account size, scaling up to $4,000,000.',
+    payoutHistory: 'Operating since 2016 from Israel and London, The5%ers are highly respected for processing payouts within 24 hours. Payouts are available via bank wire, Wise, Deel, and crypto (USDT).',
+    alternatives: [
+      { name: 'FTMO', slug: 'ftmo', rating: 4.9, maxFunding: '$200,000', bestFor: 'Strict day traders who want a premium portal' },
+      { name: 'City Traders Imperium', slug: 'city-traders-imperium', rating: 4.8, maxFunding: '$4,000,000', bestFor: 'Direct funding and London regulation' }
     ]
   },
   {

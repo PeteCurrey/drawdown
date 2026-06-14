@@ -19,7 +19,6 @@ import {
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { DashboardStatusBar } from "@/components/market/DashboardStatusBar";
-import { ThemeToggle } from "@/components/dashboard/ThemeToggle";
 import { OnboardingWizard } from "@/components/dashboard/OnboardingWizard";
 
 const sidebarLinks = [
@@ -35,7 +34,6 @@ const sidebarLinks = [
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const [isCollapsed, setIsCollapsed] = useState(false);
-  const [theme, setTheme] = useState<"dark" | "light">("dark");
   const [profile, setProfile] = useState<any>(null);
   const [showOnboarding, setShowOnboarding] = useState(false);
   
@@ -43,16 +41,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   const supabase = createClient();
 
   useEffect(() => {
-    const savedTheme = localStorage.getItem("dashboard-theme") as "dark" | "light";
-    if (savedTheme) setTheme(savedTheme);
-
     async function checkOnboarding() {
-      // Check localStorage first as a reliable fallback
       const locallyOnboarded = localStorage.getItem("drawdown_onboarded");
-      if (locallyOnboarded === "true") {
-        return; // Never show again if completed before
-      }
-
+      
       const { data: { user } } = await supabase.auth.getUser();
       if (user) {
         const { data } = await (supabase as any)
@@ -63,6 +54,11 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         
         const profile = data as any;
         setProfile(profile);
+        
+        if (locallyOnboarded === "true") {
+          return; // Skip showing wizard if we already know they onboarded locally
+        }
+        
         if (profile && !profile.has_onboarded) {
           setShowOnboarding(true);
         } else if (profile?.has_onboarded) {
@@ -74,22 +70,13 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     checkOnboarding();
   }, []);
 
-  const toggleTheme = () => {
-    const newTheme = theme === "dark" ? "light" : "dark";
-    setTheme(newTheme);
-    localStorage.setItem("dashboard-theme", newTheme);
-  };
-
   const handleLogout = async () => {
     await supabase.auth.signOut();
     window.location.href = "/";
   };
 
   return (
-    <div 
-      data-theme={theme}
-      className="flex h-screen bg-background-primary overflow-hidden theme-transition relative"
-    >
+    <div className="flex h-screen bg-background-primary overflow-hidden relative">
       {/* Premium Dashboard Background */}
       <div 
         className="absolute inset-0 z-0 opacity-15 mix-blend-screen pointer-events-none"
@@ -110,7 +97,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       {/* Sidebar */}
       <aside 
         className={cn(
-          "bg-background-surface/60 backdrop-blur-xl border-r border-border-slate/50 transition-all duration-300 flex flex-col z-30 theme-transition shadow-[4px_0_24px_rgba(0,0,0,0.2)]",
+          "bg-white border-r border-mkt-bd transition-all duration-300 flex flex-col z-30 shadow-sm",
           isCollapsed ? "w-20" : "w-64"
         )}
       >
@@ -136,28 +123,26 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 key={link.name}
                 href={link.href}
                 className={cn(
-                  "flex items-center gap-4 px-4 py-3 text-sm font-medium transition-premium group",
+                  "flex items-center gap-4 px-4 py-3 text-sm font-medium transition-all group rounded-lg mx-2",
                   isActive 
-                    ? "bg-accent/10 text-accent border-l-2 border-accent" 
-                    : "text-text-secondary hover:text-text-primary hover:bg-background-elevated"
+                    ? "bg-mkt-ink text-white" 
+                    : "text-mkt-i3 hover:text-mkt-ink hover:bg-neutral-100"
                 )}
               >
-                <link.icon className={cn("w-5 h-5 shrink-0", isActive ? "text-accent" : "group-hover:text-text-primary")} />
-                {!isCollapsed && <span className="uppercase tracking-widest text-[10px]">{link.name}</span>}
+                <link.icon className={cn("w-5 h-5 shrink-0", isActive ? "text-white" : "group-hover:text-mkt-ink")} />
+                {!isCollapsed && <span className="font-bold text-[13px]">{link.name}</span>}
               </Link>
             );
           })}
         </nav>
 
-        <div className="p-4 border-t border-border-slate space-y-2">
-          <ThemeToggle theme={theme} onToggle={toggleTheme} isCollapsed={isCollapsed} />
-          
+        <div className="p-4 border-t border-mkt-bd space-y-2 mt-auto mb-4">
           <button 
             onClick={handleLogout}
-            className="w-full flex items-center gap-4 px-4 py-3 text-sm text-text-tertiary hover:text-loss transition-colors group"
+            className="w-full flex items-center gap-4 px-4 py-3 text-sm text-mkt-i3 hover:text-mkt-red transition-colors group rounded-lg hover:bg-neutral-100"
           >
-            <LogOut className="w-5 h-5 shrink-0 group-hover:text-loss" />
-            {!isCollapsed && <span className="uppercase tracking-widest text-[10px]">Logout</span>}
+            <LogOut className="w-5 h-5 shrink-0 group-hover:text-mkt-red" />
+            {!isCollapsed && <span className="font-bold text-[13px]">Logout</span>}
           </button>
         </div>
       </aside>

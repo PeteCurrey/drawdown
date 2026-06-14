@@ -35,20 +35,21 @@ export function OnboardingWizard({ userProfile, onComplete }: Props) {
     setIsSubmitting(true);
     
     try {
-      const { error } = await (supabase as any)
-        .from('profiles')
-        .update({
+      const response = await fetch('/api/user/onboard', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
           experience_level: experience,
           country: country,
           currency: currency,
-          preferred_markets: markets,
-          has_onboarded: true,
-          updated_at: new Date().toISOString()
-        })
-        .eq('id', userProfile.id);
+          preferred_markets: markets
+        }),
+      });
 
-      if (error) {
-        console.error("Onboarding database update error:", error);
+      if (!response.ok) {
+        console.error("Onboarding API error:", await response.text());
       } else {
         console.log("Onboarding database update successful.");
       }

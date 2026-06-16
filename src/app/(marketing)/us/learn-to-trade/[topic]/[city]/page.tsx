@@ -9,7 +9,7 @@ import { TrackPageView } from "@/components/admin/TrackPageView";
 import { StructuredData } from "@/components/StructuredData";
 
 interface Props {
-  params: { topic: string; city: string };
+  params: Promise<{ topic: string; city: string }>;
 }
 
 export async function generateStaticParams() {

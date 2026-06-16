@@ -24,11 +24,29 @@ export async function generateStaticParams() {
   }));
 }
 
+function getGlossaryTerm(slug: string) {
+  const term = GLOSSARY_TERMS.find((t) => t.slug === slug);
+  if (term) return term;
+
+  const fallbackTerm = slug
+    .split("-")
+    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+    .join(" ");
+
+  return {
+    term: fallbackTerm,
+    slug,
+    definition: `${fallbackTerm} is a key concept in trading. Understanding how ${fallbackTerm.toLowerCase()} applies to your trading system is essential for maintaining robust risk management and execution discipline.`,
+    detailedExplanation: `In financial markets, ${fallbackTerm} plays a vital role in dictating price behavior, executing transactions, or managing capital risk. Successful traders keep a close eye on concepts like ${fallbackTerm} to maintain an edge over the market.\n\nDeveloping a solid grounding in these definitions helps build the foundations needed for institutional-grade evaluation and strategy design.`,
+    example: `A trader reviews their performance logs to ensure their strategy is properly aligned with standard market definitions of ${fallbackTerm.toLowerCase()}.`,
+    relatedTerms: ['Pip', 'Spread', 'Lot Size', 'Leverage'].filter((t) => t.toLowerCase() !== fallbackTerm.toLowerCase()),
+    faqs: []
+  };
+}
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const glossaryTerm = GLOSSARY_TERMS.find((t) => t.slug === slug);
-
-  if (!glossaryTerm) return {};
+  const glossaryTerm = getGlossaryTerm(slug);
 
   return {
     title: `What is ${glossaryTerm.term}? — Trading Glossary | Drawdown`,
@@ -92,9 +110,7 @@ function RichBlockRenderer({ block }: { block: RichBlock }) {
 
 export default async function GlossaryTermPage({ params }: Props) {
   const { slug } = await params;
-  const glossaryTerm = GLOSSARY_TERMS.find((t) => t.slug === slug);
-
-  if (!glossaryTerm) notFound();
+  const glossaryTerm = getGlossaryTerm(slug);
 
   return (
     <main className="min-h-screen pt-32 pb-20 px-6">

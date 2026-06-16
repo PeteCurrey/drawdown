@@ -10,7 +10,7 @@ import { TrackPageView } from "@/components/admin/TrackPageView";
 import { StructuredData } from "@/components/StructuredData";
 
 interface Props {
-  params: { topic: string; city: string };
+  params: Promise<{ topic: string; city: string }>;
 }
 
 export async function generateStaticParams() {
@@ -29,7 +29,7 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { topic: topicSlug, city: citySlug } = params;
+  const { topic: topicSlug, city: citySlug } = await params;
   const topic = LEARN_TOPICS.find((t) => t.slug === topicSlug);
   const city = AU_LOCATIONS.find((l) => l.slug === citySlug);
   
@@ -41,8 +41,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default function AustralianLocationTopicPage({ params }: Props) {
-  const { topic: topicSlug, city: citySlug } = params;
+export default async function AustralianLocationTopicPage({ params }: Props) {
+  const { topic: topicSlug, city: citySlug } = await params;
   const topic = LEARN_TOPICS.find((t) => t.slug === topicSlug);
   const city = AU_LOCATIONS.find((l) => l.slug === citySlug);
 

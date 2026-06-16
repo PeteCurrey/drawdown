@@ -7,6 +7,7 @@ import { LiveNewsSection } from "@/components/home/LiveNewsSection";
 import { GlobalFluxSection } from "@/components/home/GlobalFluxSection";
 import { InstitutionalPulseSection } from "@/components/home/InstitutionalPulseSection";
 import { InstitutionalConsensusSection } from "@/components/home/InstitutionalConsensusSection";
+import { EconomicCalendarWidget } from "@/components/home/EconomicCalendarWidget";
 import { AIToolsSection } from "@/components/home/AIToolsSection";
 import { TradingViewSection } from "@/components/home/TradingViewSection";
 import { CurriculumSection } from "@/components/home/CurriculumSection";
@@ -71,6 +72,10 @@ export default function Home() {
 
       <FadeInSection delay={0.2}>
         <InstitutionalConsensusSection />
+      </FadeInSection>
+
+      <FadeInSection delay={0.1}>
+        <EconomicCalendarWidget />
       </FadeInSection>
 
       <FadeInSection delay={0}>

@@ -1,165 +1,82 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { cn } from "@/lib/utils";
-import { Calendar, ChevronRight } from "lucide-react";
+import { useEffect, useRef } from "react";
+import { ChevronRight } from "lucide-react";
 import Link from "next/link";
-
-interface EconomicEvent {
-  date: string;
-  time: string;
-  event: string;
-  country: string;
-  impact: 'High' | 'Medium' | 'Low';
-  forecast: string;
-  previous: string;
-}
-
-const FALLBACK_EVENTS: EconomicEvent[] = [
-  {
-    date: "First Friday",
-    time: "13:30",
-    event: "Non-Farm Payrolls (NFP)",
-    country: "🇺🇸",
-    impact: 'High',
-    forecast: "180K",
-    previous: "220K"
-  },
-  {
-    date: "Monthly",
-    time: "12:00",
-    event: "BoE Interest Rate Decision",
-    country: "🇬🇧",
-    impact: 'High',
-    forecast: "5.25%",
-    previous: "5.25%"
-  },
-  {
-    date: "Quarterly",
-    time: "09:30",
-    event: "GDP (QoQ)",
-    country: "🇬🇧",
-    impact: 'Medium',
-    forecast: "0.2%",
-    previous: "0.1%"
-  }
-];
-
-function CalendarSkeleton() {
-  return (
-    <div className="space-y-4 animate-pulse">
-      {[1, 2, 3, 4, 5].map((i) => (
-        <div key={i} className="h-16 bg-white border border-mkt-bd/50" />
-      ))}
-    </div>
-  );
-}
+import Breadcrumbs from "@/components/layout/Breadcrumbs";
 
 export function EconomicCalendarWidget() {
-  const [events, setEvents] = useState<EconomicEvent[]>([]);
-  const [loading, setLoading] = useState(true);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 5000);
+    if (!containerRef.current) return;
 
-    async function fetchCalendar() {
-      try {
-        const res = await fetch("/api/market/calendar", { signal: controller.signal });
-        const data = await res.json();
-        if (data && data.length > 0) {
-          setEvents(data.slice(0, 5));
-        } else {
-          setEvents(FALLBACK_EVENTS);
-        }
-        setLoading(false);
-      } catch (err) {
-        console.error("Calendar fetch error, using fallbacks:", err);
-        setEvents(FALLBACK_EVENTS);
-        setLoading(false);
-      } finally {
-        clearTimeout(timeoutId);
-      }
-    }
-    fetchCalendar();
-    return () => controller.abort();
+    // Clean up container before inserting script to avoid duplicate renders
+    containerRef.current.innerHTML = "";
+
+    const script = document.createElement("script");
+    script.src = "https://s3.tradingview.com/external-embedding/embed-widget-events.js";
+    script.type = "text/javascript";
+    script.async = true;
+    script.innerHTML = JSON.stringify({
+      colorTheme: "light",
+      isTransparent: false,
+      locale: "en",
+      countryFilter: "ar,au,br,ca,cn,fr,de,in,id,it,jp,kr,mx,ru,sa,za,tr,gb,us,eu",
+      importanceFilter: "-1,0,1",
+      width: 400,
+      height: 550
+    });
+
+    const widgetDiv = document.createElement("div");
+    widgetDiv.className = "tradingview-widget-container__widget";
+    
+    const copyrightDiv = document.createElement("div");
+    copyrightDiv.className = "tradingview-widget-copyright";
+    
+    const copyrightLink = document.createElement("a");
+    copyrightLink.href = "https://www.tradingview.com/economic-calendar/";
+    copyrightLink.rel = "noopener nofollow";
+    copyrightLink.target = "_blank";
+    
+    const spanBlue = document.createElement("span");
+    spanBlue.className = "blue-text text-accent hover:underline";
+    spanBlue.textContent = "Economic Calendar";
+    
+    const spanTrademark = document.createElement("span");
+    spanTrademark.className = "trademark text-text-tertiary text-xs";
+    spanTrademark.textContent = " by TradingView";
+    
+    copyrightLink.appendChild(spanBlue);
+    copyrightDiv.appendChild(copyrightLink);
+    copyrightDiv.appendChild(spanTrademark);
+
+    containerRef.current.appendChild(widgetDiv);
+    containerRef.current.appendChild(copyrightDiv);
+    containerRef.current.appendChild(script);
   }, []);
 
   return (
-    <section className="py-12 md:py-20 bg-[#F7F7F7] relative overflow-hidden">
-      <div className="container mx-auto px-6">
-        <div className="mb-16">
+    <section className="py-12 md:py-20 bg-background-primary relative overflow-hidden text-text-primary">
+      {/* Decorative Grid overlay */}
+      <div className="absolute top-0 left-0 w-full h-full bg-[linear-gradient(to_bottom,rgba(0,194,255,0.01)_1px,transparent_1px),linear-gradient(to_right,rgba(0,194,255,0.01)_1px,transparent_1px)] bg-[size:4rem_4rem] pointer-events-none" />
+
+      <div className="container mx-auto px-6 relative z-10">
+        <div className="mb-16 text-center">
           <span className="text-[10px] font-mono tracking-widest uppercase text-accent font-bold block mb-4">
             // ECONOMIC INTELLIGENCE
           </span>
-          <h2 className="text-4xl md:text-6xl font-sans font-bold uppercase text-mkt-ink">
-            The Institutional <br /><span className="text-accent underline decoration-accent/20">Consensus.</span>
+          <h2 className="text-4xl md:text-5xl font-display font-black uppercase text-text-primary">
+            Economic Calendar
           </h2>
         </div>
 
-        <div className="bg-white border border-mkt-bd overflow-hidden group hover:border-mkt-bds/30 transition-premium">
-          {loading ? (
-            <div className="p-8"><CalendarSkeleton /></div>
-          ) : (
-            <div className="overflow-x-auto">
-              <table className="w-full text-left border-collapse min-w-[800px]">
-                <thead>
-                  <tr className="border-b border-mkt-bd bg-white/50">
-                    <th className="p-6 text-[10px] font-mono uppercase tracking-widest text-mkt-i4">Period</th>
-                    <th className="p-6 text-[10px] font-mono uppercase tracking-widest text-mkt-i4">Time (GMT)</th>
-                    <th className="p-6 text-[10px] font-mono uppercase tracking-widest text-mkt-i4">Intelligence Event</th>
-                    <th className="p-6 text-[10px] font-mono uppercase tracking-widest text-mkt-i4 text-center">Country</th>
-                    <th className="p-6 text-[10px] font-mono uppercase tracking-widest text-mkt-i4">Volatility</th>
-                    <th className="p-6 text-[10px] font-mono uppercase tracking-widest text-mkt-i4">Consensus</th>
-                    <th className="p-6 text-[10px] font-mono uppercase tracking-widest text-mkt-i4">Previous</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-border-slate/30">
-                  {events.map((event, i) => (
-                    <tr 
-                      key={i} 
-                      className={cn(
-                        "group/row hover:bg-accent/5 transition-colors",
-                        event.date === "Today" ? "border-l-4 border-l-accent" : ""
-                      )}
-                    >
-                      <td className="p-6 text-sm font-sans text-mkt-ink whitespace-nowrap">{event.date}</td>
-                      <td className="p-6 text-sm font-mono text-mkt-ink">{event.time}</td>
-                      <td className="p-6 text-sm font-bold uppercase text-mkt-ink tracking-tight">{event.event}</td>
-                      <td className="p-6 text-2xl text-center">{event.country}</td>
-                      <td className="p-6">
-                        <div className="flex items-center gap-3">
-                          <div className={cn(
-                            "w-2 h-2 rounded-full",
-                            event.impact === 'High' ? "bg-loss animate-pulse" : event.impact === 'Medium' ? "bg-amber-400" : "bg-profit"
-                          )} />
-                          <span className={cn(
-                            "text-[10px] font-mono font-black uppercase tracking-tighter px-2 py-0.5 border",
-                            event.impact === 'High' ? "text-red-500 border-loss/20 bg-loss/5" : 
-                            event.impact === 'Medium' ? "text-amber-400 border-amber-400/20 bg-amber-400/5" : 
-                            "text-mkt-grn border-profit/20 bg-profit/5"
-                          )}>{event.impact} Impact</span>
-                        </div>
-                      </td>
-                      <td className="p-6 text-sm font-mono text-mkt-ink font-bold">{event.forecast || "—"}</td>
-                      <td className="p-6 text-sm font-mono text-mkt-i4">{event.previous || "—"}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+        {/* Calendar Card Frame */}
+        <div className="flex justify-center w-full">
+          <div className="w-full max-w-[480px] bg-background-surface/40 border border-border-slate/50 p-4 sm:p-6 backdrop-blur-md rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.2)] overflow-hidden">
+            <div className="overflow-x-auto w-full flex justify-center">
+              <div ref={containerRef} className="tradingview-widget-container min-w-[400px] flex flex-col items-center" />
             </div>
-          )}
-          
-          <div className="p-8 bg-white/30 border-t border-mkt-bd flex md:flex-row flex-col justify-between items-center gap-6">
-            <p className="text-[10px] font-mono text-mkt-i4 uppercase tracking-widest">
-              Live data feed periodically synced with central bank releases.
-            </p>
-            <Link 
-              href="/markets?tab=calendar" 
-              className="inline-flex items-center gap-2 px-10 py-4 bg-mkt-ink text-white text-[10px] font-bold uppercase tracking-widest hover:bg-accent-hover transition-colors"
-            >
-              Full Calendar Detail <ChevronRight className="w-4 h-4" />
-            </Link>
           </div>
         </div>
       </div>

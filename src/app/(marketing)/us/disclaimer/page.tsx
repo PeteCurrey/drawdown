@@ -23,7 +23,7 @@ export default function UnitedStatesDisclaimerPage() {
             </h1>
           </div>
 
-          <div className="prose prose-invert prose-slate max-w-none space-y-12">
+          <div className="prose prose-invert prose-invert max-w-none space-y-12">
             <section className="p-8 border border-warning/20 space-y-6">
                <h2 className="text-xl font-sans font-bold uppercase m-0 text-warning">Mandatory CFTC Disclosure</h2>
                <p className="text-[10px] font-mono uppercase leading-relaxed text-text-secondary m-0">

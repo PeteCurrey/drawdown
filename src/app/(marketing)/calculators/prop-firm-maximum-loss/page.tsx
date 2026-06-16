@@ -17,7 +17,7 @@ export default function PropFirmMaximumLossCalculatorPage() {
   const percentToBreach = accountSize > 0 ? (distanceToBreach / accountSize) * 100 : 0;
 
   return (
-    <div className="bg-white min-h-screen pb-24 pt-32 text-mkt-ink">
+    <div className="min-h-screen pb-24 pt-32 bg-background-primary text-text-primary">
       <div className="container mx-auto px-6 max-w-5xl">
         <Breadcrumbs 
           items={[
@@ -35,7 +35,7 @@ export default function PropFirmMaximumLossCalculatorPage() {
           <h1 className="text-4xl md:text-6xl font-sans font-black uppercase leading-tight">
             Prop Firm Max Loss <span className="text-accent italic">Calculator.</span>
           </h1>
-          <p className="text-sm text-mkt-i2 leading-relaxed">
+          <p className="text-sm text-text-secondary leading-relaxed">
             Calculate your total maximum drawdown boundaries and check your remaining capital buffers.
           </p>
         </header>
@@ -43,22 +43,22 @@ export default function PropFirmMaximumLossCalculatorPage() {
         {/* Interactive Calculator Section */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 mb-20">
           {/* Inputs Panel */}
-          <div className="lg:col-span-5 p-8 border border-mkt-bd bg-white space-y-6">
+          <div className="lg:col-span-5 p-8 border border-border-slate/50 bg-background-surface/40 backdrop-blur-md space-y-6">
             <h3 className="text-xs font-mono font-black uppercase tracking-widest text-accent">// PARAMETERS</h3>
 
             <div className="space-y-2">
-              <label className="text-[10px] font-mono uppercase tracking-widest text-mkt-i4">Initial Account Size ($)</label>
+              <label className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary">Initial Account Size ($)</label>
               <input 
                 type="number"
                 value={accountSize}
                 onChange={(e) => setAccountSize(Number(e.target.value))}
-                className="w-full bg-[#F7F7F7] border border-mkt-bd p-4 text-sm font-mono outline-none focus:border-accent"
+                className="w-full bg-background-primary border border-border-slate/50 p-4 text-sm font-mono outline-none focus:border-accent"
               />
             </div>
 
             <div className="space-y-2">
               <div className="flex justify-between items-center text-[10px] font-mono uppercase tracking-widest">
-                <span className="text-mkt-i4">Max Drawdown Limit</span>
+                <span className="text-text-tertiary">Max Drawdown Limit</span>
                 <span className="text-accent font-bold">{maxLimitPercent}%</span>
               </div>
               <input 
@@ -68,17 +68,17 @@ export default function PropFirmMaximumLossCalculatorPage() {
                 step="0.5"
                 value={maxLimitPercent}
                 onChange={(e) => setMaxLimitPercent(Number(e.target.value))}
-                className="w-full h-1 bg-[#F7F7F7] accent-accent appearance-none cursor-pointer"
+                className="w-full h-1 bg-background-primary accent-accent appearance-none cursor-pointer"
               />
             </div>
 
             <div className="space-y-2">
-              <label className="text-[10px] font-mono uppercase tracking-widest text-mkt-i4">Current Account Equity ($)</label>
+              <label className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary">Current Account Equity ($)</label>
               <input 
                 type="number"
                 value={currentEquity}
                 onChange={(e) => setCurrentEquity(Number(e.target.value))}
-                className="w-full bg-[#F7F7F7] border border-mkt-bd p-4 text-sm font-mono outline-none focus:border-accent"
+                className="w-full bg-background-primary border border-border-slate/50 p-4 text-sm font-mono outline-none focus:border-accent"
               />
             </div>
           </div>
@@ -86,25 +86,25 @@ export default function PropFirmMaximumLossCalculatorPage() {
           {/* Results Panel */}
           <div className="lg:col-span-7 flex flex-col justify-between gap-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 h-full">
-              <div className="p-8 border border-mkt-bd bg-[#F7F7F7]/30 flex flex-col justify-between hover:border-accent transition-colors">
-                <span className="text-[9px] font-mono text-mkt-i4 uppercase tracking-widest">Allowed Total Loss</span>
+              <div className="p-8 border border-border-slate/50 bg-background-primary/30 flex flex-col justify-between hover:border-accent transition-colors">
+                <span className="text-[9px] font-mono text-text-tertiary uppercase tracking-widest">Allowed Total Loss</span>
                 <div className="mt-8">
                   <p className="text-3xl font-sans font-black text-red-500">${allowedMaxLoss.toLocaleString(undefined, { maximumFractionDigits: 2 })}</p>
-                  <p className="text-[9px] font-mono text-mkt-i4 mt-2 uppercase tracking-widest">MAX LOSS THRESHOLD</p>
+                  <p className="text-[9px] font-mono text-text-tertiary mt-2 uppercase tracking-widest">MAX LOSS THRESHOLD</p>
                 </div>
               </div>
 
-              <div className="p-8 border border-mkt-bd bg-[#F7F7F7]/30 flex flex-col justify-between hover:border-accent transition-colors">
-                <span className="text-[9px] font-mono text-mkt-i4 uppercase tracking-widest">Max Loss Floor</span>
+              <div className="p-8 border border-border-slate/50 bg-background-primary/30 flex flex-col justify-between hover:border-accent transition-colors">
+                <span className="text-[9px] font-mono text-text-tertiary uppercase tracking-widest">Max Loss Floor</span>
                 <div className="mt-8">
                   <p className="text-3xl font-sans font-black text-accent">${maxLossFloor.toLocaleString(undefined, { maximumFractionDigits: 2 })}</p>
-                  <p className="text-[9px] font-mono text-mkt-i4 mt-2 uppercase tracking-widest">ABSOLUTE ACCOUNT LIMIT</p>
+                  <p className="text-[9px] font-mono text-text-tertiary mt-2 uppercase tracking-widest">ABSOLUTE ACCOUNT LIMIT</p>
                 </div>
               </div>
             </div>
 
-            <div className="p-8 border border-mkt-bd bg-[#F7F7F7]/30 flex flex-col justify-between hover:border-accent transition-colors">
-              <span className="text-[9px] font-mono text-mkt-i4 uppercase tracking-widest">Distance to Breach</span>
+            <div className="p-8 border border-border-slate/50 bg-background-primary/30 flex flex-col justify-between hover:border-accent transition-colors">
+              <span className="text-[9px] font-mono text-text-tertiary uppercase tracking-widest">Distance to Breach</span>
               <div className="mt-6 flex justify-between items-end">
                 <div>
                   <p className={cn(
@@ -113,7 +113,7 @@ export default function PropFirmMaximumLossCalculatorPage() {
                   )}>
                     ${distanceToBreach.toLocaleString(undefined, { maximumFractionDigits: 2 })}
                   </p>
-                  <p className="text-[9px] font-mono text-mkt-i4 mt-2 uppercase tracking-widest">SAFETY BALANCE BUFFER</p>
+                  <p className="text-[9px] font-mono text-text-tertiary mt-2 uppercase tracking-widest">SAFETY BALANCE BUFFER</p>
                 </div>
                 <span className="text-xs font-mono font-bold text-accent">{percentToBreach.toFixed(2)}% buffer</span>
               </div>
@@ -122,13 +122,13 @@ export default function PropFirmMaximumLossCalculatorPage() {
         </div>
 
         {/* SEO Article Content */}
-        <article className="prose prose-slate max-w-none text-mkt-i2 leading-relaxed mb-20 space-y-8 border-t border-mkt-bd/30 pt-16">
-          <h2 className="text-3xl font-sans font-black uppercase text-mkt-ink">Understanding Maximum Drawdown in Prop Firms</h2>
+        <article className="prose prose-invert max-w-none text-text-secondary leading-relaxed mb-20 space-y-8 border-t border-border-slate/50/30 pt-16">
+          <h2 className="text-3xl font-sans font-black uppercase text-text-primary">Understanding Maximum Drawdown in Prop Firms</h2>
           <p>
             Maximum drawdown (often called the Max Loss Limit) is the overall loss threshold set by prop firms to cap their downside on funded accounts. It defines the point at which your account is closed and your challenge is failed.
           </p>
 
-          <h3 className="text-xl font-bold uppercase text-mkt-ink">Static vs. Trailing Drawdown</h3>
+          <h3 className="text-xl font-bold uppercase text-text-primary">Static vs. Trailing Drawdown</h3>
           <p>
             Firms implement maximum loss limits in two different ways:
           </p>

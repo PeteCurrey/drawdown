@@ -23,7 +23,7 @@ export default function SingaporeDisclaimerPage() {
             </h1>
           </div>
 
-          <div className="prose prose-invert prose-slate max-w-none space-y-12">
+          <div className="prose prose-invert prose-invert max-w-none space-y-12">
             <section className="space-y-6">
                <h2 className="text-2xl font-sans font-bold uppercase tracking-tight">Not a Financial Advisor</h2>
                <p className="text-lg text-text-secondary leading-relaxed">

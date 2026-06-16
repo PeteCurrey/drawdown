@@ -12,7 +12,7 @@ export const metadata = {
 
 export default function TradingToolsHubPage() {
   return (
-    <div className="bg-white min-h-screen pb-24 pt-32 text-mkt-ink">
+    <div className="min-h-screen pb-24 pt-32 bg-background-primary text-text-primary">
       <TrackPageView path="/trading-tools" />
       <div className="container mx-auto px-6">
         <Breadcrumbs 
@@ -27,10 +27,10 @@ export default function TradingToolsHubPage() {
             <Wrench className="w-4 h-4" />
             <span className="text-[10px] font-mono uppercase tracking-[0.3em]">Resource Directory</span>
           </div>
-          <h1 className="text-4xl md:text-7xl font-sans font-black uppercase leading-[0.9] text-mkt-ink">
+          <h1 className="text-4xl md:text-7xl font-sans font-black uppercase leading-[0.9] text-text-primary">
             Trading <span className="text-accent italic">Tools.</span>
           </h1>
-          <p className="text-lg text-mkt-i2 max-w-2xl leading-relaxed">
+          <p className="text-lg text-text-secondary max-w-2xl leading-relaxed">
             Honest evaluations of third-party software, VPS platforms, and data feeds. We test execution parameters, reliability, and pricing to help you build your stack.
           </p>
         </div>
@@ -40,11 +40,11 @@ export default function TradingToolsHubPage() {
           {tradingTools.map((tool) => (
             <div 
               key={tool.slug}
-              className="p-8 border border-mkt-bd hover:border-accent bg-white flex flex-col justify-between group transition-colors"
+              className="p-8 border border-border-slate/50 hover:border-accent bg-background-surface/40 backdrop-blur-md flex flex-col justify-between group transition-colors"
             >
               <div className="space-y-6">
                 <div className="flex justify-between items-start">
-                  <span className="text-[8px] font-mono uppercase tracking-widest text-mkt-i4 bg-[#F7F7F7] px-2.5 py-1 border border-mkt-bd/50">
+                  <span className="text-[8px] font-mono uppercase tracking-widest text-text-tertiary bg-background-primary px-2.5 py-1 border border-border-slate/50/50">
                     {tool.category}
                   </span>
                   <div className="flex items-center gap-1 text-accent text-xs font-mono font-bold">
@@ -53,13 +53,13 @@ export default function TradingToolsHubPage() {
                   </div>
                 </div>
                 <div className="space-y-2">
-                  <h3 className="text-2xl font-sans font-black uppercase text-mkt-ink group-hover:text-accent transition-colors">
+                  <h3 className="text-2xl font-sans font-black uppercase text-text-primary group-hover:text-accent transition-colors">
                     {tool.name}
                   </h3>
-                  <p className="text-xs text-mkt-i2 leading-relaxed h-12 overflow-hidden">
+                  <p className="text-xs text-text-secondary leading-relaxed h-12 overflow-hidden">
                     {tool.tagline}
                   </p>
-                  <p className="text-[9px] font-mono uppercase tracking-wider text-mkt-i4 pt-2">
+                  <p className="text-[9px] font-mono uppercase tracking-wider text-text-tertiary pt-2">
                     Pricing: {tool.pricing}
                   </p>
                 </div>
@@ -68,7 +68,7 @@ export default function TradingToolsHubPage() {
               <div className="pt-8 grid grid-cols-2 gap-4">
                 <Link 
                   href={`/trading-tools/${tool.slug}`}
-                  className="w-full py-4 border border-mkt-bd text-center text-[9px] font-mono font-bold uppercase tracking-widest text-mkt-ink hover:border-accent hover:text-accent transition-colors"
+                  className="w-full py-4 border border-border-slate/50 text-center text-[9px] font-mono font-bold uppercase tracking-widest text-text-primary hover:border-accent hover:text-accent transition-colors"
                 >
                   Read Review
                 </Link>
@@ -86,9 +86,9 @@ export default function TradingToolsHubPage() {
         </div>
 
         {/* Bottom Banner */}
-        <section className="bg-[#F7F7F7] border border-mkt-bd p-12 text-center space-y-6">
-          <h2 className="text-3xl font-sans font-black text-mkt-ink uppercase tracking-tight">Looking for proprietary scanners?</h2>
-          <p className="text-mkt-i2 text-sm max-w-xl mx-auto leading-relaxed">
+        <section className="bg-background-primary border border-border-slate/50 p-12 text-center space-y-6">
+          <h2 className="text-3xl font-sans font-black text-text-primary uppercase tracking-tight">Looking for proprietary scanners?</h2>
+          <p className="text-text-secondary text-sm max-w-xl mx-auto leading-relaxed">
             Check out Drawdown's built-in AI tools, trading journals, and risk modelers under our proprietary tech catalog.
           </p>
           <div className="pt-4">

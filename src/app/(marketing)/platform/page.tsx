@@ -96,7 +96,7 @@ export default function PlatformPage() {
 
       {/* SECTION 2: PLATFORM OVERVIEW */}
       <FadeInSection>
-        <section className="py-16 md:py-24 bg-[#F7F7F7] border-b border-border-slate/50">
+        <section className="py-16 md:py-24 bg-background-primary border-b border-border-slate/50">
           <div className="max-w-7xl mx-auto px-6">
             <div className="mb-16">
               <span className="text-[11px] font-bold text-text-tertiary uppercase tracking-widest block mb-4">
@@ -109,7 +109,7 @@ export default function PlatformPage() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               {/* Block 1 */}
-              <div className="relative p-8 md:p-10 bg-white border border-border-slate/50 rounded-[20px] transition-all duration-300 hover:shadow-[0_8px_32px_rgba(0,0,0,0.06)] hover:-translate-y-0.5 group overflow-hidden">
+              <div className="relative p-8 md:p-10 bg-background-surface/40 border border-border-slate/50 backdrop-blur-md rounded-[20px] transition-all duration-300 hover:shadow-[0_8px_32px_rgba(0,0,0,0.06)] hover:-translate-y-0.5 group overflow-hidden">
                 <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none rounded-[20px]">
                   <div className="absolute inset-0 bg-cover bg-center transition-all duration-700 ease-out opacity-[0.06] scale-[1.03] group-hover:opacity-[0.18] group-hover:scale-100" style={{ backgroundImage: `url(https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?q=80&w=800&auto=format&fit=crop)` }} />
                 </div>
@@ -133,7 +133,7 @@ export default function PlatformPage() {
               </div>
 
               {/* Block 2 */}
-              <div className="relative p-8 md:p-10 bg-white border border-border-slate/50 rounded-[20px] transition-all duration-300 hover:shadow-[0_8px_32px_rgba(0,0,0,0.06)] hover:-translate-y-0.5 group overflow-hidden">
+              <div className="relative p-8 md:p-10 bg-background-surface/40 border border-border-slate/50 backdrop-blur-md rounded-[20px] transition-all duration-300 hover:shadow-[0_8px_32px_rgba(0,0,0,0.06)] hover:-translate-y-0.5 group overflow-hidden">
                 <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none rounded-[20px]">
                   <div className="absolute inset-0 bg-cover bg-center transition-all duration-700 ease-out opacity-[0.06] scale-[1.03] group-hover:opacity-[0.18] group-hover:scale-100" style={{ backgroundImage: `url(https://images.unsplash.com/photo-1620712943543-bcc4688e7485?q=80&w=800&auto=format&fit=crop)` }} />
                 </div>
@@ -152,7 +152,7 @@ export default function PlatformPage() {
               </div>
 
               {/* Block 3 */}
-              <div className="relative p-8 md:p-10 bg-white border border-border-slate/50 rounded-[20px] transition-all duration-300 hover:shadow-[0_8px_32px_rgba(0,0,0,0.06)] hover:-translate-y-0.5 group overflow-hidden">
+              <div className="relative p-8 md:p-10 bg-background-surface/40 border border-border-slate/50 backdrop-blur-md rounded-[20px] transition-all duration-300 hover:shadow-[0_8px_32px_rgba(0,0,0,0.06)] hover:-translate-y-0.5 group overflow-hidden">
                 <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none rounded-[20px]">
                   <div className="absolute inset-0 bg-cover bg-center transition-all duration-700 ease-out opacity-[0.06] scale-[1.03] group-hover:opacity-[0.18] group-hover:scale-100" style={{ backgroundImage: `url(https://images.unsplash.com/photo-1532012197267-da84d127e765?q=80&w=800&auto=format&fit=crop)` }} />
                 </div>
@@ -171,7 +171,7 @@ export default function PlatformPage() {
               </div>
 
               {/* Block 4 */}
-              <div className="relative p-8 md:p-10 bg-white border border-border-slate/50 rounded-[20px] transition-all duration-300 hover:shadow-[0_8px_32px_rgba(0,0,0,0.06)] hover:-translate-y-0.5 group overflow-hidden">
+              <div className="relative p-8 md:p-10 bg-background-surface/40 border border-border-slate/50 backdrop-blur-md rounded-[20px] transition-all duration-300 hover:shadow-[0_8px_32px_rgba(0,0,0,0.06)] hover:-translate-y-0.5 group overflow-hidden">
                 <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none rounded-[20px]">
                   <div className="absolute inset-0 bg-cover bg-center transition-all duration-700 ease-out opacity-[0.06] scale-[1.03] group-hover:opacity-[0.18] group-hover:scale-100" style={{ backgroundImage: `url(https://images.unsplash.com/photo-1504711434969-e33886168f5c?q=80&w=800&auto=format&fit=crop)` }} />
                 </div>
@@ -277,7 +277,7 @@ export default function PlatformPage() {
 
       {/* SECTION 4: LIVE INTELLIGENCE */}
       <FadeInSection>
-        <section className="py-16 md:py-24 bg-white border-b border-border-slate/50">
+        <section className="py-16 md:py-24 bg-background-surface/40 backdrop-blur-md border-b border-border-slate/50">
           <div className="max-w-7xl mx-auto px-6">
             <div className="mb-16">
               <span className="text-[11px] font-bold text-text-tertiary uppercase tracking-widest block mb-4">
@@ -331,7 +331,7 @@ export default function PlatformPage() {
 
       {/* SECTION 5: COMMUNITY */}
       <FadeInSection>
-        <section className="py-16 md:py-24 bg-[#F7F7F7] border-b border-border-slate/50">
+        <section className="py-16 md:py-24 bg-background-primary border-b border-border-slate/50">
           <div className="max-w-7xl mx-auto px-6">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 mb-16">
               <div>
@@ -354,7 +354,7 @@ export default function PlatformPage() {
                   { title: "Weekly Market Analysis Sessions", icon: <Video className="w-5 h-5 text-purple-600" />, desc: "Edge and Floor members get live market analysis sessions during the London session. Recorded for replay if you can't attend live.", img: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=800&auto=format&fit=crop" },
                   { title: "No Signal Sharing. No Copy Trading.", icon: <ShieldCheck className="w-5 h-5 text-green-600" />, desc: "The community is explicitly not a place to share trade signals. We develop independent traders, not copy traders. This is a rule, not a preference.", img: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?q=80&w=800&auto=format&fit=crop" }
                 ].map((card, idx) => (
-                  <div key={idx} className="relative p-6 bg-white border border-border-slate/50 rounded-xl overflow-hidden group transition-all duration-300 hover:shadow-[0_8px_32px_rgba(0,0,0,0.06)] hover:-translate-y-0.5">
+                  <div key={idx} className="relative p-6 bg-background-surface/40 border border-border-slate/50 backdrop-blur-md rounded-xl overflow-hidden group transition-all duration-300 hover:shadow-[0_8px_32px_rgba(0,0,0,0.06)] hover:-translate-y-0.5">
                     <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none rounded-xl">
                       <div className="absolute inset-0 bg-cover bg-center transition-all duration-700 ease-out opacity-[0.03] scale-[1.03] group-hover:opacity-[0.12] group-hover:scale-100" style={{ backgroundImage: `url(${card.img})` }} />
                     </div>
@@ -375,7 +375,7 @@ export default function PlatformPage() {
 
       {/* SECTION 6: TIER COMPARISON */}
       <FadeInSection>
-        <section className="py-16 md:py-24 bg-white border-b border-border-slate/50">
+        <section className="py-16 md:py-24 bg-background-surface/40 backdrop-blur-md border-b border-border-slate/50">
           <div className="max-w-7xl mx-auto px-6">
             <div className="text-center max-w-3xl mx-auto mb-16">
               <span className="text-[11px] font-bold text-text-tertiary uppercase tracking-widest block mb-4">
@@ -434,7 +434,7 @@ export default function PlatformPage() {
 
       {/* SECTION 7: FAQ */}
       <FadeInSection>
-        <section className="py-16 md:py-24 bg-[#F7F7F7]">
+        <section className="py-16 md:py-24 bg-background-primary">
           <div className="max-w-7xl mx-auto px-6">
             <div className="max-w-3xl mb-12">
               <span className="text-[11px] font-bold text-text-tertiary uppercase tracking-widest block mb-4">
@@ -452,7 +452,7 @@ export default function PlatformPage() {
                     onClick={() => setOpenFaqIdx(openFaqIdx === i ? null : i)}
                     className="w-full text-left py-6 flex items-center justify-between group"
                   >
-                    <span className="font-bold text-lg text-text-primary group-hover:text-mkt-ink transition-colors pr-8">
+                    <span className="font-bold text-lg text-text-primary group-hover:text-text-primary transition-colors pr-8">
                       {faq.q}
                     </span>
                     <ChevronDown 

@@ -35,7 +35,7 @@ export default function PipValueCalculatorPage() {
   const pipValueResult = getPipValue();
 
   return (
-    <div className="bg-white min-h-screen pb-24 pt-32 text-mkt-ink">
+    <div className="min-h-screen pb-24 pt-32 bg-background-primary text-text-primary">
       <div className="container mx-auto px-6 max-w-5xl">
         <Breadcrumbs 
           items={[
@@ -53,7 +53,7 @@ export default function PipValueCalculatorPage() {
           <h1 className="text-4xl md:text-6xl font-sans font-black uppercase leading-tight">
             Pip Value <span className="text-accent italic">Calculator.</span>
           </h1>
-          <p className="text-sm text-mkt-i2 leading-relaxed">
+          <p className="text-sm text-text-secondary leading-relaxed">
             Convert pips to absolute cash values in your local currency across forex pairs, metals, and index contracts.
           </p>
         </header>
@@ -61,15 +61,15 @@ export default function PipValueCalculatorPage() {
         {/* Interactive Calculator Section */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 mb-20">
           {/* Inputs Panel */}
-          <div className="lg:col-span-5 p-8 border border-mkt-bd bg-white space-y-6">
+          <div className="lg:col-span-5 p-8 border border-border-slate/50 bg-background-surface/40 backdrop-blur-md space-y-6">
             <h3 className="text-xs font-mono font-black uppercase tracking-widest text-accent">// PARAMETERS</h3>
 
             <div className="space-y-2">
-              <label className="text-[10px] font-mono uppercase tracking-widest text-mkt-i4">Account Currency</label>
+              <label className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary">Account Currency</label>
               <select 
                 value={currency}
                 onChange={(e) => setCurrency(e.target.value)}
-                className="w-full bg-[#F7F7F7] border border-mkt-bd p-4 text-xs font-mono outline-none focus:border-accent"
+                className="w-full bg-background-primary border border-border-slate/50 p-4 text-xs font-mono outline-none focus:border-accent"
               >
                 <option value="USD">USD ($)</option>
                 <option value="GBP">GBP (£)</option>
@@ -79,11 +79,11 @@ export default function PipValueCalculatorPage() {
             </div>
 
             <div className="space-y-2">
-              <label className="text-[10px] font-mono uppercase tracking-widest text-mkt-i4">Currency Pair / Asset</label>
+              <label className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary">Currency Pair / Asset</label>
               <select 
                 value={asset}
                 onChange={(e) => setAsset(e.target.value)}
-                className="w-full bg-[#F7F7F7] border border-mkt-bd p-4 text-xs font-mono outline-none focus:border-accent"
+                className="w-full bg-background-primary border border-border-slate/50 p-4 text-xs font-mono outline-none focus:border-accent"
               >
                 <option value="EURUSD">EUR/USD (Euro / US Dollar)</option>
                 <option value="GBPUSD">GBP/USD (Pound / US Dollar)</option>
@@ -95,21 +95,21 @@ export default function PipValueCalculatorPage() {
             </div>
 
             <div className="space-y-2">
-              <label className="text-[10px] font-mono uppercase tracking-widest text-mkt-i4">Position size (Lots)</label>
+              <label className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary">Position size (Lots)</label>
               <input 
                 type="number"
                 step="0.01"
                 value={lots}
                 onChange={(e) => setLots(Number(e.target.value))}
-                className="w-full bg-[#F7F7F7] border border-mkt-bd p-4 text-sm font-mono outline-none focus:border-accent"
+                className="w-full bg-background-primary border border-border-slate/50 p-4 text-sm font-mono outline-none focus:border-accent"
               />
             </div>
           </div>
 
           {/* Results Panel */}
           <div className="lg:col-span-7 flex flex-col justify-between gap-6">
-            <div className="p-8 border border-mkt-bd bg-[#F7F7F7]/30 hover:border-accent transition-colors flex flex-col justify-between h-full">
-              <span className="text-[9px] font-mono text-mkt-i4 uppercase tracking-widest">Pip Value</span>
+            <div className="p-8 border border-border-slate/50 bg-background-primary/30 hover:border-accent transition-colors flex flex-col justify-between h-full">
+              <span className="text-[9px] font-mono text-text-tertiary uppercase tracking-widest">Pip Value</span>
               <div className="mt-8">
                 <p className="text-4xl font-sans font-black text-accent">
                   {currency === "USD" && "$"}
@@ -118,15 +118,15 @@ export default function PipValueCalculatorPage() {
                   {currency === "AUD" && "A$"}
                   {pipValueResult.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                 </p>
-                <p className="text-[9px] font-mono text-mkt-i4 mt-2 uppercase tracking-widest">PER SINGLE PIP MOVEMENT ON {lots} LOTS</p>
+                <p className="text-[9px] font-mono text-text-tertiary mt-2 uppercase tracking-widest">PER SINGLE PIP MOVEMENT ON {lots} LOTS</p>
               </div>
             </div>
 
             <div className="p-6 border border-accent/20 bg-accent/5 flex items-start gap-4">
               <ShieldCheck className="w-5 h-5 text-accent shrink-0 mt-0.5" />
               <div>
-                <h4 className="text-xs font-bold uppercase tracking-tight text-mkt-ink">Contract Size Warning</h4>
-                <p className="text-[11px] text-mkt-i2 leading-relaxed mt-1">
+                <h4 className="text-xs font-bold uppercase tracking-tight text-text-primary">Contract Size Warning</h4>
+                <p className="text-[11px] text-text-secondary leading-relaxed mt-1">
                   Contract sizes vary between standard currency pairs (100k units), indices (typically $1 or $10 per point), and crypto. Always check your broker's terminal specs.
                 </p>
               </div>
@@ -135,13 +135,13 @@ export default function PipValueCalculatorPage() {
         </div>
 
         {/* SEO Article Content */}
-        <article className="prose prose-slate max-w-none text-mkt-i2 leading-relaxed mb-20 space-y-8 border-t border-mkt-bd/30 pt-16">
-          <h2 className="text-3xl font-sans font-black uppercase text-mkt-ink">Understanding Pip Values in Trading</h2>
+        <article className="prose prose-invert max-w-none text-text-secondary leading-relaxed mb-20 space-y-8 border-t border-border-slate/50/30 pt-16">
+          <h2 className="text-3xl font-sans font-black uppercase text-text-primary">Understanding Pip Values in Trading</h2>
           <p>
             A "pip" (percentage in point) is the smallest price move that a given exchange rate can make. For most currency pairs, this is equivalent to 1/100 of 1%, or the fourth decimal place (0.0001). For Yen-based pairs, a pip is the second decimal place (0.01).
           </p>
 
-          <h3 className="text-xl font-bold uppercase text-mkt-ink">The Value Computation</h3>
+          <h3 className="text-xl font-bold uppercase text-text-primary">The Value Computation</h3>
           <p>
             The value of a pip is determined by the size of your trade (lots) and the currency denomination of your account. If you trade a pair where the quote currency matches your account currency, the pip value is fixed (e.g. $10 per standard lot on EUR/USD in a USD account). If the quote currency differs, the pip value must be converted using the current exchange rate.
           </p>

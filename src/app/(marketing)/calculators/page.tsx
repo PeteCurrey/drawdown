@@ -88,7 +88,7 @@ const calculators = [
 
 export default function CalculatorsHubPage() {
   return (
-    <div className="bg-white min-h-screen pb-24 pt-32">
+    <div className="min-h-screen pb-24 pt-32 bg-background-primary text-text-primary">
       <TrackPageView path="/calculators" />
       <div className="container mx-auto px-6">
         <Breadcrumbs 
@@ -103,10 +103,10 @@ export default function CalculatorsHubPage() {
             <div className="w-8 h-[1px] bg-accent" />
             <span className="text-[10px] font-mono uppercase tracking-[0.3em]">Execution Utilities</span>
           </div>
-          <h1 className="text-4xl md:text-7xl font-sans font-black uppercase leading-[0.9] text-mkt-ink">
+          <h1 className="text-4xl md:text-7xl font-sans font-black uppercase leading-[0.9] text-text-primary">
             Calculator <span className="text-accent italic">Hub.</span>
           </h1>
-          <p className="text-lg text-mkt-i2 max-w-2xl leading-relaxed">
+          <p className="text-lg text-text-secondary max-w-2xl leading-relaxed">
             Professional-grade mathematical utilities designed to replace manual spreadsheet errors. Size your risk, model your drawdowns, and execute with precision.
           </p>
         </div>
@@ -119,27 +119,27 @@ export default function CalculatorsHubPage() {
               <Link 
                 key={calc.slug}
                 href={`/calculators/${calc.slug}`}
-                className="p-8 border border-mkt-bd hover:border-accent bg-white flex flex-col justify-between group transition-colors"
+                className="p-8 border border-border-slate/50 hover:border-accent bg-background-surface/40 backdrop-blur-md flex flex-col justify-between group transition-colors"
               >
                 <div className="space-y-6">
                   <div className="flex justify-between items-start">
-                    <div className="p-3 bg-[#F7F7F7] border border-mkt-bd group-hover:border-accent/30 transition-colors">
+                    <div className="p-3 bg-background-primary border border-border-slate/50 group-hover:border-accent/30 transition-colors">
                       <Icon className="w-6 h-6 text-accent" />
                     </div>
-                    <span className="text-[8px] font-mono uppercase tracking-widest text-mkt-i4 bg-[#F7F7F7] px-2.5 py-1 border border-mkt-bd/50">
+                    <span className="text-[8px] font-mono uppercase tracking-widest text-text-tertiary bg-background-primary px-2.5 py-1 border border-border-slate/50/50">
                       {calc.category}
                     </span>
                   </div>
                   <div className="space-y-2">
-                    <h3 className="text-xl font-sans font-black uppercase text-mkt-ink group-hover:text-accent transition-colors">
+                    <h3 className="text-xl font-sans font-black uppercase text-text-primary group-hover:text-accent transition-colors">
                       {calc.title}
                     </h3>
-                    <p className="text-xs text-mkt-i2 leading-relaxed h-12 overflow-hidden">
+                    <p className="text-xs text-text-secondary leading-relaxed h-12 overflow-hidden">
                       {calc.desc}
                     </p>
                   </div>
                 </div>
-                <div className="pt-8 flex items-center gap-2 text-[9px] font-mono font-bold uppercase tracking-widest text-mkt-i4 group-hover:text-accent transition-colors">
+                <div className="pt-8 flex items-center gap-2 text-[9px] font-mono font-bold uppercase tracking-widest text-text-tertiary group-hover:text-accent transition-colors">
                   LAUNCH TOOL <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1.5 transition-transform" />
                 </div>
               </Link>
@@ -148,9 +148,9 @@ export default function CalculatorsHubPage() {
         </div>
 
         {/* Info Banner */}
-        <section className="bg-[#F7F7F7] border border-mkt-bd p-12 text-center space-y-6">
-          <h2 className="text-3xl font-sans font-black text-mkt-ink uppercase tracking-tight">Need a custom dashboard?</h2>
-          <p className="text-mkt-i2 text-sm max-w-xl mx-auto leading-relaxed">
+        <section className="bg-background-primary border border-border-slate/50 p-12 text-center space-y-6">
+          <h2 className="text-3xl font-sans font-black text-text-primary uppercase tracking-tight">Need a custom dashboard?</h2>
+          <p className="text-text-secondary text-sm max-w-xl mx-auto leading-relaxed">
             Subscribers gain access to our live API connections and the Drawdown Risk Modeler that hooks directly to your MT4/MT5 trading terminals for automated sizing.
           </p>
           <div className="pt-4">

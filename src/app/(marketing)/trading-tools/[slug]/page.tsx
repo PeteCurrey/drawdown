@@ -45,7 +45,7 @@ export default async function TradingToolReviewPage({ params }: Props) {
   if (!tool) notFound();
 
   return (
-    <div className="bg-white min-h-screen pb-24 pt-32 text-mkt-ink">
+    <div className="min-h-screen pb-24 pt-32 bg-background-primary text-text-primary">
       <TrackPageView path={`/trading-tools/${slug}`} />
       <div className="container mx-auto px-6 max-w-5xl">
         <Breadcrumbs 
@@ -64,22 +64,22 @@ export default async function TradingToolReviewPage({ params }: Props) {
           <h1 className="text-4xl md:text-7xl font-sans font-black uppercase mb-8 leading-tight">
             {tool.name} Review 2026 — <span className="text-accent italic">Pete's Honest Take.</span>
           </h1>
-          <p className="text-lg text-mkt-i2 leading-relaxed max-w-2xl font-sans font-light">
+          <p className="text-lg text-text-secondary leading-relaxed max-w-2xl font-sans font-light">
             {tool.tagline}
           </p>
         </div>
 
         {/* Quick Verdict Box */}
-        <div className="bg-white border border-mkt-bd p-8 md:p-12 mb-24 relative overflow-hidden group">
+        <div className="bg-background-surface/40 border border-border-slate/50 backdrop-blur-md p-8 md:p-12 mb-24 relative overflow-hidden group">
           <div className="absolute top-0 right-0 p-8 text-9xl font-sans font-black text-accent/5 select-none uppercase pointer-events-none">VERDICT</div>
           <div className="relative z-10 flex flex-col md:flex-row gap-12 items-center">
-            <div className="md:w-1/4 flex flex-col items-center border-b md:border-b-0 md:border-r border-mkt-bd pb-8 md:pb-0 md:pr-12">
-              <div className="w-20 h-20 bg-[#F7F7F7] border border-mkt-bd flex items-center justify-center text-3xl font-black mb-4">
+            <div className="md:w-1/4 flex flex-col items-center border-b md:border-b-0 md:border-r border-border-slate/50 pb-8 md:pb-0 md:pr-12">
+              <div className="w-20 h-20 bg-background-primary border border-border-slate/50 flex items-center justify-center text-3xl font-black mb-4">
                 {tool.name.substring(0, 2).toUpperCase()}
               </div>
               <div className="flex items-center gap-1 mb-2 text-accent">
                 {[...Array(5)].map((_, i) => (
-                  <Star key={i} className={`w-4 h-4 ${i < Math.floor(tool.rating) ? "fill-current" : "text-mkt-i4"}`} />
+                  <Star key={i} className={`w-4 h-4 ${i < Math.floor(tool.rating) ? "fill-current" : "text-text-tertiary"}`} />
                 ))}
               </div>
               <span className="text-2xl font-sans font-black">{tool.rating} / 5.0</span>
@@ -88,7 +88,7 @@ export default async function TradingToolReviewPage({ params }: Props) {
               <h3 className="text-xl font-sans font-black uppercase mb-4 flex items-center gap-3">
                 <span className="text-accent">//</span> Pete's Take
               </h3>
-              <p className="text-sm text-mkt-i2 leading-relaxed italic mb-0">
+              <p className="text-sm text-text-secondary leading-relaxed italic mb-0">
                 "{tool.verdict}"
               </p>
             </div>
@@ -113,7 +113,7 @@ export default async function TradingToolReviewPage({ params }: Props) {
               <h2 className="text-3xl font-sans font-black uppercase mb-8 flex items-center gap-4">
                 <span className="text-accent text-sm font-mono tracking-tighter">01 //</span> Overview
               </h2>
-              <div className="prose prose-invert prose-slate max-w-none text-mkt-i2 leading-relaxed space-y-6">
+              <div className="prose prose-invert prose-invert max-w-none text-text-secondary leading-relaxed space-y-6">
                 <p className="whitespace-pre-line">{tool.overview}</p>
               </div>
             </section>
@@ -124,7 +124,7 @@ export default async function TradingToolReviewPage({ params }: Props) {
                 <span className="text-accent text-sm font-mono tracking-tighter">02 //</span> Specifications
               </h2>
               <div className="overflow-x-auto">
-                <table className="w-full border-collapse border border-mkt-bd">
+                <table className="w-full border-collapse border border-border-slate/50">
                   <tbody className="text-[10px] font-mono uppercase">
                     {[
                       { label: "Product Name", value: tool.name },
@@ -132,9 +132,9 @@ export default async function TradingToolReviewPage({ params }: Props) {
                       { label: "Pricing Model", value: tool.pricing },
                       { label: "Rating Score", value: `${tool.rating} / 5.0` }
                     ].map((stat, i) => (
-                      <tr key={i} className="border-b border-mkt-bd/50">
-                        <td className="p-6 text-left font-bold border-r border-mkt-bd bg-[#F7F7F7]/30 w-1/3">{stat.label}</td>
-                        <td className="p-6 text-mkt-ink">{stat.value}</td>
+                      <tr key={i} className="border-b border-border-slate/50/50">
+                        <td className="p-6 text-left font-bold border-r border-border-slate/50 bg-background-primary/30 w-1/3">{stat.label}</td>
+                        <td className="p-6 text-text-primary">{stat.value}</td>
                       </tr>
                     ))}
                   </tbody>
@@ -150,7 +150,7 @@ export default async function TradingToolReviewPage({ params }: Props) {
                 </h3>
                 <ul className="space-y-4">
                   {tool.pros.map((pro, i) => (
-                    <li key={i} className="flex items-start gap-3 text-sm text-mkt-i2 leading-relaxed">
+                    <li key={i} className="flex items-start gap-3 text-sm text-text-secondary leading-relaxed">
                       <Check className="w-5 h-5 text-mkt-grn mt-0.5 shrink-0" />
                       <span>{pro}</span>
                     </li>
@@ -163,7 +163,7 @@ export default async function TradingToolReviewPage({ params }: Props) {
                 </h3>
                 <ul className="space-y-4">
                   {tool.cons.map((con, i) => (
-                    <li key={i} className="flex items-start gap-3 text-sm text-mkt-i2 leading-relaxed">
+                    <li key={i} className="flex items-start gap-3 text-sm text-text-secondary leading-relaxed">
                       <X className="w-5 h-5 text-red-500 mt-0.5 shrink-0" />
                       <span>{con}</span>
                     </li>
@@ -174,15 +174,15 @@ export default async function TradingToolReviewPage({ params }: Props) {
 
             {/* FAQs */}
             {tool.faqs && tool.faqs.length > 0 && (
-              <section id="faq" className="scroll-mt-32 border-t border-mkt-bd pt-24">
+              <section id="faq" className="scroll-mt-32 border-t border-border-slate/50 pt-24">
                 <h2 className="text-3xl font-sans font-black uppercase mb-12 flex items-center gap-4">
                   <HelpCircle className="w-8 h-8 text-accent" /> Frequently Asked Questions
                 </h2>
                 <div className="space-y-8">
                   {tool.faqs.map((faq, i) => (
-                    <div key={i} className="border-b border-mkt-bd pb-8">
-                      <h3 className="text-lg font-bold text-mkt-ink uppercase tracking-tight mb-4">{faq.question}</h3>
-                      <p className="text-sm text-mkt-i2 leading-relaxed">{faq.answer}</p>
+                    <div key={i} className="border-b border-border-slate/50 pb-8">
+                      <h3 className="text-lg font-bold text-text-primary uppercase tracking-tight mb-4">{faq.question}</h3>
+                      <p className="text-sm text-text-secondary leading-relaxed">{faq.answer}</p>
                     </div>
                   ))}
                 </div>
@@ -190,7 +190,7 @@ export default async function TradingToolReviewPage({ params }: Props) {
             )}
 
             {/* Lead Magnet */}
-            <div className="border-t border-mkt-bd pt-24">
+            <div className="border-t border-border-slate/50 pt-24">
               <LeadMagnet 
                 resourceId="journal-template" 
                 title="Download the Drawdown Trading Journal Template"
@@ -202,8 +202,8 @@ export default async function TradingToolReviewPage({ params }: Props) {
           {/* Sidebar TOC */}
           <div className="lg:col-span-4">
             <div className="sticky top-32 space-y-8">
-              <div className="p-8 bg-white border border-mkt-bd">
-                <h4 className="text-[10px] font-mono font-black uppercase tracking-widest text-mkt-i4 mb-6">// ON THIS PAGE</h4>
+              <div className="p-8 bg-background-surface/40 border border-border-slate/50 backdrop-blur-md">
+                <h4 className="text-[10px] font-mono font-black uppercase tracking-widest text-text-tertiary mb-6">// ON THIS PAGE</h4>
                 <nav className="space-y-4">
                   {[
                     { id: "overview", label: "Overview" },
@@ -214,7 +214,7 @@ export default async function TradingToolReviewPage({ params }: Props) {
                     <a 
                       key={item.id} 
                       href={`#${item.id}`} 
-                      className="block text-[10px] font-bold uppercase tracking-widest text-mkt-i2 hover:text-accent transition-colors"
+                      className="block text-[10px] font-bold uppercase tracking-widest text-text-secondary hover:text-accent transition-colors"
                     >
                       {item.label}
                     </a>
@@ -223,8 +223,8 @@ export default async function TradingToolReviewPage({ params }: Props) {
               </div>
 
               <div className="p-8 bg-accent/5 border border-accent/20">
-                <h4 className="text-xl font-sans font-black uppercase text-mkt-ink mb-4">Official Deal</h4>
-                <p className="text-xs text-mkt-i2 mb-8 leading-relaxed">
+                <h4 className="text-xl font-sans font-black uppercase text-text-primary mb-4">Official Deal</h4>
+                <p className="text-xs text-text-secondary mb-8 leading-relaxed">
                   Support Drawdown by visiting {tool.name} using our verified link. Get the best pricing deals.
                 </p>
                 <a 

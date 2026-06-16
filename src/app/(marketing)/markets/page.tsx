@@ -5,10 +5,10 @@ import Link from "next/link";
 
 export default function MarketsHubPage() {
   return (
-    <div className="flex flex-col min-h-screen bg-[#F7F7F7]">
+    <div className="flex flex-col min-h-screen bg-background-primary text-text-primary">
       
       {/* Hero Section */}
-      <section className="relative pt-20 pb-16 min-h-screen flex flex-col justify-center overflow-hidden border-b border-border-slate/50 bg-white">
+      <section className="relative pt-20 pb-16 min-h-screen flex flex-col justify-center overflow-hidden border-b border-border-slate/50 bg-background-surface/40 backdrop-blur-md">
         <div className="w-full max-w-7xl mx-auto px-6 relative z-10">
           <div className="max-w-4xl space-y-6">
             <div className="flex items-center gap-3 text-accent">
@@ -34,7 +34,7 @@ export default function MarketsHubPage() {
       </section>
 
       {/* Macro Overlay / Pete's Bias */}
-      <section className="border-b border-border-slate/50 relative overflow-hidden bg-white">
+      <section className="border-b border-border-slate/50 relative overflow-hidden bg-background-surface/40 backdrop-blur-md">
         <div className="absolute left-0 top-0 bottom-0 w-1 bg-warning" />
         <div className="max-w-7xl mx-auto px-6 py-8">
           <div className="flex flex-col md:flex-row gap-8 items-start md:items-center justify-between">
@@ -61,7 +61,7 @@ export default function MarketsHubPage() {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                
                {/* Forex Block */}
-               <div className="bg-white border border-border-slate/50 rounded-2xl transition-all duration-300 hover:shadow-[0_8px_32px_rgba(0,0,0,0.06)] hover:-translate-y-0.5 flex flex-col group hover:border-border-slate overflow-hidden">
+               <div className="bg-background-surface/40 border border-border-slate/50 backdrop-blur-md rounded-2xl transition-all duration-300 hover:shadow-[0_8px_32px_rgba(0,0,0,0.06)] hover:-translate-y-0.5 flex flex-col group hover:border-border-slate overflow-hidden">
                   <div className="p-6 border-b border-border-slate/30 flex justify-between items-center">
                      <h3 className="text-xl font-sans font-bold uppercase text-text-primary flex items-center gap-2">
                         <Globe className="w-5 h-5 text-accent" /> Forex
@@ -106,7 +106,7 @@ export default function MarketsHubPage() {
                </div>
 
                {/* Indices Block */}
-               <div className="bg-white border border-border-slate/50 rounded-2xl transition-all duration-300 hover:shadow-[0_8px_32px_rgba(0,0,0,0.06)] hover:-translate-y-0.5 flex flex-col group hover:border-border-slate overflow-hidden">
+               <div className="bg-background-surface/40 border border-border-slate/50 backdrop-blur-md rounded-2xl transition-all duration-300 hover:shadow-[0_8px_32px_rgba(0,0,0,0.06)] hover:-translate-y-0.5 flex flex-col group hover:border-border-slate overflow-hidden">
                   <div className="p-6 border-b border-border-slate/30 flex justify-between items-center">
                      <h3 className="text-xl font-sans font-bold uppercase text-text-primary flex items-center gap-2">
                         <BarChart3 className="w-5 h-5 text-accent" /> Indices
@@ -147,7 +147,7 @@ export default function MarketsHubPage() {
                </div>
 
                {/* Crypto & Metals Block */}
-               <div className="bg-white border border-border-slate/50 rounded-2xl transition-all duration-300 hover:shadow-[0_8px_32px_rgba(0,0,0,0.06)] hover:-translate-y-0.5 flex flex-col group hover:border-border-slate overflow-hidden">
+               <div className="bg-background-surface/40 border border-border-slate/50 backdrop-blur-md rounded-2xl transition-all duration-300 hover:shadow-[0_8px_32px_rgba(0,0,0,0.06)] hover:-translate-y-0.5 flex flex-col group hover:border-border-slate overflow-hidden">
                   <div className="p-6 border-b border-border-slate/30 flex justify-between items-center">
                      <h3 className="text-xl font-sans font-bold uppercase text-text-primary flex items-center gap-2">
                         <TrendingUp className="w-5 h-5 text-accent" /> Crypto & Gold

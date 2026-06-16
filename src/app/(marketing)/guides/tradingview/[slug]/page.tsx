@@ -81,7 +81,7 @@ export default async function TradingViewGuidePage({ params }: Props) {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
           {/* Main Article Content */}
           <article className="lg:col-span-8">
-            <div className="prose prose-invert prose-slate max-w-none">
+            <div className="prose prose-invert prose-invert max-w-none">
               <p className="text-xl md:text-2xl text-text-secondary leading-relaxed font-medium mb-16 border-l-4 border-border-slate/50 pl-8 py-2">
                 {guide.introduction}
               </p>

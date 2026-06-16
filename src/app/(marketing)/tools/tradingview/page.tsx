@@ -45,16 +45,16 @@ export default function TradingViewReview() {
       <StructuredData type="Article" data={articleSchema} />
 
       {/* SECTION 1: HERO */}
-      <section className="bg-mkt-bg pt-16 pb-12 md:pt-24 md:pb-16 border-b border-mkt-bd">
+      <section className="bg-mkt-bg pt-16 pb-12 md:pt-24 md:pb-16 border-b border-border-slate/50">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-8">
           <div className="space-y-4">
-            <span className="text-[10px] font-mono uppercase tracking-widest text-mkt-i3">
+            <span className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary">
               TOOL REVIEW
             </span>
-            <h1 className="text-4xl md:text-6xl font-display font-bold text-mkt-ink tracking-tight leading-tight">
+            <h1 className="text-4xl md:text-6xl font-display font-bold text-text-primary tracking-tight leading-tight">
               TradingView — The Honest Review for UK Traders.
             </h1>
-            <p className="text-lg text-mkt-i3 max-w-2xl mx-auto">
+            <p className="text-lg text-text-tertiary max-w-2xl mx-auto">
               Used by 60+ million traders worldwide. Here's what you actually need to know before you sign up — including whether the free plan is enough.
             </p>
           </div>
@@ -70,7 +70,7 @@ export default function TradingViewReview() {
             </Link>
             <Link
               href="#uk-features"
-              className="w-full sm:w-auto px-8 py-4 bg-white border border-mkt-bd text-mkt-ink rounded-lg font-bold text-sm tracking-wide hover:bg-neutral-50 transition-colors"
+              className="w-full sm:w-auto px-8 py-4 bg-background-surface/40 border border-border-slate/50 backdrop-blur-md text-text-primary rounded-lg font-bold text-sm tracking-wide hover:bg-background-elevated/40 transition-colors"
             >
               Jump to UK-specific features ↓
             </Link>
@@ -90,10 +90,10 @@ export default function TradingViewReview() {
         <FadeInSection>
           <section className="space-y-8">
             <div className="space-y-2">
-              <span className="text-[10px] font-mono uppercase tracking-widest text-mkt-i3">OVERVIEW</span>
-              <h2 className="text-3xl font-display font-bold text-mkt-ink">What is TradingView?</h2>
+              <span className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary">OVERVIEW</span>
+              <h2 className="text-3xl font-display font-bold text-text-primary">What is TradingView?</h2>
             </div>
-            <div className="prose prose-lg prose-neutral text-mkt-i3 max-w-none">
+            <div className="prose prose-lg prose-neutral text-text-tertiary max-w-none">
               <p>
                 TradingView is a browser-based charting and market analysis platform launched in 2011. It has grown to become the default charting environment for the majority of retail traders globally — not because it's the cheapest option, but because it's genuinely the best.
               </p>
@@ -112,9 +112,9 @@ export default function TradingViewReview() {
                 { val: "2011", label: "Founded (15 years of stability)" },
                 { val: "100K+", label: "Published Pine Script indicators" }
               ].map((stat, i) => (
-                <div key={i} className="p-4 bg-white border border-mkt-bd rounded-xl">
-                  <div className="text-2xl font-bold text-mkt-ink">{stat.val}</div>
-                  <div className="text-xs text-mkt-i3 mt-1">{stat.label}</div>
+                <div key={i} className="p-4 bg-background-surface/40 border border-border-slate/50 backdrop-blur-md rounded-xl">
+                  <div className="text-2xl font-bold text-text-primary">{stat.val}</div>
+                  <div className="text-xs text-text-tertiary mt-1">{stat.label}</div>
                 </div>
               ))}
             </div>
@@ -125,16 +125,16 @@ export default function TradingViewReview() {
         <FadeInSection>
           <section className="space-y-8">
             <div className="space-y-2">
-              <span className="text-[10px] font-mono uppercase tracking-widest text-mkt-i3">PLANS</span>
-              <h2 className="text-3xl font-display font-bold text-mkt-ink">Free plan or paid? Here's the honest answer.</h2>
+              <span className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary">PLANS</span>
+              <h2 className="text-3xl font-display font-bold text-text-primary">Free plan or paid? Here's the honest answer.</h2>
             </div>
-            <p className="text-lg text-mkt-i3">
+            <p className="text-lg text-text-tertiary">
               Most TradingView reviews tell you to go Pro immediately. We don't think that's right. The free plan is genuinely useful for a significant portion of retail traders. Here's exactly what you get and where the limitations start to matter.
             </p>
 
-            <div className="overflow-x-auto rounded-xl border border-mkt-bd">
+            <div className="overflow-x-auto rounded-xl border border-border-slate/50">
               <table className="w-full text-sm text-left">
-                <thead className="bg-neutral-50 text-mkt-ink border-b border-mkt-bd">
+                <thead className="bg-background-elevated/40 text-text-primary border-b border-border-slate/50">
                   <tr>
                     <th className="px-6 py-4 font-bold">Feature</th>
                     <th className="px-6 py-4 font-bold">Free</th>
@@ -143,7 +143,7 @@ export default function TradingViewReview() {
                     <th className="px-6 py-4 font-bold">Premium ~£46/mo</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-mkt-bd bg-white">
+                <tbody className="divide-y divide-border-slate/50 bg-background-surface/40 backdrop-blur-md">
                   {[
                     { f: "Charts per layout", r1: "1", r2: "2", r3: "4", r4: "8" },
                     { f: "Saved chart layouts", r1: "1", r2: "5", r3: "10", r4: "Unlimited" },
@@ -157,23 +157,23 @@ export default function TradingViewReview() {
                     { f: "Auto chart patterns", r1: "✗", r2: "✗", r3: "✓", r4: "✓" },
                   ].map((row, i) => (
                     <tr key={i}>
-                      <td className="px-6 py-4 font-medium text-mkt-ink">{row.f}</td>
-                      <td className="px-6 py-4 text-mkt-i3">{row.r1 === "✓" ? <Check className="w-4 h-4 text-green-500"/> : row.r1 === "✗" ? <X className="w-4 h-4 text-red-500"/> : row.r1}</td>
-                      <td className="px-6 py-4 text-mkt-i3">{row.r2 === "✓" ? <Check className="w-4 h-4 text-green-500"/> : row.r2 === "✗" ? <X className="w-4 h-4 text-red-500"/> : row.r2}</td>
-                      <td className="px-6 py-4 text-mkt-i3">{row.r3 === "✓" ? <Check className="w-4 h-4 text-green-500"/> : row.r3 === "✗" ? <X className="w-4 h-4 text-red-500"/> : row.r3}</td>
-                      <td className="px-6 py-4 text-mkt-i3">{row.r4 === "✓" ? <Check className="w-4 h-4 text-green-500"/> : row.r4 === "✗" ? <X className="w-4 h-4 text-red-500"/> : row.r4}</td>
+                      <td className="px-6 py-4 font-medium text-text-primary">{row.f}</td>
+                      <td className="px-6 py-4 text-text-tertiary">{row.r1 === "✓" ? <Check className="w-4 h-4 text-green-500"/> : row.r1 === "✗" ? <X className="w-4 h-4 text-red-500"/> : row.r1}</td>
+                      <td className="px-6 py-4 text-text-tertiary">{row.r2 === "✓" ? <Check className="w-4 h-4 text-green-500"/> : row.r2 === "✗" ? <X className="w-4 h-4 text-red-500"/> : row.r2}</td>
+                      <td className="px-6 py-4 text-text-tertiary">{row.r3 === "✓" ? <Check className="w-4 h-4 text-green-500"/> : row.r3 === "✗" ? <X className="w-4 h-4 text-red-500"/> : row.r3}</td>
+                      <td className="px-6 py-4 text-text-tertiary">{row.r4 === "✓" ? <Check className="w-4 h-4 text-green-500"/> : row.r4 === "✗" ? <X className="w-4 h-4 text-red-500"/> : row.r4}</td>
                     </tr>
                   ))}
                 </tbody>
               </table>
             </div>
 
-            <div className="bg-neutral-50 border border-mkt-bd p-6 rounded-xl relative">
-              <div className="text-xs font-bold uppercase tracking-widest text-mkt-i3 mb-4">Pete's Recommendation</div>
-              <blockquote className="text-mkt-ink italic text-lg leading-relaxed">
+            <div className="bg-background-elevated/40 border border-border-slate/50 p-6 rounded-xl relative">
+              <div className="text-xs font-bold uppercase tracking-widest text-text-tertiary mb-4">Pete's Recommendation</div>
+              <blockquote className="text-text-primary italic text-lg leading-relaxed">
                 "For most traders starting out: use the free plan for 3-6 months. If you find yourself annoyed by the single chart limitation or needing more indicators, Essential at ~£12/mo is the right upgrade. Plus is the sweet spot for active traders — 4 charts simultaneously and 100 alerts covers most real workflows. Premium is for professionals running systematic approaches who need second-level data and Volume Profile."
               </blockquote>
-              <div className="mt-4 text-sm font-bold text-mkt-i3">— Pete Currey, Drawdown</div>
+              <div className="mt-4 text-sm font-bold text-text-tertiary">— Pete Currey, Drawdown</div>
             </div>
 
             <div className="pt-2">
@@ -185,7 +185,7 @@ export default function TradingViewReview() {
               >
                 Start with the free plan →
               </Link>
-              <p className="text-[10px] text-mkt-i4 mt-2">Affiliate link — we may earn a commission at no cost to you.</p>
+              <p className="text-[10px] text-text-tertiary mt-2">Affiliate link — we may earn a commission at no cost to you.</p>
             </div>
           </section>
         </FadeInSection>
@@ -194,28 +194,28 @@ export default function TradingViewReview() {
         <FadeInSection>
           <section id="uk-features" className="space-y-8 scroll-mt-24">
             <div className="space-y-2">
-              <span className="text-[10px] font-mono uppercase tracking-widest text-mkt-i3">UK TRADERS</span>
-              <h2 className="text-3xl font-display font-bold text-mkt-ink">What UK spread bettors actually need to know.</h2>
+              <span className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary">UK TRADERS</span>
+              <h2 className="text-3xl font-display font-bold text-text-primary">What UK spread bettors actually need to know.</h2>
             </div>
             
             <div className="space-y-6">
-              <div className="bg-white border border-mkt-bd p-6 rounded-xl">
-                <h3 className="text-xl font-bold text-mkt-ink mb-3">UK Market Coverage</h3>
-                <p className="text-mkt-i3 leading-relaxed">
+              <div className="bg-background-surface/40 border border-border-slate/50 backdrop-blur-md p-6 rounded-xl">
+                <h3 className="text-xl font-bold text-text-primary mb-3">UK Market Coverage</h3>
+                <p className="text-text-tertiary leading-relaxed">
                   TradingView covers all UK spread betting instruments: FTSE 100 (UK100), FTSE 250 (UK250), GBP/USD, EUR/GBP, GBP/JPY and all major FX crosses, Gold (XAUUSD), Brent Crude (UKOIL), and the major US indices (SPX, NAS100, DJI). Real-time data for most instruments requires a Plus plan or above.
                 </p>
               </div>
 
-              <div className="bg-white border border-mkt-bd p-6 rounded-xl">
-                <h3 className="text-xl font-bold text-mkt-ink mb-3">Broker Integration</h3>
-                <p className="text-mkt-i3 leading-relaxed">
+              <div className="bg-background-surface/40 border border-border-slate/50 backdrop-blur-md p-6 rounded-xl">
+                <h3 className="text-xl font-bold text-text-primary mb-3">Broker Integration</h3>
+                <p className="text-text-tertiary leading-relaxed">
                   TradingView integrates directly with several FCA-regulated brokers for direct-from-chart trading. Pepperstone and IG Markets both offer TradingView integration — meaning you can execute spread betting or CFD trades directly from your TradingView chart without switching platforms. This is the workflow most serious UK retail traders use.
                 </p>
               </div>
 
-              <div className="bg-white border border-mkt-bd p-6 rounded-xl">
-                <h3 className="text-xl font-bold text-mkt-ink mb-3">No Additional Software Required</h3>
-                <p className="text-mkt-i3 leading-relaxed">
+              <div className="bg-background-surface/40 border border-border-slate/50 backdrop-blur-md p-6 rounded-xl">
+                <h3 className="text-xl font-bold text-text-primary mb-3">No Additional Software Required</h3>
+                <p className="text-text-tertiary leading-relaxed">
                   TradingView runs entirely in your browser. No download, no installation, no MT4 or MT5 required. This matters for UK spread bettors because IG Markets' own platform and the spread betting interface work better alongside a dedicated charting platform than trying to chart and trade in the same window.
                 </p>
               </div>
@@ -226,10 +226,10 @@ export default function TradingViewReview() {
         {/* SECTION 5: PROS AND CONS */}
         <FadeInSection>
           <section className="space-y-8">
-            <h2 className="text-3xl font-display font-bold text-mkt-ink">What we like — and what we don't.</h2>
+            <h2 className="text-3xl font-display font-bold text-text-primary">What we like — and what we don't.</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div className="space-y-4">
-                <h3 className="text-lg font-bold text-mkt-ink flex items-center gap-2">
+                <h3 className="text-lg font-bold text-text-primary flex items-center gap-2">
                   <div className="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center">
                     <Check className="w-5 h-5 text-green-600" />
                   </div>
@@ -247,7 +247,7 @@ export default function TradingViewReview() {
                     "Active development — new features added regularly",
                     "Alert system is comprehensive even on free plan"
                   ].map((pro, i) => (
-                    <li key={i} className="flex gap-3 text-mkt-i3 text-sm">
+                    <li key={i} className="flex gap-3 text-text-tertiary text-sm">
                       <Check className="w-5 h-5 text-green-500 shrink-0" />
                       {pro}
                     </li>
@@ -256,7 +256,7 @@ export default function TradingViewReview() {
               </div>
 
               <div className="space-y-4">
-                <h3 className="text-lg font-bold text-mkt-ink flex items-center gap-2">
+                <h3 className="text-lg font-bold text-text-primary flex items-center gap-2">
                   <div className="w-8 h-8 rounded-full bg-red-100 flex items-center justify-center">
                     <X className="w-5 h-5 text-red-600" />
                   </div>
@@ -272,7 +272,7 @@ export default function TradingViewReview() {
                     "Pine Script has a learning curve for non-developers",
                     "Mobile app is functional but desktop is significantly better for serious analysis"
                   ].map((con, i) => (
-                    <li key={i} className="flex gap-3 text-mkt-i3 text-sm">
+                    <li key={i} className="flex gap-3 text-text-tertiary text-sm">
                       <X className="w-5 h-5 text-red-500 shrink-0" />
                       {con}
                     </li>
@@ -287,10 +287,10 @@ export default function TradingViewReview() {
         <FadeInSection>
           <section className="space-y-8">
             <div className="space-y-2">
-              <span className="text-[10px] font-mono uppercase tracking-widest text-mkt-i3">OUR WORKFLOW</span>
-              <h2 className="text-3xl font-display font-bold text-mkt-ink">How we integrate TradingView into the Drawdown system.</h2>
+              <span className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary">OUR WORKFLOW</span>
+              <h2 className="text-3xl font-display font-bold text-text-primary">How we integrate TradingView into the Drawdown system.</h2>
             </div>
-            <div className="prose prose-lg prose-neutral text-mkt-i3 max-w-none">
+            <div className="prose prose-lg prose-neutral text-text-tertiary max-w-none">
               <p>
                 Every example chart in the Drawdown curriculum is built on TradingView. When we reference price levels, structure, or setups in any course module, the chart is from TradingView. This means from Phase 1 onwards, you're learning to read charts in the same environment you'll use when you trade live.
               </p>
@@ -331,7 +331,7 @@ export default function TradingViewReview() {
                 href="/go/tradingview"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full sm:w-auto px-10 py-5 bg-white text-black rounded-lg font-bold text-sm tracking-wide hover:bg-neutral-200 transition-colors"
+                className="w-full sm:w-auto px-10 py-5 bg-background-surface/40 backdrop-blur-md text-black rounded-lg font-bold text-sm tracking-wide hover:bg-neutral-200 transition-colors"
               >
                 Try TradingView Free →
               </Link>
@@ -339,7 +339,7 @@ export default function TradingViewReview() {
             </div>
             <Link
               href="/platform"
-              className="w-full sm:w-auto px-10 py-5 border border-white/20 text-white rounded-lg font-bold text-sm tracking-wide hover:bg-white/5 transition-colors mt-[-24px] sm:mt-0 sm:mb-[24px]"
+              className="w-full sm:w-auto px-10 py-5 border border-white/20 text-white rounded-lg font-bold text-sm tracking-wide hover:bg-background-surface/40 backdrop-blur-md/5 transition-colors mt-[-24px] sm:mt-0 sm:mb-[24px]"
             >
               Back to all tools →
             </Link>

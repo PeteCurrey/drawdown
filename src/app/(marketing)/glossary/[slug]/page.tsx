@@ -146,7 +146,7 @@ export default async function GlossaryTermPage({ params }: Props) {
         </div>
 
         {/* Detailed Explanation */}
-        <div className="prose prose-invert prose-slate max-w-none mb-16">
+        <div className="prose prose-invert prose-invert max-w-none mb-16">
           <h2 className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary mb-6">In-Depth Explanation</h2>
           <div className="text-text-secondary text-lg leading-relaxed space-y-6 whitespace-pre-wrap">
             {glossaryTerm.detailedExplanation}

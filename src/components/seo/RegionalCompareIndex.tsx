@@ -56,7 +56,7 @@ export function RegionalCompareIndex({ region, data }: RegionalCompareIndexProps
                   <h2 className="text-3xl font-sans font-bold uppercase leading-tight group-hover:text-accent transition-colors">
                     {page.title.split('—')[0]}
                   </h2>
-                  <p className="text-text-secondary text-[10px] font-mono uppercase tracking-widest leading-relaxed line-clamp-3 bg-background-elevated/40/30 p-4 border border-border-slate/50/30">
+                  <p className="text-text-secondary text-[10px] font-mono uppercase tracking-widest leading-relaxed line-clamp-3 bg-background-elevated/30 p-4 border border-border-slate/30">
                     {page.metaDescription}
                   </p>
                 </div>

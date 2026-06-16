@@ -108,12 +108,12 @@ export default function DashboardPage() {
     <div className="space-y-10 stagger-children">
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-display font-bold uppercase mb-2 text-mkt-ink">{greeting}, {name}.</h1>
-        <p className="text-mkt-i3 font-mono text-xs uppercase tracking-widest">// Market Status: London Open</p>
+        <h1 className="text-3xl font-display font-bold uppercase mb-2 text-text-primary">{greeting}, {name}.</h1>
+        <p className="text-text-tertiary font-mono text-xs uppercase tracking-widest">// Market Status: London Open</p>
       </div>
 
       {/* Daily Briefing Card ("The Wire") */}
-      <div className="p-8 bg-white border border-mkt-bd rounded-[20px] shadow-sm relative group overflow-hidden transition-all duration-300 hover:shadow-[0_8px_32px_rgba(0,0,0,0.06)] hover:-translate-y-0.5">
+      <div className="p-8 bg-background-surface/40 border border-border-slate/50 rounded-[20px] relative group overflow-hidden transition-all duration-300 hover:shadow-[0_8px_32px_rgba(0,0,0,0.06)] hover:-translate-y-0.5">
         <div className="absolute top-0 left-0 w-1 h-full bg-accent" />
         <div className="flex flex-col md:flex-row justify-between gap-8 relative z-10">
           <div className="space-y-4 max-w-2xl text-left">
@@ -129,17 +129,17 @@ export default function DashboardPage() {
               </div>
             ) : latestBrief ? (
               <>
-                <h3 className="text-2xl font-display font-bold uppercase leading-tight text-mkt-ink">
+                <h3 className="text-2xl font-display font-bold uppercase leading-tight text-text-primary">
                   {latestBrief.content_html.split('\n')[0].replace('#', '').replace('*', '').trim() || "Market Update"}
                 </h3>
-                <div className="text-mkt-i3 text-sm leading-relaxed prose prose-sm max-w-none line-clamp-3">
+                <div className="text-text-tertiary text-sm leading-relaxed prose prose-sm max-w-none line-clamp-3">
                   {latestBrief.content_text.replace(/#/g, '').slice(0, 200)}...
                 </div>
               </>
             ) : (
               <>
-                <h3 className="text-2xl font-display font-bold uppercase text-mkt-ink">UK CPI data came in below expectations.</h3>
-                <p className="text-mkt-i3 text-sm leading-relaxed">
+                <h3 className="text-2xl font-display font-bold uppercase text-text-primary">UK CPI data came in below expectations.</h3>
+                <p className="text-text-tertiary text-sm leading-relaxed">
                   Inflation cooled more than forecast this morning, putting pressure on GBP. 
                   Keep an eye on the 1.2680 level for potential support. No high-impact US news until 1:30 PM.
                 </p>
@@ -161,17 +161,17 @@ export default function DashboardPage() {
         <div className="lg:col-span-2 space-y-10">
           <div className="space-y-6">
             <h4 className="text-[10px] font-mono uppercase tracking-widest text-mkt-i4">Continue Learning</h4>
-            <div className="p-8 bg-white border border-mkt-bd rounded-[20px] shadow-sm flex flex-col md:flex-row gap-8 transition-all duration-300 hover:shadow-[0_8px_32px_rgba(0,0,0,0.06)] hover:-translate-y-0.5">
+            <div className="p-8 bg-background-surface/40 border border-border-slate/50 rounded-[20px] flex flex-col md:flex-row gap-8 transition-all duration-300 hover:shadow-[0_8px_32px_rgba(0,0,0,0.06)] hover:-translate-y-0.5">
               <div className="w-full md:w-48 aspect-video bg-neutral-100 rounded-lg flex items-center justify-center group cursor-pointer">
                 <Play className="w-8 h-8 text-accent group-hover:scale-110 transition-transform" />
               </div>
               <div className="flex-grow space-y-4">
                 <div>
                   <span className="text-[10px] font-mono text-accent uppercase tracking-widest">Phase 2: Technical analysis</span>
-                  <h5 className="text-xl font-display font-bold uppercase mt-1 text-mkt-ink">Reading Candlestick Shadows</h5>
+                  <h5 className="text-xl font-display font-bold uppercase mt-1 text-text-primary">Reading Candlestick Shadows</h5>
                 </div>
                 <div className="space-y-2">
-                  <div className="flex justify-between text-[10px] font-mono uppercase text-mkt-i3">
+                  <div className="flex justify-between text-[10px] font-mono uppercase text-text-tertiary">
                     <span>Module Progress</span>
                     <span>65%</span>
                   </div>
@@ -179,7 +179,7 @@ export default function DashboardPage() {
                     <div className="h-full bg-accent rounded-full w-[65%]" />
                   </div>
                 </div>
-                <button className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-mkt-ink hover:text-accent transition-colors">
+                <button className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-text-primary hover:text-accent transition-colors">
                   Resume Lesson <ArrowUpRight className="w-3 h-3" />
                 </button>
               </div>
@@ -196,8 +196,8 @@ export default function DashboardPage() {
                 { label: "Total Profit", value: "£4,231.10", color: "text-mkt-grn" },
                 { label: "Current Streak", value: "3 Wins", color: "text-mkt-grn" },
               ].map((stat, i) => (
-                <div key={i} className="p-6 bg-white border border-mkt-bd rounded-[20px] shadow-sm text-center transition-all duration-300 hover:shadow-[0_8px_32px_rgba(0,0,0,0.06)] hover:-translate-y-0.5">
-                  <p className="text-[8px] font-mono uppercase tracking-widest text-mkt-i3 mb-2">{stat.label}</p>
+                <div key={i} className="p-6 bg-background-surface/40 border border-border-slate/50 rounded-[20px] text-center transition-all duration-300 hover:shadow-[0_8px_32px_rgba(0,0,0,0.06)] hover:-translate-y-0.5">
+                  <p className="text-[8px] font-mono uppercase tracking-widest text-text-tertiary mb-2">{stat.label}</p>
                   <p className={cn("text-lg font-display font-bold uppercase", stat.color)}>{stat.value}</p>
                 </div>
               ))}
@@ -231,13 +231,13 @@ export default function DashboardPage() {
           <div className="lg:col-span-1">
             <AlertCentre />
           </div>
-          <div className="lg:col-span-1 p-8 bg-white border border-mkt-bd rounded-[20px] shadow-sm flex flex-col justify-center items-center text-center space-y-6 transition-all duration-300 hover:shadow-[0_8px_32px_rgba(0,0,0,0.06)] hover:-translate-y-0.5">
+          <div className="lg:col-span-1 p-8 bg-background-surface/40 border border-border-slate/50 rounded-[20px] flex flex-col justify-center items-center text-center space-y-6 transition-all duration-300 hover:shadow-[0_8px_32px_rgba(0,0,0,0.06)] hover:-translate-y-0.5">
              <div className="w-16 h-16 bg-accent/10 border border-accent/20 rounded-full flex items-center justify-center">
                 <Zap className="w-8 h-8 text-accent animate-pulse" />
              </div>
              <div className="space-y-2">
-                <h5 className="text-sm font-display font-bold uppercase text-mkt-ink">Ready to Automate?</h5>
-                <p className="text-xs text-mkt-i3 leading-relaxed px-4">
+                <h5 className="text-sm font-display font-bold uppercase text-text-primary">Ready to Automate?</h5>
+                <p className="text-xs text-text-tertiary leading-relaxed px-4">
                    Use the Algo Strategy Builder to convert your manual rules into professional code.
                 </p>
              </div>

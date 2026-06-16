@@ -10,7 +10,7 @@ export default function AuthLayout({
 }) {
   return (
     <DynamicRegionalProvider>
-      <div className="marketing min-h-screen bg-white">
+      <div className="marketing min-h-screen bg-background-primary">
         <Navigation />
         {children}
       </div>

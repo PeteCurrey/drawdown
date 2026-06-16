@@ -97,7 +97,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       {/* Sidebar */}
       <aside 
         className={cn(
-          "bg-white border-r border-mkt-bd transition-all duration-300 flex flex-col z-30 shadow-sm",
+          "bg-background-surface/80 backdrop-blur-md border-r border-border-slate/50 transition-all duration-300 flex flex-col z-30",
           isCollapsed ? "w-20" : "w-64"
         )}
       >
@@ -125,23 +125,23 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 className={cn(
                   "flex items-center gap-4 px-4 py-3 text-sm font-medium transition-all group rounded-lg mx-2",
                   isActive 
-                    ? "bg-mkt-ink text-white" 
-                    : "text-mkt-i3 hover:text-mkt-ink hover:bg-neutral-100"
+                    ? "bg-accent text-[#08090D]" 
+                    : "text-text-secondary hover:text-text-primary hover:bg-background-elevated/40"
                 )}
               >
-                <link.icon className={cn("w-5 h-5 shrink-0", isActive ? "text-white" : "group-hover:text-mkt-ink")} />
+                <link.icon className={cn("w-5 h-5 shrink-0", isActive ? "text-[#08090D]" : "group-hover:text-text-primary")} />
                 {!isCollapsed && <span className="font-bold text-[13px]">{link.name}</span>}
               </Link>
             );
           })}
         </nav>
 
-        <div className="p-4 border-t border-mkt-bd space-y-2 mt-auto mb-4">
+        <div className="p-4 border-t border-border-slate/50 space-y-2 mt-auto mb-4">
           <button 
             onClick={handleLogout}
-            className="w-full flex items-center gap-4 px-4 py-3 text-sm text-mkt-i3 hover:text-mkt-red transition-colors group rounded-lg hover:bg-neutral-100"
+            className="w-full flex items-center gap-4 px-4 py-3 text-sm text-text-secondary hover:text-loss transition-colors group rounded-lg hover:bg-background-elevated/40"
           >
-            <LogOut className="w-5 h-5 shrink-0 group-hover:text-mkt-red" />
+            <LogOut className="w-5 h-5 shrink-0 group-hover:text-loss" />
             {!isCollapsed && <span className="font-bold text-[13px]">Logout</span>}
           </button>
         </div>

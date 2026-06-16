@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 import Breadcrumbs from "@/components/layout/Breadcrumbs";
 
 interface Props {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }
 
 export async function generateStaticParams() {
@@ -17,7 +17,8 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const guide = TRADINGVIEW_GUIDES.find((g) => g.slug === params.slug);
+  const { slug } = await params;
+  const guide = TRADINGVIEW_GUIDES.find((g) => g.slug === slug);
   if (!guide) return {};
 
   return {
@@ -26,8 +27,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default function TradingViewGuidePage({ params }: Props) {
-  const guide = TRADINGVIEW_GUIDES.find((g) => g.slug === params.slug);
+export default async function TradingViewGuidePage({ params }: Props) {
+  const { slug } = await params;
+  const guide = TRADINGVIEW_GUIDES.find((g) => g.slug === slug);
 
   if (!guide) {
     notFound();

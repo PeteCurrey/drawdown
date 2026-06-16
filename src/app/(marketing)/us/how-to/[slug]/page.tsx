@@ -4,7 +4,7 @@ import { HOW_TO_PAGES_US } from "@/data/seo/how-to-us";
 import { HowToTemplate } from "@/components/seo/HowToTemplate";
 
 interface Props {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }
 
 export async function generateStaticParams() {

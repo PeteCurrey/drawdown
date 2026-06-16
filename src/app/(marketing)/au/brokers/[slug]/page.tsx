@@ -6,7 +6,7 @@ import Link from "next/link";
 import Breadcrumbs from "@/components/layout/Breadcrumbs";
 
 interface Props {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }
 
 export async function generateStaticParams() {
@@ -16,7 +16,8 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const broker = AU_BROKERS.find((b) => b.slug === params.slug);
+  const { slug } = await params;
+  const broker = AU_BROKERS.find((b) => b.slug === slug);
   if (!broker) return {};
 
   return {
@@ -25,8 +26,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default function AustralianBrokerReviewPage({ params }: Props) {
-  const broker = AU_BROKERS.find((b) => b.slug === params.slug);
+export default async function AustralianBrokerReviewPage({ params }: Props) {
+  const { slug } = await params;
+  const broker = AU_BROKERS.find((b) => b.slug === slug);
 
   if (!broker) {
     notFound();

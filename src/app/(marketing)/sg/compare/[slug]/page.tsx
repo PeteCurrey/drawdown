@@ -4,7 +4,7 @@ import { COMPARE_PAGES_SG } from "@/data/seo/compare-sg";
 import { CompareTemplate } from "@/components/seo/CompareTemplate";
 
 interface Props {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }
 
 export async function generateStaticParams() {

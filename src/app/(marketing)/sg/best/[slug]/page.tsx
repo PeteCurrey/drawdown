@@ -4,7 +4,7 @@ import { BEST_OF_PAGES_SG } from "@/data/seo/best-sg";
 import { BestOfTemplate } from "@/components/seo/BestOfTemplate";
 
 interface Props {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }
 
 export async function generateStaticParams() {

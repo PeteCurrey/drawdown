@@ -123,6 +123,42 @@ const nextConfig: NextConfig = {
         destination: "/blog/economic-calendar-guide",
         permanent: true,
       },
+      // Legacy redirects to prevent 404s
+      {
+        source: "/brokers/quiz",
+        destination: "/brokers",
+        permanent: true,
+      },
+      {
+        source: "/brokers/ig-markets-review",
+        destination: "/brokers/ig",
+        permanent: true,
+      },
+      {
+        source: "/brokers/ic-markets-review",
+        destination: "/brokers/ic-markets",
+        permanent: true,
+      },
+      {
+        source: "/brokers/pepperstone-review",
+        destination: "/brokers/pepperstone",
+        permanent: true,
+      },
+      {
+        source: "/brokers/ig-index",
+        destination: "/brokers/ig",
+        permanent: true,
+      },
+      {
+        source: "/courses/beginner-mastery",
+        destination: "/courses/ground-zero",
+        permanent: true,
+      },
+      {
+        source: "/learn/trading-nasdaq-open",
+        destination: "/learn-to-trade",
+        permanent: true,
+      },
     ];
   },
 };

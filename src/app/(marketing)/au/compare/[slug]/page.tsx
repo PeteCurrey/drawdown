@@ -4,7 +4,7 @@ import { COMPARE_PAGES_AU } from "@/data/seo/compare-au";
 import { CompareTemplate } from "@/components/seo/CompareTemplate";
 
 interface Props {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }
 
 export async function generateStaticParams() {
@@ -14,7 +14,8 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const page = COMPARE_PAGES_AU.find((p) => p.slug === params.slug);
+  const { slug } = await params;
+  const page = COMPARE_PAGES_AU.find((p) => p.slug === slug);
   if (!page) return {};
 
   return {
@@ -23,8 +24,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default function AuComparePage({ params }: Props) {
-  const page = COMPARE_PAGES_AU.find((p) => p.slug === params.slug);
+export default async function AuComparePage({ params }: Props) {
+  const { slug } = await params;
+  const page = COMPARE_PAGES_AU.find((p) => p.slug === slug);
 
   if (!page) {
     notFound();

@@ -25,6 +25,10 @@ export default function ProfileSettingsPage() {
   const [profile, setProfile] = useState<any>(null);
   const [isUpdating, setIsUpdating] = useState(false);
 
+  const [passwordError, setPasswordError] = useState<string | null>(null);
+  const [passwordSuccess, setPasswordSuccess] = useState<string | null>(null);
+  const [isUpdatingPassword, setIsUpdatingPassword] = useState(false);
+
   const supabase = createClient();
 
   useEffect(() => {
@@ -62,6 +66,39 @@ export default function ProfileSettingsPage() {
       fetchProfile();
     }
     setIsUpdating(false);
+  };
+
+  const handlePasswordUpdate = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setPasswordError(null);
+    setPasswordSuccess(null);
+    setIsUpdatingPassword(true);
+
+    const formData = new FormData(e.currentTarget);
+    const password = formData.get('password') as string;
+    const confirmPassword = formData.get('confirm_password') as string;
+
+    if (password !== confirmPassword) {
+      setPasswordError("Passwords do not match.");
+      setIsUpdatingPassword(false);
+      return;
+    }
+
+    if (password.length < 6) {
+      setPasswordError("Password must be at least 6 characters.");
+      setIsUpdatingPassword(false);
+      return;
+    }
+
+    const { error } = await supabase.auth.updateUser({ password });
+
+    if (error) {
+      setPasswordError(error.message);
+    } else {
+      setPasswordSuccess("Password updated successfully.");
+      e.currentTarget.reset();
+    }
+    setIsUpdatingPassword(false);
   };
 
   if (loading) return (
@@ -118,6 +155,51 @@ export default function ProfileSettingsPage() {
                       className="px-8 py-3 bg-accent text-background-primary text-[10px] font-bold uppercase tracking-widest hover:bg-accent-hover transition-colors disabled:opacity-50"
                     >
                        {isUpdating ? 'Updating...' : 'Save Identity'}
+                    </button>
+                 </div>
+              </form>
+           </section>
+
+           {/* Security Settings */}
+           <section className="space-y-6">
+              <div className="flex items-center gap-3 border-b border-border-slate/50 pb-2">
+                 <ShieldCheck className="w-4 h-4 text-accent" />
+                 <h2 className="text-sm font-display font-bold uppercase tracking-widest">Security & Credentials</h2>
+              </div>
+              <form onSubmit={handlePasswordUpdate} className="grid grid-cols-1 gap-6 bg-background-surface border border-border-slate p-8">
+                 <div className="space-y-2">
+                    <label className="text-[10px] font-mono uppercase text-text-tertiary">New Password</label>
+                    <input 
+                      type="password"
+                      name="password" 
+                      required
+                      placeholder="••••••••" 
+                      className="w-full bg-background-primary border border-border-slate p-4 text-sm outline-none focus:border-accent" 
+                    />
+                 </div>
+                 <div className="space-y-2">
+                    <label className="text-[10px] font-mono uppercase text-text-tertiary">Confirm Password</label>
+                    <input 
+                      type="password"
+                      name="confirm_password" 
+                      required
+                      placeholder="••••••••" 
+                      className="w-full bg-background-primary border border-border-slate p-4 text-sm outline-none focus:border-accent" 
+                    />
+                 </div>
+                 {passwordError && (
+                    <p className="text-xs text-loss">{passwordError}</p>
+                 )}
+                 {passwordSuccess && (
+                    <p className="text-xs text-profit">{passwordSuccess}</p>
+                 )}
+                 <div className="flex justify-end">
+                    <button 
+                      type="submit" 
+                      disabled={isUpdatingPassword}
+                      className="px-8 py-3 bg-accent text-background-primary text-[10px] font-bold uppercase tracking-widest hover:bg-accent-hover transition-colors disabled:opacity-50"
+                    >
+                       {isUpdatingPassword ? 'Updating...' : 'Update Password'}
                     </button>
                  </div>
               </form>

@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { Calendar, Radio, TrendingUp, Newspaper } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -52,6 +53,54 @@ const topMovers = [
 
 export function LiveNewsSection() {
   const cardClasses = "bg-white border border-mkt-bd rounded-[14px] p-6 hover:-translate-y-0.5 hover:shadow-[0_8px_32px_rgba(0,0,0,0.07)] transition-all duration-300";
+  const calendarContainerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!calendarContainerRef.current) return;
+
+    calendarContainerRef.current.innerHTML = "";
+
+    const script = document.createElement("script");
+    script.src = "https://s3.tradingview.com/external-embedding/embed-widget-events.js";
+    script.type = "text/javascript";
+    script.async = true;
+    script.innerHTML = JSON.stringify({
+      colorTheme: "light",
+      isTransparent: false,
+      locale: "en",
+      countryFilter: "ar,au,br,ca,cn,fr,de,in,id,it,jp,kr,mx,ru,sa,za,tr,gb,us,eu",
+      importanceFilter: "-1,0,1",
+      width: "100%",
+      height: 550
+    });
+
+    const widgetDiv = document.createElement("div");
+    widgetDiv.className = "tradingview-widget-container__widget";
+
+    const copyrightDiv = document.createElement("div");
+    copyrightDiv.className = "tradingview-widget-copyright text-center text-[10px] text-mkt-i3 mt-2";
+    
+    const copyrightLink = document.createElement("a");
+    copyrightLink.href = "https://www.tradingview.com/economic-calendar/";
+    copyrightLink.rel = "noopener nofollow";
+    copyrightLink.target = "_blank";
+    
+    const spanBlue = document.createElement("span");
+    spanBlue.className = "blue-text text-accent hover:underline";
+    spanBlue.textContent = "Economic Calendar";
+    
+    const spanTrademark = document.createElement("span");
+    spanTrademark.className = "trademark text-text-tertiary";
+    spanTrademark.textContent = " by TradingView";
+    
+    copyrightLink.appendChild(spanBlue);
+    copyrightDiv.appendChild(copyrightLink);
+    copyrightDiv.appendChild(spanTrademark);
+
+    calendarContainerRef.current.appendChild(widgetDiv);
+    calendarContainerRef.current.appendChild(copyrightDiv);
+    calendarContainerRef.current.appendChild(script);
+  }, []);
 
   return (
     <section className="w-full bg-white border-b border-mkt-bd py-24 select-none relative z-10">
@@ -167,26 +216,10 @@ export function LiveNewsSection() {
                 <span className="text-[10px] font-mono text-mkt-i4 uppercase tracking-widest">TODAY</span>
               </div>
               
-              <div className="space-y-3">
-                {calendarEvents.map((evt, idx) => (
-                  <div 
-                    key={idx}
-                    className="flex items-center justify-between py-2.5 border-b border-neutral-100 last:border-b-0 last:pb-0"
-                  >
-                    <div className="flex items-center gap-3">
-                      {/* Impact Dot */}
-                      <span className={cn(
-                        "w-2 h-2 rounded-full shrink-0",
-                        evt.impact === "high" ? "bg-mkt-red" : evt.impact === "medium" ? "bg-mkt-amb" : "bg-neutral-300"
-                      )} />
-                      <span className="text-xs font-mono text-mkt-i3">{evt.time}</span>
-                      <span className="text-xs font-mono font-bold text-mkt-ink">{evt.currency}</span>
-                    </div>
-                    <span className="text-xs text-mkt-i3 font-sans text-right max-w-[180px] truncate">
-                      {evt.event}
-                    </span>
-                  </div>
-                ))}
+              <div className="w-full overflow-hidden">
+                <div className="overflow-x-auto w-full flex justify-center">
+                  <div ref={calendarContainerRef} className="tradingview-widget-container min-w-[320px] w-full flex flex-col items-center" />
+                </div>
               </div>
             </div>
 

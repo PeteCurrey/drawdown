@@ -116,8 +116,16 @@ export default function sitemap(): MetadataRoute.Sitemap {
     changeFrequency: "monthly" as const,
   }));
 
+  const riskCalculatorRoute = {
+    url: `${baseUrl}/tools/risk-calculator`,
+    lastModified: new Date(),
+    changeFrequency: "weekly" as const,
+    priority: 0.8,
+  };
+
   return [
     ...routes,
+    riskCalculatorRoute,
     ...topics,
     ...blogs,
     ...ukLocationRoutes,

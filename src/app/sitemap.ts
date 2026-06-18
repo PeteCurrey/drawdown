@@ -1,13 +1,7 @@
 import { MetadataRoute } from "next";
 import { siteConfig } from "@/lib/metadata";
 import { getAllPosts } from "@/lib/blog";
-
-const MARKET_SLUGS = [
-  "gbpusd", "eurusd", "usdjpy", "gbpjpy", "audusd",
-  "ftse-100", "sp-500", "nasdaq", "dax-40",
-  "bitcoin", "ethereum",
-  "gold-xauusd", "crude-oil-wti"
-];
+import { MARKETS_CONFIG } from "@/lib/markets-config";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = siteConfig.url;
@@ -25,8 +19,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/disclaimer",
     "/brokers",
     "/prop-firms",
-    "/markets/pulse",
-    "/store/prop-survival-kit"
+    "/store/prop-survival-kit",
+    "/markets",
+    "/markets/forex",
+    "/markets/commodities",
+    "/markets/indices",
+    "/markets/crypto"
   ].map((route) => ({
     url: `${baseUrl}${route}`,
     lastModified: new Date(),
@@ -45,9 +43,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.8,
   }));
 
-  // Market Symbol pages (13 pages)
-  const marketRoutes = MARKET_SLUGS.map((slug) => ({
-    url: `${baseUrl}/markets/${slug}`,
+  // Market Category Instrument pages (16 pages)
+  const marketRoutes = MARKETS_CONFIG.map((inst) => ({
+    url: `${baseUrl}/markets/${inst.category}/${inst.slug}`,
     lastModified: new Date(),
     changeFrequency: "weekly" as const,
     priority: 0.8,

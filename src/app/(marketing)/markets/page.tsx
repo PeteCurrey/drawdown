@@ -1,194 +1,141 @@
-"use client";
-
-import { Activity, Globe, Zap, ArrowRight, TrendingUp, AlertTriangle, ChevronRight, BarChart3, Clock } from "lucide-react";
 import Link from "next/link";
+import { ArrowRight } from "lucide-react";
+import { TradingViewTickerTape } from "@/components/markets/TradingViewTickerTape";
+
+export const metadata = {
+  title: "Markets Hub | Live Financial Charts & Analysis | Drawdown",
+  description: "Live charts, technical analysis, and Drawdown curriculum context for Forex, Commodities, Indices, and Cryptocurrencies. Real-time TradingView widgets.",
+};
+
+const CATEGORIES = [
+  {
+    slug: "forex",
+    name: "Forex",
+    count: "6 Major Pairs",
+    desc: "Live TradingView charts, technical analysis gauges, and curriculum context for GBP/USD, EUR/USD, USD/JPY, and other major forex pairs.",
+    badge: "GBP/USD, EUR/USD, USD/JPY"
+  },
+  {
+    slug: "commodities",
+    name: "Commodities",
+    count: "Precious Metals & Energy",
+    desc: "Macro commodities including safe-haven assets (Gold, Silver) and energy (WTI Crude Oil) with key fundamental driver breakdowns.",
+    badge: "Gold, Silver, Crude Oil"
+  },
+  {
+    slug: "indices",
+    name: "Indices",
+    count: "US & UK Equity Benchmarks",
+    desc: "Global equity benchmarks tracking UK and US economic health. Essential directional sentiment indicators for cross-asset trading.",
+    badge: "FTSE 100, S&P 500, NASDAQ"
+  },
+  {
+    slug: "crypto",
+    name: "Cryptocurrencies",
+    count: "24/7 Digital Assets",
+    desc: "High-beta digital assets (Bitcoin, Ethereum, XRP) covered in Drawdown's Phase 6 advanced risk management modules.",
+    badge: "Bitcoin, Ethereum, XRP"
+  }
+];
 
 export default function MarketsHubPage() {
   return (
-    <div className="flex flex-col min-h-screen bg-background-primary text-text-primary">
+    <div className="flex flex-col bg-[#0A0A0A] text-white min-h-screen selection:bg-[#C8F135] selection:text-black">
       
-      {/* Hero Section */}
-      <section className="relative pt-20 pb-16 min-h-screen flex flex-col justify-center overflow-hidden border-b border-border-slate/50 bg-background-surface/40 backdrop-blur-md">
-        <div className="w-full max-w-7xl mx-auto px-6 relative z-10">
-          <div className="max-w-4xl space-y-6">
-            <div className="flex items-center gap-3 text-accent">
-               <div className="w-8 h-[1px] bg-accent" />
-               <span className="text-[10px] font-mono uppercase tracking-[0.3em] font-bold">LIVE INTELLIGENCE</span>
-            </div>
-            
-            <h1 className="font-sans font-extrabold uppercase tracking-tight leading-[0.9]">
-              Market Intelligence <br />
-              <span className="text-text-primary">Command Center.</span>
-            </h1>
-            
-            <p className="text-lg md:text-xl text-text-secondary leading-relaxed max-w-3xl font-medium">
-              Live institutional data flows, volatility metrics, and actionable setups. Cut through the noise and see where the smart money is moving today.
-            </p>
-          </div>
+      {/* Ticker Tape at the top of the page */}
+      <div className="w-full bg-[#0d0d0d] border-b border-white/5">
+        <TradingViewTickerTape />
+      </div>
+
+      {/* HERO SECTION */}
+      <section className="relative w-full py-24 px-6 border-b border-white/5 bg-[#0A0A0A] overflow-hidden">
+        
+        {/* Background gradient flares */}
+        <div className="absolute inset-0 z-0 opacity-10 pointer-events-none select-none">
+          <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-[#C8F135]/5 blur-[150px] rounded-full" />
         </div>
 
-        {/* Aesthetic Background Pattern */}
-        <div className="absolute top-0 right-0 w-1/2 h-full opacity-5 pointer-events-none overflow-hidden">
-           <div className="absolute inset-0 bg-[linear-gradient(90deg,transparent_10%,var(--color-accent)_10.5%,transparent_11%)] [background-size:2vw_100%]" />
+        <div className="max-w-4xl mx-auto text-center space-y-6 relative z-10">
+          <span className="text-xs font-sans font-bold tracking-widest text-[#C8F135] uppercase block">
+            // DRAWDOWN MARKET INTELLIGENCE
+          </span>
+          
+          <h1 className="text-4xl lg:text-6xl font-sans font-extrabold text-white tracking-tight leading-none uppercase">
+            Markets Hub
+          </h1>
+          
+          <p className="text-lg md:text-xl text-white/70 max-w-2xl mx-auto font-sans leading-relaxed">
+            Live charts, technical analysis and trading context for every major market we cover. Explore our categories to start.
+          </p>
         </div>
       </section>
 
-      {/* Macro Overlay / Pete's Bias */}
-      <section className="border-b border-border-slate/50 relative overflow-hidden bg-background-surface/40 backdrop-blur-md">
-        <div className="absolute left-0 top-0 bottom-0 w-1 bg-warning" />
-        <div className="max-w-7xl mx-auto px-6 py-8">
-          <div className="flex flex-col md:flex-row gap-8 items-start md:items-center justify-between">
-            <div>
-              <div className="flex items-center gap-2 text-warning mb-2">
-                <AlertTriangle className="w-4 h-4" />
-                <span className="text-[10px] font-mono uppercase tracking-widest font-bold">Current Macro Bias</span>
+      {/* CATEGORY GRID SECTION */}
+      <section className="py-24 max-w-7xl mx-auto px-6 w-full">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {CATEGORIES.map(cat => (
+            <Link 
+              key={cat.slug} 
+              href={`/markets/${cat.slug}`}
+              className="bg-white/[0.02] border border-white/8 rounded-2xl p-8 hover:border-white/20 hover:-translate-y-0.5 transition-all duration-300 flex flex-col justify-between group cursor-pointer"
+            >
+              <div className="space-y-6">
+                
+                {/* Header Row */}
+                <div className="flex justify-between items-start">
+                  <div>
+                    <h2 className="text-2xl font-sans font-extrabold text-white tracking-tight group-hover:text-[#C8F135] transition-colors uppercase">
+                      {cat.name}
+                    </h2>
+                    <span className="inline-block mt-2 text-[10px] font-mono tracking-widest uppercase text-white/40">
+                      {cat.count}
+                    </span>
+                  </div>
+                  <span className="text-[10px] font-mono font-bold tracking-widest text-[#C8F135] bg-[#C8F135]/5 border border-[#C8F135]/15 px-3 py-1 rounded-full uppercase">
+                    {cat.slug}
+                  </span>
+                </div>
+
+                {/* Description */}
+                <p className="text-sm md:text-base text-white/60 leading-relaxed font-sans">
+                  {cat.desc}
+                </p>
               </div>
-              <h2 className="text-2xl font-sans font-bold text-text-primary mb-2">Risk-Off: DXY Strength Dominating</h2>
-              <p className="text-sm text-text-secondary max-w-2xl leading-relaxed">
-                "Yields are pushing higher ahead of Friday's PCE print. Expect equity weakness and USD pairs to drift lower. Do not try to catch falling knives in tech today." — Pete C.
-              </p>
-            </div>
-            <Link href="/learn/pete-memo" className="shrink-0 px-6 py-3 border border-warning/50 text-warning hover:bg-warning/10 transition-colors text-xs font-bold uppercase tracking-widest flex items-center gap-2">
-               Read Full Memo <ChevronRight className="w-4 h-4" />
+
+              {/* Bottom Row */}
+              <div className="flex justify-between items-center pt-8 border-t border-white/5 mt-8">
+                <span className="text-xs text-white/40 font-mono tracking-wide">
+                  {cat.badge}
+                </span>
+                
+                <span className="text-sm font-bold text-[#C8F135] flex items-center gap-1.5 group-hover:underline">
+                  Explore Category <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+                </span>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      {/* BOTTOM BANNER STRIP */}
+      <section className="py-20 bg-[#C8F135]/5 border-y border-[#C8F135]/20 text-center select-none mt-auto">
+        <div className="max-w-4xl mx-auto px-6 space-y-6">
+          <h2 className="text-3xl md:text-4xl font-sans font-extrabold text-white tracking-tight leading-tight">
+            Start Learning with Live Data Today
+          </h2>
+          <p className="text-sm md:text-base text-white/70 max-w-xl mx-auto font-sans leading-relaxed">
+            Every charting resource in the Drawdown academy utilizes TradingView integration. Gain access to macro analysis, calculators, and tools.
+          </p>
+          
+          <div className="pt-4">
+            <Link
+              href="/signup"
+              className="inline-flex items-center justify-center px-10 py-4 bg-[#C8F135] text-black font-bold text-base tracking-wide rounded-lg hover:opacity-95 shadow-xl shadow-[#C8F135]/5 font-sans"
+            >
+              Start Free on Drawdown &rarr;
             </Link>
           </div>
         </div>
-      </section>
-
-      {/* Asset Blocks Grid */}
-      <section className="py-16">
-         <div className="max-w-7xl mx-auto px-6">
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-               
-               {/* Forex Block */}
-               <div className="bg-background-surface/40 border border-border-slate/50 backdrop-blur-md rounded-2xl transition-all duration-300 hover:shadow-[0_8px_32px_rgba(0,0,0,0.06)] hover:-translate-y-0.5 flex flex-col group hover:border-border-slate overflow-hidden">
-                  <div className="p-6 border-b border-border-slate/30 flex justify-between items-center">
-                     <h3 className="text-xl font-sans font-bold uppercase text-text-primary flex items-center gap-2">
-                        <Globe className="w-5 h-5 text-accent" /> Forex
-                     </h3>
-                     <span className="text-[10px] font-mono text-profit uppercase tracking-widest bg-profit/10 px-2 py-1">High Volatility</span>
-                  </div>
-                  
-                  <div className="p-6 space-y-6 flex-grow">
-                     <div>
-                        <p className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary mb-3">Top Movers (24H)</p>
-                        <div className="space-y-3">
-                           <div className="flex justify-between items-center">
-                              <span className="text-sm font-bold text-text-primary">EUR/USD</span>
-                              <span className="text-sm text-red-500 font-mono">-0.45%</span>
-                           </div>
-                           <div className="flex justify-between items-center">
-                              <span className="text-sm font-bold text-text-primary">USD/JPY</span>
-                              <span className="text-sm text-profit font-mono">+0.82%</span>
-                           </div>
-                        </div>
-                     </div>
-
-                     <div className="pt-6 border-t border-border-slate/30">
-                        <p className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary mb-3">Key Data Today</p>
-                        <div className="flex items-start gap-3">
-                           <Clock className="w-4 h-4 text-warning shrink-0 mt-0.5" />
-                           <div>
-                              <p className="text-sm text-text-primary font-bold">13:30 GMT - US Core CPI</p>
-                              <p className="text-xs text-text-secondary mt-1">Expected: 0.3% | Prev: 0.4%</p>
-                           </div>
-                        </div>
-                     </div>
-                  </div>
-
-                  {/* Affiliate Monetization */}
-                  <div className="p-6 border-t border-border-slate/30">
-                     <p className="text-xs text-text-secondary mb-3">Trading Forex?</p>
-                     <a href="/go/pepperstone" className="flex items-center justify-between text-sm font-bold text-text-primary hover:text-accent transition-colors">
-                        Trade on Pepperstone (Raw Spreads) <ArrowRight className="w-4 h-4" />
-                     </a>
-                  </div>
-               </div>
-
-               {/* Indices Block */}
-               <div className="bg-background-surface/40 border border-border-slate/50 backdrop-blur-md rounded-2xl transition-all duration-300 hover:shadow-[0_8px_32px_rgba(0,0,0,0.06)] hover:-translate-y-0.5 flex flex-col group hover:border-border-slate overflow-hidden">
-                  <div className="p-6 border-b border-border-slate/30 flex justify-between items-center">
-                     <h3 className="text-xl font-sans font-bold uppercase text-text-primary flex items-center gap-2">
-                        <BarChart3 className="w-5 h-5 text-accent" /> Indices
-                     </h3>
-                     <span className="text-[10px] font-mono text-red-500 uppercase tracking-widest bg-loss/10 px-2 py-1">Risk-Off</span>
-                  </div>
-                  
-                  <div className="p-6 space-y-6 flex-grow">
-                     <div>
-                        <p className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary mb-3">Market Proximity</p>
-                        <div className="space-y-3">
-                           <div className="flex justify-between items-center">
-                              <span className="text-sm font-bold text-text-primary">S&P 500</span>
-                              <span className="text-xs text-text-secondary">Testing 50 SMA</span>
-                           </div>
-                           <div className="flex justify-between items-center">
-                              <span className="text-sm font-bold text-text-primary">NASDAQ 100</span>
-                              <span className="text-xs text-red-500">Broke Support</span>
-                           </div>
-                        </div>
-                     </div>
-
-                     <div className="pt-6 border-t border-border-slate/30">
-                        <p className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary mb-3">Educational Primer</p>
-                        <Link href="/learn/trading-nasdaq-open" className="text-sm font-bold text-text-primary hover:text-accent transition-colors block">
-                           How to trade the NY Equity Open Volatility &rarr;
-                        </Link>
-                     </div>
-                  </div>
-
-                  {/* Affiliate Monetization */}
-                  <div className="p-6 border-t border-border-slate/30">
-                     <p className="text-xs text-text-secondary mb-3">Trading Indices?</p>
-                     <a href="/go/ig-markets" className="flex items-center justify-between text-sm font-bold text-text-primary hover:text-accent transition-colors">
-                        Trade on IG (Tax-Free UK) <ArrowRight className="w-4 h-4" />
-                     </a>
-                  </div>
-               </div>
-
-               {/* Crypto & Metals Block */}
-               <div className="bg-background-surface/40 border border-border-slate/50 backdrop-blur-md rounded-2xl transition-all duration-300 hover:shadow-[0_8px_32px_rgba(0,0,0,0.06)] hover:-translate-y-0.5 flex flex-col group hover:border-border-slate overflow-hidden">
-                  <div className="p-6 border-b border-border-slate/30 flex justify-between items-center">
-                     <h3 className="text-xl font-sans font-bold uppercase text-text-primary flex items-center gap-2">
-                        <TrendingUp className="w-5 h-5 text-accent" /> Crypto & Gold
-                     </h3>
-                     <span className="text-[10px] font-mono text-warning uppercase tracking-widest bg-warning/10 px-2 py-1">Consolidating</span>
-                  </div>
-                  
-                  <div className="p-6 space-y-6 flex-grow">
-                     <div>
-                        <p className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary mb-3">Key Assets</p>
-                        <div className="space-y-3">
-                           <div className="flex justify-between items-center">
-                              <span className="text-sm font-bold text-text-primary">XAU/USD</span>
-                              <span className="text-sm text-profit font-mono">+0.15%</span>
-                           </div>
-                           <div className="flex justify-between items-center">
-                              <span className="text-sm font-bold text-text-primary">BTC/USD</span>
-                              <span className="text-sm text-red-500 font-mono">-2.10%</span>
-                           </div>
-                        </div>
-                     </div>
-
-                     <div className="pt-6 border-t border-border-slate/30">
-                        <p className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary mb-3">Institutional Insight</p>
-                        <p className="text-sm text-text-secondary">
-                           Gold holding steady despite dollar strength, indicating underlying safe-haven bid. BTC struggling to clear resistance.
-                        </p>
-                     </div>
-                  </div>
-
-                  {/* Affiliate Monetization */}
-                  <div className="p-6 border-t border-border-slate/30">
-                     <p className="text-xs text-text-secondary mb-3">Trading Gold?</p>
-                     <Link href="/brokers/best-for-gold" className="flex items-center justify-between text-sm font-bold text-text-primary hover:text-accent transition-colors">
-                        Find the Best Broker for XAU <ArrowRight className="w-4 h-4" />
-                     </Link>
-                  </div>
-               </div>
-
-            </div>
-         </div>
       </section>
 
     </div>

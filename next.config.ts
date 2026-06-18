@@ -77,12 +77,12 @@ const nextConfig: NextConfig = {
         permanent: false,
       },
       {
-        source: "/compare/:slug*",
+        source: "/compare/:slug",
         destination: "/brokers",
         permanent: true,
       },
       {
-        source: "/how-to/:slug*",
+        source: "/how-to/:slug",
         destination: "/learn-to-trade",
         permanent: true,
       },
@@ -112,7 +112,7 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
       {
-        source: "/best/:slug*",
+        source: "/best/:slug",
         destination: "/learn-to-trade",
         permanent: true,
       },
@@ -221,7 +221,7 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
       {
-        source: "/prop-firms/:slug*",
+        source: "/prop-firms/:slug",
         destination: "/prop-firms",
         permanent: true,
       },

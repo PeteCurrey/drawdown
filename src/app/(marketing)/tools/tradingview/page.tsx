@@ -6,27 +6,55 @@ import { FadeInSection } from "@/components/animations/FadeInSection";
 import TVTickerTape from "@/components/tools/TVTickerTape";
 import TVTechnicalAnalysis from "@/components/tools/TVTechnicalAnalysis";
 import { TradingViewChart } from "@/components/markets/TradingViewChart";
+import { Region, REGIONS, REGIONS_MAP } from "@/lib/seo/hreflang";
+import { RegionalProvider } from "@/components/layout/RegionalLayout";
 
-export const metadata: Metadata = {
-  title: "TradingView Review for UK Traders (2026) — Is It Worth It? | Drawdown",
-  description: "An honest TradingView review from traders who use it daily. Free vs paid plans compared, UK-specific features, and why it's the charting platform we recommend to every Drawdown member.",
-  alternates: {
-    canonical: "https://drawdown.trading/tools/tradingview",
-  },
-  openGraph: {
-    type: "article",
-    title: "TradingView Review for UK Traders (2026) — Is It Worth It? | Drawdown",
-    description: "An honest TradingView review from traders who use it daily. Free vs paid plans compared, UK-specific features, and why it's the charting platform we recommend to every Drawdown member.",
-    url: "https://drawdown.trading/tools/tradingview",
-    siteName: "Drawdown",
-  }
-};
+interface Props {
+  params: Promise<{ region?: string }>;
+}
 
-export default function TradingViewReview() {
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const resolvedParams = await params;
+  const region = (resolvedParams?.region || "uk") as Region;
+  const regionData = REGIONS_MAP[region] || REGIONS_MAP.uk;
+  const demonym = regionData.demonym;
+
+  return {
+    title: `TradingView Review for ${demonym} Traders (2026) — Is It Worth It? | Drawdown`,
+    description: `An honest TradingView review from traders who use it daily. Free vs paid plans compared, ${region === "uk" ? "UK-specific" : demonym + " trader"} features, and why it's the charting platform we recommend to every Drawdown member.`,
+    alternates: {
+      canonical: `https://drawdown.trading/${region === "uk" ? "" : region + "/"}tools/tradingview`,
+    },
+    openGraph: {
+      type: "article",
+      title: `TradingView Review for ${demonym} Traders (2026) — Is It Worth It? | Drawdown`,
+      description: `An honest TradingView review from traders who use it daily. Free vs paid plans compared, ${region === "uk" ? "UK-specific" : demonym + " trader"} features, and why it's the charting platform we recommend to every Drawdown member.`,
+      url: `https://drawdown.trading/${region === "uk" ? "" : region + "/"}tools/tradingview`,
+      siteName: "Drawdown",
+    }
+  };
+}
+
+export default async function TradingViewReviewPage({ params }: Props) {
+  const resolvedParams = await params;
+  const region = (resolvedParams?.region || "uk") as Region;
+
+  return (
+    <RegionalProvider region={region}>
+      <TradingViewReviewContent region={region} />
+    </RegionalProvider>
+  );
+}
+
+function TradingViewReviewContent({ region }: { region: Region }) {
+  const regionData = REGIONS_MAP[region] || REGIONS_MAP.uk;
+  const demonym = regionData.demonym;
+  const countryLabel = regionData.label;
+
   const articleSchema = {
     "@context": "https://schema.org",
     "@type": "Article",
-    "headline": "TradingView Review for UK Traders (2026) — Is It Worth It?",
+    "headline": `TradingView Review for ${demonym} Traders (2026) — Is It Worth It?`,
     "author": {
       "@type": "Person",
       "name": "Pete Currey"
@@ -43,6 +71,109 @@ export default function TradingViewReview() {
     "dateModified": "2026-06-14"
   };
 
+  const getOverviewText = (r: Region) => {
+    switch (r) {
+      case "au":
+        return "For Australian traders specifically, TradingView covers the instruments AU CFD traders actually trade: ASX stocks, AUS 200 index, major FX pairs, Gold, Brent Crude, and the major indices. All with real-time or delayed data depending on your plan.";
+      case "us":
+        return "For US traders specifically, TradingView covers the instruments US retail traders actually trade: US equities (NYSE, NASDAQ), CME Group futures, major FX pairs, Gold, and global benchmarks. All with real-time or delayed data depending on your plan.";
+      case "sg":
+        return "For Singaporean traders specifically, TradingView covers the instruments SG CFD traders actually trade: SGX stocks, Singapore 30 Index, major FX pairs, Gold, and global benchmarks. All with real-time or delayed data depending on your plan.";
+      case "hk":
+        return "For Hong Kong traders specifically, TradingView covers the instruments HK retail traders actually trade: HKEX stocks, Hang Seng Index (HK50), major FX pairs, Gold, and global benchmarks. All with real-time or delayed data depending on your plan.";
+      default:
+        return `For ${demonym} traders specifically, TradingView covers the instruments you actually trade: local stock listings, major regional indices, major FX pairs, Gold, Brent Crude, and global benchmarks. All with real-time or delayed data depending on your plan.`;
+    }
+  };
+
+  const getRegionalCards = (r: Region) => {
+    switch (r) {
+      case "au":
+        return [
+          {
+            title: "Australian Market Coverage",
+            body: "TradingView covers all Australian trading instruments: ASX-listed stocks, AUS 200 (SPI 200), AUD/USD, AUD crosses, Gold (XAUUSD), Brent Crude, and global indices. Real-time data for ASX listings is available via supplementary exchange subscriptions."
+          },
+          {
+            title: "Broker Integration",
+            body: "TradingView integrates directly with several ASIC-regulated brokers for direct-from-chart trading. Pepperstone and Interactive Brokers both offer TradingView integration — meaning you can execute CFD or forex trades directly from your TradingView chart without switching platforms."
+          },
+          {
+            title: "No Additional Software Required",
+            body: "TradingView runs entirely in your browser. No download, no installation, no MT4 or MT5 required. This is a massive improvement over legacy desktop platforms like IRESS, giving Australian traders a clean and unified charting environment."
+          }
+        ];
+      case "us":
+        return [
+          {
+            title: "US Market Coverage",
+            body: "TradingView offers direct, comprehensive coverage of US markets: NYSE, NASDAQ, CME Group futures (ES, NQ, RTY), major currency pairs (EUR/USD, USD/JPY), Gold (XAUUSD), and major global benchmarks."
+          },
+          {
+            title: "Broker Integration",
+            body: "TradingView integrates directly with several US-regulated brokers for direct-from-chart trading. TradeStation, OANDA, and Interactive Brokers all offer TradingView integration — meaning you can execute futures, equities, or forex trades directly from your TradingView chart."
+          },
+          {
+            title: "No Additional Software Required",
+            body: "TradingView runs entirely in your browser. No download, no installation required. This is a massive improvement over legacy desktop charting software like ThinkOrSwim or NinjaTrader, giving US traders a clean and modern environment."
+          }
+        ];
+      case "sg":
+        return [
+          {
+            title: "Singapore Market Coverage",
+            body: "TradingView covers Singapore market instruments: SGX-listed equities, Singapore 30 Index, USD/SGD, Asian FX crosses, Gold (XAUUSD), Crude Oil, and major global indices."
+          },
+          {
+            title: "Broker Integration",
+            body: "TradingView integrates directly with several MAS-regulated brokers for direct-from-chart trading. Saxo Markets, Pepperstone, and Interactive Brokers offer TradingView integration — meaning you can execute CFD or forex trades directly from your TradingView chart."
+          },
+          {
+            title: "No Additional Software Required",
+            body: "TradingView runs entirely in your browser. No download, no installation, no MT4 or MT5 required. This is a huge benefit for Singaporean traders compared to legacy broker proprietary software."
+          }
+        ];
+      case "hk":
+        return [
+          {
+            title: "Hong Kong Market Coverage",
+            body: "TradingView covers Hong Kong trading instruments: HKEX-listed stocks, Hang Seng Index (HK50), USD/HKD, regional forex pairs, Gold (XAUUSD), and international benchmarks."
+          },
+          {
+            title: "Broker Integration",
+            body: "TradingView integrates directly with SFC-licensed brokers for direct-from-chart trading. Interactive Brokers and other global partners allow you to execute trades directly from your charts."
+          },
+          {
+            title: "No Additional Software Required",
+            body: "TradingView runs entirely in your browser. No download, no installation, no MT4 or MT5 required. This provides Hong Kong traders with a modern, cloud-synced alternative to legacy desktop terminals."
+          }
+        ];
+      default: // uk and fallback
+        return [
+          {
+            title: `${r === "uk" ? "UK" : countryLabel} Market Coverage`,
+            body: r === "uk"
+              ? "TradingView covers all UK spread betting instruments: FTSE 100 (UK100), FTSE 250 (UK250), GBP/USD, EUR/GBP, GBP/JPY and all major FX crosses, Gold (XAUUSD), Brent Crude (UKOIL), and the major US indices (SPX, NAS100, DJI). Real-time data for most instruments requires a Plus plan or above."
+              : `TradingView covers your local stock exchanges, major regional indices, spot currency pairs, commodities, and global instruments. Real-time data for some local exchanges requires additional subscriptions.`
+          },
+          {
+            title: "Broker Integration",
+            body: r === "uk"
+              ? "TradingView integrates directly with several FCA-regulated brokers for direct-from-chart trading. Pepperstone and IG Markets both offer TradingView integration — meaning you can execute spread betting or CFD trades directly from your TradingView chart without switching platforms. This is the workflow most serious UK retail traders use."
+              : `TradingView integrates with several globally-regulated brokers (like Pepperstone or Interactive Brokers) for direct-from-chart trading. This allows execution directly from charts.`
+          },
+          {
+            title: "No Additional Software Required",
+            body: r === "uk"
+              ? "TradingView runs entirely in your browser. No download, no installation, no MT4 or MT5 required. This matters for UK spread bettors because IG Markets' own platform and the spread betting interface work better alongside a dedicated charting platform than trying to chart and trade in the same window."
+              : `TradingView runs entirely in your browser with no installation, making it perfect for charting alongside your local broker execution window.`
+          }
+        ];
+    }
+  };
+
+  const featureCards = getRegionalCards(region);
+
   return (
     <article className="pb-24">
       <StructuredData type="Article" data={articleSchema} />
@@ -55,7 +186,7 @@ export default function TradingViewReview() {
               TOOL REVIEW
             </span>
             <h1 className="text-4xl md:text-6xl font-display font-bold text-text-primary tracking-tight leading-tight">
-              TradingView — The Honest Review for UK Traders.
+              TradingView — The Honest Review for {demonym} Traders.
             </h1>
             <p className="text-lg text-text-tertiary max-w-2xl mx-auto">
               Used by 60+ million traders worldwide. Here's what you actually need to know before you sign up — including whether the free plan is enough.
@@ -72,10 +203,10 @@ export default function TradingViewReview() {
               Try TradingView Free →
             </Link>
             <Link
-              href="#uk-features"
+              href="#local-features"
               className="w-full sm:w-auto px-8 py-4 bg-background-surface/40 border border-border-slate/50 backdrop-blur-md text-text-primary rounded-lg font-bold text-sm tracking-wide hover:bg-background-elevated/40 transition-colors"
             >
-              Jump to UK-specific features ↓
+              Jump to local features ↓
             </Link>
           </div>
 
@@ -101,7 +232,7 @@ export default function TradingViewReview() {
               <span className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary">OVERVIEW</span>
               <h2 className="text-3xl font-display font-bold text-text-primary">What is TradingView?</h2>
             </div>
-            <div className="prose prose-lg prose-neutral text-text-tertiary max-w-none">
+            <div className="prose prose-lg prose-neutral text-text-tertiary max-w-none font-sans">
               <p>
                 TradingView is a browser-based charting and market analysis platform launched in 2011. It has grown to become the default charting environment for the majority of retail traders globally — not because it's the cheapest option, but because it's genuinely the best.
               </p>
@@ -109,7 +240,7 @@ export default function TradingViewReview() {
                 The platform combines professional-grade charting tools with a social layer where analysts and traders publish their ideas, scripts, and strategies publicly. This creates a searchable library of tens of millions of published chart analyses — more market perspective than any single trading desk could generate.
               </p>
               <p>
-                For UK traders specifically, TradingView covers the instruments UK spread bettors actually trade: FTSE 100, FTSE 250, major FX pairs, Gold, Brent Crude, and the major indices. All with real-time or delayed data depending on your plan.
+                {getOverviewText(region)}
               </p>
             </div>
 
@@ -122,7 +253,7 @@ export default function TradingViewReview() {
               ].map((stat, i) => (
                 <div key={i} className="p-4 bg-background-surface/40 border border-border-slate/50 backdrop-blur-md rounded-xl">
                   <div className="text-2xl font-bold text-text-primary">{stat.val}</div>
-                  <div className="text-xs text-text-tertiary mt-1">{stat.label}</div>
+                  <div className="text-xs text-text-tertiary mt-1 font-sans">{stat.label}</div>
                 </div>
               ))}
             </div>
@@ -146,9 +277,9 @@ export default function TradingViewReview() {
                   <tr>
                     <th className="px-6 py-4 font-bold">Feature</th>
                     <th className="px-6 py-4 font-bold">Free</th>
-                    <th className="px-6 py-4 font-bold">Essential ~£12/mo</th>
-                    <th className="px-6 py-4 font-bold">Plus ~£22/mo</th>
-                    <th className="px-6 py-4 font-bold">Premium ~£46/mo</th>
+                    <th className="px-6 py-4 font-bold font-sans">Essential ~£12/mo</th>
+                    <th className="px-6 py-4 font-bold font-sans">Plus ~£22/mo</th>
+                    <th className="px-6 py-4 font-bold font-sans">Premium ~£46/mo</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-border-slate/50 bg-background-surface/40 backdrop-blur-md">
@@ -165,11 +296,11 @@ export default function TradingViewReview() {
                     { f: "Auto chart patterns", r1: "✗", r2: "✗", r3: "✓", r4: "✓" },
                   ].map((row, i) => (
                     <tr key={i}>
-                      <td className="px-6 py-4 font-medium text-text-primary">{row.f}</td>
-                      <td className="px-6 py-4 text-text-tertiary">{row.r1 === "✓" ? <Check className="w-4 h-4 text-green-500"/> : row.r1 === "✗" ? <X className="w-4 h-4 text-red-500"/> : row.r1}</td>
-                      <td className="px-6 py-4 text-text-tertiary">{row.r2 === "✓" ? <Check className="w-4 h-4 text-green-500"/> : row.r2 === "✗" ? <X className="w-4 h-4 text-red-500"/> : row.r2}</td>
-                      <td className="px-6 py-4 text-text-tertiary">{row.r3 === "✓" ? <Check className="w-4 h-4 text-green-500"/> : row.r3 === "✗" ? <X className="w-4 h-4 text-red-500"/> : row.r3}</td>
-                      <td className="px-6 py-4 text-text-tertiary">{row.r4 === "✓" ? <Check className="w-4 h-4 text-green-500"/> : row.r4 === "✗" ? <X className="w-4 h-4 text-red-500"/> : row.r4}</td>
+                      <td className="px-6 py-4 font-medium text-text-primary font-sans">{row.f}</td>
+                      <td className="px-6 py-4 text-text-tertiary font-sans">{row.r1 === "✓" ? <Check className="w-4 h-4 text-green-500"/> : row.r1 === "✗" ? <X className="w-4 h-4 text-red-500"/> : row.r1}</td>
+                      <td className="px-6 py-4 text-text-tertiary font-sans">{row.r2 === "✓" ? <Check className="w-4 h-4 text-green-500"/> : row.r2 === "✗" ? <X className="w-4 h-4 text-red-500"/> : row.r2}</td>
+                      <td className="px-6 py-4 text-text-tertiary font-sans">{row.r3 === "✓" ? <Check className="w-4 h-4 text-green-500"/> : row.r3 === "✗" ? <X className="w-4 h-4 text-red-500"/> : row.r3}</td>
+                      <td className="px-6 py-4 text-text-tertiary font-sans">{row.r4 === "✓" ? <Check className="w-4 h-4 text-green-500"/> : row.r4 === "✗" ? <X className="w-4 h-4 text-red-500"/> : row.r4}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -178,10 +309,10 @@ export default function TradingViewReview() {
 
             <div className="bg-background-elevated/40 border border-border-slate/50 p-6 rounded-xl relative">
               <div className="text-xs font-bold uppercase tracking-widest text-text-tertiary mb-4">Pete's Recommendation</div>
-              <blockquote className="text-text-primary italic text-lg leading-relaxed">
+              <blockquote className="text-text-primary italic text-lg leading-relaxed font-sans">
                 "For most traders starting out: use the free plan for 3-6 months. If you find yourself annoyed by the single chart limitation or needing more indicators, Essential at ~£12/mo is the right upgrade. Plus is the sweet spot for active traders — 4 charts simultaneously and 100 alerts covers most real workflows. Premium is for professionals running systematic approaches who need second-level data and Volume Profile."
               </blockquote>
-              <div className="mt-4 text-sm font-bold text-text-tertiary">— Pete Currey, Drawdown</div>
+              <div className="mt-4 text-sm font-bold text-text-tertiary font-sans">— Pete Currey, Drawdown</div>
             </div>
 
             <div className="pt-2">
@@ -189,11 +320,11 @@ export default function TradingViewReview() {
                 href="/go/tradingview"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex px-8 py-4 bg-mkt-ink text-white rounded-lg font-bold text-sm tracking-wide hover:bg-mkt-i2 transition-colors"
+                className="inline-flex px-8 py-4 bg-mkt-ink text-white rounded-lg font-bold text-sm tracking-wide hover:bg-mkt-i2 transition-colors font-sans"
               >
                 Start with the free plan →
               </Link>
-              <p className="text-[10px] text-text-tertiary mt-2">Affiliate link — we may earn a commission at no cost to you.</p>
+              <p className="text-[10px] text-text-tertiary mt-2 font-sans">Affiliate link — we may earn a commission at no cost to you.</p>
             </div>
           </section>
         </FadeInSection>
@@ -261,40 +392,30 @@ export default function TradingViewReview() {
 
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-24 pt-24">
 
-        {/* SECTION 4: UK-SPECIFIC FEATURES */}
+        {/* SECTION 4: REGIONAL-SPECIFIC FEATURES */}
         <FadeInSection>
-          <section id="uk-features" className="space-y-8 scroll-mt-24">
+          <section id="local-features" className="space-y-8 scroll-mt-24">
             <div className="space-y-2">
-              <span className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary">UK TRADERS</span>
-              <h2 className="text-3xl font-display font-bold text-text-primary">What UK spread bettors actually need to know.</h2>
+              <span className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary">
+                {region === "uk" ? "UK" : demonym.toUpperCase()} TRADERS
+              </span>
+              <h2 className="text-3xl font-display font-bold text-text-primary">
+                What {region === "uk" ? "UK spread bettors" : demonym + " traders"} actually need to know.
+              </h2>
             </div>
             
             <div className="space-y-6">
-              <div className="bg-background-surface/40 border border-border-slate/50 backdrop-blur-md p-6 rounded-xl">
-                <h3 className="text-xl font-bold text-text-primary mb-3">UK Market Coverage</h3>
-                <p className="text-text-tertiary leading-relaxed">
-                  TradingView covers all UK spread betting instruments: FTSE 100 (UK100), FTSE 250 (UK250), GBP/USD, EUR/GBP, GBP/JPY and all major FX crosses, Gold (XAUUSD), Brent Crude (UKOIL), and the major US indices (SPX, NAS100, DJI). Real-time data for most instruments requires a Plus plan or above.
-                </p>
-              </div>
-
-              <div className="bg-background-surface/40 border border-border-slate/50 backdrop-blur-md p-6 rounded-xl">
-                <h3 className="text-xl font-bold text-text-primary mb-3">Broker Integration</h3>
-                <p className="text-text-tertiary leading-relaxed">
-                  TradingView integrates directly with several FCA-regulated brokers for direct-from-chart trading. Pepperstone and IG Markets both offer TradingView integration — meaning you can execute spread betting or CFD trades directly from your TradingView chart without switching platforms. This is the workflow most serious UK retail traders use.
-                </p>
-              </div>
-
-              <div className="bg-background-surface/40 border border-border-slate/50 backdrop-blur-md p-6 rounded-xl">
-                <h3 className="text-xl font-bold text-text-primary mb-3">No Additional Software Required</h3>
-                <p className="text-text-tertiary leading-relaxed">
-                  TradingView runs entirely in your browser. No download, no installation, no MT4 or MT5 required. This matters for UK spread bettors because IG Markets' own platform and the spread betting interface work better alongside a dedicated charting platform than trying to chart and trade in the same window.
-                </p>
-              </div>
+              {featureCards.map((card, i) => (
+                <div key={i} className="bg-background-surface/40 border border-border-slate/50 backdrop-blur-md p-6 rounded-xl">
+                  <h3 className="text-xl font-bold text-text-primary mb-3">{card.title}</h3>
+                  <p className="text-text-tertiary leading-relaxed font-sans">{card.body}</p>
+                </div>
+              ))}
             </div>
 
             {/* New Subsection: Technical Analysis */}
             <div className="pt-10 border-t border-border-slate/50 mt-10 space-y-6">
-              <div className="text-left space-y-3">
+              <div className="text-left space-y-3 font-sans">
                 <h3 className="text-xl font-bold text-text-primary">
                   Technical Analysis — Built In
                 </h3>
@@ -328,12 +449,12 @@ export default function TradingViewReview() {
                     "Social layer — millions of published analyses searchable",
                     "Browser-based — works on any device, no installation",
                     "Free plan is actually useful (not crippled like most)",
-                    "Broker integration with IG and Pepperstone",
+                    region === "uk" ? "Broker integration with IG and Pepperstone" : "Broker integration with tier-1 platforms",
                     "Paper trading mode for strategy testing without risk",
                     "Active development — new features added regularly",
                     "Alert system is comprehensive even on free plan"
                   ].map((pro, i) => (
-                    <li key={i} className="flex gap-3 text-text-tertiary text-sm">
+                    <li key={i} className="flex gap-3 text-text-tertiary text-sm font-sans">
                       <Check className="w-5 h-5 text-green-500 shrink-0" />
                       {pro}
                     </li>
@@ -358,7 +479,7 @@ export default function TradingViewReview() {
                     "Pine Script has a learning curve for non-developers",
                     "Mobile app is functional but desktop is significantly better for serious analysis"
                   ].map((con, i) => (
-                    <li key={i} className="flex gap-3 text-text-tertiary text-sm">
+                    <li key={i} className="flex gap-3 text-text-tertiary text-sm font-sans">
                       <X className="w-5 h-5 text-red-500 shrink-0" />
                       {con}
                     </li>
@@ -376,12 +497,12 @@ export default function TradingViewReview() {
               <span className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary">OUR WORKFLOW</span>
               <h2 className="text-3xl font-display font-bold text-text-primary">How we integrate TradingView into the Drawdown system.</h2>
             </div>
-            <div className="prose prose-lg prose-neutral text-text-tertiary max-w-none">
+            <div className="prose prose-lg prose-neutral text-text-tertiary max-w-none font-sans">
               <p>
                 Every example chart in the Drawdown curriculum is built on TradingView. When we reference price levels, structure, or setups in any course module, the chart is from TradingView. This means from Phase 1 onwards, you're learning to read charts in the same environment you'll use when you trade live.
               </p>
               <p>
-                Our specific setup: TradingView Plus or Premium for multi-chart layouts (4 charts: 15m, 1H, 4H, Daily for the same instrument), clean charts with price action only (no indicators except volume), and direct connection to Pepperstone for execution. The AI Trade Journal on Drawdown runs alongside TradingView — we analyse trades in TradingView, log them in Drawdown.
+                Our setup: TradingView Plus or Premium for multi-chart layouts (4 charts: 15m, 1H, 4H, Daily for the same instrument), clean charts with price action only (no indicators except volume), and direct connection to regulated brokers (like Pepperstone) for execution. The AI Trade Journal on Drawdown runs alongside TradingView — we analyse trades in TradingView, log them in Drawdown.
               </p>
               <p>
                 You don't need this setup to start. Free TradingView + free Drawdown account is a legitimate starting configuration that costs nothing.
@@ -395,7 +516,7 @@ export default function TradingViewReview() {
       <section className="mt-24 bg-[#0A0A0A] py-24 text-center">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
           <h2 className="text-4xl md:text-5xl font-display font-bold text-white">Our verdict: use it.</h2>
-          <p className="text-lg text-white/70 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-lg text-white/70 max-w-2xl mx-auto leading-relaxed font-sans">
             TradingView is the best charting platform available to retail traders. There is no credible alternative at any price point that matches its data coverage, indicator library, and social analysis layer. The free plan is a legitimate starting point. The paid plans are worth the cost once you know what you're doing.
             <br /><br />
             Start free. Upgrade when the limitations start to bother you. That's the right order.

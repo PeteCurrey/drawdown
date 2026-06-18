@@ -122,7 +122,13 @@ export default function PropFirmsHubPage() {
             </p>
 
             <div className="flex flex-wrap gap-3 pt-2">
-              <Link href="/prop-firms/quiz" className="px-7 py-3 rounded-lg bg-mkt-ink text-white font-sans font-semibold text-sm hover:bg-mkt-i2 transition-colors flex items-center gap-2">
+              <Link
+                href="/prop-firms/quiz"
+                className="px-7 py-3 rounded-lg text-white font-sans font-semibold text-sm transition-colors flex items-center gap-2"
+                style={{ backgroundColor: "#0A0A0A" }}
+                onMouseEnter={e => (e.currentTarget.style.backgroundColor = "#3A3A3A")}
+                onMouseLeave={e => (e.currentTarget.style.backgroundColor = "#0A0A0A")}
+              >
                 Find Your Match <ArrowRight className="w-4 h-4" />
               </Link>
               <a href="#comparison" className="px-7 py-3 rounded-lg border border-border-slate/50 hover:border-border-slate text-text-primary font-sans font-semibold text-sm transition-colors">
@@ -254,7 +260,10 @@ export default function PropFirmsHubPage() {
                      <div className="space-y-3 relative z-10">
                         <Link 
                            href={`/go/${firm.id}`}
-                           className="w-full py-3 rounded-lg bg-mkt-ink text-white hover:bg-mkt-i2 transition-colors text-center text-xs font-sans font-semibold block"
+                           className="w-full py-3 rounded-lg text-white transition-colors text-center text-xs font-sans font-semibold block"
+                           style={{ backgroundColor: "#0A0A0A" }}
+                           onMouseEnter={e => (e.currentTarget.style.backgroundColor = "#3A3A3A")}
+                           onMouseLeave={e => (e.currentTarget.style.backgroundColor = "#0A0A0A")}
                         >
                            Start Challenge
                         </Link>
@@ -289,7 +298,13 @@ export default function PropFirmsHubPage() {
                <p className="text-base text-text-tertiary leading-relaxed font-sans mb-10">
                   Get the exact <span className="text-text-primary font-bold">£14 Survival Kit</span> our desk uses to manage challenge risk. Includes the Max-Drawdown Calculator Sheet, 30-Day Evaluation Checklist, and "The Tilt Protocol".
                </p>
-               <Link href="/store/prop-survival-kit" className="inline-flex items-center gap-3 px-8 py-3.5 rounded-lg bg-mkt-ink text-white font-sans font-semibold text-sm hover:bg-mkt-i2 transition-colors">
+               <Link
+                href="/store/prop-survival-kit"
+                className="inline-flex items-center gap-3 px-8 py-3.5 rounded-lg text-white font-sans font-semibold text-sm transition-colors"
+                style={{ backgroundColor: "#0A0A0A" }}
+                onMouseEnter={e => (e.currentTarget.style.backgroundColor = "#3A3A3A")}
+                onMouseLeave={e => (e.currentTarget.style.backgroundColor = "#0A0A0A")}
+               >
                   Get The Playbook — £14
                </Link>
             </div>

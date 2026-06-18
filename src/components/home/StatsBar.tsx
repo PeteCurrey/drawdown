@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useRegion } from "@/components/layout/RegionalLayout";
 
 function useCountUp(target: number, duration: number = 1500) {
   const [count, setCount] = useState(0);
@@ -55,10 +56,27 @@ function useCountUp(target: number, duration: number = 1500) {
 }
 
 export function StatsBar() {
+  const { region } = useRegion();
   const phases = useCountUp(6);
   const modules = useCountUp(60);
   const tools = useCountUp(5);
   const brokers = useCountUp(3);
+
+  const getBrokerLabel = (r: string) => {
+    switch (r) {
+      case "au": return "ASIC Brokers";
+      case "us": return "NFA Brokers";
+      case "sg": return "MAS Brokers";
+      case "hk": return "SFC Brokers";
+      case "ca": return "IIROC Brokers";
+      case "de": return "BaFin Brokers";
+      case "ae": return "DFSA Brokers";
+      case "in": return "SEBI Brokers";
+      case "my": return "SC Brokers";
+      case "ph": return "SEC Brokers";
+      default: return "FCA Brokers";
+    }
+  };
 
   return (
     <section className="w-full bg-white z-20 select-none">
@@ -113,7 +131,7 @@ export function StatsBar() {
               {brokers.count}
             </span>
             <span className="text-[11px] font-sans font-medium text-mkt-i4 uppercase mt-1 tracking-wider">
-              FCA Brokers
+              {getBrokerLabel(region)}
             </span>
           </div>
 
@@ -135,3 +153,4 @@ export function StatsBar() {
     </section>
   );
 }
+

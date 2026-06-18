@@ -1,6 +1,7 @@
 import { Check, X, ChevronDown, AlertTriangle, Lightbulb, Compass, ShieldAlert, CheckCircle2 } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
+import { useRegion } from "@/components/layout/RegionalLayout";
 
 export function SectionA() {
   return (
@@ -190,7 +191,25 @@ export function SectionE() {
 }
 
 export function SectionF() {
+  const { region, demonym } = useRegion();
   const [openIdx, setOpenIdx] = useState<number | null>(null);
+
+  const getBestFirmAnswer = (r: string) => {
+    switch (r) {
+      case "uk":
+        return "FTMO and The5%ers are highly regarded globally. Note that prop firm payouts are generally treated as income, not gambling winnings, so they are subject to Income Tax, unlike UK Spread Betting. Consult a tax professional.";
+      case "au":
+        return "FTMO and The5%ers are highly regarded globally. Note that prop firm payouts are generally treated as ordinary taxable income in Australia. Consult a tax professional.";
+      case "us":
+        return "FTMO and The5%ers are highly regarded globally. Note that prop firm payouts are generally treated as ordinary taxable income in the US. Consult a tax professional.";
+      case "sg":
+        return "FTMO and The5%ers are highly regarded globally. Note that prop firm payouts are generally treated as ordinary income or capital gains depending on whether it is classified as professional trading in Singapore. Consult a tax professional.";
+      case "hk":
+        return "FTMO and The5%ers are highly regarded globally. Note that prop firm payouts are generally treated as ordinary income or tax-free depending on your professional trading classification in Hong Kong. Consult a tax professional.";
+      default:
+        return `FTMO and The5%ers are highly regarded globally. Note that prop firm payouts are generally treated as taxable income. Consult a local tax professional.`;
+    }
+  };
 
   const faqs = [
     {
@@ -210,10 +229,11 @@ export function SectionF() {
       a: "It depends on the firm. FTMO allows EAs as long as they aren't High Frequency Trading (HFT) bots, arbitrage bots, or tick scalping. If multiple people use the exact same commercially bought EA, firms will often flag it for 'copy trading' and deny payouts."
     },
     {
-      q: "Which firm is best for UK traders?",
-      a: "FTMO and The5%ers are highly regarded globally. Note that prop firm payouts are generally treated as income, not gambling winnings, so they are subject to Income Tax, unlike UK Spread Betting. Consult a tax professional."
+      q: "Which firm is best for " + (region === "uk" ? "UK" : demonym) + " traders?",
+      a: getBestFirmAnswer(region)
     }
   ];
+
 
   return (
     <section className="py-24 border-t border-border-slate/50">

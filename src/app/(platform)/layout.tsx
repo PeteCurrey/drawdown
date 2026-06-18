@@ -76,10 +76,10 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   };
 
   return (
-    <div className="flex h-screen bg-background-primary overflow-hidden relative">
+    <div className="marketing flex h-screen bg-background-primary text-text-primary overflow-hidden relative" data-theme="light">
       {/* Premium Dashboard Background */}
       <div 
-        className="absolute inset-0 z-0 opacity-15 mix-blend-screen pointer-events-none"
+        className="absolute inset-0 z-0 opacity-[0.03] pointer-events-none"
         style={{
           backgroundImage: "url('/images/dashboard-bg.png')",
           backgroundSize: "cover",
@@ -109,7 +109,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           )}
           <button 
             onClick={() => setIsCollapsed(!isCollapsed)}
-            className="p-1 hover:bg-background-elevated transition-colors text-text-tertiary"
+            className="p-1 hover:bg-neutral-100 transition-colors text-text-tertiary"
           >
             {isCollapsed ? <ChevronRight className="w-4 h-4" /> : <ChevronLeft className="w-4 h-4" />}
           </button>
@@ -125,11 +125,11 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 className={cn(
                   "flex items-center gap-4 px-4 py-3 text-sm font-medium transition-all group rounded-lg mx-2",
                   isActive 
-                    ? "bg-accent text-[#08090D]" 
-                    : "text-text-secondary hover:text-text-primary hover:bg-background-elevated/40"
+                    ? "bg-[#0A0A0A] text-white" 
+                    : "text-text-secondary hover:text-text-primary hover:bg-neutral-100"
                 )}
               >
-                <link.icon className={cn("w-5 h-5 shrink-0", isActive ? "text-[#08090D]" : "group-hover:text-text-primary")} />
+                <link.icon className={cn("w-5 h-5 shrink-0", isActive ? "text-white" : "group-hover:text-text-primary")} />
                 {!isCollapsed && <span className="font-bold text-[13px]">{link.name}</span>}
               </Link>
             );
@@ -139,7 +139,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         <div className="p-4 border-t border-border-slate/50 space-y-2 mt-auto mb-4">
           <button 
             onClick={handleLogout}
-            className="w-full flex items-center gap-4 px-4 py-3 text-sm text-text-secondary hover:text-loss transition-colors group rounded-lg hover:bg-background-elevated/40"
+            className="w-full flex items-center gap-4 px-4 py-3 text-sm text-text-secondary hover:text-loss transition-colors group rounded-lg hover:bg-neutral-100"
           >
             <LogOut className="w-5 h-5 shrink-0 group-hover:text-loss" />
             {!isCollapsed && <span className="font-bold text-[13px]">Logout</span>}

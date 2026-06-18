@@ -107,19 +107,36 @@ export default function DashboardPage() {
   return (
     <div className="space-y-10 stagger-children">
       {/* Header */}
-      <div>
-        <h1 className="text-3xl font-display font-bold uppercase mb-2 text-text-primary">{greeting}, {name}.</h1>
-        <p className="text-text-tertiary font-mono text-xs uppercase tracking-widest">// Market Status: London Open</p>
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 pb-6 border-b border-border-slate/50">
+        <div>
+          <p className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary mb-2">
+            // MEMBER DASHBOARD — OVERVIEW
+          </p>
+          <h1 className="text-3xl md:text-4xl font-sans font-black uppercase text-text-primary">
+            Welcome back, {name}.
+          </h1>
+        </div>
+        <div className="flex gap-4">
+          <Link
+            href="/dashboard/tools/journal"
+            className="px-6 py-3 text-white font-bold uppercase tracking-widest text-xs transition-colors flex items-center gap-2 rounded-lg"
+            style={{ backgroundColor: "#0A0A0A" }}
+            onMouseEnter={e => (e.currentTarget.style.backgroundColor = "#3A3A3A")}
+            onMouseLeave={e => (e.currentTarget.style.backgroundColor = "#0A0A0A")}
+          >
+            Log A Trade <ArrowUpRight className="w-4 h-4" />
+          </Link>
+        </div>
       </div>
 
       {/* Daily Briefing Card ("The Wire") */}
-      <div className="p-8 bg-background-surface/40 border border-border-slate/50 rounded-[20px] relative group overflow-hidden transition-all duration-300 hover:shadow-[0_8px_32px_rgba(0,0,0,0.06)] hover:-translate-y-0.5">
+      <div className="p-8 bg-background-surface/40 border border-border-slate/50 rounded-xl relative group overflow-hidden transition-all duration-300 hover:shadow-[0_8px_32px_rgba(0,0,0,0.06)] hover:-translate-y-0.5">
         <div className="absolute top-0 left-0 w-1 h-full bg-accent" />
         <div className="flex flex-col md:flex-row justify-between gap-8 relative z-10">
           <div className="space-y-4 max-w-2xl text-left">
             <div className="flex items-center gap-2 text-accent">
               <AlertCircle className="w-4 h-4" />
-              <span className="text-[10px] font-mono uppercase font-bold tracking-widest">The Wire — Latest Briefing</span>
+              <span className="text-[10px] font-mono uppercase font-bold tracking-widest text-text-secondary">The Wire — Latest Briefing</span>
             </div>
             
             {loadingBrief ? (
@@ -148,7 +165,10 @@ export default function DashboardPage() {
           </div>
           <Link 
             href="/dashboard/news"
-            className="self-start md:self-center px-8 py-3 bg-mkt-ink text-white hover:bg-mkt-i2 rounded-lg transition-colors text-xs font-bold uppercase tracking-widest shrink-0"
+            className="self-start md:self-center px-8 py-3 text-white rounded-lg transition-colors text-xs font-bold uppercase tracking-widest shrink-0"
+            style={{ backgroundColor: "#0A0A0A" }}
+            onMouseEnter={e => (e.currentTarget.style.backgroundColor = "#3A3A3A")}
+            onMouseLeave={e => (e.currentTarget.style.backgroundColor = "#0A0A0A")}
           >
             {latestBrief ? "Read Full Brief" : "Full Analysis"}
           </Link>
@@ -161,13 +181,13 @@ export default function DashboardPage() {
         <div className="lg:col-span-2 space-y-10">
           <div className="space-y-6">
             <h4 className="text-[10px] font-mono uppercase tracking-widest text-mkt-i4">Continue Learning</h4>
-            <div className="p-8 bg-background-surface/40 border border-border-slate/50 rounded-[20px] flex flex-col md:flex-row gap-8 transition-all duration-300 hover:shadow-[0_8px_32px_rgba(0,0,0,0.06)] hover:-translate-y-0.5">
+            <div className="p-8 bg-background-surface/40 border border-border-slate/50 rounded-xl flex flex-col md:flex-row gap-8 transition-all duration-300 hover:shadow-[0_8px_32px_rgba(0,0,0,0.06)] hover:-translate-y-0.5">
               <div className="w-full md:w-48 aspect-video bg-neutral-100 rounded-lg flex items-center justify-center group cursor-pointer">
-                <Play className="w-8 h-8 text-accent group-hover:scale-110 transition-transform" />
+                <Play className="w-8 h-8 text-[#0A0A0A] group-hover:scale-110 transition-transform" />
               </div>
               <div className="flex-grow space-y-4">
                 <div>
-                  <span className="text-[10px] font-mono text-accent uppercase tracking-widest">Phase 2: Technical analysis</span>
+                  <span className="text-[10px] font-mono text-text-tertiary uppercase tracking-widest">Phase 2: Technical analysis</span>
                   <h5 className="text-xl font-display font-bold uppercase mt-1 text-text-primary">Reading Candlestick Shadows</h5>
                 </div>
                 <div className="space-y-2">
@@ -175,11 +195,11 @@ export default function DashboardPage() {
                     <span>Module Progress</span>
                     <span>65%</span>
                   </div>
-                  <div className="h-1 bg-neutral-100 rounded-full w-full">
-                    <div className="h-full bg-accent rounded-full w-[65%]" />
+                  <div className="h-1 bg-neutral-100 rounded-full w-full overflow-hidden">
+                    <div className="h-full bg-[#0A0A0A] rounded-full w-[65%]" />
                   </div>
                 </div>
-                <button className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-text-primary hover:text-accent transition-colors">
+                <button className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-text-primary hover:text-text-secondary transition-colors">
                   Resume Lesson <ArrowUpRight className="w-3 h-3" />
                 </button>
               </div>
@@ -188,17 +208,20 @@ export default function DashboardPage() {
 
           {/* Account Stats */}
           <div className="space-y-6">
-            <h4 className="text-[10px] font-mono uppercase tracking-widest text-mkt-i4">Account Stats</h4>
+            <h4 className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary">Account Stats</h4>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
               {[
-                { label: "Win Rate", value: "64.2%", color: "text-mkt-grn" },
-                { label: "Max Drawdown", value: "-12.5%", color: "text-mkt-red" },
-                { label: "Total Profit", value: "£4,231.10", color: "text-mkt-grn" },
-                { label: "Current Streak", value: "3 Wins", color: "text-mkt-grn" },
+                { label: "Win Rate (MTD)", value: "64.2%", color: "text-green-600", note: "Above your 50% target" },
+                { label: "Max Drawdown", value: "-1.25%", color: "text-red-500", note: "Well within 5% limit" },
+                { label: "Total Profit", value: "£4,231.10", color: "text-green-600", note: "Current billing cycle" },
+                { label: "Current Streak", value: "3 Wins", color: "text-green-600", note: "4-day compliance streak" },
               ].map((stat, i) => (
-                <div key={i} className="p-6 bg-background-surface/40 border border-border-slate/50 rounded-[20px] text-center transition-all duration-300 hover:shadow-[0_8px_32px_rgba(0,0,0,0.06)] hover:-translate-y-0.5">
-                  <p className="text-[8px] font-mono uppercase tracking-widest text-text-tertiary mb-2">{stat.label}</p>
-                  <p className={cn("text-lg font-display font-bold uppercase", stat.color)}>{stat.value}</p>
+                <div key={i} className="bg-background-surface/40 backdrop-blur-md border border-border-slate/50 rounded-xl transition-all duration-300 hover:shadow-[0_8px_32px_rgba(0,0,0,0.06)] hover:-translate-y-0.5 p-6 hover:border-border-slate/20 transition-colors">
+                  <p className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary mb-3">{stat.label}</p>
+                  <div className={cn("text-3xl font-sans font-black mb-2", stat.color)}>
+                    {stat.value}
+                  </div>
+                  <p className="text-[10px] font-mono text-text-tertiary">{stat.note}</p>
                 </div>
               ))}
             </div>
@@ -223,7 +246,7 @@ export default function DashboardPage() {
 
       {/* Execution Hub: Watchlist & Alerts */}
       <section className="space-y-6">
-        <h4 className="text-[10px] font-mono uppercase tracking-widest text-mkt-i4">Execution Hub</h4>
+        <h4 className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary">Execution Hub</h4>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 h-[500px]">
           <div className="lg:col-span-1">
             <WatchlistManager />
@@ -231,7 +254,7 @@ export default function DashboardPage() {
           <div className="lg:col-span-1">
             <AlertCentre />
           </div>
-          <div className="lg:col-span-1 p-8 bg-background-surface/40 border border-border-slate/50 rounded-[20px] flex flex-col justify-center items-center text-center space-y-6 transition-all duration-300 hover:shadow-[0_8px_32px_rgba(0,0,0,0.06)] hover:-translate-y-0.5">
+          <div className="lg:col-span-1 p-8 bg-background-surface/40 border border-border-slate/50 rounded-xl flex flex-col justify-center items-center text-center space-y-6 transition-all duration-300 hover:shadow-[0_8px_32px_rgba(0,0,0,0.06)] hover:-translate-y-0.5">
              <div className="w-16 h-16 bg-accent/10 border border-accent/20 rounded-full flex items-center justify-center">
                 <Zap className="w-8 h-8 text-accent animate-pulse" />
              </div>
@@ -243,7 +266,10 @@ export default function DashboardPage() {
              </div>
              <Link 
                href="/dashboard/tools/algo-builder"
-               className="px-8 py-3 bg-mkt-ink text-white rounded-lg text-[10px] font-bold uppercase tracking-widest hover:bg-mkt-i2 transition-colors"
+               className="px-8 py-3 text-white rounded-lg text-[10px] font-bold uppercase tracking-widest transition-colors"
+               style={{ backgroundColor: "#0A0A0A" }}
+               onMouseEnter={e => (e.currentTarget.style.backgroundColor = "#3A3A3A")}
+               onMouseLeave={e => (e.currentTarget.style.backgroundColor = "#0A0A0A")}
              >
                 Open Algo Builder
              </Link>
@@ -254,7 +280,7 @@ export default function DashboardPage() {
       {/* Achievements at Bottom */}
       <div className="space-y-6">
         <h4 className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary">Achievements</h4>
-        <div className="p-8 bg-background-surface/40 backdrop-blur-md border border-border-slate/50">
+        <div className="p-8 bg-background-surface/40 backdrop-blur-md border border-border-slate/50 rounded-xl">
           <BadgeGrid badges={allBadges} />
         </div>
       </div>

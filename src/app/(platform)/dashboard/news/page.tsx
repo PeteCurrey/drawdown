@@ -1,19 +1,18 @@
 "use client";
-
+ 
 import { useEffect, useState } from "react";
 import { NewsItem } from "@/lib/news";
 import { 
   ExternalLink, 
   RefreshCw, 
   Search,
-  MessageSquare,
   Clock,
-  Sparkles
+  Sparkles,
+  Bell
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { WatchlistManager } from "@/components/dashboard/WatchlistManager";
-import { Bell } from "lucide-react";
 
 export default function NewsPage() {
   const [news, setNews] = useState<NewsItem[]>([]);
@@ -21,7 +20,7 @@ export default function NewsPage() {
   const [search, setSearch] = useState("");
   const [explainingId, setExplainingId] = useState<number | null>(null);
   const [aiExplanations, setAiExplanations] = useState<Record<number, string>>({});
-
+ 
   const fetchNewsFeed = async () => {
     setLoading(true);
     try {
@@ -36,17 +35,17 @@ export default function NewsPage() {
       setLoading(false);
     }
   };
-
+ 
   useEffect(() => {
     fetchNewsFeed();
   }, []);
-
+ 
   const handleExplain = async (index: number, item: NewsItem) => {
     if (aiExplanations[index]) {
       setExplainingId(explainingId === index ? null : index);
       return;
     }
-
+ 
     setExplainingId(index);
     try {
       const res = await fetch("/api/ai/explain-news", {
@@ -62,9 +61,9 @@ export default function NewsPage() {
       console.error("AI Explain error:", err);
     }
   };
-
+ 
   const [activeCategory, setActiveCategory] = useState("all");
-
+ 
   const categories = [
     { id: "all", label: "All" },
     { id: "uk-markets", label: "UK Markets" },
@@ -75,45 +74,44 @@ export default function NewsPage() {
     { id: "world-economy", label: "World Economy" },
     { id: "watchlist", label: "My Watchlist", icon: Bell }
   ];
-
+ 
   const filteredNews = news.filter(item => {
     if (activeCategory === "watchlist") return false;
     const matchesSearch = search === "" || 
       item.title.toLowerCase().includes(search.toLowerCase()) || 
       item.source.toLowerCase().includes(search.toLowerCase());
     
-    // Ensure item.categories exists or fallback directly
     const itemCats = item.categories || [];
     const matchesCategory = activeCategory === "all" || itemCats.includes(activeCategory);
-
+ 
     return matchesSearch && matchesCategory;
   });
-
+ 
   return (
-    <div className="space-y-10 pb-24">
+    <div className="space-y-10 pb-24 animate-in fade-in duration-700">
       <header className="space-y-4">
         <Breadcrumbs />
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
           <div>
-            <h1 className="text-3xl font-display font-bold uppercase tracking-tight">World News Feed</h1>
+            <h1 className="text-3xl font-display font-black uppercase tracking-tight text-text-primary">World News Feed</h1>
             <p className="text-text-tertiary font-mono text-[10px] uppercase tracking-widest mt-1">
-              Real-time financial insights from global sources
+              // Real-time financial insights from global sources
             </p>
           </div>
           <button 
             onClick={fetchNewsFeed} 
             disabled={loading}
-            className="flex items-center gap-2 px-6 py-3 bg-background-elevated border border-border-slate hover:border-accent hover:text-accent transition-colors text-[10px] font-bold uppercase tracking-widest"
+            className="flex items-center gap-2 px-6 py-3 bg-background-elevated/40 border border-border-slate/50 hover:border-accent hover:text-accent transition-colors text-[10px] font-bold uppercase tracking-widest rounded-lg"
           >
             <RefreshCw className={cn("w-3 h-3", loading && "animate-spin")} />
             {loading ? "Refreshing..." : "Refresh Feed"}
           </button>
         </div>
       </header>
-
+ 
       <div className="space-y-6">
         {/* Filter Bar */}
-        <div className="flex items-center gap-4 p-4 bg-background-surface border border-border-slate focus-within:border-accent transition-colors">
+        <div className="flex items-center gap-4 p-4 bg-background-surface border border-border-slate/50 focus-within:border-accent/60 transition-colors rounded-xl shadow-[0_4px_20px_rgba(0,0,0,0.02)]">
           <Search className="w-4 h-4 text-text-tertiary" />
           <input 
             type="text" 
@@ -123,11 +121,10 @@ export default function NewsPage() {
             onChange={(e) => setSearch(e.target.value)}
           />
         </div>
-
+ 
         {/* Category Tabs */}
-        <div className="flex overflow-x-auto gap-2 pb-2 scrollbar-none border-b border-border-slate/50">
+        <div className="flex overflow-x-auto gap-2 pb-2 scrollbar-none border-b border-border-slate/30">
           {categories.map(cat => {
-            // Count matching articles for this category using search constraint
             const count = news.filter(item => {
               const itemCats = item.categories || [];
               const matchesSearch = search === "" || 
@@ -135,7 +132,7 @@ export default function NewsPage() {
                 item.source.toLowerCase().includes(search.toLowerCase());
               return matchesSearch && (cat.id === "all" || itemCats.includes(cat.id));
             }).length;
-
+ 
             return (
               <button
                 key={cat.id}
@@ -149,7 +146,7 @@ export default function NewsPage() {
               >
                 {cat.label}
                 <span className={cn(
-                  "px-1.5 py-0.5 rounded-sm text-[8px] font-mono",
+                  "px-1.5 py-0.5 rounded-md text-[8px] font-mono font-bold",
                   activeCategory === cat.id ? "bg-accent/20" : "bg-background-elevated"
                 )}>
                   {count}
@@ -159,24 +156,24 @@ export default function NewsPage() {
           })}
         </div>
       </div>
-
+ 
       <div className="grid grid-cols-1 gap-8">
         {activeCategory === "watchlist" ? (
           <WatchlistManager />
         ) : loading && news.length === 0 ? (
           <div className="space-y-8">
             {[...Array(5)].map((_, i) => (
-              <div key={i} className="h-48 bg-background-surface animate-pulse border border-border-slate" />
+              <div key={i} className="h-48 bg-background-surface animate-pulse border border-border-slate/50 rounded-xl" />
             ))}
           </div>
         ) : filteredNews.length > 0 ? (
           filteredNews.map((item, i) => (
-            <article key={i} className="group bg-background-surface border border-border-slate hover:border-accent/40 transition-premium overflow-hidden">
+            <article key={i} className="group bg-background-surface border border-border-slate/50 hover:border-accent/40 hover:shadow-[0_8px_32px_rgba(0,0,0,0.06)] rounded-xl transition-premium overflow-hidden">
               <div className="p-8 md:p-10 space-y-6">
                 <div className="flex flex-col md:flex-row justify-between items-start gap-4">
                   <div className="space-y-3 flex-grow">
                     <div className="flex items-center gap-4 text-[10px] font-mono uppercase tracking-widest text-text-tertiary">
-                      <span className="text-accent group-hover:text-accent-hover transition-colors">{item.source}</span>
+                      <span className="text-accent group-hover:text-accent-hover transition-colors font-bold">{item.source}</span>
                       <span className="w-1 h-1 bg-border-slate rounded-full" />
                       <div className="flex items-center gap-1.5">
                         <Clock className="w-3 h-3" />
@@ -196,10 +193,10 @@ export default function NewsPage() {
                     <button 
                       onClick={() => handleExplain(i, item)}
                       className={cn(
-                        "flex items-center gap-2 px-5 py-2.5 border transition-all text-[10px] font-bold uppercase tracking-widest",
+                        "flex items-center gap-2 px-5 py-2.5 border transition-all text-[10px] font-bold uppercase tracking-widest rounded-lg",
                         explainingId === i 
                           ? "bg-accent text-background-primary border-accent" 
-                          : "bg-background-elevated border-border-slate hover:border-accent hover:text-accent"
+                          : "bg-background-elevated/40 border-border-slate/80 hover:border-accent hover:text-accent"
                       )}
                     >
                       <Sparkles className={cn("w-3 h-3", explainingId === i && "animate-pulse")} />
@@ -209,20 +206,20 @@ export default function NewsPage() {
                       href={item.url} 
                       target="_blank" 
                       rel="noopener noreferrer"
-                      className="p-2.5 bg-background-elevated border border-border-slate hover:border-text-primary transition-colors text-text-tertiary hover:text-text-primary"
+                      className="p-2.5 bg-background-elevated/40 border border-border-slate/80 hover:border-text-primary hover:text-text-primary rounded-lg transition-colors text-text-tertiary"
                     >
                       <ExternalLink className="w-4 h-4" />
                     </a>
                   </div>
                 </div>
-
-                <p className="text-text-secondary leading-relaxed max-w-4xl">
+ 
+                <p className="text-text-secondary text-sm leading-relaxed max-w-4xl">
                   {item.excerpt}
                 </p>
-
+ 
                 {/* AI Explanation Area */}
                 {explainingId === i && (
-                  <div className="mt-8 pt-8 border-t border-border-slate/50 animate-in fade-in slide-in-from-top-4 duration-300">
+                  <div className="mt-8 pt-8 border-t border-border-slate/30 animate-in fade-in slide-in-from-top-4 duration-300">
                     <div className="flex items-start gap-4">
                       <div className="w-8 h-8 rounded-lg bg-accent/10 flex items-center justify-center shrink-0">
                         <Sparkles className="w-4 h-4 text-accent" />
@@ -230,7 +227,7 @@ export default function NewsPage() {
                       <div className="space-y-4 flex-grow">
                         <p className="text-[10px] font-mono uppercase font-bold tracking-widest text-accent">AI Analysis Context</p>
                         {aiExplanations[i] ? (
-                          <div className="prose prose-invert prose-sm max-w-none text-text-secondary leading-relaxed">
+                          <div className="prose prose-sm max-w-none text-text-secondary leading-relaxed">
                             {aiExplanations[i].split('\n').map((para, idx) => (
                               <p key={idx}>{para}</p>
                             ))}
@@ -242,7 +239,7 @@ export default function NewsPage() {
                               <div className="w-1.5 h-1.5 bg-accent rounded-full animate-bounce [animation-delay:-0.15s]" />
                               <div className="w-1.5 h-1.5 bg-accent rounded-full animate-bounce" />
                             </div>
-                            <span className="text-[10px] font-mono text-text-tertiary uppercase">Claude is analysing the market impact...</span>
+                            <span className="text-[10px] font-mono text-text-tertiary uppercase">Analysing the market impact...</span>
                           </div>
                         )}
                         <p className="text-[8px] font-mono text-text-tertiary italic">
@@ -256,8 +253,8 @@ export default function NewsPage() {
             </article>
           ))
         ) : (
-          <div className="p-20 text-center border border-dashed border-border-slate">
-            <p className="text-text-tertiary font-mono text-xs uppercase tracking-widest">No matching news found.</p>
+          <div className="p-20 text-center border border-dashed border-border-slate/80 rounded-xl bg-background-surface/40">
+             <span className="text-xs font-mono uppercase text-text-tertiary tracking-widest">No articles found matching search criteria.</span>
           </div>
         )}
       </div>

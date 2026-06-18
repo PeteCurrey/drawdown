@@ -17,7 +17,7 @@ import {
   Gauge
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-
+ 
 export default async function IntelligenceHub() {
   const [insiderTrades, politicalTrades, aiSignals, socialNVDA, newsNVDA] = await Promise.all([
     getInsiderTransactions("NVDA"),
@@ -26,19 +26,19 @@ export default async function IntelligenceHub() {
     getSocialSentiment("NVDA"),
     getNewsSentiment("NVDA")
   ]);
-
+ 
   return (
-    <div className="space-y-10 animate-in fade-in duration-700">
-      <header>
-        <h1 className="text-3xl font-display font-bold uppercase mb-2">Intelligence Hub</h1>
+    <div className="space-y-10 animate-in fade-in duration-700 pb-24">
+      <header className="border-b border-border-slate/50 pb-6">
+        <h1 className="text-3xl font-display font-black uppercase mb-2 text-text-primary">Intelligence Hub</h1>
         <p className="text-sm text-text-tertiary">Real-time tracking of insider conviction and political capital flow.</p>
       </header>
-
+ 
       {/* AI Signals Strip */}
       {aiSignals.length > 0 && (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {aiSignals.map((signal: any) => (
-            <div key={signal.id} className="p-5 bg-accent/5 border border-accent/20 rounded-sm relative overflow-hidden group">
+            <div key={signal.id} className="p-5 bg-accent/5 border border-accent/20 rounded-xl relative overflow-hidden group">
               <div className="flex items-center gap-2 mb-3">
                 <Zap className="w-3 h-3 text-accent animate-pulse" />
                 <span className="text-[9px] font-mono font-bold uppercase tracking-widest text-accent">AI Signal Detected</span>
@@ -48,7 +48,7 @@ export default async function IntelligenceHub() {
               <div className="mt-4 flex items-center justify-between">
                 <div className="flex gap-2">
                   {signal.related_symbols?.map((sym: string) => (
-                    <span key={sym} className="px-2 py-0.5 bg-background-elevated text-[9px] font-mono text-text-tertiary">{sym}</span>
+                    <span key={sym} className="px-2 py-0.5 bg-background-elevated border border-border-slate/50 text-[9px] font-mono text-text-tertiary rounded-md">{sym}</span>
                   ))}
                 </div>
                 <span className={cn(
@@ -62,21 +62,21 @@ export default async function IntelligenceHub() {
           ))}
         </div>
       )}
-
+ 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Insider Trading Tracker */}
-        <section className="bg-background-surface border border-border-slate flex flex-col h-full">
-          <div className="p-6 border-b border-border-slate flex justify-between items-center bg-background-elevated/30">
+        <section className="bg-background-surface border border-border-slate/50 rounded-xl flex flex-col h-full overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.04)]">
+          <div className="p-6 border-b border-border-slate/50 flex justify-between items-center bg-background-elevated/20">
             <div className="flex items-center gap-3">
               <UserCheck className="w-5 h-5 text-accent" />
-              <h2 className="text-xl font-display font-bold uppercase">Insider Tracker</h2>
+              <h2 className="text-xl font-display font-bold uppercase text-text-primary">Insider Tracker</h2>
             </div>
-            <span className="text-[10px] font-mono text-profit uppercase tracking-widest">NVDA LIVE</span>
+            <span className="text-[10px] font-mono text-profit uppercase tracking-widest font-bold">NVDA LIVE</span>
           </div>
           
           <div className="flex-grow overflow-x-auto">
             <table className="w-full text-left">
-              <thead className="bg-background-primary/50 text-[9px] font-mono uppercase tracking-widest text-text-tertiary border-b border-border-slate">
+              <thead className="bg-background-primary/50 text-[9px] font-mono uppercase tracking-widest text-text-tertiary border-b border-border-slate/50">
                 <tr>
                   <th className="px-6 py-4">Executive</th>
                   <th className="px-6 py-4">Action</th>
@@ -89,7 +89,7 @@ export default async function IntelligenceHub() {
                   <tr key={i} className="hover:bg-background-elevated/20 transition-colors">
                     <td className="px-6 py-4">
                       <div className="flex flex-col">
-                        <span className="text-sm font-bold truncate max-w-[150px]">{trade.name || 'OFFICER'}</span>
+                        <span className="text-sm font-bold truncate max-w-[150px] text-text-primary">{trade.name || 'OFFICER'}</span>
                         <span className="text-[9px] text-text-tertiary font-mono">CODE: {trade.transactionCode}</span>
                       </div>
                     </td>
@@ -101,7 +101,7 @@ export default async function IntelligenceHub() {
                         {trade.change > 0 ? 'Buy' : 'Sell'}
                       </span>
                     </td>
-                    <td className="px-6 py-4 font-mono text-xs">${trade.transactionPrice?.toFixed(2)}</td>
+                    <td className="px-6 py-4 font-mono text-xs text-text-secondary">${trade.transactionPrice?.toFixed(2)}</td>
                     <td className="px-6 py-4 text-right text-[10px] font-mono text-text-tertiary">
                       {new Date(trade.transactionDate).toLocaleDateString('en-GB')}
                     </td>
@@ -110,8 +110,8 @@ export default async function IntelligenceHub() {
               </tbody>
             </table>
           </div>
-          <div className="p-4 border-t border-border-slate bg-background-elevated/10">
-             <div className="flex items-start gap-3 p-3 bg-accent/5 border border-accent/10 rounded-sm">
+          <div className="p-4 border-t border-border-slate/50 bg-background-elevated/10">
+             <div className="flex items-start gap-3 p-3 bg-accent/5 border border-accent/10 rounded-lg">
                 <Info className="w-4 h-4 text-accent shrink-0 mt-0.5" />
                 <p className="text-[10px] text-text-secondary leading-relaxed">
                   Insider buying is often a precursor to major announcements. We monitor "Cluster Buys" where multiple officers purchase within a 30-day window.
@@ -119,20 +119,20 @@ export default async function IntelligenceHub() {
              </div>
           </div>
         </section>
-
+ 
         {/* Political Alpha Tracker */}
-        <section className="bg-background-surface border border-border-slate flex flex-col h-full">
-          <div className="p-6 border-b border-border-slate flex justify-between items-center bg-background-elevated/30">
+        <section className="bg-background-surface border border-border-slate/50 rounded-xl flex flex-col h-full overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.04)]">
+          <div className="p-6 border-b border-border-slate/50 flex justify-between items-center bg-background-elevated/20">
             <div className="flex items-center gap-3">
               <Landmark className="w-5 h-5 text-accent" />
-              <h2 className="text-xl font-display font-bold uppercase">Political Alpha</h2>
+              <h2 className="text-xl font-display font-bold uppercase text-text-primary">Political Alpha</h2>
             </div>
-            <span className="text-[10px] font-mono text-text-tertiary uppercase tracking-widest">U.S. CAPITOL</span>
+            <span className="text-[10px] font-mono text-text-tertiary uppercase tracking-widest font-bold">U.S. CAPITOL</span>
           </div>
-
+ 
           <div className="flex-grow overflow-x-auto">
              <table className="w-full text-left">
-              <thead className="bg-background-primary/50 text-[9px] font-mono uppercase tracking-widest text-text-tertiary border-b border-border-slate">
+              <thead className="bg-background-primary/50 text-[9px] font-mono uppercase tracking-widest text-text-tertiary border-b border-border-slate/50">
                 <tr>
                   <th className="px-6 py-4">Representative</th>
                   <th className="px-6 py-4">Asset</th>
@@ -145,7 +145,7 @@ export default async function IntelligenceHub() {
                   <tr key={i} className="hover:bg-background-elevated/20 transition-colors">
                     <td className="px-6 py-4">
                        <div className="flex flex-col">
-                        <span className="text-sm font-bold truncate max-w-[150px]">{trade.name || 'U.S. REP'}</span>
+                        <span className="text-sm font-bold truncate max-w-[150px] text-text-primary">{trade.name || 'U.S. REP'}</span>
                         <span className="text-[9px] text-text-tertiary font-mono">FILED: {new Date(trade.filingDate).toLocaleDateString('en-GB')}</span>
                       </div>
                     </td>
@@ -166,38 +166,38 @@ export default async function IntelligenceHub() {
               </tbody>
             </table>
           </div>
-          <div className="p-6 border-t border-border-slate">
-             <button className="w-full flex items-center justify-center gap-2 py-3 bg-background-elevated border border-border-slate hover:border-accent hover:text-accent transition-colors text-[10px] font-bold uppercase tracking-widest">
+          <div className="p-6 border-t border-border-slate/50 bg-background-elevated/5">
+             <button className="w-full flex items-center justify-center gap-2 py-3 bg-background-primary border border-border-slate hover:border-accent hover:text-accent transition-colors text-[10px] font-bold uppercase tracking-widest rounded-lg">
                 Search Legislator History <ArrowUpRight className="w-4 h-4" />
              </button>
           </div>
         </section>
       </div>
-
+ 
       {/* Sentiment Pulse Section */}
       <section className="space-y-6">
         <div className="flex items-center gap-3 border-b border-border-slate/50 pb-2">
           <Gauge className="w-5 h-5 text-accent" />
-          <h2 className="text-xl font-display font-bold uppercase">Sentiment Pulse</h2>
+          <h2 className="text-xl font-display font-bold uppercase text-text-primary">Sentiment Pulse</h2>
         </div>
         
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Social Sentiment */}
-          <div className="p-8 bg-background-surface border border-border-slate flex flex-col gap-8">
+          <div className="p-8 bg-background-surface border border-border-slate/50 rounded-xl shadow-[0_8px_32px_rgba(0,0,0,0.04)] flex flex-col gap-8">
             <div className="flex justify-between items-center">
               <div className="flex items-center gap-3">
                 <MessageCircle className="w-5 h-5 text-[#1DA1F2]" />
-                <h3 className="text-sm font-bold uppercase tracking-widest">Social Buzz (Reddit/X)</h3>
+                <h3 className="text-sm font-bold uppercase tracking-widest text-text-primary">Social Buzz (Reddit/X)</h3>
               </div>
               <span className="text-[10px] font-mono text-text-tertiary">NVDA — LAST 24H</span>
             </div>
             
             <div className="space-y-4">
-              <div className="flex justify-between text-[10px] font-mono uppercase tracking-widest">
+              <div className="flex justify-between text-[10px] font-mono uppercase tracking-widest font-bold">
                 <span className="text-loss">Extreme Fear</span>
                 <span className="text-profit">Extreme Greed</span>
               </div>
-              <div className="h-2 bg-background-primary rounded-full overflow-hidden border border-border-slate">
+              <div className="h-2.5 bg-background-primary rounded-full overflow-hidden border border-border-slate/50">
                 <div 
                   className="h-full bg-gradient-to-r from-loss via-accent to-profit transition-all duration-1000"
                   style={{ width: `${(socialNVDA?.score || 0.5) * 100}%` }}
@@ -205,7 +205,7 @@ export default async function IntelligenceHub() {
               </div>
               <div className="flex justify-between items-center">
                  <div className="flex flex-col">
-                   <span className="text-2xl font-display font-black">{socialNVDA?.mentions || 0}</span>
+                   <span className="text-2xl font-display font-black text-text-primary">{socialNVDA?.mentions || 0}</span>
                    <span className="text-[8px] font-mono text-text-tertiary uppercase">TOTAL MENTIONS</span>
                  </div>
                  <div className="text-right">
@@ -214,23 +214,23 @@ export default async function IntelligenceHub() {
               </div>
             </div>
           </div>
-
+ 
           {/* News Sentiment */}
-          <div className="p-8 bg-background-surface border border-border-slate flex flex-col gap-8">
+          <div className="p-8 bg-background-surface border border-border-slate/50 rounded-xl shadow-[0_8px_32px_rgba(0,0,0,0.04)] flex flex-col gap-8">
             <div className="flex justify-between items-center">
               <div className="flex items-center gap-3">
                 <Newspaper className="w-5 h-5 text-profit" />
-                <h3 className="text-sm font-bold uppercase tracking-widest">Institutional News Bias</h3>
+                <h3 className="text-sm font-bold uppercase tracking-widest text-text-primary">Institutional News Bias</h3>
               </div>
               <span className="text-[10px] font-mono text-text-tertiary">NVDA — SECTOR AVG: {((newsNVDA?.sectorAvgSentiment || 0.5) * 100).toFixed(0)}%</span>
             </div>
-
+ 
             <div className="space-y-4">
-              <div className="flex justify-between text-[10px] font-mono uppercase tracking-widest text-text-tertiary">
+              <div className="flex justify-between text-[10px] font-mono uppercase tracking-widest text-text-tertiary font-bold">
                 <span>0% Bullish</span>
                 <span>100% Bullish</span>
               </div>
-              <div className="h-2 bg-background-primary rounded-full overflow-hidden border border-border-slate">
+              <div className="h-2.5 bg-background-primary rounded-full overflow-hidden border border-border-slate/50">
                 <div 
                   className="h-full bg-profit transition-all duration-1000"
                   style={{ width: `${(newsNVDA?.sentiment || 0.5) * 100}%` }}
@@ -238,7 +238,7 @@ export default async function IntelligenceHub() {
               </div>
               <div className="flex justify-between items-center">
                  <div className="flex flex-col">
-                   <span className="text-2xl font-display font-black">{((newsNVDA?.buzz || 0) * 100).toFixed(0)}%</span>
+                   <span className="text-2xl font-display font-black text-text-primary">{((newsNVDA?.buzz || 0) * 100).toFixed(0)}%</span>
                    <span className="text-[8px] font-mono text-text-tertiary uppercase">BUZZ INDEX (REL TO AVG)</span>
                  </div>
                  <div className="text-right">
@@ -249,16 +249,16 @@ export default async function IntelligenceHub() {
           </div>
         </div>
       </section>
-
-      {/* Intelligence Insights (AI Integration Placeholder) */}
-      <section className="p-8 bg-background-elevated border border-border-slate border-dashed flex flex-col md:flex-row items-center justify-between gap-8">
+ 
+      {/* Intelligence Insights */}
+      <section className="p-8 bg-background-surface border border-border-slate/50 border-dashed rounded-xl flex flex-col md:flex-row items-center justify-between gap-8 shadow-[0_8px_32px_rgba(0,0,0,0.02)]">
          <div className="space-y-2">
-            <h3 className="text-xl font-display font-bold uppercase">AI Correlation Engine</h3>
+            <h3 className="text-xl font-display font-bold uppercase text-text-primary">AI Correlation Engine</h3>
             <p className="text-xs text-text-tertiary max-w-lg leading-relaxed">
               Our AI models are cross-referencing this flow with active committee hearings and legislative drafts. Enable alerts to be notified of high-probability policy-driven moves.
             </p>
          </div>
-         <button className="px-8 py-4 bg-accent text-background-primary text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-accent-hover transition-all shrink-0">
+         <button className="px-8 py-4 bg-[#0A0A0A] hover:bg-neutral-800 text-white text-[10px] font-bold uppercase tracking-[0.2em] transition-all shrink-0 rounded-lg">
             Enable AI Signals
          </button>
       </section>

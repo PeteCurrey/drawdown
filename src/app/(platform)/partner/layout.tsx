@@ -1,26 +1,28 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import { PartnerSidebar } from "@/components/partner/PartnerSidebar";
 import { DashboardStatusBar } from "@/components/market/DashboardStatusBar";
 
 export default function PartnerLayout({ children }: { children: React.ReactNode }) {
-  const [theme, setTheme] = useState<"dark" | "light">("dark");
-
-  useEffect(() => {
-    const savedTheme = localStorage.getItem("dashboard-theme") as "dark" | "light";
-    if (savedTheme) setTheme(savedTheme);
-  }, []);
-
   return (
     <div 
-      data-theme={theme}
-      className="flex h-screen bg-background-primary overflow-hidden theme-transition"
+      data-theme="light"
+      className="marketing flex h-screen bg-background-primary text-text-primary overflow-hidden relative"
     >
+      {/* Premium Dashboard Background */}
+      <div 
+        className="absolute inset-0 z-0 opacity-[0.03] pointer-events-none"
+        style={{
+          backgroundImage: "url('/images/dashboard-bg.png')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat"
+        }}
+      />
       <PartnerSidebar />
 
       {/* Main Content Area */}
-      <div className="flex-grow flex flex-col overflow-hidden min-w-0 min-h-0">
+      <div className="flex-grow flex flex-col overflow-hidden min-w-0 min-h-0 relative z-10">
         <DashboardStatusBar />
 
         <main 

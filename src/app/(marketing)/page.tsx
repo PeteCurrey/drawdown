@@ -8,7 +8,7 @@ import { GlobalFluxSection } from "@/components/home/GlobalFluxSection";
 import { InstitutionalPulseSection } from "@/components/home/InstitutionalPulseSection";
 import { InstitutionalConsensusSection } from "@/components/home/InstitutionalConsensusSection";
 import { AIToolsSection } from "@/components/home/AIToolsSection";
-import { TradingViewSection } from "@/components/home/TradingViewSection";
+import { TradingViewSection } from "@/components/homepage/TradingViewSection";
 import { CurriculumSection } from "@/components/home/CurriculumSection";
 import { HorizontalScrollSection } from "@/components/home/HorizontalScrollSection";
 import { BrokerSection } from "@/components/home/BrokerSection";

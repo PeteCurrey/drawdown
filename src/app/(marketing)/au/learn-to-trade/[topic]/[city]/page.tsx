@@ -8,6 +8,7 @@ import { ArrowRight, BookOpen, ChevronRight, GraduationCap, MapPin, ShieldCheck,
 import { cn } from "@/lib/utils";
 import { TrackPageView } from "@/components/admin/TrackPageView";
 import { StructuredData } from "@/components/StructuredData";
+import { createClient } from "@/lib/supabase/server";
 
 interface Props {
   params: Promise<{ topic: string; city: string }>;
@@ -28,12 +29,86 @@ export async function generateStaticParams() {
   return params;
 }
 
+async function getAUCityData(topicSlug: string, citySlug: string) {
+  let topicTitle = "";
+  const localTopic = LEARN_TOPICS.find((t) => t.slug === topicSlug);
+  if (localTopic) {
+    topicTitle = localTopic.title;
+  } else {
+    try {
+      const supabase = await createClient();
+      const { data: page } = await supabase
+        .from("seo_pages")
+        .select("*")
+        .eq("slug", topicSlug)
+        .eq("page_type", "learn_to_trade")
+        .maybeSingle();
+      if (page) {
+        topicTitle = page.title;
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  if (!topicTitle) return null;
+
+  let cityName = "";
+  let cityContext = "";
+  let isCityValid = false;
+
+  try {
+    const supabase = await createClient();
+    const { data: page } = await supabase
+      .from("seo_pages")
+      .select("*")
+      .eq("slug", citySlug)
+      .eq("page_type", "location")
+      .maybeSingle();
+    if (page) {
+      cityName = page.title;
+      cityContext = page.seo_description || "";
+      isCityValid = true;
+    }
+  } catch (err) {
+    console.error(err);
+  }
+
+  const localCity = AU_LOCATIONS.find((l) => l.slug === citySlug);
+  if (!isCityValid && localCity) {
+    cityName = localCity.name;
+    cityContext = localCity.context || "";
+    isCityValid = true;
+  }
+
+  if (!isCityValid) return null;
+
+  return {
+    topic: localTopic || {
+      title: topicTitle,
+      slug: topicSlug,
+      content: [
+        {
+          heading: "Overview",
+          text: cityContext || "",
+        }
+      ]
+    },
+    city: localCity || {
+      name: cityName,
+      slug: citySlug,
+      context: cityContext,
+    }
+  };
+}
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { topic: topicSlug, city: citySlug } = await params;
-  const topic = LEARN_TOPICS.find((t) => t.slug === topicSlug);
-  const city = AU_LOCATIONS.find((l) => l.slug === citySlug);
+  const data = await getAUCityData(topicSlug, citySlug);
   
-  if (!topic || !city) return {};
+  if (!data) return {};
+
+  const { topic, city } = data;
 
   return {
     title: `${topic.title} in ${city.name} — Learn Online | Drawdown AU`,
@@ -43,10 +118,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function AustralianLocationTopicPage({ params }: Props) {
   const { topic: topicSlug, city: citySlug } = await params;
-  const topic = LEARN_TOPICS.find((t) => t.slug === topicSlug);
-  const city = AU_LOCATIONS.find((l) => l.slug === citySlug);
+  const data = await getAUCityData(topicSlug, citySlug);
 
-  if (!topic || !city) notFound();
+  if (!data) notFound();
+
+  const { topic, city } = data;
 
   const faqSchema = {
     "@context": "https://schema.org",

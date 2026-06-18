@@ -3,6 +3,7 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   async redirects() {
     return [
+      // Features / Tools
       {
         source: "/features/ai-trade-journal",
         destination: "/tools/ai-trade-journal",
@@ -33,7 +34,8 @@ const nextConfig: NextConfig = {
         destination: "/tools/market-charts",
         permanent: true,
       },
-      // 1. Compare pages
+
+      // Compare / How-to / Best (General & Regional)
       {
         source: "/compare/ftmo-vs-:slug",
         destination: "/prop-firms",
@@ -45,17 +47,45 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
       {
+        source: "/hk/compare",
+        destination: "/compare",
+        permanent: false,
+      },
+      {
+        source: "/hk/how-to",
+        destination: "/how-to",
+        permanent: false,
+      },
+      {
+        source: "/sg/compare",
+        destination: "/compare",
+        permanent: false,
+      },
+      {
+        source: "/sg/how-to",
+        destination: "/how-to",
+        permanent: false,
+      },
+      {
+        source: "/us/compare",
+        destination: "/compare",
+        permanent: false,
+      },
+      {
+        source: "/us/how-to",
+        destination: "/how-to",
+        permanent: false,
+      },
+      {
         source: "/compare/:slug*",
         destination: "/brokers",
         permanent: true,
       },
-      // 2. How-to pages
       {
         source: "/how-to/:slug*",
         destination: "/learn-to-trade",
         permanent: true,
       },
-      // 3. Best pages
       {
         source: "/best/spread-betting-platform-uk",
         destination: "/brokers",
@@ -86,7 +116,95 @@ const nextConfig: NextConfig = {
         destination: "/learn-to-trade",
         permanent: true,
       },
-      // 4. Prop firm individual pages
+
+      // Regional Learn to Trade / Cities
+      {
+        source: "/us/learn-to-trade",
+        destination: "/learn-to-trade",
+        permanent: false,
+      },
+      {
+        source: "/au/learn-to-trade",
+        destination: "/learn-to-trade",
+        permanent: false,
+      },
+      {
+        source: "/us/learn-to-trade/:topic/:city",
+        destination: "/learn-to-trade/:topic",
+        permanent: false,
+      },
+      {
+        source: "/au/learn-to-trade/:topic/:city",
+        destination: "/learn-to-trade/:topic",
+        permanent: false,
+      },
+
+      // Courses
+      {
+        source: "/courses/beginner-mastery",
+        destination: "/courses",
+        permanent: false,
+      },
+
+      // Broker redirects
+      {
+        source: "/brokers/quiz",
+        destination: "/brokers",
+        permanent: false,
+      },
+      {
+        source: "/brokers/ig-index",
+        destination: "/brokers/ig-markets-review",
+        permanent: true,
+      },
+
+      // Auth pages
+      {
+        source: "/forgot-password",
+        destination: "/login",
+        permanent: false,
+      },
+
+      // Legacy learn paths
+      {
+        source: "/learn/:slug*",
+        destination: "/learn-to-trade",
+        permanent: true,
+      },
+
+      // Regional Brokers / Best / Compare / How-to
+      {
+        source: "/hk/brokers/:broker",
+        destination: "/brokers",
+        permanent: false,
+      },
+      {
+        source: "/au/brokers/:broker",
+        destination: "/brokers",
+        permanent: false,
+      },
+      {
+        source: "/hk/best/:slug",
+        destination: "/brokers",
+        permanent: false,
+      },
+      {
+        source: "/au/best/:slug",
+        destination: "/brokers",
+        permanent: false,
+      },
+      {
+        source: "/au/compare/:slug",
+        destination: "/brokers",
+        permanent: false,
+      },
+      {
+        source: "/au/how-to/:slug",
+        destination: "/learn-to-trade",
+        permanent: false,
+      },
+
+      // Prop firm individual pages
       {
         source: "/prop-firms/ftmo",
         destination: "/prop-firms",
@@ -107,7 +225,8 @@ const nextConfig: NextConfig = {
         destination: "/prop-firms",
         permanent: true,
       },
-      // 6. Old blog page redirects
+
+      // Old blog page redirects
       {
         source: "/blog/why-you-need-a-trade-journal",
         destination: "/blog/the-trading-routine",
@@ -121,42 +240,6 @@ const nextConfig: NextConfig = {
       {
         source: "/blog/understanding-bank-of-england-rate-decisions",
         destination: "/blog/economic-calendar-guide",
-        permanent: true,
-      },
-      // Legacy redirects to prevent 404s
-      {
-        source: "/brokers/quiz",
-        destination: "/brokers",
-        permanent: true,
-      },
-      {
-        source: "/brokers/ig-markets-review",
-        destination: "/brokers/ig",
-        permanent: true,
-      },
-      {
-        source: "/brokers/ic-markets-review",
-        destination: "/brokers/ic-markets",
-        permanent: true,
-      },
-      {
-        source: "/brokers/pepperstone-review",
-        destination: "/brokers/pepperstone",
-        permanent: true,
-      },
-      {
-        source: "/brokers/ig-index",
-        destination: "/brokers/ig",
-        permanent: true,
-      },
-      {
-        source: "/courses/beginner-mastery",
-        destination: "/courses/ground-zero",
-        permanent: true,
-      },
-      {
-        source: "/learn/trading-nasdaq-open",
-        destination: "/learn-to-trade",
         permanent: true,
       },
     ];

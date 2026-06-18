@@ -31,14 +31,14 @@ export const phases: CoursePhase[] = [
     description: "Unlearn the noise. Build the fundamental psychological and mechanical foundation every trader needs before touching a chart.",
     full_description: "Phase 01 is designed to strip away the bad habits and false expectations that plague most retail traders. We focus on the environment, the routine, and the mathematics of risk before we ever look for a trade setup. This is where professional discipline begins.",
     modules_list: [
-      "The Honest Reality of Trading",
-      "Setting Up Your Professional Environment",
-      "Risk First: The Survival Mindset",
-      "Market Theory & Mechanics",
-      "Order Types & Execution",
-      "The Power of the Daily Routine",
-      "Introduction to the Trade Journal",
-      "Phase 1 Assessment"
+      "Why 90% of Traders Lose Money",
+      "How Financial Markets Actually Work",
+      "Understanding Price — What a Chart Really Shows",
+      "The Three Types of Market Participant",
+      "What Spread Betting Is and Why It Matters for UK Traders",
+      "Understanding Risk — The Maths That Keep You in the Game",
+      "Choosing Your Instrument — What to Trade and Why",
+      "Setting Up Your Trading Environment"
     ]
   },
   {

@@ -7,6 +7,7 @@ import { ArrowRight, BookOpen, ChevronRight, GraduationCap, MapPin, ShieldCheck,
 import { cn } from "@/lib/utils";
 import { TrackPageView } from "@/components/admin/TrackPageView";
 import { StructuredData } from "@/components/StructuredData";
+import { createClient } from "@/lib/supabase/server";
 
 interface Props {
   params: Promise<{ topic: string; city: string }>;
@@ -27,12 +28,82 @@ export async function generateStaticParams() {
   return params;
 }
 
+async function getUSCityData(topicSlug: string, citySlug: string) {
+  let topicTitle = "";
+  const localTopic = LEARN_TOPICS.find((t) => t.slug === topicSlug);
+  if (localTopic) {
+    topicTitle = localTopic.title;
+  } else {
+    try {
+      const supabase = await createClient();
+      const { data: page } = await supabase
+        .from("seo_pages")
+        .select("*")
+        .eq("slug", topicSlug)
+        .eq("page_type", "learn_to_trade")
+        .maybeSingle();
+      if (page) {
+        topicTitle = page.title;
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  if (!topicTitle) return null;
+
+  let cityName = "";
+  let cityContext = "";
+  let isCityValid = false;
+
+  try {
+    const supabase = await createClient();
+    const { data: page } = await supabase
+      .from("seo_pages")
+      .select("*")
+      .eq("slug", citySlug)
+      .eq("page_type", "location")
+      .maybeSingle();
+    if (page) {
+      cityName = page.title;
+      cityContext = page.seo_description || "";
+      isCityValid = true;
+    }
+  } catch (err) {
+    console.error(err);
+  }
+
+  if (!isCityValid && US_CITIES.includes(citySlug)) {
+    cityName = citySlug ? citySlug.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ') : '';
+    cityContext = CITY_CONTEXT_US[citySlug] || "";
+    isCityValid = true;
+  }
+
+  if (!isCityValid) return null;
+
+  return {
+    topic: localTopic || {
+      title: topicTitle,
+      slug: topicSlug,
+      content: [
+        {
+          heading: "Overview",
+          text: cityContext || "",
+        }
+      ]
+    },
+    cityName,
+    cityContext,
+  };
+}
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { topic: topicSlug, city: citySlug } = await params;
-  const topic = LEARN_TOPICS.find((t) => t.slug === topicSlug);
-  const cityName = citySlug ? citySlug.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ') : '';
+  const data = await getUSCityData(topicSlug, citySlug);
   
-  if (!topic || !US_CITIES.includes(citySlug)) return {};
+  if (!data) return {};
+
+  const { topic, cityName } = data;
 
   return {
     title: `${topic.title} in ${cityName} — Professional Online Training | Drawdown US`,
@@ -42,11 +113,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function UnitedStatesLocationTopicPage({ params }: Props) {
   const { topic: topicSlug, city: citySlug } = await params;
-  const topic = LEARN_TOPICS.find((t) => t.slug === topicSlug);
-  const cityName = citySlug ? citySlug.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ') : '';
-  const cityContext = CITY_CONTEXT_US[citySlug];
+  const data = await getUSCityData(topicSlug, citySlug);
 
-  if (!topic || !US_CITIES.includes(citySlug)) notFound();
+  if (!data) notFound();
+
+  const { topic, cityName, cityContext } = data;
 
   const faqSchema = {
     "@context": "https://schema.org",

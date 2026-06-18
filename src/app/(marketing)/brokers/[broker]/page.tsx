@@ -5,35 +5,57 @@ import { BrokerReviewTemplate } from "@/components/brokers/BrokerReviewTemplate"
 import { TrackPageView } from "@/components/admin/TrackPageView";
 import { Metadata } from "next";
 
+const BROKER_MAP: Record<string, string> = {
+  "ig-markets-review": "ig",
+  "pepperstone-review": "pepperstone",
+  "ic-markets-review": "ic-markets",
+};
+
 export function generateStaticParams() {
-  return brokers.map((broker) => ({
-    slug: broker.slug,
-  }));
+  const params: { broker: string }[] = [];
+  brokers.forEach((broker) => {
+    params.push({ broker: broker.slug });
+    if (broker.id === "ig") {
+      params.push({ broker: "ig-markets-review" });
+    } else if (broker.id === "pepperstone") {
+      params.push({ broker: "pepperstone-review" });
+    } else if (broker.id === "ic-markets") {
+      params.push({ broker: "ic-markets-review" });
+    }
+  });
+  return params;
 }
 
 interface Props {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ broker: string }>;
+}
+
+function resolveBroker(brokerParam: string) {
+  const brokerId = BROKER_MAP[brokerParam] || brokerParam;
+  return brokers.find((b) => b.id === brokerId || b.slug === brokerId);
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { slug } = await params;
-  const broker = brokers.find((b) => b.slug === slug);
+  const { broker: brokerParam } = await params;
+  const broker = resolveBroker(brokerParam);
 
   if (!broker) return {};
 
   return {
     title: `${broker.name} Review 2026 — Is It Worth It? | Drawdown`,
     description: `Honest 2026 review of ${broker.name}. We analyze spreads, regulation, platforms, and fees to help UK traders decide if it's the right choice.`,
+    alternates: {
+      canonical: `https://drawdown.trading/brokers/${brokerParam}`,
+    },
   };
 }
 
 export default async function BrokerReviewPage({ params }: Props) {
-  const { slug } = await params;
-  const broker = brokers.find((b) => b.slug === slug);
+  const { broker: brokerParam } = await params;
+  const broker = resolveBroker(brokerParam);
 
   if (!broker) notFound();
 
-  // Fetch deep review content if it exists, otherwise provide a fallback
   const deepReview = BROKER_REVIEWS[broker.id] || {
     overview: `${broker.name} is a leading ${broker.category} broker offering ${broker.oneLine}. They have established a strong reputation in the industry for their ${broker.platforms.join(", ")} support and competitive ${broker.spreads} spreads.`,
     accountTypes: `Standard and Professional accounts are available, catering to both retail and institutional needs.`,
@@ -52,13 +74,12 @@ export default async function BrokerReviewPage({ params }: Props) {
 
   return (
     <>
-      <TrackPageView path={`/brokers/${slug}`} />
+      <TrackPageView path={`/brokers/${brokerParam}`} />
       <BrokerReviewTemplate 
         broker={broker} 
         content={deepReview} 
-        slug={slug}
+        slug={brokerParam}
       />
     </>
   );
 }
-

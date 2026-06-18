@@ -7,6 +7,7 @@ import { ArrowRight, BookOpen, ChevronRight, GraduationCap, MapPin, ShieldCheck,
 import { cn } from "@/lib/utils";
 import { TrackPageView } from "@/components/admin/TrackPageView";
 import { StructuredData } from "@/components/StructuredData";
+import { createClient } from "@/lib/supabase/server";
 
 interface Props {
   params: Promise<{ topic: string; location: string }>;
@@ -15,24 +16,138 @@ interface Props {
 export async function generateStaticParams() {
   const params: { topic: string; location: string }[] = [];
   
-  LEARN_TOPICS.forEach((topic) => {
-    UK_LOCATIONS.forEach((location) => {
-      params.push({
-        topic: topic.slug,
-        location: location.slug,
+  try {
+    const supabase = await createClient();
+    const { data: topics } = await supabase
+      .from("seo_pages")
+      .select("slug")
+      .eq("page_type", "learn_to_trade");
+      
+    const { data: locations } = await supabase
+      .from("seo_pages")
+      .select("slug")
+      .eq("page_type", "location");
+
+    const dbTopicSlugs = topics?.map((t) => t.slug) || [];
+    const dbLocationSlugs = locations?.map((l) => l.slug) || [];
+
+    const staticTopicSlugs = LEARN_TOPICS.map((t) => t.slug);
+    const staticLocationSlugs = UK_LOCATIONS.map((l) => l.slug);
+
+    const allTopicSlugs = Array.from(new Set([...dbTopicSlugs, ...staticTopicSlugs]));
+    const allLocationSlugs = Array.from(new Set([...dbLocationSlugs, ...staticLocationSlugs]));
+
+    allTopicSlugs.forEach((topic) => {
+      allLocationSlugs.forEach((location) => {
+        params.push({
+          topic,
+          location,
+        });
       });
     });
-  });
+  } catch (err) {
+    console.error("Error in topic location generateStaticParams:", err);
+    LEARN_TOPICS.forEach((topic) => {
+      UK_LOCATIONS.forEach((location) => {
+        params.push({
+          topic: topic.slug,
+          location: location.slug,
+        });
+      });
+    });
+  }
 
   return params;
 }
 
+async function getTopicData(topicSlug: string) {
+  try {
+    const supabase = await createClient();
+    const { data: page, error } = await supabase
+      .from("seo_pages")
+      .select("*")
+      .eq("slug", topicSlug)
+      .eq("page_type", "learn_to_trade")
+      .maybeSingle();
+
+    if (page) {
+      return {
+        title: page.title,
+        slug: page.slug,
+        metaTitle: page.seo_title || `${page.title} | Drawdown`,
+        metaDescription: page.seo_description || "",
+        category: "General",
+        difficulty: "Intermediate" as const,
+        subtitle: page.seo_description || "",
+        description: page.seo_description || "",
+        timeToLearn: "30 mins",
+        riskLevel: "Medium" as const,
+        heroImage: "/images/learn/default.jpg",
+        honestReality: "",
+        content: [
+          {
+            heading: "Overview",
+            text: page.content || "",
+            bullets: [],
+            richBlocks: []
+          }
+        ],
+        richBlocks: [] as any[],
+        faqs: [] as any[]
+      };
+    }
+  } catch (err: any) {
+    console.error(`[Topic] Exception fetching from Supabase for slug ${topicSlug}:`, err.message);
+  }
+
+  return LEARN_TOPICS.find((t) => t.slug === topicSlug) || null;
+}
+
+async function getLocationData(topicSlug: string, locationSlug: string) {
+  const topic = await getTopicData(topicSlug);
+  if (!topic) return null;
+
+  try {
+    const supabase = await createClient();
+    const { data: page, error } = await supabase
+      .from("seo_pages")
+      .select("*")
+      .eq("slug", locationSlug)
+      .eq("page_type", "location")
+      .maybeSingle();
+
+    if (page) {
+      return {
+        topic,
+        location: {
+          name: page.title,
+          slug: page.slug,
+          context: page.seo_description || "",
+        }
+      };
+    }
+  } catch (err: any) {
+    console.error(`[Location] Exception fetching from Supabase for slug ${locationSlug}:`, err.message);
+  }
+
+  const location = UK_LOCATIONS.find((l) => l.slug === locationSlug);
+  if (location) {
+    return {
+      topic,
+      location
+    };
+  }
+
+  return null;
+}
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { topic: topicSlug, location: locationSlug } = await params;
-  const topic = LEARN_TOPICS.find((t) => t.slug === topicSlug);
-  const location = UK_LOCATIONS.find((l) => l.slug === locationSlug);
+  const data = await getLocationData(topicSlug, locationSlug);
   
-  if (!topic || !location) return {};
+  if (!data) return {};
+
+  const { topic, location } = data;
 
   return {
     title: `${topic.title} in ${location.name} — Learn Online | Drawdown`,
@@ -45,10 +160,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function LocationTopicPage({ params }: Props) {
   const { topic: topicSlug, location: locationSlug } = await params;
-  const topic = LEARN_TOPICS.find((t) => t.slug === topicSlug);
-  const location = UK_LOCATIONS.find((l) => l.slug === locationSlug);
+  const data = await getLocationData(topicSlug, locationSlug);
 
-  if (!topic || !location) notFound();
+  if (!data) notFound();
+
+  const { topic, location } = data;
 
   const faqSchema = {
     "@context": "https://schema.org",

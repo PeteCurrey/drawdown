@@ -5,6 +5,7 @@ import { Metadata } from "next";
 import Link from "next/link";
 import { ChevronRight, ArrowRight, BookOpen, Calculator, Play } from "lucide-react";
 import { TrackPageView } from "@/components/admin/TrackPageView";
+import { createClient } from "@/lib/supabase/server";
 import {
   StatCallout,
   TradeExample,
@@ -19,34 +20,81 @@ interface Props {
 }
 
 export async function generateStaticParams() {
+  try {
+    const supabase = await createClient();
+    const { data, error } = await supabase
+      .from("seo_pages")
+      .select("slug")
+      .eq("page_type", "glossary");
+    
+    if (error) throw error;
+    
+    if (data && data.length > 0) {
+      return data.map((page) => ({
+        slug: page.slug,
+      }));
+    }
+  } catch (err) {
+    console.error("Error in glossary generateStaticParams:", err);
+  }
+
+  // Fallback to static local list if DB is empty or fails
   return GLOSSARY_TERMS.map((term) => ({
     slug: term.slug,
   }));
 }
 
-function getGlossaryTerm(slug: string) {
+async function getGlossaryTerm(slug: string) {
+  console.log(`[Glossary] Querying Supabase for slug: ${slug}`);
+  try {
+    const supabase = await createClient();
+    const { data: page, error } = await supabase
+      .from("seo_pages")
+      .select("*")
+      .eq("slug", slug)
+      .eq("page_type", "glossary")
+      .maybeSingle();
+
+    if (error) {
+      console.error(`[Glossary] Supabase fetch error for slug ${slug}:`, error.message);
+    }
+
+    if (page) {
+      console.log(`[Glossary] Supabase record found for slug: ${slug}`);
+      return {
+        term: page.title,
+        slug: page.slug,
+        definition: page.seo_description || "",
+        detailedExplanation: page.content || "",
+        example: "",
+        relatedTerms: ['Pip', 'Spread', 'Lot Size', 'Leverage'].filter((t) => t.toLowerCase() !== page.title.toLowerCase()),
+        faqs: [] as any[],
+        richBlocks: [] as any[],
+        relatedCoursePhase: null,
+        relatedTool: null
+      };
+    }
+  } catch (err: any) {
+    console.error(`[Glossary] Exception fetching from Supabase for slug ${slug}:`, err.message);
+  }
+
+  // Check local data fallback
+  console.log(`[Glossary] Checking local GLOSSARY_TERMS for slug: ${slug}`);
   const term = GLOSSARY_TERMS.find((t) => t.slug === slug);
-  if (term) return term;
+  if (term) {
+    console.log(`[Glossary] Local record found for slug: ${slug}`);
+    return term;
+  }
 
-  const fallbackTerm = slug
-    .split("-")
-    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
-    .join(" ");
-
-  return {
-    term: fallbackTerm,
-    slug,
-    definition: `${fallbackTerm} is a key concept in trading. Understanding how ${fallbackTerm.toLowerCase()} applies to your trading system is essential for maintaining robust risk management and execution discipline.`,
-    detailedExplanation: `In financial markets, ${fallbackTerm} plays a vital role in dictating price behavior, executing transactions, or managing capital risk. Successful traders keep a close eye on concepts like ${fallbackTerm} to maintain an edge over the market.\n\nDeveloping a solid grounding in these definitions helps build the foundations needed for institutional-grade evaluation and strategy design.`,
-    example: `A trader reviews their performance logs to ensure their strategy is properly aligned with standard market definitions of ${fallbackTerm.toLowerCase()}.`,
-    relatedTerms: ['Pip', 'Spread', 'Lot Size', 'Leverage'].filter((t) => t.toLowerCase() !== fallbackTerm.toLowerCase()),
-    faqs: []
-  };
+  console.log(`[Glossary] No record found in Supabase or local data for slug: ${slug}`);
+  return null;
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const glossaryTerm = getGlossaryTerm(slug);
+  const glossaryTerm = await getGlossaryTerm(slug);
+
+  if (!glossaryTerm) return {};
 
   return {
     title: `What is ${glossaryTerm.term}? — Trading Glossary | Drawdown`,
@@ -56,6 +104,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     },
   };
 }
+
 
 function RichBlockRenderer({ block }: { block: RichBlock }) {
   switch (block.type) {
@@ -110,7 +159,9 @@ function RichBlockRenderer({ block }: { block: RichBlock }) {
 
 export default async function GlossaryTermPage({ params }: Props) {
   const { slug } = await params;
-  const glossaryTerm = getGlossaryTerm(slug);
+  const glossaryTerm = await getGlossaryTerm(slug);
+
+  if (!glossaryTerm) notFound();
 
   return (
     <main className="min-h-screen pt-32 pb-20 px-6">

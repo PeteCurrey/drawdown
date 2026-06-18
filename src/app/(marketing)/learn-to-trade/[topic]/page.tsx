@@ -8,6 +8,7 @@ import { UK_LOCATIONS } from "@/lib/data/locations";
 import Link from "next/link";
 import { ArrowUpRight, AlertTriangle, MapPin, Clock, TrendingUp, Shield } from "lucide-react";
 import { TrackPageView } from "@/components/admin/TrackPageView";
+import { createClient } from "@/lib/supabase/server";
 import {
   StatCallout,
   TradeExample,
@@ -23,14 +24,92 @@ interface Props {
 }
 
 export async function generateStaticParams() {
+  try {
+    const supabase = await createClient();
+    const { data, error } = await supabase
+      .from("seo_pages")
+      .select("slug")
+      .eq("page_type", "learn_to_trade");
+    
+    if (error) throw error;
+    
+    if (data && data.length > 0) {
+      return data.map((page) => ({
+        topic: page.slug,
+      }));
+    }
+  } catch (err) {
+    console.error("Error in topic generateStaticParams:", err);
+  }
+
+  // Fallback to static local list
   return LEARN_TOPICS.map((topic) => ({
     topic: topic.slug,
   }));
 }
 
+async function getTopicData(topicSlug: string) {
+  console.log(`[Topic] Querying Supabase for slug: ${topicSlug}`);
+  try {
+    const supabase = await createClient();
+    const { data: page, error } = await supabase
+      .from("seo_pages")
+      .select("*")
+      .eq("slug", topicSlug)
+      .eq("page_type", "learn_to_trade")
+      .maybeSingle();
+
+    if (error) {
+      console.error(`[Topic] Supabase fetch error for slug ${topicSlug}:`, error.message);
+    }
+
+    if (page) {
+      console.log(`[Topic] Supabase record found for slug: ${topicSlug}`);
+      return {
+        title: page.title,
+        slug: page.slug,
+        metaTitle: page.seo_title || `${page.title} | Drawdown`,
+        metaDescription: page.seo_description || "",
+        category: "General",
+        difficulty: "Intermediate" as const,
+        subtitle: page.seo_description || "",
+        description: page.seo_description || "",
+        timeToLearn: "30 mins",
+        riskLevel: "Medium" as const,
+        heroImage: "/images/learn/default.jpg",
+        honestReality: "",
+        content: [
+          {
+            heading: "Overview",
+            text: page.content || "",
+            bullets: [],
+            richBlocks: []
+          }
+        ],
+        richBlocks: [] as any[],
+        curriculum: [] as any[],
+        faqs: [] as any[]
+      };
+    }
+  } catch (err: any) {
+    console.error(`[Topic] Exception fetching from Supabase for slug ${topicSlug}:`, err.message);
+  }
+
+  // Fallback to local data
+  console.log(`[Topic] Checking local LEARN_TOPICS for slug: ${topicSlug}`);
+  const topic = LEARN_TOPICS.find((t) => t.slug === topicSlug);
+  if (topic) {
+    console.log(`[Topic] Local record found for slug: ${topicSlug}`);
+    return topic;
+  }
+
+  console.log(`[Topic] No record found in Supabase or local data for slug: ${topicSlug}`);
+  return null;
+}
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { topic: topicSlug } = await params;
-  const topic = LEARN_TOPICS.find((t) => t.slug === topicSlug);
+  const topic = await getTopicData(topicSlug);
   if (!topic) return {};
 
   return getMetadata({
@@ -38,6 +117,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     description: topic.metaDescription,
   });
 }
+
 
 function RichBlockRenderer({ block }: { block: RichBlock }) {
   switch (block.type) {
@@ -105,7 +185,7 @@ const RISK_COLORS = {
 
 export default async function TopicPage({ params }: Props) {
   const { topic: topicSlug } = await params;
-  const topic = LEARN_TOPICS.find((t) => t.slug === topicSlug);
+  const topic = await getTopicData(topicSlug);
   if (!topic) notFound();
 
   const faqSchema = {

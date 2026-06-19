@@ -15,22 +15,22 @@
   --color-warning: #FFB020;
   --color-premium: #B8962E;
 
-  --color-mkt-w: var(--mkt-w);
-  --color-mkt-bg: var(--mkt-bg);
-  --color-mkt-sur: var(--mkt-sur);
-  --color-mkt-bd: var(--mkt-bd);
-  --color-mkt-bds: var(--mkt-bds);
-  --color-mkt-ink: var(--mkt-ink);
-  --color-mkt-i2: var(--mkt-i2);
-  --color-mkt-i3: var(--mkt-i3);
-  --color-mkt-i4: var(--mkt-i4);
-  --color-mkt-grn: var(--mkt-grn);
-  --color-mkt-gbg: var(--mkt-gbg);
-  --color-mkt-gbd: var(--mkt-gbd);
-  --color-mkt-red: var(--mkt-red);
-  --color-mkt-rbg: var(--mkt-rbg);
-  --color-mkt-amb: var(--mkt-amb);
-  --color-mkt-tk: var(--mkt-tk);
+  --color-mkt-w: #FFFFFF;
+  --color-mkt-bg: #FFFFFF;
+  --color-mkt-sur: #FFFFFF;
+  --color-mkt-bd: #E5E5E5;
+  --color-mkt-bds: #C8C8C8;
+  --color-mkt-ink: #0A0A0A;
+  --color-mkt-i2: #3A3A3A;
+  --color-mkt-i3: #666666;
+  --color-mkt-i4: #999999;
+  --color-mkt-grn: #16A34A;
+  --color-mkt-gbg: #F0FDF4;
+  --color-mkt-gbd: #BBF7D0;
+  --color-mkt-red: #DC2626;
+  --color-mkt-rbg: #FEF2F2;
+  --color-mkt-amb: #D97706;
+  --color-mkt-tk: #0A0A0A;
 
   --font-display: var(--font-syne), ui-sans-serif, system-ui;
   --font-sans: var(--font-dm-sans), ui-sans-serif, system-ui;

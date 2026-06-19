@@ -73,7 +73,7 @@ export default function BrokerComparisonHub() {
             </p>
 
             <div className="flex flex-wrap gap-3 pt-2">
-              <Link href="/brokers/quiz" className="px-7 py-3 rounded-lg bg-mkt-ink text-white font-sans font-semibold text-sm hover:bg-mkt-i2 transition-colors flex items-center gap-2">
+              <Link href="/brokers/quiz" className="px-7 py-3 rounded-lg bg-accent text-[#08090D] font-sans font-semibold text-sm hover:bg-accent-hover transition-colors flex items-center gap-2">
                 Find Your Broker Match <ArrowRight className="w-4 h-4" />
               </Link>
             </div>

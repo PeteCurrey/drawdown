@@ -175,37 +175,6 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
 
-      // Regional Brokers / Best / Compare / How-to
-      {
-        source: "/hk/brokers/:broker",
-        destination: "/brokers",
-        permanent: false,
-      },
-      {
-        source: "/au/brokers/:broker",
-        destination: "/brokers",
-        permanent: false,
-      },
-      {
-        source: "/hk/best/:slug",
-        destination: "/brokers",
-        permanent: false,
-      },
-      {
-        source: "/au/best/:slug",
-        destination: "/brokers",
-        permanent: false,
-      },
-      {
-        source: "/au/compare/:slug",
-        destination: "/brokers",
-        permanent: false,
-      },
-      {
-        source: "/au/how-to/:slug",
-        destination: "/learn-to-trade",
-        permanent: false,
-      },
 
       // Prop firm individual pages
       {

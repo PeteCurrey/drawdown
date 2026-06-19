@@ -4,6 +4,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { BookOpen, Calculator, Scan, LineChart, Newspaper, Cpu } from "lucide-react";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
 
 const stats = [
   { value: "5", label: "Custom AI Tools" },
@@ -16,6 +17,7 @@ const tools = [
   {
     icon: BookOpen,
     name: "AI Trade Journal",
+    slug: "ai-trade-journal",
     description: "Uploads raw CSV executions and outputs natural language emotional profiles, identifying systemic leakage.",
     isFree: true,
     // Faded Indigo
@@ -36,6 +38,7 @@ const tools = [
   {
     icon: Calculator,
     name: "Risk Calculator",
+    slug: "risk-calculator",
     description: "Computes kelly-criterion fraction allocations relative to your current drawdown boundaries.",
     isFree: true,
     // Faded Emerald
@@ -57,6 +60,7 @@ const tools = [
   {
     icon: Scan,
     name: "AI Market Scanner",
+    slug: "ai-market-scanner",
     description: "Monitors order flow delta and volume profiles across 40 FX/Crypto pairs to isolate structural sweeps.",
     isFree: false,
     // Faded Cyan
@@ -77,6 +81,7 @@ const tools = [
   {
     icon: LineChart,
     name: "Strategy Backtester",
+    slug: "strategy-backtester",
     description: "Simulates strategy rulesets against 10 years of historical tick data, outputting Monte Carlo risk profiles.",
     isFree: false,
     // Faded Rose
@@ -97,6 +102,7 @@ const tools = [
   {
     icon: Newspaper,
     name: "Daily Intelligence Brief",
+    slug: "intelligence-hub",
     description: "A pre-market systemic breakdown of institutional flows, macro events, and major consensus changes.",
     isFree: true,
     // Faded Amber
@@ -183,62 +189,63 @@ export function AIToolsSection() {
                 const isHovered = hoveredIdx === idx;
                 
                 return (
-                  <motion.div
-                    key={idx}
-                    custom={idx}
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={{ once: true, margin: "-20px" }}
-                    variants={cardVariants}
-                    onMouseEnter={() => setHoveredIdx(idx)}
-                    onMouseLeave={() => setHoveredIdx(null)}
-                    className="relative border rounded-[14px] p-5 flex items-start gap-4 cursor-pointer overflow-hidden transition-all duration-300"
-                    style={{
-                      backgroundColor: isHovered ? tool.hoverBg : tool.baseBg,
-                      borderColor: isHovered ? tool.borderColor : "rgba(229, 229, 229, 0.7)",
-                      transform: isHovered ? "translateY(-2px)" : "translateY(0px)",
-                      boxShadow: isHovered ? "0 8px 32px rgba(0, 0, 0, 0.04)" : "none"
-                    }}
-                  >
-                    {/* Subtle bottom-right SVG decorative illustration */}
-                    <div 
-                      className="absolute inset-0 z-0 overflow-hidden pointer-events-none transition-opacity duration-300"
-                      style={{ opacity: isHovered ? 0.07 : 0.015 }}
-                    >
-                      {tool.svgPath}
-                    </div>
-
-                    {/* Animated Icon Container */}
-                    <div 
-                      className="w-10 h-10 rounded-lg flex items-center justify-center shrink-0 z-10 transition-all duration-350"
+                  <Link href={`/tools/${tool.slug}`} key={idx} className="block">
+                    <motion.div
+                      custom={idx}
+                      initial="hidden"
+                      whileInView="visible"
+                      viewport={{ once: true, margin: "-20px" }}
+                      variants={cardVariants}
+                      onMouseEnter={() => setHoveredIdx(idx)}
+                      onMouseLeave={() => setHoveredIdx(null)}
+                      className="relative border rounded-[14px] p-5 flex items-start gap-4 cursor-pointer overflow-hidden transition-all duration-300"
                       style={{
-                        backgroundColor: isHovered ? tool.iconColor : tool.iconBg,
-                        color: isHovered ? "#FFFFFF" : tool.iconColor
+                        backgroundColor: isHovered ? tool.hoverBg : tool.baseBg,
+                        borderColor: isHovered ? tool.borderColor : "rgba(229, 229, 229, 0.7)",
+                        transform: isHovered ? "translateY(-2px)" : "translateY(0px)",
+                        boxShadow: isHovered ? "0 8px 32px rgba(0, 0, 0, 0.04)" : "none"
                       }}
                     >
-                      <Icon className="w-5 h-5 transition-transform duration-300" style={{ transform: isHovered ? "scale(1.08)" : "scale(1)" }} />
-                    </div>
-
-                    {/* Content */}
-                    <div className="flex-grow space-y-1 z-10">
-                      <div className="flex items-center justify-between">
-                        <h4 className="text-sm font-sans font-bold text-mkt-ink leading-tight">
-                          {tool.name}
-                        </h4>
-                        <span className={cn(
-                          "text-[9px] font-mono font-bold px-2 py-0.5 rounded border uppercase tracking-wider transition-colors duration-300",
-                          tool.isFree
-                            ? "text-mkt-grn bg-mkt-gbg border-mkt-gbd"
-                            : "text-mkt-i3 bg-neutral-100 border-neutral-200"
-                        )}>
-                          {tool.isFree ? "Free" : "Premium"}
-                        </span>
+                      {/* Subtle bottom-right SVG decorative illustration */}
+                      <div 
+                        className="absolute inset-0 z-0 overflow-hidden pointer-events-none transition-opacity duration-300"
+                        style={{ opacity: isHovered ? 0.07 : 0.015 }}
+                      >
+                        {tool.svgPath}
                       </div>
-                      <p className="text-xs text-mkt-i3 leading-relaxed font-sans pr-4">
-                        {tool.description}
-                      </p>
-                    </div>
-                  </motion.div>
+
+                      {/* Animated Icon Container */}
+                      <div 
+                        className="w-10 h-10 rounded-lg flex items-center justify-center shrink-0 z-10 transition-all duration-350"
+                        style={{
+                          backgroundColor: isHovered ? tool.iconColor : tool.iconBg,
+                          color: isHovered ? "#FFFFFF" : tool.iconColor
+                        }}
+                      >
+                        <Icon className="w-5 h-5 transition-transform duration-300" style={{ transform: isHovered ? "scale(1.08)" : "scale(1)" }} />
+                      </div>
+
+                      {/* Content */}
+                      <div className="flex-grow space-y-1 z-10">
+                        <div className="flex items-center justify-between">
+                          <h4 className="text-sm font-sans font-bold text-mkt-ink leading-tight">
+                            {tool.name}
+                          </h4>
+                          <span className={cn(
+                            "text-[9px] font-mono font-bold px-2 py-0.5 rounded border uppercase tracking-wider transition-colors duration-300",
+                            tool.isFree
+                              ? "text-mkt-grn bg-mkt-gbg border-mkt-gbd"
+                              : "text-mkt-i3 bg-neutral-100 border-neutral-200"
+                          )}>
+                            {tool.isFree ? "Free" : "Premium"}
+                          </span>
+                        </div>
+                        <p className="text-xs text-mkt-i3 leading-relaxed font-sans pr-4">
+                          {tool.description}
+                        </p>
+                      </div>
+                    </motion.div>
+                  </Link>
                 );
               })}
             </div>

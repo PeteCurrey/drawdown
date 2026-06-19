@@ -69,9 +69,15 @@ export function TradingViewSection() {
           
           {/* Left Column (Content, ~42% width) */}
           <div className="lg:col-span-5 space-y-6">
-            <span className="text-xs font-sans font-semibold tracking-widest text-white/50 uppercase block">
-              CHART PARTNER
-            </span>
+            <div className="flex items-center gap-2 text-white/60 select-none">
+              <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 fill-current">
+                <title>TradingView</title>
+                <path d="M15.8654 8.2789c0 1.3541-1.0978 2.4519-2.452 2.4519-1.354 0-2.4519-1.0978-2.4519-2.452 0-1.354 1.0978-2.4518 2.452-2.4518 1.3541 0 2.4519 1.0977 2.4519 2.4519zM9.75 6H0v4.9038h4.8462v7.2692H9.75Zm8.5962 0H24l-5.1058 12.173h-5.6538z"/>
+              </svg>
+              <span className="text-xs font-sans font-bold tracking-widest uppercase">
+                TradingView Partner
+              </span>
+            </div>
             
             <h2 className="text-3xl md:text-5xl font-sans font-extrabold text-white tracking-tight leading-tight">
               The chart platform serious traders actually use.
@@ -152,8 +158,12 @@ export function TradingViewSection() {
                     GBP/USD · 1H
                   </span>
                 </div>
-                <div className="text-[10px] text-white/30 font-sans">
-                  Powered by TradingView
+                <div className="flex items-center gap-1.5 text-[10px] text-white/40 font-sans">
+                  <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" className="w-3.5 h-3.5 fill-current">
+                    <title>TradingView</title>
+                    <path d="M15.8654 8.2789c0 1.3541-1.0978 2.4519-2.452 2.4519-1.354 0-2.4519-1.0978-2.4519-2.452 0-1.354 1.0978-2.4518 2.452-2.4518 1.3541 0 2.4519 1.0977 2.4519 2.4519zM9.75 6H0v4.9038h4.8462v7.2692H9.75Zm8.5962 0H24l-5.1058 12.173h-5.6538z"/>
+                  </svg>
+                  <span>Powered by TradingView</span>
                 </div>
               </div>
 

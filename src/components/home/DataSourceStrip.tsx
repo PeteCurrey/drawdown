@@ -3,14 +3,14 @@
 import { motion } from "framer-motion";
 
 const sources = [
-  "Bloomberg",
-  "Reuters",
-  "Financial Times",
-  "WSJ",
-  "MarketWatch",
-  "CNBC",
-  "Yahoo Finance",
-  "Investing.com"
+  { name: "Bloomberg", logo: "/logos/partners/bloomberg.svg" },
+  { name: "Reuters", logo: "/logos/partners/reuters.svg" },
+  { name: "Financial Times", logo: "/logos/partners/financial_times.svg" },
+  { name: "WSJ", logo: "/logos/partners/wsj.svg" },
+  { name: "MarketWatch", logo: "/logos/partners/marketwatch.svg" },
+  { name: "CNBC", logo: "/logos/partners/cnbc.svg" },
+  { name: "Yahoo Finance", logo: "/logos/partners/yahoo_finance.svg" },
+  { name: "Investing.com", logo: "/logos/partners/investing.svg" }
 ];
 
 export function DataSourceStrip() {
@@ -35,12 +35,11 @@ export function DataSourceStrip() {
           <div className="flex animate-marquee-data whitespace-nowrap items-center hover:[animation-play-state:paused] cursor-pointer">
             {marqueeItems.map((source, i) => (
               <div key={i} className="flex items-center">
-                <span 
-                  className="font-sans font-semibold text-[#C0C0C0] hover:text-mkt-i3 transition-colors duration-300 text-[13px] tracking-[-0.02em] font-sans"
-                  style={{ fontWeight: 600 }}
-                >
-                  {source}
-                </span>
+                <img 
+                  src={source.logo}
+                  alt={source.name}
+                  className="h-5 md:h-6 w-auto object-contain brightness-0 opacity-40 hover:opacity-80 transition-opacity duration-300 select-none"
+                />
                 <span className="text-neutral-250 mx-8 select-none font-sans">&middot;</span>
               </div>
             ))}

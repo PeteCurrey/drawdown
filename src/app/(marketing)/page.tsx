@@ -3,6 +3,7 @@ import { HeroSection } from "@/components/home/HeroSection";
 import { PriceTicker } from "@/components/home/PriceTicker";
 import { StatsBar } from "@/components/home/StatsBar";
 import { DataSourceStrip } from "@/components/home/DataSourceStrip";
+import { ScrollQuoteSection } from "@/components/home/ScrollQuoteSection";
 import { LiveNewsSection } from "@/components/home/LiveNewsSection";
 import { GlobalFluxSection } from "@/components/home/GlobalFluxSection";
 import { InstitutionalPulseSection } from "@/components/home/InstitutionalPulseSection";
@@ -56,6 +57,8 @@ export default function Home() {
       <FadeInSection delay={0.1}>
         <DataSourceStrip />
       </FadeInSection>
+
+      <ScrollQuoteSection />
 
       <FadeInSection delay={0.2}>
         <LiveNewsSection />

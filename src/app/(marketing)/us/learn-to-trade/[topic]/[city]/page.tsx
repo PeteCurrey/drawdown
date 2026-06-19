@@ -17,11 +17,9 @@ export async function generateStaticParams() {
   const params: { topic: string; city: string }[] = [];
   
   US_TOPICS.forEach((topicSlug) => {
-    US_CITIES.forEach((citySlug) => {
-      params.push({
-        topic: topicSlug,
-        city: citySlug,
-      });
+    params.push({
+      topic: topicSlug,
+      city: "new-york",
     });
   });
 

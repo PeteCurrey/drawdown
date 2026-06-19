@@ -12,9 +12,7 @@ interface Props {
 export async function generateStaticParams() {
   const params = [];
   for (const topic of HK_TOPICS) {
-    for (const city of HK_CITIES) {
-      params.push({ topic, city });
-    }
+    params.push({ topic, city: "hong-kong" });
   }
   return params;
 }

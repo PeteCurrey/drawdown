@@ -22,37 +22,23 @@ export async function generateStaticParams() {
       .from("seo_pages")
       .select("slug")
       .eq("page_type", "learn_to_trade");
-      
-    const { data: locations } = await supabase
-      .from("seo_pages")
-      .select("slug")
-      .eq("page_type", "location");
 
     const dbTopicSlugs = topics?.map((t) => t.slug) || [];
-    const dbLocationSlugs = locations?.map((l) => l.slug) || [];
-
     const staticTopicSlugs = LEARN_TOPICS.map((t) => t.slug);
-    const staticLocationSlugs = UK_LOCATIONS.map((l) => l.slug);
-
     const allTopicSlugs = Array.from(new Set([...dbTopicSlugs, ...staticTopicSlugs]));
-    const allLocationSlugs = Array.from(new Set([...dbLocationSlugs, ...staticLocationSlugs]));
 
     allTopicSlugs.forEach((topic) => {
-      allLocationSlugs.forEach((location) => {
-        params.push({
-          topic,
-          location,
-        });
+      params.push({
+        topic,
+        location: "london",
       });
     });
   } catch (err) {
     console.error("Error in topic location generateStaticParams:", err);
     LEARN_TOPICS.forEach((topic) => {
-      UK_LOCATIONS.forEach((location) => {
-        params.push({
-          topic: topic.slug,
-          location: location.slug,
-        });
+      params.push({
+        topic: topic.slug,
+        location: "london",
       });
     });
   }

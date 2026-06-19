@@ -61,7 +61,7 @@ export default function BlogListingPage({ searchParams }: Props) {
     );
   }
 
-  const featuredImage = featuredPost ? (CATEGORY_IMAGES[featuredPost.category] || "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?q=80&w=800") : "";
+  const featuredImage = featuredPost ? featuredPost.image : "";
 
   return (
     <div className="pt-28 pb-24 min-h-screen bg-white">
@@ -131,7 +131,7 @@ export default function BlogListingPage({ searchParams }: Props) {
         {/* Post Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {paginatedPosts.map((post) => {
-            const postImage = CATEGORY_IMAGES[post.category] || "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?q=80&w=600";
+            const postImage = post.image;
             return (
               <Link 
                 key={post.slug} 

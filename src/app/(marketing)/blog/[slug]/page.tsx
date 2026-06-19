@@ -33,8 +33,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!post) return {};
   
   const baseMetadata = getMetadata({
-    title: `${post.title} | Drawdown Blog`,
-    description: post.excerpt,
+    title: post.metaTitle,
+    description: post.metaDescription,
     path: `/blog/${post.slug}`,
   });
 
@@ -46,6 +46,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       publishedTime: new Date(post.publishedAt).toISOString(),
       modifiedTime: new Date((post as any).updatedAt || post.publishedAt).toISOString(),
       authors: ["Pete Currey"],
+      images: [
+        {
+          url: post.image,
+          width: 1200,
+          height: 630,
+          alt: post.title,
+        }
+      ]
     },
   };
 }
@@ -83,13 +91,13 @@ export default async function BlogPostPage({ params }: Props) {
   const headings = extractHeadings(post.content);
   const showTOC = post.content.split(' ').length > 800 && headings.length > 0;
 
-  const categoryImage = CATEGORY_IMAGES[post.category] || "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?q=80&w=1200&auto=format&fit=crop";
+  const postImage = post.image;
 
   const articleSchema = {
     "@context": "https://schema.org",
     headline: post.title,
     description: post.excerpt,
-    image: categoryImage,
+    image: postImage,
     author: {
       "@type": "Person",
       "name": "Pete Currey",
@@ -171,7 +179,7 @@ export default async function BlogPostPage({ params }: Props) {
 
           {/* Featured Image */}
           <div className="w-full h-[240px] md:h-[420px] rounded-2xl overflow-hidden border border-slate-100 mb-12 relative group shadow-sm">
-            <div className="absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-[1.01]" style={{ backgroundImage: `url(${categoryImage})` }} />
+            <div className="absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-[1.01]" style={{ backgroundImage: `url(${postImage})` }} />
             <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent" />
           </div>
 
@@ -249,7 +257,7 @@ export default async function BlogPostPage({ params }: Props) {
               <h4 className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary">// Related Insights</h4>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                 {relatedPosts.map(p => {
-                  const relatedImage = CATEGORY_IMAGES[p.category] || "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?q=80&w=400";
+                  const relatedImage = p.image;
                   return (
                     <Link key={p.slug} href={`/blog/${p.slug}`} className="group space-y-4 flex flex-col">
                       <div className="aspect-video w-full rounded-xl overflow-hidden border border-slate-100 relative bg-slate-50 shrink-0">

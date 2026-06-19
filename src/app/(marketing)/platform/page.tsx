@@ -145,9 +145,9 @@ export default function PlatformPage() {
                   <p className="text-text-secondary leading-relaxed mb-8">
                     Five purpose-built AI tools that do real work. The Trade Journal detects emotional patterns in your trading history. The Risk Calculator sizes positions precisely. The Market Scanner identifies confluence across 40+ instruments. The Backtester tests your edge against 3 years of historical data. These aren't generic AI wrappers — they're built specifically for traders.
                   </p>
-                  <a href="#ai-tools" className="inline-flex items-center gap-2 text-sm font-bold text-purple-600 hover:text-purple-700 transition-colors">
+                  <Link href="/tools" className="inline-flex items-center gap-2 text-sm font-bold text-purple-600 hover:text-purple-700 transition-colors">
                     See the tools <ArrowRight className="w-4 h-4" />
-                  </a>
+                  </Link>
                 </div>
               </div>
 
@@ -183,7 +183,7 @@ export default function PlatformPage() {
                   <p className="text-text-secondary leading-relaxed mb-8">
                     A curated market briefing at 7am and 4:30pm GMT. What's moving, why it's moving, and what to watch in the next session. Sent to your inbox every trading day. Free for all registered users — no subscription required.
                   </p>
-                  <Link href="/signup" className="inline-flex items-center gap-2 text-sm font-bold text-amber-600 hover:text-amber-700 transition-colors">
+                  <Link href="/newsletter" className="inline-flex items-center gap-2 text-sm font-bold text-amber-600 hover:text-amber-700 transition-colors">
                     Subscribe free <ArrowRight className="w-4 h-4" />
                   </Link>
                 </div>
@@ -213,6 +213,7 @@ export default function PlatformPage() {
               {[
                 {
                   name: "AI Trade Journal",
+                  slug: "ai-trade-journal",
                   badge: "FREE",
                   badgeColor: "bg-neutral-800 text-neutral-300",
                   icon: <Brain className="w-8 h-8 text-purple-400" />,
@@ -221,6 +222,7 @@ export default function PlatformPage() {
                 },
                 {
                   name: "Risk Calculator",
+                  slug: "risk-calculator",
                   badge: "FREE",
                   badgeColor: "bg-neutral-800 text-neutral-300",
                   icon: <Calculator className="w-8 h-8 text-blue-400" />,
@@ -229,6 +231,7 @@ export default function PlatformPage() {
                 },
                 {
                   name: "AI Market Scanner",
+                  slug: "ai-market-scanner",
                   badge: "EDGE+",
                   badgeColor: "bg-accent/20 text-accent",
                   icon: <Scan className="w-8 h-8 text-green-400" />,
@@ -237,6 +240,7 @@ export default function PlatformPage() {
                 },
                 {
                   name: "Strategy Backtester",
+                  slug: "strategy-backtester",
                   badge: "EDGE+",
                   badgeColor: "bg-accent/20 text-accent",
                   icon: <LineChart className="w-8 h-8 text-amber-400" />,
@@ -245,6 +249,7 @@ export default function PlatformPage() {
                 },
                 {
                   name: "Daily Intelligence Brief",
+                  slug: "intelligence-hub",
                   badge: "FREE",
                   badgeColor: "bg-neutral-800 text-neutral-300",
                   icon: <Newspaper className="w-8 h-8 text-rose-400" />,
@@ -262,10 +267,15 @@ export default function PlatformPage() {
                       </span>
                     </div>
                   </div>
-                  <div className="md:w-2/3 flex flex-col justify-center">
+                  <div className="md:w-2/3 flex flex-col justify-between">
                     <p className="text-neutral-400 leading-relaxed mb-6">{tool.desc}</p>
-                    <div className="text-sm font-bold text-white flex items-center gap-2">
-                      <CheckCircle2 className="w-4 h-4 text-accent" /> {tool.feature}
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mt-auto">
+                      <div className="text-sm font-bold text-white flex items-center gap-2">
+                        <CheckCircle2 className="w-4 h-4 text-accent" /> {tool.feature}
+                      </div>
+                      <Link href={`/tools/${tool.slug}`} className="inline-flex items-center gap-2 text-sm font-bold text-accent hover:underline transition-all">
+                        Explore Spec <ArrowRight className="w-4 h-4" />
+                      </Link>
                     </div>
                   </div>
                 </div>

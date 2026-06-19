@@ -21,6 +21,15 @@ export async function generateMetadata({ searchParams }: Props): Promise<Metadat
 const CATEGORIES = ["All", "Market Analysis", "Education", "Psychology", "Tools", "UK Trading", "Risk Management"];
 const POSTS_PER_PAGE = 6;
 
+const CATEGORY_IMAGES: Record<string, string> = {
+  "Market Analysis": "https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?q=80&w=800&auto=format&fit=crop",
+  "Education": "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?q=80&w=800&auto=format&fit=crop",
+  "Psychology": "https://images.unsplash.com/photo-1507413245164-6160d8298b31?q=80&w=800&auto=format&fit=crop",
+  "Tools": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800&auto=format&fit=crop",
+  "UK Trading": "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?q=80&w=800&auto=format&fit=crop",
+  "Risk Management": "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=800&auto=format&fit=crop",
+};
+
 export default function BlogListingPage({ searchParams }: Props) {
   const allPosts = getAllPosts();
   const selectedCategory = searchParams.category || "All";
@@ -41,44 +50,46 @@ export default function BlogListingPage({ searchParams }: Props) {
 
   if (allPosts.length === 0) {
     return (
-      <div className="pt-28 pb-24 min-h-screen">
+      <div className="pt-28 pb-24 min-h-screen bg-white">
         <TrackPageView path="/blog" />
         <div className="max-w-7xl mx-auto px-6">
           <Breadcrumbs />
-          <h1 className="text-4xl md:text-6xl font-sans font-extrabold tracking-tight text-text-primary mb-4">Insights.</h1>
-          <p className="text-base text-text-tertiary font-sans">No articles found yet. Check back soon.</p>
+          <h1 className="text-4xl md:text-6xl font-sans font-extrabold tracking-tight text-slate-900 mb-4">Insights.</h1>
+          <p className="text-base text-slate-500 font-sans">No articles found yet. Check back soon.</p>
         </div>
       </div>
     );
   }
 
+  const featuredImage = featuredPost ? (CATEGORY_IMAGES[featuredPost.category] || "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?q=80&w=800") : "";
+
   return (
-    <div className="pt-28 pb-24 min-h-screen">
+    <div className="pt-28 pb-24 min-h-screen bg-white">
       <TrackPageView path="/blog" />
       <div className="max-w-7xl mx-auto px-6">
         <Breadcrumbs />
 
         <div className="mb-16">
-          <span className="text-[11px] font-sans font-bold text-text-tertiary uppercase tracking-widest block mb-4">// INSIGHTS</span>
-          <h1 className="text-4xl md:text-6xl font-sans font-extrabold tracking-tight text-text-primary mb-4">
+          <span className="text-[11px] font-sans font-bold text-text-tertiary uppercase tracking-widest block mb-3">// INSIGHTS</span>
+          <h1 className="text-4xl md:text-6xl font-sans font-black uppercase tracking-tight text-slate-900 leading-none">
             Insights.
           </h1>
-          <p className="text-base text-text-tertiary max-w-xl font-sans leading-relaxed">
-            Market analysis, trading education, and honest commentary on the reality of the markets.
+          <p className="text-base text-slate-500 max-w-xl font-sans leading-relaxed mt-4">
+            Market analysis, trading education, and honest commentary on the reality of the markets. No fluff, just raw edge.
           </p>
         </div>
 
         {/* Category Filter */}
-        <div className="flex flex-wrap gap-3 mb-14 border-b border-border-slate/50 pb-8">
+        <div className="flex flex-wrap gap-3 mb-14 border-b border-slate-100 pb-8">
           {CATEGORIES.map((cat) => (
             <Link 
               key={cat}
               href={`/blog${cat === "All" ? "" : `?category=${encodeURIComponent(cat)}`}`}
               className={cn(
-                "px-4 py-2 rounded-full text-[10px] font-sans font-bold uppercase tracking-widest transition-colors border",
+                "px-4 py-2 rounded-full text-[10px] font-sans font-bold uppercase tracking-widest transition-all border",
                 selectedCategory === cat
-                  ? "bg-mkt-ink text-white border-mkt-ink"
-                  : "text-text-tertiary border-border-slate/50 hover:border-border-slate hover:text-text-primary"
+                  ? "bg-accent text-[#08090D] border-accent shadow-sm shadow-accent/25"
+                  : "text-slate-500 border-slate-200 hover:border-slate-300 hover:text-slate-800 bg-white"
               )}
             >
               {cat}
@@ -89,27 +100,27 @@ export default function BlogListingPage({ searchParams }: Props) {
         {/* Featured Post (Only on Page 1) */}
         {featuredPost && currentPage === 1 && (
           <div className="mb-20">
-            <Link href={`/blog/${featuredPost.slug}`} className="group grid grid-cols-1 lg:grid-cols-2 gap-0 items-stretch border border-border-slate/50 rounded-[14px] overflow-hidden hover:shadow-[0_8px_40px_rgba(0,0,0,0.08)] hover:border-transparent transition-all duration-300">
-              <div className="aspect-video lg:aspect-auto bg-[#F0F0F0] relative overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent z-10" />
-                <div className="absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-105" style={{backgroundImage: `url(https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?q=80&w=800&auto=format&fit=crop)`}} />
+            <Link href={`/blog/${featuredPost.slug}`} className="group grid grid-cols-1 lg:grid-cols-12 gap-0 items-stretch border border-slate-100 rounded-2xl overflow-hidden hover:shadow-[0_8px_40px_rgba(0,0,0,0.06)] hover:border-slate-200 transition-all duration-300 bg-slate-50/30">
+              <div className="lg:col-span-7 aspect-video lg:aspect-auto bg-slate-100 relative overflow-hidden min-h-[300px]">
+                <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/10 to-transparent z-10" />
+                <div className="absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-[1.01]" style={{backgroundImage: `url(${featuredImage})`}} />
                 <div className="absolute inset-x-8 bottom-8 z-20">
-                   <span className="text-[10px] font-sans font-bold uppercase tracking-widest text-white/70 mb-2 block">// Featured Post</span>
-                   <h2 className="text-2xl md:text-3xl font-sans font-extrabold tracking-tight text-white leading-snug">
+                   <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-white/80 mb-2 block">// Featured Insight</span>
+                   <h2 className="text-xl md:text-3xl font-sans font-black uppercase tracking-tight text-white leading-tight">
                     {featuredPost.title}
                    </h2>
                 </div>
               </div>
-              <div className="p-8 lg:p-10 space-y-5 flex flex-col justify-center">
-                <p className="text-sm text-text-tertiary leading-relaxed font-sans">
+              <div className="lg:col-span-5 p-8 lg:p-10 space-y-6 flex flex-col justify-center bg-white border-l border-slate-50">
+                <p className="text-sm text-slate-500 leading-relaxed font-sans">
                   {featuredPost.excerpt}
                 </p>
-                <div className="flex items-center gap-4 text-[10px] font-sans text-text-tertiary uppercase tracking-widest">
+                <div className="flex items-center gap-4 text-[10px] font-mono text-text-tertiary uppercase tracking-widest">
                   <span>{new Date(featuredPost.publishedAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}</span>
                   <span>·</span>
                   <span>{featuredPost.readingTime} min read</span>
                 </div>
-                <span className="inline-flex items-center gap-1 text-[11px] font-sans font-bold text-text-primary group-hover:underline underline-offset-2 transition-all">
+                <span className="inline-flex items-center gap-1.5 text-[10px] font-mono font-bold uppercase tracking-wider text-slate-800 group-hover:text-accent group-hover:underline underline-offset-4 transition-all">
                   Read Article →
                 </span>
               </div>
@@ -119,35 +130,38 @@ export default function BlogListingPage({ searchParams }: Props) {
 
         {/* Post Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {paginatedPosts.map((post) => (
-            <Link 
-              key={post.slug} 
-              href={`/blog/${post.slug}`}
-              className="group relative bg-background-surface/40 backdrop-blur-md border border-border-slate/50 transition-all duration-300 hover:shadow-[0_0_20px_rgba(0,0,0,0.2)] hover:border-border-slate hover:-translate-y-0.5 rounded-[14px] flex flex-col justify-between h-[380px] overflow-hidden hover:shadow-[0_8px_32px_rgba(0,0,0,0.07)] hover:-translate-y-0.5 transition-all duration-300"
-            >
-              {/* Top image area */}
-              <div className="h-[140px] bg-[#F0F0F0] relative overflow-hidden shrink-0">
-                <div className="absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-105 opacity-60"
-                  style={{backgroundImage: `url(https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?q=80&w=600&auto=format&fit=crop)`}} />
-                <div className="absolute inset-0 bg-gradient-to-b from-transparent to-white/80" />
-                <span className="absolute top-4 left-4 text-[9px] font-sans font-bold px-2.5 py-1 /90 border border-border-slate/50 rounded text-text-tertiary uppercase tracking-widest">
-                  {post.category}
-                </span>
-              </div>
-              <div className="p-6 flex flex-col flex-1">
-                <h3 className="text-base font-sans font-extrabold tracking-tight text-text-primary group-hover:text-text-secondary transition-colors leading-snug mb-3">
-                  {post.title}
-                </h3>
-                <p className="text-xs text-text-tertiary leading-relaxed font-sans line-clamp-3 flex-1">
-                  {post.excerpt}
-                </p>
-                <div className="flex items-center justify-between text-[10px] font-sans text-text-tertiary uppercase tracking-widest pt-4 border-t border-border-slate/50 mt-4">
-                  <span>{new Date(post.publishedAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
-                  <span>{post.readingTime} min read</span>
+          {paginatedPosts.map((post) => {
+            const postImage = CATEGORY_IMAGES[post.category] || "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?q=80&w=600";
+            return (
+              <Link 
+                key={post.slug} 
+                href={`/blog/${post.slug}`}
+                className="group relative bg-slate-50/35 border border-slate-100 hover:border-slate-200/80 transition-all duration-300 hover:shadow-[0_8px_30px_rgba(0,0,0,0.05)] rounded-2xl flex flex-col justify-between h-[390px] overflow-hidden bg-white"
+              >
+                {/* Top image area */}
+                <div className="h-[150px] bg-slate-100 relative overflow-hidden shrink-0">
+                  <div className="absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-103"
+                    style={{backgroundImage: `url(${postImage})`}} />
+                  <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/10" />
+                  <span className="absolute top-4 left-4 text-[9px] font-mono font-bold px-2.5 py-1 bg-white/95 backdrop-blur-sm border border-slate-100 rounded text-slate-700 uppercase tracking-widest shadow-sm">
+                    {post.category}
+                  </span>
                 </div>
-              </div>
-            </Link>
-          ))}
+                <div className="p-6 flex flex-col flex-1">
+                  <h3 className="text-base font-sans font-black uppercase tracking-tight text-slate-800 group-hover:text-accent transition-colors leading-snug mb-3 line-clamp-2">
+                    {post.title}
+                  </h3>
+                  <p className="text-xs text-slate-500 leading-relaxed font-sans line-clamp-3 flex-1">
+                    {post.excerpt}
+                  </p>
+                  <div className="flex items-center justify-between text-[9px] font-mono text-text-tertiary uppercase tracking-widest pt-4 border-t border-slate-100 mt-4">
+                    <span>{new Date(post.publishedAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
+                    <span>{post.readingTime} min read</span>
+                  </div>
+                </div>
+              </Link>
+            );
+          })}
         </div>
 
         {/* Pagination */}
@@ -160,8 +174,8 @@ export default function BlogListingPage({ searchParams }: Props) {
                 className={cn(
                   "w-10 h-10 flex items-center justify-center font-sans text-xs rounded-lg border transition-colors",
                   currentPage === i + 1
-                    ? "bg-mkt-ink text-white border-mkt-ink"
-                    : "border-border-slate/50 text-text-tertiary hover:border-border-slate hover:text-text-primary"
+                    ? "bg-accent text-[#08090D] border-accent font-bold"
+                    : "border-slate-200 text-slate-500 hover:border-slate-300 hover:text-slate-800 bg-white"
                 )}
               >
                 {i + 1}
@@ -171,9 +185,9 @@ export default function BlogListingPage({ searchParams }: Props) {
         )}
 
         {/* RSS Link */}
-        <div className="mt-32 text-center">
-          <Link href="/blog/rss.xml" className="text-[10px] font-sans uppercase tracking-widest text-text-tertiary hover:text-text-primary transition-colors flex items-center justify-center gap-2">
-            <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24"><path d="M6.18,15.64A2.18,2.18,0,0,1,8.36,17.82,2.18,2.18,0,0,1,6.18,20,2.18,2.18,0,0,1,4,17.82,2.18,2.18,0,0,1,6.18,15.64ZM4,4.44A15.56,15.56,0,0,1,19.56,20h-2.83A12.73,12.73,0,0,0,4,7.27Zm0,5.66a9.9,9.9,0,0,1,9.9,9.9H11.07A7.17,7.17,0,0,0,4,12.93Z"/></svg>
+        <div className="mt-24 text-center">
+          <Link href="/blog/rss.xml" className="text-[9px] font-mono uppercase tracking-widest text-text-tertiary hover:text-accent transition-colors flex items-center justify-center gap-2 w-fit mx-auto">
+            <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M6.18,15.64A2.18,2.18,0,0,1,8.36,17.82,2.18,2.18,0,0,1,6.18,20,2.18,2.18,0,0,1,4,17.82,2.18,2.18,0,0,1,6.18,15.64ZM4,4.44A15.56,15.56,0,0,1,19.56,20h-2.83A12.73,12.73,0,0,0,4,7.27Zm0,5.66a9.9,9.9,0,0,1,9.9,9.9H11.07A7.17,7.17,0,0,0,4,12.93Z"/></svg>
             Subscribe via RSS
           </Link>
         </div>

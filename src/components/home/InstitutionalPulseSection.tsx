@@ -1,15 +1,26 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { ShieldAlert, ArrowUpRight, ArrowDownRight, RefreshCw, BarChart2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-const signals = [
+interface Signal {
+  type: string;
+  icon: any;
+  title: string;
+  description: string;
+  color: string;
+  bgColor: string;
+  badgeColor: string;
+}
+
+const FALLBACK_SIGNALS: Signal[] = [
   {
     type: "BULLISH",
     icon: ArrowUpRight,
-    title: "Institutional Order Block Sweep",
-    description: "Aggressive buy blocks detected near EUR/USD 1.0820 support, indicating institutional liquidity accumulation.",
+    title: "EUR/USD Order Block Sweep",
+    description: "EUR/USD is trading above its 20 EMA with a 14-day RSI of 58.4, signaling active institutional accumulation.",
     color: "var(--mkt-grn)",
     bgColor: "bg-mkt-gbg",
     badgeColor: "text-mkt-grn bg-mkt-gbg border-mkt-gbd"
@@ -17,8 +28,8 @@ const signals = [
   {
     type: "BEARISH",
     icon: ArrowDownRight,
-    title: "Retail Sentiment Extreme",
-    description: "Retail net-long exposure on GBP/USD reaches a 14-month high of 74.8%, signaling contrarian short risks.",
+    title: "GBP/USD Sentiment Extreme",
+    description: "GBP/USD is showing bearish daily momentum, trading below its 20 EMA with an RSI of 38.6, representing structural sell pressure.",
     color: "var(--mkt-red)",
     bgColor: "bg-mkt-rbg",
     badgeColor: "text-mkt-red bg-mkt-rbg border-red-200"
@@ -26,8 +37,8 @@ const signals = [
   {
     type: "NEUTRAL",
     icon: ShieldAlert,
-    title: "Macro Liquidity Sweep",
-    description: "Systemic order book thinning observed ahead of tomorrow's Federal Reserve interest rate decision.",
+    title: "XAU/USD Range Consolidation",
+    description: "XAU/USD is consolidating in a flat range, with a current daily RSI of 49.5 signaling neutral market momentum.",
     color: "var(--mkt-amb)",
     bgColor: "bg-amber-50",
     badgeColor: "text-mkt-amb bg-amber-50 border-amber-250"
@@ -35,8 +46,8 @@ const signals = [
   {
     type: "BULLISH",
     icon: ArrowUpRight,
-    title: "BTC Call Option Skew",
-    description: "Heavy options open interest buying at the $68,000 strike price, with call-put skew tilting positive.",
+    title: "BTC/USD Momentum Strength",
+    description: "BTC/USD is holding strong bullish structure above its 20 EMA with a daily RSI of 64.2, indicating continued buying appetite.",
     color: "var(--mkt-grn)",
     bgColor: "bg-mkt-gbg",
     badgeColor: "text-mkt-grn bg-mkt-gbg border-mkt-gbd"
@@ -44,21 +55,100 @@ const signals = [
 ];
 
 export function InstitutionalPulseSection() {
-  // SVG Donut calculation
+  const [sentiment, setSentiment] = useState<any>(null);
+  const [signals, setSignals] = useState<Signal[]>(FALLBACK_SIGNALS);
+  const [loading, setLoading] = useState(true);
+
+  // Fetch sentiment and consensus (to build signals) on mount
+  useEffect(() => {
+    let active = true;
+    async function fetchData() {
+      try {
+        const [sentRes, conRes] = await Promise.all([
+          fetch("/api/market/sentiment"),
+          fetch("/api/market/consensus")
+        ]);
+        const sentData = sentRes.ok ? await sentRes.json() : null;
+        const conData = conRes.ok ? await conRes.json() : [];
+
+        if (!active) return;
+
+        if (sentData) {
+          setSentiment(sentData);
+        }
+
+        // Map consensus technicals to signals
+        if (Array.isArray(conData) && conData.length > 0) {
+          const mappedSignals = conData.slice(0, 4).map((item) => {
+            const isBullish = item.trend === "Bullish";
+            const isBearish = item.trend === "Bearish";
+            
+            let type = "NEUTRAL";
+            let color = "var(--mkt-amb)";
+            let bgColor = "bg-amber-50";
+            let badgeColor = "text-mkt-amb bg-amber-50 border-amber-250";
+            let icon = ShieldAlert;
+
+            if (item.verdict.toLowerCase().includes("buy")) {
+              type = "BULLISH";
+              color = "var(--mkt-grn)";
+              bgColor = "bg-mkt-gbg";
+              badgeColor = "text-mkt-grn bg-mkt-gbg border-mkt-gbd";
+              icon = ArrowUpRight;
+            } else if (item.verdict.toLowerCase().includes("sell")) {
+              type = "BEARISH";
+              color = "var(--mkt-red)";
+              bgColor = "bg-mkt-rbg";
+              badgeColor = "text-mkt-red bg-mkt-rbg border-red-200";
+              icon = ArrowDownRight;
+            }
+
+            return {
+              type,
+              icon,
+              title: `${item.symbol} Momentum Flow`,
+              description: `${item.symbol} is displaying a ${item.trend.toLowerCase()} market bias. The 14-period Relative Strength Index is at ${item.rsi}, reflecting active institutional ${isBullish ? "accumulation" : isBearish ? "liquidity sweeps" : "neutral consolidation"}.`,
+              color,
+              bgColor,
+              badgeColor
+            };
+          });
+          setSignals(mappedSignals);
+        }
+      } catch (err) {
+        console.error("Error loading sentiment/pulse:", err);
+      } finally {
+        if (active) setLoading(false);
+      }
+    }
+    fetchData();
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  // Donut values: Bullish exposure mapped to Fear/Greed index, Neutral to VIX
+  const fg = sentiment ? (sentiment.fearGreed || 50) : 64;
+  const vixVal = sentiment ? (sentiment.vix || 15) : 15;
+
+  const rawBull = fg / 100;
+  const rawNeut = Math.max(10, Math.min(25, vixVal)) / 100;
+  const rawBear = Math.max(0.05, 1 - rawBull - rawNeut);
+
+  const sum = rawBull + rawNeut + rawBear;
+  const bullPct = rawBull / sum;
+  const bearPct = rawBear / sum;
+  const neutPct = rawNeut / sum;
+
+  // Donut SVG calculations
   const radius = 50;
   const strokeWidth = 10;
-  const circ = 2 * Math.PI * radius; // 314.159
-
-  // Percentages: Bullish 64%, Bearish 21%, Neutral 15%
-  const bullPct = 0.64;
-  const bearPct = 0.21;
-  const neutPct = 0.15;
+  const circ = 2 * Math.PI * radius; // ~314.159
 
   const bullLength = circ * bullPct;
   const bearLength = circ * bearPct;
   const neutLength = circ * neutPct;
 
-  // Offsets (starting from top, so we rotate SVG -90deg)
   const bullOffset = 0;
   const bearOffset = -bullLength;
   const neutOffset = -(bullLength + bearLength);
@@ -90,6 +180,9 @@ export function InstitutionalPulseSection() {
           </h2>
           <p className="text-base text-mkt-i3 max-w-xl mx-auto font-sans">
             Real-time aggregate data tracks order flow pressure, option positioning, and large account allocations.
+          </p>
+          <p className="text-xs text-mkt-i4 max-w-2xl mx-auto font-sans mt-4 leading-relaxed border-t border-neutral-100 pt-4">
+            The Institutional Sentiment Index compiles global risk gauges (like the Crypto Fear & Greed Index and the VIX Volatility Index) to map macro exposure. Higher bullish weights signal broad buying appetite, while higher VIX values imply market consolidation. The corresponding signals examine recent moving averages and RSI levels to identify institutional trend zones.
           </p>
         </div>
 
@@ -194,10 +287,10 @@ export function InstitutionalPulseSection() {
                 {/* Center Text */}
                 <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
                   <span className="text-3xl font-sans font-extrabold text-mkt-ink tracking-tighter">
-                    64%
+                    {loading ? "--%" : `${Math.round(bullPct * 100)}%`}
                   </span>
                   <span className="text-[10px] font-sans font-bold text-mkt-grn uppercase tracking-wider">
-                    Bullish
+                    {sentiment?.label || "Bullish"}
                   </span>
                 </div>
               </div>
@@ -208,10 +301,10 @@ export function InstitutionalPulseSection() {
                 <div className="space-y-1.5">
                   <div className="flex justify-between text-xs">
                     <span className="font-sans font-medium text-mkt-i2">Bullish Exposure</span>
-                    <span className="font-mono font-bold text-mkt-grn">64%</span>
+                    <span className="font-mono font-bold text-mkt-grn">{loading ? "--%" : `${Math.round(bullPct * 100)}%`}</span>
                   </div>
                   <div className="w-full h-2 bg-neutral-100 rounded-full overflow-hidden">
-                    <div className="h-full bg-mkt-grn rounded-full" style={{ width: "64%" }} />
+                    <div className="h-full bg-mkt-grn rounded-full transition-all duration-500" style={{ width: `${Math.round(bullPct * 100)}%` }} />
                   </div>
                 </div>
 
@@ -219,10 +312,10 @@ export function InstitutionalPulseSection() {
                 <div className="space-y-1.5">
                   <div className="flex justify-between text-xs">
                     <span className="font-sans font-medium text-mkt-i2">Bearish Exposure</span>
-                    <span className="font-mono font-bold text-mkt-red">21%</span>
+                    <span className="font-mono font-bold text-mkt-red">{loading ? "--%" : `${Math.round(bearPct * 100)}%`}</span>
                   </div>
                   <div className="w-full h-2 bg-neutral-100 rounded-full overflow-hidden">
-                    <div className="h-full bg-mkt-red rounded-full" style={{ width: "21%" }} />
+                    <div className="h-full bg-mkt-red rounded-full transition-all duration-500" style={{ width: `${Math.round(bearPct * 100)}%` }} />
                   </div>
                 </div>
 
@@ -230,10 +323,10 @@ export function InstitutionalPulseSection() {
                 <div className="space-y-1.5">
                   <div className="flex justify-between text-xs">
                     <span className="font-sans font-medium text-mkt-i2">Neutral Exposure</span>
-                    <span className="font-mono font-bold text-mkt-amb">15%</span>
+                    <span className="font-mono font-bold text-mkt-amb">{loading ? "--%" : `${Math.round(neutPct * 100)}%`}</span>
                   </div>
                   <div className="w-full h-2 bg-neutral-100 rounded-full overflow-hidden">
-                    <div className="h-full bg-mkt-amb rounded-full" style={{ width: "15%" }} />
+                    <div className="h-full bg-mkt-amb rounded-full transition-all duration-500" style={{ width: `${Math.round(neutPct * 100)}%` }} />
                   </div>
                 </div>
               </div>

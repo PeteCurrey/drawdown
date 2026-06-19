@@ -5,96 +5,84 @@ import { motion } from "framer-motion";
 import { TrendingUp, Users } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-interface MarketItem {
+interface MarketPrice {
   symbol: string;
   price: number;
   changePercent: number;
 }
 
-const CONSENSUS_CONFIG = [
-  { 
-    symbol: "GBPUSD", 
-    label: "GBP/USD", 
-    signal: "BUY", 
-    signalColor: "text-mkt-grn bg-mkt-grn/10 border-mkt-grn/20",
-    buyPct: 72, 
-    sellPct: 28,
-    fallbackPrice: 1.2745,
-    fallbackChange: 0.18
-  },
-  { 
-    symbol: "XAUUSD", 
-    label: "XAU/USD", 
-    signal: "STRONG BUY", 
-    signalColor: "text-mkt-grn bg-mkt-grn/15 border-mkt-grn/30",
-    buyPct: 85, 
-    sellPct: 15,
-    fallbackPrice: 2345.50,
-    fallbackChange: 1.24
-  },
-  { 
-    symbol: "EURUSD", 
-    label: "EUR/USD", 
-    signal: "HOLD", 
-    signalColor: "text-mkt-amb bg-mkt-amb/10 border-mkt-amb/20",
-    buyPct: 51, 
-    sellPct: 49,
-    fallbackPrice: 1.0852,
-    fallbackChange: -0.04
-  },
-  { 
-    symbol: "BTCUSD", 
-    label: "BTC/USD", 
-    signal: "STRONG BUY", 
-    signalColor: "text-mkt-grn bg-mkt-grn/15 border-mkt-grn/30",
-    buyPct: 91, 
-    sellPct: 9,
-    fallbackPrice: 67200.00,
-    fallbackChange: 3.85
-  }
+interface ConsensusItem {
+  symbol: string;
+  score: number;
+  verdict: string;
+  rsi: string;
+  trend: string;
+}
+
+const ASSET_CONFIG = [
+  { symbol: "GBPUSD", label: "GBP/USD", fallbackPrice: 1.2745, fallbackChange: 0.18, fallbackScore: 72, fallbackVerdict: "Buy" },
+  { symbol: "XAUUSD", label: "XAU/USD", fallbackPrice: 2345.50, fallbackChange: 1.24, fallbackScore: 85, fallbackVerdict: "Strong Buy" },
+  { symbol: "EURUSD", label: "EUR/USD", fallbackPrice: 1.0852, fallbackChange: -0.04, fallbackScore: 51, fallbackVerdict: "Hold" },
+  { symbol: "BTCUSD", label: "BTC/USD", fallbackPrice: 67200.00, fallbackChange: 3.85, fallbackScore: 91, fallbackVerdict: "Strong Buy" }
 ];
 
 export function InstitutionalConsensusSection() {
-  const [data, setData] = useState<MarketItem[]>([]);
+  const [prices, setPrices] = useState<MarketPrice[]>([]);
+  const [consensus, setConsensus] = useState<ConsensusItem[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
 
+  // Fetch prices and consensus in parallel
   useEffect(() => {
-    async function fetchPrices() {
+    let active = true;
+    async function fetchData() {
       try {
-        const symbols = CONSENSUS_CONFIG.map(c => c.symbol).join(",");
-        const res = await fetch(`/api/market/prices?symbols=${symbols}`);
-        if (!res.ok) throw new Error();
-        const prices = await res.json();
-        if (Array.isArray(prices)) {
-          setData(prices);
-          setError(false);
-        } else {
-          throw new Error();
+        const symbolList = ASSET_CONFIG.map(c => c.symbol).join(",");
+        const [priceRes, conRes] = await Promise.all([
+          fetch(`/api/market/prices?symbols=${symbolList}`),
+          fetch("/api/market/consensus")
+        ]);
+        
+        const priceData = priceRes.ok ? await priceRes.json() : [];
+        const conData = conRes.ok ? await conRes.json() : [];
+
+        if (active) {
+          if (Array.isArray(priceData)) setPrices(priceData);
+          if (Array.isArray(conData)) setConsensus(conData);
         }
       } catch (err) {
-        setError(true);
+        console.error("Error loading consensus data:", err);
       } finally {
-        setLoading(false);
+        if (active) setLoading(false);
       }
     }
-
-    fetchPrices();
-    const interval = setInterval(fetchPrices, 30000);
-    return () => clearInterval(interval);
+    fetchData();
+    return () => {
+      active = false;
+    };
   }, []);
 
   const formatPrice = (price: number | null | undefined, symbol: string) => {
     if (price == null || typeof price !== "number" || Number.isNaN(price)) {
       return "--";
     }
-    if (symbol.includes("BTC")) {
-      return price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-    }
-    if (symbol.includes("XAU")) {
+    if (symbol.includes("BTC") || symbol.includes("XAU")) {
       return price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
     }
     return price.toFixed(4);
+  };
+
+  const getSignalColors = (score: number) => {
+    if (score >= 75) return "text-mkt-grn bg-mkt-grn/15 border-mkt-grn/30";
+    if (score >= 60) return "text-mkt-grn bg-mkt-grn/10 border-mkt-grn/20";
+    if (score <= 25) return "text-mkt-red bg-mkt-red/15 border-red-350";
+    if (score <= 40) return "text-mkt-red bg-mkt-red/10 border-red-200";
+    return "text-mkt-amb bg-amber-50 border-amber-250";
+  };
+
+  // Helper to normalize symbol matching (e.g. "GBPUSD" vs "GBP/USD")
+  const matchSymbol = (configSymbol: string, dataSymbol: string) => {
+    const clean = (s: string) => s.replace(/[^a-zA-Z]/g, "").toLowerCase();
+    return clean(configSymbol) === clean(dataSymbol);
   };
 
   const cardVariants = {
@@ -125,16 +113,25 @@ export function InstitutionalConsensusSection() {
           <p className="text-base text-mkt-i3 max-w-xl mx-auto font-sans">
             Aggregate long/short ratios, positioning grids, and daily directional bias across primary assets.
           </p>
+          <p className="text-xs text-mkt-i4 max-w-2xl mx-auto font-sans mt-4 leading-relaxed border-t border-neutral-100 pt-4">
+            This consensus dashboard tracks the directional bias of primary global assets. By evaluating the last 50 daily candles of each instrument, the matrix calculates its 20-period Exponential Moving Average (EMA) and 14-period Relative Strength Index (RSI). A consensus buy percentage above 60% signals an active trend-following buy bias, while scores below 40% suggest structural sell pressure.
+          </p>
         </div>
 
         {/* 4 Column Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {CONSENSUS_CONFIG.map((config, idx) => {
-            const item = data.find(d => d.symbol === config.symbol);
-            // Use live data if returned and valid; otherwise fallback to realistic values
-            const price = (item && !Number.isNaN(item.price)) ? item.price : config.fallbackPrice;
-            const changePercent = (item && !Number.isNaN(item.price)) ? item.changePercent : config.fallbackChange;
+          {ASSET_CONFIG.map((config, idx) => {
+            const priceItem = prices.find(p => matchSymbol(config.symbol, p.symbol));
+            const conItem = consensus.find(c => matchSymbol(config.symbol, c.symbol));
+
+            const price = priceItem && !Number.isNaN(priceItem.price) ? priceItem.price : config.fallbackPrice;
+            const changePercent = priceItem && !Number.isNaN(priceItem.changePercent) ? priceItem.changePercent : config.fallbackChange;
+            const score = conItem ? conItem.score : config.fallbackScore;
+            const verdict = conItem ? conItem.verdict : config.fallbackVerdict;
+
             const isPositive = changePercent >= 0;
+            const buyPct = score;
+            const sellPct = 100 - score;
 
             return (
               <motion.div
@@ -154,16 +151,16 @@ export function InstitutionalConsensusSection() {
                     </span>
                     <span className={cn(
                       "text-[9px] font-mono font-bold px-2 py-0.5 rounded border uppercase tracking-wider",
-                      config.signalColor
+                      getSignalColors(score)
                     )}>
-                      {config.signal}
+                      {verdict}
                     </span>
                   </div>
 
                   {/* Price info */}
                   <div className="mb-6">
                     <span className="text-2xl font-mono font-bold text-mkt-ink tracking-tight block">
-                      {loading && !item ? "--" : formatPrice(price, config.symbol)}
+                      {loading && !priceItem ? "--" : formatPrice(price, config.symbol)}
                     </span>
                     <span className={cn(
                       "text-[10px] font-mono font-semibold mt-1 inline-block",
@@ -180,10 +177,10 @@ export function InstitutionalConsensusSection() {
                   <div className="space-y-1">
                     <div className="flex items-center justify-between text-[10px]">
                       <span className="font-sans font-medium text-mkt-i3 uppercase tracking-wider">L/S Buy Ratio</span>
-                      <span className="font-mono font-bold text-mkt-grn">{config.buyPct}%</span>
+                      <span className="font-mono font-bold text-mkt-grn">{buyPct}%</span>
                     </div>
                     <div className="w-full h-1.5 bg-neutral-100 rounded-full overflow-hidden">
-                      <div className="h-full bg-mkt-grn rounded-full" style={{ width: `${config.buyPct}%` }} />
+                      <div className="h-full bg-mkt-grn rounded-full transition-all duration-500" style={{ width: `${buyPct}%` }} />
                     </div>
                   </div>
 
@@ -191,10 +188,10 @@ export function InstitutionalConsensusSection() {
                   <div className="space-y-1">
                     <div className="flex items-center justify-between text-[10px]">
                       <span className="font-sans font-medium text-mkt-i3 uppercase tracking-wider">L/S Sell Ratio</span>
-                      <span className="font-mono font-bold text-mkt-red">{config.sellPct}%</span>
+                      <span className="font-mono font-bold text-mkt-red">{sellPct}%</span>
                     </div>
                     <div className="w-full h-1.5 bg-neutral-100 rounded-full overflow-hidden">
-                      <div className="h-full bg-mkt-red rounded-full" style={{ width: `${config.sellPct}%` }} />
+                      <div className="h-full bg-mkt-red rounded-full transition-all duration-500" style={{ width: `${sellPct}%` }} />
                     </div>
                   </div>
                 </div>

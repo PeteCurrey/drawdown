@@ -23,7 +23,8 @@ interface Props {
 }
 
 function resolveBroker(brokerParam: string) {
-  const brokerId = BROKER_MAP[brokerParam] || brokerParam;
+  const cleanParam = brokerParam.replace("-review", "");
+  const brokerId = BROKER_MAP[brokerParam] || BROKER_MAP[cleanParam] || cleanParam;
   return brokers.find((b) => b.id === brokerId || b.slug === brokerId);
 }
 

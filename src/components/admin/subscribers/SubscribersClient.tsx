@@ -89,45 +89,45 @@ export function SubscribersClient({
   return (
     <div className="space-y-10 animate-in fade-in duration-500">
       {/* Header */}
-      <div className="flex justify-between items-center border-b border-white/5 pb-6">
+      <div className="flex justify-between items-center border-b border-mkt-bd pb-6">
         <div>
-          <h1 className="text-3xl font-display font-black uppercase text-white tracking-tight">Subscribers</h1>
-          <p className="text-xs text-[#8C8B87] font-mono uppercase tracking-widest mt-1">Subscriber List & Management</p>
+          <h1 className="text-3xl font-display font-black uppercase text-mkt-ink tracking-tight">Subscribers</h1>
+          <p className="text-xs text-mkt-i3 font-mono uppercase tracking-widest mt-1">Subscriber List & Management</p>
         </div>
-        <Link href="/admin" className="text-xs font-mono uppercase tracking-widest text-[#8C8B87] hover:text-white transition-colors">
+        <Link href="/admin" className="text-xs font-mono uppercase tracking-widest text-mkt-i3 hover:text-mkt-ink transition-colors">
           &larr; Back to Dashboard
         </Link>
       </div>
 
       {/* Control Strip */}
-      <div className="bg-[#0F111A] border border-[#1C1F2B] p-5 rounded-xl flex flex-wrap gap-4 items-center justify-between">
+      <div className="bg-white border border-mkt-bd p-5 rounded-xl flex flex-wrap gap-4 items-center justify-between shadow-[0_2px_8px_rgba(0,0,0,0.04)]">
         <form onSubmit={handleSearchSubmit} className="relative w-full max-w-sm">
           <input
             type="text"
             placeholder="Search subscribers by email..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full bg-[#12141F] border border-white/10 rounded px-4 py-2.5 pl-10 text-xs text-white outline-none focus:border-[#C8F135] transition-colors font-sans placeholder:text-[#5C5B57]"
+            className="w-full bg-neutral-50 border border-mkt-bd rounded px-4 py-2.5 pl-10 text-xs text-mkt-ink outline-none focus:border-mkt-ink transition-colors font-sans placeholder:text-mkt-i4"
           />
-          <Search className="w-4 h-4 text-[#5C5B57] absolute left-3 top-1/2 -translate-y-1/2" />
+          <Search className="w-4 h-4 text-mkt-i4 absolute left-3 top-1/2 -translate-y-1/2" />
         </form>
 
         <button
           onClick={handleExportCSV}
           disabled={exporting}
-          className="flex items-center gap-2 px-5 py-2.5 bg-transparent border border-white/10 hover:border-white/20 hover:bg-white/5 text-white text-xs font-mono font-bold uppercase tracking-widest transition-all duration-150 disabled:opacity-50 cursor-pointer"
+          className="flex items-center gap-2 px-5 py-2.5 bg-transparent border border-mkt-bd hover:bg-neutral-50 text-mkt-ink text-xs font-mono font-bold uppercase tracking-widest transition-all duration-150 disabled:opacity-50 cursor-pointer rounded-lg"
         >
-          {exporting ? <Loader2 className="w-4 h-4 animate-spin text-[#C8F135]" /> : <Download className="w-4 h-4 text-[#C8F135]" />}
+          {exporting ? <Loader2 className="w-4 h-4 animate-spin text-mkt-grn" /> : <Download className="w-4 h-4 text-mkt-grn" />}
           Export CSV (Active)
         </button>
       </div>
 
       {/* Subscribers Table */}
-      <div className="bg-[#0F111A] border border-[#1C1F2B] p-6 rounded-xl space-y-6">
+      <div className="bg-white border border-mkt-bd p-6 rounded-xl space-y-6 shadow-[0_2px_8px_rgba(0,0,0,0.04)]">
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs text-[#8C8B87]">
+          <table className="w-full text-left text-xs text-mkt-i2">
             <thead>
-              <tr className="border-b border-white/5 pb-2 text-[10px] uppercase font-mono tracking-wider">
+              <tr className="border-b border-mkt-bd pb-2 text-[10px] uppercase font-mono tracking-wider text-mkt-i3">
                 <th className="py-3 font-semibold">Email</th>
                 <th className="py-3 font-semibold">Name</th>
                 <th className="py-3 font-semibold">Source</th>
@@ -140,11 +140,11 @@ export function SubscribersClient({
             <tbody>
               {subscribers && subscribers.length > 0 ? (
                 subscribers.map((sub) => (
-                  <tr key={sub.id} className="border-b border-white/5 hover:bg-white/5 transition-colors">
-                    <td className="py-4 font-medium text-white">{sub.email}</td>
+                  <tr key={sub.id} className="border-b border-mkt-bd hover:bg-neutral-50 transition-colors">
+                    <td className="py-4 font-semibold text-mkt-ink">{sub.email}</td>
                     <td className="py-4">{sub.first_name || "Trader"}</td>
-                    <td className="py-4 font-mono text-[10px]">{sub.source || "signup"}</td>
-                    <td className="py-4 font-mono">
+                    <td className="py-4 font-mono text-[10px] text-mkt-i3">{sub.source || "signup"}</td>
+                    <td className="py-4 font-mono text-mkt-i3">
                       {new Date(sub.subscribed_at).toLocaleDateString("en-GB", {
                         day: "numeric",
                         month: "short",
@@ -153,30 +153,30 @@ export function SubscribersClient({
                     </td>
                     <td className="py-4 text-center">
                       {sub.subscribed_morning ? (
-                        <CheckCircle2 className="w-4 h-4 text-emerald-400 mx-auto" />
+                        <CheckCircle2 className="w-4 h-4 text-mkt-grn mx-auto" />
                       ) : (
-                        <XCircle className="w-4 h-4 text-[#42413D] mx-auto" />
+                        <XCircle className="w-4 h-4 text-mkt-i4 mx-auto" />
                       )}
                     </td>
                     <td className="py-4 text-center">
                       {sub.subscribed_evening ? (
-                        <CheckCircle2 className="w-4 h-4 text-emerald-400 mx-auto" />
+                        <CheckCircle2 className="w-4 h-4 text-mkt-grn mx-auto" />
                       ) : (
-                        <XCircle className="w-4 h-4 text-[#42413D] mx-auto" />
+                        <XCircle className="w-4 h-4 text-mkt-i4 mx-auto" />
                       )}
                     </td>
                     <td className="py-4 text-center">
                       {sub.is_active ? (
-                        <span className="px-1.5 py-0.5 rounded text-[8px] font-mono font-bold bg-emerald-500/10 text-emerald-400 uppercase">ACTIVE</span>
+                        <span className="px-1.5 py-0.5 rounded text-[8px] font-mono font-bold bg-mkt-gbg border border-mkt-gbd text-mkt-grn uppercase">ACTIVE</span>
                       ) : (
-                        <span className="px-1.5 py-0.5 rounded text-[8px] font-mono font-bold bg-rose-500/10 text-rose-400 uppercase">INACTIVE</span>
+                        <span className="px-1.5 py-0.5 rounded text-[8px] font-mono font-bold bg-mkt-rbg border border-red-200 text-mkt-red uppercase">INACTIVE</span>
                       )}
                     </td>
                   </tr>
                 ))
               ) : (
                 <tr>
-                  <td colSpan={7} className="py-8 text-center text-[#5C5B57] font-mono">
+                  <td colSpan={7} className="py-8 text-center text-mkt-i4 font-mono">
                     No subscribers found matching search criteria.
                   </td>
                 </tr>
@@ -187,35 +187,35 @@ export function SubscribersClient({
 
         {/* Pagination */}
         {totalPages > 1 && (
-          <div className="flex items-center justify-between border-t border-white/5 pt-4 text-xs font-mono">
-            <span className="text-[#5C5B57]">
+          <div className="flex items-center justify-between border-t border-mkt-bd pt-4 text-xs font-mono">
+            <span className="text-mkt-i3">
               Showing {from + 1} - {Math.min(to + 1, totalRecords)} of {totalRecords} subscribers
             </span>
             <div className="flex items-center gap-2">
               {currentPage > 1 ? (
                 <Link
                   href={getPageUrl(currentPage - 1)}
-                  className="p-2 border border-white/10 hover:border-white/20 text-[#8C8B87] hover:text-white rounded"
+                  className="p-2 border border-mkt-bd hover:bg-neutral-50 text-mkt-i3 hover:text-mkt-ink rounded"
                 >
                   <ChevronLeft className="w-4 h-4" />
                 </Link>
               ) : (
-                <button disabled className="p-2 border border-white/5 text-[#42413D] rounded opacity-40">
+                <button disabled className="p-2 border border-mkt-bd text-mkt-i4 rounded opacity-40">
                   <ChevronLeft className="w-4 h-4" />
                 </button>
               )}
 
-              <span className="px-3 text-white">Page {currentPage} of {totalPages}</span>
+              <span className="px-3 text-mkt-ink">Page {currentPage} of {totalPages}</span>
 
               {currentPage < totalPages ? (
                 <Link
                   href={getPageUrl(currentPage + 1)}
-                  className="p-2 border border-white/10 hover:border-white/20 text-[#8C8B87] hover:text-white rounded"
+                  className="p-2 border border-mkt-bd hover:bg-neutral-50 text-mkt-i3 hover:text-mkt-ink rounded"
                 >
                   <ChevronRight className="w-4 h-4" />
                 </Link>
               ) : (
-                <button disabled className="p-2 border border-white/5 text-[#42413D] rounded opacity-40">
+                <button disabled className="p-2 border border-mkt-bd text-mkt-i4 rounded opacity-40">
                   <ChevronRight className="w-4 h-4" />
                 </button>
               )}

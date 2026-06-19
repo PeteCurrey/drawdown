@@ -145,16 +145,16 @@ export function BlogEditor({ post }: BlogEditorProps) {
   return (
     <div className="space-y-10 animate-in fade-in duration-500">
       {/* Header */}
-      <div className="flex justify-between items-center border-b border-white/5 pb-6">
+      <div className="flex justify-between items-center border-b border-mkt-bd pb-6">
         <div className="flex items-center gap-3">
-          <Link href="/admin/blog" className="p-1 border border-white/10 hover:border-white/20 text-[#8C8B87] hover:text-white rounded transition-all">
+          <Link href="/admin/blog" className="p-1 border border-mkt-bd hover:bg-neutral-50 text-mkt-i3 hover:text-mkt-ink rounded transition-all">
             <ArrowLeft className="w-4 h-4" />
           </Link>
           <div>
-            <h1 className="text-3xl font-display font-black uppercase text-white tracking-tight">
+            <h1 className="text-3xl font-display font-black uppercase text-mkt-ink tracking-tight">
               {post?.id ? "Edit Blog Post" : "Create Blog Post"}
             </h1>
-            <p className="text-xs text-[#8C8B87] font-mono uppercase tracking-widest mt-1">
+            <p className="text-xs text-mkt-i3 font-mono uppercase tracking-widest mt-1">
               {post?.id ? "Modify existing article catalog" : "Publish a new piece of market intelligence"}
             </p>
           </div>
@@ -162,9 +162,9 @@ export function BlogEditor({ post }: BlogEditorProps) {
         <button
           type="button"
           onClick={() => setShowAiModal(true)}
-          className="flex items-center gap-2 px-5 py-2.5 bg-[#C8F135] hover:bg-[#D8F155] text-[#08090D] text-xs font-mono font-bold uppercase tracking-widest transition-all duration-150 cursor-pointer"
+          className="flex items-center gap-2 px-5 py-2.5 bg-neutral-100 border border-mkt-bd hover:bg-neutral-200 text-mkt-ink text-xs font-mono font-bold uppercase tracking-widest transition-all duration-150 cursor-pointer rounded-lg"
         >
-          <Sparkles className="w-4 h-4" />
+          <Sparkles className="w-4 h-4 text-mkt-grn" />
           Generate with AI
         </button>
       </div>
@@ -172,10 +172,10 @@ export function BlogEditor({ post }: BlogEditorProps) {
       <form onSubmit={handleSave} className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Main fields (Left) */}
         <div className="lg:col-span-2 space-y-6">
-          <div className="bg-[#0F111A] border border-[#1C1F2B] p-6 rounded-xl space-y-6">
+          <div className="bg-white border border-mkt-bd p-6 rounded-xl space-y-6 shadow-[0_2px_8px_rgba(0,0,0,0.04)]">
             {/* Title */}
             <div className="space-y-1.5">
-              <label className="text-[10px] font-mono font-bold text-[#8C8B87] uppercase tracking-wider block">
+              <label className="text-[10px] font-mono font-bold text-mkt-i3 uppercase tracking-wider block">
                 Post Title <span className="text-rose-500">*</span>
               </label>
               <input
@@ -184,14 +184,14 @@ export function BlogEditor({ post }: BlogEditorProps) {
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 placeholder="Enter a compelling title..."
-                className="w-full bg-[#12141F] border border-white/10 rounded px-4 py-3 text-sm text-white font-sans outline-none focus:border-[#C8F135] transition-colors placeholder:text-[#5C5B57]"
+                className="w-full bg-neutral-50 border border-mkt-bd rounded px-4 py-3 text-sm text-mkt-ink font-sans outline-none focus:border-mkt-ink transition-colors placeholder:text-mkt-i4 focus:ring-1 focus:ring-mkt-ink"
               />
             </div>
 
             {/* Slug & Category */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-1.5">
-                <label className="text-[10px] font-mono font-bold text-[#8C8B87] uppercase tracking-wider block">
+                <label className="text-[10px] font-mono font-bold text-mkt-i3 uppercase tracking-wider block">
                   Slug (URL) <span className="text-rose-500">*</span>
                 </label>
                 <input
@@ -200,18 +200,18 @@ export function BlogEditor({ post }: BlogEditorProps) {
                   value={slug}
                   onChange={(e) => setSlug(e.target.value)}
                   placeholder="post-url-slug"
-                  className="w-full bg-[#12141F] border border-white/10 rounded px-4 py-3 text-sm text-white font-mono outline-none focus:border-[#C8F135] transition-colors"
+                  className="w-full bg-neutral-50 border border-mkt-bd rounded px-4 py-3 text-sm text-mkt-ink font-mono outline-none focus:border-mkt-ink transition-colors focus:ring-1 focus:ring-mkt-ink"
                 />
               </div>
 
               <div className="space-y-1.5">
-                <label className="text-[10px] font-mono font-bold text-[#8C8B87] uppercase tracking-wider block">
+                <label className="text-[10px] font-mono font-bold text-mkt-i3 uppercase tracking-wider block">
                   Category
                 </label>
                 <select
                   value={category}
                   onChange={(e) => setCategory(e.target.value)}
-                  className="w-full bg-[#12141F] border border-white/10 rounded px-4 py-3 text-sm text-white outline-none focus:border-[#C8F135] transition-colors"
+                  className="w-full bg-neutral-50 border border-mkt-bd rounded px-4 py-3 text-sm text-mkt-ink outline-none focus:border-mkt-ink transition-colors focus:ring-1 focus:ring-mkt-ink"
                 >
                   {CATEGORIES.map((cat) => (
                     <option key={cat} value={cat}>
@@ -224,7 +224,7 @@ export function BlogEditor({ post }: BlogEditorProps) {
 
             {/* Excerpt */}
             <div className="space-y-1.5">
-              <label className="text-[10px] font-mono font-bold text-[#8C8B87] uppercase tracking-wider block font-semibold">
+              <label className="text-[10px] font-mono font-bold text-mkt-i3 uppercase tracking-wider block font-semibold">
                 Excerpt (Max 200 chars)
               </label>
               <textarea
@@ -232,14 +232,14 @@ export function BlogEditor({ post }: BlogEditorProps) {
                 onChange={(e) => setExcerpt(e.target.value.slice(0, 200))}
                 rows={3}
                 placeholder="Brief summary of the article..."
-                className="w-full bg-[#12141F] border border-white/10 rounded px-4 py-3 text-sm text-white font-sans outline-none focus:border-[#C8F135] transition-colors placeholder:text-[#5C5B57] resize-none"
+                className="w-full bg-neutral-50 border border-mkt-bd rounded px-4 py-3 text-sm text-mkt-ink font-sans outline-none focus:border-mkt-ink transition-colors placeholder:text-mkt-i4 focus:ring-1 focus:ring-mkt-ink resize-none"
               />
-              <span className="text-[10px] font-mono text-[#5C5B57] block text-right">{excerpt.length}/200</span>
+              <span className="text-[10px] font-mono text-mkt-i4 block text-right">{excerpt.length}/200</span>
             </div>
 
             {/* Content (Markdown) */}
             <div className="space-y-1.5">
-              <label className="text-[10px] font-mono font-bold text-[#8C8B87] uppercase tracking-wider block">
+              <label className="text-[10px] font-mono font-bold text-mkt-i3 uppercase tracking-wider block">
                 Content (Markdown) <span className="text-rose-500">*</span>
               </label>
               <textarea
@@ -248,7 +248,7 @@ export function BlogEditor({ post }: BlogEditorProps) {
                 onChange={(e) => setContent(e.target.value)}
                 rows={18}
                 placeholder="Write your blog content here in markdown format..."
-                className="w-full bg-[#12141F] border border-white/10 rounded p-4 text-sm text-white font-mono outline-none focus:border-[#C8F135] transition-colors placeholder:text-[#5C5B57] resize-y"
+                className="w-full bg-neutral-50 border border-mkt-bd rounded p-4 text-sm text-mkt-ink font-mono outline-none focus:border-mkt-ink transition-colors placeholder:text-mkt-i4 focus:ring-1 focus:ring-mkt-ink resize-y"
               />
             </div>
           </div>
@@ -256,26 +256,26 @@ export function BlogEditor({ post }: BlogEditorProps) {
 
         {/* Sidebar settings (Right) */}
         <div className="space-y-6">
-          <div className="bg-[#0F111A] border border-[#1C1F2B] p-6 rounded-xl space-y-6">
-            <h3 className="text-xs font-mono uppercase tracking-widest text-[#8C8B87] font-bold border-b border-white/5 pb-4">
+          <div className="bg-white border border-mkt-bd p-6 rounded-xl space-y-6 shadow-[0_2px_8px_rgba(0,0,0,0.04)]">
+            <h3 className="text-xs font-mono uppercase tracking-widest text-mkt-i3 font-bold border-b border-mkt-bd pb-4">
               // Publication Settings
             </h3>
 
             {/* Published Toggle */}
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
-                <span className="text-[10px] font-mono text-[#8C8B87] uppercase tracking-wider block font-bold">Published</span>
-                <span className="text-[9px] text-[#5C5B57]">Visibility on client blog page</span>
+                <span className="text-[10px] font-mono text-mkt-i3 uppercase tracking-wider block font-bold">Published</span>
+                <span className="text-[9px] text-mkt-i4">Visibility on client blog page</span>
               </div>
               <button
                 type="button"
                 onClick={() => setPublished(!published)}
                 className={`w-12 h-6 rounded-full p-0.5 transition-colors duration-200 cursor-pointer ${
-                  published ? "bg-[#C8F135]" : "bg-white/10"
+                  published ? "bg-mkt-grn" : "bg-neutral-200"
                 }`}
               >
                 <div
-                  className={`w-5 h-5 rounded-full bg-[#08090D] shadow transition-transform duration-200 ${
+                  className={`w-5 h-5 rounded-full bg-white shadow transition-transform duration-200 ${
                     published ? "translate-x-6" : "translate-x-0"
                   }`}
                 />
@@ -285,18 +285,18 @@ export function BlogEditor({ post }: BlogEditorProps) {
             {/* Featured Toggle */}
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
-                <span className="text-[10px] font-mono text-[#8C8B87] uppercase tracking-wider block font-bold">Featured Post</span>
-                <span className="text-[9px] text-[#5C5B57]">Prioritise in lists & displays</span>
+                <span className="text-[10px] font-mono text-mkt-i3 uppercase tracking-wider block font-bold">Featured Post</span>
+                <span className="text-[9px] text-mkt-i4">Prioritise in lists & displays</span>
               </div>
               <button
                 type="button"
                 onClick={() => setFeatured(!featured)}
                 className={`w-12 h-6 rounded-full p-0.5 transition-colors duration-200 cursor-pointer ${
-                  featured ? "bg-[#C8F135]" : "bg-white/10"
+                  featured ? "bg-mkt-grn" : "bg-neutral-200"
                 }`}
               >
                 <div
-                  className={`w-5 h-5 rounded-full bg-[#08090D] shadow transition-transform duration-200 ${
+                  className={`w-5 h-5 rounded-full bg-white shadow transition-transform duration-200 ${
                     featured ? "translate-x-6" : "translate-x-0"
                   }`}
                 />
@@ -305,43 +305,43 @@ export function BlogEditor({ post }: BlogEditorProps) {
 
             {/* Tags */}
             <div className="space-y-1.5">
-              <label className="text-[10px] font-mono text-[#8C8B87] uppercase tracking-wider block font-bold">Tags (Comma-separated)</label>
+              <label className="text-[10px] font-mono text-mkt-i3 uppercase tracking-wider block font-bold">Tags (Comma-separated)</label>
               <input
                 type="text"
                 value={tagsInput}
                 onChange={(e) => setTagsInput(e.target.value)}
                 placeholder="market, psychology, automated"
-                className="w-full bg-[#12141F] border border-white/10 rounded px-3 py-2 text-xs text-white outline-none focus:border-[#C8F135] transition-colors font-sans placeholder:text-[#5C5B57]"
+                className="w-full bg-neutral-50 border border-mkt-bd rounded px-3 py-2 text-xs text-mkt-ink outline-none focus:border-mkt-ink transition-colors font-sans placeholder:text-mkt-i4 focus:ring-1 focus:ring-mkt-ink"
               />
             </div>
           </div>
 
-          <div className="bg-[#0F111A] border border-[#1C1F2B] p-6 rounded-xl space-y-6">
-            <h3 className="text-xs font-mono uppercase tracking-widest text-[#8C8B87] font-bold border-b border-white/5 pb-4">
+          <div className="bg-white border border-mkt-bd p-6 rounded-xl space-y-6 shadow-[0_2px_8px_rgba(0,0,0,0.04)]">
+            <h3 className="text-xs font-mono uppercase tracking-widest text-mkt-i3 font-bold border-b border-mkt-bd pb-4">
               // SEO Meta Configuration
             </h3>
 
             {/* Meta Title */}
             <div className="space-y-1.5">
-              <label className="text-[10px] font-mono text-[#8C8B87] uppercase tracking-wider block font-bold">Meta Title</label>
+              <label className="text-[10px] font-mono text-mkt-i3 uppercase tracking-wider block font-bold">Meta Title</label>
               <input
                 type="text"
                 value={metaTitle}
                 onChange={(e) => setMetaTitle(e.target.value)}
                 placeholder="Custom HTML title tag"
-                className="w-full bg-[#12141F] border border-white/10 rounded px-3 py-2 text-xs text-white outline-none focus:border-[#C8F135] transition-colors font-sans"
+                className="w-full bg-neutral-50 border border-mkt-bd rounded px-3 py-2 text-xs text-mkt-ink outline-none focus:border-mkt-ink transition-colors font-sans focus:ring-1 focus:ring-mkt-ink"
               />
             </div>
 
             {/* Meta Description */}
             <div className="space-y-1.5">
-              <label className="text-[10px] font-mono text-[#8C8B87] uppercase tracking-wider block font-bold">Meta Description</label>
+              <label className="text-[10px] font-mono text-mkt-i3 uppercase tracking-wider block font-bold">Meta Description</label>
               <textarea
                 value={metaDescription}
                 onChange={(e) => setMetaDescription(e.target.value.slice(0, 160))}
                 rows={3}
                 placeholder="SEO search snippet..."
-                className="w-full bg-[#12141F] border border-white/10 rounded px-3 py-2 text-xs text-white outline-none focus:border-[#C8F135] transition-colors font-sans placeholder:text-[#5C5B57] resize-none"
+                className="w-full bg-neutral-50 border border-mkt-bd rounded px-3 py-2 text-xs text-mkt-ink outline-none focus:border-mkt-ink transition-colors font-sans placeholder:text-mkt-i4 focus:ring-1 focus:ring-mkt-ink resize-none"
               />
             </div>
           </div>
@@ -349,7 +349,7 @@ export function BlogEditor({ post }: BlogEditorProps) {
           <button
             type="submit"
             disabled={saving}
-            className="w-full py-4 bg-[#C8F135] hover:bg-[#D8F155] disabled:opacity-60 text-[#08090D] text-xs font-mono font-bold uppercase tracking-widest transition-all duration-150 flex items-center justify-center gap-2 cursor-pointer"
+            className="w-full py-4 bg-mkt-ink hover:bg-mkt-i2 disabled:opacity-60 text-white text-xs font-mono font-bold uppercase tracking-widest transition-all duration-150 flex items-center justify-center gap-2 cursor-pointer rounded-lg shadow-md"
           >
             {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
             Save & Publish
@@ -360,20 +360,20 @@ export function BlogEditor({ post }: BlogEditorProps) {
       {/* Claude AI Modal */}
       {showAiModal && (
         <div className="fixed inset-0 z-[300] bg-black/60 backdrop-blur-sm flex items-center justify-center p-6 animate-in fade-in duration-200">
-          <div className="bg-[#0F111A] border border-[#1C1F2B] max-w-lg w-full rounded-xl p-8 relative overflow-hidden shadow-2xl space-y-6">
-            <div className="absolute top-0 left-0 right-0 h-1 bg-[#C8F135]" />
+          <div className="bg-white border border-mkt-bd max-w-lg w-full rounded-xl p-8 relative overflow-hidden shadow-2xl space-y-6">
+            <div className="absolute top-0 left-0 right-0 h-1 bg-mkt-ink" />
             <div className="space-y-2 text-center">
-              <div className="w-12 h-12 bg-[#C8F135]/10 rounded-full flex items-center justify-center mx-auto">
-                <Sparkles className="w-6 h-6 text-[#C8F135]" />
+              <div className="w-12 h-12 bg-neutral-100 rounded-full flex items-center justify-center mx-auto">
+                <Sparkles className="w-6 h-6 text-mkt-ink" />
               </div>
-              <h3 className="text-xl font-display font-bold uppercase text-white tracking-tight">Generate with Claude</h3>
-              <p className="text-xs text-[#8C8B87]">
+              <h3 className="text-xl font-display font-bold uppercase text-mkt-ink tracking-tight">Generate with Claude</h3>
+              <p className="text-xs text-mkt-i3">
                 Claude will write a full market intelligence article conforming to Pete's honest, direct brand voice.
               </p>
             </div>
 
             <div className="space-y-2">
-              <label className="text-[10px] font-mono font-bold text-[#8C8B87] uppercase tracking-wider">
+              <label className="text-[10px] font-mono font-bold text-mkt-i3 uppercase tracking-wider">
                 Writing Instructions / Topic
               </label>
               <textarea
@@ -382,7 +382,7 @@ export function BlogEditor({ post }: BlogEditorProps) {
                 disabled={generating}
                 rows={4}
                 placeholder="e.g., Write a post about GBP/USD price action after the Bank of England decision today..."
-                className="w-full bg-[#12141F] border border-white/10 rounded p-4 text-xs text-white outline-none focus:border-[#C8F135] transition-colors placeholder:text-[#5C5B57] resize-none"
+                className="w-full bg-neutral-50 border border-mkt-bd rounded p-4 text-xs text-mkt-ink outline-none focus:border-mkt-ink transition-colors placeholder:text-mkt-i4 focus:ring-1 focus:ring-mkt-ink resize-none"
               />
             </div>
 
@@ -391,7 +391,7 @@ export function BlogEditor({ post }: BlogEditorProps) {
                 type="button"
                 onClick={() => setShowAiModal(false)}
                 disabled={generating}
-                className="flex-1 py-3 bg-[#161824] hover:bg-[#1E2130] text-white text-xs font-mono font-bold uppercase tracking-widest transition-all cursor-pointer"
+                className="flex-1 py-3 bg-neutral-100 hover:bg-neutral-200 text-mkt-ink text-xs font-mono font-bold uppercase tracking-widest transition-all cursor-pointer border border-mkt-bd rounded-lg"
               >
                 Cancel
               </button>
@@ -399,7 +399,7 @@ export function BlogEditor({ post }: BlogEditorProps) {
                 type="button"
                 onClick={handleAiGenerate}
                 disabled={generating}
-                className="flex-1 py-3 bg-[#C8F135] hover:bg-[#D8F155] disabled:opacity-50 text-[#08090D] text-xs font-mono font-bold uppercase tracking-widest transition-all flex items-center justify-center gap-2 cursor-pointer"
+                className="flex-1 py-3 bg-mkt-ink hover:bg-mkt-i2 disabled:opacity-50 text-white text-xs font-mono font-bold uppercase tracking-widest transition-all flex items-center justify-center gap-2 cursor-pointer rounded-lg"
               >
                 {generating ? (
                   <>

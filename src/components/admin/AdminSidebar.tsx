@@ -44,10 +44,10 @@ export function AdminSidebar() {
   return (
     <aside className="w-full lg:w-64 space-y-6 flex-shrink-0">
       <div className="flex items-center gap-4 px-6 mb-8">
-        <ShieldAlert className="w-6 h-6 text-accent" />
+        <ShieldAlert className="w-6 h-6 text-mkt-grn" />
         <div>
-          <span className="text-accent font-mono text-[8px] uppercase tracking-widest block mb-0.5">// INTERNAL COMMAND</span>
-          <h2 className="text-xl font-display font-bold uppercase tracking-tight">Admin.</h2>
+          <span className="text-mkt-i4 font-mono text-[8px] uppercase tracking-widest block mb-0.5">// INTERNAL COMMAND</span>
+          <h2 className="text-xl font-display font-bold uppercase tracking-tight text-mkt-ink">Admin.</h2>
         </div>
       </div>
 
@@ -61,10 +61,10 @@ export function AdminSidebar() {
               key={item.href}
               href={item.href}
               className={cn(
-                "w-full flex items-center gap-4 px-6 py-3 text-[10px] font-bold uppercase tracking-widest transition-all",
+                "w-full flex items-center gap-4 px-6 py-3 text-[10px] font-bold uppercase tracking-widest transition-all rounded-lg",
                 isActive 
-                  ? "bg-accent text-background-primary shadow-lg shadow-accent/20" 
-                  : "text-text-tertiary hover:bg-background-elevated hover:text-text-primary"
+                  ? "bg-mkt-ink text-white shadow-sm" 
+                  : "text-mkt-i3 hover:bg-neutral-100 hover:text-mkt-ink"
               )}
             >
               <Icon className="w-4 h-4" />
@@ -73,10 +73,10 @@ export function AdminSidebar() {
           );
         })}
         
-        <div className="pt-8 mt-8 border-t border-border-slate/30">
+        <div className="pt-8 mt-8 border-t border-mkt-bd">
           <Link 
             href="/admin/integrations"
-            className="w-full flex items-center gap-4 px-6 py-3 text-[10px] font-bold uppercase tracking-widest text-text-tertiary hover:text-text-primary transition-colors"
+            className="w-full flex items-center gap-4 px-6 py-3 text-[10px] font-bold uppercase tracking-widest text-mkt-i3 hover:text-mkt-ink transition-colors"
           >
             <Settings className="w-4 h-4" />
             Settings

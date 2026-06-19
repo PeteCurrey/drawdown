@@ -14,7 +14,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   }
 
   return (
-    <div className="pt-32 pb-24 bg-[#08090D] min-h-screen text-[#E4E2DD]">
+    <div className="pt-32 pb-24 bg-mkt-bg min-h-screen text-mkt-ink">
       <div className="container mx-auto px-6 max-w-[1600px]">
         <div className="flex flex-col lg:flex-row gap-12">
           <AdminSidebar />

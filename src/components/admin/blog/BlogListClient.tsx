@@ -64,31 +64,31 @@ export function BlogListClient({
   return (
     <div className="space-y-10 animate-in fade-in duration-500">
       {/* Header */}
-      <div className="flex justify-between items-center border-b border-white/5 pb-6">
+      <div className="flex justify-between items-center border-b border-mkt-bd pb-6">
         <div>
-          <h1 className="text-3xl font-display font-black uppercase text-white tracking-tight">Blog Manager</h1>
-          <p className="text-xs text-[#8C8B87] font-mono uppercase tracking-widest mt-1">Articles & Briefs Catalog</p>
+          <h1 className="text-3xl font-display font-black uppercase text-mkt-ink tracking-tight">Blog Manager</h1>
+          <p className="text-xs text-mkt-i3 font-mono uppercase tracking-widest mt-1">Articles & Briefs Catalog</p>
         </div>
         <div className="flex items-center gap-4">
           <Link
             href="/admin/blog/new"
-            className="flex items-center gap-2 px-5 py-2.5 bg-[#C8F135] hover:bg-[#D8F155] text-[#08090D] text-xs font-mono font-bold uppercase tracking-widest transition-all duration-150"
+            className="flex items-center gap-2 px-5 py-2.5 bg-mkt-ink hover:bg-mkt-i2 text-white text-xs font-mono font-bold uppercase tracking-widest transition-all duration-150 rounded-lg shadow-sm"
           >
             <Plus className="w-4 h-4" />
             New Post
           </Link>
-          <Link href="/admin" className="text-xs font-mono uppercase tracking-widest text-[#8C8B87] hover:text-white transition-colors">
+          <Link href="/admin" className="text-xs font-mono uppercase tracking-widest text-mkt-i3 hover:text-mkt-ink transition-colors">
             &larr; Back to Dashboard
           </Link>
         </div>
       </div>
 
       {/* Main Blog Logs Table */}
-      <div className="bg-[#0F111A] border border-[#1C1F2B] p-6 rounded-xl space-y-6">
+      <div className="bg-white border border-mkt-bd p-6 rounded-xl space-y-6 shadow-[0_2px_8px_rgba(0,0,0,0.04)]">
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs text-[#8C8B87]">
+          <table className="w-full text-left text-xs text-mkt-i2">
             <thead>
-              <tr className="border-b border-white/5 pb-2 text-[10px] uppercase font-mono tracking-wider">
+              <tr className="border-b border-mkt-bd pb-2 text-[10px] uppercase font-mono tracking-wider text-mkt-i3">
                 <th className="py-3 font-semibold">Date</th>
                 <th className="py-3 font-semibold">Title</th>
                 <th className="py-3 font-semibold">Category</th>
@@ -102,35 +102,35 @@ export function BlogListClient({
                 posts.map((post) => {
                   const isAuto = post.tags && post.tags.includes("automated");
                   return (
-                    <tr key={post.id} className="border-b border-white/5 hover:bg-white/5 transition-colors">
-                      <td className="py-4 font-mono">
+                    <tr key={post.id} className="border-b border-mkt-bd hover:bg-neutral-50 transition-colors">
+                      <td className="py-4 font-mono text-mkt-i3">
                         {new Date(post.published_at || post.created_at).toLocaleDateString("en-GB", {
                           day: "numeric",
                           month: "short",
                           year: "numeric"
                         })}
                       </td>
-                      <td className="py-4 font-medium text-white max-w-[280px] truncate">{post.title}</td>
-                      <td className="py-4 font-mono text-[10px]">{post.category}</td>
+                      <td className="py-4 font-semibold text-mkt-ink max-w-[280px] truncate">{post.title}</td>
+                      <td className="py-4 font-mono text-[10px] text-mkt-i3">{post.category}</td>
                       <td className="py-4">
                         {post.published ? (
-                          <span className="px-1.5 py-0.5 rounded text-[8px] font-mono font-bold bg-emerald-500/10 text-emerald-400 uppercase">PUBLISHED</span>
+                          <span className="px-1.5 py-0.5 rounded text-[8px] font-mono font-bold bg-mkt-gbg border border-mkt-gbd text-mkt-grn uppercase">PUBLISHED</span>
                         ) : (
-                          <span className="px-1.5 py-0.5 rounded text-[8px] font-mono font-bold bg-white/5 text-[#8C8B87] border border-white/5 uppercase">DRAFT</span>
+                          <span className="px-1.5 py-0.5 rounded text-[8px] font-mono font-bold bg-neutral-50 text-mkt-i3 border border-mkt-bd uppercase">DRAFT</span>
                         )}
                       </td>
                       <td className="py-4 text-center">
                         {isAuto ? (
-                          <CheckCircle2 className="w-4 h-4 text-emerald-400 mx-auto" />
+                          <CheckCircle2 className="w-4 h-4 text-mkt-grn mx-auto" />
                         ) : (
-                          <span className="text-[#42413D] mx-auto">-</span>
+                          <span className="text-mkt-i4 mx-auto">-</span>
                         )}
                       </td>
                       <td className="py-4 text-right">
                         <div className="flex items-center justify-end gap-3">
                           <Link
                             href={`/admin/blog/${post.id}`}
-                            className="p-1.5 border border-white/5 hover:border-white/15 text-[#8C8B87] hover:text-white rounded transition-all"
+                            className="p-1.5 border border-mkt-bd hover:bg-neutral-50 text-mkt-i3 hover:text-mkt-ink rounded transition-all"
                             title="Edit Post"
                           >
                             <Edit2 className="w-3.5 h-3.5" />
@@ -139,7 +139,7 @@ export function BlogListClient({
                             <Link
                               href={`/blog/${post.slug}`}
                               target="_blank"
-                              className="p-1.5 border border-white/5 hover:border-white/15 text-[#8C8B87] hover:text-white rounded transition-all"
+                              className="p-1.5 border border-mkt-bd hover:bg-neutral-50 text-mkt-i3 hover:text-mkt-ink rounded transition-all"
                               title="View Article"
                             >
                               <Eye className="w-3.5 h-3.5" />
@@ -148,7 +148,7 @@ export function BlogListClient({
                           <button
                             onClick={() => handleDelete(post.id, post.title)}
                             disabled={deletingId === post.id}
-                            className="p-1.5 border border-rose-500/5 hover:border-rose-500/20 text-[#8C8B87] hover:text-rose-400 rounded transition-all disabled:opacity-50 cursor-pointer"
+                            className="p-1.5 border border-red-100 hover:border-red-200 text-mkt-i3 hover:text-red-500 hover:bg-red-50 rounded transition-all disabled:opacity-50 cursor-pointer"
                             title="Delete Post"
                           >
                             {deletingId === post.id ? (
@@ -164,7 +164,7 @@ export function BlogListClient({
                 })
               ) : (
                 <tr>
-                  <td colSpan={6} className="py-8 text-center text-[#5C5B57] font-mono">
+                  <td colSpan={6} className="py-8 text-center text-mkt-i4 font-mono">
                     No articles found in the database.
                   </td>
                 </tr>
@@ -175,35 +175,35 @@ export function BlogListClient({
 
         {/* Pagination */}
         {totalPages > 1 && (
-          <div className="flex items-center justify-between border-t border-white/5 pt-4 text-xs font-mono">
-            <span className="text-[#5C5B57]">
+          <div className="flex items-center justify-between border-t border-mkt-bd pt-4 text-xs font-mono">
+            <span className="text-mkt-i3">
               Showing {from + 1} - {Math.min(to + 1, totalRecords)} of {totalRecords} articles
             </span>
             <div className="flex items-center gap-2">
               {currentPage > 1 ? (
                 <Link
                   href={getPageUrl(currentPage - 1)}
-                  className="p-2 border border-white/10 hover:border-white/20 text-[#8C8B87] hover:text-white rounded"
+                  className="p-2 border border-mkt-bd hover:bg-neutral-50 text-mkt-i3 hover:text-mkt-ink rounded"
                 >
                   <ChevronLeft className="w-4 h-4" />
                 </Link>
               ) : (
-                <button disabled className="p-2 border border-white/5 text-[#42413D] rounded opacity-40">
+                <button disabled className="p-2 border border-mkt-bd text-mkt-i4 rounded opacity-40">
                   <ChevronLeft className="w-4 h-4" />
                 </button>
               )}
 
-              <span className="px-3 text-white">Page {currentPage} of {totalPages}</span>
+              <span className="px-3 text-mkt-ink">Page {currentPage} of {totalPages}</span>
 
               {currentPage < totalPages ? (
                 <Link
                   href={getPageUrl(currentPage + 1)}
-                  className="p-2 border border-white/10 hover:border-white/20 text-[#8C8B87] hover:text-white rounded"
+                  className="p-2 border border-mkt-bd hover:bg-neutral-50 text-mkt-i3 hover:text-mkt-ink rounded"
                 >
                   <ChevronRight className="w-4 h-4" />
                 </Link>
               ) : (
-                <button disabled className="p-2 border border-white/5 text-[#42413D] rounded opacity-40">
+                <button disabled className="p-2 border border-mkt-bd text-mkt-i4 rounded opacity-40">
                   <ChevronRight className="w-4 h-4" />
                 </button>
               )}

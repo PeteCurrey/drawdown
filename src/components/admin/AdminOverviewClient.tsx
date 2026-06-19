@@ -125,12 +125,12 @@ export function AdminOverviewClient({ stats, recentSends: initialSends }: AdminO
   const getStatusPill = (status: string) => {
     switch (status.toLowerCase()) {
       case "sent":
-        return <span className="px-2 py-0.5 rounded text-[9px] font-mono font-bold bg-emerald-500/10 text-emerald-400 uppercase">SENT</span>;
+        return <span className="px-2 py-0.5 rounded text-[9px] font-mono font-bold bg-mkt-gbg border border-mkt-gbd text-mkt-grn uppercase">SENT</span>;
       case "pending":
       case "sending":
-        return <span className="px-2 py-0.5 rounded text-[9px] font-mono font-bold bg-yellow-500/10 text-yellow-400 uppercase">PENDING</span>;
+        return <span className="px-2 py-0.5 rounded text-[9px] font-mono font-bold bg-amber-50 border border-amber-200 text-mkt-amb uppercase">PENDING</span>;
       default:
-        return <span className="px-2 py-0.5 rounded text-[9px] font-mono font-bold bg-rose-500/10 text-rose-400 uppercase">FAILED</span>;
+        return <span className="px-2 py-0.5 rounded text-[9px] font-mono font-bold bg-mkt-rbg border border-red-200 text-mkt-red uppercase">FAILED</span>;
     }
   };
 
@@ -147,10 +147,10 @@ export function AdminOverviewClient({ stats, recentSends: initialSends }: AdminO
   return (
     <div className="space-y-10 animate-in fade-in duration-500">
       {/* Header */}
-      <div className="flex justify-between items-center border-b border-white/5 pb-6">
+      <div className="flex justify-between items-center border-b border-mkt-bd pb-6">
         <div>
-          <h1 className="text-3xl font-display font-black uppercase text-white tracking-tight">The Wire Command Centre</h1>
-          <p className="text-xs text-[#8C8B87] font-mono uppercase tracking-widest mt-1">Email Automation & Intelligence Hub</p>
+          <h1 className="text-3xl font-display font-black uppercase text-mkt-ink tracking-tight">The Wire Command Centre</h1>
+          <p className="text-xs text-mkt-i3 font-mono uppercase tracking-widest mt-1">Email Automation & Intelligence Hub</p>
         </div>
       </div>
 
@@ -158,8 +158,8 @@ export function AdminOverviewClient({ stats, recentSends: initialSends }: AdminO
       {message && (
         <div className={`p-4 border flex items-start gap-3 rounded-lg ${
           message.type === "success" 
-            ? "bg-emerald-500/5 border-emerald-500/20 text-emerald-400" 
-            : "bg-rose-500/5 border-rose-500/20 text-rose-400"
+            ? "bg-mkt-gbg border-mkt-gbd text-mkt-grn" 
+            : "bg-mkt-rbg border-red-200 text-mkt-red"
         }`}>
           {message.type === "success" ? <CheckCircle className="w-5 h-5 shrink-0" /> : <AlertTriangle className="w-5 h-5 shrink-0" />}
           <div className="text-sm">{message.text}</div>
@@ -174,29 +174,29 @@ export function AdminOverviewClient({ stats, recentSends: initialSends }: AdminO
           { label: "Morning Briefs", value: stats.morningBriefsCount.toLocaleString() },
           { label: "Blog Posts (This Mo)", value: stats.blogPostsCount.toLocaleString() }
         ].map((item, idx) => (
-          <div key={idx} className="bg-white/5 rounded-xl border border-white/10 p-6 flex flex-col justify-between h-32">
-            <p className="text-xs text-[#8C8B87] opacity-40 uppercase tracking-widest font-mono font-bold leading-none">{item.label}</p>
-            <p className="text-4xl font-mono font-black text-[#C8F135] tracking-tight">{item.value}</p>
+          <div key={idx} className="bg-white rounded-xl border border-mkt-bd p-6 flex flex-col justify-between h-32 shadow-[0_2px_8px_rgba(0,0,0,0.04)]">
+            <p className="text-[10px] text-mkt-i3 uppercase tracking-widest font-mono font-bold leading-none">{item.label}</p>
+            <p className="text-4xl font-mono font-black text-mkt-grn tracking-tight">{item.value}</p>
           </div>
         ))}
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Recent Sends Table */}
-        <div className="lg:col-span-2 bg-[#0F111A] border border-[#1C1F2B] p-6 rounded-xl space-y-6">
-          <div className="flex justify-between items-center border-b border-white/5 pb-4">
-            <h3 className="text-sm font-mono uppercase tracking-widest font-bold text-white flex items-center gap-2">
-              <Mail className="w-4 h-4 text-[#C8F135]" /> Recent Email Sends
+        <div className="lg:col-span-2 bg-white border border-mkt-bd p-6 rounded-xl space-y-6 shadow-[0_2px_8px_rgba(0,0,0,0.04)]">
+          <div className="flex justify-between items-center border-b border-mkt-bd pb-4">
+            <h3 className="text-sm font-mono uppercase tracking-widest font-bold text-mkt-ink flex items-center gap-2">
+              <Mail className="w-4 h-4 text-mkt-grn" /> Recent Email Sends
             </h3>
-            <Link href="/admin/emails" className="text-[10px] font-mono uppercase tracking-widest text-[#C8F135] hover:underline">
+            <Link href="/admin/emails" className="text-[10px] font-mono uppercase tracking-widest text-mkt-grn hover:text-mkt-i2 hover:underline">
               View History &rarr;
             </Link>
           </div>
 
           <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs text-[#8C8B87]">
+            <table className="w-full text-left text-xs text-mkt-i2">
               <thead>
-                <tr className="border-b border-white/5 pb-2 text-[10px] uppercase font-mono tracking-wider">
+                <tr className="border-b border-mkt-bd pb-2 text-[10px] uppercase font-mono tracking-wider text-mkt-i3">
                   <th className="py-3 font-semibold">Date</th>
                   <th className="py-3 font-semibold">Type</th>
                   <th className="py-3 font-semibold">Subject</th>
@@ -206,13 +206,13 @@ export function AdminOverviewClient({ stats, recentSends: initialSends }: AdminO
               </thead>
               <tbody>
                 {recentSends.map((send) => (
-                  <tr key={send.id} className="border-b border-white/5 hover:bg-white/5 transition-colors">
-                    <td className="py-4 font-mono">
+                  <tr key={send.id} className="border-b border-mkt-bd hover:bg-neutral-50 transition-colors">
+                    <td className="py-4 font-mono text-mkt-i3">
                       {new Date(send.generated_at).toLocaleDateString("en-GB", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" })}
                     </td>
-                    <td className="py-4 font-medium text-white">{getReadableType(send.type)}</td>
+                    <td className="py-4 font-semibold text-mkt-ink">{getReadableType(send.type)}</td>
                     <td className="py-4 truncate max-w-[200px]">
-                      <Link href={`/admin/emails/${send.id}`} className="hover:underline hover:text-white transition-colors">
+                      <Link href={`/admin/emails/${send.id}`} className="hover:underline hover:text-mkt-ink transition-colors font-medium">
                         {send.subject}
                       </Link>
                     </td>
@@ -228,15 +228,15 @@ export function AdminOverviewClient({ stats, recentSends: initialSends }: AdminO
         {/* Action Panel */}
         <div className="space-y-6">
           {/* Quick Actions */}
-          <div className="bg-[#0F111A] border border-[#1C1F2B] p-6 rounded-xl space-y-6">
-            <h3 className="text-sm font-mono uppercase tracking-widest font-bold text-white border-b border-white/5 pb-4">
+          <div className="bg-white border border-mkt-bd p-6 rounded-xl space-y-6 shadow-[0_2px_8px_rgba(0,0,0,0.04)]">
+            <h3 className="text-sm font-mono uppercase tracking-widest font-bold text-mkt-ink border-b border-mkt-bd pb-4">
               // Control Panel
             </h3>
             <div className="space-y-4">
               <button
                 onClick={() => handleTriggerAction("morning")}
                 disabled={loading !== null}
-                className="w-full py-3.5 bg-transparent border border-[#ef4444] hover:bg-[#ef4444] hover:text-[#08090D] text-[#ef4444] text-[10px] font-mono font-bold uppercase tracking-widest transition-all duration-150 disabled:opacity-50 flex items-center justify-center gap-2 cursor-pointer"
+                className="w-full py-3.5 bg-transparent border border-red-200 hover:border-red-500 hover:bg-red-500 hover:text-white text-red-500 text-[10px] font-mono font-bold uppercase tracking-widest transition-all duration-150 disabled:opacity-50 flex items-center justify-center gap-2 cursor-pointer rounded-lg"
               >
                 {loading === "morning" ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Play className="w-3.5 h-3.5" />}
                 Send Morning Brief Now
@@ -245,7 +245,7 @@ export function AdminOverviewClient({ stats, recentSends: initialSends }: AdminO
               <button
                 onClick={() => handleTriggerAction("evening")}
                 disabled={loading !== null}
-                className="w-full py-3.5 bg-transparent border border-[#00C2FF] hover:bg-[#00C2FF] hover:text-[#08090D] text-[#00C2FF] text-[10px] font-mono font-bold uppercase tracking-widest transition-all duration-150 disabled:opacity-50 flex items-center justify-center gap-2 cursor-pointer"
+                className="w-full py-3.5 bg-transparent border border-blue-200 hover:border-blue-500 hover:bg-blue-500 hover:text-white text-blue-500 text-[10px] font-mono font-bold uppercase tracking-widest transition-all duration-150 disabled:opacity-50 flex items-center justify-center gap-2 cursor-pointer rounded-lg"
               >
                 {loading === "evening" ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Play className="w-3.5 h-3.5" />}
                 Send Evening Wrap Now
@@ -253,7 +253,7 @@ export function AdminOverviewClient({ stats, recentSends: initialSends }: AdminO
 
               <Link
                 href="/admin/blog/new"
-                className="w-full py-3.5 bg-[#C8F135] hover:bg-[#D8F155] text-[#08090D] text-[10px] font-mono font-bold uppercase tracking-widest transition-all duration-150 flex items-center justify-center gap-2"
+                className="w-full py-3.5 bg-mkt-ink hover:bg-mkt-i2 text-white text-[10px] font-mono font-bold uppercase tracking-widest transition-all duration-150 flex items-center justify-center gap-2 rounded-lg"
               >
                 <Plus className="w-3.5 h-3.5" />
                 New Blog Post
@@ -262,20 +262,20 @@ export function AdminOverviewClient({ stats, recentSends: initialSends }: AdminO
           </div>
 
           {/* Scheduled Sends */}
-          <div className="bg-[#0F111A] border border-[#1C1F2B] p-6 rounded-xl space-y-6">
-            <h3 className="text-sm font-mono uppercase tracking-widest font-bold text-white border-b border-white/5 pb-4 flex items-center gap-2">
-              <Clock className="w-4 h-4 text-[#C8F135]" /> Next Scheduled Crons
+          <div className="bg-white border border-mkt-bd p-6 rounded-xl space-y-6 shadow-[0_2px_8px_rgba(0,0,0,0.04)]">
+            <h3 className="text-sm font-mono uppercase tracking-widest font-bold text-mkt-ink border-b border-mkt-bd pb-4 flex items-center gap-2">
+              <Clock className="w-4 h-4 text-mkt-grn" /> Next Scheduled Crons
             </h3>
             <div className="space-y-4 font-sans text-xs">
-              <div className="p-3 bg-white/5 rounded border border-white/5">
-                <span className="text-[10px] font-mono text-[#8C8B87] uppercase tracking-wider block mb-1">// Morning Market Brief</span>
-                <p className="font-semibold text-white">{schedule.morning || "Calculating..."}</p>
-                <span className="text-[9px] text-[#5C5B57] font-mono mt-1 block">Trigger: /api/cron/morning-brief</span>
+              <div className="p-3 bg-neutral-50 rounded border border-mkt-bd">
+                <span className="text-[10px] font-mono text-mkt-i3 uppercase tracking-wider block mb-1">// Morning Market Brief</span>
+                <p className="font-semibold text-mkt-ink">{schedule.morning || "Calculating..."}</p>
+                <span className="text-[9px] text-mkt-i4 font-mono mt-1 block">Trigger: /api/cron/morning-brief</span>
               </div>
-              <div className="p-3 bg-white/5 rounded border border-white/5">
-                <span className="text-[10px] font-mono text-[#8C8B87] uppercase tracking-wider block mb-1">// Evening Session Wrap</span>
-                <p className="font-semibold text-white">{schedule.evening || "Calculating..."}</p>
-                <span className="text-[9px] text-[#5C5B57] font-mono mt-1 block">Trigger: /api/cron/evening-wrap</span>
+              <div className="p-3 bg-neutral-50 rounded border border-mkt-bd">
+                <span className="text-[10px] font-mono text-mkt-i3 uppercase tracking-wider block mb-1">// Evening Session Wrap</span>
+                <p className="font-semibold text-mkt-ink">{schedule.evening || "Calculating..."}</p>
+                <span className="text-[9px] text-mkt-i4 font-mono mt-1 block">Trigger: /api/cron/evening-wrap</span>
               </div>
             </div>
           </div>

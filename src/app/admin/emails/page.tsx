@@ -49,12 +49,12 @@ export default async function AdminEmailsPage({ searchParams }: Props) {
   const getStatusPill = (status: string) => {
     switch (status.toLowerCase()) {
       case "sent":
-        return <span className="px-2 py-0.5 rounded text-[9px] font-mono font-bold bg-emerald-500/10 text-emerald-400 uppercase">SENT</span>;
+        return <span className="px-2 py-0.5 rounded text-[9px] font-mono font-bold bg-mkt-gbg border border-mkt-gbd text-mkt-grn uppercase">SENT</span>;
       case "pending":
       case "sending":
-        return <span className="px-2 py-0.5 rounded text-[9px] font-mono font-bold bg-yellow-500/10 text-yellow-400 uppercase">PENDING</span>;
+        return <span className="px-2 py-0.5 rounded text-[9px] font-mono font-bold bg-amber-50 border border-amber-200 text-mkt-amb uppercase">PENDING</span>;
       default:
-        return <span className="px-2 py-0.5 rounded text-[9px] font-mono font-bold bg-rose-500/10 text-rose-400 uppercase">FAILED</span>;
+        return <span className="px-2 py-0.5 rounded text-[9px] font-mono font-bold bg-mkt-rbg border border-red-200 text-mkt-red uppercase">FAILED</span>;
     }
   };
 
@@ -85,31 +85,31 @@ export default async function AdminEmailsPage({ searchParams }: Props) {
   return (
     <div className="space-y-10 animate-in fade-in duration-500">
       {/* Header */}
-      <div className="flex justify-between items-center border-b border-white/5 pb-6">
+      <div className="flex justify-between items-center border-b border-mkt-bd pb-6">
         <div>
-          <h1 className="text-3xl font-display font-black uppercase text-white tracking-tight">Emails Sent</h1>
-          <p className="text-xs text-[#8C8B87] font-mono uppercase tracking-widest mt-1">Campaign History & Dispatch Logs</p>
+          <h1 className="text-3xl font-display font-black uppercase text-mkt-ink tracking-tight">Emails Sent</h1>
+          <p className="text-xs text-mkt-i3 font-mono uppercase tracking-widest mt-1">Campaign History & Dispatch Logs</p>
         </div>
-        <Link href="/admin" className="text-xs font-mono uppercase tracking-widest text-[#8C8B87] hover:text-white transition-colors">
+        <Link href="/admin" className="text-xs font-mono uppercase tracking-widest text-mkt-i3 hover:text-mkt-ink transition-colors">
           &larr; Back to Dashboard
         </Link>
       </div>
 
       {/* Filter Bar */}
-      <div className="bg-[#0F111A] border border-[#1C1F2B] p-5 rounded-xl flex flex-wrap gap-4 items-center justify-between">
-        <div className="flex items-center gap-2 text-xs font-mono text-[#8C8B87]">
-          <Filter className="w-4 h-4 text-[#C8F135]" />
+      <div className="bg-white border border-mkt-bd p-5 rounded-xl flex flex-wrap gap-4 items-center justify-between shadow-[0_2px_8px_rgba(0,0,0,0.04)]">
+        <div className="flex items-center gap-2 text-xs font-mono text-mkt-i3">
+          <Filter className="w-4 h-4 text-mkt-grn" />
           <span>FILTERS:</span>
         </div>
         <div className="flex flex-wrap gap-4 items-center">
           <div className="space-y-1">
-            <span className="text-[9px] font-mono text-[#8C8B87] uppercase tracking-wider block font-bold">Category</span>
+            <span className="text-[9px] font-mono text-mkt-i3 uppercase tracking-wider block font-bold">Category</span>
             <select
               value={typeFilter}
               onChange={(e) => {
                 window.location.href = getFilterUrl({ type: e.target.value, page: 1 });
               }}
-              className="bg-[#12141F] border border-white/10 rounded px-3 py-1.5 text-xs text-white outline-none focus:border-[#C8F135]"
+              className="bg-neutral-50 border border-mkt-bd rounded px-3 py-1.5 text-xs text-mkt-ink outline-none focus:border-mkt-ink focus:ring-1 focus:ring-mkt-ink"
             >
               <option value="all">All Categories</option>
               <option value="morning_brief">Morning Briefs</option>
@@ -120,13 +120,13 @@ export default async function AdminEmailsPage({ searchParams }: Props) {
           </div>
 
           <div className="space-y-1">
-            <span className="text-[9px] font-mono text-[#8C8B87] uppercase tracking-wider block font-bold">Status</span>
+            <span className="text-[9px] font-mono text-mkt-i3 uppercase tracking-wider block font-bold">Status</span>
             <select
               value={statusFilter}
               onChange={(e) => {
                 window.location.href = getFilterUrl({ status: e.target.value, page: 1 });
               }}
-              className="bg-[#12141F] border border-white/10 rounded px-3 py-1.5 text-xs text-white outline-none focus:border-[#C8F135]"
+              className="bg-neutral-50 border border-mkt-bd rounded px-3 py-1.5 text-xs text-mkt-ink outline-none focus:border-mkt-ink focus:ring-1 focus:ring-mkt-ink"
             >
               <option value="all">All Statuses</option>
               <option value="sent">Sent</option>
@@ -138,11 +138,11 @@ export default async function AdminEmailsPage({ searchParams }: Props) {
       </div>
 
       {/* Main Logs Table */}
-      <div className="bg-[#0F111A] border border-[#1C1F2B] p-6 rounded-xl space-y-6">
+      <div className="bg-white border border-mkt-bd p-6 rounded-xl space-y-6 shadow-[0_2px_8px_rgba(0,0,0,0.04)]">
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs text-[#8C8B87]">
+          <table className="w-full text-left text-xs text-mkt-i2">
             <thead>
-              <tr className="border-b border-white/5 pb-2 text-[10px] uppercase font-mono tracking-wider">
+              <tr className="border-b border-mkt-bd pb-2 text-[10px] uppercase font-mono tracking-wider text-mkt-i3">
                 <th className="py-3 font-semibold">Date/Time</th>
                 <th className="py-3 font-semibold">Type</th>
                 <th className="py-3 font-semibold">Subject</th>
@@ -154,8 +154,8 @@ export default async function AdminEmailsPage({ searchParams }: Props) {
             <tbody>
               {sends && sends.length > 0 ? (
                 sends.map((send) => (
-                  <tr key={send.id} className="border-b border-white/5 hover:bg-white/5 transition-colors">
-                    <td className="py-4 font-mono">
+                  <tr key={send.id} className="border-b border-mkt-bd hover:bg-neutral-50 transition-colors">
+                    <td className="py-4 font-mono text-mkt-i3">
                       {new Date(send.generated_at).toLocaleDateString("en-GB", {
                         day: "numeric",
                         month: "short",
@@ -164,14 +164,14 @@ export default async function AdminEmailsPage({ searchParams }: Props) {
                         minute: "2-digit"
                       })}
                     </td>
-                    <td className="py-4 font-medium text-white">{getReadableType(send.type)}</td>
+                    <td className="py-4 font-semibold text-mkt-ink">{getReadableType(send.type)}</td>
                     <td className="py-4 truncate max-w-[250px]">{send.subject}</td>
                     <td className="py-4 font-mono">{send.recipient_count}</td>
                     <td className="py-4">{getStatusPill(send.status)}</td>
                     <td className="py-4">
                       <Link
                         href={`/admin/emails/${send.id}`}
-                        className="text-[10px] font-mono uppercase tracking-widest text-[#C8F135] hover:underline"
+                        className="text-[10px] font-mono uppercase tracking-widest text-mkt-grn hover:text-mkt-i2 hover:underline"
                       >
                         View Detail
                       </Link>
@@ -180,7 +180,7 @@ export default async function AdminEmailsPage({ searchParams }: Props) {
                 ))
               ) : (
                 <tr>
-                  <td colSpan={6} className="py-8 text-center text-[#5C5B57] font-mono">
+                  <td colSpan={6} className="py-8 text-center text-mkt-i4 font-mono">
                     No email send history found matching search criteria.
                   </td>
                 </tr>
@@ -191,35 +191,35 @@ export default async function AdminEmailsPage({ searchParams }: Props) {
 
         {/* Pagination */}
         {totalPages > 1 && (
-          <div className="flex items-center justify-between border-t border-white/5 pt-4 text-xs font-mono">
-            <span className="text-[#5C5B57]">
+          <div className="flex items-center justify-between border-t border-mkt-bd pt-4 text-xs font-mono">
+            <span className="text-mkt-i3">
               Showing {from + 1} - {Math.min(to + 1, totalRecords)} of {totalRecords} records
             </span>
             <div className="flex items-center gap-2">
               {currentPage > 1 ? (
                 <Link
                   href={getFilterUrl({ page: currentPage - 1 })}
-                  className="p-2 border border-white/10 hover:border-white/20 text-[#8C8B87] hover:text-white rounded"
+                  className="p-2 border border-mkt-bd hover:bg-neutral-50 text-mkt-i3 hover:text-mkt-ink rounded"
                 >
                   <ChevronLeft className="w-4 h-4" />
                 </Link>
               ) : (
-                <button disabled className="p-2 border border-white/5 text-[#42413D] rounded opacity-40">
+                <button disabled className="p-2 border border-mkt-bd text-mkt-i4 rounded opacity-40">
                   <ChevronLeft className="w-4 h-4" />
                 </button>
               )}
 
-              <span className="px-3 text-white">Page {currentPage} of {totalPages}</span>
+              <span className="px-3 text-mkt-ink">Page {currentPage} of {totalPages}</span>
 
               {currentPage < totalPages ? (
                 <Link
                   href={getFilterUrl({ page: currentPage + 1 })}
-                  className="p-2 border border-white/10 hover:border-white/20 text-[#8C8B87] hover:text-white rounded"
+                  className="p-2 border border-mkt-bd hover:bg-neutral-50 text-mkt-i3 hover:text-mkt-ink rounded"
                 >
                   <ChevronRight className="w-4 h-4" />
                 </Link>
               ) : (
-                <button disabled className="p-2 border border-white/5 text-[#42413D] rounded opacity-40">
+                <button disabled className="p-2 border border-mkt-bd text-mkt-i4 rounded opacity-40">
                   <ChevronRight className="w-4 h-4" />
                 </button>
               )}

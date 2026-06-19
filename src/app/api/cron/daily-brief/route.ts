@@ -82,7 +82,7 @@ export async function GET(request: NextRequest) {
             <p style="font-family: monospace; color: #8C8B87; font-size: 10px;">// THE WIRE: ${today}</p>
             <hr style="border: 0; border-top: 1px solid #1A1D24; margin: 20px 0;" />
             <div style="line-height: 1.6; font-size: 16px;">
-              ${briefContent.split('\n').map(p => `<p>${p}</p>`).join('')}
+              ${briefContent.split('\n').map((p: string) => `<p>${p}</p>`).join('')}
             </div>
             <hr style="border: 0; border-top: 1px solid #1A1D24; margin: 40px 0;" />
             <p style="font-size: 11px; color: #8C8B87; text-align: center;">

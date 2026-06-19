@@ -7,7 +7,7 @@ import { ArrowRight, BookOpen, ChevronRight, GraduationCap, MapPin, ShieldCheck,
 import { cn } from "@/lib/utils";
 import { TrackPageView } from "@/components/admin/TrackPageView";
 import { StructuredData } from "@/components/StructuredData";
-import { createClient } from "@/lib/supabase/server";
+import { createClient, createInternalSupabase } from "@/lib/supabase/server";
 
 interface Props {
   params: Promise<{ topic: string; location: string }>;
@@ -17,7 +17,7 @@ export async function generateStaticParams() {
   const params: { topic: string; location: string }[] = [];
   
   try {
-    const supabase = await createClient();
+    const supabase = createInternalSupabase();
     const { data: topics } = await supabase
       .from("seo_pages")
       .select("slug")

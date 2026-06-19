@@ -1,11 +1,11 @@
 import { notFound } from "next/navigation";
+import { Metadata } from "next";
 import { GLOSSARY_TERMS } from "@/data/seo/glossary";
 import { RichBlock } from "@/lib/data/learn-to-trade";
-import { Metadata } from "next";
 import Link from "next/link";
 import { ChevronRight, ArrowRight, BookOpen, Calculator, Play } from "lucide-react";
 import { TrackPageView } from "@/components/admin/TrackPageView";
-import { createClient } from "@/lib/supabase/server";
+import { createClient, createInternalSupabase } from "@/lib/supabase/server";
 import {
   StatCallout,
   TradeExample,
@@ -21,7 +21,7 @@ interface Props {
 
 export async function generateStaticParams() {
   try {
-    const supabase = await createClient();
+    const supabase = createInternalSupabase();
     const { data, error } = await supabase
       .from("seo_pages")
       .select("slug")

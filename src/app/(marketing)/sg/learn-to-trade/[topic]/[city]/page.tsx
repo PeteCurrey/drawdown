@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { SG_CITIES, SG_TOPICS, CITY_CONTEXT_SG, TOPIC_DISPLAY_SG } from "@/data/seo/sg-data";
 import { getMetadata } from "@/lib/metadata";
 import { RegionalLocationPage } from "@/components/seo/RegionalLocationPage";
-import { createClient } from "@/lib/supabase/server";
+import { createInternalSupabase } from "@/lib/supabase/server";
 
 interface Props {
   params: Promise<{ topic: string; city: string }>;
@@ -23,7 +23,7 @@ async function getSGCityData(topicSlug: string, citySlug: string) {
   let topicLabel = TOPIC_DISPLAY_SG[topicSlug];
   if (!topicLabel) {
     try {
-      const supabase = await createClient();
+      const supabase = createInternalSupabase();
       const { data: page } = await supabase
         .from("seo_pages")
         .select("*")
@@ -43,7 +43,7 @@ async function getSGCityData(topicSlug: string, citySlug: string) {
   let isCityValid = false;
 
   try {
-    const supabase = await createClient();
+    const supabase = createInternalSupabase();
     const { data: page } = await supabase
       .from("seo_pages")
       .select("*")

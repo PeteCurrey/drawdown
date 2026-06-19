@@ -7,7 +7,7 @@ import { ArrowRight, BookOpen, ChevronRight, GraduationCap, MapPin, ShieldCheck,
 import { cn } from "@/lib/utils";
 import { TrackPageView } from "@/components/admin/TrackPageView";
 import { StructuredData } from "@/components/StructuredData";
-import { createClient, createInternalSupabase } from "@/lib/supabase/server";
+import { createInternalSupabase } from "@/lib/supabase/server";
 
 interface Props {
   params: Promise<{ topic: string; location: string }>;
@@ -62,7 +62,7 @@ export async function generateStaticParams() {
 
 async function getTopicData(topicSlug: string) {
   try {
-    const supabase = await createClient();
+    const supabase = createInternalSupabase();
     const { data: page, error } = await supabase
       .from("seo_pages")
       .select("*")
@@ -108,7 +108,7 @@ async function getLocationData(topicSlug: string, locationSlug: string) {
   if (!topic) return null;
 
   try {
-    const supabase = await createClient();
+    const supabase = createInternalSupabase();
     const { data: page, error } = await supabase
       .from("seo_pages")
       .select("*")

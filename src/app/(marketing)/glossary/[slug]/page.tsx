@@ -5,7 +5,7 @@ import { RichBlock } from "@/lib/data/learn-to-trade";
 import Link from "next/link";
 import { ChevronRight, ArrowRight, BookOpen, Calculator, Play } from "lucide-react";
 import { TrackPageView } from "@/components/admin/TrackPageView";
-import { createClient, createInternalSupabase } from "@/lib/supabase/server";
+import { createInternalSupabase } from "@/lib/supabase/server";
 import {
   StatCallout,
   TradeExample,
@@ -47,7 +47,7 @@ export async function generateStaticParams() {
 async function getGlossaryTerm(slug: string) {
   console.log(`[Glossary] Querying Supabase for slug: ${slug}`);
   try {
-    const supabase = await createClient();
+    const supabase = createInternalSupabase();
     const { data: page, error } = await supabase
       .from("seo_pages")
       .select("*")

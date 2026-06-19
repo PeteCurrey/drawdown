@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { HK_CITIES, HK_TOPICS, CITY_CONTEXT_HK, TOPIC_DISPLAY_HK } from "@/data/seo/hk-data";
 import { getMetadata } from "@/lib/metadata";
 import { RegionalLocationPage } from "@/components/seo/RegionalLocationPage";
-import { createClient } from "@/lib/supabase/server";
+import { createInternalSupabase } from "@/lib/supabase/server";
 
 interface Props {
   params: Promise<{ topic: string; city: string }>;
@@ -23,7 +23,7 @@ async function getHKCityData(topicSlug: string, citySlug: string) {
   let topicLabel = TOPIC_DISPLAY_HK[topicSlug];
   if (!topicLabel) {
     try {
-      const supabase = await createClient();
+      const supabase = createInternalSupabase();
       const { data: page } = await supabase
         .from("seo_pages")
         .select("*")
@@ -43,7 +43,7 @@ async function getHKCityData(topicSlug: string, citySlug: string) {
   let isCityValid = false;
 
   try {
-    const supabase = await createClient();
+    const supabase = createInternalSupabase();
     const { data: page } = await supabase
       .from("seo_pages")
       .select("*")

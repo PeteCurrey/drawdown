@@ -7,7 +7,7 @@ import { ArrowRight, BookOpen, ChevronRight, GraduationCap, MapPin, ShieldCheck,
 import { cn } from "@/lib/utils";
 import { TrackPageView } from "@/components/admin/TrackPageView";
 import { StructuredData } from "@/components/StructuredData";
-import { createClient } from "@/lib/supabase/server";
+import { createInternalSupabase } from "@/lib/supabase/server";
 
 interface Props {
   params: Promise<{ topic: string; city: string }>;
@@ -35,7 +35,7 @@ async function getUSCityData(topicSlug: string, citySlug: string) {
     topicTitle = localTopic.title;
   } else {
     try {
-      const supabase = await createClient();
+      const supabase = createInternalSupabase();
       const { data: page } = await supabase
         .from("seo_pages")
         .select("*")
@@ -57,7 +57,7 @@ async function getUSCityData(topicSlug: string, citySlug: string) {
   let isCityValid = false;
 
   try {
-    const supabase = await createClient();
+    const supabase = createInternalSupabase();
     const { data: page } = await supabase
       .from("seo_pages")
       .select("*")

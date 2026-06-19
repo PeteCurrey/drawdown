@@ -8,7 +8,7 @@ import { UK_LOCATIONS } from "@/lib/data/locations";
 import Link from "next/link";
 import { ArrowUpRight, AlertTriangle, MapPin, Clock, TrendingUp, Shield } from "lucide-react";
 import { TrackPageView } from "@/components/admin/TrackPageView";
-import { createClient, createInternalSupabase } from "@/lib/supabase/server";
+import { createInternalSupabase } from "@/lib/supabase/server";
 import {
   StatCallout,
   TradeExample,
@@ -51,7 +51,7 @@ export async function generateStaticParams() {
 async function getTopicData(topicSlug: string) {
   console.log(`[Topic] Querying Supabase for slug: ${topicSlug}`);
   try {
-    const supabase = await createClient();
+    const supabase = createInternalSupabase();
     const { data: page, error } = await supabase
       .from("seo_pages")
       .select("*")

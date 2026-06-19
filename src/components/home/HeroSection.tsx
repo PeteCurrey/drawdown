@@ -171,7 +171,7 @@ export function HeroSection() {
         
         {/* Top Text Content Block */}
         <motion.div 
-          className="space-y-6 text-left flex flex-col items-start max-w-3xl"
+          className="space-y-6 text-left flex flex-col items-start max-w-2xl relative z-10"
           variants={containerVariants}
           initial="hidden"
           animate="visible"
@@ -242,10 +242,10 @@ export function HeroSection() {
 
         {/* Centered Tilted Mockup Container */}
         <div
-          className="w-full flex justify-center items-center select-none mt-16 md:mt-24 relative hero-3d-card-container"
+          className="w-full md:absolute md:-right-24 lg:-right-12 md:top-1/2 md:-translate-y-[45%] md:w-[62%] lg:w-[58%] xl:w-[55%] flex justify-center items-center select-none mt-16 md:mt-0 relative hero-3d-card-container z-0 pointer-events-none"
           style={{
-            WebkitMaskImage: "linear-gradient(to bottom, black 0%, black 55%, transparent 100%)",
-            maskImage: "linear-gradient(to bottom, black 0%, black 55%, transparent 100%)",
+            WebkitMaskImage: "linear-gradient(to bottom, black 0%, black 65%, transparent 100%)",
+            maskImage: "linear-gradient(to bottom, black 0%, black 65%, transparent 100%)",
           }}
         >
           <motion.div
@@ -260,19 +260,22 @@ export function HeroSection() {
               transition: { duration: 0.6, ease: "easeOut" }
             }}
             style={{
-              filter: "drop-shadow(0 30px 60px rgba(0, 0, 0, 0.12))"
+              filter: "drop-shadow(0 30px 60px rgba(0, 0, 0, 0.15))"
             }}
           >
-            {/* Light Card Dashboard Mockup */}
-            <div className="relative w-full bg-white border border-[#E2E2E2] rounded-2xl p-6 overflow-hidden flex flex-col justify-between font-sans shadow-sm">
-              
+            {/* Browser window mock */}
+            <div className="relative w-full bg-[#FAF9FB] border border-[#E2E2E2] rounded-xl overflow-hidden shadow-2xl flex flex-col">
               {/* Topbar */}
-              <div className="flex justify-between items-center pb-4 border-b border-[#EBEBEB] mb-6">
+              <div className="flex justify-between items-center px-4 py-3 bg-white border-b border-[#EBEBEB]">
                 {/* Traffic Lights */}
                 <div className="flex gap-1.5">
                   <span className="w-2.5 h-2.5 rounded-full bg-[#FF5F56]" />
                   <span className="w-2.5 h-2.5 rounded-full bg-[#FFBD2E]" />
                   <span className="w-2.5 h-2.5 rounded-full bg-[#27C93F]" />
+                </div>
+                {/* URL Bar */}
+                <div className="hidden sm:block text-[9px] font-mono text-neutral-400 bg-neutral-50 px-8 py-1 rounded border border-neutral-100 uppercase tracking-widest">
+                  app.drawdown.trading
                 </div>
                 {/* LIVE badge */}
                 <div className="flex items-center gap-1.5">
@@ -282,81 +285,15 @@ export function HeroSection() {
                   </span>
                 </div>
               </div>
-
-              {/* Grid container */}
-              <div className="space-y-4">
-                {/* Three Stat Tiles */}
-                <div className="grid grid-cols-3 gap-3">
-                  <div className="bg-[#F5F5F5] border border-[#E8E8E8] rounded-lg p-3">
-                    <p className="text-[10px] font-mono text-[#888888] uppercase">GBP/USD</p>
-                    <p className="text-xs font-mono font-bold text-[#0A0A0A] mt-1">1.2734</p>
-                    <p className="text-[9px] font-mono text-mkt-grn mt-0.5">+0.12%</p>
-                  </div>
-                  <div className="bg-[#F5F5F5] border border-[#E8E8E8] rounded-lg p-3">
-                    <p className="text-[10px] font-mono text-[#888888] uppercase">EUR/USD</p>
-                    <p className="text-xs font-mono font-bold text-[#0A0A0A] mt-1">1.0845</p>
-                    <p className="text-[9px] font-mono text-[#888888] mt-0.5">0.00%</p>
-                  </div>
-                  <div className="bg-[#F5F5F5] border border-[#E8E8E8] rounded-lg p-3">
-                    <p className="text-[10px] font-mono text-[#888888] uppercase">BTC/USD</p>
-                    <p className="text-xs font-mono font-bold text-[#0A0A0A] mt-1">67,420</p>
-                    <p className="text-[9px] font-mono text-mkt-grn mt-0.5">+1.45%</p>
-                  </div>
-                </div>
-
-                {/* SVG Area Chart */}
-                <div className="relative h-32 bg-[#F5F5F5] border border-[#E8E8E8] rounded-lg p-3 flex flex-col justify-between overflow-hidden">
-                  <div className="flex justify-between items-center z-10">
-                    <span className="text-[9px] font-mono text-[#888888] uppercase tracking-widest">GBPUSD 1H CHART</span>
-                    <span className="text-[10px] font-mono text-[#0A0A0A] font-bold">1.2734</span>
-                  </div>
-                  
-                  {/* SVG Chart paths */}
-                  <div className="absolute inset-0 pt-6">
-                    <svg className="w-full h-full" viewBox="0 0 300 80" preserveAspectRatio="none">
-                      <defs>
-                        <linearGradient id="chartGradLight" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="0%" stopColor="#16A34A" stopOpacity="0.18" />
-                          <stop offset="100%" stopColor="#16A34A" stopOpacity="0" />
-                        </linearGradient>
-                      </defs>
-                      <path 
-                        d="M0,60 Q40,40 80,45 T160,30 T240,55 T300,20 L300,80 L0,80 Z" 
-                        fill="url(#chartGradLight)" 
-                      />
-                      <path 
-                        d="M0,60 Q40,40 80,45 T160,30 T240,55 T300,20" 
-                        fill="none" 
-                        stroke="#16A34A" 
-                        strokeWidth="2.5" 
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-                  </div>
-                </div>
-
-                {/* Four Pair Tiles 2x2 grid */}
-                <div className="grid grid-cols-2 gap-3">
-                  <div className="flex justify-between items-center bg-[#F5F5F5] border border-[#E8E8E8] rounded-lg p-2.5">
-                    <span className="text-[10px] font-mono text-[#888888]">USDJPY</span>
-                    <span className="text-[10px] font-mono font-bold text-[#0A0A0A]">156.42</span>
-                  </div>
-                  <div className="flex justify-between items-center bg-[#F5F5F5] border border-[#E8E8E8] rounded-lg p-2.5">
-                    <span className="text-[10px] font-mono text-[#888888]">GBPJPY</span>
-                    <span className="text-[10px] font-mono font-bold text-[#0A0A0A]">199.12</span>
-                  </div>
-                  <div className="flex justify-between items-center bg-[#F5F5F5] border border-[#E8E8E8] rounded-lg p-2.5">
-                    <span className="text-[10px] font-mono text-[#888888]">AUDUSD</span>
-                    <span className="text-[10px] font-mono font-bold text-[#0A0A0A]">0.6654</span>
-                  </div>
-                  <div className="flex justify-between items-center bg-[#F5F5F5] border border-[#E8E8E8] rounded-lg p-2.5">
-                    <span className="text-[10px] font-mono text-[#888888]">EURGBP</span>
-                    <span className="text-[10px] font-mono font-bold text-[#0A0A0A]">0.8512</span>
-                  </div>
-                </div>
+              
+              {/* Screenshot image */}
+              <div className="relative w-full aspect-[16/10] overflow-hidden">
+                <img 
+                  src="/images/dashboard-preview.png" 
+                  alt="Drawdown Client Dashboard Preview" 
+                  className="w-full h-full object-cover object-top"
+                />
               </div>
-
             </div>
           </motion.div>
         </div>

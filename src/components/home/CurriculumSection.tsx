@@ -156,87 +156,88 @@ export function CurriculumSection() {
             const isHovered = hoveredIdx === idx;
             
             return (
-              <motion.div
-                key={phase.id}
-                custom={idx}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, margin: "-20px" }}
-                variants={cardVariants}
-                onMouseEnter={() => setHoveredIdx(idx)}
-                onMouseLeave={() => setHoveredIdx(null)}
-                className="relative border rounded-[14px] p-6 flex flex-col justify-between cursor-pointer overflow-hidden transition-all duration-300"
-                style={{
-                  backgroundColor: isHovered ? theme.hoverBg : theme.baseBg,
-                  borderColor: isHovered ? theme.borderColor : "rgba(229, 229, 229, 0.7)",
-                  transform: isHovered ? "translateY(-2px)" : "translateY(0px)",
-                  boxShadow: isHovered ? "0 8px 32px rgba(0, 0, 0, 0.06)" : "none"
-                }}
-              >
-                {/* Background image — gentle reveal on hover */}
-                <div
-                  className="absolute inset-0 z-0 overflow-hidden pointer-events-none rounded-[14px]"
+              <Link href={`/courses/${phase.slug}`} key={phase.id} className="block">
+                <motion.div
+                  custom={idx}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true, margin: "-20px" }}
+                  variants={cardVariants}
+                  onMouseEnter={() => setHoveredIdx(idx)}
+                  onMouseLeave={() => setHoveredIdx(null)}
+                  className="relative border rounded-[14px] p-6 flex flex-col justify-between cursor-pointer overflow-hidden transition-all duration-300"
+                  style={{
+                    backgroundColor: isHovered ? theme.hoverBg : theme.baseBg,
+                    borderColor: isHovered ? theme.borderColor : "rgba(229, 229, 229, 0.7)",
+                    transform: isHovered ? "translateY(-2px)" : "translateY(0px)",
+                    boxShadow: isHovered ? "0 8px 32px rgba(0, 0, 0, 0.06)" : "none"
+                  }}
                 >
+                  {/* Background image — gentle reveal on hover */}
                   <div
-                    className="absolute inset-0 bg-cover bg-center transition-all duration-700 ease-out"
-                    style={{
-                      backgroundImage: `url(${theme.imageUrl})`,
-                      opacity: isHovered ? 0.18 : 0.06,
-                      transform: isHovered ? "scale(1)" : "scale(1.03)"
-                    }}
-                  />
-                </div>
+                    className="absolute inset-0 z-0 overflow-hidden pointer-events-none rounded-[14px]"
+                  >
+                    <div
+                      className="absolute inset-0 bg-cover bg-center transition-all duration-700 ease-out"
+                      style={{
+                        backgroundImage: `url(${theme.imageUrl})`,
+                        opacity: isHovered ? 0.18 : 0.06,
+                        transform: isHovered ? "scale(1)" : "scale(1.03)"
+                      }}
+                    />
+                  </div>
 
-                {/* Subtle bottom-right SVG decorative illustration */}
-                <div 
-                  className="absolute inset-0 z-0 overflow-hidden pointer-events-none transition-opacity duration-300"
-                  style={{ opacity: isHovered ? 0.07 : 0.015 }}
-                >
-                  {theme.svgPath}
-                </div>
+                  {/* Subtle bottom-right SVG decorative illustration */}
+                  <div 
+                    className="absolute inset-0 z-0 overflow-hidden pointer-events-none transition-opacity duration-300"
+                    style={{ opacity: isHovered ? 0.07 : 0.015 }}
+                  >
+                    {theme.svgPath}
+                  </div>
 
-                <div className="z-10">
-                  {/* Top: Phase Number & Tier Badge */}
-                  <div className="flex items-center justify-between mb-6">
-                    <span 
-                      className="text-3xl font-mono font-extrabold tracking-tighter transition-colors duration-300"
-                      style={{ color: isHovered ? theme.textColor : "var(--mkt-ink)" }}
-                    >
-                      {phase.number}
+                  <div className="z-10">
+                    {/* Top: Phase Number & Tier Badge */}
+                    <div className="flex items-center justify-between mb-6">
+                      <span 
+                        className="text-3xl font-mono font-extrabold tracking-tighter transition-colors duration-300"
+                        style={{ color: isHovered ? theme.textColor : "var(--mkt-ink)" }}
+                      >
+                        {phase.number}
+                      </span>
+                      <span className={cn(
+                        "text-[9px] font-mono font-bold px-2 py-0.5 rounded border uppercase tracking-wider transition-colors duration-300",
+                        isFree
+                          ? "text-mkt-grn bg-mkt-gbg border-mkt-gbd"
+                          : "text-mkt-i3 bg-neutral-100 border-neutral-200"
+                      )}>
+                        {phase.tier}
+                      </span>
+                    </div>
+
+                    {/* Title & Description */}
+                    <div className="space-y-2 mb-6">
+                      <h3 className="text-lg font-sans font-bold text-mkt-ink leading-snug">
+                        {phase.name}
+                      </h3>
+                      <p className="text-xs text-mkt-i3 leading-relaxed font-sans min-h-[60px]">
+                        {phase.description}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Bottom Stats: Modules Count & Lock Info */}
+                  <div className="pt-4 border-t border-neutral-100 flex items-center justify-between z-10">
+                    <span className="text-[10px] font-sans font-medium text-mkt-i4 uppercase tracking-wider flex items-center gap-1.5">
+                      <BookOpen className="w-3.5 h-3.5 text-mkt-i3" /> {phase.modules_count} Modules
                     </span>
-                    <span className={cn(
-                      "text-[9px] font-mono font-bold px-2 py-0.5 rounded border uppercase tracking-wider transition-colors duration-300",
-                      isFree
-                        ? "text-mkt-grn bg-mkt-gbg border-mkt-gbd"
-                        : "text-mkt-i3 bg-neutral-100 border-neutral-200"
-                    )}>
-                      {phase.tier}
+                    
+                    <span className="text-[10px] font-mono text-mkt-i4 uppercase tracking-widest">
+                      {phase.duration}
                     </span>
                   </div>
 
-                  {/* Title & Description */}
-                  <div className="space-y-2 mb-6">
-                    <h3 className="text-lg font-sans font-bold text-mkt-ink leading-snug">
-                      {phase.name}
-                    </h3>
-                    <p className="text-xs text-mkt-i3 leading-relaxed font-sans min-h-[60px]">
-                      {phase.description}
-                    </p>
-                  </div>
-                </div>
-
-                {/* Bottom Stats: Modules Count & Lock Info */}
-                <div className="pt-4 border-t border-neutral-100 flex items-center justify-between z-10">
-                  <span className="text-[10px] font-sans font-medium text-mkt-i4 uppercase tracking-wider flex items-center gap-1.5">
-                    <BookOpen className="w-3.5 h-3.5 text-mkt-i3" /> {phase.modules_count} Modules
-                  </span>
-                  
-                  <span className="text-[10px] font-mono text-mkt-i4 uppercase tracking-widest">
-                    {phase.duration}
-                  </span>
-                </div>
-
-              </motion.div>
+                </motion.div>
+              </Link>
             );
           })}
         </div>

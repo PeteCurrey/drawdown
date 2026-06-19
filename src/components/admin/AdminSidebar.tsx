@@ -17,18 +17,20 @@ import {
   Target,
   Brain,
   Mail,
-  Link2
+  Link2,
+  FileText
 } from "lucide-react";
 
 const NAV_ITEMS = [
   { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
+  { href: "/admin/emails", label: "Emails History", icon: Mail },
+  { href: "/admin/subscribers", label: "Subscribers", icon: Users },
+  { href: "/admin/blog", label: "Blog Manager", icon: FileText },
   { href: "/admin/intelligence", label: "Intelligence Suite", icon: Brain },
-  { href: "/admin/users", label: "Traders & Users", icon: Users },
   { href: "/admin/leads", label: "Leads Inbox", icon: Inbox },
   { href: "/admin/partners", label: "Partners", icon: Network },
   { href: "/admin/content", label: "Content & Institutes", icon: BookOpen },
   { href: "/admin/marketing", label: "Marketing & SEO", icon: Target },
-  { href: "/admin/newsletter", label: "The Wire Newsletter", icon: Mail },
   { href: "/admin/affiliates", label: "Affiliate Manager", icon: Link2 },
   { href: "/admin/landing-pages", label: "Landing Pages", icon: LayoutTemplate },
   { href: "/admin/seo", label: "SEO Suite", icon: Search },

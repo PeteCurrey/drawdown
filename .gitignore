@@ -43,3 +43,7 @@ next-env.d.ts
 # Capacitor mobile (not part of this web deployment)
 android/
 ios/
+
+# scratch directory for agent
+/scratch/
+

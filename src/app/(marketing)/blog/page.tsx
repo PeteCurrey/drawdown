@@ -30,8 +30,8 @@ const CATEGORY_IMAGES: Record<string, string> = {
   "Risk Management": "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=800&auto=format&fit=crop",
 };
 
-export default function BlogListingPage({ searchParams }: Props) {
-  const allPosts = getAllPosts();
+export default async function BlogListingPage({ searchParams }: Props) {
+  const allPosts = await getAllPosts();
   const selectedCategory = searchParams.category || "All";
   const currentPage = parseInt(searchParams.page || "1");
 

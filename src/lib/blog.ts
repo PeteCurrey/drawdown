@@ -1,6 +1,7 @@
 import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
+import { createClient } from "@/lib/supabase/client";
 
 const BLOG_DIR = path.join(process.cwd(), "src/content/blog");
 
@@ -48,54 +49,119 @@ const SLUG_IMAGES: Record<string, string> = {
   "the-only-three-indicators": "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=800"
 };
 
-export function getAllPosts(): BlogMetadata[] {
-  if (!fs.existsSync(BLOG_DIR)) {
-    return [];
+export async function getAllPosts(): Promise<BlogMetadata[]> {
+  let localPosts: BlogMetadata[] = [];
+  
+  // 1. Fetch from local content directory
+  if (fs.existsSync(BLOG_DIR)) {
+    const files = fs.readdirSync(BLOG_DIR);
+    localPosts = files
+      .filter((file) => file.endsWith(".mdx"))
+      .map((file) => {
+        const filePath = path.join(BLOG_DIR, file);
+        const fileContent = fs.readFileSync(filePath, "utf8");
+        const { data } = matter(fileContent);
+        const slug = file.replace(".mdx", "");
+        
+        const title = data.title || "";
+        const excerpt = data.excerpt || "";
+        
+        return {
+          ...data,
+          slug,
+          image: data.image || SLUG_IMAGES[slug] || "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?q=80&w=800",
+          metaTitle: data.metaTitle || `${title} | Drawdown Blog`,
+          metaDescription: data.metaDescription || excerpt,
+        } as BlogMetadata;
+      });
   }
 
-  const files = fs.readdirSync(BLOG_DIR);
+  // 2. Fetch from Supabase blog_posts table
+  let dbPosts: BlogMetadata[] = [];
+  try {
+    const supabase = createClient() as any;
+    const { data, error } = await supabase
+      .from("blog_posts")
+      .select("title, excerpt, category, published_at, author, slug, image, meta_title, meta_description, content")
+      .eq("published", true);
+
+    if (!error && data) {
+      dbPosts = data.map((post: any) => {
+        const words = post.content ? post.content.split(/\s+/).length : 0;
+        const readingTime = Math.max(1, Math.ceil(words / 200));
+        return {
+          title: post.title,
+          excerpt: post.excerpt || "",
+          category: post.category || "Market Analysis",
+          publishedAt: post.published_at,
+          readingTime,
+          author: post.author || "Pete Currey",
+          slug: post.slug,
+          image: post.image || "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?q=80&w=800",
+          metaTitle: post.meta_title || `${post.title} | Drawdown Blog`,
+          metaDescription: post.meta_description || post.excerpt || "",
+        } as BlogMetadata;
+      });
+    }
+  } catch (err) {
+    console.error("Failed to query blog_posts table:", err);
+  }
   
-  return files
-    .filter((file) => file.endsWith(".mdx"))
-    .map((file) => {
-      const filePath = path.join(BLOG_DIR, file);
-      const fileContent = fs.readFileSync(filePath, "utf8");
-      const { data } = matter(fileContent);
-      const slug = file.replace(".mdx", "");
-      
-      const title = data.title || "";
-      const excerpt = data.excerpt || "";
-      
-      return {
-        ...data,
-        slug,
-        image: data.image || SLUG_IMAGES[slug] || "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?q=80&w=800",
-        metaTitle: data.metaTitle || `${title} | Drawdown Blog`,
-        metaDescription: data.metaDescription || excerpt,
-      } as BlogMetadata;
-    })
-    .sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
+  const merged = [...localPosts, ...dbPosts];
+  return merged.sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
 }
 
-export function getPostBySlug(slug: string): BlogPost | null {
+export async function getPostBySlug(slug: string): Promise<BlogPost | null> {
+  // 1. Try fetching from local file system first
   const filePath = path.join(BLOG_DIR, `${slug}.mdx`);
-  
-  if (!fs.existsSync(filePath)) {
-    return null;
+  if (fs.existsSync(filePath)) {
+    const fileContent = fs.readFileSync(filePath, "utf8");
+    const { data, content } = matter(fileContent);
+    
+    const title = data.title || "";
+    const excerpt = data.excerpt || "";
+
+    return {
+      ...data,
+      slug,
+      content,
+      image: data.image || SLUG_IMAGES[slug] || "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?q=80&w=800",
+      metaTitle: data.metaTitle || `${title} | Drawdown Blog`,
+      metaDescription: data.metaDescription || excerpt,
+    } as BlogPost;
   }
 
-  const fileContent = fs.readFileSync(filePath, "utf8");
-  const { data, content } = matter(fileContent);
-  
-  const title = data.title || "";
-  const excerpt = data.excerpt || "";
+  // 2. Fallback to Supabase blog_posts table
+  try {
+    const supabase = createClient() as any;
+    const { data: post, error } = await supabase
+      .from("blog_posts")
+      .select("*")
+      .eq("slug", slug)
+      .eq("published", true)
+      .single();
 
-  return {
-    ...data,
-    slug,
-    content,
-    image: data.image || SLUG_IMAGES[slug] || "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?q=80&w=800",
-    metaTitle: data.metaTitle || `${title} | Drawdown Blog`,
-    metaDescription: data.metaDescription || excerpt,
-  } as BlogPost;
+    if (!error && post) {
+      const words = post.content ? post.content.split(/\s+/).length : 0;
+      const readingTime = Math.max(1, Math.ceil(words / 200));
+
+      return {
+        title: post.title,
+        excerpt: post.excerpt || "",
+        category: post.category || "Market Analysis",
+        publishedAt: post.published_at || post.created_at,
+        readingTime,
+        author: post.author || "Pete Currey",
+        slug: post.slug,
+        image: post.image || "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?q=80&w=800",
+        metaTitle: post.meta_title || `${post.title} | Drawdown Blog`,
+        metaDescription: post.meta_description || post.excerpt || "",
+        content: post.content
+      } as BlogPost;
+    }
+  } catch (err) {
+    console.error(`Failed to find database blog post for slug ${slug}:`, err);
+  }
+
+  return null;
 }

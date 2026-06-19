@@ -12,7 +12,7 @@ import { LandingPageTable } from "@/components/admin/LandingPageTable";
 import { getAdminStats } from "@/lib/admin-data";
 
 export default async function LandingPageManager() {
-  const allPages = getAllSEOPages();
+  const allPages = await getAllSEOPages();
   const stats = await getAdminStats();
 
   const totalViews = stats.totalSEOViews;

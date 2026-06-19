@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { getMetadata } from "@/lib/metadata";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { StructuredData } from "@/components/StructuredData";
-import { LEARN_TOPICS, RichBlock } from "@/lib/data/learn-to-trade";
+import { LEARN_TOPICS, RichBlock, LearnTopic } from "@/lib/data/learn-to-trade";
 import { UK_LOCATIONS } from "@/lib/data/locations";
 import Link from "next/link";
 import { ArrowUpRight, AlertTriangle, MapPin, Clock, TrendingUp, Shield } from "lucide-react";
@@ -31,7 +31,7 @@ export async function generateStaticParams() {
   return [];
 }
 
-async function getTopicData(topicSlug: string) {
+async function getTopicData(topicSlug: string): Promise<LearnTopic | null> {
   console.log(`[Topic] Querying Supabase for slug: ${topicSlug}`);
   try {
     const supabase = createInternalSupabase();
@@ -69,9 +69,8 @@ async function getTopicData(topicSlug: string) {
             richBlocks: []
           }
         ],
-        richBlocks: [] as any[],
-        curriculum: [] as any[],
-        faqs: [] as any[]
+        faqs: [] as any[],
+        relatedModules: []
       };
     }
   } catch (err: any) {
@@ -98,6 +97,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return getMetadata({
     title: topic.metaTitle,
     description: topic.metaDescription,
+    image: topic.heroImage,
+    path: `/learn-to-trade/${topicSlug}`,
+    hasRegionalVariants: true,
   });
 }
 
@@ -182,12 +184,40 @@ export default async function TopicPage({ params }: Props) {
     })),
   };
 
+  const articleSchema = {
+    name: topic.title,
+    headline: topic.metaTitle || topic.title,
+    description: topic.metaDescription || topic.description,
+    image: topic.heroImage.startsWith('http') ? topic.heroImage : `https://drawdown.trading${topic.heroImage}`,
+    author: {
+      "@type": "Person",
+      "name": "Pete Currey",
+      "url": "https://drawdown.trading/about",
+    },
+    publisher: {
+      "@type": "Organization",
+      "name": "Drawdown",
+      "url": "https://drawdown.trading",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://drawdown.trading/logo.png"
+      }
+    },
+    datePublished: "2026-01-15T08:00:00Z",
+    dateModified: "2026-06-19T08:00:00Z",
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": `https://drawdown.trading/learn-to-trade/${topicSlug}`
+    }
+  };
+
   return (
     <div className="pt-28 pb-24 min-h-screen">
       <div className="max-w-7xl mx-auto px-6">
         <Breadcrumbs />
         <TrackPageView path={`/learn-to-trade/${topicSlug}`} />
         <StructuredData type="FAQPage" data={faqSchema} />
+        <StructuredData type="Article" data={articleSchema} />
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-16 items-start">
           <div className="lg:col-span-2">
@@ -320,6 +350,83 @@ export default async function TopicPage({ params }: Props) {
                 </section>
               ))}
             </div>
+
+            {(() => {
+              const TOPIC_CURRICULUM_CTAS: Record<string, { href: string; label: string }[]> = {
+                "forex-trading": [
+                  { href: "/courses/chart-reader", label: "Phase 02: Chart Reader" },
+                  { href: "/courses/macro-trader", label: "Phase 10: Macro Trader" }
+                ],
+                "risk-management": [
+                  { href: "/courses/risk-manager", label: "Phase 04: Risk Manager" },
+                  { href: "/courses/the-backtester", label: "Phase 13: The Backtester" }
+                ],
+                "day-trading": [
+                  { href: "/courses/strategist", label: "Phase 03: Strategist" },
+                  { href: "/courses/mind-over-market", label: "Phase 05: Mind Over Market" }
+                ]
+              };
+
+              const ctas = TOPIC_CURRICULUM_CTAS[topicSlug];
+              if (!ctas) return null;
+
+              return (
+                <div className="mt-16 p-8 border border-border rounded-xl bg-surface space-y-6">
+                  <span className="text-[9px] font-mono uppercase tracking-widest text-text-tertiary block font-bold">// CURRICULUM ACCELERATOR</span>
+                  <h3 className="text-xl font-sans font-bold uppercase text-text-primary">Start with Drawdown&apos;s {topic.title} Curriculum</h3>
+                  <p className="text-sm text-text-secondary leading-relaxed">
+                    Accelerate your learning path. Access Pete&apos;s structured curriculum phases built specifically to master this domain:
+                  </p>
+                  <div className="flex flex-col sm:flex-row gap-4 pt-2">
+                    {ctas.map((cta, idx) => (
+                      <Link
+                        key={idx}
+                        href={cta.href}
+                        className="px-6 py-4 bg-mkt-ink hover:bg-neutral-800 text-white font-mono uppercase tracking-widest text-[10px] text-center flex-grow transition-colors flex items-center justify-center gap-2 group"
+                      >
+                        {cta.label} <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              );
+            })()}
+
+            {/* Related Curriculum */}
+            {topic.relatedModules && topic.relatedModules.length > 0 && (
+              <div className="mt-20 space-y-6">
+                <span className="text-[9px] font-mono uppercase tracking-widest text-text-tertiary block font-bold">
+                  // RELATED CURRICULUM
+                </span>
+                <h2 className="text-3xl font-sans font-bold uppercase text-text-primary">
+                  Deepen Your Edge in the Curriculum
+                </h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {topic.relatedModules.map((mod, idx) => (
+                    <Link
+                      key={idx}
+                      href={mod.href}
+                      className="p-6 bg-surface border border-border hover:border-accent/40 rounded-xl transition-all duration-300 group flex flex-col justify-between"
+                    >
+                      <div className="space-y-3">
+                        <span className="text-[9px] font-mono text-accent uppercase tracking-wider block">
+                          Module {mod.href.split('-').pop()} // Core Lesson
+                        </span>
+                        <h3 className="text-lg font-sans font-bold uppercase text-text-primary group-hover:text-accent transition-colors">
+                          {mod.title}
+                        </h3>
+                        <p className="text-xs text-text-secondary leading-relaxed">
+                          {mod.description}
+                        </p>
+                      </div>
+                      <div className="flex items-center gap-1.5 text-[9px] font-mono uppercase tracking-wider text-text-tertiary group-hover:text-white pt-4 mt-auto">
+                        Study Module <ArrowUpRight className="w-3 h-3 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )}
 
             {/* Curriculum preview */}
             <div className="mt-24">

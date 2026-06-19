@@ -1,81 +1,114 @@
 import { MetadataRoute } from "next";
 import { siteConfig } from "@/lib/metadata";
 import { getAllPosts } from "@/lib/blog";
-import { MARKETS_CONFIG } from "@/lib/markets-config";
+import { phases } from "@/data/courses";
+import { LEARN_TOPICS } from "@/lib/data/learn-to-trade";
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = siteConfig.url;
 
-  // Base static routes
-  const staticRoutes = [
-    "",
-    "/about",
-    "/pricing",
-    "/blog",
-    "/courses",
-    "/platform",
-    "/contact",
-    "/privacy",
-    "/disclaimer",
-    "/brokers",
-    "/prop-firms",
-    "/store/prop-survival-kit",
-    "/markets",
-    "/markets/forex",
-    "/markets/commodities",
-    "/markets/indices",
-    "/markets/crypto"
-  ].map((route) => ({
-    url: `${baseUrl}${route}`,
-    lastModified: new Date(),
-    changeFrequency: "weekly" as const,
-    priority: 1.0,
-  }));
+  // 1. Priority 1.0: Homepage (changeFreq: weekly)
+  const homeRoute = [
+    {
+      url: `${baseUrl}`,
+      lastModified: new Date(),
+      changeFrequency: "weekly" as const,
+      priority: 1.0,
+    },
+  ];
 
-  // Tools & Calculators
-  const toolRoutes = [
-    "/tools/risk-calculator",
-    "/tools/tradingview"
-  ].map((route) => ({
-    url: `${baseUrl}${route}`,
-    lastModified: new Date(),
-    changeFrequency: "weekly" as const,
-    priority: 0.8,
-  }));
-
-  // Market Category Instrument pages (16 pages)
-  const marketRoutes = MARKETS_CONFIG.map((inst) => ({
-    url: `${baseUrl}/markets/${inst.category}/${inst.slug}`,
-    lastModified: new Date(),
-    changeFrequency: "weekly" as const,
-    priority: 0.8,
-  }));
-
-  // Broker review pages
-  const brokerReviewRoutes = [
-    "/brokers/ig-markets-review",
-    "/brokers/ic-markets-review",
-    "/brokers/pepperstone-review"
-  ].map((route) => ({
-    url: `${baseUrl}${route}`,
-    lastModified: new Date(),
-    changeFrequency: "weekly" as const,
-    priority: 0.8,
-  }));
-
-  // Blog posts
-  const blogRoutes = getAllPosts().map((post) => ({
-    url: `${baseUrl}/blog/${post.slug}`,
+  // 2. Priority 0.9: /courses, /courses/[all 13 phase slugs] (changeFreq: monthly)
+  const phaseIndexRoute = {
+    url: `${baseUrl}/courses`,
     lastModified: new Date(),
     changeFrequency: "monthly" as const,
+    priority: 0.9,
+  };
+  const phaseRoutes = phases.map((phase) => ({
+    url: `${baseUrl}/courses/${phase.slug}`,
+    lastModified: new Date(),
+    changeFrequency: "monthly" as const,
+    priority: 0.9,
+  }));
+
+  // 3. Priority 0.8: /courses/[phase-slug]/module-[N] (all 117 module pages) (changeFreq: monthly)
+  const moduleRoutes: any[] = [];
+  phases.forEach((phase) => {
+    phase.modules_list.forEach((_, idx) => {
+      moduleRoutes.push({
+        url: `${baseUrl}/courses/${phase.slug}/module-${idx + 1}`,
+        lastModified: new Date(),
+        changeFrequency: "monthly" as const,
+        priority: 0.8,
+      });
+    });
+  });
+
+  // 4. Priority 0.8: /learn-to-trade/[all hub pages] (changeFreq: monthly)
+  const hubRoutes = LEARN_TOPICS.map((topic) => ({
+    url: `${baseUrl}/learn-to-trade/${topic.slug}`,
+    lastModified: new Date(),
+    changeFrequency: "monthly" as const,
+    priority: 0.8,
+  }));
+
+  // 5. Priority 0.7: /platform, /pricing, /brokers, /prop-firms, /markets (changeFreq: weekly)
+  const platformRoutes = [
+    "/platform",
+    "/pricing",
+    "/brokers",
+    "/prop-firms",
+    "/markets"
+  ].map((route) => ({
+    url: `${baseUrl}${route}`,
+    lastModified: new Date(),
+    changeFrequency: "weekly" as const,
     priority: 0.7,
   }));
 
+  // 6. Priority 0.6: /blog/[all posts] (changeFreq: weekly)
+  const posts = await getAllPosts();
+  const blogRoutes = posts.map((post) => ({
+    url: `${baseUrl}/blog/${post.slug}`,
+    lastModified: new Date(),
+    changeFrequency: "weekly" as const,
+    priority: 0.6,
+  }));
+
+  // 7. Priority 0.5: /about, /contact (changeFreq: weekly)
+  const aboutRoutes = [
+    "/about",
+    "/contact"
+  ].map((route) => ({
+    url: `${baseUrl}${route}`,
+    lastModified: new Date(),
+    changeFrequency: "weekly" as const,
+    priority: 0.5,
+  }));
+
+  // 8. Priority 0.1: /login, /signup, /privacy, /disclaimer (changeFreq: weekly)
+  const footerRoutes = [
+    "/login",
+    "/signup",
+    "/privacy",
+    "/disclaimer"
+  ].map((route) => ({
+    url: `${baseUrl}${route}`,
+    lastModified: new Date(),
+    changeFrequency: "weekly" as const,
+    priority: 0.1,
+  }));
+
   return [
-    ...staticRoutes,
-    ...toolRoutes,
-    ...marketRoutes,
-    ...brokerReviewRoutes,
-    ...blogRoutes
+    ...homeRoute,
+    phaseIndexRoute,
+    ...phaseRoutes,
+    ...moduleRoutes,
+    ...hubRoutes,
+    ...platformRoutes,
+    ...blogRoutes,
+    ...aboutRoutes,
+    ...footerRoutes,
   ] as MetadataRoute.Sitemap;
 }
+

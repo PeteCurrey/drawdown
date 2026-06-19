@@ -2,7 +2,7 @@ import { getAllPosts } from "@/lib/blog";
 import { siteConfig } from "@/lib/metadata";
 
 export async function GET() {
-  const posts = getAllPosts();
+  const posts = await getAllPosts();
   const baseUrl = siteConfig.url;
 
   const rss = `<?xml version="1.0" encoding="UTF-8" ?>

@@ -29,7 +29,7 @@ export interface SEOPageInfo {
   isAffiliate?: boolean;
 }
 
-export function getAllSEOPages(): SEOPageInfo[] {
+export async function getAllSEOPages(): Promise<SEOPageInfo[]> {
   const pages: SEOPageInfo[] = [];
 
   // Static Marketing Pages
@@ -144,7 +144,8 @@ export function getAllSEOPages(): SEOPageInfo[] {
   });
 
   // Blog
-  getAllPosts().forEach(post => {
+  const posts = await getAllPosts();
+  posts.forEach(post => {
     pages.push({
       title: post.title,
       slug: `/blog/${post.slug}`,

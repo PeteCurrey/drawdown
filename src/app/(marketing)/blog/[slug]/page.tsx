@@ -21,7 +21,7 @@ interface Props {
 }
 
 export async function generateStaticParams() {
-  const posts = getAllPosts();
+  const posts = await getAllPosts();
   return posts.slice(0, 10).map((post) => ({
     slug: post.slug,
   }));
@@ -29,7 +29,7 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const post = getPostBySlug(slug);
+  const post = await getPostBySlug(slug);
   if (!post) return {};
   
   const baseMetadata = getMetadata({
@@ -79,11 +79,11 @@ const CATEGORY_IMAGES: Record<string, string> = {
 
 export default async function BlogPostPage({ params }: Props) {
   const { slug } = await params;
-  const post = getPostBySlug(slug);
+  const post = await getPostBySlug(slug);
   
   if (!post) notFound();
 
-  const allPosts = getAllPosts();
+  const allPosts = await getAllPosts();
   const relatedPosts = allPosts
     .filter(p => p.slug !== slug && p.category === post.category)
     .slice(0, 3);
@@ -199,6 +199,39 @@ export default async function BlogPostPage({ params }: Props) {
               >
                 <MDXRemote source={post.content} components={components} />
               </article>
+
+              {(() => {
+                const BLOG_TO_MODULE_MAP: Record<string, { href: string; label: string; description: string }> = {
+                  "why-free-signals-cost-money": {
+                    href: "/courses/ground-zero/module-1",
+                    label: "Ground Zero // Module 1: Why 90% of Traders Lose Money",
+                    description: "Learn why 90% of retail traders fail and the mathematical reality of edge vs. retail signals in our free introductory module."
+                  },
+                  "worthless-trading-courses": {
+                    href: "/courses/ground-zero/module-1",
+                    label: "Ground Zero // Module 1: Why 90% of Traders Lose Money",
+                    description: "Start with a structured, honest trading curriculum. Learn risk management and market microstructure without the guru lifestyle marketing fluff."
+                  }
+                };
+
+                const mapping = BLOG_TO_MODULE_MAP[slug];
+                if (!mapping) return null;
+
+                return (
+                  <div className="mt-12 p-8 border border-accent/20 bg-slate-50 rounded-xl space-y-4 shadow-sm relative overflow-hidden">
+                    <div className="absolute top-0 left-0 w-2 h-full bg-accent" />
+                    <span className="text-[9px] font-mono uppercase tracking-widest text-text-tertiary block font-bold">// Learn more in the curriculum</span>
+                    <h4 className="text-lg font-sans font-bold uppercase text-slate-800">{mapping.label}</h4>
+                    <p className="text-xs text-slate-500 leading-relaxed max-w-2xl">{mapping.description}</p>
+                    <Link 
+                      href={mapping.href} 
+                      className="inline-flex items-center gap-2 text-[10px] font-mono uppercase tracking-widest text-accent font-bold hover:text-accent-hover transition-colors mt-2"
+                    >
+                      Start Lesson <ArrowRight className="w-3.5 h-3.5" />
+                    </Link>
+                  </div>
+                );
+              })()}
             </div>
 
             {/* Sticky Sidebar Column */}

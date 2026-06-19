@@ -177,6 +177,28 @@ export default function PropFirmsHubPage() {
          </div>
       </section>
 
+      {/* Prop Firm Mastery Course CTA */}
+      <section className="py-16 bg-slate-50 border-b border-border-slate/50">
+         <div className="max-w-7xl mx-auto px-6">
+            <div className="p-8 md:p-10 border border-accent/20 bg-white rounded-2xl relative overflow-hidden group shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-8">
+               <div className="absolute top-0 left-0 w-2 h-full bg-accent" />
+               <div className="space-y-3 max-w-2xl">
+                  <span className="text-[9px] font-mono uppercase tracking-widest text-text-tertiary block font-bold">// CURRICULUM ACCELERATOR</span>
+                  <h3 className="text-2xl font-sans font-bold uppercase text-slate-800">Master Prop Firm Challenges Properly</h3>
+                  <p className="text-sm text-slate-500 leading-relaxed">
+                     Don&apos;t gamble on evaluations. Learn Pete&apos;s step-by-step framework to pass 1-phase and 2-phase challenges, manage strict daily drawdowns, and scale your funded capital from £10k to £200k.
+                  </p>
+               </div>
+               <Link 
+                  href="/courses/prop-firm-mastery" 
+                  className="px-6 py-4 bg-mkt-ink hover:bg-neutral-800 text-white font-sans font-semibold text-xs uppercase tracking-widest transition-colors shrink-0 text-center flex items-center justify-center gap-2 group w-full md:w-auto"
+               >
+                  Explore Course <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+               </Link>
+            </div>
+         </div>
+      </section>
+
       {/* The Comparison Matrix */}
       <section id="comparison" className="py-24">
          <div className="max-w-7xl mx-auto px-6">

@@ -8,23 +8,34 @@ import { Menu, X } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { User } from "@supabase/supabase-js";
 import { useRegion } from "@/components/layout/RegionalLayout";
+import { checkIsAdmin } from "@/app/actions/auth-onboarding";
 
 export function Navigation() {
   const { region, flag } = useRegion();
   const pathname = usePathname();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [user, setUser] = useState<User | null>(null);
+  const [isAdmin, setIsAdmin] = useState(false);
   const supabase = createClient();
 
   useEffect(() => {
     const getUser = async () => {
       const { data } = await supabase.auth.getUser();
       setUser(data.user);
+      if (data.user?.email) {
+        const check = await checkIsAdmin(data.user.email);
+        setIsAdmin(check);
+      }
     };
     getUser();
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       setUser(session?.user ?? null);
+      if (session?.user?.email) {
+        checkIsAdmin(session.user.email).then(setIsAdmin);
+      } else {
+        setIsAdmin(false);
+      }
     });
 
     return () => subscription.unsubscribe();
@@ -104,7 +115,18 @@ export function Navigation() {
         </nav>
 
         {/* Desktop Action Buttons */}
-        <div className="hidden lg:flex items-center">
+        <div className="hidden lg:flex items-center gap-3">
+          {user && isAdmin && (
+            <Link
+              href="/admin"
+              className={cn(
+                "text-sm font-semibold transition-colors font-sans mr-2",
+                isDarkMarketPage ? "text-[#C8F135] hover:text-[#D8F155]" : "text-mkt-grn hover:text-mkt-i2"
+              )}
+            >
+              Control Panel
+            </Link>
+          )}
           {user ? (
             <Link
               href="/dashboard"
@@ -188,6 +210,15 @@ export function Navigation() {
             ))}
           </nav>
           <div className="mt-8 flex flex-col gap-4">
+            {user && isAdmin && (
+              <Link
+                href="/admin"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="text-center py-3 rounded-lg text-sm font-semibold border border-white/10 text-[#C8F135] min-h-[48px] flex items-center justify-center font-sans"
+              >
+                Control Panel
+              </Link>
+            )}
             {user ? (
               <Link
                 href="/dashboard"

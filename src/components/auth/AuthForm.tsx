@@ -5,6 +5,8 @@ import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
 import { Loader2, Mail, ArrowRight, Eye, EyeOff } from "lucide-react";
 
+import { handleSignupOnboarding } from "@/app/actions/auth-onboarding";
+
 interface AuthFormProps {
   mode: "login" | "signup" | "forgot-password";
 }
@@ -32,12 +34,24 @@ export function AuthForm({ mode }: AuthFormProps) {
       }
 
       if (mode === "signup") {
-        const { error } = await supabase.auth.signUp({
+        const { data, error } = await supabase.auth.signUp({
           email,
           password,
           options: { emailRedirectTo: `${window.location.origin}/auth/callback` },
         });
         if (error) throw error;
+
+        if (data?.user) {
+          try {
+            await handleSignupOnboarding({
+              email: data.user.email || email,
+              userId: data.user.id,
+            });
+          } catch (onboardingErr) {
+            console.error("Signup onboarding failed:", onboardingErr);
+          }
+        }
+
         setMessage("Check your email for the confirmation link.");
       } else if (mode === "forgot-password") {
         const { error } = await supabase.auth.resetPasswordForEmail(email, {

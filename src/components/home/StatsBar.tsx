@@ -57,8 +57,8 @@ function useCountUp(target: number, duration: number = 1500) {
 
 export function StatsBar() {
   const { region } = useRegion();
-  const phases = useCountUp(6);
-  const modules = useCountUp(60);
+  const phases = useCountUp(13);
+  const modules = useCountUp(117);
   const tools = useCountUp(5);
   const brokers = useCountUp(3);
 

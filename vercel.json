@@ -5,12 +5,12 @@
       "schedule": "*/30 * * * *"
     },
     {
-      "path": "/api/cron/daily-brief",
-      "schedule": "0 6 * * 1-5"
+      "path": "/api/cron/morning-brief",
+      "schedule": "0 7 * * 1-5"
     },
     {
-      "path": "/api/cron/daily-brief",
-      "schedule": "0 9 * * 6"
+      "path": "/api/cron/evening-wrap",
+      "schedule": "30 17 * * 1-5"
     },
     {
       "path": "/api/cron/discipline-report",

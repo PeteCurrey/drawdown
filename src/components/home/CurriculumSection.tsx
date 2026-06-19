@@ -150,7 +150,7 @@ export function CurriculumSection() {
 
         {/* 3x2 Card Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {phases.map((phase, idx) => {
+          {phases.slice(0, 6).map((phase, idx) => {
             const isFree = phase.tier === "Free";
             const theme = phaseThemeStyles[idx] || phaseThemeStyles[0];
             const isHovered = hoveredIdx === idx;
@@ -248,7 +248,7 @@ export function CurriculumSection() {
             href={`${regionPrefix}/courses`} 
             className="inline-flex items-center gap-2 text-xs font-sans font-bold uppercase tracking-widest text-mkt-ink hover:underline"
           >
-            Explore Full Curriculum <ChevronRight className="w-4 h-4" />
+            View all 13 phases <span className="font-mono">→</span>
           </Link>
         </div>
 

@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react";
 
-const quoteText = "Most trading education teaches you what to trade. Drawdown taught me how to think.";
+const quoteText = "I built Drawdown because I couldn't find a trading education platform I'd actually recommend to someone I cared about.";
 
 export function ScrollQuoteSection() {
   const containerRef = useRef<HTMLDivElement | null>(null);

@@ -78,6 +78,27 @@ const THEME_MAP: Record<string, PhaseTheme> = {
     borderClass: "border-cyan-200 text-cyan-700 bg-cyan-50",
     glowClass: "from-cyan-600/10 via-white to-white",
     buttonBgClass: "bg-cyan-600 hover:bg-cyan-700 text-white shadow-cyan-600/20"
+  },
+  "fundamental-edge": {
+    color: "text-amber-600",
+    colorHex: "#d97706",
+    borderClass: "border-amber-200 text-amber-700 bg-amber-50",
+    glowClass: "from-amber-600/10 via-white to-white",
+    buttonBgClass: "bg-amber-600 hover:bg-amber-700 text-white shadow-amber-600/20"
+  },
+  "derivatives-options": {
+    color: "text-violet-600",
+    colorHex: "#7c3aed",
+    borderClass: "border-violet-200 text-violet-700 bg-violet-50",
+    glowClass: "from-violet-600/10 via-white to-white",
+    buttonBgClass: "bg-violet-600 hover:bg-violet-700 text-white shadow-violet-600/20"
+  },
+  "portfolio-architect": {
+    color: "text-emerald-600",
+    colorHex: "#059669",
+    borderClass: "border-emerald-200 text-emerald-700 bg-emerald-50",
+    glowClass: "from-emerald-600/10 via-white to-white",
+    buttonBgClass: "bg-emerald-600 hover:bg-emerald-700 text-white shadow-emerald-600/20"
   }
 };
 
@@ -269,19 +290,20 @@ export default function CourseLandingPage({ params }: Props) {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {phase.modules_list.map((module, i) => (
-                    <div 
+                    <Link 
                       key={i} 
-                      className="p-5 border border-mkt-bd rounded-[14px] bg-[#F9F9F9] hover:bg-white hover:shadow-[0_8px_32px_rgba(0,0,0,0.04)] hover:border-mkt-bds transition-all duration-300"
+                      href={`/courses/${phase.slug}/module-${i + 1}`}
+                      className="p-5 border border-mkt-bd rounded-[14px] bg-[#F9F9F9] hover:bg-white hover:shadow-[0_8px_32px_rgba(0,0,0,0.04)] hover:border-mkt-bds transition-all duration-300 block group"
                     >
                       <div className="flex items-start gap-4">
                         <span className={cn("text-[10px] font-mono font-bold mt-1 shrink-0", theme.color)}>
                           {(i + 1).toString().padStart(2, '0')}
                         </span>
-                        <span className="text-xs font-sans font-bold uppercase tracking-tight text-mkt-ink leading-snug">
+                        <span className="text-xs font-sans font-bold uppercase tracking-tight text-mkt-ink leading-snug group-hover:text-accent transition-colors">
                           {module}
                         </span>
                       </div>
-                    </div>
+                    </Link>
                   ))}
                 </div>
               </div>

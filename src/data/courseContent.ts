@@ -352,5 +352,82 @@ export const courseContent: Record<string, Record<string, ModuleContent>> = {
         </p>
       `
     }
+  },
+  "fundamental-edge": {
+    "module-1": {
+      title: "Macroeconomics 101: Central Banks & Interest Rates",
+      duration: "25 min read / 15 min video",
+      playbackId: "FuM49N00B9bC2o01Q01q6M6Hh1m16V86S00kUSF02y01y7yA",
+      quizKey: "fundamental-edge/module-1",
+      notes: `
+        <h2>The Engine of Exchange Rates</h2>
+        <p>
+          Interest rates are the single most powerful driver of currency values in the global financial markets. Central banks—such as the Federal Reserve (Fed), the Bank of England (BoE), and the European Central Bank (ECB)—manipulate interest rates to control inflation and stabilize economic growth.
+        </p>
+        <div class="p-6 bg-accent/5 border-l-2 border-accent my-6">
+          <strong>Key Concept:</strong> Capital flows toward yield. When a central bank raises its benchmark interest rate, deposits denominated in that currency earn higher interest. Foreign investors buy that currency to capture the higher yield, driving demand and causing the currency to appreciate.
+        </div>
+        <h3>The Mandate of Central Banks</h3>
+        <p>
+          Central banks operate under a dual mandate: stable prices (controlling inflation, usually targeted at 2%) and maximum sustainable employment. Their policy tools include:
+        </p>
+        <ul>
+          <li><strong>Interest Rate Policy:</strong> Adjusting lending rates to expand or contract economic borrowing.</li>
+          <li><strong>Quantitative Easing/Tightening (QE/QT):</strong> Buying or selling government debt to inject or drain liquidity from the banking system.</li>
+          <li><strong>Forward Guidance:</strong> Using speeches and reports to prepare the market for future policy adjustments.</li>
+        </ul>
+      `
+    }
+  },
+  "derivatives-options": {
+    "module-1": {
+      title: "CFD Mechanics: Leverage, Margin & Financing Costs",
+      duration: "20 min read / 12 min video",
+      playbackId: "FuM49N00B9bC2o01Q01q6M6Hh1m16V86S00kUSF02y01y7yA",
+      quizKey: "derivatives-options/module-1",
+      notes: `
+        <h2>Understanding Derivative Leverage</h2>
+        <p>
+          Contracts for Difference (CFDs) are financial derivatives that allow traders to speculate on the price movement of asset classes without owning the underlying asset.
+        </p>
+        <div class="p-6 bg-accent/5 border-l-2 border-accent my-6">
+          <strong>Key Concept:</strong> Leverage multiplies both gains and losses. A 1:30 leverage ratio means that for every £1,000 of position size, you only need to put up £33.33 of margin. However, a small price movement of just 3.3% against you will wipe out your margin entirely.
+        </div>
+        <h3>CFD Overhead Costs</h3>
+        <p>
+          CFD trading carries structural costs that you must calculate into your trading setups:
+        </p>
+        <ul>
+          <li><strong>Spread:</strong> The difference between the buy (ask) and sell (bid) price quoted by your broker.</li>
+          <li><strong>Commissions:</strong> Fixed charges per lot (primarily on equity CFDs).</li>
+          <li><strong>Overnight Financing (Swap):</strong> The cost of borrowing funds to maintain a leveraged position overnight, determined by interbank interest rates.</li>
+        </ul>
+      `
+    }
+  },
+  "portfolio-architect": {
+    "module-1": {
+      title: "Investing vs. Saving: The Power of Compounding",
+      duration: "18 min read / 10 min video",
+      playbackId: "FuM49N00B9bC2o01Q01q6M6Hh1m16V86S00kUSF02y01y7yA",
+      quizKey: "portfolio-architect/module-1",
+      notes: `
+        <h2>The Wealth Accumulation Matrix</h2>
+        <p>
+          Saving preserves money, but investing grows it. In an inflationary environment, holding cash in a standard savings account is a guaranteed way to lose purchasing power.
+        </p>
+        <div class="p-6 bg-accent/5 border-l-2 border-accent my-6">
+          <strong>Key Concept:</strong> Compound interest is the eighth wonder of the world. Albert Einstein famously noted: "He who understands it, earns it... he who doesn't, pays it." Small, consistent investments compounding over decades grow exponentially.
+        </div>
+        <h3>The Rule of 72</h3>
+        <p>
+          To calculate how long it will take to double your investment capital at a given annual return rate, divide 72 by the interest rate:
+        </p>
+        <ul>
+          <li>At a 6% annual return, your capital doubles in <strong>12 years</strong> (72 / 6).</li>
+          <li>At a 10% annual return, your capital doubles in <strong>7.2 years</strong> (72 / 10).</li>
+        </ul>
+      `
+    }
   }
 };

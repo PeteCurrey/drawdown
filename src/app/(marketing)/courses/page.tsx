@@ -18,6 +18,9 @@ const phaseImages = [
   "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800&auto=format&fit=crop",
   "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=800&auto=format&fit=crop",
   "https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=800&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?q=80&w=800&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1618042164219-62c820f10723?q=80&w=800&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=800&auto=format&fit=crop",
 ];
 
 const tierStyles: Record<string, { accent: string; badge: string }> = {
@@ -59,7 +62,7 @@ export default function CoursesPage() {
             A Phase-Based<br />Learning Path.
           </h1>
           <p className="text-lg text-text-tertiary leading-relaxed font-sans max-w-2xl">
-            From complete beginner to professional-grade edge. 6 phases. 60+ modules.
+            From complete beginner to professional-grade edge. 9 phases. 75+ modules.
             Built for traders who want to learn properly. No shortcuts. Just the truth.
           </p>
         </header>
@@ -167,16 +170,23 @@ export default function CoursesPage() {
                       </div>
                       <ul className="space-y-2.5">
                         {phase.modules_list.slice(0, 5).map((mod, idx) => (
-                          <li key={idx} className="flex items-start gap-2.5 text-xs text-text-tertiary font-sans">
-                            <span className="text-[9px] font-mono text-text-tertiary mt-0.5 shrink-0">
-                              {(idx + 1).toString().padStart(2, "0")}
-                            </span>
-                            <span className="leading-relaxed">{mod}</span>
+                          <li key={idx}>
+                            <Link 
+                              href={`/courses/${phase.slug}/module-${idx + 1}`}
+                              className="flex items-start gap-2.5 text-xs text-text-tertiary hover:text-text-primary hover:underline font-sans transition-colors duration-150"
+                            >
+                              <span className="text-[9px] font-mono text-text-tertiary mt-0.5 shrink-0">
+                                {(idx + 1).toString().padStart(2, "0")}
+                              </span>
+                              <span className="leading-relaxed text-left">{mod}</span>
+                            </Link>
                           </li>
                         ))}
                         {phase.modules_list.length > 5 && (
                           <li className="text-[10px] font-sans text-text-tertiary pt-1">
-                            +{phase.modules_list.length - 5} more modules →
+                            <Link href={`/courses/${phase.slug}`} className="hover:text-text-primary hover:underline transition-colors">
+                              +{phase.modules_list.length - 5} more chapters →
+                            </Link>
                           </li>
                         )}
                       </ul>

@@ -1,4 +1,4 @@
-import { ShieldCheck, LineChart, Zap, Lock, BrainCircuit, Play, LucideIcon } from "lucide-react";
+import { ShieldCheck, LineChart, Zap, Lock, BrainCircuit, Play, Globe, Percent, Briefcase, LucideIcon } from "lucide-react";
 
 export interface CoursePhase {
   id: number;
@@ -155,6 +155,72 @@ export const phases: CoursePhase[] = [
       "Scaling for Prop Firms"
     ]
   },
+  {
+    id: 7,
+    slug: "fundamental-edge",
+    number: "07",
+    name: "Fundamental Edge",
+    subtitle: "Macroeconomics & Market Catalysts",
+    tier: "Edge",
+    duration: "6 Hours",
+    modules_count: 6,
+    icon: "Globe",
+    image: "/images/tools/ai-daily-briefing.png",
+    description: "Learn to trade high-impact news, macroeconomic indicators, and central bank policies without getting caught in the noise.",
+    full_description: "Technical analysis tells you where price might go, but fundamentals tell you why it moves. Phase 07 teaches you how to interpret high-impact events like interest rate decisions, CPI inflation data, and Non-Farm Payrolls (NFP). You'll develop a systematic process for trading around news releases and exploiting structural volatility.",
+    modules_list: [
+      "Macroeconomics 101: Central Banks & Interest Rates",
+      "High-Impact Indicators: CPI, GDP, and Employment Data",
+      "The Mechanics of News Cycles: Pricing-in vs. Deviations",
+      "Trading Volatile Markets: Managing Risk During Spikes",
+      "Sentiment Analysis: Commitments of Traders (COT) Report",
+      "Correlations: Bonds, Commodities, and FX Yields"
+    ]
+  },
+  {
+    id: 8,
+    slug: "derivatives-options",
+    number: "08",
+    name: "Derivatives & Options",
+    subtitle: "Leveraging CFDs, Options & Risk Profiles",
+    tier: "Edge",
+    duration: "7 Hours",
+    modules_count: 6,
+    icon: "Percent",
+    image: "/images/tools/risk-calculator.png",
+    description: "Master derivative contracts. Understand leverage, margin requirements, contract sizing, and hedging strategies using CFDs and options.",
+    full_description: "To execute professionally, you must understand the mathematics of your trading vehicles. Phase 08 covers the mechanics of CFD contracts, option Greeks, and margin limits. You will learn how to structure complex risk profiles, leverage capital safely, and hedge exposure across correlated markets.",
+    modules_list: [
+      "CFD Mechanics: Leverage, Margin & Financing Costs",
+      "CFDs vs. Spread Betting vs. Direct Share Ownership",
+      "Introduction to Options: Puts, Calls & Risk Profiles",
+      "Understanding Option Greeks: Delta, Theta, and Vega",
+      "Hedging Strategies: Protecting Capital in Adverse Conditions",
+      "Choosing the Right Product for Your Account Size"
+    ]
+  },
+  {
+    id: 9,
+    slug: "portfolio-architect",
+    number: "09",
+    name: "Portfolio Architect",
+    subtitle: "Long-Term Wealth & Allocation",
+    tier: "Floor",
+    duration: "8 Hours",
+    modules_count: 6,
+    icon: "Briefcase",
+    image: "/images/nav/phase-01.png",
+    description: "Move beyond short-term speculation. Learn to construct a diversified, institutional-grade investment portfolio for long-term wealth.",
+    full_description: "Speculative trading generates active income, but long-term wealth is built through passive allocation. Phase 09 transitions you from a short-term speculator to a portfolio architect. Learn how to allocate capital across equities, bonds, gold, and real estate, manage drawdown correlations, and rebalance assets systematically.",
+    modules_list: [
+      "Investing vs. Saving: The Power of Compounding",
+      "Asset Classes: Equities, Fixed Income, Commodities & Crypto",
+      "Modern Portfolio Theory & Diversification Basics",
+      "Constructing a Core-Satellite Portfolio",
+      "Systematic Rebalancing & Dividend Reinvestment",
+      "Tax-Efficient Investing: ISAs, SIPPs, and Capital Gains"
+    ]
+  }
 ];
 
 export const phaseIconMap: Record<string, LucideIcon> = {
@@ -163,5 +229,8 @@ export const phaseIconMap: Record<string, LucideIcon> = {
   Zap,
   Lock,
   BrainCircuit,
-  Play
+  Play,
+  Globe,
+  Percent,
+  Briefcase
 };

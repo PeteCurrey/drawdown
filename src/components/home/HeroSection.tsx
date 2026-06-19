@@ -6,8 +6,9 @@ import { CheckCircle2 } from "lucide-react";
 import { useRegion } from "@/components/layout/RegionalLayout";
 
 export function HeroSection() {
-  const { region, demonym } = useRegion();
+  const { region, demonym, regulatoryBody } = useRegion();
   const regionPrefix = region === "uk" ? "" : `/${region}`;
+  const regShort = regulatoryBody ? regulatoryBody.split(" ")[0] : "FCA";
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -41,7 +42,7 @@ export function HeroSection() {
       transformPerspective: 1400
     },
     visible: {
-      opacity: 1,
+      opacity: 0.42,
       y: 0,
       rotateX: 18,
       rotateY: 0,
@@ -53,6 +54,16 @@ export function HeroSection() {
         ease: "easeOut" as const,
       },
     },
+    hover: {
+      rotateX: 10,
+      rotateY: 0,
+      rotateZ: -10,
+      opacity: 0.48,
+      transition: {
+        duration: 0.6,
+        ease: "easeOut" as const,
+      },
+    }
   };
 
   const backgroundCandles = [
@@ -111,7 +122,23 @@ export function HeroSection() {
   const longMaPathD = `M ${longMaPathPoints.join(" L ")}`;
 
   return (
-    <section className="relative w-full min-h-screen flex flex-col justify-center overflow-hidden bg-white pt-24 pb-36 md:pt-32 md:pb-52 border-b border-mkt-bd z-20">
+    <motion.section 
+      className="relative w-full min-h-screen flex flex-col justify-center overflow-hidden bg-white pt-24 pb-36 md:pt-32 md:pb-52 border-b border-mkt-bd z-20"
+      whileHover="hover"
+    >
+      {/* Centered Tilted Background Preview Image */}
+      <motion.div
+        className="absolute inset-0 select-none pointer-events-none z-0 transform-gpu bg-center bg-no-repeat bg-cover md:bg-contain"
+        variants={dashboardVariants}
+        initial="hidden"
+        animate="visible"
+        style={{
+          backgroundImage: "url('/images/dashboard-preview.png')",
+          WebkitMaskImage: "radial-gradient(circle at center, black 15%, rgba(0, 0, 0, 0.4) 55%, transparent 90%)",
+          maskImage: "radial-gradient(circle at center, black 15%, rgba(0, 0, 0, 0.4) 55%, transparent 90%)",
+        }}
+      />
+
       {/* Background candle chart pattern */}
       <div className="absolute inset-0 z-0 opacity-[0.035] pointer-events-none select-none flex items-center justify-center overflow-hidden">
         <svg className="w-full h-[70%] min-h-[350px]" viewBox="0 0 1200 300" fill="none" preserveAspectRatio="none">
@@ -232,7 +259,7 @@ export function HeroSection() {
               <CheckCircle2 className="w-4 h-4 text-mkt-grn" /> Phase 1 Free Forever
             </div>
             <div className="flex items-center gap-2">
-              <CheckCircle2 className="w-4 h-4 text-mkt-grn" /> FCA-Registered Brokers Only
+              <CheckCircle2 className="w-4 h-4 text-mkt-grn" /> {regShort}-Registered Brokers Only
             </div>
             <div className="flex items-center gap-2">
               <CheckCircle2 className="w-4 h-4 text-mkt-grn" /> No Affiliate Hidden Rankings
@@ -240,64 +267,7 @@ export function HeroSection() {
           </motion.div>
         </motion.div>
 
-        {/* Centered Tilted Mockup Container */}
-        <div
-          className="w-full md:absolute md:-right-24 lg:-right-12 md:top-1/2 md:-translate-y-[45%] md:w-[62%] lg:w-[58%] xl:w-[55%] flex justify-center items-center select-none mt-16 md:mt-0 relative hero-3d-card-container z-0 pointer-events-none"
-          style={{
-            WebkitMaskImage: "linear-gradient(to bottom, black 0%, black 65%, transparent 100%)",
-            maskImage: "linear-gradient(to bottom, black 0%, black 65%, transparent 100%)",
-          }}
-        >
-          <motion.div
-            className="w-full relative max-w-5xl transform-gpu"
-            variants={dashboardVariants}
-            initial="hidden"
-            animate="visible"
-            whileHover={{ 
-              rotateX: 10, 
-              rotateY: 0, 
-              rotateZ: -10,
-              transition: { duration: 0.6, ease: "easeOut" }
-            }}
-            style={{
-              filter: "drop-shadow(0 30px 60px rgba(0, 0, 0, 0.15))"
-            }}
-          >
-            {/* Browser window mock */}
-            <div className="relative w-full bg-[#FAF9FB] border border-[#E2E2E2] rounded-xl overflow-hidden shadow-2xl flex flex-col">
-              {/* Topbar */}
-              <div className="flex justify-between items-center px-4 py-3 bg-white border-b border-[#EBEBEB]">
-                {/* Traffic Lights */}
-                <div className="flex gap-1.5">
-                  <span className="w-2.5 h-2.5 rounded-full bg-[#FF5F56]" />
-                  <span className="w-2.5 h-2.5 rounded-full bg-[#FFBD2E]" />
-                  <span className="w-2.5 h-2.5 rounded-full bg-[#27C93F]" />
-                </div>
-                {/* URL Bar */}
-                <div className="hidden sm:block text-[9px] font-mono text-neutral-400 bg-neutral-50 px-8 py-1 rounded border border-neutral-100 uppercase tracking-widest">
-                  app.drawdown.trading
-                </div>
-                {/* LIVE badge */}
-                <div className="flex items-center gap-1.5">
-                  <span className="w-1.5 h-1.5 rounded-full bg-mkt-grn animate-pulse" />
-                  <span className="text-[10px] font-bold text-mkt-grn bg-green-50 border border-green-200 px-2 py-0.5 rounded uppercase tracking-wider font-mono">
-                    LIVE
-                  </span>
-                </div>
-              </div>
-              
-              {/* Screenshot image */}
-              <div className="relative w-full aspect-[16/10] overflow-hidden">
-                <img 
-                  src="/images/dashboard-preview.png" 
-                  alt="Drawdown Client Dashboard Preview" 
-                  className="w-full h-full object-cover object-top"
-                />
-              </div>
-            </div>
-          </motion.div>
-        </div>
       </div>
-    </section>
+    </motion.section>
   );
 }

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { CheckCircle2, ChevronDown, ArrowRight, Brain, Calculator, Scan, LineChart, Newspaper, MessageSquare, Video, ShieldCheck, Activity } from "lucide-react";
+import { CheckCircle2, ChevronDown, ArrowRight, Brain, Calculator, Scan, LineChart, Newspaper, MessageSquare, Video, ShieldCheck, Activity, Terminal } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { StructuredData } from "@/components/StructuredData";
@@ -143,7 +143,7 @@ export default function PlatformPage() {
                   </div>
                   <h3 className="text-2xl font-bold mb-4">AI-Powered Trading Tools</h3>
                   <p className="text-text-secondary leading-relaxed mb-8">
-                    Five purpose-built AI tools that do real work. The Trade Journal detects emotional patterns in your trading history. The Risk Calculator sizes positions precisely. The Market Scanner identifies confluence across 40+ instruments. The Backtester tests your edge against 3 years of historical data. These aren't generic AI wrappers — they're built specifically for traders.
+                    Six purpose-built AI tools that do real work. The Trade Journal detects emotional patterns in your trading history. The Risk Calculator sizes positions precisely. The Market Scanner identifies confluence across 40+ instruments. The Backtester tests your edge against 3 years of historical data. These aren't generic AI wrappers — they're built specifically for traders.
                   </p>
                   <Link href="/tools" className="inline-flex items-center gap-2 text-sm font-bold text-purple-600 hover:text-purple-700 transition-colors">
                     See the tools <ArrowRight className="w-4 h-4" />
@@ -255,6 +255,15 @@ export default function PlatformPage() {
                   icon: <Newspaper className="w-8 h-8 text-rose-400" />,
                   desc: "Assembled from aggregated institutional data, economic calendar events, and overnight price action. Delivered to your inbox at 7:00am GMT before the London session opens, and at 4:30pm GMT as the London session closes and the US session takes over. Subscribers get this regardless of paid tier — it's part of what makes Drawdown worth bookmarking.",
                   feature: "Morning and afternoon sessions, 7 days per week"
+                },
+                {
+                  name: "Algo Strategy Builder",
+                  slug: "algo-strategy-builder",
+                  badge: "FLOOR",
+                  badgeColor: "bg-accent/20 text-accent",
+                  icon: <Terminal className="w-8 h-8 text-violet-400" />,
+                  desc: "Convert discretionary trading logic into institutional-grade Pine Script v5 or Python Backtrader scripts in seconds. Our code-generator features look-ahead bias checks, built-in dynamic risk modules, and direct execution API hooks. Zero coding experience required.",
+                  feature: "Pine Script v5 & Python Backtrader code export"
                 }
               ].map((tool, idx) => (
                 <div key={idx} className="flex flex-col md:flex-row gap-8 p-8 md:p-10 border border-neutral-800 rounded-[20px] bg-neutral-900/50 hover:bg-neutral-900 transition-colors">

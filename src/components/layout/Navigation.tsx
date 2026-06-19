@@ -10,7 +10,7 @@ import { User } from "@supabase/supabase-js";
 import { useRegion } from "@/components/layout/RegionalLayout";
 
 export function Navigation() {
-  const { region } = useRegion();
+  const { region, flag } = useRegion();
   const pathname = usePathname();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [user, setUser] = useState<User | null>(null);
@@ -61,17 +61,29 @@ export function Navigation() {
       )}
     >
       <div className="w-full max-w-7xl mx-auto px-6 flex justify-between items-center">
-        {/* Logo */}
-        <Link
-          href={region === 'uk' ? "/" : `/${region}`}
-          className={cn(
-            "text-2xl font-sans font-extrabold tracking-[-0.04em] hover:opacity-85 transition-opacity",
-            isDarkMarketPage ? "text-white" : "text-mkt-ink"
-          )}
-          style={{ fontWeight: 800 }}
-        >
-          Drawdown<span className="text-mkt-grn">.</span>
-        </Link>
+        {/* Logo + Flag Pill */}
+        <div className="flex items-center gap-3">
+          <Link
+            href={region === 'uk' ? "/" : `/${region}`}
+            className={cn(
+              "text-2xl font-sans font-extrabold tracking-[-0.04em] hover:opacity-85 transition-opacity",
+              isDarkMarketPage ? "text-white" : "text-mkt-ink"
+            )}
+            style={{ fontWeight: 800 }}
+          >
+            Drawdown<span className="text-mkt-grn">.</span>
+          </Link>
+          
+          <div className={cn(
+            "flex items-center gap-1.5 px-2 py-0.5 rounded border text-[9px] font-mono uppercase tracking-widest font-semibold shrink-0 select-none",
+            isDarkMarketPage 
+              ? "bg-white/5 border-white/10 text-neutral-300"
+              : "bg-neutral-50 border-mkt-bd text-mkt-i3"
+          )}>
+            <span className={cn("fi", `fi-${flag}`, "w-3 h-2.5 rounded-[1px]")} />
+            <span>{region}</span>
+          </div>
+        </div>
 
         {/* Desktop Navigation Links */}
         <nav className="hidden lg:flex items-center gap-8">

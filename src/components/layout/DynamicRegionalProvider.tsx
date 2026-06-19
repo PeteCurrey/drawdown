@@ -12,7 +12,7 @@ export function DynamicRegionalProvider({ children }: { children: React.ReactNod
   
   if (segments.length > 0) {
     const possibleRegion = segments[0] as Region;
-    if (Object.keys(REGIONS).includes(possibleRegion)) {
+    if (REGIONS.includes(possibleRegion)) {
       region = possibleRegion;
     }
   }

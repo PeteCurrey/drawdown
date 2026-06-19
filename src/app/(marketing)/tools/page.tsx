@@ -9,7 +9,8 @@ import {
   Cpu, 
   ArrowRight,
   ShieldCheck,
-  Zap
+  Zap,
+  Terminal
 } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
@@ -73,7 +74,7 @@ const toolCategories = [
     slug: "algo-strategy-builder",
     title: "Algo Strategy Builder",
     description: "Describe your strategy. Get the code. AI-powered conversion of rules to Pine Script or Python.",
-    icon: Cpu,
+    icon: Terminal,
     features: ["Natural Language Input", "Pine Script v5", "Python Backtrader"],
     tier: "Floor",
     color: "premium"

@@ -2,12 +2,12 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { BookOpen, Calculator, Scan, LineChart, Newspaper, Cpu } from "lucide-react";
+import { BookOpen, Calculator, Scan, LineChart, Newspaper, Cpu, Terminal } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 
 const stats = [
-  { value: "5", label: "Custom AI Tools" },
+  { value: "6", label: "Custom AI Tools" },
   { value: "60s", label: "Real-time Refresh" },
   { value: "24/7", label: "Active Monitoring" },
   { value: "0", label: "Generic AI Prompts" }
@@ -118,6 +118,25 @@ const tools = [
         <line x1="28" y1="45" x2="45" y2="45" />
         <line x1="28" y1="55" x2="45" y2="55" />
         <rect x="52" y="42" width="20" height="25" />
+      </svg>
+    )
+  },
+  {
+    icon: Terminal,
+    name: "Algo Strategy Builder",
+    slug: "algo-strategy-builder",
+    description: "Convert your trading rules into Pine Script or Python scripts automatically. Code and validate your edge without coding.",
+    isFree: false,
+    baseBg: "rgba(124, 58, 237, 0.015)",
+    hoverBg: "rgba(124, 58, 237, 0.045)",
+    borderColor: "rgba(124, 58, 237, 0.25)",
+    iconColor: "rgb(124, 58, 237)",
+    iconBg: "rgba(124, 58, 237, 0.08)",
+    svgPath: (
+      <svg className="absolute bottom-[-10px] right-[-10px] w-24 h-24 text-violet-500 transition-opacity duration-500 pointer-events-none" viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="0.5">
+        <rect x="20" y="25" width="60" height="50" rx="4" />
+        <path d="M30,45 L40,50 L30,55" />
+        <line x1="45" y1="60" x2="55" y2="60" />
       </svg>
     )
   }

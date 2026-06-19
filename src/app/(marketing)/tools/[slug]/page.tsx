@@ -73,6 +73,15 @@ const THEME_MAP: Record<string, ToolTheme> = {
     badgeBgClass: "bg-amber-500/5",
     buttonBgClass: "bg-amber-600 hover:bg-amber-700 text-white shadow-amber-600/20",
     shadowColor: "shadow-amber-500/10"
+  },
+  "algo-strategy-builder": {
+    accentColor: "text-violet-600",
+    accentColorHex: "#7c3aed",
+    baseGlowClass: "from-violet-600/10 via-white to-white",
+    badgeBorderClass: "border-violet-200 text-violet-700 bg-violet-50",
+    badgeBgClass: "bg-violet-500/5",
+    buttonBgClass: "bg-violet-600 hover:bg-violet-700 text-white shadow-violet-600/20",
+    shadowColor: "shadow-violet-500/10"
   }
 };
 

@@ -73,26 +73,28 @@
   --foreground: #E4E2DD;
 }
 
-* {
-  border-color: var(--color-border-slate);
-}
+@layer base {
+  * {
+    border-color: var(--color-border-slate);
+  }
 
-body {
-  background-color: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-sans);
-  overflow-x: hidden;
-}
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+    overflow-x: hidden;
+  }
 
-h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-display);
-  letter-spacing: -0.02em;
-  overflow-wrap: break-word;
-}
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
+    overflow-wrap: break-word;
+  }
 
-h1 { font-size: clamp(2.5rem, 8vw, 4.5rem); }
-h2 { font-size: clamp(2rem, 6vw, 3.5rem); }
-h3 { font-size: clamp(1.5rem, 5vw, 2.5rem); }
+  h1 { font-size: clamp(2.5rem, 8vw, 4.5rem); }
+  h2 { font-size: clamp(2rem, 6vw, 3.5rem); }
+  h3 { font-size: clamp(1.5rem, 5vw, 2.5rem); }
+}
 
 
 /* Noise Overlay */

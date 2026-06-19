@@ -6,12 +6,14 @@ interface TradingViewMiniChartProps {
   symbol: string;
   largeChartUrl: string;
   className?: string;
+  height?: number;
 }
 
 export function TradingViewMiniChart({ 
   symbol, 
   largeChartUrl, 
-  className = "w-full h-[200px]" 
+  className = "w-full",
+  height = 200
 }: TradingViewMiniChartProps) {
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -22,7 +24,8 @@ export function TradingViewMiniChart({
     containerDiv.innerHTML = "";
 
     const widgetDiv = document.createElement("div");
-    widgetDiv.className = "tradingview-widget-container__widget w-full h-[200px]";
+    widgetDiv.className = "tradingview-widget-container__widget w-full";
+    widgetDiv.style.height = `${height}px`;
     containerDiv.appendChild(widgetDiv);
 
     const script = document.createElement("script");
@@ -31,7 +34,7 @@ export function TradingViewMiniChart({
     script.innerHTML = JSON.stringify({
       "symbol": symbol,
       "width": "100%",
-      "height": 200,
+      "height": height,
       "locale": "en",
       "dateRange": "1D",
       "colorTheme": "dark",
@@ -47,12 +50,13 @@ export function TradingViewMiniChart({
         containerDiv.innerHTML = "";
       }
     };
-  }, [symbol, largeChartUrl]);
+  }, [symbol, largeChartUrl, height]);
 
   return (
     <div 
       className={`tradingview-widget-container ${className}`} 
       ref={containerRef}
+      style={{ height: `${height}px` }}
     />
   );
 }

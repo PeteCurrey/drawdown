@@ -24,7 +24,7 @@ export function TradingViewTickerTape() {
         "proName": inst.ticker,
         "title": inst.displayPair
       })),
-      "showSymbolLogo": true,
+      "showSymbolLogo": false,
       "colorTheme": "dark",
       "isTransparent": true,
       "displayMode": "adaptive",

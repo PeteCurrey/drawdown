@@ -1,48 +1,14 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { cn } from "@/lib/utils";
-import { Sparkline } from "./Sparkline";
-
-interface MarketItem {
-  symbol: string;
-  name: string;
-  price: string;
-  change: string;
-  changePercent: string;
-  sparkline?: number[];
-  high?: string;
-  low?: string;
-}
+import { MARKETS_CONFIG } from "@/lib/markets-config";
 
 export function DashboardStatusBar() {
-  const [data, setData] = useState<MarketItem[]>([]);
   const [session, setSession] = useState<{ name: string; open: boolean }>({ name: "London", open: true });
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await fetch("/api/market/prices");
-        const json = await res.json();
-        if (Array.isArray(json)) {
-          // Add random sparkline data and high/low for UI demo
-          const augmented = json.map(item => {
-            const p = parseFloat(item.price);
-            const variation = p * 0.005;
-            return {
-              ...item,
-              sparkline: Array.from({ length: 15 }, () => p + (Math.random() - 0.5) * variation),
-              high: (p * 1.002).toFixed(item.symbol.includes("/") ? 4 : 2),
-              low: (p * 0.998).toFixed(item.symbol.includes("/") ? 4 : 2),
-            };
-          });
-          setData(augmented);
-        }
-      } catch (err) {
-        console.error("Dashboard status fetch error:", err);
-      }
-    };
-
     const updateSession = () => {
       const gmtHour = new Date().getUTCHours();
       // London: 08:00 - 16:00
@@ -55,18 +21,49 @@ export function DashboardStatusBar() {
       else setSession({ name: "Market Closed", open: false });
     };
 
-    fetchData();
     updateSession();
-    const interval = setInterval(fetchData, 30000);
-    return () => clearInterval(interval);
+    const interval = setInterval(updateSession, 60000);
+
+    const containerDiv = containerRef.current;
+    if (containerDiv) {
+      containerDiv.innerHTML = "";
+
+      const widgetDiv = document.createElement("div");
+      widgetDiv.className = "tradingview-widget-container__widget w-full h-full";
+      containerDiv.appendChild(widgetDiv);
+
+      const script = document.createElement("script");
+      script.src = "https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js";
+      script.async = true;
+      script.innerHTML = JSON.stringify({
+        "symbols": MARKETS_CONFIG.map(inst => ({
+          "proName": inst.ticker,
+          "title": inst.displayPair
+        })),
+        "showSymbolLogo": false,
+        "colorTheme": "light",
+        "isTransparent": true,
+        "displayMode": "adaptive",
+        "locale": "en"
+      });
+
+      containerDiv.appendChild(script);
+    }
+
+    return () => {
+      clearInterval(interval);
+      if (containerDiv) {
+        containerDiv.innerHTML = "";
+      }
+    };
   }, []);
 
   return (
-    <div className="flex items-center gap-6 px-4 py-3 bg-background-surface/30 backdrop-blur-md border-b border-border-slate/50 overflow-x-auto scrollbar-hide theme-transition relative z-10">
+    <div className="flex items-center w-full px-4 border-b border-border-slate/50 bg-background-surface/30 backdrop-blur-md relative z-10 h-12 overflow-hidden">
       {/* Session Indicator */}
-      <div className="flex items-center gap-3 shrink-0 pr-6 border-r border-border-slate/50">
+      <div className="flex items-center gap-3 shrink-0 pr-6 border-r border-border-slate/50 h-full">
         <div className={cn(
-          "w-2 h-2 rounded-full shadow-[0_0_8px_rgba(0,0,0,0.5)]",
+          "w-2 h-2 rounded-full shadow-[0_0_8px_rgba(0,0,0,0.2)]",
           session.open ? "bg-profit animate-pulse" : "bg-text-tertiary"
         )} />
         <span className="text-[10px] font-mono uppercase tracking-widest text-text-primary whitespace-nowrap">
@@ -74,48 +71,8 @@ export function DashboardStatusBar() {
         </span>
       </div>
 
-      {/* Instruments */}
-      <div className="flex items-center gap-10">
-        {data.map((item) => (
-          <div key={item.symbol} className="flex items-center gap-4 shrink-0">
-            <div className="flex flex-col gap-1">
-              <div className="flex items-center gap-2">
-                <span className="text-[9px] font-mono uppercase text-text-tertiary">{item.name}</span>
-                <span className={cn(
-                  "text-[9px] font-mono font-bold",
-                  parseFloat(item.changePercent) >= 0 ? "text-mkt-grn" : "text-red-500"
-                )}>
-                  {parseFloat(item.changePercent) >= 0 ? "▲" : "▼"}
-                  {Math.abs(parseFloat(item.changePercent))}%
-                </span>
-              </div>
-              <span className="text-xs font-mono font-bold text-text-primary leading-none">
-                {item.price}
-              </span>
-            </div>
-
-            {/* Range Bar */}
-            <div className="flex flex-col gap-1 w-20">
-               <div className="flex justify-between items-center text-[7px] font-mono text-text-tertiary uppercase">
-                 <span>L: {item.low}</span>
-                 <span>H: {item.high}</span>
-               </div>
-               <div className="h-0.5 w-full bg-background-elevated relative overflow-hidden">
-                 <div className="absolute top-0 bottom-0 left-[20%] right-[30%] bg-text-secondary" />
-               </div>
-            </div>
-
-            {item.sparkline && (
-              <Sparkline 
-                data={item.sparkline} 
-                color={parseFloat(item.changePercent) >= 0 ? "#00E676" : "#FF3D57"} 
-                width={50}
-                height={16}
-              />
-            )}
-          </div>
-        ))}
-      </div>
+      {/* TradingView Ticker Tape */}
+      <div className="flex-grow h-full min-w-0" ref={containerRef} />
     </div>
   );
 }

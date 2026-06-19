@@ -9,21 +9,15 @@ import { TrackPageView } from "@/components/admin/TrackPageView";
 import { StructuredData } from "@/components/StructuredData";
 import { createInternalSupabase } from "@/lib/supabase/server";
 
+export const dynamicParams = true;
+export const revalidate = 86400; // 24 hours - content doesn't change often
+
 interface Props {
   params: Promise<{ topic: string; city: string }>;
 }
 
 export async function generateStaticParams() {
-  const params: { topic: string; city: string }[] = [];
-  
-  US_TOPICS.forEach((topicSlug) => {
-    params.push({
-      topic: topicSlug,
-      city: "new-york",
-    });
-  });
-
-  return params;
+  return [];
 }
 
 async function getUSCityData(topicSlug: string, citySlug: string) {

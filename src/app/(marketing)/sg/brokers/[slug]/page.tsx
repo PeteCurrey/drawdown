@@ -3,14 +3,15 @@ import { notFound } from "next/navigation";
 import { SG_BROKERS } from "@/data/seo/sg-data";
 import { BrokerReviewTemplate } from "@/components/seo/BrokerReviewTemplate";
 
+export const dynamicParams = true;
+export const revalidate = 3600; // hourly cache revalidation
+
 interface Props {
   params: Promise<{ slug: string }>;
 }
 
 export async function generateStaticParams() {
-  return SG_BROKERS.map((broker) => ({
-    slug: broker.slug,
-  }));
+  return [];
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {

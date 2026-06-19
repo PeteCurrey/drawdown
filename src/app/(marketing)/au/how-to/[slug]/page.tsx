@@ -3,14 +3,15 @@ import { notFound } from "next/navigation";
 import { HOW_TO_PAGES_AU } from "@/data/seo/how-to-au";
 import { HowToTemplate } from "@/components/seo/HowToTemplate";
 
+export const dynamicParams = true;
+export const revalidate = 3600; // hourly cache revalidation
+
 interface Props {
   params: Promise<{ slug: string }>;
 }
 
 export async function generateStaticParams() {
-  return HOW_TO_PAGES_AU.map((page) => ({
-    slug: page.slug,
-  }));
+  return [];
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {

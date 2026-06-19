@@ -1,6 +1,10 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowRight } from "lucide-react";
+
+export const dynamicParams = true;
+export const revalidate = 3600; // hourly cache revalidation
+
 import { 
   CATEGORY_META, 
   getCategoryInstruments, 

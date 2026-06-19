@@ -5,6 +5,9 @@ import { BrokerReviewTemplate } from "@/components/brokers/BrokerReviewTemplate"
 import { TrackPageView } from "@/components/admin/TrackPageView";
 import { Metadata } from "next";
 
+export const dynamicParams = true;
+export const revalidate = 3600; // hourly cache revalidation
+
 const BROKER_MAP: Record<string, string> = {
   "ig-markets-review": "ig",
   "pepperstone-review": "pepperstone",
@@ -12,18 +15,7 @@ const BROKER_MAP: Record<string, string> = {
 };
 
 export function generateStaticParams() {
-  const params: { broker: string }[] = [];
-  brokers.forEach((broker) => {
-    params.push({ broker: broker.slug });
-    if (broker.id === "ig") {
-      params.push({ broker: "ig-markets-review" });
-    } else if (broker.id === "pepperstone") {
-      params.push({ broker: "pepperstone-review" });
-    } else if (broker.id === "ic-markets") {
-      params.push({ broker: "ic-markets-review" });
-    }
-  });
-  return params;
+  return [];
 }
 
 interface Props {

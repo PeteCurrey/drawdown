@@ -16,14 +16,15 @@ import { TrackPageView } from "@/components/admin/TrackPageView";
 import { LeadMagnet } from "@/components/seo/LeadMagnet";
 import { tradingTools } from "@/data/trading-tools";
 
+export const dynamicParams = true;
+export const revalidate = 3600; // hourly cache revalidation
+
 interface Props {
   params: Promise<{ slug: string }>;
 }
 
 export async function generateStaticParams() {
-  return tradingTools.map((tool) => ({
-    slug: tool.slug,
-  }));
+  return [];
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {

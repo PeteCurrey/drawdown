@@ -1,21 +1,19 @@
 import { notFound } from "next/navigation";
-
-export const dynamic = "force-static";
-export const dynamicParams = true;
 import { HOW_TO_PAGES } from "@/data/seo/howto";
 import { Metadata } from "next";
 import Link from "next/link";
 import { ChevronRight, Clock, AlertTriangle, CheckCircle2, ArrowRight } from "lucide-react";
 import { TrackPageView } from "@/components/admin/TrackPageView";
 
+export const dynamicParams = true;
+export const revalidate = 3600; // hourly cache revalidation
+
 interface Props {
   params: Promise<{ slug: string }>;
 }
 
 export async function generateStaticParams() {
-  return HOW_TO_PAGES.map((page) => ({
-    slug: page.slug,
-  }));
+  return [];
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {

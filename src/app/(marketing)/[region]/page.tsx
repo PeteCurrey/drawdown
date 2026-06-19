@@ -21,15 +21,15 @@ import { notFound } from "next/navigation";
 import { Metadata } from "next";
 import { getMetadata } from "@/lib/metadata";
 
+export const dynamicParams = true;
+export const revalidate = 3600; // hourly cache revalidation
+
 interface Props {
   params: Promise<{ region: string }>;
 }
 
 export async function generateStaticParams() {
-  // Only handle Phase 2 regions here to avoid conflict with existing folders
-  return ["ca", "de", "ae", "in", "my", "ph"].map((region) => ({
-    region,
-  }));
+  return [];
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {

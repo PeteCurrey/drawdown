@@ -4,14 +4,15 @@ import { PROP_FIRM_REVIEWS } from "@/data/seo/prop-firms";
 import { PropFirmReviewTemplate } from "@/components/prop-firms/PropFirmReviewTemplate";
 import { TrackPageView } from "@/components/admin/TrackPageView";
 
+export const dynamicParams = true;
+export const revalidate = 3600; // hourly cache revalidation
+
 interface Props {
   params: Promise<{ slug: string }>;
 }
 
 export async function generateStaticParams() {
-  return PROP_FIRM_REVIEWS.map((review) => ({
-    slug: review.slug,
-  }));
+  return [];
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {

@@ -6,14 +6,15 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import Breadcrumbs from "@/components/layout/Breadcrumbs";
 
+export const dynamicParams = true;
+export const revalidate = 3600; // hourly cache revalidation
+
 interface Props {
   params: Promise<{ slug: string }>;
 }
 
 export async function generateStaticParams() {
-  return TRADINGVIEW_GUIDES.map((guide) => ({
-    slug: guide.slug,
-  }));
+  return [];
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {

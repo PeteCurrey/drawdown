@@ -6,14 +6,15 @@ import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { Calendar, Tag, ChevronLeft, ArrowRight } from "lucide-react";
 import Link from "next/link";
 
+export const dynamicParams = true;
+export const revalidate = 3600; // hourly cache revalidation
+
 interface Props {
   params: Promise<{ slug: string }>;
 }
 
 export async function generateStaticParams() {
-  return expertAnalysis.map((post) => ({
-    slug: post.slug,
-  }));
+  return [];
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {

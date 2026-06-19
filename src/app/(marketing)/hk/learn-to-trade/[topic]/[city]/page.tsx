@@ -5,16 +5,15 @@ import { getMetadata } from "@/lib/metadata";
 import { RegionalLocationPage } from "@/components/seo/RegionalLocationPage";
 import { createInternalSupabase } from "@/lib/supabase/server";
 
+export const dynamicParams = true;
+export const revalidate = 86400; // 24 hours - content doesn't change often
+
 interface Props {
   params: Promise<{ topic: string; city: string }>;
 }
 
 export async function generateStaticParams() {
-  const params = [];
-  for (const topic of HK_TOPICS) {
-    params.push({ topic, city: "hong-kong" });
-  }
-  return params;
+  return [];
 }
 
 async function getHKCityData(topicSlug: string, citySlug: string) {

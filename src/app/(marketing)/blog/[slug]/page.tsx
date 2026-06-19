@@ -9,13 +9,16 @@ import Link from "next/link";
 import { Clock, Calendar, ChevronLeft, Share2, ArrowRight } from "lucide-react";
 import { TrackPageView } from "@/components/admin/TrackPageView";
 
+export const dynamicParams = true;
+export const revalidate = 3600; // hourly cache revalidation
+
 interface Props {
   params: Promise<{ slug: string }>;
 }
 
 export async function generateStaticParams() {
   const posts = getAllPosts();
-  return posts.map((post) => ({
+  return posts.slice(0, 10).map((post) => ({
     slug: post.slug,
   }));
 }

@@ -9,6 +9,10 @@ import Link from "next/link";
 import { ArrowUpRight, AlertTriangle, MapPin, Clock, TrendingUp, Shield } from "lucide-react";
 import { TrackPageView } from "@/components/admin/TrackPageView";
 import { createInternalSupabase } from "@/lib/supabase/server";
+
+export const dynamicParams = true;
+export const revalidate = 3600; // hourly cache revalidation
+
 import {
   StatCallout,
   TradeExample,
@@ -24,28 +28,7 @@ interface Props {
 }
 
 export async function generateStaticParams() {
-  try {
-    const supabase = createInternalSupabase();
-    const { data, error } = await supabase
-      .from("seo_pages")
-      .select("slug")
-      .eq("page_type", "learn_to_trade");
-    
-    if (error) throw error;
-    
-    if (data && data.length > 0) {
-      return data.map((page) => ({
-        topic: page.slug,
-      }));
-    }
-  } catch (err) {
-    console.error("Error in topic generateStaticParams:", err);
-  }
-
-  // Fallback to static local list
-  return LEARN_TOPICS.map((topic) => ({
-    topic: topic.slug,
-  }));
+  return [];
 }
 
 async function getTopicData(topicSlug: string) {

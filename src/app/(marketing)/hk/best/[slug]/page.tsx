@@ -3,14 +3,15 @@ import { notFound } from "next/navigation";
 import { BEST_OF_PAGES_HK } from "@/data/seo/best-hk";
 import { BestOfTemplate } from "@/components/seo/BestOfTemplate";
 
+export const dynamicParams = true;
+export const revalidate = 3600; // hourly cache revalidation
+
 interface Props {
   params: Promise<{ slug: string }>;
 }
 
 export async function generateStaticParams() {
-  return BEST_OF_PAGES_HK.map((page) => ({
-    slug: page.slug,
-  }));
+  return [];
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {

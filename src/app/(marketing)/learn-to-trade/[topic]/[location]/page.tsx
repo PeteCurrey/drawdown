@@ -1,49 +1,33 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { LEARN_TOPICS } from "@/lib/data/learn-to-trade";
-import { UK_LOCATIONS } from "@/lib/data/locations";
 import { ArrowRight, BookOpen, ChevronRight, GraduationCap, MapPin, ShieldCheck, Zap, AlertTriangle } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { TrackPageView } from "@/components/admin/TrackPageView";
 import { StructuredData } from "@/components/StructuredData";
 import { createInternalSupabase } from "@/lib/supabase/server";
+import { LEARN_TOPICS } from "@/lib/data/learn-to-trade";
+import { UK_LOCATIONS } from "@/lib/data/locations";
+
+export const dynamicParams = true;
+export const revalidate = 86400; // 24 hours - content doesn't change often
 
 interface Props {
   params: Promise<{ topic: string; location: string }>;
 }
 
 export async function generateStaticParams() {
-  const params: { topic: string; location: string }[] = [];
-  
-  try {
-    const supabase = createInternalSupabase();
-    const { data: topics } = await supabase
-      .from("seo_pages")
-      .select("slug")
-      .eq("page_type", "learn_to_trade");
-
-    const dbTopicSlugs = topics?.map((t) => t.slug) || [];
-    const staticTopicSlugs = LEARN_TOPICS.map((t) => t.slug);
-    const allTopicSlugs = Array.from(new Set([...dbTopicSlugs, ...staticTopicSlugs]));
-
-    allTopicSlugs.forEach((topic) => {
-      params.push({
-        topic,
-        location: "london",
-      });
-    });
-  } catch (err) {
-    console.error("Error in topic location generateStaticParams:", err);
-    LEARN_TOPICS.forEach((topic) => {
-      params.push({
-        topic: topic.slug,
-        location: "london",
-      });
-    });
-  }
-
-  return params;
+  const primaryCities = ["london", "manchester", "birmingham"];
+  const topTopics = [
+    "forex-trading",
+    "day-trading", 
+    "prop-firms",
+    "spread-betting",
+    "technical-analysis"
+  ];
+  return topTopics.flatMap(topic => 
+    primaryCities.map(location => ({ topic, location }))
+  );
 }
 
 async function getTopicData(topicSlug: string) {

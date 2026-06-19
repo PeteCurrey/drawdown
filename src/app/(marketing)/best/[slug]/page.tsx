@@ -6,17 +6,15 @@ import { TrackPageView } from "@/components/admin/TrackPageView";
 import { BestBrokerTemplate } from "@/components/brokers/BestBrokerTemplate";
 import { resolveProgrammaticSeo } from "@/lib/seo-generator";
 
-export const dynamic = "force-static";
 export const dynamicParams = true;
+export const revalidate = 3600; // hourly cache revalidation
 
 interface Props {
   params: Promise<{ slug: string }>;
 }
 
 export async function generateStaticParams() {
-  return BEST_OF_PAGES.map((page) => ({
-    slug: page.slug,
-  }));
+  return [];
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {

@@ -5,14 +5,15 @@ import { getRegionalHowToData } from "@/lib/seo/data";
 import { RegionalHowToIndex } from "@/components/seo/RegionalHowToIndex";
 import { notFound } from "next/navigation";
 
+export const dynamicParams = true;
+export const revalidate = 3600; // hourly cache revalidation
+
 interface Props {
   params: Promise<{ region: string }>;
 }
 
 export async function generateStaticParams() {
-  return ["ca", "de", "ae", "in", "my", "ph"].map((region) => ({
-    region,
-  }));
+  return [];
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {

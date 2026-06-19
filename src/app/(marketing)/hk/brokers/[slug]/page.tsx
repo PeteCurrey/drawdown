@@ -3,14 +3,15 @@ import { notFound } from "next/navigation";
 import { HK_BROKERS } from "@/data/seo/hk-data";
 import { BrokerReviewTemplate } from "@/components/seo/BrokerReviewTemplate";
 
+export const dynamicParams = true;
+export const revalidate = 3600; // hourly cache revalidation
+
 interface Props {
   params: Promise<{ slug: string }>;
 }
 
 export async function generateStaticParams() {
-  return HK_BROKERS.map((broker) => ({
-    slug: broker.slug,
-  }));
+  return [];
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {

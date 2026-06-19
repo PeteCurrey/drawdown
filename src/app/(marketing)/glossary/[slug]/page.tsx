@@ -15,33 +15,15 @@ import {
   ToolCard,
 } from "@/components/content";
 
+export const dynamicParams = true;
+export const revalidate = 3600; // hourly cache revalidation
+
 interface Props {
   params: Promise<{ slug: string }>;
 }
 
 export async function generateStaticParams() {
-  try {
-    const supabase = createInternalSupabase();
-    const { data, error } = await supabase
-      .from("seo_pages")
-      .select("slug")
-      .eq("page_type", "glossary");
-    
-    if (error) throw error;
-    
-    if (data && data.length > 0) {
-      return data.map((page) => ({
-        slug: page.slug,
-      }));
-    }
-  } catch (err) {
-    console.error("Error in glossary generateStaticParams:", err);
-  }
-
-  // Fallback to static local list if DB is empty or fails
-  return GLOSSARY_TERMS.map((term) => ({
-    slug: term.slug,
-  }));
+  return [];
 }
 
 async function getGlossaryTerm(slug: string) {

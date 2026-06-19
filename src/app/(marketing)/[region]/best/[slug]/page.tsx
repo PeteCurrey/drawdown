@@ -5,22 +5,15 @@ import { Region, REGIONS } from "@/lib/seo/hreflang";
 import { getRegionalBestOfData } from "@/lib/seo/data";
 import { notFound } from "next/navigation";
 
+export const dynamicParams = true;
+export const revalidate = 3600; // hourly cache revalidation
+
 interface Props {
   params: Promise<{ region: string; slug: string }>;
 }
 
 export async function generateStaticParams() {
-  const regions: Region[] = ["ca", "de", "ae", "in", "my", "ph"];
-  const paths: { region: string; slug: string }[] = [];
-
-  regions.forEach((region) => {
-    const data = getRegionalBestOfData(region);
-    data.forEach((page) => {
-      paths.push({ region, slug: page.slug });
-    });
-  });
-
-  return paths;
+  return [];
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {

@@ -3,14 +3,15 @@ import { notFound } from "next/navigation";
 import { COMPARE_PAGES_AU } from "@/data/seo/compare-au";
 import { CompareTemplate } from "@/components/seo/CompareTemplate";
 
+export const dynamicParams = true;
+export const revalidate = 3600; // hourly cache revalidation
+
 interface Props {
   params: Promise<{ slug: string }>;
 }
 
 export async function generateStaticParams() {
-  return COMPARE_PAGES_AU.map((page) => ({
-    slug: page.slug,
-  }));
+  return [];
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {

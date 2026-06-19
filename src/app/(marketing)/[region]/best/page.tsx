@@ -8,14 +8,15 @@ import { RegionalProvider } from "@/components/layout/RegionalLayout";
 import { TrackPageView } from "@/components/admin/TrackPageView";
 import { notFound } from "next/navigation";
 
+export const dynamicParams = true;
+export const revalidate = 3600; // hourly cache revalidation
+
 interface Props {
   params: Promise<{ region: string }>;
 }
 
 export async function generateStaticParams() {
-  return ["ca", "de", "ae", "in", "my", "ph"].map((region) => ({
-    region,
-  }));
+  return [];
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {

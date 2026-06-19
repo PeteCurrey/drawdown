@@ -14,12 +14,17 @@ export async function GET(req: NextRequest) {
   try {
     // 2. Call generate-evening API route
     console.log(`[CRON] Triggering evening wrap generation at ${siteUrl}...`);
+    const generateHeaders: Record<string, string> = {
+      "Authorization": `Bearer ${process.env.CRON_SECRET}`,
+      "Content-Type": "application/json"
+    };
+    if (process.env.VERCEL_AUTOMATION_BYPASS_SECRET) {
+      generateHeaders["x-vercel-protection-bypass"] = process.env.VERCEL_AUTOMATION_BYPASS_SECRET;
+    }
+
     const generateRes = await fetch(`${siteUrl}/api/email/generate-evening`, {
       method: "POST",
-      headers: {
-        "Authorization": `Bearer ${process.env.CRON_SECRET}`,
-        "Content-Type": "application/json"
-      },
+      headers: generateHeaders,
       cache: "no-store"
     });
 
@@ -36,12 +41,17 @@ export async function GET(req: NextRequest) {
 
     // 4. Send the broadcast
     console.log(`[CRON] Triggering evening broadcast for ID: ${emailSendId}...`);
+    const sendHeaders: Record<string, string> = {
+      "Authorization": `Bearer ${process.env.CRON_SECRET}`,
+      "Content-Type": "application/json"
+    };
+    if (process.env.VERCEL_AUTOMATION_BYPASS_SECRET) {
+      sendHeaders["x-vercel-protection-bypass"] = process.env.VERCEL_AUTOMATION_BYPASS_SECRET;
+    }
+
     const sendRes = await fetch(`${siteUrl}/api/email/send-broadcast`, {
       method: "POST",
-      headers: {
-        "Authorization": `Bearer ${process.env.CRON_SECRET}`,
-        "Content-Type": "application/json"
-      },
+      headers: sendHeaders,
       body: JSON.stringify({ emailSendId, type: "evening_wrap" }),
       cache: "no-store"
     });

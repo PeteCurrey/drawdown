@@ -26,10 +26,17 @@ export async function GET(request: NextRequest) {
   );
 
   try {
+    const pricesHeaders: Record<string, string> = {};
+    if (process.env.VERCEL_AUTOMATION_BYPASS_SECRET) {
+      pricesHeaders["x-vercel-protection-bypass"] = process.env.VERCEL_AUTOMATION_BYPASS_SECRET;
+    }
+
     // 2. Fetch real news and prices for context
     const [news, marketRes] = await Promise.all([
       fetchNews(),
-      fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/market/prices`)
+      fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/market/prices`, {
+        headers: pricesHeaders
+      })
     ]);
     
     const marketData = await marketRes.json();

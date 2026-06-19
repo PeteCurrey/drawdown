@@ -13,11 +13,16 @@ export async function triggerMorningBriefAction() {
   }
 
   try {
+    const headers: Record<string, string> = {
+      "Authorization": `Bearer ${cronSecret}`
+    };
+    if (process.env.VERCEL_AUTOMATION_BYPASS_SECRET) {
+      headers["x-vercel-protection-bypass"] = process.env.VERCEL_AUTOMATION_BYPASS_SECRET;
+    }
+
     const res = await fetch(`${siteUrl}/api/cron/morning-brief`, {
       method: "GET",
-      headers: {
-        "Authorization": `Bearer ${cronSecret}`
-      },
+      headers,
       cache: "no-store"
     });
 
@@ -44,11 +49,16 @@ export async function triggerEveningWrapAction() {
   }
 
   try {
+    const headers: Record<string, string> = {
+      "Authorization": `Bearer ${cronSecret}`
+    };
+    if (process.env.VERCEL_AUTOMATION_BYPASS_SECRET) {
+      headers["x-vercel-protection-bypass"] = process.env.VERCEL_AUTOMATION_BYPASS_SECRET;
+    }
+
     const res = await fetch(`${siteUrl}/api/cron/evening-wrap`, {
       method: "GET",
-      headers: {
-        "Authorization": `Bearer ${cronSecret}`
-      },
+      headers,
       cache: "no-store"
     });
 

@@ -18,12 +18,17 @@ export async function handleSignupOnboarding({
   }
 
   try {
+    const headers: Record<string, string> = {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${cronSecret}`
+    };
+    if (process.env.VERCEL_AUTOMATION_BYPASS_SECRET) {
+      headers["x-vercel-protection-bypass"] = process.env.VERCEL_AUTOMATION_BYPASS_SECRET;
+    }
+
     const res = await fetch(`${siteUrl}/api/email/welcome`, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${cronSecret}`
-      },
+      headers,
       body: JSON.stringify({ email, userId, firstName }),
       cache: "no-store"
     });

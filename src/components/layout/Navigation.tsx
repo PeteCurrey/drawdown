@@ -148,13 +148,16 @@ export function Navigation() {
     };
   }, [hoverTimeout]);
 
-  // Determine if this is a dark markets page (excluding blog/news categories or search pages)
+  // Determine if this is a dark markets page or a black-background blog page
   const normalizedPathname = pathname ? pathname.replace(/^\/(au|us|sg|hk)/, "") : "";
   const isDarkMarketPage = (
     normalizedPathname === "/markets" || 
     (normalizedPathname.startsWith("/markets/") &&
      !normalizedPathname.startsWith("/markets/analysis") &&
-     !normalizedPathname.startsWith("/markets/pulse"))
+     !normalizedPathname.startsWith("/markets/pulse")) ||
+    normalizedPathname === "/blog/coffeezilla-alexg-trading-education" ||
+    normalizedPathname === "/blog/why-trading-gurus-use-demo-accounts" ||
+    normalizedPathname === "/blog/trading-education-business-model"
   );
 
   const regionPrefix = region === "uk" ? "" : `/${region}`;

@@ -15,28 +15,32 @@ const CATEGORIES = [
     name: "Forex",
     count: "6 Major Pairs",
     desc: "Live TradingView charts, technical analysis gauges, and curriculum context for GBP/USD, EUR/USD, USD/JPY, and other major forex pairs.",
-    badge: "GBP/USD, EUR/USD, USD/JPY"
+    badge: "GBP/USD, EUR/USD, USD/JPY",
+    bgImage: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?q=80&w=800"
   },
   {
     slug: "commodities" as const,
     name: "Commodities",
     count: "Precious Metals & Energy",
     desc: "Macro commodities including safe-haven assets (Gold, Silver) and energy (WTI Crude Oil) with key fundamental driver breakdowns.",
-    badge: "Gold, Silver, Crude Oil"
+    badge: "Gold, Silver, Crude Oil",
+    bgImage: "https://images.unsplash.com/photo-1610374792793-f016b77ca51a?q=80&w=800"
   },
   {
     slug: "indices" as const,
     name: "Indices",
     count: "US & UK Equity Benchmarks",
     desc: "Global equity benchmarks tracking UK and US economic health. Essential directional sentiment indicators for cross-asset trading.",
-    badge: "FTSE 100, S&P 500, NASDAQ"
+    badge: "FTSE 100, S&P 500, NASDAQ",
+    bgImage: "https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?q=80&w=800"
   },
   {
     slug: "crypto" as const,
     name: "Cryptocurrencies",
     count: "24/7 Digital Assets",
     desc: "High-beta digital assets (Bitcoin, Ethereum, XRP) covered in Drawdown's Phase 6 advanced risk management modules.",
-    badge: "Bitcoin, Ethereum, XRP"
+    badge: "Bitcoin, Ethereum, XRP",
+    bgImage: "https://images.unsplash.com/photo-1621761191319-c6fb62004040?q=80&w=800"
   }
 ];
 
@@ -102,10 +106,19 @@ export default function MarketsHubPage() {
             <Link 
               key={cat.slug} 
               href={`/markets/${cat.slug}`}
-              className="bg-white/[0.02] border border-white/8 rounded-2xl p-8 hover:border-white/20 hover:-translate-y-0.5 transition-all duration-300 flex flex-col justify-between group cursor-pointer"
+              className="bg-white/[0.02] border border-white/8 rounded-2xl p-8 hover:border-white/20 hover:-translate-y-0.5 transition-all duration-300 flex flex-col justify-between group cursor-pointer relative overflow-hidden"
             >
-              <div className="space-y-6">
-                
+              {/* Animated background image */}
+              <div className="absolute inset-0 z-0 pointer-events-none select-none">
+                <img 
+                  src={cat.bgImage} 
+                  alt="" 
+                  className="absolute inset-0 w-full h-full object-cover opacity-[0.06] group-hover:opacity-[0.18] scale-100 group-hover:scale-105 transition-all duration-700 ease-out mix-blend-luminosity"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-[#0A0A0A]/40 to-transparent" />
+              </div>
+
+              <div className="space-y-6 relative z-10">
                 {/* Header Row */}
                 <div className="flex justify-between items-start gap-4">
                   <div>
@@ -128,7 +141,7 @@ export default function MarketsHubPage() {
               </div>
 
               {/* Bottom Row */}
-              <div className="flex justify-between items-center pt-8 border-t border-white/5 mt-8">
+              <div className="flex justify-between items-center pt-8 border-t border-white/5 mt-8 relative z-10">
                 <span className="text-xs text-white/40 font-mono tracking-wide">
                   {cat.badge}
                 </span>
@@ -293,9 +306,18 @@ export default function MarketsHubPage() {
             {/* Right Column */}
             <div className="space-y-4">
               {/* Feature 1 */}
-              <div className="flex items-start gap-4 bg-white/3 rounded-xl border border-white/8 p-5">
-                <div className="w-2 h-2 rounded-full bg-[#C8F135] mt-1.5 shrink-0" />
-                <div>
+              <div className="flex items-start gap-4 bg-white/3 rounded-xl border border-white/8 p-5 relative overflow-hidden group">
+                {/* Animated background image */}
+                <div className="absolute inset-0 z-0 pointer-events-none select-none">
+                  <img 
+                    src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=600" 
+                    alt="" 
+                    className="absolute inset-0 w-full h-full object-cover opacity-[0.03] group-hover:opacity-[0.12] scale-100 group-hover:scale-105 transition-all duration-700 ease-out mix-blend-luminosity"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-transparent to-[#0A0A0A]/50" />
+                </div>
+                <div className="w-2 h-2 rounded-full bg-[#C8F135] mt-1.5 shrink-0 relative z-10" />
+                <div className="relative z-10">
                   <h3 className="font-semibold text-sm text-white mb-1 font-sans">Live TradingView Charts</h3>
                   <p className="text-xs text-white/50 leading-relaxed font-sans">
                     Every instrument page embeds a live, interactive Advanced Chart. The same platform used throughout the Drawdown curriculum.
@@ -304,9 +326,18 @@ export default function MarketsHubPage() {
               </div>
 
               {/* Feature 2 */}
-              <div className="flex items-start gap-4 bg-white/3 rounded-xl border border-white/8 p-5">
-                <div className="w-2 h-2 rounded-full bg-[#C8F135] mt-1.5 shrink-0" />
-                <div>
+              <div className="flex items-start gap-4 bg-white/3 rounded-xl border border-white/8 p-5 relative overflow-hidden group">
+                {/* Animated background image */}
+                <div className="absolute inset-0 z-0 pointer-events-none select-none">
+                  <img 
+                    src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=600" 
+                    alt="" 
+                    className="absolute inset-0 w-full h-full object-cover opacity-[0.03] group-hover:opacity-[0.12] scale-100 group-hover:scale-105 transition-all duration-700 ease-out mix-blend-luminosity"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-transparent to-[#0A0A0A]/50" />
+                </div>
+                <div className="w-2 h-2 rounded-full bg-[#C8F135] mt-1.5 shrink-0 relative z-10" />
+                <div className="relative z-10">
                   <h3 className="font-semibold text-sm text-white mb-1 font-sans">Technical Analysis Gauges</h3>
                   <p className="text-xs text-white/50 leading-relaxed font-sans">
                     Multi-timeframe sentiment indicators — from 1-minute to weekly — aggregated from TradingView's signal engine.
@@ -315,9 +346,18 @@ export default function MarketsHubPage() {
               </div>
 
               {/* Feature 3 */}
-              <div className="flex items-start gap-4 bg-white/3 rounded-xl border border-white/8 p-5">
-                <div className="w-2 h-2 rounded-full bg-[#C8F135] mt-1.5 shrink-0" />
-                <div>
+              <div className="flex items-start gap-4 bg-white/3 rounded-xl border border-white/8 p-5 relative overflow-hidden group">
+                {/* Animated background image */}
+                <div className="absolute inset-0 z-0 pointer-events-none select-none">
+                  <img 
+                    src="https://images.unsplash.com/photo-1506784983877-45594efa4cbe?q=80&w=600" 
+                    alt="" 
+                    className="absolute inset-0 w-full h-full object-cover opacity-[0.03] group-hover:opacity-[0.12] scale-100 group-hover:scale-105 transition-all duration-700 ease-out mix-blend-luminosity"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-transparent to-[#0A0A0A]/50" />
+                </div>
+                <div className="w-2 h-2 rounded-full bg-[#C8F135] mt-1.5 shrink-0 relative z-10" />
+                <div className="relative z-10">
                   <h3 className="font-semibold text-sm text-white mb-1 font-sans">Economic Calendar</h3>
                   <p className="text-xs text-white/50 leading-relaxed font-sans">
                     Filtered to the relevant currencies and regions for each instrument. Know what's coming before you trade.
@@ -326,9 +366,18 @@ export default function MarketsHubPage() {
               </div>
 
               {/* Feature 4 */}
-              <div className="flex items-start gap-4 bg-white/3 rounded-xl border border-white/8 p-5">
-                <div className="w-2 h-2 rounded-full bg-[#C8F135] mt-1.5 shrink-0" />
-                <div>
+              <div className="flex items-start gap-4 bg-white/3 rounded-xl border border-white/8 p-5 relative overflow-hidden group">
+                {/* Animated background image */}
+                <div className="absolute inset-0 z-0 pointer-events-none select-none">
+                  <img 
+                    src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?q=80&w=600" 
+                    alt="" 
+                    className="absolute inset-0 w-full h-full object-cover opacity-[0.03] group-hover:opacity-[0.12] scale-100 group-hover:scale-105 transition-all duration-700 ease-out mix-blend-luminosity"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-transparent to-[#0A0A0A]/50" />
+                </div>
+                <div className="w-2 h-2 rounded-full bg-[#C8F135] mt-1.5 shrink-0 relative z-10" />
+                <div className="relative z-10">
                   <h3 className="font-semibold text-sm text-white mb-1 font-sans">Curriculum Context</h3>
                   <p className="text-xs text-white/50 leading-relaxed font-sans">
                     Each page tells you which Drawdown phase covers that instrument, what drives it, and when it's most active for UK traders.

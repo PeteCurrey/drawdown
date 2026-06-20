@@ -48,7 +48,7 @@ export function WhyGurusDemoClient() {
 
     // 3. Scale pull quote slightly on entry
     const pullQuote = document.querySelector(".pull-quote-animate");
-    let pullQuoteAnim;
+    let pullQuoteAnim: gsap.core.Tween | undefined;
     if (pullQuote) {
       pullQuoteAnim = gsap.fromTo(
         pullQuote,

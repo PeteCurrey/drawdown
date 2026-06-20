@@ -113,7 +113,7 @@ export default function MarketsHubPage() {
                 <img 
                   src={cat.bgImage} 
                   alt="" 
-                  className="absolute inset-0 w-full h-full object-cover opacity-[0.06] group-hover:opacity-[0.18] scale-100 group-hover:scale-105 transition-all duration-700 ease-out mix-blend-luminosity"
+                  className="absolute inset-0 w-full h-full object-cover opacity-[0.12] group-hover:opacity-[0.3] scale-100 group-hover:scale-105 transition-all duration-700 ease-out mix-blend-luminosity"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-[#0A0A0A]/40 to-transparent" />
               </div>
@@ -312,7 +312,7 @@ export default function MarketsHubPage() {
                   <img 
                     src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=600" 
                     alt="" 
-                    className="absolute inset-0 w-full h-full object-cover opacity-[0.03] group-hover:opacity-[0.12] scale-100 group-hover:scale-105 transition-all duration-700 ease-out mix-blend-luminosity"
+                    className="absolute inset-0 w-full h-full object-cover opacity-[0.08] group-hover:opacity-[0.22] scale-100 group-hover:scale-105 transition-all duration-700 ease-out mix-blend-luminosity"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-transparent to-[#0A0A0A]/50" />
                 </div>
@@ -332,7 +332,7 @@ export default function MarketsHubPage() {
                   <img 
                     src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=600" 
                     alt="" 
-                    className="absolute inset-0 w-full h-full object-cover opacity-[0.03] group-hover:opacity-[0.12] scale-100 group-hover:scale-105 transition-all duration-700 ease-out mix-blend-luminosity"
+                    className="absolute inset-0 w-full h-full object-cover opacity-[0.08] group-hover:opacity-[0.22] scale-100 group-hover:scale-105 transition-all duration-700 ease-out mix-blend-luminosity"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-transparent to-[#0A0A0A]/50" />
                 </div>
@@ -352,7 +352,7 @@ export default function MarketsHubPage() {
                   <img 
                     src="https://images.unsplash.com/photo-1506784983877-45594efa4cbe?q=80&w=600" 
                     alt="" 
-                    className="absolute inset-0 w-full h-full object-cover opacity-[0.03] group-hover:opacity-[0.12] scale-100 group-hover:scale-105 transition-all duration-700 ease-out mix-blend-luminosity"
+                    className="absolute inset-0 w-full h-full object-cover opacity-[0.08] group-hover:opacity-[0.22] scale-100 group-hover:scale-105 transition-all duration-700 ease-out mix-blend-luminosity"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-transparent to-[#0A0A0A]/50" />
                 </div>
@@ -372,7 +372,7 @@ export default function MarketsHubPage() {
                   <img 
                     src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?q=80&w=600" 
                     alt="" 
-                    className="absolute inset-0 w-full h-full object-cover opacity-[0.03] group-hover:opacity-[0.12] scale-100 group-hover:scale-105 transition-all duration-700 ease-out mix-blend-luminosity"
+                    className="absolute inset-0 w-full h-full object-cover opacity-[0.08] group-hover:opacity-[0.22] scale-100 group-hover:scale-105 transition-all duration-700 ease-out mix-blend-luminosity"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-transparent to-[#0A0A0A]/50" />
                 </div>

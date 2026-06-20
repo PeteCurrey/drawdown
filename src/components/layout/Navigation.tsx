@@ -183,6 +183,10 @@ export function Navigation() {
     setHoverTimeout(timeout);
   };
 
+  const handleHeaderMouseEnter = () => {
+    if (hoverTimeout) clearTimeout(hoverTimeout);
+  };
+
   const toggleMobileExpand = (name: string) => {
     setMobileExpanded((prev) => ({
       ...prev,
@@ -198,12 +202,15 @@ export function Navigation() {
           ? "bg-[#0A0A0A] border-white/5 text-white" 
           : "bg-mkt-bg border-mkt-bd text-mkt-ink"
       )}
+      onMouseEnter={handleHeaderMouseEnter}
+      onMouseLeave={handleMouseLeave}
     >
       <div className="w-full max-w-7xl mx-auto px-6 flex justify-between items-center relative h-full">
         {/* Logo + Flag Pill */}
         <div className="flex items-center gap-3">
           <Link
             href={region === 'uk' ? "/" : `/${region}`}
+            onMouseEnter={() => setActiveMenu(null)}
             className={cn(
               "text-2xl font-sans font-extrabold tracking-[-0.04em] hover:opacity-85 transition-opacity",
               isDarkMarketPage ? "text-white" : "text-mkt-ink"
@@ -236,7 +243,6 @@ export function Navigation() {
                   key={link.name}
                   className="relative h-full flex items-center"
                   onMouseEnter={() => handleMouseEnter(menuKey)}
-                  onMouseLeave={handleMouseLeave}
                 >
                   <button
                     className={cn(
@@ -260,8 +266,9 @@ export function Navigation() {
               <Link
                 key={link.name}
                 href={link.href}
+                onMouseEnter={() => setActiveMenu(null)}
                 className={cn(
-                  "text-sm font-medium transition-colors duration-150 font-sans h-full flex items-center border-b-2 border-transparent hover:border-b-2 hover:border-current",
+                  "text-sm font-medium transition-colors duration-155 font-sans h-full flex items-center border-b-2 border-transparent hover:border-b-2 hover:border-current",
                   isDarkMarketPage 
                     ? "text-white/60 hover:text-white" 
                     : "text-mkt-i3 hover:text-mkt-ink"
@@ -274,7 +281,10 @@ export function Navigation() {
         </nav>
 
         {/* Desktop Action Buttons */}
-        <div className="hidden lg:flex items-center gap-3">
+        <div 
+          className="hidden lg:flex items-center gap-3"
+          onMouseEnter={() => setActiveMenu(null)}
+        >
           {user && isAdmin && (
             <Link
               href="/admin"
@@ -357,7 +367,6 @@ export function Navigation() {
               onMouseEnter={() => {
                 if (hoverTimeout) clearTimeout(hoverTimeout);
               }}
-              onMouseLeave={handleMouseLeave}
             >
               {/* Left side: Grid of Links (col-span-8) */}
               <div className="col-span-8 grid grid-cols-2 gap-x-6 gap-y-4">

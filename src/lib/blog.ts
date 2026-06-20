@@ -60,6 +60,60 @@ const SLUG_IMAGES: Record<string, string> = {
   "the-only-three-indicators": "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=800"
 };
 
+const STANDALONE_POSTS: BlogMetadata[] = [
+  {
+    slug: "coffeezilla-alexg-trading-education",
+    title: "The Coffeezilla Video on fxAlexG: What It Actually Tells Us About Trading Education",
+    excerpt: "Seven and a half million in course revenue. Thirty percent from actual trading. Here's what the numbers really mean — and what every trader should take from it.",
+    category: "Education",
+    publishedAt: "2026-06-20T12:00:00.000Z",
+    dateModified: "2026-06-20T12:00:00.000Z",
+    readingTime: 9,
+    author: "Pete Currey",
+    image: "https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?q=80&w=800",
+    metaTitle: "The Coffeezilla Video on fxAlexG: What It Actually Tells Us About Trading Education | Drawdown",
+    metaDescription: "We break down what the fxAlexG situation really tells us about trading education, why gurus use demo accounts, and how traders can protect their capital.",
+    heroImage: {
+      src: "https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?q=80&w=800",
+      alt: "The Coffeezilla Video on fxAlexG"
+    }
+  },
+  {
+    slug: "why-trading-gurus-use-demo-accounts",
+    title: "Why Trading Gurus Use Demo Accounts — And What It Actually Means",
+    excerpt: "The hate is mostly misdirected. Demo trading isn't the problem. Here's what the real issue is — and why most traders are arguing about the wrong thing.",
+    category: "Psychology",
+    publishedAt: "2026-06-19T12:00:00.000Z",
+    dateModified: "2026-06-19T12:00:00.000Z",
+    readingTime: 7,
+    author: "Pete Currey",
+    image: "https://images.unsplash.com/photo-1507413245164-6160d8298b31?q=80&w=800",
+    metaTitle: "Why Trading Gurus Use Demo Accounts — And What It Actually Means | Drawdown",
+    metaDescription: "The hate is mostly misdirected. Demo trading isn't the problem. Here's what the real issue is, and why most traders are arguing about the wrong thing.",
+    heroImage: {
+      src: "https://images.unsplash.com/photo-1507413245164-6160d8298b31?q=80&w=800",
+      alt: "Why Trading Gurus Use Demo Accounts"
+    }
+  },
+  {
+    slug: "trading-education-business-model",
+    title: "The Trading Education Business Model: How the Money Is Really Made",
+    excerpt: "Courses. Affiliates. Broker referrals. The model isn't a secret — it's just rarely explained honestly. Here's exactly how it works, who benefits, and how to use that knowledge to make better decisions.",
+    category: "Education",
+    publishedAt: "2026-06-20T11:00:00.000Z",
+    dateModified: "2026-06-20T11:00:00.000Z",
+    readingTime: 8,
+    author: "Pete Currey",
+    image: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?q=80&w=800",
+    metaTitle: "The Trading Education Business Model: How the Money Is Really Made | Drawdown",
+    metaDescription: "Courses. Affiliates. Broker referrals. We explain how the trading education business model works, who benefits, and how you can make smarter decisions.",
+    heroImage: {
+      src: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?q=80&w=800",
+      alt: "The Trading Education Business Model"
+    }
+  }
+];
+
 export async function getAllPosts(): Promise<BlogMetadata[]> {
   let localPosts: BlogMetadata[] = [];
   
@@ -149,11 +203,20 @@ export async function getAllPosts(): Promise<BlogMetadata[]> {
     console.error("Failed to query blog_posts table:", err);
   }
   
-  const merged = [...localPosts, ...dbPosts];
+  const merged = [...localPosts, ...dbPosts, ...STANDALONE_POSTS];
   return merged.sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
 }
 
 export async function getPostBySlug(slug: string): Promise<BlogPost | null> {
+  // Check standalone posts first
+  const standalone = STANDALONE_POSTS.find(p => p.slug === slug);
+  if (standalone) {
+    return {
+      ...standalone,
+      content: ""
+    } as BlogPost;
+  }
+
   // 1. Try fetching from local file system first
   const filePath = path.join(BLOG_DIR, `${slug}.mdx`);
   if (fs.existsSync(filePath)) {

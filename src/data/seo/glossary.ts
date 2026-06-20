@@ -1631,4 +1631,41 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     relatedTerms: ['MetaTrader', 'TradingView', 'Broker'],
     faqs: []
   },
+  {
+    term: 'Currency Pair',
+    slug: 'currency-pair',
+    definition: 'Two currencies quoted together, where one is bought and the other sold simultaneously — for example GBP/USD. The first currency listed is the base currency; the second is the quote currency.',
+    detailedExplanation: 'Read the full guide: [What Is Forex?](/basic/what-is-forex)',
+    example: 'Buying GBP/USD at 1.2700 means buying pounds and selling dollars at that exchange rate. A rise to 1.2800 produces a 100-pip profit.',
+    relatedTerms: ['Forex', 'Pip', 'Base Currency', 'Quote Currency'],
+    faqs: []
+  },
+  {
+    term: 'Trading Account',
+    slug: 'trading-account',
+    definition: 'The account held with a broker that is used to fund and execute live trades, distinct from a demo account, which uses virtual funds instead of real capital.',
+    detailedExplanation: 'Read the full guide: [What Is a Broker?](/basic/what-is-a-broker)',
+    example: 'A trader deposits £1,000 into a live trading account with an FCA-regulated broker, enabling them to open real positions in forex and indices.',
+    relatedTerms: ['Broker', 'Demo Account', 'Margin'],
+    faqs: []
+  },
+  {
+    term: 'Funded Account',
+    slug: 'funded-account',
+    definition: 'A live trading account funded with a prop firm\'s capital after a trader passes the firm\'s evaluation process, rather than the trader\'s own money.',
+    detailedExplanation: 'Read the full guide: [What Is a Prop Firm?](/basic/what-is-a-prop-firm)',
+    example: 'After passing a two-phase evaluation, a trader receives a £100,000 funded account and keeps 80% of any profits generated.',
+    relatedTerms: ['Prop Firm', 'Evaluation', 'Profit Split'],
+    faqs: []
+  },
+  {
+    term: 'Asset Class',
+    slug: 'asset-class',
+    definition: 'A broad category of financial instruments that share similar characteristics and tend to behave similarly in the market — forex, equities, commodities, and indices are each their own asset class.',
+    detailedExplanation: 'Read the full guide: [What Is Trading?](/basic/what-is-trading)',
+    example: 'A trader diversifies across asset classes by holding a long position in gold (commodities) while also trading GBP/USD (forex).',
+    relatedTerms: ['Forex', 'Commodities', 'Indices', 'Equities'],
+    faqs: []
+  },
 ];
+

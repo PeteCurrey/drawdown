@@ -4,6 +4,7 @@ import { HOW_TO_PAGES } from "@/data/seo/howto";
 import { ArrowRight, Clock, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { TrackPageView } from "@/components/admin/TrackPageView";
+import { DifficultyBadge } from "@/components/how-to/DifficultyBadge";
 
 export const metadata: Metadata = {
   title: "Trading Guides & How-To | Drawdown",
@@ -49,9 +50,12 @@ export default function HowToHub() {
               <div className="space-y-6 relative z-10">
                 <div className="flex items-center justify-between">
                    <span className="text-accent font-mono text-[10px] uppercase tracking-widest">Recommended Starter</span>
-                   <div className="flex items-center gap-2 text-[10px] font-mono text-text-tertiary">
-                      <Clock className="w-3 h-3" />
-                      <span>{featured.readingTime}</span>
+                   <div className="flex items-center gap-2">
+                      {featured.difficulty && <DifficultyBadge difficulty={featured.difficulty} />}
+                      <div className="flex items-center gap-2 text-[10px] font-mono text-text-tertiary">
+                        <Clock className="w-3 h-3" />
+                        <span>{featured.readingTime}</span>
+                      </div>
                    </div>
                 </div>
                 <h3 className="text-4xl font-sans font-bold uppercase">{featured.title.split('—')[0]}</h3>
@@ -94,9 +98,12 @@ export default function HowToHub() {
               <div className="relative z-10 space-y-6">
                 <div className="flex items-center justify-between">
                   <span className="text-accent font-mono text-[10px] uppercase tracking-widest">{page.eyebrow}</span>
-                  <div className="flex items-center space-x-2 text-[10px] font-mono text-text-tertiary">
-                    <Clock className="w-3 h-3" />
-                    <span>{page.readingTime}</span>
+                  <div className="flex items-center gap-2">
+                    {page.difficulty && <DifficultyBadge difficulty={page.difficulty} />}
+                    <div className="flex items-center space-x-2 text-[10px] font-mono text-text-tertiary">
+                      <Clock className="w-3 h-3" />
+                      <span>{page.readingTime}</span>
+                    </div>
                   </div>
                 </div>
                 <h2 className="text-3xl font-sans font-bold uppercase leading-tight group-hover:text-accent transition-colors">

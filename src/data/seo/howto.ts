@@ -1,6 +1,7 @@
 export interface HowToStep {
   title: string;
   content: string;
+  image?: { src: string; alt: string };
 }
 
 export interface HowToPage {
@@ -9,6 +10,15 @@ export interface HowToPage {
   eyebrow: string;
   readingTime: string | number;
   metaDescription: string;
+  // Wave 2 additions — optional for backward compatibility
+  metaTitle?: string;
+  dek?: string;
+  difficulty?: "Beginner" | "Intermediate";
+  estimatedTime?: string;
+  prerequisites?: string[];
+  heroImage?: { src: string; alt: string };
+  nextStep?: { label: string; href: string };
+  internalLinks?: string[];
   introduction: string;
   steps: HowToStep[];
   commonMistakes: string[];
@@ -28,6 +38,7 @@ export interface HowToPage {
 }
 
 export const HOW_TO_PAGES: HowToPage[] = [
+
   {
     slug: 'start-trading-uk',
     title: 'How to Start Trading in the UK — Step by Step',

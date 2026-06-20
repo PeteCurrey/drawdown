@@ -11,10 +11,10 @@ export const metadata: Metadata = {
     url: "https://drawdown.trading/blog/coffeezilla-alexg-trading-education",
     images: [
       {
-        url: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=1200&q=80",
+        url: "https://drawdown.trading/images/blog/alexg-bugatti.png",
         width: 1200,
         height: 630,
-        alt: "Trading charts on multiple monitors in a dark room",
+        alt: "Deep blue and purple Bugatti Chiron",
       }
     ],
   }

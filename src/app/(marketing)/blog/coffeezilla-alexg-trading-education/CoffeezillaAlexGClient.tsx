@@ -171,8 +171,8 @@ export function CoffeezillaAlexGClient() {
           <figure className="w-full my-12 relative group shadow-sm">
             <div className="aspect-[16/9] w-full overflow-hidden border border-[#1A1A1A] relative bg-[#111111]">
               <Image 
-                src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=1200&q=80" 
-                alt="Trading charts on multiple monitors in a dark room"
+                src="/images/blog/alexg-bugatti.png" 
+                alt="Deep blue and purple Bugatti Chiron"
                 fill
                 priority
                 className="w-full h-full object-cover block"
@@ -195,7 +195,7 @@ export function CoffeezillaAlexGClient() {
                     Someone sent me the Coffeezilla video on Alex Gonzalez a few weeks back. I watched it twice. And before I say anything else, I want to be clear about something: I don't think Alex is a fraud in the way that word is being thrown around right now.
                   </p>
                   <p>
-                    I've watched his content. The guy clearly knows how to trade. He talks about his losses, he explains his reasoning, and his set-and-forget approach to swing trading is a legitimate methodology. I've never met him, but everything I've seen suggests he's a genuine trader who also turned out to be an exceptional businessman. The kind of person you'd want to sit down with over a beer and actually talk shop. I'd love that conversation.
+                    I've watched his content. The guy clearly knows how to trade. He talks about his losses, he explains his reasoning, and his set-and-forget approach to swing trading is a legitimate methodology. I've never met him, but everything I've seen suggests he's a genuine trader who also turned out to be an exceptional businessman. To be honest, I'd love to share a few Coronas with him and talk shop (and Bugatti's), he sounds like a top lad
                   </p>
                   <p>
                     What the Coffeezilla video exposed isn't that Alex can't trade. It's a proportion problem. Seven and a half million pounds in course revenue over three years. Around thirty percent from actual trading. And a significant amount of the content that built that audience? Shot on demo accounts. Which he didn't disclose.
@@ -368,7 +368,7 @@ export function CoffeezillaAlexGClient() {
               <div className="p-8 bg-[#111111] border border-[#1A1A1A] rounded-none shadow-xl relative overflow-hidden group text-white">
                 <div 
                   className="absolute inset-0 bg-cover bg-center opacity-5 pointer-events-none" 
-                  style={{ backgroundImage: `url(https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?q=80&w=400)` }} 
+                  style={{ backgroundImage: `url(/images/blog/alexg-bugatti.png)` }} 
                 />
                 <div className="relative z-10 space-y-6">
                   <div className="space-y-2">
@@ -449,8 +449,8 @@ export function CoffeezillaAlexGClient() {
               <div className="space-y-4">
                 <div className="aspect-[16/10] w-full border border-[#1A1A1A] relative bg-[#0A0A0A]">
                   <Image 
-                    src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=400&q=80" 
-                    alt="Trading charts on multiple monitors in a dark room"
+                    src="/images/blog/alexg-bugatti.png" 
+                    alt="Deep blue and purple Bugatti Chiron"
                     fill
                     className="object-cover"
                   />

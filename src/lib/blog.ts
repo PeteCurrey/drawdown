@@ -70,12 +70,12 @@ const STANDALONE_POSTS: BlogMetadata[] = [
     dateModified: "2026-06-20T12:00:00.000Z",
     readingTime: 9,
     author: "Pete Currey",
-    image: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=1200&q=80",
+    image: "/images/blog/alexg-bugatti.png",
     metaTitle: "The Coffeezilla Video on fxAlexG: What It Actually Tells Us About Trading Education | Drawdown",
     metaDescription: "We break down what the fxAlexG situation really tells us about trading education, why gurus use demo accounts, and how traders can protect their capital.",
     heroImage: {
-      src: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=1200&q=80",
-      alt: "Trading charts on multiple monitors in a dark room"
+      src: "/images/blog/alexg-bugatti.png",
+      alt: "Deep blue and purple Bugatti Chiron"
     }
   },
   {

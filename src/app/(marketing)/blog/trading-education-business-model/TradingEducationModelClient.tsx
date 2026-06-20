@@ -532,8 +532,8 @@ export function TradingEducationModelClient() {
               <div className="space-y-4">
                 <div className="aspect-[16/10] w-full border border-[#1A1A1A] relative bg-[#0A0A0A]">
                   <Image 
-                    src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=400&q=80" 
-                    alt="Trading charts on multiple monitors in a dark room"
+                    src="/images/blog/alexg-bugatti.png" 
+                    alt="Deep blue and purple Bugatti Chiron"
                     fill
                     className="object-cover"
                   />

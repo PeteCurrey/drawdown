@@ -157,8 +157,10 @@ export function Navigation() {
      !normalizedPathname.startsWith("/markets/pulse")) ||
     normalizedPathname === "/blog/coffeezilla-alexg-trading-education" ||
     normalizedPathname === "/blog/why-trading-gurus-use-demo-accounts" ||
-    normalizedPathname === "/blog/trading-education-business-model"
+    normalizedPathname === "/blog/trading-education-business-model" ||
+    normalizedPathname === "/store/prop-survival-kit"
   );
+
 
   const regionPrefix = region === "uk" ? "" : `/${region}`;
 

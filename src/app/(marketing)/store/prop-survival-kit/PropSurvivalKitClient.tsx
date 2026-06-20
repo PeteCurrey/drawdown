@@ -205,24 +205,34 @@ export default function PropSurvivalKitPage() {
             {
               num: "01",
               title: "The Rules Are Intentionally Complex",
-              body: "Prop firms publish their rules in pages of dense legal copy. Daily drawdown. Max drawdown. Trailing drawdown. Equity-based vs balance-based. Intraday vs end-of-day. Each firm calculates it differently. Miss the distinction and your account closes on a day you thought you were winning."
+              body: "Prop firms publish their rules in pages of dense legal copy. Daily drawdown. Max drawdown. Trailing drawdown. Equity-based vs balance-based. Intraday vs end-of-day. Each firm calculates it differently. Miss the distinction and your account closes on a day you thought you were winning.",
+              img: "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=800&q=80"
             },
             {
               num: "02",
               title: "The Psychology Is Never Mentioned",
-              body: "You can understand every rule perfectly and still blow the account. The pressure of trading funded capital — even simulated — triggers decisions you'd never make on a demo. Revenge trading after a loss. Overholding a winner. Cutting profits early out of fear. Nobody warns you. Nobody prepares you."
+              body: "You can understand every rule perfectly and still blow the account. The pressure of trading funded capital — even simulated — triggers decisions you'd never make on a demo. Revenge trading after a loss. Overholding a winner. Cutting profits early out of fear. Nobody warns you. Nobody prepares you.",
+              img: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=800&q=80"
             },
             {
               num: "03",
               title: "The Firms Know Most of You Will Fail",
-              body: "The evaluation fee is the product. A firm that passes 90% of challenges isn't running a sustainable business. They need failure rates to stay high. That isn't a conspiracy — it's a business model. Understanding that changes how you approach the whole thing."
+              body: "The evaluation fee is the product. A firm that passes 90% of challenges isn't running a sustainable business. They need failure rates to stay high. That isn't a conspiracy — it's a business model. Understanding that changes how you approach the whole thing.",
+              img: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80"
             }
           ].map((card, idx) => (
             <div 
               key={idx} 
-              className="bg-white/3 rounded-2xl border border-white/8 p-8 flex flex-col justify-between hover:border-white/15 transition-all duration-350"
+              className="relative group overflow-hidden bg-white/3 rounded-2xl border border-white/8 p-8 flex flex-col justify-between hover:border-white/15 transition-all duration-350"
             >
-              <div>
+              {/* Background image reveal on hover */}
+              <div
+                className="absolute inset-0 bg-cover bg-center transition-all duration-700 ease-out opacity-[0.06] scale-[1.03] group-hover:opacity-[0.22] group-hover:scale-100"
+                style={{ backgroundImage: `url(${card.img})` }}
+              />
+              {/* Dark overlay to keep text readable */}
+              <div className="absolute inset-0 bg-[#0A0A0A]/60 group-hover:bg-[#0A0A0A]/40 transition-all duration-700" />
+              <div className="relative z-10">
                 <div className="text-5xl font-mono text-white/10 mb-6 select-none font-bold">
                   {card.num}
                 </div>
@@ -337,57 +347,71 @@ export default function PropSurvivalKitPage() {
               num: "01",
               title: "Misunderstanding your drawdown type",
               body: "Intraday trailing vs end-of-day vs static — three entirely different risk models. Miss which one applies to your account and you'll breach it on a day you thought you were performing well.",
-              tag: "Chapter 2 — Rule Decoder"
+              tag: "Chapter 2 — Rule Decoder",
+              img: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=800&q=80"
             },
             {
               num: "02",
               title: "Trading too large after a good start",
               body: "Early profit creates a dangerous illusion of safety. Traders increase size as confidence grows, then a single volatile session wipes the buffer and breaches the max drawdown limit. The rules don't care about your previous days.",
-              tag: "Chapter 4 — Position Protocol"
+              tag: "Chapter 4 — Position Protocol",
+              img: "https://images.unsplash.com/photo-1559526324-593bc073d938?w=800&q=80"
             },
             {
               num: "03",
               title: "Holding through high-impact news events",
               body: "A 50-pip spike during NFP or a central bank announcement can close a funded account in seconds. This isn't a risk management failure — it's a rule violation. Most firms prohibit holding through specific events. Most traders don't check.",
-              tag: "Chapter 3 — Event Rules"
+              tag: "Chapter 3 — Event Rules",
+              img: "https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=800&q=80"
             },
             {
               num: "04",
               title: "The revenge trade spiral after a loss",
               body: "Losing 1.5% of your account on a bad trade doesn't end the challenge. Revenge trading the next hour and losing another 3% does. The psychological mechanics of this spiral are identical across thousands of failed accounts. It has a name. It has a fix.",
-              tag: "Chapter 5 — Psychology"
+              tag: "Chapter 5 — Psychology",
+              img: "https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?w=800&q=80"
             },
             {
               num: "05",
               title: "Ignoring the daily drawdown reset",
               body: "Daily drawdown calculations reset at midnight UTC at most firms. But open positions at midnight affect the next day's calculation. A winning trade that's in profit at 23:59 and reverses at 00:01 can breach the new day's daily limit before you've even woken up.",
-              tag: "Chapter 2 — Rule Decoder"
+              tag: "Chapter 2 — Rule Decoder",
+              img: "https://images.unsplash.com/photo-1508962914676-134849a727f0?w=800&q=80"
             },
             {
               num: "06",
               title: "Starting the funded phase with the same risk as the evaluation",
               body: "The evaluation is for passing. The funded phase is for keeping. Most traders who pass their challenge breach their funded account within 30 days because they treat them identically. They are not the same environment.",
-              tag: "Chapter 6 — Funded Protocol"
+              tag: "Chapter 6 — Funded Protocol",
+              img: "https://images.unsplash.com/photo-1507413245164-6160d8298b31?w=800&q=80"
             },
             {
               num: "07",
               title: "Treating the challenge like a demo account",
               body: "A demo account has no stakes. A funded evaluation has real money on the line — your evaluation fee, at minimum. The psychological response to those two environments is completely different, and that gap kills more accounts than any rule ever does.",
-              tag: "Chapter 5 — Psychology"
+              tag: "Chapter 5 — Psychology",
+              img: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&q=80"
             }
           ].map((item, idx) => (
             <div 
               key={idx}
-              className="flex flex-col md:flex-row items-start md:items-center gap-6 bg-white/[0.02] rounded-xl border border-white/6 p-6 hover:border-white/15 hover:bg-white/[0.04] transition duration-300"
+              className="relative group overflow-hidden flex flex-col md:flex-row items-start md:items-center gap-6 bg-white/[0.02] rounded-xl border border-white/6 p-6 hover:border-white/15 transition duration-300"
             >
-              <div className="text-4xl font-mono font-bold text-white/10 w-16 shrink-0 select-none">
+              {/* Background image reveal on hover */}
+              <div
+                className="absolute inset-0 bg-cover bg-center transition-all duration-700 ease-out opacity-[0.05] scale-[1.02] group-hover:opacity-[0.18] group-hover:scale-100"
+                style={{ backgroundImage: `url(${item.img})` }}
+              />
+              {/* Dark overlay to keep text readable */}
+              <div className="absolute inset-0 bg-[#0A0A0A]/70 group-hover:bg-[#0A0A0A]/50 transition-all duration-700" />
+              <div className="relative z-10 text-4xl font-mono font-bold text-white/10 w-16 shrink-0 select-none">
                 {item.num}
               </div>
-              <div className="flex-1 space-y-1">
+              <div className="relative z-10 flex-1 space-y-1">
                 <h4 className="text-lg font-semibold tracking-tight">{item.title}</h4>
                 <p className="text-sm opacity-60 leading-relaxed font-sans">{item.body}</p>
               </div>
-              <div className="mt-3 md:mt-0 lg:flex shrink-0 ml-auto">
+              <div className="relative z-10 mt-3 md:mt-0 lg:flex shrink-0 ml-auto">
                 <span className="bg-[#C8F135]/10 text-[#C8F135] border border-[#C8F135]/20 rounded-full px-3 py-1 text-xs font-mono font-semibold">
                   {item.tag}
                 </span>

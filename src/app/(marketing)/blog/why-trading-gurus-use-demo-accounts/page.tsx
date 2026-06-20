@@ -11,10 +11,10 @@ export const metadata: Metadata = {
     url: "https://drawdown.trading/blog/why-trading-gurus-use-demo-accounts",
     images: [
       {
-        url: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800",
-        width: 800,
-        height: 600,
-        alt: "Why Trading Gurus Use Demo Accounts",
+        url: "https://images.unsplash.com/photo-1642790551116-18e150f248e3?w=1200&q=80",
+        width: 1200,
+        height: 630,
+        alt: "Trader analysing candlestick charts on screen",
       }
     ],
   }

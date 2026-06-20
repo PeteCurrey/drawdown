@@ -11,10 +11,10 @@ export const metadata: Metadata = {
     url: "https://drawdown.trading/blog/trading-education-business-model",
     images: [
       {
-        url: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?q=80&w=800",
-        width: 800,
-        height: 600,
-        alt: "The Trading Education Business Model",
+        url: "https://images.unsplash.com/photo-1559526324-593bc073d938?w=1200&q=80",
+        width: 1200,
+        height: 630,
+        alt: "Financial data and market analysis dashboard",
       }
     ],
   }

@@ -4,6 +4,14 @@ const nextConfig: NextConfig = {
   experimental: {
     cpus: 1
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "images.unsplash.com",
+      },
+    ],
+  },
   async redirects() {
     return [
       // Features / Tools

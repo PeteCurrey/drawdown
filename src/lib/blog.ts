@@ -70,12 +70,12 @@ const STANDALONE_POSTS: BlogMetadata[] = [
     dateModified: "2026-06-20T12:00:00.000Z",
     readingTime: 9,
     author: "Pete Currey",
-    image: "https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?q=80&w=800",
+    image: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=1200&q=80",
     metaTitle: "The Coffeezilla Video on fxAlexG: What It Actually Tells Us About Trading Education | Drawdown",
     metaDescription: "We break down what the fxAlexG situation really tells us about trading education, why gurus use demo accounts, and how traders can protect their capital.",
     heroImage: {
-      src: "https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?q=80&w=800",
-      alt: "The Coffeezilla Video on fxAlexG"
+      src: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=1200&q=80",
+      alt: "Trading charts on multiple monitors in a dark room"
     }
   },
   {
@@ -87,12 +87,12 @@ const STANDALONE_POSTS: BlogMetadata[] = [
     dateModified: "2026-06-19T12:00:00.000Z",
     readingTime: 7,
     author: "Pete Currey",
-    image: "https://images.unsplash.com/photo-1507413245164-6160d8298b31?q=80&w=800",
+    image: "https://images.unsplash.com/photo-1642790551116-18e150f248e3?w=1200&q=80",
     metaTitle: "Why Trading Gurus Use Demo Accounts — And What It Actually Means | Drawdown",
     metaDescription: "The hate is mostly misdirected. Demo trading isn't the problem. Here's what the real issue is, and why most traders are arguing about the wrong thing.",
     heroImage: {
-      src: "https://images.unsplash.com/photo-1507413245164-6160d8298b31?q=80&w=800",
-      alt: "Why Trading Gurus Use Demo Accounts"
+      src: "https://images.unsplash.com/photo-1642790551116-18e150f248e3?w=1200&q=80",
+      alt: "Trader analysing candlestick charts on screen"
     }
   },
   {
@@ -104,12 +104,12 @@ const STANDALONE_POSTS: BlogMetadata[] = [
     dateModified: "2026-06-20T11:00:00.000Z",
     readingTime: 8,
     author: "Pete Currey",
-    image: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?q=80&w=800",
+    image: "https://images.unsplash.com/photo-1559526324-593bc073d938?w=1200&q=80",
     metaTitle: "The Trading Education Business Model: How the Money Is Really Made | Drawdown",
     metaDescription: "Courses. Affiliates. Broker referrals. We explain how the trading education business model works, who benefits, and how you can make smarter decisions.",
     heroImage: {
-      src: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?q=80&w=800",
-      alt: "The Trading Education Business Model"
+      src: "https://images.unsplash.com/photo-1559526324-593bc073d938?w=1200&q=80",
+      alt: "Financial data and market analysis dashboard"
     }
   }
 ];

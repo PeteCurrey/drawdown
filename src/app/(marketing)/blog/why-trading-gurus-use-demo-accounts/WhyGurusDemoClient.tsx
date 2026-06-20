@@ -101,7 +101,7 @@ export function WhyGurusDemoClient() {
 
     // 5. Read next cards stagger on entry
     const cards = gsap.utils.toArray<HTMLElement>(".read-next-card");
-    let cardsAnim;
+    let cardsAnim: gsap.core.Tween | undefined;
     if (cards.length > 0) {
       cardsAnim = gsap.fromTo(
         cards,

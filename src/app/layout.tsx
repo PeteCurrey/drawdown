@@ -98,7 +98,10 @@ export default function RootLayout({
             `,
           }}
         />
+        {/* Ahrefs Analytics */}
+        <script src="https://analytics.ahrefs.com/analytics.js" data-key="N01jEQ+ncXGoGSG9gs0QhA" async />
       </head>
+
       <body className="min-h-screen flex flex-col bg-background-primary text-text-primary selection:bg-accent selection:text-background-primary transition-colors duration-500">
           <ThemeProvider
             attribute="data-theme"

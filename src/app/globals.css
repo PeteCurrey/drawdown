@@ -35,6 +35,8 @@
   --font-display: var(--font-syne), ui-sans-serif, system-ui;
   --font-sans: var(--font-dm-sans), ui-sans-serif, system-ui;
   --font-mono: var(--font-mono), ui-monospace, monospace;
+  --font-ibm-mono: var(--font-ibm-mono), ui-monospace, monospace;
+  --font-ibm-sans: var(--font-ibm-sans), ui-sans-serif, system-ui;
 
   --ease-premium: cubic-bezier(0.16, 1, 0.3, 1);
 }

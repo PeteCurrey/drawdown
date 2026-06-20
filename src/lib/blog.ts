@@ -8,14 +8,25 @@ const BLOG_DIR = path.join(process.cwd(), "src/content/blog");
 export interface BlogMetadata {
   title: string;
   excerpt: string;
-  category: string;
+  category: "Market Analysis" | "Education" | "Psychology" | "Tools" | "UK Trading" | "Risk Management";
   publishedAt: string;
+  dateModified?: string;
   readingTime: number;
-  author: string;
+  author: "Pete Currey" | "Drawdown Team";
   slug: string;
   image: string;
   metaTitle: string;
   metaDescription: string;
+  heroImage: {
+    src: string;
+    alt: string;
+    caption?: string;
+    credit?: string;
+  };
+  faq?: { question: string; answer: string }[];
+  relatedTool?: string;
+  relatedCourse?: string;
+  internalLinks?: string[];
 }
 
 export interface BlogPost extends BlogMetadata {
@@ -60,19 +71,44 @@ export async function getAllPosts(): Promise<BlogMetadata[]> {
       .map((file) => {
         const filePath = path.join(BLOG_DIR, file);
         const fileContent = fs.readFileSync(filePath, "utf8");
-        const { data } = matter(fileContent);
+        const { data, content } = matter(fileContent);
         const slug = file.replace(".mdx", "");
         
         const title = data.title || "";
         const excerpt = data.excerpt || "";
         
+        // Auto-calculate reading time by word count of pure body content
+        const cleanContent = content.replace(/<\/?[^>]+(>|$)/g, ""); // strip HTML/JSX elements
+        const words = cleanContent.trim().split(/\s+/).filter(w => w.length > 0).length;
+        const readingTime = Math.max(1, Math.ceil(words / 200));
+
+        // Format heroImage fallback
+        const heroImage = data.heroImage || {
+          src: data.image || SLUG_IMAGES[slug] || "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?q=80&w=800",
+          alt: title
+        };
+
+        const metaTitle = data.metaTitle || `${title} | Drawdown Blog`;
+        const metaDescription = data.metaDescription || excerpt || "";
+
+        // Enforce 150-160 characters check at build time for metadata
+        if (metaDescription.length < 150 || metaDescription.length > 160) {
+          console.error(`\x1b[31m[ERROR] Blog post "${slug}" metaDescription length is ${metaDescription.length} characters. Must be strictly 150-160 characters.\x1b[0m`);
+        }
+
         return {
           ...data,
           slug,
-          image: data.image || SLUG_IMAGES[slug] || "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?q=80&w=800",
-          metaTitle: data.metaTitle || `${title} | Drawdown Blog`,
-          metaDescription: data.metaDescription || excerpt,
-        } as BlogMetadata;
+          readingTime,
+          image: heroImage.src,
+          heroImage,
+          metaTitle,
+          metaDescription,
+          author: data.author || "Pete Currey",
+          category: data.category || "Market Analysis",
+          publishedAt: data.publishedAt || new Date().toISOString(),
+          dateModified: data.dateModified || data.publishedAt || new Date().toISOString()
+        } as unknown as BlogMetadata;
       });
   }
 
@@ -89,18 +125,24 @@ export async function getAllPosts(): Promise<BlogMetadata[]> {
       dbPosts = data.map((post: any) => {
         const words = post.content ? post.content.split(/\s+/).length : 0;
         const readingTime = Math.max(1, Math.ceil(words / 200));
+        const heroImage = {
+          src: post.image || "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?q=80&w=800",
+          alt: post.title
+        };
         return {
           title: post.title,
           excerpt: post.excerpt || "",
           category: post.category || "Market Analysis",
           publishedAt: post.published_at,
+          dateModified: post.published_at,
           readingTime,
           author: post.author || "Pete Currey",
           slug: post.slug,
-          image: post.image || "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?q=80&w=800",
+          image: heroImage.src,
+          heroImage,
           metaTitle: post.meta_title || `${post.title} | Drawdown Blog`,
           metaDescription: post.meta_description || post.excerpt || "",
-        } as BlogMetadata;
+        } as unknown as BlogMetadata;
       });
     }
   } catch (err) {
@@ -121,14 +163,38 @@ export async function getPostBySlug(slug: string): Promise<BlogPost | null> {
     const title = data.title || "";
     const excerpt = data.excerpt || "";
 
+    // Auto-calculate reading time by word count of pure body content
+    const cleanContent = content.replace(/<\/?[^>]+(>|$)/g, ""); // strip HTML/JSX elements
+    const words = cleanContent.trim().split(/\s+/).filter(w => w.length > 0).length;
+    const readingTime = Math.max(1, Math.ceil(words / 200));
+
+    // Format heroImage fallback
+    const heroImage = data.heroImage || {
+      src: data.image || SLUG_IMAGES[slug] || "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?q=80&w=800",
+      alt: title
+    };
+
+    const metaTitle = data.metaTitle || `${title} | Drawdown Blog`;
+    const metaDescription = data.metaDescription || excerpt || "";
+
+    if (metaDescription.length < 150 || metaDescription.length > 160) {
+      console.error(`\x1b[31m[ERROR] Blog post "${slug}" metaDescription length is ${metaDescription.length} characters. Must be strictly 150-160 characters.\x1b[0m`);
+    }
+
     return {
       ...data,
       slug,
       content,
-      image: data.image || SLUG_IMAGES[slug] || "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?q=80&w=800",
-      metaTitle: data.metaTitle || `${title} | Drawdown Blog`,
-      metaDescription: data.metaDescription || excerpt,
-    } as BlogPost;
+      readingTime,
+      image: heroImage.src,
+      heroImage,
+      metaTitle,
+      metaDescription,
+      author: data.author || "Pete Currey",
+      category: data.category || "Market Analysis",
+      publishedAt: data.publishedAt || new Date().toISOString(),
+      dateModified: data.dateModified || data.publishedAt || new Date().toISOString()
+    } as unknown as BlogPost;
   }
 
   // 2. Fallback to Supabase blog_posts table
@@ -144,20 +210,26 @@ export async function getPostBySlug(slug: string): Promise<BlogPost | null> {
     if (!error && post) {
       const words = post.content ? post.content.split(/\s+/).length : 0;
       const readingTime = Math.max(1, Math.ceil(words / 200));
+      const heroImage = {
+        src: post.image || "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?q=80&w=800",
+        alt: post.title
+      };
 
       return {
         title: post.title,
         excerpt: post.excerpt || "",
         category: post.category || "Market Analysis",
         publishedAt: post.published_at || post.created_at,
+        dateModified: post.published_at || post.created_at,
         readingTime,
         author: post.author || "Pete Currey",
         slug: post.slug,
-        image: post.image || "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?q=80&w=800",
+        image: heroImage.src,
+        heroImage,
         metaTitle: post.meta_title || `${post.title} | Drawdown Blog`,
         metaDescription: post.meta_description || post.excerpt || "",
         content: post.content
-      } as BlogPost;
+      } as unknown as BlogPost;
     }
   } catch (err) {
     console.error(`Failed to find database blog post for slug ${slug}:`, err);

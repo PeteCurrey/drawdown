@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Syne, DM_Sans, JetBrains_Mono, Geist, Geist_Mono } from "next/font/google";
+import { Syne, DM_Sans, JetBrains_Mono, Geist, Geist_Mono, IBM_Plex_Mono, IBM_Plex_Sans } from "next/font/google";
 import { SmoothScroll } from "@/components/providers/SmoothScroll";
 import { GrainOverlay } from "@/components/ui/GrainOverlay";
 import { ScrollProgress } from "@/components/ui/ScrollProgress";
@@ -37,6 +37,18 @@ const geistMono = Geist_Mono({
   display: 'swap',
 });
 
+const ibmPlexMono = IBM_Plex_Mono({
+  variable: "--font-ibm-mono",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+});
+
+const ibmPlexSans = IBM_Plex_Sans({
+  variable: "--font-ibm-sans",
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+});
+
 export const metadata: Metadata = {
   metadataBase: new URL('https://drawdown.trading'),
   title: {
@@ -69,7 +81,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${syne.variable} ${dmSans.variable} ${jetbrainsMono.variable} ${geist.variable} ${geistMono.variable} antialiased`}
+      className={`${syne.variable} ${dmSans.variable} ${jetbrainsMono.variable} ${geist.variable} ${geistMono.variable} ${ibmPlexMono.variable} ${ibmPlexSans.variable} antialiased`}
       suppressHydrationWarning
     >
       <head>

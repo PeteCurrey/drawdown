@@ -1,17 +1,28 @@
 import React from "react";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
-import { getAllPosts, getPostBySlug } from "@/lib/blog";
-import JsonLd from "@/components/seo/JsonLd";
-import BreadcrumbSchema from "@/components/seo/BreadcrumbSchema";
-import { MDXRemote } from "next-mdx-remote/rsc";
 import Link from "next/link";
-import { Clock, Calendar, ChevronLeft, ArrowRight } from "lucide-react";
+import { ChevronLeft, Clock, Calendar } from "lucide-react";
+import { MDXRemote } from "next-mdx-remote/rsc";
+
+import { getAllPosts, getPostBySlug } from "@/lib/blog";
 import { TrackPageView } from "@/components/admin/TrackPageView";
-import { Callout, BlogChart, BlogTable, KeyTakeaways } from "@/components/blog/MDXComponents";
+import JsonLd from "@/components/seo/JsonLd";
+import { ReadingProgressBar } from "@/components/blog/ReadingProgressBar";
+import { ShareBar } from "@/components/blog/ShareBar";
+import { FaqAccordion } from "@/components/blog/FaqAccordion";
+import { AuthorBio } from "@/components/blog/AuthorBio";
 import { TableOfContents } from "@/components/blog/TableOfContents";
-import { ShareButton } from "@/components/blog/ShareButton";
+import { 
+  Callout, 
+  Chart, 
+  Diagram, 
+  DataTable, 
+  PullQuote, 
+  BlogChart, 
+  BlogTable, 
+  KeyTakeaways 
+} from "@/components/blog/MDXComponents";
 
 export const dynamicParams = true;
 export const revalidate = 3600; // hourly cache revalidation
@@ -40,7 +51,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       description: post.excerpt,
       type: 'article',
       publishedTime: post.publishedAt,
-      authors: ['Pete Currey'],
+      modifiedTime: post.dateModified || post.publishedAt,
+      authors: [post.author],
+      images: [
+        {
+          url: post.image || "https://drawdown.trading/og/default-og.png",
+          width: 1200,
+          height: 630,
+          alt: post.title
+        }
+      ]
     },
     alternates: {
       canonical: `https://drawdown.trading/blog/${post.slug}`
@@ -48,24 +68,25 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-function extractHeadings(content: string) {
-  const headingRegex = /^## (.*$)/gim;
-  const headings = [];
+// Extractor that returns H2/H3 headings for TOC
+interface HeadingItem {
+  text: string;
+  id: string;
+  level: 2 | 3;
+}
+
+function extractHeadings(content: string): HeadingItem[] {
+  const headingRegex = /^(##|###) (.*$)/gim;
+  const headings: HeadingItem[] = [];
   let match;
   while ((match = headingRegex.exec(content)) !== null) {
-    headings.push(match[1]);
+    const level = match[1].length as 2 | 3;
+    const text = match[2].trim();
+    const id = text.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+    headings.push({ text, id, level });
   }
   return headings;
 }
-
-const CATEGORY_IMAGES: Record<string, string> = {
-  "Market Analysis": "https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?q=80&w=1200&auto=format&fit=crop",
-  "Education": "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?q=80&w=1200&auto=format&fit=crop",
-  "Psychology": "https://images.unsplash.com/photo-1507413245164-6160d8298b31?q=80&w=1200&auto=format&fit=crop",
-  "Tools": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1200&auto=format&fit=crop",
-  "UK Trading": "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?q=80&w=1200&auto=format&fit=crop",
-  "Risk Management": "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=1200&auto=format&fit=crop",
-};
 
 export default async function BlogPostPage({ params }: Props) {
   const { slug } = await params;
@@ -73,157 +94,246 @@ export default async function BlogPostPage({ params }: Props) {
   
   if (!post) notFound();
 
+  // Dynamic Query: same category, excluding current, sorted by date descending, limit 3
   const allPosts = await getAllPosts();
-  const relatedPosts = allPosts
+  let relatedPosts = allPosts
     .filter(p => p.slug !== slug && p.category === post.category)
+    .sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime())
     .slice(0, 3);
 
+  // Fallback to most recent site-wide if category doesn't have 3 related posts
+  if (relatedPosts.length < 3) {
+    const filler = allPosts
+      .filter(p => p.slug !== slug && !relatedPosts.some(rp => rp.slug === p.slug))
+      .sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
+    relatedPosts = [...relatedPosts, ...filler].slice(0, 3);
+  }
+
   const headings = extractHeadings(post.content);
-  const showTOC = post.content.split(' ').length > 800 && headings.length > 0;
+  // TOC only renders when readTime is 7 minutes or more
+  const showTOC = post.readingTime >= 7 && headings.length > 0;
 
   const components = {
+    h1: () => null, // Suppress MDX body H1 to solve duplicate H1 issue
     h2: ({ children, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => {
       const text = React.Children.toArray(children).join("");
       const id = text.toLowerCase().replace(/[^a-z0-9]+/g, "-");
-      return <h2 id={id} {...props}>{children}</h2>;
+      return <h2 id={id} className="font-display font-black uppercase text-slate-900 border-t border-[#E5E5E5] pt-8 mt-12 mb-6 text-xl sm:text-2xl" {...props}>{children}</h2>;
     },
     h3: ({ children, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => {
       const text = React.Children.toArray(children).join("");
       const id = text.toLowerCase().replace(/[^a-z0-9]+/g, "-");
-      return <h3 id={id} {...props}>{children}</h3>;
+      return <h3 id={id} className="font-display font-extrabold uppercase text-slate-800 mt-8 mb-4 text-sm sm:text-base" {...props}>{children}</h3>;
     },
     Callout,
+    Chart,
+    Diagram,
+    DataTable,
+    PullQuote,
     BlogChart,
     BlogTable,
-    KeyTakeaways,
+    KeyTakeaways
   };
 
   return (
-    <div className="pt-28 pb-24 min-h-screen bg-white">
-      <div className="max-w-7xl mx-auto px-6">
-        <Breadcrumbs />
-        <TrackPageView path={`/blog/${slug}`} />
-        <BreadcrumbSchema items={[
-          { name: 'Home', url: 'https://drawdown.trading' },
-          { name: 'Blog', url: 'https://drawdown.trading/blog' },
-          { name: post.title, url: `https://drawdown.trading/blog/${post.slug}` }
-        ]} />
+    <div className="pt-28 pb-24 min-h-screen bg-white text-slate-850 font-ibm-sans selection:bg-accent selection:text-white relative">
+      <TrackPageView path={`/blog/${slug}`} />
+      <ReadingProgressBar />
+
+      {/* JSON-LD Article Schema */}
+      <JsonLd data={{
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": post.title,
+        "description": post.metaDescription || post.excerpt,
+        "url": `https://drawdown.trading/blog/${post.slug}`,
+        "datePublished": post.publishedAt,
+        "dateModified": post.dateModified || post.publishedAt,
+        "author": {
+          "@type": post.author === "Pete Currey" ? "Person" : "Organization",
+          "name": post.author,
+          "url": post.author === "Pete Currey" ? "https://drawdown.trading/about" : "https://drawdown.trading"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "Drawdown Trading",
+          "url": "https://drawdown.trading",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://drawdown.trading/og/default-og.png"
+          }
+        },
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": `https://drawdown.trading/blog/${post.slug}`
+        },
+        "image": post.image || "https://drawdown.trading/og/default-og.png",
+        "articleSection": post.category
+      }} />
+
+      {/* JSON-LD Breadcrumbs Schema */}
+      <JsonLd data={{
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://drawdown.trading"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Blog",
+            "item": "https://drawdown.trading/blog"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": post.category,
+            "item": `https://drawdown.trading/blog?category=${encodeURIComponent(post.category)}`
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "name": post.title,
+            "item": `https://drawdown.trading/blog/${post.slug}`
+          }
+        ]
+      }} />
+
+      {/* JSON-LD FAQPage Schema */}
+      {post.faq && post.faq.length > 0 && (
         <JsonLd data={{
           "@context": "https://schema.org",
-          "@type": "Article",
-          "headline": post.title,
-          "description": post.excerpt,
-          "url": `https://drawdown.trading/blog/${post.slug}`,
-          "datePublished": post.publishedAt,
-          "dateModified": (post as any).updatedAt || post.publishedAt,
-          "author": {
-            "@type": "Person",
-            "name": "Pete Currey",
-            "url": "https://drawdown.trading/about"
-          },
-          "publisher": {
-            "@type": "Organization",
-            "name": "Drawdown Trading",
-            "url": "https://drawdown.trading",
-            "logo": {
-              "@type": "ImageObject",
-              "url": "https://drawdown.trading/og/default-og.png"
+          "@type": "FAQPage",
+          "mainEntity": post.faq.map(item => ({
+            "@type": "Question",
+            "name": item.question,
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": item.answer
             }
-          },
-          "mainEntityOfPage": {
-            "@type": "WebPage",
-            "@id": `https://drawdown.trading/blog/${post.slug}`
-          },
-          "image": post.image || "https://drawdown.trading/og/default-og.png",
-          "articleSection": post.category || "Trading Education",
-          "keywords": "trading, forex, UK trader"
+          }))
         }} />
+      )}
 
-        <div className="max-w-6xl mx-auto mt-6">
-          <Link href="/blog" className="flex items-center gap-2 text-[10px] font-mono uppercase tracking-widest text-text-tertiary hover:text-accent transition-colors mb-8 group w-fit">
+      <div className="max-w-7xl mx-auto px-6">
+        {/* Visible Breadcrumbs */}
+        <nav className="flex items-center gap-2 font-mono text-[9px] uppercase tracking-widest text-text-tertiary mb-6">
+          <Link href="/" className="hover:text-accent transition-colors">Home</Link>
+          <span>/</span>
+          <Link href="/blog" className="hover:text-accent transition-colors">Blog</Link>
+          <span>/</span>
+          <Link href={`/blog?category=${encodeURIComponent(post.category)}`} className="hover:text-accent transition-colors">
+            {post.category}
+          </Link>
+          <span>/</span>
+          <span className="text-text-secondary truncate max-w-[200px] sm:max-w-xs">{post.title}</span>
+        </nav>
+
+        <div className="max-w-6xl mx-auto">
+          <Link 
+            href="/blog" 
+            className="inline-flex items-center gap-2 text-[9px] font-mono uppercase tracking-widest text-text-tertiary hover:text-accent transition-colors mb-8 group w-fit"
+          >
             <ChevronLeft className="w-3.5 h-3.5 group-hover:-translate-x-1 transition-transform" /> Back to Insights
           </Link>
 
+          {/* PostHero Component Block */}
           <header className="space-y-6 mb-10">
-            <div className="flex items-center gap-3">
-              <span className="px-3 py-1 bg-accent/15 border border-accent/20 text-slate-800 text-[10px] font-mono uppercase tracking-widest rounded">
-                {post.category}
-              </span>
-              <span className="text-[10px] font-mono text-text-tertiary uppercase tracking-widest">
-                By {post.author}
-              </span>
-            </div>
+            <span className="font-mono text-[9px] font-bold text-accent uppercase tracking-[0.2em] block">
+              // {post.category}
+            </span>
             
-            <h1 className="text-3xl md:text-6xl font-sans font-black uppercase leading-[1.05] text-slate-900 tracking-tight max-w-4xl">
+            <h1 className="text-3xl md:text-5xl lg:text-6xl font-display font-black uppercase leading-[1.05] text-slate-900 tracking-tight max-w-4xl">
               {post.title}
             </h1>
             
-            <div className="flex flex-wrap items-center gap-6 text-[10px] font-mono uppercase tracking-widest text-text-tertiary border-y border-slate-100 py-4 mt-8">
+            <div className="flex flex-wrap items-center gap-6 font-mono text-[9px] uppercase tracking-widest text-text-tertiary border-y border-[#E5E5E5] py-4 mt-8">
               <div className="flex items-center gap-2">
-                <Calendar className="w-3.5 h-3.5 text-accent" /> 
+                <div className="w-5 h-5 bg-neutral-100 border border-[#E5E5E5] flex items-center justify-center shrink-0">
+                  <span className="text-[9px] font-bold text-slate-700">{post.author === "Pete Currey" ? "PC" : "DT"}</span>
+                </div>
+                <span>By {post.author}</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <Calendar className="w-3 h-3 text-accent" /> 
                 {new Date(post.publishedAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}
               </div>
-              <div className="flex items-center gap-2">
-                <Clock className="w-3.5 h-3.5 text-accent" /> 
+              <div className="flex items-center gap-1.5">
+                <Clock className="w-3 h-3 text-accent" /> 
                 {post.readingTime} min read
-              </div>
-              <div className="flex items-center gap-2">
-                <ShareButton />
               </div>
             </div>
           </header>
 
-          {/* Featured Image */}
-          <div className="w-full h-[240px] md:h-[420px] rounded-2xl overflow-hidden border border-slate-100 mb-12 relative group shadow-sm">
-            <div className="absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-[1.01]" style={{ backgroundImage: `url(${post.image})` }} />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent" />
-          </div>
+          {/* Hero Image Component */}
+          <figure className="w-full mb-12 relative group shadow-sm">
+            <div className="aspect-[1200/630] w-full overflow-hidden border border-[#E5E5E5] rounded-none">
+              <img 
+                src={post.heroImage.src} 
+                alt={post.heroImage.alt}
+                className="w-full h-full object-cover block"
+              />
+            </div>
+            {post.heroImage.caption && (
+              <figcaption className="font-mono text-[9px] text-text-secondary uppercase tracking-wider leading-relaxed mt-2.5">
+                {post.heroImage.caption} {post.heroImage.credit && <span className="text-text-tertiary font-light">| Credit: {post.heroImage.credit}</span>}
+              </figcaption>
+            )}
+          </figure>
 
-          {/* Two-Column Grid */}
+          {/* Two-Column Grid layout */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
             {/* Main Content Column */}
             <div className="lg:col-span-8 space-y-12">
               {/* Mobile Table of Contents */}
               {showTOC && (
-                <div className="lg:hidden p-6 bg-slate-50 border border-slate-200/80 rounded-xl">
+                <div className="lg:hidden">
                   <TableOfContents headings={headings} />
                 </div>
               )}
 
               <article 
-                className="prose prose-drawdown max-w-none prose-headings:font-sans prose-headings:uppercase prose-headings:text-slate-900 prose-h2:text-2xl prose-h2:mt-12 prose-h2:mb-6 prose-h2:pt-8 prose-h2:border-t prose-h2:border-slate-100 prose-h3:text-lg prose-h3:mt-8 prose-p:text-slate-600 prose-p:leading-relaxed prose-p:text-base prose-p:mb-6 prose-strong:text-slate-900 prose-strong:font-bold prose-blockquote:border-l-4 prose-blockquote:border-accent prose-blockquote:bg-slate-50 prose-blockquote:p-6 prose-blockquote:rounded-r-lg prose-blockquote:italic prose-blockquote:text-slate-700 prose-ul:list-disc prose-ul:pl-6 prose-ul:mb-6 prose-li:text-slate-600 prose-li:mb-2 prose-a:text-accent prose-a:font-semibold hover:prose-a:text-accent-hover"
+                className="prose prose-drawdown font-ibm-sans max-w-none prose-headings:font-display prose-headings:uppercase prose-headings:text-slate-900 prose-h2:text-2xl prose-h2:mt-12 prose-h2:mb-6 prose-h2:pt-8 prose-h2:border-t prose-h2:border-[#E5E5E5] prose-h3:text-lg prose-h3:mt-8 prose-p:text-slate-600 prose-p:leading-relaxed prose-p:text-base prose-p:mb-6 prose-strong:text-slate-900 prose-strong:font-bold prose-blockquote:border-l-4 prose-blockquote:border-accent prose-blockquote:bg-slate-50 prose-blockquote:p-6 prose-blockquote:rounded-none prose-blockquote:italic prose-blockquote:text-slate-700 prose-ul:list-disc prose-ul:pl-6 prose-ul:mb-6 prose-li:text-slate-600 prose-li:mb-2 prose-a:text-accent prose-a:font-semibold hover:prose-a:text-accent-hover"
               >
                 <MDXRemote source={post.content} components={components} />
               </article>
 
-              {(() => {
-                const BLOG_TO_MODULE_MAP: Record<string, { href: string; label: string; description: string }> = {
-                  "why-free-signals-cost-money": {
-                    href: "/courses/ground-zero/module-1",
-                    label: "Ground Zero // Module 1: Why 90% of Traders Lose Money",
-                    description: "Learn why 90% of retail traders fail and the mathematical reality of edge vs. retail signals in our free introductory module."
-                  },
-                  "worthless-trading-courses": {
-                    href: "/courses/ground-zero/module-1",
-                    label: "Ground Zero // Module 1: Why 90% of Traders Lose Money",
-                    description: "Start with a structured, honest trading curriculum. Learn risk management and market microstructure without the guru lifestyle marketing fluff."
-                  }
-                };
+              {/* FaqAccordion Component */}
+              {post.faq && post.faq.length > 0 && (
+                <FaqAccordion faqs={post.faq} />
+              )}
 
-                const mapping = BLOG_TO_MODULE_MAP[slug];
+              {/* Inter-linking callouts to dynamic resources */}
+              {(() => {
+                const mapping = post.relatedCourse ? {
+                  href: `/courses/${post.relatedCourse}`,
+                  label: `Courses // Lesson: ${post.title}`,
+                  description: `Take a structured, professional step with our curated course modules. Start learning risk modeling and trade plans.`,
+                  cta: "Start Lesson"
+                } : post.relatedTool ? {
+                  href: `/tools/${post.relatedTool}`,
+                  label: `Tools // Sandbox: ${post.title}`,
+                  description: `Integrate proprietary intelligence systems into your daily routine to standardize risk parameters.`,
+                  cta: "Use AI Tool"
+                } : null;
+
                 if (!mapping) return null;
 
                 return (
-                  <div className="mt-12 p-8 border border-accent/20 bg-slate-50 rounded-xl space-y-4 shadow-sm relative overflow-hidden">
+                  <div className="mt-12 p-8 border border-accent/20 bg-slate-50 rounded-none space-y-4 shadow-sm relative overflow-hidden">
                     <div className="absolute top-0 left-0 w-2 h-full bg-accent" />
-                    <span className="text-[9px] font-mono uppercase tracking-widest text-text-tertiary block font-bold">// Learn more in the curriculum</span>
-                    <h4 className="text-lg font-sans font-bold uppercase text-slate-800">{mapping.label}</h4>
-                    <p className="text-xs text-slate-500 leading-relaxed max-w-2xl">{mapping.description}</p>
+                    <span className="font-mono text-[9px] font-bold uppercase tracking-widest text-text-tertiary block font-bold">// Dynamic Integration Resource</span>
+                    <h4 className="text-lg font-mono font-bold uppercase text-slate-800">{mapping.label}</h4>
+                    <p className="text-xs text-slate-500 leading-relaxed max-w-2xl font-sans">{mapping.description}</p>
                     <Link 
                       href={mapping.href} 
-                      className="inline-flex items-center gap-2 text-[10px] font-mono uppercase tracking-widest text-accent font-bold hover:text-accent-hover transition-colors mt-2"
+                      className="inline-flex items-center gap-2 text-[10px] font-mono font-bold uppercase tracking-widest text-accent hover:text-accent-hover transition-colors mt-2"
                     >
-                      Start Lesson <ArrowRight className="w-3.5 h-3.5" />
+                      {mapping.cta} &rarr;
                     </Link>
                   </div>
                 );
@@ -233,46 +343,24 @@ export default async function BlogPostPage({ params }: Props) {
             {/* Sticky Sidebar Column */}
             <div className="lg:col-span-4 lg:sticky lg:top-24 space-y-8">
               {showTOC && (
-                <div className="hidden lg:block p-6 bg-slate-50 border border-slate-200/80 rounded-xl shadow-sm">
-                  <TableOfContents headings={headings} />
-                </div>
+                <TableOfContents headings={headings} />
               )}
 
-              {/* Author Bio Card */}
-              <div className="p-6 bg-slate-50 border border-slate-200/80 rounded-xl shadow-sm relative overflow-hidden group">
-                <div className="absolute top-0 right-0 w-16 h-16 opacity-[0.03] pointer-events-none">
-                  <svg className="w-full h-full" fill="currentColor" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
-                </div>
-                <div className="space-y-4">
-                  <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 bg-white border border-slate-200 rounded-lg flex items-center justify-center shadow-sm">
-                      <span className="text-lg font-sans font-black text-accent">PC</span>
-                    </div>
-                    <div>
-                      <h5 className="text-sm font-sans font-bold uppercase text-slate-800 leading-tight">Pete Currey</h5>
-                      <p className="text-[9px] font-mono uppercase tracking-widest text-accent">Founder of Drawdown</p>
-                    </div>
-                  </div>
-                  <p className="text-xs text-slate-500 leading-relaxed">
-                    Professional trader and algorithmic systems architect. Pete built Drawdown to strip away retail noise and focus on cold institutional risk.
-                  </p>
-                  <Link href="/about" className="inline-flex items-center gap-1.5 text-[9px] font-mono uppercase tracking-widest text-slate-400 hover:text-accent transition-colors font-bold">
-                    Pete's Story <ArrowRight className="w-3 h-3" />
-                  </Link>
-                </div>
-              </div>
+              <ShareBar title={post.title} />
 
-              {/* Sidebar CTA Card */}
-              <div className="p-8 bg-slate-900 border border-slate-800 rounded-xl shadow-xl relative overflow-hidden group text-white">
+              <AuthorBio author={post.author} />
+
+              {/* Sidebar CTA Card (zero border-radius) */}
+              <div className="p-8 bg-slate-900 border border-slate-800 rounded-none shadow-xl relative overflow-hidden group text-white">
                 <div className="absolute inset-0 bg-cover bg-center opacity-10" style={{ backgroundImage: `url(https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?q=80&w=400)` }} />
                 <div className="relative z-10 space-y-6">
                   <div className="space-y-2">
-                    <h5 className="text-xl font-sans font-extrabold uppercase leading-tight tracking-tight">Stop Gambling. <br /> Start Trading.</h5>
-                    <p className="text-slate-400 text-xs leading-relaxed">
+                    <h5 className="text-xl font-display font-black uppercase leading-tight tracking-tight">Stop Gambling. <br /> Start Trading.</h5>
+                    <p className="text-slate-400 text-xs leading-relaxed font-sans">
                       Master risk with our professional suite of algorithmic tools and structured academies.
                     </p>
                   </div>
-                  <Link href="/signup" className="block w-full py-3 bg-accent text-[#08090D] hover:bg-accent-hover text-center font-sans font-bold uppercase tracking-wider text-[10px] rounded-lg transition-colors shadow-lg shadow-accent/20">
+                  <Link href="/signup" className="block w-full py-3 bg-accent text-[#08090D] hover:bg-cyan-400 text-center font-mono font-bold uppercase tracking-wider text-[10px] rounded-none transition-colors shadow-lg">
                     Create Free Account
                   </Link>
                 </div>
@@ -280,26 +368,23 @@ export default async function BlogPostPage({ params }: Props) {
             </div>
           </div>
 
-          {/* Related Posts */}
+          {/* Related Insights Grid */}
           {relatedPosts.length > 0 && (
-            <div className="mt-24 pt-12 border-t border-slate-100 space-y-8">
-              <h4 className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary">// Related Insights</h4>
+            <div className="mt-24 pt-12 border-t border-[#E5E5E5] space-y-8">
+              <h4 className="font-mono text-[9px] uppercase tracking-widest text-text-tertiary font-bold">// Related Insights</h4>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                {relatedPosts.map(p => {
-                  const relatedImage = p.image;
-                  return (
-                    <Link key={p.slug} href={`/blog/${p.slug}`} className="group space-y-4 flex flex-col">
-                      <div className="aspect-video w-full rounded-xl overflow-hidden border border-slate-100 relative bg-slate-50 shrink-0">
-                        <div className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105" style={{ backgroundImage: `url(${relatedImage})` }} />
-                      </div>
-                      <div className="space-y-2 flex-grow">
-                        <span className="text-[8px] font-mono uppercase tracking-widest text-accent font-bold">{p.category}</span>
-                        <h5 className="text-base font-sans font-bold uppercase leading-tight text-slate-800 group-hover:text-accent transition-colors">{p.title}</h5>
-                        <p className="text-xs text-slate-500 line-clamp-2 leading-relaxed">{p.excerpt}</p>
-                      </div>
-                    </Link>
-                  );
-                })}
+                {relatedPosts.map(p => (
+                  <Link key={p.slug} href={`/blog/${p.slug}`} className="group space-y-4 flex flex-col">
+                    <div className="aspect-video w-full rounded-none overflow-hidden border border-[#E5E5E5] relative bg-slate-50 shrink-0">
+                      <div className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-103" style={{ backgroundImage: `url(${p.image})` }} />
+                    </div>
+                    <div className="space-y-2 flex-grow">
+                      <span className="font-mono text-[8px] uppercase tracking-widest text-accent font-bold">{p.category}</span>
+                      <h5 className="text-base font-display font-bold uppercase leading-tight text-slate-800 group-hover:text-accent transition-colors">{p.title}</h5>
+                      <p className="text-xs text-slate-555 line-clamp-2 leading-relaxed font-sans">{p.excerpt}</p>
+                    </div>
+                  </Link>
+                ))}
               </div>
             </div>
           )}

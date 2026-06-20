@@ -179,7 +179,7 @@ export function Navigation() {
     if (hoverTimeout) clearTimeout(hoverTimeout);
     const timeout = setTimeout(() => {
       setActiveMenu(null);
-    }, 150);
+    }, 300);
     setHoverTimeout(timeout);
   };
 
@@ -349,7 +349,7 @@ export function Navigation() {
               exit={{ opacity: 0, y: 10 }}
               transition={{ duration: 0.15, ease: "easeOut" }}
               className={cn(
-                "absolute left-6 right-6 top-[58px] rounded-b-2xl border-x border-b shadow-2xl p-6 grid grid-cols-12 gap-8 z-[190] backdrop-blur-md transition-colors duration-200 mx-auto max-w-[840px]",
+                "absolute left-6 right-6 top-[56px] rounded-b-2xl border-x border-b shadow-2xl p-6 grid grid-cols-12 gap-8 z-[190] backdrop-blur-md transition-colors duration-200 mx-auto max-w-[840px]",
                 isDarkMarketPage
                   ? "bg-[#0C0C0D]/95 border-white/5 text-white shadow-black/80"
                   : "bg-white/95 border-mkt-bd text-mkt-ink shadow-neutral-200/50"
@@ -383,7 +383,7 @@ export function Navigation() {
                       </div>
                       <div className="flex flex-col gap-0.5 justify-center">
                         <span className={cn(
-                          "text-xs font-bold transition-colors font-sans",
+                          "text-sm font-semibold transition-colors font-sans",
                           isDarkMarketPage
                             ? "text-white group-hover/link:text-[#C8F135]"
                             : "text-mkt-ink group-hover/link:text-mkt-grn"
@@ -391,7 +391,7 @@ export function Navigation() {
                           {link.name}
                         </span>
                         <span className={cn(
-                          "text-[10px] font-sans",
+                          "text-xs font-sans",
                           isDarkMarketPage ? "text-neutral-400" : "text-mkt-i3"
                         )}>
                           {link.desc}
@@ -430,16 +430,16 @@ export function Navigation() {
 
                   {/* Card Content */}
                   <div className="relative z-20 space-y-1.5 text-white">
-                    <span className="text-[8px] font-mono font-bold tracking-widest text-[#C8F135] bg-[#C8F135]/10 px-2 py-0.5 rounded border border-[#C8F135]/20 uppercase w-fit block">
+                    <span className="text-[9px] font-mono font-bold tracking-widest text-[#C8F135] bg-[#C8F135]/10 px-2 py-0.5 rounded border border-[#C8F135]/20 uppercase w-fit block">
                       {megaMenus[activeMenu].featured.badge}
                     </span>
-                    <h4 className="text-xs font-bold leading-tight font-sans tracking-tight">
+                    <h4 className="text-sm font-semibold leading-tight font-sans tracking-tight">
                       {megaMenus[activeMenu].featured.title}
                     </h4>
-                    <p className="text-[9px] text-neutral-300 leading-relaxed font-sans font-light">
+                    <p className="text-xs text-neutral-300 leading-relaxed font-sans font-light">
                       {megaMenus[activeMenu].featured.desc}
                     </p>
-                    <span className="text-[9px] font-semibold text-[#C8F135] group-hover/card:translate-x-1 transition-transform inline-flex items-center gap-1 font-mono uppercase tracking-wider mt-1">
+                    <span className="text-[10px] font-semibold text-[#C8F135] group-hover/card:translate-x-1 transition-transform inline-flex items-center gap-1 font-mono uppercase tracking-wider mt-1">
                       Explore →
                     </span>
                   </div>
@@ -526,6 +526,46 @@ export function Navigation() {
                                 </Link>
                               );
                             })}
+                            
+                            {/* Mobile featured showcase card */}
+                            <Link
+                              href={
+                                megaMenus[menuKey].featured.href.startsWith("/prop-firms") || megaMenus[menuKey].featured.href.startsWith("/store")
+                                  ? megaMenus[menuKey].featured.href
+                                  : `${regionPrefix}${megaMenus[menuKey].featured.href}`
+                              }
+                              className={cn(
+                                "mt-2 group/card relative flex flex-col justify-end w-full min-h-[90px] rounded-xl overflow-hidden p-4 border",
+                                isDarkMarketPage ? "border-white/5 bg-white/[0.01]" : "border-neutral-100 bg-neutral-50/50"
+                              )}
+                              onClick={() => {
+                                setIsMobileMenuOpen(false);
+                                setMobileExpanded({});
+                              }}
+                            >
+                              <div className="absolute inset-0 z-0">
+                                <img
+                                  src={megaMenus[menuKey].featured.image}
+                                  alt={megaMenus[menuKey].featured.title}
+                                  className="w-full h-full object-cover opacity-20"
+                                />
+                                <div className={cn(
+                                  "absolute inset-0 bg-gradient-to-t z-10",
+                                  isDarkMarketPage ? "from-black/95 via-black/40 to-transparent" : "from-black/90 via-black/30 to-transparent"
+                                )} />
+                              </div>
+                              <div className="relative z-20 space-y-1 text-white">
+                                <span className="text-[7px] font-mono font-bold tracking-widest text-[#C8F135] bg-[#C8F135]/15 px-1.5 py-0.5 rounded border border-[#C8F135]/25 uppercase w-fit block">
+                                  {megaMenus[menuKey].featured.badge}
+                                </span>
+                                <h4 className="text-[11px] font-bold font-sans">
+                                  {megaMenus[menuKey].featured.title}
+                                </h4>
+                                <p className="text-[9px] text-neutral-300 font-sans font-light leading-snug">
+                                  {megaMenus[menuKey].featured.desc}
+                                </p>
+                              </div>
+                            </Link>
                           </div>
                         </motion.div>
                       )}

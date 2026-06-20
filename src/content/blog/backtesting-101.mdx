@@ -1,0 +1,109 @@
+---
+title: "Backtesting 101 — Why Your Strategy Lies to You Without It"
+excerpt: "The difference between a hunch and a tested edge, what to record in a proper backtest, and the most common mistakes that make backtest results lie."
+category: "Education"
+publishedAt: "2026-06-18T09:00:00Z"
+dateModified: "2026-06-18T09:00:00Z"
+author: "Drawdown Team"
+metaTitle: "How to Backtest a Trading Strategy: Beginner's Guide | Drawdown"
+metaDescription: "The difference between a hunch and a tested edge, what to record in a proper backtest, and the most common mistakes that make backtest results lie."
+heroImage:
+  src: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800"
+  alt: "Analytics dashboard displaying performance data and indicators"
+  caption: "Backtesting provides the historical data required to confirm a trading edge."
+faq:
+  - question: "How many trades do you need before trusting a backtest?"
+    answer: "A minimum of 100 sample trades is generally recommended. This sample size provides a statistically significant base to assess your win rate and drawdown profile."
+  - question: "What does curve-fitting actually mean in plain English?"
+    answer: "Curve-fitting is when you adjust your strategy rules to perfectly fit a specific set of past data, making it look incredibly profitable historically, but useless in live markets."
+  - question: "Does a good backtest guarantee live performance will match?"
+    answer: "No. A backtest only demonstrates that a strategy had an edge in the past. Live execution introduces slippage, execution delays, and changes in market conditions."
+relatedTool: "strategy-backtester"
+relatedCourse: "strategist"
+---
+
+# Backtesting 101 — Why Your Strategy Lies to You Without It
+
+Every strategy feels like it works in your head. Backtesting is the only thing that tells you whether it actually does.
+
+When a retail trader discovers a new strategy, the pattern is almost always the same. They read a blog post, watch a video, or look at a few cherry-picked charts where the strategy worked perfectly. Convinced they have found the holy grail, they fund an account and start executing the strategy. Within a few weeks, they hit a normal losing streak, panic, abandon the strategy, and search for the next one. 
+
+This cycle is known as the "system-hopping trap." The root cause of this trap is a lack of historical testing. Without a proper backtest, you have no statistical evidence that your strategy actually possesses an edge. More importantly, you do not know what a normal drawdown looks like for that strategy, leaving you psychologically unprepared for the inevitable losses.
+
+<Callout type="info">
+Backtesting is not about proving how much money a strategy can make. It is about understanding the strategy's statistical distribution of wins, losses, and drawdowns over a large sample.
+</Callout>
+
+## The difference between a hunch and an edge
+
+A trading edge is a statistical advantage that, executed over a large enough sample of trades, yields a positive expectancy. 
+
+Many retail participants confuse a hunch with an edge. A hunch is based on recent memory. You recall that "buying the pullback on GBP/USD during the London session has been working lately." However, human memory is highly selective. We naturally remember our winning trades and forget or dismiss our losing ones.
+
+To turn a hunch into a verified edge, you must test the rules of that strategy across hundreds of past trades. This process strips away the emotion and selective memory. It replaces your gut feeling with hard data: a win rate, an average risk-to-reward ratio, and a maximum drawdown depth. 
+
+If a strategy does not survive a historical backtest, it will not survive the live market. Testing it historically is the only way to confirm you actually have an advantage before you risk real money.
+
+## What to record in a proper backtest
+
+When executing a backtest, you must record specific, objective metrics for every single trade. Simply scrolling through a chart and noting whether the trade "looks like it won" is not backtesting; it is confirmation bias.
+
+For every historical trade, you must document:
+
+*   **Date and Time:** To check if your strategy performs better during specific sessions or days.
+*   **Direction:** Whether the trade was long or short.
+*   **Entry Price:** The exact price where your rules triggered the entry.
+*   **Stop-Loss and Take-Profit:** The structural levels defined by your strategy rules.
+*   **Outcome:** Whether the trade hit your stop-loss or your take-profit.
+*   **R-Multiple:** The actual risk-to-reward achieved (e.g., -1R for a loss, +2R for a win).
+
+Once you have recorded a minimum of 100 trades, you can calculate the core metrics of your strategy: your win rate, your profit factor, your average win-to-loss ratio, and your maximum consecutive losing streak.
+
+<PullQuote>
+Every strategy feels like it works in your head. Backtesting is the only thing that tells you whether it actually does.
+</PullQuote>
+
+<DataTable 
+  headers={["Backtest Metric", "Minimum Standard", "What It Tells You", "Why It Matters"]}
+  rows={[
+    ["Sample Size", "100 Trades", "Statistical validity of your results", "Prevents drawing conclusions from luck"],
+    ["Win Rate", "40% to 60%", "Percentage of trades that end in profit", "Determines psychological suitability"],
+    ["Average Risk-to-Reward", "1.5:1 or higher", "Average size of wins versus losses", "Determines edge expectancy combined with win rate"],
+    ["Max Consecutive Losers", "6 to 8 losses", "Worst-case streak of losses in sample", "Prepares you psychologically for drawdowns"],
+    ["Max Drawdown Depth", "Under 15%", "Deepest equity drop in the backtest", "Checks compatibility with your risk limits"]
+  ]}
+  caption="Core metrics required to evaluate a historical backtest."
+/>
+
+## Common backtesting mistakes
+
+Many traders execute backtests, get outstanding results, and still lose money in live markets. This happens because their backtest was flawed. Here are the three most common mistakes that make backtests lie:
+
+1.  **Curve-Fitting:** This occurs when you adjust your strategy rules to perfectly fit a specific historical period. For example, if you add an extra filter simply to avoid three specific losses in your 2025 data, you are curve-fitting. The resulting strategy looks perfect on past charts but will fail on new data because the rules are too specific to the past.
+2.  **Ignoring Spread and Slippage:** In a backtest, it is easy to assume you entered at the exact touch of a line. In live trading, your broker charges a spread, and your order may experience slippage during fast-moving markets. If your backtest does not account for these costs, your live performance will be significantly worse than your test results.
+3.  **Hindsight Bias:** When backtesting manually, you can see what happened next on the chart. It is easy to look at a marginal setup and say, "I probably wouldn't have taken that trade because the momentum looked weak," simply because you can see that the trade went on to lose. This is cheating, and it inflates your win rate.
+
+<Chart 
+  src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=800" 
+  alt="Equity curve backtest performance visualization chart" 
+  caption="A backtest equity curve helps you visualize your strategy's drawdowns and recovery periods before risking capital."
+/>
+
+## Manual backtesting vs the Strategy Backtester
+
+Traders often ask whether they should backtest manually or use automated tools. The answer is that both methods have distinct values:
+
+*   **Manual Backtesting:** Scrolling through historical charts bar-by-bar and manually recording every trade. While slow, this process is an invaluable educational exercise. It forces you to look at hundreds of setups, building a deep visual familiarity with how your strategy behaves during different market phases.
+*   **Automated Backtesting:** Using software to scan historical data and generate performance reports instantly. This method is incredibly fast, allowing you to test a strategy across multiple instruments and years in a matter of seconds. It also eliminates hindsight bias, as the software executes the rules exactly as written, without human discretion.
+
+We recommend starting with a manual backtest of 50 trades to understand the nuances of your strategy, and then transitioning to our Strategy Backtester to scale your testing across years of historical data.
+
+## Turning backtest results into sizing decisions
+
+Once you have verified your strategy edge, you can use the data to make objective position sizing decisions. 
+
+Instead of guessing whether to risk 1% or 2% per trade, you can plug your backtest win rate and average risk-to-reward ratio into our Risk Calculator. The calculator uses a fractional Kelly Criterion model to determine the exact position size that maximizes your long-term account growth while keeping your drawdown within safe boundaries. 
+
+This integration of backtesting, risk modeling, and execution is the foundation of systematic trading.
+
+Test your strategy rules historically using our [Strategy Backtester](/tools/strategy-backtester). To build your edge step-by-step, enroll in our [Strategist Course](/courses/strategist) and learn about our automated builder tools like the [Algo Strategy Builder](/tools/algo-strategy-builder).

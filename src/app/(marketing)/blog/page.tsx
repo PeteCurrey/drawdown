@@ -5,9 +5,11 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { getAllPosts } from "@/lib/blog";
 import { TrackPageView } from "@/components/admin/TrackPageView";
+import { Suspense } from "react";
+import { BlogSearch } from "@/components/blog/BlogSearch";
 
 interface Props {
-  searchParams: { category?: string; page?: string };
+  searchParams: { category?: string; page?: string; q?: string };
 }
 
 export const metadata: Metadata = {
@@ -32,11 +34,20 @@ export default async function BlogListingPage({ searchParams }: Props) {
   const allPosts = await getAllPosts();
   const resolvedParams = await searchParams;
   const selectedCategory = resolvedParams.category || "All";
+  const searchQuery = resolvedParams.q || "";
   const currentPage = parseInt(resolvedParams.page || "1");
 
-  const filteredPosts = selectedCategory === "All" 
+  let filteredPosts = selectedCategory === "All" 
     ? allPosts 
     : allPosts.filter(p => p.category === selectedCategory);
+
+  if (searchQuery) {
+    const query = searchQuery.toLowerCase();
+    filteredPosts = filteredPosts.filter(p => 
+      p.title.toLowerCase().includes(query) || 
+      p.excerpt.toLowerCase().includes(query)
+    );
+  }
 
   const featuredPost = filteredPosts[0];
   const remainingPosts = filteredPosts.slice(1);
@@ -78,26 +89,53 @@ export default async function BlogListingPage({ searchParams }: Props) {
           </p>
         </div>
 
-        {/* Category Filter */}
-        <div className="flex flex-wrap gap-2 mb-14 border-b border-[#E5E5E5] pb-8">
-          {CATEGORIES.map((cat) => (
-            <Link 
-              key={cat}
-              href={`/blog${cat === "All" ? "" : `?category=${encodeURIComponent(cat)}`}`}
-              className={cn(
-                "px-4 py-2 rounded-none text-[9px] font-mono font-bold uppercase tracking-widest transition-all border",
-                selectedCategory === cat
-                  ? "bg-accent text-[#08090D] border-accent shadow-sm shadow-accent/25"
-                  : "text-slate-500 border-[#E5E5E5] hover:border-[#CCCCCC] hover:text-slate-800 bg-white"
-              )}
-            >
-              {cat}
-            </Link>
-          ))}
+        {/* Filter and Search Row */}
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 mb-14 border-b border-[#E5E5E5] pb-8">
+          {/* Category Filter */}
+          <div className="flex flex-wrap gap-2">
+            {CATEGORIES.map((cat) => {
+              const urlParams = new URLSearchParams();
+              if (cat !== "All") urlParams.set("category", cat);
+              if (searchQuery) urlParams.set("q", searchQuery);
+              const queryString = urlParams.toString();
+              const href = `/blog${queryString ? `?${queryString}` : ""}`;
+              
+              return (
+                <Link 
+                  key={cat}
+                  href={href}
+                  className={cn(
+                    "px-4 py-2 rounded-none text-[9px] font-mono font-bold uppercase tracking-widest transition-all border",
+                    selectedCategory === cat
+                      ? "bg-accent text-[#08090D] border-accent shadow-sm shadow-accent/25"
+                      : "text-slate-500 border-[#E5E5E5] hover:border-[#CCCCCC] hover:text-slate-800 bg-white"
+                  )}
+                >
+                  {cat}
+                </Link>
+              );
+            })}
+          </div>
+          
+          {/* Search Bar */}
+          <Suspense fallback={<div className="h-10 w-full max-w-md bg-slate-50 animate-pulse border border-[#E5E5E5]" />}>
+            <BlogSearch />
+          </Suspense>
         </div>
 
-        {/* Featured Post (Only on Page 1) */}
-        {featuredPost && currentPage === 1 && (
+        {filteredPosts.length === 0 ? (
+          <div className="text-center py-20 border border-dashed border-[#E5E5E5] bg-slate-50/50">
+            <p className="text-sm text-slate-500 font-mono uppercase tracking-wider mb-2">
+              // No articles match your search query
+            </p>
+            <p className="text-xs text-slate-400 font-sans">
+              Try adjusting your keywords or category filters.
+            </p>
+          </div>
+        ) : (
+          <>
+            {/* Featured Post (Only on Page 1) */}
+            {featuredPost && currentPage === 1 && (
           <div className="mb-20">
             <Link href={`/blog/${featuredPost.slug}`} className="group grid grid-cols-1 lg:grid-cols-12 gap-0 items-stretch border border-[#E5E5E5] rounded-none hover:shadow-[0_8px_40px_rgba(0,0,0,0.06)] hover:border-[#CCCCCC] transition-all duration-300 bg-white">
               <div className="lg:col-span-7 aspect-video lg:aspect-auto bg-slate-50 relative overflow-hidden min-h-[300px] border-r lg:border-r-0 border-b lg:border-b-0 border-[#E5E5E5]">
@@ -163,24 +201,32 @@ export default async function BlogListingPage({ searchParams }: Props) {
           })}
         </div>
 
-        {/* Pagination */}
-        {totalPages > 1 && (
-          <div className="mt-16 flex justify-center gap-2">
-            {Array.from({ length: totalPages }).map((_, i) => (
-              <Link 
-                key={i}
-                href={`/blog?category=${encodeURIComponent(selectedCategory)}&page=${i + 1}`}
-                className={cn(
-                  "w-10 h-10 flex items-center justify-center font-mono text-xs rounded-none border transition-colors",
-                  currentPage === i + 1
-                    ? "bg-accent text-[#08090D] border-accent font-bold"
-                    : "border-[#E5E5E5] text-slate-500 hover:border-[#CCCCCC] hover:text-slate-800 bg-white"
-                )}
-              >
-                {i + 1}
-              </Link>
-            ))}
-          </div>
+            {/* Pagination */}
+            {totalPages > 1 && (
+              <div className="mt-16 flex justify-center gap-2">
+                {Array.from({ length: totalPages }).map((_, i) => {
+                  const pageParams = new URLSearchParams();
+                  if (selectedCategory !== "All") pageParams.set("category", selectedCategory);
+                  if (searchQuery) pageParams.set("q", searchQuery);
+                  pageParams.set("page", String(i + 1));
+                  return (
+                    <Link 
+                      key={i}
+                      href={`/blog?${pageParams.toString()}`}
+                      className={cn(
+                        "w-10 h-10 flex items-center justify-center font-mono text-xs rounded-none border transition-colors",
+                        currentPage === i + 1
+                          ? "bg-accent text-[#08090D] border-accent font-bold"
+                          : "border-[#E5E5E5] text-slate-500 hover:border-[#CCCCCC] hover:text-slate-800 bg-white"
+                      )}
+                    >
+                      {i + 1}
+                    </Link>
+                  );
+                })}
+              </div>
+            )}
+          </>
         )}
 
         {/* RSS Link */}

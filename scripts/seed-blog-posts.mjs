@@ -78,29 +78,40 @@ const DEFAULT_IMAGE = 'https://images.unsplash.com/photo-1611974789855-9c2a0a723
 // ---------------------------------------------------------------------------
 // Step 1: Upsert author_profiles record
 // ---------------------------------------------------------------------------
-console.log('\n📝  Upserting author profile for Pete...');
+console.log('\n📝  Setting up author profile for Pete...');
 
-const { data: author, error: authorError } = await supabase
+// Check if any author profile already exists
+const { data: existingAuthors } = await supabase
   .from('author_profiles')
-  .upsert(
-    {
-      name: 'Pete',
+  .select('id')
+  .limit(1);
+
+let authorId;
+
+if (existingAuthors && existingAuthors.length > 0) {
+  authorId = existingAuthors[0].id;
+  console.log(`✅  Existing author profile found. id=${authorId}`);
+} else {
+  const { data: newAuthor, error: authorError } = await supabase
+    .from('author_profiles')
+    .insert({
+      name: 'Pete Currey',
       role: 'Founder, Drawdown',
       bio: 'Building Drawdown to be the trading education platform that actually tells you the truth.',
       avatar_url: '',
-    },
-    { onConflict: 'name' }
-  )
-  .select('id')
-  .single();
+    })
+    .select('id')
+    .single();
 
-if (authorError) {
-  console.error('❌  Failed to upsert author_profiles:', authorError.message);
-  process.exit(1);
+  if (authorError) {
+    console.error('❌  Failed to insert author_profiles:', authorError.message);
+    process.exit(1);
+  }
+
+  authorId = newAuthor.id;
+  console.log(`✅  Author profile created. id=${authorId}`);
 }
 
-const authorId = author.id;
-console.log(`✅  Author profile upserted. id=${authorId}`);
 
 // ---------------------------------------------------------------------------
 // Step 2: Read all 43 MDX files and upsert into blog_posts + blog_post_seo
@@ -159,14 +170,11 @@ for (const file of mdxFiles) {
         published_at: fm.publishedAt || new Date().toISOString(),
         hero_image_url: heroSrc,
         hero_image_alt: heroAlt,
-        hero_image_caption: heroCaption,
-        hero_image_credit: heroCredit,
         read_time: `${readingTime} min read`,
         body: content, // raw MDX body (without frontmatter)
         is_published: true,
         author_id: authorId,
         related_post_slugs: fm.internalLinks || [],
-        seo: seoJson,
         dark_background: false,
       },
       { onConflict: 'slug' }
@@ -276,7 +284,6 @@ for (const ep of editorialPosts) {
         is_published: true,
         author_id: authorId,
         related_post_slugs: ep.related_post_slugs,
-        seo: { schema_type: ep.schema_type },
         dark_background: true,
       },
       { onConflict: 'slug' }

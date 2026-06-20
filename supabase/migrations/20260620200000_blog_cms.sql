@@ -1,6 +1,5 @@
 -- DROP PRE-EXISTING TABLES TO ENSURE CLEAN CMS UPGRADE
-DROP TRIGGER IF EXISTS trigger_update_blog_post_seo_updated_at ON blog_post_seo;
-DROP TRIGGER IF EXISTS trigger_update_blog_posts_updated_at ON blog_posts;
+-- (CASCADE drops any triggers automatically)
 DROP TABLE IF EXISTS blog_post_seo CASCADE;
 DROP TABLE IF EXISTS blog_posts CASCADE;
 DROP TABLE IF EXISTS author_profiles CASCADE;

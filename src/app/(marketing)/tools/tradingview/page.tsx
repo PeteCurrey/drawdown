@@ -13,26 +13,10 @@ interface Props {
   params: Promise<{ region?: string }>;
 }
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const resolvedParams = await params;
-  const region = (resolvedParams?.region || "uk") as Region;
-  const regionData = REGIONS_MAP[region] || REGIONS_MAP.uk;
-  const demonym = regionData.demonym;
-
-  return {
-    title: `TradingView Review for ${demonym} Traders (2026) — Is It Worth It? | Drawdown`,
-    description: `An honest TradingView review from traders who use it daily. Free vs paid plans compared, ${region === "uk" ? "UK-specific" : demonym + " trader"} features, and why it's the charting platform we recommend to every Drawdown member.`,
-    alternates: {
-      canonical: `https://drawdown.trading/${region === "uk" ? "" : region + "/"}tools/tradingview`,
-    },
-    openGraph: {
-      type: "article",
-      title: `TradingView Review for ${demonym} Traders (2026) — Is It Worth It? | Drawdown`,
-      description: `An honest TradingView review from traders who use it daily. Free vs paid plans compared, ${region === "uk" ? "UK-specific" : demonym + " trader"} features, and why it's the charting platform we recommend to every Drawdown member.`,
-      url: `https://drawdown.trading/${region === "uk" ? "" : region + "/"}tools/tradingview`,
-      siteName: "Drawdown",
-    }
-  };
+export const metadata: Metadata = {
+  title: 'TradingView Review 2026 | Honest UK Trader Assessment',
+  description: 'Honest TradingView review for UK traders. Used by 60M+ traders worldwide — is the free plan enough? Includes live chart demo and UK-specific context.',
+  alternates: { canonical: 'https://drawdown.trading/tools/tradingview' }
 }
 
 export default async function TradingViewReviewPage({ params }: Props) {

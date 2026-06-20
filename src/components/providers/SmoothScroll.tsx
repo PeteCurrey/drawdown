@@ -1,9 +1,23 @@
 "use client";
 
-import { ReactLenis } from "lenis/react";
+import { ReactLenis, useLenis } from "lenis/react";
 import { useEffect } from "react";
+import { usePathname } from "next/navigation";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+function ScrollReset() {
+  const pathname = usePathname();
+  const lenis = useLenis();
+
+  useEffect(() => {
+    if (lenis) {
+      lenis.scrollTo(0, { immediate: true });
+    }
+  }, [pathname, lenis]);
+
+  return null;
+}
 
 export function SmoothScroll() {
   useEffect(() => {
@@ -30,6 +44,8 @@ export function SmoothScroll() {
         smoothWheel: true,
         syncTouch: true,
       }} 
-    />
+    >
+      <ScrollReset />
+    </ReactLenis>
   );
 }

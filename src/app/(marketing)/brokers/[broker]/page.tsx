@@ -4,6 +4,8 @@ import { BROKER_REVIEWS } from "@/data/seo/reviews";
 import { BrokerReviewTemplate } from "@/components/brokers/BrokerReviewTemplate";
 import { TrackPageView } from "@/components/admin/TrackPageView";
 import { Metadata } from "next";
+import JsonLd from "@/components/seo/JsonLd";
+import BreadcrumbSchema from "@/components/seo/BreadcrumbSchema";
 
 export const dynamicParams = true;
 export const revalidate = 3600; // hourly cache revalidation
@@ -12,6 +14,24 @@ const BROKER_MAP: Record<string, string> = {
   "ig-markets-review": "ig",
   "pepperstone-review": "pepperstone",
   "ic-markets-review": "ic-markets",
+};
+
+const BROKER_EXTRA: Record<string, { founded: number; headquarters: string; reviewIntro: string }> = {
+  ig: {
+    founded: 1974,
+    headquarters: "London",
+    reviewIntro: "IG Markets is a global leader in retail spread betting and CFD trading, regulated by the FCA.",
+  },
+  pepperstone: {
+    founded: 2010,
+    headquarters: "Melbourne",
+    reviewIntro: "Pepperstone is a world-class broker offering low spreads and rapid execution for active traders.",
+  },
+  "ic-markets": {
+    founded: 2007,
+    headquarters: "Sydney",
+    reviewIntro: "IC Markets is a premium choice for high-volume automated traders needing true raw liquidity.",
+  }
 };
 
 export function generateStaticParams() {
@@ -65,9 +85,55 @@ export default async function BrokerReviewPage({ params }: Props) {
     ]
   };
 
+  const extra = BROKER_EXTRA[broker.id] || {
+    founded: 2010,
+    headquarters: "London",
+    reviewIntro: broker.oneLine,
+  };
+
   return (
     <>
       <TrackPageView path={`/brokers/${brokerParam}`} />
+      <BreadcrumbSchema items={[
+        { name: 'Home', url: 'https://drawdown.trading' },
+        { name: 'Brokers', url: 'https://drawdown.trading/brokers' },
+        { name: broker.name, url: `https://drawdown.trading/brokers/${brokerParam}` }
+      ]} />
+      <JsonLd data={{
+        "@context": "https://schema.org",
+        "@type": "Review",
+        "name": `${broker.name} Review`,
+        "reviewBody": extra.reviewIntro,
+        "reviewRating": {
+          "@type": "Rating",
+          "ratingValue": broker.rating,
+          "bestRating": 5,
+          "worstRating": 0
+        },
+        "author": {
+          "@type": "Person",
+          "name": "Pete Currey",
+          "url": "https://drawdown.trading/about"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "Drawdown Trading",
+          "url": "https://drawdown.trading"
+        },
+        "itemReviewed": {
+          "@type": "FinancialService",
+          "name": broker.name,
+          "url": broker.affiliateUrl,
+          "description": broker.oneLine,
+          "foundingDate": extra.founded.toString(),
+          "address": {
+            "@type": "PostalAddress",
+            "addressLocality": extra.headquarters
+          }
+        },
+        "url": `https://drawdown.trading/brokers/${brokerParam}`,
+        "datePublished": "2026-01-01"
+      }} />
       <BrokerReviewTemplate 
         broker={broker} 
         content={deepReview} 

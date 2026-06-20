@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ChevronDown, ArrowRight } from "lucide-react";
+import { Metadata } from "next";
+import BreadcrumbSchema from "@/components/seo/BreadcrumbSchema";
 
 export const dynamicParams = true;
 export const revalidate = 3600; // hourly cache revalidation
@@ -31,13 +33,16 @@ export async function generateStaticParams() {
   }));
 }
 
-export async function generateMetadata({ params }: PageProps) {
-  const { slug } = await params;
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { category, slug } = await params;
   const instrument = getInstrumentBySlug(slug);
   if (!instrument) return {};
   return {
     title: instrument.metaTitle,
     description: instrument.metaDescription,
+    alternates: {
+      canonical: `https://drawdown.trading/markets/${category}/${slug}`,
+    },
   };
 }
 
@@ -113,7 +118,14 @@ export default async function MarketInstrumentPage({ params }: PageProps) {
   const sessionRanges = getSessionRanges(instrument.slug);
 
   return (
-    <div className="flex flex-col bg-[#0A0A0A] text-white min-h-screen selection:bg-[#C8F135] selection:text-black">
+    <>
+      <BreadcrumbSchema items={[
+        { name: 'Home', url: 'https://drawdown.trading' },
+        { name: 'Markets', url: 'https://drawdown.trading/markets' },
+        { name: instrument.category.toUpperCase(), url: `https://drawdown.trading/markets/${instrument.category}` },
+        { name: instrument.displayPair, url: `https://drawdown.trading/markets/${instrument.category}/${instrument.slug}` }
+      ]} />
+      <div className="flex flex-col bg-[#0A0A0A] text-white min-h-screen selection:bg-[#C8F135] selection:text-black">
       
       {/* SECTION 1: HERO */}
       <section className="relative w-full min-h-[calc(100vh-58px)] flex flex-col justify-center items-center py-20 px-6 overflow-hidden border-b border-white/5 bg-[#0A0A0A]">
@@ -489,5 +501,6 @@ export default async function MarketInstrumentPage({ params }: PageProps) {
       </section>
 
     </div>
+    </>
   );
 }

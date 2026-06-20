@@ -4,11 +4,13 @@ import { COMPARISON_PAGES } from "@/data/seo/compare";
 import { ArrowRight, ChevronRight, GitCompare } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { TrackPageView } from "@/components/admin/TrackPageView";
+import BreadcrumbSchema from "@/components/seo/BreadcrumbSchema";
 
 export const metadata: Metadata = {
-  title: "Trading Tool Comparisons | Side-by-Side Analysis | Drawdown",
-  description: "Deep-dive side-by-side comparisons of the world's leading trading platforms, brokers, and software. Find the right tool for your strategy.",
-};
+  title: 'Broker Comparisons | Head-to-Head Reviews',
+  description: 'Side-by-side broker comparisons for UK traders. CMC vs IG, Pepperstone vs IC Markets and more — honest assessments with no affiliate bias.',
+  alternates: { canonical: 'https://drawdown.trading/compare' }
+}
 
 export default function CompareHub() {
   const featured = COMPARISON_PAGES[0];
@@ -16,6 +18,10 @@ export default function CompareHub() {
   return (
     <main className="min-h-screen pt-32 pb-20 px-6">
       <TrackPageView path="/compare" />
+      <BreadcrumbSchema items={[
+        { name: 'Home', url: 'https://drawdown.trading' },
+        { name: 'Compare', url: 'https://drawdown.trading/compare' }
+      ]} />
       <div className="max-w-6xl mx-auto">
         {/* Breadcrumbs */}
         <nav className="flex items-center space-x-2 text-[10px] font-mono uppercase tracking-widest text-text-tertiary mb-8">

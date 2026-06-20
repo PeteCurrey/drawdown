@@ -37,7 +37,27 @@ const geistMono = Geist_Mono({
   display: 'swap',
 });
 
-export const metadata: Metadata = getMetadata();
+export const metadata: Metadata = {
+  metadataBase: new URL('https://drawdown.trading'),
+  title: {
+    default: 'Drawdown — Trade the Truth',
+    template: '%s | Drawdown'
+  },
+  description: 'Learn to trade properly with structured courses, AI-powered tools and honest mentorship. No gurus. No hype. Just edge.',
+  openGraph: {
+    siteName: 'Drawdown',
+    locale: 'en_GB',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    creator: '@drawdowntrading',
+  },
+  robots: {
+    index: true,
+    follow: true,
+  }
+}
 
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
 

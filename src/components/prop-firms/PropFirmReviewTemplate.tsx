@@ -23,6 +23,7 @@ import { PropFirmReview } from "@/data/seo/prop-firms";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { getRelatedLinks } from "@/lib/linking";
 import { LeadMagnet } from "@/components/seo/LeadMagnet";
+import { PropSurvivalFloatingWidget } from "@/components/ui/PropSurvivalFloatingWidget";
 
 interface PropFirmReviewTemplateProps {
   review: PropFirmReview;
@@ -368,6 +369,7 @@ export function PropFirmReviewTemplate({ review }: PropFirmReviewTemplateProps) 
           </div>
         </div>
       </div>
+      <PropSurvivalFloatingWidget />
     </div>
   );
 }

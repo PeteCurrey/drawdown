@@ -120,10 +120,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { topic, location } = data;
 
   return {
-    title: `${topic.title} in ${location.name} — Learn Online | Drawdown`,
+    title: `${topic.title} in ${location.name} | Learn to Trade | Drawdown`,
     description: `Learn ${topic.title} from ${location.name} with Drawdown. Structured courses, AI tools, and UK-focused trading education. Start your journey free today.`,
     alternates: {
-      canonical: `https://drawdown.ai/learn-to-trade/${topicSlug}/${locationSlug}`,
+      canonical: `https://drawdown.trading/learn-to-trade/${topicSlug}/${locationSlug}`,
     },
   };
 }

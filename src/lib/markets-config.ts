@@ -21,23 +21,23 @@ export interface MarketInstrument {
 
 export const CATEGORY_META = {
   forex: {
-    title: "Forex Markets | Live FX Charts & Analysis | Drawdown",
-    description: "Live charts, technical analysis and Drawdown education context for all major forex pairs. GBP/USD, EUR/USD, USD/JPY and more.",
+    title: "Forex Markets | Live FX Charts & Currency Analysis",
+    description: "Live charts and technical analysis for all major forex pairs. GBP/USD, EUR/USD, USD/JPY, GBP/JPY and more — with Drawdown curriculum context.",
     intro: "The foreign exchange market is where Drawdown lives. Every major pair, covered with live TradingView charts, technical analysis gauges, and honest context on how we teach each instrument within the curriculum."
   },
   commodities: {
-    title: "Commodities Markets | Gold, Oil & Silver Charts | Drawdown",
-    description: "Live charts and analysis for major commodities including Gold, Silver and Crude Oil. Real-time TradingView data with Drawdown education context.",
+    title: "Commodities Markets | Gold, Silver & Crude Oil Charts",
+    description: "Live charts and analysis for major commodities. Gold (XAU/USD), Silver and WTI Crude Oil with key driver breakdowns and economic calendar.",
     intro: "Commodities add macro depth to any trading toolkit. Gold, Silver and Crude Oil — each covered with live data, key driver breakdowns and curriculum context from the Drawdown platform."
   },
   indices: {
-    title: "Stock Indices | FTSE 100, S&P 500, NASDAQ Charts | Drawdown",
-    description: "Live charts and analysis for major stock indices including the FTSE 100, S&P 500, NASDAQ 100 and Dow Jones.",
+    title: "Stock Indices | FTSE 100, S&P 500, NASDAQ & Dow Jones Charts",
+    description: "Live charts and analysis for major stock indices. FTSE 100, S&P 500, NASDAQ 100 and Dow Jones — with macro context and economic calendar.",
     intro: "Global equity indices are the pulse of macro market sentiment. Understand what the FTSE, S&P 500 and NASDAQ are doing — and why it matters for every trade you take."
   },
   crypto: {
-    title: "Crypto Markets | Bitcoin, Ethereum & XRP Charts | Drawdown",
-    description: "Live Bitcoin, Ethereum and XRP charts with technical analysis and Drawdown curriculum context for crypto traders.",
+    title: "Crypto Markets | Bitcoin, Ethereum & XRP Live Charts",
+    description: "Live Bitcoin, Ethereum and XRP charts with technical analysis. Covered in Drawdown's Phase 6 curriculum — with 24/7 market data.",
     intro: "Cryptocurrency offers 24/7 market access and extreme volatility. Covered in Drawdown's Phase 6 curriculum — here's the live data and context serious crypto traders need."
   }
 };

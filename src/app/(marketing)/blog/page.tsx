@@ -10,12 +10,10 @@ interface Props {
   searchParams: { category?: string; page?: string };
 }
 
-export async function generateMetadata({ searchParams }: Props): Promise<Metadata> {
-  return getMetadata({
-    title: "Insights | Market Analysis & Trading Education",
-    description: "Market analysis, trading education, and honest commentary from the Drawdown team. No hype, just edge.",
-    path: `/blog${searchParams.category ? `?category=${searchParams.category}` : ""}`,
-  });
+export const metadata: Metadata = {
+  title: 'Trading Blog | Market Analysis & Education',
+  description: 'Daily market analysis, trading education and honest commentary from Pete Currey and the Drawdown team. No signals. No hype. Just context.',
+  alternates: { canonical: 'https://drawdown.trading/blog' }
 }
 
 const CATEGORIES = ["All", "Market Analysis", "Education", "Psychology", "Tools", "UK Trading", "Risk Management"];

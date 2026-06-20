@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { COMPARISON_PAGES } from "@/data/seo/compare";
 import { Metadata } from "next";
 import { CompareTemplate } from "@/components/seo/CompareTemplate";
+import BreadcrumbSchema from "@/components/seo/BreadcrumbSchema";
 
 export const dynamicParams = true;
 export const revalidate = 3600; // hourly cache revalidation
@@ -37,5 +38,14 @@ export default async function GlobalComparePage({ params }: Props) {
     notFound();
   }
 
-  return <CompareTemplate page={page} region="uk" />;
+  return (
+    <>
+      <BreadcrumbSchema items={[
+        { name: 'Home', url: 'https://drawdown.trading' },
+        { name: 'Compare', url: 'https://drawdown.trading/compare' },
+        { name: page.title, url: `https://drawdown.trading/compare/${slug}` }
+      ]} />
+      <CompareTemplate page={page} region="uk" />
+    </>
+  );
 }

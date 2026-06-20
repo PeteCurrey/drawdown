@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowRight } from "lucide-react";
+import { Metadata } from "next";
 
 export const dynamicParams = true;
 export const revalidate = 3600; // hourly cache revalidation
@@ -27,13 +28,16 @@ export async function generateStaticParams() {
   ];
 }
 
-export async function generateMetadata({ params }: PageProps) {
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { category } = await params;
   const meta = CATEGORY_META[category as MarketCategory];
   if (!meta) return {};
   return {
     title: meta.title,
     description: meta.description,
+    alternates: {
+      canonical: `https://drawdown.trading/markets/${category}`
+    }
   };
 }
 

@@ -1,10 +1,10 @@
 import React from "react";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getMetadata } from "@/lib/metadata";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
-import { StructuredData } from "@/components/StructuredData";
 import { getAllPosts, getPostBySlug } from "@/lib/blog";
+import JsonLd from "@/components/seo/JsonLd";
+import BreadcrumbSchema from "@/components/seo/BreadcrumbSchema";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import Link from "next/link";
 import { Clock, Calendar, ChevronLeft, ArrowRight } from "lucide-react";
@@ -30,31 +30,21 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const post = await getPostBySlug(slug);
-  if (!post) return {};
+  if (!post) return { title: 'Post Not Found' };
   
-  const baseMetadata = getMetadata({
-    title: post.metaTitle,
-    description: post.metaDescription,
-    path: `/blog/${post.slug}`,
-  });
-
   return {
-    ...baseMetadata,
+    title: post.metaTitle || post.title,
+    description: post.metaDescription || post.excerpt,
     openGraph: {
-      ...baseMetadata.openGraph,
-      type: "article",
-      publishedTime: new Date(post.publishedAt).toISOString(),
-      modifiedTime: new Date((post as any).updatedAt || post.publishedAt).toISOString(),
-      authors: ["Pete Currey"],
-      images: [
-        {
-          url: post.image,
-          width: 1200,
-          height: 630,
-          alt: post.title,
-        }
-      ]
+      title: post.title,
+      description: post.excerpt,
+      type: 'article',
+      publishedTime: post.publishedAt,
+      authors: ['Pete Currey'],
     },
+    alternates: {
+      canonical: `https://drawdown.trading/blog/${post.slug}`
+    }
   };
 }
 
@@ -91,34 +81,6 @@ export default async function BlogPostPage({ params }: Props) {
   const headings = extractHeadings(post.content);
   const showTOC = post.content.split(' ').length > 800 && headings.length > 0;
 
-  const postImage = post.image;
-
-  const articleSchema = {
-    "@context": "https://schema.org",
-    headline: post.title,
-    description: post.excerpt,
-    image: postImage,
-    author: {
-      "@type": "Person",
-      "name": "Pete Currey",
-      "url": "https://drawdown.trading/about"
-    },
-    publisher: {
-      "@type": "Organization",
-      "name": "Drawdown",
-      "logo": {
-        "@type": "ImageObject",
-        "url": "https://drawdown.trading/og/default-og.png"
-      }
-    },
-    datePublished: new Date(post.publishedAt).toISOString(),
-    dateModified: new Date((post as any).updatedAt || post.publishedAt).toISOString(),
-    mainEntityOfPage: {
-      "@type": "WebPage",
-      "@id": `https://drawdown.trading/blog/${post.slug}`
-    }
-  };
-
   const components = {
     h2: ({ children, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => {
       const text = React.Children.toArray(children).join("");
@@ -141,7 +103,41 @@ export default async function BlogPostPage({ params }: Props) {
       <div className="max-w-7xl mx-auto px-6">
         <Breadcrumbs />
         <TrackPageView path={`/blog/${slug}`} />
-        <StructuredData type="Article" data={articleSchema} />
+        <BreadcrumbSchema items={[
+          { name: 'Home', url: 'https://drawdown.trading' },
+          { name: 'Blog', url: 'https://drawdown.trading/blog' },
+          { name: post.title, url: `https://drawdown.trading/blog/${post.slug}` }
+        ]} />
+        <JsonLd data={{
+          "@context": "https://schema.org",
+          "@type": "Article",
+          "headline": post.title,
+          "description": post.excerpt,
+          "url": `https://drawdown.trading/blog/${post.slug}`,
+          "datePublished": post.publishedAt,
+          "dateModified": (post as any).updatedAt || post.publishedAt,
+          "author": {
+            "@type": "Person",
+            "name": "Pete Currey",
+            "url": "https://drawdown.trading/about"
+          },
+          "publisher": {
+            "@type": "Organization",
+            "name": "Drawdown Trading",
+            "url": "https://drawdown.trading",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "https://drawdown.trading/og/default-og.png"
+            }
+          },
+          "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": `https://drawdown.trading/blog/${post.slug}`
+          },
+          "image": post.image || "https://drawdown.trading/og/default-og.png",
+          "articleSection": post.category || "Trading Education",
+          "keywords": "trading, forex, UK trader"
+        }} />
 
         <div className="max-w-6xl mx-auto mt-6">
           <Link href="/blog" className="flex items-center gap-2 text-[10px] font-mono uppercase tracking-widest text-text-tertiary hover:text-accent transition-colors mb-8 group w-fit">
@@ -179,7 +175,7 @@ export default async function BlogPostPage({ params }: Props) {
 
           {/* Featured Image */}
           <div className="w-full h-[240px] md:h-[420px] rounded-2xl overflow-hidden border border-slate-100 mb-12 relative group shadow-sm">
-            <div className="absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-[1.01]" style={{ backgroundImage: `url(${postImage})` }} />
+            <div className="absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-[1.01]" style={{ backgroundImage: `url(${post.image})` }} />
             <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent" />
           </div>
 

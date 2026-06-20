@@ -142,7 +142,7 @@ export function Footer() {
           {/* Copyright & Clean Text-Only Region Links */}
           <div className="space-y-4 shrink-0">
             <p className="text-[10px] font-mono uppercase tracking-widest text-mkt-i3">
-              © 2026 DRAWDOWN. TRADE THE TRUTH.
+              © 2026 Drawdown Trading. All rights reserved. · Drawdown Trading Ltd, Chesterfield, Derbyshire, UK
             </p>
             
             {/* Region links without flags */}

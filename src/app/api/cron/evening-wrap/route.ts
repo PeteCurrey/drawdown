@@ -18,11 +18,12 @@ export async function GET(req: NextRequest) {
       "Authorization": `Bearer ${process.env.CRON_SECRET}`,
       "Content-Type": "application/json"
     };
-    if (process.env.VERCEL_AUTOMATION_BYPASS_SECRET) {
-      generateHeaders["x-vercel-protection-bypass"] = process.env.VERCEL_AUTOMATION_BYPASS_SECRET;
-    }
+    const bypassToken = process.env.VERCEL_AUTOMATION_BYPASS_SECRET;
+    const generateUrl = bypassToken
+      ? `${siteUrl}/api/email/generate-evening?x-vercel-protection-bypass=${bypassToken}&x-vercel-set-bypass-cookie=true`
+      : `${siteUrl}/api/email/generate-evening`;
 
-    const generateRes = await fetch(`${siteUrl}/api/email/generate-evening`, {
+    const generateRes = await fetch(generateUrl, {
       method: "POST",
       headers: generateHeaders,
       cache: "no-store"
@@ -45,11 +46,12 @@ export async function GET(req: NextRequest) {
       "Authorization": `Bearer ${process.env.CRON_SECRET}`,
       "Content-Type": "application/json"
     };
-    if (process.env.VERCEL_AUTOMATION_BYPASS_SECRET) {
-      sendHeaders["x-vercel-protection-bypass"] = process.env.VERCEL_AUTOMATION_BYPASS_SECRET;
-    }
 
-    const sendRes = await fetch(`${siteUrl}/api/email/send-broadcast`, {
+    const sendUrl = bypassToken
+      ? `${siteUrl}/api/email/send-broadcast?x-vercel-protection-bypass=${bypassToken}&x-vercel-set-bypass-cookie=true`
+      : `${siteUrl}/api/email/send-broadcast`;
+
+    const sendRes = await fetch(sendUrl, {
       method: "POST",
       headers: sendHeaders,
       body: JSON.stringify({ emailSendId, type: "evening_wrap" }),

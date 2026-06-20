@@ -16,11 +16,12 @@ export async function triggerMorningBriefAction() {
     const headers: Record<string, string> = {
       "Authorization": `Bearer ${cronSecret}`
     };
-    if (process.env.VERCEL_AUTOMATION_BYPASS_SECRET) {
-      headers["x-vercel-protection-bypass"] = process.env.VERCEL_AUTOMATION_BYPASS_SECRET;
-    }
+    const bypassToken = process.env.VERCEL_AUTOMATION_BYPASS_SECRET;
+    const url = bypassToken
+      ? `${siteUrl}/api/cron/morning-brief?x-vercel-protection-bypass=${bypassToken}&x-vercel-set-bypass-cookie=true`
+      : `${siteUrl}/api/cron/morning-brief`;
 
-    const res = await fetch(`${siteUrl}/api/cron/morning-brief`, {
+    const res = await fetch(url, {
       method: "GET",
       headers,
       cache: "no-store"
@@ -52,11 +53,12 @@ export async function triggerEveningWrapAction() {
     const headers: Record<string, string> = {
       "Authorization": `Bearer ${cronSecret}`
     };
-    if (process.env.VERCEL_AUTOMATION_BYPASS_SECRET) {
-      headers["x-vercel-protection-bypass"] = process.env.VERCEL_AUTOMATION_BYPASS_SECRET;
-    }
+    const bypassToken = process.env.VERCEL_AUTOMATION_BYPASS_SECRET;
+    const url = bypassToken
+      ? `${siteUrl}/api/cron/evening-wrap?x-vercel-protection-bypass=${bypassToken}&x-vercel-set-bypass-cookie=true`
+      : `${siteUrl}/api/cron/evening-wrap`;
 
-    const res = await fetch(`${siteUrl}/api/cron/evening-wrap`, {
+    const res = await fetch(url, {
       method: "GET",
       headers,
       cache: "no-store"

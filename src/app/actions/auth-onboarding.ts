@@ -22,11 +22,12 @@ export async function handleSignupOnboarding({
       "Content-Type": "application/json",
       "Authorization": `Bearer ${cronSecret}`
     };
-    if (process.env.VERCEL_AUTOMATION_BYPASS_SECRET) {
-      headers["x-vercel-protection-bypass"] = process.env.VERCEL_AUTOMATION_BYPASS_SECRET;
-    }
+    const bypassToken = process.env.VERCEL_AUTOMATION_BYPASS_SECRET;
+    const url = bypassToken
+      ? `${siteUrl}/api/email/welcome?x-vercel-protection-bypass=${bypassToken}&x-vercel-set-bypass-cookie=true`
+      : `${siteUrl}/api/email/welcome`;
 
-    const res = await fetch(`${siteUrl}/api/email/welcome`, {
+    const res = await fetch(url, {
       method: "POST",
       headers,
       body: JSON.stringify({ email, userId, firstName }),

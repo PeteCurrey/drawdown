@@ -17,32 +17,70 @@ import { PricingSection } from "@/components/home/PricingSection";
 import { Footer } from "@/components/layout/Footer";
 import { FadeInSection } from "@/components/animations/FadeInSection";
 import { TrackPageView } from "@/components/admin/TrackPageView";
-import { StructuredData } from "@/components/StructuredData";
-import { getMetadata } from "@/lib/metadata";
+import { Metadata } from "next";
+import JsonLd from "@/components/seo/JsonLd";
 
-export const metadata = getMetadata({
-  path: "/",
-});
+export const metadata: Metadata = {
+  title: 'Drawdown — Learn to Trade Properly | UK Trading Education',
+  description: 'Phase-based trading education for UK traders. Structured curriculum, AI-powered tools, honest mentorship. Start free — no card required.',
+  openGraph: {
+    title: 'Drawdown — Learn to Trade Properly',
+    description: 'Phase-based trading education for UK traders. No gurus. No hype. Just edge.',
+    url: 'https://drawdown.trading',
+  },
+  alternates: {
+    canonical: 'https://drawdown.trading',
+  }
+}
 
 export default function Home() {
-  const orgSchema = {
-    "name": "Drawdown",
-    "url": "https://drawdown.trading",
-    "logo": "https://drawdown.trading/og/default-og.png",
-    "founder": {
-      "@type": "Person",
-      "name": "Pete Currey"
-    },
-    "sameAs": [
-      "https://twitter.com/drawdowntrading",
-      "https://youtube.com/@drawdowntrading"
-    ]
-  };
-
   return (
     <div className="flex flex-col">
       <TrackPageView path="/" />
-      <StructuredData type="Organization" data={orgSchema} />
+      <JsonLd data={{
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "Drawdown Trading",
+        "url": "https://drawdown.trading",
+        "logo": "https://drawdown.trading/og/default-og.png",
+        "description": "Phase-based trading education for UK traders. Structured curriculum, AI-powered tools and honest mentorship.",
+        "founder": {
+          "@type": "Person",
+          "name": "Pete Currey",
+          "jobTitle": "Founder",
+          "url": "https://drawdown.trading/about"
+        },
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Chesterfield",
+          "addressRegion": "Derbyshire",
+          "addressCountry": "GB"
+        },
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "contactType": "customer support",
+          "email": "hello@drawdown.trading",
+          "availableLanguage": "English"
+        },
+        "sameAs": [
+          "https://twitter.com/drawdowntrading",
+          "https://youtube.com/@drawdowntrading"
+        ]
+      }} />
+      <JsonLd data={{
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "Drawdown",
+        "url": "https://drawdown.trading",
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": {
+            "@type": "EntryPoint",
+            "urlTemplate": "https://drawdown.trading/blog?q={search_term_string}"
+          },
+          "query-input": "required name=search_term_string"
+        }
+      }} />
       
       {/* 1. Above fold components (not animated by FadeInSection) */}
       <Navigation />

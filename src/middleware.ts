@@ -76,7 +76,6 @@ export default async function middleware(request: NextRequest) {
     path.startsWith("/dashboard") ||
     (path.startsWith("/learn/") && path.split("/").length > 3) || // Gate /learn/[phase]/[id] but not /learn or /learn/[phase]
     path.startsWith("/live") ||
-    path.startsWith("/tools/") ||
     path.startsWith("/profile") ||
     path.startsWith("/admin") ||
     path.startsWith("/partner");

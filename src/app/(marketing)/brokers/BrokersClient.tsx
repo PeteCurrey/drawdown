@@ -86,6 +86,85 @@ export default function BrokerComparisonHub() {
         </div>
       </section>
 
+      {/* Intro Section */}
+      <section className="py-24 border-b border-border-slate/50">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+            <div className="space-y-6">
+              <span className="text-[11px] font-sans font-bold text-text-tertiary uppercase tracking-widest block mb-4">
+                // THE BASICS
+              </span>
+              <h2 className="text-3xl md:text-5xl font-sans font-extrabold tracking-tight text-text-primary leading-tight">
+                What is a Broker?
+              </h2>
+              <div className="space-y-4 font-sans text-lg text-text-secondary leading-relaxed">
+                <p>
+                  A broker is the gateway between you and the financial markets. When you place a trade on gold, forex, indices, or any other instrument, your broker is the entity that executes that order, either by routing it to a liquidity provider or by acting as the counterparty themselves.
+                </p>
+                <p>
+                  Choosing the right broker matters more than most traders realise. Spreads, execution speed, slippage, and platform stability are not just technical footnotes: they are the difference between a strategy that works and one that looks good in backtesting and bleeds in live conditions.
+                </p>
+                <p>
+                  There are two main broker models you need to understand. A market maker takes the other side of your trade internally, which can create a conflict of interest: your loss is their gain. An ECN or STP broker routes your order directly to the interbank market, typically offering tighter spreads and faster execution with no dealing desk interference. For serious traders, the distinction matters.
+                </p>
+                <p>
+                  Regulation is non-negotiable. Every broker listed on Drawdown is regulated by a Tier 1 authority: the FCA in the UK, ASIC in Australia, or equivalent. Unregulated brokers are not reviewed, recommended, or listed here regardless of their spread offering.
+                </p>
+              </div>
+            </div>
+            
+            <div className="bg-background-surface border border-border-slate/50 rounded-[14px] p-8 space-y-6">
+              <h3 className="font-sans font-bold text-xl text-text-primary">What to check before you deposit:</h3>
+              <ul className="space-y-6">
+                <li className="flex items-start gap-4">
+                  <div className="w-8 h-8 rounded-full bg-mkt-ink text-white flex items-center justify-center font-bold text-xs shrink-0 mt-1">1</div>
+                  <div>
+                    <p className="font-bold text-text-primary font-sans text-sm">Regulation</p>
+                    <p className="text-xs text-text-tertiary font-sans mt-1">
+                      FCA, ASIC, or CySEC as a minimum. Check the register directly, do not take the broker's word for it.
+                    </p>
+                  </div>
+                </li>
+                <li className="flex items-start gap-4">
+                  <div className="w-8 h-8 rounded-full bg-mkt-ink text-white flex items-center justify-center font-bold text-xs shrink-0 mt-1">2</div>
+                  <div>
+                    <p className="font-bold text-text-primary font-sans text-sm">Execution Model</p>
+                    <p className="text-xs text-text-tertiary font-sans mt-1">
+                      ECN or STP for serious trading. Market makers are acceptable for spread betting but understand the conflict of interest.
+                    </p>
+                  </div>
+                </li>
+                <li className="flex items-start gap-4">
+                  <div className="w-8 h-8 rounded-full bg-mkt-ink text-white flex items-center justify-center font-bold text-xs shrink-0 mt-1">3</div>
+                  <div>
+                    <p className="font-bold text-text-primary font-sans text-sm">Spreads and Commission</p>
+                    <p className="text-xs text-text-tertiary font-sans mt-1">
+                      Raw spread accounts charge commission per lot. Standard accounts bake the cost into the spread. Calculate total cost per trade, not just the headline spread figure.
+                    </p>
+                  </div>
+                </li>
+                <li className="flex items-start gap-4">
+                  <div className="w-8 h-8 rounded-full bg-mkt-ink text-white flex items-center justify-center font-bold text-xs shrink-0 mt-1">4</div>
+                  <div>
+                    <p className="font-bold text-text-primary font-sans text-sm">Platform and Latency</p>
+                    <p className="text-xs text-text-tertiary font-sans mt-1 font-sans">
+                      MT4, MT5, and TradingView are the standards. Test execution speed on demo before committing real capital. Slippage on news events will tell you everything.
+                    </p>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          {/* Disclosure */}
+          <div className="mt-12 text-center max-w-4xl mx-auto">
+            <p className="text-[10px] font-mono text-text-tertiary uppercase tracking-widest leading-relaxed opacity-60">
+              Drawdown earns a referral commission on some broker signups. Every affiliate relationship is disclosed on the relevant broker review page.
+            </p>
+          </div>
+        </div>
+      </section>
+
       {/* Quick Filter Bar (Visual Mockup) */}
       <section className="py-5 border-b border-border-slate/50 sticky top-[58px] z-40">
          <div className="max-w-7xl mx-auto px-6">

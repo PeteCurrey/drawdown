@@ -153,7 +153,7 @@ export default function PropFirmsHubPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
                <div>
                   <h2 className="text-2xl md:text-4xl font-sans font-black uppercase leading-tight mb-6">
-                     The Math <br className="hidden md:block"/> Is Against You.
+                     The Maths <br className="hidden md:block"/> Is Against You.
                   </h2>
                   <p className="text-lg text-text-secondary leading-relaxed">
                      <span className="text-text-primary font-bold">90% of traders fail their evaluations</span> because they trade the firm's rules, not their own edge. They over-leverage to hit arbitrary profit targets and blow their accounts on day three.

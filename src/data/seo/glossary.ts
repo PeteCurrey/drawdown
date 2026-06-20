@@ -99,24 +99,13 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
   {
     term: 'Leverage',
     slug: 'leverage',
-    definition: 'Leverage is borrowed capital provided by your broker, allowing you to control a massive position with a relatively small account balance.',
-    detailedExplanation: 'Leverage is a double-edged sword. It amplifies your profits, but it mathematically amplifies your losses at the exact same rate. \n\nIn the UK, the FCA restricts retail leverage to a maximum of 30:1 on major forex pairs to protect beginners from blowing their accounts in minutes. This means with £1,000 in your account, you can control a position worth £30,000. \n\nHowever, using maximum leverage is a sign of an amateur. Professional traders rarely utilize more than 5:1 true leverage, as high leverage dramatically reduces the distance the market needs to move against you to trigger a margin call.',
+    definition: 'Borrowed capital from your broker that lets you control a position larger than your deposit — amplifying both profits and losses equally.',
+    detailedExplanation: 'Read the full guide: [What Is Leverage?](/basic/what-is-leverage)',
     example: 'With 30:1 leverage, a 3.33% drop in the asset\'s price will completely wipe out 100% of your account margin.',
-    richBlocks: [
-      {
-        type: 'riskWarning',
-        message: 'Offshore brokers offering 500:1 or 1000:1 leverage are a trap. At 500:1 leverage, a tiny 0.2% price fluctuation against your position will instantly liquidate your entire account.'
-      } as RiskWarningBlock,
-      {
-        type: 'statCallout',
-        stat: '30:1 Max Leverage',
-        context: 'The strict maximum leverage allowed for retail traders by the UK Financial Conduct Authority (FCA).',
-        source: 'FCA Regulations'
-      } as StatCalloutBlock
-    ],
     relatedTerms: ['Margin', 'Margin Call', 'Drawdown'],
     faqs: []
   },
+
   {
     term: 'Margin',
     slug: 'margin',
@@ -387,8 +376,8 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
   {
     term: 'CFD (Contract for Difference)',
     slug: 'cfd',
-    definition: 'An agreement to exchange the difference in the value of an asset from the time the contract is opened to when it is closed.',
-    detailedExplanation: 'CFDs allow you to trade price movements without owning the underlying asset. They are leveraged products and are popular for trading stocks, indices, and commodities.',
+    definition: 'A CFD lets you speculate on price movements without owning the underlying asset, using leverage — making it the primary instrument for UK retail traders.',
+    detailedExplanation: 'Read the full guide: [What Is a CFD?](/basic/what-is-a-cfd)',
     example: 'Instead of buying Apple shares, a trader opens a CFD position to profit from the price move with less capital.',
     relatedTerms: ['Leverage', 'Spread Betting', 'Margin'],
     faqs: []
@@ -396,8 +385,8 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
   {
     term: 'Commodities',
     slug: 'commodities',
-    definition: 'Raw materials or primary agricultural products that can be bought and sold, such as copper or coffee.',
-    detailedExplanation: 'In trading, commodities are usually split into "Hard" (mined, like gold and oil) and "Soft" (grown, like wheat and sugar). They are often used as a hedge against inflation.',
+    definition: 'Raw materials and primary goods — gold, oil, wheat, coffee — traded on global markets as assets in their own right.',
+    detailedExplanation: 'Read the full guide: [What Are Commodities?](/basic/what-are-commodities)',
     example: 'Traders often buy oil (WTI) when they expect global economic growth to accelerate.',
     relatedTerms: ['Gold', 'Oil', 'Inflation Hedge'],
     faqs: []
@@ -1558,5 +1547,88 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     example: 'A massive bearish engulfing candle on the daily chart ended the three-week rally.',
     relatedTerms: ['Engulfing Pattern', 'Price Action', 'Reversal'],
     faqs: []
-  }
+  },
+
+  // ── /basic cross-reference stubs ─────────────────────────────────────────
+  {
+    term: 'Trading',
+    slug: 'trading',
+    definition: 'The buying and selling of financial instruments with the aim of profiting from price movements over shorter time frames than traditional investing.',
+    detailedExplanation: 'Read the full guide: [What Is Trading?](/basic/what-is-trading)',
+    example: 'A retail trader buys GBP/USD in the morning and closes the position in the afternoon for a 30-pip gain.',
+    relatedTerms: ['Investing', 'Forex', 'CFD'],
+    faqs: []
+  },
+  {
+    term: 'Broker',
+    slug: 'broker',
+    definition: 'A regulated company or individual that executes trades on your behalf, providing market access, a trading platform, and account infrastructure in exchange for a spread or commission.',
+    detailedExplanation: 'Read the full guide: [What Is a Broker?](/basic/what-is-a-broker)',
+    example: 'A UK trader opens a spread betting account with an FCA-regulated broker to access the forex market.',
+    relatedTerms: ['Spread Betting', 'CFD', 'FCA Regulation'],
+    faqs: []
+  },
+  {
+    term: 'Prop Firm',
+    slug: 'prop-firm',
+    definition: 'A proprietary trading firm that funds traders who pass an evaluation challenge, allowing them to trade larger capital in exchange for a share of profits.',
+    detailedExplanation: 'Read the full guide: [What Is a Prop Firm?](/basic/what-is-a-prop-firm)',
+    example: 'A trader passes a two-phase FTMO challenge and receives a £100,000 funded account, keeping 80% of profits.',
+    relatedTerms: ['Funded Account', 'Drawdown Limit', 'Evaluation'],
+    faqs: []
+  },
+  {
+    term: 'Forex (FX)',
+    slug: 'forex',
+    definition: 'The global market where national currencies are exchanged — the world\'s largest and most liquid financial market, operating 24 hours a day, five days a week.',
+    detailedExplanation: 'Read the full guide: [What Is Forex?](/basic/what-is-forex)',
+    example: 'A UK trader buys GBP/USD, speculating that the pound will strengthen against the US dollar.',
+    relatedTerms: ['Currency Pair', 'Spread Betting', 'Pip'],
+    faqs: []
+  },
+  {
+    term: 'Index / Indices',
+    slug: 'indices',
+    definition: 'A market index measures the combined performance of a defined group of stocks, such as the FTSE 100 (the 100 largest UK-listed companies) or the S&P 500.',
+    detailedExplanation: 'Read the full guide: [What Are Indices?](/basic/what-are-indices)',
+    example: 'A trader goes long on the FTSE 100 index via a CFD, profiting when the constituent companies\'s share prices rise.',
+    relatedTerms: ['FTSE 100', 'Stock', 'CFD'],
+    faqs: []
+  },
+  {
+    term: 'Stock / Share',
+    slug: 'stock',
+    definition: 'A unit of ownership in a company, entitling the holder to a proportional share of its profits and assets.',
+    detailedExplanation: 'Read the full guide: [What Is a Stock?](/basic/what-is-a-stock)',
+    example: 'Buying 100 shares of Rolls-Royce gives you fractional ownership of the business and entitlement to any dividends paid.',
+    relatedTerms: ['Dividend', 'Equity', 'CFD'],
+    faqs: []
+  },
+  {
+    term: 'Cryptocurrency',
+    slug: 'cryptocurrency',
+    definition: 'A digital currency secured by cryptography and operating on a decentralised blockchain network, traded 24/7 on global markets with high volatility.',
+    detailedExplanation: 'Read the full guide: [What Is Cryptocurrency Trading?](/basic/what-is-cryptocurrency-trading)',
+    example: 'A trader buys Bitcoin via a CFD broker, profiting when the price rises without needing to hold actual Bitcoin in a wallet.',
+    relatedTerms: ['Bitcoin', 'Blockchain', 'Volatility'],
+    faqs: []
+  },
+  {
+    term: 'Demo Account',
+    slug: 'demo-account',
+    definition: 'A simulated trading account funded with virtual money, using real market prices and a real platform — allowing practice without financial risk.',
+    detailedExplanation: 'Read the full guide: [What Is a Demo Account?](/basic/what-is-a-demo-account)',
+    example: 'A beginner opens a demo account with £10,000 of virtual funds and practises executing trades on MT4 before risking real capital.',
+    relatedTerms: ['Paper Trading', 'Broker', 'MetaTrader'],
+    faqs: []
+  },
+  {
+    term: 'Trading Platform',
+    slug: 'trading-platform',
+    definition: 'Software that connects traders to financial markets, enabling order placement, chart analysis, and position management — the primary interface between a trader and their broker.',
+    detailedExplanation: 'Read the full guide: [What Is a Trading Platform?](/basic/what-is-a-trading-platform)',
+    example: 'A trader uses MetaTrader 4 (MT4) to set entry orders, stop losses, and take profits on a GBP/USD position.',
+    relatedTerms: ['MetaTrader', 'TradingView', 'Broker'],
+    faqs: []
+  },
 ];

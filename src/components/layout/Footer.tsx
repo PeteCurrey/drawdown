@@ -45,8 +45,8 @@ export function Footer() {
     <footer className="bg-white border-t border-mkt-bd py-16 md:py-24 select-none relative z-10">
       <div className="max-w-7xl mx-auto px-6">
         
-        {/* Four Column Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+        {/* Five Column Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 mb-16">
           
           {/* Column 1: Brand + Tagline + Newsletter */}
           <div className="space-y-8">
@@ -121,7 +121,20 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Column 4: Company */}
+          {/* Column 4: Resources */}
+          <div>
+            <h4 className="text-[11px] font-sans font-bold uppercase tracking-widest text-mkt-ink mb-6">
+              Resources
+            </h4>
+            <ul className="space-y-4 text-xs text-mkt-i3 font-sans">
+              <li><Link href="/basic" className="hover:text-mkt-ink transition-colors font-bold text-mkt-grn">Trading Basics</Link></li>
+              <li><Link href="/glossary" className="hover:text-mkt-ink transition-colors">Glossary</Link></li>
+              <li><Link href="/how-to" className="hover:text-mkt-ink transition-colors">How-To Guides</Link></li>
+              <li><Link href="/compare" className="hover:text-mkt-ink transition-colors">Compare</Link></li>
+            </ul>
+          </div>
+
+          {/* Column 5: Company */}
           <div>
             <h4 className="text-[11px] font-sans font-bold uppercase tracking-widest text-mkt-ink mb-6">
               Company

@@ -59,7 +59,7 @@ export function StatsCounters() {
   const { region } = useRegion();
   const phases = useCountUp(6);
   const modules = useCountUp(60);
-  const tools = useCountUp(5);
+  const tools = useCountUp(6);
 
   const regionLabel = region === "uk" ? "UK" : region.toUpperCase();
 

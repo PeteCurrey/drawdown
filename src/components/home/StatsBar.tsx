@@ -59,24 +59,8 @@ export function StatsBar() {
   const { region } = useRegion();
   const phases = useCountUp(13);
   const modules = useCountUp(117);
-  const tools = useCountUp(5);
-  const brokers = useCountUp(3);
-
-  const getBrokerLabel = (r: string) => {
-    switch (r) {
-      case "au": return "ASIC Brokers";
-      case "us": return "NFA Brokers";
-      case "sg": return "MAS Brokers";
-      case "hk": return "SFC Brokers";
-      case "ca": return "IIROC Brokers";
-      case "de": return "BaFin Brokers";
-      case "ae": return "DFSA Brokers";
-      case "in": return "SEBI Brokers";
-      case "my": return "SC Brokers";
-      case "ph": return "SEC Brokers";
-      default: return "FCA Brokers";
-    }
-  };
+  const tools = useCountUp(6);
+  const brokers = useCountUp(24);
 
   return (
     <section className="w-full bg-white z-20 select-none">
@@ -109,7 +93,7 @@ export function StatsBar() {
             </span>
           </div>
 
-          {/* 5 AI Tools */}
+          {/* 6 AI Tools */}
           <div ref={tools.elementRef} className="flex flex-col items-center md:items-start">
             <span 
               className="text-[30px] text-mkt-ink font-sans tracking-[-0.04em]"
@@ -122,7 +106,7 @@ export function StatsBar() {
             </span>
           </div>
 
-          {/* 3 FCA Brokers */}
+          {/* 24 Regulated Brokers */}
           <div ref={brokers.elementRef} className="flex flex-col items-center md:items-start">
             <span 
               className="text-[30px] text-mkt-ink font-sans tracking-[-0.04em]"
@@ -131,7 +115,7 @@ export function StatsBar() {
               {brokers.count}
             </span>
             <span className="text-[11px] font-sans font-medium text-mkt-i4 uppercase mt-1 tracking-wider">
-              {getBrokerLabel(region)}
+              Regulated Brokers
             </span>
           </div>
 

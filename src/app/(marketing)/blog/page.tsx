@@ -85,7 +85,7 @@ export default async function BlogListingPage({ searchParams }: Props) {
             Insights.
           </h1>
           <p className="text-sm text-slate-500 max-w-xl font-ibm-sans leading-relaxed mt-4">
-            Market analysis, trading education, and honest commentary on the reality of the markets. No fluff, just raw edge.
+            Market analysis, trading education, and honest commentary on the reality of the markets. No BS, just raw edge.
           </p>
         </div>
 

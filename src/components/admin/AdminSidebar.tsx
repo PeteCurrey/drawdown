@@ -75,11 +75,16 @@ export function AdminSidebar() {
         
         <div className="pt-8 mt-8 border-t border-mkt-bd">
           <Link 
-            href="/admin/integrations"
-            className="w-full flex items-center gap-4 px-6 py-3 text-[10px] font-bold uppercase tracking-widest text-mkt-i3 hover:text-mkt-ink transition-colors"
+            href="/admin/settings"
+            className={cn(
+              "w-full flex items-center gap-4 px-6 py-3 text-[10px] font-bold uppercase tracking-widest transition-all rounded-lg",
+              pathname.startsWith("/admin/settings")
+                ? "bg-mkt-ink text-white shadow-sm"
+                : "text-mkt-i3 hover:bg-neutral-100 hover:text-mkt-ink"
+            )}
           >
             <Settings className="w-4 h-4" />
-            Settings
+            Author Settings
           </Link>
         </div>
       </nav>

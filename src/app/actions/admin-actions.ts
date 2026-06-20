@@ -1,6 +1,7 @@
 "use server";
 
 import Anthropic from "@anthropic-ai/sdk";
+import { revalidatePath } from "next/cache";
 import { createInternalSupabase } from "@/lib/supabase/server";
 
 // 1. Trigger Morning Brief Cron
@@ -21,11 +22,7 @@ export async function triggerMorningBriefAction() {
       ? `${siteUrl}/api/cron/morning-brief?x-vercel-protection-bypass=${bypassToken}&x-vercel-set-bypass-cookie=true`
       : `${siteUrl}/api/cron/morning-brief`;
 
-    const res = await fetch(url, {
-      method: "GET",
-      headers,
-      cache: "no-store"
-    });
+    const res = await fetch(url, { method: "GET", headers, cache: "no-store" });
 
     if (!res.ok) {
       const errText = await res.text();
@@ -58,11 +55,7 @@ export async function triggerEveningWrapAction() {
       ? `${siteUrl}/api/cron/evening-wrap?x-vercel-protection-bypass=${bypassToken}&x-vercel-set-bypass-cookie=true`
       : `${siteUrl}/api/cron/evening-wrap`;
 
-    const res = await fetch(url, {
-      method: "GET",
-      headers,
-      cache: "no-store"
-    });
+    const res = await fetch(url, { method: "GET", headers, cache: "no-store" });
 
     if (!res.ok) {
       const errText = await res.text();
@@ -99,15 +92,15 @@ Respond ONLY with a valid JSON object matching the schema below. Do NOT add any 
 {
   "title": "compelling blog post title",
   "slug": "url-friendly-slug-for-the-post",
-  "category": "Market Analysis", // options: Market Analysis, Education, Psychology, Tools, UK Trading, Risk Management, Prop Firms, Broker News
+  "category": "Market Analysis",
   "excerpt": "short summary under 200 chars describing the article",
-  "content": "detailed, comprehensive blog post content written in markdown format. Use appropriate heading hierarchy, bullet points, and code block formatting where helpful. Pete's voice, British English.",
-  "tags": ["tag1", "tag2"]
+  "body": "<p>detailed, comprehensive blog post content written as clean HTML. Use h2, h3, p, ul, li, strong, blockquote tags. Pete's voice, British English.</p>",
+  "eyebrow": "MARKET ANALYSIS"
 }`;
 
     const message = await anthropic.messages.create({
       model: "claude-3-5-sonnet-20241022",
-      max_tokens: 2500,
+      max_tokens: 4000,
       temperature: 0.6,
       system: systemPrompt,
       messages: [{ role: "user", content: fullPrompt }]
@@ -149,65 +142,191 @@ export async function getAllActiveSubscribersAction() {
   return data || [];
 }
 
+// 4. Delete Blog Post
 export async function deleteBlogPostAction(id: string) {
   const supabase = createInternalSupabase();
   const { error } = await supabase.from("blog_posts").delete().eq("id", id);
   if (error) {
     throw new Error(`Failed to delete blog post: ${error.message}`);
   }
+  revalidatePath("/blog");
   return { success: true };
 }
 
+// 5. Save Blog Post (new CMS schema: body, is_published, eyebrow, subtitle, etc.)
 export async function saveBlogPostAction(payload: {
   id?: string;
   title: string;
   slug: string;
   category: string;
-  excerpt: string;
-  content: string;
-  tags: string[];
-  published: boolean;
-  featured?: boolean;
+  eyebrow?: string;
+  subtitle?: string;
+  body: string;
+  hero_image_url?: string;
+  hero_image_alt?: string;
+  read_time?: string;
+  published_at?: string;
+  is_published: boolean;
+  related_post_slugs?: string[];
+  // SEO fields
   meta_title?: string;
   meta_description?: string;
+  og_title?: string;
+  og_description?: string;
+  og_image_url?: string;
+  canonical_url?: string;
+  no_index?: boolean;
+  focus_keyword?: string;
+  dark_background?: boolean;
 }) {
   const supabase = createInternalSupabase();
-  const date = new Date().toISOString();
+  const now = new Date().toISOString();
 
-  const record = {
+  // Build blog post record
+  const postRecord: Record<string, any> = {
     title: payload.title,
     slug: payload.slug,
     category: payload.category,
-    excerpt: payload.excerpt,
-    content: payload.content,
-    tags: payload.tags,
-    published: payload.published,
-    featured: payload.featured || false,
-    meta_title: payload.meta_title || `${payload.title} | Drawdown`,
-    meta_description: payload.meta_description || payload.excerpt,
-    updated_at: date,
-    ...(payload.published ? { published_at: date } : {})
+    eyebrow: payload.eyebrow || null,
+    subtitle: payload.subtitle || null,
+    body: payload.body,
+    hero_image_url: payload.hero_image_url || null,
+    hero_image_alt: payload.hero_image_alt || null,
+    read_time: payload.read_time || null,
+    is_published: payload.is_published,
+    dark_background: payload.dark_background ?? false,
+    related_post_slugs: payload.related_post_slugs || [],
+    updated_at: now,
+    ...(payload.is_published && !payload.id ? { published_at: payload.published_at || now } : {}),
+    ...(payload.published_at ? { published_at: payload.published_at } : {}),
   };
+
+  let postId = payload.id;
+  let postResult;
+
+  if (payload.id) {
+    postResult = await supabase
+      .from("blog_posts")
+      .update(postRecord)
+      .eq("id", payload.id)
+      .select("id")
+      .single();
+  } else {
+    postResult = await supabase
+      .from("blog_posts")
+      .insert({ ...postRecord, created_at: now })
+      .select("id")
+      .single();
+  }
+
+  if (postResult.error) {
+    throw new Error(`Failed to save blog post: ${postResult.error.message}`);
+  }
+
+  postId = postResult.data.id;
+
+  // Upsert SEO record
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://drawdown.trading";
+  const seoRecord = {
+    post_id: postId,
+    meta_title: payload.meta_title || `${payload.title} | Drawdown`,
+    meta_description: payload.meta_description || payload.subtitle || "",
+    og_title: payload.og_title || payload.meta_title || payload.title,
+    og_description: payload.og_description || payload.meta_description || "",
+    og_image_url: payload.og_image_url || payload.hero_image_url || "",
+    canonical_url: payload.canonical_url || `${siteUrl}/blog/${payload.slug}`,
+    no_index: payload.no_index || false,
+    focus_keyword: payload.focus_keyword || null,
+    schema_type: "BlogPosting",
+    updated_at: now,
+  };
+
+  const { error: seoError } = await supabase
+    .from("blog_post_seo")
+    .upsert(seoRecord, { onConflict: "post_id" });
+
+  if (seoError) {
+    console.error("SEO upsert failed:", seoError.message);
+  }
+
+  // Revalidate the blog page and the specific post
+  revalidatePath("/blog");
+  revalidatePath(`/blog/${payload.slug}`);
+
+  return { success: true, postId };
+}
+
+// 6. Toggle Blog Post Publish State
+export async function togglePublishAction(id: string, currentState: boolean) {
+  const supabase = createInternalSupabase();
+  const now = new Date().toISOString();
+
+  const { data, error } = await supabase
+    .from("blog_posts")
+    .update({
+      is_published: !currentState,
+      updated_at: now,
+      ...((!currentState) ? { published_at: now } : {}),
+    })
+    .eq("id", id)
+    .select("slug, is_published")
+    .single();
+
+  if (error) {
+    throw new Error(`Failed to toggle publish state: ${error.message}`);
+  }
+
+  revalidatePath("/blog");
+  if (data?.slug) {
+    revalidatePath(`/blog/${data.slug}`);
+  }
+
+  return { success: true, is_published: data?.is_published };
+}
+
+// 7. Save Author Profile
+export async function saveAuthorProfileAction(payload: {
+  id?: string;
+  name: string;
+  role: string;
+  bio: string;
+  avatar_url?: string;
+}) {
+  const supabase = createInternalSupabase();
+  const now = new Date().toISOString();
 
   let result;
   if (payload.id) {
     result = await supabase
-      .from("blog_posts")
-      .update(record)
+      .from("author_profiles")
+      .update({
+        name: payload.name,
+        role: payload.role,
+        bio: payload.bio,
+        avatar_url: payload.avatar_url || null,
+        updated_at: now,
+      })
       .eq("id", payload.id)
       .select()
       .single();
   } else {
     result = await supabase
-      .from("blog_posts")
-      .insert({ ...record, created_at: date })
+      .from("author_profiles")
+      .insert({
+        name: payload.name,
+        role: payload.role,
+        bio: payload.bio,
+        avatar_url: payload.avatar_url || null,
+        created_at: now,
+        updated_at: now,
+      })
       .select()
       .single();
   }
 
   if (result.error) {
-    throw new Error(`Failed to save blog post: ${result.error.message}`);
+    throw new Error(`Failed to save author profile: ${result.error.message}`);
   }
 
-  return { success: true, post: result.data };
+  return { success: true, profile: result.data };
 }

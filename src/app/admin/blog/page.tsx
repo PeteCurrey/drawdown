@@ -20,8 +20,9 @@ export default async function AdminBlogPage({ searchParams }: Props) {
 
   const { data: posts, count, error } = await supabase
     .from("blog_posts")
-    .select("id, title, category, published, published_at, tags, created_at, slug")
-    .order("published_at", { ascending: false })
+    .select("id, title, category, is_published, dark_background, published_at, created_at, slug", { count: "exact" })
+    .order("published_at", { ascending: false, nullsFirst: false })
+    .order("created_at", { ascending: false })
     .range(from, to);
 
   if (error) {

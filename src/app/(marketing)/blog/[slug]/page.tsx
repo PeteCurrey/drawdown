@@ -7,6 +7,7 @@ import { MDXRemote } from "next-mdx-remote/rsc";
 
 import { getAllPosts, getPostBySlug } from "@/lib/blog";
 import { TrackPageView } from "@/components/admin/TrackPageView";
+import { DatabaseBlogClient } from "../DatabaseBlogClient";
 import JsonLd from "@/components/seo/JsonLd";
 import { ReadingProgressBar } from "@/components/blog/ReadingProgressBar";
 import { ShareBar } from "@/components/blog/ShareBar";
@@ -33,7 +34,7 @@ interface Props {
 
 export async function generateStaticParams() {
   const posts = await getAllPosts();
-  return posts.slice(0, 10).map((post) => ({
+  return posts.map((post) => ({
     slug: post.slug,
   }));
 }
@@ -43,19 +44,21 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const post = await getPostBySlug(slug);
   if (!post) return { title: 'Post Not Found' };
   
+  const seo = (post as any).seoSettings || {};
+  
   return {
-    title: post.metaTitle || post.title,
-    description: post.metaDescription || post.excerpt,
+    title: seo.meta_title || post.metaTitle || post.title,
+    description: seo.meta_description || post.metaDescription || post.excerpt,
     openGraph: {
-      title: post.title,
-      description: post.excerpt,
+      title: seo.og_title || post.title,
+      description: seo.og_description || post.excerpt,
       type: 'article',
       publishedTime: post.publishedAt,
       modifiedTime: post.dateModified || post.publishedAt,
       authors: [post.author],
       images: [
         {
-          url: post.image || "https://drawdown.trading/og/default-og.png",
+          url: seo.og_image_url || post.image || "https://drawdown.trading/og/default-og.png",
           width: 1200,
           height: 630,
           alt: post.title
@@ -63,7 +66,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       ]
     },
     alternates: {
-      canonical: `https://drawdown.trading/blog/${post.slug}`
+      canonical: seo.canonical_url || `https://drawdown.trading/blog/${post.slug}`
     }
   };
 }
@@ -107,6 +110,49 @@ export default async function BlogPostPage({ params }: Props) {
       .filter(p => p.slug !== slug && !relatedPosts.some(rp => rp.slug === p.slug))
       .sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
     relatedPosts = [...relatedPosts, ...filler].slice(0, 3);
+  }
+
+  // Route to DatabaseBlogClient for HTML posts; MDX posts use the MDXRemote renderer below.
+  if ((post as any).contentFormat !== 'mdx') {
+    const seo = (post as any).seoSettings || {};
+    const jsonLd = {
+      "@context": "https://schema.org",
+      "@type": seo.schema_type || "BlogPosting",
+      "headline": post.title,
+      "description": seo.meta_description || post.metaDescription || post.excerpt,
+      "author": {
+        "@type": "Person",
+        "name": post.author,
+        "jobTitle": (post as any).authorProfile?.role || "Founder",
+        "worksFor": {
+          "@type": "Organization",
+          "name": "Drawdown",
+          "url": "https://drawdown.trading"
+        }
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Drawdown",
+        "url": "https://drawdown.trading"
+      },
+      "datePublished": post.publishedAt,
+      "dateModified": post.dateModified || post.publishedAt,
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": seo.canonical_url || `https://drawdown.trading/blog/${post.slug}`
+      }
+    };
+
+    return (
+      <>
+        <TrackPageView path={`/blog/${slug}`} />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+        <DatabaseBlogClient post={post as any} relatedPosts={relatedPosts} isDark={(post as any).dark_background ?? false} />
+      </>
+    );
   }
 
   const headings = extractHeadings(post.content);
@@ -348,7 +394,7 @@ export default async function BlogPostPage({ params }: Props) {
 
               <ShareBar title={post.title} />
 
-              <AuthorBio author={post.author} />
+              <AuthorBio author={post.author as "Pete Currey" | "Drawdown Team"} />
 
               {/* Sidebar CTA Card (zero border-radius) */}
               <div className="p-8 bg-slate-900 border border-slate-800 rounded-none shadow-xl relative overflow-hidden group text-white">

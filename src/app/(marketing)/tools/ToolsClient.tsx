@@ -83,7 +83,7 @@ const toolCategories = [
 
 export default function ToolsMarketingPage() {
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col bg-background-primary text-text-primary min-h-screen" data-theme="dark">
       {/* Hero Section */}
       <section className="relative pt-32 pb-20 overflow-hidden border-b border-border-slate/50">
         <div className="max-w-7xl mx-auto px-6 relative z-10">

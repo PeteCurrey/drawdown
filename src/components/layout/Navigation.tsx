@@ -244,7 +244,9 @@ export function Navigation() {
                   className="relative h-full flex items-center"
                   onMouseEnter={() => handleMouseEnter(menuKey)}
                 >
-                  <button
+                  <Link
+                    href={link.href}
+                    onClick={() => setActiveMenu(null)}
                     className={cn(
                       "text-sm font-medium transition-colors duration-155 font-sans flex items-center gap-1 cursor-pointer h-full border-b-2 border-transparent",
                       activeMenu === menuKey
@@ -257,7 +259,7 @@ export function Navigation() {
                       "w-3 h-3 transition-transform duration-200",
                       activeMenu === menuKey && "rotate-180"
                     )} />
-                  </button>
+                  </Link>
                 </div>
               );
             }

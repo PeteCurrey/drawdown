@@ -17,7 +17,7 @@ interface TradingViewTechnicalWidgetProps {
   isVisible: boolean;
 }
 
-const WIDGET_HEIGHT = 200;
+const WIDGET_HEIGHT = 300;
 
 export function TradingViewTechnicalWidget({
   tvSymbol,

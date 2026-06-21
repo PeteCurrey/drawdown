@@ -56,6 +56,9 @@ export default function ModulePage({ params }: Props) {
   const [user, setUser] = useState<any>(null);
   const [completedModules, setCompletedModules] = useState<number[]>([]);
   const [moduleCompleted, setModuleCompleted] = useState(false);
+  // Sub-step tracking: persists which tab the user last viewed so the
+  // dashboard card can deep-link them back to the exact step on resume.
+  const [stepSaved, setStepSaved] = useState<string>("notes");
 
   // Load user progress
   useEffect(() => {
@@ -76,6 +79,15 @@ export default function ModulePage({ params }: Props) {
           .eq("phase", phaseId)
           .eq("completed", true);
 
+        // Fetch this specific module's row to restore last_step
+        const { data: thisModuleRow } = await supabase
+          .from("course_progress")
+          .select("last_step")
+          .eq("user_id", user.id)
+          .eq("phase", phaseId)
+          .eq("module", moduleIndex + 1)
+          .maybeSingle();
+
         if (progressData) {
           const completedNums = (progressData as any[]).map((p) => p.module);
           setCompletedModules(completedNums);
@@ -83,6 +95,17 @@ export default function ModulePage({ params }: Props) {
             setModuleCompleted(true);
           }
         }
+
+        // Restore last step: URL param (dashboard deep-link) wins, then DB value.
+        const urlParams = new URLSearchParams(window.location.search);
+        const stepParam = urlParams.get("step");
+        const dbStep = (thisModuleRow as any)?.last_step;
+        const validSteps = ["notes", "quiz", "discussion"];
+        const restoredStep = validSteps.includes(stepParam ?? "") ? stepParam!
+          : validSteps.includes(dbStep ?? "") ? dbStep
+          : "notes";
+        setActiveTab(restoredStep as "notes" | "quiz" | "discussion");
+        setStepSaved(restoredStep);
       } catch (err) {
         console.error("Error loading progress:", err);
       } finally {
@@ -99,11 +122,37 @@ export default function ModulePage({ params }: Props) {
     // 70% passing grade
     if (pct >= 70) {
       setModuleCompleted(true);
-      await trackProgress(true, score);
+      await trackProgress(true, score, "quiz");
     }
   };
 
-  const trackProgress = async (completed: boolean, quizScore?: number) => {
+  // Persist the current tab position to the DB (best-effort, non-blocking).
+  const persistStep = async (step: "notes" | "quiz" | "discussion") => {
+    if (!user || step === stepSaved) return;
+    setStepSaved(step);
+    try {
+      await fetch("/api/learn/track-progress", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          module_id: id,
+          phase_id: phase,
+          completed: moduleCompleted,
+          last_step: step,
+        }),
+      });
+    } catch (err) {
+      // Non-critical — step position is best-effort
+      console.warn("Step persist error:", err);
+    }
+  };
+
+  const handleTabChange = (tab: "notes" | "quiz" | "discussion") => {
+    setActiveTab(tab);
+    persistStep(tab);
+  };
+
+  const trackProgress = async (completed: boolean, quizScore?: number, step?: string) => {
     if (!user) return;
     try {
       const res = await fetch("/api/learn/track-progress", {
@@ -113,7 +162,8 @@ export default function ModulePage({ params }: Props) {
           module_id: id,
           phase_id: phase,
           completed,
-          quiz_score: quizScore
+          quiz_score: quizScore,
+          ...(step ? { last_step: step } : {}),
         }),
       });
 
@@ -223,7 +273,8 @@ export default function ModulePage({ params }: Props) {
               title={moduleTitle}
               onProgress={handleVideoProgress}
               onEnded={async () => {
-                // Video ended action could prompt next steps
+                // Video finished — nudge to notes tab and persist the step.
+                handleTabChange("notes");
               }}
             />
 
@@ -237,7 +288,7 @@ export default function ModulePage({ params }: Props) {
                 ] as const).map((tab) => (
                   <button
                     key={tab.key}
-                    onClick={() => setActiveTab(tab.key)}
+                    onClick={() => handleTabChange(tab.key)}
                     className={cn(
                       "pb-4 text-[10px] font-bold uppercase tracking-widest transition-all relative",
                       activeTab === tab.key

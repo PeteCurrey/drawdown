@@ -10,15 +10,35 @@ export function DashboardStatusBar() {
 
   useEffect(() => {
     const updateSession = () => {
-      const gmtHour = new Date().getUTCHours();
-      // London: 08:00 - 16:00
-      // NY: 13:00 - 21:00
-      // Tokyo: 00:00 - 08:00
-      if (gmtHour >= 8 && gmtHour < 13) setSession({ name: "London Session", open: true });
-      else if (gmtHour >= 13 && gmtHour < 16) setSession({ name: "London/NY Overlap", open: true });
-      else if (gmtHour >= 16 && gmtHour < 21) setSession({ name: "New York Session", open: true });
-      else if (gmtHour >= 22 || gmtHour < 7) setSession({ name: "Tokyo Session", open: true });
-      else setSession({ name: "Market Closed", open: false });
+      const now = new Date();
+      const utcHour = now.getUTCHours();
+      const utcDay  = now.getUTCDay(); // 0 = Sunday … 6 = Saturday
+
+      // Forex market closed window:
+      //   • All of Saturday UTC
+      //   • Friday 21:00 UTC onwards (NY session closes)
+      //   • Sunday before 22:00 UTC (Sydney/Wellington open at ~22:00 Sun UTC)
+      const marketClosed =
+        utcDay === 6 ||                          // Saturday
+        (utcDay === 5 && utcHour >= 21) ||       // Friday evening
+        (utcDay === 0 && utcHour < 22);          // Sunday before Sydney open
+
+      if (marketClosed) {
+        setSession({ name: "Market Closed", open: false });
+      } else if (utcHour >= 8 && utcHour < 13) {
+        // London open 08:00, NY not yet (NY opens 13:00 UTC in winter / 12:00 BST)
+        setSession({ name: "London Session", open: true });
+      } else if (utcHour >= 13 && utcHour < 16) {
+        // Both London and NY active — highest liquidity window
+        setSession({ name: "London/NY Overlap", open: true });
+      } else if (utcHour >= 16 && utcHour < 21) {
+        // London closed, NY active until 21:00 UTC
+        setSession({ name: "New York Session", open: true });
+      } else {
+        // 21:00–08:00 UTC (excluding weekend) — Asia/Pacific session
+        // Covers: 22:00 Sun (Sydney) through Tokyo close ~08:00 Mon–Fri
+        setSession({ name: "Asia Session", open: true });
+      }
     };
 
     updateSession();

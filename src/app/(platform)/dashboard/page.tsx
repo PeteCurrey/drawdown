@@ -8,7 +8,8 @@ import {
   ArrowUpRight, 
   TrendingUp, 
   AlertCircle,
-  Zap
+  Zap,
+  CheckCircle2
 } from "lucide-react";
 import { BrokerWidget } from "@/components/market/BrokerWidget";
 import { NewsWidget } from "@/components/market/NewsWidget";
@@ -293,20 +294,35 @@ export default function DashboardPage() {
           if (foundInc) break;
         }
 
+        // Bug B — curriculum complete: show a distinct state, not the last lesson
         if (!foundInc) {
-          nextPh = phases[phases.length - 1];
-          nextModIdx = nextPh.modules_list.length - 1;
+          setLearningCard({ allComplete: true });
+          return;
         }
 
         const completedInPhase = (progress as any[])?.filter((p: any) => p.phase === nextPh.id && p.completed).length || 0;
         const phaseModulesCount = nextPh.modules_list.length;
         const phaseProgressPct = Math.round((completedInPhase / phaseModulesCount) * 100);
 
+        // Bug A — "Start Lesson" on a fresh account: detect any prior touch on this phase
+        const hasStartedPhase = (progress as any[])?.some((p: any) => p.phase === nextPh.id) ?? false;
+
+        // Sub-step deep-link: find the last_step recorded for this specific module
+        const thisModuleRow = (progress as any[])?.find(
+          (p: any) => p.phase === nextPh.id && p.module === (nextModIdx + 1)
+        );
+        const lastStep: string | undefined = thisModuleRow?.last_step;
+        const moduleUrl = `/learn/${nextPh.slug}/module-${nextModIdx + 1}`;
+        const lessonUrl = lastStep && lastStep !== "notes" ? `${moduleUrl}?step=${lastStep}` : moduleUrl;
+
+        // Bug C — phase thumbnail: surface the image from courses.ts
         setLearningCard({
           phaseName: `Phase ${nextPh.id}: ${nextPh.name}`,
           moduleTitle: nextPh.modules_list[nextModIdx],
           progress: phaseProgressPct,
-          lessonUrl: `/learn/${nextPh.slug}/module-${nextModIdx + 1}`
+          lessonUrl,
+          started: hasStartedPhase,
+          phaseImage: nextPh.image,
         });
 
       } catch (err) {
@@ -415,34 +431,72 @@ export default function DashboardPage() {
         <div className="lg:col-span-2 space-y-10">
           <div className="space-y-6">
             <h4 className="text-[10px] font-mono uppercase tracking-widest text-mkt-i4">Continue Learning</h4>
-            <div className="p-8 bg-background-surface/40 border border-border-slate/50 rounded-xl flex flex-col md:flex-row gap-8 transition-all duration-300 hover:shadow-[0_8px_32px_rgba(0,0,0,0.06)] hover:-translate-y-0.5">
-              <Link 
-                href={learningCard?.lessonUrl || "#"}
-                className="w-full md:w-48 aspect-video bg-neutral-100 dark:bg-neutral-850 rounded-lg flex items-center justify-center group cursor-pointer overflow-hidden relative"
-              >
-                <div className="absolute inset-0 bg-[#0A0A0A]/5 group-hover:bg-[#0A0A0A]/20 transition-colors z-10 flex items-center justify-center">
-                  <Play className="w-8 h-8 text-[#0A0A0A] bg-white rounded-full p-2 group-hover:scale-110 transition-transform shadow-lg" />
+
+            {/* Bug B — Curriculum complete state */}
+            {learningCard?.allComplete ? (
+              <div className="p-8 bg-background-surface/40 border border-border-slate/50 rounded-xl flex flex-col md:flex-row items-center gap-8 transition-all duration-300">
+                <div className="w-full md:w-48 aspect-video bg-neutral-100 rounded-lg flex items-center justify-center shrink-0">
+                  <CheckCircle2 className="w-10 h-10 text-profit" />
                 </div>
-              </Link>
-              <div className="flex-grow space-y-4">
-                <div>
-                  <span className="text-[10px] font-mono text-text-tertiary uppercase tracking-widest">{learningCard?.phaseName}</span>
-                  <h5 className="text-xl font-display font-bold uppercase mt-1 text-text-primary">{learningCard?.moduleTitle}</h5>
-                </div>
-                <div className="space-y-2">
-                  <div className="flex justify-between text-[10px] font-mono uppercase text-text-tertiary">
-                    <span>Module Progress</span>
-                    <span>{learningCard?.progress}%</span>
+                <div className="flex-grow space-y-4">
+                  <div>
+                    <span className="text-[10px] font-mono text-profit uppercase tracking-widest">Curriculum Complete</span>
+                    <h5 className="text-xl font-display font-bold uppercase mt-1 text-text-primary">You&apos;ve completed the full programme.</h5>
                   </div>
-                  <div className="h-1 bg-neutral-100 rounded-full w-full overflow-hidden">
-                    <div className="h-full bg-[#0A0A0A] rounded-full" style={{ width: `${learningCard?.progress}%` }} />
+                  <p className="text-text-tertiary text-xs leading-relaxed">Every phase done. Keep the edge sharp — join a live session, connect with the community, or explore the AI tools.</p>
+                  <div className="flex gap-4 flex-wrap">
+                    <Link href="/dashboard/live" className="text-[10px] font-bold uppercase tracking-widest text-text-primary hover:text-text-secondary transition-colors flex items-center gap-1">
+                      Live Sessions <ArrowUpRight className="w-3 h-3" />
+                    </Link>
+                    <Link href="/dashboard/community" className="text-[10px] font-bold uppercase tracking-widest text-text-primary hover:text-text-secondary transition-colors flex items-center gap-1">
+                      Community <ArrowUpRight className="w-3 h-3" />
+                    </Link>
+                    <Link href="/dashboard/tools" className="text-[10px] font-bold uppercase tracking-widest text-text-primary hover:text-text-secondary transition-colors flex items-center gap-1">
+                      AI Tools <ArrowUpRight className="w-3 h-3" />
+                    </Link>
                   </div>
                 </div>
-                <Link href={learningCard?.lessonUrl || "#"} className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-text-primary hover:text-text-secondary transition-colors">
-                  Resume Lesson <ArrowUpRight className="w-3 h-3" />
-                </Link>
               </div>
-            </div>
+            ) : (
+              <div className="p-8 bg-background-surface/40 border border-border-slate/50 rounded-xl flex flex-col md:flex-row gap-8 transition-all duration-300 hover:shadow-[0_8px_32px_rgba(0,0,0,0.06)] hover:-translate-y-0.5">
+                {/* Bug C — phase thumbnail */}
+                <Link
+                  href={learningCard?.lessonUrl || "#"}
+                  className="w-full md:w-48 aspect-video rounded-lg flex items-center justify-center group cursor-pointer overflow-hidden relative bg-neutral-100"
+                >
+                  {learningCard?.phaseImage && (
+                    <img
+                      src={learningCard.phaseImage}
+                      alt="Phase thumbnail"
+                      className="absolute inset-0 w-full h-full object-cover"
+                    />
+                  )}
+                  <div className="absolute inset-0 bg-[#0A0A0A]/30 group-hover:bg-[#0A0A0A]/50 transition-colors z-10 flex items-center justify-center">
+                    <Play className="w-8 h-8 text-white bg-white/20 backdrop-blur-sm rounded-full p-2 group-hover:scale-110 transition-transform shadow-lg" />
+                  </div>
+                </Link>
+                <div className="flex-grow space-y-4">
+                  <div>
+                    <span className="text-[10px] font-mono text-text-tertiary uppercase tracking-widest">{learningCard?.phaseName}</span>
+                    <h5 className="text-xl font-display font-bold uppercase mt-1 text-text-primary">{learningCard?.moduleTitle}</h5>
+                  </div>
+                  <div className="space-y-2">
+                    {/* Bug D — "Phase Progress" not "Module Progress" */}
+                    <div className="flex justify-between text-[10px] font-mono uppercase text-text-tertiary">
+                      <span>Phase Progress</span>
+                      <span>{learningCard?.progress ?? 0}%</span>
+                    </div>
+                    <div className="h-1 bg-neutral-100 rounded-full w-full overflow-hidden">
+                      <div className="h-full bg-[#0A0A0A] rounded-full transition-all duration-500" style={{ width: `${learningCard?.progress ?? 0}%` }} />
+                    </div>
+                  </div>
+                  {/* Bug A — Start vs Resume */}
+                  <Link href={learningCard?.lessonUrl || "#"} className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-text-primary hover:text-text-secondary transition-colors">
+                    {learningCard?.started ? "Resume Lesson" : "Start Lesson"} <ArrowUpRight className="w-3 h-3" />
+                  </Link>
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Account Stats */}

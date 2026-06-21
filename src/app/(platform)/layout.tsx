@@ -148,7 +148,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       </aside>
 
       {/* Main Content Area */}
-      <div className="flex-grow flex flex-col overflow-hidden min-w-0 min-h-0 relative z-10">
+      <div className="flex-grow flex flex-col overflow-hidden min-w-0 min-h-0 relative z-10 pt-2">
         <DashboardStatusBar />
 
         <main 

@@ -17,7 +17,7 @@ export async function POST(request: NextRequest) {
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-    const { module_id, phase_id, completed, quiz_score } = await request.json();
+    const { module_id, phase_id, completed, quiz_score, last_step } = await request.json();
 
     // Map string phase slug to integer
     let phase = 1;
@@ -51,7 +51,8 @@ export async function POST(request: NextRequest) {
         module: moduleNum,
         completed,
         quiz_score: quiz_score !== undefined ? quiz_score : null,
-        completed_at: completed ? new Date().toISOString() : null
+        completed_at: completed ? new Date().toISOString() : null,
+        ...(last_step !== undefined ? { last_step } : {}),
       }, {
         onConflict: 'user_id,phase,module'
       });

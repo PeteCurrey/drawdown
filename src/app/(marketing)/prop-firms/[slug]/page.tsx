@@ -12,7 +12,7 @@ interface Props {
 }
 
 export async function generateStaticParams() {
-  return [];
+  return PROP_FIRM_REVIEWS.map((r) => ({ slug: r.slug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {

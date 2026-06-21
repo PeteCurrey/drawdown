@@ -79,7 +79,7 @@ export default function DashboardPage() {
         // ── Subscription tier + display name (single profiles fetch) ──────────
         const { data: profile } = await supabase
           .from('profiles')
-          .select('subscription_tier, full_name')
+          .select('subscription_tier, display_name')
           .eq('id', user.id)
           .single();
         const tier = (profile as any)?.subscription_tier as SubscriptionTier | undefined;
@@ -92,8 +92,8 @@ export default function DashboardPage() {
         // 4. Fallback: "Trader" (shown until any name is available)
         const metaFirst = user.user_metadata?.first_name;
         const metaFull  = user.user_metadata?.full_name?.split(" ")[0];
-        const profileFirst = (profile as any)?.full_name?.split(" ")[0];
-        const resolvedName = metaFirst || metaFull || profileFirst || "Trader";
+        const profileName = (profile as any)?.display_name?.split(" ")[0];
+        const resolvedName = metaFirst || metaFull || profileName || "Trader";
         setName(resolvedName);
 
         // ── User badges (real earned state from user_badges table) ──

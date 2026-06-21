@@ -11,9 +11,14 @@ export const dynamicParams = true;
 export const revalidate = 3600; // hourly cache revalidation
 
 const BROKER_MAP: Record<string, string> = {
+  // With -review suffix (used by internal links)
   "ig-markets-review": "ig",
   "pepperstone-review": "pepperstone",
   "ic-markets-review": "ic-markets",
+  // Without -review suffix (used by nav and direct links)
+  "ig-markets": "ig",
+  "pepperstone": "pepperstone",
+  "ic-markets": "ic-markets",
 };
 
 const BROKER_EXTRA: Record<string, { founded: number; headquarters: string; reviewIntro: string }> = {

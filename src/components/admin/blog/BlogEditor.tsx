@@ -20,7 +20,7 @@ import { createClient } from "@/lib/supabase/client";
 
 const CATEGORIES = [
   "Market Analysis", "Education", "Psychology", "Tools",
-  "UK Trading", "Risk Management", "Prop Firms", "Broker News"
+  "UK Trading", "Risk Management", "Prop Firms", "Broker News", "From Pete"
 ];
 
 interface SeoData {

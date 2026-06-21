@@ -22,7 +22,10 @@ import Link from "next/link";
 export default function ProfileSettingsPage() {
   const [loading, setLoading] = useState(true);
   const [profile, setProfile] = useState<any>(null);
+  const [userEmail, setUserEmail] = useState<string>('');
   const [isUpdating, setIsUpdating] = useState(false);
+  const [saveSuccess, setSaveSuccess] = useState(false);
+  const [saveError, setSaveError] = useState<string | null>(null);
  
   const [passwordError, setPasswordError] = useState<string | null>(null);
   const [passwordSuccess, setPasswordSuccess] = useState<string | null>(null);
@@ -37,6 +40,7 @@ export default function ProfileSettingsPage() {
   async function fetchProfile() {
     const { data: { user } } = await supabase.auth.getUser();
     if (user) {
+      setUserEmail(user.email || '');
       const { data } = await supabase
         .from('profiles')
         .select('*')
@@ -50,10 +54,15 @@ export default function ProfileSettingsPage() {
   const handleUpdate = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsUpdating(true);
+    setSaveSuccess(false);
+    setSaveError(null);
+
     const formData = new FormData(e.currentTarget);
-    
     const updates = {
-      display_name: formData.get('display_name') as string,
+      display_name: (formData.get('display_name') as string).trim() || null,
+      country:      (formData.get('country')      as string).trim() || null,
+      currency:     (formData.get('currency')     as string).trim() || null,
+      updated_at:   new Date().toISOString(),
     };
  
     const { error } = await (supabase as any)
@@ -61,8 +70,14 @@ export default function ProfileSettingsPage() {
       .update(updates)
       .eq('id', profile.id);
  
-    if (!error) {
-      fetchProfile();
+    if (error) {
+      setSaveError(error.message);
+    } else {
+      setSaveSuccess(true);
+      // Sync local state so fields don't revert
+      setProfile((prev: any) => ({ ...prev, ...updates }));
+      // Auto-dismiss success banner after 4 seconds
+      setTimeout(() => setSaveSuccess(false), 4000);
     }
     setIsUpdating(false);
   };
@@ -127,33 +142,71 @@ export default function ProfileSettingsPage() {
                  <h2 className="text-xs font-mono font-bold uppercase tracking-widest text-text-secondary">Public Identity</h2>
               </div>
               <form onSubmit={handleUpdate} className="grid grid-cols-1 gap-6 bg-background-surface border border-border-slate/50 p-8 rounded-xl shadow-[0_8px_32px_rgba(0,0,0,0.04)]">
+                 {/* Display Name */}
                  <div className="space-y-2">
                     <label className="text-[10px] font-mono uppercase text-text-tertiary block">Display Name</label>
-                    <input 
-                      name="display_name" 
+                    <input
+                      name="display_name"
+                      key={profile?.display_name}
                       defaultValue={profile?.display_name || ''}
-                      placeholder="e.g. Maverick Trader" 
-                      className="w-full bg-background-primary border border-border-slate/80 p-4 text-sm outline-none focus:border-accent text-text-primary rounded-lg" 
+                      placeholder="e.g. Maverick Trader"
+                      className="w-full bg-background-primary border border-border-slate/80 p-4 text-sm outline-none focus:border-accent text-text-primary rounded-lg"
                     />
                  </div>
+                 {/* Email — read from auth, not profile.id */}
                  <div className="space-y-2">
                     <label className="text-[10px] font-mono uppercase text-text-tertiary block">Account Email (Immutable)</label>
                     <div className="relative">
                        <Mail className="w-4 h-4 absolute left-4 top-1/2 -translate-y-1/2 text-text-tertiary/50" />
-                       <input 
-                         disabled 
-                         value={profile?.id}
-                         className="w-full bg-background-primary/50 border border-border-slate/80 p-4 pl-12 text-xs font-mono text-text-tertiary cursor-not-allowed rounded-lg" 
+                       <input
+                         disabled
+                         value={userEmail}
+                         className="w-full bg-background-primary/50 border border-border-slate/80 p-4 pl-12 text-xs font-mono text-text-tertiary cursor-not-allowed rounded-lg"
                        />
                     </div>
                  </div>
+                 {/* Country */}
+                 <div className="space-y-2">
+                    <label className="text-[10px] font-mono uppercase text-text-tertiary block">Country</label>
+                    <input
+                      name="country"
+                      key={profile?.country}
+                      defaultValue={profile?.country || ''}
+                      placeholder="e.g. United Kingdom"
+                      className="w-full bg-background-primary border border-border-slate/80 p-4 text-sm outline-none focus:border-accent text-text-primary rounded-lg"
+                    />
+                 </div>
+                 {/* Currency */}
+                 <div className="space-y-2">
+                    <label className="text-[10px] font-mono uppercase text-text-tertiary block">Base Currency</label>
+                    <select
+                      name="currency"
+                      key={profile?.currency}
+                      defaultValue={profile?.currency || 'GBP'}
+                      className="w-full bg-background-primary border border-border-slate/80 p-4 text-sm outline-none focus:border-accent text-text-primary rounded-lg appearance-none"
+                    >
+                      <option value="GBP">GBP — British Pound</option>
+                      <option value="USD">USD — US Dollar</option>
+                      <option value="EUR">EUR — Euro</option>
+                      <option value="AUD">AUD — Australian Dollar</option>
+                      <option value="CAD">CAD — Canadian Dollar</option>
+                      <option value="SGD">SGD — Singapore Dollar</option>
+                    </select>
+                 </div>
+                 {/* Save feedback */}
+                 {saveError && (
+                   <p className="text-xs text-loss font-mono">{saveError}</p>
+                 )}
+                 {saveSuccess && (
+                   <p className="text-xs text-profit font-mono">✓ Profile saved successfully.</p>
+                 )}
                  <div className="flex justify-end">
-                    <button 
-                      type="submit" 
+                    <button
+                      type="submit"
                       disabled={isUpdating}
                       className="px-8 py-3 bg-[#0A0A0A] hover:bg-neutral-800 text-white text-[10px] font-bold uppercase tracking-widest transition-colors disabled:opacity-50 rounded-lg"
                     >
-                       {isUpdating ? 'Updating...' : 'Save Identity'}
+                       {isUpdating ? 'Saving...' : 'Save Profile'}
                     </button>
                  </div>
               </form>

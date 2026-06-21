@@ -27,7 +27,7 @@ export function BrokerWidget() {
                     <p className="text-xs font-bold uppercase tracking-widest text-text-primary">{broker.name}</p>
                     <div className="flex items-center gap-1">
                       <Star className="w-2 h-2 text-accent fill-accent" />
-                      <span className="text-[8px] font-mono text-text-tertiary">{broker.rating}</span>
+                      <span className="text-[8px] font-mono text-text-tertiary">{broker.rating} Drawdown Rating</span>
                     </div>
                   </div>
                 </div>

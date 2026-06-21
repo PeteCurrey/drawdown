@@ -46,8 +46,10 @@ const tierColors = {
 };
 
 export const allBadges: Badge[] = [
-  { key: "first_flight", name: "First Flight", description: "Successfully logged your first performance entry.", icon: Zap, tier: "bronze", earned: true, earnedAt: "2026-04-13" },
-  { key: "math_master", name: "Math Master", description: "Scored 100% on the Math of Survivability quiz.", icon: Brain, tier: "silver", earned: true, earnedAt: "2026-04-12" },
+  // earned/earnedAt are intentionally false/undefined here — the dashboard/page.tsx merge
+  // overrides these fields with real data from the user_badges Supabase table.
+  { key: "first_flight", name: "First Flight", description: "Successfully logged your first performance entry.", icon: Zap, tier: "bronze", earned: false },
+  { key: "math_master", name: "Math Master", description: "Scored 100% on the Math of Survivability quiz.", icon: Brain, tier: "silver", earned: false },
   { key: "disciplined", name: "Disciplined", description: "Maintained a 5-day journaling streak without error.", icon: Target, tier: "gold", earned: false },
   { key: "pete_approved", name: "Pete Approved", description: "Directly recognised for mechanical integrity.", icon: Award, tier: "gold", earned: false },
   { key: "edge_unlocked", name: "Edge Unlocked", description: "Gained full access to the AI intelligence engine.", icon: Shield, tier: "silver", earned: false },

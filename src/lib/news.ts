@@ -28,6 +28,31 @@ const RSS_FEEDS = [
   { name: "Financial Times", url: "https://www.ft.com/?format=rss" }
 ];
 
+/**
+ * Sources that produce exclusively market-relevant content.
+ * Articles from these sources pass through regardless of category.
+ * All other sources are general-interest: only articles with at least one
+ * specific trading category (not just the world-economy catch-all) are kept.
+ */
+const MARKET_SPECIFIC_SOURCES = new Set([
+  "WSJ Markets",
+  "CNBC Markets",
+  "MarketWatch",
+  "Investing.com",
+  "ForexLive",
+  "CoinDesk",
+  "Financial Times",
+]);
+
+/** Categories that represent genuine trading-relevant content. */
+const TRADING_CATEGORIES = new Set([
+  "uk-markets",
+  "us-markets",
+  "forex",
+  "crypto",
+  "commodities",
+]);
+
 function decodeHtmlEntities(str: string): string {
   return str
     .replace(/&quot;/g, '"')
@@ -218,7 +243,18 @@ export async function fetchNews(): Promise<NewsItem[]> {
       }
     });
 
-    return allNews.sort((a, b) => 
+    // ── Relevance filter ───────────────────────────────────────────────────
+    // Market-specific sources: keep everything (ForexLive, WSJ Markets, etc.).
+    // General-interest sources: only keep articles with at least one specific
+    // trading category. Articles that fall through to the 'world-economy'
+    // catch-all (i.e. no specific keywords matched) from Fox News, Sky News,
+    // BBC World, CNN, etc. are the source of lifestyle/wellness content — exclude.
+    const relevantNews = allNews.filter(item =>
+      MARKET_SPECIFIC_SOURCES.has(item.source) ||
+      item.categories.some(cat => TRADING_CATEGORIES.has(cat))
+    );
+
+    return relevantNews.sort((a, b) =>
       new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
     );
   } catch (error) {

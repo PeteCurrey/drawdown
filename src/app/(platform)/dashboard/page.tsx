@@ -74,18 +74,26 @@ export default function DashboardPage() {
         // Fetch daily brief
         fetchBrief(supabase);
 
-        // Get user name
-        const firstName = user.user_metadata?.first_name || user.user_metadata?.full_name?.split(" ")[0] || "Trader";
-        setName(firstName);
 
-        // ── Subscription tier (single source of truth for all premium gates) ──
+        // ── Subscription tier + display name (single profiles fetch) ──────────
         const { data: profile } = await supabase
           .from('profiles')
-          .select('subscription_tier')
+          .select('subscription_tier, full_name')
           .eq('id', user.id)
           .single();
         const tier = (profile as any)?.subscription_tier as SubscriptionTier | undefined;
         if (tier) setSubscriptionTier(tier);
+
+        // Name resolution order:
+        // 1. user_metadata.first_name (set by Drawdown signup form)
+        // 2. user_metadata.full_name (set by OAuth providers)
+        // 3. profiles.full_name (set during onboarding or profile edit)
+        // 4. Fallback: "Trader" (shown until any name is available)
+        const metaFirst = user.user_metadata?.first_name;
+        const metaFull  = user.user_metadata?.full_name?.split(" ")[0];
+        const profileFirst = (profile as any)?.full_name?.split(" ")[0];
+        const resolvedName = metaFirst || metaFull || profileFirst || "Trader";
+        setName(resolvedName);
 
         // ── User badges (real earned state from user_badges table) ──
         const { data: userBadgeRows } = await supabase

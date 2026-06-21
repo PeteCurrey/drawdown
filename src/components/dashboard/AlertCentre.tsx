@@ -164,10 +164,16 @@ export function AlertCentre() {
       <div className="p-6 bg-accent/5 border-t border-border-slate">
          <div className="flex items-center gap-3 text-accent mb-2">
             <CheckCircle2 className="w-3 h-3" />
-            <span className="text-[9px] font-mono font-bold uppercase tracking-widest">Active Monitoring</span>
+            <span className="text-[9px] font-mono font-bold uppercase tracking-widest">
+              {alerts.length > 0 ? "Active Monitoring" : "No Alerts Configured"}
+            </span>
          </div>
          <p className="text-[9px] text-text-secondary leading-relaxed uppercase opacity-70">
-            Institutional push notifications are active for all enabled triggers.
+           {alerts.filter(a => a.is_active).length > 0
+             ? `Monitoring ${alerts.filter(a => a.is_active).length} active alert${alerts.filter(a => a.is_active).length !== 1 ? "s" : ""}.`
+             : alerts.length > 0
+               ? "All alerts are currently paused or triggered."
+               : "Set a price alert from the Watchlist panel to begin monitoring."}
          </p>
       </div>
     </div>

@@ -379,7 +379,7 @@ export function Navigation() {
               <div className="col-span-8 grid grid-cols-2 gap-x-6 gap-y-4">
                 {megaMenus[activeMenu].links.map((link) => {
                   const Icon = link.icon;
-                  const isPropFirmOrStore = link.href.startsWith("/prop-firms") || link.href.startsWith("/store");
+                  const isPropFirmOrStore = link.href.startsWith("/prop-firms") || link.href.startsWith("/store") || link.href.startsWith("/brokers") || link.href.startsWith("/compare");
                   const finalHref = isPropFirmOrStore ? link.href : `${regionPrefix}${link.href}`;
                   
                   return (
@@ -512,7 +512,7 @@ export function Navigation() {
                           <div className="pl-4 pb-4 pt-1 flex flex-col gap-3">
                             {megaMenus[menuKey].links.map((subLink) => {
                               const SubIcon = subLink.icon;
-                              const isPropFirmOrStore = subLink.href.startsWith("/prop-firms") || subLink.href.startsWith("/store");
+                              const isPropFirmOrStore = subLink.href.startsWith("/prop-firms") || subLink.href.startsWith("/store") || subLink.href.startsWith("/brokers") || subLink.href.startsWith("/compare");
                               const finalSubHref = isPropFirmOrStore ? subLink.href : `${regionPrefix}${subLink.href}`;
                               
                               return (

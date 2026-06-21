@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
-import { BadgeGrid, allBadges } from "@/components/badges/BadgeGrid";
+import { BadgeGrid, allBadges, type Badge } from "@/components/badges/BadgeGrid";
 import { 
   Play, 
   ArrowUpRight, 
@@ -21,6 +21,8 @@ import { createClient } from "@/lib/supabase/client";
 import { phases } from "@/data/courses";
 import Link from "next/link";
 
+type SubscriptionTier = 'free' | 'foundation' | 'edge' | 'floor';
+
 export default function DashboardPage() {
   const [greeting, setGreeting] = useState("Morning");
   const [name, setName] = useState("Trader");
@@ -31,6 +33,10 @@ export default function DashboardPage() {
   const [learningCard, setLearningCard] = useState<any>(null);
   const [latestBrief, setLatestBrief] = useState<any>(null);
   const [loadingBrief, setLoadingBrief] = useState(true);
+  // Subscription tier — fetched from profiles table, used to gate premium UI elements.
+  const [subscriptionTier, setSubscriptionTier] = useState<SubscriptionTier>('free');
+  // Earned badges — fetched from user_badges and merged with the static allBadges list.
+  const [earnedBadges, setEarnedBadges] = useState<Badge[]>(allBadges);
 
   useEffect(() => {
     const hour = new Date().getHours();
@@ -71,6 +77,35 @@ export default function DashboardPage() {
         // Get user name
         const firstName = user.user_metadata?.first_name || user.user_metadata?.full_name?.split(" ")[0] || "Trader";
         setName(firstName);
+
+        // ── Subscription tier (single source of truth for all premium gates) ──
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('subscription_tier')
+          .eq('id', user.id)
+          .single();
+        const tier = (profile as any)?.subscription_tier as SubscriptionTier | undefined;
+        if (tier) setSubscriptionTier(tier);
+
+        // ── User badges (real earned state from user_badges table) ──
+        const { data: userBadgeRows } = await supabase
+          .from('user_badges')
+          .select('badge_key, awarded_at')
+          .eq('user_id', user.id);
+
+        if (userBadgeRows) {
+          // Merge with the static allBadges list so every badge appears,
+          // but earned/earnedAt reflects what the user has actually achieved.
+          const earnedKeys = new Map(
+            userBadgeRows.map((row: any) => [row.badge_key, row.awarded_at as string])
+          );
+          const merged: Badge[] = allBadges.map(badge => ({
+            ...badge,
+            earned: earnedKeys.has(badge.key),
+            earnedAt: earnedKeys.get(badge.key) ?? badge.earnedAt,
+          }));
+          setEarnedBadges(merged);
+        }
 
         // 1. Fetch active funded challenge account
         const { data: accounts } = await supabase
@@ -420,7 +455,8 @@ export default function DashboardPage() {
 
           {/* Market Intelligence / Consensus */}
           <section className="pt-4">
-            <MarketConsensus />
+            {/* userTier is the single entitlement source — edge/floor unlock AI Signal Synthesis */}
+            <MarketConsensus userTier={subscriptionTier} />
           </section>
         </div>
 
@@ -472,7 +508,8 @@ export default function DashboardPage() {
       <div className="space-y-6">
         <h4 className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary">Achievements</h4>
         <div className="p-8 bg-background-surface/40 backdrop-blur-md border border-border-slate/50 rounded-xl">
-          <BadgeGrid badges={allBadges} />
+          {/* earnedBadges is the allBadges list merged with real user_badges data from Supabase */}
+          <BadgeGrid badges={earnedBadges} />
         </div>
       </div>
     </div>

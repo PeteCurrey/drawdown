@@ -8,10 +8,13 @@ import {
   Search,
   Zap,
   ChevronRight,
-  Info
+  Info,
+  CheckCircle2
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
+
+type SubscriptionTier = 'free' | 'foundation' | 'edge' | 'floor';
 
 interface ConsensusItem {
   symbol: string;
@@ -21,10 +24,19 @@ interface ConsensusItem {
   trend: string;
 }
 
-export function MarketConsensus() {
+interface MarketConsensusProps {
+  /** The current user's subscription tier. Defaults to 'free' (locked state). */
+  userTier?: SubscriptionTier;
+}
+
+export function MarketConsensus({ userTier = 'free' }: MarketConsensusProps) {
   const [data, setData] = useState<ConsensusItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
+
+  // Edge and Floor tiers have full AI signal access.
+  // Free and Foundation see the upgrade CTA.
+  const hasSignalAccess = userTier === 'edge' || userTier === 'floor';
 
   useEffect(() => {
     const fetchData = async () => {
@@ -139,22 +151,52 @@ export function MarketConsensus() {
         ))}
       </div>
 
-      <div className="p-8 border border-border-slate/50 bg-background-elevated/40 backdrop-blur-md flex flex-col md:flex-row gap-6 items-center justify-between transition-all duration-300 hover:shadow-[0_0_20px_rgba(0,167,225,0.1)] hover:border-accent/30 hover:-translate-y-0.5">
+      {/* AI Signal Synthesis footer — unlocked for edge/floor, upgrade CTA for free/foundation */}
+      <div className={cn(
+        "p-8 border flex flex-col md:flex-row gap-6 items-center justify-between transition-all duration-300 hover:-translate-y-0.5",
+        hasSignalAccess
+          ? "bg-background-elevated/40 backdrop-blur-md border-accent/30 hover:shadow-[0_0_20px_rgba(0,167,225,0.12)] hover:border-accent/50"
+          : "bg-background-elevated/40 backdrop-blur-md border-border-slate/50 hover:shadow-[0_0_20px_rgba(0,167,225,0.1)] hover:border-accent/30"
+      )}>
         <div className="flex gap-4 items-start max-w-2xl">
-          <div className="w-10 h-10 rounded-full bg-accent/10 border border-accent/20 flex items-center justify-center shrink-0">
-             <Zap className="w-5 h-5 text-accent animate-pulse" />
+          <div className={cn(
+            "w-10 h-10 rounded-full border flex items-center justify-center shrink-0",
+            hasSignalAccess ? "bg-profit/10 border-profit/20" : "bg-accent/10 border-accent/20"
+          )}>
+            {hasSignalAccess
+              ? <CheckCircle2 className="w-5 h-5 text-profit" />
+              : <Zap className="w-5 h-5 text-accent animate-pulse" />
+            }
           </div>
           <div className="space-y-1">
             <p className="text-xs font-bold uppercase tracking-widest text-text-primary">AI Signal Synthesis</p>
             <p className="text-xs text-text-secondary leading-relaxed">
-              These ratings are derived from a combination of EMA, RSI, and MACD indicators. 
-              Always use your own judgment and risk management.
+              These ratings are derived from a combination of EMA, RSI, and MACD indicators.{" "}
+              {hasSignalAccess
+                ? "Always use your own judgment and risk management."
+                : "Upgrade to Edge or Floor to unlock live signal data."
+              }
             </p>
           </div>
         </div>
-        <button className="px-10 py-4 bg-accent hover:bg-accent-hover text-background-primary text-[10px] font-bold uppercase tracking-widest transition-all">
-          Upgrade for Edge Signals
-        </button>
+
+        {/* Only show the upgrade CTA for free/foundation accounts */}
+        {!hasSignalAccess && (
+          <Link
+            href="/pricing"
+            className="px-10 py-4 bg-accent hover:bg-accent-hover text-background-primary text-[10px] font-bold uppercase tracking-widest transition-all shrink-0"
+          >
+            Upgrade for Edge Signals
+          </Link>
+        )}
+
+        {/* Unlocked state: show a subtle active indicator instead of a CTA */}
+        {hasSignalAccess && (
+          <div className="flex items-center gap-2 shrink-0">
+            <div className="w-2 h-2 rounded-full bg-profit animate-pulse" />
+            <span className="text-[9px] font-mono uppercase tracking-widest text-profit">Live Signals Active</span>
+          </div>
+        )}
       </div>
     </div>
   );

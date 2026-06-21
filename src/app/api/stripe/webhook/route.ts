@@ -2,6 +2,7 @@ import { createServerClient } from "@supabase/ssr";
 import { type NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 import { headers } from "next/headers";
+import { awardBadge } from "@/lib/gamification";
 
 export async function POST(request: NextRequest) {
   const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
@@ -51,7 +52,16 @@ export async function POST(request: NextRequest) {
           })
           .eq("id", userId);
         
-        if (error) console.error("Error updating profile on checkout:", error);
+        if (error) {
+          console.error("Error updating profile on checkout:", error);
+        } else if (tier === 'edge' || tier === 'floor') {
+          // Award the edge_unlocked achievement badge for any paid tier that
+          // includes AI Signal Synthesis access (edge and floor).
+          // Fire-and-forget: badge failure must not fail the webhook response.
+          awardBadge(userId, 'edge_unlocked').catch(err =>
+            console.error("edge_unlocked badge award failed (non-fatal):", err)
+          );
+        }
       }
       break;
 
@@ -59,16 +69,25 @@ export async function POST(request: NextRequest) {
       const subscription = event.data.object as Stripe.Subscription;
       const subTier = subscription.metadata.tier; // Assuming tier is also in subscription metadata
       
-      const { error: updateError } = await supabase
+      const { data: updatedProfile, error: updateError } = await supabase
         .from("profiles")
         .update({
           subscription_status: subscription.status,
           subscription_tier: subTier,
           updated_at: new Date().toISOString(),
         })
-        .eq("stripe_customer_id", subscription.customer);
+        .eq("stripe_customer_id", subscription.customer)
+        .select('id')
+        .single();
       
-      if (updateError) console.error("Error updating profile on subscription update:", updateError);
+      if (updateError) {
+        console.error("Error updating profile on subscription update:", updateError);
+      } else if ((subTier === 'edge' || subTier === 'floor') && updatedProfile?.id) {
+        // Award edge_unlocked on upgrade path (e.g. foundation → edge or direct to floor).
+        awardBadge(updatedProfile.id, 'edge_unlocked').catch(err =>
+          console.error("edge_unlocked badge award failed (non-fatal):", err)
+        );
+      }
       break;
 
     case "customer.subscription.deleted":

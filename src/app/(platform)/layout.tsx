@@ -19,6 +19,7 @@ import {
   ScanSearch,
   FileText,
   Calculator,
+  Code,
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { DashboardStatusBar } from "@/components/market/DashboardStatusBar";
@@ -30,6 +31,7 @@ const sidebarLinks = [
   { name: "Daily Briefing",     href: "/dashboard/intelligence/daily-report",            icon: FileText },
   { name: "Technical Scanner",  href: "/dashboard/tools/technical-scanner",              icon: ScanSearch },
   { name: "Position Sizer",     href: "/dashboard/tools/position-sizer",                 icon: Calculator },
+  { name: "Algo Builder",       href: "/dashboard/tools/algo-builder",                  icon: Code },
   { name: "Learn",              href: "/dashboard/learn",                                icon: Library },
   { name: "Live Sessions",      href: "/dashboard/live",                                 icon: Video },
   { name: "AI Tools",           href: "/dashboard/tools",                                icon: Wrench },

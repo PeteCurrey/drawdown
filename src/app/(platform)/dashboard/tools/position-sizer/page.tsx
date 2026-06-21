@@ -1,18 +1,23 @@
 "use client";
 
-import { Percent } from "lucide-react";
 import { RiskCalculator } from "@/components/tools/RiskCalculator";
 
 export default function PositionSizerPage() {
   return (
-    <div className="space-y-12 animate-in fade-in duration-700 max-w-5xl">
-      <header className="border-b border-border-slate pb-8">
-        <div className="flex items-center gap-3 text-profit mb-4">
-          <Percent className="w-5 h-5" />
-          <span className="text-[10px] font-mono uppercase tracking-[0.3em]">Tool // Position Sizer</span>
+    <div className="space-y-8 animate-in fade-in duration-700">
+      {/* Page header — matches current dashboard design: accent eyebrow, italic accent word */}
+      <header className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+        <div>
+          <span className="text-accent font-mono text-[10px] uppercase tracking-widest block mb-3">
+            // MODULE_05 // POSITION SIZER
+          </span>
+          <h1 className="text-4xl font-display font-bold uppercase text-text-primary">
+            Position <span className="text-accent italic">Sizer.</span>
+          </h1>
+          <p className="text-text-secondary text-sm mt-2 max-w-xl">
+            Precision position sizing, risk management, and drawdown protection. Every trade sized to protect your account.
+          </p>
         </div>
-        <h1 className="text-4xl font-display font-bold uppercase tracking-tight">Position <span className="text-accent">Sizer.</span></h1>
-        <p className="text-sm text-text-tertiary mt-2">Precision position sizing and drawdown protection engine.</p>
       </header>
 
       <RiskCalculator />

@@ -1,54 +1,154 @@
-"use client";
+// Phase 1 — Server Component auth gate for Algo Strategy Builder
+// Enforces floor-tier subscription server-side; no flash of unauthenticated content.
 
-import { useState, useEffect } from "react";
-import { createClient } from "@/lib/supabase/client";
-import { AlgoStrategyBuilder } from "@/components/dashboard/AlgoStrategyBuilder";
-import { Loader2 } from "lucide-react";
+import { redirect } from "next/navigation";
+import { createClient } from "@/lib/supabase/server";
+import { AlgoBuilderShell } from "@/components/algo-builder/AlgoBuilderShell";
+import { Lock } from "lucide-react";
+import Link from "next/link";
 
-export default function AlgoBuilderPage() {
-  const [user, setUser] = useState<any>(null);
-  const [profile, setProfile] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
+const TIER_WEIGHT: Record<string, number> = {
+  free:       0,
+  foundation: 1,
+  edge:       2,
+  floor:      3,
+};
 
-  const supabase = createClient();
+export const metadata = {
+  title: "Algo Strategy Builder · Drawdown",
+  description:
+    "Convert discretionary logic into production Pine Script v6 & Python with QuantCoder AI.",
+};
 
-  useEffect(() => {
-    async function fetchUserData() {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (user) {
-        setUser(user);
-        const { data: profile } = await (supabase as any)
-          .from('profiles')
-          .select('subscription_tier')
-          .eq('id', user.id)
-          .single();
-        setProfile(profile);
-      }
-      setLoading(false);
-    }
-    fetchUserData();
-  }, []);
+export default async function AlgoBuilderPage() {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
-  if (loading) {
-    return (
-      <div className="h-full flex items-center justify-center">
-        <Loader2 className="w-8 h-8 animate-spin text-accent" />
-      </div>
-    );
+  // ── 1. Auth gate ──────────────────────────────────────────────────────────
+  if (!user) {
+    redirect("/login?redirect=/dashboard/tools/algo-builder");
   }
 
-  if (!user) {
-    return (
-      <div className="h-full flex items-center justify-center text-text-tertiary uppercase tracking-widest font-mono text-sm">
-        Unauthorized Access
-      </div>
-    );
+  // ── 2. Tier gate ─────────────────────────────────────────────────────────
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("subscription_tier, display_name")
+    .eq("id", user.id)
+    .single();
+
+  const tier        = (profile as any)?.subscription_tier as string | undefined;
+  const displayName = (profile as any)?.display_name     as string | undefined;
+  const userWeight  = TIER_WEIGHT[tier ?? "free"] ?? 0;
+
+  if (userWeight < 3) {
+    return <AlgoBuilderLockedState tier={tier} />;
   }
 
   return (
-    <AlgoStrategyBuilder 
-      userId={user.id} 
-      userTier={profile?.subscription_tier || 'free'} 
+    <AlgoBuilderShell
+      userName={displayName ?? user.email ?? ""}
+      userEmail={user.email ?? ""}
+      tier={tier ?? "floor"}
     />
+  );
+}
+
+// ─── Locked state — non-floor users ───────────────────────────────────────────
+function AlgoBuilderLockedState({ tier }: { tier?: string }) {
+  const CHARTREUSE = "#C8F135";
+
+  return (
+    <div className="flex flex-col items-center justify-center min-h-[72vh] space-y-10 animate-in fade-in duration-700 px-4">
+      <div className="max-w-md w-full space-y-8">
+
+        {/* Pulsing lock icon */}
+        <div className="flex justify-center">
+          <div className="relative">
+            <div
+              className="w-20 h-20 flex items-center justify-center border"
+              style={{ backgroundColor: `${CHARTREUSE}12`, borderColor: `${CHARTREUSE}40` }}
+            >
+              <Lock className="w-8 h-8" style={{ color: CHARTREUSE }} />
+            </div>
+            <span
+              className="absolute -top-1 -right-1 w-3.5 h-3.5 rounded-full animate-pulse"
+              style={{ backgroundColor: CHARTREUSE }}
+            />
+          </div>
+        </div>
+
+        {/* Headline */}
+        <div className="text-center space-y-3">
+          <p
+            className="text-[10px] font-mono uppercase tracking-[0.3em]"
+            style={{ color: CHARTREUSE }}
+          >
+            // QuantCoder AI · Floor Access Required
+          </p>
+          <h1 className="text-3xl font-display font-bold uppercase text-text-primary">
+            Algo Strategy Builder
+          </h1>
+          <p className="text-sm text-text-secondary leading-relaxed">
+            Convert your discretionary ideas into production&nbsp;Pine Script v6 and
+            Python — powered by QuantCoder AI. Available exclusively on the{" "}
+            <span className="font-bold" style={{ color: CHARTREUSE }}>
+              Floor
+            </span>{" "}
+            plan.
+          </p>
+          {tier && (
+            <p className="text-[11px] text-text-tertiary font-mono">
+              CURRENT PLAN:{" "}
+              <span className="text-text-secondary uppercase font-bold">{tier}</span>
+            </p>
+          )}
+        </div>
+
+        {/* Feature list */}
+        <div
+          className="border p-5 space-y-2.5"
+          style={{ backgroundColor: "#111", borderColor: "#222" }}
+        >
+          {[
+            "Pine Script v6 & Python code generation",
+            "QuantCoder AI with lookahead-bias detection",
+            "Strategy library — save up to 20 strategies",
+            "Health check with simulated equity curve",
+            "Error fix loop for TradingView compiler errors",
+            "10 generations / 24 hours",
+          ].map((feat) => (
+            <div key={feat} className="flex items-start gap-2.5">
+              <span className="text-xs font-bold mt-0.5 shrink-0" style={{ color: CHARTREUSE }}>
+                ✓
+              </span>
+              <span className="text-xs text-text-secondary font-mono leading-snug">{feat}</span>
+            </div>
+          ))}
+        </div>
+
+        {/* CTAs */}
+        <div className="space-y-2">
+          <Link
+            href="/pricing?source=algo-builder"
+            className="w-full flex items-center justify-center px-8 py-4 text-[11px] font-bold uppercase tracking-widest transition-opacity hover:opacity-90 text-black"
+            style={{ backgroundColor: CHARTREUSE }}
+          >
+            Upgrade to Floor
+          </Link>
+          <Link
+            href="/dashboard/tools"
+            className="w-full flex items-center justify-center px-8 py-3 border border-border-slate/50 hover:border-border-slate text-[10px] font-mono uppercase tracking-widest text-text-tertiary hover:text-text-primary transition-all"
+          >
+            ← Back to Tools
+          </Link>
+        </div>
+      </div>
+
+      <p className="text-[9px] font-mono text-text-tertiary/30 uppercase tracking-widest">
+        Algo Strategy Builder · Floor Plan · QuantCoder AI
+      </p>
+    </div>
   );
 }

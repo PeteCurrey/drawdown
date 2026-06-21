@@ -1408,17 +1408,17 @@ export function RiskCalculator() {
 
   return (
     <div className="space-y-6">
-      {/* Tab bar */}
-      <div className="flex border-b border-border-slate/50 overflow-x-auto">
+      {/* Tab bar — solid box style matching the current dashboard design */}
+      <div className="flex bg-background-surface border border-border-slate p-1 overflow-x-auto gap-0.5">
         {TABS.map(t => {
           const Icon = t.icon;
           return (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
               className={cn(
-                "flex items-center gap-2 px-5 py-3.5 text-[10px] font-mono uppercase tracking-widest whitespace-nowrap transition-all",
+                "flex items-center gap-2 px-5 py-2.5 text-[10px] font-mono uppercase tracking-widest whitespace-nowrap transition-all",
                 activeTab === t.id
-                  ? "border-b-2 border-accent text-accent font-bold"
-                  : "text-text-tertiary hover:text-text-secondary"
+                  ? "bg-accent text-background-primary font-bold"
+                  : "text-text-tertiary hover:text-text-primary"
               )}>
               <Icon className="w-3.5 h-3.5" />
               {t.label}

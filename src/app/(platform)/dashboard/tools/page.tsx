@@ -8,6 +8,7 @@ import {
   LayoutDashboard, 
   History, 
   Cpu, 
+  Code,
   ArrowRight,
   Zap,
   Lock,
@@ -58,6 +59,14 @@ const appTools: ToolDef[] = [
     icon: Zap,
     minTier: "foundation",
     color: "premium"
+  },
+  {
+    slug: "algo-builder",
+    title: "Algo Strategy Builder",
+    description: "Convert trading ideas into Pine Script v6 & Python with QuantCoder AI.",
+    icon: Code,
+    minTier: "floor",
+    color: "floor"
   },
   {
     slug: "backtester",

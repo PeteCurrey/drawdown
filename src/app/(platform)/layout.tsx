@@ -18,22 +18,24 @@ import {
   Share2,
   ScanSearch,
   FileText,
+  Calculator,
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { DashboardStatusBar } from "@/components/market/DashboardStatusBar";
 import { OnboardingWizard } from "@/components/dashboard/OnboardingWizard";
 
 const sidebarLinks = [
-  { name: "Overview",       href: "/dashboard",                                  icon: LayoutDashboard },
-  { name: "Intelligence",   href: "/dashboard/intelligence",                     icon: Brain },
-  { name: "Daily Briefing", href: "/dashboard/intelligence/daily-report",        icon: FileText },
-  { name: "Scanner",        href: "/dashboard/tools/scanner",                    icon: ScanSearch },
-  { name: "Learn",          href: "/dashboard/learn",                            icon: Library },
-  { name: "Live Sessions",  href: "/dashboard/live",                             icon: Video },
-  { name: "AI Tools",       href: "/dashboard/tools",                            icon: Wrench },
-  { name: "Partner Portal", href: "/partner",                                    icon: Share2 },
-  { name: "Community",      href: "/dashboard/community",                        icon: Users },
-  { name: "Profile",        href: "/dashboard/profile",                          icon: UserCircle },
+  { name: "Overview",           href: "/dashboard",                                      icon: LayoutDashboard },
+  { name: "Intelligence",       href: "/dashboard/intelligence",                         icon: Brain },
+  { name: "Daily Briefing",     href: "/dashboard/intelligence/daily-report",            icon: FileText },
+  { name: "Technical Scanner",  href: "/dashboard/tools/technical-scanner",              icon: ScanSearch },
+  { name: "Position Sizer",     href: "/dashboard/tools/position-sizer",                 icon: Calculator },
+  { name: "Learn",              href: "/dashboard/learn",                                icon: Library },
+  { name: "Live Sessions",      href: "/dashboard/live",                                 icon: Video },
+  { name: "AI Tools",           href: "/dashboard/tools",                                icon: Wrench },
+  { name: "Partner Portal",     href: "/partner",                                        icon: Share2 },
+  { name: "Community",          href: "/dashboard/community",                            icon: Users },
+  { name: "Profile",            href: "/dashboard/profile",                              icon: UserCircle },
 ];
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {

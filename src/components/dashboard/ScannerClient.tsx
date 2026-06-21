@@ -7,6 +7,7 @@ import {
   Grid3X3, List, Star, Bell, BellRing, ChevronDown, ChevronUp,
   TrendingUp, TrendingDown, Minus, RefreshCw, AlertTriangle, Shield,
   Calendar, Newspaper, Eye, EyeOff, X, Plus, Cpu, Zap as ZapIcon, Building2,
+  Calculator,
 } from "lucide-react";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell, ReferenceLine } from "recharts";
 import { cn } from "@/lib/utils";
@@ -1451,30 +1452,51 @@ function InstrumentCard({
         )}
 
         {/* Actions */}
-        <div className="flex items-center justify-between pt-1 border-t border-border-slate/20">
-          <div className="flex items-center gap-2">
-            <button onClick={e => { e.stopPropagation(); onToggleWatch(inst.scannerSlug); }}
-              className={cn("p-1 hover:text-yellow-400 transition-colors", watched ? "text-yellow-400" : "text-text-tertiary")}>
-              <Star className="w-3.5 h-3.5" fill={watched ? "currentColor" : "none"} />
-            </button>
-            <button onClick={e => { e.stopPropagation(); onToggleAlerts(inst.scannerSlug); }}
-              className="relative p-1 text-text-tertiary hover:text-accent transition-colors">
-              {alertCount > 0 ? <BellRing className="w-3.5 h-3.5 text-accent" /> : <Bell className="w-3.5 h-3.5" />}
-              {alertCount > 0 && (
-                <span className="absolute -top-0.5 -right-0.5 w-3 h-3 bg-accent rounded-full text-[6px] font-bold text-white flex items-center justify-center">
-                  {alertCount}
-                </span>
-              )}
+        <div className="pt-1 border-t border-border-slate/20 space-y-2">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <button onClick={e => { e.stopPropagation(); onToggleWatch(inst.scannerSlug); }}
+                className={cn("p-1 hover:text-yellow-400 transition-colors", watched ? "text-yellow-400" : "text-text-tertiary")}>
+                <Star className="w-3.5 h-3.5" fill={watched ? "currentColor" : "none"} />
+              </button>
+              <button onClick={e => { e.stopPropagation(); onToggleAlerts(inst.scannerSlug); }}
+                className="relative p-1 text-text-tertiary hover:text-accent transition-colors">
+                {alertCount > 0 ? <BellRing className="w-3.5 h-3.5 text-accent" /> : <Bell className="w-3.5 h-3.5" />}
+                {alertCount > 0 && (
+                  <span className="absolute -top-0.5 -right-0.5 w-3 h-3 bg-accent rounded-full text-[6px] font-bold text-white flex items-center justify-center">
+                    {alertCount}
+                  </span>
+                )}
+              </button>
+            </div>
+            <Link href={`/dashboard/tools/scanner?symbol=${inst.scannerSlug}`}
+              className="text-[8px] font-mono uppercase text-text-tertiary hover:text-accent transition-colors flex items-center gap-1"
+              onClick={e => e.stopPropagation()}>
+              TradingView <ChevronRight className="w-2.5 h-2.5" />
+            </Link>
+            <button className="text-[8px] font-mono uppercase text-text-tertiary hover:text-accent transition-colors">
+              {expanded ? "▲ Less" : "▼ More"}
             </button>
           </div>
-          <Link href={`/dashboard/tools/scanner?symbol=${inst.scannerSlug}`}
-            className="text-[8px] font-mono uppercase text-text-tertiary hover:text-accent transition-colors flex items-center gap-1"
-            onClick={e => e.stopPropagation()}>
-            TradingView <ChevronRight className="w-2.5 h-2.5" />
-          </Link>
-          <button className="text-[8px] font-mono uppercase text-text-tertiary hover:text-accent transition-colors">
-            {expanded ? "▲ Less" : "▼ More"}
-          </button>
+          {/* Calculate Risk — passes live price, ATR, bias, setup score to risk calculator */}
+          {data.price && (
+            <Link
+              href={[
+                "/dashboard/tools/position-sizer",
+                `?symbol=${inst.scannerSlug}`,
+                `&display=${encodeURIComponent(inst.displayPair)}`,
+                `&price=${data.price.toFixed(5)}`,
+                data.atr != null ? `&atr=${data.atr.toFixed(5)}` : "",
+                data.spread != null ? `&spread=${data.spread.toFixed(5)}` : "",
+                `&bias=${["STRONG BUY","BUY"].includes(tech.consensus) ? "BULLISH" : ["STRONG SELL","SELL"].includes(tech.consensus) ? "BEARISH" : "NEUTRAL"}`,
+                `&setup_score=${setupScore}`,
+              ].join("")}
+              onClick={e => e.stopPropagation()}
+              className="flex items-center justify-center gap-1.5 w-full py-1.5 text-[8px] font-mono uppercase border border-border-slate/40 rounded text-text-tertiary hover:border-accent hover:text-accent hover:bg-accent/5 transition-all"
+            >
+              <Calculator className="w-3 h-3" /> Calculate Risk →
+            </Link>
+          )}
         </div>
       </div>
 

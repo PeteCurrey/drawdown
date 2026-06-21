@@ -44,16 +44,16 @@ const appTools: ToolDef[] = [
     color: "accent"
   },
   {
-    slug: "risk-calculator",
-    title: "Risk Calculator",
-    description: "Multi-asset position sizer & modeler.",
+    slug: "position-sizer",
+    title: "Position Sizer",
+    description: "Multi-asset position sizer & drawdown engine.",
     icon: Percent,
     minTier: "free",
     color: "profit"
   },
   {
-    slug: "scanner",
-    title: "Market Scanner",
+    slug: "technical-scanner",
+    title: "Technical Scanner",
     description: "Live cross-asset technical consensus.",
     icon: Zap,
     minTier: "foundation",

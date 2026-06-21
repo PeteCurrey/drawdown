@@ -12,18 +12,15 @@ const TIER_WEIGHT: Record<string, number> = {
   floor:      3,
 };
 
-// ─── Scanner requires Foundation+ ────────────────────────────────────────
+// ─── Technical Scanner requires Foundation+ ──────────────────────────────
 const REQUIRED_WEIGHT = 1; // "foundation"
 
-export default async function MarketScannerPage({
+export default async function TechnicalScannerPage({
   searchParams,
 }: {
   searchParams: Promise<{ symbol?: string }>;
 }) {
   // ── Auth check ──────────────────────────────────────────────────────────
-  // Middleware already redirects unauthenticated users away from /dashboard,
-  // but we add an explicit check here so this page is independently safe if
-  // the middleware config ever changes (e.g. if the path is reorganised).
   const supabase = await createClient();
   const {
     data: { user },
@@ -34,9 +31,6 @@ export default async function MarketScannerPage({
   }
 
   // ── Tier check ──────────────────────────────────────────────────────────
-  // This is the Phase 1 "generalise the fix" requirement: any destination
-  // page that is gated on the dashboard must enforce the same tier check
-  // independently of how the user arrived (dashboard card vs. direct URL).
   const { data: profile } = await supabase
     .from("profiles")
     .select("subscription_tier")
@@ -52,17 +46,12 @@ export default async function MarketScannerPage({
 
   // ── Resolve symbol from URL ─────────────────────────────────────────────
   const { symbol } = await searchParams;
-
-  // Normalise to uppercase; treat empty string as null (show overview)
   const resolvedSymbol = symbol?.toUpperCase().trim() || null;
 
   return <ScannerClient symbol={resolvedSymbol} />;
 }
 
 // ─── Locked state — free users ────────────────────────────────────────────
-// Mirrors the locked card pattern used on the dashboard to keep the UX
-// consistent regardless of whether the user arrived via the card or a URL.
-
 function ScannerLockedState({ tier }: { tier?: string }) {
   return (
     <div className="flex flex-col items-center justify-center min-h-[60vh] space-y-8 animate-in fade-in duration-700">
@@ -76,7 +65,7 @@ function ScannerLockedState({ tier }: { tier?: string }) {
             Foundation Access Required
           </p>
           <p className="text-xs text-text-secondary leading-relaxed">
-            The Market Scanner requires a Foundation plan or above. Your current
+            The Technical Scanner requires a Foundation plan or above. Your current
             plan is{" "}
             <span className="font-bold text-text-primary uppercase">
               {tier ?? "Free"}
@@ -102,7 +91,7 @@ function ScannerLockedState({ tier }: { tier?: string }) {
       </div>
 
       <p className="text-[9px] font-mono text-text-tertiary/50 uppercase tracking-widest">
-        Market Scanner · Foundation+ · Live TradingView Technical Analysis
+        Technical Scanner · Foundation+ · Live Multi-Timeframe Technical Analysis
       </p>
     </div>
   );

@@ -1031,7 +1031,7 @@ export default function TradeJournalPage() {
                     <div className="space-y-2 relative">
                        <label className="text-[9px] font-mono uppercase text-text-tertiary tracking-widest block flex justify-between">
                          <span>Position Size *</span>
-                         <Link href="/dashboard/tools/risk-calculator" className="text-accent underline lowercase font-sans text-[8px] hover:text-accent-hover">Risk Calc</Link>
+                         <Link href="/dashboard/tools/position-sizer" className="text-accent underline lowercase font-sans text-[8px] hover:text-accent-hover">Position Sizer</Link>
                        </label>
                        <input name="position_size" type="number" step="0.0001" required placeholder="0.20" className="w-full bg-background-primary border border-border-slate p-3 text-sm outline-none focus:border-accent font-mono" />
                     </div>

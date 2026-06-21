@@ -14,7 +14,30 @@ const nextConfig: NextConfig = {
   },
   async redirects() {
     return [
+      // ─── Dashboard tool renames (permanent — old URLs redirect to new) ──
+      {
+        source: "/dashboard/tools/risk-calculator",
+        destination: "/dashboard/tools/position-sizer",
+        permanent: true,
+      },
+      {
+        source: "/dashboard/tools/risk-calculator/:path*",
+        destination: "/dashboard/tools/position-sizer/:path*",
+        permanent: true,
+      },
+      {
+        source: "/dashboard/tools/scanner",
+        destination: "/dashboard/tools/technical-scanner",
+        permanent: true,
+      },
+      {
+        source: "/dashboard/tools/scanner/:path*",
+        destination: "/dashboard/tools/technical-scanner/:path*",
+        permanent: true,
+      },
+
       // Features / Tools
+
       {
         source: "/features/ai-trade-journal",
         destination: "/tools/ai-trade-journal",

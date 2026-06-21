@@ -104,7 +104,7 @@ export async function GET(
     : "N/A";
 
   // Format candles for prompt (last 5 for brevity)
-  const candleSummary = candles.slice(-5).map(c =>
+  const candleSummary = candles.slice(-5).map((c: { dt: string; o: number; h: number; l: number; c: number; vol: number }) =>
     `${c.dt}: O=${c.o.toFixed(4)} H=${c.h.toFixed(4)} L=${c.l.toFixed(4)} C=${c.c.toFixed(4)}`
   ).join("\n");
 

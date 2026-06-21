@@ -79,7 +79,7 @@ export function DashboardStatusBar() {
   }, []);
 
   return (
-    <div className="flex items-center w-full px-4 border-b border-border-slate/50 bg-background-surface/30 backdrop-blur-md relative z-10 h-12 overflow-hidden">
+    <div className="flex items-center w-full px-4 bg-background-surface/30 backdrop-blur-md relative z-10 h-12 overflow-hidden">
       {/* Session Indicator */}
       <div className="flex items-center gap-3 shrink-0 pr-6 border-r border-border-slate/50 h-full">
         <div className={cn(

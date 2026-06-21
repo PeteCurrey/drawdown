@@ -9,7 +9,7 @@ import {
   Calendar, Newspaper, Eye, EyeOff, X, Plus,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { LineChart, Line, ResponsiveContainer } from "recharts";
+import { TradingViewMiniChart } from "@/components/markets/TradingViewMiniChart";
 import { TradingViewTechnicalWidget } from "@/components/market/TradingViewTechnicalWidget";
 import { useTwelveData } from "@/hooks/useTwelveData";
 import { useTechnicalData } from "@/hooks/useTechnicalData";
@@ -65,11 +65,11 @@ const CATEGORY_LABEL: Record<MarketCategory, string> = {
 };
 
 const CONSENSUS_STYLE: Record<Consensus, string> = {
-  "STRONG BUY":  "bg-emerald-500/20 text-emerald-400 border-emerald-500/40",
-  "BUY":         "bg-green-500/15  text-green-400  border-green-500/30",
-  "NEUTRAL":     "bg-white/10      text-gray-400   border-white/20",
-  "SELL":        "bg-red-500/15   text-red-400    border-red-500/30",
-  "STRONG SELL": "bg-red-700/20   text-red-500    border-red-700/40",
+  "STRONG BUY":  "bg-profit/15  text-profit   border-profit/30",
+  "BUY":         "bg-profit/8   text-profit   border-profit/20",
+  "NEUTRAL":     "bg-border-slate/30 text-text-tertiary border-border-slate/50",
+  "SELL":        "bg-loss/10    text-loss      border-loss/25",
+  "STRONG SELL": "bg-loss/20    text-loss      border-loss/40",
 };
 
 const RETAIL_MOCK: Record<string, { longPct: number; shortPct: number }> = {
@@ -136,16 +136,17 @@ function SetupScoreDial({ score, size = 60 }: { score: number; size?: number }) 
   const r = (size - 10) / 2;
   const circ = 2 * Math.PI * r;
   const fill = (score / 100) * circ;
-  const color = score >= 70 ? "#00c853" : score >= 40 ? "#ff9800" : "#f44336";
+  const color = score >= 70 ? "#00c853" : score >= 40 ? "#f59e0b" : "#ef4444";
+  const trackColor = score >= 70 ? "rgba(0,200,83,0.12)" : score >= 40 ? "rgba(245,158,11,0.12)" : "rgba(239,68,68,0.12)";
   return (
     <div className="relative flex items-center justify-center" style={{ width: size, height: size }}>
       <svg width={size} height={size} style={{ transform: "rotate(-90deg)" }}>
-        <circle cx={size/2} cy={size/2} r={r} fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth={5} />
-        <circle cx={size/2} cy={size/2} r={r} fill="none" stroke={color} strokeWidth={5}
+        <circle cx={size/2} cy={size/2} r={r} fill="none" stroke={trackColor} strokeWidth={4.5} />
+        <circle cx={size/2} cy={size/2} r={r} fill="none" stroke={color} strokeWidth={4.5}
           strokeDasharray={`${fill} ${circ}`} strokeLinecap="round"
-          style={{ transition: "stroke-dasharray 0.8s ease" }} />
+          style={{ transition: "stroke-dasharray 0.8s ease", filter: score >= 70 ? `drop-shadow(0 0 4px ${color})` : "none" }} />
       </svg>
-      <span className="absolute text-xs font-bold font-mono" style={{ color }}>{score}</span>
+      <span className="absolute text-[10px] font-black font-mono" style={{ color }}>{score}</span>
     </div>
   );
 }
@@ -158,11 +159,11 @@ function SignalArrow({ signal }: { signal: Signal }) {
 
 function SkeletonCard() {
   return (
-    <div className="bg-background-surface/60 border border-border-slate/40 rounded-none p-5 animate-pulse space-y-3">
-      <div className="h-4 bg-white/10 rounded w-1/3" />
-      <div className="h-8 bg-white/10 rounded w-2/3" />
-      <div className="h-10 bg-white/5 rounded" />
-      <div className="h-3 bg-white/10 rounded w-1/2" />
+    <div className="bg-background-surface border border-border-slate/40 rounded-xl p-5 animate-pulse space-y-3">
+      <div className="h-4 bg-background-elevated rounded w-1/3" />
+      <div className="h-8 bg-background-elevated rounded w-2/3" />
+      <div className="h-10 bg-background-elevated/50 rounded" />
+      <div className="h-3 bg-background-elevated rounded w-1/2" />
     </div>
   );
 }
@@ -187,9 +188,9 @@ function MarketStatusBar({ lastUpdated }: { lastUpdated: Date | null }) {
   ];
 
   return (
-    <div className="flex flex-wrap items-center gap-x-6 gap-y-2 px-5 py-3 bg-background-elevated border border-border-slate/40 rounded-none mb-6">
+    <div className="flex flex-wrap items-center gap-x-6 gap-y-2 px-5 py-3 bg-background-surface border border-border-slate/50 rounded-xl mb-6 shadow-sm">
       <div className="flex items-center gap-2">
-        <div className="w-2 h-2 rounded-full bg-[#00c853] animate-pulse" />
+        <div className="w-2 h-2 rounded-full bg-accent animate-pulse" />
         <span className="font-mono text-[10px] uppercase tracking-widest text-text-primary font-bold">
           {utcStr} UTC
         </span>
@@ -198,12 +199,12 @@ function MarketStatusBar({ lastUpdated }: { lastUpdated: Date | null }) {
       <div className="flex items-center gap-3">
         {SESSION_CONFIG.map(s => (
           <div key={s.name} className="flex items-center gap-1.5">
-            <div className={cn("w-1.5 h-1.5 rounded-full", s.open ? "bg-[#00c853]" : "bg-white/20")} />
+            <div className={cn("w-1.5 h-1.5 rounded-full", s.open ? "bg-accent" : "bg-border-slate/50")} />
             <span className={cn("font-mono text-[9px] uppercase tracking-widest",
               s.open ? "text-text-primary font-semibold" : "text-text-tertiary")}>
               {s.name}
             </span>
-            {s.open && <span className="text-[8px] font-mono text-emerald-400">OPEN</span>}
+            {s.open && <span className="text-[8px] font-mono text-accent font-bold">OPEN</span>}
           </div>
         ))}
       </div>
@@ -216,12 +217,17 @@ function MarketStatusBar({ lastUpdated }: { lastUpdated: Date | null }) {
 
 // ─── Technical Tab ────────────────────────────────────────────────────────────
 
-function TechnicalTab({ tech, price, slug }: { tech: TechnicalSummary; price: number | null; slug: string }) {
+function TechnicalTab({ tech, price, slug, tvSymbol }: { tech: TechnicalSummary; price: number | null; slug: string; tvSymbol: string }) {
+  const [tvVisible, setTvVisible] = useState(true);
   if (tech.loading) return <div className="p-6 text-center text-text-tertiary text-xs font-mono animate-pulse">Loading technical data…</div>;
   if (tech.error || tech.rows.length === 0) return (
-    <div className="p-6 text-center text-text-tertiary text-xs font-mono">
-      <p>No API key configured.</p>
-      <p className="mt-1 text-[10px]">Set NEXT_PUBLIC_TWELVE_DATA_KEY to enable live technical data.</p>
+    <div className="space-y-0">
+      <div className="border-b border-border-slate/20">
+        <TradingViewTechnicalWidget tvSymbol={tvSymbol} isVisible />
+      </div>
+      <div className="p-4 text-center text-text-tertiary text-[10px] font-mono">
+        Set NEXT_PUBLIC_TWELVE_DATA_KEY to add our multi-timeframe overlay.
+      </div>
     </div>
   );
 
@@ -233,10 +239,16 @@ function TechnicalTab({ tech, price, slug }: { tech: TechnicalSummary; price: nu
   const minsAgo = tech.lastUpdated ? Math.floor((Date.now() - tech.lastUpdated.getTime()) / 60000) : null;
 
   return (
-    <div className="p-5 space-y-5">
+    <div className="space-y-0">
+      {/* TradingView Technical Analysis widget — primary visual */}
+      <div className="border-b border-border-slate/20">
+        <TradingViewTechnicalWidget tvSymbol={tvSymbol} isVisible />
+      </div>
+      {/* Our multi-TF overlay below — sourced from Twelve Data as a complement */}
+      <div className="p-5 space-y-5">
       {minsAgo !== null && (
         <p className="text-[9px] font-mono text-text-tertiary uppercase tracking-widest flex items-center gap-1">
-          <RefreshCw className="w-2.5 h-2.5" /> TA refreshed {minsAgo < 1 ? "just now" : `${minsAgo}m ago`}
+          <RefreshCw className="w-2.5 h-2.5" /> Drawdown signals refreshed {minsAgo < 1 ? "just now" : `${minsAgo}m ago`}
         </p>
       )}
       {/* Multi-TF Table */}
@@ -339,6 +351,7 @@ function TechnicalTab({ tech, price, slug }: { tech: TechnicalSummary; price: nu
           )}
         </div>
       </div>
+      </div>
     </div>
   );
 }
@@ -371,7 +384,7 @@ function MacroTab({ inst, priceData }: { inst: ScannerInstrument; priceData: Ins
   const IMPACT_COLOR: Record<string, string> = { high: "text-red-400", medium: "text-amber-400", low: "text-emerald-400" };
 
   return (
-    <div className="bg-[#0a0a14] bg-[radial-gradient(rgba(255,255,255,0.025)_1px,transparent_1px)] [background-size:24px_24px] p-5 space-y-5">
+    <div className="bg-background-elevated/40 bg-[radial-gradient(rgba(0,0,0,0.06)_1px,transparent_1px)] [background-size:24px_24px] p-5 space-y-5">
       {/* VIX / DXY */}
       <div>
         <p className="text-[9px] font-mono uppercase tracking-widest text-text-tertiary mb-3 border-b border-white/10 pb-1">
@@ -380,9 +393,9 @@ function MacroTab({ inst, priceData }: { inst: ScannerInstrument; priceData: Ins
         <div className="grid grid-cols-2 gap-3">
           {[
             { label: "VIX", data: vix, color: vixColor, tag: vixLabel },
-            { label: "DXY", data: dxy, color: (dxy?.changePct ?? 0) >= 0 ? "bg-emerald-500" : "bg-red-500", tag: null },
+            { label: "DXY", data: dxy, color: (dxy?.changePct ?? 0) >= 0 ? "bg-profit" : "bg-loss", tag: null },
           ].map(item => (
-            <div key={item.label} className="bg-white/5 border border-white/10 p-3 space-y-1.5">
+            <div key={item.label} className="bg-background-surface/60 border border-border-slate/40 rounded-lg p-3 space-y-1.5">
               <div className="flex items-center justify-between">
                 <span className="text-[9px] font-mono uppercase tracking-widest text-text-tertiary">{item.label}</span>
                 <div className="flex items-center gap-1.5">
@@ -393,7 +406,7 @@ function MacroTab({ inst, priceData }: { inst: ScannerInstrument; priceData: Ins
               <p className="text-lg font-bold font-mono text-text-primary">
                 {item.data?.price ? formatPrice(item.data.price, item.label) : <span className="animate-pulse">—</span>}
               </p>
-              <p className={cn("text-[10px] font-mono", (item.data?.changePct ?? 0) >= 0 ? "text-emerald-400" : "text-red-400")}>
+              <p className={cn("text-[10px] font-mono", (item.data?.changePct ?? 0) >= 0 ? "text-profit" : "text-loss")}>
                 {item.data?.changePct != null ? `${item.data.changePct >= 0 ? "+" : ""}${item.data.changePct.toFixed(2)}%` : "—"}
               </p>
             </div>
@@ -408,22 +421,22 @@ function MacroTab({ inst, priceData }: { inst: ScannerInstrument; priceData: Ins
             Rate Differential
           </p>
           <div className="grid grid-cols-2 gap-2 text-[10px] font-mono">
-            <div className="bg-white/5 border border-white/10 p-3">
+            <div className="bg-background-surface/60 border border-border-slate/40 rounded-lg p-3">
               <p className="text-text-tertiary text-[9px] mb-1">{rate1.bank}</p>
               <p className="text-text-primary font-bold text-sm">{rate1.rate.toFixed(2)}%</p>
-              <p className={cn("text-[9px] mt-0.5", rate1.trend === "hiking" ? "text-red-400" : rate1.trend === "cutting" ? "text-emerald-400" : "text-text-tertiary")}>
+              <p className={cn("text-[9px] mt-0.5", rate1.trend === "hiking" ? "text-loss" : rate1.trend === "cutting" ? "text-profit" : "text-text-tertiary")}>
                 {rate1.trend.toUpperCase()}
               </p>
             </div>
-            <div className="bg-white/5 border border-white/10 p-3">
+            <div className="bg-background-surface/60 border border-border-slate/40 rounded-lg p-3">
               <p className="text-text-tertiary text-[9px] mb-1">{rate2.bank}</p>
               <p className="text-text-primary font-bold text-sm">{rate2.rate.toFixed(2)}%</p>
-              <p className={cn("text-[9px] mt-0.5", rate2.trend === "hiking" ? "text-red-400" : rate2.trend === "cutting" ? "text-emerald-400" : "text-text-tertiary")}>
+              <p className={cn("text-[9px] mt-0.5", rate2.trend === "hiking" ? "text-loss" : rate2.trend === "cutting" ? "text-profit" : "text-text-tertiary")}>
                 {rate2.trend.toUpperCase()}
               </p>
             </div>
           </div>
-          <div className="mt-2 flex items-center justify-between bg-white/5 border border-white/10 p-2">
+          <div className="mt-2 flex items-center justify-between bg-background-surface/60 border border-border-slate/40 rounded-lg p-2">
             <span className="text-[9px] font-mono text-text-tertiary">Differential</span>
             <span className={cn("text-sm font-bold font-mono", diff && diff > 0 ? "text-emerald-400" : diff && diff < 0 ? "text-red-400" : "text-text-tertiary")}>
               {diff !== null ? `${diff > 0 ? "+" : ""}${diff.toFixed(2)}%` : "—"}
@@ -445,7 +458,7 @@ function MacroTab({ inst, priceData }: { inst: ScannerInstrument; priceData: Ins
         ) : (
           <div className="space-y-2">
             {events.map((e, i) => (
-              <div key={i} className="flex items-start gap-3 bg-white/5 border border-white/10 p-2.5">
+              <div key={i} className="flex items-start gap-3 bg-background-surface/60 border border-border-slate/40 rounded-lg p-2.5">
                 <div className="shrink-0">
                   <p className="text-[9px] font-mono text-text-tertiary">{e.time} UTC</p>
                   <p className="text-[9px] font-mono font-bold text-text-secondary">{e.country}</p>
@@ -496,7 +509,7 @@ function SmartMoneyTab({ inst, data }: { inst: ScannerInstrument; data: Instrume
   const TYPE_COLOR = { resistance: "text-red-400", neutral: "text-accent", support: "text-emerald-400" };
 
   return (
-    <div className="bg-[#0f0f1a] p-5 space-y-5">
+    <div className="bg-background-elevated/30 p-5 space-y-5">
       {/* Volume Alerts */}
       <div>
         <p className="text-[9px] font-mono uppercase tracking-widest text-text-tertiary mb-3 border-b border-white/10 pb-1">
@@ -743,9 +756,9 @@ function InstrumentCard({
 
   if (listView) {
     return (
-      <div className={cn("border border-border-slate/40 bg-background-surface/60 transition-all",
-        setupScore >= 70 && "ring-1 ring-yellow-500/30 shadow-[0_0_20px_rgba(234,179,8,0.1)]")}>
-        <div className="flex items-center gap-4 px-4 py-3 cursor-pointer hover:bg-white/5 transition-colors"
+      <div className={cn("border border-border-slate/50 bg-background-surface rounded-xl transition-all overflow-hidden",
+        setupScore >= 70 && "ring-1 ring-amber-400/40 shadow-[0_0_20px_rgba(234,179,8,0.08)]")}>
+        <div className="flex items-center gap-4 px-4 py-3 cursor-pointer hover:bg-background-elevated/40 transition-colors"
           onClick={() => setExpanded(e => !e)}>
           <div className="flex items-center gap-3 w-28 shrink-0">
             <SetupScoreDial score={setupScore} size={36} />
@@ -757,7 +770,7 @@ function InstrumentCard({
           <div className="flex-1 font-mono text-sm font-bold text-text-primary">
             {data.loading ? <span className="animate-pulse">—</span> : data.price ? formatPrice(data.price, inst.scannerSlug) : "—"}
           </div>
-          <div className={cn("font-mono text-xs font-bold", isUp ? "text-emerald-400" : "text-red-400")}>
+          <div className={cn("font-mono text-xs font-bold", isUp ? "text-profit" : "text-loss")}>
             {data.changePct != null ? `${isUp ? "+" : ""}${data.changePct.toFixed(2)}%` : "—"}
           </div>
           {tech.consensus !== "NEUTRAL" && (
@@ -775,8 +788,8 @@ function InstrumentCard({
   }
 
   return (
-    <div className={cn("border border-border-slate/40 bg-background-surface/60 flex flex-col transition-all duration-200",
-      setupScore >= 70 && "ring-1 ring-yellow-500/30 shadow-[0_0_24px_rgba(234,179,8,0.12)]")}>
+    <div className={cn("border border-border-slate/50 bg-background-surface rounded-xl flex flex-col transition-all duration-200 overflow-hidden shadow-sm hover:shadow-md hover:-translate-y-0.5",
+      setupScore >= 70 && "ring-1 ring-amber-400/40 shadow-[0_0_24px_rgba(234,179,8,0.10)]")}>
       {/* Card front */}
       <div className="p-4 space-y-3 cursor-pointer" onClick={() => setExpanded(e => !e)}>
         {/* Header row */}
@@ -789,11 +802,9 @@ function InstrumentCard({
             </div>
           </div>
           <div className="flex items-center gap-1.5 shrink-0">
-            {tech.consensus !== "NEUTRAL" && (
-              <div className={cn("border px-1.5 py-0.5 text-[7px] font-bold font-mono uppercase", CONSENSUS_STYLE[tech.consensus])}>
-                {tech.consensus}
-              </div>
-            )}
+            <div className={cn("border px-2 py-0.5 text-[7px] font-bold font-mono uppercase rounded", CONSENSUS_STYLE[tech.consensus])}>
+              {tech.consensus}
+            </div>
           </div>
         </div>
 
@@ -802,26 +813,20 @@ function InstrumentCard({
           <span className="text-xl font-bold font-mono text-text-primary">
             {data.loading ? <span className="animate-pulse text-text-tertiary">—</span> : data.price ? formatPrice(data.price, inst.scannerSlug) : "—"}
           </span>
-          <span className={cn("text-xs font-bold font-mono", isUp ? "text-emerald-400" : "text-red-400")}>
+          <span className={cn("text-xs font-bold font-mono", isUp ? "text-profit" : "text-loss")}>
             {data.changePct != null ? `${isUp ? "+" : ""}${data.changePct.toFixed(2)}%` : ""}
           </span>
         </div>
 
-        {/* Sparkline */}
-        {data.sparkline.length > 1 ? (
-          <div className="h-10 -mx-1">
-            <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={data.sparkline.map((v, i) => ({ i, v }))} margin={{ top: 2, bottom: 2, left: 0, right: 0 }}>
-                <Line type="monotone" dataKey="v" stroke={isUp ? "#22c55e" : "#ef4444"}
-                  strokeWidth={1.5} dot={false} isAnimationActive={false} />
-              </LineChart>
-            </ResponsiveContainer>
-          </div>
-        ) : (
-          <div className="h-10 bg-white/5 flex items-center justify-center">
-            <span className="text-[8px] font-mono text-text-tertiary">No sparkline</span>
-          </div>
-        )}
+        {/* TradingView Mini Chart — 1D sparkline */}
+        <div className="-mx-4 overflow-hidden" style={{ height: 80 }}>
+          <TradingViewMiniChart
+            symbol={inst.tvSymbol}
+            largeChartUrl={`/dashboard/tools/scanner?symbol=${inst.scannerSlug}`}
+            height={80}
+            className="w-full"
+          />
+        </div>
 
         {/* Stats row */}
         <div className="grid grid-cols-3 gap-2 text-[9px] font-mono">
@@ -848,9 +853,9 @@ function InstrumentCard({
                 {data.volumePct}% avg
               </span>
             </div>
-            <div className="h-1 bg-white/10 rounded-full overflow-hidden">
+            <div className="h-1 bg-background-elevated rounded-full overflow-hidden">
               <div className={cn("h-full rounded-full transition-all",
-                data.volumePct > 200 ? "bg-amber-500" : data.volumePct > 120 ? "bg-amber-400/70" : "bg-accent/50")}
+                data.volumePct > 200 ? "bg-warning" : data.volumePct > 120 ? "bg-warning/70" : "bg-accent/50")}
                 style={{ width: `${Math.min(100, data.volumePct)}%` }} />
             </div>
           </div>
@@ -896,20 +901,20 @@ function ExpandedPanel({ show, tab, setTab, tabs, inst, data, tech, setupScore }
   inst: ScannerInstrument; data: InstrumentData; tech: TechnicalSummary; setupScore: number;
 }) {
   return (
-    <div style={{ maxHeight: show ? "900px" : "0", overflow: "hidden", transition: "max-height 0.45s cubic-bezier(0.4,0,0.2,1)" }}>
+    <div style={{ maxHeight: show ? "1100px" : "0", overflow: "hidden", transition: "max-height 0.5s cubic-bezier(0.4,0,0.2,1)" }}>
       <div className="border-t border-border-slate/30">
         {/* Tab bar */}
-        <div className="flex border-b border-border-slate/30 bg-background-elevated/50">
+        <div className="flex border-b border-border-slate/30 bg-background-elevated/30 overflow-x-auto">
           {tabs.map(t => (
             <button key={t} onClick={() => setTab(t)}
-              className={cn("px-3 py-2 text-[9px] font-mono uppercase tracking-widest transition-colors",
-                tab === t ? "text-accent border-b-2 border-accent" : "text-text-tertiary hover:text-text-secondary")}>
+              className={cn("px-4 py-2.5 text-[9px] font-mono uppercase tracking-widest transition-colors whitespace-nowrap",
+                tab === t ? "text-accent border-b-2 border-accent font-bold" : "text-text-tertiary hover:text-text-secondary")}>
               {t}
             </button>
           ))}
         </div>
         {/* Tab content */}
-        {tab === "TECHNICAL"   && <TechnicalTab  tech={tech} price={data.price} slug={inst.scannerSlug} />}
+        {tab === "TECHNICAL"   && <TechnicalTab  tech={tech} price={data.price} slug={inst.scannerSlug} tvSymbol={inst.tvSymbol} />}
         {tab === "MACRO"       && <MacroTab      inst={inst} priceData={data} />}
         {tab === "SMART MONEY" && <SmartMoneyTab inst={inst} data={data} />}
         {tab === "AI"          && <AITab         inst={inst} setupScore={setupScore} tech={tech} data={data} />}

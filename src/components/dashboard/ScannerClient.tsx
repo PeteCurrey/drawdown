@@ -6,8 +6,9 @@ import {
   ChevronLeft, ChevronRight, DollarSign, BarChart3, Zap, Gem, Activity,
   Grid3X3, List, Star, Bell, BellRing, ChevronDown, ChevronUp,
   TrendingUp, TrendingDown, Minus, RefreshCw, AlertTriangle, Shield,
-  Calendar, Newspaper, Eye, EyeOff, X, Plus, Cpu, Zap as ZapIcon,
+  Calendar, Newspaper, Eye, EyeOff, X, Plus, Cpu, Zap as ZapIcon, Building2,
 } from "lucide-react";
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell, ReferenceLine } from "recharts";
 import { cn } from "@/lib/utils";
 import { TradingViewMiniChart } from "@/components/markets/TradingViewMiniChart";
 import { TradingViewTechnicalWidget } from "@/components/market/TradingViewTechnicalWidget";
@@ -24,7 +25,7 @@ type MarketCategory = "forex" | "commodities" | "indices" | "crypto";
 type ViewMode = "grid" | "list";
 type FilterMode = "ALL" | "FOREX" | "INDEX" | "COMMODITY" | "CRYPTO" | "WATCHLIST" | "SIGNALS";
 type SortMode = "name" | "change" | "atr" | "volume" | "score";
-type CardTab = "SIGNALS" | "FUNDAMENTALS" | "AI BRIEF";
+type CardTab = "SIGNALS" | "FUNDAMENTALS" | "AI BRIEF" | "SMART MONEY";
 
 interface ScannerInstrument {
   scannerSlug: string; displayPair: string; tvSymbol: string; category: MarketCategory;
@@ -609,29 +610,67 @@ function FundamentalsTab({ inst, priceData }: { inst: ScannerInstrument; priceDa
 
 // ─── AI Brief Tab ────────────────────────────────────────────────────────────
 
-interface AIBrief {
-  market_structure: string; key_observation: string;
-  scenario_bull: string; scenario_bear: string; catalyst_watch: string;
-  bias: "BULLISH" | "BEARISH" | "NEUTRAL";
-  confidence: "HIGH" | "MEDIUM" | "LOW";
-  setup_quality: number;
-  generatedAt?: string;
+interface DebateAgent {
+  name: string;
+  model: string;
+  color: string;
+  ok: boolean;
+  data: Record<string, any>;
+  score: number;
+}
+interface DebateSynthesis {
+  consensus_bias: string;
+  conviction: string;
+  agreement_level: string;
+  setup_quality_score: number;
+  headline: string;
+  trade_thesis: string;
+  key_risk: string;
+  best_timeframe: string;
+  analysts_available: number;
+  agent_scores: { technical: number; macro: number; sentiment: number; composite: number };
+  where_analysts_disagree: string | null;
+}
+interface DebateResult {
+  symbol: string;
+  analysts_available: number;
+  synthesis: DebateSynthesis;
+  agents: { technician: DebateAgent; strategist: DebateAgent; sentiment: DebateAgent };
+  generated_at: string;
+  cached?: boolean;
+}
+
+function ScoreBar({ score, color }: { score: number; color: string }) {
+  const pct = Math.max(0, Math.min(100, ((score + 100) / 200) * 100));
+  const bgMap: Record<string, string> = { cyan: "bg-accent", green: "bg-profit", blue: "bg-blue-400" };
+  return (
+    <div className="flex items-center gap-2">
+      <span className={cn("text-[12px] font-black font-mono w-8 text-right",
+        score > 20 ? "text-profit" : score < -20 ? "text-loss" : "text-text-tertiary")}>
+        {score > 0 ? "+" : ""}{score}
+      </span>
+      <div className="w-16 h-1.5 bg-background-elevated rounded-full overflow-hidden">
+        <div className={cn("h-full rounded-full transition-all duration-700", bgMap[color] ?? "bg-accent")}
+          style={{ width: `${pct}%` }} />
+      </div>
+    </div>
+  );
 }
 
 function AIBriefTab({ inst, tech, data }: { inst: ScannerInstrument; tech: TechnicalSummary; data: InstrumentData }) {
-  const [brief, setBrief] = useState<AIBrief | null>(null);
+  const [brief, setBrief] = useState<DebateResult | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
-  const cacheRef = useRef<{ result: AIBrief; ts: number } | null>(null);
+  const cacheRef = useRef<{ result: DebateResult; ts: number } | null>(null);
 
   const load = useCallback(async (force = false) => {
-    if (!force && cacheRef.current && Date.now() - cacheRef.current.ts < 15 * 60 * 1000) {
+    if (!force && cacheRef.current && Date.now() - cacheRef.current.ts < 20 * 60 * 1000) {
       setBrief(cacheRef.current.result);
       return;
     }
     setLoading(true); setError(false);
     try {
-      const res = await fetch(`/api/scanner/ai-brief/${inst.scannerSlug}`);
+      const res = await fetch(`/api/intelligence/ai-debate/${inst.scannerSlug}`);
       const d = await res.json();
       if (d.error) throw new Error(d.error);
       cacheRef.current = { result: d, ts: Date.now() };
@@ -641,28 +680,25 @@ function AIBriefTab({ inst, tech, data }: { inst: ScannerInstrument; tech: Techn
 
   useEffect(() => { load(); }, [load]);
 
-  const biasColor = brief?.bias === "BULLISH" ? "text-profit" : brief?.bias === "BEARISH" ? "text-loss" : "text-text-tertiary";
-  const confColor = brief?.confidence === "HIGH" ? "text-profit" : brief?.confidence === "MEDIUM" ? "text-warning" : "text-text-tertiary";
-  const sq = brief?.setup_quality ?? 0;
-  const sqColor = sq >= 70 ? "bg-profit" : sq >= 40 ? "bg-warning" : "bg-loss";
-
   const dataPoints = [tech.rows.length * 3, tech.emaStack.ema20 ? 3 : 0, 20].reduce((a, b) => a + b, 0);
 
   if (loading) return (
-    <div className="p-6 space-y-4">
-      <p className="text-[10px] font-mono text-text-tertiary animate-pulse">Analysing {inst.displayPair} across {dataPoints}+ data points…</p>
-      {["w-3/4","w-full","w-2/3","w-5/6","w-1/2"].map((w, i) => (
+    <div className="p-6 space-y-3">
+      <p className="text-[10px] font-mono text-text-tertiary animate-pulse">
+        Consulting 3 AI analysts across {dataPoints}+ data points…
+      </p>
+      {["w-3/4","w-full","w-2/3","w-5/6","w-1/2","w-4/5"].map((w, i) => (
         <div key={i} className={cn("h-3 bg-background-elevated rounded animate-pulse", w)} />
       ))}
-      <div className="grid grid-cols-2 gap-3">
-        {[0,1].map(i => <div key={i} className="h-16 bg-background-elevated rounded-lg animate-pulse" />)}
+      <div className="grid grid-cols-3 gap-2 pt-2">
+        {[0,1,2].map(i => <div key={i} className="h-12 bg-background-elevated rounded animate-pulse" />)}
       </div>
     </div>
   );
 
   if (error) return (
     <div className="p-6 space-y-3">
-      <p className="text-[10px] font-mono text-text-tertiary">Analysis temporarily unavailable. Technical signals above remain live.</p>
+      <p className="text-[10px] font-mono text-text-tertiary">AI analysis temporarily unavailable. Technical signals remain live.</p>
       <button onClick={() => load(true)} className="flex items-center gap-1.5 px-3 py-1.5 border border-border-slate/50 text-[9px] font-mono uppercase hover:border-accent hover:text-accent transition-colors rounded">
         <RefreshCw className="w-3 h-3" /> Retry
       </button>
@@ -671,216 +707,451 @@ function AIBriefTab({ inst, tech, data }: { inst: ScannerInstrument; tech: Techn
 
   if (!brief) return (
     <div className="p-6">
-      <p className="text-[10px] font-mono text-text-tertiary">Set ANTHROPIC_API_KEY to enable AI Brief.</p>
+      <p className="text-[10px] font-mono text-text-tertiary">Set ANTHROPIC_API_KEY to enable the AI Intelligence Brief.</p>
     </div>
   );
 
+  const s = brief.synthesis;
+  const biasColor = s.consensus_bias === "BULLISH" ? "text-profit" : s.consensus_bias === "BEARISH" ? "text-loss" : s.consensus_bias === "CONTESTED" ? "text-warning" : "text-text-tertiary";
+  const sq = s.setup_quality_score ?? 0;
+  const agentBorders: Record<string, string> = { cyan: "border-l-accent", green: "border-l-profit", blue: "border-l-blue-400" };
+  const agentList = [brief.agents.technician, brief.agents.strategist, brief.agents.sentiment];
+  const showDivergence = s.agreement_level === "DIVERGENT" || s.agreement_level === "MIXED";
+  const genTime = brief.generated_at ? new Date(brief.generated_at).toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" }) : "";
+
   return (
-    <div className="p-5 space-y-0">
-      {/* Header bar */}
-      <div className="flex items-center justify-between mb-4">
-        <div className="flex items-center gap-3">
-          <div className="flex items-center gap-1.5">
-            <Cpu className="w-3.5 h-3.5 text-accent" />
-            <span className="text-[9px] font-mono uppercase tracking-widest text-text-tertiary">AI Brief · {inst.displayPair}</span>
+    <div className="divide-y divide-border-slate/20">
+      {/* Header */}
+      <div className="p-5">
+        <div className="flex items-start justify-between mb-4">
+          <div>
+            <p className="text-[8px] font-mono uppercase tracking-widest text-text-tertiary mb-1">
+              INTELLIGENCE BRIEF · {inst.displayPair} · {brief.analysts_available}/3 analysts · {genTime}
+            </p>
+            <blockquote className="text-[12px] font-mono text-text-primary italic leading-relaxed border-l-2 border-accent pl-3 max-w-[480px]">
+              "{s.headline}"
+            </blockquote>
+            <p className="text-[8px] font-mono text-text-tertiary mt-1 pl-3">— AI Desk</p>
           </div>
-          <span className={cn("text-[10px] font-black font-mono uppercase", biasColor)}>{brief.bias}</span>
-          <span className={cn("text-[9px] font-mono uppercase", confColor)}>{brief.confidence}</span>
+          <button onClick={() => load(true)} title="Refresh"
+            className="flex items-center gap-1 px-2 py-1 border border-border-slate/40 text-[8px] font-mono uppercase text-text-tertiary hover:border-accent hover:text-accent transition-colors rounded shrink-0 ml-4">
+            <RefreshCw className="w-2.5 h-2.5" />{brief.cached ? "Cached" : "Live"}
+          </button>
         </div>
-        <button onClick={() => load(true)} title="Refresh analysis"
-          className="flex items-center gap-1 px-2 py-1 border border-border-slate/40 text-[8px] font-mono uppercase text-text-tertiary hover:border-accent hover:text-accent transition-colors rounded">
-          <RefreshCw className="w-2.5 h-2.5" /> Refresh
-        </button>
-      </div>
 
-      {/* Setup quality bar */}
-      <div className="mb-5">
-        <div className="flex items-center justify-between text-[9px] font-mono mb-1">
-          <span className="text-text-tertiary uppercase">Setup Quality</span>
-          <span className={cn("font-bold", sq >= 70 ? "text-profit" : sq >= 40 ? "text-warning" : "text-loss")}>{sq}/100</span>
-        </div>
-        <div className="h-2 bg-background-elevated rounded-full overflow-hidden">
-          <div className={cn("h-full rounded-full transition-all", sqColor)} style={{ width: `${sq}%` }} />
-        </div>
-      </div>
-
-      {/* Brief sections */}
-      {[
-        { icon: "📊", label: "Market Structure",  text: brief.market_structure  },
-        { icon: "🔍", label: "Key Observation",   text: brief.key_observation   },
-      ].map(s => (
-        <div key={s.label} className="border-t border-border-slate/20 py-4">
-          <p className="text-[9px] font-mono uppercase tracking-widest text-text-tertiary mb-1.5">{s.icon} {s.label}</p>
-          <p className="text-[11px] font-mono text-text-secondary leading-relaxed">{s.text}</p>
-        </div>
-      ))}
-
-      {/* Bull / Bear scenarios */}
-      <div className="border-t border-border-slate/20 py-4 grid grid-cols-1 sm:grid-cols-2 gap-3">
-        <div className="bg-profit/8 border border-profit/20 rounded-lg p-3">
-          <p className="text-[9px] font-mono text-profit font-bold mb-1">🐂 BULL SCENARIO</p>
-          <p className="text-[10px] font-mono text-text-secondary leading-relaxed">{brief.scenario_bull}</p>
-        </div>
-        <div className="bg-loss/8 border border-loss/20 rounded-lg p-3">
-          <p className="text-[9px] font-mono text-loss font-bold mb-1">🐻 BEAR SCENARIO</p>
-          <p className="text-[10px] font-mono text-text-secondary leading-relaxed">{brief.scenario_bear}</p>
+        {/* Consensus row */}
+        <div className="flex items-center gap-4 flex-wrap">
+          <div className="flex items-center gap-2">
+            <span className="text-[8px] font-mono text-text-tertiary uppercase">CONSENSUS</span>
+            <span className={cn("text-[11px] font-black font-mono uppercase", biasColor)}>{s.consensus_bias}</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="text-[8px] font-mono text-text-tertiary uppercase">CONVICTION</span>
+            <span className={cn("text-[10px] font-bold font-mono uppercase",
+              s.conviction === "HIGH" ? "text-profit" : s.conviction === "MEDIUM" ? "text-warning" : "text-text-tertiary")}>
+              {s.conviction}
+            </span>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="text-[8px] font-mono text-text-tertiary uppercase">TIMEFRAME</span>
+            <span className="text-[10px] font-mono text-text-secondary">{s.best_timeframe}</span>
+          </div>
+          <div className="ml-auto flex items-center gap-2">
+            <span className="text-[8px] font-mono text-text-tertiary">SETUP</span>
+            <div className="flex items-center gap-1.5">
+              <div className="w-20 h-1.5 bg-background-elevated rounded-full overflow-hidden">
+                <div className={cn("h-full rounded-full transition-all",
+                  sq >= 70 ? "bg-profit" : sq >= 40 ? "bg-warning" : "bg-loss")}
+                  style={{ width: `${sq}%` }} />
+              </div>
+              <span className={cn("text-[10px] font-bold font-mono",
+                sq >= 70 ? "text-profit" : sq >= 40 ? "text-warning" : "text-loss")}>{sq}/100</span>
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* Catalyst watch */}
-      <div className="border-t border-border-slate/20 py-4">
-        <p className="text-[9px] font-mono uppercase tracking-widest text-text-tertiary mb-1.5">⚡ Catalyst Watch</p>
-        <p className="text-[11px] font-mono text-text-secondary leading-relaxed">{brief.catalyst_watch}</p>
+      {/* Trade thesis */}
+      <div className="px-5 py-4">
+        <p className="text-[8px] font-mono uppercase tracking-widest text-text-tertiary mb-2">TRADE THESIS</p>
+        <p className="text-[11px] font-mono text-text-secondary leading-relaxed">{s.trade_thesis}</p>
       </div>
 
-      <p className="text-[8px] font-mono text-text-tertiary/40 uppercase tracking-widest pt-2 border-t border-border-slate/20">
-        NOT FINANCIAL ADVICE · AI GENERATED · {brief.generatedAt ? new Date(brief.generatedAt).toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" }) : ""}
+      {/* Key risk */}
+      <div className="px-5 py-4 bg-loss/3">
+        <p className="text-[8px] font-mono uppercase tracking-widest text-text-tertiary mb-2">KEY RISK</p>
+        <p className="text-[11px] font-mono text-text-secondary leading-relaxed">{s.key_risk}</p>
+      </div>
+
+      {/* Agent panel */}
+      <div className="px-5 py-4">
+        <div className="flex items-center justify-between mb-3">
+          <p className="text-[8px] font-mono uppercase tracking-widest text-text-tertiary">ANALYST PANEL</p>
+          <p className="text-[8px] font-mono uppercase tracking-widest text-text-tertiary">SCORE</p>
+        </div>
+        <div className="space-y-2">
+          {agentList.map(agent => (
+            <div key={agent.name}
+              className={cn("flex items-center gap-3 border-l-2 pl-3 py-1.5",
+                agentBorders[agent.color] ?? "border-l-border-slate")}>
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-2">
+                  <span className="text-[9px] font-mono font-bold text-text-primary">
+                    {agent.name === "The Technician" ? "📊" : agent.name === "The Strategist" ? "🌍" : "📰"}
+                    {" "}{agent.model}
+                  </span>
+                  {agent.ok ? (
+                    <span className={cn("text-[8px] font-bold font-mono uppercase",
+                      (agent.data.technical_bias ?? agent.data.flow_bias ?? agent.data.news_momentum) === "BULLISH" ||
+                      (agent.data.technical_bias ?? agent.data.flow_bias ?? agent.data.news_momentum) === "ACCELERATING"
+                        ? "text-profit"
+                        : (agent.data.technical_bias ?? agent.data.flow_bias ?? agent.data.news_momentum) === "BEARISH" ||
+                          (agent.data.technical_bias ?? agent.data.flow_bias ?? agent.data.news_momentum) === "FADING"
+                        ? "text-loss" : "text-text-tertiary")}>
+                      {agent.data.technical_bias ?? agent.data.flow_bias ?? agent.data.news_momentum ?? "—"}
+                    </span>
+                  ) : (
+                    <span className="text-[8px] font-mono text-text-tertiary/40">UNAVAILABLE</span>
+                  )}
+                </div>
+              </div>
+              <ScoreBar score={agent.score} color={agent.color} />
+            </div>
+          ))}
+        </div>
+        {/* Composite score */}
+        <div className="mt-3 pt-3 border-t border-border-slate/20 flex items-center justify-between">
+          <span className="text-[8px] font-mono text-text-tertiary uppercase">Composite (macro 40% / tech 35% / sent 25%)</span>
+          <span className={cn("text-[13px] font-black font-mono",
+            s.agent_scores.composite > 20 ? "text-profit" :
+            s.agent_scores.composite < -20 ? "text-loss" : "text-text-tertiary")}>
+            {s.agent_scores.composite > 0 ? "+" : ""}{s.agent_scores.composite}
+          </span>
+        </div>
+
+        {/* Divergence warning */}
+        {showDivergence && s.where_analysts_disagree && (
+          <div className="mt-3 flex items-start gap-2 bg-warning/10 border border-warning/20 rounded px-3 py-2">
+            <AlertTriangle className="w-3 h-3 text-warning shrink-0 mt-0.5" />
+            <p className="text-[9px] font-mono text-warning">{s.where_analysts_disagree}</p>
+          </div>
+        )}
+      </div>
+
+      <p className="px-5 py-3 text-[8px] font-mono text-text-tertiary/40 uppercase tracking-widest">
+        NOT FINANCIAL ADVICE · AI GENERATED · {genTime}
       </p>
     </div>
   );
 }
 
-// (SmartMoneyTab removed — merged into FundamentalsTab)
-function SmartMoneyTab({ inst, data }: { inst: ScannerInstrument; data: InstrumentData }) {
-  const [cot, setCot] = useState<any>(null);
-  const hasCOT = !!CFTC_CODES[inst.scannerSlug];
-  const retail = RETAIL_MOCK[inst.scannerSlug] ?? { longPct: 50, shortPct: 50 };
+// ─── Smart Money Tab ──────────────────────────────────────────────────────────
 
-  useEffect(() => {
-    if (!hasCOT) return;
-    fetch(`/api/cot/${inst.scannerSlug}`).then(r => r.json()).then(setCot).catch(() => {});
-  }, [inst.scannerSlug, hasCOT]);
-
-  const isUnusualVol = data.volumePct && data.volumePct > 150;
-  const isAccumulation = data.volumePct && data.volumePct > 200 && Math.abs(data.changePct ?? 0) < 0.1;
-
-  const levels = [
-    { label: "52W High",        price: data.fiftyTwoWeekHigh, type: "resistance" as const },
-    { label: "Prev Month High", price: data.prevMonthHigh,    type: "resistance" as const },
-    { label: "Prev Week High",  price: data.prevWeekHigh,     type: "resistance" as const },
-    { label: "Weekly Open",     price: data.weeklyOpen,        type: "neutral"    as const },
-    { label: "Prev Week Low",   price: data.prevWeekLow,       type: "support"    as const },
-    { label: "Prev Month Low",  price: data.prevMonthLow,      type: "support"    as const },
-    { label: "52W Low",         price: data.fiftyTwoWeekLow,   type: "support"    as const },
-  ].filter(l => l.price !== null).sort((a, b) => (b.price ?? 0) - (a.price ?? 0));
-
-  const TYPE_COLOR = { resistance: "text-red-400", neutral: "text-accent", support: "text-emerald-400" };
+function RetailGauge({ longPct }: { longPct: number | null }) {
+  if (longPct === null) return <p className="text-[10px] font-mono text-text-tertiary">No retail data</p>;
+  const angle = ((longPct / 100) * 180) - 90;
+  const r = 60;
+  const cx = 80, cy = 80;
+  const toRad = (d: number) => (d * Math.PI) / 180;
+  const arcPath = (start: number, end: number) => {
+    const s = toRad(start - 90), e = toRad(end - 90);
+    const x1 = cx + r * Math.cos(s), y1 = cy + r * Math.sin(s);
+    const x2 = cx + r * Math.cos(e), y2 = cy + r * Math.sin(e);
+    const large = end - start > 180 ? 1 : 0;
+    return `M ${cx} ${cy} L ${x1} ${y1} A ${r} ${r} 0 ${large} 1 ${x2} ${y2} Z`;
+  };
+  const needleAngle = toRad(angle);
+  const nx = cx + (r - 10) * Math.cos(needleAngle), ny = cy + (r - 10) * Math.sin(needleAngle);
+  const color = longPct > 70 ? "#ef4444" : longPct < 30 ? "#22c55e" : "#6b7280";
 
   return (
-    <div className="bg-background-elevated/30 p-5 space-y-5">
-      {/* Volume Alerts */}
-      <div>
-        <p className="text-[9px] font-mono uppercase tracking-widest text-text-tertiary mb-3 border-b border-white/10 pb-1">
-          Volume Intelligence
-        </p>
-        <div className="space-y-2">
-          {isAccumulation && (
-            <div className="flex items-center gap-2 bg-blue-500/10 border border-blue-500/20 p-2.5">
-              <Eye className="w-3.5 h-3.5 text-blue-400 shrink-0" />
-              <span className="text-[10px] font-mono text-blue-300 font-bold">ACCUMULATION SIGNAL</span>
-              <span className="text-[9px] font-mono text-text-tertiary">Volume {data.volumePct}% avg, price flat</span>
-            </div>
-          )}
-          {isUnusualVol && !isAccumulation && (
-            <div className="flex items-center gap-2 bg-amber-500/10 border border-amber-500/20 p-2.5">
-              <AlertTriangle className="w-3.5 h-3.5 text-amber-400 shrink-0" />
-              <span className="text-[10px] font-mono text-amber-300 font-bold">UNUSUAL VOLUME</span>
-              <span className="text-[9px] font-mono text-text-tertiary">{data.volumePct}% of 20-day avg</span>
-            </div>
-          )}
-          {!isUnusualVol && (
-            <p className="text-[10px] font-mono text-text-tertiary">
-              Volume: {data.volumePct ? `${data.volumePct}% of avg` : "No data"} — normal range.
-            </p>
-          )}
-        </div>
-      </div>
+    <div className="flex flex-col items-center">
+      <svg width="160" height="90" viewBox="0 0 160 90">
+        <path d={arcPath(0, 54)}  fill="#22c55e" opacity="0.15" />
+        <path d={arcPath(54, 126)} fill="#6b7280" opacity="0.15" />
+        <path d={arcPath(126, 180)} fill="#ef4444" opacity="0.15" />
+        <text x="12" y="82" fontSize="7" fill="#22c55e" fontFamily="monospace">SHORT</text>
+        <text x="130" y="82" fontSize="7" fill="#ef4444" fontFamily="monospace">LONG</text>
+        <text x="70" y="25" fontSize="7" fill="#9ca3af" fontFamily="monospace">BALANCED</text>
+        <line x1={cx} y1={cy} x2={nx} y2={ny} stroke={color} strokeWidth="2.5" strokeLinecap="round" />
+        <circle cx={cx} cy={cy} r="4" fill={color} />
+        <text x={cx} y={cy + 20} textAnchor="middle" fontSize="14" fontWeight="900" fill={color} fontFamily="monospace">{longPct}%</text>
+        <text x={cx} y={cy + 30} textAnchor="middle" fontSize="7" fill="#6b7280" fontFamily="monospace">RETAIL LONG</text>
+      </svg>
+    </div>
+  );
+}
 
-      {/* COT Panel */}
-      {hasCOT && (
+function SmartMoneyTab({ inst, data }: { inst: ScannerInstrument; data: InstrumentData }) {
+  const [cotData, setCotData] = useState<any>(null);
+  const [macroData, setMacroData] = useState<any>(null);
+  const [retailData, setRetailData] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setLoading(true);
+    Promise.all([
+      fetch(`/api/intelligence/cot/${inst.scannerSlug}`).then(r => r.json()).catch(() => null),
+      fetch(`/api/intelligence/macro/${inst.scannerSlug}`).then(r => r.json()).catch(() => null),
+      fetch(`/api/intelligence/retail-sentiment/${inst.scannerSlug}`).then(r => r.json()).catch(() => null),
+    ]).then(([cot, macro, retail]) => {
+      setCotData(cot);
+      setMacroData(macro);
+      setRetailData(retail);
+    }).finally(() => setLoading(false));
+  }, [inst.scannerSlug]);
+
+  if (loading) return (
+    <div className="p-6 space-y-3">
+      {["w-full","w-3/4","w-full h-32","w-full","w-2/3"].map((w, i) => (
+        <div key={i} className={cn("bg-background-elevated rounded animate-pulse", w.includes("h") ? w : `h-4 ${w}`)} />
+      ))}
+    </div>
+  );
+
+  const cotHistory: any[] = (cotData?.history_52w ?? []).slice(0, 8).reverse().map((r: any, i: number) => ({
+    week: `W${i + 1}`,
+    hedgeFunds: r.net_speculator ?? 0,
+    smartMoney: r.net_commercial ?? 0,
+    retail:     -(r.net_speculator ?? 0) - (r.net_commercial ?? 0),
+  }));
+
+  const signal: string = cotData?.signal ?? "NEUTRAL";
+  const signalBorder = signal === "SMART_MONEY_LONG" ? "border-profit" : signal === "SMART_MONEY_SHORT" ? "border-loss" : "border-border-slate/40";
+  const signalText   = signal === "SMART_MONEY_LONG" ? "text-profit"  : signal === "SMART_MONEY_SHORT" ? "text-loss"  : "text-text-tertiary";
+  const signalBg     = signal === "SMART_MONEY_LONG" ? "bg-profit/8"  : signal === "SMART_MONEY_SHORT" ? "bg-loss/8"  : "bg-background-elevated/40";
+
+  const longPct  = retailData?.long_percent  ?? null;
+  const crowd    = retailData?.crowd_label   ?? "BALANCED";
+  const retSignal = retailData?.signal       ?? "MIXED";
+
+  const rateDiff  = macroData?.rate_differential ?? null;
+  const realYield = macroData?.real_yield_10y    ?? null;
+  const vix       = macroData?.vix_level         ?? null;
+  const vixRegime = macroData?.vix_regime        ?? "UNKNOWN";
+  const regime    = macroData?.regime_label      ?? "UNKNOWN";
+  const seriesVals = macroData?.series_values    ?? {};
+
+  const vixColor =
+    vix === null ? "text-text-tertiary" :
+    vix < 12  ? "text-profit" :
+    vix < 17  ? "text-text-secondary" :
+    vix < 22  ? "text-warning" :
+    vix < 30  ? "text-loss" : "text-red-600";
+  const vixBg =
+    vix === null ? "bg-background-elevated/40" :
+    vix < 12  ? "bg-profit/8" :
+    vix < 17  ? "bg-background-elevated/40" :
+    vix < 22  ? "bg-warning/8" :
+    vix < 30  ? "bg-loss/8" : "bg-red-900/20";
+  const vixDesc =
+    vix === null ? "" :
+    vix < 12  ? "Carry trades and mean reversion work well" :
+    vix < 17  ? "Standard strategy selection" :
+    vix < 22  ? "Trend following preferred, widen stops" :
+    vix < 30  ? "High risk, reduce position sizes, expect whipsaws" :
+                "Avoid new positions unless crisis play";
+  const vixPct = vix ? Math.min(100, (vix / 40) * 100) : 0;
+
+  const isFx = ["EURUSD","GBPUSD","USDJPY","GBPJPY"].includes(inst.scannerSlug);
+  const ccyMap: Record<string, [string, string, string, string]> = {
+    EURUSD: ["USD","EUR","FEDFUNDS","ECBDFR"],
+    GBPUSD: ["USD","GBP","FEDFUNDS","IUDSOIA"],
+    USDJPY: ["USD","JPY","FEDFUNDS","IRSTCB01JPM156N"],
+    GBPJPY: ["GBP","JPY","IUDSOIA","IRSTCB01JPM156N"],
+  };
+  const [ccy1, ccy2, s1key, s2key] = ccyMap[inst.scannerSlug] ?? ["Base","Quote","",""];
+  const rate1 = s1key ? seriesVals[s1key] ?? null : null;
+  const rate2 = s2key ? seriesVals[s2key] ?? null : null;
+  const inflation = seriesVals["T10YIE"] ?? null;
+
+  return (
+    <div className="p-5 space-y-6">
+      {cotData && !cotData.error && cotHistory.length > 0 && (
         <div>
-          <p className="text-[9px] font-mono uppercase tracking-widest text-text-tertiary mb-3 border-b border-white/10 pb-1">
-            COT Positioning (CFTC)
-          </p>
-          {!cot ? (
-            <div className="space-y-2">{[0,1,2].map(i => <div key={i} className="h-8 bg-white/5 animate-pulse" />)}</div>
-          ) : cot.weeks?.length > 0 ? (() => {
-            const w = cot.weeks[0];
-            const maxNet = Math.max(Math.abs(w.commercialNet), Math.abs(w.largeSpecNet), Math.abs(w.smallSpecNet), 1);
-            const contrarian = w.commercialNet > 0 && w.largeSpecNet < 0;
-            return (
-              <div className="space-y-3">
-                {contrarian && (
-                  <div className="bg-emerald-500/10 border border-emerald-500/20 p-2 text-[9px] font-mono text-emerald-400">
-                    ▲ CONTRARIAN LONG SIGNAL — Commercials net long, Large Specs net short
-                  </div>
-                )}
-                {[
-                  { label: "Commercials (Hedgers)", net: w.commercialNet },
-                  { label: "Large Specs (Trend)", net: w.largeSpecNet },
-                  { label: "Small Specs (Retail)", net: w.smallSpecNet },
-                ].map(g => (
-                  <div key={g.label} className="space-y-1">
-                    <div className="flex justify-between text-[9px] font-mono">
-                      <span className="text-text-tertiary">{g.label}</span>
-                      <span className={g.net > 0 ? "text-emerald-400" : "text-red-400"}>
-                        {g.net > 0 ? "+" : ""}{g.net.toLocaleString()}
+          <p className="text-[9px] font-mono uppercase tracking-widest text-text-tertiary mb-3 border-b border-border-slate/20 pb-1">COMMITMENT OF TRADERS — LAST 8 WEEKS</p>
+          <div className="grid grid-cols-3 gap-2 mb-4">
+            {[{label:"SMART MONEY NET", val:cotData.net_commercial, chg:null},
+              {label:"HEDGE FUNDS NET", val:cotData.net_speculator, chg:cotData.week_change},
+              {label:"COT INDEX", val:null, idx:cotData.cot_index}].map((item,i) => (
+              <div key={i} className="bg-background-elevated/40 border border-border-slate/30 rounded p-2">
+                <p className="text-[7px] font-mono text-text-tertiary uppercase tracking-widest mb-1">{item.label}</p>
+                {item.val !== undefined && item.val !== null ? (
+                  <p className={cn("text-[11px] font-black font-mono", item.val > 0 ? "text-profit" : "text-loss")}>
+                    {item.val > 0 ? "+" : ""}{item.val.toLocaleString()}
+                    {item.chg !== null && item.chg !== undefined && (
+                      <span className="text-[8px] font-normal ml-1 text-text-tertiary">
+                        ({item.chg > 0 ? "↑" : "↓"}{Math.abs(item.chg).toLocaleString()})
                       </span>
-                    </div>
-                    <div className="h-1.5 bg-white/10 rounded-full overflow-hidden">
-                      <div className={cn("h-full rounded-full transition-all", g.net > 0 ? "bg-emerald-500" : "bg-red-500")}
-                        style={{ width: `${Math.round((Math.abs(g.net) / maxNet) * 100)}%` }} />
-                    </div>
-                  </div>
-                ))}
+                    )}
+                  </p>
+                ) : (
+                  <p className="text-[11px] font-black font-mono text-accent">{item.idx}/100</p>
+                )}
               </div>
-            );
-          })() : <p className="text-[10px] font-mono text-text-tertiary">COT data unavailable.</p>}
+            ))}
+          </div>
+          <ResponsiveContainer width="100%" height={120}>
+            <BarChart data={cotHistory} barSize={8} margin={{ top: 4, right: 4, left: -20, bottom: 0 }}>
+              <XAxis dataKey="week" tick={{ fontSize: 8, fontFamily: "monospace", fill: "#6b7280" }} axisLine={false} tickLine={false} />
+              <YAxis tick={{ fontSize: 8, fontFamily: "monospace", fill: "#6b7280" }} axisLine={false} tickLine={false} tickFormatter={v => v > 999 ? `${(v/1000).toFixed(0)}k` : String(v)} />
+              <ReferenceLine y={0} stroke="#374151" strokeDasharray="3 3" />
+              <Tooltip
+                contentStyle={{ background: "#111", border: "1px solid #1f2937", borderRadius: 4, fontSize: 9, fontFamily: "monospace" }}
+                formatter={(val: number, name: string) => [val.toLocaleString(), name === "hedgeFunds" ? "Hedge Funds" : name === "smartMoney" ? "Smart Money" : "Retail"]}
+              />
+              <Bar dataKey="smartMoney" name="Smart Money" radius={[2,2,0,0]}>
+                {cotHistory.map((entry, i) => <Cell key={i} fill={entry.smartMoney >= 0 ? "#22c55e" : "#ef4444"} opacity={0.8} />)}
+              </Bar>
+              <Bar dataKey="hedgeFunds" name="Hedge Funds" fill="#3b82f6" opacity={0.7} radius={[2,2,0,0]} />
+            </BarChart>
+          </ResponsiveContainer>
+          <div className="flex items-center gap-4 mt-1 justify-center">
+            {[{c:"#22c55e",l:"Smart Money (Commercials)"},{c:"#3b82f6",l:"Hedge Funds (Large Specs)"}].map(({c,l}) => (
+              <div key={l} className="flex items-center gap-1"><div className="w-2 h-2 rounded-sm" style={{background:c}} /><span className="text-[7px] font-mono text-text-tertiary">{l}</span></div>
+            ))}
+          </div>
         </div>
       )}
 
-      {/* Retail Sentiment */}
+      {cotData && !cotData.error && (
+        <div className={cn("border rounded-lg p-4", signalBorder, signalBg)}>
+          <div className="flex items-center gap-2 mb-2">
+            <Zap className={cn("w-3.5 h-3.5", signalText)} />
+            <span className={cn("text-[9px] font-mono font-bold uppercase tracking-widest", signalText)}>SMART MONEY SIGNAL</span>
+          </div>
+          <p className={cn("text-[10px] font-black font-mono uppercase mb-2", signalText)}>
+            {signal === "SMART_MONEY_LONG" ? "COMMERCIALS ACCUMULATING" :
+             signal === "SMART_MONEY_SHORT" ? "COMMERCIALS DISTRIBUTING" : "NEUTRAL POSITIONING"}
+          </p>
+          <p className="text-[10px] font-mono text-text-secondary leading-relaxed mb-3">
+            {signal === "SMART_MONEY_LONG"
+              ? `Smart money (commercials) are net long ${cotData.net_commercial > 0 ? "+" : ""}${cotData.net_commercial?.toLocaleString() ?? ""} contracts while hedge funds are net ${cotData.net_speculator < 0 ? "short" : "long"}. Historically this precedes a bullish move on a 2-4 week horizon.`
+              : signal === "SMART_MONEY_SHORT"
+              ? `Commercials are net short ${cotData.net_commercial?.toLocaleString() ?? ""} contracts while hedge funds hold longs. Commercial short interest historically precedes bearish moves.`
+              : "Commercial and speculator positioning is broadly balanced. No strong directional signal from COT data this week."}
+          </p>
+          <div className="flex items-center gap-4">
+            <div>
+              <p className="text-[7px] font-mono text-text-tertiary uppercase">COT Index</p>
+              <p className={cn("text-[13px] font-black font-mono", signalText)}>{cotData.cot_index ?? "—"}/100</p>
+            </div>
+            <div>
+              <p className="text-[7px] font-mono text-text-tertiary uppercase">Report Date</p>
+              <p className="text-[10px] font-mono text-text-secondary">{cotData.report_date ?? "—"}</p>
+            </div>
+          </div>
+        </div>
+      )}
+
       <div>
-        <p className="text-[9px] font-mono uppercase tracking-widest text-text-tertiary mb-1 border-b border-white/10 pb-1">
-          Retail Positioning <span className="text-[8px] normal-case">(fade this)</span>
-        </p>
-        <p className="text-[8px] font-mono text-text-tertiary/60 mb-3">
-          When &gt;75% retail long, price often falls — contrarian indicator.
-        </p>
-        <div className="space-y-1">
-          <div className="flex justify-between text-[9px] font-mono mb-1">
-            <span className="text-emerald-400">{retail.longPct}% Long</span>
-            <span className="text-red-400">{retail.shortPct}% Short</span>
+        <p className="text-[9px] font-mono uppercase tracking-widest text-text-tertiary mb-3 border-b border-border-slate/20 pb-1">RETAIL POSITIONING — CONTRARIAN INDICATOR</p>
+        <div className="flex items-start gap-6">
+          <RetailGauge longPct={longPct} />
+          <div className="flex-1">
+            {longPct !== null ? (
+              <>
+                <div className="flex items-center gap-2 mb-2">
+                  <span className={cn("text-[9px] font-mono font-bold uppercase px-2 py-0.5 rounded border",
+                    crowd === "CROWDED_LONG" ? "bg-loss/10 text-loss border-loss/20" :
+                    crowd === "CROWDED_SHORT" ? "bg-profit/10 text-profit border-profit/20" : "bg-background-elevated border-border-slate/40 text-text-tertiary")}>
+                    {crowd.replace("_", " ")}
+                  </span>
+                  <span className={cn("text-[9px] font-mono font-bold uppercase",
+                    retSignal === "CONTRARIAN_BULLISH" ? "text-profit" :
+                    retSignal === "CONTRARIAN_BEARISH" ? "text-loss" : "text-text-tertiary")}>
+                    {retSignal === "CONTRARIAN_BULLISH" ? "→ CONTRARIAN BULLISH" :
+                     retSignal === "CONTRARIAN_BEARISH" ? "→ CONTRARIAN BEARISH" : "→ MIXED"}
+                  </span>
+                </div>
+                <p className="text-[10px] font-mono text-text-secondary leading-relaxed">
+                  {longPct > 70
+                    ? `${longPct}% of retail traders are LONG ${inst.displayPair}. When retail crowding exceeds 70%, price reverses against the crowd within 2 weeks in 68% of cases. This is a CONTRARIAN BEARISH signal.`
+                    : longPct < 30
+                    ? `Only ${longPct}% of retail traders are long ${inst.displayPair} — extreme short bias. Historically this is a contrarian BULLISH signal. Price often squeezes against the retail crowd.`
+                    : `Retail positioning is balanced at ${longPct}% long / ${100 - longPct}% short. No extreme crowding — no strong contrarian signal at this time.`}
+                </p>
+                <p className="text-[8px] font-mono text-text-tertiary/60 mt-2">Source: MyFXBook Community Outlook · {retailData?.fetched_at ? new Date(retailData.fetched_at).toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit"}) : ""}</p>
+              </>
+            ) : (
+              <p className="text-[10px] font-mono text-text-tertiary">Retail sentiment data unavailable for this instrument.</p>
+            )}
           </div>
-          <div className="h-3 rounded-full overflow-hidden flex">
-            <div className="bg-emerald-500/60 h-full transition-all" style={{ width: `${retail.longPct}%` }} />
-            <div className="bg-red-500/60 h-full flex-1" />
-          </div>
-          {retail.longPct > 75 && (
-            <p className="text-[9px] font-mono text-amber-400 mt-1">⚠ Extreme long bias — watch for reversal</p>
-          )}
         </div>
       </div>
 
-      {/* Institutional Levels */}
-      {levels.length > 0 && (
+      {isFx && macroData && !macroData.error && (
         <div>
-          <p className="text-[9px] font-mono uppercase tracking-widest text-text-tertiary mb-3 border-b border-white/10 pb-1">
-            Institutional Levels
-          </p>
-          <div className="space-y-1.5">
-            {levels.map((l, i) => (
-              <div key={i} className="flex justify-between items-center text-[10px] font-mono">
-                <span className="text-text-tertiary">{l.label}</span>
-                <span className={TYPE_COLOR[l.type]}>{l.price ? formatPrice(l.price, inst.scannerSlug) : "—"}</span>
+          <p className="text-[9px] font-mono uppercase tracking-widest text-text-tertiary mb-3 border-b border-border-slate/20 pb-1">REAL YIELD DIFFERENTIAL</p>
+          <div className="grid grid-cols-2 gap-4 mb-3">
+            {[{ label: ccy1, rate: rate1 }, { label: ccy2, rate: rate2 }].map(({label, rate}) => (
+              <div key={label} className="bg-background-elevated/40 border border-border-slate/30 rounded p-3">
+                <p className="text-[9px] font-mono font-bold text-text-primary mb-2">[{label}]</p>
+                <div className="space-y-1">
+                  <div className="flex justify-between text-[9px] font-mono">
+                    <span className="text-text-tertiary">Nominal Rate</span>
+                    <span className="text-text-primary">{rate !== null ? `${rate.toFixed(2)}%` : "N/A"}</span>
+                  </div>
+                  <div className="flex justify-between text-[9px] font-mono">
+                    <span className="text-text-tertiary">Inflation (10Y BE)</span>
+                    <span className="text-text-primary">{inflation !== null ? `${inflation.toFixed(2)}%` : "N/A"}</span>
+                  </div>
+                  <div className="flex justify-between text-[9px] font-mono border-t border-border-slate/20 pt-1">
+                    <span className="text-text-tertiary font-bold">Real Yield</span>
+                    <span className={cn("font-bold", rate !== null && inflation !== null && (rate - inflation) > 0 ? "text-profit" : "text-loss")}>
+                      {rate !== null && inflation !== null ? `${(rate - inflation) > 0 ? "+" : ""}${(rate - inflation).toFixed(2)}%` : "N/A"}
+                    </span>
+                  </div>
+                </div>
               </div>
             ))}
+          </div>
+          <div className="bg-accent/8 border border-accent/20 rounded p-3">
+            <p className="text-[9px] font-mono text-text-secondary leading-relaxed">
+              <span className="text-accent font-bold">Real Yield Differential: {rateDiff !== null ? `${rateDiff > 0 ? "+" : ""}${rateDiff.toFixed(2)}%` : "N/A"}</span>
+              {rateDiff !== null && ` favours ${rateDiff > 0 ? ccy1 : ccy2}. Higher real yields attract capital flows — institutional money tends to flow toward ${rateDiff > 0 ? ccy1 : ccy2} on this differential.`}
+            </p>
+          </div>
+        </div>
+      )}
+
+      {macroData && !macroData.error && (
+        <div>
+          <p className="text-[9px] font-mono uppercase tracking-widest text-text-tertiary mb-3 border-b border-border-slate/20 pb-1">VIX REGIME INDICATOR</p>
+          <div className={cn("border rounded-lg p-4", vixBg,
+            vix && vix > 30 ? "border-red-600/30 animate-pulse" : "border-border-slate/40")}>
+            <div className="flex items-center justify-between mb-2">
+              <div className="flex items-center gap-3">
+                <span className={cn("text-[18px] font-black font-mono", vixColor)}>
+                  {vix !== null ? vix.toFixed(1) : "—"}
+                </span>
+                <span className={cn("text-[9px] font-mono font-bold uppercase px-2 py-0.5 rounded border",
+                  vix && vix < 12  ? "bg-profit/10 text-profit border-profit/20" :
+                  vix && vix < 17  ? "bg-background-elevated border-border-slate/40 text-text-secondary" :
+                  vix && vix < 22  ? "bg-warning/10 text-warning border-warning/20" :
+                  vix && vix < 30  ? "bg-loss/10 text-loss border-loss/20" : "bg-red-900/20 text-red-400 border-red-600/30")}>
+                  {vixRegime}
+                </span>
+                <span className="text-[8px] font-mono text-text-tertiary">VIX</span>
+              </div>
+              <span className="text-[8px] font-mono text-text-tertiary uppercase">{regime}</span>
+            </div>
+            <div className="h-2 bg-background-elevated rounded-full overflow-hidden mb-3">
+              <div className={cn("h-full rounded-full transition-all",
+                vix && vix < 12  ? "bg-profit" :
+                vix && vix < 17  ? "bg-text-secondary" :
+                vix && vix < 22  ? "bg-warning" :
+                vix && vix < 30  ? "bg-loss" : "bg-red-600")}
+                style={{ width: `${vixPct}%` }} />
+            </div>
+            <p className="text-[10px] font-mono text-text-secondary leading-relaxed">{vixDesc}</p>
           </div>
         </div>
       )}
     </div>
   );
 }
+
 
 // ─── AI Tab ───────────────────────────────────────────────────────────────────
 
@@ -1024,7 +1295,7 @@ function InstrumentCard({
     session === "LONDON" ? "text-blue-400" : session === "NEW YORK" ? "text-profit" :
     session === "ASIA" ? "text-violet-400" : session === "24/7" ? "text-accent" : "text-text-secondary";
 
-  const tabs: CardTab[] = ["SIGNALS", "FUNDAMENTALS", "AI BRIEF"];
+  const tabs: CardTab[] = ["SIGNALS", "FUNDAMENTALS", "AI BRIEF", "SMART MONEY"];
 
   if (listView) {
     return (
@@ -1209,6 +1480,7 @@ function ExpandedPanel({ show, tab, setTab, tabs, inst, data, tech, setupScore }
     "SIGNALS": BarChart3,
     "FUNDAMENTALS": Newspaper,
     "AI BRIEF": Cpu,
+    "SMART MONEY": Building2,
   };
   return (
     <div style={{ maxHeight: show ? "1200px" : "0", overflow: "hidden", transition: "max-height 0.5s cubic-bezier(0.4,0,0.2,1)" }}>
@@ -1230,6 +1502,7 @@ function ExpandedPanel({ show, tab, setTab, tabs, inst, data, tech, setupScore }
         {tab === "SIGNALS"      && <SignalsTab      tech={tech} price={data.price} slug={inst.scannerSlug} tvSymbol={inst.tvSymbol} />}
         {tab === "FUNDAMENTALS" && <FundamentalsTab inst={inst} priceData={data} />}
         {tab === "AI BRIEF"     && <AIBriefTab      inst={inst} tech={tech} data={data} />}
+        {tab === "SMART MONEY"  && <SmartMoneyTab   inst={inst} data={data} />}
       </div>
     </div>
   );

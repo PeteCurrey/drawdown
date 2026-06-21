@@ -1235,6 +1235,400 @@ function ExpandedPanel({ show, tab, setTab, tabs, inst, data, tech, setupScore }
   );
 }
 
+// ─── Signals Table View ───────────────────────────────────────────────────────
+
+type SigSortCol = "name" | "price" | "change" | "tf15m" | "tf1h" | "tf4h" | "daily" | "weekly" | "consensus" | "setup";
+type CatFilter  = "ALL" | "FOREX" | "INDEX" | "COMMODITY" | "CRYPTO";
+type BiasFilter = "ALL" | "BULL" | "BEAR";
+
+interface SignalRow {
+  slug: string;
+  signals: Record<string, "BUY" | "SELL" | "NEUTRAL">;
+  totalScore: number;
+  consensus: string;
+  alignedCount: number;
+  alignedDir: "BUY" | "SELL" | "NEUTRAL";
+}
+
+function TFBadge({ signal }: { signal: "BUY" | "SELL" | "NEUTRAL" | undefined }) {
+  if (!signal) return <span className="text-white/20 text-xs">—</span>;
+  if (signal === "BUY") return (
+    <div className="flex items-center justify-center w-6 h-6 rounded bg-profit/15 border border-profit/25">
+      <TrendingUp className="w-3 h-3 text-profit" />
+    </div>
+  );
+  if (signal === "SELL") return (
+    <div className="flex items-center justify-center w-6 h-6 rounded bg-loss/15 border border-loss/25">
+      <TrendingDown className="w-3 h-3 text-loss" />
+    </div>
+  );
+  return (
+    <div className="flex items-center justify-center w-6 h-6 rounded bg-white/5 border border-white/10">
+      <Minus className="w-3 h-3 text-white/30" />
+    </div>
+  );
+}
+
+function SortTh({ col, label, sort, dir, onSort }: {
+  col: SigSortCol; label: string; sort: SigSortCol; dir: "asc" | "desc";
+  onSort: (c: SigSortCol) => void;
+}) {
+  const active = sort === col;
+  return (
+    <th onClick={() => onSort(col)}
+      className={cn("px-3 py-2.5 text-left text-[8px] font-mono uppercase tracking-widest cursor-pointer select-none whitespace-nowrap transition-colors",
+        active ? "text-accent" : "text-white/40 hover:text-white/70")}>
+      <span className="flex items-center gap-1">
+        {label}
+        {active && <span className="text-accent">{dir === "desc" ? "↓" : "↑"}</span>}
+      </span>
+    </th>
+  );
+}
+
+function SignalsTableView({
+  priceData,
+}: {
+  priceData: Record<string, InstrumentData>;
+}) {
+  const [matrix, setMatrix] = useState<Record<string, SignalRow>>({});
+  const [matrixLoading, setMatrixLoading] = useState(true);
+  const [matrixUpdated, setMatrixUpdated] = useState<string | null>(null);
+
+  const [sort, setSort] = useState<SigSortCol>("consensus");
+  const [sortDir, setSortDir] = useState<"asc" | "desc">("desc");
+  const [catFilter, setCatFilter] = useState<CatFilter>("ALL");
+  const [minSetup, setMinSetup] = useState(0);
+  const [biasFilter, setBiasFilter] = useState<BiasFilter>("ALL");
+  const [tfAlign, setTfAlign] = useState(0);
+  const [expandedSlug, setExpandedSlug] = useState<string | null>(null);
+  const [bannerEvent, setBannerEvent] = useState<{ label: string; countdown: string } | null>(null);
+
+  useEffect(() => {
+    fetch("/api/scanner/signals-matrix")
+      .then(r => r.json())
+      .then(d => { if (d.matrix) { setMatrix(d.matrix); setMatrixUpdated(d.updatedAt); } })
+      .catch(() => {})
+      .finally(() => setMatrixLoading(false));
+  }, []);
+
+  useEffect(() => {
+    Promise.all(["EURUSD","GBPUSD","USDJPY","SPX"].map(s =>
+      fetch(`/api/calendar/${s}`).then(r => r.json()).catch(() => ({ events: [] }))
+    )).then(results => {
+      const all = results.flatMap((r: any) => (r.events ?? []).filter((e: any) => e.impact === "high"));
+      let best: { label: string; targetMs: number } | null = null;
+      const seen = new Set<string>();
+      for (const e of all) {
+        if (!e.time || seen.has(e.event)) continue;
+        seen.add(e.event);
+        const [h, m] = (e.time as string).split(":").map(Number);
+        const d = new Date(); d.setUTCHours(h, m || 0, 0, 0);
+        if (d < new Date()) d.setUTCDate(d.getUTCDate() + 1);
+        const ms = d.getTime() - Date.now();
+        if (ms > 0 && ms < 86400000 && (!best || ms < best.targetMs - Date.now()))
+          best = { label: `${e.country} ${(e.event as string).split(" ").slice(0, 4).join(" ")}`, targetMs: d.getTime() };
+      }
+      if (!best) return;
+      const fmt = () => {
+        const rem = best!.targetMs - Date.now();
+        if (rem <= 0) { setBannerEvent({ label: best!.label, countdown: "NOW" }); return; }
+        const h = Math.floor(rem / 3600000), m = Math.floor((rem % 3600000) / 60000);
+        setBannerEvent({ label: best!.label, countdown: h > 0 ? `${h}h ${m}m` : `${m}m` });
+      };
+      fmt(); const t = setInterval(fmt, 60000); return () => clearInterval(t);
+    });
+  }, []);
+
+  const handleSort = (col: SigSortCol) => {
+    if (sort === col) setSortDir(d => d === "desc" ? "asc" : "desc");
+    else { setSort(col); setSortDir("desc"); }
+  };
+
+  const sigScore = (s?: "BUY"|"SELL"|"NEUTRAL") => s === "BUY" ? 1 : s === "SELL" ? -1 : 0;
+
+  const rows = SCANNER_INSTRUMENTS
+    .filter(inst => {
+      if (catFilter === "FOREX"     && inst.category !== "forex")       return false;
+      if (catFilter === "INDEX"     && inst.category !== "indices")     return false;
+      if (catFilter === "COMMODITY" && inst.category !== "commodities") return false;
+      if (catFilter === "CRYPTO"    && inst.category !== "crypto")      return false;
+      const sig = matrix[inst.scannerSlug];
+      const pData = priceData[inst.scannerSlug];
+      const setup = calcSetupScore(pData ?? ({} as InstrumentData), {} as TechnicalSummary);
+      if (minSetup > 0 && setup < minSetup) return false;
+      if (biasFilter === "BULL" && sig && sig.totalScore <= 0) return false;
+      if (biasFilter === "BEAR" && sig && sig.totalScore >= 0) return false;
+      if (tfAlign > 0 && sig && sig.alignedCount < tfAlign) return false;
+      return true;
+    })
+    .sort((a, b) => {
+      const sa = matrix[a.scannerSlug], sb = matrix[b.scannerSlug];
+      const da = priceData[a.scannerSlug], db = priceData[b.scannerSlug];
+      if (sort === "name") return sortDir === "asc" ? a.displayPair.localeCompare(b.displayPair) : b.displayPair.localeCompare(a.displayPair);
+      let va = 0, vb = 0;
+      if (sort === "price")     { va = da?.price ?? 0;     vb = db?.price ?? 0; }
+      if (sort === "change")    { va = da?.changePct ?? 0; vb = db?.changePct ?? 0; }
+      if (sort === "consensus") { va = sa?.totalScore ?? 0; vb = sb?.totalScore ?? 0; }
+      if (sort === "setup")     { va = calcSetupScore(da ?? ({} as InstrumentData), {} as TechnicalSummary); vb = calcSetupScore(db ?? ({} as InstrumentData), {} as TechnicalSummary); }
+      if (sort === "tf15m")   { va = sigScore(sa?.signals["15m"]);    vb = sigScore(sb?.signals["15m"]); }
+      if (sort === "tf1h")    { va = sigScore(sa?.signals["1H"]);     vb = sigScore(sb?.signals["1H"]); }
+      if (sort === "tf4h")    { va = sigScore(sa?.signals["4H"]);     vb = sigScore(sb?.signals["4H"]); }
+      if (sort === "daily")   { va = sigScore(sa?.signals["Daily"]);  vb = sigScore(sb?.signals["Daily"]); }
+      if (sort === "weekly")  { va = sigScore(sa?.signals["Weekly"]); vb = sigScore(sb?.signals["Weekly"]); }
+      return sortDir === "desc" ? vb - va : va - vb;
+    });
+
+  const alignedCount = Object.values(matrix).filter(r => r.alignedCount >= 3).length;
+  const minsAgo = matrixUpdated ? Math.floor((Date.now() - new Date(matrixUpdated).getTime()) / 60000) : null;
+  const SEL = "bg-background-elevated border border-border-slate/50 text-text-secondary text-[9px] font-mono uppercase tracking-widest px-2.5 py-1.5 focus:outline-none focus:border-accent cursor-pointer rounded";
+
+  return (
+    <div className="space-y-4">
+      {/* Banner */}
+      <div className="flex items-center gap-4 px-5 py-3 bg-background-elevated border border-border-slate/40 rounded-xl">
+        <span className="text-[13px]">📊</span>
+        <p className="text-[10px] font-mono text-text-secondary leading-relaxed">
+          {matrixLoading ? (
+            <span className="animate-pulse text-text-tertiary">Loading signal matrix…</span>
+          ) : (
+            <>
+              <span className="text-text-primary font-bold">{alignedCount} instrument{alignedCount !== 1 ? "s" : ""}</span>
+              {" "}show aligned multi-timeframe signals.{" "}
+              {bannerEvent
+                ? <><span className="text-warning font-bold">⚡ {bannerEvent.label}</span>{" "}in{" "}<span className="text-warning font-bold">{bannerEvent.countdown}</span>.</>
+                : <span className="text-text-tertiary">No high-impact events found in next 24h.</span>}
+            </>
+          )}
+        </p>
+        {minsAgo !== null && (
+          <span className="ml-auto text-[8px] font-mono text-text-tertiary flex items-center gap-1 shrink-0">
+            <RefreshCw className="w-2.5 h-2.5" />{minsAgo < 1 ? "just now" : `${minsAgo}m ago`}
+          </span>
+        )}
+      </div>
+
+      {/* Filter row */}
+      <div className="flex flex-wrap items-center gap-2">
+        <select value={catFilter} onChange={e => setCatFilter(e.target.value as CatFilter)} className={SEL}>
+          <option value="ALL">ALL MARKETS</option>
+          <option value="FOREX">FOREX ONLY</option>
+          <option value="INDEX">INDICES ONLY</option>
+          <option value="COMMODITY">COMMODITIES</option>
+          <option value="CRYPTO">CRYPTO ONLY</option>
+        </select>
+        <select value={minSetup} onChange={e => setMinSetup(Number(e.target.value))} className={SEL}>
+          <option value={0}>MIN SETUP: ANY</option>
+          <option value={40}>MIN SETUP: 40</option>
+          <option value={60}>MIN SETUP: 60</option>
+          <option value={70}>MIN SETUP: 70+</option>
+        </select>
+        <select value={biasFilter} onChange={e => setBiasFilter(e.target.value as BiasFilter)} className={SEL}>
+          <option value="ALL">BIAS: ALL</option>
+          <option value="BULL">BULLISH ONLY</option>
+          <option value="BEAR">BEARISH ONLY</option>
+        </select>
+        <select value={tfAlign} onChange={e => setTfAlign(Number(e.target.value))} className={SEL}>
+          <option value={0}>TF ALIGN: ANY</option>
+          <option value={3}>TF ALIGN: 3+ ★</option>
+          <option value={4}>TF ALIGN: 4+</option>
+          <option value={5}>TF ALIGN: ALL 5</option>
+        </select>
+        <span className="ml-auto text-[9px] font-mono text-text-tertiary">{rows.length} / {SCANNER_INSTRUMENTS.length} instruments</span>
+      </div>
+
+      {/* Table */}
+      <div className="bg-background-surface border border-border-slate/50 rounded-xl overflow-hidden shadow-sm">
+        <div className="overflow-x-auto">
+          <table className="w-full border-collapse">
+            <thead>
+              <tr className="bg-background-elevated/60 border-b border-border-slate/40">
+                <SortTh col="name"      label="Instrument" sort={sort} dir={sortDir} onSort={handleSort} />
+                <SortTh col="price"     label="Price"      sort={sort} dir={sortDir} onSort={handleSort} />
+                <SortTh col="change"    label="Chg%"       sort={sort} dir={sortDir} onSort={handleSort} />
+                <SortTh col="tf15m"     label="15m"        sort={sort} dir={sortDir} onSort={handleSort} />
+                <SortTh col="tf1h"      label="1H"         sort={sort} dir={sortDir} onSort={handleSort} />
+                <SortTh col="tf4h"      label="4H"         sort={sort} dir={sortDir} onSort={handleSort} />
+                <SortTh col="daily"     label="Daily"      sort={sort} dir={sortDir} onSort={handleSort} />
+                <SortTh col="weekly"    label="Weekly"     sort={sort} dir={sortDir} onSort={handleSort} />
+                <SortTh col="consensus" label="Consensus"  sort={sort} dir={sortDir} onSort={handleSort} />
+                <SortTh col="setup"     label="Setup"      sort={sort} dir={sortDir} onSort={handleSort} />
+                <th className="px-3 py-2.5 text-left text-[8px] font-mono uppercase tracking-widest text-white/40 whitespace-nowrap">Next Event</th>
+                <th className="px-3 py-2.5 text-left text-[8px] font-mono uppercase tracking-widest text-white/40">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {matrixLoading
+                ? Array.from({ length: 8 }).map((_, i) => (
+                    <tr key={i} className="border-b border-border-slate/20 animate-pulse">
+                      {Array.from({ length: 12 }).map((_, j) => (
+                        <td key={j} className="px-3 py-3.5">
+                          <div className="h-3.5 bg-background-elevated rounded w-full max-w-[80px]" />
+                        </td>
+                      ))}
+                    </tr>
+                  ))
+                : rows.map(inst => (
+                    <SignalsTableRow
+                      key={inst.scannerSlug}
+                      inst={inst}
+                      priceData={priceData[inst.scannerSlug] ?? ({} as InstrumentData)}
+                      matrixRow={matrix[inst.scannerSlug] ?? null}
+                      expanded={expandedSlug === inst.scannerSlug}
+                      onToggleExpand={() => setExpandedSlug(s => s === inst.scannerSlug ? null : inst.scannerSlug)}
+                    />
+                  ))
+              }
+              {!matrixLoading && rows.length === 0 && (
+                <tr>
+                  <td colSpan={12} className="px-4 py-12 text-center text-text-tertiary font-mono text-xs">
+                    No instruments match the current filters.
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function SignalsTableRow({
+  inst, priceData, matrixRow, expanded, onToggleExpand,
+}: {
+  inst: ScannerInstrument;
+  priceData: InstrumentData;
+  matrixRow: SignalRow | null;
+  expanded: boolean;
+  onToggleExpand: () => void;
+}) {
+  const [nextEvt, setNextEvt] = useState<{ minsAway: number } | null>(null);
+  const tech = useTechnicalData(inst.scannerSlug, expanded);
+
+  useEffect(() => {
+    fetch(`/api/calendar/${inst.scannerSlug}`).then(r => r.json()).then(d => {
+      const first = (d.events ?? []).find((e: any) => e.impact === "high") ?? d.events?.[0];
+      if (!first?.time) return;
+      const [h, m] = (first.time as string).split(":").map(Number);
+      const dt = new Date(); dt.setUTCHours(h, m || 0, 0, 0);
+      if (dt < new Date()) dt.setUTCDate(dt.getUTCDate() + 1);
+      const mins = Math.round((dt.getTime() - Date.now()) / 60000);
+      if (mins < 1440) setNextEvt({ minsAway: mins });
+    }).catch(() => {});
+  }, [inst.scannerSlug]);
+
+  const changePct = priceData.changePct ?? 0;
+  const isUp = changePct >= 0;
+  const sigs = matrixRow?.signals ?? {};
+  const setupScore = calcSetupScore(priceData, expanded ? tech : ({} as TechnicalSummary));
+  const score = matrixRow?.totalScore ?? 0;
+  const aligned3Plus = (matrixRow?.alignedCount ?? 0) >= 3;
+  const alignedDir = matrixRow?.alignedDir;
+
+  return (
+    <>
+      <tr
+        className={cn(
+          "border-b border-border-slate/20 transition-colors cursor-pointer",
+          expanded ? "bg-background-elevated/40" : "hover:bg-background-elevated/20",
+          aligned3Plus && !expanded && "border-l-2 border-l-accent/50"
+        )}
+        onClick={onToggleExpand}
+      >
+        <td className="px-4 py-3">
+          <div className="flex items-center gap-2.5 min-w-[160px]">
+            <SetupScoreDial score={setupScore} size={30} />
+            <div>
+              <p className="font-black font-mono text-[11px] text-text-primary leading-tight">{inst.displayPair}</p>
+              <p className="text-[7px] font-mono text-text-tertiary uppercase tracking-widest">{CATEGORY_LABEL[inst.category]}</p>
+            </div>
+            {aligned3Plus && (
+              <span className={cn("text-[7px] font-bold font-mono px-1.5 py-0.5 rounded uppercase shrink-0 border",
+                alignedDir === "BUY" ? "bg-profit/10 text-profit border-profit/20" : "bg-loss/10 text-loss border-loss/20")}>
+                {matrixRow?.alignedCount}× ALIGN
+              </span>
+            )}
+          </div>
+        </td>
+        <td className="px-3 py-3 font-mono text-[11px] font-bold text-text-primary text-right whitespace-nowrap">
+          {priceData.loading ? "—" : priceData.price ? formatPrice(priceData.price, inst.scannerSlug) : "—"}
+        </td>
+        <td className={cn("px-3 py-3 font-mono text-[10px] font-bold text-right whitespace-nowrap", isUp ? "text-profit" : "text-loss")}>
+          {`${isUp ? "+" : ""}${changePct.toFixed(2)}%`}
+        </td>
+        {(["15m","1H","4H","Daily","Weekly"] as const).map(tf => (
+          <td key={tf} className="px-2 py-3">
+            <div className="flex justify-center">
+              <TFBadge signal={sigs[tf]} />
+            </div>
+          </td>
+        ))}
+        <td className="px-3 py-3 text-center">
+          {matrixRow ? (
+            <div className="flex flex-col items-center gap-0.5">
+              <span className={cn("text-[14px] font-black font-mono leading-none",
+                score > 1 ? "text-profit" : score < -1 ? "text-loss" : "text-text-tertiary")}>
+                {score > 0 ? "+" : ""}{score}
+              </span>
+              <span className={cn("text-[6px] font-mono uppercase tracking-wide",
+                score > 1 ? "text-profit/60" : score < -1 ? "text-loss/60" : "text-text-tertiary/60")}>
+                {matrixRow.consensus}
+              </span>
+            </div>
+          ) : <span className="text-text-tertiary">—</span>}
+        </td>
+        <td className="px-3 py-3">
+          <div className="w-[60px] mx-auto">
+            <div className="h-1.5 bg-background-elevated rounded-full overflow-hidden mb-0.5">
+              <div className={cn("h-full rounded-full transition-all",
+                setupScore >= 70 ? "bg-amber-400" : setupScore >= 40 ? "bg-accent" : "bg-border-slate/60")}
+                style={{ width: `${setupScore}%` }} />
+            </div>
+            <p className="text-[7px] font-mono text-text-tertiary text-center">{setupScore}</p>
+          </div>
+        </td>
+        <td className="px-3 py-3 text-center whitespace-nowrap">
+          {nextEvt ? (
+            <span className={cn("text-[9px] font-mono font-bold",
+              nextEvt.minsAway < 60 ? "text-warning" : "text-text-tertiary")}>
+              {nextEvt.minsAway < 60 ? `${nextEvt.minsAway}m` : `${Math.floor(nextEvt.minsAway / 60)}h`}
+            </span>
+          ) : <span className="text-text-tertiary text-[9px]">—</span>}
+        </td>
+        <td className="px-3 py-3" onClick={e => e.stopPropagation()}>
+          <button onClick={onToggleExpand}
+            className={cn("flex items-center gap-1 px-2.5 py-1.5 text-[8px] font-mono font-bold uppercase border rounded transition-all whitespace-nowrap",
+              expanded
+                ? "bg-accent text-white border-accent"
+                : "bg-accent/10 text-accent border-accent/30 hover:bg-accent hover:text-white")}>
+            {expanded ? <ChevronUp className="w-3 h-3" /> : <ChevronRight className="w-3 h-3" />}
+            {expanded ? "CLOSE" : "ANALYSE"}
+          </button>
+        </td>
+      </tr>
+      {expanded && (
+        <tr>
+          <td colSpan={12} className="p-0 border-b border-border-slate/30">
+            <div className="border-t border-accent/20">
+              <ExpandedPanel
+                show={true}
+                tab={"AI BRIEF" as CardTab}
+                setTab={() => {}}
+                tabs={["SIGNALS", "FUNDAMENTALS", "AI BRIEF"] as CardTab[]}
+                inst={inst}
+                data={priceData}
+                tech={tech}
+                setupScore={setupScore}
+              />
+            </div>
+          </td>
+        </tr>
+      )}
+    </>
+  );
+}
+
 // ─── Market Intelligence Bar ─────────────────────────────────────────────────
 
 function FearGreedGauge({ vixPrice }: { vixPrice: number | null }) {
@@ -1559,8 +1953,8 @@ function MarketScannerGrid() {
     if (filter === "COMMODITY") return inst.category === "commodities";
     if (filter === "CRYPTO")    return inst.category === "crypto";
     if (filter === "SIGNALS") {
-      const d = priceData[inst.scannerSlug];
-      return d && (d.changePct ?? 0) > 1;
+      // handled by SignalsTableView — show all for grid fallback
+      return true;
     }
     // Signal bias filter from intelligence bar
     if (signalBias) {
@@ -1593,24 +1987,27 @@ function MarketScannerGrid() {
         activeSessions={activeSessions}
         onSignalBias={bias => {
           setSignalBias(bias);
-          if (bias) setFilter("ALL"); // clear category filter when signal bias active
+          if (bias) setFilter("ALL");
         }}
       />
 
-      {/* Controls */}
-      <div className="flex flex-wrap items-center gap-3">
-        {/* Filter */}
-        <div className="flex items-center gap-1 flex-wrap">
-          {FILTERS.map(f => (
-            <button key={f} onClick={() => setFilter(f)}
-              className={cn("px-3 py-1.5 text-[9px] font-mono uppercase tracking-widest border transition-all",
-                filter === f ? "bg-accent text-white border-accent" : "border-border-slate/40 text-text-tertiary hover:border-accent hover:text-accent")}>
-              {f}
-            </button>
-          ))}
-        </div>
+      {/* Filter tabs — always visible */}
+      <div className="flex items-center gap-1 flex-wrap">
+        {FILTERS.map(f => (
+          <button key={f} onClick={() => setFilter(f)}
+            className={cn("px-3 py-1.5 text-[9px] font-mono uppercase tracking-widest border transition-all",
+              filter === f ? "bg-accent text-white border-accent" : "border-border-slate/40 text-text-tertiary hover:border-accent hover:text-accent")}>
+            {f}
+          </button>
+        ))}
+      </div>
 
-        <div className="ml-auto flex items-center gap-2">
+      {filter === "SIGNALS" ? (
+        <SignalsTableView priceData={priceData} />
+      ) : (
+        <>
+          {/* Sort + View toggle */}
+          <div className="flex items-center gap-2 justify-end">
           {/* Sort */}
           <div className="relative">
             <button onClick={() => setSortOpen(o => !o)}
@@ -1642,10 +2039,9 @@ function MarketScannerGrid() {
             </button>
           </div>
         </div>
-      </div>
 
-      {/* Grid / List */}
-      <div className={cn(viewMode === "grid" ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" : "space-y-2")}>
+        {/* Grid / List */}
+        <div className={cn(viewMode === "grid" ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" : "space-y-2")}>
         {sorted.map(inst => {
           const d = priceData[inst.scannerSlug];
           return d?.loading ? (
@@ -1662,7 +2058,9 @@ function MarketScannerGrid() {
             No instruments match this filter.
           </div>
         )}
-      </div>
+        </div>
+      </>
+      )}
 
       {/* Alerts slide-out */}
       {alertsSlug && (

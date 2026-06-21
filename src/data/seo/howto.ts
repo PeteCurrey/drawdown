@@ -1228,5 +1228,314 @@ export const HOW_TO_PAGES: HowToPage[] = [
       linkText: 'View Today\'s Watchlist'
     },
     faqs: []
-  }
+  },
+
+  // ─── Wave 2 How-To Guides ──────────────────────────────────────────────────
+
+  {
+    slug: 'how-to-open-a-trading-account-uk',
+    title: 'How to Open Your First Trading Account in the UK',
+    eyebrow: '// HOW-TO GUIDE',
+    metaTitle: 'How to Open Your First Trading Account in the UK | Drawdown',
+    dek: 'Everything that happens between deciding to start trading and placing your first trade, in order.',
+    readingTime: '15–20 min',
+    difficulty: 'Beginner',
+    estimatedTime: '15–20 minutes',
+    metaDescription: 'A step-by-step walkthrough of opening a UK trading account, from choosing a regulated broker to making your first deposit, in under 20 minutes.',
+    introduction: 'Opening a trading account is more straightforward than most people expect, but the order in which you make the decisions matters. Choosing the platform before the broker, or the account type before you know what you want to trade, leads to friction later. This guide takes you through each step in the right sequence.',
+    prerequisites: [
+      'A government-issued photo ID (passport or driving licence)',
+      'Proof of address dated within the last three months (utility bill or bank statement)',
+      'A rough idea of which markets you want to trade — forex, indices, commodities, or stocks',
+    ],
+    steps: [
+      {
+        title: 'Decide what you want to trade first',
+        content: 'Narrow down the market before picking a broker, because not every broker covers every market equally well. A broker with competitive spreads on forex may have limited commodity coverage. Decide whether you are starting with forex, indices, stocks, or commodities, and keep that answer in mind when comparing brokers in the next step. If you are genuinely unsure, forex and indices are covered by the widest range of UK-regulated retail brokers.',
+      },
+      {
+        title: 'Choose a regulated broker',
+        content: 'Check the broker\'s FCA authorisation status on the FCA Register (register.fca.org.uk) before anything else. This is non-negotiable: an unregulated broker removes all the client protections that UK regulation provides, including segregated client funds and negative balance protection. Once FCA status is confirmed, compare spreads on the instruments you want to trade, check which platforms they support (MT4, MT5, cTrader, or proprietary), and read recent independent reviews. The sign-up bonus is irrelevant to this comparison.',
+      },
+      {
+        title: 'Complete identity verification',
+        content: 'All UK-regulated brokers are required by anti-money laundering regulations to verify your identity before activating your account. Upload a clear photo or scan of your government-issued ID and a proof of address dated within the last three months. Most brokers process this automatically within a few hours during business hours; some take up to two business days. This step is a regulatory requirement, not bureaucracy for its own sake: it is what keeps client funds protected and the platform compliant.',
+      },
+      {
+        title: 'Choose your account type',
+        content: 'Most UK retail brokers offer two main live account types: a standard account (spread betting or CFD) and sometimes an ISA-wrapped account for eligible products. For forex and indices, spread betting is the most common structure for UK retail traders because profits are currently exempt from Capital Gains Tax. Choose a demo account first if you want to test the platform before committing real funds. You can run both simultaneously with most brokers.',
+      },
+      {
+        title: 'Fund your account',
+        content: 'Payment methods vary by broker: bank transfer, debit card, and sometimes PayPal or other e-wallets. Bank transfers are the most reliable for larger deposits and typically settle within one business day. Card deposits are faster but may have lower limits. Check the minimum deposit requirement before funding — most UK retail brokers set this between £100 and £500, though some have no minimum. Do not deposit more than you are genuinely prepared to lose while you are learning.',
+      },
+      {
+        title: 'Set up your trading platform',
+        content: 'Install or log in to the platform your broker offers. If they support MT4 or MT5, download the desktop application rather than relying on the web version for better reliability. Add the instruments you plan to trade to your watchlist, set your chart timeframes, and spend time navigating the interface before placing any real trades. If you are unfamiliar with the platform, use the demo account to explore order types — market orders, limit orders, stop losses — before going live.',
+      },
+      {
+        title: 'Place a small test trade before committing real size',
+        content: 'Before trading at your intended position size, place one trade at the minimum size your broker allows. This sense-checks the whole pipeline: the order is received, executed at the expected price, your position shows correctly, and you know how to close it. It also ensures your payment was processed and your funds are live. Once you have confirmed everything works, you can trade at the size your risk management framework calls for.',
+      },
+    ],
+    commonMistakes: [
+      'Choosing a broker based on the sign-up bonus rather than regulated status and instrument coverage',
+      'Skipping identity verification documents and then waiting days for manual review',
+      'Depositing full intended capital before testing the platform on demo',
+      'Opening a live account without checking which account type (spread bet vs CFD) is more tax-efficient for your situation',
+    ],
+    drawdownApproach: {
+      text: 'Drawdown\'s broker comparison covers only FCA-regulated brokers, with honest notes on spreads, platforms, and who each broker actually suits.',
+      link: '/brokers',
+      linkText: 'Compare regulated UK brokers',
+    },
+    faqs: [
+      {
+        question: 'How long does broker identity verification usually take?',
+        answer: 'Most FCA-regulated brokers with automated verification systems process ID within a few hours during business hours. Manual reviews can take one to two business days. If you need a faster turnaround, check the broker\'s stated verification time before applying.',
+      },
+      {
+        question: 'Can you open more than one trading account with different brokers?',
+        answer: 'Yes. There is no regulatory restriction on holding accounts with multiple brokers simultaneously. Many traders maintain accounts at two or three brokers to access different instruments, platform preferences, or spread structures. Each account goes through the same identity verification process.',
+      },
+      {
+        question: 'What is the minimum deposit at most UK-regulated brokers?',
+        answer: 'Most major UK retail brokers set minimum deposits between £100 and £500. Some have no stated minimum. However, the minimum deposit required to open an account is different from the minimum capital required to trade responsibly. With a 1% risk rule and a typical stop loss, you need considerably more than £100 to place a position at a meaningful size without over-leveraging.',
+      },
+    ],
+    nextStep: {
+      label: 'Compare regulated UK brokers',
+      href: '/brokers',
+    },
+    internalLinks: ['/brokers', '/basic/what-is-a-broker', '/basic/what-is-a-demo-account'],
+  },
+
+  {
+    slug: 'how-to-choose-a-broker',
+    title: 'How to Choose a Broker — A Step-by-Step Framework',
+    eyebrow: '// HOW-TO GUIDE',
+    metaTitle: 'How to Choose a Broker — A Step-by-Step Framework | Drawdown',
+    dek: 'A repeatable checklist for comparing brokers properly, instead of picking whichever one has the loudest sign-up offer.',
+    readingTime: '20–30 min',
+    difficulty: 'Beginner',
+    estimatedTime: '20–30 minutes of research',
+    metaDescription: 'A practical framework for comparing UK brokers properly, covering regulation, costs, platform and support, instead of picking on bonus offers alone.',
+    introduction: 'Most traders choose a broker based on whichever one they encounter first, which one has a compelling sign-up offer, or which one a YouTuber mentioned. None of those are useful signals. This framework gives you a repeatable process for comparing brokers on the factors that actually determine whether working with them is a good experience.',
+    prerequisites: [
+      'A clear idea of which markets you want to trade (forex, indices, stocks, or commodities)',
+    ],
+    steps: [
+      {
+        title: 'Confirm FCA regulation first — before anything else',
+        content: 'Go to register.fca.org.uk and search for the broker by name. Confirm they are "Authorised" — not "Registered" or "Appointed Representative" alone. Check that the permissions listed include the activity you want to do (dealing in investments as principal or agent). An FCA-regulated broker provides segregated client funds, negative balance protection, FSCS eligibility, and enforceable conduct standards. Everything else in this framework sits behind this filter. If the broker is not on the FCA Register, stop here.',
+      },
+      {
+        title: 'Compare the real cost of trading',
+        content: 'The headline cost is the spread: the difference between the buy and sell price on any instrument. On EUR/USD, a 0.6-pip spread versus a 1.2-pip spread on a 1-lot position represents a real difference in cost per trade. Some brokers charge a commission per trade instead of, or in addition to, a spread. Compare the total round-trip cost (spread plus commission) across the instruments you plan to trade, not just the headline "zero commission" claim. Also check the overnight financing rate (swap rate), which applies to positions held past the daily rollover time. On longer trades this becomes a meaningful cost.',
+      },
+      {
+        title: 'Check platform options',
+        content: 'Confirm the broker actually supports the specific platform you want to use, not just any platform. If you want MT4, check they offer MT4 specifically — some brokers offer only MT5 or a proprietary platform and market this as equivalent. If you are committed to TradingView as your charting tool, check whether the broker supports TradingView integration for order execution, or whether you will be running two separate applications. Test the web and mobile version of the platform before opening an account, most brokers allow this on demo.',
+      },
+      {
+        title: 'Test customer support before you need it',
+        content: 'Send a pre-account question by chat or email before opening. Ask something specific: "Do you support MT4 for forex trading, and what are the typical spreads on GBP/USD during the London open?" The quality and speed of the response tells you more about support than any number of review site scores. If the answer is slow, vague, or clearly automated, that is the same support you will receive when your account has a real problem.',
+      },
+      {
+        title: 'Read the withdrawal process, not just the deposit process',
+        content: 'Deposits at brokers are almost always fast and easy. Withdrawals are where the friction shows up. Read the broker\'s withdrawal policy in their terms, not in their marketing. Check: what methods are available for withdrawal, whether withdrawals go back to the original payment source, what the processing time is, and whether there are any withdrawal fees. Reputable FCA-regulated brokers have straightforward withdrawal processes. Firms where withdrawals are slow or complicated without clear justification are a meaningful warning sign.',
+      },
+      {
+        title: 'Check minimum deposit and account types against your starting capital',
+        content: 'Confirm the minimum deposit for the account type you want. More importantly, confirm that the minimum position size on your chosen instruments allows you to apply your risk management framework at your actual account size. A broker with a £100 minimum deposit may have minimum position sizes that require over-leveraging at £100. Check the math: if you are risking 1% of your account per trade, what is the minimum lot or contract size available, and does that work at your starting capital?',
+      },
+      {
+        title: 'Treat the sign-up bonus as irrelevant to the decision',
+        content: 'Broker sign-up bonuses are a marketing cost, not a product feature. They are subject to terms that make them difficult or impossible to withdraw and are unrelated to whether the broker is competitively priced, well-regulated, or has good customer support. A broker that wins your business through a bonus offer rather than through the quality of the product is signalling something about where their priorities sit. Use the framework above instead.',
+      },
+    ],
+    commonMistakes: [
+      'Choosing a broker based on the sign-up bonus',
+      'Not checking FCA authorisation status directly on the FCA Register',
+      'Comparing headline spreads without accounting for overnight financing costs',
+      'Not testing the platform on demo before opening a funded account',
+    ],
+    drawdownApproach: {
+      text: 'Every broker in Drawdown\'s comparison has been checked for FCA authorisation, and the comparisons include typical spreads on common instruments alongside platform and withdrawal notes.',
+      link: '/brokers',
+      linkText: 'See our broker comparisons',
+    },
+    faqs: [
+      {
+        question: 'Is a larger, more well-known broker always safer than a smaller one?',
+        answer: 'Not necessarily. Safety comes from FCA authorisation and the protections it requires, not from brand size. A smaller, fully FCA-authorised broker offers the same client money segregation and FSCS eligibility as a large one. That said, larger established brokers are less likely to face operational or liquidity issues. FCA regulation is the minimum check; the broker\'s track record and years of operation are useful secondary indicators.',
+      },
+      {
+        question: 'What is the single biggest red flag when comparing brokers?',
+        answer: 'Not appearing on the FCA Register as Authorised. Everything else can be worked around. Unregulated status cannot. After that, a withdrawal policy that is vague, slow, or discouraging is a strong warning sign that the broker\'s interests and the client\'s are not well aligned.',
+      },
+      {
+        question: 'Should cost be the main factor in choosing a broker?',
+        answer: 'Cost matters, but it is not the main factor. A marginally cheaper spread from an unregulated or poorly supported broker is not a good trade-off. The order of priority in this framework reflects what actually matters: regulation first, then cost, then platform, then support, then withdrawal process, then account mechanics. A broker that scores well across all six is the right choice, not the one that wins on any single factor.',
+      },
+    ],
+    nextStep: {
+      label: 'See our broker comparisons',
+      href: '/brokers',
+    },
+    internalLinks: ['/brokers', '/basic/what-is-a-broker', '/blog/fca-regulation-explained'],
+  },
+
+  {
+    slug: 'how-to-use-a-demo-account',
+    title: 'How to Set Up and Use a Demo Account Properly',
+    eyebrow: '// HOW-TO GUIDE',
+    metaTitle: 'How to Set Up and Use a Demo Account Properly | Drawdown',
+    dek: 'A demo account only teaches you anything if you use it like a live one. Here is how to actually do that.',
+    readingTime: '10 min',
+    difficulty: 'Beginner',
+    estimatedTime: '10 minutes setup, ongoing use',
+    metaDescription: 'A step-by-step guide to setting up a demo account and actually using it to build real skill, not just clicking buttons with fake money.',
+    introduction: 'Most traders open a demo account, trade carelessly because the money is not real, feel good about their results, and then discover that live trading feels nothing like what they practised. The demo account only has value if you use it deliberately: same conditions, same rules, same discipline as you would apply to a live account.',
+    prerequisites: [
+      'A chosen broker or platform offering demo account functionality (most FCA-regulated retail brokers do)',
+    ],
+    steps: [
+      {
+        title: 'Choose a demo account that matches your intended live conditions',
+        content: 'Where possible, use a demo account with the same broker you plan to trade live with, running the same platform (MT4, MT5, or proprietary). This means the interface, order types, and spread behaviour you practise on demo will match what you encounter live. If you use a generic demo from a different broker, the experience may diverge in small but meaningful ways. Also check that the demo account uses real-time market prices rather than simulated prices, which most reputable broker demos do.',
+      },
+      {
+        title: 'Set a realistic virtual balance',
+        content: 'Many broker demo accounts default to £100,000 or more in virtual funds. If you plan to start live trading with £2,000, set your demo balance to £2,000. This forces you to practise position sizing relative to your actual capital, rather than developing habits at a scale that will not transfer. A £100,000 demo balance makes every mistake painless in a way that £2,000 will not, and it teaches you nothing useful about managing real drawdown.',
+      },
+      {
+        title: 'Apply the same position sizing rules you would use live',
+        content: 'Decide on your risk percentage before your first demo trade and apply it to every trade without exception. If you plan to risk 1% of your account per trade, that means working out the lot size for each trade based on your stop loss distance and applying it consistently. Do not take larger positions "because it\'s demo." The point of this phase is to build the habit of calculating and applying position sizes correctly, not to discover whether your strategy works when you ignore risk management.',
+      },
+      {
+        title: 'Use it to test mechanics, not to prove you have an edge',
+        content: 'Two weeks of profitable demo trading is not evidence that your strategy works. It is evidence that your strategy can produce positive results in a specific recent market environment, without the psychological pressure of real money. Use the demo phase to get comfortable with the platform mechanics: placing market orders and limit orders, setting stop losses and take profits, and modifying positions. These are the things that will trip you up live if you have not practised them. The strategy validation comes later, over a larger sample, in conditions that include losing periods.',
+      },
+      {
+        title: 'Journal demo trades the same way you would journal live trades',
+        content: 'Record every demo trade before you take it: the setup, the entry price, the stop loss, the take profit, the position size, and why you are taking the trade. Record the outcome. Review your notes weekly and look for patterns in what you followed and what you deviated from. Building the journalling habit on demo costs nothing. Discovering you lack the habit on live, when the cost of each deviation is real, costs considerably more.',
+      },
+      {
+        title: 'Set a defined exit point for the demo phase before you start',
+        content: 'Do not leave your demo phase open-ended. Decide on a consistency-based target before you start: for example, 100 trades logged and reviewed, positive return over 8 consecutive weeks, and 90% plan adherence on recorded trades. These are conditions you can check against, unlike "until I feel ready," which tends to resolve either through impatience or anxiety rather than through evidence. When you hit all three conditions, you have a basis for switching that is evidence-based rather than emotional.',
+      },
+      {
+        title: 'Review demo performance honestly before going live',
+        content: 'Before switching to a live account, review your trade journal for the demo period. What mistakes showed up consistently? Were any trades taken outside the plan? Were there losing periods, and how did you respond to them? If the review shows that your plan adherence was high and your results were consistent, you have a basis for the switch. If it shows significant deviations or emotional responses to losses, those will be worse on live, not better. Fix them on demo before they cost real capital.',
+      },
+    ],
+    commonMistakes: [
+      'Setting an unrealistically large demo balance that does not match intended live capital',
+      'Trading carelessly because the money is not real, then expecting live performance to match demo',
+      'Using demo to practise a strategy without journalling, then having no data to review before going live',
+      'Switching to live because of boredom or impatience rather than meeting a defined consistency target',
+    ],
+    drawdownApproach: {
+      text: 'The Drawdown AI Trade Journal works for both demo and live accounts. Log your demo trades now, review the data, and use it to time your switch to live with evidence rather than feeling.',
+      link: '/tools/ai-trade-journal',
+      linkText: 'Start logging trades for free',
+    },
+    faqs: [
+      {
+        question: 'Should demo account position sizing match what you would use live?',
+        answer: 'Yes. Position sizing on demo should match what you intend to use live, calculated against a demo balance that matches your intended live starting capital. The purpose of demo is to build habits that transfer. If position sizing on demo bears no relation to what you will do live, you are not building a transferable habit — you are playing with a simulator.',
+      },
+      {
+        question: 'Do demo accounts use real, live market prices?',
+        answer: 'Most demo accounts at FCA-regulated retail brokers use live market prices. Some may have small differences in spreads or slippage behaviour compared to live accounts. This is worth checking with your specific broker before assuming demo conditions are perfectly representative of live conditions.',
+      },
+      {
+        question: 'How do you actually know when to stop using a demo account and go live?',
+        answer: 'By meeting a defined, pre-agreed consistency target rather than feeling ready. A reasonable target is 100 or more trades logged, a positive return across at least 8 weeks of demo trading, and plan adherence of 90% or more on recorded trades. When all three conditions are met, you have evidence to support the switch. When they are not, remaining on demo is the correct decision regardless of how you feel about it.',
+      },
+    ],
+    nextStep: {
+      label: 'Start free — no card required',
+      href: '/signup',
+    },
+    internalLinks: ['/basic/what-is-a-demo-account', '/tools/ai-trade-journal', '/signup'],
+  },
+
+  {
+    slug: 'how-to-read-a-candlestick-chart',
+    title: 'How to Read Your First Candlestick Chart',
+    eyebrow: '// HOW-TO GUIDE',
+    metaTitle: 'How to Read Your First Candlestick Chart | Drawdown',
+    dek: 'Every candle on a chart is telling you a short, specific story. Here is how to actually read it.',
+    readingTime: '15 min',
+    difficulty: 'Beginner',
+    estimatedTime: '15 minutes',
+    metaDescription: 'A step-by-step beginner\'s guide to reading candlestick charts, covering what each candle shows and how to read basic price action at a glance.',
+    introduction: 'A candlestick chart is the standard way professional traders look at price data. Each candle represents a fixed period of time — one minute, one hour, one day — and shows four pieces of information at once: where the price started, where it finished, the highest point it reached, and the lowest point it reached. Once you know how to read a single candle, you can read any chart.',
+    prerequisites: [
+      'Access to any charting platform — TradingView (free at tradingview.com) is recommended for beginners',
+    ],
+    steps: [
+      {
+        title: 'Understand what a single candle represents',
+        content: 'Each candle on a candlestick chart represents one unit of time — a minute, an hour, a day, or any other timeframe you select. During that time period, the price of the instrument moved. The candle records four data points: the opening price (where price was at the start of the period), the closing price (where price was at the end of the period), the high (the highest price reached during the period), and the low (the lowest price reached during the period). All four data points are visible in a single candle. This is what makes candlestick charts more information-dense than a simple line chart, which only shows the closing price.',
+      },
+      {
+        title: 'Read the body and the wicks separately',
+        content: 'The wide rectangular section of a candle is called the body. The body shows the range between the opening price and the closing price — it represents what happened over the majority of the period. The thin lines extending above and below the body are called wicks (or shadows). The upper wick extends from the top of the body up to the highest price reached during the period. The lower wick extends from the bottom of the body down to the lowest price reached. A long wick tells you the price moved significantly in that direction during the period but did not close there — the market rejected that extreme. A candle with no wicks means the opening and closing prices were also the high and low of the period.',
+      },
+      {
+        title: 'Tell a bullish candle from a bearish candle at a glance',
+        content: 'If the closing price is higher than the opening price, the candle is bullish: price moved up during that period. By convention on most platforms, bullish candles are shown in green (or sometimes white or hollow). If the closing price is lower than the opening price, the candle is bearish: price moved down during that period. Bearish candles are typically shown in red (or sometimes black or filled). The colour convention can vary by platform — what matters is which end of the body is the open and which is the close. On most platforms you can customise candle colours, but the default green/red scheme is widely used.',
+      },
+      {
+        title: 'Change the timeframe and watch the same price action look different',
+        content: 'In TradingView, click the timeframe selector at the top of the chart. Switch between a 1-minute chart and a daily chart on the same instrument. Notice that what appears as a long bullish candle on the daily chart is made up of hundreds of smaller candles on the 1-minute chart, some of them bearish. This is an important early intuition: the same price action looks different depending on the timeframe you are viewing. Higher timeframes (daily, weekly) show the broader structure. Lower timeframes (1-minute, 5-minute) show granular movement within that structure. Most traders analyse multiple timeframes before making a decision.',
+      },
+      {
+        title: 'Spot a few basic single-candle patterns',
+        content: 'At this stage, focus on two patterns. A doji is a candle where the opening and closing price are very close together, producing a tiny body with wicks on both sides. It suggests indecision: neither buyers nor sellers dominated that period. A strong bullish or bearish candle has a large body and short or no wicks, suggesting one side controlled the entire period. Do not attempt to memorise every named candlestick pattern — there are dozens, and most are only reliable in specific contexts. These two are sufficient to begin building chart reading intuition. Patterns matter less than the context they appear in.',
+      },
+      {
+        title: 'Read a short sequence of candles together',
+        content: 'Zoom out on your chart until you can see 20 to 30 candles clearly. Look for price areas where the candles have clustered, reversed, or stopped moving: these are support and resistance areas. A price level where several candles have wicks pointing down (price reached that level but closed higher) is a support area — buyers have responded at that level repeatedly. A price level where candles have wicks pointing up is a resistance area. You do not need to understand every candle individually to identify these zones. You are looking at the shape of the sequence, not dissecting each candle in isolation.',
+      },
+      {
+        title: 'Practise on a real chart before moving on',
+        content: 'Open TradingView and select any major forex pair or index (GBP/USD or the FTSE 100 are good starting points). Set the chart to a daily timeframe. Narrate the last five candles to yourself: is each one bullish or bearish, where are the wicks relative to the body, and what does that sequence of five candles suggest about what buyers and sellers were doing? Do this for five minutes without reading anything else. Active narration of charts is how the skill becomes intuitive — passive looking does not build the same pattern recognition.',
+      },
+    ],
+    commonMistakes: [
+      'Memorising pattern names before understanding what the open, high, low, and close actually represent',
+      'Only reading one timeframe and missing the broader price structure',
+      'Treating candle patterns as signals in isolation without considering the surrounding context',
+      'Looking at charts passively rather than actively narrating what is happening',
+    ],
+    drawdownApproach: {
+      text: 'The Drawdown curriculum builds chart reading as a foundation in Phase 1 — Chart Reader. Technical Analysis goes deeper into structure, support, resistance, and timeframe alignment.',
+      link: '/learn-to-trade/technical-analysis',
+      linkText: 'Go deeper on chart reading',
+    },
+    faqs: [
+      {
+        question: 'Why are candlestick charts more popular than simple line charts?',
+        answer: 'A line chart only shows the closing price for each period. A candlestick shows four data points: open, high, low, and close. This gives you information about where price started, how far it moved in both directions, and where it ended up — all in a single visual element. That additional information is useful for identifying areas where price has reversed, rejected, or consolidated.',
+      },
+      {
+        question: 'Does candle colour mean the same thing on every platform?',
+        answer: 'Not necessarily. The convention of green for bullish and red for bearish is the most common default, but it can be customised on most platforms. Some traders use white/black as an alternative. The colour itself is not the information — the relationship between the opening and closing price is. Always confirm which colour represents bullish and which represents bearish on any platform you use, particularly if you have customised the settings.',
+      },
+      {
+        question: 'Do you need to memorise every candlestick pattern that exists?',
+        answer: 'No. There are dozens of named candlestick patterns, most of which offer marginal predictive value on their own. Understanding what the body and wicks tell you about the relationship between buyers and sellers during a period is more useful than memorising pattern names. A few patterns — the doji, the engulfing candle, the pin bar — appear in commonly traded setups and are worth understanding in context. The rest can wait until you have a solid grasp of why price moves, which is more important than what the individual candles are called.',
+      },
+    ],
+    nextStep: {
+      label: 'Go deeper on chart reading',
+      href: '/learn-to-trade/technical-analysis',
+    },
+    internalLinks: ['/learn-to-trade/technical-analysis', '/blog/support-and-resistance-explained'],
+  },
 ];
+

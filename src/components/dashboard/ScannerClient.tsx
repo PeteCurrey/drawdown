@@ -1993,22 +1993,10 @@ function MarketIntelligenceBar({
   activeSessions: string[];
   onSignalBias: (b: "BULL" | "BEAR" | "NEUT" | null) => void;
 }) {
-  const vixDxy = useTwelveData(["VIX", "DXY"]);
-  const [gold, setGold] = useState<{ price: number | null; changePct: number | null }>({ price: null, changePct: null });
+  const vixDxy = useTwelveData(["VIX", "DXY", "XAUUSD"]);
   const [nextEvt, setNextEvt] = useState<{ label: string; targetMs: number } | null>(null);
   const [countdown, setCountdown] = useState("");
   const [signalBias, setSignalBias] = useState<"BULL" | "BEAR" | "NEUT" | null>(null);
-
-  const tdKey = typeof process !== "undefined" ? (process.env.NEXT_PUBLIC_TWELVE_DATA_KEY ?? "") : "";
-
-  // Fetch Gold
-  useEffect(() => {
-    if (!tdKey) return;
-    fetch(`https://api.twelvedata.com/quote?symbol=XAU/USD&apikey=${tdKey}`)
-      .then(r => r.json()).then(d => {
-        if (!d.code) setGold({ price: parseFloat(d.close ?? "0") || null, changePct: parseFloat(d.percent_change ?? "0") || null });
-      }).catch(() => {});
-  }, [tdKey]);
 
   // Fetch next high-impact event across all currencies
   useEffect(() => {
@@ -2052,7 +2040,10 @@ function MarketIntelligenceBar({
 
   const vix = vixDxy["VIX"];
   const dxy = vixDxy["DXY"];
+  const goldData = vixDxy["XAUUSD"];
   const vixPrice = vix?.price ?? null;
+  const goldPrice = goldData?.price ?? null;
+  const goldChangePct = goldData?.changePct ?? null;
 
   // Top mover
   const topMover = SCANNER_INSTRUMENTS.reduce<{ inst: ScannerInstrument; pct: number } | null>((best, inst) => {
@@ -2123,15 +2114,15 @@ function MarketIntelligenceBar({
 
         {/* 3 — Gold */}
         <Widget label="Gold (XAU/USD)">
-          {gold.price ? (
+          {goldPrice ? (
             <div className="flex flex-col items-center gap-0.5">
-              <span className="text-[18px] font-black font-mono text-[#fbbf24]">${gold.price.toFixed(0)}</span>
+              <span className="text-[18px] font-black font-mono text-[#fbbf24]">${goldPrice.toFixed(0)}</span>
               <span className={cn("text-[10px] font-bold font-mono",
-                (gold.changePct ?? 0) >= 0 ? "text-[#00c853]" : "text-[#ef4444]")}>
-                {(gold.changePct ?? 0) >= 0 ? "+" : ""}{gold.changePct?.toFixed(2)}%
+                (goldChangePct ?? 0) >= 0 ? "text-[#00c853]" : "text-[#ef4444]")}>
+                {(goldChangePct ?? 0) >= 0 ? "+" : ""}{goldChangePct?.toFixed(2)}%
               </span>
               <p className="text-[7px] font-mono text-white/30 text-center leading-tight max-w-[130px]">
-                {(gold.changePct ?? 0) > 0.3 ? "Rising — risk-off sentiment" : "Stable"}
+                {(goldChangePct ?? 0) > 0.3 ? "Rising — risk-off sentiment" : "Stable"}
               </p>
             </div>
           ) : <div className="w-16 h-8 bg-white/10 rounded animate-pulse" />}
@@ -2142,6 +2133,11 @@ function MarketIntelligenceBar({
         {/* 4 — Sessions */}
         <Widget label="Trading Sessions">
           <div className="flex flex-col gap-1.5 w-full">
+            {marketClosed && (
+              <div className="text-[8px] font-mono text-amber-400 font-bold uppercase tracking-widest text-center bg-amber-400/10 border border-amber-400/20 rounded px-2 py-1">
+                {isWeekend ? "Weekend" : "After Hours"} · All Closed
+              </div>
+            )}
             {SESSION_DATA.map(s => (
               <div key={s.name} className="flex items-center gap-2">
                 <div className={cn("w-1.5 h-1.5 rounded-full shrink-0 transition-colors",
@@ -2151,6 +2147,7 @@ function MarketIntelligenceBar({
                   <span className={s.open ? "text-white font-bold" : "text-white/40"}>{s.name}</span>
                 </span>
                 {s.open && <span className="ml-auto text-[7px] font-mono text-[#00c853] font-bold">LIVE</span>}
+                {!s.open && <span className="ml-auto text-[7px] font-mono text-white/25">{s.hours}</span>}
               </div>
             ))}
           </div>

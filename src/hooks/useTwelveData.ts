@@ -31,7 +31,7 @@ const TD_MAP: Record<string, string> = {
   EURUSD: "EUR/USD", GBPUSD: "GBP/USD", USDJPY: "USD/JPY", GBPJPY: "GBP/JPY",
   XAGUSD: "XAG/USD", UKX: "FTSE", SPX: "SPX500", NDX: "QQQ", DJI: "DJI",
   BTCUSDT: "BTC/USD", ETHUSDT: "ETH/USD", XRPUSDT: "XRP/USD",
-  VIX: "VIX", DXY: "DX-Y.NYB",
+  VIX: "VIX", DXY: "DX-Y.NYB", XAUUSD: "XAU/USD",
 };
 export const tdSymbol = (slug: string) => TD_MAP[slug] ?? slug;
 

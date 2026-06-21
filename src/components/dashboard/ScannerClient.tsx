@@ -6,7 +6,7 @@ import {
   ChevronLeft, ChevronRight, DollarSign, BarChart3, Zap, Gem, Activity,
   Grid3X3, List, Star, Bell, BellRing, ChevronDown, ChevronUp,
   TrendingUp, TrendingDown, Minus, RefreshCw, AlertTriangle, Shield,
-  Calendar, Newspaper, Eye, EyeOff, X, Plus,
+  Calendar, Newspaper, Eye, EyeOff, X, Plus, Cpu, Zap as ZapIcon,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { TradingViewMiniChart } from "@/components/markets/TradingViewMiniChart";
@@ -24,7 +24,7 @@ type MarketCategory = "forex" | "commodities" | "indices" | "crypto";
 type ViewMode = "grid" | "list";
 type FilterMode = "ALL" | "FOREX" | "INDEX" | "COMMODITY" | "CRYPTO" | "WATCHLIST" | "SIGNALS";
 type SortMode = "name" | "change" | "atr" | "volume" | "score";
-type CardTab = "TECHNICAL" | "MACRO" | "SMART MONEY" | "AI";
+type CardTab = "SIGNALS" | "FUNDAMENTALS" | "AI BRIEF";
 
 interface ScannerInstrument {
   scannerSlug: string; displayPair: string; tvSymbol: string; category: MarketCategory;
@@ -217,9 +217,9 @@ function MarketStatusBar({ lastUpdated }: { lastUpdated: Date | null }) {
 
 // ─── Technical Tab ────────────────────────────────────────────────────────────
 
-function TechnicalTab({ tech, price, slug, tvSymbol }: { tech: TechnicalSummary; price: number | null; slug: string; tvSymbol: string }) {
-  const [tvVisible, setTvVisible] = useState(true);
-  if (tech.loading) return <div className="p-6 text-center text-text-tertiary text-xs font-mono animate-pulse">Loading technical data…</div>;
+// ─── Signals Tab ──────────────────────────────────────────────────────────────
+function SignalsTab({ tech, price, slug, tvSymbol }: { tech: TechnicalSummary; price: number | null; slug: string; tvSymbol: string }) {
+  if (tech.loading) return <div className="p-6 text-center text-text-tertiary text-xs font-mono animate-pulse">Loading signal data…</div>;
   if (tech.error || tech.rows.length === 0) return (
     <div className="space-y-0">
       <div className="border-b border-border-slate/20">
@@ -233,10 +233,17 @@ function TechnicalTab({ tech, price, slug, tvSymbol }: { tech: TechnicalSummary;
 
   const { rows, totalScore, emaStack, keyLevels } = tech;
   const fmt = (n: number | null) => n ? formatPrice(n, slug) : "—";
-  const s2 = keyLevels.s2, r2 = keyLevels.r2;
+  const s2 = keyLevels.s2, r2 = keyLevels.r2, s1 = keyLevels.s1, r1 = keyLevels.r1, pivot = keyLevels.pivot;
   const pricePct = price && s2 !== null && r2 !== null && r2 !== s2
     ? Math.max(0, Math.min(100, ((price - s2) / (r2 - s2)) * 100)) : 50;
   const minsAgo = tech.lastUpdated ? Math.floor((Date.now() - tech.lastUpdated.getTime()) / 60000) : null;
+
+  // Entry zone suggestion
+  const entryZone = totalScore > 2 && s1 !== null && pivot !== null
+    ? { type: "long", label: `Potential long zone: S1–Pivot (${fmt(s1)}–${fmt(pivot)}). Watch for bullish rejection candle.` }
+    : totalScore < -2 && pivot !== null && r1 !== null
+    ? { type: "short", label: `Potential short zone: Pivot–R1 (${fmt(pivot)}–${fmt(r1)}). Watch for bearish rejection.` }
+    : { type: "neutral", label: "No clear directional bias. Wait for a break of R1 or S1 before entry." };
 
   return (
     <div className="space-y-0">
@@ -244,14 +251,14 @@ function TechnicalTab({ tech, price, slug, tvSymbol }: { tech: TechnicalSummary;
       <div className="border-b border-border-slate/20">
         <TradingViewTechnicalWidget tvSymbol={tvSymbol} isVisible />
       </div>
-      {/* Our multi-TF overlay below — sourced from Twelve Data as a complement */}
+      {/* Drawdown signals overlay — sourced from Twelve Data */}
       <div className="p-5 space-y-5">
       {minsAgo !== null && (
         <p className="text-[9px] font-mono text-text-tertiary uppercase tracking-widest flex items-center gap-1">
-          <RefreshCw className="w-2.5 h-2.5" /> Drawdown signals refreshed {minsAgo < 1 ? "just now" : `${minsAgo}m ago`}
+          <RefreshCw className="w-2.5 h-2.5" /> Drawdown signals · {minsAgo < 1 ? "just now" : `${minsAgo}m ago`}
         </p>
       )}
-      {/* Multi-TF Table */}
+      {/* Multi-TF Matrix */}
       <div>
         <p className="text-[9px] font-mono uppercase tracking-widest text-text-tertiary mb-3 border-b border-border-slate/30 pb-1">
           Multi-Timeframe Signals
@@ -260,32 +267,50 @@ function TechnicalTab({ tech, price, slug, tvSymbol }: { tech: TechnicalSummary;
           <thead>
             <tr className="text-text-tertiary border-b border-border-slate/20">
               <th className="py-1.5 text-left font-normal">TF</th>
-              <th className="py-1.5 text-center font-normal">MA(20)</th>
+              <th className="py-1.5 text-center font-normal">Trend</th>
               <th className="py-1.5 text-center font-normal">RSI</th>
               <th className="py-1.5 text-center font-normal">MACD</th>
-              <th className="py-1.5 text-center font-normal">Overall</th>
+              <th className="py-1.5 text-center font-normal">Signal</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-border-slate/10">
             {rows.map(row => (
-              <tr key={row.tf} className="hover:bg-white/5 transition-colors">
+              <tr key={row.tf} className="hover:bg-background-elevated/40 transition-colors">
                 <td className="py-1.5 text-text-secondary font-semibold">{row.label}</td>
                 <td className="text-center"><SignalArrow signal={row.maSignal} /></td>
                 <td className="text-center">
-                  <span className={cn(row.rsi && row.rsi > 70 ? "text-red-400" : row.rsi && row.rsi < 30 ? "text-emerald-400" : "text-text-secondary")}>
+                  <span className={cn("font-bold", row.rsi && row.rsi > 70 ? "text-loss" : row.rsi && row.rsi < 30 ? "text-profit" : "text-text-secondary")}>
                     {row.rsi?.toFixed(0) ?? "—"}
                   </span>
                 </td>
                 <td className="text-center"><SignalArrow signal={row.macdSignal} /></td>
-                <td className="text-center"><SignalArrow signal={row.overall} /></td>
+                <td className="text-center">
+                  <span className={cn("text-[8px] font-bold font-mono uppercase px-1.5 py-0.5 rounded border",
+                    row.overall === "BUY" ? "text-profit border-profit/30 bg-profit/10" :
+                    row.overall === "SELL" ? "text-loss border-loss/30 bg-loss/10" :
+                    "text-text-tertiary border-border-slate/40 bg-border-slate/20")}>
+                    {row.overall}
+                  </span>
+                </td>
               </tr>
             ))}
           </tbody>
           <tfoot>
             <tr className="border-t border-border-slate/40">
-              <td colSpan={4} className="pt-2 text-text-tertiary text-[9px]">Consensus Score</td>
-              <td className="pt-2 text-center font-bold text-accent">
-                {totalScore > 0 ? "+" : ""}{totalScore}
+              <td colSpan={5} className="pt-3">
+                <div className="flex items-center gap-3">
+                  <span className="text-[9px] font-mono text-text-tertiary uppercase shrink-0">Consensus</span>
+                  <div className="flex-1 h-2 bg-background-elevated rounded-full overflow-hidden">
+                    <div className={cn("h-full rounded-full transition-all",
+                      totalScore > 0 ? "bg-profit" : totalScore < 0 ? "bg-loss" : "bg-border-slate/50")}
+                      style={{ width: `${Math.min(100, Math.abs(totalScore) / 5 * 100)}%`,
+                        marginLeft: totalScore < 0 ? "auto" : 0 }} />
+                  </div>
+                  <span className={cn("text-[11px] font-black font-mono shrink-0",
+                    totalScore > 1 ? "text-profit" : totalScore < -1 ? "text-loss" : "text-text-tertiary")}>
+                    {totalScore > 0 ? "+" : ""}{totalScore}
+                  </span>
+                </div>
               </td>
             </tr>
           </tfoot>
@@ -356,19 +381,30 @@ function TechnicalTab({ tech, price, slug, tvSymbol }: { tech: TechnicalSummary;
   );
 }
 
-// ─── Macro Tab ────────────────────────────────────────────────────────────────
+// ─── Fundamentals Tab ────────────────────────────────────────────────────────
 
-function MacroTab({ inst, priceData }: { inst: ScannerInstrument; priceData: InstrumentData }) {
+function FundamentalsTab({ inst, priceData }: { inst: ScannerInstrument; priceData: InstrumentData }) {
   const [events, setEvents] = useState<any[]>([]);
   const [news, setNews] = useState<any[]>([]);
   const [loadingEvents, setLoadingEvents] = useState(true);
+  const [cot, setCot] = useState<any>(null);
+  const hasCOT = !!CFTC_CODES[inst.scannerSlug];
+  const retail = RETAIL_MOCK[inst.scannerSlug] ?? { longPct: 50, shortPct: 50 };
   const vixDxy = useTwelveData(["VIX", "DXY"]);
 
   useEffect(() => {
     fetch(`/api/calendar/${inst.scannerSlug}`)
       .then(r => r.json()).then(d => setEvents(d.events ?? [])).catch(() => setEvents([]))
       .finally(() => setLoadingEvents(false));
-  }, [inst.scannerSlug]);
+    // Fetch news
+    fetch(`https://finnhub.io/api/v1/news?category=general&token=${process.env.NEXT_PUBLIC_FINNHUB_KEY ?? ""}`, { cache: "no-store" })
+      .then(r => r.json()).then(d => setNews(Array.isArray(d) ? d.slice(0, 6) : []))
+      .catch(() => setNews([]));
+    // COT if applicable
+    if (hasCOT) {
+      fetch(`/api/cot/${inst.scannerSlug}`).then(r => r.json()).then(setCot).catch(() => {});
+    }
+  }, [inst.scannerSlug, hasCOT]);
 
   const vix = vixDxy["VIX"];
   const dxy = vixDxy["DXY"];
@@ -383,8 +419,16 @@ function MacroTab({ inst, priceData }: { inst: ScannerInstrument; priceData: Ins
 
   const IMPACT_COLOR: Record<string, string> = { high: "text-red-400", medium: "text-amber-400", low: "text-emerald-400" };
 
+  const timeAgo = (ts: number) => {
+    const m = Math.floor((Date.now() - ts * 1000) / 60000);
+    if (m < 60) return `${m}m ago`;
+    const h = Math.floor(m / 60);
+    if (h < 24) return `${h}h ago`;
+    return `${Math.floor(h / 24)}d ago`;
+  };
+
   return (
-    <div className="bg-background-elevated/40 bg-[radial-gradient(rgba(0,0,0,0.06)_1px,transparent_1px)] [background-size:24px_24px] p-5 space-y-5">
+    <div className="bg-background-elevated/20 p-5 space-y-5">
       {/* VIX / DXY */}
       <div>
         <p className="text-[9px] font-mono uppercase tracking-widest text-text-tertiary mb-3 border-b border-white/10 pb-1">
@@ -448,41 +492,255 @@ function MacroTab({ inst, priceData }: { inst: ScannerInstrument; priceData: Ins
 
       {/* Economic Calendar */}
       <div>
-        <p className="text-[9px] font-mono uppercase tracking-widest text-text-tertiary mb-3 border-b border-white/10 pb-1">
-          Economic Calendar
-        </p>
+        <p className="text-[9px] font-mono uppercase tracking-widest text-text-tertiary mb-3 border-b border-border-slate/30 pb-1">Economic Calendar</p>
         {loadingEvents ? (
-          <div className="space-y-2">{[0,1,2].map(i => <div key={i} className="h-8 bg-white/5 rounded animate-pulse" />)}</div>
+          <div className="space-y-2">{[0,1,2].map(i => <div key={i} className="h-10 bg-background-elevated rounded-lg animate-pulse" />)}</div>
         ) : events.length === 0 ? (
-          <p className="text-[10px] font-mono text-text-tertiary">No upcoming events.</p>
+          <p className="text-[10px] font-mono text-text-tertiary">No high-impact events in next 48h.</p>
         ) : (
           <div className="space-y-2">
-            {events.map((e, i) => (
-              <div key={i} className="flex items-start gap-3 bg-background-surface/60 border border-border-slate/40 rounded-lg p-2.5">
-                <div className="shrink-0">
-                  <p className="text-[9px] font-mono text-text-tertiary">{e.time} UTC</p>
-                  <p className="text-[9px] font-mono font-bold text-text-secondary">{e.country}</p>
+            {events.map((e, i) => {
+              const isPast = e.actual !== null && e.actual !== undefined;
+              return (
+                <div key={i} className="flex items-start gap-3 bg-background-surface/60 border border-border-slate/40 rounded-lg p-2.5">
+                  <div className={cn("w-1.5 h-1.5 rounded-full shrink-0 mt-1.5",
+                    e.impact === "high" ? "bg-loss animate-pulse" : e.impact === "medium" ? "bg-warning" : "bg-border-slate/60")} />
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-start justify-between gap-2">
+                      <p className="text-[10px] font-mono font-bold text-text-primary truncate">{e.event}</p>
+                      <span className={cn("text-[8px] font-bold uppercase font-mono shrink-0",
+                        e.impact === "high" ? "text-loss" : e.impact === "medium" ? "text-warning" : "text-text-tertiary")}>
+                        {e.impact}
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-3 mt-0.5 text-[9px] font-mono text-text-tertiary">
+                      <span>{e.country} · {e.time} UTC</span>
+                      <span>Prev: {e.previous ?? "—"}</span>
+                      <span>Est: {e.estimate ?? "—"}</span>
+                      {isPast && (
+                        <span className={cn("font-bold",
+                          e.actual > (e.estimate ?? e.previous) ? "text-profit" : "text-loss")}>
+                          Act: {e.actual} {e.actual > (e.estimate ?? e.previous) ? "↑" : "↓"}
+                        </span>
+                      )}
+                    </div>
+                  </div>
                 </div>
-                <div className="flex-1 min-w-0">
-                  <p className="text-[10px] font-mono text-text-primary truncate">{e.event}</p>
-                  <p className="text-[9px] font-mono text-text-tertiary">
-                    Prev: {e.previous ?? "—"} · Est: {e.estimate ?? "—"}
-                  </p>
-                </div>
-                <span className={cn("text-[8px] font-bold uppercase font-mono shrink-0", IMPACT_COLOR[e.impact] ?? "text-text-tertiary")}>
-                  {e.impact}
-                </span>
-              </div>
-            ))}
+              );
+            })}
           </div>
         )}
       </div>
+
+      {/* Retail Sentiment Gauge */}
+      <div>
+        <p className="text-[9px] font-mono uppercase tracking-widest text-text-tertiary mb-3 border-b border-border-slate/30 pb-1">
+          Retail Positioning <span className="text-[8px] normal-case">(contrarian indicator)</span>
+        </p>
+        {/* TODO: Replace with IG/OANDA retail sentiment API endpoint */}
+        <div className="space-y-2">
+          <div className="flex justify-between text-[9px] font-mono mb-1">
+            <span className="text-profit font-bold">{retail.longPct}% Long</span>
+            <span className="text-loss font-bold">{retail.shortPct}% Short</span>
+          </div>
+          <div className="h-4 rounded-lg overflow-hidden flex border border-border-slate/30">
+            <div className="bg-profit/50 h-full transition-all flex items-center justify-end pr-1" style={{ width: `${retail.longPct}%` }}>
+              {retail.longPct > 25 && <span className="text-[7px] font-bold text-profit-dark">{retail.longPct}%</span>}
+            </div>
+            <div className="bg-loss/50 h-full flex-1 flex items-center justify-start pl-1">
+              {retail.shortPct > 25 && <span className="text-[7px] font-bold text-loss-dark">{retail.shortPct}%</span>}
+            </div>
+          </div>
+          {retail.longPct > 70 && (
+            <p className="text-[9px] font-mono text-warning flex items-center gap-1">
+              <AlertTriangle className="w-3 h-3" /> Retail crowded LONG — institutional may fade this
+            </p>
+          )}
+          {retail.shortPct > 70 && (
+            <p className="text-[9px] font-mono text-warning flex items-center gap-1">
+              <AlertTriangle className="w-3 h-3" /> Retail crowded SHORT — potential squeeze setup
+            </p>
+          )}
+          <p className="text-[8px] font-mono text-text-tertiary/50">When &gt;70% retail one-sided, price often moves against them.</p>
+        </div>
+      </div>
+
+      {/* COT (forex/commodities only) */}
+      {hasCOT && (
+        <div>
+          <p className="text-[9px] font-mono uppercase tracking-widest text-text-tertiary mb-3 border-b border-border-slate/30 pb-1">COT — Commitment of Traders (CFTC)</p>
+          {!cot ? (
+            <div className="space-y-2">{[0,1,2].map(i => <div key={i} className="h-8 bg-background-elevated rounded animate-pulse" />)}</div>
+          ) : cot.weeks?.length > 0 ? (() => {
+            const w = cot.weeks[0];
+            const maxNet = Math.max(Math.abs(w.commercialNet ?? 0), Math.abs(w.largeSpecNet ?? 0), Math.abs(w.smallSpecNet ?? 0), 1);
+            const contrarian = (w.commercialNet ?? 0) > 0 && (w.largeSpecNet ?? 0) < 0;
+            return (
+              <div className="space-y-3">
+                {contrarian && (
+                  <div className="bg-profit/10 border border-profit/20 rounded-lg p-2 text-[9px] font-mono text-profit font-bold">
+                    ▲ CONTRARIAN LONG SIGNAL — Commercials net long, Large Specs net short
+                  </div>
+                )}
+                {[
+                  { label: "Commercials (Hedgers)", net: w.commercialNet ?? 0 },
+                  { label: "Large Specs (Trend)",  net: w.largeSpecNet  ?? 0 },
+                  { label: "Small Specs (Retail)", net: w.smallSpecNet  ?? 0 },
+                ].map(g => (
+                  <div key={g.label} className="space-y-1">
+                    <div className="flex justify-between text-[9px] font-mono">
+                      <span className="text-text-tertiary">{g.label}</span>
+                      <span className={g.net > 0 ? "text-profit font-bold" : "text-loss font-bold"}>{g.net > 0 ? "+" : ""}{g.net.toLocaleString()}</span>
+                    </div>
+                    <div className="h-1.5 bg-background-elevated rounded-full overflow-hidden">
+                      <div className={cn("h-full rounded-full", g.net > 0 ? "bg-profit" : "bg-loss")}
+                        style={{ width: `${Math.round((Math.abs(g.net) / maxNet) * 100)}%` }} />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            );
+          })() : <p className="text-[10px] font-mono text-text-tertiary">COT data unavailable.</p>}
+        </div>
+      )}
     </div>
   );
 }
 
-// ─── Smart Money Tab ─────────────────────────────────────────────────────────
+// ─── AI Brief Tab ────────────────────────────────────────────────────────────
 
+interface AIBrief {
+  market_structure: string; key_observation: string;
+  scenario_bull: string; scenario_bear: string; catalyst_watch: string;
+  bias: "BULLISH" | "BEARISH" | "NEUTRAL";
+  confidence: "HIGH" | "MEDIUM" | "LOW";
+  setup_quality: number;
+  generatedAt?: string;
+}
+
+function AIBriefTab({ inst, tech, data }: { inst: ScannerInstrument; tech: TechnicalSummary; data: InstrumentData }) {
+  const [brief, setBrief] = useState<AIBrief | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
+  const cacheRef = useRef<{ result: AIBrief; ts: number } | null>(null);
+
+  const load = useCallback(async (force = false) => {
+    if (!force && cacheRef.current && Date.now() - cacheRef.current.ts < 15 * 60 * 1000) {
+      setBrief(cacheRef.current.result);
+      return;
+    }
+    setLoading(true); setError(false);
+    try {
+      const res = await fetch(`/api/scanner/ai-brief/${inst.scannerSlug}`);
+      const d = await res.json();
+      if (d.error) throw new Error(d.error);
+      cacheRef.current = { result: d, ts: Date.now() };
+      setBrief(d);
+    } catch { setError(true); } finally { setLoading(false); }
+  }, [inst.scannerSlug]);
+
+  useEffect(() => { load(); }, [load]);
+
+  const biasColor = brief?.bias === "BULLISH" ? "text-profit" : brief?.bias === "BEARISH" ? "text-loss" : "text-text-tertiary";
+  const confColor = brief?.confidence === "HIGH" ? "text-profit" : brief?.confidence === "MEDIUM" ? "text-warning" : "text-text-tertiary";
+  const sq = brief?.setup_quality ?? 0;
+  const sqColor = sq >= 70 ? "bg-profit" : sq >= 40 ? "bg-warning" : "bg-loss";
+
+  const dataPoints = [tech.rows.length * 3, tech.emaStack.ema20 ? 3 : 0, 20].reduce((a, b) => a + b, 0);
+
+  if (loading) return (
+    <div className="p-6 space-y-4">
+      <p className="text-[10px] font-mono text-text-tertiary animate-pulse">Analysing {inst.displayPair} across {dataPoints}+ data points…</p>
+      {["w-3/4","w-full","w-2/3","w-5/6","w-1/2"].map((w, i) => (
+        <div key={i} className={cn("h-3 bg-background-elevated rounded animate-pulse", w)} />
+      ))}
+      <div className="grid grid-cols-2 gap-3">
+        {[0,1].map(i => <div key={i} className="h-16 bg-background-elevated rounded-lg animate-pulse" />)}
+      </div>
+    </div>
+  );
+
+  if (error) return (
+    <div className="p-6 space-y-3">
+      <p className="text-[10px] font-mono text-text-tertiary">Analysis temporarily unavailable. Technical signals above remain live.</p>
+      <button onClick={() => load(true)} className="flex items-center gap-1.5 px-3 py-1.5 border border-border-slate/50 text-[9px] font-mono uppercase hover:border-accent hover:text-accent transition-colors rounded">
+        <RefreshCw className="w-3 h-3" /> Retry
+      </button>
+    </div>
+  );
+
+  if (!brief) return (
+    <div className="p-6">
+      <p className="text-[10px] font-mono text-text-tertiary">Set ANTHROPIC_API_KEY to enable AI Brief.</p>
+    </div>
+  );
+
+  return (
+    <div className="p-5 space-y-0">
+      {/* Header bar */}
+      <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center gap-3">
+          <div className="flex items-center gap-1.5">
+            <Cpu className="w-3.5 h-3.5 text-accent" />
+            <span className="text-[9px] font-mono uppercase tracking-widest text-text-tertiary">AI Brief · {inst.displayPair}</span>
+          </div>
+          <span className={cn("text-[10px] font-black font-mono uppercase", biasColor)}>{brief.bias}</span>
+          <span className={cn("text-[9px] font-mono uppercase", confColor)}>{brief.confidence}</span>
+        </div>
+        <button onClick={() => load(true)} title="Refresh analysis"
+          className="flex items-center gap-1 px-2 py-1 border border-border-slate/40 text-[8px] font-mono uppercase text-text-tertiary hover:border-accent hover:text-accent transition-colors rounded">
+          <RefreshCw className="w-2.5 h-2.5" /> Refresh
+        </button>
+      </div>
+
+      {/* Setup quality bar */}
+      <div className="mb-5">
+        <div className="flex items-center justify-between text-[9px] font-mono mb-1">
+          <span className="text-text-tertiary uppercase">Setup Quality</span>
+          <span className={cn("font-bold", sq >= 70 ? "text-profit" : sq >= 40 ? "text-warning" : "text-loss")}>{sq}/100</span>
+        </div>
+        <div className="h-2 bg-background-elevated rounded-full overflow-hidden">
+          <div className={cn("h-full rounded-full transition-all", sqColor)} style={{ width: `${sq}%` }} />
+        </div>
+      </div>
+
+      {/* Brief sections */}
+      {[
+        { icon: "📊", label: "Market Structure",  text: brief.market_structure  },
+        { icon: "🔍", label: "Key Observation",   text: brief.key_observation   },
+      ].map(s => (
+        <div key={s.label} className="border-t border-border-slate/20 py-4">
+          <p className="text-[9px] font-mono uppercase tracking-widest text-text-tertiary mb-1.5">{s.icon} {s.label}</p>
+          <p className="text-[11px] font-mono text-text-secondary leading-relaxed">{s.text}</p>
+        </div>
+      ))}
+
+      {/* Bull / Bear scenarios */}
+      <div className="border-t border-border-slate/20 py-4 grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div className="bg-profit/8 border border-profit/20 rounded-lg p-3">
+          <p className="text-[9px] font-mono text-profit font-bold mb-1">🐂 BULL SCENARIO</p>
+          <p className="text-[10px] font-mono text-text-secondary leading-relaxed">{brief.scenario_bull}</p>
+        </div>
+        <div className="bg-loss/8 border border-loss/20 rounded-lg p-3">
+          <p className="text-[9px] font-mono text-loss font-bold mb-1">🐻 BEAR SCENARIO</p>
+          <p className="text-[10px] font-mono text-text-secondary leading-relaxed">{brief.scenario_bear}</p>
+        </div>
+      </div>
+
+      {/* Catalyst watch */}
+      <div className="border-t border-border-slate/20 py-4">
+        <p className="text-[9px] font-mono uppercase tracking-widest text-text-tertiary mb-1.5">⚡ Catalyst Watch</p>
+        <p className="text-[11px] font-mono text-text-secondary leading-relaxed">{brief.catalyst_watch}</p>
+      </div>
+
+      <p className="text-[8px] font-mono text-text-tertiary/40 uppercase tracking-widest pt-2 border-t border-border-slate/20">
+        NOT FINANCIAL ADVICE · AI GENERATED · {brief.generatedAt ? new Date(brief.generatedAt).toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" }) : ""}
+      </p>
+    </div>
+  );
+}
+
+// (SmartMoneyTab removed — merged into FundamentalsTab)
 function SmartMoneyTab({ inst, data }: { inst: ScannerInstrument; data: InstrumentData }) {
   const [cot, setCot] = useState<any>(null);
   const hasCOT = !!CFTC_CODES[inst.scannerSlug];
@@ -739,20 +997,34 @@ function InstrumentCard({
   onToggleAlerts: (s: string) => void; activeSessions: string[]; listView: boolean;
 }) {
   const [expanded, setExpanded] = useState(false);
-  const [tab, setTab] = useState<CardTab>("TECHNICAL");
+  const [tab, setTab] = useState<CardTab>("SIGNALS");
   const tech = useTechnicalData(inst.scannerSlug, expanded);
   const setupScore = calcSetupScore(data, tech);
   const watched = watchlist.includes(inst.scannerSlug);
   const alertCount = alerts.filter(a => a.slug === inst.scannerSlug).length;
+  // Fetch upcoming events for next-event indicator on card face
+  const [nextEvent, setNextEvent] = useState<{ label: string; minsAway: number } | null>(null);
+  useEffect(() => {
+    fetch(`/api/calendar/${inst.scannerSlug}`).then(r => r.json()).then(d => {
+      const first = d.events?.[0];
+      if (!first || !first.time) { setNextEvent(null); return; }
+      const [h, m] = (first.time ?? "00:00").split(":").map(Number);
+      const now = new Date(); const evtUtc = new Date();
+      evtUtc.setUTCHours(h, m || 0, 0, 0);
+      if (evtUtc < now) evtUtc.setUTCDate(evtUtc.getUTCDate() + 1);
+      const minsAway = Math.round((evtUtc.getTime() - now.getTime()) / 60000);
+      setNextEvent({ label: first.event?.split(" ").slice(0, 4).join(" ") ?? "Event", minsAway });
+    }).catch(() => {});
+  }, [inst.scannerSlug]);
   const session = getInstrumentSession(inst, activeSessions);
   const changePct = data.changePct ?? 0;
   const isUp = changePct >= 0;
 
   const sessionColor = session === "CLOSED" ? "text-text-tertiary" :
-    session === "LONDON" ? "text-blue-400" : session === "NEW YORK" ? "text-emerald-400" :
+    session === "LONDON" ? "text-blue-400" : session === "NEW YORK" ? "text-profit" :
     session === "ASIA" ? "text-violet-400" : session === "24/7" ? "text-accent" : "text-text-secondary";
 
-  const tabs: CardTab[] = ["TECHNICAL", "MACRO", "SMART MONEY", "AI"];
+  const tabs: CardTab[] = ["SIGNALS", "FUNDAMENTALS", "AI BRIEF"];
 
   if (listView) {
     return (
@@ -817,6 +1089,18 @@ function InstrumentCard({
             {data.changePct != null ? `${isUp ? "+" : ""}${data.changePct.toFixed(2)}%` : ""}
           </span>
         </div>
+        {/* Setup quality bar */}
+        <div className="space-y-1">
+          <div className="flex justify-between items-center text-[8px] font-mono">
+            <span className="text-text-tertiary uppercase">Setup Score</span>
+            <span className={cn("font-bold", setupScore >= 70 ? "text-amber-400" : setupScore >= 40 ? "text-text-secondary" : "text-text-tertiary")}>{setupScore}</span>
+          </div>
+          <div className="h-1 bg-background-elevated rounded-full overflow-hidden">
+            <div className={cn("h-full rounded-full transition-all",
+              setupScore >= 70 ? "bg-amber-400" : setupScore >= 40 ? "bg-accent/70" : "bg-border-slate/60")}
+              style={{ width: `${setupScore}%` }} />
+          </div>
+        </div>
 
         {/* TradingView Mini Chart — 1D sparkline */}
         <div className="-mx-4 overflow-hidden" style={{ height: 80 }}>
@@ -832,17 +1116,38 @@ function InstrumentCard({
         <div className="grid grid-cols-3 gap-2 text-[9px] font-mono">
           <div>
             <p className="text-text-tertiary mb-0.5">Spread</p>
-            <p className="text-text-secondary">{data.spread ?? "—"}</p>
+            <p className="text-text-secondary font-bold">
+              {data.spread != null
+                ? inst.scannerSlug.includes("JPY") || ["UKX","SPX","NDX","DJI"].includes(inst.scannerSlug)
+                  ? data.spread.toFixed(2)
+                  : (data.spread * 10000).toFixed(1) + " pips"
+                : "—"}
+            </p>
           </div>
           <div>
             <p className="text-text-tertiary mb-0.5">ATR(14)</p>
-            <p className="text-text-secondary">{data.atr ? data.atr.toFixed(4) : "—"}</p>
+            <p className="text-text-secondary font-bold">
+              {data.atr != null
+                ? inst.scannerSlug.includes("JPY") || ["UKX","SPX","NDX","DJI"].includes(inst.scannerSlug)
+                  ? data.atr.toFixed(1) + " pts"
+                  : (data.atr * 10000).toFixed(0) + " pips"
+                : "—"}
+            </p>
           </div>
           <div>
             <p className={cn("text-[8px] uppercase font-bold", sessionColor)}>{session}</p>
             <p className="text-text-tertiary text-[8px]">Session</p>
           </div>
         </div>
+        {/* Next event indicator */}
+        {nextEvent && nextEvent.minsAway < 1440 && (
+          <div className={cn("flex items-center gap-1.5 text-[8px] font-mono",
+            nextEvent.minsAway < 240 ? "text-warning" : "text-text-tertiary")}>
+            <Calendar className="w-3 h-3 shrink-0" />
+            <span className="truncate">{nextEvent.label}</span>
+            <span className="shrink-0">in {nextEvent.minsAway < 60 ? `${nextEvent.minsAway}m` : `${Math.floor(nextEvent.minsAway / 60)}h`}</span>
+          </div>
+        )}
 
         {/* Volume bar */}
         {data.volumePct !== null && (
@@ -900,24 +1205,295 @@ function ExpandedPanel({ show, tab, setTab, tabs, inst, data, tech, setupScore }
   show: boolean; tab: CardTab; setTab: (t: CardTab) => void; tabs: CardTab[];
   inst: ScannerInstrument; data: InstrumentData; tech: TechnicalSummary; setupScore: number;
 }) {
+  const TAB_ICONS: Record<CardTab, React.ElementType> = {
+    "SIGNALS": BarChart3,
+    "FUNDAMENTALS": Newspaper,
+    "AI BRIEF": Cpu,
+  };
   return (
-    <div style={{ maxHeight: show ? "1100px" : "0", overflow: "hidden", transition: "max-height 0.5s cubic-bezier(0.4,0,0.2,1)" }}>
+    <div style={{ maxHeight: show ? "1200px" : "0", overflow: "hidden", transition: "max-height 0.5s cubic-bezier(0.4,0,0.2,1)" }}>
       <div className="border-t border-border-slate/30">
         {/* Tab bar */}
-        <div className="flex border-b border-border-slate/30 bg-background-elevated/30 overflow-x-auto">
-          {tabs.map(t => (
-            <button key={t} onClick={() => setTab(t)}
-              className={cn("px-4 py-2.5 text-[9px] font-mono uppercase tracking-widest transition-colors whitespace-nowrap",
-                tab === t ? "text-accent border-b-2 border-accent font-bold" : "text-text-tertiary hover:text-text-secondary")}>
-              {t}
-            </button>
-          ))}
+        <div className="flex border-b border-border-slate/30 bg-background-elevated/20 overflow-x-auto">
+          {tabs.map(t => {
+            const Icon = TAB_ICONS[t];
+            return (
+              <button key={t} onClick={() => setTab(t)}
+                className={cn("flex items-center gap-1.5 px-4 py-2.5 text-[9px] font-mono uppercase tracking-widest transition-all whitespace-nowrap",
+                  tab === t ? "text-accent border-b-2 border-accent font-bold" : "text-text-tertiary hover:text-text-secondary")}>
+                <Icon className="w-3 h-3" />{t}
+              </button>
+            );
+          })}
         </div>
         {/* Tab content */}
-        {tab === "TECHNICAL"   && <TechnicalTab  tech={tech} price={data.price} slug={inst.scannerSlug} tvSymbol={inst.tvSymbol} />}
-        {tab === "MACRO"       && <MacroTab      inst={inst} priceData={data} />}
-        {tab === "SMART MONEY" && <SmartMoneyTab inst={inst} data={data} />}
-        {tab === "AI"          && <AITab         inst={inst} setupScore={setupScore} tech={tech} data={data} />}
+        {tab === "SIGNALS"      && <SignalsTab      tech={tech} price={data.price} slug={inst.scannerSlug} tvSymbol={inst.tvSymbol} />}
+        {tab === "FUNDAMENTALS" && <FundamentalsTab inst={inst} priceData={data} />}
+        {tab === "AI BRIEF"     && <AIBriefTab      inst={inst} tech={tech} data={data} />}
+      </div>
+    </div>
+  );
+}
+
+// ─── Market Intelligence Bar ─────────────────────────────────────────────────
+
+function FearGreedGauge({ vixPrice }: { vixPrice: number | null }) {
+  const score = vixPrice === null ? null
+    : vixPrice < 15  ? Math.round(75 + ((15  - vixPrice) / 15)  * 25)
+    : vixPrice < 20  ? Math.round(50 + ((20  - vixPrice) / 5)   * 25)
+    : vixPrice < 30  ? Math.round(20 + ((30  - vixPrice) / 10)  * 30)
+    : Math.max(0, Math.round(20 - (vixPrice - 30) * 2));
+  const label = score === null ? "—" : score >= 75 ? "GREED" : score >= 50 ? "NEUTRAL" : score >= 25 ? "FEAR" : "EXTREME FEAR";
+  const color = score === null ? "#4b5563" : score >= 75 ? "#00c853" : score >= 50 ? "#f59e0b" : score >= 25 ? "#f97316" : "#ef4444";
+  const r = 20;
+  const arcLen = Math.PI * r;
+  const filled = score !== null ? (score / 100) * arcLen : 0;
+  return (
+    <div className="flex flex-col items-center gap-0.5">
+      <svg width={48} height={28} viewBox="0 0 48 28" style={{ overflow: "visible" }}>
+        <path d={`M 4 24 A ${r} ${r} 0 0 1 44 24`} fill="none" stroke="rgba(255,255,255,0.12)" strokeWidth={5} strokeLinecap="round" />
+        {score !== null && (
+          <path d={`M 4 24 A ${r} ${r} 0 0 1 44 24`} fill="none" stroke={color} strokeWidth={5} strokeLinecap="round"
+            strokeDasharray={`${filled} ${arcLen}`} style={{ filter: `drop-shadow(0 0 5px ${color}88)` }} />
+        )}
+      </svg>
+      <span className="text-[13px] font-black font-mono leading-none" style={{ color }}>{score ?? "—"}</span>
+      <span className="text-[7px] font-mono uppercase tracking-widest" style={{ color }}>{label}</span>
+    </div>
+  );
+}
+
+function MarketIntelligenceBar({
+  priceData, activeSessions, onSignalBias,
+}: {
+  priceData: Record<string, InstrumentData>;
+  activeSessions: string[];
+  onSignalBias: (b: "BULL" | "BEAR" | "NEUT" | null) => void;
+}) {
+  const vixDxy = useTwelveData(["VIX", "DXY"]);
+  const [gold, setGold] = useState<{ price: number | null; changePct: number | null }>({ price: null, changePct: null });
+  const [nextEvt, setNextEvt] = useState<{ label: string; targetMs: number } | null>(null);
+  const [countdown, setCountdown] = useState("");
+  const [signalBias, setSignalBias] = useState<"BULL" | "BEAR" | "NEUT" | null>(null);
+
+  const tdKey = typeof process !== "undefined" ? (process.env.NEXT_PUBLIC_TWELVE_DATA_KEY ?? "") : "";
+
+  // Fetch Gold
+  useEffect(() => {
+    if (!tdKey) return;
+    fetch(`https://api.twelvedata.com/quote?symbol=XAU/USD&apikey=${tdKey}`)
+      .then(r => r.json()).then(d => {
+        if (!d.code) setGold({ price: parseFloat(d.close ?? "0") || null, changePct: parseFloat(d.percent_change ?? "0") || null });
+      }).catch(() => {});
+  }, [tdKey]);
+
+  // Fetch next high-impact event across all currencies
+  useEffect(() => {
+    const slugs = ["EURUSD", "GBPUSD", "USDJPY", "SPX", "BTCUSDT"];
+    Promise.all(slugs.map(s => fetch(`/api/calendar/${s}`).then(r => r.json()).catch(() => ({ events: [] }))))
+      .then(results => {
+        const seen = new Set<string>();
+        const all = results.flatMap(r => (r.events ?? []).filter((e: any) => e.impact === "high"));
+        let best: { label: string; targetMs: number } | null = null;
+        for (const e of all) {
+          if (!e.time || seen.has(e.event)) continue;
+          seen.add(e.event);
+          const [hh, mm] = (e.time as string).split(":").map(Number);
+          const d = new Date();
+          d.setUTCHours(hh, mm || 0, 0, 0);
+          if (d.getTime() < Date.now()) d.setUTCDate(d.getUTCDate() + 1);
+          const ms = d.getTime() - Date.now();
+          if (ms > 0 && ms < 86400000 && (!best || ms < best.targetMs - Date.now())) {
+            best = { label: `${e.country} ${(e.event as string).split(" ").slice(0, 4).join(" ")}`, targetMs: d.getTime() };
+          }
+        }
+        setNextEvt(best);
+      });
+  }, []);
+
+  // Countdown tick
+  useEffect(() => {
+    if (!nextEvt) { setCountdown(""); return; }
+    const tick = () => {
+      const rem = nextEvt.targetMs - Date.now();
+      if (rem <= 0) { setCountdown("NOW"); return; }
+      const h = Math.floor(rem / 3600000);
+      const m = Math.floor((rem % 3600000) / 60000);
+      const s = Math.floor((rem % 60000) / 1000);
+      setCountdown(h > 0 ? `${h}h ${m}m` : `${m}m ${s}s`);
+    };
+    tick();
+    const t = setInterval(tick, 1000);
+    return () => clearInterval(t);
+  }, [nextEvt]);
+
+  const vix = vixDxy["VIX"];
+  const dxy = vixDxy["DXY"];
+  const vixPrice = vix?.price ?? null;
+
+  // Top mover
+  const topMover = SCANNER_INSTRUMENTS.reduce<{ inst: ScannerInstrument; pct: number } | null>((best, inst) => {
+    const p = Math.abs(priceData[inst.scannerSlug]?.changePct ?? 0);
+    return !best || p > best.pct ? { inst, pct: p } : best;
+  }, null);
+  const topMoverRaw = topMover ? (priceData[topMover.inst.scannerSlug]?.changePct ?? 0) : 0;
+
+  // Signal counts (heuristic from changePct — MTF data populates as cards are opened)
+  const counts = SCANNER_INSTRUMENTS.reduce((acc, inst) => {
+    const p = priceData[inst.scannerSlug]?.changePct ?? 0;
+    if (p > 0.15) acc.bull++; else if (p < -0.15) acc.bear++; else acc.neut++;
+    return acc;
+  }, { bull: 0, neut: 0, bear: 0 });
+
+  const SESSION_DATA = [
+    { name: "ASIA",     open: activeSessions.includes("ASIA"),     flag: "🇯🇵", hours: "00–09" },
+    { name: "LONDON",   open: activeSessions.includes("LONDON"),   flag: "🇬🇧", hours: "08–17" },
+    { name: "NEW YORK", open: activeSessions.includes("NEW YORK"), flag: "🇺🇸", hours: "13–22" },
+  ];
+
+  const Widget = ({ children, label, className = "" }: { children: React.ReactNode; label: string; className?: string }) => (
+    <div className={cn("flex flex-col items-center justify-center gap-2 px-5 py-4 min-w-[170px] shrink-0", className)}>
+      <p className="text-[8px] font-mono uppercase tracking-[0.15em] text-white/40 text-center">{label}</p>
+      {children}
+    </div>
+  );
+
+  const Divider = () => <div className="w-px self-stretch bg-white/8 shrink-0" />;
+
+  return (
+    <div className="bg-[#111] border border-white/10 rounded-xl overflow-hidden shadow-lg">
+      <div className="flex items-stretch overflow-x-auto scrollbar-none">
+
+        {/* 1 — Fear & Greed */}
+        <Widget label="Market Sentiment">
+          <FearGreedGauge vixPrice={vixPrice} />
+          {vixPrice !== null && (
+            <p className="text-[8px] font-mono text-white/40 text-center">VIX {vixPrice.toFixed(1)}</p>
+          )}
+        </Widget>
+
+        <Divider />
+
+        {/* 2 — DXY */}
+        <Widget label="USD Index (DXY)">
+          {dxy?.price ? (
+            <div className="flex flex-col items-center gap-0.5">
+              <span className="text-[18px] font-black font-mono text-white">{dxy.price.toFixed(2)}</span>
+              <span className={cn("text-[10px] font-bold font-mono flex items-center gap-0.5",
+                (dxy.changePct ?? 0) >= 0 ? "text-[#00c853]" : "text-[#ef4444]")}>
+                {(dxy.changePct ?? 0) >= 0 ? <TrendingUp className="w-3 h-3" /> : <TrendingDown className="w-3 h-3" />}
+                {(dxy.changePct ?? 0) >= 0 ? "+" : ""}{dxy.changePct?.toFixed(2)}%
+              </span>
+              <p className="text-[7px] font-mono text-white/30 text-center leading-tight max-w-[130px]">
+                {(dxy.changePct ?? 0) > 0.1 ? "Headwind for EUR, GBP, Gold" : (dxy.changePct ?? 0) < -0.1 ? "Tailwind for EUR, GBP, Gold" : "DXY flat"}
+              </p>
+            </div>
+          ) : <div className="w-16 h-8 bg-white/10 rounded animate-pulse" />}
+        </Widget>
+
+        <Divider />
+
+        {/* 3 — Gold */}
+        <Widget label="Gold (XAU/USD)">
+          {gold.price ? (
+            <div className="flex flex-col items-center gap-0.5">
+              <span className="text-[18px] font-black font-mono text-[#fbbf24]">${gold.price.toFixed(0)}</span>
+              <span className={cn("text-[10px] font-bold font-mono",
+                (gold.changePct ?? 0) >= 0 ? "text-[#00c853]" : "text-[#ef4444]")}>
+                {(gold.changePct ?? 0) >= 0 ? "+" : ""}{gold.changePct?.toFixed(2)}%
+              </span>
+              <p className="text-[7px] font-mono text-white/30 text-center leading-tight max-w-[130px]">
+                {(gold.changePct ?? 0) > 0.3 ? "Rising — risk-off sentiment" : "Stable"}
+              </p>
+            </div>
+          ) : <div className="w-16 h-8 bg-white/10 rounded animate-pulse" />}
+        </Widget>
+
+        <Divider />
+
+        {/* 4 — Sessions */}
+        <Widget label="Trading Sessions">
+          <div className="flex flex-col gap-1.5 w-full">
+            {SESSION_DATA.map(s => (
+              <div key={s.name} className="flex items-center gap-2">
+                <div className={cn("w-1.5 h-1.5 rounded-full shrink-0 transition-colors",
+                  s.open ? "bg-[#00c853] shadow-[0_0_6px_#00c853]" : "bg-white/20")} />
+                <span className="text-[8px] font-mono">
+                  <span className="mr-1">{s.flag}</span>
+                  <span className={s.open ? "text-white font-bold" : "text-white/40"}>{s.name}</span>
+                </span>
+                {s.open && <span className="ml-auto text-[7px] font-mono text-[#00c853] font-bold">LIVE</span>}
+              </div>
+            ))}
+          </div>
+        </Widget>
+
+        <Divider />
+
+        {/* 5 — Top Mover */}
+        <Widget label="Top Mover Today">
+          {topMover && priceData[topMover.inst.scannerSlug]?.price ? (
+            <div className="flex flex-col items-center gap-1">
+              <span className="text-[12px] font-black font-mono text-white tracking-wider">
+                {topMover.inst.displayPair}
+              </span>
+              <span className={cn(
+                "text-[14px] font-black font-mono px-3 py-0.5 rounded-full",
+                topMoverRaw >= 0
+                  ? "bg-[#00c853]/15 text-[#00c853] border border-[#00c853]/30"
+                  : "bg-[#ef4444]/15 text-[#ef4444] border border-[#ef4444]/30"
+              )}>
+                {topMoverRaw >= 0 ? "+" : ""}{topMoverRaw.toFixed(2)}%
+              </span>
+              <p className="text-[7px] font-mono text-white/30">{topMover.inst.category}</p>
+            </div>
+          ) : <div className="w-20 h-10 bg-white/10 rounded animate-pulse" />}
+        </Widget>
+
+        <Divider />
+
+        {/* 6 — Next High-Impact Event */}
+        <Widget label="Next High-Impact Event">
+          {nextEvt ? (
+            <div className="flex flex-col items-center gap-1.5">
+              <div className="flex items-center gap-1.5 bg-[#f59e0b]/15 border border-[#f59e0b]/30 px-2.5 py-1 rounded-full">
+                <span className="text-[#f59e0b] text-[10px]">⚡</span>
+                <span className="text-[10px] font-black font-mono text-[#f59e0b]">{countdown || "…"}</span>
+              </div>
+              <p className="text-[8px] font-mono text-white/60 text-center max-w-[140px] leading-tight">{nextEvt.label}</p>
+            </div>
+          ) : (
+            <p className="text-[8px] font-mono text-white/30 text-center">No high-impact<br/>events today</p>
+          )}
+        </Widget>
+
+        <Divider />
+
+        {/* 7 — Signals Summary */}
+        <Widget label="Signals Summary">
+          <div className="flex flex-col gap-1.5 w-full">
+            {([
+              { key: "BULL" as const, label: "BULLISH", count: counts.bull, color: "#00c853", dot: "🟢" },
+              { key: "NEUT" as const, label: "NEUTRAL", count: counts.neut, color: "#6b7280", dot: "⚪" },
+              { key: "BEAR" as const, label: "BEARISH", count: counts.bear, color: "#ef4444", dot: "🔴" },
+            ]).map(item => (
+              <button key={item.key}
+                onClick={() => {
+                  const next = signalBias === item.key ? null : item.key;
+                  setSignalBias(next);
+                  onSignalBias(next);
+                }}
+                className={cn("flex items-center gap-2 px-2 py-0.5 rounded transition-all text-left w-full",
+                  signalBias === item.key ? "bg-white/15 ring-1 ring-white/30" : "hover:bg-white/8")}>
+                <span className="text-[9px]">{item.dot}</span>
+                <span className="text-[11px] font-black font-mono" style={{ color: item.color }}>{item.count}</span>
+                <span className="text-[8px] font-mono text-white/50 uppercase">{item.label}</span>
+              </button>
+            ))}
+          </div>
+          <p className="text-[7px] font-mono text-white/20 text-center">Click to filter</p>
+        </Widget>
+
       </div>
     </div>
   );
@@ -929,6 +1505,7 @@ function MarketScannerGrid() {
   const [viewMode, setViewMode] = useState<ViewMode>("grid");
   const [filter, setFilter] = useState<FilterMode>("ALL");
   const [sort, setSort] = useState<SortMode>("name");
+  const [signalBias, setSignalBias] = useState<"BULL" | "BEAR" | "NEUT" | null>(null);
   const [sortOpen, setSortOpen] = useState(false);
   const [watchlist, setWatchlist] = useState<string[]>(() => {
     if (typeof window === "undefined") return [];
@@ -985,6 +1562,13 @@ function MarketScannerGrid() {
       const d = priceData[inst.scannerSlug];
       return d && (d.changePct ?? 0) > 1;
     }
+    // Signal bias filter from intelligence bar
+    if (signalBias) {
+      const p = priceData[inst.scannerSlug]?.changePct ?? 0;
+      if (signalBias === "BULL") return p > 0.15;
+      if (signalBias === "BEAR") return p < -0.15;
+      if (signalBias === "NEUT") return p >= -0.15 && p <= 0.15;
+    }
     return true;
   }).sort((a, b) => {
     const da = priceData[a.scannerSlug], db = priceData[b.scannerSlug];
@@ -1002,6 +1586,16 @@ function MarketScannerGrid() {
   return (
     <div className="space-y-4">
       <MarketStatusBar lastUpdated={anyLastUpdated} />
+
+      {/* Intelligence Bar */}
+      <MarketIntelligenceBar
+        priceData={priceData}
+        activeSessions={activeSessions}
+        onSignalBias={bias => {
+          setSignalBias(bias);
+          if (bias) setFilter("ALL"); // clear category filter when signal bias active
+        }}
+      />
 
       {/* Controls */}
       <div className="flex flex-wrap items-center gap-3">

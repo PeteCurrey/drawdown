@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { redirect } from 'next/navigation'
-import { createInternalSupabase } from '@/lib/supabase/server'
+import { createClient } from '@/lib/supabase/server'
 
 export const metadata: Metadata = {
   title: 'Dashboard | Drawdown',
@@ -10,12 +10,11 @@ export const metadata: Metadata = {
 
 /**
  * Server-side auth guard — fires on every render of any /dashboard page.
- * The middleware handles this first, but this provides defense-in-depth:
- * if the middleware is ever misconfigured or bypassed, the layout still
- * enforces that only authenticated users reach any dashboard route.
+ * Uses the cookie-aware SSR client so the user's active session is read
+ * correctly. The middleware handles the first redirect; this is defense-in-depth.
  */
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
-  const supabase = createInternalSupabase()
+  const supabase = await createClient()
   const {
     data: { user },
   } = await supabase.auth.getUser()

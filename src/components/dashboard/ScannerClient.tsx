@@ -386,26 +386,39 @@ function SignalsTab({ tech, price, slug, tvSymbol }: { tech: TechnicalSummary; p
 
 function FundamentalsTab({ inst, priceData }: { inst: ScannerInstrument; priceData: InstrumentData }) {
   const [events, setEvents] = useState<any[]>([]);
-  const [news, setNews] = useState<any[]>([]);
+  const [newsItems, setNewsItems] = useState<Array<{ headline: string; source: string; sentiment: string; url: string; score: number }>>([]);
   const [loadingEvents, setLoadingEvents] = useState(true);
-  const [cot, setCot] = useState<any>(null);
-  const hasCOT = !!CFTC_CODES[inst.scannerSlug];
-  const retail = RETAIL_MOCK[inst.scannerSlug] ?? { longPct: 50, shortPct: 50 };
+  const [loadingNews, setLoadingNews] = useState(true);
+  const [retailData, setRetailData] = useState<{ longPct: number; shortPct: number; signal: string } | null>(null);
+  const retail = retailData ?? (RETAIL_MOCK[inst.scannerSlug] ?? { longPct: 50, shortPct: 50 });
   const vixDxy = useTwelveData(["VIX", "DXY"]);
 
   useEffect(() => {
+    setLoadingEvents(true);
+    setLoadingNews(true);
+
     fetch(`/api/calendar/${inst.scannerSlug}`)
       .then(r => r.json()).then(d => setEvents(d.events ?? [])).catch(() => setEvents([]))
       .finally(() => setLoadingEvents(false));
-    // Fetch news
-    fetch(`https://finnhub.io/api/v1/news?category=general&token=${process.env.NEXT_PUBLIC_FINNHUB_KEY ?? ""}`, { cache: "no-store" })
-      .then(r => r.json()).then(d => setNews(Array.isArray(d) ? d.slice(0, 6) : []))
-      .catch(() => setNews([]));
-    // COT if applicable
-    if (hasCOT) {
-      fetch(`/api/cot/${inst.scannerSlug}`).then(r => r.json()).then(setCot).catch(() => {});
-    }
-  }, [inst.scannerSlug, hasCOT]);
+
+    // Real news sentiment via server-side route (API key protected)
+    fetch(`/api/intelligence/news-sentiment/${inst.scannerSlug}`)
+      .then(r => r.json()).then(d => setNewsItems(d.articles?.slice(0, 5) ?? []))
+      .catch(() => setNewsItems([]))
+      .finally(() => setLoadingNews(false));
+
+    // Real retail sentiment (MyFXBook-based, server-side)
+    fetch(`/api/intelligence/retail-sentiment/${inst.scannerSlug}`)
+      .then(r => r.json()).then(d => {
+        if (d.longPct !== undefined) {
+          setRetailData({
+            longPct: Math.round(d.longPct),
+            shortPct: Math.round(d.shortPct ?? 100 - d.longPct),
+            signal: d.signal ?? "NEUTRAL",
+          });
+        }
+      }).catch(() => {});
+  }, [inst.scannerSlug]);
 
   const vix = vixDxy["VIX"];
   const dxy = vixDxy["DXY"];
@@ -533,12 +546,16 @@ function FundamentalsTab({ inst, priceData }: { inst: ScannerInstrument; priceDa
         )}
       </div>
 
-      {/* Retail Sentiment Gauge */}
+      {/* Retail Sentiment Gauge — live data from /api/intelligence/retail-sentiment */}
       <div>
-        <p className="text-[9px] font-mono uppercase tracking-widest text-text-tertiary mb-3 border-b border-border-slate/30 pb-1">
-          Retail Positioning <span className="text-[8px] normal-case">(contrarian indicator)</span>
-        </p>
-        {/* TODO: Replace with IG/OANDA retail sentiment API endpoint */}
+        <div className="flex items-center gap-2 mb-3 border-b border-border-slate/30 pb-1">
+          <p className="text-[9px] font-mono uppercase tracking-widest text-text-tertiary">
+            Retail Positioning <span className="text-[8px] normal-case">(contrarian indicator)</span>
+          </p>
+          {retailData && (
+            <span className="ml-auto text-[7px] font-mono text-profit border border-profit/20 bg-profit/10 px-1.5 py-0.5 rounded">LIVE</span>
+          )}
+        </div>
         <div className="space-y-2">
           <div className="flex justify-between text-[9px] font-mono mb-1">
             <span className="text-profit font-bold">{retail.longPct}% Long</span>
@@ -554,56 +571,52 @@ function FundamentalsTab({ inst, priceData }: { inst: ScannerInstrument; priceDa
           </div>
           {retail.longPct > 70 && (
             <p className="text-[9px] font-mono text-warning flex items-center gap-1">
-              <AlertTriangle className="w-3 h-3" /> Retail crowded LONG — institutional may fade this
+              <AlertTriangle className="w-3 h-3" /> Retail crowded LONG — institutional may fade this move
             </p>
           )}
           {retail.shortPct > 70 && (
             <p className="text-[9px] font-mono text-warning flex items-center gap-1">
-              <AlertTriangle className="w-3 h-3" /> Retail crowded SHORT — potential squeeze setup
+              <AlertTriangle className="w-3 h-3" /> Retail crowded SHORT — potential short squeeze setup
             </p>
           )}
-          <p className="text-[8px] font-mono text-text-tertiary/50">When &gt;70% retail one-sided, price often moves against them.</p>
+          <p className="text-[8px] font-mono text-text-tertiary/50">When &gt;70% retail one-sided, price often moves against the crowd.</p>
         </div>
       </div>
 
-      {/* COT (forex/commodities only) */}
-      {hasCOT && (
-        <div>
-          <p className="text-[9px] font-mono uppercase tracking-widest text-text-tertiary mb-3 border-b border-border-slate/30 pb-1">COT — Commitment of Traders (CFTC)</p>
-          {!cot ? (
-            <div className="space-y-2">{[0,1,2].map(i => <div key={i} className="h-8 bg-background-elevated rounded animate-pulse" />)}</div>
-          ) : cot.weeks?.length > 0 ? (() => {
-            const w = cot.weeks[0];
-            const maxNet = Math.max(Math.abs(w.commercialNet ?? 0), Math.abs(w.largeSpecNet ?? 0), Math.abs(w.smallSpecNet ?? 0), 1);
-            const contrarian = (w.commercialNet ?? 0) > 0 && (w.largeSpecNet ?? 0) < 0;
-            return (
-              <div className="space-y-3">
-                {contrarian && (
-                  <div className="bg-profit/10 border border-profit/20 rounded-lg p-2 text-[9px] font-mono text-profit font-bold">
-                    ▲ CONTRARIAN LONG SIGNAL — Commercials net long, Large Specs net short
-                  </div>
-                )}
-                {[
-                  { label: "Commercials (Hedgers)", net: w.commercialNet ?? 0 },
-                  { label: "Large Specs (Trend)",  net: w.largeSpecNet  ?? 0 },
-                  { label: "Small Specs (Retail)", net: w.smallSpecNet  ?? 0 },
-                ].map(g => (
-                  <div key={g.label} className="space-y-1">
-                    <div className="flex justify-between text-[9px] font-mono">
-                      <span className="text-text-tertiary">{g.label}</span>
-                      <span className={g.net > 0 ? "text-profit font-bold" : "text-loss font-bold"}>{g.net > 0 ? "+" : ""}{g.net.toLocaleString()}</span>
-                    </div>
-                    <div className="h-1.5 bg-background-elevated rounded-full overflow-hidden">
-                      <div className={cn("h-full rounded-full", g.net > 0 ? "bg-profit" : "bg-loss")}
-                        style={{ width: `${Math.round((Math.abs(g.net) / maxNet) * 100)}%` }} />
+      {/* News Sentiment — real data from /api/intelligence/news-sentiment (Finnhub + Alpha Vantage, server-side) */}
+      <div>
+        <p className="text-[9px] font-mono uppercase tracking-widest text-text-tertiary mb-3 border-b border-border-slate/30 pb-1 flex items-center gap-2">
+          <Newspaper className="w-3 h-3" /> News Sentiment
+        </p>
+        {loadingNews ? (
+          <div className="space-y-2">{[0,1,2].map(i => <div key={i} className="h-10 bg-background-elevated rounded animate-pulse" />)}</div>
+        ) : newsItems.length === 0 ? (
+          <p className="text-[10px] font-mono text-text-tertiary">No recent news found for {inst.displayPair}.</p>
+        ) : (
+          <div className="space-y-2">
+            {newsItems.map((item, i) => (
+              <a key={i} href={item.url || "#"} target="_blank" rel="noopener noreferrer"
+                className="block bg-background-surface/60 border border-border-slate/40 rounded-lg p-2.5 hover:border-accent/30 transition-colors group">
+                <div className="flex items-start gap-2">
+                  <div className={cn("w-1.5 h-1.5 rounded-full shrink-0 mt-1.5",
+                    item.sentiment === "bullish" ? "bg-profit" : item.sentiment === "bearish" ? "bg-loss" : "bg-white/20")} />
+                  <div className="flex-1 min-w-0">
+                    <p className="text-[10px] font-mono text-text-primary group-hover:text-accent transition-colors leading-snug line-clamp-2">{item.headline}</p>
+                    <div className="flex items-center gap-2 mt-1">
+                      <span className="text-[8px] font-mono text-text-tertiary">{item.source}</span>
+                      <span className={cn("text-[7px] font-mono font-bold uppercase px-1 rounded",
+                        item.sentiment === "bullish" ? "text-profit bg-profit/10" :
+                        item.sentiment === "bearish" ? "text-loss bg-loss/10" : "text-text-tertiary bg-white/5")}>
+                        {item.sentiment}
+                      </span>
                     </div>
                   </div>
-                ))}
-              </div>
-            );
-          })() : <p className="text-[10px] font-mono text-text-tertiary">COT data unavailable.</p>}
-        </div>
-      )}
+                </div>
+              </a>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
@@ -1777,6 +1790,7 @@ function SignalsTableRow({
   onToggleExpand: () => void;
 }) {
   const [nextEvt, setNextEvt] = useState<{ minsAway: number } | null>(null);
+  const [expandedTab, setExpandedTab] = useState<CardTab>("SIGNALS");
   const tech = useTechnicalData(inst.scannerSlug, expanded);
 
   useEffect(() => {
@@ -1886,9 +1900,9 @@ function SignalsTableRow({
             <div className="border-t border-accent/20">
               <ExpandedPanel
                 show={true}
-                tab={"AI BRIEF" as CardTab}
-                setTab={() => {}}
-                tabs={["SIGNALS", "FUNDAMENTALS", "AI BRIEF"] as CardTab[]}
+                tab={expandedTab}
+                setTab={setExpandedTab}
+                tabs={["SIGNALS", "FUNDAMENTALS", "AI BRIEF", "SMART MONEY"] as CardTab[]}
                 inst={inst}
                 data={priceData}
                 tech={tech}

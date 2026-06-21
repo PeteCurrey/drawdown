@@ -1,16 +1,20 @@
 "use client";
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback, Suspense } from "react";
 import {
   Percent, ShieldAlert, RefreshCw, TrendingUp, AlertTriangle, Save,
   CheckCircle, Plus, Trash2, Activity, BarChart3, Zap, Shield,
-  ChevronRight, X, AlertCircle, Info,
+  ChevronRight, X, AlertCircle, Info, BarChart2,
 } from "lucide-react";
+import { useSearchParams } from "next/navigation";
 import { LineChart, Line, ResponsiveContainer, XAxis, YAxis, Tooltip, ReferenceLine } from "recharts";
 import { cn } from "@/lib/utils";
 import { createClient } from "@/lib/supabase/client";
+import { TradeContextPanel } from "./TradeContextPanel";
+import { PropComplianceTab } from "./PropComplianceTab";
+import { PerformanceTab } from "./PerformanceTab";
 
 // ─── Constants ────────────────────────────────────────────────────────────────
-type TabId = "CALCULATOR" | "PORTFOLIO HEAT" | "ADVANCED SIZING" | "PROP COMPLIANCE";
+type TabId = "CALCULATOR" | "PORTFOLIO HEAT" | "ADVANCED SIZING" | "PROP COMPLIANCE" | "PERFORMANCE";
 
 const TD_KEY = () => process.env.NEXT_PUBLIC_TWELVE_DATA_KEY ?? "";
 const TD_BASE = "https://api.twelvedata.com";
@@ -205,12 +209,23 @@ function Toast({ msg, onClose }: { msg: string; onClose: () => void }) {
   );
 }
 
-// ─── Calculator Tab ───────────────────────────────────────────────────────────
-function CalculatorTab({ currency, onCurrencyChange, balance, onBalanceChange, todayEntries }: {
-  currency: string; onCurrencyChange: (c: string) => void;
-  balance: number; onBalanceChange: (b: number) => void;
+// ─── Calculator Tab (inner component uses useSearchParams — must be inside Suspense) ──
+interface CalculatorTabProps {
+  currency: string;
+  onCurrencyChange: (c: string) => void;
+  balance: number;
+  onBalanceChange: (b: number) => void;
   todayEntries: any[];
-}) {
+  onSharedUpdate: (data: { symbol: string; entry: string; stop: string; direction: "BUY"|"SELL"; riskPct: number; lots: number; riskAmt: number }) => void;
+}
+
+function CalculatorTab({ currency, onCurrencyChange, balance, onBalanceChange, todayEntries, onSharedUpdate }: CalculatorTabProps) {
+  const searchParams = useSearchParams();
+  const [scannerBanner, setScannerBanner] = useState<{
+    symbol: string; display: string; price: string; atr: string;
+    bias: string; setupScore: string; spread: string;
+  } | null>(null);
+
   const [direction, setDirection] = useState<"BUY"|"SELL">("BUY");
   const [riskPct, setRiskPct] = useState(1);
   const [riskAmt, setRiskAmt] = useState(balance * 0.01);
@@ -233,10 +248,30 @@ function CalculatorTab({ currency, onCurrencyChange, balance, onBalanceChange, t
   const [saveStatus, setSaveStatus] = useState<"idle"|"saving"|"success"|"error">("idle");
   const [toast, setToast] = useState<string|null>(null);
   const [user, setUser] = useState<any>(null);
+  const [showChecklist, setShowChecklist] = useState(false);
+  const [checklistItems, setChecklistItems] = useState<Record<string, boolean>>({});
   const supabase = createClient();
 
   useEffect(() => { supabase.auth.getUser().then(({data}) => setUser(data.user)); }, []);
   useEffect(() => { syncRiskAmt(riskPct); }, [balance]);
+
+  // Scanner params hydration
+  useEffect(() => {
+    if (!searchParams) return;
+    const sym = searchParams.get("symbol");
+    const price = searchParams.get("price");
+    if (!sym || !price) return;
+    const display = searchParams.get("display") || sym;
+    const atr = searchParams.get("atr") || "";
+    const bias = searchParams.get("bias") || "NEUTRAL";
+    const setupScore = searchParams.get("setup_score") || "";
+    const spread = searchParams.get("spread") || "";
+    setSymbol(sym);
+    setEntryPrice(parseFloat(price).toFixed(5));
+    if (atr) setLiveATR(parseFloat(atr));
+    if (spread) setLiveSpread(parseFloat(spread));
+    setScannerBanner({ symbol: sym, display, price, atr, bias, setupScore, spread });
+  }, []);
 
   const selectedCcy = CURRENCIES.find(c => c.code === currency) ?? CURRENCIES[0];
   const instr = INSTRUMENTS.find(i => i.id === instrId) ?? INSTRUMENTS[0];
@@ -270,6 +305,11 @@ function CalculatorTab({ currency, onCurrencyChange, balance, onBalanceChange, t
 
   const dailyBreached = (todayLoss + riskAmt) > dailyLimitCash;
   const invalidSL = entry > 0 && stop > 0 && (direction === "BUY" ? stop >= entry : stop <= entry);
+
+  // Propagate shared state to root
+  useEffect(() => {
+    onSharedUpdate({ symbol, entry: entryPrice, stop: stopPrice, direction, riskPct, lots, riskAmt });
+  }, [symbol, entryPrice, stopPrice, direction, riskPct, lots, riskAmt]);
 
   function setTP(multiplier: number) {
     if (!entry || !stop) return;
@@ -329,8 +369,22 @@ function CalculatorTab({ currency, onCurrencyChange, balance, onBalanceChange, t
   const todayRisk = (todayEntries as any[]).reduce((s: number, e: any) => s + Math.abs(e.pnl_amount ?? 0), 0);
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+    <div className="grid grid-cols-1 lg:grid-cols-12 xl:grid-cols-[380px_1fr_300px] gap-6">
       {toast && <Toast msg={toast} onClose={() => setToast(null)} />}
+
+      {/* Scanner Banner */}
+      {scannerBanner && (
+        <div className="lg:col-span-12 flex items-start gap-3 bg-cyan-950/30 border border-cyan-500/30 rounded-lg px-4 py-3" style={{ borderLeftWidth: 4, borderLeftColor: "#06b6d4" }}>
+          <div className="flex-1">
+            <p className="text-[11px] font-mono font-bold text-cyan-400 flex items-center gap-1.5">📊 Loaded from Market Scanner</p>
+            <p className="text-[10px] font-mono text-text-secondary mt-0.5">
+              {scannerBanner.display} · {scannerBanner.bias} bias{scannerBanner.setupScore ? ` · Setup Score: ${scannerBanner.setupScore}/100` : ""}
+            </p>
+            <p className="text-[9px] font-mono text-text-tertiary mt-0.5">Live price and ATR pre-populated. Set your stop loss to complete the calculation.</p>
+          </div>
+          <button onClick={() => setScannerBanner(null)} className="text-text-tertiary hover:text-text-primary shrink-0"><X className="w-4 h-4" /></button>
+        </div>
+      )}
 
       {/* TODAY BANNER */}
       {todayEntries.length > 0 && (
@@ -346,7 +400,7 @@ function CalculatorTab({ currency, onCurrencyChange, balance, onBalanceChange, t
       )}
 
       {/* ── LEFT: PARAMETERS ── */}
-      <div className="lg:col-span-5 space-y-5 bg-background-surface border border-border-slate/50 p-6 rounded-xl shadow-sm">
+      <div className="lg:col-span-5 xl:col-span-1 space-y-5 bg-background-surface border border-border-slate/50 p-6 rounded-xl shadow-sm">
         <div className="flex justify-between items-center border-b border-border-slate/30 pb-3">
           <h3 className="text-[10px] font-mono font-black uppercase tracking-widest text-accent">// PARAMETERS</h3>
           <button onClick={() => { setRiskPct(1); syncRiskAmt(1); setEntryPrice("1.2734"); setStopPrice("1.2684"); setTpPrice(""); setStopPips("50"); }}
@@ -468,6 +522,44 @@ function CalculatorTab({ currency, onCurrencyChange, balance, onBalanceChange, t
           {invalidSL && <WarnBanner message={`Stop is ${direction==="BUY"?"above":"below"} entry — check direction.`} level="warn" />}
         </div>
 
+        {/* ATR Quick-Select Stop Buttons */}
+        {liveATR && instr.mult > 0 && entry > 0 && (
+          <div className="space-y-1.5">
+            <p className="text-[9px] font-mono text-text-tertiary uppercase tracking-widest">ATR Stop Suggestions</p>
+            <div className="grid grid-cols-3 gap-1.5">
+              {([0.5, 1, 1.5] as const).map(mult => {
+                const atrPips = Math.round(liveATR * instr.mult * mult);
+                return (
+                  <button key={mult} onClick={() => {
+                    const d = liveATR * mult;
+                    const newStop = direction === "BUY" ? entry - d : entry + d;
+                    syncPipsFromStop(newStop.toFixed(5));
+                  }}
+                    className="py-1.5 px-2 border border-border-slate/50 rounded text-[8px] font-mono text-text-tertiary hover:border-accent hover:text-accent hover:bg-accent/5 transition-all text-center">
+                    {mult}× ATR: {atrPips}p
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
+        {/* Key Levels from Scanner */}
+        {scannerBanner?.atr && entry > 0 && (
+          <div className="text-[9px] font-mono text-text-tertiary">
+            Key levels:
+            {[0.5, 1].map(m => {
+              const lvl = parseFloat(scannerBanner.price) - parseFloat(scannerBanner.atr) * m * (direction === "BUY" ? 1 : -1);
+              return (
+                <button key={m} onClick={() => syncPipsFromStop(lvl.toFixed(5))}
+                  className="mx-1 text-accent hover:underline">
+                  {m}×ATR S {lvl.toFixed(4)}
+                </button>
+              );
+            })}
+          </div>
+        )}
+
         {/* Take Profit */}
         <div>
           <FieldLabel>Take Profit</FieldLabel>
@@ -502,7 +594,7 @@ function CalculatorTab({ currency, onCurrencyChange, balance, onBalanceChange, t
               <FieldInput type="number" value={dailyLossLimitPct} onChange={e => setDailyLossLimitPct(+e.target.value)} className="text-sm" />
             </div>
             <div>
-              <FieldLabel>Today's Loss {sym}</FieldLabel>
+              <FieldLabel>Today&apos;s Loss {sym}</FieldLabel>
               <FieldInput type="number" value={todayLoss||""} placeholder="0" onChange={e => setTodayLoss(+e.target.value)} className="text-sm" />
             </div>
             <div>
@@ -521,7 +613,7 @@ function CalculatorTab({ currency, onCurrencyChange, balance, onBalanceChange, t
       </div>
 
       {/* ── RIGHT: OUTPUTS ── */}
-      <div className="lg:col-span-7 space-y-5">
+      <div className="lg:col-span-7 xl:col-span-1 space-y-5">
         {/* Card 1: Position Size */}
         <div className="bg-background-surface border border-border-slate/50 rounded-xl p-6 shadow-sm">
           <SectionHeader><TrendingUp className="w-3.5 h-3.5" /> Position Size</SectionHeader>
@@ -618,6 +710,16 @@ function CalculatorTab({ currency, onCurrencyChange, balance, onBalanceChange, t
           </div>
         </div>
 
+        {/* Pre-Trade Checklist button */}
+        <div className="bg-background-surface border border-border-slate/50 rounded-xl p-4 shadow-sm">
+          <button
+            onClick={() => { setShowChecklist(true); setChecklistItems({}); }}
+            className="w-full flex items-center justify-center gap-2 py-3 bg-background-elevated/50 border border-border-slate/40 rounded-lg text-[10px] font-mono uppercase text-text-secondary hover:border-accent hover:text-accent hover:bg-accent/5 transition-all"
+          >
+            <CheckCircle className="w-4 h-4" /> Run Pre-Trade Checklist
+          </button>
+        </div>
+
         {/* Save */}
         <div className="bg-background-surface border border-border-slate/50 rounded-xl p-5 flex items-center gap-4 shadow-sm">
           {user ? (
@@ -632,6 +734,113 @@ function CalculatorTab({ currency, onCurrencyChange, balance, onBalanceChange, t
           )}
         </div>
       </div>
+
+      {/* ── CONTEXT PANEL ── */}
+      <div className="lg:col-span-12 xl:col-span-1">
+        <TradeContextPanel
+          symbol={symbol}
+          entryPrice={entryPrice}
+          stopPrice={stopPrice}
+          direction={direction}
+          lots={lots}
+          riskAmt={riskAmt}
+          liveATR={liveATR}
+          liveSpread={liveSpread}
+          balance={balance}
+          instrMult={instr.mult}
+          sym={sym}
+        />
+      </div>
+
+      {/* Pre-Trade Checklist Modal */}
+      {showChecklist && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+          <div className="bg-background-surface border border-border-slate/50 rounded-xl shadow-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto">
+            <div className="flex items-center justify-between p-5 border-b border-border-slate/30">
+              <h2 className="text-[12px] font-mono font-black uppercase tracking-widest text-text-primary">// PRE-TRADE CHECKLIST</h2>
+              <button onClick={() => setShowChecklist(false)} className="text-text-tertiary hover:text-text-primary"><X className="w-5 h-5" /></button>
+            </div>
+            <div className="p-5 space-y-5">
+              {([
+                { section: "THE SETUP", items: [
+                  { id: "entry_trigger", label: "I have identified a clear entry trigger (not just a feeling)" },
+                  { id: "key_level", label: "My entry is at or near a key level" },
+                  { id: "htf_trend", label: "The trend on the higher timeframe supports my direction" },
+                  { id: "mtf_consensus", label: "The multi-timeframe consensus agrees (3+ timeframes)" },
+                ]},
+                { section: "THE RISK", items: [
+                  { id: "structural_stop", label: "My stop is beyond a structural level (not just X pips)" },
+                  { id: "atr_stop", label: `My stop distance is at least 0.5× ATR${liveATR ? ` (${(liveATR * instr.mult * 0.5).toFixed(0)} pips min)` : ""}` },
+                  { id: "size_calculated", label: `My position size has been calculated: ${lots > 0 ? lots.toFixed(2) + " lots, risking " + riskPct.toFixed(2) + "%" : "enter stop price first"}` },
+                  { id: "daily_budget", label: `Risk amount (${sym}${riskAmt.toFixed(0)}) is within daily budget (${sym}${remainingBudget.toFixed(0)} remaining)` },
+                ]},
+                { section: "THE REWARD", items: [
+                  { id: "logical_tp", label: "My take profit is at a logical target (resistance, R1, etc.)" },
+                  { id: "rr_ratio", label: `My risk:reward is at least 1:2 (current: 1:${rrNow.toFixed(2)})` },
+                  { id: "know_exit", label: "I know exactly where I'm wrong and will exit without hesitation" },
+                ]},
+                { section: "THE ENVIRONMENT", items: [
+                  { id: "calendar_checked", label: "I have checked the economic calendar for high-impact events" },
+                  { id: "session_ok", label: "The session is appropriate for this instrument" },
+                  { id: "spread_ok", label: `The spread is acceptable${liveSpread ? ` (${(liveSpread * instr.mult).toFixed(1)} pips)` : ""}` },
+                ]},
+                { section: "THE PSYCHOLOGY", items: [
+                  { id: "no_revenge", label: "I am not trading to recover a loss (not revenge trading)" },
+                  { id: "no_oversize", label: "I am not increasing size because I am on a winning streak" },
+                  { id: "accept_stop", label: "I would be comfortable if this trade hits my stop" },
+                ]},
+              ] as { section: string; items: { id: string; label: string }[] }[]).map(({ section, items }) => (
+                <div key={section}>
+                  <p className="text-[9px] font-mono font-bold uppercase tracking-widest text-accent border-b border-border-slate/20 pb-1.5 mb-3">{section}</p>
+                  <div className="space-y-2.5">
+                    {items.map(item => (
+                      <label key={item.id} className="flex items-start gap-3 cursor-pointer group">
+                        <div
+                          className={cn(
+                            "w-4 h-4 mt-0.5 rounded border flex items-center justify-center shrink-0 transition-all",
+                            checklistItems[item.id] ? "bg-emerald-500 border-emerald-500" : "border-border-slate/60 group-hover:border-accent"
+                          )}
+                          onClick={() => setChecklistItems(prev => ({ ...prev, [item.id]: !prev[item.id] }))}
+                        >
+                          {checklistItems[item.id] && <CheckCircle className="w-3 h-3 text-white" />}
+                        </div>
+                        <span className={cn("text-[10px] font-mono leading-snug",
+                          checklistItems[item.id] ? "text-text-tertiary line-through" : "text-text-secondary")}>{item.label}</span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className="p-5 border-t border-border-slate/30">
+              {(() => {
+                const allItems = ["entry_trigger","key_level","htf_trend","mtf_consensus","structural_stop","atr_stop","size_calculated","daily_budget","logical_tp","rr_ratio","know_exit","calendar_checked","session_ok","spread_ok","no_revenge","no_oversize","accept_stop"];
+                const allChecked = allItems.every(id => checklistItems[id]);
+                const checkedCount = allItems.filter(id => checklistItems[id]).length;
+                return (
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between text-[10px] font-mono">
+                      <span className="text-text-tertiary">{checkedCount}/{allItems.length} complete</span>
+                      <div className="w-32 h-1.5 bg-background-elevated rounded-full overflow-hidden">
+                        <div className="h-full bg-emerald-500 transition-all" style={{ width: `${(checkedCount/allItems.length)*100}%` }} />
+                      </div>
+                    </div>
+                    <button
+                      onClick={async () => { await handleSave(); setShowChecklist(false); }}
+                      disabled={!allChecked || saveStatus === "saving" || lots <= 0}
+                      className="w-full py-3.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold uppercase tracking-widest text-[10px] rounded-lg flex items-center justify-center gap-2 disabled:opacity-40 transition-all"
+                    >
+                      <CheckCircle className="w-4 h-4" />
+                      {allChecked ? "Complete Checklist & Save to Journal" : `Complete all ${allItems.length - checkedCount} remaining items`}
+                    </button>
+                    <button onClick={() => setShowChecklist(false)} className="w-full py-2 text-[9px] font-mono text-text-tertiary hover:text-text-secondary transition-colors">Cancel</button>
+                  </div>
+                );
+              })()}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
@@ -657,11 +866,9 @@ function HeatGauge({ pct }: { pct: number }) {
         <circle cx={cx} cy={cy} r={r} fill="none" stroke={color} strokeWidth={sw}
           strokeDasharray={`${fill} ${C}`} strokeLinecap="round" transform={`rotate(180 ${cx} ${cy})`}
           style={{ transition: "stroke-dasharray 0.8s ease" }} />
-        {/* Zone labels */}
         <text x="18"  y="138" fontSize="9" fill="#22c55e" fontFamily="monospace">0%</text>
         <text x="88"  y="35"  fontSize="9" fill="#f59e0b" fontFamily="monospace">4%</text>
         <text x="218" y="138" fontSize="9" fill="#ef4444" fontFamily="monospace">8%</text>
-        {/* Center */}
         <text x={cx} y={cx - 8}  textAnchor="middle" fontSize="32" fontWeight="900" fill={color} fontFamily="monospace">{pct.toFixed(1)}%</text>
         <text x={cx} y={cx + 16} textAnchor="middle" fontSize="11" fill={color} fontFamily="monospace" fontWeight="bold">{label}</text>
         <text x={cx} y={cx + 32} textAnchor="middle" fontSize="9" fill="#9ca3af" fontFamily="monospace">PORTFOLIO HEAT</text>
@@ -724,7 +931,6 @@ function PortfolioHeatTab({ balance, currency }: { balance: number; currency: st
     return { label: "AT RISK", cls: "text-amber-500" };
   }
 
-  // Correlation warnings
   const corrWarnings: string[] = [];
   for (let i = 0; i < positions.length; i++) {
     for (let j = i + 1; j < positions.length; j++) {
@@ -748,7 +954,6 @@ function PortfolioHeatTab({ balance, currency }: { balance: number; currency: st
           ⛔ DAILY LOSS LIMIT HIT — STOP TRADING
         </div>
       )}
-      {/* Gauge + summary */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="flex flex-col items-center justify-center bg-background-surface border border-border-slate/50 rounded-xl p-6 shadow-sm">
           <HeatGauge pct={totalRiskPct} />
@@ -768,7 +973,6 @@ function PortfolioHeatTab({ balance, currency }: { balance: number; currency: st
               </div>
             ))}
           </div>
-          {/* MAE Worst-case slider */}
           <div className="mt-4 space-y-2">
             <div className="flex justify-between items-center">
               <p className="text-[10px] font-mono text-text-tertiary uppercase">If all stops hit simultaneously</p>
@@ -785,7 +989,6 @@ function PortfolioHeatTab({ balance, currency }: { balance: number; currency: st
         </div>
       </div>
 
-      {/* Positions table */}
       <div className="bg-background-surface border border-border-slate/50 rounded-xl p-6 shadow-sm">
         <div className="flex items-center justify-between mb-4">
           <SectionHeader><BarChart3 className="w-3.5 h-3.5" /> Open Positions</SectionHeader>
@@ -843,7 +1046,6 @@ function PortfolioHeatTab({ balance, currency }: { balance: number; currency: st
         </div>
       </div>
 
-      {/* Correlation warnings */}
       {corrWarnings.length > 0 && (
         <div className="bg-background-surface border border-amber-200 rounded-xl p-5 shadow-sm space-y-2">
           <SectionHeader><AlertTriangle className="w-3.5 h-3.5 text-amber-500" /> Correlation Warnings</SectionHeader>
@@ -851,7 +1053,6 @@ function PortfolioHeatTab({ balance, currency }: { balance: number; currency: st
         </div>
       )}
 
-      {/* Daily P&L tracker */}
       <div className="bg-background-surface border border-border-slate/50 rounded-xl p-6 shadow-sm space-y-4">
         <SectionHeader><Zap className="w-3.5 h-3.5" /> Daily P&L</SectionHeader>
         <div className="grid grid-cols-3 gap-4">
@@ -908,21 +1109,18 @@ function PortfolioHeatTab({ balance, currency }: { balance: number; currency: st
 // ─── Advanced Sizing Tab ─────────────────────────────────────────────────────
 function AdvancedSizingTab({ balance, riskPct, sym }: { balance: number; riskPct: number; sym: string }) {
   const [subTab, setSubTab] = useState<"VOLATILITY"|"MONTE CARLO">("VOLATILITY");
-  // Kelly
   const [kellyWR, setKellyWR] = useState(45);
   const [kellyRR, setKellyRR] = useState(2.0);
   const kelly = (kellyWR/100) - ((1-kellyWR/100)/(kellyRR));
   const kellyPct = Math.max(0, kelly * 100);
   const halfKelly = kellyPct / 2;
   const quarterKelly = kellyPct / 4;
-  // ATR mode
   const [atrMode, setAtrMode] = useState(false);
   const [atrVal, setAtrVal] = useState<number|null>(null);
   const [atrMult, setAtrMult] = useState(1.5);
   const [atrSymbol, setAtrSymbol] = useState("GBPUSD");
   const [fetchingATR, setFetchingATR] = useState(false);
   const atrStop = atrVal ? atrVal * atrMult : null;
-  // Monte Carlo
   const [mcWinRate, setMcWinRate] = useState(45);
   const [mcRR, setMcRR] = useState(2.0);
   const [mcTrades, setMcTrades] = useState(250);
@@ -952,7 +1150,6 @@ function AdvancedSizingTab({ balance, riskPct, sym }: { balance: number; riskPct
     debounceRef.current = setTimeout(() => { if (mcResult) runSim(); }, 500);
   }, [mcWinRate, mcRR, mcRiskPct]);
 
-  // RoR table
   const rorRisks = [0.5, 1, 1.5, 2, 2.5];
   function calcRoR(rp: number): number {
     const wr = mcWinRate / 100;
@@ -963,11 +1160,9 @@ function AdvancedSizingTab({ balance, riskPct, sym }: { balance: number; riskPct
     return Math.max(0, Math.min(1, Math.pow((1-A)/(1+A), C)));
   }
 
-  // Build chart data
   const chartData = mcResult ? Array.from({ length: mcTrades + 1 }, (_, i) => {
     const obj: any = { trade: i };
     mcResult.sampleCurves.slice(0, 20).forEach((curve, j) => { obj[`c${j}`] = curve[i] ?? null; });
-    // Median and worst
     const vals = mcResult.sampleCurves.map(c => c[i]).filter(v => v != null).sort((a,b)=>a-b);
     obj.median = vals[Math.floor(vals.length/2)];
     obj.worst10 = vals[Math.floor(vals.length*0.1)];
@@ -976,7 +1171,6 @@ function AdvancedSizingTab({ balance, riskPct, sym }: { balance: number; riskPct
 
   return (
     <div className="space-y-6">
-      {/* Sub-tab switcher */}
       <div className="flex border-b border-border-slate/30">
         {(["VOLATILITY","MONTE CARLO"] as const).map(t => (
           <button key={t} onClick={() => setSubTab(t)}
@@ -989,7 +1183,6 @@ function AdvancedSizingTab({ balance, riskPct, sym }: { balance: number; riskPct
 
       {subTab === "VOLATILITY" && (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* ATR-Based Sizing */}
           <div className="bg-background-surface border border-border-slate/50 rounded-xl p-6 shadow-sm space-y-4">
             <SectionHeader><Zap className="w-3.5 h-3.5" /> ATR-Based Sizing</SectionHeader>
             <div className="flex items-center gap-3">
@@ -1024,7 +1217,6 @@ function AdvancedSizingTab({ balance, riskPct, sym }: { balance: number; riskPct
             )}
           </div>
 
-          {/* Kelly Criterion */}
           <div className="bg-background-surface border border-border-slate/50 rounded-xl p-6 shadow-sm space-y-4">
             <SectionHeader><Shield className="w-3.5 h-3.5" /> Kelly Criterion</SectionHeader>
             <div className="grid grid-cols-2 gap-4">
@@ -1039,8 +1231,8 @@ function AdvancedSizingTab({ balance, riskPct, sym }: { balance: number; riskPct
             </div>
             <div className="space-y-2">
               {[
-                { label:"Full Kelly",    val: kellyPct,   warn: kellyPct > 5 },
-                { label:"Half Kelly",    val: halfKelly,  warn: false },
+                { label:"Full Kelly",    val: kellyPct,    warn: kellyPct > 5 },
+                { label:"Half Kelly",    val: halfKelly,   warn: false },
                 { label:"Quarter Kelly", val: quarterKelly, warn: false },
               ].map(k => (
                 <div key={k.label} className="flex items-center gap-3">
@@ -1058,7 +1250,6 @@ function AdvancedSizingTab({ balance, riskPct, sym }: { balance: number; riskPct
             {halfKelly > 0 && <p className="text-[9px] font-mono text-text-tertiary">Recommended: Half Kelly = <strong className="text-accent">{halfKelly.toFixed(1)}%</strong>. Most professionals use Half or Quarter Kelly.</p>}
           </div>
 
-          {/* Risk of Ruin Table */}
           <div className="lg:col-span-2 bg-background-surface border border-border-slate/50 rounded-xl p-6 shadow-sm">
             <SectionHeader><AlertTriangle className="w-3.5 h-3.5" /> Risk of Ruin (to 50% Drawdown)</SectionHeader>
             <p className="text-[9px] font-mono text-text-tertiary mt-2 mb-4">Based on {mcWinRate}% win rate, {mcRR}:1 RR. Probability of losing 50% before recovering.</p>
@@ -1092,7 +1283,6 @@ function AdvancedSizingTab({ balance, riskPct, sym }: { balance: number; riskPct
 
       {subTab === "MONTE CARLO" && (
         <div className="space-y-6">
-          {/* Controls */}
           <div className="bg-background-surface border border-border-slate/50 rounded-xl p-6 shadow-sm">
             <SectionHeader><BarChart3 className="w-3.5 h-3.5" /> Simulation Parameters</SectionHeader>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-4">
@@ -1126,7 +1316,6 @@ function AdvancedSizingTab({ balance, riskPct, sym }: { balance: number; riskPct
 
           {mcResult && (
             <>
-              {/* Chart */}
               <div className="bg-background-surface border border-border-slate/50 rounded-xl p-6 shadow-sm">
                 <SectionHeader><Activity className="w-3.5 h-3.5" /> Equity Curves (sample of 20)</SectionHeader>
                 <div className="h-64 mt-4">
@@ -1151,7 +1340,6 @@ function AdvancedSizingTab({ balance, riskPct, sym }: { balance: number; riskPct
                 </div>
               </div>
 
-              {/* Stats */}
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 {[
                   { label:"Median Outcome",    val:`${sym}${Math.round(mcResult.stats.median).toLocaleString()}`,      cls:"text-accent" },
@@ -1180,275 +1368,6 @@ function AdvancedSizingTab({ balance, riskPct, sym }: { balance: number; riskPct
   );
 }
 
-// ─── Prop Compliance Tab ─────────────────────────────────────────────────────
-interface AccountDay { date: string; opening: number; closing: number; }
-function PropComplianceTab({ balance, riskAmt, lots, sym }: { balance: number; riskAmt: number; lots: number; sym: string }) {
-  const [firmId, setFirmId] = useState("ftmo_10k");
-  const [dailyUsed, setDailyUsed] = useState(0);
-  const [totalDrawdown, setTotalDrawdown] = useState(0);
-  const [profit, setProfit] = useState(0);
-  const [daysTrade, setDaysTrade] = useState(0);
-  const [accountDays, setAccountDays] = useState<AccountDay[]>(() => {
-    if (typeof window === "undefined") return [];
-    try { return JSON.parse(localStorage.getItem("rmc-account-days") ?? "[]"); } catch { return []; }
-  });
-  const [peakBalance, setPeakBalance] = useState(balance);
-  const [newsEvents, setNewsEvents] = useState<any[]>([]);
-
-  const firm = PROP_FIRMS[firmId];
-  const dailyLimit     = firm.balance * firm.maxDailyLoss / 100;
-  const totalLimit     = firm.balance * firm.maxTotalLoss / 100;
-  const profitTarget   = firm.balance * firm.profitTarget / 100;
-
-  const dailyPct       = Math.min(100, (dailyUsed / dailyLimit) * 100);
-  const totalDDPct     = Math.min(100, (totalDrawdown / totalLimit) * 100);
-  const profitPct      = Math.min(100, (profit / profitTarget) * 100);
-  const daysPct        = Math.min(100, (daysTrade / Math.max(1, firm.minDays)) * 100);
-
-  const safeToTrade    = dailyPct < 80 && totalDDPct < 80;
-  const dailyCautious  = dailyPct >= 60 && dailyPct < 80;
-  const totalCautious  = totalDDPct >= 60 && totalDDPct < 80;
-
-  // Compliance checks
-  const now = new Date();
-  const isWeekend   = now.getDay() === 0 || now.getDay() === 6;
-  const tradeChecks = [
-    { label:"Position size within lot limit",   pass: lots <= firm.maxLots,                 warn: lots > firm.maxLots * 0.8 },
-    { label:"Risk within daily loss budget",     pass: dailyUsed + riskAmt <= dailyLimit,    warn: (dailyUsed + riskAmt) > dailyLimit * 0.8 },
-    { label:"Weekend holding restriction",       pass: !firm.weekendRestriction || !isWeekend, warn: false },
-    { label:"Copy trading restriction",          pass: !firm.copyTrading,                    warn: false },
-  ];
-  const allPass = tradeChecks.every(c => c.pass);
-  const hasWarn = tradeChecks.some(c => c.warn);
-  const signal  = !allPass ? "NO-GO" : hasWarn ? "CAUTION" : "GO";
-  const signalColor = signal === "GO" ? "bg-emerald-500 text-white" : signal === "CAUTION" ? "bg-amber-500 text-white" : "bg-red-600 text-white";
-
-  // Account curve
-  function addDay() {
-    const last = accountDays[accountDays.length - 1];
-    const today = new Date().toISOString().split("T")[0];
-    const newDay: AccountDay = { date: today, opening: last?.closing ?? firm.balance, closing: last?.closing ?? firm.balance };
-    const days = [...accountDays, newDay];
-    setAccountDays(days);
-    localStorage.setItem("rmc-account-days", JSON.stringify(days));
-  }
-  function updateDay(i: number, field: keyof AccountDay, val: any) {
-    const days = accountDays.map((d, idx) => idx === i ? { ...d, [field]: val } : d);
-    setAccountDays(days);
-    localStorage.setItem("rmc-account-days", JSON.stringify(days));
-    const peak = Math.max(firm.balance, ...days.map(d => d.closing));
-    setPeakBalance(peak);
-  }
-  function removeDay(i: number) {
-    const days = accountDays.filter((_, idx) => idx !== i);
-    setAccountDays(days);
-    localStorage.setItem("rmc-account-days", JSON.stringify(days));
-  }
-
-  const currentBalance   = accountDays.length > 0 ? accountDays[accountDays.length-1].closing : firm.balance;
-  const currentDrawdown  = ((peakBalance - currentBalance) / firm.balance) * 100;
-  const chartData = accountDays.map(d => ({ date: d.date.slice(5), balance: d.closing, maxDD: firm.balance - totalLimit }));
-
-  return (
-    <div className="space-y-6">
-      {/* Firm selector */}
-      <div className="bg-background-surface border border-border-slate/50 rounded-xl p-6 shadow-sm">
-        <SectionHeader><Shield className="w-3.5 h-3.5" /> Prop Firm Ruleset</SectionHeader>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-          <div>
-            <FieldLabel>Select Firm</FieldLabel>
-            <select value={firmId} onChange={e => setFirmId(e.target.value)}
-              className="w-full bg-background-primary border border-border-slate/80 px-3 py-3 text-sm font-bold text-text-primary outline-none focus:border-accent rounded-lg">
-              {Object.entries(PROP_FIRMS).map(([id, f]) => <option key={id} value={id}>{f.name}</option>)}
-            </select>
-          </div>
-          <div className="grid grid-cols-4 gap-2">
-            {[
-              { label:"Daily Loss",  val:`${firm.maxDailyLoss}%`,  sub:`${sym}${dailyLimit.toFixed(0)}` },
-              { label:"Max DD",      val:`${firm.maxTotalLoss}%`,  sub:`${sym}${totalLimit.toFixed(0)}` },
-              { label:"Profit Tgt", val:`${firm.profitTarget}%`,  sub:`${sym}${profitTarget.toFixed(0)}` },
-              { label:"Min Days",   val:`${firm.minDays}`,         sub:"trading" },
-            ].map(s => (
-              <div key={s.label} className="bg-background-primary border border-border-slate/40 rounded-lg p-2 text-center">
-                <p className="text-[8px] font-mono text-text-tertiary uppercase mb-1">{s.label}</p>
-                <p className="text-sm font-bold font-mono text-text-primary">{s.val}</p>
-                <p className="text-[8px] font-mono text-text-tertiary">{s.sub}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-        {/* Rules badges */}
-        <div className="flex flex-wrap gap-2 mt-4">
-          {[
-            { label:"News Restriction",    active: firm.newsRestriction    },
-            { label:"No Weekend Holds",    active: firm.weekendRestriction },
-            { label:"No Copy Trading",     active: firm.copyTrading        },
-          ].map(r => (
-            <span key={r.label} className={cn("px-2 py-1 text-[8px] font-mono font-bold border rounded uppercase",
-              r.active ? "bg-red-50 border-red-200 text-red-600" : "bg-emerald-50 border-emerald-200 text-emerald-600")}>
-              {r.active ? "⚠ " : "✓ "}{r.label}
-            </span>
-          ))}
-        </div>
-      </div>
-
-      {/* Compliance dashboard */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="bg-background-surface border border-border-slate/50 rounded-xl p-6 shadow-sm space-y-5">
-          <SectionHeader><Activity className="w-3.5 h-3.5" /> Account Status</SectionHeader>
-          <div className="grid grid-cols-2 gap-3">
-            {[
-              { label:"Daily Loss Used", val:dailyUsed, set:setDailyUsed, limit:dailyLimit, sym },
-              { label:"Total DD Used",   val:totalDrawdown, set:setTotalDrawdown, limit:totalLimit, sym },
-              { label:"Profit",          val:profit,    set:setProfit, limit:profitTarget, sym },
-              { label:"Days Traded",     val:daysTrade, set:setDaysTrade, limit:firm.minDays, sym:"" },
-            ].map(f => (
-              <div key={f.label}>
-                <FieldLabel>{f.label}</FieldLabel>
-                <div className="relative">
-                  {f.sym && <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[10px] font-mono text-text-tertiary">{f.sym}</span>}
-                  <FieldInput type="number" value={f.val||""} placeholder="0" onChange={e => f.set(+e.target.value)} className={cn("text-sm", f.sym && "pl-7")} />
-                </div>
-              </div>
-            ))}
-          </div>
-          {/* Progress bars */}
-          <div className="space-y-3">
-            {[
-              { label:"Daily Loss",    pct:dailyPct,   used:dailyUsed,     limit:dailyLimit,   danger:true  },
-              { label:"Total DD",      pct:totalDDPct, used:totalDrawdown, limit:totalLimit,   danger:true  },
-              { label:"Profit Target", pct:profitPct,  used:profit,        limit:profitTarget, danger:false },
-              { label:"Days Traded",   pct:daysPct,    used:daysTrade,     limit:firm.minDays, danger:false, noSym:true },
-            ].map(b => {
-              const over = b.pct >= 100;
-              const barCls = b.danger ? (b.pct>80?"bg-red-500":b.pct>60?"bg-amber-500":"bg-emerald-500") : "bg-emerald-500";
-              const safe = b.danger ? b.pct < 60 : over;
-              return (
-                <div key={b.label}>
-                  <div className="flex justify-between text-[9px] font-mono mb-1">
-                    <span className="text-text-tertiary uppercase">{b.label}</span>
-                    <div className="flex items-center gap-2">
-                      <span className="text-text-secondary">{b.noSym?"":sym}{b.used.toFixed(0)} / {b.noSym?"":sym}{b.limit.toFixed(0)}</span>
-                      <span className={cn("text-[8px] font-bold uppercase px-1.5 py-0.5 rounded", safe && !b.danger ? "bg-emerald-100 text-emerald-700" : over && b.danger ? "bg-red-100 text-red-600" : b.pct>60&&b.danger ? "bg-amber-100 text-amber-700" : "bg-emerald-100 text-emerald-700")}>
-                        {over && b.danger ? "BREACHED" : b.pct > 60 && b.danger ? "CAUTION" : over && !b.danger ? "HIT ✓" : "SAFE"}
-                      </span>
-                    </div>
-                  </div>
-                  <div className="h-2 bg-background-elevated rounded-full overflow-hidden">
-                    <div className={cn("h-full rounded-full transition-all", barCls)} style={{ width:`${b.pct}%` }} />
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* Trade compliance checker */}
-        <div className="bg-background-surface border border-border-slate/50 rounded-xl p-6 shadow-sm space-y-4">
-          <div className="flex items-center justify-between">
-            <SectionHeader><CheckCircle className="w-3.5 h-3.5" /> Trade Compliance Check</SectionHeader>
-            <div className={cn("px-3 py-1.5 text-xs font-black uppercase rounded", signalColor)}>{signal}</div>
-          </div>
-          <div className="space-y-2">
-            {tradeChecks.map((c, i) => (
-              <div key={i} className={cn("flex items-center gap-2.5 p-2.5 rounded-lg border text-[10px] font-mono",
-                !c.pass ? "bg-red-50 border-red-200 text-red-700" : c.warn ? "bg-amber-50 border-amber-200 text-amber-700" : "bg-emerald-50 border-emerald-200 text-emerald-700")}>
-                <span>{!c.pass ? "❌" : c.warn ? "⚠️" : "✅"}</span>
-                <span>{c.label}</span>
-              </div>
-            ))}
-          </div>
-          <div className="bg-background-primary border border-border-slate/40 rounded-lg p-3 space-y-1.5 text-[10px] font-mono">
-            <div className="flex justify-between">
-              <span className="text-text-tertiary">Current position size</span>
-              <span className="font-bold text-text-primary">{lots.toFixed(2)} lots {lots > firm.maxLots && <span className="text-red-500">↑ OVER LIMIT</span>}</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-text-tertiary">Risk this trade</span>
-              <span className="font-bold text-text-primary">{sym}{riskAmt.toFixed(2)}</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-text-tertiary">Remaining daily budget</span>
-              <span className={cn("font-bold", (dailyLimit - dailyUsed - riskAmt) < 0 ? "text-red-500" : "text-emerald-600")}>{sym}{Math.max(0, dailyLimit - dailyUsed - riskAmt).toFixed(2)}</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Account tracker */}
-      <div className="bg-background-surface border border-border-slate/50 rounded-xl p-6 shadow-sm space-y-4">
-        <div className="flex items-center justify-between">
-          <SectionHeader><BarChart3 className="w-3.5 h-3.5" /> Account Equity Tracker</SectionHeader>
-          <div className="flex gap-2">
-            <button onClick={() => { setAccountDays([]); localStorage.removeItem("rmc-account-days"); }}
-              className="px-3 py-1.5 border border-border-slate/50 text-[9px] font-mono uppercase hover:border-red-300 hover:text-red-500 transition-colors rounded">
-              Clear
-            </button>
-            <button onClick={addDay} className="flex items-center gap-1 px-3 py-1.5 bg-accent text-white text-[9px] font-mono uppercase rounded hover:bg-accent/80 transition-colors">
-              <Plus className="w-3 h-3" /> Add Day
-            </button>
-          </div>
-        </div>
-
-        {chartData.length > 1 && (
-          <div className="h-40">
-            <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={chartData} margin={{ top:5, right:10, bottom:5, left:10 }}>
-                <XAxis dataKey="date" tick={{ fontSize:8, fontFamily:"monospace" }} />
-                <YAxis tick={{ fontSize:8, fontFamily:"monospace" }} tickFormatter={v => `${sym}${v.toLocaleString()}`} domain={["auto","auto"]} />
-                <Tooltip formatter={(v:any) => `${sym}${Number(v).toLocaleString()}`} contentStyle={{ fontSize:10, fontFamily:"monospace" }} />
-                <ReferenceLine y={firm.balance - totalLimit} stroke="#ef4444" strokeDasharray="4 2" label={{ value:"Max DD", fontSize:8, fill:"#ef4444" }} />
-                <Line dataKey="balance" stroke="#00e5cc" strokeWidth={2} dot={{ r:3, fill:"#00e5cc" }} name="Balance" isAnimationActive={false} />
-              </LineChart>
-            </ResponsiveContainer>
-          </div>
-        )}
-
-        <div className="overflow-x-auto">
-          <table className="w-full text-[10px] font-mono">
-            <thead>
-              <tr className="border-b border-border-slate/30 text-text-tertiary uppercase text-[9px]">
-                {["Date","Opening","Closing","Daily P&L","Daily %","DD %","Status",""].map(h => (
-                  <th key={h} className="py-2 text-left font-normal">{h}</th>
-                ))}
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-border-slate/10">
-              {accountDays.map((d, i) => {
-                const dayPnl = d.closing - d.opening;
-                const dayPct = d.opening > 0 ? (dayPnl / d.opening) * 100 : 0;
-                const ddPct  = ((firm.balance - d.closing) / firm.balance) * 100;
-                const status = ddPct >= firm.maxTotalLoss ? "BREACHED" : ddPct >= firm.maxTotalLoss * 0.8 ? "DANGER" : "OK";
-                return (
-                  <tr key={i} className="hover:bg-white/5">
-                    <td className="py-2"><input type="date" value={d.date} onChange={e => updateDay(i,"date",e.target.value)} className="bg-transparent border-0 outline-none text-text-secondary" /></td>
-                    <td className="py-2"><div className="relative"><span className="text-text-tertiary mr-0.5">{sym}</span><input type="number" value={d.opening} onChange={e => updateDay(i,"opening",+e.target.value)} className="w-20 bg-background-primary border border-border-slate/40 px-2 py-0.5 rounded outline-none" /></div></td>
-                    <td className="py-2"><div className="relative"><span className="text-text-tertiary mr-0.5">{sym}</span><input type="number" value={d.closing} onChange={e => updateDay(i,"closing",+e.target.value)} className="w-20 bg-background-primary border border-border-slate/40 px-2 py-0.5 rounded outline-none" /></div></td>
-                    <td className={cn("py-2 font-bold", dayPnl >= 0 ? "text-emerald-600" : "text-red-500")}>{dayPnl >= 0 ? "+" : ""}{sym}{Math.abs(dayPnl).toFixed(0)}</td>
-                    <td className={cn("py-2 font-bold", dayPct >= 0 ? "text-emerald-600" : "text-red-500")}>{fmtPct(dayPct)}</td>
-                    <td className={cn("py-2", ddPct > firm.maxTotalLoss * 0.8 ? "text-red-500 font-bold" : "text-text-secondary")}>{ddPct.toFixed(1)}%</td>
-                    <td className={cn("py-2 text-[8px] font-bold uppercase", status==="OK" ? "text-emerald-600" : status==="DANGER" ? "text-amber-500" : "text-red-500")}>{status}</td>
-                    <td className="py-2"><button onClick={() => removeDay(i)} className="text-text-tertiary hover:text-red-500"><Trash2 className="w-3 h-3" /></button></td>
-                  </tr>
-                );
-              })}
-              {accountDays.length === 0 && <tr><td colSpan={8} className="py-8 text-center text-text-tertiary">No days logged. Add your first day above.</td></tr>}
-            </tbody>
-          </table>
-        </div>
-        {currentDrawdown > 0 && (
-          <div className={cn("flex items-center gap-2 p-3 border rounded-lg text-[10px] font-mono",
-            currentDrawdown > firm.maxTotalLoss * 0.8 ? "bg-red-50 border-red-200 text-red-700" : "bg-amber-50 border-amber-200 text-amber-700")}>
-            <AlertTriangle className="w-3.5 h-3.5 shrink-0" />
-            Current drawdown from peak: <strong>{currentDrawdown.toFixed(1)}%</strong> (limit: {firm.maxTotalLoss}%)
-            {currentDrawdown > firm.maxTotalLoss * 0.8 && <span className="font-bold ml-1">— within 20% of limit</span>}
-          </div>
-        )}
-      </div>
-    </div>
-  );
-}
-
 // ─── Root Export ──────────────────────────────────────────────────────────────
 export function RiskCalculator() {
   const [activeTab, setActiveTab] = useState<TabId>("CALCULATOR");
@@ -1463,6 +1382,10 @@ export function RiskCalculator() {
   const [sharedRiskPct, setSharedRiskPct] = useState(1);
   const [sharedLots, setSharedLots] = useState(0);
   const [sharedRiskAmt, setSharedRiskAmt] = useState(balance * 0.01);
+  const [sharedSymbol, setSharedSymbol] = useState("GBPUSD");
+  const [sharedEntry, setSharedEntry] = useState("1.2734");
+  const [sharedStop, setSharedStop] = useState("1.2684");
+  const [sharedDirection, setSharedDirection] = useState<"BUY"|"SELL">("BUY");
 
   useEffect(() => {
     supabase.auth.getUser().then(async ({ data }) => {
@@ -1476,10 +1399,11 @@ export function RiskCalculator() {
   }, []);
 
   const TABS: { id: TabId; icon: React.ElementType; label: string }[] = [
-    { id:"CALCULATOR",     icon:Percent,    label:"CALCULATOR"     },
-    { id:"PORTFOLIO HEAT", icon:Activity,   label:"PORTFOLIO HEAT" },
-    { id:"ADVANCED SIZING",icon:BarChart3,  label:"ADVANCED SIZING"},
-    { id:"PROP COMPLIANCE",icon:Shield,     label:"PROP COMPLIANCE"},
+    { id:"CALCULATOR",      icon:Percent,    label:"CALCULATOR"      },
+    { id:"PORTFOLIO HEAT",  icon:Activity,   label:"PORTFOLIO HEAT"  },
+    { id:"ADVANCED SIZING", icon:BarChart3,  label:"ADVANCED SIZING" },
+    { id:"PROP COMPLIANCE", icon:Shield,     label:"PROP COMPLIANCE" },
+    { id:"PERFORMANCE",     icon:TrendingUp, label:"📈 PERFORMANCE"   },
   ];
 
   return (
@@ -1505,11 +1429,18 @@ export function RiskCalculator() {
 
       {/* Tab content */}
       {activeTab === "CALCULATOR" && (
-        <CalculatorTab
-          currency={currency} onCurrencyChange={setCurrency}
-          balance={balance}   onBalanceChange={setBalance}
-          todayEntries={todayEntries}
-        />
+        <Suspense fallback={<div className="p-8 text-center font-mono text-text-tertiary text-sm">Loading calculator…</div>}>
+          <CalculatorTab
+            currency={currency} onCurrencyChange={setCurrency}
+            balance={balance}   onBalanceChange={setBalance}
+            todayEntries={todayEntries}
+            onSharedUpdate={({ symbol, entry, stop, direction, riskPct, lots, riskAmt }) => {
+              setSharedSymbol(symbol); setSharedEntry(entry); setSharedStop(stop);
+              setSharedDirection(direction); setSharedRiskPct(riskPct);
+              setSharedLots(lots); setSharedRiskAmt(riskAmt);
+            }}
+          />
+        </Suspense>
       )}
       {activeTab === "PORTFOLIO HEAT" && (
         <PortfolioHeatTab balance={balance} currency={currency} />
@@ -1518,7 +1449,14 @@ export function RiskCalculator() {
         <AdvancedSizingTab balance={balance} riskPct={sharedRiskPct} sym={sym} />
       )}
       {activeTab === "PROP COMPLIANCE" && (
-        <PropComplianceTab balance={balance} riskAmt={sharedRiskAmt} lots={sharedLots} sym={sym} />
+        <PropComplianceTab
+          balance={balance} riskAmt={sharedRiskAmt} lots={sharedLots} sym={sym}
+          symbol={sharedSymbol} direction={sharedDirection}
+          entryPrice={sharedEntry} stopPrice={sharedStop}
+        />
+      )}
+      {activeTab === "PERFORMANCE" && (
+        <PerformanceTab balance={balance} sym={sym} currency={currency} />
       )}
     </div>
   );

@@ -102,13 +102,31 @@ function formatTime(date: Date | null): string {
   return `${mins}m ago`;
 }
 
-function getActiveSessions(utcHour: number): string[] {
+function getActiveSessions(now: Date = new Date()): string[] {
   const s: string[] = [];
-  if (utcHour >= 0 && utcHour < 9)   s.push("ASIA");
-  if (utcHour >= 8 && utcHour < 17)  s.push("LONDON");
-  if (utcHour >= 13 && utcHour < 22) s.push("NEW YORK");
+  const day  = now.getUTCDay();   // 0=Sun, 1=Mon … 6=Sat
+  const mins = now.getUTCHours() * 60 + now.getUTCMinutes();
+
+  // Saturday: all markets closed for the weekend
+  if (day === 6) return s;
+  // Sunday before 21:00 UTC: pre-market — forex week hasn't opened
+  if (day === 0 && mins < 21 * 60) return s;
+  // Friday after 22:00 UTC: markets wound down, weekend begins
+  if (day === 5 && mins >= 22 * 60) return s;
+
+  // Asian session: Sun 21:00→ + Mon–Fri 00:00–09:00 UTC
+  if (day === 0 && mins >= 21 * 60) s.push("ASIA");
+  if (day >= 1 && day <= 5 && mins < 9 * 60) s.push("ASIA");
+
+  // London session: Mon–Fri 08:00–16:30 UTC (LSE hours)
+  if (day >= 1 && day <= 5 && mins >= 8 * 60 && mins < 16 * 60 + 30) s.push("LONDON");
+
+  // New York session: Mon–Fri 13:30–20:00 UTC (NYSE EDT / regular hours)
+  if (day >= 1 && day <= 5 && mins >= 13 * 60 + 30 && mins < 20 * 60) s.push("NEW YORK");
+
   return s;
 }
+
 
 function getInstrumentSession(inst: ScannerInstrument, activeSessions: string[]): string {
   if (inst.category === "crypto") return "24/7";
@@ -180,22 +198,24 @@ function MarketStatusBar({ lastUpdated }: { lastUpdated: Date | null }) {
   }, []);
 
   const utcH = utcTime.getUTCHours();
-  const sessions = getActiveSessions(utcH);
+  const sessions = getActiveSessions(utcTime);
   const utcStr = utcTime.toUTCString().split(" ").slice(4, 5)[0];
+  const isWeekend = utcTime.getUTCDay() === 0 || utcTime.getUTCDay() === 6;
 
   const SESSION_CONFIG = [
-    { name: "ASIA",     open: utcH >= 0 && utcH < 9,   hours: "00:00–09:00" },
-    { name: "LONDON",   open: utcH >= 8 && utcH < 17,  hours: "08:00–17:00" },
-    { name: "NEW YORK", open: utcH >= 13 && utcH < 22, hours: "13:00–22:00" },
+    { name: "ASIA",     open: sessions.includes("ASIA"),     hours: "00:00–09:00" },
+    { name: "LONDON",   open: sessions.includes("LONDON"),   hours: "08:00–16:30" },
+    { name: "NEW YORK", open: sessions.includes("NEW YORK"), hours: "13:30–20:00" },
   ];
 
   return (
     <div className="flex flex-wrap items-center gap-x-6 gap-y-2 px-5 py-3 bg-background-surface border border-border-slate/50 rounded-xl mb-6 shadow-sm">
       <div className="flex items-center gap-2">
-        <div className="w-2 h-2 rounded-full bg-accent animate-pulse" />
+        <div className={cn("w-2 h-2 rounded-full", isWeekend ? "bg-border-slate/60" : "bg-accent animate-pulse")} />
         <span className="font-mono text-[10px] uppercase tracking-widest text-text-primary font-bold">
           {utcStr} UTC
         </span>
+        {isWeekend && <span className="text-[8px] font-mono uppercase tracking-widest text-amber-400 font-bold">WEEKEND</span>}
       </div>
       <div className="h-3 w-px bg-border-slate/40 hidden sm:block" />
       <div className="flex items-center gap-3">
@@ -2050,9 +2070,14 @@ function MarketIntelligenceBar({
 
   const SESSION_DATA = [
     { name: "ASIA",     open: activeSessions.includes("ASIA"),     flag: "🇯🇵", hours: "00–09" },
-    { name: "LONDON",   open: activeSessions.includes("LONDON"),   flag: "🇬🇧", hours: "08–17" },
-    { name: "NEW YORK", open: activeSessions.includes("NEW YORK"), flag: "🇺🇸", hours: "13–22" },
+    { name: "LONDON",   open: activeSessions.includes("LONDON"),   flag: "🇬🇧", hours: "08–16:30" },
+    { name: "NEW YORK", open: activeSessions.includes("NEW YORK"), flag: "🇺🇸", hours: "13:30–20" },
   ];
+
+  // Add weekend indicator to sessions widget
+  const now = new Date();
+  const isWeekend = now.getUTCDay() === 0 || now.getUTCDay() === 6;
+  const marketClosed = activeSessions.length === 0;
 
   const Widget = ({ children, label, className = "" }: { children: React.ReactNode; label: string; className?: string }) => (
     <div className={cn("flex flex-col items-center justify-center gap-2 px-5 py-4 min-w-[170px] shrink-0", className)}>
@@ -2221,8 +2246,13 @@ function MarketScannerGrid() {
   });
   const [newAlertValue, setNewAlertValue] = useState("");
 
-  const utcH = new Date().getUTCHours();
-  const activeSessions = getActiveSessions(utcH);
+  // ── Reactive session clock — updates every minute so session badges stay accurate
+  const [sessionNow, setSessionNow] = useState(() => new Date());
+  useEffect(() => {
+    const t = setInterval(() => setSessionNow(new Date()), 60_000);
+    return () => clearInterval(t);
+  }, []);
+  const activeSessions = getActiveSessions(sessionNow);
 
   const priceData = useTwelveData(ALL_SLUGS);
   const anyLastUpdated = Object.values(priceData).find(d => d.lastUpdated)?.lastUpdated ?? null;

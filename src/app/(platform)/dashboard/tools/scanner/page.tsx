@@ -1,118 +1,109 @@
-import { getTechnicalPatterns } from "@/lib/market";
-import { 
-  Zap, 
-  Search, 
-  Target, 
-  TrendingUp, 
-  TrendingDown,
-  Activity,
-  ChevronRight,
-  ShieldCheck,
-  AlertCircle
-} from "lucide-react";
-import { cn } from "@/lib/utils";
+import { redirect } from "next/navigation";
+import { createClient } from "@/lib/supabase/server";
+import { ScannerClient } from "@/components/dashboard/ScannerClient";
+import { Lock } from "lucide-react";
+import Link from "next/link";
 
-export default async function MarketScannerPage() {
-  // Fetch sample patterns for key assets
-  const symbols = ["AAPL", "TSLA", "NVDA", "GBPUSD", "EURUSD"];
-  const allPatterns = await Promise.all(
-    symbols.map(async (s) => ({
-      symbol: s,
-      patterns: await getTechnicalPatterns(s)
-    }))
-  );
+// ─── Tier weights — mirrors the platform-wide definition ─────────────────
+const TIER_WEIGHT: Record<string, number> = {
+  free:       0,
+  foundation: 1,
+  edge:       2,
+  floor:      3,
+};
 
-  const flatPatterns = allPatterns.flatMap(p => 
-    p.patterns.map((pt: any) => ({ ...pt, symbol: p.symbol }))
-  ).sort((a, b) => b.atrp - a.atrp); // Sorting by ATRP (pattern strength)
+// ─── Scanner requires Foundation+ ────────────────────────────────────────
+const REQUIRED_WEIGHT = 1; // "foundation"
 
+export default async function MarketScannerPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ symbol?: string }>;
+}) {
+  // ── Auth check ──────────────────────────────────────────────────────────
+  // Middleware already redirects unauthenticated users away from /dashboard,
+  // but we add an explicit check here so this page is independently safe if
+  // the middleware config ever changes (e.g. if the path is reorganised).
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    redirect("/login");
+  }
+
+  // ── Tier check ──────────────────────────────────────────────────────────
+  // This is the Phase 1 "generalise the fix" requirement: any destination
+  // page that is gated on the dashboard must enforce the same tier check
+  // independently of how the user arrived (dashboard card vs. direct URL).
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("subscription_tier")
+    .eq("id", user.id)
+    .single();
+
+  const tier = (profile as any)?.subscription_tier as string | undefined;
+  const userWeight = TIER_WEIGHT[tier ?? "free"] ?? 0;
+
+  if (userWeight < REQUIRED_WEIGHT) {
+    return <ScannerLockedState tier={tier} />;
+  }
+
+  // ── Resolve symbol from URL ─────────────────────────────────────────────
+  const { symbol } = await searchParams;
+
+  // Normalise to uppercase; treat empty string as null (show overview)
+  const resolvedSymbol = symbol?.toUpperCase().trim() || null;
+
+  return <ScannerClient symbol={resolvedSymbol} />;
+}
+
+// ─── Locked state — free users ────────────────────────────────────────────
+// Mirrors the locked card pattern used on the dashboard to keep the UX
+// consistent regardless of whether the user arrived via the card or a URL.
+
+function ScannerLockedState({ tier }: { tier?: string }) {
   return (
-    <div className="space-y-12 animate-in fade-in duration-700 pb-24">
-      <header className="border-b border-border-slate pb-8 flex justify-between items-end">
-        <div>
-          <div className="flex items-center gap-2 text-premium mb-4">
-            <Zap className="w-4 h-4 fill-premium" />
-            <span className="text-[10px] font-mono uppercase tracking-[0.3em]">Consensus_Engine // v2.0</span>
-          </div>
-          <h1 className="text-4xl font-display font-bold uppercase tracking-tight">Market <span className="text-premium">Scanner.</span></h1>
-          <p className="text-sm text-text-tertiary mt-2">Automated pattern recognition and institutional technical consensus.</p>
+    <div className="flex flex-col items-center justify-center min-h-[60vh] space-y-8 animate-in fade-in duration-700">
+      <div className="p-10 bg-background-surface/40 backdrop-blur-md border border-border-slate/50 flex flex-col items-center text-center space-y-6 max-w-md w-full">
+        <div className="w-14 h-14 rounded-full border border-accent/20 bg-accent/10 flex items-center justify-center">
+          <Lock className="w-6 h-6 text-accent" />
         </div>
-        <div className="flex items-center gap-4 px-6 py-3 bg-background-elevated border border-border-slate">
-           <Activity className="w-4 h-4 text-profit animate-pulse" />
-           <span className="text-[10px] font-mono uppercase tracking-widest text-text-primary">Live Scan Active</span>
+
+        <div className="space-y-2">
+          <p className="text-xs font-bold uppercase tracking-widest text-text-primary">
+            Foundation Access Required
+          </p>
+          <p className="text-xs text-text-secondary leading-relaxed">
+            The Market Scanner requires a Foundation plan or above. Your current
+            plan is{" "}
+            <span className="font-bold text-text-primary uppercase">
+              {tier ?? "Free"}
+            </span>
+            .
+          </p>
         </div>
-      </header>
 
-      {/* Pattern Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {flatPatterns.length === 0 ? (
-          <div className="col-span-full p-20 bg-background-surface border border-border-slate border-dashed text-center">
-             <AlertCircle className="w-8 h-8 text-text-tertiary mx-auto mb-4" />
-             <p className="text-xs text-text-tertiary font-mono uppercase">No high-conviction patterns detected in current cycle.</p>
-          </div>
-        ) : flatPatterns.slice(0, 9).map((pattern: any, i: number) => (
-          <div key={i} className="p-8 bg-background-surface border border-border-slate hover:border-premium/50 transition-all group relative overflow-hidden">
-             <div className="flex justify-between items-start mb-8">
-                <div>
-                   <h3 className="text-xl font-display font-bold uppercase tracking-tight group-hover:text-premium transition-colors">{pattern.symbol}</h3>
-                   <p className="text-[10px] font-mono text-text-tertiary uppercase tracking-widest">Daily Chart</p>
-                </div>
-                <div className={cn(
-                  "px-2 py-1 text-[8px] font-mono font-bold uppercase border",
-                  pattern.type === 'bullish' ? "border-profit/20 bg-profit/5 text-profit" : "border-loss/20 bg-loss/5 text-loss"
-                )}>
-                  {pattern.type}
-                </div>
-             </div>
-
-             <div className="space-y-4">
-                <div className="flex justify-between items-center text-xs">
-                   <span className="text-text-tertiary font-mono">Pattern</span>
-                   <span className="font-bold text-text-secondary uppercase">{pattern.patternname}</span>
-                </div>
-                <div className="flex justify-between items-center text-xs">
-                   <span className="text-text-tertiary font-mono">Conviction</span>
-                   <div className="flex gap-0.5">
-                      {Array.from({ length: 5 }).map((_, j) => (
-                        <div key={j} className={cn(
-                          "w-3 h-1",
-                          j < Math.round(pattern.atrp / 2) ? "bg-premium" : "bg-background-elevated"
-                        )} />
-                      ))}
-                   </div>
-                </div>
-             </div>
-
-             <div className="mt-8 pt-6 border-t border-border-slate/50 flex justify-between items-center">
-                <span className="text-[9px] font-mono text-text-tertiary">SIGNAL AGE: 4H</span>
-                <button className="flex items-center gap-1 text-[9px] font-bold uppercase text-premium hover:underline">
-                   View Analysis <ChevronRight className="w-3 h-3" />
-                </button>
-             </div>
-
-             {/* Background Decoration */}
-             <div className="absolute top-0 right-0 p-4 opacity-[0.03] group-hover:opacity-[0.07] transition-opacity pointer-events-none">
-                <Target className="w-24 h-24" />
-             </div>
-          </div>
-        ))}
+        <div className="w-full space-y-2 pt-2">
+          <Link
+            href="/pricing"
+            className="w-full flex items-center justify-center px-8 py-4 bg-accent hover:bg-accent-hover text-background-primary text-[10px] font-bold uppercase tracking-widest transition-all"
+          >
+            Upgrade to Foundation
+          </Link>
+          <Link
+            href="/dashboard"
+            className="w-full flex items-center justify-center px-8 py-3 border border-border-slate/50 hover:border-accent text-[10px] font-mono uppercase tracking-widest text-text-tertiary hover:text-text-primary transition-all"
+          >
+            Back to Dashboard
+          </Link>
+        </div>
       </div>
 
-      {/* Institutional Insights Footer */}
-      <section className="p-10 bg-background-elevated border border-border-slate flex flex-col md:flex-row items-center justify-between gap-10">
-         <div className="flex items-start gap-6">
-            <ShieldCheck className="w-10 h-10 text-premium shrink-0 mt-1" />
-            <div className="space-y-2">
-               <h3 className="text-xl font-display font-bold uppercase tracking-tight">Technical Consensus</h3>
-               <p className="text-xs text-text-secondary max-w-xl leading-relaxed">
-                  Our scanner cross-references 14 indicators and 22 price patterns to find institutional-grade setups. High ATRP scores indicate multi-timeframe alignment.
-               </p>
-            </div>
-         </div>
-         <button className="px-10 py-4 bg-premium text-background-primary text-[10px] font-black uppercase tracking-[0.2em] hover:bg-white transition-all whitespace-nowrap">
-            Configure Alerts
-         </button>
-      </section>
+      <p className="text-[9px] font-mono text-text-tertiary/50 uppercase tracking-widest">
+        Market Scanner · Foundation+ · Live TradingView Technical Analysis
+      </p>
     </div>
   );
 }

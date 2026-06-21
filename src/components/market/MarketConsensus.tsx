@@ -227,11 +227,13 @@ export function MarketConsensus({ userTier = "free" }: MarketConsensusProps) {
               </div>
 
               {/* Card footer — scanner deep-link */}
+              {/* Path is /dashboard/tools/scanner — the scanner lives inside the
+                  platform group, not the marketing /tools/ group. */}
               <div className="pt-3 border-t border-border-slate/50 flex justify-end items-center">
                 <Link
-                  href={`/tools/scanner${inst.scannerSlug ? `?symbol=${inst.scannerSlug}` : ""}`}
+                  href={`/dashboard/tools/scanner${inst.scannerSlug ? `?symbol=${inst.scannerSlug}` : ""}`}
                   className="p-1.5 hover:bg-background-elevated text-text-tertiary hover:text-accent transition-colors"
-                  title={`Full analysis — ${inst.displayPair}`}
+                  title={`Full technical analysis — ${inst.displayPair}`}
                 >
                   <ChevronRight className="w-3.5 h-3.5" />
                 </Link>
@@ -306,14 +308,20 @@ export function MarketConsensus({ userTier = "free" }: MarketConsensusProps) {
           </Link>
         )}
 
-        {/* Active indicator — edge/floor only */}
+        {/* Active CTA — edge/floor only.
+             Routes to the Intelligence Hub which is the actual home of AI signals,
+             insider flow, and political capital tracking. */}
         {hasSignalAccess && (
-          <div className="flex items-center gap-2 shrink-0">
+          <Link
+            href="/dashboard/intelligence"
+            className="flex items-center gap-3 shrink-0 px-5 py-3 border border-profit/30 bg-profit/5 hover:bg-profit/10 hover:border-profit/60 transition-all group"
+          >
             <div className="w-2 h-2 rounded-full bg-profit animate-pulse" />
-            <span className="text-[9px] font-mono uppercase tracking-widest text-profit">
-              Live Signals Active
+            <span className="text-[9px] font-mono uppercase tracking-widest text-profit group-hover:tracking-[0.15em] transition-all">
+              View Intelligence Hub
             </span>
-          </div>
+            <ChevronRight className="w-3 h-3 text-profit opacity-0 group-hover:opacity-100 -translate-x-1 group-hover:translate-x-0 transition-all" />
+          </Link>
         )}
       </div>
     </div>

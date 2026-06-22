@@ -1960,12 +1960,7 @@ function SignalsTableRow({
 
 // ─── Market Intelligence Bar ─────────────────────────────────────────────────
 
-function FearGreedGauge({ vixPrice }: { vixPrice: number | null }) {
-  const score = vixPrice === null ? null
-    : vixPrice < 15  ? Math.round(75 + ((15  - vixPrice) / 15)  * 25)
-    : vixPrice < 20  ? Math.round(50 + ((20  - vixPrice) / 5)   * 25)
-    : vixPrice < 30  ? Math.round(20 + ((30  - vixPrice) / 10)  * 30)
-    : Math.max(0, Math.round(20 - (vixPrice - 30) * 2));
+function FearGreedGauge({ score, synthetic = false }: { score: number | null; synthetic?: boolean }) {
   const label = score === null ? "—" : score >= 75 ? "GREED" : score >= 50 ? "NEUTRAL" : score >= 25 ? "FEAR" : "EXTREME FEAR";
   const color = score === null ? "#4b5563" : score >= 75 ? "#00c853" : score >= 50 ? "#f59e0b" : score >= 25 ? "#f97316" : "#ef4444";
   const r = 20;
@@ -1977,11 +1972,12 @@ function FearGreedGauge({ vixPrice }: { vixPrice: number | null }) {
         <path d={`M 4 24 A ${r} ${r} 0 0 1 44 24`} fill="none" stroke="rgba(255,255,255,0.12)" strokeWidth={5} strokeLinecap="round" />
         {score !== null && (
           <path d={`M 4 24 A ${r} ${r} 0 0 1 44 24`} fill="none" stroke={color} strokeWidth={5} strokeLinecap="round"
-            strokeDasharray={`${filled} ${arcLen}`} style={{ filter: `drop-shadow(0 0 5px ${color}88)` }} />
+            strokeDasharray={`${filled} ${arcLen}`} style={{ filter: `drop-shadow(0 0 5px ${color}88)`, opacity: synthetic ? 0.8 : 1 }} />
         )}
       </svg>
       <span className="text-[13px] font-black font-mono leading-none" style={{ color }}>{score ?? "—"}</span>
       <span className="text-[7px] font-mono uppercase tracking-widest" style={{ color }}>{label}</span>
+      {synthetic && score !== null && <span className="text-[6px] font-mono text-white/25 uppercase tracking-widest">Est.</span>}
     </div>
   );
 }
@@ -2045,6 +2041,40 @@ function MarketIntelligenceBar({
   const goldPrice = goldData?.price ?? null;
   const goldChangePct = goldData?.changePct ?? null;
 
+  // ── VIX-derived sentiment score (real) ───────────────────────────────────
+  const vixScore = vixPrice === null ? null
+    : vixPrice < 15  ? Math.round(75 + ((15  - vixPrice) / 15)  * 25)
+    : vixPrice < 20  ? Math.round(50 + ((20  - vixPrice) / 5)   * 25)
+    : vixPrice < 30  ? Math.round(20 + ((30  - vixPrice) / 10)  * 30)
+    : Math.max(0, Math.round(20 - (vixPrice - 30) * 2));
+
+  // ── Synthetic sentiment from scanner breadth (fallback when VIX unavailable) ──
+  const syntheticSentimentScore = React.useMemo(() => {
+    if (vixScore !== null) return null; // real VIX loaded — no fallback needed
+    const vals = Object.values(priceData).filter(d => d.changePct !== null && !d.loading && !d.error);
+    if (vals.length < 4) return null;
+    const bull = vals.filter(d => (d.changePct ?? 0) > 0.10).length;
+    const bear = vals.filter(d => (d.changePct ?? 0) < -0.10).length;
+    return Math.min(100, Math.max(0, Math.round(50 + ((bull - bear) / vals.length) * 45)));
+  }, [vixScore, priceData]);
+
+  const sentimentScore   = vixScore ?? syntheticSentimentScore;
+  const sentimentSynth   = vixScore === null && syntheticSentimentScore !== null;
+
+  // ── Synthetic DXY change from EUR/GBP/JPY basket (fallback when DXY unavailable) ──
+  const syntheticDxyChangePct = React.useMemo(() => {
+    if (dxy?.price && dxy.changePct !== null) return null; // real DXY loaded
+    const eur = priceData["EURUSD"]?.changePct;
+    const gbp = priceData["GBPUSD"]?.changePct;
+    const jpy = priceData["USDJPY"]?.changePct;
+    if (eur == null && gbp == null) return null;
+    // DXY basket approx: EUR 57.6%, JPY 13.6%, GBP 11.9% (inverted for USD pairs)
+    return Math.round((-(eur ?? 0) * 0.576 - (gbp ?? 0) * 0.119 + (jpy ?? 0) * 0.136) * 100) / 100;
+  }, [dxy, priceData]);
+
+  const dxyChangePct  = dxy?.changePct ?? syntheticDxyChangePct;
+  const dxySynth      = !dxy?.price && syntheticDxyChangePct !== null;
+
   // Top mover
   const topMover = SCANNER_INSTRUMENTS.reduce<{ inst: ScannerInstrument; pct: number } | null>((best, inst) => {
     const p = Math.abs(priceData[inst.scannerSlug]?.changePct ?? 0);
@@ -2085,9 +2115,12 @@ function MarketIntelligenceBar({
 
         {/* 1 — Fear & Greed */}
         <Widget label="Market Sentiment">
-          <FearGreedGauge vixPrice={vixPrice} />
+          <FearGreedGauge score={sentimentScore} synthetic={sentimentSynth} />
           {vixPrice !== null && (
             <p className="text-[8px] font-mono text-white/40 text-center">VIX {vixPrice.toFixed(1)}</p>
+          )}
+          {sentimentSynth && sentimentScore !== null && (
+            <p className="text-[7px] font-mono text-white/25 text-center">Market Breadth</p>
           )}
         </Widget>
 
@@ -2106,6 +2139,18 @@ function MarketIntelligenceBar({
               <p className="text-[7px] font-mono text-white/30 text-center leading-tight max-w-[130px]">
                 {(dxy.changePct ?? 0) > 0.1 ? "Headwind for EUR, GBP, Gold" : (dxy.changePct ?? 0) < -0.1 ? "Tailwind for EUR, GBP, Gold" : "DXY flat"}
               </p>
+            </div>
+          ) : dxySynth && dxyChangePct !== null ? (
+            <div className="flex flex-col items-center gap-0.5">
+              <span className={cn("text-[14px] font-black font-mono flex items-center gap-0.5",
+                dxyChangePct >= 0 ? "text-[#00c853]" : "text-[#ef4444]")}>
+                {dxyChangePct >= 0 ? <TrendingUp className="w-3.5 h-3.5" /> : <TrendingDown className="w-3.5 h-3.5" />}
+                {dxyChangePct >= 0 ? "+" : ""}{dxyChangePct.toFixed(2)}%
+              </span>
+              <p className="text-[7px] font-mono text-white/30 text-center leading-tight max-w-[130px]">
+                {dxyChangePct > 0.1 ? "Headwind for EUR, GBP, Gold" : dxyChangePct < -0.1 ? "Tailwind for EUR, GBP, Gold" : "DXY flat"}
+              </p>
+              <span className="text-[6px] font-mono text-white/20 uppercase tracking-widest">Est. EUR/GBP/JPY</span>
             </div>
           ) : <div className="w-16 h-8 bg-white/10 rounded animate-pulse" />}
         </Widget>

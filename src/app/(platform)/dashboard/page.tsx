@@ -38,6 +38,8 @@ export default function DashboardPage() {
   const [subscriptionTier, setSubscriptionTier] = useState<SubscriptionTier>('free');
   // Earned badges — fetched from user_badges and merged with the static allBadges list.
   const [earnedBadges, setEarnedBadges] = useState<Badge[]>(allBadges);
+  // My Courses — purchased or granted courses with progress
+  const [myCourses, setMyCourses]       = useState<any[]>([]);
 
   useEffect(() => {
     const hour = new Date().getHours();
@@ -114,6 +116,26 @@ export default function DashboardPage() {
             earnedAt: earnedKeys.get(badge.key) ?? badge.earnedAt,
           }));
           setEarnedBadges(merged);
+        }
+
+        // ── My Courses (purchased or floor-granted) ─────────────────────────
+        const { data: purchases } = await supabase
+          .from('course_purchases' as any)
+          .select('course_id, access_granted_via, purchased_at, courses:course_id(id, slug, title)')
+          .eq('user_id', user.id);
+
+        if (purchases && purchases.length > 0) {
+          // Fetch lesson counts + progress for each course in parallel
+          const enriched = await Promise.all((purchases as any[]).map(async (p: any) => {
+            const courseId = p.course_id;
+            const [{ count: totalLessons }, { count: completedLessons }] = await Promise.all([
+              supabase.from('course_lessons' as any).select('id', { count: 'exact', head: true }).eq('course_id', courseId),
+              supabase.from('course_progress' as any).select('id', { count: 'exact', head: true }).eq('course_id', courseId).eq('user_id', user.id),
+            ]);
+            const pct = totalLessons ? Math.round(((completedLessons ?? 0) / totalLessons) * 100) : 0;
+            return { ...p, _totalLessons: totalLessons, _completedLessons: completedLessons ?? 0, _progress: pct };
+          }));
+          setMyCourses(enriched);
         }
 
         // 1. Fetch active funded challenge account
@@ -495,6 +517,58 @@ export default function DashboardPage() {
                     {learningCard?.started ? "Resume Lesson" : "Start Lesson"} <ArrowUpRight className="w-3 h-3" />
                   </Link>
                 </div>
+              </div>
+            )}
+          </div>
+
+          {/* My Courses */}
+          <div className="space-y-4">
+            <h4 className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary">My Courses</h4>
+            {myCourses.length > 0 ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {myCourses.map((c: any) => (
+                  <Link
+                    key={c.course_id}
+                    href={`/dashboard/courses/${c.courses?.slug}`}
+                    className="flex gap-4 p-5 bg-background-surface/40 border border-border-slate/50 rounded-xl hover:border-[#C8F135]/40 transition-all group"
+                  >
+                    <div className="w-16 h-16 rounded-lg bg-[#C8F135]/10 border border-[#C8F135]/20 flex items-center justify-center shrink-0">
+                      <span className="text-2xl">🤖</span>
+                    </div>
+                    <div className="flex-1 min-w-0 space-y-2">
+                      <p className="text-[9px] font-mono text-[#C8F135] uppercase tracking-widest">
+                        {c.access_granted_via === 'floor_tier' ? 'Floor Tier — Included' : 'Purchased'}
+                      </p>
+                      <p className="text-sm font-bold text-text-primary group-hover:text-[#C8F135] transition-colors truncate">
+                        {c.courses?.title}
+                      </p>
+                      <div className="flex items-center gap-2">
+                        <div className="flex-1 h-1 bg-border-slate/40 rounded-full overflow-hidden">
+                          <div className="h-full bg-[#C8F135] rounded-full" style={{ width: `${c._progress ?? 0}%` }} />
+                        </div>
+                        <span className="text-[9px] font-mono text-text-tertiary shrink-0">
+                          {c._completedLessons ?? 0}/{c._totalLessons ?? '?'}
+                        </span>
+                      </div>
+                    </div>
+                    <ArrowUpRight className="w-4 h-4 text-text-tertiary group-hover:text-[#C8F135] transition-colors shrink-0 self-start mt-1" />
+                  </Link>
+                ))}
+              </div>
+            ) : (
+              <div className="p-6 bg-background-surface/40 border border-border-slate/50 rounded-xl flex items-center gap-6">
+                <div className="w-14 h-14 rounded-xl bg-[#C8F135]/10 border border-[#C8F135]/20 flex items-center justify-center shrink-0 text-2xl">🤖</div>
+                <div className="flex-1 space-y-1">
+                  <p className="text-[9px] font-mono text-[#C8F135] uppercase tracking-widest">Mini Course</p>
+                  <p className="text-sm font-bold text-text-primary">Deploy Your Algo</p>
+                  <p className="text-[11px] text-text-tertiary leading-relaxed">From generated code to live chart in under an hour. Five modules, no fluff.</p>
+                </div>
+                <Link
+                  href="/courses/deploy-your-algo"
+                  className="shrink-0 px-4 py-2.5 bg-[#C8F135] text-black text-[11px] font-bold rounded-lg hover:bg-[#b8e020] transition-colors whitespace-nowrap"
+                >
+                  Get Access — £97
+                </Link>
               </div>
             )}
           </div>

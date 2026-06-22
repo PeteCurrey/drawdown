@@ -16,7 +16,7 @@ function isWin(t: any): boolean {
   return typeof t.pnl_amount === "number" ? t.pnl_amount > 0 : false;
 }
 
-function groupBy<T extends any>(
+function groupBy<T extends { pnl_amount?: number | null }>(
   arr: T[],
   key: (item: T) => string | null | undefined
 ): Record<string, GroupStats> {

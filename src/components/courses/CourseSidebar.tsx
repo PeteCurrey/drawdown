@@ -23,6 +23,7 @@ interface Module {
   title: string;
   subtitle: string;
   sort_order: number;
+  slug: string;
   course_lessons: Lesson[];
 }
 
@@ -32,6 +33,7 @@ interface CourseSidebarProps {
   initialCompleted:    string[];   // lesson IDs already done
   totalLessons:        number;
   accessVia?:          string | null;
+  courseTitle?:        string;
 }
 
 export function CourseSidebar({
@@ -40,6 +42,7 @@ export function CourseSidebar({
   initialCompleted,
   totalLessons,
   accessVia,
+  courseTitle = "Deploy Your Algo",
 }: CourseSidebarProps) {
   const pathname            = usePathname();
   const [completed, setCompleted] = useState<Set<string>>(new Set(initialCompleted));
@@ -65,12 +68,15 @@ export function CourseSidebar({
   const [backHref, setBackHref]   = useState("/dashboard/tools/algo-builder");
 
   useEffect(() => {
-    if (typeof document !== "undefined" &&
+    if (courseSlug === "prop-firm-survival-kit") {
+      setBackLabel("← Back to modules");
+      setBackHref("/dashboard/courses/prop-firm-survival-kit");
+    } else if (typeof document !== "undefined" &&
         (document.referrer.includes("algo-builder") ||
          new URLSearchParams(window.location.search).get("from") === "algo-builder")) {
       setBackLabel("← Back to your strategy");
     }
-  }, []);
+  }, [courseSlug]);
 
   const toggle = (id: string) =>
     setOpenModules(prev => {
@@ -82,26 +88,28 @@ export function CourseSidebar({
   const doneCount = completed.size;
   const pct       = totalLessons > 0 ? Math.round((doneCount / totalLessons) * 100) : 0;
 
+  const accentColor = courseSlug === "prop-firm-survival-kit" ? "#22C55E" : "#C8F135";
+
   return (
-    <aside className="flex flex-col gap-6 h-full">
+    <aside className="flex flex-col gap-6 h-full text-white">
       {/* Course title + progress */}
       <div className="space-y-3">
         <h2 className="font-display font-extrabold text-lg uppercase tracking-wide text-text-primary leading-tight">
-          Deploy Your Algo
+          {courseTitle}
         </h2>
         <div className="space-y-1.5">
           <div className="flex justify-between items-center">
             <span className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary">
               Progress
             </span>
-            <span className="text-[10px] font-mono text-[#C8F135] font-bold">
+            <span className="text-[10px] font-mono font-bold" style={{ color: accentColor }}>
               {doneCount}/{totalLessons}
             </span>
           </div>
           <div className="h-1 bg-border-slate/40 rounded-full overflow-hidden">
             <div
               className="h-full rounded-full transition-all duration-500"
-              style={{ width: `${pct}%`, backgroundColor: "#C8F135" }}
+              style={{ width: `${pct}%`, backgroundColor: accentColor }}
             />
           </div>
         </div>
@@ -127,8 +135,8 @@ export function CourseSidebar({
                 className="w-full flex items-center gap-2 px-3 py-2.5 rounded-lg hover:bg-white/5 transition-colors text-left group"
               >
                 {modComplete
-                  ? <CheckCircle2 className="w-3.5 h-3.5 text-[#C8F135] shrink-0" />
-                  : <span className="text-[9px] font-black font-mono text-[#C8F135] w-3.5 shrink-0">
+                  ? <CheckCircle2 className="w-3.5 h-3.5 shrink-0" style={{ color: accentColor }} />
+                  : <span className="text-[9px] font-black font-mono w-3.5 shrink-0" style={{ color: accentColor }}>
                       {String(mod.sort_order).padStart(2, "0")}
                     </span>
                 }
@@ -145,7 +153,9 @@ export function CourseSidebar({
               {modOpen && (
                 <div className="ml-5 border-l border-border-slate/30 space-y-0.5 my-1">
                   {modLessons.map(lesson => {
-                    const lessonPath = `/dashboard/courses/${courseSlug}/${lesson.slug}`;
+                    const lessonPath = courseSlug === "prop-firm-survival-kit"
+                      ? `/dashboard/courses/${courseSlug}/modules/${mod.slug}/lessons/${lesson.slug}`
+                      : `/dashboard/courses/${courseSlug}/${lesson.slug}`;
                     const isActive   = pathname === lessonPath;
                     const isDone     = completed.has(lesson.id);
 
@@ -156,14 +166,15 @@ export function CourseSidebar({
                         className={cn(
                           "flex items-start gap-2 pl-3 pr-2 py-2 rounded-r-lg transition-all text-left group",
                           isActive
-                            ? "border-l-2 border-[#C8F135] -ml-px bg-[#C8F135]/5 text-text-primary"
+                            ? "border-l-2 -ml-px text-text-primary bg-white/5"
                             : "border-l-2 border-transparent hover:border-border-slate/50 hover:bg-white/5"
                         )}
+                        style={{ borderLeftColor: isActive ? accentColor : "transparent" }}
                       >
                         {isDone
-                          ? <CheckCircle2 className="w-3 h-3 text-[#C8F135] shrink-0 mt-0.5" />
+                          ? <CheckCircle2 className="w-3 h-3 shrink-0 mt-0.5" style={{ color: accentColor }} />
                           : <Circle className={cn("w-3 h-3 shrink-0 mt-0.5",
-                              isActive ? "text-[#C8F135]" : "text-text-tertiary/40")} />
+                              isActive ? "text-white" : "text-text-tertiary/40")} style={{ color: isActive ? accentColor : undefined }} />
                         }
                         <span className={cn(
                           "text-[11px] leading-snug flex-1",

@@ -21,6 +21,8 @@ import {
   FileText,
   Calculator,
   Code,
+  ShieldCheck,
+  Terminal,
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { DashboardStatusBar } from "@/components/market/DashboardStatusBar";
@@ -31,8 +33,13 @@ const topLinks = [
   { name: "Overview",       href: "/dashboard",                           icon: LayoutDashboard },
   { name: "Intelligence",   href: "/dashboard/intelligence",              icon: Brain },
   { name: "Daily Briefing", href: "/dashboard/intelligence/daily-report", icon: FileText },
-  { name: "Learn",          href: "/dashboard/learn",                     icon: Library },
   { name: "Live Sessions",  href: "/dashboard/live",                      icon: Video },
+];
+
+// ─── Learn submenu ────────────────────────────────────────────────────────────
+const learnLinks = [
+  { name: "Prop Firm Survival Kit", href: "/dashboard/courses/prop-firm-survival-kit", icon: ShieldCheck },
+  { name: "Deploy Your Algo",      href: "/dashboard/courses/deploy-your-algo",      icon: Terminal },
 ];
 
 // ─── Tools submenu ────────────────────────────────────────────────────────────
@@ -52,19 +59,26 @@ const bottomLinks = [
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const [isCollapsed, setIsCollapsed]       = useState(false);
   const [toolsOpen, setToolsOpen]           = useState(false);
+  const [learnOpen, setLearnOpen]           = useState(false);
   const [profile, setProfile]               = useState<any>(null);
   const [showOnboarding, setShowOnboarding] = useState(false);
   
   const pathname  = usePathname();
   const supabase  = createClient();
 
-  // Auto-open tools submenu when on a tools route
+  // Auto-open tools/learn submenus when on corresponding routes
   const onToolsRoute = toolsLinks.some(l => pathname.startsWith(l.href)) ||
     pathname === "/dashboard/tools";
+  const onLearnRoute = learnLinks.some(l => pathname.startsWith(l.href)) ||
+    pathname === "/dashboard/learn" || pathname.startsWith("/dashboard/courses");
 
   useEffect(() => {
     if (onToolsRoute) setToolsOpen(true);
   }, [onToolsRoute]);
+
+  useEffect(() => {
+    if (onLearnRoute) setLearnOpen(true);
+  }, [onLearnRoute]);
 
   useEffect(() => {
     async function checkOnboarding() {
@@ -170,6 +184,97 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           {topLinks.map(link => (
             <NavLink key={link.href} {...link} />
           ))}
+
+          {/* ── Learn collapsible group ── */}
+          <div className="mx-2">
+            {/* Learn header button */}
+            <button
+              onClick={() => {
+                if (!isCollapsed) setLearnOpen(o => !o);
+                else window.location.href = "/dashboard/learn";
+              }}
+              className={cn(
+                "w-full flex items-center transition-all group rounded-lg",
+                isCollapsed
+                  ? "justify-center py-3"
+                  : "gap-4 px-4 py-3",
+                onLearnRoute
+                  ? "bg-[#0A0A0A] text-white"
+                  : "text-text-secondary hover:text-text-primary hover:bg-neutral-100"
+              )}
+            >
+              <Library className={cn(
+                "w-5 h-5 shrink-0",
+                onLearnRoute ? "text-white" : "group-hover:text-text-primary"
+              )} />
+              {!isCollapsed && (
+                <>
+                  <span className="font-bold text-[13px] flex-1 text-left">Learn</span>
+                  <ChevronDown className={cn(
+                    "w-3.5 h-3.5 transition-transform duration-200",
+                    learnOpen ? "rotate-180" : ""
+                  )} />
+                </>
+              )}
+            </button>
+
+            {/* Submenu — only when sidebar expanded */}
+            {!isCollapsed && learnOpen && (
+              <div className="mt-1 ml-4 space-y-1 border-l-2 border-neutral-200 pl-3">
+                {learnLinks.map(link => {
+                  const isActive = pathname.startsWith(link.href);
+                  return (
+                    <Link
+                      key={link.href}
+                      href={link.href}
+                      className={cn(
+                        "flex items-center gap-3 px-3 py-2 text-[12px] font-medium rounded-lg transition-all group",
+                        isActive
+                          ? "bg-[#0A0A0A] text-white"
+                          : "text-text-secondary hover:text-text-primary hover:bg-neutral-100"
+                      )}
+                    >
+                      <link.icon className={cn(
+                        "w-4 h-4 shrink-0",
+                        isActive ? "text-white" : "group-hover:text-text-primary"
+                      )} />
+                      <span className="font-bold">{link.name}</span>
+                    </Link>
+                  );
+                })}
+                <div className="flex items-center gap-3 px-3 py-2 text-[11px] font-medium text-text-tertiary select-none">
+                  <span>More coming soon...</span>
+                </div>
+              </div>
+            )}
+
+            {/* Collapsed state: show learn icons individually */}
+            {isCollapsed && (
+              <div className="mt-1 space-y-1">
+                {learnLinks.map(link => {
+                  const isActive = pathname.startsWith(link.href);
+                  return (
+                    <Link
+                      key={link.href}
+                      href={link.href}
+                      className={cn(
+                        "flex items-center justify-center px-4 py-2.5 rounded-lg transition-all group",
+                        isActive
+                          ? "bg-[#0A0A0A] text-white"
+                          : "text-text-secondary hover:text-text-primary hover:bg-neutral-100"
+                      )}
+                      title={link.name}
+                    >
+                      <link.icon className={cn(
+                        "w-4 h-4 shrink-0",
+                        isActive ? "text-white" : "group-hover:text-text-primary"
+                      )} />
+                    </Link>
+                  );
+                })}
+              </div>
+            )}
+          </div>
 
           {/* ── Tools collapsible group ── */}
           <div className="mx-2">

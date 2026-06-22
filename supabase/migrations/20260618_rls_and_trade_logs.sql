@@ -6,7 +6,7 @@
 ALTER TABLE course_modules ENABLE ROW LEVEL SECURITY;
 ALTER TABLE discussions ENABLE ROW LEVEL SECURITY;
 ALTER TABLE newsletter_sends ENABLE ROW LEVEL SECURITY;
-ALTER TABLE newsletter_subscriptions ENABLE ROW LEVEL SECURITY;
+ALTER TABLE newsletter_subscribers ENABLE ROW LEVEL SECURITY;
 ALTER TABLE user_badges ENABLE ROW LEVEL SECURITY;
 ALTER TABLE video_progress ENABLE ROW LEVEL SECURITY;
 ALTER TABLE weekly_roundups ENABLE ROW LEVEL SECURITY;
@@ -18,8 +18,8 @@ DROP POLICY IF EXISTS "Authenticated users can read discussions" ON discussions;
 DROP POLICY IF EXISTS "Users can create discussions" ON discussions;
 DROP POLICY IF EXISTS "Users can edit own discussions" ON discussions;
 DROP POLICY IF EXISTS "Users can delete own discussions" ON discussions;
-DROP POLICY IF EXISTS "Users can manage own newsletter sub" ON newsletter_subscriptions;
-DROP POLICY IF EXISTS "Anyone can insert newsletter sub" ON newsletter_subscriptions;
+DROP POLICY IF EXISTS "Users can manage own newsletter sub" ON newsletter_subscribers;
+DROP POLICY IF EXISTS "Anyone can insert newsletter sub" ON newsletter_subscribers;
 DROP POLICY IF EXISTS "Admin only for newsletter sends" ON newsletter_sends;
 DROP POLICY IF EXISTS "Users can read own badges" ON user_badges;
 DROP POLICY IF EXISTS "System can insert badges" ON user_badges;
@@ -57,13 +57,13 @@ CREATE POLICY "Users can delete own discussions"
   TO authenticated
   USING (auth.uid() = user_id);
 
--- newsletter_subscriptions: users manage own record
+-- newsletter_subscribers: users manage own record
 CREATE POLICY "Users can manage own newsletter sub"
-  ON newsletter_subscriptions FOR ALL
+  ON newsletter_subscribers FOR ALL
   USING (auth.uid() = user_id);
 
 CREATE POLICY "Anyone can insert newsletter sub"
-  ON newsletter_subscriptions FOR INSERT
+  ON newsletter_subscribers FOR INSERT
   WITH CHECK (true);
 
 -- newsletter_sends: admin only

@@ -40,6 +40,7 @@ export default function DashboardPage() {
   const [earnedBadges, setEarnedBadges] = useState<Badge[]>(allBadges);
   // My Courses — purchased or granted courses with progress
   const [myCourses, setMyCourses]       = useState<any[]>([]);
+  const [passedModuleIds, setPassedModuleIds] = useState<string[]>([]);
 
   useEffect(() => {
     const hour = new Date().getHours();
@@ -119,21 +120,77 @@ export default function DashboardPage() {
         }
 
         // ── My Courses (purchased or floor-granted) ─────────────────────────
+        const { data: allCourses } = await supabase
+          .from('courses' as any)
+          .select(`
+            id, slug, title, description, thumbnail_url, is_free_for_floor, price_gbp,
+            course_modules ( id, sort_order )
+          `)
+          .eq('is_published', true);
+
         const { data: purchases } = await supabase
           .from('course_purchases' as any)
-          .select('course_id, access_granted_via, purchased_at, courses:course_id(id, slug, title)')
+          .select('course_id, access_granted_via, purchased_at')
           .eq('user_id', user.id);
 
-        if (purchases && purchases.length > 0) {
-          // Fetch lesson counts + progress for each course in parallel
-          const enriched = await Promise.all((purchases as any[]).map(async (p: any) => {
-            const courseId = p.course_id;
+        const { data: quizAttempts } = await supabase
+          .from('course_quiz_attempts' as any)
+          .select('module_id, passed')
+          .eq('user_id', user.id)
+          .eq('passed', true);
+        const passedModIds = quizAttempts?.map((a: any) => a.module_id) || [];
+        setPassedModuleIds(passedModIds);
+
+        const isFloorUser = tier === 'floor';
+        const purchasedIds = purchases?.map((p: any) => p.course_id) || [];
+
+        // If floor member has no purchase rows yet, auto-grant now
+        const floorCourses = allCourses?.filter((c: any) => c.is_free_for_floor) || [];
+        if (isFloorUser && purchasedIds.length === 0 && floorCourses.length > 0) {
+          await (supabase as any).rpc('grant_floor_courses', { p_user_id: user.id });
+          // Re-fetch purchases after grant to stay synchronized
+          const { data: refetched } = await supabase
+            .from('course_purchases' as any)
+            .select('course_id, access_granted_via, purchased_at')
+            .eq('user_id', user.id);
+          if (refetched) {
+            purchasedIds.push(...(refetched as any[]).map((p: any) => p.course_id));
+          }
+        }
+
+        if (allCourses) {
+          const enriched = await Promise.all((allCourses as any[]).map(async (course: any) => {
+            const hasAccess = purchasedIds.includes(course.id) || (isFloorUser && course.is_free_for_floor);
+            
             const [{ count: totalLessons }, { count: completedLessons }] = await Promise.all([
-              supabase.from('course_lessons' as any).select('id', { count: 'exact', head: true }).eq('course_id', courseId),
-              supabase.from('course_progress' as any).select('id', { count: 'exact', head: true }).eq('course_id', courseId).eq('user_id', user.id),
+              supabase.from('course_lessons' as any).select('id', { count: 'exact', head: true }).eq('course_id', course.id),
+              supabase.from('course_progress' as any).select('id', { count: 'exact', head: true }).eq('course_id', course.id).eq('user_id', user.id),
             ]);
+
             const pct = totalLessons ? Math.round(((completedLessons ?? 0) / totalLessons) * 100) : 0;
-            return { ...p, _totalLessons: totalLessons, _completedLessons: completedLessons ?? 0, _progress: pct };
+
+            // Find purchase source
+            const purchaseRecord = (purchases as any[])?.find((p: any) => p.course_id === course.id);
+            const accessGrantedVia = purchaseRecord?.access_granted_via || (isFloorUser && course.is_free_for_floor ? 'floor_tier' : null);
+
+            // Sort module IDs
+            const modIds = [...(course.course_modules || [])]
+              .sort((a: any, b: any) => a.sort_order - b.sort_order)
+              .map((m: any) => m.id);
+
+            return {
+              id: course.id,
+              slug: course.slug,
+              title: course.title,
+              description: course.description,
+              price_gbp: course.price_gbp,
+              hasAccess,
+              access_granted_via: accessGrantedVia,
+              modIds,
+              _totalLessons: totalLessons,
+              _completedLessons: completedLessons ?? 0,
+              _progress: pct,
+            };
           }));
           setMyCourses(enriched);
         }
@@ -524,51 +581,158 @@ export default function DashboardPage() {
           {/* My Courses */}
           <div className="space-y-4">
             <h4 className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary">My Courses</h4>
-            {myCourses.length > 0 ? (
+            {myCourses.length > 0 && (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {myCourses.map((c: any) => (
-                  <Link
-                    key={c.course_id}
-                    href={`/dashboard/courses/${c.courses?.slug}`}
-                    className="flex gap-4 p-5 bg-background-surface/40 border border-border-slate/50 rounded-xl hover:border-[#C8F135]/40 transition-all group"
-                  >
-                    <div className="w-16 h-16 rounded-lg bg-[#C8F135]/10 border border-[#C8F135]/20 flex items-center justify-center shrink-0">
-                      <span className="text-2xl">🤖</span>
-                    </div>
-                    <div className="flex-1 min-w-0 space-y-2">
-                      <p className="text-[9px] font-mono text-[#C8F135] uppercase tracking-widest">
-                        {c.access_granted_via === 'floor_tier' ? 'Floor Tier — Included' : 'Purchased'}
-                      </p>
-                      <p className="text-sm font-bold text-text-primary group-hover:text-[#C8F135] transition-colors truncate">
-                        {c.courses?.title}
-                      </p>
-                      <div className="flex items-center gap-2">
-                        <div className="flex-1 h-1 bg-border-slate/40 rounded-full overflow-hidden">
-                          <div className="h-full bg-[#C8F135] rounded-full" style={{ width: `${c._progress ?? 0}%` }} />
+                {myCourses.map((c: any) => {
+                  const isSurvivalKit = c.slug === 'prop-firm-survival-kit';
+                  
+                  if (isSurvivalKit) {
+                    const completedQuizzesCount = (c.modIds || []).filter((id: string) => passedModuleIds.includes(id)).length;
+                    return (
+                      <div
+                        key={c.id}
+                        className="flex flex-col justify-between p-5 bg-[#0A0A0A] border border-[#222222] rounded-xl hover:border-[#22C55E]/40 transition-all group"
+                      >
+                        <div className="space-y-4">
+                          <div className="flex justify-between items-start">
+                            <span className="text-[9px] font-mono text-[#22C55E] uppercase tracking-widest font-bold">
+                              INTERACTIVE KIT // 6 MODULES
+                            </span>
+                            {c.hasAccess && subscriptionTier === 'floor' && (
+                              <span className="text-[9px] font-mono text-[#22C55E] border border-[#22C55E]/20 bg-[#22C55E]/5 px-1.5 py-0.5 rounded shrink-0">
+                                Included with Floor ✓
+                              </span>
+                            )}
+                          </div>
+                          
+                          <div>
+                            <h4 className="text-base font-bold text-white group-hover:text-[#22C55E] transition-colors leading-tight">
+                              Prop Firm Survival Kit
+                            </h4>
+                            <p className="text-[11px] text-text-tertiary mt-1">
+                              Every rule decoded. Every psychological trap named.
+                            </p>
+                          </div>
+
+                          {c.hasAccess && (
+                            <div className="space-y-3 pt-2">
+                              {/* Progress bar */}
+                              <div className="space-y-1.5">
+                                <div className="flex justify-between text-[9px] font-mono text-[#6B7280]">
+                                  <span>{c._completedLessons} of 40 lessons · {completedQuizzesCount} of 6 modules complete</span>
+                                  <span>{c._progress}%</span>
+                                </div>
+                                <div className="h-1 bg-neutral-900 rounded-full overflow-hidden">
+                                  <div className="h-full bg-[#22C55E] rounded-full" style={{ width: `${c._progress}%` }} />
+                                </div>
+                              </div>
+
+                              {/* Progress dots */}
+                              <div className="flex items-center gap-1.5">
+                                {(c.modIds || []).map((mId: string, idx: number) => {
+                                  const isPassed = passedModuleIds.includes(mId);
+                                  const isUnlocked = idx === 0 || passedModuleIds.includes(c.modIds[idx - 1]);
+                                  let dotClass = "bg-neutral-800 border-neutral-700"; // locked
+                                  if (isPassed) {
+                                    dotClass = "bg-[#22C55E] border-[#22C55E]"; // passed
+                                  } else if (isUnlocked) {
+                                    dotClass = "bg-transparent border-white"; // in progress
+                                  }
+                                  return (
+                                    <div key={mId} className={`w-2 h-2 rounded-full border ${dotClass}`} title={`Module ${idx + 1}`} />
+                                  );
+                                })}
+                              </div>
+                            </div>
+                          )}
                         </div>
-                        <span className="text-[9px] font-mono text-text-tertiary shrink-0">
-                          {c._completedLessons ?? 0}/{c._totalLessons ?? '?'}
-                        </span>
+
+                        <div className="mt-4 pt-4 border-t border-border-slate/10 flex flex-col gap-2">
+                          {c.hasAccess ? (
+                            <Link
+                              href={`/dashboard/courses/${c.slug}`}
+                              className="w-full py-2 bg-[#22C55E] text-black font-bold text-xs rounded-lg hover:bg-[#1db053] transition-colors text-center inline-flex items-center justify-center gap-1"
+                            >
+                              {c._completedLessons > 0 ? "Continue →" : "Start Kit →"}
+                            </Link>
+                          ) : (
+                            <Link
+                              href={`/courses/${c.slug}`}
+                              className="w-full py-2 border border-[#22C55E] text-[#22C55E] bg-transparent font-bold text-xs rounded-lg hover:bg-[#22C55E]/10 transition-all text-center inline-flex items-center justify-center"
+                            >
+                              Get Access — £{(c.price_gbp / 100).toFixed(0)}
+                            </Link>
+                          )}
+                        </div>
+                      </div>
+                    );
+                  }
+
+                  // Default card layout (like Deploy Your Algo)
+                  return (
+                    <div
+                      key={c.id}
+                      className="flex flex-col justify-between p-5 bg-background-surface/40 border border-border-slate/50 rounded-xl hover:border-[#C8F135]/40 transition-all group"
+                    >
+                      <div className="flex gap-4">
+                        <div className="w-16 h-16 rounded-lg bg-[#C8F135]/10 border border-[#C8F135]/20 flex items-center justify-center shrink-0">
+                          <span className="text-2xl">🤖</span>
+                        </div>
+                        <div className="flex-1 min-w-0 space-y-2">
+                          <p className="text-[9px] font-mono text-[#C8F135] uppercase tracking-widest">
+                            {c.hasAccess ? (c.access_granted_via === 'floor_tier' ? 'Floor Tier — Included' : 'Purchased') : 'Mini Course'}
+                          </p>
+                          <p className="text-sm font-bold text-text-primary group-hover:text-[#C8F135] transition-colors truncate">
+                            {c.title}
+                          </p>
+                          {c.hasAccess ? (
+                            <div className="flex items-center gap-2">
+                              <div className="flex-1 h-1 bg-border-slate/40 rounded-full overflow-hidden">
+                                <div className="h-full bg-[#C8F135] rounded-full" style={{ width: `${c._progress ?? 0}%` }} />
+                              </div>
+                              <span className="text-[9px] font-mono text-text-tertiary shrink-0">
+                                {c._completedLessons ?? 0}/{c._totalLessons ?? '?'}
+                              </span>
+                            </div>
+                          ) : (
+                            <p className="text-[11px] text-text-tertiary leading-relaxed line-clamp-2">
+                              {c.description || "From generated code to live chart in under an hour."}
+                            </p>
+                          )}
+                        </div>
+                      </div>
+                      <div className="mt-4 pt-4 border-t border-border-slate/10 flex flex-col gap-2">
+                        {c.hasAccess ? (
+                          <Link
+                            href={`/dashboard/courses/${c.slug}`}
+                            className="w-full py-2 bg-[#C8F135] text-black font-bold text-xs rounded-lg hover:bg-[#b8e020] transition-colors text-center inline-flex items-center justify-center gap-1"
+                          >
+                            {c._completedLessons > 0 ? "Continue Course →" : "Start Course →"}
+                          </Link>
+                        ) : (
+                          <Link
+                            href={`/courses/${c.slug}`}
+                            className="w-full py-2 border border-[#C8F135] text-[#C8F135] bg-transparent font-bold text-xs rounded-lg hover:bg-[#C8F135]/10 transition-all text-center inline-flex items-center justify-center"
+                          >
+                            Get Access — £{(c.price_gbp / 100).toFixed(0)}
+                          </Link>
+                        )}
+                        {c.hasAccess && subscriptionTier === 'floor' && (
+                          <div
+                            className="self-center px-2 py-0.5 rounded text-[10px] font-mono border"
+                            style={{
+                              backgroundColor: "transparent",
+                              borderColor: "#22C55E",
+                              color: "#22C55E",
+                            }}
+                          >
+                            Included with Floor ✓
+                          </div>
+                        )}
                       </div>
                     </div>
-                    <ArrowUpRight className="w-4 h-4 text-text-tertiary group-hover:text-[#C8F135] transition-colors shrink-0 self-start mt-1" />
-                  </Link>
-                ))}
-              </div>
-            ) : (
-              <div className="p-6 bg-background-surface/40 border border-border-slate/50 rounded-xl flex items-center gap-6">
-                <div className="w-14 h-14 rounded-xl bg-[#C8F135]/10 border border-[#C8F135]/20 flex items-center justify-center shrink-0 text-2xl">🤖</div>
-                <div className="flex-1 space-y-1">
-                  <p className="text-[9px] font-mono text-[#C8F135] uppercase tracking-widest">Mini Course</p>
-                  <p className="text-sm font-bold text-text-primary">Deploy Your Algo</p>
-                  <p className="text-[11px] text-text-tertiary leading-relaxed">From generated code to live chart in under an hour. Five modules, no fluff.</p>
-                </div>
-                <Link
-                  href="/courses/deploy-your-algo"
-                  className="shrink-0 px-4 py-2.5 bg-[#C8F135] text-black text-[11px] font-bold rounded-lg hover:bg-[#b8e020] transition-colors whitespace-nowrap"
-                >
-                  Get Access — £97
-                </Link>
+                  );
+                })}
               </div>
             )}
           </div>

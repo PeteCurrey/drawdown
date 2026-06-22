@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
@@ -60,6 +60,17 @@ export function CourseSidebar({
     });
     return initial;
   });
+
+  const [backLabel, setBackLabel] = useState("Open Algo Strategy Builder →");
+  const [backHref, setBackHref]   = useState("/dashboard/tools/algo-builder");
+
+  useEffect(() => {
+    if (typeof document !== "undefined" &&
+        (document.referrer.includes("algo-builder") ||
+         new URLSearchParams(window.location.search).get("from") === "algo-builder")) {
+      setBackLabel("← Back to your strategy");
+    }
+  }, []);
 
   const toggle = (id: string) =>
     setOpenModules(prev => {
@@ -177,11 +188,11 @@ export function CourseSidebar({
 
       {/* Back link */}
       <Link
-        href="/dashboard/tools/algo-builder"
+        href={backHref}
         className="flex items-center gap-2 text-[10px] font-mono text-text-tertiary hover:text-[#C8F135] transition-colors uppercase tracking-widest mt-auto"
       >
         <ArrowLeft className="w-3 h-3" />
-        Back to Algo Builder
+        {backLabel}
       </Link>
     </aside>
   );

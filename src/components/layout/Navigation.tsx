@@ -41,7 +41,8 @@ const megaMenus = {
       { name: "Phases 1-2 (Foundation)", desc: "Ground Zero & Chart Reader modules", href: "/courses", icon: BookOpen, color: "text-indigo-500 bg-indigo-500/10" },
       { name: "Phases 3-4 (Edge)", desc: "Strategist & Advanced Execution", href: "/courses", icon: Activity, color: "text-emerald-500 bg-emerald-500/10" },
       { name: "Phases 5-6 (Mastery)", desc: "System Builder & Portfolio Management", href: "/courses", icon: TrendingUp, color: "text-rose-500 bg-rose-500/10" },
-      { name: "Start Phase 1 Free", desc: "No credit card or registration required", href: "/courses/ground-zero", icon: Sparkles, color: "text-amber-500 bg-amber-500/10" }
+      { name: "Start Phase 1 Free", desc: "No credit card or registration required", href: "/courses/ground-zero", icon: Sparkles, color: "text-amber-500 bg-amber-500/10" },
+      { name: "Deploy Your Algo — Mini Course", desc: "From generated code to live chart. £97 one-time.", href: "/courses/deploy-your-algo", icon: Terminal, color: "text-[#C8F135] bg-[#C8F135]/10" },
     ],
     featured: {
       image: "/images/nav/phase-01.png",

@@ -390,3 +390,271 @@
 }
 
 
+/* ============================================================
+   ALGO STRATEGY BUILDER — scoped dark theme overrides
+   Triggered by data-page="algo-builder" set on <body> by
+   AlgoBuilderPageWrapper. Does NOT affect any other page.
+   ============================================================ */
+
+/* ── Full page background ──────────────────────────────────── */
+body[data-page="algo-builder"] {
+  background-color: #0A0A0A !important;
+}
+
+/* ── Sidebar / aside ───────────────────────────────────────── */
+body[data-page="algo-builder"] aside,
+body[data-page="algo-builder"] [data-sidebar],
+body[data-page="algo-builder"] nav[class*="sidebar"],
+body[data-page="algo-builder"] div[class*="sidebar"] {
+  background-color: #0D0D0D !important;
+  border-right-color: #1E1E1E !important;
+}
+
+/* Sidebar: all text nodes */
+body[data-page="algo-builder"] aside a,
+body[data-page="algo-builder"] aside span:not(.sr-only),
+body[data-page="algo-builder"] aside button,
+body[data-page="algo-builder"] aside p {
+  color: #B0B0B0 !important;
+}
+
+/* Sidebar: active / current item */
+body[data-page="algo-builder"] aside a[aria-current="page"],
+body[data-page="algo-builder"] aside [data-active="true"],
+body[data-page="algo-builder"] aside li[class*="active"] a {
+  background-color: #161616 !important;
+  color: #C8F135 !important;
+}
+
+/* Sidebar: hover state */
+body[data-page="algo-builder"] aside a:hover,
+body[data-page="algo-builder"] aside button:hover {
+  background-color: #141414 !important;
+  color: #C8F135 !important;
+}
+
+/* Sidebar: icons inherit from parent text colour */
+body[data-page="algo-builder"] aside svg {
+  color: inherit !important;
+  opacity: 0.7;
+}
+body[data-page="algo-builder"] aside a[aria-current="page"] svg,
+body[data-page="algo-builder"] aside a:hover svg {
+  opacity: 1;
+}
+
+/* Sidebar: logo / brand mark */
+body[data-page="algo-builder"] aside [data-logo],
+body[data-page="algo-builder"] aside [class*="logo"] {
+  color: #FFFFFF !important;
+}
+
+/* ── Top bar (session bar + inner header) ──────────────────── */
+body[data-page="algo-builder"] header[class*="topbar"],
+body[data-page="algo-builder"] [data-topbar],
+body[data-page="algo-builder"] div[class*="session-bar"],
+body[data-page="algo-builder"] div[class*="top-bar"] {
+  background-color: #0D0D0D !important;
+  border-bottom-color: #1A1A1A !important;
+}
+
+/* ── Main content area wrapper ─────────────────────────────── */
+body[data-page="algo-builder"] main,
+body[data-page="algo-builder"] div[class*="main-content"],
+body[data-page="algo-builder"] div[class*="page-content"] {
+  background-color: #0A0A0A !important;
+}
+
+/* ── Any surface / card backgrounds in the platform layout ─── */
+body[data-page="algo-builder"] div[class*="bg-background-surface"],
+body[data-page="algo-builder"] div[class*="bg-background-primary"],
+body[data-page="algo-builder"] div[class*="bg-background-elevated"] {
+  background-color: #0D0D0D !important;
+}
+
+/* ── Breadcrumb nav text ───────────────────────────────────── */
+body[data-page="algo-builder"] nav.breadcrumb a,
+body[data-page="algo-builder"] [class*="breadcrumb"] a {
+  color: #666666 !important;
+}
+body[data-page="algo-builder"] [class*="breadcrumb"] a:hover {
+  color: #C8F135 !important;
+}
+
+/* ── Composer + code panel borders ────────────────────────── */
+body[data-page="algo-builder"] #algo-composer,
+body[data-page="algo-builder"] #algo-code-output {
+  border-radius: 8px !important;
+}
+
+/* ── Section header collapsed state ───────────────────────── */
+body[data-page="algo-builder"] [class*="section-header"],
+body[data-page="algo-builder"] button[class*="accordion"] {
+  background-color: #0D0D0D !important;
+  border-bottom-color: #1A1A1A !important;
+}
+
+/* ── Textarea and inputs: ensure dark everywhere ──────────── */
+body[data-page="algo-builder"] textarea,
+body[data-page="algo-builder"] input[type="text"],
+body[data-page="algo-builder"] input[type="number"],
+body[data-page="algo-builder"] select {
+  background-color: #0A0A0A !important;
+  border-color: #2A2A2A !important;
+  color: #E5E5E5 !important;
+}
+body[data-page="algo-builder"] textarea:focus,
+body[data-page="algo-builder"] input:focus,
+body[data-page="algo-builder"] select:focus {
+  border-color: #C8F135 !important;
+  box-shadow: 0 0 0 1px #C8F13540 !important;
+  outline: none !important;
+}
+body[data-page="algo-builder"] textarea::placeholder,
+body[data-page="algo-builder"] input::placeholder {
+  color: #333333 !important;
+}
+
+/* ── Generate button enabled state ────────────────────────── */
+body[data-page="algo-builder"] #algo-generate-btn button:not(:disabled) {
+  transition: background-color 0.15s ease, color 0.15s ease !important;
+}
+body[data-page="algo-builder"] #algo-generate-btn button:not(:disabled):hover {
+  background-color: #D4F53D !important;
+}
+body[data-page="algo-builder"] #algo-generate-btn button:not(:disabled):active {
+  background-color: #B8E020 !important;
+}
+
+/* ── Code output placeholder: centre both axes ────────────── */
+body[data-page="algo-builder"] [class*="code-placeholder"],
+body[data-page="algo-builder"] [class*="placeholder"] {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-height: 400px !important;
+}
+
+/* ── No horizontal scroll ──────────────────────────────────── */
+body[data-page="algo-builder"] {
+  overflow-x: hidden;
+}
+
+
+/* ============================================================
+   DRIVER.JS TOUR — dark theme override (algo builder)
+   ============================================================ */
+
+#driver-popover-content,
+.driver-popover {
+  background-color: #111111 !important;
+  border: 1px solid #2A2A2A !important;
+  border-radius: 8px !important;
+  color: #E5E5E5 !important;
+  font-family: 'DM Sans', sans-serif !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.7) !important;
+  padding: 0 !important;
+}
+
+.driver-popover-title {
+  font-family: 'DM Mono', monospace !important;
+  color: #C8F135 !important;
+  font-size: 11px !important;
+  letter-spacing: 0.1em !important;
+  text-transform: uppercase !important;
+  padding: 14px 16px 0 !important;
+  margin: 0 !important;
+}
+
+.driver-popover-description {
+  color: #AAAAAA !important;
+  font-size: 13px !important;
+  line-height: 1.6 !important;
+  padding: 8px 16px 14px !important;
+  margin: 0 !important;
+}
+
+.driver-popover-progress-text {
+  color: #555555 !important;
+  font-family: 'DM Mono', monospace !important;
+  font-size: 10px !important;
+}
+
+.driver-popover-footer {
+  border-top: 1px solid #1E1E1E !important;
+  padding: 12px 16px !important;
+  margin: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 8px !important;
+}
+
+/* Next button */
+.driver-popover-next-btn {
+  background-color: #C8F135 !important;
+  color: #000000 !important;
+  font-family: 'DM Mono', monospace !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  border: none !important;
+  border-radius: 4px !important;
+  padding: 8px 18px !important;
+  letter-spacing: 0.06em !important;
+  text-transform: uppercase !important;
+  cursor: pointer !important;
+  transition: background-color 0.15s ease !important;
+}
+.driver-popover-next-btn:hover {
+  background-color: #D4F53D !important;
+}
+
+/* Previous button */
+.driver-popover-prev-btn {
+  background-color: transparent !important;
+  color: #666666 !important;
+  border: 1px solid #2A2A2A !important;
+  font-family: 'DM Mono', monospace !important;
+  font-size: 11px !important;
+  font-weight: 500 !important;
+  border-radius: 4px !important;
+  padding: 8px 14px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.06em !important;
+  cursor: pointer !important;
+}
+.driver-popover-prev-btn:hover {
+  border-color: #C8F135 !important;
+  color: #C8F135 !important;
+}
+
+/* Close / skip button */
+.driver-popover-close-btn {
+  color: #444444 !important;
+  background: transparent !important;
+  border: none !important;
+  font-size: 16px !important;
+  cursor: pointer !important;
+  position: absolute !important;
+  top: 10px !important;
+  right: 10px !important;
+  line-height: 1 !important;
+  padding: 4px !important;
+}
+.driver-popover-close-btn:hover {
+  color: #C8F135 !important;
+}
+
+/* Overlay */
+.driver-overlay {
+  background: rgba(0, 0, 0, 0.78) !important;
+}
+
+/* Highlight ring around focused element */
+.driver-highlighted-element {
+  border-radius: 6px !important;
+  box-shadow:
+    0 0 0 1px #C8F135,
+    0 0 0 4px rgba(200, 241, 53, 0.12) !important;
+}

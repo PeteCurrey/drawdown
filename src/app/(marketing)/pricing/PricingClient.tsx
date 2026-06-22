@@ -67,6 +67,7 @@ const tiers = [
       { name: "Early Access to New Tools", included: true },
       { name: "Quarterly Strategy Review Calls", included: true },
       { name: "Direct Discord Access to Founder", included: true },
+      { name: "Deploy Your Algo Mini Course", included: true, badge: "Included — £97 value", accent: true },
     ],
   },
 ];
@@ -227,13 +228,18 @@ export default function PricingPage() {
                     {tier.features.map((feature, i) => (
                       <div key={i} className="flex items-start gap-2.5">
                         {feature.included ? (
-                          <Check className="w-4 h-4 text-profit shrink-0 mt-0.5" />
+                          <Check className={cn("w-4 h-4 shrink-0 mt-0.5", (feature as any).accent ? "text-[#C8F135]" : "text-profit")} />
                         ) : (
                           <X className="w-4 h-4 text-mkt-bd shrink-0 mt-0.5" />
                         )}
-                        <span className={cn("text-xs font-sans leading-relaxed", feature.included ? "text-text-secondary" : "text-text-tertiary")}>
+                        <span className={cn("text-xs font-sans leading-relaxed flex-1", feature.included ? "text-text-secondary" : "text-text-tertiary")}>
                           {feature.name}
                         </span>
+                        {(feature as any).badge && (
+                          <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[9px] font-bold font-mono uppercase tracking-wide text-black bg-[#C8F135] shrink-0 ml-1">
+                            {(feature as any).badge}
+                          </span>
+                        )}
                       </div>
                     ))}
                   </div>

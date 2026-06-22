@@ -5,6 +5,7 @@ import dynamic from "next/dynamic";
 import { Copy, Check, Download, RefreshCw, ChevronDown, ChevronUp } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { OutputLanguage } from "@/types/algo-builder";
+import { AlgoBuilderCourseBanner } from "@/components/courses/AlgoBuilderCourseBanner";
 
 const C = "#C8F135";
 
@@ -208,6 +209,13 @@ export function CodeOutput({
               Save
             </button>
           </div>
+        </div>
+      )}
+
+      {/* Course upsell banner — show after first generation */}
+      {generationVersion >= 1 && !isGenerating && hasCode && (
+        <div className="px-3 pt-3" style={{ backgroundColor: "#0D0D0D" }}>
+          <AlgoBuilderCourseBanner />
         </div>
       )}
 

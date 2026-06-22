@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useRef, useState, useCallback, useMemo } from "react";
 import Link from "next/link";
 import {
   ChevronLeft, ChevronRight, DollarSign, BarChart3, Zap, Gem, Activity,
@@ -2049,7 +2049,7 @@ function MarketIntelligenceBar({
     : Math.max(0, Math.round(20 - (vixPrice - 30) * 2));
 
   // ── Synthetic sentiment from scanner breadth (fallback when VIX unavailable) ──
-  const syntheticSentimentScore = React.useMemo(() => {
+  const syntheticSentimentScore = useMemo(() => {
     if (vixScore !== null) return null; // real VIX loaded — no fallback needed
     const vals = Object.values(priceData).filter(d => d.changePct !== null && !d.loading && !d.error);
     if (vals.length < 4) return null;
@@ -2062,7 +2062,7 @@ function MarketIntelligenceBar({
   const sentimentSynth   = vixScore === null && syntheticSentimentScore !== null;
 
   // ── Synthetic DXY change from EUR/GBP/JPY basket (fallback when DXY unavailable) ──
-  const syntheticDxyChangePct = React.useMemo(() => {
+  const syntheticDxyChangePct = useMemo(() => {
     if (dxy?.price && dxy.changePct !== null) return null; // real DXY loaded
     const eur = priceData["EURUSD"]?.changePct;
     const gbp = priceData["GBPUSD"]?.changePct;

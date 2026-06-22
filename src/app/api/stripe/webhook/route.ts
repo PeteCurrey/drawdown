@@ -40,7 +40,29 @@ export async function POST(request: NextRequest) {
       const userId = session.metadata.userId;
       const tier = session.metadata.tier;
       const customerId = session.customer;
+      const purchaseType = session.metadata.purchase_type; // 'subscription' | 'course'
 
+      // ── One-time course purchase ──────────────────────────────────────────
+      if (purchaseType === 'course' && userId && session.metadata.course_id) {
+        const { error: courseErr } = await supabase
+          .from('course_purchases')
+          .insert({
+            user_id:                  userId,
+            course_id:                session.metadata.course_id,
+            stripe_payment_intent_id: session.payment_intent,
+            stripe_session_id:        session.id,
+            amount_paid_pence:        session.amount_total ?? 0,
+            access_granted_via:       'stripe_purchase',
+          })
+          .select()
+          .single();
+        if (courseErr && courseErr.code !== '23505') { // 23505 = unique violation (already purchased)
+          console.error('Error recording course purchase:', courseErr);
+        }
+        break;
+      }
+
+      // ── Subscription checkout ─────────────────────────────────────────────
       if (userId) {
         const { error } = await supabase
           .from("profiles")
@@ -54,20 +76,26 @@ export async function POST(request: NextRequest) {
         
         if (error) {
           console.error("Error updating profile on checkout:", error);
-        } else if (tier === 'edge' || tier === 'floor') {
-          // Award the edge_unlocked achievement badge for any paid tier that
-          // includes AI Signal Synthesis access (edge and floor).
-          // Fire-and-forget: badge failure must not fail the webhook response.
-          awardBadge(userId, 'edge_unlocked').catch(err =>
-            console.error("edge_unlocked badge award failed (non-fatal):", err)
-          );
+        } else {
+          if (tier === 'edge' || tier === 'floor') {
+            awardBadge(userId, 'edge_unlocked').catch(err =>
+              console.error("edge_unlocked badge award failed (non-fatal):", err)
+            );
+          }
+          // Auto-grant floor-included courses
+          if (tier === 'floor') {
+            await supabase.rpc('grant_floor_courses', { p_user_id: userId })
+              .then(({ error: rpcErr }) => {
+                if (rpcErr) console.error('grant_floor_courses failed (non-fatal):', rpcErr);
+              });
+          }
         }
       }
       break;
 
     case "customer.subscription.updated":
       const subscription = event.data.object as Stripe.Subscription;
-      const subTier = subscription.metadata.tier; // Assuming tier is also in subscription metadata
+      const subTier = subscription.metadata.tier;
       
       const { data: updatedProfile, error: updateError } = await supabase
         .from("profiles")
@@ -83,10 +111,16 @@ export async function POST(request: NextRequest) {
       if (updateError) {
         console.error("Error updating profile on subscription update:", updateError);
       } else if ((subTier === 'edge' || subTier === 'floor') && updatedProfile?.id) {
-        // Award edge_unlocked on upgrade path (e.g. foundation → edge or direct to floor).
         awardBadge(updatedProfile.id, 'edge_unlocked').catch(err =>
           console.error("edge_unlocked badge award failed (non-fatal):", err)
         );
+        // Auto-grant floor-included courses on upgrade
+        if (subTier === 'floor') {
+          await supabase.rpc('grant_floor_courses', { p_user_id: updatedProfile.id })
+            .then(({ error: rpcErr }) => {
+              if (rpcErr) console.error('grant_floor_courses upgrade failed (non-fatal):', rpcErr);
+            });
+        }
       }
       break;
 

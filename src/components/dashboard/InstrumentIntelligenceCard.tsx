@@ -403,19 +403,22 @@ export function InstrumentIntelligenceCard({ instrument }: InstrumentIntelligenc
     <section
       className={cn("relative overflow-hidden rounded-2xl", cardVisible ? "intel-card-enter" : "opacity-0")}
       style={{
-        background: "#0d0d0f",
-        backgroundImage: [
-          "conic-gradient(from 0deg at 30% 60%, rgba(255,255,255,0.000) 0deg, rgba(255,255,255,0.020) 60deg, rgba(255,255,255,0.000) 120deg)",
+        // Single background shorthand — layers top-to-bottom, solid colour last.
+        // This is the ONLY way to guarantee no layer cancels another.
+        background: [
+          "conic-gradient(from 0deg at 30% 60%, rgba(255,255,255,0.000) 0deg, rgba(255,255,255,0.022) 60deg, rgba(255,255,255,0.000) 120deg)",
           "radial-gradient(ellipse 50% 40% at 80% 20%, rgba(0,200,150,0.03) 0%, transparent 60%)",
+          "#0d0d0f",
         ].join(", "),
       }}
     >
-      {/* ── Directional glow — two layers cross-fade, never snapping ── */}
+      {/* ── Directional glow — opacity cross-fade between bullish/bearish ── */}
+      {/* Must be inside the section so overflow-hidden clips it correctly    */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
           opacity: glowVis && bias === "bullish" ? 1 : 0,
-          background: "radial-gradient(ellipse 80% 90% at 0% 100%, rgba(0,200,100,0.07) 0%, transparent 50%)",
+          background: "radial-gradient(ellipse 90% 90% at 0% 100%, rgba(0,200,100,0.12) 0%, transparent 55%)",
           transition: "opacity 800ms ease",
         }}
       />
@@ -423,7 +426,7 @@ export function InstrumentIntelligenceCard({ instrument }: InstrumentIntelligenc
         className="absolute inset-0 pointer-events-none"
         style={{
           opacity: glowVis && bias === "bearish" ? 1 : 0,
-          background: "radial-gradient(ellipse 80% 90% at 0% 100%, rgba(220,50,50,0.07) 0%, transparent 50%)",
+          background: "radial-gradient(ellipse 90% 90% at 0% 100%, rgba(220,50,50,0.12) 0%, transparent 55%)",
           transition: "opacity 800ms ease",
         }}
       />

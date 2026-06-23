@@ -674,9 +674,9 @@ export default function DashboardPage() {
         {/* Sidebar widgets */}
         <div className="space-y-12">
           <PsychologyCoach trades={trades} account={account} />
-          <BrokerWidget />
-          <EmotionalPnL />
           <NewsWidget />
+          <EmotionalPnL />
+          <BrokerWidget />
         </div>
       </div>
 

@@ -57,21 +57,30 @@ export default function DashboardPage() {
   // Redesign state: Selected Instrument
   const [selectedInst, setSelectedInst] = useState(INSTRUMENTS_LIST[0]);
 
-  // Redesign live feed items
-  const [feedItems, setFeedItems] = useState([
-    { id: "feed-1", type: "alert" as const, severity: "orange" as const, source: "GBP/USD", message: "Bearish divergence on 4H RSI", time: "10m ago" },
-    { id: "feed-2", type: "event" as const, severity: "red"    as const, message: "📋 NFP data release in 2h 14m", time: "2h ago" },
-    { id: "feed-3", type: "event" as const, severity: "orange" as const, message: "📋 BOE rate decision — tomorrow 12:00", time: "4h ago" },
-    { id: "feed-4", type: "event" as const, severity: "green"  as const, message: "📋 EUR/USD signal zone approached", time: "5h ago" },
-    { id: "feed-5", type: "event" as const, severity: "green"  as const, message: "📋 The Wire — Morning brief ready", time: "7h ago" },
+  type FeedItem = {
+    id: string;
+    type: "alert" | "event";
+    severity?: "orange" | "red" | "green";
+    source?: string;
+    message: string;
+    time?: string;
+  };
+
+  // Redesign live feed items — explicitly typed so `time` is optional throughout
+  const [feedItems, setFeedItems] = useState<FeedItem[]>([
+    { id: "feed-1", type: "alert", severity: "orange", source: "GBP/USD", message: "Bearish divergence on 4H RSI", time: "10m ago" },
+    { id: "feed-2", type: "event", severity: "red",    message: "📋 NFP data release in 2h 14m", time: "2h ago" },
+    { id: "feed-3", type: "event", severity: "orange", message: "📋 BOE rate decision — tomorrow 12:00", time: "4h ago" },
+    { id: "feed-4", type: "event", severity: "green",  message: "📋 EUR/USD signal zone approached", time: "5h ago" },
+    { id: "feed-5", type: "event", severity: "green",  message: "📋 The Wire — Morning brief ready", time: "7h ago" },
   ]);
 
   // Simulate a live feed alert update every 45s
   useEffect(() => {
     const interval = setInterval(() => {
-      const opts = [
-        { id: `feed-rand-${Date.now()}`, type: "alert" as const, severity: "orange" as const, source: selectedInst.name, message: "Volatility increase detected on 15m timeframe" },
-        { id: `feed-rand-${Date.now()}`, type: "event" as const, severity: "green"  as const, message: "📋 Order flow delta shifting to accumulation" },
+      const opts: FeedItem[] = [
+        { id: `feed-rand-${Date.now()}`, type: "alert", severity: "orange", source: selectedInst.name, message: "Volatility increase detected on 15m timeframe", time: "just now" },
+        { id: `feed-rand-${Date.now()}`, type: "event", severity: "green",  message: "📋 Order flow delta shifting to accumulation", time: "just now" },
       ];
       setFeedItems(prev => [opts[Math.floor(Math.random() * opts.length)], ...prev.slice(0, 5)]);
     }, 45000);
@@ -407,10 +416,10 @@ export default function DashboardPage() {
           return entry.toDateString() === today.toDateString();
         }).length}
         openAlerts={[
-          { label: "Price", count: feedItems.filter(f => f.type === "alert" && f.severity === "orange").length, color: "orange" },
-          { label: "RSI",   count: feedItems.filter(f => f.type === "alert" && f.severity === "red").length,    color: "red"    },
+          { label: "Price", count: (feedItems as any[]).filter((f: any) => f.severity === "orange").length, color: "orange" as const },
+          { label: "RSI",   count: (feedItems as any[]).filter((f: any) => f.severity === "red").length,    color: "red"    as const },
         ]}
-        onInstrumentChange={(inst) => setSelectedInst(inst)}
+        onInstrumentChange={(inst) => setSelectedInst(inst as any)}
       />
 
       {/* PHASE 3 — Overview Dashboard Card Grid */}

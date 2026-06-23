@@ -27,7 +27,7 @@ export function DotProgressBar({
       )}
       <div className="relative h-2 w-full flex items-center">
         {/* Dashed line track background */}
-        <div className="absolute inset-x-0 h-0.5 border-t border-dashed border-[#C8CBB8]/60" />
+        <div className="absolute inset-x-0 h-0.5 border-t border-dashed border-[#EDEDED]/60" />
         
         {/* Filled overlay representing progress */}
         <div 

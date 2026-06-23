@@ -105,7 +105,7 @@ export default function AppToolsHub() {
 
   return (
     <div className="space-y-10">
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-[#C8CBB8] pb-6">
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-[#EDEDED] pb-6">
         <div className="space-y-2">
           <div className="flex items-center gap-2 text-[#F9771D]">
             <Wrench className="w-4 h-4" />
@@ -129,7 +129,7 @@ export default function AppToolsHub() {
             <div 
               key={tool.slug} 
               className={cn(
-                "group p-6 bg-white border border-[#E5E5E5] rounded-2xl transition-all duration-300 relative flex flex-col justify-between min-h-[220px]",
+                "group p-6 bg-white border border-[#EDEDED] rounded-2xl transition-all duration-300 relative flex flex-col justify-between min-h-[220px]",
                 isLocked 
                   ? "opacity-75" 
                   : "hover:shadow-[0_4px_12px_rgba(0,0,0,0.12)] hover:-translate-y-0.5"

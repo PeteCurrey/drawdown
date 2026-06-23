@@ -30,7 +30,7 @@ export default async function MarketIntelligencePage() {
   if (userWeight < 2) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh] space-y-8 animate-in fade-in duration-700">
-        <div className="p-10 bg-white border border-[#E5E5E5] rounded-2xl flex flex-col items-center text-center space-y-6 max-w-md w-full rounded-none">
+        <div className="p-10 bg-white border border-[#EDEDED] rounded-2xl flex flex-col items-center text-center space-y-6 max-w-md w-full rounded-none">
           <div className="w-14 h-14 rounded-none border border-[#F9771D]/20 bg-[#F9771D]/10 flex items-center justify-center">
             <Lock className="w-6 h-6 text-[#F9771D]" />
           </div>
@@ -52,7 +52,7 @@ export default async function MarketIntelligencePage() {
             </Link>
             <Link
               href="/dashboard"
-              className="w-full flex items-center justify-center px-8 py-3 border border-[#C8CBB8] hover:border-[#F9771D] text-[10px] font-mono uppercase tracking-widest text-[#555550] hover:text-[#1A1A1A] transition-all rounded-[4px]"
+              className="w-full flex items-center justify-center px-8 py-3 border border-[#EDEDED] hover:border-[#F9771D] text-[10px] font-mono uppercase tracking-widest text-[#555550] hover:text-[#1A1A1A] transition-all rounded-[4px]"
             >
               Back to Dashboard
             </Link>
@@ -153,7 +153,7 @@ export default async function MarketIntelligencePage() {
       {/* Light background lower section */}
       <section className="p-6 md:p-10 bg-[#D5D8C5] grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* TradingView Chart Container */}
-        <div className="lg:col-span-2 bg-[#181818] border border-[#C8CBB8] p-6 text-white min-h-[380px] flex flex-col justify-between">
+        <div className="lg:col-span-2 bg-[#181818] border border-[#EDEDED] p-6 text-white min-h-[380px] flex flex-col justify-between">
           <div className="flex justify-between items-center border-b border-[#333330] pb-4">
             <span className="text-xs font-bold font-mono text-[#8A8A85]">TradingView Terminal — GBP / USD · 4H</span>
             <span className="text-[9px] font-mono bg-[#2A2A2A] text-white px-2 py-0.5 border border-[#333330]">Confluences Loaded</span>
@@ -170,7 +170,7 @@ export default async function MarketIntelligencePage() {
         {/* Calendar and Consensus side columns */}
         <div className="space-y-8">
           {/* Institutional Consensus Card */}
-          <div className="bg-white border border-[#E5E5E5] rounded-2xl p-6">
+          <div className="bg-white border border-[#EDEDED] rounded-2xl p-6">
             <h3 className="text-sm font-bold uppercase tracking-wider mb-4 text-[#1A1A1A]">Consensus Metrics</h3>
             <div className="space-y-4">
               <div>
@@ -191,8 +191,8 @@ export default async function MarketIntelligencePage() {
           </div>
 
           {/* Economic Calendar Mini-Card */}
-          <div className="bg-white border border-[#E5E5E5] rounded-2xl p-6 space-y-4">
-            <div className="flex justify-between items-center border-b border-[#C8CBB8] pb-2">
+          <div className="bg-white border border-[#EDEDED] rounded-2xl p-6 space-y-4">
+            <div className="flex justify-between items-center border-b border-[#EDEDED] pb-2">
               <h3 className="text-sm font-bold uppercase tracking-wider text-[#1A1A1A]">Calendar Events</h3>
               <span className="text-[9px] font-mono bg-[#C8CBB8] px-2 py-0.5 text-[#1A1A1A]">GMT</span>
             </div>

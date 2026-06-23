@@ -51,13 +51,13 @@
   --text-mid:    #555550;
   --text-light:  #FFFFFF;
   --text-dim:    #8A8A85;
-  --border:      #E0E0E0;
+  --border:      #EDEDED;
   --border-dark: #333330;
 
-  /* Card surfaces are white; page shell stays sage */
-  --background: #D5D8C5;
+  /* Page backgrounds are white; sidebar/topbar shell stays sage */
+  --background: #FFFFFF;
   --surface: #FFFFFF;
-  --elevated: #F9F9F9;
+  --elevated: #F8F8F8;
   --text-primary: #1A1A1A;
   --text-secondary: #555550;
   --text-tertiary: #555550;
@@ -66,10 +66,10 @@
 }
 
 [data-theme="light"] {
-  --background: #D5D8C5;
+  --background: #FFFFFF;
   --surface: #FFFFFF;
-  --elevated: #F9F9F9;
-  --border: #E0E0E0;
+  --elevated: #F8F8F8;
+  --border: #EDEDED;
   --text-primary: #1A1A1A;
   --text-secondary: #555550;
   --text-tertiary: #555550;

@@ -29,7 +29,7 @@ export function SessionTimeline() {
   }, []);
 
   return (
-    <div className="fixed bottom-0 left-0 lg:left-[220px] right-0 h-11 bg-[#D5D8C5] border-t border-[#C8CBB8] flex items-center justify-between px-6 z-40 text-xs text-[#1A1A1A]">
+    <div className="fixed bottom-0 left-0 lg:left-[220px] right-0 h-11 bg-[#D5D8C5] border-t border-[#EDEDED] flex items-center justify-between px-6 z-40 text-xs text-[#1A1A1A]">
       {/* Left session indicators */}
       <div className="flex items-center gap-2 shrink-0">
         <div className="w-5 h-5 rounded-full bg-[#181818] text-white flex items-center justify-center font-bold text-[9px]">PC</div>

@@ -124,7 +124,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   }
 
   return (
-    <div className="flex flex-col h-screen overflow-hidden bg-[#D5D8C5] text-[#1A1A1A] font-sans antialiased relative">
+    <div className="flex flex-col h-screen overflow-hidden bg-white text-[#1A1A1A] font-sans antialiased relative">
       {/* Background SVG Noise Filter Overlay */}
       <div className="absolute inset-0 pointer-events-none opacity-[0.03] z-[99]">
         <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
@@ -143,7 +143,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       )}
 
       {/* Top Navigation Bar */}
-      <header className="fixed top-0 left-0 right-0 h-14 bg-[#D5D8C5] border-b border-[#C8CBB8] flex items-center justify-between px-6 z-50">
+      <header className="fixed top-0 left-0 right-0 h-14 bg-[#D5D8C5] border-b border-[#DEDDD8] flex items-center justify-between px-6 z-50">
         {/* Left Side: Logo */}
         <div className="flex items-center gap-2">
           {/* simple geometric shield outline with orange fill */}
@@ -216,7 +216,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         {/* Left Sidebar Navigation */}
         <aside 
           className={cn(
-            "hidden md:flex flex-col bg-[#D5D8C5] border-r border-[#C8CBB8] transition-all duration-300 z-30 shrink-0",
+            "hidden md:flex flex-col bg-[#D5D8C5] border-r border-[#DEDDD8] transition-all duration-300 z-30 shrink-0",
             isCollapsed ? "w-14" : "w-[220px]"
           )}
         >
@@ -237,7 +237,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             ))}
 
             {/* Divider */}
-            <div className="my-3 border-t border-[#C8CBB8]" />
+            <div className="my-3 border-t border-[#DEDDD8]" />
 
             {/* Section 2: Platform links */}
             {platformLinks.map(link => (
@@ -246,7 +246,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           </div>
 
           {/* Bottom links: profile summary / billing */}
-          <div className="border-t border-[#C8CBB8] p-2 space-y-1">
+          <div className="border-t border-[#DEDDD8] p-2 space-y-1">
             <SidebarLink href="/dashboard/profile" icon={CreditCard} name="Billing" />
             <SidebarLink href="/dashboard/profile" icon={Settings} name="Settings" />
             
@@ -315,7 +315,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         )}
 
         {/* Main Content Area */}
-        <div className="flex-grow overflow-y-auto min-w-0 bg-[#D5D8C5] min-h-[calc(100vh-56px)] flex flex-col pb-16 md:pb-0">
+        <div className="flex-grow overflow-y-auto min-w-0 bg-white min-h-[calc(100vh-56px)] flex flex-col pb-16 md:pb-0">
           <main className="flex-grow p-6 md:p-10 select-text">
             {children}
           </main>
@@ -323,7 +323,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       </div>
 
       {/* Mobile Bottom Tab Bar (≤768px viewport) */}
-      <div className="md:hidden fixed bottom-0 left-0 right-0 h-14 bg-[#D5D8C5] border-t border-[#C8CBB8] flex items-center justify-around z-50">
+      <div className="md:hidden fixed bottom-0 left-0 right-0 h-14 bg-[#D5D8C5] border-t border-[#DEDDD8] flex items-center justify-around z-50">
         {[
           { label: "Overview", href: "/dashboard", icon: LayoutDashboard },
           { label: "Markets", href: "/dashboard/market-intelligence", icon: Brain },

@@ -45,7 +45,7 @@ export default async function TheWirePage() {
 
   return (
     <div className="space-y-10">
-      <header className="border-b border-[#C8CBB8] pb-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+      <header className="border-b border-[#EDEDED] pb-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
           <h1 className="text-3xl font-bold tracking-tight text-[#1A1A1A]">The Wire</h1>
           <p className="text-sm text-[#555550] mt-2">
@@ -64,7 +64,7 @@ export default async function TheWirePage() {
           {briefs.map((brief) => (
             <div 
               key={brief.id} 
-              className="bg-white border border-[#E5E5E5] rounded-2xl p-6 shadow-[0_1px_3px_rgba(0,0,0,0.08)] transition-all hover:shadow-[0_4px_12px_rgba(0,0,0,0.12)] duration-200"
+              className="bg-white border border-[#EDEDED] rounded-2xl p-6 shadow-[0_1px_3px_rgba(0,0,0,0.08)] transition-all hover:shadow-[0_4px_12px_rgba(0,0,0,0.12)] duration-200"
             >
               <div className="flex justify-between items-start mb-2">
                 <span className="text-[9px] font-mono text-[#555550] uppercase tracking-widest">{brief.tag}</span>
@@ -73,7 +73,7 @@ export default async function TheWirePage() {
               <h3 className="text-lg font-bold text-[#1A1A1A] mb-2">{brief.title}</h3>
               <p className="text-xs text-[#555550] leading-relaxed mb-4">{brief.preview}</p>
               
-              <div className="flex justify-between items-center border-t border-[#C8CBB8]/40 pt-4">
+              <div className="flex justify-between items-center border-t border-[#EDEDED]/40 pt-4">
                 <span className="text-xs font-bold text-[#F9771D] hover:underline cursor-pointer">Read →</span>
                 {brief.status === "NEW" && (
                   <span className="px-2 py-0.5 bg-[#F9771D] text-white text-[8px] font-mono font-bold uppercase">New</span>

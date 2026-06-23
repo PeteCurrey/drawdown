@@ -17,7 +17,7 @@ import type { HeroInstrument } from "@/components/dashboard/MarketIntelligenceHe
      • useTwelveData  → live price, prevClose, changePct, ATR, volumePct
      • useTechnicalData → RSI/MACD per TF, EMA50/200, S1/R1 key levels
      • useExtraSignals   → BB, Stochastic, CCI via TwelveData 4H (internal hook)
-     • useCalendarEvents → Finnhub /api/calendar/[instrument] (internal hook)
+     • useCalendarEvents → /api/calendar/[instrument] (internal hook)
    ───────────────────────────────────────────────────────────────────────────── */
 
 // ─── Static maps ──────────────────────────────────────────────────────────────
@@ -62,22 +62,15 @@ interface SessionInfo {
 
 function computeSession(now = new Date()): SessionInfo {
   const total = now.getUTCHours() * 60 + now.getUTCMinutes();
-  // London:  08:00–17:00 UTC  (480–1020)
-  // Overlap: 13:00–17:00 UTC  (780–1020)
-  // New York:13:00–22:00 UTC  (780–1320)
-  // Sydney:  22:00–07:00 UTC
-  // Tokyo:   00:00–09:00 UTC
   if (total >= 480 && total < 780)
-    return { name: "LONDON",           color: "#4A9EFF", openUTC: "08:00", closeUTC: "17:00", nextName: "London / NY", nextOpenUTC: "13:00" };
+    return { name: "LONDON",         color: "#4A9EFF", openUTC: "08:00", closeUTC: "17:00", nextName: "London / NY", nextOpenUTC: "13:00" };
   if (total >= 780 && total < 1020)
-    return { name: "LONDON / NY",      color: "#00C896", openUTC: "13:00", closeUTC: "17:00", nextName: "New York",    nextOpenUTC: "17:00" };
+    return { name: "LONDON / NY",    color: "#00C896", openUTC: "13:00", closeUTC: "17:00", nextName: "New York",    nextOpenUTC: "17:00" };
   if (total >= 1020 && total < 1320)
-    return { name: "NEW YORK",          color: "#F9771D", openUTC: "13:00", closeUTC: "22:00", nextName: "Sydney",      nextOpenUTC: "22:00" };
+    return { name: "NEW YORK",       color: "#F9771D", openUTC: "13:00", closeUTC: "22:00", nextName: "Sydney",      nextOpenUTC: "22:00" };
   if (total >= 1320 || total < 60)
-    return { name: "SYDNEY / TOKYO",   color: "#A78BFA", openUTC: "22:00", closeUTC: "07:00", nextName: "Tokyo",       nextOpenUTC: "00:00" };
-  if (total >= 0 && total < 480)
-    return { name: "TOKYO",            color: "#FBBF24", openUTC: "00:00", closeUTC: "09:00", nextName: "London",      nextOpenUTC: "08:00" };
-  return   { name: "CLOSED",           color: "#6B7280", openUTC: "--",    closeUTC: "--",    nextName: "London",      nextOpenUTC: "08:00" };
+    return { name: "SYDNEY / TOKYO", color: "#A78BFA", openUTC: "22:00", closeUTC: "07:00", nextName: "Tokyo",       nextOpenUTC: "00:00" };
+  return   { name: "TOKYO",          color: "#FBBF24", openUTC: "00:00", closeUTC: "09:00", nextName: "London",      nextOpenUTC: "08:00" };
 }
 
 // ─── Formatting helpers ───────────────────────────────────────────────────────
@@ -202,10 +195,24 @@ function signalFromVolume(pct: number | null | undefined): Signal {
   return pct > 120 ? "BUY" : pct < 80 ? "SELL" : "NEUTRAL";
 }
 
+// ─── Design tokens (light mode) ──────────────────────────────────────────────
+// All text and border values are dark-on-white.
+const T = {
+  text:       "#111110",
+  textSub:    "rgba(0,0,0,0.50)",
+  textMuted:  "rgba(0,0,0,0.35)",
+  textFaint:  "rgba(0,0,0,0.22)",
+  divider:    "rgba(0,0,0,0.06)",
+  dividerXl:  "rgba(0,0,0,0.09)",
+  skelBg:     "rgba(0,0,0,0.06)",
+  rowBgNeutral: "rgba(0,0,0,0.025)",
+  rowBorderNeutral: "rgba(0,0,0,0.08)",
+} as const;
+
 // ─── Sub-components ───────────────────────────────────────────────────────────
 
 function Skel({ className }: { className?: string }) {
-  return <div className={cn("rounded", className)} style={{ background: "rgba(255,255,255,0.06)" }} />;
+  return <div className={cn("rounded animate-pulse", className)} style={{ background: T.skelBg }} />;
 }
 
 function KeyLevelRow({
@@ -214,14 +221,14 @@ function KeyLevelRow({
   return (
     <div
       className="flex items-center justify-between h-8"
-      style={{ borderBottom: "1px solid rgba(255,255,255,0.04)" }}
+      style={{ borderBottom: `1px solid ${T.divider}` }}
     >
       <span className="text-[10px] font-mono uppercase tracking-wider"
-        style={{ color: "rgba(255,255,255,0.32)" }}>
+        style={{ color: T.textFaint }}>
         {label}
       </span>
       <span className="text-[12px] font-mono tabular-nums"
-        style={{ color: valueColor ?? "rgba(255,255,255,0.82)" }}>
+        style={{ color: valueColor ?? T.text }}>
         {value}
       </span>
     </div>
@@ -240,9 +247,9 @@ function SignalRow({ name, value, signal, loading }: SignalRowProps) {
     return (
       <div className="h-10 flex items-center px-3"
         style={{
-          background: "rgba(255,255,255,0.025)",
-          borderLeft: "2px solid rgba(255,255,255,0.06)",
-          borderBottom: "1px solid rgba(255,255,255,0.04)",
+          background: T.rowBgNeutral,
+          borderLeft: `2px solid ${T.rowBorderNeutral}`,
+          borderBottom: `1px solid ${T.divider}`,
         }}>
         <Skel className="h-2.5 flex-1" />
       </div>
@@ -251,28 +258,28 @@ function SignalRow({ name, value, signal, loading }: SignalRowProps) {
 
   const isBuy  = signal === "BUY";
   const isSell = signal === "SELL";
-  const accentColor = isBuy ? "#00c864" : isSell ? "#dc3232" : "rgba(255,255,255,0.1)";
+  const accentColor = isBuy ? "#00c864" : isSell ? "#dc3232" : T.rowBorderNeutral;
 
   return (
     <div
       className="flex items-center h-10 px-3 gap-2"
       style={{
-        background: isBuy ? "rgba(0,200,100,0.07)" : isSell ? "rgba(220,50,50,0.07)" : "rgba(255,255,255,0.025)",
+        background: isBuy ? "rgba(0,200,100,0.06)" : isSell ? "rgba(220,50,50,0.06)" : T.rowBgNeutral,
         borderLeft: `2px solid ${accentColor}`,
-        borderBottom: "1px solid rgba(255,255,255,0.04)",
+        borderBottom: `1px solid ${T.divider}`,
       }}
     >
       <span className="text-[11px] font-mono shrink-0 w-[90px]"
-        style={{ color: "rgba(255,255,255,0.42)" }}>
+        style={{ color: T.textMuted }}>
         {name}
       </span>
       <span className="text-[11px] font-mono flex-1 text-center truncate"
-        style={{ color: "rgba(255,255,255,0.68)" }}>
+        style={{ color: T.textSub }}>
         {value}
       </span>
       <span
         className="text-[10px] font-bold tracking-[0.1em] shrink-0 min-w-[42px] text-right"
-        style={{ color: isBuy ? "#00c864" : isSell ? "#dc3232" : "rgba(255,255,255,0.22)" }}
+        style={{ color: isBuy ? "#00c864" : isSell ? "#dc3232" : T.textFaint }}
       >
         {signal}
       </span>
@@ -312,8 +319,6 @@ export function InstrumentIntelligenceCard({ instrument }: InstrumentIntelligenc
   // ── Entrance animations ─────────────────────────────────────────────────────
   // No hasAnimated guard — React Strict Mode double-invokes effects; cleanup
   // cancels the first run's timeouts cleanly, remount schedules fresh ones.
-  // glowVis is NOT used: glow opacity is driven directly by bias so the glow
-  // is always in sync and never blocked by async state.
   const [cardVisible, setCardVisible] = useState(false);
   const [col1Vis,     setCol1Vis]     = useState(false);
   const [col2Vis,     setCol2Vis]     = useState(false);
@@ -381,7 +386,7 @@ export function InstrumentIntelligenceCard({ instrument }: InstrumentIntelligenc
     "Mixed — no clear bias";
   const summaryColor =
     buyCount > sellCount  ? "#00c864" :
-    sellCount > buyCount  ? "#dc3232" : "rgba(255,255,255,0.3)";
+    sellCount > buyCount  ? "#dc3232" : T.textMuted;
 
   // ── Volatility ──────────────────────────────────────────────────────────────
   const atrPct     = (livePrice && atr) ? (atr / livePrice) * 100 : null;
@@ -389,47 +394,32 @@ export function InstrumentIntelligenceCard({ instrument }: InstrumentIntelligenc
   const atrRatio   = atrPct ? atrPct / typicalPct : null;
   const volBarW    = atrRatio ? Math.min(100, Math.max(4, atrRatio * 50)) : 0;
   const volLabel   = !atrRatio ? "—" : atrRatio < 0.7 ? "LOW" : atrRatio < 1.3 ? "NORMAL" : "HIGH";
-  const volColor   = volLabel === "LOW"    ? "rgba(255,255,255,0.4)"
-                   : volLabel === "NORMAL" ? "#FBBF24" : "#F87171";
+  const volColor   = volLabel === "LOW"    ? T.textMuted
+                   : volLabel === "NORMAL" ? "#D97706" : "#DC2626";
 
   // ── Loading states ──────────────────────────────────────────────────────────
   const priceLoading   = td?.loading ?? true;
   const techLoading    = tech.loading;
   const signalsLoading = extra.loading || tech.loading;
 
+  // ── Perimeter glow via inset box-shadow — transitions correctly on bias change
+  const baseCardShadow = "0 1px 3px rgba(0,0,0,0.06), 0 0 0 1px rgba(0,0,0,0.05)";
+  const glowShadow =
+    bias === "bullish" ? `, inset 0 0 80px rgba(0, 200, 100, 0.13)` :
+    bias === "bearish" ? `, inset 0 0 80px rgba(220, 50, 50, 0.13)` :
+    "";
+  const cardBoxShadow = baseCardShadow + glowShadow;
+
   // ─── Render ─────────────────────────────────────────────────────────────────
   return (
     <section
-      className={cn("relative overflow-hidden rounded-2xl", cardVisible ? "intel-card-enter" : "opacity-0")}
+      className={cn("relative rounded-2xl bg-white overflow-hidden", cardVisible ? "intel-card-enter" : "opacity-0")}
       style={{
-        // Single background shorthand — layers top-to-bottom, solid colour last.
-        // This is the ONLY way to guarantee no layer cancels another.
-        background: [
-          "conic-gradient(from 0deg at 30% 60%, rgba(255,255,255,0.000) 0deg, rgba(255,255,255,0.022) 60deg, rgba(255,255,255,0.000) 120deg)",
-          "radial-gradient(ellipse 50% 40% at 80% 20%, rgba(0,200,150,0.03) 0%, transparent 60%)",
-          "#0d0d0f",
-        ].join(", "),
+        boxShadow: cardBoxShadow,
+        transition: "box-shadow 800ms ease, opacity 500ms ease",
+        border: `1px solid ${T.divider}`,
       }}
     >
-      {/* ── Directional glow — opacity driven directly by bias, no async state ── */}
-      {/* Two overlapping layers cross-fade via transition: opacity when bias changes */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          opacity: bias === "bullish" ? 1 : 0,
-          background: "radial-gradient(ellipse 90% 90% at 0% 100%, rgba(0,200,100,0.20) 0%, transparent 55%)",
-          transition: "opacity 800ms ease",
-        }}
-      />
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          opacity: bias === "bearish" ? 1 : 0,
-          background: "radial-gradient(ellipse 90% 90% at 0% 100%, rgba(220,50,50,0.20) 0%, transparent 55%)",
-          transition: "opacity 800ms ease",
-        }}
-      />
-
       {/* ── Body ── */}
       <div className="relative grid grid-cols-1 lg:grid-cols-3 py-6 px-8">
 
@@ -440,32 +430,32 @@ export function InstrumentIntelligenceCard({ instrument }: InstrumentIntelligenc
             opacity: col1Vis ? 1 : 0,
             transform: col1Vis ? "translateY(0)" : "translateY(8px)",
             transition: "opacity 400ms ease-out, transform 400ms ease-out",
-            borderRight: "1px solid rgba(255,255,255,0.06)",
-            borderBottom: "1px solid rgba(255,255,255,0.06)",
+            borderRight: `1px solid ${T.divider}`,
+            borderBottom: `1px solid ${T.divider}`,
           }}
         >
           {/* Instrument name + bias pill */}
           <div className="mb-4">
             <div className="flex items-center gap-3 mb-1 flex-wrap">
-              <h2 className="text-[26px] font-bold text-white leading-none tracking-tight">
+              <h2 className="text-[26px] font-bold leading-none tracking-tight" style={{ color: T.text }}>
                 {instrument.name}
               </h2>
               <span
                 className="text-[10px] font-bold font-mono tracking-wider px-2.5 py-0.5 rounded-full"
                 style={{
-                  background: bias === "bullish" ? "rgba(0,200,100,0.14)"
-                            : bias === "bearish" ? "rgba(220,50,50,0.14)"
-                            : "rgba(255,255,255,0.07)",
-                  color: bias === "bullish" ? "#00C896"
-                       : bias === "bearish" ? "#F87171"
-                       : "rgba(255,255,255,0.4)",
-                  border: `1px solid ${bias === "bullish" ? "rgba(0,200,100,0.25)" : bias === "bearish" ? "rgba(220,50,50,0.25)" : "rgba(255,255,255,0.1)"}`,
+                  background: bias === "bullish" ? "rgba(0,200,100,0.10)"
+                            : bias === "bearish" ? "rgba(220,50,50,0.10)"
+                            : "rgba(0,0,0,0.05)",
+                  color: bias === "bullish" ? "#00966A"
+                       : bias === "bearish" ? "#B91C1C"
+                       : T.textMuted,
+                  border: `1px solid ${bias === "bullish" ? "rgba(0,200,100,0.22)" : bias === "bearish" ? "rgba(220,50,50,0.22)" : T.divider}`,
                 }}
               >
                 {bias === "bullish" ? "BULLISH" : bias === "bearish" ? "BEARISH" : "NEUTRAL"}
               </span>
             </div>
-            <p className="text-[12px]" style={{ color: "rgba(255,255,255,0.32)" }}>
+            <p className="text-[12px]" style={{ color: T.textFaint }}>
               {FULL_NAMES[instrument.slug] ?? instrument.slug}
             </p>
           </div>
@@ -479,17 +469,17 @@ export function InstrumentIntelligenceCard({ instrument }: InstrumentIntelligenc
               </>
             ) : (
               <>
-                <p className="text-[22px] font-mono font-light text-white tabular-nums leading-none mb-1.5">
+                <p className="text-[22px] font-mono font-semibold tabular-nums leading-none mb-1.5" style={{ color: T.text }}>
                   {livePrice ? fmtPrice(livePrice, instrument.slug) : instrument.price}
                 </p>
                 {changeAbs !== null && changePct !== null ? (
                   <p className="text-[11px] font-mono"
-                    style={{ color: priceUp ? "#00C896" : "#F87171" }}>
+                    style={{ color: priceUp ? "#059669" : "#DC2626" }}>
                     {priceUp ? "+" : ""}{fmtN(changeAbs, changeDecimals)}
                     {" "}({priceUp ? "+" : ""}{changePct?.toFixed(2)}%)
                   </p>
                 ) : (
-                  <p className="text-[11px] font-mono" style={{ color: "rgba(255,255,255,0.18)" }}>
+                  <p className="text-[11px] font-mono" style={{ color: T.textFaint }}>
                     — updating day change
                   </p>
                 )}
@@ -498,9 +488,9 @@ export function InstrumentIntelligenceCard({ instrument }: InstrumentIntelligenc
           </div>
 
           {/* Key levels separator + header */}
-          <div className="mb-3" style={{ borderTop: "1px solid rgba(255,255,255,0.07)" }} />
+          <div className="mb-3" style={{ borderTop: `1px solid ${T.divider}` }} />
           <p className="text-[9px] font-mono uppercase tracking-[0.15em] mb-2"
-            style={{ color: "rgba(255,255,255,0.22)" }}>
+            style={{ color: T.textFaint }}>
             Key Levels · 4H
           </p>
 
@@ -509,15 +499,15 @@ export function InstrumentIntelligenceCard({ instrument }: InstrumentIntelligenc
             {techLoading ? (
               Array.from({ length: 5 }).map((_, i) => (
                 <div key={i} className="flex items-center justify-between h-8"
-                  style={{ borderBottom: "1px solid rgba(255,255,255,0.04)" }}>
+                  style={{ borderBottom: `1px solid ${T.divider}` }}>
                   <Skel className="h-2.5 w-16" />
                   <Skel className="h-2.5 w-20" />
                 </div>
               ))
             ) : (
               <>
-                <KeyLevelRow label="Support"    value={fmtPrice(support,    instrument.slug)} valueColor="#00C896" />
-                <KeyLevelRow label="Resistance" value={fmtPrice(resistance, instrument.slug)} valueColor="#F87171" />
+                <KeyLevelRow label="Support"    value={fmtPrice(support,    instrument.slug)} valueColor="#059669" />
+                <KeyLevelRow label="Resistance" value={fmtPrice(resistance, instrument.slug)} valueColor="#DC2626" />
                 <KeyLevelRow label="EMA 50"     value={fmtPrice(ema50,      instrument.slug)} />
                 <KeyLevelRow label="EMA 200"    value={fmtPrice(ema200,     instrument.slug)} />
                 <KeyLevelRow label="ATR (14)"   value={atr ? fmtN(atr, instrument.slug.includes("XAU") ? 2 : 5) : "—"} />
@@ -533,19 +523,19 @@ export function InstrumentIntelligenceCard({ instrument }: InstrumentIntelligenc
             opacity: col2Vis ? 1 : 0,
             transform: col2Vis ? "translateY(0)" : "translateY(8px)",
             transition: "opacity 400ms ease-out 100ms, transform 400ms ease-out 100ms",
-            borderRight: "1px solid rgba(255,255,255,0.06)",
-            borderBottom: "1px solid rgba(255,255,255,0.06)",
+            borderRight: `1px solid ${T.divider}`,
+            borderBottom: `1px solid ${T.divider}`,
           }}
         >
           <p className="text-[9px] font-mono uppercase tracking-[0.15em] mb-4"
-            style={{ color: "rgba(255,255,255,0.22)" }}>
+            style={{ color: T.textFaint }}>
             Technical Signals · 4H
           </p>
 
           {/* Signal badge grid */}
           <div
             className="flex flex-col overflow-hidden rounded-lg"
-            style={{ border: "1px solid rgba(255,255,255,0.07)" }}
+            style={{ border: `1px solid ${T.dividerXl}` }}
           >
             <SignalRow
               name="RSI (14)"
@@ -587,7 +577,7 @@ export function InstrumentIntelligenceCard({ instrument }: InstrumentIntelligenc
 
           {/* Summary line */}
           <p className="text-[10px] font-mono text-right mt-2.5"
-            style={{ color: signalsLoading ? "rgba(255,255,255,0.2)" : summaryColor }}>
+            style={{ color: signalsLoading ? T.textFaint : summaryColor }}>
             {signalsLoading ? "Computing signals…" : summaryText}
           </p>
         </div>
@@ -604,7 +594,7 @@ export function InstrumentIntelligenceCard({ instrument }: InstrumentIntelligenc
           {/* Active Session */}
           <div className="mb-5">
             <p className="text-[9px] font-mono uppercase tracking-[0.15em] mb-2.5"
-              style={{ color: "rgba(255,255,255,0.22)" }}>
+              style={{ color: T.textFaint }}>
               Active Session
             </p>
             <span
@@ -612,29 +602,29 @@ export function InstrumentIntelligenceCard({ instrument }: InstrumentIntelligenc
               style={{
                 background: `${session.color}18`,
                 color: session.color,
-                border: `1px solid ${session.color}30`,
+                border: `1px solid ${session.color}40`,
               }}
             >
               {session.name}
             </span>
             <div className="flex items-center gap-4 text-[10px] font-mono"
-              style={{ color: "rgba(255,255,255,0.28)" }}>
+              style={{ color: T.textMuted }}>
               <span>Open {session.openUTC} UTC</span>
               <span>Close {session.closeUTC} UTC</span>
             </div>
-            <p className="text-[10px] font-mono mt-1" style={{ color: "rgba(255,255,255,0.18)" }}>
+            <p className="text-[10px] font-mono mt-1" style={{ color: T.textFaint }}>
               Next: {session.nextName} · {session.nextOpenUTC} UTC
             </p>
           </div>
 
           {/* Separator */}
-          <div className="mb-4" style={{ borderTop: "1px solid rgba(255,255,255,0.07)" }} />
+          <div className="mb-4" style={{ borderTop: `1px solid ${T.divider}` }} />
 
           {/* Volatility */}
           <div className="mb-5">
             <div className="flex items-center justify-between mb-2">
               <p className="text-[9px] font-mono uppercase tracking-[0.15em]"
-                style={{ color: "rgba(255,255,255,0.22)" }}>
+                style={{ color: T.textFaint }}>
                 Volatility
               </p>
               <span className="text-[10px] font-bold font-mono" style={{ color: volColor }}>
@@ -642,14 +632,14 @@ export function InstrumentIntelligenceCard({ instrument }: InstrumentIntelligenc
               </span>
             </div>
             <div className="h-1.5 w-full rounded-full overflow-hidden"
-              style={{ background: "rgba(255,255,255,0.07)" }}>
+              style={{ background: T.skelBg }}>
               <div
                 className="h-full rounded-full transition-all duration-700"
                 style={{ width: `${volBarW}%`, background: volColor }}
               />
             </div>
             {atr && livePrice ? (
-              <p className="text-[9px] font-mono mt-1.5" style={{ color: "rgba(255,255,255,0.2)" }}>
+              <p className="text-[9px] font-mono mt-1.5" style={{ color: T.textFaint }}>
                 ATR {fmtN(atr, 3)} · {atrPct?.toFixed(2)}% of price
               </p>
             ) : (
@@ -658,41 +648,41 @@ export function InstrumentIntelligenceCard({ instrument }: InstrumentIntelligenc
           </div>
 
           {/* Separator */}
-          <div className="mb-4" style={{ borderTop: "1px solid rgba(255,255,255,0.07)" }} />
+          <div className="mb-4" style={{ borderTop: `1px solid ${T.divider}` }} />
 
           {/* Economic Events */}
           <div>
             <p className="text-[9px] font-mono uppercase tracking-[0.15em] mb-3"
-              style={{ color: "rgba(255,255,255,0.22)" }}>
+              style={{ color: T.textFaint }}>
               Upcoming Events
             </p>
 
             {cal.loading ? (
               Array.from({ length: 3 }).map((_, i) => (
                 <div key={i} className="flex items-center gap-2.5 py-2.5"
-                  style={{ borderBottom: i < 2 ? "1px solid rgba(255,255,255,0.04)" : "none" }}>
+                  style={{ borderBottom: i < 2 ? `1px solid ${T.divider}` : "none" }}>
                   <Skel className="w-2 h-2 rounded-full shrink-0" />
                   <Skel className="h-2.5 flex-1" />
                   <Skel className="h-2.5 w-10" />
                 </div>
               ))
             ) : cal.events.length === 0 ? (
-              <p className="text-[10px] font-mono" style={{ color: "rgba(255,255,255,0.2)" }}>
+              <p className="text-[10px] font-mono" style={{ color: T.textFaint }}>
                 No events in next 7 days
               </p>
             ) : (
               cal.events.map((evt, i) => {
                 const impactColor =
-                  evt.impact === "high"   ? "#F87171" :
-                  evt.impact === "medium" ? "#FBBF24" :
-                  "rgba(255,255,255,0.28)";
+                  evt.impact === "high"   ? "#DC2626" :
+                  evt.impact === "medium" ? "#D97706" :
+                  T.textMuted;
                 return (
                   <div
                     key={i}
                     className="flex items-start gap-2.5 py-2.5"
                     style={{
                       borderBottom: i < cal.events.length - 1
-                        ? "1px solid rgba(255,255,255,0.04)"
+                        ? `1px solid ${T.divider}`
                         : "none",
                     }}
                   >
@@ -702,11 +692,11 @@ export function InstrumentIntelligenceCard({ instrument }: InstrumentIntelligenc
                     />
                     <div className="flex-1 min-w-0">
                       <p className="text-[11px] leading-tight truncate"
-                        style={{ color: "rgba(255,255,255,0.62)" }}>
+                        style={{ color: T.textSub }}>
                         {evt.event}
                       </p>
                       <p className="text-[9px] font-mono mt-0.5"
-                        style={{ color: "rgba(255,255,255,0.28)" }}>
+                        style={{ color: T.textMuted }}>
                         {evt.country} · {evt.time} UTC
                       </p>
                     </div>

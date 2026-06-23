@@ -10,10 +10,7 @@ import {
   AlertCircle,
   Zap,
   CheckCircle2,
-  ChevronLeft,
   ChevronRight,
-  MoreHorizontal,
-  ChevronDown,
 } from "lucide-react";
 import { BrokerWidget } from "@/components/market/BrokerWidget";
 import { NewsWidget } from "@/components/market/NewsWidget";
@@ -27,8 +24,7 @@ import { phases } from "@/data/courses";
 import Link from "next/link";
 
 // ─── Custom CyberGuard Aesthetic Components ─────────────────────────────────
-import { MarketGauge } from "@/components/dashboard/MarketGauge";
-import { LiveFeed, type FeedItem } from "@/components/dashboard/LiveFeed";
+import { MarketIntelligenceHeroCard } from "@/components/dashboard/MarketIntelligenceHeroCard";
 import { SessionTimeline } from "@/components/dashboard/SessionTimeline";
 
 type SubscriptionTier = 'free' | 'foundation' | 'edge' | 'floor';
@@ -58,29 +54,26 @@ export default function DashboardPage() {
   const [myCourses, setMyCourses] = useState<any[]>([]);
   const [passedModuleIds, setPassedModuleIds] = useState<string[]>([]);
 
-  // Redesign state: Selected Instrument & dropdown state
+  // Redesign state: Selected Instrument
   const [selectedInst, setSelectedInst] = useState(INSTRUMENTS_LIST[0]);
-  const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [liveTimeframe, setLiveTimeframe] = useState<"1H" | "4H" | "1D">("4H");
 
-  // Redesign live feed mock alerts
-  const [feedItems, setFeedItems] = useState<FeedItem[]>([
-    { id: "feed-1", type: "alert", severity: "orange", source: "GBP/USD", message: "Bearish divergence on 4H RSI", time: "10m ago" },
-    { id: "feed-2", type: "event", severity: "red", message: "📋 NFP data release in 2h 14m", time: "2h ago" },
-    { id: "feed-3", type: "event", severity: "orange", message: "📋 BOE rate decision — tomorrow 12:00", time: "4h ago" },
-    { id: "feed-4", type: "event", severity: "green", message: "📋 EUR/USD signal zone approached", time: "5h ago" },
-    { id: "feed-5", type: "event", severity: "green", message: "📋 The Wire — Morning brief ready", time: "7h ago" },
+  // Redesign live feed items
+  const [feedItems, setFeedItems] = useState([
+    { id: "feed-1", type: "alert" as const, severity: "orange" as const, source: "GBP/USD", message: "Bearish divergence on 4H RSI", time: "10m ago" },
+    { id: "feed-2", type: "event" as const, severity: "red"    as const, message: "📋 NFP data release in 2h 14m", time: "2h ago" },
+    { id: "feed-3", type: "event" as const, severity: "orange" as const, message: "📋 BOE rate decision — tomorrow 12:00", time: "4h ago" },
+    { id: "feed-4", type: "event" as const, severity: "green"  as const, message: "📋 EUR/USD signal zone approached", time: "5h ago" },
+    { id: "feed-5", type: "event" as const, severity: "green"  as const, message: "📋 The Wire — Morning brief ready", time: "7h ago" },
   ]);
 
   // Simulate a live feed alert update every 45s
   useEffect(() => {
     const interval = setInterval(() => {
-      const randomFeeds = [
+      const opts = [
         { id: `feed-rand-${Date.now()}`, type: "alert" as const, severity: "orange" as const, source: selectedInst.name, message: "Volatility increase detected on 15m timeframe" },
-        { id: `feed-rand-${Date.now()}`, type: "event" as const, severity: "green" as const, message: "📋 Order flow delta shifting to accumulation" }
+        { id: `feed-rand-${Date.now()}`, type: "event" as const, severity: "green"  as const, message: "📋 Order flow delta shifting to accumulation" },
       ];
-      const selectedRandom = randomFeeds[Math.floor(Math.random() * randomFeeds.length)];
-      setFeedItems(prev => [selectedRandom, ...prev.slice(0, 5)]);
+      setFeedItems(prev => [opts[Math.floor(Math.random() * opts.length)], ...prev.slice(0, 5)]);
     }, 45000);
     return () => clearInterval(interval);
   }, [selectedInst]);
@@ -389,11 +382,6 @@ export default function DashboardPage() {
     loadDashboardData();
   }, []);
 
-  const handleInstrumentChange = (inst: typeof INSTRUMENTS_LIST[0]) => {
-    setSelectedInst(inst);
-    setDropdownOpen(false);
-  };
-
   if (loading) {
     return (
       <div className="space-y-10 animate-pulse pt-6 max-w-7xl mx-auto">
@@ -408,134 +396,22 @@ export default function DashboardPage() {
   return (
     <div className="space-y-10 text-[#1A1A1A]">
       
-      {/* PHASE 2 — Market Intelligence Hero Panel */}
-      <section className="bg-[#111210] text-white p-0 overflow-visible relative flex flex-col min-h-[440px]">
-        {/* Header Row */}
-        <div className="h-[52px] border-b border-[#333330] flex items-center justify-between px-6">
-          <div className="flex items-center gap-3">
-            <button className="text-[#8A8A85] hover:text-white p-1">
-              <ChevronLeft className="w-5 h-5" />
-            </button>
-            <span className="font-semibold text-xs uppercase tracking-widest text-[#8A8A85]">Market Intelligence</span>
-            <div className="w-px h-4 bg-[#333330]" />
-            
-            {/* Dropdown Selector */}
-            <div className="relative">
-              <button 
-                onClick={() => setDropdownOpen(!dropdownOpen)}
-                className="flex items-center gap-1.5 font-bold text-sm hover:text-[#F9771D] transition-colors"
-              >
-                {selectedInst.name} <ChevronDown className="w-3 h-3 text-[#8A8A85]" />
-              </button>
-              {dropdownOpen && (
-                <div className="absolute top-full left-0 mt-1 bg-[#2A2A2A] border border-[#333330] py-1 z-[99] min-w-[120px]">
-                  {INSTRUMENTS_LIST.map(inst => (
-                    <button
-                      key={inst.slug}
-                      onClick={() => handleInstrumentChange(inst)}
-                      className="w-full text-left px-3 py-1.5 text-xs text-[#E4E2DD] hover:bg-[#F9771D] hover:text-white"
-                    >
-                      {inst.name}
-                    </button>
-                  ))}
-                </div>
-              )}
-            </div>
-          </div>
-
-          <div className="flex items-center gap-4">
-            <div className="flex items-center gap-2">
-              <span className="w-2 h-2 bg-[#18B880] rounded-full animate-pulse" />
-              <span className="text-[10px] font-mono uppercase text-[#8A8A85]">Live Feed</span>
-            </div>
-            <div className="w-px h-4 bg-[#333330]" />
-            <div className="flex bg-[#232323] p-0.5 rounded-none">
-              {(["1H", "4H", "1D"] as const).map(tf => (
-                <button
-                  key={tf}
-                  onClick={() => setLiveTimeframe(tf)}
-                  className={cn(
-                    "px-2.5 py-1 text-[9px] font-bold font-mono tracking-wider transition-all",
-                    liveTimeframe === tf ? "bg-white text-[#181818]" : "text-[#8A8A85] hover:text-white"
-                  )}
-                >
-                  {tf}
-                </button>
-              ))}
-            </div>
-            <button className="p-1 hover:bg-[#333330] rounded-none">
-              <MoreHorizontal className="w-4 h-4 text-[#8A8A85]" />
-            </button>
-          </div>
-        </div>
-
-        {/* Panel Main Body Grid */}
-        <div className="flex-1 grid grid-cols-1 lg:grid-cols-12 min-h-[360px]">
-          {/* Column A: Left Stats */}
-          <div className="lg:col-span-3 border-r border-[#333330] p-6 flex flex-col justify-between space-y-6">
-            <div>
-              <p className="text-[10px] font-mono uppercase tracking-widest text-[#8A8A85] mb-2">Session Activity</p>
-              <div className="flex items-baseline gap-2">
-                <span className="text-5xl font-black font-mono leading-none">{trades.length}</span>
-                <span className="text-[10px] font-mono text-[#8A8A85] uppercase">trades logged</span>
-              </div>
-              {/* Activity sparkline placeholder */}
-              <div className="w-full h-8 mt-3">
-                <svg className="w-full h-full" viewBox="0 0 100 30">
-                  <path d="M 0 25 Q 25 5 50 15 T 100 5" fill="none" stroke="white" strokeWidth="1.5" />
-                </svg>
-              </div>
-            </div>
-
-            <div className="pt-4 border-t border-[#333330]">
-              <p className="text-[10px] font-mono uppercase tracking-widest text-[#8A8A85] mb-3">Open Alerts</p>
-              <div className="flex gap-2">
-                <div className="bg-[#2A2A2A] border border-[#333330] px-3 py-1 text-center flex-1">
-                  <p className="text-sm font-bold font-mono text-[#F9771D]">2</p>
-                  <p className="text-[8px] font-mono text-[#8A8A85] uppercase">Price</p>
-                </div>
-                <div className="bg-[#2A2A2A] border border-[#333330] px-3 py-1 text-center flex-1">
-                  <p className="text-sm font-bold font-mono text-[#18B880]">1</p>
-                  <p className="text-[8px] font-mono text-[#8A8A85] uppercase">RSI</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Column B: Center Radial Gauge — full-bleed, no padding */}
-          <div className="lg:col-span-6 flex flex-col relative overflow-hidden border-r border-[#333330]">
-            <MarketGauge 
-              percentage={selectedInst.defaultPct} 
-              instrument={selectedInst.name}
-              rsi={selectedInst.rsi}
-              price={selectedInst.price}
-              trend={selectedInst.trend}
-            />
-          </div>
-
-          {/* Column C: Live Feed Sidebar */}
-          <div className="lg:col-span-3 p-4 h-[300px] overflow-hidden">
-            <LiveFeed items={feedItems} className="h-full bg-transparent" />
-          </div>
-        </div>
-
-        {/* Panel Footer */}
-        <div className="h-9 border-t border-[#333330] flex items-center justify-between px-6 text-[10px] font-mono text-[#8A8A85] bg-black/15">
-          <div className="flex items-center gap-2">
-            <span className="w-1.5 h-1.5 bg-[#18B880] rounded-full animate-pulse" />
-            <span>Terminal Connected</span>
-          </div>
-          <div className="flex items-center gap-3">
-            <span>GMT/BST Sync Active</span>
-            <Link 
-              href="/dashboard/market-intelligence"
-              className="bg-[#F9771D] hover:bg-[#e0600d] text-white px-3 py-1 font-bold rounded-[4px] font-sans text-[11px]"
-            >
-              Full Analysis →
-            </Link>
-          </div>
-        </div>
-      </section>
+      {/* HERO: Market Intelligence Card */}
+      <MarketIntelligenceHeroCard
+        instruments={INSTRUMENTS_LIST}
+        initialInstrument={selectedInst}
+        feedItems={feedItems}
+        todayTradeCount={trades.filter(t => {
+          const today = new Date();
+          const entry = new Date(t.entry_time);
+          return entry.toDateString() === today.toDateString();
+        }).length}
+        openAlerts={[
+          { label: "Price", count: feedItems.filter(f => f.type === "alert" && f.severity === "orange").length, color: "orange" },
+          { label: "RSI",   count: feedItems.filter(f => f.type === "alert" && f.severity === "red").length,    color: "red"    },
+        ]}
+        onInstrumentChange={(inst) => setSelectedInst(inst)}
+      />
 
       {/* PHASE 3 — Overview Dashboard Card Grid */}
       <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">

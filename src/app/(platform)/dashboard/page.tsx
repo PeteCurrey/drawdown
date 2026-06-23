@@ -25,6 +25,7 @@ import Link from "next/link";
 
 // ─── Custom CyberGuard Aesthetic Components ─────────────────────────────────
 import { MarketIntelligenceHeroCard } from "@/components/dashboard/MarketIntelligenceHeroCard";
+import { InstrumentIntelligenceCard } from "@/components/dashboard/InstrumentIntelligenceCard";
 import { SessionTimeline } from "@/components/dashboard/SessionTimeline";
 
 type SubscriptionTier = 'free' | 'foundation' | 'edge' | 'floor';
@@ -421,6 +422,9 @@ export default function DashboardPage() {
         ]}
         onInstrumentChange={(inst) => setSelectedInst(inst as any)}
       />
+
+      {/* INSTRUMENT INTELLIGENCE: Technical detail card — synced to hero instrument selector */}
+      <InstrumentIntelligenceCard instrument={selectedInst} />
 
       {/* PHASE 3 — Overview Dashboard Card Grid */}
       <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">

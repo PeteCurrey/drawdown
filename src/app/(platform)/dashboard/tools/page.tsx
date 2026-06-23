@@ -129,7 +129,7 @@ export default function AppToolsHub() {
             <div 
               key={tool.slug} 
               className={cn(
-                "group p-6 bg-[#DADDCD] border border-[#C8CBB8] rounded-none transition-all duration-300 relative flex flex-col justify-between min-h-[220px]",
+                "group p-6 bg-white border border-[#E5E5E5] rounded-2xl transition-all duration-300 relative flex flex-col justify-between min-h-[220px]",
                 isLocked 
                   ? "opacity-75" 
                   : "hover:shadow-[0_4px_12px_rgba(0,0,0,0.12)] hover:-translate-y-0.5"

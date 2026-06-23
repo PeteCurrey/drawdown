@@ -131,7 +131,7 @@ export default async function CurriculumPage() {
           return (
             <div 
               key={phase.num} 
-              className="bg-[#DADDCD] border border-[#C8CBB8] p-6 shadow-[0_1px_3px_rgba(0,0,0,0.08)] flex flex-col justify-between min-h-[260px] relative transition-all hover:shadow-[0_4px_12px_rgba(0,0,0,0.12)] hover:-translate-y-0.5 duration-200"
+              className="bg-white border border-[#E5E5E5] rounded-2xl p-6 shadow-[0_1px_3px_rgba(0,0,0,0.08)] flex flex-col justify-between min-h-[260px] relative transition-all hover:shadow-[0_4px_12px_rgba(0,0,0,0.12)] hover:-translate-y-0.5 duration-200"
             >
               <div>
                 <div className="flex justify-between items-start mb-4">

@@ -64,7 +64,7 @@ export default async function TheWirePage() {
           {briefs.map((brief) => (
             <div 
               key={brief.id} 
-              className="bg-[#DADDCD] border border-[#C8CBB8] p-6 shadow-[0_1px_3px_rgba(0,0,0,0.08)] transition-all hover:shadow-[0_4px_12px_rgba(0,0,0,0.12)] duration-200"
+              className="bg-white border border-[#E5E5E5] rounded-2xl p-6 shadow-[0_1px_3px_rgba(0,0,0,0.08)] transition-all hover:shadow-[0_4px_12px_rgba(0,0,0,0.12)] duration-200"
             >
               <div className="flex justify-between items-start mb-2">
                 <span className="text-[9px] font-mono text-[#555550] uppercase tracking-widest">{brief.tag}</span>

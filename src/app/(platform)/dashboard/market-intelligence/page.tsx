@@ -30,7 +30,7 @@ export default async function MarketIntelligencePage() {
   if (userWeight < 2) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh] space-y-8 animate-in fade-in duration-700">
-        <div className="p-10 bg-[#DADDCD] border border-[#C8CBB8] flex flex-col items-center text-center space-y-6 max-w-md w-full rounded-none">
+        <div className="p-10 bg-white border border-[#E5E5E5] rounded-2xl flex flex-col items-center text-center space-y-6 max-w-md w-full rounded-none">
           <div className="w-14 h-14 rounded-none border border-[#F9771D]/20 bg-[#F9771D]/10 flex items-center justify-center">
             <Lock className="w-6 h-6 text-[#F9771D]" />
           </div>
@@ -170,7 +170,7 @@ export default async function MarketIntelligencePage() {
         {/* Calendar and Consensus side columns */}
         <div className="space-y-8">
           {/* Institutional Consensus Card */}
-          <div className="bg-[#DADDCD] border border-[#C8CBB8] p-6">
+          <div className="bg-white border border-[#E5E5E5] rounded-2xl p-6">
             <h3 className="text-sm font-bold uppercase tracking-wider mb-4 text-[#1A1A1A]">Consensus Metrics</h3>
             <div className="space-y-4">
               <div>
@@ -191,7 +191,7 @@ export default async function MarketIntelligencePage() {
           </div>
 
           {/* Economic Calendar Mini-Card */}
-          <div className="bg-[#DADDCD] border border-[#C8CBB8] p-6 space-y-4">
+          <div className="bg-white border border-[#E5E5E5] rounded-2xl p-6 space-y-4">
             <div className="flex justify-between items-center border-b border-[#C8CBB8] pb-2">
               <h3 className="text-sm font-bold uppercase tracking-wider text-[#1A1A1A]">Calendar Events</h3>
               <span className="text-[9px] font-mono bg-[#C8CBB8] px-2 py-0.5 text-[#1A1A1A]">GMT</span>

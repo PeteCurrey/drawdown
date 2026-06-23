@@ -397,9 +397,9 @@ export default function DashboardPage() {
   if (loading) {
     return (
       <div className="space-y-10 animate-pulse pt-6 max-w-7xl mx-auto">
-        <div className="h-40 bg-[#181818] rounded-none" />
+        <div className="h-40 bg-[#181818] rounded-2xl" />
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
-          {[0, 1, 2, 3].map(i => <div key={i} className="h-32 bg-[#DADDCD] rounded-none" />)}
+          {[0, 1, 2, 3].map(i => <div key={i} className="h-32 bg-white rounded-2xl shadow-sm" />)}
         </div>
       </div>
     );
@@ -541,7 +541,7 @@ export default function DashboardPage() {
       <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         
         {/* Card 1: Learning Progress */}
-        <div className="bg-[#DADDCD] border border-[#C8CBB8] p-5 shadow-[0_1px_3px_rgba(0,0,0,0.08)] flex flex-col justify-between min-h-[220px] transition-all hover:shadow-[0_4px_12px_rgba(0,0,0,0.12)] hover:-translate-y-0.5 duration-200">
+        <div className="bg-white border border-[#E5E5E5] rounded-2xl p-5 shadow-[0_2px_12px_rgba(0,0,0,0.06)] flex flex-col justify-between min-h-[220px] transition-all hover:shadow-[0_8px_24px_rgba(0,0,0,0.10)] hover:-translate-y-1 duration-200">
           <div>
             <div className="flex justify-between items-start mb-4">
               <h5 className="font-semibold text-sm text-[#1A1A1A]">Curriculum</h5>
@@ -562,7 +562,7 @@ export default function DashboardPage() {
           </div>
 
           <div>
-            <div className="w-full h-0.5 border-t border-dashed border-[#C8CBB8] mb-2" />
+            <div className="w-full h-px bg-[#F0F0F0] mb-2" />
             <div className="flex justify-between items-center text-[10px] font-mono text-[#555550]">
               <span>Active Tier</span>
               <span className="text-[#F9771D] font-bold">{subscriptionTier.toUpperCase()}</span>
@@ -571,7 +571,7 @@ export default function DashboardPage() {
         </div>
 
         {/* Card 2: The Wire */}
-        <div className="bg-[#DADDCD] border border-[#C8CBB8] p-5 shadow-[0_1px_3px_rgba(0,0,0,0.08)] flex flex-col justify-between min-h-[220px] transition-all hover:shadow-[0_4px_12px_rgba(0,0,0,0.12)] hover:-translate-y-0.5 duration-200">
+        <div className="bg-white border border-[#E5E5E5] rounded-2xl p-5 shadow-[0_2px_12px_rgba(0,0,0,0.06)] flex flex-col justify-between min-h-[220px] transition-all hover:shadow-[0_8px_24px_rgba(0,0,0,0.10)] hover:-translate-y-1 duration-200">
           <div>
             <div className="flex justify-between items-start mb-4">
               <h5 className="font-semibold text-sm text-[#1A1A1A]">The Wire</h5>
@@ -585,14 +585,14 @@ export default function DashboardPage() {
             </div>
           </div>
 
-          <div className="pt-3 border-t border-[#C8CBB8]/50 flex justify-between items-center text-[9px] font-mono text-[#555550]">
+          <div className="pt-3 border-t border-[#F0F0F0] flex justify-between items-center text-[9px] font-mono text-[#555550]">
             <span>Last Updated</span>
             <span>{latestBrief ? new Date(latestBrief.created_at).toLocaleTimeString() : "07:00 GMT"}</span>
           </div>
         </div>
 
         {/* Card 3: AI Tools */}
-        <div className="bg-[#DADDCD] border border-[#C8CBB8] p-5 shadow-[0_1px_3px_rgba(0,0,0,0.08)] flex flex-col justify-between min-h-[220px] transition-all hover:shadow-[0_4px_12px_rgba(0,0,0,0.12)] hover:-translate-y-0.5 duration-200">
+        <div className="bg-white border border-[#E5E5E5] rounded-2xl p-5 shadow-[0_2px_12px_rgba(0,0,0,0.06)] flex flex-col justify-between min-h-[220px] transition-all hover:shadow-[0_8px_24px_rgba(0,0,0,0.10)] hover:-translate-y-1 duration-200">
           <div>
             <div className="flex justify-between items-start mb-4">
               <h5 className="font-semibold text-sm text-[#1A1A1A]">AI Terminal Tools</h5>
@@ -612,13 +612,13 @@ export default function DashboardPage() {
             </div>
           </div>
 
-          <div className="pt-3 border-t border-[#C8CBB8]/50 text-right">
+          <div className="pt-3 border-t border-[#F0F0F0] text-right">
             <span className="text-[10px] font-mono text-[#555550]">3 More Available →</span>
           </div>
         </div>
 
         {/* Card 4: Watchlist Summary */}
-        <div className="bg-[#DADDCD] border border-[#C8CBB8] p-5 shadow-[0_1px_3px_rgba(0,0,0,0.08)] flex flex-col justify-between min-h-[220px] transition-all hover:shadow-[0_4px_12px_rgba(0,0,0,0.12)] hover:-translate-y-0.5 duration-200">
+        <div className="bg-white border border-[#E5E5E5] rounded-2xl p-5 shadow-[0_2px_12px_rgba(0,0,0,0.06)] flex flex-col justify-between min-h-[220px] transition-all hover:shadow-[0_8px_24px_rgba(0,0,0,0.10)] hover:-translate-y-1 duration-200">
           <div>
             <div className="flex justify-between items-start mb-4">
               <h5 className="font-semibold text-sm text-[#1A1A1A]">Active Watchlist</h5>
@@ -637,7 +637,7 @@ export default function DashboardPage() {
             </div>
           </div>
 
-          <div className="pt-3 border-t border-[#C8CBB8]/50 flex justify-between items-end">
+          <div className="pt-3 border-t border-[#F0F0F0] flex justify-between items-end">
             <span className="text-[10px] font-mono text-[#555550]">Watching</span>
             <span className="text-2xl font-black font-mono leading-none">2</span>
           </div>
@@ -654,7 +654,7 @@ export default function DashboardPage() {
             <h4 className="text-[10px] font-mono uppercase tracking-widest text-[#555550]">Performance Analytics</h4>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
               {stats.map((stat, i) => (
-                <div key={i} className="bg-[#DADDCD] border border-[#C8CBB8] p-5 shadow-[0_1px_3px_rgba(0,0,0,0.08)]">
+                <div key={i} className="bg-white border border-[#E5E5E5] rounded-2xl p-5 shadow-[0_2px_12px_rgba(0,0,0,0.06)]">
                   <p className="text-[10px] font-mono uppercase tracking-widest text-[#555550] mb-2">{stat.label}</p>
                   <div className={cn("text-2xl font-mono font-black mb-1", stat.color)}>
                     {stat.value}
@@ -687,8 +687,8 @@ export default function DashboardPage() {
           <WatchlistManager />
           <AlertCentre />
           
-          <div className="bg-[#DADDCD] border border-[#C8CBB8] p-8 flex flex-col justify-center items-center text-center space-y-6 shadow-[0_1px_3px_rgba(0,0,0,0.08)]">
-             <div className="w-12 h-12 bg-[#F9771D]/10 border border-[#F9771D]/20 flex items-center justify-center rounded-none">
+          <div className="bg-white border border-[#E5E5E5] rounded-2xl p-8 flex flex-col justify-center items-center text-center space-y-6 shadow-[0_2px_12px_rgba(0,0,0,0.06)]">
+             <div className="w-12 h-12 bg-[#F9771D]/10 border border-[#F9771D]/20 flex items-center justify-center rounded-xl">
                 <Zap className="w-6 h-6 text-[#F9771D] animate-pulse" />
              </div>
              <div className="space-y-2">
@@ -699,7 +699,7 @@ export default function DashboardPage() {
              </div>
              <Link 
                href="/dashboard/tools/algo-builder"
-               className="px-8 py-3 text-white text-[10px] font-bold uppercase tracking-widest transition-colors bg-[#181818] hover:bg-[#333330] rounded-none"
+               className="px-8 py-3 text-white text-[10px] font-bold uppercase tracking-widest transition-colors bg-[#181818] hover:bg-[#333330] rounded-xl"
              >
                 Open Algo Builder
              </Link>
@@ -710,7 +710,7 @@ export default function DashboardPage() {
       {/* Achievements at Bottom */}
       <div className="space-y-6">
         <h4 className="text-[10px] font-mono uppercase tracking-widest text-[#555550]">Achievements</h4>
-        <div className="p-8 bg-[#DADDCD] border border-[#C8CBB8]">
+        <div className="p-8 bg-white border border-[#E5E5E5] rounded-2xl shadow-[0_2px_12px_rgba(0,0,0,0.06)]">
           <BadgeGrid badges={earnedBadges} />
         </div>
       </div>

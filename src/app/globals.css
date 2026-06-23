@@ -51,12 +51,13 @@
   --text-mid:    #555550;
   --text-light:  #FFFFFF;
   --text-dim:    #8A8A85;
-  --border:      #C8CBB8;
+  --border:      #E0E0E0;
   --border-dark: #333330;
 
+  /* Card surfaces are white; page shell stays sage */
   --background: #D5D8C5;
-  --surface: #D5D8C5;
-  --elevated: #D5D8C5;
+  --surface: #FFFFFF;
+  --elevated: #F9F9F9;
   --text-primary: #1A1A1A;
   --text-secondary: #555550;
   --text-tertiary: #555550;
@@ -66,8 +67,9 @@
 
 [data-theme="light"] {
   --background: #D5D8C5;
-  --surface: #D5D8C5;
-  --elevated: #D5D8C5;
+  --surface: #FFFFFF;
+  --elevated: #F9F9F9;
+  --border: #E0E0E0;
   --text-primary: #1A1A1A;
   --text-secondary: #555550;
   --text-tertiary: #555550;

@@ -60,16 +60,35 @@ export default function DashboardPage() {
     time?: string;
   };
 
-  // Redesign live feed items — explicitly typed so `time` is optional throughout
+  // Static seed feed — replaced/prepended by live calendar events below
   const [feedItems, setFeedItems] = useState<FeedItem[]>([
-    { id: "feed-1", type: "alert", severity: "orange", source: "GBP/USD", message: "Bearish divergence on 4H RSI", time: "10m ago" },
-    { id: "feed-2", type: "event", severity: "red",    message: "📋 NFP data release in 2h 14m", time: "2h ago" },
-    { id: "feed-3", type: "event", severity: "orange", message: "📋 BOE rate decision — tomorrow 12:00", time: "4h ago" },
-    { id: "feed-4", type: "event", severity: "green",  message: "📋 EUR/USD signal zone approached", time: "5h ago" },
-    { id: "feed-5", type: "event", severity: "green",  message: "📋 The Wire — Morning brief ready", time: "7h ago" },
+    { id: "feed-seed-1", type: "event", severity: "green",  message: "📋 The Wire — Morning brief ready", time: "" },
+    { id: "feed-seed-2", type: "alert", severity: "orange", source: selectedInst.name, message: "Checking live market events...", time: "" },
   ]);
 
-  // Simulate a live feed alert update every 45s
+  // Fetch real Finnhub calendar events for the selected instrument and inject into feed
+  useEffect(() => {
+    const hookSlug = (selectedInst as any).hookSlug ?? selectedInst.slug.replace("/", "");
+    fetch(`/api/calendar/${encodeURIComponent(hookSlug)}`)
+      .then(r => r.json())
+      .then(({ events }) => {
+        if (!Array.isArray(events) || events.length === 0) return;
+        const eventItems: FeedItem[] = events.slice(0, 3).map((e: any, i: number) => ({
+          id: `cal-${hookSlug}-${i}`,
+          type: "event" as const,
+          severity: e.impact === "high" ? "red" as const : e.impact === "medium" ? "orange" as const : "green" as const,
+          message: `📋 ${e.country} ${e.event}${e.estimate ? ` · Est: ${e.estimate}` : ""}`,
+          time: e.time ?? "",
+        }));
+        setFeedItems(prev => [
+          ...eventItems,
+          ...prev.filter(f => !f.id.startsWith("cal-")),
+        ].slice(0, 6));
+      })
+      .catch(() => {/* silent — feed shows seed items */});
+  }, [selectedInst.slug]);
+
+  // Periodic live alert injection (instrument-aware)
   useEffect(() => {
     const interval = setInterval(() => {
       const opts: FeedItem[] = [

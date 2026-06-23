@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 import { useTwelveData, tdSymbol } from "@/hooks/useTwelveData";
 import { useTechnicalData, type Signal } from "@/hooks/useTechnicalData";
 import type { HeroInstrument } from "@/components/dashboard/MarketIntelligenceHeroCard";
-import { intervalLabel } from "@/lib/instruments";
+import { intervalLabel, instrumentBySlug } from "@/lib/instruments";
 
 /* ─────────────────────────────────────────────────────────────────────────────
    InstrumentIntelligenceCard
@@ -32,14 +32,17 @@ const FULL_NAMES: Record<string, string> = {
   "BTC/USD": "Bitcoin / US Dollar",
 };
 
-/** Map from INSTRUMENTS_LIST slug ("GBP/USD") to hook slug ("GBPUSD") */
-const SLUG_TO_HOOK: Record<string, string> = {
-  "GBP/USD": "GBPUSD",
-  "EUR/USD": "EURUSD",
-  "USD/JPY": "USDJPY",
-  "EUR/GBP": "EURGBP",
-  "XAU/USD": "XAUUSD",
-  "BTC/USD": "BTCUSDT",
+// ── Symbol slug → hook key: legacy narrow fallback only ──────────────────────
+// The primary path now uses lib/instruments.ts instrumentBySlug(slug).hookSlug.
+// This map is kept as a safety net for any slugs not in the catalogue.
+const SLUG_TO_HOOK_FALLBACK: Record<string, string> = {
+  "GBP/USD": "GBPUSD", "EUR/USD": "EURUSD", "USD/JPY": "USDJPY",
+  "EUR/GBP": "EURGBP", "XAU/USD": "XAUUSD", "BTC/USD": "BTCUSD",
+  "XAG/USD": "XAGUSD", "ETH/USD": "ETHUSD", "SOL/USD": "SOLUSD",
+  "GBP/JPY": "GBPJPY", "EUR/JPY": "EURJPY", "USD/CHF": "USDCHF",
+  "AUD/USD": "AUDUSD", "NZD/USD": "NZDUSD", "USD/CAD": "USDCAD",
+  "CAD/JPY": "CADJPY", "AUD/CAD": "AUDCAD", "GBP/CAD": "GBPCAD",
+  "WTI/USD": "WTIUSD",
 };
 
 /** Typical ATR as % of price — used for volatility comparison */
@@ -299,7 +302,14 @@ interface InstrumentIntelligenceCardProps {
 
 export function InstrumentIntelligenceCard({ instrument, interval = "4h" }: InstrumentIntelligenceCardProps) {
   // ── Slug normalisation ──────────────────────────────────────────────────────
-  const hookSlug = SLUG_TO_HOOK[instrument.slug] ?? instrument.slug.replace("/", "");
+  // Primary: use hookSlug from lib/instruments catalogue (covers all 30 symbols)
+  // Secondary: check the instrument object itself (new Instrument type has hookSlug)
+  // Fallback: legacy map, then strip slash
+  const hookSlug: string =
+    (instrument as any).hookSlug
+    ?? instrumentBySlug(instrument.slug)?.hookSlug
+    ?? SLUG_TO_HOOK_FALLBACK[instrument.slug]
+    ?? instrument.slug.replace("/", "");
 
   // ── Data hooks ──────────────────────────────────────────────────────────────
   const tdAll  = useTwelveData([hookSlug]);

@@ -274,16 +274,16 @@ export function MarketIntelligenceHeroCard({
         cardVisible ? "hero-card-enter" : "opacity-0"
       )}
       style={{
-        background: "#0a0a0f",
-        // Shimmer: extremely subtle conic sweep over the base
-        backgroundImage: [
-          "conic-gradient(from 0deg at 30% 50%, rgba(255,255,255,0.000) 0deg, rgba(255,255,255,0.028) 60deg, rgba(255,255,255,0.000) 120deg)",
+        // Single background shorthand — no split background/backgroundImage.
+        // Layer order: gloss highlight → shimmer → accents → solid base.
+        background: [
+          "linear-gradient(180deg, rgba(255,255,255,0.055) 0px, rgba(255,255,255,0.000) 1px)",
+          "conic-gradient(from 0deg at 30% 50%, rgba(255,255,255,0.000) 0deg, rgba(255,255,255,0.022) 60deg, rgba(255,255,255,0.000) 120deg)",
           "radial-gradient(ellipse 60% 40% at 70% 30%, rgba(0,200,150,0.04) 0%, transparent 70%)",
           "radial-gradient(ellipse 40% 60% at 20% 80%, rgba(249,119,29,0.03) 0%, transparent 60%)",
+          "#0a0a0f",
         ].join(", "),
-        animation: cardVisible
-          ? "heroFadeUp 600ms ease-out both, shimmerRotate 16s linear infinite"
-          : undefined,
+        animation: cardVisible ? "heroFadeUp 600ms ease-out both" : undefined,
       }}
     >
       {/* ── Header bar ──────────────────────────────────────────────────────── */}

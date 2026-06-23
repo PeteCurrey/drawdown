@@ -124,7 +124,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   }
 
   return (
-    <div className="flex flex-col h-screen overflow-hidden bg-white text-[#1A1A1A] font-sans antialiased relative">
+    <div className="flex flex-col h-screen overflow-hidden bg-white text-[#1A1A1A] font-sans antialiased">
       {/* Background SVG Noise Filter Overlay */}
       <div className="absolute inset-0 pointer-events-none opacity-[0.03] z-[99]">
         <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
@@ -142,8 +142,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         />
       )}
 
-      {/* Top Navigation Bar */}
-      <header className="fixed top-0 left-0 right-0 h-14 bg-white border-b border-[#DEDDD8] flex items-center justify-between px-6 z-50">
+      {/* Top Navigation Bar — sticky so it stays in flow, no fixed offset needed */}
+      <header className="sticky top-0 z-50 h-14 shrink-0 bg-white border-b border-[#DEDDD8] flex items-center justify-between px-6">
         {/* Left Side: Logo */}
         <div className="flex items-center gap-2">
           {/* simple geometric shield outline with orange fill */}
@@ -211,8 +211,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         </div>
       </header>
 
-      {/* Main shell container */}
-      <div className="flex-1 flex overflow-hidden pt-14">
+      {/* Main shell container — flex-1 so it fills the remaining height below the sticky header */}
+      <div className="flex flex-1 overflow-hidden">
         {/* Left Sidebar Navigation */}
         <aside 
           className={cn(
@@ -276,7 +276,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
         {/* Mobile menu overlay */}
         {mobileMenuOpen && (
-          <div className="fixed inset-0 top-14 bg-[#181818]/95 z-40 md:hidden flex flex-col p-6 animate-in fade-in duration-200">
+          <div className="fixed inset-0 bg-[#181818]/95 z-40 md:hidden flex flex-col p-6 animate-in fade-in duration-200">
             <nav className="flex-1 overflow-y-auto space-y-2 text-white">
               {mainNavLinks.map(link => (
                 <Link
@@ -314,9 +314,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           </div>
         )}
 
-        {/* Main Content Area */}
-        <div className="flex-grow overflow-y-auto min-w-0 bg-white min-h-[calc(100vh-56px)] flex flex-col pb-16 md:pb-0">
-          <main className="flex-grow p-6 md:p-10 select-text">
+        {/* Main Content Area — overflow-y-auto on a flex-1 container with definite height = scroll works */}
+        <div className="flex-1 overflow-y-auto min-w-0 bg-white pb-16 md:pb-0">
+          <main className="p-6 md:p-10 select-text">
             {children}
           </main>
         </div>

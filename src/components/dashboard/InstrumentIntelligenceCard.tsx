@@ -402,13 +402,8 @@ export function InstrumentIntelligenceCard({ instrument }: InstrumentIntelligenc
   const techLoading    = tech.loading;
   const signalsLoading = extra.loading || tech.loading;
 
-  // ── Perimeter glow via inset box-shadow — transitions correctly on bias change
-  const baseCardShadow = "0 1px 3px rgba(0,0,0,0.06), 0 0 0 1px rgba(0,0,0,0.05)";
-  const glowShadow =
-    bias === "bullish" ? `, inset 0 0 80px rgba(0, 200, 100, 0.13)` :
-    bias === "bearish" ? `, inset 0 0 80px rgba(220, 50, 50, 0.13)` :
-    "";
-  const cardBoxShadow = baseCardShadow + glowShadow;
+  // ── Card shadow & border (no glow here — glow is a positioned overlay below)
+  const cardBoxShadow = "0 1px 3px rgba(0,0,0,0.06), 0 0 0 1px rgba(0,0,0,0.05)";
 
   // ─── Render ─────────────────────────────────────────────────────────────────
   return (
@@ -416,12 +411,28 @@ export function InstrumentIntelligenceCard({ instrument }: InstrumentIntelligenc
       className={cn("relative rounded-2xl bg-white overflow-hidden", cardVisible ? "intel-card-enter" : "opacity-0")}
       style={{
         boxShadow: cardBoxShadow,
-        transition: "box-shadow 800ms ease, opacity 500ms ease",
         border: `1px solid ${T.divider}`,
       }}
     >
-      {/* ── Body ── */}
-      <div className="relative grid grid-cols-1 lg:grid-cols-3 py-6 px-8">
+      {/* ── Bottom-left corner glow — two layers cross-fade on bias change ── */}
+      <div
+        className="absolute inset-0 pointer-events-none z-0"
+        style={{
+          opacity: bias === "bullish" ? 1 : 0,
+          background: "radial-gradient(ellipse 110% 90% at 0% 100%, rgba(0,200,100,0.28) 0%, rgba(0,200,100,0.06) 45%, transparent 70%)",
+          transition: "opacity 800ms ease",
+        }}
+      />
+      <div
+        className="absolute inset-0 pointer-events-none z-0"
+        style={{
+          opacity: bias === "bearish" ? 1 : 0,
+          background: "radial-gradient(ellipse 110% 90% at 0% 100%, rgba(220,50,50,0.28) 0%, rgba(220,50,50,0.06) 45%, transparent 70%)",
+          transition: "opacity 800ms ease",
+        }}
+      />
+      {/* ── Body (z-1 so it sits above the glow layer) ── */}
+      <div className="relative z-10 grid grid-cols-1 lg:grid-cols-3 py-6 px-8">
 
         {/* ══ COLUMN 1 — Instrument Header & Key Levels ══ */}
         <div

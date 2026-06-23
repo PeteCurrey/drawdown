@@ -309,8 +309,12 @@ export function InstrumentIntelligenceCard({ instrument }: InstrumentIntelligenc
     instrument.defaultPct >= 55 ? "bullish" :
     instrument.defaultPct <= 45 ? "bearish" : "neutral";
 
-  // ── Entrance animations — fire once on mount via hasAnimated ref ────────────
-  const hasAnimated = useRef(false);
+  // ── Entrance animations ─────────────────────────────────────────────────────
+  // NOTE: No hasAnimated guard — React Strict Mode (Next.js 15) double-invokes
+  // effects. With a guard, cleanup clears timeouts but the ref stays true, so
+  // the remount's effect returns immediately and glowVis never becomes true.
+  // Without the guard, cleanup cancels the first set of timeouts, the remount
+  // schedules a fresh set, and all states are set correctly.
   const [cardVisible, setCardVisible] = useState(false);
   const [col1Vis,     setCol1Vis]     = useState(false);
   const [col2Vis,     setCol2Vis]     = useState(false);
@@ -318,13 +322,11 @@ export function InstrumentIntelligenceCard({ instrument }: InstrumentIntelligenc
   const [glowVis,     setGlowVis]     = useState(false);
 
   useEffect(() => {
-    if (hasAnimated.current) return;
-    hasAnimated.current = true;
-    const t1 = setTimeout(() => setCardVisible(true),  300);
-    const t2 = setTimeout(() => setCol1Vis(true),       400);
-    const t3 = setTimeout(() => setCol2Vis(true),       500);
-    const t4 = setTimeout(() => setCol3Vis(true),       600);
-    const t5 = setTimeout(() => setGlowVis(true),      1300);
+    const t1 = setTimeout(() => setCardVisible(true), 300);
+    const t2 = setTimeout(() => setCol1Vis(true),     400);
+    const t3 = setTimeout(() => setCol2Vis(true),     500);
+    const t4 = setTimeout(() => setCol3Vis(true),     600);
+    const t5 = setTimeout(() => setGlowVis(true),     500); // same time as card settle
     return () => { [t1, t2, t3, t4, t5].forEach(clearTimeout); };
   }, []);
 

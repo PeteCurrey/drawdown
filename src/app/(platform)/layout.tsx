@@ -143,7 +143,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       )}
 
       {/* Top Navigation Bar */}
-      <header className="fixed top-0 left-0 right-0 h-14 bg-[#D5D8C5] border-b border-[#DEDDD8] flex items-center justify-between px-6 z-50">
+      <header className="fixed top-0 left-0 right-0 h-14 bg-white border-b border-[#DEDDD8] flex items-center justify-between px-6 z-50">
         {/* Left Side: Logo */}
         <div className="flex items-center gap-2">
           {/* simple geometric shield outline with orange fill */}
@@ -216,7 +216,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         {/* Left Sidebar Navigation */}
         <aside 
           className={cn(
-            "hidden md:flex flex-col bg-[#D5D8C5] border-r border-[#DEDDD8] transition-all duration-300 z-30 shrink-0",
+            "hidden md:flex flex-col bg-white border-r border-[#DEDDD8] transition-all duration-300 z-30 shrink-0",
             isCollapsed ? "w-14" : "w-[220px]"
           )}
         >
@@ -323,7 +323,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       </div>
 
       {/* Mobile Bottom Tab Bar (≤768px viewport) */}
-      <div className="md:hidden fixed bottom-0 left-0 right-0 h-14 bg-[#D5D8C5] border-t border-[#DEDDD8] flex items-center justify-around z-50">
+      <div className="md:hidden fixed bottom-0 left-0 right-0 h-14 bg-white border-t border-[#DEDDD8] flex items-center justify-around z-50">
         {[
           { label: "Overview", href: "/dashboard", icon: LayoutDashboard },
           { label: "Markets", href: "/dashboard/market-intelligence", icon: Brain },

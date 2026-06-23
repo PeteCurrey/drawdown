@@ -124,7 +124,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   }
 
   return (
-    <div className="flex flex-col h-screen overflow-hidden bg-white text-[#1A1A1A] font-sans antialiased">
+    <div className="flex flex-col h-screen bg-white text-[#1A1A1A] font-sans antialiased">
       {/* Background SVG Noise Filter Overlay */}
       <div className="absolute inset-0 pointer-events-none opacity-[0.03] z-[99]">
         <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">

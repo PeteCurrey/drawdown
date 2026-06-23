@@ -3,8 +3,14 @@
 import React, { useEffect, useRef, useState } from "react";
 
 /* ─────────────────────────────────────────────────────────────────────────
-   MarketGauge — canvas-rendered semicircular intelligence gauge
-   Used on the dashboard overview hero panel (dark background context).
+   MarketGauge — radar-style semicircular bias gauge
+   Matches the CyberGuard reference aesthetic:
+     • 4 concentric rings of ultra-fine tick marks (0.5 px hairlines)
+     • Labels orbit OUTSIDE the outermost ring with dotted connector lines
+     • Orange triangle warning badges at conflict positions on the arc
+     • Small letter-pill badges (B / M / C) on the ring for signal type
+     • Thin green (#00C896) sweep arc on innermost ring
+     • Large weight-200 centre number with % superscript
    ───────────────────────────────────────────────────────────────────────── */
 
 interface MarketGaugeProps {
@@ -16,105 +22,106 @@ interface MarketGaugeProps {
   trend?: string;
 }
 
-const INDICATOR_NODES = [
-  { name: "EMA",        angleDeg: 200, radiusFactor: 0.72, alert: false },
-  { name: "RSI",        angleDeg: 222, radiusFactor: 0.64, alert: false },
-  { name: "COT",        angleDeg: 248, radiusFactor: 0.56, alert: true  },
-  { name: "VOL",        angleDeg: 270, radiusFactor: 0.60, alert: false },
-  { name: "NEWS",       angleDeg: 294, radiusFactor: 0.56, alert: false },
-  { name: "ORDER FLOW", angleDeg: 318, radiusFactor: 0.66, alert: true  },
-  { name: "MACRO",      angleDeg: 342, radiusFactor: 0.72, alert: false },
+/* Signal indicators — positions on the 180° arc (180°=left … 360°=right) */
+const SIGNALS = [
+  { name: "RSI",        deg: 198, letter: "B", alert: false, value: null },
+  { name: "EMA",        deg: 220, letter: "B", alert: false, value: null },
+  { name: "COT",        deg: 248, letter: "C", alert: true,  value: null },
+  { name: "VOL",        deg: 270, letter: "M", alert: false, value: null },
+  { name: "NEWS",       deg: 294, letter: "M", alert: false, value: null },
+  { name: "ORDER FLOW", deg: 322, letter: "C", alert: true,  value: null },
+  { name: "MACRO",      deg: 346, letter: "B", alert: false, value: null },
 ];
-
-const ALERT_BADGE_ANGLES = [248, 318]; // degrees where orange ! badges appear
 
 export function MarketGauge({
   percentage,
   label = "Bullish Bias",
-  instrument = "GBP / USD",
+  instrument = "GBP/USD",
   rsi = "58.4",
   price = "1.27340",
   trend = "ABOVE EMA",
 }: MarketGaugeProps) {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
+  const canvasRef   = useRef<HTMLCanvasElement>(null);
+  const wrapperRef  = useRef<HTMLDivElement>(null);
   const [animPct, setAnimPct] = useState(0);
-  const [size, setSize] = useState({ w: 480, h: 260 });
+  const [dims, setDims] = useState({ w: 0, h: 0 });
 
-  /* ── Animate percentage on percentage change ─────────────────────────── */
+  /* ── Animate percentage ───────────────────────────────────────────────── */
   useEffect(() => {
     const target = percentage;
-    const duration = 900;
-    const startTime = performance.now();
-    let prev = 0;
-
+    const duration = 1000;
+    const t0 = performance.now();
+    let raf: number;
     const tick = (now: number) => {
-      const t = Math.min((now - startTime) / duration, 1);
+      const t = Math.min((now - t0) / duration, 1);
       const eased = t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
-      const next = Math.round(eased * target);
-      if (next !== prev) {
-        prev = next;
-        setAnimPct(next);
-      }
-      if (t < 1) requestAnimationFrame(tick);
+      setAnimPct(Math.round(eased * target));
+      if (t < 1) raf = requestAnimationFrame(tick);
     };
-    requestAnimationFrame(tick);
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
   }, [percentage]);
 
-  /* ── Observe container size for responsive canvas ────────────────────── */
+  /* ── Observe container for responsive sizing ─────────────────────────── */
   useEffect(() => {
-    const el = containerRef.current;
+    const el = wrapperRef.current;
     if (!el) return;
-    const ro = new ResizeObserver(() => {
-      setSize({ w: el.offsetWidth, h: el.offsetHeight });
-    });
+    const measure = () => setDims({ w: el.clientWidth, h: el.clientHeight });
+    measure();
+    const ro = new ResizeObserver(measure);
     ro.observe(el);
     return () => ro.disconnect();
   }, []);
 
-  /* ── Draw canvas ─────────────────────────────────────────────────────── */
+  /* ── Draw ────────────────────────────────────────────────────────────── */
   useEffect(() => {
     const canvas = canvasRef.current;
-    if (!canvas) return;
+    if (!canvas || dims.w === 0) return;
 
     const dpr = window.devicePixelRatio || 1;
-    const W = size.w;
-    const H = size.h;
+    const W = dims.w;
+    const H = dims.h;
     canvas.width  = W * dpr;
     canvas.height = H * dpr;
-
     const ctx = canvas.getContext("2d")!;
     ctx.scale(dpr, dpr);
     ctx.clearRect(0, 0, W, H);
 
-    /* Pivot sits at 76% of canvas height so the arc fills the space nicely */
-    const cx = W / 2;
-    const cy = H * 0.78;
+    /*
+     * Geometry:
+     * The pivot (cx, cy) is placed so the full semicircle is visible.
+     * cy = H * 0.86 pushes it near the bottom so the arc crown is near top.
+     * R_OUT sized to nearly reach the side edges.
+     */
+    const cx  = W / 2;
+    const cy  = H * 0.87;
+    const R3  = Math.min(W * 0.46, cy * 0.98);  // outermost ring
+    const R2  = R3 * 0.855;                       // 2nd ring
+    const R1  = R3 * 0.725;                       // 3rd ring
+    const R0  = R3 * 0.600;                       // innermost / face edge
 
-    /* Three ring radii — scaled to the narrower of width or 2× height */
-    const baseR  = Math.min(W * 0.44, H * 0.92);
-    const R_OUT  = baseR;           // outermost bezel
-    const R_MID  = baseR * 0.84;   // middle ring
-    const R_INN  = baseR * 0.70;   // inner ring
-    const R_FACE = baseR * 0.63;   // filled face boundary
-
-    /* Helper: polar to cartesian */
-    const p = (r: number, angleDeg: number) => ({
-      x: cx + r * Math.cos((angleDeg * Math.PI) / 180),
-      y: cy + r * Math.sin((angleDeg * Math.PI) / 180),
+    /* polar → cartesian */
+    const pt = (r: number, deg: number) => ({
+      x: cx + r * Math.cos((deg * Math.PI) / 180),
+      y: cy + r * Math.sin((deg * Math.PI) / 180),
     });
 
-    /* ── Draw tick ring ── */
-    const drawTicks = (
-      r: number,
-      count: number,
-      tickH: number,
-      opacity: number,
-    ) => {
+    /* ── Background semicircle fill ── */
+    ctx.save();
+    ctx.beginPath();
+    ctx.arc(cx, cy, R3 + 2, Math.PI, 0, false);
+    ctx.lineTo(cx + R3 + 2, cy + 2);
+    ctx.lineTo(cx - R3 - 2, cy + 2);
+    ctx.closePath();
+    ctx.fillStyle = "#111210";
+    ctx.fill();
+    ctx.restore();
+
+    /* ── Helper: draw one ring of ticks ── */
+    const drawRing = (r: number, count: number, tickH: number, opacity: number, lw = 0.5) => {
       ctx.save();
-      ctx.strokeStyle = `rgba(80,80,78,${opacity})`;
-      ctx.lineWidth = 0.5;
-      ctx.lineCap = "butt";
+      ctx.strokeStyle = `rgba(90,90,88,${opacity})`;
+      ctx.lineWidth = lw;
       for (let i = 0; i <= count; i++) {
         const deg = 180 + (i / count) * 180;
         const rad = (deg * Math.PI) / 180;
@@ -130,119 +137,162 @@ export function MarketGauge({
       ctx.restore();
     };
 
-    drawTicks(R_OUT,  160, 4,   0.85); // outer — densest
-    drawTicks(R_MID,  80,  3,   0.55); // middle
-    drawTicks(R_INN,  40,  2.5, 0.35); // inner — sparsest
+    /* 4 tick rings — outermost densest */
+    drawRing(R3, 200, 5,   0.9,  0.5);
+    drawRing(R2, 100, 4,   0.55, 0.5);
+    drawRing(R1,  50, 3,   0.35, 0.5);
+    drawRing(R0,  30, 2.5, 0.25, 0.5);
 
-    /* ── Subtle arc outlines on each ring ── */
-    const drawRingLine = (r: number, opacity: number) => {
+    /* ── Subtle arc outlines on rings ── */
+    const arcLine = (r: number, op: number) => {
       ctx.save();
-      ctx.strokeStyle = `rgba(55,55,52,${opacity})`;
-      ctx.lineWidth = 0.5;
+      ctx.strokeStyle = `rgba(60,60,58,${op})`;
+      ctx.lineWidth = 0.6;
       ctx.beginPath();
       ctx.arc(cx, cy, r, Math.PI, 0, false);
       ctx.stroke();
       ctx.restore();
     };
-    drawRingLine(R_OUT, 0.6);
-    drawRingLine(R_MID, 0.35);
-    drawRingLine(R_INN, 0.25);
+    arcLine(R3, 0.6);
+    arcLine(R2, 0.35);
+    arcLine(R1, 0.2);
+    arcLine(R0, 0.15);
 
-    /* ── Dark face fill ── */
+    /* ── Dark face ── */
     ctx.save();
     ctx.beginPath();
-    ctx.arc(cx, cy, R_FACE, Math.PI, 0, false);
-    ctx.lineTo(cx + R_FACE, cy);
-    ctx.arc(cx, cy, R_FACE, 0, Math.PI, true);
+    ctx.arc(cx, cy, R0, Math.PI, 0, false);
+    ctx.lineTo(cx + R0, cy);
+    ctx.arc(cx, cy, R0, 0, Math.PI, true);
     ctx.closePath();
     ctx.fillStyle = "#111210";
     ctx.fill();
     ctx.restore();
 
-    /* ── Green sentiment sweep arc (sits just inside R_INN) ── */
-    const sweepStart = Math.PI;
-    const sweepEnd   = Math.PI + (animPct / 100) * Math.PI;
+    /* ── Green sweep arc just inside R0 ── */
     if (animPct > 0) {
+      const arcR = R0 - 5;
+      const startA = Math.PI;
+      const endA   = Math.PI + (animPct / 100) * Math.PI;
       ctx.save();
       ctx.beginPath();
-      ctx.arc(cx, cy, R_INN - 4, sweepStart, sweepEnd, false);
+      ctx.arc(cx, cy, arcR, startA, endA, false);
       ctx.strokeStyle = "#00C896";
-      ctx.lineWidth = 3;
+      ctx.lineWidth = 3.5;
       ctx.lineCap = "round";
       ctx.stroke();
       ctx.restore();
     }
 
-    /* ── Alert badge squares on outer ring ── */
-    ALERT_BADGE_ANGLES.forEach((deg) => {
+    /* ── Signal nodes: label outside R3, connector line, letter badge ── */
+    SIGNALS.forEach(({ name, deg, letter, alert }) => {
       const rad = (deg * Math.PI) / 180;
-      const bx = cx + (R_OUT + 10) * Math.cos(rad);
-      const by = cy + (R_OUT + 10) * Math.sin(rad);
-      const s = 8;
+
+      /* Dot on ring R2 */
+      const dotR = (R2 + R1) / 2;
+      const dot  = pt(dotR, deg);
       ctx.save();
-      ctx.fillStyle = "#FF6B2B";
       ctx.beginPath();
-      (ctx as any).roundRect
-        ? (ctx as any).roundRect(bx - s / 2, by - s / 2, s, s, 2)
-        : ctx.rect(bx - s / 2, by - s / 2, s, s);
+      ctx.arc(dot.x, dot.y, 2.5, 0, Math.PI * 2);
+      ctx.fillStyle = alert ? "#FF6B2B" : "#4A4A48";
       ctx.fill();
-      ctx.fillStyle = "#fff";
-      ctx.font = "bold 7px sans-serif";
+      ctx.restore();
+
+      /* Connector: from R3 outward to label anchor */
+      const connStart = pt(R3 + 2, deg);
+      const labelR    = R3 + 28;
+      const labelPt   = pt(labelR, deg);
+
+      ctx.save();
+      ctx.setLineDash([2, 3]);
+      ctx.strokeStyle = `rgba(100,100,98,0.5)`;
+      ctx.lineWidth = 0.8;
+      ctx.beginPath();
+      ctx.moveTo(connStart.x, connStart.y);
+      ctx.lineTo(labelPt.x, labelPt.y);
+      ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.restore();
+
+      /* Label text — anchor left or right based on position */
+      const isLeft   = deg < 265;
+      const isBottom = deg > 250 && deg < 290;
+      const lx = labelPt.x + (isLeft ? -4 : 4);
+      const ly = labelPt.y + (isBottom ? 10 : 0);
+
+      ctx.save();
+      ctx.fillStyle = "rgba(200,200,198,0.8)";
+      ctx.font = `400 9px Inter, system-ui, sans-serif`;
+      ctx.textAlign = isLeft ? "right" : "left";
+      ctx.textBaseline = "middle";
+      ctx.fillText(name, lx, ly);
+      ctx.restore();
+
+      /* Small letter-pill badge on R1 */
+      const pillPt = pt(R1, deg);
+      const pillW = 14, pillH = 11;
+      ctx.save();
+      ctx.fillStyle = alert ? "rgba(255,107,43,0.18)" : "rgba(255,255,255,0.07)";
+      ctx.strokeStyle = alert ? "rgba(255,107,43,0.5)" : "rgba(120,120,118,0.4)";
+      ctx.lineWidth = 0.7;
+      ctx.beginPath();
+      ctx.roundRect
+        ? ctx.roundRect(pillPt.x - pillW/2, pillPt.y - pillH/2, pillW, pillH, 3)
+        : ctx.rect(pillPt.x - pillW/2, pillPt.y - pillH/2, pillW, pillH);
+      ctx.fill();
+      ctx.stroke();
+      ctx.fillStyle = alert ? "#FF6B2B" : "#8A8A85";
+      ctx.font = "600 7px Inter, system-ui, sans-serif";
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
-      ctx.fillText("!", bx, by + 0.5);
+      ctx.fillText(letter, pillPt.x, pillPt.y + 0.5);
       ctx.restore();
+
+      /* Orange triangle alert marker at R3 for conflict signals */
+      if (alert) {
+        const triPt = pt(R3 - 8, deg);
+        const ts = 7; // half-size of triangle
+        ctx.save();
+        ctx.fillStyle = "#FF6B2B";
+        ctx.beginPath();
+        ctx.moveTo(triPt.x, triPt.y - ts);
+        ctx.lineTo(triPt.x + ts * 0.87, triPt.y + ts * 0.5);
+        ctx.lineTo(triPt.x - ts * 0.87, triPt.y + ts * 0.5);
+        ctx.closePath();
+        ctx.fill();
+        // ! inside
+        ctx.fillStyle = "#fff";
+        ctx.font = "bold 5px sans-serif";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillText("!", triPt.x, triPt.y + 1);
+        ctx.restore();
+      }
     });
 
-    /* ── Constellation node labels inside the face ── */
-    INDICATOR_NODES.forEach(({ name, angleDeg, radiusFactor, alert }) => {
-      const rad = (angleDeg * Math.PI) / 180;
-      const r   = R_FACE * radiusFactor;
-      const lx  = cx + r * Math.cos(rad);
-      const ly  = cy + r * Math.sin(rad);
+  }, [animPct, dims]);
 
-      /* dot */
-      ctx.save();
-      ctx.beginPath();
-      ctx.arc(lx, ly, 2, 0, Math.PI * 2);
-      ctx.fillStyle = alert ? "#FF6B2B" : "#555552";
-      ctx.fill();
-      ctx.restore();
-
-      /* label */
-      ctx.save();
-      ctx.fillStyle = "rgba(255,255,255,0.65)";
-      ctx.font = "400 8.5px Inter, sans-serif";
-      ctx.textAlign = angleDeg < 270 ? "right" : "left";
-      ctx.textBaseline = "middle";
-      const offset = angleDeg < 270 ? -5 : 5;
-      ctx.fillText(name, lx + offset, ly);
-      ctx.restore();
-    });
-
-  }, [animPct, size]);
-
-  const trendIsAbove = trend?.includes("ABOVE");
+  const trendUp = trend?.toUpperCase().includes("ABOVE");
 
   return (
-    <div className="flex flex-col items-center w-full gap-5">
+    <div className="flex flex-col w-full h-full">
 
-      {/* ── Canvas gauge ── */}
+      {/* ── Canvas fills the column naturally ── */}
       <div
-        ref={containerRef}
-        className="relative w-full"
-        style={{ height: 240 }}
+        ref={wrapperRef}
+        className="relative flex-1 w-full"
+        style={{ minHeight: 280 }}
       >
         <canvas
           ref={canvasRef}
-          style={{ width: "100%", height: "100%", display: "block" }}
+          style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}
         />
 
-        {/* Centre text overlay — percentage + label */}
+        {/* Centre overlay: large percentage + bias label */}
         <div
           style={{
             position: "absolute",
-            bottom: "14%",
+            bottom: "18%",
             left: "50%",
             transform: "translateX(-50%)",
             textAlign: "center",
@@ -250,12 +300,12 @@ export function MarketGauge({
             whiteSpace: "nowrap",
           }}
         >
-          <div style={{ lineHeight: 1, marginBottom: 5 }}>
+          <div style={{ lineHeight: 1, marginBottom: 6 }}>
             <span
               style={{
-                fontSize: 64,
+                fontSize: 72,
                 fontWeight: 200,
-                color: "#fff",
+                color: "#ffffff",
                 letterSpacing: "-0.04em",
                 fontVariantNumeric: "tabular-nums",
                 fontFamily: "Inter, system-ui, sans-serif",
@@ -265,12 +315,11 @@ export function MarketGauge({
             </span>
             <sup
               style={{
-                fontSize: 28,
+                fontSize: 30,
                 fontWeight: 200,
-                color: "#fff",
+                color: "#ffffff",
                 verticalAlign: "super",
                 lineHeight: 0,
-                letterSpacing: 0,
                 fontFamily: "Inter, system-ui, sans-serif",
               }}
             >
@@ -281,10 +330,10 @@ export function MarketGauge({
             style={{
               fontSize: 10,
               fontWeight: 400,
-              color: "#fff",
-              letterSpacing: "0.16em",
+              color: "#ffffff",
+              letterSpacing: "0.18em",
               textTransform: "uppercase",
-              opacity: 0.55,
+              opacity: 0.5,
               fontFamily: "Inter, system-ui, sans-serif",
             }}
           >
@@ -293,25 +342,23 @@ export function MarketGauge({
         </div>
       </div>
 
-      {/* ── Stats row below gauge ── */}
-      <div className="flex justify-center items-center gap-10 pb-1">
-        <div className="text-center">
-          <p className="text-[9px] font-mono uppercase tracking-widest text-[#8A8A85] mb-1.5">Price</p>
-          <p className="text-[13px] font-light text-white font-mono" style={{ fontVariantNumeric: "tabular-nums" }}>{price}</p>
-        </div>
-        <div className="text-center">
-          <p className="text-[9px] font-mono uppercase tracking-widest text-[#8A8A85] mb-1.5">RSI (14)</p>
-          <p className="text-[13px] font-light text-white font-mono" style={{ fontVariantNumeric: "tabular-nums" }}>{rsi}</p>
-        </div>
-        <div className="text-center">
-          <p className="text-[9px] font-mono uppercase tracking-widest text-[#8A8A85] mb-1.5">Trend</p>
-          <p
-            className="text-[13px] font-light font-mono"
-            style={{ color: trendIsAbove ? "#00C896" : "#CE6969", fontVariantNumeric: "tabular-nums" }}
-          >
-            {trend}
-          </p>
-        </div>
+      {/* ── Stats row ── */}
+      <div className="flex justify-center items-center gap-10 py-4 px-6">
+        {[
+          { label: "PRICE",    value: price,           color: "#fff" },
+          { label: "RSI (14)", value: rsi,             color: "#fff" },
+          { label: "TREND",    value: trend,           color: trendUp ? "#00C896" : "#CE6969" },
+        ].map(({ label: l, value, color }) => (
+          <div key={l} className="text-center">
+            <p className="text-[9px] font-mono uppercase tracking-widest text-[#555552] mb-1.5">{l}</p>
+            <p
+              className="text-[13px] font-light font-mono"
+              style={{ color, fontVariantNumeric: "tabular-nums" }}
+            >
+              {value}
+            </p>
+          </div>
+        ))}
       </div>
     </div>
   );

@@ -409,7 +409,7 @@ export default function DashboardPage() {
     <div className="space-y-10 text-[#1A1A1A]">
       
       {/* PHASE 2 — Market Intelligence Hero Panel */}
-      <section className="bg-[#181818] text-white p-0 overflow-visible relative flex flex-col min-h-[380px]">
+      <section className="bg-[#111210] text-white p-0 overflow-visible relative flex flex-col min-h-[440px]">
         {/* Header Row */}
         <div className="h-[52px] border-b border-[#333330] flex items-center justify-between px-6">
           <div className="flex items-center gap-3">
@@ -470,7 +470,7 @@ export default function DashboardPage() {
         </div>
 
         {/* Panel Main Body Grid */}
-        <div className="flex-1 grid grid-cols-1 lg:grid-cols-12 min-h-[300px]">
+        <div className="flex-1 grid grid-cols-1 lg:grid-cols-12 min-h-[360px]">
           {/* Column A: Left Stats */}
           <div className="lg:col-span-3 border-r border-[#333330] p-6 flex flex-col justify-between space-y-6">
             <div>
@@ -502,8 +502,8 @@ export default function DashboardPage() {
             </div>
           </div>
 
-          {/* Column B: Center Radial Gauge */}
-          <div className="lg:col-span-6 p-6 flex flex-col items-center justify-center relative overflow-hidden min-h-[260px] border-r border-[#333330]">
+          {/* Column B: Center Radial Gauge — full-bleed, no padding */}
+          <div className="lg:col-span-6 flex flex-col relative overflow-hidden border-r border-[#333330]">
             <MarketGauge 
               percentage={selectedInst.defaultPct} 
               instrument={selectedInst.name}

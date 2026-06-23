@@ -20,6 +20,13 @@ export interface KeyLevels {
 export interface TechnicalSummary {
   rows: TimeframeRow[]; totalScore: number; consensus: Consensus;
   emaStack: EMAStack; keyLevels: KeyLevels;
+  /**
+   * Composite bias score 0–100.
+   * > 55 → bullish, < 45 → bearish, 45–55 → neutral.
+   * null while data is loading.
+   * Weights: RSI 4H (40%), EMA trend (35%), MACD 4H (25%).
+   */
+  biasScore: number | null;
   lastUpdated: Date | null; loading: boolean; error: boolean;
 }
 
@@ -59,6 +66,7 @@ const EMPTY: TechnicalSummary = {
   rows: [], totalScore: 0, consensus: "NEUTRAL",
   emaStack: { ema20: null, ema50: null, ema200: null, above20: null, above50: null, above200: null },
   keyLevels: { pivot: null, r1: null, r2: null, s1: null, s2: null },
+  biasScore: null,
   lastUpdated: null, loading: false, error: false,
 };
 
@@ -126,6 +134,33 @@ async function fetchTechnical(slug: string): Promise<TechnicalSummary> {
       s2 = pivot - (latestHigh - latestLow);
     }
 
+    // ── Compute biasScore 0–100 from 4H indicators ──────────────────────────────
+    // The 4H timeframe is index 2 in TF_MAP (15m, 1H, 4H, 1D, 1W).
+    const row4H = rows[2];
+    let biasScore: number | null = null;
+    if (row4H) {
+      // RSI 40%: map 0–100 RSI linearly to 0–1 bias
+      const rsi4H = row4H.rsi;
+      const rsiBias = rsi4H !== null ? rsi4H / 100 : 0.5;
+
+      // EMA trend 35%: above both EMAs = fully bullish, below both = bearish
+      let emaBias = 0.5;
+      if (ema200Val && ema50Val && latestClose) {
+        if (latestClose > ema200Val && latestClose > ema50Val) emaBias = 0.85;
+        else if (latestClose > ema50Val)                       emaBias = 0.65;
+        else if (latestClose < ema50Val && latestClose < ema200Val) emaBias = 0.15;
+        else                                                   emaBias = 0.35;
+      }
+
+      // MACD 25%
+      const macdBias = row4H.macdSignal === "BUY" ? 1.0
+                     : row4H.macdSignal === "SELL" ? 0.0
+                     : 0.5;
+
+      const raw = rsiBias * 0.40 + emaBias * 0.35 + macdBias * 0.25;
+      biasScore = Math.round(Math.min(100, Math.max(0, raw * 100)));
+    }
+
     const result: TechnicalSummary = {
       rows, totalScore, consensus: scoreToConsensus(totalScore),
       emaStack: { ema20: ema20Val, ema50: ema50Val, ema200: ema200Val,
@@ -133,6 +168,7 @@ async function fetchTechnical(slug: string): Promise<TechnicalSummary> {
         above50:  latestClose && ema50Val  ? latestClose > ema50Val  : null,
         above200: latestClose && ema200Val ? latestClose > ema200Val : null },
       keyLevels: { pivot, r1, r2, s1, s2 },
+      biasScore,
       lastUpdated: new Date(), loading: false, error: false,
     };
     CACHE.set(slug, { data: result, ts: Date.now() });
@@ -142,12 +178,11 @@ async function fetchTechnical(slug: string): Promise<TechnicalSummary> {
 
 export function useTechnicalData(slug: string, enabled: boolean): TechnicalSummary {
   const [data, setData] = useState<TechnicalSummary>({ ...EMPTY });
-  const fetched = useRef<string | null>(null);
 
   useEffect(() => {
-    if (!enabled || fetched.current === slug) return;
-    setData(prev => ({ ...prev, loading: true }));
-    fetched.current = slug;
+    if (!enabled) return;
+    // Reset to loading state on slug change so stale data isn't shown
+    setData(prev => ({ ...prev, loading: true, biasScore: null }));
     fetchTechnical(slug).then(setData);
   }, [slug, enabled]);
 

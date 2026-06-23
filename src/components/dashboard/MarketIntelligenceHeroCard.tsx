@@ -4,6 +4,9 @@ import React, { useEffect, useRef, useState, useCallback } from "react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { ChevronDown, MoreHorizontal, AlertCircle } from "lucide-react";
+import { INSTRUMENT_GROUPS, TIMEFRAMES, type Instrument } from "@/lib/instruments";
+import { useTechnicalData } from "@/hooks/useTechnicalData";
+import { useTwelveData } from "@/hooks/useTwelveData";
 
 /* ─────────────────────────────────────────────────────────────────────────────
    MarketIntelligenceHeroCard
@@ -27,11 +30,16 @@ import { ChevronDown, MoreHorizontal, AlertCircle } from "lucide-react";
 export interface HeroInstrument {
   slug: string;
   name: string;
-  rsi: string;
-  price: string;
-  trend: string;
-  /** 0–100 composite bias score */
+  /** Twelve Data / hook key — e.g. "XAUUSD" */
+  hookSlug: string;
+  /** TradingView widget symbol */
+  tvSymbol: string;
+  /** Loading placeholder 0–100, overwritten immediately by live biasScore */
   defaultPct: number;
+  /** Kept for backwards-compat — not used for display, live data used instead */
+  rsi?: string;
+  price?: string;
+  trend?: string;
 }
 
 export interface HeroFeedItem {
@@ -56,6 +64,10 @@ interface MarketIntelligenceHeroCardProps {
   todayTradeCount: number;
   openAlerts: OpenAlert[];
   onInstrumentChange?: (inst: HeroInstrument) => void;
+  /** Current selected Twelve Data interval string e.g. "4h" — controlled by parent */
+  selectedInterval?: string;
+  /** Called when user clicks a timeframe pill */
+  onTimeframeChange?: (interval: string) => void;
 }
 
 // ── Orbit signal nodes ───────────────────────────────────────────────────────
@@ -80,25 +92,6 @@ const SIGNAL_NODES: SignalNode[] = [
   { name: "ORDER FLOW", deg: 322, radiusFactor: 0.65, letter: "C", alert: true  },
   { name: "MACRO",      deg: 346, radiusFactor: 0.71, letter: "B", alert: false },
 ];
-
-// ── Weighted bias calculation ─────────────────────────────────────────────────
-
-function computeBias(inst: HeroInstrument): number {
-  const rsiVal = parseFloat(inst.rsi) || 50;
-  // RSI: 0–100 → 0–100 bias (>50 bullish, centred at 50)
-  const rsiBias = Math.min(100, Math.max(0, rsiVal));
-  // EMA: above = bullish 75, below = bearish 25
-  const emaStr = inst.trend?.toUpperCase() || "";
-  const emaBias = emaStr.includes("ABOVE") ? 75 : emaStr.includes("BELOW") ? 25 : 50;
-  // Order flow: proxy from defaultPct (platform pre-computed value)
-  const ofBias = inst.defaultPct;
-  // Macro: use defaultPct with slight regression to 50
-  const macroBias = 50 + (inst.defaultPct - 50) * 0.6;
-
-  // Weighted composite
-  const composite = rsiBias * 0.30 + emaBias * 0.30 + ofBias * 0.25 + macroBias * 0.15;
-  return Math.round(Math.min(100, Math.max(0, composite)));
-}
 
 // ── SVG arc helpers ───────────────────────────────────────────────────────────
 
@@ -129,12 +122,34 @@ export function MarketIntelligenceHeroCard({
   todayTradeCount,
   openAlerts,
   onInstrumentChange,
+  selectedInterval = "4h",
+  onTimeframeChange,
 }: MarketIntelligenceHeroCardProps) {
   const [selectedInst, setSelectedInst] = useState<HeroInstrument>(
     initialInstrument ?? instruments[0]
   );
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [timeframe, setTimeframe] = useState<"1H" | "4H" | "1D">("4H");
+
+  // ── Live data hooks ─────────────────────────────────────────────────────────
+  const hookSlug = (selectedInst as any).hookSlug ?? selectedInst.slug.replace("/", "");
+  const tech = useTechnicalData(hookSlug, true);
+  const tdAll = useTwelveData([hookSlug]);
+  const td = tdAll[hookSlug];
+
+  // biasScore: use live value, fall back to placeholder while loading
+  const targetBias = tech.biasScore ?? selectedInst.defaultPct;
+
+  // Live footer values — fall back to static props while data loads
+  const livePrice = td?.price;
+  const livePriceStr = livePrice
+    ? livePrice.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 5 })
+    : (selectedInst.price ?? "—");
+  const liveRsi = tech.rows.find(r => r.tf === "4H")?.rsi;
+  const liveRsiStr = liveRsi !== null && liveRsi !== undefined ? liveRsi.toFixed(1) : (selectedInst.rsi ?? "—");
+  const liveTrend = tech.emaStack.above50 !== null
+    ? (tech.emaStack.above50 ? "ABOVE EMA" : "BELOW EMA")
+    : (selectedInst.trend ?? "—");
+  const liveTrendColor = liveTrend.includes("ABOVE") ? "#00C896" : liveTrend.includes("BELOW") ? "#CE6969" : "#F9A825";
 
   // Animation state
   const hasAnimated    = useRef(false);
@@ -144,8 +159,6 @@ export function MarketIntelligenceHeroCard({
   const [nodesVisible, setNodesVisible] = useState<boolean[]>(SIGNAL_NODES.map(() => false));
   const [feedVisible,  setFeedVisible]  = useState<boolean[]>(feedItems.map(() => false));
 
-  // Target bias for selected instrument
-  const targetBias = computeBias(selectedInst);
 
   // ── Entrance animation (once on mount) ────────────────────────────────────
   useEffect(() => {
@@ -231,9 +244,6 @@ export function MarketIntelligenceHeroCard({
   const biasLabel   = isBullish ? "BULLISH BIAS" : "BEARISH BIAS";
   const arcOffset   = pctToOffset(arcPct);
   const tipPos      = arcTipPos(arcPct);
-  const trendUp     = selectedInst.trend?.toUpperCase().includes("ABOVE");
-  const trendAt     = selectedInst.trend?.toUpperCase().includes("AT");
-  const trendColor  = trendUp ? "#00C896" : trendAt ? "#F9A825" : "#CE6969";
   const visibleAlerts = openAlerts.filter(a => a.count > 0);
 
   // ── Inline keyframe injection (once) ─────────────────────────────────────
@@ -305,22 +315,29 @@ export function MarketIntelligenceHeroCard({
             </button>
             {dropdownOpen && (
               <div
-                className="absolute top-full left-0 mt-1 py-1 z-[99] min-w-[130px] rounded-lg border border-white/10"
-                style={{ background: "rgba(20,20,24,0.95)", backdropFilter: "blur(12px)" }}
+                className="absolute top-full left-0 mt-1 py-1 z-[99] min-w-[160px] rounded-lg border border-white/10 max-h-72 overflow-y-auto"
+                style={{ background: "rgba(20,20,24,0.97)", backdropFilter: "blur(12px)" }}
               >
-                {instruments.map(inst => (
-                  <button
-                    key={inst.slug}
-                    onClick={() => handleInstrumentChange(inst)}
-                    className={cn(
-                      "w-full text-left px-3 py-1.5 text-xs transition-colors",
-                      inst.slug === selectedInst.slug
-                        ? "text-[#00C896]"
-                        : "text-white/70 hover:text-white hover:bg-white/[0.06]"
-                    )}
-                  >
-                    {inst.name}
-                  </button>
+                {INSTRUMENT_GROUPS.map(group => (
+                  <div key={group.label}>
+                    <div className="px-3 pt-2 pb-1 text-[9px] font-mono uppercase tracking-widest text-white/30">
+                      {group.label}
+                    </div>
+                    {group.items.map(inst => (
+                      <button
+                        key={inst.slug}
+                        onClick={() => handleInstrumentChange(inst as unknown as HeroInstrument)}
+                        className={cn(
+                          "w-full text-left px-3 py-1.5 text-xs transition-colors",
+                          inst.slug === selectedInst.slug
+                            ? "text-[#00C896]"
+                            : "text-white/70 hover:text-white hover:bg-white/[0.06]"
+                        )}
+                      >
+                        {inst.name}
+                      </button>
+                    ))}
+                  </div>
                 ))}
               </div>
             )}
@@ -336,18 +353,18 @@ export function MarketIntelligenceHeroCard({
 
           {/* Timeframe selector */}
           <div className="flex rounded-md overflow-hidden" style={{ background: "rgba(255,255,255,0.06)" }}>
-            {(["1H", "4H", "1D"] as const).map(tf => (
+            {TIMEFRAMES.map(tf => (
               <button
-                key={tf}
-                onClick={() => setTimeframe(tf)}
+                key={tf.interval}
+                onClick={() => onTimeframeChange?.(tf.interval)}
                 className={cn(
                   "px-2.5 py-1 text-[9px] font-bold font-mono tracking-wider transition-all",
-                  timeframe === tf
+                  selectedInterval === tf.interval
                     ? "bg-white text-[#0a0a0f]"
                     : "text-white/40 hover:text-white"
                 )}
               >
-                {tf}
+                {tf.label}
               </button>
             ))}
           </div>
@@ -659,9 +676,9 @@ export function MarketIntelligenceHeroCard({
             style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}
           >
             {[
-              { label: "PRICE",    value: selectedInst.price,  color: "rgba(255,255,255,0.9)" },
-              { label: "RSI (14)", value: selectedInst.rsi,    color: "rgba(255,255,255,0.9)" },
-              { label: "TREND",    value: selectedInst.trend,  color: trendColor },
+              { label: "PRICE",    value: livePriceStr,  color: "rgba(255,255,255,0.9)" },
+              { label: "RSI (14)", value: liveRsiStr,    color: "rgba(255,255,255,0.9)" },
+              { label: "TREND",    value: liveTrend,     color: liveTrendColor },
             ].map(({ label, value, color }) => (
               <div key={label} className="text-center">
                 <p className="text-[9px] font-mono uppercase tracking-widest text-white/30 mb-1.5">

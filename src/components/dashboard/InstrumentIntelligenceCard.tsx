@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import { useTwelveData, tdSymbol } from "@/hooks/useTwelveData";
 import { useTechnicalData, type Signal } from "@/hooks/useTechnicalData";
 import type { HeroInstrument } from "@/components/dashboard/MarketIntelligenceHeroCard";
+import { intervalLabel } from "@/lib/instruments";
 
 /* ─────────────────────────────────────────────────────────────────────────────
    InstrumentIntelligenceCard
@@ -107,25 +108,26 @@ const EXTRA_EMPTY: ExtraSignals = {
   loading: true, error: false,
 };
 
-function useExtraSignals(hookSlug: string): ExtraSignals {
+function useExtraSignals(hookSlug: string, interval = "4h"): ExtraSignals {
   const [state, setState] = useState<ExtraSignals>({ ...EXTRA_EMPTY });
-  const prevSlug = useRef<string | null>(null);
+  const prevKey = useRef<string | null>(null);
 
   useEffect(() => {
-    if (prevSlug.current === hookSlug) return;
-    prevSlug.current = hookSlug;
+    const key = `${hookSlug}:${interval}`;
+    if (prevKey.current === key) return;
+    prevKey.current = key;
     setState({ ...EXTRA_EMPTY, loading: true });
 
-    const key = process.env.NEXT_PUBLIC_TWELVE_DATA_KEY ?? "";
-    if (!key) { setState({ ...EXTRA_EMPTY, loading: false, error: true }); return; }
+    const apiKey = process.env.NEXT_PUBLIC_TWELVE_DATA_KEY ?? "";
+    if (!apiKey) { setState({ ...EXTRA_EMPTY, loading: false, error: true }); return; }
 
     const sym = encodeURIComponent(tdSymbol(hookSlug));
     Promise.all([
-      fetch(`${TD_BASE}/bbands?symbol=${sym}&interval=4h&time_period=20&series_type=close&outputsize=1&apikey=${key}`)
+      fetch(`${TD_BASE}/bbands?symbol=${sym}&interval=${interval}&time_period=20&series_type=close&outputsize=1&apikey=${apiKey}`)
         .then(r => r.json()).catch(() => null),
-      fetch(`${TD_BASE}/stoch?symbol=${sym}&interval=4h&outputsize=1&apikey=${key}`)
+      fetch(`${TD_BASE}/stoch?symbol=${sym}&interval=${interval}&outputsize=1&apikey=${apiKey}`)
         .then(r => r.json()).catch(() => null),
-      fetch(`${TD_BASE}/cci?symbol=${sym}&interval=4h&time_period=20&outputsize=1&apikey=${key}`)
+      fetch(`${TD_BASE}/cci?symbol=${sym}&interval=${interval}&time_period=20&outputsize=1&apikey=${apiKey}`)
         .then(r => r.json()).catch(() => null),
     ]).then(([bb, stoch, cci]) => {
       setState({
@@ -138,7 +140,7 @@ function useExtraSignals(hookSlug: string): ExtraSignals {
         loading: false, error: false,
       });
     }).catch(() => setState({ ...EXTRA_EMPTY, loading: false, error: true }));
-  }, [hookSlug]);
+  }, [hookSlug, interval]);
 
   return state;
 }
@@ -291,9 +293,11 @@ function SignalRow({ name, value, signal, loading }: SignalRowProps) {
 
 interface InstrumentIntelligenceCardProps {
   instrument: HeroInstrument;
+  /** Twelve Data interval string, e.g. "4h" — passed from dashboard/page.tsx */
+  interval?: string;
 }
 
-export function InstrumentIntelligenceCard({ instrument }: InstrumentIntelligenceCardProps) {
+export function InstrumentIntelligenceCard({ instrument, interval = "4h" }: InstrumentIntelligenceCardProps) {
   // ── Slug normalisation ──────────────────────────────────────────────────────
   const hookSlug = SLUG_TO_HOOK[instrument.slug] ?? instrument.slug.replace("/", "");
 
@@ -301,7 +305,7 @@ export function InstrumentIntelligenceCard({ instrument }: InstrumentIntelligenc
   const tdAll  = useTwelveData([hookSlug]);
   const td     = tdAll[hookSlug];
   const tech   = useTechnicalData(hookSlug, true);
-  const extra  = useExtraSignals(hookSlug);
+  const extra  = useExtraSignals(hookSlug, interval);
   const cal    = useCalendarEvents(hookSlug);
 
   // ── Session (refreshes every minute) ───────────────────────────────────────
@@ -311,10 +315,12 @@ export function InstrumentIntelligenceCard({ instrument }: InstrumentIntelligenc
     return () => clearInterval(t);
   }, []);
 
-  // ── Bias direction ──────────────────────────────────────────────────────────
+  // ── Bias direction — from live biasScore, fall back to defaultPct placeholder ────
+  const biasScore = tech.biasScore;
   const bias: "bullish" | "bearish" | "neutral" =
-    instrument.defaultPct >= 55 ? "bullish" :
-    instrument.defaultPct <= 45 ? "bearish" : "neutral";
+    biasScore !== null
+      ? (biasScore >= 55 ? "bullish" : biasScore <= 45 ? "bearish" : "neutral")
+      : (instrument.defaultPct >= 55 ? "bullish" : instrument.defaultPct <= 45 ? "bearish" : "neutral");
 
   // ── Entrance animations ─────────────────────────────────────────────────────
   // No hasAnimated guard — React Strict Mode double-invokes effects; cleanup
@@ -540,7 +546,7 @@ export function InstrumentIntelligenceCard({ instrument }: InstrumentIntelligenc
         >
           <p className="text-[9px] font-mono uppercase tracking-[0.15em] mb-4"
             style={{ color: T.textFaint }}>
-            Technical Signals · 4H
+            Technical Signals · {intervalLabel(interval)}
           </p>
 
           {/* Signal badge grid */}

@@ -27,18 +27,10 @@ import Link from "next/link";
 import { MarketIntelligenceHeroCard } from "@/components/dashboard/MarketIntelligenceHeroCard";
 import { InstrumentIntelligenceCard } from "@/components/dashboard/InstrumentIntelligenceCard";
 import { SessionTimeline } from "@/components/dashboard/SessionTimeline";
+import { INSTRUMENTS_LIST } from "@/lib/instruments";
 
 type SubscriptionTier = 'free' | 'foundation' | 'edge' | 'floor';
 
-// Curated instrument values to support changing dashboard context
-const INSTRUMENTS_LIST = [
-  { slug: "GBP/USD", pair: "GBP/USD", name: "GBP/USD", tvSymbol: "FX:GBPUSD", defaultPct: 73, rsi: "58.4", price: "1.27340", trend: "ABOVE EMA" },
-  { slug: "EUR/USD", pair: "EUR/USD", name: "EUR/USD", tvSymbol: "FX:EURUSD", defaultPct: 62, rsi: "51.2", price: "1.09120", trend: "ABOVE EMA" },
-  { slug: "USD/JPY", pair: "USD/JPY", name: "USD/JPY", tvSymbol: "FX:USDJPY", defaultPct: 35, rsi: "38.6", price: "155.450", trend: "BELOW EMA" },
-  { slug: "EUR/GBP", pair: "EUR/GBP", name: "EUR/GBP", tvSymbol: "FX:EURGBP", defaultPct: 48, rsi: "44.9", price: "0.85420", trend: "BELOW EMA" },
-  { slug: "XAU/USD", pair: "XAU/USD", name: "XAU/USD", tvSymbol: "OANDA:XAGUSD", defaultPct: 81, rsi: "68.7", price: "2,350.80", trend: "ABOVE EMA" },
-  { slug: "BTC/USD", pair: "BTC/USD", name: "BTC/USD", tvSymbol: "BINANCE:BTCUSDT", defaultPct: 90, rsi: "75.2", price: "67,420.00", trend: "ABOVE EMA" },
-];
 
 export default function DashboardPage() {
   const [greeting, setGreeting] = useState("Morning");
@@ -55,8 +47,9 @@ export default function DashboardPage() {
   const [myCourses, setMyCourses] = useState<any[]>([]);
   const [passedModuleIds, setPassedModuleIds] = useState<string[]>([]);
 
-  // Redesign state: Selected Instrument
+  // Redesign state: Selected Instrument + Timeframe
   const [selectedInst, setSelectedInst] = useState(INSTRUMENTS_LIST[0]);
+  const [selectedInterval, setSelectedInterval] = useState("4h");
 
   type FeedItem = {
     id: string;
@@ -411,6 +404,7 @@ export default function DashboardPage() {
         instruments={INSTRUMENTS_LIST}
         initialInstrument={selectedInst}
         feedItems={feedItems}
+        selectedInterval={selectedInterval}
         todayTradeCount={trades.filter(t => {
           const today = new Date();
           const entry = new Date(t.entry_time);
@@ -421,10 +415,11 @@ export default function DashboardPage() {
           { label: "RSI",   count: (feedItems as any[]).filter((f: any) => f.severity === "red").length,    color: "red"    as const },
         ]}
         onInstrumentChange={(inst) => setSelectedInst(inst as any)}
+        onTimeframeChange={setSelectedInterval}
       />
 
       {/* INSTRUMENT INTELLIGENCE: Technical detail card — synced to hero instrument selector */}
-      <InstrumentIntelligenceCard instrument={selectedInst} />
+      <InstrumentIntelligenceCard instrument={selectedInst} interval={selectedInterval} />
 
       {/* PHASE 3 — Overview Dashboard Card Grid */}
       <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">

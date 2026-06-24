@@ -4,14 +4,8 @@ import { useEffect, useRef, useState } from "react";
 import { 
   InstrumentKey, 
   INSTRUMENTS, 
-  InstrumentConfig 
 } from "@/lib/instruments";
 import {
-  fetchQuote,
-  fetchAllIndicators,
-  fetchKeyLevels,
-  fetchMarketNews,
-  fetchEconomicCalendar,
   QuoteData,
   IndicatorData,
   KeyLevels,
@@ -72,9 +66,6 @@ export function useMarketIntelligence(
   const stateRef = useRef<MarketIntelligenceState>(state);
   stateRef.current = state;
 
-  const resolvedKey = resolveInstrumentKey(slugOrHookSlug);
-  const instrument = INSTRUMENTS[resolvedKey];
-
   useEffect(() => {
     // 1. Reset state to loading on instrument/timeframe change
     setState({ ...EMPTY_STATE, loading: true });
@@ -82,157 +73,192 @@ export function useMarketIntelligence(
     let active = true;
 
     // Fetch timers
-    let quoteTimer: NodeJS.Timeout | null = null;
-    let indicatorTimer: NodeJS.Timeout | null = null;
-    let newsTimer: NodeJS.Timeout | null = null;
+    let marketDataTimer: NodeJS.Timeout | null = null;
+    let newsEventsTimer: NodeJS.Timeout | null = null;
 
-    // Helper functions for polling updates (non-loading state)
-    const updateQuote = async (config: InstrumentConfig) => {
+    // Helper to fetch and map market data
+    const fetchMarketDataAndBias = async (slug: string, tf: string) => {
       try {
-        const quoteRes = await fetchQuote(config);
-        if (!active || !quoteRes) return;
+        const res = await fetch(`/api/market-data/${encodeURIComponent(slug)}?interval=${tf}`);
+        if (!res.ok) {
+          throw new Error(`HTTP Error ${res.status}`);
+        }
+        const data = await res.json();
+        if (data.error) {
+          throw new Error(data.error);
+        }
 
-        setState(prev => {
-          const currentPrice = quoteRes.price;
-          const nextBias = prev.indicators 
-            ? calculateBiasScore(prev.indicators, currentPrice)
-            : prev.bias;
+        const price = data.price ?? 0;
 
-          return {
-            ...prev,
-            quote: quoteRes,
-            bias: nextBias,
-            lastUpdated: new Date()
-          };
-        });
-      } catch (err: unknown) {
-        console.error("[useMarketIntelligence] Failed to update quote:", err);
+        const indicators: IndicatorData = {
+          rsi: data.rsi,
+          ema50: data.ema50,
+          ema200: data.ema200,
+          macdValue: data.macdLine,
+          macdSignal: data.macdSignal,
+          macdHistogram: data.macdHist,
+          bbUpper: data.bbUpper,
+          bbMiddle: data.bbMiddle,
+          bbLower: data.bbLower,
+          stochK: data.stochK,
+          stochD: data.stochD,
+          atr: data.atrCurrent,
+          cci: data.cci,
+          volumeAvg: data.avgVolume,
+          currentVolume: data.volume,
+        };
+
+        const quote: QuoteData = {
+          price: data.price,
+          change: data.change,
+          changePercent: data.changePct,
+          high: data.high ?? price,
+          low: data.low ?? price,
+          volume: data.volume ?? 0,
+          timestamp: Date.now(),
+        };
+
+        const keyLevels: KeyLevels = {
+          support: data.support,
+          resistance: data.resistance,
+          ema50: data.ema50,
+          ema200: data.ema200,
+          atr: data.atrCurrent,
+        };
+
+        const bias = calculateBiasScore(indicators, price);
+
+        return { quote, indicators, keyLevels, bias };
+      } catch (err: any) {
+        console.error(`[useMarketIntelligence] Failed to fetch market data for ${slug}:`, err);
+        return null;
       }
     };
 
-    const updateIndicatorsAndLevels = async (config: InstrumentConfig, tf: string) => {
+    // Helper to fetch and map calendar and news
+    const fetchNewsAndEvents = async (slug: string) => {
       try {
-        const indicatorsRes = await fetchAllIndicators(config, tf);
-        if (!active || !indicatorsRes) return;
-
-        // Fetch key levels using the updated indicators
-        const currentPrice = stateRef.current.quote?.price ?? indicatorsRes.ema50 ?? 0;
-        const levelsRes = await fetchKeyLevels(config, tf, currentPrice, indicatorsRes);
-
-        setState(prev => {
-          const price = prev.quote?.price ?? currentPrice;
-          const nextBias = calculateBiasScore(indicatorsRes, price);
-
-          return {
-            ...prev,
-            indicators: indicatorsRes,
-            keyLevels: levelsRes,
-            bias: nextBias,
-            lastUpdated: new Date()
-          };
-        });
-      } catch (err: unknown) {
-        console.error("[useMarketIntelligence] Failed to update indicators & levels:", err);
-      }
-    };
-
-    const updateNewsAndEvents = async (config: InstrumentConfig) => {
-      try {
-        const [newsRes, calendarRes] = await Promise.allSettled([
-          fetchMarketNews(config),
-          fetchEconomicCalendar(config)
+        const [calendarRes, newsRes] = await Promise.allSettled([
+          fetch(`/api/calendar/${encodeURIComponent(slug)}`).then(r => r.json()),
+          fetch(`/api/intelligence/news-sentiment/${encodeURIComponent(slug)}`).then(r => r.json())
         ]);
 
-        if (!active) return;
+        let events: EconomicEvent[] = [];
+        let news: NewsItem[] = [];
 
-        setState(prev => ({
-          ...prev,
-          news: newsRes.status === "fulfilled" ? newsRes.value : prev.news,
-          events: calendarRes.status === "fulfilled" ? calendarRes.value : prev.events,
-          lastUpdated: new Date()
-        }));
-      } catch (err: unknown) {
-        console.error("[useMarketIntelligence] Failed to update news & events:", err);
+        if (calendarRes.status === "fulfilled" && Array.isArray(calendarRes.value?.events)) {
+          events = calendarRes.value.events.map((e: any, i: number) => {
+            let timeMs = Date.now();
+            if (e.time && typeof e.time === "string" && e.time.includes(":")) {
+              const [h, m] = e.time.split(":").map(Number);
+              const d = new Date();
+              d.setUTCHours(h, m || 0, 0, 0);
+              timeMs = d.getTime();
+            } else if (e.time && !isNaN(Number(e.time))) {
+              timeMs = Number(e.time);
+            }
+
+            return {
+              id: `cal-${slug}-${i}`,
+              event: e.event,
+              country: e.country,
+              currency: "",
+              impact: e.impact as "high" | "medium" | "low",
+              actual: null,
+              estimate: e.estimate,
+              prev: e.previous,
+              time: timeMs,
+            };
+          });
+        }
+
+        if (newsRes.status === "fulfilled" && Array.isArray(newsRes.value?.articles)) {
+          news = newsRes.value.articles.map((a: any) => ({
+            id: String(a.url),
+            headline: a.title,
+            summary: "",
+            source: a.source ?? "News",
+            url: a.url,
+            datetime: new Date(a.published_at).getTime(),
+            category: "",
+          }));
+        }
+
+        return { events, news };
+      } catch (err: any) {
+        console.error(`[useMarketIntelligence] Failed to fetch news/events for ${slug}:`, err);
+        return null;
       }
     };
 
-    // Initial full fetch orchestration (with loading spinner)
+    // Orchestrator for initial loads and interval updates
     const initialFetch = async () => {
       try {
-        const [quoteRes, indicatorsRes, newsRes, calendarRes] = await Promise.allSettled([
-          fetchQuote(instrument),
-          fetchAllIndicators(instrument, timeframe),
-          fetchMarketNews(instrument),
-          fetchEconomicCalendar(instrument)
+        const [marketRes, newsEventsRes] = await Promise.allSettled([
+          fetchMarketDataAndBias(slugOrHookSlug, timeframe),
+          fetchNewsAndEvents(slugOrHookSlug)
         ]);
 
         if (!active) return;
 
-        const resolvedQuote = quoteRes.status === "fulfilled" ? quoteRes.value : null;
-        const resolvedIndicators = indicatorsRes.status === "fulfilled" ? indicatorsRes.value : null;
-        const resolvedNews = newsRes.status === "fulfilled" ? newsRes.value : [];
-        const resolvedEvents = calendarRes.status === "fulfilled" ? calendarRes.value : [];
+        const resolvedMarket = marketRes.status === "fulfilled" ? marketRes.value : null;
+        const resolvedNewsEvents = newsEventsRes.status === "fulfilled" ? newsEventsRes.value : null;
 
-        // Check if vital data failed (both quote and indicators missing is a critical error)
-        if (!resolvedQuote && !resolvedIndicators) {
+        if (!resolvedMarket) {
           setState(prev => ({
             ...prev,
             loading: false,
-            error: "Failed to connect to market data feeds. Please verify API keys."
+            error: "Failed to connect to market data feeds. Please verify server connection."
           }));
           return;
         }
 
-        const currentPrice = resolvedQuote?.price ?? resolvedIndicators?.ema50 ?? 0;
-        
-        // Fetch key levels using the resolved indicators
-        let resolvedLevels: KeyLevels | null = null;
-        if (resolvedIndicators) {
-          try {
-            resolvedLevels = await fetchKeyLevels(instrument, timeframe, currentPrice, resolvedIndicators);
-          } catch (err) {
-            console.error("[useMarketIntelligence] Key levels fetch failed:", err);
-          }
-        }
-
-        const resolvedBias = resolvedIndicators
-          ? calculateBiasScore(resolvedIndicators, currentPrice)
-          : null;
-
         setState({
-          quote: resolvedQuote,
-          indicators: resolvedIndicators,
-          bias: resolvedBias,
-          keyLevels: resolvedLevels,
-          news: resolvedNews,
-          events: resolvedEvents,
+          quote: resolvedMarket.quote,
+          indicators: resolvedMarket.indicators,
+          bias: resolvedMarket.bias,
+          keyLevels: resolvedMarket.keyLevels,
+          news: resolvedNewsEvents?.news ?? [],
+          events: resolvedNewsEvents?.events ?? [],
           loading: false,
           error: null,
           lastUpdated: new Date()
         });
 
-        // ─── Setup Polling Timers after initial load succeeds ───
-        // Polling 1: Quotes - 30 seconds
-        quoteTimer = setInterval(() => {
-          updateQuote(instrument);
+        // Setup Polling: 30 seconds for price/indicators
+        marketDataTimer = setInterval(async () => {
+          const updatedMarket = await fetchMarketDataAndBias(slugOrHookSlug, timeframe);
+          if (active && updatedMarket) {
+            setState(prev => ({
+              ...prev,
+              quote: updatedMarket.quote,
+              indicators: updatedMarket.indicators,
+              bias: updatedMarket.bias,
+              keyLevels: updatedMarket.keyLevels,
+              lastUpdated: new Date()
+            }));
+          }
         }, 30000);
 
-        // Polling 2: Indicators and Key Levels - 60 seconds
-        indicatorTimer = setInterval(() => {
-          updateIndicatorsAndLevels(instrument, timeframe);
-        }, 60000);
-
-        // Polling 3: News and Events - 5 minutes (300000 ms)
-        newsTimer = setInterval(() => {
-          updateNewsAndEvents(instrument);
+        // Setup Polling: 5 minutes for news/events
+        newsEventsTimer = setInterval(async () => {
+          const updatedNewsEvents = await fetchNewsAndEvents(slugOrHookSlug);
+          if (active && updatedNewsEvents) {
+            setState(prev => ({
+              ...prev,
+              news: updatedNewsEvents.news,
+              events: updatedNewsEvents.events,
+              lastUpdated: new Date()
+            }));
+          }
         }, 300000);
 
-      } catch (err: unknown) {
+      } catch (err: any) {
         if (active) {
           setState(prev => ({
             ...prev,
             loading: false,
-            error: err instanceof Error ? err.message : "An unexpected error occurred."
+            error: err.message || "An unexpected error occurred."
           }));
         }
       }
@@ -242,9 +268,8 @@ export function useMarketIntelligence(
 
     return () => {
       active = false;
-      if (quoteTimer) clearInterval(quoteTimer);
-      if (indicatorTimer) clearInterval(indicatorTimer);
-      if (newsTimer) clearInterval(newsTimer);
+      if (marketDataTimer) clearInterval(marketDataTimer);
+      if (newsEventsTimer) clearInterval(newsEventsTimer);
     };
   }, [slugOrHookSlug, timeframe]);
 

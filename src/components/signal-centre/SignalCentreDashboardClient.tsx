@@ -341,7 +341,7 @@ function SignalCentreInner({
             onClick={() => triggerScan(false)}
             disabled={scanning}
             className="px-5 py-2.5 text-[10px] font-mono font-bold uppercase tracking-widest transition-all rounded-xl flex items-center justify-center gap-2 disabled:opacity-50 shadow-sm hover:opacity-90"
-            style={{ backgroundColor: "var(--tool-accent,#C8F135)", color: "#000" }}
+            style={{ backgroundColor: "var(--tool-accent,#14b8a6)", color: "#fff" }}
           >
             <RefreshCw className={cn("w-3.5 h-3.5", scanning && "animate-spin")} />
             {scanning ? "Scanning…" : "Scan Markets"}
@@ -454,8 +454,8 @@ function SignalCentreInner({
                   className={cn(
                     "px-3.5 py-2 text-[10px] font-mono uppercase tracking-wider transition-all rounded-lg border font-bold",
                     active
-                      ? "bg-violet-600 text-white border-violet-600"
-                      : "bg-gray-50 text-gray-500 border-gray-200 hover:border-violet-300 hover:text-violet-600"
+                      ? "bg-teal-500 text-white border-teal-500"
+                      : "bg-gray-50 text-gray-500 border-gray-200 hover:border-teal-300 hover:text-teal-600"
                   )}
                 >
                   {cat.label}
@@ -469,7 +469,7 @@ function SignalCentreInner({
               onClick={() => setViewMode("all")}
               className={cn(
                 "px-3.5 py-2 text-[10px] font-mono uppercase tracking-wider transition-all font-bold",
-                viewMode === "all" ? "bg-violet-600 text-white" : "text-gray-500 hover:text-gray-900"
+                viewMode === "all" ? "bg-teal-500 text-white" : "text-gray-500 hover:text-gray-900"
               )}
             >
               All Signals
@@ -478,7 +478,7 @@ function SignalCentreInner({
               onClick={() => setViewMode("watchlist")}
               className={cn(
                 "px-3.5 py-2 text-[10px] font-mono uppercase tracking-wider transition-all flex items-center gap-1 border-l border-gray-200 font-bold",
-                viewMode === "watchlist" ? "bg-violet-600 text-white" : "text-gray-500 hover:text-gray-900"
+                viewMode === "watchlist" ? "bg-teal-500 text-white" : "text-gray-500 hover:text-gray-900"
               )}
             >
               <Star className="w-3 h-3" fill={viewMode === "watchlist" ? "currentColor" : "none"} />
@@ -502,7 +502,7 @@ function SignalCentreInner({
                     onClick={() => setActiveTimeframe(tf)}
                     className={cn(
                       "px-2.5 py-1 text-[9px] rounded-md transition-all uppercase font-semibold",
-                      active ? "bg-violet-600 text-white" : "text-gray-500 hover:text-gray-800"
+                      active ? "bg-teal-500 text-white" : "text-gray-500 hover:text-gray-800"
                     )}
                   >
                     {tf}
@@ -530,7 +530,7 @@ function SignalCentreInner({
                       active
                         ? bias.id === "BULLISH" ? "bg-emerald-600 text-white"
                           : bias.id === "BEARISH" ? "bg-red-500 text-white"
-                          : "bg-violet-600 text-white"
+                          : "bg-teal-500 text-white"
                         : "text-gray-500 hover:text-gray-800"
                     )}
                   >

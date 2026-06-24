@@ -568,7 +568,7 @@ export function MarketIntelligenceHeroCard({
       </div>
 
       {/* ── Body grid ───────────────────────────────────────────────────────── */}
-      <div className="grid grid-cols-1 lg:grid-cols-12" style={{ minHeight: 380 }}>
+      <div className="grid grid-cols-1 lg:grid-cols-12" style={{ height: 380 }}>
 
         {/* ── Col A: Session stats ──────────────────────────────────────────── */}
         <div className="lg:col-span-3 border-r border-white/[0.06] p-6 flex flex-col justify-between">
@@ -911,7 +911,7 @@ export function MarketIntelligenceHeroCard({
           </div>
 
           {/* Feed items */}
-          <div className="flex-1 overflow-y-auto p-3 space-y-2">
+          <div key={hookSlug} className="flex-1 overflow-y-auto p-3 space-y-2">
             {liveFeedItems.map((item, i) => {
               const isAlert    = item.type === "alert";
               const isTopAlert = isAlert && i === liveFeedItems.findIndex(f => f.type === "alert");

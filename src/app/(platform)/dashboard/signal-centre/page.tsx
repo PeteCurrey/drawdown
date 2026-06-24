@@ -53,13 +53,38 @@ export default async function SignalCentrePage() {
 
   const savedIds = (savedSignals ?? []).map(s => s.signal_id);
 
+  const themeStyles = {
+    "--tool-accent":        "#C8F135",
+    "--tool-accent-hover":  "#b8df1a",
+    "--tool-accent-tint":   "#f7ffe8",
+    "--tool-accent-border": "#d4f05a",
+    "--tool-accent-text":   "#4a6600",
+  } as React.CSSProperties;
+
   return (
-    <SignalCentreDashboardClient
-      initialSignals={signals ?? []}
-      initialSavedIds={savedIds}
-      isSubscriber={isSubscriber}
-      userId={user.id}
-      userTier={tier}
-    />
+    <div className="space-y-8 animate-in fade-in duration-700" style={themeStyles}>
+      {/* Page header — matches dashboard tool design: accent eyebrow, font-display h1, italic accent word */}
+      <header className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+        <div>
+          <span className="text-accent font-mono text-[10px] uppercase tracking-widest block mb-3">
+            // MODULE_SC // SIGNAL CENTRE
+          </span>
+          <h1 className="text-4xl font-display font-bold uppercase text-text-primary">
+            Signal <span className="text-accent italic">Centre.</span>
+          </h1>
+          <p className="text-text-secondary text-sm mt-2 max-w-xl">
+            Multi-model consensus signals via institutional indicators — Claude, GPT-4o, and Grok scoring live market data simultaneously.
+          </p>
+        </div>
+      </header>
+
+      <SignalCentreDashboardClient
+        initialSignals={signals ?? []}
+        initialSavedIds={savedIds}
+        isSubscriber={isSubscriber}
+        userId={user.id}
+        userTier={tier}
+      />
+    </div>
   );
 }

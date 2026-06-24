@@ -687,8 +687,9 @@ export function SignalCentreDashboardClient({
                 <Cpu className="w-4 h-4 text-violet-600" />
               </div>
               <div>
-                <h2 className="text-sm font-bold text-gray-900 uppercase tracking-wider">AI Consensus Panel</h2>
-                <p className="text-[9px] font-mono text-gray-400">Claude · GPT-4o · Grok — live multi-model alignment</p>
+                <span className="text-violet-400 font-mono text-[9px] uppercase tracking-widest block mb-0.5">// AI Consensus</span>
+                <h2 className="text-sm font-display font-bold text-text-primary uppercase tracking-wide">AI Consensus Panel</h2>
+                <p className="text-[9px] font-mono text-text-tertiary">Claude · GPT-4o · Grok — live multi-model alignment</p>
               </div>
             </div>
             <span className="text-[8px] font-mono bg-violet-100 text-violet-600 border border-violet-200 px-2 py-0.5 rounded-lg uppercase font-bold">Edge+</span>
@@ -762,8 +763,9 @@ export function SignalCentreDashboardClient({
                 <Crown className="w-4 h-4 text-amber-600" />
               </div>
               <div>
-                <h2 className="text-sm font-bold text-gray-900 uppercase tracking-wider">Floor Intelligence Suite</h2>
-                <p className="text-[9px] font-mono text-gray-400">Raw data · API export · Custom alerts · 1-to-1 review</p>
+                <span className="text-amber-500 font-mono text-[9px] uppercase tracking-widest block mb-0.5">// Floor Only</span>
+                <h2 className="text-sm font-display font-bold text-text-primary uppercase tracking-wide">Floor Intelligence Suite</h2>
+                <p className="text-[9px] font-mono text-text-tertiary">Raw data · API export · Custom alerts · 1-to-1 review</p>
               </div>
             </div>
             <span className="text-[8px] font-mono bg-amber-100 text-amber-600 border border-amber-200 px-2 py-0.5 rounded-lg uppercase font-bold">Floor Only</span>

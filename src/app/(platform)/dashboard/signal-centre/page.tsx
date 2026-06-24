@@ -31,8 +31,8 @@ export default async function SignalCentrePage() {
     .eq("id", user.id)
     .single();
 
-  const tier = (profile as any)?.subscription_tier as string | undefined;
-  const userWeight = TIER_WEIGHT[tier ?? "free"] ?? 0;
+  const tier = ((profile as any)?.subscription_tier as string | undefined) ?? "free";
+  const userWeight = TIER_WEIGHT[tier] ?? 0;
   const isSubscriber = userWeight >= 2; // Edge or Floor
 
   // Fetch active signals
@@ -56,6 +56,7 @@ export default async function SignalCentrePage() {
       initialSavedIds={savedIds}
       isSubscriber={isSubscriber}
       userId={user.id}
+      userTier={tier}
     />
   );
 }

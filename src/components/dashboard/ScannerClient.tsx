@@ -13,6 +13,7 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell, Refere
 import { cn } from "@/lib/utils";
 import { TradingViewMiniChart } from "@/components/markets/TradingViewMiniChart";
 import { TradingViewTechnicalWidget } from "@/components/market/TradingViewTechnicalWidget";
+import { TradingViewWidget } from "@/components/dashboard/TradingViewWidget";
 import { useTwelveData } from "@/hooks/useTwelveData";
 import { useTechnicalData } from "@/hooks/useTechnicalData";
 import type { InstrumentData } from "@/hooks/useTwelveData";
@@ -1411,7 +1412,7 @@ function InstrumentCard({
         <div className="-mx-4 overflow-hidden" style={{ height: 80 }}>
           <TradingViewMiniChart
             symbol={inst.tvSymbol}
-            largeChartUrl={`/dashboard/tools/scanner?symbol=${inst.scannerSlug}`}
+            largeChartUrl={`/dashboard/tools/technical-scanner?symbol=${inst.scannerSlug}`}
             height={80}
             className="w-full"
           />
@@ -1424,8 +1425,8 @@ function InstrumentCard({
             <p className="text-text-secondary font-bold">
               {data.spread != null
                 ? inst.scannerSlug.includes("JPY") || ["UKX","SPX","NDX","DJI"].includes(inst.scannerSlug)
-                  ? data.spread.toFixed(2)
-                  : (data.spread * 10000).toFixed(1) + " pips"
+                ? data.spread.toFixed(2)
+                : (data.spread * 10000).toFixed(1) + " pips"
                 : "—"}
             </p>
           </div>
@@ -1434,8 +1435,8 @@ function InstrumentCard({
             <p className="text-text-secondary font-bold">
               {data.atr != null
                 ? inst.scannerSlug.includes("JPY") || ["UKX","SPX","NDX","DJI"].includes(inst.scannerSlug)
-                  ? data.atr.toFixed(1) + " pts"
-                  : (data.atr * 10000).toFixed(0) + " pips"
+                ? data.atr.toFixed(1) + " pts"
+                : (data.atr * 10000).toFixed(0) + " pips"
                 : "—"}
             </p>
           </div>
@@ -1489,7 +1490,7 @@ function InstrumentCard({
                 )}
               </button>
             </div>
-            <Link href={`/dashboard/tools/scanner?symbol=${inst.scannerSlug}`}
+            <Link href={`/dashboard/tools/technical-scanner?symbol=${inst.scannerSlug}`}
               className="text-[8px] font-mono uppercase text-text-tertiary hover:text-accent transition-colors flex items-center gap-1"
               onClick={e => e.stopPropagation()}>
               TradingView <ChevronRight className="w-2.5 h-2.5" />
@@ -2486,102 +2487,392 @@ function MarketScannerGrid() {
   );
 }
 
-// ─── Existing SymbolDetail (preserved) ───────────────────────────────────────
+// ─── Redesigned SymbolDetail (Immersive Quantitative Dashboard) ───────────────
 
 function SymbolDetail({ instrument }: { instrument: ScannerInstrument }) {
   const CategoryIcon = CATEGORY_ICON[instrument.category];
-  const [ready, setReady] = useState(false);
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const t = setTimeout(() => setReady(true), 300);
-    return () => clearTimeout(t);
-  }, []);
+  const priceData = useTwelveData([instrument.scannerSlug]);
+  const data = priceData[instrument.scannerSlug];
+  const tech = useTechnicalData(instrument.scannerSlug, true);
 
   const idx = SCANNER_INSTRUMENTS.findIndex(i => i.scannerSlug === instrument.scannerSlug);
   const prev = SCANNER_INSTRUMENTS[idx - 1] ?? null;
   const next = SCANNER_INSTRUMENTS[idx + 1] ?? null;
 
+  const isBullish = tech?.consensus?.includes("BUY") ?? false;
+  const isBearish = tech?.consensus?.includes("SELL") ?? false;
+  const setupScore = data && tech ? calcSetupScore(data, tech) : 0;
+
+  const formatPriceLocal = (price: number | null) => {
+    if (price === null || price === undefined) return "—";
+    return formatPrice(price, instrument.scannerSlug);
+  };
+
   return (
-    <div className="space-y-8 animate-in fade-in duration-500 pb-24">
-      <div className="flex items-center justify-between">
-        <Link href="/dashboard/tools/scanner"
-          className="flex items-center gap-2 text-[10px] font-mono uppercase tracking-widest text-text-tertiary hover:text-accent transition-colors">
-          <ChevronLeft className="w-3 h-3" /> All Markets
-        </Link>
-        <div className="flex items-center gap-2">
-          {prev && (
-            <Link href={`/dashboard/tools/scanner?symbol=${prev.scannerSlug}`}
-              className="flex items-center gap-1 px-3 py-1.5 border border-border-slate/50 hover:border-accent text-[9px] font-mono uppercase text-text-tertiary hover:text-accent transition-all">
-              <ChevronLeft className="w-3 h-3" /> {prev.displayPair}
-            </Link>
-          )}
-          {next && (
-            <Link href={`/dashboard/tools/scanner?symbol=${next.scannerSlug}`}
-              className="flex items-center gap-1 px-3 py-1.5 border border-border-slate/50 hover:border-accent text-[9px] font-mono uppercase text-text-tertiary hover:text-accent transition-all">
-              {next.displayPair} <ChevronRight className="w-3 h-3" />
-            </Link>
-          )}
-        </div>
-      </div>
+    <div className="relative space-y-8 animate-in fade-in duration-500 pb-24 min-h-screen">
+      {/* Sentiment-based Ambient Glows */}
+      <div
+        className="absolute inset-0 pointer-events-none z-0"
+        style={{
+          opacity: isBullish ? 1 : 0,
+          background: "radial-gradient(ellipse 70% 45% at 50% 0%, rgba(0,200,100,0.14) 0%, rgba(0,200,100,0.03) 40%, transparent 100%)",
+          transition: "opacity 800ms ease",
+        }}
+      />
+      <div
+        className="absolute inset-0 pointer-events-none z-0"
+        style={{
+          opacity: isBearish ? 1 : 0,
+          background: "radial-gradient(ellipse 70% 45% at 50% 0%, rgba(220,50,50,0.14) 0%, rgba(220,50,50,0.03) 40%, transparent 100%)",
+          transition: "opacity 800ms ease",
+        }}
+      />
 
-      <header className="border-b border-border-slate/50 pb-6 flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
-        <div className="space-y-1">
+      <div className="relative z-10 space-y-8">
+        {/* Navigation Breadcrumbs */}
+        <div className="flex items-center justify-between">
+          <Link href="/dashboard/tools/technical-scanner"
+            className="flex items-center gap-2 text-[10px] font-mono uppercase tracking-widest text-text-tertiary hover:text-accent transition-colors">
+            <ChevronLeft className="w-3 h-3" /> All Markets
+          </Link>
           <div className="flex items-center gap-2">
-            <CategoryIcon className="w-4 h-4 text-text-tertiary" />
-            <span className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary">
-              {CATEGORY_LABEL[instrument.category]} · Technical Consensus · Daily (1D)
-            </span>
+            {prev && (
+              <Link href={`/dashboard/tools/technical-scanner?symbol=${prev.scannerSlug}`}
+                className="flex items-center gap-1 px-3 py-1.5 border border-border-slate/50 bg-background-surface/40 hover:border-accent text-[9px] font-mono uppercase text-text-tertiary hover:text-accent transition-all">
+                <ChevronLeft className="w-3 h-3" /> {prev.displayPair}
+              </Link>
+            )}
+            {next && (
+              <Link href={`/dashboard/tools/technical-scanner?symbol=${next.scannerSlug}`}
+                className="flex items-center gap-1 px-3 py-1.5 border border-border-slate/50 bg-background-surface/40 hover:border-accent text-[9px] font-mono uppercase text-text-tertiary hover:text-accent transition-all">
+                {next.displayPair} <ChevronRight className="w-3 h-3" />
+              </Link>
+            )}
           </div>
-          <h1 className="text-5xl font-display font-black uppercase tracking-tight text-text-primary">
-            {instrument.displayPair}
-          </h1>
-          <p className="text-[10px] font-mono text-text-tertiary uppercase tracking-widest">{instrument.tvSymbol}</p>
         </div>
-        <div className="flex items-center gap-3 px-5 py-3 bg-background-elevated border border-border-slate/50">
-          <div className="w-2 h-2 rounded-full bg-profit animate-pulse" />
-          <span className="text-[10px] font-mono uppercase tracking-widest">Live · TradingView Technical Analysis</span>
-        </div>
-      </header>
 
-      <div ref={containerRef} className="bg-background-surface/40 backdrop-blur-md border border-border-slate/50 p-6 min-h-[460px]">
-        {ready ? (
-          <TradingViewTechnicalWidget tvSymbol={instrument.tvSymbol} isVisible={true} />
-        ) : (
-          <div className="flex items-center justify-center h-[400px]">
-            <div className="flex items-center gap-3 text-text-tertiary animate-pulse">
-              <Activity className="w-4 h-4" />
-              <span className="text-[10px] font-mono uppercase tracking-widest">Loading signal data...</span>
+        {/* Dashboard Header */}
+        <header className="border-b border-border-slate/50 pb-6 flex flex-col lg:flex-row justify-between items-start lg:items-end gap-6">
+          <div className="space-y-2">
+            <div className="flex items-center gap-2">
+              <CategoryIcon className="w-4 h-4 text-text-tertiary" />
+              <span className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary">
+                {CATEGORY_LABEL[instrument.category]} · {instrument.tvSymbol}
+              </span>
+            </div>
+            <div className="flex items-center gap-4 flex-wrap">
+              <h1 className="text-5xl font-display font-black uppercase tracking-tight text-text-primary">
+                {instrument.displayPair}
+              </h1>
+              {tech.loading ? (
+                <div className="h-6 w-24 bg-background-elevated animate-pulse rounded" />
+              ) : (
+                <span className={cn("text-xs font-bold font-mono tracking-wider px-3 py-1 rounded border", CONSENSUS_STYLE[tech.consensus])}>
+                  {tech.consensus}
+                </span>
+              )}
             </div>
           </div>
-        )}
-      </div>
 
-      <p className="text-[9px] font-mono text-text-tertiary/60 uppercase tracking-widest text-center leading-relaxed">
-        Analysis powered by TradingView Technical Analysis engine · 26 indicators · Daily timeframe · Not financial advice
-      </p>
+          {/* Dynamic Live Price Feed Bar */}
+          <div className="flex flex-wrap items-center gap-6 bg-background-surface/50 border border-border-slate/50 p-4 rounded-xl backdrop-blur-sm">
+            <div>
+              <p className="text-[9px] font-mono uppercase text-text-tertiary tracking-wider">Live Price</p>
+              {data?.loading ? (
+                <div className="h-5 w-24 bg-background-elevated animate-pulse mt-1 rounded" />
+              ) : (
+                <p className="text-xl font-bold font-mono text-text-primary">
+                  {formatPriceLocal(data?.price)}
+                </p>
+              )}
+            </div>
+            <div>
+              <p className="text-[9px] font-mono uppercase text-text-tertiary tracking-wider">Day Change</p>
+              {data?.loading ? (
+                <div className="h-5 w-20 bg-background-elevated animate-pulse mt-1 rounded" />
+              ) : (
+                <p className={cn("text-sm font-bold font-mono mt-0.5", (data?.changePct ?? 0) >= 0 ? "text-emerald-500" : "text-red-500")}>
+                  {(data?.changePct ?? 0) >= 0 ? "+" : ""}{data?.changePct?.toFixed(2)}%
+                </p>
+              )}
+            </div>
+            <div>
+              <p className="text-[9px] font-mono uppercase text-text-tertiary tracking-wider">Bid / Ask</p>
+              {data?.loading ? (
+                <div className="h-5 w-28 bg-background-elevated animate-pulse mt-1 rounded" />
+              ) : (
+                <p className="text-xs font-mono text-text-secondary mt-0.5">
+                  {formatPriceLocal(data?.bid)} / {formatPriceLocal(data?.ask)}
+                </p>
+              )}
+            </div>
+            <div>
+              <p className="text-[9px] font-mono uppercase text-text-tertiary tracking-wider">Spread</p>
+              {data?.loading ? (
+                <div className="h-5 w-16 bg-background-elevated animate-pulse mt-1 rounded" />
+              ) : (
+                <p className="text-xs font-mono font-bold text-text-secondary mt-0.5">
+                  {data?.spread != null
+                    ? instrument.scannerSlug.includes("JPY") || ["UKX","SPX","NDX","DJI"].includes(instrument.scannerSlug)
+                      ? data.spread.toFixed(2)
+                      : (data.spread * 10000).toFixed(1) + " pips"
+                    : "—"}
+                </p>
+              )}
+            </div>
+          </div>
+        </header>
 
-      <section className="space-y-4">
-        <h2 className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary border-b border-border-slate/50 pb-3">
-          Other Instruments
-        </h2>
-        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3">
-          {SCANNER_INSTRUMENTS.filter(i => i.scannerSlug !== instrument.scannerSlug).map(i => {
-            const Icon = CATEGORY_ICON[i.category];
-            return (
-              <Link key={i.scannerSlug} href={`/dashboard/tools/scanner?symbol=${i.scannerSlug}`}
-                className={cn("flex flex-col items-center justify-center gap-2 p-4",
-                  "border border-border-slate/40 hover:border-accent hover:bg-accent/5",
-                  "transition-all group text-center")}>
-                <Icon className="w-4 h-4 text-text-tertiary group-hover:text-accent transition-colors" />
-                <span className="text-[9px] font-mono uppercase tracking-widest text-text-secondary group-hover:text-text-primary transition-colors">
-                  {i.displayPair}
-                </span>
-              </Link>
-            );
-          })}
+        {/* Technical Data Layout Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          {/* Card 1: TradingView Advanced Super Chart */}
+          <div className="lg:col-span-12 bg-background-surface/60 border border-border-slate/40 rounded-xl overflow-hidden shadow-sm backdrop-blur-md">
+            <div className="px-5 py-4 border-b border-border-slate/30 flex items-center justify-between bg-background-surface/30">
+              <div>
+                <h3 className="text-xs font-bold font-mono uppercase tracking-wider text-text-primary">TradingView Super Chart</h3>
+                <p className="text-[9px] font-mono text-text-tertiary">Real-time professional interactive candlestick feed</p>
+              </div>
+              <span className="text-[9px] font-mono uppercase tracking-widest text-text-tertiary px-2 py-0.5 border border-border-slate/40 rounded bg-background-elevated/40">
+                1D Timeframe
+              </span>
+            </div>
+            <div className="p-1 min-h-[500px]">
+              <TradingViewWidget
+                symbol={instrument.tvSymbol}
+                interval="1day"
+                theme="light"
+                height={500}
+                containerId="tv_main_super_chart"
+              />
+            </div>
+          </div>
+
+          {/* Card 2: Intraday WAP Chart (VWAP) */}
+          <div className="lg:col-span-7 bg-background-surface/60 border border-border-slate/40 rounded-xl overflow-hidden shadow-sm backdrop-blur-md flex flex-col">
+            <div className="px-5 py-4 border-b border-border-slate/30 flex items-center justify-between bg-background-surface/30">
+              <div>
+                <h3 className="text-xs font-bold font-mono uppercase tracking-wider text-text-primary">WAP Chart (Intraday VWAP)</h3>
+                <p className="text-[9px] font-mono text-text-tertiary">Volume Weighted Average Price tracking (15m)</p>
+              </div>
+              <span className="text-[9px] font-mono uppercase tracking-widest text-text-tertiary px-2 py-0.5 border border-border-slate/40 rounded bg-background-elevated/40 animate-pulse">
+                Live 15M
+              </span>
+            </div>
+            <div className="p-1 flex-1 min-h-[350px]">
+              <TradingViewWidget
+                symbol={instrument.tvSymbol}
+                interval="15"
+                theme="light"
+                height={350}
+                studies={["VWAP@tv-basicstudies"]}
+                containerId="tv_vwap_chart"
+              />
+            </div>
+          </div>
+
+          {/* Card 3: Gauge & Setup Dials + TF Metrics */}
+          <div className="lg:col-span-5 bg-background-surface/60 border border-border-slate/40 rounded-xl overflow-hidden shadow-sm backdrop-blur-md flex flex-col">
+            <div className="px-5 py-4 border-b border-border-slate/30 bg-background-surface/30">
+              <h3 className="text-xs font-bold font-mono uppercase tracking-wider text-text-primary">Sentiment & Setup Quality</h3>
+              <p className="text-[9px] font-mono text-text-tertiary">Composite dial metric & timeframe signals</p>
+            </div>
+            <div className="p-5 flex-1 flex flex-col justify-between space-y-6">
+              {/* Top dials row */}
+              <div className="grid grid-cols-2 gap-4 items-center justify-center">
+                <div className="flex flex-col items-center justify-center border-r border-border-slate/30 pr-2">
+                  <span className="text-[9px] font-mono text-text-tertiary uppercase tracking-wider mb-2">Consensus Gauge</span>
+                  <div className="scale-90 -my-4 origin-center">
+                    <TradingViewTechnicalWidget
+                      tvSymbol={instrument.tvSymbol}
+                      isVisible={true}
+                      theme="light"
+                    />
+                  </div>
+                </div>
+                <div className="flex flex-col items-center justify-center">
+                  <span className="text-[9px] font-mono text-text-tertiary uppercase tracking-wider mb-2">Setup Score</span>
+                  <SetupScoreDial score={setupScore} size={84} />
+                  <span className="text-[8px] font-mono text-text-tertiary mt-2 uppercase text-center leading-normal">
+                    {setupScore >= 70 ? "🔥 Premium Setup" : setupScore >= 40 ? "⏳ Developing" : "❌ Avoid Setup"}
+                  </span>
+                </div>
+              </div>
+
+              {/* Timeframe rows list */}
+              <div className="space-y-1">
+                <p className="text-[9px] font-mono text-text-tertiary uppercase tracking-wider pb-1 border-b border-border-slate/20">Timeframe Signals</p>
+                {tech.loading ? (
+                  <div className="space-y-2 py-2">
+                    <div className="h-4 bg-background-elevated animate-pulse rounded w-full" />
+                    <div className="h-4 bg-background-elevated animate-pulse rounded w-full" />
+                    <div className="h-4 bg-background-elevated animate-pulse rounded w-full" />
+                  </div>
+                ) : (
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-left text-[9px] font-mono text-text-secondary">
+                      <thead>
+                        <tr className="text-text-tertiary">
+                          <th className="py-1">TF</th>
+                          <th className="py-1">MA Trend</th>
+                          <th className="py-1">RSI</th>
+                          <th className="py-1 text-right">Verdict</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-border-slate/20">
+                        {tech.rows.map((row) => (
+                          <tr key={row.tf} className="hover:bg-black/5 dark:hover:bg-white/5 transition-colors">
+                            <td className="py-1.5 font-bold text-text-primary">{row.label}</td>
+                            <td className="py-1.5 flex items-center gap-1">
+                              <SignalArrow signal={row.maSignal} />
+                              {row.maSignal}
+                            </td>
+                            <td className="py-1.5">
+                              {row.rsi ? row.rsi.toFixed(1) : "—"} ({row.rsiSignal})
+                            </td>
+                            <td className={cn("py-1.5 text-right font-bold",
+                              row.overall === "BUY" ? "text-emerald-500" : row.overall === "SELL" ? "text-red-500" : "text-text-tertiary"
+                            )}>
+                              {row.overall}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* Card 4: Pivots & Key levels + Range Visual */}
+          <div className="lg:col-span-12 bg-background-surface/60 border border-border-slate/40 rounded-xl overflow-hidden shadow-sm backdrop-blur-md">
+            <div className="px-5 py-4 border-b border-border-slate/30 bg-background-surface/30">
+              <h3 className="text-xs font-bold font-mono uppercase tracking-wider text-text-primary">Key Levels & Range Position</h3>
+              <p className="text-[9px] font-mono text-text-tertiary">Support, resistance pivot matrix & EMA trend structure</p>
+            </div>
+            <div className="p-6 grid grid-cols-1 md:grid-cols-12 gap-8">
+              {/* Range Position Bar */}
+              <div className="md:col-span-6 flex flex-col justify-center space-y-4">
+                <span className="text-[9px] font-mono text-text-tertiary uppercase tracking-wider">Current Price Position relative to S1 / R1</span>
+                {tech.loading || !tech.keyLevels.s1 || !tech.keyLevels.r1 || !data?.price ? (
+                  <div className="h-10 bg-background-elevated animate-pulse rounded w-full" />
+                ) : (() => {
+                  const s1 = tech.keyLevels.s1;
+                  const r1 = tech.keyLevels.r1;
+                  const cur = data.price;
+                  const range = r1 - s1;
+                  const rawPct = range > 0 ? ((cur - s1) / range) * 100 : 50;
+                  const pct = Math.min(100, Math.max(0, rawPct));
+                  return (
+                    <div className="space-y-2">
+                      <div className="relative h-2.5 bg-background-elevated rounded-full border border-border-slate/30">
+                        {/* Pivot Point Vertical Marker */}
+                        {tech.keyLevels.pivot && (
+                          <div
+                            className="absolute top-0 bottom-0 w-0.5 bg-border-slate/60"
+                            style={{ left: `${((tech.keyLevels.pivot - s1) / range) * 100}%` }}
+                            title={`Pivot Point: ${formatPriceLocal(tech.keyLevels.pivot)}`}
+                          />
+                        )}
+                        {/* Current price marker */}
+                        <div
+                          className="absolute -top-1 w-4.5 h-4.5 rounded-full bg-accent border-2 border-white shadow-md flex items-center justify-center -translate-x-1/2 transition-all duration-700 animate-pulse"
+                          style={{ left: `${pct}%` }}
+                        >
+                          <div className="w-1.5 h-1.5 rounded-full bg-white" />
+                        </div>
+                      </div>
+                      <div className="flex items-center justify-between text-[9px] font-mono">
+                        <span className="text-emerald-500 font-bold">S1: {formatPriceLocal(s1)}</span>
+                        <span className="text-text-tertiary">Price: {formatPriceLocal(cur)}</span>
+                        <span className="text-red-500 font-bold">R1: {formatPriceLocal(r1)}</span>
+                      </div>
+                      <p className="text-[8px] font-mono text-text-tertiary text-center leading-normal mt-1">
+                        {pct > 80 ? "⚠️ Overbought territory, nearing Resistance (R1)" : pct < 20 ? "🔥 Volatility support, nearing Support (S1)" : "Normal consolidation range between S1 and R1"}
+                      </p>
+                    </div>
+                  );
+                })()}
+              </div>
+
+              {/* Pivots / EMAs Tables */}
+              <div className="md:col-span-6 grid grid-cols-2 gap-6">
+                <div>
+                  <span className="text-[9px] font-mono text-text-tertiary uppercase tracking-wider pb-1 border-b border-border-slate/20 block mb-2">Pivot Matrix</span>
+                  {tech.loading ? (
+                    <div className="space-y-1">
+                      <div className="h-3 bg-background-elevated animate-pulse rounded w-2/3" />
+                      <div className="h-3 bg-background-elevated animate-pulse rounded w-2/3" />
+                    </div>
+                  ) : (
+                    <div className="space-y-1.5 text-[9px] font-mono">
+                      <div className="flex justify-between"><span className="text-text-tertiary">R2</span><span className="font-bold text-red-500">{formatPriceLocal(tech.keyLevels.r2)}</span></div>
+                      <div className="flex justify-between"><span className="text-text-tertiary">R1</span><span className="font-bold text-red-400">{formatPriceLocal(tech.keyLevels.r1)}</span></div>
+                      <div className="flex justify-between"><span className="text-text-tertiary">Pivot</span><span className="font-bold text-text-secondary">{formatPriceLocal(tech.keyLevels.pivot)}</span></div>
+                      <div className="flex justify-between"><span className="text-text-tertiary">S1</span><span className="font-bold text-emerald-400">{formatPriceLocal(tech.keyLevels.s1)}</span></div>
+                      <div className="flex justify-between"><span className="text-text-tertiary">S2</span><span className="font-bold text-emerald-500">{formatPriceLocal(tech.keyLevels.s2)}</span></div>
+                    </div>
+                  )}
+                </div>
+
+                <div>
+                  <span className="text-[9px] font-mono text-text-tertiary uppercase tracking-wider pb-1 border-b border-border-slate/20 block mb-2">EMA Trend Alignment</span>
+                  {tech.loading ? (
+                    <div className="space-y-1">
+                      <div className="h-3 bg-background-elevated animate-pulse rounded w-2/3" />
+                      <div className="h-3 bg-background-elevated animate-pulse rounded w-2/3" />
+                    </div>
+                  ) : (
+                    <div className="space-y-1.5 text-[9px] font-mono">
+                      <div className="flex justify-between">
+                        <span className="text-text-tertiary">EMA 20</span>
+                        <span className={cn("font-bold", tech.emaStack.above20 ? "text-emerald-500" : "text-red-500")}>
+                          {formatPriceLocal(tech.emaStack.ema20)}
+                        </span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-text-tertiary">EMA 50</span>
+                        <span className={cn("font-bold", tech.emaStack.above50 ? "text-emerald-500" : "text-red-500")}>
+                          {formatPriceLocal(tech.emaStack.ema50)}
+                        </span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-text-tertiary">EMA 200</span>
+                        <span className={cn("font-bold", tech.emaStack.above200 ? "text-emerald-500" : "text-red-500")}>
+                          {formatPriceLocal(tech.emaStack.ema200)}
+                        </span>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-      </section>
+
+        {/* Other Instruments section */}
+        <section className="space-y-4 pt-4">
+          <h2 className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary border-b border-border-slate/50 pb-3">
+            Other Instruments
+          </h2>
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3">
+            {SCANNER_INSTRUMENTS.filter(i => i.scannerSlug !== instrument.scannerSlug).map(i => {
+              const Icon = CATEGORY_ICON[i.category];
+              return (
+                <Link key={i.scannerSlug} href={`/dashboard/tools/technical-scanner?symbol=${i.scannerSlug}`}
+                  className={cn("flex flex-col items-center justify-center gap-2 p-4 bg-background-surface/40",
+                    "border border-border-slate/45 hover:border-accent hover:bg-accent/5",
+                    "transition-all group text-center")}>
+                  <Icon className="w-4 h-4 text-text-tertiary group-hover:text-accent transition-colors" />
+                  <span className="text-[9px] font-mono uppercase tracking-widest text-text-secondary group-hover:text-text-primary transition-colors">
+                    {i.displayPair}
+                  </span>
+                </Link>
+              );
+            })}
+          </div>
+        </section>
+      </div>
     </div>
   );
 }
@@ -2596,7 +2887,7 @@ export function ScannerClient({ symbol }: ScannerClientProps) {
   if (symbol && !instrument) return (
     <div className="space-y-10 animate-in fade-in duration-700 pb-24">
       <header className="border-b border-border-slate/50 pb-6">
-        <Link href="/dashboard/tools/scanner"
+        <Link href="/dashboard/tools/technical-scanner"
           className="flex items-center gap-2 text-[10px] font-mono uppercase tracking-widest text-text-tertiary hover:text-accent transition-colors mb-6">
           <ChevronLeft className="w-3 h-3" /> All Markets
         </Link>

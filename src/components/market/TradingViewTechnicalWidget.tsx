@@ -15,6 +15,7 @@ interface TradingViewTechnicalWidgetProps {
    * enabling lazy loading via IntersectionObserver in the parent.
    */
   isVisible: boolean;
+  theme?: "light" | "dark";
 }
 
 const WIDGET_HEIGHT = 300;
@@ -22,6 +23,7 @@ const WIDGET_HEIGHT = 300;
 export function TradingViewTechnicalWidget({
   tvSymbol,
   isVisible,
+  theme = "light",
 }: TradingViewTechnicalWidgetProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [status, setStatus] = useState<WidgetStatus>("idle");
@@ -64,7 +66,7 @@ export function TradingViewTechnicalWidget({
       showIntervalTabs: false,
       displayMode: "single", // Compact gauge view only — no oscillator/MA table breakdown
       locale: "en",
-      colorTheme: "dark",
+      colorTheme: theme,
     });
 
     wrapper.appendChild(widgetDiv);
@@ -79,7 +81,7 @@ export function TradingViewTechnicalWidget({
       const iframe = containerRef.current?.querySelector("iframe");
       setStatus(iframe ? "loaded" : "error");
     }, 2500);
-  }, [tvSymbol]);
+  }, [tvSymbol, theme]);
 
   // Initialise once the card scrolls into view.
   useEffect(() => {

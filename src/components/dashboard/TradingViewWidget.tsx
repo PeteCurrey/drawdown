@@ -71,10 +71,13 @@ export function toTVInterval(interval: string): string {
 // ── Widget props ──────────────────────────────────────────────────────────────
 
 interface TradingViewWidgetProps {
-  hookSlug: string;
+  hookSlug?: string;
+  symbol?: string;
   interval: string;
   theme?: "light" | "dark";
   height?: number;
+  studies?: string[];
+  containerId?: string;
 }
 
 declare global {
@@ -105,16 +108,19 @@ function loadTVScript(cb: () => void) {
 
 export function TradingViewWidget({
   hookSlug,
+  symbol,
   interval,
   theme = "light",
   height = 520,
+  studies,
+  containerId,
 }: TradingViewWidgetProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const widgetRef    = useRef<any>(null);
-  const containerId  = "tv_advanced_chart_mi";
+  const cid          = containerId || "tv_advanced_chart_mi";
 
   useEffect(() => {
-    const tvSymbol   = toTVSymbol(hookSlug);
+    const tvSymbol   = symbol || (hookSlug ? toTVSymbol(hookSlug) : "FX:GBPUSD");
     const tvInterval = toTVInterval(interval);
 
     function initWidget() {
@@ -131,7 +137,7 @@ export function TradingViewWidget({
 
       try {
         widgetRef.current = new window.TradingView.widget({
-          container_id:       containerId,
+          container_id:       cid,
           symbol:             tvSymbol,
           interval:           tvInterval,
           theme,
@@ -144,7 +150,7 @@ export function TradingViewWidget({
           save_image:         false,
           height,
           width:              "100%",
-          studies:            ["RSI@tv-basicstudies", "MASimple@tv-basicstudies"],
+          studies:            studies || ["RSI@tv-basicstudies", "MASimple@tv-basicstudies"],
           timezone:           "Etc/UTC",
           withdateranges:     true,
           allow_symbol_change: false, // we control this externally
@@ -159,11 +165,11 @@ export function TradingViewWidget({
     return () => {
       // Cleanup on unmount or dep change — actual removal happens at top of next effect
     };
-  }, [hookSlug, interval, theme, height]);
+  }, [hookSlug, symbol, interval, theme, height, studies, cid]);
 
   return (
     <div
-      id={containerId}
+      id={cid}
       ref={containerRef}
       style={{ height, width: "100%", background: theme === "light" ? "#f8f8f8" : "#131722" }}
     />

@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
+import { ToastProvider, useToast } from "@/components/notifications/ToastProvider";
 import Link from "next/link";
 import {
   Zap, Copy, Check, Star, ExternalLink, Calendar,
@@ -136,13 +137,14 @@ function TierGate({
   );
 }
 
-export function SignalCentreDashboardClient({
+function SignalCentreInner({
   initialSignals,
   initialSavedIds,
   isSubscriber,
   userId,
   userTier,
 }: SignalCentreDashboardClientProps) {
+  const { addToast } = useToast();
   const [signals, setSignals] = useState<SignalData[]>(initialSignals);
   const [savedIds, setSavedIds] = useState<string[]>(initialSavedIds);
   const [scanning, setScanning] = useState(false);
@@ -174,7 +176,23 @@ export function SignalCentreDashboardClient({
           .select("*")
           .eq("is_active", true)
           .order("created_at", { ascending: false });
-        if (freshSignals) setSignals(freshSignals);
+        if (freshSignals) {
+          setSignals((prev) => {
+            // Detect new high-conviction signals (DCS ≥ 75)
+            const prevIds = new Set(prev.map((s) => s.id));
+            const newHigh = freshSignals.filter(
+              (s: any) => !prevIds.has(s.id) && (s.dcs_score ?? 0) >= 75
+            );
+            newHigh.forEach((s: any) => {
+              addToast({
+                type: s.bias === "BULLISH" ? "signal-bullish" : "signal-bearish",
+                title: `${s.instrument} ${s.bias} — DCS ${s.dcs_score}%`,
+                body: `New ${s.timeframe} ${s.bias.toLowerCase()} signal with ${s.dcs_score}% conviction score`,
+              });
+            });
+            return freshSignals;
+          });
+        }
       } catch (e) {
         console.warn("[signal-centre] Auto-poll failed:", e);
       }
@@ -1020,5 +1038,15 @@ export function SignalCentreDashboardClient({
         </section>
       )}
     </div>
+  );
+}
+
+// ── Public export ─────────────────────────────────────────────────────────────────
+// Wraps inner component with the ToastProvider so in-app notifications work
+export function SignalCentreDashboardClient(props: SignalCentreDashboardClientProps) {
+  return (
+    <ToastProvider>
+      <SignalCentreInner {...props} />
+    </ToastProvider>
   );
 }

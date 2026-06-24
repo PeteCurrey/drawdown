@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import { TrendingUp, TrendingDown } from "lucide-react";
 import { AreaChart, Area, ResponsiveContainer } from "recharts";
 
-const C = "#C8F135";
+const C = "#00e5cc";   // Journal cyan accent
 
 interface QuoteData {
   price:    number;
@@ -61,22 +61,22 @@ export function MarketWidget({ instrument }: { instrument: string }) {
   return (
     <div style={{ border: "1px solid #222", backgroundColor: "#111" }}>
       <div className="flex items-center justify-between px-4 py-2.5 border-b" style={{ borderColor: "#1E1E1E" }}>
-        <span className="text-[10px] font-mono font-bold text-text-primary uppercase tracking-widest">
+        <span className="text-[10px] font-mono font-bold text-gray-900 uppercase tracking-widest">
           {instrument}
         </span>
-        <span className="text-[8px] font-mono text-text-tertiary/50">Live · FinnHub · 60s refresh</span>
+        <span className="text-[8px] font-mono text-gray-400/50">Live · FinnHub · 60s refresh</span>
       </div>
 
       {loading ? (
         <div className="px-4 py-4 flex items-center gap-2">
           <div className="w-2 h-2 rounded-full animate-pulse" style={{ backgroundColor: C }} />
-          <span className="text-[9px] font-mono text-text-tertiary animate-pulse">Fetching live data…</span>
+          <span className="text-[9px] font-mono text-gray-400 animate-pulse">Fetching live data…</span>
         </div>
       ) : data ? (
         <div className="px-4 py-3 flex items-center gap-6">
           {/* Price + change */}
           <div>
-            <p className="text-xl font-display font-bold text-text-primary">
+            <p className="text-xl font-display font-bold text-gray-900">
               {data.price.toFixed(data.price > 100 ? 2 : 5)}
             </p>
             <div className="flex items-center gap-1 mt-0.5">
@@ -91,8 +91,8 @@ export function MarketWidget({ instrument }: { instrument: string }) {
 
           {/* 52w range */}
           <div className="space-y-0.5">
-            <p className="text-[8px] font-mono text-text-tertiary uppercase tracking-wider">52W Range</p>
-            <p className="text-[10px] font-mono text-text-secondary">
+            <p className="text-[8px] font-mono text-gray-400 uppercase tracking-wider">52W Range</p>
+            <p className="text-[10px] font-mono text-gray-500">
               {data.low52w.toFixed(2)} – {data.high52w.toFixed(2)}
             </p>
           </div>

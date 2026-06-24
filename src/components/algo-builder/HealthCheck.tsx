@@ -8,7 +8,7 @@ import {
 import { AlertTriangle } from "lucide-react";
 import type { OutputLanguage, HealthCheckResult } from "@/types/algo-builder";
 
-const C = "#C8F135";
+const C = "#00e5cc";   // Journal cyan accent
 
 const TD_INTERVAL: Record<string, string> = {
   "1m": "1min", "5m": "5min", "15m": "15min", "1H": "1h",
@@ -137,7 +137,7 @@ function MetricCard({
       <span className="text-2xl font-display font-bold" style={{ color }}>
         {value}{suffix}
       </span>
-      <span className="text-[9px] font-mono text-text-tertiary uppercase tracking-widest mt-1">{label}</span>
+      <span className="text-[9px] font-mono text-gray-400 uppercase tracking-widest mt-1">{label}</span>
     </div>
   );
 }
@@ -219,10 +219,10 @@ export function HealthCheck({
         style={{ backgroundColor: "#111", borderBottom: show ? "1px solid #222" : "none" }}
       >
         <div>
-          <p className="text-[11px] font-mono font-bold uppercase tracking-widest text-text-primary">
+          <p className="text-[11px] font-mono font-bold uppercase tracking-widest text-gray-900">
             Strategy Health Check
           </p>
-          <p className="text-[9px] font-mono text-text-tertiary mt-0.5">
+          <p className="text-[9px] font-mono text-gray-400 mt-0.5">
             Simplified signal simulation on real price history
           </p>
         </div>
@@ -230,7 +230,7 @@ export function HealthCheck({
           {result && (
             <button
               onClick={onToggle}
-              className="text-[9px] font-mono text-text-tertiary hover:text-text-secondary transition-colors uppercase tracking-wider"
+              className="text-[9px] font-mono text-gray-400 hover:text-gray-500 transition-colors uppercase tracking-wider"
             >
               {show ? "Hide" : "Show"} results
             </button>
@@ -258,7 +258,7 @@ export function HealthCheck({
               />
             ))}
           </div>
-          <p className="text-[11px] font-mono text-text-tertiary">{phase}</p>
+          <p className="text-[11px] font-mono text-gray-400">{phase}</p>
         </div>
       )}
 
@@ -307,7 +307,7 @@ export function HealthCheck({
           {/* Equity curve */}
           {result.equityCurve.length > 3 && (
             <div style={{ backgroundColor: "#0A0A0A", border: "1px solid #1A1A1A" }}>
-              <p className="px-4 pt-3 text-[9px] font-mono text-text-tertiary uppercase tracking-widest">
+              <p className="px-4 pt-3 text-[9px] font-mono text-gray-400 uppercase tracking-widest">
                 Simulated Equity Curve — Starting £10,000
               </p>
               <div className="h-48 p-2">
@@ -346,7 +346,7 @@ export function HealthCheck({
             className="px-4 py-3 border-l-4"
             style={{ borderLeftColor: C, backgroundColor: `${C}08` }}
           >
-            <p className="text-[10px] font-mono text-text-secondary leading-relaxed flex gap-2">
+            <p className="text-[10px] font-mono text-gray-500 leading-relaxed flex gap-2">
               <AlertTriangle className="w-3.5 h-3.5 shrink-0 mt-0.5" style={{ color: C }} />
               This is a simplified signal simulation for illustrative purposes only. It does not
               account for slippage, spread, overnight swap, or real execution conditions. Always

@@ -5,8 +5,7 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { ChevronDown, MoreHorizontal, AlertCircle } from "lucide-react";
 import { INSTRUMENT_GROUPS, TIMEFRAMES, type Instrument } from "@/lib/instruments";
-import { useTechnicalData } from "@/hooks/useTechnicalData";
-import { useTwelveData } from "@/hooks/useTwelveData";
+import { useMarketData } from "@/hooks/useMarketData";
 
 /* ─────────────────────────────────────────────────────────────────────────────
    MarketIntelligenceHeroCard
@@ -130,26 +129,21 @@ export function MarketIntelligenceHeroCard({
   );
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
-  // ── Live data hooks ─────────────────────────────────────────────────────────
+  // ── Live data hook (single server-side call — no rate-limit exposure) ────────
   const hookSlug = (selectedInst as any).hookSlug ?? selectedInst.slug.replace("/", "");
-  const tech = useTechnicalData(hookSlug, true);
-  const tdAll = useTwelveData([hookSlug]);
-  const td = tdAll[hookSlug];
+  const md = useMarketData(hookSlug, selectedInterval);
 
   // biasScore: use live value, fall back to placeholder while loading
-  const targetBias = tech.biasScore ?? selectedInst.defaultPct;
+  const targetBias = md.biasScore ?? selectedInst.defaultPct;
 
-  // Live footer values — fall back to static props while data loads
-  const livePrice = td?.price;
+  // Live footer values
+  const livePrice = md.price;
   const livePriceStr = livePrice
     ? livePrice.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 5 })
-    : (selectedInst.price ?? "—");
-  const liveRsi = tech.rows.find(r => r.tf === "4H")?.rsi;
-  const liveRsiStr = liveRsi !== null && liveRsi !== undefined ? liveRsi.toFixed(1) : (selectedInst.rsi ?? "—");
-  const liveTrend = tech.emaStack.above50 !== null
-    ? (tech.emaStack.above50 ? "ABOVE EMA" : "BELOW EMA")
-    : (selectedInst.trend ?? "—");
-  const liveTrendColor = liveTrend.includes("ABOVE") ? "#00C896" : liveTrend.includes("BELOW") ? "#CE6969" : "#F9A825";
+    : "—";
+  const liveRsiStr = md.rsi !== null ? md.rsi.toFixed(1) : "—";
+  const liveTrend      = md.trendLabel;
+  const liveTrendColor = md.trendDir === "above" ? "#00C896" : md.trendDir === "below" ? "#CE6969" : "#F9A825";
 
   // Animation state
   const hasAnimated    = useRef(false);
@@ -358,10 +352,10 @@ export function MarketIntelligenceHeroCard({
                 key={tf.interval}
                 onClick={() => onTimeframeChange?.(tf.interval)}
                 className={cn(
-                  "px-2.5 py-1 text-[9px] font-bold font-mono tracking-wider transition-all",
+                  "px-3 py-1.5 text-[12px] font-bold font-mono tracking-wide transition-all",
                   selectedInterval === tf.interval
                     ? "bg-white text-[#0a0a0f]"
-                    : "text-white/40 hover:text-white"
+                    : "text-white/40 hover:text-white/80"
                 )}
               >
                 {tf.label}
@@ -627,9 +621,9 @@ export function MarketIntelligenceHeroCard({
                     <text
                       x={lx + (isLeft ? -10 : 10)}
                       y={ly + (isBottom ? 12 : 0)}
-                      fill="rgba(200,200,198,0.75)"
-                      fontSize={8}
-                      fontWeight={400}
+                      fill="rgba(255,255,255,0.70)"
+                      fontSize={11}
+                      fontWeight={500}
                       fontFamily="Inter, system-ui, sans-serif"
                       textAnchor={isLeft ? "end" : "start"}
                       dominantBaseline="middle"
@@ -681,11 +675,11 @@ export function MarketIntelligenceHeroCard({
               { label: "TREND",    value: liveTrend,     color: liveTrendColor },
             ].map(({ label, value, color }) => (
               <div key={label} className="text-center">
-                <p className="text-[9px] font-mono uppercase tracking-widest text-white/30 mb-1.5">
+                <p className="text-[10px] font-mono uppercase tracking-widest mb-2" style={{ color: "rgba(255,255,255,0.45)" }}>
                   {label}
                 </p>
                 <p
-                  className="text-[13px] font-light font-mono tabular-nums"
+                  className="text-[18px] font-mono tabular-nums leading-none"
                   style={{ color }}
                 >
                   {value}
@@ -703,7 +697,7 @@ export function MarketIntelligenceHeroCard({
             style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}
           >
             <div className="flex items-center gap-2">
-              <span className="text-[10px] font-mono uppercase tracking-widest text-white/35">
+              <span className="text-[11px] font-mono uppercase tracking-widest text-white/50">
                 Live Feed
               </span>
               <span
@@ -750,11 +744,11 @@ export function MarketIntelligenceHeroCard({
                     )}
                     <div className="min-w-0 flex-1">
                       {isAlert && item.source && (
-                        <p className="text-[10px] font-bold text-white/90 mb-0.5">{item.source}</p>
+                        <p className="text-[11px] font-bold text-white/90 mb-0.5">{item.source}</p>
                       )}
-                      <p className="text-[11px] text-white/65 leading-snug">{item.message}</p>
+                      <p className="text-[13px] text-white/70 leading-snug">{item.message}</p>
                       {item.time && (
-                        <p className="text-[9px] font-mono text-white/25 mt-1">{item.time}</p>
+                        <p className="text-[10px] font-mono text-white/30 mt-1">{item.time}</p>
                       )}
                     </div>
                   </div>

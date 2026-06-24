@@ -57,24 +57,24 @@ export default async function AlgoBuilderPage() {
 
 // ─── Locked state — non-floor users ───────────────────────────────────────────
 function AlgoBuilderLockedState({ tier }: { tier?: string }) {
-  const CHARTREUSE = "#C8F135";
+  const C = "#00e5cc"; // Journal cyan accent
 
   return (
     <div className="flex flex-col items-center justify-center min-h-[72vh] space-y-10 animate-in fade-in duration-700 px-4">
       <div className="max-w-md w-full space-y-8">
 
-        {/* Pulsing lock icon */}
+        {/* Lock icon — teal pill matching Journal locked state */}
         <div className="flex justify-center">
           <div className="relative">
             <div
-              className="w-20 h-20 flex items-center justify-center border"
-              style={{ backgroundColor: `${CHARTREUSE}12`, borderColor: `${CHARTREUSE}40` }}
+              className="w-20 h-20 flex items-center justify-center border rounded-2xl"
+              style={{ backgroundColor: `${C}15`, borderColor: `${C}40` }}
             >
-              <Lock className="w-8 h-8" style={{ color: CHARTREUSE }} />
+              <Lock className="w-8 h-8" style={{ color: C }} />
             </div>
             <span
               className="absolute -top-1 -right-1 w-3.5 h-3.5 rounded-full animate-pulse"
-              style={{ backgroundColor: CHARTREUSE }}
+              style={{ backgroundColor: C }}
             />
           </div>
         </div>
@@ -82,35 +82,32 @@ function AlgoBuilderLockedState({ tier }: { tier?: string }) {
         {/* Headline */}
         <div className="text-center space-y-3">
           <p
-            className="text-[10px] font-mono uppercase tracking-[0.3em]"
-            style={{ color: CHARTREUSE }}
+            className="text-[10px] font-mono font-bold uppercase tracking-[0.3em]"
+            style={{ color: C }}
           >
-            // QuantCoder AI · Floor Access Required
+            ALGO_BUILDER // FLOOR ACCESS REQUIRED
           </p>
-          <h1 className="text-3xl font-display font-bold uppercase text-text-primary">
+          <h1 className="text-3xl font-display font-bold uppercase text-gray-900">
             Algo Strategy Builder
           </h1>
-          <p className="text-sm text-text-secondary leading-relaxed">
+          <p className="text-sm text-gray-500 leading-relaxed">
             Convert your discretionary ideas into production&nbsp;Pine Script v6 and
             Python — powered by QuantCoder AI. Available exclusively on the{" "}
-            <span className="font-bold" style={{ color: CHARTREUSE }}>
+            <span className="font-bold" style={{ color: C }}>
               Floor
             </span>{" "}
             plan.
           </p>
           {tier && (
-            <p className="text-[11px] text-text-tertiary font-mono">
+            <p className="text-[11px] text-gray-400 font-mono">
               CURRENT PLAN:{" "}
-              <span className="text-text-secondary uppercase font-bold">{tier}</span>
+              <span className="text-gray-700 uppercase font-bold">{tier}</span>
             </p>
           )}
         </div>
 
-        {/* Feature list */}
-        <div
-          className="border p-5 space-y-2.5"
-          style={{ backgroundColor: "#111", borderColor: "#222" }}
-        >
+        {/* Feature list — white card */}
+        <div className="bg-white border border-gray-200 rounded-xl p-5 space-y-2.5">
           {[
             "Pine Script v6 & Python code generation",
             "QuantCoder AI with lookahead-bias detection",
@@ -120,33 +117,33 @@ function AlgoBuilderLockedState({ tier }: { tier?: string }) {
             "10 generations / 24 hours",
           ].map((feat) => (
             <div key={feat} className="flex items-start gap-2.5">
-              <span className="text-xs font-bold mt-0.5 shrink-0" style={{ color: CHARTREUSE }}>
+              <span className="text-xs font-bold mt-0.5 shrink-0" style={{ color: C }}>
                 ✓
               </span>
-              <span className="text-xs text-text-secondary font-mono leading-snug">{feat}</span>
+              <span className="text-xs text-gray-600 font-mono leading-snug">{feat}</span>
             </div>
           ))}
         </div>
 
-        {/* CTAs */}
+        {/* CTAs — Journal primary + secondary */}
         <div className="space-y-2">
           <Link
             href="/pricing?source=algo-builder"
-            className="w-full flex items-center justify-center px-8 py-4 text-[11px] font-bold uppercase tracking-widest transition-opacity hover:opacity-90 text-black"
-            style={{ backgroundColor: CHARTREUSE }}
+            className="w-full flex items-center justify-center px-8 py-4 text-[11px] font-mono font-bold uppercase tracking-widest transition-opacity hover:opacity-90 text-black rounded-lg"
+            style={{ backgroundColor: C }}
           >
             Upgrade to Floor
           </Link>
           <Link
             href="/dashboard/tools"
-            className="w-full flex items-center justify-center px-8 py-3 border border-border-slate/50 hover:border-border-slate text-[10px] font-mono uppercase tracking-widest text-text-tertiary hover:text-text-primary transition-all"
+            className="w-full flex items-center justify-center px-8 py-3 border border-gray-200 hover:border-gray-400 text-[10px] font-mono uppercase tracking-widest text-gray-500 hover:text-gray-900 transition-all rounded-lg"
           >
             ← Back to Tools
           </Link>
         </div>
       </div>
 
-      <p className="text-[9px] font-mono text-text-tertiary/30 uppercase tracking-widest">
+      <p className="text-[9px] font-mono text-gray-300 uppercase tracking-widest">
         Algo Strategy Builder · Floor Plan · QuantCoder AI
       </p>
     </div>

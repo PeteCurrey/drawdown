@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react";
 import { ExternalLink } from "lucide-react";
 
-const C = "#C8F135";
+const C = "#00e5cc";   // Journal cyan accent
 
 // Map our instrument slugs → TradingView symbols
 function toTVSymbol(instrument: string): string {
@@ -109,10 +109,10 @@ export function TradingViewEmbed({ symbol, intervalMinutes }: TradingViewEmbedPr
         style={{ backgroundColor: "#111", borderColor: "#222" }}
       >
         <div>
-          <p className="text-[11px] font-mono font-bold uppercase tracking-widest text-text-primary">
+          <p className="text-[11px] font-mono font-bold uppercase tracking-widest text-gray-900">
             Chart Context
           </p>
-          <p className="text-[9px] font-mono text-text-tertiary mt-0.5">
+          <p className="text-[9px] font-mono text-gray-400 mt-0.5">
             Verify your logic against live price action · {tvSymbol} · {intervalMinutes}
           </p>
         </div>
@@ -135,7 +135,7 @@ export function TradingViewEmbed({ symbol, intervalMinutes }: TradingViewEmbedPr
       >
         {/* Placeholder shown before widget injects */}
         <div className="flex items-center justify-center h-full">
-          <p className="text-[10px] font-mono text-text-tertiary animate-pulse">
+          <p className="text-[10px] font-mono text-gray-400 animate-pulse">
             Loading chart…
           </p>
         </div>

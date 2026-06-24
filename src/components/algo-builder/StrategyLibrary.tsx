@@ -5,7 +5,7 @@ import { Star, Trash2, Copy, Edit2, Check, X, Search, Filter } from "lucide-reac
 import { cn } from "@/lib/utils";
 import type { SavedStrategy, OutputLanguage } from "@/types/algo-builder";
 
-const C = "#C8F135";
+const C = "#00e5cc";   // Journal cyan accent
 
 interface StrategyLibraryProps {
   currentCode:        string;
@@ -152,14 +152,14 @@ export function StrategyLibrary({
   const langColor = (l: OutputLanguage) => l === "pine_script" ? "#22C55E" : "#60A5FA";
 
   return (
-    <div className="flex flex-col" style={{ border: "1px solid #222", minHeight: 400 }}>
+    <div className="flex flex-col bg-white border border-gray-200 rounded-xl overflow-hidden" style={{ minHeight: 400 }}>
       {/* Header */}
-      <div className="flex items-center justify-between px-4 py-3 border-b" style={{ backgroundColor: "#111", borderColor: "#222" }}>
+      <div className="flex items-center justify-between px-4 py-3 border-b" style={{ backgroundColor: "#ffffff", borderColor: "#e5e7eb" }}>
         <div>
-          <span className="text-[11px] font-mono text-text-primary font-bold">
+          <span className="text-[11px] font-mono text-gray-900 font-bold">
             My Strategies
           </span>
-          <span className="text-[9px] font-mono text-text-tertiary ml-2">
+          <span className="text-[9px] font-mono text-gray-400 ml-2">
             {strategies.length}/20
           </span>
         </div>
@@ -177,8 +177,8 @@ export function StrategyLibrary({
 
       {/* Save modal */}
       {showSaveModal && (
-        <div className="px-4 py-4 border-b space-y-3" style={{ backgroundColor: "#0D0D0D", borderColor: "#222" }}>
-          <p className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary">
+        <div className="px-4 py-4 border-b space-y-3" style={{ backgroundColor: "#f9fafb", borderColor: "#e5e7eb" }}>
+          <p className="text-[10px] font-mono uppercase tracking-widest text-gray-400">
             Save strategy
           </p>
           <input
@@ -188,8 +188,8 @@ export function StrategyLibrary({
             onKeyDown={e => { if (e.key === "Enter") saveStrategy(); if (e.key === "Escape") setShowSaveModal(false); }}
             placeholder="Strategy name (3–60 characters)"
             maxLength={60}
-            className="w-full px-3 py-2.5 text-sm font-mono text-text-primary outline-none"
-            style={{ backgroundColor: "#111", border: `1px solid ${C}` }}
+            className="w-full px-3 py-2.5 text-sm font-mono text-gray-900 outline-none"
+            style={{ backgroundColor: `${C}15`, border: `1px solid ${C}` }}
           />
           {saveError && <p className="text-[10px] font-mono text-red-400">{saveError}</p>}
           <div className="flex gap-2">
@@ -203,7 +203,7 @@ export function StrategyLibrary({
             </button>
             <button
               onClick={() => { setShowSaveModal(false); setSaveError(null); }}
-              className="px-4 py-2 text-[10px] font-mono uppercase tracking-wider text-text-tertiary border border-[#333] hover:border-[#555] transition-colors"
+              className="px-4 py-2 text-[10px] font-mono uppercase tracking-wider text-gray-400 border border-gray-200 hover:border-gray-400 transition-colors"
             >
               Cancel
             </button>
@@ -212,17 +212,17 @@ export function StrategyLibrary({
       )}
 
       {/* Search + filter */}
-      <div className="flex gap-2 px-4 py-3 border-b" style={{ borderColor: "#1E1E1E", backgroundColor: "#0A0A0A" }}>
-        <div className="flex items-center gap-2 flex-1" style={{ backgroundColor: "#111", border: "1px solid #222" }}>
-          <Search className="w-3.5 h-3.5 ml-2.5 text-text-tertiary shrink-0" />
+      <div className="flex gap-2 px-4 py-3 border-b" style={{ borderColor: "#e5e7eb", backgroundColor: "#f9fafb" }}>
+        <div className="flex items-center gap-2 flex-1" style={{ backgroundColor: "#ffffff", border: "1px solid #e5e7eb" }}>
+          <Search className="w-3.5 h-3.5 ml-2.5 text-gray-400 shrink-0" />
           <input
             value={searchQuery}
             onChange={e => setSearchQuery(e.target.value)}
             placeholder="Search strategies…"
-            className="flex-1 py-2 text-xs font-mono bg-transparent text-text-primary outline-none"
+            className="flex-1 py-2 text-xs font-mono bg-transparent text-gray-900 outline-none"
           />
         </div>
-        <div className="flex border" style={{ borderColor: "#222" }}>
+        <div className="flex border" style={{ borderColor: "#e5e7eb" }}>
           {(["all", "pine_script", "python"] as const).map(l => (
             <button
               key={l}
@@ -230,7 +230,7 @@ export function StrategyLibrary({
               className="px-3 py-2 text-[9px] font-mono uppercase tracking-wider transition-all"
               style={filterLang === l
                 ? { backgroundColor: C, color: "#000", fontWeight: 700 }
-                : { backgroundColor: "#111", color: "#666" }}
+                : { backgroundColor: "#f9fafb", color: "#6b7280" }}
             >
               {l === "all" ? "All" : l === "pine_script" ? "Pine" : "Py"}
             </button>
@@ -239,10 +239,10 @@ export function StrategyLibrary({
       </div>
 
       {/* List */}
-      <div className="flex-1 overflow-y-auto" style={{ backgroundColor: "#0A0A0A" }}>
+      <div className="flex-1 overflow-y-auto" style={{ backgroundColor: "#ffffff" }}>
         {loading && (
           <div className="flex items-center justify-center py-12">
-            <p className="text-[10px] font-mono text-text-tertiary animate-pulse">Loading strategies…</p>
+            <p className="text-[10px] font-mono text-gray-400 animate-pulse">Loading strategies…</p>
           </div>
         )}
 
@@ -254,11 +254,11 @@ export function StrategyLibrary({
 
         {!loading && !error && filtered.length === 0 && (
           <div className="flex flex-col items-center justify-center py-12 gap-3">
-            <p className="text-[10px] font-mono text-text-tertiary">
+            <p className="text-[10px] font-mono text-gray-400">
               {strategies.length === 0 ? "No saved strategies yet." : "No strategies match your search."}
             </p>
             {strategies.length === 0 && (
-              <p className="text-[9px] font-mono text-text-tertiary/50">Generate code and click Save to add your first strategy.</p>
+              <p className="text-[9px] font-mono text-gray-400/50">Generate code and click Save to add your first strategy.</p>
             )}
           </div>
         )}
@@ -267,7 +267,7 @@ export function StrategyLibrary({
           <div
             key={s.id}
             className="flex items-start gap-3 px-4 py-3.5 border-b transition-colors hover:bg-white/[0.02]"
-            style={{ borderColor: "#1E1E1E" }}
+            style={{ borderColor: "#e5e7eb" }}
           >
             {/* Favourite star */}
             <button
@@ -290,18 +290,18 @@ export function StrategyLibrary({
                       if (e.key === "Enter") renameStrategy(s.id);
                       if (e.key === "Escape") setRenamingId(null);
                     }}
-                    className="flex-1 px-2 py-1 text-xs font-mono bg-[#0D0D0D] text-text-primary outline-none"
+                    className="flex-1 px-2 py-1 text-xs font-mono bg-white text-gray-900 outline-none"
                     style={{ border: `1px solid ${C}` }}
                   />
-                  <button onClick={() => renameStrategy(s.id)} className="text-text-tertiary hover:text-text-primary">
+                  <button onClick={() => renameStrategy(s.id)} className="text-gray-400 hover:text-gray-900">
                     <Check className="w-3.5 h-3.5" />
                   </button>
-                  <button onClick={() => setRenamingId(null)} className="text-text-tertiary hover:text-red-400">
+                  <button onClick={() => setRenamingId(null)} className="text-gray-400 hover:text-red-400">
                     <X className="w-3.5 h-3.5" />
                   </button>
                 </div>
               ) : (
-                <p className="text-[12px] font-mono font-bold text-text-primary truncate">{s.name}</p>
+                <p className="text-[12px] font-mono font-bold text-gray-900 truncate">{s.name}</p>
               )}
 
               <div className="flex items-center gap-2 mt-1 flex-wrap">
@@ -309,12 +309,12 @@ export function StrategyLibrary({
                   {langLabel(s.language)}
                 </span>
                 {s.instrument && (
-                  <span className="text-[9px] font-mono text-text-tertiary">{s.instrument}</span>
+                  <span className="text-[9px] font-mono text-gray-400">{s.instrument}</span>
                 )}
                 {s.timeframe && (
-                  <span className="text-[9px] font-mono text-text-tertiary">{s.timeframe}</span>
+                  <span className="text-[9px] font-mono text-gray-400">{s.timeframe}</span>
                 )}
-                <span className="text-[9px] font-mono text-text-tertiary/50">
+                <span className="text-[9px] font-mono text-gray-400/50">
                   v{s.version} · {new Date(s.created_at).toLocaleDateString()}
                 </span>
               </div>
@@ -332,14 +332,14 @@ export function StrategyLibrary({
               </button>
               <button
                 onClick={() => { setRenamingId(s.id); setRenameText(s.name); }}
-                className="p-1.5 text-text-tertiary hover:text-text-primary transition-colors"
+                className="p-1.5 text-gray-400 hover:text-gray-900 transition-colors"
                 title="Rename"
               >
                 <Edit2 className="w-3.5 h-3.5" />
               </button>
               <button
                 onClick={() => duplicateStrategy(s)}
-                className="p-1.5 text-text-tertiary hover:text-text-primary transition-colors"
+                className="p-1.5 text-gray-400 hover:text-gray-900 transition-colors"
                 title="Duplicate"
                 disabled={strategies.length >= 20}
               >
@@ -347,7 +347,7 @@ export function StrategyLibrary({
               </button>
               <button
                 onClick={() => deleteStrategy(s.id)}
-                className="p-1.5 text-text-tertiary hover:text-red-400 transition-colors"
+                className="p-1.5 text-gray-400 hover:text-red-400 transition-colors"
                 title="Delete"
               >
                 <Trash2 className="w-3.5 h-3.5" />
@@ -358,7 +358,7 @@ export function StrategyLibrary({
       </div>
 
       {strategies.length >= 20 && (
-        <div className="px-4 py-2.5 text-center border-t text-[9px] font-mono text-text-tertiary" style={{ borderColor: "#1E1E1E" }}>
+        <div className="px-4 py-2.5 text-center border-t text-[9px] font-mono text-gray-400" style={{ borderColor: "#e5e7eb" }}>
           Library full (20/20) — delete a strategy to save more.
         </div>
       )}

@@ -9,8 +9,8 @@ import {
   PartialExit,
 } from "@/types/algo-builder";
 
-// ─── Design tokens (chartreuse theme) ─────────────────────────────────────────
-const C = "#C8F135";   // chartreuse accent
+// ─── Design tokens — exact match to Trade Journal (JournalClient.tsx) ──────────
+const C = "#00e5cc";   // Journal cyan accent  ← was "#C8F135" chartreuse
 
 // ─── Subcomponents ────────────────────────────────────────────────────────────
 
@@ -20,27 +20,27 @@ function SectionHeader({
   return (
     <button
       onClick={onToggle}
-      className="w-full flex items-center justify-between px-4 py-3.5 text-left transition-colors hover:bg-white/[0.02]"
-      style={{ backgroundColor: "#111", minHeight: 44 }}
+      className="w-full flex items-center justify-between px-4 py-3.5 text-left transition-colors hover:bg-gray-50"
+      style={{ backgroundColor: "#ffffff", minHeight: 44 }}
     >
       <div className="flex items-center gap-3">
         <span className="text-[10px] font-mono font-bold" style={{ color: C }}>
           {number}
         </span>
-        <span className="text-[11px] font-display font-bold uppercase tracking-widest text-text-primary">
+        <span className="text-[11px] font-display font-bold uppercase tracking-widest text-gray-900">
           {title}
         </span>
       </div>
       {isOpen
-        ? <ChevronUp className="w-3.5 h-3.5 text-text-tertiary shrink-0" />
-        : <ChevronDown className="w-3.5 h-3.5 text-text-tertiary shrink-0" />}
+        ? <ChevronUp className="w-3.5 h-3.5 text-gray-400 shrink-0" />
+        : <ChevronDown className="w-3.5 h-3.5 text-gray-400 shrink-0" />}
     </button>
   );
 }
 
 function Label({ children }: { children: React.ReactNode }) {
   return (
-    <label className="text-[10px] font-sans uppercase tracking-widest text-text-tertiary block mb-1.5">
+    <label className="text-[10px] font-sans uppercase tracking-widest text-gray-400 block mb-1.5">
       {children}
     </label>
   );
@@ -52,15 +52,15 @@ function DarkInput({
   return (
     <input
       className={cn(
-        "w-full px-3 py-2.5 text-sm font-mono text-text-primary outline-none transition-colors",
+        "w-full px-3 py-2.5 text-sm font-mono text-gray-900 outline-none transition-colors rounded-lg",
         className,
       )}
       style={{
-        backgroundColor: "#0D0D0D",
-        border: "1px solid #2A2A2A",
+        backgroundColor: "#ffffff",
+        border: "1px solid #e5e7eb",
       }}
-      onFocus={e => { e.currentTarget.style.borderColor = C; }}
-      onBlur={e =>  { e.currentTarget.style.borderColor = "#2A2A2A"; }}
+      onFocus={e => { e.currentTarget.style.borderColor = C; e.currentTarget.style.boxShadow = `0 0 0 2px ${C}20`; }}
+      onBlur={e =>  { e.currentTarget.style.borderColor = "#e5e7eb"; e.currentTarget.style.boxShadow = "none"; }}
       {...props}
     />
   );
@@ -72,10 +72,10 @@ function DarkSelect({
   return (
     <select
       className={cn(
-        "w-full px-3 py-2.5 text-sm font-mono text-text-primary outline-none transition-colors appearance-none",
+        "w-full px-3 py-2.5 text-sm font-mono text-gray-900 outline-none transition-colors appearance-none rounded-lg",
         className,
       )}
-      style={{ backgroundColor: "#0D0D0D", border: "1px solid #2A2A2A" }}
+      style={{ backgroundColor: "#ffffff", border: "1px solid #e5e7eb" }}
       {...props}
     />
   );
@@ -89,11 +89,11 @@ function Pill({
     <button
       type="button"
       onClick={onToggle}
-      className="px-3 py-1.5 text-[10px] font-mono uppercase tracking-wider transition-all"
+      className="px-3 py-1.5 text-[10px] font-mono uppercase tracking-wider transition-all rounded-md"
       style={
         active
           ? { backgroundColor: C, color: "#000", border: `1px solid ${C}` }
-          : { backgroundColor: "#1A1A1A", color: "#888", border: "1px solid #333" }
+          : { backgroundColor: "#ffffff", color: "#6b7280", border: "1px solid #e5e7eb" }
       }
     >
       {label}
@@ -108,21 +108,21 @@ function RadioOption({
     <button
       type="button"
       onClick={onSelect}
-      className="flex items-start gap-2.5 p-3 w-full text-left transition-all"
+      className="flex items-start gap-2.5 p-3 w-full text-left transition-all rounded-lg"
       style={{
-        backgroundColor: active ? `${C}10` : "#0D0D0D",
-        border: `1px solid ${active ? C : "#2A2A2A"}`,
+        backgroundColor: active ? `${C}10` : "#f9fafb",
+        border: `1px solid ${active ? C : "#e5e7eb"}`,
       }}
     >
       <div
         className="w-3.5 h-3.5 rounded-full border-2 mt-0.5 shrink-0 flex items-center justify-center"
-        style={{ borderColor: active ? C : "#555" }}
+        style={{ borderColor: active ? C : "#d1d5db" }}
       >
         {active && <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: C }} />}
       </div>
       <div>
-        <p className="text-[11px] font-mono font-bold text-text-primary">{label}</p>
-        {sub && <p className="text-[9px] font-mono text-text-tertiary mt-0.5">{sub}</p>}
+        <p className="text-[11px] font-mono font-bold text-gray-900">{label}</p>
+        {sub && <p className="text-[9px] font-mono text-gray-400 mt-0.5">{sub}</p>}
       </div>
     </button>
   );
@@ -136,17 +136,17 @@ function Toggle({
       <div
         className="relative w-9 h-5 transition-colors shrink-0"
         style={{
-          backgroundColor: checked ? C : "#2A2A2A",
+          backgroundColor: checked ? C : "#e5e7eb",
           borderRadius: 10,
         }}
         onClick={() => onChange(!checked)}
       >
         <div
-          className="absolute top-0.5 w-4 h-4 bg-black rounded-full transition-all"
+          className="absolute top-0.5 w-4 h-4 bg-white rounded-full transition-all shadow-sm"
           style={{ left: checked ? "calc(100% - 18px)" : 2 }}
         />
       </div>
-      <span className="text-[11px] font-mono text-text-secondary group-hover:text-text-primary transition-colors">
+      <span className="text-[11px] font-mono text-gray-500 group-hover:text-gray-900 transition-colors">
         {label}
       </span>
     </label>
@@ -285,11 +285,11 @@ export function StrategyComposer({ config, onChange }: StrategyComposerProps) {
   const TFS: Timeframe[] = ["1m", "5m", "15m", "1H", "4H", "D", "W"];
 
   return (
-    <div className="flex flex-col" style={{ backgroundColor: "#0A0A0A" }}>
+    <div className="flex flex-col" style={{ backgroundColor: "#ffffff" }}>
 
       {/* Draft indicator */}
-      <div className="flex items-center justify-between px-4 py-2 border-b" style={{ borderColor: "#1A1A1A" }}>
-        <span className="text-[10px] font-mono text-text-tertiary uppercase tracking-widest">
+      <div className="flex items-center justify-between px-4 py-2 border-b border-gray-100">
+        <span className="text-[10px] font-mono text-gray-400 uppercase tracking-widest">
           Strategy Composer
         </span>
         <div className="flex items-center gap-3">
@@ -301,7 +301,8 @@ export function StrategyComposer({ config, onChange }: StrategyComposerProps) {
           <button
             type="button"
             onClick={clearDraft}
-            className="flex items-center gap-1 text-[9px] font-mono text-text-tertiary hover:text-text-secondary transition-colors uppercase tracking-wider"
+            className="flex items-center gap-1 text-[9px] font-mono text-gray-400 hover:text-gray-700 transition-colors uppercase tracking-wider"
+            style={{ cursor: "pointer" }}
           >
             <RotateCcw className="w-3 h-3" /> Clear
           </button>
@@ -309,7 +310,7 @@ export function StrategyComposer({ config, onChange }: StrategyComposerProps) {
       </div>
 
       {/* ── SECTION 1: Strategy Description ─────────────────────────────── */}
-      <div style={{ borderBottom: "1px solid #1A1A1A" }}>
+      <div className="border-b border-gray-100">
         <SectionHeader
           number="01"
           title="Strategy Description"
@@ -319,9 +320,9 @@ export function StrategyComposer({ config, onChange }: StrategyComposerProps) {
         {open.s1 && (
           <div
             className="px-4 pb-5 pt-1 space-y-4"
-            style={{ borderLeft: `2px solid ${C}`, background: `${C}04` }}
+            style={{ borderLeft: `2px solid ${C}`, background: `${C}08` }}
           >
-            {/* Example buttons */}
+            {/* Example buttons — Journal secondary outline style */}
             <div className="space-y-1.5">
               <Label>Quick-fill examples</Label>
               <div className="flex flex-wrap gap-1.5">
@@ -330,8 +331,8 @@ export function StrategyComposer({ config, onChange }: StrategyComposerProps) {
                     key={ex.label}
                     type="button"
                     onClick={() => applyExample(ex.config)}
-                    className="px-3 py-1.5 text-[9px] font-mono uppercase tracking-wider transition-all hover:bg-[#C8F135]/10"
-                    style={{ border: `1px solid ${C}`, color: C }}
+                    className="px-3 py-1.5 text-[9px] font-mono uppercase tracking-wider transition-all rounded-md hover:opacity-80"
+                    style={{ border: `1px solid ${C}`, color: C, background: "transparent" }}
                   >
                     <Zap className="w-2.5 h-2.5 inline mr-1" />
                     {ex.label}
@@ -345,7 +346,7 @@ export function StrategyComposer({ config, onChange }: StrategyComposerProps) {
               <div className="flex justify-between items-center mb-1.5">
                 <Label>Describe your strategy in plain English</Label>
                 <span
-                  className={cn("text-[9px] font-mono transition-colors", charCount > MAX_CHARS * 0.9 ? "text-amber-500" : "text-text-tertiary")}
+                  className={cn("text-[9px] font-mono transition-colors", charCount > MAX_CHARS * 0.9 ? "text-amber-500" : "text-gray-400")}
                 >
                   {charCount}/{MAX_CHARS}
                 </span>
@@ -355,10 +356,10 @@ export function StrategyComposer({ config, onChange }: StrategyComposerProps) {
                 onChange={e => update({ description: e.target.value.slice(0, MAX_CHARS) })}
                 rows={7}
                 placeholder={'e.g. Enter long when the 20 EMA crosses above the 50 SMA on the 15-minute chart, and RSI(14) is below 50. Exit on opposite crossover or after a 2% stop loss. Risk 1% per trade.'}
-                className="w-full px-3 py-2.5 text-sm font-mono text-text-primary outline-none resize-none transition-colors leading-relaxed"
-                style={{ backgroundColor: "#0D0D0D", border: "1px solid #2A2A2A" }}
-                onFocus={e => { e.currentTarget.style.borderColor = C; }}
-                onBlur={e =>  { e.currentTarget.style.borderColor = "#2A2A2A"; }}
+                className="w-full px-3 py-2.5 text-sm font-mono text-gray-900 outline-none resize-none transition-colors leading-relaxed rounded-lg placeholder:text-gray-300"
+                style={{ backgroundColor: "#ffffff", border: "1px solid #e5e7eb" }}
+                onFocus={e => { e.currentTarget.style.borderColor = C; e.currentTarget.style.boxShadow = `0 0 0 2px ${C}20`; }}
+                onBlur={e =>  { e.currentTarget.style.borderColor = "#e5e7eb"; e.currentTarget.style.boxShadow = "none"; }}
               />
             </div>
           </div>
@@ -366,7 +367,7 @@ export function StrategyComposer({ config, onChange }: StrategyComposerProps) {
       </div>
 
       {/* ── SECTION 2: Instrument & Timeframe ───────────────────────────── */}
-      <div style={{ borderBottom: "1px solid #1A1A1A" }}>
+      <div className="border-b border-gray-100">
         <SectionHeader
           number="02"
           title="Instrument & Timeframe"
@@ -376,7 +377,7 @@ export function StrategyComposer({ config, onChange }: StrategyComposerProps) {
         {open.s2 && (
           <div
             className="px-4 pb-5 pt-1 space-y-5"
-            style={{ borderLeft: `2px solid ${C}`, background: `${C}04` }}
+            style={{ borderLeft: `2px solid ${C}`, background: `${C}08` }}
           >
             {/* Instrument type pills */}
             <div>
@@ -396,7 +397,7 @@ export function StrategyComposer({ config, onChange }: StrategyComposerProps) {
                 onChange={e => update({ instrument: e.target.value.toUpperCase() })}
                 placeholder="e.g. GBPUSD, NAS100, BTCUSDT"
               />
-              <p className="text-[9px] font-mono text-text-tertiary mt-1">
+              <p className="text-[9px] font-mono text-gray-400 mt-1">
                 {config.instrumentType === "forex" && "Use format: EURUSD, GBPUSD, USDJPY"}
                 {config.instrumentType === "indices" && "Use: NAS100, SPX500, US30, UK100"}
                 {config.instrumentType === "crypto" && "Use: BTCUSD, ETHUSD"}
@@ -474,7 +475,7 @@ export function StrategyComposer({ config, onChange }: StrategyComposerProps) {
       </div>
 
       {/* ── SECTION 3: Risk & Position Sizing ───────────────────────────── */}
-      <div style={{ borderBottom: "1px solid #1A1A1A" }}>
+      <div className="border-b border-gray-100">
         <SectionHeader
           number="03"
           title="Risk & Position Sizing"
@@ -484,7 +485,7 @@ export function StrategyComposer({ config, onChange }: StrategyComposerProps) {
         {open.s3 && (
           <div
             className="px-4 pb-5 pt-1 space-y-5"
-            style={{ borderLeft: `2px solid ${C}`, background: `${C}04` }}
+            style={{ borderLeft: `2px solid ${C}`, background: `${C}08` }}
           >
             {/* Risk model radio */}
             <div>
@@ -504,7 +505,7 @@ export function StrategyComposer({ config, onChange }: StrategyComposerProps) {
                       onChange={e => update({ riskPct: parseFloat(e.target.value) || 1 })}
                       className="w-24"
                     />
-                    <span className="text-xs font-mono text-text-tertiary">% per trade</span>
+                    <span className="text-xs font-mono text-gray-400">% per trade</span>
                     {config.riskPct > 2 && (
                       <span className="text-[9px] font-mono text-amber-500">⚠ Above 2% is high risk</span>
                     )}
@@ -563,9 +564,9 @@ export function StrategyComposer({ config, onChange }: StrategyComposerProps) {
                     {config.kellyFraction > 0 ? (
                       <div className="p-2.5" style={{ backgroundColor: `${C}10`, border: `1px solid ${C}30` }}>
                         <p className="text-[10px] font-mono">
-                          <span className="text-text-tertiary">Half-Kelly fraction: </span>
+                          <span className="text-gray-400">Half-Kelly fraction: </span>
                           <span className="font-bold" style={{ color: C }}>{(config.kellyFraction * 100).toFixed(2)}%</span>
-                          <span className="text-text-tertiary ml-3">Full Kelly: {(config.kellyFraction * 200).toFixed(2)}%</span>
+                          <span className="text-gray-400 ml-3">Full Kelly: {(config.kellyFraction * 200).toFixed(2)}%</span>
                         </p>
                       </div>
                     ) : (
@@ -589,7 +590,7 @@ export function StrategyComposer({ config, onChange }: StrategyComposerProps) {
                       onChange={e => update({ fixedLotSize: parseFloat(e.target.value) || 0.1 })}
                       className="w-28"
                     />
-                    <span className="text-xs font-mono text-text-tertiary">lots / contracts</span>
+                    <span className="text-xs font-mono text-gray-400">lots / contracts</span>
                   </div>
                 )}
               </div>
@@ -614,11 +615,11 @@ export function StrategyComposer({ config, onChange }: StrategyComposerProps) {
                     onChange={e => update({ stopPips: parseInt(e.target.value) || 50 })}
                     className="w-24"
                   />
-                  <span className="text-xs font-mono text-text-tertiary">pips / points</span>
+                  <span className="text-xs font-mono text-gray-400">pips / points</span>
                 </div>
               )}
               {config.stopType === "structure" && (
-                <p className="text-[9px] font-mono text-text-tertiary mt-1.5">
+                <p className="text-[9px] font-mono text-gray-400 mt-1.5">
                   AI will place stop below/above the nearest structural high/low.
                 </p>
               )}
@@ -639,13 +640,13 @@ export function StrategyComposer({ config, onChange }: StrategyComposerProps) {
 
               {config.takeProfitType === "fixed_rr" && (
                 <div className="flex items-center gap-2">
-                  <span className="text-xs font-mono text-text-tertiary">TP at</span>
+                  <span className="text-xs font-mono text-gray-400">TP at</span>
                   <DarkInput type="number" min="0.5" max="10" step="0.5"
                     value={config.rrRatio}
                     onChange={e => update({ rrRatio: parseFloat(e.target.value) || 2 })}
                     className="w-24"
                   />
-                  <span className="text-xs font-mono text-text-tertiary">R</span>
+                  <span className="text-xs font-mono text-gray-400">R</span>
                 </div>
               )}
 
@@ -653,8 +654,8 @@ export function StrategyComposer({ config, onChange }: StrategyComposerProps) {
                 <div className="space-y-2">
                   {config.partialExits.map((ex, i) => (
                     <div key={i} className="flex items-center gap-2">
-                      <span className="text-[9px] font-mono text-text-tertiary w-6">TP{i+1}</span>
-                      <span className="text-[9px] font-mono text-text-tertiary">Close</span>
+                      <span className="text-[9px] font-mono text-gray-400 w-6">TP{i+1}</span>
+                      <span className="text-[9px] font-mono text-gray-400">Close</span>
                       <DarkInput type="number" min="10" max="100" step="10"
                         value={ex.pct}
                         onChange={e => {
@@ -664,7 +665,7 @@ export function StrategyComposer({ config, onChange }: StrategyComposerProps) {
                         }}
                         className="w-20"
                       />
-                      <span className="text-[9px] font-mono text-text-tertiary">% at</span>
+                      <span className="text-[9px] font-mono text-gray-400">% at</span>
                       <DarkInput type="number" min="0.5" max="10" step="0.5"
                         value={ex.rr}
                         onChange={e => {
@@ -674,11 +675,11 @@ export function StrategyComposer({ config, onChange }: StrategyComposerProps) {
                         }}
                         className="w-20"
                       />
-                      <span className="text-[9px] font-mono text-text-tertiary">R</span>
+                      <span className="text-[9px] font-mono text-gray-400">R</span>
                       {config.partialExits.length > 1 && (
                         <button onClick={() => {
                           update({ partialExits: config.partialExits.filter((_, j) => j !== i) });
-                        }} className="text-text-tertiary hover:text-red-400 text-xs ml-1">✕</button>
+                        }} className="text-gray-400 hover:text-red-400 text-xs ml-1">✕</button>
                       )}
                     </div>
                   ))}
@@ -686,7 +687,7 @@ export function StrategyComposer({ config, onChange }: StrategyComposerProps) {
                     <button
                       type="button"
                       onClick={() => update({ partialExits: [...config.partialExits, { rr: 3, pct: 50 }] })}
-                      className="text-[9px] font-mono text-text-tertiary hover:text-text-primary transition-colors"
+                      className="text-[9px] font-mono text-gray-400 hover:text-gray-900 transition-colors"
                       style={{ color: C }}
                     >
                       + Add exit level
@@ -705,13 +706,13 @@ export function StrategyComposer({ config, onChange }: StrategyComposerProps) {
               />
               {config.useMaxDailyLoss && (
                 <div className="pl-4 border-l-2 flex items-center gap-2" style={{ borderColor: `${C}40` }}>
-                  <span className="text-xs font-mono text-text-tertiary">Hard stop at</span>
+                  <span className="text-xs font-mono text-gray-400">Hard stop at</span>
                   <DarkInput type="number" min="1" max="20" step="0.5"
                     value={config.maxDailyLossPct}
                     onChange={e => update({ maxDailyLossPct: parseFloat(e.target.value) || 5 })}
                     className="w-20"
                   />
-                  <span className="text-xs font-mono text-text-tertiary">% daily loss</span>
+                  <span className="text-xs font-mono text-gray-400">% daily loss</span>
                 </div>
               )}
             </div>
@@ -725,7 +726,7 @@ export function StrategyComposer({ config, onChange }: StrategyComposerProps) {
                   onChange={e => update({ maxConcurrentPositions: parseInt(e.target.value) || 1 })}
                   className="w-24"
                 />
-                <span className="text-xs font-mono text-text-tertiary">open at once</span>
+                <span className="text-xs font-mono text-gray-400">open at once</span>
               </div>
             </div>
           </div>
@@ -743,14 +744,14 @@ export function StrategyComposer({ config, onChange }: StrategyComposerProps) {
         {open.s4 && (
           <div
             className="px-4 pb-5 pt-1 space-y-5"
-            style={{ borderLeft: `2px solid ${C}`, background: `${C}04` }}
+            style={{ borderLeft: `2px solid ${C}`, background: `${C}08` }}
           >
             {/* Language toggle */}
             <div>
               <Label>Output Language</Label>
               <div
                 className="flex"
-                style={{ border: "1px solid #2A2A2A", display: "inline-flex" }}
+                style={{ border: "1px solid #e5e7eb", display: "inline-flex" }}
               >
                 {(["pine_script", "python"] as OutputLanguage[]).map(lang => (
                   <button
@@ -760,7 +761,7 @@ export function StrategyComposer({ config, onChange }: StrategyComposerProps) {
                     className="px-6 py-2.5 text-[10px] font-mono uppercase tracking-widest transition-all"
                     style={config.outputLanguage === lang
                       ? { backgroundColor: C, color: "#000", fontWeight: 700 }
-                      : { backgroundColor: "#0D0D0D", color: "#888" }}
+                      : { backgroundColor: "#f9fafb", color: "#6b7280" }}
                   >
                     {lang === "pine_script" ? "🌲 Pine Script v6" : "🐍 Python / Backtrader"}
                   </button>
@@ -770,8 +771,8 @@ export function StrategyComposer({ config, onChange }: StrategyComposerProps) {
 
             {/* Pine Script options */}
             {config.outputLanguage === "pine_script" && (
-              <div className="space-y-4 p-3" style={{ backgroundColor: "#0D0D0D", border: "1px solid #1E1E1E" }}>
-                <p className="text-[9px] font-mono uppercase tracking-widest text-text-tertiary">Pine Script v6 Options</p>
+              <div className="space-y-4 p-3" style={{ backgroundColor: "#f9fafb", border: "1px solid #e5e7eb" }}>
+                <p className="text-[9px] font-mono uppercase tracking-widest text-gray-400">Pine Script v6 Options</p>
                 <Toggle checked={config.includeTVAlerts} onChange={v => update({ includeTVAlerts: v })} label="Include TradingView alertcondition()" />
                 {config.includeTVAlerts && (
                   <div>
@@ -792,15 +793,15 @@ export function StrategyComposer({ config, onChange }: StrategyComposerProps) {
                       onChange={e => update({ commissionPct: parseFloat(e.target.value) || 0.05 })}
                     />
                   </div>
-                  <span className="text-[9px] font-mono text-text-tertiary mt-4">per side (0.05% = typical spread)</span>
+                  <span className="text-[9px] font-mono text-gray-400 mt-4">per side (0.05% = typical spread)</span>
                 </div>
               </div>
             )}
 
             {/* Python options */}
             {config.outputLanguage === "python" && (
-              <div className="space-y-4 p-3" style={{ backgroundColor: "#0D0D0D", border: "1px solid #1E1E1E" }}>
-                <p className="text-[9px] font-mono uppercase tracking-widest text-text-tertiary">Python / Backtrader Options</p>
+              <div className="space-y-4 p-3" style={{ backgroundColor: "#f9fafb", border: "1px solid #e5e7eb" }}>
+                <p className="text-[9px] font-mono uppercase tracking-widest text-gray-400">Python / Backtrader Options</p>
                 <Toggle checked={config.includeBacktraderClass} onChange={v => update({ includeBacktraderClass: v })} label="Full Backtrader Strategy class" />
                 <Toggle checked={config.includePandasTA} onChange={v => update({ includePandasTA: v })} label="Import pandas_ta indicators" />
                 <Toggle checked={config.includeQuantConnect} onChange={v => update({ includeQuantConnect: v })} label="QuantConnect LEAN format" />

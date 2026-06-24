@@ -2,7 +2,7 @@
 
 import { useState, useCallback, useEffect, useRef } from "react";
 import Link from "next/link";
-import { ChevronRight, LayoutGrid, Zap } from "lucide-react";
+import { ChevronRight, Code2, Bookmark, Zap, RefreshCw } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { StrategyConfig, DEFAULT_CONFIG } from "@/types/algo-builder";
 import { StrategyComposer } from "./StrategyComposer";
@@ -13,7 +13,10 @@ import { TradingViewEmbed } from "./TradingViewEmbed";
 import { ExportBridge } from "./ExportBridge";
 import { StrategyLibrary } from "./StrategyLibrary";
 
-const C = "#C8F135";
+// ─── Design tokens — exact match to Trade Journal (JournalClient.tsx) ─────────
+const C    = "#00e5cc";   // Journal cyan accent  ← was "#C8F135" chartreuse
+const C_BG = `${C}1a`;   // 10% opacity background
+const C_BD = `${C}4d`;   // 30% opacity border
 
 // Map our Timeframe type → TradingView interval
 const TV_INTERVAL: Record<string, string> = {
@@ -109,7 +112,7 @@ export function AlgoBuilderShell({ userName, userEmail, tier }: AlgoBuilderShell
       }
 
       setGenVersion(v => v + 1);
-      setShowHealthCheck(false); // reset health check for new code
+      setShowHealthCheck(false);
     } catch (e: any) {
       if (e?.name === "TimeoutError" || e?.name === "AbortError") {
         setGenError("QuantCoder timed out — try a simpler description.");
@@ -139,91 +142,104 @@ export function AlgoBuilderShell({ userName, userEmail, tier }: AlgoBuilderShell
         />
       )}
 
-      {/* ── Page Header ─────────────────────────────────────────────────── */}
-      <header className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-        <div>
-          {/* Breadcrumb */}
-          <nav className="flex items-center gap-1 text-[10px] font-mono text-text-tertiary mb-3">
-            <Link href="/dashboard" className="hover:text-text-secondary transition-colors">Dashboard</Link>
-            <ChevronRight className="w-3 h-3" />
-            <Link href="/dashboard/tools" className="hover:text-text-secondary transition-colors">Tools</Link>
-            <ChevronRight className="w-3 h-3" />
-            <span style={{ color: C }}>Algo Strategy Builder</span>
-          </nav>
+      {/* ── Page Header — matches JournalClient header exactly ──────────── */}
+      <header className="space-y-4">
+        {/* Eyebrow — exact match: JournalClient "AI_JOURNAL // PERFORMANCE" */}
+        <p
+          className="text-[10px] font-mono font-bold uppercase tracking-[0.3em]"
+          style={{ color: C }}
+        >
+          ALGO_BUILDER // STRATEGY COMPOSER
+        </p>
 
-          {/* Title */}
-          <div className="flex items-center gap-3">
-            <h1 className="font-display font-bold uppercase text-text-primary" style={{ fontSize: 28 }}>
-              Algo Strategy Builder
+        {/* Title row + status badges */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+          <div>
+            {/* H1 — exact match: JournalClient "TRADE JOURNAL." */}
+            <h1
+              className="font-display font-bold uppercase leading-none text-black"
+              style={{ fontSize: 32 }}
+            >
+              ALGO{" "}
+              <span style={{ color: C }}>STRATEGY BUILDER.</span>
             </h1>
-          </div>
-          <p className="text-sm text-text-secondary mt-1 max-w-xl">
-            Convert discretionary logic into production Pine Script v6 & Python.
-            Powered by QuantCoder AI.
-          </p>
-        </div>
-
-        {/* Status + tier badge */}
-        <div className="flex items-center gap-3 shrink-0">
-          {/* QuantCoder status */}
-          <div
-            className="flex items-center gap-2 px-3 py-1.5 text-[10px] font-mono font-bold uppercase tracking-wider"
-            style={{ backgroundColor: `${C}15`, border: `1px solid ${C}40`, color: C }}
-          >
-            <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ backgroundColor: C }} />
-            QuantCoder AI // ONLINE
+            {/* Subtitle — exact match: JournalClient "Every trade logged…" */}
+            <p className="text-sm text-gray-500 mt-2 max-w-xl">
+              Convert discretionary logic into production Pine Script v6 &amp; Python.
+              Powered by QuantCoder AI.
+            </p>
           </div>
 
-          {/* Tier badge */}
-          <div
-            className="px-3 py-1.5 text-[10px] font-mono font-bold uppercase tracking-wider text-black"
-            style={{ backgroundColor: C }}
-          >
-            {tier.toUpperCase()}
+          {/* Status badges — right-aligned */}
+          <div className="flex items-center gap-3 shrink-0">
+            {/* QuantCoder status — teal pill matching Journal locked-state pill */}
+            <div
+              className="flex items-center gap-2 px-3 py-1.5 text-[10px] font-mono font-bold uppercase tracking-wider rounded-md"
+              style={{ backgroundColor: C_BG, border: `1px solid ${C_BD}`, color: C }}
+            >
+              <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ backgroundColor: C }} />
+              QuantCoder AI // ONLINE
+            </div>
+
+            {/* Tier badge — keep orange, platform-wide convention */}
+            <div className="px-3 py-1.5 text-[10px] font-mono font-bold uppercase tracking-wider text-white rounded-md bg-[#f97316]">
+              {tier.toUpperCase()}
+            </div>
           </div>
         </div>
       </header>
 
-      {/* ── Rate limit bar ───────────────────────────────────────────────── */}
+      {/* ── Rate limit bar — white card ──────────────────────────────────── */}
       {rateLimitInfo && (
-        <div className="flex items-center gap-3 px-4 py-2.5 text-[11px] font-mono" style={{ backgroundColor: "#1A1A1A", border: "1px solid #2A2A2A" }}>
-          <span className="text-text-tertiary">Generations today:</span>
+        <div
+          className="flex items-center gap-3 px-4 py-2.5 text-[11px] font-mono bg-white border border-gray-200 rounded-xl"
+        >
+          <span className="text-gray-500">Generations today:</span>
           <div className="flex gap-1">
             {Array.from({ length: rateLimitInfo.limit }, (_, i) => (
-              <div key={i} className="w-3 h-3" style={{ backgroundColor: i < rateLimitInfo.used ? C : "#2A2A2A" }} />
+              <div
+                key={i}
+                className="w-3 h-3 rounded-sm"
+                style={{ backgroundColor: i < rateLimitInfo.used ? C : "#e5e7eb" }}
+              />
             ))}
           </div>
-          <span className="text-text-tertiary">{rateLimitInfo.used}/{rateLimitInfo.limit}</span>
+          <span className="text-gray-500">{rateLimitInfo.used}/{rateLimitInfo.limit}</span>
         </div>
       )}
 
       {/* ── Main two-column layout ───────────────────────────────────────── */}
       <div className="grid grid-cols-1 lg:grid-cols-[45%_55%] gap-4">
 
-        {/* Left: Strategy Composer */}
-        <div className="flex flex-col border" style={{ border: "1px solid #222", borderRadius: 0 }} id="algo-composer">
+        {/* Left: Strategy Composer — white card */}
+        <div
+          className="flex flex-col bg-white border border-gray-200 rounded-xl overflow-hidden"
+          id="algo-composer"
+        >
           <StrategyComposer config={config} onChange={setConfig} />
 
-          {/* Generate button — inside left panel at bottom */}
-          <div className="p-4 border-t" style={{ borderColor: "#1E1E1E" }} id="algo-generate-btn">
+          {/* Generate button — Journal primary button style */}
+          <div className="p-4 border-t border-gray-100" id="algo-generate-btn">
             {genError && (
-              <p className="text-[11px] font-mono text-red-400 mb-3 px-1">{genError}</p>
+              <p className="text-[11px] font-mono text-red-600 mb-3 px-1">{genError}</p>
             )}
             <button
               type="button"
               onClick={handleGenerate}
               disabled={!isFormValid && !isGenerating}
-              className="w-full py-4 font-bold uppercase tracking-widest text-[11px] transition-all disabled:opacity-40"
+              className="w-full py-4 font-mono font-bold uppercase tracking-widest text-[11px] transition-all rounded-lg flex items-center justify-center gap-2 disabled:cursor-not-allowed"
               style={{
-                backgroundColor: isGenerating ? "#1A1A1A" : (isFormValid ? C : "#1A1A1A"),
-                color: isGenerating ? C : "#000",
-                border: isGenerating ? `1px solid ${C}` : "none",
+                backgroundColor: isFormValid || isGenerating ? C : undefined,
+                opacity: !isFormValid && !isGenerating ? 0.4 : 1,
+                color: isFormValid || isGenerating ? "#000" : "#6b7280",
+                border: !isFormValid && !isGenerating ? "1px solid #e5e7eb" : "none",
+                background: !isFormValid && !isGenerating ? "#f9fafb" : C,
               }}
               title={!isFormValid ? "Describe your strategy (min. 20 characters) to generate" : undefined}
             >
               {isGenerating ? (
                 <span className="flex items-center justify-center gap-2">
-                  <span className="w-2 h-2 rounded-full animate-pulse" style={{ backgroundColor: C }} />
+                  <span className="w-2 h-2 rounded-full animate-pulse" style={{ backgroundColor: "#000" }} />
                   Generating… Click to cancel
                 </span>
               ) : (
@@ -234,7 +250,7 @@ export function AlgoBuilderShell({ userName, userEmail, tier }: AlgoBuilderShell
               )}
             </button>
             {!isFormValid && !isGenerating && (
-              <p className="text-[9px] font-mono text-text-tertiary text-center mt-2">
+              <p className="text-[9px] font-mono text-gray-400 text-center mt-2">
                 Describe your strategy in Section 1 to enable generation
               </p>
             )}
@@ -243,27 +259,32 @@ export function AlgoBuilderShell({ userName, userEmail, tier }: AlgoBuilderShell
 
         {/* Right: Code Output + Market Widget */}
         <div className="flex flex-col gap-4">
-          {/* Right tabs */}
+          {/* Right tab bar — Journal tab style: underline only, no background */}
           <div
-            className="flex"
-            style={{ backgroundColor: "#111", border: "1px solid #222" }}
+            className="flex border-b border-gray-200"
             id="algo-code-output"
           >
             {([
-              { id: "code",    label: "Code Output" },
-              { id: "library", label: "My Strategies" },
-            ] as { id: "code"|"library"; label: string }[]).map(t => (
-              <button
-                key={t.id}
-                onClick={() => setRightTab(t.id)}
-                className="px-5 py-2.5 text-[10px] font-mono uppercase tracking-widest transition-all"
-                style={rightTab === t.id
-                  ? { backgroundColor: C, color: "#000", fontWeight: 700 }
-                  : { color: "#666" }}
-              >
-                {t.label}
-              </button>
-            ))}
+              { id: "code",    label: "Code Output",  icon: Code2     },
+              { id: "library", label: "My Strategies", icon: Bookmark },
+            ] as { id: "code"|"library"; label: string; icon: React.ElementType }[]).map(t => {
+              const Icon = t.icon;
+              const active = rightTab === t.id;
+              return (
+                <button
+                  key={t.id}
+                  onClick={() => setRightTab(t.id)}
+                  className="flex items-center gap-1.5 px-4 py-2.5 text-[11px] font-mono uppercase tracking-widest transition-all border-b-2 -mb-px"
+                  style={active
+                    ? { color: C, borderColor: C, fontWeight: 700 }
+                    : { color: "#6b7280", borderColor: "transparent" }
+                  }
+                >
+                  <Icon className="w-3.5 h-3.5" />
+                  {t.label}
+                </button>
+              );
+            })}
           </div>
 
           <CodeOutput
@@ -298,7 +319,6 @@ export function AlgoBuilderShell({ userName, userEmail, tier }: AlgoBuilderShell
       {/* ── Below-fold panels (visible after code generated) ───────────── */}
       {hasCode && (
         <div className="space-y-6" id="algo-health-check">
-          {/* Health Check */}
           <HealthCheck
             generatedCode={generatedCode}
             instrument={config.instrument}
@@ -308,13 +328,11 @@ export function AlgoBuilderShell({ userName, userEmail, tier }: AlgoBuilderShell
             onToggle={() => setShowHealthCheck(v => !v)}
           />
 
-          {/* TradingView embed */}
           <TradingViewEmbed
             symbol={config.instrument}
             intervalMinutes={tvInterval}
           />
 
-          {/* Export bridge */}
           <ExportBridge
             code={generatedCode}
             language={config.outputLanguage}
@@ -328,19 +346,7 @@ export function AlgoBuilderShell({ userName, userEmail, tier }: AlgoBuilderShell
   );
 }
 
-// ─── Lazy library panel (avoids loading Supabase unless tab active) ───────────
-function StrategyLibraryPanel(props: {
-  currentCode: string;
-  currentLanguage: "pine_script" | "python";
-  currentInstrument: string;
-  currentTimeframe: string;
-  currentDescription: string;
-}) {
-  const { StrategyLibrary } = require("./StrategyLibrary");
-  return <StrategyLibrary {...props} />;
-}
-
-// ─── Simple custom tour ───────────────────────────────────────────────────────
+// ─── Tour steps (unchanged) ───────────────────────────────────────────────────
 const TOUR_STEPS = [
   {
     title: "Welcome to QuantCoder",
@@ -374,51 +380,72 @@ const TOUR_STEPS = [
   },
 ];
 
+// ─── Tour Overlay — white card with teal button (Journal primary style) ───────
 function TourOverlay({
   step, onNext, onSkip, total,
 }: { step: number; onNext: () => void; onSkip: () => void; total: number }) {
-  const C = "#C8F135";
   const s = TOUR_STEPS[step];
   const isLast = step === total - 1;
 
   return (
     <div className="fixed inset-0 z-50 flex items-end md:items-center justify-center md:justify-end p-4 md:p-8 pointer-events-none">
-      {/* Semi-transparent backdrop only on mobile */}
-      <div className="absolute inset-0 bg-black/40 md:hidden pointer-events-auto" onClick={onSkip} />
-
+      {/* Backdrop */}
       <div
-        className="relative max-w-sm w-full pointer-events-auto animate-in slide-in-from-bottom-4 duration-300"
-        style={{ backgroundColor: "#111", border: `1px solid ${C}40` }}
+        className="absolute inset-0 md:hidden pointer-events-auto"
+        style={{ background: "rgba(0,0,0,0.2)" }}
+        onClick={onSkip}
+      />
+
+      {/* Card — white, Journal card style */}
+      <div
+        className="relative max-w-sm w-full pointer-events-auto animate-in slide-in-from-bottom-4 duration-300 bg-white border border-gray-200 rounded-xl"
+        style={{ boxShadow: "0 4px 24px rgba(0,0,0,0.08)" }}
       >
-        {/* Step indicator */}
-        <div className="flex items-center justify-between px-4 py-3 border-b" style={{ borderColor: "#222" }}>
+        {/* Step indicator row */}
+        <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100">
           <div className="flex gap-1">
             {Array.from({ length: total }, (_, i) => (
               <div
                 key={i}
-                className="w-5 h-1 transition-colors"
-                style={{ backgroundColor: i <= step ? C : "#333" }}
+                className="w-5 h-1 rounded-full transition-colors"
+                style={{ backgroundColor: i <= step ? C : "#e5e7eb" }}
               />
             ))}
           </div>
-          <button onClick={onSkip} className="text-[9px] font-mono text-text-tertiary hover:text-text-secondary uppercase tracking-wider">
+          {/* Skip tour — Journal secondary style */}
+          <button
+            onClick={onSkip}
+            className="text-[9px] font-mono text-gray-400 hover:text-gray-700 uppercase tracking-wider underline-offset-2 hover:underline transition-colors"
+          >
             Skip tour
           </button>
         </div>
 
         <div className="p-4 space-y-3">
-          <p className="text-[10px] font-mono uppercase tracking-widest" style={{ color: C }}>
+          {/* Step label — Journal eyebrow style in teal */}
+          <p
+            className="text-[10px] font-mono font-bold uppercase tracking-[0.3em]"
+            style={{ color: C }}
+          >
             Step {step + 1} of {total}
           </p>
-          <p className="font-display font-bold uppercase text-text-primary text-sm">{s.title}</p>
-          <p className="text-xs text-text-secondary leading-relaxed">{s.body}</p>
-          <p className="text-[9px] font-mono text-text-tertiary">→ {s.highlight}</p>
+          {/* Step title — Journal heading style */}
+          <p className="font-display font-bold uppercase text-gray-900 text-sm">
+            {s.title}
+          </p>
+          {/* Body */}
+          <p className="text-xs text-gray-500 leading-relaxed">{s.body}</p>
+          {/* Highlight hint */}
+          <p className="text-[9px] font-mono" style={{ color: C }}>
+            → {s.highlight}
+          </p>
         </div>
 
+        {/* Next button — Journal primary button (teal bg, black text) */}
         <div className="px-4 pb-4">
           <button
             onClick={onNext}
-            className="w-full py-2.5 text-[10px] font-mono font-bold uppercase tracking-widest text-black transition-opacity hover:opacity-90"
+            className="w-full py-2.5 text-[10px] font-mono font-bold uppercase tracking-widest transition-opacity hover:opacity-90 text-black rounded-lg"
             style={{ backgroundColor: C }}
           >
             {isLast ? "Get Started" : "Next →"}

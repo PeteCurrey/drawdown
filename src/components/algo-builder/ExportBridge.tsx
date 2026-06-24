@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Copy, Check, ExternalLink, ChevronDown, ChevronUp } from "lucide-react";
 import type { OutputLanguage } from "@/types/algo-builder";
 
-const C = "#C8F135";
+const C = "#00e5cc";   // Journal cyan accent
 
 interface ExportBridgeProps {
   code:        string;
@@ -98,16 +98,16 @@ export function ExportBridge({
         style={{ backgroundColor: "#111" }}
       >
         <div>
-          <p className="text-[11px] font-mono font-bold uppercase tracking-widest text-text-primary">
+          <p className="text-[11px] font-mono font-bold uppercase tracking-widest text-gray-900">
             Export & Deploy
           </p>
-          <p className="text-[9px] font-mono text-text-tertiary mt-0.5">
+          <p className="text-[9px] font-mono text-gray-400 mt-0.5">
             Integration guides for TradingView, IBKR, and MT5
           </p>
         </div>
         {open
-          ? <ChevronUp   className="w-4 h-4 text-text-tertiary" />
-          : <ChevronDown className="w-4 h-4 text-text-tertiary" />}
+          ? <ChevronUp   className="w-4 h-4 text-gray-400" />
+          : <ChevronDown className="w-4 h-4 text-gray-400" />}
       </button>
 
       {open && (
@@ -116,8 +116,8 @@ export function ExportBridge({
           {/* Copy with header */}
           <div className="flex items-center justify-between px-4 py-3" style={{ backgroundColor: "#111", border: "1px solid #222" }}>
             <div>
-              <p className="text-[11px] font-mono text-text-primary font-bold">Copy as TradingView-ready</p>
-              <p className="text-[9px] font-mono text-text-tertiary mt-0.5">
+              <p className="text-[11px] font-mono text-gray-900 font-bold">Copy as TradingView-ready</p>
+              <p className="text-[9px] font-mono text-gray-400 mt-0.5">
                 Adds a metadata header (strategy name, date, instrument, language)
               </p>
             </div>
@@ -145,7 +145,7 @@ export function ExportBridge({
                 style={{ backgroundColor: "#111", border: "1px solid #1E1E1E" }}
               >
                 <div className="px-4 py-3 border-b" style={{ borderColor: "#1E1E1E" }}>
-                  <p className="text-[11px] font-mono font-bold text-text-primary">
+                  <p className="text-[11px] font-mono font-bold text-gray-900">
                     {card.icon} {card.title}
                   </p>
                 </div>
@@ -158,7 +158,7 @@ export function ExportBridge({
                       >
                         {i + 1}
                       </span>
-                      <span className="text-[10px] font-mono text-text-secondary leading-snug">{step}</span>
+                      <span className="text-[10px] font-mono text-gray-500 leading-snug">{step}</span>
                     </li>
                   ))}
                 </ol>

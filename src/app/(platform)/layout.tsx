@@ -221,7 +221,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           </div>
 
           {/* Section 1: Main navigation */}
-          <div className="flex-1 overflow-y-auto space-y-0.5 py-2">
+          <div className="flex-1 overflow-y-auto space-y-0.5 py-2" data-lenis-prevent>
             {mainNavLinks.map(link => (
               <SidebarLink key={link.href} {...link} />
             ))}
@@ -305,7 +305,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         )}
 
         {/* Main Content Area — overflow-y-auto on a flex-1 container with definite height = scroll works */}
-        <div className="flex-1 overflow-y-auto min-w-0 bg-white pb-16 md:pb-0">
+        {/* data-lenis-prevent: Lenis (smooth scroll) runs globally; this tells it to leave this
+            scroll container alone and let native overflow-y-auto handle scrolling here */}
+        <div className="flex-1 overflow-y-auto min-w-0 bg-white pb-16 md:pb-0" data-lenis-prevent>
           <main className="p-6 md:p-10 select-text">
             {children}
           </main>

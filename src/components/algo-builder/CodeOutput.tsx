@@ -54,20 +54,20 @@ function GeneratingAnim() {
   );
 }
 
-// ─── Placeholder — sits inside dark code area ─────────────────────────────────
+// ─── Placeholder — sits inside code area ──────────────────────────────────────
 function CodePlaceholder() {
   return (
     <div className="flex flex-col items-center justify-center h-64 gap-3 text-center px-8">
       <div
         className="w-12 h-12 flex items-center justify-center text-2xl rounded-lg"
-        style={{ backgroundColor: "#161b22", border: "1px solid #30363d", color: "#8b949e" }}
+        style={{ backgroundColor: "#f3f4f6", border: "1px solid #e5e7eb", color: "#4b5563" }}
       >
         {"</>"}
       </div>
-      <p className="text-[11px] font-mono text-[#8b949e]">
+      <p className="text-[11px] font-mono text-[#4b5563]">
         // Your generated code will appear here
       </p>
-      <p className="text-[9px] font-mono text-[#484f58]">
+      <p className="text-[9px] font-mono text-[#6b7280]">
         Fill out the composer and click Generate
       </p>
     </div>
@@ -89,7 +89,7 @@ export function CodeOutput({
   // Load highlight style
   useEffect(() => {
     import("react-syntax-highlighter/dist/esm/styles/hljs")
-      .then(m => setHl(m.atomOneDark))
+      .then(m => setHl(m.atomOneLight))
       .catch(() => {});
   }, []);
 
@@ -215,10 +215,10 @@ export function CodeOutput({
         </div>
       )}
 
-      {/* Code area — intentionally dark (GitHub dark #0d1117 — VS Code aesthetic, expected by users) */}
+      {/* Code area — light theme */}
       <div
-        className="relative flex-1 overflow-auto mx-3 my-3 rounded-lg border border-[#30363d]"
-        style={{ backgroundColor: "#0d1117", maxHeight: 480 }}
+        className="relative flex-1 overflow-auto mx-3 my-3 rounded-lg border border-gray-200"
+        style={{ backgroundColor: "#f9fafb", maxHeight: 480 }}
       >
         {isGenerating && !hasCode && <GeneratingAnim />}
         {!hasCode && !isGenerating && <CodePlaceholder />}
@@ -226,7 +226,7 @@ export function CodeOutput({
         {hasCode && (
           isGenerating ? (
             <pre
-              className="p-4 text-xs font-mono text-[#c9d1d9] leading-relaxed overflow-auto whitespace-pre-wrap"
+              className="p-4 text-xs font-mono text-gray-700 leading-relaxed overflow-auto whitespace-pre-wrap"
               style={{ fontFamily: "'JetBrains Mono', 'Fira Code', monospace" }}
             >
               {code}
@@ -240,20 +240,20 @@ export function CodeOutput({
                 customStyle={{
                   margin: 0,
                   padding: 16,
-                  background: "#0d1117",
+                  background: "#f9fafb",
                   fontSize: 12,
                   lineHeight: 1.6,
                   fontFamily: "'JetBrains Mono', 'Fira Code', monospace",
                 }}
                 showLineNumbers
-                lineNumberStyle={{ color: "#484f58", fontSize: 10 }}
+                lineNumberStyle={{ color: "#9ca3af", fontSize: 10 }}
                 wrapLongLines={false}
               >
                 {code}
               </SyntaxHighlighter>
             ) : (
               <pre
-                className="p-4 text-xs font-mono text-[#c9d1d9] leading-relaxed whitespace-pre-wrap"
+                className="p-4 text-xs font-mono text-gray-700 leading-relaxed whitespace-pre-wrap"
                 style={{ fontFamily: "'JetBrains Mono', 'Fira Code', monospace" }}
               >
                 {code}

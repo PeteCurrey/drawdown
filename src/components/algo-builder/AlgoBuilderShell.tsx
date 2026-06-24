@@ -134,6 +134,16 @@ export function AlgoBuilderShell({ userName, userEmail, tier }: AlgoBuilderShell
 
   return (
     <div className="space-y-6 animate-in fade-in duration-500 pb-16">
+      {/* ── Tour Step Panel (moved to top for prominence) ── */}
+      {tourStep !== null && (
+        <TourStepPanel
+          step={tourStep}
+          onNext={advanceTour}
+          onSkip={skipTour}
+          onClose={skipTour}
+          total={TOUR_STEPS.length}
+        />
+      )}
 
       {/* ── Page Header — matches layout style with violet accents ──────── */}
       <header className="space-y-4">
@@ -333,17 +343,6 @@ export function AlgoBuilderShell({ userName, userEmail, tier }: AlgoBuilderShell
           />
         </div>
       )}
-
-      {/* ── Tour Step Panel ── */}
-      {tourStep !== null && (
-        <TourStepPanel
-          step={tourStep}
-          onNext={advanceTour}
-          onSkip={skipTour}
-          onClose={skipTour}
-          total={TOUR_STEPS.length}
-        />
-      )}
     </div>
   );
 }
@@ -398,7 +397,7 @@ function TourStepPanel({
 
   return (
     <div 
-      className="relative w-full overflow-hidden mt-6 bg-[#f5f3ff] border border-[#ddd6fe] rounded-xl p-5 md:py-5 md:px-6 transition-all duration-300 shadow-sm"
+      className="relative w-full overflow-hidden bg-[#f5f3ff] border border-[#ddd6fe] rounded-xl p-5 md:py-5 md:px-6 transition-all duration-300 shadow-sm"
     >
       {/* Thin progress bar at the very top */}
       <div className="absolute top-0 left-0 right-0 h-[3px] bg-[#ddd6fe]">

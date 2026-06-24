@@ -124,7 +124,7 @@ export function LiveFeed({ items, className, theme = "dark" }: LiveFeedProps) {
                   <p 
                     className={cn(
                       "text-[9px] font-mono mt-1",
-                      isLight ? "text-gray-400" : "text-[#8A8A85]"
+                      isLight ? "text-gray-500" : "text-[#8A8A85]"
                     )}
                   >
                     {item.time}

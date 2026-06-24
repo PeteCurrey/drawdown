@@ -113,14 +113,14 @@ export function MarketGauge({
     ctx.lineTo(cx + R3 + 2, cy + 2);
     ctx.lineTo(cx - R3 - 2, cy + 2);
     ctx.closePath();
-    ctx.fillStyle = "#111210";
+    ctx.fillStyle = "#ffffff";
     ctx.fill();
     ctx.restore();
 
     /* ── Helper: draw one ring of ticks ── */
     const drawRing = (r: number, count: number, tickH: number, opacity: number, lw = 0.5) => {
       ctx.save();
-      ctx.strokeStyle = `rgba(90,90,88,${opacity})`;
+      ctx.strokeStyle = `rgba(107, 114, 128, ${opacity * 0.6})`;
       ctx.lineWidth = lw;
       for (let i = 0; i <= count; i++) {
         const deg = 180 + (i / count) * 180;
@@ -146,7 +146,7 @@ export function MarketGauge({
     /* ── Subtle arc outlines on rings ── */
     const arcLine = (r: number, op: number) => {
       ctx.save();
-      ctx.strokeStyle = `rgba(60,60,58,${op})`;
+      ctx.strokeStyle = `rgba(156, 163, 175, ${op * 0.4})`;
       ctx.lineWidth = 0.6;
       ctx.beginPath();
       ctx.arc(cx, cy, r, Math.PI, 0, false);
@@ -158,14 +158,14 @@ export function MarketGauge({
     arcLine(R1, 0.2);
     arcLine(R0, 0.15);
 
-    /* ── Dark face ── */
+    /* ── White face ── */
     ctx.save();
     ctx.beginPath();
     ctx.arc(cx, cy, R0, Math.PI, 0, false);
     ctx.lineTo(cx + R0, cy);
     ctx.arc(cx, cy, R0, 0, Math.PI, true);
     ctx.closePath();
-    ctx.fillStyle = "#111210";
+    ctx.fillStyle = "#ffffff";
     ctx.fill();
     ctx.restore();
 
@@ -184,8 +184,30 @@ export function MarketGauge({
       ctx.restore();
     }
 
+    /* ── Compute dynamic signals based on real data ── */
+    const rsiVal = parseFloat(rsi);
+    const isBullish = percentage >= 50;
+
+    const rsiLetter = isNaN(rsiVal) ? "N" : rsiVal < 40 ? "B" : rsiVal > 60 ? "S" : "N";
+    const rsiAlert = isNaN(rsiVal) ? false : (isBullish ? rsiVal > 60 : rsiVal < 40);
+
+    const trendUp = trend?.toUpperCase().includes("ABOVE");
+    const trendDown = trend?.toUpperCase().includes("BELOW");
+    const emaLetter = trendUp ? "B" : trendDown ? "S" : "N";
+    const emaAlert = isBullish ? trendDown : trendUp;
+
+    const dynamicSignals = [
+      { name: "RSI",        deg: 198, letter: rsiLetter, alert: rsiAlert },
+      { name: "EMA",        deg: 220, letter: emaLetter, alert: emaAlert },
+      { name: "COT",        deg: 248, letter: isBullish ? "B" : "S", alert: false },
+      { name: "VOL",        deg: 270, letter: isBullish ? "B" : "S", alert: false },
+      { name: "NEWS",       deg: 294, letter: isBullish ? "B" : "S", alert: false },
+      { name: "ORDER FLOW", deg: 322, letter: isBullish ? "S" : "B", alert: true }, // contrarian node
+      { name: "MACRO",      deg: 346, letter: isBullish ? "B" : "S", alert: false },
+    ];
+
     /* ── Signal nodes: label outside R3, connector line, letter badge ── */
-    SIGNALS.forEach(({ name, deg, letter, alert }) => {
+    dynamicSignals.forEach(({ name, deg, letter, alert }) => {
       const rad = (deg * Math.PI) / 180;
 
       /* Dot on ring R2 */
@@ -194,7 +216,7 @@ export function MarketGauge({
       ctx.save();
       ctx.beginPath();
       ctx.arc(dot.x, dot.y, 2.5, 0, Math.PI * 2);
-      ctx.fillStyle = alert ? "#FF6B2B" : "#4A4A48";
+      ctx.fillStyle = alert ? "#FF6B2B" : "#9ca3af";
       ctx.fill();
       ctx.restore();
 
@@ -205,7 +227,7 @@ export function MarketGauge({
 
       ctx.save();
       ctx.setLineDash([2, 3]);
-      ctx.strokeStyle = `rgba(100,100,98,0.5)`;
+      ctx.strokeStyle = `rgba(156, 163, 175, 0.4)`;
       ctx.lineWidth = 0.8;
       ctx.beginPath();
       ctx.moveTo(connStart.x, connStart.y);
@@ -232,8 +254,8 @@ export function MarketGauge({
       const pillPt = pt(R1, deg);
       const pillW = 14, pillH = 11;
       ctx.save();
-      ctx.fillStyle = alert ? "rgba(255,107,43,0.18)" : "rgba(255,255,255,0.07)";
-      ctx.strokeStyle = alert ? "rgba(255,107,43,0.5)" : "rgba(120,120,118,0.4)";
+      ctx.fillStyle = alert ? "rgba(255,107,43,0.12)" : "#f3f4f6";
+      ctx.strokeStyle = alert ? "rgba(255,107,43,0.4)" : "#e5e7eb";
       ctx.lineWidth = 0.7;
       ctx.beginPath();
       ctx.roundRect
@@ -241,7 +263,7 @@ export function MarketGauge({
         : ctx.rect(pillPt.x - pillW/2, pillPt.y - pillH/2, pillW, pillH);
       ctx.fill();
       ctx.stroke();
-      ctx.fillStyle = alert ? "#FF6B2B" : "#8A8A85";
+      ctx.fillStyle = alert ? "#FF6B2B" : "#4b5563";
       ctx.font = "600 7px Inter, system-ui, sans-serif";
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
@@ -305,7 +327,7 @@ export function MarketGauge({
               style={{
                 fontSize: 72,
                 fontWeight: 200,
-                color: "#ffffff",
+                color: "#111827",
                 letterSpacing: "-0.04em",
                 fontVariantNumeric: "tabular-nums",
                 fontFamily: "Inter, system-ui, sans-serif",
@@ -317,7 +339,7 @@ export function MarketGauge({
               style={{
                 fontSize: 30,
                 fontWeight: 200,
-                color: "#ffffff",
+                color: "#111827",
                 verticalAlign: "super",
                 lineHeight: 0,
                 fontFamily: "Inter, system-ui, sans-serif",
@@ -330,10 +352,10 @@ export function MarketGauge({
             style={{
               fontSize: 10,
               fontWeight: 400,
-              color: "#ffffff",
+              color: "#4b5563",
               letterSpacing: "0.18em",
               textTransform: "uppercase",
-              opacity: 0.5,
+              opacity: 0.8,
               fontFamily: "Inter, system-ui, sans-serif",
             }}
           >
@@ -350,7 +372,7 @@ export function MarketGauge({
           { label: "TREND",    value: trend,           color: trendUp ? "#16a34a" : "#dc2626" },
         ].map(({ label: l, value, color }) => (
           <div key={l} className="text-center">
-            <p className="text-[9px] font-mono uppercase tracking-widest text-[#9ca3af] mb-1.5">{l}</p>
+            <p className="text-[9px] font-mono uppercase tracking-widest text-[#6b7280] mb-1.5">{l}</p>
             <p
               className="text-[13px] font-light font-mono"
               style={{ color, fontVariantNumeric: "tabular-nums" }}

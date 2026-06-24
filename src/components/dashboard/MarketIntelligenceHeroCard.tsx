@@ -476,15 +476,17 @@ export function MarketIntelligenceHeroCard({
         cardVisible ? "hero-card-enter" : "opacity-0"
       )}
       style={{
-        // Single background shorthand — no split background/backgroundImage.
-        // Layer order: gloss highlight → shimmer → accents → solid base.
+        // Premium glassmorphism off-black layout with subtle gloss highlight and accents
         background: [
-          "linear-gradient(180deg, rgba(255,255,255,0.055) 0px, rgba(255,255,255,0.000) 1px)",
-          "conic-gradient(from 0deg at 30% 50%, rgba(255,255,255,0.000) 0deg, rgba(255,255,255,0.022) 60deg, rgba(255,255,255,0.000) 120deg)",
-          "radial-gradient(ellipse 60% 40% at 70% 30%, rgba(0,200,150,0.04) 0%, transparent 70%)",
-          "radial-gradient(ellipse 40% 60% at 20% 80%, rgba(249,119,29,0.03) 0%, transparent 60%)",
-          "#0a0a0f",
+          "linear-gradient(135deg, rgba(255, 255, 255, 0.07) 0%, rgba(255, 255, 255, 0.03) 30%, rgba(255, 255, 255, 0) 70%)",
+          "radial-gradient(circle at 50% -20%, rgba(0, 200, 150, 0.15), transparent 60%)",
+          "radial-gradient(circle at 10% 100%, rgba(249, 119, 29, 0.08), transparent 40%)",
+          "linear-gradient(180deg, rgba(14, 14, 19, 0.85) 0%, rgba(10, 10, 14, 0.9) 100%)",
         ].join(", "),
+        backdropFilter: "blur(20px)",
+        WebkitBackdropFilter: "blur(20px)",
+        border: "1px solid rgba(255, 255, 255, 0.08)",
+        boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.5), inset 0 1px 0 0 rgba(255, 255, 255, 0.12)",
         animation: cardVisible ? "heroFadeUp 600ms ease-out both" : undefined,
       }}
     >

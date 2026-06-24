@@ -16,14 +16,14 @@ interface TradingViewTechnicalWidgetProps {
    */
   isVisible: boolean;
   theme?: "light" | "dark";
+  height?: number;
 }
-
-const WIDGET_HEIGHT = 300;
 
 export function TradingViewTechnicalWidget({
   tvSymbol,
   isVisible,
   theme = "light",
+  height = 300,
 }: TradingViewTechnicalWidgetProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [status, setStatus] = useState<WidgetStatus>("idle");
@@ -61,7 +61,7 @@ export function TradingViewTechnicalWidget({
       interval: "1D",      // Daily — matches "Technical Consensus" framing across the platform
       width: "100%",
       isTransparent: true, // Transparent background so our card surface shows through
-      height: WIDGET_HEIGHT,
+      height: height,
       symbol: tvSymbol,
       showIntervalTabs: false,
       displayMode: "single", // Compact gauge view only — no oscillator/MA table breakdown
@@ -105,7 +105,7 @@ export function TradingViewTechnicalWidget({
   };
 
   return (
-    <div className="relative w-full" style={{ minHeight: WIDGET_HEIGHT }}>
+    <div className="relative w-full" style={{ minHeight: height }}>
       {/* ── Skeleton: shown while idle or loading ─────────────────────── */}
       <div
         className={cn(
@@ -153,7 +153,7 @@ export function TradingViewTechnicalWidget({
           "w-full transition-opacity duration-700",
           status === "loaded" ? "opacity-100" : "opacity-0"
         )}
-        style={{ minHeight: WIDGET_HEIGHT }}
+        style={{ minHeight: height }}
         aria-label={`TradingView technical analysis for ${tvSymbol}`}
       />
     </div>

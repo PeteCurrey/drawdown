@@ -75,7 +75,7 @@ interface TradingViewWidgetProps {
   symbol?: string;
   interval: string;
   theme?: "light" | "dark";
-  height?: number;
+  height?: number | string;
   studies?: string[];
   containerId?: string;
 }

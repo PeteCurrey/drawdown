@@ -2648,7 +2648,7 @@ function SymbolDetail({ instrument }: { instrument: ScannerInstrument }) {
           </div>
 
           {/* Card 2: Intraday WAP Chart (VWAP) */}
-          <div className="lg:col-span-7 bg-background-surface/60 border border-border-slate/40 rounded-xl overflow-hidden shadow-sm backdrop-blur-md flex flex-col">
+          <div className="lg:col-span-7 bg-background-surface/60 border border-border-slate/40 rounded-xl overflow-hidden shadow-sm backdrop-blur-md flex flex-col lg:h-[520px] h-[400px]">
             <div className="px-5 py-4 border-b border-border-slate/30 flex items-center justify-between bg-background-surface/30">
               <div>
                 <h3 className="text-xs font-bold font-mono uppercase tracking-wider text-text-primary">WAP Chart (Intraday VWAP)</h3>
@@ -2658,12 +2658,12 @@ function SymbolDetail({ instrument }: { instrument: ScannerInstrument }) {
                 Live 15M
               </span>
             </div>
-            <div className="p-1 flex-1 min-h-[350px]">
+            <div className="flex-1 min-h-0 relative">
               <TradingViewWidget
                 symbol={instrument.tvSymbol}
                 interval="15"
                 theme="light"
-                height={350}
+                height="100%"
                 studies={["VWAP@tv-basicstudies"]}
                 containerId="tv_vwap_chart"
               />
@@ -2671,7 +2671,7 @@ function SymbolDetail({ instrument }: { instrument: ScannerInstrument }) {
           </div>
 
           {/* Card 3: Gauge & Setup Dials + TF Metrics */}
-          <div className="lg:col-span-5 bg-background-surface/60 border border-border-slate/40 rounded-xl overflow-hidden shadow-sm backdrop-blur-md flex flex-col">
+          <div className="lg:col-span-5 bg-background-surface/60 border border-border-slate/40 rounded-xl overflow-hidden shadow-sm backdrop-blur-md flex flex-col lg:h-[520px] h-auto">
             <div className="px-5 py-4 border-b border-border-slate/30 bg-background-surface/30">
               <h3 className="text-xs font-bold font-mono uppercase tracking-wider text-text-primary">Sentiment & Setup Quality</h3>
               <p className="text-[9px] font-mono text-text-tertiary">Composite dial metric & timeframe signals</p>
@@ -2686,6 +2686,7 @@ function SymbolDetail({ instrument }: { instrument: ScannerInstrument }) {
                       tvSymbol={instrument.tvSymbol}
                       isVisible={true}
                       theme="light"
+                      height={220}
                     />
                   </div>
                 </div>

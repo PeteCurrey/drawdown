@@ -144,3 +144,123 @@ export function calculateATR(data: any[], period = 14): { time: any; value: numb
   
   return atrData;
 }
+
+export function calculateBollingerBands(data: any[], period = 20, multiplier = 2) {
+  const bands = [];
+  for (let i = 0; i < data.length; i++) {
+    if (i < period - 1) {
+      bands.push({ time: data[i].time, upper: null, middle: null, lower: null });
+      continue;
+    }
+    const window = data.slice(i - period + 1, i + 1);
+    const sma = window.reduce((sum, d) => sum + d.close, 0) / period;
+    const variance = window.reduce((sum, d) => sum + Math.pow(d.close - sma, 2), 0) / period;
+    const stdDev = Math.sqrt(variance);
+    bands.push({
+      time: data[i].time,
+      upper: sma + multiplier * stdDev,
+      middle: sma,
+      lower: sma - multiplier * stdDev
+    });
+  }
+  return bands;
+}
+
+export function calculateCCI(data: any[], period = 20) {
+  const cci = [];
+  const typicalPrices = data.map(d => (d.high + d.low + d.close) / 3);
+
+  for (let i = 0; i < data.length; i++) {
+    if (i < period - 1) {
+      cci.push({ time: data[i].time, value: null });
+      continue;
+    }
+    const windowTP = typicalPrices.slice(i - period + 1, i + 1);
+    const smaTP = windowTP.reduce((sum, val) => sum + val, 0) / period;
+    const meanDev = windowTP.reduce((sum, val) => sum + Math.abs(val - smaTP), 0) / period;
+    
+    const value = meanDev === 0 ? 0 : (typicalPrices[i] - smaTP) / (0.015 * meanDev);
+    cci.push({ time: data[i].time, value });
+  }
+  return cci;
+}
+
+export function calculateADX(data: any[], period = 14) {
+  const adx = [];
+  const tr = [];
+  const plusDM = [];
+  const minusDM = [];
+
+  // 1. Calculate TR, +DM, -DM
+  for (let i = 0; i < data.length; i++) {
+    if (i === 0) {
+      tr.push(data[0].high - data[0].low);
+      plusDM.push(0);
+      minusDM.push(0);
+      continue;
+    }
+
+    const highLow = data[i].high - data[i].low;
+    const highClose = Math.abs(data[i].high - data[i - 1].close);
+    const lowClose = Math.abs(data[i].low - data[i - 1].close);
+    tr.push(Math.max(highLow, highClose, lowClose));
+
+    const upMove = data[i].high - data[i - 1].high;
+    const downMove = data[i - 1].low - data[i].low;
+
+    if (upMove > downMove && upMove > 0) {
+      plusDM.push(upMove);
+    } else {
+      plusDM.push(0);
+    }
+
+    if (downMove > upMove && downMove > 0) {
+      minusDM.push(downMove);
+    } else {
+      minusDM.push(0);
+    }
+  }
+
+  // 2. Wilder's Smoothing for TR, +DM, -DM
+  let smoothedTR = tr.slice(0, period).reduce((a, b) => a + b, 0);
+  let smoothedPlusDM = plusDM.slice(0, period).reduce((a, b) => a + b, 0);
+  let smoothedMinusDM = minusDM.slice(0, period).reduce((a, b) => a + b, 0);
+
+  const dxList = [];
+
+  for (let i = 0; i < data.length; i++) {
+    if (i < period - 1) {
+      adx.push({ time: data[i].time, value: null });
+      dxList.push(null);
+      continue;
+    }
+
+    if (i > period - 1) {
+      smoothedTR = smoothedTR - smoothedTR / period + tr[i];
+      smoothedPlusDM = smoothedPlusDM - smoothedPlusDM / period + plusDM[i];
+      smoothedMinusDM = smoothedMinusDM - smoothedMinusDM / period + minusDM[i];
+    }
+
+    const plusDI = smoothedTR === 0 ? 0 : 100 * (smoothedPlusDM / smoothedTR);
+    const minusDI = smoothedTR === 0 ? 0 : 100 * (smoothedMinusDM / smoothedTR);
+
+    const sumDI = plusDI + minusDI;
+    const diffDI = Math.abs(plusDI - minusDI);
+    const dx = sumDI === 0 ? 0 : 100 * (diffDI / sumDI);
+    dxList.push(dx);
+
+    if (i < period * 2 - 2) {
+      adx.push({ time: data[i].time, value: null });
+    } else if (i === period * 2 - 2) {
+      const validDX = dxList.slice(period - 1, period * 2 - 1) as number[];
+      const initialADX = validDX.reduce((a, b) => a + b, 0) / period;
+      adx.push({ time: data[i].time, value: initialADX });
+    } else {
+      const prevADX = adx[i - 1].value as number;
+      const currentADX = (prevADX * (period - 1) + dx) / period;
+      adx.push({ time: data[i].time, value: currentADX });
+    }
+  }
+
+  return adx;
+}

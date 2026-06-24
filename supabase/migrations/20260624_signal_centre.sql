@@ -15,7 +15,12 @@ CREATE TABLE IF NOT EXISTS public.signals (
     confluence_factors JSONB NOT NULL,
     is_active BOOLEAN DEFAULT TRUE,
     created_at TIMESTAMPTZ DEFAULT now(),
-    expires_at TIMESTAMPTZ NOT NULL
+    expires_at TIMESTAMPTZ NOT NULL,
+    taapi_data JSONB,
+    coingecko_data JSONB,
+    coinglass_data JSONB,
+    ai_consensus JSONB,
+    dcs_score INTEGER
 );
 
 CREATE TABLE IF NOT EXISTS public.signals_saved (
@@ -59,3 +64,10 @@ DROP POLICY IF EXISTS "Users can manage own saved signals" ON public.signals_sav
 CREATE POLICY "Users can manage own saved signals" ON public.signals_saved FOR ALL USING (
     auth.uid() = user_id
 );
+
+-- Ensure columns exist in case the table was created previously without them
+ALTER TABLE public.signals ADD COLUMN IF NOT EXISTS taapi_data JSONB;
+ALTER TABLE public.signals ADD COLUMN IF NOT EXISTS coingecko_data JSONB;
+ALTER TABLE public.signals ADD COLUMN IF NOT EXISTS coinglass_data JSONB;
+ALTER TABLE public.signals ADD COLUMN IF NOT EXISTS ai_consensus JSONB;
+ALTER TABLE public.signals ADD COLUMN IF NOT EXISTS dcs_score INTEGER;

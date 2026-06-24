@@ -40,15 +40,31 @@ export default async function TechnicalScannerPage({
   const tier = (profile as any)?.subscription_tier as string | undefined;
   const userWeight = TIER_WEIGHT[tier ?? "free"] ?? 0;
 
+  const themeStyles = {
+    "--tool-accent": "#06b6d4",
+    "--tool-accent-hover": "#0891b2",
+    "--tool-accent-tint": "#ecfeff",
+    "--tool-accent-border": "#a5f3fc",
+    "--tool-accent-text": "#0e7490",
+  } as React.CSSProperties;
+
   if (userWeight < REQUIRED_WEIGHT) {
-    return <ScannerLockedState tier={tier} />;
+    return (
+      <div style={themeStyles}>
+        <ScannerLockedState tier={tier} />
+      </div>
+    );
   }
 
   // ── Resolve symbol from URL ─────────────────────────────────────────────
   const { symbol } = await searchParams;
   const resolvedSymbol = symbol?.toUpperCase().trim() || null;
 
-  return <ScannerClient symbol={resolvedSymbol} />;
+  return (
+    <div style={themeStyles}>
+      <ScannerClient symbol={resolvedSymbol} />
+    </div>
+  );
 }
 
 // ─── Locked state — free users ────────────────────────────────────────────

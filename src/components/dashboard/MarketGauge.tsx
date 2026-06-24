@@ -221,7 +221,7 @@ export function MarketGauge({
       const ly = labelPt.y + (isBottom ? 10 : 0);
 
       ctx.save();
-      ctx.fillStyle = "rgba(200,200,198,0.8)";
+      ctx.fillStyle = "#374151";
       ctx.font = `400 9px Inter, system-ui, sans-serif`;
       ctx.textAlign = isLeft ? "right" : "left";
       ctx.textBaseline = "middle";
@@ -275,7 +275,7 @@ export function MarketGauge({
   const trendUp = trend?.toUpperCase().includes("ABOVE");
 
   return (
-    <div className="flex flex-col w-full h-full">
+    <div className="flex flex-col w-full h-full bg-white">
 
       {/* ── Canvas fills the column naturally ── */}
       <div
@@ -343,14 +343,14 @@ export function MarketGauge({
       </div>
 
       {/* ── Stats row ── */}
-      <div className="flex justify-center items-center gap-10 py-4 px-6">
+      <div className="flex justify-center items-center gap-10 py-4 px-6 border-t border-gray-200 bg-white">
         {[
-          { label: "PRICE",    value: price,           color: "#fff" },
-          { label: "RSI (14)", value: rsi,             color: "#fff" },
-          { label: "TREND",    value: trend,           color: trendUp ? "#00C896" : "#CE6969" },
+          { label: "PRICE",    value: price,           color: "#111827" },
+          { label: "RSI (14)", value: rsi,             color: "#111827" },
+          { label: "TREND",    value: trend,           color: trendUp ? "#16a34a" : "#dc2626" },
         ].map(({ label: l, value, color }) => (
           <div key={l} className="text-center">
-            <p className="text-[9px] font-mono uppercase tracking-widest text-[#555552] mb-1.5">{l}</p>
+            <p className="text-[9px] font-mono uppercase tracking-widest text-[#9ca3af] mb-1.5">{l}</p>
             <p
               className="text-[13px] font-light font-mono"
               style={{ color, fontVariantNumeric: "tabular-nums" }}

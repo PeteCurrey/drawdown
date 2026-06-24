@@ -1328,7 +1328,7 @@ function AdvancedSizingTab({ balance, riskPct, sym }: { balance: number; riskPct
                       {Array.from({ length: 20 }, (_, i) => (
                         <Line key={i} dataKey={`c${i}`} stroke="#cbd5e1" strokeWidth={0.8} dot={false} isAnimationActive={false} />
                       ))}
-                      <Line dataKey="median" stroke="#00e5cc" strokeWidth={2.5} dot={false} isAnimationActive={false} name="Median" />
+                      <Line dataKey="median" stroke="var(--tool-accent)" strokeWidth={2.5} dot={false} isAnimationActive={false} name="Median" />
                       <Line dataKey="worst10" stroke="#ef4444" strokeWidth={1.5} dot={false} strokeDasharray="4 2" isAnimationActive={false} name="Worst 10%" />
                     </LineChart>
                   </ResponsiveContainer>

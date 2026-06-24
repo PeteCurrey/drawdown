@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import { TrendingUp, TrendingDown } from "lucide-react";
 import { AreaChart, Area, ResponsiveContainer } from "recharts";
 
-const C = "#00e5cc";   // Journal cyan accent
+const C = "var(--tool-accent)";
 
 interface QuoteData {
   price:    number;
@@ -59,12 +59,12 @@ export function MarketWidget({ instrument }: { instrument: string }) {
   const positive = (data?.changePct ?? 0) >= 0;
 
   return (
-    <div style={{ border: "1px solid #222", backgroundColor: "#111" }}>
-      <div className="flex items-center justify-between px-4 py-2.5 border-b" style={{ borderColor: "#1E1E1E" }}>
+    <div className="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm">
+      <div className="flex items-center justify-between px-4 py-2.5 border-b border-gray-100 bg-white">
         <span className="text-[10px] font-mono font-bold text-gray-900 uppercase tracking-widest">
           {instrument}
         </span>
-        <span className="text-[8px] font-mono text-gray-400/50">Live · FinnHub · 60s refresh</span>
+        <span className="text-[8px] font-mono text-gray-400">Live · FinnHub · 60s refresh</span>
       </div>
 
       {loading ? (
@@ -81,9 +81,9 @@ export function MarketWidget({ instrument }: { instrument: string }) {
             </p>
             <div className="flex items-center gap-1 mt-0.5">
               {positive
-                ? <TrendingUp  className="w-3 h-3 text-green-400" />
-                : <TrendingDown className="w-3 h-3 text-red-400" />}
-              <span className={`text-[10px] font-mono font-bold ${positive ? "text-green-400" : "text-red-400"}`}>
+                ? <TrendingUp  className="w-3 h-3 text-green-600" />
+                : <TrendingDown className="w-3 h-3 text-red-600" />}
+              <span className={`text-[10px] font-mono font-bold ${positive ? "text-green-600" : "text-red-600"}`}>
                 {positive ? "+" : ""}{data.change.toFixed(data.price > 100 ? 2 : 5)} ({positive ? "+" : ""}{data.changePct.toFixed(2)}%)
               </span>
             </div>
@@ -104,14 +104,14 @@ export function MarketWidget({ instrument }: { instrument: string }) {
                 <AreaChart data={data.sparkline} margin={{ top: 2, bottom: 2, left: 0, right: 0 }}>
                   <defs>
                     <linearGradient id="sparkGrad" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%"  stopColor={positive ? "#22C55E" : "#EF4444"} stopOpacity={0.3} />
-                      <stop offset="95%" stopColor={positive ? "#22C55E" : "#EF4444"} stopOpacity={0} />
+                      <stop offset="5%"  stopColor={positive ? "#16a34a" : "#dc2626"} stopOpacity={0.2} />
+                      <stop offset="95%" stopColor={positive ? "#16a34a" : "#dc2626"} stopOpacity={0} />
                     </linearGradient>
                   </defs>
                   <Area
                     type="monotone"
                     dataKey="v"
-                    stroke={positive ? "#22C55E" : "#EF4444"}
+                    stroke={positive ? "#16a34a" : "#dc2626"}
                     strokeWidth={1.5}
                     fill="url(#sparkGrad)"
                     dot={false}

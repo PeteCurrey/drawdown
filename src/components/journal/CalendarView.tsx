@@ -97,14 +97,14 @@ export function CalendarView({ trades, onSelectTrade }: { trades: TradeEntry[]; 
       <div
         className={cn(
           "min-h-[100px] p-2 border border-gray-100 rounded-lg cursor-pointer transition-all select-none",
-          hasTrades ? "hover:border-[#00e5cc]/50 hover:shadow-sm" : "hover:bg-gray-50",
-          isToday ? "ring-2 ring-[#00e5cc] border-[#00e5cc]/30" : "",
-          isExpanded ? "bg-[#00e5cc]/5 border-[#00e5cc]/30" : "bg-white",
+          hasTrades ? "hover:border-[var(--tool-accent-border)] hover:shadow-sm" : "hover:bg-gray-50",
+          isToday ? "ring-2 ring-[var(--tool-accent)] border-[var(--tool-accent-border)]" : "",
+          isExpanded ? "bg-[var(--tool-accent-tint)] border-[var(--tool-accent-border)]" : "bg-white",
         )}
         onClick={() => setExpandedDay(isExpanded ? null : dateStr)}
       >
         <div className="flex items-start justify-between">
-          <span className={cn("text-xs font-bold", isToday ? "text-[#00e5cc]" : "text-gray-700")}>
+          <span className={cn("text-xs font-bold", isToday ? "text-[var(--tool-accent-text)]" : "text-gray-700")}>
             {parseInt(dateStr.split("-")[2])}
           </span>
           {hasTrades && (
@@ -174,7 +174,7 @@ export function CalendarView({ trades, onSelectTrade }: { trades: TradeEntry[]; 
             </div>
             {/* Expanded day panel */}
             {expandedRowIndex === rowIdx && expandedDay && dayMap[expandedDay] && (
-              <div className="bg-white border border-[#00e5cc]/20 rounded-xl p-4 shadow-sm animate-in fade-in slide-in-from-top-2 duration-200">
+              <div className="bg-white border border-[var(--tool-accent-border)] rounded-xl p-4 shadow-sm animate-in fade-in slide-in-from-top-2 duration-200">
                 <h4 className="text-xs font-black text-black mb-3">
                   {new Date(expandedDay + "T12:00:00").toLocaleDateString("en-GB", { weekday: "long", day: "numeric", month: "long", year: "numeric" })}
                 </h4>
@@ -184,7 +184,7 @@ export function CalendarView({ trades, onSelectTrade }: { trades: TradeEntry[]; 
                     return (
                       <div key={t.id}
                         onClick={() => onSelectTrade(t)}
-                        className="flex items-center gap-3 p-3 rounded-lg border border-gray-100 hover:border-[#00e5cc]/30 hover:bg-[#00e5cc]/5 cursor-pointer transition-all">
+                        className="flex items-center gap-3 p-3 rounded-lg border border-gray-100 hover:border-[var(--tool-accent-border)] hover:bg-[var(--tool-accent-tint)] cursor-pointer transition-all">
                         <span className={cn("text-[9px] font-black uppercase px-2 py-1 rounded-full",
                           t.direction === "BUY" ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700")}>
                           {t.direction}

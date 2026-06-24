@@ -29,11 +29,11 @@ function MessageBubble({ msg, isLast }: { msg: ChatMessage & { timestamp: string
     <div className={`flex ${isUser ? "justify-end" : "justify-start"} mb-3`}>
       <div className={`max-w-[85%] ${isUser ? "" : "flex flex-col gap-1"}`}>
         {!isUser && (
-          <span className="text-[9px] font-black uppercase tracking-widest text-[#00e5cc] px-1">COACH</span>
+          <span className="text-[9px] font-black uppercase tracking-widest text-[var(--tool-accent-text)] px-1">COACH</span>
         )}
         <div className={`px-4 py-3 rounded-2xl text-sm leading-relaxed ${
           isUser
-            ? "bg-[#00e5cc] text-black rounded-tr-sm font-medium"
+            ? "bg-[var(--tool-accent)] text-white rounded-tr-sm font-medium"
             : "bg-white border border-gray-100 shadow-sm rounded-tl-sm text-gray-800"
         }`}>
           {/* Render newlines in assistant responses */}
@@ -51,11 +51,11 @@ function TypingIndicator() {
   return (
     <div className="flex justify-start mb-3">
       <div className="flex flex-col gap-1">
-        <span className="text-[9px] font-black uppercase tracking-widest text-[#00e5cc] px-1">COACH</span>
+        <span className="text-[9px] font-black uppercase tracking-widest text-[var(--tool-accent-text)] px-1">COACH</span>
         <div className="bg-white border border-gray-100 shadow-sm rounded-2xl rounded-tl-sm px-4 py-3">
           <div className="flex gap-1 items-center">
             {[0,1,2].map(i => (
-              <div key={i} className="w-2 h-2 rounded-full bg-[#00e5cc] animate-bounce"
+              <div key={i} className="w-2 h-2 rounded-full bg-[var(--tool-accent)] animate-bounce"
                 style={{ animationDelay: `${i * 0.15}s` }} />
             ))}
           </div>
@@ -128,7 +128,7 @@ export function AiCoach({ trades }: { trades: TradeEntry[] }) {
               <button key={q.text}
                 onClick={() => sendMessage(`${q.icon} ${q.text}`)}
                 disabled={loading}
-                className="w-full text-left px-3 py-2.5 rounded-lg border border-gray-100 hover:border-[#00e5cc]/40 hover:bg-[#00e5cc]/5 text-[10px] text-gray-600 hover:text-black transition-all disabled:opacity-50 disabled:cursor-not-allowed">
+                className="w-full text-left px-3 py-2.5 rounded-lg border border-gray-100 hover:border-[var(--tool-accent-border)] hover:bg-[var(--tool-accent-tint)] text-[10px] text-gray-600 hover:text-[var(--tool-accent-text)] transition-all disabled:opacity-50 disabled:cursor-not-allowed">
                 <span className="mr-1.5">{q.icon}</span>{q.text}
               </button>
             ))}
@@ -140,15 +140,15 @@ export function AiCoach({ trades }: { trades: TradeEntry[] }) {
       <div className="flex-1 bg-white rounded-xl border border-gray-100 shadow-sm flex flex-col overflow-hidden">
         {/* Header */}
         <div className="flex items-center gap-3 px-5 py-4 border-b border-gray-100 shrink-0">
-          <div className="w-8 h-8 rounded-full bg-[#00e5cc]/20 flex items-center justify-center">
-            <Bot className="w-4 h-4 text-[#00c8a0]" />
+          <div className="w-8 h-8 rounded-full bg-[var(--tool-accent-tint)] border border-[var(--tool-accent-border)] flex items-center justify-center">
+            <Bot className="w-4 h-4 text-[var(--tool-accent-text)]" />
           </div>
           <div>
             <div className="flex items-center gap-2">
               <p className="text-sm font-black text-black">AI COACH</p>
               <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#00e5cc] opacity-75" />
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#00e5cc]" />
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[var(--tool-accent)] opacity-75" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-[var(--tool-accent)]" />
               </span>
             </div>
             <p className="text-[9px] text-gray-400">Powered by Claude · Full access to your trading history</p>
@@ -160,8 +160,8 @@ export function AiCoach({ trades }: { trades: TradeEntry[] }) {
           {/* Welcome */}
           <div className="flex justify-start mb-4">
             <div className="flex flex-col gap-1">
-              <span className="text-[9px] font-black uppercase tracking-widest text-[#00e5cc] px-1">COACH</span>
-              <div className="bg-[#00e5cc]/10 border border-[#00e5cc]/20 rounded-2xl rounded-tl-sm px-4 py-3 max-w-[85%]">
+              <span className="text-[9px] font-black uppercase tracking-widest text-[var(--tool-accent-text)] px-1">COACH</span>
+              <div className="bg-[var(--tool-accent-tint)] border border-[var(--tool-accent-border)] rounded-2xl rounded-tl-sm px-4 py-3 max-w-[85%]">
                 <p className="text-sm text-black leading-relaxed">{welcomeText}</p>
               </div>
             </div>
@@ -187,10 +187,10 @@ export function AiCoach({ trades }: { trades: TradeEntry[] }) {
               disabled={loading}
               placeholder="Ask your coach... (Enter to send, Shift+Enter for newline)"
               rows={1}
-              className="flex-1 resize-none px-4 py-3 rounded-xl border border-gray-200 text-sm text-black bg-white focus:outline-none focus:border-[#00e5cc] focus:ring-1 focus:ring-[#00e5cc]/30 transition-all disabled:opacity-60 placeholder:text-gray-400"
+              className="flex-1 resize-none px-4 py-3 rounded-xl border border-gray-200 text-sm text-black bg-white focus:outline-none focus:border-[var(--tool-accent)] focus:ring-1 focus:ring-[var(--tool-accent-border)] transition-all disabled:opacity-60 placeholder:text-gray-400"
             />
             <button onClick={() => sendMessage(input)} disabled={loading || !input.trim()}
-              className="flex-shrink-0 w-10 h-10 flex items-center justify-center rounded-xl bg-[#00e5cc] hover:bg-[#00c8a0] text-black transition-all disabled:opacity-40 disabled:cursor-not-allowed">
+              className="flex-shrink-0 w-10 h-10 flex items-center justify-center rounded-xl bg-[var(--tool-accent)] hover:bg-[var(--tool-accent-hover)] text-white transition-all disabled:opacity-40 disabled:cursor-not-allowed">
               {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
             </button>
           </div>

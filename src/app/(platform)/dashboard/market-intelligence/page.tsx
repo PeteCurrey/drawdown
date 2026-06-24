@@ -270,6 +270,8 @@ export default function MarketIntelligencePage() {
   // Live data
   const hookSlug = selectedInst.hookSlug;
   const md = useMarketData(hookSlug, selectedInterval);
+  const biasScore = md.biasScore ?? 50;
+  const biasLabel = biasScore >= 50 ? "BULLISH BIAS" : "BEARISH BIAS";
 
   // Calendar events
   const [calEvents, setCalEvents] = useState<any[]>([]);
@@ -403,157 +405,140 @@ export default function MarketIntelligencePage() {
         Focus on the <strong>non-commercial net position</strong>. When speculators are heavily net long, institutional
         money is bullish. Extreme readings often signal potential reversals.
       </SlideOverSection>
-      <SlideOverSection label="Why it's not yet live">
-        COT data requires a CFTC/Quandl API integration. This is on the roadmap. In the meantime,
-        you can access the raw data directly:
-      </SlideOverSection>
-      <a
-        href="https://www.cftc.gov/MarketReports/CommitmentsofTraders/index.htm"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="flex items-center gap-2 text-[13px] font-medium rounded-lg px-4 py-2.5 border transition-colors hover:bg-gray-50"
-        style={{ color: C.primary, borderColor: C.border }}
-      >
-        <ExternalLink className="w-4 h-4" />
-        CFTC Reports (updated Fridays)
-      </a>
     </>
   );
 
-  const biasScore = md.biasScore ?? selectedInst.defaultPct;
-  const biasLabel = biasScore >= 50 ? "Bullish Bias" : "Bearish Bias";
+  const themeStyles = {
+    "--tool-accent": "#F9771D",
+    "--tool-accent-hover": "#e0600d",
+    "--tool-accent-tint": "rgba(249, 119, 29, 0.06)",
+    "--tool-accent-border": "rgba(249, 119, 29, 0.25)",
+    "--tool-accent-text": "#F9771D",
+  } as React.CSSProperties;
 
   // ── Render ────────────────────────────────────────────────────────────────
   return (
-    <div className="min-h-screen" style={{ background: C.bg }}>
-      {/* ── Hero panel (stays dark) ─────────────────────────────────────────── */}
-      <section
-        className="text-white"
-        style={{ background: "#0a0a0f", borderBottom: "1px solid rgba(255,255,255,0.06)" }}
-      >
-        {/* Header */}
-        <div
-          className="flex items-center justify-between px-6 md:px-10 py-4"
-          style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}
+    <div className="min-h-screen" style={{ ...themeStyles, background: C.bg }}>
+      {/* ── Hero panel (white card container) ───────────────────────────────── */}
+      <div className="px-6 md:px-10 pt-6">
+        <section
+          className="bg-white border rounded-xl overflow-hidden shadow-sm"
+          style={{ borderColor: C.border }}
         >
-          <div className="flex items-center gap-4">
-            <Link
-              href="/dashboard"
-              className="p-2 rounded-lg hover:bg-white/[0.06] transition-colors"
-              aria-label="Back to Overview"
-            >
-              <ChevronLeft className="w-4 h-4 text-white/50" />
-            </Link>
-            <div>
-              <span className="text-[10px] font-mono text-white/35 uppercase tracking-widest block">
-                <Link href="/dashboard" className="hover:text-white/60 transition-colors">Analysis Centre</Link>
-                {" / "}
-                <span className="text-white/60 font-semibold">Market Intelligence</span>
-              </span>
-              <div className="flex items-center gap-2 mt-0.5">
-                <h1 className="text-[17px] font-bold">Market Intelligence</h1>
-                {/* Instrument selector */}
-                <div className="relative">
-                  <button
-                    onClick={() => setDropdownOpen(!dropdownOpen)}
-                    className="flex items-center gap-1.5 text-[12px] font-mono px-3 py-1 rounded-md transition-colors hover:bg-white/[0.08]"
-                    style={{ background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.10)" }}
-                  >
-                    {selectedInst.name}
-                    <ChevronDown className="w-3 h-3 text-white/40" />
-                  </button>
-                  {dropdownOpen && (
-                    <div
-                      className="absolute top-full left-0 mt-1 py-1 z-[99] min-w-[180px] rounded-xl border border-white/10 max-h-72 overflow-y-auto"
-                      style={{ background: "rgba(18,18,24,0.98)", backdropFilter: "blur(12px)" }}
+          {/* Header */}
+          <div
+            className="flex flex-col sm:flex-row sm:items-center justify-between px-6 py-4 border-b border-gray-100 gap-4"
+          >
+            <div className="flex items-center gap-4">
+              <Link
+                href="/dashboard"
+                className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
+                aria-label="Back to Overview"
+              >
+                <ChevronLeft className="w-4 h-4 text-gray-500" />
+              </Link>
+              <div>
+                <span className="text-[10px] font-mono text-gray-400 uppercase tracking-widest block">
+                  <Link href="/dashboard" className="hover:text-gray-600 transition-colors">Analysis Centre</Link>
+                  {" / "}
+                  <span className="text-gray-600 font-semibold">Market Intelligence</span>
+                </span>
+                <div className="flex items-center gap-2 mt-0.5">
+                  <h1 className="text-[17px] font-bold text-gray-900">Market Intelligence</h1>
+                  {/* Instrument selector */}
+                  <div className="relative">
+                    <button
+                      onClick={() => setDropdownOpen(!dropdownOpen)}
+                      className="flex items-center gap-1.5 text-[12px] font-mono px-3 py-1 rounded-md transition-colors hover:bg-gray-100 border border-gray-200 text-gray-900 bg-gray-50"
                     >
-                      {INSTRUMENT_GROUPS.map(group => (
-                        <div key={group.label}>
-                          <div className="px-3 pt-2 pb-1 text-[9px] font-mono uppercase tracking-widest text-white/30">
-                            {group.label}
+                      {selectedInst.name}
+                      <ChevronDown className="w-3 h-3 text-gray-400" />
+                    </button>
+                    {dropdownOpen && (
+                      <div
+                        className="absolute top-full left-0 mt-1 py-1 z-[99] min-w-[180px] rounded-xl border border-gray-200 shadow-lg bg-white max-h-72 overflow-y-auto"
+                      >
+                        {INSTRUMENT_GROUPS.map(group => (
+                          <div key={group.label}>
+                            <div className="px-3 pt-2 pb-1 text-[9px] font-mono uppercase tracking-widest text-gray-400">
+                              {group.label}
+                            </div>
+                            {group.items.map(inst => (
+                              <button
+                                key={inst.slug}
+                                onClick={() => { setSelectedInst(inst); setDropdownOpen(false); }}
+                                className={cn(
+                                  "w-full text-left px-3 py-1.5 text-[12px] transition-colors",
+                                  inst.slug === selectedInst.slug
+                                    ? "text-[#00b880] font-semibold bg-gray-50"
+                                    : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
+                                )}
+                              >
+                                {inst.name}
+                              </button>
+                            ))}
                           </div>
-                          {group.items.map(inst => (
-                            <button
-                              key={inst.slug}
-                              onClick={() => { setSelectedInst(inst); setDropdownOpen(false); }}
-                              className={cn(
-                                "w-full text-left px-3 py-1.5 text-[12px] transition-colors",
-                                inst.slug === selectedInst.slug
-                                  ? "text-[#00C896] font-semibold"
-                                  : "text-white/65 hover:text-white hover:bg-white/[0.06]"
-                              )}
-                            >
-                              {inst.name}
-                            </button>
-                          ))}
-                        </div>
-                      ))}
-                    </div>
-                  )}
+                        ))}
+                      </div>
+                    )}
+                  </div>
                 </div>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-4">
+              <div className="flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-[#18B880] animate-pulse" />
+                <span className="text-[11px] text-gray-600 font-mono uppercase tracking-wider">
+                  {currentSession()} · Live
+                </span>
+              </div>
+
+              {/* Timeframe selector */}
+              <div className="flex gap-1 bg-gray-50 border border-gray-200 p-1 rounded-lg">
+                {TIMEFRAMES.map(tf => (
+                  <button
+                    key={tf.interval}
+                    onClick={() => setSelectedInterval(tf.interval)}
+                    className={cn(
+                      "px-2.5 py-1 text-[11px] font-bold font-mono tracking-wide transition-all",
+                      selectedInterval === tf.interval
+                        ? "bg-white text-gray-900 shadow-sm rounded-md"
+                        : "text-gray-500 hover:text-gray-900"
+                    )}
+                  >
+                    {tf.label}
+                  </button>
+                ))}
               </div>
             </div>
           </div>
 
-          <div className="flex items-center gap-4">
-            <div className="flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-[#00C896] animate-pulse" />
-              <span className="text-[11px] text-white/45 font-mono uppercase tracking-wider">
-                {currentSession()} · Live
-              </span>
+          {/* Gauge + feed */}
+          <div className="flex flex-col xl:flex-row gap-0 xl:gap-0 bg-white">
+            <div className="flex-grow p-6 md:p-10 pb-6 bg-white">
+              <MarketGauge
+                percentage={biasScore}
+                label={biasLabel}
+                instrument={selectedInst.name}
+                price={md.price !== null ? fmtPrice(md.price, hookSlug) : "—"}
+                rsi={md.rsi !== null ? md.rsi.toFixed(1) : "—"}
+                trend={md.trendLabel}
+              />
             </div>
 
-            {/* Timeframe selector */}
-            <div className="flex rounded-lg overflow-hidden" style={{ background: "rgba(255,255,255,0.06)" }}>
-              {TIMEFRAMES.map(tf => (
-                <button
-                  key={tf.interval}
-                  onClick={() => setSelectedInterval(tf.interval)}
-                  className={cn(
-                    "px-3 py-1.5 text-[12px] font-bold font-mono tracking-wide transition-all",
-                    selectedInterval === tf.interval
-                      ? "bg-white text-[#0a0a0f]"
-                      : "text-white/45 hover:text-white/80"
-                  )}
-                >
-                  {tf.label}
-                </button>
-              ))}
+            {/* Live feed sidebar */}
+            <div
+              className="xl:w-[300px] shrink-0 p-4 flex flex-col bg-white"
+              style={{ borderLeft: "1px solid #f3f4f6", minHeight: 320 }}
+            >
+              <div className="flex-1 overflow-y-auto bg-white">
+                <LiveFeed items={feedItems} theme="light" />
+              </div>
             </div>
           </div>
-        </div>
-
-        {/* Gauge + feed */}
-        <div className="flex flex-col xl:flex-row gap-0 xl:gap-0">
-          <div className="flex-1 p-6 md:p-10 pb-6">
-            <MarketGauge
-              percentage={biasScore}
-              label={biasLabel}
-              instrument={selectedInst.name}
-              price={md.price !== null ? fmtPrice(md.price, hookSlug) : "—"}
-              rsi={md.rsi !== null ? md.rsi.toFixed(1) : "—"}
-              trend={md.trendLabel}
-            />
-          </div>
-
-          {/* Live feed sidebar */}
-          <div
-            className="xl:w-[300px] shrink-0 p-4 flex flex-col"
-            style={{ borderLeft: "1px solid rgba(255,255,255,0.06)", minHeight: 320 }}
-          >
-            <div className="flex items-center gap-2 mb-3">
-              <span className="text-[10px] font-mono uppercase tracking-widest text-white/50">Live Feed</span>
-              <span
-                className="text-[9px] font-mono text-[#00C896] px-1.5 py-0.5 rounded"
-                style={{ background: "rgba(0,200,150,0.08)", border: "1px solid rgba(0,200,150,0.15)" }}
-              >24H</span>
-            </div>
-            <div className="flex-1 overflow-y-auto">
-              <LiveFeed items={feedItems} />
-            </div>
-          </div>
-        </div>
-      </section>
+        </section>
+      </div>
 
       {/* ── Metric cards row (white bg) ─────────────────────────────────────── */}
       <section className="px-6 md:px-10 py-6">

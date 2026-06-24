@@ -8,7 +8,7 @@ import type { OutputLanguage } from "@/types/algo-builder";
 import { AlgoBuilderCourseBanner } from "@/components/courses/AlgoBuilderCourseBanner";
 
 // ─── Design tokens — exact match to Trade Journal ─────────────────────────────
-const C = "#00e5cc";   // Journal cyan accent
+const C = "var(--tool-accent)";
 
 // Lazy-load syntax highlighter to avoid SSR issues and reduce initial bundle
 const SyntaxHighlighter = dynamic(
@@ -196,11 +196,11 @@ export function CodeOutput({
               <RefreshCw className="w-3 h-3" />
               Regenerate
             </button>
-            {/* Save — Journal primary (teal bg, black text) */}
+            {/* Save — Violet primary (violet bg, white text) */}
             <button
               onClick={onLibraryOpen}
               className="px-3 py-1.5 text-[9px] font-mono font-bold uppercase tracking-wider transition-all rounded-md hover:opacity-90"
-              style={{ backgroundColor: C, color: "#000" }}
+              style={{ backgroundColor: C, color: "#ffffff" }}
             >
               Save
             </button>
@@ -217,8 +217,8 @@ export function CodeOutput({
 
       {/* Code area — intentionally dark (GitHub dark #0d1117 — VS Code aesthetic, expected by users) */}
       <div
-        className="relative flex-1 overflow-auto"
-        style={{ backgroundColor: "#0d1117", maxHeight: 480, borderRadius: hasCode ? 0 : "0 0 12px 12px" }}
+        className="relative flex-1 overflow-auto mx-3 my-3 rounded-lg border border-[#30363d]"
+        style={{ backgroundColor: "#0d1117", maxHeight: 480 }}
       >
         {isGenerating && !hasCode && <GeneratingAnim />}
         {!hasCode && !isGenerating && <CodePlaceholder />}
@@ -302,7 +302,7 @@ export function CodeOutput({
                 onClick={fixError}
                 disabled={!errorText.trim() || fixGenerating}
                 className="px-6 py-2.5 text-[10px] font-mono font-bold uppercase tracking-widest transition-all disabled:opacity-40 rounded-lg hover:opacity-90"
-                style={{ backgroundColor: C, color: "#000" }}
+                style={{ backgroundColor: C, color: "#ffffff" }}
               >
                 {fixGenerating ? "Fixing…" : "Fix Error with QuantCoder"}
               </button>

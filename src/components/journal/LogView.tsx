@@ -104,7 +104,7 @@ export function LogView({ trades, onSelectTrade }: { trades: TradeEntry[]; onSel
               return (
                 <tr key={t.id}
                   onClick={() => onSelectTrade(t)}
-                  className="border-b border-gray-50 hover:bg-[#00e5cc]/5 cursor-pointer transition-colors group">
+                  className="border-b border-gray-50 hover:bg-[var(--tool-accent-tint)] cursor-pointer transition-colors group">
                   <td className="py-3 pr-4 pl-4">
                     <div className="text-[10px] font-bold text-black">{new Date(t.trading_day + "T12:00:00").toLocaleDateString("en-GB", { day: "2-digit", month: "short" })}</div>
                     <div className="text-[9px] text-gray-400">{new Date(t.entry_time).toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" })}</div>

@@ -12,7 +12,7 @@ import { LogTradeModal } from "./LogTradeModal";
 import { TradeDetailPanel } from "./TradeDetailPanel";
 
 // ─── Design tokens (journal uses cyan accent, white cards) ────────────────────
-const CYAN = "#00e5cc";
+const CYAN = "var(--tool-accent)";
 
 type View = "log" | "analytics" | "calendar" | "coach";
 
@@ -232,7 +232,7 @@ export function JournalClient({ initialView, userId }: JournalClientProps) {
         <div className="flex flex-col items-center justify-center py-24 gap-4 text-center">
           <div
             className="w-16 h-16 flex items-center justify-center rounded-full border-2"
-            style={{ borderColor: `${CYAN}40`, backgroundColor: `${CYAN}10` }}
+            style={{ borderColor: "var(--tool-accent-border)", backgroundColor: "var(--tool-accent-tint)" }}
           >
             <BookOpen className="w-7 h-7" style={{ color: CYAN }} />
           </div>

@@ -8,7 +8,7 @@ import {
 import { AlertTriangle } from "lucide-react";
 import type { OutputLanguage, HealthCheckResult } from "@/types/algo-builder";
 
-const C = "#00e5cc";   // Journal cyan accent
+const C = "var(--tool-accent)";
 
 const TD_INTERVAL: Record<string, string> = {
   "1m": "1min", "5m": "5min", "15m": "15min", "1H": "1h",
@@ -128,16 +128,16 @@ function simulateSignals(
 function MetricCard({
   label, value, suffix = "", green, amber,
 }: { label: string; value: number | string; suffix?: string; green: boolean; amber: boolean }) {
-  const color = green ? "#22C55E" : amber ? "#F59E0B" : "#EF4444";
+  const color = green ? "#16a34a" : amber ? "#d97706" : "#dc2626"; // AA compliant colors on white/light-grey
   return (
     <div
-      className="flex flex-col items-center justify-center p-4 text-center"
-      style={{ backgroundColor: "#111", border: "1px solid #222" }}
+      className="flex flex-col items-center justify-center p-4 text-center rounded-lg"
+      style={{ backgroundColor: "#f9fafb", border: "1px solid #e5e7eb" }}
     >
       <span className="text-2xl font-display font-bold" style={{ color }}>
         {value}{suffix}
       </span>
-      <span className="text-[9px] font-mono text-gray-400 uppercase tracking-widest mt-1">{label}</span>
+      <span className="text-[9px] font-mono text-gray-500 uppercase tracking-widest mt-1">{label}</span>
     </div>
   );
 }
@@ -212,11 +212,11 @@ export function HealthCheck({
   }, [generatedCode, instrument, timeframe, show, onToggle]);
 
   return (
-    <div style={{ border: "1px solid #222" }}>
+    <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
       {/* Header */}
       <div
         className="flex items-center justify-between px-4 py-3"
-        style={{ backgroundColor: "#111", borderBottom: show ? "1px solid #222" : "none" }}
+        style={{ backgroundColor: "#ffffff", borderBottom: show ? "1px solid #e5e7eb" : "none" }}
       >
         <div>
           <p className="text-[11px] font-mono font-bold uppercase tracking-widest text-gray-900">
@@ -238,7 +238,7 @@ export function HealthCheck({
           <button
             onClick={runHealthCheck}
             disabled={loading}
-            className="px-4 py-2 text-[10px] font-mono font-bold uppercase tracking-widest text-black disabled:opacity-50"
+            className="px-4 py-2 text-[10px] font-mono font-bold uppercase tracking-widest text-white disabled:opacity-50 rounded-lg hover:opacity-90 transition-all"
             style={{ backgroundColor: C }}
           >
             {loading ? "Running…" : result ? "Re-run" : "Run Health Check"}
@@ -248,7 +248,7 @@ export function HealthCheck({
 
       {/* Loading */}
       {loading && (
-        <div className="px-4 py-6 flex flex-col items-center gap-3" style={{ backgroundColor: "#0A0A0A" }}>
+        <div className="px-4 py-6 flex flex-col items-center gap-3 bg-white">
           <div className="flex gap-1">
             {[0, 1, 2].map(i => (
               <div
@@ -258,20 +258,20 @@ export function HealthCheck({
               />
             ))}
           </div>
-          <p className="text-[11px] font-mono text-gray-400">{phase}</p>
+          <p className="text-[11px] font-mono text-gray-500">{phase}</p>
         </div>
       )}
 
       {/* Error */}
       {error && !loading && (
-        <div className="px-4 py-4" style={{ backgroundColor: "#0A0A0A" }}>
-          <p className="text-xs font-mono text-red-400">{error}</p>
+        <div className="px-4 py-4 bg-white">
+          <p className="text-xs font-mono text-red-500">{error}</p>
         </div>
       )}
 
       {/* Results */}
       {result && show && !loading && (
-        <div className="space-y-4 p-4" style={{ backgroundColor: "#0A0A0A" }}>
+        <div className="space-y-4 p-4 bg-white">
           {/* Metric cards */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
             <MetricCard
@@ -306,27 +306,27 @@ export function HealthCheck({
 
           {/* Equity curve */}
           {result.equityCurve.length > 3 && (
-            <div style={{ backgroundColor: "#0A0A0A", border: "1px solid #1A1A1A" }}>
-              <p className="px-4 pt-3 text-[9px] font-mono text-gray-400 uppercase tracking-widest">
+            <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
+              <p className="px-4 pt-3 text-[9px] font-mono text-gray-500 uppercase tracking-widest">
                 Simulated Equity Curve — Starting £10,000
               </p>
               <div className="h-48 p-2">
                 <ResponsiveContainer width="100%" height="100%">
                   <LineChart data={result.equityCurve}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#1A1A1A" />
+                    <CartesianGrid strokeDasharray="3 3" stroke="#f3f4f6" />
                     <XAxis dataKey="date" hide />
                     <YAxis
                       domain={["auto", "auto"]}
-                      tick={{ fontSize: 9, fill: "#555", fontFamily: "monospace" }}
+                      tick={{ fontSize: 9, fill: "#6b7280", fontFamily: "monospace" }}
                       tickFormatter={(v: number) => `£${(v / 1000).toFixed(1)}k`}
                       width={48}
                     />
                     <Tooltip
-                      contentStyle={{ backgroundColor: "#111", border: "1px solid #333", borderRadius: 0 }}
-                      labelStyle={{ color: "#666", fontSize: 10 }}
+                      contentStyle={{ backgroundColor: "#ffffff", border: "1px solid #e5e7eb", borderRadius: 8 }}
+                      labelStyle={{ color: "#6b7280", fontSize: 10 }}
                       formatter={(v: any) => [`£${Number(v).toLocaleString()}`, "Portfolio"]}
                     />
-                    <ReferenceLine y={10_000} stroke="#333" strokeDasharray="4 4" />
+                    <ReferenceLine y={10_000} stroke="#d1d5db" strokeDasharray="4 4" />
                     <Line
                       type="monotone"
                       dataKey="value"
@@ -343,10 +343,10 @@ export function HealthCheck({
 
           {/* Disclaimer */}
           <div
-            className="px-4 py-3 border-l-4"
-            style={{ borderLeftColor: C, backgroundColor: `${C}08` }}
+            className="px-4 py-3 border-l-4 rounded-r-lg"
+            style={{ borderLeftColor: C, backgroundColor: `${C}0d` }}
           >
-            <p className="text-[10px] font-mono text-gray-500 leading-relaxed flex gap-2">
+            <p className="text-[10px] font-mono text-gray-600 leading-relaxed flex gap-2">
               <AlertTriangle className="w-3.5 h-3.5 shrink-0 mt-0.5" style={{ color: C }} />
               This is a simplified signal simulation for illustrative purposes only. It does not
               account for slippage, spread, overnight swap, or real execution conditions. Always

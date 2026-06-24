@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Copy, Check, ExternalLink, ChevronDown, ChevronUp } from "lucide-react";
 import type { OutputLanguage } from "@/types/algo-builder";
 
-const C = "#00e5cc";   // Journal cyan accent
+const C = "var(--tool-accent)";
 
 interface ExportBridgeProps {
   code:        string;
@@ -90,12 +90,11 @@ export function ExportBridge({
   );
 
   return (
-    <div style={{ border: "1px solid #222" }}>
+    <div className="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm">
       {/* Header */}
       <button
         onClick={() => setOpen(v => !v)}
-        className="w-full flex items-center justify-between px-4 py-3 text-left"
-        style={{ backgroundColor: "#111" }}
+        className="w-full flex items-center justify-between px-4 py-3 text-left bg-white hover:bg-gray-50 transition-colors"
       >
         <div>
           <p className="text-[11px] font-mono font-bold uppercase tracking-widest text-gray-900">
@@ -111,23 +110,23 @@ export function ExportBridge({
       </button>
 
       {open && (
-        <div className="p-4 space-y-4" style={{ backgroundColor: "#0A0A0A", borderTop: "1px solid #222" }}>
-
+        <div className="p-4 space-y-4 bg-white border-t border-gray-100">
+ 
           {/* Copy with header */}
-          <div className="flex items-center justify-between px-4 py-3" style={{ backgroundColor: "#111", border: "1px solid #222" }}>
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 px-4 py-3 bg-[#f5f3ff] border border-[#ddd6fe] rounded-lg">
             <div>
               <p className="text-[11px] font-mono text-gray-900 font-bold">Copy as TradingView-ready</p>
-              <p className="text-[9px] font-mono text-gray-400 mt-0.5">
+              <p className="text-[9px] font-mono text-gray-500 mt-0.5">
                 Adds a metadata header (strategy name, date, instrument, language)
               </p>
             </div>
             <button
               onClick={copyWithHeader}
-              className="flex items-center gap-2 px-4 py-2 text-[10px] font-mono font-bold uppercase tracking-wider transition-all"
+              className="flex items-center gap-2 px-4 py-2 text-[10px] font-mono font-bold uppercase tracking-wider transition-all rounded-lg shrink-0 justify-center"
               style={{
-                backgroundColor: copiedHeader ? `${C}20` : C,
-                color: copiedHeader ? C : "#000",
-                border: copiedHeader ? `1px solid ${C}` : "none",
+                backgroundColor: copiedHeader ? "var(--tool-accent-tint)" : C,
+                color: copiedHeader ? "var(--tool-accent-text)" : "#ffffff",
+                border: copiedHeader ? "1px solid var(--tool-accent-border)" : "none",
               }}
             >
               {copiedHeader
@@ -141,10 +140,9 @@ export function ExportBridge({
             {visibleCards.map(card => (
               <div
                 key={card.title}
-                className="flex flex-col"
-                style={{ backgroundColor: "#111", border: "1px solid #1E1E1E" }}
+                className="flex flex-col bg-[#f9fafb] border border-gray-200 rounded-lg overflow-hidden"
               >
-                <div className="px-4 py-3 border-b" style={{ borderColor: "#1E1E1E" }}>
+                <div className="px-4 py-3 border-b border-gray-200 bg-white">
                   <p className="text-[11px] font-mono font-bold text-gray-900">
                     {card.icon} {card.title}
                   </p>
@@ -153,22 +151,22 @@ export function ExportBridge({
                   {card.steps.map((step, i) => (
                     <li key={i} className="flex items-start gap-2">
                       <span
-                        className="text-[8px] font-mono font-bold w-4 h-4 flex items-center justify-center shrink-0 mt-0.5"
-                        style={{ backgroundColor: `${C}20`, color: C }}
+                        className="text-[8px] font-mono font-bold w-4 h-4 flex items-center justify-center shrink-0 mt-0.5 rounded-full"
+                        style={{ backgroundColor: "var(--tool-accent-tint)", color: "var(--tool-accent-text)", border: "1px solid var(--tool-accent-border)" }}
                       >
                         {i + 1}
                       </span>
-                      <span className="text-[10px] font-mono text-gray-500 leading-snug">{step}</span>
+                      <span className="text-[10px] font-mono text-gray-600 leading-snug">{step}</span>
                     </li>
                   ))}
                 </ol>
-                <div className="px-4 pb-3">
+                <div className="px-4 pb-3 bg-[#f9fafb]">
                   <a
                     href={card.cta.href}
                     target={card.cta.href.startsWith("http") ? "_blank" : undefined}
                     rel={card.cta.href.startsWith("http") ? "noopener noreferrer" : undefined}
-                    className="flex items-center gap-1.5 text-[10px] font-mono uppercase tracking-wider transition-opacity hover:opacity-70"
-                    style={{ color: C }}
+                    className="flex items-center gap-1.5 text-[10px] font-mono uppercase tracking-wider transition-opacity hover:opacity-70 font-bold"
+                    style={{ color: "var(--tool-accent-text)" }}
                   >
                     {card.cta.label}
                     {card.cta.href.startsWith("http") && <ExternalLink className="w-3 h-3" />}

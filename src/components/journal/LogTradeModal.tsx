@@ -97,7 +97,7 @@ function Field({ label, required, children }: { label: string; required?: boolea
   return (
     <div className="flex flex-col gap-1">
       <label className="text-[9px] font-black uppercase tracking-widest text-gray-400">
-        {label}{required && <span className="text-[#00e5cc] ml-0.5">*</span>}
+        {label}{required && <span className="text-[var(--tool-accent-text)] ml-0.5">*</span>}
       </label>
       {children}
     </div>
@@ -111,7 +111,7 @@ function Input({ value, onChange, type = "text", placeholder, readOnly, classNam
     <input
       type={type} value={value} readOnly={readOnly} placeholder={placeholder}
       onChange={e => onChange?.(e.target.value)}
-      className={cn("w-full px-3 py-2 rounded-lg border border-gray-200 text-sm text-black bg-white focus:outline-none focus:border-[#00e5cc] focus:ring-1 focus:ring-[#00e5cc]/30 transition-all", readOnly && "bg-gray-50 text-gray-500 cursor-default", className)}
+      className={cn("w-full px-3 py-2 rounded-lg border border-gray-200 text-sm text-black bg-white focus:outline-none focus:border-[var(--tool-accent)] focus:ring-1 focus:ring-[var(--tool-accent-border)] transition-all", readOnly && "bg-gray-50 text-gray-500 cursor-default", className)}
     />
   );
 }
@@ -119,7 +119,7 @@ function Input({ value, onChange, type = "text", placeholder, readOnly, classNam
 function Textarea({ value, onChange, placeholder, rows = 3 }: { value: string; onChange: (v: string) => void; placeholder?: string; rows?: number }) {
   return (
     <textarea value={value} rows={rows} placeholder={placeholder} onChange={e => onChange(e.target.value)}
-      className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm text-black bg-white focus:outline-none focus:border-[#00e5cc] focus:ring-1 focus:ring-[#00e5cc]/30 transition-all resize-none" />
+      className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm text-black bg-white focus:outline-none focus:border-[var(--tool-accent)] focus:ring-1 focus:ring-[var(--tool-accent-border)] transition-all resize-none" />
   );
 }
 
@@ -131,7 +131,7 @@ function Toggle({ value, onChange, options }: { value: string | null; onChange: 
           onClick={() => onChange(o.value)}
           className={cn("px-3 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-wide border transition-all",
             value === o.value
-              ? o.color ? `bg-${o.color}-100 border-${o.color}-300 text-${o.color}-700` : "bg-[#00e5cc] border-[#00e5cc] text-black"
+              ? o.color ? `bg-${o.color}-100 border-${o.color}-300 text-${o.color}-700` : "bg-[var(--tool-accent)] border-[var(--tool-accent)] text-white"
               : "bg-white border-gray-200 text-gray-500 hover:border-gray-300")}>
           {o.label}
         </button>
@@ -151,7 +151,7 @@ function ChipGroup({ selected, options, onToggle, color = "cyan" }: {
           <button key={o} type="button" onClick={() => onToggle(o)}
             className={cn("px-2.5 py-1 rounded-full text-[10px] font-bold border transition-all",
               active
-                ? color === "red" ? "bg-red-100 border-red-300 text-red-700" : "bg-[#00e5cc]/20 border-[#00e5cc] text-black"
+                ? color === "red" ? "bg-red-100 border-red-300 text-red-700" : "bg-[var(--tool-accent-tint)] border-[var(--tool-accent)] text-[var(--tool-accent-text)]"
                 : "bg-white border-gray-200 text-gray-500 hover:border-gray-300")}>
             {o}
           </button>
@@ -354,7 +354,7 @@ export function LogTradeModal({ open, onClose, onSaved, prefill, accountBalance 
         {/* Header */}
         <div className="flex items-center justify-between px-6 pt-6 pb-4 border-b border-gray-100 shrink-0">
           <div>
-            <p className="text-[9px] font-black uppercase tracking-widest text-[#00e5cc] mb-1">AI_JOURNAL // LOG TRADE</p>
+            <p className="text-[9px] font-black uppercase tracking-widest text-[var(--tool-accent-text)] mb-1">AI_JOURNAL // LOG TRADE</p>
             <h2 className="text-xl font-black text-black">
               {prefill ? "Edit" : "Log"} Trade
             </h2>
@@ -374,7 +374,7 @@ export function LogTradeModal({ open, onClose, onSaved, prefill, accountBalance 
                   step > s ? "cursor-pointer" : "cursor-default")}
               >
                 <div className={cn("w-7 h-7 rounded-full flex items-center justify-center text-[11px] font-black transition-all",
-                  step === s ? "bg-[#00e5cc] text-black" :
+                  step === s ? "bg-[var(--tool-accent)] text-white" :
                   step > s ? "bg-green-500 text-white" : "bg-gray-100 text-gray-400")}>
                   {step > s ? "✓" : s}
                 </div>
@@ -393,7 +393,7 @@ export function LogTradeModal({ open, onClose, onSaved, prefill, accountBalance 
             <div className="space-y-5">
               <div className="flex justify-end">
                 <button type="button" onClick={importFromPositionSizer}
-                  className="text-[10px] font-bold text-[#00e5cc] border border-[#00e5cc]/30 px-3 py-1.5 rounded-lg hover:bg-[#00e5cc]/10 transition-all flex items-center gap-1">
+                  className="text-[10px] font-bold text-[var(--tool-accent-text)] border border-[var(--tool-accent-border)] px-3 py-1.5 rounded-lg hover:bg-[var(--tool-accent-tint)] transition-all flex items-center gap-1">
                   <Download className="w-3 h-3" /> Import from Position Sizer
                 </button>
               </div>
@@ -417,7 +417,7 @@ export function LogTradeModal({ open, onClose, onSaved, prefill, accountBalance 
                 </Field>
                 <Field label="Instrument Type">
                   <select value={f.instrument_type} onChange={e => u("instrument_type", e.target.value)}
-                    className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm text-black bg-white focus:outline-none focus:border-[#00e5cc]">
+                    className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm text-black bg-white focus:outline-none focus:border-[var(--tool-accent)]">
                     {INSTRUMENTS.map(i => <option key={i.value} value={i.value}>{i.label}</option>)}
                   </select>
                 </Field>
@@ -453,7 +453,7 @@ export function LogTradeModal({ open, onClose, onSaved, prefill, accountBalance 
                 </Field>
                 <Field label="Session">
                   <select value={f.session ?? ""} onChange={e => u("session", e.target.value || null)}
-                    className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm text-black bg-white focus:outline-none focus:border-[#00e5cc]">
+                    className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm text-black bg-white focus:outline-none focus:border-[var(--tool-accent)]">
                     <option value="">Auto-detect</option>
                     {SESSIONS.map(s => <option key={s.value} value={s.value}>{s.label}</option>)}
                   </select>
@@ -463,7 +463,7 @@ export function LogTradeModal({ open, onClose, onSaved, prefill, accountBalance 
               <div className="flex items-center gap-3">
                 <label className="flex items-center gap-2 cursor-pointer">
                   <input type="checkbox" checked={f.still_open} onChange={e => u("still_open", e.target.checked)}
-                    className="w-4 h-4 rounded border-gray-300 accent-[#00e5cc]" />
+                    className="w-4 h-4 rounded border-gray-300 accent-[var(--tool-accent)]" />
                   <span className="text-sm font-bold text-gray-700">Still Open (no exit yet)</span>
                 </label>
               </div>
@@ -503,7 +503,7 @@ export function LogTradeModal({ open, onClose, onSaved, prefill, accountBalance 
                   <div className="flex flex-wrap gap-1.5">
                     {SETUP_SUGGESTIONS.map(s => (
                       <button key={s} type="button" onClick={() => u("setup_type", s)}
-                        className="text-[10px] px-2.5 py-1 rounded-full border border-gray-200 text-gray-500 hover:border-[#00e5cc] hover:text-[#00c8a0] transition-all">
+                        className="text-[10px] px-2.5 py-1 rounded-full border border-gray-200 text-gray-500 hover:border-[var(--tool-accent-border)] hover:text-[var(--tool-accent-text)] transition-all">
                         {s}
                       </button>
                     ))}
@@ -520,7 +520,7 @@ export function LogTradeModal({ open, onClose, onSaved, prefill, accountBalance 
                 <div className="flex gap-2 mt-2">
                   <Input value={customConfInput} onChange={setCustomConfInput} placeholder="+ Add custom..." className="text-xs" />
                   <button type="button" onClick={() => { if (customConfInput.trim()) { setCustomConfluences(p => [...p, customConfInput.trim()]); setCustomConfInput(""); } }}
-                    className="px-3 py-1.5 bg-[#00e5cc]/20 text-black text-[10px] font-bold rounded-lg border border-[#00e5cc]/30 hover:bg-[#00e5cc]/30 transition-all shrink-0">
+                    className="px-3 py-1.5 bg-[var(--tool-accent-tint)] text-[var(--tool-accent-text)] text-[10px] font-bold rounded-lg border border-[var(--tool-accent-border)] hover:bg-[var(--tool-accent-border)] transition-all shrink-0">
                     Add
                   </button>
                 </div>
@@ -537,7 +537,7 @@ export function LogTradeModal({ open, onClose, onSaved, prefill, accountBalance 
                   {EMOTIONS_BEFORE.map(e => (
                     <button key={e.value} type="button" onClick={() => u("emotions_before", e.value)}
                       className={cn("flex items-center gap-1.5 px-3 py-2 rounded-lg border text-[10px] font-bold uppercase tracking-wide transition-all",
-                        f.emotions_before === e.value ? "bg-[#00e5cc]/20 border-[#00e5cc] text-black" : "bg-white border-gray-200 text-gray-500 hover:border-gray-300")}>
+                        f.emotions_before === e.value ? "bg-[var(--tool-accent-tint)] border-[var(--tool-accent)] text-[var(--tool-accent-text)] font-semibold" : "bg-white border-gray-200 text-gray-500 hover:border-gray-300")}>
                       <span>{e.emoji}</span> {e.label}
                     </button>
                   ))}
@@ -549,7 +549,7 @@ export function LogTradeModal({ open, onClose, onSaved, prefill, accountBalance 
               </Field>
 
               <Field label="Chart Screenshot (optional)">
-                <div className={cn("border-2 border-dashed rounded-xl p-6 text-center transition-all", imgPreview ? "border-[#00e5cc]/40 bg-[#00e5cc]/5" : "border-gray-200 hover:border-gray-300")}>
+                <div className={cn("border-2 border-dashed rounded-xl p-6 text-center transition-all", imgPreview ? "border-[var(--tool-accent-border)] bg-[var(--tool-accent-tint)]" : "border-gray-200 hover:border-gray-300")}>
                   {imgPreview ? (
                     <div className="space-y-2">
                       <img src={imgPreview} alt="screenshot" className="max-h-32 mx-auto rounded-lg object-cover" />
@@ -558,11 +558,11 @@ export function LogTradeModal({ open, onClose, onSaved, prefill, accountBalance 
                   ) : (
                     <label className="cursor-pointer flex flex-col items-center gap-2">
                       <Upload className="w-6 h-6 text-gray-300" />
-                      <p className="text-xs text-gray-400">Drag & drop or <span className="text-[#00c8a0] font-bold">browse</span></p>
+                      <p className="text-xs text-gray-400">Drag & drop or <span className="text-[var(--tool-accent-text)] font-bold">browse</span></p>
                       <input type="file" accept="image/*" className="hidden" onChange={e => e.target.files?.[0] && handleScreenshot(e.target.files[0])} />
                     </label>
                   )}
-                  {uploadingImg && <Loader2 className="w-4 h-4 animate-spin text-[#00e5cc] mx-auto mt-2" />}
+                  {uploadingImg && <Loader2 className="w-4 h-4 animate-spin text-[var(--tool-accent-text)] mx-auto mt-2" />}
                 </div>
               </Field>
 
@@ -582,14 +582,14 @@ export function LogTradeModal({ open, onClose, onSaved, prefill, accountBalance 
               <Field label="Prop Firm (optional)">
                 <div className="grid grid-cols-3 gap-2">
                   <select value={f.prop_firm} onChange={e => u("prop_firm", e.target.value)}
-                    className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm bg-white focus:outline-none focus:border-[#00e5cc]">
+                    className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm bg-white focus:outline-none focus:border-[var(--tool-accent)]">
                     <option value="">None</option>
                     {PROP_FIRMS.map(p => <option key={p} value={p}>{p}</option>)}
                   </select>
                   {f.prop_firm && <>
                     <Input value={f.prop_account_id} onChange={v => u("prop_account_id", v)} placeholder="Account ID" />
                     <select value={f.prop_phase} onChange={e => u("prop_phase", e.target.value)}
-                      className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm bg-white focus:outline-none focus:border-[#00e5cc]">
+                      className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm bg-white focus:outline-none focus:border-[var(--tool-accent)]">
                       <option value="">Phase...</option>
                       <option>CHALLENGE</option><option>FUNDED</option><option>SCALING</option>
                     </select>
@@ -627,7 +627,7 @@ export function LogTradeModal({ open, onClose, onSaved, prefill, accountBalance 
                   {EMOTIONS_DURING.map(e => (
                     <button key={e.value} type="button" onClick={() => u("emotions_during", e.value)}
                       className={cn("px-3 py-2 rounded-lg border text-[10px] font-bold uppercase tracking-wide transition-all",
-                        f.emotions_during === e.value ? "bg-[#00e5cc]/20 border-[#00e5cc] text-black" : "bg-white border-gray-200 text-gray-500 hover:border-gray-300")}>
+                        f.emotions_during === e.value ? "bg-[var(--tool-accent-tint)] border-[var(--tool-accent)] text-[var(--tool-accent-text)] font-semibold" : "bg-white border-gray-200 text-gray-500 hover:border-gray-300")}>
                       {e.label}
                     </button>
                   ))}
@@ -650,7 +650,7 @@ export function LogTradeModal({ open, onClose, onSaved, prefill, accountBalance 
             {/* Skip to save on step 2 for open trades */}
             {step === 2 && isOpen && (
               <button type="button" onClick={handleSave} disabled={saving}
-                className="flex items-center gap-2 px-6 py-2.5 bg-[#00e5cc] hover:bg-[#00c8a0] text-black text-[11px] font-black uppercase tracking-widest rounded-lg transition-all disabled:opacity-50">
+                className="flex items-center gap-2 px-6 py-2.5 bg-[var(--tool-accent)] hover:bg-[var(--tool-accent-hover)] text-white text-[11px] font-black uppercase tracking-widest rounded-lg transition-all disabled:opacity-50">
                 {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : null}
                 Save Open Trade
               </button>
@@ -663,7 +663,7 @@ export function LogTradeModal({ open, onClose, onSaved, prefill, accountBalance 
             )}
             {step === allSteps[allSteps.length - 1] && !isOpen && (
               <button type="button" onClick={handleSave} disabled={saving}
-                className="flex items-center gap-2 px-6 py-2.5 bg-[#00e5cc] hover:bg-[#00c8a0] text-black text-[11px] font-black uppercase tracking-widest rounded-lg transition-all disabled:opacity-50">
+                className="flex items-center gap-2 px-6 py-2.5 bg-[var(--tool-accent)] hover:bg-[var(--tool-accent-hover)] text-white text-[11px] font-black uppercase tracking-widest rounded-lg transition-all disabled:opacity-50">
                 {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : null}
                 Save Trade
               </button>

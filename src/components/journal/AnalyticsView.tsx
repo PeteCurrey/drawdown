@@ -42,7 +42,7 @@ function WinRateDial({ pct, wins, losses }: { pct: number; wins: number; losses:
     <div className="flex flex-col items-center">
       <svg width="112" height="64" viewBox="0 0 112 64">
         <path d={`M 12 ${cy} A ${r} ${r} 0 0 1 100 ${cy}`} fill="none" stroke="#e5e7eb" strokeWidth="10" strokeLinecap="round" />
-        <path d={`M 12 ${cy} A ${r} ${r} 0 0 1 100 ${cy}`} fill="none" stroke="#00e5cc" strokeWidth="10"
+        <path d={`M 12 ${cy} A ${r} ${r} 0 0 1 100 ${cy}`} fill="none" stroke="var(--tool-accent)" strokeWidth="10"
           strokeLinecap="round" strokeDasharray={circumference} strokeDashoffset={offset} />
       </svg>
       <span className="text-3xl font-black text-black -mt-2">{pct.toFixed(1)}%</span>
@@ -524,7 +524,7 @@ export function AnalyticsView({ trades }: { trades: TradeEntry[] }) {
                       <span className={c.winRate >= 50 ? "text-green-600 font-bold" : "text-red-600 font-bold"}>{c.winRate.toFixed(0)}% WR</span>
                       <span className={c.avgPnL >= 0 ? "text-green-600" : "text-red-600"}>{fmt(c.avgPnL)} avg</span>
                     </div>
-                    <ColorBar value={c.winRate} max={100} color={isHighImpact ? "#16a34a" : isAvoid ? "#dc2626" : "#00e5cc"} />
+                    <ColorBar value={c.winRate} max={100} color={isHighImpact ? "#16a34a" : isAvoid ? "#dc2626" : "var(--tool-accent)"} />
                   </div>
                 );
               })}
@@ -535,7 +535,7 @@ export function AnalyticsView({ trades }: { trades: TradeEntry[] }) {
                 <h4 className="text-[9px] font-black uppercase tracking-widest text-gray-400 mb-3">Your Statistical Edge — Top Combinations</h4>
                 <div className="space-y-2">
                   {topCombos.map((c, i) => (
-                    <div key={i} className="bg-[#00e5cc]/10 border border-[#00e5cc]/30 rounded-lg p-4">
+                    <div key={i} className="bg-[var(--tool-accent-tint)] border border-[var(--tool-accent-border)] rounded-lg p-4">
                       <p className="text-xs font-black text-black mb-1">{c.combo}</p>
                       <p className="text-[10px] text-gray-600">
                         {c.total} trades &middot; <span className="text-green-600 font-bold">{c.winRate.toFixed(1)}% win rate</span> &middot; {fmt(c.avgPnL)} avg P&L &middot;

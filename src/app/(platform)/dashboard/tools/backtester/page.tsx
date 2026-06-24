@@ -21,9 +21,17 @@ import { simulateStrategy, BacktestResult, StrategyConfig } from "@/lib/backtest
 import { BacktestEquityChart } from "@/components/charts/BacktestEquityChart";
 
 // ─── Design token — exact match to Trade Journal (JournalClient.tsx) ──────────
-const C = "#00e5cc";   // Journal cyan accent
+const C = "var(--tool-accent)";
 
 export default function BacktesterPage() {
+  const themeStyles = {
+    "--tool-accent": "#f43f5e",
+    "--tool-accent-hover": "#e11d48",
+    "--tool-accent-tint": "#fff1f2",
+    "--tool-accent-border": "#fecdd3",
+    "--tool-accent-text": "#be123c",
+  } as React.CSSProperties;
+
   const [step, setStep] = useState<BacktestStep>('define');
   const [isSimulating, setIsSimulating] = useState(false);
   const [strategy, setStrategy] = useState("");
@@ -56,7 +64,8 @@ export default function BacktesterPage() {
   };
  
   return (
-    <div className="space-y-10 animate-in fade-in duration-700 pb-24">
+    <div style={themeStyles}>
+      <div className="space-y-10 animate-in fade-in duration-700 pb-24">
       {/* ── Header — Journal eyebrow + H1 + subtitle pattern ─────────────── */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 border-b border-gray-200 pb-8">
         <div>
@@ -151,11 +160,11 @@ export default function BacktesterPage() {
               <div
                 className="p-8 space-y-4 rounded-xl border-l-[3px]"
                 style={{
-                  backgroundColor: "#f0fdfa",
-                  borderColor: C,
-                  border: `1px solid ${C}30`,
+                  backgroundColor: "var(--tool-accent-tint)",
+                  borderColor: "var(--tool-accent-border)",
+                  border: "1px solid var(--tool-accent-border)",
                   borderLeftWidth: 3,
-                  borderLeftColor: C,
+                  borderLeftColor: "var(--tool-accent)",
                 }}
               >
                 <h4
@@ -311,7 +320,7 @@ export default function BacktesterPage() {
             {/* AI Strategy Coach — teal-tinted card */}
             <div
               className="p-10 relative overflow-hidden rounded-xl border"
-              style={{ backgroundColor: "#f0fdfa", borderColor: `${C}30` }}
+              style={{ backgroundColor: "var(--tool-accent-tint)", borderColor: "var(--tool-accent-border)" }}
             >
               <div className="absolute top-0 right-0 p-8 opacity-5">
                 <BrainCircuit className="w-32 h-32" style={{ color: C }} />
@@ -350,5 +359,6 @@ export default function BacktesterPage() {
         )}
       </div>
     </div>
-  );
+  </div>
+);
 }

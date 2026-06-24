@@ -9,8 +9,8 @@
   --color-text-primary: var(--text-primary);
   --color-text-secondary: var(--text-secondary);
   --color-text-tertiary: var(--text-tertiary);
-  --color-accent: #F9771D;
-  --color-accent-hover: #e0600d;
+  --color-accent: var(--tool-accent, #F9771D);
+  --color-accent-hover: var(--tool-accent-hover, #e0600d);
   --color-profit: #18B880;
   --color-loss: #CE6969;
   --color-warning: #F9771D;

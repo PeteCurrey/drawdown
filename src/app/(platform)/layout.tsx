@@ -61,9 +61,30 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [profile, setProfile] = useState<any>(null);
   const [showOnboarding, setShowOnboarding] = useState(false);
+  const [activeSignalCount, setActiveSignalCount] = useState<number | null>(null);
   
   const pathname  = usePathname();
   const supabase  = createClient();
+
+  useEffect(() => {
+    async function fetchSignalCount() {
+      try {
+        const { count, error } = await supabase
+          .from("signals")
+          .select("*", { count: "exact", head: true })
+          .eq("is_active", true);
+        if (!error && count !== null) {
+          setActiveSignalCount(count);
+        }
+      } catch (e) {
+        console.error("Error fetching signal count:", e);
+      }
+    }
+
+    fetchSignalCount();
+    const interval = setInterval(fetchSignalCount, 60_000);
+    return () => clearInterval(interval);
+  }, [supabase]);
 
   useEffect(() => {
     async function checkOnboarding() {
@@ -101,6 +122,10 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   // Nav link custom layout matching Phase 1 Section 1 and Section 2
   function SidebarLink({ href, icon: Icon, name, badge }: { href: string; icon: React.ElementType; name: string; badge?: string }) {
     const isActive = pathname === href || (href !== "/dashboard" && pathname.startsWith(href));
+    const displayBadge = name === "Signal Centre" 
+      ? (activeSignalCount !== null && activeSignalCount > 0 ? String(activeSignalCount) : undefined) 
+      : badge;
+
     return (
       <Link
         href={href}
@@ -112,11 +137,16 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             : "text-[#555550] hover:text-[#1A1A1A] hover:bg-[#1A1A1A]/5"
         )}
       >
-        <Icon className={cn("w-5 h-5 shrink-0", isActive ? "text-[#1A1A1A]" : "text-[#555550]")} />
+        <div className="relative">
+          <Icon className={cn("w-5 h-5 shrink-0", isActive ? "text-[#1A1A1A]" : "text-[#555550]")} />
+          {isCollapsed && displayBadge && (
+            <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-[#F9771D] border border-white rounded-full" />
+          )}
+        </div>
         {!isCollapsed && <span className="text-[13px]">{name}</span>}
-        {!isCollapsed && badge && (
+        {!isCollapsed && displayBadge && (
           <span className="ml-auto text-[8px] font-bold font-mono tracking-wider bg-[#F9771D] text-white px-1.5 py-0.5 rounded-none">
-            {badge}
+            {displayBadge}
           </span>
         )}
       </Link>

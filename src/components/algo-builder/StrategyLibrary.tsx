@@ -5,7 +5,7 @@ import { Star, Trash2, Copy, Edit2, Check, X, Search, Filter } from "lucide-reac
 import { cn } from "@/lib/utils";
 import type { SavedStrategy, OutputLanguage } from "@/types/algo-builder";
 
-const C = "#00e5cc";   // Journal cyan accent
+const C = "var(--tool-accent)";
 
 interface StrategyLibraryProps {
   currentCode:        string;
@@ -167,7 +167,7 @@ export function StrategyLibrary({
           <button
             onClick={() => { setShowSaveModal(true); setSaveError(null); }}
             disabled={strategies.length >= 20}
-            className="px-4 py-1.5 text-[10px] font-mono font-bold uppercase tracking-wider text-black disabled:opacity-40"
+            className="px-4 py-1.5 text-[10px] font-mono font-bold uppercase tracking-wider text-white disabled:opacity-40"
             style={{ backgroundColor: C }}
           >
             Save Current
@@ -196,7 +196,7 @@ export function StrategyLibrary({
             <button
               onClick={saveStrategy}
               disabled={saving}
-              className="flex-1 py-2 text-[10px] font-mono font-bold uppercase tracking-wider text-black"
+              className="flex-1 py-2 text-[10px] font-mono font-bold uppercase tracking-wider text-white"
               style={{ backgroundColor: C, opacity: saving ? 0.7 : 1 }}
             >
               {saving ? "Saving…" : "Save"}
@@ -229,7 +229,7 @@ export function StrategyLibrary({
               onClick={() => setFilterLang(l)}
               className="px-3 py-2 text-[9px] font-mono uppercase tracking-wider transition-all"
               style={filterLang === l
-                ? { backgroundColor: C, color: "#000", fontWeight: 700 }
+                ? { backgroundColor: C, color: "#ffffff", fontWeight: 700 }
                 : { backgroundColor: "#f9fafb", color: "#6b7280" }}
             >
               {l === "all" ? "All" : l === "pine_script" ? "Pine" : "Py"}
@@ -273,7 +273,7 @@ export function StrategyLibrary({
             <button
               onClick={() => toggleFavourite(s.id, s.is_favourite)}
               className="mt-0.5 shrink-0 transition-colors"
-              style={{ color: s.is_favourite ? C : "#444" }}
+              style={{ color: s.is_favourite ? C : "#9ca3af" }}
             >
               <Star className="w-3.5 h-3.5" fill={s.is_favourite ? C : "none"} />
             </button>
@@ -325,7 +325,7 @@ export function StrategyLibrary({
               <button
                 onClick={() => setLoadedCode(s.code)}
                 className="px-2.5 py-1.5 text-[9px] font-mono uppercase tracking-wider transition-all"
-                style={{ backgroundColor: `${C}20`, color: C, border: `1px solid ${C}40` }}
+                style={{ backgroundColor: "var(--tool-accent-tint)", color: "var(--tool-accent-text)", border: "1px solid var(--tool-accent-border)" }}
                 title="Load into code panel"
               >
                 Load

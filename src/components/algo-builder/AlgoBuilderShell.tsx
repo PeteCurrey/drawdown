@@ -13,10 +13,13 @@ import { TradingViewEmbed } from "./TradingViewEmbed";
 import { ExportBridge } from "./ExportBridge";
 import { StrategyLibrary } from "./StrategyLibrary";
 
-// ─── Design tokens — exact match to Trade Journal (JournalClient.tsx) ─────────
-const C    = "#00e5cc";   // Journal cyan accent  ← was "#C8F135" chartreuse
-const C_BG = `${C}1a`;   // 10% opacity background
-const C_BD = `${C}4d`;   // 30% opacity border
+const C_PRIMARY = "var(--tool-accent)";
+const C_LIGHT   = "var(--tool-accent-hover)";
+const C_TINT    = "var(--tool-accent-tint)";
+const C_BORDER  = "var(--tool-accent-border)";
+const C_TEXT    = "var(--tool-accent-text)";
+const C_BG      = "var(--tool-accent-tint)";
+const C_BD      = "var(--tool-accent-border)";
 
 // Map our Timeframe type → TradingView interval
 const TV_INTERVAL: Record<string, string> = {
@@ -132,22 +135,12 @@ export function AlgoBuilderShell({ userName, userEmail, tier }: AlgoBuilderShell
   return (
     <div className="space-y-6 animate-in fade-in duration-500 pb-16">
 
-      {/* ── Onboarding Tour Overlay ─────────────────────────────────────── */}
-      {tourStep !== null && (
-        <TourOverlay
-          step={tourStep}
-          onNext={advanceTour}
-          onSkip={skipTour}
-          total={TOUR_STEPS.length}
-        />
-      )}
-
-      {/* ── Page Header — matches JournalClient header exactly ──────────── */}
+      {/* ── Page Header — matches layout style with violet accents ──────── */}
       <header className="space-y-4">
-        {/* Eyebrow — exact match: JournalClient "AI_JOURNAL // PERFORMANCE" */}
+        {/* Eyebrow — violet tracking label */}
         <p
           className="text-[10px] font-mono font-bold uppercase tracking-[0.3em]"
-          style={{ color: C }}
+          style={{ color: C_PRIMARY }}
         >
           ALGO_BUILDER // STRATEGY COMPOSER
         </p>
@@ -155,15 +148,13 @@ export function AlgoBuilderShell({ userName, userEmail, tier }: AlgoBuilderShell
         {/* Title row + status badges */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
           <div>
-            {/* H1 — exact match: JournalClient "TRADE JOURNAL." */}
             <h1
               className="font-display font-bold uppercase leading-none text-black"
               style={{ fontSize: 32 }}
             >
               ALGO{" "}
-              <span style={{ color: C }}>STRATEGY BUILDER.</span>
+              <span style={{ color: C_PRIMARY }}>STRATEGY BUILDER.</span>
             </h1>
-            {/* Subtitle — exact match: JournalClient "Every trade logged…" */}
             <p className="text-sm text-gray-500 mt-2 max-w-xl">
               Convert discretionary logic into production Pine Script v6 &amp; Python.
               Powered by QuantCoder AI.
@@ -172,12 +163,12 @@ export function AlgoBuilderShell({ userName, userEmail, tier }: AlgoBuilderShell
 
           {/* Status badges — right-aligned */}
           <div className="flex items-center gap-3 shrink-0">
-            {/* QuantCoder status — teal pill matching Journal locked-state pill */}
+            {/* QuantCoder status — violet badge */}
             <div
               className="flex items-center gap-2 px-3 py-1.5 text-[10px] font-mono font-bold uppercase tracking-wider rounded-md"
-              style={{ backgroundColor: C_BG, border: `1px solid ${C_BD}`, color: C }}
+              style={{ backgroundColor: C_TINT, border: `1px solid ${C_BORDER}`, color: C_TEXT }}
             >
-              <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ backgroundColor: C }} />
+              <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ backgroundColor: C_PRIMARY }} />
               QuantCoder AI // ONLINE
             </div>
 
@@ -189,7 +180,7 @@ export function AlgoBuilderShell({ userName, userEmail, tier }: AlgoBuilderShell
         </div>
       </header>
 
-      {/* ── Rate limit bar — white card ──────────────────────────────────── */}
+      {/* ── Rate limit bar — white card ── */}
       {rateLimitInfo && (
         <div
           className="flex items-center gap-3 px-4 py-2.5 text-[11px] font-mono bg-white border border-gray-200 rounded-xl"
@@ -200,7 +191,7 @@ export function AlgoBuilderShell({ userName, userEmail, tier }: AlgoBuilderShell
               <div
                 key={i}
                 className="w-3 h-3 rounded-sm"
-                style={{ backgroundColor: i < rateLimitInfo.used ? C : "#e5e7eb" }}
+                style={{ backgroundColor: i < rateLimitInfo.used ? C_PRIMARY : "#e5e7eb" }}
               />
             ))}
           </div>
@@ -208,7 +199,7 @@ export function AlgoBuilderShell({ userName, userEmail, tier }: AlgoBuilderShell
         </div>
       )}
 
-      {/* ── Main two-column layout ───────────────────────────────────────── */}
+      {/* ── Main two-column layout ── */}
       <div className="grid grid-cols-1 lg:grid-cols-[45%_55%] gap-4">
 
         {/* Left: Strategy Composer — white card */}
@@ -218,7 +209,7 @@ export function AlgoBuilderShell({ userName, userEmail, tier }: AlgoBuilderShell
         >
           <StrategyComposer config={config} onChange={setConfig} />
 
-          {/* Generate button — Journal primary button style */}
+          {/* Generate button — Violet primary style */}
           <div className="p-4 border-t border-gray-100" id="algo-generate-btn">
             {genError && (
               <p className="text-[11px] font-mono text-red-600 mb-3 px-1">{genError}</p>
@@ -229,21 +220,21 @@ export function AlgoBuilderShell({ userName, userEmail, tier }: AlgoBuilderShell
               disabled={!isFormValid && !isGenerating}
               className="w-full py-4 font-mono font-bold uppercase tracking-widest text-[11px] transition-all rounded-lg flex items-center justify-center gap-2 disabled:cursor-not-allowed"
               style={{
-                backgroundColor: isFormValid || isGenerating ? C : undefined,
-                opacity: !isFormValid && !isGenerating ? 0.4 : 1,
-                color: isFormValid || isGenerating ? "#000" : "#6b7280",
-                border: !isFormValid && !isGenerating ? "1px solid #e5e7eb" : "none",
-                background: !isFormValid && !isGenerating ? "#f9fafb" : C,
+                backgroundColor: isFormValid || isGenerating ? C_PRIMARY : undefined,
+                color: isFormValid || isGenerating ? "#ffffff" : "#a78bfa",
+                border: !isFormValid && !isGenerating ? "1px solid #ddd6fe" : "none",
+                background: !isFormValid && !isGenerating ? "#ede9fe" : C_PRIMARY,
+                cursor: !isFormValid && !isGenerating ? "not-allowed" : "pointer",
               }}
               title={!isFormValid ? "Describe your strategy (min. 20 characters) to generate" : undefined}
             >
               {isGenerating ? (
-                <span className="flex items-center justify-center gap-2">
-                  <span className="w-2 h-2 rounded-full animate-pulse" style={{ backgroundColor: "#000" }} />
+                <span className="flex items-center justify-center gap-2 text-white">
+                  <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
                   Generating… Click to cancel
                 </span>
               ) : (
-                <span className="flex items-center justify-center gap-2">
+                <span className="flex items-center justify-center gap-2 text-white">
                   <Zap className="w-4 h-4" />
                   Generate Strategy Code
                 </span>
@@ -276,7 +267,7 @@ export function AlgoBuilderShell({ userName, userEmail, tier }: AlgoBuilderShell
                   onClick={() => setRightTab(t.id)}
                   className="flex items-center gap-1.5 px-4 py-2.5 text-[11px] font-mono uppercase tracking-widest transition-all border-b-2 -mb-px"
                   style={active
-                    ? { color: C, borderColor: C, fontWeight: 700 }
+                    ? { color: C_PRIMARY, borderColor: C_PRIMARY, fontWeight: 700 }
                     : { color: "#6b7280", borderColor: "transparent" }
                   }
                 >
@@ -342,111 +333,132 @@ export function AlgoBuilderShell({ userName, userEmail, tier }: AlgoBuilderShell
           />
         </div>
       )}
+
+      {/* ── Tour Step Panel ── */}
+      {tourStep !== null && (
+        <TourStepPanel
+          step={tourStep}
+          onNext={advanceTour}
+          onSkip={skipTour}
+          onClose={skipTour}
+          total={TOUR_STEPS.length}
+        />
+      )}
     </div>
   );
 }
 
-// ─── Tour steps (unchanged) ───────────────────────────────────────────────────
-const TOUR_STEPS = [
+// ─── Tour steps with descriptive link texts ───────────────────────────────────
+interface TourStep {
+  title: string;
+  body: string;
+  linkText: string;
+}
+
+const TOUR_STEPS: TourStep[] = [
   {
     title: "Welcome to QuantCoder",
     body: "Describe your trading strategy in plain English — entry conditions, exit rules, and filters. The AI handles the code.",
-    highlight: "Describe your strategy in Section 1",
+    linkText: "→ Describe your strategy in Section 1"
   },
   {
-    title: "Set Instrument & Timeframe",
-    body: "Choose the market and timeframe your strategy runs on. Multi-timeframe confirmation adds an extra filter.",
-    highlight: "Section 02: Instrument & Timeframe",
+    title: "Set Your Instrument",
+    body: "Choose which market your strategy will trade and the timeframe you want to execute on. This defines your data environment.",
+    linkText: "→ Open Section 2 to select instrument and timeframe"
   },
   {
-    title: "Configure Risk Model",
-    body: "Fixed percentage, ATR-based, or Kelly Criterion — your choice drives position sizing in the generated code.",
-    highlight: "Section 03: Risk & Position Sizing",
+    title: "Define Your Risk",
+    body: "Set your position sizing rules and maximum drawdown tolerance. QuantCoder bakes this directly into the generated code.",
+    linkText: "→ Open Section 3 to configure risk parameters"
   },
   {
-    title: "Choose Your Language",
-    body: "Pine Script v6 for TradingView, or Python/Backtrader for live execution via IBKR, MT5, or Alpaca.",
-    highlight: "Section 04: Code Preferences",
+    title: "Code Preferences",
+    body: "Choose Pine Script v6 for TradingView, Python for live execution, or both. Set your preferred variable naming and comment style.",
+    linkText: "→ Open Section 4 to set preferences"
   },
   {
-    title: "Generate Your Code",
-    body: "Click Generate — QuantCoder AI streams production-ready code with inline comments and bias detection.",
-    highlight: "Generate Strategy Code button",
+    title: "Generate Your Strategy",
+    body: "Hit Generate Strategy Code. QuantCoder will produce production-ready code you can copy directly into TradingView or your broker API.",
+    linkText: "→ Click Generate Strategy Code when ready"
   },
   {
-    title: "Save, Test, Fix",
-    body: "Save to your library, run a health check with real price data, or paste TradingView errors for instant fixes.",
-    highlight: "My Strategies tab",
-  },
+    title: "Save & Deploy",
+    body: "Your strategy is saved to My Strategies. From there you can backtest it, version it, or deploy it via Algo Deployment.",
+    linkText: "→ View your saved strategies in the My Strategies tab"
+  }
 ];
 
-// ─── Tour Overlay — white card with teal button (Journal primary style) ───────
-function TourOverlay({
-  step, onNext, onSkip, total,
-}: { step: number; onNext: () => void; onSkip: () => void; total: number }) {
+// ─── Tour Step Panel — persistent banner card at the bottom ──────────────────
+function TourStepPanel({
+  step, onNext, onSkip, onClose, total,
+}: { step: number; onNext: () => void; onSkip: () => void; onClose: () => void; total: number }) {
   const s = TOUR_STEPS[step];
   const isLast = step === total - 1;
+  const fillWidth = ((step + 1) / total) * 100;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-end md:items-center justify-center md:justify-end p-4 md:p-8 pointer-events-none">
-      {/* Backdrop */}
-      <div
-        className="absolute inset-0 md:hidden pointer-events-auto"
-        style={{ background: "rgba(0,0,0,0.2)" }}
-        onClick={onSkip}
-      />
+    <div 
+      className="relative w-full overflow-hidden mt-6 bg-[#f5f3ff] border border-[#ddd6fe] rounded-xl p-5 md:py-5 md:px-6 transition-all duration-300 shadow-sm"
+    >
+      {/* Thin progress bar at the very top */}
+      <div className="absolute top-0 left-0 right-0 h-[3px] bg-[#ddd6fe]">
+        <div 
+          className="h-full bg-[#7c3aed] transition-all duration-300" 
+          style={{ width: `${fillWidth}%` }} 
+        />
+      </div>
 
-      {/* Card — white, Journal card style */}
-      <div
-        className="relative max-w-sm w-full pointer-events-auto animate-in slide-in-from-bottom-4 duration-300 bg-white border border-gray-200 rounded-xl"
-        style={{ boxShadow: "0 4px 24px rgba(0,0,0,0.08)" }}
+      {/* × Close button top-right */}
+      <button 
+        onClick={onClose} 
+        className="absolute top-4 right-4 text-[#9ca3af] hover:text-gray-600 transition-colors p-1"
+        aria-label="Dismiss tour"
       >
-        {/* Step indicator row */}
-        <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100">
-          <div className="flex gap-1">
+        <span className="text-lg font-bold leading-none">×</span>
+      </button>
+
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mt-2">
+        {/* Left side */}
+        <div className="space-y-1.5 flex-grow pr-6">
+          <p className="text-[11px] font-mono font-bold uppercase tracking-widest text-[#7c3aed]">
+            Step {step + 1} of {total}
+          </p>
+          <h4 className="text-sm font-bold text-gray-900 leading-tight">
+            {s.title}
+          </h4>
+          <p className="text-xs text-gray-500 leading-relaxed max-w-2xl">
+            {s.body}
+          </p>
+          <span className="inline-block text-xs font-semibold text-[#7c3aed] hover:underline cursor-pointer">
+            {s.linkText}
+          </span>
+        </div>
+
+        {/* Right side navigation */}
+        <div className="flex items-center gap-4 shrink-0 flex-wrap justify-end">
+          {/* Dots */}
+          <div className="flex gap-1.5">
             {Array.from({ length: total }, (_, i) => (
               <div
                 key={i}
-                className="w-5 h-1 rounded-full transition-colors"
-                style={{ backgroundColor: i <= step ? C : "#e5e7eb" }}
+                className="w-2.5 h-2.5 rounded-full transition-colors"
+                style={{ backgroundColor: i === step ? "#7c3aed" : "#ddd6fe" }}
               />
             ))}
           </div>
-          {/* Skip tour — Journal secondary style */}
+
+          {/* Skip button */}
           <button
             onClick={onSkip}
-            className="text-[9px] font-mono text-gray-400 hover:text-gray-700 uppercase tracking-wider underline-offset-2 hover:underline transition-colors"
+            className="text-xs font-semibold text-[#9ca3af] hover:text-gray-600 uppercase tracking-wide transition-colors"
           >
-            Skip tour
+            Skip Tour
           </button>
-        </div>
 
-        <div className="p-4 space-y-3">
-          {/* Step label — Journal eyebrow style in teal */}
-          <p
-            className="text-[10px] font-mono font-bold uppercase tracking-[0.3em]"
-            style={{ color: C }}
-          >
-            Step {step + 1} of {total}
-          </p>
-          {/* Step title — Journal heading style */}
-          <p className="font-display font-bold uppercase text-gray-900 text-sm">
-            {s.title}
-          </p>
-          {/* Body */}
-          <p className="text-xs text-gray-500 leading-relaxed">{s.body}</p>
-          {/* Highlight hint */}
-          <p className="text-[9px] font-mono" style={{ color: C }}>
-            → {s.highlight}
-          </p>
-        </div>
-
-        {/* Next button — Journal primary button (teal bg, black text) */}
-        <div className="px-4 pb-4">
+          {/* Next / Finish button */}
           <button
             onClick={onNext}
-            className="w-full py-2.5 text-[10px] font-mono font-bold uppercase tracking-widest transition-opacity hover:opacity-90 text-black rounded-lg"
-            style={{ backgroundColor: C }}
+            className="px-6 py-2.5 bg-[#7c3aed] hover:bg-[#6d28d9] text-white text-xs font-mono font-bold uppercase tracking-widest transition-all rounded-lg"
           >
             {isLast ? "Get Started" : "Next →"}
           </button>

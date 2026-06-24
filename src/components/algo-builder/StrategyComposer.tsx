@@ -10,7 +10,7 @@ import {
 } from "@/types/algo-builder";
 
 // ─── Design tokens — exact match to Trade Journal (JournalClient.tsx) ──────────
-const C = "#00e5cc";   // Journal cyan accent  ← was "#C8F135" chartreuse
+const C = "var(--tool-accent)";
 
 // ─── Subcomponents ────────────────────────────────────────────────────────────
 
@@ -27,7 +27,10 @@ function SectionHeader({
         <span className="text-[10px] font-mono font-bold" style={{ color: C }}>
           {number}
         </span>
-        <span className="text-[11px] font-display font-bold uppercase tracking-widest text-gray-900">
+        <span
+          className="text-[11px] font-display font-bold uppercase tracking-widest transition-colors animate-in"
+          style={{ color: isOpen ? "#111827" : "#6b7280" }}
+        >
           {title}
         </span>
       </div>
@@ -92,7 +95,7 @@ function Pill({
       className="px-3 py-1.5 text-[10px] font-mono uppercase tracking-wider transition-all rounded-md"
       style={
         active
-          ? { backgroundColor: C, color: "#000", border: `1px solid ${C}` }
+          ? { backgroundColor: C, color: "#ffffff", border: `1px solid ${C}` }
           : { backgroundColor: "#ffffff", color: "#6b7280", border: "1px solid #e5e7eb" }
       }
     >
@@ -110,8 +113,8 @@ function RadioOption({
       onClick={onSelect}
       className="flex items-start gap-2.5 p-3 w-full text-left transition-all rounded-lg"
       style={{
-        backgroundColor: active ? `${C}10` : "#f9fafb",
-        border: `1px solid ${active ? C : "#e5e7eb"}`,
+        backgroundColor: active ? "#f5f3ff" : "#f9fafb",
+        border: `1px solid ${active ? "#ddd6fe" : "#e5e7eb"}`,
       }}
     >
       <div
@@ -121,7 +124,12 @@ function RadioOption({
         {active && <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: C }} />}
       </div>
       <div>
-        <p className="text-[11px] font-mono font-bold text-gray-900">{label}</p>
+        <p
+          className="text-[11px] font-mono font-bold"
+          style={{ color: active ? "var(--tool-accent-text)" : "#111827" }}
+        >
+          {label}
+        </p>
         {sub && <p className="text-[9px] font-mono text-gray-400 mt-0.5">{sub}</p>}
       </div>
     </button>
@@ -331,10 +339,10 @@ export function StrategyComposer({ config, onChange }: StrategyComposerProps) {
                     key={ex.label}
                     type="button"
                     onClick={() => applyExample(ex.config)}
-                    className="px-3 py-1.5 text-[9px] font-mono uppercase tracking-wider transition-all rounded-md hover:opacity-80"
-                    style={{ border: `1px solid ${C}`, color: C, background: "transparent" }}
+                    className="px-3 py-1.5 text-[9px] font-mono uppercase tracking-wider transition-all rounded-md hover:opacity-85 flex items-center gap-1"
+                    style={{ border: "1px solid var(--tool-accent-border)", color: "var(--tool-accent-text)", background: "transparent" }}
                   >
-                    <Zap className="w-2.5 h-2.5 inline mr-1" />
+                    <span style={{ color: "var(--tool-accent-hover)" }}>✦</span>
                     {ex.label}
                   </button>
                 ))}
@@ -760,7 +768,7 @@ export function StrategyComposer({ config, onChange }: StrategyComposerProps) {
                     onClick={() => update({ outputLanguage: lang })}
                     className="px-6 py-2.5 text-[10px] font-mono uppercase tracking-widest transition-all"
                     style={config.outputLanguage === lang
-                      ? { backgroundColor: C, color: "#000", fontWeight: 700 }
+                      ? { backgroundColor: C, color: "#ffffff", fontWeight: 700 }
                       : { backgroundColor: "#f9fafb", color: "#6b7280" }}
                   >
                     {lang === "pine_script" ? "🌲 Pine Script v6" : "🐍 Python / Backtrader"}

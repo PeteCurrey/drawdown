@@ -31,12 +31,20 @@ export default async function JournalPage({
   const tier = (profile as any)?.subscription_tier as string | undefined;
   const weight = TIER_WEIGHT[tier ?? "free"] ?? 0;
 
+  const themeStyles = {
+    "--tool-accent": "#6366f1",
+    "--tool-accent-hover": "#4f46e5",
+    "--tool-accent-tint": "#f5f7ff",
+    "--tool-accent-border": "#c7d2fe",
+    "--tool-accent-text": "#4338ca",
+  } as React.CSSProperties;
+
   if (weight < 1) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[60vh] space-y-8 animate-in fade-in duration-700">
+      <div className="flex flex-col items-center justify-center min-h-[60vh] space-y-8 animate-in fade-in duration-700" style={themeStyles}>
         <div className="p-10 bg-white border border-gray-200 shadow-sm flex flex-col items-center text-center space-y-6 max-w-md w-full rounded-2xl">
-          <div className="w-14 h-14 rounded-full border border-[#00e5cc]/20 bg-[#00e5cc]/10 flex items-center justify-center">
-            <Lock className="w-6 h-6 text-[#00e5cc]" />
+          <div className="w-14 h-14 rounded-full border flex items-center justify-center" style={{ borderColor: "var(--tool-accent-border)", backgroundColor: "var(--tool-accent-tint)" }}>
+            <Lock className="w-6 h-6" style={{ color: "var(--tool-accent)" }} />
           </div>
           <div className="space-y-2">
             <p className="text-xs font-bold uppercase tracking-widest text-gray-900">
@@ -50,7 +58,10 @@ export default async function JournalPage({
           <div className="w-full space-y-2 pt-2">
             <Link
               href="/pricing"
-              className="w-full flex items-center justify-center px-8 py-4 bg-[#00e5cc] hover:bg-[#00c8b0] text-black text-[10px] font-bold uppercase tracking-widest transition-all rounded-lg"
+              className="w-full flex items-center justify-center px-8 py-4 text-white text-[10px] font-bold uppercase tracking-widest transition-all rounded-lg"
+              style={{ backgroundColor: "var(--tool-accent)", boxShadow: "0 4px 12px rgba(99, 102, 241, 0.15)" }}
+              onMouseEnter={e => { e.currentTarget.style.backgroundColor = "var(--tool-accent-hover)"; }}
+              onMouseLeave={e => { e.currentTarget.style.backgroundColor = "var(--tool-accent)"; }}
             >
               Upgrade to Foundation
             </Link>
@@ -68,5 +79,9 @@ export default async function JournalPage({
 
   const { view } = await searchParams;
 
-  return <JournalClient initialView={(view as any) ?? "calendar"} userId={user.id} />;
+  return (
+    <div style={themeStyles}>
+      <JournalClient initialView={(view as any) ?? "calendar"} userId={user.id} />
+    </div>
+  );
 }

@@ -3,8 +3,16 @@
 import { RiskCalculator } from "@/components/tools/RiskCalculator";
 
 export default function PositionSizerPage() {
+  const themeStyles = {
+    "--tool-accent": "#10b981",
+    "--tool-accent-hover": "#059669",
+    "--tool-accent-tint": "#ecfdf5",
+    "--tool-accent-border": "#a7f3d0",
+    "--tool-accent-text": "#15803d",
+  } as React.CSSProperties;
+
   return (
-    <div className="space-y-8 animate-in fade-in duration-700">
+    <div className="space-y-8 animate-in fade-in duration-700" style={themeStyles}>
       {/* Page header — matches current dashboard design: accent eyebrow, italic accent word */}
       <header className="flex flex-col md:flex-row md:items-end justify-between gap-6">
         <div>

@@ -83,7 +83,7 @@ function StatGrid({ trade }: { trade: TradeEntry }) {
         <div className="col-span-2">
           <span className="text-[9px] font-black uppercase tracking-widest text-gray-400 block mb-1.5">Confluences</span>
           <div className="flex flex-wrap gap-1">
-            {trade.confluences.map(c => <span key={c} className="text-[9px] font-bold px-2 py-0.5 rounded-full bg-[#00e5cc]/20 text-black border border-[#00e5cc]/30">{c}</span>)}
+            {trade.confluences.map(c => <span key={c} className="text-[9px] font-bold px-2 py-0.5 rounded-full bg-[var(--tool-accent-tint)] text-[var(--tool-accent-text)] border border-[var(--tool-accent-border)]">{c}</span>)}
           </div>
         </div>
       ) : null}
@@ -152,7 +152,7 @@ function VerdictPanel({ trade, allTrades, onRefresh }: { trade: TradeEntry; allT
   if (!trade.ai_verdict && !trade.ai_verdict_generated_at) {
     return (
       <div className="flex flex-col items-center gap-4 py-12 text-center">
-        <div className="w-12 h-12 rounded-full border border-[#00e5cc]/20 bg-[#00e5cc]/10 flex items-center justify-center">
+        <div className="w-12 h-12 rounded-full border border-[var(--tool-accent-border)] bg-[var(--tool-accent-tint)] flex items-center justify-center">
           <span className="text-2xl">🤖</span>
         </div>
         <div>
@@ -160,7 +160,7 @@ function VerdictPanel({ trade, allTrades, onRefresh }: { trade: TradeEntry; allT
           <p className="text-xs text-gray-400">Generate a coaching verdict for this trade.</p>
         </div>
         <button onClick={generateVerdict} disabled={generating}
-          className="flex items-center gap-2 px-5 py-2.5 bg-[#00e5cc] hover:bg-[#00c8a0] text-black text-[11px] font-black uppercase tracking-widest rounded-lg transition-all disabled:opacity-60">
+          className="flex items-center gap-2 px-5 py-2.5 bg-[var(--tool-accent)] hover:bg-[var(--tool-accent-hover)] text-white text-[11px] font-black uppercase tracking-widest rounded-lg transition-all disabled:opacity-60">
           {generating ? <Loader2 className="w-4 h-4 animate-spin" /> : "🤖"}
           Generate AI Verdict
         </button>
@@ -278,7 +278,7 @@ function ChartPanel({ trade, onReplay }: { trade: TradeEntry; onReplay?: () => v
         <div className="flex items-center justify-between mb-2">
           <p className="text-[9px] font-black uppercase tracking-widest text-gray-400">Live Chart — {trade.symbol}</p>
           <a href={`https://www.tradingview.com/chart/?symbol=${symbol}`} target="_blank" rel="noopener"
-            className="flex items-center gap-1 text-[9px] text-[#00c8a0] hover:text-black transition-colors font-bold">
+            className="flex items-center gap-1 text-[9px] text-[var(--tool-accent-text)] hover:text-black transition-colors font-bold">
             Open in TradingView <ExternalLink className="w-3 h-3" />
           </a>
         </div>
@@ -292,7 +292,7 @@ function ChartPanel({ trade, onReplay }: { trade: TradeEntry; onReplay?: () => v
       </div>
       {onReplay && (
         <button onClick={onReplay}
-          className="w-full py-3 flex items-center justify-center gap-2 border border-[#00e5cc]/30 bg-[#00e5cc]/10 rounded-xl text-[11px] font-black uppercase tracking-widest text-black hover:bg-[#00e5cc]/20 transition-all">
+          className="w-full py-3 flex items-center justify-center gap-2 border border-[var(--tool-accent-border)] bg-[var(--tool-accent-tint)] rounded-xl text-[11px] font-black uppercase tracking-widest text-[var(--tool-accent-text)] hover:bg-[var(--tool-accent-border)] transition-all">
           ▶ REPLAY TRADE
         </button>
       )}
@@ -458,12 +458,12 @@ export function TradeDetailPanel({ trade, allTrades, onClose, onUpdated, onDelet
               <div>
                 <label className="text-[9px] font-black uppercase tracking-widest text-gray-400 block mb-1">Exit Price</label>
                 <input type="number" value={exitPrice} onChange={e => setExitPrice(e.target.value)} placeholder="Enter exit price"
-                  className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm focus:outline-none focus:border-[#00e5cc]" />
+                  className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm focus:outline-none focus:border-[var(--tool-accent)]" />
               </div>
               <div>
                 <label className="text-[9px] font-black uppercase tracking-widest text-gray-400 block mb-1">Exit Time</label>
                 <input type="datetime-local" value={exitTime} onChange={e => setExitTime(e.target.value)}
-                  className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm focus:outline-none focus:border-[#00e5cc]" />
+                  className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm focus:outline-none focus:border-[var(--tool-accent)]" />
               </div>
             </div>
             <div className="flex gap-2">
@@ -472,7 +472,7 @@ export function TradeDetailPanel({ trade, allTrades, onClose, onUpdated, onDelet
                 Cancel
               </button>
               <button onClick={handleCloseTrade} disabled={closing || !exitPrice}
-                className="flex-1 py-2.5 bg-[#00e5cc] rounded-lg text-[10px] font-black text-black hover:bg-[#00c8a0] transition-all disabled:opacity-50 flex items-center justify-center gap-1">
+                className="flex-1 py-2.5 bg-[var(--tool-accent)] rounded-lg text-[10px] font-black text-white hover:bg-[var(--tool-accent-hover)] transition-all disabled:opacity-50 flex items-center justify-center gap-1">
                 {closing && <Loader2 className="w-3.5 h-3.5 animate-spin" />}
                 Confirm Close
               </button>

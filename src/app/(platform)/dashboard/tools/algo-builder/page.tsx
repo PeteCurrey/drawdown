@@ -42,28 +42,42 @@ export default async function AlgoBuilderPage() {
   const displayName = (profile as any)?.display_name     as string | undefined;
   const userWeight  = TIER_WEIGHT[tier ?? "free"] ?? 0;
 
+  const themeStyles = {
+    "--tool-accent": "#7c3aed",
+    "--tool-accent-hover": "#6d28d9",
+    "--tool-accent-tint": "#f5f3ff",
+    "--tool-accent-border": "#ddd6fe",
+    "--tool-accent-text": "#6d28d9",
+  } as React.CSSProperties;
+
   if (userWeight < 3) {
-    return <AlgoBuilderLockedState tier={tier} />;
+    return (
+      <div style={themeStyles}>
+        <AlgoBuilderLockedState tier={tier} />
+      </div>
+    );
   }
 
   return (
-    <AlgoBuilderShell
-      userName={displayName ?? user.email ?? ""}
-      userEmail={user.email ?? ""}
-      tier={tier ?? "floor"}
-    />
+    <div style={themeStyles}>
+      <AlgoBuilderShell
+        userName={displayName ?? user.email ?? ""}
+        userEmail={user.email ?? ""}
+        tier={tier ?? "floor"}
+      />
+    </div>
   );
 }
 
 // ─── Locked state — non-floor users ───────────────────────────────────────────
 function AlgoBuilderLockedState({ tier }: { tier?: string }) {
-  const C = "#00e5cc"; // Journal cyan accent
+  const C = "#7c3aed"; // Violet accent
 
   return (
     <div className="flex flex-col items-center justify-center min-h-[72vh] space-y-10 animate-in fade-in duration-700 px-4">
       <div className="max-w-md w-full space-y-8">
 
-        {/* Lock icon — teal pill matching Journal locked state */}
+        {/* Lock icon — violet pill matching locked state */}
         <div className="flex justify-center">
           <div className="relative">
             <div
@@ -125,11 +139,11 @@ function AlgoBuilderLockedState({ tier }: { tier?: string }) {
           ))}
         </div>
 
-        {/* CTAs — Journal primary + secondary */}
+        {/* CTAs — Violet primary + secondary */}
         <div className="space-y-2">
           <Link
             href="/pricing?source=algo-builder"
-            className="w-full flex items-center justify-center px-8 py-4 text-[11px] font-mono font-bold uppercase tracking-widest transition-opacity hover:opacity-90 text-black rounded-lg"
+            className="w-full flex items-center justify-center px-8 py-4 text-[11px] font-mono font-bold uppercase tracking-widest transition-opacity hover:opacity-90 text-white rounded-lg"
             style={{ backgroundColor: C }}
           >
             Upgrade to Floor

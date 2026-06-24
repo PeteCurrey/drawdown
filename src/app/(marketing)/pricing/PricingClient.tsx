@@ -7,6 +7,29 @@ import { STRIPE_CONFIG } from "@/config/stripe";
 
 const tiers = [
   {
+    name: "Signal Centre",
+    price: { monthly: 39, yearly: 39 },
+    description: "For traders who want intelligence, not lectures.",
+    buttonText: "Start Free Trial",
+    highlight: false,
+    isTrial: true,
+    imageUrl: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?q=80&w=600&auto=format&fit=crop",
+    accentColor: "rgba(200, 241, 53, 0.06)",
+    borderAccent: "rgba(200, 241, 53, 0.35)",
+    savings: "0",
+    leftBorder: true,
+    features: [
+      { name: "Live Signal Feed (Forex, Indices, Metals, Crypto)", included: true },
+      { name: "AI Consensus Panel — Claude + GPT-4o + Grok", included: true },
+      { name: "Technical Confluence Grid (M15 to D1)", included: true },
+      { name: "Crypto Intelligence Hub", included: true },
+      { name: "Signal Archive & Performance Tracker", included: true },
+      { name: "Push notifications for high-DCS signals", included: true },
+      { name: "Acuity Expert Ideas", included: false, tierNote: "Edge / Floor" },
+      { name: "Raw data export + API webhooks", included: false, tierNote: "Floor" },
+    ],
+  },
+  {
     name: "Foundation",
     price: { monthly: 49, yearly: 39 },
     description: "For beginners building their knowledge base.",
@@ -80,7 +103,10 @@ export default function PricingPage() {
   const handleSubscribe = async (tierName: string) => {
     setLoadingTier(tierName);
     try {
-      const tierId = tierName.toLowerCase().replace("the ", "");
+      // Normalise tier name: 'Signal Centre' → 'signal-centre', 'The Floor' → 'floor'
+      const tierId = tierName === "Signal Centre"
+        ? "signal-centre"
+        : tierName.toLowerCase().replace("the ", "");
       const priceConfig = STRIPE_CONFIG.prices[tierId as keyof typeof STRIPE_CONFIG.prices][
         billingCycle === "monthly" ? "monthly" : "annual"
       ];
@@ -96,7 +122,7 @@ export default function PricingPage() {
       if (data.url) {
         window.location.href = data.url;
       } else if (response.status === 401) {
-        window.location.href = "/login?redirect=/pricing";
+        window.location.href = `/login?redirect=/pricing`;
       } else {
         throw new Error(data.error || "Something went wrong");
       }
@@ -157,10 +183,11 @@ export default function PricingPage() {
                 onMouseLeave={() => setHoveredTier(null)}
                 className={cn(
                   "relative flex flex-col border rounded-[14px] overflow-hidden transition-all duration-300",
-                  tier.highlight ? "md:-translate-y-2 shadow-[0_12px_48px_rgba(0,0,0,0.09)]" : ""
+                  tier.highlight ? "md:-translate-y-2 shadow-[0_12px_48px_rgba(0,0,0,0.09)]" : "",
+                  (tier as any).leftBorder ? "border-l-4" : ""
                 )}
                 style={{
-                  borderColor: isHovered ? tier.borderAccent : "rgba(229,229,229,0.8)",
+                  borderColor: isHovered ? tier.borderAccent : (tier as any).leftBorder ? tier.borderAccent : "rgba(229,229,229,0.8)",
                   transform: isHovered && !tier.highlight ? "translateY(-3px)" : tier.highlight ? "translateY(-8px)" : "translateY(0)",
                   boxShadow: isHovered ? `0 12px 48px rgba(0,0,0,0.08)` : tier.highlight ? "0 12px 48px rgba(0,0,0,0.09)" : "none",
                 }}
@@ -198,7 +225,12 @@ export default function PricingPage() {
                       </span>
                       <span className="text-xs text-text-tertiary font-sans ml-1">/mo</span>
                     </div>
-                    {billingCycle === "yearly" && (
+                    {(tier as any).isTrial && (
+                      <p className="text-[10px] font-sans text-[#1A1A1A] mt-1 font-semibold">
+                        7-day free trial · No card required
+                      </p>
+                    )}
+                    {billingCycle === "yearly" && !(tier as any).isTrial && (
                       <p className="text-[10px] font-sans text-profit mt-1 font-semibold">
                         Billed annually — save £{tier.savings}/yr
                       </p>
@@ -229,13 +261,21 @@ export default function PricingPage() {
                       <div key={i} className="flex items-start gap-2.5">
                         {feature.included ? (
                           <Check className={cn("w-4 h-4 shrink-0 mt-0.5", (feature as any).accent ? "text-[#C8F135]" : "text-profit")} />
+                        ) : (feature as any).tierNote ? (
+                          <span className="w-4 h-4 shrink-0 mt-0.5 flex items-center justify-center text-[10px] text-mkt-bd font-mono">◎</span>
                         ) : (
                           <X className="w-4 h-4 text-mkt-bd shrink-0 mt-0.5" />
                         )}
                         <span className={cn("text-xs font-sans leading-relaxed flex-1", feature.included ? "text-text-secondary" : "text-text-tertiary")}>
                           {feature.name}
                         </span>
-                        {(feature as any).badge && (
+                        {(feature as any).tierNote && (
+                          <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[8px] font-bold font-mono uppercase tracking-wide text-text-tertiary bg-background-elevated/60 border border-border-slate/40 shrink-0 ml-1">
+                            {(feature as any).tierNote}
+                          </span>
+                        )}
+                        {(feature as any).badge && !
+                          (feature as any).tierNote && (
                           <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[9px] font-bold font-mono uppercase tracking-wide text-black bg-[#C8F135] shrink-0 ml-1">
                             {(feature as any).badge}
                           </span>
@@ -248,6 +288,12 @@ export default function PricingPage() {
             );
           })}
         </div>
+
+        {/* Signal Centre inclusion note */}
+        <p className="text-center text-xs text-text-tertiary font-sans mt-6">
+          Already on a Foundation, Edge, or Floor plan?{" "}
+          <span className="font-semibold text-text-secondary">Signal Centre is fully included — no extra charge.</span>
+        </p>
 
         {/* Educational notice */}
         <div className="mt-16 p-6 bg-background-elevated/40 border border-border-slate/50 rounded-[14px] max-w-4xl mx-auto">

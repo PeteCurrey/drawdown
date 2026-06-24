@@ -31,9 +31,12 @@ import {
   CreditCard,
   Menu,
   Zap,
+  Lock,
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { OnboardingWizard } from "@/components/dashboard/OnboardingWizard";
+import { TierGate } from "@/components/dashboard/TierGate";
+import { hasAccess, type SubscriptionTier } from "@/lib/tier-access";
 
 // ─── Main Navigation (Top section 1) ──────────────────────────────────────────
 const mainNavLinks = [
@@ -62,6 +65,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   const [profile, setProfile] = useState<any>(null);
   const [showOnboarding, setShowOnboarding] = useState(false);
   const [activeSignalCount, setActiveSignalCount] = useState<number | null>(null);
+  const [subscriptionTier, setSubscriptionTier] = useState<SubscriptionTier>(null);
   
   const pathname  = usePathname();
   const supabase  = createClient();
@@ -99,6 +103,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         
         const profile = data as any;
         setProfile(profile);
+        setSubscriptionTier((profile?.subscription_tier as SubscriptionTier) ?? null);
         
         if (locallyOnboarded === "true") {
           return;
@@ -120,6 +125,23 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   };
 
   // Nav link custom layout matching Phase 1 Section 1 and Section 2
+  // Locked sidebar link for signal-centre tier users
+  function LockedSidebarLink({ icon: Icon, name }: { icon: React.ElementType; name: string }) {
+    return (
+      <div
+        title={`${name} — included in Foundation and above. Upgrade to unlock.`}
+        className={cn(
+          "w-full h-10 flex items-center rounded-none cursor-not-allowed opacity-35",
+          isCollapsed ? "justify-center px-0" : "px-3 gap-3"
+        )}
+      >
+        <Lock className="w-4 h-4 shrink-0 text-[#555550]" />
+        {!isCollapsed && <span className="text-[13px] text-[#555550]">{name}</span>}
+      </div>
+    );
+  }
+
+  // Nav link
   function SidebarLink({ href, icon: Icon, name, badge }: { href: string; icon: React.ElementType; name: string; badge?: string }) {
     const isActive = pathname === href || (href !== "/dashboard" && pathname.startsWith(href));
     const displayBadge = name === "Signal Centre" 
@@ -252,9 +274,15 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
           {/* Section 1: Main navigation */}
           <div className="flex-1 overflow-y-auto space-y-0.5 py-2" data-lenis-prevent>
-            {mainNavLinks.map(link => (
-              <SidebarLink key={link.href} {...link} />
-            ))}
+            {mainNavLinks.map(link => {
+              // signal-centre tier: only Signal Centre is accessible, everything else is locked
+              const isSignalCentreOnly = subscriptionTier === 'signal-centre';
+              const isSignalCentreLink = link.href === '/dashboard/signal-centre';
+              if (isSignalCentreOnly && !isSignalCentreLink) {
+                return <LockedSidebarLink key={link.href} icon={link.icon} name={link.name} />;
+              }
+              return <SidebarLink key={link.href} {...link} />;
+            })}
 
             {/* Divider */}
             <div className="my-3 border-t border-[#DEDDD8]" />
@@ -339,7 +367,29 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             scroll container alone and let native overflow-y-auto handle scrolling here */}
         <div className="flex-1 overflow-y-auto min-w-0 bg-white pb-16 md:pb-0" data-lenis-prevent>
           <main className="p-6 md:p-10 select-text">
-            {children}
+            {(() => {
+              // signal-centre tier: gate any page that requires Foundation+
+              if (subscriptionTier === 'signal-centre') {
+                const lockedPaths = [
+                  '/dashboard/curriculum',
+                  '/dashboard/journal',
+                  '/dashboard/tools',
+                  '/dashboard/community',
+                  '/dashboard/market-intelligence',
+                ];
+                const isLocked = lockedPaths.some(p => pathname.startsWith(p));
+                if (isLocked) {
+                  return (
+                    <TierGate
+                      requiredTier="foundation"
+                      currentTier={subscriptionTier}
+                      featureName={pathname.split('/').pop()?.replace(/-/g, ' ')}
+                    />
+                  );
+                }
+              }
+              return children;
+            })()}
           </main>
         </div>
       </div>

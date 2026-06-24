@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { createClient } from "@/lib/supabase/client";
+import { ExtendYourEdge } from "@/components/dashboard/ExtendYourEdge";
 
 interface SignalData {
   id: string;
@@ -45,7 +46,7 @@ interface SignalCentreDashboardClientProps {
   userTier: string;
 }
 
-const TIER_WEIGHT: Record<string, number> = { free: 0, foundation: 1, edge: 2, floor: 3 };
+const TIER_WEIGHT: Record<string, number> = { free: 0, 'signal-centre': 0.5, foundation: 1, edge: 2, floor: 3 };
 
 function tierAtLeast(userTier: string, required: string): boolean {
   return (TIER_WEIGHT[userTier] ?? 0) >= (TIER_WEIGHT[required] ?? 0);
@@ -982,6 +983,13 @@ export function SignalCentreDashboardClient({
               View Plans
             </Link>
           </div>
+        </section>
+      )}
+
+      {/* ── Extend Your Edge widget (signal-centre subscribers only) ───────── */}
+      {userTier === 'signal-centre' && (
+        <section>
+          <ExtendYourEdge />
         </section>
       )}
     </div>

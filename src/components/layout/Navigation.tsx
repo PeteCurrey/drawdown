@@ -54,6 +54,7 @@ const megaMenus = {
   },
   tools: {
     links: [
+      { name: "Signal Centre", desc: "AI consensus signals — Claude + GPT-4o + Grok", href: "/signal-centre", icon: Zap, color: "text-[#C8F135] bg-[#C8F135]/10", badge: "NEW" },
       { name: "AI Trade Journal", desc: "Upload CSV logs to extract emotional profiles", href: "/tools/ai-trade-journal", icon: BookOpen, color: "text-indigo-500 bg-indigo-500/10" },
       { name: "Risk Calculator", desc: "Kelly allocation relative to drawdown limits", href: "/tools/risk-calculator", icon: Calculator, color: "text-emerald-500 bg-emerald-500/10" },
       { name: "AI Market Scanner", desc: "Monitors order flow delta across 40+ pairs", href: "/tools/ai-market-scanner", icon: Scan, color: "text-cyan-500 bg-cyan-500/10" },
@@ -400,12 +401,17 @@ export function Navigation() {
                       </div>
                       <div className="flex flex-col gap-0.5 justify-center">
                         <span className={cn(
-                          "text-sm font-semibold transition-colors font-sans",
+                          "text-sm font-semibold transition-colors font-sans flex items-center gap-1.5",
                           isDarkMarketPage
                             ? "text-white group-hover/link:text-[#C8F135]"
                             : "text-mkt-ink group-hover/link:text-mkt-grn"
                         )}>
                           {link.name}
+                          {(link as any).badge && (
+                            <span className="text-[7px] font-mono font-black tracking-widest text-black bg-[#C8F135] px-1 py-0.5 rounded uppercase leading-none">
+                              {(link as any).badge}
+                            </span>
+                          )}
                         </span>
                         <span className={cn(
                           "text-xs font-sans",

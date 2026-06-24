@@ -1,5 +1,21 @@
 export const STRIPE_CONFIG = {
   prices: {
+    'signal-centre': {
+      monthly: {
+        gbp: process.env.STRIPE_PRICE_SIGNAL_CENTRE_MONTHLY_GBP || 'price_signal_centre_monthly_gbp_placeholder',
+        aud: process.env.STRIPE_PRICE_SIGNAL_CENTRE_MONTHLY_AUD || 'price_signal_centre_monthly_aud_placeholder',
+        usd: process.env.STRIPE_PRICE_SIGNAL_CENTRE_MONTHLY_USD || 'price_signal_centre_monthly_usd_placeholder',
+        sgd: process.env.STRIPE_PRICE_SIGNAL_CENTRE_MONTHLY_SGD || 'price_signal_centre_monthly_sgd_placeholder',
+        hkd: process.env.STRIPE_PRICE_SIGNAL_CENTRE_MONTHLY_HKD || 'price_signal_centre_monthly_hkd_placeholder',
+      },
+      annual: {
+        gbp: process.env.STRIPE_PRICE_SIGNAL_CENTRE_MONTHLY_GBP || 'price_signal_centre_monthly_gbp_placeholder',
+        aud: process.env.STRIPE_PRICE_SIGNAL_CENTRE_MONTHLY_AUD || 'price_signal_centre_monthly_aud_placeholder',
+        usd: process.env.STRIPE_PRICE_SIGNAL_CENTRE_MONTHLY_USD || 'price_signal_centre_monthly_usd_placeholder',
+        sgd: process.env.STRIPE_PRICE_SIGNAL_CENTRE_MONTHLY_SGD || 'price_signal_centre_monthly_sgd_placeholder',
+        hkd: process.env.STRIPE_PRICE_SIGNAL_CENTRE_MONTHLY_HKD || 'price_signal_centre_monthly_hkd_placeholder',
+      },
+    },
     foundation: {
       monthly: {
         gbp: process.env.STRIPE_PRICE_FOUNDATION_MONTHLY_GBP || 'price_foundation_monthly_gbp_placeholder',
@@ -50,6 +66,10 @@ export const STRIPE_CONFIG = {
     },
   },
   plans: {
+    'signal-centre': {
+      name: 'Signal Centre',
+      tier: 'signal-centre',
+    },
     foundation: {
       name: 'Foundation',
       tier: 'foundation',

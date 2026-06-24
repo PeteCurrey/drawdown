@@ -9,6 +9,7 @@ export const metadata = {
 
 const TIER_WEIGHT: Record<string, number> = {
   free: 0,
+  'signal-centre': 0.5,
   foundation: 1,
   edge: 2,
   floor: 3,
@@ -70,6 +71,7 @@ export default async function DashboardSignalDetailPage({
       isSubscriber={isSubscriber}
       userLoggedIn={!!user}
       initialSaved={isSaved}
+      userTier={(tier as any) ?? null}
     />
   );
 }

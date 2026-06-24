@@ -123,8 +123,15 @@ export function MarketIntelligenceHeroCard({
   const hookSlug = (selectedInst as any).hookSlug ?? selectedInst.slug.replace("/", "");
   const marketData = useMarketIntelligence(hookSlug, selectedInterval);
 
+  // LOG 1
+  console.log('[DD-DATA] Hook called with:', { instrument: hookSlug, timeframe: selectedInterval });
+  console.log('[DD-DATA] Hook returned:', { loading: marketData.loading, error: marketData.error, quote: marketData.quote, bias: marketData.bias?.score });
+
   // biasScore: use live value, fall back to placeholder while loading
   const targetBias = marketData.bias?.score ?? selectedInst.defaultPct;
+
+  // LOG 2
+  console.log('[DD-GAUGE] Received props:', { biasScore: targetBias, direction: marketData.bias?.direction ?? 'neutral', conflictNodes: marketData.bias?.conflictNodes ?? [] });
 
   // Live footer values
   const livePrice = marketData.quote?.price ?? null;
@@ -414,10 +421,11 @@ export function MarketIntelligenceHeroCard({
     };
     requestAnimationFrame(animate);
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedInst]);
+  }, [selectedInst, targetBias]);
 
   // ── Instrument change handler ─────────────────────────────────────────────
   const handleInstrumentChange = useCallback((inst: HeroInstrument) => {
+    console.log('[DD-SELECT] Instrument changed to:', inst.slug);
     setSelectedInst(inst);
     setDropdownOpen(false);
     onInstrumentChange?.(inst);

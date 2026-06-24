@@ -325,7 +325,7 @@ Assess the validity of this setup from a professional quantitative perspective. 
     try {
       const client = new Anthropic({ apiKey: anthropicKey });
       const msg = await client.messages.create({
-        model: "claude-3-5-sonnet-20241022",
+        model: "claude-sonnet-4-5",
         max_tokens: 500,
         system: "You are Claude 3.5 Sonnet, an institutional macro strategist. Focus on multi-step reasoning, risk context, and explaining the 'why' behind the signal. Return ONLY a valid JSON object (no markup, no markdown blocks, no other text) with this structure: { \"verdict\": \"BULLISH\" | \"BEARISH\" | \"NEUTRAL\", \"confidence\": number (0-100), \"reasoning\": [string, string, string] }",
         messages: [{ role: "user", content: prompt }]
@@ -370,8 +370,38 @@ Assess the validity of this setup from a professional quantitative perspective. 
     }
   }
 
-  // 3. Fetch Grok (xAI X/Sentiment) - Simulated via GPT-4o
-  if (openaiKey) {
+  // 3. Fetch Grok (xAI X/Sentiment)
+  const xaiKey = process.env.XAI_API_KEY;
+
+  if (xaiKey) {
+    try {
+      const res = await fetch("https://api.x.ai/v1/chat/completions", {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${xaiKey}`,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          model: "grok-3",
+          messages: [
+            {
+              role: "system",
+              content: "You are Grok, built by xAI. You are a trading intelligence model with access to real-time X/Twitter sentiment data. Analyse the provided market data and return your signal assessment as a JSON object with this exact structure: { \"verdict\": \"BULLISH\" | \"BEARISH\" | \"NEUTRAL\", \"confidence\": number (0-100), \"reasoning\": [string, string, string] }"
+            },
+            { role: "user", content: prompt }
+          ],
+          response_format: { type: "json_object" }
+        })
+      });
+      if (res.ok) {
+        const json = await res.json();
+        grokResult = JSON.parse(json.choices?.[0]?.message?.content || "{}");
+      }
+    } catch (e) {
+      console.error("[signal-engine] xAI Grok query failed:", e);
+    }
+  } else if (openaiKey) {
+    console.warn("[signal-engine] XAI_API_KEY not set. Falling back to simulated Grok via GPT-4o.");
     try {
       const res = await fetch("https://api.openai.com/v1/chat/completions", {
         method: "POST",
@@ -396,7 +426,7 @@ Assess the validity of this setup from a professional quantitative perspective. 
         grokResult = JSON.parse(json.choices?.[0]?.message?.content || "{}");
       }
     } catch (e) {
-      console.error("[signal-engine] Grok query failed:", e);
+      console.error("[signal-engine] Fallback Grok query failed:", e);
     }
   }
 

@@ -7,11 +7,11 @@ const THROTTLE_MS = 60 * 1000; // 60 seconds
 async function handleScan() {
   const now = Date.now();
   if (now - lastScanTime < THROTTLE_MS) {
-    return NextResponse.json({
-      success: true,
-      message: "Scan throttled. Signals are up to date.",
-      lastScan: new Date(lastScanTime).toISOString(),
-    });
+    return NextResponse.json({ 
+      throttled: true, 
+      message: 'Scan throttled — last scan was less than 60 seconds ago',
+      nextScanAvailable: new Date(lastScanTime + THROTTLE_MS).toISOString()
+    }, { status: 429 });
   }
 
   try {

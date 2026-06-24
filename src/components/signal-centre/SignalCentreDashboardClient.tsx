@@ -150,6 +150,7 @@ function SignalCentreInner({
   const [scanning, setScanning] = useState(false);
   const [scanMessage, setScanMessage] = useState("");
   const [lastScanTime, setLastScanTime] = useState<string | null>(null);
+  const [now, setNow] = useState(Date.now());
 
   // Interactive filters
   const [activeCategory, setActiveCategory] = useState<string>("all");
@@ -167,6 +168,8 @@ function SignalCentreInner({
   // Background scan on load + auto-refresh every 90 seconds
   useEffect(() => {
     triggerScan(true);
+
+    const timeIv = setInterval(() => setNow(Date.now()), 60_000);
 
     // Re-fetch signals from DB every 90 s so the feed stays live
     const pollInterval = setInterval(async () => {
@@ -206,6 +209,7 @@ function SignalCentreInner({
     return () => {
       clearInterval(pollInterval);
       clearInterval(scanInterval);
+      clearInterval(timeIv);
     };
   }, []);
 
@@ -214,6 +218,18 @@ function SignalCentreInner({
     try {
       const res = await fetch("/api/signals/scan", { method: "POST" });
       const data = await res.json();
+      
+      if (res.status === 429) {
+        if (!background) {
+          addToast({
+            type: "alert",
+            title: "Scan Throttled",
+            body: "Scan throttled — try again in 60 seconds",
+          });
+        }
+        return;
+      }
+
       if (data.success) {
         setLastScanTime(data.lastScan);
         const { data: freshSignals } = await supabase
@@ -297,12 +313,19 @@ function SignalCentreInner({
       <div className="bg-white border border-gray-200 rounded-2xl px-5 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-sm">
         <div className="flex flex-wrap items-center gap-3">
           {/* Live pulse */}
-          <div
-            className="flex items-center gap-1.5 px-2.5 py-1 text-[9px] font-mono font-bold uppercase rounded-lg"
-            style={{ backgroundColor: "var(--tool-accent-tint,#f7ffe8)", border: "1px solid var(--tool-accent-border,#d4f05a)", color: "var(--tool-accent-text,#4a6600)" }}
-          >
-            <span className="w-1.5 h-1.5 rounded-full animate-pulse shrink-0" style={{ backgroundColor: "var(--tool-accent,#C8F135)" }} />
-            Live Scan Active
+          <div className="flex flex-col gap-0.5">
+            <div
+              className="flex items-center gap-1.5 px-2.5 py-1 text-[9px] font-mono font-bold uppercase rounded-lg"
+              style={{ backgroundColor: "var(--tool-accent-tint,#f7ffe8)", border: "1px solid var(--tool-accent-border,#d4f05a)", color: "var(--tool-accent-text,#4a6600)" }}
+            >
+              <span className="w-1.5 h-1.5 rounded-full animate-pulse shrink-0" style={{ backgroundColor: "var(--tool-accent,#C8F135)" }} />
+              Live Scan Active
+            </div>
+            {lastScanTime && (
+              <span className="text-[9px] font-mono text-text-tertiary px-1">
+                Last updated {Math.max(0, Math.floor((now - new Date(lastScanTime).getTime()) / 60000))} mins ago
+              </span>
+            )}
           </div>
           {/* Tier badge */}
           <div className={cn(
@@ -312,11 +335,6 @@ function SignalCentreInner({
             <CurrentTierIcon className="w-3 h-3" />
             {currentTierConfig.label} Access
           </div>
-          {lastScanTime && (
-            <span className="text-[10px] font-mono text-text-tertiary">
-              Last scan: <span className="text-text-secondary font-semibold">{new Date(lastScanTime).toLocaleTimeString()}</span>
-            </span>
-          )}
         </div>
         <div className="flex flex-col items-end gap-1 shrink-0">
           <button

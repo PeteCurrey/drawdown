@@ -9,9 +9,10 @@ export const metadata = {
 
 const TIER_WEIGHT: Record<string, number> = {
   free: 0,
-  foundation: 1,
-  edge: 2,
-  floor: 3,
+  'signal-centre': 1,
+  foundation: 2,
+  edge: 3,
+  floor: 4,
 };
 
 export default async function SignalCentrePage() {
@@ -33,7 +34,9 @@ export default async function SignalCentrePage() {
 
   const tier = ((profile as any)?.subscription_tier as string | undefined) ?? "free";
   const userWeight = TIER_WEIGHT[tier] ?? 0;
-  const isSubscriber = userWeight >= 2; // Edge or Floor
+  // isSubscriber = true for any paid tier (hides the free-user upgrade CTA)
+  // Internal Signal Centre feature gating is handled by the dashboard client's own TierGate
+  const isSubscriber = userWeight >= 1; // signal-centre, foundation, edge, floor
 
   // Fetch active signals
   const { data: signals } = await supabase

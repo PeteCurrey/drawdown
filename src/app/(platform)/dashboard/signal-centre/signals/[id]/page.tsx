@@ -63,7 +63,7 @@ export default async function DashboardSignalDetailPage({
 
   const tier = (profile as any)?.subscription_tier as string | undefined;
   const userWeight = TIER_WEIGHT[tier ?? "free"] ?? 0;
-  const isSubscriber = userWeight >= 2; // Edge or Floor
+  const isSubscriber = userWeight >= 3; // Edge (3) or Floor (4)
 
   return (
     <PublicSignalDetailClient

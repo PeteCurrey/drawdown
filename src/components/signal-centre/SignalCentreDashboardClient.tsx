@@ -46,7 +46,7 @@ interface SignalCentreDashboardClientProps {
   userTier: string;
 }
 
-const TIER_WEIGHT: Record<string, number> = { free: 0, 'signal-centre': 0.5, foundation: 1, edge: 2, floor: 3 };
+const TIER_WEIGHT: Record<string, number> = { free: 0, 'signal-centre': 1, foundation: 1, edge: 2, floor: 3 };
 
 function tierAtLeast(userTier: string, required: string): boolean {
   return (TIER_WEIGHT[userTier] ?? 0) >= (TIER_WEIGHT[required] ?? 0);

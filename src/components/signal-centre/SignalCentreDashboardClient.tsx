@@ -249,57 +249,48 @@ export function SignalCentreDashboardClient({
   const CurrentTierIcon = currentTierConfig.icon;
 
   return (
-    <div className="space-y-6 max-w-7xl mx-auto pb-16">
+    <div className="space-y-6 pb-8">
 
-      {/* ── Header ─────────────────────────────────────────────────────────── */}
-      <header className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-6">
-        <div className="space-y-2">
-          <div className="flex flex-wrap items-center gap-3">
-            <h1 className="text-2xl font-display font-black uppercase tracking-tight text-gray-900">
-              Signal <span className="text-violet-600">Centre.</span>
-            </h1>
-            <div className="flex items-center gap-1.5 px-2.5 py-1 bg-violet-50 border border-violet-200 text-violet-600 text-[9px] font-mono font-bold uppercase rounded-lg">
-              <span className="w-1.5 h-1.5 rounded-full bg-violet-500 animate-pulse shrink-0" />
-              Live Scan Active
-            </div>
-            {/* Current tier badge */}
-            <div className={cn(
-              "flex items-center gap-1.5 px-2.5 py-1 text-[9px] font-mono font-bold uppercase rounded-lg border",
-              currentTierConfig.bgColor, currentTierConfig.color, currentTierConfig.borderColor
-            )}>
-              <CurrentTierIcon className="w-3 h-3" />
-              {currentTierConfig.label} Access
-            </div>
+      {/* ── Controls bar (scan + status) ──────────────────────────────────── */}
+      <div className="bg-white border border-gray-200 rounded-2xl px-5 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-sm">
+        <div className="flex flex-wrap items-center gap-3">
+          {/* Live pulse */}
+          <div
+            className="flex items-center gap-1.5 px-2.5 py-1 text-[9px] font-mono font-bold uppercase rounded-lg"
+            style={{ backgroundColor: "var(--tool-accent-tint,#f7ffe8)", border: "1px solid var(--tool-accent-border,#d4f05a)", color: "var(--tool-accent-text,#4a6600)" }}
+          >
+            <span className="w-1.5 h-1.5 rounded-full animate-pulse shrink-0" style={{ backgroundColor: "var(--tool-accent,#C8F135)" }} />
+            Live Scan Active
           </div>
-          <p className="text-xs text-gray-500 max-w-xl font-mono leading-relaxed">
-            Multi-model consensus signals via institutional indicators (TAAPI), derivatives metrics, and AI scoring layers (Claude + GPT-4o + Grok).
-          </p>
-        </div>
-
-        <div className="flex flex-col sm:flex-row sm:items-center gap-4 shrink-0">
+          {/* Tier badge */}
+          <div className={cn(
+            "flex items-center gap-1.5 px-2.5 py-1 text-[9px] font-mono font-bold uppercase rounded-lg border",
+            currentTierConfig.bgColor, currentTierConfig.color, currentTierConfig.borderColor
+          )}>
+            <CurrentTierIcon className="w-3 h-3" />
+            {currentTierConfig.label} Access
+          </div>
           {lastScanTime && (
-            <div className="text-right font-mono">
-              <p className="text-[9px] text-gray-400 uppercase tracking-widest leading-none">Last Scan</p>
-              <p className="text-xs font-bold text-gray-700 mt-1">
-                {new Date(lastScanTime).toLocaleTimeString()}
-              </p>
-            </div>
+            <span className="text-[10px] font-mono text-text-tertiary">
+              Last scan: <span className="text-text-secondary font-semibold">{new Date(lastScanTime).toLocaleTimeString()}</span>
+            </span>
           )}
-          <div className="flex flex-col gap-1">
-            <button
-              onClick={() => triggerScan(false)}
-              disabled={scanning}
-              className="px-5 py-2.5 bg-violet-600 hover:bg-violet-700 text-white text-[10px] font-mono font-bold uppercase tracking-widest transition-all rounded-xl flex items-center justify-center gap-2 disabled:opacity-50 shadow-sm"
-            >
-              <RefreshCw className={cn("w-3.5 h-3.5", scanning && "animate-spin")} />
-              {scanning ? "Scanning…" : "Scan Markets"}
-            </button>
-            {scanMessage && (
-              <p className="text-[9px] font-mono text-emerald-600 text-center">{scanMessage}</p>
-            )}
-          </div>
         </div>
-      </header>
+        <div className="flex flex-col items-end gap-1 shrink-0">
+          <button
+            onClick={() => triggerScan(false)}
+            disabled={scanning}
+            className="px-5 py-2.5 text-[10px] font-mono font-bold uppercase tracking-widest transition-all rounded-xl flex items-center justify-center gap-2 disabled:opacity-50 shadow-sm hover:opacity-90"
+            style={{ backgroundColor: "var(--tool-accent,#C8F135)", color: "#000" }}
+          >
+            <RefreshCw className={cn("w-3.5 h-3.5", scanning && "animate-spin")} />
+            {scanning ? "Scanning…" : "Scan Markets"}
+          </button>
+          {scanMessage && (
+            <p className="text-[9px] font-mono text-emerald-600">{scanMessage}</p>
+          )}
+        </div>
+      </div>
 
       {/* ── Tier Access Banner ─────────────────────────────────────────────── */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -680,19 +671,18 @@ export function SignalCentreDashboardClient({
 
       {/* ── Floor: AI Consensus Deep-Dive Panel ────────────────────────────── */}
       <TierGate requiredTier="edge" userTier={userTier} featureName="Full AI Consensus Panel">
-        <section className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm space-y-5">
+        <section className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm space-y-6">
           <div className="flex items-center justify-between border-b border-gray-100 pb-4">
-            <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-xl bg-violet-100 flex items-center justify-center">
-                <Cpu className="w-4 h-4 text-violet-600" />
+            <div className="flex items-center gap-3">
+              <div className="w-9 h-9 rounded-xl bg-violet-100 flex items-center justify-center">
+                <Cpu className="w-5 h-5 text-violet-600" />
               </div>
               <div>
-                <span className="text-violet-400 font-mono text-[9px] uppercase tracking-widest block mb-0.5">// AI Consensus</span>
-                <h2 className="text-sm font-display font-bold text-text-primary uppercase tracking-wide">AI Consensus Panel</h2>
-                <p className="text-[9px] font-mono text-text-tertiary">Claude · GPT-4o · Grok — live multi-model alignment</p>
+                <h2 className="text-sm font-display font-bold text-gray-900 uppercase tracking-wide">AI Consensus Panel</h2>
+                <p className="text-[10px] font-mono text-gray-500">Claude · GPT-4o · Grok — live multi-model alignment</p>
               </div>
             </div>
-            <span className="text-[8px] font-mono bg-violet-100 text-violet-600 border border-violet-200 px-2 py-0.5 rounded-lg uppercase font-bold">Edge+</span>
+            <span className="text-[9px] font-mono bg-violet-100 text-violet-600 border border-violet-200 px-2 py-1 rounded-lg uppercase font-bold">Edge+</span>
           </div>
 
           {/* Model consensus for most recent signal */}
@@ -758,17 +748,16 @@ export function SignalCentreDashboardClient({
       <TierGate requiredTier="floor" userTier={userTier} featureName="Floor Intelligence Suite">
         <section className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm space-y-6">
           <div className="flex items-center justify-between border-b border-gray-100 pb-4">
-            <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-xl bg-amber-100 flex items-center justify-center">
-                <Crown className="w-4 h-4 text-amber-600" />
+            <div className="flex items-center gap-3">
+              <div className="w-9 h-9 rounded-xl bg-amber-100 flex items-center justify-center">
+                <Crown className="w-5 h-5 text-amber-600" />
               </div>
               <div>
-                <span className="text-amber-500 font-mono text-[9px] uppercase tracking-widest block mb-0.5">// Floor Only</span>
-                <h2 className="text-sm font-display font-bold text-text-primary uppercase tracking-wide">Floor Intelligence Suite</h2>
-                <p className="text-[9px] font-mono text-text-tertiary">Raw data · API export · Custom alerts · 1-to-1 review</p>
+                <h2 className="text-sm font-display font-bold text-gray-900 uppercase tracking-wide">Floor Intelligence Suite</h2>
+                <p className="text-[10px] font-mono text-gray-500">Raw data · API export · Custom alerts · 1-to-1 review</p>
               </div>
             </div>
-            <span className="text-[8px] font-mono bg-amber-100 text-amber-600 border border-amber-200 px-2 py-0.5 rounded-lg uppercase font-bold">Floor Only</span>
+            <span className="text-[9px] font-mono bg-amber-100 text-amber-600 border border-amber-200 px-2 py-1 rounded-lg uppercase font-bold">Floor Only</span>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -892,8 +881,9 @@ export function SignalCentreDashboardClient({
             <Award className="w-4 h-4 text-gray-600" />
           </div>
           <div>
-            <h2 className="text-sm font-bold text-gray-900 uppercase tracking-wider">Signal Archive & Performance</h2>
-            <p className="text-[9px] font-mono text-gray-400">Transparent track record · closed signal log</p>
+            <span className="font-mono text-[9px] uppercase tracking-widest block mb-0.5" style={{ color: "var(--tool-accent,#C8F135)" }}>// Archive</span>
+            <h2 className="text-sm font-display font-bold text-text-primary uppercase tracking-wide">Signal Archive &amp; Performance</h2>
+            <p className="text-[9px] font-mono text-text-tertiary">Transparent track record · closed signal log</p>
           </div>
         </div>
 

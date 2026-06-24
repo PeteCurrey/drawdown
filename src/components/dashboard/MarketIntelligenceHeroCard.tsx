@@ -77,20 +77,9 @@ interface SignalNode {
   deg: number;
   /** 0–1, fraction of face radius */
   radiusFactor: number;
-  /** B = Bullish, M = Mixed, C = Conflict */
-  letter: "B" | "M" | "C";
+  letter: string;
   alert: boolean;
 }
-
-const SIGNAL_NODES: SignalNode[] = [
-  { name: "RSI",        deg: 200, radiusFactor: 0.71, letter: "B", alert: false },
-  { name: "EMA",        deg: 222, radiusFactor: 0.63, letter: "B", alert: false },
-  { name: "COT",        deg: 248, radiusFactor: 0.55, letter: "C", alert: true  },
-  { name: "VOL",        deg: 270, radiusFactor: 0.59, letter: "M", alert: false },
-  { name: "NEWS",       deg: 294, radiusFactor: 0.55, letter: "M", alert: false },
-  { name: "ORDER FLOW", deg: 322, radiusFactor: 0.65, letter: "C", alert: true  },
-  { name: "MACRO",      deg: 346, radiusFactor: 0.71, letter: "B", alert: false },
-];
 
 // ── SVG arc helpers ───────────────────────────────────────────────────────────
 
@@ -150,8 +139,84 @@ export function MarketIntelligenceHeroCard({
   const [cardVisible,  setCardVisible]  = useState(false);
   const [arcPct,       setArcPct]       = useState(0);
   const [displayPct,   setDisplayPct]   = useState(0);
-  const [nodesVisible, setNodesVisible] = useState<boolean[]>(SIGNAL_NODES.map(() => false));
+  const [nodesVisible, setNodesVisible] = useState<boolean[]>(Array.from({ length: 7 }).map(() => false));
   const [feedVisible,  setFeedVisible]  = useState<boolean[]>(feedItems.map(() => false));
+
+  const [intelData, setIntelData] = useState<any>(null);
+  const [intelLoading, setIntelLoading] = useState(false);
+
+  // Sync state if initialInstrument changes from parent
+  useEffect(() => {
+    if (initialInstrument) {
+      setSelectedInst(initialInstrument);
+    }
+  }, [initialInstrument]);
+
+  // Fetch full intelligence data on instrument change
+  useEffect(() => {
+    setIntelLoading(true);
+    fetch(`/api/intelligence/full/${hookSlug}`)
+      .then(r => r.json())
+      .then(data => {
+        setIntelData(data);
+        setIntelLoading(false);
+      })
+      .catch(() => {
+        setIntelLoading(false);
+      });
+  }, [hookSlug]);
+
+  const SIGNAL_NODES: SignalNode[] = [
+    {
+      name: "RSI",
+      deg: 200,
+      radiusFactor: 0.71,
+      letter: md.rsi === null ? "N" : md.rsi < 40 ? "B" : md.rsi > 60 ? "S" : "N",
+      alert: md.rsi !== null && (md.rsi > 70 || md.rsi < 30),
+    },
+    {
+      name: "EMA",
+      deg: 222,
+      radiusFactor: 0.63,
+      letter: md.trendDir === "above" ? "B" : md.trendDir === "below" ? "S" : "N",
+      alert: md.trendLabel === "AT EMA",
+    },
+    {
+      name: "COT",
+      deg: 248,
+      radiusFactor: 0.55,
+      letter: intelData?.cot?.signal === "BULLISH" ? "B" : intelData?.cot?.signal === "BEARISH" ? "S" : "N",
+      alert: intelData?.cot?.signal === "BULLISH" || intelData?.cot?.signal === "BEARISH",
+    },
+    {
+      name: "VOL",
+      deg: 270,
+      radiusFactor: 0.59,
+      letter: md.volRatio === null ? "N" : md.volRatio > 120 ? (md.change && md.change > 0 ? "B" : "S") : "N",
+      alert: md.volRatio !== null && md.volRatio > 150,
+    },
+    {
+      name: "NEWS",
+      deg: 294,
+      radiusFactor: 0.55,
+      letter: intelData?.news?.overall_label === "BULLISH" ? "B" : intelData?.news?.overall_label === "BEARISH" ? "S" : "N",
+      alert: intelData?.news?.overall_label === "BULLISH" || intelData?.news?.overall_label === "BEARISH",
+    },
+    {
+      name: "ORDER FLOW",
+      deg: 322,
+      radiusFactor: 0.65,
+      letter: intelData?.retail_sentiment?.signal === "CONTRARIAN_BULLISH" ? "B" : intelData?.retail_sentiment?.signal === "CONTRARIAN_BEARISH" ? "S" : "N",
+      alert: intelData?.retail_sentiment?.signal === "CONTRARIAN_BULLISH" || intelData?.retail_sentiment?.signal === "CONTRARIAN_BEARISH",
+    },
+    {
+      name: "MACRO",
+      deg: 346,
+      radiusFactor: 0.71,
+      letter: intelData?.macro?.regime_label === "RISK-ON" ? "B" : intelData?.macro?.regime_label === "RISK-OFF" ? "S" : "N",
+      alert: intelData?.macro?.regime_label === "RISK-OFF",
+    },
+  ];
 
 
   // ── Entrance animation (once on mount) ────────────────────────────────────
@@ -178,7 +243,7 @@ export function MarketIntelligenceHeroCard({
     }, 200);
 
     // 3. Nodes stagger after arc (200ms delay + 1000ms arc = 1200ms base)
-    SIGNAL_NODES.forEach((_, i) => {
+    Array.from({ length: 7 }).forEach((_, i) => {
       setTimeout(() => {
         setNodesVisible(prev => {
           const next = [...prev];
@@ -572,19 +637,22 @@ export function MarketIntelligenceHeroCard({
                       const pillR = 122;
                       const px = 160 + pillR * Math.cos(rad);
                       const py = 160 + pillR * Math.sin(rad);
+                      const letterColor = node.letter === "B" ? "#00C896" : node.letter === "S" ? "#CE6969" : "rgba(255,255,255,0.5)";
+                      const pillBg = node.letter === "B" ? "rgba(0,200,150,0.08)" : node.letter === "S" ? "rgba(206,105,105,0.08)" : "rgba(255,255,255,0.07)";
+                      const pillStroke = node.letter === "B" ? "rgba(0,200,150,0.2)" : node.letter === "S" ? "rgba(206,105,105,0.2)" : "rgba(255,255,255,0.12)";
                       return (
                         <g>
                           <rect
                             x={px - 7} y={py - 5.5}
                             width={14} height={11}
                             rx={2.5}
-                            fill={node.alert ? "rgba(255,107,43,0.18)" : "rgba(255,255,255,0.07)"}
-                            stroke={node.alert ? "rgba(255,107,43,0.4)" : "rgba(255,255,255,0.12)"}
+                            fill={node.alert ? "rgba(255,107,43,0.18)" : pillBg}
+                            stroke={node.alert ? "rgba(255,107,43,0.4)" : pillStroke}
                             strokeWidth={0.6}
                           />
                           <text
                             x={px} y={py + 1}
-                            fill={node.alert ? "#FF6B2B" : "rgba(255,255,255,0.5)"}
+                            fill={node.alert ? "#FF6B2B" : letterColor}
                             fontSize={6}
                             fontWeight={600}
                             fontFamily="Inter, monospace"

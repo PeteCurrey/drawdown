@@ -1,6 +1,6 @@
 import { createServerClient } from "@supabase/ssr";
 
-const TWELVEDATA_API_KEY = process.env.TWELVEDATA_API_KEY;
+const TWELVEDATA_API_KEY = process.env.TWELVEDATA_API_KEY || process.env.TWELVE_DATA_KEY;
 const FINNHUB_API_KEY = process.env.FINNHUB_API_KEY;
 
 export interface MarketPrice {

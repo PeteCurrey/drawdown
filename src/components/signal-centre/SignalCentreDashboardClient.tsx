@@ -162,9 +162,33 @@ export function SignalCentreDashboardClient({
   const canSeeAIPanel = tierAtLeast(userTier, "edge");
   const canSeeFloor = tierAtLeast(userTier, "floor");
 
-  // Background scan on load
+  // Background scan on load + auto-refresh every 90 seconds
   useEffect(() => {
     triggerScan(true);
+
+    // Re-fetch signals from DB every 90 s so the feed stays live
+    const pollInterval = setInterval(async () => {
+      try {
+        const { data: freshSignals } = await supabase
+          .from("signals")
+          .select("*")
+          .eq("is_active", true)
+          .order("created_at", { ascending: false });
+        if (freshSignals) setSignals(freshSignals);
+      } catch (e) {
+        console.warn("[signal-centre] Auto-poll failed:", e);
+      }
+    }, 90_000);
+
+    // Full background scan every 5 minutes to generate new signals
+    const scanInterval = setInterval(() => {
+      triggerScan(true);
+    }, 300_000);
+
+    return () => {
+      clearInterval(pollInterval);
+      clearInterval(scanInterval);
+    };
   }, []);
 
   const triggerScan = async (background = false) => {
@@ -296,22 +320,22 @@ export function SignalCentreDashboardClient({
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {/* Foundation */}
         <div className={cn(
-          "rounded-2xl border p-5 flex items-start gap-4 transition-all",
+          "rounded-2xl border bg-white p-5 flex items-start gap-4 transition-all",
           tierAtLeast(userTier, "foundation")
-            ? "bg-blue-50 border-blue-200"
-            : "bg-white border-gray-200 opacity-60"
+            ? "border-l-4 border-blue-400 border-gray-200"
+            : "border-gray-200 opacity-60"
         )}>
-          <div className={cn("w-9 h-9 rounded-xl flex items-center justify-center shrink-0", tierAtLeast(userTier, "foundation") ? "bg-blue-100" : "bg-gray-100")}>
-            <Shield className={cn("w-4.5 h-4.5", tierAtLeast(userTier, "foundation") ? "text-blue-600" : "text-gray-400")} />
+          <div className={cn("w-9 h-9 rounded-xl flex items-center justify-center shrink-0", tierAtLeast(userTier, "foundation") ? "bg-blue-50" : "bg-gray-100")}>
+            <Shield className={cn("w-4 h-4", tierAtLeast(userTier, "foundation") ? "text-blue-600" : "text-gray-400")} />
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <h3 className={cn("text-xs font-bold uppercase tracking-wider", tierAtLeast(userTier, "foundation") ? "text-blue-700" : "text-gray-500")}>Foundation</h3>
+              <h3 className={cn("text-xs font-bold uppercase tracking-wider", tierAtLeast(userTier, "foundation") ? "text-gray-900" : "text-gray-500")}>Foundation</h3>
               {tierAtLeast(userTier, "foundation") && <CheckCircle2 className="w-3.5 h-3.5 text-blue-500" />}
             </div>
             <ul className="mt-1.5 space-y-1">
               {["Basic signal feed", "Entry, stop & target levels", "Single AI summary per signal"].map(f => (
-                <li key={f} className={cn("text-[10px] font-mono flex items-center gap-1.5", tierAtLeast(userTier, "foundation") ? "text-blue-700" : "text-gray-400")}>
+                <li key={f} className="text-[10px] font-mono flex items-center gap-1.5 text-gray-500">
                   <span className={cn("w-1 h-1 rounded-full shrink-0", tierAtLeast(userTier, "foundation") ? "bg-blue-400" : "bg-gray-300")} />
                   {f}
                 </li>
@@ -322,22 +346,22 @@ export function SignalCentreDashboardClient({
 
         {/* Edge */}
         <div className={cn(
-          "rounded-2xl border p-5 flex items-start gap-4 transition-all",
+          "rounded-2xl border bg-white p-5 flex items-start gap-4 transition-all",
           tierAtLeast(userTier, "edge")
-            ? "bg-violet-50 border-violet-200"
-            : "bg-white border-gray-200 opacity-60"
+            ? "border-l-4 border-violet-400 border-gray-200"
+            : "border-gray-200 opacity-60"
         )}>
-          <div className={cn("w-9 h-9 rounded-xl flex items-center justify-center shrink-0", tierAtLeast(userTier, "edge") ? "bg-violet-100" : "bg-gray-100")}>
-            <Zap className={cn("w-4.5 h-4.5", tierAtLeast(userTier, "edge") ? "text-violet-600" : "text-gray-400")} />
+          <div className={cn("w-9 h-9 rounded-xl flex items-center justify-center shrink-0", tierAtLeast(userTier, "edge") ? "bg-violet-50" : "bg-gray-100")}>
+            <Zap className={cn("w-4 h-4", tierAtLeast(userTier, "edge") ? "text-violet-600" : "text-gray-400")} />
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <h3 className={cn("text-xs font-bold uppercase tracking-wider", tierAtLeast(userTier, "edge") ? "text-violet-700" : "text-gray-500")}>Edge</h3>
+              <h3 className={cn("text-xs font-bold uppercase tracking-wider", tierAtLeast(userTier, "edge") ? "text-gray-900" : "text-gray-500")}>Edge</h3>
               {tierAtLeast(userTier, "edge") && <CheckCircle2 className="w-3.5 h-3.5 text-violet-500" />}
             </div>
             <ul className="mt-1.5 space-y-1">
               {["Full AI Consensus Panel (3 models)", "Crypto intelligence + on-chain data", "Acuity trading ideas feed"].map(f => (
-                <li key={f} className={cn("text-[10px] font-mono flex items-center gap-1.5", tierAtLeast(userTier, "edge") ? "text-violet-700" : "text-gray-400")}>
+                <li key={f} className="text-[10px] font-mono flex items-center gap-1.5 text-gray-500">
                   <span className={cn("w-1 h-1 rounded-full shrink-0", tierAtLeast(userTier, "edge") ? "bg-violet-400" : "bg-gray-300")} />
                   {f}
                 </li>
@@ -348,22 +372,22 @@ export function SignalCentreDashboardClient({
 
         {/* Floor */}
         <div className={cn(
-          "rounded-2xl border p-5 flex items-start gap-4 transition-all",
+          "rounded-2xl border bg-white p-5 flex items-start gap-4 transition-all",
           tierAtLeast(userTier, "floor")
-            ? "bg-amber-50 border-amber-200"
-            : "bg-white border-gray-200 opacity-60"
+            ? "border-l-4 border-amber-400 border-gray-200"
+            : "border-gray-200 opacity-60"
         )}>
-          <div className={cn("w-9 h-9 rounded-xl flex items-center justify-center shrink-0", tierAtLeast(userTier, "floor") ? "bg-amber-100" : "bg-gray-100")}>
-            <Crown className={cn("w-4.5 h-4.5", tierAtLeast(userTier, "floor") ? "text-amber-600" : "text-gray-400")} />
+          <div className={cn("w-9 h-9 rounded-xl flex items-center justify-center shrink-0", tierAtLeast(userTier, "floor") ? "bg-amber-50" : "bg-gray-100")}>
+            <Crown className={cn("w-4 h-4", tierAtLeast(userTier, "floor") ? "text-amber-600" : "text-gray-400")} />
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <h3 className={cn("text-xs font-bold uppercase tracking-wider", tierAtLeast(userTier, "floor") ? "text-amber-700" : "text-gray-500")}>Floor</h3>
+              <h3 className={cn("text-xs font-bold uppercase tracking-wider", tierAtLeast(userTier, "floor") ? "text-gray-900" : "text-gray-500")}>Floor</h3>
               {tierAtLeast(userTier, "floor") && <CheckCircle2 className="w-3.5 h-3.5 text-amber-500" />}
             </div>
             <ul className="mt-1.5 space-y-1">
               {["Raw data access + API export", "Custom alert webhooks", "1-to-1 signal review with Pete"].map(f => (
-                <li key={f} className={cn("text-[10px] font-mono flex items-center gap-1.5", tierAtLeast(userTier, "floor") ? "text-amber-700" : "text-gray-400")}>
+                <li key={f} className="text-[10px] font-mono flex items-center gap-1.5 text-gray-500">
                   <span className={cn("w-1 h-1 rounded-full shrink-0", tierAtLeast(userTier, "floor") ? "bg-amber-400" : "bg-gray-300")} />
                   {f}
                 </li>
@@ -511,17 +535,28 @@ export function SignalCentreDashboardClient({
             return (
               <div
                 key={s.id}
-                className="bg-white border border-gray-200 hover:border-violet-300 rounded-2xl shadow-sm hover:shadow-md transition-all duration-200 flex flex-col justify-between overflow-hidden group"
+                className="relative bg-white border border-gray-200 hover:border-gray-300 rounded-2xl shadow-sm hover:shadow-md transition-all duration-200 flex flex-col justify-between overflow-hidden group"
               >
-                {/* Bias accent bar */}
-                <div className={cn(
-                  "h-1 w-full",
-                  isBullish
-                    ? "bg-gradient-to-r from-emerald-400 to-teal-500"
-                    : "bg-gradient-to-r from-red-400 to-rose-500"
-                )} />
+                {/* Bullish bottom-left glow — matches InstrumentIntelligenceCard */}
+                <div
+                  className="absolute inset-0 pointer-events-none z-0"
+                  style={{
+                    opacity: isBullish ? 1 : 0,
+                    background: "radial-gradient(ellipse 110% 90% at 0% 100%, rgba(0,200,100,0.22) 0%, rgba(0,200,100,0.05) 45%, transparent 70%)",
+                    transition: "opacity 600ms ease",
+                  }}
+                />
+                {/* Bearish bottom-left glow */}
+                <div
+                  className="absolute inset-0 pointer-events-none z-0"
+                  style={{
+                    opacity: isBullish ? 0 : 1,
+                    background: "radial-gradient(ellipse 110% 90% at 0% 100%, rgba(220,50,50,0.22) 0%, rgba(220,50,50,0.05) 45%, transparent 70%)",
+                    transition: "opacity 600ms ease",
+                  }}
+                />
 
-                <div className="p-5 space-y-4 flex-1">
+                <div className="relative z-10 p-5 space-y-4 flex-1">
                   {/* Card header */}
                   <div className="flex items-start justify-between gap-2 border-b border-gray-100 pb-3">
                     <div>
@@ -597,7 +632,7 @@ export function SignalCentreDashboardClient({
                       <div className="flex gap-1.5">
                         <span className={cn(
                           "px-2 py-0.5 rounded-md text-[8px] font-mono border font-bold uppercase",
-                          clAligned ? "bg-orange-50 border-orange-200 text-orange-600" : "bg-gray-50 border-gray-200 text-gray-400"
+                          clAligned ? "bg-teal-50 border-teal-200 text-teal-600" : "bg-gray-50 border-gray-200 text-gray-400"
                         )}>
                           Claude {clAligned ? "✓" : "—"}
                         </span>
@@ -635,7 +670,7 @@ export function SignalCentreDashboardClient({
                 </div>
 
                 {/* Card Footer */}
-                <div className="px-5 py-3.5 bg-gray-50 border-t border-gray-100 flex items-center justify-between gap-2">
+                <div className="relative z-10 px-5 py-3.5 bg-gray-50/80 border-t border-gray-100 flex items-center justify-between gap-2">
                   <div className="flex items-center gap-2">
                     <button
                       onClick={() => handleCopyLink(s.id)}

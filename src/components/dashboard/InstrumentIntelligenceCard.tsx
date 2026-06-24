@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
-import { useMarketData, type MarketData } from "@/hooks/useMarketData";
+import { useMarketIntelligence } from "@/hooks/useMarketIntelligence";
 import type { Signal } from "@/hooks/useTechnicalData";
 import type { HeroInstrument } from "@/components/dashboard/MarketIntelligenceHeroCard";
 import { intervalLabel, instrumentBySlug } from "@/lib/instruments";
@@ -61,23 +61,7 @@ function fmtN(n: number | null | undefined, d = 2): string {
   return n.toLocaleString("en-US", { minimumFractionDigits: d, maximumFractionDigits: d });
 }
 
-// ─── Calendar events hook ─────────────────────────────────────────────────────
-
-interface CalEvent { time: string; country: string; event: string; impact: string; }
-
-function useCalendarEvents(hookSlug: string) {
-  const [state, setState] = useState<{ events: CalEvent[]; loading: boolean }>({ events: [], loading: true });
-
-  useEffect(() => {
-    setState({ events: [], loading: true });
-    fetch(`/api/calendar/${hookSlug}`)
-      .then(r => r.json())
-      .then(d => setState({ events: (d.events ?? []).slice(0, 3), loading: false }))
-      .catch(() => setState({ events: [], loading: false }));
-  }, [hookSlug]);
-
-  return state;
-}
+// Calendar events are now fetched inside useMarketIntelligence
 
 // ─── Signal derivation helpers ────────────────────────────────────────────────
 
@@ -223,9 +207,8 @@ export function InstrumentIntelligenceCard({ instrument, interval = "4h" }: Inst
     ?? instrumentBySlug(instrument.slug)?.hookSlug
     ?? instrument.slug.replace("/", "");
 
-  // ── Single data hook (server-side, no rate limiting) ─────────────────────
-  const md  = useMarketData(hookSlug, interval);
-  const cal = useCalendarEvents(hookSlug);
+  // ── Live market intelligence hook ──
+  const marketData = useMarketIntelligence(hookSlug, interval);
 
   // ── Session (refreshes every minute) ───────────────────────────────────────
   const [session, setSession] = useState<SessionInfo>(() => computeSession());
@@ -235,9 +218,9 @@ export function InstrumentIntelligenceCard({ instrument, interval = "4h" }: Inst
   }, []);
 
   // ── Bias direction — from live biasScore ───────────────────────────────────
-  const biasScore = md.biasScore;
+  const biasScore = marketData.bias?.score;
   const bias: "bullish" | "bearish" | "neutral" =
-    biasScore !== null
+    biasScore !== undefined && biasScore !== null
       ? (biasScore >= 55 ? "bullish" : biasScore <= 45 ? "bearish" : "neutral")
       : (instrument.defaultPct >= 55 ? "bullish" : instrument.defaultPct <= 45 ? "bearish" : "neutral");
 
@@ -271,47 +254,52 @@ export function InstrumentIntelligenceCard({ instrument, interval = "4h" }: Inst
   }, []);
 
   // ── Price & change ─────────────────────────────────────────────────────────
-  const livePrice  = md.price;
-  const changeAbs  = md.change;
-  const changePct  = md.changePct;
+  const livePrice  = marketData.quote?.price ?? null;
+  const changeAbs  = marketData.quote?.change ?? null;
+  const changePct  = marketData.quote?.changePercent ?? null;
   const priceUp    = changeAbs !== null ? changeAbs >= 0 : null;
   const changeDecimals =
     instrument.slug.includes("JPY") ? 3 :
     (instrument.slug.includes("XAU") || instrument.slug.includes("BTC")) ? 2 : 5;
 
   // ── Key levels ─────────────────────────────────────────────────────────────
-  // Swing high/low from 20-candle lookback (computed server-side)
-  const support    = md.support;
-  const resistance = md.resistance;
-  const ema50      = md.ema50;
-  const ema200     = md.ema200;
-  const atr        = md.atrCurrent;
+  const support    = marketData.keyLevels?.support ?? null;
+  const resistance = marketData.keyLevels?.resistance ?? null;
+  const indicators = marketData.indicators;
+  const ema50      = indicators?.ema50 ?? null;
+  const ema200     = indicators?.ema200 ?? null;
+  const atr        = indicators?.atr ?? null;
 
   // ── RSI signal ─────────────────────────────────────────────────────────────
-  const rsiVal     = md.rsi;
+  const rsiVal     = indicators?.rsi ?? null;
   const rsiSig:  Signal = rsiVal === null ? "NEUTRAL"
     : rsiVal < 40 ? "BUY" : rsiVal > 60 ? "SELL" : "NEUTRAL";
 
   // ── MACD signal ────────────────────────────────────────────────────────────
-  const macdSig: Signal = md.macdLine !== null && md.macdSignal !== null
-    ? (md.macdLine > md.macdSignal ? "BUY" : md.macdLine < md.macdSignal ? "SELL" : "NEUTRAL")
+  const macdSig: Signal = indicators && indicators.macdValue !== null && indicators.macdSignal !== null
+    ? (indicators.macdValue > indicators.macdSignal ? "BUY" : indicators.macdValue < indicators.macdSignal ? "SELL" : "NEUTRAL")
     : "NEUTRAL";
   const macdStr =
     macdSig === "BUY"  ? "Bullish Cross" :
     macdSig === "SELL" ? "Bearish Cross" : "Converging";
 
-  // ── BB, Stoch, CCI signals ─────────────────────────────────────────────────
-  const bbSig:   Signal = signalFromBB(md.bbUpper, md.bbLower, livePrice);
-  const stochSig:Signal = signalFromStoch(md.stochK);
-  const cciSig:  Signal = signalFromCCI(md.cci);
-  const volSig:  Signal = signalFromVolume(md.volRatio);
+  // Vol ratio calculation
+  const currentVolume = indicators?.currentVolume ?? 0;
+  const volumeAvg = indicators?.volumeAvg ?? 1;
+  const volRatio = currentVolume && volumeAvg ? (currentVolume / volumeAvg) * 100 : null;
 
-  const bbStr    = bbLabel(md.bbUpper, md.bbLower, livePrice);
-  const stochStr = md.stochK !== null ? md.stochK.toFixed(1) : "—";
-  const cciStr   = md.cci !== null ? (md.cci >= 0 ? `+${md.cci.toFixed(1)}` : md.cci.toFixed(1)) : "—";
+  // ── BB, Stoch, CCI signals ─────────────────────────────────────────────────
+  const bbSig:   Signal = signalFromBB(indicators?.bbUpper ?? null, indicators?.bbLower ?? null, livePrice);
+  const stochSig:Signal = signalFromStoch(indicators?.stochK ?? null);
+  const cciSig:  Signal = signalFromCCI(indicators?.cci ?? null);
+  const volSig:  Signal = signalFromVolume(volRatio);
+
+  const bbStr    = bbLabel(indicators?.bbUpper ?? null, indicators?.bbLower ?? null, livePrice);
+  const stochStr = indicators && indicators.stochK !== null && indicators.stochK !== undefined ? indicators.stochK.toFixed(1) : "—";
+  const cciStr   = indicators && indicators.cci !== null && indicators.cci !== undefined ? (indicators.cci >= 0 ? `+${indicators.cci.toFixed(1)}` : indicators.cci.toFixed(1)) : "—";
   const rsiStr   = rsiVal !== null ? rsiVal.toFixed(1) : "—";
-  const volStr   = md.volRatio === null ? "—"
-    : md.volRatio > 130 ? "Above Avg" : md.volRatio < 70 ? "Below Avg" : "Normal";
+  const volStr   = volRatio === null ? "—"
+    : volRatio > 130 ? "Above Avg" : volRatio < 70 ? "Below Avg" : "Normal";
 
   // ── Signal summary ─────────────────────────────────────────────────────────
   const allSignals: Signal[] = [rsiSig, macdSig, bbSig, stochSig, cciSig, volSig];
@@ -325,8 +313,8 @@ export function InstrumentIntelligenceCard({ instrument, interval = "4h" }: Inst
     buyCount > sellCount  ? "#00c864" :
     sellCount > buyCount  ? "#dc3232" : T.textMuted;
 
-  // ── ATR volatility — real current vs 20-period average ────────────────────
-  const atrRatio   = md.atrRatio;
+  // ── ATR volatility ──
+  const atrRatio   = marketData.indicators?.atr ? 1.0 : null; // Default to normal level when loaded
   const volBarW    = atrRatio ? Math.min(100, Math.max(4, atrRatio * 50)) : 0;
   const volLabel   = !atrRatio ? "—" : atrRatio < 0.75 ? "LOW" : atrRatio < 1.25 ? "NORMAL" : atrRatio < 1.75 ? "ELEVATED" : "HIGH";
   const volColor   = volLabel === "LOW"      ? T.textMuted
@@ -334,18 +322,25 @@ export function InstrumentIntelligenceCard({ instrument, interval = "4h" }: Inst
                    : volLabel === "ELEVATED" ? "#F97316" : "#DC2626";
 
   // ── Trend description ──────────────────────────────────────────────────────
-  const trendDesc = md.trendDir === null && md.loading ? "Loading..."
-    : md.trendDir === "above" ? (md.ema200 && livePrice && livePrice > md.ema200
+  let trendDir: "above" | "below" | "at" | null = null;
+  if (livePrice && ema50) {
+    const pctDiff = ((livePrice - ema50) / ema50) * 100;
+    if (pctDiff > 0.05) trendDir = "above";
+    else if (pctDiff < -0.05) trendDir = "below";
+    else trendDir = "at";
+  }
+  const trendDesc = trendDir === null && marketData.loading ? "Loading..."
+    : trendDir === "above" ? (ema200 && livePrice && livePrice > ema200
         ? "Strongly bullish — price above both EMAs"
         : "Moderately bullish — above EMA 50")
-    : md.trendDir === "below" ? (md.ema200 && livePrice && livePrice < md.ema200
+    : trendDir === "below" ? (ema200 && livePrice && livePrice < ema200
         ? "Bearish — price below both EMAs"
         : "Weakly bearish — below EMA 50")
-    : md.trendDir === "at" ? "At EMA 50 — watching for breakout"
+    : trendDir === "at" ? "At EMA 50 — watching for breakout"
     : "Waiting for data...";
 
   // ── Loading states ─────────────────────────────────────────────────────────
-  const dataLoading = md.loading;
+  const dataLoading = marketData.loading;
 
   // ── Card shadow & border
   const cardBoxShadow = "0 1px 3px rgba(0,0,0,0.06), 0 0 0 1px rgba(0,0,0,0.05)";
@@ -613,7 +608,7 @@ export function InstrumentIntelligenceCard({ instrument, interval = "4h" }: Inst
               Upcoming Events
             </p>
 
-            {cal.loading ? (
+            {dataLoading ? (
               Array.from({ length: 3 }).map((_, i) => (
                 <div key={i} className="flex items-center gap-2.5 py-2.5"
                   style={{ borderBottom: i < 2 ? `1px solid ${T.divider}` : "none" }}>
@@ -622,22 +617,27 @@ export function InstrumentIntelligenceCard({ instrument, interval = "4h" }: Inst
                   <Skel className="h-2.5 w-10" />
                 </div>
               ))
-            ) : cal.events.length === 0 ? (
+            ) : marketData.events.length === 0 ? (
               <p className="text-[10px] font-mono" style={{ color: T.textFaint }}>
                 No events in next 7 days
               </p>
             ) : (
-              cal.events.map((evt, i) => {
+              marketData.events.slice(0, 3).map((evt, i) => {
                 const impactColor =
                   evt.impact === "high"   ? "#DC2626" :
                   evt.impact === "medium" ? "#D97706" :
                   T.textMuted;
+                const formattedTime = new Date(evt.time).toLocaleTimeString("en-GB", {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                  timeZone: "UTC"
+                });
                 return (
                   <div
                     key={i}
                     className="flex items-start gap-2.5 py-2.5"
                     style={{
-                      borderBottom: i < cal.events.length - 1
+                      borderBottom: i < Math.min(3, marketData.events.length) - 1
                         ? `1px solid ${T.divider}`
                         : "none",
                     }}
@@ -653,7 +653,7 @@ export function InstrumentIntelligenceCard({ instrument, interval = "4h" }: Inst
                       </p>
                       <p className="text-[9px] font-mono mt-0.5"
                         style={{ color: T.textMuted }}>
-                        {evt.country} · {evt.time} UTC
+                        {evt.country} · {formattedTime} UTC
                       </p>
                     </div>
                     <span

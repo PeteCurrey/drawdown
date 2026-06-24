@@ -220,3 +220,96 @@ export function currencyFilter(hookSlug: string): string[] {
   };
   return map[hookSlug] ?? ["USD"];
 }
+
+export type InstrumentKey = 
+  | 'GBPUSD' | 'EURUSD' | 'USDJPY' | 'EURGBP'
+  | 'XAUUSD' | 'BTCUSD' | 'ETHUSD'
+  | 'US30' | 'UK100' | 'SPX500' | 'NAS100';
+
+export type InstrumentCategory = 'forex' | 'crypto' | 'index' | 'commodity';
+
+export interface InstrumentConfig {
+  key: InstrumentKey;
+  label: string;            // display: "GBP / USD"
+  twelveDataSymbol: string; // symbol for Twelve Data API
+  finnhubSymbol: string;    // symbol for FinnHub API  
+  category: InstrumentCategory;
+  baseCurrency: string;     // for news + calendar filtering e.g. "GBP"
+  quoteCurrency: string;    // e.g. "USD"
+  pipDecimalPlaces: number; // 4 for most forex, 2 for JPY, gold, indices
+  newsKeywords: string[];   // search terms for relevant FinnHub news
+}
+
+export const INSTRUMENTS: Record<InstrumentKey, InstrumentConfig> = {
+  GBPUSD: {
+    key: 'GBPUSD', label: 'GBP / USD',
+    twelveDataSymbol: 'GBP/USD', finnhubSymbol: 'OANDA:GBP_USD',
+    category: 'forex', baseCurrency: 'GBP', quoteCurrency: 'USD',
+    pipDecimalPlaces: 4, newsKeywords: ['GBP', 'sterling', 'pound', 'BOE', 'Bank of England']
+  },
+  EURUSD: {
+    key: 'EURUSD', label: 'EUR / USD',
+    twelveDataSymbol: 'EUR/USD', finnhubSymbol: 'OANDA:EUR_USD',
+    category: 'forex', baseCurrency: 'EUR', quoteCurrency: 'USD',
+    pipDecimalPlaces: 4, newsKeywords: ['EUR', 'euro', 'ECB', 'eurozone']
+  },
+  USDJPY: {
+    key: 'USDJPY', label: 'USD / JPY',
+    twelveDataSymbol: 'USD/JPY', finnhubSymbol: 'OANDA:USD_JPY',
+    category: 'forex', baseCurrency: 'USD', quoteCurrency: 'JPY',
+    pipDecimalPlaces: 2, newsKeywords: ['JPY', 'yen', 'BOJ', 'Bank of Japan']
+  },
+  EURGBP: {
+    key: 'EURGBP', label: 'EUR / GBP',
+    twelveDataSymbol: 'EUR/GBP', finnhubSymbol: 'OANDA:EUR_GBP',
+    category: 'forex', baseCurrency: 'EUR', quoteCurrency: 'GBP',
+    pipDecimalPlaces: 4, newsKeywords: ['EUR', 'GBP', 'ECB', 'BOE']
+  },
+  XAUUSD: {
+    key: 'XAUUSD', label: 'XAU / USD',
+    twelveDataSymbol: 'XAU/USD', finnhubSymbol: 'OANDA:XAU_USD',
+    category: 'commodity', baseCurrency: 'XAU', quoteCurrency: 'USD',
+    pipDecimalPlaces: 2, newsKeywords: ['gold', 'XAU', 'bullion', 'precious metals']
+  },
+  BTCUSD: {
+    key: 'BTCUSD', label: 'BTC / USD',
+    twelveDataSymbol: 'BTC/USD', finnhubSymbol: 'BINANCE:BTCUSDT',
+    category: 'crypto', baseCurrency: 'BTC', quoteCurrency: 'USD',
+    pipDecimalPlaces: 2, newsKeywords: ['bitcoin', 'BTC', 'crypto']
+  },
+  ETHUSD: {
+    key: 'ETHUSD', label: 'ETH / USD',
+    twelveDataSymbol: 'ETH/USD', finnhubSymbol: 'BINANCE:ETHUSDT',
+    category: 'crypto', baseCurrency: 'ETH', quoteCurrency: 'USD',
+    pipDecimalPlaces: 2, newsKeywords: ['ethereum', 'ETH', 'crypto']
+  },
+  US30: {
+    key: 'US30', label: 'US30',
+    twelveDataSymbol: 'DJI', finnhubSymbol: 'INDEX:DJI',
+    category: 'index', baseCurrency: 'USD', quoteCurrency: 'USD',
+    pipDecimalPlaces: 0, newsKeywords: ['Dow Jones', 'DJI', 'US stocks', 'Fed']
+  },
+  UK100: {
+    key: 'UK100', label: 'UK100',
+    twelveDataSymbol: 'FTSE', finnhubSymbol: 'INDEX:UKX',
+    category: 'index', baseCurrency: 'GBP', quoteCurrency: 'GBP',
+    pipDecimalPlaces: 0, newsKeywords: ['FTSE', 'UK100', 'UK stocks', 'BOE']
+  },
+  SPX500: {
+    key: 'SPX500', label: 'SPX 500',
+    twelveDataSymbol: 'SPX', finnhubSymbol: 'INDEX:SPX',
+    category: 'index', baseCurrency: 'USD', quoteCurrency: 'USD',
+    pipDecimalPlaces: 0, newsKeywords: ['S&P 500', 'SPX', 'US equities', 'Fed']
+  },
+  NAS100: {
+    key: 'NAS100', label: 'NAS100',
+    twelveDataSymbol: 'NDX', finnhubSymbol: 'INDEX:NDX',
+    category: 'index', baseCurrency: 'USD', quoteCurrency: 'USD',
+    pipDecimalPlaces: 0, newsKeywords: ['Nasdaq', 'NDX', 'tech stocks', 'Fed']
+  },
+};
+
+export const TIMEFRAME_MAP: Record<string, string> = {
+  '5m': '5min', '15m': '15min', '30m': '30min',
+  '1H': '1h', '4H': '4h', '1D': '1day', '1W': '1week',
+};

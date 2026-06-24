@@ -5,7 +5,7 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { ChevronDown, MoreHorizontal, AlertCircle } from "lucide-react";
 import { INSTRUMENT_GROUPS, TIMEFRAMES, type Instrument } from "@/lib/instruments";
-import { useMarketData } from "@/hooks/useMarketData";
+import { useMarketIntelligence } from "@/hooks/useMarketIntelligence";
 
 /* ─────────────────────────────────────────────────────────────────────────────
    MarketIntelligenceHeroCard
@@ -48,6 +48,7 @@ export interface HeroFeedItem {
   source?: string;
   message: string;
   time?: string;
+  url?: string;
 }
 
 interface OpenAlert {
@@ -118,21 +119,47 @@ export function MarketIntelligenceHeroCard({
   );
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
-  // ── Live data hook (single server-side call — no rate-limit exposure) ────────
+  // ── Live data hook ──
   const hookSlug = (selectedInst as any).hookSlug ?? selectedInst.slug.replace("/", "");
-  const md = useMarketData(hookSlug, selectedInterval);
+  const marketData = useMarketIntelligence(hookSlug, selectedInterval);
 
   // biasScore: use live value, fall back to placeholder while loading
-  const targetBias = md.biasScore ?? selectedInst.defaultPct;
+  const targetBias = marketData.bias?.score ?? selectedInst.defaultPct;
 
   // Live footer values
-  const livePrice = md.price;
+  const livePrice = marketData.quote?.price ?? null;
   const livePriceStr = livePrice
-    ? livePrice.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 5 })
+    ? livePrice.toLocaleString("en-US", {
+        minimumFractionDigits: selectedInst.slug.includes("JPY") ? 3 : (selectedInst.slug.includes("XAU") || selectedInst.slug.includes("BTC") ? 2 : 5),
+        maximumFractionDigits: selectedInst.slug.includes("JPY") ? 3 : (selectedInst.slug.includes("XAU") || selectedInst.slug.includes("BTC") ? 2 : 5)
+      })
     : "—";
-  const liveRsiStr = md.rsi !== null ? md.rsi.toFixed(1) : "—";
-  const liveTrend      = md.trendLabel;
-  const liveTrendColor = md.trendDir === "above" ? "#00C896" : md.trendDir === "below" ? "#CE6969" : "#F9A825";
+  const liveRsiStr = marketData.indicators?.rsi !== null && marketData.indicators?.rsi !== undefined
+    ? marketData.indicators.rsi.toFixed(1)
+    : "—";
+
+  let liveTrend = "—";
+  let trendDir: "above" | "below" | "at" | null = null;
+  if (livePrice && marketData.indicators?.ema50) {
+    const ema50 = marketData.indicators.ema50;
+    const pctDiff = ((livePrice - ema50) / ema50) * 100;
+    if (pctDiff > 0.05) {
+      liveTrend = "ABOVE EMA";
+      trendDir = "above";
+    } else if (pctDiff < -0.05) {
+      liveTrend = "BELOW EMA";
+      trendDir = "below";
+    } else {
+      liveTrend = "AT EMA";
+      trendDir = "at";
+    }
+  }
+  const liveTrendColor = trendDir === "above" ? "#00C896" : trendDir === "below" ? "#CE6969" : "#F9A825";
+
+  // Vol ratio calculation for signals
+  const currentVolume = marketData.indicators?.currentVolume ?? 0;
+  const volumeAvg = marketData.indicators?.volumeAvg ?? 1;
+  const volRatio = currentVolume && volumeAvg ? (currentVolume / volumeAvg) * 100 : null;
 
   // Animation state
   const hasAnimated    = useRef(false);
@@ -140,10 +167,28 @@ export function MarketIntelligenceHeroCard({
   const [arcPct,       setArcPct]       = useState(0);
   const [displayPct,   setDisplayPct]   = useState(0);
   const [nodesVisible, setNodesVisible] = useState<boolean[]>(Array.from({ length: 7 }).map(() => false));
-  const [feedVisible,  setFeedVisible]  = useState<boolean[]>(feedItems.map(() => false));
+  const [feedVisible,  setFeedVisible]  = useState<boolean[]>(Array.from({ length: 6 }).map(() => false));
 
   const [intelData, setIntelData] = useState<any>(null);
   const [intelLoading, setIntelLoading] = useState(false);
+
+  // Dynamic ticking London/GMT Clock
+  const [londonTime, setLondonTime] = useState<string>("");
+  useEffect(() => {
+    const updateTime = () => {
+      const timeStr = new Date().toLocaleTimeString("en-GB", {
+        timeZone: "Europe/London",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+        hour12: false
+      });
+      setLondonTime(`${timeStr} London`);
+    };
+    updateTime();
+    const interval = setInterval(updateTime, 1000);
+    return () => clearInterval(interval);
+  }, []);
 
   // Sync state if initialInstrument changes from parent
   useEffect(() => {
@@ -166,55 +211,135 @@ export function MarketIntelligenceHeroCard({
       });
   }, [hookSlug]);
 
+  // Construct live feed items from actual news, events, and signal alerts
+  const liveFeedItems = (() => {
+    const items: HeroFeedItem[] = [];
+
+    // 1. News items
+    marketData.news.slice(0, 3).forEach((item) => {
+      items.push({
+        id: `news-${item.id}`,
+        type: "event",
+        severity: "green",
+        source: item.source,
+        message: item.headline,
+        time: new Date(item.datetime).toLocaleTimeString("en-GB", {
+          hour: "2-digit",
+          minute: "2-digit"
+        }) + " UTC",
+        url: item.url
+      });
+    });
+
+    // 2. Economic Calendar events
+    marketData.events.slice(0, 2).forEach((item) => {
+      items.push({
+        id: `event-${item.id}`,
+        type: "event",
+        severity: item.impact === "high" ? "red" : item.impact === "medium" ? "orange" : "green",
+        source: "ECONOMIC EVENT",
+        message: `📋 ${item.country} ${item.event} (Est: ${item.estimate ?? "—"})`,
+        time: new Date(item.time).toLocaleTimeString("en-GB", {
+          hour: "2-digit",
+          minute: "2-digit"
+        }) + " UTC"
+      });
+    });
+
+    // 3. Technical signal alerts
+    if (marketData.indicators?.rsi !== null && marketData.indicators?.rsi !== undefined) {
+      const rsi = marketData.indicators.rsi;
+      if (rsi > 70) {
+        items.push({
+          id: `rsi-alert-high`,
+          type: "alert",
+          severity: "red",
+          source: "RSI Alert",
+          message: `RSI Overbought (${rsi.toFixed(1)}) on ${selectedInterval}. Potential trend fatigue.`,
+          time: "Just now"
+        });
+      } else if (rsi < 30) {
+        items.push({
+          id: `rsi-alert-low`,
+          type: "alert",
+          severity: "green",
+          source: "RSI Alert",
+          message: `RSI Oversold (${rsi.toFixed(1)}) on ${selectedInterval}. Potential accumulation.`,
+          time: "Just now"
+        });
+      }
+    }
+
+    // 4. Fallback if empty
+    if (items.length === 0) {
+      items.push({
+        id: `seed-status-${hookSlug}`,
+        type: "event",
+        severity: "green",
+        message: `Live market data connection active for ${selectedInst.name}.`,
+        time: "Active",
+      });
+    }
+
+    return items.slice(0, 6);
+  })();
+
+  // Stagger animation for feed items when count changes
+  useEffect(() => {
+    setFeedVisible(Array(liveFeedItems.length).fill(true));
+  }, [liveFeedItems.length]);
+
   const SIGNAL_NODES: SignalNode[] = [
     {
       name: "RSI",
       deg: 200,
       radiusFactor: 0.71,
-      letter: md.rsi === null ? "N" : md.rsi < 40 ? "B" : md.rsi > 60 ? "S" : "N",
-      alert: md.rsi !== null && (md.rsi > 70 || md.rsi < 30),
+      letter: marketData.indicators?.rsi === null || marketData.indicators?.rsi === undefined
+        ? "N"
+        : marketData.indicators.rsi < 40 ? "B" : marketData.indicators.rsi > 60 ? "S" : "N",
+      alert: marketData.bias?.conflictNodes.includes("RSI") ?? false,
     },
     {
       name: "EMA",
       deg: 222,
       radiusFactor: 0.63,
-      letter: md.trendDir === "above" ? "B" : md.trendDir === "below" ? "S" : "N",
-      alert: md.trendLabel === "AT EMA",
+      letter: trendDir === "above" ? "B" : trendDir === "below" ? "S" : "N",
+      alert: marketData.bias?.conflictNodes.includes("EMA") ?? false,
     },
     {
       name: "COT",
       deg: 248,
       radiusFactor: 0.55,
       letter: intelData?.cot?.signal === "BULLISH" ? "B" : intelData?.cot?.signal === "BEARISH" ? "S" : "N",
-      alert: intelData?.cot?.signal === "BULLISH" || intelData?.cot?.signal === "BEARISH",
+      alert: marketData.bias?.conflictNodes.includes("COT") ?? false,
     },
     {
       name: "VOL",
       deg: 270,
       radiusFactor: 0.59,
-      letter: md.volRatio === null ? "N" : md.volRatio > 120 ? (md.change && md.change > 0 ? "B" : "S") : "N",
-      alert: md.volRatio !== null && md.volRatio > 150,
+      letter: volRatio === null ? "N" : volRatio > 120 ? (marketData.quote?.change && marketData.quote.change > 0 ? "B" : "S") : "N",
+      alert: marketData.bias?.conflictNodes.includes("VOL") ?? false,
     },
     {
       name: "NEWS",
       deg: 294,
       radiusFactor: 0.55,
       letter: intelData?.news?.overall_label === "BULLISH" ? "B" : intelData?.news?.overall_label === "BEARISH" ? "S" : "N",
-      alert: intelData?.news?.overall_label === "BULLISH" || intelData?.news?.overall_label === "BEARISH",
+      alert: marketData.bias?.conflictNodes.includes("NEWS") ?? false,
     },
     {
       name: "ORDER FLOW",
       deg: 322,
       radiusFactor: 0.65,
       letter: intelData?.retail_sentiment?.signal === "CONTRARIAN_BULLISH" ? "B" : intelData?.retail_sentiment?.signal === "CONTRARIAN_BEARISH" ? "S" : "N",
-      alert: intelData?.retail_sentiment?.signal === "CONTRARIAN_BULLISH" || intelData?.retail_sentiment?.signal === "CONTRARIAN_BEARISH",
+      alert: marketData.bias?.conflictNodes.includes("ORDER FLOW") ?? false,
     },
     {
       name: "MACRO",
       deg: 346,
       radiusFactor: 0.71,
       letter: intelData?.macro?.regime_label === "RISK-ON" ? "B" : intelData?.macro?.regime_label === "RISK-OFF" ? "S" : "N",
-      alert: intelData?.macro?.regime_label === "RISK-OFF",
+      alert: marketData.bias?.conflictNodes.includes("MACRO") ?? false,
     },
   ];
 
@@ -779,9 +904,63 @@ export function MarketIntelligenceHeroCard({
 
           {/* Feed items */}
           <div className="flex-1 overflow-y-auto p-3 space-y-2">
-            {feedItems.map((item, i) => {
+            {liveFeedItems.map((item, i) => {
               const isAlert    = item.type === "alert";
-              const isTopAlert = isAlert && i === feedItems.findIndex(f => f.type === "alert");
+              const isTopAlert = isAlert && i === liveFeedItems.findIndex(f => f.type === "alert");
+              
+              const itemContent = (
+                <div className="flex items-start gap-2">
+                  {isAlert ? (
+                    <AlertCircle className="w-3.5 h-3.5 text-[#F9771D] shrink-0 mt-0.5" />
+                  ) : (
+                    <span
+                      className="w-1.5 h-1.5 rounded-full shrink-0 mt-1.5"
+                      style={{
+                        background: item.severity === "green" ? "#00C896"
+                                  : item.severity === "orange" ? "#F9771D"
+                                  : "#CE6969"
+                      }}
+                    />
+                  )}
+                  <div className="min-w-0 flex-1">
+                    {item.source && (
+                      <p className="text-[11px] font-bold text-white/90 mb-0.5">{item.source}</p>
+                    )}
+                    <p className="text-[13px] text-white/70 leading-snug hover:text-[#00C896] transition-colors">{item.message}</p>
+                    {item.time && (
+                      <p className="text-[10px] font-mono text-white/30 mt-1">{item.time}</p>
+                    )}
+                  </div>
+                </div>
+              );
+
+              if (item.url && item.url !== "#") {
+                return (
+                  <a
+                    href={item.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    key={item.id}
+                    className={cn(
+                      "block rounded-lg p-3 hover:bg-white/[0.08] transition-colors cursor-pointer",
+                      feedVisible[i] ? "feed-slide-in" : "opacity-0"
+                    )}
+                    style={{
+                      animationDelay: `${i * 80}ms`,
+                      background: isTopAlert
+                        ? "rgba(249,119,29,0.1)"
+                        : "rgba(255,255,255,0.04)",
+                      border: isTopAlert
+                        ? "1px solid rgba(249,119,29,0.25)"
+                        : "1px solid rgba(255,255,255,0.07)",
+                      borderLeft: isTopAlert ? "3px solid #F9771D" : undefined,
+                    }}
+                  >
+                    {itemContent}
+                  </a>
+                );
+              }
+
               return (
                 <div
                   key={item.id}
@@ -797,29 +976,7 @@ export function MarketIntelligenceHeroCard({
                     borderLeft: isTopAlert ? "3px solid #F9771D" : undefined,
                   }}
                 >
-                  <div className="flex items-start gap-2">
-                    {isAlert ? (
-                      <AlertCircle className="w-3.5 h-3.5 text-[#F9771D] shrink-0 mt-0.5" />
-                    ) : (
-                      <span
-                        className="w-1.5 h-1.5 rounded-full shrink-0 mt-1.5"
-                        style={{
-                          background: item.severity === "green" ? "#00C896"
-                                    : item.severity === "orange" ? "#F9771D"
-                                    : "#CE6969"
-                        }}
-                      />
-                    )}
-                    <div className="min-w-0 flex-1">
-                      {isAlert && item.source && (
-                        <p className="text-[11px] font-bold text-white/90 mb-0.5">{item.source}</p>
-                      )}
-                      <p className="text-[13px] text-white/70 leading-snug">{item.message}</p>
-                      {item.time && (
-                        <p className="text-[10px] font-mono text-white/30 mt-1">{item.time}</p>
-                      )}
-                    </div>
-                  </div>
+                  {itemContent}
                 </div>
               );
             })}
@@ -840,7 +997,7 @@ export function MarketIntelligenceHeroCard({
           <span className="text-[10px] font-mono text-white/30">Terminal Connected</span>
         </div>
         <div className="flex items-center gap-4">
-          <span className="text-[10px] font-mono text-white/25">GMT/BST Sync Active</span>
+          <span className="text-[10px] font-mono text-white/25">{londonTime || "GMT/BST Sync Active"}</span>
           <Link
             href="/dashboard/market-intelligence"
             className="text-[11px] font-bold px-3 py-1 rounded-md transition-colors"

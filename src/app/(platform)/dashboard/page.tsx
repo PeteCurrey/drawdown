@@ -22,7 +22,6 @@ import { PsychologyCoach } from "@/components/dashboard/PsychologyCoach";
 import { createClient } from "@/lib/supabase/client";
 import { phases } from "@/data/courses";
 import Link from "next/link";
-import { useMarketData } from "@/hooks/useMarketData";
 
 // ─── Custom CyberGuard Aesthetic Components ─────────────────────────────────
 import { MarketIntelligenceHeroCard } from "@/components/dashboard/MarketIntelligenceHeroCard";
@@ -52,182 +51,9 @@ export default function DashboardPage() {
   const [selectedInst, setSelectedInst] = useState(INSTRUMENTS_LIST[0]);
   const [selectedInterval, setSelectedInterval] = useState("4h");
 
-  type FeedItem = {
-    id: string;
-    type: "alert" | "event";
-    severity?: "orange" | "red" | "green";
-    source?: string;
-    message: string;
-    time?: string;
-  };
-
-  const hookSlug = (selectedInst as any).hookSlug ?? selectedInst.slug.replace("/", "");
-  const md = useMarketData(hookSlug, selectedInterval);
-  const [intelData, setIntelData] = useState<any>(null);
-  const [calendarEvents, setCalendarEvents] = useState<any[]>([]);
-
-  useEffect(() => {
-    setIntelData(null);
-    fetch(`/api/intelligence/full/${hookSlug}`)
-      .then(r => r.json())
-      .then(data => setIntelData(data))
-      .catch(() => {});
-  }, [hookSlug]);
-
-  useEffect(() => {
-    setCalendarEvents([]);
-    fetch(`/api/calendar/${encodeURIComponent(hookSlug)}`)
-      .then(r => r.json())
-      .then(({ events }) => {
-        if (Array.isArray(events)) setCalendarEvents(events);
-      })
-      .catch(() => {});
-  }, [hookSlug]);
-
-  const feedItems = (() => {
-    const items: FeedItem[] = [];
-
-    // 1. Calendar events
-    calendarEvents.slice(0, 3).forEach((e: any, i: number) => {
-      items.push({
-        id: `cal-${hookSlug}-${i}`,
-        type: "event",
-        severity: e.impact === "high" ? "red" : e.impact === "medium" ? "orange" : "green",
-        message: `📋 Calendar: ${e.country} ${e.event}${e.estimate ? ` · Est: ${e.estimate}` : ""}`,
-        time: e.time ?? "",
-      });
-    });
-
-    // 2. RSI Alerts
-    if (md.rsi !== null && md.rsi !== undefined) {
-      if (md.rsi > 70) {
-        items.push({
-          id: `rsi-overbought-${hookSlug}`,
-          type: "alert",
-          severity: "red",
-          source: selectedInst.name,
-          message: `RSI Overbought (${md.rsi.toFixed(1)}) on ${selectedInterval} timeframe. Reversal risk is elevated.`,
-          time: "just now",
-        });
-      } else if (md.rsi < 30) {
-        items.push({
-          id: `rsi-oversold-${hookSlug}`,
-          type: "alert",
-          severity: "green",
-          source: selectedInst.name,
-          message: `RSI Oversold (${md.rsi.toFixed(1)}) on ${selectedInterval} timeframe. High accumulation signal.`,
-          time: "just now",
-        });
-      }
-    }
-
-    // 3. Volatility / ATR Alerts
-    if (md.atrRatio !== null && md.atrRatio !== undefined) {
-      if (md.atrRatio > 1.3) {
-        items.push({
-          id: `vol-high-${hookSlug}`,
-          type: "alert",
-          severity: "orange",
-          source: selectedInst.name,
-          message: `High volatility expansion: ATR is ${(md.atrRatio * 100 - 100).toFixed(0)}% above its 20-period average.`,
-          time: "just now",
-        });
-      } else if (md.atrRatio < 0.7) {
-        items.push({
-          id: `vol-low-${hookSlug}`,
-          type: "alert",
-          severity: "green",
-          source: selectedInst.name,
-          message: `Low volatility compression: ATR is ${(100 - md.atrRatio * 100).toFixed(0)}% below its average. Breakout expected.`,
-          time: "just now",
-        });
-      }
-    }
-
-    // 4. Retail Crowding Alerts
-    if (intelData?.retail_sentiment?.long_percent !== null && intelData?.retail_sentiment?.long_percent !== undefined) {
-      const long = intelData.retail_sentiment.long_percent;
-      const short = intelData.retail_sentiment.short_percent;
-      if (long > 65) {
-        items.push({
-          id: `retail-crowd-long-${hookSlug}`,
-          type: "alert",
-          severity: "orange",
-          source: "Retail Positioning",
-          message: `Crowded retail long positioning: ${long}% long (MyFXBook outlook). Contrarian bearish bias.`,
-          time: "Updated 30m ago",
-        });
-      } else if (short > 65) {
-        items.push({
-          id: `retail-crowd-short-${hookSlug}`,
-          type: "alert",
-          severity: "orange",
-          source: "Retail Positioning",
-          message: `Crowded retail short positioning: ${short}% short (MyFXBook outlook). Contrarian bullish bias.`,
-          time: "Updated 30m ago",
-        });
-      }
-    }
-
-    // 5. News Sentiment Alerts
-    if (intelData?.news?.overall_sentiment !== null && intelData?.news?.overall_sentiment !== undefined) {
-      const score = intelData.news.overall_sentiment;
-      if (score > 0.25) {
-        items.push({
-          id: `news-bullish-${hookSlug}`,
-          type: "alert",
-          severity: "green",
-          source: "News Sentiment",
-          message: `Consolidated institutional news consensus is bullish (+${score.toFixed(2)}).`,
-          time: "Updated 15m ago",
-        });
-      } else if (score < -0.25) {
-        items.push({
-          id: `news-bearish-${hookSlug}`,
-          type: "alert",
-          severity: "red",
-          source: "News Sentiment",
-          message: `Consolidated institutional news consensus is bearish (${score.toFixed(2)}).`,
-          time: "Updated 15m ago",
-        });
-      }
-    }
-
-    // 6. Macro Alerts
-    if (intelData?.macro?.vix_level !== null && intelData?.macro?.vix_level !== undefined) {
-      const vix = intelData.macro.vix_level;
-      if (vix > 22) {
-        items.push({
-          id: `macro-fear-${hookSlug}`,
-          type: "alert",
-          severity: "red",
-          source: "Global Macro",
-          message: `High volatility/fear regime: VIX index is trading at ${vix.toFixed(1)}.`,
-          time: "Updated 4h ago",
-        });
-      }
-    }
-
-    // 7. Fallback seed if empty
-    if (items.length === 0) {
-      items.push({
-        id: `seed-status-${hookSlug}`,
-        type: "event",
-        severity: "green",
-        message: `Live market data connection active for ${selectedInst.name}.`,
-        time: "Active",
-      });
-      items.push({
-        id: `seed-brief-${hookSlug}`,
-        type: "event",
-        severity: "green",
-        message: "📋 The Wire — Morning brief successfully cached.",
-        time: "07:00 GMT",
-      });
-    }
-
-    return items.slice(0, 6);
-  })();
+  // Polling and live feed generation is fully managed by useMarketIntelligence hook
+  // within subcomponents to prevent double-fetching and save API rate limits.
+  const feedItems: any[] = [];
 
   useEffect(() => {
     const hour = new Date().getHours();
@@ -559,8 +385,8 @@ export default function DashboardPage() {
           return entry.toDateString() === today.toDateString();
         }).length}
         openAlerts={[
-          { label: "Price", count: (feedItems as any[]).filter((f: any) => f.severity === "orange").length, color: "orange" as const },
-          { label: "RSI",   count: (feedItems as any[]).filter((f: any) => f.severity === "red").length,    color: "red"    as const },
+          { label: "Price", count: 0, color: "orange" as const },
+          { label: "RSI",   count: 0, color: "red"    as const },
         ]}
         onInstrumentChange={(inst) => setSelectedInst(inst as any)}
         onTimeframeChange={setSelectedInterval}

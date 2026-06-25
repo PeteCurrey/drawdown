@@ -20,7 +20,7 @@ const PHASE_MIN_WEIGHT: Record<string, number> = {
   "the-edge":         3,
 };
 
-export default async function PhaseOverviewPage({ params }: { params: { phase: string } }) {
+export default async function PhaseOverviewPage({ params }: { params: Promise<{ phase: string }> }) {
   const supabase = await createClient();
   const {
     data: { user },
@@ -28,7 +28,9 @@ export default async function PhaseOverviewPage({ params }: { params: { phase: s
 
   if (!user) redirect("/login");
 
-  const phaseConfig = phases.find((p) => p.slug === params.phase);
+  const { phase } = await params;
+
+  const phaseConfig = phases.find((p) => p.slug === phase);
   if (!phaseConfig) redirect("/dashboard/curriculum");
 
   const { data: profile } = await supabase

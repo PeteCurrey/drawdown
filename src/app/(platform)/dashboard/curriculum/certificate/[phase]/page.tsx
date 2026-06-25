@@ -4,7 +4,7 @@ import Link from "next/link";
 import { ChevronLeft, Share2, Download, Award } from "lucide-react";
 import { phases } from "@/data/courses";
 
-export default async function CertificatePage({ params }: { params: { phase: string } }) {
+export default async function CertificatePage({ params }: { params: Promise<{ phase: string }> }) {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   
@@ -12,18 +12,20 @@ export default async function CertificatePage({ params }: { params: { phase: str
     redirect("/login");
   }
 
-  const phaseConfig = phases.find(p => p.slug === params.phase);
+  const { phase } = await params;
+
+  const phaseConfig = phases.find(p => p.slug === phase);
   if (!phaseConfig) redirect("/dashboard/curriculum");
 
   const { data: certificate } = await supabase
     .from("certificates")
     .select("*")
     .eq("user_id", user.id)
-    .eq("phase_slug", params.phase)
+    .eq("phase_slug", phase)
     .single();
 
   if (!certificate) {
-    redirect(`/dashboard/curriculum/${params.phase}`);
+    redirect(`/dashboard/curriculum/${phase}`);
   }
 
   const { data: profile } = await supabase

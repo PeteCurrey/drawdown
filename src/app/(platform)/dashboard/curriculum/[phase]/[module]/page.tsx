@@ -21,7 +21,7 @@ const PHASE_MIN_WEIGHT: Record<string, number> = {
   "the-edge":         3,
 };
 
-export default async function ModulePage({ params }: { params: { phase: string; module: string } }) {
+export default async function ModulePage({ params }: { params: Promise<{ phase: string; module: string }> }) {
   const supabase = await createClient();
   const {
     data: { user },
@@ -29,7 +29,9 @@ export default async function ModulePage({ params }: { params: { phase: string; 
 
   if (!user) redirect("/login");
 
-  const phaseConfig = phases.find((p) => p.slug === params.phase);
+  const { phase, module } = await params;
+
+  const phaseConfig = phases.find((p) => p.slug === phase);
   if (!phaseConfig) redirect("/dashboard/curriculum");
 
   // Tier gate
@@ -46,9 +48,9 @@ export default async function ModulePage({ params }: { params: { phase: string; 
   if (userWeight < minWeight) redirect("/dashboard/curriculum");
 
   // Parse module number
-  const moduleNumberStr = params.module.replace("module-", "");
+  const moduleNumberStr = module.replace("module-", "");
   const moduleNumber = parseInt(moduleNumberStr, 10);
-  if (isNaN(moduleNumber)) redirect(`/dashboard/curriculum/${params.phase}`);
+  if (isNaN(moduleNumber)) redirect(`/dashboard/curriculum/${phase}`);
 
   // ── Fetch data — wrapped in try/catch so a missing table shows a placeholder ──
   let allModules: any[] = [];
@@ -100,7 +102,7 @@ export default async function ModulePage({ params }: { params: { phase: string; 
             Curriculum
           </Link>
           <ChevronRight className="w-3 h-3 mx-0.5 opacity-50" />
-          <Link href={`/dashboard/curriculum/${params.phase}`} className="hover:text-white transition-colors">
+          <Link href={`/dashboard/curriculum/${phase}`} className="hover:text-white transition-colors">
             {phaseConfig.name}
           </Link>
           <ChevronRight className="w-3 h-3 mx-0.5 opacity-50" />
@@ -119,14 +121,14 @@ export default async function ModulePage({ params }: { params: { phase: string; 
           </p>
           <div className="flex items-center justify-center gap-4">
             <Link
-              href={`/dashboard/curriculum/${params.phase}`}
+              href={`/dashboard/curriculum/${phase}`}
               className="px-5 py-2.5 bg-[#1A1A1A] hover:bg-[#222] border border-[#333] text-white text-xs font-bold uppercase tracking-widest rounded transition-colors"
             >
               ← Back to Phase
             </Link>
             {moduleNumber < phaseConfig.modules_count && (
               <Link
-                href={`/dashboard/curriculum/${params.phase}/module-${moduleNumber + 1}`}
+                href={`/dashboard/curriculum/${phase}/module-${moduleNumber + 1}`}
                 className="px-5 py-2.5 bg-accent hover:bg-[#b5e02b] text-black text-xs font-bold uppercase tracking-widest rounded transition-colors"
               >
                 Next Module →
@@ -143,7 +145,7 @@ export default async function ModulePage({ params }: { params: { phase: string; 
   const nextModule = moduleList.find((m) => m.module_number === moduleNumber + 1);
   const prevModule = moduleList.find((m) => m.module_number === moduleNumber - 1);
   const nextModuleUrl = nextModule
-    ? `/dashboard/curriculum/${params.phase}/module-${nextModule.module_number}`
+    ? `/dashboard/curriculum/${phase}/module-${nextModule.module_number}`
     : null;
 
   return (
@@ -162,7 +164,7 @@ export default async function ModulePage({ params }: { params: { phase: string; 
               return (
                 <Link
                   key={mod.module_number}
-                  href={`/dashboard/curriculum/${params.phase}/module-${mod.module_number}`}
+                  href={`/dashboard/curriculum/${phase}/module-${mod.module_number}`}
                   className={`flex items-start gap-3 p-2.5 rounded-lg transition-colors ${
                     isActive
                       ? "bg-accent/10 border border-accent/20"
@@ -206,7 +208,7 @@ export default async function ModulePage({ params }: { params: { phase: string; 
               Curriculum
             </Link>
             <ChevronRight className="w-3 h-3 mx-0.5 opacity-50" />
-            <Link href={`/dashboard/curriculum/${params.phase}`} className="hover:text-white transition-colors">
+            <Link href={`/dashboard/curriculum/${phase}`} className="hover:text-white transition-colors">
               Phase {phaseConfig.number}
             </Link>
             <ChevronRight className="w-3 h-3 mx-0.5 opacity-50" />
@@ -263,7 +265,7 @@ export default async function ModulePage({ params }: { params: { phase: string; 
         <div className="mt-16 pt-8 border-t border-[#222] flex flex-col md:flex-row items-center justify-between gap-4">
           {prevModule ? (
             <Link
-              href={`/dashboard/curriculum/${params.phase}/module-${prevModule.module_number}`}
+              href={`/dashboard/curriculum/${phase}/module-${prevModule.module_number}`}
               className="flex items-center gap-2 px-6 py-3 bg-[#111] hover:bg-[#1A1A1A] border border-[#222] text-white text-xs font-bold uppercase tracking-widest transition-colors rounded-lg w-full md:w-auto justify-center"
             >
               <ChevronLeft className="w-4 h-4" /> Previous Module
@@ -276,7 +278,7 @@ export default async function ModulePage({ params }: { params: { phase: string; 
             <div className="text-center md:text-right w-full md:w-auto">
               <p className="text-xs text-text-tertiary mb-2">No quiz required for this module.</p>
               <Link
-                href={nextModuleUrl || `/dashboard/curriculum/${params.phase}`}
+                href={nextModuleUrl || `/dashboard/curriculum/${phase}`}
                 className="flex items-center gap-2 px-8 py-3 bg-accent hover:bg-[#b5e02b] text-black text-xs font-bold uppercase tracking-widest transition-colors rounded-lg w-full md:w-auto justify-center"
               >
                 Mark Complete & Next <ChevronRight className="w-4 h-4" />

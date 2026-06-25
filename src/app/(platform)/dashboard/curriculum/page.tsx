@@ -61,20 +61,28 @@ export default async function CurriculumPage() {
   const tierLabel = tier ? tier.charAt(0).toUpperCase() + tier.slice(1) : "Free";
 
   // ── Fetch ALL progress for this user in one query ──────────────────────────
-  const { data: progressRows } = await supabase
-    .from("course_progress")
-    .select("phase, module, completed")
-    .eq("user_id", user.id);
-
-  const allProgress: { phase: number; module: number; completed: boolean }[] =
-    (progressRows as any[]) ?? [];
+  let allProgress: { phase: number; module: number; completed: boolean }[] = [];
+  try {
+    const { data: progressRows } = await supabase
+      .from("course_progress")
+      .select("phase, module, completed")
+      .eq("user_id", user.id);
+    if (progressRows) allProgress = progressRows as any[];
+  } catch (e) {
+    console.error(e);
+  }
 
   // ── Fetch Certificates ─────────────────────────────────────────────────────
-  const { data: certsRows } = await supabase
-    .from("certificates")
-    .select("phase_slug, phase_name, issued_at, certificate_number")
-    .eq("user_id", user.id);
-  const certificates = certsRows || [];
+  let certificates: any[] = [];
+  try {
+    const { data: certsRows } = await supabase
+      .from("certificates")
+      .select("phase_slug, phase_name, issued_at, certificate_number")
+      .eq("user_id", user.id);
+    if (certsRows) certificates = certsRows;
+  } catch (e) {
+    console.error(e);
+  }
 
   // ── Build per-phase progress map ───────────────────────────────────────────
   // completedByPhase[phaseNum] = Set of completed module numbers

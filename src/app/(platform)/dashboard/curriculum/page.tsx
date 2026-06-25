@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import Link from "next/link";
-import { Lock, CheckCircle2, ChevronRight, Play } from "lucide-react";
+import { Lock, CheckCircle2, ChevronRight, Play, Award } from "lucide-react";
 import { DotProgressBar } from "@/components/dashboard/DotProgressBar";
 import { phases } from "@/data/courses";
 
@@ -68,6 +68,13 @@ export default async function CurriculumPage() {
 
   const allProgress: { phase: number; module: number; completed: boolean }[] =
     (progressRows as any[]) ?? [];
+
+  // ── Fetch Certificates ─────────────────────────────────────────────────────
+  const { data: certsRows } = await supabase
+    .from("certificates")
+    .select("phase_slug, phase_name, issued_at, certificate_number")
+    .eq("user_id", user.id);
+  const certificates = certsRows || [];
 
   // ── Build per-phase progress map ───────────────────────────────────────────
   // completedByPhase[phaseNum] = Set of completed module numbers
@@ -137,6 +144,31 @@ export default async function CurriculumPage() {
         </p>
       </header>
 
+      {certificates.length > 0 && (
+        <section className="bg-white border border-[#e5e7eb] rounded-xl p-6 md:p-8 mb-8 shadow-sm">
+          <div className="flex items-center gap-2 mb-6 border-b border-[#e5e7eb] pb-4">
+            <Award className="w-5 h-5 text-[#F9771D]" />
+            <h2 className="text-xl font-bold text-[#1A1A1A]">Your Certificates</h2>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {certificates.map((cert) => (
+              <div key={cert.certificate_number} className="p-4 border border-[#e5e7eb] rounded-lg bg-gray-50 flex flex-col justify-between hover:border-[#F9771D] transition-colors">
+                <div>
+                  <div className="text-[10px] font-mono font-bold uppercase tracking-widest text-[#6b7280] mb-1">
+                    {new Date(cert.issued_at).toLocaleDateString()}
+                  </div>
+                  <h3 className="font-bold text-[#1A1A1A]">{cert.phase_name}</h3>
+                </div>
+                <div className="mt-4 pt-3 border-t border-[#e5e7eb] flex items-center justify-between">
+                  <span className="text-[10px] font-mono text-[#6b7280]">CERT ID</span>
+                  <span className="text-[10px] font-mono font-bold text-[#111827]">{cert.certificate_number}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
       {/* ── FIX 1: Progress banner — white background ─────────────────────── */}
       <section
         className="bg-white border border-[#e5e7eb] rounded-xl p-6 md:p-8 flex flex-col md:flex-row items-center justify-between gap-6"
@@ -191,7 +223,12 @@ export default async function CurriculumPage() {
               className="bg-white border border-[#e5e7eb] rounded-xl p-6 shadow-[0_1px_3px_rgba(0,0,0,0.06)] flex flex-col justify-between min-h-[260px] relative transition-all hover:shadow-[0_4px_12px_rgba(0,0,0,0.10)] hover:-translate-y-0.5 duration-200"
             >
               <div>
-                <div className="flex justify-between items-start mb-4">
+                <div className="flex justify-between items-start mb-4 relative">
+                  {phase.isCompleted && (
+                    <div className="absolute -top-3 -left-3 bg-[#eab308] text-white text-[8px] font-black font-mono px-2 py-0.5 rounded shadow-sm rotate-[-10deg] uppercase tracking-widest z-10">
+                      CERTIFIED
+                    </div>
+                  )}
                   <span className="text-xl font-bold font-mono text-[#9ca3af]">{phase.number}</span>
                   <span
                     className={`px-2 py-0.5 text-[8px] font-mono font-bold rounded-[3px] ${

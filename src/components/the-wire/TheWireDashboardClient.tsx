@@ -15,8 +15,9 @@ import ReactMarkdown from "react-markdown";
 
 interface DailyBrief {
   id: string;
-  summary: string;
-  audio_url: string | null;
+  subject: string;
+  content_text: string;
+  type: string;
   created_at: string;
 }
 
@@ -326,10 +327,9 @@ function WireInner({ initialBriefs, initialNews }: Props) {
             briefs.map((brief) => {
               const isExpanded = expandedBrief === brief.id;
               const tag = briefTag(brief.created_at);
-              // Extract first line as title, rest as content
-              const lines = brief.summary.trim().split("\n");
-              const title = lines[0].replace(/^#+\s*/, "").replace(/\*\*/g, "").trim();
-              const content = lines.slice(1).join("\n").trim();
+              // Use subject as title and content_text as content
+              const title = brief.subject || "Intelligence Brief";
+              const content = brief.content_text || "";
 
               return (
                 <div

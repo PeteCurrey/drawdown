@@ -21,16 +21,16 @@ export async function POST(req: NextRequest) {
     const resendKey = process.env.RESEND_API_KEY;
     const resend = new Resend(resendKey || "re_mock_key");
 
-    // 2. Add to Supabase email_subscribers
+    // 2. Add to Supabase newsletter_subscribers
     const { data: subscriber, error: subError } = await supabase
-      .from("email_subscribers")
+      .from("newsletter_subscribers")
       .upsert(
         {
           email,
           user_id: userId || null,
           first_name: firstName || "Trader",
           source: "signup",
-          is_active: true
+          confirmed: true
         },
         { onConflict: "email" }
       )
@@ -57,7 +57,7 @@ export async function POST(req: NextRequest) {
           resendContactId = contactRes.data.id;
           // Update subscriber in DB with resendContactId
           await supabase
-            .from("email_subscribers")
+            .from("newsletter_subscribers")
             .update({ resend_contact_id: resendContactId })
             .eq("id", subscriber.id);
         }
@@ -80,7 +80,7 @@ export async function POST(req: NextRequest) {
         const emailRes = await resend.emails.send({
           from: "Pete @ Drawdown <thewire@drawdown.trading>",
           to: email,
-          subject: "Welcome to Drawdown. Let's get started.",
+          subject: "Welcome to The Wire — your market intelligence starts now",
           html: welcomeHtml
         });
         if (emailRes.error) {
@@ -102,7 +102,7 @@ export async function POST(req: NextRequest) {
     // 5. Log the Send
     await supabase.from("email_sends").insert({
       type: "welcome",
-      subject: "Welcome to Drawdown. Let's get started.",
+      subject: "Welcome to The Wire — your market intelligence starts now",
       content_html: welcomeHtml,
       recipient_count: 1,
       resend_broadcast_id: resendMessageId,

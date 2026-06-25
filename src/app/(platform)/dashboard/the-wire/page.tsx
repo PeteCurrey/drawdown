@@ -19,8 +19,9 @@ export default async function TheWirePage() {
   // Fetch latest AI briefs and live news in parallel
   const [briefsResult, newsResult] = await Promise.allSettled([
     supabase
-      .from("daily_briefs")
-      .select("id, summary, audio_url, created_at")
+      .from("email_sends")
+      .select("id, subject, content_text, type, created_at")
+      .in("type", ["morning_brief", "evening_wrap"])
       .order("created_at", { ascending: false })
       .limit(7),
     fetchNews(),

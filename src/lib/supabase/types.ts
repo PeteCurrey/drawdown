@@ -62,6 +62,82 @@ export interface Database {
           created_at?: string
         }
       }
+      curriculum_modules: {
+        Row: {
+          id: string
+          phase_slug: string
+          phase_number: number
+          module_number: number
+          title: string
+          subtitle: string | null
+          estimated_minutes: number
+          video_url: string | null
+          content_html: string | null
+          key_takeaways: any | null
+          resources: any | null
+          quiz: any | null
+          is_published: boolean
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          phase_slug: string
+          phase_number: number
+          module_number: number
+          title: string
+          subtitle?: string | null
+          estimated_minutes?: number
+          video_url?: string | null
+          content_html?: string | null
+          key_takeaways?: any | null
+          resources?: any | null
+          quiz?: any | null
+          is_published?: boolean
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          phase_slug?: string
+          phase_number?: number
+          module_number?: number
+          title?: string
+          subtitle?: string | null
+          estimated_minutes?: number
+          video_url?: string | null
+          content_html?: string | null
+          key_takeaways?: any | null
+          resources?: any | null
+          quiz?: any | null
+          is_published?: boolean
+          created_at?: string
+        }
+      }
+      certificates: {
+        Row: {
+          id: string
+          user_id: string
+          phase_slug: string
+          phase_name: string
+          issued_at: string
+          certificate_number: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          phase_slug: string
+          phase_name: string
+          issued_at?: string
+          certificate_number: string
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          phase_slug?: string
+          phase_name?: string
+          issued_at?: string
+          certificate_number?: string
+        }
+      }
       course_progress: {
         Row: {
           id: string
@@ -70,7 +146,9 @@ export interface Database {
           module: number
           completed: boolean
           quiz_score: number | null
+          quiz_passed: boolean
           completed_at: string | null
+          time_spent_seconds: number
           created_at: string
         }
         Insert: {
@@ -80,7 +158,9 @@ export interface Database {
           module: number
           completed?: boolean
           quiz_score?: number | null
+          quiz_passed?: boolean
           completed_at?: string | null
+          time_spent_seconds?: number
           created_at?: string
         }
         Update: {
@@ -90,7 +170,9 @@ export interface Database {
           module?: number
           completed?: boolean
           quiz_score?: number | null
+          quiz_passed?: boolean
           completed_at?: string | null
+          time_spent_seconds?: number
           created_at?: string
         }
       }

@@ -30,6 +30,10 @@ export default function ProfileSettingsPage() {
   const [passwordError, setPasswordError] = useState<string | null>(null);
   const [passwordSuccess, setPasswordSuccess] = useState<string | null>(null);
   const [isUpdatingPassword, setIsUpdatingPassword] = useState(false);
+
+  const [isUpdatingPrefs, setIsUpdatingPrefs] = useState(false);
+  const [prefsSuccess, setPrefsSuccess] = useState(false);
+  const [prefsError, setPrefsError] = useState<string | null>(null);
  
   const supabase = createClient();
  
@@ -113,6 +117,35 @@ export default function ProfileSettingsPage() {
       e.currentTarget.reset();
     }
     setIsUpdatingPassword(false);
+  };
+ 
+  const handleEmailPrefUpdate = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsUpdatingPrefs(true);
+    setPrefsSuccess(false);
+    setPrefsError(null);
+
+    const formData = new FormData(e.currentTarget);
+    const email_preferences = {
+      morning_brief: formData.get('morning_brief') === 'on',
+      evening_wrap: formData.get('evening_wrap') === 'on',
+      breaking_news: formData.get('breaking_news') === 'on',
+      marketing: formData.get('marketing') === 'on',
+    };
+
+    const { error } = await (supabase as any)
+      .from('profiles')
+      .update({ email_preferences, updated_at: new Date().toISOString() })
+      .eq('id', profile.id);
+
+    if (error) {
+      setPrefsError(error.message);
+    } else {
+      setPrefsSuccess(true);
+      setProfile((prev: any) => ({ ...prev, email_preferences }));
+      setTimeout(() => setPrefsSuccess(false), 4000);
+    }
+    setIsUpdatingPrefs(false);
   };
  
   if (loading) return (
@@ -289,6 +322,58 @@ export default function ProfileSettingsPage() {
                     </button>
                  </div>
               </div>
+           </section>
+
+           {/* Email Preferences */}
+           <section className="space-y-6">
+              <div className="flex items-center gap-3 border-b border-border-slate/50 pb-2">
+                 <Mail className="w-4 h-4 text-accent" />
+                 <h2 className="text-xs font-mono font-bold uppercase tracking-widest text-text-secondary">Email Preferences</h2>
+              </div>
+              <form onSubmit={handleEmailPrefUpdate} className="grid grid-cols-1 gap-6 bg-background-surface border border-border-slate/50 p-8 rounded-xl shadow-[0_8px_32px_rgba(0,0,0,0.04)]">
+                 <div className="space-y-4">
+                    {[
+                      { id: 'morning_brief', label: 'Morning Brief', desc: 'Pre-market analysis and setup ideas.' },
+                      { id: 'evening_wrap', label: 'Evening Wrap', desc: 'Post-market breakdown and key levels.' },
+                      { id: 'breaking_news', label: 'Breaking News', desc: 'Real-time alerts for high-impact market events.' },
+                      { id: 'marketing', label: 'Marketing & Offers', desc: 'Occasional promotional emails and feature announcements.' },
+                    ].map((item) => {
+                      const checked = profile?.email_preferences?.[item.id] ?? (item.id !== 'marketing');
+                      return (
+                        <label key={item.id} className="flex items-start gap-3 cursor-pointer group">
+                           <div className="relative flex items-center justify-center mt-0.5">
+                              <input 
+                                type="checkbox" 
+                                name={item.id}
+                                defaultChecked={checked}
+                                className="peer appearance-none w-4 h-4 border border-border-slate/80 rounded bg-background-primary checked:bg-accent checked:border-accent transition-colors"
+                              />
+                              <svg className="absolute w-3 h-3 text-white opacity-0 peer-checked:opacity-100 pointer-events-none" viewBox="0 0 14 10" fill="none">
+                                <path d="M1 5L4.5 8.5L13 1" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                              </svg>
+                           </div>
+                           <div>
+                              <p className="text-sm font-bold text-text-primary group-hover:text-accent transition-colors">{item.label}</p>
+                              <p className="text-[10px] text-text-tertiary">{item.desc}</p>
+                           </div>
+                        </label>
+                      );
+                    })}
+                 </div>
+
+                 {prefsError && <p className="text-xs text-loss">{prefsError}</p>}
+                 {prefsSuccess && <p className="text-xs text-profit">✓ Preferences saved successfully.</p>}
+
+                 <div className="flex justify-end">
+                    <button 
+                      type="submit" 
+                      disabled={isUpdatingPrefs}
+                      className="px-8 py-3 bg-[#0A0A0A] hover:bg-neutral-800 text-white text-[10px] font-bold uppercase tracking-widest transition-colors disabled:opacity-50 rounded-lg"
+                    >
+                       {isUpdatingPrefs ? 'Saving...' : 'Save Preferences'}
+                    </button>
+                 </div>
+              </form>
            </section>
         </div>
  

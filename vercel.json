@@ -1,6 +1,10 @@
 {
   "crons": [
     {
+      "path": "/api/signals/scan",
+      "schedule": "*/5 * * * *"
+    },
+    {
       "path": "/api/cron/market-sync",
       "schedule": "*/30 * * * *"
     },

@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { runSignalScan } from "@/lib/signal-engine";
 
 let lastScanTime = 0;
@@ -32,10 +32,15 @@ async function handleScan() {
   }
 }
 
-export async function GET() {
+// GET — called by Vercel cron every 5 minutes (authenticated via CRON_SECRET)
+export async function GET(request: NextRequest) {
+  if (request.headers.get("authorization") !== `Bearer ${process.env.CRON_SECRET}`) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
   return handleScan();
 }
 
+// POST — called by the dashboard "Scan Markets" button (no auth required)
 export async function POST() {
   return handleScan();
 }

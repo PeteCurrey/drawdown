@@ -17,7 +17,7 @@ const PHASE_MIN_WEIGHT: Record<string, number> = {
   "strategist":       1,
   "risk-manager":     1,
   "mind-over-market": 2,
-  "the-edge":         3, // Phase 6 is Floor only
+  "the-edge":         3,
 };
 
 export default async function PhaseOverviewPage({ params }: { params: { phase: string } }) {
@@ -45,17 +45,15 @@ export default async function PhaseOverviewPage({ params }: { params: { phase: s
   const minWeight = PHASE_MIN_WEIGHT[phaseConfig.slug] ?? 0;
   
   if (userWeight < minWeight) {
-    redirect("/dashboard/curriculum"); // Prevent direct URL access if locked
+    redirect("/dashboard/curriculum");
   }
 
-  // Fetch all modules for this phase
   const { data: modules } = await supabase
     .from("curriculum_modules")
     .select("module_number, title, subtitle, estimated_minutes, is_published")
     .eq("phase_slug", phaseConfig.slug)
     .order("module_number", { ascending: true });
 
-  // Fetch progress
   const { data: progressRows } = await supabase
     .from("course_progress")
     .select("module, completed")
@@ -71,7 +69,6 @@ export default async function PhaseOverviewPage({ params }: { params: { phase: s
   const totalModules = phaseConfig.modules_count;
   const pct = totalModules > 0 ? Math.round((totalCompleted / totalModules) * 100) : 0;
   
-  // Find first incomplete module to continue
   let firstIncomplete = 1;
   for (let m = 1; m <= totalModules; m++) {
     if (!completedModules.has(m)) {
@@ -120,13 +117,13 @@ export default async function PhaseOverviewPage({ params }: { params: { phase: s
             <div className="h-1.5 w-full bg-[#222] rounded-full overflow-hidden">
               <div 
                 className="h-full bg-accent transition-all duration-1000"
-                style={{ width: \`\${pct}%\` }}
+                style={{ width: `${pct}%` }}
               />
             </div>
           </div>
           
           <Link
-            href={\`/dashboard/curriculum/\${phaseConfig.slug}/module-\${firstIncomplete}\`}
+            href={`/dashboard/curriculum/${phaseConfig.slug}/module-${firstIncomplete}`}
             className="px-6 py-3 bg-accent hover:bg-[#b5e02b] text-black text-xs font-bold uppercase tracking-widest transition-all rounded whitespace-nowrap shrink-0 flex items-center gap-2"
           >
             {totalCompleted >= totalModules ? (
@@ -153,22 +150,22 @@ export default async function PhaseOverviewPage({ params }: { params: { phase: s
               return (
                 <Link
                   key={mod.module_number}
-                  href={\`/dashboard/curriculum/\${phaseConfig.slug}/module-\${mod.module_number}\`}
-                  className={\`flex flex-col md:flex-row md:items-center justify-between p-5 rounded-xl border transition-all duration-200 \${
+                  href={`/dashboard/curriculum/${phaseConfig.slug}/module-${mod.module_number}`}
+                  className={`flex flex-col md:flex-row md:items-center justify-between p-5 rounded-xl border transition-all duration-200 group ${
                     isCompleted 
                       ? "bg-[#111] border-[#222] hover:border-[#444]" 
                       : "bg-[#1A1A1A] border-[#333] hover:border-accent"
-                  }\`}
+                  }`}
                 >
                   <div className="flex items-start md:items-center gap-5">
-                    <div className={\`flex items-center justify-center w-10 h-10 rounded-full shrink-0 \${
+                    <div className={`flex items-center justify-center w-10 h-10 rounded-full shrink-0 ${
                       isCompleted ? "bg-[#16a34a]/10 text-[#16a34a]" : "bg-[#222] text-text-secondary"
-                    }\`}>
+                    }`}>
                       {isCompleted ? <CheckCircle2 className="w-5 h-5" /> : <span className="font-mono font-bold text-xs">{mod.module_number}</span>}
                     </div>
                     
                     <div>
-                      <h3 className={\`text-base font-bold \${isCompleted ? 'text-text-secondary' : 'text-white'}\`}>
+                      <h3 className={`text-base font-bold ${isCompleted ? 'text-text-secondary' : 'text-white'}`}>
                         {mod.title}
                       </h3>
                       {mod.subtitle && (

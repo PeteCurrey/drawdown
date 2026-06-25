@@ -31,7 +31,7 @@ export async function GET(req: NextRequest) {
     }
 
     // 3. Fetch Finnhub general news
-    const finnhubKey = process.env.NEXT_PUBLIC_FINNHUB_API_KEY; // or FINNHUB_API_KEY
+    const finnhubKey = process.env.NEXT_PUBLIC_FINNHUB_API_KEY;
     if (!finnhubKey) {
       throw new Error("Finnhub API key not found");
     }
@@ -40,12 +40,11 @@ export async function GET(req: NextRequest) {
     if (!newsRes.ok) throw new Error("Failed to fetch finnhub news");
     const newsData = await newsRes.json();
 
-    // Find the most recent breaking/high impact news (dummy logic: first item since they are sorted by datetime)
     if (!newsData || newsData.length === 0) {
       return NextResponse.json({ success: true, message: "No news found" });
     }
 
-    // Filter to news from the last hour to ensure it's "breaking"
+    // Filter to news from the last hour
     const oneHourAgo = Date.now() / 1000 - 3600;
     const recentNews = newsData.filter((n: any) => n.datetime >= oneHourAgo);
 
@@ -127,16 +126,16 @@ Keep it strictly under 150 words. Focus on market impact and risk. No financial 
     if (sendError) throw sendError;
 
     // 7. Dispatch broadcast
-    const siteUrl = process.env.NEXT_PUBLIC_APP_URL || process.env.NEXT_PUBLIC_SITE_URL || \`https://\${process.env.VERCEL_URL}\` || "http://localhost:3000";
+    const siteUrl = process.env.NEXT_PUBLIC_APP_URL || process.env.NEXT_PUBLIC_SITE_URL || `https://${process.env.VERCEL_URL}` || "http://localhost:3000";
     const bypassToken = process.env.VERCEL_AUTOMATION_BYPASS_SECRET;
     const sendHeaders: Record<string, string> = {
-      "Authorization": \`Bearer \${process.env.CRON_SECRET}\`,
+      "Authorization": `Bearer ${process.env.CRON_SECRET}`,
       "Content-Type": "application/json"
     };
 
     const sendUrl = bypassToken
-      ? \`\${siteUrl}/api/email/send-broadcast?x-vercel-protection-bypass=\${bypassToken}&x-vercel-set-bypass-cookie=true\`
-      : \`\${siteUrl}/api/email/send-broadcast\`;
+      ? `${siteUrl}/api/email/send-broadcast?x-vercel-protection-bypass=${bypassToken}&x-vercel-set-bypass-cookie=true`
+      : `${siteUrl}/api/email/send-broadcast`;
 
     const sendRes = await fetch(sendUrl, {
       method: "POST",
@@ -147,7 +146,7 @@ Keep it strictly under 150 words. Focus on market impact and risk. No financial 
 
     if (!sendRes.ok) {
       const errText = await sendRes.text();
-      throw new Error(\`Broadcast failed (\${sendRes.status}): \${errText}\`);
+      throw new Error(`Broadcast failed (${sendRes.status}): ${errText}`);
     }
 
     return NextResponse.json({ success: true, emailSendId: emailSend.id });

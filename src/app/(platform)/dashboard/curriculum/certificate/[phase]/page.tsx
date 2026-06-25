@@ -15,7 +15,6 @@ export default async function CertificatePage({ params }: { params: { phase: str
   const phaseConfig = phases.find(p => p.slug === params.phase);
   if (!phaseConfig) redirect("/dashboard/curriculum");
 
-  // Fetch certificate
   const { data: certificate } = await supabase
     .from("certificates")
     .select("*")
@@ -24,10 +23,9 @@ export default async function CertificatePage({ params }: { params: { phase: str
     .single();
 
   if (!certificate) {
-    redirect(\`/dashboard/curriculum/\${params.phase}\`);
+    redirect(`/dashboard/curriculum/${params.phase}`);
   }
 
-  // Fetch user profile for name
   const { data: profile } = await supabase
     .from("profiles")
     .select("first_name, last_name")
@@ -35,13 +33,13 @@ export default async function CertificatePage({ params }: { params: { phase: str
     .single();
 
   const fullName = profile?.first_name 
-    ? \`\${profile.first_name} \${profile.last_name || ''}\` 
+    ? `${profile.first_name} ${profile.last_name || ""}`.trim()
     : "Drawdown Trader";
 
-  const dateStr = new Date(certificate.issued_at).toLocaleDateString('en-GB', {
-    day: 'numeric',
-    month: 'long',
-    year: 'numeric'
+  const dateStr = new Date(certificate.issued_at).toLocaleDateString("en-GB", {
+    day: "numeric",
+    month: "long",
+    year: "numeric"
   });
 
   return (
@@ -87,7 +85,9 @@ export default async function CertificatePage({ params }: { params: { phase: str
           </div>
           
           <p className="text-lg text-text-secondary font-mono max-w-2xl leading-relaxed mb-16">
-            has successfully completed the <strong className="text-white">Phase {phaseConfig.number}: {phaseConfig.name}</strong> intensive program, demonstrating a profound understanding of institutional trading mechanics, risk management, and market strategy.
+            has successfully completed the{" "}
+            <strong className="text-white">Phase {phaseConfig!.number}: {phaseConfig!.name}</strong>{" "}
+            intensive programme, demonstrating a profound understanding of institutional trading mechanics, risk management, and market strategy.
           </p>
           
           <div className="w-full grid grid-cols-2 md:grid-cols-3 gap-8 items-end border-t border-[#222] pt-12">
@@ -97,7 +97,6 @@ export default async function CertificatePage({ params }: { params: { phase: str
             </div>
             
             <div className="text-center hidden md:block">
-              {/* Fake signature */}
               <div className="font-['Brush_Script_MT',cursive] text-4xl text-white/80 -rotate-3 mb-2">
                 P. Currey
               </div>

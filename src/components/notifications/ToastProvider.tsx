@@ -6,7 +6,7 @@ import { X, AlertTriangle, TrendingUp, TrendingDown, Newspaper, Bell } from "luc
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
-export type ToastType = "signal-bullish" | "signal-bearish" | "news" | "brief" | "alert";
+export type ToastType = "signal-bullish" | "signal-bearish" | "news" | "brief" | "alert" | "high-conviction";
 
 export interface Toast {
   id: string;
@@ -57,11 +57,12 @@ export function ToastProvider({ children }: { children: ReactNode }) {
 // ─── Individual Toast Card ────────────────────────────────────────────────────
 
 const TOAST_CONFIG: Record<ToastType, { icon: any; accent: string; label: string }> = {
-  "signal-bullish": { icon: TrendingUp,    accent: "border-l-emerald-500 bg-emerald-50",  label: "New Signal" },
-  "signal-bearish": { icon: TrendingDown,  accent: "border-l-red-500 bg-red-50",          label: "New Signal" },
-  "news":           { icon: Newspaper,     accent: "border-l-blue-500 bg-blue-50",        label: "Breaking News" },
-  "brief":          { icon: Bell,          accent: "border-l-teal-500 bg-teal-50",        label: "Intelligence Brief" },
-  "alert":          { icon: AlertTriangle, accent: "border-l-amber-500 bg-amber-50",      label: "Market Alert" },
+  "signal-bullish":  { icon: TrendingUp,    accent: "border-l-emerald-500 bg-emerald-50",  label: "New Signal" },
+  "signal-bearish":  { icon: TrendingDown,  accent: "border-l-red-500 bg-red-50",          label: "New Signal" },
+  "news":            { icon: Newspaper,     accent: "border-l-blue-500 bg-blue-50",        label: "Breaking News" },
+  "brief":           { icon: Bell,          accent: "border-l-teal-500 bg-teal-50",        label: "Intelligence Brief" },
+  "alert":           { icon: AlertTriangle, accent: "border-l-amber-500 bg-amber-50",      label: "Market Alert" },
+  "high-conviction": { icon: TrendingUp,    accent: "border-l-orange-500 bg-orange-50",    label: "High-Conviction Signal" },
 };
 
 function ToastCard({ toast, onDismiss }: { toast: Toast; onDismiss: (id: string) => void }) {

@@ -237,7 +237,26 @@ function SignalCentreInner({
           .select("*")
           .eq("is_active", true)
           .order("created_at", { ascending: false });
-        if (freshSignals) setSignals(freshSignals);
+        if (freshSignals) {
+          setSignals(freshSignals);
+
+          // Fire toast for any high-conviction signals generated in the last 6 minutes
+          const sixMinsAgo = Date.now() - 6 * 60 * 1000;
+          freshSignals
+            .filter(
+              (s: any) =>
+                typeof s.dcs_score === "number" &&
+                s.dcs_score >= 85 &&
+                new Date(s.created_at).getTime() >= sixMinsAgo
+            )
+            .forEach((s: any) => {
+              addToast({
+                type: "high-conviction",
+                title: `🔥 High-conviction signal`,
+                body: `${s.instrument} ${s.bias} — DCS ${s.dcs_score}%`,
+              });
+            });
+        }
       }
       if (data.message && !background) {
         setScanMessage(data.message);

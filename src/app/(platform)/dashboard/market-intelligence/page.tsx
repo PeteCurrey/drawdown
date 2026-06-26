@@ -563,7 +563,22 @@ export default function MarketIntelligencePage() {
                 percentage={biasScore}
                 label={biasLabel}
                 instrument={selectedInst.name}
-                price={md.price !== null ? fmtPrice(md.price, hookSlug) : "—"}
+                price={
+                  md.price !== null ? (
+                    <div className="flex items-center gap-1.5 justify-center">
+                      {md.is_fallback && <span className="text-[16px] text-amber-500 font-bold" title="Live price unavailable — showing estimated value">~</span>}
+                      {fmtPrice(md.price, hookSlug)}
+                      {md.is_fallback && (
+                        <div className="group relative flex items-center justify-center cursor-help">
+                          <div className="w-1.5 h-1.5 rounded-full bg-amber-500" />
+                          <div className="absolute bottom-full mb-2 hidden group-hover:block w-48 p-2 text-xs bg-gray-900 border border-gray-700 rounded shadow-lg text-white text-left z-50 whitespace-normal">
+                            Live price unavailable — showing estimated value
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  ) : "—"
+                }
                 rsi={md.rsi !== null ? md.rsi.toFixed(1) : "—"}
                 trend={md.trendLabel}
               />

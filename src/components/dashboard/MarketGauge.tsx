@@ -18,7 +18,7 @@ interface MarketGaugeProps {
   label?: string;
   instrument?: string;
   rsi?: string;
-  price?: string;
+  price?: React.ReactNode | string;
   trend?: string;
 }
 

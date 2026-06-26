@@ -48,6 +48,7 @@ export const SCANNER_INSTRUMENTS: ScannerInstrument[] = [
   { scannerSlug: "GBPUSD",  displayPair: "GBP/USD", tvSymbol: "FX:GBPUSD",       category: "forex"       },
   { scannerSlug: "USDJPY",  displayPair: "USD/JPY", tvSymbol: "FX:USDJPY",       category: "forex"       },
   { scannerSlug: "GBPJPY",  displayPair: "GBP/JPY", tvSymbol: "FX:GBPJPY",       category: "forex"       },
+  { scannerSlug: "XAUUSD",  displayPair: "XAU/USD", tvSymbol: "OANDA:XAUUSD",    category: "commodities" },
   { scannerSlug: "XAGUSD",  displayPair: "XAG/USD", tvSymbol: "OANDA:XAGUSD",    category: "commodities" },
   { scannerSlug: "UKX",     displayPair: "UK100",   tvSymbol: "TVC:UKX",         category: "indices"     },
   { scannerSlug: "SPX",     displayPair: "US500",   tvSymbol: "TVC:SPX",         category: "indices"     },

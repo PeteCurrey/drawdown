@@ -23,8 +23,8 @@ export const TD_SYMBOL_MAP: Record<string, string> = {
   "EUR/USD": "EUR/USD",
   "USD/JPY": "USD/JPY",
   "GBP/JPY": "GBP/JPY",
-  "SPX": "SPX500",
-  "NDX": "QQQ",
+  "SPX": "SPX",
+  "NDX": "NDX",
   "DJI": "DJI",
   "FTSE": "FTSE",
   "BTC/USD": "BTC/USD",
@@ -487,19 +487,19 @@ function generateSimulatedTwelveData(timeframe: string) {
   const data: Record<string, any> = {};
   
   const BASE_PRICES: Record<string, number> = {
-    "XAU/USD": 2350,
-    "XAG/USD": 29.5,
-    "GBP/USD": 1.2750,
+    "XAU/USD": 3330,
+    "XAG/USD": 32.5,
+    "GBP/USD": 1.2720,
     "EUR/USD": 1.0850,
-    "USD/JPY": 157.20,
-    "GBP/JPY": 200.50,
-    "SPX500": 5420,
-    "QQQ": 455,
-    "DJI": 39100,
-    "FTSE": 8230,
-    "BTC/USD": 65500,
-    "ETH/USD": 3520,
-    "SOL/USD": 152,
+    "USD/JPY": 158.50,
+    "GBP/JPY": 201.50,
+    "SPX": 5450,
+    "NDX": 19800,
+    "DJI": 43000,
+    "FTSE": 8300,
+    "BTC/USD": 65000,
+    "ETH/USD": 3500,
+    "SOL/USD": 155,
   };
 
   const now = new Date();
@@ -619,12 +619,20 @@ export async function runSignalScan() {
         }
       }
 
+      let isSimulated = false;
       if (!data) {
         console.log(`[signal-engine] Falling back to high-fidelity price simulator for ${tf.label}...`);
         data = generateSimulatedTwelveData(tf.label);
+        isSimulated = true;
       }
 
       for (const [drawdownSlug, tdSym] of Object.entries(TD_SYMBOL_MAP)) {
+        if (isSimulated) {
+          console.error(`[signal-engine] USING SIMULATED DATA FOR: ${drawdownSlug} — live price fetch failed. Signals may be inaccurate.`);
+          console.warn(`[signal-engine] Skipping signal for ${drawdownSlug} — no live price data available`);
+          continue;
+        }
+
         const rawSymbolData = data[tdSym];
         if (!rawSymbolData || rawSymbolData.status === "error" || !Array.isArray(rawSymbolData.values)) {
           continue;

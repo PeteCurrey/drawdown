@@ -420,9 +420,20 @@ export function InstrumentIntelligenceCard({ instrument, interval = "4h" }: Inst
               </>
             ) : (
               <>
-                <p className="text-[22px] font-mono font-semibold tabular-nums leading-none mb-1.5" style={{ color: T.text }}>
-                  {livePrice ? fmtPrice(livePrice, instrument.slug) : "—"}
-                </p>
+                <div className="flex items-center gap-2 mb-1.5">
+                  <p className="text-[22px] font-mono font-semibold tabular-nums leading-none flex items-center" style={{ color: T.text }}>
+                    {marketData.is_fallback && <span className="text-[18px] text-amber-500 font-bold mr-1" title="Live price unavailable — showing estimated value">~</span>}
+                    {livePrice ? fmtPrice(livePrice, instrument.slug) : "—"}
+                  </p>
+                  {marketData.is_fallback && (
+                    <div className="group relative flex items-center justify-center cursor-help">
+                      <div className="w-1.5 h-1.5 rounded-full bg-amber-500" />
+                      <div className="absolute bottom-full mb-2 hidden group-hover:block w-48 p-2 text-xs bg-gray-900 border border-gray-700 rounded shadow-lg text-white text-left z-50">
+                        Live price unavailable — showing estimated value
+                      </div>
+                    </div>
+                  )}
+                </div>
                 {changeAbs !== null && changePct !== null ? (
                   <p className="text-[11px] font-mono"
                     style={{ color: priceUp ? "#059669" : "#DC2626" }}>

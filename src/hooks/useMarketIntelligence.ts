@@ -25,6 +25,7 @@ export interface MarketIntelligenceState {
   loading: boolean;
   error: string | null;
   lastUpdated: Date | null;
+  is_fallback?: boolean;
 }
 
 const EMPTY_STATE: MarketIntelligenceState = {
@@ -37,6 +38,7 @@ const EMPTY_STATE: MarketIntelligenceState = {
   loading: true,
   error: null,
   lastUpdated: null,
+  is_fallback: false,
 };
 
 // Helper to resolve instrument key from hook slug or instrument slug
@@ -128,7 +130,7 @@ export function useMarketIntelligence(
 
         const bias = calculateBiasScore(indicators, price);
 
-        return { quote, indicators, keyLevels, bias };
+        return { quote, indicators, keyLevels, bias, is_fallback: data.is_fallback === true };
       } catch (err: any) {
         console.error(`[useMarketIntelligence] Failed to fetch market data for ${slug}:`, err);
         return null;
@@ -220,6 +222,7 @@ export function useMarketIntelligence(
           keyLevels: resolvedMarket.keyLevels,
           news: resolvedNewsEvents?.news ?? [],
           events: resolvedNewsEvents?.events ?? [],
+          is_fallback: resolvedMarket.is_fallback,
           loading: false,
           error: null,
           lastUpdated: new Date()
@@ -235,6 +238,7 @@ export function useMarketIntelligence(
               indicators: updatedMarket.indicators,
               bias: updatedMarket.bias,
               keyLevels: updatedMarket.keyLevels,
+              is_fallback: updatedMarket.is_fallback,
               lastUpdated: new Date()
             }));
           }

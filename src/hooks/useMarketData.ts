@@ -66,6 +66,7 @@ export interface MarketData {
   loading:     boolean;
   error:       string | null;
   lastUpdated: Date | null;
+  is_fallback: boolean;
 }
 
 const EMPTY: MarketData = {
@@ -79,7 +80,7 @@ const EMPTY: MarketData = {
   atrCurrent: null, atrAvg20: null, atrRatio: null,
   resistance: null, support: null,
   biasScore: null, trendLabel: "—", trendDir: null,
-  loading: true, error: null, lastUpdated: null,
+  loading: true, error: null, lastUpdated: null, is_fallback: false,
 };
 
 const POLL_MS = 60_000; // 60 s — matches server cache revalidate
@@ -154,6 +155,7 @@ export function useMarketData(hookSlug: string, interval: string): MarketData {
           loading:    false,
           error:      null,
           lastUpdated: new Date(),
+          is_fallback: json.is_fallback === true,
         });
       } catch (err: any) {
         if (err?.name === "AbortError") return; // intentional cancel

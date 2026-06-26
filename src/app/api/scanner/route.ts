@@ -19,7 +19,7 @@ export async function POST(req: Request) {
     // Fetch 50 candles from Twelve Data server-side
     const TD_MAP: Record<string, string> = {
       EURUSD:"EUR/USD", GBPUSD:"GBP/USD", USDJPY:"USD/JPY", GBPJPY:"GBP/JPY",
-      XAGUSD:"XAG/USD", UKX:"FTSE", SPX:"SPX500", NDX:"QQQ", DJI:"DJI",
+      XAUUSD:"XAU/USD", XAGUSD:"XAG/USD", UKX:"FTSE", SPX:"SPX", NDX:"NDX", DJI:"DJI",
       BTCUSDT:"BTC/USD", ETHUSDT:"ETH/USD", XRPUSDT:"XRP/USD",
     };
     const tdSym = encodeURIComponent(TD_MAP[symbol] ?? symbol);

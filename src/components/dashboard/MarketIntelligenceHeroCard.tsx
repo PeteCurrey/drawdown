@@ -873,20 +873,31 @@ export function MarketIntelligenceHeroCard({
             style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}
           >
             {[
-              { label: "PRICE",    value: livePriceStr,  color: "rgba(255,255,255,0.9)" },
+              { label: "PRICE",    value: livePriceStr,  color: "rgba(255,255,255,0.9)", isFallback: marketData.is_fallback },
               { label: "RSI (14)", value: liveRsiStr,    color: "rgba(255,255,255,0.9)" },
               { label: "TREND",    value: liveTrend,     color: liveTrendColor },
-            ].map(({ label, value, color }) => (
+            ].map(({ label, value, color, isFallback }) => (
               <div key={label} className="text-center">
                 <p className="text-[10px] font-mono uppercase tracking-widest mb-2" style={{ color: "rgba(255,255,255,0.45)" }}>
                   {label}
                 </p>
-                <p
-                  className="text-[18px] font-mono tabular-nums leading-none"
+                <div
+                  className="text-[18px] font-mono tabular-nums leading-none flex items-center justify-center gap-1.5"
                   style={{ color }}
                 >
-                  {value}
-                </p>
+                  {isFallback && <span className="text-[14px] text-amber-500 font-bold" title="Live price unavailable — showing estimated value">~</span>}
+                  <span>{value}</span>
+                  {isFallback && (
+                    <div 
+                      className="group relative flex items-center justify-center cursor-help"
+                    >
+                      <div className="w-1.5 h-1.5 rounded-full bg-amber-500" />
+                      <div className="absolute bottom-full mb-2 hidden group-hover:block w-48 p-2 text-xs bg-gray-900 border border-gray-700 rounded shadow-lg text-white text-left z-50">
+                        Live price unavailable — showing estimated value
+                      </div>
+                    </div>
+                  )}
+                </div>
               </div>
             ))}
           </div>

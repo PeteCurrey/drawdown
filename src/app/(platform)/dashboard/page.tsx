@@ -22,6 +22,7 @@ import { PsychologyCoach } from "@/components/dashboard/PsychologyCoach";
 import { createClient } from "@/lib/supabase/client";
 import { phases } from "@/data/courses";
 import Link from "next/link";
+import { WatchlistSummary } from "@/components/dashboard/WatchlistSummary";
 
 // ─── Custom CyberGuard Aesthetic Components ─────────────────────────────────
 import { MarketIntelligenceHeroCard } from "@/components/dashboard/MarketIntelligenceHeroCard";
@@ -46,7 +47,7 @@ export default function DashboardPage() {
   const [earnedBadges, setEarnedBadges] = useState<Badge[]>(allBadges);
   const [myCourses, setMyCourses] = useState<any[]>([]);
   const [passedModuleIds, setPassedModuleIds] = useState<string[]>([]);
-  const [watchlistItems, setWatchlistItems] = useState<{ symbol: string; price: number; changePercent: number }[]>([]);
+  const [watchlistItems, setWatchlistItems] = useState<string[]>([]);
   const [watchlistLoading, setWatchlistLoading] = useState(true);
 
   // Redesign state: Selected Instrument + Timeframe
@@ -357,43 +358,11 @@ export default function DashboardPage() {
           .from('user_watchlists')
           .select('symbol')
           .eq('user_id', user.id);
-        
-        let wlList: { symbol: string; price: number; changePercent: number }[] = [];
         const symbolsToFetch = wlData && wlData.length > 0
           ? wlData.map((item: any) => item.symbol)
           : ["GBP/USD", "XAU/USD"];
         
-        try {
-          const priceRes = await fetch(`/api/market/prices?symbols=${symbolsToFetch.join(",")}`);
-          const prices = await priceRes.json();
-          if (Array.isArray(prices)) {
-            wlList = symbolsToFetch.map(symbol => {
-              const pData = prices.find((p: any) => p.symbol === symbol);
-              return {
-                symbol,
-                price: pData?.price ?? NaN,
-                changePercent: pData?.changePercent ?? 0,
-              };
-            });
-          }
-        } catch (err) {
-          console.error("Watchlist price fetch error:", err);
-        }
-        
-        // Use realistic defaults if price resolution failed completely
-        wlList = wlList.map(item => {
-          if (isNaN(item.price)) {
-            const isGold = item.symbol.includes("XAU");
-            return {
-              symbol: item.symbol,
-              price: isGold ? 2350.8 : 1.2734,
-              changePercent: isGold ? 0.45 : -0.15,
-            };
-          }
-          return item;
-        });
-
-        setWatchlistItems(wlList);
+        setWatchlistItems(symbolsToFetch);
         setWatchlistLoading(false);
       } catch (err) {
         console.error(err);
@@ -522,52 +491,7 @@ export default function DashboardPage() {
         </div>
 
         {/* Card 4: Watchlist Summary */}
-        <div className="bg-white border border-[#EDEDED] rounded-2xl p-5 shadow-[0_2px_12px_rgba(0,0,0,0.06)] flex flex-col justify-between min-h-[220px] transition-all hover:shadow-[0_8px_24px_rgba(0,0,0,0.10)] hover:-translate-y-1 duration-200">
-          <div>
-            <div className="flex justify-between items-start mb-4">
-              <h5 className="font-semibold text-sm text-[#1A1A1A]">Active Watchlist</h5>
-              <Link href="/dashboard" className="text-xs text-[#555550] hover:text-[#1A1A1A]">↗</Link>
-            </div>
-            
-            <div className="space-y-2 text-xs">
-              {watchlistLoading ? (
-                <div className="animate-pulse space-y-2">
-                  <div className="h-4 bg-[#F0F0F0] rounded w-2/3" />
-                  <div className="h-4 bg-[#F0F0F0] rounded w-1/2" />
-                </div>
-              ) : watchlistItems.length > 0 ? (
-                watchlistItems.slice(0, 3).map((item, index) => {
-                  const isUp = item.changePercent >= 0;
-                  return (
-                    <div key={index} className="flex justify-between items-center">
-                      <span className="flex items-center gap-1.5 truncate pr-2">
-                        <span className={isUp ? "text-[#18B880]" : "text-[#CE6969]"}>
-                          {isUp ? "🟢" : "🔴"}
-                        </span>
-                        <span className="font-medium text-[#1A1A1A] truncate">{item.symbol}</span>
-                      </span>
-                      <span className="font-mono text-[#555550] shrink-0">
-                        {item.price.toLocaleString("en-US", {
-                          minimumFractionDigits: item.symbol.includes("JPY") ? 3 : item.symbol.includes("XAU") || item.symbol.includes("BTC") ? 2 : 5,
-                          maximumFractionDigits: item.symbol.includes("JPY") ? 3 : item.symbol.includes("XAU") || item.symbol.includes("BTC") ? 2 : 5
-                        })}
-                      </span>
-                    </div>
-                  );
-                })
-              ) : (
-                <p className="text-[10px] text-[#555550] font-mono uppercase">Empty watchlist</p>
-              )}
-            </div>
-          </div>
-
-          <div className="pt-3 border-t border-[#EDEDED] flex justify-between items-end">
-            <span className="text-[10px] font-mono text-[#555550]">Watching</span>
-            <span className="text-2xl font-black font-mono leading-none">
-              {watchlistLoading ? "—" : watchlistItems.length}
-            </span>
-          </div>
-        </div>
+        <WatchlistSummary initialSymbols={watchlistItems} />
 
       </section>
 

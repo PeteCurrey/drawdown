@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import { 
   InstrumentKey, 
   INSTRUMENTS, 
@@ -14,6 +14,7 @@ import {
   BiasScore
 } from "@/lib/marketDataService";
 import { calculateBiasScore } from "@/lib/biasEngine";
+import { useTwelveData } from "@/hooks/useTwelveData";
 
 export interface MarketIntelligenceState {
   quote: QuoteData | null;
@@ -63,32 +64,50 @@ export function useMarketIntelligence(
   timeframe: string
 ): MarketIntelligenceState {
   const [state, setState] = useState<MarketIntelligenceState>({ ...EMPTY_STATE });
-  
-  // Keep refs for mutable data to access in polling intervals without re-triggering effects
-  const stateRef = useRef<MarketIntelligenceState>(state);
-  stateRef.current = state;
+
+  // ── Live price via useTwelveData (client-side, 30s poll, 5 calls only) ──────
+  // This bypasses the server-side route entirely for price updates.
+  const liveData = useTwelveData([slugOrHookSlug]);
+  const liveInstrument = liveData[slugOrHookSlug];
+
+  // ── Merge live price into state whenever useTwelveData updates ──────────────
+  useEffect(() => {
+    if (!liveInstrument || liveInstrument.loading || liveInstrument.error) return;
+    if (liveInstrument.price === null) return;
+
+    setState(prev => {
+      if (!prev.quote) return prev; // Wait for initial full load
+      const updatedQuote: QuoteData = {
+        ...prev.quote,
+        price: liveInstrument.price!,
+        change: liveInstrument.price! - (liveInstrument.prevClose ?? liveInstrument.price!),
+        changePercent: liveInstrument.changePct ?? prev.quote.changePercent,
+        timestamp: Date.now(),
+      };
+      return {
+        ...prev,
+        quote: updatedQuote,
+        is_fallback: false,
+        lastUpdated: liveInstrument.lastUpdated ?? prev.lastUpdated,
+      };
+    });
+  }, [liveInstrument?.price, liveInstrument?.changePct, slugOrHookSlug]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     // 1. Reset state to loading on instrument/timeframe change
     setState({ ...EMPTY_STATE, loading: true });
 
     let active = true;
-
-    // Fetch timers
-    let marketDataTimer: NodeJS.Timeout | null = null;
     let newsEventsTimer: NodeJS.Timeout | null = null;
+    let indicatorTimer: NodeJS.Timeout | null = null;
 
-    // Helper to fetch and map market data
-    const fetchMarketDataAndBias = async (slug: string, tf: string) => {
+    // Helper to fetch and map indicators + quote from the full market-data route
+    const fetchIndicatorsAndBias = async (slug: string, tf: string) => {
       try {
         const res = await fetch(`/api/market-data/${encodeURIComponent(slug)}?interval=${tf}`);
-        if (!res.ok) {
-          throw new Error(`HTTP Error ${res.status}`);
-        }
+        if (!res.ok) throw new Error(`HTTP Error ${res.status}`);
         const data = await res.json();
-        if (data.error) {
-          throw new Error(data.error);
-        }
+        if (data.error) throw new Error(data.error);
 
         const price = data.price ?? 0;
 
@@ -132,12 +151,12 @@ export function useMarketIntelligence(
 
         return { quote, indicators, keyLevels, bias, is_fallback: data.is_fallback === true };
       } catch (err: any) {
-        console.error(`[useMarketIntelligence] Failed to fetch market data for ${slug}:`, err);
+        console.error(`[useMarketIntelligence] Failed to fetch indicators for ${slug}:`, err);
         return null;
       }
     };
 
-    // Helper to fetch and map calendar and news
+    // Helper to fetch news and calendar events
     const fetchNewsAndEvents = async (slug: string) => {
       try {
         const [calendarRes, newsRes] = await Promise.allSettled([
@@ -193,11 +212,11 @@ export function useMarketIntelligence(
       }
     };
 
-    // Orchestrator for initial loads and interval updates
+    // Initial load: fetch indicators + news/events together
     const initialFetch = async () => {
       try {
         const [marketRes, newsEventsRes] = await Promise.allSettled([
-          fetchMarketDataAndBias(slugOrHookSlug, timeframe),
+          fetchIndicatorsAndBias(slugOrHookSlug, timeframe),
           fetchNewsAndEvents(slugOrHookSlug)
         ]);
 
@@ -228,23 +247,26 @@ export function useMarketIntelligence(
           lastUpdated: new Date()
         });
 
-        // Setup Polling: 30 seconds for price/indicators
-        marketDataTimer = setInterval(async () => {
-          const updatedMarket = await fetchMarketDataAndBias(slugOrHookSlug, timeframe);
+        // Indicators refresh every 5 minutes (not 30s — useTwelveData handles price updates)
+        indicatorTimer = setInterval(async () => {
+          const updatedMarket = await fetchIndicatorsAndBias(slugOrHookSlug, timeframe);
           if (active && updatedMarket) {
             setState(prev => ({
               ...prev,
-              quote: updatedMarket.quote,
               indicators: updatedMarket.indicators,
               bias: updatedMarket.bias,
               keyLevels: updatedMarket.keyLevels,
+              // Only update quote from server if useTwelveData hasn't given us a better price
+              quote: prev.quote && prev.is_fallback === false
+                ? { ...prev.quote } // keep existing live price from useTwelveData
+                : updatedMarket.quote,
               is_fallback: updatedMarket.is_fallback,
               lastUpdated: new Date()
             }));
           }
-        }, 30000);
+        }, 300_000); // 5 minutes
 
-        // Setup Polling: 5 minutes for news/events
+        // News/events refresh every 5 minutes
         newsEventsTimer = setInterval(async () => {
           const updatedNewsEvents = await fetchNewsAndEvents(slugOrHookSlug);
           if (active && updatedNewsEvents) {
@@ -255,7 +277,7 @@ export function useMarketIntelligence(
               lastUpdated: new Date()
             }));
           }
-        }, 300000);
+        }, 300_000); // 5 minutes
 
       } catch (err: any) {
         if (active) {
@@ -272,7 +294,7 @@ export function useMarketIntelligence(
 
     return () => {
       active = false;
-      if (marketDataTimer) clearInterval(marketDataTimer);
+      if (indicatorTimer) clearInterval(indicatorTimer);
       if (newsEventsTimer) clearInterval(newsEventsTimer);
     };
   }, [slugOrHookSlug, timeframe]);

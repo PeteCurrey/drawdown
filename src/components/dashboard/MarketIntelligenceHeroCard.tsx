@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 import { ChevronDown, MoreHorizontal, AlertCircle } from "lucide-react";
 import { INSTRUMENT_GROUPS, TIMEFRAMES, type Instrument } from "@/lib/instruments";
 import { useMarketIntelligence } from "@/hooks/useMarketIntelligence";
+import { useTwelveData } from "@/hooks/useTwelveData";
 
 /* ─────────────────────────────────────────────────────────────────────────────
    MarketIntelligenceHeroCard
@@ -123,18 +124,35 @@ export function MarketIntelligenceHeroCard({
   const hookSlug = (selectedInst as any).hookSlug ?? selectedInst.slug.replace("/", "");
   const marketData = useMarketIntelligence(hookSlug, selectedInterval);
 
-  // LOG 1
-  console.log('[DD-DATA] Hook called with:', { instrument: hookSlug, timeframe: selectedInterval });
-  console.log('[DD-DATA] Hook returned:', { loading: marketData.loading, error: marketData.error, quote: marketData.quote, bias: marketData.bias?.score });
+  // ── Live price via useTwelveData (client-side, 30s poll, efficient) ─────────
+  const liveData = useTwelveData([hookSlug]);
+  const tdInstrument = liveData[hookSlug];
+
+  // Price: prefer useTwelveData (faster, client-side), fallback to marketData
+  const livePrice = (tdInstrument?.price ?? marketData.quote?.price) ?? null;
+
+  // ── Flash animation on price tick ─────────────────────────────────────────
+  const prevPriceRef = useRef<number | null>(null);
+  const [priceFlash, setPriceFlash] = useState<"up" | "down" | null>(null);
+  useEffect(() => {
+    if (livePrice === null) return;
+    if (prevPriceRef.current !== null && prevPriceRef.current !== livePrice) {
+      setPriceFlash(livePrice > prevPriceRef.current ? "up" : "down");
+      const t = setTimeout(() => setPriceFlash(null), 700);
+      return () => clearTimeout(t);
+    }
+    prevPriceRef.current = livePrice;
+  }, [livePrice]);
 
   // biasScore: use live value, fall back to placeholder while loading
   const targetBias = marketData.bias?.score ?? selectedInst.defaultPct;
 
-  // LOG 2
-  console.log('[DD-GAUGE] Received props:', { biasScore: targetBias, direction: marketData.bias?.direction ?? 'neutral', conflictNodes: marketData.bias?.conflictNodes ?? [] });
+  // Derive change from useTwelveData when available
+  const liveChangePct = tdInstrument?.changePct ?? marketData.quote?.changePercent ?? null;
+  const isFallback = !tdInstrument || tdInstrument.error || tdInstrument.price === null
+    ? (marketData.is_fallback ?? false)
+    : false;
 
-  // Live footer values
-  const livePrice = marketData.quote?.price ?? null;
   const livePriceStr = livePrice
     ? livePrice.toLocaleString("en-US", {
         minimumFractionDigits: selectedInst.slug.includes("JPY") ? 3 : (selectedInst.slug.includes("XAU") || selectedInst.slug.includes("BTC") ? 2 : 5),
@@ -873,21 +891,24 @@ export function MarketIntelligenceHeroCard({
             style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}
           >
             {[
-              { label: "PRICE",    value: livePriceStr,  color: "rgba(255,255,255,0.9)", isFallback: marketData.is_fallback },
-              { label: "RSI (14)", value: liveRsiStr,    color: "rgba(255,255,255,0.9)" },
-              { label: "TREND",    value: liveTrend,     color: liveTrendColor },
-            ].map(({ label, value, color, isFallback }) => (
+              { label: "PRICE",    value: livePriceStr,  color: priceFlash === "up" ? "#00C896" : priceFlash === "down" ? "#CE6969" : "rgba(255,255,255,0.9)", isFallback, isPrice: true },
+              { label: "RSI (14)", value: liveRsiStr,    color: "rgba(255,255,255,0.9)", isFallback: false, isPrice: false },
+              { label: "TREND",    value: liveTrend,     color: liveTrendColor, isFallback: false, isPrice: false },
+            ].map(({ label, value, color, isFallback: fb, isPrice }) => (
               <div key={label} className="text-center">
                 <p className="text-[10px] font-mono uppercase tracking-widest mb-2" style={{ color: "rgba(255,255,255,0.45)" }}>
                   {label}
                 </p>
                 <div
                   className="text-[18px] font-mono tabular-nums leading-none flex items-center justify-center gap-1.5"
-                  style={{ color }}
+                  style={{
+                    color,
+                    transition: isPrice ? "color 400ms ease" : undefined,
+                  }}
                 >
-                  {isFallback && <span className="text-[14px] text-amber-500 font-bold" title="Live price unavailable — showing estimated value">~</span>}
+                  {fb && <span className="text-[14px] text-amber-500 font-bold" title="Live price unavailable — showing estimated value">~</span>}
                   <span>{value}</span>
-                  {isFallback && (
+                  {fb && (
                     <div 
                       className="group relative flex items-center justify-center cursor-help"
                     >

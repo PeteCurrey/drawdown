@@ -510,3 +510,223 @@
     0 0 0 1px #C8F135,
     0 0 0 4px rgba(200, 241, 53, 0.12) !important;
 }
+
+/* ═══════════════════════════════════════════════════════════════════
+   CURRICULUM MODULE — PROSE TYPOGRAPHY
+   Applied via .prose .prose-invert classes on the content container.
+   Tailwind v4 doesn't use the @tailwindcss/typography plugin, so we
+   define the rules directly here.
+   ═══════════════════════════════════════════════════════════════════ */
+
+.prose {
+  color: rgba(255,255,255,0.7);
+  line-height: 1.8;
+  font-size: 1rem;
+}
+
+.prose p {
+  margin-bottom: 1.25rem;
+  color: rgba(255,255,255,0.7);
+  line-height: 1.85;
+}
+
+.prose h1 {
+  font-family: var(--font-syne, 'Syne', 'Outfit', sans-serif);
+  font-weight: 700;
+  font-size: 2rem;
+  color: #ffffff;
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+  letter-spacing: -0.02em;
+}
+
+.prose h2 {
+  font-family: var(--font-syne, 'Syne', 'Outfit', sans-serif);
+  font-weight: 700;
+  font-size: 1.5rem;
+  color: #ffffff;
+  margin-top: 2.25rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  letter-spacing: -0.02em;
+}
+
+.prose h3 {
+  font-family: var(--font-syne, 'Syne', 'Outfit', sans-serif);
+  font-weight: 600;
+  font-size: 1.2rem;
+  color: rgba(255,255,255,0.9);
+  margin-top: 1.75rem;
+  margin-bottom: 0.75rem;
+  letter-spacing: -0.015em;
+}
+
+.prose h4 {
+  font-weight: 600;
+  font-size: 1rem;
+  color: rgba(255,255,255,0.85);
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.875rem;
+}
+
+.prose ul {
+  list-style: none;
+  padding-left: 0;
+  margin-bottom: 1.25rem;
+}
+
+.prose ul li {
+  position: relative;
+  padding-left: 1.5rem;
+  margin-bottom: 0.5rem;
+  color: rgba(255,255,255,0.7);
+}
+
+.prose ul li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.65em;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #C8F135;
+}
+
+.prose ol {
+  list-style: none;
+  padding-left: 0;
+  margin-bottom: 1.25rem;
+  counter-reset: ol-counter;
+}
+
+.prose ol li {
+  position: relative;
+  padding-left: 2rem;
+  margin-bottom: 0.5rem;
+  color: rgba(255,255,255,0.7);
+  counter-increment: ol-counter;
+}
+
+.prose ol li::before {
+  content: counter(ol-counter) ".";
+  position: absolute;
+  left: 0;
+  font-family: ui-monospace, monospace;
+  font-weight: 700;
+  font-size: 0.75rem;
+  color: #C8F135;
+  top: 0.15em;
+}
+
+.prose blockquote {
+  border-left: 3px solid #C8F135;
+  background: rgba(255,255,255,0.03);
+  border-radius: 0 0.5rem 0.5rem 0;
+  padding: 1rem 1.25rem;
+  margin: 1.5rem 0;
+  color: rgba(255,255,255,0.8);
+  font-style: italic;
+}
+
+.prose blockquote p {
+  margin-bottom: 0;
+}
+
+.prose strong {
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.prose em {
+  color: rgba(255,255,255,0.75);
+  font-style: italic;
+}
+
+.prose code {
+  font-family: ui-monospace, 'Cascadia Code', monospace;
+  font-size: 0.875em;
+  background: rgba(200,241,53,0.08);
+  color: #C8F135;
+  padding: 0.15em 0.4em;
+  border-radius: 4px;
+  border: 1px solid rgba(200,241,53,0.15);
+}
+
+.prose pre {
+  background: rgba(0,0,0,0.4);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 0.75rem;
+  padding: 1.25rem 1.5rem;
+  overflow-x: auto;
+  margin: 1.5rem 0;
+}
+
+.prose pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  color: rgba(255,255,255,0.85);
+  font-size: 0.875rem;
+}
+
+.prose a {
+  color: #C8F135;
+  text-decoration: underline;
+  text-decoration-color: rgba(200,241,53,0.4);
+  text-underline-offset: 3px;
+  transition: color 0.15s, text-decoration-color 0.15s;
+}
+
+.prose a:hover {
+  color: #d8ff45;
+  text-decoration-color: #C8F135;
+}
+
+.prose hr {
+  border: none;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  margin: 2.5rem 0;
+}
+
+.prose table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  font-size: 0.9rem;
+}
+
+.prose th {
+  background: rgba(200,241,53,0.08);
+  color: #C8F135;
+  font-family: ui-monospace, monospace;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.75rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid rgba(200,241,53,0.2);
+}
+
+.prose td {
+  padding: 0.65rem 1rem;
+  color: rgba(255,255,255,0.7);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+
+.prose tr:last-child td {
+  border-bottom: none;
+}
+
+.prose img {
+  border-radius: 0.75rem;
+  border: 1px solid rgba(255,255,255,0.1);
+  margin: 1.5rem 0;
+  max-width: 100%;
+}
+

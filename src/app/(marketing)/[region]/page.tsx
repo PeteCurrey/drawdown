@@ -56,6 +56,8 @@ export default async function RegionalHome({ params }: Props) {
     notFound();
   }
 
+  const regionName = REGIONS_MAP[region]?.label ?? region.toUpperCase();
+
   return (
     <RegionalProvider region={region}>
       <div className="flex flex-col">

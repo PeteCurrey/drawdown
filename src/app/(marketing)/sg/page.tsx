@@ -52,6 +52,9 @@ export default function SingaporeHome() {
             <p className="text-xl md:text-2xl text-text-secondary leading-relaxed max-w-2xl font-medium">
               professional-grade education for Singapore's most disciplined traders. MAS-regulated insights, SGD-normalized analysis, and a professional edge with <span className="text-profit">0% Capital Gains Tax.</span>
             </p>
+          </div>
+        </div>
+      </section>
 
       <FadeInSection delay={0}>
         <StatsBar />

@@ -164,6 +164,7 @@ export const phases: CoursePhase[] = [
   },
   {
     id: 7,
+    status: "in_development",
     slug: "fundamental-edge",
     number: "07",
     name: "Fundamental Edge",
@@ -186,6 +187,7 @@ export const phases: CoursePhase[] = [
   },
   {
     id: 8,
+    status: "in_development",
     slug: "derivatives-options",
     number: "08",
     name: "Derivatives & Options",
@@ -208,6 +210,7 @@ export const phases: CoursePhase[] = [
   },
   {
     id: 9,
+    status: "in_development",
     slug: "portfolio-architect",
     number: "09",
     name: "Portfolio Architect",
@@ -230,6 +233,7 @@ export const phases: CoursePhase[] = [
   },
   {
     id: 10,
+    status: "in_development",
     slug: "macro-trader",
     number: "10",
     name: "Macro Trader",
@@ -256,6 +260,7 @@ export const phases: CoursePhase[] = [
   },
   {
     id: 11,
+    status: "in_development",
     slug: "prop-firm-mastery",
     number: "11",
     name: "Prop Firm Mastery",
@@ -280,6 +285,7 @@ export const phases: CoursePhase[] = [
   },
   {
     id: 12,
+    status: "in_development",
     slug: "ai-trader",
     number: "12",
     name: "The AI Trader",
@@ -308,6 +314,7 @@ export const phases: CoursePhase[] = [
   },
   {
     id: 13,
+    status: "in_development",
     slug: "the-backtester",
     number: "13",
     name: "The Backtester",

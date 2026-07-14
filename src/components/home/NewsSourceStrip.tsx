@@ -1,9 +1,6 @@
 "use client";
 
 export function NewsSourceStrip() {
-  // Triple the items for marquee loop
-  const marqueeItems = [...sources, ...sources, ...sources];
-
   // Floating variants for Section 8 (Floating logos)
   // Each index has a different delay so they float independently
   const floatVariants = (delay: number) => ({

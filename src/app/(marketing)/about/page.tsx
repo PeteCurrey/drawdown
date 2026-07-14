@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import AboutPage from './AboutClient'
 import JsonLd from '@/components/seo/JsonLd'
+import { TrackPageView } from '@/components/admin/TrackPageView'
 
 export const metadata: Metadata = {
   title: 'About | Pete Currey | Drawdown Trading',
@@ -10,7 +11,7 @@ export const metadata: Metadata = {
 
 export default function Page() {
   return (
-    <div ref={containerRef} className="pt-32 bg-background-primary min-h-screen">
+    <div className="pt-32 bg-background-primary min-h-screen">
       <TrackPageView path="/about" />
       <div className="container mx-auto px-6">
         {/* Anti-Guru Manifesto */}

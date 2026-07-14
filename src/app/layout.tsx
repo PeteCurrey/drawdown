@@ -53,7 +53,7 @@ export const metadata: Metadata = {
   metadataBase: new URL('https://drawdown.trading'),
   title: {
     default: 'Drawdown — Trade the Truth',
-    template: '%s | Drawdown'
+    template: '%s'
   },
   description: 'Learn to trade properly with structured courses, AI-powered tools and honest mentorship. No gurus. No hype. Just edge.',
   openGraph: {

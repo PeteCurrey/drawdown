@@ -46,7 +46,7 @@ const topBrokers = [
   }
 ];
 
-export default function BrokerComparisonHub() {
+export default function BrokersPage() {
   return (
     <div className="flex flex-col">
       {/* Hero Section */}

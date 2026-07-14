@@ -2117,13 +2117,21 @@ function MarketIntelligenceBar({
 
         {/* 1 — Fear & Greed */}
         <Widget label="Market Sentiment">
-          <FearGreedGauge score={sentimentScore} synthetic={sentimentSynth} />
-          {vixPrice !== null && (
-            <p className="text-[8px] font-mono text-white/40 text-center">VIX {vixPrice.toFixed(1)}</p>
-          )}
-          {sentimentSynth && sentimentScore !== null && (
-            <p className="text-[7px] font-mono text-white/25 text-center">Market Breadth</p>
-          )}
+          {sentimentScore !== null ? (
+            <>
+              <FearGreedGauge score={sentimentScore} synthetic={sentimentSynth} />
+              {vixPrice !== null && (
+                <p className="text-[8px] font-mono text-white/40 text-center">VIX {vixPrice.toFixed(1)}</p>
+              )}
+              {sentimentSynth && sentimentScore !== null && (
+                <p className="text-[7px] font-mono text-white/25 text-center">Market Breadth</p>
+              )}
+            </>
+          ) : vix?.error && !vix?.loading ? (
+            <div className="flex flex-col items-center justify-center h-8 mt-2">
+               <span className="text-[10px] font-mono text-white/40 uppercase text-center leading-tight mt-4">API Limit<br/>Reached</span>
+            </div>
+          ) : <div className="w-16 h-8 bg-white/10 rounded animate-pulse mt-4" />}
         </Widget>
 
         <Divider />
@@ -2154,7 +2162,11 @@ function MarketIntelligenceBar({
               </p>
               <span className="text-[6px] font-mono text-white/20 uppercase tracking-widest">Est. EUR/GBP/JPY</span>
             </div>
-          ) : <div className="w-16 h-8 bg-white/10 rounded animate-pulse" />}
+          ) : dxy?.error && !dxy?.loading ? (
+            <div className="flex flex-col items-center justify-center h-8">
+              <span className="text-[10px] font-mono text-white/40 uppercase text-center leading-tight mt-2">API Limit<br/>Reached</span>
+            </div>
+          ) : <div className="w-16 h-8 bg-white/10 rounded animate-pulse mt-2" />}
         </Widget>
 
         <Divider />
@@ -2172,7 +2184,11 @@ function MarketIntelligenceBar({
                 {(goldChangePct ?? 0) > 0.3 ? "Rising — risk-off sentiment" : "Stable"}
               </p>
             </div>
-          ) : <div className="w-16 h-8 bg-white/10 rounded animate-pulse" />}
+          ) : goldData?.error && !goldData?.loading ? (
+            <div className="flex flex-col items-center justify-center h-8">
+              <span className="text-[10px] font-mono text-white/40 uppercase text-center leading-tight mt-2">API Limit<br/>Reached</span>
+            </div>
+          ) : <div className="w-16 h-8 bg-white/10 rounded animate-pulse mt-2" />}
         </Widget>
 
         <Divider />

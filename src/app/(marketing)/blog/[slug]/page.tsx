@@ -44,249 +44,150 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const post = await getPostBySlug(slug);
   if (!post) return { title: 'Post Not Found' };
   
-  return getMetadata({
-    title: post.title,
-    description: post.excerpt,
-    path: `/blog/${post.slug}`,
-  });
+  const seo = (post as any).seoSettings || {};
+  
+  return {
+    title: seo.meta_title || post.metaTitle || post.title,
+    description: seo.meta_description || post.metaDescription || post.excerpt,
+    openGraph: {
+      title: seo.og_title || post.title,
+      description: seo.og_description || post.excerpt,
+      type: 'article',
+      publishedTime: post.publishedAt,
+      modifiedTime: post.dateModified || post.publishedAt,
+      authors: [post.author],
+      images: [
+        {
+          url: post.image,
+          width: 1200,
+          height: 630,
+          alt: post.title,
+        }
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: seo.twitter_title || post.title,
+      description: seo.twitter_description || post.excerpt,
+      images: [post.image],
+    }
+  };
 }
 
-// Extractor that returns H2/H3 headings for TOC
-interface HeadingItem {
-  text: string;
-  id: string;
-  level: 2 | 3;
-}
-
-function extractHeadings(content: string): HeadingItem[] {
-  const headingRegex = /^(##|###) (.*$)/gim;
-  const headings: HeadingItem[] = [];
-  let match;
-  while ((match = headingRegex.exec(content)) !== null) {
-    const level = match[1].length as 2 | 3;
-    const text = match[2].trim();
-    const id = text.toLowerCase().replace(/[^a-z0-9]+/g, "-");
-    headings.push({ text, id, level });
-  }
-  return headings;
-}
+const components = {
+  Callout,
+  Chart,
+  Diagram,
+  DataTable,
+  PullQuote,
+  BlogChart,
+  BlogTable,
+  KeyTakeaways,
+};
 
 export default async function BlogPostPage({ params }: Props) {
   const { slug } = await params;
   const post = await getPostBySlug(slug);
-  
-  if (!post) notFound();
 
-  // Dynamic Query: same category, excluding current, sorted by date descending, limit 3
+  if (!post) {
+    notFound();
+  }
+
+  // Generate Table of Contents headings dynamically
+  const headings = post.content
+    .split("\n")
+    .filter((line) => line.startsWith("## "))
+    .map((line) => {
+      const text = line.replace("## ", "").trim();
+      const id = text.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+      return { text, id, level: 2 as const };
+    });
+
+  const showTOC = headings.length > 0;
+  
+  // Fetch related posts (same category, excluding current)
   const allPosts = await getAllPosts();
-  let relatedPosts = allPosts
-    .filter(p => p.slug !== slug && p.category === post.category)
-    .sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime())
+  const relatedPosts = allPosts
+    .filter((p) => p.category === post.category && p.slug !== post.slug)
     .slice(0, 3);
 
-  // Fallback to most recent site-wide if category doesn't have 3 related posts
-  if (relatedPosts.length < 3) {
-    const filler = allPosts
-      .filter(p => p.slug !== slug && !relatedPosts.some(rp => rp.slug === p.slug))
-      .sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
-    relatedPosts = [...relatedPosts, ...filler].slice(0, 3);
-  }
-
-  // Route to DatabaseBlogClient for HTML posts; MDX posts use the MDXRemote renderer below.
-  if ((post as any).contentFormat !== 'mdx') {
-    const seo = (post as any).seoSettings || {};
-    const jsonLd = {
-      "@context": "https://schema.org",
-      "@type": seo.schema_type || "BlogPosting",
-      "headline": post.title,
-      "description": seo.meta_description || post.metaDescription || post.excerpt,
-      "author": {
-        "@type": "Person",
-        "name": post.author,
-        "jobTitle": (post as any).authorProfile?.role || "Founder",
-        "worksFor": {
-          "@type": "Organization",
-          "name": "Drawdown",
-          "url": "https://drawdown.trading"
-        }
-      },
-      "publisher": {
-        "@type": "Organization",
-        "name": "Drawdown",
-        "url": "https://drawdown.trading"
-      },
-      "datePublished": post.publishedAt,
-      "dateModified": post.dateModified || post.publishedAt,
-      "mainEntityOfPage": {
-        "@type": "WebPage",
-        "@id": seo.canonical_url || `https://drawdown.trading/blog/${post.slug}`
+  // Schema.org Article structured data
+  const articleSchema = {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": post.title,
+    "image": post.image,
+    "datePublished": post.publishedAt,
+    "dateModified": post.dateModified || post.publishedAt,
+    "author": {
+      "@type": "Person",
+      "name": post.author,
+      "url": "https://drawdown.trading/about"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Drawdown",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://drawdown.trading/logo.png"
       }
-    };
-
-    return (
-      <>
-        <TrackPageView path={`/blog/${slug}`} />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-        />
-        <DatabaseBlogClient post={post as any} relatedPosts={relatedPosts} isDark={(post as any).dark_background ?? false} />
-      </>
-    );
-  }
-
-  const headings = extractHeadings(post.content);
-  // TOC only renders when readTime is 7 minutes or more
-  const showTOC = post.readingTime >= 7 && headings.length > 0;
-
-  const components = {
-    h1: () => null, // Suppress MDX body H1 to solve duplicate H1 issue
-    h2: ({ children, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => {
-      const text = React.Children.toArray(children).join("");
-      const id = text.toLowerCase().replace(/[^a-z0-9]+/g, "-");
-      return <h2 id={id} className="font-display font-black uppercase text-slate-900 border-t border-[#E5E5E5] pt-8 mt-12 mb-6 text-xl sm:text-2xl" {...props}>{children}</h2>;
     },
-    h3: ({ children, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => {
-      const text = React.Children.toArray(children).join("");
-      const id = text.toLowerCase().replace(/[^a-z0-9]+/g, "-");
-      return <h3 id={id} className="font-display font-extrabold uppercase text-slate-800 mt-8 mb-4 text-sm sm:text-base" {...props}>{children}</h3>;
-    },
-    Callout,
-    Chart,
-    Diagram,
-    DataTable,
-    PullQuote,
-    BlogChart,
-    BlogTable,
-    KeyTakeaways
+    "description": post.excerpt
   };
 
+  // If this post is in the database, render the dynamic client view
+  if ((post as any).isDatabasePost) {
+    return <DatabaseBlogClient post={post} relatedPosts={[]} />;
+  }
+
   return (
-    <div className="pt-28 pb-24 min-h-screen bg-white text-slate-850 font-ibm-sans selection:bg-accent selection:text-white relative">
+    <div className="pt-24 min-h-screen bg-white text-slate-900 selection:bg-accent/20">
+      <JsonLd data={articleSchema} />
       <TrackPageView path={`/blog/${slug}`} />
+      
+      {/* Scroll indicator bar */}
       <ReadingProgressBar />
 
-      {/* JSON-LD Article Schema */}
-      <JsonLd data={{
-        "@context": "https://schema.org",
-        "@type": "Article",
-        "headline": post.title,
-        "description": post.metaDescription || post.excerpt,
-        "url": `https://drawdown.trading/blog/${post.slug}`,
-        "datePublished": post.publishedAt,
-        "dateModified": post.dateModified || post.publishedAt,
-        "author": {
-          "@type": post.author === "Pete Currey" ? "Person" : "Organization",
-          "name": post.author,
-          "url": post.author === "Pete Currey" ? "https://drawdown.trading/about" : "https://drawdown.trading"
-        },
-        "publisher": {
-          "@type": "Organization",
-          "name": "Drawdown Trading",
-          "url": "https://drawdown.trading",
-          "logo": {
-            "@type": "ImageObject",
-            "url": "https://drawdown.trading/og/default-og.png"
-          }
-        },
-        "mainEntityOfPage": {
-          "@type": "WebPage",
-          "@id": `https://drawdown.trading/blog/${post.slug}`
-        },
-        "image": post.image || "https://drawdown.trading/og/default-og.png",
-        "articleSection": post.category
-      }} />
-
-      {/* JSON-LD Breadcrumbs Schema */}
-      <JsonLd data={{
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-          {
-            "@type": "ListItem",
-            "position": 1,
-            "name": "Home",
-            "item": "https://drawdown.trading"
-          },
-          {
-            "@type": "ListItem",
-            "position": 2,
-            "name": "Blog",
-            "item": "https://drawdown.trading/blog"
-          },
-          {
-            "@type": "ListItem",
-            "position": 3,
-            "name": post.category,
-            "item": `https://drawdown.trading/blog?category=${encodeURIComponent(post.category)}`
-          },
-          {
-            "@type": "ListItem",
-            "position": 4,
-            "name": post.title,
-            "item": `https://drawdown.trading/blog/${post.slug}`
-          }
-        ]
-      }} />
-
-      {/* JSON-LD FAQPage Schema */}
-      {post.faq && post.faq.length > 0 && (
-        <JsonLd data={{
-          "@context": "https://schema.org",
-          "@type": "FAQPage",
-          "mainEntity": post.faq.map(item => ({
-            "@type": "Question",
-            "name": item.question,
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": item.answer
-            }
-          }))
-        }} />
-      )}
-
-      <div className="max-w-7xl mx-auto px-6">
-        {/* Visible Breadcrumbs */}
-        <nav className="flex items-center gap-2 font-mono text-[9px] uppercase tracking-widest text-text-tertiary mb-6">
-          <Link href="/" className="hover:text-accent transition-colors">Home</Link>
-          <span>/</span>
-          <Link href="/blog" className="hover:text-accent transition-colors">Blog</Link>
-          <span>/</span>
-          <Link href={`/blog?category=${encodeURIComponent(post.category)}`} className="hover:text-accent transition-colors">
-            {post.category}
-          </Link>
-          <span>/</span>
-          <span className="text-text-secondary truncate max-w-[200px] sm:max-w-xs">{post.title}</span>
-        </nav>
-
-        <div className="max-w-6xl mx-auto">
+      <div className="max-w-7xl mx-auto px-6 py-12">
+        {/* Back navigation */}
+        <div className="mb-8">
           <Link 
             href="/blog" 
-            className="inline-flex items-center gap-2 text-[9px] font-mono uppercase tracking-widest text-text-tertiary hover:text-accent transition-colors mb-8 group w-fit"
+            className="inline-flex items-center gap-1.5 text-xs font-mono uppercase tracking-widest text-text-tertiary hover:text-accent transition-colors"
           >
-            <ChevronLeft className="w-3.5 h-3.5 group-hover:-translate-x-1 transition-transform" /> Back to Insights
+            <ChevronLeft className="w-3.5 h-3.5" /> Back to Insights
           </Link>
+        </div>
 
-          {/* PostHero Component Block */}
-          <header className="space-y-6 mb-10">
-            <span className="font-mono text-[9px] font-bold text-accent uppercase tracking-[0.2em] block">
-              // {post.category}
-            </span>
+        {/* Content Container */}
+        <div className="max-w-4xl mx-auto">
+          {/* Category & Breadcrumb */}
+          <span className="font-mono text-[9px] uppercase tracking-widest text-accent font-bold block mb-4">
+            Insights // {post.category}
+          </span>
+
+          <h1 className="text-4xl md:text-5xl font-display font-black uppercase text-slate-900 leading-tight tracking-tight mb-8">
+            {post.title}
+          </h1>
+
+          {/* Author/Date row */}
+          <header className="flex flex-wrap items-center justify-between gap-6 py-6 border-y border-[#E5E5E5] mb-12 text-xs font-mono text-text-tertiary">
+            <div className="flex items-center gap-2">
+              <span className="text-slate-900 font-bold">{post.author}</span>
+              <span className="text-slate-300">/</span>
+              <time dateTime={post.publishedAt}>
+                {new Date(post.publishedAt).toLocaleDateString("en-GB", {
+                  day: "numeric",
+                  month: "short",
+                  year: "numeric",
+                })}
+              </time>
+            </div>
             
-            <h1 className="text-3xl md:text-5xl lg:text-6xl font-display font-black uppercase leading-[1.05] text-slate-900 tracking-tight max-w-4xl">
-              {post.title}
-            </h1>
-            
-            <div className="flex flex-wrap items-center gap-6 font-mono text-[9px] uppercase tracking-widest text-text-tertiary border-y border-[#E5E5E5] py-4 mt-8">
-              <div className="flex items-center gap-2">
-                <div className="w-5 h-5 bg-neutral-100 border border-[#E5E5E5] flex items-center justify-center shrink-0">
-                  <span className="text-[9px] font-bold text-slate-700">{post.author === "Pete Currey" ? "PC" : "DT"}</span>
-                </div>
-                <span>By {post.author}</span>
-              </div>
+            <div className="flex items-center gap-4">
               <div className="flex items-center gap-1.5">
                 <Calendar className="w-3 h-3 text-accent" /> 
-                {new Date(post.publishedAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}
+                Updated {new Date(post.dateModified || post.publishedAt).toLocaleDateString("en-GB", { month: "short", year: "numeric" })}
               </div>
               <div className="flex items-center gap-1.5">
                 <Clock className="w-3 h-3 text-accent" /> 
@@ -320,50 +221,10 @@ export default async function BlogPostPage({ params }: Props) {
                 <div className="lg:hidden">
                   <TableOfContents headings={headings} />
                 </div>
-                <div className="space-y-4 text-center md:text-left">
-                   <div>
-                      <h5 className="text-xl font-display font-bold uppercase text-text-primary">Pete Currey</h5>
-                      <p className="text-[10px] font-mono uppercase tracking-widest text-accent">Founder of Drawdown // 20+ Years Trading</p>
-                   </div>
-                   <p className="text-sm text-text-secondary leading-relaxed">
-                      Professional trader and algorithmic systems architect. Pete built Drawdown to strip away the marketing fluff of the retail industry and focus on the cold reality of institutional risk management.
-                   </p>
-                   <Link href="/about" className="inline-flex items-center gap-2 text-[10px] font-mono uppercase tracking-widest text-text-tertiary hover:text-accent transition-colors">
-                      Read Pete's Full Story <ArrowRight className="w-3 h-3" />
-                   </Link>
-                </div>
-             </div>
-          </div>
+              )}
 
-          {/* Related Posts */}
-          {relatedPosts.length > 0 && (
-            <div className="mt-32 space-y-12">
-               <h4 className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary border-b border-border-slate pb-4">// Related Insights</h4>
-               <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                  {relatedPosts.map(p => (
-                    <Link key={p.slug} href={`/blog/${p.slug}`} className="group space-y-4">
-                       <span className="text-[8px] font-mono uppercase tracking-widest text-accent">{p.category}</span>
-                       <h5 className="text-lg font-display font-bold uppercase leading-tight group-hover:text-accent transition-colors">{p.title}</h5>
-                       <p className="text-xs text-text-tertiary line-clamp-2">{p.excerpt}</p>
-                    </Link>
-                  ))}
-               </div>
-            </div>
-          )}
-
-          {/* Final CTA */}
-          <div className="mt-32 p-12 bg-background-elevated border border-border-slate relative overflow-hidden group">
-            <div className="absolute top-0 left-0 w-1 h-full bg-accent" />
-            <div className="relative z-10 flex flex-col md:flex-row justify-between items-center gap-8">
-              <div className="space-y-4">
-                <h4 className="text-3xl font-display font-bold uppercase text-text-primary leading-none">Stop Gambling. <br /> Start Trading.</h4>
-                <p className="text-text-secondary text-sm max-w-md">
-                  Start mastering the business of risk with our professional-grade tools and education.
-                </p>
-              </div>
-              <Link 
-                href="/signup" 
-                className="px-10 py-5 bg-accent text-background-primary font-bold uppercase tracking-widest text-[10px] hover:bg-accent-hover transition-all shadow-xl shadow-accent/20 whitespace-nowrap"
+              <article 
+                className="prose prose-drawdown font-ibm-sans max-w-none prose-headings:font-display prose-headings:uppercase prose-headings:text-slate-900 prose-h2:text-2xl prose-h2:mt-12 prose-h2:mb-6 prose-h2:pt-8 prose-h2:border-t prose-h2:border-[#E5E5E5] prose-h3:text-lg prose-h3:mt-8 prose-p:text-slate-600 prose-p:leading-relaxed prose-p:text-base prose-p:mb-6 prose-strong:text-slate-900 prose-strong:font-bold prose-blockquote:border-l-4 prose-blockquote:border-accent prose-blockquote:bg-slate-50 prose-blockquote:p-6 prose-blockquote:rounded-none prose-blockquote:italic prose-blockquote:text-slate-700 prose-ul:list-disc prose-ul:pl-6 prose-ul:mb-6 prose-li:text-slate-600 prose-li:mb-2 prose-a:text-accent prose-a:font-semibold hover:prose-a:text-accent-hover"
               >
                 <MDXRemote source={post.content} components={components} />
               </article>
@@ -394,7 +255,7 @@ export default async function BlogPostPage({ params }: Props) {
                     <div className="absolute top-0 left-0 w-2 h-full bg-accent" />
                     <span className="font-mono text-[9px] font-bold uppercase tracking-widest text-text-tertiary block font-bold">// Dynamic Integration Resource</span>
                     <h4 className="text-lg font-mono font-bold uppercase text-slate-800">{mapping.label}</h4>
-                    <p className="text-xs text-slate-500 leading-relaxed max-w-2xl font-sans">{mapping.description}</p>
+                    <p className="text-xs text-slate-555 leading-relaxed max-w-2xl font-sans">{mapping.description}</p>
                     <Link 
                       href={mapping.href} 
                       className="inline-flex items-center gap-2 text-[10px] font-mono font-bold uppercase tracking-widest text-accent hover:text-accent-hover transition-colors mt-2"

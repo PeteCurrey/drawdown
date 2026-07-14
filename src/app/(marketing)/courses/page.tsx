@@ -1,6 +1,10 @@
 import { Metadata } from "next";
-import { CoursesPageClient } from "@/components/courses/CoursesPageClient";
-import JsonLd from "@/components/seo/JsonLd";
+import Link from "next/link";
+import { Clock, ChevronRight, Layers, Shield } from "lucide-react";
+import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
+import { StructuredData } from "@/components/StructuredData";
+import { phases } from "@/data/courses";
+import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: 'Trading Courses UK | 6-Phase Curriculum | Structured Learning',
@@ -9,6 +13,24 @@ export const metadata: Metadata = {
 }
 
 export default function CoursesPage() {
+  const courseSchema = {
+    "@type": "ItemList",
+    "itemListElement": phases.map((phase, i) => ({
+      "@type": "ListItem",
+      "position": i + 1,
+      "item": {
+        "@type": "Course",
+        "name": `Phase ${phase.number}: ${phase.name}`,
+        "description": phase.description,
+        "provider": {
+          "@type": "Organization",
+          "name": "Drawdown",
+          "sameAs": "https://drawdown.trading"
+        }
+      }
+    }))
+  };
+
   return (
     <div className="pt-32 pb-24 bg-background-primary min-h-screen">
       <div className="container mx-auto px-6">

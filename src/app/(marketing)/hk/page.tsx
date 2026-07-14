@@ -52,6 +52,9 @@ export default function HongKongHome() {
             <p className="text-xl md:text-2xl text-text-secondary leading-relaxed max-w-2xl font-medium">
               professional-grade education for Hong Kong's professional trading community. SFC-regulated insights, HKD-normalized analysis, and <span className="text-profit">0% Capital Gains Tax</span> on all individual profits.
             </p>
+          </div>
+        </div>
+      </section>
 
       <FadeInSection delay={0}>
         <StatsBar />

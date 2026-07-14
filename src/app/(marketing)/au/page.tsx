@@ -52,6 +52,9 @@ export default function AustralianHome() {
             <p className="text-xl md:text-2xl text-text-secondary leading-relaxed max-w-2xl font-medium">
               professional-grade education and data for Australia's most disciplined traders. ASIC-regulated insights, AUD-normalized analysis, and a professional edge.
             </p>
+          </div>
+        </div>
+      </section>
 
       <FadeInSection delay={0}>
         <StatsBar />

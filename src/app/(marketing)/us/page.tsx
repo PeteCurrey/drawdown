@@ -52,6 +52,9 @@ export default function UnitedStatesHome() {
             <p className="text-xl md:text-2xl text-text-secondary leading-relaxed max-w-2xl font-medium">
               professional-grade education for American traders. CFTC/NFA compliant insights, USD-normalized analysis, and a professional edge in stocks, options, and FX.
             </p>
+          </div>
+        </div>
+      </section>
 
       <FadeInSection delay={0}>
         <StatsBar />

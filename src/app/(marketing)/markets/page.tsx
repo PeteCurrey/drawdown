@@ -3,6 +3,7 @@ import { ArrowRight } from "lucide-react";
 import { TradingViewTickerTape } from "@/components/markets/TradingViewTickerTape";
 import { TradingViewMiniChart } from "@/components/markets/TradingViewMiniChart";
 import { getCategoryInstruments } from "@/lib/markets-config";
+import { MarketTicker } from "@/components/market/MarketTicker";
 
 export const metadata = {
   title: "Markets Hub | Live Financial Charts & Analysis | Drawdown",

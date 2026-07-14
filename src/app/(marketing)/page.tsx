@@ -19,6 +19,7 @@ import { FadeInSection } from "@/components/animations/FadeInSection";
 import { TrackPageView } from "@/components/admin/TrackPageView";
 import { GSAPReveal } from "@/components/animations/GSAPReveal";
 import { phases } from "@/data/courses";
+import JsonLd from "@/components/seo/JsonLd";
 
 export default function Home() {
   return (

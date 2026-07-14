@@ -6,11 +6,11 @@ import { cn } from "@/lib/utils";
 
 export default function CommunityPage() {
   return (
-    <div className="pt-12 pb-24 bg-background-primary min-h-screen">
-      <div className="container mx-auto px-6 max-w-6xl">
+    <div className="pt-12 pb-24 min-h-screen">
+      <div className="max-w-7xl mx-auto px-6 max-w-6xl">
         <div className="mb-12">
           <span className="text-accent font-mono text-[10px] uppercase tracking-widest block mb-4">// THE FLOOR</span>
-          <h1 className="  font-display font-bold uppercase">Community.</h1>
+          <h1 className="font-sans font-bold uppercase">Community.</h1>
           <p className="text-sm font-mono text-text-tertiary mt-4 max-w-2xl">
             A curated network of serious traders. Share analysis, discuss setups, and elevate your edge alongside peers and mentors.
           </p>
@@ -29,7 +29,7 @@ export default function CommunityPage() {
               ].map((item, i) => (
                 <button 
                   key={i}
-                  className="flex flex-col items-center justify-center gap-3 p-6 bg-background-surface border border-border-slate hover:border-accent transition-colors group relative overflow-hidden"
+                  className="flex flex-col items-center justify-center gap-3 p-6 bg-background-surface/40 backdrop-blur-md border border-border-slate/50 transition-all duration-300 hover:shadow-[0_0_20px_rgba(0,0,0,0.2)] hover:border-border-slate hover:-translate-y-0.5 hover:border-border-slate transition-colors group relative overflow-hidden"
                 >
                   <item.icon className="w-6 h-6 text-text-tertiary group-hover:text-accent transition-colors" />
                   <span className="text-[10px] font-bold uppercase tracking-widest">{item.label}</span>
@@ -43,10 +43,10 @@ export default function CommunityPage() {
             </div>
 
             {/* Discourse Placeholder */}
-            <div className="bg-background-surface border border-border-slate overflow-hidden">
-               <div className="p-6 border-b border-border-slate flex justify-between items-center bg-background-elevated/30">
-                  <h3 className="text-lg font-display font-bold uppercase">Recent Discussions</h3>
-                  <button className="text-[10px] font-bold uppercase tracking-widest bg-accent text-background-primary px-4 py-2 hover:bg-accent-hover transition-colors">
+            <div className="bg-background-surface/40 backdrop-blur-md border border-border-slate/50 transition-all duration-300 hover:shadow-[0_0_20px_rgba(0,0,0,0.2)] hover:border-border-slate hover:-translate-y-0.5 overflow-hidden">
+               <div className="p-6 border-b border-border-slate/50 flex justify-between items-center bg-background-elevated/40/30">
+                  <h3 className="text-lg font-sans font-bold uppercase">Recent Discussions</h3>
+                  <button className="text-[10px] font-bold uppercase tracking-widest bg-mkt-ink text-white px-4 py-2 hover:bg-accent-hover transition-colors">
                     New Post
                   </button>
                </div>
@@ -60,7 +60,7 @@ export default function CommunityPage() {
                     <div key={i} className="p-6 hover:bg-background-elevated/50 transition-colors cursor-pointer group">
                        <div className="flex justify-between items-start mb-2">
                           <div className="flex items-center gap-3">
-                             <div className="w-8 h-8 bg-background-elevated border border-border-slate rounded-full flex items-center justify-center">
+                             <div className="w-8 h-8 bg-background-elevated/40 border border-border-slate/50 rounded-full flex items-center justify-center">
                                {post.admin ? <Shield className="w-3 h-3 text-accent" /> : <Users className="w-3 h-3 text-text-tertiary" />}
                              </div>
                              <div className="flex flex-col">
@@ -69,15 +69,15 @@ export default function CommunityPage() {
                                     "text-xs font-bold uppercase",
                                     post.admin ? "text-accent" : "text-text-secondary"
                                   )}>{post.author}</span>
-                                  {post.admin && <span className="text-[7px] bg-accent/20 text-accent px-1.5 py-0.5 uppercase tracking-widest border border-accent/20">Mentor</span>}
+                                  {post.admin && <span className="text-[7px] bg-accent/20 text-accent px-1.5 py-0.5 uppercase tracking-widest border border-border-slate/50/20">Mentor</span>}
                                 </div>
                                 <span className="text-[9px] font-mono text-text-tertiary uppercase">{post.time}</span>
                              </div>
                           </div>
                        </div>
-                       <h4 className="text-lg font-display font-bold group-hover:text-accent transition-colors my-3">{post.title}</h4>
+                       <h4 className="text-lg font-sans font-bold group-hover:text-accent transition-colors my-3">{post.title}</h4>
                        <div className="flex items-center gap-4">
-                          <span className="text-[9px] font-mono border border-border-slate px-2 py-0.5 text-text-tertiary uppercase">{post.tag}</span>
+                          <span className="text-[9px] font-mono border border-border-slate/50 px-2 py-0.5 text-text-tertiary uppercase">{post.tag}</span>
                           <span className="text-[10px] text-text-tertiary font-bold flex items-center gap-1 group-hover:text-text-primary transition-colors">
                              <MessageSquare className="w-3 h-3" /> {post.replies} Replies
                           </span>
@@ -86,7 +86,7 @@ export default function CommunityPage() {
                   ))}
                </div>
                
-               <div className="p-4 bg-background-elevated/20 text-center border-t border-border-slate">
+               <div className="p-4 bg-background-elevated/40/20 text-center border-t border-border-slate/50">
                   <button className="text-[10px] font-mono font-bold uppercase tracking-widest text-text-tertiary hover:text-accent transition-colors">
                     Load More Discussions ↓
                   </button>
@@ -96,11 +96,11 @@ export default function CommunityPage() {
 
           {/* Sidebar */}
           <div className="space-y-8">
-            <div className="bg-background-surface border border-border-slate p-8 text-center space-y-6">
+            <div className="bg-background-surface/40 backdrop-blur-md border border-border-slate/50 transition-all duration-300 hover:shadow-[0_0_20px_rgba(0,0,0,0.2)] hover:border-border-slate hover:-translate-y-0.5 p-8 text-center space-y-6">
                <div className="w-16 h-16 bg-[#5865F2]/10 border border-[#5865F2]/20 rounded-2xl flex items-center justify-center mx-auto mb-4">
                   <MessageSquare className="w-8 h-8 text-[#5865F2]" />
                </div>
-               <h3 className="text-xl font-display font-bold uppercase">Join the Discord</h3>
+               <h3 className="text-xl font-sans font-bold uppercase">Join the Discord</h3>
                <p className="text-xs text-text-secondary leading-relaxed">
                  For real-time chat, exclusive voice sessions, and instant market alerts, connect your Drawdown account to our private Discord server.
                </p>
@@ -109,8 +109,8 @@ export default function CommunityPage() {
                </Link>
             </div>
             
-            <div className="bg-background-surface border border-border-slate p-6">
-               <h3 className="text-sm font-display font-bold uppercase mb-4 flex items-center gap-2">
+            <div className="bg-background-surface/40 backdrop-blur-md border border-border-slate/50 transition-all duration-300 hover:shadow-[0_0_20px_rgba(0,0,0,0.2)] hover:border-border-slate hover:-translate-y-0.5 p-6">
+               <h3 className="text-sm font-sans font-bold uppercase mb-4 flex items-center gap-2">
                  <Shield className="w-4 h-4 text-accent" /> Community Rules
                </h3>
                <ul className="space-y-3 text-xs text-text-secondary leading-relaxed">

@@ -80,13 +80,13 @@ export function FeatureShowcase() {
   }, []);
 
   return (
-    <section ref={scrollRef} className="relative z-10 bg-background-elevated border-y border-border-slate/50">
+    <section ref={scrollRef} className="relative z-10 bg-[#F7F7F7] border-y border-mkt-bd/50">
       <div className="h-screen flex items-center overflow-hidden">
         <div className="container mx-auto px-6 mb-12 absolute top-32 left-0 right-0 z-10">
-          <span className="text-accent font-mono tracking-widest uppercase text-xs mb-4 block">
+          <span className="text-accent font-mono tracking-widest uppercase text-sm md:text-xs mb-4 block">
             // PLATFORM TOOLS
           </span>
-          <h2 className="text-4xl md:text-6xl font-display font-bold uppercase">
+          <h2 className="text-4xl md:text-6xl font-sans font-bold uppercase">
             Built by Traders. <br /> Enhanced by AI.
           </h2>
         </div>
@@ -96,7 +96,7 @@ export function FeatureShowcase() {
             <Link 
               key={i} 
               href={`/tools/${feature.slug}`}
-              className="feature-card group relative w-[85vw] md:w-[450px] h-[550px] bg-background-surface border border-border-slate p-12 flex flex-col justify-between transition-premium hover:border-accent/50 overflow-hidden"
+              className="feature-card group relative w-[85vw] md:w-[450px] h-[550px] bg-white border border-mkt-bd p-12 flex flex-col justify-between transition-premium hover:border-mkt-bds/50 overflow-hidden rounded-xl"
             >
               {/* Feature Background Image (Hover Reveal) */}
               <div className="absolute inset-0 z-0">
@@ -122,25 +122,25 @@ export function FeatureShowcase() {
                   <div className="w-16 h-16 bg-accent/5 border border-accent/10 flex items-center justify-center text-accent mb-12 group-hover:scale-110 group-hover:bg-accent/10 transition-all duration-500">
                     <feature.icon className="w-8 h-8" />
                   </div>
-                  <h4 className="text-3xl font-display font-bold uppercase mb-6 tracking-tight group-hover:text-accent transition-colors">
+                  <h4 className="text-3xl font-sans font-bold uppercase mb-6 tracking-tight group-hover:text-accent transition-colors">
                     {feature.name}
                   </h4>
-                  <p className="text-text-secondary leading-relaxed text-sm max-w-sm">
+                  <p className="text-mkt-i2 leading-relaxed text-sm max-w-sm">
                     {feature.description}
                   </p>
                 </div>
                 
                 <div className="flex justify-between items-end">
                   <div className="flex flex-col gap-1">
-                    <span className="text-[10px] uppercase font-mono font-bold tracking-widest text-text-tertiary">
+                    <span className="text-[10px] uppercase font-mono font-bold tracking-widest text-mkt-i4">
                       Access Tier
                     </span>
-                    <span className="text-xs font-mono font-bold text-accent">
+                    <span className="text-sm md:text-xs font-mono font-bold text-accent">
                       {feature.tier}
                     </span>
                   </div>
                   <div className="flex items-center gap-4">
-                    <span className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary group-hover:text-text-primary transition-colors">
+                    <span className="text-[10px] font-mono uppercase tracking-widest text-mkt-i4 group-hover:text-mkt-ink transition-colors">
                       View Tool
                     </span>
                     <div className="w-8 h-[1px] bg-border-slate group-hover:bg-accent group-hover:w-16 transition-all duration-500" />

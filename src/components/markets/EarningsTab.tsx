@@ -25,11 +25,11 @@ export function EarningsTab() {
 
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
-      <div className="space-y-2 pb-8 border-b border-border-slate">
-        <h3 className="text-2xl font-display font-bold uppercase tracking-tight flex items-center gap-3">
+      <div className="space-y-2 pb-8 border-b border-mkt-bd">
+        <h3 className="text-2xl font-sans font-bold uppercase tracking-tight flex items-center gap-3">
           <BarChart3 className="w-6 h-6 text-accent" /> Earnings Calendar
         </h3>
-        <p className="text-[10px] font-mono uppercase text-text-tertiary tracking-widest leading-loose">
+        <p className="text-[10px] font-mono uppercase text-mkt-i4 tracking-widest leading-loose">
            Corporate Reporting Dashboard // US & UK Equities
         </p>
       </div>
@@ -37,49 +37,49 @@ export function EarningsTab() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {loading ? (
           Array(6).fill(0).map((_, i) => (
-            <div key={i} className="h-48 bg-background-surface border border-border-slate animate-pulse" />
+            <div key={i} className="h-48 bg-white border border-mkt-bd animate-pulse" />
           ))
         ) : earnings.length > 0 ? (
           earnings.map((report, i) => (
-            <div key={i} className="p-8 bg-background-surface border border-border-slate group hover:border-accent transition-all duration-500">
+            <div key={i} className="p-8 bg-white border border-mkt-bd group hover:border-mkt-bds transition-all duration-500">
               <div className="flex justify-between items-start mb-6">
                 <div>
                    <h4 className="text-xl font-mono font-bold">{report.symbol}</h4>
-                   <span className="text-[10px] font-mono text-text-tertiary uppercase tracking-widest">{report.companyName}</span>
+                   <span className="text-[10px] font-mono text-mkt-i4 uppercase tracking-widest">{report.companyName}</span>
                 </div>
-                <div className="px-3 py-1 bg-background-elevated border border-border-slate text-[9px] font-mono font-bold uppercase tracking-widest">
+                <div className="px-3 py-1 bg-[#F7F7F7] border border-mkt-bd text-[9px] font-mono font-bold uppercase tracking-widest">
                   {report.period}
                 </div>
               </div>
 
               <div className="space-y-4">
                 <div className="flex justify-between items-center text-sm">
-                  <span className="text-text-tertiary font-mono uppercase text-[10px]">Date</span>
+                  <span className="text-mkt-i4 font-mono uppercase text-[10px]">Date</span>
                   <span className="font-bold">{report.date}</span>
                 </div>
                 <div className="flex justify-between items-center text-sm">
-                  <span className="text-text-tertiary font-mono uppercase text-[10px]">EPS Estimate</span>
+                  <span className="text-mkt-i4 font-mono uppercase text-[10px]">EPS Estimate</span>
                   <span className="font-bold text-accent">{report.estimate || "---"}</span>
                 </div>
                 <div className="flex justify-between items-center text-sm">
-                  <span className="text-text-tertiary font-mono uppercase text-[10px]">Revenue Est.</span>
+                  <span className="text-mkt-i4 font-mono uppercase text-[10px]">Revenue Est.</span>
                   <span className="font-bold">${((report.revenueEstimate || 0) / 1000000).toFixed(1)}M</span>
                 </div>
               </div>
 
-              <div className="mt-8 pt-6 border-t border-border-slate/30 flex items-center justify-between">
+              <div className="mt-8 pt-6 border-t border-mkt-bd/30 flex items-center justify-between">
                  <div className="flex items-center gap-2">
-                   {report.actualOutcome === 'beat' ? <TrendingUp className="w-3 h-3 text-profit" /> : <TrendingDown className="w-3 h-3 text-loss" />}
-                   <span className="text-[9px] font-mono uppercase tracking-widest text-text-tertiary">Sentiment: Neutral</span>
+                   {report.actualOutcome === 'beat' ? <TrendingUp className="w-3 h-3 text-mkt-grn" /> : <TrendingDown className="w-3 h-3 text-red-500" />}
+                   <span className="text-[9px] font-mono uppercase tracking-widest text-mkt-i4">Sentiment: Neutral</span>
                  </div>
                  <div className="w-2 h-2 rounded-full bg-accent animate-pulse" />
               </div>
             </div>
           ))
         ) : (
-          <div className="col-span-full py-20 text-center border border-dashed border-border-slate/50">
-             <DollarSign className="w-10 h-10 text-text-tertiary mx-auto mb-4 opacity-20" />
-             <p className="text-[10px] font-mono uppercase text-text-tertiary tracking-widest">No major earnings reporting in the current window.</p>
+          <div className="col-span-full py-20 text-center border border-dashed border-mkt-bd/50">
+             <DollarSign className="w-10 h-10 text-mkt-i4 mx-auto mb-4 opacity-20" />
+             <p className="text-[10px] font-mono uppercase text-mkt-i4 tracking-widest">No major earnings reporting in the current window.</p>
           </div>
         )}
       </div>

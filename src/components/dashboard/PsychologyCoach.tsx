@@ -28,7 +28,7 @@ export function PsychologyCoach({ trades, account }: PsychologyCoachProps) {
 
   if (loading) {
     return (
-      <div className="p-8 bg-background-surface border border-border-slate space-y-6 animate-pulse">
+      <div className="p-8 bg-background-surface/40 backdrop-blur-md border border-border-slate/50 space-y-6 animate-pulse">
         <div className="flex items-center gap-3">
           <Brain className="w-5 h-5 text-text-tertiary" />
           <div className="h-4 bg-white/5 w-48 rounded" />
@@ -56,11 +56,20 @@ export function PsychologyCoach({ trades, account }: PsychologyCoachProps) {
 
       <div className="space-y-4">
         {patterns.length === 0 ? (
-          <div className="p-8 bg-background-surface border border-profit/30 flex flex-col items-center text-center space-y-4">
+          <div className="p-8 bg-background-surface/40 backdrop-blur-md border border-profit/30 flex flex-col items-center text-center space-y-4 transition-all duration-300 hover:shadow-[0_0_30px_rgba(0,230,118,0.1)] hover:-translate-y-0.5">
             <CheckCircle2 className="w-8 h-8 text-profit" />
             <div className="space-y-1">
-               <p className="text-sm font-display font-bold uppercase">Discipline Maintained</p>
-               <p className="text-xs text-text-tertiary">No negative behavioral patterns detected in your last 10 trades.</p>
+              {trades.length === 0 ? (
+                <>
+                  <p className="text-sm font-display font-bold uppercase">Nothing to Analyse Yet</p>
+                  <p className="text-xs text-text-tertiary">Log your first funded account trades to activate pattern detection.</p>
+                </>
+              ) : (
+                <>
+                  <p className="text-sm font-display font-bold uppercase">Discipline Maintained</p>
+                  <p className="text-xs text-text-tertiary">No negative behavioural patterns detected across your recent trades.</p>
+                </>
+              )}
             </div>
           </div>
         ) : (

@@ -1,4 +1,5 @@
-"use client";
+import type { Metadata } from 'next'
+import ToolsPage from './ToolsClient'
 
 import { 
   Wrench, 

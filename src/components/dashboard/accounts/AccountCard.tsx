@@ -1,41 +1,41 @@
 "use client";
-
+ 
 import { FundedAccount } from "@/types/dashboard";
 import { formatCurrency } from "@/lib/utils";
 import { TrendingUp, Clock, Activity, AlertTriangle, ShieldAlert, ShieldCheck } from "lucide-react";
 import { cn } from "@/lib/utils";
-
+ 
 interface AccountCardProps {
   account: FundedAccount;
 }
-
+ 
 export function AccountCard({ account }: AccountCardProps) {
   const snapshot = account.latest_snapshot;
   
   const status = (snapshot?.daily_loss_used_pct ?? 0) >= 100 || (snapshot?.max_drawdown_used_pct ?? 0) >= 100 ? 'breached' :
                 (snapshot?.daily_loss_used_pct ?? 0) > 75 || (snapshot?.max_drawdown_used_pct ?? 0) > 75 ? 'critical' :
                 (snapshot?.daily_loss_used_pct ?? 0) > 50 || (snapshot?.max_drawdown_used_pct ?? 0) > 50 ? 'warning' : 'safe';
-
+ 
   const statusColors = {
-    safe: "text-profit border-profit/20 bg-profit/5",
-    warning: "text-warning border-warning/20 bg-warning/5",
-    critical: "text-loss border-loss/20 bg-loss/5",
-    breached: "text-loss border-loss bg-loss/10",
+    safe: "text-profit border-profit/20 bg-profit/5 rounded-lg",
+    warning: "text-warning border-warning/20 bg-warning/5 rounded-lg",
+    critical: "text-loss border-loss/20 bg-loss/5 rounded-lg",
+    breached: "text-loss border-loss bg-loss/10 rounded-lg",
   };
-
+ 
   const StatusIcon = status === 'safe' ? ShieldCheck : status === 'breached' ? ShieldAlert : AlertTriangle;
-
+ 
   return (
-    <div className="bg-background-surface border border-border-slate hover:border-accent/40 transition-all duration-500 group overflow-hidden flex flex-col">
+    <div className="bg-background-surface border border-border-slate/50 hover:border-accent/40 hover:shadow-[0_8px_32px_rgba(0,0,0,0.06)] rounded-xl transition-all duration-500 group overflow-hidden flex flex-col">
       {/* Header */}
-      <div className="p-6 border-b border-border-slate flex justify-between items-start">
+      <div className="p-6 border-b border-border-slate/50 flex justify-between items-start">
         <div>
           <div className="flex items-center gap-2 mb-1">
-            <span className="text-[10px] font-mono text-text-tertiary uppercase tracking-widest">
+            <span className="text-[10px] font-mono text-text-tertiary uppercase tracking-widest font-bold">
               {account.prop_firms?.name || "Prop Account"}
             </span>
             <span className={cn(
-              "px-1.5 py-0.5 rounded-none text-[8px] font-bold uppercase tracking-tighter border",
+              "px-1.5 py-0.5 rounded-md text-[8px] font-bold uppercase tracking-tighter border",
               account.account_phase === 'funded' ? "text-profit border-profit/30 bg-profit/5" : "text-accent border-accent/30 bg-accent/5"
             )}>
               {account.account_phase.replace('_', ' ')}
@@ -49,27 +49,27 @@ export function AccountCard({ account }: AccountCardProps) {
           "px-3 py-1 border text-[10px] font-mono font-bold uppercase tracking-widest flex items-center gap-2",
           statusColors[status]
         )}>
-          <StatusIcon className="w-3 h-3" />
+          <StatusIcon className="w-3.5 h-3.5" />
           {status}
         </div>
       </div>
-
+ 
       {/* Main Stats */}
-      <div className="p-6 grid grid-cols-2 gap-8 border-b border-border-slate">
+      <div className="p-6 grid grid-cols-2 gap-8 border-b border-border-slate/50">
         <div>
-          <span className="text-[10px] font-mono text-text-tertiary uppercase tracking-widest block mb-2">Equity</span>
+          <span className="text-[10px] font-mono text-text-tertiary uppercase tracking-widest block mb-2 font-bold">Equity</span>
           <div className="text-2xl font-display font-bold text-text-primary">
             {formatCurrency(Number(account.current_balance), account.currency)}
           </div>
           <div className="flex items-center gap-1 mt-1">
             <TrendingUp className={cn("w-3 h-3", Number(snapshot?.daily_pnl || 0) >= 0 ? "text-profit" : "text-loss")} />
-            <span className={cn("text-[10px] font-mono", Number(snapshot?.daily_pnl || 0) >= 0 ? "text-profit" : "text-loss")}>
+            <span className={cn("text-[10px] font-mono font-bold", Number(snapshot?.daily_pnl || 0) >= 0 ? "text-profit" : "text-loss")}>
               {formatCurrency(Number(snapshot?.daily_pnl || 0), account.currency)} Today
             </span>
           </div>
         </div>
         <div>
-          <span className="text-[10px] font-mono text-text-tertiary uppercase tracking-widest block mb-2">Account Size</span>
+          <span className="text-[10px] font-mono text-text-tertiary uppercase tracking-widest block mb-2 font-bold">Account Size</span>
           <div className="text-2xl font-display font-bold text-text-secondary">
             {formatCurrency(Number(account.account_size), account.currency)}
           </div>
@@ -78,12 +78,12 @@ export function AccountCard({ account }: AccountCardProps) {
           </span>
         </div>
       </div>
-
+ 
       {/* Health Bars */}
       <div className="p-6 space-y-6 flex-grow">
         <div>
           <div className="flex justify-between items-end mb-2">
-            <span className="text-[10px] font-mono text-text-tertiary uppercase tracking-widest">Daily Loss Used</span>
+            <span className="text-[10px] font-mono text-text-tertiary uppercase tracking-widest font-bold">Daily Loss Used</span>
             <span className={cn(
               "text-[10px] font-mono font-bold",
               Number(snapshot?.daily_loss_used_pct || 0) > 80 ? "text-loss" : "text-text-primary"
@@ -91,10 +91,10 @@ export function AccountCard({ account }: AccountCardProps) {
               {Number(snapshot?.daily_loss_used_pct || 0).toFixed(1)}%
             </span>
           </div>
-          <div className="h-1 bg-border-slate overflow-hidden">
+          <div className="h-2 bg-background-primary overflow-hidden rounded-full border border-border-slate/30">
             <div 
               className={cn(
-                "h-full transition-all duration-1000",
+                "h-full transition-all duration-1000 rounded-full",
                 Number(snapshot?.daily_loss_used_pct || 0) > 80 ? "bg-loss" : 
                 Number(snapshot?.daily_loss_used_pct || 0) > 50 ? "bg-warning" : "bg-profit"
               )}
@@ -102,10 +102,10 @@ export function AccountCard({ account }: AccountCardProps) {
             />
           </div>
         </div>
-
+ 
         <div>
           <div className="flex justify-between items-end mb-2">
-            <span className="text-[10px] font-mono text-text-tertiary uppercase tracking-widest">Max Drawdown Used</span>
+            <span className="text-[10px] font-mono text-text-tertiary uppercase tracking-widest font-bold">Max Drawdown Used</span>
             <span className={cn(
               "text-[10px] font-mono font-bold",
               Number(snapshot?.max_drawdown_used_pct || 0) > 80 ? "text-loss" : "text-text-primary"
@@ -113,10 +113,10 @@ export function AccountCard({ account }: AccountCardProps) {
               {Number(snapshot?.max_drawdown_used_pct || 0).toFixed(1)}%
             </span>
           </div>
-          <div className="h-1 bg-border-slate overflow-hidden">
+          <div className="h-2 bg-background-primary overflow-hidden rounded-full border border-border-slate/30">
             <div 
               className={cn(
-                "h-full transition-all duration-1000",
+                "h-full transition-all duration-1000 rounded-full",
                 Number(snapshot?.max_drawdown_used_pct || 0) > 80 ? "bg-loss" : 
                 Number(snapshot?.max_drawdown_used_pct || 0) > 50 ? "bg-warning" : "bg-profit"
               )}
@@ -125,17 +125,17 @@ export function AccountCard({ account }: AccountCardProps) {
           </div>
         </div>
       </div>
-
+ 
       {/* Footer */}
-      <div className="px-6 py-4 bg-background-elevated flex justify-between items-center mt-auto">
+      <div className="px-6 py-4 bg-background-elevated/20 flex justify-between items-center mt-auto border-t border-border-slate/50">
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-1.5 text-text-tertiary">
             <Clock className="w-3.5 h-3.5" />
-            <span className="text-[10px] font-mono uppercase">{account.days_traded} Days</span>
+            <span className="text-[10px] font-mono uppercase font-bold">{account.days_traded} Days</span>
           </div>
           <div className="flex items-center gap-1.5 text-text-tertiary">
-            <Activity className="w-3.5 h-3.5" />
-            <span className="text-[10px] font-mono uppercase">
+            <Activity className="w-3.5 h-3.5 text-profit" />
+            <span className="text-[10px] font-mono uppercase font-bold">
               {account.last_sync_at ? 'Synced' : 'No Data'}
             </span>
           </div>

@@ -62,6 +62,82 @@ export interface Database {
           created_at?: string
         }
       }
+      curriculum_modules: {
+        Row: {
+          id: string
+          phase_slug: string
+          phase_number: number
+          module_number: number
+          title: string
+          subtitle: string | null
+          estimated_minutes: number
+          video_url: string | null
+          content_html: string | null
+          key_takeaways: any | null
+          resources: any | null
+          quiz: any | null
+          is_published: boolean
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          phase_slug: string
+          phase_number: number
+          module_number: number
+          title: string
+          subtitle?: string | null
+          estimated_minutes?: number
+          video_url?: string | null
+          content_html?: string | null
+          key_takeaways?: any | null
+          resources?: any | null
+          quiz?: any | null
+          is_published?: boolean
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          phase_slug?: string
+          phase_number?: number
+          module_number?: number
+          title?: string
+          subtitle?: string | null
+          estimated_minutes?: number
+          video_url?: string | null
+          content_html?: string | null
+          key_takeaways?: any | null
+          resources?: any | null
+          quiz?: any | null
+          is_published?: boolean
+          created_at?: string
+        }
+      }
+      certificates: {
+        Row: {
+          id: string
+          user_id: string
+          phase_slug: string
+          phase_name: string
+          issued_at: string
+          certificate_number: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          phase_slug: string
+          phase_name: string
+          issued_at?: string
+          certificate_number: string
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          phase_slug?: string
+          phase_name?: string
+          issued_at?: string
+          certificate_number?: string
+        }
+      }
       course_progress: {
         Row: {
           id: string
@@ -70,7 +146,9 @@ export interface Database {
           module: number
           completed: boolean
           quiz_score: number | null
+          quiz_passed: boolean
           completed_at: string | null
+          time_spent_seconds: number
           created_at: string
         }
         Insert: {
@@ -80,7 +158,9 @@ export interface Database {
           module: number
           completed?: boolean
           quiz_score?: number | null
+          quiz_passed?: boolean
           completed_at?: string | null
+          time_spent_seconds?: number
           created_at?: string
         }
         Update: {
@@ -90,7 +170,9 @@ export interface Database {
           module?: number
           completed?: boolean
           quiz_score?: number | null
+          quiz_passed?: boolean
           completed_at?: string | null
+          time_spent_seconds?: number
           created_at?: string
         }
       }
@@ -106,10 +188,29 @@ export interface Database {
           pnl_amount: number | null
           pnl_percent: number | null
           strategy: string | null
-          session: string | null
-          feeling: string | null
           notes: string | null
           created_at: string
+          updated_at: string | null
+          direction: 'long' | 'short' | null
+          stop_loss: number | null
+          take_profit: number | null
+          position_size: number | null
+          risk_amount: number | null
+          risk_percentage: number | null
+          account_balance_at_entry: number | null
+          pnl_percentage: number | null
+          rrr_planned: number | null
+          rrr_achieved: number | null
+          session: 'london' | 'new_york' | 'asian' | 'overlap' | 'other' | null
+          emotional_state_entry: 'calm' | 'confident' | 'anxious' | 'fearful' | 'excited' | 'frustrated' | 'neutral' | null
+          emotional_state_exit: 'calm' | 'satisfied' | 'disappointed' | 'relieved' | 'angry' | 'neutral' | null
+          followed_plan: boolean | null
+          setup_type: string | null
+          entry_reason: string | null
+          exit_reason: string | null
+          mistakes: string | null
+          status: 'open' | 'closed' | 'cancelled' | null
+          tags: string[] | null
         }
         Insert: {
           id?: string
@@ -122,10 +223,29 @@ export interface Database {
           pnl_amount?: number | null
           pnl_percent?: number | null
           strategy?: string | null
-          session?: string | null
-          feeling?: string | null
           notes?: string | null
           created_at?: string
+          updated_at?: string | null
+          direction?: 'long' | 'short' | null
+          stop_loss?: number | null
+          take_profit?: number | null
+          position_size?: number | null
+          risk_amount?: number | null
+          risk_percentage?: number | null
+          account_balance_at_entry?: number | null
+          pnl_percentage?: number | null
+          rrr_planned?: number | null
+          rrr_achieved?: number | null
+          session?: 'london' | 'new_york' | 'asian' | 'overlap' | 'other' | null
+          emotional_state_entry?: 'calm' | 'confident' | 'anxious' | 'fearful' | 'excited' | 'frustrated' | 'neutral' | null
+          emotional_state_exit?: 'calm' | 'satisfied' | 'disappointed' | 'relieved' | 'angry' | 'neutral' | null
+          followed_plan?: boolean | null
+          setup_type?: string | null
+          entry_reason?: string | null
+          exit_reason?: string | null
+          mistakes?: string | null
+          status?: 'open' | 'closed' | 'cancelled' | null
+          tags?: string[] | null
         }
         Update: {
           id?: string
@@ -138,10 +258,165 @@ export interface Database {
           pnl_amount?: number | null
           pnl_percent?: number | null
           strategy?: string | null
-          session?: string | null
-          feeling?: string | null
           notes?: string | null
           created_at?: string
+          updated_at?: string | null
+          direction?: 'long' | 'short' | null
+          stop_loss?: number | null
+          take_profit?: number | null
+          position_size?: number | null
+          risk_amount?: number | null
+          risk_percentage?: number | null
+          account_balance_at_entry?: number | null
+          pnl_percentage?: number | null
+          rrr_planned?: number | null
+          rrr_achieved?: number | null
+          session?: 'london' | 'new_york' | 'asian' | 'overlap' | 'other' | null
+          emotional_state_entry?: 'calm' | 'confident' | 'anxious' | 'fearful' | 'excited' | 'frustrated' | 'neutral' | null
+          emotional_state_exit?: 'calm' | 'satisfied' | 'disappointed' | 'relieved' | 'angry' | 'neutral' | null
+          followed_plan?: boolean | null
+          setup_type?: string | null
+          entry_reason?: string | null
+          exit_reason?: string | null
+          mistakes?: string | null
+          status?: 'open' | 'closed' | 'cancelled' | null
+          tags?: string[] | null
+        }
+      },
+      trades: {
+        Row: {
+          id: string
+          user_id: string
+          created_at: string
+          updated_at: string
+          instrument: string
+          direction: 'long' | 'short'
+          entry_price: number
+          exit_price: number | null
+          stop_loss: number
+          take_profit: number | null
+          position_size: number
+          entry_time: string
+          exit_time: string | null
+          session: 'london' | 'new_york' | 'asian' | 'overlap' | 'other' | null
+          risk_amount: number
+          risk_percentage: number
+          account_balance_at_entry: number
+          pnl: number | null
+          pnl_percentage: number | null
+          rrr_planned: number | null
+          rrr_achieved: number | null
+          emotional_state_entry: 'calm' | 'confident' | 'anxious' | 'fearful' | 'excited' | 'frustrated' | 'neutral'
+          emotional_state_exit: 'calm' | 'satisfied' | 'disappointed' | 'relieved' | 'angry' | 'neutral' | null
+          followed_plan: boolean
+          setup_type: string | null
+          timeframe_analysis: string | null
+          entry_reason: string
+          exit_reason: string | null
+          notes: string | null
+          mistakes: string | null
+          status: 'open' | 'closed' | 'cancelled'
+          tags: string[] | null
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          created_at?: string
+          updated_at?: string
+          instrument: string
+          direction: 'long' | 'short'
+          entry_price: number
+          exit_price?: number | null
+          stop_loss: number
+          take_profit?: number | null
+          position_size: number
+          entry_time: string
+          exit_time?: string | null
+          session?: 'london' | 'new_york' | 'asian' | 'overlap' | 'other' | null
+          risk_amount: number
+          risk_percentage: number
+          account_balance_at_entry: number
+          pnl?: number | null
+          pnl_percentage?: number | null
+          rrr_planned?: number | null
+          rrr_achieved?: number | null
+          emotional_state_entry: 'calm' | 'confident' | 'anxious' | 'fearful' | 'excited' | 'frustrated' | 'neutral'
+          emotional_state_exit?: 'calm' | 'satisfied' | 'disappointed' | 'relieved' | 'angry' | 'neutral' | null
+          followed_plan: boolean
+          setup_type?: string | null
+          timeframe_analysis?: string | null
+          entry_reason: string
+          exit_reason?: string | null
+          notes?: string | null
+          mistakes?: string | null
+          status?: 'open' | 'closed' | 'cancelled'
+          tags?: string[] | null
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          created_at?: string
+          updated_at?: string
+          instrument?: string
+          direction?: 'long' | 'short'
+          entry_price?: number
+          exit_price?: number | null
+          stop_loss?: number
+          take_profit?: number | null
+          position_size?: number
+          entry_time?: string
+          exit_time?: string | null
+          session?: 'london' | 'new_york' | 'asian' | 'overlap' | 'other' | null
+          risk_amount?: number
+          risk_percentage?: number
+          account_balance_at_entry?: number
+          pnl?: number | null
+          pnl_percentage?: number | null
+          rrr_planned?: number | null
+          rrr_achieved?: number | null
+          emotional_state_entry?: 'calm' | 'confident' | 'anxious' | 'fearful' | 'excited' | 'frustrated' | 'neutral'
+          emotional_state_exit?: 'calm' | 'satisfied' | 'disappointed' | 'relieved' | 'angry' | 'neutral' | null
+          followed_plan?: boolean
+          setup_type?: string | null
+          timeframe_analysis?: string | null
+          entry_reason?: string
+          exit_reason?: string | null
+          notes?: string | null
+          mistakes?: string | null
+          status?: 'open' | 'closed' | 'cancelled'
+          tags?: string[] | null
+        }
+      }
+      journal_ai_analysis: {
+        Row: {
+          id: string
+          user_id: string | null
+          created_at: string
+          analysis_type: string | null
+          trade_count: number | null
+          analysis_content: string | null
+          patterns_detected: any | null
+          recommendations: any | null
+        }
+        Insert: {
+          id?: string
+          user_id?: string | null
+          created_at?: string
+          analysis_type?: string | null
+          trade_count?: number | null
+          analysis_content?: string | null
+          patterns_detected?: any | null
+          recommendations?: any | null
+        }
+        Update: {
+          id?: string
+          user_id?: string | null
+          created_at?: string
+          analysis_type?: string | null
+          trade_count?: number | null
+          analysis_content?: string | null
+          patterns_detected?: any | null
+          recommendations?: any | null
         }
       },
       ai_usage_logs: {

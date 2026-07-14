@@ -880,7 +880,7 @@ export const BEST_OF_PAGES: BestOfPage[] = [
     metaDescription: 'Don\'t clutter your charts. We review the best TradingView indicators that actually provide value for your analysis.',
     comparisonTable: [
       { rank: 1, name: 'LuxAlgo', bestFor: 'Premium Signals', keyStat: '50k+ Users', rating: 4.7, link: 'https://luxalgo.com' },
-      { rank: 2, name: 'TradingView Free', bestFor: 'Basics', keyStat: 'RSI/MACD', rating: 4.5, link: 'https://www.tradingview.com' },
+      { rank: 2, name: 'TradingView Free', bestFor: 'Basics', keyStat: 'RSI/MACD', rating: 4.5, link: '/go/tradingview' },
     ],
     introduction: 'TradingView has thousands of indicators, but most of them are noise. We have filtered through the "Pine Script" library to find the indicators that actually help you visualize market structure and momentum.',
     reviews: [
@@ -1070,7 +1070,7 @@ export const BEST_OF_PAGES: BestOfPage[] = [
     targetKeywords: ['best free trading tools', 'free trading tools 2026'],
     metaDescription: 'You don\'t need a Â£500/month professional data terminal. We curate the best free tools for analysis, risk management, and news.',
     comparisonTable: [
-      { rank: 1, name: 'TradingView Free', bestFor: 'Charting', keyStat: 'Cloud Based', rating: 4.9, link: 'https://tradingview.com' },
+      { rank: 1, name: 'TradingView Free', bestFor: 'Charting', keyStat: 'Cloud Based', rating: 4.9, link: '/go/tradingview' },
       { rank: 2, name: 'Drawdown Free Hub', bestFor: 'Daily Insight', keyStat: 'AI Analysis', rating: 4.8, link: '/' },
       { rank: 3, name: 'Forex Factory', bestFor: 'News Calendar', keyStat: 'Real-time', rating: 4.7, link: 'https://forexfactory.com' },
     ],
@@ -1083,7 +1083,7 @@ export const BEST_OF_PAGES: BestOfPage[] = [
         pros: ['Incredible charting', 'Community indicators', 'Mobile sync'],
         cons: ['Limited to 3 indicators per chart'],
         bestFor: 'Every trader on earth',
-        ctaLink: 'https://tradingview.com'
+        ctaLink: '/go/tradingview'
       }
     ],
     methodology: 'Tools are chosen based on the value of their free tier compared to their paid competition.',

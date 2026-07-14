@@ -1,54 +1,54 @@
 "use client";
-
+ 
 import { 
   Users, 
   Download, 
   Search,
   ArrowUpRight
 } from "lucide-react";
-
+ 
 export default function PartnerReferralsPage() {
   return (
-    <div className="space-y-10">
+    <div className="space-y-10 animate-in fade-in duration-700 pb-24">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
         <div>
-          <span className="text-accent font-mono text-[10px] uppercase tracking-[0.3em] block mb-2">// REFERRAL AUDIT</span>
-          <h1 className="text-4xl font-display font-bold uppercase text-text-primary">Referrals.</h1>
+          <span className="text-accent font-mono text-[10px] uppercase tracking-[0.3em] block mb-2 font-bold">// REFERRAL AUDIT</span>
+          <h1 className="text-4xl font-display font-black uppercase text-text-primary">Referrals.</h1>
         </div>
-        <button className="flex items-center gap-2 px-6 py-3 bg-background-surface border border-border-slate text-[10px] font-bold uppercase tracking-widest text-text-primary hover:border-text-tertiary transition-colors">
+        <button className="flex items-center gap-2 px-6 py-3 bg-background-surface border border-border-slate/85 text-[10px] font-bold uppercase tracking-widest text-text-primary hover:border-text-tertiary transition-colors rounded-lg">
           <Download className="w-4 h-4" /> Export CSV
         </button>
       </div>
-
+ 
       {/* Stats Summary */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="bg-background-surface border border-border-slate p-6">
-          <p className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary mb-1">Total Referrals</p>
-          <p className="text-3xl font-display font-bold text-text-primary">1,402</p>
+        <div className="bg-background-surface border border-border-slate/50 p-6 rounded-xl shadow-[0_8px_32px_rgba(0,0,0,0.04)]">
+          <p className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary mb-1 font-bold">Total Referrals</p>
+          <p className="text-3xl font-display font-black text-text-primary">1,402</p>
         </div>
-        <div className="bg-background-surface border border-border-slate p-6">
-          <p className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary mb-1">Unique Visitors</p>
-          <p className="text-3xl font-display font-bold text-text-primary">824</p>
+        <div className="bg-background-surface border border-border-slate/50 p-6 rounded-xl shadow-[0_8px_32px_rgba(0,0,0,0.04)]">
+          <p className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary mb-1 font-bold">Unique Visitors</p>
+          <p className="text-3xl font-display font-black text-text-primary">824</p>
         </div>
-        <div className="bg-background-surface border border-border-slate p-6">
-          <p className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary mb-1">Conversion Rate</p>
-          <p className="text-3xl font-display font-bold text-profit">3.8%</p>
+        <div className="bg-background-surface border border-border-slate/50 p-6 rounded-xl shadow-[0_8px_32px_rgba(0,0,0,0.04)]">
+          <p className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary mb-1 font-bold">Conversion Rate</p>
+          <p className="text-3xl font-display font-black text-profit">3.8%</p>
         </div>
       </div>
-
+ 
       {/* Detailed Log Table */}
-      <div className="bg-background-surface border border-border-slate overflow-hidden">
-        <div className="p-6 border-b border-border-slate flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+      <div className="bg-background-surface border border-border-slate/50 rounded-xl overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.04)]">
+        <div className="p-6 border-b border-border-slate/50 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-background-elevated/10">
           <div className="relative w-full md:w-96">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-text-tertiary" />
             <input 
               type="text" 
               placeholder="Search by ID or Page..."
-              className="w-full bg-background-primary border border-border-slate pl-12 pr-4 py-3 text-xs text-text-primary focus:border-accent focus:outline-none transition-colors"
+              className="w-full bg-background-primary border border-border-slate/85 pl-12 pr-4 py-3 text-xs text-text-primary focus:border-accent focus:outline-none transition-colors rounded-lg"
             />
           </div>
           <div className="flex items-center gap-4">
-             <select className="bg-background-primary border border-border-slate px-4 py-2 text-[10px] font-bold uppercase tracking-widest text-text-tertiary outline-none">
+             <select className="bg-background-primary border border-border-slate/85 px-4 py-2.5 text-[10px] font-bold uppercase tracking-widest text-text-tertiary outline-none rounded-lg focus:border-accent">
                 <option>All Sources</option>
                 <option>Twitter</option>
                 <option>YouTube</option>
@@ -59,7 +59,7 @@ export default function PartnerReferralsPage() {
         <div className="overflow-x-auto">
           <table className="w-full text-left">
             <thead>
-              <tr className="border-b border-border-slate bg-background-elevated/30">
+              <tr className="border-b border-border-slate/50 bg-background-elevated/20">
                 <th className="px-6 py-4 text-[9px] font-mono uppercase tracking-[0.2em] text-text-tertiary">Date</th>
                 <th className="px-6 py-4 text-[9px] font-mono uppercase tracking-[0.2em] text-text-tertiary">Referrer</th>
                 <th className="px-6 py-4 text-[9px] font-mono uppercase tracking-[0.2em] text-text-tertiary">Campaign</th>
@@ -67,7 +67,7 @@ export default function PartnerReferralsPage() {
                 <th className="px-6 py-4 text-[9px] font-mono uppercase tracking-[0.2em] text-text-tertiary">Action</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-border-slate/50">
+            <tbody className="divide-y divide-border-slate/30">
               {[
                 { date: "2026-04-20 14:22:11", source: "Twitter", campaign: "spring_launch", dest: "/learn/phase-1", action: "Click" },
                 { date: "2026-04-20 13:45:05", source: "Direct", campaign: "manual", dest: "/dashboard", action: "Click" },
@@ -84,7 +84,7 @@ export default function PartnerReferralsPage() {
                     {row.dest} <ArrowUpRight className="w-3 h-3" />
                   </td>
                   <td className="px-6 py-4">
-                    <span className="text-[9px] font-bold uppercase tracking-widest px-2 py-0.5 bg-profit/10 text-profit">
+                    <span className="text-[9px] font-bold uppercase tracking-widest px-2 py-0.5 bg-profit/10 text-profit rounded-md font-bold">
                       {row.action}
                     </span>
                   </td>

@@ -15,11 +15,11 @@ export const StatCallout: React.FC<StatCalloutProps> = ({ stat, context, source 
         <span className="font-mono text-4xl md:text-5xl font-bold text-white tracking-tight">
           {stat}
         </span>
-        <p className="font-sans text-sm md:text-base text-text-secondary max-w-lg leading-relaxed">
+        <p className="font-sans text-sm md:text-base text-mkt-i2 max-w-lg leading-relaxed">
           {context}
         </p>
         {source && (
-          <span className="mt-4 font-sans text-xs text-text-tertiary uppercase tracking-widest">
+          <span className="mt-4 font-sans text-xs text-mkt-i4 uppercase tracking-widest">
             Source: {source}
           </span>
         )}

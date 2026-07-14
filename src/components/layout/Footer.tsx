@@ -4,7 +4,6 @@ import { useState } from "react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { Send, Loader2, CheckCircle2 } from "lucide-react";
-
 import { useRegion } from "@/components/layout/RegionalLayout";
 
 export function Footer() {
@@ -43,43 +42,50 @@ export function Footer() {
   };
 
   return (
-    <footer className="bg-background-primary border-t border-border-slate py-12 md:py-24">
-      <div className="container mx-auto px-6">
+    <footer className="bg-white border-t border-mkt-bd py-16 md:py-24 select-none relative z-10">
+      <div className="max-w-7xl mx-auto px-6">
+        
+        {/* Five Column Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 mb-16">
-          <div className="lg:col-span-2 space-y-8">
-            <Link href={region === 'uk' ? "/" : `/${region}`} className="text-xl font-display font-extrabold tracking-widest uppercase flex items-end">
-              Drawdown<span className="text-accent ml-0.5">.</span>
+          
+          {/* Column 1: Brand + Tagline + Newsletter */}
+          <div className="space-y-8">
+            <Link 
+              href={region === "uk" ? "/" : `/${region}`} 
+              className="text-xl font-sans font-extrabold tracking-[-0.04em] text-mkt-ink block"
+            >
+              Drawdown<span className="text-mkt-grn">.</span>
             </Link>
-            <p className="text-text-secondary text-sm max-w-sm leading-relaxed">
+            <p className="text-xs text-mkt-i3 leading-relaxed font-sans">
               Trading education for people who want to learn properly. No shortcuts. Just edge. Join our mailing list for weekly market intel.
             </p>
             
-            <form onSubmit={handleSubmit} className="max-w-md relative group">
+            <form onSubmit={handleSubmit} className="relative max-w-sm">
               <input 
                 type="email" 
                 placeholder="YOUR EMAIL"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                disabled={status === 'loading' || status === 'success'}
-                className="w-full bg-background-elevated border border-border-slate focus:border-accent p-4 text-xs font-mono uppercase tracking-widest outline-none transition-colors"
+                disabled={status === "loading" || status === "success"}
+                className="w-full bg-[#F7F7F7] border border-mkt-bd focus:border-mkt-bds p-3.5 pr-12 text-[10px] font-mono uppercase tracking-widest outline-none transition-colors rounded-lg"
               />
               <button 
                 type="submit"
-                disabled={status === 'loading' || status === 'success'}
-                className="absolute right-2 top-2 bottom-2 px-4 bg-accent text-background-primary hover:bg-accent-hover transition-colors disabled:opacity-50"
+                disabled={status === "loading" || status === "success"}
+                className="absolute right-2 top-2 bottom-2 px-3 bg-mkt-ink text-white hover:bg-neutral-800 transition-colors disabled:opacity-50 rounded-md flex items-center justify-center"
               >
-                {status === 'loading' ? (
-                  <Loader2 className="w-4 h-4 animate-spin" />
-                ) : status === 'success' ? (
-                  <CheckCircle2 className="w-4 h-4" />
+                {status === "loading" ? (
+                  <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                ) : status === "success" ? (
+                  <CheckCircle2 className="w-3.5 h-3.5 text-mkt-grn" />
                 ) : (
-                  <Send className="w-4 h-4" />
+                  <Send className="w-3.5 h-3.5" />
                 )}
               </button>
               {message && (
                 <p className={cn(
-                  "absolute top-full mt-2 text-[10px] font-mono uppercase tracking-widest",
-                  status === 'error' ? "text-loss" : "text-profit"
+                  "absolute top-full mt-1.5 text-[9px] font-mono uppercase tracking-widest",
+                  status === "error" ? "text-mkt-red" : "text-mkt-grn"
                 )}>
                   {message}
                 </p>
@@ -87,109 +93,109 @@ export function Footer() {
             </form>
           </div>
 
+          {/* Column 2: Platform */}
           <div>
-            <h4 className="font-display font-bold uppercase tracking-widest text-sm mb-6">Platform</h4>
-            <ul className="space-y-4 text-sm text-text-secondary">
-              <li><Link href={`${regionPrefix}/courses`} className="hover:text-accent transition-colors">Curriculum</Link></li>
-              <li><Link href={`${regionPrefix}/markets`} className="hover:text-accent transition-colors">Markets Hub</Link></li>
-              <li><Link href={`${regionPrefix}/brokers`} className="hover:text-accent transition-colors font-bold text-accent">Broker Guide</Link></li>
-              <li><Link href={`${regionPrefix}/pricing`} className="hover:text-accent transition-colors">Pricing</Link></li>
-              <li><Link href={`${regionPrefix}/blog`} className="hover:text-accent transition-colors">Blog</Link></li>
+            <h4 className="text-[11px] font-sans font-bold uppercase tracking-widest text-mkt-ink mb-6">
+              Platform
+            </h4>
+            <ul className="space-y-4 text-xs text-mkt-i3 font-sans">
+              <li><Link href={`${regionPrefix}/courses`} className="hover:text-mkt-ink transition-colors">Curriculum</Link></li>
+              <li><Link href={`${regionPrefix}/markets`} className="hover:text-mkt-ink transition-colors">Markets Hub</Link></li>
+              <li><Link href={`${regionPrefix}/brokers`} className="hover:text-mkt-ink transition-colors font-bold text-mkt-grn">Broker Guide</Link></li>
+              <li><Link href={`${regionPrefix}/tools/tradingview`} className="hover:text-mkt-ink transition-colors">TradingView Review</Link></li>
+              <li><Link href={`${regionPrefix}/pricing`} className="hover:text-mkt-ink transition-colors">Pricing</Link></li>
+              <li><Link href={`${regionPrefix}/blog`} className="hover:text-mkt-ink transition-colors">Blog</Link></li>
             </ul>
           </div>
 
+          {/* Column 3: Learn */}
           <div>
-            <h4 className="font-display font-bold uppercase tracking-widest text-sm mb-6">Learn</h4>
-            <ul className="space-y-4 text-sm text-text-secondary">
-              <li><Link href={`${regionPrefix}/learn-to-trade/day-trading`} className="hover:text-accent transition-colors">Day Trading</Link></li>
-              <li><Link href={`${regionPrefix}/learn-to-trade/forex-trading`} className="hover:text-accent transition-colors">Forex Mastery</Link></li>
-              <li><Link href={`${regionPrefix}/learn-to-trade/risk-management`} className="hover:text-accent transition-colors">Risk Mgmt</Link></li>
-              <li><Link href={`${regionPrefix}/learn-to-trade`} className="hover:text-accent transition-colors font-bold text-accent">Educational Hub</Link></li>
+            <h4 className="text-[11px] font-sans font-bold uppercase tracking-widest text-mkt-ink mb-6">
+              Learn
+            </h4>
+            <ul className="space-y-4 text-xs text-mkt-i3 font-sans">
+              <li><Link href={`${regionPrefix}/learn-to-trade/day-trading`} className="hover:text-mkt-ink transition-colors">Day Trading</Link></li>
+              <li><Link href={`${regionPrefix}/learn-to-trade/forex-trading`} className="hover:text-mkt-ink transition-colors">Forex Mastery</Link></li>
+              <li><Link href={`${regionPrefix}/learn-to-trade/risk-management`} className="hover:text-mkt-ink transition-colors">Risk Mgmt</Link></li>
+              <li><Link href={`${regionPrefix}/learn-to-trade`} className="hover:text-mkt-ink transition-colors font-bold text-mkt-grn">Educational Hub</Link></li>
             </ul>
           </div>
 
+          {/* Column 4: Resources */}
           <div>
-            <h4 className="font-display font-bold uppercase tracking-widest text-sm mb-6">Resources</h4>
-            <ul className="space-y-4 text-sm text-text-secondary">
-              <li><Link href={`${regionPrefix}/glossary`} className="hover:text-accent transition-colors">Glossary</Link></li>
-              <li><Link href={`${regionPrefix}/how-to`} className="hover:text-accent transition-colors">How-To Guides</Link></li>
-              <li><Link href={`${regionPrefix}/compare`} className="hover:text-accent transition-colors">Compare Tools</Link></li>
-              <li><Link href={`${regionPrefix}/best`} className="hover:text-accent transition-colors">Best Platforms</Link></li>
+            <h4 className="text-[11px] font-sans font-bold uppercase tracking-widest text-mkt-ink mb-6">
+              Resources
+            </h4>
+            <ul className="space-y-4 text-xs text-mkt-i3 font-sans">
+              <li><Link href="/basic" className="hover:text-mkt-ink transition-colors font-bold text-mkt-grn">Trading Basics</Link></li>
+              <li><Link href="/glossary" className="hover:text-mkt-ink transition-colors">Glossary</Link></li>
+              <li><Link href="/how-to" className="hover:text-mkt-ink transition-colors">How-To Guides</Link></li>
+              <li><Link href="/compare" className="hover:text-mkt-ink transition-colors">Compare</Link></li>
             </ul>
           </div>
 
+          {/* Column 5: Company */}
           <div>
-            <h4 className="font-display font-bold uppercase tracking-widest text-sm mb-6">Legal</h4>
-            <ul className="space-y-4 text-sm text-text-secondary">
-              <li><Link href="/about" className="hover:text-accent transition-colors">About Us</Link></li>
-              <li><Link href="/contact" className="hover:text-accent transition-colors">Contact</Link></li>
-              <li><Link href="/privacy" className="hover:text-accent transition-colors">Privacy</Link></li>
-              <li><Link href="/disclaimer" className="hover:text-accent transition-colors underline decoration-loss/50 underline-offset-4">Disclaimer</Link></li>
+            <h4 className="text-[11px] font-sans font-bold uppercase tracking-widest text-mkt-ink mb-6">
+              Company
+            </h4>
+            <ul className="space-y-4 text-xs text-mkt-i3 font-sans">
+              <li><Link href="/about" className="hover:text-mkt-ink transition-colors">About Us</Link></li>
+              <li><Link href="/contact" className="hover:text-mkt-ink transition-colors">Contact</Link></li>
+              <li><Link href="/privacy" className="hover:text-mkt-ink transition-colors">Privacy Policy</Link></li>
+              <li><Link href="/disclaimer" className="hover:text-mkt-ink transition-colors underline decoration-neutral-200 underline-offset-4">Risk Disclaimer</Link></li>
             </ul>
           </div>
+
         </div>
 
-        <div className="space-y-8 border-t border-border-slate pt-8">
-          <div className="space-y-4">
-            <p className="text-[10px] md:text-xs text-text-tertiary font-mono leading-relaxed">
-              <span className="text-warning font-bold uppercase block mb-1">Risk Warning:</span>
+        {/* Bottom Strip: copyright left, risk warning right */}
+        <div className="border-t border-mkt-bd pt-8 flex flex-col lg:flex-row justify-between items-start gap-8">
+          
+          {/* Copyright & Clean Text-Only Region Links */}
+          <div className="space-y-4 shrink-0">
+            <p className="text-[10px] font-mono uppercase tracking-widest text-mkt-i3">
+              © 2026 Drawdown Trading. All rights reserved. · Drawdown Trading Ltd, Chesterfield, Derbyshire, UK
+            </p>
+            
+            {/* Region links without flags */}
+            <div className="flex items-center gap-4 text-[9px] font-mono uppercase tracking-widest text-mkt-i4">
+              <span className="border-r border-mkt-bd pr-4 text-neutral-400 select-none">Market Region</span>
+              {[
+                { id: "uk", label: "UK", href: "/" },
+                { id: "au", label: "AU", href: "/au" },
+                { id: "us", label: "US", href: "/us" },
+                { id: "sg", label: "SG", href: "/sg" },
+                { id: "hk", label: "HK", href: "/hk" },
+              ].map((reg) => (
+                <Link 
+                  key={reg.id}
+                  href={reg.href}
+                  className={cn(
+                    "hover:text-mkt-ink transition-colors",
+                    (region === reg.id || (region === "uk" && reg.id === "uk")) ? "text-mkt-ink font-bold" : ""
+                  )}
+                >
+                  {reg.label}
+                </Link>
+              ))}
+            </div>
+          </div>
+
+          {/* Risk Warning on Right */}
+          <div className="space-y-3 max-w-3xl lg:text-right font-sans">
+            <p className="text-[9px] text-mkt-i4 leading-relaxed">
+              <span className="font-bold text-mkt-i3 block mb-0.5">Risk Warning:</span>
               Trading financial instruments carries a high level of risk and may not be suitable for all investors. The high degree of leverage can work against you as well as for you. Before deciding to trade, you should carefully consider your investment objectives, level of experience, and risk appetite. The possibility exists that you could sustain a loss of some or all of your initial investment. You should not invest money that you cannot afford to lose. Past performance is not indicative of future results.
             </p>
-            <p className="text-[10px] md:text-xs text-text-tertiary font-mono leading-relaxed">
-              <span className="text-text-secondary font-bold uppercase block mb-1">Not Financial Advice:</span>
+            <p className="text-[9px] text-mkt-i4 leading-relaxed">
+              <span className="font-bold text-mkt-i3 block mb-0.5">Not Financial Advice:</span>
               Drawdown is a trading education platform. We do not provide personalised financial advice, investment recommendations, or portfolio management services. All content is for educational purposes only. You should seek independent financial advice before making any investment decisions.
             </p>
           </div>
-          
-          <div className="flex flex-col md:flex-row justify-between items-end gap-12 border-t border-border-slate pt-8">
-            <div className="space-y-4">
-              <p className="text-[10px] font-mono uppercase tracking-[0.2em] text-text-tertiary mb-2">Platform Lead</p>
-              <div className="group">
-                <p className="text-3xl font-serif italic text-text-primary tracking-wide opacity-80 group-hover:opacity-100 transition-opacity select-none" style={{ fontFamily: 'serif' }}>
-                  Pete Currey
-                </p>
-                <div className="w-12 h-[1px] bg-accent/30 mt-1" />
-              </div>
-            </div>
 
-            <div className="flex flex-col items-end gap-6 text-right">
-              {/* Region Selector */}
-              <div className="flex flex-wrap items-center justify-end gap-x-6 gap-y-3 py-3 px-4 bg-background-elevated/50 border border-border-slate/50 max-w-full">
-                <span className="text-[9px] font-mono text-text-tertiary uppercase tracking-widest mr-2 border-r border-border-slate/50 pr-4">Market Region</span>
-                <div className="flex flex-wrap items-center justify-end gap-x-4 gap-y-2">
-                  {[
-                    { id: "uk", flag: "🇬🇧", label: "UK", href: "/" },
-                    { id: "au", flag: "🇦🇺", label: "AU", href: "/au" },
-                    { id: "us", flag: "🇺🇸", label: "US", href: "/us" },
-                    { id: "sg", flag: "🇸🇬", label: "SG", href: "/sg" },
-                    { id: "hk", flag: "🇭🇰", label: "HK", href: "/hk" },
-                  ].map((reg) => (
-                    <Link 
-                      key={reg.id}
-                      href={reg.href}
-                      className="flex items-center gap-1 text-[9px] font-mono font-bold text-text-tertiary hover:text-accent transition-colors group"
-                    >
-                      <span className="text-xs grayscale group-hover:grayscale-0 transition-all">{reg.flag}</span>
-                      <span>{reg.label}</span>
-                    </Link>
-                  ))}
-                </div>
-              </div>
-
-              <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-[10px] font-mono uppercase tracking-widest text-text-tertiary">
-                <p>© 2026 DRAWDOWN. TRADE THE TRUTH.</p>
-              </div>
-              <a 
-                href="https://avorria.co.uk" 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                className="text-[9px] font-mono uppercase tracking-[0.2em] text-text-tertiary hover:text-accent transition-colors group"
-              >
-                A signature build by <span className="text-text-secondary group-hover:text-accent font-bold">Avorria</span>
-              </a>
-            </div>
-          </div>
         </div>
+
       </div>
     </footer>
   );

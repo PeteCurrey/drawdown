@@ -83,6 +83,7 @@ export interface LearnTopic {
   }[];
   metaTitle: string;
   metaDescription: string;
+  relatedModules?: { href: string; title: string; description: string }[];
 }
 
 export const LEARN_TOPICS: LearnTopic[] = [
@@ -521,7 +522,8 @@ export const LEARN_TOPICS: LearnTopic[] = [
   },
     {
     slug: "spread-betting",
-    title: "Spread Betting",
+    title: "Spread Betting for UK Traders — The Complete Guide",
+    metaTitle: "Spread Betting UK Guide 2026 | Tax-Free Trading | Drawdown",
     subtitle: "The UK's tax-free trading loophole. Master the mechanics of stake size, margin, and keeping 100% of your profits.",
     description: "The complete guide to financial spread betting in the UK. Learn how to trade the global markets tax-free, understand how 'pounds per point' sizing works, and navigate the risks of high leverage.",
     category: "Market",
@@ -529,7 +531,6 @@ export const LEARN_TOPICS: LearnTopic[] = [
     timeToLearn: "12-24 months",
     riskLevel: "High",
     heroImage: "/images/learn/spread-betting.jpg",
-    metaTitle: "Spread Betting Guide UK 2026 | Tax-Free Trading | Drawdown",
     metaDescription: "Learn how to use financial spread betting to trade tax-free in the UK. Master 'pounds per point' risk sizing, leverage, and the HMRC rules.",
     honestReality: "Spread betting is actively marketed as a tax-free wonderland for UK residents. While the tax benefits are entirely real and massive, spread betting is a highly leveraged derivative product. The broker is lending you money to multiply your exposure. This means you can wipe out your entire account in a matter of hours if you do not understand position sizing. You must treat spread betting as a dangerous, professional-grade weapon that requires strict 1% risk management to wield effectively.",
     content: [
@@ -788,7 +789,8 @@ export const LEARN_TOPICS: LearnTopic[] = [
   },
     {
     slug: "trading-psychology",
-    title: "Trading Psychology",
+    title: "Trading Psychology — The Mental Edge Serious Traders Build",
+    metaTitle: "Trading Psychology UK Guide | Master Your Mindset | Drawdown",
     subtitle: "The hardest battle isn't with the market; it's with yourself. Mastering fear, greed, and the illusion of control.",
     description: "Your technical analysis is useless if your psychology is compromised. Learn to build an emotionless, mechanical mindset that treats trading as a strict probability business.",
     category: "Psychology",
@@ -796,7 +798,6 @@ export const LEARN_TOPICS: LearnTopic[] = [
     timeToLearn: "12-24 months",
     riskLevel: "Low",
     heroImage: "/images/learn/psychology.jpg",
-    metaTitle: "Trading Psychology Guide UK | Master Your Mindset | Drawdown",
     metaDescription: "Learn the psychology of institutional traders. Conquer FOMO, stop revenge trading, and develop the discipline required for long-term profitability.",
     honestReality: "You will spend your first year blaming your strategy, your broker, or 'the algorithm' for your losses. The reality is that you are losing because of your own biological wiring. Human beings are biologically programmed to seek comfort, avoid pain, and follow the herd. In the financial markets, these exact instincts will destroy your capital. Achieving profitability requires actively rewiring your brain over 12-24 months to embrace probability, accept losses mechanically, and execute without emotion.",
     content: [
@@ -915,7 +916,8 @@ export const LEARN_TOPICS: LearnTopic[] = [
   },
       {
     slug: "technical-analysis",
-    title: "Technical Analysis",
+    title: "Technical Analysis for Beginners — A UK Trader's Guide",
+    metaTitle: "Technical Analysis Guide UK 2026 | Master Price Action | Drawdown",
     subtitle: "The art of reading institutional footprints. Forget magic indicators; focus on structure, liquidity, and momentum.",
     description: "The complete guide to technical analysis for modern traders. Learn how to read price action, identify true support and resistance, and trade alongside institutional order flow.",
     category: "Strategy",
@@ -923,7 +925,6 @@ export const LEARN_TOPICS: LearnTopic[] = [
     timeToLearn: "12-24 months",
     riskLevel: "Medium",
     heroImage: "/images/learn/technical-analysis.jpg",
-    metaTitle: "Technical Analysis Guide UK 2026 | Master Price Action | Drawdown",
     metaDescription: "Learn to read market charts properly. From institutional support and resistance to advanced trend analysis, master the tools of technical trading.",
     honestReality: "The internet is flooded with 'gurus' selling complex trading algorithms that look like spaghetti on a chart. The reality is that institutional traders at hedge funds do not use MACD, RSI, or Stochastics to make million-dollar decisions. They use raw price action. They look at structure, volume, and areas of deep liquidity. Technical indicators are mathematically derived from past price; they are inherently lagging. By the time the moving average crosses over, the institutional move is already finished. We teach you to strip your charts bare and read the raw data.",
     content: [
@@ -1848,5 +1849,219 @@ export const LEARN_TOPICS: LearnTopic[] = [
       { question: "How much capital do I need for futures?", answer: "Futures typically require more capital than CFDs or spread betting, though 'Micro Futures' have made the market much more accessible to retail traders." }
     ]
   }
+  ,
+  {
+    slug: "prop-firm-trading",
+    title: "How to Trade with a Prop Firm in the UK",
+    subtitle: "A complete institutional guide to trading funded capital, passing challenges, and handling HMRC taxes in the UK.",
+    description: "The proprietary trading industry offers retail traders access to six-figure capital. But navigating the rules, trailing drawdowns, and payout compliance requires an institutional approach. Learn how to select a reputable firm, size risk, and trade professionally.",
+    category: "Market",
+    difficulty: "Advanced",
+    timeToLearn: "6-12 months",
+    riskLevel: "High",
+    heroImage: "/images/learn/prop-firm.jpg",
+    metaTitle: "Prop Firm Trading UK Guide 2026 | Passing Evaluations | Drawdown",
+    metaDescription: "Master UK prop firm trading. Learn how evaluations work, drawdown rules, conservative sizing, and tax treatment of funded payouts.",
+    honestReality: "Prop firms are not a lottery or a demo account with a cash prize. They are corporate capital managers. 95% of traders fail because they risk 2% to 5% per trade trying to pass in 48 hours. If you want to survive, you must risk 0.25% to 0.5% per trade, treat daily drawdown limits as the absolute ceiling, and build a consistent track record.",
+    relatedModules: [
+      { href: "/courses/prop-firm-mastery/module-1", title: "How Prop Firms Actually Work", description: "Uncover the demo vs. live server mechanics of prop firm operations." },
+      { href: "/courses/prop-firm-mastery/module-3", title: "Challenge Rules Deep-Dive", description: "Learn the formulas firms use to calculate daily drawdowns at midnight." },
+      { href: "/courses/prop-firm-mastery/module-5", title: "Prop Firm Risk Management", description: "How to scale and protect funded capital with institutional risk parameters." }
+    ],
+    content: [
+      {
+        heading: "The Rise of Prop Firm Capital",
+        text: "The retail trading landscape has shifted dramatically over the past decade. Previously, if you wanted to trade full-time, you were limited by your own personal savings. If you had a £2,000 account, making a 5% monthly return only generated £100—not enough to live on. Proprietary trading firms (prop firms) solved this problem by providing funded accounts of £10k, £50k, or £200k to skilled traders in exchange for an evaluation fee.\n\nHowever, prop firms are businesses, not charities. They operate on strict risk limits. Under regulations monitored by the Financial Conduct Authority (<a href='https://www.fca.org.uk/' target='_blank' rel='noopener noreferrer'>FCA.org.uk</a>), retail brokers are capped at 30:1 leverage, but prop firms bypass this by keeping evaluations on demo servers. This means they can structure challenges with high leverage, but offset the risk by locking accounts that breach daily drawdown rules.",
+      },
+      {
+        heading: "Selecting a Reputable Firm in the UK",
+        text: "Due to the unregulated nature of the demo challenge ecosystem, many predatory firms have entered the market. These firms use wide spreads, hidden slippage, and arbitrary rules to force failures. UK traders should focus exclusively on established firms with multi-year payout histories, such as FTMO or The5ers, and avoid new firms offering 'no evaluation' instant accounts with trailing drawdowns.",
+      },
+      {
+        heading: "Designing Your Sizing Playbook",
+        text: "To pass a prop challenge, you must separate profit targets from risk limits. If a challenge has an 8% profit target and a 5% daily drawdown, you have a 1.6:1 ratio of target to risk. If you risk 1% per trade, five consecutive losses breaches the daily limit. However, if you risk 0.25% per trade, you have a 20-trade buffer. You execute your mechanical edge over a larger sample size, letting probability work in your favor.",
+      },
+      {
+        heading: "UK Tax on Prop Payouts under HMRC",
+        text: "Many UK traders believe prop payouts are tax-free under spread betting laws. This is false. Because you are trading demo capital and the prop firm pays you a contractor fee, HMRC classifies payouts as self-employed trading income, subject to standard Income Tax and National Insurance. Setting up a Limited Company is often the most tax-efficient method to manage payout drawdowns.",
+      }
+    ],
+    faqs: [
+      { question: "Are prop firm payouts tax-free in the UK?", answer: "No. Unlike spread betting, prop firm payouts are classified as self-employed service income by HMRC, subject to standard income tax. They are not tax-free." },
+      { question: "What is the daily drawdown calculation?", answer: "Most firms calculate daily drawdown based on your equity or balance at midnight server time. If you have open floating profits at midnight, your daily limit moves up, creating a trailing risk for swing trades." },
+      { question: "Can I use EAs or robots?", answer: "Reputable firms allow Expert Advisors (EAs), but forbid copy-trading or using public bots that generate identical trades across hundreds of accounts." },
+      { question: "Which is better: 1-phase or 2-phase challenges?", answer: "2-phase challenges are generally better as they have static maximum drawdowns, whereas 1-phase challenges often use trailing drawdowns that lock in profits and squeeze your risk margin." }
+    ]
+  },
+  {
+    slug: "backtesting-strategies",
+    title: "How to Backtest a Trading Strategy Properly",
+    subtitle: "A rigorous mathematical guide to verifying trading edge across historical tick data.",
+    description: "Most retail traders backtest three weeks of data, get a 70% win rate, and start trading real capital. This guide teaches the institutional approach: statistical sample sizing, MAE optimization, and Monte Carlo stress testing.",
+    category: "Strategy",
+    difficulty: "Intermediate",
+    timeToLearn: "1-2 months",
+    riskLevel: "Low",
+    heroImage: "/images/learn/backtester.jpg",
+    metaTitle: "How to Backtest a Trading Strategy Properly | Drawdown",
+    metaDescription: "Learn how to backtest trading strategies like an institutional analyst. Master sample sizing, expectancy, profit factor & Monte Carlo stress testing.",
+    honestReality: "Backtests are not proof of future profits. They are proof that your strategy rules were historically profitable. Hindsight is 20/20; it is easy to mark winning entries on a static chart. To build a valid backtest, you must use TradingView replay mode, advance bar-by-bar, and log execution slip and spread fees.",
+    relatedModules: [
+      { href: "/courses/the-backtester/module-2", title: "Manual Backtesting Method", description: "How to use bar replay in TradingView correctly to avoid hindsight bias." },
+      { href: "/courses/the-backtester/module-5", title: "Key Metrics Explained", description: "Understand win rate, profit factor, and maximum adverse excursion (MAE)." },
+      { href: "/courses/the-backtester/module-7", title: "Monte Carlo Simulation", description: "Stress-test strategy parameters against randomized trade sequences." }
+    ],
+    content: [
+      {
+        heading: "Why Backtesting is Non-Negotiable",
+        text: "In any professional business, you wouldn't launch a product without testing it. In trading, your strategy is your product. Backtesting provides the statistical proof that your rules generate a positive expectancy over a large sample size. Without this data, you will abandon your strategy during the first normal drawdown sequence of 5 or 6 losses.",
+      },
+      {
+        heading: "The Danger of Hindsight Bias",
+        text: "The biggest mistake in backtesting is scrolling back on a chart and highlighting 'obvious' entries. In real-time, you do not see the right side of the screen. You must use TradingView's Bar Replay tool, pick a random start date, and make execution decisions bar-by-bar to replicate real-time market pressure.",
+      },
+      {
+        heading: "Key Metrics: Beyond Win Rate",
+        text: "A 70% win rate is useless if your average loss is three times your average win. You must focus on **Expectancy** and **Profit Factor**. Expectancy measures the average return per trade in R-multiples. A profit factor above 1.5 indicates a robust strategy that can survive structural market shifts.",
+      },
+      {
+        heading: "Monte Carlo Stress Testing",
+        text: "Markets are non-linear. Even if your strategy wins 60% of the time, those wins and losses are randomly distributed. A Monte Carlo simulation randomizes the sequence of your backtested trades thousands of times to calculate the probability of your account hitting drawdown limits under extreme volatility.",
+      }
+    ],
+    faqs: [
+      { question: "How many trades do I need for a valid backtest?", answer: "You need a minimum sample size of 100 to 200 trades, spanning at least 12 months, to ensure your strategy has been tested across varying market cycles." },
+      { question: "What is Expectancy?", answer: "Expectancy is the average amount you win or lose per trade. It is calculated as (Win Rate * Average Win Size) - (Loss Rate * Average Loss Size). It must be positive." },
+      { question: "What is MAE (Maximum Adverse Excursion)?", answer: "MAE measures the maximum drawdown a trade experiences before moving to target. Logging MAE helps you optimize stop-loss placement to prevent premature exits." },
+      { question: "Should I automate my backtesting?", answer: "Automation via Pine Script is fast, but manual backtesting builds chart fluency. A hybrid approach of coding the rules and manually verifying wicks is recommended." }
+    ]
+  },
+  {
+    slug: "macro-trading",
+    title: "Macro Trading for Retail Traders — Understanding the Big Picture",
+    subtitle: "How to analyze central bank policy cycles, interest rates, and economic cycles to trade currencies.",
+    description: "Price action shows you where price is, but macroeconomics tells you why it moves. Learn to read central bank statements, monitor interest rate differentials, and build a weekly directional bias.",
+    category: "Market",
+    difficulty: "Advanced",
+    timeToLearn: "6-12 months",
+    riskLevel: "Medium",
+    heroImage: "/images/learn/macro.jpg",
+    metaTitle: "Macro Trading for Retail Traders | Economic Data Cycles | Drawdown",
+    metaDescription: "Learn macro trading. Master central bank policy cycles, interest rate differentials, inflation data (CPI/PPI/PCE), and weekly bias systems.",
+    honestReality: "Macro trading is not about predicting the news. Professional desks do not guess NFP or CPI numbers. They analyze how deviations from market consensus shift central bank expectations, and trade the subsequent institutional trend.",
+    relatedModules: [
+      { href: "/courses/macro-trader/module-1", title: "Central Bank Policy Cycles", description: "How BoE, Fed, and ECB policy shifts drive global capital rotation." },
+      { href: "/courses/macro-trader/module-9", title: "Building a Weekly Macro Bias", description: "Assemble a weekly playbook matching macro bias with technical charts." },
+      { href: "/courses/macro-trader/module-10", title: "The Unified Model", description: "Learn to combine top-down macro bias with bottom-up technical entries." }
+    ],
+    content: [
+      {
+        heading: "Price Action is Only Half the Story",
+        text: "Technical analysis is excellent for timing entries, but it operates in a vacuum. Major institutional trends on daily and weekly charts are driven entirely by macroeconomic capital flows. Yield-seeking capital flows globally to countries with high interest rates. Understanding this flow lets you trade with the macro tide.",
+      },
+      {
+        heading: "Central Banks: The Engine of Yield",
+        text: "Central banks like the Bank of England (<a href='https://www.bankofengland.co.uk/' target='_blank' rel='noopener noreferrer'>BoE.co.uk</a>) manipulate benchmark interest rates to balance inflation and growth. Under guidelines from the European Securities and Markets Authority (ESMA), retail brokers quote exchange rates that reflect these differentials. A central bank entering a tightening cycle triggers long-term currency appreciation.",
+      },
+      {
+        heading: "The Economic Data Hierarchy",
+        text: "Not all news moves price. Inflation data (CPI, PCE) and employment releases (NFP) carry the highest weight. We focus on Core Inflation metrics (excluding volatile food and energy) to gauge the underlying structural trends that central bank policymakers actually track.",
+      },
+      {
+        heading: "Building a Weekly Macro Bias",
+        text: "Professional traders build their directional playbook before the weekly open. By mapping central bank hawkish/dovish alignments and auditing the economic calendar, you define a weekly directional bias. You only take technical entries that align with the macro direction.",
+      }
+    ],
+    faqs: [
+      { question: "How do interest rates affect currencies?", answer: "Capital flows toward yield. A country raising interest rates attracts foreign investment, increasing demand for its currency and driving exchange rates up." },
+      { question: "What is hawkish vs. dovish?", answer: "Hawkish policy favors high interest rates to cool inflation (bullish). Dovish policy favors low interest rates to stimulate growth (bearish)." },
+      { question: "Should I trade during high-impact news releases?", answer: "No. Liquidity providers withdraw orders during releases like CPI or NFP, causing wide spreads and slippage. Wait for the data to print, and trade the subsequent trend." },
+      { question: "What is the Carry Trade?", answer: "A carry trade involves borrowing capital in a currency with a low interest rate (like JPY) and investing it in a currency with a high interest rate (like AUD) to capture the yield spread." }
+    ]
+  },
+  {
+    slug: "ai-trading-tools",
+    title: "AI Trading Tools in 2026 — What They Can and Can't Do",
+    subtitle: "A practical guide to integrating large language models and automation into your trading workflow.",
+    description: "Artificial intelligence is not replacing traders, but it is replacing traders who refuse to adapt. Learn how to use LLMs as research partners, build custom scanners, and automate TradingView strategies.",
+    category: "Tools",
+    difficulty: "Advanced",
+    timeToLearn: "2-4 months",
+    riskLevel: "Medium",
+    heroImage: "/images/learn/ai-tools.jpg",
+    metaTitle: "AI Trading Tools UK 2026 | Pine Script & Automation | Drawdown",
+    metaDescription: "Learn to build custom AI trading workflows. Program Pine Script, automate journal analysis, and connect TradingView webhooks with Claude.",
+    honestReality: "AI cannot predict price. If you ask an LLM for trading signals, you are gambling. AI is an execution assistant. It is a powerful tool to automate data logging, parse policy text, and write TradingView Pine Script rapidly.",
+    relatedModules: [
+      { href: "/courses/ai-trader/module-2", title: "AI Pre-Trade Research", description: "Use Claude to summarize policy statements and analyze economic calendars." },
+      { href: "/courses/ai-trader/module-5", title: "Pine Script Fundamentals", description: "Learn to code your strategy rules into TradingView using AI code generators." },
+      { href: "/courses/ai-trader/module-11", title: "Advanced Webhook Automation", description: "Connect TradingView alerts to automated execution engines securely." }
+    ],
+    content: [
+      {
+        heading: "The AI Revolution: Hype vs. Reality",
+        text: "The financial markets are flooded with promises of automated AI trading bots. However, institutions don't use simple LLMs to place live trades. AI is an optimization tool. It allows retail traders to process vast amounts of macro news, code strategies, and audit logs with institutional efficiency.",
+      },
+      {
+        heading: "Claude and GPT as Research Partners",
+        text: "You can upload a central bank statement directly to Claude and ask it to highlight hawkish or dovish shifts compared to previous releases. This cuts research time from hours to seconds, letting you build a weekly directional playbook with ease.",
+      },
+      {
+        heading: "No-Code Pine Script Coding",
+        text: "Pine Script is TradingView's native coding language. AI has made scripting accessible to non-coders. By prompting Claude with precise mechanical rules, you can generate clean Pine Script indicators and strategy backtesters to verify your edge.",
+      },
+      {
+        heading: "Webhook and API Bridge Automation",
+        text: "Once you have verified a mechanical edge, you can configure TradingView to send alerts via JSON webhooks to execution bridges like PineConnector. This executes trades directly on your broker account, removing human execution latency and emotional bias.",
+      }
+    ],
+    faqs: [
+      { question: "Can Claude write TradingView indicators?", answer: "Yes. Claude is highly fluent in Pine Script. By providing precise rules, you can generate custom indicators and strategy testers without writing code." },
+      { question: "How do I use AI to audit my trade journal?", answer: "Export your trade history in CSV format and upload it to Claude. Prompt it to analyze your execution times and drawdown sequences to find behavioral leaks." },
+      { question: "Is automated trading safe for retail traders?", answer: "Only if you use strict API keys and daily exposure caps. Code bugs can empty an account rapidly; human-in-the-loop oversight is always recommended." },
+      { question: "Do I need a coding background?", answer: "No. Modern AI tools allow you to generate code, scanners, and spreadsheets using simple natural language prompts." }
+    ]
+  },
+  {
+    slug: "ftmo-challenge",
+    title: "How to Pass an FTMO Challenge — The Honest Guide",
+    subtitle: "A math-driven guide to passing the FTMO evaluation without gambling your registration fee.",
+    description: "FTMO is the industry benchmark for prop firm capital. But passing requires strict compliance with daily drawdowns and consistency rules. Learn the conservative sizing playbook to pass Phase 1 and Phase 2.",
+    category: "Market",
+    difficulty: "Advanced",
+    timeToLearn: "3-6 months",
+    riskLevel: "High",
+    heroImage: "/images/learn/ftmo.jpg",
+    metaTitle: "How to Pass an FTMO Challenge | The Sizing Playbook | Drawdown",
+    metaDescription: "Learn how to pass the FTMO challenge. Master the 5% daily drawdown rule, consistency requirements, and conservative position sizing.",
+    honestReality: "FTMO makes most of its money from failed challenge fees, not profit splits. The rules are designed to exploit retail greed. If you try to pass in 48 hours, you are gambling. Passing requires a multi-week, disciplined process.",
+    relatedModules: [
+      { href: "/courses/prop-firm-mastery/module-3", title: "Challenge Rules Deep-Dive", description: "Master the midnight daily drawdown calculations on FTMO." },
+      { href: "/courses/prop-firm-mastery/module-4", title: "Passing a Challenge", description: "The conservative 0.5% risk playbook that passes evaluations systematically." }
+    ],
+    content: [
+      {
+        heading: "The Toughest Exam in Retail Trading",
+        text: "FTMO offers funded accounts up to $200,000. However, the evaluation has a 90% failure rate. This is not because the targets are impossible, but because retail traders do not treat the challenge as a risk management test. The challenge is designed to filter out gamblers.",
+      },
+      {
+        heading: "The Midnight Drawdown Rule",
+        text: "FTMO calculates daily drawdown (5%) based on your equity or balance at midnight server time (CE(S)T). If you hold swing trades in profit at midnight, your daily stop-out limit moves up. If the market retraces the next day, you can breach the limit even if your account is in net profit.",
+      },
+      {
+        heading: "Sizing Down to Survive",
+        text: "To hit the 10% target in Phase 1, you do not need 3% risk per trade. A normal losing streak will breach your daily limit. Risk exactly 0.5% of starting equity per trade. This gives you a 10-trade buffer on daily limits, allowing you to survive volatility waves.",
+      },
+      {
+        heading: "Consistency and News Trading Rules",
+        text: "FTMO restricts trading during high-impact news releases for funded accounts. Holding trades through Tier-1 data like NFP or CPI can trigger immediate breaches. You must audit the economic calendar daily and close intraday trades before releases.",
+      }
+    ],
+    faqs: [
+      { question: "What is the daily loss limit on FTMO?", answer: "The daily loss limit is 5% of the starting balance of the day, reset at midnight CE(S)T. It includes both closed losses and open floating equity drawdown." },
+      { question: "How long do I have to pass the FTMO challenge?", answer: "FTMO has no time limits. You can take as long as you need to achieve the profit target, which reduces the pressure to over-leverage." },
+      { question: "Can I trade news on FTMO?", answer: "News trading is permitted during evaluation phases, but heavily restricted on funded (FTMO Account) stages, where you cannot execute trades 2 minutes before and after Tier-1 news." },
+      { question: "What is the profit split on FTMO?", answer: "Successful funded traders receive an 80% split of profits, which can be scaled up to 90% through their enterprise growth scaling plan." }
+    ]
+  }
 ];
-

@@ -45,7 +45,7 @@ function NewsCard({ item, index }: { item: NewsItem; index: number }) {
       href={item.url}
       target="_blank"
       rel="noopener noreferrer"
-      className="group border border-border-slate hover:border-accent/50 transition-premium flex flex-col justify-between relative overflow-hidden min-h-[320px]"
+      className="group border border-mkt-bd hover:border-mkt-bds/50 transition-premium flex flex-col justify-between relative overflow-hidden min-h-[320px]"
       style={{ animationDelay: `${index * 100}ms` }}
     >
       {/* Background Image or Gradient */}
@@ -92,7 +92,7 @@ function NewsCard({ item, index }: { item: NewsItem; index: number }) {
 
         {/* Title */}
         <div>
-          <h3 className="text-lg font-display font-bold uppercase leading-tight mb-4 text-white group-hover:text-accent transition-colors line-clamp-3">
+          <h3 className="text-lg font-sans font-bold uppercase leading-tight mb-4 text-white group-hover:text-accent transition-colors line-clamp-3">
             {item.title}
           </h3>
 
@@ -126,7 +126,7 @@ function PulseSkeleton() {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {[1, 2, 3, 4, 5, 6].map((i) => (
-        <div key={i} className="bg-background-elevated border border-border-slate animate-pulse min-h-[320px] relative overflow-hidden">
+        <div key={i} className="bg-[#F7F7F7] border border-mkt-bd animate-pulse min-h-[320px] relative overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
           <div className="p-8 space-y-6 relative z-10">
             <div className="h-4 w-32 bg-white/10" />
@@ -186,7 +186,7 @@ export function MarketPulse() {
   if (error) return null;
 
   return (
-    <section ref={sectionRef} className="py-24 bg-background-primary relative overflow-hidden transition-colors duration-500">
+    <section ref={sectionRef} className="py-12 md:py-20 bg-white relative overflow-hidden transition-colors duration-500">
       <div className="container mx-auto px-6">
         <div className="mb-16">
           <div className="flex items-center gap-3 mb-4">
@@ -195,7 +195,7 @@ export function MarketPulse() {
             </span>
             <div className="flex items-center gap-1.5 px-3 py-1 bg-profit/10 border border-profit/20">
               <div className="w-1.5 h-1.5 rounded-full bg-profit animate-pulse" />
-              <span className="text-[8px] font-mono font-bold text-profit uppercase tracking-widest">LIVE PULSE</span>
+              <span className="text-[8px] font-mono font-bold text-mkt-grn uppercase tracking-widest">LIVE PULSE</span>
             </div>
           </div>
           <h2 className="text-4xl md:text-8xl font-display font-bold uppercase text-text-primary leading-tight">
@@ -220,7 +220,7 @@ export function MarketPulse() {
             {/* CTA Card */}
             <Link
               href="/markets"
-              className={`group border border-accent/20 hover:border-accent/40 transition-premium flex flex-col justify-center items-center text-center gap-4 min-h-[320px] relative overflow-hidden ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
+              className={`group border border-accent/20 hover:border-mkt-bds/40 transition-premium flex flex-col justify-center items-center text-center gap-4 min-h-[320px] relative overflow-hidden ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
               style={{
                 background: "linear-gradient(135deg, #00C2FF08, #00C2FF15)",
                 transitionDelay: `${news.length * 100}ms`
@@ -231,10 +231,10 @@ export function MarketPulse() {
                 <div className="w-20 h-20 bg-accent/10 border border-accent/20 flex items-center justify-center mx-auto mb-2 group-hover:scale-110 group-hover:rotate-6 transition-all duration-500">
                   <Newspaper className="w-8 h-8 text-accent" />
                 </div>
-                <h3 className="text-3xl font-display font-bold uppercase group-hover:text-accent transition-colors leading-tight">
+                <h3 className="text-3xl font-sans font-bold uppercase group-hover:text-accent transition-colors leading-tight">
                   Enter The <br /> Hub
                 </h3>
-                <p className="text-[10px] font-mono text-text-tertiary uppercase tracking-widest leading-relaxed">
+                <p className="text-[10px] font-mono text-mkt-i4 uppercase tracking-widest leading-relaxed">
                   Consolidated technical analysis, news, and AI scanning.
                 </p>
                 <div className="flex items-center justify-center gap-2 text-accent font-bold uppercase text-[10px] tracking-widest mt-4">

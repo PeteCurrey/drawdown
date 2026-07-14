@@ -109,8 +109,8 @@ export default function PropFirmQuizPage() {
   const firmData = getFirmDetails(result);
 
   return (
-    <div className="min-h-[80vh] flex flex-col bg-background-primary pt-32 pb-24">
-      <div className="container mx-auto px-6 max-w-3xl flex-grow flex flex-col justify-center">
+    <div className="min-h-[80vh] flex flex-col pt-28 pb-24">
+      <div className="max-w-7xl mx-auto px-6 max-w-3xl flex-grow flex flex-col justify-center">
         
         {/* Progress Bar */}
         {!showResult && !showEmailCapture && (
@@ -119,7 +119,7 @@ export default function PropFirmQuizPage() {
               <span>Diagnostic Phase</span>
               <span>{Math.round(((currentStep) / questions.length) * 100)}%</span>
             </div>
-            <div className="h-1 bg-background-surface w-full overflow-hidden">
+            <div className="h-1 bg-background-elevated/40 w-full overflow-hidden">
               <div 
                 className="h-full bg-accent transition-all duration-500 ease-out"
                 style={{ width: `${((currentStep) / questions.length) * 100}%` }}
@@ -130,7 +130,7 @@ export default function PropFirmQuizPage() {
 
         {/* Quiz Questions */}
         {!showResult && !showEmailCapture && (
-          <div className="bg-background-surface border border-border-slate p-8 md:p-12 shadow-2xl">
+          <div className="bg-background-surface/40 backdrop-blur-md border border-border-slate/50 p-8 md:p-12 shadow-2xl">
             {currentStep > 0 && (
               <button 
                 onClick={() => setCurrentStep(prev => prev - 1)}
@@ -140,7 +140,7 @@ export default function PropFirmQuizPage() {
               </button>
             )}
             
-            <h2 className="text-3xl md:text-4xl font-display font-black uppercase mb-8 leading-tight">
+            <h2 className="text-3xl md:text-4xl font-sans font-black uppercase mb-8 leading-tight">
               {questions[currentStep].title}
             </h2>
             
@@ -149,12 +149,12 @@ export default function PropFirmQuizPage() {
                 <button
                   key={idx}
                   onClick={() => handleOptionSelect(questions[currentStep].id, option.propFirmBias)}
-                  className="w-full text-left p-6 border border-border-slate hover:border-accent hover:bg-accent/5 transition-all group flex justify-between items-center"
+                  className="w-full text-left p-6 border border-border-slate/50 hover:border-border-slate hover:bg-accent/5 transition-all group flex justify-between items-center"
                 >
                   <span className="text-sm font-bold text-text-secondary group-hover:text-text-primary transition-colors">
                     {option.label}
                   </span>
-                  <div className="w-4 h-4 border border-border-slate rounded-full group-hover:border-accent group-hover:bg-accent/20 transition-all" />
+                  <div className="w-4 h-4 border border-border-slate/50 rounded-full group-hover:border-border-slate group-hover:bg-accent/20 transition-all" />
                 </button>
               ))}
             </div>
@@ -163,9 +163,9 @@ export default function PropFirmQuizPage() {
 
         {/* Email Capture (Lead Gen) */}
         {showEmailCapture && (
-          <div className="bg-background-surface border border-border-slate p-8 md:p-12 shadow-2xl text-center">
+          <div className="bg-background-surface/40 backdrop-blur-md border border-border-slate/50 p-8 md:p-12 shadow-2xl text-center">
             <Target className="w-16 h-16 text-accent mx-auto mb-6" />
-            <h2 className="text-3xl font-display font-black uppercase mb-4">
+            <h2 className="text-3xl font-sans font-black uppercase mb-4">
               Analysis Complete.
             </h2>
             <p className="text-text-secondary mb-8">
@@ -181,7 +181,7 @@ export default function PropFirmQuizPage() {
                   placeholder="Enter your best email..."
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full bg-background-primary border border-border-slate pl-12 pr-4 py-4 text-sm focus:border-accent focus:outline-none transition-colors text-text-primary placeholder:text-text-tertiary"
+                  className="w-full bg-background-elevated/40 border border-border-slate/50 pl-12 pr-4 py-4 text-sm focus:border-border-slate focus:outline-none transition-colors text-text-primary placeholder:text-text-tertiary"
                 />
               </div>
               <button 
@@ -201,14 +201,14 @@ export default function PropFirmQuizPage() {
         {showResult && (
           <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
             {/* The Result */}
-            <div className={cn("bg-background-surface border p-8 md:p-12 text-center relative overflow-hidden", firmData.border)}>
+            <div className={cn("bg-background-surface/40 backdrop-blur-md border p-8 md:p-12 text-center relative overflow-hidden", firmData.border)}>
               <div className={cn("absolute inset-0 opacity-5 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-current via-background-primary to-background-primary", firmData.color)} />
               
               <div className="relative z-10">
                 <span className="text-[10px] font-mono tracking-widest uppercase text-text-tertiary font-bold block mb-4">
                   // OPTIMAL MATCH DETERMINED
                 </span>
-                <h1 className={cn("  font-display font-black uppercase mb-4", firmData.color)}>
+                <h1 className={cn("  font-sans font-black uppercase mb-4", firmData.color)}>
                   {firmData.name}
                 </h1>
                 <p className="text-xl text-text-secondary mb-8">
@@ -222,8 +222,8 @@ export default function PropFirmQuizPage() {
                     Start {firmData.name} Challenge
                   </a>
                   <Link 
-                    href={`/prop-firms/${result}-review`}
-                    className="px-8 py-4 border border-border-slate hover:border-text-primary text-text-primary font-bold uppercase tracking-widest text-xs transition-colors"
+                    href={`/prop-firms/${result}`}
+                    className="flex-1 py-4 bg-background-elevated/40 backdrop-blur-md border border-border-slate/50 font-bold hover:bg-background-elevated text-text-primary transition-colors flex items-center justify-center"
                   >
                     Read The Data Review
                   </Link>
@@ -232,13 +232,13 @@ export default function PropFirmQuizPage() {
             </div>
 
             {/* The Low-Ticket Upsell */}
-            <div className="bg-background-primary border border-accent/30 p-8 shadow-2xl flex flex-col md:flex-row gap-8 items-center justify-between">
+            <div className="bg-background-surface/40 backdrop-blur-md border border-border-slate/30 p-8 shadow-2xl flex flex-col md:flex-row gap-8 items-center justify-between">
               <div>
                 <div className="flex items-center gap-2 text-accent mb-2">
                   <ShieldCheck className="w-5 h-5" />
                   <span className="text-[10px] font-mono uppercase tracking-widest font-bold">Recommended Add-On</span>
                 </div>
-                <h3 className="text-2xl font-display font-bold uppercase mb-2">The Challenge Survival Kit</h3>
+                <h3 className="text-2xl font-sans font-bold uppercase mb-2">The Challenge Survival Kit</h3>
                 <p className="text-sm text-text-secondary">
                   Don't start your {firmData.name} evaluation without a math-backed risk model. Get our internal drawdown recovery sheets and daily routines.
                 </p>

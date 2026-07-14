@@ -1,46 +1,14 @@
-"use client";
+import type { Metadata } from 'next'
+import AboutPage from './AboutClient'
+import JsonLd from '@/components/seo/JsonLd'
 
-import { useEffect, useRef } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { TrackPageView } from "@/components/admin/TrackPageView";
-
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
+export const metadata: Metadata = {
+  title: 'About | Pete Currey | Drawdown Trading',
+  description: 'Drawdown was built by Pete Currey — a UK-based trader and entrepreneur who got tired of the trading education industry selling expensive nonsense. Here\'s the honest version.',
+  alternates: { canonical: 'https://drawdown.trading/about' }
 }
 
-export default function AboutPage() {
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.from(".reveal-text", {
-        scrollTrigger: {
-          trigger: ".reveal-text",
-          start: "top 80%",
-        },
-        y: 60,
-        opacity: 0,
-        duration: 1.5,
-        ease: "premium",
-      });
-
-      gsap.from(".mission-card", {
-        scrollTrigger: {
-          trigger: ".mission-grid",
-          start: "top 80%",
-        },
-        y: 40,
-        opacity: 0,
-        duration: 1,
-        stagger: 0.2,
-        ease: "premium",
-      });
-    }, containerRef);
-
-    return () => ctx.revert();
-  }, []);
-
+export default function Page() {
   return (
     <div ref={containerRef} className="pt-32 bg-background-primary min-h-screen">
       <TrackPageView path="/about" />

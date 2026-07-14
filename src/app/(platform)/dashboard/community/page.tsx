@@ -78,8 +78,8 @@ export default function CommunityPage() {
                   </a>
                 </li>
                 <li>
-                  <a href="/tools/scanner" className="text-xs font-bold uppercase tracking-widest text-text-primary hover:text-accent transition-colors flex items-center justify-between">
-                    Market Scanner <ArrowRight className="w-3 h-3" />
+                  <a href="/dashboard/tools/technical-scanner" className="text-xs font-bold uppercase tracking-widest text-text-primary hover:text-accent transition-colors flex items-center justify-between">
+                    Technical Scanner <ArrowRight className="w-3 h-3" />
                   </a>
                 </li>
                 <li>

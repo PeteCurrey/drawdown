@@ -26,22 +26,22 @@ export default async function PoliticalAlphaLanding() {
   const recentTrades = sampleData.slice(0, 5);
 
   return (
-    <div className="pt-32 pb-24 bg-background-primary min-h-screen">
-      <div className="container mx-auto px-6">
+    <div className="pt-28 pb-24 min-h-screen">
+      <div className="max-w-7xl mx-auto px-6">
         <Breadcrumbs />
         
         <header className="max-w-4xl mb-24">
           <div className="text-accent font-mono text-[10px] uppercase tracking-widest mb-6 flex items-center gap-2">
             <Landmark className="w-3 h-3" /> // INTELLIGENCE HUB
           </div>
-          <h1 className="text-5xl md:text-8xl font-display font-bold uppercase mb-8 leading-[0.9]">
+          <h1 className="text-5xl md:text-8xl font-sans font-bold uppercase mb-8 leading-[0.9]">
             Political <br /> <span className="text-accent">Alpha.</span>
           </h1>
           <p className="text-xl text-text-secondary leading-relaxed font-sans max-w-2xl">
             When major policy is being drafted, the market reacts. But some react before others. We track every stock trade made by the U.S. House and Senate so you can see the flow before it hits the tape.
           </p>
           <div className="mt-10 flex flex-wrap gap-4">
-            <Link href="/signup" className="px-10 py-5 bg-accent text-background-primary font-bold uppercase tracking-widest text-xs hover:bg-accent-hover transition-all flex items-center gap-2">
+            <Link href="/signup" className="px-10 py-5 bg-mkt-ink text-white font-bold uppercase tracking-widest text-xs hover:bg-accent-hover transition-all flex items-center gap-2">
               Start Tracking Congress <Zap className="w-3 h-3" />
             </Link>
           </div>
@@ -55,30 +55,30 @@ export default async function PoliticalAlphaLanding() {
             { title: "Zero Latency", desc: "Automated scraping of disclosure reports.", icon: Globe },
             { title: "Targeted Alerts", desc: "Follow specific reps or senators.", icon: Target },
           ].map((item, i) => (
-            <div key={i} className="p-8 border border-border-slate bg-background-surface hover:bg-background-elevated transition-colors">
+            <div key={i} className="p-8 border border-border-slate/50 hover:bg-background-elevated transition-colors">
               <item.icon className="w-6 h-6 text-accent mb-6" />
-              <h3 className="text-sm font-display font-bold uppercase mb-2 tracking-wider">{item.title}</h3>
+              <h3 className="text-sm font-sans font-bold uppercase mb-2 tracking-wider">{item.title}</h3>
               <p className="text-xs text-text-tertiary leading-relaxed">{item.desc}</p>
             </div>
           ))}
         </div>
 
         {/* Live Data Preview */}
-        <div className="bg-background-surface border border-border-slate overflow-hidden mb-32">
-          <div className="p-6 border-b border-border-slate bg-background-elevated/50 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+        <div className="bg-background-surface/40 backdrop-blur-md border border-border-slate/50 transition-all duration-300 hover:shadow-[0_0_20px_rgba(0,0,0,0.2)] hover:border-border-slate hover:-translate-y-0.5 overflow-hidden mb-32">
+          <div className="p-6 border-b border-border-slate/50 bg-background-elevated/40/50 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
             <div>
               <h2 className="text-sm font-mono uppercase tracking-widest flex items-center gap-2">
                 <Scale className="w-4 h-4 text-accent" /> Recent Congressional Disclosures
               </h2>
               <p className="text-[10px] text-text-tertiary font-mono mt-1">FOLLOW THE FLOW OF THE CAPITAL HILL</p>
             </div>
-            <div className="px-3 py-1 bg-loss/10 border border-loss/20 text-loss text-[9px] font-bold uppercase tracking-widest flex items-center gap-2">
+            <div className="px-3 py-1 bg-loss/10 border border-loss/20 text-red-500 text-[9px] font-bold uppercase tracking-widest flex items-center gap-2">
                <span className="w-1.5 h-1.5 rounded-full bg-loss animate-pulse" /> Live Feed Active
             </div>
           </div>
           <div className="overflow-x-auto">
             <table className="w-full text-left">
-              <thead className="bg-background-primary/50 text-[10px] font-mono uppercase tracking-widest text-text-tertiary border-b border-border-slate">
+              <thead className="/50 text-[10px] font-mono uppercase tracking-widest text-text-tertiary border-b border-border-slate/50">
                 <tr>
                   <th className="px-8 py-4">Representative</th>
                   <th className="px-8 py-4">Symbol</th>
@@ -92,7 +92,7 @@ export default async function PoliticalAlphaLanding() {
                   <tr key={i} className="hover:bg-background-elevated/20 transition-colors group">
                     <td className="px-8 py-5">
                       <div className="flex flex-col">
-                        <span className="font-display font-bold text-sm tracking-tight">{trade.name || 'U.S. REP'}</span>
+                        <span className="font-sans font-bold text-sm tracking-tight">{trade.name || 'U.S. REP'}</span>
                         <span className="text-[9px] font-mono text-text-tertiary">COMMITTEE: [PROTECTED]</span>
                       </div>
                     </td>
@@ -100,7 +100,7 @@ export default async function PoliticalAlphaLanding() {
                     <td className="px-8 py-5">
                        <span className={cn(
                          "text-[10px] font-bold uppercase tracking-widest",
-                         trade.transactionType === 'Purchase' ? "text-profit" : "text-loss"
+                         trade.transactionType === 'Purchase' ? "text-profit" : "text-red-500"
                        )}>
                          {trade.transactionType}
                        </span>
@@ -116,9 +116,9 @@ export default async function PoliticalAlphaLanding() {
               </tbody>
             </table>
           </div>
-          <div className="p-12 text-center bg-background-elevated/30 border-t border-border-slate">
+          <div className="p-12 text-center bg-background-elevated/40/30 border-t border-border-slate/50">
              <p className="text-xs text-text-tertiary mb-6 font-mono uppercase tracking-widest">Upgrade to Edge+ for full disclosure history and AI committee-impact analysis.</p>
-             <Link href="/pricing" className="inline-flex items-center gap-2 px-8 py-4 bg-accent text-background-primary text-[10px] font-bold uppercase tracking-widest hover:bg-accent-hover transition-all">
+             <Link href="/pricing" className="inline-flex items-center gap-2 px-8 py-4 bg-mkt-ink text-white text-[10px] font-bold uppercase tracking-widest hover:bg-accent-hover transition-all">
                Upgrade to Edge+ <ArrowRight className="w-4 h-4" />
              </Link>
           </div>
@@ -126,17 +126,17 @@ export default async function PoliticalAlphaLanding() {
 
         {/* Philosophy Section */}
         <div className="max-w-3xl mx-auto text-center space-y-12 mb-32">
-           <h3 className="text-3xl font-display font-bold uppercase leading-tight">The ultimate information asymmetry.</h3>
+           <h3 className="text-3xl font-sans font-bold uppercase leading-tight">The ultimate information asymmetry.</h3>
            <p className="text-lg text-text-secondary leading-relaxed">
              While retail traders focus on indicators and chart patterns, the largest moves are often driven by legislative shifts. Political Alpha gives you a front-row seat to the trades of the people writing the laws. 
            </p>
-           <div className="pt-12 border-t border-border-slate/30 flex justify-center gap-12">
+           <div className="pt-12 border-t border-border-slate/50/30 flex justify-center gap-12">
               <div>
-                <p className="text-3xl font-display font-black text-accent">535</p>
+                <p className="text-3xl font-sans font-black text-accent">535</p>
                 <p className="text-[9px] font-mono text-text-tertiary uppercase tracking-widest">TRADERS MONITORED</p>
               </div>
               <div>
-                <p className="text-3xl font-display font-black text-accent">$45M+</p>
+                <p className="text-3xl font-sans font-black text-accent">$45M+</p>
                 <p className="text-[9px] font-mono text-text-tertiary uppercase tracking-widest">QUARTERLY VOLUME</p>
               </div>
            </div>

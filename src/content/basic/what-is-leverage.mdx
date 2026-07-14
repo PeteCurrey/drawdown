@@ -1,0 +1,108 @@
+---
+title: "What Is Leverage in Trading?"
+cluster: "The Mechanics"
+metaTitle: "What Is Leverage in Trading? How It Works and the Real Risk | Drawdown"
+metaDescription: "Leverage lets you control a larger position with a smaller deposit, and it cuts both ways. Here's how leverage and margin actually work, with real numbers."
+dek: "Borrowed capital that amplifies both profits and losses equally: what leverage is, how margin works, and why it is the biggest cause of blown accounts."
+instantAnswer: "Leverage allows you to open a trading position larger than your account balance by depositing only a fraction of its full value, known as margin. A leverage ratio of 1:30 means a £1,000 deposit can control a £30,000 position, amplifying both potential profits and potential losses equally."
+heroImage:
+  src: "https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?w=1200&q=80"
+  alt: "Risk and leverage concepts on a financial trading screen"
+keyTakeaways:
+  - "Leverage allows you to control a position much larger than your deposit, using capital effectively lent by your broker."
+  - "Leverage amplifies profits and losses in identical proportion — a 1% move produces a 30% change on your margin at 30:1 leverage."
+  - "Margin is the deposit that makes leverage possible — a margin call occurs when losses have consumed too much of that deposit."
+  - "The FCA caps retail leverage for UK traders by asset class — verify current limits at fca.org.uk before trading."
+  - "Strict position sizing — risking no more than 1 to 2 per cent of account capital per trade — is the primary tool for managing leverage risk."
+faq:
+  - question: "What leverage ratio is available to UK retail traders?"
+    answer: "The FCA sets maximum leverage limits for retail clients by asset class. For major forex pairs, the current limit is 30:1. For other instruments, lower limits apply — indices, gold, and individual shares each have their own caps. Verify current FCA rules at fca.org.uk before trading, as these figures can be updated."
+  - question: "What happens if a leveraged trade moves against you and your margin runs out?"
+    answer: "Your broker will issue a margin call — a request to deposit more funds. If you do not meet it, the broker will automatically close your position to prevent your balance going negative. Under FCA rules, regulated UK brokers must provide negative balance protection to retail clients, meaning you cannot lose more than your deposited account balance."
+  - question: "Is high leverage ever appropriate for a beginner?"
+    answer: "No. High leverage magnifies every price movement's effect on your margin. When you are still developing a strategy and learning to manage risk, that amplification works against you. Most experienced traders use leverage significantly below the maximum available. Starting with low effective leverage — even if higher ratios are technically available — is one of the most consequential early decisions a new trader makes."
+nextStep:
+  label: "Size your risk properly"
+  href: "/tools/risk-calculator"
+glossaryTerm: "leverage"
+relatedBasics:
+  - "what-is-a-cfd"
+  - "what-is-forex"
+  - "what-is-a-broker"
+internalLinks:
+  - "/tools/risk-calculator"
+  - "/basic/what-is-a-cfd"
+  - "/glossary/leverage"
+---
+
+<Callout type="financial-advice">This is educational content, not financial advice. Trading financial instruments carries significant risk. Leverage amplifies losses as well as gains. You may lose some or all of your capital.</Callout>
+
+## Leverage in One Sentence
+
+Leverage is the mechanism that lets you control a position larger than your deposit. To buy £30,000 of a currency pair without leverage, you would need £30,000 in your account. With 30:1 leverage, you need £1,000. The trade moves identically in both cases. The profit or loss in absolute terms is identical. The difference is that with leverage, that outcome is measured against a £1,000 deposit rather than a £30,000 one, which makes the percentage effect on your capital 30 times larger in either direction.
+
+That is not a complexity to manage later. It is the central fact of leveraged trading, and everything that follows builds from it.
+
+## A Worked Example with Real Numbers
+
+The mathematics of leverage become clear once you see them applied to a specific position.
+
+<DataTable
+  headers={["Scenario", "Account Balance", "Leverage", "Position Size", "1% Price Move Against You", "% of Margin Lost"]}
+  rows={[
+    ["Low leverage", "£1,000", "5:1", "£5,000", "£50 loss", "5% of margin"],
+    ["Medium leverage", "£1,000", "10:1", "£10,000", "£100 loss", "10% of margin"],
+    ["FCA retail maximum (major forex)", "£1,000", "30:1", "£30,000", "£300 loss", "30% of margin"],
+  ]}
+  caption="How the same 1% adverse price move affects margin at different leverage ratios. All scenarios use a £1,000 account balance."
+/>
+
+At 5:1 leverage, a 1% adverse price move costs you 5% of your margin. Uncomfortable, but survivable with a disciplined plan. At 30:1, the same 1% move costs you 30% of your deposited margin in a single trade. Three such moves without a stop loss in place and your account is gone.
+
+This is why position sizing, not leverage ratio alone, determines your actual risk. Using 30:1 leverage but sizing your position such that you risk £10 (1% of a £1,000 account) per trade is conservative. Using 5:1 leverage but sizing your position to risk £500 per trade is reckless. The leverage ratio is a tool. Position sizing is the discipline.
+
+## Margin Explained
+
+Margin is the deposit you post to open a leveraged position. It is not a fee. It is a portion of your own capital that the broker holds as security against the position. The broker provides the remaining exposure.
+
+If you open a £30,000 EUR/USD position at 30:1 leverage, your margin requirement is £1,000. That £1,000 sits in your account, allocated to the position. Your remaining cash is free margin, available to absorb floating losses or open additional trades.
+
+A margin call occurs when your floating losses eat through enough of your free margin that the broker requires more funds to maintain the position. If you do not deposit additional margin, the broker closes your position to prevent your balance turning negative. This automatic closure is called a stop-out or margin close-out.
+
+Under FCA rules, UK-regulated retail brokers must provide negative balance protection. This means that if a market moves so fast that your position closes below zero, the broker cannot pursue you for the difference. Your maximum loss is your deposited account balance.
+
+<PullQuote>A margin call is not a warning that things might go wrong. It is confirmation that they already have. Stop losses exist so that a margin call never needs to happen.</PullQuote>
+
+## UK Leverage Limits for Retail Traders
+
+The FCA sets maximum leverage ratios for retail clients to reduce the frequency of large, rapid losses among inexperienced traders. These limits vary by asset class.
+
+<DataTable
+  headers={["Asset Class", "Maximum Retail Leverage"]}
+  rows={[
+    ["Major forex pairs", "30:1"],
+    ["Non-major forex pairs, gold, major indices", "20:1"],
+    ["Non-major equity indices, non-gold commodities", "10:1"],
+    ["Individual shares", "5:1"],
+    ["Crypto assets", "2:1"],
+  ]}
+  caption="FCA maximum leverage limits for UK retail clients by asset class."
+/>
+
+Experienced traders who meet certain criteria can apply to be treated as professional clients, which removes these retail caps. Professional classification carries its own risk: you lose certain retail consumer protections alongside the leverage restrictions. Most retail traders are appropriately categorised as retail.
+
+## Why Leverage Is the Biggest Cause of Blown Accounts
+
+The reason most new traders lose their accounts quickly is not that they picked bad trade ideas. It is that they used leverage they did not understand, combined with position sizes that gave the market very little room to move against them before the damage was done.
+
+At 30:1 leverage without a stop loss, a 3.3% adverse price move eliminates the margin on that position entirely. Major currency pairs can move 1% in a single day during active sessions. A 3.3% move is uncommon but not rare, particularly around high-impact news events.
+
+Add to this the reality that new traders often increase their position size after a loss to recover quickly, which is exactly the opposite of what sound risk management requires. The combination of maximum leverage, no stop loss, and emotional position sizing is the most common route to a blown account.
+
+## Using Leverage Responsibly
+
+The 1% rule is the standard starting point: risk no more than 1% of your total account capital on any single trade, regardless of what leverage is technically available. On a £1,000 account, that is £10 per trade. On a £5,000 account, that is £50. This is a constraint on your loss per trade, not a suggestion.
+
+The practical application requires a position size calculator. Before entering any trade, you determine: your account size, your risk percentage, your entry price, and your stop loss distance. The calculator tells you the correct position size in lots or units. Use the [Drawdown position size calculator](/tools/risk-calculator) to do this for every trade you take.
+
+Leverage is a tool. Used correctly — with defined risk per trade, consistent stop losses, and position sizes that match the risk rule — it is manageable. Used as a way to make small accounts feel larger, it accelerates the most common outcome in retail trading.

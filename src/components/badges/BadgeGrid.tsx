@@ -46,8 +46,10 @@ const tierColors = {
 };
 
 export const allBadges: Badge[] = [
-  { key: "first_flight", name: "First Flight", description: "Successfully logged your first performance entry.", icon: Zap, tier: "bronze", earned: true, earnedAt: "2026-04-13" },
-  { key: "math_master", name: "Math Master", description: "Scored 100% on the Math of Survivability quiz.", icon: Brain, tier: "silver", earned: true, earnedAt: "2026-04-12" },
+  // earned/earnedAt are intentionally false/undefined here — the dashboard/page.tsx merge
+  // overrides these fields with real data from the user_badges Supabase table.
+  { key: "first_flight", name: "First Flight", description: "Successfully logged your first performance entry.", icon: Zap, tier: "bronze", earned: false },
+  { key: "math_master", name: "Math Master", description: "Scored 100% on the Math of Survivability quiz.", icon: Brain, tier: "silver", earned: false },
   { key: "disciplined", name: "Disciplined", description: "Maintained a 5-day journaling streak without error.", icon: Target, tier: "gold", earned: false },
   { key: "pete_approved", name: "Pete Approved", description: "Directly recognised for mechanical integrity.", icon: Award, tier: "gold", earned: false },
   { key: "edge_unlocked", name: "Edge Unlocked", description: "Gained full access to the AI intelligence engine.", icon: Shield, tier: "silver", earned: false },
@@ -61,25 +63,25 @@ export function BadgeGrid({ badges }: { badges: Badge[] }) {
   return (
     <div className="space-y-12">
       {/* Progress Summary */}
-      <div className="flex items-center gap-8 p-6 bg-background-surface border border-border-slate">
+      <div className="flex items-center gap-8 p-6 bg-white border border-mkt-bd">
         <div className="text-center">
-          <p className="text-3xl font-display font-black text-accent">{earned.length}</p>
-          <p className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary">Earned</p>
+          <p className="text-3xl font-sans font-black text-accent">{earned.length}</p>
+          <p className="text-[10px] font-mono uppercase tracking-widest text-mkt-i4">Earned</p>
         </div>
         <div className="h-12 w-px bg-border-slate" />
         <div className="text-center">
-          <p className="text-3xl font-display font-black text-text-tertiary">{locked.length}</p>
-          <p className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary">Locked</p>
+          <p className="text-3xl font-sans font-black text-mkt-i4">{locked.length}</p>
+          <p className="text-[10px] font-mono uppercase tracking-widest text-mkt-i4">Locked</p>
         </div>
         <div className="h-12 w-px bg-border-slate" />
         <div className="flex-grow">
-          <div className="h-2 bg-background-elevated rounded-full overflow-hidden">
+          <div className="h-2 bg-[#F7F7F7] rounded-full overflow-hidden">
             <div
               className="h-full bg-gradient-to-r from-accent to-profit rounded-full transition-all duration-1000"
               style={{ width: `${(earned.length / badges.length) * 100}%` }}
             />
           </div>
-          <p className="text-[9px] font-mono text-text-tertiary uppercase tracking-widest mt-2">
+          <p className="text-[9px] font-mono text-mkt-i4 uppercase tracking-widest mt-2">
             {Math.round((earned.length / badges.length) * 100)}% complete
           </p>
         </div>
@@ -88,7 +90,7 @@ export function BadgeGrid({ badges }: { badges: Badge[] }) {
       {/* Earned Badges */}
       {earned.length > 0 && (
         <div>
-          <h3 className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary mb-6">
+          <h3 className="text-[10px] font-mono uppercase tracking-widest text-mkt-i4 mb-6">
             Achievements Unlocked
           </h3>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
@@ -109,15 +111,15 @@ export function BadgeGrid({ badges }: { badges: Badge[] }) {
                     <Icon className={cn("w-6 h-6", colors.text)} />
                   </div>
                   <div>
-                    <p className={cn("text-xs font-display font-bold uppercase", colors.text)}>
+                    <p className={cn("text-xs font-sans font-bold uppercase", colors.text)}>
                       {badge.name}
                     </p>
-                    <p className="text-[9px] text-text-tertiary mt-1 leading-relaxed">
+                    <p className="text-[9px] text-mkt-i4 mt-1 leading-relaxed">
                       {badge.description}
                     </p>
                   </div>
                   {badge.earnedAt && (
-                    <p className="text-[8px] font-mono text-text-tertiary uppercase tracking-widest">
+                    <p className="text-[8px] font-mono text-mkt-i4 uppercase tracking-widest">
                       {badge.earnedAt}
                     </p>
                   )}
@@ -131,23 +133,23 @@ export function BadgeGrid({ badges }: { badges: Badge[] }) {
       {/* Locked Badges */}
       {locked.length > 0 && (
         <div>
-          <h3 className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary mb-6">
+          <h3 className="text-[10px] font-mono uppercase tracking-widest text-mkt-i4 mb-6">
             Locked
           </h3>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
             {locked.map((badge) => (
               <div
                 key={badge.key}
-                className="p-6 border border-border-slate/30 bg-background-primary text-center space-y-4 opacity-40 grayscale"
+                className="p-6 border border-mkt-bd/30 bg-white text-center space-y-4 opacity-40 grayscale"
               >
-                <div className="w-12 h-12 mx-auto flex items-center justify-center rounded-full bg-background-elevated">
-                  <Lock className="w-5 h-5 text-text-tertiary" />
+                <div className="w-12 h-12 mx-auto flex items-center justify-center rounded-full bg-[#F7F7F7]">
+                  <Lock className="w-5 h-5 text-mkt-i4" />
                 </div>
                 <div>
-                  <p className="text-xs font-display font-bold uppercase text-text-tertiary">
+                  <p className="text-xs font-sans font-bold uppercase text-mkt-i4">
                     {badge.name}
                   </p>
-                  <p className="text-[9px] text-text-tertiary mt-1 leading-relaxed">
+                  <p className="text-[9px] text-mkt-i4 mt-1 leading-relaxed">
                     {badge.description}
                   </p>
                 </div>

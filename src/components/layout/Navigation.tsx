@@ -1,210 +1,228 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
-import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { Menu, X, ChevronDown, Play, Clock, Shield, Zap, Brain, LineChart, Lock, LayoutDashboard, Calendar, Percent, Gauge, Radio, BarChart3, ArrowUpRight } from "lucide-react";
+import {
+  Menu,
+  X,
+  ChevronDown,
+  BookOpen,
+  Activity,
+  TrendingUp,
+  Sparkles,
+  Cpu,
+  Calculator,
+  Scan,
+  LineChart,
+  Terminal,
+  Newspaper,
+  Award,
+  Scale,
+  ShieldCheck,
+  Globe,
+  Zap,
+  Briefcase,
+  GitBranch,
+  FileText,
+  HelpCircle
+} from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { User } from "@supabase/supabase-js";
+import { useRegion } from "@/components/layout/RegionalLayout";
+import { checkIsAdmin } from "@/app/actions/auth-onboarding";
+import { motion, AnimatePresence } from "framer-motion";
 
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
-}
-
-import { phases } from "@/data/courses";
-import { ShieldCheck, BrainCircuit, Play as PlayIcon } from "lucide-react";
-import { ThemeToggle } from "@/components/ui/ThemeToggle";
-
-// Mapping icons to phases for Lucide components
-const iconMap: Record<string, any> = {
-  ShieldCheck,
-  LineChart,
-  Zap,
-  Lock,
-  BrainCircuit,
-  PlayIcon
+// Defined statically to keep the component clean
+const megaMenus = {
+  learn: {
+    links: [
+      { name: "Phases 1-2 (Foundation)", desc: "Ground Zero & Chart Reader modules", href: "/courses", icon: BookOpen, color: "text-indigo-500 bg-indigo-500/10" },
+      { name: "Phases 3-4 (Edge)", desc: "Strategist & Advanced Execution", href: "/courses", icon: Activity, color: "text-emerald-500 bg-emerald-500/10" },
+      { name: "Phases 5-6 (Mastery)", desc: "System Builder & Portfolio Management", href: "/courses", icon: TrendingUp, color: "text-rose-500 bg-rose-500/10" },
+      { name: "Start Phase 1 Free", desc: "No credit card or registration required", href: "/courses/ground-zero", icon: Sparkles, color: "text-amber-500 bg-amber-500/10" },
+      { name: "Deploy Your Algo — Mini Course", desc: "From generated code to live chart. £97 one-time.", href: "/courses/deploy-your-algo", icon: Terminal, color: "text-[#C8F135] bg-[#C8F135]/10" },
+    ],
+    featured: {
+      image: "/images/nav/phase-01.png",
+      badge: "FEATURED PHASE",
+      title: "Structured Trading Education",
+      desc: "Go from complete beginner to fully funded institutional trader. 6 detailed phases with zero hype.",
+      href: "/courses"
+    }
+  },
+  tools: {
+    links: [
+      { name: "Signal Centre", desc: "AI consensus signals — Claude + GPT-4o + Grok", href: "/signal-centre", icon: Zap, color: "text-[#C8F135] bg-[#C8F135]/10", badge: "NEW" },
+      { name: "AI Trade Journal", desc: "Upload CSV logs to extract emotional profiles", href: "/tools/ai-trade-journal", icon: BookOpen, color: "text-indigo-500 bg-indigo-500/10" },
+      { name: "Risk Calculator", desc: "Kelly allocation relative to drawdown limits", href: "/tools/risk-calculator", icon: Calculator, color: "text-emerald-500 bg-emerald-500/10" },
+      { name: "AI Market Scanner", desc: "Monitors order flow delta across 40+ pairs", href: "/tools/ai-market-scanner", icon: Scan, color: "text-cyan-500 bg-cyan-500/10" },
+      { name: "Strategy Backtester", desc: "Simulate rules on 10 years of tick data", href: "/tools/strategy-backtester", icon: LineChart, color: "text-rose-500 bg-rose-500/10" },
+      { name: "Algo Strategy Builder", desc: "Automatically generate Pine Script & Python", href: "/tools/algo-strategy-builder", icon: Terminal, color: "text-violet-500 bg-violet-500/10" },
+      { name: "Daily Intelligence Brief", desc: "Pre-market institutional flow breakdowns", href: "/tools/intelligence-hub", icon: Newspaper, color: "text-amber-500 bg-amber-500/10" }
+    ],
+    featured: {
+      image: "/images/tools/ai-market-scanner.png",
+      badge: "PROPRIETARY CORE",
+      title: "Proprietary AI Suite",
+      desc: "6 custom-built trading intelligence tools designed to remove emotional bias and standardise risk.",
+      href: "/tools"
+    }
+  },
+  brokers: {
+    links: [
+      { name: "Best UK Brokers", desc: "Pete's hand-picked regulated selections", href: "/brokers", icon: Award, color: "text-indigo-500 bg-indigo-500/10" },
+      { name: "Compare Brokers", desc: "Head-to-head spreads, fees, and leverage", href: "/compare", icon: Scale, color: "text-cyan-500 bg-cyan-500/10" },
+      { name: "All Brokers List", desc: "Full specifications comparison table", href: "/brokers/all", icon: ShieldCheck, color: "text-emerald-500 bg-emerald-500/10" },
+      { name: "Pepperstone Review", desc: "Deep dive into raw execution and fees", href: "/brokers/pepperstone", icon: TrendingUp, color: "text-amber-500 bg-amber-500/10" },
+      { name: "IG Markets Review", desc: "Industry leader for spread betting & CFDs", href: "/brokers/ig-markets", icon: Globe, color: "text-violet-500 bg-violet-500/10" },
+      { name: "IC Markets Review", desc: "Top choice for high-volume automated logic", href: "/brokers/ic-markets", icon: Zap, color: "text-rose-500 bg-rose-500/10" }
+    ],
+    featured: {
+      image: "/images/brokers/pepperstone-bg.png",
+      badge: "VERIFIED REGULATION",
+      title: "Verified Broker Comparisons",
+      desc: "Every broker we review is verified directly against official registers. Absolutely zero offshore scams.",
+      href: "/brokers"
+    }
+  },
+  propFirms: {
+    links: [
+      { name: "Best Prop Firms", desc: "Top-rated funded account evaluations", href: "/prop-firms", icon: Briefcase, color: "text-indigo-500 bg-indigo-500/10" },
+      { name: "FTMO Review", desc: "The industry standard evaluation benchmark", href: "/prop-firms/ftmo", icon: TrendingUp, color: "text-emerald-500 bg-emerald-500/10" },
+      { name: "The5ers Review", desc: "Flexible rules and excellent scaling plans", href: "/prop-firms/the5ers", icon: GitBranch, color: "text-rose-500 bg-rose-500/10" },
+      { name: "Funding Pips Review", desc: "Low-cost challenges with rapid payouts", href: "/prop-firms/funding-pips", icon: Zap, color: "text-cyan-500 bg-cyan-500/10" },
+      { name: "Prop Survival Kit", desc: "Blueprint to pass and keep funded accounts", href: "/store/prop-survival-kit", icon: FileText, color: "text-amber-500 bg-amber-500/10" },
+      { name: "Prop Firm Quiz", desc: "Find the perfect firm for your style", href: "/prop-firms/quiz", icon: HelpCircle, color: "text-violet-500 bg-violet-500/10" }
+    ],
+    featured: {
+      image: "/images/prop-firms/ftmo-bg.png",
+      badge: "FUNDING SYSTEM",
+      title: "Prop Evaluation Hub",
+      desc: "Honest evaluations, fee breakdowns, and the survival kit blueprint to beat evaluation rules.",
+      href: "/prop-firms"
+    }
+  }
 };
 
-const marketTools = [
-  {
-    name: "Markets Overview",
-    subtitle: "Real-time Ticker & Macro",
-    href: "/markets?tab=overview",
-    icon: LayoutDashboard,
-    type: "Command Center",
-    image: "/images/tools/terminal.png"
-  },
-  {
-    name: "Economic Calendar",
-    subtitle: "Global Macro Events",
-    href: "/markets?tab=calendar",
-    icon: Calendar,
-    type: "Macro Data",
-    image: "/images/tools/scanner.png"
-  },
-  {
-    name: "Market Scanner",
-    subtitle: "Technical Price Action",
-    href: "/markets?tab=scanner",
-    icon: Percent,
-    type: "Institutional",
-    image: "/images/tools/ai-market-scanner.png"
-  },
-  {
-    name: "Sentiment Index",
-    subtitle: "Psychology & Volatility",
-    href: "/markets?tab=sentiment",
-    icon: Gauge,
-    type: "Contrarian",
-    image: "/images/tools/ai-daily-briefing.png"
-  },
-  {
-    name: "Live News Feed",
-    subtitle: "Sentiment Aggregation",
-    href: "/markets?tab=news",
-    icon: Radio,
-    type: "Real-time",
-    image: "/images/tools/ai-trade-journal.png"
-  },
-  {
-    name: "Earnings Guide",
-    subtitle: "Corporate Reporting",
-    href: "/markets?tab=earnings",
-    icon: BarChart3,
-    type: "Fundamental",
-    image: "/images/tools/risk-calculator.png"
-  }
-];
-
-import { useRegion } from "@/components/layout/RegionalLayout";
-
 export function Navigation() {
-  const { label, region, flag } = useRegion();
-  const [isScrolled, setIsScrolled] = useState(false);
+  const { region, flag } = useRegion();
+  const pathname = usePathname();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [activeMegaMenu, setActiveMegaMenu] = useState<string | null>(null);
+  const [mobileExpanded, setMobileExpanded] = useState<Record<string, boolean>>({});
   const [user, setUser] = useState<User | null>(null);
-  const megaMenuTimeout = useRef<NodeJS.Timeout | null>(null);
-  const navRef = useRef<HTMLElement>(null);
+  const [isAdmin, setIsAdmin] = useState(false);
   const supabase = createClient();
+
+  const [activeMenu, setActiveMenu] = useState<"learn" | "tools" | "brokers" | "propFirms" | null>(null);
+  const [hoverTimeout, setHoverTimeout] = useState<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     const getUser = async () => {
       const { data } = await supabase.auth.getUser();
       setUser(data.user);
+      if (data.user?.email) {
+        const check = await checkIsAdmin(data.user.email);
+        setIsAdmin(check);
+      }
     };
     getUser();
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       setUser(session?.user ?? null);
+      if (session?.user?.email) {
+        checkIsAdmin(session.user.email).then(setIsAdmin);
+      } else {
+        setIsAdmin(false);
+      }
     });
 
-    return () => subscription.unsubscribe();
+    return () => {
+      subscription.unsubscribe();
+    };
   }, [supabase.auth]);
 
+  // Clean up timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (hoverTimeout) clearTimeout(hoverTimeout);
+    };
+  }, [hoverTimeout]);
+
+  // Determine if this is a dark markets page or a black-background blog page
+  const normalizedPathname = pathname ? pathname.replace(/^\/(au|us|sg|hk)/, "") : "";
+  const isDarkMarketPage = (
+    normalizedPathname === "/markets" || 
+    (normalizedPathname.startsWith("/markets/") &&
+     !normalizedPathname.startsWith("/markets/analysis") &&
+     !normalizedPathname.startsWith("/markets/pulse")) ||
+    normalizedPathname === "/blog/coffeezilla-alexg-trading-education" ||
+    normalizedPathname === "/blog/why-trading-gurus-use-demo-accounts" ||
+    normalizedPathname === "/blog/trading-education-business-model" ||
+    normalizedPathname === "/store/prop-survival-kit"
+  );
+
+
   const regionPrefix = region === "uk" ? "" : `/${region}`;
-  const learnHref = user ? "/learn" : `${regionPrefix}/courses`;
 
   const navLinks = [
-    { name: "Learn", href: learnHref, hasMegaMenu: true },
-    { name: "Markets", href: `${regionPrefix}/markets`, hasMegaMenu: true },
-    { name: "Prop Firms", href: "/prop-firms", hasMegaMenu: true },
-    { name: "Brokers", href: `${regionPrefix}/brokers`, hasMegaMenu: true },
-    { name: "Tools", href: "/tools" },
-    { name: "Resources", href: `${regionPrefix}/learn-to-trade`, hasMegaMenu: true },
+    { name: "Platform", href: `${regionPrefix}/platform` },
+    { name: "Learn", href: `${regionPrefix}/courses` },
+    { name: "Tools", href: `${regionPrefix}/tools` },
+    { name: "Markets", href: `${regionPrefix}/markets` },
+    { name: "Brokers", href: `${regionPrefix}/brokers` },
+    { name: "Prop Firms", href: "/prop-firms" },
+    { name: "Pricing", href: `${regionPrefix}/pricing` },
+    { name: "Blog", href: `${regionPrefix}/blog` },
   ];
 
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      ScrollTrigger.create({
-        start: "top top",
-        onUpdate: (self) => {
-          setIsScrolled(self.scroll() > 50);
-        },
-      });
-    }, navRef);
-
-    return () => ctx.revert();
-  }, []);
-
-  const handleMegaMenuEnter = (linkName: string) => {
-    if (megaMenuTimeout.current) clearTimeout(megaMenuTimeout.current);
-    setActiveMegaMenu(linkName);
+  const handleMouseEnter = (menu: "learn" | "tools" | "brokers" | "propFirms") => {
+    if (hoverTimeout) clearTimeout(hoverTimeout);
+    setActiveMenu(menu);
   };
 
-  const handleMegaMenuLeave = () => {
-    megaMenuTimeout.current = setTimeout(() => {
-      setActiveMegaMenu(null);
-    }, 200);
+  const handleMouseLeave = () => {
+    if (hoverTimeout) clearTimeout(hoverTimeout);
+    const timeout = setTimeout(() => {
+      setActiveMenu(null);
+    }, 300);
+    setHoverTimeout(timeout);
+  };
+
+  const handleHeaderMouseEnter = () => {
+    if (hoverTimeout) clearTimeout(hoverTimeout);
+  };
+
+  const toggleMobileExpand = (name: string) => {
+    setMobileExpanded((prev) => ({
+      ...prev,
+      [name]: !prev[name],
+    }));
   };
 
   return (
-    <>
-      <nav
-        ref={navRef}
-        className={cn(
-          "fixed top-8 left-0 w-full z-[70] py-6 transition-all duration-500 transition-premium",
-          isScrolled ? "bg-background-primary/90 backdrop-blur-md border-b border-border-slate py-4" : "bg-transparent"
-        )}
-      >
-        <div className="container mx-auto px-6 flex justify-between items-center">
-          {/* Logo & Flag */}
-          <div className="flex items-center gap-4">
-            <Link href={region === 'uk' ? "/" : `/${region}`} className="text-2xl font-display font-extrabold tracking-widest-xl uppercase hover:opacity-80 transition-opacity flex items-end">
-              Drawdown<span className="text-accent ml-0.5">.</span>
-            </Link>
-            <div className="flex items-center gap-2 px-2.5 py-1 bg-background-elevated border border-border-slate/50 rounded-full group cursor-default">
-              <span className="text-sm grayscale group-hover:grayscale-0 transition-all duration-500 leading-none">{flag}</span>
-              <span className="text-[9px] font-mono font-bold text-text-tertiary uppercase tracking-widest border-l border-border-slate/50 pl-2">{label}</span>
-            </div>
-          </div>
-
-          {/* Desktop Links */}
-          <div className="hidden lg:flex items-center gap-10">
-            {navLinks.map((link) => (
-              <div
-                key={link.name}
-                className="relative"
-                onMouseEnter={link.hasMegaMenu ? () => handleMegaMenuEnter(link.name) : undefined}
-                onMouseLeave={link.hasMegaMenu ? handleMegaMenuLeave : undefined}
-              >
-                <Link
-                  href={link.href}
-                  className="group flex items-center gap-1 text-sm font-medium uppercase tracking-widest text-text-secondary hover:text-text-primary transition-colors"
-                >
-                  {link.name}
-                  {link.hasMegaMenu && (
-                    <ChevronDown className={cn(
-                      "w-4 h-4 transition-transform duration-300",
-                      activeMegaMenu === link.name ? "rotate-180 text-accent" : ""
-                    )} />
-                  )}
-                </Link>
-              </div>
-            ))}
-          </div>
-
-          {/* Auth Actions */}
-          <div className="hidden lg:flex items-center gap-6">
-            <ThemeToggle />
-            <Link href="/login" className="text-sm font-medium uppercase tracking-widest text-text-secondary hover:text-text-primary transition-colors">
-              Login
-            </Link>
-            <Link 
-              href={`${regionPrefix}/signup`} 
-              className="px-6 py-2.5 bg-accent hover:bg-accent-hover text-background-primary text-sm font-bold uppercase tracking-widest transition-colors rounded-none"
-            >
-              Start Free
-            </Link>
-          </div>
-
-          {/* Mobile Toggle */}
-          <button 
-            className="lg:hidden p-2 text-text-primary"
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+    <header
+      className={cn(
+        "fixed top-0 left-0 w-full z-[200] h-[58px] flex items-center select-none border-b transition-colors duration-200",
+        isDarkMarketPage 
+          ? "bg-[#0A0A0A] border-white/5 text-white" 
+          : "bg-mkt-bg border-mkt-bd text-mkt-ink"
+      )}
+      onMouseEnter={handleHeaderMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
+      <div className="w-full max-w-7xl mx-auto px-6 flex justify-between items-center relative h-full">
+        {/* Logo + Flag Pill */}
+        <div className="flex items-center gap-3">
+          <Link
+            href={region === 'uk' ? "/" : `/${region}`}
+            onMouseEnter={() => setActiveMenu(null)}
+            className={cn(
+              "text-2xl font-sans font-extrabold tracking-[-0.04em] hover:opacity-85 transition-opacity",
+              isDarkMarketPage ? "text-white" : "text-mkt-ink"
+            )}
+            style={{ fontWeight: 800 }}
           >
             {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
@@ -557,60 +575,454 @@ export function Navigation() {
             )}
           </div>
         </div>
-      </div>
 
-      {/* Mobile Menu Overlay */}
-      <div 
-        className={cn(
-          "fixed inset-0 z-40 bg-background-primary transition-transform duration-500 transition-premium lg:hidden",
-          isMobileMenuOpen ? "translate-x-0" : "translate-x-full"
-        )}
-      >
-        <div className="flex flex-col h-full pt-32 px-6 pb-12">
-          {/* Regional Indicator */}
-          <div className="flex items-center gap-3 mb-10 px-4 py-2 bg-background-elevated border border-border-slate/50 w-fit">
-            <span className="text-xl">{flag}</span>
-            <span className="text-xs font-mono font-bold text-text-tertiary uppercase tracking-widest">{label}</span>
-          </div>
+        {/* Desktop Navigation Links */}
+        <nav className="hidden lg:flex items-center gap-5 xl:gap-8 h-full">
+          {navLinks.map((link) => {
+            const isMegaMenu = ["Learn", "Tools", "Brokers", "Prop Firms"].includes(link.name);
+            const menuKey = link.name === "Prop Firms" ? "propFirms" : (link.name.toLowerCase() as "learn" | "tools" | "brokers" | "propFirms");
 
-          <div className="flex flex-col gap-8">
-            {navLinks.map((link) => (
+            if (isMegaMenu) {
+              return (
+                <div
+                  key={link.name}
+                  className="relative h-full flex items-center"
+                  onMouseEnter={() => handleMouseEnter(menuKey)}
+                >
+                  <Link
+                    href={link.href}
+                    onClick={() => setActiveMenu(null)}
+                    className={cn(
+                      "text-sm font-medium transition-colors duration-155 font-sans flex items-center gap-1 cursor-pointer h-full border-b-2 border-transparent",
+                      activeMenu === menuKey
+                        ? (isDarkMarketPage ? "text-[#C8F135] border-[#C8F135]" : "text-mkt-grn border-mkt-grn")
+                        : (isDarkMarketPage ? "text-white/60 hover:text-white" : "text-mkt-i3 hover:text-mkt-ink")
+                    )}
+                  >
+                    {link.name}
+                    <ChevronDown className={cn(
+                      "w-3 h-3 transition-transform duration-200",
+                      activeMenu === menuKey && "rotate-180"
+                    )} />
+                  </Link>
+                </div>
+              );
+            }
+
+            return (
               <Link
                 key={link.name}
                 href={link.href}
-                className="text-3xl font-display font-bold uppercase tracking-widest text-text-primary"
-                onClick={() => setIsMobileMenuOpen(false)}
+                onMouseEnter={() => setActiveMenu(null)}
+                className={cn(
+                  "text-sm font-medium transition-colors duration-155 font-sans h-full flex items-center border-b-2 border-transparent hover:border-b-2 hover:border-current",
+                  isDarkMarketPage 
+                    ? "text-white/60 hover:text-white" 
+                    : "text-mkt-i3 hover:text-mkt-ink"
+                )}
               >
                 {link.name}
               </Link>
-            ))}
-            <Link href="/prop-firms" className="text-3xl font-display font-bold uppercase tracking-widest text-text-primary" onClick={() => setIsMobileMenuOpen(false)}>
-              Prop Firms
-            </Link>
-            <Link href={`${regionPrefix}/glossary`} className="text-xl font-display font-bold uppercase tracking-widest text-text-secondary hover:text-accent" onClick={() => setIsMobileMenuOpen(false)}>Glossary</Link>
-            <Link href={`${regionPrefix}/how-to`} className="text-xl font-display font-bold uppercase tracking-widest text-text-secondary hover:text-accent" onClick={() => setIsMobileMenuOpen(false)}>How-To Guides</Link>
-            <Link href={`${regionPrefix}/compare`} className="text-xl font-display font-bold uppercase tracking-widest text-text-secondary hover:text-accent" onClick={() => setIsMobileMenuOpen(false)}>Comparisons</Link>
-            <Link href={`${regionPrefix}/blog`} className="text-xl font-display font-bold uppercase tracking-widest text-text-secondary hover:text-accent" onClick={() => setIsMobileMenuOpen(false)}>Blog</Link>
-            <Link href={`${regionPrefix}/pricing`} className="text-xl font-display font-bold uppercase tracking-widest text-text-secondary hover:text-accent" onClick={() => setIsMobileMenuOpen(false)}>Pricing</Link>
-          </div>
-          <div className="mt-auto flex flex-col gap-6">
-            <Link 
-              href="/login" 
-              className="text-xl font-display font-bold uppercase tracking-widest text-text-secondary"
-              onClick={() => setIsMobileMenuOpen(false)}
+            );
+          })}
+        </nav>
+
+        {/* Desktop Action Buttons */}
+        <div 
+          className="hidden lg:flex items-center gap-3"
+          onMouseEnter={() => setActiveMenu(null)}
+        >
+          {user && isAdmin && (
+            <Link
+              href="/admin"
+              className={cn(
+                "text-sm font-semibold transition-colors font-sans mr-2",
+                isDarkMarketPage ? "text-[#C8F135] hover:text-[#D8F155]" : "text-mkt-grn hover:text-mkt-i2"
+              )}
             >
-              Login
+              Control Panel
             </Link>
-            <Link 
-              href="/signup" 
-              className="w-full py-5 bg-accent text-background-primary text-center font-bold uppercase tracking-widest"
-              onClick={() => setIsMobileMenuOpen(false)}
+          )}
+          {user ? (
+            <Link
+              href="/dashboard"
+              className={cn(
+                "px-5 py-2 rounded-lg text-sm font-medium transition-colors font-sans",
+                isDarkMarketPage 
+                  ? "bg-white hover:bg-white/90 text-black" 
+                  : "bg-mkt-ink hover:bg-mkt-i2 text-mkt-bg"
+              )}
             >
-              Start Free
+              Go to Dashboard
             </Link>
+          ) : (
+            <>
+              <Link
+                href="/login"
+                className={cn(
+                  "text-sm font-medium mr-6 transition-colors font-sans",
+                  isDarkMarketPage 
+                    ? "text-white/60 hover:text-white" 
+                    : "text-mkt-i3 hover:text-mkt-ink"
+                )}
+              >
+                Login
+              </Link>
+              <Link
+                href="/signup"
+                className={cn(
+                  "px-5 py-2 rounded-lg text-sm font-medium transition-colors font-sans",
+                  isDarkMarketPage 
+                    ? "bg-white hover:bg-white/90 text-black" 
+                    : "bg-mkt-ink hover:bg-mkt-i2 text-mkt-bg"
+                )}
+              >
+                Start Free
+              </Link>
+            </>
+          )}
+        </div>
+
+        {/* Mobile Menu Toggle */}
+        <button
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          className={cn(
+            "lg:hidden p-2 transition-colors z-[210]",
+            isDarkMarketPage 
+              ? "text-white/60 hover:text-white" 
+              : "text-mkt-i3 hover:text-mkt-ink"
+          )}
+          aria-label="Toggle menu"
+        >
+          {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+        </button>
+
+        {/* Mega Menu Dropdown (Desktop) */}
+        <AnimatePresence>
+          {activeMenu && (
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 10 }}
+              transition={{ duration: 0.15, ease: "easeOut" }}
+              className={cn(
+                "absolute left-6 right-6 top-[56px] rounded-b-2xl border-x border-b shadow-2xl p-6 grid grid-cols-12 gap-8 z-[190] backdrop-blur-md transition-colors duration-200 mx-auto max-w-[840px]",
+                isDarkMarketPage
+                  ? "bg-[#0C0C0D]/95 border-white/5 text-white shadow-black/80"
+                  : "bg-white/95 border-mkt-bd text-mkt-ink shadow-neutral-200/50"
+              )}
+              onMouseEnter={() => {
+                if (hoverTimeout) clearTimeout(hoverTimeout);
+              }}
+            >
+              {/* Left side: Grid of Links (col-span-8) */}
+              <div className="col-span-8 grid grid-cols-2 gap-x-6 gap-y-4">
+                {megaMenus[activeMenu].links.map((link) => {
+                  const Icon = link.icon;
+                  const isPropFirmOrStore = link.href.startsWith("/prop-firms") || link.href.startsWith("/store") || link.href.startsWith("/brokers") || link.href.startsWith("/compare");
+                  const finalHref = isPropFirmOrStore ? link.href : `${regionPrefix}${link.href}`;
+                  
+                  return (
+                    <Link
+                      key={link.name}
+                      href={finalHref}
+                      className={cn(
+                        "group/link flex gap-3 p-2.5 rounded-xl transition-all duration-200",
+                        isDarkMarketPage
+                          ? "hover:bg-white/5"
+                          : "hover:bg-neutral-50"
+                      )}
+                      onClick={() => setActiveMenu(null)}
+                    >
+                      <div className={cn("w-9 h-9 rounded-lg flex items-center justify-center shrink-0", link.color)}>
+                        <Icon className="w-5 h-5" />
+                      </div>
+                      <div className="flex flex-col gap-0.5 justify-center">
+                        <span className={cn(
+                          "text-sm font-semibold transition-colors font-sans flex items-center gap-1.5",
+                          isDarkMarketPage
+                            ? "text-white group-hover/link:text-[#C8F135]"
+                            : "text-mkt-ink group-hover/link:text-mkt-grn"
+                        )}>
+                          {link.name}
+                          {(link as any).badge && (
+                            <span className="text-[7px] font-mono font-black tracking-widest text-black bg-[#C8F135] px-1 py-0.5 rounded uppercase leading-none">
+                              {(link as any).badge}
+                            </span>
+                          )}
+                        </span>
+                        <span className={cn(
+                          "text-xs font-sans",
+                          isDarkMarketPage ? "text-neutral-400" : "text-mkt-i3"
+                        )}>
+                          {link.desc}
+                        </span>
+                      </div>
+                    </Link>
+                  );
+                })}
+              </div>
+
+              {/* Right side: Featured Showcase Card (col-span-4) */}
+              <div className="col-span-4 flex">
+                <Link
+                  href={
+                    megaMenus[activeMenu].featured.href.startsWith("/prop-firms") || megaMenus[activeMenu].featured.href.startsWith("/store")
+                      ? megaMenus[activeMenu].featured.href
+                      : `${regionPrefix}${megaMenus[activeMenu].featured.href}`
+                  }
+                  className="group/card relative flex flex-col justify-end w-full min-h-[220px] rounded-xl overflow-hidden p-5 border border-mkt-bd/20"
+                  onClick={() => setActiveMenu(null)}
+                >
+                  {/* Background image container */}
+                  <div className="absolute inset-0 z-0">
+                    <img
+                      src={megaMenus[activeMenu].featured.image}
+                      alt={megaMenus[activeMenu].featured.title}
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover/card:scale-105"
+                    />
+                    <div className={cn(
+                      "absolute inset-0 bg-gradient-to-t z-10 transition-opacity duration-300",
+                      isDarkMarketPage
+                        ? "from-[#0A0A0A]/95 via-[#0A0A0A]/50 to-transparent group-hover/card:from-[#0A0A0A]"
+                        : "from-black/90 via-black/40 to-transparent group-hover/card:from-black"
+                    )} />
+                  </div>
+
+                  {/* Card Content */}
+                  <div className="relative z-20 space-y-1.5 text-white">
+                    <span className="text-[9px] font-mono font-bold tracking-widest text-[#C8F135] bg-[#C8F135]/10 px-2 py-0.5 rounded border border-[#C8F135]/20 uppercase w-fit block">
+                      {megaMenus[activeMenu].featured.badge}
+                    </span>
+                    <h4 className="text-sm font-semibold leading-tight font-sans tracking-tight">
+                      {megaMenus[activeMenu].featured.title}
+                    </h4>
+                    <p className="text-xs text-neutral-300 leading-relaxed font-sans font-light">
+                      {megaMenus[activeMenu].featured.desc}
+                    </p>
+                    <span className="text-[10px] font-semibold text-[#C8F135] group-hover/card:translate-x-1 transition-transform inline-flex items-center gap-1 font-mono uppercase tracking-wider mt-1">
+                      Explore →
+                    </span>
+                  </div>
+                </Link>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+
+      {/* Mobile Menu Overlay */}
+      {isMobileMenuOpen && (
+        <div 
+          className={cn(
+            "fixed inset-0 top-[58px] z-[199] lg:hidden flex flex-col px-6 py-8 border-t",
+            isDarkMarketPage 
+              ? "bg-[#0A0A0A] border-white/5" 
+              : "bg-mkt-bg border-mkt-bd"
+          )}
+        >
+          <nav className="flex flex-col gap-2 overflow-y-auto max-h-[calc(100vh-220px)] pr-2">
+            {navLinks.map((link) => {
+              const isMegaMenu = ["Learn", "Tools", "Brokers", "Prop Firms"].includes(link.name);
+              const menuKey = link.name === "Prop Firms" ? "propFirms" : (link.name.toLowerCase() as "learn" | "tools" | "brokers" | "propFirms");
+              const isExpanded = !!mobileExpanded[link.name];
+
+              if (isMegaMenu) {
+                return (
+                  <div key={link.name} className="flex flex-col border-b border-neutral-100 dark:border-white/5">
+                    <button
+                      onClick={() => toggleMobileExpand(link.name)}
+                      className={cn(
+                        "text-lg font-medium py-3 flex items-center justify-between transition-colors min-h-[48px] font-sans w-full text-left",
+                        isDarkMarketPage ? "text-white/80 hover:text-white" : "text-mkt-i3 hover:text-mkt-ink"
+                      )}
+                    >
+                      <span>{link.name}</span>
+                      <ChevronDown className={cn(
+                        "w-4 h-4 transition-transform duration-200",
+                        isExpanded && "rotate-180"
+                      )} />
+                    </button>
+                    
+                    {/* Expanded sub-links */}
+                    <AnimatePresence initial={false}>
+                      {isExpanded && (
+                        <motion.div
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: "auto", opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          transition={{ duration: 0.2, ease: "easeInOut" }}
+                          className="overflow-hidden"
+                        >
+                          <div className="pl-4 pb-4 pt-1 flex flex-col gap-3">
+                            {megaMenus[menuKey].links.map((subLink) => {
+                              const SubIcon = subLink.icon;
+                              const isPropFirmOrStore = subLink.href.startsWith("/prop-firms") || subLink.href.startsWith("/store") || subLink.href.startsWith("/brokers") || subLink.href.startsWith("/compare");
+                              const finalSubHref = isPropFirmOrStore ? subLink.href : `${regionPrefix}${subLink.href}`;
+                              
+                              return (
+                                <Link
+                                  key={subLink.name}
+                                  href={finalSubHref}
+                                  onClick={() => {
+                                    setIsMobileMenuOpen(false);
+                                    setMobileExpanded({});
+                                  }}
+                                  className="flex items-center gap-3 py-1"
+                                >
+                                  <div className={cn("w-7 h-7 rounded-md flex items-center justify-center shrink-0", subLink.color)}>
+                                    <SubIcon className="w-4 h-4" />
+                                  </div>
+                                  <div className="flex flex-col">
+                                    <span className={cn(
+                                      "text-xs font-bold font-sans",
+                                      isDarkMarketPage ? "text-white" : "text-mkt-ink"
+                                    )}>
+                                      {subLink.name}
+                                    </span>
+                                    <span className="text-[9px] text-neutral-400 font-sans">
+                                      {subLink.desc}
+                                    </span>
+                                  </div>
+                                </Link>
+                              );
+                            })}
+                            
+                            {/* Mobile featured showcase card */}
+                            <Link
+                              href={
+                                megaMenus[menuKey].featured.href.startsWith("/prop-firms") || megaMenus[menuKey].featured.href.startsWith("/store")
+                                  ? megaMenus[menuKey].featured.href
+                                  : `${regionPrefix}${megaMenus[menuKey].featured.href}`
+                              }
+                              className={cn(
+                                "mt-2 group/card relative flex flex-col justify-end w-full min-h-[90px] rounded-xl overflow-hidden p-4 border",
+                                isDarkMarketPage ? "border-white/5 bg-white/[0.01]" : "border-neutral-100 bg-neutral-50/50"
+                              )}
+                              onClick={() => {
+                                setIsMobileMenuOpen(false);
+                                setMobileExpanded({});
+                              }}
+                            >
+                              <div className="absolute inset-0 z-0">
+                                <img
+                                  src={megaMenus[menuKey].featured.image}
+                                  alt={megaMenus[menuKey].featured.title}
+                                  className="w-full h-full object-cover opacity-20"
+                                />
+                                <div className={cn(
+                                  "absolute inset-0 bg-gradient-to-t z-10",
+                                  isDarkMarketPage ? "from-black/95 via-black/40 to-transparent" : "from-black/90 via-black/30 to-transparent"
+                                )} />
+                              </div>
+                              <div className="relative z-20 space-y-1 text-white">
+                                <span className="text-[7px] font-mono font-bold tracking-widest text-[#C8F135] bg-[#C8F135]/15 px-1.5 py-0.5 rounded border border-[#C8F135]/25 uppercase w-fit block">
+                                  {megaMenus[menuKey].featured.badge}
+                                </span>
+                                <h4 className="text-[11px] font-bold font-sans">
+                                  {megaMenus[menuKey].featured.title}
+                                </h4>
+                                <p className="text-[9px] text-neutral-300 font-sans font-light leading-snug">
+                                  {megaMenus[menuKey].featured.desc}
+                                </p>
+                              </div>
+                            </Link>
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                );
+              }
+
+              return (
+                <Link
+                  key={link.name}
+                  href={link.href}
+                  onClick={() => {
+                    setIsMobileMenuOpen(false);
+                    setMobileExpanded({});
+                  }}
+                  className={cn(
+                    "text-lg font-medium py-3 border-b flex items-center transition-colors min-h-[48px] font-sans",
+                    isDarkMarketPage 
+                      ? "text-white/80 hover:text-white border-white/5" 
+                      : "text-mkt-i3 hover:text-mkt-ink border-neutral-100"
+                  )}
+                >
+                  {link.name}
+                </Link>
+              );
+            })}
+          </nav>
+
+          {/* Action buttons at the bottom of drawer */}
+          <div className="mt-auto flex flex-col gap-4 pt-6 border-t border-neutral-100 dark:border-white/5">
+            {user && isAdmin && (
+              <Link
+                href="/admin"
+                onClick={() => {
+                  setIsMobileMenuOpen(false);
+                  setMobileExpanded({});
+                }}
+                className="text-center py-3 rounded-lg text-sm font-semibold border border-white/10 text-[#C8F135] min-h-[48px] flex items-center justify-center font-sans"
+              >
+                Control Panel
+              </Link>
+            )}
+            {user ? (
+              <Link
+                href="/dashboard"
+                onClick={() => {
+                  setIsMobileMenuOpen(false);
+                  setMobileExpanded({});
+                }}
+                className={cn(
+                  "text-center py-3 rounded-lg text-sm font-medium transition-colors min-h-[48px] flex items-center justify-center font-sans",
+                  isDarkMarketPage 
+                    ? "bg-white hover:bg-white/90 text-black" 
+                    : "bg-mkt-ink hover:bg-mkt-i2 text-mkt-bg"
+                )}
+              >
+                Go to Dashboard
+              </Link>
+            ) : (
+              <>
+                <Link
+                  href="/login"
+                  onClick={() => {
+                    setIsMobileMenuOpen(false);
+                    setMobileExpanded({});
+                  }}
+                  className={cn(
+                    "text-center py-3 text-sm font-medium transition-colors min-h-[48px] flex items-center justify-center font-sans",
+                    isDarkMarketPage 
+                      ? "text-white/60 hover:text-white" 
+                      : "text-mkt-i3 hover:text-mkt-ink"
+                  )}
+                >
+                  Login
+                </Link>
+                <Link
+                  href="/signup"
+                  onClick={() => {
+                    setIsMobileMenuOpen(false);
+                    setMobileExpanded({});
+                  }}
+                  className={cn(
+                    "text-center py-3 rounded-lg text-sm font-medium transition-colors min-h-[48px] flex items-center justify-center font-sans",
+                    isDarkMarketPage 
+                      ? "bg-white hover:bg-white/90 text-black" 
+                      : "bg-mkt-ink hover:bg-mkt-i2 text-mkt-bg"
+                  )}
+                >
+                  Start Free
+                </Link>
+              </>
+            )}
           </div>
         </div>
-      </div>
-    </>
+      )}
+    </header>
   );
 }

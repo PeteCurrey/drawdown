@@ -17,18 +17,20 @@ import {
   Target,
   Brain,
   Mail,
-  Link2
+  Link2,
+  FileText
 } from "lucide-react";
 
 const NAV_ITEMS = [
   { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
+  { href: "/admin/emails", label: "Emails History", icon: Mail },
+  { href: "/admin/subscribers", label: "Subscribers", icon: Users },
+  { href: "/admin/blog", label: "Blog Manager", icon: FileText },
   { href: "/admin/intelligence", label: "Intelligence Suite", icon: Brain },
-  { href: "/admin/users", label: "Traders & Users", icon: Users },
   { href: "/admin/leads", label: "Leads Inbox", icon: Inbox },
   { href: "/admin/partners", label: "Partners", icon: Network },
   { href: "/admin/content", label: "Content & Institutes", icon: BookOpen },
   { href: "/admin/marketing", label: "Marketing & SEO", icon: Target },
-  { href: "/admin/newsletter", label: "The Wire Newsletter", icon: Mail },
   { href: "/admin/affiliates", label: "Affiliate Manager", icon: Link2 },
   { href: "/admin/landing-pages", label: "Landing Pages", icon: LayoutTemplate },
   { href: "/admin/seo", label: "SEO Suite", icon: Search },
@@ -42,10 +44,10 @@ export function AdminSidebar() {
   return (
     <aside className="w-full lg:w-64 space-y-6 flex-shrink-0">
       <div className="flex items-center gap-4 px-6 mb-8">
-        <ShieldAlert className="w-6 h-6 text-accent" />
+        <ShieldAlert className="w-6 h-6 text-mkt-grn" />
         <div>
-          <span className="text-accent font-mono text-[8px] uppercase tracking-widest block mb-0.5">// INTERNAL COMMAND</span>
-          <h2 className="text-xl font-display font-bold uppercase tracking-tight">Admin.</h2>
+          <span className="text-mkt-i4 font-mono text-[8px] uppercase tracking-widest block mb-0.5">// INTERNAL COMMAND</span>
+          <h2 className="text-xl font-display font-bold uppercase tracking-tight text-mkt-ink">Admin.</h2>
         </div>
       </div>
 
@@ -59,10 +61,10 @@ export function AdminSidebar() {
               key={item.href}
               href={item.href}
               className={cn(
-                "w-full flex items-center gap-4 px-6 py-3 text-[10px] font-bold uppercase tracking-widest transition-all",
+                "w-full flex items-center gap-4 px-6 py-3 text-[10px] font-bold uppercase tracking-widest transition-all rounded-lg",
                 isActive 
-                  ? "bg-accent text-background-primary shadow-lg shadow-accent/20" 
-                  : "text-text-tertiary hover:bg-background-elevated hover:text-text-primary"
+                  ? "bg-mkt-ink text-white shadow-sm" 
+                  : "text-mkt-i3 hover:bg-neutral-100 hover:text-mkt-ink"
               )}
             >
               <Icon className="w-4 h-4" />
@@ -71,13 +73,18 @@ export function AdminSidebar() {
           );
         })}
         
-        <div className="pt-8 mt-8 border-t border-border-slate/30">
+        <div className="pt-8 mt-8 border-t border-mkt-bd">
           <Link 
-            href="/admin/integrations"
-            className="w-full flex items-center gap-4 px-6 py-3 text-[10px] font-bold uppercase tracking-widest text-text-tertiary hover:text-text-primary transition-colors"
+            href="/admin/settings"
+            className={cn(
+              "w-full flex items-center gap-4 px-6 py-3 text-[10px] font-bold uppercase tracking-widest transition-all rounded-lg",
+              pathname.startsWith("/admin/settings")
+                ? "bg-mkt-ink text-white shadow-sm"
+                : "text-mkt-i3 hover:bg-neutral-100 hover:text-mkt-ink"
+            )}
           >
             <Settings className="w-4 h-4" />
-            Settings
+            Author Settings
           </Link>
         </div>
       </nav>

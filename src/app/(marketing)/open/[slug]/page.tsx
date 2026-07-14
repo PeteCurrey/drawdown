@@ -26,8 +26,8 @@ export default function BrokerBridgePage() {
   }
 
   return (
-    <div className="min-h-screen bg-background-primary pt-32 pb-24">
-      <div className="container mx-auto px-6 max-w-4xl">
+    <div className="min-h-screen pt-28 pb-24">
+      <div className="max-w-7xl mx-auto px-6 max-w-4xl">
         
         {/* Back link */}
         <Link 
@@ -39,25 +39,25 @@ export default function BrokerBridgePage() {
 
         <div className="space-y-12 animate-in fade-in slide-in-from-bottom-4 duration-700">
            {/* Header / Identity */}
-           <div className="flex flex-col md:flex-row md:items-center justify-between gap-8 pb-12 border-b border-border-slate">
+           <div className="flex flex-col md:flex-row md:items-center justify-between gap-8 pb-12 border-b border-border-slate/50">
               <div className="flex items-center gap-6">
-                 <div className="w-20 h-20 bg-white p-4 rounded-xl flex items-center justify-center border border-border-slate">
+                 <div className="w-20 h-20 p-4 rounded-xl flex items-center justify-center border border-border-slate/50">
                     {/* Placeholder for logo since we use SVGs from public/brokers */}
                     <span className="text-background-primary font-black text-xl">{broker.name.slice(0, 2).toUpperCase()}</span>
                  </div>
                  <div className="space-y-2">
                     <div className="flex items-center gap-2">
-                       <h1 className="text-4xl font-display font-bold uppercase">{broker.name}</h1>
+                       <h1 className="text-4xl font-sans font-bold uppercase">{broker.name}</h1>
                        {broker.fcaRegulated && (
                           <div className="group relative">
                              <ShieldCheck className="w-6 h-6 text-profit" />
-                             <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-48 p-2 bg-background-elevated border border-border-slate text-[8px] font-mono uppercase text-center hidden group-hover:block">
+                             <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-48 p-2 bg-background-elevated/40 border border-border-slate/50 text-[8px] font-mono uppercase text-center hidden group-hover:block">
                                 FCA Regulated & FSCS Protected
                              </div>
                           </div>
                        )}
                     </div>
-                    <p className="text-text-secondary text-lg font-display italic">"{broker.oneLine}"</p>
+                    <p className="text-text-secondary text-lg font-sans italic">"{broker.oneLine}"</p>
                  </div>
               </div>
               
@@ -79,9 +79,9 @@ export default function BrokerBridgePage() {
                 { label: "Avg. Spreads", value: broker.spreads },
                 { label: "Regulation", value: broker.fcaRegulated ? "FCA (UK)" : "Global Tier-1" },
               ].map((stat, i) => (
-                <div key={i} className="p-6 bg-background-surface border border-border-slate space-y-1">
+                <div key={i} className="p-6 bg-background-surface/40 backdrop-blur-md border border-border-slate/50 transition-all duration-300 hover:shadow-[0_0_20px_rgba(0,0,0,0.2)] hover:border-border-slate hover:-translate-y-0.5 space-y-1">
                    <p className="text-[9px] font-mono text-text-tertiary uppercase tracking-widest">{stat.label}</p>
-                   <p className="text-xl font-display font-bold uppercase">{stat.value}</p>
+                   <p className="text-xl font-sans font-bold uppercase">{stat.value}</p>
                 </div>
               ))}
            </div>
@@ -102,7 +102,7 @@ export default function BrokerBridgePage() {
 
               <div className="space-y-6">
                  <h3 className="text-xs font-mono font-bold uppercase tracking-widest text-text-tertiary">The Honest Take</h3>
-                 <div className="p-8 bg-background-elevated border-l-4 border-accent space-y-4">
+                 <div className="p-8 bg-background-elevated/40 border-l-4 border-border-slate/50 space-y-4">
                     <Zap className="w-6 h-6 text-accent" />
                     <p className="text-sm text-text-primary leading-relaxed italic">
                        "If you're looking for {broker.category === 'Forex' ? 'raw execution and no nonsense' : 'a solid all-round platform'}, {broker.name} is where we send most of our private community members. They don't play games with fills."
@@ -114,11 +114,11 @@ export default function BrokerBridgePage() {
 
            {/* CTA Section */}
            <div className="pt-12">
-              <div className="p-12 bg-background-surface border border-border-slate flex flex-col items-center text-center space-y-8 relative overflow-hidden group">
+              <div className="p-12 bg-background-surface/40 backdrop-blur-md border border-border-slate/50 transition-all duration-300 hover:shadow-[0_0_20px_rgba(0,0,0,0.2)] hover:border-border-slate hover:-translate-y-0.5 flex flex-col items-center text-center space-y-8 relative overflow-hidden group">
                  <div className="absolute top-0 left-0 w-full h-1 bg-accent" />
                  
                  <div className="space-y-2 relative z-10">
-                    <h2 className="text-3xl font-display font-bold uppercase">Ready to Open Your Account?</h2>
+                    <h2 className="text-3xl font-sans font-bold uppercase">Ready to Open Your Account?</h2>
                     <p className="text-text-tertiary text-sm max-w-lg mx-auto">
                        Click below to visit {broker.name} via our secure partner link. You'll get our specific community terms and priority support.
                     </p>
@@ -126,7 +126,7 @@ export default function BrokerBridgePage() {
 
                  <Link 
                    href={`/go/${broker.slug}`}
-                   className="px-12 py-6 bg-accent text-background-primary font-bold uppercase tracking-widest text-sm hover:invert transition-all flex items-center gap-3 relative z-10"
+                   className="px-12 py-6 bg-mkt-ink text-white font-bold uppercase tracking-widest text-sm hover:invert transition-all flex items-center gap-3 relative z-10"
                  >
                     Open {broker.name} Account <ExternalLink className="w-4 h-4" />
                  </Link>

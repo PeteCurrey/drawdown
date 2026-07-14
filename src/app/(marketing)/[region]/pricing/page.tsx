@@ -48,14 +48,14 @@ function PricingContent() {
   };
 
   return (
-    <div className="pt-32 pb-24 min-h-screen bg-background-primary">
+    <div className="pt-28 pb-24 min-h-screen">
       <TrackPageView path={`/${region}/pricing`} />
-      <div className="container mx-auto px-6">
+      <div className="max-w-7xl mx-auto px-6">
         <div className="text-center mb-20">
           <span className="text-accent font-mono tracking-widest uppercase text-sm mb-4 block">
             {label.toUpperCase()} PRICING // {REGIONS_MAP[region].currency}
           </span>
-          <h1 className="  font-display font-bold uppercase mb-8">
+          <h1 className="font-sans font-bold uppercase mb-8">
             Choose Your <span className="text-accent">Truth.</span>
           </h1>
           <p className="text-text-secondary max-w-2xl mx-auto mb-12">
@@ -67,7 +67,7 @@ function PricingContent() {
             <span className={cn("text-sm font-mono uppercase tracking-widest transition-colors", billingCycle === 'monthly' ? 'text-text-primary' : 'text-text-tertiary')}>Monthly</span>
             <button 
               onClick={() => setBillingCycle(prev => prev === 'monthly' ? 'yearly' : 'monthly')}
-              className="w-16 h-8 bg-background-elevated rounded-full p-1 relative transition-colors border border-border-slate"
+              className="w-16 h-8 bg-background-elevated/40 rounded-full p-1 relative transition-colors border border-border-slate/50"
             >
               <div className={cn(
                 "absolute top-1 left-1 w-6 h-6 bg-accent rounded-full transition-transform duration-300",
@@ -85,26 +85,26 @@ function PricingContent() {
             <div 
               key={tier.name}
               className={cn(
-                "relative flex flex-col p-8 md:p-12 bg-background-surface border-2 transition-premium hover:bg-background-elevated",
+                "relative flex flex-col p-8 md:p-12  border-2 transition-premium hover:bg-background-elevated",
                 tier.borderColor,
                 tier.highlight ? "scale-105 z-10 shadow-2xl shadow-accent/10" : "opacity-80 hover:opacity-100"
               )}
             >
               {tier.highlight && (
-                <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-accent text-background-primary px-4 py-1 text-[10px] font-bold uppercase tracking-widest">
+                <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-mkt-ink text-white px-4 py-1 text-[10px] font-bold uppercase tracking-widest">
                   Most Popular
                 </div>
               )}
               
               <div className="mb-12">
-                <h3 className="text-2xl font-display font-bold uppercase mb-2">
+                <h3 className="text-2xl font-sans font-bold uppercase mb-2">
                   {tier.name}
                 </h3>
                 <p className="text-text-secondary text-sm mb-8 min-h-[40px]">
                   {tier.description}
                 </p>
                 <div className="flex items-baseline gap-2">
-                  <span className="text-5xl font-display font-black">
+                  <span className="text-5xl font-sans font-black">
                     {currencySymbol}{tier.price[billingCycle]}
                   </span>
                   <span className="text-text-tertiary text-sm font-mono uppercase tracking-widest">
@@ -123,9 +123,9 @@ function PricingContent() {
                 disabled={loadingTier !== null}
                 className={cn(
                   "w-full py-5 text-sm font-bold uppercase tracking-widest mb-12 transition-colors flex items-center justify-center gap-2",
-                  tier.name === 'Edge' ? 'bg-accent text-background-primary hover:bg-accent-hover' : 
+                  tier.name === 'Edge' ? 'bg-mkt-ink text-white hover:bg-accent-hover' : 
                   tier.name === 'Floor' ? 'bg-premium text-background-primary hover:bg-premium/90' :
-                  'bg-background-elevated border border-border-slate hover:border-text-primary'
+                  'bg-background-elevated/40 border border-border-slate/50 hover:border-text-primary'
                 )}
               >
                 {loadingTier === tier.name ? "Processing..." : tier.buttonText}
@@ -153,7 +153,7 @@ function PricingContent() {
           ))}
         </div>
 
-        <div className="mt-24 p-8 bg-background-elevated border border-border-slate max-w-4xl mx-auto">
+        <div className="mt-24 p-8 bg-background-elevated/40 border border-border-slate/50 max-w-4xl mx-auto">
           <h4 className="text-xs font-mono uppercase tracking-widest text-text-secondary mb-4">{label} Regulatory Notice</h4>
           <p className="text-[10px] text-text-tertiary leading-relaxed font-mono">
             Subscription tiers represent access levels to educational content and proprietary analysis tools. Drawdown does not provide investment advice or financial services as defined by local laws. All prices in {REGIONS_MAP[region].currency}.

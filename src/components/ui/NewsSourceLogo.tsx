@@ -37,9 +37,13 @@ export function NewsSourceLogo({
     lg: "h-8 w-8",
   };
 
-  if (!mapping) {
+  if (!mapping || !mapping.customUrl) {
     return (
-      <span className={cn("text-[9px] font-mono font-bold uppercase tracking-widest text-accent", className)}>
+      <span className={cn(
+        "text-[10px] font-mono font-bold uppercase tracking-widest", 
+        monochrome ? "text-mkt-i2" : "text-accent", 
+        className
+      )}>
         {source}
       </span>
     );
@@ -52,27 +56,16 @@ export function NewsSourceLogo({
         sizeClasses[size]
       )}>
         <img 
-          src={mapping.customUrl || `https://unavatar.io/${mapping.domain}?fallback=https://www.google.com/s2/favicons?domain=${mapping.domain}&sz=128`}
+          src={mapping.customUrl}
           alt={source}
           className={cn(
             "w-full h-full object-contain transition-all duration-500",
             monochrome ? "grayscale opacity-50 hover:opacity-100 dark:invert" : "opacity-100"
           )}
-          onError={(e) => {
-            const target = e.target as HTMLImageElement;
-            target.style.display = 'none';
-            const parent = target.parentElement;
-            if (parent && !parent.querySelector('.fallback-text')) {
-              const fallback = document.createElement('span');
-              fallback.innerText = source.charAt(0);
-              fallback.className = 'fallback-text text-[10px] font-mono font-bold text-accent';
-              parent.appendChild(fallback);
-            }
-          }}
         />
       </div>
       {showText && (
-        <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-text-primary">
+        <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-mkt-ink">
           {source}
         </span>
       )}

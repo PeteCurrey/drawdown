@@ -10,9 +10,10 @@ interface SendBroadcastOptions {
   subject: string;
   html: string;
   audience: "all" | "foundation" | "edge" | "floor";
+  type?: "morning_brief" | "evening_wrap" | "breaking_news" | "marketing";
 }
 
-async function getEmailAddressesByTier(audience: string): Promise<string[]> {
+async function getEmailAddressesByTier(audience: string, type?: string): Promise<string[]> {
   const emails = new Set<string>();
 
   // 1. Fetch from newsletter_subscribers (guests)
@@ -27,8 +28,7 @@ async function getEmailAddressesByTier(audience: string): Promise<string[]> {
   }
 
   // 2. Fetch from profiles + auth users
-  // Note: We query profiles for the tier, then intersect with auth emails
-  const query = supabaseAdmin.from('profiles').select('id, subscription_tier');
+  const query = supabaseAdmin.from('profiles').select('id, subscription_tier, email_preferences');
   
   if (audience !== "all") {
     query.eq('subscription_tier', audience);
@@ -37,13 +37,25 @@ async function getEmailAddressesByTier(audience: string): Promise<string[]> {
   const { data: profiles } = await query;
   
   if (profiles && profiles.length > 0) {
-    // In a real production environment with 10k+ users, we'd use a more efficient join or pagination.
-    // For Drawdown's launch scale, fetching the emails for the IDs is sufficient.
     const { data: users } = await supabaseAdmin.auth.admin.listUsers();
-    const profileIds = new Set(profiles.map(p => p.id));
+    
+    // Build a map of valid profile IDs that opted in
+    const validProfileIds = new Set();
+    profiles.forEach(p => {
+      // Default to opted-in for everything except marketing if preferences are missing
+      const prefs = p.email_preferences as Record<string, boolean> | null;
+      let optedIn = true;
+      if (type && prefs && typeof prefs === 'object') {
+        optedIn = prefs[type] !== false;
+      } else if (type === 'marketing') {
+        optedIn = false; // default false for marketing
+      }
+      
+      if (optedIn) validProfileIds.add(p.id);
+    });
     
     users.users.forEach(u => {
-      if (profileIds.has(u.id) && u.email) {
+      if (validProfileIds.has(u.id) && u.email) {
         emails.add(u.email);
       }
     });
@@ -52,9 +64,9 @@ async function getEmailAddressesByTier(audience: string): Promise<string[]> {
   return Array.from(emails);
 }
 
-export async function sendNewsletterBroadcast({ subject, html, audience }: SendBroadcastOptions) {
+export async function sendNewsletterBroadcast({ subject, html, audience, type }: SendBroadcastOptions) {
   try {
-    const bccList = await getEmailAddressesByTier(audience);
+    const bccList = await getEmailAddressesByTier(audience, type);
     
     if (bccList.length === 0) {
       return { success: true, count: 0, message: "No subscribers found for this audience." };

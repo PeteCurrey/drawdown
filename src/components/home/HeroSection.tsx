@@ -1,89 +1,273 @@
 "use client";
-import { useEffect, useRef } from "react";
+
 import Link from "next/link";
-import gsap from "gsap";
-import { cn } from "@/lib/utils";
+import { motion } from "framer-motion";
+import { CheckCircle2 } from "lucide-react";
 import { useRegion } from "@/components/layout/RegionalLayout";
 
 export function HeroSection() {
-  const { region, demonym } = useRegion();
-  const containerRef = useRef<HTMLDivElement>(null);
-  const gridRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      // Animate headlines
-      gsap.from(".hero-content > *", {
-        y: 30,
-        opacity: 0,
-        duration: 1,
-        stagger: 0.15,
-        ease: "power3.out",
-      });
-
-      // Subtle grid animation
-      if (gridRef.current) {
-        gsap.to(gridRef.current, {
-          opacity: 0.3,
-          duration: 3,
-          repeat: -1,
-          yoyo: true,
-          ease: "sine.inOut"
-        });
-      }
-    }, containerRef);
-
-    return () => ctx.revert();
-  }, []);
-
+  const { region, demonym, regulatoryBody } = useRegion();
   const regionPrefix = region === "uk" ? "" : `/${region}`;
+  const regShort = regulatoryBody ? regulatoryBody.split(" ")[0] : "FCA";
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.5,
+        ease: "easeOut" as const,
+      },
+    },
+  };
+
+  const dashboardVariants = {
+    hidden: { 
+      opacity: 0, 
+      y: 40,
+      rotateX: 18,
+      rotateY: 0,
+      rotateZ: -18,
+      transformPerspective: 1400
+    },
+    visible: {
+      opacity: 0.42,
+      y: 0,
+      rotateX: 18,
+      rotateY: 0,
+      rotateZ: -18,
+      transformPerspective: 1400,
+      transition: {
+        duration: 0.8,
+        delay: 0.3,
+        ease: "easeOut" as const,
+      },
+    },
+    hover: {
+      rotateX: 10,
+      rotateY: 0,
+      rotateZ: -10,
+      opacity: 0.48,
+      transition: {
+        duration: 0.6,
+        ease: "easeOut" as const,
+      },
+    }
+  };
+
+  const backgroundCandles = [
+    { x: 40, open: 220, close: 200, high: 230, low: 190 },
+    { x: 80, open: 200, close: 210, high: 215, low: 195 },
+    { x: 120, open: 210, close: 190, high: 220, low: 180 },
+    { x: 160, open: 190, close: 170, high: 200, low: 160 },
+    { x: 200, open: 170, close: 180, high: 185, low: 165 },
+    { x: 240, open: 180, close: 150, high: 190, low: 140 },
+    { x: 280, open: 150, close: 130, high: 160, low: 120 },
+    { x: 320, open: 130, close: 140, high: 145, low: 125 },
+    { x: 360, open: 140, close: 110, high: 150, low: 100 },
+    { x: 400, open: 110, close: 90, high: 120, low: 80 },
+    { x: 440, open: 90, close: 100, high: 105, low: 85 },
+    { x: 480, open: 100, close: 80, high: 110, low: 70 },
+    { x: 520, open: 80, close: 70, high: 90, low: 60 },
+    { x: 560, open: 70, close: 95, high: 105, low: 65 },
+    { x: 600, open: 95, close: 85, high: 100, low: 80 },
+    { x: 640, open: 85, close: 110, high: 120, low: 80 },
+    { x: 680, open: 110, close: 100, high: 115, low: 95 },
+    { x: 720, open: 100, close: 125, high: 135, low: 95 },
+    { x: 760, open: 125, close: 115, high: 130, low: 110 },
+    { x: 800, open: 115, close: 140, high: 150, low: 110 },
+    { x: 840, open: 140, close: 130, high: 145, low: 125 },
+    { x: 880, open: 130, close: 160, high: 170, low: 125 },
+    { x: 920, open: 160, close: 150, high: 165, low: 145 },
+    { x: 960, open: 150, close: 180, high: 190, low: 140 },
+    { x: 1000, open: 180, close: 170, high: 185, low: 165 },
+    { x: 1040, open: 170, close: 200, high: 210, low: 160 },
+    { x: 1080, open: 200, close: 190, high: 205, low: 185 },
+    { x: 1120, open: 190, close: 220, high: 230, low: 180 },
+    { x: 1160, open: 220, close: 210, high: 225, low: 200 }
+  ];
+
+  // Moving average line computations for the background chart effect
+  const maPeriod = 5;
+  const longMaPeriod = 12;
+
+  const maPathPoints = backgroundCandles.map((c, idx) => {
+    const start = Math.max(0, idx - maPeriod + 1);
+    const subset = backgroundCandles.slice(start, idx + 1);
+    const sum = subset.reduce((acc, curr) => acc + (curr.open + curr.close) / 2, 0);
+    const avg = sum / subset.length;
+    return `${c.x},${avg}`;
+  });
+
+  const longMaPathPoints = backgroundCandles.map((c, idx) => {
+    const start = Math.max(0, idx - longMaPeriod + 1);
+    const subset = backgroundCandles.slice(start, idx + 1);
+    const sum = subset.reduce((acc, curr) => acc + (curr.open + curr.close) / 2, 0);
+    const avg = sum / subset.length;
+    return `${c.x},${avg}`;
+  });
+
+  const maPathD = `M ${maPathPoints.join(" L ")}`;
+  const longMaPathD = `M ${longMaPathPoints.join(" L ")}`;
 
   return (
-    <section 
-      ref={containerRef}
-      className="relative h-[65vh] min-h-[500px] flex items-center justify-center overflow-hidden bg-background-primary border-b border-border-slate/50"
+    <motion.section 
+      className="relative w-full min-h-screen flex flex-col justify-center overflow-hidden bg-white pt-24 pb-36 md:pt-32 md:pb-52 border-b border-mkt-bd z-20"
+      whileHover="hover"
     >
-      {/* Subtle Animated Grid Background */}
-      <div 
-        ref={gridRef}
-        className="absolute inset-0 z-0 opacity-20 pointer-events-none"
-      >
-        <div className="h-full w-full bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:48px_48px]" />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background-primary/50 to-background-primary" />
+      {/* Centered Tilted Background Preview Image */}
+      <motion.div
+        className="absolute inset-0 select-none pointer-events-none z-0 transform-gpu bg-center bg-no-repeat bg-cover md:bg-contain"
+        variants={dashboardVariants}
+        initial="hidden"
+        animate="visible"
+        style={{
+          backgroundImage: "url('/images/dashboard-preview.png')",
+          WebkitMaskImage: "radial-gradient(circle at center, black 15%, rgba(0, 0, 0, 0.4) 55%, transparent 90%)",
+          maskImage: "radial-gradient(circle at center, black 15%, rgba(0, 0, 0, 0.4) 55%, transparent 90%)",
+        }}
+      />
+
+      {/* Background candle chart pattern */}
+      <div className="absolute inset-0 z-0 opacity-[0.035] pointer-events-none select-none flex items-center justify-center overflow-hidden">
+        <svg className="w-full h-[70%] min-h-[350px]" viewBox="0 0 1200 300" fill="none" preserveAspectRatio="none">
+          {/* Moving Averages */}
+          <path 
+            d={maPathD} 
+            fill="none" 
+            stroke="#9ca3af" 
+            strokeWidth="1.5" 
+            strokeDasharray="4 4" 
+          />
+          <path 
+            d={longMaPathD} 
+            fill="none" 
+            stroke="#6b7280" 
+            strokeWidth="1.5" 
+          />
+
+          {/* Candlesticks */}
+          {backgroundCandles.map((c, i) => {
+            const isBullish = c.close < c.open;
+            const color = isBullish ? "#22c55e" : "#ef4444";
+            const bodyY = Math.min(c.open, c.close);
+            const bodyHeight = Math.max(Math.abs(c.open - c.close), 2);
+            return (
+              <g key={i}>
+                {/* Wick */}
+                <line 
+                  x1={c.x} 
+                  y1={c.high} 
+                  x2={c.x} 
+                  y2={c.low} 
+                  stroke={color} 
+                  strokeWidth="1.5" 
+                />
+                {/* Body */}
+                <rect 
+                  x={c.x - 5} 
+                  y={bodyY} 
+                  width="10" 
+                  height={bodyHeight} 
+                  fill={color} 
+                  rx="1"
+                />
+              </g>
+            );
+          })}
+        </svg>
       </div>
 
-      <div className="container mx-auto px-6 relative z-10 hero-content text-center flex flex-col items-center">
-        <span className="text-[10px] md:text-xs font-mono tracking-[0.3em] text-accent uppercase mb-6 block">
-          // TRADING EDUCATION + INTELLIGENCE
-        </span>
-        
-        <h1 className="text-[clamp(2.5rem,8vw,5.5rem)] font-display font-black uppercase tracking-tighter leading-[0.9] mb-8">
-          Trade <br className="md:hidden" /> the <span className="text-accent underline decoration-accent/20 underline-offset-8">Truth.</span>
-        </h1>
-        
-        <p className="text-base md:text-lg text-text-secondary max-w-xl mx-auto mb-12 font-sans leading-relaxed">
-          Live market intelligence. AI-powered tools. Honest education. <br className="hidden md:block" /> Built for {demonym} traders.
-        </p>
-        
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-6 w-full sm:w-auto">
-          <Link 
-            href={`${regionPrefix}/signup`} 
-            className="w-full sm:w-auto px-10 py-5 bg-accent hover:bg-accent-hover text-background-primary text-[10px] font-bold uppercase tracking-[0.2em] transition-premium shadow-2xl shadow-accent/20"
-          >
-            Start Free
-          </Link>
-          <Link 
-            href={`${regionPrefix}/markets`} 
-            className="w-full sm:w-auto px-10 py-5 border border-border-slate hover:border-text-primary text-text-primary text-[10px] font-bold uppercase tracking-[0.2em] transition-premium backdrop-blur-sm"
-          >
-            Explore Markets
-          </Link>
-        </div>
-      </div>
+      {/* Fade masks for visual blending */}
+      <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-white to-transparent pointer-events-none z-0" />
+      <div className="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-white to-transparent pointer-events-none z-0" />
+      <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-white to-transparent pointer-events-none z-0" />
 
-      {/* Decorative elements */}
-      <div className="absolute top-1/4 -left-20 w-64 h-64 bg-accent/5 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-1/4 -right-20 w-64 h-64 bg-accent/5 rounded-full blur-3xl pointer-events-none" />
-    </section>
+      <div className="w-full max-w-7xl mx-auto px-6 relative z-10 flex flex-col items-start pt-8 md:pt-12">
+        
+        {/* Top Text Content Block */}
+        <motion.div 
+          className="space-y-6 text-left flex flex-col items-start max-w-2xl relative z-10"
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+        >
+          {/* Eyebrow Pill with blinking green dot */}
+          <motion.div variants={itemVariants} className="flex items-center gap-2 px-3 py-1 border border-mkt-bd rounded-full">
+            <span className="w-2 h-2 rounded-full bg-mkt-grn inline-block animate-pulse" />
+            <span className="text-[11px] font-semibold tracking-wider text-mkt-i3 uppercase font-sans">
+              TRADING EDUCATION + INTELLIGENCE
+            </span>
+          </motion.div>
+
+          {/* Headline */}
+          <motion.h1 
+            variants={itemVariants}
+            className="text-[clamp(44px,6vw,84px)] font-sans font-extrabold text-mkt-ink leading-[1.05] tracking-tight"
+            style={{ fontWeight: 800 }}
+          >
+            Trade the <span className="text-mkt-grn">Truth.</span>
+          </motion.h1>
+
+          {/* Sub-headline */}
+          <motion.p 
+            variants={itemVariants}
+            className="text-lg md:text-xl font-sans text-mkt-i3 max-w-2xl leading-relaxed mt-2"
+          >
+            Live market intelligence. AI-powered tools. Honest education. Built for {demonym} traders.
+          </motion.p>
+
+          {/* CTAs */}
+          <motion.div 
+            variants={itemVariants}
+            className="flex flex-col sm:flex-row items-stretch sm:items-center gap-6 w-full sm:w-auto pt-4"
+          >
+            <Link 
+              href={`${regionPrefix}/signup`} 
+              className="px-7 py-4 rounded-lg font-semibold text-center transition-colors duration-200 text-sm md:text-base font-sans shadow-lg shadow-black/10"
+              style={{ backgroundColor: "#0A0A0A", color: "#FFFFFF" }}
+              onMouseEnter={e => (e.currentTarget.style.backgroundColor = "#3A3A3A")}
+              onMouseLeave={e => (e.currentTarget.style.backgroundColor = "#0A0A0A")}
+            >
+              Start Free — No Card Required
+            </Link>
+            <Link 
+              href={`${regionPrefix}/courses`} 
+              className="text-mkt-ink hover:underline underline-offset-4 text-sm md:text-base font-semibold text-center py-2 transition-all font-sans flex items-center gap-1.5"
+            >
+              Explore the Platform &rarr;
+            </Link>
+          </motion.div>
+
+          {/* Trust Signals */}
+          <motion.div 
+            variants={itemVariants}
+            className="flex flex-col sm:flex-row flex-wrap gap-x-6 gap-y-3 pt-6 text-sm text-mkt-i3 font-sans border-t border-mkt-bd w-full max-w-2xl"
+          >
+            <div className="flex items-center gap-2">
+              <CheckCircle2 className="w-4 h-4 text-mkt-grn" /> Phase 1 Free Forever
+            </div>
+            <div className="flex items-center gap-2">
+              <CheckCircle2 className="w-4 h-4 text-mkt-grn" /> {regShort}-Registered Brokers Only
+            </div>
+            <div className="flex items-center gap-2">
+              <CheckCircle2 className="w-4 h-4 text-mkt-grn" /> No Affiliate Hidden Rankings
+            </div>
+          </motion.div>
+        </motion.div>
+
+      </div>
+    </motion.section>
   );
 }

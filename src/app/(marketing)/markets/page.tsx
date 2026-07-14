@@ -1,12 +1,52 @@
-"use client";
-
-import { Activity, Globe, Zap, ArrowRight, TrendingUp, AlertTriangle, ChevronRight, BarChart3, Clock } from "lucide-react";
 import Link from "next/link";
-import { MarketTicker } from "@/components/market/MarketTicker";
+import { ArrowRight } from "lucide-react";
+import { TradingViewTickerTape } from "@/components/markets/TradingViewTickerTape";
+import { TradingViewMiniChart } from "@/components/markets/TradingViewMiniChart";
+import { getCategoryInstruments } from "@/lib/markets-config";
+
+export const metadata = {
+  title: "Markets Hub | Live Financial Charts & Analysis | Drawdown",
+  description: "Live charts, technical analysis, and Drawdown curriculum context for Forex, Commodities, Indices, and Cryptocurrencies. Real-time TradingView widgets.",
+};
+
+const CATEGORIES = [
+  {
+    slug: "forex" as const,
+    name: "Forex",
+    count: "6 Major Pairs",
+    desc: "Live TradingView charts, technical analysis gauges, and curriculum context for GBP/USD, EUR/USD, USD/JPY, and other major forex pairs.",
+    badge: "GBP/USD, EUR/USD, USD/JPY",
+    bgImage: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?q=80&w=800"
+  },
+  {
+    slug: "commodities" as const,
+    name: "Commodities",
+    count: "Precious Metals & Energy",
+    desc: "Macro commodities including safe-haven assets (Gold, Silver) and energy (WTI Crude Oil) with key fundamental driver breakdowns.",
+    badge: "Gold, Silver, Crude Oil",
+    bgImage: "https://images.unsplash.com/photo-1610374792793-f016b77ca51a?q=80&w=800"
+  },
+  {
+    slug: "indices" as const,
+    name: "Indices",
+    count: "US & UK Equity Benchmarks",
+    desc: "Global equity benchmarks tracking UK and US economic health. Essential directional sentiment indicators for cross-asset trading.",
+    badge: "FTSE 100, S&P 500, NASDAQ",
+    bgImage: "https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?q=80&w=800"
+  },
+  {
+    slug: "crypto" as const,
+    name: "Cryptocurrencies",
+    count: "24/7 Digital Assets",
+    desc: "High-beta digital assets (Bitcoin, Ethereum, XRP) covered in Drawdown's Phase 6 advanced risk management modules.",
+    badge: "Bitcoin, Ethereum, XRP",
+    bgImage: "https://images.unsplash.com/photo-1621761191319-c6fb62004040?q=80&w=800"
+  }
+];
 
 export default function MarketsHubPage() {
   return (
-    <div className="flex flex-col bg-background-primary min-h-screen">
+    <div className="flex flex-col bg-[#0A0A0A] text-white min-h-screen selection:bg-[#C8F135] selection:text-black">
       
       {/* Ticker Tape */}
       <div className="border-b border-border-slate/50">
@@ -33,168 +73,434 @@ export default function MarketsHubPage() {
           </div>
         </div>
 
-        {/* Aesthetic Background Pattern */}
-        <div className="absolute top-0 right-0 w-1/2 h-full opacity-5 pointer-events-none overflow-hidden">
-           <div className="absolute inset-0 bg-[linear-gradient(90deg,transparent_10%,var(--color-accent)_10.5%,transparent_11%)] [background-size:2vw_100%]" />
-        </div>
-      </section>
+        <div className="max-w-4xl mx-auto space-y-6 relative z-10">
+          <span className="text-xs font-mono tracking-widest uppercase opacity-40 block mb-4">
+            // LIVE MARKETS
+          </span>
+          
+          <h1 className="text-5xl lg:text-7xl font-sans font-bold leading-tight max-w-4xl mx-auto uppercase">
+            Every market. Live data.<br />
+            Trading context that actually matters.
+          </h1>
+          
+          <p className="text-xl text-white opacity-60 max-w-2xl mx-auto font-sans leading-relaxed mt-6">
+            Real-time TradingView charts, technical analysis gauges, and Drawdown curriculum context for every major instrument we teach. Forex, commodities, indices and crypto — all in one place.
+          </p>
 
-      {/* Macro Overlay / Pete's Bias */}
-      <section className="bg-background-surface border-b border-border-slate relative overflow-hidden">
-        <div className="absolute left-0 top-0 bottom-0 w-1 bg-warning" />
-        <div className="container mx-auto px-6 py-8">
-          <div className="flex flex-col md:flex-row gap-8 items-start md:items-center justify-between">
+          {/* Stat Row */}
+          <div className="mt-12 flex flex-wrap justify-center gap-x-12 gap-y-4">
             <div>
-              <div className="flex items-center gap-2 text-warning mb-2">
-                <AlertTriangle className="w-4 h-4" />
-                <span className="text-[10px] font-mono uppercase tracking-widest font-bold">Current Macro Bias</span>
-              </div>
-              <h2 className="text-2xl font-display font-bold text-text-primary mb-2">Risk-Off: DXY Strength Dominating</h2>
-              <p className="text-sm text-text-secondary max-w-2xl leading-relaxed">
-                "Yields are pushing higher ahead of Friday's PCE print. Expect equity weakness and USD pairs to drift lower. Do not try to catch falling knives in tech today." — Pete C.
-              </p>
+              <span className="text-2xl font-mono font-bold text-white block">16</span>
+              <span className="text-xs opacity-40 uppercase tracking-widest block mt-1 font-sans">Instruments Covered</span>
             </div>
-            <Link href="/learn/pete-memo" className="shrink-0 px-6 py-3 border border-warning/50 text-warning hover:bg-warning/10 transition-colors text-xs font-bold uppercase tracking-widest flex items-center gap-2">
-               Read Full Memo <ChevronRight className="w-4 h-4" />
-            </Link>
+            <div>
+              <span className="text-2xl font-mono font-bold text-white block">4</span>
+              <span className="text-xs opacity-40 uppercase tracking-widest block mt-1 font-sans">Asset Classes</span>
+            </div>
+            <div>
+              <span className="text-2xl font-mono font-bold text-white block">24/7</span>
+              <span className="text-xs opacity-40 uppercase tracking-widest block mt-1 font-sans">Crypto Coverage</span>
+            </div>
+            <div>
+              <span className="text-2xl font-mono font-bold text-white block">Live</span>
+              <span className="text-xs opacity-40 uppercase tracking-widest block mt-1 font-sans">TradingView Data</span>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Asset Blocks Grid */}
-      <section className="py-16">
-         <div className="container mx-auto px-6">
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-               
-               {/* Forex Block */}
-               <div className="bg-background-surface border border-border-slate flex flex-col group hover:border-accent/30 transition-all">
-                  <div className="p-6 border-b border-border-slate/50 flex justify-between items-center">
-                     <h3 className="text-xl font-display font-bold uppercase text-text-primary flex items-center gap-2">
-                        <Globe className="w-5 h-5 text-accent" /> Forex
-                     </h3>
-                     <span className="text-[10px] font-mono text-profit uppercase tracking-widest bg-profit/10 px-2 py-1">High Volatility</span>
-                  </div>
-                  
-                  <div className="p-6 space-y-6 flex-grow">
-                     <div>
-                        <p className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary mb-3">Top Movers (24H)</p>
-                        <div className="space-y-3">
-                           <div className="flex justify-between items-center">
-                              <span className="text-sm font-bold text-text-primary">EUR/USD</span>
-                              <span className="text-sm text-loss font-mono">-0.45%</span>
-                           </div>
-                           <div className="flex justify-between items-center">
-                              <span className="text-sm font-bold text-text-primary">USD/JPY</span>
-                              <span className="text-sm text-profit font-mono">+0.82%</span>
-                           </div>
-                        </div>
-                     </div>
+      {/* SECTION 2 — TICKER TAPE */}
+      <div className="w-full bg-[#0d0d0d] border-y border-white/8">
+        <TradingViewTickerTape />
+      </div>
 
-                     <div className="pt-6 border-t border-border-slate/50">
-                        <p className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary mb-3">Key Data Today</p>
-                        <div className="flex items-start gap-3">
-                           <Clock className="w-4 h-4 text-warning shrink-0 mt-0.5" />
-                           <div>
-                              <p className="text-sm text-text-primary font-bold">13:30 GMT - US Core CPI</p>
-                              <p className="text-xs text-text-secondary mt-1">Expected: 0.3% | Prev: 0.4%</p>
-                           </div>
-                        </div>
-                     </div>
-                  </div>
+      {/* SECTION 3 — FOUR CATEGORY CARDS */}
+      <section className="py-20 max-w-7xl mx-auto px-6 lg:px-16 w-full">
+        <div className="text-xs font-mono tracking-widest uppercase opacity-40 mb-8">
+          // EXPLORE BY ASSET CLASS
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {CATEGORIES.map(cat => (
+            <Link 
+              key={cat.slug} 
+              href={`/markets/${cat.slug}`}
+              className="bg-white/[0.02] border border-white/8 rounded-2xl p-8 hover:border-white/20 hover:-translate-y-0.5 transition-all duration-300 flex flex-col justify-between group cursor-pointer relative overflow-hidden"
+            >
+              {/* Animated background image */}
+              <div className="absolute inset-0 z-0 pointer-events-none select-none">
+                <img 
+                  src={cat.bgImage} 
+                  alt="" 
+                  className="absolute inset-0 w-full h-full object-cover opacity-[0.12] group-hover:opacity-[0.3] scale-100 group-hover:scale-105 transition-all duration-700 ease-out mix-blend-luminosity"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-[#0A0A0A]/40 to-transparent" />
+              </div>
 
-                  {/* Affiliate Monetization */}
-                  <div className="p-6 bg-background-primary border-t border-border-slate/50">
-                     <p className="text-xs text-text-secondary mb-3">Trading Forex?</p>
-                     <a href="/go/pepperstone" className="flex items-center justify-between text-sm font-bold text-text-primary hover:text-accent transition-colors">
-                        Trade on Pepperstone (Raw Spreads) <ArrowRight className="w-4 h-4" />
-                     </a>
+              <div className="space-y-6 relative z-10">
+                {/* Header Row */}
+                <div className="flex justify-between items-start gap-4">
+                  <div>
+                    <h2 className="text-xl lg:text-2xl font-sans font-extrabold text-white tracking-tight group-hover:text-[#C8F135] transition-colors uppercase">
+                      {cat.name}
+                    </h2>
+                    <span className="inline-block mt-2 text-[10px] font-mono tracking-widest uppercase text-white/40">
+                      {cat.count}
+                    </span>
                   </div>
-               </div>
+                  <span className="text-[10px] font-mono font-bold tracking-widest text-[#C8F135] bg-[#C8F135]/5 border border-[#C8F135]/15 px-3 py-1 rounded-full uppercase">
+                    {cat.slug}
+                  </span>
+                </div>
 
-               {/* Indices Block */}
-               <div className="bg-background-surface border border-border-slate flex flex-col group hover:border-accent/30 transition-all">
-                  <div className="p-6 border-b border-border-slate/50 flex justify-between items-center">
-                     <h3 className="text-xl font-display font-bold uppercase text-text-primary flex items-center gap-2">
-                        <BarChart3 className="w-5 h-5 text-accent" /> Indices
-                     </h3>
-                     <span className="text-[10px] font-mono text-loss uppercase tracking-widest bg-loss/10 px-2 py-1">Risk-Off</span>
-                  </div>
-                  
-                  <div className="p-6 space-y-6 flex-grow">
-                     <div>
-                        <p className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary mb-3">Market Proximity</p>
-                        <div className="space-y-3">
-                           <div className="flex justify-between items-center">
-                              <span className="text-sm font-bold text-text-primary">S&P 500</span>
-                              <span className="text-xs text-text-secondary">Testing 50 SMA</span>
-                           </div>
-                           <div className="flex justify-between items-center">
-                              <span className="text-sm font-bold text-text-primary">NASDAQ 100</span>
-                              <span className="text-xs text-loss">Broke Support</span>
-                           </div>
-                        </div>
-                     </div>
+                {/* Description */}
+                <p className="text-sm md:text-base text-white/60 leading-relaxed font-sans">
+                  {cat.desc}
+                </p>
+              </div>
 
-                     <div className="pt-6 border-t border-border-slate/50">
-                        <p className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary mb-3">Educational Primer</p>
-                        <Link href="/learn/trading-nasdaq-open" className="text-sm font-bold text-text-primary hover:text-accent transition-colors block">
-                           How to trade the NY Equity Open Volatility &rarr;
-                        </Link>
-                     </div>
-                  </div>
+              {/* Bottom Row */}
+              <div className="flex justify-between items-center pt-8 border-t border-white/5 mt-8 relative z-10">
+                <span className="text-xs text-white/40 font-mono tracking-wide">
+                  {cat.badge}
+                </span>
+                
+                <span className="text-sm font-bold text-[#C8F135] flex items-center gap-1.5 group-hover:underline">
+                  Explore Category <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+                </span>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </section>
 
-                  {/* Affiliate Monetization */}
-                  <div className="p-6 bg-background-primary border-t border-border-slate/50">
-                     <p className="text-xs text-text-secondary mb-3">Trading Indices?</p>
-                     <a href="/go/ig-markets" className="flex items-center justify-between text-sm font-bold text-text-primary hover:text-accent transition-colors">
-                        Trade on IG (Tax-Free UK) <ArrowRight className="w-4 h-4" />
-                     </a>
-                  </div>
-               </div>
+      {/* SECTION 4 — FEATURED INSTRUMENTS */}
+      <section className="py-20 max-w-7xl mx-auto px-6 lg:px-16 w-full border-t border-white/5">
+        <div className="text-xs font-mono tracking-widest uppercase opacity-40 mb-4">
+          // FEATURED INSTRUMENTS
+        </div>
+        <h2 className="text-3xl font-bold text-white mb-3 font-sans">
+          Today's most-watched markets.
+        </h2>
+        <p className="text-base text-white opacity-50 mb-10 font-sans">
+          The instruments our traders focus on most. Live mini charts updated in real time.
+        </p>
 
-               {/* Crypto & Metals Block */}
-               <div className="bg-background-surface border border-border-slate flex flex-col group hover:border-accent/30 transition-all">
-                  <div className="p-6 border-b border-border-slate/50 flex justify-between items-center">
-                     <h3 className="text-xl font-display font-bold uppercase text-text-primary flex items-center gap-2">
-                        <TrendingUp className="w-5 h-5 text-accent" /> Crypto & Gold
-                     </h3>
-                     <span className="text-[10px] font-mono text-warning uppercase tracking-widest bg-warning/10 px-2 py-1">Consolidating</span>
-                  </div>
-                  
-                  <div className="p-6 space-y-6 flex-grow">
-                     <div>
-                        <p className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary mb-3">Key Assets</p>
-                        <div className="space-y-3">
-                           <div className="flex justify-between items-center">
-                              <span className="text-sm font-bold text-text-primary">XAU/USD</span>
-                              <span className="text-sm text-profit font-mono">+0.15%</span>
-                           </div>
-                           <div className="flex justify-between items-center">
-                              <span className="text-sm font-bold text-text-primary">BTC/USD</span>
-                              <span className="text-sm text-loss font-mono">-2.10%</span>
-                           </div>
-                        </div>
-                     </div>
-
-                     <div className="pt-6 border-t border-border-slate/50">
-                        <p className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary mb-3">Institutional Insight</p>
-                        <p className="text-sm text-text-secondary">
-                           Gold holding steady despite dollar strength, indicating underlying safe-haven bid. BTC struggling to clear resistance.
-                        </p>
-                     </div>
-                  </div>
-
-                  {/* Affiliate Monetization */}
-                  <div className="p-6 bg-background-primary border-t border-border-slate/50">
-                     <p className="text-xs text-text-secondary mb-3">Trading Gold?</p>
-                     <Link href="/brokers/best-for-gold" className="flex items-center justify-between text-sm font-bold text-text-primary hover:text-accent transition-colors">
-                        Find the Best Broker for XAU <ArrowRight className="w-4 h-4" />
-                     </Link>
-                  </div>
-               </div>
-
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {/* Card 1: GBP/USD */}
+          <Link 
+            href="/markets/forex/gbpusd"
+            className="bg-white/3 rounded-2xl border border-white/8 overflow-hidden hover:border-white/20 transition cursor-pointer flex flex-col justify-between"
+          >
+            <div>
+              <div className="p-4 pb-0">
+                <div className="text-lg font-mono font-bold text-white">GBP/USD</div>
+                <div className="text-xs text-white opacity-40">British Pound / US Dollar</div>
+              </div>
+              <div className="w-full h-[160px] bg-[#0A0A0A] overflow-hidden mt-4">
+                <TradingViewMiniChart 
+                  symbol="FX:GBPUSD"
+                  largeChartUrl="https://drawdown.trading/markets/forex/gbpusd"
+                  height={160}
+                />
+              </div>
             </div>
-         </div>
+            <div className="p-4 pt-3 border-t border-white/5">
+              <span className="text-xs text-[#C8F135] font-mono flex items-center gap-1">
+                View Full Analysis <ArrowRight className="w-3 h-3" />
+              </span>
+            </div>
+          </Link>
+
+          {/* Card 2: Gold */}
+          <Link 
+            href="/markets/commodities/gold"
+            className="bg-white/3 rounded-2xl border border-white/8 overflow-hidden hover:border-white/20 transition cursor-pointer flex flex-col justify-between"
+          >
+            <div>
+              <div className="p-4 pb-0">
+                <div className="text-lg font-mono font-bold text-white">XAU/USD</div>
+                <div className="text-xs text-white opacity-40">Gold Spot / US Dollar</div>
+              </div>
+              <div className="w-full h-[160px] bg-[#0A0A0A] overflow-hidden mt-4">
+                <TradingViewMiniChart 
+                  symbol="OANDA:XAUUSD"
+                  largeChartUrl="https://drawdown.trading/markets/commodities/gold"
+                  height={160}
+                />
+              </div>
+            </div>
+            <div className="p-4 pt-3 border-t border-white/5">
+              <span className="text-xs text-[#C8F135] font-mono flex items-center gap-1">
+                View Full Analysis <ArrowRight className="w-3 h-3" />
+              </span>
+            </div>
+          </Link>
+
+          {/* Card 3: FTSE 100 */}
+          <Link 
+            href="/markets/indices/uk100"
+            className="bg-white/3 rounded-2xl border border-white/8 overflow-hidden hover:border-white/20 transition cursor-pointer flex flex-col justify-between"
+          >
+            <div>
+              <div className="p-4 pb-0">
+                <div className="text-lg font-mono font-bold text-white">UK100</div>
+                <div className="text-xs text-white opacity-40">FTSE 100 Index</div>
+              </div>
+              <div className="w-full h-[160px] bg-[#0A0A0A] overflow-hidden mt-4">
+                <TradingViewMiniChart 
+                  symbol="SPREADEX:UK100"
+                  largeChartUrl="https://drawdown.trading/markets/indices/uk100"
+                  height={160}
+                />
+              </div>
+            </div>
+            <div className="p-4 pt-3 border-t border-white/5">
+              <span className="text-xs text-[#C8F135] font-mono flex items-center gap-1">
+                View Full Analysis <ArrowRight className="w-3 h-3" />
+              </span>
+            </div>
+          </Link>
+
+          {/* Card 4: Bitcoin */}
+          <Link 
+            href="/markets/crypto/bitcoin"
+            className="bg-white/3 rounded-2xl border border-white/8 overflow-hidden hover:border-white/20 transition cursor-pointer flex flex-col justify-between"
+          >
+            <div>
+              <div className="p-4 pb-0">
+                <div className="text-lg font-mono font-bold text-white">BTC/USD</div>
+                <div className="text-xs text-white opacity-40">Bitcoin / US Dollar</div>
+              </div>
+              <div className="w-full h-[160px] bg-[#0A0A0A] overflow-hidden mt-4">
+                <TradingViewMiniChart 
+                  symbol="COINBASE:BTCUSD"
+                  largeChartUrl="https://drawdown.trading/markets/crypto/bitcoin"
+                  height={160}
+                />
+              </div>
+            </div>
+            <div className="p-4 pt-3 border-t border-white/5">
+              <span className="text-xs text-[#C8F135] font-mono flex items-center gap-1">
+                View Full Analysis <ArrowRight className="w-3 h-3" />
+              </span>
+            </div>
+          </Link>
+        </div>
+      </section>
+
+      {/* SECTION 5 — WHY THIS EXISTS / DRAWDOWN CONTEXT */}
+      <section className="py-20 bg-white/[0.02] border-y border-white/5 w-full">
+        <div className="max-w-5xl mx-auto px-6 lg:px-16">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            {/* Left Column */}
+            <div>
+              <span className="text-xs font-mono tracking-widest uppercase opacity-40 block mb-4">
+                // WHY WE BUILT THIS
+              </span>
+              <h2 className="text-3xl lg:text-4xl font-bold text-white mb-6 font-sans">
+                Market data without the noise.
+              </h2>
+              <div className="space-y-4 text-base text-white/70 leading-relaxed font-sans">
+                <p>
+                  Most market data sites bury you in numbers without context. They show you a price, a chart and a gauge — but nothing that helps you understand what you're actually looking at or how to trade it.
+                </p>
+                <p>
+                  Every page in the Drawdown Markets Hub connects live TradingView data to curriculum context. You can see which phase covers each instrument, what drives it fundamentally, when it's most active, and what kinds of setups work on it. Data with a framework behind it.
+                </p>
+                <p>
+                  It's free. No sign-up required to access any market page. If you find it useful and want to learn to trade properly, the Drawdown curriculum is where you go next.
+                </p>
+              </div>
+              <div className="mt-8">
+                <Link 
+                  href="/courses"
+                  className="border border-white/20 text-white px-6 py-3 rounded-lg text-sm hover:bg-white/5 transition inline-block font-sans font-semibold"
+                >
+                  Explore the Curriculum &rarr;
+                </Link>
+              </div>
+            </div>
+
+            {/* Right Column */}
+            <div className="space-y-4">
+              {/* Feature 1 */}
+              <div className="flex items-start gap-4 bg-white/3 rounded-xl border border-white/8 p-5 relative overflow-hidden group">
+                {/* Animated background image */}
+                <div className="absolute inset-0 z-0 pointer-events-none select-none">
+                  <img 
+                    src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=600" 
+                    alt="" 
+                    className="absolute inset-0 w-full h-full object-cover opacity-[0.08] group-hover:opacity-[0.22] scale-100 group-hover:scale-105 transition-all duration-700 ease-out mix-blend-luminosity"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-transparent to-[#0A0A0A]/50" />
+                </div>
+                <div className="w-2 h-2 rounded-full bg-[#C8F135] mt-1.5 shrink-0 relative z-10" />
+                <div className="relative z-10">
+                  <h3 className="font-semibold text-sm text-white mb-1 font-sans">Live TradingView Charts</h3>
+                  <p className="text-xs text-white/50 leading-relaxed font-sans">
+                    Every instrument page embeds a live, interactive Advanced Chart. The same platform used throughout the Drawdown curriculum.
+                  </p>
+                </div>
+              </div>
+
+              {/* Feature 2 */}
+              <div className="flex items-start gap-4 bg-white/3 rounded-xl border border-white/8 p-5 relative overflow-hidden group">
+                {/* Animated background image */}
+                <div className="absolute inset-0 z-0 pointer-events-none select-none">
+                  <img 
+                    src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=600" 
+                    alt="" 
+                    className="absolute inset-0 w-full h-full object-cover opacity-[0.08] group-hover:opacity-[0.22] scale-100 group-hover:scale-105 transition-all duration-700 ease-out mix-blend-luminosity"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-transparent to-[#0A0A0A]/50" />
+                </div>
+                <div className="w-2 h-2 rounded-full bg-[#C8F135] mt-1.5 shrink-0 relative z-10" />
+                <div className="relative z-10">
+                  <h3 className="font-semibold text-sm text-white mb-1 font-sans">Technical Analysis Gauges</h3>
+                  <p className="text-xs text-white/50 leading-relaxed font-sans">
+                    Multi-timeframe sentiment indicators — from 1-minute to weekly — aggregated from TradingView's signal engine.
+                  </p>
+                </div>
+              </div>
+
+              {/* Feature 3 */}
+              <div className="flex items-start gap-4 bg-white/3 rounded-xl border border-white/8 p-5 relative overflow-hidden group">
+                {/* Animated background image */}
+                <div className="absolute inset-0 z-0 pointer-events-none select-none">
+                  <img 
+                    src="https://images.unsplash.com/photo-1506784983877-45594efa4cbe?q=80&w=600" 
+                    alt="" 
+                    className="absolute inset-0 w-full h-full object-cover opacity-[0.08] group-hover:opacity-[0.22] scale-100 group-hover:scale-105 transition-all duration-700 ease-out mix-blend-luminosity"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-transparent to-[#0A0A0A]/50" />
+                </div>
+                <div className="w-2 h-2 rounded-full bg-[#C8F135] mt-1.5 shrink-0 relative z-10" />
+                <div className="relative z-10">
+                  <h3 className="font-semibold text-sm text-white mb-1 font-sans">Economic Calendar</h3>
+                  <p className="text-xs text-white/50 leading-relaxed font-sans">
+                    Filtered to the relevant currencies and regions for each instrument. Know what's coming before you trade.
+                  </p>
+                </div>
+              </div>
+
+              {/* Feature 4 */}
+              <div className="flex items-start gap-4 bg-white/3 rounded-xl border border-white/8 p-5 relative overflow-hidden group">
+                {/* Animated background image */}
+                <div className="absolute inset-0 z-0 pointer-events-none select-none">
+                  <img 
+                    src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?q=80&w=600" 
+                    alt="" 
+                    className="absolute inset-0 w-full h-full object-cover opacity-[0.08] group-hover:opacity-[0.22] scale-100 group-hover:scale-105 transition-all duration-700 ease-out mix-blend-luminosity"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-transparent to-[#0A0A0A]/50" />
+                </div>
+                <div className="w-2 h-2 rounded-full bg-[#C8F135] mt-1.5 shrink-0 relative z-10" />
+                <div className="relative z-10">
+                  <h3 className="font-semibold text-sm text-white mb-1 font-sans">Curriculum Context</h3>
+                  <p className="text-xs text-white/50 leading-relaxed font-sans">
+                    Each page tells you which Drawdown phase covers that instrument, what drives it, and when it's most active for UK traders.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* SECTION 6 — FULL INSTRUMENT LIST */}
+      <section className="py-20 max-w-7xl mx-auto px-6 lg:px-16 w-full">
+        <div className="text-xs font-mono tracking-widest uppercase opacity-40 mb-4">
+          // ALL INSTRUMENTS
+        </div>
+        <h2 className="text-3xl font-bold text-white mb-10 font-sans">
+          Every market we cover.
+        </h2>
+
+        <div className="space-y-16">
+          {[
+            { key: "forex" as const, name: "Forex" },
+            { key: "commodities" as const, name: "Commodities" },
+            { key: "indices" as const, name: "Indices" },
+            { key: "crypto" as const, name: "Cryptocurrencies" },
+          ].map(cat => {
+            const list = getCategoryInstruments(cat.key);
+            return (
+              <div key={cat.key} className="space-y-4">
+                {/* Category Heading Row */}
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <h3 className="text-lg font-semibold text-white uppercase font-sans">
+                      {cat.name}
+                    </h3>
+                    <span className="bg-white/5 rounded-full px-3 py-1 text-xs font-mono opacity-50 text-white">
+                      {list.length}
+                    </span>
+                  </div>
+                  <Link 
+                    href={`/markets/${cat.key}`}
+                    className="text-xs text-[#C8F135] font-mono hover:underline"
+                  >
+                    View all {cat.name} &rarr;
+                  </Link>
+                </div>
+
+                {/* Instrument Rows */}
+                <div className="border-t border-white/5">
+                  {list.map(inst => (
+                    <Link 
+                      key={inst.slug}
+                      href={`/markets/${inst.category}/${inst.slug}`}
+                      className="flex items-center justify-between py-4 border-b border-white/5 hover:bg-white/[0.02] transition px-2 rounded cursor-pointer group"
+                    >
+                      <div className="flex items-baseline">
+                        <span className="font-mono font-semibold text-sm text-white group-hover:text-[#C8F135] transition-colors">
+                          {inst.displayPair}
+                        </span>
+                        <span className="text-xs text-white opacity-40 ml-3 hidden sm:inline">
+                          {inst.name}
+                        </span>
+                      </div>
+                      <div className="flex items-center">
+                        <span className="text-xs font-mono bg-white/5 border border-white/10 rounded-full px-3 py-1 opacity-60 text-white">
+                          {inst.drawdownPhase.split(" — ")[0]}
+                        </span>
+                        <span className="text-[#C8F135] ml-4 text-sm group-hover:translate-x-0.5 transition-transform">
+                          →
+                        </span>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </section>
+
+      {/* SECTION 7 — BOTTOM CTA STRIP */}
+      <section className="py-16 border-t border-white/8 w-full bg-[#0A0A0A]">
+        <div className="max-w-5xl mx-auto px-6 text-center">
+          <h2 className="text-2xl font-bold text-white mb-3 font-sans">
+            Want to learn to trade these markets properly?
+          </h2>
+          <p className="text-base text-white opacity-50 mb-8 max-w-2xl mx-auto font-sans leading-relaxed">
+            The Drawdown curriculum takes you from complete beginner to structured, risk-managed trader across forex, commodities, indices and crypto.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link
+              href="/signup"
+              className="bg-[#C8F135] text-black font-semibold px-8 py-3 rounded-lg hover:opacity-95 transition font-sans text-center"
+            >
+              Start Free on Drawdown &rarr;
+            </Link>
+            <Link
+              href="/courses"
+              className="border border-white/20 text-white px-8 py-3 rounded-lg hover:bg-white/5 transition font-sans text-center"
+            >
+              View the Curriculum &rarr;
+            </Link>
+          </div>
+        </div>
       </section>
 
     </div>

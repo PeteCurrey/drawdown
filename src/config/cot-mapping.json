@@ -1,0 +1,12 @@
+{
+  "EURUSD":  { "code": "099741", "name": "EURO FX" },
+  "GBPUSD":  { "code": "096742", "name": "BRITISH POUND STERLING" },
+  "USDJPY":  { "code": "097741", "name": "JAPANESE YEN" },
+  "GBPJPY":  { "code": "096742", "name": "BRITISH POUND STERLING" },
+  "XAGUSD":  { "code": "084691", "name": "SILVER" },
+  "BTCUSDT": { "code": "133741", "name": "BITCOIN" },
+  "NDX":     { "code": "20974+", "name": "NASDAQ-100 STOCK INDEX" },
+  "SPX":     { "code": "13874A", "name": "S&P 500 STOCK INDEX" },
+  "DJI":     { "code": "124603", "name": "DOW JONES INDUSTRIAL AVERAGE" },
+  "UKX":     { "code": "096742", "name": "BRITISH POUND STERLING" }
+}

@@ -34,14 +34,14 @@ export default function MarketPulseHubPage() {
   const feedStories = news.slice(1);
 
   return (
-    <div className="bg-background-primary min-h-screen">
+    <div className="min-h-screen">
       <PulseTicker />
       <TrackPageView path="/markets/pulse" />
       
-      <div className="container mx-auto px-6 py-12">
+      <div className="max-w-7xl mx-auto px-6 py-12">
         <div className="mb-12">
           <Breadcrumbs />
-          <h1 className="text-5xl md:text-8xl font-display font-black uppercase tracking-tight mt-8">
+          <h1 className="text-5xl md:text-8xl font-sans font-black uppercase tracking-tight mt-8">
             The <span className="text-accent underline decoration-accent/20">Pulse.</span>
           </h1>
           <p className="text-lg text-text-secondary mt-4 max-w-2xl">

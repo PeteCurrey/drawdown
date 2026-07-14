@@ -23,21 +23,21 @@ export default async function MarketPairPage({ params }: Props) {
   const symbol = rawSymbol.toUpperCase();
 
   return (
-    <div className="min-h-screen bg-background-primary">
-      <div className="container mx-auto px-6 pt-32 pb-24">
+    <div className="min-h-screen">
+      <div className="max-w-7xl mx-auto px-6 pt-28 pb-24">
         <header className="mb-12 space-y-6">
           <Breadcrumbs />
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 border-b border-border-slate pb-12">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 border-b border-border-slate/50 pb-12">
             <div className="space-y-4">
               <div className="flex items-center gap-3">
-                <span className="px-3 py-1 bg-accent/10 border border-accent/20 text-accent font-mono text-[10px] uppercase tracking-widest">
+                <span className="px-3 py-1 bg-accent/10 border border-border-slate/50/20 text-accent font-mono text-[10px] uppercase tracking-widest">
                   Live Market
                 </span>
                 <span className="text-text-tertiary font-mono text-[10px] uppercase tracking-widest">
                   Real-time synchronization active
                 </span>
               </div>
-              <h1 className="  font-display font-black uppercase tracking-tighter leading-none">
+              <h1 className="font-sans font-black uppercase tracking-tighter leading-none">
                 {symbol}.
               </h1>
               <p className="text-text-secondary text-lg max-w-2xl leading-relaxed">
@@ -47,13 +47,13 @@ export default async function MarketPairPage({ params }: Props) {
             </div>
 
             <div className="flex gap-4">
-              <div className="p-6 bg-background-surface border border-border-slate text-center min-w-[140px]">
+              <div className="p-6 bg-background-surface/40 backdrop-blur-md border border-border-slate/50 transition-all duration-300 hover:shadow-[0_0_20px_rgba(0,0,0,0.2)] hover:border-border-slate hover:-translate-y-0.5 text-center min-w-[140px]">
                 <p className="text-[10px] font-mono uppercase text-text-tertiary mb-1">Volatilty</p>
-                <p className="text-xl font-display font-bold uppercase">Stable</p>
+                <p className="text-xl font-sans font-bold uppercase">Stable</p>
               </div>
-              <div className="p-6 bg-background-surface border border-border-slate text-center min-w-[140px]">
+              <div className="p-6 bg-background-surface/40 backdrop-blur-md border border-border-slate/50 transition-all duration-300 hover:shadow-[0_0_20px_rgba(0,0,0,0.2)] hover:border-border-slate hover:-translate-y-0.5 text-center min-w-[140px]">
                 <p className="text-[10px] font-mono uppercase text-text-tertiary mb-1">Sentiment</p>
-                <p className="text-xl font-display font-bold uppercase text-profit">Bullish</p>
+                <p className="text-xl font-sans font-bold uppercase text-profit">Bullish</p>
               </div>
             </div>
           </div>
@@ -64,8 +64,8 @@ export default async function MarketPairPage({ params }: Props) {
         </section>
 
         <section className="mt-24 grid grid-cols-1 lg:grid-cols-2 gap-12">
-          <div className="p-10 bg-background-elevated border border-border-slate space-y-6">
-            <h3 className="text-2xl font-display font-bold uppercase">About {symbol} Trading</h3>
+          <div className="p-10 bg-background-elevated/40 border border-border-slate/50 space-y-6">
+            <h3 className="text-2xl font-sans font-bold uppercase">About {symbol} Trading</h3>
             <div className="prose prose-invert prose-sm text-text-secondary">
               <p>
                 Trading {symbol} requires an understanding of both technical structure and the psychological barriers that drive liquidity. 
@@ -77,19 +77,19 @@ export default async function MarketPairPage({ params }: Props) {
             </div>
           </div>
 
-          <div className="p-10 bg-accent text-background-primary space-y-8 relative overflow-hidden group">
+          <div className="p-10 bg-mkt-ink text-white space-y-8 relative overflow-hidden group">
             <div className="relative z-10 space-y-4">
-              <h3 className="text-3xl font-display font-bold uppercase leading-tight">
+              <h3 className="text-3xl font-sans font-bold uppercase leading-tight">
                 Unlock Edge Analysis <br /> for {symbol}.
               </h3>
               <p className="text-sm font-medium leading-relaxed opacity-90 max-w-sm">
                 Get Pete's specific take on this setup. Our premium AI signals identify hidden trend shifts before they hit the chart.
               </p>
-              <button className="px-8 py-4 bg-background-primary text-text-primary text-[10px] font-bold uppercase tracking-widest hover:scale-105 transition-transform">
+              <button className="px-8 py-4 text-text-primary text-[10px] font-bold uppercase tracking-widest hover:scale-105 transition-transform">
                 Get Early Access
               </button>
             </div>
-            <div className="absolute -bottom-10 -right-10 w-64 h-64 bg-background-primary/10 rounded-full blur-3xl group-hover:bg-background-primary/20 transition-colors" />
+            <div className="absolute -bottom-10 -right-10 w-64 h-64 /10 rounded-full blur-3xl group-hover:bg-background-elevated/60/20 transition-colors" />
           </div>
         </section>
       </div>

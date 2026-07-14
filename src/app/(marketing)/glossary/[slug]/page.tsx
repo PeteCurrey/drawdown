@@ -1,10 +1,11 @@
 import { notFound } from "next/navigation";
+import { Metadata } from "next";
 import { GLOSSARY_TERMS } from "@/data/seo/glossary";
 import { RichBlock } from "@/lib/data/learn-to-trade";
-import { Metadata } from "next";
 import Link from "next/link";
 import { ChevronRight, ArrowRight, BookOpen, Calculator, Play } from "lucide-react";
 import { TrackPageView } from "@/components/admin/TrackPageView";
+import { createInternalSupabase } from "@/lib/supabase/server";
 import {
   StatCallout,
   TradeExample,
@@ -14,19 +15,66 @@ import {
   ToolCard,
 } from "@/components/content";
 
+export const dynamicParams = true;
+export const revalidate = 3600; // hourly cache revalidation
+
 interface Props {
   params: Promise<{ slug: string }>;
 }
 
 export async function generateStaticParams() {
-  return GLOSSARY_TERMS.map((term) => ({
-    slug: term.slug,
-  }));
+  return [];
+}
+
+async function getGlossaryTerm(slug: string) {
+  console.log(`[Glossary] Querying Supabase for slug: ${slug}`);
+  try {
+    const supabase = createInternalSupabase();
+    const { data: page, error } = await supabase
+      .from("seo_pages")
+      .select("*")
+      .eq("slug", slug)
+      .eq("page_type", "glossary")
+      .maybeSingle();
+
+    if (error) {
+      console.error(`[Glossary] Supabase fetch error for slug ${slug}:`, error.message);
+    }
+
+    if (page) {
+      console.log(`[Glossary] Supabase record found for slug: ${slug}`);
+      return {
+        term: page.title,
+        slug: page.slug,
+        definition: page.seo_description || "",
+        detailedExplanation: page.content || "",
+        example: "",
+        relatedTerms: ['Pip', 'Spread', 'Lot Size', 'Leverage'].filter((t) => t.toLowerCase() !== page.title.toLowerCase()),
+        faqs: [] as any[],
+        richBlocks: [] as any[],
+        relatedCoursePhase: null,
+        relatedTool: null
+      };
+    }
+  } catch (err: any) {
+    console.error(`[Glossary] Exception fetching from Supabase for slug ${slug}:`, err.message);
+  }
+
+  // Check local data fallback
+  console.log(`[Glossary] Checking local GLOSSARY_TERMS for slug: ${slug}`);
+  const term = GLOSSARY_TERMS.find((t) => t.slug === slug);
+  if (term) {
+    console.log(`[Glossary] Local record found for slug: ${slug}`);
+    return term;
+  }
+
+  console.log(`[Glossary] No record found in Supabase or local data for slug: ${slug}`);
+  return null;
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const glossaryTerm = GLOSSARY_TERMS.find((t) => t.slug === slug);
+  const glossaryTerm = await getGlossaryTerm(slug);
 
   if (!glossaryTerm) return {};
 
@@ -38,6 +86,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     },
   };
 }
+
 
 function RichBlockRenderer({ block }: { block: RichBlock }) {
   switch (block.type) {
@@ -92,12 +141,12 @@ function RichBlockRenderer({ block }: { block: RichBlock }) {
 
 export default async function GlossaryTermPage({ params }: Props) {
   const { slug } = await params;
-  const glossaryTerm = GLOSSARY_TERMS.find((t) => t.slug === slug);
+  const glossaryTerm = await getGlossaryTerm(slug);
 
   if (!glossaryTerm) notFound();
 
   return (
-    <main className="min-h-screen bg-background-primary pt-32 pb-20 px-6">
+    <main className="min-h-screen pt-32 pb-20 px-6">
       <TrackPageView path={`/glossary/${slug}`} />
       <div className="max-w-3xl mx-auto">
         {/* Breadcrumbs */}
@@ -114,13 +163,13 @@ export default async function GlossaryTermPage({ params }: Props) {
           <div className="text-accent font-mono text-[10px] tracking-[0.3em] uppercase">
             // TRADING TERMINOLOGY
           </div>
-          <h1 className="text-5xl md:text-6xl font-display font-bold leading-tight">
+          <h1 className="text-5xl md:text-6xl font-sans font-bold leading-tight">
             What is {glossaryTerm.term}?
           </h1>
         </div>
 
         {/* Quick Definition */}
-        <div className="mb-12 p-8 bg-background-elevated border-l-4 border-accent relative">
+        <div className="mb-12 p-8 bg-background-elevated/40 border-l-4 border-border-slate/50 relative">
           <div className="absolute top-0 right-0 p-4 opacity-5">
              <BookOpen className="w-16 h-16" />
           </div>
@@ -130,7 +179,7 @@ export default async function GlossaryTermPage({ params }: Props) {
         </div>
 
         {/* Detailed Explanation */}
-        <div className="prose prose-invert prose-slate max-w-none mb-16">
+        <div className="prose prose-invert prose-invert max-w-none mb-16">
           <h2 className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary mb-6">In-Depth Explanation</h2>
           <div className="text-text-secondary text-lg leading-relaxed space-y-6 whitespace-pre-wrap">
             {glossaryTerm.detailedExplanation}
@@ -147,12 +196,12 @@ export default async function GlossaryTermPage({ params }: Props) {
         )}
 
         {/* Practical Example */}
-        <section className="mb-16 bg-background-surface border border-border-slate p-8">
+        <section className="mb-16 bg-background-surface/40 backdrop-blur-md border border-border-slate/50 transition-all duration-300 hover:shadow-[0_0_20px_rgba(0,0,0,0.2)] hover:border-border-slate hover:-translate-y-0.5 p-8">
           <h2 className="text-[10px] font-mono uppercase tracking-widest text-accent mb-6 flex items-center space-x-2">
              <Play className="w-3 h-3 fill-accent" />
              <span>Practical Example</span>
           </h2>
-          <p className="text-text-secondary font-mono text-sm leading-relaxed italic bg-background-primary p-6 border border-border-slate">
+          <p className="text-text-secondary font-mono text-sm leading-relaxed italic p-6 border border-border-slate/50">
             &quot;{glossaryTerm.example}&quot;
           </p>
         </section>
@@ -160,13 +209,13 @@ export default async function GlossaryTermPage({ params }: Props) {
         {/* Related Assets */}
         <div className="grid md:grid-cols-2 gap-6 mb-20">
           {glossaryTerm.relatedCoursePhase && (
-            <Link href="/learn" className="group p-6 bg-background-elevated border border-border-slate hover:border-accent transition-all">
+            <Link href="/learn" className="group p-6 bg-background-elevated/40 border border-border-slate/50 hover:border-border-slate transition-all">
                <span className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary block mb-4">Learn More In</span>
                <h3 className="text-lg font-bold group-hover:text-accent transition-colors">{glossaryTerm.relatedCoursePhase}</h3>
             </Link>
           )}
           {glossaryTerm.relatedTool && (
-            <Link href="/tools" className="group p-6 bg-background-elevated border border-border-slate hover:border-accent transition-all">
+            <Link href="/tools" className="group p-6 bg-background-elevated/40 border border-border-slate/50 hover:border-border-slate transition-all">
                <span className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary block mb-4">Try the Tool</span>
                <h3 className="text-lg font-bold group-hover:text-accent transition-colors">{glossaryTerm.relatedTool}</h3>
                <div className="mt-4 flex items-center space-x-2 text-accent">
@@ -185,7 +234,7 @@ export default async function GlossaryTermPage({ params }: Props) {
               <Link 
                 key={t} 
                 href={`/glossary/${t.toLowerCase().replace(/ /g, '-')}`}
-                className="px-4 py-2 bg-background-surface border border-border-slate text-xs font-mono text-text-secondary hover:border-accent hover:text-accent transition-all"
+                className="px-4 py-2 bg-background-surface/40 backdrop-blur-md border border-border-slate/50 transition-all duration-300 hover:shadow-[0_0_20px_rgba(0,0,0,0.2)] hover:border-border-slate hover:-translate-y-0.5 text-xs font-mono text-text-secondary hover:border-border-slate hover:text-accent transition-all"
               >
                 {t}
               </Link>
@@ -195,11 +244,11 @@ export default async function GlossaryTermPage({ params }: Props) {
 
         {/* Footer CTA */}
         <section className="bg-accent p-12 text-center space-y-6">
-          <h2 className="text-4xl font-display font-bold text-background-primary uppercase">Master the language of risk</h2>
+          <h2 className="text-4xl font-sans font-bold text-background-primary uppercase">Master the language of risk</h2>
           <p className="text-background-primary/80 font-mono text-sm max-w-md mx-auto">
             Knowing the terms is just the start. Learning how to apply them is where the edge is found.
           </p>
-          <Link href="/signup" className="inline-flex items-center space-x-3 bg-background-primary text-text-primary px-10 py-5 text-xs font-bold uppercase tracking-[0.2em] hover:bg-text-primary hover:text-background-primary transition-all">
+          <Link href="/signup" className="inline-flex items-center space-x-3 text-text-primary px-10 py-5 text-xs font-bold uppercase tracking-[0.2em] hover:bg-text-primary hover:text-background-primary transition-all">
             <span>Join Drawdown Free</span>
             <ArrowRight className="w-4 h-4" />
           </Link>

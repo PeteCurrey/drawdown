@@ -5,11 +5,11 @@ import { cn } from "@/lib/utils";
 
 export default function LiveSessionsPage() {
   return (
-    <div className="pt-12 pb-24 bg-background-primary min-h-screen transition-colors duration-500">
-      <div className="container mx-auto px-6 max-w-6xl">
+    <div className="pt-12 pb-24 min-h-screen transition-colors duration-500">
+      <div className="max-w-7xl mx-auto px-6 max-w-6xl">
         <div className="mb-12">
           <span className="text-accent font-mono text-[10px] uppercase tracking-widest block mb-4">// LIVE EDGE</span>
-          <h1 className="  font-display font-bold uppercase">Trading Room.</h1>
+          <h1 className="font-sans font-bold uppercase">Trading Room.</h1>
           <p className="text-sm font-mono text-text-tertiary mt-4 max-w-2xl">
             Watch professional-grade execution in real-time. Daily pre-market analysis and live session trading.
           </p>
@@ -18,22 +18,22 @@ export default function LiveSessionsPage() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Video Placeholder Area */}
           <div className="lg:col-span-2 space-y-6">
-            <div className="aspect-video bg-background-surface border border-border-slate relative flex flex-col items-center justify-center p-8 text-center group overflow-hidden">
+            <div className="aspect-video bg-background-surface/40 backdrop-blur-md border border-border-slate/50 transition-all duration-300 hover:shadow-[0_0_20px_rgba(0,0,0,0.2)] hover:border-border-slate hover:-translate-y-0.5 relative flex flex-col items-center justify-center p-8 text-center group overflow-hidden">
               <div className="absolute inset-0 bg-accent/5 opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
               <Video className="w-12 h-12 text-text-tertiary mb-6 opacity-50" />
-              <h2 className="text-2xl font-display font-bold uppercase mb-4 text-text-primary">Stream Offline</h2>
+              <h2 className="text-2xl font-sans font-bold uppercase mb-4 text-text-primary">Stream Offline</h2>
               <p className="text-xs font-mono text-text-secondary">
                 The next live session begins at 08:00 AM GMT (London Open).
               </p>
               
-              <div className="absolute top-6 left-6 flex items-center gap-2 px-3 py-1.5 bg-background-elevated border border-border-slate rounded-full">
+              <div className="absolute top-6 left-6 flex items-center gap-2 px-3 py-1.5 bg-background-elevated/40 border border-border-slate/50 rounded-full">
                 <div className="w-2 h-2 rounded-full bg-text-tertiary" />
                 <span className="text-[9px] font-mono uppercase tracking-widest text-text-secondary">Offline</span>
               </div>
             </div>
 
-            <div className="bg-background-surface border border-border-slate p-8">
-              <h3 className="text-lg font-display font-bold uppercase mb-6 flex items-center gap-2 text-text-primary">
+            <div className="bg-background-surface/40 backdrop-blur-md border border-border-slate/50 transition-all duration-300 hover:shadow-[0_0_20px_rgba(0,0,0,0.2)] hover:border-border-slate hover:-translate-y-0.5 p-8">
+              <h3 className="text-lg font-sans font-bold uppercase mb-6 flex items-center gap-2 text-text-primary">
                 <CalendarDays className="w-5 h-5 text-accent" /> Upcoming Schedule
               </h3>
               
@@ -45,7 +45,7 @@ export default function LiveSessionsPage() {
                 ].map((item, i) => (
                   <div key={i} className={cn(
                     "flex items-center justify-between p-4 border",
-                    item.active ? "bg-accent/5 border-accent/20" : "bg-background-elevated border-border-slate"
+                    item.active ? "bg-accent/5 border-border-slate/50/20" : "bg-background-elevated/40 border-border-slate/50"
                   )}>
                     <div className="flex flex-col gap-1">
                       <span className="text-[10px] font-mono text-text-tertiary uppercase tracking-widest">{item.time}</span>
@@ -54,7 +54,7 @@ export default function LiveSessionsPage() {
                         item.active ? "text-accent" : "text-text-primary"
                       )}>{item.title}</span>
                     </div>
-                    {item.active && <span className="text-[9px] font-bold uppercase tracking-widest bg-accent text-background-primary px-3 py-1 rounded-sm">Next</span>}
+                    {item.active && <span className="text-[9px] font-bold uppercase tracking-widest bg-mkt-ink text-white px-3 py-1 rounded-sm">Next</span>}
                   </div>
                 ))}
               </div>
@@ -62,9 +62,9 @@ export default function LiveSessionsPage() {
           </div>
 
           {/* Chat / Sidebar Area */}
-          <div className="bg-background-surface border border-border-slate flex flex-col h-[600px] lg:h-auto">
-            <div className="p-6 border-b border-border-slate flex items-center justify-between">
-               <h3 className="text-lg font-display font-bold uppercase flex items-center gap-2 text-text-primary">
+          <div className="bg-background-surface/40 backdrop-blur-md border border-border-slate/50 transition-all duration-300 hover:shadow-[0_0_20px_rgba(0,0,0,0.2)] hover:border-border-slate hover:-translate-y-0.5 flex flex-col h-[600px] lg:h-auto">
+            <div className="p-6 border-b border-border-slate/50 flex items-center justify-between">
+               <h3 className="text-lg font-sans font-bold uppercase flex items-center gap-2 text-text-primary">
                  <Users className="w-5 h-5 text-accent" /> Live Chat
                </h3>
                <span className="text-[9px] font-mono uppercase tracking-widest text-text-tertiary flex items-center gap-1">
@@ -73,7 +73,7 @@ export default function LiveSessionsPage() {
             </div>
             
             <div className="flex-grow p-6 flex flex-col items-center justify-center text-center px-8 relative overflow-hidden">
-               <div className="absolute inset-0 bg-background-surface/50 backdrop-blur-sm z-10" />
+               <div className="absolute inset-0 /50 backdrop-blur-sm z-10" />
                <div className="relative z-20 space-y-4">
                   <Lock className="w-8 h-8 text-text-tertiary mx-auto mb-4" />
                   <p className="text-sm font-bold uppercase">Offline Chat Disabled</p>
@@ -83,12 +83,12 @@ export default function LiveSessionsPage() {
                </div>
             </div>
             
-            <div className="p-4 border-t border-border-slate bg-background-elevated">
+            <div className="p-4 border-t border-border-slate/50 bg-background-elevated/40">
                <input 
                  disabled
                  type="text" 
                  placeholder="Chat is currently disabled..." 
-                 className="w-full bg-background-primary border border-border-slate px-4 py-3 text-sm focus:outline-none opacity-50 cursor-not-allowed"
+                 className="w-full bg-background-surface/40 backdrop-blur-md border border-border-slate/50 transition-all duration-300 hover:shadow-[0_0_20px_rgba(0,0,0,0.2)] hover:border-border-slate hover:-translate-y-0.5 px-4 py-3 text-sm focus:outline-none opacity-50 cursor-not-allowed"
                />
             </div>
           </div>

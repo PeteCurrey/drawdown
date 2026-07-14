@@ -1,42 +1,14 @@
-"use client";
+import { Metadata } from "next";
+import { CoursesPageClient } from "@/components/courses/CoursesPageClient";
+import JsonLd from "@/components/seo/JsonLd";
 
-import { cn } from "@/lib/utils";
-import Link from "next/link";
-import { 
-  Shield, 
-  LineChart, 
-  Zap, 
-  Lock, 
-  Brain, 
-  Play, 
-  ChevronRight, 
-  Clock, 
-  Layers 
-} from "lucide-react";
-import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
-import { StructuredData } from "@/components/StructuredData";
-
-import { phases, phaseIconMap } from "@/data/courses";
+export const metadata: Metadata = {
+  title: 'Trading Courses UK | 6-Phase Curriculum | Structured Learning',
+  description: 'A structured 6-phase trading curriculum built for UK traders. From chart reading to live execution — no shortcuts, no fluff. Start Phase 1 free.',
+  alternates: { canonical: 'https://drawdown.trading/courses' }
+}
 
 export default function CoursesPage() {
-  const courseSchema = {
-    "@type": "ItemList",
-    "itemListElement": phases.map((phase, i) => ({
-      "@type": "ListItem",
-      "position": i + 1,
-      "item": {
-        "@type": "Course",
-        "name": `Phase ${phase.number}: ${phase.name}`,
-        "description": phase.description,
-        "provider": {
-          "@type": "Organization",
-          "name": "Drawdown",
-          "sameAs": "https://drawdown.trading"
-        }
-      }
-    }))
-  };
-
   return (
     <div className="pt-32 pb-24 bg-background-primary min-h-screen">
       <div className="container mx-auto px-6">

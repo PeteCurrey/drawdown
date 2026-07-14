@@ -1,22 +1,22 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { HK_BROKERS } from "@/data/seo/hk-data";
-import { Shield, Target, Activity, CheckCircle2, ArrowRight, ExternalLink, Info } from "lucide-react";
-import Link from "next/link";
-import Breadcrumbs from "@/components/layout/Breadcrumbs";
+import { BrokerReviewTemplate } from "@/components/seo/BrokerReviewTemplate";
+
+export const dynamicParams = true;
+export const revalidate = 3600; // hourly cache revalidation
 
 interface Props {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }
 
 export async function generateStaticParams() {
-  return HK_BROKERS.map((broker) => ({
-    slug: broker.slug,
-  }));
+  return [];
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const broker = HK_BROKERS.find((b) => b.slug === params.slug);
+  const { slug } = await params;
+  const broker = HK_BROKERS.find((b) => b.slug === slug);
   if (!broker) return {};
 
   return {
@@ -25,12 +25,18 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default function HongKongBrokerReviewPage({ params }: Props) {
-  const broker = HK_BROKERS.find((b) => b.slug === params.slug);
+export default async function HongKongBrokerReviewPage({ params }: Props) {
+  const { slug } = await params;
+  const broker = HK_BROKERS.find((b) => b.slug === slug);
 
   if (!broker) {
     notFound();
   }
+
+  const breadcrumbs = [
+    { label: 'HK Brokers', href: '/hk/brokers' },
+    { label: broker.name, href: `/hk/brokers/${broker.slug}` }
+  ];
 
   return (
     <div className="flex flex-col min-h-screen bg-background-primary">

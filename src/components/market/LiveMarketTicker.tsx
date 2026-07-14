@@ -46,25 +46,25 @@ export function LiveMarketTicker() {
       <div className="flex animate-marquee whitespace-nowrap items-center">
         {items.map((item, i) => (
           <div key={i} className="flex items-center gap-4 px-8 border-r border-white/5 last:border-r-0">
-            <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-text-primary">
+            <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-mkt-ink">
               {item.symbol}
             </span>
-            <span className="text-[10px] font-mono text-text-primary">
-              {item.price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+            <span className="text-[10px] font-mono text-mkt-ink">
+              {(item.price == null || typeof item.price !== 'number' || Number.isNaN(item.price)) ? "--" : item.price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
             </span>
             <span className={cn(
               "text-[9px] font-mono flex items-center gap-0.5",
-              item.changePercent >= 0 ? "text-profit" : "text-loss"
+              item.changePercent >= 0 ? "text-mkt-grn" : "text-red-500"
             )}>
               {item.changePercent >= 0 ? (
                 <MoveUpRight className="w-2.5 h-2.5" />
               ) : (
                 <MoveDownRight className="w-2.5 h-2.5" />
               )}
-              {Math.abs(item.changePercent).toFixed(2)}%
+              {(item.changePercent == null || typeof item.changePercent !== 'number' || Number.isNaN(item.changePercent)) ? "0.00" : Math.abs(item.changePercent).toFixed(2)}%
             </span>
-            {error && i === 0 && (
-              <span className="text-[8px] font-mono text-text-tertiary ml-2 italic">(delayed)</span>
+            {i === 0 && (
+              <span className="text-[8px] font-mono text-mkt-i4 ml-2 italic">(Prices delayed 60s)</span>
             )}
           </div>
         ))}

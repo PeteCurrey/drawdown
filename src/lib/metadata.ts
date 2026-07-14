@@ -26,17 +26,17 @@ export function getMetadata({
   description = siteConfig.description,
   image = siteConfig.ogImage,
   noIndex = false,
-  path = "",
+  path,
   hasRegionalVariants = false,
 }: MetadataProps = {}): Metadata {
   const fullTitle = title 
     ? `${title} | ${siteConfig.name}` 
     : siteConfig.title;
 
-  const url = `${siteConfig.url}${path}`;
+  const url = path !== undefined ? `${siteConfig.url}${path}` : undefined;
 
   const languages: Record<string, string> = {};
-  if (hasRegionalVariants) {
+  if (hasRegionalVariants && path !== undefined) {
     const cleanPath = path === "/" ? "" : path.startsWith("/") ? path : `/${path}`;
     languages['en-GB'] = `${siteConfig.url}${cleanPath}`;
     languages['en-AU'] = `${siteConfig.url}/au${cleanPath}`;
@@ -49,27 +49,16 @@ export function getMetadata({
   return {
     title: fullTitle,
     description,
-    keywords: [
-      "trading education",
-      "learn to trade",
-      "day trading UK",
-      "forex education",
-      "trading courses UK",
-      "AI trading tools",
-      "trading psychology",
-      "risk management",
-      "technical analysis"
-    ],
     authors: [
       {
-        name: "Pete (Founder)",
+        name: "Pete Currey",
         url: "https://drawdown.trading/about",
       },
     ],
     openGraph: {
       type: "website",
       locale: "en_GB",
-      url,
+      url: url || siteConfig.url,
       title: fullTitle,
       description,
       siteName: siteConfig.name,
@@ -97,7 +86,7 @@ export function getMetadata({
     metadataBase: new URL(siteConfig.url),
     alternates: {
       canonical: url,
-      languages: hasRegionalVariants ? languages : undefined,
+      languages: hasRegionalVariants && path !== undefined ? languages : undefined,
     },
     ...(noIndex && {
       robots: {

@@ -478,80 +478,135 @@ We provide **Session-Specific Briefings**. We tell you what the "Theme" is for t
   {
     slug: "algo-strategy-builder",
     title: "Algo Strategy Builder",
-    tagline: "Trade the Machine. Without the Code.",
-    description: "Convert your trading rules into professional-grade Pine Script or Python. Describe your edge, get the code, and validate your hypothesis instantly.",
+    tagline: "Convert discretionary trading logic into production Python & Pine Script.",
+    description: "Most traders fail to codify their edge. Describe your strategy in plain language, and our engine outputs optimized, institutional-grade Python and Pine Script code.",
     icon: Terminal,
     sections: {
-      peteTake: "The market is a math problem. This tool helps you write the solution without spending 3 years learning Python. It's about codifying your discipline.",
+      peteTake: "Discretionary trading is full of lies you tell yourself. Systematic trading is just math and code. This tool lets you bridge the gap and write the code without spending years learning syntax.",
       problem: {
-        title: "The Barrier to Systematization",
-        content: "Most retail traders have a 'feel' for the market but no way to prove it. Manual backtesting takes hundreds of hours and is plagued by human bias and hindsight. To compete with institutional algorithms, you need to codify your logic, but learning to code is a massive barrier to entry."
+        title: "The Code Bottleneck",
+        content: "If you cannot backtest your strategy over 10 years of tick data, you do not have an edge—you have a wish list. But writing clean Python code using Pandas and NumPy, checking for look-ahead bias, and integrating complex broker APIs is a monumental barrier to entry. Discretionary traders get stuck backtesting manually, introducing hindsight bias and fatigue."
       },
       howItWorks: {
         steps: [
           {
-            title: "Define Your Logic",
-            description: "Describe your entry and exit rules in plain English. For example: 'Buy when RSI is below 30 and price is at the 200 EMA'."
+            title: "Describe Your Strategy",
+            description: "Provide your entry, exit, and risk rules in natural English (e.g. 'Enter long when 20-period EMA crosses above 50-period SMA, and RSI is oversold under 30')."
           },
           {
             title: "AI Translation",
             description: "Our professional-grade AI translates your natural language into optimized, bug-free Pine Script (v5) or Python."
           },
           {
-            title: "Instant Validation",
-            description: "Copy your code directly into TradingView or our Backtester to see the equity curve and drawdown metrics immediately."
+            title: "Eliminate Hindsight Bias",
+            description: "The builder automatically structures scripts to prevent look-ahead bias and double-trigger execution bugs, checking for statistical validity."
           },
           {
-            title: "Refine & Scale",
-            description: "Adjust your parameters and export your code to a live execution bot via API."
+            title: "Export & Live Trade",
+            description: "Download the complete python scripts or Pine codes. Connect directly to Interactive Brokers, MT5, or cTrader via our secure API bridge."
           }
         ]
       },
       features: {
-        title: "Institutional Specs",
+        title: "Quantitative Engine Specifications",
         items: [
           {
-            title: "Pine Script v5",
-            description: "Full support for the latest TradingView features, including alerts and complex strategy modules."
+            title: "Pandas & NumPy Vectorization",
+            description: "High-performance data frames and multi-dimensional matrices for sub-millisecond calculation of technical indicators."
           },
           {
-            title: "Python Backtrader",
-            description: "Export clean, production-ready Python code for professional-grade quantitative analysis."
+            title: "Moving Average & Oscillator Libraries",
+            description: "Pre-integrated formulas for Simple Moving Average (SMA), Exponential Moving Average (EMA), Relative Strength Index (RSI), and volatility models."
           },
           {
-            title: "Logic Error Detection",
-            description: "AI-powered detection of look-ahead bias and illogical rule sets before you waste capital."
+            title: "Backtrader & PyAlgoTrade Ready",
+            description: "Clean script structures ready for direct integration with popular Python backtesting libraries."
+          },
+          {
+            title: "Dynamic Risk Modules",
+            description: "Automatic integration of Kelly Criterion fraction sizing, Volatility-adjusted lot sizing, and ATR trailing stops."
           }
         ]
       },
       whoItIsFor: {
-        title: "Built for Quants-in-Training",
-        content: "Whether you are a discretionary trader looking to automate a simple rule-set, or an aspiring quant building complex models, this tool bridges the gap from idea to execution."
+        title: "Built for Aspiring Systematic Quants",
+        content: "Whether you want to automate a basic SMA crossover, stress-test an RSI-based mean reversion system, or generate Python execution code to trade through Interactive Brokers, this is your translation bridge."
       },
       aiPowered: {
-        title: "Edge Engine v2.0",
-        content: "Utilizing custom-trained models on 10+ years of institutional code patterns to ensure your strategies are built on a solid foundation."
+        title: "QuantCoder LLM v3.5",
+        content: "Our custom model trained on millions of lines of optimized Pine Script v5, Backtrader Python scripts, and API wrappers, adhering to institutional coding standards."
       }
     },
     deepDive: {
-      title: "The Mechanics of Automation",
+      title: "The Architecture of Algorithmic Python & Pine Script",
       content: `
-## Stop Chasing, Start Systematising
+## Coding the Edge: Python vs. Human Emotion
 
-Algorithmic trading is not about speed; it's about consistency. By codifying your rules, you remove the biological impulses that sabotage most retail traders.
+Discretionary trading fails because humans are biological organisms subject to fear, greed, and sleep deprivation. An algorithm executes trades with millisecond precision, ensuring 100% mathematical consistency. By translating your logic into code, you stop trading the chart and start trading the numbers.
 
-### Why Logic Beats Emotion
+### 1. Vectorized Data Processing with Pandas & NumPy
 
-A human trader sees a setup and hesitates because they lost the last trade. An algorithm sees a setup and executes because the math dictates it. This disconnect from the P&L is the single greatest edge an institutional trader has.
+At the core of any Python-based quantitative strategy is the manipulation of time-series data. Using loops in Python is too slow for large historical datasets. We utilize **vectorized computations** through the Pandas library:
 
-### The Architecture of a Strategy
+\`\`\`python
+import pandas as pd
+import numpy as np
 
-A robust automated strategy requires three core components:
-* **Entry Signal**: The precise mathematical trigger for a trade.
-* **Exit Logic**: Both the take-profit target and the invalidation (stop loss) level.
-* **Position Sizing**: The dynamic calculation of risk based on current account equity.
+# Vectorized Simple Moving Average (SMA) calculation
+data['SMA_20'] = data['Adj Close'].rolling(window=20).mean()
+data['SMA_50'] = data['Adj Close'].rolling(window=50).mean()
 
-Our builder handles all three, ensuring your code isn't just an indicator, but a complete trading system.
+# Exponential Moving Average (EMA)
+data['EMA_20'] = data['Adj Close'].ewm(span=20, adjust=False).mean()
+\`\`\`
+
+By vectorizing these calculations, you process 10 years of daily data in milliseconds, allowing rapid strategy iterations.
+
+### 2. Formulating Signals: Moving Average Crossovers & RSI
+
+The Algo Strategy Builder allows you to easily generate execution triggers. Here is the mathematical logic generated for a classic trend-following and momentum filter strategy:
+
+\`\`\`python
+# Generate Buy (1) and Sell (0) signals based on SMA Crossover
+data['Signal'] = 0
+data['Signal'][20:] = np.where(data['SMA_20'][20:] > data['SMA_50'][20:], 1, 0)
+data['Position'] = data['Signal'].diff()
+\`\`\`
+
+For mean reversion strategies, we integrate Relative Strength Index (RSI) calculation models to target oversold and overbought conditions:
+
+\`\`\`python
+def calculate_rsi(data, window=14):
+    delta = data['Adj Close'].diff(1)
+    gain = (delta.where(delta > 0, 0)).rolling(window=window).mean()
+    loss = (-delta.where(delta < 0, 0)).rolling(window=window).mean()
+    rs = gain / loss
+    return 100 - (100 / (1 + rs))
+
+data['RSI_14'] = calculate_rsi(data, 14)
+\`\`\`
+
+### 3. Evaluating Performance: Cumulative Returns & Volatility
+
+Backtesting is meaningless without rigorous metrics. Our Python exports automatically compute the core statistics required to analyze risk:
+
+* **Cumulative Returns**: \\((P_{final} - P_{initial}) / P_{initial}\\) to evaluate absolute profitability.
+* **Sharpe Ratio**: Risk-adjusted performance relative to volatility.
+* **Volatility (Standard Deviation of Daily Returns)**: Measuring the stability of the equity curve.
+
+\`\`\`python
+# Portfolio calculation snippet
+initial_capital = 100000.0
+data['Holdings'] = data['Adj Close'] * data['Position'].cumsum()
+data['Cash'] = initial_capital - (data['Adj Close'] * data['Position']).cumsum()
+data['Total'] = data['Cash'] + data['Holdings']
+data['Returns'] = data['Total'].pct_change()
+
+cumulative_return = (data['Total'].iloc[-1] - initial_capital) / initial_capital
+volatility = data['Returns'].std()
+\`\`\`
+
+This systematic framework is what separates hobbyist retail traders from data-driven portfolio managers. Use the Algo Strategy Builder to write clean code, export it, and start executing with statistical backing.
       `
     }
   },

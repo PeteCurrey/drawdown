@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
 
 @theme {
   --color-background-primary: var(--background);
@@ -8,21 +9,75 @@
   --color-text-primary: var(--text-primary);
   --color-text-secondary: var(--text-secondary);
   --color-text-tertiary: var(--text-tertiary);
-  --color-accent: #00C2FF;
-  --color-accent-hover: #33CFFF;
-  --color-profit: #00E676;
-  --color-loss: #FF3D57;
-  --color-warning: #FFB020;
-  --color-premium: #B8962E;
+  --color-accent: var(--tool-accent, #F9771D);
+  --color-accent-hover: var(--tool-accent-hover, #e0600d);
+  --color-profit: #18B880;
+  --color-loss: #CE6969;
+  --color-warning: #F9771D;
+  --color-premium: #F9771D;
 
-  --font-display: var(--font-syne), ui-sans-serif, system-ui;
-  --font-sans: var(--font-dm-sans), ui-sans-serif, system-ui;
+  --color-shell: #D5D8C5;
+  --color-dark: #181818;
+  --color-dark-mid: #232323;
+  --color-dark-card: #2A2A2A;
+  --color-orange: #F9771D;
+  --color-green: #18B880;
+  --color-red: #CE6969;
+  --color-text-dark: #1A1A1A;
+  --color-text-mid: #555550;
+  --color-text-light: #FFFFFF;
+  --color-text-dim: #8A8A85;
+  --color-border: #C8CBB8;
+  --color-border-dark: #333330;
+
+  --font-display: 'Outfit', ui-sans-serif, system-ui;
+  --font-sans: 'Outfit', ui-sans-serif, system-ui;
   --font-mono: var(--font-mono), ui-monospace, monospace;
+  --font-ibm-mono: var(--font-ibm-mono), ui-monospace, monospace;
+  --font-ibm-sans: 'Outfit', ui-sans-serif, system-ui;
 
   --ease-premium: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 :root {
+  --shell:       #D5D8C5;
+  --dark:        #181818;
+  --dark-mid:    #232323;
+  --dark-card:   #2A2A2A;
+  --orange:      #F9771D;
+  --green:       #18B880;
+  --red:         #CE6969;
+  --text-dark:   #1A1A1A;
+  --text-mid:    #555550;
+  --text-light:  #FFFFFF;
+  --text-dim:    #8A8A85;
+  --border:      #EDEDED;
+  --border-dark: #333330;
+
+  /* Page backgrounds are white; sidebar/topbar shell stays sage */
+  --background: #FFFFFF;
+  --surface: #FFFFFF;
+  --elevated: #F8F8F8;
+  --text-primary: #1A1A1A;
+  --text-secondary: #555550;
+  --text-tertiary: #555550;
+  --foreground: #1A1A1A;
+  font-family: 'Outfit', sans-serif;
+}
+
+[data-theme="light"] {
+  --background: #FFFFFF;
+  --surface: #FFFFFF;
+  --elevated: #F8F8F8;
+  --border: #EDEDED;
+  --text-primary: #1A1A1A;
+  --text-secondary: #555550;
+  --text-tertiary: #555550;
+  --foreground: #1A1A1A;
+}
+
+/* Force dark mode within marketing layout (e.g. store, prop-firm review pages) */
+[data-theme="dark"] {
   --background: #08090D;
   --surface: #111318;
   --elevated: #1A1D24;
@@ -33,51 +88,31 @@
   --foreground: #E4E2DD;
 }
 
-[data-theme="light"] {
-  --background: #F4F5F7;
-  --surface: #FFFFFF;
-  --elevated: #E9EBEE;
-  --border: #DBDFE5;
-  --text-primary: #08090D;
-  --text-secondary: #3A3D45;
-  --text-tertiary: #5A5D65;
-  --foreground: #08090D;
+@layer base {
+  * {
+    border-color: var(--color-border-slate);
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
+    overflow-wrap: break-word;
+  }
+
+  h1 { font-size: clamp(2.5rem, 8vw, 4.5rem); }
+  h2 { font-size: clamp(2rem, 6vw, 3.5rem); }
+  h3 { font-size: clamp(1.5rem, 5vw, 2.5rem); }
 }
 
-* {
-  border-color: var(--color-border-slate);
-}
 
-body {
-  background-color: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-sans);
-  overflow-x: hidden;
-}
-
-h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-display);
-  letter-spacing: -0.02em;
-  overflow-wrap: break-word;
-}
-
-h1 { font-size: clamp(2.5rem, 8vw, 4.5rem); }
-h2 { font-size: clamp(2rem, 6vw, 3.5rem); }
-h3 { font-size: clamp(1.5rem, 5vw, 2.5rem); }
-
-
-/* Noise Overlay */
-.noise-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 9999;
-  opacity: 0.03;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-}
+/* Noise overlay removed — gloss black replaces grain texture */
 
 /* Transitions */
 .transition-premium {
@@ -288,5 +323,410 @@ h3 { font-size: clamp(1.5rem, 5vw, 2.5rem); }
 
 .is-native body {
   padding-bottom: 5rem; /* 80px for the bottom nav */
+}
+
+/* Scoped marketing light mode variables (Geist standard) */
+.marketing {
+  --mkt-w: #FFFFFF;
+  --mkt-bg: #FFFFFF;
+  --mkt-sur: #FFFFFF;
+  --mkt-bd: #E5E5E5;
+  --mkt-bds: #C8C8C8;
+  --mkt-ink: #0A0A0A;
+  --mkt-i2: #3A3A3A;
+  --mkt-i3: #666666;
+  --mkt-i4: #999999;
+  --mkt-grn: #16A34A;
+  --mkt-gbg: #F0FDF4;
+  --mkt-gbd: #BBF7D0;
+  --mkt-red: #DC2626;
+  --mkt-rbg: #FEF2F2;
+  --mkt-amb: #D97706;
+  --mkt-tk: #0A0A0A;
+
+  /* Font mappings for marketing pages */
+  font-family: var(--font-geist), ui-sans-serif, system-ui;
+  --font-sans: var(--font-geist);
+  --font-display: var(--font-geist);
+  --font-mono: var(--font-geist-mono);
+
+  /* Map standard color variables inside scope so unmigrated cards render beautifully */
+  --background: var(--mkt-bg);
+  --surface: var(--mkt-sur);
+  --elevated: var(--mkt-bg);
+  --border: var(--mkt-bd);
+  --text-primary: var(--mkt-ink);
+  --text-secondary: var(--mkt-i2);
+  --text-tertiary: var(--mkt-i3);
+  --foreground: var(--mkt-ink);
+}
+
+/* 3D Perspective Card Tilt for Hero mockup */
+.hero-3d-card-container {
+  perspective: 2000px;
+  transform-style: preserve-3d;
+}
+
+.hero-3d-card {
+  transform: rotateX(52deg) rotateY(0deg) rotateZ(-18deg) scale(0.9);
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.6s ease;
+  box-shadow: 0 50px 100px -20px rgba(0,0,0,0.3), 0 30px 60px -30px rgba(0,0,0,0.3);
+}
+
+@media (max-width: 768px) {
+  .hero-3d-card {
+    transform: rotateX(20deg) rotateY(0deg) rotateZ(-6deg) scale(0.95);
+    box-shadow: 0 20px 40px -10px rgba(0,0,0,0.2);
+  }
+}
+
+.hero-3d-card-container:hover .hero-3d-card {
+  transform: rotateX(42deg) rotateY(0deg) rotateZ(-12deg) scale(0.96);
+  box-shadow: 0 70px 120px -20px rgba(0,0,0,0.35), 0 40px 80px -30px rgba(0,0,0,0.35);
+}
+
+@media (max-width: 768px) {
+  .hero-3d-card-container:hover .hero-3d-card {
+    transform: rotateX(10deg) rotateY(0deg) rotateZ(-3deg) scale(0.98);
+  }
+}
+
+
+
+
+/* ============================================================
+   DRIVER.JS TOUR — dark theme override (algo builder)
+   ============================================================ */
+
+#driver-popover-content,
+.driver-popover {
+  background-color: #111111 !important;
+  border: 1px solid #2A2A2A !important;
+  border-radius: 8px !important;
+  color: #E5E5E5 !important;
+  font-family: 'DM Sans', sans-serif !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.7) !important;
+  padding: 0 !important;
+}
+
+.driver-popover-title {
+  font-family: 'DM Mono', monospace !important;
+  color: #C8F135 !important;
+  font-size: 11px !important;
+  letter-spacing: 0.1em !important;
+  text-transform: uppercase !important;
+  padding: 14px 16px 0 !important;
+  margin: 0 !important;
+}
+
+.driver-popover-description {
+  color: #AAAAAA !important;
+  font-size: 13px !important;
+  line-height: 1.6 !important;
+  padding: 8px 16px 14px !important;
+  margin: 0 !important;
+}
+
+.driver-popover-progress-text {
+  color: #555555 !important;
+  font-family: 'DM Mono', monospace !important;
+  font-size: 10px !important;
+}
+
+.driver-popover-footer {
+  border-top: 1px solid #1E1E1E !important;
+  padding: 12px 16px !important;
+  margin: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 8px !important;
+}
+
+/* Next button */
+.driver-popover-next-btn {
+  background-color: #C8F135 !important;
+  color: #000000 !important;
+  font-family: 'DM Mono', monospace !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  border: none !important;
+  border-radius: 4px !important;
+  padding: 8px 18px !important;
+  letter-spacing: 0.06em !important;
+  text-transform: uppercase !important;
+  cursor: pointer !important;
+  transition: background-color 0.15s ease !important;
+}
+.driver-popover-next-btn:hover {
+  background-color: #D4F53D !important;
+}
+
+/* Previous button */
+.driver-popover-prev-btn {
+  background-color: transparent !important;
+  color: #666666 !important;
+  border: 1px solid #2A2A2A !important;
+  font-family: 'DM Mono', monospace !important;
+  font-size: 11px !important;
+  font-weight: 500 !important;
+  border-radius: 4px !important;
+  padding: 8px 14px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.06em !important;
+  cursor: pointer !important;
+}
+.driver-popover-prev-btn:hover {
+  border-color: #C8F135 !important;
+  color: #C8F135 !important;
+}
+
+/* Close / skip button */
+.driver-popover-close-btn {
+  color: #444444 !important;
+  background: transparent !important;
+  border: none !important;
+  font-size: 16px !important;
+  cursor: pointer !important;
+  position: absolute !important;
+  top: 10px !important;
+  right: 10px !important;
+  line-height: 1 !important;
+  padding: 4px !important;
+}
+.driver-popover-close-btn:hover {
+  color: #C8F135 !important;
+}
+
+/* Overlay */
+.driver-overlay {
+  background: rgba(0, 0, 0, 0.78) !important;
+}
+
+/* Highlight ring around focused element */
+.driver-highlighted-element {
+  border-radius: 6px !important;
+  box-shadow:
+    0 0 0 1px #C8F135,
+    0 0 0 4px rgba(200, 241, 53, 0.12) !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   CURRICULUM MODULE — PROSE TYPOGRAPHY
+   Applied via .prose .prose-invert classes on the content container.
+   Tailwind v4 doesn't use the @tailwindcss/typography plugin, so we
+   define the rules directly here.
+   ═══════════════════════════════════════════════════════════════════ */
+
+.prose {
+  color: rgba(255,255,255,0.7);
+  line-height: 1.8;
+  font-size: 1rem;
+}
+
+.prose p {
+  margin-bottom: 1.25rem;
+  color: rgba(255,255,255,0.7);
+  line-height: 1.85;
+}
+
+.prose h1 {
+  font-family: var(--font-syne, 'Syne', 'Outfit', sans-serif);
+  font-weight: 700;
+  font-size: 2rem;
+  color: #ffffff;
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+  letter-spacing: -0.02em;
+}
+
+.prose h2 {
+  font-family: var(--font-syne, 'Syne', 'Outfit', sans-serif);
+  font-weight: 700;
+  font-size: 1.5rem;
+  color: #ffffff;
+  margin-top: 2.25rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  letter-spacing: -0.02em;
+}
+
+.prose h3 {
+  font-family: var(--font-syne, 'Syne', 'Outfit', sans-serif);
+  font-weight: 600;
+  font-size: 1.2rem;
+  color: rgba(255,255,255,0.9);
+  margin-top: 1.75rem;
+  margin-bottom: 0.75rem;
+  letter-spacing: -0.015em;
+}
+
+.prose h4 {
+  font-weight: 600;
+  font-size: 1rem;
+  color: rgba(255,255,255,0.85);
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.875rem;
+}
+
+.prose ul {
+  list-style: none;
+  padding-left: 0;
+  margin-bottom: 1.25rem;
+}
+
+.prose ul li {
+  position: relative;
+  padding-left: 1.5rem;
+  margin-bottom: 0.5rem;
+  color: rgba(255,255,255,0.7);
+}
+
+.prose ul li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.65em;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #C8F135;
+}
+
+.prose ol {
+  list-style: none;
+  padding-left: 0;
+  margin-bottom: 1.25rem;
+  counter-reset: ol-counter;
+}
+
+.prose ol li {
+  position: relative;
+  padding-left: 2rem;
+  margin-bottom: 0.5rem;
+  color: rgba(255,255,255,0.7);
+  counter-increment: ol-counter;
+}
+
+.prose ol li::before {
+  content: counter(ol-counter) ".";
+  position: absolute;
+  left: 0;
+  font-family: ui-monospace, monospace;
+  font-weight: 700;
+  font-size: 0.75rem;
+  color: #C8F135;
+  top: 0.15em;
+}
+
+.prose blockquote {
+  border-left: 3px solid #C8F135;
+  background: rgba(255,255,255,0.03);
+  border-radius: 0 0.5rem 0.5rem 0;
+  padding: 1rem 1.25rem;
+  margin: 1.5rem 0;
+  color: rgba(255,255,255,0.8);
+  font-style: italic;
+}
+
+.prose blockquote p {
+  margin-bottom: 0;
+}
+
+.prose strong {
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.prose em {
+  color: rgba(255,255,255,0.75);
+  font-style: italic;
+}
+
+.prose code {
+  font-family: ui-monospace, 'Cascadia Code', monospace;
+  font-size: 0.875em;
+  background: rgba(200,241,53,0.08);
+  color: #C8F135;
+  padding: 0.15em 0.4em;
+  border-radius: 4px;
+  border: 1px solid rgba(200,241,53,0.15);
+}
+
+.prose pre {
+  background: rgba(0,0,0,0.4);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 0.75rem;
+  padding: 1.25rem 1.5rem;
+  overflow-x: auto;
+  margin: 1.5rem 0;
+}
+
+.prose pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  color: rgba(255,255,255,0.85);
+  font-size: 0.875rem;
+}
+
+.prose a {
+  color: #C8F135;
+  text-decoration: underline;
+  text-decoration-color: rgba(200,241,53,0.4);
+  text-underline-offset: 3px;
+  transition: color 0.15s, text-decoration-color 0.15s;
+}
+
+.prose a:hover {
+  color: #d8ff45;
+  text-decoration-color: #C8F135;
+}
+
+.prose hr {
+  border: none;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  margin: 2.5rem 0;
+}
+
+.prose table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  font-size: 0.9rem;
+}
+
+.prose th {
+  background: rgba(200,241,53,0.08);
+  color: #C8F135;
+  font-family: ui-monospace, monospace;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.75rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid rgba(200,241,53,0.2);
+}
+
+.prose td {
+  padding: 0.65rem 1rem;
+  color: rgba(255,255,255,0.7);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+
+.prose tr:last-child td {
+  border-bottom: none;
+}
+
+.prose img {
+  border-radius: 0.75rem;
+  border: 1px solid rgba(255,255,255,0.1);
+  margin: 1.5rem 0;
+  max-width: 100%;
 }
 

@@ -6,6 +6,7 @@ import { useTheme } from "next-themes";
 import { cn } from "@/lib/utils";
 import { calculateSMA, calculateEMA, calculateRSI, calculateMACD, calculateStochastic, calculateATR } from "@/lib/indicators";
 import { identifyMSS, identifyLiquidityPools } from "@/lib/scanner";
+import { MARKETS_CONFIG } from "@/lib/markets-config";
 
 import { 
   Zap, 
@@ -60,19 +61,83 @@ export function InteractiveChart({ initialData = [], symbol = "GBPUSD", userTier
     liquidity: true
   });
 
-  const [consensus] = useState({
-    score: 65,
-    verdict: "Strong Buy",
-    reason: "Price is above 200 SMA and RSI shows momentum building."
-  });
+  const [currentSymbol, setCurrentSymbol] = useState(symbol || "GBPUSD");
+  const [data, setData] = useState<any[]>(initialData);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [isSymbolDropdownOpen, setIsSymbolDropdownOpen] = useState(false);
+  const [consensusData, setConsensusData] = useState<any>(null);
 
-  const data = initialData.length > 0 ? initialData : Array.from({ length: 150 }, (_, i) => ({
-    time: (Math.floor(Date.now() / 1000) - (150 - i) * 3600) as any,
-    open: 1.2700 + Math.sin(i * 0.1) * 0.01,
-    high: 1.2720 + Math.sin(i * 0.1) * 0.01,
-    low: 1.2680 + Math.sin(i * 0.1) * 0.01,
-    close: 1.2710 + Math.sin(i * 0.1) * 0.01,
-  }));
+  const activeInstrument = MARKETS_CONFIG.find(
+    inst => 
+      inst.slug.toLowerCase() === currentSymbol.toLowerCase() || 
+      inst.ticker.toLowerCase() === currentSymbol.toLowerCase() ||
+      inst.displayPair.replace("/", "").toLowerCase() === currentSymbol.toLowerCase() ||
+      inst.displayPair.toLowerCase() === currentSymbol.toLowerCase()
+  ) || MARKETS_CONFIG[1]; // default to GBPUSD
+
+  useEffect(() => {
+    let active = true;
+    const fetchHistory = async () => {
+      setIsLoading(true);
+      setError(null);
+      try {
+        const res = await fetch(`/api/market/history?symbol=${activeInstrument.ticker}&interval=1h&outputsize=150`);
+        if (!res.ok) throw new Error("Failed to fetch market history");
+        const json = await res.json();
+        if (active) {
+          setData(json);
+        }
+      } catch (err: any) {
+        console.error("Error loading chart data:", err);
+        if (active) {
+          setError(err.message || "Failed to load market data");
+        }
+      } finally {
+        if (active) {
+          setIsLoading(false);
+        }
+      }
+    };
+
+    fetchHistory();
+    return () => {
+      active = false;
+    };
+  }, [activeInstrument]);
+
+  useEffect(() => {
+    let active = true;
+    const fetchConsensus = async () => {
+      try {
+        const res = await fetch(`/api/market/consensus`);
+        if (res.ok) {
+          const json = await res.json();
+          const match = json.find((d: any) => d.symbol === activeInstrument.displayPair);
+          if (match && active) {
+            setConsensusData(match);
+          }
+        }
+      } catch (err) {
+        console.error("Error fetching consensus:", err);
+      }
+    };
+    fetchConsensus();
+    return () => { active = false; };
+  }, [activeInstrument]);
+
+  const activeConsensus = consensusData || {
+    score: 50,
+    verdict: "Neutral",
+    trend: "Neutral",
+    rsi: "50.0"
+  };
+
+  const consensusReason = activeConsensus.trend === "Bullish"
+    ? `Price is trending above the 20 EMA with positive momentum. RSI (14) is currently at ${activeConsensus.rsi}.`
+    : activeConsensus.trend === "Bearish"
+    ? `Price is trending below the 20 EMA with downward pressure. RSI (14) is currently at ${activeConsensus.rsi}.`
+    : `Market is in consolidation. RSI (14) is neutral at ${activeConsensus.rsi}.`;
 
   const syncCharts = (charts: any[]) => {
     charts.forEach(chart1 => {
@@ -98,7 +163,7 @@ export function InteractiveChart({ initialData = [], symbol = "GBPUSD", userTier
   };
 
   useEffect(() => {
-    if (!containerRef.current) return;
+    if (!containerRef.current || data.length === 0) return;
 
     // Cleanup existing charts if they exist
     if (mainChartRef.current) mainChartRef.current.remove();
@@ -317,13 +382,43 @@ export function InteractiveChart({ initialData = [], symbol = "GBPUSD", userTier
 
   return (
     <div className="flex flex-col gap-6">
-      <div className="flex flex-wrap items-center justify-between gap-4 bg-background-surface p-4 border border-border-slate">
-        <div className="flex items-center gap-6">
-          <div className="flex items-center gap-2">
-            <span className="text-xl font-display font-black text-text-primary">{symbol}</span>
-            <ChevronDown className="w-4 h-4 text-text-tertiary" />
-          </div>
-          <div className="flex items-center gap-1 bg-background-elevated px-2 py-1">
+      <div className="flex flex-wrap items-center justify-between gap-4 bg-white p-4 border border-mkt-bd">
+        <div className="flex items-center gap-6 relative">
+          <button 
+            onClick={() => setIsSymbolDropdownOpen(!isSymbolDropdownOpen)}
+            className="flex items-center gap-2 hover:bg-[#F7F7F7] px-2 py-1 border border-mkt-bd rounded transition-colors text-left"
+          >
+            <span className="text-xl font-sans font-black text-mkt-ink">{activeInstrument.displayPair}</span>
+            <ChevronDown className="w-4 h-4 text-mkt-i4" />
+          </button>
+          
+          {isSymbolDropdownOpen && (
+            <div className="absolute top-full left-0 mt-1 w-64 bg-white border border-mkt-bd shadow-lg z-50 max-h-96 overflow-y-auto animate-in fade-in duration-200">
+              <div className="p-2 border-b border-mkt-bd bg-[#F7F7F7]">
+                <span className="text-[10px] font-mono uppercase text-mkt-i4">Select Instrument</span>
+              </div>
+              <div className="py-1">
+                {MARKETS_CONFIG.map((inst) => (
+                  <button
+                    key={inst.slug}
+                    onClick={() => {
+                      setCurrentSymbol(inst.slug);
+                      setIsSymbolDropdownOpen(false);
+                    }}
+                    className={cn(
+                      "w-full text-left px-4 py-2 text-xs flex justify-between items-center hover:bg-slate-50 transition-colors",
+                      activeInstrument.slug === inst.slug ? "bg-accent/5 font-bold text-accent" : "text-mkt-ink"
+                    )}
+                  >
+                    <span>{inst.name}</span>
+                    <span className="font-mono text-[10px] text-mkt-i4">{inst.displayPair}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+          
+          <div className="flex items-center gap-1 bg-[#F7F7F7] px-2 py-1">
             <span className="text-[10px] font-mono font-bold text-accent uppercase">1H</span>
           </div>
         </div>
@@ -331,6 +426,7 @@ export function InteractiveChart({ initialData = [], symbol = "GBPUSD", userTier
         <div className="flex items-center gap-2">
           <button 
             onClick={() => {
+              if (data.length < 2) return;
               const pools = identifyLiquidityPools(data);
               if (pools.length >= 2) {
                 const currentPrice = data[data.length - 1].close;
@@ -349,13 +445,13 @@ export function InteractiveChart({ initialData = [], symbol = "GBPUSD", userTier
           >
             <Zap className="w-4 h-4" /> Suggest Levels
           </button>
-          <button onClick={() => setShowLevels(!showLevels)} className={cn("p-2 text-xs font-mono uppercase tracking-widest border transition-colors flex items-center gap-2", showLevels ? "border-accent text-accent bg-accent/10" : "border-border-slate text-text-tertiary hover:text-text-primary")}>
+          <button onClick={() => setShowLevels(!showLevels)} className={cn("p-2 text-xs font-mono uppercase tracking-widest border transition-colors flex items-center gap-2", showLevels ? "border-accent text-accent bg-accent/10" : "border-mkt-bd text-mkt-i4 hover:text-mkt-ink")}>
             <Layers className="w-4 h-4" /> Zones
           </button>
-          <button className="p-2 hover:bg-background-elevated text-text-tertiary transition-colors">
+          <button className="p-2 hover:bg-[#F7F7F7] text-mkt-i4 transition-colors">
             <Settings className="w-4 h-4" />
           </button>
-          <button className="p-2 hover:bg-background-elevated text-text-tertiary transition-colors">
+          <button className="p-2 hover:bg-[#F7F7F7] text-mkt-i4 transition-colors">
             <Maximize2 className="w-4 h-4" />
           </button>
         </div>
@@ -365,48 +461,61 @@ export function InteractiveChart({ initialData = [], symbol = "GBPUSD", userTier
         <div className="lg:col-span-3 space-y-2">
           <div ref={containerRef} className="flex flex-col gap-[2px]">
             {/* Main Chart */}
-            <div className="relative border border-border-slate bg-background-primary overflow-hidden">
+            <div className="relative border border-mkt-bd bg-white overflow-hidden min-h-[400px]">
+              {isLoading && (
+                <div className="absolute inset-0 flex items-center justify-center bg-white/80 z-20">
+                  <div className="flex flex-col items-center gap-2">
+                    <div className="w-6 h-6 border-2 border-accent border-t-transparent rounded-full animate-spin" />
+                    <span className="text-[10px] font-mono uppercase text-mkt-i4">Loading Market Data...</span>
+                  </div>
+                </div>
+              )}
+              {error && !isLoading && (
+                <div className="absolute inset-0 flex items-center justify-center bg-white/80 z-20">
+                  <span className="text-[10px] font-mono uppercase text-red-500">{error}</span>
+                </div>
+              )}
               <div id="main-chart" className="w-full" />
             </div>
 
             {/* Sub-panels */}
-            <div className={cn("relative border border-border-slate bg-background-primary", indicators.rsi ? "block" : "hidden")}>
-               <span className="absolute top-2 left-2 z-10 text-[10px] font-mono text-text-tertiary tracking-widest">RSI (14)</span>
+            <div className={cn("relative border border-mkt-bd bg-white", indicators.rsi ? "block" : "hidden")}>
+               <span className="absolute top-2 left-2 z-10 text-[10px] font-mono text-mkt-i4 tracking-widest">RSI (14)</span>
                <div id="rsi-chart" className="w-full" />
             </div>
 
-            <div className={cn("relative border border-border-slate bg-background-primary", indicators.macd ? "block" : "hidden")}>
-               <span className="absolute top-2 left-2 z-10 text-[10px] font-mono text-text-tertiary tracking-widest">MACD (12, 26, 9)</span>
+            <div className={cn("relative border border-mkt-bd bg-white", indicators.macd ? "block" : "hidden")}>
+               <span className="absolute top-2 left-2 z-10 text-[10px] font-mono text-mkt-i4 tracking-widest">MACD (12, 26, 9)</span>
                <div id="macd-chart" className="w-full" />
             </div>
 
-            <div className={cn("relative border border-border-slate bg-background-primary", indicators.stoch ? "block" : "hidden")}>
-               <span className="absolute top-2 left-2 z-10 text-[10px] font-mono text-text-tertiary tracking-widest">STOCH (14, 3, 3)</span>
+            <div className={cn("relative border border-mkt-bd bg-white", indicators.stoch ? "block" : "hidden")}>
+               <span className="absolute top-2 left-2 z-10 text-[10px] font-mono text-mkt-i4 tracking-widest">STOCH (14, 3, 3)</span>
                <div id="stoch-chart" className="w-full" />
             </div>
 
-            <div className={cn("relative border border-border-slate bg-background-primary", indicators.atr ? "block" : "hidden")}>
-               <span className="absolute top-2 left-2 z-10 text-[10px] font-mono text-text-tertiary tracking-widest">ATR (14)</span>
+            <div className={cn("relative border border-mkt-bd bg-white", indicators.atr ? "block" : "hidden")}>
+               <span className="absolute top-2 left-2 z-10 text-[10px] font-mono text-mkt-i4 tracking-widest">ATR (14)</span>
                <div id="atr-chart" className="w-full" />
             </div>
           </div>
 
           {/* Zones manual entry panel */}
           {showLevels && (
-            <div className="p-4 bg-background-surface border border-border-slate grid grid-cols-3 gap-4 animate-in slide-in-from-top-2">
+            <div className="p-4 bg-white border border-mkt-bd grid grid-cols-3 gap-4 animate-in slide-in-from-top-2">
               <div>
-                <label className="text-[10px] font-mono text-text-tertiary uppercase mb-1 block">Entry Price</label>
-                <input type="number" step="any" placeholder="1.2750" className="w-full p-2 bg-background-primary border border-accent/20" value={levels.entry} onChange={(e) => setLevels({...levels, entry: e.target.value})} />
+                <label className="text-[10px] font-mono text-mkt-i4 uppercase mb-1 block">Entry Price</label>
+                <input type="number" step="any" placeholder="1.2750" className="w-full p-2 bg-white border border-accent/20" value={levels.entry} onChange={(e) => setLevels({...levels, entry: e.target.value})} />
               </div>
               <div>
-                <label className="text-[10px] font-mono text-text-tertiary uppercase mb-1 block">Stop Loss</label>
-                <input type="number" step="any" placeholder="1.2650" className="w-full p-2 bg-background-primary border border-loss/20" value={levels.sl} onChange={(e) => setLevels({...levels, sl: e.target.value})} />
+                <label className="text-[10px] font-mono text-mkt-i4 uppercase mb-1 block">Stop Loss</label>
+                <input type="number" step="any" placeholder="1.2650" className="w-full p-2 bg-white border border-loss/20" value={levels.sl} onChange={(e) => setLevels({...levels, sl: e.target.value})} />
               </div>
               <div>
-                <label className="text-[10px] font-mono text-text-tertiary uppercase mb-1 block">Take Profit</label>
-                <input type="number" step="any" placeholder="1.2950" className="w-full p-2 bg-background-primary border border-profit/20" value={levels.tp} onChange={(e) => setLevels({...levels, tp: e.target.value})} />
+                <label className="text-[10px] font-mono text-mkt-i4 uppercase mb-1 block">Take Profit</label>
+                <input type="number" step="any" placeholder="1.2950" className="w-full p-2 bg-white border border-profit/20" value={levels.tp} onChange={(e) => setLevels({...levels, tp: e.target.value})} />
               </div>
-              <div className="col-span-3 text-[10px] font-mono text-text-tertiary italic text-right mt-2">
+              <div className="col-span-3 text-[10px] font-mono text-mkt-i4 italic text-right mt-2">
                 Levels drawn automatically via calculatePriceLines on logic load. Educational context only.
               </div>
             </div>
@@ -415,10 +524,10 @@ export function InteractiveChart({ initialData = [], symbol = "GBPUSD", userTier
         </div>
 
         <div className="space-y-6">
-          <div className="bg-background-elevated border border-border-slate p-8 space-y-8">
+          <div className="bg-[#F7F7F7] border border-mkt-bd p-8 space-y-8">
             <div className="flex items-center justify-between">
-              <span className="text-[10px] font-mono uppercase text-text-tertiary tracking-widest">Technical Rating</span>
-              <Info className="w-3 h-3 text-text-tertiary" />
+              <span className="text-[10px] font-mono uppercase text-mkt-i4 tracking-widest">Technical Rating</span>
+              <Info className="w-3 h-3 text-mkt-i4" />
             </div>
             
             <div className="flex flex-col items-center text-center space-y-4">
@@ -428,45 +537,48 @@ export function InteractiveChart({ initialData = [], symbol = "GBPUSD", userTier
                   <circle 
                     cx="64" cy="64" r="60" fill="none" stroke="#00C2FF" strokeWidth="8" 
                     strokeDasharray={377} 
-                    strokeDashoffset={377 * (1 - consensus.score / 100)}
+                    strokeDashoffset={377 * (1 - activeConsensus.score / 100)}
                     strokeLinecap="round"
                     className="transition-all duration-1000"
                   />
                 </svg>
                 <div className="absolute inset-0 flex flex-col items-center justify-center">
-                  <span className="text-2xl font-display font-black text-accent">{consensus.score}%</span>
-                  <span className="text-[8px] font-mono uppercase text-text-tertiary">Bullish</span>
+                  <span className="text-2xl font-sans font-black text-accent">{activeConsensus.score}%</span>
+                  <span className="text-[8px] font-mono uppercase text-mkt-i4">{activeConsensus.trend}</span>
                 </div>
               </div>
               
-              <h4 className={cn("text-xl font-display font-bold uppercase", consensus.score > 60 ? "text-profit" : "text-loss")}>
-                {consensus.verdict}
+              <h4 className={cn(
+                "text-xl font-sans font-bold uppercase", 
+                activeConsensus.score >= 60 ? "text-mkt-grn" : activeConsensus.score <= 40 ? "text-red-500" : "text-amber-500"
+              )}>
+                {activeConsensus.verdict}
               </h4>
-              <p className="text-xs text-text-secondary leading-relaxed">{consensus.reason}</p>
+              <p className="text-xs text-mkt-i2 leading-relaxed">{consensusReason}</p>
             </div>
 
             <button 
               onClick={() => (userTier === "edge" ? setIsAIAnalysisOpen(true) : setIsLockedByTier(true))}
-              className="w-full bg-accent hover:bg-accent-hover text-background-primary py-4 text-[10px] font-bold uppercase tracking-widest transition-all flex items-center justify-center gap-2"
+              className="w-full bg-mkt-ink hover:bg-mkt-i2 text-background-primary py-4 text-[10px] font-bold uppercase tracking-widest transition-all flex items-center justify-center gap-2"
             >
               <Zap className="w-4 h-4 fill-current" />
               Analyze with Pete's AI
             </button>
           </div>
 
-          <div className="bg-background-surface border border-border-slate p-6 space-y-4">
-            <h5 className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary">Oscillators</h5>
+          <div className="bg-white border border-mkt-bd p-6 space-y-4">
+            <h5 className="text-[10px] font-mono uppercase tracking-widest text-mkt-i4">Oscillators</h5>
             <div className="space-y-2">
-              <button onClick={() => toggleIndicator('rsi' as any)} className={cn("w-full flex items-center justify-between px-4 py-2 text-[10px] font-bold uppercase tracking-widest border transition-colors", indicators.rsi ? "border-accent text-accent bg-accent/5" : "border-border-slate text-text-tertiary hover:border-text-secondary")}>
+              <button onClick={() => toggleIndicator('rsi' as any)} className={cn("w-full flex items-center justify-between px-4 py-2 text-[10px] font-bold uppercase tracking-widest border transition-colors", indicators.rsi ? "border-accent text-accent bg-accent/5" : "border-mkt-bd text-mkt-i4 hover:border-text-secondary")}>
                 RSI (14) <div className={cn("w-2 h-2 rounded-full", indicators.rsi ? "bg-accent shadow-[0_0_8px_rgba(0,194,255,0.5)]" : "bg-text-tertiary/20")} />
               </button>
-              <button onClick={() => toggleIndicator('macd' as any)} className={cn("w-full flex items-center justify-between px-4 py-2 text-[10px] font-bold uppercase tracking-widest border transition-colors", indicators.macd ? "border-accent text-accent bg-accent/5" : "border-border-slate text-text-tertiary hover:border-text-secondary")}>
+              <button onClick={() => toggleIndicator('macd' as any)} className={cn("w-full flex items-center justify-between px-4 py-2 text-[10px] font-bold uppercase tracking-widest border transition-colors", indicators.macd ? "border-accent text-accent bg-accent/5" : "border-mkt-bd text-mkt-i4 hover:border-text-secondary")}>
                 MACD (12,26,9) <div className={cn("w-2 h-2 rounded-full", indicators.macd ? "bg-accent shadow-[0_0_8px_rgba(0,194,255,0.5)]" : "bg-text-tertiary/20")} />
               </button>
-              <button onClick={() => toggleIndicator('stoch' as any)} className={cn("w-full flex items-center justify-between px-4 py-2 text-[10px] font-bold uppercase tracking-widest border transition-colors", indicators.stoch ? "border-accent text-accent bg-accent/5" : "border-border-slate text-text-tertiary hover:border-text-secondary")}>
+              <button onClick={() => toggleIndicator('stoch' as any)} className={cn("w-full flex items-center justify-between px-4 py-2 text-[10px] font-bold uppercase tracking-widest border transition-colors", indicators.stoch ? "border-accent text-accent bg-accent/5" : "border-mkt-bd text-mkt-i4 hover:border-text-secondary")}>
                 STOCH (14,3,3) <div className={cn("w-2 h-2 rounded-full", indicators.stoch ? "bg-accent shadow-[0_0_8px_rgba(0,194,255,0.5)]" : "bg-text-tertiary/20")} />
               </button>
-              <button onClick={() => toggleIndicator('atr' as any)} className={cn("w-full flex items-center justify-between px-4 py-2 text-[10px] font-bold uppercase tracking-widest border transition-colors", indicators.atr ? "border-accent text-accent bg-accent/5" : "border-border-slate text-text-tertiary hover:border-text-secondary")}>
+              <button onClick={() => toggleIndicator('atr' as any)} className={cn("w-full flex items-center justify-between px-4 py-2 text-[10px] font-bold uppercase tracking-widest border transition-colors", indicators.atr ? "border-accent text-accent bg-accent/5" : "border-mkt-bd text-mkt-i4 hover:border-text-secondary")}>
                 ATR (14) <div className={cn("w-2 h-2 rounded-full", indicators.atr ? "bg-accent shadow-[0_0_8px_rgba(0,194,255,0.5)]" : "bg-text-tertiary/20")} />
               </button>
             </div>
@@ -475,7 +587,7 @@ export function InteractiveChart({ initialData = [], symbol = "GBPUSD", userTier
       </div>
 
       <AIChartAnalysis 
-        symbol={symbol} 
+        symbol={activeInstrument.displayPair} 
         indicators={indicators} 
         isOpen={isAIAnalysisOpen} 
         onClose={() => setIsAIAnalysisOpen(false)} 

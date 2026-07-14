@@ -17,10 +17,10 @@ export const DefinitionCard: React.FC<DefinitionCardProps> = ({ term, definition
             // {category}
           </span>
         )}
-        <h2 className="font-display text-3xl md:text-4xl text-white mb-4 m-0 leading-tight">
+        <h2 className="font-sans text-3xl md:text-4xl text-white mb-4 m-0 leading-tight">
           {term}
         </h2>
-        <p className="font-sans text-lg md:text-xl text-text-primary leading-relaxed max-w-3xl">
+        <p className="font-sans text-lg md:text-xl text-mkt-ink leading-relaxed max-w-3xl">
           {definition}
         </p>
       </div>

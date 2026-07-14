@@ -3,11 +3,16 @@ import { notFound } from "next/navigation";
 import { getMetadata } from "@/lib/metadata";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { StructuredData } from "@/components/StructuredData";
-import { LEARN_TOPICS, RichBlock } from "@/lib/data/learn-to-trade";
+import { LEARN_TOPICS, RichBlock, LearnTopic } from "@/lib/data/learn-to-trade";
 import { UK_LOCATIONS } from "@/lib/data/locations";
 import Link from "next/link";
 import { ArrowUpRight, AlertTriangle, MapPin, Clock, TrendingUp, Shield } from "lucide-react";
 import { TrackPageView } from "@/components/admin/TrackPageView";
+import { createInternalSupabase } from "@/lib/supabase/server";
+
+export const dynamicParams = true;
+export const revalidate = 3600; // hourly cache revalidation
+
 import {
   StatCallout,
   TradeExample,
@@ -23,21 +28,81 @@ interface Props {
 }
 
 export async function generateStaticParams() {
-  return LEARN_TOPICS.map((topic) => ({
-    topic: topic.slug,
-  }));
+  return [];
+}
+
+async function getTopicData(topicSlug: string): Promise<LearnTopic | null> {
+  console.log(`[Topic] Querying Supabase for slug: ${topicSlug}`);
+  try {
+    const supabase = createInternalSupabase();
+    const { data: page, error } = await supabase
+      .from("seo_pages")
+      .select("*")
+      .eq("slug", topicSlug)
+      .eq("page_type", "learn_to_trade")
+      .maybeSingle();
+
+    if (error) {
+      console.error(`[Topic] Supabase fetch error for slug ${topicSlug}:`, error.message);
+    }
+
+    if (page) {
+      console.log(`[Topic] Supabase record found for slug: ${topicSlug}`);
+      return {
+        title: page.title,
+        slug: page.slug,
+        metaTitle: page.seo_title || `${page.title} | Drawdown`,
+        metaDescription: page.seo_description || "",
+        category: "General",
+        difficulty: "Intermediate" as const,
+        subtitle: page.seo_description || "",
+        description: page.seo_description || "",
+        timeToLearn: "30 mins",
+        riskLevel: "Medium" as const,
+        heroImage: "/images/learn/default.jpg",
+        honestReality: "",
+        content: [
+          {
+            heading: "Overview",
+            text: page.content || "",
+            bullets: [],
+            richBlocks: []
+          }
+        ],
+        faqs: [] as any[],
+        relatedModules: []
+      };
+    }
+  } catch (err: any) {
+    console.error(`[Topic] Exception fetching from Supabase for slug ${topicSlug}:`, err.message);
+  }
+
+  // Fallback to local data
+  console.log(`[Topic] Checking local LEARN_TOPICS for slug: ${topicSlug}`);
+  const topic = LEARN_TOPICS.find((t) => t.slug === topicSlug);
+  if (topic) {
+    console.log(`[Topic] Local record found for slug: ${topicSlug}`);
+    return topic;
+  }
+
+  console.log(`[Topic] No record found in Supabase or local data for slug: ${topicSlug}`);
+  return null;
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { topic: topicSlug } = await params;
-  const topic = LEARN_TOPICS.find((t) => t.slug === topicSlug);
+  const topic = await getTopicData(topicSlug);
   if (!topic) return {};
 
   return getMetadata({
     title: topic.metaTitle,
     description: topic.metaDescription,
+    image: topic.heroImage,
+    path: `/learn-to-trade/${topicSlug}`,
+    hasRegionalVariants: true,
   });
 }
+
 
 function RichBlockRenderer({ block }: { block: RichBlock }) {
   switch (block.type) {
@@ -93,19 +158,19 @@ function RichBlockRenderer({ block }: { block: RichBlock }) {
 const DIFFICULTY_COLORS = {
   Beginner: 'text-profit border-profit/30 bg-profit/5',
   Intermediate: 'text-warning border-warning/30 bg-warning/5',
-  Advanced: 'text-loss border-loss/30 bg-loss/5',
+  Advanced: 'text-red-500 border-loss/30 bg-loss/5',
 };
 
 const RISK_COLORS = {
   Low: 'text-profit',
   Medium: 'text-warning',
-  High: 'text-loss',
-  'Very High': 'text-loss',
+  High: 'text-red-500',
+  'Very High': 'text-red-500',
 };
 
 export default async function TopicPage({ params }: Props) {
   const { topic: topicSlug } = await params;
-  const topic = LEARN_TOPICS.find((t) => t.slug === topicSlug);
+  const topic = await getTopicData(topicSlug);
   if (!topic) notFound();
 
   const faqSchema = {
@@ -119,18 +184,46 @@ export default async function TopicPage({ params }: Props) {
     })),
   };
 
+  const articleSchema = {
+    name: topic.title,
+    headline: topic.metaTitle || topic.title,
+    description: topic.metaDescription || topic.description,
+    image: topic.heroImage.startsWith('http') ? topic.heroImage : `https://drawdown.trading${topic.heroImage}`,
+    author: {
+      "@type": "Person",
+      "name": "Pete Currey",
+      "url": "https://drawdown.trading/about",
+    },
+    publisher: {
+      "@type": "Organization",
+      "name": "Drawdown",
+      "url": "https://drawdown.trading",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://drawdown.trading/logo.png"
+      }
+    },
+    datePublished: "2026-01-15T08:00:00Z",
+    dateModified: "2026-06-19T08:00:00Z",
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": `https://drawdown.trading/learn-to-trade/${topicSlug}`
+    }
+  };
+
   return (
-    <div className="pt-32 pb-24 bg-background-primary min-h-screen">
-      <div className="container mx-auto px-6">
+    <div className="pt-28 pb-24 min-h-screen">
+      <div className="max-w-7xl mx-auto px-6">
         <Breadcrumbs />
         <TrackPageView path={`/learn-to-trade/${topicSlug}`} />
         <StructuredData type="FAQPage" data={faqSchema} />
+        <StructuredData type="Article" data={articleSchema} />
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-16 items-start">
           <div className="lg:col-span-2">
             {/* Category & Meta badges */}
             <div className="flex flex-wrap items-center gap-3 mb-6">
-              <span className="px-3 py-1 bg-accent/10 border border-accent/20 text-accent text-[10px] font-mono uppercase tracking-widest">
+              <span className="px-3 py-1 bg-accent/10 border border-border-slate/50/20 text-accent text-[10px] font-mono uppercase tracking-widest">
                 // DRAWDOWN GUIDE
               </span>
               <span className="text-[10px] font-mono text-text-tertiary uppercase tracking-widest">
@@ -144,14 +237,14 @@ export default async function TopicPage({ params }: Props) {
             </div>
 
             {/* H1 */}
-            <h1 className="text-5xl md:text-8xl font-display font-bold uppercase mb-6 leading-tight text-text-primary">
+            <h1 className="text-5xl md:text-8xl font-sans font-bold uppercase mb-6 leading-tight text-text-primary">
               Learn {topic.title} <br className="hidden md:block" />
               <span className="text-accent">— The Honest Guide.</span>
             </h1>
 
             {/* Subtitle */}
             {topic.subtitle && (
-              <p className="text-xl text-text-secondary leading-relaxed mb-8 max-w-2xl font-sans italic border-l-2 border-accent/30 pl-4">
+              <p className="text-xl text-text-secondary leading-relaxed mb-8 max-w-2xl font-sans italic border-l-2 border-border-slate/50/30 pl-4">
                 {topic.subtitle}
               </p>
             )}
@@ -195,7 +288,7 @@ export default async function TopicPage({ params }: Props) {
             {/* Honest Reality section */}
             {topic.honestReality && (
               <section className="mb-16 p-8 bg-loss/5 border border-loss/20 relative overflow-hidden">
-                <div className="flex items-center gap-3 text-loss mb-4">
+                <div className="flex items-center gap-3 text-red-500 mb-4">
                   <AlertTriangle className="w-5 h-5" />
                   <h2 className="text-sm font-mono uppercase font-bold tracking-widest m-0">The Honest Reality</h2>
                 </div>
@@ -234,7 +327,7 @@ export default async function TopicPage({ params }: Props) {
                   className="space-y-8 scroll-mt-32 animate-in fade-in slide-in-from-bottom-4 duration-700"
                   style={{ animationDelay: `${i * 80}ms` }}
                 >
-                  <h2 className="text-3xl md:text-4xl font-display font-bold uppercase tracking-tight text-text-primary">
+                  <h2 className="text-3xl md:text-4xl font-sans font-bold uppercase tracking-tight text-text-primary">
                     {i + 1}. {section.heading}
                   </h2>
                   <p className="text-text-secondary leading-relaxed text-lg whitespace-pre-line">
@@ -258,6 +351,83 @@ export default async function TopicPage({ params }: Props) {
               ))}
             </div>
 
+            {(() => {
+              const TOPIC_CURRICULUM_CTAS: Record<string, { href: string; label: string }[]> = {
+                "forex-trading": [
+                  { href: "/courses/chart-reader", label: "Phase 02: Chart Reader" },
+                  { href: "/courses/macro-trader", label: "Phase 10: Macro Trader" }
+                ],
+                "risk-management": [
+                  { href: "/courses/risk-manager", label: "Phase 04: Risk Manager" },
+                  { href: "/courses/the-backtester", label: "Phase 13: The Backtester" }
+                ],
+                "day-trading": [
+                  { href: "/courses/strategist", label: "Phase 03: Strategist" },
+                  { href: "/courses/mind-over-market", label: "Phase 05: Mind Over Market" }
+                ]
+              };
+
+              const ctas = TOPIC_CURRICULUM_CTAS[topicSlug];
+              if (!ctas) return null;
+
+              return (
+                <div className="mt-16 p-8 border border-border rounded-xl bg-surface space-y-6">
+                  <span className="text-[9px] font-mono uppercase tracking-widest text-text-tertiary block font-bold">// CURRICULUM ACCELERATOR</span>
+                  <h3 className="text-xl font-sans font-bold uppercase text-text-primary">Start with Drawdown&apos;s {topic.title} Curriculum</h3>
+                  <p className="text-sm text-text-secondary leading-relaxed">
+                    Accelerate your learning path. Access Pete&apos;s structured curriculum phases built specifically to master this domain:
+                  </p>
+                  <div className="flex flex-col sm:flex-row gap-4 pt-2">
+                    {ctas.map((cta, idx) => (
+                      <Link
+                        key={idx}
+                        href={cta.href}
+                        className="px-6 py-4 bg-mkt-ink hover:bg-neutral-800 text-white font-mono uppercase tracking-widest text-[10px] text-center flex-grow transition-colors flex items-center justify-center gap-2 group"
+                      >
+                        {cta.label} <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              );
+            })()}
+
+            {/* Related Curriculum */}
+            {topic.relatedModules && topic.relatedModules.length > 0 && (
+              <div className="mt-20 space-y-6">
+                <span className="text-[9px] font-mono uppercase tracking-widest text-text-tertiary block font-bold">
+                  // RELATED CURRICULUM
+                </span>
+                <h2 className="text-3xl font-sans font-bold uppercase text-text-primary">
+                  Deepen Your Edge in the Curriculum
+                </h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {topic.relatedModules.map((mod, idx) => (
+                    <Link
+                      key={idx}
+                      href={mod.href}
+                      className="p-6 bg-surface border border-border hover:border-accent/40 rounded-xl transition-all duration-300 group flex flex-col justify-between"
+                    >
+                      <div className="space-y-3">
+                        <span className="text-[9px] font-mono text-accent uppercase tracking-wider block">
+                          Module {mod.href.split('-').pop()} // Core Lesson
+                        </span>
+                        <h3 className="text-lg font-sans font-bold uppercase text-text-primary group-hover:text-accent transition-colors">
+                          {mod.title}
+                        </h3>
+                        <p className="text-xs text-text-secondary leading-relaxed">
+                          {mod.description}
+                        </p>
+                      </div>
+                      <div className="flex items-center gap-1.5 text-[9px] font-mono uppercase tracking-wider text-text-tertiary group-hover:text-white pt-4 mt-auto">
+                        Study Module <ArrowUpRight className="w-3 h-3 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )}
+
             {/* Curriculum preview */}
             <div className="mt-24">
               <CurriculumPreview />
@@ -267,7 +437,7 @@ export default async function TopicPage({ params }: Props) {
             <section className="mt-16 p-10 bg-loss/5 border border-loss/20 relative overflow-hidden group">
               <div className="absolute top-0 right-0 w-32 h-32 bg-loss/10 blur-3xl rounded-full -mr-16 -mt-16 group-hover:scale-150 transition-transform duration-700" />
               <div className="relative z-10">
-                <div className="flex items-center gap-3 text-loss mb-6">
+                <div className="flex items-center gap-3 text-red-500 mb-6">
                   <AlertTriangle className="w-6 h-6" />
                   <h3 className="text-xs font-mono uppercase font-bold tracking-widest m-0">Crucial Warning: The Guru Trap</h3>
                 </div>
@@ -280,14 +450,14 @@ export default async function TopicPage({ params }: Props) {
 
           {/* Sidebar */}
           <aside className="sticky top-32 space-y-12">
-            <div className="p-10 bg-background-surface border border-border-slate hover:border-accent/30 transition-premium">
+            <div className="p-10 bg-background-surface/40 backdrop-blur-md border border-border-slate/50 transition-all duration-300 hover:shadow-[0_0_20px_rgba(0,0,0,0.2)] hover:border-border-slate hover:-translate-y-0.5 hover:border-border-slate/70 transition-premium">
               <h4 className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary mb-8">Related Intelligence</h4>
               <div className="space-y-6">
                 {LEARN_TOPICS.filter(t => t.slug !== topicSlug).slice(0, 8).map(t => (
                   <Link
                     key={t.slug}
                     href={`/learn-to-trade/${t.slug}`}
-                    className="flex items-center justify-between group py-3 border-b border-border-slate/30"
+                    className="flex items-center justify-between group py-3 border-b border-border-slate/50/30"
                   >
                     <span className="text-xs font-bold uppercase tracking-widest text-text-secondary group-hover:text-accent transition-colors">
                       {t.title}
@@ -298,7 +468,7 @@ export default async function TopicPage({ params }: Props) {
               </div>
             </div>
 
-            <div className="p-10 bg-background-surface border border-border-slate hover:border-accent/30 transition-premium">
+            <div className="p-10 bg-background-surface/40 backdrop-blur-md border border-border-slate/50 transition-all duration-300 hover:shadow-[0_0_20px_rgba(0,0,0,0.2)] hover:border-border-slate hover:-translate-y-0.5 hover:border-border-slate/70 transition-premium">
               <h4 className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary mb-8">Regional Learning</h4>
               <div className="space-y-4">
                 <p className="text-xs text-text-secondary leading-relaxed">
@@ -309,7 +479,7 @@ export default async function TopicPage({ params }: Props) {
                     <Link
                       key={loc.slug}
                       href={`/learn-to-trade/${topicSlug}/${loc.slug}`}
-                      className="px-2 py-1 bg-background-primary border border-border-slate text-[8px] font-mono uppercase tracking-widest text-text-tertiary hover:border-accent hover:text-accent transition-colors"
+                      className="px-2 py-1 bg-background-surface/40 backdrop-blur-md border border-border-slate/50 transition-all duration-300 hover:shadow-[0_0_20px_rgba(0,0,0,0.2)] hover:border-border-slate hover:-translate-y-0.5 text-[8px] font-mono uppercase tracking-widest text-text-tertiary hover:border-border-slate hover:text-accent transition-colors"
                     >
                       {loc.name}
                     </Link>
@@ -324,32 +494,32 @@ export default async function TopicPage({ params }: Props) {
               </div>
             </div>
 
-            <div className="p-10 bg-accent text-background-primary relative overflow-hidden group">
+            <div className="p-10 bg-mkt-ink text-white relative overflow-hidden group">
               <div className="relative z-10">
-                <h4 className="text-2xl font-display font-bold uppercase mb-4 leading-tight">Master Your Edge.</h4>
+                <h4 className="text-2xl font-sans font-bold uppercase mb-4 leading-tight">Master Your Edge.</h4>
                 <p className="text-sm opacity-80 leading-relaxed mb-8">
                   Start learning with Drawdown and master the business of risk.
                 </p>
                 <Link
                   href="/signup"
-                  className="block w-full py-5 bg-background-primary text-text-primary text-center text-[10px] font-bold uppercase tracking-widest hover:invert transition-all"
+                  className="block w-full py-5 text-text-primary text-center text-[10px] font-bold uppercase tracking-widest hover:invert transition-all"
                 >
                   Join Drawdown Free
                 </Link>
               </div>
-              <div className="absolute top-0 right-0 w-32 h-32 bg-white/20 blur-3xl rounded-full -mr-16 -mt-16 group-hover:scale-150 transition-transform duration-700" />
+              <div className="absolute top-0 right-0 w-32 h-32 /20 blur-3xl rounded-full -mr-16 -mt-16 group-hover:scale-150 transition-transform duration-700" />
             </div>
           </aside>
         </div>
 
         {/* FAQs */}
         {topic.faqs.length > 0 && (
-          <div className="mt-32 max-w-4xl border-t border-border-slate pt-20">
-            <h2 className="text-4xl font-display font-bold uppercase mb-16 text-text-primary">Common Questions.</h2>
+          <div className="mt-32 max-w-4xl border-t border-border-slate/50 pt-20">
+            <h2 className="text-4xl font-sans font-bold uppercase mb-16 text-text-primary">Common Questions.</h2>
             <div className="space-y-10">
               {topic.faqs.map((faq, i) => (
-                <div key={i} className="space-y-4 pb-10 border-b border-border-slate/30 last:border-0">
-                  <h3 className="text-xl font-display font-bold uppercase text-text-primary">{faq.question}</h3>
+                <div key={i} className="space-y-4 pb-10 border-b border-border-slate/50/30 last:border-0">
+                  <h3 className="text-xl font-sans font-bold uppercase text-text-primary">{faq.question}</h3>
                   <p className="text-text-secondary leading-relaxed text-base">{faq.answer}</p>
                 </div>
               ))}
@@ -358,10 +528,10 @@ export default async function TopicPage({ params }: Props) {
         )}
 
         {/* Localized Links for SEO Hub & Spoke */}
-        <div id="regional-hub" className="mt-32 pt-20 border-t border-border-slate/30">
+        <div id="regional-hub" className="mt-32 pt-20 border-t border-border-slate/50/30">
           <div className="flex items-center gap-3 mb-8">
             <MapPin className="w-4 h-4 text-accent" />
-            <h2 className="text-3xl font-display font-bold uppercase text-text-primary tracking-tight">
+            <h2 className="text-3xl font-sans font-bold uppercase text-text-primary tracking-tight">
               Learn {topic.title} Near You.
             </h2>
           </div>
@@ -370,7 +540,7 @@ export default async function TopicPage({ params }: Props) {
               <Link
                 key={loc.slug}
                 href={`/learn-to-trade/${topicSlug}/${loc.slug}`}
-                className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary hover:text-accent transition-colors py-2 border-b border-border-slate/10 hover:border-accent/30 flex items-center justify-between group"
+                className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary hover:text-accent transition-colors py-2 border-b border-border-slate/50/10 hover:border-border-slate/70 flex items-center justify-between group"
               >
                 <span>{topic.title} in {loc.name}</span>
                 <ArrowUpRight className="w-2.5 h-2.5 opacity-0 group-hover:opacity-100 transition-all" />

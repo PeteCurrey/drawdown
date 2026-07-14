@@ -1,4 +1,5 @@
-"use client";
+import type { Metadata } from 'next'
+import BrokerComparisonHub from './BrokersClient'
 
 import { Shield, ArrowRight, Filter, ShieldCheck, CheckCircle2, ChevronRight } from "lucide-react";
 import Link from "next/link";

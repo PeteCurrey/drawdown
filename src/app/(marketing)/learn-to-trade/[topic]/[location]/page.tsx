@@ -1,54 +1,140 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { LEARN_TOPICS } from "@/lib/data/learn-to-trade";
-import { UK_LOCATIONS } from "@/lib/data/locations";
 import { ArrowRight, BookOpen, ChevronRight, GraduationCap, MapPin, ShieldCheck, Zap, AlertTriangle } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { TrackPageView } from "@/components/admin/TrackPageView";
 import { StructuredData } from "@/components/StructuredData";
+import { createInternalSupabase } from "@/lib/supabase/server";
+import { LEARN_TOPICS } from "@/lib/data/learn-to-trade";
+import { UK_LOCATIONS } from "@/lib/data/locations";
+
+export const dynamicParams = true;
+export const revalidate = 86400; // 24 hours - content doesn't change often
 
 interface Props {
   params: Promise<{ topic: string; location: string }>;
 }
 
 export async function generateStaticParams() {
-  const params: { topic: string; location: string }[] = [];
-  
-  LEARN_TOPICS.forEach((topic) => {
-    UK_LOCATIONS.forEach((location) => {
-      params.push({
-        topic: topic.slug,
-        location: location.slug,
-      });
-    });
-  });
+  const primaryCities = ["london", "manchester", "birmingham"];
+  const topTopics = [
+    "forex-trading",
+    "day-trading", 
+    "prop-firms",
+    "spread-betting",
+    "technical-analysis"
+  ];
+  return topTopics.flatMap(topic => 
+    primaryCities.map(location => ({ topic, location }))
+  );
+}
 
-  return params;
+async function getTopicData(topicSlug: string) {
+  try {
+    const supabase = createInternalSupabase();
+    const { data: page, error } = await supabase
+      .from("seo_pages")
+      .select("*")
+      .eq("slug", topicSlug)
+      .eq("page_type", "learn_to_trade")
+      .maybeSingle();
+
+    if (page) {
+      return {
+        title: page.title,
+        slug: page.slug,
+        metaTitle: page.seo_title || `${page.title} | Drawdown`,
+        metaDescription: page.seo_description || "",
+        category: "General",
+        difficulty: "Intermediate" as const,
+        subtitle: page.seo_description || "",
+        description: page.seo_description || "",
+        timeToLearn: "30 mins",
+        riskLevel: "Medium" as const,
+        heroImage: "/images/learn/default.jpg",
+        honestReality: "",
+        content: [
+          {
+            heading: "Overview",
+            text: page.content || "",
+            bullets: [],
+            richBlocks: []
+          }
+        ],
+        richBlocks: [] as any[],
+        faqs: [] as any[]
+      };
+    }
+  } catch (err: any) {
+    console.error(`[Topic] Exception fetching from Supabase for slug ${topicSlug}:`, err.message);
+  }
+
+  return LEARN_TOPICS.find((t) => t.slug === topicSlug) || null;
+}
+
+async function getLocationData(topicSlug: string, locationSlug: string) {
+  const topic = await getTopicData(topicSlug);
+  if (!topic) return null;
+
+  try {
+    const supabase = createInternalSupabase();
+    const { data: page, error } = await supabase
+      .from("seo_pages")
+      .select("*")
+      .eq("slug", locationSlug)
+      .eq("page_type", "location")
+      .maybeSingle();
+
+    if (page) {
+      return {
+        topic,
+        location: {
+          name: page.title,
+          slug: page.slug,
+          context: page.seo_description || "",
+        }
+      };
+    }
+  } catch (err: any) {
+    console.error(`[Location] Exception fetching from Supabase for slug ${locationSlug}:`, err.message);
+  }
+
+  const location = UK_LOCATIONS.find((l) => l.slug === locationSlug);
+  if (location) {
+    return {
+      topic,
+      location
+    };
+  }
+
+  return null;
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { topic: topicSlug, location: locationSlug } = await params;
-  const topic = LEARN_TOPICS.find((t) => t.slug === topicSlug);
-  const location = UK_LOCATIONS.find((l) => l.slug === locationSlug);
+  const data = await getLocationData(topicSlug, locationSlug);
   
-  if (!topic || !location) return {};
+  if (!data) return {};
+
+  const { topic, location } = data;
 
   return {
-    title: `${topic.title} in ${location.name} — Learn Online | Drawdown`,
+    title: `${topic.title} in ${location.name} | Learn to Trade | Drawdown`,
     description: `Learn ${topic.title} from ${location.name} with Drawdown. Structured courses, AI tools, and UK-focused trading education. Start your journey free today.`,
     alternates: {
-      canonical: `https://drawdown.ai/learn-to-trade/${topicSlug}/${locationSlug}`,
+      canonical: `https://drawdown.trading/learn-to-trade/${topicSlug}/${locationSlug}`,
     },
   };
 }
 
 export default async function LocationTopicPage({ params }: Props) {
   const { topic: topicSlug, location: locationSlug } = await params;
-  const topic = LEARN_TOPICS.find((t) => t.slug === topicSlug);
-  const location = UK_LOCATIONS.find((l) => l.slug === locationSlug);
+  const data = await getLocationData(topicSlug, locationSlug);
 
-  if (!topic || !location) notFound();
+  if (!data) notFound();
+
+  const { topic, location } = data;
 
   const faqSchema = {
     "@context": "https://schema.org",
@@ -90,7 +176,7 @@ export default async function LocationTopicPage({ params }: Props) {
   };
 
   return (
-    <main className="min-h-screen bg-background-primary pt-32 pb-20">
+    <main className="min-h-screen pt-32 pb-20">
       <TrackPageView path={`/learn-to-trade/${topicSlug}/${locationSlug}`} />
       <StructuredData type="FAQPage" data={faqSchema} />
       
@@ -112,12 +198,12 @@ export default async function LocationTopicPage({ params }: Props) {
              <MapPin className="w-4 h-4 text-accent" />
              <span className="text-accent font-mono text-[10px] uppercase tracking-widest">Regional Hub // {location.name}</span>
           </div>
-          <h1 className="text-5xl md:text-8xl font-display font-bold uppercase mb-8 text-text-primary leading-[0.85]">
+          <h1 className="text-5xl md:text-8xl font-sans font-bold uppercase mb-8 text-text-primary leading-[0.85]">
             {topic.title} in <br /> {location.name}.
           </h1>
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 mt-12">
             <div className="lg:col-span-2 space-y-6">
-              <p className="text-2xl text-text-primary font-display uppercase leading-tight italic border-l-4 border-accent pl-8">
+              <p className="text-2xl text-text-primary font-sans uppercase leading-tight italic border-l-4 border-border-slate/50 pl-8">
                 {location.context}
               </p>
               <p className="text-lg text-text-secondary leading-relaxed">
@@ -127,7 +213,7 @@ export default async function LocationTopicPage({ params }: Props) {
                 We've built Drawdown specifically for traders in hubs like {location.name} who demand professional-level education without the archaic costs of physical classroom seminars.
               </p>
             </div>
-            <div className="bg-background-surface border border-border-slate p-8 space-y-6">
+            <div className="bg-background-surface/40 backdrop-blur-md border border-border-slate/50 transition-all duration-300 hover:shadow-[0_0_20px_rgba(0,0,0,0.2)] hover:border-border-slate hover:-translate-y-0.5 p-8 space-y-6">
                <div className="flex items-center gap-2">
                   <ShieldCheck className="w-5 h-5 text-profit" />
                   <span className="text-[10px] font-mono uppercase tracking-widest font-bold">UK Compliance</span>
@@ -154,7 +240,7 @@ export default async function LocationTopicPage({ params }: Props) {
           <div className="lg:col-span-2 space-y-20">
             {topic.content.map((section, i) => (
               <section key={i} className="space-y-8">
-                <h2 className="text-3xl md:text-4xl font-display font-bold uppercase tracking-tight text-text-primary">
+                <h2 className="text-3xl md:text-4xl font-sans font-bold uppercase tracking-tight text-text-primary">
                   {i + 1}. {section.heading}
                 </h2>
                 <p className="text-text-secondary leading-relaxed text-lg whitespace-pre-line">
@@ -163,7 +249,7 @@ export default async function LocationTopicPage({ params }: Props) {
                 {section.bullets && (
                   <ul className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4">
                     {section.bullets.map((bullet, j) => (
-                      <li key={j} className="flex gap-4 text-text-secondary text-sm p-4 bg-background-surface border border-border-slate/50">
+                      <li key={j} className="flex gap-4 text-text-secondary text-sm p-4 bg-background-surface/40 backdrop-blur-md border border-border-slate/50 transition-all duration-300 hover:shadow-[0_0_20px_rgba(0,0,0,0.2)] hover:border-border-slate hover:-translate-y-0.5/50">
                         <span className="text-accent font-bold">/</span>
                         {bullet}
                       </li>
@@ -177,16 +263,16 @@ export default async function LocationTopicPage({ params }: Props) {
           {/* Sidebar */}
           <aside className="sticky top-32 space-y-12">
             {/* Why Learn Online */}
-            <div className="p-8 bg-background-surface border border-accent/30 space-y-6">
+            <div className="p-8 bg-background-surface/40 backdrop-blur-md border border-border-slate/50 transition-all duration-300 hover:shadow-[0_0_20px_rgba(0,0,0,0.2)] hover:border-border-slate hover:-translate-y-0.5/30 space-y-6">
                <h4 className="text-[10px] font-mono uppercase tracking-widest text-accent font-bold">Why Learn Online?</h4>
                <div className="space-y-4">
-                  <div className="flex justify-between items-center text-xs pb-2 border-b border-border-slate/50">
+                  <div className="flex justify-between items-center text-xs pb-2 border-b border-border-slate/30">
                      <span className="text-text-tertiary">Classroom Course</span>
-                     <span className="text-loss font-bold">£1,500+</span>
+                     <span className="text-red-500 font-bold">£1,500+</span>
                   </div>
-                  <div className="flex justify-between items-center text-xs pb-2 border-b border-border-slate/50">
+                  <div className="flex justify-between items-center text-xs pb-2 border-b border-border-slate/30">
                      <span className="text-text-tertiary">Travel & Hotel</span>
-                     <span className="text-loss font-bold">£300+</span>
+                     <span className="text-red-500 font-bold">£300+</span>
                   </div>
                   <div className="flex justify-between items-center text-xs font-bold text-accent">
                      <span>Drawdown Access</span>
@@ -206,7 +292,7 @@ export default async function LocationTopicPage({ params }: Props) {
                     <Link 
                       key={t.slug} 
                       href={`/learn-to-trade/${t.slug}/${locationSlug}`}
-                      className="text-[10px] font-mono uppercase tracking-widest text-text-secondary hover:text-accent transition-colors py-2 border-b border-border-slate/30"
+                      className="text-[10px] font-mono uppercase tracking-widest text-text-secondary hover:text-accent transition-colors py-2 border-b border-border-slate/50/30"
                     >
                        {t.title}
                     </Link>
@@ -218,11 +304,11 @@ export default async function LocationTopicPage({ params }: Props) {
 
         {/* FAQs */}
         <section className="mb-32">
-           <h2 className="text-4xl font-display font-bold uppercase mb-16 text-text-primary">Local FAQ: {location.name}</h2>
+           <h2 className="text-4xl font-sans font-bold uppercase mb-16 text-text-primary">Local FAQ: {location.name}</h2>
            <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
               {faqSchema.mainEntity.map((faq, i) => (
-                <div key={i} className="space-y-4 p-8 bg-background-surface border border-border-slate hover:border-accent/30 transition-all">
-                   <h4 className="text-lg font-display font-bold uppercase text-text-primary">{faq.name}</h4>
+                <div key={i} className="space-y-4 p-8 bg-background-surface/40 backdrop-blur-md border border-border-slate/50 transition-all duration-300 hover:shadow-[0_0_20px_rgba(0,0,0,0.2)] hover:border-border-slate hover:-translate-y-0.5 hover:border-border-slate/70 transition-all">
+                   <h4 className="text-lg font-sans font-bold uppercase text-text-primary">{faq.name}</h4>
                    <p className="text-text-secondary leading-relaxed text-sm">{faq.acceptedAnswer.text}</p>
                 </div>
               ))}
@@ -230,9 +316,9 @@ export default async function LocationTopicPage({ params }: Props) {
         </section>
 
         {/* CTA */}
-        <section className="p-16 bg-accent text-background-primary relative overflow-hidden text-center">
+        <section className="p-16 bg-mkt-ink text-white relative overflow-hidden text-center">
            <div className="relative z-10 space-y-8">
-              <h2 className="text-4xl md:text-6xl font-display font-bold uppercase leading-none">
+              <h2 className="text-4xl md:text-6xl font-sans font-bold uppercase leading-none">
                  Start Learning {topic.title} <br /> from {location.name} Today.
               </h2>
               <p className="text-lg opacity-80 max-w-2xl mx-auto">
@@ -241,14 +327,14 @@ export default async function LocationTopicPage({ params }: Props) {
               <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
                  <Link 
                    href="/signup"
-                   className="px-12 py-6 bg-background-primary text-text-primary text-[12px] font-bold uppercase tracking-widest hover:invert transition-all"
+                   className="px-12 py-6 text-text-primary text-[12px] font-bold uppercase tracking-widest hover:invert transition-all"
                  >
                     Join Drawdown Free
                  </Link>
               </div>
            </div>
            {/* Decorative background number */}
-           <div className="absolute -right-20 -bottom-20 text-[300px] font-display font-black text-white/10 select-none">
+           <div className="absolute -right-20 -bottom-20 text-[300px] font-sans font-black text-white/10 select-none">
               {location.name[0]}
            </div>
         </section>

@@ -6,14 +6,15 @@ import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { Calendar, Tag, ChevronLeft, ArrowRight } from "lucide-react";
 import Link from "next/link";
 
+export const dynamicParams = true;
+export const revalidate = 3600; // hourly cache revalidation
+
 interface Props {
   params: Promise<{ slug: string }>;
 }
 
 export async function generateStaticParams() {
-  return expertAnalysis.map((post) => ({
-    slug: post.slug,
-  }));
+  return [];
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -33,8 +34,8 @@ export default async function AnalysisPostPage({ params }: Props) {
   if (!post) notFound();
 
   return (
-    <div className="pt-32 pb-24 bg-background-primary min-h-screen">
-      <div className="container mx-auto px-6">
+    <div className="pt-28 pb-24 min-h-screen">
+      <div className="max-w-7xl mx-auto px-6">
         <Breadcrumbs />
 
         <div className="max-w-4xl mx-auto">
@@ -50,7 +51,7 @@ export default async function AnalysisPostPage({ params }: Props) {
             <div className="flex items-center gap-4 mb-6">
               <span className={cn(
                 "px-2 py-0.5 text-[8px] font-mono uppercase tracking-[0.2em] border",
-                post.type === 'daily' ? "text-accent border-accent/30" : "text-premium border-premium/30"
+                post.type === 'daily' ? "text-accent border-border-slate/50/30" : "text-premium border-premium/30"
               )}>
                 {post.type} Report
               </span>
@@ -64,29 +65,29 @@ export default async function AnalysisPostPage({ params }: Props) {
               )}
             </div>
 
-            <h1 className="  font-display font-extrabold uppercase leading-tight mb-8">
+            <h1 className="font-sans font-extrabold uppercase leading-tight mb-8">
               {post.title}
             </h1>
             
-            <p className="text-xl text-text-secondary leading-relaxed italic border-l-2 border-accent/20 pl-8">
+            <p className="text-xl text-text-secondary leading-relaxed italic border-l-2 border-border-slate/50/20 pl-8">
               {post.excerpt}
             </p>
           </header>
 
           <div 
-            className="prose prose-invert prose-lg max-w-none prose-headings:font-display prose-headings:uppercase prose-headings:tracking-tight prose-a:text-accent prose-strong:text-text-primary"
+            className="prose prose-invert prose-lg max-w-none prose-headings:font-sans prose-headings:uppercase prose-headings:tracking-tight prose-a:text-accent prose-strong:text-text-primary"
             dangerouslySetInnerHTML={{ __html: post.content }}
           />
 
-          <footer className="mt-20 pt-12 border-t border-border-slate">
-            <div className="p-12 bg-background-elevated border border-border-slate flex flex-col md:flex-row items-center justify-between gap-8">
+          <footer className="mt-20 pt-12 border-t border-border-slate/50">
+            <div className="p-12 bg-background-elevated/40 border border-border-slate/50 flex flex-col md:flex-row items-center justify-between gap-8">
               <div className="space-y-2">
                 <h4 className="text-xl font-display font-bold uppercase">Ready to trade this setup?</h4>
                 <p className="text-sm text-text-secondary">Join Drawdown Pro for live professional-grade analysis every day.</p>
               </div>
               <Link 
                 href="/signup" 
-                className="px-10 py-5 bg-accent text-background-primary font-bold uppercase tracking-widest hover:bg-accent-hover transition-colors whitespace-nowrap"
+                className="px-10 py-5 bg-mkt-ink text-white font-bold uppercase tracking-widest hover:bg-accent-hover transition-colors whitespace-nowrap"
               >
                 Get The Edge
               </Link>

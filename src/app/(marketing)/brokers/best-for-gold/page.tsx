@@ -40,7 +40,7 @@ const goldBrokers = [
     rank: 3,
     id: "ig-markets",
     name: "IG Markets",
-    logoUrl: "https://upload.wikimedia.org/wikipedia/commons/2/2d/IG_Group_logo.svg",
+    logoUrl: "/logos/brokers/ig-markets.svg",
     logoFallback: "IG",
     color: "#E11A27",
     verdict: "Best for UK Spread Betting on Gold",
@@ -60,8 +60,8 @@ export default function BestBrokerForGoldPage() {
     <div className="flex flex-col">
 
       {/* Hero */}
-      <section className="relative pt-32 pb-16 bg-background-primary overflow-hidden border-b border-border-slate">
-        <div className="container mx-auto px-6 relative z-10 max-w-4xl">
+      <section className="relative pt-32 pb-16 overflow-hidden border-b border-border-slate/50">
+        <div className="max-w-7xl mx-auto px-6 relative z-10 max-w-4xl">
           <div className="space-y-6">
             <div className="flex items-center gap-3 text-text-tertiary text-[10px] font-mono uppercase tracking-widest">
               <Link href="/brokers" className="hover:text-text-primary transition-colors">Brokers</Link>
@@ -74,7 +74,7 @@ export default function BestBrokerForGoldPage() {
                <span className="text-[10px] font-mono uppercase tracking-[0.3em] font-bold">REAL CAPITAL TESTED</span>
             </div>
             
-            <h1 className="  font-display font-extrabold uppercase tracking-tight leading-[0.9]">
+            <h1 className="font-sans font-extrabold uppercase tracking-tight leading-[0.9]">
               Best Brokers for <br />
               <span className="text-text-primary">Gold Trading</span> <br />
               <span className="text-text-secondary text-3xl md:text-4xl">(XAU/USD) 2026</span>
@@ -85,7 +85,7 @@ export default function BestBrokerForGoldPage() {
             </p>
 
             {/* Quick Summary Box */}
-            <div className="bg-background-surface border border-accent/30 p-6 max-w-xl">
+            <div className="bg-background-surface/40 backdrop-blur-md border border-border-slate/50 transition-all duration-300 hover:shadow-[0_0_20px_rgba(0,0,0,0.2)] hover:border-border-slate hover:-translate-y-0.5/30 p-6 max-w-xl">
               <p className="text-[10px] font-mono uppercase tracking-widest text-accent font-bold mb-3">// QUICK VERDICT</p>
               <p className="text-sm text-text-secondary leading-relaxed">
                 <span className="text-text-primary font-bold">Best overall:</span> Pepperstone (Raw spreads from 0.0 pips, FCA regulated).<br />
@@ -97,8 +97,8 @@ export default function BestBrokerForGoldPage() {
       </section>
 
       {/* Methodology / Trust */}
-      <section className="py-8 bg-background-surface border-b border-border-slate">
-        <div className="container mx-auto px-6">
+      <section className="py-8 border-b border-border-slate/50">
+        <div className="max-w-7xl mx-auto px-6">
           <div className="flex flex-wrap gap-6 items-center justify-between">
             <div className="flex flex-wrap gap-6">
               {["Real Capital Testing", "Spread Verified During NFP", "Withdrawal Tested"].map((item, i) => (
@@ -116,10 +116,10 @@ export default function BestBrokerForGoldPage() {
       </section>
 
       {/* Brokers List */}
-      <section className="py-16 bg-background-primary">
-        <div className="container mx-auto px-6 max-w-5xl space-y-8">
+      <section className="py-16">
+        <div className="max-w-7xl mx-auto px-6 max-w-5xl space-y-8">
           {goldBrokers.map((broker) => (
-            <div key={broker.id} className="bg-background-surface border border-border-slate hover:border-accent/30 transition-all relative overflow-hidden">
+            <div key={broker.id} className="bg-background-surface/40 backdrop-blur-md border border-border-slate/50 transition-all duration-300 hover:shadow-[0_0_20px_rgba(0,0,0,0.2)] hover:border-border-slate hover:-translate-y-0.5 hover:border-border-slate/70 transition-all relative overflow-hidden">
 
               {broker.rank === 1 && (
                 <div className="absolute top-0 left-0 right-0 h-1 bg-accent" />
@@ -134,15 +134,15 @@ export default function BestBrokerForGoldPage() {
                       #{broker.rank} Pick
                     </div>
                     {broker.logoUrl ? (
-                      <div className="h-12 bg-white px-3 py-2 flex items-center mb-4 w-fit">
+                      <div className="h-12 px-3 py-2 flex items-center mb-4 w-fit">
                         <img src={broker.logoUrl} alt={broker.name} className="h-full object-contain max-w-[100px]" />
                       </div>
                     ) : (
-                      <div className="w-14 h-14 flex items-center justify-center font-display font-black text-text-primary text-2xl mb-4" style={{ backgroundColor: broker.color }}>
+                      <div className="w-14 h-14 flex items-center justify-center font-sans font-black text-text-primary text-2xl mb-4" style={{ backgroundColor: broker.color }}>
                         {broker.logoFallback}
                       </div>
                     )}
-                    <h3 className="text-2xl font-display font-bold uppercase text-text-primary mb-2">{broker.name}</h3>
+                    <h3 className="text-2xl font-sans font-bold uppercase text-text-primary mb-2">{broker.name}</h3>
                     <p className="text-xs text-accent font-bold uppercase tracking-wider mb-4">{broker.verdict}</p>
                     <div className="flex items-center gap-1">
                       {[...Array(5)].map((_, i) => (
@@ -187,7 +187,7 @@ export default function BestBrokerForGoldPage() {
                     <a href={broker.link} target="_blank" rel="nofollow" className="w-full py-4 bg-accent text-[#08090D] text-center text-xs font-bold uppercase tracking-widest hover:bg-accent-hover transition-colors">
                       Open Account
                     </a>
-                    <Link href={`/brokers/${broker.id}-review`} className="w-full py-4 border border-border-slate text-text-secondary text-center text-xs font-bold uppercase tracking-widest hover:border-text-primary hover:text-text-primary transition-colors">
+                    <Link href={`/brokers/${broker.id}-review`} className="w-full py-4 border border-border-slate/50 text-text-secondary text-center text-xs font-bold uppercase tracking-widest hover:border-text-primary hover:text-text-primary transition-colors">
                       Full Review
                     </Link>
                   </div>
@@ -199,9 +199,9 @@ export default function BestBrokerForGoldPage() {
       </section>
 
       {/* What to Look For (Educational) */}
-      <section className="py-16 bg-background-surface border-t border-border-slate">
-        <div className="container mx-auto px-6 max-w-4xl">
-          <h2 className="text-3xl font-display font-bold uppercase mb-8">What to Look For When Trading Gold</h2>
+      <section className="py-16 border-t border-border-slate/50">
+        <div className="max-w-7xl mx-auto px-6 max-w-4xl">
+          <h2 className="text-3xl font-sans font-bold uppercase mb-8">What to Look For When Trading Gold</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="space-y-4">
               <h3 className="text-base font-bold uppercase tracking-widest text-accent">Spread Widening</h3>
@@ -220,8 +220,8 @@ export default function BestBrokerForGoldPage() {
       </section>
 
       {/* Affiliate Disclosure */}
-      <section className="py-8 bg-background-primary border-t border-border-slate">
-        <div className="container mx-auto px-6 max-w-4xl">
+      <section className="py-8 border-t border-border-slate/50">
+        <div className="max-w-7xl mx-auto px-6 max-w-4xl">
           <p className="text-[10px] font-mono text-text-tertiary uppercase tracking-widest leading-relaxed opacity-60">
             Affiliate Disclosure: Drawdown may earn a commission if you sign up via links on this page. Rankings are determined by our internal scoring methodology — not commission payouts. We only recommend brokers our team has personally tested with live capital.
           </p>

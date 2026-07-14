@@ -25,7 +25,7 @@ export default async function PageAnalytics({ searchParams }: Props) {
     return notFound();
   }
 
-  const allPages = getAllSEOPages();
+  const allPages = await getAllSEOPages();
   const pageInfo = allPages.find(p => p.slug === path);
 
   const supabase = await createClient();

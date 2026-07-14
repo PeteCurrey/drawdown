@@ -101,24 +101,24 @@ export function LiveDashboardPreview() {
   if (error) return null;
 
   return (
-    <section className="py-20 bg-background-primary relative z-10 -mt-20">
+    <section className="py-12 md:py-20 bg-white relative z-10 -mt-20">
       <div className="container mx-auto px-6">
         <div className={cn(
-          "bg-background-surface border border-border-slate rounded-2xl overflow-hidden shadow-2xl transition-all duration-700",
+          "bg-white border border-mkt-bd rounded-xl overflow-hidden shadow-2xl transition-all duration-700",
           loading ? "opacity-50 blur-sm" : "opacity-100 blur-0"
         )}>
           <div className="grid grid-cols-1 lg:grid-cols-10 divide-y lg:divide-y-0 lg:divide-x divide-border-slate/50">
             
             {/* Column 1: Markets Now */}
-            <div className="lg:col-span-3 p-8 space-y-8 bg-background-primary/30">
+            <div className="lg:col-span-3 p-8 space-y-8 bg-white/30">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <div className="w-1.5 h-1.5 rounded-full bg-profit animate-pulse" />
-                  <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-text-secondary">
+                  <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-mkt-i2">
                     SESSION ACTIVE
                   </span>
                 </div>
-                <div className="flex items-center gap-2 text-text-tertiary">
+                <div className="flex items-center gap-2 text-mkt-i4">
                   <Clock className="w-3.5 h-3.5" />
                   <span className="text-[10px] font-mono">LIVE FEED</span>
                 </div>
@@ -128,8 +128,8 @@ export function LiveDashboardPreview() {
                 {markets.map((item) => (
                   <div key={item.symbol} className="flex items-center justify-between group cursor-pointer hover:bg-white/5 p-2 -m-2 transition- premium active:scale-95">
                     <div className="flex flex-col">
-                      <span className="text-xs font-bold font-mono text-text-primary uppercase tracking-tighter">{item.symbol}</span>
-                      <span className="text-[8px] text-text-tertiary font-mono uppercase">Live Market</span>
+                      <span className="text-sm md:text-xs font-bold font-mono text-mkt-ink uppercase tracking-tighter">{item.symbol}</span>
+                      <span className="text-[8px] text-mkt-i4 font-mono uppercase">Live Market</span>
                     </div>
                     
                     <div className="flex items-center gap-4">
@@ -143,14 +143,14 @@ export function LiveDashboardPreview() {
                       </svg>
                       
                       <div className="text-right flex flex-col">
-                        <span className="text-sm font-bold font-mono text-text-primary tracking-tighter">
-                          {item.price > 100 ? item.price.toFixed(2) : item.price.toFixed(5)}
+                        <span className="text-sm font-bold font-mono text-mkt-ink tracking-tighter">
+                          {(item.price == null || typeof item.price !== 'number' || Number.isNaN(item.price)) ? "--" : (item.price > 100 ? item.price.toFixed(2) : item.price.toFixed(5))}
                         </span>
                         <span className={cn(
                           "text-[9px] font-mono font-bold flex items-center justify-end gap-0.5",
-                          item.changePercent >= 0 ? "text-profit" : "text-loss"
+                          (item.changePercent ?? 0) >= 0 ? "text-mkt-grn" : "text-red-500"
                         )}>
-                          {item.changePercent >= 0 ? "+" : ""}{item.changePercent.toFixed(2)}%
+                          {(item.changePercent ?? 0) >= 0 ? "+" : ""}{(item.changePercent == null || typeof item.changePercent !== 'number' || Number.isNaN(item.changePercent)) ? "0.00" : item.changePercent.toFixed(2)}%
                         </span>
                       </div>
                     </div>
@@ -158,20 +158,20 @@ export function LiveDashboardPreview() {
                 ))}
               </div>
 
-              <Link href="/markets" className="flex items-center justify-center gap-2 py-4 bg-background-elevated border border-border-slate text-[9px] font-bold uppercase tracking-widest hover:border-accent hover:text-accent transition-all">
+              <Link href="/markets" className="flex items-center justify-center gap-2 py-4 md:py-4 bg-[#F7F7F7] border border-mkt-bd text-sm md:text-[9px] font-bold uppercase tracking-widest hover:border-mkt-bds hover:text-accent transition-all">
                 Full Intelligence Hub <ChevronRight className="w-3.5 h-3.5" />
               </Link>
             </div>
 
             {/* Column 2: Latest News */}
-            <div className="lg:col-span-4 p-10 flex flex-col h-full bg-background-surface">
+            <div className="lg:col-span-4 p-10 flex flex-col h-full bg-white">
               <div className="flex items-center gap-4 mb-10">
-                <div className="p-2.5 bg-accent/10 rounded-none border border-accent/20">
+                <div className="p-2.5 bg-accent/10 rounded-lg border border-accent/20">
                   <Newspaper className="w-5 h-5 text-accent" />
                 </div>
                 <div className="space-y-0.5">
-                  <h3 className="text-xl font-display font-bold uppercase tracking-tight text-text-primary">Global Flux.</h3>
-                  <p className="text-[9px] font-mono text-text-tertiary uppercase tracking-widest">Real-time Intelligence Feed</p>
+                  <h3 className="text-xl font-sans font-bold uppercase tracking-tight text-mkt-ink">Global Flux.</h3>
+                  <p className="text-[9px] font-mono text-mkt-i4 uppercase tracking-widest">Real-time Intelligence Feed</p>
                 </div>
               </div>
 
@@ -188,18 +188,18 @@ export function LiveDashboardPreview() {
                       <span className="text-[10px] font-mono font-black uppercase tracking-tighter text-accent">
                         {item.source}
                       </span>
-                      <span className="text-[9px] font-mono text-text-tertiary uppercase">
+                      <span className="text-[9px] font-mono text-mkt-i4 uppercase">
                         {item.timeAgo}
                       </span>
                     </div>
-                    <h4 className="text-base font-bold text-text-primary group-hover:text-accent transition-colors leading-snug line-clamp-2">
+                    <h4 className="text-base font-bold text-mkt-ink group-hover:text-accent transition-colors leading-snug line-clamp-2">
                       {item.title}
                     </h4>
                   </a>
                 ))}
               </div>
 
-              <div className="pt-10 mt-10 border-t border-border-slate/50">
+              <div className="pt-10 mt-10 border-t border-mkt-bd/50">
                 <Link href="/markets" className="text-[10px] font-black uppercase tracking-widest text-accent hover:opacity-80 flex items-center justify-between group">
                   EXPLORE MARKET PULSE <ArrowUpRight className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
                 </Link>
@@ -207,59 +207,59 @@ export function LiveDashboardPreview() {
             </div>
 
             {/* Column 3: Economic Calendar */}
-            <div className="lg:col-span-3 p-10 space-y-10 bg-background-primary/30">
+            <div className="lg:col-span-3 p-10 space-y-10 bg-white/30">
               <div className="flex items-center gap-4">
-                <div className="p-2.5 bg-accent/10 rounded-none border border-accent/20">
+                <div className="p-2.5 bg-accent/10 rounded-lg border border-accent/20">
                   <Calendar className="w-5 h-5 text-accent" />
                 </div>
                 <div className="space-y-0.5">
-                  <h3 className="text-xl font-display font-bold uppercase tracking-tight text-text-primary">Volatility.</h3>
-                  <p className="text-[9px] font-mono text-text-tertiary uppercase tracking-widest">Critical Macro Events</p>
+                  <h3 className="text-xl font-sans font-bold uppercase tracking-tight text-mkt-ink">Volatility.</h3>
+                  <p className="text-[9px] font-mono text-mkt-i4 uppercase tracking-widest">Critical Macro Events</p>
                 </div>
               </div>
 
               {nextEvent && (
-                <div className="p-8 bg-background-elevated border-l-4 border-l-loss border border-border-slate space-y-6 relative overflow-hidden group">
+                <div className="p-8 bg-[#F7F7F7] border-l-4 border-l-loss border border-mkt-bd space-y-6 relative overflow-hidden group">
                   <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
                      <Calendar className="w-12 h-12" />
                   </div>
                   
                   <div className="flex items-center justify-between relative z-10">
-                    <span className="text-[9px] font-mono text-text-tertiary uppercase tracking-widest font-bold px-2 py-0.5 bg-loss/10 text-loss">HIGH IMPACT</span>
+                    <span className="text-[9px] font-mono text-mkt-i4 uppercase tracking-widest font-bold px-2 py-0.5 bg-loss/10 text-red-500">HIGH IMPACT</span>
                   </div>
                   
                   <div className="space-y-2 relative z-10">
-                    <p className="text-sm font-black uppercase text-text-primary leading-tight">{nextEvent.event}</p>
-                    <p className="text-[10px] font-mono text-text-secondary">{nextEvent.time} GMT • {nextEvent.country}</p>
+                    <p className="text-sm font-black uppercase text-mkt-ink leading-tight">{nextEvent.event}</p>
+                    <p className="text-[10px] font-mono text-mkt-i2">{nextEvent.time} GMT • {nextEvent.country}</p>
                   </div>
 
-                  <div className="grid grid-cols-2 gap-4 pt-6 mt-6 border-t border-border-slate/50 relative z-10">
+                  <div className="grid grid-cols-2 gap-4 pt-6 mt-6 border-t border-mkt-bd/50 relative z-10">
                     <div className="flex flex-col">
-                      <span className="text-[8px] font-mono text-text-tertiary uppercase font-bold tracking-tighter">Consensus</span>
-                      <span className="text-xs font-mono font-bold text-text-primary">{nextEvent.forecast || "—"}</span>
+                      <span className="text-[8px] font-mono text-mkt-i4 uppercase font-bold tracking-tighter">Consensus</span>
+                      <span className="text-sm md:text-xs font-mono font-bold text-mkt-ink">{nextEvent.forecast || "—"}</span>
                     </div>
                     <div className="flex flex-col">
-                      <span className="text-[8px] font-mono text-text-tertiary uppercase font-bold tracking-tighter">Previous</span>
-                      <span className="text-xs font-mono text-text-secondary">{nextEvent.previous || "—"}</span>
+                      <span className="text-[8px] font-mono text-mkt-i4 uppercase font-bold tracking-tighter">Previous</span>
+                      <span className="text-sm md:text-xs font-mono text-mkt-i2">{nextEvent.previous || "—"}</span>
                     </div>
                   </div>
                 </div>
               )}
 
               <div className="space-y-6">
-                <p className="text-[10px] font-mono text-text-tertiary uppercase tracking-widest font-black border-b border-border-slate pb-2">Upcoming Intelligence</p>
+                <p className="text-[10px] font-mono text-mkt-i4 uppercase tracking-widest font-black border-b border-mkt-bd pb-2">Upcoming Intelligence</p>
                 {upcomingEvents.map((event, i) => (
                   <div key={i} className="flex items-center justify-between group cursor-default">
                     <div className="flex flex-col">
-                      <span className="text-xs font-bold uppercase text-text-secondary group-hover:text-text-primary transition-colors">{event.event}</span>
-                      <span className="text-[9px] font-mono text-text-tertiary uppercase">{event.time}</span>
+                      <span className="text-sm md:text-xs font-bold uppercase text-mkt-i2 group-hover:text-mkt-ink transition-colors">{event.event}</span>
+                      <span className="text-[9px] font-mono text-mkt-i4 uppercase">{event.time}</span>
                     </div>
-                    <span className="text-xs font-mono font-black text-accent">{event.country}</span>
+                    <span className="text-sm md:text-xs font-mono font-black text-accent">{event.country}</span>
                   </div>
                 ))}
               </div>
 
-              <Link href="/markets?tab=calendar" className="flex items-center justify-center gap-2 py-4 bg-background-elevated border border-border-slate text-[9px] font-bold uppercase tracking-widest hover:border-accent hover:text-accent transition-all mt-auto">
+              <Link href="/markets?tab=calendar" className="flex items-center justify-center gap-2 py-4 md:py-4 bg-[#F7F7F7] border border-mkt-bd text-sm md:text-[9px] font-bold uppercase tracking-widest hover:border-mkt-bds hover:text-accent transition-all mt-auto">
                 Full Economic Matrix <ChevronRight className="w-3.5 h-3.5" />
               </Link>
             </div>

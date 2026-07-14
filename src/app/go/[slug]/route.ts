@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { headers } from 'next/headers';
-import { createHash } from 'crypto';
+import { affiliateLinks } from '@/config/affiliates';
 
 export const dynamic = 'force-dynamic';
 
@@ -10,42 +10,36 @@ export async function GET(
   { params }: { params: Promise<{ slug: string }> }
 ) {
   const { slug } = await params;
-  const supabase = await createClient();
-  const headersList = await headers();
+  const affiliateData = affiliateLinks[slug];
 
-  // Resolve affiliate link from DB
-  const { data: link } = await supabase
-    .from('affiliate_links')
-    .select('id, destination_url')
-    .eq('slug', slug)
-    .eq('is_active', true)
-    .single();
-
-  if (!link) {
-    return NextResponse.redirect(new URL('/brokers', request.url));
+  if (!affiliateData) {
+    // Fallback based on slug characteristics or defaults
+    const isPropFirm = slug.includes('ftmo') || slug.includes('5ers') || slug.includes('funding');
+    const fallbackUrl = isPropFirm ? '/prop-firms' : '/brokers';
+    return NextResponse.redirect(new URL(fallbackUrl, request.url));
   }
 
-  // Grab session user (optional – anon clicks are fine)
-  const { data: { user } } = await supabase.auth.getUser();
+  // Fire-and-forget click log to Supabase
+  try {
+    const supabase = await createClient();
+    const headersList = await headers();
+    
+    // We intentionally don't await this so it doesn't block the redirect
+    supabase.from('affiliate_clicks').insert({
+      slug,
+      destination_url: affiliateData.url,
+      has_affiliate_link: affiliateData.hasAffiliateLink,
+      referrer: headersList.get('referer') || null,
+    }).then(({ error }) => {
+      if (error) console.error('Failed to log affiliate click:', error);
+    });
+  } catch (err) {
+    console.error('Error initializing supabase client for click log:', err);
+  }
 
-  // GDPR-safe IP hash
-  const forwardedFor = headersList.get('x-forwarded-for') || '';
-  const ip = forwardedFor.split(',')[0].trim();
-  const ipHash = ip
-    ? createHash('sha256').update(ip + process.env.IP_HASH_SALT || 'drawdown').digest('hex').slice(0, 16)
-    : null;
-
-  // Fire-and-forget click log
-  supabase
-    .from('affiliate_clicks')
-    .insert({
-      affiliate_id: link.id,
-      user_id: user?.id ?? null,
-      source_url: headersList.get('referer') ?? '',
-      region: headersList.get('x-vercel-ip-country') ?? 'unknown',
-      ip_hash: ipHash,
-    })
-    .then(() => {});
-
-  return NextResponse.redirect(link.destination_url, { status: 302 });
+  // Create redirect response with X-Robots-Tag to prevent indexing
+  const response = NextResponse.redirect(affiliateData.url, { status: 302 });
+  response.headers.set('X-Robots-Tag', 'noindex, nofollow');
+  
+  return response;
 }

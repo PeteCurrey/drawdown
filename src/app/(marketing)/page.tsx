@@ -1,17 +1,21 @@
+import { Navigation } from "@/components/layout/Navigation";
 import { HeroSection } from "@/components/home/HeroSection";
-import { NewsSourceStrip } from "@/components/home/NewsSourceStrip";
-import { ProblemSection } from "@/components/home/ProblemSection";
-import { FounderVideo } from "@/components/home/FounderVideo";
-import { FeatureShowcase } from "@/components/home/FeatureShowcase";
-import { PhasePreview } from "@/components/home/PhasePreview";
-import { MarketPulse } from "@/components/home/MarketPulse";
-import { LiveDashboardPreview } from "@/components/home/LiveDashboardPreview";
-import { EconomicCalendarWidget } from "@/components/home/EconomicCalendarWidget";
-import { BrokerHubPreview } from "@/components/home/BrokerHubPreview";
-import { PropFirmSection } from "@/components/home/PropFirmSection";
-import { TradingViewSection } from "@/components/home/TradingViewSection";
-import { PetesDailyTakeExcerpt } from "@/components/home/PetesDailyTakeExcerpt";
-import Link from "next/link";
+import { PriceTicker } from "@/components/home/PriceTicker";
+import { StatsBar } from "@/components/home/StatsBar";
+import { DataSourceStrip } from "@/components/home/DataSourceStrip";
+import { ScrollQuoteSection } from "@/components/home/ScrollQuoteSection";
+import { LiveNewsSection } from "@/components/home/LiveNewsSection";
+import { GlobalFluxSection } from "@/components/home/GlobalFluxSection";
+import { InstitutionalPulseSection } from "@/components/home/InstitutionalPulseSection";
+import { InstitutionalConsensusSection } from "@/components/home/InstitutionalConsensusSection";
+import { AIToolsSection } from "@/components/home/AIToolsSection";
+import { TradingViewSection } from "@/components/homepage/TradingViewSection";
+import { CurriculumSection } from "@/components/home/CurriculumSection";
+import { HorizontalScrollSection } from "@/components/home/HorizontalScrollSection";
+import { BrokerSection } from "@/components/home/BrokerSection";
+import { PricingSection } from "@/components/home/PricingSection";
+import { Footer } from "@/components/layout/Footer";
+import { FadeInSection } from "@/components/animations/FadeInSection";
 import { TrackPageView } from "@/components/admin/TrackPageView";
 import { GSAPReveal } from "@/components/animations/GSAPReveal";
 import { phases } from "@/data/courses";
@@ -20,66 +24,50 @@ export default function Home() {
   return (
     <div className="flex flex-col">
       <TrackPageView path="/" />
-      {/* 2. Hero (Condensed) */}
-      <HeroSection />
-
-      {/* Institutional Logo Strip */}
-      <NewsSourceStrip />
-
-      {/* 3. Live Dashboard Preview (THE differentiator) */}
-      <GSAPReveal direction="up" delay={0.2}>
-        <LiveDashboardPreview />
-      </GSAPReveal>
-
-      {/* 90% Problem Section (KEEP as per Section 1.5) */}
-      <GSAPReveal direction="up">
-        <ProblemSection />
-      </GSAPReveal>
-
-      {/* 4. Market Pulse (News Cards) */}
-      <GSAPReveal direction="up" stagger={0.1}>
-        <MarketPulse />
-      </GSAPReveal>
-
-      {/* 5. Economic Calendar Widget */}
-      <GSAPReveal direction="up">
-        <EconomicCalendarWidget />
-      </GSAPReveal>
-
-      {/* 6. Platform Tools (FeatureShowcase) */}
-      <GSAPReveal direction="up">
-        <FeatureShowcase />
-      </GSAPReveal>
-
-      {/* 7. The Curriculum (PhasePreview) */}
-      <GSAPReveal direction="up">
-        <PhasePreview />
-      </GSAPReveal>
-
-      {/* 8. Broker Hub Preview */}
-      <GSAPReveal direction="up">
-        <BrokerHubPreview />
-      </GSAPReveal>
-
-      {/* Prop Firm Section */}
-      <GSAPReveal direction="up">
-        <PropFirmSection />
-      </GSAPReveal>
-
-      {/* TradingView Partner Section */}
-      <GSAPReveal direction="up">
-        <TradingViewSection />
-      </GSAPReveal>
-
-      {/* Founder Pledge */}
-      <GSAPReveal direction="up">
-        <FounderVideo />
-      </GSAPReveal>
-
-      {/* 9. Pete's Daily Take */}
-      <GSAPReveal direction="up">
-        <PetesDailyTakeExcerpt />
-      </GSAPReveal>
+      <JsonLd data={{
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "Drawdown Trading",
+        "url": "https://drawdown.trading",
+        "logo": "https://drawdown.trading/og/default-og.png",
+        "description": "Phase-based trading education for UK traders. Structured curriculum, AI-powered tools and honest mentorship.",
+        "founder": {
+          "@type": "Person",
+          "name": "Pete Currey",
+          "jobTitle": "Founder",
+          "url": "https://drawdown.trading/about"
+        },
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Chesterfield",
+          "addressRegion": "Derbyshire",
+          "addressCountry": "GB"
+        },
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "contactType": "customer support",
+          "email": "hello@drawdown.trading",
+          "availableLanguage": "English"
+        },
+        "sameAs": [
+          "https://twitter.com/drawdowntrading",
+          "https://youtube.com/@drawdowntrading"
+        ]
+      }} />
+      <JsonLd data={{
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "Drawdown",
+        "url": "https://drawdown.trading",
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": {
+            "@type": "EntryPoint",
+            "urlTemplate": "https://drawdown.trading/blog?q={search_term_string}"
+          },
+          "query-input": "required name=search_term_string"
+        }
+      }} />
       
       {/* 1.5: No Lambos Section (Updated Stats) */}
       <GSAPReveal direction="up">
@@ -130,29 +118,60 @@ export default function Home() {
         </section>
       </GSAPReveal>
 
-      {/* 10. Final CTA */}
-      <section className="py-24 md:py-48 bg-background-elevated relative overflow-hidden group">
-        <div className="absolute inset-0 bg-accent/5 opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
-        <div className="container mx-auto px-6 text-center relative z-10">
-          <h2 className="text-5xl md:text-8xl font-display font-bold uppercase mb-12 leading-tight">
-            Ready to trade <br /> the <span className="text-accent underline decoration-accent/30 underline-offset-8">truth?</span>
-          </h2>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-8">
-            <Link 
-              href="/signup" 
-              className="w-full sm:w-auto px-16 py-8 bg-accent hover:bg-accent-hover text-background-primary text-xs font-bold uppercase tracking-widest transition-all shadow-2xl shadow-accent/20 hover:-translate-y-1"
-            >
-              Start Free Trial
-            </Link>
-            <div className="text-left">
-              <p className="text-text-primary text-xs font-bold uppercase tracking-widest mb-1">Phase 1 is Free.</p>
-              <p className="text-text-tertiary text-[10px] font-mono uppercase tracking-widest">No credit card required to begin.</p>
-            </div>
-          </div>
-        </div>
-        <div className="absolute -bottom-24 -left-24 w-96 h-96 border border-accent/10 rounded-full blur-3xl" />
-        <div className="absolute -top-24 -right-24 w-96 h-96 border border-accent/10 rounded-full blur-3xl" />
-      </section>
+      {/* 2. Below fold components with staggered FadeInSection triggers */}
+      <FadeInSection delay={0}>
+        <StatsBar />
+      </FadeInSection>
+
+      <FadeInSection delay={0.1}>
+        <DataSourceStrip />
+      </FadeInSection>
+
+      <ScrollQuoteSection />
+
+      <FadeInSection delay={0.2}>
+        <LiveNewsSection />
+      </FadeInSection>
+
+      <FadeInSection delay={0}>
+        <GlobalFluxSection />
+      </FadeInSection>
+
+      <FadeInSection delay={0.1}>
+        <InstitutionalPulseSection />
+      </FadeInSection>
+
+      <FadeInSection delay={0.2}>
+        <InstitutionalConsensusSection />
+      </FadeInSection>
+
+      <FadeInSection delay={0}>
+        <AIToolsSection />
+      </FadeInSection>
+
+      <FadeInSection delay={0.1}>
+        <TradingViewSection />
+      </FadeInSection>
+
+      <FadeInSection delay={0.2}>
+        <CurriculumSection />
+      </FadeInSection>
+
+      <FadeInSection delay={0.2}>
+        <HorizontalScrollSection />
+      </FadeInSection>
+
+      <FadeInSection delay={0}>
+        <BrokerSection />
+      </FadeInSection>
+
+      <FadeInSection delay={0.1}>
+        <PricingSection />
+      </FadeInSection>
+
+      <FadeInSection delay={0.2}>
+        <Footer />
+      </FadeInSection>
     </div>
   );
 }

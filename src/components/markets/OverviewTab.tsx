@@ -51,15 +51,15 @@ export function OverviewTab() {
       <div className="space-y-12 animate-pulse">
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4">
           {Array.from({ length: 7 }).map((_, i) => (
-            <div key={i} className="h-24 bg-background-surface border border-border-slate" />
+            <div key={i} className="h-24 bg-white border border-mkt-bd" />
           ))}
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
           <div className="lg:col-span-2 space-y-8">
-            <div className="h-64 bg-background-elevated/30 border border-border-slate" />
-            <div className="h-64 bg-background-elevated/30 border border-border-slate" />
+            <div className="h-64 bg-[#F7F7F7]/30 border border-mkt-bd" />
+            <div className="h-64 bg-[#F7F7F7]/30 border border-mkt-bd" />
           </div>
-          <div className="h-96 bg-background-elevated border border-border-slate" />
+          <div className="h-96 bg-[#F7F7F7] border border-mkt-bd" />
         </div>
       </div>
     );
@@ -70,13 +70,13 @@ export function OverviewTab() {
       {/* 1. Market Status Bar */}
       <section className="grid grid-cols-2 lg:grid-cols-4 xl:grid-cols-7 gap-3">
         {prices.map((item) => (
-          <div key={item.symbol} className="p-3 bg-background-surface border border-border-slate flex flex-col justify-between">
+          <div key={item.symbol} className="p-3 bg-white border border-mkt-bd flex flex-col justify-between">
             <div className="flex justify-between items-start gap-1 mb-2">
-              <span className="text-[10px] font-mono text-text-tertiary uppercase tracking-wider truncate" title={item.symbol}>{item.symbol}</span>
+              <span className="text-[10px] font-mono text-mkt-i4 uppercase tracking-wider truncate" title={item.symbol}>{item.symbol}</span>
               <div className="shrink-0 mt-0.5">
                 {item.change >= 0 
-                  ? <ArrowUpRight className="w-3 h-3 text-profit" /> 
-                  : <ArrowDownRight className="w-3 h-3 text-loss" />
+                  ? <ArrowUpRight className="w-3 h-3 text-mkt-grn" /> 
+                  : <ArrowDownRight className="w-3 h-3 text-red-500" />
                 }
               </div>
             </div>
@@ -84,7 +84,7 @@ export function OverviewTab() {
               <p className="text-lg font-mono font-bold truncate">{item.price.toFixed(2)}</p>
               <p className={cn(
                 "text-[9px] font-mono",
-                item.change >= 0 ? "text-profit" : "text-loss"
+                item.change >= 0 ? "text-mkt-grn" : "text-red-500"
               )}>
                 {item.change >= 0 ? "+" : ""}{item.changePercent.toFixed(2)}%
               </p>
@@ -96,8 +96,8 @@ export function OverviewTab() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
         {/* 2. Today's Key Events */}
         <div className="lg:col-span-2 space-y-8">
-          <div className="flex items-center justify-between border-b border-border-slate pb-4">
-            <h3 className="text-lg font-display font-bold uppercase flex items-center gap-2">
+          <div className="flex items-center justify-between border-b border-mkt-bd pb-4">
+            <h3 className="text-lg font-sans font-bold uppercase flex items-center gap-2">
               <Globe className="w-5 h-5 text-accent" /> Key Events Today
             </h3>
             <Link href="/markets?tab=calendar" className="text-[10px] font-mono uppercase text-accent hover:underline">Full Calendar →</Link>
@@ -105,38 +105,38 @@ export function OverviewTab() {
 
           <div className="space-y-4">
             {events.length > 0 ? events.map((event, i) => (
-              <div key={i} className="flex items-center justify-between p-4 bg-background-elevated/30 border-l-2 border-accent">
+              <div key={i} className="flex items-center justify-between p-4 bg-[#F7F7F7]/30 border-l-2 border-accent">
                 <div className="flex flex-col">
-                  <span className="text-xs font-mono text-text-tertiary">{event.time}</span>
+                  <span className="text-xs font-mono text-mkt-i4">{event.time}</span>
                   <span className="text-sm font-bold uppercase tracking-tight">{event.event}</span>
                 </div>
                 <div className="flex items-center gap-8">
                   <div className="text-right">
-                    <span className="text-[10px] block font-mono text-text-tertiary uppercase">Forecast</span>
+                    <span className="text-[10px] block font-mono text-mkt-i4 uppercase">Forecast</span>
                     <span className="text-xs font-mono">{event.forecast || "---"}</span>
                   </div>
                   <div className="w-2 h-2 rounded-full bg-loss" title="High Impact" />
                 </div>
               </div>
             )) : (
-              <p className="text-sm text-text-tertiary italic">No high-impact events scheduled for today.</p>
+              <p className="text-sm text-mkt-i4 italic">No high-impact events scheduled for today.</p>
             )}
           </div>
 
           {/* 3. Latest News */}
           <div className="pt-8 space-y-6">
-            <div className="flex items-center justify-between border-b border-border-slate pb-4">
-              <h3 className="text-lg font-display font-bold uppercase flex items-center gap-2">
+            <div className="flex items-center justify-between border-b border-mkt-bd pb-4">
+              <h3 className="text-lg font-sans font-bold uppercase flex items-center gap-2">
                 <Radio className="w-5 h-5 text-accent" /> Market Intelligence
               </h3>
               <Link href="/markets?tab=news" className="text-[10px] font-mono uppercase text-accent hover:underline">View All News →</Link>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {news.map((item, i) => (
-                <a key={i} href={item.url} target="_blank" rel="noopener noreferrer" className="p-6 bg-background-surface border border-border-slate hover:border-accent transition-colors group">
+                <a key={i} href={item.url} target="_blank" rel="noopener noreferrer" className="p-6 bg-white border border-mkt-bd hover:border-mkt-bds transition-colors group">
                   <div className="flex items-center gap-2 mb-2">
                     <NewsSourceLogo source={item.source} className="bg-white/10 px-2 py-0.5" />
-                    <span className="text-[9px] font-mono text-text-tertiary uppercase">// {item.publishedAt}</span>
+                    <span className="text-[9px] font-mono text-mkt-i4 uppercase">// {item.publishedAt}</span>
                   </div>
                   <h4 className="text-sm font-bold uppercase leading-tight group-hover:text-accent transition-colors line-clamp-2">{item.title}</h4>
                 </a>
@@ -148,13 +148,13 @@ export function OverviewTab() {
         {/* 4. Sidebar Sentiment & Pete's Take */}
         <div className="space-y-12">
           {/* Sentiment Gauge Card */}
-          <div className="p-8 bg-background-elevated border border-border-slate">
-            <h3 className="text-sm font-display font-bold uppercase mb-6 flex items-center gap-2">
+          <div className="p-8 bg-[#F7F7F7] border border-mkt-bd">
+            <h3 className="text-sm font-sans font-bold uppercase mb-6 flex items-center gap-2">
               <AlertCircle className="w-4 h-4 text-accent" /> Market Sentiment
             </h3>
             <div className="text-center py-6">
-              <span className="text-6xl font-display font-black text-accent">{sentiment?.fearGreed || "--"}</span>
-              <p className="text-xs font-mono uppercase tracking-widest text-text-secondary mt-2">{sentiment?.label || "Calculating..."}</p>
+              <span className="text-6xl font-sans font-black text-accent">{sentiment?.fearGreed || "--"}</span>
+              <p className="text-xs font-mono uppercase tracking-widest text-mkt-i2 mt-2">{sentiment?.label || "Calculating..."}</p>
             </div>
             <div className="w-full h-1 bg-border-slate mt-6 relative">
               <div 
@@ -166,8 +166,8 @@ export function OverviewTab() {
 
           {/* Pete's Take Preview */}
           <div className="space-y-4">
-            <p className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary">Pete&apos;s Current Bias</p>
-            <div className="p-6 bg-accent/5 border border-accent/20 italic text-sm text-text-secondary leading-relaxed">
+            <p className="text-[10px] font-mono uppercase tracking-widest text-mkt-i4">Pete&apos;s Current Bias</p>
+            <div className="p-6 bg-accent/5 border border-accent/20 italic text-sm text-mkt-i2 leading-relaxed">
               "{latestAnalysis.excerpt}"
             </div>
             <Link href={`/markets/analysis/${latestAnalysis.slug}`} className="text-[10px] font-bold uppercase text-accent hover:underline tracking-widest block">Read Full Daily Brief →</Link>

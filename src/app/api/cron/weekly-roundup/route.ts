@@ -21,10 +21,18 @@ export async function GET(request: NextRequest) {
   );
 
   try {
+    const pricesHeaders: Record<string, string> = {};
+    const bypassToken = process.env.VERCEL_AUTOMATION_BYPASS_SECRET;
+    const pricesUrl = bypassToken
+      ? `${process.env.NEXT_PUBLIC_APP_URL}/api/market/prices?x-vercel-protection-bypass=${bypassToken}&x-vercel-set-bypass-cookie=true`
+      : `${process.env.NEXT_PUBLIC_APP_URL}/api/market/prices`;
+
     // 2. Fetch context
     const [news, marketRes] = await Promise.all([
       fetchNews(), // In production, we'd fetch news from the whole week
-      fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/market/prices`)
+      fetch(pricesUrl, {
+        headers: pricesHeaders
+      })
     ]);
     
     const marketData = await marketRes.json();

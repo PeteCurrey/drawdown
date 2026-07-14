@@ -1,15 +1,14 @@
 "use client";
-
+ 
 import { 
   Download, 
   ExternalLink, 
   FileText, 
   Image as ImageIcon,
-  Video as VideoIcon,
-  Search
+  Video as VideoIcon
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-
+ 
 const assets = [
   { 
     name: "Drawdown Main Logo - SVG", 
@@ -52,57 +51,57 @@ const assets = [
     color: "text-loss"
   },
 ];
-
+ 
 export default function PartnerAssetsPage() {
   return (
-    <div className="space-y-10">
+    <div className="space-y-10 animate-in fade-in duration-700 pb-24">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
         <div>
-          <span className="text-accent font-mono text-[10px] uppercase tracking-[0.3em] block mb-2">// CREATIVE HUB</span>
-          <h1 className="text-4xl font-display font-bold uppercase text-text-primary">Assets.</h1>
+          <span className="text-accent font-mono text-[10px] uppercase tracking-[0.3em] block mb-2 font-bold">// CREATIVE HUB</span>
+          <h1 className="text-4xl font-display font-black uppercase text-text-primary">Assets.</h1>
         </div>
-        <button className="flex items-center gap-2 px-6 py-3 bg-accent text-background-primary text-[10px] font-bold uppercase tracking-widest hover:bg-accent-hover transition-colors">
+        <button className="flex items-center gap-2 px-6 py-3 bg-[#0A0A0A] hover:bg-neutral-800 text-white text-[10px] font-bold uppercase tracking-widest transition-colors rounded-lg">
           <Download className="w-4 h-4" /> Download All (.ZIP)
         </button>
       </div>
-
+ 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {assets.map((asset, i) => (
-          <div key={i} className="bg-background-surface border border-border-slate p-6 hover:border-text-tertiary transition-premium group">
-            <div className="flex justify-between items-start mb-6">
-              <div className={cn("p-3 bg-background-elevated rounded-sm", asset.color)}>
+          <div key={i} className="bg-background-surface border border-border-slate/50 p-6 rounded-xl hover:border-accent/40 hover:shadow-[0_8px_32px_rgba(0,0,0,0.06)] transition-premium group flex flex-col justify-between h-[220px]">
+            <div className="flex justify-between items-start mb-4">
+              <div className={cn("p-3 bg-background-elevated rounded-lg border border-border-slate/30", asset.color)}>
                 <asset.icon className="w-6 h-6" />
               </div>
-              <span className="text-[9px] font-mono font-bold uppercase tracking-widest text-text-tertiary bg-background-elevated px-2 py-1">
+              <span className="text-[9px] font-mono font-bold uppercase tracking-widest text-text-tertiary bg-background-elevated border border-border-slate/30 px-2 py-1 rounded-md">
                 {asset.category}
               </span>
             </div>
-
+ 
             <div className="space-y-4">
               <div>
-                <h3 className="text-sm font-display font-bold uppercase text-text-primary group-hover:text-accent transition-colors">
+                <h3 className="text-sm font-display font-bold uppercase text-text-primary group-hover:text-accent transition-colors leading-snug">
                   {asset.name}
                 </h3>
                 <p className="text-[10px] font-mono text-text-tertiary uppercase mt-1">
                   {asset.type} • {asset.size}
                 </p>
               </div>
-
+ 
               <div className="flex gap-2">
-                <button className="flex-grow py-3 bg-background-elevated text-[9px] font-bold uppercase tracking-widest hover:bg-background-surface transition-colors flex items-center justify-center gap-2">
-                  <Download className="w-3 h-3" /> Download
+                <button className="flex-grow py-2.5 bg-background-elevated border border-border-slate/50 text-[9px] font-bold uppercase tracking-widest hover:bg-background-surface transition-colors flex items-center justify-center gap-2 rounded-lg text-text-primary">
+                  <Download className="w-3.5 h-3.5" /> Download
                 </button>
-                <button className="p-3 bg-background-elevated hover:bg-background-surface transition-colors">
-                   <ExternalLink className="w-3 h-3 text-text-tertiary" />
+                <button className="p-2.5 bg-background-elevated border border-border-slate/50 hover:bg-background-surface transition-colors rounded-lg text-text-tertiary hover:text-text-primary">
+                   <ExternalLink className="w-4 h-4" />
                 </button>
               </div>
             </div>
           </div>
         ))}
       </div>
-
+ 
       {/* Guidelines Section */}
-      <div className="bg-background-elevated border border-border-slate p-8">
+      <div className="bg-background-elevated/40 border border-border-slate/50 p-8 rounded-xl">
         <h3 className="text-lg font-display font-bold uppercase text-text-primary mb-4">Partner Guidelines.</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
           <div className="space-y-4">

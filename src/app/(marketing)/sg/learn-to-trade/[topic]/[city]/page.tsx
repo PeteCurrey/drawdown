@@ -1,28 +1,83 @@
 import { Metadata } from "next";
+import { notFound } from "next/navigation";
 import { SG_CITIES, SG_TOPICS, CITY_CONTEXT_SG, TOPIC_DISPLAY_SG } from "@/data/seo/sg-data";
 import { getMetadata } from "@/lib/metadata";
 import { RegionalLocationPage } from "@/components/seo/RegionalLocationPage";
+import { createInternalSupabase } from "@/lib/supabase/server";
+
+export const dynamicParams = true;
+export const revalidate = 86400; // 24 hours - content doesn't change often
 
 interface Props {
   params: Promise<{ topic: string; city: string }>;
 }
 
 export async function generateStaticParams() {
-  const params = [];
-  for (const topic of SG_TOPICS) {
-    for (const city of SG_CITIES) {
-      params.push({ topic, city });
+  return [];
+}
+
+async function getSGCityData(topicSlug: string, citySlug: string) {
+  let topicLabel = TOPIC_DISPLAY_SG[topicSlug];
+  if (!topicLabel) {
+    try {
+      const supabase = createInternalSupabase();
+      const { data: page } = await supabase
+        .from("seo_pages")
+        .select("*")
+        .eq("slug", topicSlug)
+        .eq("page_type", "learn_to_trade")
+        .maybeSingle();
+      if (page) {
+        topicLabel = page.title;
+      }
+    } catch (err) {
+      console.error(err);
     }
   }
-  return params;
+
+  let cityLabel = "";
+  let cityContext = "";
+  let isCityValid = false;
+
+  try {
+    const supabase = createInternalSupabase();
+    const { data: page } = await supabase
+      .from("seo_pages")
+      .select("*")
+      .eq("slug", citySlug)
+      .eq("page_type", "location")
+      .maybeSingle();
+    if (page) {
+      cityLabel = page.title;
+      cityContext = page.seo_description || "";
+      isCityValid = true;
+    }
+  } catch (err) {
+    console.error(err);
+  }
+
+  if (!isCityValid && SG_CITIES.includes(citySlug)) {
+    cityLabel = citySlug.replace(/-/g, ' ');
+    cityContext = CITY_CONTEXT_SG[citySlug] || "";
+    isCityValid = true;
+  }
+
+  if (!topicLabel || !isCityValid) return null;
+
+  return {
+    topicLabel,
+    cityLabel,
+    cityContext,
+  };
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { topic, city } = await params;
-  const topicLabel = TOPIC_DISPLAY_SG[topic];
-  const cityLabel = city.replace(/-/g, ' ');
+  const data = await getSGCityData(topic, city);
 
-  if (!topicLabel || !SG_CITIES.includes(city)) return {};
+  if (!data) return {};
+
+  const { topicLabel, cityLabel } = data;
 
   return getMetadata({
     title: `${topicLabel} in ${cityLabel.charAt(0).toUpperCase() + cityLabel.slice(1)} | Drawdown Singapore`,
@@ -33,13 +88,20 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function SGLocationPage({ params }: Props) {
   const { topic, city } = await params;
+  const data = await getSGCityData(topic, city);
+
+  if (!data) notFound();
+
+  const topicDisplay = { [topic]: data.topicLabel };
+  const cityContext = { [city]: data.cityContext };
+
   return (
     <RegionalLocationPage 
       region="sg" 
       topic={topic} 
       city={city} 
-      topicDisplay={TOPIC_DISPLAY_SG} 
-      cityContext={CITY_CONTEXT_SG} 
+      topicDisplay={topicDisplay} 
+      cityContext={cityContext} 
       regulationLabel="MAS"
     />
   );

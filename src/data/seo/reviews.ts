@@ -9,6 +9,9 @@ export interface ReviewContent {
   whoShouldNotUseLong: string;
   verdict: string;
   faqs: { question: string; answer: string }[];
+  fundingMethods?: string;
+  suitabilitySummary?: string;
+  alternatives?: { name: string; slug: string; rating: number; bestFor: string }[];
 }
 
 export const BROKER_REVIEWS: Record<string, ReviewContent> = {
@@ -66,6 +69,12 @@ Deposit/Withdrawal: Most methods are free, including fast bank transfers to UK a
     faqs: [
       { question: "Is IG Markets safe?", answer: "Yes. IG is FCA regulated, FTSE 250 listed, and has a 50-year track record of reliability." },
       { question: "Is spread betting tax-free at IG?", answer: "Yes, for UK residents, spread betting profits are exempt from Capital Gains Tax and Stamp Duty." }
+    ],
+    fundingMethods: "IG offers a wide array of funding options for UK traders. You can deposit using Debit Cards (Visa/Mastercard), Credit Cards, bank transfers, and PayPal. Withdrawals are processed quickly, often within a few hours for card and bank transfers, with no withdrawal fees for standard amounts.",
+    suitabilitySummary: "IG is best suited for medium to large capital traders who prioritize regulation, safety, and a wide variety of markets. It is the gold standard for UK spread betting.",
+    alternatives: [
+      { name: "Pepperstone", slug: "pepperstone", rating: 4.7, bestFor: "Low spreads and TradingView charting" },
+      { name: "Interactive Brokers", slug: "ibkr", rating: 4.9, bestFor: "Advanced tools and institutional assets" }
     ]
   },
   pepperstone: {
@@ -122,6 +131,12 @@ Deposit/Withdrawal: Zero fees for bank transfers or cards. Fast processing to UK
     faqs: [
       { question: "Does Pepperstone allow scalping?", answer: "Yes, Pepperstone has no restrictions on scalping and offers the low latency required for high-frequency strategies." },
       { question: "Can I use TradingView with Pepperstone?", answer: "Yes, Pepperstone natively supports TradingView for both charting and direct trade execution." }
+    ],
+    fundingMethods: "Pepperstone offers bank transfers, Visa, Mastercard, PayPal, and Skrill for UK funding. There are no fees for deposits or withdrawals, and processing times are generally fast (same-day or instant depending on the method).",
+    suitabilitySummary: "Pepperstone is highly recommended for day traders, scalpers, and algorithmic traders who use TradingView, cTrader, or MT4/5 and demand raw spreads and fast execution.",
+    alternatives: [
+      { name: "IC Markets", slug: "ic-markets", rating: 4.8, bestFor: "Extremely deep liquidity and MT4 integration" },
+      { name: "IG Markets", slug: "ig", rating: 4.9, bestFor: "Massive market selection and spread betting tax-free status" }
     ]
   },
   "interactive-brokers": {

@@ -2,7 +2,6 @@ import { Navigation } from "@/components/layout/Navigation";
 import { HeroSection } from "@/components/home/HeroSection";
 import { PriceTicker } from "@/components/home/PriceTicker";
 import { StatsBar } from "@/components/home/StatsBar";
-import { DataSourceStrip } from "@/components/home/DataSourceStrip";
 import { LiveNewsSection } from "@/components/home/LiveNewsSection";
 import { GlobalFluxSection } from "@/components/home/GlobalFluxSection";
 import { InstitutionalPulseSection } from "@/components/home/InstitutionalPulseSection";
@@ -69,10 +68,6 @@ export default async function RegionalHome({ params }: Props) {
 
         <FadeInSection delay={0}>
           <StatsBar />
-        </FadeInSection>
-
-        <FadeInSection delay={0.1}>
-          <DataSourceStrip />
         </FadeInSection>
 
         <FadeInSection delay={0.2}>

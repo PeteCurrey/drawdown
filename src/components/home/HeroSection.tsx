@@ -121,6 +121,41 @@ export function HeroSection() {
   const maPathD = `M ${maPathPoints.join(" L ")}`;
   const longMaPathD = `M ${longMaPathPoints.join(" L ")}`;
 
+  const REGIONAL_CONTENT: Record<string, { line1: string, line2: string, highlight: string, sub: React.ReactNode }> = {
+    us: {
+      line1: "The Business",
+      line2: "Of",
+      highlight: "Risk.",
+      sub: "Professional-grade education for American traders. CFTC/NFA compliant insights, USD-normalized analysis, and a professional edge in stocks, options, and FX."
+    },
+    hk: {
+      line1: "The Gateway",
+      line2: "To",
+      highlight: "Alpha.",
+      sub: <>Professional-grade education for Hong Kong's professional trading community. SFC-regulated insights, HKD-normalized analysis, and <span className="text-profit">0% Capital Gains Tax</span> on all individual profits.</>
+    },
+    au: {
+      line1: "Trade The",
+      line2: "",
+      highlight: "Truth.",
+      sub: "Professional-grade education and data for Australia's most disciplined traders. ASIC-regulated insights, AUD-normalized analysis, and a professional edge."
+    },
+    sg: {
+      line1: "Trade The",
+      line2: "",
+      highlight: "Garden.",
+      sub: <>Professional-grade education for Singapore's most disciplined traders. MAS-regulated insights, SGD-normalized analysis, and a professional edge with <span className="text-profit">0% Capital Gains Tax.</span></>
+    },
+    uk: {
+      line1: "Trade the",
+      line2: "",
+      highlight: "Truth.",
+      sub: `Live market intelligence. AI-powered tools. Honest education. Built for ${demonym} traders.`
+    }
+  };
+
+  const content = REGIONAL_CONTENT[region] || REGIONAL_CONTENT['uk'];
+
   return (
     <motion.section 
       className="relative w-full min-h-screen flex flex-col justify-center overflow-hidden bg-white pt-24 pb-36 md:pt-32 md:pb-52 border-b border-mkt-bd z-20"
@@ -217,7 +252,8 @@ export function HeroSection() {
             className="text-[clamp(44px,6vw,84px)] font-sans font-extrabold text-mkt-ink leading-[1.05] tracking-tight"
             style={{ fontWeight: 800 }}
           >
-            Trade the <span className="text-mkt-grn">Truth.</span>
+            {content.line1} {content.line2 && <br />}
+            {content.line2} <span className="text-mkt-grn">{content.highlight}</span>
           </motion.h1>
 
           {/* Sub-headline */}
@@ -225,7 +261,7 @@ export function HeroSection() {
             variants={itemVariants}
             className="text-lg md:text-xl font-sans text-mkt-i3 max-w-2xl leading-relaxed mt-2"
           >
-            Live market intelligence. AI-powered tools. Honest education. Built for {demonym} traders.
+            {content.sub}
           </motion.p>
 
           {/* CTAs */}

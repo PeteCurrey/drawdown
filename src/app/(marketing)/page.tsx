@@ -2,7 +2,6 @@ import { Navigation } from "@/components/layout/Navigation";
 import { HeroSection } from "@/components/home/HeroSection";
 import { PriceTicker } from "@/components/home/PriceTicker";
 import { StatsBar } from "@/components/home/StatsBar";
-import { DataSourceStrip } from "@/components/home/DataSourceStrip";
 import { ScrollQuoteSection } from "@/components/home/ScrollQuoteSection";
 import { LiveNewsSection } from "@/components/home/LiveNewsSection";
 import { GlobalFluxSection } from "@/components/home/GlobalFluxSection";
@@ -70,6 +69,10 @@ export default function Home() {
         }
       }} />
       
+      <Navigation />
+      <HeroSection />
+      <PriceTicker />
+      
       {/* 1.5: No Lambos Section (Updated Stats) */}
       <GSAPReveal direction="up">
         <section className="py-24 md:py-32 bg-background-primary border-t border-border-slate overflow-hidden">
@@ -122,10 +125,6 @@ export default function Home() {
       {/* 2. Below fold components with staggered FadeInSection triggers */}
       <FadeInSection delay={0}>
         <StatsBar />
-      </FadeInSection>
-
-      <FadeInSection delay={0.1}>
-        <DataSourceStrip />
       </FadeInSection>
 
       <ScrollQuoteSection />

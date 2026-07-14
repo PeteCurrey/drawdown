@@ -24,7 +24,7 @@ export const BEST_OF_PAGES_SG: BestOfPage[] = [
     readingTime: 10,
     metaDescription: `Reviewing the top-rated ${slug.replace(/-/g, ' ')} for Singaporean traders. MAS compliant platforms only.`,
     introduction: `Finding the right ${slug.replace(/-/g, ' ')} is the foundation of any successful Singaporean trading career.`,
-    bestOverall: { name: 'Saxo Markets', reason: 'Institutional grade tools and deep multi-asset liquidity.', link: 'https://home.saxo/en-sg' },
+    bestOverall: { name: 'Saxo Markets', reason: 'Professional tools and deep multi-asset liquidity.', link: 'https://home.saxo/en-sg' },
     comparisonTable: [],
     sections: [],
     drawdownApproach: { title: 'The Drawdown Choice', content: 'Institutional standards for retail traders.', ctaText: 'Join Drawdown', ctaLink: '/sg/signup' },

@@ -27,7 +27,7 @@ Regulation is the bedrock of the IG offering. They are a publicly-listed company
 Professional accounts are also available for those who meet the criteria (large portfolio, significant trading frequency, or professional background), offering higher leverage in exchange for lower regulatory protection.`,
     platformsTools: `IG's technology stack is split between proprietary brilliance and industry-standard integration:
 
-IG Web Platform: One of the best web-based platforms in the world. It is highly customizable, stable, and features integrated News from Reuters and analysis from Autochartist.
+IG Web Platform: One of the best web-based platforms in the world. It is highly customizable, stable, and features integrated News from a financial news provider and analysis from Autochartist.
 
 L2 Dealer: A specialized platform for DMA (Direct Market Access) trading. It allows you to see the full market depth (Order Book) and trade directly into the exchange liquidity.
 
@@ -110,7 +110,7 @@ Deposit/Withdrawal: Zero fees for bank transfers or cards. Fast processing to UK
       "Active forex scalpers and day traders",
       "Users who want direct TradingView execution",
       "Automated traders using EAs or Capitalise.ai",
-      "Traders who want raw, institutional-grade spreads"
+      "Traders who want raw, professional-grade spreads"
     ],
     whoShouldNotUse: [
       "Traders who need 1Join Drawdown Free individual stocks (use IG)",
@@ -118,7 +118,7 @@ Deposit/Withdrawal: Zero fees for bank transfers or cards. Fast processing to UK
       "Absolute beginners who want a community-driven social feed"
     ],
     whoShouldNotUseLong: "If you are a 'buy and hold' stock investor looking to put £500 into Apple shares for 5 years, Pepperstone is not for you. They are a leveraged trading specialist built for active speculation.",
-    verdict: "Pepperstone is the best choice for dedicated forex and CFD traders who value execution speed and low costs over all else. Their integration with TradingView and cTrader makes them a modern powerhouse.",
+    verdict: "Pepperstone is the best choice for dedicated forex and CFD traders who value execution quality and low costs over all else. Their integration with TradingView and cTrader makes them a modern powerhouse.",
     faqs: [
       { question: "Does Pepperstone allow scalping?", answer: "Yes, Pepperstone has no restrictions on scalping and offers the low latency required for high-frequency strategies." },
       { question: "Can I use TradingView with Pepperstone?", answer: "Yes, Pepperstone natively supports TradingView for both charting and direct trade execution." }
@@ -129,7 +129,7 @@ Deposit/Withdrawal: Zero fees for bank transfers or cards. Fast processing to UK
 
 Operating in over 150 markets across 33 countries, IBKR offers an unparalleled depth of assets. Whether you want to trade US equities, European options, Asian futures, or obscure emerging market currencies, IBKR provides a single portal to the global financial system.
 
-For UK residents, IBKR operates under its FCA-regulated entity, providing a secure, institutional-grade environment. While the platform is notoriously complex, the trade-off is a set of tools and a fee structure that is simply unmatched by retail-only brokers.`,
+For UK residents, IBKR operates under its FCA-regulated entity, providing a secure, professional-grade environment. While the platform is notoriously complex, the trade-off is a set of tools and a fee structure that is simply unmatched by retail-only brokers.`,
     accountTypes: `IBKR offers a variety of account types, but for most individuals, the "Lite" and "Pro" distinction (mostly in the US) or the tiered vs. fixed pricing (in the UK) is the key:
 
 1. Individual/Joint Accounts: Standard accounts for single or shared ownership.
@@ -141,7 +141,7 @@ Pricing Models:
 - Fixed Pricing: A straightforward flat rate per share or per trade.`,
     platformsTools: `IBKR's technology is built for power, not simplicity:
 
-Trader Workstation (TWS): The flagship desktop platform. It is an institutional-grade terminal with every imaginable order type, risk management tool, and data scanner. It has a steep learning curve but is incredibly powerful.
+Trader Workstation (TWS): The flagship desktop platform. It is an professional-grade terminal with every imaginable order type, risk management tool, and data scanner. It has a steep learning curve but is incredibly powerful.
 
 IBKR Mobile: One of the most advanced mobile trading apps on the market, offering almost all the functionality of the desktop version.
 
@@ -162,7 +162,7 @@ IBKR GlobalTrader: A streamlined app designed specifically for beginners and cas
 - SIPC/FSCS Protection: Providing the highest standard of client fund security.`,
     whoShouldUse: [
       "Professional and semi-professional traders",
-      "Institutional-grade capital managers",
+      "professional-grade capital managers",
       "Options and futures specialists",
       "Traders needing access to 150+ global markets"
     ],
@@ -274,7 +274,7 @@ eToro Academy: A massive library of educational content for beginners.`,
       "High-volume forex traders (spreads are too high)",
       "Privacy-conscious users who don't want a social profile"
     ],
-    whoShouldNotUseLong: "eToro is not built for the lone-wolf technical analyst. If you use Pine Script or need sub-millisecond execution, you will find the platform restrictive.",
+    whoShouldNotUseLong: "eToro is not built for the lone-wolf technical analyst. If you use Pine Script or need fast execution, you will find the platform restrictive.",
     verdict: "eToro is the undisputed champion of social trading. It is the perfect starting point for someone who wants to trade but doesn't have the time to master technical analysis.",
     faqs: [
       { question: "Is CopyTrading free?", answer: "Yes, there are no additional management fees for copying other traders. You only pay the standard spreads on the trades executed." },
@@ -365,7 +365,7 @@ Price Projection Tool: A unique tool that helps you analyze the potential volati
       "Advanced technical analysts who need elite charting",
       "Active UK spread bettors looking for a professional platform",
       "Traders needing access to a massive range of niche assets",
-      "Institutional-grade retail traders"
+      "professional-grade retail traders"
     ],
     whoShouldNotUse: [
       "Absolute beginners (the platform is complex)",
@@ -422,7 +422,7 @@ Insights: A unique tool that shows current trends and news sentiment for every a
       "Serious technical analysts (charting is too basic)",
       "Automated traders (MT4/5 and TradingView are not supported)",
       "Long-term investors looking for tax-free ISAs",
-      "Institutional-grade capital managers"
+      "professional-grade capital managers"
     ],
     whoShouldNotUseLong: "Plus500 is not for the 'power user.' If you need deep market history, Pine Script, or complex algorithmic execution, you will quickly outgrow this platform.",
     verdict: "Plus500 is the best 'fast-food' broker in the world. It is reliable, clean, and does exactly what it says on the tin. Perfect for the casual CFD trader.",
@@ -432,7 +432,7 @@ Insights: A unique tool that shows current trends and news sentiment for every a
     ]
   },
   "ic-markets": {
-    overview: `IC Markets is one of the world's only true "Raw Spread" brokers. Founded in Sydney in 2007, they were built by traders for traders, with a focus on providing institutional-grade liquidity and lightning-fast execution.
+    overview: `IC Markets is one of the world's only true "Raw Spread" brokers. Founded in Sydney in 2007, they were built by traders for traders, with a focus on providing professional-grade liquidity and lightning-fast execution.
 
 The core differentiator for IC Markets is their infrastructure. They utilize Equinix NY4 data center servers in New York and LD5 in London, the same infrastructure used by major investment banks. This results in sub-1ms latency and almost zero slippage for most orders.
 
@@ -476,9 +476,9 @@ Social Trading: They support third-party social trading via Myfxbook AutoTrade a
       "Long-term stock investors"
     ],
     whoShouldNotUseLong: "If you are a UK retail trader who values the security of the FCA and FSCS protection above all else, the lack of a direct UK retail license for IC Markets' primary entity might be a deterrent.",
-    verdict: "IC Markets is the ultimate choice for the technical power-user. Their execution speed is unmatched in the retail space.",
+    verdict: "IC Markets is the ultimate choice for the technical power-user. Their execution quality is unmatched in the retail space.",
     faqs: [
-      { question: "Is IC Markets an ECN broker?", answer: "Yes, IC Markets uses a true ECN/Raw Spread model with deep institutional liquidity." },
+      { question: "Is IC Markets an ECN broker?", answer: "Yes, IC Markets uses a true ECN/Raw Spread model with deep premium liquidity." },
       { question: "What is the minimum deposit?", answer: "The minimum deposit for IC Markets is $200." }
     ]
   },
@@ -544,7 +544,7 @@ For UK traders, City Index offers the security of FCA regulation combined with a
 
 Advantage Web: A powerful HTML5 platform with over 80 technical indicators and one-click trading.
 
-Mobile App: Award-winning app featuring live news from Reuters and integrated technical analysis from Trading Central.
+Mobile App: Award-winning app featuring live market news and integrated technical analysis from Trading Central.
 
 MT4: Full support for automated trading with City Index's competitive pricing.
 
@@ -559,7 +559,7 @@ Performance Analytics: A unique tool (PlayMock) that helps you analyze your trad
 - FSCS Protection: Covered up to £85,000.
 - Segregated Client Funds: Strict adherence to FCA rules.`,
     whoShouldUse: [
-      "Traders who want institutional-grade backing",
+      "Traders who want professional-grade backing",
       "UK residents seeking tax-free spread betting",
       "Traders using Performance Analytics to improve their edge",
       "Users who want a mix of MT4 and a solid web platform"
@@ -579,7 +579,7 @@ Performance Analytics: A unique tool (PlayMock) that helps you analyze your trad
   "fp-markets": {
     overview: `FP Markets (First Prudential Markets) is an Australian-based powerhouse that has been a favorite of serious traders since 2005. They are famous for their "IRESS" platform, which provides direct market access (DMA) to global stock exchanges.
 
-While they have a strong retail presence, FP Markets is fundamentally an institutional-grade broker. They focus on transparency, using an ECN model to provide raw spreads and ultra-low latency execution.
+While they have a strong retail presence, FP Markets is fundamentally an professional-grade broker. They focus on transparency, using an ECN model to provide raw spreads and ultra-low latency execution.
 
 For global traders (particularly those in Australia and Asia), FP Markets is often the primary alternative to IC Markets, offering a broader range of stock DMA than most other forex specialists.`,
     accountTypes: `FP Markets offers a wide range of account types:
@@ -617,7 +617,7 @@ TradingView: Full integration for charting and execution.`,
       "Casual investors looking for a simple mobile app",
       "Absolute beginners"
     ],
-    whoShouldNotUseLong: "FP Markets is an institutional-grade broker. If you don't understand what DMA or ECN means, you will likely find the platform and fee structure overly complex.",
+    whoShouldNotUseLong: "FP Markets is an professional-grade broker. If you don't understand what DMA or ECN means, you will likely find the platform and fee structure overly complex.",
     verdict: "FP Markets is the best choice for traders who need both high-performance forex execution and professional stock DMA in one place.",
     faqs: [
       { question: "What is IRESS?", answer: "IRESS is a professional-grade trading platform used for Direct Market Access (DMA) to global stock exchanges." },

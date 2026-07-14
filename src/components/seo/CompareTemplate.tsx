@@ -131,7 +131,7 @@ export function CompareTemplate({ page, region = 'uk' }: { page: ComparisonPage;
                    <Activity className="w-12 h-12 text-accent mx-auto" />
                    <h4 className="text-xl font-display font-bold uppercase">Ready to start?</h4>
                    <p className="text-sm text-text-secondary leading-relaxed">
-                      Don't let analysis paralysis stop you. Both platforms provide institutional-grade conditions.
+                      Don't let analysis paralysis stop you. Both platforms provide professional-grade conditions.
                    </p>
                    <Link href={`${regionPrefix}/brokers`} className="w-full py-5 bg-accent text-[#08090D] font-display font-black uppercase tracking-widest text-xs block">
                       Compare All Brokers

@@ -121,7 +121,7 @@ export default async function InsiderTrackerLanding() {
             Stop Guessing. <br /> Follow the Truth.
           </h2>
           <p className="text-background-primary/80 font-mono text-sm max-w-xl mx-auto uppercase tracking-wider">
-            Access institutional-grade insider intelligence and build a portfolio backed by the people who know the numbers best.
+            Access professional-grade insider intelligence and build a portfolio backed by the people who know the numbers best.
           </p>
           <Link href="/signup" className="inline-flex items-center space-x-3 bg-background-primary text-text-primary px-10 py-5 text-xs font-bold uppercase tracking-[0.2em] hover:scale-105 transition-all">
             <span>Join Drawdown Now</span>

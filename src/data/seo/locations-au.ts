@@ -14,7 +14,7 @@ export const CITY_CONTEXT_AU: Record<string, string> = {
   perth: "Perth traders benefit from a timezone that overlaps significantly with the Asian session and the early London open.",
   adelaide: "Adelaide offers a stable environment for disciplined traders focused on long-term market edge.",
   "gold-coast": "The Gold Coast is a hub for remote traders who prioritize lifestyle alongside high-performance market execution.",
-  canberra: "Canberra's sophisticated population demands institutional-grade trading education and data-driven tools.",
+  canberra: "Canberra's sophisticated population demands professional-grade trading education and data-driven tools.",
   hobart: "Hobart traders leverage Drawdown's cloud-based tools to compete in the global markets from anywhere.",
   darwin: "Darwin's proximity to Asia provides a unique perspective for traders focused on regional markets.",
   newcastle: "Newcastle's growing professional sector includes many part-time traders leveraging the Drawdown Intelligence Hub.",

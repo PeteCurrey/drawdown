@@ -14,11 +14,13 @@ export interface CoursePhase {
   image: string;
   description: string;
   full_description: string;
+  status: "available" | "in_development";
 }
 
 export const phases: CoursePhase[] = [
   {
     id: 1,
+    status: "available",
     slug: "ground-zero",
     number: "01",
     name: "Ground Zero",
@@ -43,6 +45,7 @@ export const phases: CoursePhase[] = [
   },
   {
     id: 2,
+    status: "in_development",
     slug: "chart-reader",
     number: "02",
     name: "Chart Reader",
@@ -67,6 +70,7 @@ export const phases: CoursePhase[] = [
   },
   {
     id: 3,
+    status: "in_development",
     slug: "strategist",
     number: "03",
     name: "Strategist",
@@ -91,6 +95,7 @@ export const phases: CoursePhase[] = [
   },
   {
     id: 4,
+    status: "in_development",
     slug: "risk-manager",
     number: "04",
     name: "Risk Manager",
@@ -113,6 +118,7 @@ export const phases: CoursePhase[] = [
   },
   {
     id: 5,
+    status: "in_development",
     slug: "mind-over-market",
     number: "05",
     name: "Mind Over Market",
@@ -135,6 +141,7 @@ export const phases: CoursePhase[] = [
   },
   {
     id: 6,
+    status: "in_development",
     slug: "the-edge",
     number: "06",
     name: "The Edge",
@@ -145,7 +152,7 @@ export const phases: CoursePhase[] = [
     icon: "Play",
     image: "/images/tools/ai-market-scanner.png",
     description: "Scaling up. Integrating custom AI workflows, portfolio diversification, and long-term wealth management.",
-    full_description: "At the highest level, trading is about optimization and scale. Phase 06 introduces advanced institutional tools: order flow depth, AI-assisted journaling, and complex portfolio management. This is designed for those looking to manage six and seven-figure capital.",
+    full_description: "At the highest level, trading is about optimization and scale. Phase 06 introduces advanced tools: order flow depth, AI-assisted journaling, and complex portfolio management. This is designed for those looking to manage six and seven-figure capital.",
     modules_list: [
       "Institutional Order Flow",
       "Delta & Footprint Analysis",

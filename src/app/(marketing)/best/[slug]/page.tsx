@@ -61,7 +61,7 @@ export default async function BestOfPage({ params }: Props) {
       <BestBrokerTemplate 
         title={page.title}
         intro={page.introduction}
-        whoIsNotFor={page.whoIsNotFor || "This guide is intended for educational purposes and institutional-grade review standards."}
+        whoIsNotFor={page.whoIsNotFor || "This guide is intended for educational purposes and professional-grade review standards."}
         topPickId={page.topPickId || ""}
         top3Ids={page.top3Ids || []}
         brokers={detailedBrokers}

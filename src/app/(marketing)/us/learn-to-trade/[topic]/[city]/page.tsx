@@ -101,7 +101,7 @@ export default async function UnitedStatesLocationTopicPage({ params }: Props) {
                 {cityContext}
               </p>
               <p className="text-lg text-text-secondary leading-relaxed">
-                As a trader in {cityName}, you are operating within the world's most liquid financial ecosystem. Drawdown provides the institutional-grade {topic.title} education you need to navigate the US regulatory landscape—from SEC compliance to CFTC-registered execution.
+                As a trader in {cityName}, you are operating within the world's most liquid financial ecosystem. Drawdown provides the professional-grade {topic.title} education you need to navigate the US regulatory landscape—from SEC compliance to CFTC-registered execution.
               </p>
             </div>
             <div className="bg-background-surface border border-border-slate p-8 space-y-6">

@@ -10,7 +10,7 @@ export const BEST_OF_PAGES_US: BestOfPage[] = [
     introduction: 'The US forex market is the most regulated in the world. With strict 1:50 leverage caps and FIFO rules, choosing the right CFTC-registered broker is critical for your survival. Here is our 2026 shortlist.',
     bestOverall: {
       name: 'tastyfx',
-      reason: 'Superior technology and competitive spreads under institutional-grade IG Group backing.',
+      reason: 'Superior technology and competitive spreads under professional-grade IG Group backing.',
       link: 'https://tastyfx.com'
     },
     comparisonTable: [
@@ -42,7 +42,7 @@ export const BEST_OF_PAGES_US: BestOfPage[] = [
     readingTime: 12,
     metaDescription: `Reviewing the top-rated ${slug.replace(/-/g, ' ')} for American traders. SEC, FINRA, and NFA compliant platforms only.`,
     introduction: `Finding the right ${slug.replace(/-/g, ' ')} is the foundation of any successful US trading career.`,
-    bestOverall: { name: 'Interactive Brokers', reason: 'Institutional grade tools and lowest margin rates in the industry.', link: '/go/interactive-brokers' },
+    bestOverall: { name: 'Interactive Brokers', reason: 'Professional tools and lowest margin rates in the industry.', link: '/go/interactive-brokers' },
     comparisonTable: [],
     sections: [],
     drawdownApproach: { title: 'The Drawdown Standard', content: 'Compliance is the first layer of edge.', ctaText: 'Join Drawdown', ctaLink: '/us/signup' },

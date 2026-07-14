@@ -89,7 +89,7 @@ export const LEARN_TOPICS: LearnTopic[] = [
     {
     slug: "day-trading",
     title: "Day Trading",
-    subtitle: "The reality of intraday execution. No Lamborghinis. No signal groups. Just process, risk management, and statistical edge.",
+    subtitle: "The reality of intraday execution. No Hondas. No signal groups. Just process, risk management, and statistical edge.",
     description: "Master the highest-intensity trading environment. Learn how to navigate the London Open, manage intraday volatility, and treat day trading like a mechanical business rather than a casino.",
     category: "Strategy",
     difficulty: "Advanced",
@@ -112,7 +112,7 @@ export const LEARN_TOPICS: LearnTopic[] = [
       },
       {
         heading: "The London Session — Your Home Advantage",
-        text: "The financial markets are active 24/5, but they are not created equal. The most critical advantage a UK-based trader has is geography. The London session is the undisputed center of global foreign exchange trading, accounting for over 40% of all daily FX volume. \n\nThe London Open (8:00 AM GMT) provides the massive injection of institutional liquidity required for clean, directional price action. When the New York session opens at 1:00 PM GMT, creating the 'London/New York Overlap,' the market reaches its absolute peak volume.\n\nYou do not need to sit in front of the charts for 12 hours a day. The highest probability setups occur specifically during the first two hours of the London Open, and the first two hours of the New York Open. If you can dedicate 2-3 focused hours a day during these specific windows, you have access to the cleanest price action in the world.\n\nTrading outside of these high-volume windows (such as the late Asian session) often results in 'choppy,' unpredictable price action where technical setups fail due to a lack of institutional momentum.",
+        text: "The financial markets are active 24/5, but they are not created equal. The most critical advantage a UK-based trader has is geography. The London session is the undisputed center of global foreign exchange trading, accounting for over 40% of all daily FX volume. \n\nThe London Open (8:00 AM GMT) provides the massive injection of premium liquidity required for clean, directional price action. When the New York session opens at 1:00 PM GMT, creating the 'London/New York Overlap,' the market reaches its absolute peak volume.\n\nYou do not need to sit in front of the charts for 12 hours a day. The highest probability setups occur specifically during the first two hours of the London Open, and the first two hours of the New York Open. If you can dedicate 2-3 focused hours a day during these specific windows, you have access to the cleanest price action in the world.\n\nTrading outside of these high-volume windows (such as the late Asian session) often results in 'choppy,' unpredictable price action where technical setups fail due to a lack of institutional momentum.",
         bullets: [
           "London Open (8:00 AM GMT): Highest volatility, ideal for breakout and momentum strategies.",
           "London/NY Overlap (1:00 PM - 4:00 PM GMT): Maximum liquidity, ideal for trading major US economic data.",
@@ -132,7 +132,7 @@ export const LEARN_TOPICS: LearnTopic[] = [
       },
       {
         heading: "What You Actually Need to Start",
-        text: "You do not need six monitors and a Bloomberg terminal to be a profitable day trader. You need three things: capital you can afford to lose, a fast execution platform, and a rigid data-collection system.\n\nCapital: Do not start day trading with money you need for rent or groceries. The psychological pressure of 'needing' to make money will force you to take terrible trades. Start with a small amount of risk capital, or better yet, use a demo account for the first 6 months to prove you have a statistical edge before risking real money.\n\nExecution: You need a broker with Direct Market Access (DMA) or an ECN model that provides 'raw spreads.' In day trading, you are fighting for pips. If your broker has a 2-pip spread on EUR/USD, you are starting every trade heavily in the negative. You need spreads of 0.0 to 0.2 pips with a small fixed commission per lot.\n\nData Collection: This is what separates the professionals from the gamblers. You must use a digital trade journal (like TradeZella or a custom spreadsheet) to track every single entry, exit, win rate, and drawdown. You cannot improve what you do not measure.",
+        text: "You do not need six monitors and a expensive data terminal to be a profitable day trader. You need three things: capital you can afford to lose, a fast execution platform, and a rigid data-collection system.\n\nCapital: Do not start day trading with money you need for rent or groceries. The psychological pressure of 'needing' to make money will force you to take terrible trades. Start with a small amount of risk capital, or better yet, use a demo account for the first 6 months to prove you have a statistical edge before risking real money.\n\nExecution: You need a broker with Direct Market Access (DMA) or an ECN model that provides 'raw spreads.' In day trading, you are fighting for pips. If your broker has a 2-pip spread on EUR/USD, you are starting every trade heavily in the negative. You need spreads of 0.0 to 0.2 pips with a small fixed commission per lot.\n\nData Collection: This is what separates the professionals from the gamblers. You must use a digital trade journal (like TradeZella or a custom spreadsheet) to track every single entry, exit, win rate, and drawdown. You cannot improve what you do not measure.",
         richBlocks: [
           {
             type: 'toolCard',
@@ -531,7 +531,7 @@ export const LEARN_TOPICS: LearnTopic[] = [
     heroImage: "/images/learn/spread-betting.jpg",
     metaTitle: "Spread Betting Guide UK 2026 | Tax-Free Trading | Drawdown",
     metaDescription: "Learn how to use financial spread betting to trade tax-free in the UK. Master 'pounds per point' risk sizing, leverage, and the HMRC rules.",
-    honestReality: "Spread betting is actively marketed as a tax-free wonderland for UK residents. While the tax benefits are entirely real and massive, spread betting is a highly leveraged derivative product. The broker is lending you money to multiply your exposure. This means you can wipe out your entire account in a matter of hours if you do not understand position sizing. You must treat spread betting as a dangerous, institutional-grade weapon that requires strict 1% risk management to wield effectively.",
+    honestReality: "Spread betting is actively marketed as a tax-free wonderland for UK residents. While the tax benefits are entirely real and massive, spread betting is a highly leveraged derivative product. The broker is lending you money to multiply your exposure. This means you can wipe out your entire account in a matter of hours if you do not understand position sizing. You must treat spread betting as a dangerous, professional-grade weapon that requires strict 1% risk management to wield effectively.",
     content: [
       {
         heading: "What is Financial Spread Betting?",
@@ -1022,7 +1022,7 @@ export const LEARN_TOPICS: LearnTopic[] = [
             bestFor: 'Best for raw spreads and fast execution',
             regulation: 'FCA Regulated',
             affiliateSlug: 'pepperstone',
-            stat: 'Average execution speed of 30ms'
+            stat: 'Average execution quality of 30ms'
           } as BrokerCardBlock,
           {
             type: 'brokerCard',
@@ -1150,7 +1150,7 @@ export const LEARN_TOPICS: LearnTopic[] = [
             type: 'brokerCard',
             brokerSlug: 'pepperstone',
             brokerName: 'Pepperstone',
-            bestFor: 'Best for institutional-grade data feeds',
+            bestFor: 'Best for professional-grade data feeds',
             regulation: 'FCA Regulated',
             affiliateSlug: 'pepperstone',
             stat: 'Raw pricing directly from tier-1 liquidity providers'
@@ -1616,7 +1616,7 @@ export const LEARN_TOPICS: LearnTopic[] = [
       },
       {
         heading: "The DOM (Depth of Market) & Level 2 Data",
-        text: "While the Footprint chart shows you orders that have *already* executed, the DOM shows you orders that are *waiting* to execute.\n\nLevel 2 data provides a live feed of the limit order book. You can see large blocks of institutional liquidity sitting at specific price levels. The market acts as a magnet toward these large pools of liquidity. Scalpers use the DOM to 'lean' on massive institutional orders, placing their stop-loss just behind the institutional wall, knowing it will take immense pressure to break through it.",
+        text: "While the Footprint chart shows you orders that have *already* executed, the DOM shows you orders that are *waiting* to execute.\n\nLevel 2 data provides a live feed of the limit order book. You can see large blocks of premium liquidity sitting at specific price levels. The market acts as a magnet toward these large pools of liquidity. Scalpers use the DOM to 'lean' on massive institutional orders, placing their stop-loss just behind the institutional wall, knowing it will take immense pressure to break through it.",
         richBlocks: [
           {
             type: 'proTip',
@@ -1706,7 +1706,7 @@ export const LEARN_TOPICS: LearnTopic[] = [
   {
     slug: "algorithmic-trading",
     title: "Algorithmic Trading",
-    description: "The complete guide to institutional-grade automated trading. Learn to codify your edge and remove biological emotion from your execution.",
+    description: "The complete guide to professional-grade automated trading. Learn to codify your edge and remove biological emotion from your execution.",
     category: "Strategy",
     heroImage: "/images/learn/algo-trading.jpg",
     metaTitle: "Algorithmic Trading Guide | Systematic Edge & Automation | Drawdown",
@@ -1718,7 +1718,7 @@ export const LEARN_TOPICS: LearnTopic[] = [
       },
       {
         heading: "Pine Script vs. Python: Choosing Your Stack",
-        text: "For most retail traders, the journey begins with Pine Script (TradingView). It is highly accessible and integrated directly into the charts. However, for those seeking institutional-grade data analysis, machine learning integration, and complex multi-asset execution, Python is the industry standard. At Drawdown, we teach you how to prototype in Pine and scale into Python using libraries like Pandas, Backtrader, and TA-Lib."
+        text: "For most retail traders, the journey begins with Pine Script (TradingView). It is highly accessible and integrated directly into the charts. However, for those seeking professional-grade data analysis, machine learning integration, and complex multi-asset execution, Python is the industry standard. At Drawdown, we teach you how to prototype in Pine and scale into Python using libraries like Pandas, Backtrader, and TA-Lib."
       },
       {
         heading: "The Backtesting Trap: Avoiding Overfitting",
@@ -1840,7 +1840,7 @@ export const LEARN_TOPICS: LearnTopic[] = [
     metaDescription: "Learn to trade futures contracts. Master the mechanics of margin, expiration, and standardized contracts for global financial markets.",
     content: [
       {
-        heading: "Institutional-Grade Contracts",
+        heading: "professional-grade Contracts",
         text: "Futures are standardized contracts to buy or sell an asset at a future date. They are traded on centralized exchanges like the CME. Unlike CFDs, futures provide transparent volume data, making them the preferred choice for professional order flow traders."
       }
     ],

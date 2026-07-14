@@ -26,7 +26,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!post) return {};
   
   return getMetadata({
-    title: `${post.title} | Drawdown Blog`,
+    title: post.title,
     description: post.excerpt,
     path: `/blog/${post.slug}`,
   });
@@ -162,7 +162,7 @@ export default async function BlogPostPage({ params }: Props) {
                 <div className="space-y-4 text-center md:text-left">
                    <div>
                       <h5 className="text-xl font-display font-bold uppercase text-text-primary">Pete Currey</h5>
-                      <p className="text-[10px] font-mono uppercase tracking-widest text-accent">Founder of Drawdown // 15+ Years Trading</p>
+                      <p className="text-[10px] font-mono uppercase tracking-widest text-accent">Founder of Drawdown // 20+ Years Trading</p>
                    </div>
                    <p className="text-sm text-text-secondary leading-relaxed">
                       Professional trader and algorithmic systems architect. Pete built Drawdown to strip away the marketing fluff of the retail industry and focus on the cold reality of institutional risk management.
@@ -197,7 +197,7 @@ export default async function BlogPostPage({ params }: Props) {
               <div className="space-y-4">
                 <h4 className="text-3xl font-display font-bold uppercase text-text-primary leading-none">Stop Gambling. <br /> Start Trading.</h4>
                 <p className="text-text-secondary text-sm max-w-md">
-                  Start mastering the business of risk with our institutional-grade tools and education.
+                  Start mastering the business of risk with our professional-grade tools and education.
                 </p>
               </div>
               <Link 

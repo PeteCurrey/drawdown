@@ -21,7 +21,7 @@ export default function SingaporeHomePage() {
             </h1>
             
             <p className="text-xl md:text-2xl text-text-secondary leading-relaxed max-w-2xl font-medium">
-              Institutional-grade education for Singapore's most disciplined traders. MAS-regulated insights, SGD-normalized analysis, and a professional edge with <span className="text-profit">0% Capital Gains Tax.</span>
+              professional-grade education for Singapore's most disciplined traders. MAS-regulated insights, SGD-normalized analysis, and a professional edge with <span className="text-profit">0% Capital Gains Tax.</span>
             </p>
 
             <div className="flex flex-wrap gap-4 pt-4">

@@ -205,7 +205,7 @@ export function AdminIntelligenceClient({ stats }: IntelligenceProps) {
                
                <div className="space-y-4 relative z-10">
                   <h3 className="text-xl font-display font-bold uppercase">Generate Autonomous Content</h3>
-                  <p className="text-sm text-text-tertiary">Leverage the Claude 3.5 engine to create institutional-grade content based on real competitor data.</p>
+                  <p className="text-sm text-text-tertiary">Leverage the Claude 3.5 engine to create professional-grade content based on real competitor data.</p>
                </div>
 
                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 relative z-10">

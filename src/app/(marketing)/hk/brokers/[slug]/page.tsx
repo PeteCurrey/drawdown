@@ -105,7 +105,7 @@ export default function HongKongBrokerReviewPage({ params }: Props) {
 
                <div className="p-12 bg-background-elevated border border-border-slate text-center space-y-8">
                   <h3 className="text-3xl font-display font-black uppercase leading-none">Access Global Markets</h3>
-                  <p className="text-text-secondary">Start trading with an institutional-grade SFC broker today.</p>
+                  <p className="text-text-secondary">Start trading with an professional-grade SFC broker today.</p>
                   <a 
                     href={broker.link}
                     target="_blank"

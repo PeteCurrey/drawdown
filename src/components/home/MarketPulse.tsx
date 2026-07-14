@@ -18,20 +18,16 @@ interface NewsItem {
 // Category-based fallback gradient backgrounds
 function getSourceGradient(source: string): string {
   const gradients: Record<string, string> = {
-    "Bloomberg": "linear-gradient(135deg, #1a0066 0%, #2800D8 100%)",
-    "Reuters": "linear-gradient(135deg, #663300 0%, #FF8000 100%)",
-    "Financial Times": "linear-gradient(135deg, #4a1a00 0%, #c2693a 100%)",
-    "FT": "linear-gradient(135deg, #4a1a00 0%, #c2693a 100%)",
     "BBC Business": "linear-gradient(135deg, #4a0a0a 0%, #BB1919 100%)",
     "BBC": "linear-gradient(135deg, #4a0a0a 0%, #BB1919 100%)",
-    "CNBC Markets": "linear-gradient(135deg, #001a33 0%, #005596 100%)",
-    "CNBC": "linear-gradient(135deg, #001a33 0%, #005596 100%)",
-    "WSJ Markets": "linear-gradient(135deg, #0d0d0d 0%, #333333 100%)",
-    "WSJ": "linear-gradient(135deg, #0d0d0d 0%, #333333 100%)",
-    "MarketWatch": "linear-gradient(135deg, #1a0f0a 0%, #3B2E2A 100%)",
     "Yahoo Finance": "linear-gradient(135deg, #1a0033 0%, #720099 100%)",
     "ForexLive": "linear-gradient(135deg, #002233 0%, #007a99 100%)",
     "Sky News Business": "linear-gradient(135deg, #330000 0%, #CC0000 100%)",
+    "Investing.com": "linear-gradient(135deg, #001a00 0%, #006400 100%)",
+    "CNN Business": "linear-gradient(135deg, #1a0000 0%, #CC0000 100%)",
+    "Fox Business": "linear-gradient(135deg, #001133 0%, #003380 100%)",
+    "Forbes": "linear-gradient(135deg, #0a0a00 0%, #333300 100%)",
+    "CoinDesk": "linear-gradient(135deg, #001a33 0%, #0052cc 100%)",
   };
   return gradients[source] || "linear-gradient(135deg, #0a0b0e 0%, #1a1f2e 100%)";
 }
@@ -124,56 +120,7 @@ function NewsCard({ item, index }: { item: NewsItem; index: number }) {
   );
 }
 
-const FALLBACK_NEWS: NewsItem[] = [
-  {
-    source: "Bloomberg",
-    title: "Global Equity Markets Stabilize as Inflation Fears Recede",
-    publishedAt: new Date().toISOString(),
-    url: "#",
-    categories: ["Equities", "Macro"],
-    instruments: ["SPX", "NDX"]
-  },
-  {
-    source: "Reuters",
-    title: "Central Bank Sentiment Index Shows Shift in Global Outlook",
-    publishedAt: new Date().toISOString(),
-    url: "#",
-    categories: ["Global", "Macro"],
-    instruments: ["DXY", "XAUUSD"]
-  },
-  {
-    source: "Financial Times",
-    title: "Eurozone GDP Growth Exceeds Analyst Expectations in Q1",
-    publishedAt: new Date().toISOString(),
-    url: "#",
-    categories: ["Europe", "Economy"],
-    instruments: ["EURUSD", "DAX"]
-  },
-  {
-    source: "CNBC",
-    title: "Tech Giants Rally on Strong AI Infrastructure Spending",
-    publishedAt: new Date().toISOString(),
-    url: "#",
-    categories: ["Tech", "Nasdaq"],
-    instruments: ["NVDA", "AAPL"]
-  },
-  {
-    source: "WSJ",
-    title: "Oil Prices Under Pressure Amid Rising Global Stocks",
-    publishedAt: new Date().toISOString(),
-    url: "#",
-    categories: ["Commodities", "Energy"],
-    instruments: ["OIL", "XTI"]
-  },
-  {
-    source: "MarketWatch",
-    title: "US Treasury Yields Flatten Ahead of Key Employment Data",
-    publishedAt: new Date().toISOString(),
-    url: "#",
-    categories: ["Bonds", "US"],
-    instruments: ["US10Y"]
-  }
-];
+
 
 function PulseSkeleton() {
   return (
@@ -198,6 +145,7 @@ export function MarketPulse() {
   const [news, setNews] = useState<NewsItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [visible, setVisible] = useState(false);
+  const [error, setError] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -211,12 +159,12 @@ export function MarketPulse() {
         if (data && data.length > 0) {
           setNews(data.slice(0, 6));
         } else {
-          setNews(FALLBACK_NEWS);
+          setError(true);
         }
         setLoading(false);
       } catch (err) {
-        console.error("News fetch error, using fallbacks:", err);
-        setNews(FALLBACK_NEWS);
+        console.error("News fetch error:", err);
+        setError(true);
         setLoading(false);
       } finally {
         clearTimeout(timeoutId);
@@ -235,6 +183,7 @@ export function MarketPulse() {
     if (sectionRef.current) observer.observe(sectionRef.current);
     return () => observer.disconnect();
   }, []);
+  if (error) return null;
 
   return (
     <section ref={sectionRef} className="py-24 bg-background-primary relative overflow-hidden transition-colors duration-500">
@@ -250,7 +199,7 @@ export function MarketPulse() {
             </div>
           </div>
           <h2 className="text-4xl md:text-8xl font-display font-bold uppercase text-text-primary leading-tight">
-            Institutional <br /><span className="text-accent underline decoration-accent/10">Pulse.</span>
+            Market <br /><span className="text-accent underline decoration-accent/10">Pulse.</span>
           </h2>
         </div>
 

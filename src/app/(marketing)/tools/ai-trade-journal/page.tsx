@@ -22,7 +22,7 @@ export default function AITradeJournalPage() {
           </h1>
           
           <p className="text-xl md:text-2xl text-text-secondary leading-relaxed max-w-3xl mx-auto font-medium mb-12">
-            Stop lying to yourself in messy spreadsheets. Institutional-grade journaling that automatically identifies your toxic habits and calculates your true statistical edge.
+            Stop lying to yourself in messy spreadsheets. professional-grade journaling that automatically identifies your toxic habits and calculates your true statistical edge.
           </p>
 
           <div className="flex flex-col sm:flex-row justify-center gap-4">

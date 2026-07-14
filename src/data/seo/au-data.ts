@@ -103,7 +103,7 @@ export const AU_BROKERS = [
   {
     slug: 'cmc-markets',
     name: 'CMC Markets',
-    badge: 'Institutional Grade',
+    badge: 'Professional-Grade',
     afsl: 'ASIC Regulated',
     description: 'Best for professional range of markets and advanced charting.',
     pros: ['Next Generation platform', '1Join Drawdown Free markets', 'Publicly listed'],

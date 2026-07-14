@@ -106,7 +106,7 @@ export const INSTRUMENTS: Instrument[] = [
     name: 'FTSE 100',
     symbol: 'UK100',
     type: 'index',
-    description: 'The Financial Times Stock Exchange 100 Index, representing the 100 largest companies listed on the London Stock Exchange.',
+    description: 'The FTSE 100 Index, representing the 100 largest companies listed on the London Stock Exchange.',
     keyFacts: { hours: '08:00 - 16:30 GMT', spread: '1.0 - 2.0 pts', contractSize: '£10 per pt', leverage: '1:20' },
     fundamentalDrivers: ['UK Economy', 'Commodity Prices', 'GBP Strength'],
     tradingTips: ['Heavy weighting in mining/energy.', 'Acts as defensive play.', 'London open is key.'],

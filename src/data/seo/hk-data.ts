@@ -31,7 +31,7 @@ export const HK_BROKERS = [
     name: 'CMC Markets',
     regulation: 'SFC',
     badge: 'Best for CFDs',
-    description: 'SFC-regulated CFD provider featuring advanced charting and institutional-grade pricing on global indices and FX.',
+    description: 'SFC-regulated CFD provider featuring advanced charting and professional-grade pricing on global indices and FX.',
     pros: ['Award-winning tech', 'Competitive spreads', 'Professional education'],
     link: '/go/cmc-markets'
   },

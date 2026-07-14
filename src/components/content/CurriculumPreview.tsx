@@ -45,7 +45,7 @@ export const CurriculumPreview: React.FC<CurriculumPreviewProps> = ({ highlightP
               // THE DRAWDOWN PATH
             </span>
             <h3 className="font-display text-2xl md:text-3xl text-white m-0">
-              Institutional-Grade Curriculum
+              professional-grade Curriculum
             </h3>
           </div>
           <Link 

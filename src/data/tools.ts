@@ -80,7 +80,7 @@ export const tools: ToolContent[] = [
 
 If you are using a spreadsheet or a generic online logger, you aren't journaling—you're just bookkeeping. True performance attribution requires context. A "Win" in a ranging market is fundamentally different from a "Win" in a trend-extension setup. If you apply the same logic to both, you are gambling with probabilities.
 
-The Drawdown AI Trade Journal was built to solve the **Context Gap**. By pulling institutional-grade data feeds (via TwelveData and Finnhub), we overlay your trade data with the actual state of the market at the millisecond of execution. 
+The Drawdown AI Trade Journal was built to solve the **Context Gap**. By pulling professional-grade data feeds (via TwelveData and Finnhub), we overlay your trade data with the actual state of the market at the millisecond of execution. 
 
 ### The Mathematics of the 'Why'
 
@@ -98,7 +98,7 @@ The hardest part of trading isn't the charts; it's the 12 inches between your ea
 
 Our AI identifies these **Emotional Hotzones**. By analyzing the frequency of your trades and the speed of your execution, we can spot the "Tilt" before it wipes out your account. We provide real-time alerts when your trading behavior deviates from your historical 'Optimal Performance' profile.
 
-### Institutional Grade Attribution
+### Professional Data Attribution
 
 We use the same metrics that prop firms use to evaluate their best traders:
 
@@ -417,7 +417,7 @@ When you draw a level on the Daily, it appears on the 15-minute chart automatica
       },
       howItWorks: {
         steps: [
-          { title: "Global Monitor", description: "Our team and AI monitor 50+ institutional data feeds 24/7." },
+          { title: "Global Monitor", description: "Our team and AI monitor 50+ market data feeds 24/7." },
           { title: "Intel Synthesis", description: "We simplify the complex macro landscape into 3 'Key Themes' for the day." },
           { title: "Zone Mapping", description: "We identify the 3 highest-probability zones for GBP, EUR, and US Equities." },
           { title: "Direct Delivery", description: "Get the intelligence report 30 mins before the London or NY open." }
@@ -495,7 +495,7 @@ We provide **Session-Specific Briefings**. We tell you what the "Theme" is for t
           },
           {
             title: "AI Translation",
-            description: "Our institutional-grade AI translates your natural language into optimized, bug-free Pine Script (v5) or Python."
+            description: "Our professional-grade AI translates your natural language into optimized, bug-free Pine Script (v5) or Python."
           },
           {
             title: "Instant Validation",
@@ -668,7 +668,7 @@ If you've ever closed a winner too early or let a loser run too long, you've exp
 
 When you are in a trade, your brain's amygdala—the 'fear center'—is hyper-active. This shifts your thinking from the rational pre-frontal cortex to the primal 'fight or flight' response. In this state, your ability to process risk is compromised.
 
-Our AI coach monitors your execution speed and frequency to detect this shift. If you start clicking too fast after a loss, that's your amygdala talking. We flag it, and we force a 'Cool Down' period.
+Our AI coach monitors your execution quality and frequency to detect this shift. If you start clicking too fast after a loss, that's your amygdala talking. We flag it, and we force a 'Cool Down' period.
 
 ### Gamifying Discipline
 

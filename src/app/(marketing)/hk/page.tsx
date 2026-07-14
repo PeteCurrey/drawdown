@@ -21,7 +21,7 @@ export default function HongKongHomePage() {
             </h1>
             
             <p className="text-xl md:text-2xl text-text-secondary leading-relaxed max-w-2xl font-medium">
-              Institutional-grade education for Hong Kong's professional trading community. SFC-regulated insights, HKD-normalized analysis, and <span className="text-profit">0% Capital Gains Tax</span> on all individual profits.
+              professional-grade education for Hong Kong's professional trading community. SFC-regulated insights, HKD-normalized analysis, and <span className="text-profit">0% Capital Gains Tax</span> on all individual profits.
             </p>
 
             <div className="flex flex-wrap gap-4 pt-4">

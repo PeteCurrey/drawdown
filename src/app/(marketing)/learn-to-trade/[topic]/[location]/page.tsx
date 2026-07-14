@@ -59,7 +59,7 @@ export default async function LocationTopicPage({ params }: Props) {
         "name": `Are there trading courses in ${location.name}?`,
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": `Yes, while there are some traditional classroom courses in ${location.name}, Drawdown offers a more flexible, professional-grade online alternative. You can access institutional-grade ${topic.title} education from anywhere in ${location.name} without the high costs of physical workshops.`
+          "text": `Yes, while there are some traditional classroom courses in ${location.name}, Drawdown offers a more flexible, professional-grade online alternative. You can access professional-grade ${topic.title} education from anywhere in ${location.name} without the high costs of physical workshops.`
         }
       },
       {
@@ -121,7 +121,7 @@ export default async function LocationTopicPage({ params }: Props) {
                 {location.context}
               </p>
               <p className="text-lg text-text-secondary leading-relaxed">
-                While {location.name} has its own unique financial landscape, the beauty of modern markets is that your location no longer dictates your edge. By choosing to learn {topic.title} online with Drawdown, you gain access to institutional-grade tools and community intelligence that was once reserved for the square mile.
+                While {location.name} has its own unique financial landscape, the beauty of modern markets is that your location no longer dictates your edge. By choosing to learn {topic.title} online with Drawdown, you gain access to professional-grade tools and community intelligence that was once reserved for the square mile.
               </p>
               <p className="text-lg text-text-secondary leading-relaxed">
                 We've built Drawdown specifically for traders in hubs like {location.name} who demand professional-level education without the archaic costs of physical classroom seminars.

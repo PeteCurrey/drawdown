@@ -8,7 +8,7 @@ export const COMPARE_PAGES_AU: ComparisonPage[] = [
     metaDescription: 'A detailed comparison between Australia\'s two biggest brokers. We compare Pepperstone and IC Markets on speed, spreads, and local support.',
     quickVerdict: {
       winner: 'Pepperstone',
-      reason: 'Slightly better execution speed and a more intuitive client portal, though IC Markets is a close second for raw spreads.',
+      reason: 'Slightly better execution quality and a more intuitive client portal, though IC Markets is a close second for raw spreads.',
       prosA: ['Sub-30ms latency', 'Superior support', 'TradingView integration'],
       prosB: ['Lowest raw spreads', 'Deep liquidity', 'Global reputation']
     },

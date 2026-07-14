@@ -105,7 +105,7 @@ export default function HongKongPricingPage() {
             Built for <span className="text-accent underline decoration-accent/20">Hong Kong.</span>
           </h1>
           <p className="text-text-secondary max-w-2xl mx-auto mb-12">
-            Institutional-grade education for HK's professional trading community. HKD-normalized pricing and SFC-compliant insights.
+            professional-grade education for HK's professional trading community. HKD-normalized pricing and SFC-compliant insights.
           </p>
 
           {/* Toggle */}

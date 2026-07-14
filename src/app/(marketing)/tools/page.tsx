@@ -18,7 +18,7 @@ const toolCategories = [
   {
     slug: "ai-trade-journal",
     title: "AI Trade Journal",
-    description: "Institutional-grade logging with sentiment analysis and performance attribution.",
+    description: "professional-grade logging with sentiment analysis and performance attribution.",
     icon: LayoutDashboard,
     features: ["Automated Logging", "Sentiment Tracking", "Visual Equity Curve"],
     tier: "Edge+",
@@ -45,7 +45,7 @@ const toolCategories = [
   {
     slug: "strategy-backtester",
     title: "Strategy Backtester",
-    description: "Validate your edge on decade-long historical data with sub-millisecond precision.",
+    description: "Validate your edge on decade-long historical data with fast precision.",
     icon: History,
     features: ["Optimization Engine", "Monte Carlo Sim", "Detailed Stats"],
     tier: "Edge+",
@@ -97,7 +97,7 @@ export default function ToolsMarketingPage() {
             </h1>
             
             <p className="text-xl md:text-2xl text-text-secondary leading-relaxed max-w-2xl">
-              Professional-grade tools built by traders, for traders. No generic alerts. No retail noise. Just institutional-grade execution.
+              Professional-grade tools built by traders, for traders. No generic alerts. No retail noise. Just professional-grade execution.
             </p>
 
             <div className="flex flex-wrap gap-4 pt-4">
@@ -144,7 +144,7 @@ export default function ToolsMarketingPage() {
                 </div>
                 <div>
                   <div className="text-3xl font-display font-black text-text-primary mb-2">&lt;1ms</div>
-                  <p className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary">Execution Speed</p>
+                  <p className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary">Execution Quality</p>
                 </div>
               </div>
             </div>
@@ -258,7 +258,7 @@ export default function ToolsMarketingPage() {
                   </div>
                   <h3 className="text-xl font-display font-bold uppercase mb-4">Zero-Lag Execution</h3>
                   <p className="text-sm text-text-secondary leading-relaxed">
-                     Our infrastructure runs on the edge. Pricing data, scanner alerts, and journal entries are processed with sub-millisecond latency, ensuring you never miss a critical market shift.
+                     Our infrastructure runs on the edge. Pricing data, scanner alerts, and journal entries are processed with fast latency, ensuring you never miss a critical market shift.
                   </p>
                </div>
 

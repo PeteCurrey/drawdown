@@ -11,7 +11,7 @@ export default function LiveSessionsPage() {
           <span className="text-accent font-mono text-[10px] uppercase tracking-widest block mb-4">// LIVE EDGE</span>
           <h1 className="  font-display font-bold uppercase">Trading Room.</h1>
           <p className="text-sm font-mono text-text-tertiary mt-4 max-w-2xl">
-            Watch institutional-grade execution in real-time. Daily pre-market analysis and live session trading.
+            Watch professional-grade execution in real-time. Daily pre-market analysis and live session trading.
           </p>
         </div>
 

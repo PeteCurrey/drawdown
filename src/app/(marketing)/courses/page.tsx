@@ -85,10 +85,18 @@ export default function CoursesPage() {
                       <span className="text-[9px] font-mono text-text-tertiary uppercase tracking-widest flex items-center gap-1">
                         <Clock className="w-3 h-3" /> {phase.duration}
                       </span>
+                      {phase.status === 'in_development' && (
+                        <span className="px-3 py-1 text-[9px] font-mono uppercase tracking-widest border border-text-tertiary/30 text-text-tertiary">
+                          In Development
+                        </span>
+                      )}
                     </div>
                     
                     <div>
-                      <h2 className="text-3xl md:text-5xl font-display font-bold uppercase mb-2">
+                      <h2 className={cn(
+                        "text-3xl md:text-5xl font-display font-bold uppercase mb-2",
+                        phase.status === 'in_development' && "opacity-50"
+                      )}>
                         {phase.name}
                       </h2>
                       <p className="text-text-tertiary font-mono uppercase tracking-widest text-xs">
@@ -101,19 +109,27 @@ export default function CoursesPage() {
                     </p>
 
                     <div className="flex flex-col sm:flex-row gap-4">
-                      <Link 
-                        href={`/courses/${phase.slug}`}
-                        className="inline-flex items-center gap-4 px-10 py-5 bg-accent text-background-primary font-bold uppercase tracking-widest text-[10px] hover:bg-accent-hover transition-colors"
-                      >
-                        View Course Details
-                        <ChevronRight className="w-3 h-3" />
-                      </Link>
-                      <Link 
-                        href="/signup" 
-                        className="inline-flex items-center gap-4 px-10 py-5 bg-background-surface border border-border-slate text-text-primary font-bold uppercase tracking-widest text-[10px] hover:border-accent transition-colors"
-                      >
-                        {phase.tier === 'Free' ? 'Start Free' : 'Create Account'}
-                      </Link>
+                      {phase.status === 'available' ? (
+                        <>
+                          <Link 
+                            href={`/courses/${phase.slug}`}
+                            className="inline-flex items-center gap-4 px-10 py-5 bg-accent text-background-primary font-bold uppercase tracking-widest text-[10px] hover:bg-accent-hover transition-colors"
+                          >
+                            View Course Details
+                            <ChevronRight className="w-3 h-3" />
+                          </Link>
+                          <Link 
+                            href="/signup" 
+                            className="inline-flex items-center gap-4 px-10 py-5 bg-background-surface border border-border-slate text-text-primary font-bold uppercase tracking-widest text-[10px] hover:border-accent transition-colors"
+                          >
+                            {phase.tier === 'Free' ? 'Start Free' : 'Create Account'}
+                          </Link>
+                        </>
+                      ) : (
+                        <span className="inline-flex items-center gap-4 px-10 py-5 bg-background-elevated border border-border-slate text-text-tertiary font-bold uppercase tracking-widest text-[10px] cursor-not-allowed opacity-60">
+                          Coming Soon
+                        </span>
+                      )}
                     </div>
                   </div>
 

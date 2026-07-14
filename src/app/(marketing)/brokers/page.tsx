@@ -14,7 +14,7 @@ const topBrokers = [
     spreads: "From 0.6 pips",
     platforms: "IG Platform, MT4, TradingView",
     regulation: "FCA, ASIC, NFA",
-    features: ["Tax-Free UK Trading", "Institutional Liquidity", "Extended Hours"],
+    features: ["Tax-Free UK Trading", "premium liquidity", "Extended Hours"],
     link: "/go/ig-markets"
   },
   {
@@ -63,7 +63,7 @@ export default function BrokerComparisonHub() {
             </h1>
             
             <p className="text-xl md:text-2xl text-text-secondary leading-relaxed max-w-3xl font-medium">
-              Honest recommendations. No pay-to-play rankings. We filter the industry noise based on real execution speed, latency, and regulatory safety to find you an institutional-grade platform.
+              Honest recommendations. No pay-to-play rankings. We filter the industry noise based on real execution quality, latency, and regulatory safety to find you an professional-grade platform.
             </p>
 
             <div className="flex flex-wrap gap-4 pt-4">
@@ -188,7 +188,7 @@ export default function BrokerComparisonHub() {
             <ShieldCheck className="w-12 h-12 text-premium mx-auto mb-6" />
             <h2 className="text-3xl font-display font-black uppercase mb-6">Our Review Methodology.</h2>
             <p className="text-text-secondary leading-relaxed mb-8">
-               Unlike other portals, we do not rank brokers based on who pays the highest affiliate commission. Our engineering and trading desk tests every platform using real capital. We run automated latency scripts to verify execution speeds and cross-reference spread widening during NFP and CPI events.
+               Unlike other portals, we do not rank brokers based on who pays the highest affiliate commission. Our engineering and trading desk tests every platform using real capital. We run automated latency scripts to verify execution qualitys and cross-reference spread widening during NFP and CPI events.
             </p>
             <div className="flex flex-wrap justify-center gap-8 text-[10px] font-mono text-text-tertiary uppercase tracking-widest">
                <span className="flex items-center gap-2"><CheckCircle2 className="w-3 h-3 text-premium" /> Real Capital Testing</span>

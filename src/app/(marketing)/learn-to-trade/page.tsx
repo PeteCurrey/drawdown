@@ -7,7 +7,7 @@ import { TrackPageView } from "@/components/admin/TrackPageView";
 
 export const metadata: Metadata = {
   title: "Learn to Trade | Professional Trading Education | Drawdown",
-  description: "Master the financial markets with our structured, institutional-grade trading curriculum. From basics to advanced strategy.",
+  description: "Master the financial markets with our structured, professional-grade trading curriculum. From basics to advanced strategy.",
 };
 
 export default function LearnHub() {
@@ -32,7 +32,7 @@ export default function LearnHub() {
               </h1>
             </div>
             <p className="text-xl text-text-secondary max-w-xl font-sans leading-relaxed">
-              We don't sell "get rich quick" schemes. We provide a structured, institutional-grade curriculum designed to turn you into a disciplined, profitable trader.
+              We don't sell "get rich quick" schemes. We provide a structured, professional-grade curriculum designed to turn you into a disciplined, profitable trader.
             </p>
           </div>
 

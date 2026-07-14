@@ -74,7 +74,7 @@ export const COMPARISON_PAGES: ComparisonPage[] = [
     metaDescription: 'Choosing between the UK\'s biggest broker and the raw-spread specialist? We compare IG vs Pepperstone on fees, platforms, and execution.',
     quickVerdict: {
       winner: 'Pepperstone (for Low Cost)',
-      reason: 'If you prioritize raw spreads and execution speed, Pepperstone wins. If you want the widest market range, IG wins.'
+      reason: 'If you prioritize raw spreads and execution quality, Pepperstone wins. If you want the widest market range, IG wins.'
     },
     comparisonTable: [
       { feature: 'Min Spread', optionA: '0.6 pips', optionB: '0.0 pips (Razor)' },
@@ -85,7 +85,7 @@ export const COMPARISON_PAGES: ComparisonPage[] = [
     sections: [
       {
         title: 'Execution Quality',
-        content: 'Pepperstone is built for the active day trader. Their raw spread model and Equinix NY4 infrastructure mean you get institutional-grade execution. IG, while fast, is more focused on providing a stable, all-in-one ecosystem for multi-asset traders.'
+        content: 'Pepperstone is built for the active day trader. Their raw spread model and Equinix NY4 infrastructure mean you get professional-grade execution. IG, while fast, is more focused on providing a stable, all-in-one ecosystem for multi-asset traders.'
       }
     ],
     whoShouldChooseA: ['Multi-asset traders', 'Traders needing guaranteed stops', 'Long-term spread bettors'],
@@ -309,7 +309,7 @@ export const COMPARISON_PAGES: ComparisonPage[] = [
     slug: 'pepperstone-vs-ic-markets',
     title: 'Pepperstone vs IC Markets — Battle of the ECNs',
     eyebrow: '// COMPARISON GUIDE',
-    metaDescription: 'Two ECN giants compared. We look at Pepperstone vs IC Markets on execution speed, spreads, and regulation.',
+    metaDescription: 'Two ECN giants compared. We look at Pepperstone vs IC Markets on execution quality, spreads, and regulation.',
     quickVerdict: {
       winner: 'Pepperstone (for UK Regulation)',
       reason: 'Pepperstone offers full FCA protection for UK traders, whereas IC Markets typically operates under ASIC or CySEC for international clients.'
@@ -464,7 +464,7 @@ export const COMPARISON_PAGES: ComparisonPage[] = [
     comparisonTable: [
       { feature: 'Parent Company', optionA: 'Privately Owned (UK)', optionB: 'StoneX (NASDAQ)' },
       { feature: 'Asset Range', optionA: 'Standard', optionB: '13,500+' },
-      { feature: 'Specialty', optionA: 'Financial + Sports', optionB: 'Institutional Grade' }
+      { feature: 'Specialty', optionA: 'Financial + Sports', optionB: 'Professional-Grade' }
     ],
     sections: [
       { title: 'The Hybrid Advantage', content: 'Spreadex is unique in that it allows you to trade a single account across financial markets and sports spreads. For the casual trader who also follows the Premier League, it is a convenient all-in-one.' }
@@ -488,7 +488,7 @@ export const COMPARISON_PAGES: ComparisonPage[] = [
       { feature: 'Execution', optionA: 'Equinix NY4/LD4', optionB: 'Equinix NY4' }
     ],
     sections: [
-      { title: 'Liquidity Depth', content: 'BlackBull utilizes institutional liquidity providers that often result in smaller "slippage" on large orders compared to retail-focused brokers like Vantage.' }
+      { title: 'Liquidity Depth', content: 'BlackBull utilizes premium liquidity providers that often result in smaller "slippage" on large orders compared to retail-focused brokers like Vantage.' }
     ],
     whoShouldChooseA: ['TradingView power users', 'Institutional-minded retail', 'Scalpers'],
     whoShouldChooseB: ['Mobile-first traders', 'Leverage seekers', 'Vantage app fans'],
@@ -812,7 +812,7 @@ export const COMPARISON_PAGES: ComparisonPage[] = [
     slug: 'ig-vs-trading-212',
     title: 'IG vs Trading 212 — Professional Power vs Commission-Free Ease',
     eyebrow: '// COMPARISON GUIDE',
-    metaDescription: 'Should you choose the institutional-grade power of IG or the commission-free simplicity of Trading 212? A side-by-side comparison for UK traders.',
+    metaDescription: 'Should you choose the professional-grade power of IG or the commission-free simplicity of Trading 212? A side-by-side comparison for UK traders.',
     quickVerdict: {
       winner: 'IG',
       reason: 'IG is the better choice for serious traders due to its professional platform, wider market access, and advanced risk management tools. Trading 212 is ideal for long-term investors and absolute beginners.'
@@ -924,7 +924,7 @@ export const COMPARISON_PAGES: ComparisonPage[] = [
       reason: 'While both have identical pricing, Pepperstone offers a superior client experience, better educational content, and a more modern web interface.'
     },
     comparisonTable: [
-      { feature: 'Execution Speed', optionA: '<30ms', optionB: '<40ms' },
+      { feature: 'Execution Quality', optionA: '<30ms', optionB: '<40ms' },
       { feature: 'EUR/USD Spread', optionA: '0.0 - 0.1', optionB: '0.0 - 0.1' },
       { feature: 'Regulation', optionA: 'FCA, ASIC, CySEC', optionB: 'ASIC, CySEC' }
     ],

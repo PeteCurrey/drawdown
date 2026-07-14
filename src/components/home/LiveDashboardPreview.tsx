@@ -37,25 +37,7 @@ interface EconomicEvent {
   previous: string;
 }
 
-const FALLBACK_MARKETS: MarketItem[] = [
-  { symbol: "GBPUSD", price: 1.26450, changePercent: 0.12, sparkline: [10, 20, 15, 30, 25, 40, 35, 50, 45, 60] },
-  { symbol: "EURUSD", price: 1.08230, changePercent: -0.05, sparkline: [60, 50, 55, 45, 50, 35, 40, 25, 30, 10] },
-  { symbol: "FTSE100", price: 7924.30, changePercent: 0.45, sparkline: [20, 30, 40, 35, 50, 60, 55, 70, 75, 80] },
-  { symbol: "S&P500", price: 5243.50, changePercent: 0.22, sparkline: [40, 45, 42, 50, 48, 55, 52, 60, 58, 65] },
-  { symbol: "NASDAQ", price: 18335.20, changePercent: 0.31, sparkline: [30, 40, 35, 50, 45, 60, 55, 70, 65, 80] },
-  { symbol: "XAUUSD", price: 2345.10, changePercent: -0.15, sparkline: [70, 65, 68, 60, 62, 55, 58, 50, 52, 40] }
-];
 
-const FALLBACK_NEWS: NewsItem[] = [
-  { source: "Bloomberg", title: "Middle East Tensions Drive Volatility in Crude Oil Benchmarks", timeAgo: "12m ago", url: "#" },
-  { source: "FT", title: "UK Inflation Drops to 3.2%, Beating Market Projections", timeAgo: "45m ago", url: "#" },
-  { source: "Reuters", title: "Tech Rally Continues as Nvidia Reaches All-Time High", timeAgo: "1h ago", url: "#" }
-];
-
-const FALLBACK_CALENDAR: EconomicEvent[] = [
-  { time: "13:30", event: "US Non-Farm Payrolls", country: "🇺🇸", impact: 'High', forecast: "190K", previous: "210K" },
-  { time: "12:00", event: "BoE Rate Decision", country: "🇬🇧", impact: 'High', forecast: "5.25%", previous: "5.25%" }
-];
 
 export function LiveDashboardPreview() {
   const [markets, setMarkets] = useState<MarketItem[]>([]);
@@ -63,6 +45,7 @@ export function LiveDashboardPreview() {
   const [nextEvent, setNextEvent] = useState<EconomicEvent | null>(null);
   const [upcomingEvents, setUpcomingEvents] = useState<EconomicEvent[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -80,29 +63,27 @@ export function LiveDashboardPreview() {
         const newsData = await newsRes.json();
         const calendarData = await calendarRes.json();
 
-        setMarkets(marketsData.length > 0 ? marketsData.slice(0, 10) : FALLBACK_MARKETS);
-        setNews(newsData.length > 0 ? newsData.slice(0, 5).map((item: any) => ({
-          source: item.source,
-          title: item.title,
-          timeAgo: "15m ago",
-          url: item.url
-        })) : FALLBACK_NEWS);
-
-        if (calendarData.length > 0) {
-          setNextEvent(calendarData[0]);
-          setUpcomingEvents(calendarData.slice(1, 4));
+        if (!marketsData || marketsData.length === 0 || !newsData || newsData.length === 0) {
+          setError(true);
         } else {
-          setNextEvent(FALLBACK_CALENDAR[0]);
-          setUpcomingEvents(FALLBACK_CALENDAR.slice(1));
+          setMarkets(marketsData.slice(0, 10));
+          setNews(newsData.slice(0, 5).map((item: any) => ({
+            source: item.source,
+            title: item.title,
+            timeAgo: "15m ago",
+            url: item.url
+          })));
+
+          if (calendarData.length > 0) {
+            setNextEvent(calendarData[0]);
+            setUpcomingEvents(calendarData.slice(1, 4));
+          }
         }
 
         setLoading(false);
       } catch (err) {
-        console.error("Dashboard preview fetch error, using fallbacks:", err);
-        setMarkets(FALLBACK_MARKETS);
-        setNews(FALLBACK_NEWS);
-        setNextEvent(FALLBACK_CALENDAR[0]);
-        setUpcomingEvents(FALLBACK_CALENDAR.slice(1));
+        console.error("Dashboard preview fetch error:", err);
+        setError(true);
         setLoading(false);
       } finally {
         clearTimeout(timeoutId);
@@ -116,6 +97,8 @@ export function LiveDashboardPreview() {
       controller.abort();
     };
   }, []);
+
+  if (error) return null;
 
   return (
     <section className="py-20 bg-background-primary relative z-10 -mt-20">
@@ -286,10 +269,6 @@ export function LiveDashboardPreview() {
         
         <div className="mt-12 text-center">
           <p className="text-[10px] font-mono text-text-tertiary uppercase tracking-widest flex items-center justify-center gap-4">
-             <span>Institutional Grade Infrastructure</span>
-             <span className="w-1 h-1 bg-border-slate rounded-full" />
-             <span>Low-Latency Aggregation</span>
-             <span className="w-1 h-1 bg-border-slate rounded-full" />
              <Link href="/signup" className="text-accent underline decoration-accent/30 underline-offset-4 hover:decoration-accent transition-all font-bold">Launch Full Terminal &rarr;</Link>
           </p>
         </div>

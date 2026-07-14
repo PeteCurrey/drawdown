@@ -23,7 +23,7 @@ export const TOOLS: Record<string, ToolConfig> = {
     name: 'Risk Calculator',
     slug: '/tools/risk-calculator',
     tier: 'Free',
-    description: 'Institutional-grade position sizing for serious risk management.',
+    description: 'professional-grade position sizing for serious risk management.',
     shortDescription: 'Professional position sizing and risk management.'
   },
   'ai-market-scanner': {
@@ -39,8 +39,8 @@ export const TOOLS: Record<string, ToolConfig> = {
     name: 'Strategy Backtester',
     slug: '/tools/strategy-backtester',
     tier: 'Edge+',
-    description: 'Validate your edge. Test any strategy against 10 years of institutional-grade tick data.',
-    shortDescription: 'Institutional-grade backtesting engine.'
+    description: 'Validate your edge. Test any strategy against 10 years of professional-grade tick data.',
+    shortDescription: 'professional-grade backtesting engine.'
   },
   'intelligence-hub': {
     id: 'intelligence-hub',

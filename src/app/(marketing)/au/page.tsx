@@ -21,7 +21,7 @@ export default function AustralianHomePage() {
             </h1>
             
             <p className="text-xl md:text-2xl text-text-secondary leading-relaxed max-w-2xl font-medium">
-              Institutional-grade education and data for Australia's most disciplined traders. ASIC-regulated insights, AUD-normalized analysis, and a professional edge.
+              professional-grade education and data for Australia's most disciplined traders. ASIC-regulated insights, AUD-normalized analysis, and a professional edge.
             </p>
 
             <div className="flex flex-wrap gap-4 pt-4">

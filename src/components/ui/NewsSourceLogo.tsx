@@ -9,17 +9,16 @@ interface NewsSourceLogoProps {
 }
 
 const logoMap: Record<string, { domain: string; color?: string; customUrl?: string }> = {
-  "Bloomberg": { domain: "bloomberg.com", color: "#2800D8" },
-  "Reuters": { domain: "reuters.com", color: "#FF8000" },
-  "Financial Times": { domain: "ft.com", color: "#FCD0B1" },
-  "FT": { domain: "ft.com", color: "#FCD0B1" },
-  "CNBC Markets": { domain: "cnbc.com", color: "#005596" },
-  "CNBC": { domain: "cnbc.com", color: "#005596" },
-  "WSJ Markets": { domain: "wsj.com", color: "#000000" },
-  "WSJ": { domain: "wsj.com", color: "#000000" },
-  "MarketWatch": { domain: "marketwatch.com", color: "#3B2E2A" },
+  "BBC Business": { domain: "bbc.co.uk", color: "#BB1919" },
+  "BBC": { domain: "bbc.co.uk", color: "#BB1919" },
   "Yahoo Finance": { domain: "yahoo.com", color: "#720099" },
   "Investing.com": { domain: "investing.com", color: "#2B2B2B" },
+  "ForexLive": { domain: "forexlive.com", color: "#007a99" },
+  "Sky News Business": { domain: "sky.com", color: "#CC0000" },
+  "CNN Business": { domain: "cnn.com", color: "#CC0000" },
+  "Fox Business": { domain: "foxbusiness.com", color: "#003380" },
+  "Forbes": { domain: "forbes.com", color: "#333300" },
+  "CoinDesk": { domain: "coindesk.com", color: "#0052cc" },
 };
 
 export function NewsSourceLogo({ 

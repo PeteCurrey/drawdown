@@ -56,7 +56,7 @@ export const TRADINGVIEW_GUIDES: TradingViewGuide[] = [
     eyebrow: '// PLATFORM GUIDE',
     lastUpdated: '2026-04-30',
     metaDescription: 'Stop using laggy indicators. Discover the best TradingView indicators, from the Volume Profile to community-built Pine Script legends.',
-    introduction: 'The TradingView library has over 100,000 indicators. 99% of them are noise. This guide highlights the institutional-grade tools that actually provide an edge.',
+    introduction: 'The TradingView library has over 100,000 indicators. 99% of them are noise. This guide highlights the professional-grade tools that actually provide an edge.',
     sections: [
       {
         title: '1. Volume Profile (Fixed & Anchorable)',

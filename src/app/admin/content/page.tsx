@@ -194,7 +194,7 @@ export default function ContentGeneratorPage() {
                 <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-12 space-y-4">
                    <Zap className="w-12 h-12 text-border-slate" />
                    <p className="text-text-tertiary text-sm max-w-xs font-mono uppercase">
-                     Enter a topic and keywords to generate an institutional-grade blog post in Pete's voice.
+                     Enter a topic and keywords to generate an professional-grade blog post in Pete's voice.
                    </p>
                 </div>
               )}

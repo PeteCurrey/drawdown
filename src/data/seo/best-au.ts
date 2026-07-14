@@ -6,11 +6,11 @@ export const BEST_OF_PAGES_AU: BestOfPage[] = [
     title: 'Best Forex Brokers in Australia 2026 — ASIC Regulated',
     eyebrow: '// INSTITUTIONAL REVIEW',
     readingTime: 12,
-    metaDescription: 'Compare the best ASIC-regulated forex brokers in Australia. We rank Pepperstone, IC Markets, and more on execution speed, spreads, and trust.',
+    metaDescription: 'Compare the best ASIC-regulated forex brokers in Australia. We rank Pepperstone, IC Markets, and more on execution quality, spreads, and trust.',
     introduction: 'Australia is home to some of the world\'s most sophisticated forex brokers. With strict ASIC oversight and Tier 1 banking partnerships, Australian traders have a distinct advantage. Here are the top-tier platforms for 2026.',
     bestOverall: {
       name: 'Pepperstone',
-      reason: 'Unmatched execution speed and deep liquidity for active day traders.',
+      reason: 'Unmatched execution quality and deep liquidity for active day traders.',
       link: '/go/pepperstone'
     },
     comparisonTable: [
@@ -26,7 +26,7 @@ export const BEST_OF_PAGES_AU: BestOfPage[] = [
     ],
     drawdownApproach: {
       title: 'Our AU Broker Philosophy',
-      content: 'We only recommend brokers that provide raw ECN execution and maintain a physical presence in Australia. This ensures local support and institutional-grade conditions.',
+      content: 'We only recommend brokers that provide raw ECN execution and maintain a physical presence in Australia. This ensures local support and professional-grade conditions.',
       ctaText: 'View Our ASIC Shortlist',
       ctaLink: '/au/brokers'
     },

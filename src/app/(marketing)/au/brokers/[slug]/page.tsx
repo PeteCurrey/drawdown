@@ -21,7 +21,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   return {
     title: `${broker.name} Review 2026 | Best ASIC Broker Australia`,
-    description: `Complete ${broker.name} review for Australian traders. We test spreads, execution speed, and ASIC AFSL ${broker.afsl} compliance.`,
+    description: `Complete ${broker.name} review for Australian traders. We test spreads, execution quality, and ASIC AFSL ${broker.afsl} compliance.`,
   };
 }
 

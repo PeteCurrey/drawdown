@@ -28,7 +28,7 @@ export default function MarketsHubPage() {
             </h1>
             
             <p className="text-lg md:text-xl text-text-secondary leading-relaxed max-w-3xl font-medium">
-              Live institutional data flows, volatility metrics, and actionable setups. Cut through the noise and see where the smart money is moving today.
+              Live market data flows, volatility metrics, and actionable setups. Cut through the noise and see where the smart money is moving today.
             </p>
           </div>
         </div>

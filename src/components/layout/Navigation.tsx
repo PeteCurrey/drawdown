@@ -402,7 +402,7 @@ export function Navigation() {
                         <div className="space-y-2">
                            <h4 className="text-xl font-display font-bold uppercase text-accent">Live Trading Room</h4>
                            <p className="text-xs text-text-secondary leading-relaxed">
-                             Watch institutional-grade execution in real-time. Full analysis on all major {label} news events.
+                             Watch professional-grade execution in real-time. Full analysis on all major {label} news events.
                            </p>
                         </div>
                         <Link 

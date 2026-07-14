@@ -22,7 +22,7 @@ export const brokersSg = [
     minDeposit: "S$3,000",
     maxLeverage: "1:20 (Forex)",
     platforms: ["SaxoTraderGO", "SaxoTraderPRO"],
-    features: ["71,000+ Instruments", "Institutional Grade", "Competitive FX Spreads"],
+    features: ["71,000+ Instruments", "Professional-Grade", "Competitive FX Spreads"],
     affiliateLink: "https://home.saxo/en-sg",
   },
   {

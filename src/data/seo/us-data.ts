@@ -48,7 +48,7 @@ export const US_BROKERS = [
     type: 'Forex',
     badge: 'Best for Tech',
     regulation: 'CFTC / NFA',
-    description: 'The US-compliant arm of IG Group, offering high-speed execution and institutional-grade technology.',
+    description: 'The US-compliant arm of IG Group, offering high-speed execution and professional-grade technology.',
     pros: ['CFTC Registered', 'Powerful Mobile App', 'Low Spreads'],
     link: 'https://tastyfx.com'
   },

@@ -116,7 +116,7 @@ export function RegionalHowToPage({ region, slug, data }: RegionalHowToPageProps
           <section className="bg-background-elevated border border-border-slate p-12 text-center space-y-6">
             <h2 className="text-3xl font-display font-bold uppercase">Master the Markets in {regionName}.</h2>
             <p className="text-text-tertiary font-mono text-xs max-w-md mx-auto uppercase tracking-widest">
-              Join the institutional-grade curriculum built for serious {regionName} traders.
+              Join the professional-grade curriculum built for serious {regionName} traders.
             </p>
             <Link href="/signup" className="inline-flex items-center space-x-3 bg-accent text-background-primary px-10 py-5 text-xs font-bold uppercase tracking-[0.2em] hover:bg-accent-hover transition-all">
               <span>Start Phase 1 Free</span>

@@ -48,7 +48,7 @@ export const brokersUs = [
     minDeposit: "$0",
     maxLeverage: "1:50 (Forex)",
     platforms: ["TWS", "IBKR Desktop", "IBKR Mobile"],
-    features: ["Lowest Commissions", "Massive Market Range", "Advanced Order Types", "Institutional Grade"],
+    features: ["Lowest Commissions", "Massive Market Range", "Advanced Order Types", "Professional-Grade"],
     affiliateLink: "/go/interactive-brokers",
   },
   {

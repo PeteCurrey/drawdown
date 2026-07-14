@@ -27,7 +27,7 @@ export default async function ExternalContentManager() {
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
           <h1 className="text-3xl font-display font-bold uppercase mb-2">Content & Institutes</h1>
-          <p className="text-xs text-text-tertiary">Manage external links, educational references, and institutional data sources.</p>
+          <p className="text-xs text-text-tertiary">Manage external links, educational references, and market data sources.</p>
         </div>
         <button className="flex items-center gap-2 px-6 py-3 bg-accent text-background-primary text-[10px] font-bold uppercase tracking-widest hover:bg-accent-hover transition-colors">
           <Plus className="w-4 h-4" /> Add Source

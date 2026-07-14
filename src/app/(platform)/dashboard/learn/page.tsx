@@ -113,7 +113,7 @@ export default async function LearnArchivePage() {
                </div>
                <h2 className="text-3xl font-display font-bold uppercase tracking-tight">The 2026 Institutional Road Map</h2>
                <p className="text-sm text-text-secondary leading-relaxed max-w-2xl">
-                  Pete's core framework for identifying institutional liquidity clusters in the current market cycle. Essential viewing for anyone entering Phase 2 of the curriculum.
+                  Pete's core framework for identifying premium liquidity clusters in the current market cycle. Essential viewing for anyone entering Phase 2 of the curriculum.
                </p>
                <button className="px-8 py-4 bg-accent text-background-primary text-[10px] font-bold uppercase tracking-widest hover:bg-accent-hover transition-all">
                   Access Premium Briefing

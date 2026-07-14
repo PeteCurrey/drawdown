@@ -23,7 +23,7 @@ export default function UnitedStatesBrokerHub() {
             </h1>
             
             <p className="text-lg md:text-xl text-text-secondary leading-relaxed max-w-2xl font-medium">
-              We only list brokers registered with the CFTC/NFA for forex, and SEC/FINRA for equities. No offshore entities. No unregulated platforms. Only institutional-grade US compliance.
+              We only list brokers registered with the CFTC/NFA for forex, and SEC/FINRA for equities. No offshore entities. No unregulated platforms. Only professional-grade US compliance.
             </p>
           </div>
         </div>

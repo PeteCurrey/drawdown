@@ -106,7 +106,7 @@ export default function AustralianPricingPage() {
             Built for <span className="text-accent underline decoration-accent/20">Australia.</span>
           </h1>
           <p className="text-text-secondary max-w-2xl mx-auto mb-12">
-            Institutional-grade education for Aussie traders. AUD-normalized pricing and ASIC-compliant tools.
+            professional-grade education for Aussie traders. AUD-normalized pricing and ASIC-compliant tools.
           </p>
 
           {/* Toggle */}

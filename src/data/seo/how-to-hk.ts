@@ -15,7 +15,7 @@ export const HOW_TO_PAGES_HK: HowToPage[] = [
     commonMistakes: ['Failing to track professional income tax if applicable', 'Ignoring stamp duty on HSI stocks'],
     drawdownApproach: {
       title: 'Our HK Blueprint',
-      content: 'We help you maximize Hong Kong\'s tax advantages through institutional-grade performance.',
+      content: 'We help you maximize Hong Kong\'s tax advantages through professional-grade performance.',
       ctaText: 'Access HK Curriculum',
       ctaLink: '/hk/courses'
     },

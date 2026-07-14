@@ -36,7 +36,7 @@ export default function LandingPageBuilder() {
         heroHeading: "Master the Markets with Institutional Precision",
         heroSubheading: "Stop trading on emotion. Equip yourself with the Drawdown terminal, featuring real-time footprint analysis and institutional order flow mapping designed for serious retail traders.",
         seoTitle: "Institutional Trading Tools | Drawdown",
-        seoDescription: "Upgrade your edge with Drawdown's institutional-grade trading terminal. Get access to real-time order flow and footprint charts."
+        seoDescription: "Upgrade your edge with Drawdown's professional-grade trading terminal. Get access to real-time order flow and footprint charts."
       }));
       setIsGenerating(false);
     }, 1500);

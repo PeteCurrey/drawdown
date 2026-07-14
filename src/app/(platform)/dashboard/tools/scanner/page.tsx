@@ -105,7 +105,7 @@ export default async function MarketScannerPage() {
             <div className="space-y-2">
                <h3 className="text-xl font-display font-bold uppercase tracking-tight">Technical Consensus</h3>
                <p className="text-xs text-text-secondary max-w-xl leading-relaxed">
-                  Our scanner cross-references 14 indicators and 22 price patterns to find institutional-grade setups. High ATRP scores indicate multi-timeframe alignment.
+                  Our scanner cross-references 14 indicators and 22 price patterns to find professional-grade setups. High ATRP scores indicate multi-timeframe alignment.
                </p>
             </div>
          </div>

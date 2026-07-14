@@ -13,19 +13,13 @@ export interface NewsItem {
 const RSS_FEEDS = [
   { name: "Sky News Business", url: "https://feeds.skynews.com/feeds/rss/business.xml" },
   { name: "BBC Business", url: "https://feeds.bbci.co.uk/news/business/rss.xml" },
-  { name: "WSJ Markets", url: "https://feeds.a.dj.com/rss/RSSMarketsMain.xml" },
-  { name: "CNBC Markets", url: "https://www.cnbc.com/id/10000664/device/rss/rss.html" },
-  { name: "Reuters", url: "https://www.reutersagency.com/feed/?best-topics=business&post_type=best" },
-  { name: "MarketWatch", url: "http://feeds.marketwatch.com/marketwatch/topstories" },
   { name: "Investing.com", url: "https://www.investing.com/rss/news.rss" },
   { name: "Yahoo Finance", url: "https://finance.yahoo.com/news/rssindex" },
   { name: "CNN Business", url: "http://rss.cnn.com/rss/money_topstories.rss" },
   { name: "Fox Business", url: "https://feeds.feedburner.com/foxbusiness/latest" },
-  { name: "Bloomberg", url: "https://www.bloomberg.com/politics/feeds/site.xml" }, // Bloomberg RSS varies, using a stable one
   { name: "Forbes", url: "https://www.forbes.com/business/feed/" },
   { name: "ForexLive", url: "https://www.forexlive.com/Feed" },
-  { name: "CoinDesk", url: "https://www.coindesk.com/arc/outboundfeeds/rss/" },
-  { name: "Financial Times", url: "https://www.ft.com/?format=rss" }
+  { name: "CoinDesk", url: "https://www.coindesk.com/arc/outboundfeeds/rss/" }
 ];
 
 export async function fetchNews(): Promise<NewsItem[]> {

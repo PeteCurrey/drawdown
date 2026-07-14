@@ -14,7 +14,7 @@ export const SG_BROKERS = [
     regulation: 'MAS',
     badge: 'Best Multi-Asset',
     description: 'A premium Danish investment bank with a massive Singapore presence. Best for sophisticated multi-asset traders.',
-    pros: ['Institutional grade', '70,000+ instruments', 'VIP services'],
+    pros: ['Professional-grade', '70,000+ instruments', 'VIP services'],
     link: 'https://home.saxo/en-sg'
   },
   {
@@ -22,7 +22,7 @@ export const SG_BROKERS = [
     name: 'CMC Markets',
     regulation: 'MAS',
     badge: 'Best Platform',
-    description: 'Offering the proprietary Next Generation platform with advanced charting and institutional-grade features.',
+    description: 'Offering the proprietary Next Generation platform with advanced charting and professional-grade features.',
     pros: ['Award-winning tech', 'Competitive spreads', '1Join Drawdown Free CFDs'],
     link: '/go/cmc-markets'
   },

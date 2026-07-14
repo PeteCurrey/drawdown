@@ -15,7 +15,7 @@ export const HOW_TO_PAGES_SG: HowToPage[] = [
     commonMistakes: ['Failing to track business vs personal expenses', 'Ignoring income tax if trading as a full-time professional entity'],
     drawdownApproach: {
       title: 'Our Singapore Blueprint',
-      content: 'We help you capitalize on Singapore\'s tax efficiency through institutional-grade discipline.',
+      content: 'We help you capitalize on Singapore\'s tax efficiency through professional-grade discipline.',
       ctaText: 'Access SG Curriculum',
       ctaLink: '/sg/courses'
     },

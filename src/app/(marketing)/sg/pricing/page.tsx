@@ -105,7 +105,7 @@ export default function SingaporePricingPage() {
             Built for <span className="text-accent underline decoration-accent/20">The Lion City.</span>
           </h1>
           <p className="text-text-secondary max-w-2xl mx-auto mb-12">
-            Institutional-grade education for Singaporean traders. SGD-normalized pricing and MAS-compliant insights.
+            professional-grade education for Singaporean traders. SGD-normalized pricing and MAS-compliant insights.
           </p>
 
           {/* Toggle */}

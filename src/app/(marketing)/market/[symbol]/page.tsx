@@ -41,7 +41,7 @@ export default async function MarketPairPage({ params }: Props) {
                 {symbol}.
               </h1>
               <p className="text-text-secondary text-lg max-w-2xl leading-relaxed">
-                Professional analysis, high-trust technical indicators, and institutional-grade charting for {symbol}. 
+                Professional analysis, high-trust technical indicators, and professional-grade charting for {symbol}. 
                 Identify the psychological levels where others fail.
               </p>
             </div>

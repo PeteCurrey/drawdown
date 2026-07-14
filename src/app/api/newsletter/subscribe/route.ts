@@ -54,7 +54,7 @@ export async function POST(request: NextRequest) {
         <div style="font-family: sans-serif; background: #0a0a0a; color: #f5f5f5; padding: 40px;">
           <h1 style="font-family: serif; color: #f59e0b;">Welcome to The Wire.</h1>
           <p>You're on the list. The next edition lands in your inbox at 07:00 GMT tomorrow.</p>
-          <p>Expect institutional-grade market intelligence, direct from Drawdown.</p>
+          <p>Expect professional-grade market intelligence, direct from Drawdown.</p>
           <a href="https://drawdown.trading" style="display: inline-block; padding: 12px 24px; border: 1px solid #f59e0b; color: #f59e0b; text-decoration: none; margin-top: 20px;">
             EXPLORE THE PLATFORM →
           </a>

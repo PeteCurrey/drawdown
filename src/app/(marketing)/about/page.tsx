@@ -59,7 +59,7 @@ export default function AboutPage() {
           <div className="space-y-8 text-xl text-text-secondary leading-relaxed font-sans">
             <p>
               We founded Drawdown because the industry is broken. Every day, thousands of new traders 
-              are lured in with promises of easy money, Lamborghinis, and "secret" signals. 
+              are lured in with promises of easy money and "secret" signals. 
             </p>
             <p className="border-l-4 border-accent pl-8 py-4 bg-background-elevated/50 italic text-text-primary">
               "The truth is that 90% of retail traders lose money. They lose because they lack 
@@ -95,22 +95,19 @@ export default function AboutPage() {
             <h2 className="text-4xl font-display font-bold uppercase mb-8">The Man Behind the Data.</h2>
             <div className="space-y-6 text-text-secondary leading-relaxed">
               <p>
-                Pete Currey didn't start as a systematic trader. Like most, he started as a speculator, lured by the high-octane 
-                volatility of the London open and the promise of rapid wealth. 
+                Pete Currey brings over 20 years of hard-earned experience across multiple assets. 
+                Based out of Chesterfield, UK, Pete isn't interested in the flashy lifestyle that plagues the trading industry.
               </p>
               <p>
-                "I remember my first £50k week," Pete says. "I thought I was a genius. I bought the watch, I booked the holiday. 
-                Two weeks later, I'd given it all back plus 20%. That was the moment I realized the industry isn't built to 
-                help you win—it's built to keep you playing until you lose."
+                "I've spent two decades watching retail traders get chewed up by the markets, mostly because they were sold a lie by a fake guru," Pete says. 
+                "Trading isn't about getting rich quick. It's a high-stakes business of probabilities and risk management."
               </p>
               <p>
-                The next three years were spent in deep study. Not just of price action, but of human psychology and 
-                probability theory. Pete stripped away every indicator that didn't have a mathematical edge and began 
-                building the precursor to what would eventually become the Drawdown Framework.
+                With a deep background in market mechanics, Pete systematically stripped away the noise. No magic indicators, no lifestyle marketing. Just rigorous data analysis, psychological discipline, and a focus on survival.
               </p>
               <p className="font-bold text-text-primary">
-                Drawdown was built out of a necessity for survival. It represents ten years of hard-won experience, 
-                distilled into a platform that treats trading like the high-stakes business it is.
+                Drawdown was built to combat the fake gurus. It represents two decades of experience, 
+                distilled into a platform that treats trading with the respect and discipline it demands.
               </p>
             </div>
           </div>
@@ -120,7 +117,7 @@ export default function AboutPage() {
               <div className="absolute inset-0 bg-gradient-to-t from-background-primary via-transparent to-transparent opacity-60" />
             </div>
             <div className="absolute -bottom-6 -right-6 p-8 bg-accent text-background-primary font-mono text-xs uppercase tracking-[0.2em] font-bold">
-              EST. 2024 // LDN
+              CHESTERFIELD // UK
             </div>
           </div>
         </div>

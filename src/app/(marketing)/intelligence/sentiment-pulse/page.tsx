@@ -60,7 +60,7 @@ export default async function SentimentPulseLanding() {
             },
             {
               title: "News Bias Analysis",
-              desc: "AI-powered scanning of Bloomberg, Reuters, and FT for bullish/bearish lean.",
+              desc: "AI-powered scanning of financial news for bullish/bearish lean.",
               icon: Newspaper
             },
             {

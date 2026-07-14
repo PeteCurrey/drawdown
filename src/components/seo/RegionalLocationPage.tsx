@@ -56,7 +56,7 @@ export function RegionalLocationPage({
               <span className="text-text-tertiary italic">in</span> {cityLabel}.
             </h1>
             <p className="text-xl text-text-secondary leading-relaxed max-w-2xl border-l-2 border-accent/30 pl-8 py-2">
-              {context} Drawdown provides the institutional-grade framework you need to master the markets from {cityLabel.charAt(0).toUpperCase() + cityLabel.slice(1)}.
+              {context} Drawdown provides the professional-grade framework you need to master the markets from {cityLabel.charAt(0).toUpperCase() + cityLabel.slice(1)}.
             </p>
           </header>
 

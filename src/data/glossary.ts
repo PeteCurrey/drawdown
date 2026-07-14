@@ -620,7 +620,7 @@ API trading is the bridge between a strategy idea and a live trading bot. It all
     slug: "latency",
     title: "Latency",
     seo_title: "Why Latency Matters in Trading | Drawdown Glossary",
-    seo_description: "Understand the impact of latency on execution speed and slippage.",
+    seo_description: "Understand the impact of latency on execution quality and slippage.",
     content: `
 # Latency
 

@@ -56,7 +56,7 @@ export const PROP_FIRM_REVIEWS: PropFirmReview[] = [
     introduction: 'FTMO is widely considered the gold standard of the prop firm industry. Founded in 2015, they have survived multiple regulatory shifts and industry collapses that wiped out dozens of competitors. But in 2026, with a flood of cheaper "high-stakes" firms entering the market, does FTMO still provide the best value for serious traders?',
     challengeRules: 'FTMO uses a two-step evaluation process. Step 1 requires a 10% profit target with a 5% daily drawdown limit and a 10% total drawdown limit. Step 2 (Verification) reduces the profit target to 5% while keeping the drawdown rules the same. Once passed, you become an FTMO Trader on a demo account where you receive real payouts based on your performance.',
     feeAndRefund: 'Fees range from €155 for a $10k account up to €1,080 for a $200k account. The fee is fully refundable with your first profit withdrawal, effectively making the evaluation free if you are successful.',
-    tradingConditions: 'FTMO provides access to a wide range of markets including Forex, Commodities, Indices, Crypto, and Stocks. They use Tier 1 liquidity providers to ensure institutional-grade spreads and minimal slippage. Their proprietary "FTMO Account" platform is highly optimized for speed.',
+    tradingConditions: 'FTMO provides access to a wide range of markets including Forex, Commodities, Indices, Crypto, and Stocks. They use Tier 1 liquidity providers to ensure professional-grade spreads and minimal slippage. Their proprietary "FTMO Account" platform is highly optimized for speed.',
     verdict: 'FTMO remains the safest bet for any trader who values capital security and reputation over "cheap" fees. While their rules are strict, their payout history is impeccable. If you can pass FTMO, you are a professional trader.',
     faqs: [
       {
@@ -166,7 +166,7 @@ export const PROP_FIRM_REVIEWS: PropFirmReview[] = [
       'Strict daily drawdown limit (4%)',
       'Higher barrier to entry for beginners'
     ],
-    introduction: 'City Traders Imperium (CTI) is a London-based firm that prides itself on being run by actual traders. They focus heavily on education and mentoring, aiming to turn retail participants into institutional-grade performers.',
+    introduction: 'City Traders Imperium (CTI) is a London-based firm that prides itself on being run by actual traders. They focus heavily on education and mentoring, aiming to turn retail participants into professional-grade performers.',
     challengeRules: 'CTI offers both Evaluation and Direct Funding. Their evaluation is rigorous but fair, with a focus on long-term sustainability. They are one of the few firms that allow a 100% profit split for their top-tier traders.',
     feeAndRefund: 'Evaluation fees start at £109. While higher than some "disposable" prop firms, the quality of the environment and support justifies the cost for serious professionals.',
     tradingConditions: 'Excellent execution on major pairs. They discourage "gambling" style trading and reward those who follow a disciplined risk management plan.',

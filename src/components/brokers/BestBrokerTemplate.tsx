@@ -143,7 +143,7 @@ export function BestBrokerTemplate({
                         <span className="text-[10px] font-mono font-black text-accent uppercase tracking-widest block mb-1">Pete's Verdict</span>
                         <p className="text-xs text-text-secondary leading-relaxed italic">
                           "{// @ts-ignore - custom field for SEO
-                          broker.verdict || "Our top pick for this category. The execution quality is institutional grade."}"
+                          broker.verdict || "Our top pick for this category. The execution quality is professional grade."}"
                         </p>
                       </div>
                     )}
@@ -285,7 +285,7 @@ export function BestBrokerTemplate({
             </h2>
             <p className="text-sm text-text-secondary leading-relaxed mb-6 italic">
               "We don't accept payment for rankings. Our review methodology is strictly based on data. 
-              We evaluate execution speed, regulatory status, fee structures, and proprietary platform 
+              We evaluate execution quality, regulatory status, fee structures, and proprietary platform 
               stability over a minimum 6-month testing period."
             </p>
             <p className="text-xs text-text-tertiary leading-relaxed">

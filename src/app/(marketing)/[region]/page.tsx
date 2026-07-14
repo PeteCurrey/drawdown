@@ -82,7 +82,7 @@ export default async function RegionalHome({ params }: Props) {
             <span className="text-accent font-mono text-[10px] uppercase tracking-widest block mb-4">// REGIONAL COMPLIANCE</span>
             <h2 className="text-3xl font-display font-bold uppercase mb-6">Built for {regionName} Traders.</h2>
             <p className="text-text-secondary text-sm max-w-2xl mx-auto leading-relaxed">
-              All broker recommendations and trading guides within the {regionName} portal are tailored for local regulatory environments. We prioritize safety, transparency, and institutional-grade edge for all global members.
+              All broker recommendations and trading guides within the {regionName} portal are tailored for local regulatory environments. We prioritize safety, transparency, and professional-grade edge for all global members.
             </p>
           </div>
         </section>

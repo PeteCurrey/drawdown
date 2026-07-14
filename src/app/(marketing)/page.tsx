@@ -14,6 +14,7 @@ import { PetesDailyTakeExcerpt } from "@/components/home/PetesDailyTakeExcerpt";
 import Link from "next/link";
 import { TrackPageView } from "@/components/admin/TrackPageView";
 import { GSAPReveal } from "@/components/animations/GSAPReveal";
+import { phases } from "@/data/courses";
 
 export default function Home() {
   return (
@@ -104,11 +105,11 @@ export default function Home() {
               
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-2 gap-8 py-10 border-y border-border-slate/50">
                 <div className="flex flex-col">
-                  <span className="text-3xl font-display font-black text-accent">6</span>
+                  <span className="text-3xl font-display font-black text-accent">{phases.filter(p => p.status === 'available').length}</span>
                   <span className="text-[10px] font-mono tracking-widest uppercase text-text-tertiary">Phases</span>
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-3xl font-display font-black text-accent">60+</span>
+                  <span className="text-3xl font-display font-black text-accent">{phases.filter(p => p.status === 'available').reduce((acc, curr) => acc + curr.modules_count, 0)}</span>
                   <span className="text-[10px] font-mono tracking-widest uppercase text-text-tertiary">Modules</span>
                 </div>
                 <div className="flex flex-col">

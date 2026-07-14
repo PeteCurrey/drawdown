@@ -32,7 +32,7 @@ export async function generateMarketingContent({
 
   const prompts: Record<ContentType, string> = {
     blog: `
-      Write a 1500-2000 word institutional-grade analysis of "${topic}". 
+      Write a 1500-2000 word professional-grade analysis of "${topic}". 
       Structure:
       1. The Retail Narrative (What the gurus say).
       2. The Institutional Reality (The math they hide).

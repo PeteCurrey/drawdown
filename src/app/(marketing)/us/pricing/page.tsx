@@ -106,7 +106,7 @@ export default function UnitedStatesPricingPage() {
             Built for <span className="text-accent underline decoration-accent/20">America.</span>
           </h1>
           <p className="text-text-secondary max-w-2xl mx-auto mb-12">
-            Institutional-grade education for US traders. USD-normalized pricing and SEC/CFTC compliant tools.
+            professional-grade education for US traders. USD-normalized pricing and SEC/CFTC compliant tools.
           </p>
 
           {/* Toggle */}

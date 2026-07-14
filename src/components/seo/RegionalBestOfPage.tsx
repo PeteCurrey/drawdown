@@ -194,7 +194,7 @@ export function RegionalBestOfPage({ region, slug, data }: RegionalBestOfPagePro
           <section className="bg-accent p-12 text-center space-y-6">
             <h2 className="text-4xl font-display font-bold text-background-primary uppercase">Trade properly in {regionName}.</h2>
             <p className="text-background-primary/80 font-mono text-sm max-w-md mx-auto">
-              Master the business of risk with Drawdown&apos;s institutional-grade education.
+              Master the business of risk with Drawdown&apos;s professional-grade education.
             </p>
             <Link href="/signup" className="inline-flex items-center space-x-3 bg-background-primary text-text-primary px-10 py-5 text-xs font-bold uppercase tracking-[0.2em] hover:bg-text-primary hover:text-background-primary transition-all">
               <span>Join Drawdown Free</span>

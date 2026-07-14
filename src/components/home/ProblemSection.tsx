@@ -13,7 +13,7 @@ const problems = [
   {
     icon: AlertCircle,
     title: "The Guru Problem",
-    description: "Fake P&Ls and rented Lamborghinis sell dreams, not discipline. We trade reality, not hype."
+    description: "Fake P&Ls and rented Hondas sell dreams, not discipline. We trade reality, not hype."
   },
   {
     icon: EyeOff,

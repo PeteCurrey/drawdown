@@ -21,7 +21,7 @@ export default function UnitedStatesHomePage() {
             </h1>
             
             <p className="text-xl md:text-2xl text-text-secondary leading-relaxed max-w-2xl font-medium">
-              Institutional-grade education for American traders. CFTC/NFA compliant insights, USD-normalized analysis, and a professional edge in stocks, options, and FX.
+              professional-grade education for American traders. CFTC/NFA compliant insights, USD-normalized analysis, and a professional edge in stocks, options, and FX.
             </p>
 
             <div className="flex flex-wrap gap-4 pt-4">

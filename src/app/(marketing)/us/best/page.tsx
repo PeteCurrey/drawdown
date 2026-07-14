@@ -25,7 +25,7 @@ export default function USBestIndex() {
               <span className="text-accent">USA.</span>
             </h1>
             <p className="text-xl text-text-secondary leading-relaxed max-w-2xl">
-              We rank the best trading gateways, software, and services for the US market. Our rankings focus on regulatory security and institutional-grade performance.
+              We rank the best trading gateways, software, and services for the US market. Our rankings focus on regulatory security and professional-grade performance.
             </p>
           </header>
 

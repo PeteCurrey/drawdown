@@ -6,7 +6,7 @@ export const BEST_OF_PAGES_CA = [
     metaDescription: "Compare the best IIROC regulated forex brokers in Canada. Expert reviews of Interactive Brokers, OANDA, and CMC Markets.",
     lastUpdated: "APRIL 2026",
     introduction: "Canadian forex traders benefit from the protection of IIROC (now part of CIRO). Selecting an IIROC-regulated broker ensures your funds are protected by the Canadian Investor Protection Fund (CIPF).",
-    methodology: "We evaluated Canadian brokers based on their IIROC compliance, CAD account support, and execution speeds for major and minor pairs.",
+    methodology: "We evaluated Canadian brokers based on their IIROC compliance, CAD account support, and execution qualitys for major and minor pairs.",
     comparisonTable: [
       { rank: 1, name: "Interactive Brokers", bestFor: "Institutional Tech", keyStat: "Direct CAD Access", rating: 4.9, link: "https://ibkr.ca" },
       { rank: 2, name: "OANDA Canada", bestFor: "User Experience", keyStat: "IIROC Regulated", rating: 4.8, link: "https://oanda.ca" },
@@ -73,7 +73,7 @@ export const CA_TOPICS = [
 ];
 
 export const CITY_CONTEXT_CA: Record<string, string> = {
-  toronto: "Toronto is the financial heart of Canada, where Bay Street traders demand institutional-grade speed and reliability.",
+  toronto: "Toronto is the financial heart of Canada, where Bay Street traders demand professional-grade speed and reliability.",
   vancouver: "Vancouver's trading community is vibrant and globally connected, with a strong focus on Asia-Pacific market hours.",
   montreal: "Montreal traders benefit from a sophisticated financial ecosystem and a unique perspective on global market trends.",
   calgary: "Calgary's energy-rich economy fosters a trading community with a deep understanding of commodity and futures markets.",

@@ -89,7 +89,7 @@ export default function AccountsPage() {
           <span className="text-accent font-mono text-[10px] uppercase tracking-widest block mb-3">// PORTFOLIO ENGINE</span>
           <h1 className="text-4xl font-display font-bold uppercase text-text-primary">Funded Accounts.</h1>
           <p className="text-text-secondary text-sm mt-2 max-w-xl">
-            Aggregate your prop firm accounts into a single institutional-grade dashboard. Monitor drawdown, track limits, and import trades seamlessly.
+            Aggregate your prop firm accounts into a single professional-grade dashboard. Monitor drawdown, track limits, and import trades seamlessly.
           </p>
         </div>
         <div className="flex items-center gap-4">

@@ -101,7 +101,7 @@ export default function AustralianLocationTopicPage({ params }: Props) {
                 {city.context}
               </p>
               <p className="text-lg text-text-secondary leading-relaxed">
-                As a trader in {city.name}, you have access to the ASX and a sophisticated regional market. Drawdown provides the institutional-grade ${topic.title} education you need to succeed in Australia's competitive financial landscape.
+                As a trader in {city.name}, you have access to the ASX and a sophisticated regional market. Drawdown provides the professional-grade ${topic.title} education you need to succeed in Australia's competitive financial landscape.
               </p>
             </div>
             <div className="bg-background-surface border border-border-slate p-8 space-y-6">

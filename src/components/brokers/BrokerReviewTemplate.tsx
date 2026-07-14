@@ -306,7 +306,7 @@ export function BrokerReviewTemplate({
               <div className="p-8 bg-accent/5 border border-accent/20">
                 <h4 className="text-xl font-display font-black uppercase text-text-primary mb-4">Start Trading</h4>
                 <p className="text-xs text-text-secondary mb-8 leading-relaxed">
-                  Join {broker.name} via Drawdown and gain institutional-grade execution on global markets.
+                  Join {broker.name} via Drawdown and gain professional-grade execution on global markets.
                 </p>
                 <a 
                   href={`/go/${broker.slug}`}

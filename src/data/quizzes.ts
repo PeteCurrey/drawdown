@@ -34,7 +34,7 @@ export const quizData: Record<string, QuizQuestion[]> = {
       options: [
         "It encourages over-leveraging",
         "It creates emotional attachment to outcomes rather than process",
-        "It slows down execution speed",
+        "It slows down execution quality",
         "It makes tax reporting harder",
       ],
       correctIndex: 1,

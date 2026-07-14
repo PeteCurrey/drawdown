@@ -519,14 +519,14 @@
    ═══════════════════════════════════════════════════════════════════ */
 
 .prose {
-  color: rgba(255,255,255,0.7);
+  color: inherit;
   line-height: 1.8;
   font-size: 1rem;
 }
 
 .prose p {
   margin-bottom: 1.25rem;
-  color: rgba(255,255,255,0.7);
+  color: inherit;
   line-height: 1.85;
 }
 
@@ -534,7 +534,7 @@
   font-family: var(--font-syne, 'Syne', 'Outfit', sans-serif);
   font-weight: 700;
   font-size: 2rem;
-  color: #ffffff;
+  color: inherit;
   margin-top: 2.5rem;
   margin-bottom: 1rem;
   letter-spacing: -0.02em;
@@ -544,11 +544,12 @@
   font-family: var(--font-syne, 'Syne', 'Outfit', sans-serif);
   font-weight: 700;
   font-size: 1.5rem;
-  color: #ffffff;
+  color: inherit;
   margin-top: 2.25rem;
   margin-bottom: 1rem;
   padding-bottom: 0.75rem;
-  border-bottom: 1px solid rgba(255,255,255,0.1);
+  border-bottom: 1px solid currentColor;
+  border-bottom-color: rgba(0,0,0,0.1);
   letter-spacing: -0.02em;
 }
 
@@ -556,7 +557,7 @@
   font-family: var(--font-syne, 'Syne', 'Outfit', sans-serif);
   font-weight: 600;
   font-size: 1.2rem;
-  color: rgba(255,255,255,0.9);
+  color: inherit;
   margin-top: 1.75rem;
   margin-bottom: 0.75rem;
   letter-spacing: -0.015em;
@@ -565,7 +566,7 @@
 .prose h4 {
   font-weight: 600;
   font-size: 1rem;
-  color: rgba(255,255,255,0.85);
+  color: inherit;
   margin-top: 1.5rem;
   margin-bottom: 0.5rem;
   text-transform: uppercase;
@@ -583,7 +584,7 @@
   position: relative;
   padding-left: 1.5rem;
   margin-bottom: 0.5rem;
-  color: rgba(255,255,255,0.7);
+  color: inherit;
 }
 
 .prose ul li::before {
@@ -608,7 +609,7 @@
   position: relative;
   padding-left: 2rem;
   margin-bottom: 0.5rem;
-  color: rgba(255,255,255,0.7);
+  color: inherit;
   counter-increment: ol-counter;
 }
 
@@ -625,11 +626,11 @@
 
 .prose blockquote {
   border-left: 3px solid #C8F135;
-  background: rgba(255,255,255,0.03);
+  background: rgba(0,0,0,0.03);
   border-radius: 0 0.5rem 0.5rem 0;
   padding: 1rem 1.25rem;
   margin: 1.5rem 0;
-  color: rgba(255,255,255,0.8);
+  color: inherit;
   font-style: italic;
 }
 
@@ -638,12 +639,12 @@
 }
 
 .prose strong {
-  color: #ffffff;
+  color: inherit;
   font-weight: 600;
 }
 
 .prose em {
-  color: rgba(255,255,255,0.75);
+  color: inherit;
   font-style: italic;
 }
 
@@ -658,8 +659,8 @@
 }
 
 .prose pre {
-  background: rgba(0,0,0,0.4);
-  border: 1px solid rgba(255,255,255,0.1);
+  background: rgba(0,0,0,0.05);
+  border: 1px solid rgba(0,0,0,0.1);
   border-radius: 0.75rem;
   padding: 1.25rem 1.5rem;
   overflow-x: auto;
@@ -670,7 +671,7 @@
   background: none;
   border: none;
   padding: 0;
-  color: rgba(255,255,255,0.85);
+  color: inherit;
   font-size: 0.875rem;
 }
 
@@ -689,7 +690,7 @@
 
 .prose hr {
   border: none;
-  border-top: 1px solid rgba(255,255,255,0.1);
+  border-top: 1px solid rgba(0,0,0,0.1);
   margin: 2.5rem 0;
 }
 
@@ -715,8 +716,8 @@
 
 .prose td {
   padding: 0.65rem 1rem;
-  color: rgba(255,255,255,0.7);
-  border-bottom: 1px solid rgba(255,255,255,0.06);
+  color: inherit;
+  border-bottom: 1px solid rgba(0,0,0,0.06);
 }
 
 .prose tr:last-child td {
@@ -725,8 +726,71 @@
 
 .prose img {
   border-radius: 0.75rem;
-  border: 1px solid rgba(255,255,255,0.1);
+  border: 1px solid rgba(0,0,0,0.1);
   margin: 1.5rem 0;
   max-width: 100%;
+}
+
+/* prose-invert: overrides for dark backgrounds */
+.prose-invert {
+  color: rgba(255,255,255,0.7);
+}
+
+.prose-invert p {
+  color: rgba(255,255,255,0.7);
+}
+
+.prose-invert h1,
+.prose-invert h2,
+.prose-invert h3 {
+  color: #ffffff;
+}
+
+.prose-invert h2 {
+  border-bottom-color: rgba(255,255,255,0.1);
+}
+
+.prose-invert h4 {
+  color: rgba(255,255,255,0.85);
+}
+
+.prose-invert ul li,
+.prose-invert ol li {
+  color: rgba(255,255,255,0.7);
+}
+
+.prose-invert blockquote {
+  background: rgba(255,255,255,0.03);
+  color: rgba(255,255,255,0.8);
+}
+
+.prose-invert strong {
+  color: #ffffff;
+}
+
+.prose-invert em {
+  color: rgba(255,255,255,0.75);
+}
+
+.prose-invert pre {
+  background: rgba(0,0,0,0.4);
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+.prose-invert pre code {
+  color: rgba(255,255,255,0.85);
+}
+
+.prose-invert td {
+  color: rgba(255,255,255,0.7);
+  border-bottom-color: rgba(255,255,255,0.06);
+}
+
+.prose-invert hr {
+  border-top-color: rgba(255,255,255,0.1);
+}
+
+.prose-invert img {
+  border-color: rgba(255,255,255,0.1);
 }
 

@@ -107,7 +107,7 @@ export function BrokerReviewTemplate({
               <h2 className="text-3xl font-sans font-black uppercase mb-8 flex items-center gap-4">
                 <span className="text-accent text-sm font-mono tracking-tighter">01 //</span> Overview
               </h2>
-              <div className="prose prose-invert prose-slate max-w-none text-mkt-i2 leading-relaxed space-y-6">
+              <div className="prose max-w-none text-mkt-i2 leading-relaxed space-y-6">
                 <p className="whitespace-pre-line">{content.overview}</p>
               </div>
             </section>
@@ -173,7 +173,7 @@ export function BrokerReviewTemplate({
               <h2 className="text-3xl font-sans font-black uppercase mb-8 flex items-center gap-4">
                 <span className="text-accent text-sm font-mono tracking-tighter">03 //</span> Account Types
               </h2>
-              <div className="prose prose-invert prose-slate max-w-none text-mkt-i2 leading-relaxed">
+              <div className="prose max-w-none text-mkt-i2 leading-relaxed">
                 <p className="whitespace-pre-line">{content.accountTypes}</p>
               </div>
             </section>
@@ -183,7 +183,7 @@ export function BrokerReviewTemplate({
               <h2 className="text-3xl font-sans font-black uppercase mb-8 flex items-center gap-4">
                 <span className="text-accent text-sm font-mono tracking-tighter">04 //</span> Platforms & Tools
               </h2>
-              <div className="prose prose-invert prose-slate max-w-none text-mkt-i2 leading-relaxed">
+              <div className="prose max-w-none text-mkt-i2 leading-relaxed">
                 <p className="whitespace-pre-line">{content.platformsTools}</p>
               </div>
             </section>
@@ -193,7 +193,7 @@ export function BrokerReviewTemplate({
               <h2 className="text-3xl font-sans font-black uppercase mb-8 flex items-center gap-4">
                 <span className="text-accent text-sm font-mono tracking-tighter">05 //</span> Fees & Costs
               </h2>
-              <div className="prose prose-invert prose-slate max-w-none text-mkt-i2 leading-relaxed">
+              <div className="prose max-w-none text-mkt-i2 leading-relaxed">
                 <p className="whitespace-pre-line">{content.feesCosts}</p>
               </div>
             </section>
@@ -204,7 +204,7 @@ export function BrokerReviewTemplate({
                 <h2 className="text-3xl font-sans font-black uppercase mb-8 flex items-center gap-4">
                   <span className="text-accent text-sm font-mono tracking-tighter">06 //</span> Funding & Payments
                 </h2>
-                <div className="prose prose-invert prose-slate max-w-none text-mkt-i2 leading-relaxed">
+                <div className="prose max-w-none text-mkt-i2 leading-relaxed">
                   <p className="whitespace-pre-line">{content.fundingMethods}</p>
                 </div>
               </section>
@@ -222,7 +222,7 @@ export function BrokerReviewTemplate({
                   <p className="text-xs text-mkt-i2">This broker is authorized and regulated by the FCA (Financial Conduct Authority) in the UK.</p>
                 </div>
               </div>
-              <div className="prose prose-invert prose-slate max-w-none text-mkt-i2 leading-relaxed">
+              <div className="prose max-w-none text-mkt-i2 leading-relaxed">
                 <p className="whitespace-pre-line">{content.regulationSafety}</p>
               </div>
             </section>
@@ -310,7 +310,7 @@ export function BrokerReviewTemplate({
             {/* 12. The Verdict */}
             <section id="verdict" className="scroll-mt-32 border-t border-mkt-bd pt-24">
               <h2 className="text-4xl md:text-6xl font-sans font-black uppercase mb-8">The <span className="text-accent italic">Verdict</span></h2>
-              <div className="prose prose-invert prose-slate max-w-none text-mkt-i2 leading-relaxed mb-12">
+              <div className="prose max-w-none text-mkt-i2 leading-relaxed mb-12">
                 <p className="whitespace-pre-line text-lg font-medium">{content.verdict}</p>
               </div>
               <a 
@@ -404,8 +404,8 @@ export function BrokerReviewTemplate({
               </div>
 
               <div className="p-8 bg-accent/5 border border-accent/20">
-                <h4 className="text-xl font-display font-black uppercase text-text-primary mb-4">Start Trading</h4>
-                <p className="text-xs text-text-secondary mb-8 leading-relaxed">
+                <h4 className="text-xl font-display font-black uppercase text-mkt-ink mb-4">Start Trading</h4>
+                <p className="text-xs text-mkt-i2 mb-8 leading-relaxed">
                   Join {broker.name} via Drawdown and gain professional-grade execution on global markets.
                 </p>
                 <a 

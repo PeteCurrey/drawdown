@@ -27,45 +27,42 @@ export default function EditorialStandardsPage() {
       <section className="grid grid-cols-1 md:grid-cols-2 gap-8">
         <div className="p-8 bg-background-surface border border-border-slate/50 rounded-2xl space-y-4">
           <Scale className="w-6 h-6 text-accent" />
-          <h3 className="text-xl font-bold font-display uppercase">1. Absolute Objectivity</h3>
+          <h3 className="text-xl font-bold font-display uppercase">1. Honest affiliate disclosure</h3>
           <p className="text-text-secondary leading-relaxed text-sm">
-            We do not accept paid placements for broker reviews, proprietary trading firm rankings, or algorithmic tool recommendations. If a tool or broker is fundamentally flawed, we will state it clearly.
+            We earn commissions from some brokers, prop firms, and tools (TradingView, IG, Pepperstone, IC Markets, FTMO, and others). Every affiliate link is disclosed on the page it appears. Commissions do not determine rankings — a broker we don't earn from can rank above one we do, and has. We only recommend platforms we've personally used or thoroughly researched.
           </p>
         </div>
 
         <div className="p-8 bg-background-surface border border-border-slate/50 rounded-2xl space-y-4">
           <Database className="w-6 h-6 text-accent" />
-          <h3 className="text-xl font-bold font-display uppercase">2. Data-Driven Claims</h3>
+          <h3 className="text-xl font-bold font-display uppercase">2. No fabricated performance claims</h3>
           <p className="text-text-secondary leading-relaxed text-sm">
-            All trading performance claims, statistics, and backtested results must be verifiable. We do not use dummy variables, fabricated success rates, or "placeholder" wins to drive engagement.
+            We do not publish invented win rates, backtested results we haven't run, or "typical member returns." Where live data feeds power a widget, if the feed fails, the widget hides — we never fall back to placeholder numbers. Where educational examples use hypothetical trades, they are labelled hypothetical.
           </p>
         </div>
 
         <div className="p-8 bg-background-surface border border-border-slate/50 rounded-2xl space-y-4">
           <Search className="w-6 h-6 text-accent" />
-          <h3 className="text-xl font-bold font-display uppercase">3. Rigorous Fact-Checking</h3>
+          <h3 className="text-xl font-bold font-display uppercase">3. Written by a trader, checked before publish</h3>
           <p className="text-text-secondary leading-relaxed text-sm">
-            Every piece of macroeconomic analysis and quantitative research is reviewed by the Drawdown Research Desk before publication. We cross-reference our data with primary sources (e.g., central bank releases, order flow data).
+            All content is written by Pete Currey (founder, active trader based in Chesterfield, UK) and reviewed against primary sources — central bank statements, exchange data, broker documentation — before publishing. AI tools assist with drafting and fact-checking; final review and publish decisions are Pete's.
           </p>
         </div>
 
         <div className="p-8 bg-background-surface border border-border-slate/50 rounded-2xl space-y-4">
           <PenTool className="w-6 h-6 text-accent" />
-          <h3 className="text-xl font-bold font-display uppercase">4. Transparent Corrections</h3>
+          <h3 className="text-xl font-bold font-display uppercase">4. Corrections logged in public</h3>
           <p className="text-text-secondary leading-relaxed text-sm">
-            In the event that an error is published, it will be corrected promptly. A timestamped correction notice will be appended to the bottom of the article detailing what was changed and why.
+            When we get something wrong, the article gets a timestamped correction notice at the bottom saying what changed and when. A running corrections log is maintained at <a href="/editorial-standards/corrections" className="text-accent hover:underline">/editorial-standards/corrections</a>.
           </p>
         </div>
       </section>
 
-      {/* Author Accountability */}
+      {/* Who writes Drawdown */}
       <section className="pt-12 border-t border-border-slate/50 space-y-6">
-        <h2 className="text-2xl font-bold font-display uppercase">Author Accountability</h2>
+        <h2 className="text-2xl font-bold font-display uppercase">Who writes Drawdown</h2>
         <p className="text-text-secondary leading-relaxed">
-          All authors at Drawdown are required to trade live capital using the principles they teach. We do not employ "content writers" to produce trading material. Our contributors are active participants in the foreign exchange and equities markets, blending institutional frameworks with retail execution.
-        </p>
-        <p className="text-text-secondary leading-relaxed">
-          When you read an article under the Drawdown banner, it is the result of genuine market experience, statistical validation, and cold, hard reality.
+          Drawdown is written by Pete Currey, founder and sole author. Pete is an active retail trader based in Chesterfield, UK, writing from lived market experience. To learn more about Pete's background, visit the <a href="/about" className="text-accent hover:underline">About page</a>.
         </p>
       </section>
 

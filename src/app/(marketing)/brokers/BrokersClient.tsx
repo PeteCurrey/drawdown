@@ -63,13 +63,11 @@ export default function BrokerComparisonHub() {
               // VERIFIED LIQUIDITY PROVIDERS
             </span>
             
-            <h1 className="text-4xl md:text-6xl font-sans font-extrabold tracking-tight text-text-primary leading-tight">
-              Trade With Brokers<br />
-              We Actually Use.
+            <h1 className="text-4xl md:text-6xl font-sans font-extrabold text-mkt-ink tracking-tight mb-6">
+              Recommended Brokers.
             </h1>
-            
-            <p className="text-base text-text-tertiary leading-relaxed max-w-2xl font-sans">
-              Honest recommendations. No pay-to-play rankings. We filter the industry noise based on real execution speed, latency, and regulatory safety to find you an institutional-grade platform.
+            <p className="text-lg text-mkt-i3 max-w-2xl font-sans">
+              Honest recommendations, ranked on merit. Where our founder holds a live account, we say so. We may earn a referral fee — disclosed on every link.
             </p>
 
             <div className="flex flex-wrap gap-3 pt-2">

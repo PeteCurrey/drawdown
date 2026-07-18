@@ -43,7 +43,7 @@ export const propFirms: PropFirm[] = [
     pros: ["Unique hyper-growth scaling plan", "Low entry cost", "Real capital allocation (not just demo)"],
     cons: ["Scaling takes time", "Initial profit splits are lower"],
     affiliateUrl: "/go/the5ers",
-    verdict: "Pete's Pick. The best choice for disciplined traders who want to scale into millions."
+    verdict: "Top Pick. The best choice for disciplined traders who want to scale into millions."
   },
   {
     id: "funding-pips",

@@ -58,13 +58,12 @@ export default function BrokersPage() {
                <span className="text-[10px] font-mono uppercase tracking-[0.3em] font-bold">VERIFIED LIQUIDITY PROVIDERS</span>
             </div>
             
-            <h1 className="  font-display font-extrabold uppercase tracking-tight leading-[0.9]">
-              Trade With Brokers <br />
-              <span className="text-text-primary">We Actually Use.</span>
+            <h1 className="text-4xl md:text-6xl font-sans font-extrabold tracking-tight text-text-primary leading-tight mb-6">
+              Recommended Brokers.
             </h1>
             
-            <p className="text-xl md:text-2xl text-text-secondary leading-relaxed max-w-3xl font-medium">
-              Honest recommendations. No pay-to-play rankings. We filter the industry noise based on real execution quality, latency, and regulatory safety to find you an professional-grade platform.
+            <p className="text-base text-mkt-i3 leading-relaxed max-w-2xl font-sans">
+              Honest recommendations, ranked on merit. Where our founder holds a live account, we say so. We may earn a referral fee — disclosed on every link.
             </p>
 
             <div className="flex flex-wrap gap-4 pt-4">

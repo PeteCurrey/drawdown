@@ -25,6 +25,12 @@ export const affiliateLinks: Record<string, {
   },
 
   // BROKERS
+  'ig': {
+    url: 'https://www.ig.com/uk', // PLACEHOLDER - replace with affiliate URL
+    name: 'IG',
+    category: 'broker',
+    hasAffiliateLink: false,
+  },
   'ig-markets': {
     url: 'https://www.ig.com/uk', // PLACEHOLDER - replace with affiliate URL
     name: 'IG Markets',
@@ -70,6 +76,24 @@ export const affiliateLinks: Record<string, {
   'city-index': {
     url: 'https://www.cityindex.com/en-uk/',
     name: 'City Index',
+    category: 'broker',
+    hasAffiliateLink: false,
+  },
+  'spreadex': {
+    url: 'https://www.spreadex.com/',
+    name: 'Spreadex',
+    category: 'broker',
+    hasAffiliateLink: false,
+  },
+  'tastyfx': {
+    url: 'https://www.tastyfx.com/uk',
+    name: 'tastyfx',
+    category: 'broker',
+    hasAffiliateLink: false,
+  },
+  'fusion-markets': {
+    url: 'https://fusionmarkets.com/en-gb/',
+    name: 'Fusion Markets',
     category: 'broker',
     hasAffiliateLink: false,
   },

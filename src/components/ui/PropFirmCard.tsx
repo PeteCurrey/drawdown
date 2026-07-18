@@ -17,7 +17,7 @@ export function PropFirmCard({ firm, source = "prop_firm_card", isPetesPick }: P
     >
       {isPetesPick && (
         <div className="absolute -top-3 left-6 px-2.5 py-0.5 bg-black text-white text-[9px] font-bold uppercase tracking-widest rounded-full z-10 border border-neutral-850">
-          Pete's Pick
+          Top Pick
         </div>
       )}
 

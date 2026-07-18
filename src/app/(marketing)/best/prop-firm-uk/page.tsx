@@ -68,7 +68,7 @@ export default function BestPropFirmUK() {
                   <td className="p-6 flex items-center gap-4">
                     {firm.name}
                     {firm.id === "the5ers" && (
-                      <span className="px-2 py-0.5 bg-mkt-ink text-white text-[8px] font-black tracking-tighter uppercase">Pete's Pick</span>
+                      <span className="px-2 py-0.5 bg-mkt-ink text-white text-[8px] font-black tracking-tighter uppercase">Top Pick</span>
                     )}
                   </td>
                   <td className="p-6 text-profit">ACCEPTED</td>
@@ -88,16 +88,16 @@ export default function BestPropFirmUK() {
           </table>
         </div>
 
-        {/* 5. Deep Dive - Pete's Pick */}
+        {/* 5. Deep Dive */}
         <div className="mb-32">
-          <h2 className="text-3xl font-sans font-black uppercase mb-12">Pete's Honest Recommendation</h2>
+          <h2 className="text-3xl font-sans font-black uppercase mb-12">Our Honest Recommendation</h2>
           {petesPick && (
             <div className="bg-background-elevated/40 border border-border-slate/50/30 p-12 relative overflow-hidden">
                <div className="absolute top-0 right-0 p-8 text-9xl font-sans font-black text-profit select-none uppercase">PICK</div>
                <div className="relative z-10 max-w-4xl">
                  <h3 className="text-4xl font-sans font-black uppercase mb-6">{petesPick.name}</h3>
                  <p className="text-lg text-text-secondary mb-8 leading-relaxed">
-                   "The5%ers is my top pick for UK traders because of their unique scaling plan. Unlike firms that prioritize churn, The5%ers want you to stay and grow into millions of dollars in management. Their payouts to UK banks are reliable and their dashboard is the cleanest in the industry."
+                   "The5%ers is our top pick for UK traders because of their unique scaling plan. Unlike firms that prioritize churn, The5%ers want you to stay and grow into millions of dollars in management. Their payouts to UK banks are reliable and their dashboard is the cleanest in the industry."
                  </p>
                  <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-12">
                    <div className="space-y-4">

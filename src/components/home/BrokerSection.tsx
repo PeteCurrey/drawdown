@@ -9,17 +9,18 @@ import { brokersAu } from "@/data/brokers-au";
 import { brokersUs } from "@/data/brokers-us";
 import { brokersSg, brokersHk } from "@/data/brokers-asia";
 import { cn } from "@/lib/utils";
+import { FOUNDER_BROKERS } from "@/config/founder";
 
 const ukBrokers = [
   {
-    id: "ig-markets",
+    id: "ig",
     name: "IG Markets",
     logoUrl: "/logos/brokers/ig-markets.svg",
     bgUrl: "/images/brokers/ig-bg.png",
     logoPlaceholder: "IG",
     bestFor: "Best for UK spread betting",
     stat: "Spreads from 0.6 pips",
-    features: ["FCA Regulated", "Institutional Grade", "Pete's pick"],
+    features: ["FCA Regulated", "Institutional Grade"],
     color: "#E11A27",
     regulation: "FCA PROTECTED"
   },
@@ -180,10 +181,10 @@ export function BrokerSection() {
             // RECOMMENDED BROKERS
           </span>
           <h2 className="text-3xl md:text-5xl font-sans font-extrabold text-mkt-ink tracking-tight mb-4">
-            Trade with brokers we actually use
+            Recommended Brokers
           </h2>
           <p className="text-base text-mkt-i3 max-w-xl mx-auto font-sans">
-            Honest recommendations. No pay-to-play rankings. We may earn a referral fee — but only from platforms we personally trade on.
+            Honest recommendations, ranked on merit. Where our founder holds a live account, we say so. We may earn a referral fee — disclosed on every link.
           </p>
         </div>
 
@@ -251,7 +252,15 @@ export function BrokerSection() {
                     </span>
                   </div>
 
-                  <h3 className="text-xl font-sans font-bold text-mkt-ink leading-tight mt-6 mb-1">{broker.name}</h3>
+                  {FOUNDER_BROKERS.includes(broker.id) && (
+                    <div className="mb-3">
+                      <span className="inline-block px-2 py-0.5 bg-mkt-ink text-white text-[9px] font-black tracking-tighter uppercase rounded-sm">
+                        Founder's Account
+                      </span>
+                    </div>
+                  )}
+
+                  <h3 className="text-xl font-sans font-bold text-mkt-ink leading-tight mt-3 mb-1">{broker.name}</h3>
                   <p className="text-[10px] font-sans font-bold text-mkt-i4 uppercase tracking-widest mb-6">{broker.bestFor}</p>
                   
                   <div className="py-3 border-y border-neutral-100 mb-6">

@@ -13,14 +13,14 @@ import { brokersSg, brokersHk } from "@/data/brokers-asia";
 
 const ukBrokers = [
   {
-    id: "ig-markets",
+    id: "ig",
     name: "IG Markets",
     logoUrl: "/logos/brokers/ig-markets.svg",
     bgUrl: "/images/brokers/ig-bg.png",
     logoPlaceholder: "IG",
     bestFor: "Best for UK spread betting",
     stat: "Spreads from 0.6 pips",
-    features: ["FCA Regulated", "Professional-Grade", "Pete's pick"],
+    features: ["FCA Regulated", "Professional-Grade"],
     color: "#E11A27",
     regulation: "FCA PROTECTED"
   },
@@ -156,10 +156,10 @@ export function BrokerHubPreview() {
             // RECOMMENDED BROKERS
           </span>
           <h2 className="text-4xl md:text-5xl font-sans font-bold uppercase mb-4 text-[#0A0A0A] leading-tight">
-            Trade With Brokers We Actually Use.
+            Recommended Brokers
           </h2>
           <p className="text-base font-sans text-neutral-500 max-w-xl mx-auto leading-relaxed">
-            Honest recommendations. No pay-to-play rankings. We may earn a referral fee — but only from platforms we personally trade on.
+            Honest recommendations, ranked on merit. Where our founder holds a live account, we say so. We may earn a referral fee — disclosed on every link.
           </p>
         </div>
 
@@ -211,7 +211,15 @@ export function BrokerHubPreview() {
                   </span>
                 </div>
 
-                <h3 className="text-xl font-sans font-bold uppercase text-[#0A0A0A] mt-4 mb-1">{broker.name}</h3>
+                {['ig', 'ic-markets', 'fusion-markets'].includes(broker.id) && (
+                  <div className="mb-1">
+                    <span className="inline-block px-2 py-0.5 bg-[#0A0A0A] text-white text-[9px] font-black tracking-tighter uppercase rounded-sm">
+                      Founder's Account
+                    </span>
+                  </div>
+                )}
+
+                <h3 className="text-xl font-sans font-bold uppercase text-[#0A0A0A] mt-3 mb-1">{broker.name}</h3>
                 <p className="text-xs font-sans text-neutral-500 uppercase tracking-widest font-semibold mb-6">{broker.bestFor}</p>
                 
                 <div className="py-3 border-y border-neutral-100 mb-6">

@@ -1,7 +1,8 @@
 import React from "react";
 import Link from "next/link";
-import { Shield, ChevronRight, Check, X, ExternalLink, Star } from "lucide-react";
+import { Star, ArrowRight, Shield, ExternalLink, ShieldAlert, CheckCircle2, ChevronRight, Check, X } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { FOUNDER_BROKERS } from "@/config/founder";
 import { AffiliateDisclosure } from "@/components/seo/AffiliateDisclosure";
 import { Broker } from "@/data/brokers";
 
@@ -100,8 +101,8 @@ export function BestBrokerTemplate({
                         {broker.name.substring(0, 2).toUpperCase()}
                       </div>
                       {broker.name}
-                      {broker.id === topPickId && (
-                        <span className="px-2 py-0.5 bg-mkt-ink text-white text-[8px] font-black tracking-tighter uppercase">Pete's Pick</span>
+                      {FOUNDER_BROKERS.includes(broker.id) && (
+                        <span className="px-2 py-0.5 bg-mkt-ink text-white text-[8px] font-black tracking-tighter uppercase">Founder's Account</span>
                       )}
                     </td>
                     <td className="p-6 text-mkt-grn">FCA REGULATED</td>
@@ -147,7 +148,7 @@ export function BestBrokerTemplate({
                     </div>
                     {broker.id === topPickId && (
                       <div className="mb-8 p-4 bg-accent/5 border border-accent/20">
-                        <span className="text-[10px] font-mono font-black text-accent uppercase tracking-widest block mb-1">Pete's Verdict</span>
+                        <span className="text-[10px] font-mono font-black text-accent uppercase tracking-widest block mb-1">Our Verdict</span>
                         <p className="text-xs text-mkt-i2 leading-relaxed italic">
                           "{// @ts-ignore - custom field for SEO
                           broker.verdict || "Our top pick for this category. The execution quality is professional grade."}"

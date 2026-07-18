@@ -110,46 +110,7 @@ const nextConfig: NextConfig = {
         destination: "/how-to",
         permanent: false,
       },
-      {
-        source: "/compare/:slug",
-        destination: "/brokers",
-        permanent: true,
-      },
-      {
-        source: "/how-to/:slug",
-        destination: "/learn-to-trade",
-        permanent: true,
-      },
-      {
-        source: "/best/spread-betting-platform-uk",
-        destination: "/brokers",
-        permanent: true,
-      },
-      {
-        source: "/best/day-trading-platform-uk",
-        destination: "/brokers",
-        permanent: true,
-      },
-      {
-        source: "/best/broker-:slug",
-        destination: "/brokers",
-        permanent: true,
-      },
-      {
-        source: "/best/trading-app-uk",
-        destination: "/brokers",
-        permanent: true,
-      },
-      {
-        source: "/best/forex-broker-australia",
-        destination: "/au/brokers",
-        permanent: true,
-      },
-      {
-        source: "/best/:slug",
-        destination: "/learn-to-trade",
-        permanent: true,
-      },
+
 
       // Regional Learn to Trade / Cities
       {

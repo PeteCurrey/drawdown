@@ -1,4 +1,4 @@
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { COMPARISON_PAGES } from "@/data/seo/compare";
 import { Metadata } from "next";
 import { CompareTemplate } from "@/components/seo/CompareTemplate";
@@ -28,7 +28,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     .single();
 
   const page = dynamicPage 
-    ? { title: dynamicPage.title, metaDescription: dynamicPage.meta_description }
+    ? { title: dynamicPage.title, metaDescription: dynamicPage.seo_description }
     : COMPARISON_PAGES.find((p) => p.slug === slug);
 
   if (!page) return {};
@@ -57,13 +57,14 @@ export default async function GlobalComparePage({ params }: Props) {
     ? {
         slug: dynamicPage.slug,
         title: dynamicPage.title,
-        metaDescription: dynamicPage.meta_description,
-        ...dynamicPage.content_jsonb
+        metaDescription: dynamicPage.seo_description,
+        updatedAt: dynamicPage.updated_at,
+        ...dynamicPage.content
       } as any
     : COMPARISON_PAGES.find((p) => p.slug === slug);
 
   if (!page) {
-    notFound();
+    redirect('/brokers');
   }
 
   return (
@@ -73,7 +74,7 @@ export default async function GlobalComparePage({ params }: Props) {
         { name: 'Compare', url: 'https://drawdown.trading/compare' },
         { name: page.title, url: `https://drawdown.trading/compare/${slug}` }
       ]} />
-      <CompareTemplate page={page} region="uk" />
+      <CompareTemplate page={page} region="uk" updatedAt={page.updatedAt} />
     </>
   );
 }

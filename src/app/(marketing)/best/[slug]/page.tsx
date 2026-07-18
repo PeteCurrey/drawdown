@@ -1,4 +1,4 @@
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { BEST_OF_PAGES } from "@/data/seo/best";
 import { brokers, Broker } from "@/data/brokers";
 import { Metadata } from "next";
@@ -30,7 +30,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     .single();
 
   const page = dynamicPage 
-    ? { title: dynamicPage.title, metaDescription: dynamicPage.meta_description }
+    ? { title: dynamicPage.title, metaDescription: dynamicPage.seo_description }
     : BEST_OF_PAGES.find((p) => p.slug === slug) || resolveProgrammaticSeo(slug);
 
   if (!page) return {};
@@ -59,12 +59,15 @@ export default async function BestOfPage({ params }: Props) {
     ? {
         slug: dynamicPage.slug,
         title: dynamicPage.title,
-        metaDescription: dynamicPage.meta_description,
-        ...dynamicPage.content_jsonb
+        metaDescription: dynamicPage.seo_description,
+        updatedAt: dynamicPage.updated_at,
+        ...dynamicPage.content
       }
     : BEST_OF_PAGES.find((p) => p.slug === slug) || resolveProgrammaticSeo(slug);
 
-  if (!page) notFound();
+  if (!page) {
+    redirect('/brokers');
+  }
 
   // Map the SEO reviews to full broker-like objects for the template
   const detailedBrokers = (page.reviews || []).map(review => {
@@ -115,6 +118,7 @@ export default async function BestOfPage({ params }: Props) {
         faqs={page.faqs || []}
         relatedPages={page.relatedPages || []}
         slug={page.slug}
+        updatedAt={page.updatedAt}
       />
     </>
   );

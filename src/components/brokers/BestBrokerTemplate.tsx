@@ -21,6 +21,7 @@ interface BestBrokerTemplateProps {
   faqs: FAQItem[];
   relatedPages: { title: string; href?: string; slug?: string }[];
   slug: string;
+  updatedAt?: string;
 }
 
 export function BestBrokerTemplate({
@@ -33,7 +34,8 @@ export function BestBrokerTemplate({
   methodology,
   faqs,
   relatedPages,
-  slug
+  slug,
+  updatedAt
 }: BestBrokerTemplateProps) {
   const top3Brokers = brokers.filter(b => top3Ids.includes(b.id));
   
@@ -49,6 +51,11 @@ export function BestBrokerTemplate({
             <ChevronRight className="w-3 h-3" />
             <span className="text-mkt-ink italic">{title}</span>
           </nav>
+          {updatedAt && (
+            <div className="mt-4 text-[10px] font-mono text-mkt-i3 uppercase tracking-widest">
+              Last reviewed: {new Date(updatedAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}
+            </div>
+          )}
         </div>
       </div>
 

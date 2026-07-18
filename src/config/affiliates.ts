@@ -43,6 +43,36 @@ export const affiliateLinks: Record<string, {
     category: 'broker',
     hasAffiliateLink: false,
   },
+  'trading-212': {
+    url: 'https://www.trading212.com',
+    name: 'Trading 212',
+    category: 'broker',
+    hasAffiliateLink: false,
+  },
+  'xtb': {
+    url: 'https://www.xtb.com/uk',
+    name: 'XTB',
+    category: 'broker',
+    hasAffiliateLink: false,
+  },
+  'cmc-markets': {
+    url: 'https://www.cmcmarkets.com/en-gb/',
+    name: 'CMC Markets',
+    category: 'broker',
+    hasAffiliateLink: false,
+  },
+  'fp-markets': {
+    url: 'https://www.fpmarkets.com/',
+    name: 'FP Markets',
+    category: 'broker',
+    hasAffiliateLink: false,
+  },
+  'city-index': {
+    url: 'https://www.cityindex.com/en-uk/',
+    name: 'City Index',
+    category: 'broker',
+    hasAffiliateLink: false,
+  },
 
   // TOOLS
   'tradingview': {

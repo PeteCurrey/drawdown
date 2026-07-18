@@ -14,7 +14,7 @@ function getLogoForPlatform(name: string) {
   return null;
 }
 
-export function CompareTemplate({ page, region = 'uk' }: { page: ComparisonPage; region?: string }) {
+export function CompareTemplate({ page, region = 'uk', updatedAt }: { page: ComparisonPage; region?: string; updatedAt?: string }) {
   const regionPrefix = region === 'uk' ? '' : `/${region}`;
 
   // Parse platform names for visual header
@@ -60,6 +60,12 @@ export function CompareTemplate({ page, region = 'uk' }: { page: ComparisonPage;
             <h1 className="text-4xl md:text-7xl font-display font-black uppercase leading-[0.95] tracking-tight mb-8">
               {page.title.split(' — ')[0]}
             </h1>
+
+            {updatedAt && (
+              <div className="mb-8 text-[10px] font-mono text-text-tertiary uppercase tracking-widest">
+                Last reviewed: {new Date(updatedAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}
+              </div>
+            )}
             
             {/* VS Graphic Banner */}
             <div className="mt-12 grid grid-cols-1 md:grid-cols-11 gap-4 items-center max-w-4xl">

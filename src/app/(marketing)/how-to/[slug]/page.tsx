@@ -1,4 +1,4 @@
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { HOW_TO_PAGES } from "@/data/seo/howto";
 import { Metadata } from "next";
 import Link from "next/link";
@@ -44,9 +44,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const page = dynamicPage 
     ? { 
         title: dynamicPage.title, 
-        metaTitle: dynamicPage.content_jsonb?.metaTitle,
-        metaDescription: dynamicPage.meta_description,
-        heroImage: dynamicPage.content_jsonb?.heroImage
+        metaTitle: dynamicPage.content?.metaTitle,
+        metaDescription: dynamicPage.seo_description,
+        heroImage: dynamicPage.content?.heroImage
       }
     : HOW_TO_PAGES.find((p) => p.slug === slug);
 
@@ -81,12 +81,15 @@ export default async function HowToPage({ params }: Props) {
     ? {
         slug: dynamicPage.slug,
         title: dynamicPage.title,
-        metaDescription: dynamicPage.meta_description,
-        ...dynamicPage.content_jsonb
+        metaDescription: dynamicPage.seo_description,
+        updatedAt: dynamicPage.updated_at,
+        ...dynamicPage.content
       } as any
     : HOW_TO_PAGES.find((p) => p.slug === slug);
 
-  if (!page) notFound();
+  if (!page) {
+    redirect('/learn-to-trade');
+  }
 
   // ── JSON-LD: HowTo ──────────────────────────────────────────────────────────
   const howToSchema = {
@@ -215,6 +218,13 @@ export default async function HowToPage({ params }: Props) {
                   <BookOpen className="w-4 h-4 text-accent" />
                   <span className="text-xs font-mono uppercase tracking-widest">
                     Level: {page.difficulty}
+                  </span>
+                </div>
+              )}
+              {page.updatedAt && (
+                <div className="flex items-center gap-2 text-text-secondary">
+                  <span className="text-xs font-mono uppercase tracking-widest">
+                    Last reviewed: {new Date(page.updatedAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}
                   </span>
                 </div>
               )}

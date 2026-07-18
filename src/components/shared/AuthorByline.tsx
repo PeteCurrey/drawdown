@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import Script from "next/script";
 
 interface AuthorBylineProps {
   authorName?: string;
@@ -16,8 +17,26 @@ export function AuthorByline({
   date,
   readTime,
 }: AuthorBylineProps) {
+  const personSchema = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": authorName,
+    "jobTitle": authorRole,
+    "url": `https://drawdown.trading${authorLink}`,
+    "worksFor": {
+      "@type": "Organization",
+      "name": "Drawdown Trading"
+    }
+  };
+
   return (
-    <div className="py-4 border-y border-border-slate/50 flex flex-col md:flex-row md:items-center justify-between gap-4 bg-background-primary">
+    <>
+      <Script
+        id={`person-schema-${authorName.replace(/\s+/g, '-')}`}
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }}
+      />
+      <div className="py-4 border-y border-border-slate/50 flex flex-col md:flex-row md:items-center justify-between gap-4 bg-background-primary">
       <div className="flex items-center gap-3">
         <div className="w-10 h-10 rounded-full bg-background-elevated border border-border-slate flex items-center justify-center">
           <span className="text-xs font-mono font-bold text-accent">
@@ -57,5 +76,6 @@ export function AuthorByline({
         </Link>
       </div>
     </div>
+    </>
   );
 }

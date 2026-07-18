@@ -512,7 +512,7 @@ We provide **Session-Specific Briefings**. We tell you what the "Theme" is for t
         items: [
           {
             title: "Pandas & NumPy Vectorization",
-            description: "High-performance data frames and multi-dimensional matrices for sub-millisecond calculation of technical indicators."
+            description: "High-performance data frames and multi-dimensional matrices for rapid calculation of technical indicators."
           },
           {
             title: "Moving Average & Oscillator Libraries",

@@ -51,7 +51,7 @@ export default function Home() {
         },
         "sameAs": [
           "https://twitter.com/drawdown",
-          "https://youtube.com/@drawdowntrading"
+          "https://youtube.com/@drawdown"
         ]
       }} />
       <JsonLd data={{

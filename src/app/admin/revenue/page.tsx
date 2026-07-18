@@ -147,27 +147,9 @@ export default function RevenueDashboardPage() {
                Latest Payouts
             </h3>
             <div className="space-y-4">
-               {[
-                 { partner: 'FTMO', amount: 840.00, date: '2 hours ago', status: 'pending' },
-                 { partner: 'TradingView', amount: 124.50, date: '1 day ago', status: 'cleared' },
-                 { partner: 'Apex Funding', amount: 2150.00, date: '3 days ago', status: 'cleared' },
-               ].map((payout, i) => (
-                 <div key={i} className="p-6 bg-background-surface border border-border-slate flex justify-between items-center group hover:border-accent/30 transition-colors">
-                    <div className="space-y-1">
-                       <h5 className="text-sm font-display font-bold uppercase">{payout.partner}</h5>
-                       <p className="text-[9px] font-mono text-text-tertiary uppercase">{payout.date}</p>
-                    </div>
-                    <div className="text-right">
-                       <p className="text-sm font-display font-bold text-text-primary">{formatCurrency(payout.amount, 'GBP')}</p>
-                       <span className={cn(
-                         "text-[8px] font-mono uppercase font-bold px-1.5 py-0.5 border",
-                         payout.status === 'cleared' ? "border-profit text-profit" : "border-warning text-warning"
-                       )}>
-                          {payout.status}
-                       </span>
-                    </div>
-                 </div>
-               ))}
+               <div className="p-8 text-center text-text-tertiary border border-border-slate bg-background-surface">
+                 <p className="text-sm italic">No recent payouts to display.</p>
+               </div>
             </div>
 
             <div className="p-8 bg-background-elevated border border-border-slate">

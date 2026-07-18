@@ -29,7 +29,7 @@ export default function EditorialStandardsPage() {
           <Scale className="w-6 h-6 text-accent" />
           <h3 className="text-xl font-bold font-display uppercase">1. Honest affiliate disclosure</h3>
           <p className="text-text-secondary leading-relaxed text-sm">
-            We earn commissions from some brokers, prop firms, and tools (TradingView, IG, Pepperstone, IC Markets, FTMO, and others). Every affiliate link is disclosed on the page it appears. Commissions do not determine rankings — a broker we don't earn from can rank above one we do, and has. We only recommend platforms we've personally used or thoroughly researched.
+            We earn commissions from some of the tools and platforms we recommend — currently TradingView and FTMO, with further broker and prop firm partnerships in application. Every affiliate link is disclosed on the page it appears, and pages state clearly when a link is not an affiliate link. Commissions never determine rankings: we rank on merit, and we only recommend platforms we've personally used or thoroughly researched.
           </p>
         </div>
 

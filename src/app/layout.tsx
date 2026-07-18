@@ -111,8 +111,8 @@ export default function RootLayout({
               "url": "https://drawdown.trading",
               "logo": "https://drawdown.trading/images/brand/logo.png",
               "sameAs": [
-                "https://twitter.com/drawdowntrading",
-                "https://youtube.com/@drawdowntrading"
+                "https://twitter.com/drawdown",
+                "https://youtube.com/@drawdown"
               ]
             })
           }}

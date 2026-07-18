@@ -47,7 +47,7 @@ const toolCategories = [
   {
     slug: "strategy-backtester",
     title: "Strategy Backtester",
-    description: "Validate your edge on decade-long historical data with sub-millisecond precision.",
+    description: "Validate your edge on decade-long historical data with rapid precision.",
     icon: History,
     features: ["Optimization Engine", "Monte Carlo Sim", "Detailed Stats"],
     tier: "Edge+",
@@ -261,7 +261,7 @@ export default function ToolsMarketingPage() {
                   </div>
                   <h3 className="text-xl font-sans font-bold uppercase mb-4 text-text-primary">Zero-Lag Execution</h3>
                   <p className="text-sm text-text-secondary leading-relaxed font-sans font-light">
-                     Our infrastructure runs on the edge. Pricing data, scanner alerts, and journal entries are processed with sub-millisecond latency, ensuring you never miss a critical market shift.
+                     Our infrastructure runs on the edge. Pricing data, scanner alerts, and journal entries are processed with rapid latency, ensuring you never miss a critical market shift.
                   </p>
                </div>
 

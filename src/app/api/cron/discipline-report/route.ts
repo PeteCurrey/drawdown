@@ -10,7 +10,7 @@ export async function GET(request: NextRequest) {
   // 1. Verify Cron Secret
   const authHeader = request.headers.get('authorization');
   if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
-    // return new Response('Unauthorized', { status: 401 });
+    return new Response('Unauthorized', { status: 401 });
   }
 
   const supabase = createServerClient(

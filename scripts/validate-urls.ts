@@ -11,7 +11,7 @@ const FORBIDDEN_STRINGS = [
   "Aggregated live client positioning feed sourced from five global broker systems."
 ];
 
-function checkDirectoryForStrings(dir: string) {
+function checkDirectoryForStrings(dir: string): boolean {
   let hasError = false;
   
   if (!fs.existsSync(dir)) return hasError;

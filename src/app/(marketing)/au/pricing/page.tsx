@@ -6,7 +6,7 @@ import { Check, X, Shield, Activity, TrendingUp } from "lucide-react";
 import { REGIONAL_PRICING } from "@/lib/regions";
 import Link from "next/link";
 
-const AU_PRICING = REGIONAL_PRICING.au;
+const AU_PRICING = REGIONAL_PRICING.AU;
 
 const tiers = AU_PRICING.map(tier => ({
   ...tier,

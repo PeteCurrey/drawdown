@@ -50,7 +50,7 @@ export default function Home() {
           "availableLanguage": "English"
         },
         "sameAs": [
-          "https://twitter.com/drawdown",
+          "https://twitter.com/drawdown_hq",
           "https://youtube.com/@drawdown"
         ]
       }} />

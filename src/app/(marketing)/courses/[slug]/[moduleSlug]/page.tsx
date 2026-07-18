@@ -101,7 +101,7 @@ export default async function ModuleMarketingPage({ params }: Props) {
       "@type": "Organization",
       "name": "Drawdown",
       "url": "https://drawdown.trading",
-      "sameAs": ["https://twitter.com/drawdown"]
+      "sameAs": ["https://twitter.com/drawdown_hq"]
     },
     "author": {
       "@type": "Person",

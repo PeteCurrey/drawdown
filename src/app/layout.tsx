@@ -63,7 +63,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    creator: '@drawdowntrading',
+    creator: '@drawdown_hq',
   },
   robots: {
     index: true,
@@ -111,7 +111,7 @@ export default function RootLayout({
               "url": "https://drawdown.trading",
               "logo": "https://drawdown.trading/images/brand/logo.png",
               "sameAs": [
-                "https://twitter.com/drawdown",
+                "https://twitter.com/drawdown_hq",
                 "https://youtube.com/@drawdown"
               ]
             })

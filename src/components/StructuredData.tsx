@@ -31,7 +31,7 @@ export const defaultOrgSchema = {
   url: "https://drawdown.trading",
   logo: "https://drawdown.trading/logo.png",
   sameAs: [
-    "https://twitter.com/drawdown",
+    "https://twitter.com/drawdown_hq",
     "https://discord.gg/drawdown",
   ],
   contactPoint: {

@@ -16,7 +16,7 @@ export const siteConfig = {
   url: "https://drawdown.trading",
   ogImage: "/og/default-og.png",
   links: {
-    twitter: "https://twitter.com/drawdown",
+    twitter: "https://twitter.com/drawdown_hq",
     discord: "https://discord.gg/drawdown",
   },
 };
@@ -76,7 +76,7 @@ export function getMetadata({
       title: fullTitle,
       description,
       images: [image.startsWith('http') ? image : `${siteConfig.url}${image}`],
-      creator: "@drawdown",
+      creator: "@drawdown_hq",
     },
     icons: {
       icon: "/favicon.png",

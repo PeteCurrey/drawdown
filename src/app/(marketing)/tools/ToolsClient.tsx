@@ -244,7 +244,7 @@ export default function ToolsMarketingPage() {
                </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
                <div className="p-8 bg-background-surface/40 border border-border-slate/50 backdrop-blur-md rounded-[14px] hover:border-border-slate hover:-translate-y-0.5 transition-all duration-300">
                   <div className="w-12 h-12 bg-accent/10 flex items-center justify-center mb-6 rounded-lg">
                      <History className="w-6 h-6 text-accent" />
@@ -252,16 +252,6 @@ export default function ToolsMarketingPage() {
                   <h3 className="text-xl font-sans font-bold uppercase mb-4 text-text-primary">Rigorously Backtested</h3>
                   <p className="text-sm text-text-secondary leading-relaxed font-sans font-light">
                      Every indicator and scanner algorithm is tested against 10+ years of tick-data across multiple asset classes before deployment. We don't release theories; we release proven statistical edges.
-                  </p>
-               </div>
-               
-               <div className="p-8 bg-background-surface/40 border border-border-slate/50 backdrop-blur-md rounded-[14px] hover:border-border-slate hover:-translate-y-0.5 transition-all duration-300">
-                  <div className="w-12 h-12 bg-profit/10 flex items-center justify-center mb-6 rounded-lg">
-                     <Zap className="w-6 h-6 text-profit" />
-                  </div>
-                  <h3 className="text-xl font-sans font-bold uppercase mb-4 text-text-primary">Zero-Lag Execution</h3>
-                  <p className="text-sm text-text-secondary leading-relaxed font-sans font-light">
-                     Our infrastructure runs on the edge. Pricing data, scanner alerts, and journal entries are processed with rapid latency, ensuring you never miss a critical market shift.
                   </p>
                </div>
 

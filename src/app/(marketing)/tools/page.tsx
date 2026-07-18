@@ -242,7 +242,7 @@ export default function ToolsMarketingPage() {
                </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
                <div className="p-8 border border-border-slate bg-background-surface hover:border-accent/30 transition-colors">
                   <div className="w-12 h-12 bg-accent/10 flex items-center justify-center mb-6">
                      <History className="w-6 h-6 text-accent" />
@@ -250,16 +250,6 @@ export default function ToolsMarketingPage() {
                   <h3 className="text-xl font-display font-bold uppercase mb-4">Rigorously Backtested</h3>
                   <p className="text-sm text-text-secondary leading-relaxed">
                      Every indicator and scanner algorithm is tested against 10+ years of tick-data across multiple asset classes before deployment. We don't release theories; we release proven statistical edges.
-                  </p>
-               </div>
-               
-               <div className="p-8 border border-border-slate bg-background-surface hover:border-accent/30 transition-colors">
-                  <div className="w-12 h-12 bg-profit/10 flex items-center justify-center mb-6">
-                     <Zap className="w-6 h-6 text-profit" />
-                  </div>
-                  <h3 className="text-xl font-display font-bold uppercase mb-4">Zero-Lag Execution</h3>
-                  <p className="text-sm text-text-secondary leading-relaxed">
-                     Our infrastructure runs on the edge. Pricing data, scanner alerts, and journal entries are processed with fast latency, ensuring you never miss a critical market shift.
                   </p>
                </div>
 

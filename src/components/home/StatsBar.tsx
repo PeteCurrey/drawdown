@@ -1,79 +1,60 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { useRegion } from "@/components/layout/RegionalLayout";
-
-function useCountUp(target: number, duration: number = 1500) {
-  const [count, setCount] = useState(0);
-  const elementRef = useRef<HTMLDivElement>(null);
-  const [hasStarted, setHasStarted] = useState(false);
-
-  useEffect(() => {
-    const currentElement = elementRef.current;
-    if (currentElement) {
-      // Immediate check in case it's already in view on mount
-      const rect = currentElement.getBoundingClientRect();
-      if (rect.top < window.innerHeight && rect.bottom >= 0) {
-        setHasStarted(true);
-      }
-    }
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting) {
-          setHasStarted(true);
-        }
-      },
-      { threshold: 0.1 }
-    );
-
-    if (currentElement) {
-      observer.observe(currentElement);
-    }
-
-    return () => {
-      if (currentElement) observer.unobserve(currentElement);
-      observer.disconnect();
-    };
-  }, []);
-
-  useEffect(() => {
-    if (!hasStarted) return;
-
-    let startTimestamp: number | null = null;
-    const step = (timestamp: number) => {
-      if (!startTimestamp) startTimestamp = timestamp;
-      const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-      setCount(Math.floor(progress * target));
-      if (progress < 1) {
-        window.requestAnimationFrame(step);
-      }
-    };
-    window.requestAnimationFrame(step);
-  }, [hasStarted, target, duration]);
-
-  return { count, elementRef };
-}
+import { useEffect, useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 export function StatsBar() {
-  const { region } = useRegion();
-  const phases = useCountUp(13);
-  const modules = useCountUp(117);
-  const tools = useCountUp(6);
-  const brokers = useCountUp(24);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    gsap.registerPlugin(ScrollTrigger);
+
+    const ctx = gsap.context(() => {
+      const counters = gsap.utils.toArray<HTMLElement>("[data-counter]");
+      
+      counters.forEach((counter) => {
+        const target = parseFloat(counter.getAttribute("data-target") || "0");
+        const suffix = counter.getAttribute("data-suffix") || "";
+        
+        // Setup initial state for animation
+        counter.innerText = `0${suffix}`;
+        
+        // Animate counter from 0 to target
+        const obj = { val: 0 };
+        gsap.to(obj, {
+          val: target,
+          duration: 1.5,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: counter,
+            start: "top 90%",
+            once: true,
+          },
+          onUpdate: () => {
+            counter.innerText = `${Math.round(obj.val)}${suffix}`;
+          }
+        });
+      });
+    }, containerRef);
+
+    return () => ctx.revert();
+  }, []);
 
   return (
-    <section className="w-full bg-white z-20 select-none">
+    <section className="w-full bg-white z-20 select-none" ref={containerRef}>
       <div className="max-w-7xl mx-auto px-6 py-8 border-y border-mkt-bd">
         <div className="grid grid-cols-2 md:grid-cols-5 gap-8 text-center md:text-left">
           
           {/* 6 Phases */}
-          <div ref={phases.elementRef} className="flex flex-col items-center md:items-start">
+          <div className="flex flex-col items-center md:items-start">
             <span 
               className="text-[30px] text-mkt-ink font-sans tracking-[-0.04em]"
               style={{ fontWeight: 800 }}
+              data-counter
+              data-target="13"
             >
-              {phases.count}
+              13
             </span>
             <span className="text-[11px] font-sans font-medium text-mkt-i4 uppercase mt-1 tracking-wider">
               Phases
@@ -81,12 +62,15 @@ export function StatsBar() {
           </div>
 
           {/* 60+ Modules */}
-          <div ref={modules.elementRef} className="flex flex-col items-center md:items-start">
+          <div className="flex flex-col items-center md:items-start">
             <span 
               className="text-[30px] text-mkt-ink font-sans tracking-[-0.04em]"
               style={{ fontWeight: 800 }}
+              data-counter
+              data-target="117"
+              data-suffix="+"
             >
-              {modules.count}+
+              117+
             </span>
             <span className="text-[11px] font-sans font-medium text-mkt-i4 uppercase mt-1 tracking-wider">
               Modules
@@ -94,12 +78,14 @@ export function StatsBar() {
           </div>
 
           {/* 6 AI Tools */}
-          <div ref={tools.elementRef} className="flex flex-col items-center md:items-start">
+          <div className="flex flex-col items-center md:items-start">
             <span 
               className="text-[30px] text-mkt-ink font-sans tracking-[-0.04em]"
               style={{ fontWeight: 800 }}
+              data-counter
+              data-target="6"
             >
-              {tools.count}
+              6
             </span>
             <span className="text-[11px] font-sans font-medium text-mkt-i4 uppercase mt-1 tracking-wider">
               AI Tools
@@ -107,12 +93,14 @@ export function StatsBar() {
           </div>
 
           {/* 24 Regulated Brokers */}
-          <div ref={brokers.elementRef} className="flex flex-col items-center md:items-start">
+          <div className="flex flex-col items-center md:items-start">
             <span 
               className="text-[30px] text-mkt-ink font-sans tracking-[-0.04em]"
               style={{ fontWeight: 800 }}
+              data-counter
+              data-target="24"
             >
-              {brokers.count}
+              24
             </span>
             <span className="text-[11px] font-sans font-medium text-mkt-i4 uppercase mt-1 tracking-wider">
               Regulated Brokers

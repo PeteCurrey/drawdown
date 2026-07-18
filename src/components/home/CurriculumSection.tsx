@@ -248,7 +248,7 @@ export function CurriculumSection() {
             href={`${regionPrefix}/courses`} 
             className="inline-flex items-center gap-2 text-xs font-sans font-bold uppercase tracking-widest text-mkt-ink hover:underline"
           >
-            View all 13 phases <span className="font-mono">→</span>
+            View the full curriculum <span className="font-mono">→</span>
           </Link>
         </div>
 

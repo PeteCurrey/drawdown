@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 import { useRegion } from "@/components/layout/RegionalLayout";
 import { STRIPE_CONFIG } from "@/config/stripe";
 import { REGIONAL_PRICING, type RegionCode } from "@/lib/regions";
+import { GET_DEFAULT_FEATURES, GET_EDGE_FEATURES, GET_FLOOR_FEATURES } from "@/data/pricing";
 
 const tiers = [
   {
@@ -14,48 +15,21 @@ const tiers = [
     name: "Foundation",
     description: "For beginners building their knowledge base.",
     buttonText: "Start Foundation",
-    features: [
-      { name: "Full Course Library (Phases 1–4)", included: true },
-      { name: "Weekly Video Market Breakdowns", included: true },
-      { name: "Trade Journal (Manual)", included: true },
-      { name: "Position Size Calculator", included: true },
-      { name: "Community Discord Access", included: true },
-      { name: "The Wire (Daily Edition)", included: true },
-      { name: "AI Trade Journal", included: false },
-      { name: "AI Market Scanner", included: false },
-      { name: "AI Strategy Backtester", included: false },
-    ],
+    features: GET_DEFAULT_FEATURES(),
   },
   {
     id: "edge" as const,
     name: "Edge",
     description: "For active traders seeking AI-powered edge.",
     buttonText: "Join Edge",
-    features: [
-      { name: "Everything in Foundation", included: true },
-      { name: "AI Trade Journal", included: true },
-      { name: "AI Market Scanner & Alerting", included: true },
-      { name: "AI Strategy Backtester", included: true },
-      { name: "Daily Live Trading Sessions", included: true },
-      { name: "Bi-weekly Group Mentorship", included: true },
-      { name: "AI Daily Briefing", included: true },
-      { name: "Advanced Strategy Modules", included: true },
-    ],
+    features: GET_EDGE_FEATURES(),
   },
   {
     id: "floor" as const,
     name: "Floor",
     description: "Direct access and bespoke strategy analysis.",
     buttonText: "Enter the Floor",
-    features: [
-      { name: "Everything in Edge", included: true },
-      { name: "Monthly 1-to-1 Mentorship (45m)", included: true },
-      { name: "Custom AI Portfolio Analysis", included: true },
-      { name: "Private Small-Group Masterclasses", included: true },
-      { name: "Early Access to New Tools", included: true },
-      { name: "Direct Discord Access to Founder", included: true },
-      { name: "Quarterly Strategy Review Calls", included: true },
-    ],
+    features: GET_FLOOR_FEATURES(),
   },
 ];
 

@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Check, X, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { STRIPE_CONFIG } from "@/config/stripe";
+import { GET_DEFAULT_FEATURES, GET_EDGE_FEATURES, GET_FLOOR_FEATURES } from "@/data/pricing";
 
 const tiers = [
   {
@@ -39,17 +40,7 @@ const tiers = [
     accentColor: "rgba(99, 102, 241, 0.12)",
     borderAccent: "rgba(99, 102, 241, 0.25)",
     savings: "120",
-    features: [
-      { name: "Full Course Library (Phases 1–4)", included: true },
-      { name: "Weekly Video Market Breakdowns", included: true },
-      { name: "Trade Journal (Manual)", included: true },
-      { name: "Position Size Calculator", included: true },
-      { name: "Community Discord Access", included: true },
-      { name: "The Wire (Daily Edition)", included: true },
-      { name: "AI Trade Journal", included: false },
-      { name: "AI Market Scanner", included: false },
-      { name: "AI Strategy Backtester", included: false },
-    ],
+    features: GET_DEFAULT_FEATURES(),
   },
   {
     name: "Edge",
@@ -61,16 +52,7 @@ const tiers = [
     accentColor: "rgba(6, 182, 212, 0.10)",
     borderAccent: "rgba(6, 182, 212, 0.28)",
     savings: "360",
-    features: [
-      { name: "Everything in Foundation", included: true },
-      { name: "AI Trade Journal", included: true },
-      { name: "AI Market Scanner & Alerting", included: true },
-      { name: "AI Strategy Backtester", included: true },
-      { name: "Daily Live Trading Sessions", included: true },
-      { name: "Bi-weekly Group Mentorship", included: true },
-      { name: "AI Daily Briefing", included: true },
-      { name: "Advanced Strategy Modules", included: true },
-    ],
+    features: GET_EDGE_FEATURES(),
   },
   {
     name: "Floor",
@@ -83,13 +65,7 @@ const tiers = [
     borderAccent: "rgba(217, 119, 6, 0.25)",
     savings: "720",
     features: [
-      { name: "Everything in Edge", included: true },
-      { name: "Monthly 1-to-1 Mentorship (45m)", included: true },
-      { name: "Custom AI Portfolio Analysis", included: true },
-      { name: "Private Small-Group Masterclasses", included: true },
-      { name: "Early Access to New Tools", included: true },
-      { name: "Quarterly Strategy Review Calls", included: true },
-      { name: "Direct Discord Access to Founder", included: true },
+      ...GET_FLOOR_FEATURES(),
       { name: "Deploy Your Algo Mini Course", included: true, badge: "Included — £97 value", accent: true },
     ],
   },

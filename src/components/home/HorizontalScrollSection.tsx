@@ -9,11 +9,6 @@ const features = [
     description: "Hardcoded drawdown boundaries that enforce absolute risk discipline on every trade."
   },
   {
-    emoji: "⚡",
-    title: "Execution Speed",
-    description: "Sub-millisecond routing protocols directly to institutional liquidity hubs."
-  },
-  {
     emoji: "📊",
     title: "Tax Efficiency",
     description: "Optimised account models designed to minimise spread betting tax liabilities."
@@ -31,12 +26,12 @@ const features = [
   {
     emoji: "📉",
     title: "Backtest Depth",
-    description: "Monte Carlo simulation engines run against historical tick data dating back to 2014."
+    description: "Historical testing against pure price action across major FX pairs."
   },
   {
     emoji: "👥",
-    title: "Consensus Ratios",
-    description: "Aggregated live client positioning feed sourced from five global broker systems."
+    title: "Consensus Signals",
+    description: "Directional bias computed from 20-EMA trendlines and static support/resistance zones."
   },
   {
     emoji: "📰",

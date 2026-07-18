@@ -6,60 +6,12 @@ import { Check, X, Shield, Activity, TrendingUp } from "lucide-react";
 import { REGIONAL_PRICING } from "@/lib/regions";
 import Link from "next/link";
 
-const SG_PRICING = REGIONAL_PRICING.SG;
+const SG_PRICING = REGIONAL_PRICING.sg;
 
-const tiers = [
-  {
-    name: "Foundation",
-    id: "foundation",
-    description: "For Singaporean beginners building their alpha base.",
-    buttonText: "Start Foundation",
-    highlight: false,
-    borderColor: "border-text-primary/20",
-    features: [
-      { name: "Full Course Library (Phases 1–4)", included: true },
-      { name: "Weekly Video Market Breakdowns", included: true },
-      { name: "MAS Broker Directory", included: true },
-      { name: "Position Size Calculator (SGD)", included: true },
-      { name: "Community Discord Access", included: true },
-      { name: "AI Trade Journal", included: false },
-      { name: "AI Market Scanner", included: false },
-    ],
-  },
-  {
-    name: "Edge",
-    id: "edge",
-    description: "For active SG traders seeking AI-powered edge.",
-    buttonText: "Join Edge",
-    highlight: true,
-    borderColor: "border-border-slate/50",
-    features: [
-      { name: "Everything in Foundation", included: true },
-      { name: "AI Trade Journal", included: true },
-      { name: "AI Market Scanner & Alerting", included: true },
-      { name: "AI Strategy Backtester", included: true },
-      { name: "Daily Live Trading Sessions", included: true },
-      { name: "Asian Session Trading Modules", included: true },
-      { name: "AI Daily Briefing", included: true },
-    ],
-  },
-  {
-    name: "Floor",
-    id: "floor",
-    description: "Direct access and bespoke Asian market analysis.",
-    buttonText: "Enter the Floor",
-    highlight: false,
-    borderColor: "border-premium",
-    features: [
-      { name: "Everything in Edge", included: true },
-      { name: "Monthly 1-to-1 Mentorship (45m)", included: true },
-      { name: "Custom AI Portfolio Analysis", included: true },
-      { name: "Private Small-Group Masterclasses", included: true },
-      { name: "Early Access to New Tools", included: true },
-      { name: "Direct Discord Access to Founder", included: true },
-    ],
-  },
-];
+const tiers = SG_PRICING.map(tier => ({
+  ...tier,
+  id: tier.name.toLowerCase() as "foundation" | "edge" | "floor"
+}));
 
 export default function SingaporePricingPage() {
   const [billingCycle, setBillingCycle] = useState<"monthly" | "yearly">("monthly");

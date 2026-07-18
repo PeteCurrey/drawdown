@@ -29,7 +29,7 @@ export function TradingViewEmbed({ symbol, intervalMinutes }: TradingViewEmbedPr
   const loadedRef    = useRef(false);
 
   const tvSymbol = toTVSymbol(symbol || "GBPUSD");
-  const tvUrl    = `https://www.tradingview.com/?aff_id=139431`;
+  const tvUrl    = `https://www.tradingview.com/?aff_id=165855`;
 
   // Lazy-load via IntersectionObserver — only inject script when chart scrolls into view
   useEffect(() => {

@@ -100,6 +100,23 @@ export default function RootLayout({
         />
         {/* Ahrefs Analytics */}
         <script src="https://analytics.ahrefs.com/analytics.js" data-key="N01jEQ+ncXGoGSG9gs0QhA" async />
+        {/* Site-wide Organization Schema (E-E-A-T) */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              "name": "Drawdown Trading",
+              "url": "https://drawdown.trading",
+              "logo": "https://drawdown.trading/images/brand/logo.png",
+              "sameAs": [
+                "https://twitter.com/drawdowntrading",
+                "https://youtube.com/@drawdowntrading"
+              ]
+            })
+          }}
+        />
       </head>
 
       <body className="min-h-screen flex flex-col bg-background-primary text-text-primary selection:bg-accent selection:text-background-primary transition-colors duration-500">

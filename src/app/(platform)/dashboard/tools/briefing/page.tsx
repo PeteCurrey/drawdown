@@ -81,7 +81,6 @@ export default function DailyBriefingPage() {
                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       {[
                         { pair: "GBPUSD", level: "1.2580", action: "Support retested overnight, buyers holding." },
-                        { pair: "XAUUSD", level: "2,342.00", action: "Resistance rejection on the 4H. No setup yet." },
                         { pair: "BTCUSD", level: "67,500", action: "Whale accumulation zone. Watch liquidity grab." },
                         { pair: "FTSE 100", level: "7,820", action: "Pivot point for today's UK session." },
                       ].map((item, i) => (

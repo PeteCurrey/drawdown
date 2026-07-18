@@ -25,7 +25,7 @@ const GUIDE_CARDS = [
       "Click 'Add to chart' → the strategy loads immediately",
       "Open Strategy Tester tab to run the full backtest",
     ],
-    cta: { label: "Open TradingView →", href: "https://www.tradingview.com/?aff_id=139431" },
+    cta: { label: "Open TradingView →", href: "https://www.tradingview.com/?aff_id=165855" },
   },
   {
     title: "Interactive Brokers · Python",

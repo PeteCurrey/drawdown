@@ -61,6 +61,8 @@ export function InstitutionalConsensusSection() {
     };
   }, []);
 
+  if (!loading && consensus.length === 0) return null;
+
   const formatPrice = (price: number | null | undefined, symbol: string) => {
     if (price == null || typeof price !== "number" || Number.isNaN(price)) {
       return "--";
@@ -124,12 +126,15 @@ export function InstitutionalConsensusSection() {
             const priceItem = prices.find(p => matchSymbol(config.symbol, p.symbol));
             const conItem = consensus.find(c => matchSymbol(config.symbol, c.symbol));
 
-            const price = priceItem && !Number.isNaN(priceItem.price) ? priceItem.price : config.fallbackPrice;
-            const changePercent = priceItem && !Number.isNaN(priceItem.changePercent) ? priceItem.changePercent : config.fallbackChange;
-            const score = conItem ? conItem.score : config.fallbackScore;
-            const verdict = conItem ? conItem.verdict : config.fallbackVerdict;
+            // If we don't have consensus data for this item, hide it
+            if (!conItem) return null;
 
-            const isPositive = changePercent >= 0;
+            const price = priceItem && !Number.isNaN(priceItem.price) ? priceItem.price : null;
+            const changePercent = priceItem && !Number.isNaN(priceItem.changePercent) ? priceItem.changePercent : null;
+            const score = conItem.score;
+            const verdict = conItem.verdict;
+
+            const isPositive = changePercent !== null && changePercent >= 0;
             const buyPct = score;
             const sellPct = 100 - score;
 
@@ -166,7 +171,11 @@ export function InstitutionalConsensusSection() {
                       "text-[10px] font-mono font-semibold mt-1 inline-block",
                       isPositive ? "text-mkt-grn" : "text-mkt-red"
                     )}>
-                      {isPositive ? "▲" : "▼"} {Math.abs(changePercent).toFixed(2)}%
+                      {changePercent !== null ? (
+                        <>{isPositive ? "▲" : "▼"} {Math.abs(changePercent).toFixed(2)}%</>
+                      ) : (
+                        "--"
+                      )}
                     </span>
                   </div>
                 </div>

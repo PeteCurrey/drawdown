@@ -56,7 +56,6 @@ export default function DashboardPage() {
 
   // Polling and live feed generation is fully managed by useMarketIntelligence hook
   // within subcomponents to prevent double-fetching and save API rate limits.
-  const feedItems: any[] = [];
 
   useEffect(() => {
     const hour = new Date().getHours();
@@ -391,18 +390,13 @@ export default function DashboardPage() {
       {/* HERO: Market Intelligence Card */}
       <MarketIntelligenceHeroCard
         instruments={INSTRUMENTS_LIST}
-        initialInstrument={selectedInst}
-        feedItems={feedItems}
+        initialInstrument={INSTRUMENTS_LIST[0]}
         selectedInterval={selectedInterval}
-        todayTradeCount={trades.filter(t => {
-          const today = new Date();
+        todayTradeCount={fetchedTrades.filter((t: any) => {
           const entry = new Date(t.entry_time);
+          const today = new Date();
           return entry.toDateString() === today.toDateString();
         }).length}
-        openAlerts={[
-          { label: "Price", count: 0, color: "orange" as const },
-          { label: "RSI",   count: 0, color: "red"    as const },
-        ]}
         onInstrumentChange={(inst) => setSelectedInst(inst as any)}
         onTimeframeChange={setSelectedInterval}
       />
@@ -453,7 +447,7 @@ export default function DashboardPage() {
             
             <div className="space-y-1.5 text-xs text-[#555550]">
               <p className="line-clamp-3">
-                {latestBrief ? latestBrief.content_text.slice(0, 120) : "Markets closed out last session with key technical structures intact. Monitor support levels closely."}
+                {latestBrief ? latestBrief.content_text.slice(0, 120) : "No daily briefing available yet. Check the wire during the London session for the latest macroeconomic updates and technical setups."}
               </p>
             </div>
           </div>

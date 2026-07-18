@@ -4,6 +4,7 @@ import { use } from "react";
 import { phases, phaseIconMap } from "@/data/courses";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
+import { GET_DEFAULT_FEATURES, GET_EDGE_FEATURES, GET_FLOOR_FEATURES } from "@/data/pricing";
 import { 
   ChevronRight, 
   Clock, 
@@ -163,14 +164,7 @@ export function CourseLandingPageClient({ params }: Props) {
       cta: "Join Foundation",
       highlight: phase.tier === "Foundation",
       badge: phase.tier === "Foundation" ? "Recommended Plan" : null,
-      features: [
-        "Position Sizer (Manual)",
-        "Technical Charts",
-        "Expert Intelligence Hub",
-        "Weekly Live Video Overviews",
-        "Complete Course Library",
-        "Discord Community Access"
-      ]
+      features: GET_DEFAULT_FEATURES().map(f => f.name)
     },
     {
       name: "Edge",
@@ -180,14 +174,7 @@ export function CourseLandingPageClient({ params }: Props) {
       cta: "Join Edge Tier",
       highlight: phase.tier === "Edge",
       badge: phase.tier === "Edge" ? "Recommended Plan" : null,
-      features: [
-        "AI Trade Journal Integration",
-        "AI Market Scanner Access",
-        "Strategy Backtester Access",
-        "Daily Live Trading Sessions",
-        "Bi-weekly Group Mentorship",
-        "Everything in Foundation"
-      ]
+      features: GET_EDGE_FEATURES().map(f => f.name)
     },
     {
       name: "Floor",
@@ -197,14 +184,7 @@ export function CourseLandingPageClient({ params }: Props) {
       cta: "Enter The Floor",
       highlight: phase.tier === "Floor",
       badge: phase.tier === "Floor" ? "Recommended Plan" : null,
-      features: [
-        "Algo Strategy Builder (No-Code)",
-        "Monthly 1-to-1 Mentorship",
-        "Custom AI Portfolio Auditing",
-        "Private Small-Group Webinars",
-        "Early Beta Tools Access",
-        "Everything in Edge"
-      ]
+      features: GET_FLOOR_FEATURES().map(f => f.name)
     }
   ];
 

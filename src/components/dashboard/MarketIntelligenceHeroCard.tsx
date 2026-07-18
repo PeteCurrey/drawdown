@@ -61,9 +61,7 @@ interface OpenAlert {
 interface MarketIntelligenceHeroCardProps {
   instruments: HeroInstrument[];
   initialInstrument?: HeroInstrument;
-  feedItems: HeroFeedItem[];
   todayTradeCount: number;
-  openAlerts: OpenAlert[];
   onInstrumentChange?: (inst: HeroInstrument) => void;
   /** Current selected Twelve Data interval string e.g. "4h" — controlled by parent */
   selectedInterval?: string;
@@ -108,9 +106,7 @@ function arcTipPos(pct: number) {
 export function MarketIntelligenceHeroCard({
   instruments,
   initialInstrument,
-  feedItems,
   todayTradeCount,
-  openAlerts,
   onInstrumentChange,
   selectedInterval = "4h",
   onTimeframeChange,
@@ -404,7 +400,7 @@ export function MarketIntelligenceHeroCard({
     });
 
     // 4. Feed items slide in from 800ms
-    feedItems.forEach((_, i) => {
+    Array.from({ length: 6 }).forEach((_, i) => {
       setTimeout(() => {
         setFeedVisible(prev => {
           const next = [...prev];

@@ -10,8 +10,11 @@ import {
   Quote,
   CheckCircle2,
   ChevronDown,
+  Clock,
+  ChevronRight,
   Check
 } from "lucide-react";
+import { GET_DEFAULT_FEATURES, GET_EDGE_FEATURES, GET_FLOOR_FEATURES } from "@/data/pricing";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { tools } from "@/data/tools";
@@ -116,14 +119,7 @@ export default function ToolDetailPage() {
       cta: "Join Foundation",
       highlight: false,
       badge: ["risk-calculator", "intelligence-hub", "market-charts"].includes(tool.slug) ? "Includes This Tool" : null,
-      features: [
-        "Position Sizer (Manual)",
-        "Technical Charts",
-        "Expert Intelligence Hub",
-        "Weekly Live Video Overviews",
-        "Complete Course Library",
-        "Discord Community Access"
-      ]
+      features: GET_DEFAULT_FEATURES().map(f => f.name)
     },
     {
       name: "Edge",
@@ -133,14 +129,7 @@ export default function ToolDetailPage() {
       cta: "Join Edge Tier",
       highlight: true,
       badge: ["ai-trade-journal", "ai-market-scanner", "strategy-backtester"].includes(tool.slug) ? "Includes This Tool" : null,
-      features: [
-        "AI Trade Journal Integration",
-        "AI Market Scanner Access",
-        "Strategy Backtester Access",
-        "Daily Live Trading Sessions",
-        "Bi-weekly Group Mentorship",
-        "Everything in Foundation"
-      ]
+      features: GET_EDGE_FEATURES().map(f => f.name)
     },
     {
       name: "Floor",
@@ -150,14 +139,7 @@ export default function ToolDetailPage() {
       cta: "Enter The Floor",
       highlight: false,
       badge: ["algo-strategy-builder"].includes(tool.slug) ? "Includes This Tool" : null,
-      features: [
-        "Algo Strategy Builder (No-Code)",
-        "Monthly 1-to-1 Mentorship",
-        "Custom AI Portfolio Auditing",
-        "Private Small-Group Webinars",
-        "Early Beta Tools Access",
-        "Everything in Edge"
-      ]
+      features: GET_FLOOR_FEATURES().map(f => f.name)
     }
   ];
 

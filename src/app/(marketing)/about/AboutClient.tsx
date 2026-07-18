@@ -146,10 +146,7 @@ export default function AboutPage() {
                 lured by the high-octane volatility of the London open and the promise of rapid wealth.
               </p>
               <p>
-                "I remember my first £50k week," Pete says. "I thought I was a genius. I bought the
-                watch, I booked the holiday. Two weeks later, I'd given it all back plus 20%. That was
-                the moment I realized the industry isn't built to help you win — it's built to keep you
-                playing until you lose."
+                "I've spent two decades watching retail traders get chewed up by the markets, mostly because they were sold a lie by a fake guru," Pete says. "Trading isn't about getting rich quick. It's a high-stakes business of probabilities and risk management."
               </p>
               <p>
                 The next three years were spent in deep study. Not just of price action, but of human
@@ -182,12 +179,12 @@ export default function AboutPage() {
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
               <div className="absolute bottom-6 left-6 right-6">
                 <p className="text-white font-sans font-bold text-base">Pete Currey</p>
-                <p className="text-white/70 font-sans text-xs mt-1">Founder, Drawdown Trading · Est. 2024, London</p>
+                <p className="text-white/70 font-sans text-xs mt-1">Founder, Drawdown Trading · Chesterfield, UK</p>
               </div>
             </div>
             {/* Accent badge */}
             <div className="absolute -bottom-5 -right-5 bg-mkt-ink text-white px-5 py-3 rounded-[10px] text-[10px] font-sans font-bold uppercase tracking-widest">
-              EST. 2024 // LDN
+              CHESTERFIELD // UK
             </div>
           </motion.div>
         </div>

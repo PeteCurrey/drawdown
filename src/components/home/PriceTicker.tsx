@@ -13,8 +13,23 @@ const TICKER_SYMBOLS = [
   "GBPUSD", "EURUSD", "USDJPY", "EURGBP", "BTCUSD", "ETHUSD", "GBPEUR"
 ];
 
+const DEFAULT_PRICES: Record<string, { price: number; changePercent: number }> = {
+  "GBPUSD": { price: 1.2645, changePercent: 0.12 },
+  "EURUSD": { price: 1.0823, changePercent: -0.05 },
+  "USDJPY": { price: 151.20, changePercent: 0.23 },
+  "EURGBP": { price: 0.8558, changePercent: -0.15 },
+  "BTCUSD": { price: 64230.50, changePercent: 1.2 },
+  "ETHUSD": { price: 3450.20, changePercent: 0.8 },
+  "GBPEUR": { price: 1.1685, changePercent: 0.15 }
+};
+
 export function PriceTicker() {
-  const [data, setData] = useState<TickerItem[]>([]);
+  const [data, setData] = useState<TickerItem[]>(() => 
+    TICKER_SYMBOLS.map(sym => ({
+      symbol: sym,
+      ...DEFAULT_PRICES[sym]
+    }))
+  );
   const [error, setError] = useState(false);
 
   useEffect(() => {
@@ -126,7 +141,8 @@ export function PriceTicker() {
         Prices delayed 60s
       </div>
 
-      <style jsx>{`
+      <style dangerouslySetInnerHTML={{
+        __html: `
         @keyframes marquee-ticker {
           0% { transform: translateX(0); }
           100% { transform: translateX(-33.333%); }
@@ -134,7 +150,7 @@ export function PriceTicker() {
         .animate-marquee-ticker {
           animation: marquee-ticker 38s linear infinite;
         }
-      `}</style>
+      `}} />
     </div>
   );
 }

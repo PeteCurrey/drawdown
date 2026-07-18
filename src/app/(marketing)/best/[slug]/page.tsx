@@ -5,6 +5,7 @@ import { Metadata } from "next";
 import { TrackPageView } from "@/components/admin/TrackPageView";
 import { BestBrokerTemplate } from "@/components/brokers/BestBrokerTemplate";
 import { resolveProgrammaticSeo } from "@/lib/seo-generator";
+import { createClient } from "@/lib/supabase/server";
 
 export const dynamicParams = true;
 export const revalidate = 3600; // hourly cache revalidation
@@ -19,7 +20,18 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const page = BEST_OF_PAGES.find((p) => p.slug === slug) || resolveProgrammaticSeo(slug);
+  
+  const supabase = await createClient();
+  const { data: dynamicPage } = await supabase
+    .from('seo_pages')
+    .select('*')
+    .eq('slug', slug)
+    .eq('page_type', 'best')
+    .single();
+
+  const page = dynamicPage 
+    ? { title: dynamicPage.title, metaDescription: dynamicPage.meta_description }
+    : BEST_OF_PAGES.find((p) => p.slug === slug) || resolveProgrammaticSeo(slug);
 
   if (!page) return {};
 
@@ -34,7 +46,23 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function BestOfPage({ params }: Props) {
   const { slug } = await params;
-  const page = BEST_OF_PAGES.find((p) => p.slug === slug) || resolveProgrammaticSeo(slug);
+  
+  const supabase = await createClient();
+  const { data: dynamicPage } = await supabase
+    .from('seo_pages')
+    .select('*')
+    .eq('slug', slug)
+    .eq('page_type', 'best')
+    .single();
+
+  const page = dynamicPage 
+    ? {
+        slug: dynamicPage.slug,
+        title: dynamicPage.title,
+        metaDescription: dynamicPage.meta_description,
+        ...dynamicPage.content_jsonb
+      }
+    : BEST_OF_PAGES.find((p) => p.slug === slug) || resolveProgrammaticSeo(slug);
 
   if (!page) notFound();
 

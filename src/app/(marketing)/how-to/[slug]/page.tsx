@@ -7,6 +7,7 @@ import { ChevronRight, Clock, AlertTriangle, ArrowRight, BookOpen } from "lucide
 import { TrackPageView } from "@/components/admin/TrackPageView";
 import { DifficultyBadge } from "@/components/how-to/DifficultyBadge";
 import { Prerequisites } from "@/components/how-to/Prerequisites";
+import { createClient } from "@/lib/supabase/server";
 
 export const dynamicParams = false;
 
@@ -31,7 +32,24 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const page = HOW_TO_PAGES.find((p) => p.slug === slug);
+  
+  const supabase = await createClient();
+  const { data: dynamicPage } = await supabase
+    .from('seo_pages')
+    .select('*')
+    .eq('slug', slug)
+    .eq('page_type', 'how-to')
+    .single();
+
+  const page = dynamicPage 
+    ? { 
+        title: dynamicPage.title, 
+        metaTitle: dynamicPage.content_jsonb?.metaTitle,
+        metaDescription: dynamicPage.meta_description,
+        heroImage: dynamicPage.content_jsonb?.heroImage
+      }
+    : HOW_TO_PAGES.find((p) => p.slug === slug);
+
   if (!page) return {};
 
   return {
@@ -50,7 +68,24 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function HowToPage({ params }: Props) {
   const { slug } = await params;
-  const page = HOW_TO_PAGES.find((p) => p.slug === slug);
+  
+  const supabase = await createClient();
+  const { data: dynamicPage } = await supabase
+    .from('seo_pages')
+    .select('*')
+    .eq('slug', slug)
+    .eq('page_type', 'how-to')
+    .single();
+
+  const page = dynamicPage 
+    ? {
+        slug: dynamicPage.slug,
+        title: dynamicPage.title,
+        metaDescription: dynamicPage.meta_description,
+        ...dynamicPage.content_jsonb
+      } as any
+    : HOW_TO_PAGES.find((p) => p.slug === slug);
+
   if (!page) notFound();
 
   // ── JSON-LD: HowTo ──────────────────────────────────────────────────────────

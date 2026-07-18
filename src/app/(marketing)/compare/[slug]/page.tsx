@@ -3,6 +3,7 @@ import { COMPARISON_PAGES } from "@/data/seo/compare";
 import { Metadata } from "next";
 import { CompareTemplate } from "@/components/seo/CompareTemplate";
 import BreadcrumbSchema from "@/components/seo/BreadcrumbSchema";
+import { createClient } from "@/lib/supabase/server";
 
 export const dynamicParams = true;
 export const revalidate = 3600; // hourly cache revalidation
@@ -17,7 +18,18 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const page = COMPARISON_PAGES.find((p) => p.slug === slug);
+  
+  const supabase = await createClient();
+  const { data: dynamicPage } = await supabase
+    .from('seo_pages')
+    .select('*')
+    .eq('slug', slug)
+    .eq('page_type', 'compare')
+    .single();
+
+  const page = dynamicPage 
+    ? { title: dynamicPage.title, metaDescription: dynamicPage.meta_description }
+    : COMPARISON_PAGES.find((p) => p.slug === slug);
 
   if (!page) return {};
 
@@ -32,7 +44,23 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function GlobalComparePage({ params }: Props) {
   const { slug } = await params;
-  const page = COMPARISON_PAGES.find((p) => p.slug === slug);
+  
+  const supabase = await createClient();
+  const { data: dynamicPage } = await supabase
+    .from('seo_pages')
+    .select('*')
+    .eq('slug', slug)
+    .eq('page_type', 'compare')
+    .single();
+
+  const page = dynamicPage 
+    ? {
+        slug: dynamicPage.slug,
+        title: dynamicPage.title,
+        metaDescription: dynamicPage.meta_description,
+        ...dynamicPage.content_jsonb
+      } as any
+    : COMPARISON_PAGES.find((p) => p.slug === slug);
 
   if (!page) {
     notFound();

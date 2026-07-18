@@ -82,7 +82,7 @@ const tools = [
     icon: LineChart,
     name: "Strategy Backtester",
     slug: "strategy-backtester",
-    description: "Simulates strategy rulesets against 10 years of historical tick data, outputting Monte Carlo risk profiles.",
+    description: "Simulates strategy rulesets against 10 years of historical tick data, outputting risk profiles.",
     isFree: false,
     // Faded Rose
     baseBg: "rgba(244, 63, 94, 0.015)",

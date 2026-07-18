@@ -15,48 +15,9 @@ interface Signal {
   badgeColor: string;
 }
 
-const FALLBACK_SIGNALS: Signal[] = [
-  {
-    type: "BULLISH",
-    icon: ArrowUpRight,
-    title: "EUR/USD Order Block Sweep",
-    description: "EUR/USD is trading above its 20 EMA with a 14-day RSI of 58.4, signaling active institutional accumulation.",
-    color: "var(--mkt-grn)",
-    bgColor: "bg-mkt-gbg",
-    badgeColor: "text-mkt-grn bg-mkt-gbg border-mkt-gbd"
-  },
-  {
-    type: "BEARISH",
-    icon: ArrowDownRight,
-    title: "GBP/USD Sentiment Extreme",
-    description: "GBP/USD is showing bearish daily momentum, trading below its 20 EMA with an RSI of 38.6, representing structural sell pressure.",
-    color: "var(--mkt-red)",
-    bgColor: "bg-mkt-rbg",
-    badgeColor: "text-mkt-red bg-mkt-rbg border-red-200"
-  },
-  {
-    type: "NEUTRAL",
-    icon: ShieldAlert,
-    title: "XAU/USD Range Consolidation",
-    description: "XAU/USD is consolidating in a flat range, with a current daily RSI of 49.5 signaling neutral market momentum.",
-    color: "var(--mkt-amb)",
-    bgColor: "bg-amber-50",
-    badgeColor: "text-mkt-amb bg-amber-50 border-amber-250"
-  },
-  {
-    type: "BULLISH",
-    icon: ArrowUpRight,
-    title: "BTC/USD Momentum Strength",
-    description: "BTC/USD is holding strong bullish structure above its 20 EMA with a daily RSI of 64.2, indicating continued buying appetite.",
-    color: "var(--mkt-grn)",
-    bgColor: "bg-mkt-gbg",
-    badgeColor: "text-mkt-grn bg-mkt-gbg border-mkt-gbd"
-  }
-];
-
 export function InstitutionalPulseSection() {
   const [sentiment, setSentiment] = useState<any>(null);
-  const [signals, setSignals] = useState<Signal[]>(FALLBACK_SIGNALS);
+  const [signals, setSignals] = useState<Signal[]>([]);
   const [loading, setLoading] = useState(true);
 
   // Fetch sentiment and consensus (to build signals) on mount
@@ -126,6 +87,8 @@ export function InstitutionalPulseSection() {
       active = false;
     };
   }, []);
+
+  if (!loading && signals.length === 0) return null;
 
   // Donut values: Bullish exposure mapped to Fear/Greed index, Neutral to VIX
   const fg = sentiment ? (sentiment.fearGreed || 50) : 64;

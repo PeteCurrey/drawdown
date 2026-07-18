@@ -21,7 +21,7 @@ export default function TradingViewBanner() {
         </p>
         <div className="pt-2">
           <a
-            href="https://www.tradingview.com/?aff_id=139431"
+            href="https://www.tradingview.com/?aff_id=165855"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center space-x-2 bg-[#C8F135] text-black px-6 py-3.5 text-xs font-bold uppercase tracking-wider hover:opacity-90 transition-opacity"

@@ -8,7 +8,33 @@ export const metadata: Metadata = {
   alternates: { canonical: 'https://drawdown.trading/pricing' }
 }
 
-export default function Page() {
+import { createInternalSupabase } from "@/lib/supabase/server";
+
+export default async function Page() {
+  const supabase = createInternalSupabase();
+
+  let floorCap = 15;
+  try {
+    const { data } = await supabase
+      .from('platform_settings')
+      .select('setting_value')
+      .eq('setting_key', 'floor_cap')
+      .single();
+    if (data?.setting_value) {
+      floorCap = parseInt(data.setting_value as string, 10);
+    }
+  } catch(e) {}
+
+  let activeFloorSubs = 0;
+  try {
+    const { count } = await supabase
+      .from('profiles')
+      .select('*', { count: 'exact', head: true })
+      .eq('subscription_tier', 'floor')
+      .eq('subscription_status', 'active');
+    activeFloorSubs = count || 0;
+  } catch(e) {}
+
   return (
     <>
       <JsonLd data={{
@@ -57,7 +83,7 @@ export default function Page() {
           }
         ]
       }} />
-      <PricingPage />
+      <PricingPage floorCap={floorCap} activeFloorSubs={activeFloorSubs} />
     </>
   )
 }

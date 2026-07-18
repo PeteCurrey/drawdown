@@ -3,12 +3,14 @@
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { Check, X, Shield, Activity, TrendingUp } from "lucide-react";
-import { REGIONAL_PRICING } from "@/lib/regions";
+import { REGIONAL_PRICING as REGIONAL_DATA } from "@/data/pricing";
+import { REGIONAL_PRICING as REGION_CONFIG } from "@/lib/regions";
 import Link from "next/link";
 
-const AU_PRICING = REGIONAL_PRICING.AU;
+const AU_DATA = REGIONAL_DATA.au;
+const AU_CONFIG = REGION_CONFIG.AU;
 
-const tiers = AU_PRICING.map(tier => ({
+const tiers = AU_DATA.map(tier => ({
   ...tier,
   id: tier.name.toLowerCase() as "foundation" | "edge" | "floor"
 }));
@@ -20,8 +22,8 @@ export default function AustralianPricingPage() {
   const handleSubscribe = async (tierId: string) => {
     setLoadingTier(tierId);
     try {
-      const plan = (AU_PRICING as any)[tierId];
-      const stripePriceId = plan.stripePriceId;
+      const planConfig = (AU_CONFIG as any)[tierId];
+      const stripePriceId = planConfig.stripePriceId;
 
       const response = await fetch("/api/stripe/checkout", {
         method: "POST",
@@ -80,7 +82,7 @@ export default function AustralianPricingPage() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
           {tiers.map((tier) => {
-            const plan = (AU_PRICING as any)[tier.id];
+            const planConfig = (AU_CONFIG as any)[tier.id];
             return (
               <div 
                 key={tier.id}
@@ -105,7 +107,7 @@ export default function AustralianPricingPage() {
                   </p>
                   <div className="flex items-baseline gap-2">
                     <span className="text-5xl font-sans font-black text-text-primary">
-                      A${billingCycle === 'monthly' ? plan.price : Math.floor(parseInt(plan.price) * 10 * 0.8 / 12)}
+                      A${billingCycle === 'monthly' ? planConfig.price : Math.floor(parseInt(planConfig.price) * 10 * 0.8 / 12)}
                     </span>
                     <span className="text-text-tertiary text-sm font-mono uppercase tracking-widest">
                       /mo

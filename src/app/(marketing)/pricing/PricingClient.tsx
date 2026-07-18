@@ -71,12 +71,17 @@ const tiers = [
   },
 ];
 
-export default function PricingPage() {
+export default function PricingPage({ floorCap = 15, activeFloorSubs = 0 }: { floorCap?: number, activeFloorSubs?: number }) {
   const [billingCycle, setBillingCycle] = useState<"monthly" | "yearly">("monthly");
   const [loadingTier, setLoadingTier] = useState<string | null>(null);
   const [hoveredTier, setHoveredTier] = useState<string | null>(null);
 
   const handleSubscribe = async (tierName: string) => {
+    if (tierName === "Floor" && activeFloorSubs >= floorCap) {
+      window.location.href = "/waitlist?tier=floor";
+      return;
+    }
+
     setLoadingTier(tierName);
     try {
       // Normalise tier name: 'Signal Centre' → 'signal-centre', 'The Floor' → 'floor'
@@ -152,6 +157,8 @@ export default function PricingPage() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
           {tiers.map((tier) => {
             const isHovered = hoveredTier === tier.name;
+            const isFloorCapped = tier.name === "Floor" && activeFloorSubs >= floorCap;
+            
             return (
               <div
                 key={tier.name}
@@ -201,6 +208,11 @@ export default function PricingPage() {
                       </span>
                       <span className="text-xs text-text-tertiary font-sans ml-1">/mo</span>
                     </div>
+                    {tier.name === "Floor" && (
+                      <p className="text-[10px] font-sans text-profit mt-1 font-semibold">
+                        Limited to {floorCap} members
+                      </p>
+                    )}
                     {(tier as any).isTrial && (
                       <p className="text-[10px] font-sans text-[#1A1A1A] mt-1 font-semibold">
                         7-day free trial · No card required
@@ -224,7 +236,7 @@ export default function PricingPage() {
                         : "bg-background-elevated/40 border border-border-slate/50 text-text-primary hover:bg-[#EEEEEE]"
                     )}
                   >
-                    {loadingTier === tier.name ? "Processing..." : tier.buttonText}
+                    {loadingTier === tier.name ? "Processing..." : isFloorCapped ? "Join Waitlist" : tier.buttonText}
                     {loadingTier !== tier.name && <ChevronRight className="w-3.5 h-3.5" />}
                   </button>
 

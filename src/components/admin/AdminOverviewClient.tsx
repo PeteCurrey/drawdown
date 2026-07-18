@@ -25,9 +25,16 @@ interface EmailSend {
 interface AdminOverviewClientProps {
   stats: Stats;
   recentSends: EmailSend[];
+  healthMetrics?: {
+    waitlistCount: number;
+    floorCap: number;
+    activeFloorSubs: number;
+    upcomingEventsMissingUrls: number;
+    isBreakdownOverdue: boolean;
+  };
 }
 
-export function AdminOverviewClient({ stats, recentSends: initialSends }: AdminOverviewClientProps) {
+export function AdminOverviewClient({ stats, recentSends: initialSends, healthMetrics }: AdminOverviewClientProps) {
   const [recentSends, setRecentSends] = useState<EmailSend[]>(initialSends);
   const [loading, setLoading] = useState<"morning" | "evening" | null>(null);
   const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
@@ -166,6 +173,34 @@ export function AdminOverviewClient({ stats, recentSends: initialSends }: AdminO
         </div>
       )}
 
+      {/* Service Delivery Health Metrics */}
+      {healthMetrics && (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="bg-white rounded-xl border border-mkt-bd p-6 flex flex-col justify-between shadow-[0_2px_8px_rgba(0,0,0,0.04)] relative overflow-hidden">
+            <div className={`absolute top-0 left-0 w-1 h-full ${healthMetrics.activeFloorSubs >= healthMetrics.floorCap ? 'bg-mkt-red' : 'bg-mkt-grn'}`} />
+            <p className="text-[10px] text-mkt-i3 uppercase tracking-widest font-mono font-bold leading-none">Floor Subs / Cap</p>
+            <p className="text-4xl font-mono font-black text-mkt-ink tracking-tight">{healthMetrics.activeFloorSubs} <span className="text-xl text-mkt-i4">/ {healthMetrics.floorCap}</span></p>
+          </div>
+          <div className="bg-white rounded-xl border border-mkt-bd p-6 flex flex-col justify-between shadow-[0_2px_8px_rgba(0,0,0,0.04)] relative overflow-hidden">
+            <div className={`absolute top-0 left-0 w-1 h-full ${healthMetrics.waitlistCount > 0 ? 'bg-mkt-amb' : 'bg-mkt-i4'}`} />
+            <p className="text-[10px] text-mkt-i3 uppercase tracking-widest font-mono font-bold leading-none">Waitlist (Unanswered)</p>
+            <p className="text-4xl font-mono font-black text-mkt-ink tracking-tight">{healthMetrics.waitlistCount}</p>
+          </div>
+          <div className="bg-white rounded-xl border border-mkt-bd p-6 flex flex-col justify-between shadow-[0_2px_8px_rgba(0,0,0,0.04)] relative overflow-hidden">
+            <div className={`absolute top-0 left-0 w-1 h-full ${healthMetrics.isBreakdownOverdue ? 'bg-mkt-red' : 'bg-mkt-grn'}`} />
+            <p className="text-[10px] text-mkt-i3 uppercase tracking-widest font-mono font-bold leading-none">Latest Breakdown</p>
+            <p className={`text-xl font-bold uppercase tracking-tight ${healthMetrics.isBreakdownOverdue ? 'text-mkt-red' : 'text-mkt-grn'}`}>
+              {healthMetrics.isBreakdownOverdue ? 'OVERDUE >8 DAYS' : 'ON TRACK'}
+            </p>
+          </div>
+          <div className="bg-white rounded-xl border border-mkt-bd p-6 flex flex-col justify-between shadow-[0_2px_8px_rgba(0,0,0,0.04)] relative overflow-hidden">
+            <div className={`absolute top-0 left-0 w-1 h-full ${healthMetrics.upcomingEventsMissingUrls > 0 ? 'bg-mkt-amb' : 'bg-mkt-grn'}`} />
+            <p className="text-[10px] text-mkt-i3 uppercase tracking-widest font-mono font-bold leading-none">Events Missing URLs</p>
+            <p className="text-4xl font-mono font-black text-mkt-ink tracking-tight">{healthMetrics.upcomingEventsMissingUrls}</p>
+          </div>
+        </div>
+      )}
+
       {/* Top Stats Strip */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {[
@@ -183,45 +218,60 @@ export function AdminOverviewClient({ stats, recentSends: initialSends }: AdminO
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Recent Sends Table */}
-        <div className="lg:col-span-2 bg-white border border-mkt-bd p-6 rounded-xl space-y-6 shadow-[0_2px_8px_rgba(0,0,0,0.04)]">
-          <div className="flex justify-between items-center border-b border-mkt-bd pb-4">
-            <h3 className="text-sm font-mono uppercase tracking-widest font-bold text-mkt-ink flex items-center gap-2">
-              <Mail className="w-4 h-4 text-mkt-grn" /> Recent Email Sends
-            </h3>
-            <Link href="/admin/emails" className="text-[10px] font-mono uppercase tracking-widest text-mkt-grn hover:text-mkt-i2 hover:underline">
-              View History &rarr;
-            </Link>
+        <div className="lg:col-span-2 space-y-8">
+          <div className="bg-white border border-mkt-bd p-6 rounded-xl shadow-[0_2px_8px_rgba(0,0,0,0.04)]">
+            <div className="flex justify-between items-center border-b border-mkt-bd pb-4 mb-4">
+              <h3 className="text-sm font-mono uppercase tracking-widest font-bold text-mkt-ink flex items-center gap-2">
+                <Mail className="w-4 h-4 text-mkt-grn" /> Recent Email Sends
+              </h3>
+              <Link href="/admin/emails" className="text-[10px] font-mono uppercase tracking-widest text-mkt-grn hover:text-mkt-i2 hover:underline">
+                View History &rarr;
+              </Link>
+            </div>
+
+            <div className="overflow-x-auto">
+              <table className="w-full text-left text-xs text-mkt-i2">
+                <thead>
+                  <tr className="border-b border-mkt-bd pb-2 text-[10px] uppercase font-mono tracking-wider text-mkt-i3">
+                    <th className="py-3 font-semibold">Date</th>
+                    <th className="py-3 font-semibold">Type</th>
+                    <th className="py-3 font-semibold">Subject</th>
+                    <th className="py-3 font-semibold">Recipients</th>
+                    <th className="py-3 font-semibold">Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {recentSends.map((send) => (
+                    <tr key={send.id} className="border-b border-mkt-bd hover:bg-neutral-50 transition-colors">
+                      <td className="py-4 font-mono text-mkt-i3">
+                        {new Date(send.generated_at).toLocaleDateString("en-GB", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" })}
+                      </td>
+                      <td className="py-4 font-semibold text-mkt-ink">{getReadableType(send.type)}</td>
+                      <td className="py-4 truncate max-w-[200px]">
+                        <Link href={`/admin/emails/${send.id}`} className="hover:underline hover:text-mkt-ink transition-colors font-medium">
+                          {send.subject}
+                        </Link>
+                      </td>
+                      <td className="py-4 font-mono">{send.recipient_count}</td>
+                      <td className="py-4">{getStatusPill(send.status)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
 
-          <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs text-mkt-i2">
-              <thead>
-                <tr className="border-b border-mkt-bd pb-2 text-[10px] uppercase font-mono tracking-wider text-mkt-i3">
-                  <th className="py-3 font-semibold">Date</th>
-                  <th className="py-3 font-semibold">Type</th>
-                  <th className="py-3 font-semibold">Subject</th>
-                  <th className="py-3 font-semibold">Recipients</th>
-                  <th className="py-3 font-semibold">Status</th>
-                </tr>
-              </thead>
-              <tbody>
-                {recentSends.map((send) => (
-                  <tr key={send.id} className="border-b border-mkt-bd hover:bg-neutral-50 transition-colors">
-                    <td className="py-4 font-mono text-mkt-i3">
-                      {new Date(send.generated_at).toLocaleDateString("en-GB", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" })}
-                    </td>
-                    <td className="py-4 font-semibold text-mkt-ink">{getReadableType(send.type)}</td>
-                    <td className="py-4 truncate max-w-[200px]">
-                      <Link href={`/admin/emails/${send.id}`} className="hover:underline hover:text-mkt-ink transition-colors font-medium">
-                        {send.subject}
-                      </Link>
-                    </td>
-                    <td className="py-4 font-mono">{send.recipient_count}</td>
-                    <td className="py-4">{getStatusPill(send.status)}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+          {/* Operating Rhythm Card */}
+          <div className="bg-white border border-mkt-bd p-6 rounded-xl shadow-[0_2px_8px_rgba(0,0,0,0.04)]">
+            <h3 className="text-sm font-mono uppercase tracking-widest font-bold text-mkt-ink border-b border-mkt-bd pb-4 mb-4">
+              Operating Rhythm
+            </h3>
+            <div className="prose prose-sm text-mkt-i2">
+              <p><strong>Daily (M-F):</strong> 7:00am Morning Brief (Automated via Trigger), 5:30pm Evening Wrap.</p>
+              <p><strong>Weekly:</strong> Record & publish the <em>Weekly Market Breakdown</em> video every Sunday.</p>
+              <p><strong>Monthly:</strong> Host live <em>Q&A Masterclass</em> for Edge & Floor members.</p>
+              <p><strong>Ongoing:</strong> Respond to Cal.com 1-to-1 mentorship bookings for Floor members.</p>
+            </div>
           </div>
         </div>
 

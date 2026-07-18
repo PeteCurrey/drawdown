@@ -24,6 +24,7 @@ import {
   ShieldCheck,
   Terminal,
   Settings,
+  Calendar,
   Bell,
   Newspaper,
   Building2,
@@ -43,10 +44,13 @@ const mainNavLinks = [
   { name: "Overview",            href: "/dashboard",                           icon: LayoutDashboard },
   { name: "Market Intelligence",  href: "/dashboard/market-intelligence",        icon: Brain },
   { name: "Curriculum",          href: "/dashboard/curriculum",                icon: Library },
+  { name: "Weekly Breakdowns",   href: "/dashboard/breakdowns",                icon: Video },
+  { name: "Live Events",         href: "/dashboard/events",                    icon: Calendar },
+  { name: "1-to-1 Mentorship",   href: "/dashboard/mentorship",                icon: UserCircle },
   { name: "AI Trade Journal",    href: "/dashboard/journal",                   icon: FileText },
   { name: "Risk Calculator",     href: "/dashboard/tools/position-sizer",      icon: Calculator },
   { name: "Market Scanner",      href: "/dashboard/tools/technical-scanner",   icon: ScanSearch },
-  { name: "Strategy Backtester",  href: "/dashboard/tools/backtester",          icon: Code }, // Representing flask/backtester
+  { name: "Strategy Backtester",  href: "/dashboard/tools/backtester",          icon: Code },
   { name: "Algo Builder",        href: "/dashboard/tools/algo-builder",        icon: Terminal },
   { name: "Signal Centre",       href: "/dashboard/signal-centre",             icon: Zap },
 ];

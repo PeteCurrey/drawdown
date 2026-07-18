@@ -100,13 +100,13 @@ export default async function HowToPage({ params }: Props) {
     totalTime: toIsoDuration(page.estimatedTime || page.readingTime),
     ...(page.prerequisites && page.prerequisites.length > 0
       ? {
-          supply: page.prerequisites.map((p) => ({
+          supply: page.prerequisites.map((p: any) => ({
             "@type": "HowToSupply",
             name: p,
           })),
         }
       : {}),
-    step: page.steps.map((step, i) => ({
+    step: page.steps.map((step: any, i: number) => ({
       "@type": "HowToStep",
       position: i + 1,
       name: step.title,
@@ -121,7 +121,7 @@ export default async function HowToPage({ params }: Props) {
       ? {
           "@context": "https://schema.org",
           "@type": "FAQPage",
-          mainEntity: page.faqs.map((f) => ({
+          mainEntity: page.faqs.map((f: any) => ({
             "@type": "Question",
             name: f.question,
             acceptedAnswer: { "@type": "Answer", text: f.answer },
@@ -243,7 +243,7 @@ export default async function HowToPage({ params }: Props) {
 
           {/* Steps */}
           <div className="space-y-24 mb-24">
-            {page.steps.map((step, index) => (
+            {page.steps.map((step: any, index: number) => (
               <section key={step.title} className="relative group">
                 <div className="absolute -left-12 top-0 text-8xl font-sans font-black text-profit select-none transition-colors group-hover:text-profit">
                   0{index + 1}
@@ -279,7 +279,7 @@ export default async function HowToPage({ params }: Props) {
                 <h3 className="text-xs font-mono uppercase font-bold tracking-[0.3em]">Common Mistakes to Avoid</h3>
               </div>
               <ul className="grid md:grid-cols-2 gap-6">
-                {page.commonMistakes.map((mistake, i) => (
+                {page.commonMistakes.map((mistake: string, i: number) => (
                   <li key={i} className="flex items-start space-x-3 text-sm text-text-secondary">
                     <span className="text-red-500 font-bold mt-0.5">/</span>
                     <span>{mistake}</span>
@@ -310,7 +310,7 @@ export default async function HowToPage({ params }: Props) {
             <section className="mb-24 space-y-12">
               <h2 className="text-4xl font-sans font-bold uppercase text-text-primary">Questions & Answers.</h2>
               <div className="space-y-4">
-                {page.faqs.map((faq) => (
+                {page.faqs.map((faq: any) => (
                   <div
                     key={faq.question}
                     className="border border-border-slate/50 p-8 hover:border-border-slate/70 transition-colors"

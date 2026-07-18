@@ -23,13 +23,16 @@ import {
 
 const NAV_ITEMS = [
   { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
+  { href: "/admin/revenue", label: "Revenue & MRR", icon: Target },
+  { href: "/admin/members", label: "Members Roster", icon: Users },
+  { href: "/admin/events", label: "Live Events", icon: MessageSquare },
+  { href: "/admin/content", label: "Content Delivery", icon: BookOpen },
   { href: "/admin/emails", label: "Emails History", icon: Mail },
-  { href: "/admin/subscribers", label: "Subscribers", icon: Users },
+  { href: "/admin/subscribers", label: "Email Subscribers", icon: Users },
   { href: "/admin/blog", label: "Blog Manager", icon: FileText },
   { href: "/admin/intelligence", label: "Intelligence Suite", icon: Brain },
   { href: "/admin/leads", label: "Leads Inbox", icon: Inbox },
   { href: "/admin/partners", label: "Partners", icon: Network },
-  { href: "/admin/content", label: "Content & Institutes", icon: BookOpen },
   { href: "/admin/marketing", label: "Marketing & SEO", icon: Target },
   { href: "/admin/affiliates", label: "Affiliate Manager", icon: Link2 },
   { href: "/admin/landing-pages", label: "Landing Pages", icon: LayoutTemplate },

@@ -21,15 +21,34 @@ export default function RevenueDashboardPage() {
   const [partners, setPartners] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [totalRevenue, setTotalRevenue] = useState(0);
+  const [mrr, setMrr] = useState(0);
 
   useEffect(() => {
     const fetchRevenue = async () => {
       const supabase = createClient();
+      
+      // Fetch Affiliate Revenue
       const { data } = await supabase.from('revenue_by_partner').select('*').order('total_revenue', { ascending: false });
       if (data) {
         setPartners(data);
         setTotalRevenue(data.reduce((sum: number, p: any) => sum + Number(p.total_revenue), 0));
       }
+      
+      // Calculate estimated MRR from active subscriptions (Foundation: 0, Edge: 49, Floor: 99)
+      const { data: profiles } = await supabase
+        .from('profiles')
+        .select('subscription_tier')
+        .eq('subscription_status', 'active');
+        
+      if (profiles) {
+        let estimatedMrr = 0;
+        profiles.forEach((p: any) => {
+          if (p.subscription_tier === 'edge') estimatedMrr += 49;
+          if (p.subscription_tier === 'floor') estimatedMrr += 99;
+        });
+        setMrr(estimatedMrr);
+      }
+      
       setLoading(false);
     };
     fetchRevenue();
@@ -40,7 +59,7 @@ export default function RevenueDashboardPage() {
       <header className="flex justify-between items-end">
         <div>
           <h1 className="text-3xl font-display font-bold uppercase mb-1">Financial <span className="text-accent italic">Operations.</span></h1>
-          <p className="text-xs text-text-tertiary font-mono uppercase tracking-widest">// Affiliate Revenue & Conversion Tracking</p>
+          <p className="text-xs text-text-tertiary font-mono uppercase tracking-widest">// Subscription MRR & Affiliate Revenue</p>
         </div>
         <div className="flex gap-4">
            <button className="px-6 py-3 border border-border-slate text-[10px] font-bold uppercase tracking-widest hover:bg-background-elevated transition-all flex items-center gap-2">
@@ -60,23 +79,23 @@ export default function RevenueDashboardPage() {
             <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:scale-110 transition-transform">
                <TrendingUp className="w-16 h-16" />
             </div>
-            <p className="text-[10px] font-mono uppercase text-text-tertiary tracking-widest mb-4">Gross Revenue</p>
+            <p className="text-[10px] font-mono uppercase text-text-tertiary tracking-widest mb-4">Total MRR (Estimated)</p>
             <h2 className="text-5xl font-display font-black uppercase text-profit">
-               {formatCurrency(totalRevenue, 'GBP')}
+               {formatCurrency(mrr, 'GBP')}
             </h2>
             <div className="mt-4 flex items-center gap-2 text-[10px] font-mono text-profit">
                <ArrowUpRight className="w-3 h-3" />
-               <span>+14.2% from last month</span>
+               <span>Live from Active Subscriptions</span>
             </div>
          </div>
 
          <div className="p-8 bg-background-surface border border-border-slate relative overflow-hidden group">
-            <p className="text-[10px] font-mono uppercase text-text-tertiary tracking-widest mb-4">Avg Commission Rate</p>
+            <p className="text-[10px] font-mono uppercase text-text-tertiary tracking-widest mb-4">Gross Affiliate Revenue</p>
             <h2 className="text-5xl font-display font-black uppercase text-text-primary">
-               12.5%
+               {formatCurrency(totalRevenue, 'GBP')}
             </h2>
             <div className="mt-4 flex items-center gap-2 text-[10px] font-mono text-text-tertiary">
-               <span>Across 8 active partners</span>
+               <span>Across active partners</span>
             </div>
          </div>
 

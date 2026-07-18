@@ -450,6 +450,10 @@ export function MarketIntelligenceHeroCard({
   const biasLabel   = isBullish ? "BULLISH BIAS" : "BEARISH BIAS";
   const arcOffset   = pctToOffset(arcPct);
   const tipPos      = arcTipPos(arcPct);
+  const openAlerts: OpenAlert[] = [
+    { label: "Technical", count: liveFeedItems.filter(f => f.type === "alert").length, color: "orange" },
+    { label: "Events", count: liveFeedItems.filter(f => f.type === "event").length, color: "green" }
+  ];
   const visibleAlerts = openAlerts.filter(a => a.count > 0);
 
   // ── Inline keyframe injection (once) ─────────────────────────────────────
@@ -629,7 +633,7 @@ export function MarketIntelligenceHeroCard({
                 Open Alerts
               </p>
               <div className="flex gap-2 flex-wrap">
-                {visibleAlerts.map(alert => (
+                {visibleAlerts.map((alert: OpenAlert) => (
                   <div
                     key={alert.label}
                     className="flex-1 min-w-[56px] rounded-lg py-2 px-3 text-center"

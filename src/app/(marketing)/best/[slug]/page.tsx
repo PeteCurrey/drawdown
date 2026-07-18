@@ -70,13 +70,13 @@ export default async function BestOfPage({ params }: Props) {
   }
 
   // Map the SEO reviews to full broker-like objects for the template
-  const detailedBrokers = (page.reviews || []).map(review => {
+  const detailedBrokers = (page.reviews || []).map((review: any) => {
     const baseBroker = brokers.find(b => b.id === review.id);
     
     // Create a fallback object if the item is a prop firm or trading tool
     const fallbackItem = {
       id: review.id,
-      name: review.id.split("-").map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(" "),
+      name: review.id.split("-").map((w: string) => w.charAt(0).toUpperCase() + w.slice(1)).join(" "),
       slug: review.id,
       logo: `/logos/${review.id}.svg`,
       oneLine: review.bestFor,

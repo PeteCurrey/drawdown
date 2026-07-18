@@ -20,7 +20,33 @@ import { GSAPReveal } from "@/components/animations/GSAPReveal";
 import { phases } from "@/data/courses";
 import JsonLd from "@/components/seo/JsonLd";
 
-export default function Home() {
+import { createInternalSupabase } from "@/lib/supabase/server";
+
+export default async function Home() {
+  const supabase = createInternalSupabase();
+
+  let floorCap = 15;
+  try {
+    const { data } = await supabase
+      .from('platform_settings')
+      .select('setting_value')
+      .eq('setting_key', 'floor_cap')
+      .single();
+    if (data?.setting_value) {
+      floorCap = parseInt(data.setting_value as string, 10);
+    }
+  } catch(e) {}
+
+  let activeFloorSubs = 0;
+  try {
+    const { count } = await supabase
+      .from('profiles')
+      .select('*', { count: 'exact', head: true })
+      .eq('subscription_tier', 'floor')
+      .eq('subscription_status', 'active');
+    activeFloorSubs = count || 0;
+  } catch(e) {}
+
   return (
     <div className="flex flex-col">
       <TrackPageView path="/" />
@@ -141,7 +167,7 @@ export default function Home() {
       </FadeInSection>
 
       <FadeInSection delay={0.1}>
-        <PricingSection />
+        <PricingSection floorCap={floorCap} activeFloorSubs={activeFloorSubs} />
       </FadeInSection>
 
       <FadeInSection delay={0.2}>

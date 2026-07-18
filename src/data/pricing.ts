@@ -11,39 +11,33 @@ export interface PricingTier {
 }
 
 export const GET_DEFAULT_FEATURES = () => [
-  { name: "Full Course Library", included: true },
-  { name: "Weekly Video Market Breakdowns", included: true },
+  { name: "Full Course Library (Phase 1 complete — new phases added as released)", included: true },
+  { name: "Weekly Video Market Breakdowns (Coming Soon)", included: false },
   { name: "Trade Journal (Manual)", included: true },
-  { name: "Position Sizer", included: true },
+  { name: "Position Size Calculator", included: true },
   { name: "Intelligence Hub", included: true },
   { name: "Technical Charts", included: true },
   { name: "Community Discord Access", included: true },
   { name: "The Wire (Daily Edition)", included: true },
-  { name: "AI Trade Journal (Coming Q1 2026)", included: false },
-  { name: "AI Market Scanner (Coming Q1 2026)", included: false },
-  { name: "Strategy Backtester (Coming Q1 2026)", included: false },
-  { name: "Algo Strategy Builder (Coming Q1 2026)", included: false },
 ];
 
 export const GET_EDGE_FEATURES = () => [
   { name: "Everything in Foundation", included: true },
   { name: "AI Trade Journal (Coming Q1 2026)", included: false },
-  { name: "AI Market Scanner (Coming Q1 2026)", included: false },
-  { name: "Strategy Backtester (Coming Q1 2026)", included: false },
-  { name: "Daily Live Trading Sessions (Coming Q1 2026)", included: false },
-  { name: "Bi-weekly Group Mentorship (Coming Q1 2026)", included: false },
+  { name: "AI Market Scanner & Alerting", included: true },
+  { name: "AI Strategy Backtester", included: true },
+  { name: "AI Daily Briefing", included: true },
+  { name: "Monthly Live Group Q&A (Coming Soon)", included: false },
   { name: "Advanced Strategy Modules (Coming Q1 2026)", included: false },
 ];
 
 export const GET_FLOOR_FEATURES = () => [
   { name: "Everything in Edge", included: true },
-  { name: "Algo Strategy Builder (Coming Q1 2026)", included: false },
-  { name: "Monthly 1-to-1 Mentorship (45m) (Coming Q1 2026)", included: false },
+  { name: "Monthly 1-to-1 Session (45m) with Pete (Coming Soon)", included: false },
+  { name: "Quarterly Small-Group Masterclass (Coming Soon)", included: false },
   { name: "Custom AI Portfolio Analysis (Coming Q1 2026)", included: false },
-  { name: "Private Small-Group Masterclasses (Coming Q1 2026)", included: false },
   { name: "Early Access to New Tools (Coming Q1 2026)", included: false },
-  { name: "Quarterly Strategy Review Calls (Coming Q1 2026)", included: false },
-  { name: "Direct Discord Access to Founder (Coming Q1 2026)", included: false },
+  { name: "Direct Discord Access to Founder", included: true },
 ];
 
 export const REGIONAL_PRICING: Record<Region, PricingTier[]> = {

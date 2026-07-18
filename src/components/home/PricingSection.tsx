@@ -33,7 +33,7 @@ const tiers = [
   },
 ];
 
-export function PricingSection() {
+export function PricingSection({ floorCap = 15, activeFloorSubs = 0 }: { floorCap?: number, activeFloorSubs?: number }) {
   const [billingCycle, setBillingCycle] = useState<"monthly" | "yearly">("monthly");
   const [loadingTier, setLoadingTier] = useState<string | null>(null);
   const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
@@ -79,6 +79,11 @@ export function PricingSection() {
   };
 
   const handleSubscribe = async (tierId: string, priceId: string) => {
+    if (tierId === "floor" && activeFloorSubs >= floorCap) {
+      window.location.href = "/waitlist?tier=floor";
+      return;
+    }
+
     setLoadingTier(tierId);
     try {
       const response = await fetch("/api/stripe/checkout", {
@@ -161,6 +166,7 @@ export function PricingSection() {
             const { price, symbol, priceId } = getPlanDetails(tier.id);
             const isEdge = tier.id === "edge";
             const isHovered = hoveredIdx === idx;
+            const isFloorCapped = tier.id === "floor" && activeFloorSubs >= floorCap;
             
             // Subtle, corporate theme styling details
             const cardTheme = tier.id === "foundation" 
@@ -238,6 +244,11 @@ export function PricingSection() {
                         /mo
                       </span>
                     </div>
+                    {tier.id === "floor" && (
+                      <p className="text-[10px] font-sans text-amber-600 mt-2 font-bold">
+                        Strictly limited to {floorCap} active members
+                      </p>
+                    )}
                   </div>
 
                   {/* CTA button */}
@@ -251,7 +262,7 @@ export function PricingSection() {
                         : "bg-white border border-mkt-bd text-mkt-ink hover:border-mkt-ink"
                     )}
                   >
-                    {loadingTier === tier.id ? "Processing..." : tier.buttonText}
+                    {loadingTier === tier.id ? "Processing..." : isFloorCapped ? "Join Waitlist" : tier.buttonText}
                   </button>
 
                   {/* Features List */}

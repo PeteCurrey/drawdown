@@ -392,7 +392,7 @@ export default function DashboardPage() {
         instruments={INSTRUMENTS_LIST}
         initialInstrument={INSTRUMENTS_LIST[0]}
         selectedInterval={selectedInterval}
-        todayTradeCount={fetchedTrades.filter((t: any) => {
+        todayTradeCount={trades.filter((t: any) => {
           const entry = new Date(t.entry_time);
           const today = new Date();
           return entry.toDateString() === today.toDateString();

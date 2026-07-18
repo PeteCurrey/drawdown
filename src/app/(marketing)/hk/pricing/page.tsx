@@ -4,11 +4,39 @@ import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { Check, X, Shield, Activity, TrendingUp } from "lucide-react";
 import { REGIONAL_PRICING } from "@/lib/regions";
+import { GET_DEFAULT_FEATURES, GET_EDGE_FEATURES, GET_FLOOR_FEATURES } from "@/data/pricing";
 import Link from "next/link";
 
-const HK_PRICING = REGIONAL_PRICING.hk;
+const HK_PRICING = REGIONAL_PRICING.HK;
 
-const tiers = HK_PRICING.map(tier => ({
+const baseTiers = [
+  {
+    name: "Foundation",
+    description: "For beginners building their knowledge base.",
+    buttonText: "Start Foundation",
+    highlight: false,
+    borderColor: "border-border-slate/50",
+    features: GET_DEFAULT_FEATURES(),
+  },
+  {
+    name: "Edge",
+    description: "For active traders seeking AI-powered edge.",
+    buttonText: "Join Edge",
+    highlight: true,
+    borderColor: "border-accent",
+    features: GET_EDGE_FEATURES(),
+  },
+  {
+    name: "Floor",
+    description: "Direct access and bespoke strategy analysis.",
+    buttonText: "Apply for Floor",
+    highlight: false,
+    borderColor: "border-premium",
+    features: GET_FLOOR_FEATURES(),
+  }
+];
+
+const tiers = baseTiers.map(tier => ({
   ...tier,
   id: tier.name.toLowerCase() as "foundation" | "edge" | "floor"
 }));
@@ -79,7 +107,7 @@ export default function HongKongPricingPage() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
-          {tiers.map((tier) => {
+          {tiers.map((tier: any) => {
             const plan = (HK_PRICING as any)[tier.id];
             return (
               <div 
@@ -128,7 +156,7 @@ export default function HongKongPricingPage() {
 
                 <div className="space-y-4">
                   <p className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary mb-6">Regional Inclusions</p>
-                  {tier.features.map((feature, i) => (
+                  {tier.features.map((feature: any, i: number) => (
                     <div key={i} className="flex items-start gap-3">
                       {feature.included ? (
                         <Check className="w-4 h-4 text-profit shrink-0" />

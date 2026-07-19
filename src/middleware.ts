@@ -45,14 +45,22 @@ export default async function middleware(request: NextRequest) {
 
   const path = request.nextUrl.pathname;
 
-  // SEO Audit Phase 1 — Return 410 Gone for retired/unsupported regional city pages and glossary
+  // SEO Audit Phase 1 — Return 410 Gone for retired/unsupported regional city pages and specific retired glossary slugs
+  // IMPORTANT: Only the 4 slugs below are genuinely retired. All other /glossary/[slug] paths must
+  // reach the page component — do NOT add a broad glossary catch-all here.
   const pathParts = path.split("/").filter(Boolean);
+  const RETIRED_GLOSSARY_SLUGS = new Set([
+    "fundamental-analysis",
+    "backwardation",
+    "spot-price",
+    "probability",
+  ]);
   if (
     (pathParts[0] === "sg" && pathParts[1] === "learn-to-trade" && pathParts.length === 4) ||
     (pathParts[0] === "hk" && pathParts[1] === "learn-to-trade" && pathParts.length === 4) ||
     (pathParts[0] === "us" && pathParts[1] === "best" && pathParts.length === 3) ||
     (pathParts[0] === "us" && pathParts[1] === "how-to" && pathParts.length === 3) ||
-    (pathParts[0] === "glossary" && pathParts.length === 2)
+    (pathParts[0] === "glossary" && pathParts.length === 2 && RETIRED_GLOSSARY_SLUGS.has(pathParts[1]))
   ) {
     return new NextResponse(null, { status: 410, statusText: "Gone" });
   }

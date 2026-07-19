@@ -1,4 +1,4 @@
-import { notFound, redirect } from "next/navigation";
+import { redirect } from "next/navigation";
 import { HOW_TO_PAGES } from "@/data/seo/howto";
 import { Metadata } from "next";
 import Link from "next/link";
@@ -7,9 +7,9 @@ import { ChevronRight, Clock, AlertTriangle, ArrowRight, BookOpen } from "lucide
 import { TrackPageView } from "@/components/admin/TrackPageView";
 import { DifficultyBadge } from "@/components/how-to/DifficultyBadge";
 import { Prerequisites } from "@/components/how-to/Prerequisites";
-import { createClient } from "@/lib/supabase/server";
+import { createInternalSupabase } from "@/lib/supabase/server";
 
-export const dynamicParams = false;
+export const dynamicParams = true;
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -32,61 +32,88 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  
-  const supabase = await createClient();
-  const { data: dynamicPage } = await supabase
-    .from('seo_pages')
-    .select('*')
-    .eq('slug', slug)
-    .eq('page_type', 'how-to')
-    .single();
 
-  const page = dynamicPage 
-    ? { 
-        title: dynamicPage.title, 
+  try {
+    const supabase = createInternalSupabase();
+    const { data: dynamicPage } = await supabase
+      .from('seo_pages')
+      .select('title, seo_description, content')
+      .eq('slug', slug)
+      .eq('page_type', 'how-to')
+      .eq('is_published', true)
+      .maybeSingle();
+
+    if (dynamicPage) {
+      const page = {
+        title: dynamicPage.title,
         metaTitle: dynamicPage.content?.metaTitle,
         metaDescription: dynamicPage.seo_description,
-        heroImage: dynamicPage.content?.heroImage
-      }
-    : HOW_TO_PAGES.find((p) => p.slug === slug);
+        heroImage: dynamicPage.content?.heroImage,
+      };
+      return {
+        title: page.metaTitle || page.title,
+        description: page.metaDescription,
+        alternates: { canonical: `https://drawdown.trading/how-to/${slug}` },
+        openGraph: {
+          title: page.metaTitle || page.title,
+          description: page.metaDescription,
+          ...(page.heroImage ? { images: [{ url: page.heroImage.src, alt: page.heroImage.alt }] } : {}),
+        },
+      };
+    }
+  } catch {
+    // Supabase unavailable — fall through to static data
+  }
 
-  if (!page) return {};
+  const staticPage = HOW_TO_PAGES.find((p) => p.slug === slug);
+  if (!staticPage) return {};
 
   return {
-    title: page.metaTitle || page.title,
-    description: page.metaDescription,
-    alternates: {
-      canonical: `https://drawdown.trading/how-to/${slug}`,
-    },
+    title: (staticPage as any).metaTitle || staticPage.title,
+    description: staticPage.metaDescription,
+    alternates: { canonical: `https://drawdown.trading/how-to/${slug}` },
     openGraph: {
-      title: page.metaTitle || page.title,
-      description: page.metaDescription,
-      ...(page.heroImage ? { images: [{ url: page.heroImage.src, alt: page.heroImage.alt }] } : {}),
+      title: (staticPage as any).metaTitle || staticPage.title,
+      description: staticPage.metaDescription,
+      ...((staticPage as any).heroImage ? { images: [{ url: (staticPage as any).heroImage.src, alt: (staticPage as any).heroImage.alt }] } : {}),
     },
   };
 }
 
 export default async function HowToPage({ params }: Props) {
   const { slug } = await params;
-  
-  const supabase = await createClient();
-  const { data: dynamicPage } = await supabase
-    .from('seo_pages')
-    .select('*')
-    .eq('slug', slug)
-    .eq('page_type', 'how-to')
-    .single();
 
-  const page = dynamicPage 
-    ? {
+  // ── 1. Try Supabase for a published dynamic page ─────────────────────────
+  let page: any = null;
+  try {
+    const supabase = createInternalSupabase();
+    const { data: dynamicPage } = await supabase
+      .from('seo_pages')
+      .select('*')
+      .eq('slug', slug)
+      .eq('page_type', 'how-to')
+      .eq('is_published', true)
+      .maybeSingle();
+
+    if (dynamicPage && dynamicPage.content) {
+      page = {
         slug: dynamicPage.slug,
         title: dynamicPage.title,
         metaDescription: dynamicPage.seo_description,
         updatedAt: dynamicPage.updated_at,
-        ...dynamicPage.content
-      } as any
-    : HOW_TO_PAGES.find((p) => p.slug === slug);
+        ...dynamicPage.content,
+      };
+    }
+  } catch {
+    // Supabase unavailable — fall through to static data
+  }
 
+  // ── 2. Try static fallback data ──────────────────────────────────────────
+  if (!page) {
+    page = HOW_TO_PAGES.find((p) => p.slug === slug) || null;
+  }
+
+  // ── 3. Neither — redirect to hub. Unconditional. ─────────────────────────
   if (!page) {
     redirect('/learn-to-trade');
   }

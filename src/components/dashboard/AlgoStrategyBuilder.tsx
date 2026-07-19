@@ -383,12 +383,12 @@ Current Language Target: ${language === "pinescript" ? "Pine Script v5 (TradingV
 
 Rules:
 1. Only output the code. No conversational filler.
-2. Ensure the code is bug-free and follows institutional best practices (e.g., proper risk management, variable naming).
+2. Ensure the code is bug-free and follows professional best practices (e.g., proper risk management, variable naming).
 3. If the user's logic is fundamentally flawed (e.g., look-ahead bias), include a comment in the code explaining why.
 4. For Pine Script, always start with '//@version=5' and use 'strategy()' call.
 5. For Python, assume the 'backtrader' library is used.
 
-Institutional Tone: Direct, efficient, and focused on risk.`;
+Tone: Direct, efficient, and focused on risk.`;
 
     try {
       const stream = await streamAnalysis(
@@ -542,7 +542,7 @@ Institutional Tone: Direct, efficient, and focused on risk.`;
           <div className="space-y-2">
             <h4 className="text-sm font-display font-bold uppercase text-premium">Floor Tier Required</h4>
             <p className="text-xs text-text-secondary leading-relaxed">
-              The Algo Strategy Builder is an institutional tool reserved for **Floor** tier members. Upgrade your account to access our Edge Engine v2.0, execute sandboxed backtests, and export customized Python scripts.
+              The Algo Strategy Builder is a professional tool reserved for **Floor** tier members. Upgrade your account to access our Edge Engine v2.0, execute sandboxed backtests, and export customized Python scripts.
             </p>
             <button className="mt-4 px-6 py-2 bg-premium text-background-primary text-[10px] font-bold uppercase tracking-widest hover:invert transition-all">
               Upgrade to Floor

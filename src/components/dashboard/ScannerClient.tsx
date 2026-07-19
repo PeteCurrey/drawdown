@@ -10,14 +10,11 @@ import {
   Calculator,
 } from "lucide-react";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell, ReferenceLine } from "recharts";
-import { cn } from "@/lib/utils";
+import { cn, getAgentBias, isBiasBullish, isBiasBearish } from "@/lib/utils";
 import { TradingViewMiniChart } from "@/components/markets/TradingViewMiniChart";
 import { TradingViewTechnicalWidget } from "@/components/market/TradingViewTechnicalWidget";
 import { TradingViewWidget } from "@/components/dashboard/TradingViewWidget";
-import { useTwelveData } from "@/hooks/useTwelveData";
-import { useTechnicalData } from "@/hooks/useTechnicalData";
-import type { InstrumentData } from "@/hooks/useTwelveData";
-import type { TechnicalSummary, Signal, Consensus, TimeframeRow } from "@/hooks/useTechnicalData";
+import { useMarketCache } from "@/hooks/useMarketCache";
 import { CENTRAL_BANK_RATES, STATIC_RATES_UPDATED } from "@/data/centralBankRates";
 import { CFTC_CODES } from "@/data/cftcCodes";
 
@@ -141,14 +138,14 @@ function getInstrumentSession(inst: ScannerInstrument, activeSessions: string[])
   return activeSessions.join(" / ");
 }
 
-function calcSetupScore(data: InstrumentData, tech: TechnicalSummary): number {
+function calcSetupScore(data: any, tech: any): number {
   if (!data.price) return 0;
   let score = 0;
   score += Math.round(((tech.totalScore + 5) / 10) * 30);
-  if (data.volumePct && data.volumePct > 100) score += Math.min(10, Math.round((data.volumePct - 100) / 10));
-  if (data.atr && data.atr > 0) score += 10;
-  if (tech.emaStack.above20 !== null) score += tech.emaStack.above20 === (tech.consensus === "BUY" || tech.consensus === "STRONG BUY") ? 8 : 0;
-  if (tech.emaStack.above50 !== null) score += tech.emaStack.above50 === (tech.consensus === "BUY" || tech.consensus === "STRONG BUY") ? 7 : 0;
+  if (data?.volumePct && data?.volumePct > 100) score += Math.min(10, Math.round((data?.volumePct - 100) / 10));
+  if (data?.atr && data?.atr > 0) score += 10;
+  if (tech?.emaStack.above20 !== null) score += tech?.emaStack.above20 === (tech?.consensus === "BUY" || tech?.consensus === "STRONG BUY") ? 8 : 0;
+  if (tech?.emaStack.above50 !== null) score += tech?.emaStack.above50 === (tech?.consensus === "BUY" || tech?.consensus === "STRONG BUY") ? 7 : 0;
   return Math.min(100, Math.max(0, score));
 }
 
@@ -242,9 +239,11 @@ function MarketStatusBar({ lastUpdated }: { lastUpdated: Date | null }) {
 // ─── Technical Tab ────────────────────────────────────────────────────────────
 
 // ─── Signals Tab ──────────────────────────────────────────────────────────────
-function SignalsTab({ tech, price, slug, tvSymbol }: { tech: TechnicalSummary; price: number | null; slug: string; tvSymbol: string }) {
+type Consensus = any;
+type Signal = any;
+function SignalsTab({ tech, price, slug, tvSymbol }: { tech: any; price: number | null; slug: string; tvSymbol: string }) {
   if (tech.loading) return <div className="p-6 text-center text-text-tertiary text-xs font-mono animate-pulse">Loading signal data…</div>;
-  if (tech.error || tech.rows.length === 0) return (
+  if (tech.error || tech?.rows.length === 0) return (
     <div className="space-y-0">
       <div className="border-b border-border-slate/20">
         <TradingViewTechnicalWidget tvSymbol={tvSymbol} isVisible />
@@ -260,7 +259,7 @@ function SignalsTab({ tech, price, slug, tvSymbol }: { tech: TechnicalSummary; p
   const s2 = keyLevels.s2, r2 = keyLevels.r2, s1 = keyLevels.s1, r1 = keyLevels.r1, pivot = keyLevels.pivot;
   const pricePct = price && s2 !== null && r2 !== null && r2 !== s2
     ? Math.max(0, Math.min(100, ((price - s2) / (r2 - s2)) * 100)) : 50;
-  const minsAgo = tech.lastUpdated ? Math.floor((Date.now() - tech.lastUpdated.getTime()) / 60000) : null;
+  const minsAgo = tech.fetched_at ? Math.floor((Date.now() - new Date(tech.fetched_at).getTime()) / 60000) : null;
 
   // Entry zone suggestion
   const entryZone = totalScore > 2 && s1 !== null && pivot !== null
@@ -298,7 +297,7 @@ function SignalsTab({ tech, price, slug, tvSymbol }: { tech: TechnicalSummary; p
             </tr>
           </thead>
           <tbody className="divide-y divide-border-slate/10">
-            {rows.map(row => (
+            {rows.map((row: any) => (
               <tr key={row.tf} className="hover:bg-background-elevated/40 transition-colors">
                 <td className="py-1.5 text-text-secondary font-semibold">{row.label}</td>
                 <td className="text-center"><SignalArrow signal={row.maSignal} /></td>
@@ -407,14 +406,14 @@ function SignalsTab({ tech, price, slug, tvSymbol }: { tech: TechnicalSummary; p
 
 // ─── Fundamentals Tab ────────────────────────────────────────────────────────
 
-function FundamentalsTab({ inst, priceData }: { inst: ScannerInstrument; priceData: InstrumentData }) {
+function FundamentalsTab({ inst, priceData }: { inst: ScannerInstrument; priceData: any }) {
   const [events, setEvents] = useState<any[]>([]);
   const [newsItems, setNewsItems] = useState<Array<{ headline: string; source: string; sentiment: string; url: string; score: number }>>([]);
   const [loadingEvents, setLoadingEvents] = useState(true);
   const [loadingNews, setLoadingNews] = useState(true);
   const [retailData, setRetailData] = useState<{ longPct: number; shortPct: number; signal: string } | null>(null);
   const retail = retailData ?? (RETAIL_MOCK[inst.scannerSlug] ?? { longPct: 50, shortPct: 50 });
-  const vixDxy = useTwelveData(["VIX", "DXY"]);
+  const vixDxy = useMarketCache(["VIX", "DXY"]);
 
   useEffect(() => {
     setLoadingEvents(true);
@@ -474,7 +473,7 @@ function FundamentalsTab({ inst, priceData }: { inst: ScannerInstrument; priceDa
         <div className="grid grid-cols-2 gap-3">
           {[
             { label: "VIX", data: vix, color: vixColor, tag: vixLabel },
-            { label: "DXY", data: dxy, color: (dxy?.changePct ?? 0) >= 0 ? "bg-profit" : "bg-loss", tag: null },
+            { label: "DXY", data: dxy, color: (dxy?.change_pct ?? 0) >= 0 ? "bg-profit" : "bg-loss", tag: null },
           ].map(item => (
             <div key={item.label} className="bg-background-surface/60 border border-border-slate/40 rounded-lg p-3 space-y-1.5">
               <div className="flex items-center justify-between">
@@ -487,8 +486,8 @@ function FundamentalsTab({ inst, priceData }: { inst: ScannerInstrument; priceDa
               <p className="text-lg font-bold font-mono text-text-primary">
                 {item.data?.price ? formatPrice(item.data.price, item.label) : <span className="animate-pulse">—</span>}
               </p>
-              <p className={cn("text-[10px] font-mono", (item.data?.changePct ?? 0) >= 0 ? "text-profit" : "text-loss")}>
-                {item.data?.changePct != null ? `${item.data.changePct >= 0 ? "+" : ""}${item.data.changePct.toFixed(2)}%` : "—"}
+              <p className={cn("text-[10px] font-mono", (item.data?.change_pct ?? 0) >= 0 ? "text-profit" : "text-loss")}>
+                {item.data?.change_pct != null ? `${item.data.change_pct >= 0 ? "+" : ""}${item.data.change_pct.toFixed(2)}%` : "—"}
               </p>
             </div>
           ))}
@@ -594,7 +593,7 @@ function FundamentalsTab({ inst, priceData }: { inst: ScannerInstrument; priceDa
           </div>
           {retail.longPct > 70 && (
             <p className="text-[9px] font-mono text-warning flex items-center gap-1">
-              <AlertTriangle className="w-3 h-3" /> Retail crowded LONG — institutional may fade this move
+              <AlertTriangle className="w-3 h-3" /> Retail crowded LONG — market may fade this move
             </p>
           )}
           {retail.shortPct > 70 && (
@@ -693,7 +692,7 @@ function ScoreBar({ score, color }: { score: number; color: string }) {
   );
 }
 
-function AIBriefTab({ inst, tech, data }: { inst: ScannerInstrument; tech: TechnicalSummary; data: InstrumentData }) {
+function AIBriefTab({ inst, tech, data }: { inst: ScannerInstrument; tech: any; data: any }) {
   const [brief, setBrief] = useState<DebateResult | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
@@ -716,7 +715,7 @@ function AIBriefTab({ inst, tech, data }: { inst: ScannerInstrument; tech: Techn
 
   useEffect(() => { load(); }, [load]);
 
-  const dataPoints = [tech.rows.length * 3, tech.emaStack.ema20 ? 3 : 0, 20].reduce((a, b) => a + b, 0);
+  const dataPoints = [tech?.rows.length * 3, tech?.emaStack.ema20 ? 3 : 0, 20].reduce((a, b) => a + b, 0);
 
   if (loading) return (
     <div className="p-6 space-y-3">
@@ -748,7 +747,7 @@ function AIBriefTab({ inst, tech, data }: { inst: ScannerInstrument; tech: Techn
   );
 
   const s = brief.synthesis;
-  const biasColor = s.consensus_bias === "BULLISH" ? "text-profit" : s.consensus_bias === "BEARISH" ? "text-loss" : s.consensus_bias === "CONTESTED" ? "text-warning" : "text-text-tertiary";
+  const biasColor = s?.consensus_bias === "BULLISH" ? "text-profit" : s?.consensus_bias === "BEARISH" ? "text-loss" : s?.consensus_bias === "CONTESTED" ? "text-warning" : "text-text-tertiary";
   const sq = s.setup_quality_score ?? 0;
   const agentBorders: Record<string, string> = { cyan: "border-l-accent", green: "border-l-profit", blue: "border-l-blue-400" };
   const agentList = [brief.agents.technician, brief.agents.strategist, brief.agents.sentiment];
@@ -779,7 +778,7 @@ function AIBriefTab({ inst, tech, data }: { inst: ScannerInstrument; tech: Techn
         <div className="flex items-center gap-4 flex-wrap">
           <div className="flex items-center gap-2">
             <span className="text-[8px] font-mono text-text-tertiary uppercase">CONSENSUS</span>
-            <span className={cn("text-[11px] font-black font-mono uppercase", biasColor)}>{s.consensus_bias}</span>
+            <span className={cn("text-[11px] font-black font-mono uppercase", biasColor)}>{s?.consensus_bias}</span>
           </div>
           <div className="flex items-center gap-2">
             <span className="text-[8px] font-mono text-text-tertiary uppercase">CONVICTION</span>
@@ -838,13 +837,11 @@ function AIBriefTab({ inst, tech, data }: { inst: ScannerInstrument; tech: Techn
                   </span>
                   {agent.ok ? (
                     <span className={cn("text-[8px] font-bold font-mono uppercase",
-                      (agent.data.technical_bias ?? agent.data.flow_bias ?? agent.data.news_momentum) === "BULLISH" ||
-                      (agent.data.technical_bias ?? agent.data.flow_bias ?? agent.data.news_momentum) === "ACCELERATING"
+                      isBiasBullish(getAgentBias(agent.data))
                         ? "text-profit"
-                        : (agent.data.technical_bias ?? agent.data.flow_bias ?? agent.data.news_momentum) === "BEARISH" ||
-                          (agent.data.technical_bias ?? agent.data.flow_bias ?? agent.data.news_momentum) === "FADING"
+                        : isBiasBearish(getAgentBias(agent.data))
                         ? "text-loss" : "text-text-tertiary")}>
-                      {agent.data.technical_bias ?? agent.data.flow_bias ?? agent.data.news_momentum ?? "—"}
+                      {getAgentBias(agent.data)}
                     </span>
                   ) : (
                     <span className="text-[8px] font-mono text-text-tertiary/40">UNAVAILABLE</span>
@@ -918,7 +915,7 @@ function RetailGauge({ longPct }: { longPct: number | null }) {
   );
 }
 
-function SmartMoneyTab({ inst, data }: { inst: ScannerInstrument; data: InstrumentData }) {
+function SmartMoneyTab({ inst, data }: { inst: ScannerInstrument; data: any }) {
   const [cotData, setCotData] = useState<any>(null);
   const [macroData, setMacroData] = useState<any>(null);
   const [retailData, setRetailData] = useState<any>(null);
@@ -1145,7 +1142,7 @@ function SmartMoneyTab({ inst, data }: { inst: ScannerInstrument; data: Instrume
           <div className="bg-accent/8 border border-accent/20 rounded p-3">
             <p className="text-[9px] font-mono text-text-secondary leading-relaxed">
               <span className="text-accent font-bold">Real Yield Differential: {rateDiff !== null ? `${rateDiff > 0 ? "+" : ""}${rateDiff.toFixed(2)}%` : "N/A"}</span>
-              {rateDiff !== null && ` favours ${rateDiff > 0 ? ccy1 : ccy2}. Higher real yields attract capital flows — institutional money tends to flow toward ${rateDiff > 0 ? ccy1 : ccy2} on this differential.`}
+              {rateDiff !== null && ` favours ${rateDiff > 0 ? ccy1 : ccy2}. Higher real yields attract capital flows — capital tends to flow toward ${rateDiff > 0 ? ccy1 : ccy2} on this differential.`}
             </p>
           </div>
         </div>
@@ -1192,7 +1189,7 @@ function SmartMoneyTab({ inst, data }: { inst: ScannerInstrument; data: Instrume
 // ─── AI Tab ───────────────────────────────────────────────────────────────────
 
 function AITab({ inst, setupScore, tech, data }: {
-  inst: ScannerInstrument; setupScore: number; tech: TechnicalSummary; data: InstrumentData;
+  inst: ScannerInstrument; setupScore: number; tech: any; data: any;
 }) {
   const [patterns, setPatterns] = useState<PatternResult | null>(null);
   const [loading, setLoading] = useState(false);
@@ -1226,7 +1223,7 @@ function AITab({ inst, setupScore, tech, data }: {
     { label: "Smart Money Alignment", pts: 12, max: 25 },
     { label: "Pattern Quality",       pts: patterns?.patterns?.length ? Math.round(patterns.patterns[0]?.confidence * 20) : 0, max: 20 },
     { label: "Macro Backdrop",        pts: 10, max: 15 },
-    { label: "Volume Confirmation",   pts: data.volumePct && data.volumePct > 100 ? Math.min(10, Math.round((data.volumePct - 100) / 10)) : 0, max: 10 },
+    { label: "Volume Confirmation",   pts: data?.volumePct && data?.volumePct > 100 ? Math.min(10, Math.round((data?.volumePct - 100) / 10)) : 0, max: 10 },
   ];
 
   return (
@@ -1299,13 +1296,13 @@ function AITab({ inst, setupScore, tech, data }: {
 function InstrumentCard({
   inst, data, watchlist, onToggleWatch, alerts, onToggleAlerts, activeSessions, listView,
 }: {
-  inst: ScannerInstrument; data: InstrumentData; watchlist: string[];
+  inst: ScannerInstrument; data: any; watchlist: string[];
   onToggleWatch: (s: string) => void; alerts: AlertItem[];
   onToggleAlerts: (s: string) => void; activeSessions: string[]; listView: boolean;
 }) {
   const [expanded, setExpanded] = useState(false);
   const [tab, setTab] = useState<CardTab>("SIGNALS");
-  const tech = useTechnicalData(inst.scannerSlug, expanded);
+  const tech = useMarketCache([inst.scannerSlug])[inst.scannerSlug];
   const setupScore = calcSetupScore(data, tech);
   const watched = watchlist.includes(inst.scannerSlug);
   const alertCount = alerts.filter(a => a.slug === inst.scannerSlug).length;
@@ -1324,7 +1321,7 @@ function InstrumentCard({
     }).catch(() => {});
   }, [inst.scannerSlug]);
   const session = getInstrumentSession(inst, activeSessions);
-  const changePct = data.changePct ?? 0;
+  const changePct = data.change_pct ?? 0;
   const isUp = changePct >= 0;
 
   const sessionColor = session === "CLOSED" ? "text-text-tertiary" :
@@ -1350,11 +1347,11 @@ function InstrumentCard({
             {data.loading ? <span className="animate-pulse">—</span> : data.price ? formatPrice(data.price, inst.scannerSlug) : "—"}
           </div>
           <div className={cn("font-mono text-xs font-bold", isUp ? "text-profit" : "text-loss")}>
-            {data.changePct != null ? `${isUp ? "+" : ""}${data.changePct.toFixed(2)}%` : "—"}
+            {data.change_pct != null ? `${isUp ? "+" : ""}${data.change_pct.toFixed(2)}%` : "—"}
           </div>
-          {tech.consensus !== "NEUTRAL" && (
-            <div className={cn("border px-2 py-0.5 text-[8px] font-bold font-mono uppercase", CONSENSUS_STYLE[tech.consensus])}>
-              {tech.consensus}
+          {tech?.consensus !== "NEUTRAL" && (
+            <div className={cn("border px-2 py-0.5 text-[8px] font-bold font-mono uppercase", CONSENSUS_STYLE[tech?.consensus])}>
+              {tech?.consensus}
             </div>
           )}
           <div className={cn("text-[8px] font-mono uppercase shrink-0", sessionColor)}>{session}</div>
@@ -1381,8 +1378,8 @@ function InstrumentCard({
             </div>
           </div>
           <div className="flex items-center gap-1.5 shrink-0">
-            <div className={cn("border px-2 py-0.5 text-[7px] font-bold font-mono uppercase rounded", CONSENSUS_STYLE[tech.consensus])}>
-              {tech.consensus}
+            <div className={cn("border px-2 py-0.5 text-[7px] font-bold font-mono uppercase rounded", CONSENSUS_STYLE[tech?.consensus])}>
+              {tech?.consensus}
             </div>
           </div>
         </div>
@@ -1393,7 +1390,7 @@ function InstrumentCard({
             {data.loading ? <span className="animate-pulse text-text-tertiary">—</span> : data.price ? formatPrice(data.price, inst.scannerSlug) : "—"}
           </span>
           <span className={cn("text-xs font-bold font-mono", isUp ? "text-profit" : "text-loss")}>
-            {data.changePct != null ? `${isUp ? "+" : ""}${data.changePct.toFixed(2)}%` : ""}
+            {data.change_pct != null ? `${isUp ? "+" : ""}${data.change_pct.toFixed(2)}%` : ""}
           </span>
         </div>
         {/* Setup quality bar */}
@@ -1424,20 +1421,20 @@ function InstrumentCard({
           <div>
             <p className="text-text-tertiary mb-0.5">Spread</p>
             <p className="text-text-secondary font-bold">
-              {data.spread != null
+              {data?.spread != null
                 ? inst.scannerSlug.includes("JPY") || ["UKX","SPX","NDX","DJI"].includes(inst.scannerSlug)
-                ? data.spread.toFixed(2)
-                : (data.spread * 10000).toFixed(1) + " pips"
+                ? data?.spread.toFixed(2)
+                : (data?.spread * 10000).toFixed(1) + " pips"
                 : "—"}
             </p>
           </div>
           <div>
             <p className="text-text-tertiary mb-0.5">ATR(14)</p>
             <p className="text-text-secondary font-bold">
-              {data.atr != null
+              {data?.atr != null
                 ? inst.scannerSlug.includes("JPY") || ["UKX","SPX","NDX","DJI"].includes(inst.scannerSlug)
-                ? data.atr.toFixed(1) + " pts"
-                : (data.atr * 10000).toFixed(0) + " pips"
+                ? data?.atr.toFixed(1) + " pts"
+                : (data?.atr * 10000).toFixed(0) + " pips"
                 : "—"}
             </p>
           </div>
@@ -1457,18 +1454,18 @@ function InstrumentCard({
         )}
 
         {/* Volume bar */}
-        {data.volumePct !== null && (
+        {data?.volumePct !== null && (
           <div className="space-y-1">
             <div className="flex justify-between text-[8px] font-mono">
               <span className="text-text-tertiary uppercase">Volume</span>
-              <span className={cn(data.volumePct > 120 ? "text-amber-400" : "text-text-tertiary")}>
-                {data.volumePct}% avg
+              <span className={cn(data?.volumePct > 120 ? "text-amber-400" : "text-text-tertiary")}>
+                {data?.volumePct}% avg
               </span>
             </div>
             <div className="h-1 bg-background-elevated rounded-full overflow-hidden">
               <div className={cn("h-full rounded-full transition-all",
-                data.volumePct > 200 ? "bg-warning" : data.volumePct > 120 ? "bg-warning/70" : "bg-accent/50")}
-                style={{ width: `${Math.min(100, data.volumePct)}%` }} />
+                data?.volumePct > 200 ? "bg-warning" : data?.volumePct > 120 ? "bg-warning/70" : "bg-accent/50")}
+                style={{ width: `${Math.min(100, data?.volumePct)}%` }} />
             </div>
           </div>
         )}
@@ -1508,9 +1505,9 @@ function InstrumentCard({
                 `?symbol=${inst.scannerSlug}`,
                 `&display=${encodeURIComponent(inst.displayPair)}`,
                 `&price=${data.price.toFixed(5)}`,
-                data.atr != null ? `&atr=${data.atr.toFixed(5)}` : "",
-                data.spread != null ? `&spread=${data.spread.toFixed(5)}` : "",
-                `&bias=${["STRONG BUY","BUY"].includes(tech.consensus) ? "BULLISH" : ["STRONG SELL","SELL"].includes(tech.consensus) ? "BEARISH" : "NEUTRAL"}`,
+                data?.atr != null ? `&atr=${data?.atr.toFixed(5)}` : "",
+                data?.spread != null ? `&spread=${data?.spread.toFixed(5)}` : "",
+                `&bias=${["STRONG BUY","BUY"].includes(tech?.consensus) ? "BULLISH" : ["STRONG SELL","SELL"].includes(tech?.consensus) ? "BEARISH" : "NEUTRAL"}`,
                 `&setup_score=${setupScore}`,
               ].join("")}
               onClick={e => e.stopPropagation()}
@@ -1531,7 +1528,7 @@ function InstrumentCard({
 
 function ExpandedPanel({ show, tab, setTab, tabs, inst, data, tech, setupScore }: {
   show: boolean; tab: CardTab; setTab: (t: CardTab) => void; tabs: CardTab[];
-  inst: ScannerInstrument; data: InstrumentData; tech: TechnicalSummary; setupScore: number;
+  inst: ScannerInstrument; data: any; tech: any; setupScore: number;
 }) {
   const TAB_ICONS: Record<CardTab, React.ElementType> = {
     "SIGNALS": BarChart3,
@@ -1619,7 +1616,7 @@ function SortTh({ col, label, sort, dir, onSort }: {
 function SignalsTableView({
   priceData,
 }: {
-  priceData: Record<string, InstrumentData>;
+  priceData: Record<string, any>;
 }) {
   const [matrix, setMatrix] = useState<Record<string, SignalRow>>({});
   const [matrixLoading, setMatrixLoading] = useState(true);
@@ -1685,7 +1682,7 @@ function SignalsTableView({
       if (catFilter === "CRYPTO"    && inst.category !== "crypto")      return false;
       const sig = matrix[inst.scannerSlug];
       const pData = priceData[inst.scannerSlug];
-      const setup = calcSetupScore(pData ?? ({} as InstrumentData), {} as TechnicalSummary);
+      const setup = calcSetupScore(pData ?? ({} as any), {} as any);
       if (minSetup > 0 && setup < minSetup) return false;
       if (biasFilter === "BULL" && sig && sig.totalScore <= 0) return false;
       if (biasFilter === "BEAR" && sig && sig.totalScore >= 0) return false;
@@ -1698,9 +1695,9 @@ function SignalsTableView({
       if (sort === "name") return sortDir === "asc" ? a.displayPair.localeCompare(b.displayPair) : b.displayPair.localeCompare(a.displayPair);
       let va = 0, vb = 0;
       if (sort === "price")     { va = da?.price ?? 0;     vb = db?.price ?? 0; }
-      if (sort === "change")    { va = da?.changePct ?? 0; vb = db?.changePct ?? 0; }
+      if (sort === "change")    { va = da?.change_pct ?? 0; vb = db?.change_pct ?? 0; }
       if (sort === "consensus") { va = sa?.totalScore ?? 0; vb = sb?.totalScore ?? 0; }
-      if (sort === "setup")     { va = calcSetupScore(da ?? ({} as InstrumentData), {} as TechnicalSummary); vb = calcSetupScore(db ?? ({} as InstrumentData), {} as TechnicalSummary); }
+      if (sort === "setup")     { va = calcSetupScore(da ?? ({} as any), {} as any); vb = calcSetupScore(db ?? ({} as any), {} as any); }
       if (sort === "tf15m")   { va = sigScore(sa?.signals["15m"]);    vb = sigScore(sb?.signals["15m"]); }
       if (sort === "tf1h")    { va = sigScore(sa?.signals["1H"]);     vb = sigScore(sb?.signals["1H"]); }
       if (sort === "tf4h")    { va = sigScore(sa?.signals["4H"]);     vb = sigScore(sb?.signals["4H"]); }
@@ -1802,7 +1799,7 @@ function SignalsTableView({
                     <SignalsTableRow
                       key={inst.scannerSlug}
                       inst={inst}
-                      priceData={priceData[inst.scannerSlug] ?? ({} as InstrumentData)}
+                      priceData={priceData[inst.scannerSlug] ?? ({} as any)}
                       matrixRow={matrix[inst.scannerSlug] ?? null}
                       expanded={expandedSlug === inst.scannerSlug}
                       onToggleExpand={() => setExpandedSlug(s => s === inst.scannerSlug ? null : inst.scannerSlug)}
@@ -1828,14 +1825,14 @@ function SignalsTableRow({
   inst, priceData, matrixRow, expanded, onToggleExpand,
 }: {
   inst: ScannerInstrument;
-  priceData: InstrumentData;
+  priceData: any;
   matrixRow: SignalRow | null;
   expanded: boolean;
   onToggleExpand: () => void;
 }) {
   const [nextEvt, setNextEvt] = useState<{ minsAway: number } | null>(null);
   const [expandedTab, setExpandedTab] = useState<CardTab>("SIGNALS");
-  const tech = useTechnicalData(inst.scannerSlug, expanded);
+  const tech = useMarketCache([inst.scannerSlug])[inst.scannerSlug];
 
   useEffect(() => {
     fetch(`/api/calendar/${inst.scannerSlug}`).then(r => r.json()).then(d => {
@@ -1849,10 +1846,10 @@ function SignalsTableRow({
     }).catch(() => {});
   }, [inst.scannerSlug]);
 
-  const changePct = priceData.changePct ?? 0;
+  const changePct = priceData.change_pct ?? 0;
   const isUp = changePct >= 0;
   const sigs = matrixRow?.signals ?? {};
-  const setupScore = calcSetupScore(priceData, expanded ? tech : ({} as TechnicalSummary));
+  const setupScore = calcSetupScore(priceData, expanded ? tech : ({} as any));
   const score = matrixRow?.totalScore ?? 0;
   const aligned3Plus = (matrixRow?.alignedCount ?? 0) >= 3;
   const alignedDir = matrixRow?.alignedDir;
@@ -1904,7 +1901,7 @@ function SignalsTableRow({
               </span>
               <span className={cn("text-[6px] font-mono uppercase tracking-wide",
                 score > 1 ? "text-profit/60" : score < -1 ? "text-loss/60" : "text-text-tertiary/60")}>
-                {matrixRow.consensus}
+                {matrixRow?.consensus}
               </span>
             </div>
           ) : <span className="text-text-tertiary">—</span>}
@@ -1987,11 +1984,11 @@ function FearGreedGauge({ score, synthetic = false }: { score: number | null; sy
 function MarketIntelligenceBar({
   priceData, activeSessions, onSignalBias,
 }: {
-  priceData: Record<string, InstrumentData>;
+  priceData: Record<string, any>;
   activeSessions: string[];
   onSignalBias: (b: "BULL" | "BEAR" | "NEUT" | null) => void;
 }) {
-  const vixDxy = useTwelveData(["VIX", "DXY", "XAUUSD"]);
+  const vixDxy = useMarketCache(["VIX", "DXY", "XAUUSD"]);
   const [nextEvt, setNextEvt] = useState<{ label: string; targetMs: number } | null>(null);
   const [countdown, setCountdown] = useState("");
   const [signalBias, setSignalBias] = useState<"BULL" | "BEAR" | "NEUT" | null>(null);
@@ -2041,7 +2038,7 @@ function MarketIntelligenceBar({
   const goldData = vixDxy["XAUUSD"];
   const vixPrice = vix?.price ?? null;
   const goldPrice = goldData?.price ?? null;
-  const goldChangePct = goldData?.changePct ?? null;
+  const goldChangePct = goldData?.change_pct ?? null;
 
   // ── VIX-derived sentiment score (real) ───────────────────────────────────
   const vixScore = vixPrice === null ? null
@@ -2053,10 +2050,10 @@ function MarketIntelligenceBar({
   // ── Synthetic sentiment from scanner breadth (fallback when VIX unavailable) ──
   const syntheticSentimentScore = useMemo(() => {
     if (vixScore !== null) return null; // real VIX loaded — no fallback needed
-    const vals = Object.values(priceData).filter(d => d.changePct !== null && !d.loading && !d.error);
+    const vals = Object.values(priceData).filter(d => d.change_pct !== null && !d.loading && !d.error);
     if (vals.length < 4) return null;
-    const bull = vals.filter(d => (d.changePct ?? 0) > 0.10).length;
-    const bear = vals.filter(d => (d.changePct ?? 0) < -0.10).length;
+    const bull = vals.filter(d => (d.change_pct ?? 0) > 0.10).length;
+    const bear = vals.filter(d => (d.change_pct ?? 0) < -0.10).length;
     return Math.min(100, Math.max(0, Math.round(50 + ((bull - bear) / vals.length) * 45)));
   }, [vixScore, priceData]);
 
@@ -2065,28 +2062,28 @@ function MarketIntelligenceBar({
 
   // ── Synthetic DXY change from EUR/GBP/JPY basket (fallback when DXY unavailable) ──
   const syntheticDxyChangePct = useMemo(() => {
-    if (dxy?.price && dxy.changePct !== null) return null; // real DXY loaded
-    const eur = priceData["EURUSD"]?.changePct;
-    const gbp = priceData["GBPUSD"]?.changePct;
-    const jpy = priceData["USDJPY"]?.changePct;
+    if (dxy?.price && dxy.change_pct !== null) return null; // real DXY loaded
+    const eur = priceData["EURUSD"]?.change_pct;
+    const gbp = priceData["GBPUSD"]?.change_pct;
+    const jpy = priceData["USDJPY"]?.change_pct;
     if (eur == null && gbp == null) return null;
     // DXY basket approx: EUR 57.6%, JPY 13.6%, GBP 11.9% (inverted for USD pairs)
     return Math.round((-(eur ?? 0) * 0.576 - (gbp ?? 0) * 0.119 + (jpy ?? 0) * 0.136) * 100) / 100;
   }, [dxy, priceData]);
 
-  const dxyChangePct  = dxy?.changePct ?? syntheticDxyChangePct;
+  const dxyChangePct  = dxy?.change_pct ?? syntheticDxyChangePct;
   const dxySynth      = !dxy?.price && syntheticDxyChangePct !== null;
 
   // Top mover
   const topMover = SCANNER_INSTRUMENTS.reduce<{ inst: ScannerInstrument; pct: number } | null>((best, inst) => {
-    const p = Math.abs(priceData[inst.scannerSlug]?.changePct ?? 0);
+    const p = Math.abs(priceData[inst.scannerSlug]?.change_pct ?? 0);
     return !best || p > best.pct ? { inst, pct: p } : best;
   }, null);
-  const topMoverRaw = topMover ? (priceData[topMover.inst.scannerSlug]?.changePct ?? 0) : 0;
+  const topMoverRaw = topMover ? (priceData[topMover.inst.scannerSlug]?.change_pct ?? 0) : 0;
 
   // Signal counts (heuristic from changePct — MTF data populates as cards are opened)
   const counts = SCANNER_INSTRUMENTS.reduce((acc, inst) => {
-    const p = priceData[inst.scannerSlug]?.changePct ?? 0;
+    const p = priceData[inst.scannerSlug]?.change_pct ?? 0;
     if (p > 0.15) acc.bull++; else if (p < -0.15) acc.bear++; else acc.neut++;
     return acc;
   }, { bull: 0, neut: 0, bear: 0 });
@@ -2142,12 +2139,12 @@ function MarketIntelligenceBar({
             <div className="flex flex-col items-center gap-0.5">
               <span className="text-[18px] font-black font-mono text-white">{dxy.price.toFixed(2)}</span>
               <span className={cn("text-[10px] font-bold font-mono flex items-center gap-0.5",
-                (dxy.changePct ?? 0) >= 0 ? "text-[#00c853]" : "text-[#ef4444]")}>
-                {(dxy.changePct ?? 0) >= 0 ? <TrendingUp className="w-3 h-3" /> : <TrendingDown className="w-3 h-3" />}
-                {(dxy.changePct ?? 0) >= 0 ? "+" : ""}{dxy.changePct?.toFixed(2)}%
+                (dxy.change_pct ?? 0) >= 0 ? "text-[#00c853]" : "text-[#ef4444]")}>
+                {(dxy.change_pct ?? 0) >= 0 ? <TrendingUp className="w-3 h-3" /> : <TrendingDown className="w-3 h-3" />}
+                {(dxy.change_pct ?? 0) >= 0 ? "+" : ""}{dxy.change_pct?.toFixed(2)}%
               </span>
               <p className="text-[7px] font-mono text-white/30 text-center leading-tight max-w-[130px]">
-                {(dxy.changePct ?? 0) > 0.1 ? "Headwind for EUR, GBP, Gold" : (dxy.changePct ?? 0) < -0.1 ? "Tailwind for EUR, GBP, Gold" : "DXY flat"}
+                {(dxy.change_pct ?? 0) > 0.1 ? "Headwind for EUR, GBP, Gold" : (dxy.change_pct ?? 0) < -0.1 ? "Tailwind for EUR, GBP, Gold" : "DXY flat"}
               </p>
             </div>
           ) : dxySynth && dxyChangePct !== null ? (
@@ -2314,8 +2311,8 @@ function MarketScannerGrid() {
   }, []);
   const activeSessions = getActiveSessions(sessionNow);
 
-  const priceData = useTwelveData(ALL_SLUGS);
-  const anyLastUpdated = Object.values(priceData).find(d => d.lastUpdated)?.lastUpdated ?? null;
+  const priceData = useMarketCache(ALL_SLUGS);
+  const anyLastUpdated = Object.values(priceData).find(d => d.fetched_at)?.fetched_at ?? null;
 
   const toggleWatch = (slug: string) => {
     setWatchlist(prev => {
@@ -2357,7 +2354,7 @@ function MarketScannerGrid() {
     }
     // Signal bias filter from intelligence bar
     if (signalBias) {
-      const p = priceData[inst.scannerSlug]?.changePct ?? 0;
+      const p = priceData[inst.scannerSlug]?.change_pct ?? 0;
       if (signalBias === "BULL") return p > 0.15;
       if (signalBias === "BEAR") return p < -0.15;
       if (signalBias === "NEUT") return p >= -0.15 && p <= 0.15;
@@ -2365,7 +2362,7 @@ function MarketScannerGrid() {
     return true;
   }).sort((a, b) => {
     const da = priceData[a.scannerSlug], db = priceData[b.scannerSlug];
-    if (sort === "change") return (db?.changePct ?? 0) - (da?.changePct ?? 0);
+    if (sort === "change") return (db?.change_pct ?? 0) - (da?.change_pct ?? 0);
     if (sort === "atr")    return (db?.atr ?? 0) - (da?.atr ?? 0);
     if (sort === "volume") return (db?.volumePct ?? 0) - (da?.volumePct ?? 0);
     return a.displayPair.localeCompare(b.displayPair);
@@ -2378,7 +2375,7 @@ function MarketScannerGrid() {
 
   return (
     <div className="space-y-4">
-      <MarketStatusBar lastUpdated={anyLastUpdated} />
+      <MarketStatusBar lastUpdated={anyLastUpdated ? new Date(anyLastUpdated) : null} />
 
       {/* Intelligence Bar */}
       <MarketIntelligenceBar
@@ -2508,9 +2505,9 @@ function MarketScannerGrid() {
 
 function SymbolDetail({ instrument }: { instrument: ScannerInstrument }) {
   const CategoryIcon = CATEGORY_ICON[instrument.category];
-  const priceData = useTwelveData([instrument.scannerSlug]);
+  const priceData = useMarketCache([instrument.scannerSlug]);
   const data = priceData[instrument.scannerSlug];
-  const tech = useTechnicalData(instrument.scannerSlug, true);
+  const tech = useMarketCache([instrument.scannerSlug])[instrument.scannerSlug];
 
   const idx = SCANNER_INSTRUMENTS.findIndex(i => i.scannerSlug === instrument.scannerSlug);
   const prev = SCANNER_INSTRUMENTS[idx - 1] ?? null;
@@ -2584,8 +2581,8 @@ function SymbolDetail({ instrument }: { instrument: ScannerInstrument }) {
               {tech.loading ? (
                 <div className="h-6 w-24 bg-background-elevated animate-pulse rounded" />
               ) : (
-                <span className={cn("text-xs font-bold font-mono tracking-wider px-3 py-1 rounded border", CONSENSUS_STYLE[tech.consensus])}>
-                  {tech.consensus}
+                <span className={cn("text-xs font-bold font-mono tracking-wider px-3 py-1 rounded border", CONSENSUS_STYLE[tech?.consensus])}>
+                  {tech?.consensus}
                 </span>
               )}
             </div>
@@ -2608,8 +2605,8 @@ function SymbolDetail({ instrument }: { instrument: ScannerInstrument }) {
               {data?.loading ? (
                 <div className="h-5 w-20 bg-background-elevated animate-pulse mt-1 rounded" />
               ) : (
-                <p className={cn("text-sm font-bold font-mono mt-0.5", (data?.changePct ?? 0) >= 0 ? "text-emerald-500" : "text-red-500")}>
-                  {(data?.changePct ?? 0) >= 0 ? "+" : ""}{data?.changePct?.toFixed(2)}%
+                <p className={cn("text-sm font-bold font-mono mt-0.5", (data?.change_pct ?? 0) >= 0 ? "text-emerald-500" : "text-red-500")}>
+                  {(data?.change_pct ?? 0) >= 0 ? "+" : ""}{data?.change_pct?.toFixed(2)}%
                 </p>
               )}
             </div>
@@ -2631,8 +2628,8 @@ function SymbolDetail({ instrument }: { instrument: ScannerInstrument }) {
                 <p className="text-xs font-mono font-bold text-text-secondary mt-0.5">
                   {data?.spread != null
                     ? instrument.scannerSlug.includes("JPY") || ["UKX","SPX","NDX","DJI"].includes(instrument.scannerSlug)
-                      ? data.spread.toFixed(2)
-                      : (data.spread * 10000).toFixed(1) + " pips"
+                      ? data?.spread.toFixed(2)
+                      : (data?.spread * 10000).toFixed(1) + " pips"
                     : "—"}
                 </p>
               )}
@@ -2737,7 +2734,7 @@ function SymbolDetail({ instrument }: { instrument: ScannerInstrument }) {
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-border-slate/20">
-                        {tech.rows.map((row) => (
+                        {tech.rows && tech.rows.map((row: any, i: number) => (
                           <tr key={row.tf} className="hover:bg-black/5 dark:hover:bg-white/5 transition-colors">
                             <td className="py-1.5 font-bold text-text-primary">{row.label}</td>
                             <td className="py-1.5 flex items-center gap-1">
@@ -2772,11 +2769,11 @@ function SymbolDetail({ instrument }: { instrument: ScannerInstrument }) {
               {/* Range Position Bar */}
               <div className="md:col-span-6 flex flex-col justify-center space-y-4">
                 <span className="text-[9px] font-mono text-text-tertiary uppercase tracking-wider">Current Price Position relative to S1 / R1</span>
-                {tech.loading || !tech.keyLevels.s1 || !tech.keyLevels.r1 || !data?.price ? (
+                {tech.loading || !tech?.keyLevels.s1 || !tech?.keyLevels.r1 || !data?.price ? (
                   <div className="h-10 bg-background-elevated animate-pulse rounded w-full" />
                 ) : (() => {
-                  const s1 = tech.keyLevels.s1;
-                  const r1 = tech.keyLevels.r1;
+                  const s1 = tech?.keyLevels.s1;
+                  const r1 = tech?.keyLevels.r1;
                   const cur = data.price;
                   const range = r1 - s1;
                   const rawPct = range > 0 ? ((cur - s1) / range) * 100 : 50;
@@ -2785,11 +2782,11 @@ function SymbolDetail({ instrument }: { instrument: ScannerInstrument }) {
                     <div className="space-y-2">
                       <div className="relative h-2.5 bg-background-elevated rounded-full border border-border-slate/30">
                         {/* Pivot Point Vertical Marker */}
-                        {tech.keyLevels.pivot && (
+                        {tech?.keyLevels.pivot && (
                           <div
                             className="absolute top-0 bottom-0 w-0.5 bg-border-slate/60"
-                            style={{ left: `${((tech.keyLevels.pivot - s1) / range) * 100}%` }}
-                            title={`Pivot Point: ${formatPriceLocal(tech.keyLevels.pivot)}`}
+                            style={{ left: `${((tech?.keyLevels.pivot - s1) / range) * 100}%` }}
+                            title={`Pivot Point: ${formatPriceLocal(tech?.keyLevels.pivot)}`}
                           />
                         )}
                         {/* Current price marker */}
@@ -2824,11 +2821,11 @@ function SymbolDetail({ instrument }: { instrument: ScannerInstrument }) {
                     </div>
                   ) : (
                     <div className="space-y-1.5 text-[9px] font-mono">
-                      <div className="flex justify-between"><span className="text-text-tertiary">R2</span><span className="font-bold text-red-500">{formatPriceLocal(tech.keyLevels.r2)}</span></div>
-                      <div className="flex justify-between"><span className="text-text-tertiary">R1</span><span className="font-bold text-red-400">{formatPriceLocal(tech.keyLevels.r1)}</span></div>
-                      <div className="flex justify-between"><span className="text-text-tertiary">Pivot</span><span className="font-bold text-text-secondary">{formatPriceLocal(tech.keyLevels.pivot)}</span></div>
-                      <div className="flex justify-between"><span className="text-text-tertiary">S1</span><span className="font-bold text-emerald-400">{formatPriceLocal(tech.keyLevels.s1)}</span></div>
-                      <div className="flex justify-between"><span className="text-text-tertiary">S2</span><span className="font-bold text-emerald-500">{formatPriceLocal(tech.keyLevels.s2)}</span></div>
+                      <div className="flex justify-between"><span className="text-text-tertiary">R2</span><span className="font-bold text-red-500">{formatPriceLocal(tech?.keyLevels.r2)}</span></div>
+                      <div className="flex justify-between"><span className="text-text-tertiary">R1</span><span className="font-bold text-red-400">{formatPriceLocal(tech?.keyLevels.r1)}</span></div>
+                      <div className="flex justify-between"><span className="text-text-tertiary">Pivot</span><span className="font-bold text-text-secondary">{formatPriceLocal(tech?.keyLevels.pivot)}</span></div>
+                      <div className="flex justify-between"><span className="text-text-tertiary">S1</span><span className="font-bold text-emerald-400">{formatPriceLocal(tech?.keyLevels.s1)}</span></div>
+                      <div className="flex justify-between"><span className="text-text-tertiary">S2</span><span className="font-bold text-emerald-500">{formatPriceLocal(tech?.keyLevels.s2)}</span></div>
                     </div>
                   )}
                 </div>
@@ -2844,20 +2841,20 @@ function SymbolDetail({ instrument }: { instrument: ScannerInstrument }) {
                     <div className="space-y-1.5 text-[9px] font-mono">
                       <div className="flex justify-between">
                         <span className="text-text-tertiary">EMA 20</span>
-                        <span className={cn("font-bold", tech.emaStack.above20 ? "text-emerald-500" : "text-red-500")}>
-                          {formatPriceLocal(tech.emaStack.ema20)}
+                        <span className={cn("font-bold", tech?.emaStack.above20 ? "text-emerald-500" : "text-red-500")}>
+                          {formatPriceLocal(tech?.emaStack.ema20)}
                         </span>
                       </div>
                       <div className="flex justify-between">
                         <span className="text-text-tertiary">EMA 50</span>
-                        <span className={cn("font-bold", tech.emaStack.above50 ? "text-emerald-500" : "text-red-500")}>
-                          {formatPriceLocal(tech.emaStack.ema50)}
+                        <span className={cn("font-bold", tech?.emaStack.above50 ? "text-emerald-500" : "text-red-500")}>
+                          {formatPriceLocal(tech?.emaStack.ema50)}
                         </span>
                       </div>
                       <div className="flex justify-between">
                         <span className="text-text-tertiary">EMA 200</span>
-                        <span className={cn("font-bold", tech.emaStack.above200 ? "text-emerald-500" : "text-red-500")}>
-                          {formatPriceLocal(tech.emaStack.ema200)}
+                        <span className={cn("font-bold", tech?.emaStack.above200 ? "text-emerald-500" : "text-red-500")}>
+                          {formatPriceLocal(tech?.emaStack.ema200)}
                         </span>
                       </div>
                     </div>
@@ -2920,7 +2917,7 @@ export function ScannerClient({ symbol }: ScannerClientProps) {
         <div className="space-y-2">
           <div className="flex items-center gap-2 text-premium">
             <Activity className="w-4 h-4" />
-            <span className="text-[10px] font-mono uppercase tracking-[0.3em]">Institutional_Scanner // Live</span>
+            <span className="text-[10px] font-mono uppercase tracking-[0.3em]">Market_Scanner // Live</span>
           </div>
           <h1 className="text-4xl font-display font-bold uppercase tracking-tight">
             Market <span className="text-premium">Scanner.</span>

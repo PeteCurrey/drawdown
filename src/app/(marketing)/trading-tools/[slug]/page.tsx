@@ -31,7 +31,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const tool = tradingTools.find((t) => t.slug === slug);
 
-  if (!tool) return {};
+  if (!tool) notFound();
 
   return {
     title: `${tool.name} Review 2026 — Is It Still the Best? | Drawdown`,

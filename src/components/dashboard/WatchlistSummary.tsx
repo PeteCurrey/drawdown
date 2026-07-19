@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useRef } from "react";
 import Link from "next/link";
-import { useTwelveData } from "@/hooks/useTwelveData";
+import { useMarketCache } from "@/hooks/useMarketCache";
 import { cn } from "@/lib/utils";
 import { instrumentDecimals } from "@/lib/instruments";
 
@@ -13,7 +13,7 @@ interface WatchlistSummaryProps {
 export function WatchlistSummary({ initialSymbols }: WatchlistSummaryProps) {
   // Use hook slugs for twelve data
   const hookSlugs = initialSymbols.map(s => s.replace("/", "").toUpperCase());
-  const data = useTwelveData(hookSlugs);
+  const data = useMarketCache(hookSlugs);
 
   // We need to map back to display symbols
   const displayMap = initialSymbols.reduce((acc, sym, i) => {
@@ -40,7 +40,7 @@ export function WatchlistSummary({ initialSymbols }: WatchlistSummaryProps) {
                   slug={slug} 
                   displaySymbol={displaySymbol} 
                   price={item?.price ?? null} 
-                  changePercent={item?.changePct ?? 0}
+                  changePercent={item?.change_pct ?? 0}
                   loading={item?.loading ?? true}
                 />
               );

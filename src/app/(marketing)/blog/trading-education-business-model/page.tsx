@@ -2,11 +2,11 @@ import type { Metadata } from "next";
 import { TradingEducationModelClient } from "./TradingEducationModelClient";
 
 export const metadata: Metadata = {
-  title: "The Trading Education Business Model: How the Money Is Really Made | Drawdown",
-  description: "Courses. Affiliates. Broker referrals. The trading education business model isn't a secret — it's just rarely explained honestly. Here's exactly how it works, who benefits, and what traders should do with that knowledge.",
+  title: "How the Trading Education Business Model Works | Drawdown",
+  description: "An honest look at how the trading education business model works. We analyze course fees, affiliate payouts, broker referrals, and how to spot real value.",
   openGraph: {
-    title: "The Trading Education Business Model: How the Money Is Really Made | Drawdown",
-    description: "Courses. Affiliates. Broker referrals. The trading education business model isn't a secret — it's just rarely explained honestly. Here's exactly how it works, who benefits, and what traders should do with that knowledge.",
+    title: "How the Trading Education Business Model Works | Drawdown",
+    description: "An honest look at how the trading education business model works. We analyze course fees, affiliate payouts, broker referrals, and how to spot real value.",
     type: "article",
     url: "https://drawdown.trading/blog/trading-education-business-model",
     images: [

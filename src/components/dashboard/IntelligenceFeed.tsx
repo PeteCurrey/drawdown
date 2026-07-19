@@ -57,7 +57,7 @@ export function IntelligenceFeed() {
       <div className="flex items-center justify-between mb-8">
         <div>
           <h2 className="text-2xl font-display font-bold uppercase tracking-tight">Intelligence Feed</h2>
-          <p className="text-xs font-mono text-text-tertiary uppercase tracking-widest mt-1">Live Institutional Signals</p>
+          <p className="text-xs font-mono text-text-tertiary uppercase tracking-widest mt-1">Live Market Signals</p>
         </div>
         <div className="flex items-center gap-2 px-3 py-1 bg-accent/10 border border-accent/20 rounded-full">
           <div className="w-1.5 h-1.5 bg-accent rounded-full animate-pulse" />

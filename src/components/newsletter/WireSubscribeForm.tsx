@@ -55,7 +55,7 @@ export function WireSubscribeForm({ source, variant = 'inline' }: WireSubscribeF
           <div className="space-y-2">
              <h3 className="text-xl font-sans font-bold uppercase tracking-tight text-mkt-ink">Get The Wire.</h3>
              <p className="text-xs text-mkt-i4 font-mono uppercase tracking-widest leading-relaxed">
-                Institutional market intelligence, daily at 07:00 GMT.
+                Professional market intelligence, daily at 07:00 GMT.
              </p>
           </div>
         )}

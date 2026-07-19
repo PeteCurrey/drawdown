@@ -30,7 +30,7 @@ export function HubPreview() {
             </h2>
             
             <p className="text-xl text-mkt-i2 leading-relaxed max-w-xl">
-              Don't trade blind. Access the same data feeds institutional desks use, simplified for the high-performance retail trader.
+              Don't trade blind. Access the same data feeds professional desks use, simplified for the high-performance retail trader.
             </p>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-8 border-t border-mkt-bd/50">

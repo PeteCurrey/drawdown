@@ -1,10 +1,9 @@
-import { BestOfPage } from "@/data/seo/best";
 import { ShieldCheck, Target, Activity, TrendingUp, ArrowRight, ExternalLink, Info, CheckCircle2 } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import Breadcrumbs from "@/components/layout/Breadcrumbs";
 
-export function BestOfTemplate({ page, region = 'uk' }: { page: BestOfPage; region?: string }) {
+export function BestOfTemplate({ page, region = 'uk' }: { page: any; region?: string }) {
   const regionPrefix = region === 'uk' ? '' : `/${region}`;
 
   return (
@@ -101,7 +100,7 @@ export function BestOfTemplate({ page, region = 'uk' }: { page: BestOfPage; regi
                 </div>
               )}
 
-              {page.sections && page.sections.map((section, i) => (
+              {page.sections && page.sections.map((section: any, i: number) => (
                 <div key={i} className="mb-12">
                    <h2 className="text-3xl font-sans font-bold uppercase tracking-tight mb-6">{section.title}</h2>
                    <p className="text-lg text-mkt-i2 leading-relaxed">{section.content}</p>
@@ -135,7 +134,7 @@ export function BestOfTemplate({ page, region = 'uk' }: { page: BestOfPage; regi
                 <div className="p-8 border border-mkt-bd space-y-6">
                    <h4 className="text-[10px] font-mono uppercase tracking-widest text-mkt-i4 font-bold">// WHY TRUST US</h4>
                    <p className="text-sm text-mkt-i2 leading-relaxed">
-                      We do not accept payment for rankings. Our data is sourced from live ECN accounts and verified institutional feeds.
+                      We do not accept payment for rankings. Our data is sourced from live ECN accounts and verified professional feeds.
                    </p>
                    <div className="space-y-4">
                       {[

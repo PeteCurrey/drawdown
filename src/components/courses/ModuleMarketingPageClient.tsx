@@ -295,7 +295,7 @@ export function ModuleMarketingPageClient({ params }: Props) {
                   <div className="space-y-6 text-sm text-mkt-i3 leading-relaxed font-sans">
                     <p>
                       In this module, you will cover the core theoretical framework and mathematical modeling behind <strong>{moduleTitle}</strong>. 
-                      You will examine how institutional desks assess these variables and how to structuralize your strategy to capitalize on market opportunities while preserving risk controls.
+                      You will examine how professional desks assess these variables and how to structuralize your strategy to capitalize on market opportunities while preserving risk controls.
                     </p>
                     
                     <div className="p-6 bg-white border border-mkt-bd rounded-[14px] space-y-4 shadow-sm">

@@ -41,7 +41,7 @@ export function PulseSidebar() {
         <div className="relative z-10 space-y-6">
           <div className="flex items-center gap-2 text-[10px] font-mono uppercase tracking-[0.2em] text-mkt-i4">
             <Gauge className="w-3 h-3 text-accent" />
-            Institutional Sentiment
+            Market Sentiment
           </div>
           
           <div className="text-center py-4">
@@ -57,7 +57,7 @@ export function PulseSidebar() {
           </div>
 
           <p className="text-[10px] text-mkt-i4 font-sans leading-relaxed uppercase tracking-wide">
-            Sentiment is calculated via a proprietary mix of VIX volatility, volume trends, and institutional order flow delta.
+            Sentiment is calculated via a proprietary mix of VIX volatility, volume trends, and professional order flow delta.
           </p>
         </div>
       </div>

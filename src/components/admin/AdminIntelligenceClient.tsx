@@ -240,14 +240,14 @@ export function AdminIntelligenceClient({ stats }: IntelligenceProps) {
                  disabled={isGenerating || !topic}
                >
                   {isGenerating ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Brain className="w-4 h-4" />}
-                  {isGenerating ? "Consulting Pete & Claude..." : "Generate Institutional Draft"}
+                  {isGenerating ? "Consulting Pete & Claude..." : "Generate Professional Draft"}
                </button>
 
                {generatedDraft && (
                   <div className="mt-12 space-y-8 animate-in slide-in-from-bottom-4 duration-700 relative z-10">
                      <div className="flex justify-between items-center border-b border-border-slate pb-4">
                         <h4 className="text-[10px] font-mono font-bold uppercase tracking-widest text-accent flex items-center gap-2">
-                           <Sparkles className="w-3 h-3" /> Pete's Institutional Draft
+                           <Sparkles className="w-3 h-3" /> Pete's Professional Draft
                         </h4>
                         <div className="flex gap-4">
                            <button 
@@ -279,7 +279,7 @@ export function AdminIntelligenceClient({ stats }: IntelligenceProps) {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
            {[
              { title: "Competitor Trend: Aggressive Bonus Scaling", status: "Critical", trend: "Prop firms are shifting away from high leverage to high retention bonuses.", action: "Counter with 'The Transparency Dividend' blog post." },
-             { title: "SEO Gap: Institutional Latency Data", status: "High Priority", trend: "No major review site is publishing actual LD5 latency logs.", action: "Publish our LD5 connectivity metrics." },
+             { title: "SEO Gap: Professional Latency Data", status: "High Priority", trend: "No major review site is publishing actual LD5 latency logs.", action: "Publish our LD5 connectivity metrics." },
              { title: "Social Signal: Anti-Hype Sentiment", status: "Opportunity", trend: "Traders on Reddit are revolting against 'lifestyle' trading influencers.", action: "Deploy 'Truth over Lifestyle' campaign." },
            ].map((item, i) => (
              <div key={i} className="p-8 bg-background-elevated border border-border-slate hover:border-accent transition-colors space-y-6">

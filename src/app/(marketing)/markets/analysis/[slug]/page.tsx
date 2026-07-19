@@ -20,7 +20,7 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const post = expertAnalysis.find((p) => p.slug === slug);
-  if (!post) return {};
+  if (!post) notFound();
 
   return getMetadata({
     title: post.title,

@@ -2,7 +2,7 @@ import { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Corrections Log | Drawdown",
-  description: "A running log of all corrections and amendments made to Drawdown articles.",
+  description: "A transparent, running log of all corrections, clarifications, and amendments made to Drawdown articles, guides, and published analyses.",
 };
 
 export default function CorrectionsLogPage() {

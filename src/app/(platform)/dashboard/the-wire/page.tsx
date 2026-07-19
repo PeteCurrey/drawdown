@@ -6,7 +6,7 @@ import { TheWireDashboardClient } from "@/components/the-wire/TheWireDashboardCl
 
 export const metadata = {
   title: "The Wire · Drawdown",
-  description: "Morning and afternoon intelligence briefs, live market news and economic calendar — every trading day.",
+  description: "Morning and afternoon intelligence briefs, live market news and economic calendar — delivered every trading day to keep you ahead of the session.",
 };
 
 export default async function TheWirePage() {

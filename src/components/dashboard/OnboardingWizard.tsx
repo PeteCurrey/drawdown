@@ -102,7 +102,7 @@ export function OnboardingWizard({ userProfile, onComplete }: Props) {
 
            <div className="pt-12 border-t border-border-slate/50">
               <p className="text-[9px] font-mono text-text-tertiary leading-relaxed uppercase">
-                Configuration of your institutional terminal based on experience and volatility preference.
+                Configuration of your trading terminal based on experience and volatility preference.
               </p>
            </div>
         </div>
@@ -119,7 +119,7 @@ export function OnboardingWizard({ userProfile, onComplete }: Props) {
                    <div className="grid grid-cols-1 gap-4">
                       {[
                         { id: 'beginner', label: 'Beginner', desc: 'Less than 1 year. Focusing on core mechanics and risk.' },
-                        { id: 'intermediate', label: 'Intermediate', desc: '1-3 years. Familiar with SMC and institutional flow.' },
+                        { id: 'intermediate', label: 'Intermediate', desc: '1-3 years. Familiar with SMC and order flow.' },
                         { id: 'advanced', label: 'Advanced', desc: '3+ years. Looking for refined edge and deep analysis.' }
                       ].map((opt) => (
                         <button 
@@ -230,7 +230,7 @@ export function OnboardingWizard({ userProfile, onComplete }: Props) {
                             <span className="text-[10px] font-mono font-bold uppercase tracking-widest">Verification: {userProfile.subscription_tier}</span>
                          </div>
                          <p className="text-xs text-text-secondary leading-relaxed">
-                            Your institutional access is active. We have configured your Intelligence Hub to monitor <span className="text-text-primary font-bold">{markets.join(', ')}</span> with a focus on <span className="text-text-primary font-bold">{experience}</span> level insights.
+                            Your dashboard access is active. We have configured your Intelligence Hub to monitor <span className="text-text-primary font-bold">{markets.join(', ')}</span> with a focus on <span className="text-text-primary font-bold">{experience}</span> level insights.
                          </p>
                       </div>
                    </div>

@@ -19,14 +19,13 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { AffiliateDisclosure } from "@/components/seo/AffiliateDisclosure";
-import { PropFirmReview } from "@/data/seo/prop-firms";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { getRelatedLinks } from "@/lib/linking";
 import { LeadMagnet } from "@/components/seo/LeadMagnet";
 import { PropSurvivalFloatingWidget } from "@/components/ui/PropSurvivalFloatingWidget";
 
 interface PropFirmReviewTemplateProps {
-  review: PropFirmReview;
+  review: any;
 }
 
 export function PropFirmReviewTemplate({ review }: PropFirmReviewTemplateProps) {
@@ -197,7 +196,7 @@ export function PropFirmReviewTemplate({ review }: PropFirmReviewTemplateProps) 
                   <span className="text-mkt-grn">{"//"}</span> What We Like
                 </h3>
                 <ul className="space-y-4">
-                  {review.pros.map((pro, i) => (
+                  {review.pros.map((pro: string, i: number) => (
                     <li key={i} className="flex items-start gap-3 text-sm text-mkt-i2 leading-relaxed">
                       <Check className="w-5 h-5 text-mkt-grn mt-0.5 shrink-0" />
                       <span>{pro}</span>
@@ -210,7 +209,7 @@ export function PropFirmReviewTemplate({ review }: PropFirmReviewTemplateProps) 
                   <span className="text-red-500">{"//"}</span> What We Don&apos;t Like
                 </h3>
                 <ul className="space-y-4">
-                  {review.cons.map((con, i) => (
+                  {review.cons.map((con: string, i: number) => (
                     <li key={i} className="flex items-start gap-3 text-sm text-mkt-i2 leading-relaxed">
                       <X className="w-5 h-5 text-red-500 mt-0.5 shrink-0" />
                       <span>{con}</span>
@@ -230,7 +229,7 @@ export function PropFirmReviewTemplate({ review }: PropFirmReviewTemplateProps) 
                   If {review.name} is not suitable for your trading style, evaluate these alternative funding choices:
                 </p>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {review.alternatives.map((alt) => (
+                  {review.alternatives.map((alt: any) => (
                     <div key={alt.slug} className="p-8 bg-white border border-mkt-bd flex flex-col justify-between hover:border-accent transition-colors">
                       <div className="space-y-4">
                         <div className="flex justify-between items-start">
@@ -279,7 +278,7 @@ export function PropFirmReviewTemplate({ review }: PropFirmReviewTemplateProps) 
                   <HelpCircle className="w-8 h-8 text-accent" /> Frequently Asked Questions
                 </h2>
                 <div className="space-y-8">
-                  {review.faqs.map((faq, i) => (
+                  {review.faqs.map((faq: any, i: number) => (
                     <div key={i} className="border-b border-mkt-bd pb-8">
                       <h3 className="text-lg font-bold text-mkt-ink uppercase tracking-tight mb-4">{faq.question}</h3>
                       <p className="text-sm text-mkt-i2 leading-relaxed">{faq.answer}</p>
@@ -354,7 +353,7 @@ export function PropFirmReviewTemplate({ review }: PropFirmReviewTemplateProps) 
               <div className="p-8 bg-accent/5 border border-accent/20">
                 <h4 className="text-xl font-sans font-black uppercase text-mkt-ink mb-4">Start Challenge</h4>
                 <p className="text-xs text-mkt-i2 mb-8 leading-relaxed">
-                  Register with {review.name} via Drawdown and begin your path to managing institutional sizes.
+                  Register with {review.name} via Drawdown and begin your path to managing professional sizes.
                 </p>
                 <a 
                   href={`/go/${review.slug}`}

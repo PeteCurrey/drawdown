@@ -57,7 +57,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { broker: brokerParam } = await params;
   const broker = resolveBroker(brokerParam);
 
-  if (!broker) return {};
+  if (!broker) notFound();
 
   return {
     title: `${broker.name} Review 2026 — Is It Worth It? | Drawdown`,

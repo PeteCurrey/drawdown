@@ -100,7 +100,7 @@ export function LeadMagnet({
             {title || `Download Free ${resource.label.split(" (")[0]}`}
           </h4>
           <p className="text-sm text-mkt-i2 leading-relaxed">
-            {description || `Join Pete Currey's list to receive institutional-grade guides, journal spreadsheets, and daily market intelligence direct to your inbox.`}
+            {description || `Join Pete Currey's list to receive professional-grade guides, journal spreadsheets, and daily market intelligence direct to your inbox.`}
           </p>
         </div>
 

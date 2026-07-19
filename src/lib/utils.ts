@@ -31,3 +31,20 @@ export function slugify(text: string) {
     .replace(/[^\w-]+/g, "")
     .replace(/--+/g, "-");
 }
+
+export function getAgentBias(agentData: any): string {
+  if (!agentData) return "—";
+  return agentData.technical_bias ?? agentData.flow_bias ?? agentData.news_momentum ?? agentData.momentum_signal ?? "—";
+}
+
+export function isBiasBullish(bias: string): boolean {
+  if (!bias) return false;
+  const b = bias.toUpperCase();
+  return b === "BULLISH" || b === "ACCELERATING";
+}
+
+export function isBiasBearish(bias: string): boolean {
+  if (!bias) return false;
+  const b = bias.toUpperCase();
+  return b === "BEARISH" || b === "FADING";
+}

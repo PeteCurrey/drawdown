@@ -127,7 +127,7 @@ export function CalendarTab() {
           </p>
         </div>
         <p className="text-[10px] font-mono uppercase text-mkt-i4">
-          Data provided by Finnhub Institutional
+          Data provided by Finnhub Professional
         </p>
       </div>
     </div>

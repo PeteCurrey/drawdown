@@ -116,7 +116,7 @@ export function SectionC() {
 export function SectionD() {
   const outcomes = [
     { num: "01", text: "Understand why most traders fail before they start. Set up a professional trading environment. Know your risk tolerance. Begin journaling your decision-making." },
-    { num: "02", text: "Read a chart without indicators. Identify structure, liquidity zones, and supply/demand levels. See what institutional traders see." },
+    { num: "02", text: "Read a chart without indicators. Identify structure, liquidity zones, and supply/demand levels. See what professional traders see." },
     { num: "03", text: "Build a mechanical trading strategy with defined entry, stop loss, and target rules. Backtest it properly. Know your edge statistics." },
     { num: "04", text: "Calculate precise position sizes for any account size and instrument. Never blow an account on a single trade again. Understand compounding." },
     { num: "05", text: "Identify your emotional trading triggers. Break revenge trading cycles. Maintain discipline during drawdown periods. Trade like a professional." },
@@ -125,7 +125,7 @@ export function SectionD() {
     { num: "08", text: "Master leverage, margin requirements, option Greeks, and contract sizing across CFDs, options, and tax-efficient spread betting." },
     { num: "09", text: "Move beyond speculation. Construct a diversified core-satellite investment portfolio across equities, gold, real estate, and bonds tax-efficiently." },
     { num: "10", text: "Build a weekly macro directional bias from central bank policy, inflation data, and employment releases. Combine macro context with technical entries into a single unified trade model." },
-    { num: "11", text: "Select, prepare for, and pass a prop firm evaluation using institutional-grade risk management. Understand UK tax treatment of funded payouts." },
+    { num: "11", text: "Select, prepare for, and pass a prop firm evaluation using professional-grade risk management. Understand UK tax treatment of funded payouts." },
     { num: "12", text: "Integrate AI tools into your daily trading workflow. Build automated market scanners, journal analysis pipelines, and Pine Script strategies." },
     { num: "13", text: "Statistically verify your trading edge across 200+ trades. Run Monte Carlo simulation on your strategy and interpret expectancy, profit factor, and MAE with confidence." }
   ];

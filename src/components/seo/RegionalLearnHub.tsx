@@ -34,7 +34,7 @@ export function RegionalLearnHub({ region }: RegionalLearnHubProps) {
                 </h1>
               </div>
               <p className="text-xl text-text-secondary max-w-xl font-sans leading-relaxed">
-                We don't sell "get rich quick" schemes. We provide a structured, institutional-grade curriculum designed to turn you into a disciplined, profitable trader in {regionName}.
+                We don't sell "get rich quick" schemes. We provide a structured, professional-grade curriculum designed to turn you into a disciplined, profitable trader in {regionName}.
               </p>
             </div>
 
@@ -48,7 +48,7 @@ export function RegionalLearnHub({ region }: RegionalLearnHubProps) {
                  </div>
                  
                  <div className="space-y-6">
-                    <h3 className="text-4xl font-sans font-bold uppercase">The Institutional Foundation</h3>
+                    <h3 className="text-4xl font-sans font-bold uppercase">The Professional Foundation</h3>
                     <p className="text-text-secondary text-sm leading-relaxed">
                        Our comprehensive 12-week program that covers everything from market micro-structure to advanced behavioral psychology.
                     </p>

@@ -3,8 +3,9 @@
 import React, { useEffect, useState, useRef } from "react";
 import { cn } from "@/lib/utils";
 import { useMarketIntelligence } from "@/hooks/useMarketIntelligence";
-import { useTwelveData } from "@/hooks/useTwelveData";
-import type { Signal } from "@/hooks/useTechnicalData";
+import { useMarketCache } from "@/hooks/useMarketCache";
+import { getAgentBias, isBiasBullish, isBiasBearish } from "@/lib/utils";
+type Signal = "BUY" | "SELL" | "NEUTRAL";
 import type { HeroInstrument } from "@/components/dashboard/MarketIntelligenceHeroCard";
 import { intervalLabel, instrumentBySlug } from "@/lib/instruments";
 
@@ -211,8 +212,8 @@ export function InstrumentIntelligenceCard({ instrument, interval = "4h" }: Inst
   // ── Live market intelligence hook (indicators, bias, news, events) ──────────
   const marketData = useMarketIntelligence(hookSlug, interval);
 
-  // ── Live price via useTwelveData (client-side, 30s poll) ──────────────────
-  const liveData = useTwelveData([hookSlug]);
+  // ── Live price via useMarketCache (DB cache) ──────────────────
+  const liveData = useMarketCache([hookSlug]);
   const tdInstrument = liveData[hookSlug];
 
   // Flash animation on price tick
@@ -242,10 +243,14 @@ export function InstrumentIntelligenceCard({ instrument, interval = "4h" }: Inst
     return () => clearInterval(t);
   }, []);
 
-  // ── Bias direction — from live biasScore ───────────────────────────────────
+  // ── Bias direction — from live cache ───────────────────────────────────
   const biasScore = marketData.bias?.score;
+  const biasValue = getAgentBias(tdInstrument);
   const bias: "bullish" | "bearish" | "neutral" =
-    biasScore !== undefined && biasScore !== null
+    isBiasBullish(biasValue) ? "bullish"
+    : isBiasBearish(biasValue) ? "bearish"
+    : biasValue !== "—" ? "neutral"
+      : biasScore !== undefined && biasScore !== null
       ? (biasScore >= 55 ? "bullish" : biasScore <= 45 ? "bearish" : "neutral")
       : (instrument.defaultPct >= 55 ? "bullish" : instrument.defaultPct <= 45 ? "bearish" : "neutral");
 
@@ -279,11 +284,11 @@ export function InstrumentIntelligenceCard({ instrument, interval = "4h" }: Inst
   }, []);
 
   // ── Price & change ────────────────────────────────────────────────────
-  // livePrice already resolved above from useTwelveData
-  const changeAbs  = tdInstrument?.price && tdInstrument?.prevClose
-    ? tdInstrument.price - tdInstrument.prevClose
+  // livePrice already resolved above from useMarketCache
+  const changePct  = tdInstrument?.change_pct ?? marketData.quote?.changePercent ?? null;
+  const changeAbs  = tdInstrument?.price && changePct !== null
+    ? tdInstrument.price - (tdInstrument.price / (1 + changePct / 100))
     : (marketData.quote?.change ?? null);
-  const changePct  = tdInstrument?.changePct ?? marketData.quote?.changePercent ?? null;
   const priceUp    = changeAbs !== null ? changeAbs >= 0 : null;
   const changeDecimals =
     instrument.slug.includes("JPY") ? 3 :
@@ -293,12 +298,12 @@ export function InstrumentIntelligenceCard({ instrument, interval = "4h" }: Inst
   const support    = marketData.keyLevels?.support ?? null;
   const resistance = marketData.keyLevels?.resistance ?? null;
   const indicators = marketData.indicators;
-  const ema50      = indicators?.ema50 ?? null;
-  const ema200     = indicators?.ema200 ?? null;
+  const ema50      = tdInstrument?.ema50 ?? indicators?.ema50 ?? null;
+  const ema200     = tdInstrument?.ema200 ?? indicators?.ema200 ?? null;
   const atr        = indicators?.atr ?? null;
 
   // ── RSI signal ─────────────────────────────────────────────────────────────
-  const rsiVal     = indicators?.rsi ?? null;
+  const rsiVal     = tdInstrument?.rsi ?? indicators?.rsi ?? null;
   const rsiSig:  Signal = rsiVal === null ? "NEUTRAL"
     : rsiVal < 40 ? "BUY" : rsiVal > 60 ? "SELL" : "NEUTRAL";
 
@@ -457,6 +462,11 @@ export function InstrumentIntelligenceCard({ instrument, interval = "4h" }: Inst
                     {isFallback && <span className="text-[18px] text-amber-500 font-bold mr-1" title="Live price unavailable — showing estimated value">~</span>}
                     {livePrice ? fmtPrice(livePrice, instrument.slug) : "—"}
                   </p>
+                  {tdInstrument?.fetched_at && (
+                    <span className="text-[9px] font-mono ml-2 mt-1" style={{ color: T.textFaint }} title="Cache updated at">
+                      {new Date(tdInstrument.fetched_at).toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" })}
+                    </span>
+                  )}
                   {isFallback && (
                     <div className="group relative flex items-center justify-center cursor-help">
                       <div className="w-1.5 h-1.5 rounded-full bg-amber-500" />

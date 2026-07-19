@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 import { ChevronDown, MoreHorizontal, AlertCircle } from "lucide-react";
 import { INSTRUMENT_GROUPS, TIMEFRAMES, type Instrument } from "@/lib/instruments";
 import { useMarketIntelligence } from "@/hooks/useMarketIntelligence";
-import { useTwelveData } from "@/hooks/useTwelveData";
+import { useMarketCache } from "@/hooks/useMarketCache";
 
 /* ─────────────────────────────────────────────────────────────────────────────
    MarketIntelligenceHeroCard
@@ -120,8 +120,8 @@ export function MarketIntelligenceHeroCard({
   const hookSlug = (selectedInst as any).hookSlug ?? selectedInst.slug.replace("/", "");
   const marketData = useMarketIntelligence(hookSlug, selectedInterval);
 
-  // ── Live price via useTwelveData (client-side, 30s poll, efficient) ─────────
-  const liveData = useTwelveData([hookSlug]);
+  // ── Live price via useMarketCache (DB cache) ─────────
+  const liveData = useMarketCache([hookSlug]);
   const tdInstrument = liveData[hookSlug];
 
   // Price: prefer useTwelveData (faster, client-side), fallback to marketData
@@ -143,8 +143,8 @@ export function MarketIntelligenceHeroCard({
   // biasScore: use live value, fall back to placeholder while loading
   const targetBias = marketData.bias?.score ?? selectedInst.defaultPct;
 
-  // Derive change from useTwelveData when available
-  const liveChangePct = tdInstrument?.changePct ?? marketData.quote?.changePercent ?? null;
+  // Derive change from useMarketCache when available
+  const liveChangePct = tdInstrument?.change_pct ?? marketData.quote?.changePercent ?? null;
   const isFallback = !tdInstrument || tdInstrument.error || tdInstrument.price === null
     ? (marketData.is_fallback ?? false)
     : false;
@@ -155,14 +155,13 @@ export function MarketIntelligenceHeroCard({
         maximumFractionDigits: selectedInst.slug.includes("JPY") ? 3 : (selectedInst.slug.includes("XAU") || selectedInst.slug.includes("BTC") ? 2 : 5)
       })
     : "—";
-  const liveRsiStr = marketData.indicators?.rsi !== null && marketData.indicators?.rsi !== undefined
-    ? marketData.indicators.rsi.toFixed(1)
-    : "—";
+  const liveRsi = tdInstrument?.rsi ?? marketData.indicators?.rsi ?? null;
+  const liveRsiStr = liveRsi !== null ? liveRsi.toFixed(1) : "—";
 
   let liveTrend = "—";
   let trendDir: "above" | "below" | "at" | null = null;
-  if (livePrice && marketData.indicators?.ema50) {
-    const ema50 = marketData.indicators.ema50;
+  const ema50 = tdInstrument?.ema50 ?? marketData.indicators?.ema50;
+  if (livePrice && ema50) {
     const pctDiff = ((livePrice - ema50) / ema50) * 100;
     if (pctDiff > 0.05) {
       liveTrend = "ABOVE EMA";
@@ -268,24 +267,24 @@ export function MarketIntelligenceHeroCard({
     });
 
     // 3. Technical signal alerts
-    if (marketData.indicators?.rsi !== null && marketData.indicators?.rsi !== undefined) {
-      const rsi = marketData.indicators.rsi;
-      if (rsi > 70) {
+    const alertRsi = tdInstrument?.rsi ?? marketData.indicators?.rsi ?? null;
+    if (alertRsi !== null && alertRsi !== undefined) {
+      if (alertRsi > 70) {
         items.push({
           id: `rsi-alert-high`,
           type: "alert",
           severity: "red",
           source: "RSI Alert",
-          message: `RSI Overbought (${rsi.toFixed(1)}) on ${selectedInterval}. Potential trend fatigue.`,
+          message: `RSI Overbought (${alertRsi.toFixed(1)}) on ${selectedInterval}. Potential trend fatigue.`,
           time: "Just now"
         });
-      } else if (rsi < 30) {
+      } else if (alertRsi < 30) {
         items.push({
           id: `rsi-alert-low`,
           type: "alert",
           severity: "green",
           source: "RSI Alert",
-          message: `RSI Oversold (${rsi.toFixed(1)}) on ${selectedInterval}. Potential accumulation.`,
+          message: `RSI Oversold (${alertRsi.toFixed(1)}) on ${selectedInterval}. Potential accumulation.`,
           time: "Just now"
         });
       }
@@ -315,9 +314,9 @@ export function MarketIntelligenceHeroCard({
       name: "RSI",
       deg: 200,
       radiusFactor: 0.71,
-      letter: marketData.indicators?.rsi === null || marketData.indicators?.rsi === undefined
+      letter: liveRsi === null
         ? "N"
-        : marketData.indicators.rsi < 40 ? "B" : marketData.indicators.rsi > 60 ? "S" : "N",
+        : liveRsi < 40 ? "B" : liveRsi > 60 ? "S" : "N",
       alert: marketData.bias?.conflictNodes.includes("RSI") ?? false,
     },
     {
@@ -1036,7 +1035,9 @@ export function MarketIntelligenceHeroCard({
       >
         <div className="flex items-center gap-2">
           <span className="w-1.5 h-1.5 bg-[#00C896] rounded-full animate-pulse" />
-          <span className="text-[10px] font-mono text-white/30">Terminal Connected</span>
+          <span className="text-[10px] font-mono text-white/30">
+            {tdInstrument?.fetched_at ? `Live (updated ${new Date(tdInstrument.fetched_at).toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" })})` : "Terminal Connected"}
+          </span>
         </div>
         <div className="flex items-center gap-4">
           <span className="text-[10px] font-mono text-white/25">{londonTime || "GMT/BST Sync Active"}</span>

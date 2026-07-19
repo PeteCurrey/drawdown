@@ -42,7 +42,9 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const post = await getPostBySlug(slug);
-  if (!post) return { title: 'Post Not Found' };
+  // Call notFound() so missing posts produce a clean 404, not a 200 with a
+  // 'Post Not Found' title that Google may still crawl and index.
+  if (!post) notFound();
   
   const seo = (post as any).seoSettings || {};
   
@@ -87,7 +89,14 @@ const components = {
 
 export default async function BlogPostPage({ params }: Props) {
   const { slug } = await params;
-  const post = await getPostBySlug(slug);
+  let post;
+  try {
+    post = await getPostBySlug(slug);
+  } catch (err) {
+    console.error(`[Blog] Failed to fetch post for slug "${slug}":`, err);
+    // Surface as a 500, not a silent notFound — the content exists but is unavailable.
+    throw err;
+  }
 
   if (!post) {
     notFound();

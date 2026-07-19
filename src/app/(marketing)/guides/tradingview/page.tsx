@@ -6,7 +6,7 @@ import Breadcrumbs from "@/components/layout/Breadcrumbs";
 
 export const metadata: Metadata = {
   title: "TradingView Mastery Guides — Tutorials & Pro Tips | Drawdown",
-  description: "Master the world's most powerful charting platform. Explore our professional guides on getting started, custom Pine Script coding, indicators, alerts, and mobile trading.",
+  description: "Master the world's most powerful charting platform. Explore our guides on getting started, custom Pine Script coding, indicators, alerts, and mobile trading.",
 };
 
 export default function TradingViewGuidesIndexPage() {

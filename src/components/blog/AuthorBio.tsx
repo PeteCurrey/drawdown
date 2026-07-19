@@ -36,8 +36,8 @@ export function AuthorBio({ author }: AuthorBioProps) {
         </div>
         <p className="text-xs text-slate-500 leading-relaxed font-sans">
           {isPete
-            ? "Professional trader and algorithmic systems architect. Pete built Drawdown to strip away retail noise and focus on cold institutional risk."
-            : "The Drawdown research desk. Composed of institutional analysts and systematic developers extracting edge from order flow data."}
+            ? "Professional trader and algorithmic systems architect. Pete built Drawdown to strip away retail noise and focus on cold professional risk."
+            : "The Drawdown research desk. Composed of professional analysts and systematic developers extracting edge from order flow data."}
         </p>
         {isPete && (
           <Link 

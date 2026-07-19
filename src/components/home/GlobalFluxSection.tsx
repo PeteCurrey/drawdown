@@ -85,7 +85,7 @@ export function GlobalFluxSection() {
             Real-time tracking of systemic market range expansion, high-low pricing envelopes, and volatility thresholds.
           </p>
           <p className="text-xs text-mkt-i4 max-w-2xl mx-auto font-sans mt-4 leading-relaxed border-t border-neutral-100 pt-4">
-            These live TradingView widgets stream real-time price feeds and daily sparklines for GBP/USD, EUR/USD, and BTC/USD. Traders use this tick-by-tick momentum to monitor immediate directional shifts and daily ranges, helping them identify institutional volume clusters and trends.
+            These live TradingView widgets stream real-time price feeds and daily sparklines for GBP/USD, EUR/USD, and BTC/USD. Traders use this tick-by-tick momentum to monitor immediate directional shifts and daily ranges, helping them identify major volume clusters and trends.
           </p>
         </div>
 

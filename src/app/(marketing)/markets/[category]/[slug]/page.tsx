@@ -36,7 +36,7 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { category, slug } = await params;
   const instrument = getInstrumentBySlug(slug);
-  if (!instrument) return {};
+  if (!instrument) notFound();
   return {
     title: instrument.metaTitle,
     description: instrument.metaDescription,

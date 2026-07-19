@@ -45,6 +45,18 @@ export default async function middleware(request: NextRequest) {
 
   const path = request.nextUrl.pathname;
 
+  // SEO Audit Phase 1 — Return 410 Gone for retired/unsupported regional city pages and glossary
+  const pathParts = path.split("/").filter(Boolean);
+  if (
+    (pathParts[0] === "sg" && pathParts[1] === "learn-to-trade" && pathParts.length === 4) ||
+    (pathParts[0] === "hk" && pathParts[1] === "learn-to-trade" && pathParts.length === 4) ||
+    (pathParts[0] === "us" && pathParts[1] === "best" && pathParts.length === 3) ||
+    (pathParts[0] === "us" && pathParts[1] === "how-to" && pathParts.length === 3) ||
+    (pathParts[0] === "glossary" && pathParts.length === 2)
+  ) {
+    return new NextResponse(null, { status: 410, statusText: "Gone" });
+  }
+
   // Handle regional prefix 301 redirects (excluding working sub-folders)
   const regions = [
     { prefix: "/au/", exclude: ["best", "brokers", "compare", "how-to", "learn-to-trade", "pricing"] },

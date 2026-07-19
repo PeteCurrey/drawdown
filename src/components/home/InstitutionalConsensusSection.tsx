@@ -110,7 +110,7 @@ export function InstitutionalConsensusSection() {
             // ACCUMULATION MATRIX
           </span>
           <h2 className="text-3xl md:text-5xl font-sans font-extrabold text-mkt-ink tracking-tight mb-4">
-            Institutional Consensus
+            Market Consensus
           </h2>
           <p className="text-base text-mkt-i3 max-w-xl mx-auto font-sans">
             Aggregate long/short ratios, positioning grids, and daily directional bias across primary assets.

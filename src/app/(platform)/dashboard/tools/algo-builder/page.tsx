@@ -17,7 +17,7 @@ const TIER_WEIGHT: Record<string, number> = {
 export const metadata = {
   title: "Algo Strategy Builder · Drawdown",
   description:
-    "Convert discretionary logic into production Pine Script v6 & Python with QuantCoder AI.",
+    "Convert your discretionary trading logic into production Pine Script v6 and Python strategies with QuantCoder AI. No coding experience required.",
 };
 
 export default async function AlgoBuilderPage() {

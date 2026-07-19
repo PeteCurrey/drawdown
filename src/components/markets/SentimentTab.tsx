@@ -96,7 +96,7 @@ export function SentimentTab() {
                    <div>
                      <p className="text-xs font-bold uppercase tracking-widest mb-2">Contrarian Signal</p>
                      <p className="text-sm text-mkt-i2 leading-relaxed">
-                       In institutional trading, "Extreme Fear" can be a powerful buy signal, while "Extreme Greed" often signals a market top. Use this to gauge if retail positioning is overextended.
+                       In professional trading, "Extreme Fear" can be a powerful buy signal, while "Extreme Greed" often signals a market top. Use this to gauge if retail positioning is overextended.
                      </p>
                    </div>
                 </div>

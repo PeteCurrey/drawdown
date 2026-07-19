@@ -6,7 +6,7 @@ import { JournalClient } from "@/components/journal/JournalClient";
 
 export const metadata = {
   title: "AI Trade Journal | Drawdown",
-  description: "Every trade logged. Every pattern found. Every edge revealed.",
+  description: "Log every trade, discover hidden patterns, and track your true edge. Drawdown's AI journal surfaces the insights your P&L can't show you alone.",
 };
 
 const TIER_WEIGHT: Record<string, number> = {

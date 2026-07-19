@@ -13,7 +13,6 @@ import {
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { useState } from "react";
-import { BEST_OF_PAGES } from "@/data/seo/best";
 import { brokers } from "@/data/brokers";
 
 interface MarketingClientProps {
@@ -29,13 +28,6 @@ export function AdminMarketingClient({ stats }: MarketingClientProps) {
 
   // Combine static and dynamic pages for the management list
   const allLandingPages = [
-    ...BEST_OF_PAGES.map(p => ({
-      name: p.title,
-      path: p.slug,
-      type: 'Hub',
-      views: stats.pagePerformance.find(v => v.page_path === p.slug)?.views || 0,
-      clicks: stats.clickPerformance.filter(c => c.source_page === p.slug).length || 0,
-    })),
     ...brokers.map(b => ({
       name: `${b.name} Review`,
       path: `/brokers/${b.slug}`,

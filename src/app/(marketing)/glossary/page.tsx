@@ -7,7 +7,7 @@ import { TrackPageView } from "@/components/admin/TrackPageView";
 
 export const metadata: Metadata = {
   title: "Trading Glossary | Drawdown — Trade the Truth",
-  description: "Comprehensive A-Z glossary of trading terms, concepts, and jargon explained in plain English for UK traders.",
+  description: "Comprehensive A-Z glossary of trading terms, concepts, and jargon explained in plain English. Every definition a UK trader needs, from spreads to drawdown.",
 };
 
 export default function GlossaryIndex() {

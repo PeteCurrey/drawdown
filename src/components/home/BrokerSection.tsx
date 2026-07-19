@@ -20,7 +20,7 @@ const ukBrokers = [
     logoPlaceholder: "IG",
     bestFor: "Best for UK spread betting",
     stat: "Spreads from 0.6 pips",
-    features: ["FCA Regulated", "Institutional Grade"],
+    features: ["FCA Regulated", "Professional Grade"],
     color: "#E11A27",
     regulation: "FCA PROTECTED"
   },

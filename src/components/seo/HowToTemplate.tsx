@@ -1,10 +1,9 @@
-import { HowToPage } from "@/data/seo/howto";
 import { BookOpen, Clock, Activity, TrendingUp, ArrowRight, Target, AlertCircle, HelpCircle } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import Breadcrumbs from "@/components/layout/Breadcrumbs";
 
-export function HowToTemplate({ page, region = 'uk' }: { page: HowToPage; region?: string }) {
+export function HowToTemplate({ page, region = 'uk' }: { page: any; region?: string }) {
   const regionPrefix = region === 'uk' ? '' : `/${region}`;
 
   return (
@@ -78,7 +77,7 @@ export function HowToTemplate({ page, region = 'uk' }: { page: HowToPage; region
 
               {/* Steps */}
               <div className="space-y-16">
-                {page.steps.map((step, i) => (
+                {page.steps.map((step: any, i: number) => (
                   <div key={i} className="relative pl-12 border-l border-border-slate/40 pb-12 last:pb-0 group">
                     <div className="absolute -left-[13px] top-0 w-6 h-6 bg-accent text-[#08090D] flex items-center justify-center text-[10px] font-bold rounded-full group-hover:scale-110 transition-transform">
                        {i + 1}
@@ -97,7 +96,7 @@ export function HowToTemplate({ page, region = 'uk' }: { page: HowToPage; region
                       Critical Mistakes to Avoid.
                    </h3>
                    <ul className="space-y-6 list-none p-0 m-0">
-                      {page.commonMistakes.map((mistake, i) => (
+                      {page.commonMistakes.map((mistake: string, i: number) => (
                         <li key={i} className="flex gap-4 text-sm text-text-secondary leading-relaxed m-0 italic">
                           <span className="text-loss font-mono font-bold">»</span>
                           {mistake}
@@ -134,7 +133,7 @@ export function HowToTemplate({ page, region = 'uk' }: { page: HowToPage; region
                <div className="p-8 bg-background-surface/40 border border-border-slate/50 backdrop-blur-md space-y-8">
                   <h4 className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary font-bold">// THE PLAYBOOK</h4>
                   <p className="text-sm text-text-secondary leading-relaxed">
-                    This guide is part of the Drawdown Institutional Curriculum. Start mastering the business of risk with Drawdown.
+                    This guide is part of the Drawdown Professional Curriculum. Start mastering the business of risk with Drawdown.
                   </p>
                   <Link href={`${regionPrefix}/courses`} className="w-full py-4 border border-accent hover:bg-accent hover:text-[#08090D] text-accent transition-all text-center text-[10px] font-bold uppercase tracking-widest block">
                      Access Full Curriculum

@@ -314,7 +314,7 @@ export function LiveNewsSection() {
             Market Pulse & Intelligence
           </h2>
           <p className="text-base text-mkt-i3 max-w-xl mx-auto font-sans">
-            Real-time sentiment monitoring, macro calendars, and raw institutional data feeds.
+            Real-time sentiment monitoring, macro calendars, and raw professional data feeds.
           </p>
           <p className="text-xs text-mkt-i4 max-w-2xl mx-auto font-sans mt-4 leading-relaxed border-t border-neutral-100 pt-4">
             This panel aggregates global news coverages from Sky News, CNN, Fox News, and BBC, alongside the real-time Economic Calendar and top currency movers. By matching political headlines and central bank speeches with price charts, traders can pinpoint high-impact volatility windows and sentiment shifts.

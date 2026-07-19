@@ -2,11 +2,11 @@ import type { Metadata } from "next";
 import { WhyGurusDemoClient } from "./WhyGurusDemoClient";
 
 export const metadata: Metadata = {
-  title: "Why Trading Gurus Use Demo Accounts — And What It Actually Means | Drawdown",
-  description: "The hate around demo accounts in trading content is mostly misdirected. Here's the honest reason gurus use them, why the omission is the real problem, and what traders should actually be looking for.",
+  title: "Why Trading Gurus Use Demo Accounts | Drawdown",
+  description: "The hate around demo accounts in trading content is mostly misdirected. Here's the honest reason gurus use them, and why undisclosed use is the real issue.",
   openGraph: {
-    title: "Why Trading Gurus Use Demo Accounts — And What It Actually Means | Drawdown",
-    description: "The hate around demo accounts in trading content is mostly misdirected. Here's the honest reason gurus use them, why the omission is the real problem, and what traders should actually be looking for.",
+    title: "Why Trading Gurus Use Demo Accounts | Drawdown",
+    description: "The hate around demo accounts in trading content is mostly misdirected. Here's the honest reason gurus use them, and why undisclosed use is the real issue.",
     type: "article",
     url: "https://drawdown.trading/blog/why-trading-gurus-use-demo-accounts",
     images: [

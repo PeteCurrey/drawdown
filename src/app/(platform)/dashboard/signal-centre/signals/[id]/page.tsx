@@ -4,7 +4,7 @@ import { PublicSignalDetailClient } from "@/components/signal-centre/PublicSigna
 
 export const metadata = {
   title: "Drawdown Signal Hub · Real-time Institutional Analysis",
-  description: "Advanced quantitative confluence analytics, indicators grid, and dual AI sentiment scoring.",
+  description: "Advanced quantitative confluence analytics, indicators grid, and dual AI sentiment scoring. Deep-dive signal analysis with full technical context and rationale.",
 };
 
 const TIER_WEIGHT: Record<string, number> = {

@@ -1,5 +1,4 @@
-import { redirect } from "next/navigation";
-import { COMPARISON_PAGES } from "@/data/seo/compare";
+import { notFound } from "next/navigation";
 import { Metadata } from "next";
 import { CompareTemplate } from "@/components/seo/CompareTemplate";
 import BreadcrumbSchema from "@/components/seo/BreadcrumbSchema";
@@ -37,18 +36,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       };
     }
   } catch {
-    // Supabase unavailable — fall through to static data
+    // Supabase unavailable — fall through to notFound()
   }
 
-  const staticPage = COMPARISON_PAGES.find((p) => p.slug === slug);
-
-  if (!staticPage) return {};
-
-  return {
-    title: staticPage.title,
-    description: staticPage.metaDescription,
-    alternates: { canonical: `https://drawdown.trading/compare/${slug}` },
-  };
+  // No matching published record found — return a proper 404, not a redirect.
+  // Returning {} here would produce a 200 with blank metadata before the page
+  // component fires its own notFound(); calling notFound() directly avoids that.
+  notFound();
 }
 
 export default async function GlobalComparePage({ params }: Props) {
@@ -91,30 +85,12 @@ export default async function GlobalComparePage({ params }: Props) {
       );
     }
   } catch {
-    // Supabase unavailable or threw — fall through to static data
+    // Supabase unavailable or threw
   }
 
-  // ── 2. Try static fallback data ──────────────────────────────────────────
-  const staticPage = COMPARISON_PAGES.find((p) => p.slug === slug);
-
-  if (staticPage) {
-    return (
-      <>
-        <BreadcrumbSchema
-          items={[
-            { name: "Home", url: "https://drawdown.trading" },
-            { name: "Compare", url: "https://drawdown.trading/compare" },
-            {
-              name: staticPage.title,
-              url: `https://drawdown.trading/compare/${slug}`,
-            },
-          ]}
-        />
-        <CompareTemplate page={staticPage as any} region="uk" />
-      </>
-    );
-  }
-
-  // ── 3. Neither DB nor static — redirect to hub. Unconditional. ────────────
-  redirect("/brokers");
+  // ── 2. No published compare page found — return a proper 404. ────────────
+  // Previously this redirected to /brokers, which is a soft-404 pattern:
+  // Googlebot follows the 302, sees a 200, and may index the compare URL as
+  // a redirect rather than treating it as absent content.
+  notFound();
 }

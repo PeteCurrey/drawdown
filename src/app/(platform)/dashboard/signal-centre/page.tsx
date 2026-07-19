@@ -4,7 +4,7 @@ import { SignalCentreDashboardClient } from "@/components/signal-centre/SignalCe
 
 export const metadata = {
   title: "Signal Centre · Drawdown",
-  description: "Real-time, high-conviction sessional confluence signals and technical setups.",
+  description: "Real-time, high-conviction sessional confluence signals and technical setups. Three AI models produce a single consensus score on every live market opportunity.",
 };
 
 const TIER_WEIGHT: Record<string, number> = {

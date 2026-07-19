@@ -265,7 +265,7 @@ export const LEARN_TOPICS: LearnTopic[] = [
     timeToLearn: "12-24 months",
     riskLevel: "High",
     heroImage: "/images/learn/forex-trading.jpg",
-    metaTitle: "Forex Trading Guide UK 2026 | Master the Currency Markets | Drawdown",
+    metaTitle: "Forex Trading Guide UK | Currency Markets | Drawdown",
     metaDescription: "Learn to trade Forex properly. Understand pips, lots, leverage, and the macroeconomic forces that actually move the currency markets.",
     honestReality: "The Forex industry is heavily marketed as a 'get rich quick' scheme to retail traders. The reality is that Forex is a highly efficient, hyper-competitive market dominated by central banks and institutional algorithms. The extreme leverage offered by brokers means you can double your money in a day, but it also means you can blow your entire account in a single bad trade. Success in FX requires a 12-24 month commitment to mastering both technical execution and deep macroeconomic understanding.",
     content: [
@@ -522,7 +522,7 @@ export const LEARN_TOPICS: LearnTopic[] = [
   },
     {
     slug: "spread-betting",
-    title: "Spread Betting for UK Traders — The Complete Guide",
+    title: "Spread Betting",
     metaTitle: "Spread Betting UK Guide 2026 | Tax-Free Trading | Drawdown",
     subtitle: "The UK's tax-free trading loophole. Master the mechanics of stake size, margin, and keeping 100% of your profits.",
     description: "The complete guide to financial spread betting in the UK. Learn how to trade the global markets tax-free, understand how 'pounds per point' sizing works, and navigate the risks of high leverage.",
@@ -789,7 +789,7 @@ export const LEARN_TOPICS: LearnTopic[] = [
   },
     {
     slug: "trading-psychology",
-    title: "Trading Psychology — The Mental Edge Serious Traders Build",
+    title: "Trading Psychology",
     metaTitle: "Trading Psychology UK Guide | Master Your Mindset | Drawdown",
     subtitle: "The hardest battle isn't with the market; it's with yourself. Mastering fear, greed, and the illusion of control.",
     description: "Your technical analysis is useless if your psychology is compromised. Learn to build an emotionless, mechanical mindset that treats trading as a strict probability business.",
@@ -916,7 +916,7 @@ export const LEARN_TOPICS: LearnTopic[] = [
   },
       {
     slug: "technical-analysis",
-    title: "Technical Analysis for Beginners — A UK Trader's Guide",
+    title: "Technical Analysis",
     metaTitle: "Technical Analysis Guide UK 2026 | Master Price Action | Drawdown",
     subtitle: "The art of reading institutional footprints. Forget magic indicators; focus on structure, liquidity, and momentum.",
     description: "The complete guide to technical analysis for modern traders. Learn how to read price action, identify true support and resistance, and trade alongside institutional order flow.",
@@ -1066,7 +1066,7 @@ export const LEARN_TOPICS: LearnTopic[] = [
     timeToLearn: "12-24 months",
     riskLevel: "Low",
     heroImage: "/images/learn/candlesticks.jpg",
-    metaTitle: "Candlestick Patterns Guide UK 2026 | Timing Your Entries | Drawdown",
+    metaTitle: "Candlestick Patterns Guide UK | Timing Entries | Drawdown",
     metaDescription: "Learn the visual language of the markets. Master hammers, shooting stars, and engulfing patterns to improve your trade timing and execution.",
     honestReality: "Candlestick patterns are highly effective, but they are completely useless in isolation. A bullish engulfing candle in the middle of nowhere means absolutely nothing. Retail traders memorize 50 different candlestick patterns and try to trade every single one they see. Institutional traders look for one or two specific candlestick patterns, but *only* when they occur at predetermined, high-timeframe supply or demand zones. The context of the pattern is 10x more important than the pattern itself.",
     content: [
@@ -1197,7 +1197,7 @@ export const LEARN_TOPICS: LearnTopic[] = [
     timeToLearn: "1 week",
     riskLevel: "Low",
     heroImage: "/images/learn/position-sizing.jpg",
-    metaTitle: "Position Sizing Guide UK | The Maths of Trading Survival | Drawdown",
+    metaTitle: "Position Sizing Guide UK | Trading Sizing Rules | Drawdown",
     metaDescription: "Never blow an account again. Learn the exact formula for calculating position size based on risk and stop-loss distance for UK spread betting and CFDs.",
     honestReality: "The reason 80% of retail traders lose their money is not because their strategy is bad. It is because they do not know how to size their positions. They trade a static amount—like '£5 a point'—regardless of how far away their stop loss is. This means on some trades they risk 1% of their account, and on others they risk 10%. One unexpected market movement wipes out weeks of profit. Professional trading is a game of standardized risk. If you do not calculate your exact position size before every single trade, you are gambling.",
     content: [
@@ -1392,7 +1392,7 @@ export const LEARN_TOPICS: LearnTopic[] = [
     timeToLearn: "1-2 weeks",
     riskLevel: "Medium",
     heroImage: "/images/learn/indices.jpg",
-    metaTitle: "Index Trading Guide UK 2026 | Master the FTSE & S&P 500 | Drawdown",
+    metaTitle: "Index Trading Guide UK 2026 | FTSE & S&P 500 | Drawdown",
     metaDescription: "Learn to trade global stock indices. Ditch single-stock risk and master the mechanics of trading the S&P 500, Nasdaq 100, and FTSE 100.",
     honestReality: "For the vast majority of retail day traders, trading an index is vastly superior to trading individual stocks. When you trade a single company like Tesla or Apple, you are exposed to 'idiosyncratic risk'—the CEO tweets something reckless, an earnings report misses by 1%, or a product gets recalled, and the stock gaps down 15% overnight, destroying your stop loss. An index dilutes that risk across hundreds of companies. It moves based on broader macroeconomic trends and technical levels, making it far more predictable and liquid for short-term trading.",
     content: [
@@ -1588,7 +1588,7 @@ export const LEARN_TOPICS: LearnTopic[] = [
     timeToLearn: "3-6 months",
     riskLevel: "Medium",
     heroImage: "/images/learn/order-flow.jpg",
-    metaTitle: "Order Flow Trading Guide UK 2026 | See Inside the Candles | Drawdown",
+    metaTitle: "Order Flow Trading Guide UK | Inside Candles | Drawdown",
     metaDescription: "Master institutional order flow. Learn to read the DOM, Level 2 data, and footprint charts to identify where the big money is moving.",
     honestReality: "Order flow is the closest you will ever get to having 'insider information' without breaking the law. A standard candlestick chart only shows you the *result* of the battle between buyers and sellers. Order flow shows you the *actual battle* as it happens. You can see the exact volume of contracts being executed at every single price level. However, order flow platforms are expensive, the data feeds cost monthly subscriptions, and learning to read a footprint chart looks like reading the Matrix. It is a steep learning curve, but once you learn to read the tape, you will never look at a naked candlestick the same way again.",
     content: [
@@ -1643,7 +1643,7 @@ export const LEARN_TOPICS: LearnTopic[] = [
   },
   {
     slug: "fibonacci-retracement",
-    title: "Fibonacci Retracement",
+    title: "Fibonacci",
     description: "Master the Golden Ratio. Learn how to identify natural pulling points in the market for precise entries and exits.",
     category: "Strategy",
     heroImage: "/images/learn/fibonacci.jpg",
@@ -1710,7 +1710,7 @@ export const LEARN_TOPICS: LearnTopic[] = [
     description: "The complete guide to professional-grade automated trading. Learn to codify your edge and remove biological emotion from your execution.",
     category: "Strategy",
     heroImage: "/images/learn/algo-trading.jpg",
-    metaTitle: "Algorithmic Trading Guide | Systematic Edge & Automation | Drawdown",
+    metaTitle: "Algorithmic Trading Guide | Systematic Edge | Drawdown",
     metaDescription: "Master algorithmic trading. From Pine Script to Python, learn how to build, backtest, and deploy automated trading systems with institutional discipline.",
     content: [
       {
@@ -1852,7 +1852,7 @@ export const LEARN_TOPICS: LearnTopic[] = [
   ,
   {
     slug: "prop-firm-trading",
-    title: "How to Trade with a Prop Firm in the UK",
+    title: "Prop Firm Trading",
     subtitle: "A complete institutional guide to trading funded capital, passing challenges, and handling HMRC taxes in the UK.",
     description: "The proprietary trading industry offers retail traders access to six-figure capital. But navigating the rules, trailing drawdowns, and payout compliance requires an institutional approach. Learn how to select a reputable firm, size risk, and trade professionally.",
     category: "Market",
@@ -1895,7 +1895,7 @@ export const LEARN_TOPICS: LearnTopic[] = [
   },
   {
     slug: "backtesting-strategies",
-    title: "How to Backtest a Trading Strategy Properly",
+    title: "Backtesting",
     subtitle: "A rigorous mathematical guide to verifying trading edge across historical tick data.",
     description: "Most retail traders backtest three weeks of data, get a 70% win rate, and start trading real capital. This guide teaches the institutional approach: statistical sample sizing, MAE optimization, and Monte Carlo stress testing.",
     category: "Strategy",
@@ -1938,7 +1938,7 @@ export const LEARN_TOPICS: LearnTopic[] = [
   },
   {
     slug: "macro-trading",
-    title: "Macro Trading for Retail Traders — Understanding the Big Picture",
+    title: "Macro Trading",
     subtitle: "How to analyze central bank policy cycles, interest rates, and economic cycles to trade currencies.",
     description: "Price action shows you where price is, but macroeconomics tells you why it moves. Learn to read central bank statements, monitor interest rate differentials, and build a weekly directional bias.",
     category: "Market",
@@ -1946,7 +1946,7 @@ export const LEARN_TOPICS: LearnTopic[] = [
     timeToLearn: "6-12 months",
     riskLevel: "Medium",
     heroImage: "/images/learn/macro.jpg",
-    metaTitle: "Macro Trading for Retail Traders | Economic Data Cycles | Drawdown",
+    metaTitle: "Macro Trading Guide: Economic Cycles | Drawdown",
     metaDescription: "Learn macro trading. Master central bank policy cycles, interest rate differentials, inflation data (CPI/PPI/PCE), and weekly bias systems.",
     honestReality: "Macro trading is not about predicting the news. Professional desks do not guess NFP or CPI numbers. They analyze how deviations from market consensus shift central bank expectations, and trade the subsequent institutional trend.",
     relatedModules: [
@@ -1981,7 +1981,7 @@ export const LEARN_TOPICS: LearnTopic[] = [
   },
   {
     slug: "ai-trading-tools",
-    title: "AI Trading Tools in 2026 — What They Can and Can't Do",
+    title: "AI Trading Tools",
     subtitle: "A practical guide to integrating large language models and automation into your trading workflow.",
     description: "Artificial intelligence is not replacing traders, but it is replacing traders who refuse to adapt. Learn how to use LLMs as research partners, build custom scanners, and automate TradingView strategies.",
     category: "Tools",
@@ -2024,7 +2024,7 @@ export const LEARN_TOPICS: LearnTopic[] = [
   },
   {
     slug: "ftmo-challenge",
-    title: "How to Pass an FTMO Challenge — The Honest Guide",
+    title: "FTMO Challenge",
     subtitle: "A math-driven guide to passing the FTMO evaluation without gambling your registration fee.",
     description: "FTMO is the industry benchmark for prop firm capital. But passing requires strict compliance with daily drawdowns and consistency rules. Learn the conservative sizing playbook to pass Phase 1 and Phase 2.",
     category: "Market",

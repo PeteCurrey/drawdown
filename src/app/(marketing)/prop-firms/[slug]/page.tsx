@@ -18,7 +18,7 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const review = PROP_FIRM_REVIEWS.find((r) => r.slug === slug);
-  if (!review) return {};
+  if (!review) notFound();
 
   return {
     title: review.title,

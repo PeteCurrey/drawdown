@@ -68,7 +68,7 @@ export function InstitutionalPulseSection() {
               type,
               icon,
               title: `${item.symbol} Momentum Flow`,
-              description: `${item.symbol} is displaying a ${item.trend.toLowerCase()} market bias. The 14-period Relative Strength Index is at ${item.rsi}, reflecting active institutional ${isBullish ? "accumulation" : isBearish ? "liquidity sweeps" : "neutral consolidation"}.`,
+              description: `${item.symbol} is displaying a ${item.trend.toLowerCase()} market bias. The 14-period Relative Strength Index is at ${item.rsi}, reflecting active professional ${isBullish ? "accumulation" : isBearish ? "liquidity sweeps" : "neutral consolidation"}.`,
               color,
               bgColor,
               badgeColor
@@ -139,13 +139,13 @@ export function InstitutionalPulseSection() {
             // SENTIMENT INDEX
           </span>
           <h2 className="text-3xl md:text-5xl font-sans font-extrabold text-mkt-ink tracking-tight mb-4">
-            Institutional Pulse
+            Market Pulse
           </h2>
           <p className="text-base text-mkt-i3 max-w-xl mx-auto font-sans">
             Real-time aggregate data tracks order flow pressure, option positioning, and large account allocations.
           </p>
           <p className="text-xs text-mkt-i4 max-w-2xl mx-auto font-sans mt-4 leading-relaxed border-t border-neutral-100 pt-4">
-            The Institutional Sentiment Index compiles global risk gauges (like the Crypto Fear & Greed Index and the VIX Volatility Index) to map macro exposure. Higher bullish weights signal broad buying appetite, while higher VIX values imply market consolidation. The corresponding signals examine recent moving averages and RSI levels to identify institutional trend zones.
+            The Market Sentiment Index compiles global risk gauges (like the Crypto Fear & Greed Index and the VIX Volatility Index) to map macro exposure. Higher bullish weights signal broad buying appetite, while higher VIX values imply market consolidation. The corresponding signals examine recent moving averages and RSI levels to identify professional trend zones.
           </p>
         </div>
 

@@ -3,7 +3,7 @@ import { ShieldCheck, Scale, Search, PenTool, Database } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Editorial Standards | Drawdown",
-  description: "Our strict editorial guidelines for ensuring accuracy, objectivity, and truth in all Drawdown publications.",
+  description: "Our strict editorial guidelines for ensuring accuracy, objectivity, transparency, and truth in all Drawdown market analysis and publications.",
 };
 
 export default function EditorialStandardsPage() {

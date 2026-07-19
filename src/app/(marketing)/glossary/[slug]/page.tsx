@@ -76,7 +76,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const glossaryTerm = await getGlossaryTerm(slug);
 
-  if (!glossaryTerm) return {};
+  // Call notFound() rather than returning {} — an empty metadata object would
+  // produce a 200-status response with blank SEO headers, which is a soft-404
+  // signal to search engines. notFound() aborts cleanly.
+  if (!glossaryTerm) notFound();
 
   return {
     title: `What is ${glossaryTerm.term}? — Trading Glossary | Drawdown`,

@@ -99,5 +99,5 @@ export default async function DailyReportPage() {
 
 export const metadata = {
   title: "Daily Intelligence Briefing | Drawdown",
-  description: "AI-generated morning market briefing covering macro environment, key events, instrument analysis, and top setups.",
+  description: "AI-generated morning market briefing covering macro environment, key events, instrument analysis, and top setups — published every trading day.",
 };

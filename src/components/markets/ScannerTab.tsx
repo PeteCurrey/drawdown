@@ -131,7 +131,7 @@ export function ScannerTab() {
         )}
       </div>
 
-      {/* Institutional CTA */}
+      {/* Professional CTA */}
       <div className="mt-8 p-10 border border-mkt-bd bg-white/30 relative overflow-hidden">
         <div className="absolute top-0 right-0 p-4 opacity-5 pointer-events-none">
           <Database className="w-32 h-32 text-accent" />
@@ -139,7 +139,7 @@ export function ScannerTab() {
         <div className="relative z-10 space-y-4">
            <h4 className="text-xl font-sans font-bold uppercase">Advanced Technical Overlays</h4>
            <p className="text-sm text-mkt-i2 max-w-2xl leading-relaxed">
-             Unlock real-time institutional technical consensus, order flow analysis, and liquidity heatmap for these symbols. Stay ahead of the retail crowd.
+             Unlock real-time professional technical consensus, order flow analysis, and liquidity heatmap for these symbols. Stay ahead of the retail crowd.
            </p>
            <button className="px-8 py-4 bg-white border border-accent/40 text-accent hover:bg-accent hover:text-background-primary font-bold uppercase tracking-widest text-[10px] transition-all">
              Unlock Full Edge Dashboard

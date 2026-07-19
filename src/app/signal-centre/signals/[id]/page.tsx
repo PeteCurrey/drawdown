@@ -4,7 +4,7 @@ import { PublicSignalDetailClient } from "@/components/signal-centre/PublicSigna
 
 export const metadata = {
   title: "Drawdown Signal Centre · High-Conviction Market Setups",
-  description: "Real-time, algorithmic market structural shifts and confluence setups verified on live price history.",
+  description: "Real-time, algorithmic market structural shifts and confluence setups verified on live price history with institutional multi-AI consensus scoring.",
 };
 
 const TIER_WEIGHT: Record<string, number> = {

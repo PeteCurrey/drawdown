@@ -1,5 +1,4 @@
 import { redirect } from "next/navigation";
-import { HOW_TO_PAGES } from "@/data/seo/howto";
 import { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
@@ -27,7 +26,7 @@ function toIsoDuration(t: string | number | undefined): string {
 }
 
 export async function generateStaticParams() {
-  return HOW_TO_PAGES.map((p) => ({ slug: p.slug }));
+  return [];
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -62,22 +61,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       };
     }
   } catch {
-    // Supabase unavailable — fall through to static data
+    // Supabase unavailable
   }
 
-  const staticPage = HOW_TO_PAGES.find((p) => p.slug === slug);
-  if (!staticPage) return {};
-
-  return {
-    title: (staticPage as any).metaTitle || staticPage.title,
-    description: staticPage.metaDescription,
-    alternates: { canonical: `https://drawdown.trading/how-to/${slug}` },
-    openGraph: {
-      title: (staticPage as any).metaTitle || staticPage.title,
-      description: staticPage.metaDescription,
-      ...((staticPage as any).heroImage ? { images: [{ url: (staticPage as any).heroImage.src, alt: (staticPage as any).heroImage.alt }] } : {}),
-    },
-  };
+  return {};
 }
 
 export default async function HowToPage({ params }: Props) {
@@ -105,18 +92,14 @@ export default async function HowToPage({ params }: Props) {
       };
     }
   } catch {
-    // Supabase unavailable — fall through to static data
+    // Supabase unavailable
   }
 
-  // ── 2. Try static fallback data ──────────────────────────────────────────
-  if (!page) {
-    page = HOW_TO_PAGES.find((p) => p.slug === slug) || null;
-  }
-
-  // ── 3. Neither — redirect to hub. Unconditional. ─────────────────────────
+  // ── 2. Neither — redirect to hub. Unconditional. ─────────────────────────
   if (!page) {
     redirect('/learn-to-trade');
   }
+
 
   // ── JSON-LD: HowTo ──────────────────────────────────────────────────────────
   const howToSchema = {

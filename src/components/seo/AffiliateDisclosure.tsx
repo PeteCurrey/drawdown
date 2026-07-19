@@ -15,7 +15,7 @@ export function AffiliateDisclosure({ className }: AffiliateDisclosureProps) {
         <Info className="w-5 h-5 text-accent shrink-0 mt-0.5" />
         <div className="space-y-2">
           <span className="text-[10px] font-mono font-bold text-accent uppercase tracking-widest">
-            Institutional Transparency
+            Professional Transparency
           </span>
           <p className="text-[11px] leading-relaxed text-mkt-i2 uppercase">
             Drawdown may earn a referral commission if you open an account via our links. 

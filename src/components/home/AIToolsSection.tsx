@@ -103,7 +103,7 @@ const tools = [
     icon: Newspaper,
     name: "Daily Intelligence Brief",
     slug: "intelligence-hub",
-    description: "A pre-market systemic breakdown of institutional flows, macro events, and major consensus changes.",
+    description: "A pre-market systemic breakdown of professional flows, macro events, and major consensus changes.",
     isFree: true,
     // Faded Amber
     baseBg: "rgba(245, 158, 11, 0.015)",

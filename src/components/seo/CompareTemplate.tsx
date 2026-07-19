@@ -1,4 +1,3 @@
-import { ComparisonPage } from "@/data/seo/compare";
 import { ShieldCheck, Target, Activity, TrendingUp, ArrowRight, ExternalLink, Info, CheckCircle2, Zap, GitCompare } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
@@ -14,7 +13,7 @@ function getLogoForPlatform(name: string) {
   return null;
 }
 
-export function CompareTemplate({ page, region = 'uk', updatedAt }: { page: ComparisonPage; region?: string; updatedAt?: string }) {
+export function CompareTemplate({ page, region = 'uk', updatedAt }: { page: any; region?: string; updatedAt?: string }) {
   const regionPrefix = region === 'uk' ? '' : `/${region}`;
 
   // Parse platform names for visual header
@@ -120,7 +119,7 @@ export function CompareTemplate({ page, region = 'uk', updatedAt }: { page: Comp
                     <div className="space-y-6 bg-background-elevated/40 p-8 border border-border-slate/30">
                        <h3 className="text-xs font-mono uppercase tracking-widest text-text-tertiary font-bold">// Key Strengths</h3>
                        <ul className="space-y-4 list-none p-0">
-                          {page.quickVerdict.prosA.map((pro, i) => (
+                          {page.quickVerdict.prosA.map((pro: string, i: number) => (
                              <li key={i} className="flex items-center gap-3 text-xs text-text-secondary m-0">
                                 <CheckCircle2 className="w-3.5 h-3.5 text-profit" />
                                 {pro}
@@ -157,7 +156,7 @@ export function CompareTemplate({ page, region = 'uk', updatedAt }: { page: Comp
             )}
 
             <div className="prose prose-invert prose-slate max-w-none">
-              {page.sections.map((section, i) => (
+              {page.sections.map((section: any, i: number) => (
                 <div key={i} className="mb-16">
                    <h2 className="text-3xl font-display font-bold uppercase tracking-tight mb-6 text-text-primary">{section.title}</h2>
                    <p className="text-lg text-text-secondary leading-relaxed">{section.content}</p>
@@ -170,7 +169,7 @@ export function CompareTemplate({ page, region = 'uk', updatedAt }: { page: Comp
                     <div className="p-10 bg-background-surface/40 backdrop-blur-md border border-border-slate/50">
                         <h3 className="text-xl font-display font-bold uppercase mb-6 text-text-primary">Choose {nameA} If...</h3>
                         <ul className="space-y-4 list-none p-0">
-                          {page.whoShouldChooseA.map((item, i) => (
+                          {page.whoShouldChooseA.map((item: string, i: number) => (
                               <li key={i} className="text-sm text-text-secondary leading-relaxed flex gap-3">
                                 <span className="text-accent font-bold">»</span> {item}
                               </li>
@@ -182,7 +181,7 @@ export function CompareTemplate({ page, region = 'uk', updatedAt }: { page: Comp
                     <div className="p-10 bg-background-surface/40 backdrop-blur-md border border-border-slate/50">
                         <h3 className="text-xl font-display font-bold uppercase mb-6 text-text-primary">Choose {nameB} If...</h3>
                         <ul className="space-y-4 list-none p-0">
-                          {page.whoShouldChooseB.map((item, i) => (
+                          {page.whoShouldChooseB.map((item: string, i: number) => (
                               <li key={i} className="text-sm text-text-secondary leading-relaxed flex gap-3">
                                 <span className="text-accent font-bold">»</span> {item}
                               </li>

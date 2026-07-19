@@ -24,13 +24,13 @@ const PHASES = [
   {
     number: 3,
     title: 'Strategist',
-    description: 'Developing your edge with high-probability institutional setups.',
+    description: 'Developing your edge with high-probability professional setups.',
     duration: '4 weeks'
   },
   {
     number: 4,
     title: 'Risk Manager',
-    description: 'Scaling positions, managing drawdown, and institutional sizing.',
+    description: 'Scaling positions, managing drawdown, and professional sizing.',
     duration: 'Ongoing'
   }
 ];

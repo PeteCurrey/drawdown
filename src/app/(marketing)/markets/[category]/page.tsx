@@ -31,7 +31,7 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { category } = await params;
   const meta = CATEGORY_META[category as MarketCategory];
-  if (!meta) return {};
+  if (!meta) notFound();
   return {
     title: meta.title,
     description: meta.description,

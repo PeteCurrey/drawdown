@@ -3,7 +3,7 @@ import { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Reset Your Password | Drawdown",
-  description: "Recover your Drawdown account password to resume access to your trading dashboard and metrics.",
+  description: "Recover your Drawdown trading account password safely. Verify your registered email address to instantly receive a secure password reset link.",
 };
 
 export default function ForgotPasswordPage() {

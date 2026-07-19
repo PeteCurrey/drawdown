@@ -6,8 +6,7 @@ export const dynamic = "force-static";
 
 export const metadata: Metadata = {
   title: "Signal Centre | AI Consensus Trading Signals — Drawdown",
-  description:
-    "Three AI models — Claude, GPT-4o, and Grok — analyse live market data simultaneously and produce a single consensus score. Signal Centre: institutional-grade intelligence for serious traders. 7-day free trial, £39/mo.",
+  description: "Three AI models analyse live market data simultaneously and output a single consensus score. Institutional-grade intelligence for serious traders.",
   alternates: { canonical: "https://drawdown.trading/signal-centre" },
   openGraph: {
     title: "Signal Centre — AI Consensus Trading Signals",

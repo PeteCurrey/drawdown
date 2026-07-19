@@ -14,7 +14,7 @@ import {
   BiasScore
 } from "@/lib/marketDataService";
 import { calculateBiasScore } from "@/lib/biasEngine";
-import { useTwelveData } from "@/hooks/useTwelveData";
+import { useMarketCache } from "@/hooks/useMarketCache";
 
 export interface MarketIntelligenceState {
   quote: QuoteData | null;
@@ -23,6 +23,7 @@ export interface MarketIntelligenceState {
   keyLevels: KeyLevels | null;
   news: NewsItem[];
   events: EconomicEvent[];
+  fetched_at?: string | null;
   loading: boolean;
   error: string | null;
   lastUpdated: Date | null;
@@ -65,12 +66,12 @@ export function useMarketIntelligence(
 ): MarketIntelligenceState {
   const [state, setState] = useState<MarketIntelligenceState>({ ...EMPTY_STATE });
 
-  // ── Live price via useTwelveData (client-side, 30s poll, 5 calls only) ──────
+  // ── Live price via useMarketCache (client-side, 30s poll, 5 calls only) ──────
   // This bypasses the server-side route entirely for price updates.
-  const liveData = useTwelveData([slugOrHookSlug]);
+  const liveData = useMarketCache([slugOrHookSlug]);
   const liveInstrument = liveData[slugOrHookSlug];
 
-  // ── Merge live price into state whenever useTwelveData updates ──────────────
+  // ── Merge live price into state whenever useMarketCache updates ──────────────
   useEffect(() => {
     if (!liveInstrument || liveInstrument.loading || liveInstrument.error) return;
     if (liveInstrument.price === null) return;
@@ -80,18 +81,17 @@ export function useMarketIntelligence(
       const updatedQuote: QuoteData = {
         ...prev.quote,
         price: liveInstrument.price!,
-        change: liveInstrument.price! - (liveInstrument.prevClose ?? liveInstrument.price!),
-        changePercent: liveInstrument.changePct ?? prev.quote.changePercent,
+        change: liveInstrument.price! - (liveInstrument?.prevClose ?? liveInstrument.price!),
+        changePercent: liveInstrument.change_pct ?? prev.quote.changePercent,
         timestamp: Date.now(),
       };
       return {
         ...prev,
         quote: updatedQuote,
-        is_fallback: false,
-        lastUpdated: liveInstrument.lastUpdated ?? prev.lastUpdated,
+        lastUpdated: (liveInstrument.fetched_at ? new Date(liveInstrument.fetched_at) : (prev.fetched_at ? new Date(prev.fetched_at) : prev.lastUpdated)),
       };
     });
-  }, [liveInstrument?.price, liveInstrument?.changePct, slugOrHookSlug]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [liveInstrument?.price, liveInstrument?.change_pct, slugOrHookSlug]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     // 1. Reset state to loading on instrument/timeframe change
@@ -132,7 +132,7 @@ export function useMarketIntelligence(
         const quote: QuoteData = {
           price: data.price,
           change: data.change,
-          changePercent: data.changePct,
+          changePercent: data.change_pct,
           high: data.high ?? price,
           low: data.low ?? price,
           volume: data.volume ?? 0,
@@ -247,7 +247,7 @@ export function useMarketIntelligence(
           lastUpdated: new Date()
         });
 
-        // Indicators refresh every 5 minutes (not 30s — useTwelveData handles price updates)
+        // Indicators refresh every 5 minutes (not 30s — useMarketCache handles price updates)
         indicatorTimer = setInterval(async () => {
           const updatedMarket = await fetchIndicatorsAndBias(slugOrHookSlug, timeframe);
           if (active && updatedMarket) {
@@ -256,9 +256,9 @@ export function useMarketIntelligence(
               indicators: updatedMarket.indicators,
               bias: updatedMarket.bias,
               keyLevels: updatedMarket.keyLevels,
-              // Only update quote from server if useTwelveData hasn't given us a better price
+              // Only update quote from server if useMarketCache hasn't given us a better price
               quote: prev.quote && prev.is_fallback === false
-                ? { ...prev.quote } // keep existing live price from useTwelveData
+                ? { ...prev.quote } // keep existing live price from useMarketCache
                 : updatedMarket.quote,
               is_fallback: updatedMarket.is_fallback,
               lastUpdated: new Date()

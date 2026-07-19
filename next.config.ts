@@ -36,6 +36,23 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
 
+      // Hub Page Redirects
+      {
+        source: "/brokers",
+        destination: "/brokers/all",
+        permanent: true,
+      },
+      {
+        source: "/:region/brokers",
+        destination: "/:region/brokers/all",
+        permanent: true,
+      },
+      {
+        source: "/markets",
+        destination: "/markets/pulse",
+        permanent: true,
+      },
+
       // Features / Tools
 
       {
@@ -116,22 +133,22 @@ const nextConfig: NextConfig = {
       {
         source: "/us/learn-to-trade",
         destination: "/learn-to-trade",
-        permanent: false,
+        permanent: true,
       },
       {
         source: "/au/learn-to-trade",
         destination: "/learn-to-trade",
-        permanent: false,
+        permanent: true,
       },
       {
         source: "/us/learn-to-trade/:topic/:city",
         destination: "/learn-to-trade/:topic",
-        permanent: false,
+        permanent: true,
       },
       {
         source: "/au/learn-to-trade/:topic/:city",
         destination: "/learn-to-trade/:topic",
-        permanent: false,
+        permanent: true,
       },
 
       // Courses
@@ -164,6 +181,82 @@ const nextConfig: NextConfig = {
       {
         source: "/learn/:slug*",
         destination: "/learn-to-trade",
+        permanent: true,
+      },
+
+      // SEO Audit Phase 1 — Group A (UK City Pages to Parent Topic)
+      {
+        source: "/learn-to-trade/:topic/hull",
+        destination: "/learn-to-trade/:topic",
+        permanent: true,
+      },
+      {
+        source: "/learn-to-trade/:topic/preston",
+        destination: "/learn-to-trade/:topic",
+        permanent: true,
+      },
+      {
+        source: "/learn-to-trade/:topic/exeter",
+        destination: "/learn-to-trade/:topic",
+        permanent: true,
+      },
+
+      // SEO Audit Phase 1 — Group B (Retired Markets Instrument Pages)
+      {
+        source: "/markets/usdjpy",
+        destination: "/markets/pulse",
+        permanent: true,
+      },
+      {
+        source: "/markets/gbpnzd",
+        destination: "/markets/pulse",
+        permanent: true,
+      },
+      {
+        source: "/markets/platinum",
+        destination: "/markets/pulse",
+        permanent: true,
+      },
+      {
+        source: "/markets/eurjpy",
+        destination: "/markets/pulse",
+        permanent: true,
+      },
+      {
+        source: "/markets/astrazeneca-azn",
+        destination: "/markets/pulse",
+        permanent: true,
+      },
+      {
+        source: "/markets/xrp",
+        destination: "/markets/pulse",
+        permanent: true,
+      },
+      {
+        source: "/markets/gold-xauusd",
+        destination: "/markets/pulse",
+        permanent: true,
+      },
+      {
+        source: "/markets/chainlink",
+        destination: "/markets/pulse",
+        permanent: true,
+      },
+      {
+        source: "/markets/audusd",
+        destination: "/markets/pulse",
+        permanent: true,
+      },
+      {
+        source: "/markets/nvidia-nvda",
+        destination: "/markets/pulse",
+        permanent: true,
+      },
+
+      // SEO Audit Phase 1 — Group C (Redirect /best/ Day Trading UK)
+      {
+        source: "/best/broker-for-day-trading-uk",
+        destination: "/brokers",
         permanent: true,
       },
 

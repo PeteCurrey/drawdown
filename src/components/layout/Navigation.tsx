@@ -48,7 +48,7 @@ const megaMenus = {
       image: "/images/nav/phase-01.png",
       badge: "FEATURED PHASE",
       title: "Structured Trading Education",
-      desc: "Go from complete beginner to fully funded institutional trader. 6 detailed phases with zero hype.",
+      desc: "Go from complete beginner to fully funded professional trader. 6 detailed phases with zero hype.",
       href: "/courses"
     }
   },
@@ -60,7 +60,7 @@ const megaMenus = {
       { name: "AI Market Scanner", desc: "Monitors order flow delta across 40+ pairs", href: "/tools/ai-market-scanner", icon: Scan, color: "text-cyan-500 bg-cyan-500/10" },
       { name: "Strategy Backtester", desc: "Simulate rules on 10 years of tick data", href: "/tools/strategy-backtester", icon: LineChart, color: "text-rose-500 bg-rose-500/10" },
       { name: "Algo Strategy Builder", desc: "Automatically generate Pine Script & Python", href: "/tools/algo-strategy-builder", icon: Terminal, color: "text-violet-500 bg-violet-500/10" },
-      { name: "Daily Intelligence Brief", desc: "Pre-market institutional flow breakdowns", href: "/tools/intelligence-hub", icon: Newspaper, color: "text-amber-500 bg-amber-500/10" }
+      { name: "Daily Intelligence Brief", desc: "Pre-market professional flow breakdowns", href: "/tools/intelligence-hub", icon: Newspaper, color: "text-amber-500 bg-amber-500/10" }
     ],
     featured: {
       image: "/images/tools/ai-market-scanner.png",

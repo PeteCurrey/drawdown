@@ -1,19 +1,37 @@
 import { Metadata } from "next";
 import Link from "next/link";
-import { HOW_TO_PAGES } from "@/data/seo/howto";
 import { ArrowRight, Clock, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { TrackPageView } from "@/components/admin/TrackPageView";
 import { DifficultyBadge } from "@/components/how-to/DifficultyBadge";
+import { createInternalSupabase } from "@/lib/supabase/server";
 
 export const metadata: Metadata = {
   title: "Trading Guides & How-To | Drawdown",
   description: "Step-by-step guides on how to start trading, manage risk, and master the markets. Honest, professional-grade trading education.",
 };
 
-export default function HowToHub() {
+export const revalidate = 3600;
+
+export default async function HowToHub() {
+  const supabase = createInternalSupabase();
+  const { data: pages } = await supabase
+    .from("seo_pages")
+    .select("slug, title, seo_description, content")
+    .eq("page_type", "how-to")
+    .eq("is_published", true);
+
+  const HOW_TO_PAGES = (pages || []).map(p => ({
+    slug: p.slug,
+    title: p.title,
+    metaDescription: p.seo_description,
+    eyebrow: p.content?.eyebrow || "Guide",
+    difficulty: p.content?.difficulty,
+    readingTime: p.content?.readingTime || "5 min read",
+  }));
+
   const categories = ["All", "Psychology", "Technical", "Strategy", "Basics"];
-  const featured = HOW_TO_PAGES.find(p => p.slug === 'start-trading-uk') || HOW_TO_PAGES[0];
+  const featured = HOW_TO_PAGES.find(p => p.slug === 'start-trading-uk') || HOW_TO_PAGES[0] || { slug: "", title: "", eyebrow: "", metaDescription: "", difficulty: "", readingTime: "" };
 
   return (
     <main className="min-h-screen pt-32 pb-20 px-6">

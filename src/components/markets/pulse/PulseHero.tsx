@@ -44,7 +44,7 @@ export function PulseHero({ story, loading }: PulseHeroProps) {
             <Clock className="w-3 h-3" /> {story.publishedAt}
           </span>
           <span className="flex items-center gap-1.5 text-mkt-grn text-[10px] font-mono uppercase tracking-widest font-bold">
-            <ShieldCheck className="w-3 h-3" /> Institutional Feed
+            <ShieldCheck className="w-3 h-3" /> Professional Feed
           </span>
         </div>
 

@@ -4,7 +4,7 @@ import { Mail, ChevronRight, Calendar } from "lucide-react";
 
 export const metadata = {
   title: "The Wire Archive | Drawdown",
-  description: "Browse past editions of The Wire, Drawdown's daily market intelligence newsletter.",
+  description: "Browse the complete archive of past editions of The Wire, Drawdown's daily market intelligence newsletter providing actionable session briefs.",
 };
 
 export default async function NewsletterArchivePage() {

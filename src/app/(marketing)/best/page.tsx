@@ -1,20 +1,37 @@
 import { Metadata } from "next";
 import Link from "next/link";
-import { BEST_OF_PAGES } from "@/data/seo/best";
 import { cn } from "@/lib/utils";
 import { TrackPageView } from "@/components/admin/TrackPageView";
 import { ChevronRight, Star, ArrowRight, ShieldCheck } from "lucide-react";
+import { createInternalSupabase } from "@/lib/supabase/server";
 
 export const metadata: Metadata = {
   title: "Best Trading Platforms & Tools 2026 | Drawdown",
-  description: "Independent rankings and reviews of the best trading brokers, tools, and prop firms. We test them so you don't have to.",
+  description: "Independent rankings and reviews of the best trading brokers, tools, and prop firms. We run rigorous tests on every platform so you don't have to.",
 };
 
-export default function BestHub() {
+export const revalidate = 3600;
+
+export default async function BestHub() {
+  const supabase = createInternalSupabase();
+  const { data: pages } = await supabase
+    .from("seo_pages")
+    .select("slug, title, seo_description, content")
+    .eq("page_type", "best")
+    .eq("is_published", true);
+
+  const BEST_OF_PAGES = (pages || []).map(p => ({
+    slug: p.slug,
+    title: p.title,
+    metaDescription: p.seo_description,
+    eyebrow: p.content?.eyebrow || "Best Of",
+    introduction: p.content?.introduction || "",
+    comparisonTable: p.content?.comparisonTable || [{ name: "Top Pick" }]
+  }));
+
   const categories = ["All", "Brokers", "Tools", "Prop Firms", "Education"];
   
-  // Example featured page
-  const featured = BEST_OF_PAGES.find(p => p.slug === 'forex-broker-uk') || BEST_OF_PAGES[0];
+  const featured = BEST_OF_PAGES.find(p => p.slug === 'forex-broker-uk') || BEST_OF_PAGES[0] || { slug: "", title: "", eyebrow: "", introduction: "", comparisonTable: [{name: ""}] };
 
   return (
     <main className="min-h-screen pt-32 pb-20 px-6">

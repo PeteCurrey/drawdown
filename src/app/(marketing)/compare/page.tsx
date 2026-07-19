@@ -1,10 +1,10 @@
 import { Metadata } from "next";
 import Link from "next/link";
-import { COMPARISON_PAGES } from "@/data/seo/compare";
 import { ArrowRight, ChevronRight, GitCompare } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { TrackPageView } from "@/components/admin/TrackPageView";
 import BreadcrumbSchema from "@/components/seo/BreadcrumbSchema";
+import { createInternalSupabase } from "@/lib/supabase/server";
 
 export const metadata: Metadata = {
   title: 'Broker Comparisons | Head-to-Head Reviews',
@@ -12,8 +12,25 @@ export const metadata: Metadata = {
   alternates: { canonical: 'https://drawdown.trading/compare' }
 }
 
-export default function CompareHub() {
-  const featured = COMPARISON_PAGES[0];
+export const revalidate = 3600;
+
+export default async function CompareHub() {
+  const supabase = createInternalSupabase();
+  const { data: pages } = await supabase
+    .from("seo_pages")
+    .select("slug, title, seo_description, content")
+    .eq("page_type", "compare")
+    .eq("is_published", true);
+
+  const COMPARISON_PAGES = (pages || []).map(p => ({
+    slug: p.slug,
+    title: p.title,
+    metaDescription: p.seo_description,
+    eyebrow: p.content?.eyebrow || "Comparison",
+    quickVerdict: p.content?.quickVerdict || { reason: "", winner: "" }
+  }));
+
+  const featured = COMPARISON_PAGES[0] || { slug: "", title: "", eyebrow: "", quickVerdict: { reason: "", winner: "" } };
 
   return (
     <main className="min-h-screen pt-32 pb-20 px-6">

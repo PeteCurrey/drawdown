@@ -88,11 +88,12 @@ export function InstitutionalPulseSection() {
     };
   }, []);
 
-  if (!loading && signals.length === 0) return null;
+  if (loading) return null;
+  if (!sentiment || signals.length === 0) return null;
 
   // Donut values: Bullish exposure mapped to Fear/Greed index, Neutral to VIX
-  const fg = sentiment ? (sentiment.fearGreed || 50) : 64;
-  const vixVal = sentiment ? (sentiment.vix || 15) : 15;
+  const fg = sentiment.fearGreed || 50;
+  const vixVal = sentiment.vix || 15;
 
   const rawBull = fg / 100;
   const rawNeut = Math.max(10, Math.min(25, vixVal)) / 100;
@@ -250,7 +251,7 @@ export function InstitutionalPulseSection() {
                 {/* Center Text */}
                 <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
                   <span className="text-3xl font-sans font-extrabold text-mkt-ink tracking-tighter">
-                    {loading ? "--%" : `${Math.round(bullPct * 100)}%`}
+                    {`${Math.round(bullPct * 100)}%`}
                   </span>
                   <span className="text-[10px] font-sans font-bold text-mkt-grn uppercase tracking-wider">
                     {sentiment?.label || "Bullish"}
@@ -264,7 +265,7 @@ export function InstitutionalPulseSection() {
                 <div className="space-y-1.5">
                   <div className="flex justify-between text-xs">
                     <span className="font-sans font-medium text-mkt-i2">Bullish Exposure</span>
-                    <span className="font-mono font-bold text-mkt-grn">{loading ? "--%" : `${Math.round(bullPct * 100)}%`}</span>
+                    <span className="font-mono font-bold text-mkt-grn">{`${Math.round(bullPct * 100)}%`}</span>
                   </div>
                   <div className="w-full h-2 bg-neutral-100 rounded-full overflow-hidden">
                     <div className="h-full bg-mkt-grn rounded-full transition-all duration-500" style={{ width: `${Math.round(bullPct * 100)}%` }} />
@@ -275,7 +276,7 @@ export function InstitutionalPulseSection() {
                 <div className="space-y-1.5">
                   <div className="flex justify-between text-xs">
                     <span className="font-sans font-medium text-mkt-i2">Bearish Exposure</span>
-                    <span className="font-mono font-bold text-mkt-red">{loading ? "--%" : `${Math.round(bearPct * 100)}%`}</span>
+                    <span className="font-mono font-bold text-mkt-red">{`${Math.round(bearPct * 100)}%`}</span>
                   </div>
                   <div className="w-full h-2 bg-neutral-100 rounded-full overflow-hidden">
                     <div className="h-full bg-mkt-red rounded-full transition-all duration-500" style={{ width: `${Math.round(bearPct * 100)}%` }} />
@@ -286,7 +287,7 @@ export function InstitutionalPulseSection() {
                 <div className="space-y-1.5">
                   <div className="flex justify-between text-xs">
                     <span className="font-sans font-medium text-mkt-i2">Neutral Exposure</span>
-                    <span className="font-mono font-bold text-mkt-amb">{loading ? "--%" : `${Math.round(neutPct * 100)}%`}</span>
+                    <span className="font-mono font-bold text-mkt-amb">{`${Math.round(neutPct * 100)}%`}</span>
                   </div>
                   <div className="w-full h-2 bg-neutral-100 rounded-full overflow-hidden">
                     <div className="h-full bg-mkt-amb rounded-full transition-all duration-500" style={{ width: `${Math.round(neutPct * 100)}%` }} />

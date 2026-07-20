@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { brokers } from "@/data/brokers";
 
 export function StatsBar() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -46,31 +47,30 @@ export function StatsBar() {
       <div className="max-w-7xl mx-auto px-6 py-8 border-y border-mkt-bd">
         <div className="grid grid-cols-2 md:grid-cols-5 gap-8 text-center md:text-left">
           
-          {/* 6 Phases */}
+          {/* 1 Phase */}
           <div className="flex flex-col items-center md:items-start">
             <span 
               className="text-[30px] text-mkt-ink font-sans tracking-[-0.04em]"
               style={{ fontWeight: 800 }}
               data-counter
-              data-target="13"
+              data-target="1"
             >
-              13
+              1
             </span>
             <span className="text-[11px] font-sans font-medium text-mkt-i4 uppercase mt-1 tracking-wider">
-              Phases
+              Phase
             </span>
           </div>
 
-          {/* 60+ Modules */}
+          {/* 6 Modules */}
           <div className="flex flex-col items-center md:items-start">
             <span 
               className="text-[30px] text-mkt-ink font-sans tracking-[-0.04em]"
               style={{ fontWeight: 800 }}
               data-counter
-              data-target="117"
-              data-suffix="+"
+              data-target="6"
             >
-              117+
+              6
             </span>
             <span className="text-[11px] font-sans font-medium text-mkt-i4 uppercase mt-1 tracking-wider">
               Modules
@@ -98,9 +98,9 @@ export function StatsBar() {
               className="text-[30px] text-mkt-ink font-sans tracking-[-0.04em]"
               style={{ fontWeight: 800 }}
               data-counter
-              data-target="24"
+              data-target={brokers.length.toString()}
             >
-              24
+              {brokers.length}
             </span>
             <span className="text-[11px] font-sans font-medium text-mkt-i4 uppercase mt-1 tracking-wider">
               Regulated Brokers

@@ -63,7 +63,7 @@ export default function BrokersPage() {
             </h1>
             
             <p className="text-base text-mkt-i3 leading-relaxed max-w-2xl font-sans">
-              Honest recommendations, ranked on merit. Where our founder holds a live account, we say so. We may earn a referral fee — disclosed on every link.
+              Honest recommendations, ranked on merit. Where our founder holds a live account, we say so.
             </p>
 
             <div className="flex flex-wrap gap-4 pt-4">

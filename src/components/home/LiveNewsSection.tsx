@@ -18,12 +18,13 @@ interface NewsItem {
 const TARGET_SOURCES = ["Sky News", "CNN", "Fox News", "BBC"];
 const fallbackImage = "https://images.unsplash.com/photo-1504711434969-e33886168f5c?q=80&w=800&auto=format&fit=crop";
 
-const topMovers = [
-  { symbol: "EURUSD", price: "1.0845", change: "-0.05%", isPositive: false },
-  { symbol: "GBPUSD", price: "1.2734", change: "+0.12%", isPositive: true },
-  { symbol: "BTCUSD", price: "67,420", change: "+1.45%", isPositive: true }
-];
+const TOP_MOVER_SYMBOLS = ["EURUSD", "GBPUSD", "BTCUSD"];
 
+interface MoverItem {
+  symbol: string;
+  price?: number;
+  changePercent?: number;
+}
 function isTargetSource(source: string): boolean {
   const s = source.toLowerCase();
   return TARGET_SOURCES.some(target => s.includes(target.toLowerCase()));
@@ -56,6 +57,9 @@ export function LiveNewsSection() {
   const calendarContainerRef = useRef<HTMLDivElement>(null);
   
   const [news, setNews] = useState<NewsItem[]>([]);
+  const [topMovers, setTopMovers] = useState<MoverItem[]>(
+    TOP_MOVER_SYMBOLS.map(sym => ({ symbol: sym }))
+  );
   const [loading, setLoading] = useState(true);
   const [startIndex, setStartIndex] = useState(0);
 
@@ -77,9 +81,28 @@ export function LiveNewsSection() {
         if (active) setLoading(false);
       }
     }
+    async function loadMovers() {
+      try {
+        const res = await fetch(`/api/market/prices?symbols=${TOP_MOVER_SYMBOLS.join(",")}`);
+        if (res.ok) {
+          const prices = await res.json();
+          if (Array.isArray(prices) && active) {
+            setTopMovers(prices);
+          }
+        }
+      } catch (err) {
+        console.error("Failed to load movers", err);
+      }
+    }
     loadNews();
+    loadMovers();
+    
+    // Poll movers every 30s
+    const moversInterval = setInterval(loadMovers, 30000);
+
     return () => {
       active = false;
+      clearInterval(moversInterval);
     };
   }, []);
 
@@ -358,21 +381,44 @@ export function LiveNewsSection() {
               </div>
               
               <div className="space-y-3">
-                {topMovers.map((mvr, idx) => (
-                  <div 
-                    key={idx}
-                    className="flex items-center justify-between py-2.5 border-b border-neutral-100 last:border-b-0 last:pb-0"
-                  >
-                    <span className="text-xs font-mono font-bold text-mkt-ink">{mvr.symbol}</span>
-                    <span className="text-xs font-mono text-mkt-i3">{mvr.price}</span>
-                    <span className={cn(
-                      "text-xs font-mono font-bold",
-                      mvr.isPositive ? "text-mkt-grn" : "text-mkt-red"
-                    )}>
-                      {mvr.change}
-                    </span>
-                  </div>
-                ))}
+                {topMovers.map((mvr, idx) => {
+                  const hasData = mvr.price !== undefined;
+                  const isPositive = mvr.changePercent !== undefined && mvr.changePercent >= 0;
+                  
+                  // Format price
+                  let displayPrice = "--";
+                  if (hasData) {
+                    if (mvr.symbol.includes("BTC")) {
+                      displayPrice = mvr.price!.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                    } else {
+                      displayPrice = mvr.price!.toFixed(4);
+                    }
+                  }
+
+                  // Format change
+                  let displayChange = "";
+                  if (hasData && mvr.changePercent !== undefined) {
+                    displayChange = `${isPositive ? "▲" : "▼"} ${Math.abs(mvr.changePercent).toFixed(2)}%`;
+                  }
+
+                  return (
+                    <div 
+                      key={idx}
+                      className="flex items-center justify-between py-2.5 border-b border-neutral-100 last:border-b-0 last:pb-0"
+                    >
+                      <span className="text-xs font-mono font-bold text-mkt-ink">{mvr.symbol}</span>
+                      <span className="text-xs font-mono text-mkt-i3">{displayPrice}</span>
+                      {hasData && (
+                        <span className={cn(
+                          "text-xs font-mono font-bold",
+                          isPositive ? "text-mkt-grn" : "text-mkt-red"
+                        )}>
+                          {displayChange}
+                        </span>
+                      )}
+                    </div>
+                  );
+                })}
               </div>
             </div>
 

@@ -13,23 +13,8 @@ const TICKER_SYMBOLS = [
   "GBPUSD", "EURUSD", "USDJPY", "EURGBP", "BTCUSD", "ETHUSD", "GBPEUR"
 ];
 
-const DEFAULT_PRICES: Record<string, { price: number; changePercent: number }> = {
-  "GBPUSD": { price: 1.2645, changePercent: 0.12 },
-  "EURUSD": { price: 1.0823, changePercent: -0.05 },
-  "USDJPY": { price: 151.20, changePercent: 0.23 },
-  "EURGBP": { price: 0.8558, changePercent: -0.15 },
-  "BTCUSD": { price: 64230.50, changePercent: 1.2 },
-  "ETHUSD": { price: 3450.20, changePercent: 0.8 },
-  "GBPEUR": { price: 1.1685, changePercent: 0.15 }
-};
-
 export function PriceTicker() {
-  const [data, setData] = useState<TickerItem[]>(() => 
-    TICKER_SYMBOLS.map(sym => ({
-      symbol: sym,
-      ...DEFAULT_PRICES[sym]
-    }))
-  );
+  const [data, setData] = useState<TickerItem[]>([]);
   const [error, setError] = useState(false);
 
   useEffect(() => {

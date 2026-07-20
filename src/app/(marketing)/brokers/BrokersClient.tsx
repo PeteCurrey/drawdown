@@ -67,7 +67,7 @@ export default function BrokerComparisonHub() {
               Recommended Brokers.
             </h1>
             <p className="text-lg text-mkt-i3 max-w-2xl font-sans">
-              Honest recommendations, ranked on merit. Where our founder holds a live account, we say so. We may earn a referral fee — disclosed on every link.
+              Honest recommendations, ranked on merit. Where our founder holds a live account, we say so.
             </p>
 
             <div className="flex flex-wrap gap-3 pt-2">
@@ -157,7 +157,7 @@ export default function BrokerComparisonHub() {
           {/* Disclosure */}
           <div className="mt-12 text-center max-w-4xl mx-auto">
             <p className="text-[10px] font-mono text-text-tertiary uppercase tracking-widest leading-relaxed opacity-60">
-              Drawdown earns a referral commission on some broker signups. Every affiliate relationship is disclosed on the relevant broker review page.
+              Drawdown is independent and our recommendations are ranked strictly on merit.
             </p>
           </div>
         </div>
@@ -248,16 +248,7 @@ export default function BrokerComparisonHub() {
                            <div>
                               <p className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary mb-1">Supported Platforms</p>
                               <p className="text-sm font-bold text-text-primary">
-                                {broker.platforms.split('TradingView').map((part, i, arr) => (
-                                  <span key={i}>
-                                    {part}
-                                    {i < arr.length - 1 && (
-                                      <Link href="/tools/tradingview" className="text-blue-600 hover:underline">
-                                        TradingView
-                                      </Link>
-                                    )}
-                                  </span>
-                                ))}
+                                {broker.platforms}
                               </p>
                            </div>
                            <div className="col-span-2">

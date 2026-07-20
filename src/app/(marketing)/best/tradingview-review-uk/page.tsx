@@ -63,10 +63,10 @@ export default function TradingViewReviewUK() {
             </p>
             <a 
               href="/go/tradingview"
-              rel="noopener noreferrer sponsored"
+              rel="noopener noreferrer"
               className="inline-flex items-center gap-4 bg-mkt-ink text-white px-12 py-5 text-xs font-black uppercase tracking-widest hover:bg-accent-hover transition-premium"
             >
-              Get $15 Off TradingView <ExternalLink className="w-4 h-4" />
+              Try TradingView <ExternalLink className="w-4 h-4" />
             </a>
           </div>
         </div>
@@ -209,16 +209,16 @@ export default function TradingViewReviewUK() {
 
         {/* Final CTA */}
         <div className="text-center py-32 border-t border-border-slate/50/30">
-          <h2 className="text-5xl md:text-8xl font-sans font-black uppercase mb-12">Upgrade <span className="text-accent italic">Today</span></h2>
+          <h2 className="text-5xl md:text-8xl font-sans font-black uppercase mb-12">Start <span className="text-accent italic">Charting</span></h2>
           <p className="max-w-2xl mx-auto text-text-secondary mb-16 text-lg">
-            Stop limiting your analysis. Get $15 off your first TradingView plan when you upgrade via Drawdown.
+            Stop limiting your analysis. Try TradingView today.
           </p>
           <a 
             href="/go/tradingview"
-            rel="noopener noreferrer sponsored"
+            rel="noopener noreferrer"
             className="inline-flex items-center gap-4 bg-mkt-ink text-white px-16 py-6 text-sm font-black uppercase tracking-widest hover:bg-accent-hover transition-premium"
           >
-            Claim Your $15 Discount <ExternalLink className="w-4 h-4" />
+            Try TradingView <ExternalLink className="w-5 h-5" />
           </a>
         </div>
       </div>

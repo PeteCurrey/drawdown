@@ -7,7 +7,7 @@ import { phases } from "@/data/courses";
 import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = {
-  title: 'Structured Trading Courses for UK Traders | Drawdown',
+  title: 'Structured Trading Courses for UK Traders',
   description: 'A structured 6-phase trading curriculum built for UK traders. From chart reading to live execution — no shortcuts, no fluff. Start Phase 1 free.',
   alternates: { canonical: 'https://drawdown.trading/courses' }
 }

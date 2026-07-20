@@ -10,7 +10,7 @@ export const glossaryData: GlossaryTerm[] = [
   {
     slug: "drawdown",
     title: "Drawdown",
-    seo_title: "What is Drawdown in Trading? Definition & Meaning | Drawdown Platform",
+    seo_title: "What is Drawdown in Trading? Definition & Meaning",
     seo_description: "Learn what a drawdown is in trading, why it happens, and how to protect your capital from severe equity curve drops.",
     content: `
 # Drawdown
@@ -31,7 +31,7 @@ Your drawdown is calculated as (£3,000 / £12,000) * 100 = **25% drawdown**.
   {
     slug: "bid-ask-spread",
     title: "Bid-Ask Spread",
-    seo_title: "Bid-Ask Spread Explained | Trading Glossary | Drawdown Platform",
+    seo_title: "Bid-Ask Spread Explained | Trading Glossary",
     seo_description: "Understand the bid-ask spread, the true cost of trading, and how to find brokers with tight enough spreads to maintain your edge.",
     content: `
 # Bid-Ask Spread
@@ -45,7 +45,7 @@ The spread is the hidden tax on every trade you take. If your strategy relies on
   {
     slug: "risk-of-ruin",
     title: "Risk of Ruin",
-    seo_title: "Risk of Ruin in Trading Explained | Drawdown",
+    seo_title: "Risk of Ruin in Trading Explained",
     seo_description: "Learn what the risk of ruin is and how position sizing prevents you from blowing your trading account.",
     content: `
 # Risk of Ruin
@@ -73,7 +73,7 @@ It mathematically proves that risking too much on a trade with an edge will actu
   {
     slug: "correlation",
     title: "Correlation",
-    seo_title: "Currency & Asset Correlation Explained | Drawdown",
+    seo_title: "Currency & Asset Correlation Explained",
     seo_description: "Learn how asset correlation works in trading and why ignoring it multiplies your hidden risk.",
     content: `
 # Correlation
@@ -143,7 +143,7 @@ This is where retail traders suffer the most, buying at the absolute top because
   {
     slug: "order-block",
     title: "Order Block",
-    seo_title: "What is an Order Block? | SMC Trading Glossary | Drawdown",
+    seo_title: "What is an Order Block? | SMC Trading Glossary",
     seo_description: "Learn what an order block is in Smart Money Concepts and how to trade institutional supply and demand zones.",
     content: `
 # Order Block
@@ -199,7 +199,7 @@ If you place your stop loss exactly where every textbook tells you to (just belo
   {
     slug: "stop-hunt",
     title: "Stop Hunt",
-    seo_title: "Stop Hunt Explained | Trading Glossary | Drawdown",
+    seo_title: "Stop Hunt Explained | Trading Glossary",
     seo_description: "Learn what a stop hunt is, how market makers trigger it, and how to avoid being the victim.",
     content: `
 # Stop Hunt
@@ -227,7 +227,7 @@ Retail brokers often act as market makers (B-Book brokers), taking the opposite 
   {
     slug: "institutional-trading",
     title: "Institutional Trading",
-    seo_title: "Institutional Trading Explained | Drawdown Platform",
+    seo_title: "Institutional Trading Explained",
     seo_description: "Learn what institutional trading is and how massive capital moves the forex and stock markets.",
     content: `
 # Institutional Trading
@@ -241,7 +241,7 @@ Institutions account for the vast majority of volume in the financial markets. B
   {
     slug: "smart-money",
     title: "Smart Money",
-    seo_title: "What is Smart Money in Trading? | Drawdown",
+    seo_title: "What is Smart Money in Trading?",
     seo_description: "Understand the concept of Smart Money, the entities that control market direction, and how to follow them.",
     content: `
 # Smart Money
@@ -283,7 +283,7 @@ If you don't know the exact value of a pip for the specific pair you are trading
   {
     slug: "swap-rate",
     title: "Swap Rate",
-    seo_title: "Swap Rates Explained | Forex Rollover | Drawdown",
+    seo_title: "Swap Rates Explained | Forex Rollover",
     seo_description: "Learn what swap rates are, how interest rate differentials affect your account, and the mechanics of the carry trade.",
     content: `
 # Swap Rate
@@ -297,7 +297,7 @@ If you are a swing trader holding positions for days or weeks, a negative swap c
   {
     slug: "bull-flag",
     title: "Bull Flag",
-    seo_title: "Bull Flag Pattern | Technical Analysis | Drawdown",
+    seo_title: "Bull Flag Pattern | Technical Analysis",
     seo_description: "Learn how to trade the bull flag continuation pattern for high-probability setups.",
     content: `
 # Bull Flag
@@ -311,7 +311,7 @@ It represents a brief pause where early buyers take profit, but sellers lack the
   {
     slug: "bear-flag",
     title: "Bear Flag",
-    seo_title: "Bear Flag Pattern | Technical Analysis | Drawdown",
+    seo_title: "Bear Flag Pattern | Technical Analysis",
     seo_description: "Understand the bear flag pattern and how to short market continuations effectively.",
     content: `
 # Bear Flag
@@ -325,7 +325,7 @@ Bear flags are powerful because market drops are usually driven by fear, causing
   {
     slug: "head-and-shoulders",
     title: "Head and Shoulders",
-    seo_title: "Head and Shoulders Pattern Explained | Drawdown",
+    seo_title: "Head and Shoulders Pattern Explained",
     seo_description: "Learn to identify the Head and Shoulders reversal pattern and how to trade the neckline break.",
     content: `
 # Head and Shoulders
@@ -339,7 +339,7 @@ It visually represents the exhaustion of an uptrend. The failure to make a highe
   {
     slug: "order-flow",
     title: "Order Flow",
-    seo_title: "Order Flow Trading | Advanced Glossary | Drawdown",
+    seo_title: "Order Flow Trading | Advanced Glossary",
     seo_description: "Understand order flow trading, how to read depth of market, and why it's the truest indicator.",
     content: `
 # Order Flow
@@ -353,7 +353,7 @@ Candlestick charts show you the past; order flow shows you the *present*. By loo
   {
     slug: "delta-volume",
     title: "Delta Volume",
-    seo_title: "Delta Volume Explained | Order Flow | Drawdown",
+    seo_title: "Delta Volume Explained | Order Flow",
     seo_description: "Learn what Delta Volume is and how it measures the difference between aggressive buyers and sellers.",
     content: `
 # Delta Volume
@@ -381,7 +381,7 @@ Footprints eliminate the guesswork. You can literally see exactly where institut
   {
     slug: "vwap",
     title: "VWAP (Volume Weighted Average Price)",
-    seo_title: "VWAP Indicator | Day Trading Glossary | Drawdown",
+    seo_title: "VWAP Indicator | Day Trading Glossary",
     seo_description: "Learn what VWAP is, why institutions use it, and how day traders apply it for mean reversion.",
     content: `
 # VWAP (Volume Weighted Average Price)
@@ -395,7 +395,7 @@ Unlike a moving average, VWAP factors in volume. Institutions are judged on whet
   {
     slug: "algorithmic-trading",
     title: "Algorithmic Trading",
-    seo_title: "Algorithmic Trading Definition | Drawdown",
+    seo_title: "Algorithmic Trading Definition",
     seo_description: "Understand algorithmic trading, high-frequency trading (HFT), and quantitative finance.",
     content: `
 # Algorithmic Trading
@@ -409,7 +409,7 @@ Algorithms now control over 70% of market volume. Understanding algorithmic beha
   {
     slug: "backtesting",
     title: "Backtesting",
-    seo_title: "Backtesting Your Trading Strategy | Drawdown",
+    seo_title: "Backtesting Your Trading Strategy",
     seo_description: "Learn what backtesting is, why it's mandatory for success, and the dangers of curve-fitting.",
     content: `
 # Backtesting

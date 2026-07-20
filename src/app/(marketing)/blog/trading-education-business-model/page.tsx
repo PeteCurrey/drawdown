@@ -2,10 +2,10 @@ import type { Metadata } from "next";
 import { TradingEducationModelClient } from "./TradingEducationModelClient";
 
 export const metadata: Metadata = {
-  title: "How the Trading Education Business Model Works | Drawdown",
+  title: "How the Trading Education Business Model Works",
   description: "An honest look at how the trading education business model works. We analyze course fees, affiliate payouts, broker referrals, and how to spot real value.",
   openGraph: {
-    title: "How the Trading Education Business Model Works | Drawdown",
+    title: "How the Trading Education Business Model Works",
     description: "An honest look at how the trading education business model works. We analyze course fees, affiliate payouts, broker referrals, and how to spot real value.",
     type: "article",
     url: "https://drawdown.trading/blog/trading-education-business-model",

@@ -6,7 +6,7 @@ import { TrackPageView } from "@/components/admin/TrackPageView";
 import { tradingTools } from "@/data/trading-tools";
 
 export const metadata = {
-  title: "Recommended Trading Tools & Software Reviews | Drawdown",
+  title: "Recommended Trading Tools & Software Reviews",
   description: "Explore honest reviews and ratings of the best charting software, trading journals, backtesters, VPS, and market data providers.",
 };
 

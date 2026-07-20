@@ -16,7 +16,7 @@ import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { TrackPageView } from "@/components/admin/TrackPageView";
 
 export const metadata = {
-  title: "Trading Calculator Hub — Risk & Drawdown Modeler | Drawdown",
+  title: "Trading Calculator Hub — Risk & Drawdown Modeler",
   description: "Access our suite of professional trading calculators. Size your positions, manage risk, model drawdowns, and calculate recovery metrics precisely.",
 };
 

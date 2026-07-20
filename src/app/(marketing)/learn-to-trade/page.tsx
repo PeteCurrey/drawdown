@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 import { TrackPageView } from "@/components/admin/TrackPageView";
 
 export const metadata: Metadata = {
-  title: "Learn to Trade | Professional Trading Education | Drawdown",
+  title: "Learn to Trade | Professional Trading Education",
   description: "Master the financial markets with our structured, professional-grade trading curriculum. From basics to advanced strategy.",
 };
 

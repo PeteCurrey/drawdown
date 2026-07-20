@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import { ShieldCheck, Scale, Search, PenTool, Database } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Editorial Standards | Drawdown",
+  title: "Editorial Standards",
   description: "Our strict editorial guidelines for ensuring accuracy, objectivity, transparency, and truth in all Drawdown market analysis and publications.",
 };
 

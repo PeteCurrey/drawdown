@@ -297,9 +297,7 @@ export function HeroSection() {
             <div className="flex items-center gap-2">
               <CheckCircle2 className="w-4 h-4 text-mkt-grn" /> {regShort}-Registered Brokers Only
             </div>
-            <div className="flex items-center gap-2">
-              <CheckCircle2 className="w-4 h-4 text-mkt-grn" /> No Affiliate Hidden Rankings
-            </div>
+
           </motion.div>
         </motion.div>
 

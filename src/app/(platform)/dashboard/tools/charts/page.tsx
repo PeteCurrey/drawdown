@@ -2,7 +2,7 @@ import { InteractiveChart } from "@/components/charts/InteractiveChart";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 
 export const metadata = {
-  title: "Professional Chart Analysis | Drawdown",
+  title: "Professional Chart Analysis",
   description: "Advanced interactive charts with real-time technical indicators, market consensus, and AI-driven analysis for Drawdown members.",
 };
 

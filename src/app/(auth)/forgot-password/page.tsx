@@ -2,7 +2,7 @@ import { AuthForm } from "@/components/auth/AuthForm";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Reset Your Password | Drawdown",
+  title: "Reset Your Password",
   description: "Recover your Drawdown trading account password safely. Verify your registered email address to instantly receive a secure password reset link.",
 };
 

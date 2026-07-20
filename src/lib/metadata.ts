@@ -29,13 +29,8 @@ export function getMetadata({
   path,
   hasRegionalVariants = false,
 }: MetadataProps = {}): Metadata {
-  const hasBranding = title && (
-    title.includes(siteConfig.name) ||
-    title.includes("Drawdown")
-  );
-
   const fullTitle = title 
-    ? (hasBranding ? title : `${title} | ${siteConfig.name}`) 
+    ? `${title} | ${siteConfig.name}` 
     : siteConfig.title;
 
   const url = path !== undefined ? `${siteConfig.url}${path}` : undefined;

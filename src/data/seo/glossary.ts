@@ -302,7 +302,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     faqs: []
   },
   {
-    term: 'Doij',
+    term: 'Doji',
     slug: 'doji',
     definition: 'A candlestick pattern that forms when a security\'s open and close are virtually equal.',
     detailedExplanation: 'A Doji represents indecision in the market. It suggests that neither buyers nor sellers could gain control. When found at the top or bottom of a trend, it can signal a potential reversal.',

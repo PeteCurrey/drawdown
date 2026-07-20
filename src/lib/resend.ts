@@ -15,7 +15,7 @@ export async function sendNewsletter({
   subject,
   html,
   recipients,
-  fromName = "Pete | Drawdown",
+  fromName = "Pete",
 }: NewsletterParams) {
   const resend = new Resend(process.env.RESEND_API_KEY);
   try {

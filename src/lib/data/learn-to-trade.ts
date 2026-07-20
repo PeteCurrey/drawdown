@@ -97,7 +97,7 @@ export const LEARN_TOPICS: LearnTopic[] = [
     timeToLearn: "12-24 months",
     riskLevel: "Very High",
     heroImage: "/images/learn/day-trading.jpg",
-    metaTitle: "Day Trading Guide UK 2026 | The Institutional Path | Drawdown",
+    metaTitle: "Day Trading Guide UK 2026 | The Institutional Path",
     metaDescription: "Learn to day trade the UK markets without the guru fluff. Master the London Open, manage risk like a professional, and build a profitable edge.",
     honestReality: "The internet will tell you that day trading is a path to quick wealth. The honest reality is that 90% of day traders fail within 90 days. It takes a minimum of 12 to 24 months of consistent, disciplined practice to achieve profitability. You will not get rich this week. You will blow an account. But if you survive the learning curve, build a strict mechanical edge, and treat it like a data-driven business, it is a highly scalable profession. Stop looking for shortcuts.",
     content: [
@@ -236,7 +236,7 @@ export const LEARN_TOPICS: LearnTopic[] = [
     description: "Capture medium-term price moves. Ideal for those with full-time jobs who want to trade the daily and 4-hour timeframes with precision.",
     category: "Strategy",
     heroImage: "/images/learn/swing-trading.jpg",
-    metaTitle: "Swing Trading Strategy UK | Trade Part-Time | Drawdown",
+    metaTitle: "Swing Trading Strategy UK | Trade Part-Time",
     metaDescription: "Learn swing trading for the UK markets. Perfect for part-time traders, focusing on daily and 4-hour timeframes for consistent medium-term gains.",
     content: [
       {
@@ -265,7 +265,7 @@ export const LEARN_TOPICS: LearnTopic[] = [
     timeToLearn: "12-24 months",
     riskLevel: "High",
     heroImage: "/images/learn/forex-trading.jpg",
-    metaTitle: "Forex Trading Guide UK | Currency Markets | Drawdown",
+    metaTitle: "Forex Trading Guide UK | Currency Markets",
     metaDescription: "Learn to trade Forex properly. Understand pips, lots, leverage, and the macroeconomic forces that actually move the currency markets.",
     honestReality: "The Forex industry is heavily marketed as a 'get rich quick' scheme to retail traders. The reality is that Forex is a highly efficient, hyper-competitive market dominated by central banks and institutional algorithms. The extreme leverage offered by brokers means you can double your money in a day, but it also means you can blow your entire account in a single bad trade. Success in FX requires a 12-24 month commitment to mastering both technical execution and deep macroeconomic understanding.",
     content: [
@@ -408,7 +408,7 @@ export const LEARN_TOPICS: LearnTopic[] = [
     timeToLearn: "2-4 months",
     riskLevel: "High",
     heroImage: "/images/learn/crypto-trading.jpg",
-    metaTitle: "Crypto Trading Guide UK 2026 | Trade Bitcoin safely | Drawdown",
+    metaTitle: "Crypto Trading Guide UK 2026 | Trade Bitcoin safely",
     metaDescription: "Learn to trade cryptocurrencies safely. From volatility management to cold storage, understand how to trade digital assets without blowing your account.",
     honestReality: "The crypto market is entirely driven by hype, liquidity cycles, and FOMO. There are no earnings reports or dividends to anchor the price of a meme coin. It is pure, unregulated speculation. This creates the most volatile market on earth, which is fantastic for trading, but catastrophic if you don't use a stop loss. In crypto, a 30% drop in a single day is normal. You must trade crypto with the understanding that the exchange could go bankrupt tomorrow (like FTX) or the coin could go to zero (like Luna). Never hold your long-term portfolio on a centralized exchange.",
     content: [
@@ -469,7 +469,7 @@ export const LEARN_TOPICS: LearnTopic[] = [
     timeToLearn: "1-2 weeks",
     riskLevel: "Medium",
     heroImage: "/images/learn/stock-trading.jpg",
-    metaTitle: "UK Stock Trading Guide 2026 | LSE Essentials | Drawdown",
+    metaTitle: "UK Stock Trading Guide 2026 | LSE Essentials",
     metaDescription: "Master the UK stock market. Learn how to trade LSE-listed companies, understand the impact of stamp duty, and navigate the FTSE 100 with confidence.",
     honestReality: "Day trading individual UK stocks is notoriously difficult. The London Stock Exchange lacks the massive liquidity and aggressive volatility found in the US markets (Nasdaq/NYSE). UK stocks tend to 'gap' on the open and then chop sideways for the rest of the day. Furthermore, if you buy physical UK shares, you are hit with a 0.5% Stamp Duty tax immediately, putting you in the red before the trade has even started. For active, short-term trading, you should be trading US stocks or global indices. Keep UK stocks for your long-term ISA portfolio.",
     content: [
@@ -523,7 +523,7 @@ export const LEARN_TOPICS: LearnTopic[] = [
     {
     slug: "spread-betting",
     title: "Spread Betting",
-    metaTitle: "Spread Betting UK Guide 2026 | Tax-Free Trading | Drawdown",
+    metaTitle: "Spread Betting UK Guide 2026 | Tax-Free Trading",
     subtitle: "The UK's tax-free trading loophole. Master the mechanics of stake size, margin, and keeping 100% of your profits.",
     description: "The complete guide to financial spread betting in the UK. Learn how to trade the global markets tax-free, understand how 'pounds per point' sizing works, and navigate the risks of high leverage.",
     category: "Market",
@@ -669,7 +669,7 @@ export const LEARN_TOPICS: LearnTopic[] = [
     timeToLearn: "12-24 months",
     riskLevel: "Low",
     heroImage: "/images/learn/risk-management.jpg",
-    metaTitle: "Risk Management in Trading UK | Position Sizing Guide | Drawdown",
+    metaTitle: "Risk Management in Trading UK | Position Sizing Guide",
     metaDescription: "Master the mathematics of trading survival. Learn the 1% rule, how to calculate position size, and how institutions manage risk.",
     honestReality: "You can have the best technical strategy in the world, with an 80% win rate, and you will still blow your account if you do not understand risk management. Professional trading is not about predicting the market; it is about risk control. The harsh reality is that most beginners trade too large, get emotional, and lose everything on a single bad day. You must spend your first 12-24 months learning how to *not lose money* before you can focus on making it. Capital preservation is priority one.",
     content: [
@@ -790,7 +790,7 @@ export const LEARN_TOPICS: LearnTopic[] = [
     {
     slug: "trading-psychology",
     title: "Trading Psychology",
-    metaTitle: "Trading Psychology UK Guide | Master Your Mindset | Drawdown",
+    metaTitle: "Trading Psychology UK Guide | Master Your Mindset",
     subtitle: "The hardest battle isn't with the market; it's with yourself. Mastering fear, greed, and the illusion of control.",
     description: "Your technical analysis is useless if your psychology is compromised. Learn to build an emotionless, mechanical mindset that treats trading as a strict probability business.",
     category: "Psychology",
@@ -917,7 +917,7 @@ export const LEARN_TOPICS: LearnTopic[] = [
       {
     slug: "technical-analysis",
     title: "Technical Analysis",
-    metaTitle: "Technical Analysis Guide UK 2026 | Master Price Action | Drawdown",
+    metaTitle: "Technical Analysis Guide UK 2026 | Master Price Action",
     subtitle: "The art of reading institutional footprints. Forget magic indicators; focus on structure, liquidity, and momentum.",
     description: "The complete guide to technical analysis for modern traders. Learn how to read price action, identify true support and resistance, and trade alongside institutional order flow.",
     category: "Strategy",
@@ -1066,7 +1066,7 @@ export const LEARN_TOPICS: LearnTopic[] = [
     timeToLearn: "12-24 months",
     riskLevel: "Low",
     heroImage: "/images/learn/candlesticks.jpg",
-    metaTitle: "Candlestick Patterns Guide UK | Timing Entries | Drawdown",
+    metaTitle: "Candlestick Patterns Guide UK | Timing Entries",
     metaDescription: "Learn the visual language of the markets. Master hammers, shooting stars, and engulfing patterns to improve your trade timing and execution.",
     honestReality: "Candlestick patterns are highly effective, but they are completely useless in isolation. A bullish engulfing candle in the middle of nowhere means absolutely nothing. Retail traders memorize 50 different candlestick patterns and try to trade every single one they see. Institutional traders look for one or two specific candlestick patterns, but *only* when they occur at predetermined, high-timeframe supply or demand zones. The context of the pattern is 10x more important than the pattern itself.",
     content: [
@@ -1197,7 +1197,7 @@ export const LEARN_TOPICS: LearnTopic[] = [
     timeToLearn: "1 week",
     riskLevel: "Low",
     heroImage: "/images/learn/position-sizing.jpg",
-    metaTitle: "Position Sizing Guide UK | Trading Sizing Rules | Drawdown",
+    metaTitle: "Position Sizing Guide UK | Trading Sizing Rules",
     metaDescription: "Never blow an account again. Learn the exact formula for calculating position size based on risk and stop-loss distance for UK spread betting and CFDs.",
     honestReality: "The reason 80% of retail traders lose their money is not because their strategy is bad. It is because they do not know how to size their positions. They trade a static amount—like '£5 a point'—regardless of how far away their stop loss is. This means on some trades they risk 1% of their account, and on others they risk 10%. One unexpected market movement wipes out weeks of profit. Professional trading is a game of standardized risk. If you do not calculate your exact position size before every single trade, you are gambling.",
     content: [
@@ -1260,7 +1260,7 @@ export const LEARN_TOPICS: LearnTopic[] = [
     timeToLearn: "1 week",
     riskLevel: "Low",
     heroImage: "/images/learn/trading-tax.jpg",
-    metaTitle: "UK Trading Tax Guide 2026 | HMRC Rules for Traders | Drawdown",
+    metaTitle: "UK Trading Tax Guide 2026 | HMRC Rules for Traders",
     metaDescription: "Understand your tax obligations as a UK trader. Learn the specific HMRC rules regarding spread betting, CFDs, Capital Gains, and Income Tax.",
     honestReality: "We are not accountants, and this is not financial advice. However, understanding the basic structure of UK trading tax is essential for profitability. A trading system that generates a 20% annual return via CFDs will dramatically underperform the exact same system executed via a Spread Betting account, simply because of HMRC's Capital Gains Tax. If you trade from the UK and you are not using the tax advantages legally available to you, you are surrendering your edge to the government.",
     content: [
@@ -1331,7 +1331,7 @@ export const LEARN_TOPICS: LearnTopic[] = [
     timeToLearn: "2-4 weeks",
     riskLevel: "High",
     heroImage: "/images/learn/commodities.jpg",
-    metaTitle: "Commodity Trading Guide UK 2026 | Trade Gold & Oil | Drawdown",
+    metaTitle: "Commodity Trading Guide UK 2026 | Trade Gold & Oil",
     metaDescription: "Learn to trade global commodities. Master the macroeconomic drivers of Gold, Silver, and Crude Oil, and understand the impact of geopolitical events.",
     honestReality: "Commodities are not for the faint of heart. Unlike a stock, which derives its value from a company's earnings, a commodity's price is driven entirely by global macroeconomics, weather patterns, and geopolitics. A single pipeline leak in the Middle East or a sudden shift in US Federal Reserve interest rates can cause violent, unpredictable price spikes. You must trade commodities with a firm grasp of fundamental analysis and extremely strict risk management. They offer massive opportunities, but they will relentlessly punish traders who rely solely on technical chart patterns.",
     content: [
@@ -1392,7 +1392,7 @@ export const LEARN_TOPICS: LearnTopic[] = [
     timeToLearn: "1-2 weeks",
     riskLevel: "Medium",
     heroImage: "/images/learn/indices.jpg",
-    metaTitle: "Index Trading Guide UK 2026 | FTSE & S&P 500 | Drawdown",
+    metaTitle: "Index Trading Guide UK 2026 | FTSE & S&P 500",
     metaDescription: "Learn to trade global stock indices. Ditch single-stock risk and master the mechanics of trading the S&P 500, Nasdaq 100, and FTSE 100.",
     honestReality: "For the vast majority of retail day traders, trading an index is vastly superior to trading individual stocks. When you trade a single company like Tesla or Apple, you are exposed to 'idiosyncratic risk'—the CEO tweets something reckless, an earnings report misses by 1%, or a product gets recalled, and the stock gaps down 15% overnight, destroying your stop loss. An index dilutes that risk across hundreds of companies. It moves based on broader macroeconomic trends and technical levels, making it far more predictable and liquid for short-term trading.",
     content: [
@@ -1464,7 +1464,7 @@ export const LEARN_TOPICS: LearnTopic[] = [
     timeToLearn: "3-6 months",
     riskLevel: "High",
     heroImage: "/images/learn/scalping.jpg",
-    metaTitle: "Forex Scalping Guide UK 2026 | 1-Minute Chart Trading | Drawdown",
+    metaTitle: "Forex Scalping Guide UK 2026 | 1-Minute Chart Trading",
     metaDescription: "Master the art of scalping. Learn to extract small profits from hundreds of daily trades using precise timing, DOM analysis, and institutional tools.",
     honestReality: "Scalping is the most difficult form of retail trading. It requires the reflexes of a fighter pilot and the emotional numbness of a sociopath. You are trading on the 1-minute chart, hunting for 3-5 pip movements. Because your profit targets are so small, your position sizes must be massive to make any real money. A single moment of hesitation, a sudden spike in spread, or a moment of internet lag will wipe out an entire day of scalping profits. If you have a full-time job or are easily stressed, do not scalp. Swing trade instead.",
     content: [
@@ -1528,7 +1528,7 @@ export const LEARN_TOPICS: LearnTopic[] = [
     timeToLearn: "2-4 months",
     riskLevel: "Medium",
     heroImage: "/images/learn/fundamentals.jpg",
-    metaTitle: "Fundamental Analysis Guide UK 2026 | Macro Trading | Drawdown",
+    metaTitle: "Fundamental Analysis Guide UK 2026 | Macro Trading",
     metaDescription: "Learn the drivers of market value. Master interest rate policy, economic indicators (NFP, CPI), and geopolitical events to improve your trading edge.",
     honestReality: "Technical analysis tells you *when* to buy. Fundamental analysis tells you *what* to buy and *why*. Many retail traders ignore fundamentals because staring at a chart is easier than reading an inflation report from the Bank of England. But institutional money does not move billions of dollars because a 15-minute MACD crossed over. They move money based on interest rate differentials and economic growth. If you are trading against the fundamental macroeconomic trend, you are swimming against a tidal wave. You might catch a few short-term pips, but eventually, the macro wave will drown you.",
     content: [
@@ -1588,7 +1588,7 @@ export const LEARN_TOPICS: LearnTopic[] = [
     timeToLearn: "3-6 months",
     riskLevel: "Medium",
     heroImage: "/images/learn/order-flow.jpg",
-    metaTitle: "Order Flow Trading Guide UK | Inside Candles | Drawdown",
+    metaTitle: "Order Flow Trading Guide UK | Inside Candles",
     metaDescription: "Master institutional order flow. Learn to read the DOM, Level 2 data, and footprint charts to identify where the big money is moving.",
     honestReality: "Order flow is the closest you will ever get to having 'insider information' without breaking the law. A standard candlestick chart only shows you the *result* of the battle between buyers and sellers. Order flow shows you the *actual battle* as it happens. You can see the exact volume of contracts being executed at every single price level. However, order flow platforms are expensive, the data feeds cost monthly subscriptions, and learning to read a footprint chart looks like reading the Matrix. It is a steep learning curve, but once you learn to read the tape, you will never look at a naked candlestick the same way again.",
     content: [
@@ -1647,7 +1647,7 @@ export const LEARN_TOPICS: LearnTopic[] = [
     description: "Master the Golden Ratio. Learn how to identify natural pulling points in the market for precise entries and exits.",
     category: "Strategy",
     heroImage: "/images/learn/fibonacci.jpg",
-    metaTitle: "Fibonacci Trading Guide | Master the Golden Ratio | Drawdown",
+    metaTitle: "Fibonacci Trading Guide | Master the Golden Ratio",
     metaDescription: "Learn to use Fibonacci retracement and extension levels like a professional. Identify high-probability reversal zones and profit targets.",
     content: [
       {
@@ -1668,7 +1668,7 @@ export const LEARN_TOPICS: LearnTopic[] = [
     description: "Smooth out the noise. Learn how to use the 50, 100, and 200 EMA to identify the dominant trend and dynamic support.",
     category: "Strategy",
     heroImage: "/images/learn/moving-averages.jpg",
-    metaTitle: "Moving Average Guide | Master Trend Following | Drawdown",
+    metaTitle: "Moving Average Guide | Master Trend Following",
     metaDescription: "Learn to use SMAs and EMAs properly. From the 'Golden Cross' to dynamic support, master the most popular indicators in trading.",
     content: [
       {
@@ -1689,7 +1689,7 @@ export const LEARN_TOPICS: LearnTopic[] = [
     description: "Find the Point of Control. Learn how to use volume by price to see where the market has found fair value and where it is imbalanced.",
     category: "Strategy",
     heroImage: "/images/learn/volume-profile.jpg",
-    metaTitle: "Volume Profile Guide | Master Value Area Trading | Drawdown",
+    metaTitle: "Volume Profile Guide | Master Value Area Trading",
     metaDescription: "Learn to trade using Volume Profile. Identify the Point of Control (POC) and Value Areas to understand where institutional orders are clustered.",
     content: [
       {
@@ -1710,7 +1710,7 @@ export const LEARN_TOPICS: LearnTopic[] = [
     description: "The complete guide to professional-grade automated trading. Learn to codify your edge and remove biological emotion from your execution.",
     category: "Strategy",
     heroImage: "/images/learn/algo-trading.jpg",
-    metaTitle: "Algorithmic Trading Guide | Systematic Edge | Drawdown",
+    metaTitle: "Algorithmic Trading Guide | Systematic Edge",
     metaDescription: "Master algorithmic trading. From Pine Script to Python, learn how to build, backtest, and deploy automated trading systems with institutional discipline.",
     content: [
       {
@@ -1747,7 +1747,7 @@ export const LEARN_TOPICS: LearnTopic[] = [
     description: "The complete guide to Contracts for Difference. Learn how to trade price movements without owning the underlying asset.",
     category: "Foundation",
     heroImage: "/images/learn/cfd-trading.jpg",
-    metaTitle: "CFD Trading Guide UK | Leverage & Margin Explained | Drawdown",
+    metaTitle: "CFD Trading Guide UK | Leverage & Margin Explained",
     metaDescription: "Master CFD trading. Understand how to use contracts for difference to trade global markets, manage leverage, and offset losses for tax purposes.",
     content: [
       {
@@ -1765,7 +1765,7 @@ export const LEARN_TOPICS: LearnTopic[] = [
     description: "Learn to trade volatility and time. Understand calls, puts, and how to use options to hedge your portfolio.",
     category: "Strategy",
     heroImage: "/images/learn/options-trading.jpg",
-    metaTitle: "Options Trading Guide | Master Greeks & Volatility | Drawdown",
+    metaTitle: "Options Trading Guide | Master Greeks & Volatility",
     metaDescription: "Learn to trade options like a professional. Understand calls, puts, and 'The Greeks' to manage risk and profit from market volatility.",
     content: [
       {
@@ -1783,7 +1783,7 @@ export const LEARN_TOPICS: LearnTopic[] = [
     description: "The purest form of technical analysis. Learn to read the story of the market without any lagging indicators.",
     category: "Strategy",
     heroImage: "/images/learn/price-action.jpg",
-    metaTitle: "Price Action Trading Guide | Read the Naked Charts | Drawdown",
+    metaTitle: "Price Action Trading Guide | Read the Naked Charts",
     metaDescription: "Master price action trading. Learn to identify market structure, trends, and reversal signals using only the 'naked' price chart.",
     content: [
       {
@@ -1801,7 +1801,7 @@ export const LEARN_TOPICS: LearnTopic[] = [
     description: "Navigate the education minefield. Learn how to choose a legitimate trading course and what to avoid.",
     category: "Education",
     heroImage: "/images/learn/courses.jpg",
-    metaTitle: "Trading Courses Guide | How to Choose Legit Education | Drawdown",
+    metaTitle: "Trading Courses Guide | How to Choose Legit Education",
     metaDescription: "Avoid the gurus. Learn how to identify high-quality trading education that focuses on risk management and institutional process.",
     content: [
       {
@@ -1819,7 +1819,7 @@ export const LEARN_TOPICS: LearnTopic[] = [
     description: "The digital gateway to the world's markets. Learn how online trading has evolved and how to stay safe in 2026.",
     category: "Foundation",
     heroImage: "/images/learn/online-trading.jpg",
-    metaTitle: "Online Trading Guide | Safety & Technology in 2026 | Drawdown",
+    metaTitle: "Online Trading Guide | Safety & Technology in 2026",
     metaDescription: "Learn the essentials of online trading. From cybersecurity to platform choice, understand how to trade safely in the modern digital age.",
     content: [
       {
@@ -1837,7 +1837,7 @@ export const LEARN_TOPICS: LearnTopic[] = [
     description: "Master the professional's market. Learn to trade standardized contracts for indices, commodities, and currencies.",
     category: "Market",
     heroImage: "/images/learn/futures-trading.jpg",
-    metaTitle: "Futures Trading Guide | Master CME & Eurex Markets | Drawdown",
+    metaTitle: "Futures Trading Guide | Master CME & Eurex Markets",
     metaDescription: "Learn to trade futures contracts. Master the mechanics of margin, expiration, and standardized contracts for global financial markets.",
     content: [
       {
@@ -1860,7 +1860,7 @@ export const LEARN_TOPICS: LearnTopic[] = [
     timeToLearn: "6-12 months",
     riskLevel: "High",
     heroImage: "/images/learn/prop-firm.jpg",
-    metaTitle: "Prop Firm Trading UK Guide 2026 | Passing Evaluations | Drawdown",
+    metaTitle: "Prop Firm Trading UK Guide 2026 | Passing Evaluations",
     metaDescription: "Master UK prop firm trading. Learn how evaluations work, drawdown rules, conservative sizing, and tax treatment of funded payouts.",
     honestReality: "Prop firms are not a lottery or a demo account with a cash prize. They are corporate capital managers. 95% of traders fail because they risk 2% to 5% per trade trying to pass in 48 hours. If you want to survive, you must risk 0.25% to 0.5% per trade, treat daily drawdown limits as the absolute ceiling, and build a consistent track record.",
     relatedModules: [
@@ -1903,7 +1903,7 @@ export const LEARN_TOPICS: LearnTopic[] = [
     timeToLearn: "1-2 months",
     riskLevel: "Low",
     heroImage: "/images/learn/backtester.jpg",
-    metaTitle: "How to Backtest a Trading Strategy Properly | Drawdown",
+    metaTitle: "How to Backtest a Trading Strategy Properly",
     metaDescription: "Learn how to backtest trading strategies like an institutional analyst. Master sample sizing, expectancy, profit factor & Monte Carlo stress testing.",
     honestReality: "Backtests are not proof of future profits. They are proof that your strategy rules were historically profitable. Hindsight is 20/20; it is easy to mark winning entries on a static chart. To build a valid backtest, you must use TradingView replay mode, advance bar-by-bar, and log execution slip and spread fees.",
     relatedModules: [
@@ -1946,7 +1946,7 @@ export const LEARN_TOPICS: LearnTopic[] = [
     timeToLearn: "6-12 months",
     riskLevel: "Medium",
     heroImage: "/images/learn/macro.jpg",
-    metaTitle: "Macro Trading Guide: Economic Cycles | Drawdown",
+    metaTitle: "Macro Trading Guide: Economic Cycles",
     metaDescription: "Learn macro trading. Master central bank policy cycles, interest rate differentials, inflation data (CPI/PPI/PCE), and weekly bias systems.",
     honestReality: "Macro trading is not about predicting the news. Professional desks do not guess NFP or CPI numbers. They analyze how deviations from market consensus shift central bank expectations, and trade the subsequent institutional trend.",
     relatedModules: [
@@ -1989,7 +1989,7 @@ export const LEARN_TOPICS: LearnTopic[] = [
     timeToLearn: "2-4 months",
     riskLevel: "Medium",
     heroImage: "/images/learn/ai-tools.jpg",
-    metaTitle: "AI Trading Tools UK 2026 | Pine Script & Automation | Drawdown",
+    metaTitle: "AI Trading Tools UK 2026 | Pine Script & Automation",
     metaDescription: "Learn to build custom AI trading workflows. Program Pine Script, automate journal analysis, and connect TradingView webhooks with Claude.",
     honestReality: "AI cannot predict price. If you ask an LLM for trading signals, you are gambling. AI is an execution assistant. It is a powerful tool to automate data logging, parse policy text, and write TradingView Pine Script rapidly.",
     relatedModules: [
@@ -2032,7 +2032,7 @@ export const LEARN_TOPICS: LearnTopic[] = [
     timeToLearn: "3-6 months",
     riskLevel: "High",
     heroImage: "/images/learn/ftmo.jpg",
-    metaTitle: "How to Pass an FTMO Challenge | The Sizing Playbook | Drawdown",
+    metaTitle: "How to Pass an FTMO Challenge | The Sizing Playbook",
     metaDescription: "Learn how to pass the FTMO challenge. Master the 5% daily drawdown rule, consistency requirements, and conservative position sizing.",
     honestReality: "FTMO makes most of its money from failed challenge fees, not profit splits. The rules are designed to exploit retail greed. If you try to pass in 48 hours, you are gambling. Passing requires a multi-week, disciplined process.",
     relatedModules: [

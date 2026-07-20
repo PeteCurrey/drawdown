@@ -2,10 +2,10 @@ import type { Metadata } from "next";
 import { CoffeezillaAlexGClient } from "./CoffeezillaAlexGClient";
 
 export const metadata: Metadata = {
-  title: "Coffeezilla fxAlexG Video & Trading Education | Drawdown",
+  title: "Coffeezilla fxAlexG Video & Trading Education",
   description: "We break down the Coffeezilla fxAlexG controversy: undisclosed affiliates, demo accounts, and what it teaches us about finding honest trading education.",
   openGraph: {
-    title: "Coffeezilla fxAlexG Video & Trading Education | Drawdown",
+    title: "Coffeezilla fxAlexG Video & Trading Education",
     description: "We break down the Coffeezilla fxAlexG controversy: undisclosed affiliates, demo accounts, and what it teaches us about finding honest trading education.",
     type: "article",
     url: "https://drawdown.trading/blog/coffeezilla-alexg-trading-education",

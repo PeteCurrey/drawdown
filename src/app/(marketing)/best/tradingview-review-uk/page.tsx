@@ -4,7 +4,7 @@ import { ChevronRight, Star, Check, X, Shield, Info, ExternalLink, Zap, BarChart
 import { AffiliateDisclosure } from "@/components/seo/AffiliateDisclosure";
 
 export const metadata: Metadata = {
-  title: "TradingView Review UK 2026 — Is It Worth It? | Drawdown",
+  title: "TradingView Review UK 2026 — Is It Worth It?",
   description: "We use TradingView every single day. Here's our completely honest review for UK traders — pricing, features, Pine Script, and whether the paid plans are worth it.",
 };
 
@@ -63,7 +63,7 @@ export default function TradingViewReviewUK() {
             </p>
             <a 
               href="/go/tradingview"
-              rel="noopener noreferrer"
+              rel="noopener noreferrer sponsored"
               className="inline-flex items-center gap-4 bg-mkt-ink text-white px-12 py-5 text-xs font-black uppercase tracking-widest hover:bg-accent-hover transition-premium"
             >
               Try TradingView <ExternalLink className="w-4 h-4" />
@@ -215,7 +215,7 @@ export default function TradingViewReviewUK() {
           </p>
           <a 
             href="/go/tradingview"
-            rel="noopener noreferrer"
+            rel="noopener noreferrer sponsored"
             className="inline-flex items-center gap-4 bg-mkt-ink text-white px-16 py-6 text-sm font-black uppercase tracking-widest hover:bg-accent-hover transition-premium"
           >
             Try TradingView <ExternalLink className="w-5 h-5" />

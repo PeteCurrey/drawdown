@@ -6,7 +6,7 @@ import { ChevronRight, Star, ArrowRight, ShieldCheck } from "lucide-react";
 import { createInternalSupabase } from "@/lib/supabase/server";
 
 export const metadata: Metadata = {
-  title: "Best Trading Platforms & Tools 2026 | Drawdown",
+  title: "Best Trading Platforms & Tools 2026",
   description: "Independent rankings and reviews of the best trading brokers, tools, and prop firms. We run rigorous tests on every platform so you don't have to.",
 };
 

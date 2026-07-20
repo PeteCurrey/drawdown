@@ -5,7 +5,7 @@ import Link from "next/link";
 import Breadcrumbs from "@/components/layout/Breadcrumbs";
 
 export const metadata: Metadata = {
-  title: "TradingView Mastery Guides — Tutorials & Pro Tips | Drawdown",
+  title: "TradingView Mastery Guides — Tutorials & Pro Tips",
   description: "Master the world's most powerful charting platform. Explore our guides on getting started, custom Pine Script coding, indicators, alerts, and mobile trading.",
 };
 

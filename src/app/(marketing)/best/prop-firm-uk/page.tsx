@@ -5,7 +5,7 @@ import { propFirms } from "@/data/prop-firms";
 import { AffiliateDisclosure } from "@/components/seo/AffiliateDisclosure";
 
 export const metadata: Metadata = {
-  title: "Best Prop Trading Firms for UK Traders 2026 | Drawdown",
+  title: "Best Prop Trading Firms for UK Traders 2026",
   description: "UK traders have unique tax and regulatory considerations when choosing a prop firm. Here are the firms worth your challenge fee.",
 };
 

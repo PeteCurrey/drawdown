@@ -185,7 +185,7 @@ export const BEST_OF_PAGES: BestOfPage[] = [
   },
   {
     slug: 'spread-betting-platform-uk',
-    title: 'Best Spread Betting Brokers UK 2026 | Drawdown',
+    title: 'Best Spread Betting Brokers UK 2026',
     eyebrow: '// TAX-FREE TRADING',
     lastUpdated: '2026-04-23',
     targetKeywords: ['best spread betting broker UK', 'tax free trading UK'],

@@ -88,7 +88,7 @@ export function TradingViewSection() {
                 Every chart example in the Drawdown curriculum runs on TradingView. We use it ourselves — every session, every analysis, without exception. Sixty million traders globally. Real-time data across every market we teach.
               </p>
               <p>
-                It's the one tool we recommend without reservation. And we've never taken a penny to say that.
+                It's the one tool we recommend without reservation.
               </p>
             </div>
 
@@ -113,7 +113,7 @@ export function TradingViewSection() {
               <Link
                 href="/go/tradingview"
                 target="_blank"
-                rel="noopener noreferrer"
+                rel="noopener noreferrer sponsored"
                 className="inline-flex items-center justify-center px-8 py-4 rounded-lg font-bold text-sm tracking-wide transition-colors bg-[#C8F135] text-black hover:opacity-95 shadow-lg shadow-black/10 font-sans"
               >
                 Try TradingView Free →

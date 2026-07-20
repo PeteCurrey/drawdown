@@ -62,15 +62,15 @@ export function StatsBar() {
             </span>
           </div>
 
-          {/* 6 Modules */}
+          {/* 8 Modules */}
           <div className="flex flex-col items-center md:items-start">
             <span 
               className="text-[30px] text-mkt-ink font-sans tracking-[-0.04em]"
               style={{ fontWeight: 800 }}
               data-counter
-              data-target="6"
+              data-target="8"
             >
-              6
+              8
             </span>
             <span className="text-[11px] font-sans font-medium text-mkt-i4 uppercase mt-1 tracking-wider">
               Modules

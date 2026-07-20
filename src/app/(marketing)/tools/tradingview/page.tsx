@@ -181,7 +181,7 @@ function TradingViewReviewContent({ region }: { region: Region }) {
             <Link
               href="/go/tradingview"
               target="_blank"
-              rel="noopener noreferrer"
+              rel="noopener noreferrer sponsored"
               className="w-full sm:w-auto px-8 py-4 bg-mkt-ink text-white rounded-lg font-bold text-sm tracking-wide hover:bg-mkt-i2 transition-colors"
             >
               Try TradingView Free →
@@ -194,6 +194,11 @@ function TradingViewReviewContent({ region }: { region: Region }) {
             </Link>
           </div>
 
+          <div className="mt-8 max-w-xl mx-auto p-4 bg-amber-50 border border-amber-200 rounded-lg text-left">
+            <p className="text-xs text-amber-800 leading-relaxed font-sans">
+              <strong>Disclosure:</strong> the links on this page are affiliate links. If you upgrade to a paid TradingView plan, we earn a commission. This doesn't affect our review — we use TradingView ourselves on every trading session and would recommend it regardless.
+            </p>
+          </div>
         </div>
       </section>
 
@@ -298,11 +303,12 @@ function TradingViewReviewContent({ region }: { region: Region }) {
               <Link
                 href="/go/tradingview"
                 target="_blank"
-                rel="noopener noreferrer"
+                rel="noopener noreferrer sponsored"
                 className="inline-flex px-8 py-4 bg-mkt-ink text-white rounded-lg font-bold text-sm tracking-wide hover:bg-mkt-i2 transition-colors font-sans"
               >
                 Start with the free plan →
               </Link>
+              <p className="text-[10px] text-text-tertiary mt-2 font-sans">Affiliate link — we may earn a commission at no cost to you.</p>
             </div>
           </section>
         </FadeInSection>
@@ -354,12 +360,15 @@ function TradingViewReviewContent({ region }: { region: Region }) {
               <Link
                 href="/go/tradingview"
                 target="_blank"
-                rel="noopener noreferrer"
+                rel="noopener noreferrer sponsored"
                 className="inline-block px-6 py-2 border border-white/20 text-white rounded-lg text-sm hover:bg-white/5 transition font-semibold font-sans animate-none"
               >
                 Try TradingView Free →
               </Link>
             </div>
+            <p className="text-gray-600 text-xs font-sans">
+              Affiliate link — commission earned on paid plan upgrades.
+            </p>
           </div>
 
         </div>
@@ -511,7 +520,7 @@ function TradingViewReviewContent({ region }: { region: Region }) {
             <Link
               href="/go/tradingview"
               target="_blank"
-              rel="noopener noreferrer"
+              rel="noopener noreferrer sponsored"
               className="px-8 py-3 bg-white text-black font-semibold text-center rounded-lg hover:bg-gray-100 transition duration-200 text-sm font-sans"
             >
               Try TradingView Free →
@@ -524,7 +533,9 @@ function TradingViewReviewContent({ region }: { region: Region }) {
             </Link>
           </div>
 
-          </div>
+          <p className="text-gray-500 text-xs text-center mt-4 font-sans">
+            Affiliate disclosure — we earn a commission on TradingView paid plan upgrades. Drawdown sign-up is always free.
+          </p>
         </div>
       </section>
 

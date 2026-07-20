@@ -4,7 +4,7 @@ import JsonLd from '@/components/seo/JsonLd'
 import { TrackPageView } from '@/components/admin/TrackPageView'
 
 export const metadata: Metadata = {
-  title: 'About | Pete Currey | Drawdown Trading',
+  title: 'About | Pete Currey',
   description: 'Drawdown was built by Pete Currey — a UK-based trader and entrepreneur who got tired of the trading education industry selling expensive nonsense. Here\'s the honest version.',
   alternates: { canonical: 'https://drawdown.trading/about' }
 }

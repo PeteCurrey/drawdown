@@ -63,7 +63,7 @@ export default function BrokersPage() {
             </h1>
             
             <p className="text-base text-mkt-i3 leading-relaxed max-w-2xl font-sans">
-              Honest recommendations, ranked on merit. Where our founder holds a live account, we say so.
+              Honest recommendations, ranked on merit. Where our founder holds a live account, we say so. We may earn a referral fee — disclosed on every link.
             </p>
 
             <div className="flex flex-wrap gap-4 pt-4">
@@ -154,11 +154,14 @@ export default function BrokersPage() {
                            <a 
                               href={broker.link}
                               target="_blank"
-                              rel="nofollow"
+                              rel="nofollow sponsored"
                               className="w-full py-4 bg-accent text-[#08090D] hover:bg-accent-hover transition-colors text-center text-xs font-bold uppercase tracking-widest block"
                            >
                               Open Account
                            </a>
+                           <p className="text-[9px] text-center text-text-tertiary uppercase tracking-widest">
+                              *Broker disclosure: Affiliate link.
+                           </p>
                            <Link 
                               href={`/brokers/${broker.id}-review`}
                               className="w-full py-4 border border-border-slate hover:border-text-primary text-text-primary transition-colors text-center text-xs font-bold uppercase tracking-widest block"

@@ -4,7 +4,7 @@ import SurvivalKitLandingClient from "./SurvivalKitLandingClient";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Prop Firm Survival Kit | Drawdown",
+  title: "Prop Firm Survival Kit",
   description: "The interactive prop firm course. Six modules, 40 lessons, six quizzes. Every rule decoded. Every psychological trap named. Pass the kit to unlock the next module.",
 };
 

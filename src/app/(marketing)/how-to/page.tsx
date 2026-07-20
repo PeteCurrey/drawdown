@@ -7,7 +7,7 @@ import { DifficultyBadge } from "@/components/how-to/DifficultyBadge";
 import { createInternalSupabase } from "@/lib/supabase/server";
 
 export const metadata: Metadata = {
-  title: "Trading Guides & How-To | Drawdown",
+  title: "Trading Guides & How-To",
   description: "Step-by-step guides on how to start trading, manage risk, and master the markets. Honest, professional-grade trading education.",
 };
 

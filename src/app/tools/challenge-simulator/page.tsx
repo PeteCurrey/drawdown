@@ -2,7 +2,7 @@ import { Globe, Upload, Zap, ArrowRight, ShieldCheck, Play } from "lucide-react"
 import Link from "next/link";
 
 export const metadata = {
-  title: "Prop Firm Challenge Simulator | Drawdown",
+  title: "Prop Firm Challenge Simulator",
   description: "Test your real trades against FTMO, The5ers, and Topstep rules before you pay for a challenge. See if you would pass or fail.",
 };
 

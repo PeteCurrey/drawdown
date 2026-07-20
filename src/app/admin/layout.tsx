@@ -4,7 +4,7 @@ import { AdminSidebar } from "@/components/admin/AdminSidebar";
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Admin | Drawdown',
+  title: 'Admin',
   robots: { index: false, follow: false },
 }
 

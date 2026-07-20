@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Mail, ChevronRight, Calendar } from "lucide-react";
 
 export const metadata = {
-  title: "The Wire Archive | Drawdown",
+  title: "The Wire Archive",
   description: "Browse the complete archive of past editions of The Wire, Drawdown's daily market intelligence newsletter providing actionable session briefs.",
 };
 

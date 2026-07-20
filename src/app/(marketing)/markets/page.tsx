@@ -6,7 +6,7 @@ import { getCategoryInstruments } from "@/lib/markets-config";
 import { MarketTicker } from "@/components/market/MarketTicker";
 
 export const metadata = {
-  title: "Markets Hub | Live Financial Charts & Analysis | Drawdown",
+  title: "Markets Hub | Live Financial Charts & Analysis",
   description: "Live charts, technical analysis, and Drawdown curriculum context for Forex, Commodities, Indices, and Cryptocurrencies. Real-time TradingView widgets.",
 };
 
@@ -39,7 +39,7 @@ const CATEGORIES = [
     slug: "crypto" as const,
     name: "Cryptocurrencies",
     count: "24/7 Digital Assets",
-    desc: "High-beta digital assets (Bitcoin, Ethereum, XRP) covered in Drawdown's Phase 6 advanced risk management modules.",
+    desc: "High-beta digital assets (Bitcoin, Ethereum, XRP) covered in Drawdown's Phase 1 foundational modules.",
     badge: "Bitcoin, Ethereum, XRP",
     bgImage: "https://images.unsplash.com/photo-1621761191319-c6fb62004040?q=80&w=800"
   }
@@ -306,7 +306,7 @@ export default function MarketsHubPage() {
                   Most market data sites bury you in numbers without context. They show you a price, a chart and a gauge — but nothing that helps you understand what you're actually looking at or how to trade it.
                 </p>
                 <p>
-                  Every page in the Drawdown Markets Hub connects live TradingView data to curriculum context. You can see which phase covers each instrument, what drives it fundamentally, when it's most active, and what kinds of setups work on it. Data with a framework behind it.
+                  Every page in the Drawdown Markets Hub connects live TradingView data to curriculum context. You can see how we teach each instrument, what drives it fundamentally, when it's most active, and what kinds of setups work on it. Data with a framework behind it.
                 </p>
                 <p>
                   It's free. No sign-up required to access any market page. If you find it useful and want to learn to trade properly, the Drawdown curriculum is where you go next.
@@ -399,7 +399,7 @@ export default function MarketsHubPage() {
                 <div className="relative z-10">
                   <h3 className="font-semibold text-sm text-white mb-1 font-sans">Curriculum Context</h3>
                   <p className="text-xs text-white/50 leading-relaxed font-sans">
-                    Each page tells you which Drawdown phase covers that instrument, what drives it, and when it's most active for UK traders.
+                    Each page tells you how Drawdown covers that instrument, what drives it, and when it's most active for UK traders.
                   </p>
                 </div>
               </div>

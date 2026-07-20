@@ -107,18 +107,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.1,
   }));
 
-  // 9. Priority 0.5: Localized Programmatic Pages (UK Cities)
-  const localizedRoutes: any[] = [];
-  LEARN_TOPICS.forEach((topic) => {
-    UK_LOCATIONS.forEach((loc) => {
-      localizedRoutes.push({
-        url: `${baseUrl}/learn-to-trade/${topic.slug}/${loc.slug}`,
-        lastModified: staticDate,
-        changeFrequency: "monthly" as const,
-        priority: 0.5,
-      });
-    });
-  });
+
 
   // 10. Priority 0.7: /brokers/[broker] reviews (ig, pepperstone, ic-markets with and without review suffix)
   const brokerReviewSlugs = [
@@ -239,7 +228,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...blogRoutes,
     ...aboutRoutes,
     ...footerRoutes,
-    ...localizedRoutes,
+
     ...brokerRoutes,
     ...marketCategoryRoutes,
     ...marketInstrumentRoutes,

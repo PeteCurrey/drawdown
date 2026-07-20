@@ -3,7 +3,7 @@ import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 
 export const metadata: Metadata = {
-  title: 'Dashboard | Drawdown',
+  title: 'Dashboard',
   // Keep dashboard fully out of search engine indexes
   robots: { index: false, follow: false },
 }

@@ -52,7 +52,7 @@ export function CoursesPageClient() {
             A Phase-Based<br />Learning Path.
           </h1>
           <p className="text-lg text-text-tertiary leading-relaxed font-sans max-w-2xl">
-            From complete beginner to professional-grade edge. 1 phase. 6 modules.
+            From complete beginner to professional-grade edge. 1 phase. 8 modules.
             Built for traders who want to learn properly. No shortcuts. Just the truth.
           </p>
         </header>

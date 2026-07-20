@@ -11,7 +11,7 @@ export interface MarketInstrument {
   description: string;     // 2-3 sentence intro for SEO/page
   whyTrade: string;        // 1-2 sentences on why traders watch this
   sessionPeak: string;     // e.g. "London & New York overlap (13:00–17:00 GMT)"
-  drawdownPhase: string;   // e.g. "Phase 2 — Chart Reader"
+  drawdownPhase: string;   // e.g. "Phase 1 — Chart Reader"
   drawdownNote: string;    // 1-2 sentences on how Drawdown teaches this instrument
   keyDrivers: string[];    // 3-4 macro drivers
   relatedSlugs: string[];  // slugs of related instruments for internal linking
@@ -37,8 +37,8 @@ export const CATEGORY_META = {
   },
   crypto: {
     title: "Crypto Markets | Bitcoin, Ethereum & XRP Live Charts",
-    description: "Live Bitcoin, Ethereum and XRP charts with technical analysis. Covered in Drawdown's Phase 6 curriculum — with 24/7 market data.",
-    intro: "Cryptocurrency offers 24/7 market access and extreme volatility. Covered in Drawdown's Phase 6 curriculum — here's the live data and context serious crypto traders need."
+    description: "Live Bitcoin, Ethereum and XRP charts with technical analysis. Covered in Drawdown's Phase 1 curriculum — with 24/7 market data.",
+    intro: "Cryptocurrency offers 24/7 market access and extreme volatility. Covered in Drawdown's Phase 1 curriculum — here's the live data and context serious crypto traders need."
   }
 };
 
@@ -55,11 +55,11 @@ export const MARKETS_CONFIG: MarketInstrument[] = [
     description: "The EUR/USD is the world's most traded currency pair, accounting for roughly 28% of daily forex volume. It represents the exchange rate between the Eurozone's single currency and the US Dollar — the two largest economic blocs on the planet. Tight spreads, deep liquidity and near-constant volatility make it the first pair most serious traders learn.",
     whyTrade: "Institutional order flow is densest on EUR/USD, making it ideal for price action and ICT-style setups. London session open regularly produces the cleanest structural moves.",
     sessionPeak: "London open (08:00–10:00 GMT) and NY overlap (13:00–17:00 GMT)",
-    drawdownPhase: "Phase 2 — Chart Reader",
-    drawdownNote: "EUR/USD features in Phases 2 and 3 as the primary teaching pair for structure, order blocks and liquidity sweeps. All core chart reading modules use EUR/USD as the base example.",
+    drawdownPhase: "Phase 1 — Ground Zero",
+    drawdownNote: "EUR/USD features in Phase 1 as the primary teaching pair for structure, order blocks and liquidity sweeps. All core chart reading modules use EUR/USD as the base example.",
     keyDrivers: ["ECB interest rate decisions", "US Federal Reserve policy", "Eurozone GDP and CPI data", "US Non-Farm Payrolls"],
     relatedSlugs: ["eurgbp", "usdjpy", "gbpusd"],
-    metaTitle: "EUR/USD Live Chart & Analysis | Euro Dollar Today | Drawdown",
+    metaTitle: "EUR/USD Live Chart & Analysis | Euro Dollar Today",
     metaDescription: "EUR/USD live chart, technical analysis and price action breakdown. Track the Euro Dollar with TradingView data and learn to trade it with Drawdown."
   },
   {
@@ -73,11 +73,11 @@ export const MARKETS_CONFIG: MarketInstrument[] = [
     description: "GBP/USD — known as 'Cable' — is the most important pair for UK-based traders. It measures the strength of Sterling against the world's reserve currency and is one of the most volatile major pairs in the forex market. The pair is particularly reactive to BoE policy decisions, UK inflation data and broader risk sentiment.",
     whyTrade: "Cable's volatility and the London session dynamic make it a primary instrument for UK day traders. It regularly produces clean sweep-and-reverse setups around session highs and lows.",
     sessionPeak: "London open (07:00–09:30 GMT) and NY overlap (13:00–17:00 GMT)",
-    drawdownPhase: "Phase 2 — Chart Reader",
-    drawdownNote: "GBP/USD is the flagship pair for Drawdown's UK-focused curriculum. Pete trades Cable personally and it features in live session breakdowns throughout Phases 2, 3 and 4.",
+    drawdownPhase: "Phase 1 — Ground Zero",
+    drawdownNote: "GBP/USD is the flagship pair for Drawdown's UK-focused curriculum. Pete trades Cable personally and it features in live session breakdowns throughout Phase 1.",
     keyDrivers: ["Bank of England MPC decisions", "UK CPI and wage data", "US Federal Reserve policy", "UK GDP releases"],
     relatedSlugs: ["gbpjpy", "eurgbp", "eurusd"],
-    metaTitle: "GBP/USD Live Chart & Analysis | Cable Today | Drawdown",
+    metaTitle: "GBP/USD Live Chart & Analysis | Cable Today",
     metaDescription: "GBP/USD live chart and price action analysis for UK traders. Track Cable with real-time TradingView data and learn to trade it properly with Drawdown."
   },
   {
@@ -91,11 +91,11 @@ export const MARKETS_CONFIG: MarketInstrument[] = [
     description: "USD/JPY is the second most traded forex pair globally, offering exceptional liquidity during both Asian and US sessions. The pair is heavily influenced by the interest rate differential between the US Federal Reserve and the Bank of Japan — a spread that has driven historic moves in recent years.",
     whyTrade: "USD/JPY trending behaviour and sensitivity to US yield data creates excellent macro-driven setups. The Tokyo session also provides early directional clues.",
     sessionPeak: "Tokyo open (00:00–03:00 GMT) and NY session (13:00–17:00 GMT)",
-    drawdownPhase: "Phase 3 — Strategist",
-    drawdownNote: "USD/JPY is introduced in Phase 3 as a macro-driven trend pair. Students learn to trade with fundamental bias and interest rate differential as a directional filter.",
+    drawdownPhase: "Phase 1 — Ground Zero",
+    drawdownNote: "USD/JPY is introduced in Phase 1 as a macro-driven trend pair. Students learn to trade with fundamental bias and interest rate differential as a directional filter.",
     keyDrivers: ["Bank of Japan yield curve control policy", "US Treasury yields", "Fed interest rate decisions", "Japan CPI and trade data"],
     relatedSlugs: ["eurusd", "gbpjpy", "audusd"],
-    metaTitle: "USD/JPY Live Chart & Analysis | Dollar Yen Today | Drawdown",
+    metaTitle: "USD/JPY Live Chart & Analysis | Dollar Yen Today",
     metaDescription: "USD/JPY live chart and technical analysis. Track Dollar Yen in real time and learn institutional setups with Drawdown's forex education platform."
   },
   {
@@ -109,11 +109,11 @@ export const MARKETS_CONFIG: MarketInstrument[] = [
     description: "GBP/JPY is nicknamed 'The Dragon' for good reason — it's one of the most volatile and fast-moving pairs in the forex market. Combining the reactivity of Sterling with the carry-trade dynamics of the Yen, this pair can move 150+ pips in a single London session without breaking a sweat.",
     whyTrade: "The Dragon's range and speed attract experienced UK traders looking for explosive intraday moves. High reward-to-risk potential when approached with strict position sizing.",
     sessionPeak: "London open (07:00–10:00 GMT)",
-    drawdownPhase: "Phase 4 — Risk Manager",
-    drawdownNote: "GBP/JPY is only introduced in Phase 4 after students have mastered risk management. Its volatility is a reward for discipline — and a brutal lesson if approached without it.",
+    drawdownPhase: "Phase 1 — Ground Zero",
+    drawdownNote: "GBP/JPY is only introduced in Phase 1 after students have mastered risk management. Its volatility is a reward for discipline — and a brutal lesson if approached without it.",
     keyDrivers: ["BoE and BoJ policy divergence", "Risk-on/risk-off sentiment", "UK economic data surprises", "Japanese intervention risk"],
     relatedSlugs: ["gbpusd", "usdjpy", "eurgbp"],
-    metaTitle: "GBP/JPY Live Chart & Analysis | The Dragon Today | Drawdown",
+    metaTitle: "GBP/JPY Live Chart & Analysis | The Dragon Today",
     metaDescription: "GBP/JPY live chart and analysis for UK traders. Track The Dragon pair with real-time data and learn to trade it safely with Drawdown."
   },
   {
@@ -127,11 +127,11 @@ export const MARKETS_CONFIG: MarketInstrument[] = [
     description: "AUD/USD — 'The Aussie' — is a commodity-correlated currency pair that moves closely with iron ore, gold and broader risk appetite. It's a liquid and widely traded major pair favoured by traders looking for clean technical setups outside of European trading hours.",
     whyTrade: "The Aussie's correlation to commodity prices and its behaviour during the Asian and early London sessions offers diversification for traders beyond purely European pairs.",
     sessionPeak: "Sydney/Tokyo overlap (23:00–03:00 GMT) and London open (07:00–09:00 GMT)",
-    drawdownPhase: "Phase 3 — Strategist",
-    drawdownNote: "AUD/USD is used in Phase 3 to teach correlation trading and commodity-currency relationships. It illustrates how macro backdrop influences price structure.",
+    drawdownPhase: "Phase 1 — Ground Zero",
+    drawdownNote: "AUD/USD is used in Phase 1 to teach correlation trading and commodity-currency relationships. It illustrates how macro backdrop influences price structure.",
     keyDrivers: ["RBA interest rate decisions", "China economic data", "Iron ore and commodity prices", "Global risk sentiment"],
     relatedSlugs: ["eurusd", "usdjpy", "usdcad"],
-    metaTitle: "AUD/USD Live Chart & Analysis | Aussie Dollar Today | Drawdown",
+    metaTitle: "AUD/USD Live Chart & Analysis | Aussie Dollar Today",
     metaDescription: "AUD/USD live chart and technical analysis. Track the Aussie Dollar with real-time TradingView data and learn commodity-correlated trading with Drawdown."
   },
   {
@@ -145,11 +145,11 @@ export const MARKETS_CONFIG: MarketInstrument[] = [
     description: "EUR/GBP is the cross rate between the Eurozone and the United Kingdom — making it particularly relevant for British traders. Often range-bound but capable of explosive moves around UK and EU macro events, it's a pair that rewards patience and clean level-to-level trading.",
     whyTrade: "EUR/GBP is a staple for UK traders. It frequently consolidates before high-impact news events then produces clean breakout structures. Tight spreads on most UK brokers.",
     sessionPeak: "London session (07:00–11:00 GMT)",
-    drawdownPhase: "Phase 2 — Chart Reader",
-    drawdownNote: "EUR/GBP features in Phase 2 range-trading modules. Its tendency to consolidate makes it excellent for teaching support/resistance and liquidity grab setups.",
+    drawdownPhase: "Phase 1 — Ground Zero",
+    drawdownNote: "EUR/GBP features in Phase 1 range-trading modules. Its tendency to consolidate makes it excellent for teaching support/resistance and liquidity grab setups.",
     keyDrivers: ["BoE and ECB policy divergence", "UK and Eurozone CPI data", "Political risk (Brexit legacy effects)", "UK trade balance data"],
     relatedSlugs: ["gbpusd", "eurusd", "gbpjpy"],
-    metaTitle: "EUR/GBP Live Chart & Analysis | Euro Pound Today | Drawdown",
+    metaTitle: "EUR/GBP Live Chart & Analysis | Euro Pound Today",
     metaDescription: "EUR/GBP live chart and price action analysis. Track the Euro Pound cross with real-time data and learn to trade it with Drawdown's UK-focused curriculum."
   },
   // COMMODITIES
@@ -164,11 +164,11 @@ export const MARKETS_CONFIG: MarketInstrument[] = [
     description: "Gold (XAU/USD) is the world's oldest store of value and one of the most actively traded instruments in financial markets. It acts as a safe-haven asset during periods of geopolitical uncertainty and economic stress, while also reacting sharply to US dollar strength, real yields and Federal Reserve policy.",
     whyTrade: "Gold offers excellent liquidity, wide trading hours and clean technical structure. It's particularly effective for breakout and trend-following strategies during high-volatility macro events.",
     sessionPeak: "London/New York overlap (13:00–17:00 GMT)",
-    drawdownPhase: "Phase 3 — Strategist",
-    drawdownNote: "Gold is introduced in Phase 3 as the primary commodities instrument. Students learn how to apply price action methodology across non-FX markets and handle its characteristic spike behaviour.",
+    drawdownPhase: "Phase 1 — Ground Zero",
+    drawdownNote: "Gold is introduced in Phase 1 as the primary commodities instrument. Students learn how to apply price action methodology across non-FX markets and handle its characteristic spike behaviour.",
     keyDrivers: ["US real yields and dollar strength", "Federal Reserve interest rate policy", "Geopolitical risk and safe-haven demand", "Central bank gold purchases"],
     relatedSlugs: ["eurusd", "gbpusd", "silver"],
-    metaTitle: "Gold Live Chart & Analysis | XAU/USD Today | Drawdown",
+    metaTitle: "Gold Live Chart & Analysis | XAU/USD Today",
     metaDescription: "Gold (XAU/USD) live chart and technical analysis. Track gold prices in real time and learn to trade it with Drawdown's structured education platform."
   },
   {
@@ -182,11 +182,11 @@ export const MARKETS_CONFIG: MarketInstrument[] = [
     description: "WTI Crude Oil is the most actively traded energy commodity in the world. Its price is driven by a complex interplay of OPEC+ supply decisions, US inventory data, geopolitical risk in oil-producing regions, and global demand forecasts. Highly volatile around weekly EIA reports.",
     whyTrade: "Oil's strong trending behaviour and volatility around weekly inventory releases create excellent short-term trading opportunities for traders with defined risk parameters.",
     sessionPeak: "US session (13:00–20:00 GMT), peak volatility around EIA release (15:30 GMT Wednesdays)",
-    drawdownPhase: "Phase 4 — Risk Manager",
-    drawdownNote: "Crude Oil is covered in Phase 4 as an advanced commodity. Its spike risk around news events makes strict position sizing non-negotiable — reinforcing the core Risk Manager curriculum.",
+    drawdownPhase: "Phase 1 — Ground Zero",
+    drawdownNote: "Crude Oil is covered in Phase 1 as an advanced commodity. Its spike risk around news events makes strict position sizing non-negotiable — reinforcing the core Risk Manager curriculum.",
     keyDrivers: ["OPEC+ production decisions", "US EIA weekly inventory data", "Geopolitical risk in Middle East", "Global GDP and demand forecasts"],
     relatedSlugs: ["gold", "silver", "eurusd"],
-    metaTitle: "Crude Oil Live Chart & Analysis | WTI Today | Drawdown",
+    metaTitle: "Crude Oil Live Chart & Analysis | WTI Today",
     metaDescription: "WTI Crude Oil live chart and technical analysis. Track oil prices with real-time TradingView data and learn commodity trading with Drawdown."
   },
   {
@@ -200,11 +200,11 @@ export const MARKETS_CONFIG: MarketInstrument[] = [
     description: "Silver (XAG/USD) combines properties of both a precious metal and an industrial commodity, making it uniquely reactive to both safe-haven flows and economic growth expectations. It's more volatile than gold and can produce exaggerated moves relative to its price level.",
     whyTrade: "Silver's volatility and its correlation with gold make it attractive for traders who want precious metal exposure with amplified price swings. Often moves in tandem with gold but with greater percentage range.",
     sessionPeak: "London/New York overlap (13:00–17:00 GMT)",
-    drawdownPhase: "Phase 3 — Strategist",
-    drawdownNote: "Silver is taught alongside gold in Phase 3's commodities module. Students learn how to use gold as a directional bias filter for silver entries.",
+    drawdownPhase: "Phase 1 — Ground Zero",
+    drawdownNote: "Silver is taught alongside gold in Phase 1's commodities module. Students learn how to use gold as a directional bias filter for silver entries.",
     keyDrivers: ["Gold price direction", "Industrial demand (solar, electronics)", "US dollar strength", "Fed policy and real yields"],
     relatedSlugs: ["gold", "oil", "eurusd"],
-    metaTitle: "Silver Live Chart & Analysis | XAG/USD Today | Drawdown",
+    metaTitle: "Silver Live Chart & Analysis | XAG/USD Today",
     metaDescription: "Silver (XAG/USD) live chart and technical analysis. Track silver prices in real time and learn to trade it with Drawdown's commodities curriculum."
   },
   // INDICES
@@ -219,11 +219,11 @@ export const MARKETS_CONFIG: MarketInstrument[] = [
     description: "The FTSE 100 represents the 100 largest companies listed on the London Stock Exchange. As a benchmark for the UK economy, it's a first port of call for British traders and investors. The index is heavily weighted towards financials, energy and mining companies, making it sensitive to commodity prices and GBP movements.",
     whyTrade: "FTSE 100 is the natural home market for UK traders. Its behaviour around London open, news events and US market open creates consistent intraday trading opportunities.",
     sessionPeak: "London open (07:00–09:30 GMT)",
-    drawdownPhase: "Phase 3 — Strategist",
-    drawdownNote: "The FTSE 100 is introduced in Phase 3 to broaden students beyond forex. Its open range characteristics are ideal for teaching gap fills and morning momentum setups.",
+    drawdownPhase: "Phase 1 — Ground Zero",
+    drawdownNote: "The FTSE 100 is introduced in Phase 1 to broaden students beyond forex. Its open range characteristics are ideal for teaching gap fills and morning momentum setups.",
     keyDrivers: ["BoE interest rate decisions", "UK GDP and employment data", "Commodity prices (oil, mining stocks)", "Global risk sentiment"],
     relatedSlugs: ["us500", "nas100", "gold"],
-    metaTitle: "FTSE 100 Live Chart & Analysis | UK100 Today | Drawdown",
+    metaTitle: "FTSE 100 Live Chart & Analysis | UK100 Today",
     metaDescription: "FTSE 100 live chart and technical analysis. Track the UK100 index with real-time TradingView data and learn index trading with Drawdown."
   },
   {
@@ -237,11 +237,11 @@ export const MARKETS_CONFIG: MarketInstrument[] = [
     description: "The S&P 500 is the world's most followed stock market index, comprising 500 of the largest US publicly traded companies. It's the global benchmark for equity market health and has a profound influence on risk sentiment across all asset classes — forex, commodities and crypto included.",
     whyTrade: "The S&P 500's correlation to risk appetite makes it an essential instrument for macro-aware traders. Its behaviour around US market open and Fed announcements generates the cleanest institutional moves.",
     sessionPeak: "US session open (14:30 GMT) and first hour of trading",
-    drawdownPhase: "Phase 3 — Strategist",
-    drawdownNote: "The S&P 500 is used in Phase 3 to teach macro correlation — understanding how equity market sentiment bleeds into forex and commodity positioning.",
+    drawdownPhase: "Phase 1 — Ground Zero",
+    drawdownNote: "The S&P 500 is used in Phase 1 to teach macro correlation — understanding how equity market sentiment bleeds into forex and commodity positioning.",
     keyDrivers: ["Federal Reserve policy", "US corporate earnings seasons", "Non-Farm Payrolls and jobs data", "US CPI inflation data"],
     relatedSlugs: ["nas100", "us30", "gold"],
-    metaTitle: "S&P 500 Live Chart & Analysis | US500 Today | Drawdown",
+    metaTitle: "S&P 500 Live Chart & Analysis | US500 Today",
     metaDescription: "S&P 500 live chart and technical analysis. Track the US500 index with real-time data and learn index trading with Drawdown's structured curriculum."
   },
   {
@@ -255,11 +255,11 @@ export const MARKETS_CONFIG: MarketInstrument[] = [
     description: "The NASDAQ 100 tracks the 100 largest non-financial companies listed on the NASDAQ exchange, dominated by technology giants. It's the most volatile of the major US indices and has become a barometer for growth and technology sector sentiment globally.",
     whyTrade: "The NASDAQ 100's volatility and strong trending behaviour make it attractive for momentum traders. It frequently sets the tone for overnight risk sentiment that flows into the London session.",
     sessionPeak: "US session open (14:30 GMT) with pre-market moves from 09:00 GMT",
-    drawdownPhase: "Phase 3 — Strategist",
-    drawdownNote: "NASDAQ features in Phase 3 alongside the S&P 500. Its leverage sensitivity makes it a strong teaching tool for position sizing and the relationship between volatility and risk.",
+    drawdownPhase: "Phase 1 — Ground Zero",
+    drawdownNote: "NASDAQ features in Phase 1 alongside the S&P 500. Its leverage sensitivity makes it a strong teaching tool for position sizing and the relationship between volatility and risk.",
     keyDrivers: ["Big Tech earnings (Apple, Microsoft, Nvidia, Meta)", "Federal Reserve rate decisions", "US CPI and inflation expectations", "AI sector sentiment"],
     relatedSlugs: ["us500", "us30", "bitcoin"],
-    metaTitle: "NASDAQ 100 Live Chart & Analysis | NAS100 Today | Drawdown",
+    metaTitle: "NASDAQ 100 Live Chart & Analysis | NAS100 Today",
     metaDescription: "NASDAQ 100 live chart and technical analysis. Track the NAS100 with real-time TradingView data and learn index trading with Drawdown."
   },
   {
@@ -273,11 +273,11 @@ export const MARKETS_CONFIG: MarketInstrument[] = [
     description: "The Dow Jones Industrial Average is the oldest and most recognised US stock index, tracking 30 large-cap American companies. Though less comprehensive than the S&P 500, it remains a widely watched macro indicator and a popular instrument for spread betting and CFD trading.",
     whyTrade: "US30 provides stable, liquid exposure to the US equity market. Its lower volatility relative to NASDAQ makes it a useful instrument for traders building comfort with index trading.",
     sessionPeak: "US session open (14:30 GMT)",
-    drawdownPhase: "Phase 3 — Strategist",
-    drawdownNote: "US30 is used in Phase 3 as an introductory index instrument for students transitioning from forex, thanks to its lower intraday volatility relative to NASDAQ.",
+    drawdownPhase: "Phase 1 — Ground Zero",
+    drawdownNote: "US30 is used in Phase 1 as an introductory index instrument for students transitioning from forex, thanks to its lower intraday volatility relative to NASDAQ.",
     keyDrivers: ["Federal Reserve monetary policy", "US corporate earnings", "Employment and GDP data", "Consumer confidence data"],
     relatedSlugs: ["us500", "nas100", "gold"],
-    metaTitle: "Dow Jones Live Chart & Analysis | US30 Today | Drawdown",
+    metaTitle: "Dow Jones Live Chart & Analysis | US30 Today",
     metaDescription: "Dow Jones (US30) live chart and technical analysis. Track the DJIA with real-time TradingView data and learn index trading with Drawdown."
   },
   // CRYPTO
@@ -292,11 +292,11 @@ export const MARKETS_CONFIG: MarketInstrument[] = [
     description: "Bitcoin is the world's first and largest cryptocurrency by market capitalisation. From a trading perspective, BTC/USD offers 24/7 market access, extreme volatility, and increasingly institutional participation — with BlackRock, Fidelity and others now operating Bitcoin ETFs. It behaves like a high-beta risk asset with its own unique on-chain market dynamics.",
     whyTrade: "Bitcoin's 24/7 nature means setups can form at any time. Its strong trending behaviour during bull cycles and deep corrective structures create excellent reward-to-risk opportunities for experienced traders.",
     sessionPeak: "London/New York overlap (13:00–21:00 GMT) but active 24/7",
-    drawdownPhase: "Phase 6 — The Edge",
-    drawdownNote: "Bitcoin is introduced in Phase 6 as an advanced instrument. By this point, students apply all structural, risk and psychological frameworks to a market that operates without breaks or institutional circuit breakers.",
+    drawdownPhase: "Phase 1 — Ground Zero",
+    drawdownNote: "Bitcoin is introduced in Phase 1 as an advanced instrument. By this point, students apply all structural, risk and psychological frameworks to a market that operates without breaks or institutional circuit breakers.",
     keyDrivers: ["Bitcoin halving cycle", "Institutional ETF flows (BlackRock, Fidelity)", "Federal Reserve risk sentiment", "Regulatory developments globally"],
     relatedSlugs: ["ethereum", "nas100", "gold"],
-    metaTitle: "Bitcoin Live Chart & Analysis | BTC/USD Today | Drawdown",
+    metaTitle: "Bitcoin Live Chart & Analysis | BTC/USD Today",
     metaDescription: "Bitcoin (BTC/USD) live chart and technical analysis. Track Bitcoin price in real time and learn to trade crypto with Drawdown's structured education platform."
   },
   {
@@ -310,11 +310,11 @@ export const MARKETS_CONFIG: MarketInstrument[] = [
     description: "Ethereum is the second largest cryptocurrency and the leading smart contract platform. ETH/USD moves with broader crypto market sentiment but also has unique catalysts tied to DeFi activity, network upgrades and staking yields. It tends to be more volatile than Bitcoin with faster percentage moves.",
     whyTrade: "ETH/USD provides leveraged crypto exposure with strong correlation to Bitcoin but frequently outperforms during risk-on periods. Its volatility creates wide intraday ranges for active traders.",
     sessionPeak: "New York session and Asian overlap — active 24/7",
-    drawdownPhase: "Phase 6 — The Edge",
-    drawdownNote: "Ethereum is covered alongside Bitcoin in Phase 6. Students learn how to use BTC/USD as a directional bias filter when taking ETH/USD positions.",
+    drawdownPhase: "Phase 1 — Ground Zero",
+    drawdownNote: "Ethereum is covered alongside Bitcoin in Phase 1. Students learn how to use BTC/USD as a directional bias filter when taking ETH/USD positions.",
     keyDrivers: ["Bitcoin price direction", "DeFi and NFT market activity", "Ethereum network upgrades", "Crypto regulatory environment"],
     relatedSlugs: ["bitcoin", "nas100", "us500"],
-    metaTitle: "Ethereum Live Chart & Analysis | ETH/USD Today | Drawdown",
+    metaTitle: "Ethereum Live Chart & Analysis | ETH/USD Today",
     metaDescription: "Ethereum (ETH/USD) live chart and technical analysis. Track Ethereum price in real time and learn crypto trading with Drawdown."
   },
   {
@@ -328,11 +328,11 @@ export const MARKETS_CONFIG: MarketInstrument[] = [
     description: "XRP is the native token of the Ripple payment network and one of the most liquid altcoins in the market. Known for explosive price moves around regulatory developments, XRP/USD can deliver outsized percentage gains and losses within short timeframes — making risk management critical.",
     whyTrade: "XRP's explosive breakout patterns and reaction to news catalysts attract active traders looking for high-volatility opportunities beyond the major crypto assets.",
     sessionPeak: "Active 24/7, most liquid during US session (13:00–21:00 GMT)",
-    drawdownPhase: "Phase 6 — The Edge",
-    drawdownNote: "XRP is used in Phase 6 to illustrate altcoin-specific risks — particularly how news-driven spikes differ from structural price action. Students learn to distinguish genuine setups from noise.",
+    drawdownPhase: "Phase 1 — Ground Zero",
+    drawdownNote: "XRP is used in Phase 1 to illustrate altcoin-specific risks — particularly how news-driven spikes differ from structural price action. Students learn to distinguish genuine setups from noise.",
     keyDrivers: ["SEC regulatory developments", "Bitcoin market direction", "Ripple network adoption and partnerships", "Global crypto regulation"],
     relatedSlugs: ["bitcoin", "ethereum", "nas100"],
-    metaTitle: "XRP Live Chart & Analysis | XRP/USD Today | Drawdown",
+    metaTitle: "XRP Live Chart & Analysis | XRP/USD Today",
     metaDescription: "XRP (XRP/USD) live chart and technical analysis. Track XRP price in real time and learn to trade it with Drawdown's crypto education curriculum."
   }
 ];

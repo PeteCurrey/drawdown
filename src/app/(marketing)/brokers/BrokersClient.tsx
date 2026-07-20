@@ -67,7 +67,7 @@ export default function BrokerComparisonHub() {
               Recommended Brokers.
             </h1>
             <p className="text-lg text-mkt-i3 max-w-2xl font-sans">
-              Honest recommendations, ranked on merit. Where our founder holds a live account, we say so.
+              Honest recommendations, ranked on merit. Where our founder holds a live account, we say so. We may earn a referral fee — disclosed on every link.
             </p>
 
             <div className="flex flex-wrap gap-3 pt-2">
@@ -157,7 +157,7 @@ export default function BrokerComparisonHub() {
           {/* Disclosure */}
           <div className="mt-12 text-center max-w-4xl mx-auto">
             <p className="text-[10px] font-mono text-text-tertiary uppercase tracking-widest leading-relaxed opacity-60">
-              Drawdown is independent and our recommendations are ranked strictly on merit.
+              Drawdown earns a referral commission on some broker signups. Every affiliate relationship is disclosed on the relevant broker review page.
             </p>
           </div>
         </div>
@@ -268,7 +268,7 @@ export default function BrokerComparisonHub() {
                            <a 
                               href={broker.link}
                               target="_blank"
-                              rel="nofollow"
+                              rel="nofollow sponsored"
                               className="w-full py-3 rounded-lg bg-mkt-ink text-white hover:bg-mkt-i2 transition-colors text-center text-xs font-sans font-semibold block"
                            >
                               Open Account

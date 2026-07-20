@@ -280,10 +280,9 @@ export default function AffiliatesAdminClient({
                     >
                       <Edit2 className="w-3 h-3" /> Edit
                     </button>
-                    <a
-                      href={`/go/${link.slug}`}
+                    <a href={`/go/${link.slug}`}
                       target="_blank"
-                      rel="noopener noreferrer"
+                      rel="noopener noreferrer sponsored"
                       className="text-[10px] font-mono text-text-tertiary hover:text-accent transition-colors flex items-center gap-1"
                     >
                       <RefreshCw className="w-3 h-3" /> Test

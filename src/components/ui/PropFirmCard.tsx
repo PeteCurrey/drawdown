@@ -59,10 +59,9 @@ export function PropFirmCard({ firm, source = "prop_firm_card", isPetesPick }: P
       </div>
 
       <div className="space-y-2 mt-2">
-        <a 
-          href={`/go/${firm.slug}`}
+        <a href={`/go/${firm.slug}`}
           className="w-full bg-black hover:bg-neutral-800 text-white rounded-lg py-2.5 text-sm font-medium text-center transition-colors font-sans flex items-center justify-center gap-2"
-        >
+         rel="sponsored">
           Start Challenge &rarr;
         </a>
         <a 

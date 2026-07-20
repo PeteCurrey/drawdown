@@ -235,10 +235,9 @@ export function BrokerHubPreview() {
                 </ul>
               </div>
 
-              <a 
-                href={`/go/${broker.id}`}
+              <a href={`/go/${broker.id}`}
                 className="w-full relative z-10 bg-black hover:bg-neutral-800 text-white rounded-lg py-3 text-sm font-medium text-center transition-colors font-sans flex items-center justify-center gap-2"
-              >
+               rel="sponsored">
                 Open Account &rarr;
               </a>
             </motion.div>

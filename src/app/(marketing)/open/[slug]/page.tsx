@@ -124,10 +124,9 @@ export default function BrokerBridgePage() {
                     </p>
                  </div>
 
-                 <Link 
-                   href={`/go/${broker.slug}`}
+                 <Link href={`/go/${broker.slug}`}
                    className="px-12 py-6 bg-mkt-ink text-white font-bold uppercase tracking-widest text-sm hover:invert transition-all flex items-center gap-3 relative z-10"
-                 >
+                  rel="sponsored">
                     Open {broker.name} Account <ExternalLink className="w-4 h-4" />
                  </Link>
 

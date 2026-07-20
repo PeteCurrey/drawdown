@@ -58,10 +58,9 @@ export const BrokerCard: React.FC<BrokerCardProps> = ({
         >
           Full Review
         </Link>
-        <a 
-          href={`/go/${affiliateSlug}`}
+        <a href={`/go/${affiliateSlug}`}
           className="px-6 py-3 bg-mkt-ink hover:bg-mkt-i2 text-background-primary text-xs font-sans font-bold uppercase tracking-widest transition-colors flex items-center justify-center gap-2"
-        >
+         rel="sponsored">
           Open Account <ExternalLink size={14} />
         </a>
       </div>

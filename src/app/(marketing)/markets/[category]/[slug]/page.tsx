@@ -166,10 +166,9 @@ export default async function MarketInstrumentPage({ params }: PageProps) {
             >
               Start Free on Drawdown →
             </Link>
-            <Link
-              href="/go/tradingview"
+            <Link href="/go/tradingview"
               target="_blank"
-              rel="noopener noreferrer"
+              rel="noopener noreferrer sponsored"
               className="w-full sm:w-auto px-8 py-4 border border-white/20 text-white font-bold text-sm tracking-wide rounded-lg hover:bg-white/5 text-center font-sans"
             >
               Try TradingView Free →

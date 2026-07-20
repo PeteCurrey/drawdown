@@ -87,10 +87,9 @@ export default function TradingViewGuidesIndexPage() {
               Unlock multi-chart layouts, advanced volume profile tools, and premium data feeds with a TradingView plan.
             </p>
             <div className="pt-4">
-              <Link 
-                href="/go/tradingview"
+              <Link href="/go/tradingview"
                 target="_blank"
-                rel="noopener noreferrer"
+                rel="noopener noreferrer sponsored"
                 className="inline-flex items-center space-x-3 bg-accent text-[#08090D] px-10 py-5 text-xs font-bold uppercase tracking-[0.2em] hover:bg-accent-hover transition-colors"
               >
                 <span>Get Started on TradingView</span>

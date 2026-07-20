@@ -75,10 +75,9 @@ export default function BestPropFirmUK() {
                   <td className="p-6">{firm.maxFunding}</td>
                   <td className="p-6">{firm.profitSplit}</td>
                   <td className="p-6 text-right">
-                    <a 
-                      href={`/go/${firm.slug}`}
+                    <a href={`/go/${firm.slug}`}
                       className="inline-flex items-center gap-2 bg-mkt-ink text-white px-4 py-2 text-[10px] font-black uppercase tracking-widest hover:bg-accent-hover transition-colors"
-                    >
+                     rel="sponsored">
                       Start Challenge <ExternalLink className="w-3 h-3" />
                     </a>
                   </td>

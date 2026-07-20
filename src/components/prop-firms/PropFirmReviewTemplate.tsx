@@ -80,10 +80,9 @@ export function PropFirmReviewTemplate({ review }: PropFirmReviewTemplateProps) 
               </p>
             </div>
             <div className="md:w-1/4 w-full">
-              <a 
-                href={`/go/${review.slug}`}
+              <a href={`/go/${review.slug}`}
                 target="_blank"
-                rel="noopener noreferrer"
+                rel="noopener noreferrer sponsored"
                 className="w-full py-5 bg-mkt-ink text-white text-center text-[10px] font-black uppercase tracking-widest hover:bg-accent-hover transition-premium flex items-center justify-center gap-2"
               >
                 Start Challenge <ExternalLink className="w-4 h-4" />
@@ -261,10 +260,9 @@ export function PropFirmReviewTemplate({ review }: PropFirmReviewTemplateProps) 
               <div className="prose prose-invert prose-slate max-w-none text-mkt-i2 leading-relaxed mb-12">
                 <p className="whitespace-pre-line text-lg font-medium">{review.verdict}</p>
               </div>
-              <a 
-                href={`/go/${review.slug}`}
+              <a href={`/go/${review.slug}`}
                 target="_blank"
-                rel="noopener noreferrer"
+                rel="noopener noreferrer sponsored"
                 className="inline-flex items-center gap-4 bg-mkt-ink text-white px-16 py-6 text-sm font-black uppercase tracking-widest hover:bg-accent-hover transition-premium"
               >
                 Join {review.name} Program <ExternalLink className="w-4 h-4" />
@@ -355,10 +353,9 @@ export function PropFirmReviewTemplate({ review }: PropFirmReviewTemplateProps) 
                 <p className="text-xs text-mkt-i2 mb-8 leading-relaxed">
                   Register with {review.name} via Drawdown and begin your path to managing professional sizes.
                 </p>
-                <a 
-                  href={`/go/${review.slug}`}
+                <a href={`/go/${review.slug}`}
                   target="_blank"
-                  rel="noopener noreferrer"
+                  rel="noopener noreferrer sponsored"
                   className="w-full py-4 bg-mkt-ink text-white text-center text-[10px] font-black uppercase tracking-widest hover:bg-accent-hover transition-premium flex items-center justify-center gap-2"
                 >
                   Visit Prop Firm <ExternalLink className="w-3 h-3" />

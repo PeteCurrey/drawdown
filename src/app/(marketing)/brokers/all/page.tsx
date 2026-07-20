@@ -34,7 +34,7 @@ export default function BrokersAllPage() {
           </h1>
           <p className="text-text-secondary text-sm md:text-base leading-relaxed max-w-2xl">
             A complete directory of every trading broker and liquidity provider audited by the Drawdown research team. 
-            We review spreads, regulation, platform support, and speed to help you trade safe.
+            We review spreads, regulation, platform support, and speed to help you trade safe. We may earn a referral fee — disclosed on every link.
           </p>
         </div>
 
@@ -187,7 +187,7 @@ export default function BrokersAllPage() {
                       <a
                         href={broker.affiliateUrl}
                         target="_blank"
-                        rel="nofollow"
+                        rel="nofollow sponsored"
                         className="py-2.5 rounded-lg bg-mkt-ink text-white hover:bg-mkt-i2 transition-colors text-center text-[10px] font-sans font-bold uppercase tracking-widest flex items-center justify-center gap-1"
                       >
                         Open Acc <ExternalLink className="w-3 h-3" />

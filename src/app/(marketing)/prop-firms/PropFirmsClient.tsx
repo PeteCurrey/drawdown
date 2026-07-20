@@ -281,11 +281,10 @@ export default function PropFirmsHubPage() {
                      </div>
 
                      <div className="space-y-3 relative z-10">
-                        <Link 
-                           href={`/go/${firm.id}`}
+                        <Link href={`/go/${firm.id}`}
                            className="w-full py-3 rounded-lg text-white transition-colors text-center text-xs font-sans font-semibold block"
                            style={{ backgroundColor: "#0A0A0A" }}
-                           onMouseEnter={e => (e.currentTarget.style.backgroundColor = "#3A3A3A")}
+                           onMouseEnter={e = rel="sponsored"> (e.currentTarget.style.backgroundColor = "#3A3A3A")}
                            onMouseLeave={e => (e.currentTarget.style.backgroundColor = "#0A0A0A")}
                         >
                            Start Challenge

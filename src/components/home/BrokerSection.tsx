@@ -276,13 +276,12 @@ export function BrokerSection() {
                   </ul>
                 </div>
 
-                <a 
-                  href={`/go/${broker.id}`}
+                <a href={`/go/${broker.id}`}
                   className="w-full relative z-10 text-white rounded-lg py-3 text-sm font-semibold text-center transition-all font-sans flex items-center justify-center gap-2"
                   style={{
                     backgroundColor: isHovered ? brandColor : "#0A0A0A"
                   }}
-                >
+                 rel="sponsored">
                   Open Account &rarr;
                 </a>
               </motion.div>

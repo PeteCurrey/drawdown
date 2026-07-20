@@ -62,10 +62,10 @@ export default function FtmoVsThe5ersPage() {
                 </div>
               </div>
               <div className="flex gap-4 pt-4 border-t border-border-slate/30">
-                <a href="/go/ftmo" className="flex-1 py-3 bg-accent text-[#08090D] text-center text-[10px] font-bold uppercase tracking-widest hover:bg-accent-hover transition-colors">
+                <a href="/go/ftmo" className="flex-1 py-3 bg-accent text-[#08090D] text-center text-[10px] font-bold uppercase tracking-widest hover:bg-accent-hover transition-colors" rel="sponsored">
                   Start FTMO
                 </a>
-                <a href="/go/the5ers" className="flex-1 py-3 border border-border-slate/50 hover:border-text-primary text-text-primary text-center text-[10px] font-bold uppercase tracking-widest transition-colors">
+                <a href="/go/the5ers" className="flex-1 py-3 border border-border-slate/50 hover:border-text-primary text-text-primary text-center text-[10px] font-bold uppercase tracking-widest transition-colors" rel="sponsored">
                   Join The5%ers
                 </a>
               </div>
@@ -136,10 +136,10 @@ export default function FtmoVsThe5ersPage() {
             Ready to choose? Start your evaluation today.
           </p>
           <div className="flex gap-4 w-full md:w-auto">
-            <a href="/go/ftmo" className="flex-1 md:flex-none px-8 py-3 bg-accent text-[#08090D] text-center text-xs font-bold uppercase tracking-widest hover:bg-accent-hover transition-colors">
+            <a href="/go/ftmo" className="flex-1 md:flex-none px-8 py-3 bg-accent text-[#08090D] text-center text-xs font-bold uppercase tracking-widest hover:bg-accent-hover transition-colors" rel="sponsored">
               Start FTMO Challenge
             </a>
-            <a href="/go/the5ers" className="flex-1 md:flex-none px-8 py-3 border border-border-slate/50 hover:border-text-primary text-text-primary text-center text-xs font-bold uppercase tracking-widest transition-colors">
+            <a href="/go/the5ers" className="flex-1 md:flex-none px-8 py-3 border border-border-slate/50 hover:border-text-primary text-text-primary text-center text-xs font-bold uppercase tracking-widest transition-colors" rel="sponsored">
               Get Funded with The5%ers
             </a>
           </div>

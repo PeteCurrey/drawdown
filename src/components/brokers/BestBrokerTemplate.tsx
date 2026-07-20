@@ -109,10 +109,9 @@ export function BestBrokerTemplate({
                     <td className="p-6">{broker.minDeposit}</td>
                     <td className="p-6 text-mkt-i2 font-mono text-[10px]">{broker.oneLine}</td>
                     <td className="p-6 text-right">
-                      <a 
-                        href={`/go/${broker.slug}`}
+                      <a href={`/go/${broker.slug}`}
                         className="inline-flex items-center gap-2 bg-mkt-ink text-white px-4 py-2 text-[10px] font-black uppercase tracking-widest hover:bg-accent-hover transition-colors"
-                      >
+                       rel="sponsored">
                         Open Account <ExternalLink className="w-3 h-3" />
                       </a>
                     </td>
@@ -214,10 +213,9 @@ export function BestBrokerTemplate({
                   </div>
 
                   <div className="flex flex-col sm:flex-row gap-4 pt-4">
-                    <a 
-                      href={`/go/${broker.slug}`}
+                    <a href={`/go/${broker.slug}`}
                       className="flex-1 py-4 bg-mkt-ink text-white text-center text-[10px] font-black uppercase tracking-widest hover:bg-accent-hover transition-colors flex items-center justify-center gap-2"
-                    >
+                     rel="sponsored">
                       Open Account <ExternalLink className="w-3 h-3" />
                     </a>
                     <Link 

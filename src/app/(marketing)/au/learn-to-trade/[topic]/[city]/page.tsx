@@ -75,21 +75,51 @@ async function getAUCityData(topicSlug: string, citySlug: string) {
 
   if (!isCityValid) return null;
 
+  // Cleanup dollar prefixes and interpolate template placeholders
+  const cleanLocName = cityName ? (cityName.startsWith("$") ? cityName.substring(1) : cityName) : "";
+  const cleanTopicTitle = topicTitle ? (topicTitle.startsWith("$") ? topicTitle.substring(1) : topicTitle) : "";
+
+  const cleanText = (text: string) => {
+    if (!text) return "";
+    return text
+      .replace(/\$Location/g, cleanLocName)
+      .replace(/\$Topic/g, cleanTopicTitle)
+      .replace(/\$location/g, cleanLocName)
+      .replace(/\$topic/g, cleanTopicTitle)
+      .replace(/\$London/g, "London")
+      .replace(/\$Day Trading/g, "Day Trading")
+      .replace(/\$london/gi, "London")
+      .replace(/\$day-trading/gi, "Day Trading")
+      .replace(/\$day trading/gi, "Day Trading");
+  };
+
+  const finalTopic = localTopic ? {
+    ...localTopic,
+    title: cleanTopicTitle,
+    content: localTopic.content.map(sec => ({
+      ...sec,
+      text: cleanText(sec.text),
+      bullets: sec.bullets?.map(b => cleanText(b))
+    }))
+  } : {
+    title: cleanTopicTitle,
+    slug: topicSlug,
+    content: [
+      {
+        heading: "Overview",
+        text: cleanText(cityContext) || "",
+        bullets: [] as string[],
+        richBlocks: [] as any[]
+      }
+    ]
+  };
+
   return {
-    topic: localTopic || {
-      title: topicTitle,
-      slug: topicSlug,
-      content: [
-        {
-          heading: "Overview",
-          text: cityContext || "",
-        }
-      ]
-    },
-    city: localCity || {
-      name: cityName,
+    topic: finalTopic,
+    city: {
+      name: cleanLocName,
       slug: citySlug,
-      context: cityContext,
+      context: cleanText(cityContext),
     }
   };
 }

@@ -468,31 +468,6 @@ export default async function TopicPage({ params }: Props) {
               </div>
             </div>
 
-            <div className="p-10 bg-background-surface/40 backdrop-blur-md border border-border-slate/50 transition-all duration-300 hover:shadow-[0_0_20px_rgba(0,0,0,0.2)] hover:border-border-slate hover:-translate-y-0.5 hover:border-border-slate/70 transition-premium">
-              <h4 className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary mb-8">Regional Learning</h4>
-              <div className="space-y-4">
-                <p className="text-xs text-text-secondary leading-relaxed">
-                  We offer localised {topic.title} insights across the UK.
-                </p>
-                <div className="flex flex-wrap gap-2">
-                  {require("@/lib/data/locations").UK_LOCATIONS.slice(0, 6).map((loc: { slug: string; name: string }) => (
-                    <Link
-                      key={loc.slug}
-                      href={`/learn-to-trade/${topicSlug}/${loc.slug}`}
-                      className="px-2 py-1 bg-background-surface/40 backdrop-blur-md border border-border-slate/50 transition-all duration-300 hover:shadow-[0_0_20px_rgba(0,0,0,0.2)] hover:border-border-slate hover:-translate-y-0.5 text-[8px] font-mono uppercase tracking-widest text-text-tertiary hover:border-border-slate hover:text-accent transition-colors"
-                    >
-                      {loc.name}
-                    </Link>
-                  ))}
-                </div>
-                <Link
-                  href="#regional-hub"
-                  className="text-[9px] font-bold uppercase tracking-widest text-accent hover:underline mt-4 inline-block"
-                >
-                  View All 30 Locations
-                </Link>
-              </div>
-            </div>
 
             <div className="p-10 bg-mkt-ink text-white relative overflow-hidden group">
               <div className="relative z-10">

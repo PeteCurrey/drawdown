@@ -64,10 +64,28 @@ async function getSGCityData(topicSlug: string, citySlug: string) {
 
   if (!topicLabel || !isCityValid) return null;
 
+  // Cleanup dollar prefixes and interpolate template placeholders
+  const cleanLocName = cityLabel ? (cityLabel.startsWith("$") ? cityLabel.substring(1) : cityLabel) : "";
+  const cleanTopicTitle = topicLabel ? (topicLabel.startsWith("$") ? topicLabel.substring(1) : topicLabel) : "";
+
+  const cleanText = (text: string) => {
+    if (!text) return "";
+    return text
+      .replace(/\$Location/g, cleanLocName)
+      .replace(/\$Topic/g, cleanTopicTitle)
+      .replace(/\$location/g, cleanLocName)
+      .replace(/\$topic/g, cleanTopicTitle)
+      .replace(/\$London/g, "London")
+      .replace(/\$Day Trading/g, "Day Trading")
+      .replace(/\$london/gi, "London")
+      .replace(/\$day-trading/gi, "Day Trading")
+      .replace(/\$day trading/gi, "Day Trading");
+  };
+
   return {
-    topicLabel,
-    cityLabel,
-    cityContext,
+    topicLabel: cleanTopicTitle,
+    cityLabel: cleanLocName,
+    cityContext: cleanText(cityContext),
   };
 }
 

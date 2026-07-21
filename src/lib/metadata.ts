@@ -30,7 +30,7 @@ export function getMetadata({
   hasRegionalVariants = false,
 }: MetadataProps = {}): Metadata {
   const fullTitle = title 
-    ? `${title} | ${siteConfig.name}` 
+    ? (title.endsWith(` | ${siteConfig.name}`) ? title : `${title} | ${siteConfig.name}`)
     : siteConfig.title;
 
   const url = path !== undefined ? `${siteConfig.url}${path}` : undefined;

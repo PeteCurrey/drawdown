@@ -77,6 +77,8 @@ async function getLocationData(topicSlug: string, locationSlug: string) {
   const topic = await getTopicData(topicSlug);
   if (!topic) return null;
 
+  let rawLocation = null;
+
   try {
     const supabase = createInternalSupabase();
     const { data: page, error } = await supabase
@@ -87,28 +89,56 @@ async function getLocationData(topicSlug: string, locationSlug: string) {
       .maybeSingle();
 
     if (page) {
-      return {
-        topic,
-        location: {
-          name: page.title,
-          slug: page.slug,
-          context: page.seo_description || "",
-        }
+      rawLocation = {
+        name: page.title,
+        slug: page.slug,
+        context: page.seo_description || "",
       };
     }
   } catch (err: any) {
     console.error(`[Location] Exception fetching from Supabase for slug ${locationSlug}:`, err.message);
   }
 
-  const location = UK_LOCATIONS.find((l) => l.slug === locationSlug);
-  if (location) {
-    return {
-      topic,
-      location
-    };
+  if (!rawLocation) {
+    rawLocation = UK_LOCATIONS.find((l) => l.slug === locationSlug) || null;
   }
 
-  return null;
+  if (!rawLocation) return null;
+
+  // Cleanup dollar prefixes and interpolate template placeholders
+  const cleanLocName = rawLocation.name ? (rawLocation.name.startsWith("$") ? rawLocation.name.substring(1) : rawLocation.name) : "";
+  const cleanTopicTitle = topic.title ? (topic.title.startsWith("$") ? topic.title.substring(1) : topic.title) : "";
+
+  const cleanText = (text: string) => {
+    if (!text) return "";
+    return text
+      .replace(/\$Location/g, cleanLocName)
+      .replace(/\$Topic/g, cleanTopicTitle)
+      .replace(/\$location/g, cleanLocName)
+      .replace(/\$topic/g, cleanTopicTitle)
+      .replace(/\$London/g, "London")
+      .replace(/\$Day Trading/g, "Day Trading")
+      .replace(/\$london/gi, "London")
+      .replace(/\$day-trading/gi, "Day Trading")
+      .replace(/\$day trading/gi, "Day Trading");
+  };
+
+  return {
+    topic: {
+      ...topic,
+      title: cleanTopicTitle,
+      content: topic.content.map((sec) => ({
+        ...sec,
+        text: cleanText(sec.text),
+        bullets: sec.bullets?.map((b) => cleanText(b))
+      }))
+    },
+    location: {
+      name: cleanLocName,
+      slug: rawLocation.slug,
+      context: cleanText(rawLocation.context),
+    }
+  };
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {

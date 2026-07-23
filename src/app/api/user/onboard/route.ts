@@ -11,18 +11,51 @@ export async function POST(request: Request) {
     }
 
     const body = await request.json();
-    const { experience_level, country, currency, preferred_markets } = body;
+    const { 
+      firstName, 
+      lastName, 
+      experience_level, 
+      country, 
+      currency, 
+      preferred_markets, 
+      trading_style, 
+      trading_capital, 
+      trading_goals 
+    } = body;
 
     const adminClient = createInternalSupabase();
+
+    // Fetch existing profile to get email_preferences
+    const { data: profile } = await adminClient
+      .from("profiles")
+      .select("email_preferences")
+      .eq("id", user.id)
+      .single();
+
+    const existingPrefs = profile?.email_preferences || {};
+    const updatedPrefs = {
+      ...existingPrefs,
+      onboarding: {
+        experience_level,
+        preferred_markets,
+        trading_style,
+        trading_capital,
+        trading_goals,
+        has_onboarded: true,
+        completed_at: new Date().toISOString()
+      }
+    };
+
+    const fullName = `${firstName || ""} ${lastName || ""}`.trim();
     
     const { error: updateError } = await adminClient
       .from("profiles")
       .update({
-        experience_level,
+        display_name: fullName || null,
+        full_name: fullName || null,
         country,
         currency,
-        preferred_markets,
-        has_onboarded: true,
+        email_preferences: updatedPrefs,
         updated_at: new Date().toISOString()
       })
       .eq("id", user.id);

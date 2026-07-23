@@ -113,9 +113,10 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           return;
         }
         
-        if (profile && !profile.has_onboarded) {
+        const hasOnboardedDb = profile?.email_preferences?.onboarding?.has_onboarded === true;
+        if (profile && !hasOnboardedDb) {
           setShowOnboarding(true);
-        } else if (profile?.has_onboarded) {
+        } else if (hasOnboardedDb) {
           localStorage.setItem("drawdown_onboarded", "true");
         }
       }

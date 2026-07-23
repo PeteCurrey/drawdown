@@ -11,6 +11,8 @@ import {
   Zap,
   CheckCircle2,
   ChevronRight,
+  Target,
+  Trophy
 } from "lucide-react";
 import { BrokerWidget } from "@/components/market/BrokerWidget";
 import { NewsWidget } from "@/components/market/NewsWidget";
@@ -36,6 +38,7 @@ type SubscriptionTier = 'free' | 'foundation' | 'edge' | 'floor';
 export default function DashboardPage() {
   const [greeting, setGreeting] = useState("Morning");
   const [name, setName] = useState("Trader");
+  const [profile, setProfile] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [account, setAccount] = useState<any>(null);
   const [trades, setTrades] = useState<any[]>([]);
@@ -91,9 +94,11 @@ export default function DashboardPage() {
 
         const { data: profile } = await supabase
           .from('profiles')
-          .select('subscription_tier, display_name')
+          .select('subscription_tier, display_name, email_preferences')
           .eq('id', user.id)
           .single();
+        
+        if (profile) setProfile(profile);
         const tier = (profile as any)?.subscription_tier as SubscriptionTier | undefined;
         if (tier) setSubscriptionTier(tier);
 
@@ -384,9 +389,46 @@ export default function DashboardPage() {
     );
   }
 
+  const onboarding = profile?.email_preferences?.onboarding;
+
   return (
     <div className="space-y-10 text-[#1A1A1A]">
       
+      {/* PERSONALIZED GREETING HEADER */}
+      <div className="bg-white border border-[#EDEDED] rounded-2xl p-6 md:p-8 shadow-[0_2px_12px_rgba(0,0,0,0.06)] flex flex-col md:flex-row md:items-center justify-between gap-6 transition-all hover:shadow-[0_4px_20px_rgba(0,0,0,0.08)]">
+        <div className="space-y-2">
+          <div className="flex items-center gap-2 text-[10px] font-mono text-[#F9771D] uppercase tracking-widest">
+            <span>// TERMINAL TERMINUS</span>
+            <span className="w-1.5 h-1.5 bg-[#18B880] rounded-full animate-pulse" />
+            <span className="text-[#18B880]">Active Session</span>
+          </div>
+          <h1 className="text-2xl md:text-3xl font-display font-black uppercase text-[#1A1A1A] tracking-tight">
+            Welcome back, <span className="text-[#F9771D]">{name}</span>.
+          </h1>
+          <p className="text-xs md:text-sm text-[#555550] max-w-2xl leading-relaxed">
+            {onboarding?.trading_style ? (
+              <>
+                Monitoring volatility feeds calibrated for your <span className="text-[#1A1A1A] font-bold uppercase">{onboarding.trading_style.replace(/_/g, ' ')}</span> profile. 
+                Applying <span className="text-[#1A1A1A] font-bold uppercase">{onboarding.experience_level}</span>-level parameters to scanner watchlists with a target challenge size of <span className="text-[#F9771D] font-bold">{onboarding.trading_capital.toUpperCase()}</span>.
+              </>
+            ) : (
+              "Your localized market scanner, curriculum milestones, and trade logs are synced."
+            )}
+          </p>
+        </div>
+        {onboarding?.trading_goals && (
+          <div className="shrink-0 p-4 bg-[#F8F9FA] border border-[#EDEDED] flex items-center gap-3.5 rounded-xl">
+            <div className="w-9 h-9 rounded-full bg-[#F9771D]/10 flex items-center justify-center text-[#F9771D]">
+              <Target className="w-4 h-4" />
+            </div>
+            <div>
+              <p className="text-[9px] font-mono uppercase text-[#555550] tracking-wider">// Active Focus</p>
+              <p className="text-xs font-bold uppercase text-[#1A1A1A]">{onboarding.trading_goals.replace(/_/g, ' ')}</p>
+            </div>
+          </div>
+        )}
+      </div>
+
       {/* HERO: Market Intelligence Card */}
       <MarketIntelligenceHeroCard
         instruments={INSTRUMENTS_LIST}

@@ -1,6 +1,6 @@
 "use client";
  
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { 
   CloudSun, 
@@ -11,11 +11,81 @@ import {
   Mail,
   Clock,
   ExternalLink,
-  CheckCircle2
+  CheckCircle2,
+  Loader2
 } from "lucide-react";
+import { createClient } from "@/lib/supabase/client";
  
 export default function DailyBriefingPage() {
   const [isSubscribed, setIsSubscribed] = useState(true);
+  const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState<any>(null);
+  const [profile, setProfile] = useState<any>(null);
+  const [updating, setUpdating] = useState(false);
+
+  useEffect(() => {
+    const loadProfile = async () => {
+      try {
+        const supabase = createClient();
+        const { data: { user } } = await supabase.auth.getUser();
+        if (user) {
+          setUser(user);
+          const { data: profile } = await (supabase as any)
+            .from("profiles")
+            .select("email_preferences")
+            .eq("id", user.id)
+            .single();
+          if (profile) {
+            setProfile(profile);
+            const prefs = (profile as any).email_preferences || {};
+            setIsSubscribed(prefs.morning_brief !== false);
+          }
+        }
+      } catch (err) {
+        console.error("Failed to load profile:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadProfile();
+  }, []);
+
+  const handleToggleSubscription = async () => {
+    if (!user || updating) return;
+    setUpdating(true);
+    const nextState = !isSubscribed;
+    setIsSubscribed(nextState);
+
+    try {
+      const supabase = createClient();
+      const currentPrefs = profile?.email_preferences || {};
+      const updatedPrefs = {
+        ...currentPrefs,
+        morning_brief: nextState
+      };
+
+      const { error } = await (supabase as any)
+        .from("profiles")
+        .update({
+          email_preferences: updatedPrefs,
+          updated_at: new Date().toISOString()
+        })
+        .eq("id", user.id);
+
+      if (error) {
+        throw error;
+      }
+      setProfile({
+        ...profile,
+        email_preferences: updatedPrefs
+      });
+    } catch (err) {
+      console.error("Failed to update briefing subscription:", err);
+      setIsSubscribed(!nextState);
+    } finally {
+      setUpdating(false);
+    }
+  };
  
   return (
     <div className="space-y-10 animate-in fade-in duration-700 pb-24">
@@ -30,14 +100,19 @@ export default function DailyBriefingPage() {
         </div>
         <div className="flex items-center gap-4">
            <button 
-              onClick={() => setIsSubscribed(!isSubscribed)}
+              onClick={handleToggleSubscription}
+              disabled={loading || updating}
               className={cn(
-                "flex items-center gap-2 px-6 py-3 text-[10px] font-bold uppercase tracking-widest transition-all rounded-lg",
+                "flex items-center gap-2 px-6 py-3 text-[10px] font-bold uppercase tracking-widest transition-all rounded-lg disabled:opacity-50",
                 isSubscribed ? "bg-accent/10 border border-accent/20 text-accent" : "bg-background-surface border border-border-slate text-text-tertiary hover:text-text-primary"
               )}
            >
-              <Mail className="w-4 h-4" />
-              {isSubscribed ? "Briefing: 06:30 AM" : "Enable Email Briefing"}
+              {updating ? (
+                <Loader2 className="w-4 h-4 animate-spin" />
+              ) : (
+                <Mail className="w-4 h-4" />
+              )}
+              {loading ? "Loading..." : isSubscribed ? "Briefing: 06:30 AM" : "Enable Email Briefing"}
            </button>
         </div>
       </div>

@@ -170,12 +170,7 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
 
-      // Auth pages
-      {
-        source: "/forgot-password",
-        destination: "/login",
-        permanent: false,
-      },
+
 
       // Legacy learn paths
       {

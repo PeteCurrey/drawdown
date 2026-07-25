@@ -36,31 +36,46 @@ export default function BacktesterPage() {
   const [isSimulating, setIsSimulating] = useState(false);
   const [strategy, setStrategy] = useState("");
   const [results, setResults] = useState<BacktestResult | null>(null);
- 
-  const runSimulation = () => {
+  const [symbol, setSymbol] = useState("GBPUSD");
+  const [startingCapital, setStartingCapital] = useState(10000);
+  const [error, setError] = useState<string | null>(null);
+  const [dateRangeText, setDateRangeText] = useState("");
+
+  const runSimulation = async () => {
     setIsSimulating(true);
+    setError(null);
+    setResults(null);
     
-    // Generate Mock History for Simulation
-    const mockHistory = Array.from({ length: 150 }).map((_, i) => ({
-      time: (Date.now() / 1000) - (150 - i) * 3600,
-      open: 1.2500 + Math.random() * 0.1,
-      high: 1.2600 + Math.random() * 0.1,
-      low: 1.2400 + Math.random() * 0.1,
-      close: 1.2550 + Math.random() * 0.1,
-    }));
- 
-    // Simulating strategy mapping
-    const config: StrategyConfig = {
-      type: strategy.toLowerCase().includes('ema') ? 'EMA_CROSS' : 'RSI_REVERSAL',
-      params: {}
-    };
- 
-    setTimeout(() => {
-      const result = simulateStrategy(mockHistory, config, 10000);
+    try {
+      const res = await fetch(`/api/market/history?symbol=${symbol}&interval=1h&outputsize=150`);
+      if (!res.ok) {
+        throw new Error("Failed to fetch market history");
+      }
+      const history = await res.json();
+      if (!Array.isArray(history) || history.length < 50) {
+        throw new Error("HISTORICAL DATA UNAVAILABLE — backtest cannot run.");
+      }
+
+      const config: StrategyConfig = {
+        type: strategy.toLowerCase().includes('ema') ? 'EMA_CROSS' : 'RSI_REVERSAL',
+        params: {}
+      };
+
+      const result = simulateStrategy(history, config, startingCapital);
       setResults(result);
-      setIsSimulating(false);
+      
+      const firstCandle = history[0];
+      const lastCandle = history[history.length - 1];
+      const formatTime = (t: number) => new Date(t * 1000).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' });
+      setDateRangeText(`${formatTime(firstCandle.time)} to ${formatTime(lastCandle.time)}`);
+      
       setStep('results');
-    }, 2000);
+    } catch (err: any) {
+      console.error("Backtest simulation failed:", err);
+      setError(err.message === "HISTORICAL DATA UNAVAILABLE — backtest cannot run." ? err.message : "HISTORICAL DATA UNAVAILABLE — backtest cannot run.");
+    } finally {
+      setIsSimulating(false);
+    }
   };
  
   return (
@@ -191,19 +206,27 @@ export default function BacktesterPage() {
         {/* ── STEP 2: INPUT / PARAMS ───────────────────────────────────────── */}
         {step === 'params' && (
           <div className="bg-white border border-gray-200 p-8 md:p-12 animate-in fade-in slide-in-from-right-4 duration-700 rounded-xl shadow-[0_4px_24px_rgba(0,0,0,0.04)]">
+            {error && (
+              <div className="mb-6 p-4 bg-red-50 border border-red-200 text-red-700 rounded-lg flex items-center gap-3">
+                <AlertCircle className="w-5 h-5 shrink-0" />
+                <span className="text-xs font-mono uppercase tracking-widest font-bold">{error}</span>
+              </div>
+            )}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-12">
               <div className="space-y-8">
                 <div className="space-y-2">
                   <label className="text-[10px] font-mono uppercase tracking-widest text-gray-400 block">Select Instrument</label>
                   <select
+                    value={symbol}
+                    onChange={(e) => setSymbol(e.target.value)}
                     className="w-full bg-white border border-gray-200 px-4 py-3 text-xs font-mono uppercase outline-none text-gray-900 rounded-lg transition-colors"
                     onFocus={e => { e.currentTarget.style.borderColor = C; }}
                     onBlur={e  => { e.currentTarget.style.borderColor = "#e5e7eb"; }}
                   >
-                    <option>GBPUSD (Forex)</option>
-                    <option>XAUUSD (Gold)</option>
-                    <option>BTCUSD (Crypto)</option>
-                    <option>FTSE 100 (Index)</option>
+                    <option value="GBPUSD">GBPUSD (Forex)</option>
+                    <option value="XAUUSD">XAUUSD (Gold)</option>
+                    <option value="BTCUSD">BTCUSD (Crypto)</option>
+                    <option value="FTSE100">FTSE 100 (Index)</option>
                   </select>
                 </div>
                 <div className="space-y-2">
@@ -228,7 +251,8 @@ export default function BacktesterPage() {
                   <label className="text-[10px] font-mono uppercase tracking-widest text-gray-400 block">Starting Capital (£)</label>
                   <input
                     type="number"
-                    defaultValue={10000}
+                    value={startingCapital}
+                    onChange={(e) => setStartingCapital(Number(e.target.value))}
                     className="w-full bg-white border border-gray-200 px-4 py-3 text-xs font-mono outline-none text-gray-900 rounded-lg transition-colors"
                     onFocus={e => { e.currentTarget.style.borderColor = C; e.currentTarget.style.boxShadow = `0 0 0 2px ${C}20`; }}
                     onBlur={e =>  { e.currentTarget.style.borderColor = "#e5e7eb"; e.currentTarget.style.boxShadow = "none"; }}
@@ -282,6 +306,18 @@ export default function BacktesterPage() {
         {/* ── STEP 3: RESULTS / STATS ──────────────────────────────────────── */}
         {step === 'results' && results && (
           <div className="space-y-8 animate-in fade-in zoom-in-95 duration-700">
+            {dateRangeText && (
+              <div className="p-6 bg-white border border-gray-200 rounded-xl flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 hover:shadow-[0_4px_16px_rgba(0,0,0,0.04)] transition-all">
+                <div>
+                  <p className="text-[10px] font-mono uppercase tracking-[0.2em] text-gray-400">Backtested Instrument</p>
+                  <p className="text-sm font-display font-bold uppercase text-gray-900 mt-1">{symbol}</p>
+                </div>
+                <div>
+                  <p className="text-[10px] font-mono uppercase tracking-[0.2em] text-gray-400">Historical Data Range</p>
+                  <p className="text-sm font-display font-bold uppercase text-gray-900 mt-1">{dateRangeText}</p>
+                </div>
+              </div>
+            )}
             {/* Stats overview cards — white, Journal card style */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
               {[

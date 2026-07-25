@@ -54,7 +54,7 @@ export default async function Page() {
             "name": "What is the difference between Foundation and Edge?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Edge adds Phases 4-6, the AI Market Scanner, Strategy Backtester and Algo Strategy Builder tools, plus access to the community and weekly live sessions with Pete."
+              "text": "Edge adds Phases 4-6, the AI Market Scanner, Strategy Backtester and Algo Strategy Builder tools, plus access to the community and weekly live sessions with Pete (Coming Soon)."
             }
           },
           {
@@ -62,7 +62,7 @@ export default async function Page() {
             "name": "What is The Floor?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "The Floor is Drawdown's premium tier offering monthly 1-to-1 mentorship sessions directly with Pete Currey, unlimited AI tool usage and priority support. Limited seats available."
+              "text": "The Floor is Drawdown's premium tier offering monthly 1-to-1 mentorship sessions directly with Pete Currey (Coming Soon), unlimited AI tool usage and priority support. Limited seats available."
             }
           },
           {

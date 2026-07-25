@@ -21,17 +21,12 @@ import { cn } from "@/lib/utils";
 import { createClient } from "@/lib/supabase/client";
 import { PsychologyCoach } from "@/components/dashboard/PsychologyCoach";
 
-// Mock data for initial UI
-const MOCK_REPORTS = [
-  { id: '1', week_ending: '2024-04-28', discipline_score: 84, grade: 'B', public_id: 'r1' },
-  { id: '2', week_ending: '2024-04-21', discipline_score: 62, grade: 'D', public_id: 'r2' },
-  { id: '3', week_ending: '2024-04-14', discipline_score: 92, grade: 'A', public_id: 'r3' },
-];
 
 export default function CoachPage() {
   const [activeTab, setActiveTab] = useState<'live' | 'history' | 'checkin'>('live');
   const [reports, setReports] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [trades, setTrades] = useState<any[]>([]);
   const [account, setAccount] = useState<any>(null);
 
@@ -43,8 +38,13 @@ export default function CoachPage() {
       const tradesRes = await supabase.from('individual_trades').select('*').order('entry_time', { ascending: false }).limit(20) as any;
       const accountRes = await supabase.from('funded_accounts').select('*').eq('account_status', 'active').limit(1).single() as any;
 
-      if (reportsRes.data) setReports(reportsRes.data);
-      else setReports(MOCK_REPORTS);
+      if (reportsRes.error) {
+        setError("Unable to load coaching reports");
+      } else if (reportsRes.data && reportsRes.data.length > 0) {
+        setReports(reportsRes.data);
+      } else {
+        setReports([]);
+      }
 
       if (tradesRes.data) setTrades(tradesRes.data);
       if (accountRes.data) setAccount(accountRes.data);
@@ -101,9 +101,21 @@ export default function CoachPage() {
             {activeTab === 'live' && (
               <div className="space-y-10 animate-in fade-in duration-500">
                 {/* Live Analysis Feed */}
-                <div className="bg-background-surface border border-border-slate p-8">
-                   <PsychologyCoach trades={trades} account={account} />
-                </div>
+                {trades.length === 0 ? (
+                  <div className="bg-background-surface border border-border-slate p-8 text-center py-16 space-y-4">
+                    <Brain className="w-8 h-8 text-accent mx-auto" />
+                    <p className="text-sm text-text-primary font-mono uppercase tracking-widest font-bold">
+                      NO LIVE COGNITIVE FEEDBACK YET
+                    </p>
+                    <p className="text-xs text-text-secondary max-w-md mx-auto">
+                      Please log your first trade in the Journal to enable live psychology coaching.
+                    </p>
+                  </div>
+                ) : (
+                  <div className="bg-background-surface border border-border-slate p-8">
+                     <PsychologyCoach trades={trades} account={account} />
+                  </div>
+                )}
 
                 {/* Behavioral Heatmap (Placeholder) */}
                 <div className="space-y-6">
@@ -131,31 +143,50 @@ export default function CoachPage() {
 
             {activeTab === 'history' && (
               <div className="space-y-6 animate-in fade-in duration-500">
-                {reports.map((report) => (
-                  <div key={report.id} className="p-8 bg-background-surface border border-border-slate flex flex-col md:flex-row justify-between items-center gap-8 group hover:border-accent/40 transition-colors">
-                     <div className="flex items-center gap-8">
-                        <div className={cn(
-                          "w-16 h-16 flex items-center justify-center font-display font-black text-3xl border-2",
-                          report.grade === 'A' ? "text-profit border-profit/30" : report.grade === 'F' ? "text-loss border-loss/30" : "text-accent border-accent/30"
-                        )}>
-                           {report.grade}
-                        </div>
-                        <div>
-                           <p className="text-[10px] font-mono text-text-tertiary uppercase">Week Ending</p>
-                           <h4 className="text-xl font-display font-bold uppercase">{new Date(report.week_ending).toLocaleDateString(undefined, { month: 'long', day: 'numeric', year: 'numeric' })}</h4>
-                        </div>
-                     </div>
-                     <div className="flex items-center gap-12">
-                        <div className="text-center">
-                           <p className="text-[10px] font-mono text-text-tertiary uppercase mb-1">Score</p>
-                           <p className="text-xl font-display font-bold">{report.discipline_score}/100</p>
-                        </div>
-                        <button className="flex items-center gap-2 px-8 py-3 bg-background-elevated border border-border-slate text-[10px] font-bold uppercase tracking-widest hover:border-accent transition-colors">
-                           View Report <ChevronRight className="w-4 h-4 text-accent" />
-                        </button>
-                     </div>
+                {error ? (
+                  <div className="p-8 bg-background-surface border border-loss/30 text-center py-16 space-y-4">
+                    <AlertTriangle className="w-8 h-8 text-loss mx-auto" />
+                    <p className="text-sm text-loss font-mono uppercase tracking-widest font-bold">
+                      {error}
+                    </p>
                   </div>
-                ))}
+                ) : reports.length === 0 ? (
+                  <div className="p-8 bg-background-surface border border-border-slate text-center py-16 space-y-4">
+                    <ShieldAlert className="w-8 h-8 text-accent mx-auto" />
+                    <p className="text-sm text-text-primary font-mono uppercase tracking-widest font-bold">
+                      NO COACHING REPORTS AVAILABLE
+                    </p>
+                    <p className="text-xs text-text-secondary max-w-md mx-auto">
+                      Please log your first trade in the Journal to generate cognitive feedback.
+                    </p>
+                  </div>
+                ) : (
+                  reports.map((report) => (
+                    <div key={report.id} className="p-8 bg-background-surface border border-border-slate flex flex-col md:flex-row justify-between items-center gap-8 group hover:border-accent/40 transition-colors">
+                       <div className="flex items-center gap-8">
+                          <div className={cn(
+                            "w-16 h-16 flex items-center justify-center font-display font-black text-3xl border-2",
+                            report.grade === 'A' ? "text-profit border-profit/30" : report.grade === 'F' ? "text-loss border-loss/30" : "text-accent border-accent/30"
+                          )}>
+                             {report.grade}
+                          </div>
+                          <div>
+                             <p className="text-[10px] font-mono text-text-tertiary uppercase">Week Ending</p>
+                             <h4 className="text-xl font-display font-bold uppercase">{new Date(report.week_ending).toLocaleDateString(undefined, { month: 'long', day: 'numeric', year: 'numeric' })}</h4>
+                          </div>
+                       </div>
+                       <div className="flex items-center gap-12">
+                          <div className="text-center">
+                             <p className="text-[10px] font-mono text-text-tertiary uppercase mb-1">Score</p>
+                             <p className="text-xl font-display font-bold">{report.discipline_score}/100</p>
+                          </div>
+                          <button className="flex items-center gap-2 px-8 py-3 bg-background-elevated border border-border-slate text-[10px] font-bold uppercase tracking-widest hover:border-accent transition-colors">
+                             View Report <ChevronRight className="w-4 h-4 text-accent" />
+                          </button>
+                       </div>
+                    </div>
+                  ))
+                )}
               </div>
             )}
 

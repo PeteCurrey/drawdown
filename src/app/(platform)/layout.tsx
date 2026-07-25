@@ -67,6 +67,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [profile, setProfile] = useState<any>(null);
+  const [userEmail, setUserEmail] = useState<string>("");
   const [showOnboarding, setShowOnboarding] = useState(false);
   const [activeSignalCount, setActiveSignalCount] = useState<number | null>(null);
   const [subscriptionTier, setSubscriptionTier] = useState<SubscriptionTier>(null);
@@ -99,6 +100,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       const locallyOnboarded = localStorage.getItem("drawdown_onboarded");
       const { data: { user } } = await supabase.auth.getUser();
       if (user) {
+        setUserEmail(user.email || "");
         const { data } = await (supabase as any)
           .from('profiles')
           .select('*')
@@ -127,6 +129,20 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   const handleLogout = async () => {
     await supabase.auth.signOut();
     window.location.href = "/";
+  };
+
+  const getInitials = () => {
+    if (profile?.display_name) {
+      const parts = profile.display_name.trim().split(/\s+/);
+      if (parts.length >= 2) {
+        return (parts[0][0] + parts[1][0]).toUpperCase();
+      }
+      return profile.display_name.slice(0, 2).toUpperCase();
+    }
+    if (userEmail) {
+      return userEmail.slice(0, 2).toUpperCase();
+    }
+    return "–";
   };
 
   // Nav link custom layout matching Phase 1 Section 1 and Section 2
@@ -245,7 +261,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           </Link>
 
           <Link href="/dashboard/profile" className="w-8 h-8 rounded-full bg-[#181818] flex items-center justify-center text-white text-xs font-bold font-mono">
-            {profile?.display_name ? profile.display_name.slice(0, 2).toUpperCase() : "PC"}
+            {getInitials()}
           </Link>
 
           {/* Mobile hamburger menu */}
@@ -307,12 +323,12 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             {!isCollapsed && (
               <div className="p-3 bg-[#1A1A1A]/5 flex items-center gap-2 mt-2">
                 <div className="w-7 h-7 bg-[#181818] rounded-full text-white text-[10px] flex items-center justify-center font-bold font-mono">
-                  {profile?.display_name ? profile.display_name.slice(0, 2).toUpperCase() : "PC"}
+                  {getInitials()}
                 </div>
                 <div className="min-w-0">
-                  <p className="text-[11px] font-bold truncate">{profile?.display_name || "Pete Currey"}</p>
+                  <p className="text-[11px] font-bold truncate">{profile?.display_name || "Trader"}</p>
                   <span className="text-[8px] font-mono font-black tracking-wider bg-[#F9771D] text-white px-1 py-0.2 ml-0 inline-block">
-                    {profile?.subscription_tier?.toUpperCase() || "EDGE"}
+                    {profile?.subscription_tier?.toUpperCase() || "FREE"}
                   </span>
                 </div>
                 <button 

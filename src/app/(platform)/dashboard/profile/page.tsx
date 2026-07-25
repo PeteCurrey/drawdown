@@ -22,6 +22,7 @@ import Link from "next/link";
 export default function ProfileSettingsPage() {
   const [loading, setLoading] = useState(true);
   const [profile, setProfile] = useState<any>(null);
+  const [userId, setUserId] = useState<string>('');
   const [userEmail, setUserEmail] = useState<string>('');
   const [isUpdating, setIsUpdating] = useState(false);
   const [saveSuccess, setSaveSuccess] = useState(false);
@@ -44,6 +45,7 @@ export default function ProfileSettingsPage() {
   async function fetchProfile() {
     const { data: { user } } = await supabase.auth.getUser();
     if (user) {
+      setUserId(user.id);
       setUserEmail(user.email || '');
       const { data } = await supabase
         .from('profiles')
@@ -61,8 +63,22 @@ export default function ProfileSettingsPage() {
     setSaveSuccess(false);
     setSaveError(null);
 
+    let resolvedUserId = userId;
+    if (!resolvedUserId) {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        resolvedUserId = user.id;
+        setUserId(user.id);
+      } else {
+        setSaveError("No authenticated session found.");
+        setIsUpdating(false);
+        return;
+      }
+    }
+
     const formData = new FormData(e.currentTarget);
     const updates = {
+      id:           resolvedUserId,
       display_name: (formData.get('display_name') as string).trim() || null,
       country:      (formData.get('country')      as string).trim() || null,
       currency:     (formData.get('currency')     as string).trim() || null,
@@ -71,8 +87,7 @@ export default function ProfileSettingsPage() {
  
     const { error } = await (supabase as any)
       .from('profiles')
-      .update(updates)
-      .eq('id', profile.id);
+      .upsert(updates);
  
     if (error) {
       setSaveError(error.message);
@@ -125,6 +140,19 @@ export default function ProfileSettingsPage() {
     setPrefsSuccess(false);
     setPrefsError(null);
 
+    let resolvedUserId = userId;
+    if (!resolvedUserId) {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        resolvedUserId = user.id;
+        setUserId(user.id);
+      } else {
+        setPrefsError("No authenticated session found.");
+        setIsUpdatingPrefs(false);
+        return;
+      }
+    }
+
     const formData = new FormData(e.currentTarget);
     const email_preferences = {
       morning_brief: formData.get('morning_brief') === 'on',
@@ -135,8 +163,11 @@ export default function ProfileSettingsPage() {
 
     const { error } = await (supabase as any)
       .from('profiles')
-      .update({ email_preferences, updated_at: new Date().toISOString() })
-      .eq('id', profile.id);
+      .upsert({
+        id: resolvedUserId,
+        email_preferences,
+        updated_at: new Date().toISOString(),
+      });
 
     if (error) {
       setPrefsError(error.message);

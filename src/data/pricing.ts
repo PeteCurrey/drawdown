@@ -23,20 +23,20 @@ export const GET_DEFAULT_FEATURES = () => [
 
 export const GET_EDGE_FEATURES = () => [
   { name: "Everything in Foundation", included: true },
-  { name: "AI Trade Journal (Coming Q1 2026)", included: false },
+  { name: "AI Trade Journal", included: true },
   { name: "AI Market Scanner & Alerting", included: true },
   { name: "AI Strategy Backtester", included: true },
   { name: "AI Daily Briefing", included: true },
   { name: "Monthly Live Group Q&A (Coming Soon)", included: false },
-  { name: "Advanced Strategy Modules (Coming Q1 2026)", included: false },
+  { name: "Advanced Strategy Modules (Coming Soon)", included: false },
 ];
 
 export const GET_FLOOR_FEATURES = () => [
   { name: "Everything in Edge", included: true },
   { name: "Monthly 1-to-1 Session (45m) with Pete (Coming Soon)", included: false },
   { name: "Quarterly Small-Group Masterclass (Coming Soon)", included: false },
-  { name: "Custom AI Portfolio Analysis (Coming Q1 2026)", included: false },
-  { name: "Early Access to New Tools (Coming Q1 2026)", included: false },
+  { name: "Custom AI Portfolio Analysis (Coming Soon)", included: false },
+  { name: "Early Access to New Tools (Coming Soon)", included: false },
   { name: "Direct Discord Access to Founder", included: true },
 ];
 

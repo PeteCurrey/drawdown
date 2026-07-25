@@ -64,18 +64,21 @@ export async function POST(request: NextRequest) {
 
       // ── Subscription checkout ─────────────────────────────────────────────
       if (userId) {
-        const { error } = await supabase
+        const { data: upsertData, error } = await supabase
           .from("profiles")
-          .update({
+          .upsert({
+            id: userId,
             stripe_customer_id: customerId,
             subscription_tier: tier,
             subscription_status: "active",
             updated_at: new Date().toISOString(),
           })
-          .eq("id", userId);
+          .select('id');
         
         if (error) {
-          console.error("Error updating profile on checkout:", error);
+          console.error("Error upserting profile on checkout:", error);
+        } else if (!upsertData || upsertData.length === 0) {
+          console.error(`Error: Upsert affected zero rows for userId: ${userId} during checkout.session.completed`);
         } else {
           if (tier === 'edge' || tier === 'floor') {
             awardBadge(userId, 'edge_unlocked').catch(err =>
@@ -97,7 +100,7 @@ export async function POST(request: NextRequest) {
       const subscription = event.data.object as Stripe.Subscription;
       const subTier = subscription.metadata.tier;
       
-      const { data: updatedProfile, error: updateError } = await supabase
+      const { data: updatedProfiles, error: updateError } = await supabase
         .from("profiles")
         .update({
           subscription_status: subscription.status,
@@ -105,21 +108,25 @@ export async function POST(request: NextRequest) {
           updated_at: new Date().toISOString(),
         })
         .eq("stripe_customer_id", subscription.customer)
-        .select('id')
-        .single();
+        .select('id');
       
       if (updateError) {
         console.error("Error updating profile on subscription update:", updateError);
-      } else if ((subTier === 'edge' || subTier === 'floor') && updatedProfile?.id) {
-        awardBadge(updatedProfile.id, 'edge_unlocked').catch(err =>
-          console.error("edge_unlocked badge award failed (non-fatal):", err)
-        );
-        // Auto-grant floor-included courses on upgrade
-        if (subTier === 'floor') {
-          await supabase.rpc('grant_floor_courses', { p_user_id: updatedProfile.id })
-            .then(({ error: rpcErr }) => {
-              if (rpcErr) console.error('grant_floor_courses upgrade failed (non-fatal):', rpcErr);
-            });
+      } else if (!updatedProfiles || updatedProfiles.length === 0) {
+        console.error(`Error: subscription update affected zero rows for stripe customer: ${subscription.customer}`);
+      } else {
+        const updatedProfile = updatedProfiles[0];
+        if ((subTier === 'edge' || subTier === 'floor') && updatedProfile?.id) {
+          awardBadge(updatedProfile.id, 'edge_unlocked').catch(err =>
+            console.error("edge_unlocked badge award failed (non-fatal):", err)
+          );
+          // Auto-grant floor-included courses on upgrade
+          if (subTier === 'floor') {
+            await supabase.rpc('grant_floor_courses', { p_user_id: updatedProfile.id })
+              .then(({ error: rpcErr }) => {
+                if (rpcErr) console.error('grant_floor_courses upgrade failed (non-fatal):', rpcErr);
+              });
+          }
         }
       }
       break;
@@ -127,28 +134,40 @@ export async function POST(request: NextRequest) {
     case "customer.subscription.deleted":
       const deletedSubscription = event.data.object as Stripe.Subscription;
       
-      const { error: deleteError } = await supabase
+      const { data: deletedProfiles, error: deleteError } = await supabase
         .from("profiles")
         .update({
           subscription_tier: "free",
           subscription_status: "cancelled",
           updated_at: new Date().toISOString(),
         })
-        .eq("stripe_customer_id", deletedSubscription.customer);
+        .eq("stripe_customer_id", deletedSubscription.customer)
+        .select('id');
       
-      if (deleteError) console.error("Error updating profile on subscription delete:", deleteError);
+      if (deleteError) {
+        console.error("Error updating profile on subscription delete:", deleteError);
+      } else if (!deletedProfiles || deletedProfiles.length === 0) {
+        console.error(`Error: subscription delete affected zero rows for stripe customer: ${deletedSubscription.customer}`);
+      }
       break;
 
     case "invoice.payment_failed":
       const failedInvoice = event.data.object as Stripe.Invoice;
       
-      await supabase
+      const { data: failedProfiles, error: failError } = await supabase
         .from("profiles")
         .update({
           subscription_status: "past_due",
           updated_at: new Date().toISOString(),
         })
-        .eq("stripe_customer_id", failedInvoice.customer);
+        .eq("stripe_customer_id", failedInvoice.customer)
+        .select('id');
+
+      if (failError) {
+        console.error("Error updating profile on payment failed:", failError);
+      } else if (!failedProfiles || failedProfiles.length === 0) {
+        console.error(`Error: payment failed update affected zero rows for stripe customer: ${failedInvoice.customer}`);
+      }
       break;
   }
 

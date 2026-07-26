@@ -22,38 +22,6 @@ function getTwelveDataKeys(): string[] {
   return list.filter(k => k.length > 5);
 }
 
-const FALLBACK_PRICES: Record<string, number> = {
-  "XAU/USD": 3330.0, "XAUUSD": 3330.0, "GOLD": 3330.0,
-  "XAG/USD": 32.50, "XAGUSD": 32.50, "SILVER": 32.50,
-  "GBP/USD": 1.2720, "GBPUSD": 1.2720,
-  "EUR/USD": 1.0850, "EURUSD": 1.0850,
-  "USD/JPY": 158.50, "USDJPY": 158.50,
-  "USD/CHF": 0.8950, "USDCHF": 0.8950,
-  "AUD/USD": 0.6650, "AUDUSD": 0.6650,
-  "NZD/USD": 0.6120, "NZDUSD": 0.6120,
-  "USD/CAD": 1.3680, "USDCAD": 1.3680,
-  "EUR/GBP": 0.8520, "EURGBP": 0.8520,
-  "EUR/JPY": 170.50, "EURJPY": 170.50,
-  "GBP/JPY": 201.50, "GBPJPY": 201.50,
-  "CAD/JPY": 114.80, "CADJPY": 114.80,
-  "AUD/CAD": 0.9100, "AUDCAD": 0.9100,
-  "GBP/CAD": 1.7350, "GBPCAD": 1.7350,
-  "SPX": 5450.0, "SPX500": 5450.0, "S&P 500": 5450.0,
-  "NDX": 19800.0, "NAS100": 19800.0, "NASDAQ 100": 19800.0,
-  "DJI": 43000.0, "US30": 43000.0, "Dow Jones": 43000.0,
-  "FTSE": 8300.0, "UK100": 8300.0, "FTSE 100": 8300.0,
-  "DAX": 18180.0, "DAX 40": 18180.0,
-  "NIKKEI": 38850.0, "NIKKEI225": 38850.0, "Nikkei 225": 38850.0,
-  "ASX200": 7780.0, "ASX 200": 7780.0,
-  "WTI/USD": 78.40, "WTIUSD": 78.40, "Crude Oil": 78.40,
-  "NATGAS": 2.650, "Nat Gas": 2.650,
-  "COPPER": 4.480, "Copper": 4.480,
-  "BTC/USD": 65000.0, "BTCUSD": 65000.0, "BTCUSDT": 65000.0,
-  "ETH/USD": 3500.0, "ETHUSD": 3500.0, "ETHUSDT": 3500.0,
-  "SOL/USD": 155.0, "SOLUSD": 155.0, "SOLUSDT": 155.0,
-  "XRP/USD": 0.4950, "XRPUSD": 0.4950, "XRPUSDT": 0.4950,
-};
-
 export interface MarketPrice {
   symbol: string;
   price: number;
@@ -200,33 +168,6 @@ export async function getMarketPrices(symbols: string[]): Promise<MarketPrice[]>
     }
   }
 
-  // Final Pass: Ensure every requested symbol is resolved with a dynamic fallback price if API calls failed
-  const resolvedSymbols = new Set(results.map(r => r.symbol));
-  
-  for (const symbol of symbols) {
-    if (!resolvedSymbols.has(symbol)) {
-      const clean = symbol.replace("/", "").toUpperCase();
-      const basePrice = FALLBACK_PRICES[symbol] ?? FALLBACK_PRICES[clean] ?? 1.0;
-      
-      const cycle = Math.sin(Date.now() / 300000);
-      const noise = (Math.sin(clean.charCodeAt(0) * 10) * 0.5);
-      const priceMultiplier = 1 + (0.0012 * cycle) + (0.0003 * noise);
-      const price = parseFloat((basePrice * priceMultiplier).toFixed(symbol.includes("JPY") ? 3 : symbol.includes("XAU") || symbol.includes("BTC") ? 2 : 5));
-      const changePercent = parseFloat((0.15 * cycle + 0.05 * noise).toFixed(2));
-      const change = parseFloat((price * (changePercent / 100)).toFixed(5));
-      
-      results.push({
-        symbol,
-        price,
-        change,
-        changePercent,
-        volume: 10000 + Math.round(5000 * cycle),
-        high: parseFloat((price * 1.005).toFixed(5)),
-        low: parseFloat((price * 0.995).toFixed(5)),
-      });
-    }
-  }
-
   if (results.length > 0) {
     await setCacheData(cacheKey, results, 60);
   }
@@ -239,7 +180,7 @@ export async function getMarketPrices(symbols: string[]): Promise<MarketPrice[]>
  */
 export async function getMarketHistory(symbol: string, interval: string = "1h", outputsize: number = 72) {
   if (!TWELVEDATA_API_KEY) {
-    return generateMockHistory(symbol, outputsize);
+    throw new Error("FEED_OFFLINE: market history API key not configured");
   }
 
   const cacheKey = `history:${symbol}:${interval}:${outputsize}`;
@@ -252,9 +193,8 @@ export async function getMarketHistory(symbol: string, interval: string = "1h", 
     );
     const data = await response.json();
     
-    if (!data.values) {
-      console.warn(`No history for ${symbol}, using mock.`);
-      return generateMockHistory(symbol, outputsize);
+    if (!data || !data.values) {
+      throw new Error(`FEED_OFFLINE: no historical data returned for ${symbol}`);
     }
 
     // Format to consistent OHLC structure
@@ -271,7 +211,7 @@ export async function getMarketHistory(symbol: string, interval: string = "1h", 
     return history;
   } catch (error) {
     console.error("History API Error:", error);
-    return generateMockHistory(symbol, outputsize);
+    throw error;
   }
 }
 
@@ -335,7 +275,7 @@ export async function getMarketSentiment() {
 
     // Mock/Fetch VIX (Market Volatility)
     const vixSymbols = await getMarketPrices(["VIX", "MOVE"]); // VIX and optional Bond volatility
-    const vixValue = vixSymbols[0]?.price || 15;
+    const vixValue = vixSymbols[0]?.price;
 
     const sentiment = {
       fearGreed: parseInt(fng),
@@ -529,26 +469,4 @@ function createInternalSupabase() {
       cookies: { getAll() { return [] }, setAll() {} }
     }
   );
-}
-
-function generateMockHistory(symbol: string, size: number) {
-  const base = symbol.includes("USD") ? 1.2 : symbol.includes("BTC") ? 65000 : 150;
-  let lastClose = base;
-  
-  return Array.from({ length: size }).map((_, i) => {
-    const open = lastClose;
-    const high = open + (Math.random() * 0.02 * base);
-    const low = open - (Math.random() * 0.02 * base);
-    const close = low + (Math.random() * (high - low));
-    lastClose = close;
-    
-    return {
-      time: new Date(Date.now() - (size - i) * 3600000).toISOString(),
-      open,
-      high,
-      low,
-      close,
-      volume: Math.floor(Math.random() * 1000000)
-    };
-  });
 }

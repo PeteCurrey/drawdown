@@ -372,7 +372,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
               ))}
             </nav>
             <div className="pt-4 border-t border-[#333330] flex items-center justify-between">
-              <span className="text-xs text-[#8A8A85]">Pete Currey</span>
+              <span className="text-xs text-[#8A8A85]">{profile?.display_name || "Trader"}</span>
               <button 
                 onClick={handleLogout}
                 className="text-xs text-[#CE6969] font-bold"

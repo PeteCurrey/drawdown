@@ -52,6 +52,7 @@ export default function DashboardPage() {
   const [passedModuleIds, setPassedModuleIds] = useState<string[]>([]);
   const [watchlistItems, setWatchlistItems] = useState<string[]>([]);
   const [watchlistLoading, setWatchlistLoading] = useState(true);
+  const [userCurrency, setUserCurrency] = useState<string>("USD");
 
   // Redesign state: Selected Instrument + Timeframe
   const [selectedInst, setSelectedInst] = useState(INSTRUMENTS_LIST[0]);
@@ -94,11 +95,14 @@ export default function DashboardPage() {
 
         const { data: profile } = await supabase
           .from('profiles')
-          .select('subscription_tier, display_name, email_preferences')
+          .select('subscription_tier, display_name, email_preferences, currency')
           .eq('id', user.id)
           .single();
         
-        if (profile) setProfile(profile);
+        if (profile) {
+          setProfile(profile);
+          setUserCurrency((profile as any)?.currency || "USD");
+        }
         const tier = (profile as any)?.subscription_tier as SubscriptionTier | undefined;
         if (tier) setSubscriptionTier(tier);
 
@@ -434,6 +438,7 @@ export default function DashboardPage() {
         instruments={INSTRUMENTS_LIST}
         initialInstrument={INSTRUMENTS_LIST[0]}
         selectedInterval={selectedInterval}
+        userCurrency={userCurrency}
         todayTradeCount={trades.filter((t: any) => {
           const entry = new Date(t.entry_time);
           const today = new Date();
@@ -527,7 +532,7 @@ export default function DashboardPage() {
         </div>
 
         {/* Card 4: Watchlist Summary */}
-        <WatchlistSummary initialSymbols={watchlistItems} />
+        <WatchlistSummary initialSymbols={watchlistItems} userCurrency={userCurrency} />
 
       </section>
 

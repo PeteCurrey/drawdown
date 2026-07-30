@@ -67,6 +67,7 @@ interface MarketIntelligenceHeroCardProps {
   selectedInterval?: string;
   /** Called when user clicks a timeframe pill */
   onTimeframeChange?: (interval: string) => void;
+  userCurrency?: string;
 }
 
 // ── Orbit signal nodes ───────────────────────────────────────────────────────
@@ -110,6 +111,7 @@ export function MarketIntelligenceHeroCard({
   onInstrumentChange,
   selectedInterval = "4h",
   onTimeframeChange,
+  userCurrency = "USD",
 }: MarketIntelligenceHeroCardProps) {
   const [selectedInst, setSelectedInst] = useState<HeroInstrument>(
     initialInstrument ?? instruments[0]
@@ -118,7 +120,7 @@ export function MarketIntelligenceHeroCard({
 
   // ── Live data hook ──
   const hookSlug = (selectedInst as any).hookSlug ?? selectedInst.slug.replace("/", "");
-  const marketData = useMarketIntelligence(hookSlug, selectedInterval);
+  const marketData = useMarketIntelligence(hookSlug, selectedInterval, userCurrency);
 
   // ── Live price via useMarketCache (DB cache) ─────────
   const liveData = useMarketCache([hookSlug]);
@@ -890,7 +892,7 @@ export function MarketIntelligenceHeroCard({
             style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}
           >
             {[
-              { label: "PRICE",    value: livePriceStr,  color: priceFlash === "up" ? "#00C896" : priceFlash === "down" ? "#CE6969" : "rgba(255,255,255,0.9)", isFallback, isPrice: true },
+              { label: userCurrency && userCurrency !== "USD" ? `PRICE (${userCurrency})` : "PRICE", value: livePriceStr, color: priceFlash === "up" ? "#00C896" : priceFlash === "down" ? "#CE6969" : "rgba(255,255,255,0.9)", isFallback, isPrice: true },
               { label: "RSI (14)", value: liveRsiStr,    color: "rgba(255,255,255,0.9)", isFallback: false, isPrice: false },
               { label: "TREND",    value: liveTrend,     color: liveTrendColor, isFallback: false, isPrice: false },
             ].map(({ label, value, color, isFallback: fb, isPrice }) => (

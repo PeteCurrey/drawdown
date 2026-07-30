@@ -8,12 +8,28 @@ import { instrumentDecimals } from "@/lib/instruments";
 
 interface WatchlistSummaryProps {
   initialSymbols: string[];
+  userCurrency?: string;
 }
 
-export function WatchlistSummary({ initialSymbols }: WatchlistSummaryProps) {
+export function WatchlistSummary({ initialSymbols, userCurrency = "USD" }: WatchlistSummaryProps) {
   // Use hook slugs for twelve data
   const hookSlugs = initialSymbols.map(s => s.replace("/", "").toUpperCase());
   const data = useMarketCache(hookSlugs);
+  const [fxRate, setFxRate] = useState<number>(1);
+
+  useEffect(() => {
+    if (!userCurrency || userCurrency.toUpperCase() === "USD") {
+      setFxRate(1);
+      return;
+    }
+    fetch(`https://api.frankfurter.dev/v1/latest?from=USD&to=${userCurrency.toUpperCase()}`)
+      .then(r => r.json())
+      .then(d => {
+        const rate = d?.rates?.[userCurrency.toUpperCase()];
+        if (typeof rate === "number" && rate > 0) setFxRate(rate);
+      })
+      .catch(() => {});
+  }, [userCurrency]);
 
   // We need to map back to display symbols
   const displayMap = initialSymbols.reduce((acc, sym, i) => {
@@ -34,12 +50,14 @@ export function WatchlistSummary({ initialSymbols }: WatchlistSummaryProps) {
             hookSlugs.slice(0, 3).map((slug) => {
               const item = data[slug];
               const displaySymbol = displayMap[slug];
+              const rawPrice = item?.price ?? null;
+              const convertedPrice = rawPrice !== null ? rawPrice * fxRate : null;
               return (
                 <WatchlistItem 
                   key={slug} 
                   slug={slug} 
                   displaySymbol={displaySymbol} 
-                  price={item?.price ?? null} 
+                  price={convertedPrice} 
                   changePercent={item?.change_pct ?? 0}
                   loading={item?.loading ?? true}
                 />

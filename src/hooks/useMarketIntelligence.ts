@@ -62,7 +62,8 @@ export function resolveInstrumentKey(slugOrHookSlug: string): InstrumentKey {
 
 export function useMarketIntelligence(
   slugOrHookSlug: string,
-  timeframe: string
+  timeframe: string,
+  userCurrency: string = "USD"
 ): MarketIntelligenceState {
   const [state, setState] = useState<MarketIntelligenceState>({ ...EMPTY_STATE });
 
@@ -104,7 +105,7 @@ export function useMarketIntelligence(
     // Helper to fetch and map indicators + quote from the full market-data route
     const fetchIndicatorsAndBias = async (slug: string, tf: string) => {
       try {
-        const res = await fetch(`/api/market-data/${encodeURIComponent(slug)}?interval=${tf}`);
+        const res = await fetch(`/api/market-data/${encodeURIComponent(slug)}?interval=${tf}&currency=${encodeURIComponent(userCurrency)}`);
         if (!res.ok) throw new Error(`HTTP Error ${res.status}`);
         const data = await res.json();
         if (data.error) throw new Error(data.error);
@@ -297,7 +298,7 @@ export function useMarketIntelligence(
       if (indicatorTimer) clearInterval(indicatorTimer);
       if (newsEventsTimer) clearInterval(newsEventsTimer);
     };
-  }, [slugOrHookSlug, timeframe]);
+  }, [slugOrHookSlug, timeframe, userCurrency]);
 
   return state;
 }

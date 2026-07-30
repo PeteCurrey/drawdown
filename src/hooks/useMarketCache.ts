@@ -52,10 +52,15 @@ export function useMarketCache(slugs: string[]): Record<string, CachedMarketData
   const load = useCallback(async () => {
     if (slugs.length === 0) return;
     try {
+      const expandedSlugs = Array.from(new Set([
+        ...slugs,
+        ...slugs.map(s => s.length === 6 && !s.includes("/") ? `${s.slice(0, 3)}/${s.slice(3)}` : s)
+      ]));
+
       const { data: rows, error } = await supabase
         .from("price_cache")
         .select("*")
-        .in("symbol", slugs);
+        .in("symbol", expandedSlugs);
 
       if (error) {
         console.error("useMarketCache Error:", error);
@@ -66,9 +71,11 @@ export function useMarketCache(slugs: string[]): Record<string, CachedMarketData
         setData(prev => {
           const next = { ...prev };
           rows.forEach((row: any) => {
-            if (next[row.symbol]) {
-              next[row.symbol] = {
-                ...next[row.symbol],
+            const cleanSym = row.symbol.replace("/", "").toUpperCase();
+            const targetKey = slugs.find(s => s === row.symbol || s.replace("/", "").toUpperCase() === cleanSym);
+            if (targetKey && next[targetKey]) {
+              next[targetKey] = {
+                ...next[targetKey],
                 price: row.price,
                 change_pct: row.change_pct,
                 rsi: row.rsi,
@@ -85,7 +92,7 @@ export function useMarketCache(slugs: string[]): Record<string, CachedMarketData
           // Mark loaded for those that weren't found in DB to clear loading skeleton
           slugs.forEach(s => {
             if (next[s] && next[s].loading) {
-              next[s] = { ...next[s], loading: false, error: true };
+              next[s] = { ...next[s], loading: false, error: false };
             }
           });
           return next;

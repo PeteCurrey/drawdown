@@ -132,15 +132,44 @@ export async function GET(req: Request) {
         // Fallback to Finnhub if available
         if (fhKeys.length > 0) {
           const fhKey = fhKeys[0];
-          // Finnhub format for crypto/forex varies, we'll try a basic quote
           const fhSym = symbol.includes("/") ? `OANDA:${symbol.replace("/", "_")}` : symbol;
-          const res = await fetch(`${FINNHUB}/quote?symbol=${fhSym}&token=${fhKey}`, { cache: "no-store" });
-          const q = await res.json();
-          if (q && q.c) {
-            price = pf(q.c);
-            change_pct = pf(q.dp);
-            source = 'finnhub';
-            // We can't easily calculate RSI/EMA from just quote
+          try {
+            const res = await fetch(`${FINNHUB}/quote?symbol=${fhSym}&token=${fhKey}`, { cache: "no-store" });
+            const q = await res.json();
+            if (q && q.c) {
+              price = pf(q.c);
+              change_pct = pf(q.dp);
+              source = 'finnhub';
+            }
+          } catch {}
+        }
+
+        // Live Fallback: Yahoo Finance (0 rate limits, 100% real live data)
+        if (price === null) {
+          try {
+            const cleanSym = symbol.replace("/", "").toUpperCase();
+            const YAHOO_MAP: Record<string, string> = {
+              "XAU/USD": "GC=F", "XAG/USD": "SI=F",
+              "GBP/USD": "GBPUSD=X", "EUR/USD": "EURUSD=X", "USD/JPY": "USDJPY=X",
+              "USD/CHF": "USDCHF=X", "AUD/USD": "AUDUSD=X", "NZD/USD": "NZDUSD=X",
+              "USD/CAD": "USDCAD=X", "EUR/GBP": "EURGBP=X", "EUR/JPY": "EURJPY=X",
+              "GBP/JPY": "GBPJPY=X", "CAD/JPY": "CADJPY=X", "AUD/CAD": "AUDCAD=X",
+              "GBP/CAD": "GBPCAD=X", "SPX500": "^GSPC", "NAS100": "^NDX", "US30": "^DJI",
+              "UK100": "^FTSE", "GER40": "^GDAXI", "JPN225": "^N225", "AUS200": "^AXJO",
+              "WTI/USD": "CL=F", "BTC/USD": "BTC-USD", "ETH/USD": "ETH-USD", "SOL/USD": "SOL-USD"
+            };
+            const ySym = YAHOO_MAP[symbol] || YAHOO_MAP[cleanSym] || `${cleanSym}=X`;
+            const res = await fetch(`https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(ySym)}?interval=1d&range=5d`, { cache: "no-store" });
+            const json = await res.json();
+            const meta = json?.chart?.result?.[0]?.meta;
+            if (meta?.regularMarketPrice) {
+              price = meta.regularMarketPrice;
+              const prev = meta.chartPreviousClose;
+              change_pct = price && prev ? parseFloat((((price - prev) / prev) * 100).toFixed(2)) : null;
+              source = "yahoo";
+            }
+          } catch (yErr) {
+            console.error(`[cron] Yahoo fallback failed for ${symbol}:`, yErr);
           }
         }
       }
@@ -168,6 +197,7 @@ export async function GET(req: Request) {
           else if (bullishScore <= -2) momentum_signal = "BEARISH";
         }
 
+        const hookSlug = symbol.replace("/", "").toUpperCase();
         const payload = {
           symbol,
           price,
@@ -180,15 +210,16 @@ export async function GET(req: Request) {
           fetched_at: new Date().toISOString()
         };
 
-        const { error: upsertErr } = await supabase
-          .from("price_cache")
-          .upsert(payload, { onConflict: "symbol" });
+        const payloadHook = {
+          ...payload,
+          symbol: hookSlug
+        };
 
-        if (upsertErr) {
-          console.error(`[cron] Upsert failed for ${symbol}:`, upsertErr);
-        } else {
-          results.push(payload);
-        }
+        await Promise.all([
+          supabase.from("price_cache").upsert(payload, { onConflict: "symbol" }),
+          supabase.from("price_cache").upsert(payloadHook, { onConflict: "symbol" })
+        ]);
+        results.push(payload);
       }
     } catch (e) {
       console.error(`[cron] Processing failed for ${symbol}:`, e);

@@ -97,29 +97,68 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
   useEffect(() => {
     async function checkOnboarding() {
-      const locallyOnboarded = localStorage.getItem("drawdown_onboarded");
       const { data: { user } } = await supabase.auth.getUser();
       if (user) {
         setUserEmail(user.email || "");
-        const { data } = await (supabase as any)
+
+        // 1. Fetch existing profile
+        let { data } = await (supabase as any)
           .from('profiles')
           .select('*')
           .eq('id', user.id)
           .single();
-        
-        const profile = data as any;
-        setProfile(profile);
-        setSubscriptionTier((profile?.subscription_tier as SubscriptionTier) ?? null);
-        
-        if (locallyOnboarded === "true") {
-          return;
+
+        let currentProfile = data as any;
+        const metaTier = user.user_metadata?.subscription_tier;
+        const metaRole = user.user_metadata?.role;
+        const metaName = user.user_metadata?.full_name || user.user_metadata?.display_name || user.email?.split("@")[0] || "Trader";
+
+        // 2. If profile is missing or missing tier metadata set in Supabase Auth, auto-provision / sync
+        if (!currentProfile) {
+          const { data: newProfile } = await (supabase as any)
+            .from('profiles')
+            .upsert({
+              id: user.id,
+              display_name: metaName,
+              full_name: metaName,
+              subscription_tier: (metaTier || "free").toLowerCase(),
+              role: metaRole || "trader",
+              email_preferences: {},
+              created_at: new Date().toISOString(),
+              updated_at: new Date().toISOString(),
+            }, { onConflict: 'id' })
+            .select()
+            .single();
+
+          currentProfile = newProfile || {
+            id: user.id,
+            display_name: metaName,
+            subscription_tier: metaTier || "free",
+            role: metaRole || "trader",
+          };
+        } else if (metaTier && currentProfile.subscription_tier !== metaTier.toLowerCase()) {
+          // Sync tier set in Supabase Auth metadata to profile
+          await (supabase as any)
+            .from('profiles')
+            .update({ subscription_tier: metaTier.toLowerCase() })
+            .eq('id', user.id);
+          currentProfile.subscription_tier = metaTier.toLowerCase();
         }
-        
-        const hasOnboardedDb = profile?.email_preferences?.onboarding?.has_onboarded === true;
-        if (profile && !hasOnboardedDb) {
-          setShowOnboarding(true);
-        } else if (hasOnboardedDb) {
+
+        setProfile(currentProfile);
+        setSubscriptionTier((currentProfile?.subscription_tier as SubscriptionTier) ?? null);
+
+        // 3. User-scoped localStorage check
+        const userStorageKey = `drawdown_onboarded_${user.id}`;
+        const locallyOnboardedForUser = localStorage.getItem(userStorageKey);
+        const hasOnboardedDb = currentProfile?.email_preferences?.onboarding?.has_onboarded === true;
+
+        if (hasOnboardedDb) {
+          localStorage.setItem(userStorageKey, "true");
           localStorage.setItem("drawdown_onboarded", "true");
+        } else if (locallyOnboardedForUser !== "true") {
+          // Show wizard for every first-time sign in!
+          setShowOnboarding(true);
         }
       }
     }
@@ -127,6 +166,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   }, []);
 
   const handleLogout = async () => {
+    localStorage.removeItem("drawdown_onboarded");
     await supabase.auth.signOut();
     window.location.href = "/";
   };

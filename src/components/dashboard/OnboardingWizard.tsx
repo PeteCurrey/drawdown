@@ -93,6 +93,9 @@ export function OnboardingWizard({ userProfile, onComplete }: Props) {
       console.error("Onboarding unexpected error:", err);
     } finally {
       console.log("Closing onboarding wizard.");
+      if (userProfile?.id) {
+        localStorage.setItem(`drawdown_onboarded_${userProfile.id}`, "true");
+      }
       localStorage.setItem("drawdown_onboarded", "true");
       onComplete();
       setIsSubmitting(false);

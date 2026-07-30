@@ -47,30 +47,30 @@ export function StatsBar() {
       <div className="max-w-7xl mx-auto px-6 py-8 border-y border-mkt-bd">
         <div className="grid grid-cols-2 md:grid-cols-5 gap-8 text-center md:text-left">
           
-          {/* 1 Phase */}
+          {/* 6 Phases */}
           <div className="flex flex-col items-center md:items-start">
             <span 
               className="text-[30px] text-mkt-ink font-sans tracking-[-0.04em]"
               style={{ fontWeight: 800 }}
               data-counter
-              data-target="1"
+              data-target="6"
             >
-              1
+              6
             </span>
             <span className="text-[11px] font-sans font-medium text-mkt-i4 uppercase mt-1 tracking-wider">
-              Phase
+              Phases
             </span>
           </div>
 
-          {/* 8 Modules */}
+          {/* 60 Modules */}
           <div className="flex flex-col items-center md:items-start">
             <span 
               className="text-[30px] text-mkt-ink font-sans tracking-[-0.04em]"
               style={{ fontWeight: 800 }}
               data-counter
-              data-target="8"
+              data-target="60"
             >
-              8
+              60
             </span>
             <span className="text-[11px] font-sans font-medium text-mkt-i4 uppercase mt-1 tracking-wider">
               Modules

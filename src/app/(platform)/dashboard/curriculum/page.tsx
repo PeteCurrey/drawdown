@@ -20,7 +20,7 @@ const PHASE_NUM: Record<string, number> = {
   "strategist":       3,
   "risk-manager":     4,
   "mind-over-market": 5,
-  "ai-integration":   6,
+  "the-edge":         6,
 };
 
 // Minimum tier weight to access each phase
@@ -30,7 +30,7 @@ const PHASE_MIN_WEIGHT: Record<string, number> = {
   "strategist":       1,
   "risk-manager":     1,
   "mind-over-market": 2,
-  "ai-integration":   2,
+  "the-edge":         3,
 };
 
 // Total modules per phase (from courses.ts)
@@ -40,7 +40,7 @@ const PHASE_MODULE_COUNTS: Record<string, number> = {
   "strategist":       10,
   "risk-manager":     6,
   "mind-over-market": 8,
-  "ai-integration":   10,
+  "the-edge":         14,
 };
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
@@ -237,7 +237,13 @@ export default async function CurriculumPage() {
                       CERTIFIED
                     </div>
                   )}
-                  <span className="text-xl font-bold font-mono text-[#9ca3af]">{phase.number}</span>
+                  {isLocked ? (
+                    <span className="text-xl font-bold font-mono text-[#9ca3af]">{phase.number}</span>
+                  ) : (
+                    <Link href={phase.reviewRoute} className="text-xl font-bold font-mono text-[#9ca3af] hover:text-[#F9771D] transition-colors" title={`View ${phase.name} Overview`}>
+                      {phase.number}
+                    </Link>
+                  )}
                   <span
                     className={`px-2 py-0.5 text-[8px] font-mono font-bold rounded-[3px] ${
                       phase.tier === "Free"
@@ -250,13 +256,28 @@ export default async function CurriculumPage() {
                     {phase.tier.toUpperCase()}
                   </span>
                 </div>
-                <h3 className="text-base font-bold text-[#1A1A1A] mb-2">{phase.name}</h3>
-                <p className="text-xs text-[#555550] leading-relaxed mb-4">{phase.description}</p>
+                {isLocked ? (
+                  <div>
+                    <h3 className="text-base font-bold text-[#1A1A1A] mb-2">{phase.name}</h3>
+                    <p className="text-xs text-[#555550] leading-relaxed mb-4">{phase.description}</p>
+                  </div>
+                ) : (
+                  <Link href={phase.reviewRoute} className="group block">
+                    <h3 className="text-base font-bold text-[#1A1A1A] group-hover:text-[#F9771D] transition-colors mb-2">{phase.name}</h3>
+                    <p className="text-xs text-[#555550] leading-relaxed mb-4">{phase.description}</p>
+                  </Link>
+                )}
               </div>
 
               <div className="space-y-4">
                 <div className="flex justify-between items-center text-[10px] font-mono text-[#6b7280]">
-                  <span>{phase.modules_count} Modules · {phase.duration}</span>
+                  {isLocked ? (
+                    <span>{phase.modules_count} Modules · {phase.duration}</span>
+                  ) : (
+                    <Link href={phase.reviewRoute} className="hover:text-[#F9771D] transition-colors">
+                      {phase.modules_count} Modules · {phase.duration}
+                    </Link>
+                  )}
                   <span className="font-bold" style={{ color: isLocked ? "#9ca3af" : "#111827" }}>
                     {phase.pct}%
                   </span>
@@ -273,42 +294,39 @@ export default async function CurriculumPage() {
                   />
                 </div>
 
-                {/* CTA Button — FIX 2 */}
+                {/* CTA Buttons */}
                 {isLocked ? (
                   // Truly locked (wrong tier)
                   <Link
-                    href="/dashboard/billing"
+                    href="/dashboard/profile"
                     className="w-full py-2.5 text-[10px] font-bold uppercase tracking-widest rounded-[4px] transition-colors flex items-center justify-center gap-1.5 border"
                     style={{ borderColor: "#F9771D", color: "#F9771D", background: "transparent" }}
                   >
                     Unlock with {phase.tier} →
                   </Link>
-                ) : phase.isCompleted ? (
-                  // Completed — link to phase for review
-                  <Link
-                    href={phase.reviewRoute}
-                    className="w-full py-2.5 bg-[#111827] hover:bg-[#1f2937] text-white text-[10px] font-bold uppercase tracking-widest rounded-[4px] transition-colors flex items-center justify-center gap-1.5"
-                  >
-                    <CheckCircle2 className="w-3.5 h-3.5" />
-                    Completed ✓
-                  </Link>
-                ) : phase.completedCount > 0 ? (
-                  // In progress — continue to first incomplete module
-                  <Link
-                    href={phase.continueRoute}
-                    className="w-full py-2.5 bg-[#F9771D] hover:bg-[#e0600d] text-white text-[10px] font-bold uppercase tracking-widest rounded-[4px] transition-colors flex items-center justify-center gap-1.5"
-                  >
-                    <Play className="w-3 h-3 fill-white" />
-                    Continue — Module {phase.firstIncompleteModule} →
-                  </Link>
                 ) : (
-                  // Accessible but not started
-                  <Link
-                    href={phase.continueRoute}
-                    className="w-full py-2.5 bg-[#F9771D] hover:bg-[#e0600d] text-white text-[10px] font-bold uppercase tracking-widest rounded-[4px] transition-colors flex items-center justify-center gap-1.5"
-                  >
-                    Start Phase {phase.number} →
-                  </Link>
+                  <div className="grid grid-cols-2 gap-2">
+                    <Link
+                      href={phase.reviewRoute}
+                      className="py-2.5 px-2 bg-gray-100 hover:bg-gray-200 text-[#111827] text-[10px] font-bold uppercase tracking-widest rounded-[4px] transition-colors flex items-center justify-center gap-1 text-center truncate"
+                      title={`View ${phase.name} Syllabus & Overview`}
+                    >
+                      Overview →
+                    </Link>
+
+                    <Link
+                      href={phase.continueRoute}
+                      className="py-2.5 px-2 bg-[#F9771D] hover:bg-[#e0600d] text-white text-[10px] font-bold uppercase tracking-widest rounded-[4px] transition-colors flex items-center justify-center gap-1 text-center truncate"
+                    >
+                      {phase.isCompleted ? (
+                        <>Review ✓</>
+                      ) : phase.completedCount > 0 ? (
+                        <>Mod {phase.firstIncompleteModule} →</>
+                      ) : (
+                        <>Start Phase →</>
+                      )}
+                    </Link>
+                  </div>
                 )}
               </div>
             </div>

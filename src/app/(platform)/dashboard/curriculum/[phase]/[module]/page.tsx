@@ -178,13 +178,16 @@ export default async function ModulePage({ params }: { params: Promise<{ phase: 
               style={{ background: "#0d0d0d", border: "1px solid rgba(255,255,255,0.08)" }}>
 
               {/* Sidebar header */}
-              <div className="px-5 py-4 border-b" style={{ borderColor: "rgba(255,255,255,0.08)" }}>
+              <Link href={`/dashboard/curriculum/${phaseConfig.slug}`} className="block px-5 py-4 border-b group hover:bg-white/5 transition-colors" style={{ borderColor: "rgba(255,255,255,0.08)" }}>
                 <p className="text-[9px] font-mono font-bold uppercase tracking-widest mb-0.5"
                   style={{ color: "#C8F135" }}>
                   Phase {phaseConfig.number}
                 </p>
-                <h3 className="text-xs font-semibold text-white">{phaseConfig.name}</h3>
-              </div>
+                <h3 className="text-xs font-semibold text-white group-hover:text-[#C8F135] transition-colors flex items-center justify-between">
+                  {phaseConfig.name}
+                  <ChevronRight className="w-3 h-3 opacity-40 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all" />
+                </h3>
+              </Link>
 
               <div className="p-3 space-y-1">
                 {moduleList.map((mod) => {
@@ -416,17 +419,24 @@ export default async function ModulePage({ params }: { params: Promise<{ phase: 
             {/* ── Navigation Footer ── */}
             <div className="mt-10 pt-8 flex flex-col md:flex-row items-center justify-between gap-4"
               style={{ borderTop: "1px solid rgba(255,255,255,0.08)" }}>
-              {prevModule ? (
+              <div className="flex items-center gap-3 w-full md:w-auto">
+                {prevModule && (
+                  <Link
+                    href={`/dashboard/curriculum/${phase}/module-${prevModule.module_number}`}
+                    className="flex items-center gap-2 px-6 py-3 text-white text-xs font-bold uppercase tracking-widest transition-all rounded-xl w-full md:w-auto justify-center hover:brightness-110"
+                    style={{ background: "#1a1a1a", border: "1px solid rgba(255,255,255,0.12)" }}
+                  >
+                    <ChevronLeft className="w-4 h-4" /> Previous Module
+                  </Link>
+                )}
                 <Link
-                  href={`/dashboard/curriculum/${phase}/module-${prevModule.module_number}`}
-                  className="flex items-center gap-2 px-6 py-3 text-white text-xs font-bold uppercase tracking-widest transition-all rounded-xl w-full md:w-auto justify-center hover:brightness-110"
-                  style={{ background: "#1a1a1a", border: "1px solid rgba(255,255,255,0.12)" }}
+                  href={`/dashboard/curriculum/${phase}`}
+                  className="flex items-center gap-2 px-5 py-3 text-white/70 hover:text-white text-xs font-bold uppercase tracking-widest transition-all rounded-xl w-full md:w-auto justify-center hover:bg-white/5"
+                  style={{ border: "1px solid rgba(255,255,255,0.1)" }}
                 >
-                  <ChevronLeft className="w-4 h-4" /> Previous Module
+                  Phase Overview
                 </Link>
-              ) : (
-                <div />
-              )}
+              </div>
 
               {(!currentModule.quiz || currentModule.quiz.length === 0) && (
                 <div className="text-center md:text-right w-full md:w-auto">

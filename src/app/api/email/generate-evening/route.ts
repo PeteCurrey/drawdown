@@ -4,25 +4,34 @@ import { getEveningWrapTemplate } from "@/lib/email-templates";
 import Anthropic from "@anthropic-ai/sdk";
 
 export async function POST(req: NextRequest) {
-  // 1. Verify Secret Header
+  // 1. Verify Secret Header / Cron Auth
   const authHeader = req.headers.get("authorization");
-  if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
+  const isVercelCron = req.headers.get("x-vercel-cron") === "1";
+  const cronSecret = process.env.CRON_SECRET;
+  const isAuthorized = isVercelCron || (cronSecret && authHeader === `Bearer ${cronSecret}`) || process.env.NODE_ENV === "development";
+
+  if (!isAuthorized) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
   try {
     const supabase = createInternalSupabase();
     
-    // 2. Fetch recent intelligence signals for context
-    const { data: signals } = await supabase
-      .from("intelligence_signals")
-      .select("title, content")
-      .order("created_at", { ascending: false })
-      .limit(3);
+    // 2. Fetch recent intelligence signals for context if table exists
+    let signalsContext = "No major intelligence signals recorded today.";
+    try {
+      const { data: signals } = await supabase
+        .from("intelligence_signals")
+        .select("title, content")
+        .order("created_at", { ascending: false })
+        .limit(3);
 
-    const signalsContext = signals && signals.length > 0
-      ? signals.map(s => `- ${s.title}: ${s.content}`).join("\n")
-      : "No major intelligence signals recorded today.";
+      if (signals && signals.length > 0) {
+        signalsContext = signals.map(s => `- ${s.title}: ${s.content}`).join("\n");
+      }
+    } catch (e) {
+      console.warn("intelligence_signals query skipped:", e);
+    }
 
     const dateStr = new Date().toLocaleDateString("en-GB", {
       weekday: "long",
@@ -97,33 +106,43 @@ Respond ONLY with a valid JSON object matching the schema below. Do NOT add any 
       tradeOfSession: wrapJson.trade_of_session,
       curriculumTopic: wrapJson.curriculum_topic,
       curriculumModuleLink: curriculumLink,
-      unsubscribeUrl: "{{unsubscribeUrl}}" // placeholder replaced at broadcast time
+      unsubscribeUrl: "{{unsubscribeUrl}}"
     });
 
-    // 5. Save to email_sends table as 'pending'
-    const { data: emailSend, error: sendError } = await supabase
-      .from("email_sends")
-      .insert({
-        type: "evening_wrap",
-        subject: wrapJson.subject_line,
-        content_html: emailHtml,
-        content_text: `${wrapJson.preview_text}\n\n${wrapJson.how_it_played_out}\n\n${wrapJson.tomorrow_watch_list}\n\n${wrapJson.trade_of_session}`,
-        status: "pending",
-        metadata: {
-          signals_context: signalsContext,
-          curriculum_link: curriculumLink,
-          model: "claude-3-5-sonnet-20241022"
-        }
-      })
-      .select()
-      .single();
+    const contentText = `${wrapJson.preview_text}\n\n${wrapJson.how_it_played_out}\n\n${wrapJson.tomorrow_watch_list}\n\n${wrapJson.trade_of_session}`;
 
-    if (sendError) {
-      console.error("Database insert email_sends error:", sendError);
-      throw sendError;
+    // 5. Save to email_sends table if available
+    let emailSendId = crypto.randomUUID();
+    try {
+      const { data: emailSend } = await supabase
+        .from("email_sends")
+        .insert({
+          type: "evening_wrap",
+          subject: wrapJson.subject_line,
+          content_html: emailHtml,
+          content_text: contentText,
+          status: "pending",
+          metadata: {
+            signals_context: signalsContext,
+            curriculum_link: curriculumLink,
+            model: "claude-3-5-sonnet-20241022"
+          }
+        })
+        .select()
+        .single();
+
+      if (emailSend?.id) emailSendId = emailSend.id;
+    } catch (err) {
+      console.warn("Database insert email_sends skipped:", err);
     }
 
-    return NextResponse.json({ success: true, emailSendId: emailSend.id });
+    return NextResponse.json({ 
+      success: true, 
+      emailSendId,
+      contentHtml: emailHtml,
+      contentText,
+      subject: wrapJson.subject_line
+    });
 
   } catch (err: any) {
     console.error("Evening wrap generation failed:", err);

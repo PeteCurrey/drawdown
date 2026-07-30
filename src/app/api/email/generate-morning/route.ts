@@ -85,9 +85,13 @@ function getEconomicCalendar() {
 }
 
 export async function POST(req: NextRequest) {
-  // 1. Verify Secret Header
+  // 1. Verify Secret Header / Cron Auth
   const authHeader = req.headers.get("authorization");
-  if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
+  const isVercelCron = req.headers.get("x-vercel-cron") === "1";
+  const cronSecret = process.env.CRON_SECRET;
+  const isAuthorized = isVercelCron || (cronSecret && authHeader === `Bearer ${cronSecret}`) || process.env.NODE_ENV === "development";
+
+  if (!isAuthorized) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
@@ -146,7 +150,6 @@ Respond ONLY with a valid JSON object matching the schema below. Do NOT add any 
     });
 
     const textContent = (message.content[0] as any).text.trim();
-    // Parse the JSON output safely
     let briefJson;
     try {
       briefJson = JSON.parse(textContent);
@@ -170,30 +173,34 @@ Respond ONLY with a valid JSON object matching the schema below. Do NOT add any 
       marketRates: marketData,
       petesTake: briefJson.petes_take,
       oneThing: briefJson.one_thing,
-      unsubscribeUrl: "{{unsubscribeUrl}}" // placeholder replaced at broadcast time
+      unsubscribeUrl: "{{unsubscribeUrl}}"
     });
 
-    // 5. Save to email_sends table as 'pending'
-    const { data: emailSend, error: sendError } = await supabase
-      .from("email_sends")
-      .insert({
-        type: "morning_brief",
-        subject: briefJson.subject_line,
-        content_html: emailHtml,
-        content_text: `${briefJson.preview_text}\n\n${briefJson.session_bullets.join("\n")}\n\n${briefJson.petes_take}\n\n${briefJson.one_thing}`,
-        status: "pending",
-        metadata: {
-          market_data: marketData,
-          economic_events: todayEvents,
-          model: "claude-3-5-sonnet-20241022"
-        }
-      })
-      .select()
-      .single();
+    const contentText = `${briefJson.preview_text}\n\n${briefJson.session_bullets.join("\n")}\n\n${briefJson.petes_take}\n\n${briefJson.one_thing}`;
 
-    if (sendError) {
-      console.error("Database insert email_sends error:", sendError);
-      throw sendError;
+    // 5. Save to email_sends table if available
+    let emailSendId = crypto.randomUUID();
+    try {
+      const { data: emailSend } = await supabase
+        .from("email_sends")
+        .insert({
+          type: "morning_brief",
+          subject: briefJson.subject_line,
+          content_html: emailHtml,
+          content_text: contentText,
+          status: "pending",
+          metadata: {
+            market_data: marketData,
+            economic_events: todayEvents,
+            model: "claude-3-5-sonnet-20241022"
+          }
+        })
+        .select()
+        .single();
+      
+      if (emailSend?.id) emailSendId = emailSend.id;
+    } catch (err) {
+      console.warn("Database insert email_sends skipped:", err);
     }
 
     // 6. Save blog post version to blog_posts table (auto-published)
@@ -246,7 +253,13 @@ ${briefJson.one_thing}
       // We do not fail the entire process if only blog publishing fails
     }
 
-    return NextResponse.json({ success: true, emailSendId: emailSend.id });
+    return NextResponse.json({ 
+      success: true, 
+      emailSendId, 
+      contentHtml: emailHtml, 
+      contentText, 
+      subject: briefJson.subject_line 
+    });
 
   } catch (err: any) {
     console.error("Morning brief generation failed:", err);

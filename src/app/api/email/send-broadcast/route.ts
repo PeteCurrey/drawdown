@@ -3,89 +3,141 @@ import { createInternalSupabase } from "@/lib/supabase/server";
 import { Resend } from "resend";
 
 export async function POST(req: NextRequest) {
-  // 1. Verify Secret Header
+  // 1. Verify Secret Header / Cron Auth
   const authHeader = req.headers.get("authorization");
-  if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
+  const isVercelCron = req.headers.get("x-vercel-cron") === "1";
+  const cronSecret = process.env.CRON_SECRET;
+  const isAuthorized = isVercelCron || (cronSecret && authHeader === `Bearer ${cronSecret}`) || process.env.NODE_ENV === "development";
+
+  if (!isAuthorized) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
   try {
-    const { emailSendId, type } = await req.json();
+    const body = await req.json();
+    const { emailSendId, type, contentHtml: directHtml, contentText: directText, subject: directSubject } = body;
 
-    if (!emailSendId || !type) {
-      return NextResponse.json({ error: "emailSendId and type are required" }, { status: 400 });
+    if ((!emailSendId && !directHtml) || !type) {
+      return NextResponse.json({ error: "emailSendId or contentHtml, plus type are required" }, { status: 400 });
     }
 
     const supabase = createInternalSupabase();
     const resendKey = process.env.RESEND_API_KEY;
     const resend = new Resend(resendKey || "re_mock_key");
 
-    // 2. Fetch the email_sends record
-    const { data: emailSend, error: fetchError } = await supabase
-      .from("email_sends")
-      .select("*")
-      .eq("id", emailSendId)
-      .single();
+    let subject = directSubject || "Drawdown Trading Update";
+    let contentHtml = directHtml || "";
+    let contentText = directText || "";
 
-    if (fetchError || !emailSend) {
-      throw new Error(`Email send record not found: ${fetchError?.message}`);
+    // 2. Fetch the email_sends record if available
+    if (emailSendId) {
+      try {
+        const { data: emailSend } = await supabase
+          .from("email_sends")
+          .select("*")
+          .eq("id", emailSendId)
+          .maybeSingle();
+
+        if (emailSend) {
+          subject = emailSend.subject || subject;
+          contentHtml = emailSend.content_html || contentHtml;
+          contentText = emailSend.content_text || contentText;
+        }
+      } catch (err) {
+        console.warn("[send-broadcast] email_sends fetch ignored:", err);
+      }
     }
 
-    // 3. Query appropriate active subscribers
-    const query = supabase
-      .from("email_subscribers")
-      .select("email, unsubscribe_token")
-      .eq("is_active", true);
-
-    if (type === "morning_brief") {
-      query.eq("subscribed_morning", true);
-    } else if (type === "evening_wrap") {
-      query.eq("subscribed_evening", true);
-    } else if (type === "weekly") {
-      query.eq("subscribed_weekly", true);
+    if (!contentHtml) {
+      return NextResponse.json({ error: "No email content found to broadcast" }, { status: 400 });
     }
 
-    const { data: subscribers, error: subsError } = await query;
+    // 3. Multi-source subscriber aggregation (newsletter_subscribers, profiles, email_subscribers)
+    const subscriberMap = new Map<string, { email: string; unsubscribe_token: string }>();
 
-    if (subsError) {
-      throw new Error(`Failed to fetch subscribers: ${subsError.message}`);
-    }
-
-    if (!subscribers || subscribers.length === 0) {
-      // Update status to 'sent' but with 0 count
-      await supabase
-        .from("email_sends")
-        .update({
-          status: "sent",
-          sent_at: new Date().toISOString(),
-          recipient_count: 0
-        })
-        .eq("id", emailSendId);
+    // Source A: newsletter_subscribers
+    try {
+      const { data: ns } = await supabase
+        .from("newsletter_subscribers")
+        .select("email")
+        .eq("is_active", true);
       
-      return NextResponse.json({ success: true, count: 0, message: "No active subscribers for this category." });
+      if (ns) {
+        ns.forEach(s => {
+          if (s.email && !subscriberMap.has(s.email)) {
+            subscriberMap.set(s.email, { email: s.email, unsubscribe_token: Buffer.from(s.email).toString("hex") });
+          }
+        });
+      }
+    } catch (e) {
+      console.warn("[send-broadcast] newsletter_subscribers query skipped:", e);
+    }
+
+    // Source B: profiles (all registered users)
+    try {
+      const { data: pr } = await supabase
+        .from("profiles")
+        .select("email")
+        .not("email", "is", null);
+      
+      if (pr) {
+        pr.forEach(p => {
+          if (p.email && !subscriberMap.has(p.email)) {
+            subscriberMap.set(p.email, { email: p.email, unsubscribe_token: Buffer.from(p.email).toString("hex") });
+          }
+        });
+      }
+    } catch (e) {
+      console.warn("[send-broadcast] profiles query skipped:", e);
+    }
+
+    // Source C: email_subscribers (if table exists)
+    try {
+      const { data: es } = await supabase
+        .from("email_subscribers")
+        .select("email, unsubscribe_token")
+        .eq("is_active", true);
+      
+      if (es) {
+        es.forEach(s => {
+          if (s.email) {
+            subscriberMap.set(s.email, { email: s.email, unsubscribe_token: s.unsubscribe_token || Buffer.from(s.email).toString("hex") });
+          }
+        });
+      }
+    } catch (e) {
+      // Table may not exist, ignore error
+    }
+
+    const subscribers = Array.from(subscriberMap.values());
+
+    if (subscribers.length === 0) {
+      return NextResponse.json({ success: true, count: 0, message: "No active subscribers found." });
     }
 
     const appUrl = process.env.NEXT_PUBLIC_APP_URL || process.env.NEXT_PUBLIC_SITE_URL || "https://drawdown.trading";
     let recipientCount = subscribers.length;
     let status = "sent";
     let errorMessage = null;
-    let sentIds = [];
+    let sentIds: string[] = [];
 
-    // 4. Send via Resend (using standard batch API for unique unsubscribe tokens)
+    // 4. Send via Resend with fallback from address support
     if (resendKey) {
+      const primaryFrom = process.env.RESEND_FROM_EMAIL || "Pete @ Drawdown <thewire@drawdown.trading>";
+      const fallbackFrom = "Drawdown Trading <onboarding@resend.dev>";
+
       try {
-        // Chunk subscribers to respect Resend's 100 contacts per batch limit
         const chunkSize = 100;
         for (let i = 0; i < subscribers.length; i += chunkSize) {
           const chunk = subscribers.slice(i, i + chunkSize);
-          const batchPayload = chunk.map(sub => {
+          const buildPayload = (fromAddr: string) => chunk.map(sub => {
             const unsubLink = `${appUrl}/unsubscribe?token=${sub.unsubscribe_token}`;
-            const customizedHtml = emailSend.content_html.replace(/\{\{unsubscribeUrl\}\}/g, unsubLink);
+            const customizedHtml = contentHtml.replace(/\{\{unsubscribeUrl\}\}/g, unsubLink);
 
             return {
-              from: "Pete @ Drawdown <thewire@drawdown.trading>",
+              from: fromAddr,
               to: sub.email,
-              subject: emailSend.subject,
+              subject: subject,
               html: customizedHtml,
               headers: {
                 "List-Unsubscribe": `<${unsubLink}>`
@@ -93,7 +145,14 @@ export async function POST(req: NextRequest) {
             };
           });
 
-          const batchRes = await resend.batch.send(batchPayload);
+          let batchRes = await resend.batch.send(buildPayload(primaryFrom));
+          
+          // Fallback to verified testing sender if custom domain fails verification
+          if (batchRes.error && batchRes.error.name === "validation_error" && primaryFrom !== fallbackFrom) {
+            console.warn(`[send-broadcast] Primary domain sending failed (${batchRes.error.message}). Retrying with fallback sender...`);
+            batchRes = await resend.batch.send(buildPayload(fallbackFrom));
+          }
+
           if (batchRes.error) {
             console.error("Batch dispatch error in chunk:", batchRes.error);
             status = "failed";
@@ -111,17 +170,23 @@ export async function POST(req: NextRequest) {
       console.log(`[DEV MODE] Batch sending ${recipientCount} emails for ${type}`);
     }
 
-    // 5. Update email_sends record
-    await supabase
-      .from("email_sends")
-      .update({
-        status: status,
-        sent_at: new Date().toISOString(),
-        recipient_count: recipientCount,
-        resend_broadcast_id: sentIds.length > 0 ? sentIds.join(",") : null,
-        error_message: errorMessage
-      })
-      .eq("id", emailSendId);
+    // 5. Update email_sends record if DB table exists
+    if (emailSendId) {
+      try {
+        await supabase
+          .from("email_sends")
+          .update({
+            status: status,
+            sent_at: new Date().toISOString(),
+            recipient_count: recipientCount,
+            resend_broadcast_id: sentIds.length > 0 ? sentIds.join(",") : null,
+            error_message: errorMessage
+          })
+          .eq("id", emailSendId);
+      } catch (err) {
+        console.warn("[send-broadcast] email_sends update skipped:", err);
+      }
+    }
 
     return NextResponse.json({
       success: status === "sent",

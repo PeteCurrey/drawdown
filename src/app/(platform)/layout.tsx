@@ -185,6 +185,10 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     return "–";
   };
 
+  const isDarkModulePage = 
+    (pathname.startsWith("/dashboard/curriculum/") && pathname !== "/dashboard/curriculum") ||
+    pathname.startsWith("/dashboard/courses/");
+
   // Nav link custom layout matching Phase 1 Section 1 and Section 2
   // Locked sidebar link for signal-centre tier users
   function LockedSidebarLink({ icon: Icon, name }: { icon: React.ElementType; name: string }) {
@@ -196,8 +200,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           isCollapsed ? "justify-center px-0" : "px-3 gap-3"
         )}
       >
-        <Lock className="w-4 h-4 shrink-0 text-[#555550]" />
-        {!isCollapsed && <span className="text-[13px] text-[#555550]">{name}</span>}
+        <Lock className={cn("w-4 h-4 shrink-0", isDarkModulePage ? "text-white/40" : "text-[#555550]")} />
+        {!isCollapsed && <span className={cn("text-[13px]", isDarkModulePage ? "text-white/40" : "text-[#555550]")}>{name}</span>}
       </div>
     );
   }
@@ -213,22 +217,29 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       <Link
         href={href}
         className={cn(
-          "w-full h-10 flex items-center transition-all duration-150 rounded-none relative",
+          "w-full h-10 flex items-center transition-all duration-150 rounded-none relative group",
           isCollapsed ? "justify-center px-0" : "px-3 gap-3",
           isActive 
-            ? "bg-[#1A1A1A]/8 text-[#1A1A1A] font-medium border-l-[3px] border-[#F9771D]" 
-            : "text-[#555550] hover:text-[#1A1A1A] hover:bg-[#1A1A1A]/5"
+            ? isDarkModulePage
+              ? "bg-[#C8F135]/15 text-white font-semibold border-l-[3px] border-[#C8F135]"
+              : "bg-[#1A1A1A]/8 text-[#1A1A1A] font-medium border-l-[3px] border-[#F9771D]" 
+            : isDarkModulePage
+              ? "text-white/60 hover:text-white hover:bg-white/5"
+              : "text-[#555550] hover:text-[#1A1A1A] hover:bg-[#1A1A1A]/5"
         )}
       >
         <div className="relative">
-          <Icon className={cn("w-5 h-5 shrink-0", isActive ? "text-[#1A1A1A]" : "text-[#555550]")} />
+          <Icon className={cn("w-5 h-5 shrink-0 transition-colors", isActive ? (isDarkModulePage ? "text-[#C8F135]" : "text-[#1A1A1A]") : (isDarkModulePage ? "text-white/50 group-hover:text-white" : "text-[#555550]"))} />
           {isCollapsed && displayBadge && (
-            <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-[#F9771D] border border-white rounded-full" />
+            <span className={cn("absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full border", isDarkModulePage ? "bg-[#C8F135] border-[#0a0a0a]" : "bg-[#F9771D] border-white")} />
           )}
         </div>
         {!isCollapsed && <span className="text-[13px]">{name}</span>}
         {!isCollapsed && displayBadge && (
-          <span className="ml-auto text-[8px] font-bold font-mono tracking-wider bg-[#F9771D] text-white px-1.5 py-0.5 rounded-none">
+          <span className={cn(
+            "ml-auto text-[8px] font-bold font-mono tracking-wider px-1.5 py-0.5 rounded-none",
+            isDarkModulePage ? "bg-[#C8F135] text-black font-bold" : "bg-[#F9771D] text-white"
+          )}>
             {displayBadge}
           </span>
         )}
@@ -237,7 +248,10 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   }
 
   return (
-    <div className="flex flex-col h-screen bg-white text-[#1A1A1A] font-sans antialiased">
+    <div className={cn(
+      "flex flex-col h-screen font-sans antialiased transition-colors duration-200",
+      isDarkModulePage ? "bg-[#0a0a0a] text-white" : "bg-white text-[#1A1A1A]"
+    )}>
       {showOnboarding && profile && (
         <OnboardingWizard 
           userProfile={profile} 
@@ -245,16 +259,20 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         />
       )}
 
-      {/* Top Navigation Bar — sticky so it stays in flow, no fixed offset needed */}
-      <header className="sticky top-0 z-50 h-14 shrink-0 bg-white border-b border-[#DEDDD8] flex items-center justify-between px-6">
+      {/* Top Navigation Bar */}
+      <header className={cn(
+        "sticky top-0 z-50 h-14 shrink-0 flex items-center justify-between px-6 transition-colors duration-200",
+        isDarkModulePage 
+          ? "bg-[#0a0a0a] border-b border-white/10 text-white" 
+          : "bg-white border-b border-[#DEDDD8] text-[#1A1A1A]"
+      )}>
         {/* Left Side: Logo */}
         <div className="flex items-center gap-2">
-          {/* simple geometric shield outline with orange fill */}
-          <svg viewBox="0 0 24 24" className="w-6 h-6 fill-[#F9771D]" xmlns="http://www.w3.org/2000/svg">
+          <svg viewBox="0 0 24 24" className={cn("w-6 h-6 transition-colors", isDarkModulePage ? "fill-[#C8F135]" : "fill-[#F9771D]")} xmlns="http://www.w3.org/2000/svg">
             <path d="M12 2L4 5v6c0 5.5 3.5 10 8 11 4.5-1 8-5.5 8-11V5l-8-3zm0 18.5c-3.3-.9-6-4.5-6-8.5V6.3l6-2.2 6 2.2V12c0 4-2.7 7.6-6 8.5z" />
           </svg>
-          <span className="font-display font-semibold text-base tracking-tight text-[#1A1A1A]">
-            Drawdown<sup className="text-[9px] font-normal text-[#555550] ml-0.5">.uk</sup>
+          <span className={cn("font-display font-semibold text-base tracking-tight", isDarkModulePage ? "text-white" : "text-[#1A1A1A]")}>
+            Drawdown<sup className={cn("text-[9px] font-normal ml-0.5", isDarkModulePage ? "text-white/40" : "text-[#555550]")}>.uk</sup>
           </span>
         </div>
 
@@ -274,8 +292,12 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 className={cn(
                   "px-3 py-1.5 text-xs font-medium rounded-[4px] transition-all duration-150",
                   isTabActive 
-                    ? "bg-[#181818] text-white" 
-                    : "text-[#555550] hover:bg-[#C8CBB8]/50 hover:text-[#1A1A1A]"
+                    ? isDarkModulePage
+                      ? "bg-[#C8F135] text-black font-bold"
+                      : "bg-[#181818] text-white" 
+                    : isDarkModulePage
+                      ? "text-white/60 hover:bg-white/10 hover:text-white"
+                      : "text-[#555550] hover:bg-[#C8CBB8]/50 hover:text-[#1A1A1A]"
                 )}
               >
                 {tab.label}
@@ -286,40 +308,46 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
         {/* Right side controls */}
         <div className="flex items-center gap-3">
-          <div className="hidden md:flex items-center gap-2 pr-2 border-r border-[#C8CBB8] text-xs font-medium text-[#555550]">
-            <span className="w-1.5 h-1.5 bg-[#18B880] rounded-full animate-pulse" />
+          <div className={cn(
+            "hidden md:flex items-center gap-2 pr-2 text-xs font-medium",
+            isDarkModulePage ? "border-r border-white/10 text-white/70" : "border-r border-[#C8CBB8] text-[#555550]"
+          )}>
+            <span className={cn("w-1.5 h-1.5 rounded-full animate-pulse", isDarkModulePage ? "bg-[#C8F135]" : "bg-[#18B880]")} />
             <span>Signal Centre</span>
           </div>
 
-          <button className="p-2 hover:bg-[#C8CBB8]/40 transition-colors rounded-[4px] text-[#555550] hover:text-[#1A1A1A]">
+          <button className={cn("p-2 transition-colors rounded-[4px]", isDarkModulePage ? "hover:bg-white/10 text-white/60 hover:text-white" : "hover:bg-[#C8CBB8]/40 text-[#555550] hover:text-[#1A1A1A]")}>
             <Settings className="w-4 h-4" />
           </button>
           
-          <Link href="/dashboard/the-wire" className="p-2 hover:bg-[#C8CBB8]/40 transition-colors rounded-[4px] text-[#555550] hover:text-[#1A1A1A] relative">
+          <Link href="/dashboard/the-wire" className={cn("p-2 transition-colors rounded-[4px] relative", isDarkModulePage ? "hover:bg-white/10 text-white/60 hover:text-white" : "hover:bg-[#C8CBB8]/40 text-[#555550] hover:text-[#1A1A1A]")}>
             <Bell className="w-4 h-4" />
-            <span className="absolute top-1.5 right-1.5 w-1.5 h-1.5 bg-[#F9771D] rounded-full" />
+            <span className={cn("absolute top-1.5 right-1.5 w-1.5 h-1.5 rounded-full", isDarkModulePage ? "bg-[#C8F135]" : "bg-[#F9771D]")} />
           </Link>
 
-          <Link href="/dashboard/profile" className="w-8 h-8 rounded-full bg-[#181818] flex items-center justify-center text-white text-xs font-bold font-mono">
+          <Link href="/dashboard/profile" className={cn("w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold font-mono transition-colors", isDarkModulePage ? "bg-[#C8F135] text-black" : "bg-[#181818] text-white")}>
             {getInitials()}
           </Link>
 
           {/* Mobile hamburger menu */}
           <button 
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden p-2 hover:bg-[#C8CBB8]/40 transition-colors rounded-[4px] text-[#1A1A1A]"
+            className={cn("md:hidden p-2 transition-colors rounded-[4px]", isDarkModulePage ? "hover:bg-white/10 text-white" : "hover:bg-[#C8CBB8]/40 text-[#1A1A1A]")}
           >
             <Menu className="w-5 h-5" />
           </button>
         </div>
       </header>
 
-      {/* Main shell container — flex-1 so it fills the remaining height below the sticky header */}
+      {/* Main shell container */}
       <div className="flex flex-1 overflow-hidden">
         {/* Left Sidebar Navigation */}
         <aside 
           className={cn(
-            "hidden md:flex flex-col bg-white border-r border-[#DEDDD8] transition-all duration-300 z-30 shrink-0",
+            "hidden md:flex flex-col transition-all duration-300 z-30 shrink-0",
+            isDarkModulePage 
+              ? "bg-[#0d0d0d] border-r border-white/10 text-white" 
+              : "bg-white border-r border-[#DEDDD8] text-[#1A1A1A]",
             isCollapsed ? "w-14" : "w-[220px]"
           )}
         >
@@ -327,7 +355,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           <div className="p-3 flex justify-end">
             <button 
               onClick={() => setIsCollapsed(!isCollapsed)}
-              className="p-1 hover:bg-[#C8CBB8]/40 transition-colors rounded-[4px] text-[#555550]"
+              className={cn("p-1 transition-colors rounded-[4px]", isDarkModulePage ? "hover:bg-white/10 text-white/60 hover:text-white" : "hover:bg-[#C8CBB8]/40 text-[#555550]")}
             >
               {isCollapsed ? <ChevronRight className="w-4 h-4" /> : <ChevronLeft className="w-4 h-4" />}
             </button>
@@ -336,7 +364,6 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           {/* Section 1: Main navigation */}
           <div className="flex-1 overflow-y-auto space-y-0.5 py-2" data-lenis-prevent>
             {mainNavLinks.map(link => {
-              // signal-centre tier: only Signal Centre is accessible, everything else is locked
               const isSignalCentreOnly = subscriptionTier === 'signal-centre';
               const isSignalCentreLink = link.href === '/dashboard/signal-centre';
               if (isSignalCentreOnly && !isSignalCentreLink) {
@@ -346,7 +373,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             })}
 
             {/* Divider */}
-            <div className="my-3 border-t border-[#DEDDD8]" />
+            <div className={cn("my-3 border-t", isDarkModulePage ? "border-white/10" : "border-[#DEDDD8]")} />
 
             {/* Section 2: Platform links */}
             {platformLinks.map(link => (
@@ -355,25 +382,25 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           </div>
 
           {/* Bottom links: profile summary / billing */}
-          <div className="border-t border-[#DEDDD8] p-2 space-y-1">
+          <div className={cn("border-t p-2 space-y-1", isDarkModulePage ? "border-white/10" : "border-[#DEDDD8]")}>
             <SidebarLink href="/dashboard/profile" icon={CreditCard} name="Billing" />
             <SidebarLink href="/dashboard/profile" icon={Settings} name="Settings" />
             
             {/* User profile summary widget */}
             {!isCollapsed && (
-              <div className="p-3 bg-[#1A1A1A]/5 flex items-center gap-2 mt-2">
-                <div className="w-7 h-7 bg-[#181818] rounded-full text-white text-[10px] flex items-center justify-center font-bold font-mono">
+              <div className={cn("p-3 flex items-center gap-2 mt-2 rounded-lg border transition-colors", isDarkModulePage ? "bg-white/5 border-white/10 text-white" : "bg-[#1A1A1A]/5 border-transparent")}>
+                <div className={cn("w-7 h-7 rounded-full text-[10px] flex items-center justify-center font-bold font-mono", isDarkModulePage ? "bg-[#C8F135] text-black" : "bg-[#181818] text-white")}>
                   {getInitials()}
                 </div>
                 <div className="min-w-0">
                   <p className="text-[11px] font-bold truncate">{profile?.display_name || "Trader"}</p>
-                  <span className="text-[8px] font-mono font-black tracking-wider bg-[#F9771D] text-white px-1 py-0.2 ml-0 inline-block">
+                  <span className={cn("text-[8px] font-mono font-black tracking-wider px-1 py-0.2 ml-0 inline-block", isDarkModulePage ? "bg-[#C8F135] text-black font-bold" : "bg-[#F9771D] text-white")}>
                     {profile?.subscription_tier?.toUpperCase() || "FREE"}
                   </span>
                 </div>
                 <button 
                   onClick={handleLogout}
-                  className="ml-auto p-1.5 hover:bg-[#CE6969]/10 text-[#555550] hover:text-[#CE6969] transition-colors rounded-[4px]"
+                  className={cn("ml-auto p-1.5 transition-colors rounded-[4px]", isDarkModulePage ? "hover:bg-red-500/20 text-white/50 hover:text-red-400" : "hover:bg-[#CE6969]/10 text-[#555550] hover:text-[#CE6969]")}
                   title="Logout"
                 >
                   <LogOut className="w-3.5 h-3.5" />
@@ -423,13 +450,10 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           </div>
         )}
 
-        {/* Main Content Area — overflow-y-auto on a flex-1 container with definite height = scroll works */}
-        {/* data-lenis-prevent: Lenis (smooth scroll) runs globally; this tells it to leave this
-            scroll container alone and let native overflow-y-auto handle scrolling here */}
-        <div className="flex-1 overflow-y-auto min-w-0 bg-white pb-16 md:pb-0" data-lenis-prevent>
+        {/* Main Content Area */}
+        <div className={cn("flex-1 overflow-y-auto min-w-0 pb-16 md:pb-0 transition-colors duration-200", isDarkModulePage ? "bg-[#0a0a0a] text-white" : "bg-white text-[#1A1A1A]")} data-lenis-prevent>
           <main className="p-6 md:p-10 select-text">
             {(() => {
-              // signal-centre tier: gate any page that requires Foundation+
               if (subscriptionTier === 'signal-centre') {
                 const lockedPaths = [
                   '/dashboard/curriculum',
@@ -456,7 +480,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       </div>
 
       {/* Mobile Bottom Tab Bar (≤768px viewport) */}
-      <div className="md:hidden fixed bottom-0 left-0 right-0 h-14 bg-white border-t border-[#DEDDD8] flex items-center justify-around z-50">
+      <div className={cn("md:hidden fixed bottom-0 left-0 right-0 h-14 flex items-center justify-around z-50 border-t transition-colors", isDarkModulePage ? "bg-[#0d0d0d] border-white/10 text-white" : "bg-white border-[#DEDDD8] text-[#1A1A1A]")}>
         {[
           { label: "Overview", href: "/dashboard", icon: LayoutDashboard },
           { label: "Markets", href: "/dashboard/market-intelligence", icon: Brain },
@@ -472,7 +496,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
               href={tab.href}
               className={cn(
                 "flex flex-col items-center justify-center flex-1 h-full text-[10px] font-medium transition-colors",
-                isTabActive ? "text-[#F9771D]" : "text-[#555550] hover:text-[#1A1A1A]"
+                isTabActive 
+                  ? (isDarkModulePage ? "text-[#C8F135]" : "text-[#F9771D]") 
+                  : (isDarkModulePage ? "text-white/50 hover:text-white" : "text-[#555550] hover:text-[#1A1A1A]")
               )}
             >
               <Icon className="w-5 h-5 mb-0.5" />

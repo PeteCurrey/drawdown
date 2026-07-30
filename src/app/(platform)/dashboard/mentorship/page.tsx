@@ -91,7 +91,7 @@ export default async function MentorshipPage() {
             ) : (
               <div className="min-h-[500px]">
                 <CalEmbed 
-                  calLink="petercurrey/floor-1-to-1-45m"
+                  calLink={process.env.NEXT_PUBLIC_CAL_LINK || "pete-currey-drawdown/30min"}
                   name={user.user_metadata?.full_name || ""}
                   email={user.email || ""}
                   userId={user.id}

@@ -72,7 +72,7 @@ Respond ONLY with a valid JSON object matching the schema below. Do NOT add any 
 }`;
 
     const message = await anthropic.messages.create({
-      model: "claude-3-5-sonnet-20241022",
+      model: "claude-sonnet-4-6",
       max_tokens: 1500,
       temperature: 0.5,
       system: systemPrompt,
@@ -125,7 +125,7 @@ Respond ONLY with a valid JSON object matching the schema below. Do NOT add any 
           metadata: {
             signals_context: signalsContext,
             curriculum_link: curriculumLink,
-            model: "claude-3-5-sonnet-20241022"
+            model: "claude-sonnet-4-6"
           }
         })
         .select()

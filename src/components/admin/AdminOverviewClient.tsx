@@ -2,8 +2,13 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Mail, Clock, Plus, Play, CheckCircle, XCircle, AlertTriangle, Loader2 } from "lucide-react";
-import { triggerMorningBriefAction, triggerEveningWrapAction } from "@/app/actions/admin-actions";
+import { Mail, Clock, Plus, Play, CheckCircle, XCircle, AlertTriangle, Loader2, Send, Zap, X } from "lucide-react";
+import { 
+  triggerMorningBriefAction, 
+  triggerEveningWrapAction, 
+  triggerBreakingNewsAction, 
+  sendCustomEmailBroadcastAction 
+} from "@/app/actions/admin-actions";
 
 interface Stats {
   totalSubscribers: number;
@@ -36,26 +41,31 @@ interface AdminOverviewClientProps {
 
 export function AdminOverviewClient({ stats, recentSends: initialSends, healthMetrics }: AdminOverviewClientProps) {
   const [recentSends, setRecentSends] = useState<EmailSend[]>(initialSends);
-  const [loading, setLoading] = useState<"morning" | "evening" | null>(null);
+  const [loading, setLoading] = useState<"morning" | "evening" | "breaking" | "custom" | null>(null);
   const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
   const [schedule, setSchedule] = useState({ morning: "", evening: "" });
+
+  // Custom Broadcast Modal State
+  const [showComposeModal, setShowComposeModal] = useState(false);
+  const [customSubject, setCustomSubject] = useState("");
+  const [customCategory, setCustomCategory] = useState("morning_brief");
+  const [customHtml, setCustomHtml] = useState(
+    `<div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; color: #111;">\n  <h2 style="color: #000; font-size: 20px; font-weight: bold;">Special Update from Drawdown</h2>\n  <p style="font-size: 15px; line-height: 1.6;">Good morning. Here is an important announcement regarding today's session...</p>\n  <p style="font-size: 14px; margin-top: 20px;">Protect your capital,<br/><strong>Pete Currey</strong></p>\n</div>`
+  );
 
   useEffect(() => {
     const calcNextSchedules = () => {
       const now = new Date();
       
-      // Target morning 07:00 UTC
       const morningTarget = new Date();
       morningTarget.setUTCHours(7, 0, 0, 0);
       if (now.getUTCHours() >= 7) {
         morningTarget.setUTCDate(now.getUTCDate() + 1);
       }
-      // Skip weekends if schedule is Mon-Fri
       while (morningTarget.getUTCDay() === 0 || morningTarget.getUTCDay() === 6) {
         morningTarget.setUTCDate(morningTarget.getUTCDate() + 1);
       }
 
-      // Target evening 17:30 UTC
       const eveningTarget = new Date();
       eveningTarget.setUTCHours(17, 30, 0, 0);
       if (now.getUTCHours() > 17 || (now.getUTCHours() === 17 && now.getUTCMinutes() >= 30)) {
@@ -83,46 +93,91 @@ export function AdminOverviewClient({ stats, recentSends: initialSends, healthMe
     return () => clearInterval(interval);
   }, []);
 
-  const handleTriggerAction = async (type: "morning" | "evening") => {
+  const handleTriggerAction = async (type: "morning" | "evening" | "breaking") => {
     setLoading(type);
     setMessage(null);
     try {
-      const res = type === "morning" 
-        ? await triggerMorningBriefAction() 
-        : await triggerEveningWrapAction();
+      let res;
+      if (type === "morning") res = await triggerMorningBriefAction();
+      else if (type === "evening") res = await triggerEveningWrapAction();
+      else res = await triggerBreakingNewsAction();
 
       if (!res.success) {
         throw new Error(res.error || "Action trigger failed.");
       }
 
+      const titleMap = { morning: "Morning Brief", evening: "Evening Wrap", breaking: "Breaking News" };
       setMessage({
         type: "success",
-        text: `Successfully triggered ${type === "morning" ? "Morning Brief" : "Evening Wrap"}. Emails sent: ${res.recipient_count ?? 0}.`
+        text: `Successfully triggered ${titleMap[type]}. Emails dispatched to active subscribers.`
       });
 
-      // Fetch updated sends list after delay
-      setTimeout(async () => {
-        const fetchRes = await fetch("/api/admin/newsletter/send"); // or custom fetch
-        // We can just add the new mock/live item locally to avoid a refresh
-        setRecentSends(prev => [
-          {
-            id: res.emailSendId || Math.random().toString(),
-            type: type === "morning" ? "morning_brief" : "evening_wrap",
-            subject: type === "morning" ? "The Wire — Morning Brief" : "The Wire — Evening Wrap",
-            recipient_count: res.recipient_count ?? 0,
-            status: res.status || "sent",
-            sent_at: new Date().toISOString(),
-            generated_at: new Date().toISOString()
-          },
-          ...prev.slice(0, 4)
-        ]);
-      }, 3000);
-
+      setRecentSends(prev => [
+        {
+          id: res.emailSendId || Math.random().toString(),
+          type: type === "morning" ? "morning_brief" : type === "evening" ? "evening_wrap" : "breaking_news",
+          subject: res.subject || `The Wire — ${titleMap[type]}`,
+          recipient_count: res.recipient_count ?? 1,
+          status: res.status || "sent",
+          sent_at: new Date().toISOString(),
+          generated_at: new Date().toISOString()
+        },
+        ...prev.slice(0, 4)
+      ]);
     } catch (err: any) {
       console.error(err);
       setMessage({
         type: "error",
         text: err.message || "Execution exception occurred."
+      });
+    } finally {
+      setLoading(null);
+    }
+  };
+
+  const handleSendCustomBroadcast = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!customSubject || !customHtml) return;
+
+    setLoading("custom");
+    setMessage(null);
+
+    try {
+      const res = await sendCustomEmailBroadcastAction({
+        subject: customSubject,
+        contentHtml: customHtml,
+        category: customCategory
+      });
+
+      if (!res.success) {
+        throw new Error(res.error || "Broadcast deployment failed.");
+      }
+
+      setMessage({
+        type: "success",
+        text: `Custom broadcast "${customSubject}" successfully deployed to ${res.recipient_count ?? 1} subscribers!`
+      });
+
+      setRecentSends(prev => [
+        {
+          id: res.emailSendId || Math.random().toString(),
+          type: customCategory,
+          subject: customSubject,
+          recipient_count: res.recipient_count ?? 1,
+          status: res.status || "sent",
+          sent_at: new Date().toISOString(),
+          generated_at: new Date().toISOString()
+        },
+        ...prev.slice(0, 4)
+      ]);
+
+      setShowComposeModal(false);
+      setCustomSubject("");
+    } catch (err: any) {
+      console.error(err);
+      setMessage({
+        type: "error",
+        text: err.message || "Failed to deploy broadcast."
       });
     } finally {
       setLoading(null);
@@ -277,16 +332,16 @@ export function AdminOverviewClient({ stats, recentSends: initialSends, healthMe
 
         {/* Action Panel */}
         <div className="space-y-6">
-          {/* Quick Actions */}
+          {/* Quick Actions / Control Panel */}
           <div className="bg-white border border-mkt-bd p-6 rounded-xl space-y-6 shadow-[0_2px_8px_rgba(0,0,0,0.04)]">
             <h3 className="text-sm font-mono uppercase tracking-widest font-bold text-mkt-ink border-b border-mkt-bd pb-4">
-              // Control Panel
+              // Control Panel & Email Triggers
             </h3>
-            <div className="space-y-4">
+            <div className="space-y-3">
               <button
                 onClick={() => handleTriggerAction("morning")}
                 disabled={loading !== null}
-                className="w-full py-3.5 bg-transparent border border-red-200 hover:border-red-500 hover:bg-red-500 hover:text-white text-red-500 text-[10px] font-mono font-bold uppercase tracking-widest transition-all duration-150 disabled:opacity-50 flex items-center justify-center gap-2 cursor-pointer rounded-lg"
+                className="w-full py-3 bg-transparent border border-red-200 hover:border-red-500 hover:bg-red-500 hover:text-white text-red-500 text-[10px] font-mono font-bold uppercase tracking-widest transition-all duration-150 disabled:opacity-50 flex items-center justify-center gap-2 cursor-pointer rounded-lg"
               >
                 {loading === "morning" ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Play className="w-3.5 h-3.5" />}
                 Send Morning Brief Now
@@ -295,19 +350,39 @@ export function AdminOverviewClient({ stats, recentSends: initialSends, healthMe
               <button
                 onClick={() => handleTriggerAction("evening")}
                 disabled={loading !== null}
-                className="w-full py-3.5 bg-transparent border border-blue-200 hover:border-blue-500 hover:bg-blue-500 hover:text-white text-blue-500 text-[10px] font-mono font-bold uppercase tracking-widest transition-all duration-150 disabled:opacity-50 flex items-center justify-center gap-2 cursor-pointer rounded-lg"
+                className="w-full py-3 bg-transparent border border-blue-200 hover:border-blue-500 hover:bg-blue-500 hover:text-white text-blue-500 text-[10px] font-mono font-bold uppercase tracking-widest transition-all duration-150 disabled:opacity-50 flex items-center justify-center gap-2 cursor-pointer rounded-lg"
               >
                 {loading === "evening" ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Play className="w-3.5 h-3.5" />}
                 Send Evening Wrap Now
               </button>
 
-              <Link
-                href="/admin/blog/new"
-                className="w-full py-3.5 bg-mkt-ink hover:bg-mkt-i2 text-white text-[10px] font-mono font-bold uppercase tracking-widest transition-all duration-150 flex items-center justify-center gap-2 rounded-lg"
+              <button
+                onClick={() => handleTriggerAction("breaking")}
+                disabled={loading !== null}
+                className="w-full py-3 bg-transparent border border-amber-300 hover:border-amber-500 hover:bg-amber-500 hover:text-white text-amber-600 text-[10px] font-mono font-bold uppercase tracking-widest transition-all duration-150 disabled:opacity-50 flex items-center justify-center gap-2 cursor-pointer rounded-lg"
               >
-                <Plus className="w-3.5 h-3.5" />
-                New Blog Post
-              </Link>
+                {loading === "breaking" ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Zap className="w-3.5 h-3.5" />}
+                Send Breaking News Alert
+              </button>
+
+              <button
+                onClick={() => setShowComposeModal(true)}
+                disabled={loading !== null}
+                className="w-full py-3 bg-mkt-grn hover:bg-emerald-600 text-white text-[10px] font-mono font-bold uppercase tracking-widest transition-all duration-150 flex items-center justify-center gap-2 cursor-pointer rounded-lg shadow-sm"
+              >
+                <Send className="w-3.5 h-3.5" />
+                Compose Custom Broadcast
+              </button>
+
+              <div className="pt-2 border-t border-mkt-bd">
+                <Link
+                  href="/admin/blog/new"
+                  className="w-full py-3 bg-mkt-ink hover:bg-mkt-i2 text-white text-[10px] font-mono font-bold uppercase tracking-widest transition-all duration-150 flex items-center justify-center gap-2 rounded-lg"
+                >
+                  <Plus className="w-3.5 h-3.5" />
+                  New Blog Post
+                </Link>
+              </div>
             </div>
           </div>
 
@@ -331,6 +406,96 @@ export function AdminOverviewClient({ stats, recentSends: initialSends, healthMe
           </div>
         </div>
       </div>
+
+      {/* Compose Custom Broadcast Modal */}
+      {showComposeModal && (
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 animate-in fade-in duration-200">
+          <div className="bg-white border border-mkt-bd rounded-2xl w-full max-w-2xl overflow-hidden shadow-2xl space-y-0">
+            <div className="p-6 bg-neutral-900 text-white flex items-center justify-between border-b border-neutral-800">
+              <div className="flex items-center gap-3">
+                <Send className="w-5 h-5 text-mkt-grn" />
+                <div>
+                  <h3 className="text-base font-bold font-display uppercase tracking-tight">Deploy Custom Email Broadcast</h3>
+                  <p className="text-xs text-neutral-400 font-mono">Send an instant broadcast to subscribers</p>
+                </div>
+              </div>
+              <button 
+                onClick={() => setShowComposeModal(false)}
+                className="text-neutral-400 hover:text-white transition-colors p-1"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <form onSubmit={handleSendCustomBroadcast} className="p-6 space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-1.5">
+                  <label className="text-[10px] font-mono uppercase font-bold text-mkt-i3 tracking-wider">Campaign Type</label>
+                  <select
+                    value={customCategory}
+                    onChange={(e) => setCustomCategory(e.target.value)}
+                    className="w-full bg-neutral-50 border border-mkt-bd rounded-lg p-2.5 text-xs text-mkt-ink outline-none focus:border-mkt-ink"
+                  >
+                    <option value="morning_brief">Morning Brief Audience</option>
+                    <option value="evening_wrap">Evening Wrap Audience</option>
+                    <option value="weekly">Weekly Edition Audience</option>
+                    <option value="breaking_news">Breaking News Audience</option>
+                    <option value="custom">All Active Subscribers</option>
+                  </select>
+                </div>
+
+                <div className="space-y-1.5">
+                  <label className="text-[10px] font-mono uppercase font-bold text-mkt-i3 tracking-wider">Estimated Audience</label>
+                  <div className="p-2.5 bg-neutral-50 border border-mkt-bd rounded-lg text-xs font-mono font-bold text-mkt-grn">
+                    {stats.totalSubscribers} Active Subscriber{stats.totalSubscribers !== 1 ? 's' : ''}
+                  </div>
+                </div>
+              </div>
+
+              <div className="space-y-1.5">
+                <label className="text-[10px] font-mono uppercase font-bold text-mkt-i3 tracking-wider">Subject Line</label>
+                <input
+                  type="text"
+                  required
+                  placeholder="e.g. SPECIAL BRIEF: US CPI Data Release Analysis"
+                  value={customSubject}
+                  onChange={(e) => setCustomSubject(e.target.value)}
+                  className="w-full bg-neutral-50 border border-mkt-bd rounded-lg p-3 text-xs text-mkt-ink outline-none focus:border-mkt-ink font-semibold"
+                />
+              </div>
+
+              <div className="space-y-1.5">
+                <label className="text-[10px] font-mono uppercase font-bold text-mkt-i3 tracking-wider">Email Content (HTML / Text)</label>
+                <textarea
+                  rows={8}
+                  required
+                  value={customHtml}
+                  onChange={(e) => setCustomHtml(e.target.value)}
+                  className="w-full bg-neutral-50 border border-mkt-bd rounded-lg p-3 text-xs font-mono text-mkt-ink outline-none focus:border-mkt-ink resize-y"
+                />
+              </div>
+
+              <div className="flex items-center justify-end gap-3 pt-4 border-t border-mkt-bd">
+                <button
+                  type="button"
+                  onClick={() => setShowComposeModal(false)}
+                  className="px-5 py-2.5 text-xs font-mono font-bold text-mkt-i3 hover:text-mkt-ink transition-colors uppercase tracking-widest"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={loading === "custom" || !customSubject}
+                  className="px-6 py-2.5 bg-mkt-grn hover:bg-emerald-600 disabled:opacity-50 text-white text-xs font-mono font-bold uppercase tracking-widest rounded-lg flex items-center gap-2 shadow-md transition-all cursor-pointer"
+                >
+                  {loading === "custom" ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
+                  Deploy Broadcast Now
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

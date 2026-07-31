@@ -70,6 +70,88 @@ export async function triggerEveningWrapAction() {
   }
 }
 
+// 3. Trigger Breaking News Alert Cron
+export async function triggerBreakingNewsAction() {
+  const siteUrl = process.env.NEXT_PUBLIC_APP_URL || process.env.NEXT_PUBLIC_SITE_URL || `https://${process.env.VERCEL_URL}` || "http://localhost:3000";
+  const cronSecret = process.env.CRON_SECRET;
+
+  try {
+    const headers: Record<string, string> = {
+      "Authorization": `Bearer ${cronSecret || "dd-sc-cr0n-s3cr3t-x9pQk2mNvR7wJtLh"}`,
+      "x-vercel-cron": "1"
+    };
+    const bypassToken = process.env.VERCEL_AUTOMATION_BYPASS_SECRET;
+    const url = bypassToken
+      ? `${siteUrl}/api/the-wire/breaking-news?x-vercel-protection-bypass=${bypassToken}&x-vercel-set-bypass-cookie=true`
+      : `${siteUrl}/api/the-wire/breaking-news`;
+
+    const res = await fetch(url, { method: "GET", headers, cache: "no-store" });
+
+    if (!res.ok) {
+      const errText = await res.text();
+      return { success: false, error: `Breaking news returned status ${res.status}: ${errText}` };
+    }
+
+    const result = await res.json();
+    return { success: true, ...result };
+  } catch (error: any) {
+    console.error("Error triggering breaking news action:", error);
+    return { success: false, error: error.message };
+  }
+}
+
+// 4. Send Custom Email Broadcast Action
+export async function sendCustomEmailBroadcastAction(payload: {
+  subject: string;
+  contentHtml: string;
+  contentText?: string;
+  category: string;
+}) {
+  const siteUrl = process.env.NEXT_PUBLIC_APP_URL || process.env.NEXT_PUBLIC_SITE_URL || `https://${process.env.VERCEL_URL}` || "http://localhost:3000";
+  const cronSecret = process.env.CRON_SECRET;
+
+  if (!payload.subject || !payload.contentHtml) {
+    return { success: false, error: "Subject line and email HTML body are required." };
+  }
+
+  try {
+    const headers: Record<string, string> = {
+      "Authorization": `Bearer ${cronSecret || "dd-sc-cr0n-s3cr3t-x9pQk2mNvR7wJtLh"}`,
+      "Content-Type": "application/json",
+      "x-vercel-cron": "1"
+    };
+    const bypassToken = process.env.VERCEL_AUTOMATION_BYPASS_SECRET;
+    const url = bypassToken
+      ? `${siteUrl}/api/email/send-broadcast?x-vercel-protection-bypass=${bypassToken}&x-vercel-set-bypass-cookie=true`
+      : `${siteUrl}/api/email/send-broadcast`;
+
+    const res = await fetch(url, {
+      method: "POST",
+      headers,
+      body: JSON.stringify({
+        type: payload.category || "custom",
+        subject: payload.subject,
+        contentHtml: payload.contentHtml,
+        contentText: payload.contentText || payload.subject
+      }),
+      cache: "no-store"
+    });
+
+    if (!res.ok) {
+      const errText = await res.text();
+      return { success: false, error: `Broadcast failed (${res.status}): ${errText}` };
+    }
+
+    const result = await res.json();
+    revalidatePath("/admin");
+    revalidatePath("/admin/emails");
+    return { success: true, ...result };
+  } catch (error: any) {
+    console.error("Error deploying custom email broadcast action:", error);
+    return { success: false, error: error.message };
+  }
+}
+
 // 3. Generate Blog Post with Claude AI
 export async function generateBlogWithAIAction(userPrompt: string) {
   const apiKey = process.env.ANTHROPIC_API_KEY;

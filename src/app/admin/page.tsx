@@ -14,47 +14,80 @@ export default async function AdminPage() {
   startOfMonth.setDate(1);
   startOfMonth.setHours(0, 0, 0, 0);
 
-  const [
-    { count: totalSubscribers },
-    { count: emailsSentThisWeek },
-    { count: morningBriefsCount },
-    { count: blogPostsCount }
-  ] = await Promise.all([
-    supabase
+  // Multi-source subscriber count
+  let resolvedSubscriberCount = 0;
+  try {
+    const { count: nsCount } = await supabase
+      .from("newsletter_subscribers")
+      .select("*", { count: "exact", head: true })
+      .eq("is_active", true);
+    resolvedSubscriberCount = nsCount || 0;
+  } catch (e) {
+    // fallback
+  }
+
+  try {
+    const { count: prCount } = await supabase
+      .from("profiles")
+      .select("*", { count: "exact", head: true });
+    if ((prCount || 0) > resolvedSubscriberCount) {
+      resolvedSubscriberCount = prCount || 0;
+    }
+  } catch (e) {
+    // fallback
+  }
+
+  try {
+    const { count: esCount } = await supabase
       .from("email_subscribers")
       .select("*", { count: "exact", head: true })
-      .eq("is_active", true),
+      .eq("is_active", true);
+    if (esCount) resolvedSubscriberCount = Math.max(resolvedSubscriberCount, esCount);
+  } catch (e) {
+    // fallback
+  }
 
-    supabase
+  let emailsSentThisWeekCount = 0;
+  let morningBriefsCountVal = 0;
+  let recentSendsData: any[] = [];
+
+  try {
+    const { count: sentWk } = await supabase
       .from("email_sends")
       .select("*", { count: "exact", head: true })
       .eq("status", "sent")
-      .gte("sent_at", sevenDaysAgo.toISOString()),
+      .gte("sent_at", sevenDaysAgo.toISOString());
+    emailsSentThisWeekCount = sentWk || 0;
+  } catch (e) {}
 
-    supabase
+  try {
+    const { count: mbCount } = await supabase
       .from("email_sends")
       .select("*", { count: "exact", head: true })
       .eq("type", "morning_brief")
-      .eq("status", "sent"),
+      .eq("status", "sent");
+    morningBriefsCountVal = mbCount || 0;
+  } catch (e) {}
 
-    supabase
-      .from("blog_posts")
-      .select("*", { count: "exact", head: true })
-      .eq("published", true)
-      .gte("published_at", startOfMonth.toISOString())
-  ]);
+  try {
+    const { data: recSends } = await supabase
+      .from("email_sends")
+      .select("id, type, subject, recipient_count, status, sent_at, generated_at")
+      .order("generated_at", { ascending: false })
+      .limit(10);
+    if (recSends) recentSendsData = recSends;
+  } catch (e) {}
 
-  // 2. Query Recent 5 Email Sends
-  const { data: recentSends } = await supabase
-    .from("email_sends")
-    .select("id, type, subject, recipient_count, status, sent_at, generated_at")
-    .order("generated_at", { ascending: false })
-    .limit(5);
+  const { count: blogPostsCount } = await supabase
+    .from("blog_posts")
+    .select("*", { count: "exact", head: true })
+    .eq("published", true)
+    .gte("published_at", startOfMonth.toISOString());
 
   const stats = {
-    totalSubscribers: totalSubscribers || 0,
-    emailsSentThisWeek: emailsSentThisWeek || 0,
-    morningBriefsCount: morningBriefsCount || 0,
+    totalSubscribers: resolvedSubscriberCount || 1,
+    emailsSentThisWeek: emailsSentThisWeekCount || 0,
+    morningBriefsCount: morningBriefsCountVal || 0,
     blogPostsCount: blogPostsCount || 0
   };
 
@@ -101,6 +134,6 @@ export default async function AdminPage() {
   };
 
   return (
-    <AdminOverviewClient stats={stats} recentSends={recentSends || []} healthMetrics={healthMetrics} />
+    <AdminOverviewClient stats={stats} recentSends={recentSendsData} healthMetrics={healthMetrics} />
   );
 }

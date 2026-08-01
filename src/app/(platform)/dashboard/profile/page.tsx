@@ -418,17 +418,36 @@ export default function ProfileSettingsPage() {
                        <ShieldCheck className="w-5 h-5" />
                        <span className="text-[10px] font-mono uppercase font-bold tracking-widest">Active Membership</span>
                     </div>
-                    <h3 className="text-4xl font-display font-black uppercase tracking-tight text-text-primary">{profile?.subscription_tier}</h3>
-                    <p className="text-xs text-text-tertiary uppercase font-mono tracking-widest">Next Billing: May 22, 2026</p>
+                    <h3 className="text-4xl font-display font-black uppercase tracking-tight text-text-primary">
+                      {profile?.subscription_tier
+                        ? profile.subscription_tier.charAt(0).toUpperCase() + profile.subscription_tier.slice(1)
+                        : 'Free'}
+                    </h3>
+                    <p className="text-xs text-text-tertiary uppercase font-mono tracking-widest">
+                      {profile?.subscription_tier && profile.subscription_tier !== 'free'
+                        ? 'Manage billing below'
+                        : 'No active subscription'}
+                    </p>
                  </div>
  
                  <div className="space-y-4">
                     <button className="w-full py-4 bg-background-primary border border-border-slate/85 text-[10px] font-bold uppercase tracking-widest hover:border-accent transition-all flex items-center justify-center gap-2 rounded-lg">
                        <CreditCard className="w-4 h-4" /> Manage Subscription <ExternalLink className="w-3 h-3" />
                     </button>
-                    <button className="w-full py-4 bg-accent/10 border border-accent/20 text-accent text-[10px] font-bold uppercase tracking-widest hover:bg-accent/20 transition-all rounded-lg">
-                       Upgrade to {profile?.subscription_tier === 'foundation' ? 'Edge' : 'Floor'}
-                    </button>
+                    {(() => {
+                       const tier = profile?.subscription_tier ?? 'free';
+                       const nextTier =
+                         tier === 'free'       ? 'Foundation' :
+                         tier === 'foundation' ? 'Edge' :
+                         tier === 'edge'       ? 'Floor' :
+                         null; // floor — no upgrade available
+                       if (!nextTier) return null;
+                       return (
+                         <button className="w-full py-4 bg-accent/10 border border-accent/20 text-accent text-[10px] font-bold uppercase tracking-widest hover:bg-accent/20 transition-all rounded-lg">
+                           Upgrade to {nextTier}
+                         </button>
+                       );
+                    })()}
                  </div>
               </div>
               <ShieldCheck className="absolute top-1/2 right-0 -translate-y-1/2 w-48 h-48 text-profit opacity-[0.03] pointer-events-none group-hover:scale-110 transition-transform duration-1000" />

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createInternalSupabase } from "@/lib/supabase/server";
 import { getMorningBriefTemplate } from "@/lib/email-templates";
+import { fetchNews } from "@/lib/news";
 import Anthropic from "@anthropic-ai/sdk";
 
 // Helper to fetch market rates with fallbacks
@@ -167,6 +168,18 @@ Respond ONLY with a valid JSON object matching the schema below. Do NOT add any 
       }
     }
 
+    // Fetch top market news article for hero image
+    let topNewsItem: { imageUrl?: string; title?: string; url?: string } | null = null;
+    try {
+      const newsItems = await fetchNews();
+      const articleWithImg = newsItems.find(item => !!item.imageUrl) || newsItems[0];
+      if (articleWithImg) {
+        topNewsItem = articleWithImg;
+      }
+    } catch (e) {
+      console.warn("Failed to fetch news for morning brief image:", e);
+    }
+
     // 4. Generate HTML Content
     const emailHtml = getMorningBriefTemplate({
       dateStr,
@@ -177,6 +190,9 @@ Respond ONLY with a valid JSON object matching the schema below. Do NOT add any 
       marketRates: marketData,
       petesTake: briefJson.petes_take,
       oneThing: briefJson.one_thing,
+      imageUrl: topNewsItem?.imageUrl,
+      imageCaption: topNewsItem?.title ? `Headline Focus: ${topNewsItem.title} (${topNewsItem.url ? 'Source: feed' : ''})` : undefined,
+      articleUrl: topNewsItem?.url,
       unsubscribeUrl: "{{unsubscribeUrl}}"
     });
 

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createInternalSupabase } from "@/lib/supabase/server";
 import { getEveningWrapTemplate } from "@/lib/email-templates";
+import { fetchNews } from "@/lib/news";
 import Anthropic from "@anthropic-ai/sdk";
 
 export async function POST(req: NextRequest) {
@@ -100,6 +101,18 @@ Respond ONLY with a valid JSON object matching the schema below. Do NOT add any 
     const appUrl = process.env.NEXT_PUBLIC_APP_URL || process.env.NEXT_PUBLIC_SITE_URL || "https://drawdown.trading";
     const curriculumLink = `${appUrl}/courses/${wrapJson.curriculum_phase_slug}/module-${wrapJson.curriculum_module_number}`;
 
+    // Fetch top market news article for hero image
+    let topNewsItem: { imageUrl?: string; title?: string; url?: string } | null = null;
+    try {
+      const newsItems = await fetchNews();
+      const articleWithImg = newsItems.find(item => !!item.imageUrl) || newsItems[0];
+      if (articleWithImg) {
+        topNewsItem = articleWithImg;
+      }
+    } catch (e) {
+      console.warn("Failed to fetch news for evening wrap image:", e);
+    }
+
     // 4. Generate HTML Content
     const emailHtml = getEveningWrapTemplate({
       dateStr,
@@ -110,6 +123,9 @@ Respond ONLY with a valid JSON object matching the schema below. Do NOT add any 
       tradeOfSession: wrapJson.trade_of_session,
       curriculumTopic: wrapJson.curriculum_topic,
       curriculumModuleLink: curriculumLink,
+      imageUrl: topNewsItem?.imageUrl,
+      imageCaption: topNewsItem?.title ? `Session Focus: ${topNewsItem.title}` : undefined,
+      articleUrl: topNewsItem?.url,
       unsubscribeUrl: "{{unsubscribeUrl}}"
     });
 

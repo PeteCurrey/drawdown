@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createInternalSupabase } from "@/lib/supabase/server";
+import { getBreakingNewsTemplate } from "@/lib/email-templates";
 import Anthropic from "@anthropic-ai/sdk";
 
 export const dynamic = "force-dynamic";
@@ -108,16 +109,17 @@ Keep it strictly under 150 words. Focus on market impact and risk. No financial 
       throw new Error("Failed to parse Claude JSON");
     }
 
-    // 5. Generate simple HTML for breaking news
-    const emailHtml = `
-      <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; color: #111;">
-        <h2 style="color: #ef4444; text-transform: uppercase; letter-spacing: 1px;">🚨 Breaking News</h2>
-        <p style="font-size: 16px; line-height: 1.6;">${briefJson.content.replace(/\\n/g, "<br/>")}</p>
-        <p style="font-size: 14px; margin-top: 30px; color: #666;">
-          Source: <a href="${topArticle.url}" style="color: #2563eb;">${topArticle.source}</a>
-        </p>
-      </div>
-    `;
+    // 5. Generate branded HTML for breaking news
+    const emailHtml = getBreakingNewsTemplate({
+      subject: briefJson.subject,
+      preview: briefJson.content.slice(0, 120),
+      content: briefJson.content,
+      articleUrl: topArticle.url,
+      source: topArticle.source,
+      imageUrl: topArticle.image || undefined,
+      imageCaption: topArticle.headline,
+      unsubscribeUrl: "{{unsubscribeUrl}}"
+    });
 
     // 6. Save to email_sends table if available
     let emailSendId = crypto.randomUUID();

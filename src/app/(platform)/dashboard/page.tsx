@@ -453,7 +453,7 @@ export default function DashboardPage() {
       <InstrumentIntelligenceCard instrument={selectedInst} interval={selectedInterval} />
 
       {/* PHASE 3 — Overview Dashboard Card Grid */}
-      <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
         
         {/* Card 1: Learning Progress */}
         <div className="bg-white border border-[#EDEDED] rounded-2xl p-5 shadow-[0_2px_12px_rgba(0,0,0,0.06)] flex flex-col justify-between min-h-[220px] transition-all hover:shadow-[0_8px_24px_rgba(0,0,0,0.10)] hover:-translate-y-1 duration-200">
@@ -509,7 +509,33 @@ export default function DashboardPage() {
         {/* Card 3: Macro Pulse (FRED/EIA) */}
         <MacroPulseCard />
 
-        {/* Card 4: Watchlist Summary */}
+        {/* Card 4: AI Terminal Tools */}
+        <div className="bg-white border border-[#EDEDED] rounded-2xl p-5 shadow-[0_2px_12px_rgba(0,0,0,0.06)] flex flex-col justify-between min-h-[220px] transition-all hover:shadow-[0_8px_24px_rgba(0,0,0,0.10)] hover:-translate-y-1 duration-200">
+          <div>
+            <div className="flex justify-between items-start mb-4">
+              <h5 className="font-semibold text-sm text-[#1A1A1A]">AI Terminal Tools</h5>
+              <Link href="/dashboard/tools" className="text-xs text-[#555550] hover:text-[#1A1A1A]">↗</Link>
+            </div>
+            
+            <div className="space-y-1.5 text-xs">
+              <Link href="/dashboard/journal" className="block text-[#555550] hover:text-[#1A1A1A] hover:underline font-mono">
+                › AI Journal
+              </Link>
+              <Link href="/dashboard/tools/position-sizer" className="block text-[#555550] hover:text-[#1A1A1A] hover:underline font-mono">
+                › Position Sizer
+              </Link>
+              <Link href="/dashboard/tools/technical-scanner" className="block text-[#555550] hover:text-[#1A1A1A] hover:underline font-mono">
+                › Confluence Scanner
+              </Link>
+            </div>
+          </div>
+
+          <div className="pt-3 border-t border-[#EDEDED] text-right">
+            <span className="text-[10px] font-mono text-[#555550]">AI Stack Active →</span>
+          </div>
+        </div>
+
+        {/* Card 5: Watchlist Summary */}
         <WatchlistSummary initialSymbols={watchlistItems} userCurrency={userCurrency} />
 
       </section>

@@ -73,7 +73,7 @@ export function LiveNewsSection() {
         const data = await res.json();
         if (Array.isArray(data) && active) {
           const filtered = data.filter(item => isTargetSource(item.source));
-          setNews(filtered);
+          setNews(filtered.length > 0 ? filtered : data);
           setLoading(false);
         }
       } catch (err) {

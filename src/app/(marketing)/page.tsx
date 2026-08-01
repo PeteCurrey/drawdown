@@ -129,7 +129,9 @@ export default async function Home() {
         <StatsBar />
       </FadeInSection>
 
-      <MacroIntelligenceStrip />
+      <FadeInSection delay={0.1}>
+        <MacroIntelligenceStrip />
+      </FadeInSection>
 
       <ScrollQuoteSection />
 

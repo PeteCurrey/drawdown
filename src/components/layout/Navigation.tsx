@@ -90,6 +90,7 @@ const megaMenus = {
   propFirms: {
     links: [
       { name: "Best Prop Firms", desc: "Top-rated funded account evaluations", href: "/prop-firms", icon: Briefcase, color: "text-indigo-500 bg-indigo-500/10" },
+      { name: "Compare Prop Firms", desc: "Head-to-head evaluation rules and fees", href: "/prop-firms/compare", icon: Scale, color: "text-purple-500 bg-purple-500/10" },
       { name: "FTMO Review", desc: "The industry standard evaluation benchmark", href: "/prop-firms/ftmo", icon: TrendingUp, color: "text-emerald-500 bg-emerald-500/10" },
       { name: "The5ers Review", desc: "Flexible rules and excellent scaling plans", href: "/prop-firms/the5ers", icon: GitBranch, color: "text-rose-500 bg-rose-500/10" },
       { name: "Funding Pips Review", desc: "Low-cost challenges with rapid payouts", href: "/prop-firms/funding-pips", icon: Zap, color: "text-cyan-500 bg-cyan-500/10" },

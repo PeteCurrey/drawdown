@@ -2,16 +2,28 @@ import { createClient } from "@/lib/supabase/server";
 import { type NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 
-const PRODUCTS: Record<string, { name: string; amount: number; currency: string; description: string }> = {
+const PRODUCTS: Record<string, { name: string; baseAmount: number; defaultCurrency: string; description: string }> = {
   "prop-survival-kit": {
     name: "Prop Challenge Survival Kit",
-    amount: 1400, // £14.00 in pence
-    currency: "gbp",
+    baseAmount: 4900, // 49.00
+    defaultCurrency: "gbp",
     description: "Max-Drawdown Calculator Sheet, 30-Day Evaluation Checklist & The Tilt Protocol",
   },
 };
 
-
+const REGION_CURRENCIES: Record<string, string> = {
+  uk: "gbp",
+  au: "aud",
+  us: "usd",
+  sg: "sgd",
+  hk: "hkd",
+  ca: "cad",
+  de: "eur",
+  ae: "aed",
+  in: "inr",
+  my: "myr",
+  ph: "php",
+};
 
 export async function POST(request: NextRequest) {
   const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
@@ -19,7 +31,7 @@ export async function POST(request: NextRequest) {
   });
 
   try {
-    const { productId, includeBump = false } = await request.json();
+    const { productId, includeBump = false, region } = await request.json();
     const product = PRODUCTS[productId];
 
     if (!product) {
@@ -30,31 +42,33 @@ export async function POST(request: NextRequest) {
     const { data: { user } } = await supabase.auth.getUser();
     const origin = request.headers.get("origin") ?? process.env.NEXT_PUBLIC_APP_URL;
 
+    const currency = (region && REGION_CURRENCIES[region]) ? REGION_CURRENCIES[region] : product.defaultCurrency;
+
     // Build line items — one-time product
     const lineItems = [
       {
         price_data: {
-          currency: product.currency,
+          currency: currency,
           product_data: {
             name: product.name,
             description: product.description,
           },
-          unit_amount: product.amount,
+          unit_amount: product.baseAmount,
         },
         quantity: 1,
       },
     ];
 
-    // Optional bump: 30-day Edge trial at £19
+    // Optional bump: 30-day Edge trial at £19 / $19 etc
     if (includeBump) {
       lineItems.push({
         price_data: {
-          currency: "gbp",
+          currency: currency,
           product_data: {
             name: "30 Days Drawdown Edge Access",
             description: "Full access to AI Trade Journal, Market Scanner & Backtester",
           },
-          unit_amount: 1900, // £19
+          unit_amount: 1900, // 19.00
         },
         quantity: 1,
       });

@@ -319,7 +319,7 @@ export default function PropFirmsHubPage() {
                   Pass Your Next Evaluation.
                </h2>
                <p className="text-base text-text-tertiary leading-relaxed font-sans mb-10">
-                  Get the exact <span className="text-text-primary font-bold">£14 Survival Kit</span> our desk uses to manage challenge risk. Includes the Max-Drawdown Calculator Sheet, 30-Day Evaluation Checklist, and "The Tilt Protocol".
+                  Get the exact <span className="text-text-primary font-bold">Survival Kit</span> our desk uses to manage challenge risk. Includes the Max-Drawdown Calculator Sheet, 30-Day Evaluation Checklist, and "The Tilt Protocol".
                </p>
                <Link
                 href="/store/prop-survival-kit"
@@ -342,8 +342,6 @@ export default function PropFirmsHubPage() {
             </p>
          </div>
       </section>
-
-      <PropSurvivalFloatingWidget />
     </div>
   );
 }

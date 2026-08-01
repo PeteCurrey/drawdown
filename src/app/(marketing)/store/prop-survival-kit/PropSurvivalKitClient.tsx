@@ -6,9 +6,12 @@ import { CheckCircle2, ShieldAlert, Download, Lock, Zap, ChevronDown, Check } fr
 import Link from "next/link";
 import { PropSurvivalFloatingWidget } from "@/components/ui/PropSurvivalFloatingWidget";
 
+import { useRegion } from "@/components/layout/RegionalLayout";
+
 export default function PropSurvivalKitPage() {
   const [includeBump, setIncludeBump] = useState(false);
   const [loading, setLoading] = useState(false);
+  const { region, currencySymbol } = useRegion();
 
   const handleCheckout = async () => {
     setLoading(true);
@@ -16,7 +19,7 @@ export default function PropSurvivalKitPage() {
       const res = await fetch("/api/store/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ productId: "prop-survival-kit", includeBump }),
+        body: JSON.stringify({ productId: "prop-survival-kit", includeBump, region }),
       });
       const data = await res.json();
       if (data.url) {
@@ -599,7 +602,7 @@ export default function PropSurvivalKitPage() {
                   Digital PDF & Google Sheets Templates
                 </p>
               </div>
-              <div className="text-3xl font-mono font-bold text-[#C8F135]">£14</div>
+              <div className="text-3xl font-mono font-bold text-[#C8F135]">{currencySymbol}49</div>
             </div>
 
             {/* Bump Offer */}
@@ -627,7 +630,7 @@ export default function PropSurvivalKitPage() {
               className="w-full mt-8 py-5 bg-[#C8F135] text-black font-sans font-black uppercase tracking-[0.2em] text-sm hover:bg-[#d4ff3a] transition-colors disabled:opacity-60 cursor-pointer shadow-xl rounded-xl flex items-center justify-center gap-2"
             >
               <Download className="w-4 h-4" />
-              {loading ? "Redirecting to Checkout..." : `Complete Purchase — £${includeBump ? '33' : '14'}`}
+              {loading ? "Redirecting to Checkout..." : `Complete Purchase — ${currencySymbol}${includeBump ? '68' : '49'}`}
             </button>
             
             <p className="text-[10px] font-mono uppercase tracking-wider text-white/40 flex items-center gap-2 mt-4 justify-center">
@@ -636,7 +639,7 @@ export default function PropSurvivalKitPage() {
           </div>
 
           <p className="text-xs text-white/40 leading-relaxed max-w-md mx-auto mt-8 font-sans">
-            <strong className="text-white">100% No-BS 14-Day Guarantee.</strong> If you apply these frameworks and still feel unprepared for your challenge, email us. We will refund your £14 immediately. No questions asked.
+            <strong className="text-white">100% No-BS 14-Day Guarantee.</strong> If you apply these frameworks and still feel unprepared for your challenge, email us. We will refund your {currencySymbol}49 immediately. No questions asked.
           </p>
 
           {/* Trust Strip */}

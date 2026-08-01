@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 50" width="220" height="50">
+  <g transform="translate(5, 5)">
+    <!-- Icon: Stylized '5' with growth arrow -->
+    <path d="M5 5 L25 5 L23 13 L13 13 L12 20 C14 18, 20 18, 22 21 C24 23, 24 28, 21 31 C18 34, 11 34, 7 31 L11 25 C13 26, 16 26, 17 25 C18 24, 18 22, 16 21 C15 20, 12 20, 10 22 L5 18 Z" fill="#FF5A00" />
+    <path d="M19 8 L27 0 L31 4 L23 12 Z" fill="#FFFFFF" />
+    <!-- Text -->
+    <text x="40" y="32" font-family="system-ui, -apple-system, sans-serif" font-weight="900" font-size="28" fill="#FFFFFF" letter-spacing="0.5">The5<tspan fill="#FF5A00">%</tspan>ers</text>
+  </g>
+</svg>

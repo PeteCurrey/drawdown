@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 50" width="220" height="50">
+  <defs>
+    <linearGradient id="ftmo-dark-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0052FF" />
+      <stop offset="100%" stop-color="#00E5FF" />
+    </linearGradient>
+  </defs>
+  <g transform="translate(5, 5)">
+    <!-- Icon: Stylized F and Graph -->
+    <path d="M5 5 L35 5 L30 15 L15 15 L12 22 L27 22 L22 32 L10 32 L7 40 L0 40 Z" fill="url(#ftmo-dark-grad)" />
+    <path d="M28 22 L40 22 L35 32 L23 32 Z" fill="#00E5FF" opacity="0.8" />
+    <!-- Text -->
+    <text x="50" y="32" font-family="system-ui, -apple-system, sans-serif" font-weight="900" font-size="28" fill="#0A0F1D" letter-spacing="1.5">FTMO</text>
+  </g>
+</svg>

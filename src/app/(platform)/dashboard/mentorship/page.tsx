@@ -1,15 +1,69 @@
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
-import { Calendar, Video, Clock, Link as LinkIcon, Info } from "lucide-react";
+import { Calendar, Video, Clock, Link as LinkIcon, Info, Lock } from "lucide-react";
+import Link from "next/link";
 import CalEmbed from "./CalEmbed";
 
 export const revalidate = 0;
+
+const TIER_WEIGHT: Record<string, number> = {
+  free: 0, foundation: 1, edge: 2, floor: 3,
+};
 
 export default async function MentorshipPage() {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
   if (!user) redirect("/login");
+
+  // ── Tier gate: Floor required ─────────────────────────────────────────────
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("subscription_tier")
+    .eq("id", user.id)
+    .single();
+
+  const tier = (profile as any)?.subscription_tier as string | undefined;
+  const userWeight = TIER_WEIGHT[tier ?? "free"] ?? 0;
+
+  if (userWeight < 3) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[60vh] space-y-8 animate-in fade-in duration-700">
+        <div className="p-10 bg-white border border-gray-200 shadow-sm flex flex-col items-center text-center space-y-6 max-w-md w-full rounded-2xl">
+          <div className="w-14 h-14 rounded-full border border-amber-300/50 bg-amber-50 flex items-center justify-center">
+            <Lock className="w-6 h-6 text-amber-500" />
+          </div>
+          <div className="space-y-2">
+            <p className="text-xs font-bold uppercase tracking-widest text-gray-900">
+              Floor Access Required
+            </p>
+            <p className="text-sm text-gray-500 leading-relaxed">
+              1-to-1 Mentorship sessions are exclusive to Floor plan members.
+              Book a monthly 45-minute session with Pete to review your journal and sharpen your edge.
+            </p>
+            <p className="text-xs text-gray-400 font-mono mt-2">
+              Current plan: <span className="font-bold text-gray-700 uppercase">{tier ?? "Free"}</span>
+            </p>
+          </div>
+          <div className="w-full space-y-2 pt-2">
+            <Link
+              href="/pricing"
+              className="w-full flex items-center justify-center px-8 py-4 bg-amber-500 hover:bg-amber-600 text-white text-[10px] font-bold uppercase tracking-widest transition-all rounded-lg"
+            >
+              Upgrade to Floor →
+            </Link>
+            <Link
+              href="/dashboard"
+              className="w-full flex items-center justify-center px-8 py-3 border border-gray-200 text-[10px] font-mono uppercase tracking-widest text-gray-500 hover:text-gray-900 transition-all rounded-lg"
+            >
+              Back to Dashboard
+            </Link>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
 
   // Fetch mentorship sessions for this user
   const { data: sessions, error } = await supabase

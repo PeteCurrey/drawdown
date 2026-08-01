@@ -5,11 +5,63 @@ import Link from "next/link";
 
 export const revalidate = 0;
 
+const TIER_WEIGHT: Record<string, number> = {
+  free: 0, foundation: 1, edge: 2, floor: 3,
+};
+
 export default async function EventsPage() {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
   if (!user) redirect("/login");
+
+  // ── Tier gate: Edge+ required ────────────────────────────────────────────
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("subscription_tier")
+    .eq("id", user.id)
+    .single();
+
+  const tier = (profile as any)?.subscription_tier as string | undefined;
+  const userWeight = TIER_WEIGHT[tier ?? "free"] ?? 0;
+
+  if (userWeight < 2) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[60vh] space-y-8 animate-in fade-in duration-700">
+        <div className="p-10 bg-white border border-gray-200 shadow-sm flex flex-col items-center text-center space-y-6 max-w-md w-full rounded-2xl">
+          <div className="w-14 h-14 rounded-full border border-cyan-300/50 bg-cyan-50 flex items-center justify-center">
+            <Lock className="w-6 h-6 text-cyan-500" />
+          </div>
+          <div className="space-y-2">
+            <p className="text-xs font-bold uppercase tracking-widest text-gray-900">
+              Edge Access Required
+            </p>
+            <p className="text-sm text-gray-500 leading-relaxed">
+              Live Events — monthly Q&amp;A sessions and special masterclasses — are available on Edge and Floor plans.
+            </p>
+            <p className="text-xs text-gray-400 font-mono mt-2">
+              Current plan: <span className="font-bold text-gray-700 uppercase">{tier ?? "Free"}</span>
+            </p>
+          </div>
+          <div className="w-full space-y-2 pt-2">
+            <Link
+              href="/pricing"
+              className="w-full flex items-center justify-center px-8 py-4 bg-cyan-500 hover:bg-cyan-600 text-white text-[10px] font-bold uppercase tracking-widest transition-all rounded-lg"
+            >
+              Upgrade to Edge →
+            </Link>
+            <Link
+              href="/dashboard"
+              className="w-full flex items-center justify-center px-8 py-3 border border-gray-200 text-[10px] font-mono uppercase tracking-widest text-gray-500 hover:text-gray-900 transition-all rounded-lg"
+            >
+              Back to Dashboard
+            </Link>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
 
   // Fetch events
   const { data: events, error } = await supabase
@@ -30,7 +82,7 @@ export default async function EventsPage() {
       <header className="border-b border-[#EDEDED] pb-6">
         <h1 className="text-3xl font-bold tracking-tight text-[#1A1A1A]">Live Events</h1>
         <p className="text-sm text-[#555550] mt-2 max-w-xl">
-          Monthly live Q&A sessions and special masterclasses. Edge & Floor tiers only.
+          Monthly live Q&A sessions and special masterclasses.
         </p>
       </header>
 

@@ -164,8 +164,20 @@ export function Navigation() {
     normalizedPathname === "/store/prop-survival-kit" ||
     normalizedPathname === "/compare" ||
     normalizedPathname === "/prop-firms/compare" ||
-    normalizedPathname === "/brokers/all"
+    normalizedPathname === "/brokers/all" ||
+    normalizedPathname === "/prop-firms/ftmo" ||
+    normalizedPathname === "/prop-firms/the5ers" ||
+    normalizedPathname === "/prop-firms/funding-pips"
   );
+
+  let darkHeaderClasses = "bg-[#0A0A0A] border-white/5 text-white";
+  if (normalizedPathname === "/prop-firms/ftmo") {
+    darkHeaderClasses = "bg-[#080B12] border-white/5 text-white";
+  } else if (normalizedPathname === "/prop-firms/the5ers") {
+    darkHeaderClasses = "bg-[#0D0A08] border-white/5 text-white";
+  } else if (normalizedPathname === "/prop-firms/funding-pips") {
+    darkHeaderClasses = "bg-[#020C09] border-white/5 text-white";
+  }
 
 
   const regionPrefix = region === "uk" ? "" : `/${region}`;
@@ -210,7 +222,7 @@ export function Navigation() {
       className={cn(
         "fixed top-0 left-0 w-full z-[200] h-[58px] flex items-center select-none border-b transition-colors duration-200",
         isDarkMarketPage 
-          ? "bg-[#0A0A0A] border-white/5 text-white" 
+          ? darkHeaderClasses 
           : "bg-mkt-bg border-mkt-bd text-mkt-ink"
       )}
       onMouseEnter={handleHeaderMouseEnter}
@@ -473,7 +485,7 @@ export function Navigation() {
           className={cn(
             "fixed inset-0 top-[58px] z-[199] lg:hidden flex flex-col px-6 py-8 border-t",
             isDarkMarketPage 
-              ? "bg-[#0A0A0A] border-white/5" 
+              ? darkHeaderClasses 
               : "bg-mkt-bg border-mkt-bd"
           )}
         >

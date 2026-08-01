@@ -2,6 +2,7 @@ import { Navigation } from "@/components/layout/Navigation";
 import { HeroSection } from "@/components/home/HeroSection";
 import { PriceTicker } from "@/components/home/PriceTicker";
 import { StatsBar } from "@/components/home/StatsBar";
+import { MacroIntelligenceStrip } from "@/components/home/MacroIntelligenceStrip";
 import { ScrollQuoteSection } from "@/components/home/ScrollQuoteSection";
 import { LiveNewsSection } from "@/components/home/LiveNewsSection";
 import { GlobalFluxSection } from "@/components/home/GlobalFluxSection";
@@ -127,6 +128,8 @@ export default async function Home() {
       <FadeInSection delay={0}>
         <StatsBar />
       </FadeInSection>
+
+      <MacroIntelligenceStrip />
 
       <ScrollQuoteSection />
 

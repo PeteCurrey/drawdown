@@ -47,11 +47,8 @@ const nextConfig: NextConfig = {
         destination: "/:region/brokers/all",
         permanent: true,
       },
-      {
-        source: "/markets",
-        destination: "/markets/pulse",
-        permanent: true,
-      },
+      // NOTE: /markets is the hub page — no redirect needed.
+      // /markets/pulse is accessible via the hub navigation.
 
       // Features / Tools
 
@@ -196,55 +193,55 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
 
-      // SEO Audit Phase 1 — Group B (Retired Markets Instrument Pages)
+      // SEO Audit Phase 1 — Group B (Retired Markets Instrument Pages → correct category/slug URLs)
       {
         source: "/markets/usdjpy",
-        destination: "/markets/pulse",
+        destination: "/markets/forex/usdjpy",
         permanent: true,
       },
       {
         source: "/markets/gbpnzd",
-        destination: "/markets/pulse",
+        destination: "/markets/forex",
         permanent: true,
       },
       {
         source: "/markets/platinum",
-        destination: "/markets/pulse",
+        destination: "/markets/commodities",
         permanent: true,
       },
       {
         source: "/markets/eurjpy",
-        destination: "/markets/pulse",
+        destination: "/markets/forex",
         permanent: true,
       },
       {
         source: "/markets/astrazeneca-azn",
-        destination: "/markets/pulse",
+        destination: "/markets/indices",
         permanent: true,
       },
       {
         source: "/markets/xrp",
-        destination: "/markets/pulse",
+        destination: "/markets/crypto/xrp",
         permanent: true,
       },
       {
         source: "/markets/gold-xauusd",
-        destination: "/markets/pulse",
+        destination: "/markets/commodities/gold",
         permanent: true,
       },
       {
         source: "/markets/chainlink",
-        destination: "/markets/pulse",
+        destination: "/markets/crypto",
         permanent: true,
       },
       {
         source: "/markets/audusd",
-        destination: "/markets/pulse",
+        destination: "/markets/forex/audusd",
         permanent: true,
       },
       {
         source: "/markets/nvidia-nvda",
-        destination: "/markets/pulse",
+        destination: "/markets/indices",
         permanent: true,
       },
 

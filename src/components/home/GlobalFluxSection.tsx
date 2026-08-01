@@ -1,13 +1,18 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
+import { TrendingUp, TrendingDown } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface MiniChartProps {
   symbol: string;
+  tickerKey: string;
+  label: string;
+  priceData?: { price: number; changePercent: number };
 }
 
-function TVMiniChart({ symbol }: MiniChartProps) {
+function TVMiniChart({ symbol, tickerKey, label, priceData }: MiniChartProps) {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -21,7 +26,7 @@ function TVMiniChart({ symbol }: MiniChartProps) {
     script.innerHTML = JSON.stringify({
       symbol: symbol,
       width: "100%",
-      height: 220,
+      height: 200,
       locale: "en",
       dateRange: "1D",
       colorTheme: "light",
@@ -40,9 +45,30 @@ function TVMiniChart({ symbol }: MiniChartProps) {
     containerRef.current.appendChild(script);
   }, [symbol]);
 
+  const isPos = (priceData?.changePercent ?? 0) >= 0;
+
   return (
-    <div className="bg-white border border-mkt-bd rounded-[14px] p-6 hover:-translate-y-0.5 hover:shadow-[0_8px_32px_rgba(0,0,0,0.06)] transition-all duration-300 min-h-[268px] flex items-center justify-center">
-      <div className="w-full h-full relative" ref={containerRef}>
+    <div className="bg-white border border-mkt-bd rounded-[14px] p-5 hover:-translate-y-0.5 hover:shadow-[0_8px_32px_rgba(0,0,0,0.06)] transition-all duration-300 min-h-[290px] flex flex-col justify-between">
+      {/* Header Live Price Badge */}
+      {priceData && (
+        <div className="flex items-center justify-between pb-3 mb-2 border-b border-neutral-100">
+          <div>
+            <span className="text-xs font-mono font-bold text-mkt-ink block">{label}</span>
+            <span className="text-[9px] font-mono text-mkt-i4 uppercase tracking-widest">Polygon.io Stream</span>
+          </div>
+          <div className="text-right">
+            <span className="text-sm font-mono font-bold text-mkt-ink block">
+              {priceData.price > 1000 ? priceData.price.toLocaleString() : priceData.price}
+            </span>
+            <span className={cn("text-[9px] font-mono font-semibold flex items-center justify-end gap-0.5", isPos ? "text-mkt-grn" : "text-mkt-red")}>
+              {isPos ? <TrendingUp className="w-2.5 h-2.5" /> : <TrendingDown className="w-2.5 h-2.5" />}
+              {isPos ? "+" : ""}{priceData.changePercent}%
+            </span>
+          </div>
+        </div>
+      )}
+
+      <div className="w-full h-full relative flex-grow" ref={containerRef}>
         <div className="tradingview-widget-container__widget" />
       </div>
     </div>
@@ -50,12 +76,32 @@ function TVMiniChart({ symbol }: MiniChartProps) {
 }
 
 const CARDS_CONFIG = [
-  { symbol: "FX:GBPUSD", label: "GBP/USD" },
-  { symbol: "FX:EURUSD", label: "EUR/USD" },
-  { symbol: "BINANCE:BTCUSD", label: "BTC/USD" },
+  { symbol: "FX:GBPUSD", tickerKey: "GBPUSD", label: "GBP/USD" },
+  { symbol: "FX:EURUSD", tickerKey: "EURUSD", label: "EUR/USD" },
+  { symbol: "OANDA:XAUUSD", tickerKey: "XAUUSD", label: "Gold (XAU/USD)" },
+  { symbol: "BINANCE:BTCUSD", tickerKey: "BTCUSD", label: "BTC/USD" },
 ];
 
 export function GlobalFluxSection() {
+  const [snapshots, setSnapshots] = useState<Record<string, { price: number; changePercent: number }>>({});
+
+  useEffect(() => {
+    async function loadSnapshots() {
+      try {
+        const res = await fetch("/api/market/polygon-snapshot?symbols=GBPUSD,EURUSD,XAUUSD,BTCUSD");
+        if (res.ok) {
+          const json = await res.json();
+          if (json.snapshots) {
+            setSnapshots(json.snapshots);
+          }
+        }
+      } catch (err) {
+        console.error("Failed to load Polygon snapshots:", err);
+      }
+    }
+    loadSnapshots();
+  }, []);
+
   const cardVariants = {
     hidden: { opacity: 0, y: 20 },
     visible: (i: number) => ({
@@ -76,7 +122,7 @@ export function GlobalFluxSection() {
         {/* Section Heading */}
         <div className="mb-16 text-center">
           <span className="text-[11px] font-sans font-bold text-mkt-i4 uppercase tracking-widest block mb-4">
-            // MARKET DYNAMICS
+            // MARKET DYNAMICS & REALTIME FLUX
           </span>
           <h2 className="text-3xl md:text-5xl font-sans font-extrabold text-mkt-ink tracking-tight mb-4">
             Global Flux & Volatility
@@ -85,12 +131,12 @@ export function GlobalFluxSection() {
             Real-time tracking of systemic market range expansion, high-low pricing envelopes, and volatility thresholds.
           </p>
           <p className="text-xs text-mkt-i4 max-w-2xl mx-auto font-sans mt-4 leading-relaxed border-t border-neutral-100 pt-4">
-            These live TradingView widgets stream real-time price feeds and daily sparklines for GBP/USD, EUR/USD, and BTC/USD. Traders use this tick-by-tick momentum to monitor immediate directional shifts and daily ranges, helping them identify major volume clusters and trends.
+            Enriched with live Polygon.io data feeds, these TradingView widgets stream real-time price feeds and daily sparklines for GBP/USD, EUR/USD, Gold, and BTC/USD.
           </p>
         </div>
 
-        {/* 3 Column Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {/* 4 Column Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {CARDS_CONFIG.map((config, idx) => (
             <motion.div
               key={config.symbol}
@@ -100,7 +146,12 @@ export function GlobalFluxSection() {
               viewport={{ once: true, margin: "-20px" }}
               variants={cardVariants}
             >
-              <TVMiniChart symbol={config.symbol} />
+              <TVMiniChart
+                symbol={config.symbol}
+                tickerKey={config.tickerKey}
+                label={config.label}
+                priceData={snapshots[config.tickerKey]}
+              />
             </motion.div>
           ))}
         </div>

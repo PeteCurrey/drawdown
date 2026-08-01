@@ -25,6 +25,7 @@ import { createClient } from "@/lib/supabase/client";
 import { phases } from "@/data/courses";
 import Link from "next/link";
 import { WatchlistSummary } from "@/components/dashboard/WatchlistSummary";
+import { MacroPulseCard } from "@/components/dashboard/MacroPulseCard";
 
 // ─── Custom CyberGuard Aesthetic Components ─────────────────────────────────
 import { MarketIntelligenceHeroCard } from "@/components/dashboard/MarketIntelligenceHeroCard";
@@ -505,31 +506,8 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        {/* Card 3: AI Tools */}
-        <div className="bg-white border border-[#EDEDED] rounded-2xl p-5 shadow-[0_2px_12px_rgba(0,0,0,0.06)] flex flex-col justify-between min-h-[220px] transition-all hover:shadow-[0_8px_24px_rgba(0,0,0,0.10)] hover:-translate-y-1 duration-200">
-          <div>
-            <div className="flex justify-between items-start mb-4">
-              <h5 className="font-semibold text-sm text-[#1A1A1A]">AI Terminal Tools</h5>
-              <Link href="/dashboard/tools" className="text-xs text-[#555550] hover:text-[#1A1A1A]">↗</Link>
-            </div>
-            
-            <div className="space-y-1 text-xs">
-              <Link href="/dashboard/journal" className="block text-[#555550] hover:text-[#1A1A1A] hover:underline">
-                › AI Trade Journal (Free)
-              </Link>
-              <Link href="/dashboard/tools/position-sizer" className="block text-[#555550] hover:text-[#1A1A1A] hover:underline">
-                › Position Sizer (Free)
-              </Link>
-              <Link href="/dashboard/tools/technical-scanner" className="block text-[#555550] hover:text-[#1A1A1A] hover:underline">
-                › Confluence Scanner (Edge+)
-              </Link>
-            </div>
-          </div>
-
-          <div className="pt-3 border-t border-[#EDEDED] text-right">
-            <span className="text-[10px] font-mono text-[#555550]">3 More Available →</span>
-          </div>
-        </div>
+        {/* Card 3: Macro Pulse (FRED/EIA) */}
+        <MacroPulseCard />
 
         {/* Card 4: Watchlist Summary */}
         <WatchlistSummary initialSymbols={watchlistItems} userCurrency={userCurrency} />

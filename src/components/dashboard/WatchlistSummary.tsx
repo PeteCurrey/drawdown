@@ -12,10 +12,10 @@ interface WatchlistSummaryProps {
 }
 
 export function WatchlistSummary({ initialSymbols, userCurrency = "USD" }: WatchlistSummaryProps) {
-  // Use hook slugs for twelve data
   const hookSlugs = initialSymbols.map(s => s.replace("/", "").toUpperCase());
   const data = useMarketCache(hookSlugs);
   const [fxRate, setFxRate] = useState<number>(1);
+  const [polySnapshots, setPolySnapshots] = useState<Record<string, any>>({});
 
   useEffect(() => {
     if (!userCurrency || userCurrency.toUpperCase() === "USD") {
@@ -31,7 +31,18 @@ export function WatchlistSummary({ initialSymbols, userCurrency = "USD" }: Watch
       .catch(() => {});
   }, [userCurrency]);
 
-  // We need to map back to display symbols
+  useEffect(() => {
+    if (hookSlugs.length > 0) {
+      const symList = hookSlugs.join(",");
+      fetch(`/api/market/polygon-snapshot?symbols=${symList}`)
+        .then(r => r.json())
+        .then(d => {
+          if (d.snapshots) setPolySnapshots(d.snapshots);
+        })
+        .catch(err => console.error("Error fetching Polygon snapshot for watchlist:", err));
+    }
+  }, [initialSymbols]);
+
   const displayMap = initialSymbols.reduce((acc, sym, i) => {
     acc[hookSlugs[i]] = sym;
     return acc;
@@ -49,17 +60,22 @@ export function WatchlistSummary({ initialSymbols, userCurrency = "USD" }: Watch
           {initialSymbols.length > 0 ? (
             hookSlugs.slice(0, 3).map((slug) => {
               const item = data[slug];
+              const poly = polySnapshots[slug];
               const displaySymbol = displayMap[slug];
-              const rawPrice = item?.price ?? null;
+              
+              const rawPrice = item?.price ?? poly?.price ?? null;
               const convertedPrice = rawPrice !== null ? rawPrice * fxRate : null;
+              const changePct = item?.change_pct ?? poly?.changePercent ?? 0;
+              const isLoading = (item?.loading ?? true) && !poly;
+
               return (
                 <WatchlistItem 
                   key={slug} 
                   slug={slug} 
                   displaySymbol={displaySymbol} 
                   price={convertedPrice} 
-                  changePercent={item?.change_pct ?? 0}
-                  loading={item?.loading ?? true}
+                  changePercent={changePct}
+                  loading={isLoading}
                 />
               );
             })
@@ -70,7 +86,7 @@ export function WatchlistSummary({ initialSymbols, userCurrency = "USD" }: Watch
       </div>
 
       <div className="pt-3 border-t border-[#EDEDED] flex justify-between items-end">
-        <span className="text-[10px] font-mono text-[#555550]">Watching</span>
+        <span className="text-[10px] font-mono text-[#555550]">Watching (Polygon Stream)</span>
         <span className="text-2xl font-black font-mono leading-none">
           {initialSymbols.length}
         </span>

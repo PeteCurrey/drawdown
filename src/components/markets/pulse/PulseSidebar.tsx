@@ -1,26 +1,35 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Gauge, Calendar, AlertTriangle, TrendingUp, Info } from "lucide-react";
+import { Gauge, Calendar, AlertTriangle, Info, Flame, Landmark } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 
 export function PulseSidebar() {
   const [calendar, setCalendar] = useState<any[]>([]);
   const [sentiment, setSentiment] = useState<any>(null);
+  const [macroIndicators, setMacroIndicators] = useState<any[]>([]);
+  const [energyData, setEnergyData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function fetchData() {
       try {
-        const [cRes, sRes] = await Promise.all([
+        const [cRes, sRes, mRes, eRes] = await Promise.all([
           fetch("/api/market/calendar"),
-          fetch("/api/market/sentiment")
+          fetch("/api/market/sentiment"),
+          fetch("/api/macro/indicators"),
+          fetch("/api/market/energy")
         ]);
         const cData = await cRes.json();
         const sData = await sRes.json();
+        const mData = await mRes.json();
+        const eData = await eRes.json();
+
         setCalendar(cData.slice(0, 5));
         setSentiment(sData);
+        if (mData.list) setMacroIndicators(mData.list);
+        if (eData.energy) setEnergyData(eData.energy);
       } catch (err) {
         console.error("Sidebar data fetch error:", err);
       } finally {
@@ -62,6 +71,57 @@ export function PulseSidebar() {
         </div>
       </div>
 
+      {/* FRED® Macro Vitals Widget */}
+      <div className="bg-[#F7F7F7] border border-mkt-bd p-6 space-y-4">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2 text-[10px] font-mono uppercase tracking-[0.2em] text-mkt-ink font-bold">
+            <Landmark className="w-3.5 h-3.5 text-accent" />
+            FRED® Central Bank Vitals
+          </div>
+          <span className="text-[8px] font-mono text-mkt-i4 uppercase">Live API</span>
+        </div>
+
+        <div className="space-y-2">
+          {macroIndicators.slice(0, 4).map((item) => (
+            <div key={item.key} className="flex items-center justify-between p-2.5 bg-white border border-mkt-bd/60 text-xs font-mono">
+              <span className="text-mkt-i3 font-sans font-medium text-[11px]">{item.name}</span>
+              <div className="text-right">
+                <span className="font-bold text-mkt-ink">{item.value}{item.unit}</span>
+                <span className={cn("text-[9px] block font-semibold", item.change >= 0 ? "text-mkt-grn" : "text-mkt-red")}>
+                  {item.change >= 0 ? `+${item.change}` : item.change}
+                </span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* EIA® Energy Snapshot Widget */}
+      {energyData && (
+        <div className="bg-[#F7F7F7] border border-mkt-bd p-6 space-y-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2 text-[10px] font-mono uppercase tracking-[0.2em] text-mkt-ink font-bold">
+              <Flame className="w-3.5 h-3.5 text-[#F9771D]" />
+              EIA® Energy Snapshot
+            </div>
+            <span className="text-[8px] font-mono text-mkt-i4 uppercase">Daily EIA</span>
+          </div>
+
+          <div className="grid grid-cols-2 gap-2 font-mono">
+            <div className="bg-white p-3 border border-mkt-bd/60">
+              <span className="text-[9px] text-mkt-i4 uppercase block">WTI Crude</span>
+              <span className="text-sm font-bold text-mkt-ink">${energyData.wti_crude?.price}</span>
+              <span className="text-[8px] text-mkt-i4 block">/bbl</span>
+            </div>
+            <div className="bg-white p-3 border border-mkt-bd/60">
+              <span className="text-[9px] text-mkt-i4 uppercase block">Natural Gas</span>
+              <span className="text-sm font-bold text-mkt-ink">${energyData.nat_gas?.price}</span>
+              <span className="text-[8px] text-mkt-i4 block">/MMBtu</span>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Economic Calendar Sidebar */}
       <div className="bg-[#F7F7F7] border border-mkt-bd p-8 space-y-6">
         <div className="flex items-center justify-between">
@@ -98,25 +158,6 @@ export function PulseSidebar() {
           ) : (
             <p className="text-[10px] font-mono text-mkt-i4 uppercase text-center py-4 border border-dashed border-mkt-bd">No High Impact Events</p>
           )}
-        </div>
-      </div>
-
-      {/* Intelligence CTA */}
-      <div className="p-8 bg-accent/5 border border-accent/20 relative overflow-hidden group">
-        <div className="relative z-10 space-y-4">
-          <div className="flex items-center gap-2 text-[10px] font-mono uppercase tracking-[0.2em] text-accent font-bold">
-            <Info className="w-3 h-3" />
-            Advanced Signal Suite
-          </div>
-          <p className="text-xs text-mkt-i2 leading-relaxed">
-            Unlock the full technical consensus scanner, detailed sector heatmaps, and AI-driven news explanation for every major headline.
-          </p>
-          <Link 
-            href="/signup" 
-            className="block w-full py-4 bg-mkt-ink text-white text-center text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-accent-hover transition-colors"
-          >
-            Launch Intelligence Hub
-          </Link>
         </div>
       </div>
     </div>

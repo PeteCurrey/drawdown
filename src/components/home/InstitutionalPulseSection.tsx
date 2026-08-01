@@ -90,10 +90,42 @@ export function InstitutionalPulseSection() {
 
   const activeSentiment = sentiment || { fearGreed: 74, vix: 15.2, label: "Extreme Greed" };
   const activeSignals = signals.length > 0 ? signals : [
-    { symbol: "GBP/USD", score: 72, rsi: 54.2, trend: "Bullish", verdict: "Buy", updated: "Just now" },
-    { symbol: "EUR/USD", score: 48, rsi: 49.0, trend: "Neutral", verdict: "Neutral", updated: "Just now" },
-    { symbol: "Gold (XAU/USD)", score: 81, rsi: 62.5, trend: "Bullish", verdict: "Strong Buy", updated: "Just now" },
-    { symbol: "S&P 500", score: 68, rsi: 58.1, trend: "Bullish", verdict: "Buy", updated: "Just now" }
+    {
+      icon: ArrowUpRight,
+      title: "GBP/USD — Institutional Accumulation",
+      description: "Order flow delta +74% bullish. RSI at 54.2 in momentum zone.",
+      color: "var(--mkt-grn)",
+      bgColor: "rgba(24, 184, 128, 0.1)",
+      badgeColor: "text-mkt-grn bg-mkt-grn/10 border-mkt-grn/20",
+      type: "BULLISH FLOW"
+    },
+    {
+      icon: ArrowUpRight,
+      title: "Gold (XAU/USD) — Macro Safe-Haven Bid",
+      description: "Institutional allocations surging. Inflation breakevens holding.",
+      color: "var(--mkt-grn)",
+      bgColor: "rgba(24, 184, 128, 0.1)",
+      badgeColor: "text-mkt-grn bg-mkt-grn/10 border-mkt-grn/20",
+      type: "BULLISH ACCUMULATION"
+    },
+    {
+      icon: ArrowDownRight,
+      title: "EUR/USD font-bold — Neutral Consolidation Range",
+      description: "ECB vs Fed rate parity holding range between 1.0820 and 1.0910.",
+      color: "var(--mkt-amb)",
+      bgColor: "rgba(245, 158, 11, 0.1)",
+      badgeColor: "text-mkt-amb bg-mkt-amb/10 border-mkt-amb/20",
+      type: "NEUTRAL RANGE"
+    },
+    {
+      icon: ArrowUpRight,
+      title: "S&P 500 — Index Momentum Trend",
+      description: "Institutional volume expansion across mega-cap equities.",
+      color: "var(--mkt-grn)",
+      bgColor: "rgba(24, 184, 128, 0.1)",
+      badgeColor: "text-mkt-grn bg-mkt-grn/10 border-mkt-grn/20",
+      type: "BULLISH FLOW"
+    }
   ];
 
   // Donut values: Bullish exposure mapped to Fear/Greed index, Neutral to VIX
@@ -164,7 +196,7 @@ export function InstitutionalPulseSection() {
               <RefreshCw className="w-4 h-4 text-mkt-i4" /> Current Order Flow Signals
             </h3>
             {activeSignals.map((sig: any, idx: number) => {
-              const Icon = sig.icon;
+              const Icon = sig.icon || ArrowUpRight;
               return (
                 <motion.div
                   key={idx}

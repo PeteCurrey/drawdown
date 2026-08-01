@@ -478,3 +478,88 @@ export function getEveningWrapTemplate(data: EveningWrapData): string {
     </html>
   `;
 }
+
+export function getSurvivalKitConfirmationTemplate(downloadUrl: string, tempPassword?: string): string {
+  return `
+    <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+    <html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <title>Your Prop Challenge Survival Kit</title>
+      <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet" />
+      <style type="text/css" rel="stylesheet" media="all">
+        ${getBaseStyles()}
+      </style>
+    </head>
+    <body>
+      <table class="wrapper" width="100%" cellpadding="0" cellspacing="0" role="presentation">
+        <tr>
+          <td align="center">
+            <table class="main" width="100%" cellpadding="0" cellspacing="0" role="presentation">
+              <!-- Header -->
+              <tr>
+                <td class="header" style="border-bottom: 2px solid #C8F135;">
+                  <h1 style="color: #ffffff; font-size: 24px; margin: 0; font-family: 'Outfit', sans-serif; letter-spacing: -0.5px;">Drawdown<span style="color: #C8F135;">.</span></h1>
+                  <p style="margin: 6px 0 0 0; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: #7A7D85; font-family: ui-monospace, monospace;">Prop Challenge Survival Kit</p>
+                </td>
+              </tr>
+              
+              <!-- Content -->
+              <tr>
+                <td class="content">
+                  <p style="color: #E4E2DD; font-size: 16px; font-weight: 500;">Your Survival Kit is ready.</p>
+                  <p>Thank you for your purchase. You are now equipped with the complete blueprint to navigate, protect, and pass your prop firm evaluation.</p>
+                  
+                  <div class="section-box" style="border-color: #C8F135; background-color: rgba(200, 241, 53, 0.04);">
+                    <p style="margin-bottom: 8px; font-weight: bold; color: #C8F135; font-family: ui-monospace, monospace;">// WHAT IS INCLUDED:</p>
+                    <ul style="margin: 0; padding-left: 20px; color: #E4E2DD;">
+                      <li style="color: #E4E2DD;"><strong>The Rule Decoder:</strong> Every drawdown calculation type explained with clear examples.</li>
+                      <li style="color: #E4E2DD;"><strong>The Position Sizing Sheets:</strong> The templates to manage your daily loss limits.</li>
+                      <li style="color: #E4E2DD;"><strong>The Tilt Protocol:</strong> Psychological blueprints to manage drawdown spirals.</li>
+                    </ul>
+                  </div>
+
+                  <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top: 30px; margin-bottom: 30px;">
+                    <tr>
+                      <td align="center">
+                        <a href="${downloadUrl}" class="btn-accent" style="background-color: #C8F135; color: #08090D !important;" target="_blank">Download Survival Kit PDF &rarr;</a>
+                      </td>
+                    </tr>
+                  </table>
+                  
+                  ${tempPassword ? `
+                  <div class="section-box">
+                    <p style="margin-bottom: 8px; font-weight: bold; color: #F9771D; font-family: ui-monospace, monospace;">// YOUR ACCOUNT ACCESS:</p>
+                    <p style="font-size: 14px; margin-bottom: 8px; color: #E4E2DD;">We created a companion account for you so you can access the interactive modules and templates on the Drawdown dashboard.</p>
+                    <p style="font-size: 14px; margin-bottom: 4px; color: #E4E2DD;"><strong>Login URL:</strong> <a href="https://drawdown.trading/login" style="color: #C8F135; text-decoration: underline;">drawdown.trading/login</a></p>
+                    <p style="font-size: 14px; margin-bottom: 4px; color: #E4E2DD;"><strong>Password:</strong> <code style="background-color: #1A1D24; padding: 2px 6px; border-radius: 4px; font-family: monospace;">${tempPassword}</code></p>
+                    <p style="font-size: 12px; color: #7A7D85; margin-top: 8px;">Please log in and update your password on your profile dashboard.</p>
+                  </div>
+                  ` : `
+                  <p>You can also log in to your Drawdown account to access the interactive modules and sheets directly on your dashboard.</p>
+                  `}
+                  
+                  <p style="font-size: 14px; margin-top: 24px;">If you have any questions or need support, reply directly to this email.</p>
+                </td>
+              </tr>
+              
+              <!-- Footer -->
+              <tr>
+                <td class="footer">
+                  <p style="margin-bottom: 8px; color: #7A7D85; font-weight: 500;">Pete Currey &bull; Drawdown Trading</p>
+                  <p style="margin-bottom: 16px; color: #555550;">&copy; ${new Date().getFullYear()} Drawdown. All rights reserved.</p>
+                  <hr style="border: 0; border-top: 1px solid #1A1D24; margin: 20px 0;" />
+                  <p class="disclaimer">
+                    <strong>RISK WARNING:</strong> Trading financial instruments carries high risk. Most retail traders lose capital. Only risk capital you can afford to lose. All content is for educational use only and does not constitute financial advice.
+                  </p>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+    </body>
+    </html>
+  `;
+}

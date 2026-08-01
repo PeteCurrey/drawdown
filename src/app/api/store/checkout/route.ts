@@ -42,6 +42,14 @@ export async function POST(request: NextRequest) {
     const { data: { user } } = await supabase.auth.getUser();
     const origin = request.headers.get("origin") ?? process.env.NEXT_PUBLIC_APP_URL;
 
+    // Fetch survival kit course ID to link purchase
+    const { data: course } = await supabase
+      .from("courses")
+      .select("id")
+      .eq("slug", "prop-firm-survival-kit")
+      .single();
+    const courseId = course?.id || "";
+
     const currency = (region && REGION_CURRENCIES[region]) ? REGION_CURRENCIES[region] : product.defaultCurrency;
 
     // Build line items — one-time product
@@ -82,6 +90,9 @@ export async function POST(request: NextRequest) {
       metadata: {
         product_id: productId,
         user_id: user?.id ?? "guest",
+        userId: user?.id ?? "guest",
+        purchase_type: "course",
+        course_id: courseId,
         include_bump: String(includeBump),
       },
       ...(user?.email

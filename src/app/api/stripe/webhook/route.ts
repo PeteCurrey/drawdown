@@ -3,6 +3,8 @@ import { type NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 import { headers } from "next/headers";
 import { awardBadge } from "@/lib/gamification";
+import { Resend } from "resend";
+import { getSurvivalKitConfirmationTemplate } from "@/lib/email-templates";
 
 export async function POST(request: NextRequest) {
   const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
@@ -37,10 +39,133 @@ export async function POST(request: NextRequest) {
 
   switch (event.type) {
     case "checkout.session.completed":
-      const userId = session.metadata.userId;
+      const userId = session.metadata.userId || session.metadata.user_id;
       const tier = session.metadata.tier;
       const customerId = session.customer;
       const purchaseType = session.metadata.purchase_type; // 'subscription' | 'course'
+      const productId = session.metadata.product_id;
+
+      // ── Prop Survival Kit Store Purchase ──────────────────────────────────
+      if (productId === 'prop-survival-kit') {
+        const email = session.customer_details?.email || session.customer_email;
+        let resolvedUserId = userId && userId !== 'guest' ? userId : null;
+        let tempPassword = "";
+
+        if (!resolvedUserId && email) {
+          // Check if user already exists
+          const { data: usersData } = await supabase.auth.admin.listUsers();
+          const existingUser = usersData?.users?.find(u => u.email?.toLowerCase() === email.toLowerCase());
+          if (existingUser) {
+            resolvedUserId = existingUser.id;
+          } else {
+            // Create user account for guest
+            tempPassword = Math.random().toString(36).substring(2, 10);
+            const fullName = session.customer_details?.name || email.split("@")[0];
+            const { data: createData, error: createError } = await supabase.auth.admin.createUser({
+              email,
+              password: tempPassword,
+              email_confirm: true,
+              user_metadata: {
+                full_name: fullName,
+                subscription_tier: "free",
+                role: "student",
+              }
+            });
+            if (createData?.user) {
+              resolvedUserId = createData.user.id;
+              await supabase.from("profiles").upsert({
+                id: resolvedUserId,
+                display_name: fullName,
+                full_name: fullName,
+                subscription_tier: "free",
+                subscription_status: "inactive",
+                role: "student",
+                updated_at: new Date().toISOString()
+              });
+            } else {
+              console.error("Failed to create guest user in webhook:", createError);
+            }
+          }
+        }
+
+        // Record course purchase in course_purchases
+        let courseId = session.metadata.course_id;
+        if (!courseId) {
+          const { data: course } = await supabase
+            .from("courses")
+            .select("id")
+            .eq("slug", "prop-firm-survival-kit")
+            .single();
+          courseId = course?.id;
+        }
+
+        if (resolvedUserId && courseId) {
+          const { error: courseErr } = await supabase
+            .from('course_purchases')
+            .insert({
+              user_id:                  resolvedUserId,
+              course_id:                courseId,
+              stripe_payment_intent_id: session.payment_intent,
+              stripe_session_id:        session.id,
+              amount_paid_pence:        session.amount_total ?? 4900,
+              access_granted_via:       'stripe_purchase',
+            });
+          if (courseErr && courseErr.code !== '23505') {
+            console.error('Error recording survival kit purchase:', courseErr);
+          }
+        }
+
+        // Send PDF download email via Resend
+        const resendKey = process.env.RESEND_API_KEY;
+        if (resendKey && email) {
+          try {
+            // Generate a signed URL for the PDF (from Supabase Bucket)
+            let pdfDownloadUrl = "";
+            const bucketName = process.env.SUPABASE_SURVIVAL_KIT_BUCKET || "store";
+            const filePath = process.env.SUPABASE_SURVIVAL_KIT_PATH || "survival-kit/prop-challenge-survival-kit.pdf";
+            
+            const { data: signedData } = await supabase
+              .storage
+              .from(bucketName)
+              .createSignedUrl(filePath, 60 * 60 * 24 * 365); // 1 year expiry
+            
+            if (signedData?.signedUrl) {
+              pdfDownloadUrl = signedData.signedUrl;
+            } else {
+              const { data: publicUrlData } = supabase
+                .storage
+                .from(bucketName)
+                .getPublicUrl(filePath);
+              pdfDownloadUrl = publicUrlData?.publicUrl || "";
+            }
+
+            const emailHtml = getSurvivalKitConfirmationTemplate(pdfDownloadUrl, tempPassword || undefined);
+            
+            const resend = new Resend(resendKey);
+            await resend.emails.send({
+              from: "Pete @ Drawdown <thewire@drawdown.trading>",
+              to: email,
+              subject: "Your Prop Challenge Survival Kit is ready for download",
+              html: emailHtml
+            });
+
+            // Log the send in email_sends
+            await supabase.from("email_sends").insert({
+              type: "survival_kit_delivery",
+              subject: "Your Prop Challenge Survival Kit is ready for download",
+              content_html: emailHtml,
+              recipient_count: 1,
+              status: "sent",
+              sent_at: new Date().toISOString()
+            });
+
+          } catch (emailErr) {
+            console.error("Failed to send survival kit delivery email:", emailErr);
+          }
+        }
+
+        break;
+      }
 
       // ── One-time course purchase ──────────────────────────────────────────
       if (purchaseType === 'course' && userId && session.metadata.course_id) {

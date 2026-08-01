@@ -253,28 +253,6 @@ const nextConfig: NextConfig = {
       },
 
 
-      // Prop firm individual pages
-      {
-        source: "/prop-firms/ftmo",
-        destination: "/prop-firms",
-        permanent: true,
-      },
-      {
-        source: "/prop-firms/the5ers",
-        destination: "/prop-firms",
-        permanent: true,
-      },
-      {
-        source: "/prop-firms/funding-pips",
-        destination: "/prop-firms",
-        permanent: true,
-      },
-      {
-        source: "/prop-firms/:slug",
-        destination: "/prop-firms",
-        permanent: true,
-      },
-
       // Old blog page redirects
       {
         source: "/blog/why-you-need-a-trade-journal",

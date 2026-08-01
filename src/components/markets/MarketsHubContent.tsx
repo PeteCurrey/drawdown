@@ -90,20 +90,20 @@ export function MarketsHubContent() {
       </div>
 
       {/* Hero Section */}
-      <section className="relative pt-20 pb-16 bg-background-primary overflow-hidden border-b border-border-slate">
+      <section className="relative pt-20 pb-16 bg-[#0A0A0A] overflow-hidden border-b border-white/10">
         <div className="container mx-auto px-6 relative z-10">
           <div className="max-w-4xl space-y-6">
-            <div className="flex items-center gap-3 text-accent">
-               <div className="w-8 h-[1px] bg-accent" />
+            <div className="flex items-center gap-3 text-[#C8F135]">
+               <div className="w-8 h-[1px] bg-[#C8F135]" />
                <span className="text-[10px] font-mono uppercase tracking-[0.3em] font-bold">LIVE INTELLIGENCE</span>
             </div>
             
-            <h1 className="font-display font-extrabold uppercase tracking-tight leading-[0.9] text-4xl sm:text-6xl lg:text-7xl">
+            <h1 className="font-display font-extrabold uppercase tracking-tight leading-[0.9] text-4xl sm:text-6xl lg:text-7xl text-white">
               Market Intelligence <br />
-              <span className="text-text-primary">Command Center.</span>
+              <span className="text-[#C8F135]">Command Center.</span>
             </h1>
             
-            <p className="text-lg md:text-xl text-text-secondary leading-relaxed max-w-3xl font-medium">
+            <p className="text-lg md:text-xl text-white/70 leading-relaxed max-w-3xl font-medium">
               Live market data flows, volatility metrics, and actionable setups. Cut through the noise and see where the smart money is moving today.
             </p>
 
@@ -126,19 +126,19 @@ export function MarketsHubContent() {
             <div className="mt-12 flex flex-wrap justify-center sm:justify-start gap-x-12 gap-y-4">
               <div>
                 <span className="text-2xl font-mono font-bold text-white block">16</span>
-                <span className="text-xs opacity-40 uppercase tracking-widest block mt-1 font-sans">Instruments Covered</span>
+                <span className="text-xs font-mono uppercase tracking-widest text-white/60 block mt-1">Instruments Covered</span>
               </div>
               <div>
                 <span className="text-2xl font-mono font-bold text-white block">4</span>
-                <span className="text-xs opacity-40 uppercase tracking-widest block mt-1 font-sans">Asset Classes</span>
+                <span className="text-xs font-mono uppercase tracking-widest text-white/60 block mt-1">Asset Classes</span>
               </div>
               <div>
                 <span className="text-2xl font-mono font-bold text-white block">24/7</span>
-                <span className="text-xs opacity-40 uppercase tracking-widest block mt-1 font-sans">Crypto Coverage</span>
+                <span className="text-xs font-mono uppercase tracking-widest text-white/60 block mt-1">Crypto Coverage</span>
               </div>
               <div>
                 <span className="text-2xl font-mono font-bold text-[#C8F135] block">Polygon.io</span>
-                <span className="text-xs opacity-40 uppercase tracking-widest block mt-1 font-sans">Real-time Stream</span>
+                <span className="text-xs font-mono uppercase tracking-widest text-white/60 block mt-1">Real-time Stream</span>
               </div>
             </div>
           </div>

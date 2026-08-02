@@ -94,12 +94,21 @@ const components = {
 function preprocessMDXContent(content: string): string {
   if (!content) return "";
   return content
-    .replace(/\$\$\\text\{([^}]+)\}\s*=\s*\\text\{([^}]+)\}\s*-\s*\\text\{([^}]+)\}\$\$/g, '```\n$1 = $2 - $3\n```')
-    .replace(/\$\$\\text\{([^}]+)\}\s*=\s*\\text\{([^}]+)\}\s*\\\times\s*\\text\{([^}]+)\}\$\$/g, '```\n$1 = $2 × $3\n```')
+    .replace(/\$\$(.*?)\$\$/gs, (_, inner) => {
+      const clean = inner
+        .replace(/\\text\{([^}]+)\}/g, '$1')
+        .replace(/\\frac\{([^}]+)\}\{([^}]+)\}/g, '($1)/($2)')
+        .replace(/\\times/g, '×')
+        .replace(/\\div/g, '÷')
+        .replace(/\\%/g, '%')
+        .trim();
+      return `\n\`\`\`\n${clean}\n\`\`\`\n`;
+    })
     .replace(/\\text\{([^}]+)\}/g, '$1')
-    .replace(/\\frac\{([^}]+)\}\{([^}]+)\}/g, '$1 / $2')
+    .replace(/\\frac\{([^}]+)\}\{([^}]+)\}/g, '($1)/($2)')
     .replace(/\\times/g, '×')
-    .replace(/\\div/g, '÷');
+    .replace(/\\div/g, '÷')
+    .replace(/\\%/g, '%');
 }
 
 export default async function BlogPostPage({ params }: Props) {

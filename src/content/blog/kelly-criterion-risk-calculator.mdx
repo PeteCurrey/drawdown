@@ -50,7 +50,9 @@ The mathematics behind the Kelly Criterion can appear intimidating, but the actu
 
 The standard formula is written as follows:
 
-$$K\% = W - \frac{1 - W}{R}$$
+```
+K% = W - (1 - W) / R
+```
 
 Where:
 *   **K%** is the Kelly fraction (the percentage of your trading account that you should risk on the next trade).
@@ -61,10 +63,12 @@ Let us look at a practical example. Suppose you trade a breakout strategy on GBP
 
 Plugging these numbers into the formula:
 
-$$K\% = 0.45 - \frac{1 - 0.45}{2.0}$$
-$$K\% = 0.45 - \frac{0.55}{2.0}$$
-$$K\% = 0.45 - 0.275$$
-$$K\% = 0.175 \text{ (or 17.5\%)}$$
+```
+K% = 0.45 - (1 - 0.45) / 2.0
+K% = 0.45 - 0.55 / 2.0
+K% = 0.45 - 0.275
+K% = 0.175 (17.5%)
+```
 
 The raw Kelly Criterion suggests risking 17.5% of your total account equity on this strategy. 
 
@@ -121,10 +125,8 @@ This dual-layer approach allows you to optimize your position sizes for growth w
 
 To put this into practice, let us walk through a trade planning session. You are preparing to trade a gold setup (XAU/USD). Your historical statistics for this specific setup are a 50% win rate and a 1.5 average risk-to-reward ratio.
 
-1.  **Calculate Raw Kelly:**
-    $$K\% = 0.50 - \frac{1 - 0.50}{1.5} = 0.50 - 0.333 = 16.7\%$$
-2.  **Apply Half-Kelly Multiplier:**
-    $$16.7\% \times 0.5 = 8.35\%$$
+1.  **Calculate Raw Kelly:** `K% = 0.50 - (1 - 0.50) / 1.5 = 0.50 - 0.333 = 16.7%`
+2.  **Apply Half-Kelly Multiplier:** `16.7% × 0.5 = 8.35%`
 3.  **Apply Capital Preservation Caps:**
     Your account size is £10,000. Your personal daily risk limit is 2%. Risking 8.35% on a single trade is too high because a single loss would exceed your daily budget by more than four times.
 4.  **Final Sizing Output:**

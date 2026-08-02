@@ -17,6 +17,7 @@ import { cn } from "@/lib/utils";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { WatchlistManager } from "@/components/dashboard/WatchlistManager";
 import { NewsSourceLogo } from "@/components/ui/NewsSourceLogo";
+import { PageHeader } from "@/components/dashboard/ui/PageHeader";
 
 const fallbackImage = "https://images.unsplash.com/photo-1504711434969-e33886168f5c?q=80&w=800&auto=format&fit=crop";
 

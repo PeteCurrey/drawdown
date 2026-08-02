@@ -100,7 +100,8 @@ export default function CommunityPage() {
               </ul>
             </div>
           </div>
-    </div>
+        </div>
+      </div>
   );
 }
 

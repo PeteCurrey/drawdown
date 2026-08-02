@@ -11,6 +11,7 @@ interface PageHeaderProps {
   /** @deprecated use badge instead */
   children?: React.ReactNode;
   className?: string;
+  theme?: "light" | "dark";
 }
 
 export function PageHeader({
@@ -21,12 +22,16 @@ export function PageHeader({
   badge,
   children,
   className,
+  theme = "light",
 }: PageHeaderProps) {
   const rightSlot = badge ?? children;
+  const isDark = theme === "dark";
+
   return (
     <div
       className={cn(
-        "flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-[#DEDDD8]",
+        "flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b",
+        isDark ? "border-white/10" : "border-[#DEDDD8]",
         className
       )}
     >
@@ -39,11 +44,21 @@ export function PageHeader({
             // {eyebrow}
           </span>
         )}
-        <h1 className="text-2xl md:text-3xl font-display font-bold uppercase tracking-tight text-[#1A1A1A]">
+        <h1
+          className={cn(
+            "text-2xl md:text-3xl font-display font-bold uppercase tracking-tight",
+            isDark ? "text-white" : "text-[#1A1A1A]"
+          )}
+        >
           {title}
         </h1>
         {description && (
-          <p className="text-xs md:text-sm text-[#555550] max-w-2xl leading-relaxed">
+          <p
+            className={cn(
+              "text-xs md:text-sm max-w-2xl leading-relaxed",
+              isDark ? "text-white/60" : "text-[#555550]"
+            )}
+          >
             {description}
           </p>
         )}

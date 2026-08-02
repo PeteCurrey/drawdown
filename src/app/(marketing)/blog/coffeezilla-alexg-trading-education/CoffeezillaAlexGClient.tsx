@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { TradingViewPromoSection } from "@/components/blog/TradingViewPromoSection";
+import { AffiliateMarketingSection } from "@/components/blog/AffiliateMarketingSection";
 import Link from "next/link";
 import Image from "next/image";
 import { Mail, Link2, Check, ArrowRight } from "lucide-react";
@@ -465,8 +467,12 @@ export function CoffeezillaAlexGClient() {
           </div>
         </section>
 
+        {/* TradingView & Partner Marketing Sections */}
+        <TradingViewPromoSection />
+        <AffiliateMarketingSection />
+
         {/* CTA Block */}
-        <section className="reveal-section bg-[#111111] border border-[#1A1A1A] p-8 lg:p-12 mt-20 text-center space-y-6">
+        <section className="reveal-section bg-[#0D0E12] border border-[#1F222C] p-8 lg:p-12 mt-20 text-center space-y-6">
           <h2 className="text-3xl sm:text-4xl font-display font-extrabold text-white uppercase leading-tight">
             Learn to Trade Without the Bullshit
           </h2>
@@ -475,13 +481,13 @@ export function CoffeezillaAlexGClient() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center pt-2">
             <Link
-              href="/dashboard"
+              href="/pricing"
               className="bg-[#C8F135] text-black font-semibold px-8 py-3.5 hover:opacity-90 transition duration-200 font-sans text-center text-sm"
             >
               Start Free &rarr;
             </Link>
             <Link
-              href="/#curriculum"
+              href="/courses"
               className="border border-white/20 text-white hover:bg-white/5 px-8 py-3.5 transition duration-200 font-sans text-center text-sm"
             >
               See What's Inside &rarr;

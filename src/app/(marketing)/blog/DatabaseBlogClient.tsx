@@ -3,6 +3,8 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { TradingViewPromoSection } from "@/components/blog/TradingViewPromoSection";
+import { AffiliateMarketingSection } from "@/components/blog/AffiliateMarketingSection";
 import { Mail, Link2, Check } from "lucide-react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -462,6 +464,10 @@ export function DatabaseBlogClient({ post, relatedPosts, isDark = true }: Databa
           </section>
         )}
 
+        {/* TradingView & Partner Marketing Sections */}
+        <TradingViewPromoSection />
+        <AffiliateMarketingSection />
+
         {/* CTA Block */}
         <section className={`reveal-section ${t.bgCard} border ${t.border} p-8 lg:p-12 mt-20 text-center space-y-6`}>
           <h2 className={`text-3xl sm:text-4xl font-display font-extrabold ${t.text} uppercase leading-tight`}>
@@ -472,13 +478,13 @@ export function DatabaseBlogClient({ post, relatedPosts, isDark = true }: Databa
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center pt-2">
             <Link
-              href="/dashboard"
+              href="/pricing"
               className={`${t.accentBg} ${t.accentTextOnBg} font-semibold px-8 py-3.5 hover:opacity-90 transition duration-200 font-sans text-center text-sm`}
             >
               Start Free &rarr;
             </Link>
             <Link
-              href="/#curriculum"
+              href="/courses"
               className={`${t.ctaSecondary} px-8 py-3.5 transition duration-200 font-sans text-center text-sm`}
             >
               See the Curriculum &rarr;

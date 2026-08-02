@@ -389,3 +389,6 @@ export function KeyTakeaways({ items }: KeyTakeawaysProps) {
     </div>
   );
 }
+
+export { TradingViewPromoSection } from "./TradingViewPromoSection";
+export { AffiliateMarketingSection } from "./AffiliateMarketingSection";

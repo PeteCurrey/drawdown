@@ -60,6 +60,43 @@ export default async function CurriculumPage() {
   const userWeight = TIER_WEIGHT[tier ?? "free"] ?? 0;
   const tierLabel = tier ? tier.charAt(0).toUpperCase() + tier.slice(1) : "Free";
 
+  // ── Fetch Standalone Courses & Purchases ───────────────────────────────────
+  let coursesData: any[] = [];
+  let purchasedCourseIds = new Set<string>();
+  try {
+    const { data: fetchedCourses } = await supabase
+      .from("courses")
+      .select("id, slug, title, subtitle, description, is_free_for_floor")
+      .eq("is_published", true);
+    if (fetchedCourses) coursesData = fetchedCourses;
+
+    const { data: purchaseRows } = await supabase
+      .from("course_purchases")
+      .select("course_id")
+      .eq("user_id", user.id);
+    if (purchaseRows) {
+      purchasedCourseIds = new Set(purchaseRows.map(p => p.course_id));
+    }
+  } catch (e) {
+    console.error("Error fetching courses/purchases:", e);
+  }
+
+  const courseList = coursesData.map(course => {
+    const hasPurchase = purchasedCourseIds.has(course.id);
+    const isFreeForTier = course.is_free_for_floor && tier === 'floor';
+    const hasAccess = hasPurchase || isFreeForTier;
+    
+    const dashboardHref = `/dashboard/courses/${course.slug}`;
+    const landingPageHref = course.slug === 'prop-firm-survival-kit' ? '/store/prop-survival-kit' : `/courses/${course.slug}`;
+    
+    return {
+      ...course,
+      hasAccess,
+      dashboardHref,
+      landingPageHref
+    };
+  });
+
   // ── Fetch ALL progress for this user in one query ──────────────────────────
   let allProgress: { phase: number; module: number; completed: boolean }[] = [];
   try {
@@ -333,6 +370,61 @@ export default async function CurriculumPage() {
           );
         })}
       </section>
+
+      {/* ── Specialist Courses ────────────────────────────────────────────── */}
+      {courseList.length > 0 && (
+        <section className="space-y-6 pt-8 border-t border-[#EDEDED]">
+          <div>
+            <h2 className="text-xl font-bold text-[#1A1A1A]">Specialist Courses & Toolkits</h2>
+            <p className="text-xs text-[#555550] mt-1">
+              Deep dives into specific trading mechanics, automation, and challenge strategies.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {courseList.map((course) => (
+              <div
+                key={course.slug}
+                className="bg-white border border-[#e5e7eb] rounded-xl p-6 shadow-[0_1px_3px_rgba(0,0,0,0.06)] flex flex-col justify-between min-h-[220px] relative transition-all hover:shadow-[0_4px_12px_rgba(0,0,0,0.10)] hover:-translate-y-0.5 duration-200"
+              >
+                <div>
+                  <div className="flex justify-between items-start mb-4">
+                    <span className="text-xs font-mono font-bold text-[#9ca3af] uppercase">
+                      Specialist Course
+                    </span>
+                    {!course.hasAccess && (
+                      <span className="flex items-center gap-1 text-[10px] font-mono font-bold text-[#ef4444] bg-[#ef4444]/10 px-2 py-0.5 rounded">
+                        <Lock className="w-3 h-3" /> LOCKED
+                      </span>
+                    )}
+                  </div>
+
+                  <h3 className="text-base font-bold text-[#1A1A1A] mb-2">{course.title}</h3>
+                  <p className="text-xs text-[#555550] leading-relaxed mb-4">{course.description}</p>
+                </div>
+
+                <div className="pt-4 border-t border-gray-100 flex items-center justify-between">
+                  {course.hasAccess ? (
+                    <Link
+                      href={course.dashboardHref}
+                      className="w-full py-2.5 bg-[#F9771D] hover:bg-[#e0600d] text-white text-[10px] font-bold uppercase tracking-widest rounded-[4px] transition-colors flex items-center justify-center gap-1"
+                    >
+                      Start Course →
+                    </Link>
+                  ) : (
+                    <Link
+                      href={course.landingPageHref}
+                      className="w-full py-2.5 border border-[#F9771D] text-[#F9771D] hover:bg-[#F9771D]/5 text-[10px] font-bold uppercase tracking-widest rounded-[4px] transition-colors flex items-center justify-center gap-1"
+                    >
+                      Unlock Course →
+                    </Link>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
     </div>
   );
 }

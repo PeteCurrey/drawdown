@@ -22,7 +22,9 @@ import {
   PullQuote, 
   BlogChart, 
   BlogTable, 
-  KeyTakeaways 
+  KeyTakeaways,
+  TradingViewPromoSection,
+  AffiliateMarketingSection
 } from "@/components/blog/MDXComponents";
 
 export const dynamicParams = true;
@@ -85,6 +87,8 @@ const components = {
   BlogChart,
   BlogTable,
   KeyTakeaways,
+  TradingViewPromoSection,
+  AffiliateMarketingSection,
 };
 
 export default async function BlogPostPage({ params }: Props) {
@@ -237,6 +241,12 @@ export default async function BlogPostPage({ params }: Props) {
               >
                 <MDXRemote source={post.content} components={components} />
               </article>
+
+              {/* TradingView Promo Section */}
+              <TradingViewPromoSection />
+
+              {/* Dynamic Partner / Broker / Prop Firm Marketing Section */}
+              <AffiliateMarketingSection />
 
               {/* FaqAccordion Component */}
               {post.faq && post.faq.length > 0 && (

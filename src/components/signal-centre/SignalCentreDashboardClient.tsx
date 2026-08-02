@@ -239,17 +239,16 @@ function SignalCentreInner({
             body: "Scan throttled — try again in 60 seconds",
           });
         }
-        return;
       }
 
-      if (data.success) {
-        setLastScanTime(data.lastScan);
+      if (data.success || res.status === 429) {
+        if (data.lastScan) setLastScanTime(data.lastScan);
         const { data: freshSignals } = await supabase
           .from("signals")
           .select("*")
           .eq("is_active", true)
           .order("created_at", { ascending: false });
-        if (freshSignals) {
+        if (freshSignals && freshSignals.length > 0) {
           setSignals(freshSignals);
 
           // Fire toast for any high-conviction signals generated in the last 6 minutes

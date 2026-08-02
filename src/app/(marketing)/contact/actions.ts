@@ -7,6 +7,7 @@ export async function submitContactForm(formData: {
   email: string;
   subject: string;
   message: string;
+  subscribe?: boolean;
 }) {
   const supabase = await createClient();
 
@@ -23,6 +24,17 @@ export async function submitContactForm(formData: {
   if (error) {
     console.error("Submission error:", error);
     return { success: false, error: error.message };
+  }
+
+  if (formData.subscribe) {
+    const { error: subscribeError } = await supabase.from('newsletter_subscribers').upsert({
+      email: formData.email,
+      confirmed: false
+    });
+    
+    if (subscribeError) {
+      console.error("Newsletter subscription error during contact submission:", subscribeError);
+    }
   }
 
   return { success: true };

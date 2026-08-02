@@ -20,6 +20,7 @@ export default function ContactPage() {
       email: formData.get("email") as string,
       subject: formData.get("subject") as string,
       message: formData.get("message") as string,
+      subscribe: formData.get("subscribe") === "yes",
     };
 
     const result = await submitContactForm(data);
@@ -50,19 +51,7 @@ export default function ContactPage() {
           {/* Contact Methods */}
           <div className="lg:col-span-4 space-y-8">
             <div>
-              <h4 className="text-[10px] font-sans font-bold uppercase tracking-widest text-text-tertiary mb-4">Channel 01 — Support</h4>
-              <div className="flex items-start gap-4 p-6 bg-background-surface/40 backdrop-blur-md border border-border-slate/50 transition-all duration-300 hover:shadow-[0_0_20px_rgba(0,0,0,0.2)] hover:border-border-slate hover:-translate-y-0.5 rounded-[14px]">
-                <Mail className="w-5 h-5 text-profit mt-1 shrink-0" />
-                <div>
-                  <p className="text-sm font-sans font-extrabold text-text-primary mb-1 tracking-tight">Email Support</p>
-                  <p className="text-xs text-text-tertiary mb-3 font-sans">Response within 24 hours.</p>
-                  <a href="mailto:support@drawdown.trading" className="text-[11px] font-sans font-semibold text-text-primary hover:underline underline-offset-2">support@drawdown.trading</a>
-                </div>
-              </div>
-            </div>
-
-            <div>
-              <h4 className="text-[10px] font-sans font-bold uppercase tracking-widest text-text-tertiary mb-4">Channel 02 — Community</h4>
+              <h4 className="text-[10px] font-sans font-bold uppercase tracking-widest text-text-tertiary mb-4">Channel 01 — Community</h4>
               <div className="flex items-start gap-4 p-6 bg-background-surface/40 backdrop-blur-md border border-border-slate/50 transition-all duration-300 hover:shadow-[0_0_20px_rgba(0,0,0,0.2)] hover:border-border-slate hover:-translate-y-0.5 rounded-[14px]">
                 <MessageSquare className="w-5 h-5 text-profit mt-1 shrink-0" />
                 <div>
@@ -152,6 +141,19 @@ export default function ContactPage() {
                     placeholder="How can we help you today?"
                     className="w-full bg-background-elevated/40 border border-border-slate/50 focus:border-border-slate/50s rounded-lg px-4 py-3 text-sm text-text-primary font-sans outline-none transition-colors resize-none placeholder:text-text-tertiary"
                   />
+                </div>
+
+                <div className="flex items-center space-x-3">
+                  <input
+                    type="checkbox"
+                    id="subscribe"
+                    name="subscribe"
+                    value="yes"
+                    className="w-4 h-4 rounded border-border-slate/50 text-accent focus:ring-accent bg-background-elevated/40"
+                  />
+                  <label htmlFor="subscribe" className="text-sm font-sans text-text-secondary cursor-pointer">
+                    Subscribe to weekly market intel (optional)
+                  </label>
                 </div>
 
                 <button 

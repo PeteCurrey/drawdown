@@ -162,6 +162,8 @@ export function Navigation() {
     normalizedPathname === "/blog/why-trading-gurus-use-demo-accounts" ||
     normalizedPathname === "/blog/trading-education-business-model" ||
     normalizedPathname === "/store/prop-survival-kit" ||
+    normalizedPathname === "/store/how-to-trade" ||
+    normalizedPathname === "/store/the-edge" ||
     normalizedPathname.startsWith("/courses/deploy-your-algo") ||
     normalizedPathname === "/compare" ||
     normalizedPathname === "/prop-firms/compare" ||
@@ -178,6 +180,8 @@ export function Navigation() {
     darkHeaderClasses = "bg-[#0D0A08] border-white/5 text-white";
   } else if (normalizedPathname === "/prop-firms/funding-pips") {
     darkHeaderClasses = "bg-[#020C09] border-white/5 text-white";
+  } else if (normalizedPathname === "/store/how-to-trade" || normalizedPathname === "/store/the-edge") {
+    darkHeaderClasses = "bg-[#08090D] border-white/5 text-white";
   }
 
 

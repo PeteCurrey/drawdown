@@ -26,6 +26,8 @@ export function Footer() {
     normalizedPathname === "/blog/why-trading-gurus-use-demo-accounts" ||
     normalizedPathname === "/blog/trading-education-business-model" ||
     normalizedPathname === "/store/prop-survival-kit" ||
+    normalizedPathname === "/store/how-to-trade" ||
+    normalizedPathname === "/store/the-edge" ||
     normalizedPathname === "/compare" ||
     normalizedPathname === "/prop-firms/compare" ||
     normalizedPathname === "/brokers/all"
@@ -58,10 +60,15 @@ export function Footer() {
     }
   };
 
+  let darkFooterClasses = "bg-slate-950 border-white/5 text-white";
+  if (normalizedPathname === "/store/how-to-trade" || normalizedPathname === "/store/the-edge") {
+    darkFooterClasses = "bg-[#08090D] border-white/5 text-white";
+  }
+
   return (
     <footer className={cn(
       "py-16 md:py-24 select-none relative z-10 border-t",
-      isDarkMarketPage ? "bg-slate-950 border-white/5 text-white" : "bg-white border-mkt-bd"
+      isDarkMarketPage ? darkFooterClasses : "bg-white border-mkt-bd"
     )}>
       <div className="max-w-7xl mx-auto px-6">
         

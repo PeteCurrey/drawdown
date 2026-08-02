@@ -45,7 +45,7 @@ export const phases: CoursePhase[] = [
   },
   {
     id: 2,
-    status: "in_development",
+    status: "available",
     slug: "chart-reader",
     number: "02",
     name: "Chart Reader",
@@ -70,7 +70,7 @@ export const phases: CoursePhase[] = [
   },
   {
     id: 3,
-    status: "in_development",
+    status: "available",
     slug: "strategist",
     number: "03",
     name: "Strategist",
@@ -95,7 +95,7 @@ export const phases: CoursePhase[] = [
   },
   {
     id: 4,
-    status: "in_development",
+    status: "available",
     slug: "risk-manager",
     number: "04",
     name: "Risk Manager",
@@ -118,7 +118,7 @@ export const phases: CoursePhase[] = [
   },
   {
     id: 5,
-    status: "in_development",
+    status: "available",
     slug: "mind-over-market",
     number: "05",
     name: "Mind Over Market",
@@ -141,7 +141,7 @@ export const phases: CoursePhase[] = [
   },
   {
     id: 6,
-    status: "in_development",
+    status: "available",
     slug: "the-edge",
     number: "06",
     name: "The Edge",

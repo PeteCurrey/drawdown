@@ -21,7 +21,7 @@ const EBOOKS = [
     accentColor: "#C8F135",
     textColor: "#1A1A1A",
     storePath: "/store/prop-survival-kit",
-    bucketPath: process.env.SUPABASE_SURVIVAL_KIT_PATH || "survival-kit/prop-challenge-survival-kit.pdf",
+    bucketPath: process.env.SUPABASE_SURVIVAL_KIT_PATH || "ebooks/prop-challenge-survival-kit.pdf",
     bucket: process.env.SUPABASE_SURVIVAL_KIT_BUCKET || "store",
     tags: ["Prop Firms", "Risk Management", "Psychology"],
     chapters: ["The Rule Decoder", "Position Sizing Sheets", "The Tilt Protocol", "Daily Loss Calculator"],

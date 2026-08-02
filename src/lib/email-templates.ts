@@ -563,3 +563,175 @@ export function getSurvivalKitConfirmationTemplate(downloadUrl: string, tempPass
     </html>
   `;
 }
+
+export function getHowToTradeConfirmationTemplate(downloadUrl: string, tempPassword?: string): string {
+  return `
+    <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+    <html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <title>Your How to Trade Guide</title>
+      <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet" />
+      <style type="text/css" rel="stylesheet" media="all">
+        ${getBaseStyles()}
+      </style>
+    </head>
+    <body>
+      <table class="wrapper" width="100%" cellpadding="0" cellspacing="0" role="presentation">
+        <tr>
+          <td align="center">
+            <table class="main" width="100%" cellpadding="0" cellspacing="0" role="presentation">
+              <!-- Header -->
+              <tr>
+                <td class="header" style="border-bottom: 2px solid #F9771D;">
+                  <h1 style="color: #ffffff; font-size: 24px; margin: 0; font-family: 'Outfit', sans-serif; letter-spacing: -0.5px;">Drawdown<span style="color: #F9771D;">.</span></h1>
+                  <p style="margin: 6px 0 0 0; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: #7A7D85; font-family: ui-monospace, monospace;">How to Trade — 100-Page Framework</p>
+                </td>
+              </tr>
+              
+              <!-- Content -->
+              <tr>
+                <td class="content">
+                  <p style="color: #E4E2DD; font-size: 16px; font-weight: 500;">Your guide is ready to read.</p>
+                  <p>Thank you for your purchase. You now have the complete institutional trading framework — from market structure through to live execution.</p>
+                  
+                  <div class="section-box" style="border-color: #F9771D; background-color: rgba(249, 119, 29, 0.04);">
+                    <p style="margin-bottom: 8px; font-weight: bold; color: #F9771D; font-family: ui-monospace, monospace;">// WHAT IS COVERED:</p>
+                    <ul style="margin: 0; padding-left: 20px; color: #E4E2DD;">
+                      <li style="color: #E4E2DD;"><strong>Market Structure:</strong> How price moves and why — institutional vs retail perspective.</li>
+                      <li style="color: #E4E2DD;"><strong>Session Theory:</strong> London, New York & Asian overlap — where the real money is made.</li>
+                      <li style="color: #E4E2DD;"><strong>Trade Execution:</strong> Entries, stop placement, and the anatomy of a complete trade.</li>
+                      <li style="color: #E4E2DD;"><strong>Risk Management:</strong> Position sizing, R:R, and protecting your capital as a business.</li>
+                    </ul>
+                  </div>
+
+                  <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top: 30px; margin-bottom: 30px;">
+                    <tr>
+                      <td align="center">
+                        <a href="${downloadUrl}" class="btn-accent" style="background-color: #F9771D; color: #FFFFFF !important;" target="_blank">Download How to Trade PDF &rarr;</a>
+                      </td>
+                    </tr>
+                  </table>
+                  
+                  ${tempPassword ? `
+                  <div class="section-box">
+                    <p style="margin-bottom: 8px; font-weight: bold; color: #F9771D; font-family: ui-monospace, monospace;">// YOUR ACCOUNT ACCESS:</p>
+                    <p style="font-size: 14px; margin-bottom: 8px; color: #E4E2DD;">We created a Drawdown account for you so you can access your downloads anytime from your dashboard.</p>
+                    <p style="font-size: 14px; margin-bottom: 4px; color: #E4E2DD;"><strong>Login URL:</strong> <a href="https://drawdown.trading/login" style="color: #F9771D; text-decoration: underline;">drawdown.trading/login</a></p>
+                    <p style="font-size: 14px; margin-bottom: 4px; color: #E4E2DD;"><strong>Password:</strong> <code style="background-color: #1A1D24; padding: 2px 6px; border-radius: 4px; font-family: monospace;">${tempPassword}</code></p>
+                    <p style="font-size: 12px; color: #7A7D85; margin-top: 8px;">Please log in and update your password on your profile dashboard.</p>
+                  </div>
+                  ` : `
+                  <p>You can also log in to your Drawdown account to access your downloads at any time from your personal dashboard.</p>
+                  `}
+                  
+                  <p style="font-size: 14px; margin-top: 24px;">If you have any questions, reply directly to this email and Pete will get back to you.</p>
+                </td>
+              </tr>
+              
+              <!-- Footer -->
+              <tr>
+                <td class="footer">
+                  <p style="margin-bottom: 8px; color: #7A7D85; font-weight: 500;">Pete Currey &bull; Drawdown Trading</p>
+                  <p style="margin-bottom: 16px; color: #555550;">&copy; ${new Date().getFullYear()} Drawdown. All rights reserved.</p>
+                  <hr style="border: 0; border-top: 1px solid #1A1D24; margin: 20px 0;" />
+                  <p class="disclaimer">
+                    <strong>RISK WARNING:</strong> Trading financial instruments carries high risk. Most retail traders lose capital. Only risk capital you can afford to lose. All content is for educational use only and does not constitute financial advice.
+                  </p>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+    </body>
+    </html>
+  `;
+}
+
+export function getTheEdgeConfirmationTemplate(downloadUrl: string, tempPassword?: string): string {
+  return `
+    <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+    <html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <title>Your The Edge Manual</title>
+      <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet" />
+      <style type="text/css" rel="stylesheet" media="all">
+        ${getBaseStyles()}
+      </style>
+    </head>
+    <body>
+      <table class="wrapper" width="100%" cellpadding="0" cellspacing="0" role="presentation">
+        <tr>
+          <td align="center">
+            <table class="main" width="100%" cellpadding="0" cellspacing="0" role="presentation">
+              <!-- Header -->
+              <tr>
+                <td class="header" style="border-bottom: 2px solid #818cf8;">
+                  <h1 style="color: #ffffff; font-size: 24px; margin: 0; font-family: 'Outfit', sans-serif; letter-spacing: -0.5px;">Drawdown<span style="color: #818cf8;">.</span></h1>
+                  <p style="margin: 6px 0 0 0; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: #7A7D85; font-family: ui-monospace, monospace;">The Edge Manual — Advanced Strategy Playbook</p>
+                </td>
+              </tr>
+              
+              <!-- Content -->
+              <tr>
+                <td class="content">
+                  <p style="color: #E4E2DD; font-size: 16px; font-weight: 500;">Your Edge Manual is ready.</p>
+                  <p>Thank you for your purchase. You now have Pete's complete advanced strategy playbook — the same framework used across live funded accounts.</p>
+                  
+                  <div class="section-box" style="border-color: #818cf8; background-color: rgba(129, 140, 248, 0.04);">
+                    <p style="margin-bottom: 8px; font-weight: bold; color: #818cf8; font-family: ui-monospace, monospace;">// WHAT IS COVERED:</p>
+                    <ul style="margin: 0; padding-left: 20px; color: #E4E2DD;">
+                      <li style="color: #E4E2DD;"><strong>Liquidity Theory:</strong> Where institutional money hunts stops — and how to trade with it.</li>
+                      <li style="color: #E4E2DD;"><strong>Confluence Trading:</strong> Stacking multiple confirmations for high-probability entries.</li>
+                      <li style="color: #E4E2DD;"><strong>Proprietary Setups:</strong> Pete's personal playbook of repeatable trade patterns.</li>
+                      <li style="color: #E4E2DD;"><strong>Psychological Edge:</strong> Managing the mental game — discipline, consistency and detachment.</li>
+                    </ul>
+                  </div>
+
+                  <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top: 30px; margin-bottom: 30px;">
+                    <tr>
+                      <td align="center">
+                        <a href="${downloadUrl}" class="btn-accent" style="background-color: #818cf8; color: #FFFFFF !important;" target="_blank">Download The Edge Manual PDF &rarr;</a>
+                      </td>
+                    </tr>
+                  </table>
+                  
+                  ${tempPassword ? `
+                  <div class="section-box">
+                    <p style="margin-bottom: 8px; font-weight: bold; color: #818cf8; font-family: ui-monospace, monospace;">// YOUR ACCOUNT ACCESS:</p>
+                    <p style="font-size: 14px; margin-bottom: 8px; color: #E4E2DD;">We created a Drawdown account for you so you can access your downloads anytime from your dashboard.</p>
+                    <p style="font-size: 14px; margin-bottom: 4px; color: #E4E2DD;"><strong>Login URL:</strong> <a href="https://drawdown.trading/login" style="color: #818cf8; text-decoration: underline;">drawdown.trading/login</a></p>
+                    <p style="font-size: 14px; margin-bottom: 4px; color: #E4E2DD;"><strong>Password:</strong> <code style="background-color: #1A1D24; padding: 2px 6px; border-radius: 4px; font-family: monospace;">${tempPassword}</code></p>
+                    <p style="font-size: 12px; color: #7A7D85; margin-top: 8px;">Please log in and update your password on your profile dashboard.</p>
+                  </div>
+                  ` : `
+                  <p>You can also log in to your Drawdown account to access your downloads at any time from your personal dashboard.</p>
+                  `}
+                  
+                  <p style="font-size: 14px; margin-top: 24px;">If you have any questions, reply directly to this email and Pete will get back to you.</p>
+                </td>
+              </tr>
+              
+              <!-- Footer -->
+              <tr>
+                <td class="footer">
+                  <p style="margin-bottom: 8px; color: #7A7D85; font-weight: 500;">Pete Currey &bull; Drawdown Trading</p>
+                  <p style="margin-bottom: 16px; color: #555550;">&copy; ${new Date().getFullYear()} Drawdown. All rights reserved.</p>
+                  <hr style="border: 0; border-top: 1px solid #1A1D24; margin: 20px 0;" />
+                  <p class="disclaimer">
+                    <strong>RISK WARNING:</strong> Trading financial instruments carries high risk. Most retail traders lose capital. Only risk capital you can afford to lose. All content is for educational use only and does not constitute financial advice.
+                  </p>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+    </body>
+    </html>
+  `;
+}

@@ -4,7 +4,7 @@ import Stripe from "stripe";
 import { headers } from "next/headers";
 import { awardBadge } from "@/lib/gamification";
 import { Resend } from "resend";
-import { getSurvivalKitConfirmationTemplate } from "@/lib/email-templates";
+import { getSurvivalKitConfirmationTemplate, getHowToTradeConfirmationTemplate, getTheEdgeConfirmationTemplate } from "@/lib/email-templates";
 
 export async function POST(request: NextRequest) {
   const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
@@ -164,6 +164,134 @@ export async function POST(request: NextRequest) {
           }
         }
 
+        break;
+      }
+
+      // ── How to Trade ebook purchase ────────────────────────────────────────
+      if (productId === 'how-to-trade') {
+        const email = session.customer_details?.email || session.customer_email;
+        let resolvedUserId = userId && userId !== 'guest' ? userId : null;
+        let tempPassword = "";
+
+        if (!resolvedUserId && email) {
+          const { data: usersData } = await supabase.auth.admin.listUsers();
+          const existingUser = usersData?.users?.find((u: any) => u.email?.toLowerCase() === email.toLowerCase());
+          if (existingUser) {
+            resolvedUserId = existingUser.id;
+          } else {
+            tempPassword = Math.random().toString(36).substring(2, 10);
+            const fullName = session.customer_details?.name || email.split("@")[0];
+            const { data: createData } = await supabase.auth.admin.createUser({
+              email, password: tempPassword, email_confirm: true,
+              user_metadata: { full_name: fullName, subscription_tier: "free", role: "student" }
+            });
+            if (createData?.user) {
+              resolvedUserId = createData.user.id;
+              await supabase.from("profiles").upsert({
+                id: resolvedUserId, display_name: fullName, full_name: fullName,
+                subscription_tier: "free", subscription_status: "inactive", role: "student",
+                updated_at: new Date().toISOString()
+              });
+            }
+          }
+        }
+
+        let courseId = session.metadata.course_id;
+        if (!courseId) {
+          const { data: course } = await supabase.from("courses").select("id").eq("slug", "how-to-trade").single();
+          courseId = course?.id;
+        }
+        if (resolvedUserId && courseId) {
+          const { error: courseErr } = await supabase.from('course_purchases').insert({
+            user_id: resolvedUserId, course_id: courseId,
+            stripe_payment_intent_id: session.payment_intent, stripe_session_id: session.id,
+            amount_paid_pence: session.amount_total ?? 7900, access_granted_via: 'stripe_purchase',
+          });
+          if (courseErr && courseErr.code !== '23505') console.error('Error recording how-to-trade purchase:', courseErr);
+        }
+
+        const resendKey = process.env.RESEND_API_KEY;
+        if (resendKey && email) {
+          try {
+            let pdfDownloadUrl = "";
+            const bucketName = process.env.SUPABASE_EBOOK_BUCKET || "store";
+            const filePath = process.env.SUPABASE_EBOOK_HOW_TO_TRADE_PATH || "ebooks/how-to-trade.pdf";
+            const { data: signedData } = await supabase.storage.from(bucketName).createSignedUrl(filePath, 60 * 60 * 24 * 365);
+            pdfDownloadUrl = signedData?.signedUrl || supabase.storage.from(bucketName).getPublicUrl(filePath).data?.publicUrl || "";
+            const emailHtml = getHowToTradeConfirmationTemplate(pdfDownloadUrl, tempPassword || undefined);
+            const resend = new Resend(resendKey);
+            await resend.emails.send({
+              from: "Pete @ Drawdown <thewire@drawdown.trading>",
+              to: email, subject: "Your How to Trade guide is ready for download", html: emailHtml
+            });
+          } catch (emailErr) {
+            console.error("Failed to send how-to-trade delivery email:", emailErr);
+          }
+        }
+        break;
+      }
+
+      // ── The Edge ebook purchase ─────────────────────────────────────────────
+      if (productId === 'the-edge') {
+        const email = session.customer_details?.email || session.customer_email;
+        let resolvedUserId = userId && userId !== 'guest' ? userId : null;
+        let tempPassword = "";
+
+        if (!resolvedUserId && email) {
+          const { data: usersData } = await supabase.auth.admin.listUsers();
+          const existingUser = usersData?.users?.find((u: any) => u.email?.toLowerCase() === email.toLowerCase());
+          if (existingUser) {
+            resolvedUserId = existingUser.id;
+          } else {
+            tempPassword = Math.random().toString(36).substring(2, 10);
+            const fullName = session.customer_details?.name || email.split("@")[0];
+            const { data: createData } = await supabase.auth.admin.createUser({
+              email, password: tempPassword, email_confirm: true,
+              user_metadata: { full_name: fullName, subscription_tier: "free", role: "student" }
+            });
+            if (createData?.user) {
+              resolvedUserId = createData.user.id;
+              await supabase.from("profiles").upsert({
+                id: resolvedUserId, display_name: fullName, full_name: fullName,
+                subscription_tier: "free", subscription_status: "inactive", role: "student",
+                updated_at: new Date().toISOString()
+              });
+            }
+          }
+        }
+
+        let courseId = session.metadata.course_id;
+        if (!courseId) {
+          const { data: course } = await supabase.from("courses").select("id").eq("slug", "the-edge").single();
+          courseId = course?.id;
+        }
+        if (resolvedUserId && courseId) {
+          const { error: courseErr } = await supabase.from('course_purchases').insert({
+            user_id: resolvedUserId, course_id: courseId,
+            stripe_payment_intent_id: session.payment_intent, stripe_session_id: session.id,
+            amount_paid_pence: session.amount_total ?? 5900, access_granted_via: 'stripe_purchase',
+          });
+          if (courseErr && courseErr.code !== '23505') console.error('Error recording the-edge purchase:', courseErr);
+        }
+
+        const resendKey = process.env.RESEND_API_KEY;
+        if (resendKey && email) {
+          try {
+            let pdfDownloadUrl = "";
+            const bucketName = process.env.SUPABASE_EBOOK_BUCKET || "store";
+            const filePath = process.env.SUPABASE_EBOOK_THE_EDGE_PATH || "ebooks/the-edge.pdf";
+            const { data: signedData } = await supabase.storage.from(bucketName).createSignedUrl(filePath, 60 * 60 * 24 * 365);
+            pdfDownloadUrl = signedData?.signedUrl || supabase.storage.from(bucketName).getPublicUrl(filePath).data?.publicUrl || "";
+            const emailHtml = getTheEdgeConfirmationTemplate(pdfDownloadUrl, tempPassword || undefined);
+            const resend = new Resend(resendKey);
+            await resend.emails.send({
+              from: "Pete @ Drawdown <thewire@drawdown.trading>",
+              to: email, subject: "Your Edge Manual is ready for download", html: emailHtml
+            });
+          } catch (emailErr) {
+            console.error("Failed to send the-edge delivery email:", emailErr);
+          }
+        }
         break;
       }
 

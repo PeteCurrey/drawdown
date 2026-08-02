@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 import { 
   LayoutDashboard, 
   Library, 
+  BookOpen,
   Video, 
   Wrench, 
   Users, 
@@ -49,6 +50,7 @@ const mainNavLinks = [
   { name: "Market Intelligence",  href: "/dashboard/market-intelligence",        icon: Brain },
   { name: "Alt-Data & Signals",  href: "/dashboard/intelligence",              icon: Gauge },
   { name: "Curriculum",          href: "/dashboard/curriculum",                icon: Library },
+  { name: "Downloads",           href: "/dashboard/downloads",                 icon: BookOpen },
   { name: "Weekly Breakdowns",   href: "/dashboard/breakdowns",                icon: Video },
   { name: "Live Events",         href: "/dashboard/events",                    icon: Calendar },
   { name: "1-to-1 Mentorship",   href: "/dashboard/mentorship",                icon: UserCircle },

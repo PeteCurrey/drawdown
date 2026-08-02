@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { 
   Brain, 
   TrendingUp, 
@@ -20,6 +20,7 @@ import {
 import { cn } from "@/lib/utils";
 import { createClient } from "@/lib/supabase/client";
 import { PsychologyCoach } from "@/components/dashboard/PsychologyCoach";
+import { PageHeader } from "@/components/dashboard/ui/PageHeader";
 
 
 export default function CoachPage() {
@@ -56,38 +57,44 @@ export default function CoachPage() {
   }, []);
 
   return (
-    <div className="max-w-6xl mx-auto space-y-12 pb-24">
-      {/* Header */}
-      <header className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-        <div>
-          <span className="text-accent font-mono text-[10px] uppercase tracking-widest block mb-3">// BEHAVIORAL ANALYTICS</span>
-          <h1 className="text-4xl font-display font-bold uppercase text-text-primary">Psychology <span className="text-accent italic">Coach.</span></h1>
-          <p className="text-text-secondary text-sm mt-2 max-w-xl">
-            We don't just track your P&L. We track the brain behind it. Stop being your own worst enemy.
-          </p>
-        </div>
-
-        {/* Tab Navigation */}
-        <div className="flex bg-background-surface border border-border-slate p-1">
-          {[
-            { id: 'live', label: 'Live Analysis', icon: Brain },
-            { id: 'history', label: 'Weekly Reports', icon: History },
-            { id: 'checkin', label: 'Session Start', icon: Zap },
-          ].map((tab) => (
-            <button
-              key={tab.id}
-              onClick={() => setActiveTab(tab.id as any)}
-              className={cn(
-                "flex items-center gap-2 px-6 py-2 text-[10px] font-mono uppercase tracking-widest transition-all",
-                activeTab === tab.id ? "bg-accent text-background-primary font-bold" : "text-text-tertiary hover:text-text-primary"
-              )}
-            >
-              <tab.icon className="w-3.5 h-3.5" />
-              {tab.label}
-            </button>
-          ))}
-        </div>
-      </header>
+    <div
+      className="max-w-6xl mx-auto space-y-12 pb-24"
+      style={{
+        "--tool-accent": "#ec4899",
+        "--tool-accent-hover": "#db2777",
+        "--tool-accent-tint": "#fdf2f8",
+        "--tool-accent-border": "#fbcfe8",
+        "--tool-accent-text": "#9d174d",
+      } as React.CSSProperties}
+    >
+      <PageHeader
+        eyebrow="// BEHAVIORAL ANALYTICS"
+        title="Psychology Coach"
+        description="We don't just track your P&L — we track the discipline behind it. Detect revenge trading, tilt indicators, and cognitive fatigue."
+        badge={
+          <div className="flex bg-white border border-[#DEDDD8] p-1 rounded-xl shadow-sm">
+            {[
+              { id: 'live', label: 'Live Analysis', icon: Brain },
+              { id: 'history', label: 'Weekly Reports', icon: History },
+              { id: 'checkin', label: 'Session Start', icon: Zap },
+            ].map((tab) => (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id as any)}
+                className={cn(
+                  "flex items-center gap-2 px-4 py-2 text-[10px] font-mono uppercase tracking-widest transition-all rounded-lg",
+                  activeTab === tab.id
+                    ? "bg-[#181818] text-white font-bold"
+                    : "text-[#555550] hover:text-[#1A1A1A] hover:bg-[#F8F8F8]"
+                )}
+              >
+                <tab.icon className="w-3.5 h-3.5" />
+                {tab.label}
+              </button>
+            ))}
+          </div>
+        }
+      />
 
       {loading ? (
         <div className="h-[600px] flex items-center justify-center">

@@ -1,3 +1,4 @@
+import React from "react";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { 
@@ -21,6 +22,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
+import { PageHeader } from "@/components/dashboard/ui/PageHeader";
  
 // ── Tier weights — mirrors the platform-wide definition ────────────────
 const TIER_WEIGHT: Record<string, number> = {
@@ -95,12 +97,21 @@ export default async function IntelligenceHub() {
     getNewsSentiment("NVDA")
   ]);
  
+  const themeStyle = {
+    "--tool-accent": "#9333ea",
+    "--tool-accent-hover": "#7e22ce",
+    "--tool-accent-tint": "#faf5ff",
+    "--tool-accent-border": "#d8b4fe",
+    "--tool-accent-text": "#6b21a8",
+  } as React.CSSProperties;
+
   return (
-    <div className="space-y-10 animate-in fade-in duration-700 pb-24">
-      <header className="border-b border-border-slate/50 pb-6">
-        <h1 className="text-3xl font-display font-black uppercase mb-2 text-text-primary">Intelligence Hub</h1>
-        <p className="text-sm text-text-tertiary">Real-time tracking of insider conviction and political capital flow.</p>
-      </header>
+    <div className="space-y-10 animate-in fade-in duration-700 pb-24" style={themeStyle}>
+      <PageHeader
+        eyebrow="// ALT-DATA & AI SIGNALS"
+        title="Alt-Data & Signals"
+        description="Real-time tracking of corporate insider conviction, congressional capital flows, and AI signal synthesis."
+      />
  
       {/* AI Signals Strip */}
       {aiSignals.length > 0 && (

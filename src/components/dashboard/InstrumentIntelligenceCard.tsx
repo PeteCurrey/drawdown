@@ -470,7 +470,7 @@ export function InstrumentIntelligenceCard({ instrument, interval = "4h" }: Inst
                   {isFallback && (
                     <div className="group relative flex items-center justify-center cursor-help">
                       <div className="w-1.5 h-1.5 rounded-full bg-amber-500" />
-                      <div className="absolute bottom-full mb-2 hidden group-hover:block w-48 p-2 text-xs bg-gray-900 border border-gray-700 rounded shadow-lg text-white text-left z-50">
+                      <div className="absolute bottom-full mb-2 hidden group-hover:block w-48 p-2 text-xs bg-white border border-[#DEDDD8] rounded shadow-lg text-[#1A1A1A] text-left z-50">
                         Live price unavailable — showing estimated value
                       </div>
                     </div>

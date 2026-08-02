@@ -15,6 +15,7 @@ import {
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { createClient } from "@/lib/supabase/client";
+import { PageHeader } from "@/components/dashboard/ui/PageHeader";
 
 interface ToolDef {
   slug: string;
@@ -104,21 +105,21 @@ export default function AppToolsHub() {
   const tierWeight = { free: 0, foundation: 1, edge: 2, floor: 3 };
 
   return (
-    <div className="space-y-10">
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-[#EDEDED] pb-6">
-        <div className="space-y-2">
-          <div className="flex items-center gap-2 text-[#F9771D]">
-            <Wrench className="w-4 h-4" />
-            <span className="text-[10px] font-mono uppercase tracking-[0.3em]">Institutional_Tools</span>
-          </div>
-          <h1 className="text-3xl font-bold tracking-tight text-[#1A1A1A]">
-            AI Tools
-          </h1>
-          <p className="text-sm text-[#555550]">
-            Purpose-built for traders. Not demos.
-          </p>
-        </div>
-      </div>
+    <div
+      className="space-y-10"
+      style={{
+        "--tool-accent": "#F9771D",
+        "--tool-accent-hover": "#e0600d",
+        "--tool-accent-tint": "#fff7ed",
+        "--tool-accent-border": "#fed7aa",
+        "--tool-accent-text": "#c2410c",
+      } as React.CSSProperties}
+    >
+      <PageHeader
+        eyebrow="// INSTITUTIONAL TOOLS"
+        title="AI Tools"
+        description="Purpose-built for serious traders. Real-time data, institutional precision, zero fluff."
+      />
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {appTools.map((tool) => {
@@ -129,10 +130,10 @@ export default function AppToolsHub() {
             <div 
               key={tool.slug} 
               className={cn(
-                "group p-6 bg-white border border-[#EDEDED] rounded-2xl transition-all duration-300 relative flex flex-col justify-between min-h-[220px]",
-                isLocked 
-                  ? "opacity-75" 
-                  : "hover:shadow-[0_4px_12px_rgba(0,0,0,0.12)] hover:-translate-y-0.5"
+                "group p-6 bg-white border border-[#DEDDD8] rounded-xl transition-all duration-300 relative flex flex-col justify-between min-h-[220px] shadow-[0_2px_8px_rgba(0,0,0,0.03)]",
+                isLocked
+                  ? "opacity-75"
+                  : "hover:shadow-[0_8px_24px_rgba(0,0,0,0.08)] hover:-translate-y-0.5"
               )}
             >
               <div>
@@ -141,13 +142,13 @@ export default function AppToolsHub() {
                     <Icon className="w-5 h-5" />
                   </div>
                   {isLocked ? (
-                    <div className="flex items-center gap-1.5 px-2 py-0.5 bg-[#181818] border border-[#333330] text-white">
-                       <Lock className="w-3 h-3 text-[#F9771D]" />
-                       <span className="text-[9px] font-mono uppercase tracking-wider">{tool.minTier.toUpperCase()} Required</span>
+                    <div className="flex items-center gap-1.5 px-2 py-0.5 bg-[#F8F8F8] border border-[#DEDDD8] rounded-lg">
+                       <Lock className="w-3 h-3 text-[#555550]" />
+                       <span className="text-[9px] font-mono uppercase tracking-wider text-[#555550]">{tool.minTier.toUpperCase()} Required</span>
                     </div>
                   ) : (
-                    <div className="px-2 py-0.5 border border-[#18B880] bg-transparent text-[#18B880]">
-                       <span className="text-[9px] font-mono uppercase font-bold">Free</span>
+                    <div className="px-2 py-0.5 border border-[#18B880] bg-[#ecfdf5] text-[#18B880] rounded-lg">
+                       <span className="text-[9px] font-mono uppercase font-bold">Unlocked</span>
                     </div>
                   )}
                 </div>

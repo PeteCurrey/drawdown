@@ -1578,7 +1578,7 @@ interface SignalRow {
 }
 
 function TFBadge({ signal }: { signal: "BUY" | "SELL" | "NEUTRAL" | undefined }) {
-  if (!signal) return <span className="text-white/20 text-xs">—</span>;
+  if (!signal) return <span className="text-text-tertiary text-xs">—</span>;
   if (signal === "BUY") return (
     <div className="flex items-center justify-center w-6 h-6 rounded bg-profit/15 border border-profit/25">
       <TrendingUp className="w-3 h-3 text-profit" />
@@ -1590,8 +1590,8 @@ function TFBadge({ signal }: { signal: "BUY" | "SELL" | "NEUTRAL" | undefined })
     </div>
   );
   return (
-    <div className="flex items-center justify-center w-6 h-6 rounded bg-white/5 border border-white/10">
-      <Minus className="w-3 h-3 text-white/30" />
+    <div className="flex items-center justify-center w-6 h-6 rounded bg-[#F8F8F8] border border-[#DEDDD8]">
+      <Minus className="w-3 h-3 text-[#555550]" />
     </div>
   );
 }
@@ -1604,7 +1604,7 @@ function SortTh({ col, label, sort, dir, onSort }: {
   return (
     <th onClick={() => onSort(col)}
       className={cn("px-3 py-2.5 text-left text-[8px] font-mono uppercase tracking-widest cursor-pointer select-none whitespace-nowrap transition-colors",
-        active ? "text-accent" : "text-white/40 hover:text-white/70")}>
+        active ? "text-accent" : "text-text-tertiary hover:text-text-primary")}>
       <span className="flex items-center gap-1">
         {label}
         {active && <span className="text-accent">{dir === "desc" ? "↓" : "↑"}</span>}
@@ -1780,8 +1780,8 @@ function SignalsTableView({
                 <SortTh col="weekly"    label="Weekly"     sort={sort} dir={sortDir} onSort={handleSort} />
                 <SortTh col="consensus" label="Consensus"  sort={sort} dir={sortDir} onSort={handleSort} />
                 <SortTh col="setup"     label="Setup"      sort={sort} dir={sortDir} onSort={handleSort} />
-                <th className="px-3 py-2.5 text-left text-[8px] font-mono uppercase tracking-widest text-white/40 whitespace-nowrap">Next Event</th>
-                <th className="px-3 py-2.5 text-left text-[8px] font-mono uppercase tracking-widest text-white/40">Action</th>
+                <th className="px-3 py-2.5 text-left text-[8px] font-mono uppercase tracking-widest text-text-tertiary whitespace-nowrap">Next Event</th>
+                <th className="px-3 py-2.5 text-left text-[8px] font-mono uppercase tracking-widest text-text-tertiary">Action</th>
               </tr>
             </thead>
             <tbody>
@@ -1968,7 +1968,7 @@ function FearGreedGauge({ score, synthetic = false }: { score: number | null; sy
   return (
     <div className="flex flex-col items-center gap-0.5">
       <svg width={48} height={28} viewBox="0 0 48 28" style={{ overflow: "visible" }}>
-        <path d={`M 4 24 A ${r} ${r} 0 0 1 44 24`} fill="none" stroke="rgba(255,255,255,0.12)" strokeWidth={5} strokeLinecap="round" />
+        <path d={`M 4 24 A ${r} ${r} 0 0 1 44 24`} fill="none" stroke="rgba(0,0,0,0.08)" strokeWidth={5} strokeLinecap="round" />
         {score !== null && (
           <path d={`M 4 24 A ${r} ${r} 0 0 1 44 24`} fill="none" stroke={color} strokeWidth={5} strokeLinecap="round"
             strokeDasharray={`${filled} ${arcLen}`} style={{ filter: `drop-shadow(0 0 5px ${color}88)`, opacity: synthetic ? 0.8 : 1 }} />
@@ -1976,7 +1976,7 @@ function FearGreedGauge({ score, synthetic = false }: { score: number | null; sy
       </svg>
       <span className="text-[13px] font-black font-mono leading-none" style={{ color }}>{score ?? "—"}</span>
       <span className="text-[7px] font-mono uppercase tracking-widest" style={{ color }}>{label}</span>
-      {synthetic && score !== null && <span className="text-[6px] font-mono text-white/25 uppercase tracking-widest">Est.</span>}
+      {synthetic && score !== null && <span className="text-[6px] font-mono text-text-tertiary uppercase tracking-widest">Est.</span>}
     </div>
   );
 }
@@ -2101,15 +2101,15 @@ function MarketIntelligenceBar({
 
   const Widget = ({ children, label, className = "" }: { children: React.ReactNode; label: string; className?: string }) => (
     <div className={cn("flex flex-col items-center justify-center gap-2 px-5 py-4 min-w-[170px] shrink-0", className)}>
-      <p className="text-[8px] font-mono uppercase tracking-[0.15em] text-white/40 text-center">{label}</p>
+      <p className="text-[8px] font-mono uppercase tracking-[0.15em] text-text-tertiary text-center">{label}</p>
       {children}
     </div>
   );
 
-  const Divider = () => <div className="w-px self-stretch bg-white/8 shrink-0" />;
+  const Divider = () => <div className="w-px self-stretch bg-border-slate/50 shrink-0" />;
 
   return (
-    <div className="bg-[#111] border border-white/10 rounded-xl overflow-hidden shadow-lg">
+    <div className="bg-white border border-[#DEDDD8] rounded-xl overflow-hidden shadow-sm">
       <div className="flex items-stretch overflow-x-auto scrollbar-none">
 
         {/* 1 — Fear & Greed */}
@@ -2118,17 +2118,17 @@ function MarketIntelligenceBar({
             <>
               <FearGreedGauge score={sentimentScore} synthetic={sentimentSynth} />
               {vixPrice !== null && (
-                <p className="text-[8px] font-mono text-white/40 text-center">VIX {vixPrice.toFixed(1)}</p>
+                <p className="text-[8px] font-mono text-text-tertiary text-center">VIX {vixPrice.toFixed(1)}</p>
               )}
               {sentimentSynth && sentimentScore !== null && (
-                <p className="text-[7px] font-mono text-white/25 text-center">Market Breadth</p>
+                <p className="text-[7px] font-mono text-text-tertiary text-center">Market Breadth</p>
               )}
             </>
           ) : vix?.error && !vix?.loading ? (
             <div className="flex flex-col items-center justify-center h-8 mt-2">
-               <span className="text-[10px] font-mono text-white/40 uppercase text-center leading-tight mt-4">API Limit<br/>Reached</span>
+               <span className="text-[10px] font-mono text-text-tertiary uppercase text-center leading-tight mt-4">API Limit<br/>Reached</span>
             </div>
-          ) : <div className="w-16 h-8 bg-white/10 rounded animate-pulse mt-4" />}
+          ) : <div className="w-16 h-8 bg-border-slate/30 rounded animate-pulse mt-4" />}
         </Widget>
 
         <Divider />
@@ -2137,13 +2137,13 @@ function MarketIntelligenceBar({
         <Widget label="USD Index (DXY)">
           {dxy?.price ? (
             <div className="flex flex-col items-center gap-0.5">
-              <span className="text-[18px] font-black font-mono text-white">{dxy.price.toFixed(2)}</span>
+              <span className="text-[18px] font-black font-mono text-text-primary">{dxy.price.toFixed(2)}</span>
               <span className={cn("text-[10px] font-bold font-mono flex items-center gap-0.5",
                 (dxy.change_pct ?? 0) >= 0 ? "text-[#00c853]" : "text-[#ef4444]")}>
                 {(dxy.change_pct ?? 0) >= 0 ? <TrendingUp className="w-3 h-3" /> : <TrendingDown className="w-3 h-3" />}
                 {(dxy.change_pct ?? 0) >= 0 ? "+" : ""}{dxy.change_pct?.toFixed(2)}%
               </span>
-              <p className="text-[7px] font-mono text-white/30 text-center leading-tight max-w-[130px]">
+              <p className="text-[7px] font-mono text-text-tertiary text-center leading-tight max-w-[130px]">
                 {(dxy.change_pct ?? 0) > 0.1 ? "Headwind for EUR, GBP, Gold" : (dxy.change_pct ?? 0) < -0.1 ? "Tailwind for EUR, GBP, Gold" : "DXY flat"}
               </p>
             </div>
@@ -2154,16 +2154,16 @@ function MarketIntelligenceBar({
                 {dxyChangePct >= 0 ? <TrendingUp className="w-3.5 h-3.5" /> : <TrendingDown className="w-3.5 h-3.5" />}
                 {dxyChangePct >= 0 ? "+" : ""}{dxyChangePct.toFixed(2)}%
               </span>
-              <p className="text-[7px] font-mono text-white/30 text-center leading-tight max-w-[130px]">
+              <p className="text-[7px] font-mono text-text-tertiary text-center leading-tight max-w-[130px]">
                 {dxyChangePct > 0.1 ? "Headwind for EUR, GBP, Gold" : dxyChangePct < -0.1 ? "Tailwind for EUR, GBP, Gold" : "DXY flat"}
               </p>
-              <span className="text-[6px] font-mono text-white/20 uppercase tracking-widest">Est. EUR/GBP/JPY</span>
+              <span className="text-[6px] font-mono text-text-tertiary uppercase tracking-widest">Est. EUR/GBP/JPY</span>
             </div>
           ) : dxy?.error && !dxy?.loading ? (
             <div className="flex flex-col items-center justify-center h-8">
-              <span className="text-[10px] font-mono text-white/40 uppercase text-center leading-tight mt-2">API Limit<br/>Reached</span>
+              <span className="text-[10px] font-mono text-text-tertiary uppercase text-center leading-tight mt-2">API Limit<br/>Reached</span>
             </div>
-          ) : <div className="w-16 h-8 bg-white/10 rounded animate-pulse mt-2" />}
+          ) : <div className="w-16 h-8 bg-border-slate/30 rounded animate-pulse mt-2" />}
         </Widget>
 
         <Divider />
@@ -2172,20 +2172,20 @@ function MarketIntelligenceBar({
         <Widget label="Gold (XAU/USD)">
           {goldPrice ? (
             <div className="flex flex-col items-center gap-0.5">
-              <span className="text-[18px] font-black font-mono text-[#fbbf24]">${goldPrice.toFixed(0)}</span>
+              <span className="text-[18px] font-black font-mono text-amber-700">${goldPrice.toFixed(0)}</span>
               <span className={cn("text-[10px] font-bold font-mono",
                 (goldChangePct ?? 0) >= 0 ? "text-[#00c853]" : "text-[#ef4444]")}>
                 {(goldChangePct ?? 0) >= 0 ? "+" : ""}{goldChangePct?.toFixed(2)}%
               </span>
-              <p className="text-[7px] font-mono text-white/30 text-center leading-tight max-w-[130px]">
+              <p className="text-[7px] font-mono text-text-tertiary text-center leading-tight max-w-[130px]">
                 {(goldChangePct ?? 0) > 0.3 ? "Rising — risk-off sentiment" : "Stable"}
               </p>
             </div>
           ) : goldData?.error && !goldData?.loading ? (
             <div className="flex flex-col items-center justify-center h-8">
-              <span className="text-[10px] font-mono text-white/40 uppercase text-center leading-tight mt-2">API Limit<br/>Reached</span>
+              <span className="text-[10px] font-mono text-text-tertiary uppercase text-center leading-tight mt-2">API Limit<br/>Reached</span>
             </div>
-          ) : <div className="w-16 h-8 bg-white/10 rounded animate-pulse mt-2" />}
+          ) : <div className="w-16 h-8 bg-border-slate/30 rounded animate-pulse mt-2" />}
         </Widget>
 
         <Divider />
@@ -2194,20 +2194,20 @@ function MarketIntelligenceBar({
         <Widget label="Trading Sessions">
           <div className="flex flex-col gap-1.5 w-full">
             {marketClosed && (
-              <div className="text-[8px] font-mono text-amber-400 font-bold uppercase tracking-widest text-center bg-amber-400/10 border border-amber-400/20 rounded px-2 py-1">
+              <div className="text-[8px] font-mono text-amber-800 font-bold uppercase tracking-widest text-center bg-amber-50 border border-amber-200 rounded px-2 py-1">
                 {isWeekend ? "Weekend" : "After Hours"} · All Closed
               </div>
             )}
             {SESSION_DATA.map(s => (
               <div key={s.name} className="flex items-center gap-2">
                 <div className={cn("w-1.5 h-1.5 rounded-full shrink-0 transition-colors",
-                  s.open ? "bg-[#00c853] shadow-[0_0_6px_#00c853]" : "bg-white/20")} />
+                  s.open ? "bg-[#00c853] shadow-[0_0_6px_#00c853]" : "bg-black/10")} />
                 <span className="text-[8px] font-mono">
                   <span className="mr-1">{s.flag}</span>
-                  <span className={s.open ? "text-white font-bold" : "text-white/40"}>{s.name}</span>
+                  <span className={s.open ? "text-text-primary font-bold" : "text-text-tertiary"}>{s.name}</span>
                 </span>
                 {s.open && <span className="ml-auto text-[7px] font-mono text-[#00c853] font-bold">LIVE</span>}
-                {!s.open && <span className="ml-auto text-[7px] font-mono text-white/25">{s.hours}</span>}
+                {!s.open && <span className="ml-auto text-[7px] font-mono text-text-tertiary">{s.hours}</span>}
               </div>
             ))}
           </div>
@@ -2219,7 +2219,7 @@ function MarketIntelligenceBar({
         <Widget label="Top Mover Today">
           {topMover && priceData[topMover.inst.scannerSlug]?.price ? (
             <div className="flex flex-col items-center gap-1">
-              <span className="text-[12px] font-black font-mono text-white tracking-wider">
+              <span className="text-[12px] font-black font-mono text-text-primary tracking-wider">
                 {topMover.inst.displayPair}
               </span>
               <span className={cn(
@@ -2230,9 +2230,9 @@ function MarketIntelligenceBar({
               )}>
                 {topMoverRaw >= 0 ? "+" : ""}{topMoverRaw.toFixed(2)}%
               </span>
-              <p className="text-[7px] font-mono text-white/30">{topMover.inst.category}</p>
+              <p className="text-[7px] font-mono text-text-tertiary">{topMover.inst.category}</p>
             </div>
-          ) : <div className="w-20 h-10 bg-white/10 rounded animate-pulse" />}
+          ) : <div className="w-20 h-10 bg-border-slate/30 rounded animate-pulse" />}
         </Widget>
 
         <Divider />
@@ -2241,14 +2241,14 @@ function MarketIntelligenceBar({
         <Widget label="Next High-Impact Event">
           {nextEvt ? (
             <div className="flex flex-col items-center gap-1.5">
-              <div className="flex items-center gap-1.5 bg-[#f59e0b]/15 border border-[#f59e0b]/30 px-2.5 py-1 rounded-full">
-                <span className="text-[#f59e0b] text-[10px]">⚡</span>
-                <span className="text-[10px] font-black font-mono text-[#f59e0b]">{countdown || "…"}</span>
+              <div className="flex items-center gap-1.5 bg-amber-50 border border-amber-200 px-2.5 py-1 rounded-full">
+                <span className="text-amber-800 text-[10px]">⚡</span>
+                <span className="text-[10px] font-black font-mono text-amber-800">{countdown || "…"}</span>
               </div>
-              <p className="text-[8px] font-mono text-white/60 text-center max-w-[140px] leading-tight">{nextEvt.label}</p>
+              <p className="text-[8px] font-mono text-text-secondary text-center max-w-[140px] leading-tight">{nextEvt.label}</p>
             </div>
           ) : (
-            <p className="text-[8px] font-mono text-white/30 text-center">No high-impact<br/>events today</p>
+            <p className="text-[8px] font-mono text-text-tertiary text-center">No high-impact<br/>events today</p>
           )}
         </Widget>
 
@@ -2269,14 +2269,14 @@ function MarketIntelligenceBar({
                   onSignalBias(next);
                 }}
                 className={cn("flex items-center gap-2 px-2 py-0.5 rounded transition-all text-left w-full",
-                  signalBias === item.key ? "bg-white/15 ring-1 ring-white/30" : "hover:bg-white/8")}>
+                  signalBias === item.key ? "bg-black/5 ring-1 ring-black/10" : "hover:bg-black/5")}>
                 <span className="text-[9px]">{item.dot}</span>
                 <span className="text-[11px] font-black font-mono" style={{ color: item.color }}>{item.count}</span>
-                <span className="text-[8px] font-mono text-white/50 uppercase">{item.label}</span>
+                <span className="text-[8px] font-mono text-text-tertiary uppercase">{item.label}</span>
               </button>
             ))}
           </div>
-          <p className="text-[7px] font-mono text-white/20 text-center">Click to filter</p>
+          <p className="text-[7px] font-mono text-text-tertiary text-center">Click to filter</p>
         </Widget>
 
       </div>

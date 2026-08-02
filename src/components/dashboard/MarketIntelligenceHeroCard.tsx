@@ -516,50 +516,38 @@ export function MarketIntelligenceHeroCard({
   return (
     <section
       className={cn(
-        "relative overflow-hidden text-white",
-        "rounded-2xl",
+        "relative overflow-hidden text-[#1A1A1A]",
+        "rounded-xl border border-[#DEDDD8] bg-white shadow-[0_4px_16px_rgba(0,0,0,0.04)]",
         cardVisible ? "hero-card-enter" : "opacity-0"
       )}
       style={{
-        // Premium glassmorphism off-black layout with subtle gloss highlight and accents
-        background: [
-          "linear-gradient(135deg, rgba(255, 255, 255, 0.07) 0%, rgba(255, 255, 255, 0.03) 30%, rgba(255, 255, 255, 0) 70%)",
-          "radial-gradient(circle at 50% -20%, rgba(0, 200, 150, 0.15), transparent 60%)",
-          "radial-gradient(circle at 10% 100%, rgba(249, 119, 29, 0.08), transparent 40%)",
-          "linear-gradient(180deg, rgba(14, 14, 19, 0.85) 0%, rgba(10, 10, 14, 0.9) 100%)",
-        ].join(", "),
-        backdropFilter: "blur(20px)",
-        WebkitBackdropFilter: "blur(20px)",
-        border: "1px solid rgba(255, 255, 255, 0.08)",
-        boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.5), inset 0 1px 0 0 rgba(255, 255, 255, 0.12)",
         animation: cardVisible ? "heroFadeUp 600ms ease-out both" : undefined,
       }}
     >
       {/* ── Header bar ──────────────────────────────────────────────────────── */}
-      <div className="h-[52px] border-b border-white/[0.06] flex items-center justify-between px-6">
+      <div className="h-[52px] border-b border-[#DEDDD8] flex items-center justify-between px-6">
         <div className="flex items-center gap-3">
-          <span className="text-[10px] font-mono uppercase tracking-widest text-white/40">
+          <span className="text-[10px] font-mono uppercase tracking-widest text-[#555550]">
             Market Intelligence
           </span>
-          <div className="w-px h-4 bg-white/10" />
+          <div className="w-px h-4 bg-[#DEDDD8]" />
 
           {/* Instrument dropdown */}
           <div className="relative">
             <button
               onClick={() => setDropdownOpen(!dropdownOpen)}
-              className="flex items-center gap-1.5 font-semibold text-sm text-white hover:text-[#00C896] transition-colors"
+              className="flex items-center gap-1.5 font-semibold text-sm text-[#1A1A1A] hover:text-[#F9771D] transition-colors"
             >
               {selectedInst.name}
-              <ChevronDown className="w-3 h-3 text-white/40" />
+              <ChevronDown className="w-3 h-3 text-[#555550]" />
             </button>
             {dropdownOpen && (
               <div
-                className="absolute top-full left-0 mt-1 py-1 z-[99] min-w-[160px] rounded-lg border border-white/10 max-h-72 overflow-y-auto"
-                style={{ background: "rgba(20,20,24,0.97)", backdropFilter: "blur(12px)" }}
+                className="absolute top-full left-0 mt-1 py-1 z-[99] min-w-[160px] rounded-xl border border-[#DEDDD8] bg-white shadow-[0_8px_24px_rgba(0,0,0,0.08)] max-h-72 overflow-y-auto"
               >
                 {INSTRUMENT_GROUPS.map(group => (
                   <div key={group.label}>
-                    <div className="px-3 pt-2 pb-1 text-[9px] font-mono uppercase tracking-widest text-white/30">
+                    <div className="px-3 pt-2 pb-1 text-[9px] font-mono uppercase tracking-widest text-[#555550]">
                       {group.label}
                     </div>
                     {group.items.map(inst => (
@@ -569,8 +557,8 @@ export function MarketIntelligenceHeroCard({
                         className={cn(
                           "w-full text-left px-3 py-1.5 text-xs transition-colors",
                           inst.slug === selectedInst.slug
-                            ? "text-[#00C896]"
-                            : "text-white/70 hover:text-white hover:bg-white/[0.06]"
+                            ? "text-[#F9771D] font-semibold"
+                            : "text-[#555550] hover:text-[#1A1A1A] hover:bg-[#F8F8F8]"
                         )}
                       >
                         {inst.name}
@@ -585,13 +573,13 @@ export function MarketIntelligenceHeroCard({
 
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-2">
-            <span className="w-2 h-2 bg-[#00C896] rounded-full animate-pulse" />
-            <span className="text-[10px] font-mono uppercase text-white/40">Live</span>
+            <span className="w-2 h-2 bg-[#18B880] rounded-full animate-pulse" />
+            <span className="text-[10px] font-mono uppercase text-[#555550]">Live</span>
           </div>
-          <div className="w-px h-4 bg-white/10" />
+          <div className="w-px h-4 bg-[#DEDDD8]" />
 
           {/* Timeframe selector */}
-          <div className="flex rounded-md overflow-hidden" style={{ background: "rgba(255,255,255,0.06)" }}>
+          <div className="flex rounded-none overflow-hidden border border-[#DEDDD8]">
             {TIMEFRAMES.map(tf => (
               <button
                 key={tf.interval}
@@ -599,8 +587,8 @@ export function MarketIntelligenceHeroCard({
                 className={cn(
                   "px-3 py-1.5 text-[12px] font-bold font-mono tracking-wide transition-all",
                   selectedInterval === tf.interval
-                    ? "bg-white text-[#0a0a0f]"
-                    : "text-white/40 hover:text-white/80"
+                    ? "bg-[#181818] text-white"
+                    : "text-[#555550] hover:text-[#1A1A1A] hover:bg-[#F8F8F8] bg-white"
                 )}
               >
                 {tf.label}
@@ -608,8 +596,8 @@ export function MarketIntelligenceHeroCard({
             ))}
           </div>
 
-          <button className="p-1 hover:bg-white/[0.06] rounded">
-            <MoreHorizontal className="w-4 h-4 text-white/30" />
+          <button className="p-1 hover:bg-[#F8F8F8] rounded-none">
+            <MoreHorizontal className="w-4 h-4 text-[#8A8A85]" />
           </button>
         </div>
       </div>
@@ -618,17 +606,17 @@ export function MarketIntelligenceHeroCard({
       <div className="grid grid-cols-1 lg:grid-cols-12" style={{ height: 380 }}>
 
         {/* ── Col A: Session stats ──────────────────────────────────────────── */}
-        <div className="lg:col-span-3 border-r border-white/[0.06] p-6 flex flex-col justify-between">
+        <div className="lg:col-span-3 border-r border-[#DEDDD8] p-6 flex flex-col justify-between">
           {/* Session activity */}
           <div>
-            <p className="text-[10px] font-mono uppercase tracking-widest text-white/35 mb-3">
+            <p className="text-[10px] font-mono uppercase tracking-widest text-[#555550] mb-3">
               Session Activity
             </p>
             <div className="flex items-baseline gap-2 mb-3">
-              <span className="text-5xl font-black font-mono leading-none tabular-nums">
+              <span className="text-5xl font-black font-mono leading-none tabular-nums text-[#1A1A1A]">
                 {todayTradeCount}
               </span>
-              <span className="text-[10px] font-mono text-white/35 uppercase">trades today</span>
+              <span className="text-[10px] font-mono text-[#555550] uppercase">trades today</span>
             </div>
             {/* Mini sparkline */}
             <svg className="w-full h-8" viewBox="0 0 100 30" preserveAspectRatio="none">
@@ -655,28 +643,27 @@ export function MarketIntelligenceHeroCard({
 
           {/* Open alerts — hidden when empty */}
           {visibleAlerts.length > 0 && (
-            <div className="pt-4 border-t border-white/[0.06]">
-              <p className="text-[10px] font-mono uppercase tracking-widest text-white/35 mb-3">
+            <div className="pt-4 border-t border-[#DEDDD8]">
+              <p className="text-[10px] font-mono uppercase tracking-widest text-[#555550] mb-3">
                 Open Alerts
               </p>
               <div className="flex gap-2 flex-wrap">
                 {visibleAlerts.map((alert: OpenAlert) => (
                   <div
                     key={alert.label}
-                    className="flex-1 min-w-[56px] rounded-lg py-2 px-3 text-center"
-                    style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.08)" }}
+                    className="flex-1 min-w-[56px] rounded-xl py-2 px-3 text-center border border-[#DEDDD8] bg-[#F8F8F8]"
                   >
                     <p
                       className="text-sm font-bold font-mono tabular-nums"
                       style={{
                         color: alert.color === "orange" ? "#F9771D"
-                             : alert.color === "green"  ? "#00C896"
+                             : alert.color === "green"  ? "#18B880"
                              : "#CE6969"
                       }}
                     >
                       {alert.count}
                     </p>
-                    <p className="text-[8px] font-mono text-white/35 uppercase mt-0.5">
+                    <p className="text-[8px] font-mono text-[#555550] uppercase mt-0.5">
                       {alert.label}
                     </p>
                   </div>
@@ -687,7 +674,7 @@ export function MarketIntelligenceHeroCard({
         </div>
 
         {/* ── Col B: Gauge ─────────────────────────────────────────────────── */}
-        <div className="lg:col-span-6 flex flex-col items-center justify-center relative border-r border-white/[0.06] overflow-hidden py-4">
+        <div className="lg:col-span-6 flex flex-col items-center justify-center relative border-r border-[#DEDDD8] overflow-hidden py-4">
 
           {/* Canvas-style tick rings — rendered as SVG behind the main gauge */}
           <div className="relative w-full flex justify-center" style={{ maxWidth: 340 }}>
@@ -697,14 +684,14 @@ export function MarketIntelligenceHeroCard({
               style={{ overflow: "visible" }}
             >
               <defs>
-                {/* Arc gradient: dark green tip → vivid green */}
+                {/* Arc gradient: muted green → vivid green */}
                 <linearGradient id="arcGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" stopColor="#1a5c3e" />
-                  <stop offset="100%" stopColor="#00d87c" />
+                  <stop offset="0%" stopColor="#86efac" />
+                  <stop offset="100%" stopColor="#18B880" />
                 </linearGradient>
                 {/* Glow filter for tip dot */}
                 <filter id="tipGlow" x="-50%" y="-50%" width="200%" height="200%">
-                  <feGaussianBlur stdDeviation="3" result="blur" />
+                  <feGaussianBlur stdDeviation="2" result="blur" />
                   <feMerge>
                     <feMergeNode in="blur" />
                     <feMergeNode in="SourceGraphic" />
@@ -740,7 +727,7 @@ export function MarketIntelligenceHeroCard({
               <path
                 d={`M ${160 - ARC_R} 160 A ${ARC_R} ${ARC_R} 0 0 1 ${160 + ARC_R} 160`}
                 fill="none"
-                stroke="rgba(255,255,255,0.06)"
+                stroke="#DEDDD8"
                 strokeWidth={6}
                 strokeLinecap="round"
               />
@@ -763,7 +750,7 @@ export function MarketIntelligenceHeroCard({
                   cx={tipPos.x}
                   cy={tipPos.y}
                   r={5}
-                  fill="#00d87c"
+                  fill="#18B880"
                   filter="url(#tipGlow)"
                   opacity={0.9}
                 />
@@ -800,7 +787,7 @@ export function MarketIntelligenceHeroCard({
                     <line
                       x1={connInner.x} y1={connInner.y}
                       x2={lx + (isLeft ? -6 : 6)} y2={ly}
-                      stroke="rgba(160,160,155,0.35)"
+                      stroke="rgba(100,100,95,0.3)"
                       strokeWidth={0.7}
                       strokeDasharray="2,3"
                     />
@@ -808,7 +795,7 @@ export function MarketIntelligenceHeroCard({
                     {/* Node dot on inner ring */}
                     <circle
                       cx={dx} cy={dy} r={2.5}
-                      fill={node.alert ? "#FF6B2B" : "rgba(255,255,255,0.25)"}
+                      fill={node.alert ? "#F9771D" : "#DEDDD8"}
                       className={node.alert ? "alert-node-pulse" : ""}
                     />
 
@@ -817,9 +804,9 @@ export function MarketIntelligenceHeroCard({
                       const pillR = 122;
                       const px = 160 + pillR * Math.cos(rad);
                       const py = 160 + pillR * Math.sin(rad);
-                      const letterColor = node.letter === "B" ? "#00C896" : node.letter === "S" ? "#CE6969" : "rgba(255,255,255,0.5)";
-                      const pillBg = node.letter === "B" ? "rgba(0,200,150,0.08)" : node.letter === "S" ? "rgba(206,105,105,0.08)" : "rgba(255,255,255,0.07)";
-                      const pillStroke = node.letter === "B" ? "rgba(0,200,150,0.2)" : node.letter === "S" ? "rgba(206,105,105,0.2)" : "rgba(255,255,255,0.12)";
+                      const letterColor = node.letter === "B" ? "#15803d" : node.letter === "S" ? "#CE6969" : "#555550";
+                      const pillBg = node.letter === "B" ? "rgba(24,184,128,0.08)" : node.letter === "S" ? "rgba(206,105,105,0.08)" : "rgba(0,0,0,0.04)";
+                      const pillStroke = node.letter === "B" ? "rgba(24,184,128,0.25)" : node.letter === "S" ? "rgba(206,105,105,0.25)" : "#DEDDD8";
                       return (
                         <g>
                           <rect
@@ -869,7 +856,7 @@ export function MarketIntelligenceHeroCard({
                     <text
                       x={lx + (isLeft ? -10 : 10)}
                       y={ly + (isBottom ? 12 : 0)}
-                      fill="rgba(255,255,255,0.70)"
+                      fill="#555550"
                       fontSize={11}
                       fontWeight={500}
                       fontFamily="Inter, system-ui, sans-serif"
@@ -886,7 +873,7 @@ export function MarketIntelligenceHeroCard({
               <text
                 x="160"
                 y="138"
-                fill="white"
+                fill="#1A1A1A"
                 fontSize={54}
                 fontWeight={200}
                 fontFamily="Inter, system-ui, sans-serif"
@@ -900,7 +887,7 @@ export function MarketIntelligenceHeroCard({
               <text
                 x="160"
                 y="160"
-                fill="rgba(255,255,255,0.45)"
+                fill="#555550"
                 fontSize={9}
                 fontWeight={400}
                 fontFamily="Inter, system-ui, sans-serif"
@@ -914,16 +901,15 @@ export function MarketIntelligenceHeroCard({
 
           {/* ── Footer stats ─────────────────────────────────────────────── */}
           <div
-            className="flex justify-center items-center gap-10 w-full px-6 mt-4 pt-4"
-            style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}
+            className="flex justify-center items-center gap-10 w-full px-6 mt-4 pt-4 border-t border-[#DEDDD8]"
           >
             {[
-              { label: userCurrency && userCurrency !== "USD" ? `PRICE (${userCurrency})` : "PRICE", value: livePriceStr, color: priceFlash === "up" ? "#00C896" : priceFlash === "down" ? "#CE6969" : "rgba(255,255,255,0.9)", isFallback, isPrice: true },
-              { label: "RSI (14)", value: liveRsiStr,    color: "rgba(255,255,255,0.9)", isFallback: false, isPrice: false },
+              { label: userCurrency && userCurrency !== "USD" ? `PRICE (${userCurrency})` : "PRICE", value: livePriceStr, color: priceFlash === "up" ? "#18B880" : priceFlash === "down" ? "#CE6969" : "#1A1A1A", isFallback, isPrice: true },
+              { label: "RSI (14)", value: liveRsiStr,    color: "#1A1A1A", isFallback: false, isPrice: false },
               { label: "TREND",    value: liveTrend,     color: liveTrendColor, isFallback: false, isPrice: false },
             ].map(({ label, value, color, isFallback: fb, isPrice }) => (
               <div key={label} className="text-center">
-                <p className="text-[10px] font-mono uppercase tracking-widest mb-2" style={{ color: "rgba(255,255,255,0.45)" }}>
+                <p className="text-[10px] font-mono uppercase tracking-widest mb-2 text-[#555550]">
                   {label}
                 </p>
                 <div
@@ -933,14 +919,14 @@ export function MarketIntelligenceHeroCard({
                     transition: isPrice ? "color 400ms ease" : undefined,
                   }}
                 >
-                  {fb && <span className="text-[14px] text-amber-500 font-bold" title="Live price unavailable — showing estimated value">~</span>}
+                  {fb && <span className="text-[14px] text-[#F9771D] font-bold" title="Live price unavailable — showing estimated value">~</span>}
                   <span>{value}</span>
                   {fb && (
                     <div 
                       className="group relative flex items-center justify-center cursor-help"
                     >
-                      <div className="w-1.5 h-1.5 rounded-full bg-amber-500" />
-                      <div className="absolute bottom-full mb-2 hidden group-hover:block w-48 p-2 text-xs bg-gray-900 border border-gray-700 rounded shadow-lg text-white text-left z-50">
+                      <div className="w-1.5 h-1.5 rounded-full bg-[#F9771D]" />
+                      <div className="absolute bottom-full mb-2 hidden group-hover:block w-48 p-2 text-xs bg-white border border-[#DEDDD8] rounded-xl shadow-lg text-[#555550] text-left z-50">
                         Live price unavailable — showing estimated value
                       </div>
                     </div>
@@ -955,16 +941,14 @@ export function MarketIntelligenceHeroCard({
         <div className="lg:col-span-3 flex flex-col overflow-hidden">
           {/* Feed header */}
           <div
-            className="h-10 flex items-center justify-between px-4 shrink-0"
-            style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}
+            className="h-10 flex items-center justify-between px-4 shrink-0 border-b border-[#DEDDD8]"
           >
             <div className="flex items-center gap-2">
-              <span className="text-[11px] font-mono uppercase tracking-widest text-white/50">
+              <span className="text-[11px] font-mono uppercase tracking-widest text-[#555550]">
                 Live Feed
               </span>
               <span
-                className="text-[8px] font-mono text-[#00C896] px-1.5 py-0.5 rounded"
-                style={{ background: "rgba(0,200,150,0.08)", border: "1px solid rgba(0,200,150,0.15)" }}
+                className="text-[8px] font-mono font-bold text-[#15803d] px-1.5 py-0.5 rounded-none border border-[#a7f3d0] bg-[#ecfdf5]"
               >
                 24H
               </span>
@@ -987,7 +971,7 @@ export function MarketIntelligenceHeroCard({
                     <span
                       className="w-1.5 h-1.5 rounded-full shrink-0 mt-1.5"
                       style={{
-                        background: item.severity === "green" ? "#00C896"
+                        background: item.severity === "green" ? "#18B880"
                                   : item.severity === "orange" ? "#F9771D"
                                   : "#CE6969"
                       }}
@@ -995,11 +979,11 @@ export function MarketIntelligenceHeroCard({
                   )}
                   <div className="min-w-0 flex-1">
                     {item.source && (
-                      <p className="text-[11px] font-bold text-white/90 mb-0.5 group-hover:text-cyan-400 transition-colors">{item.source}</p>
+                      <p className="text-[11px] font-bold text-[#1A1A1A] mb-0.5 group-hover:text-[#F9771D] transition-colors">{item.source}</p>
                     )}
-                    <p className="text-[13px] text-white/70 leading-snug group-hover:text-white transition-colors">{item.message}</p>
+                    <p className="text-[13px] text-[#555550] leading-snug group-hover:text-[#1A1A1A] transition-colors">{item.message}</p>
                     {item.time && (
-                      <p className="text-[10px] font-mono text-white/30 mt-1">{item.time}</p>
+                      <p className="text-[10px] font-mono text-[#8A8A85] mt-1">{item.time}</p>
                     )}
                   </div>
                 </div>
@@ -1013,17 +997,15 @@ export function MarketIntelligenceHeroCard({
                     rel="noopener noreferrer"
                     key={item.id}
                     className={cn(
-                      "block rounded-lg p-3 hover:bg-white/[0.08] transition-all cursor-pointer",
+                      "block rounded-xl p-3 hover:bg-[#F8F8F8] transition-all cursor-pointer",
                       feedVisible[i] ? "feed-slide-in" : "opacity-0"
                     )}
                     style={{
                       animationDelay: `${i * 80}ms`,
-                      background: isTopAlert
-                        ? "rgba(249,119,29,0.1)"
-                        : "rgba(255,255,255,0.04)",
+                      background: isTopAlert ? "rgba(249,119,29,0.06)" : "transparent",
                       border: isTopAlert
                         ? "1px solid rgba(249,119,29,0.25)"
-                        : "1px solid rgba(255,255,255,0.07)",
+                        : "1px solid transparent",
                       borderLeft: isTopAlert ? "3px solid #F9771D" : undefined,
                     }}
                   >
@@ -1037,17 +1019,15 @@ export function MarketIntelligenceHeroCard({
                   href={targetUrl}
                   key={item.id}
                   className={cn(
-                    "block rounded-lg p-3 hover:bg-white/[0.08] transition-all cursor-pointer",
+                    "block rounded-xl p-3 hover:bg-[#F8F8F8] transition-all cursor-pointer",
                     feedVisible[i] ? "feed-slide-in" : "opacity-0"
                   )}
                   style={{
                     animationDelay: `${i * 80}ms`,
-                    background: isTopAlert
-                      ? "rgba(249,119,29,0.1)"
-                      : "rgba(255,255,255,0.04)",
+                    background: isTopAlert ? "rgba(249,119,29,0.06)" : "transparent",
                     border: isTopAlert
                       ? "1px solid rgba(249,119,29,0.25)"
-                      : "1px solid rgba(255,255,255,0.07)",
+                      : "1px solid transparent",
                     borderLeft: isTopAlert ? "3px solid #F9771D" : undefined,
                   }}
                 >
@@ -1061,24 +1041,19 @@ export function MarketIntelligenceHeroCard({
 
       {/* ── Panel footer bar ────────────────────────────────────────────────── */}
       <div
-        className="h-9 flex items-center justify-between px-6"
-        style={{
-          borderTop: "1px solid rgba(255,255,255,0.06)",
-          background: "rgba(0,0,0,0.15)",
-        }}
+        className="h-9 flex items-center justify-between px-6 border-t border-[#DEDDD8] bg-[#F8F8F8]"
       >
         <div className="flex items-center gap-2">
-          <span className="w-1.5 h-1.5 bg-[#00C896] rounded-full animate-pulse" />
-          <span className="text-[10px] font-mono text-white/30">
+          <span className="w-1.5 h-1.5 bg-[#18B880] rounded-full animate-pulse" />
+          <span className="text-[10px] font-mono text-[#555550]">
             {tdInstrument?.fetched_at ? `Live (updated ${new Date(tdInstrument.fetched_at).toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" })})` : "Terminal Connected"}
           </span>
         </div>
         <div className="flex items-center gap-4">
-          <span className="text-[10px] font-mono text-white/25">{londonTime || "GMT/BST Sync Active"}</span>
+          <span className="text-[10px] font-mono text-[#8A8A85]">{londonTime || "GMT/BST Sync Active"}</span>
           <Link
             href="/dashboard/market-intelligence"
-            className="text-[11px] font-bold px-3 py-1 rounded-md transition-colors"
-            style={{ background: "#F9771D", color: "#fff" }}
+            className="text-[11px] font-bold px-3 py-1.5 rounded-xl transition-colors bg-[#181818] hover:bg-[#333330] text-white"
           >
             Full Analysis →
           </Link>

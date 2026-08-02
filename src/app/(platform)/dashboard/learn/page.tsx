@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
+import { PageHeader } from "@/components/dashboard/ui/PageHeader";
  
 export default async function LearnArchivePage() {
   const supabase = await createClient();
@@ -22,25 +23,31 @@ export default async function LearnArchivePage() {
   const categories = ['Strategy', 'Mindset', 'Journal', 'Recap'];
  
   return (
-    <div className="space-y-12 animate-in fade-in duration-700 pb-24">
-      <header className="border-b border-border-slate/50 pb-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
-        <div>
-          <div className="flex items-center gap-2 text-accent mb-3">
-            <Library className="w-4 h-4" />
-            <span className="text-[10px] font-mono uppercase tracking-[0.3em] font-bold">Knowledge_Vault // v1.0</span>
+    <div
+      className="space-y-12 animate-in fade-in duration-700 pb-24"
+      style={{
+        "--tool-accent": "#0891b2",
+        "--tool-accent-hover": "#0e7490",
+        "--tool-accent-tint": "#ecfeff",
+        "--tool-accent-border": "#a5f3fc",
+        "--tool-accent-text": "#155e75",
+      } as React.CSSProperties}
+    >
+      <PageHeader
+        eyebrow="// KNOWLEDGE VAULT v1.0"
+        title="The Library"
+        description="Archived live sessions, curriculum deep-dives, and mindset briefings."
+        badge={
+          <div className="relative w-full md:w-72">
+            <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-[#8A8A85]" />
+            <input
+              type="text"
+              placeholder="SEARCH ARCHIVE..."
+              className="w-full bg-white border border-[#DEDDD8] pl-10 pr-4 py-2.5 text-[10px] font-mono uppercase outline-none focus:border-[#1A1A1A] text-[#1A1A1A] rounded-xl transition-colors"
+            />
           </div>
-          <h1 className="text-4xl font-display font-black uppercase tracking-tight text-text-primary">The <span className="text-accent">Library.</span></h1>
-          <p className="text-sm text-text-tertiary mt-2">Archived live sessions, curriculum deep-dives, and mindset briefings.</p>
-        </div>
-        <div className="relative w-full md:w-80">
-          <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-text-tertiary" />
-          <input 
-            type="text" 
-            placeholder="SEARCH ARCHIVE..." 
-            className="w-full bg-background-surface border border-border-slate/80 pl-10 pr-4 py-3 text-[10px] font-mono uppercase outline-none focus:border-accent text-text-primary rounded-lg"
-          />
-        </div>
-      </header>
+        }
+      />
  
       {/* Categories */}
       <div className="flex flex-wrap gap-2.5">
@@ -49,9 +56,9 @@ export default async function LearnArchivePage() {
             key={i} 
             className={cn(
               "px-6 py-2 border text-[10px] font-bold uppercase tracking-widest transition-all rounded-lg",
-              i === 0 
-                ? "bg-[#0A0A0A] text-white border-[#0A0A0A] hover:bg-neutral-800" 
-                : "border-border-slate text-text-tertiary hover:border-accent hover:text-accent hover:bg-neutral-50"
+              i === 0
+                ? "bg-[#181818] text-white border-[#181818] hover:bg-[#333330]"
+                : "border-[#DEDDD8] bg-white text-[#555550] hover:border-[#1A1A1A] hover:text-[#1A1A1A]"
             )}
           >
             {cat}
@@ -70,7 +77,7 @@ export default async function LearnArchivePage() {
                       <Play className="w-6 h-6 text-accent fill-accent" />
                    </div>
                 </div>
-                <div className="absolute bottom-3 right-3 px-2 py-1 bg-black/80 text-[9px] font-mono text-white rounded-md">
+                <div className="absolute bottom-3 right-3 px-2 py-1 bg-white/90 border border-[#DEDDD8] text-[9px] font-mono text-[#1A1A1A] rounded-md shadow-sm">
                    {session.duration}
                 </div>
                 <div className="absolute top-3 left-3 px-2 py-1 bg-accent text-background-primary text-[8px] font-bold uppercase tracking-widest rounded-md">
@@ -116,7 +123,7 @@ export default async function LearnArchivePage() {
                <p className="text-sm text-text-secondary leading-relaxed max-w-2xl">
                   Pete's core framework for identifying premium liquidity clusters in the current market cycle. Essential viewing for anyone entering Phase 2 of the curriculum.
                </p>
-               <button className="px-8 py-4 bg-[#0A0A0A] hover:bg-neutral-800 text-white text-[10px] font-bold uppercase tracking-widest transition-all rounded-lg">
+               <button className="px-8 py-4 bg-[#181818] hover:bg-[#333330] text-white text-[10px] font-bold uppercase tracking-widest transition-all rounded-xl shadow-sm">
                   Access Premium Briefing
                </button>
             </div>

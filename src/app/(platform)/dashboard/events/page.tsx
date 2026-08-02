@@ -2,6 +2,7 @@ import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import { Calendar, Video, Clock, Users, Lock } from "lucide-react";
 import Link from "next/link";
+import { PageHeader } from "@/components/dashboard/ui/PageHeader";
 
 export const revalidate = 0;
 
@@ -46,7 +47,7 @@ export default async function EventsPage() {
           <div className="w-full space-y-2 pt-2">
             <Link
               href="/pricing"
-              className="w-full flex items-center justify-center px-8 py-4 bg-cyan-500 hover:bg-cyan-600 text-white text-[10px] font-bold uppercase tracking-widest transition-all rounded-lg"
+              className="w-full flex items-center justify-center px-8 py-3.5 bg-[#181818] hover:bg-[#333330] text-white text-[10px] font-bold uppercase tracking-widest transition-all rounded-xl shadow-sm"
             >
               Upgrade to Edge →
             </Link>
@@ -78,13 +79,21 @@ export default async function EventsPage() {
   const pastEvents = (events || []).filter(e => new Date(e.scheduled_at) <= now || e.status === 'completed').sort((a, b) => new Date(b.scheduled_at).getTime() - new Date(a.scheduled_at).getTime());
 
   return (
-    <div className="space-y-8 max-w-5xl mx-auto">
-      <header className="border-b border-[#EDEDED] pb-6">
-        <h1 className="text-3xl font-bold tracking-tight text-[#1A1A1A]">Live Events</h1>
-        <p className="text-sm text-[#555550] mt-2 max-w-xl">
-          Monthly live Q&A sessions and special masterclasses.
-        </p>
-      </header>
+    <div
+      className="space-y-8 max-w-5xl mx-auto"
+      style={{
+        "--tool-accent": "#a21caf",
+        "--tool-accent-hover": "#86198f",
+        "--tool-accent-tint": "#fdf4ff",
+        "--tool-accent-border": "#e879f9",
+        "--tool-accent-text": "#86198f",
+      } as React.CSSProperties}
+    >
+      <PageHeader
+        eyebrow="// LIVE SESSIONS & MASTERCLASSES"
+        title="Live Events"
+        description="Monthly Q&A sessions, live market analysis, and exclusive masterclasses with Pete."
+      />
 
       {/* Upcoming Events */}
       <section>

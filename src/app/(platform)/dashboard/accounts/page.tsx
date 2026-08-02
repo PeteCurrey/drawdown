@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { PortfolioSummary } from "@/components/dashboard/accounts/PortfolioSummary";
 import { AccountCard } from "@/components/dashboard/accounts/AccountCard";
 import { AddAccountModal } from "@/components/dashboard/accounts/AddAccountModal";
@@ -9,6 +9,7 @@ import { FundedAccount, DashboardSummary } from "@/types/dashboard";
 import { Plus, LayoutGrid, List, Filter, Upload, Loader2, ShieldAlert } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { getAccountsWithSnapshots, createFundedAccount, importTrades } from "@/app/actions/dashboard";
+import { PageHeader } from "@/components/dashboard/ui/PageHeader";
 
 export default function AccountsPage() {
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
@@ -83,33 +84,40 @@ export default function AccountsPage() {
   const summary = calculateSummary();
 
   return (
-    <div className="space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-700">
-      <header className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-        <div>
-          <span className="text-accent font-mono text-[10px] uppercase tracking-widest block mb-3">// PORTFOLIO ENGINE</span>
-          <h1 className="text-4xl font-display font-bold uppercase text-text-primary">Funded Accounts.</h1>
-          <p className="text-text-secondary text-sm mt-2 max-w-xl">
-            Aggregate your prop firm accounts into a single professional-grade dashboard. Monitor drawdown, track limits, and import trades seamlessly.
-          </p>
-        </div>
-        <div className="flex items-center gap-4">
-          <button 
-            onClick={() => setIsImportModalOpen(true)}
-            disabled={accounts.length === 0}
-            className="flex items-center gap-2 px-6 py-3 border border-border-slate text-text-primary font-bold uppercase tracking-widest text-[10px] hover:bg-background-elevated transition-all disabled:opacity-50"
-          >
-            <Upload className="w-4 h-4" />
-            Import Trades
-          </button>
-          <button 
-            onClick={() => setIsAddModalOpen(true)}
-            className="flex items-center gap-2 px-6 py-3 bg-accent text-background-primary font-bold uppercase tracking-widest text-[10px] hover:invert transition-all"
-          >
-            <Plus className="w-4 h-4" />
-            Add Account
-          </button>
-        </div>
-      </header>
+    <div
+      className="space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-700"
+      style={{
+        "--tool-accent": "#65a30d",
+        "--tool-accent-hover": "#4d7c0f",
+        "--tool-accent-tint": "#f7fee7",
+        "--tool-accent-border": "#bef264",
+        "--tool-accent-text": "#3f6212",
+      } as React.CSSProperties}
+    >
+      <PageHeader
+        eyebrow="// PORTFOLIO ENGINE"
+        title="Funded Accounts"
+        description="Aggregate your prop firm accounts into a single professional dashboard. Monitor drawdown, track daily limits, and aggregate risk."
+        badge={
+          <div className="flex items-center gap-3">
+            <button 
+              onClick={() => setIsImportModalOpen(true)}
+              disabled={accounts.length === 0}
+              className="flex items-center gap-2 px-4 py-2.5 border border-[#DEDDD8] bg-white text-[#1A1A1A] font-mono font-bold uppercase tracking-widest text-[10px] hover:border-[#1A1A1A] transition-all disabled:opacity-50 rounded-xl"
+            >
+              <Upload className="w-4 h-4" />
+              Import Trades
+            </button>
+            <button 
+              onClick={() => setIsAddModalOpen(true)}
+              className="flex items-center gap-2 px-5 py-2.5 bg-[#181818] hover:bg-[#333330] text-white font-mono font-bold uppercase tracking-widest text-[10px] transition-all rounded-xl shadow-sm"
+            >
+              <Plus className="w-4 h-4" />
+              Add Account
+            </button>
+          </div>
+        }
+      />
 
       {/* Modals */}
       <AddAccountModal 

@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { Play, Calendar, Lock } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import Link from "next/link";
+import { PageHeader } from "@/components/dashboard/ui/PageHeader";
 
 export const revalidate = 0; // Force dynamic fetching
 
@@ -80,18 +81,26 @@ export default async function BreakdownsPage() {
   const pastBreakdowns = hasBreakdowns ? breakdowns.slice(1) : [];
 
   return (
-    <div className="space-y-8 max-w-5xl mx-auto">
-      <header className="border-b border-[#EDEDED] pb-6">
-        <h1 className="text-3xl font-bold tracking-tight text-[#1A1A1A]">Weekly Breakdowns</h1>
-        <p className="text-sm text-[#555550] mt-2 max-w-xl">
-          Actionable market prep and macro bias to start your trading week.
-        </p>
-      </header>
+    <div
+      className="space-y-8 max-w-5xl mx-auto"
+      style={{
+        "--tool-accent": "#3b82f6",
+        "--tool-accent-hover": "#2563eb",
+        "--tool-accent-tint": "#eff6ff",
+        "--tool-accent-border": "#bfdbfe",
+        "--tool-accent-text": "#1d4ed8",
+      } as React.CSSProperties}
+    >
+      <PageHeader
+        eyebrow="// MACRO PREP & VIDEO ANALYSIS"
+        title="Weekly Breakdowns"
+        description="Actionable market prep and weekly bias sessions to start your trading week with clarity."
+      />
 
       {!hasBreakdowns ? (
-        <div className="bg-white border border-[#e5e7eb] border-dashed rounded-xl p-12 text-center flex flex-col items-center justify-center">
-          <div className="w-12 h-12 bg-gray-50 border border-gray-100 rounded-full flex items-center justify-center mb-4">
-            <Play className="w-5 h-5 text-[#9ca3af]" />
+        <div className="bg-white border border-[#DEDDD8] rounded-xl p-12 text-center flex flex-col items-center justify-center shadow-[0_4px_16px_rgba(0,0,0,0.04)]">
+          <div className="w-12 h-12 bg-[#eff6ff] border border-[#bfdbfe] rounded-xl flex items-center justify-center mb-4 text-[#1d4ed8]">
+            <Play className="w-5 h-5" />
           </div>
           <h2 className="text-lg font-bold text-[#1A1A1A] mb-2">First weekly breakdown dropping soon</h2>
           <p className="text-sm text-[#555550] max-w-sm">
@@ -116,8 +125,8 @@ export default async function BreakdownsPage() {
                   ></iframe>
                 </div>
               ) : (
-                <div className="aspect-video w-full bg-[#1A1A1A] flex items-center justify-center">
-                  <span className="text-white/50 text-sm font-mono">Video processing...</span>
+                <div className="aspect-video w-full bg-[#F8F8F8] border-b border-[#DEDDD8] flex items-center justify-center">
+                  <span className="text-[#555550] text-sm font-mono uppercase tracking-widest">Video processing...</span>
                 </div>
               )}
 

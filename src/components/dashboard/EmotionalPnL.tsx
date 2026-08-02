@@ -155,7 +155,7 @@ export function EmotionalPnL() {
             </p>
           </div>
           <Link
-            href="/dashboard/tools/journal"
+            href="/dashboard/journal"
             className="px-6 py-2.5 border border-accent/40 text-accent text-[9px] font-mono uppercase tracking-widest hover:bg-accent/5 transition-colors"
           >
             Log a Trade

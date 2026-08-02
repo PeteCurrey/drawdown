@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Lock, CheckCircle2, ChevronRight, Play, Award } from "lucide-react";
 import { DotProgressBar } from "@/components/dashboard/DotProgressBar";
 import { phases } from "@/data/courses";
+import { PageHeader } from "@/components/dashboard/ui/PageHeader";
 
 // ─── Tier access ──────────────────────────────────────────────────────────────
 const TIER_WEIGHT: Record<string, number> = {
@@ -181,13 +182,21 @@ export default async function CurriculumPage() {
 
   // ─── Render ────────────────────────────────────────────────────────────────
   return (
-    <div className="space-y-8">
-      <header className="border-b border-[#EDEDED] pb-6">
-        <h1 className="text-3xl font-bold tracking-tight text-[#1A1A1A]">Curriculum</h1>
-        <p className="text-sm text-[#555550] mt-2 max-w-xl">
-          Phase-based trading education built in the order you actually need it.
-        </p>
-      </header>
+    <div
+      className="space-y-8"
+      style={{
+        "--tool-accent": "#d97706",
+        "--tool-accent-hover": "#b45309",
+        "--tool-accent-tint": "#fffbeb",
+        "--tool-accent-border": "#fde68a",
+        "--tool-accent-text": "#92400e",
+      } as React.CSSProperties}
+    >
+      <PageHeader
+        eyebrow="// SYSTEMATIC ACADEMY"
+        title="Curriculum"
+        description="Phase-based trading education built in the order you actually need it."
+      />
 
       {certificates.length > 0 && (
         <section className="bg-white border border-[#e5e7eb] rounded-xl p-6 md:p-8 mb-8 shadow-sm">

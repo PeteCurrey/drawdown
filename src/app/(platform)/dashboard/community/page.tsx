@@ -3,6 +3,7 @@ import { getMetadata } from "@/lib/metadata";
 import { IntelligenceFeed } from "@/components/dashboard/IntelligenceFeed";
 import { PetesDailyTakeExcerpt } from "@/components/home/PetesDailyTakeExcerpt";
 import { MessageSquare, Users, TrendingUp, Shield } from "lucide-react";
+import { PageHeader } from "@/components/dashboard/ui/PageHeader";
 
 export const metadata: Metadata = getMetadata({
   title: "Community Hub — Drawdown Intelligence",
@@ -12,12 +13,21 @@ export const metadata: Metadata = getMetadata({
 
 export default function CommunityPage() {
   return (
-    <div className="pt-24 pb-20 bg-background-primary min-h-screen">
-      <div className="container mx-auto px-6">
-        <header className="mb-12">
-          <h1 className="text-4xl md:text-6xl font-display font-bold uppercase mb-4">Community <span className="text-accent">Hub.</span></h1>
-          <p className="text-text-secondary font-mono text-[10px] uppercase tracking-widest">Connect. Analyze. Survive.</p>
-        </header>
+    <div
+      className="space-y-8 min-h-screen"
+      style={{
+        "--tool-accent": "#0ea5e9",
+        "--tool-accent-hover": "#0284c7",
+        "--tool-accent-tint": "#f0f9ff",
+        "--tool-accent-border": "#bae6fd",
+        "--tool-accent-text": "#0369a1",
+      } as React.CSSProperties}
+    >
+      <PageHeader
+        eyebrow="// DISCIPLINE & SIGNAL NETWORK"
+        title="Community Hub"
+        description="Connect with serious traders, analyze macroeconomic setups, and share execution feedback."
+      />
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
           {/* Main Feed */}
@@ -41,8 +51,8 @@ export default function CommunityPage() {
           {/* Sidebar */}
           <div className="lg:col-span-4 space-y-8">
             {/* Stats Card */}
-            <div className="p-8 bg-background-elevated border border-border-slate space-y-6">
-              <h3 className="text-xl font-display font-bold uppercase border-b border-border-slate pb-4">Network Status</h3>
+            <div className="p-6 bg-white border border-[#DEDDD8] rounded-xl shadow-[0_4px_16px_rgba(0,0,0,0.04)] space-y-6">
+              <h3 className="text-sm font-mono font-bold uppercase tracking-widest text-[#1A1A1A] border-b border-[#DEDDD8] pb-4">Network Status</h3>
               <div className="space-y-4">
                 <div className="flex justify-between items-center">
                   <div className="flex items-center gap-2">
@@ -69,11 +79,11 @@ export default function CommunityPage() {
             </div>
 
             {/* Resources */}
-            <div className="p-8 bg-background-surface border border-border-slate space-y-6">
-              <h3 className="text-xl font-display font-bold uppercase">Quick Resources</h3>
+            <div className="p-6 bg-[#F8F8F8] border border-[#DEDDD8] rounded-xl space-y-6">
+              <h3 className="text-sm font-mono font-bold uppercase tracking-widest text-[#1A1A1A]">Quick Resources</h3>
               <ul className="space-y-4">
                 <li>
-                  <a href="/tools/journal" className="text-xs font-bold uppercase tracking-widest text-text-primary hover:text-accent transition-colors flex items-center justify-between">
+                  <a href="/dashboard/journal" className="text-xs font-mono font-bold uppercase tracking-widest text-[#555550] hover:text-[#1A1A1A] transition-colors flex items-center justify-between">
                     AI Trade Journal <ArrowRight className="w-3 h-3" />
                   </a>
                 </li>
@@ -90,8 +100,6 @@ export default function CommunityPage() {
               </ul>
             </div>
           </div>
-        </div>
-      </div>
     </div>
   );
 }

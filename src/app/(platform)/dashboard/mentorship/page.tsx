@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { Calendar, Video, Clock, Link as LinkIcon, Info, Lock } from "lucide-react";
 import Link from "next/link";
 import CalEmbed from "./CalEmbed";
+import { PageHeader } from "@/components/dashboard/ui/PageHeader";
 
 export const revalidate = 0;
 
@@ -90,13 +91,21 @@ export default async function MentorshipPage() {
   const pastSessions = (sessions || []).filter(s => new Date(s.scheduled_at) <= now || s.status === 'completed');
 
   return (
-    <div className="space-y-8 max-w-5xl mx-auto">
-      <header className="border-b border-[#EDEDED] pb-6">
-        <h1 className="text-3xl font-bold tracking-tight text-[#1A1A1A]">1-to-1 Mentorship</h1>
-        <p className="text-sm text-[#555550] mt-2 max-w-xl">
-          Book your monthly 45-minute Floor session. Review your journal, adjust your execution plan, and optimize your edge.
-        </p>
-      </header>
+    <div
+      className="space-y-8 max-w-5xl mx-auto"
+      style={{
+        "--tool-accent": "#b45309",
+        "--tool-accent-hover": "#92400e",
+        "--tool-accent-tint": "#fffbeb",
+        "--tool-accent-border": "#fcd34d",
+        "--tool-accent-text": "#78350f",
+      } as React.CSSProperties}
+    >
+      <PageHeader
+        eyebrow="// EXCLUSIVE FLOOR COACHING"
+        title="1-to-1 Mentorship"
+        description="Book your monthly 45-minute Floor session. Review your trade logs, refine execution rules, and sharpen your edge."
+      />
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
         <div className="lg:col-span-2 space-y-8">

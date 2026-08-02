@@ -125,28 +125,24 @@ export default function NewsPage() {
  
   return (
     <div className="space-y-10 pb-24 animate-in fade-in duration-700">
-      <header className="space-y-4">
-        <Breadcrumbs />
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
-          <div>
-            <h1 className="text-3xl font-display font-black uppercase tracking-tight text-text-primary">World News Feed</h1>
-            <p className="text-text-tertiary font-mono text-[10px] uppercase tracking-widest mt-1">
-              // Real-time financial insights from global sources
-            </p>
-          </div>
+      <PageHeader
+        eyebrow="// FINANCIAL WIRE"
+        title="World News Feed"
+        description="Real-time financial insights from global macroeconomic sources and wire services."
+        badge={
           <button 
             onClick={fetchNewsFeed} 
             disabled={loading}
-            className="flex items-center gap-2 px-6 py-3 bg-background-elevated/40 border border-border-slate/50 hover:border-accent hover:text-accent transition-colors text-[10px] font-bold uppercase tracking-widest rounded-lg"
+            className="flex items-center gap-2 px-4 py-2.5 bg-white border border-[#DEDDD8] hover:border-[#1A1A1A] transition-colors text-[10px] font-mono uppercase font-bold tracking-widest text-[#1A1A1A] rounded-xl"
           >
             <RefreshCw className={cn("w-3 h-3", loading && "animate-spin")} />
             {loading ? "Refreshing..." : "Refresh Feed"}
           </button>
-        </div>
-      </header>
+        }
+      />
 
-      {/* Rotating hero card — same image rotation as home page */}
-      <div className="relative overflow-hidden bg-black border border-border-slate/50 h-[320px] group">
+      {/* Featured Headline Card */}
+      <div className="relative overflow-hidden bg-white border border-[#DEDDD8] rounded-xl h-[320px] group shadow-[0_4px_16px_rgba(0,0,0,0.04)]">
         {loading ? (
           <div className="absolute inset-0 animate-pulse bg-background-surface/40" />
         ) : featuredItem ? (
@@ -280,7 +276,7 @@ export default function NewsPage() {
                     href={item.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="relative shrink-0 w-full md:w-56 h-40 md:h-auto overflow-hidden bg-neutral-900"
+                    className="relative shrink-0 w-full md:w-56 h-40 md:h-auto overflow-hidden bg-[#F8F8F8]"
                     tabIndex={-1}
                     aria-hidden="true"
                   >

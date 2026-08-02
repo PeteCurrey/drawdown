@@ -32,6 +32,7 @@ import { MarketIntelligenceHeroCard } from "@/components/dashboard/MarketIntelli
 import { InstrumentIntelligenceCard } from "@/components/dashboard/InstrumentIntelligenceCard";
 import { SessionTimeline } from "@/components/dashboard/SessionTimeline";
 import { INSTRUMENTS_LIST } from "@/lib/instruments";
+import { PageHeader } from "@/components/dashboard/ui/PageHeader";
 
 type SubscriptionTier = 'free' | 'foundation' | 'edge' | 'floor';
 
@@ -400,39 +401,33 @@ export default function DashboardPage() {
     <div className="space-y-10 text-[#1A1A1A]">
       
       {/* PERSONALIZED GREETING HEADER */}
-      <div className="bg-white border border-[#EDEDED] rounded-2xl p-6 md:p-8 shadow-[0_2px_12px_rgba(0,0,0,0.06)] flex flex-col md:flex-row md:items-center justify-between gap-6 transition-all hover:shadow-[0_4px_20px_rgba(0,0,0,0.08)]">
-        <div className="space-y-2">
-          <div className="flex items-center gap-2 text-[10px] font-mono text-[#F9771D] uppercase tracking-widest">
-            <span>// TERMINAL TERMINUS</span>
-            <span className="w-1.5 h-1.5 bg-[#18B880] rounded-full animate-pulse" />
-            <span className="text-[#18B880]">Active Session</span>
-          </div>
-          <h1 className="text-2xl md:text-3xl font-display font-black uppercase text-[#1A1A1A] tracking-tight">
-            Welcome back, <span className="text-[#F9771D]">{name}</span>.
-          </h1>
-          <p className="text-xs md:text-sm text-[#555550] max-w-2xl leading-relaxed">
-            {onboarding?.trading_style ? (
-              <>
-                Monitoring volatility feeds calibrated for your <span className="text-[#1A1A1A] font-bold uppercase">{onboarding.trading_style.replace(/_/g, ' ')}</span> profile. 
-                Applying <span className="text-[#1A1A1A] font-bold uppercase">{onboarding.experience_level}</span>-level parameters to scanner watchlists with a target challenge size of <span className="text-[#F9771D] font-bold">{onboarding.trading_capital.toUpperCase()}</span>.
-              </>
-            ) : (
-              "Your localized market scanner, curriculum milestones, and trade logs are synced."
-            )}
-          </p>
-        </div>
-        {onboarding?.trading_goals && (
-          <div className="shrink-0 p-4 bg-[#F8F9FA] border border-[#EDEDED] flex items-center gap-3.5 rounded-xl">
-            <div className="w-9 h-9 rounded-full bg-[#F9771D]/10 flex items-center justify-center text-[#F9771D]">
-              <Target className="w-4 h-4" />
+      <PageHeader
+        eyebrow="// TERMINAL TERMINUS"
+        title={<>Welcome back, <span className="text-accent">{name}</span>.</>}
+        description={
+          onboarding?.trading_style ? (
+            <>
+              Monitoring volatility feeds calibrated for your <span className="text-text-primary font-bold uppercase">{onboarding.trading_style.replace(/_/g, ' ')}</span> profile. 
+              Applying <span className="text-text-primary font-bold uppercase">{onboarding.experience_level}</span>-level parameters to scanner watchlists with a target challenge size of <span className="text-accent font-bold">{onboarding.trading_capital.toUpperCase()}</span>.
+            </>
+          ) : (
+            "Your localized market scanner, curriculum milestones, and trade logs are synced."
+          )
+        }
+        badge={
+          onboarding?.trading_goals ? (
+            <div className="shrink-0 p-4 bg-background-elevated border border-border-slate/50 flex items-center gap-3.5 rounded-xl">
+              <div className="w-9 h-9 rounded-full bg-accent/10 flex items-center justify-center text-accent">
+                <Target className="w-4 h-4" />
+              </div>
+              <div>
+                <p className="text-[9px] font-mono uppercase text-text-tertiary tracking-wider">// Active Focus</p>
+                <p className="text-xs font-bold uppercase text-text-primary">{onboarding.trading_goals.replace(/_/g, ' ')}</p>
+              </div>
             </div>
-            <div>
-              <p className="text-[9px] font-mono uppercase text-[#555550] tracking-wider">// Active Focus</p>
-              <p className="text-xs font-bold uppercase text-[#1A1A1A]">{onboarding.trading_goals.replace(/_/g, ' ')}</p>
-            </div>
-          </div>
-        )}
-      </div>
+          ) : undefined
+        }
+      />
 
       {/* HERO: Market Intelligence Card */}
       <MarketIntelligenceHeroCard

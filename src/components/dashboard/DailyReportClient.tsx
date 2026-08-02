@@ -83,7 +83,7 @@ function BiasChip({ bias }: { bias: string }) {
   const color =
     bias === "BULLISH" ? "bg-profit/15 text-profit border-profit/25" :
     bias === "BEARISH" ? "bg-loss/15 text-loss border-loss/25"       :
-    "bg-white/8 text-white/40 border-white/15";
+    "bg-background-elevated border-border-slate text-text-tertiary";
   return (
     <span className={cn("text-[7px] font-black font-mono uppercase px-2 py-0.5 rounded border", color)}>
       {bias}
@@ -94,13 +94,13 @@ function BiasChip({ bias }: { bias: string }) {
 function SetupBar({ score }: { score: number }) {
   return (
     <div className="flex items-center gap-2">
-      <div className="w-16 h-1.5 bg-white/8 rounded-full overflow-hidden">
+      <div className="w-16 h-1.5 bg-[#e5e7eb] rounded-full overflow-hidden">
         <div
-          className={cn("h-full rounded-full", score >= 70 ? "bg-amber-400" : score >= 40 ? "bg-accent" : "bg-white/20")}
+          className={cn("h-full rounded-full", score >= 70 ? "bg-amber-400" : score >= 40 ? "bg-accent" : "bg-[#d1d5db]")}
           style={{ width: `${score}%` }}
         />
       </div>
-      <span className={cn("text-[9px] font-black font-mono", score >= 70 ? "text-amber-400" : score >= 40 ? "text-accent" : "text-white/30")}>
+      <span className={cn("text-[9px] font-black font-mono", score >= 70 ? "text-amber-500" : score >= 40 ? "text-accent" : "text-text-tertiary")}>
         {score}
       </span>
     </div>
@@ -114,18 +114,18 @@ function MacroStat({ label, value, change, note }: {
   const isDown = change !== null && change !== undefined && change < 0;
   return (
     <div className="flex flex-col">
-      <span className="text-[8px] font-mono uppercase tracking-widest text-white/30 mb-0.5">{label}</span>
+      <span className="text-[8px] font-mono uppercase tracking-widest text-text-tertiary mb-0.5">{label}</span>
       <div className="flex items-baseline gap-1.5">
-        <span className="text-[16px] font-black font-mono text-white">{value}</span>
+        <span className="text-[16px] font-black font-mono text-text-primary">{value}</span>
         {change !== null && change !== undefined && (
           <span className={cn("text-[9px] font-mono font-bold flex items-center gap-0.5",
-            isUp ? "text-profit" : isDown ? "text-loss" : "text-white/30")}>
+            isUp ? "text-profit" : isDown ? "text-loss" : "text-text-tertiary")}>
             {isUp ? <TrendingUp className="w-2.5 h-2.5" /> : isDown ? <TrendingDown className="w-2.5 h-2.5" /> : <Minus className="w-2.5 h-2.5" />}
             {isUp ? "+" : ""}{change.toFixed(2)}%
           </span>
         )}
       </div>
-      {note && <span className="text-[7px] font-mono text-white/25 leading-tight mt-0.5">{note}</span>}
+      {note && <span className="text-[7px] font-mono text-text-tertiary leading-tight mt-0.5">{note}</span>}
     </div>
   );
 }
@@ -136,7 +136,7 @@ function BoldMarkdown({ text }: { text: string }) {
   return (
     <span>
       {parts.map((p, i) =>
-        i % 2 === 1 ? <strong key={i} className="text-white font-bold">{p}</strong> : p
+        i % 2 === 1 ? <strong key={i} className="text-text-primary font-bold">{p}</strong> : p
       )}
     </span>
   );
@@ -146,29 +146,29 @@ function BoldMarkdown({ text }: { text: string }) {
 
 function MacroSection({ data, narrative }: { data: MacroData; narrative: string }) {
   const vixColor =
-    !data.vix ? "text-white/40" :
-    data.vix < 15 ? "text-profit" : data.vix < 20 ? "text-white" :
+    !data.vix ? "text-text-tertiary" :
+    data.vix < 15 ? "text-profit" : data.vix < 20 ? "text-text-primary" :
     data.vix < 25 ? "text-warning" : "text-loss";
 
   return (
-    <section className="bg-[#0d0d0d] border border-white/8 rounded-xl overflow-hidden">
+    <section className="bg-background-surface border border-border-slate/50 rounded-xl overflow-hidden shadow-[0_4px_16px_rgba(0,0,0,0.04)]">
       {/* Stats bar */}
-      <div className="bg-[#111] border-b border-white/8 px-6 py-4">
+      <div className="bg-background-elevated/60 border-b border-border-slate/50 px-6 py-4">
         <div className="flex flex-wrap gap-8">
           <MacroStat label="VIX" value={data.vix?.toFixed(1) ?? "—"}
             note={data.vixRegime} />
-          <div className="w-px bg-white/8 self-stretch" />
+          <div className="w-px bg-border-slate/50 self-stretch" />
           <MacroStat label="DXY" value={data.dxy?.toFixed(2) ?? "—"} change={data.dxyChg}
             note="US Dollar Index" />
-          <div className="w-px bg-white/8 self-stretch" />
+          <div className="w-px bg-border-slate/50 self-stretch" />
           <MacroStat label="GOLD" value={data.gold ? `$${data.gold.toFixed(0)}` : "—"} change={data.goldChg}
             note="XAU/USD safe haven" />
-          <div className="w-px bg-white/8 self-stretch" />
+          <div className="w-px bg-border-slate/50 self-stretch" />
           <MacroStat label="REAL YIELD" value={data.realYield !== null ? `${data.realYield > 0 ? "+" : ""}${data.realYield.toFixed(2)}%` : "—"}
             note="10Y breakeven" />
           {data.umcsent && (
             <>
-              <div className="w-px bg-white/8 self-stretch" />
+              <div className="w-px bg-border-slate/50 self-stretch" />
               <MacroStat label="CONSUMER SENT." value={data.umcsent.toFixed(1)} note="UMich index" />
             </>
           )}
@@ -184,15 +184,15 @@ function MacroSection({ data, narrative }: { data: MacroData; narrative: string 
       </div>
       {/* AI Narrative */}
       <div className="px-6 py-5">
-        <p className="text-[8px] font-mono uppercase tracking-widest text-white/30 mb-3 flex items-center gap-2">
+        <p className="text-[8px] font-mono uppercase tracking-widest text-text-tertiary mb-3 flex items-center gap-2">
           <Globe className="w-3 h-3" /> GPT-4.1 MACRO ANALYSIS
         </p>
         {narrative ? (
-          <p className="text-[12px] font-mono text-white/70 leading-relaxed">
+          <p className="text-[12px] font-mono text-text-secondary leading-relaxed">
             <BoldMarkdown text={narrative} />
           </p>
         ) : (
-          <p className="text-[11px] font-mono text-white/30 italic">
+          <p className="text-[11px] font-mono text-text-tertiary italic">
             Macro narrative requires OPENAI_API_KEY to be configured.
           </p>
         )}
@@ -206,21 +206,21 @@ function EventsSection({ events }: { events: CalendarEvent[] }) {
   const nowUTCMins = now.getUTCHours() * 60 + now.getUTCMinutes();
 
   if (events.length === 0) return (
-    <section className="bg-[#0d0d0d] border border-white/8 rounded-xl px-6 py-5">
-      <p className="text-[8px] font-mono uppercase tracking-widest text-white/30 mb-2 flex items-center gap-2">
+    <section className="bg-background-surface border border-border-slate/50 rounded-xl px-6 py-5 shadow-[0_4px_16px_rgba(0,0,0,0.04)]">
+      <p className="text-[8px] font-mono uppercase tracking-widest text-text-tertiary mb-2 flex items-center gap-2">
         <Calendar className="w-3 h-3" /> TODAY'S KEY EVENTS
       </p>
-      <p className="text-[11px] font-mono text-white/30">No high-impact events today, or calendar unavailable.</p>
+      <p className="text-[11px] font-mono text-text-tertiary">No high-impact events today, or calendar unavailable.</p>
     </section>
   );
 
   return (
-    <section className="bg-[#0d0d0d] border border-white/8 rounded-xl overflow-hidden">
-      <div className="px-6 py-4 border-b border-white/8 flex items-center gap-2">
-        <Calendar className="w-3.5 h-3.5 text-white/40" />
-        <span className="text-[8px] font-mono uppercase tracking-widest text-white/40">TODAY'S KEY EVENTS — ECONOMIC CALENDAR</span>
+    <section className="bg-background-surface border border-border-slate/50 rounded-xl overflow-hidden shadow-[0_4px_16px_rgba(0,0,0,0.04)]">
+      <div className="px-6 py-4 border-b border-border-slate/50 flex items-center gap-2">
+        <Calendar className="w-3.5 h-3.5 text-text-tertiary" />
+        <span className="text-[8px] font-mono uppercase tracking-widest text-text-tertiary">TODAY'S KEY EVENTS — ECONOMIC CALENDAR</span>
       </div>
-      <div className="divide-y divide-white/5">
+      <div className="divide-y divide-border-slate/40">
         {events.map((e, i) => {
           const [h, m] = e.time.split(":").map(Number);
           const evtMins = (isNaN(h) ? 0 : h) * 60 + (isNaN(m) ? 0 : m);
@@ -229,23 +229,23 @@ function EventsSection({ events }: { events: CalendarEvent[] }) {
           const passed   = minsAway < -5;
           return (
             <div key={i} className={cn("flex items-center gap-4 px-6 py-3 transition-colors",
-              imminent ? "bg-warning/8 border-l-2 border-l-warning" : "hover:bg-white/3")}>
+              imminent ? "bg-warning/8 border-l-2 border-l-warning" : "hover:bg-background-elevated/30")}>
               <div className="flex items-center gap-2 w-16 shrink-0">
-                <Clock className={cn("w-3 h-3", imminent ? "text-warning" : "text-white/20")} />
+                <Clock className={cn("w-3 h-3", imminent ? "text-warning" : "text-border-slate")} />
                 <span className={cn("text-[9px] font-mono font-bold",
-                  imminent ? "text-warning" : passed ? "text-white/20" : "text-white/50")}>
+                  imminent ? "text-warning" : passed ? "text-text-tertiary" : "text-text-secondary")}>
                   {e.time}
                 </span>
               </div>
               <span className={cn("text-[8px] font-mono font-bold uppercase w-8 shrink-0",
-                e.impact === "high" ? "text-loss" : e.impact === "medium" ? "text-warning" : "text-white/30")}>
+                e.impact === "high" ? "text-loss" : e.impact === "medium" ? "text-warning" : "text-text-tertiary")}>
                 {e.currency}
               </span>
               <span className={cn("flex-1 text-[10px] font-mono min-w-0",
-                passed ? "text-white/25 line-through" : "text-white/70")}>{e.event}</span>
+                passed ? "text-text-tertiary line-through" : "text-text-secondary")}>{e.event}</span>
               <div className="flex items-center gap-4 shrink-0 text-[9px] font-mono">
-                <span className="text-white/30">Prev: {e.previous || "—"}</span>
-                <span className="text-white/50">Fcst: {e.forecast || "—"}</span>
+                <span className="text-text-tertiary">Prev: {e.previous || "—"}</span>
+                <span className="text-text-secondary">Fcst: {e.forecast || "—"}</span>
                 <span className={cn("px-1.5 py-0.5 rounded text-[7px] font-bold uppercase",
                   e.impact === "high" ? "bg-loss/15 text-loss border border-loss/20" :
                   "bg-warning/10 text-warning border border-warning/20")}>
@@ -266,15 +266,15 @@ function InstrumentRow({ brief, expanded, onToggle }: {
 }) {
   const isUp = (brief.changePct ?? 0) >= 0;
   return (
-    <div className={cn("border-b border-white/5 transition-colors", expanded ? "bg-white/3" : "hover:bg-white/2")}>
+    <div className={cn("border-b border-border-slate/40 transition-colors", expanded ? "bg-background-elevated/30" : "hover:bg-background-elevated/20")}>
       <button onClick={onToggle} className="w-full flex items-center gap-4 px-5 py-3 text-left">
         <div className="w-[90px] shrink-0">
-          <p className="text-[11px] font-black font-mono text-white">{brief.display}</p>
-          <p className="text-[7px] font-mono text-white/30 uppercase">{brief.category}</p>
+          <p className="text-[11px] font-black font-mono text-text-primary">{brief.display}</p>
+          <p className="text-[7px] font-mono text-text-tertiary uppercase">{brief.category}</p>
         </div>
         <BiasChip bias={brief.bias} />
         <SetupBar score={brief.setup_score} />
-        <p className="flex-1 text-[10px] font-mono text-white/50 italic min-w-0 truncate">
+        <p className="flex-1 text-[10px] font-mono text-text-tertiary italic min-w-0 truncate">
           "{brief.summary}"
         </p>
         <div className="flex items-center gap-3 shrink-0 ml-auto">
@@ -283,15 +283,15 @@ function InstrumentRow({ brief, expanded, onToggle }: {
               {isUp ? "+" : ""}{brief.changePct.toFixed(2)}%
             </span>
           )}
-          <span className="text-[8px] font-mono text-white/20 uppercase border border-white/10 px-1.5 py-0.5 rounded">
+          <span className="text-[8px] font-mono text-text-tertiary uppercase border border-border-slate px-1.5 py-0.5 rounded">
             {brief.best_timeframe}
           </span>
-          {expanded ? <ChevronUp className="w-3.5 h-3.5 text-white/30" /> : <ChevronDown className="w-3.5 h-3.5 text-white/30" />}
+          {expanded ? <ChevronUp className="w-3.5 h-3.5 text-text-tertiary" /> : <ChevronDown className="w-3.5 h-3.5 text-text-tertiary" />}
         </div>
       </button>
 
       {expanded && (
-        <div className="px-5 pb-4 grid grid-cols-2 md:grid-cols-4 gap-4 border-t border-white/5 pt-3">
+        <div className="px-5 pb-4 grid grid-cols-2 md:grid-cols-4 gap-4 border-t border-border-slate/40 pt-3">
           {[
             { label: "Entry Zone", value: brief.entry_zone,  icon: <Target className="w-3 h-3" /> },
             { label: "Target 1",   value: brief.target_1,    icon: <TrendingUp className="w-3 h-3 text-profit" /> },
@@ -299,20 +299,20 @@ function InstrumentRow({ brief, expanded, onToggle }: {
             { label: "Stop Loss",  value: brief.stop,        icon: <AlertTriangle className="w-3 h-3 text-loss" /> },
           ].map(item => (
             <div key={item.label}>
-              <p className="text-[7px] font-mono text-white/25 uppercase tracking-widest mb-1 flex items-center gap-1">
+              <p className="text-[7px] font-mono text-text-tertiary uppercase tracking-widest mb-1 flex items-center gap-1">
                 {item.icon} {item.label}
               </p>
-              <p className="text-[11px] font-mono font-bold text-white/80">{item.value || "—"}</p>
+              <p className="text-[11px] font-mono font-bold text-text-primary">{item.value || "—"}</p>
             </div>
           ))}
-          <div className="col-span-2 md:col-span-4 mt-2 pt-2 border-t border-white/5">
-            <p className="text-[7px] font-mono text-white/25 uppercase tracking-widest mb-1 flex items-center gap-1">
+          <div className="col-span-2 md:col-span-4 mt-2 pt-2 border-t border-border-slate/40">
+            <p className="text-[7px] font-mono text-text-tertiary uppercase tracking-widest mb-1 flex items-center gap-1">
               <Zap className="w-3 h-3 text-warning" /> KEY CATALYST
             </p>
-            <p className="text-[10px] font-mono text-white/60">{brief.key_catalyst || "—"}</p>
+            <p className="text-[10px] font-mono text-text-secondary">{brief.key_catalyst || "—"}</p>
             <div className="flex items-center gap-4 mt-2">
-              <span className="text-[8px] font-mono text-white/30">R:R {brief.risk_reward || "—"}</span>
-              <span className="text-[8px] font-mono text-white/30">Timeframe: {brief.best_timeframe}</span>
+              <span className="text-[8px] font-mono text-text-tertiary">R:R {brief.risk_reward || "—"}</span>
+              <span className="text-[8px] font-mono text-text-tertiary">Timeframe: {brief.best_timeframe}</span>
             </div>
           </div>
         </div>
@@ -326,16 +326,16 @@ function InstrumentsSection({ briefs }: { briefs: InstrumentBrief[] }) {
   const toggle = (slug: string) => setExpanded(s => s === slug ? null : slug);
 
   return (
-    <section className="bg-[#0d0d0d] border border-white/8 rounded-xl overflow-hidden">
-      <div className="px-6 py-4 border-b border-white/8 flex items-center justify-between">
+    <section className="bg-background-surface border border-border-slate/50 rounded-xl overflow-hidden shadow-[0_4px_16px_rgba(0,0,0,0.04)]">
+      <div className="px-6 py-4 border-b border-border-slate/50 flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <BarChart2 className="w-3.5 h-3.5 text-white/40" />
-          <span className="text-[8px] font-mono uppercase tracking-widest text-white/40">INSTRUMENT BRIEFINGS — SORTED BY SETUP SCORE</span>
+          <BarChart2 className="w-3.5 h-3.5 text-text-tertiary" />
+          <span className="text-[8px] font-mono uppercase tracking-widest text-text-tertiary">INSTRUMENT BRIEFINGS — SORTED BY SETUP SCORE</span>
         </div>
-        <span className="text-[8px] font-mono text-white/20">Click row to expand</span>
+        <span className="text-[8px] font-mono text-text-tertiary">Click row to expand</span>
       </div>
       {briefs.length === 0 ? (
-        <p className="px-6 py-5 text-[11px] font-mono text-white/30">No instrument briefs generated.</p>
+        <p className="px-6 py-5 text-[11px] font-mono text-text-tertiary">No instrument briefs generated.</p>
       ) : (
         <div>
           {briefs.map(brief => (
@@ -353,9 +353,9 @@ function InstrumentsSection({ briefs }: { briefs: InstrumentBrief[] }) {
 }
 
 const RANK_COLORS = [
-  "from-amber-500/20 to-amber-600/5 border-amber-500/30",
-  "from-white/10 to-white/2 border-white/15",
-  "from-orange-900/20 to-orange-900/5 border-orange-700/20",
+  "from-amber-50 to-amber-50/30 border-amber-200",
+  "from-background-elevated to-background-surface border-border-slate/60",
+  "from-orange-50 to-orange-50/30 border-orange-200",
 ];
 const RANK_LABELS = ["#1 SETUP OF THE DAY", "#2 SETUP", "#3 SETUP"];
 
@@ -364,8 +364,8 @@ function TopSetupsSection({ setups }: { setups: TopSetup[] }) {
   return (
     <section>
       <div className="flex items-center gap-2 mb-4">
-        <Target className="w-4 h-4 text-amber-400" />
-        <span className="text-[8px] font-mono uppercase tracking-widest text-white/40">TOP SETUPS OF THE DAY</span>
+        <Target className="w-4 h-4 text-amber-500" />
+        <span className="text-[8px] font-mono uppercase tracking-widest text-text-tertiary">TOP SETUPS OF THE DAY</span>
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         {setups.slice(0, 3).map((setup, i) => (
@@ -373,31 +373,31 @@ function TopSetupsSection({ setups }: { setups: TopSetup[] }) {
             className={cn("bg-gradient-to-br border rounded-xl p-5 space-y-4", RANK_COLORS[i])}>
             <div>
               <p className={cn("text-[8px] font-mono uppercase tracking-widest mb-1",
-                i === 0 ? "text-amber-400" : "text-white/30")}>{RANK_LABELS[i]}</p>
+                i === 0 ? "text-amber-500" : "text-text-tertiary")}>{RANK_LABELS[i]}</p>
               <div className="flex items-center gap-3">
-                <p className="text-[16px] font-black font-mono text-white">{setup.display}</p>
+                <p className="text-[16px] font-black font-mono text-text-primary">{setup.display}</p>
                 <BiasChip bias={setup.bias} />
               </div>
               <div className="flex items-center gap-3 mt-1">
                 <SetupBar score={setup.setup_score} />
-                <span className="text-[8px] font-mono text-white/30">{setup.best_timeframe}</span>
+                <span className="text-[8px] font-mono text-text-tertiary">{setup.best_timeframe}</span>
               </div>
             </div>
 
-            <p className="text-[11px] font-mono text-white/70 italic leading-relaxed border-l-2 border-accent/30 pl-3">
+            <p className="text-[11px] font-mono text-text-secondary italic leading-relaxed border-l-2 border-accent/30 pl-3">
               "{setup.summary}"
             </p>
 
             <div className="grid grid-cols-2 gap-2">
               {[
-                { label: "Entry Zone", val: setup.entry_zone, cls: "text-white/70" },
+                { label: "Entry Zone", val: setup.entry_zone, cls: "text-text-secondary" },
                 { label: "R:R",        val: setup.risk_reward, cls: "text-accent font-bold" },
                 { label: "Target 1",   val: setup.target_1,    cls: "text-profit" },
                 { label: "Target 2",   val: setup.target_2,    cls: "text-profit/70" },
                 { label: "Stop",       val: setup.stop,         cls: "text-loss" },
               ].map(item => (
-                <div key={item.label} className="bg-black/20 rounded px-2.5 py-2">
-                  <p className="text-[7px] font-mono text-white/25 uppercase tracking-widest">{item.label}</p>
+                <div key={item.label} className="bg-background-elevated/50 rounded px-2.5 py-2">
+                  <p className="text-[7px] font-mono text-text-tertiary uppercase tracking-widest">{item.label}</p>
                   <p className={cn("text-[10px] font-mono font-bold", item.cls)}>{item.val || "—"}</p>
                 </div>
               ))}
@@ -421,9 +421,9 @@ function RiskRadarSection({ items }: { items: RiskItem[] }) {
   const sevBg = {
     HIGH:   "bg-loss/10 border-loss/20",
     MEDIUM: "bg-warning/8 border-warning/15",
-    LOW:    "bg-white/5 border-white/10",
+    LOW:    "bg-background-elevated border-border-slate/50",
   };
-  const sevText = { HIGH: "text-loss", MEDIUM: "text-warning", LOW: "text-white/30" };
+  const sevText = { HIGH: "text-loss", MEDIUM: "text-warning", LOW: "text-text-tertiary" };
   const typeIcon: Record<string, React.ReactNode> = {
     EVENT:      <Calendar className="w-3.5 h-3.5" />,
     VOLATILITY: <AlertTriangle className="w-3.5 h-3.5" />,
@@ -434,8 +434,8 @@ function RiskRadarSection({ items }: { items: RiskItem[] }) {
   return (
     <section>
       <div className="flex items-center gap-2 mb-4">
-        <Shield className="w-4 h-4 text-white/40" />
-        <span className="text-[8px] font-mono uppercase tracking-widest text-white/40">RISK RADAR — THINGS TO WATCH TODAY</span>
+        <Shield className="w-4 h-4 text-text-tertiary" />
+        <span className="text-[8px] font-mono uppercase tracking-widest text-text-tertiary">RISK RADAR — THINGS TO WATCH TODAY</span>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
         {items.map((item, i) => (
@@ -453,7 +453,7 @@ function RiskRadarSection({ items }: { items: RiskItem[] }) {
                   {item.severity}
                 </span>
               </div>
-              <p className="text-[10px] font-mono text-white/60 leading-relaxed">{item.description}</p>
+              <p className="text-[10px] font-mono text-text-secondary leading-relaxed">{item.description}</p>
             </div>
           </div>
         ))}
@@ -499,7 +499,7 @@ export default function DailyReportClient({ report, isStale, staleDate }: Props)
     : "—";
 
   return (
-    <div className="min-h-screen bg-[#080808] pb-24 print:bg-white print:text-black">
+    <div className="pb-24">
       {/* Stale banner */}
       {isStale && (
         <div className="bg-warning/15 border-b border-warning/30 px-6 py-3 text-center">
@@ -518,16 +518,16 @@ export default function DailyReportClient({ report, isStale, staleDate }: Props)
               <span className="text-[8px] font-mono uppercase tracking-[0.3em] text-accent">
                 DRAWDOWN INTELLIGENCE
               </span>
-              <span className="text-white/20 text-[8px]">·</span>
-              <span className="text-[8px] font-mono uppercase tracking-widest text-white/30">
+              <span className="text-border-slate text-[8px]">·</span>
+              <span className="text-[8px] font-mono uppercase tracking-widest text-text-tertiary">
                 DAILY BRIEFING
               </span>
             </div>
-            <h1 className="text-[28px] font-black tracking-tight text-white leading-none">
+            <h1 className="text-[28px] font-black tracking-tight text-text-primary leading-none">
               {reportDateFormatted}
             </h1>
             <div className="flex items-center gap-3 mt-2">
-              <span className="text-[9px] font-mono text-white/30">
+              <span className="text-[9px] font-mono text-text-tertiary">
                 Generated {genTimeFormatted}
               </span>
               {!isStale && (
@@ -541,15 +541,15 @@ export default function DailyReportClient({ report, isStale, staleDate }: Props)
           {/* Action buttons */}
           <div className="flex items-center gap-2 print:hidden">
             <button onClick={handlePrint}
-              className="flex items-center gap-1.5 px-3 py-2 bg-white/5 border border-white/10 text-[9px] font-mono uppercase text-white/50 hover:text-white hover:border-white/20 rounded transition-colors">
+              className="flex items-center gap-1.5 px-3 py-2 bg-background-elevated border border-border-slate/60 text-[9px] font-mono uppercase text-text-tertiary hover:text-text-primary hover:border-border-slate rounded transition-colors">
               <Download className="w-3 h-3" /> PDF
             </button>
             <button onClick={handleEmail} disabled={emailLoading || emailSent}
-              className="flex items-center gap-1.5 px-3 py-2 bg-white/5 border border-white/10 text-[9px] font-mono uppercase text-white/50 hover:text-white hover:border-white/20 rounded transition-colors disabled:opacity-40">
+              className="flex items-center gap-1.5 px-3 py-2 bg-background-elevated border border-border-slate/60 text-[9px] font-mono uppercase text-text-tertiary hover:text-text-primary hover:border-border-slate rounded transition-colors disabled:opacity-40">
               <Mail className="w-3 h-3" /> {emailSent ? "Sent ✓" : emailLoading ? "Sending…" : "Email"}
             </button>
             <button onClick={handleShare}
-              className="flex items-center gap-1.5 px-3 py-2 bg-white/5 border border-white/10 text-[9px] font-mono uppercase text-white/50 hover:text-white hover:border-white/20 rounded transition-colors">
+              className="flex items-center gap-1.5 px-3 py-2 bg-background-elevated border border-border-slate/60 text-[9px] font-mono uppercase text-text-tertiary hover:text-text-primary hover:border-border-slate rounded transition-colors">
               <Link2 className="w-3 h-3" /> Share
             </button>
           </div>
@@ -558,8 +558,8 @@ export default function DailyReportClient({ report, isStale, staleDate }: Props)
         {/* ─── No Report ──────────────────────────────────────────────────── */}
         {!report && (
           <div className="flex flex-col items-center justify-center py-24 space-y-4">
-            <RefreshCw className="w-8 h-8 text-white/20 animate-spin" />
-            <p className="text-[11px] font-mono text-white/30">
+            <RefreshCw className="w-8 h-8 text-text-tertiary animate-spin" />
+            <p className="text-[11px] font-mono text-text-tertiary">
               No report available yet. Today's briefing generates at 06:00 UTC.
             </p>
           </div>
@@ -602,34 +602,24 @@ export default function DailyReportClient({ report, isStale, staleDate }: Props)
             )}
 
             {/* Footer */}
-            <footer className="border-t border-white/8 pt-6 mt-8">
-              <p className="text-[9px] font-mono text-white/25 leading-relaxed text-center max-w-2xl mx-auto">
+            <footer className="border-t border-border-slate/50 pt-6 mt-8">
+              <p className="text-[9px] font-mono text-text-tertiary leading-relaxed text-center max-w-2xl mx-auto">
                 This report was generated by the Drawdown AI Intelligence Engine combining data from{" "}
-                <span className="text-white/40">CFTC</span>,{" "}
-                <span className="text-white/40">Federal Reserve (FRED)</span>,{" "}
-                <span className="text-white/40">Finnhub</span>,{" "}
-                <span className="text-white/40">Twelve Data</span>, and{" "}
-                <span className="text-white/40">Alpha Vantage</span>, analysed by{" "}
+                <span className="text-text-secondary">CFTC</span>,{" "}
+                <span className="text-text-secondary">Federal Reserve (FRED)</span>,{" "}
+                <span className="text-text-secondary">Finnhub</span>,{" "}
+                <span className="text-text-secondary">Twelve Data</span>, and{" "}
+                <span className="text-text-secondary">Alpha Vantage</span>, analysed by{" "}
                 <span className="text-accent">Claude (Anthropic)</span>,{" "}
                 <span className="text-profit">GPT-4.1 (OpenAI)</span>, and{" "}
-                <span className="text-blue-400">Gemini 2.5 Flash (Google)</span>.
+                <span className="text-blue-500">Gemini 2.5 Flash (Google)</span>.
                 <br className="mt-2 block" />
-                <strong className="text-white/40">NOT FINANCIAL ADVICE. For educational purposes only.</strong>
+                <strong className="text-text-secondary">NOT FINANCIAL ADVICE. For educational purposes only.</strong>
               </p>
             </footer>
           </>
         )}
       </div>
-
-      {/* Print styles */}
-      <style jsx global>{`
-        @media print {
-          .print\\:hidden { display: none !important; }
-          body { background: white; color: black; }
-          .bg-\\[\\#080808\\] { background: white; }
-          * { color: black !important; border-color: #ddd !important; background: white !important; }
-        }
-      `}</style>
     </div>
   );
 }
@@ -637,9 +627,9 @@ export default function DailyReportClient({ report, isStale, staleDate }: Props)
 function SectionHeader({ label }: { label: string }) {
   return (
     <div className="flex items-center gap-3 mb-3 print:mt-6">
-      <div className="h-px flex-1 bg-white/8" />
-      <span className="text-[8px] font-mono uppercase tracking-[0.2em] text-white/25 shrink-0">{label}</span>
-      <div className="h-px flex-1 bg-white/8" />
+      <div className="h-px flex-1 bg-border-slate/50" />
+      <span className="text-[8px] font-mono uppercase tracking-[0.2em] text-text-tertiary shrink-0">{label}</span>
+      <div className="h-px flex-1 bg-border-slate/50" />
     </div>
   );
 }

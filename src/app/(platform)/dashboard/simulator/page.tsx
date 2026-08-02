@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { 
   Zap, 
@@ -23,6 +23,7 @@ import { PropFirm, IndividualTrade } from "@/types/dashboard";
 import { runSimulationAction, getUserTradesForSimulation, generateAIPrepPlan } from "@/app/actions/simulator";
 import { SimulationResult } from "@/lib/simulator/engine";
 import { formatCurrency } from "@/lib/utils";
+import { PageHeader } from "@/components/dashboard/ui/PageHeader";
 
 // Step Components would go here...
 
@@ -88,33 +89,42 @@ export default function SimulatorPage() {
   ];
 
   return (
-    <div className="max-w-6xl mx-auto space-y-12 pb-24">
-      {/* Header */}
-      <header className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-        <div>
-          <span className="text-accent font-mono text-[10px] uppercase tracking-widest block mb-3">// HYPOTHETICAL REPLAY</span>
-          <h1 className="text-4xl font-display font-bold uppercase text-text-primary">Challenge Simulator.</h1>
-          <p className="text-text-secondary text-sm mt-2 max-w-xl">
-            Stress-test your real trading data against institutional prop firm rules. Find your breach points before they cost you real capital.
-          </p>
-        </div>
-        
-        {/* Progress Tracker */}
-        <div className="flex items-center gap-2">
-           {steps.map((s, i) => (
-             <div key={i} className="flex items-center">
-                <div className={cn(
-                  "w-8 h-8 flex items-center justify-center border text-[10px] font-mono",
-                  step > i + 1 ? "bg-profit border-profit text-background-primary" : 
-                  step === i + 1 ? "border-accent text-accent" : "border-border-slate text-text-tertiary"
-                )}>
-                  {step > i + 1 ? <CheckCircle2 className="w-4 h-4" /> : (i + 1)}
+    <div
+      className="max-w-6xl mx-auto space-y-12 pb-24"
+      style={{
+        "--tool-accent": "#f59e0b",
+        "--tool-accent-hover": "#d97706",
+        "--tool-accent-tint": "#fffbeb",
+        "--tool-accent-border": "#fcd34d",
+        "--tool-accent-text": "#92400e",
+      } as React.CSSProperties}
+    >
+      <PageHeader
+        eyebrow="// HYPOTHETICAL REPLAY"
+        title="Challenge Simulator"
+        description="Stress-test your real trade logs against institutional prop firm rules. Identify breach conditions before risking real capital."
+        badge={
+          <div className="flex items-center gap-2 bg-white p-2 border border-[#DEDDD8] rounded-xl shadow-sm">
+            {steps.map((s, i) => (
+              <div key={i} className="flex items-center">
+                <div
+                  className={cn(
+                    "w-7 h-7 rounded-lg flex items-center justify-center border text-[10px] font-mono",
+                    step > i + 1
+                      ? "bg-[#18B880] border-[#18B880] text-white"
+                      : step === i + 1
+                      ? "border-[#f59e0b] text-[#92400e] bg-[#fffbeb] font-bold"
+                      : "border-[#DEDDD8] text-[#555550]"
+                  )}
+                >
+                  {step > i + 1 ? <CheckCircle2 className="w-3.5 h-3.5" /> : (i + 1)}
                 </div>
-                {i < steps.length - 1 && <div className="w-4 h-[1px] bg-border-slate" />}
-             </div>
-           ))}
-        </div>
-      </header>
+                {i < steps.length - 1 && <div className="w-3 h-[1px] bg-[#DEDDD8]" />}
+              </div>
+            ))}
+          </div>
+        }
+      />
 
       {/* Main Container */}
       <div className="bg-background-surface border border-border-slate overflow-hidden">

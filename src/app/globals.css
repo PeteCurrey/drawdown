@@ -51,8 +51,9 @@
   --text-mid:    #555550;
   --text-light:  #FFFFFF;
   --text-dim:    #8A8A85;
-  --border:      #EDEDED;
-  --border-dark: #333330;
+  /* Canonical border — use this everywhere, not #EDEDED or gray-200 */
+  --border:           #DEDDD8;
+  --border-dark:      #333330;
 
   /* Page backgrounds are white; sidebar/topbar shell stays sage */
   --background: #FFFFFF;
@@ -63,6 +64,69 @@
   --text-tertiary: #555550;
   --foreground: #1A1A1A;
   font-family: 'Outfit', sans-serif;
+
+  /* ── Semantic profit / loss / warning ──────────────────────────────────────
+   *  Used by ALL routes. Never use arbitrary green/red/amber — use these.  */
+  --profit:   #18B880;
+  --loss:     #CE6969;
+  --warning:  #F9771D;
+
+  /* ── Tool accent system ────────────────────────────────────────────────────
+   *  Each route sets these 5 variables on its top-level wrapper.
+   *  Rule: --tool-accent governs secondary buttons, badges, active states,
+   *  borders, highlights. PRIMARY CTA buttons are always near-black (#181818).
+   *  ─────────────────────────────────────────────────────────────────────── */
+
+  /* Overview  — brand orange, same as logo/active-nav */
+  /* (set inline on page wrapper, mirrored here as reference)
+     accent: #F9771D | hover: #e0600d | tint: rgba(249,119,29,.06)
+     border: rgba(249,119,29,.25) | text: #F9771D                   */
+
+  /* Curriculum — amber (#d97706 family) */
+  /* accent: #d97706 | hover: #b45309 | tint: #fffbeb
+     border: #fde68a | text: #92400e                               */
+
+  /* Weekly Breakdowns — blue (#3b82f6 family) */
+  /* accent: #3b82f6 | hover: #2563eb | tint: #eff6ff
+     border: #bfdbfe | text: #1d4ed8                              */
+
+  /* Live Events — fuchsia (#a21caf family) */
+  /* accent: #a21caf | hover: #86198f | tint: #fdf4ff
+     border: #e879f9 | text: #86198f                              */
+
+  /* 1-to-1 Mentorship — warm brown (#92400e family) */
+  /* accent: #b45309 | hover: #92400e | tint: #fffbeb
+     border: #fcd34d | text: #78350f                              */
+
+  /* Community — blue-violet (#4f46e5 family, distinct from journal) */
+  /* accent: #7c3aed → already Algo Builder. Use #4f46e5 but community
+     gets its own: accent: #6366f1 → clash with journal.
+     Use slate-blue: #475569 is too dim. Use violet: #7c3aed → clash.
+     Use periwinkle: #818cf8 → too light. Use indigo-600: #4f46e5 → journal.
+     Community gets: #0ea5e9 (sky-500) — clearly distinct from cyan scanner */
+  /* accent: #0ea5e9 | hover: #0284c7 | tint: #f0f9ff
+     border: #bae6fd | text: #0369a1                              */
+
+  /* Simulator — amber-orange (#f59e0b family, distinct from curriculum amber) */
+  /* accent: #f59e0b | hover: #d97706 | tint: #fffbeb
+     border: #fcd34d | text: #92400e                              */
+
+  /* Coach / Psychology — rose-pink (#f43f5e → clash with backtester)
+     Use warm pink: #ec4899 (pink-500 family) */
+  /* accent: #ec4899 | hover: #db2777 | tint: #fdf2f8
+     border: #fbcfe8 | text: #9d174d                              */
+
+  /* Funded Accounts — slate-teal (#0f766e → clash with Wire).
+     Use green-600 family, distinct from risk-calc emerald:
+     accent: #16a34a | hover: #15803d → clash risk calc.
+     Use forest: #15803d → too close. Use cool olive: #65a30d (lime-700) */
+  /* accent: #65a30d | hover: #4d7c0f | tint: #f7fee7
+     border: #bef264 | text: #3f6212                              */
+
+  /* Alt-Data (Intelligence) — purple-slate, not violet (clash Algo) */
+  /* accent: #7c3aed → Algo. Use grape: #9333ea (purple-600) */
+  /* accent: #9333ea | hover: #7e22ce | tint: #faf5ff
+     border: #d8b4fe | text: #6b21a8                              */
 }
 
 [data-theme="light"] {

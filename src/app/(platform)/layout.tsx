@@ -33,6 +33,10 @@ import {
   Menu,
   Zap,
   Lock,
+  Wallet,
+  Gauge,
+  Target,
+  Sparkles,
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { OnboardingWizard } from "@/components/dashboard/OnboardingWizard";
@@ -43,11 +47,14 @@ import { hasAccess, type SubscriptionTier } from "@/lib/tier-access";
 const mainNavLinks = [
   { name: "Overview",            href: "/dashboard",                           icon: LayoutDashboard },
   { name: "Market Intelligence",  href: "/dashboard/market-intelligence",        icon: Brain },
+  { name: "Alt-Data & Signals",  href: "/dashboard/intelligence",              icon: Gauge },
   { name: "Curriculum",          href: "/dashboard/curriculum",                icon: Library },
   { name: "Weekly Breakdowns",   href: "/dashboard/breakdowns",                icon: Video },
   { name: "Live Events",         href: "/dashboard/events",                    icon: Calendar },
   { name: "1-to-1 Mentorship",   href: "/dashboard/mentorship",                icon: UserCircle },
+  { name: "Psychology Coach",    href: "/dashboard/coach",                     icon: Sparkles },
   { name: "AI Trade Journal",    href: "/dashboard/journal",                   icon: FileText },
+  { name: "Funded Accounts",     href: "/dashboard/accounts",                  icon: Wallet },
   { name: "Risk Calculator",     href: "/dashboard/tools/position-sizer",      icon: Calculator },
   { name: "Market Scanner",      href: "/dashboard/tools/technical-scanner",   icon: ScanSearch },
   { name: "Strategy Backtester",  href: "/dashboard/tools/backtester",          icon: Code },
@@ -57,10 +64,11 @@ const mainNavLinks = [
 
 // ─── Platform Navigation (Section 2) ─────────────────────────────────────────
 const platformLinks = [
-  { name: "The Wire",     href: "/dashboard/the-wire",  icon: Newspaper, badge: "NEW" },
-  { name: "Brokers",      href: "/brokers",             icon: Building2 },
-  { name: "Prop Firms",   href: "/prop-firms",          icon: Trophy },
-  { name: "Community",    href: "/dashboard/community", icon: Users },
+  { name: "The Wire",            href: "/dashboard/the-wire",  icon: Newspaper, badge: "NEW" },
+  { name: "Brokers",             href: "/brokers",             icon: Building2 },
+  { name: "Prop Firms",          href: "/prop-firms",          icon: Trophy },
+  { name: "Challenge Simulator", href: "/dashboard/simulator",   icon: Target },
+  { name: "Community",           href: "/dashboard/community", icon: Users },
 ];
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
@@ -185,7 +193,15 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     return "–";
   };
 
-  const isDarkModulePage = 
+  // ─── Dark theme whitelist ───────────────────────────────────────────────────
+  // RULE: dark theme is EXCLUSIVE to these routes only.
+  // Exceptions: none beyond this list.
+  // Note: AlgoStrategyBuilder's code-editor pane uses bg-[#0a0a0a] as a named
+  //       terminal-pane exception — not a licence to darken any other element
+  //       on that route.
+  // Primary CTA buttons use bg-[#0A0A0A] / bg-[#181818] platform-wide by
+  //       design (brand anchor). --tool-accent governs secondary elements only.
+  const isDarkModulePage =
     (pathname.startsWith("/dashboard/curriculum/") && pathname !== "/dashboard/curriculum") ||
     pathname.startsWith("/dashboard/courses/");
 

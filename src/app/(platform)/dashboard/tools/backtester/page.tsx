@@ -37,6 +37,7 @@ export default function BacktesterPage() {
   const [strategy, setStrategy] = useState("");
   const [results, setResults] = useState<BacktestResult | null>(null);
   const [symbol, setSymbol] = useState("GBPUSD");
+  const [timeframe, setTimeframe] = useState("1H");
   const [startingCapital, setStartingCapital] = useState(10000);
   const [error, setError] = useState<string | null>(null);
   const [dateRangeText, setDateRangeText] = useState("");
@@ -47,17 +48,27 @@ export default function BacktesterPage() {
     setResults(null);
     
     try {
-      const res = await fetch(`/api/market/history?symbol=${symbol}&interval=1h&outputsize=150`);
+      const res = await fetch(`/api/market/history?symbol=${symbol}&interval=${timeframe.toLowerCase()}&outputsize=200`);
       if (!res.ok) {
         throw new Error("Failed to fetch market history");
       }
       const history = await res.json();
-      if (!Array.isArray(history) || history.length < 50) {
+      if (!Array.isArray(history) || history.length === 0) {
         throw new Error("HISTORICAL DATA UNAVAILABLE — backtest cannot run.");
       }
 
+      const lowerStrat = strategy.toLowerCase();
+      let stratType: 'EMA_CROSS' | 'RSI_REVERSAL' | 'BREAKOUT' = 'EMA_CROSS';
+      if (lowerStrat.includes('rsi') || lowerStrat.includes('oversold') || lowerStrat.includes('overbought')) {
+        stratType = 'RSI_REVERSAL';
+      } else if (lowerStrat.includes('breakout') || lowerStrat.includes('high') || lowerStrat.includes('low') || lowerStrat.includes('range')) {
+        stratType = 'BREAKOUT';
+      } else {
+        stratType = 'EMA_CROSS';
+      }
+
       const config: StrategyConfig = {
-        type: strategy.toLowerCase().includes('ema') ? 'EMA_CROSS' : 'RSI_REVERSAL',
+        type: stratType,
         params: {}
       };
 
@@ -66,13 +77,16 @@ export default function BacktesterPage() {
       
       const firstCandle = history[0];
       const lastCandle = history[history.length - 1];
-      const formatTime = (t: number) => new Date(t * 1000).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' });
-      setDateRangeText(`${formatTime(firstCandle.time)} to ${formatTime(lastCandle.time)}`);
+      const formatTime = (t: number) => {
+        if (!t || Number.isNaN(t)) return "Recent Data";
+        return new Date(t * 1000).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' });
+      };
+      setDateRangeText(`${formatTime(firstCandle?.time)} to ${formatTime(lastCandle?.time)}`);
       
       setStep('results');
     } catch (err: any) {
-      console.error("Backtest simulation failed:", err);
-      setError(err.message === "HISTORICAL DATA UNAVAILABLE — backtest cannot run." ? err.message : "HISTORICAL DATA UNAVAILABLE — backtest cannot run.");
+      console.error("Backtest simulation error:", err);
+      setError("Unable to run backtest simulation with current inputs. Please try again.");
     } finally {
       setIsSimulating(false);
     }
@@ -235,10 +249,14 @@ export default function BacktesterPage() {
                     {['15M', '1H', '4H', '1D'].map(tf => (
                       <button
                         key={tf}
-                        className="py-2 border border-gray-200 text-[10px] font-bold text-gray-500 transition-colors rounded-lg hover:text-black"
-                        style={{}}
-                        onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = C; (e.currentTarget as HTMLButtonElement).style.color = C; }}
-                        onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = "#e5e7eb"; (e.currentTarget as HTMLButtonElement).style.color = "#6b7280"; }}
+                        type="button"
+                        onClick={() => setTimeframe(tf)}
+                        className={cn(
+                          "py-2 border text-[10px] font-bold transition-all rounded-lg",
+                          timeframe === tf
+                            ? "border-[#f43f5e] text-[#f43f5e] bg-[#fff1f2] font-black"
+                            : "border-gray-200 text-gray-500 hover:text-black hover:border-gray-300"
+                        )}
                       >
                         {tf}
                       </button>

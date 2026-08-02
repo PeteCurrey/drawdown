@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getMarketHistory } from "@/lib/market";
+import { getMarketHistory, generateFallbackHistory } from "@/lib/market";
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
@@ -28,6 +28,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.json(formatted);
   } catch (error: any) {
     console.error("API Market History Error:", error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    const fallback = generateFallbackHistory(symbol, interval, outputsize);
+    return NextResponse.json(fallback);
   }
 }

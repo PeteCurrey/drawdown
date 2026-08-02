@@ -430,13 +430,23 @@ export async function getInsiderTransactions(symbols?: string | string[]) {
       if (r.status === "fulfilled") allTrades.push(...r.value);
     }
 
-    // Sort by most recent filing date descending
+    // Sort by most recent filing date descending & strictly deduplicate
     const sorted = allTrades
       .filter(t => t.filingDate && t.name)
       .sort((a, b) => new Date(b.filingDate).getTime() - new Date(a.filingDate).getTime());
 
-    await setCacheData(cacheKey, sorted, 3600);
-    return sorted;
+    const seen = new Set<string>();
+    const dedupedTrades: any[] = [];
+    for (const t of sorted) {
+      const key = `${t.symbol}-${t.name.trim().toLowerCase()}-${t.transactionDate || t.filingDate}-${t.change}-${t.transactionPrice}-${t.transactionCode}`;
+      if (!seen.has(key)) {
+        seen.add(key);
+        dedupedTrades.push(t);
+      }
+    }
+
+    await setCacheData(cacheKey, dedupedTrades, 3600);
+    return dedupedTrades;
   } catch (error) {
     console.error("Insider API Error:", error);
     return [];

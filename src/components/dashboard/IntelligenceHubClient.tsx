@@ -148,24 +148,36 @@ export function IntelligenceHubClient({
   const [loadingSentiment, setLoadingSentiment] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
 
-  // ── Diversified Insider Trades ──────────────────────────────────────────
-  // Prevents a single company (e.g. GOOGL) from overwhelming the top 10 list
-  // when showing "ALL". When a specific symbol is picked, shows all filings for that symbol.
+  // ── Diversified & Strictly Deduplicated Insider Trades ─────────────────
   const filteredInsiderTrades = useMemo(() => {
+    let trades = initialInsiderTrades;
     if (selectedSymbol !== "ALL") {
-      return initialInsiderTrades.filter(t => t.symbol === selectedSymbol);
+      trades = initialInsiderTrades.filter(t => t.symbol === selectedSymbol);
+    } else {
+      // For "ALL": pick up to 3 filings per company to ensure multi-symbol diversity
+      const counts: Record<string, number> = {};
+      const diverse: InsiderTrade[] = [];
+      for (const t of initialInsiderTrades) {
+        const sym = t.symbol ?? "UNKNOWN";
+        counts[sym] = (counts[sym] ?? 0) + 1;
+        if (counts[sym] <= 3) {
+          diverse.push(t);
+        }
+      }
+      trades = diverse;
     }
-    // For "ALL": pick up to 2 filings per company to ensure multi-symbol diversity
-    const counts: Record<string, number> = {};
-    const diverse: InsiderTrade[] = [];
-    for (const t of initialInsiderTrades) {
-      const sym = t.symbol ?? "UNKNOWN";
-      counts[sym] = (counts[sym] ?? 0) + 1;
-      if (counts[sym] <= 2) {
-        diverse.push(t);
+
+    // Strict deduplication by composite key (symbol + name + date + change + price + code)
+    const seen = new Set<string>();
+    const unique: InsiderTrade[] = [];
+    for (const t of trades) {
+      const key = `${t.symbol}-${(t.name || '').trim().toLowerCase()}-${t.transactionDate || t.filingDate}-${t.change}-${t.transactionPrice}-${t.transactionCode}`;
+      if (!seen.has(key)) {
+        seen.add(key);
+        unique.push(t);
       }
     }
-    return diverse;
+    return unique;
   }, [initialInsiderTrades, selectedSymbol]);
 
   // ── Dynamic Sentiment Fetching ──────────────────────────────────────────
@@ -415,20 +427,26 @@ export function IntelligenceHubClient({
           </div>
         </section>
       )}
-
       {/* ── Main Trackers Grid ────────────────────────────────────────────── */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
 
         {/* Insider Trading Tracker */}
         <section className="bg-white border border-slate-200 rounded-xl flex flex-col overflow-hidden shadow-sm">
-          <div className="p-5 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-slate-50/50">
-            <div className="flex items-center gap-3">
-              <UserCheck className="w-5 h-5 text-[#1e40af]" />
-              <div>
-                <h2 className="text-base font-bold uppercase tracking-widest text-slate-900">
-                  Insider Tracker
-                </h2>
-                <p className="text-[9px] font-mono text-slate-400">SEC Form 4 · Multi-Equity</p>
+          <div className="p-5 border-b border-slate-100 flex flex-col gap-3 bg-slate-50/50">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <UserCheck className="w-5 h-5 text-[#1e40af]" />
+                <div>
+                  <h2 className="text-base font-bold uppercase tracking-widest text-slate-900">
+                    Insider Tracker
+                  </h2>
+                  <p className="text-[9px] font-mono text-slate-400">SEC Form 4 · Multi-Equity</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-[9px] font-mono text-[#1e40af] uppercase tracking-widest font-bold bg-[#eff6ff] border border-[#bfdbfe] px-2 py-1 rounded">
+                  {filteredInsiderTrades.length} Filings
+                </span>
               </div>
             </div>
 
@@ -452,7 +470,7 @@ export function IntelligenceHubClient({
             </div>
           </div>
 
-          <div className="flex-grow overflow-x-auto">
+          <div className="flex-grow max-h-[520px] overflow-y-auto overflow-x-auto">
             {filteredInsiderTrades.length === 0 ? (
               <div className="flex flex-col items-center justify-center py-16 gap-3">
                 <CircleDot className="w-8 h-8 text-slate-200" />
@@ -461,18 +479,18 @@ export function IntelligenceHubClient({
                 </p>
               </div>
             ) : (
-              <table className="w-full text-left">
-                <thead className="bg-slate-50 text-[9px] font-mono uppercase tracking-widest text-slate-400 border-b border-slate-100">
+              <table className="w-full text-left border-collapse">
+                <thead className="bg-slate-50 text-[9px] font-mono uppercase tracking-widest text-slate-400 border-b border-slate-100 sticky top-0 z-10 shadow-sm">
                   <tr>
-                    <th className="px-5 py-3">Company</th>
-                    <th className="px-5 py-3">Executive</th>
-                    <th className="px-5 py-3">Action</th>
-                    <th className="px-5 py-3 text-right">Shares / Price</th>
-                    <th className="px-5 py-3 text-right">Date</th>
+                    <th className="px-5 py-3 bg-slate-50">Company</th>
+                    <th className="px-5 py-3 bg-slate-50">Executive</th>
+                    <th className="px-5 py-3 bg-slate-50">Action</th>
+                    <th className="px-5 py-3 text-right bg-slate-50">Shares / Price</th>
+                    <th className="px-5 py-3 text-right bg-slate-50">Date</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-50">
-                  {filteredInsiderTrades.slice(0, 10).map((trade: InsiderTrade, i: number) => {
+                  {filteredInsiderTrades.map((trade: InsiderTrade, i: number) => {
                     const sym = trade.symbol;
                     const prof = companyProfiles[sym];
                     const buy = isBuy(trade.transactionCode, trade.change);
@@ -481,7 +499,7 @@ export function IntelligenceHubClient({
                       : null;
                     return (
                       <tr
-                        key={`${sym}-${i}`}
+                        key={`${sym}-${trade.id || i}-${trade.name}-${i}`}
                         className="hover:bg-slate-50/70 transition-colors"
                       >
                         <td className="px-5 py-3.5">
@@ -578,7 +596,7 @@ export function IntelligenceHubClient({
             </span>
           </div>
 
-          <div className="flex-grow overflow-x-auto">
+          <div className="flex-grow max-h-[520px] overflow-y-auto overflow-x-auto">
             {politicalTrades.length === 0 ? (
               <div className="flex flex-col items-center justify-center py-16 gap-3">
                 <CircleDot className="w-8 h-8 text-slate-200" />
@@ -587,17 +605,17 @@ export function IntelligenceHubClient({
                 </p>
               </div>
             ) : (
-              <table className="w-full text-left">
-                <thead className="bg-slate-50 text-[9px] font-mono uppercase tracking-widest text-slate-400 border-b border-slate-100">
+              <table className="w-full text-left border-collapse">
+                <thead className="bg-slate-50 text-[9px] font-mono uppercase tracking-widest text-slate-400 border-b border-slate-100 sticky top-0 z-10 shadow-sm">
                   <tr>
-                    <th className="px-5 py-3">Representative</th>
-                    <th className="px-5 py-3">Security</th>
-                    <th className="px-5 py-3">Type</th>
-                    <th className="px-5 py-3 text-right">Filed</th>
+                    <th className="px-5 py-3 bg-slate-50">Representative</th>
+                    <th className="px-5 py-3 bg-slate-50">Security</th>
+                    <th className="px-5 py-3 bg-slate-50">Type</th>
+                    <th className="px-5 py-3 text-right bg-slate-50">Filed</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-50">
-                  {politicalTrades.slice(0, 10).map((trade: PoliticalTrade, i: number) => (
+                  {politicalTrades.map((trade: PoliticalTrade, i: number) => (
                     <tr
                       key={i}
                       className="hover:bg-slate-50/70 transition-colors"

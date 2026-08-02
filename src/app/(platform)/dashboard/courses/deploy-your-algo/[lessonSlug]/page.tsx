@@ -77,9 +77,9 @@ export default async function LessonPage({ params }: PageProps) {
   const isCompleted = completedIds.includes(lesson.id);
 
   return (
-    <div className="flex h-full min-h-screen bg-background-primary">
+    <div className="flex h-full min-h-screen bg-[#0a0a0a]">
       {/* ── Sidebar ────────────────────────────────────────────── */}
-      <div className="w-72 shrink-0 border-r border-border-slate/40 p-6 flex flex-col h-full sticky top-0 overflow-y-auto bg-background-surface/50">
+      <div className="w-72 shrink-0 border-r border-white/10 p-6 flex flex-col h-full sticky top-0 overflow-y-auto bg-[#0d0d0d]">
         <CourseSidebar
           courseSlug={COURSE_SLUG}
           modules={modules}
@@ -95,7 +95,7 @@ export default async function LessonPage({ params }: PageProps) {
           <div className="max-w-[720px] mx-auto px-8 py-10 space-y-8">
 
             {/* Breadcrumb */}
-            <nav className="flex items-center gap-2 text-[10px] font-mono text-text-tertiary uppercase tracking-widest">
+            <nav className="flex items-center gap-2 text-[10px] font-mono text-white/40 uppercase tracking-widest">
               <span>Deploy Your Algo</span>
               <span>/</span>
               <span>{parentModule?.subtitle}</span>
@@ -108,10 +108,10 @@ export default async function LessonPage({ params }: PageProps) {
               <p className="text-[10px] font-mono text-[#C8F135] uppercase tracking-widest">
                 {parentModule?.title} // {parentModule?.subtitle}
               </p>
-              <h1 className="font-display text-3xl md:text-4xl font-black uppercase text-text-primary leading-tight">
+              <h1 className="font-display text-3xl md:text-4xl font-black uppercase text-white leading-tight">
                 {lesson.title}
               </h1>
-              <div className="flex items-center gap-4 text-[11px] font-mono text-text-tertiary">
+              <div className="flex items-center gap-4 text-[11px] font-mono text-white/40">
                 <span>{lesson.estimated_minutes} min read</span>
                 <span>·</span>
                 <span>{parentModule?.title} of 5</span>
@@ -131,7 +131,7 @@ export default async function LessonPage({ params }: PageProps) {
         </div>
 
         {/* Sticky bottom bar */}
-        <div className="sticky bottom-0 bg-background-primary/95 backdrop-blur-md border-t border-border-slate/40 px-8 py-4">
+        <div className="sticky bottom-0 bg-[#0a0a0a]/95 backdrop-blur-md border-t border-white/10 px-8 py-4">
           <div className="max-w-[720px] mx-auto">
             <MarkCompleteButton
               lessonId={lesson.id}

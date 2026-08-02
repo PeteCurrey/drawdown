@@ -94,19 +94,19 @@ export function CourseSidebar({
     <aside className="flex flex-col gap-6 h-full text-white">
       {/* Course title + progress */}
       <div className="space-y-3">
-        <h2 className="font-display font-extrabold text-lg uppercase tracking-wide text-text-primary leading-tight">
+        <h2 className="font-display font-extrabold text-lg uppercase tracking-wide text-white leading-tight">
           {courseTitle}
         </h2>
         <div className="space-y-1.5">
           <div className="flex justify-between items-center">
-            <span className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary">
+            <span className="text-[10px] font-mono uppercase tracking-widest text-white/40">
               Progress
             </span>
             <span className="text-[10px] font-mono font-bold" style={{ color: accentColor }}>
               {doneCount}/{totalLessons}
             </span>
           </div>
-          <div className="h-1 bg-border-slate/40 rounded-full overflow-hidden">
+          <div className="h-1 bg-white/10 rounded-full overflow-hidden">
             <div
               className="h-full rounded-full transition-all duration-500"
               style={{ width: `${pct}%`, backgroundColor: accentColor }}
@@ -114,7 +114,7 @@ export function CourseSidebar({
           </div>
         </div>
         {accessVia && (
-          <p className="text-[9px] font-mono text-text-tertiary uppercase tracking-widest">
+          <p className="text-[9px] font-mono text-white/30 uppercase tracking-widest">
             {accessVia === "floor_tier" ? "✦ Floor Tier — Included" : "✦ Purchased"}
           </p>
         )}
@@ -140,18 +140,18 @@ export function CourseSidebar({
                       {String(mod.sort_order).padStart(2, "0")}
                     </span>
                 }
-                <span className="flex-1 text-[11px] font-bold text-text-secondary group-hover:text-text-primary transition-colors leading-tight">
+                <span className="flex-1 text-[11px] font-bold text-white/60 group-hover:text-white transition-colors leading-tight">
                   {mod.subtitle}
                 </span>
-                <span className="text-[9px] font-mono text-text-tertiary mr-1">{modDone}/{modLessons.length}</span>
+                <span className="text-[9px] font-mono text-white/30 mr-1">{modDone}/{modLessons.length}</span>
                 {modOpen
-                  ? <ChevronDown className="w-3 h-3 text-text-tertiary shrink-0" />
-                  : <ChevronRight className="w-3 h-3 text-text-tertiary shrink-0" />
+                  ? <ChevronDown className="w-3 h-3 text-white/30 shrink-0" />
+                  : <ChevronRight className="w-3 h-3 text-white/30 shrink-0" />
                 }
               </button>
 
               {modOpen && (
-                <div className="ml-5 border-l border-border-slate/30 space-y-0.5 my-1">
+                <div className="ml-5 border-l border-white/10 space-y-0.5 my-1">
                   {modLessons.map(lesson => {
                     const lessonPath = courseSlug === "prop-firm-survival-kit"
                       ? `/dashboard/courses/${courseSlug}/modules/${mod.slug}/lessons/${lesson.slug}`
@@ -166,25 +166,25 @@ export function CourseSidebar({
                         className={cn(
                           "flex items-start gap-2 pl-3 pr-2 py-2 rounded-r-lg transition-all text-left group",
                           isActive
-                            ? "border-l-2 -ml-px text-text-primary bg-white/5"
-                            : "border-l-2 border-transparent hover:border-border-slate/50 hover:bg-white/5"
+                            ? "border-l-2 -ml-px text-white bg-white/5"
+                            : "border-l-2 border-transparent hover:border-white/20 hover:bg-white/5"
                         )}
                         style={{ borderLeftColor: isActive ? accentColor : "transparent" }}
                       >
                         {isDone
                           ? <CheckCircle2 className="w-3 h-3 shrink-0 mt-0.5" style={{ color: accentColor }} />
                           : <Circle className={cn("w-3 h-3 shrink-0 mt-0.5",
-                              isActive ? "text-white" : "text-text-tertiary/40")} style={{ color: isActive ? accentColor : undefined }} />
+                              isActive ? "text-white" : "text-white/20")} style={{ color: isActive ? accentColor : undefined }} />
                         }
                         <span className={cn(
                           "text-[11px] leading-snug flex-1",
-                          isDone     ? "text-text-tertiary line-through" :
-                          isActive   ? "text-text-primary font-semibold" :
-                                       "text-text-secondary group-hover:text-text-primary"
+                          isDone     ? "text-white/30 line-through" :
+                          isActive   ? "text-white font-semibold" :
+                                       "text-white/60 group-hover:text-white"
                         )}>
                           {lesson.title}
                         </span>
-                        <span className="flex items-center gap-0.5 text-[9px] font-mono text-text-tertiary/60 shrink-0 mt-0.5">
+                        <span className="flex items-center gap-0.5 text-[9px] font-mono text-white/30 shrink-0 mt-0.5">
                           <Clock className="w-2.5 h-2.5" />{lesson.estimated_minutes}m
                         </span>
                       </Link>
@@ -200,7 +200,7 @@ export function CourseSidebar({
       {/* Back link */}
       <Link
         href={backHref}
-        className="flex items-center gap-2 text-[10px] font-mono text-text-tertiary hover:text-[#C8F135] transition-colors uppercase tracking-widest mt-auto"
+        className="flex items-center gap-2 text-[10px] font-mono text-white/40 hover:text-[#C8F135] transition-colors uppercase tracking-widest mt-auto"
       >
         <ArrowLeft className="w-3 h-3" />
         {backLabel}

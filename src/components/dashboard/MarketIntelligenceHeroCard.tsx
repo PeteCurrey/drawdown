@@ -193,6 +193,20 @@ export function MarketIntelligenceHeroCard({
 
   const [intelData, setIntelData] = useState<any>(null);
   const [intelLoading, setIntelLoading] = useState(false);
+  const [rotationIndex, setRotationIndex] = useState(0);
+
+  // Rotate feed items every 7 seconds for dynamic live updates
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setRotationIndex((prev) => prev + 1);
+    }, 7000);
+    return () => clearInterval(timer);
+  }, []);
+
+  // Reset rotation when changing instrument
+  useEffect(() => {
+    setRotationIndex(0);
+  }, [hookSlug]);
 
   // Dynamic ticking London/GMT Clock
   const [londonTime, setLondonTime] = useState<string>("");
@@ -238,23 +252,23 @@ export function MarketIntelligenceHeroCard({
     const items: HeroFeedItem[] = [];
 
     // 1. News items
-    marketData.news.slice(0, 3).forEach((item) => {
+    marketData.news.slice(0, 4).forEach((item) => {
       items.push({
         id: `news-${item.id}`,
         type: "event",
         severity: "green",
-        source: item.source,
+        source: item.source || "FINANCIAL FEED",
         message: item.headline,
         time: new Date(item.datetime).toLocaleTimeString("en-GB", {
           hour: "2-digit",
           minute: "2-digit"
         }) + " UTC",
-        url: item.url
+        url: item.url && item.url.trim() !== "" ? item.url : "/dashboard/the-wire"
       });
     });
 
     // 2. Economic Calendar events
-    marketData.events.slice(0, 2).forEach((item) => {
+    marketData.events.slice(0, 3).forEach((item) => {
       items.push({
         id: `event-${item.id}`,
         type: "event",
@@ -264,7 +278,8 @@ export function MarketIntelligenceHeroCard({
         time: new Date(item.time).toLocaleTimeString("en-GB", {
           hour: "2-digit",
           minute: "2-digit"
-        }) + " UTC"
+        }) + " UTC",
+        url: "/dashboard/market-intelligence"
       });
     });
 
@@ -276,18 +291,20 @@ export function MarketIntelligenceHeroCard({
           id: `rsi-alert-high`,
           type: "alert",
           severity: "red",
-          source: "RSI Alert",
+          source: "RSI ALERT",
           message: `RSI Overbought (${alertRsi.toFixed(1)}) on ${selectedInterval}. Potential trend fatigue.`,
-          time: "Just now"
+          time: "Just now",
+          url: `/dashboard/market-intelligence`
         });
       } else if (alertRsi < 30) {
         items.push({
           id: `rsi-alert-low`,
           type: "alert",
           severity: "green",
-          source: "RSI Alert",
+          source: "RSI ALERT",
           message: `RSI Oversold (${alertRsi.toFixed(1)}) on ${selectedInterval}. Potential accumulation.`,
-          time: "Just now"
+          time: "Just now",
+          url: `/dashboard/market-intelligence`
         });
       }
     }
@@ -298,9 +315,18 @@ export function MarketIntelligenceHeroCard({
         id: `seed-status-${hookSlug}`,
         type: "event",
         severity: "green",
+        source: "LIVE FEED",
         message: `Live market data connection active for ${selectedInst.name}.`,
         time: "Active",
+        url: "/dashboard/the-wire"
       });
+    }
+
+    // Apply auto-rotation ordering when 2+ items present
+    if (items.length > 1) {
+      const shift = rotationIndex % items.length;
+      const rotated = [...items.slice(shift), ...items.slice(0, shift)];
+      return rotated.slice(0, 6);
     }
 
     return items.slice(0, 6);
@@ -309,7 +335,7 @@ export function MarketIntelligenceHeroCard({
   // Stagger animation for feed items when count changes
   useEffect(() => {
     setFeedVisible(Array(liveFeedItems.length).fill(true));
-  }, [liveFeedItems.length]);
+  }, [liveFeedItems.length, rotationIndex]);
 
   const SIGNAL_NODES: SignalNode[] = [
     {
@@ -946,13 +972,15 @@ export function MarketIntelligenceHeroCard({
           </div>
 
           {/* Feed items */}
-          <div key={hookSlug} className="flex-1 overflow-y-auto p-3 space-y-2">
+          <div key={`${hookSlug}-${rotationIndex}`} className="flex-1 overflow-y-auto p-3 space-y-2">
             {liveFeedItems.map((item, i) => {
               const isAlert    = item.type === "alert";
               const isTopAlert = isAlert && i === liveFeedItems.findIndex(f => f.type === "alert");
+              const targetUrl  = item.url && item.url.trim() !== "" ? item.url : "/dashboard/the-wire";
+              const isExternal = targetUrl.startsWith("http://") || targetUrl.startsWith("https://");
               
               const itemContent = (
-                <div className="flex items-start gap-2">
+                <div className="flex items-start gap-2 group cursor-pointer">
                   {isAlert ? (
                     <AlertCircle className="w-3.5 h-3.5 text-[#F9771D] shrink-0 mt-0.5" />
                   ) : (
@@ -967,9 +995,9 @@ export function MarketIntelligenceHeroCard({
                   )}
                   <div className="min-w-0 flex-1">
                     {item.source && (
-                      <p className="text-[11px] font-bold text-white/90 mb-0.5">{item.source}</p>
+                      <p className="text-[11px] font-bold text-white/90 mb-0.5 group-hover:text-cyan-400 transition-colors">{item.source}</p>
                     )}
-                    <p className="text-[13px] text-white/70 leading-snug hover:text-[#00C896] transition-colors">{item.message}</p>
+                    <p className="text-[13px] text-white/70 leading-snug group-hover:text-white transition-colors">{item.message}</p>
                     {item.time && (
                       <p className="text-[10px] font-mono text-white/30 mt-1">{item.time}</p>
                     )}
@@ -977,15 +1005,15 @@ export function MarketIntelligenceHeroCard({
                 </div>
               );
 
-              if (item.url && item.url !== "#") {
+              if (isExternal) {
                 return (
                   <a
-                    href={item.url}
+                    href={targetUrl}
                     target="_blank"
                     rel="noopener noreferrer"
                     key={item.id}
                     className={cn(
-                      "block rounded-lg p-3 hover:bg-white/[0.08] transition-colors cursor-pointer",
+                      "block rounded-lg p-3 hover:bg-white/[0.08] transition-all cursor-pointer",
                       feedVisible[i] ? "feed-slide-in" : "opacity-0"
                     )}
                     style={{
@@ -1005,9 +1033,13 @@ export function MarketIntelligenceHeroCard({
               }
 
               return (
-                <div
+                <Link
+                  href={targetUrl}
                   key={item.id}
-                  className={cn("rounded-lg p-3", feedVisible[i] ? "feed-slide-in" : "opacity-0")}
+                  className={cn(
+                    "block rounded-lg p-3 hover:bg-white/[0.08] transition-all cursor-pointer",
+                    feedVisible[i] ? "feed-slide-in" : "opacity-0"
+                  )}
                   style={{
                     animationDelay: `${i * 80}ms`,
                     background: isTopAlert
@@ -1020,7 +1052,7 @@ export function MarketIntelligenceHeroCard({
                   }}
                 >
                   {itemContent}
-                </div>
+                </Link>
               );
             })}
           </div>

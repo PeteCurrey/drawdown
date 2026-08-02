@@ -305,8 +305,10 @@ export default function MarketIntelligencePage() {
             id: `cal-${hookSlug}-${i}`,
             type: "event" as const,
             severity: (e.impact === "high" ? "red" : e.impact === "medium" ? "orange" : "green") as any,
+            source: "ECONOMIC EVENT",
             message: `📋 ${e.country} ${e.event}`,
             time: e.time ?? "",
+            url: "/dashboard/the-wire",
           }));
         }
       } catch (e) {
@@ -325,7 +327,7 @@ export default function MarketIntelligencePage() {
               id: `news-${a.url || Math.random()}`,
               type: "event" as const,
               severity: "green" as const,
-              source: a.source ?? "News",
+              source: a.source ?? "FINANCIAL FEED",
               message: a.title,
               time: a.published_at
                 ? new Date(a.published_at).toLocaleTimeString("en-GB", {
@@ -333,7 +335,7 @@ export default function MarketIntelligencePage() {
                     minute: "2-digit"
                   }) + " UTC"
                 : "",
-              url: a.url,
+              url: a.url || "/dashboard/the-wire",
             }));
           }
         }
@@ -348,15 +350,17 @@ export default function MarketIntelligencePage() {
           id: `seed-status-${hookSlug}`,
           type: "event" as const,
           severity: "green" as const,
+          source: "LIVE FEED",
           message: `Live market data connection active for ${selectedInst.name}.`,
           time: "Active",
+          url: "/dashboard/the-wire",
         });
       }
 
       const combined = [
         ...eventsFeed,
         ...newsFeed,
-        { id: "feed-wire", type: "event" as const, severity: "green" as const, message: "📋 The Wire — Morning brief ready", time: "" }
+        { id: "feed-wire", type: "event" as const, severity: "green" as const, source: "THE WIRE", message: "📋 The Wire — Morning brief & market news ready", time: "Daily", url: "/dashboard/the-wire" }
       ].slice(0, 6);
 
       setFeedItems(combined);

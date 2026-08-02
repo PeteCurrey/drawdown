@@ -52,9 +52,9 @@ export default async function CourseHomePage() {
   const firstLesson = allLessons[0];
 
   return (
-    <div className="flex h-full min-h-screen bg-background-primary">
+    <div className="flex h-full min-h-screen bg-[#0a0a0a]">
       {/* ── Sidebar ────────────────────────────────────────────── */}
-      <div className="w-72 shrink-0 border-r border-border-slate/40 p-6 flex flex-col h-full sticky top-0 overflow-y-auto bg-background-surface/50">
+      <div className="w-72 shrink-0 border-r border-white/10 p-6 flex flex-col h-full sticky top-0 overflow-y-auto bg-[#0d0d0d]">
         <CourseSidebar
           courseSlug={COURSE_SLUG}
           modules={modules}
@@ -73,10 +73,10 @@ export default async function CourseHomePage() {
             <p className="text-[10px] font-mono text-[#C8F135] uppercase tracking-widest">
               Mini Course // Algo Deployment
             </p>
-            <h1 className="font-display text-4xl font-black uppercase text-text-primary leading-tight">
+            <h1 className="font-display text-4xl font-black uppercase text-white leading-tight">
               Welcome to Deploy Your Algo
             </h1>
-            <p className="text-text-secondary text-lg leading-relaxed">
+            <p className="text-white/60 text-lg leading-relaxed">
               Start with Module 1 — it takes 15 minutes and gets your first Pine Script live on TradingView.
             </p>
           </div>
@@ -88,10 +88,10 @@ export default async function CourseHomePage() {
               { label: "Lessons", value: `${completedCount}/${totalLessons}`, sub: "done" },
               { label: "Time Est.", value: "~100", sub: "minutes total" },
             ].map(s => (
-              <div key={s.label} className="bg-background-surface border border-border-slate/40 rounded-xl p-5 text-center">
-                <p className="text-[9px] font-mono uppercase tracking-widest text-text-tertiary mb-1">{s.label}</p>
-                <p className="text-3xl font-black font-mono text-text-primary">{s.value}</p>
-                <p className="text-[10px] text-text-tertiary mt-0.5">{s.sub}</p>
+              <div key={s.label} className="bg-[#141414] border border-white/10 rounded-xl p-5 text-center">
+                <p className="text-[9px] font-mono uppercase tracking-widest text-white/40 mb-1">{s.label}</p>
+                <p className="text-3xl font-black font-mono text-white">{s.value}</p>
+                <p className="text-[10px] text-white/40 mt-0.5">{s.sub}</p>
               </div>
             ))}
           </div>
@@ -106,7 +106,7 @@ export default async function CourseHomePage() {
 
           {/* Module overview */}
           <div className="space-y-3">
-            <h2 className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary">Course Modules</h2>
+            <h2 className="text-[10px] font-mono uppercase tracking-widest text-white/40">Course Modules</h2>
             <div className="space-y-2">
               {modules.map((mod: any, i: number) => {
                 const modDone = mod.course_lessons.filter((l: any) => completedIds.includes(l.id)).length;
@@ -116,21 +116,21 @@ export default async function CourseHomePage() {
                   <Link
                     key={mod.id}
                     href={firstModLesson ? `/dashboard/courses/${COURSE_SLUG}/${firstModLesson.slug}` : "#"}
-                    className="flex items-center gap-4 p-4 bg-background-surface border border-border-slate/40 rounded-xl hover:border-[#C8F135]/40 transition-all group"
+                    className="flex items-center gap-4 p-4 bg-[#141414] border border-white/10 rounded-xl hover:border-[#C8F135]/40 transition-all group"
                   >
                     <span className="text-[11px] font-black font-mono text-[#C8F135] w-8 shrink-0">
                       {String(i + 1).padStart(2, "0")}
                     </span>
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-bold text-text-primary group-hover:text-[#C8F135] transition-colors truncate">{mod.subtitle}</p>
-                      <p className="text-[10px] text-text-tertiary mt-0.5">{mod.course_lessons.length} lessons · {mod.course_lessons.reduce((s: number, l: any) => s + (l.estimated_minutes ?? 0), 0)} min</p>
+                      <p className="text-sm font-bold text-white group-hover:text-[#C8F135] transition-colors truncate">{mod.subtitle}</p>
+                      <p className="text-[10px] text-white/40 mt-0.5">{mod.course_lessons.length} lessons · {mod.course_lessons.reduce((s: number, l: any) => s + (l.estimated_minutes ?? 0), 0)} min</p>
                     </div>
                     <div className="flex items-center gap-3 shrink-0">
                       <div className="w-20 h-1 bg-border-slate/40 rounded-full overflow-hidden">
                         <div className="h-full bg-[#C8F135] rounded-full transition-all" style={{ width: `${pct}%` }} />
                       </div>
-                      <span className="text-[9px] font-mono text-text-tertiary w-8 text-right">{modDone}/{mod.course_lessons.length}</span>
-                      <ArrowRight className="w-3.5 h-3.5 text-text-tertiary group-hover:text-[#C8F135] transition-colors" />
+                      <span className="text-[9px] font-mono text-white/40 w-8 text-right">{modDone}/{mod.course_lessons.length}</span>
+                      <ArrowRight className="w-3.5 h-3.5 text-white/40 group-hover:text-[#C8F135] transition-colors" />
                     </div>
                   </Link>
                 );

@@ -94,7 +94,7 @@ const components = {
 function preprocessMDXContent(content: string): string {
   if (!content) return "";
   return content
-    .replace(/\$\$(.*?)\$\$/gs, (_, inner) => {
+    .replace(/\$\$([\s\S]*?)\$\$/g, (_, inner) => {
       const clean = inner
         .replace(/\\text\{([^}]+)\}/g, '$1')
         .replace(/\\frac\{([^}]+)\}\{([^}]+)\}/g, '($1)/($2)')

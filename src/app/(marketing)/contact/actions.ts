@@ -1,6 +1,6 @@
 "use server";
 
-import { createClient } from "@/lib/supabase/server";
+import { createInternalSupabase } from "@/lib/supabase/server";
 
 export async function submitContactForm(formData: {
   name: string;
@@ -9,7 +9,7 @@ export async function submitContactForm(formData: {
   message: string;
   subscribe?: boolean;
 }) {
-  const supabase = await createClient();
+  const supabase = createInternalSupabase();
 
   const { error } = await supabase.from('contact_submissions').insert([
     {

@@ -1,8 +1,8 @@
-import { createClient } from "@/lib/supabase/server";
+import { createInternalSupabase } from "@/lib/supabase/server";
 import { LeadsInboxClient } from "@/components/admin/LeadsInboxClient";
 
 export default async function LeadsInboxPage() {
-  const supabase = await createClient();
+  const supabase = createInternalSupabase();
   
   const { data: leads, error } = await supabase
     .from('contact_submissions')

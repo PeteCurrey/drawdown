@@ -193,20 +193,6 @@ export function MarketIntelligenceHeroCard({
 
   const [intelData, setIntelData] = useState<any>(null);
   const [intelLoading, setIntelLoading] = useState(false);
-  const [rotationIndex, setRotationIndex] = useState(0);
-
-  // Rotate feed items every 7 seconds for dynamic live updates
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setRotationIndex((prev) => prev + 1);
-    }, 7000);
-    return () => clearInterval(timer);
-  }, []);
-
-  // Reset rotation when changing instrument
-  useEffect(() => {
-    setRotationIndex(0);
-  }, [hookSlug]);
 
   // Dynamic ticking London/GMT Clock
   const [londonTime, setLondonTime] = useState<string>("");
@@ -322,20 +308,14 @@ export function MarketIntelligenceHeroCard({
       });
     }
 
-    // Apply auto-rotation ordering when 2+ items present
-    if (items.length > 1) {
-      const shift = rotationIndex % items.length;
-      const rotated = [...items.slice(shift), ...items.slice(0, shift)];
-      return rotated.slice(0, 6);
-    }
-
+    // Sort by items with time, keeping alerts at top
     return items.slice(0, 6);
   })();
 
   // Stagger animation for feed items when count changes
   useEffect(() => {
     setFeedVisible(Array(liveFeedItems.length).fill(true));
-  }, [liveFeedItems.length, rotationIndex]);
+  }, [liveFeedItems.length]);
 
   const SIGNAL_NODES: SignalNode[] = [
     {
@@ -956,7 +936,7 @@ export function MarketIntelligenceHeroCard({
           </div>
 
           {/* Feed items */}
-          <div key={`${hookSlug}-${rotationIndex}`} className="flex-1 overflow-y-auto p-3 space-y-2">
+          <div key={hookSlug} className="flex-1 overflow-y-auto p-3 space-y-2">
             {liveFeedItems.map((item, i) => {
               const isAlert    = item.type === "alert";
               const isTopAlert = isAlert && i === liveFeedItems.findIndex(f => f.type === "alert");

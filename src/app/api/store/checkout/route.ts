@@ -2,12 +2,27 @@ import { createClient } from "@/lib/supabase/server";
 import { type NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 
-const PRODUCTS: Record<string, { name: string; baseAmount: number; defaultCurrency: string; description: string }> = {
+const PRODUCTS: Record<string, { name: string; baseAmount: number; defaultCurrency: string; description: string; slug: string }> = {
   "prop-survival-kit": {
     name: "Prop Challenge Survival Kit",
-    baseAmount: 4900, // 49.00
+    baseAmount: 4900, // £49.00
     defaultCurrency: "gbp",
-    description: "Max-Drawdown Calculator Sheet, 30-Day Evaluation Checklist & The Tilt Protocol",
+    description: "The complete prop firm evaluation blueprint — rule decoder, position sizing sheets & the tilt protocol.",
+    slug: "prop-firm-survival-kit",
+  },
+  "how-to-trade": {
+    name: "How to Trade",
+    baseAmount: 7900, // £79.00
+    defaultCurrency: "gbp",
+    description: "A 100-page institutional trading framework covering market structure, sessions, execution and risk management.",
+    slug: "how-to-trade",
+  },
+  "the-edge": {
+    name: "The Edge Manual",
+    baseAmount: 5900, // £59.00
+    defaultCurrency: "gbp",
+    description: "Pete's advanced playbook — confluence trading, liquidity theory, psychological edge and proprietary setups.",
+    slug: "the-edge",
   },
 };
 
@@ -31,7 +46,7 @@ export async function POST(request: NextRequest) {
   });
 
   try {
-    const { productId, includeBump = false, region } = await request.json();
+    const { productId, includeBump = false, bumpProductId, region } = await request.json();
     const product = PRODUCTS[productId];
 
     if (!product) {
@@ -42,21 +57,21 @@ export async function POST(request: NextRequest) {
     const { data: { user } } = await supabase.auth.getUser();
     const origin = request.headers.get("origin") ?? process.env.NEXT_PUBLIC_APP_URL;
 
-    // Fetch survival kit course ID to link purchase
+    // Fetch course ID for this product
     const { data: course } = await supabase
       .from("courses")
       .select("id")
-      .eq("slug", "prop-firm-survival-kit")
+      .eq("slug", product.slug)
       .single();
     const courseId = course?.id || "";
 
     const currency = (region && REGION_CURRENCIES[region]) ? REGION_CURRENCIES[region] : product.defaultCurrency;
 
     // Build line items — one-time product
-    const lineItems = [
+    const lineItems: any[] = [
       {
         price_data: {
-          currency: currency,
+          currency,
           product_data: {
             name: product.name,
             description: product.description,
@@ -67,26 +82,44 @@ export async function POST(request: NextRequest) {
       },
     ];
 
-    // Optional bump: 30-day Edge trial at £19 / $19 etc
-    if (includeBump) {
+    // Optional order bump (another ebook at a discount)
+    if (includeBump && bumpProductId && PRODUCTS[bumpProductId]) {
+      const bump = PRODUCTS[bumpProductId];
+      // Bump discount: 25% off
+      const bumpAmount = Math.round(bump.baseAmount * 0.75);
       lineItems.push({
         price_data: {
-          currency: currency,
+          currency,
+          product_data: {
+            name: `${bump.name} (Bundle Upgrade)`,
+            description: bump.description,
+          },
+          unit_amount: bumpAmount,
+        },
+        quantity: 1,
+      });
+    } else if (includeBump && productId === 'prop-survival-kit') {
+      // Legacy bump: 30 Days Edge trial
+      lineItems.push({
+        price_data: {
+          currency,
           product_data: {
             name: "30 Days Drawdown Edge Access",
             description: "Full access to AI Trade Journal, Market Scanner & Backtester",
           },
-          unit_amount: 1900, // 19.00
+          unit_amount: 1900,
         },
         quantity: 1,
       });
     }
 
+    // Determine success/cancel URLs per product
+    const successSlug = productId === 'prop-survival-kit' ? 'prop-survival-kit' : productId;
     const session = await stripe.checkout.sessions.create({
       line_items: lineItems,
       mode: "payment",
-      success_url: `${origin}/store/prop-survival-kit/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${origin}/store/prop-survival-kit?abandoned=true`,
+      success_url: `${origin}/store/${successSlug}/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${origin}/store/${successSlug}?abandoned=true`,
       metadata: {
         product_id: productId,
         user_id: user?.id ?? "guest",
@@ -94,6 +127,7 @@ export async function POST(request: NextRequest) {
         purchase_type: "course",
         course_id: courseId,
         include_bump: String(includeBump),
+        bump_product_id: bumpProductId || "",
       },
       ...(user?.email
         ? { customer_email: user.email }

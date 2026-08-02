@@ -3,10 +3,10 @@ import { createClient } from "@/lib/supabase/server";
 
 export async function GET(
   _request: NextRequest,
-  ctx: RouteContext<"/api/journal/trade-entries/[id]">
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = await ctx.params;
+    const { id } = await params;
     const supabase = await createClient();
     const {
       data: { user },
@@ -36,10 +36,10 @@ export async function GET(
 
 export async function PUT(
   request: NextRequest,
-  ctx: RouteContext<"/api/journal/trade-entries/[id]">
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = await ctx.params;
+    const { id } = await params;
     const supabase = await createClient();
     const {
       data: { user },
@@ -75,10 +75,10 @@ export async function PUT(
 
 export async function DELETE(
   _request: NextRequest,
-  ctx: RouteContext<"/api/journal/trade-entries/[id]">
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = await ctx.params;
+    const { id } = await params;
     const supabase = await createClient();
     const {
       data: { user },

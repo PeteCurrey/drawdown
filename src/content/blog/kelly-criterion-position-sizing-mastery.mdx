@@ -1,0 +1,86 @@
+---
+title: "Kelly Criterion in Practice: Dynamic Capital Allocation for Active Traders"
+excerpt: "How to apply fractional Kelly formulas to your trading journal statistics to optimize position sizing while guarding against tail risk and drawdown spikes."
+category: "Tools"
+publishedAt: "2026-08-02T09:00:00Z"
+dateModified: "2026-08-02T09:00:00Z"
+author: "Pete Currey"
+metaTitle: "Kelly Criterion Position Sizing Guide: Mathematical Risk Optimization"
+metaDescription: "Master the Kelly Criterion formula for trading. Learn how Fractional Kelly optimizes position sizing while preventing account drawdown ruin."
+heroImage:
+  src: "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?q=80&w=800"
+  alt: "Mathematical formulas and Risk Calculator interface"
+  caption: "The Kelly Criterion calculates optimal capital allocation based on statistical edge."
+faq:
+  - question: "What is the Kelly Criterion formula in trading?"
+    answer: "The Kelly formula calculates the optimal percentage of capital to risk per trade: K% = W - [(1 - W) / R], where W is Win-Rate (as a decimal) and R is Risk-to-Reward ratio."
+  - question: "Why do traders use Fractional Kelly instead of Full Kelly?"
+    answer: "Full Kelly assumes accurate win-rate estimation and zero estimation error. In financial markets, Full Kelly leads to extreme volatility and equity drawdowns. Fractional Kelly (e.g., 25% or 50% of Full Kelly) optimizes growth while dampening drawdown depth."
+  - question: "How many trades do I need before calculating my Kelly percentage?"
+    answer: "You need a minimum statistical sample size of 50 to 100 verified trades in your journal to calculate a reliable win-rate and payoff ratio."
+relatedTool: "risk-calculator"
+relatedCourse: "risk-manager"
+---
+
+Most retail traders use static position sizing: risking **1.0%** or **£100** on every trade regardless of their statistical win-rate or payoff ratio.
+
+While fixed percentage sizing is far safer than gambling, it ignores your strategy's **mathematical expectancy**.
+
+Developed by legendary Bell Labs mathematician John Kelly Jr. and popularized by Edward Thorp in quantitative finance, the **Kelly Criterion** calculates the exact optimal percentage of capital to risk on a trade to maximize long-term logarithmic equity growth.
+
+---
+
+## 1. The Kelly Criterion Formula
+
+The classic Kelly formula is expressed as:
+
+$$K\% = W - \frac{1 - W}{R}$$
+
+Where:
+- $W$ = Historical Win-Rate (expressed as a decimal, e.g., 0.55 for 55%)
+- $R$ = Payoff Ratio ($\text{Average Win} \div \text{Average Loss}$, e.g., 1.5)
+
+```
+Example Calculation:
+- Win-Rate (W) = 55% = 0.55
+- Payoff Ratio (R) = 1.5 (Average Win £150 / Average Loss £100)
+
+Kelly Formula:
+K% = 0.55 - [(1 - 0.55) / 1.5]
+K% = 0.55 - [0.45 / 1.5]
+K% = 0.55 - 0.30 = 0.25 (25% Full Kelly)
+```
+
+In theory, risking **25%** per trade optimizes wealth growth. In real financial markets, however, **Full Kelly is extremely dangerous**.
+
+---
+
+## 2. Why Traders Use Fractional Kelly
+
+Full Kelly assumes that your win-rate and payoff ratio are perfectly fixed over time. Because financial market regimes shift, risking 25% on a streak of 4 losses would reduce your account by over **68%**.
+
+Quantitative funds deploy **Fractional Kelly**:
+
+```
+┌─────────────────┬───────────────────┬───────────────────┐
+│ Model           │ Risk Per Trade    │ Equity Growth /   │
+│                 │                   │ Volatility Profile│
+├─────────────────┼───────────────────┼───────────────────┤
+│ Full Kelly      │ 25.0%             │ Aggressive /      │
+│                 │                   │ Violent Drawdown  │
+│ Half Kelly      │ 12.5%             │ High Growth /     │
+│                 │                   │ Moderate Drawdown │
+│ Quarter Kelly   │ 6.25%             │ Optimal Real-World│
+│ (25% Kelly)     │                   │ Growth & Stability│
+└─────────────────┴───────────────────┴───────────────────┘
+```
+
+Using **Quarter Kelly (0.25 × Full Kelly)** captures 75% of maximum theoretical growth while reducing maximum drawdown depth by over 50%.
+
+---
+
+## 3. How to Implement Kelly Sizing in 3 Steps
+
+1. **Extract Verified Statistics**: Use your **AI Trade Journal** to calculate your true win-rate ($W$) and average payoff ratio ($R$) over at least 50 trades.
+2. **Calculate Your Full Kelly**: Plug your metrics into the Kelly formula.
+3. **Apply a 25% Fractional Cap**: Multiply your Kelly percentage by **0.25** to determine your maximum real-world position sizing cap.

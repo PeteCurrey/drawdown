@@ -1,0 +1,89 @@
+---
+title: "Fixed % vs. Fixed Monetary Risk: Which Sizing Model Prevents Ruin?"
+excerpt: "Evaluating dynamic percentage risk (1% of floating balance) vs. fixed cash risk (£100 per trade), compounding curves, and preserving equity during consecutive losses."
+category: "Risk Management"
+publishedAt: "2026-08-02T09:00:00Z"
+dateModified: "2026-08-02T09:00:00Z"
+author: "Pete Currey"
+metaTitle: "Fixed % vs. Fixed Monetary Risk: Sizing Model Comparison"
+metaDescription: "Compare Fixed Percentage Risk (1% model) vs Fixed Monetary Cash Risk (£100 per trade). Learn compounding curves and drawdown protection."
+heroImage:
+  src: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=800"
+  alt: "Risk management calculations and financial spreadsheet"
+  caption: "Choosing between percentage and fixed cash risk dictates your equity curve behavior."
+faq:
+  - question: "What is Fixed Percentage Risk?"
+    answer: "Fixed Percentage Risk dynamically scales your monetary risk per trade as a set percentage (e.g., 1.0%) of your current floating equity balance."
+  - question: "What is Fixed Monetary Cash Risk?"
+    answer: "Fixed Monetary Cash Risk keeps your risk at a constant cash amount (e.g., £100 per trade) regardless of equity fluctuations."
+  - question: "Which risk sizing model is safer during a losing streak?"
+    answer: "Fixed Percentage Risk is mathematically safer during a losing streak because as your equity shrinks, your monetary risk per trade automatically shrinks, extending your survival buffer."
+relatedTool: "risk-calculator"
+relatedCourse: "risk-manager"
+---
+
+When setting up a risk management playbook, active traders must choose between two foundational position sizing models:
+
+1. **Fixed Percentage Risk (Dynamic % Sizing)**: Risking a constant percentage (e.g., 1.0%) of floating account equity on every trade.
+2. **Fixed Monetary Risk (Static Cash Sizing)**: Risking a fixed cash amount (e.g., £100) on every trade regardless of account fluctuations.
+
+While both approaches eliminate wild over-leveraging, they produce drastically different equity curve behaviors during winning and losing streaks. In this comparative study, we analyze which model best guards against account ruin.
+
+---
+
+## 1. Fixed Percentage Risk (1.0% Model)
+
+Under Fixed Percentage Sizing, your monetary risk per trade recalculates dynamically before every trade entry:
+
+$$\text{Monetary Risk (£)} = \text{Current Floating Equity (£)} \times \text{Risk Percentage (1.0\%)}$$
+
+```
+Scenario: Starting Equity £10,000 | 5 Consecutive Losses (1.0% Risk)
+Trade 1: Risk 1% of £10,000 = £100.00 -> Equity £9,900.00
+Trade 2: Risk 1% of £9,900  = £99.00   -> Equity £9,801.00
+Trade 3: Risk 1% of £9,801  = £98.01   -> Equity £9,702.99
+Trade 4: Risk 1% of £9,703  = £97.03   -> Equity £9,605.96
+Trade 5: Risk 1% of £9,606  = £96.06   -> Equity £9,509.90
+
+Total Drawdown after 5 Losses = -4.90% (Not -5.00%)
+```
+
+### Key Advantage: Automatic Loss De-escalation
+Because your monetary risk drops as your account balance shrinks, **Fixed Percentage Sizing makes it mathematically impossible to reach zero**. It automatically slows down your loss rate during severe drawdowns.
+
+---
+
+## 2. Fixed Monetary Cash Risk (£100 Model)
+
+Under Fixed Cash Sizing, you risk a static £100 per trade regardless of whether your balance is £10,000 or £8,500.
+
+```
+Scenario: Starting Equity £10,000 | 5 Consecutive Losses (£100 Fixed Risk)
+Trade 1: Risk £100 -> Equity £9,900.00
+Trade 2: Risk £100 -> Equity £9,800.00
+Trade 3: Risk £100 -> Equity £9,700.00
+Trade 4: Risk £100 -> Equity £9,600.00
+Trade 5: Risk £100 -> Equity £9,500.00
+
+Total Drawdown after 5 Losses = -5.00%
+```
+
+### Key Advantage: Straightforward Recovery & Consistency
+During a recovery phase after a drawdown, Fixed Cash Sizing makes it easier to regain lost equity because your win size does not shrink after losses.
+
+---
+
+## Head-to-Head Comparison Summary
+
+| Criteria | Fixed Percentage Risk | Fixed Monetary Cash Risk |
+| :--- | :--- | :--- |
+| **Drawdown Protection** | **Superior** (Dampens loss speed) | Moderate |
+| **Compounding Growth** | **Exponential** (Scales up in wins) | Linear |
+| **Calculation Speed** | Requires Position Calculator | Fast / Instant |
+| **Recommended Account Size** | Any size (> £2,000) | Small Accounts (< £2,000) |
+
+---
+
+## Final Recommendation
+
+For accounts over **£2,000**, deploy **Fixed Percentage Risk (0.5% to 1.0%)** to harness compounding gains while maintaining an automatic safety net against drawdown ruin.

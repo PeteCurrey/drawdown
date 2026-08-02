@@ -14,6 +14,11 @@ const nextConfig: NextConfig = {
   },
   async redirects() {
     return [
+      {
+        source: "/register",
+        destination: "/signup",
+        permanent: true,
+      },
       // ─── Dashboard tool renames (permanent — old URLs redirect to new) ──
       {
         source: "/dashboard/tools/risk-calculator",

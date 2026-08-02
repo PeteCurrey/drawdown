@@ -1,0 +1,84 @@
+---
+title: "TradingView Webhooks 101: Connecting Technical Alerts to Execution Engines"
+excerpt: "Technical guide on setting up custom TradingView alerts, JSON payloads, webhooks, and automated trade log ingestion into journals and bots."
+category: "Tools"
+publishedAt: "2026-08-02T09:00:00Z"
+dateModified: "2026-08-02T09:00:00Z"
+author: "Pete Currey"
+metaTitle: "TradingView Webhook Automation Guide: Alerts & JSON Payloads"
+metaDescription: "Learn how to connect TradingView webhook alerts to trading bots, Discord, and AI trade journals using custom JSON payloads."
+heroImage:
+  src: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800"
+  alt: "TradingView chart interface with code snippets and webhooks"
+  caption: "Webhooks bridge TradingView technical alerts directly to external execution servers."
+faq:
+  - question: "What is a TradingView Webhook?"
+    answer: "A TradingView Webhook is an automated HTTP POST request sent from TradingView to a specified URL whenever a chart alert condition is triggered."
+  - question: "Do I need a paid TradingView plan to use webhooks?"
+    answer: "Yes. TradingView requires an active Essential, Plus, or Premium plan to enable Webhook notification URLs."
+  - question: "Can I use webhooks to log trades into my AI Trade Journal automatically?"
+    answer: "Yes. Webhooks can send execution data (ticker, price, order type, time) directly to your Drawdown AI Journal endpoint."
+relatedTool: "algo-builder"
+relatedCourse: "deploy-your-algo"
+---
+
+TradingView is one of the most powerful charting platforms in the world. However, manually sitting in front of charts waiting for price to touch an alert line often leads to delayed execution or missed trades.
+
+With **TradingView Webhooks**, you can connect your technical chart alerts directly to external trading systems, automated trade journals, or notification channels in milliseconds.
+
+---
+
+## 1. How TradingView Webhooks Work
+
+A Webhook acts as an instant digital messenger between your TradingView chart and your destination server:
+
+```
+[TradingView Chart Alert Fired]
+               │
+               ▼  (HTTP POST Request with JSON Payload)
+┌───────────────────────────────────────────┐
+│ Webhook URL: https://drawdown.trading/api │
+└──────────────────────┬────────────────────┘
+                       │
+                       ▼
+┌───────────────────────────────────────────┐
+│ Server Action:                            │
+│ 1. Log Trade to AI Journal                │
+│ 2. Calculate Position Size                │
+│ 3. Send Push Notification to Mobile App  │
+└───────────────────────────────────────────┘
+```
+
+---
+
+## 2. Setting Up a Webhook Payload in TradingView
+
+### Step 1: Create Your Chart Alert
+In TradingView, right-click on your key support/resistance line or indicator condition and select **Add Alert**.
+
+### Step 2: Configure the Webhook URL
+Under the **Notifications** tab:
+1. Check the box for **Webhook URL**.
+2. Enter your endpoint destination (e.g., `https://drawdown.trading/api/webhooks/journal`).
+
+### Step 3: Format the JSON Payload
+In the **Message** box, enter a structured JSON string containing dynamic TradingView variables:
+
+```json
+{
+  "ticker": "{{ticker}}",
+  "action": "BUY",
+  "price": "{{close}}",
+  "time": "{{timenow}}",
+  "timeframe": "{{interval}}",
+  "secret_key": "YOUR_SECURE_API_TOKEN"
+}
+```
+
+---
+
+## 3. Best Practices for Reliable Automation
+
+1. **Always Use Security Tokens**: Include an API key or secret token inside your JSON payload to prevent unauthorized external requests.
+2. **Handle Re-triggers**: Set alert frequency to *Once Per Bar Close* to prevent multiple duplicate webhooks firing during high volatility.
+3. **Test with Webhook Testers**: Use services like `webhook.site` to inspect your raw JSON payload before connecting to live account execution.

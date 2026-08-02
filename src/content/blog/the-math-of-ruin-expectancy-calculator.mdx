@@ -1,0 +1,96 @@
+---
+title: "The Mathematics of Account Ruin: Win-Rate vs. Expectancy Rules"
+excerpt: "Why a 40% win-rate with a 1:2.5 Risk-to-Reward ratio outperforms an 80% win-rate with a 1:0.5 R:R, with mathematical expectancy formulas."
+category: "Risk Management"
+publishedAt: "2026-08-02T09:00:00Z"
+dateModified: "2026-08-02T09:00:00Z"
+author: "Pete Currey"
+metaTitle: "Mathematics of Account Ruin & Expectancy: Risk Guide"
+metaDescription: "Learn the mathematical formula for trading expectancy and Risk of Ruin. Understand why win-rate alone does not dictate profitability."
+heroImage:
+  src: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=800"
+  alt: "Math formulas and statistical trade probability charts"
+  caption: "Mathematical expectancy proves that win-rate alone does not determine trading success."
+faq:
+  - question: "What is Expectancy in trading?"
+    answer: "Expectancy is the average amount of money you expect to win (or lose) per dollar or pound risked over a large sample of trades."
+  - question: "What is the Expectancy formula?"
+    answer: "Expectancy = (Win Rate × Average Win) - (Loss Rate × Average Loss). If Expectancy is positive, your system has a statistical edge."
+  - question: "Can a system with a 35% win-rate be profitable?"
+    answer: "Yes. A 35% win-rate system with a 1:3 Risk-to-Reward ratio has a positive mathematical expectancy: (0.35 × 3) - (0.65 × 1) = +0.40 R per trade."
+relatedTool: "risk-of-ruin"
+relatedCourse: "risk-manager"
+---
+
+Retail traders are obsessed with **Win-Rate**. Social media gurus market systems claiming "90% Win-Rate!" to attract beginners.
+
+However, in professional quantitative finance, **win-rate in isolation is a meaningless statistic**.
+
+A trader with a 90% win-rate who risks £500 to make £50 will lose their entire account the moment a string of 2 normal losses occurs. Conversely, a systematic trader with a **40% win-rate** who risks £100 to make £250 will generate compounding wealth over time.
+
+In this lesson, we break down the **Mathematics of Account Expectancy and Risk of Ruin**.
+
+---
+
+## 1. The Mathematical Expectancy Formula
+
+Statistical expectancy determines your long-term edge per unit of risk:
+
+$$E = (W \times R) - (L \times 1)$$
+
+Where:
+- $W$ = Win Rate (decimal, e.g. 0.40)
+- $R$ = Risk-to-Reward Ratio ($\text{Average Win} \div \text{Average Loss}$)
+- $L$ = Loss Rate ($1 - W$, e.g. 0.60)
+
+---
+
+## 2. Comparing Two Systems Head-to-Head
+
+Let's compare two different trading systems over a sample size of **100 trades** at **£100 risk per trade**:
+
+### System A (The Retail "High Win-Rate" Trap)
+- Win-Rate ($W$): 80% (80 Wins)
+- Risk-to-Reward ($R$): 1 : 0.35 (Win £35, Lose £100)
+
+$$\text{Expectancy} = (0.80 \times £35) - (0.20 \times £100) = £28 - £20 = +\mathbf{£8.00 \text{ per trade}}$$
+
+### System B (The Institutional Asymmetric Risk Model)
+- Win-Rate ($W$): 40% (40 Wins)
+- Risk-to-Reward ($R$): 1 : 2.50 (Win £250, Lose £100)
+
+$$\text{Expectancy} = (0.40 \times £250) - (0.60 \times £100) = £100 - £60 = +\mathbf{£40.00 \text{ per trade}}$$
+
+```
+Result over 100 Trades:
+- System A Total Net Profit: £800.00
+- System B Total Net Profit: £4,000.00  (5x Higher Profit despite 40% Win-Rate!)
+```
+
+---
+
+## 3. The Risk of Ruin Table
+
+Risk of Ruin measures the probability that your account balance will reach zero (or hit a non-recoverable threshold) based on your risk per trade and win-rate:
+
+```
+┌───────────┬─────────────┬──────────────┬──────────────┐
+│ Win Rate  │ R:R Ratio   │ 2.0% Risk    │ 1.0% Risk    │
+│           │             │ Ruin Prob.   │ Ruin Prob.   │
+├───────────┼─────────────┼──────────────┼──────────────┤
+│ 40%       │ 1 : 1.5     │ 14.3%        │ 1.2%         │
+│ 40%       │ 1 : 2.0     │ 3.1%         │ 0.1%         │
+│ 50%       │ 1 : 1.5     │ 0.8%         │ 0.0%         │
+│ 50%       │ 1 : 2.0     │ 0.0%         │ 0.0%         │
+└───────────┴─────────────┴──────────────┴──────────────┘
+```
+
+Notice that simply **reducing your risk per trade from 2.0% to 1.0%** reduces your Risk of Ruin from **14.3% to 1.2%** on a 40% win-rate strategy!
+
+---
+
+## Core Rules for Positive Expectancy
+
+1. **Never take trades with a Risk-to-Reward ratio lower than 1:1.5.**
+2. **Focus on maximizing Average Win size rather than fighting for high win-rates.**
+3. **Cap risk at 1.0% per trade to guarantee near-zero mathematical Risk of Ruin.**

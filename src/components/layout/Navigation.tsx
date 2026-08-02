@@ -162,6 +162,7 @@ export function Navigation() {
     normalizedPathname === "/blog/why-trading-gurus-use-demo-accounts" ||
     normalizedPathname === "/blog/trading-education-business-model" ||
     normalizedPathname === "/store/prop-survival-kit" ||
+    normalizedPathname.startsWith("/courses/deploy-your-algo") ||
     normalizedPathname === "/compare" ||
     normalizedPathname === "/prop-firms/compare" ||
     normalizedPathname === "/brokers/all" ||

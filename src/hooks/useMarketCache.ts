@@ -64,6 +64,15 @@ export function useMarketCache(slugs: string[]): Record<string, CachedMarketData
 
       if (error) {
         console.error("useMarketCache Error:", error);
+        // Mark all slugs as failed so the UI can render an error state instead
+        // of leaving them at loading:true forever (the invisible-outage trap).
+        setData(prev => {
+          const next = { ...prev };
+          slugs.forEach(s => {
+            if (next[s]) next[s] = { ...next[s], loading: false, error: true };
+          });
+          return next;
+        });
         return;
       }
 
@@ -100,6 +109,14 @@ export function useMarketCache(slugs: string[]): Record<string, CachedMarketData
       }
     } catch (err) {
       console.error("useMarketCache Catch Error:", err);
+      // Same as the error branch: mark slugs as failed rather than hanging.
+      setData(prev => {
+        const next = { ...prev };
+        slugs.forEach(s => {
+          if (next[s]) next[s] = { ...next[s], loading: false, error: true };
+        });
+        return next;
+      });
     }
   }, [key]);
 

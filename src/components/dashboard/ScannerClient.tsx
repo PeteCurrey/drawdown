@@ -187,6 +187,29 @@ function SkeletonCard() {
   );
 }
 
+/** Shown when useMarketCache sets error:true — prevents the infinite-skeleton trap. */
+function ErrorCard({ label, onRetry }: { label: string; onRetry?: () => void }) {
+  return (
+    <div className="bg-background-surface border border-red-500/30 rounded-xl p-5 flex flex-col gap-3">
+      <div className="flex items-center gap-2">
+        <span className="inline-block w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />
+        <p className="font-mono text-xs font-bold text-text-primary uppercase tracking-wide">{label}</p>
+      </div>
+      <p className="font-mono text-[10px] text-text-tertiary leading-relaxed">
+        Live prices temporarily unavailable — retrying every 30 s.
+      </p>
+      {onRetry && (
+        <button
+          onClick={onRetry}
+          className="self-start text-[9px] font-mono uppercase tracking-widest text-accent border border-accent/40 px-3 py-1.5 hover:bg-accent/10 transition-colors"
+        >
+          Refresh now
+        </button>
+      )}
+    </div>
+  );
+}
+
 // ─── Market Status Bar ────────────────────────────────────────────────────────
 
 function MarketStatusBar({ lastUpdated }: { lastUpdated: Date | null }) {
@@ -411,6 +434,7 @@ function FundamentalsTab({ inst, priceData }: { inst: ScannerInstrument; priceDa
   const [newsItems, setNewsItems] = useState<Array<{ headline: string; source: string; sentiment: string; url: string; score: number }>>([]);
   const [loadingEvents, setLoadingEvents] = useState(true);
   const [loadingNews, setLoadingNews] = useState(true);
+  const [newsError, setNewsError] = useState(false);
   const [retailData, setRetailData] = useState<{ longPct: number; shortPct: number; signal: string } | null>(null);
   const retail = retailData ?? (RETAIL_MOCK[inst.scannerSlug] ?? { longPct: 50, shortPct: 50 });
   const vixDxy = useMarketCache(["VIX", "DXY"]);
@@ -424,12 +448,14 @@ function FundamentalsTab({ inst, priceData }: { inst: ScannerInstrument; priceDa
       .finally(() => setLoadingEvents(false));
 
     // Real news sentiment via server-side route (API key protected)
+    setNewsError(false);
     fetch(`/api/intelligence/news-sentiment/${inst.scannerSlug}`)
       .then(r => r.json()).then(d => setNewsItems(d.articles?.slice(0, 5) ?? []))
-      .catch(() => setNewsItems([]))
+      .catch(() => { setNewsItems([]); setNewsError(true); })
       .finally(() => setLoadingNews(false));
 
-    // Real retail sentiment (MyFXBook-based, server-side)
+    // Real retail sentiment (MyFXBook-based, server-side).
+    // On failure, retailData stays null and we fall through to RETAIL_MOCK — intentional, not a bug.
     fetch(`/api/intelligence/retail-sentiment/${inst.scannerSlug}`)
       .then(r => r.json()).then(d => {
         if (d.longPct !== undefined) {
@@ -439,7 +465,10 @@ function FundamentalsTab({ inst, priceData }: { inst: ScannerInstrument; priceDa
             signal: d.signal ?? "NEUTRAL",
           });
         }
-      }).catch(() => {});
+      }).catch(() => {
+        // Intentional: RETAIL_MOCK provides reasonable fallback data when the sentiment
+        // API is unavailable. This is lower-stakes than price data; no alert needed.
+      });
   }, [inst.scannerSlug]);
 
   const vix = vixDxy["VIX"];
@@ -612,6 +641,8 @@ function FundamentalsTab({ inst, priceData }: { inst: ScannerInstrument; priceDa
         </p>
         {loadingNews ? (
           <div className="space-y-2">{[0,1,2].map(i => <div key={i} className="h-10 bg-background-elevated rounded animate-pulse" />)}</div>
+        ) : newsError ? (
+          <p className="text-[10px] font-mono text-text-tertiary italic">News feed temporarily unavailable.</p>
         ) : newsItems.length === 0 ? (
           <p className="text-[10px] font-mono text-text-tertiary">No recent news found for {inst.displayPair}.</p>
         ) : (
@@ -1324,6 +1355,14 @@ function InstrumentCard({
   const changePct = data.change_pct ?? 0;
   const isUp = changePct >= 0;
 
+  // ── Staleness detection ──────────────────────────────────────────────────────
+  // Flag the card if fetched_at is older than 2x the expected cron interval (1hr).
+  // The user still sees the last-known price but gets an amber DELAYED badge.
+  const STALE_THRESHOLD_MS = 60 * 60 * 1000; // 1 hour
+  const isStale = data.fetched_at
+    ? Date.now() - new Date(data.fetched_at).getTime() > STALE_THRESHOLD_MS
+    : false;
+
   const sessionColor = session === "CLOSED" ? "text-text-tertiary" :
     session === "LONDON" ? "text-blue-400" : session === "NEW YORK" ? "text-profit" :
     session === "ASIA" ? "text-violet-400" : session === "24/7" ? "text-accent" : "text-text-secondary";
@@ -1378,6 +1417,11 @@ function InstrumentCard({
             </div>
           </div>
           <div className="flex items-center gap-1.5 shrink-0">
+            {isStale && (
+              <span className="text-[7px] font-mono font-bold uppercase tracking-widest px-1.5 py-0.5 bg-amber-500/10 border border-amber-500/30 text-amber-400 rounded">
+                DELAYED
+              </span>
+            )}
             <div className={cn("border px-2 py-0.5 text-[7px] font-bold font-mono uppercase rounded", CONSENSUS_STYLE[tech?.consensus])}>
               {tech?.consensus}
             </div>
@@ -2440,9 +2484,15 @@ function MarketScannerGrid() {
         <div className={cn(viewMode === "grid" ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" : "space-y-2")}>
         {sorted.map(inst => {
           const d = priceData[inst.scannerSlug];
-          return d?.loading ? (
-            <SkeletonCard key={inst.scannerSlug} />
-          ) : (
+          if (d?.loading) return <SkeletonCard key={inst.scannerSlug} />;
+          if (d?.error) return (
+            <ErrorCard
+              key={inst.scannerSlug}
+              label={inst.displayPair}
+              onRetry={() => window.location.reload()}
+            />
+          );
+          return (
             <InstrumentCard key={inst.scannerSlug} inst={inst} data={d}
               watchlist={watchlist} onToggleWatch={toggleWatch}
               alerts={allAlerts} onToggleAlerts={s => setAlertsSlug(s === alertsSlug ? null : s)}

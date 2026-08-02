@@ -6,6 +6,40 @@ import { calculateBiasScore } from "@/lib/biasEngine";
 export const dynamic = "force-dynamic";
 export const maxDuration = 300; // Vercel max execution time (up to 5 mins on pro)
 
+/** Send a plain-text admin alert via Resend when the price update success rate drops below threshold. */
+async function sendLowSuccessAlert(updated: number, total: number, sourceStats: Record<string, number>) {
+  const resendKey = process.env.RESEND_API_KEY;
+  const adminEmail = process.env.ADMIN_EMAIL;
+  if (!resendKey || !adminEmail) return;
+
+  const pct = Math.round((updated / total) * 100);
+  const body = [
+    `update-prices cron: only ${updated}/${total} symbols updated (${pct}%).`,
+    `Source breakdown: ${Object.entries(sourceStats).map(([k, v]) => `${k}=${v}`).join(", ")}.`,
+    `Timestamp: ${new Date().toISOString()}`,
+    ``,
+    `Action required: check Twelve Data credits, Finnhub tier, and Yahoo endpoint availability.`,
+  ].join("\n");
+
+  try {
+    await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${resendKey}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        from: "alerts@drawdown.io",
+        to: [adminEmail],
+        subject: `⚠️ Market Scanner: low price update rate (${pct}% of symbols)`,
+        text: body,
+      }),
+    });
+  } catch (e) {
+    console.error("[cron] Failed to send low-success alert:", e);
+  }
+}
+
 const TD = "https://api.twelvedata.com";
 const FINNHUB = "https://finnhub.io/api/v1";
 
@@ -28,6 +62,8 @@ function getKeys() {
   if (process.env.NEXT_PUBLIC_TWELVE_DATA_KEY) tdKeys.push(...process.env.NEXT_PUBLIC_TWELVE_DATA_KEY.split(",").map(k => k.trim()).filter(k => k.length > 5));
   
   const fhKeys: string[] = [];
+  // Support both FINNHUB_API_KEY (env.local naming) and FINNHUB_KEY (legacy) to avoid silent fallback failure
+  if (process.env.FINNHUB_API_KEY) fhKeys.push(process.env.FINNHUB_API_KEY.trim());
   if (process.env.FINNHUB_KEY) fhKeys.push(process.env.FINNHUB_KEY.trim());
   
   return { tdKeys: Array.from(new Set(tdKeys)), fhKeys: Array.from(new Set(fhKeys)) };
@@ -75,12 +111,28 @@ function calculateEMA(closes: number[], periods: number): number | null {
 }
 
 export async function GET(req: Request) {
+  // Auth guard — must be a Vercel cron call or carry the cron secret.
+  // Without this the endpoint is publicly invocable and could be abused.
+  const authHeader = req.headers.get("authorization");
+  const isVercelCron = req.headers.get("x-vercel-cron") === "1";
+  const cronSecret = process.env.CRON_SECRET;
+  const isAuthorized =
+    isVercelCron ||
+    (cronSecret && authHeader === `Bearer ${cronSecret}`) ||
+    process.env.NODE_ENV === "development";
+
+  if (!isAuthorized) {
+    return new NextResponse("Unauthorized", { status: 401 });
+  }
+
   const { tdKeys, fhKeys } = getKeys();
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
   const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
   const supabase = createClient(supabaseUrl, supabaseKey);
 
   let activeTdKeyIdx = 0;
+  // Track which data sources contributed to successful updates
+  const sourceStats: Record<string, number> = { twelvedata: 0, finnhub: 0, yahoo: 0 };
 
   async function fetchTD(urlWithoutKey: string) {
     while (activeTdKeyIdx < tdKeys.length) {
@@ -220,6 +272,9 @@ export async function GET(req: Request) {
           supabase.from("price_cache").upsert(payloadHook, { onConflict: "symbol" })
         ]);
         results.push(payload);
+        // Track source for monitoring
+        if (source && sourceStats[source] !== undefined) sourceStats[source]++;
+        else if (source) sourceStats[source] = 1;
       }
     } catch (e) {
       console.error(`[cron] Processing failed for ${symbol}:`, e);
@@ -229,5 +284,20 @@ export async function GET(req: Request) {
     await new Promise(r => setTimeout(r, 100));
   }
 
-  return NextResponse.json({ success: true, updated: results.length, results });
+  // Alert if success rate is below 80% — fires email to ADMIN_EMAIL via Resend
+  const SUCCESS_THRESHOLD = 0.8;
+  if (results.length < SYMBOLS.length * SUCCESS_THRESHOLD) {
+    console.warn(`[cron] Low success rate: ${results.length}/${SYMBOLS.length} symbols updated. Sending alert.`);
+    await sendLowSuccessAlert(results.length, SYMBOLS.length, sourceStats);
+  }
+
+  console.log(`[cron] update-prices complete: ${results.length}/${SYMBOLS.length} updated. Sources:`, sourceStats);
+
+  return NextResponse.json({
+    success: true,
+    updated: results.length,
+    total: SYMBOLS.length,
+    source_stats: sourceStats,
+    results,
+  });
 }

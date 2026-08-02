@@ -494,9 +494,12 @@ export function IntelligenceHubClient({
                     const sym = trade.symbol;
                     const prof = companyProfiles[sym];
                     const buy = isBuy(trade.transactionCode, trade.change);
+                    // trade.id is an SEC accession number (e.g. "0001193125-26-326284")
+                    // Use EDGAR full-text search to find the exact filing by accession number.
+                    // Fallback: company's Form 4 page by ticker.
                     const secUrl = trade.id
-                      ? `https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&filenum=${trade.id}&type=4&dateb=&owner=include&count=10`
-                      : null;
+                      ? `https://efts.sec.gov/LATEST/search-index?q=%22${trade.id}%22&forms=4`
+                      : `https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=${sym}&type=4&dateb=&owner=include&count=40`;
                     return (
                       <tr
                         key={`${sym}-${trade.id || i}-${trade.name}-${i}`}
@@ -569,7 +572,7 @@ export function IntelligenceHubClient({
                               rel="noopener noreferrer"
                               className="text-[9px] font-mono text-[#1e40af] hover:underline flex items-center gap-0.5 justify-end mt-0.5"
                             >
-                              SEC <ExternalLink className="w-2.5 h-2.5" />
+                              EDGAR <ExternalLink className="w-2.5 h-2.5" />
                             </a>
                           )}
                         </td>

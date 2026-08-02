@@ -39,12 +39,23 @@ interface SignalData {
   coinglass_data: any;
 }
 
+interface ClosedSignal {
+  id: string;
+  instrument: string;
+  bias: string;
+  dcs_score: number | null;
+  rr_ratio: number | null;
+  created_at: string;
+  expires_at: string;
+}
+
 interface SignalCentreDashboardClientProps {
   initialSignals: SignalData[];
   initialSavedIds: string[];
   isSubscriber: boolean;
   userId: string;
   userTier: string;
+  closedSignals: ClosedSignal[];
 }
 
 const TIER_WEIGHT: Record<string, number> = { free: 0, 'signal-centre': 1, foundation: 1, edge: 2, floor: 3 };
@@ -143,6 +154,7 @@ function SignalCentreInner({
   isSubscriber,
   userId,
   userTier,
+  closedSignals,
 }: SignalCentreDashboardClientProps) {
   const { addToast } = useToast();
   const [signals, setSignals] = useState<SignalData[]>(initialSignals);
@@ -314,13 +326,17 @@ function SignalCentreInner({
     return `${Math.floor(diffHours / 24)}d ago`;
   };
 
-  const closedSignalsArchive = [
-    { instrument: "BTC/USD", date: "2026-06-22", bias: "BULLISH", dcs: 92, outcome: "Target 2 Hit", pips: "+2.0 R:R", success: true },
-    { instrument: "GBP/USD", date: "2026-06-21", bias: "BEARISH", dcs: 84, outcome: "Target 1 Hit", pips: "+1.0 R:R", success: true },
-    { instrument: "EUR/USD", date: "2026-06-21", bias: "BULLISH", dcs: 78, outcome: "Stopped Out", pips: "-1.0 R:R", success: false },
-    { instrument: "XAU/USD", date: "2026-06-20", bias: "BULLISH", dcs: 95, outcome: "Target 3 Hit", pips: "+3.0 R:R", success: true },
-    { instrument: "SPX500", date: "2026-06-19", bias: "BULLISH", dcs: 88, outcome: "Target 2 Hit", pips: "+2.0 R:R", success: true },
-  ];
+  // ── Real closed-signal archive stats (computed from DB data) ──────────────
+  // Signals without an explicit outcome field — we use rr_ratio as a proxy:
+  //   rr_ratio >= 1.5  → treated as "hit" (closed in profit)
+  //   rr_ratio > 0 & < 1.5 → partial / TP1
+  //   rr_ratio <= 0 or null → stopped out
+  const totalClosed = closedSignals.length;
+  const hits = closedSignals.filter(s => (s.rr_ratio ?? 0) >= 1.5).length;
+  const winRate = totalClosed > 0 ? ((hits / totalClosed) * 100).toFixed(1) : "—";
+  const avgRR = totalClosed > 0
+    ? (closedSignals.reduce((sum, s) => sum + (s.rr_ratio ?? 0), 0) / totalClosed).toFixed(1)
+    : "—";
 
   const currentTierConfig = TIER_CONFIG[userTier as keyof typeof TIER_CONFIG] ?? TIER_CONFIG.free;
   const CurrentTierIcon = currentTierConfig.icon;
@@ -980,10 +996,10 @@ function SignalCentreInner({
         {/* Stats Grid */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {[
-            { label: "Win Rate", value: "68.4%", icon: Percent, color: "text-emerald-600", bg: "bg-emerald-50", border: "border-emerald-200" },
-            { label: "Total Closed", value: "324", icon: Activity, color: "text-gray-700", bg: "bg-gray-50", border: "border-gray-200" },
-            { label: "Avg R:R", value: "1 : 2.3", icon: BarChart3, color: "text-violet-600", bg: "bg-violet-50", border: "border-violet-200" },
-            { label: "Net Gains", value: "+14.2%", icon: TrendingUp, color: "text-emerald-600", bg: "bg-emerald-50", border: "border-emerald-200" },
+            { label: "Win Rate", value: totalClosed > 0 ? `${winRate}%` : "—", icon: Percent, color: "text-emerald-600", bg: "bg-emerald-50", border: "border-emerald-200" },
+            { label: "Total Closed", value: totalClosed > 0 ? totalClosed.toString() : "—", icon: Activity, color: "text-gray-700", bg: "bg-gray-50", border: "border-gray-200" },
+            { label: "Avg R:R", value: totalClosed > 0 ? `1 : ${avgRR}` : "—", icon: BarChart3, color: "text-violet-600", bg: "bg-violet-50", border: "border-violet-200" },
+            { label: "High Conv. (DCS≥85)", value: closedSignals.filter(s => (s.dcs_score ?? 0) >= 85).length.toString(), icon: TrendingUp, color: "text-emerald-600", bg: "bg-emerald-50", border: "border-emerald-200" },
           ].map(stat => {
             const Icon = stat.icon;
             return (
@@ -998,46 +1014,56 @@ function SignalCentreInner({
           })}
         </div>
 
-        {/* Archive Table */}
-        <div className="overflow-x-auto rounded-xl border border-gray-200">
-          <table className="w-full text-left font-mono text-xs border-collapse">
-            <thead className="bg-gray-50 border-b border-gray-200">
-              <tr>
-                {["Closed Setup", "Date", "DCS", "Bias", "Outcome", "R:R Net"].map(h => (
-                  <th key={h} className="px-4 py-3 text-[9px] font-bold text-gray-500 uppercase tracking-wider">{h}</th>
-                ))}
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-100 bg-white">
-              {closedSignalsArchive.map((item, idx) => (
-                <tr key={idx} className="hover:bg-gray-50 transition-colors">
-                  <td className="px-4 py-3 font-bold text-gray-900">{item.instrument}</td>
-                  <td className="px-4 py-3 text-gray-400">{item.date}</td>
-                  <td className="px-4 py-3 text-gray-600">{item.dcs}%</td>
-                  <td className="px-4 py-3">
-                    <span className={cn(
-                      "px-1.5 py-0.5 rounded text-[9px] font-bold border",
-                      item.bias === "BULLISH"
-                        ? "bg-emerald-50 border-emerald-200 text-emerald-700"
-                        : "bg-red-50 border-red-200 text-red-700"
-                    )}>
-                      {item.bias}
-                    </span>
-                  </td>
-                  <td className="px-4 py-3">
-                    <span className="flex items-center gap-1.5 text-gray-600">
-                      <span className={cn("w-1.5 h-1.5 rounded-full shrink-0", item.success ? "bg-emerald-500" : "bg-red-500")} />
-                      {item.outcome}
-                    </span>
-                  </td>
-                  <td className={cn("px-4 py-3 text-right font-bold", item.success ? "text-emerald-600" : "text-red-500")}>
-                    {item.pips}
-                  </td>
+        {/* Archive Table — real closed signals from DB */}
+        {closedSignals.length === 0 ? (
+          <div className="rounded-xl border border-gray-200 p-10 text-center space-y-2">
+            <Activity className="w-6 h-6 text-gray-200 mx-auto" />
+            <p className="text-xs font-mono text-gray-400 uppercase tracking-widest">No closed signals yet</p>
+            <p className="text-[10px] text-gray-300 font-mono">Signals appear here after they expire or are manually closed.</p>
+          </div>
+        ) : (
+          <div className="overflow-x-auto rounded-xl border border-gray-200">
+            <table className="w-full text-left font-mono text-xs border-collapse">
+              <thead className="bg-gray-50 border-b border-gray-200">
+                <tr>
+                  {["Closed Setup", "Closed", "DCS", "Bias", "R:R"].map(h => (
+                    <th key={h} className="px-4 py-3 text-[9px] font-bold text-gray-500 uppercase tracking-wider">{h}</th>
+                  ))}
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+              </thead>
+              <tbody className="divide-y divide-gray-100 bg-white">
+                {closedSignals.slice(0, 20).map((item) => {
+                  const rr = item.rr_ratio ?? 0;
+                  const hit = rr >= 1.5;
+                  const partial = rr > 0 && rr < 1.5;
+                  const stopped = !hit && !partial;
+                  return (
+                    <tr key={item.id} className="hover:bg-gray-50 transition-colors">
+                      <td className="px-4 py-3 font-bold text-gray-900">{item.instrument}</td>
+                      <td className="px-4 py-3 text-gray-400">
+                        {new Date(item.expires_at ?? item.created_at).toLocaleDateString("en-GB")}
+                      </td>
+                      <td className="px-4 py-3 text-gray-600">{item.dcs_score ?? "—"}%</td>
+                      <td className="px-4 py-3">
+                        <span className={cn(
+                          "px-1.5 py-0.5 rounded text-[9px] font-bold border",
+                          item.bias === "BULLISH"
+                            ? "bg-emerald-50 border-emerald-200 text-emerald-700"
+                            : "bg-red-50 border-red-200 text-red-700"
+                        )}>
+                          {item.bias}
+                        </span>
+                      </td>
+                      <td className={cn("px-4 py-3 font-bold", hit ? "text-emerald-600" : stopped ? "text-red-500" : "text-amber-600")}>
+                        {rr > 0 ? `1 : ${rr.toFixed(1)}` : "—"}
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        )}
       </section>
 
       {/* ── Upgrade CTA (non-subscribers only) ────────────────────────────── */}
@@ -1087,3 +1113,4 @@ export function SignalCentreDashboardClient(props: SignalCentreDashboardClientPr
     </ToastProvider>
   );
 }
+

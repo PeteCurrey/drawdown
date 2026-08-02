@@ -124,27 +124,67 @@ export default function CoachPage() {
                   </div>
                 )}
 
-                {/* Behavioral Heatmap (Placeholder) */}
-                <div className="space-y-6">
-                  <h4 className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary">Session Weakness Map</h4>
-                  <div className="grid grid-cols-7 gap-2">
-                    {/* Simplified heatmap grid */}
-                    {Array.from({ length: 21 }).map((_, i) => (
-                      <div 
-                        key={i} 
-                        className={cn(
-                          "aspect-square border border-border-slate/30",
-                          i === 12 ? "bg-loss/40" : i === 8 || i === 15 ? "bg-warning/20" : "bg-background-elevated"
-                        )}
-                        title={i === 12 ? "High Revenge Trading Risk (NY Open)" : "Stable Session"}
-                      />
-                    ))}
-                  </div>
-                  <div className="flex justify-between text-[8px] font-mono uppercase text-text-tertiary">
-                    <span>Mon</span>
-                    <span>Fri</span>
-                  </div>
-                </div>
+                {/* Session Weakness Map — computed from trade timestamps */}
+                {(() => {
+                  // Build a 7×3 (day × session) loss frequency map from real trades
+                  const days = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+                  const sessions = ['London','NY','Asia'];
+                  // Count trades per day slot (using entry_time weekday)
+                  const grid = Array(21).fill(0).map(() => ({ total: 0, losses: 0 }));
+                  trades.forEach((t: any) => {
+                    const d = new Date(t.entry_time);
+                    const dayIdx = (d.getUTCDay() + 6) % 7; // Mon=0…Sun=6
+                    const h = d.getUTCHours();
+                    const sessionIdx = h < 8 ? 2 : h < 13 ? 0 : 1; // rough session mapping
+                    const cellIdx = dayIdx * 3 + sessionIdx;
+                    grid[cellIdx].total++;
+                    if ((t.profit_loss ?? t.pnl ?? 0) < 0) grid[cellIdx].losses++;
+                  });
+
+                  const hasData = trades.length > 0;
+                  return (
+                    <div className="space-y-6">
+                      <h4 className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary">
+                        {hasData ? 'Session Weakness Map (Loss Frequency)' : 'Session Weakness Map'}
+                      </h4>
+                      {!hasData ? (
+                        <div className="p-8 bg-background-surface border border-border-slate text-center space-y-2">
+                          <p className="text-xs font-mono text-text-tertiary uppercase tracking-widest">No trade data yet</p>
+                          <p className="text-[10px] text-text-tertiary/60">Log trades in the Journal to activate your session weakness map.</p>
+                        </div>
+                      ) : (
+                        <>
+                          <div className="grid grid-cols-7 gap-2">
+                            {grid.map((cell, i) => {
+                              const lossRate = cell.total > 0 ? cell.losses / cell.total : 0;
+                              const bg = lossRate > 0.6 ? 'bg-loss/40 border-loss/30'
+                                : lossRate > 0.3 ? 'bg-warning/20 border-warning/20'
+                                : cell.total > 0 ? 'bg-profit/10 border-profit/20'
+                                : 'bg-background-elevated border-border-slate/20';
+                              const dayLabel = days[Math.floor(i / 3)];
+                              const sessionLabel = sessions[i % 3];
+                              return (
+                                <div
+                                  key={i}
+                                  className={`aspect-square border ${bg}`}
+                                  title={cell.total > 0 ? `${dayLabel} ${sessionLabel}: ${cell.losses}/${cell.total} losses` : `${dayLabel} ${sessionLabel}: no trades`}
+                                />
+                              );
+                            })}
+                          </div>
+                          <div className="flex justify-between text-[8px] font-mono uppercase text-text-tertiary">
+                            {days.map(d => <span key={d}>{d}</span>)}
+                          </div>
+                          <div className="flex items-center gap-4 text-[8px] font-mono text-text-tertiary">
+                            <span className="flex items-center gap-1"><span className="w-2 h-2 bg-loss/40 inline-block" /> High loss rate</span>
+                            <span className="flex items-center gap-1"><span className="w-2 h-2 bg-warning/20 inline-block" /> Moderate</span>
+                            <span className="flex items-center gap-1"><span className="w-2 h-2 bg-profit/10 inline-block" /> Strong</span>
+                          </div>
+                        </>
+                      )}
+                    </div>
+                  );
+                })()}
               </div>
             )}
 
@@ -245,22 +285,26 @@ export default function CoachPage() {
           {/* Sidebar / Stats */}
           <aside className="space-y-12">
              <div className="p-8 bg-background-elevated border border-border-slate space-y-6">
-                <h5 className="text-[10px] font-mono uppercase tracking-widest text-accent font-bold">Coach Stats (30d)</h5>
-                <div className="space-y-4">
-                   <div className="flex justify-between items-center py-3 border-b border-border-slate/50">
-                      <span className="text-[10px] font-mono text-text-tertiary uppercase">Avg Discipline</span>
-                      <span className="text-sm font-display font-bold">78%</span>
-                   </div>
-                   <div className="flex justify-between items-center py-3 border-b border-border-slate/50">
-                      <span className="text-[10px] font-mono text-text-tertiary uppercase">Leaks Found</span>
-                      <span className="text-sm font-display font-bold text-loss">12</span>
-                   </div>
-                   <div className="flex justify-between items-center py-3">
-                      <span className="text-[10px] font-mono text-text-tertiary uppercase">Consistency</span>
-                      <span className="text-sm font-display font-bold text-profit">Tier 2</span>
-                   </div>
-                </div>
-             </div>
+                 <h5 className="text-[10px] font-mono uppercase tracking-widest text-accent font-bold">Coach Stats (30d)</h5>
+                 <div className="space-y-4">
+                    <div className="flex justify-between items-center py-3 border-b border-border-slate/50">
+                       <span className="text-[10px] font-mono text-text-tertiary uppercase">Avg Discipline</span>
+                       <span className="text-sm font-display font-bold">
+                         {reports.length > 0
+                           ? `${Math.round(reports.slice(0,4).reduce((s: number, r: any) => s + (r.discipline_score ?? 0), 0) / Math.min(reports.length, 4))}%`
+                           : '—'}
+                       </span>
+                    </div>
+                    <div className="flex justify-between items-center py-3 border-b border-border-slate/50">
+                       <span className="text-[10px] font-mono text-text-tertiary uppercase">Weekly Reports</span>
+                       <span className="text-sm font-display font-bold">{reports.length > 0 ? reports.length : '—'}</span>
+                    </div>
+                    <div className="flex justify-between items-center py-3">
+                       <span className="text-[10px] font-mono text-text-tertiary uppercase">Trades Logged</span>
+                       <span className="text-sm font-display font-bold">{trades.length > 0 ? trades.length : '—'}</span>
+                    </div>
+                 </div>
+              </div>
 
              <div className="p-8 bg-background-surface border border-border-slate space-y-4 text-center">
                 <Target className="w-8 h-8 text-accent mx-auto mb-4" />

@@ -12,10 +12,10 @@ export const affiliateLinks: Record<string, {
     hasAffiliateLink: true,
   },
   'the5ers': {
-    url: 'https://the5ers.com', // PLACEHOLDER - replace with affiliate URL
+    url: 'https://www.the5ers.com/?afmc=1dv0',
     name: 'The5%ers',
     category: 'propfirm',
-    hasAffiliateLink: false,
+    hasAffiliateLink: true,
   },
   'funding-pips': {
     url: 'https://fundingpips.com', // PLACEHOLDER - replace with affiliate URL

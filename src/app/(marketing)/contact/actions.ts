@@ -1,6 +1,6 @@
 "use server";
 
-import { createInternalSupabase } from "@/lib/supabase/server";
+import { createInternalSupabase, createClient } from "@/lib/supabase/server";
 
 export async function submitContactForm(formData: {
   name: string;
@@ -9,33 +9,58 @@ export async function submitContactForm(formData: {
   message: string;
   subscribe?: boolean;
 }) {
-  const supabase = createInternalSupabase();
+  try {
+    const supabase = process.env.SUPABASE_SERVICE_ROLE_KEY
+      ? createInternalSupabase()
+      : await createClient();
 
-  const { error } = await supabase.from('contact_submissions').insert([
-    {
-      name: formData.name,
-      email: formData.email,
-      subject: formData.subject,
-      message: formData.message,
-      priority: formData.subject.toLowerCase().includes('enterprise') || formData.subject.toLowerCase().includes('partnership') ? 'high' : 'normal'
+    const subject = formData.subject || "General Support";
+    const priority =
+      subject.toLowerCase().includes("enterprise") ||
+      subject.toLowerCase().includes("partnership")
+        ? "high"
+        : "normal";
+
+    const { error } = await supabase.from("contact_submissions").insert([
+      {
+        name: formData.name,
+        email: formData.email,
+        subject: subject,
+        message: formData.message,
+        priority: priority,
+      },
+    ]);
+
+    if (error) {
+      console.error("Submission error:", error);
+      return { success: false, error: error.message };
     }
-  ]);
 
-  if (error) {
-    console.error("Submission error:", error);
-    return { success: false, error: error.message };
-  }
+    if (formData.subscribe) {
+      const { error: subscribeError } = await supabase
+        .from("newsletter_subscribers")
+        .upsert(
+          {
+            email: formData.email,
+            first_name: formData.name,
+            source: "contact_form",
+            status: "active",
+          },
+          { onConflict: "email" }
+        );
 
-  if (formData.subscribe) {
-    const { error: subscribeError } = await supabase.from('newsletter_subscribers').upsert({
-      email: formData.email,
-      confirmed: false
-    });
-    
-    if (subscribeError) {
-      console.error("Newsletter subscription error during contact submission:", subscribeError);
+      if (subscribeError) {
+        console.error(
+          "Newsletter subscription error during contact submission:",
+          subscribeError
+        );
+      }
     }
-  }
 
-  return { success: true };
+    return { success: true };
+  } catch (err: any) {
+    console.error("Unexpected submission error:", err);
+    return { success: false, error: err?.message || "Submission failed" };
+  }
 }
+

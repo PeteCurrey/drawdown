@@ -1,13 +1,19 @@
-import { createInternalSupabase } from "@/lib/supabase/server";
+import { createInternalSupabase, createClient } from "@/lib/supabase/server";
 import { LeadsInboxClient } from "@/components/admin/LeadsInboxClient";
 
 export default async function LeadsInboxPage() {
-  const supabase = createInternalSupabase();
+  const supabase = process.env.SUPABASE_SERVICE_ROLE_KEY
+    ? createInternalSupabase()
+    : await createClient();
   
   const { data: leads, error } = await supabase
     .from('contact_submissions')
     .select('*')
     .order('created_at', { ascending: false });
+
+  if (error) {
+    console.error("Error loading leads:", error);
+  }
 
   return (
     <div className="flex flex-col h-[calc(100vh-12rem)] animate-in fade-in duration-700">
@@ -20,3 +26,4 @@ export default async function LeadsInboxPage() {
     </div>
   );
 }
+

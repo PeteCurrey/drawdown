@@ -91,6 +91,17 @@ const components = {
   AffiliateMarketingSection,
 };
 
+function preprocessMDXContent(content: string): string {
+  if (!content) return "";
+  return content
+    .replace(/\$\$\\text\{([^}]+)\}\s*=\s*\\text\{([^}]+)\}\s*-\s*\\text\{([^}]+)\}\$\$/g, '```\n$1 = $2 - $3\n```')
+    .replace(/\$\$\\text\{([^}]+)\}\s*=\s*\\text\{([^}]+)\}\s*\\\times\s*\\text\{([^}]+)\}\$\$/g, '```\n$1 = $2 × $3\n```')
+    .replace(/\\text\{([^}]+)\}/g, '$1')
+    .replace(/\\frac\{([^}]+)\}\{([^}]+)\}/g, '$1 / $2')
+    .replace(/\\times/g, '×')
+    .replace(/\\div/g, '÷');
+}
+
 export default async function BlogPostPage({ params }: Props) {
   const { slug } = await params;
   let post;
@@ -239,7 +250,7 @@ export default async function BlogPostPage({ params }: Props) {
               <article 
                 className="prose prose-drawdown font-ibm-sans max-w-none prose-headings:font-display prose-headings:uppercase prose-headings:text-slate-900 prose-h2:text-2xl prose-h2:mt-12 prose-h2:mb-6 prose-h2:pt-8 prose-h2:border-t prose-h2:border-[#E5E5E5] prose-h3:text-lg prose-h3:mt-8 prose-p:text-slate-600 prose-p:leading-relaxed prose-p:text-base prose-p:mb-6 prose-strong:text-slate-900 prose-strong:font-bold prose-blockquote:border-l-4 prose-blockquote:border-accent prose-blockquote:bg-slate-50 prose-blockquote:p-6 prose-blockquote:rounded-none prose-blockquote:italic prose-blockquote:text-slate-700 prose-ul:list-disc prose-ul:pl-6 prose-ul:mb-6 prose-li:text-slate-600 prose-li:mb-2 prose-a:text-accent prose-a:font-semibold hover:prose-a:text-accent-hover"
               >
-                <MDXRemote source={post.content} components={components} />
+                <MDXRemote source={preprocessMDXContent(post.content)} components={components} />
               </article>
 
               {/* TradingView Promo Section */}

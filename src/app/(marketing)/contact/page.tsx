@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { getMetadata } from "@/lib/metadata";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { Send, Mail, MessageSquare, MapPin, Loader2, CheckCircle2 } from "lucide-react";
 import { submitContactForm } from "./actions";

@@ -1,0 +1,359 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="color-scheme" content="light" />
+  <meta name="supported-color-schemes" content="light" />
+  <title>{{EMAIL_SUBJECT}}</title>
+
+  <!--
+  ============================================================
+  BASE TEMPLATE — DRAWDOWN SIGNAL CENTRE EMAILS
+  ============================================================
+  DESIGN TOKENS
+  ─────────────
+  navy-ink:       #1B2B4B   primary text, wordmark, headlines
+  navy-solid:     #1E2E52   solid button fill, Breaking News bar/rule
+  slate-grey:     #5B6472   body copy, nav links, captions
+  hairline-grey:  #E3E5E9   all thin borders and dividers
+  bg-white:       #FFFFFF   content well background
+  pill-bg:        #FAFAFA   status pill background
+
+  VARIANT ACCENTS (override {{ACCENT_COLOR}} and {{ACCENT_BAR_HEIGHT}})
+  ─────────────────────────────────────────────────────────────
+  Breaking News:     #1E2E52  /  6px solid bar   /  full weight rule
+  Morning Briefing:  #D9762C  /  2px hairline bar /  2px thin rule
+  Evening Briefing:  #8FB93B  /  2px hairline bar /  2px thin rule
+
+  VARIANT OVERRIDE POINTS — search for:
+    {{ACCENT_COLOR}}      → replace with variant accent hex
+    {{ACCENT_BAR_HEIGHT}} → 6px (Breaking) or 2px (Morning/Evening)
+    {{TEMPLATE_LABEL}}    → "BREAKING NEWS" / "MORNING BRIEFING" / "EVENING BRIEFING"
+    {{EMAIL_SUBJECT}}     → email subject line
+    All {{DOUBLE_BRACE}}  → real content at send time
+
+  STRUCTURAL RULES — NON-NEGOTIABLE
+  ─────────────────────────────────
+  - Zero border-radius on every element. Sharp corners throughout.
+  - 1px hairline borders only — no shadows, no gradients.
+  - Monospace ONLY for data/metadata: stat bar, pill, timestamps.
+  - All prose uses the sans stack.
+  - Orange and lime accents ONLY as 2px rules/bars on their variants.
+  - Breaking News is the only variant allowed a solid accent bar.
+  ============================================================
+  -->
+
+  <style type="text/css">
+    /* Force light mode — prevent Outlook/Apple Mail auto-dark-mode inversion */
+    :root { color-scheme: light only; }
+    [data-ogsc] .force-light-bg { background-color: #FFFFFF !important; }
+    [data-ogsc] .force-navy-text { color: #1B2B4B !important; }
+    [data-ogsc] .force-slate-text { color: #5B6472 !important; }
+
+    /* Reset */
+    body, table, td, a {
+      -webkit-text-size-adjust: 100%;
+      -ms-text-size-adjust: 100%;
+    }
+    table, td { mso-table-lspace: 0pt; mso-table-rspace: 0pt; }
+    img { -ms-interpolation-mode: bicubic; border: 0; outline: none; text-decoration: none; }
+    body { margin: 0; padding: 0; background-color: #F0F2F5; }
+
+    /* Responsive */
+    @media only screen and (max-width: 620px) {
+      .email-wrapper { width: 100% !important; }
+      .content-well { width: 100% !important; padding: 0 16px !important; }
+      .stat-cell { display: block !important; width: 100% !important; border-right: none !important; border-bottom: 1px solid #E3E5E9 !important; }
+      .cta-button { width: 100% !important; }
+    }
+  </style>
+
+  <!--[if mso]>
+  <style type="text/css">
+    body, table, td { font-family: Arial, sans-serif !important; }
+    .headline { font-family: Arial, sans-serif !important; }
+  </style>
+  <noscript>
+    <xml>
+      <o:OfficeDocumentSettings>
+        <o:AllowPNG/>
+        <o:PixelsPerInch>96</o:PixelsPerInch>
+      </o:OfficeDocumentSettings>
+    </xml>
+  </noscript>
+  <![endif]-->
+</head>
+
+<body style="margin: 0; padding: 0; background-color: #F0F2F5; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%;">
+
+  <!-- Preheader (hidden preview text) -->
+  <div style="display: none; max-height: 0; overflow: hidden; mso-hide: all;">
+    {{PREHEADER_TEXT}}&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;
+  </div>
+
+  <!-- Outer wrapper table -->
+  <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="background-color: #F0F2F5;">
+    <tr>
+      <td align="center" style="padding: 32px 16px;">
+
+        <!-- ═══════════════════════════════════════════════════════
+             CONTENT WELL — 600px, white, 1px hairline border
+             ═══════════════════════════════════════════════════════ -->
+        <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="600" class="email-wrapper"
+          style="background-color: #FFFFFF; border: 1px solid #E3E5E9; max-width: 600px; width: 100%;">
+
+          <!-- ───────────────────────────────────────────────────────
+               COMPONENT 1: ACCENT BAR
+               Override: {{ACCENT_COLOR}}, {{ACCENT_BAR_HEIGHT}}
+               Breaking News:     6px, solid #1E2E52
+               Morning Briefing:  2px, solid #D9762C
+               Evening Briefing:  2px, solid #8FB93B
+               ─────────────────────────────────────────────────────── -->
+          <tr>
+            <td height="{{ACCENT_BAR_HEIGHT}}" style="height: {{ACCENT_BAR_HEIGHT}}px; font-size: 0; line-height: 0; background-color: {{ACCENT_COLOR}};">&nbsp;</td>
+          </tr>
+
+          <!-- ───────────────────────────────────────────────────────
+               COMPONENT 2: MASTHEAD ROW
+               Wordmark left / Template label right / hairline divider
+               ─────────────────────────────────────────────────────── -->
+          <tr>
+            <td style="padding: 24px 32px 20px 32px; border-bottom: 1px solid #E3E5E9;">
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
+                <tr>
+                  <!-- Wordmark -->
+                  <td style="font-family: 'IBM Plex Sans', -apple-system, 'Segoe UI', Arial, sans-serif; font-size: 17px; font-weight: 700; letter-spacing: 0.12em; color: #1B2B4B; text-transform: uppercase; white-space: nowrap;">
+                    DRAWDOWN
+                  </td>
+                  <!-- Hairline vertical spacer -->
+                  <td width="1" style="width: 1px; background-color: #E3E5E9; padding: 0 20px;">&nbsp;</td>
+                  <!-- Template label -->
+                  <td align="right" style="font-family: 'IBM Plex Mono', 'SFMono-Regular', Consolas, monospace; font-size: 9px; font-weight: 500; letter-spacing: 0.10em; color: #5B6472; text-transform: uppercase; white-space: nowrap;">
+                    {{TEMPLATE_LABEL}}
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- ───────────────────────────────────────────────────────
+               COMPONENT 3: STATUS PILL
+               Placeholder metadata — session, date, feed status
+               ─────────────────────────────────────────────────────── -->
+          <tr>
+            <td style="padding: 20px 32px 0 32px;">
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                  <td style="background-color: #FAFAFA; border: 1px solid #E3E5E9; padding: 6px 12px;">
+                    <table role="presentation" cellpadding="0" cellspacing="0" border="0">
+                      <tr>
+                        <!-- Status dot -->
+                        <td style="font-size: 8px; color: {{ACCENT_COLOR}}; padding-right: 7px; vertical-align: middle; line-height: 1;">●</td>
+                        <!-- Pill label -->
+                        <td style="font-family: 'IBM Plex Mono', 'SFMono-Regular', Consolas, monospace; font-size: 9px; font-weight: 500; letter-spacing: 0.08em; color: #5B6472; text-transform: uppercase; white-space: nowrap; vertical-align: middle;">
+                          {{SESSION_LABEL}} &nbsp;·&nbsp; {{DATE_PLACEHOLDER}}
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- ───────────────────────────────────────────────────────
+               COMPONENT 4: HEADLINE BLOCK
+               Left accent rule (2px, full height, accent colour)
+               ─────────────────────────────────────────────────────── -->
+          <tr>
+            <td style="padding: 28px 32px 0 32px;">
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
+                <tr>
+                  <!-- Accent rule — 2px wide, full height of headline block -->
+                  <td width="2" style="width: 2px; background-color: {{ACCENT_COLOR}}; padding: 0;">&nbsp;</td>
+                  <!-- Headline text -->
+                  <td style="padding-left: 16px;">
+                    <p class="headline" style="margin: 0; font-family: 'IBM Plex Sans', -apple-system, 'Segoe UI', Arial, sans-serif; font-size: 26px; font-weight: 700; line-height: 1.25; color: #1B2B4B; letter-spacing: -0.01em;">
+                      {{HEADLINE_TEXT}}
+                    </p>
+                    <!-- Subheadline — optional, remove if not needed -->
+                    <p style="margin: 8px 0 0 0; font-family: 'IBM Plex Sans', -apple-system, 'Segoe UI', Arial, sans-serif; font-size: 14px; font-weight: 400; line-height: 1.5; color: #5B6472; letter-spacing: 0;">
+                      {{SUBHEADLINE_TEXT}}
+                    </p>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Hairline divider below headline -->
+          <tr>
+            <td style="padding: 24px 32px 0 32px;">
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
+                <tr>
+                  <td height="1" style="height: 1px; background-color: #E3E5E9; font-size: 0; line-height: 0;">&nbsp;</td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- ───────────────────────────────────────────────────────
+               COMPONENT 5: BODY COPY BLOCK
+               Slate grey prose, single column, generous line-height
+               Replace {{BODY_PARAGRAPH_n}} with real content at send time
+               ─────────────────────────────────────────────────────── -->
+          <tr>
+            <td style="padding: 28px 32px 0 32px;">
+              <!-- Paragraph 1 -->
+              <p style="margin: 0 0 16px 0; font-family: 'IBM Plex Sans', -apple-system, 'Segoe UI', Arial, sans-serif; font-size: 15px; font-weight: 400; line-height: 1.65; color: #5B6472;">
+                {{BODY_PARAGRAPH_1}}
+              </p>
+              <!-- Paragraph 2 (optional — remove block if unused) -->
+              <p style="margin: 0 0 16px 0; font-family: 'IBM Plex Sans', -apple-system, 'Segoe UI', Arial, sans-serif; font-size: 15px; font-weight: 400; line-height: 1.65; color: #5B6472;">
+                {{BODY_PARAGRAPH_2}}
+              </p>
+              <!-- Paragraph 3 (optional — remove block if unused) -->
+              <p style="margin: 0; font-family: 'IBM Plex Sans', -apple-system, 'Segoe UI', Arial, sans-serif; font-size: 15px; font-weight: 400; line-height: 1.65; color: #5B6472;">
+                {{BODY_PARAGRAPH_3}}
+              </p>
+            </td>
+          </tr>
+
+          <!-- ───────────────────────────────────────────────────────
+               COMPONENT 6: PRIMARY CTA BUTTON
+               Bulletproof table-button pattern, zero border-radius
+               Solid navy fill on ALL variants — accent never touches button
+               ─────────────────────────────────────────────────────── -->
+          <tr>
+            <td style="padding: 32px 32px 0 32px;">
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                  <td style="background-color: #1E2E52;" class="cta-button">
+                    <!--[if mso]>
+                    <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word"
+                      style="height:44px; v-text-anchor:middle; width:200px;" arcsize="0%" strokecolor="#1E2E52" fillcolor="#1E2E52">
+                      <w:anchorlock/>
+                      <center style="color:#ffffff; font-family:Arial, sans-serif; font-size:12px; font-weight:bold; letter-spacing:0.08em; text-transform:uppercase;">
+                        {{CTA_LABEL}}
+                      </center>
+                    </v:roundrect>
+                    <![endif]-->
+                    <!--[if !mso]><!-->
+                    <a href="{{CTA_URL}}" target="_blank"
+                      style="display: block; padding: 13px 28px; font-family: 'IBM Plex Sans', -apple-system, 'Segoe UI', Arial, sans-serif; font-size: 12px; font-weight: 700; letter-spacing: 0.08em; color: #FFFFFF; text-decoration: none; text-transform: uppercase; text-align: center; white-space: nowrap;">
+                      {{CTA_LABEL}}
+                    </a>
+                    <!--<![endif]-->
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Hairline divider above stat bar -->
+          <tr>
+            <td style="padding: 36px 32px 0 32px;">
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
+                <tr>
+                  <td height="1" style="height: 1px; background-color: #E3E5E9; font-size: 0; line-height: 0;">&nbsp;</td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- ───────────────────────────────────────────────────────
+               COMPONENT 7: STAT BAR
+               Four-cell hairline-divided row
+               Big monospace figure + small grey caption below each
+               Replace all {{STAT_*}} placeholders at send time
+               ─────────────────────────────────────────────────────── -->
+          <tr>
+            <td style="padding: 0;">
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
+                <tr>
+
+                  <!-- Stat Cell 1 -->
+                  <td class="stat-cell" width="25%" align="center"
+                    style="width: 25%; padding: 22px 16px; border-right: 1px solid #E3E5E9; vertical-align: top;">
+                    <p style="margin: 0 0 4px 0; font-family: 'IBM Plex Mono', 'SFMono-Regular', Consolas, monospace; font-size: 22px; font-weight: 600; color: #1B2B4B; line-height: 1;">
+                      {{STAT_1_VALUE}}
+                    </p>
+                    <p style="margin: 0; font-family: 'IBM Plex Mono', 'SFMono-Regular', Consolas, monospace; font-size: 8px; font-weight: 400; letter-spacing: 0.08em; color: #5B6472; text-transform: uppercase; line-height: 1.4;">
+                      {{STAT_1_LABEL}}
+                    </p>
+                  </td>
+
+                  <!-- Stat Cell 2 -->
+                  <td class="stat-cell" width="25%" align="center"
+                    style="width: 25%; padding: 22px 16px; border-right: 1px solid #E3E5E9; vertical-align: top;">
+                    <p style="margin: 0 0 4px 0; font-family: 'IBM Plex Mono', 'SFMono-Regular', Consolas, monospace; font-size: 22px; font-weight: 600; color: #1B2B4B; line-height: 1;">
+                      {{STAT_2_VALUE}}
+                    </p>
+                    <p style="margin: 0; font-family: 'IBM Plex Mono', 'SFMono-Regular', Consolas, monospace; font-size: 8px; font-weight: 400; letter-spacing: 0.08em; color: #5B6472; text-transform: uppercase; line-height: 1.4;">
+                      {{STAT_2_LABEL}}
+                    </p>
+                  </td>
+
+                  <!-- Stat Cell 3 -->
+                  <td class="stat-cell" width="25%" align="center"
+                    style="width: 25%; padding: 22px 16px; border-right: 1px solid #E3E5E9; vertical-align: top;">
+                    <p style="margin: 0 0 4px 0; font-family: 'IBM Plex Mono', 'SFMono-Regular', Consolas, monospace; font-size: 22px; font-weight: 600; color: #1B2B4B; line-height: 1;">
+                      {{STAT_3_VALUE}}
+                    </p>
+                    <p style="margin: 0; font-family: 'IBM Plex Mono', 'SFMono-Regular', Consolas, monospace; font-size: 8px; font-weight: 400; letter-spacing: 0.08em; color: #5B6472; text-transform: uppercase; line-height: 1.4;">
+                      {{STAT_3_LABEL}}
+                    </p>
+                  </td>
+
+                  <!-- Stat Cell 4 (no right border) -->
+                  <td class="stat-cell" width="25%" align="center"
+                    style="width: 25%; padding: 22px 16px; vertical-align: top;">
+                    <p style="margin: 0 0 4px 0; font-family: 'IBM Plex Mono', 'SFMono-Regular', Consolas, monospace; font-size: 22px; font-weight: 600; color: #1B2B4B; line-height: 1;">
+                      {{STAT_4_VALUE}}
+                    </p>
+                    <p style="margin: 0; font-family: 'IBM Plex Mono', 'SFMono-Regular', Consolas, monospace; font-size: 8px; font-weight: 400; letter-spacing: 0.08em; color: #5B6472; text-transform: uppercase; line-height: 1.4;">
+                      {{STAT_4_LABEL}}
+                    </p>
+                  </td>
+
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- ───────────────────────────────────────────────────────
+               COMPONENT 8: FOOTER
+               Slate grey micro-copy, unsubscribe link, hairline top border
+               No accent colour in footer — keep entirely in grey
+               ─────────────────────────────────────────────────────── -->
+          <tr>
+            <td style="border-top: 1px solid #E3E5E9; padding: 24px 32px; background-color: #FAFAFA;">
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
+                <tr>
+                  <!-- Footer left: address / entity info -->
+                  <td style="font-family: 'IBM Plex Sans', -apple-system, 'Segoe UI', Arial, sans-serif; font-size: 11px; font-weight: 400; line-height: 1.6; color: #5B6472; vertical-align: top;">
+                    Drawdown Trading &nbsp;·&nbsp; {{COMPANY_ADDRESS}}<br />
+                    You are receiving this because you subscribed at drawdown.trading.
+                  </td>
+                  <!-- Footer right: unsubscribe -->
+                  <td align="right" style="vertical-align: top; white-space: nowrap; padding-left: 16px;">
+                    <a href="{{UNSUBSCRIBE_URL}}" target="_blank"
+                      style="font-family: 'IBM Plex Mono', 'SFMono-Regular', Consolas, monospace; font-size: 9px; font-weight: 400; letter-spacing: 0.06em; color: #5B6472; text-decoration: underline; text-transform: uppercase;">
+                      Unsubscribe
+                    </a>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+        </table>
+        <!-- END content well -->
+
+      </td>
+    </tr>
+  </table>
+
+</body>
+</html>

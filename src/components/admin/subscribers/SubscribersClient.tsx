@@ -33,6 +33,7 @@ interface Subscriber {
   subscribed_at: string;
   subscribed_morning: boolean;
   subscribed_evening: boolean;
+  subscribed_breaking?: boolean;
   subscribed_weekly: boolean;
   is_active: boolean;
 }
@@ -71,6 +72,7 @@ export function SubscribersClient({
   const [newSource, setNewSource] = useState("admin_manual");
   const [subMorning, setSubMorning] = useState(true);
   const [subEvening, setSubEvening] = useState(true);
+  const [subBreaking, setSubBreaking] = useState(true);
   const [subWeekly, setSubWeekly] = useState(true);
 
   const handleSearchSubmit = (e: React.FormEvent) => {
@@ -101,6 +103,7 @@ export function SubscribersClient({
         source: newSource || "admin_manual",
         subscribed_morning: subMorning,
         subscribed_evening: subEvening,
+        subscribed_breaking: subBreaking,
         subscribed_weekly: subWeekly,
       });
 
@@ -162,15 +165,16 @@ export function SubscribersClient({
     try {
       const activeSubs = await getAllActiveSubscribersAction();
       
-      const headers = ["Email", "First Name", "Source", "Subscribed At", "Morning", "Evening", "Weekly", "Active"];
+      const headers = ["Email", "First Name", "Source", "Subscribed At", "Morning", "Evening", "Breaking", "Weekly", "Active"];
       const rows = activeSubs.map(sub => [
         sub.email,
         sub.first_name || "Trader",
         sub.source || "signup",
         new Date(sub.subscribed_at).toISOString(),
-        sub.subscribed_morning ? "TRUE" : "FALSE",
-        sub.subscribed_evening ? "TRUE" : "FALSE",
-        sub.subscribed_weekly ? "TRUE" : "FALSE",
+        sub.subscribed_morning !== false ? "TRUE" : "FALSE",
+        sub.subscribed_evening !== false ? "TRUE" : "FALSE",
+        (sub as any).subscribed_breaking !== false ? "TRUE" : "FALSE",
+        sub.subscribed_weekly !== false ? "TRUE" : "FALSE",
         sub.is_active ? "TRUE" : "FALSE"
       ]);
 
@@ -251,6 +255,8 @@ export function SubscribersClient({
                 <th className="py-3 font-semibold">Subscribed At</th>
                 <th className="py-3 font-semibold text-center">Morning</th>
                 <th className="py-3 font-semibold text-center">Evening</th>
+                <th className="py-3 font-semibold text-center">Breaking</th>
+                <th className="py-3 font-semibold text-center">Weekly</th>
                 <th className="py-3 font-semibold text-center">Status</th>
                 <th className="py-3 font-semibold text-right">Actions</th>
               </tr>
@@ -278,6 +284,20 @@ export function SubscribersClient({
                     </td>
                     <td className="py-4 text-center">
                       {sub.subscribed_evening !== false ? (
+                        <CheckCircle2 className="w-4 h-4 text-mkt-grn mx-auto" />
+                      ) : (
+                        <XCircle className="w-4 h-4 text-mkt-i4 mx-auto" />
+                      )}
+                    </td>
+                    <td className="py-4 text-center">
+                      {(sub as any).subscribed_breaking !== false ? (
+                        <CheckCircle2 className="w-4 h-4 text-orange-500 mx-auto" />
+                      ) : (
+                        <XCircle className="w-4 h-4 text-mkt-i4 mx-auto" />
+                      )}
+                    </td>
+                    <td className="py-4 text-center">
+                      {sub.subscribed_weekly !== false ? (
                         <CheckCircle2 className="w-4 h-4 text-mkt-grn mx-auto" />
                       ) : (
                         <XCircle className="w-4 h-4 text-mkt-i4 mx-auto" />
@@ -317,7 +337,7 @@ export function SubscribersClient({
                 ))
               ) : (
                 <tr>
-                  <td colSpan={8} className="py-8 text-center text-mkt-i4 font-mono">
+                  <td colSpan={10} className="py-8 text-center text-mkt-i4 font-mono">
                     No subscribers found matching search criteria.
                   </td>
                 </tr>
@@ -453,6 +473,16 @@ export function SubscribersClient({
                     className="accent-mkt-ink rounded"
                   />
                   <span>Evening Wrap (Daily 5:00 PM)</span>
+                </label>
+
+                <label className="flex items-center gap-2 text-xs text-mkt-ink cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={subBreaking}
+                    onChange={(e) => setSubBreaking(e.target.checked)}
+                    className="accent-orange-500 rounded"
+                  />
+                  <span>Breaking News Alerts (Instant)</span>
                 </label>
 
                 <label className="flex items-center gap-2 text-xs text-mkt-ink cursor-pointer">

@@ -414,6 +414,7 @@ export async function addSubscriberAction(payload: {
   source?: string;
   subscribed_morning?: boolean;
   subscribed_evening?: boolean;
+  subscribed_breaking?: boolean;
   subscribed_weekly?: boolean;
 }) {
   try {
@@ -446,6 +447,7 @@ export async function addSubscriberAction(payload: {
           subscribed_at: now,
           subscribed_morning: payload.subscribed_morning !== false,
           subscribed_evening: payload.subscribed_evening !== false,
+          subscribed_breaking: payload.subscribed_breaking !== false,
           subscribed_weekly: payload.subscribed_weekly !== false,
           is_active: true,
           unsubscribe_token: unsubscribeToken,

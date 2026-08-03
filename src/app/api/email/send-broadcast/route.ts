@@ -56,67 +56,93 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "No email content found to broadcast" }, { status: 400 });
     }
 
-    // 3. Multi-source subscriber aggregation (newsletter_subscribers, profiles, email_subscribers)
+    // 3. Multi-source subscriber aggregation, filtered by type preference
     const subscriberMap = new Map<string, { email: string; unsubscribe_token: string }>();
 
-    // Source A: newsletter_subscribers
-    try {
-      const { data: ns } = await supabase
-        .from("newsletter_subscribers")
-        .select("email")
-        .eq("is_active", true);
-      
-      if (ns) {
-        ns.forEach(s => {
-          if (s.email && !subscriberMap.has(s.email)) {
-            subscriberMap.set(s.email, { email: s.email, unsubscribe_token: Buffer.from(s.email).toString("hex") });
-          }
-        });
+    // Determine which preference column to filter on for email_subscribers
+    const prefColumn: Record<string, string> = {
+      morning_brief: "subscribed_morning",
+      evening_wrap: "subscribed_evening",
+      breaking_news: "subscribed_breaking",
+      weekly_digest: "subscribed_weekly",
+    };
+    const preferenceCol = prefColumn[type] || null;
+
+    // Source A: newsletter_subscribers — only for non-breaking-news types
+    // (they have no preference columns so include for general broadcasts)
+    if (type !== "breaking_news") {
+      try {
+        const { data: ns } = await supabase
+          .from("newsletter_subscribers")
+          .select("email")
+          .eq("is_active", true);
+        
+        if (ns) {
+          ns.forEach(s => {
+            if (s.email && !subscriberMap.has(s.email)) {
+              subscriberMap.set(s.email, { email: s.email, unsubscribe_token: Buffer.from(s.email).toString("hex") });
+            }
+          });
+        }
+      } catch (e) {
+        console.warn("[send-broadcast] newsletter_subscribers query skipped:", e);
       }
-    } catch (e) {
-      console.warn("[send-broadcast] newsletter_subscribers query skipped:", e);
     }
 
-    // Source B: profiles (all registered users)
-    try {
-      const { data: pr } = await supabase
-        .from("profiles")
-        .select("email")
-        .not("email", "is", null);
-      
-      if (pr) {
-        pr.forEach(p => {
-          if (p.email && !subscriberMap.has(p.email)) {
-            subscriberMap.set(p.email, { email: p.email, unsubscribe_token: Buffer.from(p.email).toString("hex") });
-          }
-        });
+    // Source B: profiles — only for non-breaking-news types
+    if (type !== "breaking_news") {
+      try {
+        const { data: pr } = await supabase
+          .from("profiles")
+          .select("email")
+          .not("email", "is", null);
+        
+        if (pr) {
+          pr.forEach(p => {
+            if (p.email && !subscriberMap.has(p.email)) {
+              subscriberMap.set(p.email, { email: p.email, unsubscribe_token: Buffer.from(p.email).toString("hex") });
+            }
+          });
+        }
+      } catch (e) {
+        console.warn("[send-broadcast] profiles query skipped:", e);
       }
-    } catch (e) {
-      console.warn("[send-broadcast] profiles query skipped:", e);
     }
 
-    // Source C: email_subscribers (if table exists)
+    // Source C: email_subscribers — always queried with preference filtering
     try {
-      const { data: es } = await supabase
+      let esQuery = supabase
         .from("email_subscribers")
         .select("email, unsubscribe_token")
         .eq("is_active", true);
       
+      // Apply preference filter if we know the column
+      if (preferenceCol) {
+        esQuery = esQuery.eq(preferenceCol, true);
+      }
+
+      const { data: es, error: esError } = await esQuery;
+      
+      if (esError) {
+        console.warn("[send-broadcast] email_subscribers query error:", esError.message);
+      }
+
       if (es) {
         es.forEach(s => {
           if (s.email) {
+            // email_subscribers always wins (overwrites) to use its stored unsubscribe token
             subscriberMap.set(s.email, { email: s.email, unsubscribe_token: s.unsubscribe_token || Buffer.from(s.email).toString("hex") });
           }
         });
       }
     } catch (e) {
-      // Table may not exist, ignore error
+      console.warn("[send-broadcast] email_subscribers query skipped:", e);
     }
 
     const subscribers = Array.from(subscriberMap.values());
 
     if (subscribers.length === 0) {
-      return NextResponse.json({ success: true, count: 0, message: "No active subscribers found." });
+      return NextResponse.json({ success: true, count: 0, message: "No active subscribers found for this email type." });
     }
 
     const appUrl = process.env.NEXT_PUBLIC_APP_URL || process.env.NEXT_PUBLIC_SITE_URL || "https://drawdown.trading";

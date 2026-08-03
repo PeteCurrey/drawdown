@@ -864,12 +864,12 @@ export function IntelligenceHubClient({
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* xAI Grok-3 Social Buzz Terminal */}
-          <div className="p-8 bg-[#0B0E14] border border-[#1E2230] rounded-none flex flex-col gap-6 relative overflow-hidden group">
+          <div className="p-8 bg-white border border-[#DEDDD8] rounded-none flex flex-col gap-6 relative overflow-hidden group">
             {/* Glowing background accent */}
-            <div className="absolute -right-16 -top-16 w-36 h-36 bg-[#9333ea]/5 rounded-none blur-3xl group-hover:bg-[#9333ea]/10 transition-all duration-700" />
+            <div className="absolute -right-16 -top-16 w-36 h-36 bg-[#9333ea]/3 rounded-none blur-3xl group-hover:bg-[#9333ea]/6 transition-all duration-700" />
             
             {(loadingGrok || !grokData) && (
-              <div className="absolute inset-0 bg-[#0B0E14]/90 backdrop-blur-[2px] flex flex-col items-center justify-center z-10 rounded-none space-y-3">
+              <div className="absolute inset-0 bg-white/90 backdrop-blur-[2px] flex flex-col items-center justify-center z-10 rounded-none space-y-3">
                 <RefreshCw className="w-6 h-6 text-[#9333ea] animate-spin" />
                 <span className="text-[9px] font-mono text-slate-400 uppercase tracking-widest animate-pulse">Syncing X-Firehose via Grok-3...</span>
               </div>
@@ -877,11 +877,11 @@ export function IntelligenceHubClient({
             
             <div className="flex justify-between items-start z-10">
               <div className="flex items-center gap-3">
-                <div className="p-2 bg-[#9333ea]/10 border border-[#9333ea]/20">
-                  <Brain className="w-5 h-5 text-[#9333ea]" />
+                <div className="p-2 bg-[#faf5ff] border border-[#e9d5ff] text-[#9333ea] rounded-none">
+                  <Brain className="w-5 h-5" />
                 </div>
                 <div>
-                  <h3 className="text-xs font-bold font-mono uppercase tracking-widest text-slate-200 flex items-center gap-1.5">
+                  <h3 className="text-xs font-bold font-mono uppercase tracking-widest text-slate-900 flex items-center gap-1.5">
                     Grok-3 Social Buzz <Sparkles className="w-3 h-3 text-[#9333ea] animate-pulse" />
                   </h3>
                   <p className="text-[9px] font-mono text-slate-400 mt-0.5 uppercase">
@@ -899,10 +899,10 @@ export function IntelligenceHubClient({
                 {/* Main Sentiment Meter */}
                 <div className="space-y-2.5">
                   <div className="flex justify-between text-[8px] font-mono uppercase font-bold tracking-wider text-slate-400">
-                    <span className="text-red-400">Crowd Short</span>
-                    <span className="text-emerald-400">Crowd Long</span>
+                    <span className="text-red-500">Crowd Short</span>
+                    <span className="text-emerald-600">Crowd Long</span>
                   </div>
-                  <div className="h-2 bg-slate-950 rounded-none overflow-hidden border border-slate-800">
+                  <div className="h-2 bg-slate-100 rounded-none overflow-hidden border border-slate-200">
                     <div
                       className={cn(
                         "h-full rounded-none transition-all duration-1000 bg-gradient-to-r",
@@ -917,14 +917,14 @@ export function IntelligenceHubClient({
                   </div>
                   <div className="flex items-baseline justify-between pt-1">
                     <div>
-                      <span className="text-3xl font-black text-slate-100 font-mono tracking-tighter tabular">
+                      <span className="text-3xl font-black text-slate-900 font-mono tracking-tighter tabular">
                         {grokData.sentiment_score}%
                       </span>
                       <span className="text-[9px] font-mono text-[#9333ea] font-bold uppercase ml-2">
                         {grokData.sentiment_bias} Sessional Bias
                       </span>
                     </div>
-                    <span className="text-[8px] font-mono text-slate-400 bg-slate-900/60 border border-slate-800 px-2 py-0.5 rounded-none uppercase">
+                    <span className="text-[8px] font-mono text-slate-500 bg-slate-50 border border-slate-200 px-2 py-0.5 rounded-none uppercase">
                       {grokData.narrative_theme}
                     </span>
                   </div>
@@ -932,26 +932,26 @@ export function IntelligenceHubClient({
 
                 {/* Grid of stats */}
                 <div className="grid grid-cols-2 gap-3.5">
-                  <div className="bg-slate-950 p-3.5 border border-slate-800">
-                    <span className="block text-[8px] text-slate-500 font-mono uppercase tracking-wider">X Mentions Velocity (24h)</span>
+                  <div className="bg-slate-50 p-3.5 border border-[#DEDDD8]">
+                    <span className="block text-[8px] text-slate-400 font-mono uppercase tracking-wider">X Mentions Velocity (24h)</span>
                     <span className={cn(
                       "text-sm font-bold flex items-center gap-1.5 mt-1 font-mono tabular",
-                      grokData.social_volume_change_24h >= 0 ? "text-emerald-400" : "text-rose-400"
+                      grokData.social_volume_change_24h >= 0 ? "text-emerald-600" : "text-rose-500"
                     )}>
                       {grokData.social_volume_change_24h >= 0 ? <TrendingUp className="w-4 h-4" /> : <TrendingDown className="w-4 h-4" />}
                       {grokData.social_volume_change_24h >= 0 ? "+" : ""}{grokData.social_volume_change_24h}%
                     </span>
                   </div>
 
-                  <div className="bg-slate-950 p-3.5 border border-slate-800">
-                    <span className="block text-[8px] text-slate-500 font-mono uppercase tracking-wider">Contrarian Crowd Danger</span>
+                  <div className="bg-slate-50 p-3.5 border border-[#DEDDD8]">
+                    <span className="block text-[8px] text-slate-400 font-mono uppercase tracking-wider">Contrarian Crowd Danger</span>
                     <span className={cn(
                       "text-xs font-bold font-mono flex items-center gap-1 mt-1.5 uppercase",
                       grokData.contrarian_danger_level === "HIGH" 
-                        ? "text-red-400" 
+                        ? "text-red-500" 
                         : grokData.contrarian_danger_level === "MODERATE"
-                        ? "text-amber-400"
-                        : "text-emerald-400"
+                        ? "text-amber-500"
+                        : "text-emerald-600"
                     )}>
                       <ShieldAlert className="w-3.5 h-3.5" /> {grokData.contrarian_danger_level} RISK
                     </span>
@@ -964,7 +964,7 @@ export function IntelligenceHubClient({
                     <span>Sessional Squeeze Probability</span>
                     <span className="text-[#9333ea] font-bold tabular">{grokData.squeeze_probability}%</span>
                   </div>
-                  <div className="h-1 bg-slate-950 rounded-none overflow-hidden border border-slate-800">
+                  <div className="h-1 bg-slate-100 rounded-none overflow-hidden border border-slate-200">
                     <div 
                       className="h-full bg-gradient-to-r from-amber-500 to-[#9333ea] rounded-none transition-all"
                       style={{ width: `${grokData.squeeze_probability}%` }}
@@ -977,7 +977,7 @@ export function IntelligenceHubClient({
                   <span className="block text-[8px] font-mono text-slate-500 uppercase tracking-wider">Primary Sessional Talking Points:</span>
                   <div className="space-y-2">
                     {grokData.talking_points?.map((pt, idx) => (
-                      <div key={idx} className="flex gap-2 text-[11px] text-slate-300 leading-relaxed bg-slate-950 p-2.5 border border-slate-800">
+                      <div key={idx} className="flex gap-2 text-[11px] text-slate-600 leading-relaxed bg-slate-50 p-2.5 border border-[#DEDDD8]">
                         <span className="w-4 h-4 rounded-none bg-[#9333ea]/10 border border-[#9333ea]/20 text-[#9333ea] font-mono text-[8px] flex items-center justify-center shrink-0 mt-0.5">
                           {idx + 1}
                         </span>

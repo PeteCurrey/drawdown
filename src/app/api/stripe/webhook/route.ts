@@ -299,6 +299,77 @@ export async function POST(request: NextRequest) {
         break;
       }
 
+      // ── High-Ticket Institutional Accelerator Purchase ───────────────────
+      if (purchaseType === "accelerator" && userId) {
+        let courseId = session.metadata.course_id;
+        if (!courseId) {
+          const { data: course } = await supabase
+            .from("courses")
+            .select("id")
+            .eq("slug", "institutional-accelerator")
+            .single();
+          courseId = course?.id;
+        }
+
+        if (courseId) {
+          const { error: courseErr } = await supabase.from("course_purchases").insert({
+            user_id: userId,
+            course_id: courseId,
+            stripe_payment_intent_id: session.payment_intent,
+            stripe_session_id: session.id,
+            amount_paid_pence: session.amount_total ?? 150000,
+            access_granted_via: "stripe_purchase",
+          });
+          if (courseErr && courseErr.code !== "23505") {
+            console.error("Error recording accelerator cohort purchase:", courseErr);
+          }
+        }
+
+        // Send a custom high-end enrollment confirmation email
+        const resendKey = process.env.RESEND_API_KEY;
+        const email = session.customer_details?.email || session.customer_email;
+        if (resendKey && email) {
+          try {
+            const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://drawdown.trading";
+            const dashboardUrl = `${appUrl}/dashboard/curriculum`;
+            const resend = new Resend(resendKey);
+            await resend.emails.send({
+              from: "Pete @ Drawdown <thewire@drawdown.trading>",
+              to: email,
+              subject: "Welcome to the Institutional Accelerator Cohort",
+              html: `
+                <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 40px 20px; background-color: #0B0E12; color: #ffffff; border: 1px solid #E2B755;">
+                  <h1 style="color: #E2B755; text-align: center; font-size: 24px; text-transform: uppercase; tracking-wider; margin-top: 0;">Enrolment Confirmed</h1>
+                  <p style="font-size: 16px; line-height: 1.6; color: #D1D5DB; margin-top: 30px;">
+                    Thank you for enrolling in the <strong>Drawdown Institutional Accelerator</strong>.
+                  </p>
+                  <p style="font-size: 16px; line-height: 1.6; color: #D1D5DB;">
+                    Your premium 6-week Live Cohort access is now active. We are excited to guide you through the process of building an institutional edge, passing prop firm challenges, and optimizing your UK corporate structures.
+                  </p>
+                  <div style="background-color: #111317; border: 1px solid #333330; padding: 25px; border-radius: 8px; margin: 30px 0;">
+                    <h3 style="color: #ffffff; margin-top: 0; font-size: 16px;">Next Steps:</h3>
+                    <ul style="color: #9CA3AF; padding-left: 20px; font-size: 14px; line-height: 1.8;">
+                      <li>Review the curriculum on your student dashboard.</li>
+                      <li>Read and accept the <a href="${appUrl}/legal/accelerator-agreement" style="color: #E2B755; text-decoration: none;">Accelerator Cohort Agreement</a>.</li>
+                      <li>Check your dashboard events page for live webinar schedules.</li>
+                    </ul>
+                  </div>
+                  <div style="text-align: center; margin-top: 40px;">
+                    <a href="${dashboardUrl}" style="background-color: #E2B755; color: #000000; padding: 15px 35px; text-decoration: none; font-weight: bold; font-size: 14px; border-radius: 4px; text-transform: uppercase; letter-spacing: 1px;">Access Student Dashboard</a>
+                  </div>
+                  <p style="font-size: 12px; color: #9CA3AF; text-align: center; margin-top: 40px;">
+                    Drawdown Trading Ltd. Educational use only. Non-advisory compliance.
+                  </p>
+                </div>
+              `,
+            });
+          } catch (emailErr) {
+            console.error("Failed to send accelerator welcome email:", emailErr);
+          }
+        }
+        break;
+      }
+
       // ── Subscription checkout ────────────────────────────────────────────
       if (userId) {
         const { data: upsertData, error } = await supabase

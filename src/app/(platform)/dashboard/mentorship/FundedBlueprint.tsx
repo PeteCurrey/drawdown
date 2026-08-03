@@ -111,52 +111,57 @@ export function FundedBlueprint() {
       </div>
 
       {/* Main Content Area */}
-      <div className="p-6 space-y-5">
-        <div>
-          <div className="flex items-center gap-2 text-[10px] font-mono text-amber-400 uppercase tracking-widest mb-1">
-            <Flame className="w-3.5 h-3.5" /> Milestone Challenge 0{currentMilestone.phase}
-          </div>
-          <h4 className="text-md font-bold text-slate-100">{currentMilestone.title}</h4>
-          <p className="text-xs text-slate-400 mt-1">{currentMilestone.subtitle}</p>
-        </div>
-
-        {/* Targets grid */}
-        <div className="grid grid-cols-2 gap-3">
-          <div className="bg-[#0E0F17]/50 rounded-lg p-3 border border-slate-800/40">
-            <span className="block text-[9px] text-slate-500 font-mono uppercase">Discipline Target</span>
-            <span className="text-xs font-bold text-emerald-400 flex items-center gap-1 mt-0.5">
-              <CheckCircle2 className="w-3.5 h-3.5 shrink-0" /> {currentMilestone.disciplineTarget}
-            </span>
-          </div>
-          <div className="bg-[#0E0F17]/50 rounded-lg p-3 border border-slate-800/40">
-            <span className="block text-[9px] text-slate-500 font-mono uppercase">Drawdown Cap</span>
-            <span className="text-xs font-bold text-rose-400 flex items-center gap-1 mt-0.5">
-              <ShieldAlert className="w-3.5 h-3.5 shrink-0" /> {currentMilestone.drawdownCap}
-            </span>
-          </div>
-        </div>
-
-        {/* Strategy Focus */}
-        <div className="text-xs leading-relaxed text-slate-300 bg-slate-900/40 p-4 rounded-xl border border-slate-800/30 flex gap-3">
-          <BookOpen className="w-5 h-5 shrink-0 text-amber-400 mt-0.5" />
+      <div className="p-6 grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+        {/* Left Column: Challenge & Focus */}
+        <div className="space-y-5">
           <div>
-            <span className="font-bold text-slate-200 block mb-1">Coaching Focus:</span>
-            {currentMilestone.focus}
+            <div className="flex items-center gap-2 text-[10px] font-mono text-amber-400 uppercase tracking-widest mb-1">
+              <Flame className="w-3.5 h-3.5" /> Milestone Challenge 0{currentMilestone.phase}
+            </div>
+            <h4 className="text-md font-bold text-slate-100">{currentMilestone.title}</h4>
+            <p className="text-xs text-slate-400 mt-1">{currentMilestone.subtitle}</p>
+          </div>
+
+          {/* Targets grid */}
+          <div className="grid grid-cols-2 gap-3">
+            <div className="bg-[#0E0F17]/50 rounded-lg p-3 border border-slate-800/40">
+              <span className="block text-[9px] text-slate-500 font-mono uppercase">Discipline Target</span>
+              <span className="text-xs font-bold text-emerald-400 flex items-center gap-1 mt-0.5">
+                <CheckCircle2 className="w-3.5 h-3.5 shrink-0" /> {currentMilestone.disciplineTarget}
+              </span>
+            </div>
+            <div className="bg-[#0E0F17]/50 rounded-lg p-3 border border-slate-800/40">
+              <span className="block text-[9px] text-slate-500 font-mono uppercase">Drawdown Cap</span>
+              <span className="text-xs font-bold text-rose-400 flex items-center gap-1 mt-0.5">
+                <ShieldAlert className="w-3.5 h-3.5 shrink-0" /> {currentMilestone.drawdownCap}
+              </span>
+            </div>
+          </div>
+
+          {/* Strategy Focus */}
+          <div className="text-xs leading-relaxed text-slate-300 bg-slate-900/40 p-4 rounded-xl border border-slate-800/30 flex gap-3">
+            <BookOpen className="w-5 h-5 shrink-0 text-amber-400 mt-0.5" />
+            <div>
+              <span className="font-bold text-slate-200 block mb-1">Coaching Focus:</span>
+              {currentMilestone.focus}
+            </div>
           </div>
         </div>
 
-        {/* Checklist */}
-        <div className="space-y-2.5">
-          <span className="block text-[10px] font-mono text-slate-400 uppercase tracking-wider">Milestone Checklist</span>
-          <div className="space-y-2">
-            {currentMilestone.checklist.map((item, idx) => (
-              <div key={idx} className="flex gap-2.5 items-start text-xs text-slate-300 bg-slate-900/20 p-2.5 rounded-lg border border-slate-800/10 hover:border-slate-800/40 transition-colors">
-                <span className="w-4 h-4 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 font-mono text-[9px] flex items-center justify-center shrink-0 mt-0.5">
-                  {idx + 1}
-                </span>
-                <span>{item}</span>
-              </div>
-            ))}
+        {/* Right Column: Milestone Checklist */}
+        <div className="space-y-5 md:border-l md:border-slate-800/40 md:pl-8">
+          <div className="space-y-2.5">
+            <span className="block text-[10px] font-mono text-slate-400 uppercase tracking-wider">Milestone Checklist</span>
+            <div className="space-y-2">
+              {currentMilestone.checklist.map((item, idx) => (
+                <div key={idx} className="flex gap-2.5 items-start text-xs text-slate-300 bg-slate-900/20 p-2.5 rounded-lg border border-slate-800/10 hover:border-slate-800/40 transition-colors">
+                  <span className="w-4 h-4 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 font-mono text-[9px] flex items-center justify-center shrink-0 mt-0.5">
+                    {idx + 1}
+                  </span>
+                  <span>{item}</span>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>

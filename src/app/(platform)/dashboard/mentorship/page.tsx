@@ -1,6 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
-import { Calendar, Video, Clock, Link as LinkIcon, Info, Lock } from "lucide-react";
+import { Calendar, Video, Clock, Link as LinkIcon, Info, Lock, FileText, TrendingUp, Award } from "lucide-react";
 import Link from "next/link";
 import CalEmbed from "./CalEmbed";
 import { FundedBlueprint } from "./FundedBlueprint";
@@ -95,7 +95,7 @@ export default async function MentorshipPage() {
 
   return (
     <div
-      className="space-y-8 max-w-5xl mx-auto"
+      className="space-y-8 max-w-7xl mx-auto"
       style={{
         "--tool-accent": "#b45309",
         "--tool-accent-hover": "#92400e",
@@ -109,6 +109,60 @@ export default async function MentorshipPage() {
         title="1-to-1 Mentorship"
         description="Book your monthly 45-minute Floor session. Review your trade logs, refine execution rules, and sharpen your edge."
       />
+
+      {/* Premium Explanation & Benefits Section */}
+      <section className="bg-gradient-to-r from-gray-50 to-slate-50/50 border border-[#e5e7eb] rounded-xl p-6 md:p-8 shadow-sm">
+        <div className="max-w-3xl space-y-3">
+          <h2 className="text-sm font-mono font-bold uppercase tracking-wider text-amber-600 flex items-center gap-2">
+            <span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse" /> 
+            Direct Institutional Mentorship
+          </h2>
+          <p className="text-lg font-bold text-gray-900 leading-tight">
+            Accelerate your scaling journey with targeted, data-backed 1-to-1 support.
+          </p>
+          <p className="text-sm text-gray-600 leading-relaxed">
+            The 1-to-1 Mentorship program bridges the gap between retail discipline and institutional execution. Work directly with Pete to unpack complex trading logs, optimize risk distribution profiles, and eliminate cognitive trading friction.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8 pt-6 border-t border-[#e5e7eb]">
+          <div className="space-y-2">
+            <div className="flex items-center gap-2.5">
+              <div className="p-1.5 rounded-lg bg-amber-500/10 border border-amber-500/20">
+                <FileText className="w-4 h-4 text-amber-600 shrink-0" />
+              </div>
+              <h3 className="font-bold text-xs uppercase tracking-wider text-gray-900">Journal Auditing</h3>
+            </div>
+            <p className="text-xs text-gray-500 leading-relaxed">
+              Dissect your logged journal data with a professional eye. Identify hidden psychological leaks, trade execution slippage, and setup consistency issues.
+            </p>
+          </div>
+
+          <div className="space-y-2">
+            <div className="flex items-center gap-2.5">
+              <div className="p-1.5 rounded-lg bg-amber-500/10 border border-amber-500/20">
+                <TrendingUp className="w-4 h-4 text-amber-600 shrink-0" />
+              </div>
+              <h3 className="font-bold text-xs uppercase tracking-wider text-gray-900">Risk Optimization</h3>
+            </div>
+            <p className="text-xs text-gray-500 leading-relaxed">
+              Refine your risk per trade limits, optimize position sizing models (including Monte Carlo ruin metrics), and structure news session trading halts.
+            </p>
+          </div>
+
+          <div className="space-y-2">
+            <div className="flex items-center gap-2.5">
+              <div className="p-1.5 rounded-lg bg-amber-500/10 border border-amber-500/20">
+                <Award className="w-4 h-4 text-amber-600 shrink-0" />
+              </div>
+              <h3 className="font-bold text-xs uppercase tracking-wider text-gray-900">Milestone Scaling</h3>
+            </div>
+            <p className="text-xs text-gray-500 leading-relaxed">
+              Map out exact rules to scale funded accounts. Work through structured phases of the Funded Blueprint, secure splits, and expand allocations.
+            </p>
+          </div>
+        </div>
+      </section>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
         <div className="lg:col-span-2 space-y-8">
@@ -190,9 +244,6 @@ export default async function MentorshipPage() {
             </ul>
           </div>
 
-          {/* Funded Trader Milestone Roadmap */}
-          <FundedBlueprint />
-
           <section className="bg-white border border-[#e5e7eb] rounded-xl overflow-hidden shadow-sm">
             <div className="p-4 bg-gray-50 border-b border-[#e5e7eb]">
               <h2 className="text-xs font-bold font-mono text-[#6b7280] uppercase tracking-widest">Past Sessions</h2>
@@ -227,6 +278,11 @@ export default async function MentorshipPage() {
             )}
           </section>
         </div>
+      </div>
+
+      {/* Funded Trader Milestone Roadmap - Spacious full width row at bottom */}
+      <div className="w-full pt-6 border-t border-[#e5e7eb]">
+        <FundedBlueprint />
       </div>
     </div>
   );

@@ -11,7 +11,7 @@ export async function POST(request: NextRequest) {
   try {
     const { tier, billingCycle = "monthly", region = "gbp", redirectPath } = await request.json();
 
-    if (!tier || !["foundation", "edge", "floor", "signal-centre", "investment-centre"].includes(tier)) {
+    if (!tier || !["foundation", "edge", "floor", "signal-centre", "investment-centre", "accelerator"].includes(tier)) {
       return NextResponse.json({ error: "Invalid plan tier specified" }, { status: 400 });
     }
 
@@ -28,16 +28,23 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: `Prices configuration not found for tier: ${tier}` }, { status: 400 });
     }
 
-    const cycleKey = billingCycle === "yearly" ? "annual" : "monthly";
-    const pricesForCycle = pricesForTier[cycleKey as keyof typeof pricesForTier];
-    if (!pricesForCycle) {
-      return NextResponse.json({ error: `Price group not found for cycle: ${billingCycle}` }, { status: 400 });
+    let priceId: string;
+    let mode: "subscription" | "payment" = "subscription";
+
+    if (tier === "accelerator") {
+      priceId = (pricesForTier as any).oneTime[region] || (pricesForTier as any).oneTime["gbp"];
+      mode = "payment";
+    } else {
+      const cycleKey = billingCycle === "yearly" ? "annual" : "monthly";
+      const pricesForCycle = pricesForTier[cycleKey as keyof typeof pricesForTier];
+      if (!pricesForCycle) {
+        return NextResponse.json({ error: `Price group not found for cycle: ${billingCycle}` }, { status: 400 });
+      }
+      priceId = (pricesForCycle as any)[region] || (pricesForCycle as any)["gbp"];
     }
 
-    // Resolve regional pricing with GBP fallback
-    const priceId = (pricesForCycle as any)[region] || (pricesForCycle as any)["gbp"];
     if (!priceId || priceId.includes("placeholder")) {
-      return NextResponse.json({ error: `Stripe price ID is not configured for ${tier} (${billingCycle}) in region ${region}` }, { status: 400 });
+      return NextResponse.json({ error: `Stripe price ID is not configured for ${tier} in region ${region}` }, { status: 400 });
     }
 
     const origin = request.headers.get("origin") || "https://drawdown-trading.com";
@@ -59,12 +66,14 @@ export async function POST(request: NextRequest) {
           quantity: 1,
         },
       ],
-      mode: "subscription",
+      mode,
+      allow_promotion_codes: mode === "payment" ? true : undefined,
       success_url,
       cancel_url,
       metadata: {
         userId: user.id,
         tier: tier,
+        purchase_type: tier === "accelerator" ? "accelerator" : "subscription",
       },
     });
 

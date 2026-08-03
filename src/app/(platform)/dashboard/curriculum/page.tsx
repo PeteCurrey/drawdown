@@ -5,6 +5,7 @@ import { Lock, CheckCircle2, ChevronRight, Play, Award } from "lucide-react";
 import { DotProgressBar } from "@/components/dashboard/DotProgressBar";
 import { phases } from "@/data/courses";
 import { PageHeader } from "@/components/dashboard/ui/PageHeader";
+import DirectUpgradeButton from "@/components/dashboard/DirectUpgradeButton";
 
 // ─── Tier access ──────────────────────────────────────────────────────────────
 const TIER_WEIGHT: Record<string, number> = {
@@ -478,16 +479,24 @@ export default async function CurriculumPage() {
               </div>
             </div>
 
-            <div className="flex flex-col sm:flex-row lg:flex-col items-stretch gap-3 w-full lg:w-auto justify-center shrink-0">
-              <Link
-                href="/institutional-accelerator"
-                className="px-6 py-3 bg-gradient-to-r from-[#E2B755] to-[#C59235] text-black text-xs font-bold uppercase tracking-widest text-center transition-all rounded hover:scale-[1.02] shadow-md shadow-[#E2B755]/10 whitespace-nowrap font-sans font-extrabold"
+            <div className="flex flex-col sm:flex-row lg:flex-col items-stretch gap-3 w-full lg:w-[280px] justify-center shrink-0">
+              <DirectUpgradeButton
+                tier="accelerator"
+                redirectPath="/dashboard/curriculum"
+                className="w-full text-xs tracking-wider py-3.5"
               >
-                Apply for Accelerator Program
+                Secure Seat Instantly — £1,500
+              </DirectUpgradeButton>
+              <Link
+                href="https://forms.gle/drawdown-accelerator-apply"
+                target="_blank"
+                className="px-6 py-2.5 bg-[#0F1319] hover:bg-[#161D26] border border-[#E2B755]/30 hover:border-[#E2B755] text-[#E2B755] text-[10px] font-bold uppercase tracking-widest text-center transition-all rounded whitespace-nowrap font-sans font-extrabold"
+              >
+                Apply via Form
               </Link>
               <Link
                 href="/legal/accelerator-agreement"
-                className="px-6 py-3 border border-neutral-700 hover:border-neutral-500 text-neutral-400 hover:text-white text-xs font-bold uppercase tracking-widest text-center transition-colors rounded whitespace-nowrap font-sans font-extrabold"
+                className="px-6 py-2 border border-neutral-800 hover:border-neutral-700 text-neutral-500 hover:text-white text-[10px] font-bold uppercase tracking-widest text-center transition-colors rounded whitespace-nowrap font-sans font-extrabold"
               >
                 View Terms of Enrolment
               </Link>

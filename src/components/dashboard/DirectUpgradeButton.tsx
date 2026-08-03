@@ -5,7 +5,7 @@ import { RefreshCw, Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface DirectUpgradeButtonProps {
-  tier: "foundation" | "edge" | "floor" | "signal-centre" | "investment-centre";
+  tier: "foundation" | "edge" | "floor" | "signal-centre" | "investment-centre" | "accelerator";
   billingCycle?: "monthly" | "yearly";
   region?: string;
   redirectPath?: string;
@@ -39,6 +39,12 @@ export default function DirectUpgradeButton({
         }),
       });
 
+      if (response.status === 401) {
+        const currentPath = window.location.pathname + window.location.search;
+        window.location.href = `/login?redirect=${encodeURIComponent(currentPath)}`;
+        return;
+      }
+
       const data = await response.json();
 
       if (data.url) {
@@ -60,10 +66,12 @@ export default function DirectUpgradeButton({
         onClick={handleDirectUpgrade}
         disabled={loading}
         className={cn(
-          "relative w-full flex items-center justify-center gap-2 px-8 py-4 text-white text-[10px] font-bold uppercase tracking-widest transition-all rounded-lg overflow-hidden group shadow-lg active:scale-95 disabled:opacity-80 disabled:cursor-not-allowed",
-          tier === "floor"
-            ? "bg-gradient-to-r from-amber-500 to-yellow-600 hover:from-amber-600 hover:to-yellow-700 shadow-amber-500/20"
-            : "bg-gradient-to-r from-[#1e40af] to-[#3b82f6] hover:from-[#1d4ed8] hover:to-[#2563eb] shadow-blue-500/20",
+          "relative w-full flex items-center justify-center gap-2 px-8 py-4 text-xs font-bold uppercase tracking-widest transition-all rounded-lg overflow-hidden group shadow-lg active:scale-95 disabled:opacity-80 disabled:cursor-not-allowed",
+          tier === "accelerator"
+            ? "bg-gradient-to-r from-[#E2B755] to-[#C59235] hover:from-[#F3C475] hover:to-[#E2B755] text-black shadow-yellow-500/20"
+            : tier === "floor"
+            ? "bg-gradient-to-r from-amber-500 to-yellow-600 hover:from-amber-600 hover:to-yellow-700 text-white shadow-amber-500/20"
+            : "bg-gradient-to-r from-[#1e40af] to-[#3b82f6] hover:from-[#1d4ed8] hover:to-[#2563eb] text-white shadow-blue-500/20",
           className
         )}
       >
@@ -77,7 +85,7 @@ export default function DirectUpgradeButton({
           </>
         ) : (
           <>
-            <Sparkles className="w-3.5 h-3.5 text-white animate-pulse" />
+            <Sparkles className="w-3.5 h-3.5 animate-pulse" />
             <span>{children || `Instantly Upgrade to ${tier}`}</span>
           </>
         )}

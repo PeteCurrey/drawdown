@@ -21,7 +21,11 @@ import {
   Zap,
   Scan,
   LineChart,
-  Calculator
+  Calculator,
+  Briefcase,
+  GitBranch,
+  FileText,
+  HelpCircle
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { User } from "@supabase/supabase-js";
@@ -79,6 +83,24 @@ const megaMenus = {
       desc: "Every broker we review is verified directly against official registers. Absolutely zero offshore scams.",
       href: "/brokers"
     }
+  },
+  propFirms: {
+    links: [
+      { name: "Best Prop Firms", desc: "Top-rated funded account evaluations", href: "/prop-firms", icon: Briefcase },
+      { name: "Compare Prop Firms", desc: "Head-to-head evaluation rules and fees", href: "/prop-firms/compare", icon: Scale },
+      { name: "FTMO Review", desc: "The industry standard evaluation benchmark", href: "/prop-firms/ftmo", icon: TrendingUp },
+      { name: "The5ers Review", desc: "Flexible rules and excellent scaling plans", href: "/prop-firms/the5ers", icon: GitBranch },
+      { name: "Funding Pips Review", desc: "Low-cost challenges with rapid payouts", href: "/prop-firms/funding-pips", icon: Zap },
+      { name: "Prop Survival Kit", desc: "Blueprint to pass and keep funded accounts", href: "/store/prop-survival-kit", icon: FileText },
+      { name: "Prop Firm Quiz", desc: "Find the perfect firm for your style", href: "/prop-firms/quiz", icon: HelpCircle }
+    ],
+    featured: {
+      image: "/images/prop-firms/ftmo-bg.png",
+      badge: "FUNDING SYSTEM",
+      title: "Prop Evaluation Hub",
+      desc: "Honest evaluations, fee breakdowns, and the survival kit blueprint to beat evaluation rules.",
+      href: "/prop-firms"
+    }
   }
 };
 
@@ -94,6 +116,10 @@ const menuAccents = {
   brokers: {
     light: "#9A6D00", // Authoritative gold/bronze premium accent
     dark: "#FBBF24",  // Radiant compliance metallic amber gold
+  },
+  propFirms: {
+    light: "#7C3AED", // Royal/premium purple accent
+    dark: "#A78BFA",  // Vibrant high-contrast lavender
   }
 };
 
@@ -106,7 +132,7 @@ export function Navigation() {
   const [user, setUser] = useState<User | null>(null);
   const supabase = createClient();
 
-  const [activeMenu, setActiveMenu] = useState<"curriculum" | "tools" | "brokers" | null>(null);
+  const [activeMenu, setActiveMenu] = useState<"curriculum" | "tools" | "brokers" | "propFirms" | null>(null);
   const [hoverTimeout, setHoverTimeout] = useState<NodeJS.Timeout | null>(null);
 
   // Dynamic theme detection for black-background pages
@@ -148,12 +174,13 @@ export function Navigation() {
     { name: "Curriculum", href: `${regionPrefix}/courses` },
     { name: "Tools", href: `${regionPrefix}/tools` },
     { name: "Brokers", href: `${regionPrefix}/brokers` },
+    { name: "Prop Firms", href: `${regionPrefix}/prop-firms` },
     { name: "Markets", href: `${regionPrefix}/markets` },
     { name: "Pricing", href: `${regionPrefix}/pricing` },
     { name: "Blog", href: `${regionPrefix}/blog` },
   ];
 
-  const handleMouseEnter = (menu: "curriculum" | "tools" | "brokers") => {
+  const handleMouseEnter = (menu: "curriculum" | "tools" | "brokers" | "propFirms") => {
     if (hoverTimeout) clearTimeout(hoverTimeout);
     setActiveMenu(menu);
   };
@@ -203,8 +230,10 @@ export function Navigation() {
 
         <nav className="hidden lg:flex items-center gap-8 h-full">
           {navLinks.map((link) => {
-            const isMegaMenu = ["Curriculum", "Tools", "Brokers"].includes(link.name);
-            const menuKey = link.name.toLowerCase() as "curriculum" | "tools" | "brokers";
+            const isMegaMenu = ["Curriculum", "Tools", "Brokers", "Prop Firms"].includes(link.name);
+            const menuKey = (
+              link.name === "Prop Firms" ? "propFirms" : link.name.toLowerCase()
+            ) as "curriculum" | "tools" | "brokers" | "propFirms";
             const isActive = pathname === link.href || (link.href !== "/" && pathname?.startsWith(link.href));
 
             if (isMegaMenu) {
@@ -317,7 +346,11 @@ export function Navigation() {
               <div className="col-span-8 grid grid-cols-2 gap-x-8 gap-y-6">
                 {megaMenus[activeMenu].links.map((link) => {
                   const Icon = link.icon;
-                  const isPropFirmOrStore = link.href.startsWith("/prop-firms") || link.href.startsWith("/store") || link.href.startsWith("/brokers") || link.href.startsWith("/compare");
+                  const isPropFirmOrStore = 
+                    (link.href.startsWith("/prop-firms") && link.href !== "/prop-firms") || 
+                    link.href.startsWith("/store") || 
+                    (link.href.startsWith("/brokers") && link.href !== "/brokers") || 
+                    link.href.startsWith("/compare");
                   const finalHref = isPropFirmOrStore ? link.href : `${regionPrefix}${link.href}`;
 
                   // Resolve the active accent color based on theme page mode
@@ -475,8 +508,10 @@ export function Navigation() {
         >
           <nav className="flex flex-col gap-1">
             {navLinks.map((link) => {
-              const isMegaMenu = ["Curriculum", "Tools", "Brokers"].includes(link.name);
-              const menuKey = link.name.toLowerCase() as "curriculum" | "tools" | "brokers";
+              const isMegaMenu = ["Curriculum", "Tools", "Brokers", "Prop Firms"].includes(link.name);
+              const menuKey = (
+                link.name === "Prop Firms" ? "propFirms" : link.name.toLowerCase()
+              ) as "curriculum" | "tools" | "brokers" | "propFirms";
               const isExpanded = !!mobileExpanded[link.name];
 
               if (isMegaMenu) {
@@ -503,7 +538,11 @@ export function Navigation() {
                           <div className="pl-4 pb-4 pt-2 flex flex-col gap-4">
                             {megaMenus[menuKey].links.map((subLink) => {
                               const SubIcon = subLink.icon;
-                              const isPropFirmOrStore = subLink.href.startsWith("/prop-firms") || subLink.href.startsWith("/store") || subLink.href.startsWith("/brokers") || subLink.href.startsWith("/compare");
+                              const isPropFirmOrStore = 
+                                (subLink.href.startsWith("/prop-firms") && subLink.href !== "/prop-firms") || 
+                                subLink.href.startsWith("/store") || 
+                                (subLink.href.startsWith("/brokers") && subLink.href !== "/brokers") || 
+                                subLink.href.startsWith("/compare");
                               const finalSubHref = isPropFirmOrStore ? subLink.href : `${regionPrefix}${subLink.href}`;
 
                               const accentColor = isDarkPage 
@@ -558,18 +597,6 @@ export function Navigation() {
                 </Link>
               );
             })}
-            
-            <Link
-              href="/prop-firms"
-              onClick={() => setIsMobileMenuOpen(false)}
-              className="text-[18px] font-medium py-3 border-b"
-              style={{ 
-                color: inactiveColor, 
-                borderColor: isDarkPage ? "rgba(255, 255, 255, 0.1)" : "var(--line-200)" 
-              }}
-            >
-              Prop Firms
-            </Link>
           </nav>
 
           <div className="mt-8 flex flex-col gap-3 pb-8">

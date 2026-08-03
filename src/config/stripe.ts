@@ -81,6 +81,11 @@ export const STRIPE_CONFIG = {
         hkd: process.env.STRIPE_PRICE_FLOOR_ANNUAL_HKD || 'price_floor_annual_hkd_placeholder',
       },
     },
+    accelerator: {
+      oneTime: {
+        gbp: process.env.STRIPE_PRICE_ACCELERATOR_GBP || 'price_1500_accelerator_placeholder',
+      }
+    },
   },
   plans: {
     'investment-centre': {
@@ -104,6 +109,10 @@ export const STRIPE_CONFIG = {
     floor: {
       name: 'The Floor',
       tier: 'floor',
+    },
+    accelerator: {
+      name: 'Institutional Accelerator',
+      tier: 'accelerator',
     },
   }
 } as const;

@@ -23,6 +23,7 @@ import {
   Check 
 } from "lucide-react";
 import { TrackPageView } from "@/components/admin/TrackPageView";
+import DirectUpgradeButton from "@/components/dashboard/DirectUpgradeButton";
 
 // Curated 6-Week Course Curriculum Details
 const WEEK_CURRICULUM = [
@@ -449,13 +450,29 @@ export default function InstitutionalAccelerator() {
                 <div className="text-4xl md:text-5xl font-black text-white mb-2">£1,500</div>
                 <div className="text-xs text-[#E2B755] mb-6">Or 3 monthly payments of £550</div>
 
-                <Link 
-                  href="https://forms.gle/drawdown-accelerator-apply" 
-                  target="_blank"
-                  className="w-full inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-lg bg-gradient-to-r from-[#E2B755] to-[#C59235] hover:from-[#F3C475] hover:to-[#E2B755] text-[#0B0E12] font-semibold text-sm tracking-wider transition-all duration-300"
-                >
-                  Apply to Enrol
-                </Link>
+                <div className="space-y-3">
+                  <DirectUpgradeButton
+                    tier="accelerator"
+                    redirectPath="/dashboard/curriculum"
+                    className="w-full text-xs tracking-widest py-4 font-black"
+                  >
+                    Secure Seat Instantly
+                  </DirectUpgradeButton>
+
+                  <div className="flex items-center my-2 text-neutral-600 font-mono text-[9px] uppercase tracking-widest justify-center">
+                    <span className="h-[1px] bg-neutral-800 flex-grow" />
+                    <span className="mx-2">or</span>
+                    <span className="h-[1px] bg-neutral-800 flex-grow" />
+                  </div>
+
+                  <Link 
+                    href="https://forms.gle/drawdown-accelerator-apply" 
+                    target="_blank"
+                    className="w-full inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg border border-[#E2B755]/30 hover:border-[#E2B755] text-[#E2B755] font-semibold text-xs tracking-wider transition-all duration-300"
+                  >
+                    Apply for Selection
+                  </Link>
+                </div>
 
                 <div className="text-[10px] text-[#9CA3AF] mt-3">
                   Strictly limited to 15 seats. Secure registration.

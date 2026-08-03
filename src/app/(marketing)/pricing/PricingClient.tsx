@@ -189,7 +189,7 @@ export default function PricingPage({ floorCap = 15, activeFloorSubs = 0 }: { fl
       const tierId = tierName === "Signal Centre"
         ? "signal-centre"
         : tierName.toLowerCase().replace("the ", "");
-      const priceConfig = STRIPE_CONFIG.prices[tierId as keyof typeof STRIPE_CONFIG.prices][
+      const priceConfig = (STRIPE_CONFIG.prices as any)[tierId][
         billingCycle === "monthly" ? "monthly" : "annual"
       ];
       const priceId = (priceConfig as any)["gbp"];

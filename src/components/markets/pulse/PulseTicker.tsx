@@ -15,9 +15,12 @@ export function PulseTicker() {
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    let active = true;
+
     async function fetchTicker() {
       try {
         const res = await fetch("/api/news/feed");
+        if (!active) return;
         const data = await res.json();
         const tickerItems = data.slice(0, 10).map((item: any, idx: number) => ({
           id: `ticker-${idx}`,
@@ -29,9 +32,14 @@ export function PulseTicker() {
         console.error("Ticker fetch error:", err);
       }
     }
+
     fetchTicker();
-    const interval = setInterval(fetchTicker, 300000); // 5 mins
-    return () => clearInterval(interval);
+    const interval = setInterval(fetchTicker, 60000); // 60s live feed sync
+
+    return () => {
+      active = false;
+      clearInterval(interval);
+    };
   }, []);
 
   if (items.length === 0) return null;

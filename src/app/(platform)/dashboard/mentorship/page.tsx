@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { Calendar, Video, Clock, Link as LinkIcon, Info, Lock } from "lucide-react";
 import Link from "next/link";
 import CalEmbed from "./CalEmbed";
+import { FundedBlueprint } from "./FundedBlueprint";
 import { PageHeader } from "@/components/dashboard/ui/PageHeader";
 
 export const revalidate = 0;
@@ -186,6 +187,9 @@ export default async function MentorshipPage() {
               </li>
             </ul>
           </div>
+
+          {/* Funded Trader Milestone Roadmap */}
+          <FundedBlueprint />
 
           <section className="bg-white border border-[#e5e7eb] rounded-xl overflow-hidden shadow-sm">
             <div className="p-4 bg-gray-50 border-b border-[#e5e7eb]">

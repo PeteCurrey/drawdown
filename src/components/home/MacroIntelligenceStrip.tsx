@@ -36,6 +36,8 @@ export function MacroIntelligenceStrip() {
       }
     }
     loadIndicators();
+    const interval = setInterval(loadIndicators, 60000); // Poll live macro data every 60 seconds
+    return () => clearInterval(interval);
   }, []);
 
   return (

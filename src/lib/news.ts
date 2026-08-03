@@ -36,6 +36,12 @@ const MARKET_SPECIFIC_SOURCES = new Set([
   "ForexLive",
   "CoinDesk",
   "Financial Times",
+  "BBC Business",
+  "Sky News Business",
+  "CNN Business",
+  "Fox Business",
+  "Yahoo Finance",
+  "Forbes",
 ]);
 
 /** Categories that represent genuine trading-relevant content. */

@@ -78,23 +78,23 @@ const GROUP_CONFIGS: Record<string, PhaseGroupConfig> = {
   },
   "phase-5-6": {
     slug: "phase-5-6",
-    badge: "PHASE 5–6 • MASTERY & SCALE CURRICULUM",
+    badge: "PHASE 5–6 • SYSTEMATIC & PSYCHOLOGY CURRICULUM",
     badgeStyle: "text-rose-700 bg-rose-50 border-rose-200",
-    title: "Mind Over Market & The Edge",
-    subtitle: "Advanced Psychology, Order Flow & Portfolio Scale",
-    heroTagline: "The institutional capstone for prop firm funding and multi-asset portfolio management.",
-    description: "Phases 5 & 6 conquer internal emotional friction and introduce institutional tools. Master performance psychology, footprint chart volume delta, algorithmic webhook execution, and prop firm scaling rules.",
+    title: "The Backtester & Mind Over Market",
+    subtitle: "Master Strategy Expectancy & Advanced Psychology",
+    heroTagline: "Establish your mathematical edge and master the emotional resilience needed to execute it.",
+    description: "Phases 5 & 6 bridge the gap between discretionary chart reading and professional execution. Rigorously backtest your strategy rules to verify statistical expectancy, and build the psychological discipline to execute your edge flawlessly under drawdown.",
     phaseIds: [5, 6],
     outcomes: [
-      { title: "Cognitive Bias Elimination", desc: "Conquer FOMO, revenge trading, and winning/losing streak psychological traps." },
-      { title: "Order Flow & Delta Depth", desc: "Read order book imbalance and footprint delta to pinpoint institutional execution." },
-      { title: "Algo & Webhook Automation", desc: "Automate technical alerts into Pine Script and Python execution routines." },
-      { title: "Prop Firm Scaling", desc: "Pass 6-figure prop firm challenges and manage funded accounts with risk buffers." }
+      { title: "Statistical Expectancy", desc: "Prove your strategy's win rate, profit factor, and return distribution over 1,000+ simulated trades." },
+      { title: "Monte Carlo Stress-Testing", desc: "Simulate worst-case losing streaks against randomized trade sequences to verify survival." },
+      { title: "Cognitive Bias Control", desc: "Identify and conquer FOMO, revenge trading, and winning/losing streak psychological traps." },
+      { title: "Discipline Routine", desc: "Establish rigid pre-market and post-trade performance routines of elite institutional traders." }
     ],
     faqs: [
-      { q: "What tier covers Phases 5 & 6?", a: "Phases 5 & 6 are accessible on our Edge and Floor membership tiers." },
-      { q: "Is this suitable for prop firm evaluation challenges?", a: "Directly. Phase 6 includes dedicated modules specifically for passing FTMO and 5ers challenges." },
-      { q: "Are custom AI tool integrations included?", a: "Yes. You get step-by-step guidance on connecting TradingView webhooks to our AI stack." }
+      { q: "Which tier covers Phases 5 & 6?", a: "Phases 5 & 6 are accessible on our Edge and Floor membership tiers." },
+      { q: "Is the AI Backtester included?", a: "Yes. You get full instructions and integration guides for Drawdown's custom AI backtesting tool." },
+      { q: "Why is backtesting placed here?", a: "Because statistical edge-verification must come immediately after core risk metrics, before attempting live or prop trading." }
     ]
   }
 };

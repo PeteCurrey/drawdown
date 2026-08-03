@@ -13,6 +13,8 @@ export function PulseSidebar() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    let active = true;
+
     async function fetchData() {
       try {
         const [cRes, sRes, mRes, eRes] = await Promise.all([
@@ -21,6 +23,8 @@ export function PulseSidebar() {
           fetch("/api/macro/indicators"),
           fetch("/api/market/energy")
         ]);
+        if (!active) return;
+
         const cData = await cRes.json();
         const sData = await sRes.json();
         const mData = await mRes.json();
@@ -33,10 +37,17 @@ export function PulseSidebar() {
       } catch (err) {
         console.error("Sidebar data fetch error:", err);
       } finally {
-        setLoading(false);
+        if (active) setLoading(false);
       }
     }
+
     fetchData();
+    const interval = setInterval(fetchData, 30000); // 30s high frequency polling
+
+    return () => {
+      active = false;
+      clearInterval(interval);
+    };
   }, []);
 
   return (

@@ -17,6 +17,11 @@ import {
   RefreshCw,
   Filter,
   CheckCircle2,
+  Sparkles,
+  TrendingUp,
+  TrendingDown,
+  ShieldAlert,
+  Brain,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -147,6 +152,43 @@ export function IntelligenceHubClient({
   const [newsData, setNewsData] = useState<NewsSentimentData | null>(initialNewsSentiment);
   const [loadingSentiment, setLoadingSentiment] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
+
+  // xAI Grok-3 Social Sentiment state
+  const [grokData, setGrokData] = useState<{
+    symbol: string;
+    sentiment_score: number;
+    social_volume_change_24h: number;
+    sentiment_bias: string;
+    narrative_theme: string;
+    talking_points: string[];
+    contrarian_danger_level: string;
+    squeeze_probability: number;
+  } | null>(null);
+  const [loadingGrok, setLoadingGrok] = useState(false);
+
+  // Fetch Grok-3 sessional social metrics
+  useEffect(() => {
+    let isMounted = true;
+    setLoadingGrok(true);
+
+    async function fetchGrokSentiment() {
+      try {
+        const res = await fetch(`/api/intelligence/grok-sentiment?symbol=${selectedSentimentSymbol}`);
+        if (!res.ok) return;
+        const data = await res.json();
+        if (isMounted && data) {
+          setGrokData(data);
+        }
+      } catch (e) {
+        console.error("Grok sentiment fetch failed:", e);
+      } finally {
+        if (isMounted) setLoadingGrok(false);
+      }
+    }
+
+    fetchGrokSentiment();
+    return () => { isMounted = false; };
+  }, [selectedSentimentSymbol]);
 
   // ── Diversified & Strictly Deduplicated Insider Trades ─────────────────
   const filteredInsiderTrades = useMemo(() => {
@@ -707,64 +749,131 @@ export function IntelligenceHubClient({
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {/* Social Sentiment */}
-          <div className="p-8 bg-white border border-slate-200 rounded-xl shadow-sm flex flex-col gap-6 relative">
-            {loadingSentiment && (
-              <div className="absolute inset-0 bg-white/60 backdrop-blur-[1px] flex items-center justify-center z-10 rounded-xl">
-                <RefreshCw className="w-5 h-5 text-[#1e40af] animate-spin" />
+          {/* xAI Grok-3 Social Buzz Terminal */}
+          <div className="p-8 bg-gradient-to-br from-[#12131C] to-[#171926] border border-[#2B2D42] rounded-xl shadow-xl flex flex-col gap-6 relative overflow-hidden group">
+            {/* Glowing background accent */}
+            <div className="absolute -right-16 -top-16 w-36 h-36 bg-[#C8F135]/5 rounded-full blur-3xl group-hover:bg-[#C8F135]/10 transition-all duration-700" />
+            
+            {(loadingGrok || !grokData) && (
+              <div className="absolute inset-0 bg-[#0E0F17]/80 backdrop-blur-[2px] flex flex-col items-center justify-center z-10 rounded-xl space-y-3">
+                <RefreshCw className="w-6 h-6 text-[#C8F135] animate-spin" />
+                <span className="text-[10px] font-mono text-slate-400 uppercase tracking-widest animate-pulse">Syncing X-Firehose via Grok-3...</span>
               </div>
             )}
-            <div className="flex justify-between items-start">
+            
+            <div className="flex justify-between items-start z-10">
               <div className="flex items-center gap-3">
-                <MessageCircle className="w-5 h-5 text-[#1e40af]" />
+                <div className="p-2 rounded-lg bg-[#C8F135]/10 border border-[#C8F135]/20">
+                  <Brain className="w-5 h-5 text-[#C8F135]" />
+                </div>
                 <div>
-                  <h3 className="text-sm font-bold uppercase tracking-widest text-slate-900">
-                    Social Buzz
+                  <h3 className="text-xs font-bold font-mono uppercase tracking-widest text-slate-200 flex items-center gap-1.5">
+                    Grok-3 Social Buzz <Sparkles className="w-3 h-3 text-[#C8F135] animate-pulse" />
                   </h3>
                   <p className="text-[9px] font-mono text-slate-400 mt-0.5">
-                    Financial RSS · Keyword Frequency
+                    xAI Real-Time Sentiment &amp; Squeeze Analytics
                   </p>
                 </div>
               </div>
-              <span className="text-[9px] font-mono text-slate-400 bg-slate-50 border border-slate-100 px-2 py-1 rounded">
-                {socialData?.mentions ?? 0} articles matched
+              <span className="text-[9px] font-mono font-bold text-[#C8F135] bg-[#C8F135]/10 border border-[#C8F135]/20 px-2 py-0.5 rounded uppercase">
+                Active Firehose
               </span>
             </div>
 
-            <div className="space-y-3">
-              <div className="flex justify-between text-[10px] font-mono uppercase font-bold">
-                <span className="text-red-400">Bearish</span>
-                <span className="text-emerald-500">Bullish</span>
-              </div>
-              <div className="h-3 bg-slate-100 rounded-full overflow-hidden border border-slate-200">
-                <div
-                  className="h-full bg-gradient-to-r from-red-400 via-amber-400 to-emerald-500 rounded-full transition-all duration-1000"
-                  style={{ width: `${((socialData?.score ?? 0.5) * 100)}%` }}
-                />
-              </div>
-              <div className="flex justify-between items-end">
-                <div>
-                  <span className="text-2xl font-black text-slate-900">
-                    {Math.round((socialData?.score ?? 0.5) * 100)}%
-                  </span>
-                  <span className="text-[9px] font-mono text-slate-400 uppercase ml-2">
-                    bullish signal ({socialData?.symbol})
-                  </span>
-                </div>
-                <div className="text-right">
-                  <p className="text-[10px] font-mono text-slate-500">
-                    <span className="text-emerald-600 font-bold">
-                      {socialData?.bullishCount ?? 0} bull
+            {grokData && (
+              <div className="space-y-6 z-10">
+                {/* Main Sentiment Meter */}
+                <div className="space-y-2.5">
+                  <div className="flex justify-between text-[10px] font-mono uppercase font-bold tracking-wider text-slate-400">
+                    <span className="text-red-400">Crowd Short</span>
+                    <span className="text-emerald-400">Crowd Long</span>
+                  </div>
+                  <div className="h-2.5 bg-slate-950 rounded-full overflow-hidden border border-slate-800 p-0.5">
+                    <div
+                      className={cn(
+                        "h-full rounded-full transition-all duration-1000 bg-gradient-to-r",
+                        grokData.sentiment_bias === "BULLISH" 
+                          ? "from-emerald-500 to-[#C8F135]" 
+                          : grokData.sentiment_bias === "BEARISH"
+                          ? "from-rose-500 to-amber-500"
+                          : "from-amber-400 to-emerald-400"
+                      )}
+                      style={{ width: `${grokData.sentiment_score}%` }}
+                    />
+                  </div>
+                  <div className="flex items-baseline justify-between pt-1">
+                    <div>
+                      <span className="text-3xl font-black text-slate-100 font-mono tracking-tighter">
+                        {grokData.sentiment_score}%
+                      </span>
+                      <span className="text-[10px] font-mono text-[#C8F135] font-bold uppercase ml-2">
+                        {grokData.sentiment_bias} Sessional Bias
+                      </span>
+                    </div>
+                    <span className="text-[10px] font-mono text-slate-400 bg-slate-900/60 border border-slate-800 px-2 py-0.5 rounded">
+                      {grokData.narrative_theme}
                     </span>
-                    {" / "}
-                    <span className="text-red-500 font-bold">
-                      {socialData?.bearishCount ?? 0} bear
-                    </span>{" "}
-                    keywords
-                  </p>
+                  </div>
+                </div>
+
+                {/* Grid of stats */}
+                <div className="grid grid-cols-2 gap-3.5">
+                  <div className="bg-[#0E0F17]/60 rounded-xl p-3.5 border border-[#2B2D42]/60">
+                    <span className="block text-[9px] text-slate-500 font-mono uppercase tracking-wider">X Mentions Velocity (24h)</span>
+                    <span className={cn(
+                      "text-sm font-bold flex items-center gap-1.5 mt-1 font-mono",
+                      grokData.social_volume_change_24h >= 0 ? "text-emerald-400" : "text-rose-400"
+                    )}>
+                      {grokData.social_volume_change_24h >= 0 ? <TrendingUp className="w-4 h-4" /> : <TrendingDown className="w-4 h-4" />}
+                      {grokData.social_volume_change_24h >= 0 ? "+" : ""}{grokData.social_volume_change_24h}%
+                    </span>
+                  </div>
+
+                  <div className="bg-[#0E0F17]/60 rounded-xl p-3.5 border border-[#2B2D42]/60">
+                    <span className="block text-[9px] text-slate-500 font-mono uppercase tracking-wider">Contrarian Crowd Danger</span>
+                    <span className={cn(
+                      "text-xs font-bold font-mono flex items-center gap-1 mt-1.5 uppercase",
+                      grokData.contrarian_danger_level === "HIGH" 
+                        ? "text-red-400" 
+                        : grokData.contrarian_danger_level === "MODERATE"
+                        ? "text-amber-400"
+                        : "text-emerald-400"
+                    )}>
+                      <ShieldAlert className="w-3.5 h-3.5" /> {grokData.contrarian_danger_level} RISK
+                    </span>
+                  </div>
+                </div>
+
+                {/* Squeeze Probability */}
+                <div className="space-y-1.5">
+                  <div className="flex justify-between text-[9px] font-mono uppercase text-slate-400">
+                    <span>Sessional Squeeze Probability</span>
+                    <span className="text-[#C8F135] font-bold">{grokData.squeeze_probability}%</span>
+                  </div>
+                  <div className="h-1 bg-slate-900 rounded-full overflow-hidden">
+                    <div 
+                      className="h-full bg-gradient-to-r from-amber-500 to-[#C8F135] rounded-full transition-all"
+                      style={{ width: `${grokData.squeeze_probability}%` }}
+                    />
+                  </div>
+                </div>
+
+                {/* Key Talking Points */}
+                <div className="space-y-2">
+                  <span className="block text-[9px] font-mono text-slate-500 uppercase tracking-wider">Primary Sessional Talking Points:</span>
+                  <div className="space-y-2">
+                    {grokData.talking_points?.map((pt, idx) => (
+                      <div key={idx} className="flex gap-2 text-[11px] text-slate-300 leading-relaxed bg-[#0E0F17]/30 p-2.5 rounded-lg border border-slate-900">
+                        <span className="w-4 h-4 rounded-full bg-[#C8F135]/10 border border-[#C8F135]/20 text-[#C8F135] font-mono text-[9px] flex items-center justify-center shrink-0 mt-0.5">
+                          {idx + 1}
+                        </span>
+                        <span>{pt}</span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
-            </div>
+            )}
           </div>
 
           {/* News Sentiment */}

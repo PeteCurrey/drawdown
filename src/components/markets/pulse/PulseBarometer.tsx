@@ -18,12 +18,16 @@ export function PulseBarometer() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    let active = true;
+
     async function loadData() {
       try {
         const [iRes, sRes] = await Promise.all([
           fetch("/api/macro/indicators"),
           fetch("/api/market/sentiment")
         ]);
+        if (!active) return;
+
         const iData = await iRes.json();
         const sData = await sRes.json();
 
@@ -32,10 +36,17 @@ export function PulseBarometer() {
       } catch (err) {
         console.error("Failed to load Pulse barometer data:", err);
       } finally {
-        setLoading(false);
+        if (active) setLoading(false);
       }
     }
+
     loadData();
+    const interval = setInterval(loadData, 30000); // 30s high frequency polling
+
+    return () => {
+      active = false;
+      clearInterval(interval);
+    };
   }, []);
 
   const vix = sentiment?.vix || 16.40;

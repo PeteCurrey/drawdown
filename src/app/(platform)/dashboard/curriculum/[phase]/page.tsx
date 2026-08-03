@@ -12,12 +12,19 @@ const TIER_WEIGHT: Record<string, number> = {
 };
 
 const PHASE_MIN_WEIGHT: Record<string, number> = {
-  "ground-zero":      0,
-  "chart-reader":     1,
-  "strategist":       1,
-  "risk-manager":     1,
-  "mind-over-market": 2,
-  "the-edge":         3,
+  "ground-zero":          0, // Free
+  "chart-reader":         1, // Foundation
+  "strategist":           1, // Foundation
+  "risk-manager":         1, // Foundation
+  "the-backtester":       2, // Edge
+  "mind-over-market":     2, // Edge
+  "fundamental-edge":     2, // Edge
+  "derivatives-options":  2, // Edge
+  "macro-trader":         2, // Edge
+  "prop-firm-mastery":    2, // Edge
+  "the-edge":             3, // Floor
+  "ai-trader":            3, // Floor
+  "portfolio-architect":  3, // Floor
 };
 
 export default async function PhaseOverviewPage({ params }: { params: Promise<{ phase: string }> }) {

@@ -1,14 +1,13 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { useReducedMotion } from "framer-motion";
 
 // ─────────────────────────────────────────────────────────────────────────────
-// SAMPLE DATA STATE
+// LIVE DATA PIPELINE INJECTION
 //
-// The live data pipeline is tracked as a separate, unresolved work item.
-// This component ships a clearly labelled static sample-data state.
-// When the data pipe is fixed, replace sampleItems with a live fetch and
-// update the badge from SAMPLE DATA → Prices delayed 60s.
+// Dynamically fetches rates from the `/api/market/prices` endpoint with a
+// 30-second interval refresh, falling back to clean static averages if offline.
 // ─────────────────────────────────────────────────────────────────────────────
 
 interface TickerItem {
@@ -29,18 +28,72 @@ const sampleItems: TickerItem[] = [
   { symbol: "BTCUSD", displaySymbol: "BTC/USD", price: "67,240.00", change: "-0.88%", positive: false },
 ];
 
-// Duplicate once for seamless scroll
-const marqueeItems = [...sampleItems, ...sampleItems];
-
 export function PriceTicker() {
   const shouldReduce = useReducedMotion();
+  const [items, setItems] = useState<TickerItem[]>(sampleItems);
+  const [isLive, setIsLive] = useState(false);
+
+  useEffect(() => {
+    let active = true;
+    async function fetchPrices() {
+      try {
+        const symbols = sampleItems.map(item => item.symbol).join(",");
+        const res = await fetch(`/api/market/prices?symbols=${symbols}`);
+        if (res.ok && active) {
+          const livePrices = await res.json();
+          if (Array.isArray(livePrices) && livePrices.length > 0) {
+            const updated = sampleItems.map(item => {
+              const live = livePrices.find((p: any) => p.symbol === item.symbol);
+              if (live && live.price !== undefined && !Number.isNaN(live.price)) {
+                let formattedPrice = String(live.price);
+                if (item.symbol.includes("BTC")) {
+                  formattedPrice = live.price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                } else if (item.symbol.includes("XAU")) {
+                  formattedPrice = live.price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                } else if (item.symbol === "US500") {
+                  formattedPrice = live.price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                } else {
+                  formattedPrice = live.price.toFixed(4);
+                }
+
+                const changeVal = live.changePercent || 0;
+                const formattedChange = `${changeVal >= 0 ? "+" : ""}${changeVal.toFixed(2)}%`;
+
+                return {
+                  ...item,
+                  price: formattedPrice,
+                  change: formattedChange,
+                  positive: changeVal >= 0
+                };
+              }
+              return item;
+            });
+            setItems(updated);
+            setIsLive(true);
+          }
+        }
+      } catch (err) {
+        console.error("Failed to fetch live prices for ticker:", err);
+      }
+    }
+
+    fetchPrices();
+    const interval = setInterval(fetchPrices, 30000); // refresh every 30 seconds
+    return () => {
+      active = false;
+      clearInterval(interval);
+    };
+  }, []);
+
+  // Duplicate once for seamless scroll
+  const marqueeItems = [...items, ...items];
 
   return (
     <div
       className="w-full h-[44px] flex items-center overflow-hidden border-b select-none relative z-10"
       style={{ backgroundColor: "var(--paper-0)", borderColor: "var(--line-200)" }}
     >
-      {/* Sample-data badge — left anchor */}
+      {/* Dynamic Status Badge — left anchor */}
       <div
         className="absolute left-0 top-0 bottom-0 flex items-center px-4 border-r z-30"
         style={{
@@ -51,18 +104,18 @@ export function PriceTicker() {
         <span
           className="text-[10px] font-mono uppercase tracking-[0.08em] px-2 py-0.5 border"
           style={{
-            color: "var(--graphite-600)",
-            borderColor: "var(--line-200)",
-            backgroundColor: "var(--paper-100)",
+            color: isLive ? "var(--mkt-grn)" : "var(--graphite-600)",
+            borderColor: isLive ? "var(--mkt-gbd)" : "var(--line-200)",
+            backgroundColor: isLive ? "var(--mkt-gbg)" : "var(--paper-100)",
             borderRadius: 0,
           }}
         >
-          Sample data
+          {isLive ? "Prices Delayed 60s" : "Sample Data"}
         </span>
       </div>
 
       {/* Marquee */}
-      <div className="flex-grow overflow-hidden flex items-center pl-40 pr-36">
+      <div className="flex-grow overflow-hidden flex items-center pl-44 pr-36">
         <div
           className={shouldReduce ? "flex gap-0 items-center" : "flex items-center animate-marquee-ticker"}
         >
@@ -104,7 +157,7 @@ export function PriceTicker() {
         </div>
       </div>
 
-      {/* Right label */}
+      {/* Dynamic Right label */}
       <div
         className="absolute right-0 top-0 bottom-0 flex items-center px-4 border-l z-30"
         style={{
@@ -116,7 +169,7 @@ export function PriceTicker() {
           className="text-[10px] font-mono uppercase tracking-[0.08em]"
           style={{ color: "var(--graphite-600)" }}
         >
-          Not live — for illustration only
+          {isLive ? "Institutional Price Feeds" : "Not Live — For Illustration Only"}
         </span>
       </div>
 

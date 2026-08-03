@@ -16,9 +16,12 @@ export default function MarketPulseHubPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    let active = true;
+
     async function getNews() {
       try {
         const res = await fetch("/api/news/feed");
+        if (!active) return;
         if (res.ok) {
           const data = await res.json();
           setNews(data);
@@ -26,10 +29,17 @@ export default function MarketPulseHubPage() {
       } catch (err) {
         console.error("Failed to fetch news feed:", err);
       } finally {
-        setLoading(false);
+        if (active) setLoading(false);
       }
     }
+
     getNews();
+    const interval = setInterval(getNews, 60000); // Poll news feed every 60 seconds
+
+    return () => {
+      active = false;
+      clearInterval(interval);
+    };
   }, []);
 
   const featuredStory = news.length > 0 ? news[0] : null;

@@ -7,7 +7,7 @@ import {
   Grid3X3, List, Star, Bell, BellRing, ChevronDown, ChevronUp,
   TrendingUp, TrendingDown, Minus, RefreshCw, AlertTriangle, Shield,
   Calendar, Newspaper, Eye, EyeOff, X, Plus, Cpu, Zap as ZapIcon, Building2,
-  Calculator,
+  Calculator, Sparkles,
 } from "lucide-react";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell, ReferenceLine } from "recharts";
 import { cn, getAgentBias, isBiasBullish, isBiasBearish } from "@/lib/utils";
@@ -729,6 +729,25 @@ function AIBriefTab({ inst, tech, data }: { inst: ScannerInstrument; tech: any; 
   const [error, setError] = useState(false);
   const cacheRef = useRef<{ result: DebateResult; ts: number } | null>(null);
 
+  const [premiumAnalysis, setPremiumAnalysis] = useState<any | null>(null);
+  const [premiumLoading, setPremiumLoading] = useState(false);
+  const [premiumError, setPremiumError] = useState<string | null>(null);
+
+  const fetchPremiumAnalysis = async () => {
+    setPremiumLoading(true);
+    setPremiumError(null);
+    try {
+      const res = await fetch(`/api/market/analysis?symbol=${inst.displayPair}&interval=1h`);
+      const d = await res.json();
+      if (d.error) throw new Error(d.error);
+      setPremiumAnalysis(d);
+    } catch (err: any) {
+      setPremiumError(err.message || "Failed to load premium confluence brief.");
+    } finally {
+      setPremiumLoading(false);
+    }
+  };
+
   const load = useCallback(async (force = false) => {
     if (!force && cacheRef.current && Date.now() - cacheRef.current.ts < 20 * 60 * 1000) {
       setBrief(cacheRef.current.result);
@@ -898,6 +917,92 @@ function AIBriefTab({ inst, tech, data }: { inst: ScannerInstrument; tech: any; 
           <div className="mt-3 flex items-start gap-2 bg-warning/10 border border-warning/20 rounded px-3 py-2">
             <AlertTriangle className="w-3 h-3 text-warning shrink-0 mt-0.5" />
             <p className="text-[9px] font-mono text-warning">{s.where_analysts_disagree}</p>
+          </div>
+        )}
+      </div>
+
+      {/* Premium Sessional Confluence Briefing */}
+      <div className="px-5 py-4 border-t border-border-slate/20 bg-background-elevated/40">
+        <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center gap-1.5">
+            <Sparkles className="w-3.5 h-3.5 text-accent animate-pulse" />
+            <h5 className="text-[10px] font-mono font-bold uppercase tracking-wider text-text-primary">Premium Confluence Briefing</h5>
+          </div>
+          <span className="text-[8px] font-mono uppercase px-1.5 py-0.5 bg-accent/10 text-accent rounded-full font-bold">INSTITUTIONAL GRADE</span>
+        </div>
+
+        {premiumLoading && (
+          <div className="space-y-2 py-2 animate-pulse">
+            <p className="text-[9px] font-mono text-text-tertiary">Running specialized institutional-grade AI confluence assessment...</p>
+            <div className="h-2.5 bg-background-elevated rounded w-3/4" />
+            <div className="h-2 bg-background-elevated rounded w-5/6" />
+          </div>
+        )}
+
+        {premiumError && (
+          <div className="space-y-2 py-2">
+            <p className="text-[9px] font-mono text-loss">{premiumError}</p>
+            <button onClick={fetchPremiumAnalysis} className="flex items-center gap-1 px-2.5 py-1 border border-loss/40 hover:border-loss text-[8px] font-mono uppercase text-loss transition-colors rounded">
+              <RefreshCw className="w-2.5 h-2.5" /> Retry Assessment
+            </button>
+          </div>
+        )}
+
+        {!premiumLoading && !premiumError && !premiumAnalysis && (
+          <div className="py-2 flex flex-col items-center justify-center text-center gap-2">
+            <p className="text-[10px] font-mono text-text-tertiary">Run an on-demand, deep-dive liquidity pool & sessional structure confluence briefing.</p>
+            <button onClick={fetchPremiumAnalysis} className="flex items-center gap-1.5 px-4 py-2 bg-accent text-black text-[9px] font-mono uppercase font-bold tracking-widest hover:opacity-95 transition-opacity rounded">
+              <Sparkles className="w-3 h-3" /> Run Confluence Brief
+            </button>
+          </div>
+        )}
+
+        {premiumAnalysis && (
+          <div className="space-y-3 pt-1 animate-in fade-in duration-300">
+            <div className="flex items-start justify-between gap-4">
+              <blockquote className="text-[11px] font-mono text-text-secondary font-bold leading-relaxed border-l-2 border-accent pl-2">
+                {premiumAnalysis.headline}
+              </blockquote>
+              <button onClick={fetchPremiumAnalysis} title="Re-run assessment" className="p-1 text-text-tertiary hover:text-accent transition-colors">
+                <RefreshCw className="w-3 h-3" />
+              </button>
+            </div>
+
+            <div className="grid grid-cols-2 gap-4 py-2 border-y border-border-slate/10">
+              <div className="flex items-center gap-2">
+                <span className="text-[8px] font-mono text-text-tertiary uppercase">BIAS</span>
+                <span className={cn("text-[10px] font-black font-mono uppercase", 
+                  premiumAnalysis.bias === "BULLISH" ? "text-profit" : premiumAnalysis.bias === "BEARISH" ? "text-loss" : "text-warning"
+                )}>{premiumAnalysis.bias}</span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-[8px] font-mono text-text-tertiary uppercase mr-2">CONFLUENCE</span>
+                <div className="flex items-center gap-1.5 flex-1 max-w-[80px]">
+                  <div className="h-1 bg-background-elevated rounded-full flex-1 overflow-hidden">
+                    <div className={cn("h-full rounded-full", 
+                      premiumAnalysis.confluenceScore >= 70 ? "bg-profit" : premiumAnalysis.confluenceScore >= 40 ? "bg-warning" : "bg-loss"
+                    )} style={{ width: `${premiumAnalysis.confluenceScore}%` }} />
+                  </div>
+                  <span className="text-[9px] font-mono font-bold text-text-secondary">{premiumAnalysis.confluenceScore}</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="space-y-1">
+              <span className="text-[8px] font-mono text-text-tertiary uppercase block">KEY Sessional LEVELS</span>
+              <div className="flex flex-wrap gap-1">
+                {premiumAnalysis.keyLevels?.map((lvl: string, idx: number) => (
+                  <span key={idx} className="text-[8px] font-mono px-2 py-0.5 bg-background-elevated border border-border-slate/10 text-text-secondary rounded">
+                    {lvl}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            <div className="space-y-1 bg-background-elevated/40 p-2.5 border border-border-slate/5 rounded">
+              <span className="text-[8px] font-mono text-text-tertiary uppercase block">Session COMMENTARY</span>
+              <p className="text-[10px] font-mono text-text-secondary leading-relaxed whitespace-pre-line">{premiumAnalysis.commentary}</p>
+            </div>
           </div>
         )}
       </div>

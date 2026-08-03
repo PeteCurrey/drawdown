@@ -51,6 +51,8 @@ export function MarketsHubContent() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    let active = true;
+
     async function loadAllData() {
       try {
         const [macroRes, catRes, snapRes] = await Promise.all([
@@ -58,6 +60,8 @@ export function MarketsHubContent() {
           fetch("/api/market/category-snapshots"),
           fetch("/api/market/polygon-snapshot?symbols=GBPUSD,XAUUSD,UK100,BTCUSD")
         ]);
+
+        if (!active) return;
 
         if (macroRes.ok) {
           const m = await macroRes.json();
@@ -76,10 +80,17 @@ export function MarketsHubContent() {
       } catch (err) {
         console.error("Error loading Markets Hub data:", err);
       } finally {
-        setLoading(false);
+        if (active) setLoading(false);
       }
     }
+
     loadAllData();
+    const interval = setInterval(loadAllData, 30000); // Poll every 30s for live intelligence
+
+    return () => {
+      active = false;
+      clearInterval(interval);
+    };
   }, []);
 
   return (
@@ -190,11 +201,23 @@ export function MarketsHubContent() {
             const snap = categoryData[cat.slug];
             const isPos = snap ? snap.changePercent >= 0 : true;
 
+            const glowClass = 
+              cat.slug === "forex" 
+                ? "hover:border-[#00E6FF]/50 hover:shadow-[0_0_25px_rgba(0,230,255,0.12)]" 
+                : cat.slug === "commodities"
+                ? "hover:border-[#FFD54F]/50 hover:shadow-[0_0_25px_rgba(255,213,79,0.12)]"
+                : cat.slug === "indices"
+                ? "hover:border-[#60A5FA]/50 hover:shadow-[0_0_25px_rgba(96,165,250,0.12)]"
+                : "hover:border-[#C8F135]/50 hover:shadow-[0_0_25px_rgba(200,241,53,0.12)]";
+
             return (
               <Link 
                 key={cat.slug} 
                 href={`/markets/${cat.slug}`}
-                className="bg-white/[0.02] border border-white/8 rounded-2xl p-8 hover:border-white/20 hover:-translate-y-0.5 transition-all duration-300 flex flex-col justify-between group cursor-pointer relative overflow-hidden"
+                className={cn(
+                  "bg-white/[0.02] border border-white/8 p-8 hover:-translate-y-0.5 transition-all duration-300 flex flex-col justify-between group cursor-pointer relative overflow-hidden",
+                  glowClass
+                )}
               >
                 {/* Animated background image */}
                 <div className="absolute inset-0 z-0 pointer-events-none select-none">

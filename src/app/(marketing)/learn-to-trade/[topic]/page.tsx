@@ -355,15 +355,15 @@ export default async function TopicPage({ params }: Props) {
               const TOPIC_CURRICULUM_CTAS: Record<string, { href: string; label: string }[]> = {
                 "forex-trading": [
                   { href: "/courses/chart-reader", label: "Phase 02: Chart Reader" },
-                  { href: "/courses/macro-trader", label: "Phase 10: Macro Trader" }
+                  { href: "/courses/macro-trader", label: "Phase 09: Macro Trader" }
                 ],
                 "risk-management": [
                   { href: "/courses/risk-manager", label: "Phase 04: Risk Manager" },
-                  { href: "/courses/the-backtester", label: "Phase 13: The Backtester" }
+                  { href: "/courses/the-backtester", label: "Phase 05: The Backtester" }
                 ],
                 "day-trading": [
                   { href: "/courses/strategist", label: "Phase 03: Strategist" },
-                  { href: "/courses/mind-over-market", label: "Phase 05: Mind Over Market" }
+                  { href: "/courses/mind-over-market", label: "Phase 06: Mind Over Market" }
                 ]
               };
 

@@ -15,7 +15,7 @@ interface NewsItem {
   imageUrl?: string;
 }
 
-const TARGET_SOURCES = ["Sky News", "CNN", "Fox News", "BBC"];
+const TARGET_SOURCES = ["Sky News", "CNN", "Fox Business", "Fox News", "BBC"];
 const fallbackImage = "https://images.unsplash.com/photo-1504711434969-e33886168f5c?q=80&w=800&auto=format&fit=crop";
 
 const TOP_MOVER_SYMBOLS = ["EURUSD", "GBPUSD", "BTCUSD"];

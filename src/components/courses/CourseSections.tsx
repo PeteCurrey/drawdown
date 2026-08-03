@@ -70,7 +70,7 @@ export function SectionB() {
             You&apos;ve been at this for a while. You&apos;ve read books, watched YouTube, maybe paid for a course. But your account is going backwards and you can&apos;t work out why.
           </p>
           <Link href="/signup" className="group flex items-center font-sans text-sm font-bold text-text-primary hover:text-accent transition-colors pt-4 border-t border-border-slate/50">
-            Phase 3 Risk Manager and Phase 5 Psychology are where most self-taught traders find the gap <span className="ml-2 group-hover:translate-x-1 transition-transform">→</span>
+            Phase 4 Risk Manager and Phase 6 Psychology are where most self-taught traders find the gap <span className="ml-2 group-hover:translate-x-1 transition-transform">→</span>
           </Link>
         </div>
         <div className="p-8 border border-border-slate/50 rounded-[14px] bg-background-surface flex flex-col h-full">
@@ -80,7 +80,7 @@ export function SectionB() {
             You have an edge. You&apos;re consistently profitable on a personal account. Now you want to scale with funded capital but keep failing evaluations.
           </p>
           <Link href="/signup" className="group flex items-center font-sans text-sm font-bold text-text-primary hover:text-amber-500 transition-colors pt-4 border-t border-border-slate/50">
-            Phase 6 Prop Ready is built specifically for this <span className="ml-2 group-hover:translate-x-1 transition-transform">→</span>
+            Phase 10 Prop Firm Mastery is built specifically for this <span className="ml-2 group-hover:translate-x-1 transition-transform">→</span>
           </Link>
         </div>
       </div>

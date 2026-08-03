@@ -30,9 +30,12 @@ export function PulseAssetMatrix() {
   const [assets, setAssets] = useState<Asset[]>(DEFAULT_ASSETS);
 
   useEffect(() => {
+    let active = true;
+
     async function fetchPolygonData() {
       try {
         const res = await fetch("/api/market/polygon-snapshot?symbols=GBPUSD,EURUSD,XAUUSD,SPX,UK100,BTCUSD,ETHUSD");
+        if (!active) return;
         if (res.ok) {
           const json = await res.json();
           if (json.snapshots) {
@@ -56,7 +59,14 @@ export function PulseAssetMatrix() {
         console.error("Asset matrix fetch error:", err);
       }
     }
+
     fetchPolygonData();
+    const interval = setInterval(fetchPolygonData, 30000); // 30s high frequency polling
+
+    return () => {
+      active = false;
+      clearInterval(interval);
+    };
   }, []);
 
   return (

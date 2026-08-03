@@ -15,9 +15,12 @@ export function PulseHero({ story, loading }: PulseHeroProps) {
   const [snapshots, setSnapshots] = useState<Record<string, any>>({});
 
   useEffect(() => {
+    let active = true;
+
     async function loadSnapshots() {
       try {
         const res = await fetch("/api/market/polygon-snapshot?symbols=GBPUSD,XAUUSD,BTCUSD,SPX,EURUSD");
+        if (!active) return;
         if (res.ok) {
           const json = await res.json();
           if (json.snapshots) setSnapshots(json.snapshots);
@@ -26,7 +29,14 @@ export function PulseHero({ story, loading }: PulseHeroProps) {
         console.error("PulseHero snapshot error:", e);
       }
     }
+
     loadSnapshots();
+    const interval = setInterval(loadSnapshots, 30000); // 30s high frequency polling
+
+    return () => {
+      active = false;
+      clearInterval(interval);
+    };
   }, []);
 
   if (loading) {

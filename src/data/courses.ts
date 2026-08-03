@@ -118,9 +118,34 @@ export const phases: CoursePhase[] = [
   },
   {
     id: 5,
+    status: "in_development",
+    slug: "the-backtester",
+    number: "05",
+    name: "The Backtester",
+    subtitle: "Proving Your Edge Before You Risk Real Money",
+    tier: "Edge",
+    duration: "6 Hours",
+    modules_count: 8,
+    icon: "LineChart",
+    image: "/images/tools/strategy-backtester.png",
+    description: "Most traders never statistically verify that their strategy makes money. They backtest three weeks of data, get a 70% win rate, and start trading real capital — only to discover it was noise, not edge. This phase teaches rigorous backtesting methodology: sample sizes, key metrics, Monte Carlo simulation, and how to interpret what your data is actually telling you.",
+    full_description: "Move beyond three-week backtest samples and learn to verify edge statistically. Discover the correct manual and automated backtesting workflows, calculate win rates, reward-to-risk ratios, expectancy, profit factor, and maximum adverse exclusion (MAE). Learn to stress-test strategy parameters using Monte Carlo simulation to prove edge before risking real capital. Outlined as Phase 05 in the systematic milestone journey.",
+    modules_list: [
+      "What Backtesting Actually Tells You — and What It Lies About",
+      "Manual Backtesting Method — The Right Way to Do It in TradingView",
+      "Defining Your Strategy Rules With Zero Ambiguity",
+      "Sample Size — How Many Trades Before Your Data Means Something",
+      "Key Metrics — Win Rate, R:R, Expectancy & Profit Factor Explained",
+      "Forward Testing and Walk-Forward Analysis",
+      "Monte Carlo Simulation — Stress-Testing Your Strategy Against Randomness",
+      "Using the Drawdown AI Backtester Tool — Live Walkthrough"
+    ]
+  },
+  {
+    id: 6,
     status: "available",
     slug: "mind-over-market",
-    number: "05",
+    number: "06",
     name: "Mind Over Market",
     subtitle: "Advanced Psychology",
     tier: "Edge",
@@ -129,7 +154,7 @@ export const phases: CoursePhase[] = [
     icon: "BrainCircuit",
     image: "/images/tools/ai-daily-briefing.png",
     description: "Conquer the internal battles. Dealing with streaks, tilt, and the loneliness of the screens.",
-    full_description: "Trading is 20% strategy and 80% mind management. Once you have a mechanical edge, the only thing that can break it is you. Phase 05 dives deep into cognitive biases, emotional regulation, and the performance psychology required to execute under pressure.",
+    full_description: "Trading is 20% strategy and 80% mind management. Once you have a mechanical edge, the only thing that can break it is you. Phase 06 dives deep into cognitive biases, emotional regulation, and the performance psychology required to execute under pressure.",
     modules_list: [
       "Identifying Cognitive Biases",
       "Trading the Curve of Discipline",
@@ -137,29 +162,6 @@ export const phases: CoursePhase[] = [
       "The Professional Routine",
       "Handling a Winning Streak",
       "Conquering the Fear of Missing Out"
-    ]
-  },
-  {
-    id: 6,
-    status: "available",
-    slug: "the-edge",
-    number: "06",
-    name: "The Edge",
-    subtitle: "Portfolio & AI Integration",
-    tier: "Floor",
-    duration: "12 Hours",
-    modules_count: 14,
-    icon: "Play",
-    image: "/images/tools/ai-market-scanner.png",
-    description: "Scaling up. Integrating custom AI workflows, portfolio diversification, and long-term wealth management.",
-    full_description: "At the highest level, trading is about optimization and scale. Phase 06 introduces advanced tools: order flow depth, AI-assisted journaling, and complex portfolio management. This is designed for those looking to manage six and seven-figure capital.",
-    modules_list: [
-      "Institutional Order Flow",
-      "Delta & Footprint Analysis",
-      "Scalping the Tape",
-      "AI-Assisted Journaling",
-      "Portfolio Diversification",
-      "Scaling for Prop Firms"
     ]
   },
   {
@@ -211,31 +213,8 @@ export const phases: CoursePhase[] = [
   {
     id: 9,
     status: "in_development",
-    slug: "portfolio-architect",
-    number: "09",
-    name: "Portfolio Architect",
-    subtitle: "Long-Term Wealth & Allocation",
-    tier: "Floor",
-    duration: "8 Hours",
-    modules_count: 6,
-    icon: "Briefcase",
-    image: "/images/nav/phase-01.png",
-    description: "Move beyond short-term speculation. Learn to construct a diversified, institutional-grade investment portfolio for long-term wealth.",
-    full_description: "Speculative trading generates active income, but long-term wealth is built through passive allocation. Phase 09 transitions you from a short-term speculator to a portfolio architect. Learn how to allocate capital across equities, bonds, gold, and real estate, manage drawdown correlations, and rebalance assets systematically.",
-    modules_list: [
-      "Investing vs. Saving: The Power of Compounding",
-      "Asset Classes: Equities, Fixed Income, Commodities & Crypto",
-      "Modern Portfolio Theory & Diversification Basics",
-      "Constructing a Core-Satellite Portfolio",
-      "Systematic Rebalancing & Dividend Reinvestment",
-      "Tax-Efficient Investing: ISAs, SIPPs, and Capital Gains"
-    ]
-  },
-  {
-    id: 10,
-    status: "in_development",
     slug: "macro-trader",
-    number: "10",
+    number: "09",
     name: "Macro Trader",
     subtitle: "Central Banks, Data & Directional Bias",
     tier: "Edge",
@@ -244,7 +223,7 @@ export const phases: CoursePhase[] = [
     icon: "Globe",
     image: "/images/tools/ai-daily-briefing.png",
     description: "Learn to trade the macroeconomic environment — not just price action. Understand how central bank policy cycles, inflation data, and employment releases move markets. Build a weekly directional bias that combines top-down macro with bottom-up technical entry.",
-    full_description: "A comprehensive syllabus on macro trading. Macroeconomics is the engine of price movement. Technical analysis tells you where price might go, but macro tells you why it moves. Build a unified model combining central bank policy cycles, inflation data (CPI/PPI/PCE), employment releases, and interest rate differentials with mechanical entries.",
+    full_description: "A comprehensive syllabus on macro trading. Macroeconomics is the engine of price movement. Technical analysis tells you where price might go, but macro tells you why it moves. Phase 09 combines central bank policy cycles, inflation data (CPI/PPI/PCE), employment releases, and interest rate differentials with mechanical entries.",
     modules_list: [
       "Central Bank Policy Cycles — How the BoE, Fed, and ECB Move Markets",
       "Reading a Monetary Policy Statement Like a Trader",
@@ -259,10 +238,10 @@ export const phases: CoursePhase[] = [
     ]
   },
   {
-    id: 11,
+    id: 10,
     status: "in_development",
     slug: "prop-firm-mastery",
-    number: "11",
+    number: "10",
     name: "Prop Firm Mastery",
     subtitle: "Passing Evaluations & Scaling Funded Capital",
     tier: "Edge",
@@ -271,7 +250,7 @@ export const phases: CoursePhase[] = [
     icon: "Briefcase",
     image: "/images/tools/risk-calculator.png",
     description: "The prop firm industry has changed how serious retail traders access institutional capital. But most traders attempt evaluations without understanding the business model, the rules, or the psychological traps. This phase covers everything from challenge selection to payout taxation — built for UK traders.",
-    full_description: "A complete walkthrough of the proprietary trading firm ecosystem. Learn how evaluations are structured, master daily and maximum drawdown limits, design a conservative risk management plan that satisfies consistency rules, and scale your funded capital from £10k to £200k. Includes a detailed guide to UK taxation under HMRC for funded payouts.",
+    full_description: "A complete walkthrough of the proprietary trading firm ecosystem. Outlined as Phase 10, learn how evaluations are structured, master daily and maximum drawdown limits, design a conservative risk management plan that satisfies consistency rules, and scale your funded capital from £10k to £200k. Includes a detailed guide to UK taxation under HMRC for funded payouts.",
     modules_list: [
       "How Prop Firms Actually Work — The Business Model Explained",
       "Evaluation Structures — 1-Phase, 2-Phase & Instant Funding Compared",
@@ -281,6 +260,29 @@ export const phases: CoursePhase[] = [
       "Scaling Plans — Going from £10k to £200k in Funded Capital",
       "Prop Firm Red Flags — The Firms That Don't Pay Out",
       "UK Tax on Prop Firm Payouts — What HMRC Expects"
+    ]
+  },
+  {
+    id: 11,
+    status: "available",
+    slug: "the-edge",
+    number: "11",
+    name: "The Edge",
+    subtitle: "Portfolio & AI Integration",
+    tier: "Floor",
+    duration: "12 Hours",
+    modules_count: 14,
+    icon: "Play",
+    image: "/images/tools/ai-market-scanner.png",
+    description: "Scaling up. Integrating custom AI workflows, portfolio diversification, and long-term wealth management.",
+    full_description: "At the highest level, trading is about optimization and scale. Phase 11 introduces advanced tools: order flow depth, AI-assisted journaling, and complex portfolio management. This is designed for those looking to manage six and seven-figure capital.",
+    modules_list: [
+      "Institutional Order Flow",
+      "Delta & Footprint Analysis",
+      "Scalping the Tape",
+      "AI-Assisted Journaling",
+      "Portfolio Diversification",
+      "Scaling for Prop Firms"
     ]
   },
   {
@@ -296,7 +298,7 @@ export const phases: CoursePhase[] = [
     icon: "BrainCircuit",
     image: "/images/tools/ai-market-scanner.png",
     description: "Artificial intelligence is not replacing traders. It is replacing traders who refuse to adapt. This phase teaches practical AI integration into your trading workflow — from journaling and market scanning to Pine Script automation and backtesting pipelines. No coding background required.",
-    full_description: "Learn to leverage large language models (LLMs) and custom AI code generation to automate your daily trading operations. Build AI-scraped pre-session market briefings, prompt custom AI journaling scripts, code TradingView Pine Script strategies, run automated market scanners, and set up Webhook alerts to execute rulesets on autopilot.",
+    full_description: "Learn to leverage large language models (LLMs) and custom AI code generation to automate your daily trading operations. Build AI-scraped pre-session market briefings, prompt custom AI journaling scripts, code TradingView Pine Script strategies, run automated market scanners, and set up Webhook alerts to execute rulesets on autopilot. Outlined as Phase 12 in the systematic wealth-building tier.",
     modules_list: [
       "What AI Can and Cannot Do in Trading — Separating Signal From Hype",
       "Using Claude and GPT as Pre-Trade Research Tools",
@@ -315,28 +317,25 @@ export const phases: CoursePhase[] = [
   {
     id: 13,
     status: "in_development",
-    slug: "the-backtester",
+    slug: "portfolio-architect",
     number: "13",
-    name: "The Backtester",
-    subtitle: "Proving Your Edge Before You Risk Real Money",
+    name: "Portfolio Architect",
+    subtitle: "Long-Term Wealth & Allocation",
     tier: "Floor",
-    duration: "6 Hours",
-    modules_count: 8,
-    icon: "LineChart",
-    image: "/images/tools/strategy-backtester.png",
-    description: "Most traders never statistically verify that their strategy makes money. They backtest three weeks of data, get a 70% win rate, and start trading real capital — only to discover it was noise, not edge. This phase teaches rigorous backtesting methodology: sample sizes, key metrics, Monte Carlo simulation, and how to interpret what your data is actually telling you.",
-    full_description: "Move beyond three-week backtest samples and learn to verify edge statistically. Discover the correct manual and automated backtesting workflows, calculate win rates, reward-to-risk ratios, expectancy, profit factor, and maximum adverse excursion (MAE). Learn to stress-test strategy parameters using Monte Carlo simulation to prove edge before risking real capital.",
+    duration: "8 Hours",
+    modules_count: 6,
+    icon: "Briefcase",
+    image: "/images/nav/phase-01.png",
+    description: "Move beyond short-term speculation. Learn to construct a diversified, institutional-grade investment portfolio for long-term wealth.",
+    full_description: "Speculative trading generates active income, but long-term wealth is built through passive allocation. Phase 13 transitions you from a short-term speculator to a portfolio architect. Learn how to allocate capital across equities, bonds, gold, and real estate, manage drawdown correlations, and rebalance assets systematically.",
     modules_list: [
-      "What Backtesting Actually Tells You — and What It Lies About",
-      "Manual Backtesting Method — The Right Way to Do It in TradingView",
-      "Defining Your Strategy Rules With Zero Ambiguity",
-      "Sample Size — How Many Trades Before Your Data Means Something",
-      "Key Metrics — Win Rate, R:R, Expectancy & Profit Factor Explained",
-      "Forward Testing and Walk-Forward Analysis",
-      "Monte Carlo Simulation — Stress-Testing Your Strategy Against Randomness",
-      "Using the Drawdown AI Backtester Tool — Live Walkthrough"
+      "Investing vs. Saving: The Power of Compounding",
+      "Asset Classes: Equities, Fixed Income, Commodities & Crypto",
+      "Modern Portfolio Theory & Diversification Basics",
+      "Constructing a Core-Satellite Portfolio",
+      "Systematic Rebalancing & Dividend Reinvestment",
+      "Tax-Efficient Investing: ISAs, SIPPs, and Capital Gains"
     ]
-  }
 ];
 
 export const phaseIconMap: Record<string, LucideIcon> = {

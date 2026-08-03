@@ -27,6 +27,7 @@ import { LiveFeed } from "@/components/dashboard/LiveFeed";
 import { TradingViewWidget, toTVSymbol, toTVInterval } from "@/components/dashboard/TradingViewWidget";
 import { SlideOver, SlideOverSection, ImpactPill } from "@/components/ui/SlideOver";
 import { useMarketData } from "@/hooks/useMarketData";
+import { FredMacroSafeguard } from "@/components/dashboard/FredMacroSafeguard";
 import {
   INSTRUMENT_GROUPS, TIMEFRAMES, INSTRUMENTS_LIST,
   type Instrument, intervalLabel,
@@ -937,6 +938,11 @@ export default function MarketIntelligencePage() {
           </div>
 
         </div>
+      </section>
+
+      {/* ── FRED Macro Volatility Safeguard Panel ───────────────────────────── */}
+      <section className="px-6 md:px-10 pb-10">
+        <FredMacroSafeguard variant="full" />
       </section>
 
       {/* ── SlideOver ──────────────────────────────────────────────────────── */}

@@ -20,7 +20,7 @@ interface MoverItem {
   changePercent?: number;
 }
 
-const TARGET_SOURCES = ["Sky News", "CNN", "Fox News", "BBC"];
+const TARGET_SOURCES = ["Sky News", "CNN", "Fox Business", "Fox News", "BBC"];
 const fallbackImage = "https://images.unsplash.com/photo-1504711434969-e33886168f5c?q=80&w=800&auto=format&fit=crop";
 const TOP_MOVER_SYMBOLS = ["EURUSD", "GBPUSD", "BTCUSD"];
 
@@ -146,8 +146,13 @@ export function MarketPulse() {
 
   // Embed TradingView calendar widget
   useEffect(() => {
-    if (!calendarContainerRef.current) return;
-    calendarContainerRef.current.innerHTML = "";
+    const container = calendarContainerRef.current;
+    if (!container) return;
+    container.innerHTML = "";
+
+    const widgetDiv = document.createElement("div");
+    widgetDiv.className = "tradingview-widget-container__widget w-full h-full";
+    container.appendChild(widgetDiv);
 
     const script = document.createElement("script");
     script.src = "https://s3.tradingview.com/external-embedding/embed-widget-events.js";
@@ -160,14 +165,16 @@ export function MarketPulse() {
       countryFilter: "ar,au,br,ca,cn,fr,de,in,id,it,jp,kr,mx,ru,sa,za,tr,gb,us,eu",
       importanceFilter: "-1,0,1",
       width: "100%",
-      height: 480
+      height: 450
     });
 
-    const widgetDiv = document.createElement("div");
-    widgetDiv.className = "tradingview-widget-container__widget w-full h-full";
+    container.appendChild(script);
 
-    calendarContainerRef.current.appendChild(widgetDiv);
-    calendarContainerRef.current.appendChild(script);
+    return () => {
+      if (container) {
+        container.innerHTML = "";
+      }
+    };
   }, []);
 
   const featuredNews = activeItems[0];
@@ -366,7 +373,7 @@ export function MarketPulse() {
                 </span>
               </div>
 
-              <div className="w-full h-[410px] overflow-hidden" ref={calendarContainerRef}>
+              <div className="tradingview-widget-container w-full h-[450px] overflow-hidden" ref={calendarContainerRef}>
                 <div className="tradingview-widget-container__widget w-full h-full" />
               </div>
             </div>

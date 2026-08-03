@@ -1,26 +1,28 @@
 "use client";
 
 import React, { useState, useEffect, useCallback, useMemo } from "react";
-import { Plus, Upload, RefreshCw, BookOpen, BarChart2, Calendar, Bot } from "lucide-react";
+import { Plus, Upload, RefreshCw, BookOpen, BarChart2, Calendar, Bot, ShieldAlert } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import type { TradeEntry } from "./types";
 import { LogView } from "./LogView";
 import { AnalyticsView } from "./AnalyticsView";
 import { CalendarView } from "./CalendarView";
 import { AiCoach } from "./AiCoach";
+import { BehavioralDiagnosticView } from "./BehavioralDiagnosticView";
 import { LogTradeModal } from "./LogTradeModal";
 import { TradeDetailPanel } from "./TradeDetailPanel";
 
 // ─── Design tokens (journal uses cyan accent, white cards) ────────────────────
 const CYAN = "var(--tool-accent)";
 
-type View = "log" | "analytics" | "calendar" | "coach";
+type View = "log" | "analytics" | "calendar" | "coach" | "audit";
 
 const VIEWS: { id: View; label: string; icon: React.ElementType }[] = [
   { id: "log",       label: "Trade Log",  icon: BookOpen  },
   { id: "analytics", label: "Analytics",  icon: BarChart2 },
   { id: "calendar",  label: "Calendar",   icon: Calendar  },
   { id: "coach",     label: "AI Coach",   icon: Bot       },
+  { id: "audit",     label: "Psychology Audit", icon: ShieldAlert },
 ];
 
 interface JournalClientProps {
@@ -264,6 +266,9 @@ export function JournalClient({ initialView, userId }: JournalClientProps) {
           )}
           {activeView === "coach" && (
             <AiCoach trades={trades} />
+          )}
+          {activeView === "audit" && (
+            <BehavioralDiagnosticView trades={trades} />
           )}
         </div>
       )}

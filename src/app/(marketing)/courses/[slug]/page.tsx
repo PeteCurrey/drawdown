@@ -22,7 +22,7 @@ const META_DESCRIPTIONS: Record<string, string> = {
   "macro-trader": "Master central bank policies and economic data cycles with Drawdown's 10-module edge course. Learn BoE trading & macro bias. Edge tier.",
   "prop-firm-mastery": "Master prop firm challenges with Drawdown's 8-module edge course. Evaluation rules, risk management, scaling plans & UK tax on funded payouts. Edge tier.",
   "ai-trader": "Master AI trading tools and workflows with Drawdown's 12-module floor course. Pine Script, custom journals, and TV webhooks. Floor tier.",
-  "the-backtester": "Master strategy backtesting with Drawdown's 8-module floor course. Monte Carlo simulation, expectancy, profit factor & MAE. Floor tier."
+  "the-backtester": "Master strategy backtesting with Drawdown's 8-module edge course. Monte Carlo simulation, expectancy, profit factor & MAE. Edge tier."
 };
 
 export async function generateStaticParams() {

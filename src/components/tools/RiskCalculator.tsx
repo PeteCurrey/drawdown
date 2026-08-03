@@ -1107,8 +1107,108 @@ function PortfolioHeatTab({ balance, currency }: { balance: number; currency: st
 }
 
 // ─── Advanced Sizing Tab ─────────────────────────────────────────────────────
+// Monte Carlo for Prop Firm Drawdown Buffer Safeguards
+function runDrawdownBufferSimulation(
+  balance: number,
+  riskPct: number,
+  winRate: number,
+  rr: number,
+  maxDailyLossPct: number,
+  maxTotalLossPct: number,
+  numTrades: number,
+  numSims = 1000
+) {
+  const TRADES_PER_DAY = 3;
+  let totalDailyBreaches = 0;
+  let totalMaxBreaches = 0;
+  
+  const curves: number[][] = [];
+  const maxDrawdowns: number[] = [];
+
+  for (let s = 0; s < numSims; s++) {
+    const curve = [balance];
+    let bal = balance;
+    let peak = balance;
+    let maxDD = 0;
+    let dailyStartBal = balance;
+    let breachedDaily = false;
+    let breachedMax = false;
+
+    for (let t = 0; t < numTrades; t++) {
+      if (t > 0 && t % TRADES_PER_DAY === 0) {
+        dailyStartBal = bal;
+      }
+
+      const risk = bal * (riskPct / 100);
+      if (Math.random() < winRate) {
+        bal += risk * rr;
+      } else {
+        bal -= risk;
+      }
+
+      if (bal > peak) peak = bal;
+      const dd = (peak - bal) / peak;
+      if (dd > maxDD) maxDD = dd;
+
+      if (dd >= maxTotalLossPct / 100) {
+        breachedMax = true;
+      }
+
+      const dailyDrawdown = (dailyStartBal - bal) / dailyStartBal;
+      if (dailyDrawdown >= maxDailyLossPct / 100) {
+        breachedDaily = true;
+      }
+
+      if (bal <= 0) {
+        bal = 0;
+        breachedMax = true;
+        break;
+      }
+      curve.push(bal);
+    }
+    
+    if (breachedDaily) totalDailyBreaches++;
+    if (breachedMax) totalMaxBreaches++;
+    curves.push(curve);
+    maxDrawdowns.push(maxDD);
+  }
+
+  const probDailyBreach = totalDailyBreaches / numSims;
+  const probMaxBreach = totalMaxBreaches / numSims;
+  
+  let recommendedRisk = 0.5;
+  const candidateRisks = [0.25, 0.5, 0.75, 1.0, 1.5, 2.0];
+  for (let i = candidateRisks.length - 1; i >= 0; i--) {
+    const candidate = candidateRisks[i];
+    const edge = winRate * rr - (1 - winRate);
+    if (edge <= 0) {
+      recommendedRisk = 0.25;
+      break;
+    }
+    const a = edge / (winRate * rr + (1 - winRate));
+    const c = maxTotalLossPct / candidate;
+    const approxRor = Math.pow((1 - a) / (1 + a), c);
+    if (approxRor < 0.02) {
+      recommendedRisk = candidate;
+      break;
+    }
+  }
+
+  const step = Math.floor(numSims / 20);
+  const sampleCurves = curves.filter((_, i) => i % step === 0).slice(0, 20);
+
+  return {
+    sampleCurves,
+    probDailyBreach,
+    probMaxBreach,
+    recommendedRisk,
+    medianMaxDD: maxDrawdowns.sort((a,b)=>a-b)[Math.floor(numSims / 2)]
+  };
+}
+
+// ─── Advanced Sizing Tab ─────────────────────────────────────────────────────
 function AdvancedSizingTab({ balance, riskPct, sym }: { balance: number; riskPct: number; sym: string }) {
-  const [subTab, setSubTab] = useState<"VOLATILITY"|"MONTE CARLO">("VOLATILITY");
+  const [subTab, setSubTab] = useState<"VOLATILITY"|"MONTE CARLO"|"DRAWDOWN BUFFER">("VOLATILITY");
   const [kellyWR, setKellyWR] = useState(45);
   const [kellyRR, setKellyRR] = useState(2.0);
   const kelly = (kellyWR/100) - ((1-kellyWR/100)/(kellyRR));
@@ -1129,6 +1229,16 @@ function AdvancedSizingTab({ balance, riskPct, sym }: { balance: number; riskPct
   const [mcRunning, setMcRunning] = useState(false);
   const debounceRef = useRef<ReturnType<typeof setTimeout>|null>(null);
 
+  // Buffer state
+  const [maxDailyLoss, setMaxDailyLoss] = useState(5.0);
+  const [maxTotalLoss, setMaxTotalLoss] = useState(10.0);
+  const [bufWinRate, setBufWinRate] = useState(45);
+  const [bufRR, setBufRR] = useState(2.0);
+  const [bufTrades, setBufTrades] = useState(250);
+  const [bufRiskPct, setBufRiskPct] = useState(riskPct);
+  const [bufResult, setBufResult] = useState<ReturnType<typeof runDrawdownBufferSimulation>|null>(null);
+  const [bufRunning, setBufRunning] = useState(false);
+
   async function fetchATR() {
     setFetchingATR(true);
     const v = await fetchTwelveATR(atrSymbol);
@@ -1142,6 +1252,24 @@ function AdvancedSizingTab({ balance, riskPct, sym }: { balance: number; riskPct
       const result = runMonteCarlo(balance, mcRiskPct, mcWinRate/100, mcRR, mcTrades, 1000);
       setMcResult(result);
       setMcRunning(false);
+    }, 50);
+  }
+
+  function runBufSim() {
+    setBufRunning(true);
+    setTimeout(() => {
+      const result = runDrawdownBufferSimulation(
+        balance,
+        bufRiskPct,
+        bufWinRate / 100,
+        bufRR,
+        maxDailyLoss,
+        maxTotalLoss,
+        bufTrades,
+        1000
+      );
+      setBufResult(result);
+      setBufRunning(false);
     }, 50);
   }
 
@@ -1169,10 +1297,18 @@ function AdvancedSizingTab({ balance, riskPct, sym }: { balance: number; riskPct
     return obj;
   }) : [];
 
+  const bufChartData = bufResult ? Array.from({ length: bufTrades + 1 }, (_, i) => {
+    const obj: any = { trade: i };
+    bufResult.sampleCurves.slice(0, 20).forEach((curve, j) => { obj[`c${j}`] = curve[i] ?? null; });
+    const vals = bufResult.sampleCurves.map(c => c[i]).filter(v => v != null).sort((a,b)=>a-b);
+    obj.median = vals[Math.floor(vals.length/2)];
+    return obj;
+  }) : [];
+
   return (
     <div className="space-y-6">
       <div className="flex border-b border-border-slate/30">
-        {(["VOLATILITY","MONTE CARLO"] as const).map(t => (
+        {(["VOLATILITY","MONTE CARLO","DRAWDOWN BUFFER"] as const).map(t => (
           <button key={t} onClick={() => setSubTab(t)}
             className={cn("px-5 py-3 text-[10px] font-mono uppercase tracking-widest transition-colors",
               subTab === t ? "border-b-2 border-accent text-accent" : "text-text-tertiary hover:text-text-secondary")}>
@@ -1361,6 +1497,154 @@ function AdvancedSizingTab({ balance, riskPct, sym }: { balance: number; riskPct
           )}
           {!mcResult && !mcRunning && (
             <div className="text-center py-12 text-text-tertiary font-mono text-sm">Set parameters and click Run Monte Carlo to see projections.</div>
+          )}
+        </div>
+      )}
+
+      {subTab === "DRAWDOWN BUFFER" && (
+        <div className="space-y-6">
+          <div className="bg-background-surface border border-border-slate/50 rounded-xl p-6 shadow-sm">
+            <SectionHeader><Shield className="w-3.5 h-3.5" /> Drawdown Buffer & Prop Firm Rules</SectionHeader>
+            <p className="text-[9px] font-mono text-text-tertiary mt-2 mb-4">
+              Prop firms enforce strict Max Total and Daily drawdown rules. Simulate how likely your strategy stats will trigger a breach.
+            </p>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+              <div>
+                <FieldLabel>Daily Loss Limit: {maxDailyLoss}%</FieldLabel>
+                <input type="range" min="1" max="10" step="0.5" value={maxDailyLoss} onChange={e => setMaxDailyLoss(+e.target.value)} className="w-full h-1 accent-accent cursor-pointer" />
+              </div>
+              <div>
+                <FieldLabel>Max Total Drawdown: {maxTotalLoss}%</FieldLabel>
+                <input type="range" min="2" max="20" step="1" value={maxTotalLoss} onChange={e => setMaxTotalLoss(+e.target.value)} className="w-full h-1 accent-accent cursor-pointer" />
+              </div>
+              <div>
+                <FieldLabel>Win Rate: {bufWinRate}%</FieldLabel>
+                <input type="range" min="30" max="75" step="1" value={bufWinRate} onChange={e => setBufWinRate(+e.target.value)} className="w-full h-1 accent-accent cursor-pointer" />
+              </div>
+              <div>
+                <FieldLabel>Reward-to-Risk: {bufRR}:1</FieldLabel>
+                <input type="range" min="0.5" max="5" step="0.5" value={bufRR} onChange={e => setBufRR(+e.target.value)} className="w-full h-1 accent-accent cursor-pointer" />
+              </div>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
+              <div>
+                <FieldLabel>Series of Trades</FieldLabel>
+                <div className="flex gap-2">
+                  {[100, 250, 500].map(n => (
+                    <button key={n} onClick={() => setBufTrades(n)}
+                      className={cn("flex-1 py-1.5 text-[9px] font-mono border rounded transition-all", bufTrades===n ? "bg-accent text-white border-accent" : "border-border-slate/50 text-text-tertiary hover:border-accent")}>
+                      {n}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              <div>
+                <FieldLabel>Risk per Trade: {bufRiskPct}%</FieldLabel>
+                <input type="range" min="0.25" max="5" step="0.25" value={bufRiskPct} onChange={e => setBufRiskPct(+e.target.value)} className="w-full h-1 accent-accent cursor-pointer" />
+              </div>
+              <div className="flex items-end">
+                <button onClick={runBufSim} disabled={bufRunning}
+                  className="w-full py-3 bg-[#0a0a0a] hover:bg-neutral-800 text-white font-bold uppercase tracking-widest text-[9px] rounded-lg flex items-center justify-center gap-2 disabled:opacity-50 transition-all">
+                  {bufRunning ? <><RefreshCw className="w-3.5 h-3.5 animate-spin" /> Simulating…</> : <><Zap className="w-3.5 h-3.5" /> Run Buffer Simulation</>}
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {bufResult && (
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              <div className="lg:col-span-2 bg-background-surface border border-border-slate/50 rounded-xl p-6 shadow-sm">
+                <SectionHeader><Activity className="w-3.5 h-3.5" /> Equity Path & Drawdown Breaches</SectionHeader>
+                <div className="h-64 mt-4">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <LineChart data={bufChartData} margin={{ top:5, right:10, bottom:5, left:10 }}>
+                      <XAxis dataKey="trade" tick={{ fontSize:8, fontFamily:"monospace" }} />
+                      <YAxis tick={{ fontSize:8, fontFamily:"monospace" }} tickFormatter={v => `${sym}${Math.round(v/1000)}k`} />
+                      <Tooltip formatter={(v: any) => `${sym}${Number(v).toFixed(0)}`} contentStyle={{ fontSize:10, fontFamily:"monospace" }} />
+                      <ReferenceLine y={balance} stroke="#94a3b8" strokeDasharray="4 4" label={{ value:"Start", fontSize:8 }} />
+                      <ReferenceLine y={balance * (1 - maxTotalLoss / 100)} stroke="#ef4444" strokeWidth={1.5} strokeDasharray="3 3" label={{ value:"Breach Boundary", fill:"#ef4444", fontSize:8 }} />
+                      {Array.from({ length: 20 }, (_, i) => (
+                        <Line key={i} dataKey={`c${i}`} stroke="#cbd5e1" strokeWidth={0.8} dot={false} isAnimationActive={false} />
+                      ))}
+                      <Line dataKey="median" stroke="var(--tool-accent)" strokeWidth={2.5} dot={false} isAnimationActive={false} name="Median" />
+                    </LineChart>
+                  </ResponsiveContainer>
+                </div>
+                <div className="flex items-center gap-6 mt-3 text-[9px] font-mono text-text-tertiary">
+                  <span className="flex items-center gap-1.5"><span className="w-6 h-0.5 bg-[#cbd5e1] inline-block" /> Sample paths</span>
+                  <span className="flex items-center gap-1.5"><span className="w-6 h-0.5 bg-accent inline-block" /> Median Path</span>
+                  <span className="flex items-center gap-1.5"><span className="w-6 h-0.5 inline-block" style={{ borderTop: "1px dashed red" }} /> Breach Line ({maxTotalLoss}%)</span>
+                </div>
+              </div>
+
+              <div className="space-y-6">
+                <div className="bg-background-surface border border-border-slate/50 rounded-xl p-6 shadow-sm space-y-4">
+                  <SectionHeader><ShieldAlert className="w-3.5 h-3.5" /> Rule Breach Statistics</SectionHeader>
+                  
+                  <div className="space-y-3">
+                    <div>
+                      <div className="flex justify-between text-[10px] font-mono mb-1">
+                        <span className="text-text-tertiary uppercase">Max Total Loss Breach</span>
+                        <span className={cn("font-bold", bufResult.probMaxBreach > 0.05 ? "text-red-500" : "text-emerald-500")}>
+                          {(bufResult.probMaxBreach * 100).toFixed(1)}%
+                        </span>
+                      </div>
+                      <div className="h-2 bg-background-elevated rounded-full overflow-hidden">
+                        <div className={cn("h-full rounded-full transition-all", bufResult.probMaxBreach > 0.05 ? "bg-red-500" : "bg-emerald-500")}
+                          style={{ width: `${bufResult.probMaxBreach * 100}%` }} />
+                      </div>
+                    </div>
+
+                    <div>
+                      <div className="flex justify-between text-[10px] font-mono mb-1">
+                        <span className="text-text-tertiary uppercase">Daily Loss Breach</span>
+                        <span className={cn("font-bold", bufResult.probDailyBreach > 0.1 ? "text-red-500" : "text-emerald-500")}>
+                          {(bufResult.probDailyBreach * 100).toFixed(1)}%
+                        </span>
+                      </div>
+                      <div className="h-2 bg-background-elevated rounded-full overflow-hidden">
+                        <div className={cn("h-full rounded-full transition-all", bufResult.probDailyBreach > 0.1 ? "bg-red-500" : "bg-emerald-500")}
+                          style={{ width: `${bufResult.probDailyBreach * 100}%` }} />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-background-primary border border-border-slate/40 rounded-lg p-3 text-[10px] font-mono space-y-1.5 text-text-secondary">
+                    <div>Expected Median Max DD: <strong className={cn(bufResult.medianMaxDD > (maxTotalLoss/100) ? "text-red-500" : "text-text-primary")}>{(bufResult.medianMaxDD * 100).toFixed(1)}%</strong></div>
+                    <div>Safe Risk Boundary: <strong className="text-emerald-600">{(bufResult.recommendedRisk).toFixed(2)}% per trade</strong></div>
+                  </div>
+                </div>
+
+                <div className="bg-background-surface border border-border-slate/50 rounded-xl p-6 shadow-sm space-y-3">
+                  <SectionHeader><CheckCircle className="w-3.5 h-3.5" /> Institutional Directives</SectionHeader>
+                  {bufResult.probMaxBreach > 0.02 ? (
+                    <div className="text-[10px] font-mono leading-relaxed space-y-2 text-text-secondary">
+                      <p className="text-red-500 font-bold">⚠️ OVER-LEVERAGED EXPOSURE:</p>
+                      <p>
+                        Your current stats yield a <strong className="text-red-400">{(bufResult.probMaxBreach * 100).toFixed(1)}%</strong> probability of violating the {maxTotalLoss}% drawdown rule during a typical streak.
+                      </p>
+                      <p>
+                        <strong>Directive:</strong> Scale down your risk to <strong className="text-emerald-600">{(bufResult.recommendedRisk).toFixed(2)}%</strong> per trade ({sym}{(balance * bufResult.recommendedRisk / 100).toFixed(0)}) to secure a 99% safety buffer.
+                      </p>
+                    </div>
+                  ) : (
+                    <div className="text-[10px] font-mono leading-relaxed space-y-2 text-text-secondary">
+                      <p className="text-emerald-600 font-bold">🛡️ CAPITAL-SECURE MODEL:</p>
+                      <p>
+                        Your strategy exhibits standard risk-adjusted safety. Your probability of total breach is under control.
+                      </p>
+                      <p>
+                        <strong>Directive:</strong> Risk parameters are well-buffered. Standard rules apply.
+                      </p>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          )}
+          {!bufResult && !bufRunning && (
+            <div className="text-center py-12 text-text-tertiary font-mono text-sm">Set parameters and click Run Buffer Simulation to analyze safety zones.</div>
           )}
         </div>
       )}

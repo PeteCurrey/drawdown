@@ -92,20 +92,26 @@ function findCatalyst(events: any[], slug: string): any {
 }
 
 /**
- * Fetch indicators directly from TAAPI.IO (for Crypto)
+ * Fetch indicators directly from TAAPI.IO (supporting Crypto, Forex, and Commodities)
  */
 async function fetchTaapiData(slug: string, timeframe: string): Promise<any> {
   const apiKey = process.env.TAAPI_API_KEY;
   if (!apiKey) return null;
 
-  const cryptoMap: Record<string, string> = {
-    "BTC/USD": "BTC/USDT",
-    "ETH/USD": "ETH/USDT",
-    "SOL/USD": "SOL/USDT",
+  const symbolMap: Record<string, { symbol: string; exchange: string }> = {
+    "BTC/USD": { symbol: "BTC/USDT", exchange: "binance" },
+    "ETH/USD": { symbol: "ETH/USDT", exchange: "binance" },
+    "SOL/USD": { symbol: "SOL/USDT", exchange: "binance" },
+    "EUR/USD": { symbol: "EUR/USD", exchange: "forex" },
+    "GBP/USD": { symbol: "GBP/USD", exchange: "forex" },
+    "USD/JPY": { symbol: "USD/JPY", exchange: "forex" },
+    "GBP/JPY": { symbol: "GBP/JPY", exchange: "forex" },
+    "XAU/USD": { symbol: "XAU/USD", exchange: "forex" },
+    "XAG/USD": { symbol: "XAG/USD", exchange: "forex" },
   };
 
-  const symbol = cryptoMap[slug];
-  if (!symbol) return null;
+  const asset = symbolMap[slug];
+  if (!asset) return null;
 
   const tfMap: Record<string, string> = {
     "15M": "15m",
@@ -122,8 +128,8 @@ async function fetchTaapiData(slug: string, timeframe: string): Promise<any> {
       body: JSON.stringify({
         secret: apiKey,
         construct: {
-          exchange: "binance",
-          symbol: symbol,
+          exchange: asset.exchange,
+          symbol: asset.symbol,
           timeframe: tf,
           indicators: [
             { id: "rsi", indicator: "rsi", period: 14 },

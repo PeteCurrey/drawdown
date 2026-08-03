@@ -16,32 +16,53 @@ const TIER_WEIGHT: Record<string, number> = {
 
 // Maps phase slug → integer (matching the course_progress DB schema)
 const PHASE_NUM: Record<string, number> = {
-  "ground-zero":      1,
-  "chart-reader":     2,
-  "strategist":       3,
-  "risk-manager":     4,
-  "mind-over-market": 5,
-  "the-edge":         6,
+  "ground-zero":          1,
+  "chart-reader":         2,
+  "strategist":           3,
+  "risk-manager":         4,
+  "the-backtester":       5,
+  "mind-over-market":     6,
+  "fundamental-edge":     7,
+  "derivatives-options":  8,
+  "macro-trader":         9,
+  "prop-firm-mastery":    10,
+  "the-edge":             11,
+  "ai-trader":            12,
+  "portfolio-architect":  13,
 };
 
 // Minimum tier weight to access each phase
 const PHASE_MIN_WEIGHT: Record<string, number> = {
-  "ground-zero":      0,
-  "chart-reader":     1,
-  "strategist":       1,
-  "risk-manager":     1,
-  "mind-over-market": 2,
-  "the-edge":         3,
+  "ground-zero":          0, // Free
+  "chart-reader":         1, // Foundation
+  "strategist":           1, // Foundation
+  "risk-manager":         1, // Foundation
+  "the-backtester":       2, // Edge
+  "mind-over-market":     2, // Edge
+  "fundamental-edge":     2, // Edge
+  "derivatives-options":  2, // Edge
+  "macro-trader":         2, // Edge
+  "prop-firm-mastery":    2, // Edge
+  "the-edge":             3, // Floor
+  "ai-trader":            3, // Floor
+  "portfolio-architect":  3, // Floor
 };
 
 // Total modules per phase (from courses.ts)
 const PHASE_MODULE_COUNTS: Record<string, number> = {
-  "ground-zero":      8,
-  "chart-reader":     12,
-  "strategist":       10,
-  "risk-manager":     6,
-  "mind-over-market": 8,
-  "the-edge":         14,
+  "ground-zero":          8,
+  "chart-reader":         12,
+  "strategist":           10,
+  "risk-manager":         6,
+  "the-backtester":       8,
+  "mind-over-market":     10,
+  "fundamental-edge":     6,
+  "derivatives-options":  6,
+  "macro-trader":         10,
+  "prop-firm-mastery":    8,
+  "the-edge":             14,
+  "ai-trader":            12,
+  "portfolio-architect":  6,
 };
 
 // ─── Page ─────────────────────────────────────────────────────────────────────

@@ -222,11 +222,11 @@ export function RegionalPricingClient({ floorCap = 15, activeFloorSubs = 0 }: { 
 
                   {/* Price */}
                   <div className="mb-6 pb-6 border-b border-slate-200">
-                    <div className="flex items-baseline gap-1">
-                      <span className="text-4xl sm:text-5xl font-black font-mono text-slate-900 tracking-tight">
-                        {symbol}{tier.price[billingCycle]}
+                    <div className="flex items-baseline gap-1 flex-nowrap whitespace-nowrap overflow-hidden">
+                      <span className="text-2xl sm:text-3xl lg:text-3xl xl:text-4xl font-black font-mono text-slate-900 tracking-tight shrink-0">
+                        {symbol}{tier.price[billingCycle].toLocaleString()}
                       </span>
-                      <span className="text-xs text-slate-500 font-mono">/month</span>
+                      <span className="text-xs text-slate-500 font-mono shrink-0">/month</span>
                     </div>
                     {tier.name === "Floor" && (
                       <p className="text-[10px] font-mono text-emerald-700 mt-1.5 font-bold flex items-center gap-1">

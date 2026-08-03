@@ -28,7 +28,7 @@ export default function TradingEducationBusinessModelPage() {
     "description": "Courses. Affiliates. Broker referrals. The trading education business model isn't a secret — it's just rarely explained honestly. Here's exactly how it works, who benefits, and what traders should do with that knowledge.",
     "author": {
       "@type": "Person",
-      "name": "Pete",
+      "name": "Pete Currey",
       "jobTitle": "Founder",
       "worksFor": {
         "@type": "Organization",

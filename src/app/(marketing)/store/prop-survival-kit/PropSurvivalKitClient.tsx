@@ -277,7 +277,7 @@ export default function PropSurvivalKitPage() {
                   I'm Pete Currey. I built Drawdown because the trading education industry is full of people who profit from your confusion. The Prop Firm Survival Kit isn't a repurposed YouTube script. It's the document I compiled after watching traders in our community repeat the same expensive mistakes — and after making several of them myself.
                 </p>
                 <p>
-                  I've run my own businesses for over 20 years. I've deployed and managed capital under pressure. I understand what it means to operate with real stakes. When I approached prop trading, I treated it the same way I'd approach any high-stakes professional environment: understand the system first, execute second.
+                  I've been trading live and managing capital in real markets since 2016. I understand what it means to operate with real stakes. When I approached prop trading, I treated it the same way I'd approach any high-stakes professional environment: understand the system first, execute second.
                 </p>
                 <p>
                   The Survival Kit is the system. Every rule decoded. Every psychological trap named. Every pre-trade checklist stress-tested against real evaluation conditions. If you go through a prop firm challenge without it, you're paying for a lesson that's already been written.
@@ -287,7 +287,7 @@ export default function PropSurvivalKitPage() {
               {/* Credential Strip */}
               <div className="flex flex-wrap gap-3 pt-4 select-none">
                 {[
-                  "20+ Years in Business",
+                  "Trading Live Since 2016",
                   "Founder, Drawdown Trading",
                   "UK-Based, FX & Indices",
                   "Phase 1–6 Curriculum Author",

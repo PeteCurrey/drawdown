@@ -28,7 +28,7 @@ export default function CoffeezillaAlexGPage() {
     "description": "Seven and a half million in course revenue. Demo accounts. Undisclosed affiliates. We break down what the fxAlexG situation really tells us about trading education — and what traders should actually do with that information.",
     "author": {
       "@type": "Person",
-      "name": "Pete",
+      "name": "Pete Currey",
       "jobTitle": "Founder",
       "worksFor": {
         "@type": "Organization",

@@ -28,7 +28,7 @@ export default function WhyTradingGurusUseDemoAccountsPage() {
     "description": "The hate around demo accounts in trading content is mostly misdirected. Here's the honest reason gurus use them, why the omission is the real problem, and what traders should actually be looking for.",
     "author": {
       "@type": "Person",
-      "name": "Pete",
+      "name": "Pete Currey",
       "jobTitle": "Founder",
       "worksFor": {
         "@type": "Organization",

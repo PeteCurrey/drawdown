@@ -47,7 +47,6 @@ export const REGION_PDF_PRICES: Record<Region, { propKit: string; howTo: string;
 
 export const GET_DEFAULT_FEATURES = () => [
   { name: "Full Course Library (Phase 1 complete — new phases added as released)", included: true },
-  { name: "Weekly Video Market Breakdowns (Coming Soon)", included: false },
   { name: "Trade Journal (Manual)", included: true },
   { name: "Position Size Calculator", included: true },
   { name: "Intelligence Hub", included: true },
@@ -62,17 +61,11 @@ export const GET_EDGE_FEATURES = () => [
   { name: "AI Market Scanner & Alerting", included: true },
   { name: "AI Strategy Backtester", included: true },
   { name: "AI Daily Briefing", included: true },
-  { name: "Monthly Live Group Q&A (Coming Soon)", included: false },
-  { name: "Advanced Strategy Modules (Coming Soon)", included: false },
 ];
 
 export const GET_FLOOR_FEATURES = () => [
   { name: "Everything in Edge", included: true },
   { name: "The Investment Centre (Institutional Macro & Risk Engine)", included: true },
-  { name: "Monthly 1-to-1 Session (45m) with Pete (Coming Soon)", included: false },
-  { name: "Quarterly Small-Group Masterclass (Coming Soon)", included: false },
-  { name: "Custom AI Portfolio Analysis (Coming Soon)", included: false },
-  { name: "Early Access to New Tools (Coming Soon)", included: false },
   { name: "Direct Discord Access to Founder", included: true },
 ];
 

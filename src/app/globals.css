@@ -40,6 +40,20 @@
 }
 
 :root {
+  /* ── Phase 1 institutional palette ─────────────────────────────────────────
+   *  These are the canonical tokens for the marketing homepage rebuild.
+   *  Never use arbitrary colours on the homepage — use these.
+   *  --risk-amber is reserved EXCLUSIVELY for genuine risk/warning states.
+   *  ──────────────────────────────────────────────────────────────────────── */
+  --ink-950:       #0B0E12;   /* primary text, near-black */
+  --paper-0:       #FAFAF9;   /* primary background, warm-neutral off-white */
+  --paper-100:     #F1F0EE;   /* panel/section background */
+  --graphite-600:  #4B5157;   /* secondary text, captions, metadata */
+  --line-200:      #DDDBD7;   /* hairline rule / border — 1px only */
+  --signal-navy:   #16213E;   /* brand accent: primary CTAs, active states, links */
+  --risk-amber:    #B8752E;   /* risk/warning states ONLY. Never decorative. */
+
+  /* ── Legacy shell palette (platform pages — do not change) ─────────────── */
   --shell:       #D5D8C5;
   --dark:        #181818;
   --dark-mid:    #232323;
@@ -199,6 +213,44 @@
 
 .animate-ticker {
   animation: ticker 30s linear infinite;
+}
+
+/* ── Phase 1: Tabular figures for all numeric/price/percentage displays ────
+ *  Apply font-variant-numeric: tabular-nums to any element using IBM Plex Mono
+ *  so digits render at consistent widths and never jitter as values update.
+ *  ──────────────────────────────────────────────────────────────────────── */
+.tabular {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
+}
+
+/* ── Phase 1: Zero border-radius enforcement ───────────────────────────────
+ *  Square corners are the visual signature of the homepage rebuild.
+ *  Apply .sq to any card, button, input, panel, or badge on marketing pages.
+ *  ──────────────────────────────────────────────────────────────────────── */
+.sq {
+  border-radius: 0 !important;
+}
+
+/* ── Phase 1: prefers-reduced-motion ──────────────────────────────────────
+ *  Freeze all animations for users who have requested reduced motion.
+ *  Ticker scroll is the only ambient animation on the homepage — it is
+ *  replaced with a static state when this preference is active.
+ *  ──────────────────────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .animate-ticker,
+  .animate-marquee-ticker,
+  .animate-marquee-features {
+    animation: none !important;
+  }
 }
 
 /* Fade-in on scroll */

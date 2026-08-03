@@ -1,307 +1,160 @@
 "use client";
 
 import Link from "next/link";
-import { motion } from "framer-motion";
-import { CheckCircle2 } from "lucide-react";
+import { motion, useReducedMotion } from "framer-motion";
+import { ArrowRight, ShieldCheck } from "lucide-react";
 import { useRegion } from "@/components/layout/RegionalLayout";
 
 export function HeroSection() {
   const { region, demonym, regulatoryBody } = useRegion();
   const regionPrefix = region === "uk" ? "" : `/${region}`;
   const regShort = regulatoryBody ? regulatoryBody.split(" ")[0] : "FCA";
+  const shouldReduce = useReducedMotion();
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
+  const fadeUp = {
+    hidden: { opacity: 0, y: shouldReduce ? 0 : 10 },
+    visible: (i: number) => ({
       opacity: 1,
       y: 0,
-      transition: {
-        duration: 0.5,
-        ease: "easeOut" as const,
-      },
-    },
+      transition: { delay: i * 0.08, duration: 0.2, ease: "easeOut" as const },
+    }),
   };
 
-  const dashboardVariants = {
-    hidden: { 
-      opacity: 0, 
-      y: 40,
-      rotateX: 18,
-      rotateY: 0,
-      rotateZ: -18,
-      transformPerspective: 1400
-    },
-    visible: {
-      opacity: 0.42,
-      y: 0,
-      rotateX: 18,
-      rotateY: 0,
-      rotateZ: -18,
-      transformPerspective: 1400,
-      transition: {
-        duration: 0.8,
-        delay: 0.3,
-        ease: "easeOut" as const,
-      },
-    },
-    hover: {
-      rotateX: 10,
-      rotateY: 0,
-      rotateZ: -10,
-      opacity: 0.48,
-      transition: {
-        duration: 0.6,
-        ease: "easeOut" as const,
-      },
-    }
+  const REGIONAL_SUB: Record<string, string> = {
+    us: `Structured trading education for American traders. CFTC/NFA compliant insights, USD-normalised analysis, and a documented approach to risk.`,
+    au: `Structured trading education for Australian traders. ASIC-regulated broker coverage, AUD-normalised analysis, and a documented approach to risk.`,
+    sg: `Structured trading education for Singapore traders. MAS-regulated broker coverage, SGD-normalised analysis, and 0% capital gains on individual profits.`,
+    hk: `Structured trading education for Hong Kong traders. SFC-regulated broker coverage, HKD-normalised analysis, and 0% capital gains on individual profits.`,
+    uk: `Live market intelligence. AI-powered tools. Honest education. Built for ${demonym} traders.`,
   };
-
-  const backgroundCandles = [
-    { x: 40, open: 220, close: 200, high: 230, low: 190 },
-    { x: 80, open: 200, close: 210, high: 215, low: 195 },
-    { x: 120, open: 210, close: 190, high: 220, low: 180 },
-    { x: 160, open: 190, close: 170, high: 200, low: 160 },
-    { x: 200, open: 170, close: 180, high: 185, low: 165 },
-    { x: 240, open: 180, close: 150, high: 190, low: 140 },
-    { x: 280, open: 150, close: 130, high: 160, low: 120 },
-    { x: 320, open: 130, close: 140, high: 145, low: 125 },
-    { x: 360, open: 140, close: 110, high: 150, low: 100 },
-    { x: 400, open: 110, close: 90, high: 120, low: 80 },
-    { x: 440, open: 90, close: 100, high: 105, low: 85 },
-    { x: 480, open: 100, close: 80, high: 110, low: 70 },
-    { x: 520, open: 80, close: 70, high: 90, low: 60 },
-    { x: 560, open: 70, close: 95, high: 105, low: 65 },
-    { x: 600, open: 95, close: 85, high: 100, low: 80 },
-    { x: 640, open: 85, close: 110, high: 120, low: 80 },
-    { x: 680, open: 110, close: 100, high: 115, low: 95 },
-    { x: 720, open: 100, close: 125, high: 135, low: 95 },
-    { x: 760, open: 125, close: 115, high: 130, low: 110 },
-    { x: 800, open: 115, close: 140, high: 150, low: 110 },
-    { x: 840, open: 140, close: 130, high: 145, low: 125 },
-    { x: 880, open: 130, close: 160, high: 170, low: 125 },
-    { x: 920, open: 160, close: 150, high: 165, low: 145 },
-    { x: 960, open: 150, close: 180, high: 190, low: 140 },
-    { x: 1000, open: 180, close: 170, high: 185, low: 165 },
-    { x: 1040, open: 170, close: 200, high: 210, low: 160 },
-    { x: 1080, open: 200, close: 190, high: 205, low: 185 },
-    { x: 1120, open: 190, close: 220, high: 230, low: 180 },
-    { x: 1160, open: 220, close: 210, high: 225, low: 200 }
-  ];
-
-  // Moving average line computations for the background chart effect
-  const maPeriod = 5;
-  const longMaPeriod = 12;
-
-  const maPathPoints = backgroundCandles.map((c, idx) => {
-    const start = Math.max(0, idx - maPeriod + 1);
-    const subset = backgroundCandles.slice(start, idx + 1);
-    const sum = subset.reduce((acc, curr) => acc + (curr.open + curr.close) / 2, 0);
-    const avg = sum / subset.length;
-    return `${c.x},${avg}`;
-  });
-
-  const longMaPathPoints = backgroundCandles.map((c, idx) => {
-    const start = Math.max(0, idx - longMaPeriod + 1);
-    const subset = backgroundCandles.slice(start, idx + 1);
-    const sum = subset.reduce((acc, curr) => acc + (curr.open + curr.close) / 2, 0);
-    const avg = sum / subset.length;
-    return `${c.x},${avg}`;
-  });
-
-  const maPathD = `M ${maPathPoints.join(" L ")}`;
-  const longMaPathD = `M ${longMaPathPoints.join(" L ")}`;
-
-  const REGIONAL_CONTENT: Record<string, { line1: string, line2: string, highlight: string, sub: React.ReactNode }> = {
-    us: {
-      line1: "The Business",
-      line2: "Of",
-      highlight: "Risk.",
-      sub: "Professional-grade education for American traders. CFTC/NFA compliant insights, USD-normalized analysis, and a professional edge in stocks, options, and FX."
-    },
-    hk: {
-      line1: "The Gateway",
-      line2: "To",
-      highlight: "Alpha.",
-      sub: <>Professional-grade education for Hong Kong's professional trading community. SFC-regulated insights, HKD-normalized analysis, and <span className="text-profit">0% Capital Gains Tax</span> on all individual profits.</>
-    },
-    au: {
-      line1: "Trade The",
-      line2: "",
-      highlight: "Truth.",
-      sub: "Professional-grade education and data for Australia's most disciplined traders. ASIC-regulated insights, AUD-normalized analysis, and a professional edge."
-    },
-    sg: {
-      line1: "Trade The",
-      line2: "",
-      highlight: "Garden.",
-      sub: <>Professional-grade education for Singapore's most disciplined traders. MAS-regulated insights, SGD-normalized analysis, and a professional edge with <span className="text-profit">0% Capital Gains Tax.</span></>
-    },
-    uk: {
-      line1: "Trade the",
-      line2: "",
-      highlight: "Truth.",
-      sub: `Live market intelligence. AI-powered tools. Honest education. Built for ${demonym} traders.`
-    }
-  };
-
-  const content = REGIONAL_CONTENT[region] || REGIONAL_CONTENT['uk'];
+  const sub = REGIONAL_SUB[region] ?? REGIONAL_SUB["uk"];
 
   return (
-    <motion.section 
-      className="relative w-full min-h-screen flex flex-col justify-center overflow-hidden bg-white pt-24 pb-36 md:pt-32 md:pb-52 border-b border-mkt-bd z-20"
-      whileHover="hover"
+    <section
+      className="relative w-full min-h-[calc(100vh-58px)] flex flex-col justify-center overflow-hidden pt-20 pb-32 md:pt-24 md:pb-40 border-b"
+      style={{
+        backgroundColor: "var(--paper-0)",
+        borderColor: "var(--line-200)",
+      }}
     >
-      {/* Centered Tilted Background Preview Image */}
-      <motion.div
-        className="absolute inset-0 select-none pointer-events-none z-0 transform-gpu bg-center bg-no-repeat bg-cover md:bg-contain"
-        variants={dashboardVariants}
-        initial="hidden"
-        animate="visible"
-        style={{
-          backgroundImage: "url('/images/dashboard-preview.png')",
-          WebkitMaskImage: "radial-gradient(circle at center, black 15%, rgba(0, 0, 0, 0.4) 55%, transparent 90%)",
-          maskImage: "radial-gradient(circle at center, black 15%, rgba(0, 0, 0, 0.4) 55%, transparent 90%)",
-        }}
+      {/* Background candlestick chart — purely decorative, 3% opacity */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 z-0 pointer-events-none select-none opacity-[0.03]"
+        style={{ backgroundImage: "url('/images/dashboard-preview.png')", backgroundSize: "cover", backgroundPosition: "center" }}
       />
 
-      {/* Background candle chart pattern */}
-      <div className="absolute inset-0 z-0 opacity-[0.035] pointer-events-none select-none flex items-center justify-center overflow-hidden">
-        <svg className="w-full h-[70%] min-h-[350px]" viewBox="0 0 1200 300" fill="none" preserveAspectRatio="none">
-          {/* Moving Averages */}
-          <path 
-            d={maPathD} 
-            fill="none" 
-            stroke="#9ca3af" 
-            strokeWidth="1.5" 
-            strokeDasharray="4 4" 
-          />
-          <path 
-            d={longMaPathD} 
-            fill="none" 
-            stroke="#6b7280" 
-            strokeWidth="1.5" 
-          />
+      <div className="w-full max-w-[1280px] mx-auto px-6 relative z-10">
+        <div className="max-w-2xl space-y-8">
 
-          {/* Candlesticks */}
-          {backgroundCandles.map((c, i) => {
-            const isBullish = c.close < c.open;
-            const color = isBullish ? "#22c55e" : "#ef4444";
-            const bodyY = Math.min(c.open, c.close);
-            const bodyHeight = Math.max(Math.abs(c.open - c.close), 2);
-            return (
-              <g key={i}>
-                {/* Wick */}
-                <line 
-                  x1={c.x} 
-                  y1={c.high} 
-                  x2={c.x} 
-                  y2={c.low} 
-                  stroke={color} 
-                  strokeWidth="1.5" 
-                />
-                {/* Body */}
-                <rect 
-                  x={c.x - 5} 
-                  y={bodyY} 
-                  width="10" 
-                  height={bodyHeight} 
-                  fill={color} 
-                  rx="1"
-                />
-              </g>
-            );
-          })}
-        </svg>
-      </div>
-
-      {/* Fade masks for visual blending */}
-      <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-white to-transparent pointer-events-none z-0" />
-      <div className="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-white to-transparent pointer-events-none z-0" />
-      <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-white to-transparent pointer-events-none z-0" />
-
-      <div className="w-full max-w-7xl mx-auto px-6 relative z-10 flex flex-col items-start pt-8 md:pt-12">
-        
-        {/* Top Text Content Block */}
-        <motion.div 
-          className="space-y-6 text-left flex flex-col items-start max-w-2xl relative z-10"
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-        >
-          {/* Eyebrow Pill with blinking green dot */}
-          <motion.div variants={itemVariants} className="flex items-center gap-2 px-3 py-1 border border-mkt-bd rounded-full">
-            <span className="w-2 h-2 rounded-full bg-mkt-grn inline-block animate-pulse" />
-            <span className="text-[11px] font-semibold tracking-wider text-mkt-i3 uppercase font-sans">
-              TRADING EDUCATION + INTELLIGENCE
-            </span>
-          </motion.div>
-
-          {/* Headline */}
-          <motion.h1 
-            variants={itemVariants}
-            className="text-[clamp(44px,6vw,84px)] font-sans font-extrabold text-mkt-ink leading-[1.05] tracking-tight"
-            style={{ fontWeight: 800 }}
+          {/* Eyebrow */}
+          <motion.span
+            variants={fadeUp}
+            custom={0}
+            initial="hidden"
+            animate="visible"
+            className="block text-[11px] uppercase tracking-[0.08em] font-mono"
+            style={{ color: "var(--graphite-600)" }}
           >
-            {content.line1} {content.line2 && <br />}
-            {content.line2} <span className="text-mkt-grn">{content.highlight}</span>
+            Trading education · Intelligence tools
+          </motion.span>
+
+          {/* Headline — confirmed fact, shipped from addendum */}
+          <motion.h1
+            variants={fadeUp}
+            custom={1}
+            initial="hidden"
+            animate="visible"
+            className="font-display text-[clamp(2.25rem,5vw,4rem)] leading-[1.08] tracking-[-0.02em] font-semibold"
+            style={{ color: "var(--ink-950)" }}
+          >
+            Trading live since 2016.{" "}
+            <span style={{ color: "var(--graphite-600)" }}>
+              No shortcuts, no gurus, just the record.
+            </span>
           </motion.h1>
 
           {/* Sub-headline */}
-          <motion.p 
-            variants={itemVariants}
-            className="text-lg md:text-xl font-sans text-mkt-i3 max-w-2xl leading-relaxed mt-2"
+          <motion.p
+            variants={fadeUp}
+            custom={2}
+            initial="hidden"
+            animate="visible"
+            className="text-[18px] leading-[1.6] font-normal"
+            style={{ color: "var(--graphite-600)" }}
           >
-            {content.sub}
+            {sub}
           </motion.p>
 
-          {/* CTAs */}
-          <motion.div 
-            variants={itemVariants}
-            className="flex flex-col sm:flex-row items-stretch sm:items-center gap-6 w-full sm:w-auto pt-4"
+          {/* CTAs — zero border-radius */}
+          <motion.div
+            variants={fadeUp}
+            custom={3}
+            initial="hidden"
+            animate="visible"
+            className="flex flex-col sm:flex-row gap-4 pt-2"
           >
-            <Link 
-              href={`${regionPrefix}/signup`} 
-              className="px-7 py-4 rounded-lg font-semibold text-center transition-colors duration-200 text-sm md:text-base font-sans shadow-lg shadow-black/10"
-              style={{ backgroundColor: "#0A0A0A", color: "#FFFFFF" }}
-              onMouseEnter={e => (e.currentTarget.style.backgroundColor = "#3A3A3A")}
-              onMouseLeave={e => (e.currentTarget.style.backgroundColor = "#0A0A0A")}
+            <Link
+              href={`${regionPrefix}/signup`}
+              id="hero-cta-primary"
+              className="inline-flex items-center justify-center gap-2 px-6 py-3.5 text-[14px] font-medium transition-colors duration-150"
+              style={{
+                backgroundColor: "var(--signal-navy)",
+                color: "#FAFAF9",
+                borderRadius: 0,
+              }}
+              onMouseEnter={(e) => (e.currentTarget.style.opacity = "0.88")}
+              onMouseLeave={(e) => (e.currentTarget.style.opacity = "1")}
             >
-              Start Free — No Card Required
+              Start free — no card required
+              <ArrowRight size={16} strokeWidth={1.5} />
             </Link>
-            <Link 
-              href={`${regionPrefix}/courses`} 
-              className="text-mkt-ink hover:underline underline-offset-4 text-sm md:text-base font-semibold text-center py-2 transition-all font-sans flex items-center gap-1.5"
+            <Link
+              href={`${regionPrefix}/courses`}
+              id="hero-cta-secondary"
+              className="inline-flex items-center justify-center gap-2 px-6 py-3.5 text-[14px] font-medium border transition-colors duration-150"
+              style={{
+                color: "var(--ink-950)",
+                borderColor: "var(--line-200)",
+                borderRadius: 0,
+                backgroundColor: "transparent",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.borderColor = "var(--ink-950)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.borderColor = "var(--line-200)";
+              }}
             >
-              Explore the Platform &rarr;
+              Explore the curriculum
             </Link>
           </motion.div>
 
-          {/* Trust Signals */}
-          <motion.div 
-            variants={itemVariants}
-            className="flex flex-col sm:flex-row flex-wrap gap-x-6 gap-y-3 pt-6 text-sm text-mkt-i3 font-sans border-t border-mkt-bd w-full max-w-2xl"
+          {/* Trust signals — hairline top rule, IBM Plex Mono */}
+          <motion.div
+            variants={fadeUp}
+            custom={4}
+            initial="hidden"
+            animate="visible"
+            className="flex flex-col sm:flex-row flex-wrap gap-x-8 gap-y-3 pt-6 border-t text-[13px]"
+            style={{ borderColor: "var(--line-200)", color: "var(--graphite-600)" }}
           >
-            <div className="flex items-center gap-2">
-              <CheckCircle2 className="w-4 h-4 text-mkt-grn" /> Phase 1 Free Forever
-            </div>
-            <div className="flex items-center gap-2">
-              <CheckCircle2 className="w-4 h-4 text-mkt-grn" /> {regShort}-Registered Brokers Only
-            </div>
-
+            <span className="flex items-center gap-2">
+              <ShieldCheck size={16} strokeWidth={1.5} style={{ color: "var(--signal-navy)" }} />
+              Phase 1 free forever
+            </span>
+            <span className="flex items-center gap-2">
+              <ShieldCheck size={16} strokeWidth={1.5} style={{ color: "var(--signal-navy)" }} />
+              {regShort}-regulated brokers only
+            </span>
+            <span className="flex items-center gap-2">
+              <ShieldCheck size={16} strokeWidth={1.5} style={{ color: "var(--signal-navy)" }} />
+              No financial advice — education only
+            </span>
           </motion.div>
-        </motion.div>
 
+        </div>
       </div>
-    </motion.section>
+    </section>
   );
 }

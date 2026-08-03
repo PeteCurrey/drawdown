@@ -110,7 +110,7 @@ export function InstitutionalPulseSection() {
     },
     {
       icon: ArrowDownRight,
-      title: "EUR/USD font-bold — Neutral Consolidation Range",
+      title: "EUR/USD — Neutral Consolidation Range",
       description: "ECB vs Fed rate parity holding range between 1.0820 and 1.0910.",
       color: "var(--mkt-amb)",
       bgColor: "rgba(245, 158, 11, 0.1)",

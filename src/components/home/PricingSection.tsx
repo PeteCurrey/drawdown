@@ -1,9 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { Check, X, Shield } from "lucide-react";
-import { motion } from "framer-motion";
-import { cn } from "@/lib/utils";
+import Link from "next/link";
+import { Check, Shield, ArrowRight } from "lucide-react";
 import { useRegion } from "@/components/layout/RegionalLayout";
 import { STRIPE_CONFIG } from "@/config/stripe";
 import { REGIONAL_PRICING, type RegionCode } from "@/lib/regions";
@@ -36,7 +35,6 @@ const tiers = [
 export function PricingSection({ floorCap = 15, activeFloorSubs = 0 }: { floorCap?: number, activeFloorSubs?: number }) {
   const [billingCycle, setBillingCycle] = useState<"monthly" | "yearly">("monthly");
   const [loadingTier, setLoadingTier] = useState<string | null>(null);
-  const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
   const { region } = useRegion();
 
   const getPlanDetails = (tierId: "foundation" | "edge" | "floor") => {
@@ -108,206 +106,195 @@ export function PricingSection({ floorCap = 15, activeFloorSubs = 0 }: { floorCa
     }
   };
 
-  const cardVariants = {
-    hidden: { opacity: 0, y: 15 },
-    visible: (i: number) => ({
-      opacity: 1,
-      y: 0,
-      transition: {
-        delay: i * 0.08,
-        duration: 0.5,
-        ease: "easeOut" as const
-      }
-    })
-  };
-
   return (
-    <section className="w-full bg-white border-b border-mkt-bd py-24 select-none relative z-10">
-      <div className="max-w-7xl mx-auto px-6">
+    <section
+      className="w-full py-24 border-b select-none relative z-10"
+      style={{ backgroundColor: "var(--paper-0)", borderColor: "var(--line-200)" }}
+    >
+      <div className="max-w-[1280px] mx-auto px-6">
         
         {/* Section Heading */}
-        <div className="mb-16 text-center">
-          <span className="text-[11px] font-sans font-bold text-mkt-i4 uppercase tracking-widest block mb-4">
-            // PLATFORM TIERS
+        <div className="mb-16">
+          <span
+            className="block text-[11px] font-mono uppercase tracking-[0.08em] mb-3"
+            style={{ color: "var(--graphite-600)" }}
+          >
+            Platform Tiers
           </span>
-          <h2 className="text-3xl md:text-5xl font-sans font-extrabold text-mkt-ink tracking-tight mb-6">
+          <h2
+            className="font-display text-[clamp(1.75rem,4vw,3rem)] leading-tight tracking-[-0.02em] font-semibold mb-6"
+            style={{ color: "var(--ink-950)" }}
+          >
             Choose Your Commitment
           </h2>
           
-          {/* Toggle */}
-          <div className="flex items-center justify-center gap-4">
-            <span className={cn(
-              "text-xs font-sans font-bold uppercase tracking-wider transition-colors",
-              billingCycle === "monthly" ? "text-mkt-ink" : "text-mkt-i4"
-            )}>
+          {/* Toggle — zero border radius */}
+          <div className="flex items-center gap-4">
+            <span
+              className="text-[12px] font-mono uppercase tracking-[0.08em]"
+              style={{ color: billingCycle === "monthly" ? "var(--ink-950)" : "var(--graphite-600)" }}
+            >
               Monthly
             </span>
-            <button 
+            <button
               onClick={() => setBillingCycle(prev => prev === "monthly" ? "yearly" : "monthly")}
-              className="w-12 h-6 bg-white border border-mkt-bd rounded-full p-0.5 relative transition-colors"
+              className="px-3 py-1 border text-[11px] font-mono uppercase tracking-[0.08em] transition-colors"
+              style={{
+                borderColor: "var(--line-200)",
+                backgroundColor: "var(--paper-100)",
+                color: "var(--ink-950)",
+                borderRadius: 0,
+              }}
             >
-              <div className={cn(
-                "w-5 h-5 bg-mkt-ink rounded-full transition-transform duration-300",
-                billingCycle === "yearly" ? "translate-x-6" : "translate-x-0"
-              )} />
+              Switch to {billingCycle === "monthly" ? "Yearly (Save 20%)" : "Monthly"}
             </button>
-            <span className={cn(
-              "text-xs font-sans font-bold uppercase tracking-wider transition-colors flex items-center gap-1.5",
-              billingCycle === "yearly" ? "text-mkt-ink" : "text-mkt-i4"
-            )}>
-              Yearly <span className="text-mkt-grn bg-mkt-gbg border border-mkt-gbd text-[9px] font-bold px-1.5 py-0.5 rounded-sm uppercase tracking-wider">Save 20%</span>
-            </span>
           </div>
         </div>
 
-        {/* 3 Column Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch">
-          {tiers.map((tier, idx) => {
+        {/* 3 Column Grid — zero border-radius, hairline borders, tabular figures */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch mb-12">
+          {tiers.map((tier) => {
             const { price, symbol, priceId } = getPlanDetails(tier.id);
             const isEdge = tier.id === "edge";
-            const isHovered = hoveredIdx === idx;
             const isFloorCapped = tier.id === "floor" && activeFloorSubs >= floorCap;
-            
-            // Subtle, corporate theme styling details
-            const cardTheme = tier.id === "foundation" 
-              ? {
-                  baseBg: "rgba(16, 185, 129, 0.005)",
-                  hoverBg: "rgba(16, 185, 129, 0.035)",
-                  borderColor: "rgba(16, 185, 129, 0.22)",
-                  shadow: "0 8px 32px rgba(16, 185, 129, 0.03)"
-                }
-              : tier.id === "floor"
-              ? {
-                  baseBg: "rgba(217, 119, 6, 0.005)",
-                  hoverBg: "rgba(217, 119, 6, 0.035)",
-                  borderColor: "rgba(217, 119, 6, 0.22)",
-                  shadow: "0 8px 32px rgba(217, 119, 6, 0.03)"
-                }
-              : { // Edge (dark card)
-                  baseBg: "rgb(10, 10, 10)",
-                  hoverBg: "rgb(12, 12, 12)",
-                  borderColor: "rgba(34, 197, 94, 0.45)",
-                  shadow: "0 12px 40px rgba(34, 197, 94, 0.08)"
-                };
 
             return (
-              <motion.div
+              <div
                 key={tier.id}
-                custom={idx}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, margin: "-20px" }}
-                variants={cardVariants}
-                onMouseEnter={() => setHoveredIdx(idx)}
-                onMouseLeave={() => setHoveredIdx(null)}
-                className={cn(
-                  "border rounded-[14px] p-8 flex flex-col justify-between cursor-pointer transition-all duration-300 relative",
-                  isEdge ? "text-white" : "text-mkt-ink"
-                )}
+                className="border p-8 flex flex-col justify-between"
                 style={{
-                  backgroundColor: isHovered ? cardTheme.hoverBg : (isEdge ? "rgb(10, 10, 10)" : cardTheme.baseBg),
-                  borderColor: isHovered ? cardTheme.borderColor : (isEdge ? "rgba(255, 255, 255, 0.08)" : "rgba(229, 229, 229, 0.7)"),
-                  transform: isHovered ? "translateY(-3px)" : "translateY(0px)",
-                  boxShadow: isHovered ? cardTheme.shadow : (isEdge ? "0 10px 30px rgba(0,0,0,0.15)" : "none")
+                  backgroundColor: isEdge ? "var(--ink-950)" : "var(--paper-100)",
+                  borderColor: isEdge ? "var(--ink-950)" : "var(--line-200)",
+                  color: isEdge ? "#FAFAF9" : "var(--ink-950)",
+                  borderRadius: 0,
                 }}
               >
-                {isEdge && (
-                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-mkt-grn text-white px-3 py-0.5 text-[9px] font-bold uppercase tracking-widest rounded-full shadow-md z-10">
-                    Most Popular
-                  </div>
-                )}
-
                 <div>
                   <div className="mb-8">
-                    <h3 className="text-xl font-sans font-extrabold uppercase mb-2 tracking-tight">
-                      {tier.name}
-                    </h3>
-                    <p className={cn(
-                      "text-xs font-sans leading-relaxed min-h-[40px]",
-                      isEdge ? "text-neutral-400" : "text-mkt-i3"
-                    )}>
+                    <div className="flex items-center justify-between mb-2">
+                      <h3 className="text-[20px] font-medium font-sans uppercase tracking-tight">
+                        {tier.name}
+                      </h3>
+                      {isEdge && (
+                        <span
+                          className="text-[10px] font-mono uppercase tracking-[0.08em] px-2 py-0.5 border"
+                          style={{
+                            borderColor: "rgba(255,255,255,0.2)",
+                            backgroundColor: "rgba(255,255,255,0.1)",
+                            color: "#FAFAF9",
+                            borderRadius: 0,
+                          }}
+                        >
+                          Most Popular
+                        </span>
+                      )}
+                    </div>
+                    <p
+                      className="text-[13px] leading-relaxed font-sans min-h-[38px]"
+                      style={{ color: isEdge ? "rgba(255,255,255,0.6)" : "var(--graphite-600)" }}
+                    >
                       {tier.description}
                     </p>
                     
-                    {/* Price in Geist, weight 800, letter-spacing -0.04em */}
+                    {/* Price in IBM Plex Mono tabular figures */}
                     <div className="flex items-baseline gap-1 mt-6">
-                      <span 
-                        className="text-[44px] font-sans tracking-[-0.04em] font-extrabold leading-none"
-                        style={{ fontWeight: 800 }}
-                      >
+                      <span className="text-[40px] font-mono tabular font-medium leading-none">
                         {symbol}{price}
                       </span>
-                      <span className={cn(
-                        "text-[10px] font-mono uppercase tracking-widest",
-                        isEdge ? "text-neutral-500" : "text-mkt-i4"
-                      )}>
+                      <span
+                        className="text-[11px] font-mono uppercase tracking-[0.08em]"
+                        style={{ color: isEdge ? "rgba(255,255,255,0.5)" : "var(--graphite-600)" }}
+                      >
                         /mo
                       </span>
                     </div>
                     {tier.id === "floor" && (
-                      <p className="text-[10px] font-sans text-amber-600 mt-2 font-bold">
+                      <p
+                        className="text-[11px] font-mono uppercase tracking-[0.08em] mt-2"
+                        style={{ color: "var(--risk-amber)" }}
+                      >
                         Strictly limited to {floorCap} active members
                       </p>
                     )}
                   </div>
 
-                  {/* CTA button */}
-                  <button 
+                  {/* CTA button — zero radius */}
+                  <button
                     onClick={() => handleSubscribe(tier.id, priceId)}
                     disabled={loadingTier !== null}
-                    className={cn(
-                      "w-full py-4 text-xs font-sans font-bold uppercase tracking-widest mb-10 transition-all rounded-lg flex items-center justify-center gap-2",
-                      isEdge 
-                        ? "bg-mkt-grn text-white hover:bg-green-700 hover:shadow-lg hover:shadow-green-500/20" 
-                        : "bg-white border border-mkt-bd text-mkt-ink hover:border-mkt-ink"
-                    )}
+                    className="w-full py-3.5 text-[13px] font-medium uppercase tracking-[0.08em] mb-8 border transition-colors duration-150 flex items-center justify-center gap-2"
+                    style={{
+                      backgroundColor: isEdge ? "#FAFAF9" : "var(--signal-navy)",
+                      color: isEdge ? "var(--ink-950)" : "#FAFAF9",
+                      borderColor: isEdge ? "#FAFAF9" : "var(--signal-navy)",
+                      borderRadius: 0,
+                    }}
                   >
                     {loadingTier === tier.id ? "Processing..." : isFloorCapped ? "Join Waitlist" : tier.buttonText}
                   </button>
 
                   {/* Features List */}
-                  <div className="space-y-4">
-                    <p className={cn(
-                      "text-[9px] font-mono uppercase tracking-widest mb-4",
-                      isEdge ? "text-neutral-500" : "text-mkt-i4"
-                    )}>
+                  <div className="space-y-3">
+                    <span
+                      className="block text-[10px] font-mono uppercase tracking-[0.08em] mb-4"
+                      style={{ color: isEdge ? "rgba(255,255,255,0.4)" : "var(--graphite-600)" }}
+                    >
                       Included features
-                    </p>
+                    </span>
                     {tier.features.map((feature, i) => (
                       <div key={i} className="flex items-start gap-3">
-                        {feature.included ? (
-                          <Check className="w-4 h-4 text-mkt-grn shrink-0 mt-0.5" />
-                        ) : (
-                          <X className={cn(
-                            "w-4 h-4 shrink-0 mt-0.5",
-                            isEdge ? "text-neutral-700" : "text-neutral-200"
-                          )} />
-                        )}
-                        <span className={cn(
-                          "text-xs leading-tight font-sans",
-                          feature.included 
-                            ? (isEdge ? "text-neutral-200" : "text-mkt-ink") 
-                            : (isEdge ? "text-neutral-600" : "text-mkt-i4")
-                        )}>
+                        <Check
+                          size={15}
+                          strokeWidth={1.5}
+                          className="shrink-0 mt-0.5"
+                          style={{ color: isEdge ? "#FAFAF9" : "var(--ink-950)" }}
+                        />
+                        <span
+                          className="text-[13px] leading-snug font-sans"
+                          style={{ color: isEdge ? "rgba(255,255,255,0.85)" : "var(--ink-950)" }}
+                        >
                           {feature.name}
                         </span>
                       </div>
                     ))}
                   </div>
                 </div>
-              </motion.div>
+              </div>
             );
           })}
         </div>
 
-        {/* Educational Notice */}
-        <div className="mt-24 p-8 bg-white border border-mkt-bd max-w-4xl mx-auto rounded-[14px] flex items-start gap-4">
-          <Shield className="w-6 h-6 text-mkt-i3 shrink-0 mt-1" />
-          <div className="space-y-2">
-            <h4 className="text-xs font-sans font-bold uppercase tracking-wider text-mkt-ink">Educational Platform Notice</h4>
-            <p className="text-[10px] text-mkt-i3 leading-relaxed font-mono">
-              Subscription tiers represent access levels to educational content and proprietary analysis tools. Drawdown does not provide financial advice or trade signals. All strategies tested or journals analyzed remain the intellectual property of the user. Past performance as logged in the AI Trade Journal is not indicative of future results.
-            </p>
+        {/* Roadmap link for upcoming features */}
+        <div className="mb-12 text-center">
+          <Link
+            href="/roadmap"
+            className="inline-flex items-center gap-2 text-[12px] font-mono uppercase tracking-[0.08em] hover:underline"
+            style={{ color: "var(--ink-950)" }}
+          >
+            See upcoming platform features on our roadmap
+            <ArrowRight size={14} strokeWidth={1.5} />
+          </Link>
+        </div>
+
+        {/* Educational Notice — hairline border, risk-amber text */}
+        <div
+          className="p-6 border max-w-3xl"
+          style={{
+            borderColor: "var(--line-200)",
+            backgroundColor: "var(--paper-100)",
+            borderRadius: 0,
+          }}
+        >
+          <div className="flex items-start gap-4">
+            <Shield size={18} strokeWidth={1.5} className="shrink-0 mt-0.5" style={{ color: "var(--graphite-600)" }} />
+            <div className="space-y-1">
+              <h4 className="text-[12px] font-mono uppercase tracking-[0.08em]" style={{ color: "var(--ink-950)" }}>
+                Educational Platform Notice
+              </h4>
+              <p className="text-[12px] leading-relaxed font-sans" style={{ color: "var(--graphite-600)" }}>
+                Subscription tiers represent access levels to educational content and proprietary analysis tools. Drawdown does not provide financial advice or trade signals. All strategies tested or journals analyzed remain the intellectual property of the user. Past performance as logged in the AI Trade Journal is not indicative of future results.
+              </p>
+            </div>
           </div>
         </div>
 

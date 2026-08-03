@@ -146,7 +146,7 @@ export default function AboutPage() {
                 lured by the high-octane volatility of the London open and the promise of rapid wealth.
               </p>
               <p>
-                "I've spent two decades watching retail traders get chewed up by the markets, mostly because they were sold a lie by a fake guru," Pete says. "Trading isn't about getting rich quick. It's a high-stakes business of probabilities and risk management."
+                "I've spent years watching retail traders get chewed up by the markets, mostly because they were sold a lie by a fake guru," Pete says. "Trading isn't about getting rich quick. It's a high-stakes business of probabilities and risk management."
               </p>
               <p>
                 The next three years were spent in deep study. Not just of price action, but of human
@@ -155,8 +155,8 @@ export default function AboutPage() {
                 Drawdown Framework.
               </p>
               <p className="font-semibold text-text-secondary">
-                Drawdown was built out of a necessity for survival. It represents ten years of hard-won
-                experience, distilled into a platform that treats trading like the high-stakes business it is.
+                Drawdown was built out of a necessity for survival. It represents years of live market
+                execution since 2016, distilled into a platform that treats trading like the high-stakes business it is.
               </p>
             </div>
           </motion.div>

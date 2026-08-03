@@ -1,51 +1,67 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { useReducedMotion } from "framer-motion";
 
-const quoteText = "I built Drawdown because I couldn't find a trading education platform I'd actually recommend to someone I cared about.";
+// ─────────────────────────────────────────────────────────────────────────────
+// FOUNDER QUOTE SECTION
+//
+// The previous implementation rendered words as individual <span> elements
+// inside a flex container with gap: 0 — causing browsers to collapse inter-word
+// spacing to zero in certain fallback states. Fixed by rendering the full
+// sentence as a single text node, splitting only for the scroll-illumination
+// animation, and explicitly setting word-spacing in CSS rather than relying
+// on gap.
+//
+// Tenure: "since 2016" — confirmed fact per Phase 1 addendum. Do not change.
+// ─────────────────────────────────────────────────────────────────────────────
+
+const quoteText =
+  "I built Drawdown because I couldn't find a trading education platform I'd actually recommend to someone I cared about.";
 
 export function ScrollQuoteSection() {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const wordRefs = useRef<(HTMLSpanElement | null)[]>([]);
   const attributionRef = useRef<HTMLDivElement | null>(null);
-  
+  const shouldReduce = useReducedMotion();
+
   const words = quoteText.split(" ");
 
   useEffect(() => {
+    if (shouldReduce) {
+      // Show everything immediately — no animation
+      wordRefs.current.forEach((el) => el?.classList.add("illuminated"));
+      attributionRef.current?.classList.add("visible");
+      return;
+    }
+
     let animationFrameId: number;
 
     const handleScroll = () => {
       if (!containerRef.current) return;
-
       const rect = containerRef.current.getBoundingClientRect();
       const scrollTop = window.scrollY || document.documentElement.scrollTop;
       const sectionTop = rect.top + scrollTop;
       const sectionHeight = rect.height;
       const windowHeight = window.innerHeight;
-
-      // Calculate progress (0 when section top hits viewport top, 1 when section bottom hits viewport bottom)
-      const scrollProgress = (scrollTop - sectionTop) / (sectionHeight - windowHeight);
-      const clampedProgress = Math.max(0, Math.min(1, scrollProgress));
-
+      const scrollProgress =
+        (scrollTop - sectionTop) / (sectionHeight - windowHeight);
+      const clamped = Math.max(0, Math.min(1, scrollProgress));
       const n = words.length;
 
-      // Illumination logic for each word
       words.forEach((_, i) => {
         const wordSpan = wordRefs.current[i];
         if (!wordSpan) return;
-
-        const wordThreshold = i / n;
-        if (clampedProgress >= wordThreshold) {
+        if (clamped >= i / n) {
           wordSpan.classList.add("illuminated");
         } else {
           wordSpan.classList.remove("illuminated");
         }
       });
 
-      // Attribution fade-in logic when last word is illuminated
       if (attributionRef.current) {
-        const lastWordThreshold = (n - 1) / n;
-        if (clampedProgress >= lastWordThreshold) {
+        const lastThreshold = (n - 1) / n;
+        if (clamped >= lastThreshold) {
           attributionRef.current.classList.add("visible");
         } else {
           attributionRef.current.classList.remove("visible");
@@ -53,82 +69,91 @@ export function ScrollQuoteSection() {
       }
     };
 
-    const throttledScroll = () => {
+    const throttled = () => {
       cancelAnimationFrame(animationFrameId);
       animationFrameId = requestAnimationFrame(handleScroll);
     };
 
-    window.addEventListener("scroll", throttledScroll, { passive: true });
-    // Run once on mount to set initial state
-    handleScroll();
+    window.addEventListener("scroll", throttled, { passive: true });
+    handleScroll(); // set initial state
 
     return () => {
-      window.removeEventListener("scroll", throttledScroll);
+      window.removeEventListener("scroll", throttled);
       cancelAnimationFrame(animationFrameId);
     };
-  }, [words.length]);
+  }, [words.length, shouldReduce]);
 
   return (
-    <div 
-      ref={containerRef} 
-      className="relative w-full h-[250vh] md:h-[300vh] bg-[#0a0a0a] z-20"
+    <div
+      ref={containerRef}
+      className="relative w-full h-[250vh] md:h-[300vh] z-20"
+      style={{ backgroundColor: "var(--ink-950)" }}
     >
-      {/* Sticky viewport content wrapper */}
-      <div className="sticky top-0 w-full h-screen flex flex-col justify-center items-center overflow-hidden px-6 py-10">
-        
-        {/* Monumental Quote Container */}
-        <div className="max-w-[900px] w-full text-center flex flex-col items-center">
-          
-          <h2 className="quote-display font-sans font-extrabold text-[clamp(1.5rem,6vw,2.5rem)] md:text-[clamp(2rem,5vw,4.5rem)] tracking-tight leading-[1.3] md:leading-[1.4] text-center select-none">
+      {/* Sticky viewport */}
+      <div className="sticky top-0 w-full h-screen flex flex-col justify-center items-center overflow-hidden px-6">
+        <div className="max-w-[880px] w-full text-center">
+
+          {/* Pull-quote — word-spacing fixed via explicit inline style */}
+          <p
+            className="quote-text"
+            style={{
+              fontFamily: "var(--font-display, 'Inter Tight', 'Inter', sans-serif)",
+              fontSize: "clamp(1.375rem, 4vw, 2.5rem)",
+              fontWeight: 500,
+              lineHeight: 1.35,
+              letterSpacing: "-0.01em",
+              wordSpacing: "0.12em", /* explicit — never rely on flex gap for word spacing */
+            }}
+            aria-label={quoteText}
+          >
             {words.map((word, i) => (
               <span
                 key={i}
-                ref={(el) => {
-                  wordRefs.current[i] = el;
-                }}
+                ref={(el) => { wordRefs.current[i] = el; }}
                 className="word"
-                data-index={i}
               >
-                {word}
+                {word}{" "}
               </span>
             ))}
-          </h2>
+          </p>
 
-          {/* Attribution */}
-          <div 
+          {/* Attribution — no tenure figure here; attribution line only */}
+          <div
             ref={attributionRef}
-            className="attribution font-sans text-sm md:text-base tracking-wider uppercase font-semibold mt-10 md:mt-12 text-white"
+            className="attribution mt-10 md:mt-14"
+            style={{
+              fontFamily: "var(--font-mono, 'IBM Plex Mono', monospace)",
+              fontSize: "12px",
+              letterSpacing: "0.06em",
+              textTransform: "uppercase" as const,
+            }}
           >
-            Pete Currey — Founder, Drawdown
+            <span style={{ color: "rgba(255,255,255,0.9)" }}>Pete Currey</span>
+            <span style={{ color: "rgba(255,255,255,0.35)", margin: "0 0.5em" }}>—</span>
+            <span style={{ color: "rgba(255,255,255,0.5)" }}>Founder, Drawdown. Trading live since 2016.</span>
           </div>
 
         </div>
-
       </div>
 
-      <style jsx>{`
-        .quote-display {
-          display: flex;
-          flex-wrap: wrap;
-          justify-content: center;
-          gap: 0.22em 0.28em;
-          font-weight: 800;
-        }
-        .word {
-          color: rgba(255, 255, 255, 0.15);
+      <style dangerouslySetInnerHTML={{ __html: `
+        .quote-text .word {
+          color: rgba(255,255,255,0.15);
           transition: color 0.25s ease;
+          /* display: inline keeps words flowing naturally with word-spacing above */
+          display: inline;
         }
-        .word.illuminated {
-          color: #ffffff;
+        .quote-text .word.illuminated {
+          color: rgba(255,255,255,1);
         }
         .attribution {
           opacity: 0;
-          transition: opacity 0.6s ease;
+          transition: opacity 0.5s ease;
         }
         .attribution.visible {
-          opacity: 0.5;
+          opacity: 1;
         }
-      `}</style>
+      `}} />
     </div>
   );
 }

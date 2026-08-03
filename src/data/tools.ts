@@ -150,7 +150,7 @@ Because at the end of the day, a lucky win that broke your rules is just a delay
         title: "The Capital Preservationist",
         content: "For traders who understand that 'staying in the game' is more important than 'winning the trade'. Essential for anyone moving from retail sizes to five or six-figure accounts."
       },
-      peteTake: "Calculators don't make you money, but they stop you losing it. In 15 years, I've never seen a trader blow an account while using a professional position sizing model. Not once."
+      peteTake: "Calculators don't make you money, but they stop you losing it. In all my years trading since 2016, I've never seen a trader blow an account while using a professional position sizing model. Not once."
     },
     deepDive: {
       title: "Survive First, Profit Second",
@@ -710,7 +710,7 @@ Passing the challenge is just the beginning. Staying funded is the real goal. Us
         title: "The Developing Professional",
         content: "For traders who are profitable on paper but struggle with consistency and execution under pressure."
       },
-      peteTake: "I've blown accounts because I thought I was 'smarter' than the market. I wasn't. I was just emotional. This coach is the mentor I wish I had 10 years ago."
+      peteTake: "I've blown accounts because I thought I was 'smarter' than the market. I wasn't. I was just emotional. This coach is the mentor I wish I had when I started trading back in 2016."
     },
     deepDive: {
       title: "The Psychology of Performance",

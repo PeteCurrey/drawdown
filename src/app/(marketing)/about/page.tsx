@@ -64,18 +64,18 @@ export default function Page() {
             <h2 className="text-4xl font-display font-bold uppercase mb-8">The Man Behind the Data.</h2>
             <div className="space-y-6 text-text-secondary leading-relaxed">
               <p>
-                Pete Currey brings over 20 years of hard-earned experience across multiple assets. 
+                Pete Currey has been trading live in the markets since 2016 across multiple asset classes. 
                 Based out of Chesterfield, UK, Pete isn't interested in the flashy lifestyle that plagues the trading industry.
               </p>
               <p>
-                "I've spent two decades watching retail traders get chewed up by the markets, mostly because they were sold a lie by a fake guru," Pete says. 
+                "I've spent years watching retail traders get chewed up by the markets, mostly because they were sold a lie by a fake guru," Pete says. 
                 "Trading isn't about getting rich quick. It's a high-stakes business of probabilities and risk management."
               </p>
               <p>
                 With a deep background in market mechanics, Pete systematically stripped away the noise. No magic indicators, no lifestyle marketing. Just rigorous data analysis, psychological discipline, and a focus on survival.
               </p>
               <p className="font-bold text-text-primary">
-                Drawdown was built to combat the fake gurus. It represents two decades of experience, 
+                Drawdown was built to combat the fake gurus. It represents years of live market execution since 2016, 
                 distilled into a platform that treats trading with the respect and discipline it demands.
               </p>
             </div>

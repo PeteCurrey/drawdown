@@ -1,26 +1,15 @@
 import { Navigation } from "@/components/layout/Navigation";
 import { HeroSection } from "@/components/home/HeroSection";
 import { PriceTicker } from "@/components/home/PriceTicker";
-import { StatsBar } from "@/components/home/StatsBar";
-import { MacroIntelligenceStrip } from "@/components/home/MacroIntelligenceStrip";
 import { ScrollQuoteSection } from "@/components/home/ScrollQuoteSection";
-import { LiveNewsSection } from "@/components/home/LiveNewsSection";
-import { GlobalFluxSection } from "@/components/home/GlobalFluxSection";
 import { InstitutionalPulseSection } from "@/components/home/InstitutionalPulseSection";
-import { InstitutionalConsensusSection } from "@/components/home/InstitutionalConsensusSection";
-import { AIToolsSection } from "@/components/home/AIToolsSection";
-import { TradingViewSection } from "@/components/homepage/TradingViewSection";
 import { CurriculumSection } from "@/components/home/CurriculumSection";
 import { HorizontalScrollSection } from "@/components/home/HorizontalScrollSection";
 import { BrokerSection } from "@/components/home/BrokerSection";
 import { PricingSection } from "@/components/home/PricingSection";
 import { Footer } from "@/components/layout/Footer";
-import { FadeInSection } from "@/components/animations/FadeInSection";
 import { TrackPageView } from "@/components/admin/TrackPageView";
-import { GSAPReveal } from "@/components/animations/GSAPReveal";
-import { phases } from "@/data/courses";
 import JsonLd from "@/components/seo/JsonLd";
-
 import { createInternalSupabase } from "@/lib/supabase/server";
 
 export default async function Home() {
@@ -36,7 +25,7 @@ export default async function Home() {
     if (data?.setting_value) {
       floorCap = parseInt(data.setting_value as string, 10);
     }
-  } catch(e) {}
+  } catch {}
 
   let activeFloorSubs = 0;
   try {
@@ -46,10 +35,10 @@ export default async function Home() {
       .eq('subscription_tier', 'floor')
       .eq('subscription_status', 'active');
     activeFloorSubs = count || 0;
-  } catch(e) {}
+  } catch {}
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col min-h-screen" style={{ backgroundColor: "var(--paper-0)", color: "var(--ink-950)" }}>
       <TrackPageView path="/" />
       <JsonLd data={{
         "@context": "https://schema.org",
@@ -57,7 +46,7 @@ export default async function Home() {
         "name": "Drawdown Trading",
         "url": "https://drawdown.trading",
         "logo": "https://drawdown.trading/og/default-og.png",
-        "description": "Phase-based trading education for UK traders. Structured curriculum, AI-powered tools and honest mentorship.",
+        "description": "Phase-based trading education for independent traders. Structured curriculum, AI-powered tools and honest mentorship.",
         "founder": {
           "@type": "Person",
           "name": "Pete Currey",
@@ -96,88 +85,73 @@ export default async function Home() {
         }
       }} />
       
+      {/* 1. Header */}
       <Navigation />
-      <HeroSection />
-      <PriceTicker />
-      
-      {/* 1.5: No Lambos Section (Updated Stats) */}
-      <GSAPReveal direction="up">
-        <section className="py-24 md:py-32 bg-background-primary border-t border-border-slate overflow-hidden">
-          <div className="container mx-auto px-6 text-center">
-            <div className="max-w-3xl mx-auto space-y-8">
-              <span className="text-[10px] font-mono tracking-widest uppercase text-text-tertiary">
-                PLATFORM INTEGRITY
+
+      {/* 2. Hero + Ticker */}
+      <main className="flex-grow pt-[58px]">
+        <HeroSection />
+        <PriceTicker />
+        
+        {/* 3. Positioning Statement ("No Lambos. No Beach Photos.") — hairline border system */}
+        <section
+          className="w-full py-24 md:py-32 border-b select-none"
+          style={{ backgroundColor: "var(--paper-0)", borderColor: "var(--line-200)" }}
+        >
+          <div className="max-w-[1280px] mx-auto px-6 text-center">
+            <div className="max-w-2xl mx-auto space-y-6">
+              <span
+                className="block text-[11px] font-mono uppercase tracking-[0.08em]"
+                style={{ color: "var(--graphite-600)" }}
+              >
+                Platform integrity
               </span>
-              <h2 className="  font-display font-bold uppercase leading-tight">
-                No Lambos. <br /> No Beach Photos. <br /> <span className="text-accent underline decoration-accent/30 underline-offset-8">Just Data.</span>
+              <h2
+                className="font-display text-[clamp(2rem,5vw,3.5rem)] leading-tight tracking-[-0.02em] font-semibold"
+                style={{ color: "var(--ink-950)" }}
+              >
+                No Lambos. No Beach Photos. <br />
+                <span style={{ color: "var(--signal-navy)" }}>Just Data.</span>
               </h2>
-              <div className="space-y-4 max-w-xl mx-auto">
-                <p className="text-lg text-text-secondary leading-relaxed">
+              <div className="space-y-3 max-w-lg mx-auto">
+                <p
+                  className="text-[16px] leading-[1.6] font-sans"
+                  style={{ color: "var(--graphite-600)" }}
+                >
                   Trading is a business of probabilities, risk management, and emotional detachment. We don't sell dreams; we provide the data and the discipline to survive the markets.
                 </p>
-                <p className="text-sm text-text-tertiary font-mono uppercase tracking-widest leading-relaxed">
-                  Established in Chesterfield, UK. Built for traders who value truth over hype.
+                <p
+                  className="text-[12px] font-mono uppercase tracking-[0.08em]"
+                  style={{ color: "var(--graphite-600)" }}
+                >
+                  Chesterfield, UK · Built for traders who value truth over hype
                 </p>
               </div>
             </div>
           </div>
         </section>
-      </GSAPReveal>
 
-      {/* 2. Below fold components with staggered FadeInSection triggers */}
-      <FadeInSection delay={0}>
-        <StatsBar />
-      </FadeInSection>
+        {/* 4. Founder Quote Block */}
+        <ScrollQuoteSection />
 
-      <FadeInSection delay={0.1}>
-        <MacroIntelligenceStrip />
-      </FadeInSection>
-
-      <ScrollQuoteSection />
-
-      <FadeInSection delay={0.2}>
-        <LiveNewsSection />
-      </FadeInSection>
-
-      <FadeInSection delay={0}>
-        <GlobalFluxSection />
-      </FadeInSection>
-
-      <FadeInSection delay={0.1}>
-        <InstitutionalPulseSection />
-      </FadeInSection>
-
-      <FadeInSection delay={0.2}>
-        <InstitutionalConsensusSection />
-      </FadeInSection>
-
-      <FadeInSection delay={0}>
-        <AIToolsSection />
-      </FadeInSection>
-
-      <FadeInSection delay={0.1}>
-        <TradingViewSection />
-      </FadeInSection>
-
-      <FadeInSection delay={0.2}>
+        {/* 5. Curriculum Overview */}
         <CurriculumSection />
-      </FadeInSection>
 
-      <FadeInSection delay={0.2}>
+        {/* 6. Capabilities Grid */}
         <HorizontalScrollSection />
-      </FadeInSection>
 
-      <FadeInSection delay={0}>
+        {/* 7. Order Flow Signals / Market Pulse (bug fixed, claim wording untouched) */}
+        <InstitutionalPulseSection />
+
+        {/* 8. Recommended Brokers */}
         <BrokerSection />
-      </FadeInSection>
 
-      <FadeInSection delay={0.1}>
+        {/* 9. Pricing Tiers */}
         <PricingSection floorCap={floorCap} activeFloorSubs={activeFloorSubs} />
-      </FadeInSection>
+      </main>
 
-      <FadeInSection delay={0.2}>
-        <Footer />
-      </FadeInSection>
+      {/* 10. Footer */}
+      <Footer />
     </div>
   );
 }

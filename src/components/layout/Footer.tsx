@@ -244,6 +244,12 @@ export function Footer() {
                 { id: "us", label: "US", href: "/us" },
                 { id: "sg", label: "SG", href: "/sg" },
                 { id: "hk", label: "HK", href: "/hk" },
+                { id: "ca", label: "CA", href: "/ca" },
+                { id: "de", label: "DE", href: "/de" },
+                { id: "ae", label: "AE", href: "/ae" },
+                { id: "in", label: "IN", href: "/in" },
+                { id: "my", label: "MY", href: "/my" },
+                { id: "ph", label: "PH", href: "/ph" },
               ].map((reg) => (
                 <Link 
                   key={reg.id}

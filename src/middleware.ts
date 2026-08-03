@@ -67,16 +67,16 @@ export default async function middleware(request: NextRequest) {
 
   // Handle regional prefix 301 redirects (excluding working sub-folders)
   const regions = [
-    { prefix: "/au/", exclude: ["best", "brokers", "compare", "how-to", "learn-to-trade", "pricing"] },
-    { prefix: "/us/", exclude: ["best", "brokers", "compare", "disclaimer", "how-to", "learn-to-trade", "pricing"] },
-    { prefix: "/sg/", exclude: ["best", "brokers", "compare", "disclaimer", "how-to", "learn-to-trade", "pricing"] },
-    { prefix: "/hk/", exclude: ["best", "brokers", "compare", "disclaimer", "how-to", "learn-to-trade", "pricing"] },
-    { prefix: "/in/", exclude: ["best", "compare", "how-to", "pricing"] },
-    { prefix: "/de/", exclude: ["best", "compare", "how-to", "pricing"] },
-    { prefix: "/my/", exclude: ["best", "compare", "how-to", "pricing"] },
-    { prefix: "/ph/", exclude: ["best", "compare", "how-to", "pricing"] },
-    { prefix: "/ae/", exclude: ["best", "compare", "how-to", "pricing"] },
-    { prefix: "/ca/", exclude: ["best", "compare", "how-to", "pricing"] },
+    { prefix: "/au/", exclude: ["best", "brokers", "compare", "courses", "disclaimer", "how-to", "learn-to-trade", "markets", "platform", "pricing", "prop-firms", "tools"] },
+    { prefix: "/us/", exclude: ["best", "brokers", "compare", "courses", "disclaimer", "how-to", "learn-to-trade", "markets", "platform", "pricing", "prop-firms", "tools"] },
+    { prefix: "/sg/", exclude: ["best", "brokers", "compare", "courses", "disclaimer", "how-to", "learn-to-trade", "markets", "platform", "pricing", "prop-firms", "tools"] },
+    { prefix: "/hk/", exclude: ["best", "brokers", "compare", "courses", "disclaimer", "how-to", "learn-to-trade", "markets", "platform", "pricing", "prop-firms", "tools"] },
+    { prefix: "/in/", exclude: ["best", "brokers", "compare", "courses", "disclaimer", "how-to", "markets", "platform", "pricing", "prop-firms", "tools"] },
+    { prefix: "/de/", exclude: ["best", "brokers", "compare", "courses", "disclaimer", "how-to", "markets", "platform", "pricing", "prop-firms", "tools"] },
+    { prefix: "/my/", exclude: ["best", "brokers", "compare", "courses", "disclaimer", "how-to", "markets", "platform", "pricing", "prop-firms", "tools"] },
+    { prefix: "/ph/", exclude: ["best", "brokers", "compare", "courses", "disclaimer", "how-to", "markets", "platform", "pricing", "prop-firms", "tools"] },
+    { prefix: "/ae/", exclude: ["best", "brokers", "compare", "courses", "disclaimer", "how-to", "markets", "platform", "pricing", "prop-firms", "tools"] },
+    { prefix: "/ca/", exclude: ["best", "brokers", "compare", "courses", "disclaimer", "how-to", "markets", "platform", "pricing", "prop-firms", "tools"] },
   ];
 
   for (const { prefix, exclude } of regions) {

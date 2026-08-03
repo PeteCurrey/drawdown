@@ -153,7 +153,7 @@ export function Navigation() {
   }, [hoverTimeout]);
 
   // Determine if this is a dark markets page or a black-background blog page
-  const normalizedPathname = pathname ? pathname.replace(/^\/(au|us|sg|hk)/, "") : "";
+  const normalizedPathname = pathname ? pathname.replace(/^\/(au|us|sg|hk|ca|de|ae|in|my|ph)/, "") : "";
   const isDarkMarketPage = (
     normalizedPathname === "/markets" || 
     (normalizedPathname.startsWith("/markets/") &&

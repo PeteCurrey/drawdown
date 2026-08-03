@@ -13,6 +13,7 @@ import {
   ArrowUpRight
 } from "lucide-react";
 import Link from "next/link";
+import { useRegion } from "@/components/layout/RegionalLayout";
 
 interface MarketItem {
   symbol: string;
@@ -46,6 +47,8 @@ export function LiveDashboardPreview() {
   const [upcomingEvents, setUpcomingEvents] = useState<EconomicEvent[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+  const { region } = useRegion();
+  const regionPrefix = region === "uk" ? "" : `/${region}`;
 
   useEffect(() => {
     const controller = new AbortController();
@@ -158,7 +161,7 @@ export function LiveDashboardPreview() {
                 ))}
               </div>
 
-              <Link href="/markets" className="flex items-center justify-center gap-2 py-4 md:py-4 bg-[#F7F7F7] border border-mkt-bd text-sm md:text-[9px] font-bold uppercase tracking-widest hover:border-mkt-bds hover:text-accent transition-all">
+              <Link href={`${regionPrefix}/markets`} className="flex items-center justify-center gap-2 py-4 md:py-4 bg-[#F7F7F7] border border-mkt-bd text-sm md:text-[9px] font-bold uppercase tracking-widest hover:border-mkt-bds hover:text-accent transition-all">
                 Full Intelligence Hub <ChevronRight className="w-3.5 h-3.5" />
               </Link>
             </div>
@@ -200,7 +203,7 @@ export function LiveDashboardPreview() {
               </div>
 
               <div className="pt-10 mt-10 border-t border-mkt-bd/50">
-                <Link href="/markets" className="text-[10px] font-black uppercase tracking-widest text-accent hover:opacity-80 flex items-center justify-between group">
+                <Link href={`${regionPrefix}/markets`} className="text-[10px] font-black uppercase tracking-widest text-accent hover:opacity-80 flex items-center justify-between group">
                   EXPLORE MARKET PULSE <ArrowUpRight className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
                 </Link>
               </div>
@@ -259,7 +262,7 @@ export function LiveDashboardPreview() {
                 ))}
               </div>
 
-              <Link href="/markets?tab=calendar" className="flex items-center justify-center gap-2 py-4 md:py-4 bg-[#F7F7F7] border border-mkt-bd text-sm md:text-[9px] font-bold uppercase tracking-widest hover:border-mkt-bds hover:text-accent transition-all mt-auto">
+              <Link href={`${regionPrefix}/markets?tab=calendar`} className="flex items-center justify-center gap-2 py-4 md:py-4 bg-[#F7F7F7] border border-mkt-bd text-sm md:text-[9px] font-bold uppercase tracking-widest hover:border-mkt-bds hover:text-accent transition-all mt-auto">
                 Full Economic Matrix <ChevronRight className="w-3.5 h-3.5" />
               </Link>
             </div>

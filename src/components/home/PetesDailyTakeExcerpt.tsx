@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import { MessageSquare, ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
+import { useRegion } from "@/components/layout/RegionalLayout";
 
 interface Take {
   content: string;
@@ -14,6 +15,8 @@ interface Take {
 export function PetesDailyTakeExcerpt() {
   const [take, setTake] = useState<Take | null>(null);
   const supabase = createClient();
+  const { region } = useRegion();
+  const regionPrefix = region === "uk" ? "" : `/${region}`;
 
   useEffect(() => {
     async function fetchTake() {
@@ -83,7 +86,7 @@ export function PetesDailyTakeExcerpt() {
                 </div>
 
                 <Link 
-                  href="/tools/briefing" 
+                  href={`${regionPrefix}/tools/briefing`} 
                   className="flex items-center gap-2 text-sm md:text-xs font-bold uppercase tracking-widest text-accent hover:underline group"
                 >
                   Read Full Brief <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />

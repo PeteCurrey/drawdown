@@ -3,6 +3,7 @@
 import { LayoutDashboard, BarChart3, Radio, Percent, Gauge, ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { useRegion } from "@/components/layout/RegionalLayout";
 
 const features = [
   { icon: LayoutDashboard, label: "Live Overview", description: "Real-time ticker & ticker & high-impact macro data." },
@@ -12,6 +13,8 @@ const features = [
 ];
 
 export function HubPreview() {
+  const { region } = useRegion();
+  const regionPrefix = region === "uk" ? "" : `/${region}`;
   return (
     <section className="py-12 md:py-20 bg-[#F7F7F7] border-b border-mkt-bd overflow-hidden relative">
       {/* Aesthetic Background Grid */}
@@ -50,7 +53,7 @@ export function HubPreview() {
                })}
             </div>
 
-            <Link href="/markets" className="inline-flex items-center gap-4 bg-mkt-ink text-white px-10 py-5 font-bold uppercase tracking-widest text-sm md:text-xs hover:bg-accent-hover transition-all group mt-8">
+            <Link href={`${regionPrefix}/markets`} className="inline-flex items-center gap-4 bg-mkt-ink text-white px-10 py-5 font-bold uppercase tracking-widest text-sm md:text-xs hover:bg-accent-hover transition-all group mt-8">
                Enter The Room
                <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-2" />
             </Link>

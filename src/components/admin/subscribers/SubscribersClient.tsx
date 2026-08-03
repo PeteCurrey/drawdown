@@ -477,7 +477,7 @@ export function SubscribersClient({
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="px-5 py-2 bg-mkt-ink text-white hover:bg-neutral-800 text-xs font-mono font-bold uppercase tracking-wider rounded flex items-center gap-2 cursor-pointer disabled:opacity-50"
+                  className="px-5 py-2 bg-[#111111] text-white hover:bg-neutral-700 text-xs font-mono font-bold uppercase tracking-wider rounded flex items-center gap-2 cursor-pointer disabled:opacity-60 shadow-sm"
                 >
                   {submitting && <Loader2 className="w-3.5 h-3.5 animate-spin" />}
                   Save Subscriber

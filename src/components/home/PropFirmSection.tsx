@@ -2,12 +2,15 @@
 
 import React from "react";
 import Link from "next/link";
+import { useRegion } from "@/components/layout/RegionalLayout";
 import { ChevronRight, TrendingUp } from "lucide-react";
 import { PropFirmCard } from "@/components/ui/PropFirmCard";
 import { propFirms } from "@/data/prop-firms";
 import { FadeInSection } from "@/components/animations/FadeInSection";
 
 export function PropFirmSection() {
+  const { region } = useRegion();
+  const regionPrefix = region === "uk" ? "" : `/${region}`;
   // Only feature the top 3 as requested
   const featuredFirms = propFirms.filter(f => ["ftmo", "the5ers", "funding-pips"].includes(f.id));
 
@@ -30,7 +33,7 @@ export function PropFirmSection() {
               </p>
             </div>
             <Link 
-              href="/prop-firms" 
+              href={`${regionPrefix}/prop-firms`} 
               className="group flex items-center gap-2 px-6 py-3 border border-neutral-250 hover:border-black rounded-lg text-sm font-medium text-neutral-600 hover:text-black transition-colors font-sans"
             >
               View All Firms <ChevronRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />

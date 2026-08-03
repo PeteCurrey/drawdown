@@ -5,6 +5,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { LayoutDashboard, Calculator, Scan, History, Mail } from "lucide-react";
 import Link from "next/link";
+import { useRegion } from "@/components/layout/RegionalLayout";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -55,6 +56,8 @@ const features = [
 
 export function FeatureShowcase() {
   const scrollRef = useRef<HTMLDivElement>(null);
+  const { region } = useRegion();
+  const regionPrefix = region === "uk" ? "" : `/${region}`;
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -95,7 +98,7 @@ export function FeatureShowcase() {
           {features.map((feature, i) => (
             <Link 
               key={i} 
-              href={`/tools/${feature.slug}`}
+              href={`${regionPrefix}/tools/${feature.slug}`}
               className="feature-card group relative w-[85vw] md:w-[450px] h-[550px] bg-white border border-mkt-bd p-12 flex flex-col justify-between transition-premium hover:border-mkt-bds/50 overflow-hidden rounded-xl"
             >
               {/* Feature Background Image (Hover Reveal) */}

@@ -113,13 +113,10 @@ export async function POST(req: NextRequest) {
       year: "numeric"
     });
 
-    // 3. Call Claude to generate brief text
-    const apiKey = process.env.ANTHROPIC_API_KEY;
-    if (!apiKey) {
-      throw new Error("ANTHROPIC_API_KEY is not configured.");
-    }
-
-    const anthropic = new Anthropic({ apiKey });
+    // 3. Call AI Engine (Claude 3.5 Sonnet with OpenAI GPT-4o fallback)
+    let textContent = "";
+    const anthropicKey = process.env.ANTHROPIC_API_KEY;
+    const openaiKey = process.env.OPENAI_API_KEY;
 
     const systemPrompt = `You are Pete Currey, founder of Drawdown Trading — a UK-based trading education platform. You write a twice-daily email to traders who are learning to trade seriously.
 
@@ -146,15 +143,53 @@ Respond ONLY with a valid JSON object matching the schema below. Do NOT add any 
   "blog_slug": "url-friendly-slug-for-the-blog-post"
 }`;
 
-    const message = await anthropic.messages.create({
-      model: "claude-3-5-sonnet-20241022",
-      max_tokens: 1500,
-      temperature: 0.5,
-      system: systemPrompt,
-      messages: [{ role: "user", content: userPrompt }]
-    });
+    if (anthropicKey) {
+      try {
+        const anthropic = new Anthropic({ apiKey: anthropicKey });
+        const message = await anthropic.messages.create({
+          model: "claude-3-5-sonnet-20241022",
+          max_tokens: 1500,
+          temperature: 0.5,
+          system: systemPrompt,
+          messages: [{ role: "user", content: userPrompt }]
+        });
+        textContent = (message.content[0] as any).text.trim();
+      } catch (anthropicErr: any) {
+        console.warn("[generate-morning] Anthropic API error, trying OpenAI fallback:", anthropicErr.message);
+      }
+    }
 
-    const textContent = (message.content[0] as any).text.trim();
+    if (!textContent && openaiKey) {
+      try {
+        const openaiRes = await fetch("https://api.openai.com/v1/chat/completions", {
+          method: "POST",
+          headers: {
+            "Authorization": `Bearer ${openaiKey}`,
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            model: "gpt-4o-mini",
+            messages: [
+              { role: "system", content: systemPrompt },
+              { role: "user", content: userPrompt }
+            ],
+            temperature: 0.5,
+            max_tokens: 1500
+          })
+        });
+        const openaiData = await openaiRes.json();
+        if (openaiData.choices?.[0]?.message?.content) {
+          textContent = openaiData.choices[0].message.content.trim();
+        }
+      } catch (oaiErr: any) {
+        console.error("[generate-morning] OpenAI fallback failed:", oaiErr.message);
+      }
+    }
+
+    if (!textContent) {
+      throw new Error("AI generation failed — both Anthropic and OpenAI keys were unavailable or failed.");
+    }
+
     let briefJson;
     try {
       briefJson = JSON.parse(textContent);

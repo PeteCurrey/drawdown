@@ -12,6 +12,7 @@ import { getLatestSignals } from "@/lib/intelligence-ai";
 import { Lock } from "lucide-react";
 import Link from "next/link";
 import { PageHeader } from "@/components/dashboard/ui/PageHeader";
+import DirectUpgradeButton from "@/components/dashboard/DirectUpgradeButton";
 import { IntelligenceHubClient } from "@/components/dashboard/IntelligenceHubClient";
 
 // ── Tier weights ────────────────────────────────────────────────────────────
@@ -137,12 +138,12 @@ export default async function IntelligenceHub() {
             </p>
           </div>
           <div className="w-full space-y-2 pt-2">
-            <Link
-              href="/pricing"
-              className="w-full flex items-center justify-center px-8 py-4 bg-[#1e40af] hover:bg-[#1d4ed8] text-white text-[10px] font-bold uppercase tracking-widest transition-all rounded-lg"
+            <DirectUpgradeButton
+              tier="edge"
+              redirectPath="/dashboard/intelligence"
             >
               Upgrade to Edge
-            </Link>
+            </DirectUpgradeButton>
             <Link
               href="/dashboard"
               className="w-full flex items-center justify-center px-8 py-3 border border-slate-200 hover:border-[#1e40af] text-[10px] font-mono uppercase tracking-widest text-slate-400 hover:text-slate-900 transition-all rounded-lg"

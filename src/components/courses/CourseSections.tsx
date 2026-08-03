@@ -84,6 +84,28 @@ export function SectionB() {
           </Link>
         </div>
       </div>
+
+      {/* Premium Accelerator CTA */}
+      <div className="mt-8 p-8 border border-[#E2B755]/20 rounded-[14px] bg-gradient-to-r from-[#111317] via-[#1A1C20] to-[#111317] flex flex-col md:flex-row items-center justify-between gap-6 shadow-lg shadow-[#E2B755]/5">
+        <div className="flex-grow">
+          <span className="text-[10px] font-mono font-bold text-[#E2B755] uppercase tracking-widest block mb-1">
+            ★ Drawdown Executive Cohort
+          </span>
+          <h4 className="text-xl font-sans font-bold text-white mb-2">
+            The Institutional Accelerator
+          </h4>
+          <p className="font-sans text-xs md:text-sm text-text-secondary leading-relaxed max-w-3xl">
+            A premium 6-week live quantitative engineering cohort limited to 15 seats. Designed for advanced traders looking to scale to 7-figures with institutional capital and optimize UK tax structures.
+          </p>
+        </div>
+        <Link 
+          href="/institutional-accelerator" 
+          className="shrink-0 inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-gradient-to-r from-[#E2B755] to-[#C59235] text-[#0B0E12] font-semibold text-sm transition-all duration-300 shadow-md shadow-[#E2B755]/10 hover:shadow-[#E2B755]/20 hover:scale-[1.02]"
+        >
+          View Accelerator Program
+          <span className="font-bold">→</span>
+        </Link>
+      </div>
     </section>
   );
 }

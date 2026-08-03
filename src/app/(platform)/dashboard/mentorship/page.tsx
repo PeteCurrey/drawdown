@@ -5,6 +5,7 @@ import Link from "next/link";
 import CalEmbed from "./CalEmbed";
 import { FundedBlueprint } from "./FundedBlueprint";
 import { PageHeader } from "@/components/dashboard/ui/PageHeader";
+import DirectUpgradeButton from "@/components/dashboard/DirectUpgradeButton";
 
 export const revalidate = 0;
 
@@ -48,12 +49,13 @@ export default async function MentorshipPage() {
             </p>
           </div>
           <div className="w-full space-y-2 pt-2">
-            <Link
-              href="/pricing"
-              className="w-full flex items-center justify-center px-8 py-4 bg-amber-500 hover:bg-amber-600 text-white text-[10px] font-bold uppercase tracking-widest transition-all rounded-lg"
+            <DirectUpgradeButton
+              tier="floor"
+              redirectPath="/dashboard/mentorship"
+              className="bg-amber-500 hover:bg-amber-600 text-white"
             >
               Upgrade to Floor →
-            </Link>
+            </DirectUpgradeButton>
             <Link
               href="/dashboard"
               className="w-full flex items-center justify-center px-8 py-3 border border-gray-200 text-[10px] font-mono uppercase tracking-widest text-gray-500 hover:text-gray-900 transition-all rounded-lg"

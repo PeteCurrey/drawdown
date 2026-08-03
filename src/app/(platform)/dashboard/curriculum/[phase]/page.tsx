@@ -242,6 +242,29 @@ export default async function PhaseOverviewPage({ params }: { params: Promise<{ 
           </div>
         )}
       </div>
+
+      {/* High-Ticket Cohort Offer for students inside Prop Firm Mastery */}
+      {phaseConfig.slug === "prop-firm-mastery" && (
+        <div className="mt-12 p-8 border border-[#E2B755]/20 rounded-xl bg-gradient-to-r from-[#111317] via-[#1A1C20] to-[#111317] flex flex-col md:flex-row items-center justify-between gap-6 shadow-lg shadow-[#E2B755]/5">
+          <div className="flex-grow">
+            <span className="text-[10px] font-mono font-bold text-[#E2B755] uppercase tracking-widest block mb-1">
+              ★ Executive Pathway
+            </span>
+            <h4 className="text-xl font-bold font-syne text-white mb-2">
+              Drawdown Institutional Accelerator
+            </h4>
+            <p className="font-sans text-xs md:text-sm text-text-secondary leading-relaxed max-w-2xl">
+              Now that you are mastering prop firm rules, take your trading to the ultimate level. Our 6-week elite cohort teaches central bank quantitative metrics, automated pinescript alert hooks, and corporate tax structuring to legally trade multiple 6-figure accounts.
+            </p>
+          </div>
+          <Link
+            href="/institutional-accelerator"
+            className="shrink-0 px-6 py-3 bg-gradient-to-r from-[#E2B755] to-[#C59235] text-black text-xs font-bold uppercase tracking-widest transition-all rounded whitespace-nowrap hover:scale-[1.02] shadow-md shadow-[#E2B755]/10"
+          >
+            Apply for Accelerator Program
+          </Link>
+        </div>
+      )}
     </div>
   );
 }

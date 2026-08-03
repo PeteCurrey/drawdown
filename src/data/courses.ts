@@ -336,6 +336,7 @@ export const phases: CoursePhase[] = [
       "Systematic Rebalancing & Dividend Reinvestment",
       "Tax-Efficient Investing: ISAs, SIPPs, and Capital Gains"
     ]
+  }
 ];
 
 export const phaseIconMap: Record<string, LucideIcon> = {

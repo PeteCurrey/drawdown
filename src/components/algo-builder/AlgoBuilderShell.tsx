@@ -49,6 +49,27 @@ export function AlgoBuilderShell({ userName, userEmail, tier }: AlgoBuilderShell
   useEffect(() => {
     const done = localStorage.getItem("drawdown_algo_tour_complete");
     if (!done) setTourStep(0);
+
+    // Read pre-filled query parameters from URL for Backtester crossover integration
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      const desc = params.get("desc");
+      const sym = params.get("symbol");
+      const tf = params.get("timeframe");
+      if (desc || sym || tf) {
+        let cleanTf = tf || "15m";
+        // Map backtester TF format ("15M", "1D") to Algo Builder TF format ("15m", "D")
+        if (cleanTf === "15M") cleanTf = "15m";
+        if (cleanTf === "1D") cleanTf = "D";
+
+        setConfig(prev => ({
+          ...prev,
+          description: desc ? decodeURIComponent(desc) : prev.description,
+          instrument: sym || prev.instrument,
+          timeframe: (cleanTf as any) || prev.timeframe,
+        }));
+      }
+    }
   }, []);
 
   function advanceTour() {

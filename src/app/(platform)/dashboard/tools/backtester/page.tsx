@@ -1,6 +1,7 @@
 "use client";
  
 import { useState } from "react";
+import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { 
   Play, 
@@ -44,6 +45,17 @@ export default function BacktesterPage() {
   const [startDate, setStartDate] = useState("2024-01-01");
   const [endDate, setEndDate] = useState("2026-04-13");
 
+  // Advanced parameters and bracket order state
+  const [stopLoss, setStopLoss] = useState(2.0); // Stop Loss Percentage
+  const [takeProfit, setTakeProfit] = useState(4.0); // Take Profit Percentage
+  const [fastPeriod, setFastPeriod] = useState(10); // EMA Fast Period
+  const [slowPeriod, setSlowPeriod] = useState(30); // EMA Slow Period
+  const [rsiPeriod, setRsiPeriod] = useState(14); // RSI Period
+  const [rsiOversold, setRsiOversold] = useState(35); // RSI Oversold boundary
+  const [rsiOverbought, setRsiOverbought] = useState(65); // RSI Overbought boundary
+  const [breakoutLookback, setBreakoutLookback] = useState(15); // Breakout Lookback
+  const [breakoutHoldPeriod, setBreakoutHoldPeriod] = useState(8); // Breakout Hold Period
+
   const runSimulation = async () => {
     setIsSimulating(true);
     setError(null);
@@ -71,7 +83,17 @@ export default function BacktesterPage() {
 
       const config: StrategyConfig = {
         type: stratType,
-        params: {}
+        params: {
+          stopLossPct: stopLoss,
+          takeProfitPct: takeProfit,
+          fast: fastPeriod,
+          slow: slowPeriod,
+          period: rsiPeriod,
+          oversold: rsiOversold,
+          overbought: rsiOverbought,
+          lookback: breakoutLookback,
+          holdPeriod: breakoutHoldPeriod,
+        }
       };
 
       const result = simulateStrategy(history, config, startingCapital);
@@ -301,8 +323,176 @@ export default function BacktesterPage() {
                 </div>
               </div>
             </div>
-             
-            <div className="flex items-center gap-6">
+
+            {/* Advanced Risk & Parameters Section */}
+            <div className="border-t border-gray-100 pt-8 mt-8 space-y-8 text-left">
+              <div className="space-y-1">
+                <h3 className="text-xs font-mono uppercase font-bold tracking-widest text-gray-800">Advanced Parameters</h3>
+                <p className="text-[10px] text-gray-400 font-mono uppercase tracking-wider">Configure precise risk margins & technical thresholds</p>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+                {/* 1. Bracket Risk Limits */}
+                <div className="space-y-6">
+                  <h4 className="text-[10px] font-mono font-bold uppercase tracking-wider text-gray-400 border-b border-gray-100 pb-2">Bracket Risk Limits</h4>
+                  
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-mono uppercase tracking-widest text-gray-400 block">Stop Loss (%)</label>
+                      <input
+                        type="number"
+                        step="0.1"
+                        min="0"
+                        max="20"
+                        value={stopLoss}
+                        onChange={(e) => setStopLoss(Number(e.target.value))}
+                        className="w-full bg-white border border-gray-200 px-4 py-3 text-xs font-mono outline-none text-gray-900 rounded-lg transition-colors"
+                        onFocus={e => { e.currentTarget.style.borderColor = C; }}
+                        onBlur={e =>  { e.currentTarget.style.borderColor = "#e5e7eb"; }}
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-mono uppercase tracking-widest text-gray-400 block">Take Profit (%)</label>
+                      <input
+                        type="number"
+                        step="0.1"
+                        min="0"
+                        max="50"
+                        value={takeProfit}
+                        onChange={(e) => setTakeProfit(Number(e.target.value))}
+                        className="w-full bg-white border border-gray-200 px-4 py-3 text-xs font-mono outline-none text-gray-900 rounded-lg transition-colors"
+                        onFocus={e => { e.currentTarget.style.borderColor = C; }}
+                        onBlur={e =>  { e.currentTarget.style.borderColor = "#e5e7eb"; }}
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* 2. Strategy Technical Settings (Dynamic based on strategy text detection) */}
+                <div className="space-y-6">
+                  <h4 className="text-[10px] font-mono font-bold uppercase tracking-wider text-gray-400 border-b border-gray-100 pb-2">
+                    {strategy.toLowerCase().includes('rsi') || strategy.toLowerCase().includes('oversold') || strategy.toLowerCase().includes('overbought')
+                      ? "RSI Technical Settings"
+                      : strategy.toLowerCase().includes('breakout') || strategy.toLowerCase().includes('high') || strategy.toLowerCase().includes('low') || strategy.toLowerCase().includes('range')
+                        ? "Breakout Technical Settings"
+                        : "EMA Cross Settings"
+                    }
+                  </h4>
+
+                  {/* EMA Crossover fields */}
+                  {!(strategy.toLowerCase().includes('rsi') || strategy.toLowerCase().includes('oversold') || strategy.toLowerCase().includes('overbought')) &&
+                    !(strategy.toLowerCase().includes('breakout') || strategy.toLowerCase().includes('high') || strategy.toLowerCase().includes('low') || strategy.toLowerCase().includes('range')) && (
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="space-y-2">
+                        <label className="text-[10px] font-mono uppercase tracking-widest text-gray-400 block">Fast EMA Period</label>
+                        <input
+                          type="number"
+                          min="1"
+                          max="100"
+                          value={fastPeriod}
+                          onChange={(e) => setFastPeriod(Number(e.target.value))}
+                          className="w-full bg-white border border-gray-200 px-4 py-3 text-xs font-mono outline-none text-gray-900 rounded-lg transition-colors"
+                          onFocus={e => { e.currentTarget.style.borderColor = C; }}
+                          onBlur={e =>  { e.currentTarget.style.borderColor = "#e5e7eb"; }}
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <label className="text-[10px] font-mono uppercase tracking-widest text-gray-400 block">Slow EMA Period</label>
+                        <input
+                          type="number"
+                          min="1"
+                          max="300"
+                          value={slowPeriod}
+                          onChange={(e) => setSlowPeriod(Number(e.target.value))}
+                          className="w-full bg-white border border-gray-200 px-4 py-3 text-xs font-mono outline-none text-gray-900 rounded-lg transition-colors"
+                          onFocus={e => { e.currentTarget.style.borderColor = C; }}
+                          onBlur={e =>  { e.currentTarget.style.borderColor = "#e5e7eb"; }}
+                        />
+                      </div>
+                    </div>
+                  )}
+
+                  {/* RSI Reversal fields */}
+                  {(strategy.toLowerCase().includes('rsi') || strategy.toLowerCase().includes('oversold') || strategy.toLowerCase().includes('overbought')) && (
+                    <div className="grid grid-cols-3 gap-3">
+                      <div className="space-y-2">
+                        <label className="text-[10px] font-mono uppercase tracking-widest text-gray-400 block">RSI Period</label>
+                        <input
+                          type="number"
+                          min="1"
+                          max="100"
+                          value={rsiPeriod}
+                          onChange={(e) => setRsiPeriod(Number(e.target.value))}
+                          className="w-full bg-white border border-gray-200 px-4 py-3 text-[11px] font-mono outline-none text-gray-900 rounded-lg transition-colors"
+                          onFocus={e => { e.currentTarget.style.borderColor = C; }}
+                          onBlur={e =>  { e.currentTarget.style.borderColor = "#e5e7eb"; }}
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <label className="text-[10px] font-mono uppercase tracking-widest text-gray-400 block">Oversold Level</label>
+                        <input
+                          type="number"
+                          min="1"
+                          max="50"
+                          value={rsiOversold}
+                          onChange={(e) => setRsiOversold(Number(e.target.value))}
+                          className="w-full bg-white border border-gray-200 px-4 py-3 text-[11px] font-mono outline-none text-gray-900 rounded-lg transition-colors"
+                          onFocus={e => { e.currentTarget.style.borderColor = C; }}
+                          onBlur={e =>  { e.currentTarget.style.borderColor = "#e5e7eb"; }}
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <label className="text-[10px] font-mono uppercase tracking-widest text-gray-400 block">Overbought Level</label>
+                        <input
+                          type="number"
+                          min="50"
+                          max="99"
+                          value={rsiOverbought}
+                          onChange={(e) => setRsiOverbought(Number(e.target.value))}
+                          className="w-full bg-white border border-gray-200 px-4 py-3 text-[11px] font-mono outline-none text-gray-900 rounded-lg transition-colors"
+                          onFocus={e => { e.currentTarget.style.borderColor = C; }}
+                          onBlur={e =>  { e.currentTarget.style.borderColor = "#e5e7eb"; }}
+                        />
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Breakout settings */}
+                  {(strategy.toLowerCase().includes('breakout') || strategy.toLowerCase().includes('high') || strategy.toLowerCase().includes('low') || strategy.toLowerCase().includes('range')) && (
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="space-y-2">
+                        <label className="text-[10px] font-mono uppercase tracking-widest text-gray-400 block">Lookback Window</label>
+                        <input
+                          type="number"
+                          min="2"
+                          max="200"
+                          value={breakoutLookback}
+                          onChange={(e) => setBreakoutLookback(Number(e.target.value))}
+                          className="w-full bg-white border border-gray-200 px-4 py-3 text-xs font-mono outline-none text-gray-900 rounded-lg transition-colors"
+                          onFocus={e => { e.currentTarget.style.borderColor = C; }}
+                          onBlur={e =>  { e.currentTarget.style.borderColor = "#e5e7eb"; }}
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <label className="text-[10px] font-mono uppercase tracking-widest text-gray-400 block">Hold Period (Bars)</label>
+                        <input
+                          type="number"
+                          min="1"
+                          max="100"
+                          value={breakoutHoldPeriod}
+                          onChange={(e) => setBreakoutHoldPeriod(Number(e.target.value))}
+                          className="w-full bg-white border border-gray-200 px-4 py-3 text-xs font-mono outline-none text-gray-900 rounded-lg transition-colors"
+                          onFocus={e => { e.currentTarget.style.borderColor = C; }}
+                          onBlur={e =>  { e.currentTarget.style.borderColor = "#e5e7eb"; }}
+                        />
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-6 mt-10">
               {/* Start Simulation — Journal primary button */}
               <button 
                 onClick={runSimulation}
@@ -406,6 +596,16 @@ export default function BacktesterPage() {
                   >
                     Refine Strategy
                   </button>
+                  {/* Convert to Algo Code — Premium Violet Accent Button */}
+                  <Link
+                    href={`/dashboard/tools/algo-builder?desc=${encodeURIComponent(strategy)}&symbol=${symbol}&timeframe=${timeframe}`}
+                    className="px-6 py-3 text-[10px] font-mono font-bold uppercase tracking-widest transition-all rounded-lg border text-center flex items-center justify-center gap-2"
+                    style={{ borderColor: "#7c3aed", color: "#7c3aed" }}
+                    onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.backgroundColor = "rgba(124, 58, 237, 0.05)"; }}
+                    onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.backgroundColor = "transparent"; }}
+                  >
+                    Generate Pine/Python Code →
+                  </Link>
                   {/* Download — Journal secondary outline grey */}
                   <button className="px-6 py-3 border border-gray-200 text-gray-400 text-[10px] font-mono font-bold uppercase tracking-widest hover:text-gray-900 hover:border-gray-400 transition-all rounded-lg">
                     Download Detailed Report (PDF)

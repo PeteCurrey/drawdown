@@ -93,25 +93,65 @@ export function simulateStrategy(data: any[], config: StrategyConfig, initialCap
     const emaSlow = config.type === 'EMA_CROSS' ? TA.ema(closes, params.slow || 25) : [];
     const rsi = config.type === 'RSI_REVERSAL' ? TA.rsi(closes, params.period || 14) : [];
 
+    const stopLossPct = params.stopLossPct || 0;
+    const takeProfitPct = params.takeProfitPct || 0;
+
     for (let i = 2; i < data.length; i++) {
       const candle = data[i];
       
       // 1. Check Exit Logic
       if (activePosition) {
         let shouldExit = false;
-        
-        if (config.type === 'EMA_CROSS') {
-          if (activePosition.type === 'long' && emaFast[i] < emaSlow[i]) shouldExit = true;
-          if (activePosition.type === 'short' && emaFast[i] > emaSlow[i]) shouldExit = true;
-        } else if (config.type === 'RSI_REVERSAL') {
-          if (activePosition.type === 'long' && rsi[i] >= 50) shouldExit = true;
-          if (activePosition.type === 'short' && rsi[i] <= 50) shouldExit = true;
-        } else if (config.type === 'BREAKOUT') {
-          if (i - activePosition.entryIndex >= (params.holdPeriod || 8)) shouldExit = true;
+        let exitPrice = candle.open;
+
+        // Check bracket orders (Stop Loss and Take Profit)
+        const entryPrice = activePosition.entryPrice;
+        if (activePosition.type === 'long') {
+          if (takeProfitPct > 0) {
+            const tpPrice = entryPrice * (1 + takeProfitPct / 100);
+            if (candle.high >= tpPrice) {
+              shouldExit = true;
+              exitPrice = tpPrice;
+            }
+          }
+          if (!shouldExit && stopLossPct > 0) {
+            const slPrice = entryPrice * (1 - stopLossPct / 100);
+            if (candle.low <= slPrice) {
+              shouldExit = true;
+              exitPrice = slPrice;
+            }
+          }
+        } else if (activePosition.type === 'short') {
+          if (takeProfitPct > 0) {
+            const tpPrice = entryPrice * (1 - takeProfitPct / 100);
+            if (candle.low <= tpPrice) {
+              shouldExit = true;
+              exitPrice = tpPrice;
+            }
+          }
+          if (!shouldExit && stopLossPct > 0) {
+            const slPrice = entryPrice * (1 + stopLossPct / 100);
+            if (candle.high >= slPrice) {
+              shouldExit = true;
+              exitPrice = slPrice;
+            }
+          }
+        }
+
+        // Check standard indicator exits if not exited by brackets
+        if (!shouldExit) {
+          if (config.type === 'EMA_CROSS') {
+            if (activePosition.type === 'long' && emaFast[i] < emaSlow[i]) shouldExit = true;
+            if (activePosition.type === 'short' && emaFast[i] > emaSlow[i]) shouldExit = true;
+          } else if (config.type === 'RSI_REVERSAL') {
+            if (activePosition.type === 'long' && rsi[i] >= 50) shouldExit = true;
+            if (activePosition.type === 'short' && rsi[i] <= 50) shouldExit = true;
+          } else if (config.type === 'BREAKOUT') {
+            if (i - activePosition.entryIndex >= (params.holdPeriod || 8)) shouldExit = true;
+          }
         }
 
         if (shouldExit) {
-          const exitPrice = candle.open;
           const pnl = activePosition.type === 'long' 
             ? (exitPrice - activePosition.entryPrice) * (currentCapital / activePosition.entryPrice)
             : (activePosition.entryPrice - exitPrice) * (currentCapital / activePosition.entryPrice);
@@ -176,8 +216,10 @@ export function simulateStrategy(data: any[], config: StrategyConfig, initialCap
     period: config.params.period || 14,
     oversold: config.params.oversold || 35,
     overbought: config.params.overbought || 65,
-    lookback: 15,
-    holdPeriod: 8
+    lookback: config.params.lookback || 15,
+    holdPeriod: config.params.holdPeriod || 8,
+    stopLossPct: config.params.stopLossPct || 0,
+    takeProfitPct: config.params.takeProfitPct || 0
   });
 
   // Pass 2: adaptive parameters if strict thresholds yielded 0 trades
@@ -189,7 +231,9 @@ export function simulateStrategy(data: any[], config: StrategyConfig, initialCap
       oversold: 45,
       overbought: 55,
       lookback: 8,
-      holdPeriod: 5
+      holdPeriod: 5,
+      stopLossPct: config.params.stopLossPct || 0,
+      takeProfitPct: config.params.takeProfitPct || 0
     });
   }
 

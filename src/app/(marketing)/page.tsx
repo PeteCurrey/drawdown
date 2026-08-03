@@ -141,23 +141,23 @@ export default async function Home() {
         {/* 4. Founder Quote Block */}
         <ScrollQuoteSection />
 
-        {/* 5. Curriculum Overview */}
+        {/* 5. Unified News & Live Economic Calendar Hub */}
+        <MarketPulse />
+
+        {/* 6. Curriculum Overview */}
         <CurriculumSection />
 
-        {/* 6. Capabilities Grid */}
+        {/* 7. Capabilities Grid */}
         <HorizontalScrollSection />
 
-        {/* 7. Institutional Sentiment Block */}
+        {/* 8. Institutional Sentiment Block */}
         <InstitutionalPulseSection />
 
-        {/* 8. Market Consensus Accumulation Matrix */}
+        {/* 9. Market Consensus Accumulation Matrix */}
         <InstitutionalConsensusSection />
 
-        {/* 9. Global Flux Sparklines & TradingView Partnership CTA */}
+        {/* 10. Global Flux Sparklines & TradingView Partnership CTA */}
         <GlobalFluxSection />
-
-        {/* 10. Unified News & Live Economic Calendar Hub */}
-        <MarketPulse />
 
         {/* 11. Recommended Brokers */}
         <BrokerSection />

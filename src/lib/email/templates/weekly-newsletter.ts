@@ -5,11 +5,11 @@
  */
 
 export function getNewsletterTemplate(content: string, subject: string) {
-  const accentColor = "#00C2FF"; // Signal Blue
-  const bgColor = "#08090D";
-  const surfaceColor = "#111318";
-  const textColor = "#E4E2DD";
-  const secondaryTextColor = "#7A7D85";
+  const accentColor = "#F9771D"; // Drawdown Orange
+  const bgColor = "#F1F5F9";
+  const surfaceColor = "#FFFFFF";
+  const textColor = "#0F172A";
+  const secondaryTextColor = "#64748B";
 
   // Basic HTML sanitization or simple line break conversion if necessary
   const formattedContent = content.replace(/\n/g, "<br/>");
@@ -84,13 +84,14 @@ export function getNewsletterTemplate(content: string, subject: string) {
       display: inline-block;
       padding: 16px 32px;
       background-color: ${accentColor};
-      color: ${bgColor} !important;
+      color: #FFFFFF !important;
       text-decoration: none;
       font-weight: bold;
       text-transform: uppercase;
       letter-spacing: 0.1em;
       font-size: 12px;
       margin-top: 24px;
+      border-radius: 4px;
     }
   </style>
 </head>

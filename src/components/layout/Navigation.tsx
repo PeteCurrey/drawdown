@@ -82,6 +82,21 @@ const megaMenus = {
   }
 };
 
+const menuAccents = {
+  curriculum: {
+    light: "#0F3D8C", // Professional deep institutional blue accent
+    dark: "#60A5FA",  // Crisp high-contrast dark-mode sky blue
+  },
+  tools: {
+    light: "#007A78", // Technical algorithmic emerald/teal accent
+    dark: "#34D399",  // Vibrant terminal digital green
+  },
+  brokers: {
+    light: "#9A6D00", // Authoritative gold/bronze premium accent
+    dark: "#FBBF24",  // Radiant compliance metallic amber gold
+  }
+};
+
 export function Navigation() {
   const { region } = useRegion();
   const pathname = usePathname();
@@ -305,33 +320,64 @@ export function Navigation() {
                   const isPropFirmOrStore = link.href.startsWith("/prop-firms") || link.href.startsWith("/store") || link.href.startsWith("/brokers") || link.href.startsWith("/compare");
                   const finalHref = isPropFirmOrStore ? link.href : `${regionPrefix}${link.href}`;
 
+                  // Resolve the active accent color based on theme page mode
+                  const accentColor = isDarkPage 
+                    ? menuAccents[activeMenu].dark 
+                    : menuAccents[activeMenu].light;
+
                   return (
                     <Link
                       key={link.name}
                       href={finalHref}
-                      className="group flex gap-4 transition-opacity hover:opacity-80"
+                      className="group flex gap-4 pl-0 hover:pl-3 border-l-2 border-transparent transition-all duration-300 select-none"
+                      style={{
+                        borderLeftColor: "transparent",
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.borderLeftColor = accentColor;
+                        e.currentTarget.style.paddingLeft = "12px";
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.borderLeftColor = "transparent";
+                        e.currentTarget.style.paddingLeft = "0px";
+                      }}
                       onClick={() => setActiveMenu(null)}
                     >
-                      <div className="mt-0.5 shrink-0" style={{ color: inactiveColor }}>
-                        <Icon className="w-5 h-5" strokeWidth={1.5} />
+                      <div 
+                        className="mt-0.5 shrink-0 transition-colors duration-300" 
+                        style={{ color: inactiveColor }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.color = accentColor;
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.color = inactiveColor;
+                        }}
+                      >
+                        <Icon className="w-5 h-5 transition-colors duration-300 group-hover:text-[var(--accent-color)]" style={{ "--accent-color": accentColor } as any} strokeWidth={1.5} />
                       </div>
                       <div className="flex flex-col gap-1">
-                        <span className="text-[14px] font-semibold font-sans flex items-center gap-2" style={{ color: hoverColor }}>
-                          {link.name}
+                        <span 
+                          className="text-[14px] font-semibold font-sans flex items-center gap-2 transition-colors duration-300" 
+                          style={{ color: hoverColor }}
+                        >
+                          <span className="group-hover:text-[var(--accent-color)] transition-colors duration-300" style={{ "--accent-color": accentColor } as any}>
+                            {link.name}
+                          </span>
                           {(link as any).badge && (
                             <span 
-                              className="text-[10px] font-mono tracking-wider px-1.5 py-0.5" 
+                              className="text-[10px] font-mono tracking-wider px-1.5 py-0.5 transition-colors duration-300 group-hover:bg-[var(--accent-color)] group-hover:text-white" 
                               style={{ 
                                 backgroundColor: isDarkPage ? "var(--paper-0)" : "var(--ink-950)", 
                                 color: isDarkPage ? "var(--ink-950)" : "var(--paper-0)", 
-                                borderRadius: 0 
-                              }}
+                                borderRadius: 0,
+                                "--accent-color": accentColor
+                              } as any}
                             >
                               {(link as any).badge}
                             </span>
                           )}
                         </span>
-                        <span className="text-[13px] font-sans" style={{ color: inactiveColor }}>
+                        <span className="text-[13px] font-sans transition-colors duration-300 group-hover:text-gray-900 dark:group-hover:text-white" style={{ color: inactiveColor }}>
                           {link.desc}
                         </span>
                       </div>
@@ -342,10 +388,21 @@ export function Navigation() {
 
               {/* Featured Showcase */}
               <div 
-                className="col-span-4 flex flex-col h-full border" 
+                className="col-span-4 flex flex-col h-full border transition-all duration-300" 
                 style={{ 
                   borderColor: isDarkPage ? "rgba(255, 255, 255, 0.1)" : "var(--line-200)", 
                   borderRadius: 0 
+                }}
+                onMouseEnter={(e) => {
+                  const accentColor = isDarkPage 
+                    ? menuAccents[activeMenu].dark 
+                    : menuAccents[activeMenu].light;
+                  e.currentTarget.style.borderColor = accentColor;
+                  e.currentTarget.style.boxShadow = `0 4px 20px ${accentColor}10`;
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.borderColor = isDarkPage ? "rgba(255, 255, 255, 0.1)" : "var(--line-200)";
+                  e.currentTarget.style.boxShadow = "none";
                 }}
               >
                 <Link
@@ -354,7 +411,7 @@ export function Navigation() {
                       ? megaMenus[activeMenu].featured.href
                       : `${regionPrefix}${megaMenus[activeMenu].featured.href}`
                   }
-                  className="flex flex-col h-full hover:opacity-95 transition-opacity"
+                  className="flex flex-col h-full transition-all duration-300 group"
                   onClick={() => setActiveMenu(null)}
                 >
                   <div 
@@ -365,16 +422,22 @@ export function Navigation() {
                       src={megaMenus[activeMenu].featured.image}
                       alt={megaMenus[activeMenu].featured.title}
                       className={cn(
-                        "w-full h-full object-cover mix-blend-multiply",
-                        isDarkPage ? "opacity-40" : "grayscale opacity-80"
+                        "w-full h-full object-cover mix-blend-multiply transition-all duration-700 ease-out group-hover:scale-105",
+                        isDarkPage ? "opacity-40" : "grayscale opacity-85 group-hover:grayscale-0 group-hover:opacity-100"
                       )}
                     />
                   </div>
                   <div 
-                    className="p-5 flex flex-col flex-1" 
+                    className="p-5 flex flex-col flex-1 transition-colors duration-300" 
                     style={{ backgroundColor: isDarkPage ? "rgba(255, 255, 255, 0.03)" : "var(--paper-100)" }}
                   >
-                    <span className="text-[10px] font-mono tracking-wider mb-2 font-semibold" style={{ color: inactiveColor }}>
+                    <span 
+                      className="text-[10px] font-mono tracking-wider mb-2 font-semibold transition-colors duration-300 group-hover:text-[var(--accent-color)]" 
+                      style={{ 
+                        color: inactiveColor,
+                        "--accent-color": isDarkPage ? menuAccents[activeMenu].dark : menuAccents[activeMenu].light
+                      } as any}
+                    >
                       {megaMenus[activeMenu].featured.badge}
                     </span>
                     <h4 className="text-[15px] font-semibold font-sans mb-1" style={{ color: hoverColor }}>
@@ -383,8 +446,15 @@ export function Navigation() {
                     <p className="text-[13px] font-sans leading-snug" style={{ color: inactiveColor }}>
                       {megaMenus[activeMenu].featured.desc}
                     </p>
-                    <span className="mt-auto pt-4 text-[12px] font-mono uppercase tracking-wider font-semibold" style={{ color: hoverColor }}>
-                      Explore →
+                    <span 
+                      className="mt-auto pt-4 text-[12px] font-mono uppercase tracking-wider font-semibold transition-all duration-300 flex items-center gap-1" 
+                      style={{ 
+                        color: hoverColor,
+                      }}
+                    >
+                      <span className="group-hover:text-[var(--accent-color)] group-hover:translate-x-1 transition-all duration-300" style={{ "--accent-color": isDarkPage ? menuAccents[activeMenu].dark : menuAccents[activeMenu].light } as any}>
+                        Explore →
+                      </span>
                     </span>
                   </div>
                 </Link>
@@ -424,7 +494,7 @@ export function Navigation() {
                     <AnimatePresence initial={false}>
                       {isExpanded && (
                         <motion.div
-                          initial={{ height: 0, opacity: 0 }}
+              initial={{ height: 0, opacity: 0 }}
                           animate={{ height: "auto", opacity: 1 }}
                           exit={{ height: 0, opacity: 0 }}
                           transition={{ duration: 0.2 }}
@@ -436,6 +506,10 @@ export function Navigation() {
                               const isPropFirmOrStore = subLink.href.startsWith("/prop-firms") || subLink.href.startsWith("/store") || subLink.href.startsWith("/brokers") || subLink.href.startsWith("/compare");
                               const finalSubHref = isPropFirmOrStore ? subLink.href : `${regionPrefix}${subLink.href}`;
 
+                              const accentColor = isDarkPage 
+                                ? menuAccents[menuKey].dark 
+                                : menuAccents[menuKey].light;
+
                               return (
                                 <Link
                                   key={subLink.name}
@@ -444,16 +518,17 @@ export function Navigation() {
                                     setIsMobileMenuOpen(false);
                                     setMobileExpanded({});
                                   }}
-                                  className="flex items-start gap-3"
+                                  className="flex items-start gap-3 pl-3 border-l"
+                                  style={{ borderLeftColor: `${accentColor}40` }}
                                 >
-                                  <div className="mt-0.5" style={{ color: inactiveColor }}>
-                                    <SubIcon className="w-5 h-5" strokeWidth={1.5} />
+                                  <div className="mt-0.5" style={{ color: accentColor }}>
+                                    <SubIcon className="w-4 h-4" strokeWidth={1.5} />
                                   </div>
                                   <div className="flex flex-col">
-                                    <span className="text-[15px] font-medium font-sans" style={{ color: hoverColor }}>
+                                    <span className="text-[14px] font-medium font-sans" style={{ color: hoverColor }}>
                                       {subLink.name}
                                     </span>
-                                    <span className="text-[13px] font-sans" style={{ color: inactiveColor }}>
+                                    <span className="text-[12px] font-sans" style={{ color: inactiveColor }}>
                                       {subLink.desc}
                                     </span>
                                   </div>

@@ -1,9 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { ShieldCheck, Crosshair, Target, ChevronRight, Activity, Percent, ArrowRight } from "lucide-react";
+import { ShieldCheck, Crosshair, Target, ChevronRight, Activity, Percent, ArrowRight, AlertTriangle } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { useRegion } from "@/components/layout/RegionalLayout";
 import { SectionA, SectionB, SectionD, SectionE, SectionF } from "@/components/prop-firms/PropFirmSections";
 import { PropSurvivalFloatingWidget } from "@/components/ui/PropSurvivalFloatingWidget";
 
@@ -102,6 +103,9 @@ const propFirms = [
 
 export default function PropFirmsHubPage() {
   const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
+  const { region, label, demonym, currencySymbol } = useRegion();
+
+  const regionPrefix = region === "uk" ? "" : `/${region}`;
 
   return (
     <div className="flex flex-col">
@@ -110,21 +114,33 @@ export default function PropFirmsHubPage() {
         <div className="w-full max-w-7xl mx-auto px-6 relative z-10">
           <div className="max-w-3xl space-y-8">
             <span className="text-[11px] font-sans font-bold text-text-tertiary uppercase tracking-widest block">
-              // INSTITUTIONAL CAPITAL
+              // EVALUATION DIRECTORY — {label.toUpperCase()}
             </span>
             
             <h1 className="text-4xl md:text-6xl font-sans font-extrabold tracking-tight text-text-primary leading-tight">
-              Don't Fund Another<br />
-              <span className="text-red-500">Failed Challenge.</span>
+              Prop Firm Reviews for<br />
+              <span className="text-accent">{demonym} Traders.</span>
             </h1>
             
             <p className="text-base text-text-tertiary leading-relaxed max-w-2xl font-sans">
-              Stop gambling evaluation fees. Compare the hardest data on payouts, rules, and drawdown limits to find the firm that fits your exact strategy.
+              Stop gambling evaluation fees. Compare hard data on payouts, rules, leverage, and drawdown limits tailored for traders in {label}.
             </p>
+
+            {region === "us" && (
+              <div className="flex items-start gap-4 p-4 border border-warning/30 bg-warning/5 rounded-xl max-w-2xl">
+                <AlertTriangle className="w-5 h-5 text-warning shrink-0 mt-0.5" />
+                <div className="space-y-1">
+                  <p className="text-[10px] font-mono font-bold uppercase text-warning">US CFTC & NFA Regulatory Notice</p>
+                  <p className="text-[10px] font-mono text-text-tertiary leading-relaxed uppercase">
+                    US CFTC and NFA rules restrict retail CFD leverage and certain broker data feeds. Ensure chosen evaluation providers support compliant futures or US-eligible prop firm accounts.
+                  </p>
+                </div>
+              </div>
+            )}
 
             <div className="flex flex-wrap gap-3 pt-2">
               <Link
-                href="/prop-firms/quiz"
+                href={`${regionPrefix}/prop-firms/quiz`}
                 className="px-7 py-3 rounded-lg text-white font-sans font-semibold text-sm transition-colors flex items-center gap-2"
                 style={{ backgroundColor: "#0A0A0A" }}
                 onMouseEnter={e => (e.currentTarget.style.backgroundColor = "#3A3A3A")}

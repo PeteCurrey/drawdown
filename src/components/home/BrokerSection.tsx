@@ -148,6 +148,60 @@ export function BrokerSection() {
           })),
           link: "/hk/brokers"
         };
+      case "ca":
+        return {
+          brokers: [
+            { id: "ibkr-ca", name: "Interactive Brokers Canada", logoPlaceholder: "IB", bestFor: "Best for Low Margin & DMA", stat: "CIRO Protected", features: ["CIRO / CIPF Regulated", "Global Direct Market Access", "Low Margin Rates"], color: "#C41230", regulation: "CIRO / CIPF" },
+            { id: "oanda-ca", name: "OANDA Canada", logoPlaceholder: "OA", bestFor: "Best for Forex", stat: "Raw Spreads Available", features: ["CIRO Regulated", "TradingView Integration", "API Trading"], color: "#0054FE", regulation: "CIRO REGULATED" },
+            { id: "forex-com-ca", name: "FOREX.com Canada", logoPlaceholder: "FX", bestFor: "Best for Currency Traders", stat: "Spreads from 0.8 pips", features: ["CIRO Protected", "Advanced Charting", "No Minimum Deposit"], color: "#00A7E1", regulation: "CIRO REGULATED" },
+          ],
+          link: "/ca/brokers"
+        };
+      case "de":
+        return {
+          brokers: [
+            { id: "ig-de", name: "IG Europe GmbH", logoUrl: "/logos/brokers/ig-markets.svg", logoPlaceholder: "IG", bestFor: "Best for Turbos & CFDs", stat: "Spreads from 0.6 pips", features: ["BaFin Regulated", "Einlagensicherung Protected", "Negative Balance Guard"], color: "#E11A27", regulation: "BaFin REGULATED" },
+            { id: "ibkr-de", name: "Interactive Brokers Ireland/DE", logoPlaceholder: "IB", bestFor: "Best for Multi-Asset", stat: "Institutional Rates", features: ["EU Passported", "Global Stock & Options", "Multi-Currency Wallet"], color: "#C41230", regulation: "BaFin PASSPORT" },
+            { id: "xtb-de", name: "XTB Germany", logoPlaceholder: "XB", bestFor: "Best for xStation Terminal", stat: "0% Stock Commission", features: ["BaFin Supervised", "xStation 5 Engine", "24/5 Customer Support"], color: "#00E676", regulation: "BaFin / KNF" },
+          ],
+          link: "/de/brokers"
+        };
+      case "ae":
+        return {
+          brokers: [
+            { id: "pepperstone-ae", name: "Pepperstone UAE", logoUrl: "/logos/brokers/pepperstone.svg", logoPlaceholder: "PS", bestFor: "Best for Fast Execution", stat: "Raw Spreads from 0.0", features: ["DFSA Regulated (DIFC)", "cTrader & MT5", "Local Arabic Support"], color: "#0054FE", regulation: "DFSA REGULATED" },
+            { id: "ig-ae", name: "IG Bank UAE", logoUrl: "/logos/brokers/ig-markets.svg", logoPlaceholder: "IG", bestFor: "Best for DIFC Clients", stat: "DIFC Prime Desk", features: ["DFSA Regulated", "Direct Market Access", "Dedicated Account Manager"], color: "#E11A27", regulation: "DFSA REGULATED" },
+            { id: "saxo-ae", name: "Saxo Bank UAE", logoPlaceholder: "SX", bestFor: "Best for VIP Capital", stat: "40,000+ Instruments", features: ["DFSA / UAE Central Bank", "SaxoTraderGO", "Institutional Research"], color: "#00B4D8", regulation: "DFSA LICENSED" },
+          ],
+          link: "/ae/brokers"
+        };
+      case "in":
+        return {
+          brokers: [
+            { id: "zerodha-in", name: "Zerodha", logoPlaceholder: "ZD", bestFor: "Best for Retail Equities & F&O", stat: "Zero Equity Delivery Brokerage", features: ["SEBI Registered", "Kite Terminal", "Direct Mutual Funds"], color: "#387ED1", regulation: "SEBI REGISTERED" },
+            { id: "upstox-in", name: "Upstox", logoPlaceholder: "UP", bestFor: "Best for Derivatives", stat: "High-Speed API Access", features: ["SEBI Regulated", "Option Chain Builder", "RKSV Securities Backed"], color: "#6C5CE7", regulation: "SEBI REGISTERED" },
+            { id: "angelone-in", name: "Angel One", logoPlaceholder: "AO", bestFor: "Best for Full-Service", stat: "SmartAPI Integration", features: ["SEBI / NSE / BSE", "ARQ AI Analytics", "Integrated Advisory"], color: "#FF7675", regulation: "SEBI REGISTERED" },
+          ],
+          link: "/in/brokers"
+        };
+      case "my":
+        return {
+          brokers: [
+            { id: "ibkr-my", name: "Interactive Brokers (MY)", logoPlaceholder: "IB", bestFor: "Best for US & Global Stocks", stat: "Direct Exchange Access", features: ["SC Malaysia Compliant", "Lowest FX Fees", "Universal Account"], color: "#C41230", regulation: "SC COMPLIANT" },
+            { id: "oanda-my", name: "OANDA Asia Pacific", logoPlaceholder: "OA", bestFor: "Best for FX Traders", stat: "TradingView Charts", features: ["Regulated Regional Entity", "API Automation", "No Minimum Deposit"], color: "#0054FE", regulation: "SC / REGIONAL" },
+            { id: "saxo-my", name: "Saxo Capital Markets", logoPlaceholder: "SX", bestFor: "Best for Multi-Asset", stat: "SaxoTraderGO Terminal", features: ["Tier-1 Regulation", "70,000+ Instruments", "Institutional Security"], color: "#00B4D8", regulation: "SC / MAS REGIONAL" },
+          ],
+          link: "/my/brokers"
+        };
+      case "ph":
+        return {
+          brokers: [
+            { id: "col-financial-ph", name: "COL Financial", logoPlaceholder: "COL", bestFor: "Best for PSE Equities", stat: "#1 Online Broker PH", features: ["SEC Philippines Registered", "Direct PSE Access", "Expert Equity Reports"], color: "#00B4D8", regulation: "SEC PH REGISTERED" },
+            { id: "first-metro-ph", name: "First Metro Sec", logoPlaceholder: "FM", bestFor: "Best for Metrobank Clients", stat: "FirstMetroSec PRO Platform", features: ["SEC / PSE Member", "Metrobank Group", "Fundamental Research"], color: "#0054FE", regulation: "SEC PH REGISTERED" },
+            { id: "bdo-sec-ph", name: "BDO Securities", logoPlaceholder: "BDO", bestFor: "Best for Bank Integration", stat: "BDO Direct Funds Transfer", features: ["SEC PH Registered", "Direct Bank Account Sync", "PSE Execution"], color: "#00A382", regulation: "SEC PH REGISTERED" },
+          ],
+          link: "/ph/brokers"
+        };
       default:
         return {
           brokers: ukBrokers as Broker[],

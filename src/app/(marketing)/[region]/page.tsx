@@ -98,6 +98,10 @@ export default async function RegionalHome({ params }: Props) {
           <HorizontalScrollSection />
         </FadeInSection>
 
+        <FadeInSection delay={0}>
+          <BrokerSection />
+        </FadeInSection>
+
         <section className="py-24 bg-background-elevated border-y border-border-slate">
           <div className="container mx-auto px-6 text-center">
             <span className="text-accent font-mono text-[10px] uppercase tracking-widest block mb-4">// REGIONAL COMPLIANCE</span>

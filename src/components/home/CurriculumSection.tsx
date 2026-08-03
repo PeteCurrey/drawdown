@@ -156,7 +156,7 @@ export function CurriculumSection() {
             const isHovered = hoveredIdx === idx;
             
             return (
-              <Link href={`/courses/${phase.slug}`} key={phase.id} className="block">
+              <Link href={`${regionPrefix}/courses/${phase.slug}`} key={phase.id} className="block">
                 <motion.div
                   custom={idx}
                   initial="hidden"

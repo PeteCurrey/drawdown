@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { BookOpen, Calculator, Scan, LineChart, Newspaper, Cpu, Terminal } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
+import { useRegion } from "@/components/layout/RegionalLayout";
 
 const stats = [
   { value: "6", label: "Custom AI Tools" },
@@ -144,12 +145,14 @@ const tools = [
 
 export function AIToolsSection() {
   const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
+  const { region } = useRegion();
+  const regionPrefix = region === "uk" ? "" : `/${region}`;
 
   const cardVariants = {
-    hidden: { opacity: 0, x: 20 },
+    hidden: { opacity: 0, y: 15 },
     visible: (i: number) => ({
       opacity: 1,
-      x: 0,
+      y: 0,
       transition: {
         delay: i * 0.08,
         duration: 0.5,
@@ -161,9 +164,9 @@ export function AIToolsSection() {
   return (
     <section className="w-full bg-white border-b border-mkt-bd py-24 select-none relative z-10">
       <div className="max-w-7xl mx-auto px-6">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
           
-          {/* Left Column: Heading and Stats */}
+          {/* Left Column: Heading + Subhead + Stats */}
           <div className="lg:col-span-5 space-y-8">
             <div className="space-y-4">
               <span className="text-[11px] font-sans font-bold text-mkt-i4 uppercase tracking-widest block">
@@ -208,7 +211,7 @@ export function AIToolsSection() {
                 const isHovered = hoveredIdx === idx;
                 
                 return (
-                  <Link href={`/tools/${tool.slug}`} key={idx} className="block">
+                  <Link href={`${regionPrefix}/tools/${tool.slug}`} key={idx} className="block">
                     <motion.div
                       custom={idx}
                       initial="hidden"

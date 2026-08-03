@@ -54,10 +54,10 @@ const appTools: ToolDef[] = [
   {
     slug: "backtester",
     title: "Strategy Backtester",
-    description: "Test your edge against 3 years of data.",
+    description: "Test your edge against up to 5,000 bars of historical OHLC data.",
     icon: History,
     minTier: "edge",
-    bullet: "Comprehensive parameters and historic execution sandbox"
+    bullet: "Multi-year candle range selection and historic simulation"
   },
   {
     slug: "intelligence",

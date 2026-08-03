@@ -1,8 +1,12 @@
 import { Navigation } from "@/components/layout/Navigation";
 import { HeroSection } from "@/components/home/HeroSection";
 import { PriceTicker } from "@/components/home/PriceTicker";
+import { MacroIntelligenceStrip } from "@/components/home/MacroIntelligenceStrip";
 import { ScrollQuoteSection } from "@/components/home/ScrollQuoteSection";
 import { InstitutionalPulseSection } from "@/components/home/InstitutionalPulseSection";
+import { InstitutionalConsensusSection } from "@/components/home/InstitutionalConsensusSection";
+import { GlobalFluxSection } from "@/components/home/GlobalFluxSection";
+import { MarketPulse } from "@/components/home/MarketPulse";
 import { CurriculumSection } from "@/components/home/CurriculumSection";
 import { HorizontalScrollSection } from "@/components/home/HorizontalScrollSection";
 import { BrokerSection } from "@/components/home/BrokerSection";
@@ -93,6 +97,9 @@ export default async function Home() {
         <HeroSection />
         <PriceTicker />
         
+        {/* Real-time Macro Strip right after pricing ticker to frame the data-driven context */}
+        <MacroIntelligenceStrip />
+        
         {/* 3. Positioning Statement ("No Lambos. No Beach Photos.") — hairline border system */}
         <section
           className="w-full py-24 md:py-32 border-b select-none"
@@ -140,18 +147,28 @@ export default async function Home() {
         {/* 6. Capabilities Grid */}
         <HorizontalScrollSection />
 
-        {/* 7. Order Flow Signals / Market Pulse (bug fixed, claim wording untouched) */}
+        {/* 7. Institutional Sentiment Block */}
         <InstitutionalPulseSection />
 
-        {/* 8. Recommended Brokers */}
+        {/* 8. Market Consensus Accumulation Matrix */}
+        <InstitutionalConsensusSection />
+
+        {/* 9. Global Flux Sparklines & TradingView Partnership CTA */}
+        <GlobalFluxSection />
+
+        {/* 10. Unified News & Live Economic Calendar Hub */}
+        <MarketPulse />
+
+        {/* 11. Recommended Brokers */}
         <BrokerSection />
 
-        {/* 9. Pricing Tiers */}
+        {/* 12. Pricing Tiers */}
         <PricingSection floorCap={floorCap} activeFloorSubs={activeFloorSubs} />
       </main>
 
-      {/* 10. Footer */}
+      {/* 13. Footer */}
       <Footer />
     </div>
   );
 }
+

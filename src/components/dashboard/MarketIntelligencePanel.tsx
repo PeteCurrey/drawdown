@@ -444,16 +444,16 @@ export function MarketIntelligencePanel({
         }}
       >
         <div style={{ fontSize: 10, fontWeight: 500, color: "#7A3E2E", letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: 14, opacity: 0.8 }}>
-          Data Sources
+          Aggregated Data Feeds
         </div>
 
-        <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
           {[
-            { icon: "⬡", name: "Bloomberg Terminal",     count: 1842 },
-            { icon: "◈", name: "COT Report (CFTC)",       count: 307  },
-            { icon: "◉", name: "Order Flow Aggregator",   count: 924  },
-            { icon: "▣", name: "Macro Calendar Feed",     count: 56   },
-          ].map(({ icon, name, count }) => (
+            { icon: "⬡", name: "Global Financial News", detail: "Sky, BBC, Yahoo, Investing.com" },
+            { icon: "◈", name: "CFTC COT Reports",       detail: "Institutional Positioning Data" },
+            { icon: "◉", name: "Macro Calendar Feed",     detail: "Finnhub Economic & Earnings" },
+            { icon: "▣", name: "Market Sentiment & VIX", detail: "Crypto F&G + Volatility Index" },
+          ].map(({ icon, name, detail }) => (
             <div
               key={name}
               style={{ display: "flex", alignItems: "center", gap: 10 }}
@@ -461,12 +461,14 @@ export function MarketIntelligencePanel({
               <span style={{ fontSize: 13, color: "#9B6358", width: 18, textAlign: "center", flexShrink: 0 }}>
                 {icon}
               </span>
-              <span style={{ fontSize: 12, color: "#3D2A22", fontWeight: 400, flex: 1 }}>
-                {name}
-              </span>
-              <span style={{ fontSize: 12, color: "#3D2A22", fontWeight: 500, fontVariantNumeric: "tabular-nums" }}>
-                {count.toLocaleString()}
-              </span>
+              <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
+                <span style={{ fontSize: 12, color: "#3D2A22", fontWeight: 500 }}>
+                  {name}
+                </span>
+                <span style={{ fontSize: 10, color: "#7A3E2E", opacity: 0.85 }}>
+                  {detail}
+                </span>
+              </div>
             </div>
           ))}
         </div>

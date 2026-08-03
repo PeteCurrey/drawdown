@@ -1,7 +1,11 @@
 import { createClient } from '@/lib/supabase/server';
 import { NextRequest, NextResponse } from 'next/server';
+import { requireAdmin } from '@/lib/supabase/require-admin';
 
 export async function POST(req: NextRequest) {
+  const guard = await requireAdmin();
+  if ("error" in guard) return guard.error;
+
   const supabase = await createClient();
   const body = await req.json();
 
@@ -24,6 +28,9 @@ export async function POST(req: NextRequest) {
 }
 
 export async function PUT(req: NextRequest) {
+  const guard = await requireAdmin();
+  if ("error" in guard) return guard.error;
+
   const supabase = await createClient();
   const body = await req.json();
   const { id, ...update } = body;
@@ -46,6 +53,9 @@ export async function PUT(req: NextRequest) {
 }
 
 export async function PATCH(req: NextRequest) {
+  const guard = await requireAdmin();
+  if ("error" in guard) return guard.error;
+
   const supabase = await createClient();
   const { id, is_active } = await req.json();
 

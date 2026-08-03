@@ -1,21 +1,13 @@
-import { createServerClient } from "@supabase/ssr";
+import { createClient, createServiceRoleClient } from "@/lib/supabase/server";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!,
-    {
-      cookies: {
-        getAll() { return [] },
-        setAll() {},
-      },
-    }
-  );
-
   try {
-    const { data: { user } } = await supabase.auth.getUser();
+    const authClient = await createClient();
+    const { data: { user } } = await authClient.auth.getUser();
     if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+
+    const supabase = createServiceRoleClient();
 
     const { module_id, phase_id, completed, quiz_score, last_step } = await request.json();
 

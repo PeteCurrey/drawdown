@@ -6,9 +6,11 @@ export async function GET(request: NextRequest) {
   const symbol = searchParams.get("symbol") || "GBPUSD";
   const interval = searchParams.get("interval") || "1h";
   const outputsize = parseInt(searchParams.get("outputsize") || "150");
+  const startDate = searchParams.get("start_date") || undefined;
+  const endDate = searchParams.get("end_date") || undefined;
 
   try {
-    const history = await getMarketHistory(symbol, interval, outputsize);
+    const history = await getMarketHistory(symbol, interval, outputsize, startDate, endDate);
     const formatted = history.map((item: any) => {
       let timeSecs = 0;
       if (typeof item.time === "number") {

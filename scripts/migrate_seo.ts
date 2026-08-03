@@ -3,9 +3,9 @@ import * as path from 'path';
 import { createClient } from '@supabase/supabase-js';
 
 // Import all data
-import { BEST_OF_PAGES } from '../src/data/seo/best';
-import { COMPARISON_PAGES } from '../src/data/seo/compare';
-import { HOW_TO_PAGES } from '../src/data/seo/howto';
+import { BEST_OF_PAGES } from '@/data/seo/best';
+import { COMPARISON_PAGES } from '@/data/seo/compare';
+import { HOW_TO_PAGES } from '@/data/seo/howto';
 
 dotenv.config({ path: path.resolve(process.cwd(), '.env.local') });
 

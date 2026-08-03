@@ -1,21 +1,10 @@
-import { createServerClient } from "@supabase/ssr";
 import { NextRequest, NextResponse } from "next/server";
 import { getAnalysis } from "@/lib/ai";
+import { requireAdmin } from "@/lib/supabase/require-admin";
 
 export async function POST(request: NextRequest) {
-  // In a real app, verify admin session using Supabase Auth
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        getAll() { return request.cookies.getAll() },
-        setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value }) => request.cookies.set(name, value))
-        },
-      },
-    }
-  );
+  const guard = await requireAdmin();
+  if ("error" in guard) return guard.error;
 
   try {
     const { type, terms } = await request.json(); // e.g., { type: 'glossary', terms: ['Bid-Ask Spread', 'Stop Loss'] }

@@ -1,19 +1,14 @@
-import { createServerClient } from "@supabase/ssr";
+import { createServiceRoleClient } from "@/lib/supabase/server";
+import { requireAdmin } from "@/lib/supabase/require-admin";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
+  const guard = await requireAdmin();
+  if ("error" in guard) return guard.error;
+
   const { content, platform, title } = await request.json();
 
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!,
-    {
-      cookies: {
-        getAll() { return [] },
-        setAll() {},
-      },
-    }
-  );
+  const supabase = createServiceRoleClient();
 
   try {
     // 1. Log the deployment in our internal database

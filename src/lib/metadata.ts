@@ -29,8 +29,12 @@ export function getMetadata({
   path,
   hasRegionalVariants = false,
 }: MetadataProps = {}): Metadata {
-  const fullTitle = title 
-    ? (title.endsWith(` | ${siteConfig.name}`) ? title : `${title} | ${siteConfig.name}`)
+  const cleanTitle = title
+    ? title.replace(/\s*([|—–-]\s*Drawdown(\s+Trading)?)$/i, "").trim()
+    : null;
+
+  const fullTitle = cleanTitle
+    ? `${cleanTitle} | ${siteConfig.name}`
     : siteConfig.title;
 
   const url = path !== undefined ? `${siteConfig.url}${path}` : undefined;

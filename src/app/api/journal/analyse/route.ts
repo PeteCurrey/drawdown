@@ -1,23 +1,24 @@
-import { createServerClient } from "@supabase/ssr";
+import { createClient, createServiceRoleClient } from "@/lib/supabase/server";
+import { checkAndLogAiUsage } from "@/lib/supabase/ai-rate-limit";
 import { NextRequest, NextResponse } from "next/server";
 import { getAnalysis } from "@/lib/ai";
 import { Database } from "@/lib/supabase/types";
 
 export async function POST(request: NextRequest) {
-  const supabase = createServerClient<Database>(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!,
-    {
-      cookies: {
-        getAll() { return [] },
-        setAll() {},
-      },
-    }
-  );
-
   try {
-    const { data: { user } } = await supabase.auth.getUser();
+    const authClient = await createClient();
+    const { data: { user } } = await authClient.auth.getUser();
     if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+
+    const rateLimit = await checkAndLogAiUsage(user.id, "journal_analyse");
+    if (!rateLimit.allowed) {
+      return NextResponse.json(
+        { error: "Too many requests. Please try again in an hour." },
+        { status: 429, headers: { "Retry-After": String(rateLimit.retryAfter) } }
+      );
+    }
+
+    const supabase = createServiceRoleClient();
 
     const { trades } = await request.json();
     if (!trades || !Array.isArray(trades) || trades.length === 0) {

@@ -41,6 +41,8 @@ export default function BacktesterPage() {
   const [startingCapital, setStartingCapital] = useState(10000);
   const [error, setError] = useState<string | null>(null);
   const [dateRangeText, setDateRangeText] = useState("");
+  const [startDate, setStartDate] = useState("2024-01-01");
+  const [endDate, setEndDate] = useState("2026-04-13");
 
   const runSimulation = async () => {
     setIsSimulating(true);
@@ -48,7 +50,7 @@ export default function BacktesterPage() {
     setResults(null);
     
     try {
-      const res = await fetch(`/api/market/history?symbol=${symbol}&interval=${timeframe.toLowerCase()}&outputsize=200`);
+      const res = await fetch(`/api/market/history?symbol=${symbol}&interval=${timeframe.toLowerCase()}&outputsize=5000&start_date=${startDate}&end_date=${endDate}`);
       if (!res.ok) {
         throw new Error("Failed to fetch market history");
       }
@@ -281,14 +283,16 @@ export default function BacktesterPage() {
                   <div className="grid grid-cols-2 gap-4">
                     <input
                       type="date"
-                      defaultValue="2024-01-01"
+                      value={startDate}
+                      onChange={(e) => setStartDate(e.target.value)}
                       className="bg-white border border-gray-200 px-4 py-3 text-xs font-mono outline-none text-gray-900 rounded-lg transition-colors"
                       onFocus={e => { e.currentTarget.style.borderColor = C; }}
                       onBlur={e =>  { e.currentTarget.style.borderColor = "#e5e7eb"; }}
                     />
                     <input
                       type="date"
-                      defaultValue="2026-04-13"
+                      value={endDate}
+                      onChange={(e) => setEndDate(e.target.value)}
                       className="bg-white border border-gray-200 px-4 py-3 text-xs font-mono outline-none text-gray-900 rounded-lg transition-colors"
                       onFocus={e => { e.currentTarget.style.borderColor = C; }}
                       onBlur={e =>  { e.currentTarget.style.borderColor = "#e5e7eb"; }}

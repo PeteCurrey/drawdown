@@ -485,7 +485,7 @@ We provide **Session-Specific Briefings**. We tell you what the "Theme" is for t
       peteTake: "Discretionary trading is full of lies you tell yourself. Systematic trading is just math and code. This tool lets you bridge the gap and write the code without spending years learning syntax.",
       problem: {
         title: "The Code Bottleneck",
-        content: "If you cannot backtest your strategy over 10 years of tick data, you do not have an edge—you have a wish list. But writing clean Python code using Pandas and NumPy, checking for look-ahead bias, and integrating complex broker APIs is a monumental barrier to entry. Discretionary traders get stuck backtesting manually, introducing hindsight bias and fatigue."
+        content: "If you cannot backtest your strategy over sufficient historical OHLC candle data, you do not have an edge—you have a wish list. But writing clean Python code using Pandas and NumPy, checking for look-ahead bias, and integrating complex broker APIs is a monumental barrier to entry. Discretionary traders get stuck backtesting manually, introducing hindsight bias and fatigue."
       },
       howItWorks: {
         steps: [

@@ -119,7 +119,7 @@ export default function PlatformPage() {
                   </div>
                   <h3 className="text-2xl font-bold mb-4">Live Market Intelligence</h3>
                   <p className="text-text-secondary leading-relaxed mb-8">
-                    A real-time market hub updated every 60 seconds. Aggregated from Bloomberg, Reuters, FT, and institutional sources. Economic calendar, top movers, volatility windows, and institutional consensus data — all in one dashboard. The kind of intelligence retail traders don't usually have access to.
+                    A real-time market hub updated every 60 seconds. Aggregated from global financial news feeds including Sky News Business, BBC, Investing.com, Yahoo Finance, CNN, Fox Business, ForexLive, and CoinDesk. Economic calendar, top movers, volatility windows, and sentiment data — all in one dashboard. The kind of intelligence retail traders don't usually have access to.
                   </p>
                   <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6">
                     <Link href="/markets" className="inline-flex items-center gap-2 text-sm font-bold text-blue-600 hover:text-blue-700 transition-colors">
@@ -143,7 +143,7 @@ export default function PlatformPage() {
                   </div>
                   <h3 className="text-2xl font-bold mb-4">AI-Powered Trading Tools</h3>
                   <p className="text-text-secondary leading-relaxed mb-8">
-                    Six purpose-built AI tools that do real work. The Trade Journal detects emotional patterns in your trading history. The Risk Calculator sizes positions precisely. The Market Scanner identifies confluence across 40+ instruments. The Backtester tests your edge against 3 years of historical data. These aren't generic AI wrappers — they're built specifically for traders.
+                    Six purpose-built AI tools that do real work. The Trade Journal detects emotional patterns in your trading history. The Risk Calculator sizes positions precisely. The Market Scanner identifies confluence across 40+ instruments. The Backtester tests your edge against up to 200 bars of historical OHLC candle data. These aren't generic AI wrappers — they're built specifically for traders.
                   </p>
                   <Link href="/tools" className="inline-flex items-center gap-2 text-sm font-bold text-purple-600 hover:text-purple-700 transition-colors">
                     See the tools <ArrowRight className="w-4 h-4" />
@@ -244,8 +244,8 @@ export default function PlatformPage() {
                   badge: "EDGE+",
                   badgeColor: "bg-accent/20 text-accent",
                   icon: <LineChart className="w-8 h-8 text-amber-400" />,
-                  desc: "Define your strategy rules in plain language: entry conditions, stop loss logic, take profit targets, session filters. The backtester runs your rules against 3 years of historical OHLC data and outputs win rate, expectancy, maximum drawdown, profit factor, and Sharpe ratio. Know whether your strategy has a genuine edge before risking capital on it.",
-                  feature: "3 years of historical data, 12 performance metrics"
+                  desc: "Define your strategy rules in plain language: entry conditions, stop loss logic, take profit targets, session filters. The backtester runs your rules against up to 200 bars of historical OHLC candle data and outputs win rate, expectancy, maximum drawdown, profit factor, and Sharpe ratio. Know whether your strategy has a genuine edge before risking capital on it.",
+                  feature: "Up to 200 bars of OHLC data, 12 performance metrics"
                 },
                 {
                   name: "Daily Intelligence Brief",

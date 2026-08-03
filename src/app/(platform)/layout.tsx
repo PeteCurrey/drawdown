@@ -270,8 +270,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
   return (
     <div className={cn(
-      "flex flex-col h-screen font-sans antialiased transition-colors duration-200",
-      isDarkModulePage ? "bg-[#0a0a0a] text-white" : "bg-white text-[#1A1A1A]"
+      "flex flex-col h-screen font-sans antialiased transition-colors duration-200 platform-container",
+      isDarkModulePage ? "bg-[#0a0a0a] text-white dark-mode-page" : "bg-white text-[#1A1A1A]"
     )}>
       {showOnboarding && profile && (
         <OnboardingWizard 

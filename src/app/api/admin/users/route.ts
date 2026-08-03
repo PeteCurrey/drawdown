@@ -1,14 +1,11 @@
 import { NextResponse } from "next/server";
-import { createClient, createInternalSupabase } from "@/lib/supabase/server";
+import { createInternalSupabase } from "@/lib/supabase/server";
+import { requireAdmin } from "@/lib/supabase/require-admin";
 
 export async function GET() {
   try {
-    const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
-
-    if (!user) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
+    const guard = await requireAdmin();
+    if ("error" in guard) return guard.error;
 
     const adminClient = createInternalSupabase();
     
@@ -45,12 +42,8 @@ export async function GET() {
 
 export async function POST(req: Request) {
   try {
-    const supabase = await createClient();
-    const { data: { user: currentUser } } = await supabase.auth.getUser();
-
-    if (!currentUser) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
+    const guard = await requireAdmin();
+    if ("error" in guard) return guard.error;
 
     const body = await req.json();
     const { email, password, firstName, lastName, subscription_tier = "free", role = "trader" } = body;
@@ -121,12 +114,8 @@ export async function POST(req: Request) {
 
 export async function PATCH(req: Request) {
   try {
-    const supabase = await createClient();
-    const { data: { user: currentUser } } = await supabase.auth.getUser();
-
-    if (!currentUser) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
+    const guard = await requireAdmin();
+    if ("error" in guard) return guard.error;
 
     const body = await req.json();
     const { userId, subscription_tier, role, subscription_status } = body;

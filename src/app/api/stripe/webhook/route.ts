@@ -1,10 +1,14 @@
-import { createServerClient } from "@supabase/ssr";
 import { type NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 import { headers } from "next/headers";
 import { awardBadge } from "@/lib/gamification";
 import { Resend } from "resend";
-import { getSurvivalKitConfirmationTemplate, getHowToTradeConfirmationTemplate, getTheEdgeConfirmationTemplate } from "@/lib/email-templates";
+import {
+  getSurvivalKitConfirmationTemplate,
+  getHowToTradeConfirmationTemplate,
+  getTheEdgeConfirmationTemplate,
+} from "@/lib/email-templates";
+import { createServiceRoleClient } from "@/lib/supabase/server";
 
 export async function POST(request: NextRequest) {
   const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
@@ -23,72 +27,95 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: `Webhook Error: ${err.message}` }, { status: 400 });
   }
 
-  // Create a Supabase admin client to update profiles
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!, // Use service role for admin access
-    {
-      cookies: {
-        getAll() { return [] },
-        setAll() {},
-      },
-    }
-  );
+  const supabase = createServiceRoleClient();
 
   const session = event.data.object as any;
 
   switch (event.type) {
-    case "checkout.session.completed":
+    case "checkout.session.completed": {
       const userId = session.metadata.userId || session.metadata.user_id;
       const tier = session.metadata.tier;
       const customerId = session.customer;
-      const purchaseType = session.metadata.purchase_type; // 'subscription' | 'course'
+      const purchaseType = session.metadata.purchase_type;
       const productId = session.metadata.product_id;
 
-      // ── Prop Survival Kit Store Purchase ──────────────────────────────────
-      if (productId === 'prop-survival-kit') {
-        const email = session.customer_details?.email || session.customer_email;
-        let resolvedUserId = userId && userId !== 'guest' ? userId : null;
-        let tempPassword = "";
+      // ── Helper: resolve or create a user for guest purchases ────────────────
+      async function resolveOrCreateGuestUser(
+        email: string,
+        fullName: string
+      ): Promise<{ userId: string | null; isNewUser: boolean }> {
+        // Attempt to create the user first. If they already exist, Supabase
+        // returns a 422 / "already registered" error — we then look them up.
+        const { data: createData, error: createError } = await supabase.auth.admin.createUser({
+          email,
+          email_confirm: true,
+          user_metadata: {
+            full_name: fullName,
+            subscription_tier: "free",
+            role: "student",
+          },
+        });
 
-        if (!resolvedUserId && email) {
-          // Check if user already exists
-          const { data: usersData } = await supabase.auth.admin.listUsers();
-          const existingUser = usersData?.users?.find(u => u.email?.toLowerCase() === email.toLowerCase());
-          if (existingUser) {
-            resolvedUserId = existingUser.id;
-          } else {
-            // Create user account for guest
-            tempPassword = Math.random().toString(36).substring(2, 10);
-            const fullName = session.customer_details?.name || email.split("@")[0];
-            const { data: createData, error: createError } = await supabase.auth.admin.createUser({
-              email,
-              password: tempPassword,
-              email_confirm: true,
-              user_metadata: {
-                full_name: fullName,
-                subscription_tier: "free",
-                role: "student",
-              }
-            });
-            if (createData?.user) {
-              resolvedUserId = createData.user.id;
-              await supabase.from("profiles").upsert({
-                id: resolvedUserId,
-                display_name: fullName,
-                full_name: fullName,
-                subscription_tier: "free",
-                subscription_status: "inactive",
-                role: "student",
-                updated_at: new Date().toISOString()
-              });
-            } else {
-              console.error("Failed to create guest user in webhook:", createError);
-            }
-          }
+        if (createData?.user) {
+          // Brand-new user — fall through to profile upsert below.
+          const newUserId = createData.user.id;
+          await supabase.from("profiles").upsert({
+            id: newUserId,
+            display_name: fullName,
+            full_name: fullName,
+            subscription_tier: "free",
+            subscription_status: "inactive",
+            role: "student",
+            updated_at: new Date().toISOString(),
+          });
+          return { userId: newUserId, isNewUser: true };
         }
 
-        // Record course purchase in course_purchases
+        // If the error indicates the user already exists, find them via listUsers.
+        const alreadyExists =
+          createError?.status === 422 ||
+          createError?.message?.toLowerCase().includes("already") ||
+          createError?.message?.toLowerCase().includes("registered");
+
+        if (alreadyExists) {
+          const { data: listData } = await supabase.auth.admin.listUsers({ perPage: 1000 });
+          const found = listData?.users?.find((u) => u.email === email);
+          return { userId: found?.id ?? null, isNewUser: false };
+        }
+
+        console.error("Failed to create/resolve guest user in webhook:", createError);
+        return { userId: null, isNewUser: false };
+      }
+
+      // ── Helper: generate a magic-link for a user ──────────────────────────
+      async function getMagicLink(email: string): Promise<string> {
+        const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://drawdown.trading";
+        try {
+          const { data } = await supabase.auth.admin.generateLink({
+            type: "magiclink",
+            email,
+            options: { redirectTo: `${appUrl}/dashboard` },
+          });
+          return data?.properties?.action_link || `${appUrl}/login`;
+        } catch {
+          return `${appUrl}/login`;
+        }
+      }
+
+      // ── Prop Survival Kit Store Purchase ─────────────────────────────────
+      if (productId === "prop-survival-kit") {
+        const email = session.customer_details?.email || session.customer_email;
+        let resolvedUserId = userId && userId !== "guest" ? userId : null;
+        let isNewUser = false;
+
+        if (!resolvedUserId && email) {
+          const fullName = session.customer_details?.name || email.split("@")[0];
+          const result = await resolveOrCreateGuestUser(email, fullName);
+          resolvedUserId = result.userId;
+          isNewUser = result.isNewUser;
+        }
+
+        // Record course purchase
         let courseId = session.metadata.course_id;
         if (!courseId) {
           const { data: course } = await supabase
@@ -100,65 +127,46 @@ export async function POST(request: NextRequest) {
         }
 
         if (resolvedUserId && courseId) {
-          const { error: courseErr } = await supabase
-            .from('course_purchases')
-            .insert({
-              user_id:                  resolvedUserId,
-              course_id:                courseId,
-              stripe_payment_intent_id: session.payment_intent,
-              stripe_session_id:        session.id,
-              amount_paid_pence:        session.amount_total ?? 4900,
-              access_granted_via:       'stripe_purchase',
-            });
-          if (courseErr && courseErr.code !== '23505') {
-            console.error('Error recording survival kit purchase:', courseErr);
+          const { error: courseErr } = await supabase.from("course_purchases").insert({
+            user_id: resolvedUserId,
+            course_id: courseId,
+            stripe_payment_intent_id: session.payment_intent,
+            stripe_session_id: session.id,
+            amount_paid_pence: session.amount_total ?? 4900,
+            access_granted_via: "stripe_purchase",
+          });
+          if (courseErr && courseErr.code !== "23505") {
+            console.error("Error recording survival kit purchase:", courseErr);
           }
         }
 
-        // Send PDF download email via Resend
+        // Send confirmation email with magic link — never a password or direct PDF URL
         const resendKey = process.env.RESEND_API_KEY;
         if (resendKey && email) {
           try {
-            // Generate a signed URL for the PDF (from Supabase Bucket)
-            let pdfDownloadUrl = "";
-            const bucketName = process.env.SUPABASE_SURVIVAL_KIT_BUCKET || "store";
-            const filePath = process.env.SUPABASE_SURVIVAL_KIT_PATH || "survival-kit/prop-challenge-survival-kit.pdf";
-            
-            const { data: signedData } = await supabase
-              .storage
-              .from(bucketName)
-              .createSignedUrl(filePath, 60 * 60 * 24 * 365); // 1 year expiry
-            
-            if (signedData?.signedUrl) {
-              pdfDownloadUrl = signedData.signedUrl;
-            } else {
-              const { data: publicUrlData } = supabase
-                .storage
-                .from(bucketName)
-                .getPublicUrl(filePath);
-              pdfDownloadUrl = publicUrlData?.publicUrl || "";
-            }
+            // §1.5: Direct download link replaced by dashboard access
+            const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://drawdown.trading";
+            const dashboardUrl = `${appUrl}/dashboard/store`;
+            const magicLink = isNewUser ? await getMagicLink(email) : null;
 
-            const emailHtml = getSurvivalKitConfirmationTemplate(pdfDownloadUrl, tempPassword || undefined);
-            
+            const emailHtml = getSurvivalKitConfirmationTemplate(dashboardUrl, undefined, magicLink ?? undefined);
+
             const resend = new Resend(resendKey);
             await resend.emails.send({
               from: "Pete @ Drawdown <thewire@drawdown.trading>",
               to: email,
-              subject: "Your Prop Challenge Survival Kit is ready for download",
-              html: emailHtml
+              subject: "Your Prop Challenge Survival Kit is ready",
+              html: emailHtml,
             });
 
-            // Log the send in email_sends
             await supabase.from("email_sends").insert({
               type: "survival_kit_delivery",
-              subject: "Your Prop Challenge Survival Kit is ready for download",
+              subject: "Your Prop Challenge Survival Kit is ready",
               content_html: emailHtml,
               recipient_count: 1,
               status: "sent",
-              sent_at: new Date().toISOString()
+              sent_at: new Date().toISOString(),
             });
-
           } catch (emailErr) {
             console.error("Failed to send survival kit delivery email:", emailErr);
           }
@@ -167,33 +175,17 @@ export async function POST(request: NextRequest) {
         break;
       }
 
-      // ── How to Trade ebook purchase ────────────────────────────────────────
-      if (productId === 'how-to-trade') {
+      // ── How to Trade ebook purchase ──────────────────────────────────────
+      if (productId === "how-to-trade") {
         const email = session.customer_details?.email || session.customer_email;
-        let resolvedUserId = userId && userId !== 'guest' ? userId : null;
-        let tempPassword = "";
+        let resolvedUserId = userId && userId !== "guest" ? userId : null;
+        let isNewUser = false;
 
         if (!resolvedUserId && email) {
-          const { data: usersData } = await supabase.auth.admin.listUsers();
-          const existingUser = usersData?.users?.find((u: any) => u.email?.toLowerCase() === email.toLowerCase());
-          if (existingUser) {
-            resolvedUserId = existingUser.id;
-          } else {
-            tempPassword = Math.random().toString(36).substring(2, 10);
-            const fullName = session.customer_details?.name || email.split("@")[0];
-            const { data: createData } = await supabase.auth.admin.createUser({
-              email, password: tempPassword, email_confirm: true,
-              user_metadata: { full_name: fullName, subscription_tier: "free", role: "student" }
-            });
-            if (createData?.user) {
-              resolvedUserId = createData.user.id;
-              await supabase.from("profiles").upsert({
-                id: resolvedUserId, display_name: fullName, full_name: fullName,
-                subscription_tier: "free", subscription_status: "inactive", role: "student",
-                updated_at: new Date().toISOString()
-              });
-            }
-          }
+          const fullName = session.customer_details?.name || email.split("@")[0];
+          const result = await resolveOrCreateGuestUser(email, fullName);
+          resolvedUserId = result.userId;
+          isNewUser = result.isNewUser;
         }
 
         let courseId = session.metadata.course_id;
@@ -202,27 +194,31 @@ export async function POST(request: NextRequest) {
           courseId = course?.id;
         }
         if (resolvedUserId && courseId) {
-          const { error: courseErr } = await supabase.from('course_purchases').insert({
-            user_id: resolvedUserId, course_id: courseId,
-            stripe_payment_intent_id: session.payment_intent, stripe_session_id: session.id,
-            amount_paid_pence: session.amount_total ?? 7900, access_granted_via: 'stripe_purchase',
+          const { error: courseErr } = await supabase.from("course_purchases").insert({
+            user_id: resolvedUserId,
+            course_id: courseId,
+            stripe_payment_intent_id: session.payment_intent,
+            stripe_session_id: session.id,
+            amount_paid_pence: session.amount_total ?? 7900,
+            access_granted_via: "stripe_purchase",
           });
-          if (courseErr && courseErr.code !== '23505') console.error('Error recording how-to-trade purchase:', courseErr);
+          if (courseErr && courseErr.code !== "23505") console.error("Error recording how-to-trade purchase:", courseErr);
         }
 
         const resendKey = process.env.RESEND_API_KEY;
         if (resendKey && email) {
           try {
-            let pdfDownloadUrl = "";
-            const bucketName = process.env.SUPABASE_EBOOK_BUCKET || "store";
-            const filePath = process.env.SUPABASE_EBOOK_HOW_TO_TRADE_PATH || "ebooks/how-to-trade.pdf";
-            const { data: signedData } = await supabase.storage.from(bucketName).createSignedUrl(filePath, 60 * 60 * 24 * 365);
-            pdfDownloadUrl = signedData?.signedUrl || supabase.storage.from(bucketName).getPublicUrl(filePath).data?.publicUrl || "";
-            const emailHtml = getHowToTradeConfirmationTemplate(pdfDownloadUrl, tempPassword || undefined);
+            const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://drawdown.trading";
+            const dashboardUrl = `${appUrl}/dashboard/store`;
+            const magicLink = isNewUser ? await getMagicLink(email) : null;
+
+            const emailHtml = getHowToTradeConfirmationTemplate(dashboardUrl, undefined, magicLink ?? undefined);
             const resend = new Resend(resendKey);
             await resend.emails.send({
               from: "Pete @ Drawdown <thewire@drawdown.trading>",
-              to: email, subject: "Your How to Trade guide is ready for download", html: emailHtml
+              to: email,
+              subject: "Your How to Trade guide is ready",
+              html: emailHtml,
             });
           } catch (emailErr) {
             console.error("Failed to send how-to-trade delivery email:", emailErr);
@@ -231,33 +227,17 @@ export async function POST(request: NextRequest) {
         break;
       }
 
-      // ── The Edge ebook purchase ─────────────────────────────────────────────
-      if (productId === 'the-edge') {
+      // ── The Edge ebook purchase ──────────────────────────────────────────
+      if (productId === "the-edge") {
         const email = session.customer_details?.email || session.customer_email;
-        let resolvedUserId = userId && userId !== 'guest' ? userId : null;
-        let tempPassword = "";
+        let resolvedUserId = userId && userId !== "guest" ? userId : null;
+        let isNewUser = false;
 
         if (!resolvedUserId && email) {
-          const { data: usersData } = await supabase.auth.admin.listUsers();
-          const existingUser = usersData?.users?.find((u: any) => u.email?.toLowerCase() === email.toLowerCase());
-          if (existingUser) {
-            resolvedUserId = existingUser.id;
-          } else {
-            tempPassword = Math.random().toString(36).substring(2, 10);
-            const fullName = session.customer_details?.name || email.split("@")[0];
-            const { data: createData } = await supabase.auth.admin.createUser({
-              email, password: tempPassword, email_confirm: true,
-              user_metadata: { full_name: fullName, subscription_tier: "free", role: "student" }
-            });
-            if (createData?.user) {
-              resolvedUserId = createData.user.id;
-              await supabase.from("profiles").upsert({
-                id: resolvedUserId, display_name: fullName, full_name: fullName,
-                subscription_tier: "free", subscription_status: "inactive", role: "student",
-                updated_at: new Date().toISOString()
-              });
-            }
-          }
+          const fullName = session.customer_details?.name || email.split("@")[0];
+          const result = await resolveOrCreateGuestUser(email, fullName);
+          resolvedUserId = result.userId;
+          isNewUser = result.isNewUser;
         }
 
         let courseId = session.metadata.course_id;
@@ -266,27 +246,31 @@ export async function POST(request: NextRequest) {
           courseId = course?.id;
         }
         if (resolvedUserId && courseId) {
-          const { error: courseErr } = await supabase.from('course_purchases').insert({
-            user_id: resolvedUserId, course_id: courseId,
-            stripe_payment_intent_id: session.payment_intent, stripe_session_id: session.id,
-            amount_paid_pence: session.amount_total ?? 5900, access_granted_via: 'stripe_purchase',
+          const { error: courseErr } = await supabase.from("course_purchases").insert({
+            user_id: resolvedUserId,
+            course_id: courseId,
+            stripe_payment_intent_id: session.payment_intent,
+            stripe_session_id: session.id,
+            amount_paid_pence: session.amount_total ?? 5900,
+            access_granted_via: "stripe_purchase",
           });
-          if (courseErr && courseErr.code !== '23505') console.error('Error recording the-edge purchase:', courseErr);
+          if (courseErr && courseErr.code !== "23505") console.error("Error recording the-edge purchase:", courseErr);
         }
 
         const resendKey = process.env.RESEND_API_KEY;
         if (resendKey && email) {
           try {
-            let pdfDownloadUrl = "";
-            const bucketName = process.env.SUPABASE_EBOOK_BUCKET || "store";
-            const filePath = process.env.SUPABASE_EBOOK_THE_EDGE_PATH || "ebooks/the-edge.pdf";
-            const { data: signedData } = await supabase.storage.from(bucketName).createSignedUrl(filePath, 60 * 60 * 24 * 365);
-            pdfDownloadUrl = signedData?.signedUrl || supabase.storage.from(bucketName).getPublicUrl(filePath).data?.publicUrl || "";
-            const emailHtml = getTheEdgeConfirmationTemplate(pdfDownloadUrl, tempPassword || undefined);
+            const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://drawdown.trading";
+            const dashboardUrl = `${appUrl}/dashboard/store`;
+            const magicLink = isNewUser ? await getMagicLink(email) : null;
+
+            const emailHtml = getTheEdgeConfirmationTemplate(dashboardUrl, undefined, magicLink ?? undefined);
             const resend = new Resend(resendKey);
             await resend.emails.send({
               from: "Pete @ Drawdown <thewire@drawdown.trading>",
-              to: email, subject: "Your Edge Manual is ready for download", html: emailHtml
+              to: email,
+              subject: "Your Edge Manual is ready",
+              html: emailHtml,
             });
           } catch (emailErr) {
             console.error("Failed to send the-edge delivery email:", emailErr);
@@ -295,27 +279,27 @@ export async function POST(request: NextRequest) {
         break;
       }
 
-      // ── One-time course purchase ──────────────────────────────────────────
-      if (purchaseType === 'course' && userId && session.metadata.course_id) {
+      // ── One-time course purchase ─────────────────────────────────────────
+      if (purchaseType === "course" && userId && session.metadata.course_id) {
         const { error: courseErr } = await supabase
-          .from('course_purchases')
+          .from("course_purchases")
           .insert({
-            user_id:                  userId,
-            course_id:                session.metadata.course_id,
+            user_id: userId,
+            course_id: session.metadata.course_id,
             stripe_payment_intent_id: session.payment_intent,
-            stripe_session_id:        session.id,
-            amount_paid_pence:        session.amount_total ?? 0,
-            access_granted_via:       'stripe_purchase',
+            stripe_session_id: session.id,
+            amount_paid_pence: session.amount_total ?? 0,
+            access_granted_via: "stripe_purchase",
           })
           .select()
           .single();
-        if (courseErr && courseErr.code !== '23505') { // 23505 = unique violation (already purchased)
-          console.error('Error recording course purchase:', courseErr);
+        if (courseErr && courseErr.code !== "23505") {
+          console.error("Error recording course purchase:", courseErr);
         }
         break;
       }
 
-      // ── Subscription checkout ─────────────────────────────────────────────
+      // ── Subscription checkout ────────────────────────────────────────────
       if (userId) {
         const { data: upsertData, error } = await supabase
           .from("profiles")
@@ -326,33 +310,34 @@ export async function POST(request: NextRequest) {
             subscription_status: "active",
             updated_at: new Date().toISOString(),
           })
-          .select('id');
-        
+          .select("id");
+
         if (error) {
           console.error("Error upserting profile on checkout:", error);
         } else if (!upsertData || upsertData.length === 0) {
-          console.error(`Error: Upsert affected zero rows for userId: ${userId} during checkout.session.completed`);
+          console.error(`Error: Upsert affected zero rows for userId: ${userId}`);
         } else {
-          if (tier === 'edge' || tier === 'floor') {
-            awardBadge(userId, 'edge_unlocked').catch(err =>
+          if (tier === "edge" || tier === "floor") {
+            awardBadge(userId, "edge_unlocked").catch((err) =>
               console.error("edge_unlocked badge award failed (non-fatal):", err)
             );
           }
-          // Auto-grant floor-included courses
-          if (tier === 'floor') {
-            await supabase.rpc('grant_floor_courses', { p_user_id: userId })
+          if (tier === "floor") {
+            await supabase
+              .rpc("grant_floor_courses", { p_user_id: userId })
               .then(({ error: rpcErr }) => {
-                if (rpcErr) console.error('grant_floor_courses failed (non-fatal):', rpcErr);
+                if (rpcErr) console.error("grant_floor_courses failed (non-fatal):", rpcErr);
               });
           }
         }
       }
       break;
+    }
 
-    case "customer.subscription.updated":
+    case "customer.subscription.updated": {
       const subscription = event.data.object as Stripe.Subscription;
       const subTier = subscription.metadata.tier;
-      
+
       const { data: updatedProfiles, error: updateError } = await supabase
         .from("profiles")
         .update({
@@ -361,32 +346,33 @@ export async function POST(request: NextRequest) {
           updated_at: new Date().toISOString(),
         })
         .eq("stripe_customer_id", subscription.customer)
-        .select('id');
-      
+        .select("id");
+
       if (updateError) {
         console.error("Error updating profile on subscription update:", updateError);
       } else if (!updatedProfiles || updatedProfiles.length === 0) {
-        console.error(`Error: subscription update affected zero rows for stripe customer: ${subscription.customer}`);
+        console.error(`Error: subscription update affected zero rows for customer: ${subscription.customer}`);
       } else {
         const updatedProfile = updatedProfiles[0];
-        if ((subTier === 'edge' || subTier === 'floor') && updatedProfile?.id) {
-          awardBadge(updatedProfile.id, 'edge_unlocked').catch(err =>
+        if ((subTier === "edge" || subTier === "floor") && updatedProfile?.id) {
+          awardBadge(updatedProfile.id, "edge_unlocked").catch((err) =>
             console.error("edge_unlocked badge award failed (non-fatal):", err)
           );
-          // Auto-grant floor-included courses on upgrade
-          if (subTier === 'floor') {
-            await supabase.rpc('grant_floor_courses', { p_user_id: updatedProfile.id })
+          if (subTier === "floor") {
+            await supabase
+              .rpc("grant_floor_courses", { p_user_id: updatedProfile.id })
               .then(({ error: rpcErr }) => {
-                if (rpcErr) console.error('grant_floor_courses upgrade failed (non-fatal):', rpcErr);
+                if (rpcErr) console.error("grant_floor_courses upgrade failed (non-fatal):", rpcErr);
               });
           }
         }
       }
       break;
+    }
 
-    case "customer.subscription.deleted":
+    case "customer.subscription.deleted": {
       const deletedSubscription = event.data.object as Stripe.Subscription;
-      
+
       const { data: deletedProfiles, error: deleteError } = await supabase
         .from("profiles")
         .update({
@@ -395,18 +381,19 @@ export async function POST(request: NextRequest) {
           updated_at: new Date().toISOString(),
         })
         .eq("stripe_customer_id", deletedSubscription.customer)
-        .select('id');
-      
+        .select("id");
+
       if (deleteError) {
         console.error("Error updating profile on subscription delete:", deleteError);
       } else if (!deletedProfiles || deletedProfiles.length === 0) {
-        console.error(`Error: subscription delete affected zero rows for stripe customer: ${deletedSubscription.customer}`);
+        console.error(`Error: subscription delete affected zero rows for customer: ${deletedSubscription.customer}`);
       }
       break;
+    }
 
-    case "invoice.payment_failed":
+    case "invoice.payment_failed": {
       const failedInvoice = event.data.object as Stripe.Invoice;
-      
+
       const { data: failedProfiles, error: failError } = await supabase
         .from("profiles")
         .update({
@@ -414,14 +401,15 @@ export async function POST(request: NextRequest) {
           updated_at: new Date().toISOString(),
         })
         .eq("stripe_customer_id", failedInvoice.customer)
-        .select('id');
+        .select("id");
 
       if (failError) {
         console.error("Error updating profile on payment failed:", failError);
       } else if (!failedProfiles || failedProfiles.length === 0) {
-        console.error(`Error: payment failed update affected zero rows for stripe customer: ${failedInvoice.customer}`);
+        console.error(`Error: payment failed update affected zero rows for customer: ${failedInvoice.customer}`);
       }
       break;
+    }
   }
 
   return NextResponse.json({ received: true });

@@ -23,6 +23,5 @@ USING (
 INSERT INTO public.institutes (name, type, url, status) VALUES
 ('Bank of England', 'Central Bank', 'https://www.bankofengland.co.uk', 'active'),
 ('London School of Economics', 'University', 'https://www.lse.ac.uk', 'active'),
-('Financial Times', 'News Outlet', 'https://www.ft.com', 'active'),
-('Bloomberg Terminal Docs', 'Research Firm', 'https://www.bloomberg.com/professional/support/', 'active')
+('Financial Times', 'News Outlet', 'https://www.ft.com', 'active')
 ON CONFLICT DO NOTHING;

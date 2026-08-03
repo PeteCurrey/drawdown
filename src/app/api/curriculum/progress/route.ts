@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
-import { createClient } from "@supabase/supabase-js";
-import { createClient as createServerClient } from "@/lib/supabase/server";
+import { createClient as createServerClient, createServiceRoleClient } from "@/lib/supabase/server";
 import { phases } from "@/data/courses";
 
 export async function POST(request: Request) {
@@ -23,9 +22,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Invalid phase slug" }, { status: 400 });
     }
 
-    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-    const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
-    const supabaseAdmin = createClient(supabaseUrl, supabaseServiceKey);
+    const supabaseAdmin = createServiceRoleClient();
 
     // 1. Update course progress
     const { error: upsertError } = await supabaseAdmin

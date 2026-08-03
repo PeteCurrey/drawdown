@@ -1,5 +1,4 @@
-import { createClient } from "@/lib/supabase/server";
-import { createServerClient } from "@supabase/ssr";
+import { createClient, createServiceRoleClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { Users, Clock } from "lucide-react";
@@ -24,11 +23,7 @@ export default async function AdminMembersPage({ searchParams }: Props) {
     redirect("/dashboard");
   }
 
-  const supabaseAdmin = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!,
-    { cookies: { getAll() { return [] }, setAll() {} } }
-  );
+  const supabaseAdmin = createServiceRoleClient();
 
   let content;
 

@@ -1,24 +1,17 @@
-import { createServerClient } from "@supabase/ssr";
 import { NextRequest, NextResponse } from "next/server";
 import { getAnalysis } from "@/lib/ai";
 import { PETES_VOICE_PROFILE, WEEKLY_ROUNDUP_PROMPT } from "@/lib/prompts";
 import { fetchNews } from "@/lib/news";
+import { createServiceRoleClient } from "@/lib/supabase/server";
 
 export async function GET(request: NextRequest) {
   // 1. Verify Cron Secret
-  // const authHeader = request.headers.get('authorization');
-  // if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) return new Response('Unauthorized', { status: 401 });
+  const authHeader = request.headers.get('authorization');
+  if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
+    return new Response('Unauthorized', { status: 401 });
+  }
 
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!,
-    {
-      cookies: {
-        getAll() { return [] },
-        setAll() {},
-      },
-    }
-  );
+  const supabase = createServiceRoleClient();
 
   try {
     const pricesHeaders: Record<string, string> = {};

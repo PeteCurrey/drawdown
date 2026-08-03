@@ -479,7 +479,7 @@ export function getEveningWrapTemplate(data: EveningWrapData): string {
   `;
 }
 
-export function getSurvivalKitConfirmationTemplate(downloadUrl: string, tempPassword?: string): string {
+export function getSurvivalKitConfirmationTemplate(dashboardUrl: string, tempPassword?: undefined, magicLink?: string): string {
   return `
     <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
     <html xmlns="http://www.w3.org/1999/xhtml">
@@ -523,21 +523,24 @@ export function getSurvivalKitConfirmationTemplate(downloadUrl: string, tempPass
                   <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top: 30px; margin-bottom: 30px;">
                     <tr>
                       <td align="center">
-                        <a href="${downloadUrl}" class="btn-accent" style="background-color: #16A34A; color: #FFFFFF !important;" target="_blank">Download Survival Kit PDF &rarr;</a>
+                        <a href="${dashboardUrl}" class="btn-accent" style="background-color: #16A34A; color: #FFFFFF !important;" target="_blank">Access Your Survival Kit &rarr;</a>
                       </td>
                     </tr>
                   </table>
                   
-                  ${tempPassword ? `
+                  ${magicLink ? `
                   <div class="section-box">
                     <p style="margin-bottom: 8px; font-weight: bold; color: #F9771D; font-family: ui-monospace, monospace;">// YOUR ACCOUNT ACCESS:</p>
-                    <p style="font-size: 14px; margin-bottom: 8px; color: #1E293B;">We created a companion account for you so you can access the interactive modules and templates on the Drawdown dashboard.</p>
-                    <p style="font-size: 14px; margin-bottom: 4px; color: #1E293B;"><strong>Login URL:</strong> <a href="https://drawdown.trading/login" style="color: #16A34A; text-decoration: underline;">drawdown.trading/login</a></p>
-                    <p style="font-size: 14px; margin-bottom: 4px; color: #1E293B;"><strong>Password:</strong> <code style="background-color: #F1F5F9; border: 1px solid #CBD5E1; padding: 2px 6px; border-radius: 4px; font-family: monospace; color: #0F172A;">${tempPassword}</code></p>
-                    <p style="font-size: 12px; color: #64748B; margin-top: 8px;">Please log in and update your password on your profile dashboard.</p>
+                    <p style="font-size: 14px; margin-bottom: 12px; color: #1E293B;">We created a Drawdown account for you. Click the button below to sign in and access your download — no password needed.</p>
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top: 12px;">
+                      <tr><td align="center">
+                        <a href="${magicLink}" class="btn-accent" style="background-color: #0F172A;" target="_blank">Sign In to Your Account &rarr;</a>
+                      </td></tr>
+                    </table>
+                    <p style="font-size: 12px; color: #64748B; margin-top: 12px;">This link expires in 1 hour. After that, use the magic link sign-in on drawdown.trading/login.</p>
                   </div>
                   ` : `
-                  <p>You can also log in to your Drawdown account to access the interactive modules and sheets directly on your dashboard.</p>
+                  <p>Log in to your Drawdown account to access your purchase at any time from your dashboard.</p>
                   `}
                   
                   <p style="font-size: 14px; margin-top: 24px;">If you have any questions or need support, reply directly to this email.</p>
@@ -564,7 +567,7 @@ export function getSurvivalKitConfirmationTemplate(downloadUrl: string, tempPass
   `;
 }
 
-export function getHowToTradeConfirmationTemplate(downloadUrl: string, tempPassword?: string): string {
+export function getHowToTradeConfirmationTemplate(dashboardUrl: string, tempPassword?: undefined, magicLink?: string): string {
   return `
     <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
     <html xmlns="http://www.w3.org/1999/xhtml">
@@ -609,21 +612,24 @@ export function getHowToTradeConfirmationTemplate(downloadUrl: string, tempPassw
                   <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top: 30px; margin-bottom: 30px;">
                     <tr>
                       <td align="center">
-                        <a href="${downloadUrl}" class="btn-accent" style="background-color: #F9771D; color: #FFFFFF !important;" target="_blank">Download How to Trade PDF &rarr;</a>
+                        <a href="${dashboardUrl}" class="btn-accent" style="background-color: #F9771D; color: #FFFFFF !important;" target="_blank">Access Your Guide &rarr;</a>
                       </td>
                     </tr>
                   </table>
                   
-                  ${tempPassword ? `
+                  ${magicLink ? `
                   <div class="section-box">
                     <p style="margin-bottom: 8px; font-weight: bold; color: #F9771D; font-family: ui-monospace, monospace;">// YOUR ACCOUNT ACCESS:</p>
-                    <p style="font-size: 14px; margin-bottom: 8px; color: #1E293B;">We created a Drawdown account for you so you can access your downloads anytime from your dashboard.</p>
-                    <p style="font-size: 14px; margin-bottom: 4px; color: #1E293B;"><strong>Login URL:</strong> <a href="https://drawdown.trading/login" style="color: #F9771D; text-decoration: underline;">drawdown.trading/login</a></p>
-                    <p style="font-size: 14px; margin-bottom: 4px; color: #1E293B;"><strong>Password:</strong> <code style="background-color: #F1F5F9; border: 1px solid #CBD5E1; padding: 2px 6px; border-radius: 4px; font-family: monospace; color: #0F172A;">${tempPassword}</code></p>
-                    <p style="font-size: 12px; color: #64748B; margin-top: 8px;">Please log in and update your password on your profile dashboard.</p>
+                    <p style="font-size: 14px; margin-bottom: 12px; color: #1E293B;">We created a Drawdown account for you. Click the button below to sign in and access your download — no password needed.</p>
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top: 12px;">
+                      <tr><td align="center">
+                        <a href="${magicLink}" class="btn-accent" style="background-color: #0F172A;" target="_blank">Sign In to Your Account &rarr;</a>
+                      </td></tr>
+                    </table>
+                    <p style="font-size: 12px; color: #64748B; margin-top: 12px;">This link expires in 1 hour. After that, use the magic link sign-in on drawdown.trading/login.</p>
                   </div>
                   ` : `
-                  <p>You can also log in to your Drawdown account to access your downloads at any time from your personal dashboard.</p>
+                  <p>Log in to your Drawdown account to access your purchase at any time from your dashboard.</p>
                   `}
                   
                   <p style="font-size: 14px; margin-top: 24px;">If you have any questions, reply directly to this email and Pete will get back to you.</p>
@@ -650,7 +656,7 @@ export function getHowToTradeConfirmationTemplate(downloadUrl: string, tempPassw
   `;
 }
 
-export function getTheEdgeConfirmationTemplate(downloadUrl: string, tempPassword?: string): string {
+export function getTheEdgeConfirmationTemplate(dashboardUrl: string, tempPassword?: undefined, magicLink?: string): string {
   return `
     <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
     <html xmlns="http://www.w3.org/1999/xhtml">
@@ -675,13 +681,11 @@ export function getTheEdgeConfirmationTemplate(downloadUrl: string, tempPassword
                   <p style="margin: 6px 0 0 0; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: #64748B; font-family: ui-monospace, monospace;">The Edge Manual — Advanced Strategy Playbook</p>
                 </td>
               </tr>
-              
               <!-- Content -->
               <tr>
                 <td class="content">
                   <p style="color: #0F172A; font-size: 16px; font-weight: 600;">Your Edge Manual is ready.</p>
                   <p>Thank you for your purchase. You now have Pete's complete advanced strategy playbook — the same framework used across live funded accounts.</p>
-                  
                   <div class="section-box" style="border-color: #6366F1; background-color: #EEF2FF;">
                     <p style="margin-bottom: 8px; font-weight: bold; color: #4338CA; font-family: ui-monospace, monospace;">// WHAT IS COVERED:</p>
                     <ul style="margin: 0; padding-left: 20px; color: #1E293B;">
@@ -691,40 +695,33 @@ export function getTheEdgeConfirmationTemplate(downloadUrl: string, tempPassword
                       <li style="color: #1E293B;"><strong>Psychological Edge:</strong> Managing the mental game — discipline, consistency and detachment.</li>
                     </ul>
                   </div>
-
                   <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top: 30px; margin-bottom: 30px;">
-                    <tr>
-                      <td align="center">
-                        <a href="${downloadUrl}" class="btn-accent" style="background-color: #6366F1; color: #FFFFFF !important;" target="_blank">Download The Edge Manual PDF &rarr;</a>
-                      </td>
-                    </tr>
+                    <tr><td align="center">
+                      <a href="${dashboardUrl}" class="btn-accent" style="background-color: #6366F1;" target="_blank">Access Your Edge Manual &rarr;</a>
+                    </td></tr>
                   </table>
-                  
-                  ${tempPassword ? `
+                  ${magicLink ? `
                   <div class="section-box">
                     <p style="margin-bottom: 8px; font-weight: bold; color: #6366F1; font-family: ui-monospace, monospace;">// YOUR ACCOUNT ACCESS:</p>
-                    <p style="font-size: 14px; margin-bottom: 8px; color: #1E293B;">We created a Drawdown account for you so you can access your downloads anytime from your dashboard.</p>
-                    <p style="font-size: 14px; margin-bottom: 4px; color: #1E293B;"><strong>Login URL:</strong> <a href="https://drawdown.trading/login" style="color: #6366F1; text-decoration: underline;">drawdown.trading/login</a></p>
-                    <p style="font-size: 14px; margin-bottom: 4px; color: #1E293B;"><strong>Password:</strong> <code style="background-color: #F1F5F9; border: 1px solid #CBD5E1; padding: 2px 6px; border-radius: 4px; font-family: monospace; color: #0F172A;">${tempPassword}</code></p>
-                    <p style="font-size: 12px; color: #64748B; margin-top: 8px;">Please log in and update your password on your profile dashboard.</p>
+                    <p style="font-size: 14px; margin-bottom: 12px; color: #1E293B;">We created a Drawdown account for you. Click below to sign in — no password needed.</p>
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top: 12px;">
+                      <tr><td align="center">
+                        <a href="${magicLink}" class="btn-accent" style="background-color: #0F172A;" target="_blank">Sign In to Your Account &rarr;</a>
+                      </td></tr>
+                    </table>
+                    <p style="font-size: 12px; color: #64748B; margin-top: 12px;">This link expires in 1 hour. After that, use magic link sign-in at drawdown.trading/login.</p>
                   </div>
-                  ` : `
-                  <p>You can also log in to your Drawdown account to access your downloads at any time from your personal dashboard.</p>
-                  `}
-                  
-                  <p style="font-size: 14px; margin-top: 24px;">If you have any questions, reply directly to this email and Pete will get back to you.</p>
+                  ` : `<p>Log in to your Drawdown account to access your purchase at any time.</p>`}
+                  <p style="font-size: 14px; margin-top: 24px;">Questions? Reply directly to this email and Pete will get back to you.</p>
                 </td>
               </tr>
-              
               <!-- Footer -->
               <tr>
                 <td class="footer">
                   <p style="margin-bottom: 8px; color: #475569; font-weight: 500;">Pete Currey &bull; Drawdown Trading</p>
                   <p style="margin-bottom: 16px; color: #64748B;">&copy; ${new Date().getFullYear()} Drawdown. All rights reserved.</p>
                   <hr style="border: 0; border-top: 1px solid #E2E8F0; margin: 20px 0;" />
-                  <p class="disclaimer">
-                    <strong>RISK WARNING:</strong> Trading financial instruments carries high risk. Most retail traders lose capital. Only risk capital you can afford to lose. All content is for educational use only and does not constitute financial advice.
-                  </p>
+                  <p class="disclaimer"><strong>RISK WARNING:</strong> Trading financial instruments carries high risk. Most retail traders lose capital. Only risk capital you can afford to lose. All content is for educational use only and does not constitute financial advice.</p>
                 </td>
               </tr>
             </table>
@@ -735,3 +732,4 @@ export function getTheEdgeConfirmationTemplate(downloadUrl: string, tempPassword
     </html>
   `;
 }
+

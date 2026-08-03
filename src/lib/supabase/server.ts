@@ -28,12 +28,24 @@ export async function createClient() {
   );
 }
 
-export function createInternalSupabase() {
+/**
+ * Canonical service-role client for background jobs, webhooks, and administrative tasks.
+ * Bypasses RLS. Ignores request cookies.
+ */
+export function createServiceRoleClient() {
   return createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL || "https://placeholder.supabase.co",
-    process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "placeholder",
+    process.env.SUPABASE_SERVICE_ROLE_KEY || "placeholder",
     {
-      cookies: { getAll() { return [] }, setAll() {} }
+      cookies: {
+        getAll() {
+          return [];
+        },
+        setAll() {},
+      },
     }
   );
 }
+
+// Alias for backwards compatibility
+export const createInternalSupabase = createServiceRoleClient;

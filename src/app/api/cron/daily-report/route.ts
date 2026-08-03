@@ -145,7 +145,7 @@ dollar strength (DXY ${dxy?.toFixed(2) ?? "N/A"}, ${dxyChg !== null ? (dxyChg > 
 safe haven flows (Gold ${gold?.toFixed(0) ?? "N/A"}, ${goldChg !== null ? (goldChg > 0 ? "+" : "") + goldChg.toFixed(2) + "%" : "N/A"}),
 and yield environment (10Y Breakeven Inflation ${yield10y?.toFixed(2) ?? "N/A"}%, Real Yield ${realYield?.toFixed(2) ?? "N/A"}%).
 Today's market regime: ${vixRegime}.
-Be direct. No waffle. Write like a Bloomberg macro brief. Bold key numbers by wrapping in **asterisks**.`;
+Be direct. No waffle. Write like an institutional macro brief. Bold key numbers by wrapping in **asterisks**.`;
 
     try {
       const res = await fetch("https://api.openai.com/v1/chat/completions", {

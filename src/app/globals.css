@@ -910,3 +910,68 @@
   border-color: rgba(255,255,255,0.1);
 }
 
+/* ── Platform Redesign Overrides ──────────────────────────────────────────
+ *  Force the clean, premium institutional design (0px radius, off-white background,
+ *  fine hairline borders, no SaaS shadows) across all platform pages.
+ *  ──────────────────────────────────────────────────────────────────────── */
+.platform-container {
+  font-family: var(--font-sans);
+}
+
+.platform-container:not(.dark-mode-page) {
+  background-color: var(--paper-0) !important;
+}
+
+/* Force square corners on cards, badges, buttons, inputs, tabs inside the platform */
+.platform-container .rounded-2xl,
+.platform-container .rounded-xl,
+.platform-container .rounded-lg,
+.platform-container .rounded-md,
+.platform-container .rounded,
+.platform-container .rounded-sm,
+.platform-container button,
+.platform-container input,
+.platform-container select,
+.platform-container textarea,
+.platform-container .btn,
+.platform-container a {
+  border-radius: 0 !important;
+}
+
+/* Maintain circular shape ONLY for status dots, small indicators or avatars */
+.platform-container .rounded-full {
+  border-radius: 9999px;
+}
+
+/* Force square corner on pill-shaped spans with text */
+.platform-container span:not(:empty) {
+  border-radius: 0 !important;
+}
+
+/* Card overrides: use canonical warm off-white border-line-200, remove shadows */
+.platform-container:not(.dark-mode-page) .bg-white,
+.platform-container:not(.dark-mode-page) .bg-background-surface {
+  background-color: #FFFFFF !important;
+}
+
+/* Hairline borders matching var(--line-200) */
+.platform-container:not(.dark-mode-page) .border {
+  border-color: var(--line-200) !important;
+}
+
+/* Remove all shadows to emphasize the flat, high-contrast, professional institutional aesthetic */
+.platform-container .shadow-sm,
+.platform-container .shadow,
+.platform-container .shadow-md,
+.platform-container .shadow-lg,
+.platform-container .shadow-xl {
+  box-shadow: none !important;
+}
+
+/* Apply tabular font variant to all numeric and mono data blocks for premium readability */
+.platform-container .font-mono {
+  font-variant-numeric: tabular-nums !important;
+  font-feature-settings: "tnum" !important;
+}
+
+

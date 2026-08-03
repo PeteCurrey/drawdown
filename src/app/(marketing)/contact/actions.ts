@@ -1,6 +1,6 @@
 "use server";
 
-import { createInternalSupabase, createClient } from "@/lib/supabase/server";
+import { createClient } from "@/lib/supabase/server";
 
 export async function submitContactForm(formData: {
   name: string;
@@ -10,9 +10,7 @@ export async function submitContactForm(formData: {
   subscribe?: boolean;
 }) {
   try {
-    const supabase = process.env.SUPABASE_SERVICE_ROLE_KEY
-      ? createInternalSupabase()
-      : await createClient();
+    const supabase = await createClient();
 
     const subject = formData.subject || "General Support";
     const priority =

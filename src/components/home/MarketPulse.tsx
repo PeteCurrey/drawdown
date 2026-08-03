@@ -1,9 +1,10 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
-import { ArrowUpRight, Newspaper } from "lucide-react";
+import { ArrowUpRight, Newspaper, Calendar, ShieldCheck } from "lucide-react";
 import Link from "next/link";
 import { NewsSourceLogo } from "@/components/ui/NewsSourceLogo";
+import { cn } from "@/lib/utils";
 
 interface NewsItem {
   source: string;
@@ -15,126 +16,180 @@ interface NewsItem {
   imageUrl?: string;
 }
 
-// Category-based fallback gradient backgrounds
-function getSourceGradient(source: string): string {
-  const gradients: Record<string, string> = {
-    "BBC Business": "linear-gradient(135deg, #4a0a0a 0%, #BB1919 100%)",
-    "BBC": "linear-gradient(135deg, #4a0a0a 0%, #BB1919 100%)",
-    "Yahoo Finance": "linear-gradient(135deg, #1a0033 0%, #720099 100%)",
-    "ForexLive": "linear-gradient(135deg, #002233 0%, #007a99 100%)",
-    "Sky News Business": "linear-gradient(135deg, #330000 0%, #CC0000 100%)",
-    "Investing.com": "linear-gradient(135deg, #001a00 0%, #006400 100%)",
-    "CNN Business": "linear-gradient(135deg, #1a0000 0%, #CC0000 100%)",
-    "Fox Business": "linear-gradient(135deg, #001133 0%, #003380 100%)",
-    "Forbes": "linear-gradient(135deg, #0a0a00 0%, #333300 100%)",
-    "CoinDesk": "linear-gradient(135deg, #001a33 0%, #0052cc 100%)",
+function getSourceBrandColor(source: string): string {
+  const colors: Record<string, string> = {
+    "BBC Business": "#BB1919",
+    "BBC": "#BB1919",
+    "Yahoo Finance": "#720099",
+    "ForexLive": "#007a99",
+    "Sky News Business": "#CC0000",
+    "Investing.com": "#006400",
+    "CNN Business": "#CC0000",
+    "Fox Business": "#003380",
+    "Bloomberg": "#000000",
+    "Reuters": "#FF8000",
   };
-  return gradients[source] || "linear-gradient(135deg, #0a0b0e 0%, #1a1f2e 100%)";
+  return colors[source] || "var(--signal-navy)";
 }
 
 function NewsCard({ item, index }: { item: NewsItem; index: number }) {
   const [imgLoaded, setImgLoaded] = useState(false);
   const [imgError, setImgError] = useState(false);
-  const cardRef = useRef<HTMLAnchorElement>(null);
+  const [isHovered, setIsHovered] = useState(false);
 
-  const hasImage = !!item.imageUrl && !imgError;
+  const brandColor = getSourceBrandColor(item.source);
 
   return (
     <a
-      ref={cardRef}
       href={item.url}
       target="_blank"
       rel="noopener noreferrer"
-      className="group border border-mkt-bd hover:border-mkt-bds/50 transition-premium flex flex-col justify-between relative overflow-hidden min-h-[320px]"
-      style={{ animationDelay: `${index * 100}ms` }}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      className="group border flex flex-col justify-between relative overflow-hidden min-h-[190px] p-6 transition-all duration-300"
+      style={{
+        backgroundColor: "var(--paper-0)",
+        borderColor: isHovered ? brandColor : "var(--line-200)",
+        borderRadius: 0,
+        boxShadow: isHovered ? `0 0 20px ${brandColor}15, inset 0 0 10px ${brandColor}05` : "none",
+      }}
     >
-      {/* Background Image or Gradient */}
-      <div className="absolute inset-0">
-        {/* Source-specific gradient always present as base */}
-        <div
-          className="absolute inset-0"
-          style={{ background: getSourceGradient(item.source) }}
+      {/* Background Article Image - Subtle full bleed luminosity layer */}
+      {item.imageUrl && !imgError && (
+        <img
+          src={item.imageUrl}
+          alt=""
+          className="absolute inset-0 w-full h-full object-cover transition-all duration-700 pointer-events-none z-0"
+          style={{
+            opacity: isHovered ? 0.12 : 0.03,
+            mixBlendMode: "luminosity",
+            transform: isHovered ? "scale(1.05)" : "scale(1)",
+          }}
+          onLoad={() => setImgLoaded(true)}
+          onError={() => setImgError(true)}
+          aria-hidden="true"
         />
-        {/* News article image on top if available */}
-        {item.imageUrl && (
-          <img
-            src={item.imageUrl}
-            alt=""
-            className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${
-              imgLoaded ? "opacity-30 group-hover:opacity-40" : "opacity-0"
-            }`}
-            onLoad={() => setImgLoaded(true)}
-            onError={() => setImgError(true)}
-            aria-hidden="true"
-          />
-        )}
-        {/* Dark overlay for readability */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-black/20" />
-      </div>
+      )}
 
       {/* Card Content */}
-      <div className="relative z-10 flex flex-col justify-between h-full p-8">
+      <div className="relative z-10 flex flex-col justify-between h-full w-full">
         {/* Header: Logo + Time */}
-        <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center justify-between mb-4">
           <NewsSourceLogo
             source={item.source}
-            size="md"
-            monochrome={false}
+            size="sm"
+            monochrome={true}
             showText={true}
           />
-          <span className="text-[9px] font-mono text-white/60 bg-black/30 px-2 py-0.5">
+          <span className="text-[9px] font-mono" style={{ color: "var(--graphite-600)" }}>
             {new Date(item.publishedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
           </span>
         </div>
 
-        {/* Spacer to push title down */}
-        <div className="flex-grow" />
-
         {/* Title */}
-        <div>
-          <h3 className="text-lg font-sans font-bold uppercase leading-tight mb-4 text-white group-hover:text-accent transition-colors line-clamp-3">
+        <div className="mb-4">
+          <h3 
+            className="text-[14px] font-sans font-bold uppercase leading-tight line-clamp-2 transition-colors duration-300"
+            style={{ color: isHovered ? brandColor : "var(--ink-950)" }}
+          >
             {item.title}
           </h3>
+        </div>
 
-          {/* Tags */}
-          <div className="flex flex-wrap gap-2 items-center">
-            {item.categories?.slice(0, 2).map((cat) => (
-              <span key={cat} className="text-[8px] font-bold uppercase tracking-widest px-2 py-1 bg-white/10 border border-white/10 text-white/60 backdrop-blur-sm">
-                {cat}
-              </span>
-            ))}
-            {item.instruments?.slice(0, 2).map((inst) => (
-              <span key={inst} className="text-[8px] font-mono font-bold text-accent">
-                ${inst}
-              </span>
-            ))}
-          </div>
+        {/* Tags Row */}
+        <div className="flex flex-wrap gap-2 items-center">
+          {item.categories?.slice(0, 1).map((cat) => (
+            <span 
+              key={cat} 
+              className="text-[8px] font-mono uppercase px-2 py-0.5 border"
+              style={{ borderColor: "var(--line-200)", color: "var(--graphite-600)", backgroundColor: "var(--paper-100)", borderRadius: 0 }}
+            >
+              {cat}
+            </span>
+          ))}
+          {item.instruments?.slice(0, 2).map((inst) => (
+            <span key={inst} className="text-[8px] font-mono font-bold" style={{ color: "var(--signal-navy)" }}>
+              ${inst}
+            </span>
+          ))}
         </div>
       </div>
 
       {/* Hover arrow */}
-      <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity z-20">
-        <ArrowUpRight className="w-4 h-4 text-accent" />
+      <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20">
+        <ArrowUpRight className="w-4 h-4" style={{ color: brandColor }} />
       </div>
     </a>
   );
 }
 
+function CalendarWidget() {
+  const containerRef = useRef<HTMLDivElement>(null);
 
+  useEffect(() => {
+    if (!containerRef.current) return;
+    containerRef.current.innerHTML = "";
+
+    const script = document.createElement("script");
+    script.src = "https://s3.tradingview.com/external-embedding/embed-widget-events.js";
+    script.type = "text/javascript";
+    script.async = true;
+    script.innerHTML = JSON.stringify({
+      colorTheme: "light",
+      isTransparent: true,
+      locale: "en",
+      countryFilter: "ar,au,br,ca,cn,fr,de,in,id,it,jp,kr,mx,ru,sa,za,tr,gb,us,eu",
+      importanceFilter: "-1,0,1",
+      width: "100%",
+      height: 480
+    });
+
+    const widgetDiv = document.createElement("div");
+    widgetDiv.className = "tradingview-widget-container__widget w-full h-full";
+
+    containerRef.current.appendChild(widgetDiv);
+    containerRef.current.appendChild(script);
+  }, []);
+
+  return (
+    <div 
+      className="border p-5 flex flex-col justify-between h-full"
+      style={{ backgroundColor: "var(--paper-100)", borderColor: "var(--line-200)", borderRadius: 0 }}
+    >
+      <div className="flex items-center justify-between pb-3 mb-4 border-b" style={{ borderColor: "var(--line-200)" }}>
+        <div className="flex items-center gap-2">
+          <Calendar className="w-4 h-4" style={{ color: "var(--signal-navy)" }} />
+          <span className="text-[12px] font-sans font-bold uppercase tracking-wider" style={{ color: "var(--ink-950)" }}>
+            Macro Economic Releases
+          </span>
+        </div>
+        <span className="text-[9px] font-mono uppercase tracking-wider" style={{ color: "var(--graphite-600)" }}>
+          TradingView Feed
+        </span>
+      </div>
+
+      <div className="w-full h-[410px] overflow-hidden" ref={containerRef}>
+        <div className="tradingview-widget-container__widget w-full h-full" />
+      </div>
+    </div>
+  );
+}
 
 function PulseSkeleton() {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {[1, 2, 3, 4, 5, 6].map((i) => (
-        <div key={i} className="bg-[#F7F7F7] border border-mkt-bd animate-pulse min-h-[320px] relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
-          <div className="p-8 space-y-6 relative z-10">
-            <div className="h-4 w-32 bg-white/10" />
-            <div className="space-y-3">
-              <div className="h-6 w-full bg-white/10" />
-              <div className="h-6 w-3/4 bg-white/10" />
-            </div>
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      {[1, 2, 4, 5].map((i) => (
+        <div 
+          key={i} 
+          className="animate-pulse min-h-[190px] border p-6 flex flex-col justify-between"
+          style={{ backgroundColor: "var(--paper-100)", borderColor: "var(--line-200)", borderRadius: 0 }}
+        >
+          <div className="h-4 w-24 bg-neutral-200" />
+          <div className="space-y-2">
+            <div className="h-4 w-full bg-neutral-200" />
+            <div className="h-4 w-3/4 bg-neutral-200" />
           </div>
+          <div className="h-4 w-16 bg-neutral-200" />
         </div>
       ))}
     </div>
@@ -144,20 +199,18 @@ function PulseSkeleton() {
 export function MarketPulse() {
   const [news, setNews] = useState<NewsItem[]>([]);
   const [loading, setLoading] = useState(true);
-  const [visible, setVisible] = useState(false);
   const [error, setError] = useState(false);
-  const sectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 5000);
+    const timeoutId = setTimeout(() => controller.abort(), 6000);
 
     async function fetchNews() {
       try {
         const res = await fetch("/api/news/feed", { signal: controller.signal });
         const data = await res.json();
         if (data && data.length > 0) {
-          setNews(data.slice(0, 6));
+          setNews(data.slice(0, 4));
         } else {
           setError(true);
         }
@@ -174,77 +227,117 @@ export function MarketPulse() {
     return () => controller.abort();
   }, []);
 
-  // Intersection Observer for card entrance animation
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) setVisible(true); },
-      { threshold: 0.1 }
-    );
-    if (sectionRef.current) observer.observe(sectionRef.current);
-    return () => observer.disconnect();
-  }, []);
-  if (error) return null;
-
   return (
-    <section ref={sectionRef} className="py-12 md:py-20 bg-white relative overflow-hidden transition-colors duration-500">
-      <div className="container mx-auto px-6">
+    <section 
+      className="py-24 border-b select-none relative overflow-hidden"
+      style={{ backgroundColor: "var(--paper-0)", borderColor: "var(--line-200)" }}
+    >
+      <div className="max-w-[1280px] mx-auto px-6">
+        
+        {/* Section Heading */}
         <div className="mb-16">
           <div className="flex items-center gap-3 mb-4">
-            <span className="text-[10px] font-mono tracking-widest uppercase text-accent font-bold">
-              // GLOBAL INTELLIGENCE
+            <span 
+              className="text-[11px] font-mono uppercase tracking-[0.08em]"
+              style={{ color: "var(--graphite-600)" }}
+            >
+              Macro Pulse & Global Intelligence
             </span>
-            <div className="flex items-center gap-1.5 px-3 py-1 bg-profit/10 border border-profit/20">
-              <div className="w-1.5 h-1.5 rounded-full bg-profit animate-pulse" />
-              <span className="text-[8px] font-mono font-bold text-mkt-grn uppercase tracking-widest">LIVE PULSE</span>
-            </div>
-          </div>
-          <h2 className="text-4xl md:text-8xl font-display font-bold uppercase text-text-primary leading-tight">
-            Market <br /><span className="text-accent underline decoration-accent/10">Pulse.</span>
-          </h2>
-        </div>
-
-        {loading ? (
-          <PulseSkeleton />
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {news.map((item, i) => (
-              <div
-                key={i}
-                className={`transition-all duration-1000 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
-                style={{ transitionDelay: `${i * 100}ms` }}
-              >
-                <NewsCard item={item} index={i} />
-              </div>
-            ))}
-
-            {/* CTA Card */}
-            <Link
-              href="/markets"
-              className={`group border border-accent/20 hover:border-mkt-bds/40 transition-premium flex flex-col justify-center items-center text-center gap-4 min-h-[320px] relative overflow-hidden ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
+            <span 
+              className="text-[9px] font-mono font-bold uppercase tracking-widest px-2 py-0.5 border"
               style={{
-                background: "linear-gradient(135deg, #00C2FF08, #00C2FF15)",
-                transitionDelay: `${news.length * 100}ms`
+                color: "var(--mkt-grn)",
+                borderColor: "var(--mkt-gbd)",
+                backgroundColor: "var(--mkt-gbg)",
+                borderRadius: 0
               }}
             >
-              <div className="absolute inset-0 bg-gradient-to-br from-accent/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-              <div className="relative z-10 space-y-6 p-10">
-                <div className="w-20 h-20 bg-accent/10 border border-accent/20 flex items-center justify-center mx-auto mb-2 group-hover:scale-110 group-hover:rotate-6 transition-all duration-500">
-                  <Newspaper className="w-8 h-8 text-accent" />
+              Live News & Events
+            </span>
+          </div>
+          
+          <h2 
+            className="font-display text-[clamp(1.75rem,4vw,3rem)] leading-tight tracking-[-0.02em] font-semibold mb-4"
+            style={{ color: "var(--ink-950)" }}
+          >
+            Market Pulse & Economic Calendar
+          </h2>
+          <p 
+            className="text-[15px] leading-relaxed font-sans max-w-xl"
+            style={{ color: "var(--graphite-600)" }}
+          >
+            Real-time macroeconomic intelligence pairing verified global news stories with central bank and economic indicators.
+          </p>
+        </div>
+
+        {/* Two Column Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          
+          {/* Left Column: News Grid (lg:col-span-7 or 8) */}
+          <div className="lg:col-span-7 space-y-4">
+            <div className="flex items-center justify-between pb-2 border-b mb-4" style={{ borderColor: "var(--line-200)" }}>
+              <span className="text-[12px] font-sans font-bold uppercase tracking-wider" style={{ color: "var(--ink-950)" }}>
+                Latest Financial Feeds
+              </span>
+              <span className="text-[10px] font-mono" style={{ color: "var(--graphite-600)" }}>
+                Auto-updates every 10m
+              </span>
+            </div>
+
+            {loading ? (
+              <PulseSkeleton />
+            ) : error || news.length === 0 ? (
+              <div 
+                className="p-8 border text-center text-xs"
+                style={{ backgroundColor: "var(--paper-100)", borderColor: "var(--line-200)", color: "var(--graphite-600)" }}
+              >
+                Failed to load live news. Reconnecting to global feeds...
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {news.map((item, i) => (
+                  <NewsCard key={i} item={item} index={i} />
+                ))}
+              </div>
+            )}
+
+            {/* CTA to News Hub */}
+            <div 
+              className="border p-6 flex items-center justify-between transition-all duration-300"
+              style={{ backgroundColor: "var(--paper-100)", borderColor: "var(--line-200)", borderRadius: 0 }}
+            >
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 border flex items-center justify-center bg-white" style={{ borderColor: "var(--line-200)" }}>
+                  <Newspaper className="w-5 h-5" style={{ color: "var(--signal-navy)" }} />
                 </div>
-                <h3 className="text-3xl font-sans font-bold uppercase group-hover:text-accent transition-colors leading-tight">
-                  Enter The <br /> Hub
-                </h3>
-                <p className="text-[10px] font-mono text-mkt-i4 uppercase tracking-widest leading-relaxed">
-                  Consolidated technical analysis, news, and AI scanning.
-                </p>
-                <div className="flex items-center justify-center gap-2 text-accent font-bold uppercase text-[10px] tracking-widest mt-4">
-                  Full View <ArrowUpRight className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                <div>
+                  <h4 className="text-[12px] font-sans font-bold uppercase" style={{ color: "var(--ink-950)" }}>
+                    Deep Technical Markets Hub
+                  </h4>
+                  <p className="text-[11px] font-sans" style={{ color: "var(--graphite-600)" }}>
+                    Consolidated technical scans, news bias accumulation, and algorithmic feeds.
+                  </p>
                 </div>
               </div>
-            </Link>
+              <Link
+                href="/markets"
+                className="px-4 py-2 text-[10px] font-mono font-bold uppercase border bg-white hover:bg-neutral-50 transition-colors"
+                style={{ borderColor: "var(--line-200)", color: "var(--ink-950)", borderRadius: 0 }}
+              >
+                Enter Hub
+              </Link>
+            </div>
           </div>
-        )}
+
+          {/* Right Column: Calendar Widget (lg:col-span-5) */}
+          <div className="lg:col-span-5">
+            <CalendarWidget />
+          </div>
+
+        </div>
+
       </div>
     </section>
   );
 }
+

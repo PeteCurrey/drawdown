@@ -268,8 +268,14 @@ export function generateFallbackHistory(symbol: string, interval: string = "1h",
  * Fetches historical OHLC data for a symbol. 
  * Used for technical scanning and backtesting.
  */
-export async function getMarketHistory(symbol: string, interval: string = "1h", outputsize: number = 150) {
-  const cacheKey = `history:${symbol}:${interval}:${outputsize}`;
+export async function getMarketHistory(
+  symbol: string,
+  interval: string = "1h",
+  outputsize: number = 150,
+  startDate?: string,
+  endDate?: string
+) {
+  const cacheKey = `history:${symbol}:${interval}:${outputsize}:${startDate || ""}:${endDate || ""}`;
   const cached = await getCachedData(cacheKey);
   if (cached && Array.isArray(cached) && cached.length >= 20) return cached;
 
@@ -285,9 +291,11 @@ export async function getMarketHistory(symbol: string, interval: string = "1h", 
   if (keys.length > 0) {
     for (const key of keys) {
       try {
-        const response = await fetch(
-          `https://api.twelvedata.com/time_series?symbol=${apiSymbol}&interval=${interval}&outputsize=${outputsize}&apikey=${key}`
-        );
+        let url = `https://api.twelvedata.com/time_series?symbol=${apiSymbol}&interval=${interval}&outputsize=${outputsize}&apikey=${key}`;
+        if (startDate) url += `&start_date=${startDate}`;
+        if (endDate) url += `&end_date=${endDate}`;
+
+        const response = await fetch(url);
         const data = await response.json();
         
         if (data && data.values && Array.isArray(data.values) && data.values.length >= 20) {

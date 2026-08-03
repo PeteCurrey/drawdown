@@ -1,19 +1,14 @@
-import { createServerClient } from "@supabase/ssr";
+import { createServiceRoleClient } from "@/lib/supabase/server";
+import { requireAdmin } from "@/lib/supabase/require-admin";
 import { NextRequest, NextResponse } from "next/server";
 import { getAnalysis } from "@/lib/ai";
 import { PETES_VOICE_PROFILE } from "@/lib/prompts";
 
 export async function POST(request: NextRequest) {
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!,
-    {
-      cookies: {
-        getAll() { return [] },
-        setAll() {},
-      },
-    }
-  );
+  const guard = await requireAdmin();
+  if ("error" in guard) return guard.error;
+
+  const supabase = createServiceRoleClient();
 
   try {
     const { topic, keywords, category } = await request.json();

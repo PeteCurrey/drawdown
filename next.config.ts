@@ -274,6 +274,29 @@ const nextConfig: NextConfig = {
         destination: "/blog/economic-calendar-guide",
         permanent: true,
       },
+      // Section 3.1 Static Redirects
+      { source: "/trading-journal", destination: "/tools/ai-trade-journal", permanent: true },
+      { source: "/position-size-calculator", destination: "/tools/risk-calculator", permanent: true },
+      { source: "/economic-calendar", destination: "/tools/daily-briefing", permanent: true },
+      { source: "/privacy-policy", destination: "/privacy", permanent: true },
+      { source: "/terms-of-service", destination: "/terms", permanent: true },
+      { source: "/contact-us", destination: "/contact", permanent: true },
+      { source: "/about-us", destination: "/about", permanent: true },
+      { source: "/faq", destination: "/help", permanent: true },
+    ];
+  },
+  async headers() {
+    return [
+      {
+        source: "/:path*",
+        headers: [
+          { key: "X-Frame-Options", value: "DENY" },
+          { key: "X-Content-Type-Options", value: "nosniff" },
+          { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+          { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=(), interest-cohort=()" },
+          { key: "Strict-Transport-Security", value: "max-age=63072000; includeSubDomains; preload" },
+        ],
+      },
     ];
   },
 };

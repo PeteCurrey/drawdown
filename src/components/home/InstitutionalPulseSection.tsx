@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
 import { ShieldAlert, ArrowUpRight, ArrowDownRight, RefreshCw, BarChart2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -46,21 +45,21 @@ export function InstitutionalPulseSection() {
             
             let type = "NEUTRAL";
             let color = "var(--mkt-amb)";
-            let bgColor = "bg-amber-50";
-            let badgeColor = "text-mkt-amb bg-amber-50 border-amber-250";
+            let bgColor = "rgba(245, 158, 11, 0.05)";
+            let badgeColor = "text-mkt-amb bg-amber-50/50 border-amber-200";
             let icon = ShieldAlert;
 
             if (item.verdict.toLowerCase().includes("buy")) {
               type = "BULLISH";
               color = "var(--mkt-grn)";
-              bgColor = "bg-mkt-gbg";
+              bgColor = "var(--mkt-gbg)";
               badgeColor = "text-mkt-grn bg-mkt-gbg border-mkt-gbd";
               icon = ArrowUpRight;
             } else if (item.verdict.toLowerCase().includes("sell")) {
               type = "BEARISH";
               color = "var(--mkt-red)";
-              bgColor = "bg-mkt-rbg";
-              badgeColor = "text-mkt-red bg-mkt-rbg border-red-200";
+              bgColor = "var(--mkt-rbg)";
+              badgeColor = "text-mkt-red bg-mkt-rbg border-mkt-rbd";
               icon = ArrowDownRight;
             }
 
@@ -95,8 +94,8 @@ export function InstitutionalPulseSection() {
       title: "GBP/USD — Institutional Accumulation",
       description: "Order flow delta +74% bullish. RSI at 54.2 in momentum zone.",
       color: "var(--mkt-grn)",
-      bgColor: "rgba(24, 184, 128, 0.1)",
-      badgeColor: "text-mkt-grn bg-mkt-grn/10 border-mkt-grn/20",
+      bgColor: "rgba(24, 184, 128, 0.05)",
+      badgeColor: "text-mkt-grn bg-mkt-gbg border-mkt-gbd",
       type: "BULLISH FLOW"
     },
     {
@@ -104,8 +103,8 @@ export function InstitutionalPulseSection() {
       title: "Gold (XAU/USD) — Macro Safe-Haven Bid",
       description: "Institutional allocations surging. Inflation breakevens holding.",
       color: "var(--mkt-grn)",
-      bgColor: "rgba(24, 184, 128, 0.1)",
-      badgeColor: "text-mkt-grn bg-mkt-grn/10 border-mkt-grn/20",
+      bgColor: "rgba(24, 184, 128, 0.05)",
+      badgeColor: "text-mkt-grn bg-mkt-gbg border-mkt-gbd",
       type: "BULLISH ACCUMULATION"
     },
     {
@@ -113,8 +112,8 @@ export function InstitutionalPulseSection() {
       title: "EUR/USD — Neutral Consolidation Range",
       description: "ECB vs Fed rate parity holding range between 1.0820 and 1.0910.",
       color: "var(--mkt-amb)",
-      bgColor: "rgba(245, 158, 11, 0.1)",
-      badgeColor: "text-mkt-amb bg-mkt-amb/10 border-mkt-amb/20",
+      bgColor: "rgba(245, 158, 11, 0.05)",
+      badgeColor: "text-mkt-amb bg-amber-50/50 border-amber-200",
       type: "NEUTRAL RANGE"
     },
     {
@@ -122,8 +121,8 @@ export function InstitutionalPulseSection() {
       title: "S&P 500 — Index Momentum Trend",
       description: "Institutional volume expansion across mega-cap equities.",
       color: "var(--mkt-grn)",
-      bgColor: "rgba(24, 184, 128, 0.1)",
-      badgeColor: "text-mkt-grn bg-mkt-grn/10 border-mkt-grn/20",
+      bgColor: "rgba(24, 184, 128, 0.05)",
+      badgeColor: "text-mkt-grn bg-mkt-gbg border-mkt-gbd",
       type: "BULLISH FLOW"
     }
   ];
@@ -143,7 +142,7 @@ export function InstitutionalPulseSection() {
 
   // Donut SVG calculations
   const radius = 50;
-  const strokeWidth = 10;
+  const strokeWidth = 8;
   const circ = 2 * Math.PI * radius; // ~314.159
 
   const bullLength = circ * bullPct;
@@ -154,37 +153,29 @@ export function InstitutionalPulseSection() {
   const bearOffset = -bullLength;
   const neutOffset = -(bullLength + bearLength);
 
-  const cardVariants = {
-    hidden: { opacity: 0, y: 15 },
-    visible: (i: number) => ({
-      opacity: 1,
-      y: 0,
-      transition: {
-        delay: i * 0.08,
-        duration: 0.5,
-        ease: "easeOut" as const
-      }
-    })
-  };
-
   return (
-    <section className="w-full bg-white border-b border-mkt-bd py-24 select-none relative z-10">
-      <div className="max-w-7xl mx-auto px-6">
+    <section 
+      className="w-full border-b py-24 select-none relative z-10"
+      style={{ backgroundColor: "var(--paper-0)", borderColor: "var(--line-200)" }}
+    >
+      <div className="max-w-[1280px] mx-auto px-6">
         
         {/* Section Heading */}
-        <div className="mb-16 text-center">
-          <span className="text-[11px] font-sans font-bold text-mkt-i4 uppercase tracking-widest block mb-4">
-            // SENTIMENT INDEX
+        <div className="mb-16">
+          <span className="text-[11px] font-mono uppercase tracking-[0.08em] block mb-3" style={{ color: "var(--graphite-600)" }}>
+            // SENTIMENT INDEX & BIAS
           </span>
-          <h2 className="text-3xl md:text-5xl font-sans font-extrabold text-mkt-ink tracking-tight mb-4">
-            Market Pulse
+          <h2 className="font-display text-[clamp(1.75rem,4vw,3rem)] leading-tight tracking-[-0.02em] font-semibold mb-4" style={{ color: "var(--ink-950)" }}>
+            Systemic Market Sentiment
           </h2>
-          <p className="text-base text-mkt-i3 max-w-xl mx-auto font-sans">
-            Real-time aggregate data tracks order flow pressure, option positioning, and large account allocations.
-          </p>
-          <p className="text-xs text-mkt-i4 max-w-2xl mx-auto font-sans mt-4 leading-relaxed border-t border-neutral-100 pt-4">
-            The Market Sentiment Index compiles global risk gauges (like the Crypto Fear & Greed Index and the VIX Volatility Index) to map macro exposure. Higher bullish weights signal broad buying appetite, while higher VIX values imply market consolidation. The corresponding signals examine recent moving averages and RSI levels to identify professional trend zones.
-          </p>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+            <p className="text-[15px] leading-relaxed font-sans lg:col-span-6" style={{ color: "var(--graphite-600)" }}>
+              Real-time aggregate data tracking order flow pressure, systemic volatility indexing, and major account allocations.
+            </p>
+            <p className="text-[12px] leading-relaxed font-mono lg:col-span-6 border-l pl-6 pt-1" style={{ color: "var(--graphite-600)", borderColor: "var(--line-200)" }}>
+              The Market Sentiment Index compiles global risk gauges (such as the Crypto Fear & Greed Index and the VIX Volatility Index) to map macro exposure. Higher bullish weights signal broad buying appetite, while higher VIX values imply market consolidation.
+            </p>
+          </div>
         </div>
 
         {/* 2 Column Layout */}
@@ -192,50 +183,67 @@ export function InstitutionalPulseSection() {
           
           {/* Left Column: 4 Signal Cards */}
           <div className="lg:col-span-7 space-y-4">
-            <h3 className="text-sm font-sans font-bold text-mkt-i2 uppercase tracking-wider mb-2 flex items-center gap-2 pl-1">
-              <RefreshCw className="w-4 h-4 text-mkt-i4" /> Current Order Flow Signals
+            <h3 className="text-xs font-mono font-bold uppercase tracking-wider mb-2 flex items-center gap-2 pl-1" style={{ color: "var(--ink-950)" }}>
+              <RefreshCw className="w-4 h-4" style={{ color: "var(--signal-navy)" }} /> Current Order Flow Signals
             </h3>
             {activeSignals.map((sig: any, idx: number) => {
               const Icon = sig.icon || ArrowUpRight;
               return (
-                <motion.div
+                <div
                   key={idx}
-                  custom={idx}
-                  initial="hidden"
-                  whileInView="visible"
-                  viewport={{ once: true, margin: "-20px" }}
-                  variants={cardVariants}
-                  className="bg-white border border-mkt-bd rounded-[14px] p-5 hover:-translate-y-0.5 hover:shadow-[0_8px_32px_rgba(0,0,0,0.06)] transition-all duration-300 flex items-start gap-4"
+                  className="border p-5 transition-all duration-300 flex items-start gap-4"
+                  style={{
+                    backgroundColor: "var(--paper-100)",
+                    borderColor: "var(--line-200)",
+                    borderRadius: 0
+                  }}
                 >
                   {/* Icon Container */}
-                  <div className={cn("w-10 h-10 rounded-lg flex items-center justify-center shrink-0", sig.bgColor)}>
+                  <div 
+                    className="w-10 h-10 flex items-center justify-center shrink-0 border"
+                    style={{
+                      borderColor: "var(--line-200)",
+                      backgroundColor: "var(--paper-0)",
+                      borderRadius: 0
+                    }}
+                  >
                     <Icon className="w-5 h-5" style={{ color: sig.color }} />
                   </div>
                   {/* Card Content */}
                   <div className="flex-grow space-y-1">
                     <div className="flex items-center justify-between">
-                      <h4 className="text-sm font-sans font-bold text-mkt-ink leading-tight">
+                      <h4 className="text-sm font-sans font-bold leading-tight" style={{ color: "var(--ink-950)" }}>
                         {sig.title}
                       </h4>
-                      <span className={cn("text-[9px] font-mono font-bold px-2 py-0.5 rounded border uppercase tracking-wider", sig.badgeColor)}>
+                      <span 
+                        className={cn("text-[9px] font-mono font-bold px-2 py-0.5 border uppercase tracking-wider", sig.badgeColor)}
+                        style={{ borderRadius: 0 }}
+                      >
                         {sig.type}
                       </span>
                     </div>
-                    <p className="text-xs text-mkt-i3 leading-relaxed font-sans pr-4">
+                    <p className="text-xs leading-relaxed font-sans pr-4" style={{ color: "var(--graphite-600)" }}>
                       {sig.description}
                     </p>
                   </div>
-                </motion.div>
+                </div>
               );
             })}
           </div>
 
           {/* Right Column: Sentiment Ring & Sentiment Bars */}
           <div className="lg:col-span-5 space-y-4">
-            <h3 className="text-sm font-sans font-bold text-mkt-i2 uppercase tracking-wider mb-2 flex items-center gap-2 pl-1">
-              <BarChart2 className="w-4 h-4 text-mkt-i4" /> Market Sentiment Profile
+            <h3 className="text-xs font-mono font-bold uppercase tracking-wider mb-2 flex items-center gap-2 pl-1" style={{ color: "var(--ink-950)" }}>
+              <BarChart2 className="w-4 h-4" style={{ color: "var(--signal-navy)" }} /> Market Sentiment Profile
             </h3>
-            <div className="bg-white border border-mkt-bd rounded-[14px] p-6 hover:-translate-y-0.5 hover:shadow-[0_8px_32px_rgba(0,0,0,0.06)] transition-all duration-300 flex flex-col items-center">
+            <div 
+              className="border p-6 flex flex-col items-center"
+              style={{
+                backgroundColor: "var(--paper-100)",
+                borderColor: "var(--line-200)",
+                borderRadius: 0
+              }}
+            >
               
               {/* Donut Chart Ring */}
               <div className="relative w-48 h-48 mb-8 mt-2">
@@ -245,7 +253,7 @@ export function InstitutionalPulseSection() {
                     cy="60"
                     r={radius}
                     fill="none"
-                    stroke="#F3F4F6"
+                    stroke="var(--line-200)"
                     strokeWidth={strokeWidth}
                   />
                   {/* Bullish Arc (Green) */}
@@ -258,7 +266,6 @@ export function InstitutionalPulseSection() {
                     strokeWidth={strokeWidth}
                     strokeDasharray={`${bullLength} ${circ}`}
                     strokeDashoffset={bullOffset}
-                    strokeLinecap="round"
                   />
                   {/* Bearish Arc (Red) */}
                   <circle
@@ -270,7 +277,6 @@ export function InstitutionalPulseSection() {
                     strokeWidth={strokeWidth}
                     strokeDasharray={`${bearLength} ${circ}`}
                     strokeDashoffset={bearOffset}
-                    strokeLinecap="round"
                   />
                   {/* Neutral Arc (Amber) */}
                   <circle
@@ -282,15 +288,14 @@ export function InstitutionalPulseSection() {
                     strokeWidth={strokeWidth}
                     strokeDasharray={`${neutLength} ${circ}`}
                     strokeDashoffset={neutOffset}
-                    strokeLinecap="round"
                   />
                 </svg>
                 {/* Center Text */}
                 <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
-                  <span className="text-3xl font-sans font-extrabold text-mkt-ink tracking-tighter">
+                  <span className="text-3xl font-sans font-extrabold tracking-tighter" style={{ color: "var(--ink-950)" }}>
                     {`${Math.round(bullPct * 100)}%`}
                   </span>
-                  <span className="text-[10px] font-sans font-bold text-mkt-grn uppercase tracking-wider">
+                  <span className="text-[10px] font-sans font-bold uppercase tracking-wider" style={{ color: "var(--mkt-grn)" }}>
                     {sentiment?.label || "Bullish"}
                   </span>
                 </div>
@@ -301,33 +306,33 @@ export function InstitutionalPulseSection() {
                 {/* Bullish Bar */}
                 <div className="space-y-1.5">
                   <div className="flex justify-between text-xs">
-                    <span className="font-sans font-medium text-mkt-i2">Bullish Exposure</span>
-                    <span className="font-mono font-bold text-mkt-grn">{`${Math.round(bullPct * 100)}%`}</span>
+                    <span className="font-sans font-medium" style={{ color: "var(--graphite-600)" }}>Bullish Exposure</span>
+                    <span className="font-mono font-bold" style={{ color: "var(--mkt-grn)" }}>{`${Math.round(bullPct * 100)}%`}</span>
                   </div>
-                  <div className="w-full h-2 bg-neutral-100 rounded-full overflow-hidden">
-                    <div className="h-full bg-mkt-grn rounded-full transition-all duration-500" style={{ width: `${Math.round(bullPct * 100)}%` }} />
+                  <div className="w-full h-1 bg-neutral-200 rounded-none overflow-hidden">
+                    <div className="h-full rounded-none transition-all duration-500" style={{ width: `${Math.round(bullPct * 100)}%`, backgroundColor: "var(--mkt-grn)" }} />
                   </div>
                 </div>
 
                 {/* Bearish Bar */}
                 <div className="space-y-1.5">
                   <div className="flex justify-between text-xs">
-                    <span className="font-sans font-medium text-mkt-i2">Bearish Exposure</span>
-                    <span className="font-mono font-bold text-mkt-red">{`${Math.round(bearPct * 100)}%`}</span>
+                    <span className="font-sans font-medium" style={{ color: "var(--graphite-600)" }}>Bearish Exposure</span>
+                    <span className="font-mono font-bold" style={{ color: "var(--mkt-red)" }}>{`${Math.round(bearPct * 100)}%`}</span>
                   </div>
-                  <div className="w-full h-2 bg-neutral-100 rounded-full overflow-hidden">
-                    <div className="h-full bg-mkt-red rounded-full transition-all duration-500" style={{ width: `${Math.round(bearPct * 100)}%` }} />
+                  <div className="w-full h-1 bg-neutral-200 rounded-none overflow-hidden">
+                    <div className="h-full rounded-none transition-all duration-500" style={{ width: `${Math.round(bearPct * 100)}%`, backgroundColor: "var(--mkt-red)" }} />
                   </div>
                 </div>
 
                 {/* Neutral Bar */}
                 <div className="space-y-1.5">
                   <div className="flex justify-between text-xs">
-                    <span className="font-sans font-medium text-mkt-i2">Neutral Exposure</span>
-                    <span className="font-mono font-bold text-mkt-amb">{`${Math.round(neutPct * 100)}%`}</span>
+                    <span className="font-sans font-medium" style={{ color: "var(--graphite-600)" }}>Neutral Exposure</span>
+                    <span className="font-mono font-bold" style={{ color: "var(--mkt-amb)" }}>{`${Math.round(neutPct * 100)}%`}</span>
                   </div>
-                  <div className="w-full h-2 bg-neutral-100 rounded-full overflow-hidden">
-                    <div className="h-full bg-mkt-amb rounded-full transition-all duration-500" style={{ width: `${Math.round(neutPct * 100)}%` }} />
+                  <div className="w-full h-1 bg-neutral-200 rounded-none overflow-hidden">
+                    <div className="h-full rounded-none transition-all duration-500" style={{ width: `${Math.round(neutPct * 100)}%`, backgroundColor: "var(--mkt-amb)" }} />
                   </div>
                 </div>
               </div>

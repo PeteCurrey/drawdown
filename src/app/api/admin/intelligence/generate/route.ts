@@ -1,7 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { generateMarketingContent } from "@/lib/ai/claude";
+import { requireAdmin } from "@/lib/supabase/require-admin";
 
 export async function POST(request: NextRequest) {
+  const guard = await requireAdmin();
+  if ("error" in guard) return guard.error;
+
   const { topic, type } = await request.json();
 
   try {

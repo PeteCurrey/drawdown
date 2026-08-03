@@ -1,9 +1,13 @@
 import { NextResponse } from "next/server";
 import { sendNewsletterBroadcast } from "@/lib/email/resend";
 import { getNewsletterTemplate } from "@/lib/email/templates/weekly-newsletter";
+import { requireAdmin } from "@/lib/supabase/require-admin";
 
 export async function POST(req: Request) {
   try {
+    const guard = await requireAdmin();
+    if ("error" in guard) return guard.error;
+
     const { subject, content, audience } = await req.json();
 
     if (!subject || !content || !audience) {

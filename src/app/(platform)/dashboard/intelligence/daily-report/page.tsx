@@ -1,14 +1,11 @@
-import { createClient } from "@supabase/supabase-js";
 import { redirect } from "next/navigation";
 import { generateDailyReport } from "@/app/api/cron/daily-report/route";
 import DailyReportClient from "@/components/dashboard/DailyReportClient";
+import { createServiceRoleClient } from "@/lib/supabase/server";
 
 // Server-side fetch of today's (or yesterday's) report from Supabase
 async function fetchReport() {
-  const supabase = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL ?? "",
-    process.env.SUPABASE_SERVICE_ROLE_KEY ?? ""
-  );
+  const supabase = createServiceRoleClient();
 
   const today = new Date().toISOString().substring(0, 10);
   const nowUTC = new Date();

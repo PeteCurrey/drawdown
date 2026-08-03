@@ -1,10 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createInternalSupabase } from "@/lib/supabase/server";
+import { requireAdmin } from "@/lib/supabase/require-admin";
 
 const supabaseAdmin = createInternalSupabase();
 
 export async function POST(request: NextRequest) {
   try {
+    const guard = await requireAdmin();
+    if ("error" in guard) return guard.error;
+
     const { title, message } = await request.json();
 
     if (!title || !message) {

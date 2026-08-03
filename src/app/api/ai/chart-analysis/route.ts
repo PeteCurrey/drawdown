@@ -1,21 +1,25 @@
-import { createServerClient } from "@supabase/ssr";
+import { createClient } from "@/lib/supabase/server";
+import { checkAndLogAiUsage } from "@/lib/supabase/ai-rate-limit";
 import { NextRequest, NextResponse } from "next/server";
 import { getAnalysis } from "@/lib/ai";
 import { PETES_VOICE_PROFILE } from "@/lib/prompts";
 
 export async function POST(request: NextRequest) {
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!,
-    {
-      cookies: {
-        getAll() { return [] },
-        setAll() {},
-      },
-    }
-  );
-
   try {
+    const authClient = await createClient();
+    const { data: { user } } = await authClient.auth.getUser();
+
+    if (!user) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    const rateLimit = await checkAndLogAiUsage(user.id, "chart_analysis");
+    if (!rateLimit.allowed) {
+      return NextResponse.json(
+        { error: "Too many requests. Please try again in an hour." },
+        { status: 429, headers: { "Retry-After": String(rateLimit.retryAfter) } }
+      );
+    }
     const { symbol, indicators } = await request.json();
 
     if (!symbol) {

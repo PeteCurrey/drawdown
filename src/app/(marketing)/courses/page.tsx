@@ -148,11 +148,64 @@ export default function CoursesPage() {
           ))}
         </div>
 
+        {/* High-Ticket Institutional Accelerator Block */}
+        <div className="mt-40 p-8 md:p-16 border border-[#E2B755]/20 rounded-[20px] bg-gradient-to-br from-[#0B0E12] via-[#151922] to-[#0B0E12] shadow-2xl shadow-[#E2B755]/5 relative overflow-hidden group">
+          <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-[#E2B755] to-transparent" />
+          <div className="absolute -bottom-20 -right-20 w-80 h-80 bg-[#E2B755]/5 blur-[80px] rounded-full pointer-events-none" />
+          
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative z-10">
+            <div className="lg:col-span-8 space-y-6">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded bg-[#E2B755]/10 border border-[#E2B755]/25 text-[#E2B755] text-xs font-mono font-bold uppercase tracking-wider">
+                ★ Premium Executive Cohort
+              </div>
+              <h2 className="text-3xl md:text-5xl font-display font-bold uppercase text-white leading-tight">
+                The Drawdown <br />
+                Institutional Accelerator.
+              </h2>
+              <p className="text-text-secondary font-mono uppercase tracking-widest text-xs">
+                6-Week Premium live cohort training — £1,500+
+              </p>
+              <p className="text-text-secondary text-lg leading-relaxed font-sans max-w-3xl">
+                Move beyond retail speculation. A premium 6-week quantitative trading accelerator combining systematic probability, customPine Script indicator engineering, live hedge-fund risk audits, and direct corporate Limited Company tax compliance structures. Limited to 15 active students per cohort.
+              </p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4 text-sm font-sans text-text-secondary">
+                <div className="flex items-center gap-3">
+                  <span className="text-[#E2B755] font-bold">✓</span> Pine Script Custom Backtester Code License
+                </div>
+                <div className="flex items-center gap-3">
+                  <span className="text-[#E2B755] font-bold">✓</span> Direct 1-on-1 Portfolio Consultations
+                </div>
+                <div className="flex items-center gap-3">
+                  <span className="text-[#E2B755] font-bold">✓</span> 1-on-1 AI Trade Journal Audit
+                </div>
+                <div className="flex items-center gap-3">
+                  <span className="text-[#E2B755] font-bold">✓</span> HMRC UK Limited Company Compliance Kit
+                </div>
+              </div>
+            </div>
+            
+            <div className="lg:col-span-4 flex flex-col items-stretch lg:items-end gap-4 justify-center">
+              <Link 
+                href="/institutional-accelerator"
+                className="w-full text-center px-8 py-5 bg-gradient-to-r from-[#E2B755] to-[#C59235] text-background-primary font-bold uppercase tracking-widest text-xs hover:shadow-lg hover:shadow-[#E2B755]/10 transition-all duration-300 rounded-lg"
+              >
+                Explore Accelerator
+              </Link>
+              <Link 
+                href="/legal/accelerator-agreement"
+                className="w-full text-center px-8 py-4 bg-background-surface/80 border border-border-slate text-text-tertiary font-bold uppercase tracking-widest text-[10px] hover:text-white hover:border-text-secondary transition-colors rounded-lg"
+              >
+                View Terms of Enrolment
+              </Link>
+            </div>
+          </div>
+        </div>
+
         {/* Final CTA */}
-        <div className="mt-48 p-12 md:p-24 bg-background-elevated border border-border-slate text-center relative overflow-hidden group">
+        <div className="mt-40 p-12 md:p-24 bg-background-elevated border border-border-slate text-center relative overflow-hidden group">
           <div className="absolute top-0 left-0 w-full h-1 bg-accent" />
           <div className="max-w-2xl mx-auto space-y-10 relative z-10">
-            <h2 className="  font-display font-bold uppercase">Ready to learn properly?</h2>
+            <h2 className="font-display font-bold uppercase text-white">Ready to learn properly?</h2>
             <p className="text-text-secondary text-lg leading-relaxed">
               Start with Phase 1 — completely free. No credit card required. Experience why Drawdown is the choice for disciplined traders.
             </p>

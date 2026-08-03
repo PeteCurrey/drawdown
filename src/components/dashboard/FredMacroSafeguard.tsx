@@ -162,7 +162,7 @@ export function FredMacroSafeguard({ variant = "full" }: FredMacroSafeguardProps
 
   // Full dashboard layout
   return (
-    <div className="bg-white border border-[#DEDDD8] rounded-xl p-6 shadow-sm">
+    <div className="bg-white border border-[#DEDDD8] rounded-none p-6 shadow-sm">
       <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 mb-6 pb-6 border-b border-[#EBEBE8]">
         <div>
           <div className="flex items-center gap-2 mb-1">
@@ -176,7 +176,7 @@ export function FredMacroSafeguard({ variant = "full" }: FredMacroSafeguardProps
           </p>
         </div>
         <div className="flex items-center gap-3">
-          <div className={cn("flex items-center gap-2 px-3 py-2 border rounded-lg", risk.bg, risk.border)}>
+          <div className={cn("flex items-center gap-2 px-3 py-2 border rounded-none", risk.bg, risk.border)}>
             <RiskIcon className={cn("w-4 h-4", risk.color)} />
             <div className="text-left">
               <div className={cn("text-[9px] font-mono font-bold uppercase tracking-wider", risk.color)}>
@@ -193,7 +193,7 @@ export function FredMacroSafeguard({ variant = "full" }: FredMacroSafeguardProps
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Risk Directive and warnings */}
         <div className="lg:col-span-1 space-y-4">
-          <div className="p-4 bg-gray-50 border border-gray-200 rounded-lg">
+          <div className="p-4 bg-gray-50 border border-gray-200 rounded-none">
             <h4 className="text-[11px] font-mono font-bold uppercase tracking-widest text-[#1A1A1A] mb-2 flex items-center gap-1.5">
               <Activity className="w-3.5 h-3.5 text-[#F9771D]" />
               Account Preservation Directive
@@ -217,7 +217,7 @@ export function FredMacroSafeguard({ variant = "full" }: FredMacroSafeguardProps
             </div>
           </div>
 
-          <div className="p-4 border border-[#CE6969]/20 bg-[#CE6969]/5 rounded-lg">
+          <div className="p-4 border border-[#CE6969]/20 bg-[#CE6969]/5 rounded-none">
             <span className="text-[10px] font-mono uppercase font-bold text-[#CE6969] tracking-wider block mb-1">
               Prop Firm Trade Restrictor
             </span>
@@ -269,7 +269,7 @@ export function FredMacroSafeguard({ variant = "full" }: FredMacroSafeguardProps
                   const isDown = (item.change ?? 0) < 0;
 
                   return (
-                    <div key={item.key} className="p-4 border border-gray-100 rounded-lg bg-white shadow-sm flex flex-col justify-between">
+                    <div key={item.key} className="p-4 border border-gray-100 rounded-none bg-white shadow-sm flex flex-col justify-between">
                       <div>
                         <div className="flex justify-between items-start">
                           <span className="text-xs font-bold text-gray-800">{title}</span>
@@ -305,7 +305,7 @@ export function FredMacroSafeguard({ variant = "full" }: FredMacroSafeguardProps
                   const isDown = (item.change ?? 0) < 0;
 
                   return (
-                    <div key={item.key} className="p-4 border border-gray-100 rounded-lg bg-white shadow-sm flex flex-col justify-between">
+                    <div key={item.key} className="p-4 border border-gray-100 rounded-none bg-white shadow-sm flex flex-col justify-between">
                       <div>
                         <div className="flex justify-between items-start">
                           <span className="text-xs font-bold text-gray-800">{title}</span>
@@ -340,7 +340,7 @@ export function FredMacroSafeguard({ variant = "full" }: FredMacroSafeguardProps
                   const isDown = (item.change ?? 0) < 0;
 
                   return (
-                    <div key={item.key} className="p-4 border border-gray-100 rounded-lg bg-white shadow-sm flex flex-col justify-between md:col-span-2">
+                    <div key={item.key} className="p-4 border border-gray-100 rounded-none bg-white shadow-sm flex flex-col justify-between md:col-span-2">
                       <div>
                         <div className="flex justify-between items-start">
                           <span className="text-xs font-bold text-gray-800">{title}</span>

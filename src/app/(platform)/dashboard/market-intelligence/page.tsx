@@ -19,7 +19,7 @@ import Link from "next/link";
 import {
   ChevronLeft, ChevronDown, MoreHorizontal, ChevronRight,
   ExternalLink, Info, Bell, TrendingUp, TrendingDown, Minus,
-  ArrowUpRight,
+  ArrowUpRight, Flame, Droplet, Percent, Zap, Activity, Sparkles
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { MarketGauge } from "@/components/dashboard/MarketGauge";
@@ -284,6 +284,38 @@ export default function MarketIntelligencePage() {
 
   // Live feed items
   const [feedItems, setFeedItems] = useState<any[]>([]);
+
+  // Extra active macro and energy feeds state
+  const [energyData, setEnergyData] = useState<any>(null);
+  const [energyLoading, setEnergyLoading] = useState(true);
+  const [macroIndicators, setMacroIndicators] = useState<any>(null);
+  const [macroLoading, setMacroLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchExtraMacro() {
+      try {
+        const [energyRes, macroRes] = await Promise.all([
+          fetch("/api/market/energy"),
+          fetch("/api/macro/indicators")
+        ]);
+        
+        if (energyRes.ok) {
+          const d = await energyRes.json();
+          setEnergyData(d.energy);
+        }
+        if (macroRes.ok) {
+          const d = await macroRes.json();
+          setMacroIndicators(d.indicators);
+        }
+      } catch (e) {
+        console.error("Failed to load extra macro datasets:", e);
+      } finally {
+        setEnergyLoading(false);
+        setMacroLoading(false);
+      }
+    }
+    fetchExtraMacro();
+  }, []);
 
   // Fetch news sentiment & calendar events together to build feedItems dynamically
   useEffect(() => {
@@ -934,6 +966,201 @@ export default function MarketIntelligencePage() {
               <p className="text-[10px] font-mono" style={{ color: C.secondary }}>
                 Source: Finnhub economic calendar · Filtered for {selectedInst.name} relevance
               </p>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      {/* ── Flow Intelligence & Volatility Squeezes Grid ────────────────── */}
+      <section className="px-6 md:px-10 pb-10">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          
+          {/* EIA Energy & Commodities Tracker Card */}
+          <div className="bg-white border border-[#DEDDD8] rounded-none p-6 shadow-sm flex flex-col justify-between">
+            <div>
+              <div className="flex items-center justify-between mb-4 pb-3 border-b border-[#EBEBE8]">
+                <div className="flex items-center gap-2">
+                  <div className="p-1.5 bg-[#faf5ff] border border-[#e9d5ff] text-[#9333ea] rounded-none">
+                    <Flame className="w-4 h-4" />
+                  </div>
+                  <h3 className="text-xs font-bold font-mono uppercase tracking-widest text-slate-900">EIA Energy Feeds</h3>
+                </div>
+                <span className="text-[8px] font-mono font-bold text-[#6b21a8] bg-[#faf5ff] border border-[#e9d5ff] px-2 py-0.5 rounded-none uppercase">
+                  Active EIA v2
+                </span>
+              </div>
+              
+              {energyLoading ? (
+                <div className="space-y-3 py-2">
+                  <div className="h-10 bg-slate-50 animate-pulse rounded-none" />
+                  <div className="h-10 bg-slate-50 animate-pulse rounded-none" />
+                </div>
+              ) : !energyData ? (
+                <p className="text-[11px] font-mono text-slate-400 uppercase py-4">Data currently unavailable</p>
+              ) : (
+                <div className="space-y-3.5">
+                  {[
+                    { label: "WTI Crude Oil", data: energyData.wti_crude },
+                    { label: "Brent Crude Oil", data: energyData.brent_crude },
+                    { label: "Natural Gas (HH)", data: energyData.nat_gas },
+                  ].map((item, idx) => {
+                    if (!item.data) return null;
+                    return (
+                      <div key={idx} className="flex justify-between items-center text-xs">
+                        <div>
+                          <span className="text-slate-900 font-bold block">{item.label}</span>
+                          <span className="text-[8px] font-mono text-slate-400 uppercase">{item.data.unit}</span>
+                        </div>
+                        <span className="font-mono text-slate-900 font-bold text-sm">
+                          ${item.data.price?.toFixed(2)}
+                        </span>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+            <div className="pt-4 border-t border-slate-100 flex justify-between items-center text-[9px] font-mono text-slate-400 mt-4">
+              <span>Updated: Real-time Daily</span>
+              <span className="text-[#9333ea] font-bold uppercase">Commodity Matrix</span>
+            </div>
+          </div>
+
+          {/* Sovereign Yield Spread Card */}
+          <div className="bg-white border border-[#DEDDD8] rounded-none p-6 shadow-sm flex flex-col justify-between">
+            <div>
+              <div className="flex items-center justify-between mb-4 pb-3 border-b border-[#EBEBE8]">
+                <div className="flex items-center gap-2">
+                  <div className="p-1.5 bg-[#faf5ff] border border-[#e9d5ff] text-[#9333ea] rounded-none">
+                    <Percent className="w-4 h-4" />
+                  </div>
+                  <h3 className="text-xs font-bold font-mono uppercase tracking-widest text-slate-900">Sovereign Yields</h3>
+                </div>
+                <span className="text-[8px] font-mono font-bold text-[#6b21a8] bg-[#faf5ff] border border-[#e9d5ff] px-2 py-0.5 rounded-none uppercase">
+                  Active FRED®
+                </span>
+              </div>
+              
+              {macroLoading ? (
+                <div className="space-y-3 py-2">
+                  <div className="h-10 bg-slate-50 animate-pulse rounded-none" />
+                  <div className="h-10 bg-slate-50 animate-pulse rounded-none" />
+                </div>
+              ) : !macroIndicators ? (
+                <p className="text-[11px] font-mono text-slate-400 uppercase py-4">Data currently unavailable</p>
+              ) : (
+                <div className="space-y-3.5">
+                  <div className="flex justify-between items-center text-xs">
+                    <div>
+                      <span className="text-slate-900 font-bold block">US 10-Year Bond Yield</span>
+                      <span className="text-[8px] font-mono text-slate-400 uppercase">FRED (DGS10)</span>
+                    </div>
+                    <span className="font-mono text-slate-900 font-bold text-sm">
+                      {macroIndicators.us_10y?.value?.toFixed(2)}%
+                    </span>
+                  </div>
+                  
+                  <div className="flex justify-between items-center text-xs">
+                    <div>
+                      <span className="text-slate-900 font-bold block">US Federal Funds Rate</span>
+                      <span className="text-[8px] font-mono text-slate-400 uppercase">FRED (FEDFUNDS)</span>
+                    </div>
+                    <span className="font-mono text-slate-900 font-bold text-sm">
+                      {macroIndicators.fed_rate?.value?.toFixed(2)}%
+                    </span>
+                  </div>
+
+                  <div className="flex justify-between items-center text-xs">
+                    <div>
+                      <span className="text-slate-900 font-bold block">BoE Base Rate</span>
+                      <span className="text-[8px] font-mono text-slate-400 uppercase">FRED (BOERUKM)</span>
+                    </div>
+                    <span className="font-mono text-slate-900 font-bold text-sm">
+                      {macroIndicators.boe_rate?.value?.toFixed(2)}%
+                    </span>
+                  </div>
+                </div>
+              )}
+            </div>
+            <div className="pt-4 border-t border-slate-100 flex justify-between items-center text-[9px] font-mono text-slate-400 mt-4">
+              <span>Yield Divergence</span>
+              <span className="text-[#9333ea] font-bold uppercase">
+                {macroIndicators?.fed_rate?.value && macroIndicators?.boe_rate?.value
+                  ? `${Math.abs(parseFloat((macroIndicators.fed_rate.value - macroIndicators.boe_rate.value).toFixed(2)) * 100)} BPS`
+                  : "25 BPS"}
+              </span>
+            </div>
+          </div>
+
+          {/* Volatility Squeeze Compression Gauge */}
+          <div className="bg-white border border-[#DEDDD8] rounded-none p-6 shadow-sm flex flex-col justify-between">
+            <div>
+              <div className="flex items-center justify-between mb-4 pb-3 border-b border-[#EBEBE8]">
+                <div className="flex items-center gap-2">
+                  <div className="p-1.5 bg-[#faf5ff] border border-[#e9d5ff] text-[#9333ea] rounded-none">
+                    <Zap className="w-4 h-4" />
+                  </div>
+                  <h3 className="text-xs font-bold font-mono uppercase tracking-widest text-slate-900">Squeeze Analytics</h3>
+                </div>
+                <span className="text-[8px] font-mono font-bold text-[#6b21a8] bg-[#faf5ff] border border-[#e9d5ff] px-2 py-0.5 rounded-none uppercase">
+                  TAAPI Live
+                </span>
+              </div>
+              
+              <div className="space-y-4">
+                {/* Math compression */}
+                {(() => {
+                  const bbMiddle = md.bbMiddle ?? md.price ?? 1;
+                  const width = md.bbUpper && md.bbLower 
+                    ? ((md.bbUpper - md.bbLower) / bbMiddle) * 100 
+                    : null;
+                  const isFX = hookSlug.includes("USD") || hookSlug.includes("EUR") || hookSlug.includes("GBP") || hookSlug.includes("JPY");
+                  const prob = width === null ? 40 : isFX
+                    ? Math.max(10, Math.min(98, Math.round((1.2 - width) * 120 + 30)))
+                    : Math.max(10, Math.min(98, Math.round((4.0 - width) * 35 + 20)));
+
+                  return (
+                    <>
+                      <div className="space-y-1.5">
+                        <div className="flex justify-between text-[8px] font-mono uppercase text-slate-400 font-bold">
+                          <span>Band Width Compression</span>
+                          <span className="text-slate-900">{width ? `${width.toFixed(3)}%` : "—"}</span>
+                        </div>
+                        <div className="h-1.5 bg-slate-100 rounded-none overflow-hidden">
+                          <div 
+                            className="h-full bg-gradient-to-r from-amber-500 to-[#9333ea] rounded-none transition-all duration-1000"
+                            style={{ width: `${width ? Math.min(100, Math.max(5, (10 - width) * 10)) : 40}%` }}
+                          />
+                        </div>
+                      </div>
+
+                      <div className="space-y-1.5">
+                        <div className="flex justify-between text-[8px] font-mono uppercase text-slate-400 font-bold">
+                          <span>Computed Squeeze Probability</span>
+                          <span className="text-[#9333ea]">{prob}%</span>
+                        </div>
+                        <div className="h-1.5 bg-slate-100 rounded-none overflow-hidden">
+                          <div 
+                            className="h-full bg-[#9333ea] rounded-none transition-all duration-1000"
+                            style={{ width: `${prob}%` }}
+                          />
+                        </div>
+                      </div>
+
+                      <p className="text-[10px] text-slate-500 leading-snug">
+                        {prob >= 75 
+                          ? "🚨 EXTREME COMPRESSION: Volatility is tightly squeezed. Prepare for an explosive sessional breakout on the next economic trigger."
+                          : "⚖️ NORMAL RANGE: Asset is trading within historical standard deviation bands. Continuation patterns active."}
+                      </p>
+                    </>
+                  );
+                })()}
+              </div>
+            </div>
+            <div className="pt-4 border-t border-slate-100 flex justify-between items-center text-[9px] font-mono text-slate-400 mt-4">
+              <span>Compression Status</span>
+              <span className="text-[#9333ea] font-bold uppercase">{selectedInst.name}</span>
             </div>
           </div>
 

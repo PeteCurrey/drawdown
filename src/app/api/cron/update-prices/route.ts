@@ -51,7 +51,7 @@ function pf(v: any): number | null {
 const SYMBOLS = [
   "XAU/USD", "XAG/USD", "GBP/USD", "EUR/USD", "USD/JPY", "USD/CHF", "AUD/USD",
   "NZD/USD", "USD/CAD", "EUR/GBP", "EUR/JPY", "GBP/JPY", "CAD/JPY", "AUD/CAD",
-  "GBP/CAD", "WTI/USD", "BTC/USD", "ETH/USD", "SOL/USD",
+  "GBP/CAD", "WTI/USD", "NATGAS", "COPPER", "BTC/USD", "ETH/USD", "SOL/USD",
   "SPX500", "NAS100", "US30", "UK100", "GER40", "JPN225", "AUS200"
 ];
 
@@ -208,7 +208,8 @@ export async function GET(req: Request) {
               "GBP/JPY": "GBPJPY=X", "CAD/JPY": "CADJPY=X", "AUD/CAD": "AUDCAD=X",
               "GBP/CAD": "GBPCAD=X", "SPX500": "^GSPC", "NAS100": "^NDX", "US30": "^DJI",
               "UK100": "^FTSE", "GER40": "^GDAXI", "JPN225": "^N225", "AUS200": "^AXJO",
-              "WTI/USD": "CL=F", "BTC/USD": "BTC-USD", "ETH/USD": "ETH-USD", "SOL/USD": "SOL-USD"
+              "WTI/USD": "CL=F", "NATGAS": "NG=F", "COPPER": "HG=F",
+              "BTC/USD": "BTC-USD", "ETH/USD": "ETH-USD", "SOL/USD": "SOL-USD"
             };
             const ySym = YAHOO_MAP[symbol] || YAHOO_MAP[cleanSym] || `${cleanSym}=X`;
             const res = await fetch(`https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(ySym)}?interval=1d&range=5d`, { cache: "no-store" });

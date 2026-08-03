@@ -125,10 +125,10 @@ function isBuy(code: string, change: number) {
 
 function SignalTypeIcon({ type }: { type: string }) {
   if (type === "insider_cluster")
-    return <Users className="w-3.5 h-3.5 text-[#1e40af]" />;
+    return <Users className="w-3.5 h-3.5 text-[#9333ea]" />;
   if (type === "unusual_volume")
-    return <Volume2 className="w-3.5 h-3.5 text-[#0ea5e9]" />;
-  return <GitMerge className="w-3.5 h-3.5 text-[#6366f1]" />;
+    return <Volume2 className="w-3.5 h-3.5 text-amber-500" />;
+  return <GitMerge className="w-3.5 h-3.5 text-[#9333ea]" />;
 }
 
 function signalTypeLabel(type: string) {
@@ -215,8 +215,8 @@ export function IntelligenceHubClient({
     for (const t of trades) {
       const key = `${t.symbol}-${(t.name || '').trim().toLowerCase()}-${t.transactionDate || t.filingDate}-${t.change}-${t.transactionPrice}-${t.transactionCode}`;
       if (!seen.has(key)) {
-        seen.add(key);
-        unique.push(t);
+          seen.add(key);
+          unique.push(t);
       }
     }
     return unique;
@@ -270,36 +270,147 @@ export function IntelligenceHubClient({
     return () => { isMounted = false; };
   }, [selectedSentimentSymbol, initialSocialSentiment, initialNewsSentiment]);
 
+  // ── Live Calculated Real-Time Metrics (Zero Mocks) ───────────────────────
+  const liveStats = useMemo(() => {
+    // 1. Insider Conviction Index (Buy vs. Sell ratio)
+    const buys = initialInsiderTrades.filter(t => isBuy(t.transactionCode, t.change || 0));
+    const sales = initialInsiderTrades.filter(t => t.transactionCode === "S");
+    const totalInsider = buys.length + sales.length || 1;
+    const insiderConviction = Math.round((buys.length / totalInsider) * 100);
+
+    // 2. Congressional Buy Ratio (STOCK Act purchases ratio)
+    const congBuys = politicalTrades.filter(t => t.transactionType === "Purchase");
+    const congSales = politicalTrades.filter(t => t.transactionType === "Sale" || t.transactionType === "Exchange");
+    const totalCong = congBuys.length + congSales.length || 1;
+    const congressBuyRatio = Math.round((congBuys.length / totalCong) * 100);
+
+    // 3. Insider Total Sessional Volume
+    const totalInsiderVolume = initialInsiderTrades.reduce((acc, t) => acc + Math.abs(t.change || 0), 0);
+
+    // 4. Sector/Ticker Filings Intensity Leader
+    const activeSymbols = initialInsiderTrades.map(t => t.symbol).concat(politicalTrades.map(t => t.symbol)).filter(Boolean);
+    const symbolCounts: Record<string, number> = {};
+    activeSymbols.forEach(s => { symbolCounts[s] = (symbolCounts[s] || 0) + 1; });
+    const topActiveSymbol = Object.entries(symbolCounts).sort((a, b) => b[1] - a[1])[0]?.[0] ?? "N/A";
+
+    return {
+      insiderConviction,
+      congressBuyRatio,
+      totalInsiderVolume,
+      topActiveSymbol,
+      totalInsiderTrades: initialInsiderTrades.length,
+      totalPoliticalTrades: politicalTrades.length,
+    };
+  }, [initialInsiderTrades, politicalTrades]);
+
   return (
-    <div className="space-y-10">
+    <div className="space-y-8">
 
       {/* ── Methodology Strip ─────────────────────────────────────────────── */}
-      <div className="p-5 bg-[#eff6ff] border border-[#bfdbfe] rounded-xl flex items-start gap-4 shadow-sm">
-        <Info className="w-4 h-4 text-[#1e40af] shrink-0 mt-0.5" />
-        <div className="space-y-1.5">
-          <p className="text-[11px] font-bold text-[#1e40af] uppercase tracking-widest">
-            Data Sources &amp; Multi-Symbol Tracking
+      <div className="p-6 bg-white border border-[#DEDDD8] rounded-none flex items-start gap-4">
+        <div className="p-2 bg-[#faf5ff] border border-[#e9d5ff] text-[#9333ea] rounded-none mt-0.5">
+          <Info className="w-4 h-4 shrink-0" />
+        </div>
+        <div className="space-y-1.5 flex-grow">
+          <p className="text-[10px] font-bold text-[#9333ea] uppercase tracking-wider font-mono">
+            Platform Protocol // Alt-Data Architecture
           </p>
-          <p className="text-xs text-[#1e3a8a] leading-relaxed">
-            <strong>Insider Tracker</strong> — SEC Form 4 filings across 15 major U.S. equities updated continuously.
-            The feed de-duplicates single-company spikes by default to ensure multi-symbol visibility across 
-            Apple, Microsoft, Nvidia, Amazon, Tesla, Meta, Google, JPMorgan, and more. 
-            <strong>Cluster Buys</strong> flag 3+ distinct executive purchases within a 30-day window.
-            <strong>Political Alpha</strong> tracks SEC Form PT filings under the U.S. STOCK Act.
+          <p className="text-xs text-slate-600 leading-relaxed">
+            <strong>Insider Tracker</strong> monitors real-time SEC Form 4 executive filings across 15 high-conviction equities. 
+            The processing engine automatically balances single-company transaction clusters to maintain multi-symbol sessional visibility. 
+            <strong>Cluster Buys</strong> isolate 3+ unique executive purchases within a rolling 30-day window. 
+            <strong>Political Alpha</strong> indexes official Form PT Congressional disclosures under the U.S. STOCK Act. All analytics are computed dynamically on the active live-feed dataset.
           </p>
         </div>
       </div>
+
+      {/* ── Calculated Alt-Data Barometers (Zero Mock Data) ────────────────── */}
+      <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        {/* Card 1: Insider Conviction */}
+        <div className="p-5 bg-white border border-[#DEDDD8] rounded-none flex flex-col justify-between h-32">
+          <div className="flex justify-between items-start">
+            <span className="text-[9px] font-mono font-bold text-slate-400 uppercase tracking-wider">Insider Conviction</span>
+            <span className="text-[10px] font-mono text-[#9333ea] bg-[#faf5ff] border border-[#e9d5ff] px-2 py-0.5 rounded-none uppercase font-bold">
+              {liveStats.insiderConviction}% Buys
+            </span>
+          </div>
+          <div className="space-y-2">
+            <div className="flex justify-between items-baseline">
+              <span className="text-2xl font-black text-slate-900 tracking-tight font-mono tabular">{liveStats.insiderConviction}%</span>
+              <span className="text-[9px] font-mono text-slate-400">({liveStats.totalInsiderTrades} raw filings)</span>
+            </div>
+            <div className="h-1 bg-slate-100 rounded-none overflow-hidden">
+              <div 
+                className="h-full bg-[#9333ea] rounded-none transition-all duration-700"
+                style={{ width: `${liveStats.insiderConviction}%` }}
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* Card 2: Congressional Flow Ratio */}
+        <div className="p-5 bg-white border border-[#DEDDD8] rounded-none flex flex-col justify-between h-32">
+          <div className="flex justify-between items-start">
+            <span className="text-[9px] font-mono font-bold text-slate-400 uppercase tracking-wider">Congressional Buy Ratio</span>
+            <span className="text-[10px] font-mono text-[#9333ea] bg-[#faf5ff] border border-[#e9d5ff] px-2 py-0.5 rounded-none uppercase font-bold">
+              STOCK ACT
+            </span>
+          </div>
+          <div className="space-y-2">
+            <div className="flex justify-between items-baseline">
+              <span className="text-2xl font-black text-slate-900 tracking-tight font-mono tabular">{liveStats.congressBuyRatio}%</span>
+              <span className="text-[9px] font-mono text-slate-400">({liveStats.totalPoliticalTrades} active PTs)</span>
+            </div>
+            <div className="h-1 bg-slate-100 rounded-none overflow-hidden">
+              <div 
+                className="h-full bg-[#9333ea] rounded-none transition-all duration-700"
+                style={{ width: `${liveStats.congressBuyRatio}%` }}
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* Card 3: Top Active Target */}
+        <div className="p-5 bg-white border border-[#DEDDD8] rounded-none flex flex-col justify-between h-32">
+          <div className="flex justify-between items-start">
+            <span className="text-[9px] font-mono font-bold text-slate-400 uppercase tracking-wider">Alt-Data Target Index</span>
+            <span className="text-[9px] font-mono text-emerald-600 bg-emerald-50 border border-emerald-100 px-1.5 py-0.5 rounded-none uppercase font-bold">
+              Intensity Peak
+            </span>
+          </div>
+          <div className="flex flex-col justify-end flex-grow">
+            <span className="text-2xl font-black text-slate-900 tracking-tight font-mono uppercase">{liveStats.topActiveSymbol}</span>
+            <span className="text-[9px] font-mono text-slate-400 mt-1">Highest frequency in current reporting session</span>
+          </div>
+        </div>
+
+        {/* Card 4: Executive Volume */}
+        <div className="p-5 bg-white border border-[#DEDDD8] rounded-none flex flex-col justify-between h-32">
+          <div className="flex justify-between items-start">
+            <span className="text-[9px] font-mono font-bold text-slate-400 uppercase tracking-wider">Sessional Insiders Volume</span>
+            <span className="text-[9px] font-mono text-amber-600 bg-amber-50 border border-amber-100 px-1.5 py-0.5 rounded-none uppercase font-bold">
+              Sec Form 4
+            </span>
+          </div>
+          <div className="flex flex-col justify-end flex-grow">
+            <span className="text-2xl font-black text-slate-900 tracking-tight font-mono tabular">
+              {liveStats.totalInsiderVolume.toLocaleString()}
+            </span>
+            <span className="text-[9px] font-mono text-slate-400 mt-1">Total aggregated shares moved by insiders</span>
+          </div>
+        </div>
+      </section>
 
       {/* ── Cluster Buy Alert Section ──────────────────────────────────────── */}
       {clusterBuys.length > 0 && (
         <section className="space-y-4">
           <div className="flex items-center gap-3">
-            <div className="w-2 h-2 rounded-full bg-[#1e40af] animate-pulse" />
-            <h2 className="text-sm font-bold uppercase tracking-widest text-slate-900">
-              Cluster Buy Alerts — 30 Day Window
+            <div className="w-2 h-2 rounded-none bg-[#9333ea] animate-pulse" />
+            <h2 className="text-xs font-bold uppercase tracking-widest text-slate-900 font-mono">
+              Active Cluster Buy Alerts — 30 Day Window
             </h2>
-            <span className="px-2 py-0.5 bg-[#1e40af] text-white text-[9px] font-bold uppercase tracking-widest rounded-full">
-              {clusterBuys.length} Active
+            <span className="px-2 py-0.5 bg-[#9333ea] text-white text-[8px] font-bold uppercase tracking-widest font-mono rounded-none">
+              {clusterBuys.length} Target{clusterBuys.length > 1 ? "s" : ""}
             </span>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -310,8 +421,8 @@ export function IntelligenceHubClient({
                   key={cluster.symbol}
                   onClick={() => setSelectedSymbol(cluster.symbol)}
                   className={cn(
-                    "p-4 bg-[#eff6ff] border rounded-xl relative overflow-hidden cursor-pointer transition-all hover:border-[#1e40af]",
-                    selectedSymbol === cluster.symbol ? "border-[#1e40af] ring-1 ring-[#1e40af]" : "border-[#bfdbfe]"
+                    "p-4 bg-white border rounded-none relative overflow-hidden cursor-pointer transition-all hover:border-[#9333ea]",
+                    selectedSymbol === cluster.symbol ? "border-[#9333ea] bg-slate-50/50" : "border-[#DEDDD8]"
                   )}
                 >
                   <div className="flex items-start justify-between mb-3">
@@ -321,25 +432,25 @@ export function IntelligenceHubClient({
                         <img
                           src={profile.logo}
                           alt={cluster.symbol}
-                          className="w-7 h-7 rounded-lg object-contain bg-white border border-slate-100 p-0.5"
+                          className="w-7 h-7 rounded-none object-contain bg-white border border-slate-100 p-0.5"
                         />
                       ) : (
-                        <div className="w-7 h-7 rounded-lg bg-[#1e40af] flex items-center justify-center">
-                          <span className="text-white text-[9px] font-black">
+                        <div className="w-7 h-7 rounded-none bg-[#9333ea] flex items-center justify-center">
+                          <span className="text-white text-[9px] font-black font-mono">
                             {cluster.symbol.slice(0, 2)}
                           </span>
                         </div>
                       )}
                       <div>
-                        <p className="text-xs font-black text-slate-900 uppercase">
+                        <p className="text-xs font-black text-slate-900 uppercase font-mono">
                           {cluster.symbol}
                         </p>
-                        <p className="text-[8px] font-mono text-[#1e40af] uppercase">
+                        <p className="text-[8px] font-mono text-[#9333ea] uppercase font-bold">
                           {profile?.industry ?? "Equity"}
                         </p>
                       </div>
                     </div>
-                    <span className="px-1.5 py-0.5 bg-[#1e40af] text-white text-[8px] font-bold uppercase tracking-widest rounded">
+                    <span className="px-1.5 py-0.5 bg-[#faf5ff] border border-[#e9d5ff] text-[#6b21a8] text-[8px] font-bold uppercase tracking-wider font-mono rounded-none">
                       {cluster.buyers.length} Execs
                     </span>
                   </div>
@@ -347,9 +458,9 @@ export function IntelligenceHubClient({
                     {cluster.buyers.slice(0, 2).map((b) => (
                       <div
                         key={b.name}
-                        className="flex items-center justify-between text-[9px] font-mono"
+                        className="flex items-center justify-between text-[9px] font-mono tabular"
                       >
-                        <span className="text-slate-600 truncate max-w-[120px]">
+                        <span className="text-slate-500 truncate max-w-[120px]">
                           {b.name}
                         </span>
                         <span className="text-emerald-600 font-bold">
@@ -358,11 +469,11 @@ export function IntelligenceHubClient({
                       </div>
                     ))}
                   </div>
-                  <div className="flex items-center justify-between pt-2 border-t border-[#bfdbfe]">
+                  <div className="flex items-center justify-between pt-2 border-t border-slate-100">
                     <span className="text-[8px] font-mono text-slate-400">
                       {new Date(cluster.latestDate).toLocaleDateString("en-GB")}
                     </span>
-                    <span className="text-[9px] font-bold text-[#1e40af]">
+                    <span className="text-[9px] font-bold text-slate-800 font-mono tabular">
                       {cluster.totalShares.toLocaleString()} sh
                     </span>
                   </div>
@@ -377,8 +488,8 @@ export function IntelligenceHubClient({
       {aiSignals.length > 0 && (
         <section className="space-y-4">
           <div className="flex items-center gap-3">
-            <Zap className="w-4 h-4 text-[#1e40af]" />
-            <h2 className="text-sm font-bold uppercase tracking-widest text-slate-900">
+            <Zap className="w-4 h-4 text-[#9333ea]" />
+            <h2 className="text-xs font-bold uppercase tracking-widest text-slate-900 font-mono">
               AI Intelligence Signals
             </h2>
           </div>
@@ -389,37 +500,43 @@ export function IntelligenceHubClient({
               return (
                 <div
                   key={signal.id}
-                  className="p-5 bg-white border border-slate-200 rounded-xl relative overflow-hidden group shadow-sm hover:shadow-md transition-shadow"
+                  className="p-5 bg-white border border-[#DEDDD8] rounded-none relative overflow-hidden group hover:border-[#9333ea] transition-all"
                 >
                   <div className="flex items-center gap-2 mb-3">
                     <SignalTypeIcon type={signal.type} />
                     <span
-                      className="text-[9px] font-mono font-bold uppercase tracking-widest px-2 py-0.5 rounded"
+                      className="text-[8px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded-none"
                       style={{
                         background:
                           signal.type === "insider_cluster"
-                            ? "#dbeafe"
+                            ? "#faf5ff"
                             : signal.type === "unusual_volume"
-                            ? "#e0f2fe"
-                            : "#e0e7ff",
+                            ? "#fffbeb"
+                            : "#faf5ff",
                         color:
                           signal.type === "insider_cluster"
-                            ? "#1e40af"
+                            ? "#6b21a8"
                             : signal.type === "unusual_volume"
-                            ? "#0369a1"
-                            : "#4338ca",
+                            ? "#d97706"
+                            : "#6b21a8",
+                        border:
+                          signal.type === "insider_cluster"
+                            ? "1px solid #e9d5ff"
+                            : signal.type === "unusual_volume"
+                            ? "1px solid #fef3c7"
+                            : "1px solid #e9d5ff",
                       }}
                     >
                       {signalTypeLabel(signal.type)}
                     </span>
                     <span
                       className={cn(
-                        "ml-auto text-[9px] font-bold uppercase px-2 py-0.5 rounded",
+                        "ml-auto text-[8px] font-bold font-mono uppercase px-2 py-0.5 rounded-none border",
                         signal.severity === "high"
-                          ? "bg-red-50 text-red-600"
+                          ? "bg-red-50 text-red-600 border-red-100"
                           : signal.severity === "medium"
-                          ? "bg-amber-50 text-amber-600"
-                          : "bg-emerald-50 text-emerald-600"
+                          ? "bg-amber-50 text-amber-600 border-amber-100"
+                          : "bg-emerald-50 text-emerald-600 border-emerald-100"
                       )}
                     >
                       {signal.severity}
@@ -435,16 +552,16 @@ export function IntelligenceHubClient({
 
                   <div className="space-y-1.5">
                     <div className="flex items-center justify-between">
-                      <span className="text-[9px] font-mono text-slate-400 uppercase">
+                      <span className="text-[8px] font-mono text-slate-400 uppercase tracking-wider">
                         Confidence
                       </span>
-                      <span className="text-[9px] font-mono font-bold text-[#1e40af]">
+                      <span className="text-[9px] font-mono font-bold text-[#9333ea] tabular">
                         {scorePercent}%
                       </span>
                     </div>
-                    <div className="h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                    <div className="h-1 bg-slate-100 rounded-none overflow-hidden">
                       <div
-                        className="h-full bg-gradient-to-r from-[#1e40af] to-[#3b82f6] rounded-full transition-all"
+                        className="h-full bg-[#9333ea] rounded-none transition-all duration-700"
                         style={{ width: `${scorePercent}%` }}
                       />
                     </div>
@@ -456,7 +573,7 @@ export function IntelligenceHubClient({
                         <span
                           key={sym}
                           onClick={() => setSelectedSymbol(sym)}
-                          className="px-1.5 py-0.5 bg-[#eff6ff] border border-[#bfdbfe] text-[9px] font-mono text-[#1e40af] rounded cursor-pointer hover:bg-[#dbeafe]"
+                          className="px-1.5 py-0.5 bg-white border border-[#DEDDD8] text-[8px] font-mono font-bold text-slate-600 rounded-none cursor-pointer hover:bg-slate-50 hover:border-[#9333ea] hover:text-[#9333ea] transition-all"
                         >
                           {sym}
                         </span>
@@ -469,24 +586,25 @@ export function IntelligenceHubClient({
           </div>
         </section>
       )}
+
       {/* ── Main Trackers Grid ────────────────────────────────────────────── */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
 
         {/* Insider Trading Tracker */}
-        <section className="bg-white border border-slate-200 rounded-xl flex flex-col overflow-hidden shadow-sm">
-          <div className="p-5 border-b border-slate-100 flex flex-col gap-3 bg-slate-50/50">
+        <section className="bg-white border border-[#DEDDD8] rounded-none flex flex-col overflow-hidden">
+          <div className="p-5 border-b border-[#DEDDD8] flex flex-col gap-3">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <UserCheck className="w-5 h-5 text-[#1e40af]" />
+                <UserCheck className="w-5 h-5 text-[#9333ea]" />
                 <div>
-                  <h2 className="text-base font-bold uppercase tracking-widest text-slate-900">
+                  <h2 className="text-sm font-bold uppercase tracking-widest text-slate-900 font-mono">
                     Insider Tracker
                   </h2>
-                  <p className="text-[9px] font-mono text-slate-400">SEC Form 4 · Multi-Equity</p>
+                  <p className="text-[9px] font-mono text-slate-400 uppercase">SEC Form 4 · Active Filings</p>
                 </div>
               </div>
               <div className="flex items-center gap-2">
-                <span className="text-[9px] font-mono text-[#1e40af] uppercase tracking-widest font-bold bg-[#eff6ff] border border-[#bfdbfe] px-2 py-1 rounded">
+                <span className="text-[8px] font-mono text-[#6b21a8] uppercase tracking-wider font-bold bg-[#faf5ff] border border-[#e9d5ff] px-2 py-0.5 rounded-none">
                   {filteredInsiderTrades.length} Filings
                 </span>
               </div>
@@ -500,10 +618,10 @@ export function IntelligenceHubClient({
                   key={sym}
                   onClick={() => setSelectedSymbol(sym)}
                   className={cn(
-                    "px-2 py-1 text-[9px] font-mono font-bold uppercase rounded transition-all shrink-0",
+                    "px-2 py-1 text-[8px] font-mono font-bold uppercase rounded-none transition-all shrink-0 border",
                     selectedSymbol === sym
-                      ? "bg-[#1e40af] text-white"
-                      : "bg-white text-slate-600 border border-slate-200 hover:border-[#1e40af]"
+                      ? "bg-[#9333ea] text-white border-[#9333ea]"
+                      : "bg-white text-slate-500 border-slate-200 hover:border-[#9333ea] hover:text-[#9333ea]"
                   )}
                 >
                   {sym}
@@ -522,59 +640,55 @@ export function IntelligenceHubClient({
               </div>
             ) : (
               <table className="w-full text-left border-collapse">
-                <thead className="bg-slate-50 text-[9px] font-mono uppercase tracking-widest text-slate-400 border-b border-slate-100 sticky top-0 z-10 shadow-sm">
+                <thead className="bg-white text-[8px] font-mono uppercase tracking-widest text-slate-400 border-b border-[#DEDDD8] sticky top-0 z-10">
                   <tr>
-                    <th className="px-5 py-3 bg-slate-50">Company</th>
-                    <th className="px-5 py-3 bg-slate-50">Executive</th>
-                    <th className="px-5 py-3 bg-slate-50">Action</th>
-                    <th className="px-5 py-3 text-right bg-slate-50">Shares / Price</th>
-                    <th className="px-5 py-3 text-right bg-slate-50">Date</th>
+                    <th className="px-5 py-3 bg-white font-bold">Company</th>
+                    <th className="px-5 py-3 bg-white font-bold">Executive</th>
+                    <th className="px-5 py-3 bg-white font-bold">Action</th>
+                    <th className="px-5 py-3 text-right bg-white font-bold">Shares / Price</th>
+                    <th className="px-5 py-3 text-right bg-white font-bold">Date</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-50">
+                <tbody className="divide-y divide-slate-100">
                   {filteredInsiderTrades.map((trade: InsiderTrade, i: number) => {
                     const sym = trade.symbol;
                     const prof = companyProfiles[sym];
                     const buy = isBuy(trade.transactionCode, trade.change);
-                    // trade.id is an SEC accession number (e.g. "0001193125-26-326284")
-                    // Use EDGAR full-text search to find the exact filing by accession number.
-                    // Fallback: company's Form 4 page by ticker.
                     const secUrl = trade.id
                       ? `https://efts.sec.gov/LATEST/search-index?q=%22${trade.id}%22&forms=4`
                       : `https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=${sym}&type=4&dateb=&owner=include&count=40`;
                     return (
                       <tr
                         key={`${sym}-${trade.id || i}-${trade.name}-${i}`}
-                        className="hover:bg-slate-50/70 transition-colors"
+                        className="hover:bg-slate-50/50 transition-colors"
                       >
                         <td className="px-5 py-3.5">
                           <div className="flex items-center gap-2">
                             {prof?.logo ? (
-                              /* eslint-disable-next-line @next/next/no-img-element */
                               <img
                                 src={prof.logo}
                                 alt={sym}
-                                className="w-6 h-6 rounded object-contain bg-white border border-slate-100"
+                                className="w-6 h-6 rounded-none object-contain bg-white border border-slate-100"
                               />
                             ) : (
                               <div
-                                className="w-6 h-6 rounded flex items-center justify-center text-[8px] font-black text-white"
-                                style={{ background: "#1e40af" }}
+                                className="w-6 h-6 rounded-none flex items-center justify-center text-[8px] font-black text-white"
+                                style={{ background: "#9333ea" }}
                               >
                                 {sym?.slice(0, 2)}
                               </div>
                             )}
-                            <span className="text-xs font-bold text-slate-900">
+                            <span className="text-xs font-bold text-slate-900 font-mono">
                               {sym}
                             </span>
                           </div>
                         </td>
                         <td className="px-5 py-3.5">
                           <div>
-                            <p className="text-[11px] font-semibold text-slate-700 truncate max-w-[120px]">
+                            <p className="text-[11px] font-bold text-slate-700 truncate max-w-[120px]">
                               {trade.name || "OFFICER"}
                             </p>
-                            <p className="text-[9px] text-slate-400 font-mono">
+                            <p className="text-[8px] text-slate-400 font-mono uppercase">
                               {txLabel(trade.transactionCode)}
                             </p>
                           </div>
@@ -582,27 +696,27 @@ export function IntelligenceHubClient({
                         <td className="px-5 py-3.5">
                           <span
                             className={cn(
-                              "text-[10px] font-bold uppercase px-2 py-0.5 rounded",
+                              "text-[8px] font-bold uppercase font-mono px-2 py-0.5 rounded-none border",
                               buy
-                                ? "bg-emerald-50 text-emerald-600"
-                                : "bg-red-50 text-red-500"
+                                ? "bg-emerald-50 text-emerald-600 border-emerald-100"
+                                : "bg-red-50 text-red-500 border-red-100"
                             )}
                           >
                             {buy ? "Buy" : "Sell"}
                           </span>
                         </td>
                         <td className="px-5 py-3.5 text-right">
-                          <p className="text-[11px] font-mono text-slate-700">
+                          <p className="text-[11px] font-mono font-bold text-slate-700 tabular">
                             {Math.abs(trade.change ?? 0).toLocaleString()} sh
                           </p>
                           {trade.transactionPrice > 0 && (
-                            <p className="text-[9px] font-mono text-slate-400">
+                            <p className="text-[9px] font-mono text-slate-400 tabular">
                               @ ${trade.transactionPrice.toFixed(2)}
                             </p>
                           )}
                         </td>
                         <td className="px-5 py-3.5 text-right">
-                          <p className="text-[10px] font-mono text-slate-500">
+                          <p className="text-[10px] font-mono text-slate-500 tabular">
                             {trade.transactionDate
                               ? new Date(trade.transactionDate).toLocaleDateString("en-GB")
                               : "—"}
@@ -612,7 +726,7 @@ export function IntelligenceHubClient({
                               href={secUrl}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="text-[9px] font-mono text-[#1e40af] hover:underline flex items-center gap-0.5 justify-end mt-0.5"
+                              className="text-[8px] font-mono text-[#9333ea] hover:underline flex items-center gap-0.5 justify-end mt-0.5 font-bold uppercase"
                             >
                               EDGAR <ExternalLink className="w-2.5 h-2.5" />
                             </a>
@@ -628,15 +742,15 @@ export function IntelligenceHubClient({
         </section>
 
         {/* Political Alpha Tracker */}
-        <section className="bg-white border border-slate-200 rounded-xl flex flex-col overflow-hidden shadow-sm">
-          <div className="p-5 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
+        <section className="bg-white border border-[#DEDDD8] rounded-none flex flex-col overflow-hidden">
+          <div className="p-5 border-b border-[#DEDDD8] flex justify-between items-center">
             <div className="flex items-center gap-3">
-              <Landmark className="w-5 h-5 text-[#1e40af]" />
-              <h2 className="text-base font-bold uppercase tracking-widest text-slate-900">
+              <Landmark className="w-5 h-5 text-[#9333ea]" />
+              <h2 className="text-sm font-bold uppercase tracking-widest text-slate-900 font-mono">
                 Political Alpha
               </h2>
             </div>
-            <span className="text-[9px] font-mono text-[#1e40af] uppercase tracking-widest font-bold bg-[#eff6ff] border border-[#bfdbfe] px-2 py-1 rounded">
+            <span className="text-[8px] font-mono text-[#6b21a8] uppercase tracking-wider font-bold bg-[#faf5ff] border border-[#e9d5ff] px-2 py-0.5 rounded-none">
               U.S. STOCK ACT · EDGAR
             </span>
           </div>
@@ -651,47 +765,47 @@ export function IntelligenceHubClient({
               </div>
             ) : (
               <table className="w-full text-left border-collapse">
-                <thead className="bg-slate-50 text-[9px] font-mono uppercase tracking-widest text-slate-400 border-b border-slate-100 sticky top-0 z-10 shadow-sm">
+                <thead className="bg-white text-[8px] font-mono uppercase tracking-widest text-slate-400 border-b border-[#DEDDD8] sticky top-0 z-10">
                   <tr>
-                    <th className="px-5 py-3 bg-slate-50">Representative</th>
-                    <th className="px-5 py-3 bg-slate-50">Security</th>
-                    <th className="px-5 py-3 bg-slate-50">Type</th>
-                    <th className="px-5 py-3 text-right bg-slate-50">Filed</th>
+                    <th className="px-5 py-3 bg-white font-bold">Representative</th>
+                    <th className="px-5 py-3 bg-white font-bold">Security</th>
+                    <th className="px-5 py-3 bg-white font-bold">Type</th>
+                    <th className="px-5 py-3 text-right bg-white font-bold">Filed</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-50">
+                <tbody className="divide-y divide-slate-100">
                   {politicalTrades.map((trade: PoliticalTrade, i: number) => (
                     <tr
                       key={i}
-                      className="hover:bg-slate-50/70 transition-colors"
+                      className="hover:bg-slate-50/50 transition-colors"
                     >
                       <td className="px-5 py-3.5">
                         <div>
-                          <p className="text-[11px] font-semibold text-slate-700 truncate max-w-[140px]">
+                          <p className="text-[11px] font-bold text-slate-700 truncate max-w-[140px]">
                             {trade.name || "U.S. Representative"}
                           </p>
-                          <p className="text-[9px] text-slate-400 font-mono">
+                          <p className="text-[8px] text-slate-400 font-mono uppercase">
                             {trade.owner || "Congress"}
                           </p>
                         </div>
                       </td>
-                      <td className="px-5 py-3.5 font-mono text-xs text-[#1e40af] font-bold">
+                      <td className="px-5 py-3.5 font-mono text-xs text-[#9333ea] font-bold uppercase">
                         {trade.symbol || "N/A"}
                       </td>
                       <td className="px-5 py-3.5">
                         <span
                           className={cn(
-                            "text-[10px] font-bold uppercase px-2 py-0.5 rounded",
+                            "text-[8px] font-bold uppercase font-mono px-2 py-0.5 rounded-none border",
                             trade.transactionType === "Purchase"
-                              ? "bg-emerald-50 text-emerald-600"
-                              : "bg-red-50 text-red-500"
+                              ? "bg-emerald-50 text-emerald-600 border-emerald-100"
+                              : "bg-red-50 text-red-500 border-red-100"
                           )}
                         >
                           {trade.transactionType === "Purchase" ? "BUY" : "SELL"}
                         </span>
                       </td>
                       <td className="px-5 py-3.5 text-right">
-                        <p className="text-[10px] font-mono text-slate-500">
+                        <p className="text-[10px] font-mono text-slate-500 tabular">
                           {trade.filingDate
                             ? new Date(trade.filingDate).toLocaleDateString("en-GB")
                             : "—"}
@@ -701,7 +815,7 @@ export function IntelligenceHubClient({
                             href={trade.filingUrl}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-[9px] font-mono text-[#1e40af] hover:underline flex items-center gap-0.5 justify-end mt-0.5"
+                            className="text-[8px] font-mono text-[#9333ea] hover:underline flex items-center gap-0.5 justify-end mt-0.5 font-bold uppercase"
                           >
                             EDGAR <ExternalLink className="w-2.5 h-2.5" />
                           </a>
@@ -718,13 +832,13 @@ export function IntelligenceHubClient({
 
       {/* ── Sentiment Pulse ──────────────────────────────────────────────────── */}
       <section className="space-y-6">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-3">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 pb-3">
           <div className="flex items-center gap-3">
-            <Gauge className="w-5 h-5 text-[#1e40af]" />
-            <h2 className="text-base font-bold uppercase tracking-widest text-slate-900">
+            <Gauge className="w-5 h-5 text-[#9333ea]" />
+            <h2 className="text-sm font-bold uppercase tracking-widest text-slate-900 font-mono">
               Sentiment Pulse
             </h2>
-            <span className="text-[9px] font-mono text-[#1e40af] font-bold uppercase bg-[#eff6ff] px-2 py-0.5 rounded border border-[#bfdbfe]">
+            <span className="text-[8px] font-mono text-[#6b21a8] font-bold uppercase bg-[#faf5ff] border border-[#e9d5ff] px-2 py-0.5 rounded-none">
               {selectedSentimentSymbol}
             </span>
           </div>
@@ -736,10 +850,10 @@ export function IntelligenceHubClient({
                 key={sym}
                 onClick={() => setSelectedSentimentSymbol(sym)}
                 className={cn(
-                  "px-2.5 py-1 text-[9px] font-mono font-bold uppercase rounded transition-all shrink-0",
+                  "px-2.5 py-1 text-[8px] font-mono font-bold uppercase rounded-none transition-all shrink-0 border",
                   selectedSentimentSymbol === sym
-                    ? "bg-[#1e40af] text-white"
-                    : "bg-slate-50 text-slate-600 border border-slate-200 hover:border-[#1e40af]"
+                    ? "bg-[#9333ea] text-white border-[#9333ea]"
+                    : "bg-white text-slate-500 border-slate-200 hover:border-[#9333ea] hover:text-[#9333ea]"
                 )}
               >
                 {sym}
@@ -750,32 +864,32 @@ export function IntelligenceHubClient({
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* xAI Grok-3 Social Buzz Terminal */}
-          <div className="p-8 bg-gradient-to-br from-[#12131C] to-[#171926] border border-[#2B2D42] rounded-xl shadow-xl flex flex-col gap-6 relative overflow-hidden group">
+          <div className="p-8 bg-[#0B0E14] border border-[#1E2230] rounded-none flex flex-col gap-6 relative overflow-hidden group">
             {/* Glowing background accent */}
-            <div className="absolute -right-16 -top-16 w-36 h-36 bg-[#C8F135]/5 rounded-full blur-3xl group-hover:bg-[#C8F135]/10 transition-all duration-700" />
+            <div className="absolute -right-16 -top-16 w-36 h-36 bg-[#9333ea]/5 rounded-none blur-3xl group-hover:bg-[#9333ea]/10 transition-all duration-700" />
             
             {(loadingGrok || !grokData) && (
-              <div className="absolute inset-0 bg-[#0E0F17]/80 backdrop-blur-[2px] flex flex-col items-center justify-center z-10 rounded-xl space-y-3">
-                <RefreshCw className="w-6 h-6 text-[#C8F135] animate-spin" />
-                <span className="text-[10px] font-mono text-slate-400 uppercase tracking-widest animate-pulse">Syncing X-Firehose via Grok-3...</span>
+              <div className="absolute inset-0 bg-[#0B0E14]/90 backdrop-blur-[2px] flex flex-col items-center justify-center z-10 rounded-none space-y-3">
+                <RefreshCw className="w-6 h-6 text-[#9333ea] animate-spin" />
+                <span className="text-[9px] font-mono text-slate-400 uppercase tracking-widest animate-pulse">Syncing X-Firehose via Grok-3...</span>
               </div>
             )}
             
             <div className="flex justify-between items-start z-10">
               <div className="flex items-center gap-3">
-                <div className="p-2 rounded-lg bg-[#C8F135]/10 border border-[#C8F135]/20">
-                  <Brain className="w-5 h-5 text-[#C8F135]" />
+                <div className="p-2 bg-[#9333ea]/10 border border-[#9333ea]/20">
+                  <Brain className="w-5 h-5 text-[#9333ea]" />
                 </div>
                 <div>
                   <h3 className="text-xs font-bold font-mono uppercase tracking-widest text-slate-200 flex items-center gap-1.5">
-                    Grok-3 Social Buzz <Sparkles className="w-3 h-3 text-[#C8F135] animate-pulse" />
+                    Grok-3 Social Buzz <Sparkles className="w-3 h-3 text-[#9333ea] animate-pulse" />
                   </h3>
-                  <p className="text-[9px] font-mono text-slate-400 mt-0.5">
+                  <p className="text-[9px] font-mono text-slate-400 mt-0.5 uppercase">
                     xAI Real-Time Sentiment &amp; Squeeze Analytics
                   </p>
                 </div>
               </div>
-              <span className="text-[9px] font-mono font-bold text-[#C8F135] bg-[#C8F135]/10 border border-[#C8F135]/20 px-2 py-0.5 rounded uppercase">
+              <span className="text-[8px] font-mono font-bold text-[#9333ea] bg-[#9333ea]/10 border border-[#9333ea]/20 px-2 py-0.5 rounded-none uppercase">
                 Active Firehose
               </span>
             </div>
@@ -784,16 +898,16 @@ export function IntelligenceHubClient({
               <div className="space-y-6 z-10">
                 {/* Main Sentiment Meter */}
                 <div className="space-y-2.5">
-                  <div className="flex justify-between text-[10px] font-mono uppercase font-bold tracking-wider text-slate-400">
+                  <div className="flex justify-between text-[8px] font-mono uppercase font-bold tracking-wider text-slate-400">
                     <span className="text-red-400">Crowd Short</span>
                     <span className="text-emerald-400">Crowd Long</span>
                   </div>
-                  <div className="h-2.5 bg-slate-950 rounded-full overflow-hidden border border-slate-800 p-0.5">
+                  <div className="h-2 bg-slate-950 rounded-none overflow-hidden border border-slate-800">
                     <div
                       className={cn(
-                        "h-full rounded-full transition-all duration-1000 bg-gradient-to-r",
+                        "h-full rounded-none transition-all duration-1000 bg-gradient-to-r",
                         grokData.sentiment_bias === "BULLISH" 
-                          ? "from-emerald-500 to-[#C8F135]" 
+                          ? "from-emerald-500 to-[#9333ea]" 
                           : grokData.sentiment_bias === "BEARISH"
                           ? "from-rose-500 to-amber-500"
                           : "from-amber-400 to-emerald-400"
@@ -803,14 +917,14 @@ export function IntelligenceHubClient({
                   </div>
                   <div className="flex items-baseline justify-between pt-1">
                     <div>
-                      <span className="text-3xl font-black text-slate-100 font-mono tracking-tighter">
+                      <span className="text-3xl font-black text-slate-100 font-mono tracking-tighter tabular">
                         {grokData.sentiment_score}%
                       </span>
-                      <span className="text-[10px] font-mono text-[#C8F135] font-bold uppercase ml-2">
+                      <span className="text-[9px] font-mono text-[#9333ea] font-bold uppercase ml-2">
                         {grokData.sentiment_bias} Sessional Bias
                       </span>
                     </div>
-                    <span className="text-[10px] font-mono text-slate-400 bg-slate-900/60 border border-slate-800 px-2 py-0.5 rounded">
+                    <span className="text-[8px] font-mono text-slate-400 bg-slate-900/60 border border-slate-800 px-2 py-0.5 rounded-none uppercase">
                       {grokData.narrative_theme}
                     </span>
                   </div>
@@ -818,10 +932,10 @@ export function IntelligenceHubClient({
 
                 {/* Grid of stats */}
                 <div className="grid grid-cols-2 gap-3.5">
-                  <div className="bg-[#0E0F17]/60 rounded-xl p-3.5 border border-[#2B2D42]/60">
-                    <span className="block text-[9px] text-slate-500 font-mono uppercase tracking-wider">X Mentions Velocity (24h)</span>
+                  <div className="bg-slate-950 p-3.5 border border-slate-800">
+                    <span className="block text-[8px] text-slate-500 font-mono uppercase tracking-wider">X Mentions Velocity (24h)</span>
                     <span className={cn(
-                      "text-sm font-bold flex items-center gap-1.5 mt-1 font-mono",
+                      "text-sm font-bold flex items-center gap-1.5 mt-1 font-mono tabular",
                       grokData.social_volume_change_24h >= 0 ? "text-emerald-400" : "text-rose-400"
                     )}>
                       {grokData.social_volume_change_24h >= 0 ? <TrendingUp className="w-4 h-4" /> : <TrendingDown className="w-4 h-4" />}
@@ -829,8 +943,8 @@ export function IntelligenceHubClient({
                     </span>
                   </div>
 
-                  <div className="bg-[#0E0F17]/60 rounded-xl p-3.5 border border-[#2B2D42]/60">
-                    <span className="block text-[9px] text-slate-500 font-mono uppercase tracking-wider">Contrarian Crowd Danger</span>
+                  <div className="bg-slate-950 p-3.5 border border-slate-800">
+                    <span className="block text-[8px] text-slate-500 font-mono uppercase tracking-wider">Contrarian Crowd Danger</span>
                     <span className={cn(
                       "text-xs font-bold font-mono flex items-center gap-1 mt-1.5 uppercase",
                       grokData.contrarian_danger_level === "HIGH" 
@@ -846,13 +960,13 @@ export function IntelligenceHubClient({
 
                 {/* Squeeze Probability */}
                 <div className="space-y-1.5">
-                  <div className="flex justify-between text-[9px] font-mono uppercase text-slate-400">
+                  <div className="flex justify-between text-[8px] font-mono uppercase text-slate-400">
                     <span>Sessional Squeeze Probability</span>
-                    <span className="text-[#C8F135] font-bold">{grokData.squeeze_probability}%</span>
+                    <span className="text-[#9333ea] font-bold tabular">{grokData.squeeze_probability}%</span>
                   </div>
-                  <div className="h-1 bg-slate-900 rounded-full overflow-hidden">
+                  <div className="h-1 bg-slate-950 rounded-none overflow-hidden border border-slate-800">
                     <div 
-                      className="h-full bg-gradient-to-r from-amber-500 to-[#C8F135] rounded-full transition-all"
+                      className="h-full bg-gradient-to-r from-amber-500 to-[#9333ea] rounded-none transition-all"
                       style={{ width: `${grokData.squeeze_probability}%` }}
                     />
                   </div>
@@ -860,11 +974,11 @@ export function IntelligenceHubClient({
 
                 {/* Key Talking Points */}
                 <div className="space-y-2">
-                  <span className="block text-[9px] font-mono text-slate-500 uppercase tracking-wider">Primary Sessional Talking Points:</span>
+                  <span className="block text-[8px] font-mono text-slate-500 uppercase tracking-wider">Primary Sessional Talking Points:</span>
                   <div className="space-y-2">
                     {grokData.talking_points?.map((pt, idx) => (
-                      <div key={idx} className="flex gap-2 text-[11px] text-slate-300 leading-relaxed bg-[#0E0F17]/30 p-2.5 rounded-lg border border-slate-900">
-                        <span className="w-4 h-4 rounded-full bg-[#C8F135]/10 border border-[#C8F135]/20 text-[#C8F135] font-mono text-[9px] flex items-center justify-center shrink-0 mt-0.5">
+                      <div key={idx} className="flex gap-2 text-[11px] text-slate-300 leading-relaxed bg-slate-950 p-2.5 border border-slate-800">
+                        <span className="w-4 h-4 rounded-none bg-[#9333ea]/10 border border-[#9333ea]/20 text-[#9333ea] font-mono text-[8px] flex items-center justify-center shrink-0 mt-0.5">
                           {idx + 1}
                         </span>
                         <span>{pt}</span>
@@ -877,57 +991,59 @@ export function IntelligenceHubClient({
           </div>
 
           {/* News Sentiment */}
-          <div className="p-8 bg-white border border-slate-200 rounded-xl shadow-sm flex flex-col gap-6 relative">
+          <div className="p-8 bg-white border border-[#DEDDD8] rounded-none flex flex-col gap-6 relative">
             {loadingSentiment && (
-              <div className="absolute inset-0 bg-white/60 backdrop-blur-[1px] flex items-center justify-center z-10 rounded-xl">
-                <RefreshCw className="w-5 h-5 text-[#1e40af] animate-spin" />
+              <div className="absolute inset-0 bg-white/60 backdrop-blur-[1px] flex items-center justify-center z-10 rounded-none">
+                <RefreshCw className="w-5 h-5 text-[#9333ea] animate-spin" />
               </div>
             )}
             <div className="flex justify-between items-start">
               <div className="flex items-center gap-3">
-                <Newspaper className="w-5 h-5 text-[#1e40af]" />
+                <div className="p-2 bg-[#faf5ff] border border-[#e9d5ff] text-[#9333ea] rounded-none">
+                  <Newspaper className="w-5 h-5" />
+                </div>
                 <div>
-                  <h3 className="text-sm font-bold uppercase tracking-widest text-slate-900">
+                  <h3 className="text-xs font-bold font-mono uppercase tracking-widest text-slate-900">
                     Institutional News Bias
                   </h3>
-                  <p className="text-[9px] font-mono text-slate-400 mt-0.5">
+                  <p className="text-[9px] font-mono text-slate-400 mt-0.5 uppercase">
                     Financial RSS · Sentiment Scoring
                   </p>
                 </div>
               </div>
-              <span className="text-[9px] font-mono text-slate-400 bg-slate-50 border border-slate-100 px-2 py-1 rounded">
+              <span className="text-[8px] font-mono text-slate-400 bg-slate-50 border border-slate-100 px-2 py-1 rounded-none uppercase">
                 Sector avg: {Math.round((newsData?.sectorAvgSentiment ?? 0.52) * 100)}%
               </span>
             </div>
 
             <div className="space-y-3">
-              <div className="flex justify-between text-[10px] font-mono uppercase text-slate-400 font-bold">
+              <div className="flex justify-between text-[8px] font-mono uppercase text-slate-400 font-bold">
                 <span>0% Bullish</span>
                 <span>100% Bullish</span>
               </div>
-              <div className="h-3 bg-slate-100 rounded-full overflow-hidden border border-slate-200">
+              <div className="h-2 bg-slate-100 rounded-none overflow-hidden border border-slate-200">
                 <div
-                  className="h-full bg-[#1e40af] rounded-full transition-all duration-1000"
+                  className="h-full bg-[#9333ea] rounded-none transition-all duration-1000"
                   style={{ width: `${((newsData?.sentiment ?? 0.5) * 100)}%` }}
                 />
               </div>
               <div className="flex justify-between items-end">
                 <div>
-                  <span className="text-2xl font-black text-slate-900">
+                  <span className="text-2xl font-black text-slate-900 font-mono tracking-tight tabular">
                     {Math.round((newsData?.sentiment ?? 0.5) * 100)}%
                   </span>
-                  <span className="text-[9px] font-mono text-slate-400 uppercase ml-2">
+                  <span className="text-[8px] font-mono text-slate-400 uppercase ml-2">
                     positive coverage ({newsData?.symbol})
                   </span>
                 </div>
                 <div className="text-right">
-                  <p className="text-[10px] font-mono text-slate-500">
+                  <p className="text-[9px] font-mono text-slate-500 uppercase">
                     Buzz index:{" "}
-                    <span className="text-[#1e40af] font-bold">
+                    <span className="text-[#9333ea] font-bold tabular">
                       {Math.round((newsData?.buzz ?? 0) * 100)}%
                     </span>
                   </p>
-                  <p className="text-[9px] text-slate-400 font-mono">
+                  <p className="text-[8px] text-slate-400 font-mono uppercase">
                     {newsData?.articleCount ?? 0} matched articles
                   </p>
                 </div>

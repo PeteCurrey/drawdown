@@ -406,3 +406,111 @@ export async function saveAuthorProfileAction(payload: {
 
   return { success: true, profile: result.data };
 }
+
+// 8. Subscriber Management Actions
+export async function addSubscriberAction(payload: {
+  email: string;
+  first_name?: string;
+  source?: string;
+  subscribed_morning?: boolean;
+  subscribed_evening?: boolean;
+  subscribed_weekly?: boolean;
+}) {
+  const supabase = createInternalSupabase();
+
+  const cleanEmail = payload.email.trim().toLowerCase();
+  if (!cleanEmail || !cleanEmail.includes("@")) {
+    throw new Error("Invalid email address provided.");
+  }
+
+  const unsubscribeToken = Buffer.from(cleanEmail).toString("hex");
+  const now = new Date().toISOString();
+
+  // Insert or update in email_subscribers
+  const { data, error } = await supabase
+    .from("email_subscribers")
+    .upsert(
+      {
+        email: cleanEmail,
+        first_name: payload.first_name?.trim() || null,
+        source: payload.source || "admin_manual",
+        subscribed_at: now,
+        subscribed_morning: payload.subscribed_morning !== false,
+        subscribed_evening: payload.subscribed_evening !== false,
+        subscribed_weekly: payload.subscribed_weekly !== false,
+        is_active: true,
+        unsubscribe_token: unsubscribeToken,
+      },
+      { onConflict: "email" }
+    )
+    .select()
+    .single();
+
+  if (error) {
+    console.error("Failed to add subscriber to email_subscribers:", error);
+    throw new Error(`Failed to add subscriber: ${error.message}`);
+  }
+
+  // Also sync to newsletter_subscribers table if it exists
+  try {
+    await supabase.from("newsletter_subscribers").upsert(
+      {
+        email: cleanEmail,
+        is_active: true,
+        source: payload.source || "admin_manual",
+        subscribed_at: now,
+      },
+      { onConflict: "email" }
+    );
+  } catch (err) {
+    // Ignore if newsletter_subscribers doesn't exist
+  }
+
+  revalidatePath("/admin/subscribers");
+  return { success: true, subscriber: data };
+}
+
+export async function deleteSubscriberAction(id: string, email?: string) {
+  const supabase = createInternalSupabase();
+
+  const { error } = await supabase
+    .from("email_subscribers")
+    .delete()
+    .eq("id", id);
+
+  if (error) {
+    console.error("Failed to delete subscriber:", error);
+    throw new Error(`Failed to delete subscriber: ${error.message}`);
+  }
+
+  if (email) {
+    try {
+      await supabase
+        .from("newsletter_subscribers")
+        .delete()
+        .eq("email", email.toLowerCase());
+    } catch {}
+  }
+
+  revalidatePath("/admin/subscribers");
+  return { success: true };
+}
+
+export async function toggleSubscriberStatusAction(id: string, isActive: boolean) {
+  const supabase = createInternalSupabase();
+
+  const { data, error } = await supabase
+    .from("email_subscribers")
+    .update({ is_active: isActive })
+    .eq("id", id)
+    .select()
+    .single();
+
+  if (error) {
+    throw new Error(`Failed to update subscriber status: ${error.message}`);
+  }
+
+  revalidatePath("/admin/subscribers");
+  return { success: true, is_active: data?.is_active };
+}
+

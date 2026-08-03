@@ -26,7 +26,7 @@ export async function POST(req: Request) {
     ).join('\n');
 
     const msg = await client.messages.create({
-      model: 'claude-sonnet-4-5',
+      model: 'claude-3-5-sonnet-20241022',
       max_tokens: 400,
       system: 'You are a trading coach analysing a trader\'s discipline. Score their risk management 0-100 and give exactly 3 specific observations. Respond ONLY as valid JSON: { "score": number, "label": string, "observations": [string, string, string] }. Label options: "POOR" (0-39), "DEVELOPING" (40-59), "GOOD" (60-79), "EXCELLENT" (80-100).',
       messages: [{ role: 'user', content: `Analyse this trader's last ${trades.length} trades:\n\n${tradeSummary}\n\nScore their risk discipline 0-100 and give 3 specific observations.` }],

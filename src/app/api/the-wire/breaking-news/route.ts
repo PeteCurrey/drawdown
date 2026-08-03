@@ -93,7 +93,7 @@ Keep it strictly under 150 words. Focus on market impact and risk. No financial 
     const userPrompt = `Headline: ${topArticle.headline}\nSummary: ${topArticle.summary}\nSource: ${topArticle.source}`;
 
     const message = await anthropic.messages.create({
-      model: "claude-sonnet-4-6",
+      model: "claude-3-5-sonnet-20241022",
       max_tokens: 500,
       temperature: 0.3,
       system: systemPrompt,

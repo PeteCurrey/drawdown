@@ -63,7 +63,7 @@ export async function generateNewsletterEdition(editionType: 'daily' | 'weekend'
 
   try {
     const response = await anthropic.messages.create({
-      model: "claude-sonnet-4-6",
+      model: "claude-3-5-sonnet-20241022",
       max_tokens: editionType === 'weekend' ? 6000 : 4000,
       temperature: 0.4,
       messages: [

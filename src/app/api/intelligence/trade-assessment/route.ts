@@ -37,7 +37,7 @@ ${nextHighImpact ? `- UPCOMING HIGH-IMPACT NEWS: ${nextHighImpact.event} at ${ne
 Assess this trade setup from a risk management perspective.`;
 
     const msg = await client.messages.create({
-      model: 'claude-sonnet-4-5',
+      model: 'claude-3-5-sonnet-20241022',
       max_tokens: 300,
       system: 'You are a senior risk manager at a prop trading firm reviewing a trader\'s setup. Be direct and specific. Assess: 1) Is the stop placement sensible relative to volatility? 2) Is the risk/reward appropriate? 3) Are there timing concerns? 4) What is the one thing to watch out for? Respond in exactly 3-4 sentences. No bullet points. No preamble.',
       messages: [{ role: 'user', content: userPrompt }],

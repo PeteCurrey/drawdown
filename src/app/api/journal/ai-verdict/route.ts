@@ -68,7 +68,7 @@ async function callClaude(trade: any): Promise<any> {
     "You are an experienced trading coach reviewing a trader's journal entry. You are direct, honest, and constructive. You focus on process over outcome — a losing trade with good process is better than a winning trade with bad process. You never say 'great trade!' for wins or 'bad trade!' for losses. You assess whether the trader followed their edge correctly. Your feedback is specific, not generic.";
 
   const msg = await client.messages.create({
-    model: "claude-sonnet-4-5",
+    model: "claude-3-5-sonnet-20241022",
     max_tokens: 1024,
     system: systemPrompt,
     messages: [{ role: "user", content: buildUserPrompt(trade) }],

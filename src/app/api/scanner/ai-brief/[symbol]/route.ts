@@ -150,7 +150,7 @@ Respond with ONLY valid JSON — no markdown, no commentary outside the JSON:
   try {
     const client = new Anthropic({ apiKey: anthropicKey });
     const msg = await client.messages.create({
-      model: "claude-sonnet-4-6",
+      model: "claude-3-5-sonnet-20241022",
       max_tokens: 600,
       messages: [{ role: "user", content: prompt }],
     });

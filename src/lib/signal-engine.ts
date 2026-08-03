@@ -325,7 +325,7 @@ Assess the validity of this setup from a professional quantitative perspective. 
     try {
       const client = new Anthropic({ apiKey: anthropicKey });
       const msg = await client.messages.create({
-        model: "claude-sonnet-4-5",
+        model: "claude-3-5-sonnet-20241022",
         max_tokens: 500,
         system: "You are Claude 3.5 Sonnet, an institutional macro strategist. Focus on multi-step reasoning, risk context, and explaining the 'why' behind the signal. Return ONLY a valid JSON object (no markup, no markdown blocks, no other text) with this structure: { \"verdict\": \"BULLISH\" | \"BEARISH\" | \"NEUTRAL\", \"confidence\": number (0-100), \"reasoning\": [string, string, string] }",
         messages: [{ role: "user", content: prompt }]

@@ -12,6 +12,7 @@ import { HorizontalScrollSection } from "@/components/home/HorizontalScrollSecti
 import { BrokerSection } from "@/components/home/BrokerSection";
 import { PricingSection } from "@/components/home/PricingSection";
 import { Footer } from "@/components/layout/Footer";
+import { TradingViewSection } from "@/components/home/TradingViewSection";
 import { TrackPageView } from "@/components/admin/TrackPageView";
 import JsonLd from "@/components/seo/JsonLd";
 import { createInternalSupabase } from "@/lib/supabase/server";
@@ -158,6 +159,7 @@ export default async function Home() {
 
         {/* 10. Global Flux Sparklines & TradingView Partnership CTA */}
         <GlobalFluxSection />
+        <TradingViewSection />
 
         {/* 11. Recommended Brokers */}
         <BrokerSection />

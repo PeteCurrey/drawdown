@@ -18,6 +18,15 @@ import { cn } from "@/lib/utils";
 
 const toolCategories = [
   {
+    slug: "/investment-centre",
+    title: "The Investment Centre",
+    description: "Autonomous cross-asset macro synthesis, tri-model AI council, and risk execution.",
+    icon: Cpu,
+    features: ["18 Real-Time Feeds", "1,420 Metrics 24/7", "HMAC Risk Tokens"],
+    tier: "Foundation Add-on (£99/mo)",
+    color: "premium"
+  },
+  {
     slug: "ai-trade-journal",
     title: "AI Trade Journal",
     description: "Institutional-grade logging with sentiment analysis and performance attribution.",

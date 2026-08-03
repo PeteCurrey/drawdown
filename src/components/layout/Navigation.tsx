@@ -54,6 +54,7 @@ const megaMenus = {
   },
   tools: {
     links: [
+      { name: "The Investment Centre", desc: "Institutional cross-asset macro synthesis & risk engine", href: "/investment-centre", icon: Cpu, color: "text-[#C8F135] bg-[#C8F135]/10", badge: "£99/MO" },
       { name: "Signal Centre", desc: "AI consensus signals — Claude + GPT-4o + Grok", href: "/signal-centre", icon: Zap, color: "text-[#C8F135] bg-[#C8F135]/10", badge: "NEW" },
       { name: "AI Trade Journal", desc: "Upload CSV logs to extract emotional profiles", href: "/tools/ai-trade-journal", icon: BookOpen, color: "text-indigo-500 bg-indigo-500/10" },
       { name: "Risk Calculator", desc: "Kelly allocation relative to drawdown limits", href: "/tools/risk-calculator", icon: Calculator, color: "text-emerald-500 bg-emerald-500/10" },

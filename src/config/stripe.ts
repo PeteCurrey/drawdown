@@ -1,5 +1,21 @@
 export const STRIPE_CONFIG = {
   prices: {
+    'investment-centre': {
+      monthly: {
+        gbp: process.env.STRIPE_PRICE_INVESTMENT_CENTRE_MONTHLY_GBP || 'price_investment_centre_monthly_gbp_placeholder',
+        aud: process.env.STRIPE_PRICE_INVESTMENT_CENTRE_MONTHLY_AUD || 'price_investment_centre_monthly_aud_placeholder',
+        usd: process.env.STRIPE_PRICE_INVESTMENT_CENTRE_MONTHLY_USD || 'price_investment_centre_monthly_usd_placeholder',
+        sgd: process.env.STRIPE_PRICE_INVESTMENT_CENTRE_MONTHLY_SGD || 'price_investment_centre_monthly_sgd_placeholder',
+        hkd: process.env.STRIPE_PRICE_INVESTMENT_CENTRE_MONTHLY_HKD || 'price_investment_centre_monthly_hkd_placeholder',
+      },
+      annual: {
+        gbp: process.env.STRIPE_PRICE_INVESTMENT_CENTRE_ANNUAL_GBP || process.env.STRIPE_PRICE_INVESTMENT_CENTRE_MONTHLY_GBP || 'price_investment_centre_monthly_gbp_placeholder',
+        aud: process.env.STRIPE_PRICE_INVESTMENT_CENTRE_ANNUAL_AUD || process.env.STRIPE_PRICE_INVESTMENT_CENTRE_MONTHLY_AUD || 'price_investment_centre_monthly_aud_placeholder',
+        usd: process.env.STRIPE_PRICE_INVESTMENT_CENTRE_ANNUAL_USD || process.env.STRIPE_PRICE_INVESTMENT_CENTRE_MONTHLY_USD || 'price_investment_centre_monthly_usd_placeholder',
+        sgd: process.env.STRIPE_PRICE_INVESTMENT_CENTRE_ANNUAL_SGD || process.env.STRIPE_PRICE_INVESTMENT_CENTRE_MONTHLY_SGD || 'price_investment_centre_monthly_sgd_placeholder',
+        hkd: process.env.STRIPE_PRICE_INVESTMENT_CENTRE_ANNUAL_HKD || process.env.STRIPE_PRICE_INVESTMENT_CENTRE_MONTHLY_HKD || 'price_investment_centre_monthly_hkd_placeholder',
+      },
+    },
     'signal-centre': {
       monthly: {
         gbp: process.env.STRIPE_PRICE_SIGNAL_CENTRE_MONTHLY_GBP || 'price_signal_centre_monthly_gbp_placeholder',
@@ -67,6 +83,12 @@ export const STRIPE_CONFIG = {
     },
   },
   plans: {
+    'investment-centre': {
+      name: 'The Investment Centre',
+      tier: 'investment-centre',
+      requiresMinTier: 'foundation',
+      addonPriceGbp: 99,
+    },
     'signal-centre': {
       name: 'Signal Centre',
       tier: 'signal-centre',

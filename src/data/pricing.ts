@@ -33,6 +33,7 @@ export const GET_EDGE_FEATURES = () => [
 
 export const GET_FLOOR_FEATURES = () => [
   { name: "Everything in Edge", included: true },
+  { name: "The Investment Centre (Institutional Macro & Risk Engine)", included: true },
   { name: "Monthly 1-to-1 Session (45m) with Pete (Coming Soon)", included: false },
   { name: "Quarterly Small-Group Masterclass (Coming Soon)", included: false },
   { name: "Custom AI Portfolio Analysis (Coming Soon)", included: false },

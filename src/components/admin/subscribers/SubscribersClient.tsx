@@ -95,7 +95,7 @@ export function SubscribersClient({
 
     setSubmitting(true);
     try {
-      await addSubscriberAction({
+      const res = await addSubscriberAction({
         email: newEmail,
         first_name: newFirstName || undefined,
         source: newSource || "admin_manual",
@@ -103,6 +103,11 @@ export function SubscribersClient({
         subscribed_evening: subEvening,
         subscribed_weekly: subWeekly,
       });
+
+      if (!res.success) {
+        setFormError(res.error || "Failed to add subscriber.");
+        return;
+      }
 
       setIsAddModalOpen(false);
       setNewEmail("");
@@ -123,7 +128,11 @@ export function SubscribersClient({
 
     setDeletingId(id);
     try {
-      await deleteSubscriberAction(id, email);
+      const res = await deleteSubscriberAction(id, email);
+      if (!res.success) {
+        alert(`Delete failed: ${res.error}`);
+        return;
+      }
       router.refresh();
     } catch (err: any) {
       alert(`Delete failed: ${err.message}`);
@@ -135,7 +144,11 @@ export function SubscribersClient({
   const handleToggleStatus = async (id: string, currentActive: boolean) => {
     setTogglingId(id);
     try {
-      await toggleSubscriberStatusAction(id, !currentActive);
+      const res = await toggleSubscriberStatusAction(id, !currentActive);
+      if (!res.success) {
+        alert(`Status update failed: ${res.error}`);
+        return;
+      }
       router.refresh();
     } catch (err: any) {
       alert(`Status update failed: ${err.message}`);

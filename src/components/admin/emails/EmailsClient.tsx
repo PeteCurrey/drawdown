@@ -2,7 +2,12 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Mail, ChevronLeft, ChevronRight, Filter, Send, Loader2, RefreshCw, CheckCircle2, AlertCircle } from "lucide-react";
+import { Mail, ChevronLeft, ChevronRight, Filter, Send, Loader2, RefreshCw, CheckCircle2, AlertCircle, Zap } from "lucide-react";
+import { 
+  triggerMorningBriefAction, 
+  triggerEveningWrapAction, 
+  triggerBreakingNewsAction 
+} from "@/app/actions/admin-actions";
 
 interface EmailSend {
   id: string;
@@ -52,8 +57,9 @@ export function EmailsClient({
     return `/admin/emails` + (queryParts.length > 0 ? `?${queryParts.join("&")}` : "");
   };
 
-  const handleManualTrigger = async (emailType: "morning" | "evening") => {
-    const label = emailType === "morning" ? "Morning Brief" : "Evening Wrap";
+  const handleManualTrigger = async (emailType: "morning" | "evening" | "breaking") => {
+    const labelMap = { morning: "Morning Brief", evening: "Evening Wrap", breaking: "Breaking News" };
+    const label = labelMap[emailType];
     if (!confirm(`Are you sure you want to generate and send the ${label} right now to all active subscribers?`)) {
       return;
     }
@@ -62,20 +68,15 @@ export function EmailsClient({
     setTriggerMsg(null);
 
     try {
-      const endpoint = emailType === "morning" ? "/api/cron/morning-brief" : "/api/cron/evening-wrap";
-      const res = await fetch(endpoint, {
-        method: "GET",
-        headers: {
-          "Authorization": "Bearer dd-sc-cr0n-s3cr3t-x9pQk2mNvR7wJtLh",
-        },
-      });
+      let res;
+      if (emailType === "morning") res = await triggerMorningBriefAction();
+      else if (emailType === "evening") res = await triggerEveningWrapAction();
+      else res = await triggerBreakingNewsAction();
 
-      const data = await res.json();
-
-      if (res.ok && data.success) {
+      if (res.success) {
         setTriggerMsg({
           type: "success",
-          text: `${label} dispatched successfully! Sent to ${data.recipient_count || 0} subscribers.`,
+          text: `${label} dispatched successfully! Sent to ${res.recipient_count || 0} subscribers.`,
         });
         setTimeout(() => {
           window.location.reload();
@@ -83,7 +84,7 @@ export function EmailsClient({
       } else {
         setTriggerMsg({
           type: "error",
-          text: `Failed to dispatch ${label}: ${data.error || "Unknown server error"}`,
+          text: `Failed to dispatch ${label}: ${res.error || "Unknown server error"}`,
         });
       }
     } catch (err: any) {
@@ -114,6 +115,7 @@ export function EmailsClient({
       case "evening_wrap": return "Evening Wrap";
       case "welcome": return "Welcome Onboarding";
       case "weekly": return "Weekly Edition";
+      case "breaking_news": return "Breaking News";
       default: return type;
     }
   };
@@ -156,6 +158,15 @@ export function EmailsClient({
             >
               {triggering === "evening" ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Send className="w-3.5 h-3.5 text-sky-400" />}
               Trigger Evening Wrap
+            </button>
+
+            <button
+              onClick={() => handleManualTrigger("breaking")}
+              disabled={!!triggering}
+              className="flex items-center gap-2 px-4 py-2 bg-amber-600 hover:bg-amber-700 text-white text-xs font-mono font-bold uppercase tracking-wider rounded transition-all disabled:opacity-50 cursor-pointer shadow-sm"
+            >
+              {triggering === "breaking" ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Zap className="w-3.5 h-3.5 text-amber-200" />}
+              Trigger Breaking News
             </button>
           </div>
         </div>

@@ -65,6 +65,7 @@ const tiers = [
     borderAccent: "rgba(217, 119, 6, 0.25)",
     savings: "720",
     features: [
+      { name: "The Investment Centre", included: true, badge: "Included — £99/mo value", accent: true },
       ...GET_FLOOR_FEATURES(),
       { name: "Deploy Your Algo Mini Course", included: true, badge: "Included — £97 value", accent: true },
     ],

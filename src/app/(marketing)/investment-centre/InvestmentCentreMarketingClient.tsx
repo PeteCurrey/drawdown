@@ -174,7 +174,7 @@ export default function InvestmentCentreMarketingClient() {
 
           <div className="pt-2 flex items-center gap-2 text-xs text-slate-400 font-mono">
             <ShieldCheck className="w-4 h-4 text-[#C8F135]" />
-            <span>Requires minimum Foundation membership (£97/mo). Add-on price: £99/mo.</span>
+            <span>Requires minimum Foundation membership (£49/mo). Add-on price: £99/mo (Included FREE with The Floor £299/mo).</span>
           </div>
         </div>
       </section>
@@ -388,7 +388,7 @@ export default function InvestmentCentreMarketingClient() {
               The Investment Centre Add-on
             </h2>
             <p className="text-slate-400 text-sm sm:text-base leading-relaxed">
-              The Investment Centre is an advanced institutional platform add-on. To ensure risk discipline, it cannot be purchased as a standalone product — users must hold a minimum of <strong className="text-white">Foundation membership (£97/mo)</strong> or above.
+              The Investment Centre is an advanced institutional platform add-on (£99/mo). To ensure risk discipline, it cannot be purchased as a standalone product — users must hold a minimum of <strong className="text-white">Foundation membership (£49/mo)</strong> or <strong className="text-white">Edge (£149/mo)</strong>, or get <strong className="text-[#C8F135]">The Floor (£299/mo)</strong> which includes The Investment Centre at no extra charge.
             </p>
           </div>
 
@@ -401,6 +401,7 @@ export default function InvestmentCentreMarketingClient() {
                   <span className="text-4xl sm:text-5xl font-black font-mono text-[#C8F135]">£99</span>
                   <span className="text-sm font-mono text-slate-400"> / month</span>
                 </div>
+                <p className="text-xs text-[#C8F135] font-mono mt-1">Included FREE in The Floor membership (£299/mo)</p>
               </div>
               <div className="space-y-2 text-xs text-slate-300 font-sans">
                 <div className="flex items-center gap-2">
@@ -427,12 +428,25 @@ export default function InvestmentCentreMarketingClient() {
                 <span className="text-[10px] font-mono text-[#C8F135] uppercase font-bold tracking-widest block">
                   MEMBERSHIP CHECK
                 </span>
-                <h4 className="text-sm font-bold text-white">Minimum Tier: Foundation (£97/mo)</h4>
+                <h4 className="text-sm font-bold text-white">Minimum Tier: Foundation (£49/mo)</h4>
               </div>
 
               {loadingUser ? (
                 <div className="flex items-center gap-2 text-xs text-slate-400 font-mono py-2">
                   <Loader2 className="w-4 h-4 animate-spin text-[#C8F135]" /> Checking account eligibility...
+                </div>
+              ) : subscriptionTier === "floor" ? (
+                <div className="space-y-3">
+                  <div className="p-2.5 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs rounded font-mono flex items-center gap-2">
+                    <Check className="w-4 h-4 shrink-0 text-emerald-400" />
+                    <span>The Investment Centre is 100% INCLUDED in your Floor Membership!</span>
+                  </div>
+                  <a
+                    href="https://investmentcentre.drawdown.trading"
+                    className="w-full bg-[#C8F135] text-black font-extrabold py-3.5 text-xs font-mono uppercase tracking-wider hover:bg-[#b3d82a] transition-all flex items-center justify-center gap-2 rounded text-center block"
+                  >
+                    Launch Investment Centre Console →
+                  </a>
                 </div>
               ) : hasEligibleBaseTier ? (
                 <div className="space-y-3">
@@ -452,14 +466,14 @@ export default function InvestmentCentreMarketingClient() {
                 <div className="space-y-3">
                   <div className="p-2.5 bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs rounded font-mono flex items-center gap-2">
                     <AlertCircle className="w-4 h-4 shrink-0 text-amber-400" />
-                    <span>Requires Foundation membership or above to add The Investment Centre.</span>
+                    <span>Requires Foundation (£49/mo) or Edge (£149/mo) to add Investment Centre, or Floor (£299/mo) which includes it.</span>
                   </div>
                   <button
                     onClick={() => handleProceedStripeCheckout("bundle")}
                     disabled={checkoutLoading}
                     className="w-full bg-[#C8F135] text-black font-extrabold py-3.5 text-xs font-mono uppercase tracking-wider hover:bg-[#b3d82a] transition-all flex items-center justify-center gap-2 rounded cursor-pointer"
                   >
-                    {checkoutLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : "Bundle: Foundation + Investment Centre (£196/mo) →"}
+                    {checkoutLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : "Bundle: Foundation + Investment Centre (£148/mo) →"}
                   </button>
                   <p className="text-[11px] text-slate-400 text-center font-mono">
                     Already a member? <Link href="/login?redirect=/investment-centre" className="text-[#C8F135] underline">Log in here</Link>
@@ -491,12 +505,22 @@ export default function InvestmentCentreMarketingClient() {
                 Subscribe to The Investment Centre
               </h3>
               <p className="text-xs text-slate-400 font-sans leading-relaxed">
-                The Investment Centre requires a minimum Foundation membership (£97/mo) to unlock the £99/mo add-on.
+                The Investment Centre requires a minimum Foundation membership (£49/mo) to unlock the £99/mo add-on, or is included free in The Floor membership (£299/mo).
               </p>
             </div>
 
             <div className="space-y-3 pt-2">
-              {hasEligibleBaseTier ? (
+              {subscriptionTier === "floor" ? (
+                <div className="bg-[#070A11] border border-emerald-500/30 p-4 rounded-lg space-y-3 text-center">
+                  <p className="text-xs text-emerald-400 font-bold">You hold The Floor membership! The Investment Centre is fully unlocked for you.</p>
+                  <a
+                    href="https://investmentcentre.drawdown.trading"
+                    className="w-full bg-[#C8F135] text-black font-extrabold py-3 text-xs uppercase tracking-wider hover:bg-[#b3d82a] transition-all flex items-center justify-center gap-2 rounded text-center block"
+                  >
+                    Launch Console →
+                  </a>
+                </div>
+              ) : hasEligibleBaseTier ? (
                 <div className="bg-[#070A11] border border-emerald-500/30 p-4 rounded-lg space-y-3">
                   <div className="flex items-center justify-between text-xs">
                     <span className="text-slate-300">Base Tier: {subscriptionTier?.toUpperCase()}</span>
@@ -525,19 +549,35 @@ export default function InvestmentCentreMarketingClient() {
                     <div className="p-3 bg-slate-900 border border-slate-700 rounded space-y-2">
                       <div className="flex items-center justify-between text-xs">
                         <span className="text-white font-bold">Foundation + Investment Centre Bundle</span>
-                        <span className="text-[#C8F135] font-bold">£196 / mo</span>
+                        <span className="text-[#C8F135] font-bold">£148 / mo</span>
                       </div>
-                      <p className="text-[11px] text-slate-400 font-sans">Includes Foundation curriculum, indicators, trade journal, and Investment Centre terminal.</p>
+                      <p className="text-[11px] text-slate-400 font-sans">Foundation (£49/mo) + Investment Centre (£99/mo).</p>
                       <button
                         onClick={() => handleProceedStripeCheckout("bundle")}
                         disabled={checkoutLoading}
                         className="w-full bg-[#C8F135] text-black font-extrabold py-2.5 text-xs uppercase tracking-wider hover:bg-[#b3d82a] transition-all flex items-center justify-center gap-2 rounded cursor-pointer"
                       >
-                        {checkoutLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : "Get Foundation + Investment Centre Bundle →"}
+                        {checkoutLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : "Get Foundation + Investment Centre Bundle (£148/mo) →"}
                       </button>
                     </div>
 
-                    {/* Option 2: Sign in */}
+                    {/* Option 2: Floor */}
+                    <div className="p-3 bg-[#131929] border border-[#C8F135]/30 rounded space-y-2">
+                      <div className="flex items-center justify-between text-xs">
+                        <span className="text-white font-bold">The Floor Membership</span>
+                        <span className="text-[#C8F135] font-bold">£299 / mo</span>
+                      </div>
+                      <p className="text-[11px] text-slate-400 font-sans">Includes everything in Edge + The Investment Centre (£99 value) + 1-on-1s.</p>
+                      <button
+                        onClick={() => handleProceedStripeCheckout("bundle")}
+                        disabled={checkoutLoading}
+                        className="w-full border border-[#C8F135] text-[#C8F135] font-extrabold py-2.5 text-xs uppercase tracking-wider hover:bg-[#C8F135] hover:text-black transition-all flex items-center justify-center gap-2 rounded cursor-pointer"
+                      >
+                        {checkoutLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : "Get The Floor (£299/mo — All Included) →"}
+                      </button>
+                    </div>
+
+                    {/* Option 3: Sign in */}
                     <div className="text-center pt-2">
                       <Link
                         href="/login?redirect=/investment-centre"

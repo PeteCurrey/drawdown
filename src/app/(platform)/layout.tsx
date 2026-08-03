@@ -38,6 +38,7 @@ import {
   Gauge,
   Target,
   Sparkles,
+  Cpu,
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { OnboardingWizard } from "@/components/dashboard/OnboardingWizard";
@@ -49,6 +50,7 @@ const mainNavLinks = [
   { name: "Overview",            href: "/dashboard",                           icon: LayoutDashboard },
   { name: "Market Intelligence",  href: "/dashboard/market-intelligence",        icon: Brain },
   { name: "Alt-Data & Signals",  href: "/dashboard/intelligence",              icon: Gauge },
+  { name: "The Investment Centre", href: "/dashboard/investment-centre",        icon: Cpu, badge: "£99/MO" },
   { name: "Curriculum",          href: "/dashboard/curriculum",                icon: Library },
   { name: "Downloads",           href: "/dashboard/downloads",                 icon: BookOpen },
   { name: "Weekly Breakdowns",   href: "/dashboard/breakdowns",                icon: Video },
@@ -205,7 +207,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   //       design (brand anchor). --tool-accent governs secondary elements only.
   const isDarkModulePage =
     (pathname.startsWith("/dashboard/curriculum/") && pathname !== "/dashboard/curriculum") ||
-    pathname.startsWith("/dashboard/courses/");
+    pathname.startsWith("/dashboard/courses/") ||
+    pathname.startsWith("/dashboard/investment-centre");
 
   // Nav link custom layout matching Phase 1 Section 1 and Section 2
   // Locked sidebar link for signal-centre tier users
@@ -299,6 +302,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           {[
             { label: "Overview", href: "/dashboard" },
             { label: "Market Intelligence", href: "/dashboard/market-intelligence" },
+            { label: "Investment Centre", href: "/dashboard/investment-centre" },
             { label: "Signal Centre", href: "/dashboard/signal-centre" },
             { label: "The Wire", href: "/dashboard/the-wire" },
           ].map(tab => {

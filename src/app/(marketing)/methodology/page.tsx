@@ -2,6 +2,7 @@ import Metadata from "next";
 import Link from "next/link";
 import { ShieldCheck, Search, Filter, Layers, Database, Sparkles, AlertTriangle, ArrowRight, CheckCircle2 } from "lucide-react";
 import { createClient } from "@supabase/supabase-js";
+import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 
 export const metadata = {
   title: "Data & Methodology Centre | Drawdown Trading",
@@ -153,27 +154,38 @@ export default async function MethodologyPage() {
   const betaCount = claims.filter(c => c.status === "planned").length;
 
   return (
-    <div className="min-h-screen bg-[#080B11] text-[#E2E8F0] pt-28 pb-20 select-none">
+    <div className="pt-28 pb-24 min-h-screen select-none" style={{ backgroundColor: "var(--paper-0)", color: "var(--ink-950)" }}>
       {/* Header / Hero Section */}
-      <div className="max-w-6xl mx-auto px-6 mb-16">
-        <div className="flex items-center gap-3 text-xs font-mono uppercase tracking-widest text-[#00FF87] mb-4">
-          <ShieldCheck className="w-4 h-4" />
-          <span>Single Source of Truth // Evidence-Led Platform</span>
+      <div className="max-w-[1280px] mx-auto px-6 mb-16">
+        <div className="max-w-4xl">
+          <Breadcrumbs 
+            items={[
+              { label: 'Methodology', href: '/methodology' }
+            ]} 
+          />
+          <div className="mt-8 space-y-4 border-b pb-12" style={{ borderColor: "var(--line-200)" }}>
+            <div className="flex items-center gap-3">
+              <span className="inline-flex items-center gap-2 text-[11px] font-mono uppercase tracking-[0.08em] px-2.5 py-1 border" style={{ backgroundColor: "var(--paper-100)", borderColor: "var(--line-200)", color: "var(--signal-navy)" }}>
+                <ShieldCheck size={14} />
+                Single Source of Truth // Evidence-Led Platform
+              </span>
+            </div>
+            
+            <h1 className="font-display text-[clamp(2.25rem,5vw,3.75rem)] leading-[1.05] tracking-[-0.02em] font-semibold">
+              Data &amp; Methodology <span style={{ color: "var(--graphite-600)" }}>Centre</span>
+            </h1>
+            
+            <p className="text-[15px] font-sans leading-relaxed max-w-2xl" style={{ color: "var(--ink-950)" }}>
+              Every technical, analytical, statistical, market-data, AI, and performance claim made across Drawdown is recorded here. We only make statements we can clearly explain, evidence, and defend.
+            </p>
+          </div>
         </div>
 
-        <h1 className="text-4xl md:text-6xl font-sans font-black uppercase tracking-tight text-white leading-tight mb-6">
-          Data &amp; Methodology <span className="text-[#00FF87]">Centre</span>
-        </h1>
-
-        <p className="text-lg md:text-xl text-[#94A3B8] max-w-3xl leading-relaxed font-sans mb-8">
-          Every technical, analytical, statistical, market-data, AI, and performance claim made across Drawdown is recorded here. We only make statements we can clearly explain, evidence, and defend.
-        </p>
-
         {/* Legal Scope Disclaimer Box */}
-        <div className="p-6 rounded-xl bg-[#0F172A] border border-[#1E293B] flex items-start gap-4">
-          <AlertTriangle className="w-6 h-6 text-[#F59E0B] shrink-0 mt-0.5" />
-          <div className="text-xs text-[#CBD5E1] space-y-1 leading-relaxed font-sans">
-            <span className="font-bold text-white uppercase font-mono tracking-wider block">Operational Scope Disclosure:</span>
+        <div className="max-w-4xl mt-8 p-6 border flex items-start gap-4" style={{ backgroundColor: "var(--paper-100)", borderColor: "var(--line-200)", borderRadius: 0 }}>
+          <AlertTriangle className="w-5 h-5 shrink-0 mt-0.5" style={{ color: "var(--signal-navy)" }} />
+          <div className="text-[13px] leading-relaxed font-sans" style={{ color: "var(--graphite-600)" }}>
+            <span className="font-bold uppercase font-mono tracking-[0.08em] block mb-2" style={{ color: "var(--ink-950)" }}>Operational Scope Disclosure:</span>
             <p>
               Drawdown Trading is an independent trading education, analytical research, and risk-management tools platform. Drawdown does not route, execute, or transmit orders, and does not hold client funds. All market observations, trade signals, and indicators are non-advisory analytical data.
             </p>
@@ -182,36 +194,36 @@ export default async function MethodologyPage() {
       </div>
 
       {/* Metrics Bar */}
-      <div className="border-y border-[#1E293B] bg-[#0B0F17] py-8 mb-16">
-        <div className="max-w-6xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-6">
-          <div className="p-4 rounded-lg bg-[#0F172A]/60 border border-[#1E293B]">
-            <span className="text-[10px] font-mono uppercase tracking-widest text-[#94A3B8] block mb-1">Total Registered Claims</span>
-            <span className="text-3xl font-sans font-black text-white">{totalClaims}</span>
+      <div className="border-y py-8 mb-16" style={{ borderColor: "var(--line-200)", backgroundColor: "var(--paper-100)" }}>
+        <div className="max-w-[1280px] mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-6">
+          <div className="p-4 border bg-white flex flex-col justify-between" style={{ borderColor: "var(--line-200)", borderRadius: 0, minHeight: "100px" }}>
+            <span className="text-[10px] font-mono uppercase tracking-[0.08em] block mb-2" style={{ color: "var(--graphite-600)" }}>Total Registered Claims</span>
+            <span className="text-3xl font-display font-semibold" style={{ color: "var(--ink-950)" }}>{totalClaims}</span>
           </div>
 
-          <div className="p-4 rounded-lg bg-[#0F172A]/60 border border-[#1E293B]">
-            <span className="text-[10px] font-mono uppercase tracking-widest text-[#00FF87] block mb-1">Verified Calculations</span>
-            <span className="text-3xl font-sans font-black text-white">{verifiedCount}</span>
+          <div className="p-4 border bg-white flex flex-col justify-between" style={{ borderColor: "var(--line-200)", borderRadius: 0, minHeight: "100px" }}>
+            <span className="text-[10px] font-mono uppercase tracking-[0.08em] block mb-2" style={{ color: "var(--graphite-600)" }}>Verified Calculations</span>
+            <span className="text-3xl font-display font-semibold" style={{ color: "var(--ink-950)" }}>{verifiedCount}</span>
           </div>
 
-          <div className="p-4 rounded-lg bg-[#0F172A]/60 border border-[#1E293B]">
-            <span className="text-[10px] font-mono uppercase tracking-widest text-[#60A5FA] block mb-1">Derived Analytical Models</span>
-            <span className="text-3xl font-sans font-black text-white">{derivedCount}</span>
+          <div className="p-4 border bg-white flex flex-col justify-between" style={{ borderColor: "var(--line-200)", borderRadius: 0, minHeight: "100px" }}>
+            <span className="text-[10px] font-mono uppercase tracking-[0.08em] block mb-2" style={{ color: "var(--graphite-600)" }}>Derived Analytical Models</span>
+            <span className="text-3xl font-display font-semibold" style={{ color: "var(--ink-950)" }}>{derivedCount}</span>
           </div>
 
-          <div className="p-4 rounded-lg bg-[#0F172A]/60 border border-[#1E293B]">
-            <span className="text-[10px] font-mono uppercase tracking-widest text-[#F59E0B] block mb-1">Third-Party &amp; Beta</span>
-            <span className="text-3xl font-sans font-black text-white">{thirdPartyCount + betaCount}</span>
+          <div className="p-4 border bg-white flex flex-col justify-between" style={{ borderColor: "var(--line-200)", borderRadius: 0, minHeight: "100px" }}>
+            <span className="text-[10px] font-mono uppercase tracking-[0.08em] block mb-2" style={{ color: "var(--graphite-600)" }}>Third-Party &amp; Beta</span>
+            <span className="text-3xl font-display font-semibold" style={{ color: "var(--ink-950)" }}>{thirdPartyCount + betaCount}</span>
           </div>
         </div>
       </div>
 
       {/* Main Claims Directory */}
-      <div className="max-w-6xl mx-auto px-6">
+      <div className="max-w-[1280px] mx-auto px-6">
         <div className="flex justify-between items-center mb-8">
           <div>
-            <h2 className="text-2xl font-sans font-bold text-white uppercase tracking-tight">Claims Evidence Register</h2>
-            <p className="text-xs text-[#94A3B8] font-mono uppercase tracking-wider mt-1">Select a methodology card to view source data, formulas, and limitations</p>
+            <h2 className="text-[20px] font-display font-semibold tracking-[-0.02em] uppercase" style={{ color: "var(--ink-950)" }}>Claims Evidence Register</h2>
+            <p className="text-[11px] font-mono uppercase tracking-[0.08em] mt-2" style={{ color: "var(--graphite-600)" }}>Select a methodology card to view source data, formulas, and limitations</p>
           </div>
         </div>
 
@@ -221,44 +233,45 @@ export default async function MethodologyPage() {
             <Link
               key={claim.slug}
               href={`/methodology/${claim.slug}`}
-              className="p-6 rounded-xl bg-[#0F172A] border border-[#1E293B] hover:border-[#00FF87]/50 transition-all duration-300 flex flex-col justify-between group hover:-translate-y-1"
+              className="p-6 border flex flex-col justify-between group transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
+              style={{
+                borderColor: "var(--line-200)",
+                backgroundColor: "var(--paper-100)",
+                borderRadius: 0,
+              }}
             >
               <div className="space-y-4">
                 {/* Badges Header */}
                 <div className="flex items-center justify-between gap-2">
-                  <span className="px-2.5 py-1 rounded text-[10px] font-mono font-bold uppercase tracking-wider bg-[#1E293B] text-[#94A3B8]">
+                  <span className="px-2.5 py-1 border text-[10px] font-mono font-bold uppercase tracking-wider bg-white"
+                        style={{ color: "var(--graphite-600)", borderColor: "var(--line-200)", borderRadius: 0 }}>
                     {claim.category.replace("-", " ")}
                   </span>
                   
                   <span
-                    className={`px-2.5 py-1 rounded text-[10px] font-mono font-bold uppercase tracking-wider border ${
-                      claim.status === "verified"
-                        ? "bg-[#00FF87]/10 text-[#00FF87] border-[#00FF87]/30"
-                        : claim.status === "derived"
-                        ? "bg-[#3B82F6]/10 text-[#60A5FA] border-[#3B82F6]/30"
-                        : "bg-[#F59E0B]/10 text-[#F59E0B] border-[#F59E0B]/30"
-                    }`}
+                    className="px-2.5 py-1 border text-[10px] font-mono font-bold uppercase tracking-wider bg-white"
+                    style={{ color: "var(--signal-navy)", borderColor: "var(--line-200)", borderRadius: 0 }}
                   >
                     {claim.status.replace("_", " ")}
                   </span>
                 </div>
 
-                <h3 className="text-lg font-sans font-bold text-white group-hover:text-[#00FF87] transition-colors">
+                <h3 className="text-[16px] font-sans font-medium leading-snug group-hover:underline" style={{ color: "var(--ink-950)" }}>
                   {claim.title}
                 </h3>
 
-                <p className="text-xs text-[#94A3B8] line-clamp-2 leading-relaxed">
+                <p className="text-[13px] leading-[1.6] font-sans min-h-[56px] line-clamp-2" style={{ color: "var(--graphite-600)" }}>
                   {claim.summary}
                 </p>
 
-                <div className="p-3 rounded bg-[#0B0F17] border border-[#1E293B] text-[11px] font-mono text-[#CBD5E1] italic">
-                  &quot;{claim.short_claim}&quot;
+                <div className="p-3 border bg-white text-[11px] font-mono italic" style={{ borderColor: "var(--line-200)", color: "var(--graphite-600)", borderRadius: 0 }}>
+                  "{claim.short_claim}"
                 </div>
               </div>
 
-              <div className="pt-6 border-t border-[#1E293B]/60 mt-6 flex items-center justify-between text-xs font-mono text-[#00FF87] group-hover:underline">
+              <div className="pt-4 border-t mt-6 flex items-center justify-between text-[11px] font-mono uppercase tracking-[0.08em] group-hover:underline" style={{ borderColor: "var(--line-200)", color: "var(--signal-navy)" }}>
                 <span>View Full Methodology</span>
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
               </div>
             </Link>
           ))}

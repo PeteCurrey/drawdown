@@ -550,8 +550,9 @@ export async function POST(request: NextRequest) {
           if (customerEmail) {
             // Find subscription tier
             let subTier = "membership";
-            if (failedInvoice.subscription) {
-              const stripeSub = await stripe.subscriptions.retrieve(failedInvoice.subscription as string);
+            const subscriptionId = (failedInvoice as any).subscription;
+            if (subscriptionId) {
+              const stripeSub = await stripe.subscriptions.retrieve(subscriptionId as string);
               subTier = stripeSub.metadata?.tier || "membership";
             }
             const tierLabel = subTier.charAt(0).toUpperCase() + subTier.slice(1);

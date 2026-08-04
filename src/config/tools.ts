@@ -39,7 +39,7 @@ export const TOOLS: Record<string, ToolConfig> = {
     name: 'Strategy Backtester',
     slug: '/tools/strategy-backtester',
     tier: 'Edge+',
-    description: 'Validate your edge. Test any strategy against up to 200 bars of historical OHLC candle data.',
+    description: 'Validate your edge. Test any strategy against years of historical price data.',
     shortDescription: 'professional-grade backtesting engine.'
   },
   'intelligence-hub': {

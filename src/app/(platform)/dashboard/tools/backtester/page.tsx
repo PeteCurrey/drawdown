@@ -56,13 +56,35 @@ export default function BacktesterPage() {
   const [breakoutLookback, setBreakoutLookback] = useState(15); // Breakout Lookback
   const [breakoutHoldPeriod, setBreakoutHoldPeriod] = useState(8); // Breakout Hold Period
 
+  const formatLocalISO = (date: Date) => {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  };
+
+  const handlePresetClick = (preset: string) => {
+    const today = new Date();
+    setEndDate(formatLocalISO(today));
+
+    let startYear = today.getFullYear();
+    if (preset === '1yr') startYear -= 1;
+    else if (preset === '3yr') startYear -= 3;
+    else if (preset === '5yr') startYear -= 5;
+    else if (preset === 'max') startYear = 2005;
+
+    const start = new Date(today);
+    start.setFullYear(startYear);
+    setStartDate(formatLocalISO(start));
+  };
+
   const runSimulation = async () => {
     setIsSimulating(true);
     setError(null);
     setResults(null);
     
     try {
-      const res = await fetch(`/api/market/history?symbol=${symbol}&interval=${timeframe.toLowerCase()}&outputsize=5000&start_date=${startDate}&end_date=${endDate}`);
+      const res = await fetch(`/api/market/history?symbol=${symbol}&interval=${timeframe.toLowerCase()}&outputsize=15000&start_date=${startDate}&end_date=${endDate}`);
       if (!res.ok) {
         throw new Error("Failed to fetch market history");
       }
@@ -319,6 +341,46 @@ export default function BacktesterPage() {
                       onFocus={e => { e.currentTarget.style.borderColor = C; }}
                       onBlur={e =>  { e.currentTarget.style.borderColor = "#e5e7eb"; }}
                     />
+                  </div>
+                  <div className="flex flex-wrap gap-2 mt-2">
+                    {[
+                      { label: "1 Year", value: "1yr" },
+                      { label: "3 Years", value: "3yr" },
+                      { label: "5 Years", value: "5yr" },
+                      { label: "Max Available", value: "max" }
+                    ].map(preset => {
+                      const isSelected = (() => {
+                        const today = new Date();
+                        const formattedToday = formatLocalISO(today);
+                        if (endDate !== formattedToday) return false;
+                        
+                        let expectedStartYear = today.getFullYear();
+                        if (preset.value === '1yr') expectedStartYear -= 1;
+                        else if (preset.value === '3yr') expectedStartYear -= 3;
+                        else if (preset.value === '5yr') expectedStartYear -= 5;
+                        else if (preset.value === 'max') expectedStartYear = 2005;
+
+                        const expectedStart = new Date(today);
+                        expectedStart.setFullYear(expectedStartYear);
+                        return startDate === formatLocalISO(expectedStart);
+                      })();
+
+                      return (
+                        <button
+                          key={preset.value}
+                          type="button"
+                          onClick={() => handlePresetClick(preset.value)}
+                          style={{
+                            borderColor: isSelected ? "var(--tool-accent)" : "#e5e7eb",
+                            backgroundColor: isSelected ? "var(--tool-accent-tint)" : "transparent",
+                            color: isSelected ? "var(--tool-accent-text)" : "#6b7280"
+                          }}
+                          className="px-2.5 py-1.5 border text-[9px] font-mono font-bold uppercase tracking-wider rounded-md transition-all hover:border-gray-400"
+                        >
+                          {preset.label}
+                        </button>
+                      );
+                    })}
                   </div>
                 </div>
               </div>

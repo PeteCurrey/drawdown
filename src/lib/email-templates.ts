@@ -857,10 +857,398 @@ export interface BlogPostEmailData {
   unsubscribeUrl?: string;
 }
 
-export function formatHtmlForEmail(html: string): string {
+export function convertMarkdownToHtml(md: string, postUrl: string = "https://drawdown.trading"): string {
+  if (!md) return "";
+
+  // Preprocess: If Tiptap has wrapped raw markdown elements or custom components in simple <p> tags, unwrap them!
+  let cleaned = md;
+  cleaned = cleaned.replace(/<p>\s*(##+\s+.*?)\s*<\/p>/g, '$1');
+  cleaned = cleaned.replace(/<p>\s*(-\s+.*?)\s*<\/p>/g, '$1');
+  cleaned = cleaned.replace(/<p>\s*(\*\s+.*?)\s*<\/p>/g, '$1');
+  cleaned = cleaned.replace(/<p>\s*(>\s+.*?)\s*<\/p>/g, '$1');
+  cleaned = cleaned.replace(/<p>\s*(```[\s\S]*?```)\s*<\/p>/g, '$1');
+  cleaned = cleaned.replace(/<p>\s*(<DataTable[\s\S]*?(?:\/>|<\/DataTable>))\s*<\/p>/g, '$1');
+  cleaned = cleaned.replace(/<p>\s*(<PullQuote[\s\S]*?<\/PullQuote>)\s*<\/p>/g, '$1');
+  cleaned = cleaned.replace(/<p>\s*(<Callout[\s\S]*?<\/Callout>)\s*<\/p>/g, '$1');
+  cleaned = cleaned.replace(/<p>\s*(<KeyTakeaways[\s\S]*?\/?>)\s*<\/p>/g, '$1');
+  cleaned = cleaned.replace(/<p>\s*(<BlogTable[\s\S]*?\/?>)\s*<\/p>/g, '$1');
+  cleaned = cleaned.replace(/<p>\s*(<BlogChart[\s\S]*?\/?>)\s*<\/p>/g, '$1');
+  cleaned = cleaned.replace(/<p>\s*(<TradingViewPromoSection\s*\/?>)\s*<\/p>/g, '$1');
+  cleaned = cleaned.replace(/<p>\s*(<AffiliateMarketingSection\s*\/?>)\s*<\/p>/g, '$1');
+
+  // Check if content is already formatted as HTML (i.e. starts with standard HTML structures) after unwrapping
+  const isHtml = /<p[^>]*>|<div[^>]*>|<h[1-6][^>]*>|<ul[^>]*>/i.test(cleaned);
+  
+  let html = cleaned;
+
+  if (!isHtml) {
+    // 1. Normalize line endings
+    html = html.replace(/\r\n/g, "\n").replace(/\r/g, "\n");
+
+    // 2. Parse code blocks: ```lang ... ``` -> <pre><code>...</code></pre>
+    html = html.replace(/```(\w*)\n([\s\S]*?)```/g, (_, lang, code) => {
+      return `<pre style="background-color: #F8FAFC; border: 1px solid #E2E8F0; padding: 12px; margin: 16px 0; font-family: ui-monospace, monospace; font-size: 13px; line-height: 1.5; color: #0F172A; overflow-x: auto; border-radius: 0;"><code>${code.trim()}</code></pre>`;
+    });
+
+    // 3. Parse inline code: `code` -> <code>code</code>
+    html = html.replace(/`([^`\n]+)`/g, '<code style="font-family: ui-monospace, monospace; background-color: #F8FAFC; padding: 2px 4px; border: 1px solid #E2E8F0; font-size: 13px; color: #0F172A; border-radius: 0;">$1</code>');
+
+    // 4. Parse headers
+    html = html.replace(/^(?:##\s+)(.*?)$/gm, '<h2>$1</h2>');
+    html = html.replace(/^(?:###\s+)(.*?)$/gm, '<h3>$1</h3>');
+    html = html.replace(/^(?:####\s+)(.*?)$/gm, '<h4>$1</h4>');
+    html = html.replace(/^(?:#\s+)(.*?)$/gm, '<h1>$1</h1>');
+
+    // 5. Parse horizontal rules
+    html = html.replace(/^(?:---|___|\*\*\*)$/gm, '<hr />');
+
+    // 6. Parse list items (unordered lists)
+    html = html.replace(/^(?:\*\s+)(.*?)$/gm, '<li>$1</li>');
+    html = html.replace(/^(?:-\s+)(.*?)$/gm, '<li>$1</li>');
+
+    // Wrap contiguous <li> tags in <ul> blocks
+    html = html.replace(/((?:<li>[\s\S]*?<\/li>\n*)+)/g, '<ul>\n$1\n</ul>');
+
+    // 7. Parse list items (ordered lists)
+    html = html.replace(/^(?:\d+\.\s+)(.*?)$/gm, '<oli>$1</oli>');
+    html = html.replace(/((?:<oli>[\s\S]*?<\/oli>\n*)+)/g, '<ol>\n$1\n</ol>');
+    html = html.replace(/<oli>/g, '<li>').replace(/<\/oli>/g, '</li>');
+
+    // 8. Parse blockquotes (lines starting with >)
+    html = html.replace(/^(?:>\s+)(.*?)$/gm, '<blockquote>$1</blockquote>');
+    html = html.replace(/((?:<blockquote>[\s\S]*?<\/blockquote>\n*)+)/g, '<blockquote>\n$1\n</blockquote>');
+    html = html.replace(/<\/blockquote>\n*<blockquote>/g, '<br />');
+
+    // 9. Parse images: ![alt](url) -> <img src="url" alt="alt" />
+    html = html.replace(/!\[([^\]]*)\]\(([^)]*)\)/g, '<img src="$2" alt="$1" />');
+
+    // 10. Parse links: [text](url) -> <a href="url">text</a>
+    html = html.replace(/\[([^\]]*)\]\(([^)]*)\)/g, '<a href="$2">$1</a>');
+
+    // 11. Parse bold and italics
+    html = html.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+    html = html.replace(/__([^_]+)__/g, '<strong>$1</strong>');
+    html = html.replace(/\*([^*]+)\*/g, '<em>$1</em>');
+    html = html.replace(/_([^_]+)_/g, '<em>$1</em>');
+
+    // 12. Parse block breaks into paragraphs
+    const blocks = html.split(/\n\n+/);
+    html = blocks.map(block => {
+      const trimmed = block.trim();
+      if (!trimmed) return "";
+      
+      const startsWithBlockTag = /^(?:<h[1-6]|<ul|<ol|<blockquote|<pre|<hr|<img|<table|<div|<section|<p|<DataTable|<PullQuote|<Callout|<KeyTakeaways|<BlogTable|<BlogChart|<TradingViewPromoSection|<AffiliateMarketingSection)/i.test(trimmed);
+      
+      if (startsWithBlockTag) {
+        return trimmed;
+      }
+      return `<p>${trimmed}</p>`;
+    }).filter(Boolean).join("\n");
+  }
+
+  // --- PARSE CUSTOM REACT/MDX COMPONENTS ---
+  // We parse these regardless of whether the source is Markdown or HTML to support embedded MDX components.
+
+  // 1. <DataTable ... /> (resilient match)
+  html = html.replace(/<DataTable([\s\S]*?)(?:\/>|<\/DataTable>)/g, (match, attrs) => {
+    try {
+      const headersMatch = attrs.match(/headers=\{\s*\[([\s\S]*?)\]\s*\}/);
+      const rowsMatch = attrs.match(/rows=\{\s*\[([\s\S]*?)\]\s*\}/);
+      const captionMatch = attrs.match(/caption=(?:"([^"]*)"|'([^']*)'|\{`([\s\S]*?)`\})/);
+
+      const caption = captionMatch ? (captionMatch[1] || captionMatch[2] || captionMatch[3] || "") : "";
+
+      let headers: string[] = [];
+      if (headersMatch) {
+        const headersStr = headersMatch[1].trim();
+        const regex = /"([^"\\]*(?:\\.[^"\\]*)*)"|'([^'\\]*(?:\\.[^'\\]*)*)'/g;
+        let m;
+        while ((m = regex.exec(headersStr)) !== null) {
+          headers.push(m[1] || m[2] || "");
+        }
+        if (headers.length === 0 && headersStr) {
+          headers = headersStr.split(",").map((h: string) => h.trim().replace(/^["']|["']$/g, "").trim()).filter(Boolean);
+        }
+      }
+
+      let rows: string[][] = [];
+      if (rowsMatch) {
+        const rowsStr = rowsMatch[1].trim();
+        const subArrayMatches = rowsStr.match(/\[([\s\S]*?)\]/g);
+        if (subArrayMatches) {
+          rows = subArrayMatches.map((subArr: string) => {
+            const content = subArr.slice(1, -1);
+            const items: string[] = [];
+            const regex = /"([^"\\]*(?:\\.[^"\\]*)*)"|'([^'\\]*(?:\\.[^'\\]*)*)'/g;
+            let m;
+            while ((m = regex.exec(content)) !== null) {
+              items.push(m[1] || m[2] || "");
+            }
+            if (items.length === 0 && content) {
+              return content.split(",").map((i: string) => i.trim().replace(/^["']|["']$/g, "").trim()).filter(Boolean);
+            }
+            return items;
+          });
+        }
+      }
+
+      let tableHtml = `
+        <div style="margin: 24px 0; overflow-x: auto; border: 1px solid #E2E8F0;">
+          <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; border-collapse: collapse; font-family: ui-monospace, monospace; font-size: 11px; text-align: left;">
+      `;
+
+      if (headers.length > 0) {
+        tableHtml += `
+          <thead>
+            <tr style="background-color: #F8FAFC; border-bottom: 2px solid #E2E8F0;">
+        `;
+        headers.forEach(h => {
+          tableHtml += `<th style="padding: 12px 14px; font-weight: 700; color: #475569; text-transform: uppercase; font-size: 9px; letter-spacing: 1px; border-bottom: 2px solid #E2E8F0;">${h}</th>`;
+        });
+        tableHtml += `
+            </tr>
+          </thead>
+        `;
+      }
+
+      if (rows.length > 0) {
+        tableHtml += `<tbody>`;
+        rows.forEach((row, ri) => {
+          const bg = ri % 2 === 0 ? "#FFFFFF" : "#F8FAFC";
+          tableHtml += `<tr style="background-color: ${bg}; border-bottom: 1px solid #E2E8F0;">`;
+          row.forEach(cell => {
+            tableHtml += `<td style="padding: 12px 14px; color: #334155; line-height: 1.5;">${cell}</td>`;
+          });
+          tableHtml += `</tr>`;
+        });
+        tableHtml += `</tbody>`;
+      }
+
+      tableHtml += `
+          </table>
+        </div>
+      `;
+
+      if (caption) {
+        tableHtml += `<p style="margin-top: -12px; margin-bottom: 24px; font-family: ui-monospace, monospace; font-size: 9px; color: #64748B; font-style: italic; text-align: center;">${caption}</p>`;
+      }
+
+      return tableHtml;
+    } catch (e) {
+      console.error("DataTable parse failed:", e);
+      return match;
+    }
+  });
+
+  // 2. <PullQuote author="...">...</PullQuote> or <PullQuote>...</PullQuote>
+  html = html.replace(/<PullQuote([\s\S]*?)>([\s\S]*?)<\/PullQuote>/g, (match, attrs, content) => {
+    const authorMatch = attrs.match(/author=(?:"([^"]*)"|'([^']*)')/);
+    const author = authorMatch ? (authorMatch[1] || authorMatch[2]) : "";
+
+    let quoteHtml = `
+      <blockquote style="margin: 28px 0; border-left: 3px solid #F9771D; padding: 16px 20px; font-family: ui-monospace, monospace; font-size: 14px; font-style: italic; line-height: 1.6; color: #0F172A; background-color: #F8FAFC; border-radius: 0 !important;">
+        <p style="margin: 0; padding: 0;">"${content.trim().replace(/^["']|["']$/g, "")}"</p>
+    `;
+    if (author) {
+      quoteHtml += `<cite style="display: block; font-size: 9px; text-transform: uppercase; color: #64748B; margin-top: 10px; font-weight: bold; font-style: normal; letter-spacing: 1px;">&mdash; ${author}</cite>`;
+    }
+    quoteHtml += `</blockquote>`;
+    return quoteHtml;
+  });
+
+  // 3. <Callout type="...">...</Callout> or <Callout>...</Callout>
+  html = html.replace(/<Callout([\s\S]*?)>([\s\S]*?)<\/Callout>/g, (match, attrs, content) => {
+    const typeMatch = attrs.match(/type=(?:"([^"]*)"|'([^']*)')/);
+    const type = typeMatch ? (typeMatch[1] || typeMatch[2]) : "info";
+
+    let borderColor = "#00C2FF";
+    let bgColor = "#F0FDF4";
+    let title = "INFORMATION NOTICE";
+    let icon = "ℹ️";
+
+    if (type === "warning") {
+      borderColor = "#FFB020";
+      bgColor = "#FFFBF0";
+      title = "WARNING NOTICE";
+      icon = "⚠️";
+    } else if (type === "success") {
+      borderColor = "#00E676";
+      bgColor = "#F0FDF4";
+      title = "SUCCESS NOTICE";
+      icon = "✅";
+    } else if (type === "quote") {
+      borderColor = "#94A3B8";
+      bgColor = "#F8FAFC";
+      title = "EDITORIAL QUOTE";
+      icon = "📣";
+    } else if (type === "financial-advice" || type === "danger") {
+      borderColor = "#FF3D57";
+      bgColor = "#FFF5F6";
+      title = "EDUCATIONAL NOTICE — NOT FINANCIAL ADVICE";
+      icon = "🛡️";
+    } else {
+      borderColor = "#00C2FF";
+      bgColor = "#F0FBFF";
+      title = "MARKET INTEL ANALYSIS";
+      icon = "ℹ️";
+    }
+
+    return `
+      <div style="margin: 24px 0; border: 1px solid #E2E8F0; border-left: 4px solid ${borderColor}; padding: 18px; background-color: ${bgColor}; font-family: 'Outfit', sans-serif; border-radius: 0 !important;">
+        <div style="font-family: ui-monospace, monospace; font-size: 9px; font-weight: 700; color: ${borderColor}; letter-spacing: 1px; margin-bottom: 8px; text-transform: uppercase;">
+          ${icon} // ${title}
+        </div>
+        <div style="font-size: 14px; line-height: 1.6; color: #334155; font-family: 'Outfit', sans-serif;">
+          ${content.trim()}
+        </div>
+      </div>
+    `;
+  });
+
+  // 4. <KeyTakeaways items="..." /> (self-closing)
+  html = html.replace(/<KeyTakeaways\s+items="([^"]*)"\s*\/?>/g, (match, itemsAttr) => {
+    const items = itemsAttr.split("|").map((i: string) => i.trim()).filter(Boolean);
+    let takeawaysHtml = `
+      <div style="margin: 28px 0; border: 1px solid #E2E8F0; border-top: 4px solid #F9771D; padding: 22px; background-color: #F8FAFC; font-family: 'Outfit', sans-serif; border-radius: 0 !important;">
+        <div style="font-family: ui-monospace, monospace; font-size: 10px; font-weight: 700; color: #0F172A; letter-spacing: 1.5px; margin-bottom: 16px; text-transform: uppercase;">
+          🛡️ // Key Takeaways
+        </div>
+        <table cellpadding="0" cellspacing="0" border="0" style="width: 100%;">
+    `;
+    items.forEach((item: string) => {
+      takeawaysHtml += `
+        <tr>
+          <td valign="top" style="width: 16px; font-size: 12px; color: #F9771D; padding-bottom: 10px; line-height: 1.5;">▪️</td>
+          <td style="font-family: 'Outfit', sans-serif; font-size: 14px; color: #475569; padding-bottom: 10px; line-height: 1.5;">${item}</td>
+        </tr>
+      `;
+    });
+    takeawaysHtml += `
+        </table>
+      </div>
+    `;
+    return takeawaysHtml;
+  });
+
+  // 5. <BlogTable headers="..." rows="..." />
+  html = html.replace(/<BlogTable([\s\S]*?)(?:\/>|<\/BlogTable>)/g, (match, attrs) => {
+    try {
+      const headersMatch = attrs.match(/headers="([^"]*)"/);
+      const rowsMatch = attrs.match(/rows="([^"]*)"/);
+
+      const headers = headersMatch ? headersMatch[1].split("|").map((h: string) => h.trim()).filter(Boolean) : [];
+      const rows = rowsMatch ? rowsMatch[1].split(";").map((rowStr: string) => rowStr.split("|").map((cell: string) => cell.trim())) : [];
+
+      let tableHtml = `
+        <div style="margin: 24px 0; overflow-x: auto; border: 1px solid #E2E8F0;">
+          <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; border-collapse: collapse; font-family: ui-monospace, monospace; font-size: 10px; text-align: left;">
+      `;
+
+      if (headers.length > 0) {
+        tableHtml += `
+          <thead>
+            <tr style="background-color: #F8FAFC; border-bottom: 2px solid #E2E8F0;">
+        `;
+        headers.forEach((h: string) => {
+          tableHtml += `<th style="padding: 10px 12px; font-weight: 700; color: #475569; text-transform: uppercase; font-size: 9px; letter-spacing: 1px;">${h}</th>`;
+        });
+        tableHtml += `
+            </tr>
+          </thead>
+        `;
+      }
+
+      if (rows.length > 0) {
+        tableHtml += `<tbody>`;
+        rows.forEach((row: string[], ri: number) => {
+          if (row.length === 1 && row[0] === "") return;
+          const bg = ri % 2 === 0 ? "#FFFFFF" : "#F8FAFC";
+          tableHtml += `<tr style="background-color: ${bg}; border-bottom: 1px solid #E2E8F0;">`;
+          row.forEach((cell: string) => {
+            const isBold = cell.startsWith("**") && cell.endsWith("**");
+            const text = isBold ? cell.slice(2, -2) : cell;
+            const weight = isBold ? "bold" : "normal";
+            const color = isBold ? "#0F172A" : "#334155";
+            tableHtml += `<td style="padding: 10px 12px; color: ${color}; font-weight: ${weight}; line-height: 1.4;">${text}</td>`;
+          });
+          tableHtml += `</tr>`;
+        });
+        tableHtml += `</tbody>`;
+      }
+
+      tableHtml += `
+          </table>
+        </div>
+      `;
+      return tableHtml;
+    } catch (e) {
+      console.error("BlogTable parse failed:", e);
+      return match;
+    }
+  });
+
+  // 6. <BlogChart type="..." title="..." />
+  html = html.replace(/<BlogChart([\s\S]*?)(?:\/>|<\/BlogChart>)/g, (match, attrs) => {
+    const typeMatch = attrs.match(/type="([^"]*)"/);
+    const titleMatch = attrs.match(/title="([^"]*)"/);
+
+    const type = typeMatch ? typeMatch[1] : "";
+    const title = titleMatch ? titleMatch[1] : type;
+
+    return `
+      <div style="margin: 24px 0; border: 1px solid #E2E8F0; padding: 24px; background-color: #F8FAFC; text-align: center; border-radius: 0 !important;">
+        <div style="font-family: ui-monospace, monospace; font-size: 9px; color: #F9771D; font-weight: 700; letter-spacing: 1px; margin-bottom: 10px;">📊 // INTERACTIVE MARKET MODEL</div>
+        <h4 style="margin: 0 0 8px 0; font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 700; color: #0F172A; text-transform: uppercase;">[Chart Model: ${title}]</h4>
+        <p style="margin: 0 0 16px 0; font-family: 'Outfit', sans-serif; font-size: 12px; color: #64748B; line-height: 1.5; max-width: 440px; margin-left: auto; margin-right: auto;">
+          This analysis includes an interactive technical chart model. For full interaction, custom parameters, and structural drawing toolbars, read this article directly on our web terminal.
+        </p>
+        <a href="${postUrl}" target="_blank" style="display: inline-block; padding: 10px 20px; background-color: #0F172A; color: #FFFFFF !important; font-family: ui-monospace, monospace; font-size: 10px; font-weight: bold; text-decoration: none; text-transform: uppercase; border-radius: 0 !important; letter-spacing: 1px;">
+          Open Interactive Chart &rarr;
+        </a>
+      </div>
+    `;
+  });
+
+  // 7. <TradingViewPromoSection />
+  html = html.replace(/<TradingViewPromoSection\s*\/?>/g, () => {
+    return `
+      <div style="margin: 28px 0; border: 1px solid #00C2FF; border-top: 4px solid #00C2FF; padding: 22px; background-color: #F0FBFF; font-family: 'Outfit', sans-serif; border-radius: 0 !important;">
+        <div style="font-family: ui-monospace, monospace; font-size: 9px; font-weight: 700; color: #00C2FF; letter-spacing: 1px; margin-bottom: 10px; text-transform: uppercase;">📈 // RECOMMENDED TRADING TERMINAL</div>
+        <h4 style="margin: 0 0 6px 0; font-family: 'Outfit', sans-serif; font-size: 15px; font-weight: 700; color: #0F172A; text-transform: uppercase;">Unlock Advanced Charts on TradingView</h4>
+        <p style="margin: 0 0 16px 0; font-family: 'Outfit', sans-serif; font-size: 12px; color: #475569; line-height: 1.5;">
+          Standardize your risk and trade execution models. Join TradingView via Drawdown to get verified premium platform layouts and our private indicators.
+        </p>
+        <a href="https://www.tradingview.com/?aff=drawdown" target="_blank" style="display: inline-block; padding: 10px 18px; background-color: #00C2FF; color: #FFFFFF !important; font-family: ui-monospace, monospace; font-size: 10px; font-weight: bold; text-decoration: none; text-transform: uppercase; border-radius: 0 !important; letter-spacing: 1px;">
+          Get TradingView &rarr;
+        </a>
+      </div>
+    `;
+  });
+
+  // 8. <AffiliateMarketingSection />
+  html = html.replace(/<AffiliateMarketingSection\s*\/?>/g, () => {
+    return `
+      <div style="margin: 28px 0; border: 1px solid #0F172A; border-top: 4px solid #F9771D; padding: 24px; background-color: #FFFFFF; font-family: 'Outfit', sans-serif; border-radius: 0 !important;">
+        <div style="font-family: ui-monospace, monospace; font-size: 9px; font-weight: 700; color: #64748B; letter-spacing: 1.5px; margin-bottom: 12px; text-transform: uppercase;">🛡️ // INSTITUTIONAL PARTNERSHIP</div>
+        <h4 style="margin: 0 0 8px 0; font-family: 'Outfit', sans-serif; font-size: 16px; font-weight: 700; color: #0F172A; text-transform: uppercase;">Trade with Institutional Raw Spreads</h4>
+        <p style="margin: 0 0 18px 0; font-family: 'Outfit', sans-serif; font-size: 12.5px; color: #475569; line-height: 1.5;">
+          Stop paying wide spreads that trigger stop-losses. Open an account with our institutional broker partner to trade Cable and Indices with zero markups.
+        </p>
+        <a href="${postUrl}" target="_blank" style="display: inline-block; padding: 12px 24px; background-color: #F9771D; color: #FFFFFF !important; font-family: ui-monospace, monospace; font-size: 10px; font-weight: bold; text-decoration: none; text-transform: uppercase; border-radius: 0 !important; letter-spacing: 1px;">
+          View Partner Accounts &rarr;
+        </a>
+      </div>
+    `;
+  });
+
+  return html;
+}
+
+export function formatHtmlForEmail(html: string, postUrl: string = "https://drawdown.trading"): string {
   if (!html) return "";
 
-  let styledHtml = html;
+  // Convert raw Markdown and custom MDX components to email-safe HTML first
+  let styledHtml = convertMarkdownToHtml(html, postUrl);
 
   // Replace default elements from Tiptap with inline styled equivalents for robust rendering in email clients (including Outlook)
   // We use inline-styles that match Pete's direct style guidelines perfectly (zero border-radius, hairline borders, sans-serif fonts)
@@ -901,7 +1289,7 @@ export function formatHtmlForEmail(html: string): string {
   // 4. Blockquotes
   styledHtml = styledHtml.replace(
     /<blockquote[^>]*>/g,
-    `<blockquote style="margin: 20px 0; border-left: 3px solid #F9771D; padding: 14px 16px; font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size: 15px; font-style: italic; color: #0F172A; background-color: #FFFBEB; border-radius: 0 !important;">`
+    `<blockquote style="margin: 20px 0; border-left: 3px solid #F9771D; padding: 14px 16px; font-family: ui-monospace, monospace; font-size: 14px; font-style: italic; color: #0F172A; background-color: #F8FAFC; border-radius: 0 !important;">`
   );
 
   // 5. Anchors
@@ -932,9 +1320,9 @@ export function formatHtmlForEmail(html: string): string {
 }
 
 export function getBlogPostEmailTemplate(data: BlogPostEmailData): string {
-  const styledBody = formatHtmlForEmail(data.body);
   const appUrl = process.env.NEXT_PUBLIC_APP_URL || process.env.NEXT_PUBLIC_SITE_URL || "https://drawdown.trading";
   const postUrl = `${appUrl}/blog/${data.slug}`;
+  const styledBody = formatHtmlForEmail(data.body, postUrl);
   const unsubUrl = data.unsubscribeUrl || "{{unsubscribeUrl}}";
 
   return `

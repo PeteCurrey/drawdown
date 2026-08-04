@@ -262,7 +262,7 @@ By focusing on high-volume zones and multi-asset confluence, you move from being
     slug: "strategy-backtester",
     title: "Strategy Backtester",
     tagline: "Stress-test your edge to 2012.",
-    description: "Manual backtesting is prone to bias. Our sub-tick engine runs systematic, emotionless simulations on decade-long data to prove your statistical expectancy.",
+    description: "Manual backtesting is prone to bias. Our engine runs systematic, emotionless simulations on years of historical price data to prove your statistical expectancy.",
     icon: History,
     sections: {
       problem: {
@@ -272,7 +272,7 @@ By focusing on high-volume zones and multi-asset confluence, you move from being
       howItWorks: {
         steps: [
           { title: "Define Logic", description: "Input your exact entry, exit, and risk parameters." },
-          { title: "Select Data", description: "Choose your timeframe and historical range (up to 12 years of tick data)." },
+          { title: "Select Data", description: "Choose your timeframe and historical range (test strategies against years of historical price data)." },
           { title: "Run Simulation", description: "The engine executes thousands of trades in seconds, accounting for spread and slippage." },
           { title: "Review Report", description: "Get a full breakdown of your Sharpe ratio, max drawdown, and recovery factor." }
         ]
@@ -280,7 +280,7 @@ By focusing on high-volume zones and multi-asset confluence, you move from being
       features: {
         title: "Simulation Suite",
         items: [
-          { title: "Tick-Level Precision", description: "Simulate exact price movement within a candle to ensure accurate fills." },
+          { title: "Deep Historical Precision", description: "Simulate exact price movement using deep historical data to ensure accurate statistics." },
           { title: "Monte Carlo Stress Testing", description: "Run 1,000s of 'what if' scenarios to see how your strategy handles random order sequencing." },
           { title: "Variable Spread Modeling", description: "Test your strategy against 'worst-case' liquidity conditions." },
           { title: "Walk-Forward Optimisation", description: "Aprove your strategy on 'out-of-sample' data to prevent curve-fitting." }

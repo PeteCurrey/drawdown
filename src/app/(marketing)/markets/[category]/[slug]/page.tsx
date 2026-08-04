@@ -1,6 +1,21 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ChevronDown, ArrowRight } from "lucide-react";
+import { 
+  ChevronDown, 
+  ArrowRight, 
+  BookOpen, 
+  HelpCircle, 
+  Shield, 
+  Award, 
+  Scale, 
+  Coins, 
+  ExternalLink, 
+  Info,
+  TrendingUp,
+  Sliders,
+  CheckCircle,
+  AlertTriangle 
+} from "lucide-react";
 import { Metadata } from "next";
 import BreadcrumbSchema from "@/components/seo/BreadcrumbSchema";
 
@@ -17,6 +32,15 @@ import { TradingViewChart } from "@/components/markets/TradingViewChart";
 import { TradingViewTechnicalAnalysis } from "@/components/markets/TradingViewTechnicalAnalysis";
 import { TradingViewCalendar } from "@/components/markets/TradingViewCalendar";
 import { TradingViewMiniChart } from "@/components/markets/TradingViewMiniChart";
+
+import { 
+  getRelatedGlossaryTerms, 
+  getRelatedHowToGuides, 
+  getRelatedComparisons,
+  getRelatedInstruments,
+  PageCategory 
+} from "@/lib/taxonomy";
+import { brokers } from "@/data/brokers";
 
 interface PageProps {
   params: Promise<{
@@ -106,6 +130,59 @@ function getSessionRanges(slug: string): { start: number; end: number }[] {
   }
 }
 
+function getBrokersForCategory(category: MarketCategory) {
+  const fcaBrokers = brokers.filter(b => b.fcaRegulated);
+  
+  if (category === "forex" || category === "commodities") {
+    return fcaBrokers.filter(b => b.id === "pepperstone" || b.id === "ig");
+  } else if (category === "indices") {
+    return fcaBrokers.filter(b => b.id === "ig" || b.id === "interactive-brokers");
+  } else {
+    // Crypto: Pepperstone & eToro (retail safe representation)
+    return brokers.filter(b => b.id === "pepperstone" || b.id === "ig" || b.id === "etoro").slice(0, 2);
+  }
+}
+
+function getInstrumentMechanics(slug: string, category: MarketCategory) {
+  const isForexMajor = ["eurusd", "gbpusd", "usdjpy", "eurgbp", "audusd"].includes(slug);
+  
+  if (category === "forex") {
+    return {
+      leverage: isForexMajor ? "30:1 (FCA Retail Limit)" : "20:1 (FCA Retail Limit)",
+      margin: isForexMajor ? "3.33%" : "5.00%",
+      spreadBetting: "Tax-free in the UK, zero stamp duty, traded in pence per point.",
+      cfd: "Subject to Capital Gains Tax (offsettable against losses), traded in contracts.",
+      avgSpread: isForexMajor ? "0.6 - 1.2 pips (Standard)" : "1.2 - 2.0 pips (Standard)",
+    };
+  } else if (category === "commodities") {
+    const isGold = slug === "gold";
+    return {
+      leverage: isGold ? "20:1 (FCA Retail Limit)" : "10:1 (FCA Retail Limit)",
+      margin: isGold ? "5.00%" : "10.00%",
+      spreadBetting: "Tax-free way to speculate on precious metals and energy points without physical custody.",
+      cfd: "Cash-settled contracts, ideal for precise hedging and index correlations.",
+      avgSpread: isGold ? "0.30 - 0.50 points" : "0.03 - 0.05 points",
+    };
+  } else if (category === "indices") {
+    return {
+      leverage: "20:1 (FCA Retail Limit)",
+      margin: "5.00%",
+      spreadBetting: "Highly popular for tax-free UK exposure to FTSE & Wall Street index levels.",
+      cfd: "Flexible position-sizing, standard execution, institutional liquidity.",
+      avgSpread: "1.0 - 2.0 index points",
+    };
+  } else {
+    // Crypto
+    return {
+      leverage: "2:1 (FCA Retail Limit)",
+      margin: "50.00%",
+      spreadBetting: "FCA banned retail crypto derivatives (spread betting/CFDs) for UK residents in 2021. Traded as Spot/Physical assets only for retail clients.",
+      cfd: "FCA banned retail crypto CFDs in the UK. Professional accounts or global offshore entities only (high risk).",
+      avgSpread: slug === "bitcoin" ? "US$20 - US$50" : "US$1.50 - US$3.00",
+    };
+  }
+}
+
 export default async function MarketInstrumentPage({ params }: PageProps) {
   const { slug } = await params;
   const instrument = getInstrumentBySlug(slug);
@@ -117,8 +194,32 @@ export default async function MarketInstrumentPage({ params }: PageProps) {
   const countryFilter = getCountryFilter(instrument.category, instrument.baseCurrency, instrument.quoteCurrency);
   const sessionRanges = getSessionRanges(instrument.slug);
 
+  const mechanics = getInstrumentMechanics(instrument.slug, instrument.category);
+  const recommendedBrokers = getBrokersForCategory(instrument.category);
+  const relatedGlossary = getRelatedGlossaryTerms(instrument.category as PageCategory, instrument.slug, 4);
+  const relatedGuides = getRelatedHowToGuides(instrument.category as PageCategory, instrument.slug, 3);
+
+  // ── JSON-LD: FinancialProduct ──────────────────────────────────────────
+  const financialProductSchema = {
+    "@context": "https://schema.org",
+    "@type": "FinancialProduct",
+    "@id": `https://drawdown.trading/markets/${instrument.category}/${instrument.slug}`,
+    "name": `${instrument.name} (${instrument.displayPair})`,
+    "description": `Real-time rates, margins, leverage limits, trading conditions, and regulatory costs for trading ${instrument.name} (${instrument.displayPair}) under FCA compliance.`,
+    "feesAndCommissionsSpecification": `https://drawdown.trading/markets/${instrument.category}/${instrument.slug}#specifications`,
+    "offers": {
+      "@type": "Offer",
+      "priceCurrency": "GBP",
+      "price": "0",
+      "valueAddedTaxIncluded": "false"
+    }
+  };
+
   return (
     <>
+      {/* JSON-LD Schemas */}
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(financialProductSchema) }} />
+
       <BreadcrumbSchema items={[
         { name: 'Home', url: 'https://drawdown.trading' },
         { name: 'Markets', url: 'https://drawdown.trading/markets' },
@@ -197,6 +298,89 @@ export default async function MarketInstrumentPage({ params }: PageProps) {
           <span className="inline-block bg-white/5 border border-white/10 rounded-full px-5 py-2 text-xs font-mono tracking-widest text-[#C8F135]">
             PEAK HOURS: {instrument.sessionPeak}
           </span>
+        </div>
+      </section>
+
+      {/* SECTION 2.5: TRADING MECHANICS */}
+      <section className="py-16 border-t border-b border-white/5 bg-[#0C0C0C]">
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="text-center space-y-4 mb-12">
+            <span className="text-[11px] font-mono font-bold text-[#C8F135] uppercase tracking-widest block">
+              // INSTRUMENT SPECIFICATIONS
+            </span>
+            <h2 className="text-2xl md:text-3xl font-sans font-extrabold text-white tracking-tight">
+              How to Trade {instrument.displayPair}: Specifications & Costs
+            </h2>
+            <p className="text-sm text-white/50 max-w-2xl mx-auto font-sans leading-relaxed">
+              UK retail trading is primarily divided into Spread Betting and Contracts for Difference (CFDs). Here is the mechanical baseline for {instrument.displayPair} under FCA regulation.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {/* Leverage & Margin */}
+            <div className="bg-white/[0.01] border border-white/5 rounded-2xl p-6 hover:border-[#C8F135]/20 transition-all duration-300">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="p-2 rounded-lg bg-[#C8F135]/10 text-[#C8F135]">
+                  <Sliders className="w-5 h-5" />
+                </div>
+                <h3 className="font-sans font-bold text-white text-base">Leverage & Margin</h3>
+              </div>
+              <div className="space-y-3 font-sans">
+                <div className="flex justify-between border-b border-white/5 pb-2 text-sm">
+                  <span className="text-white/40">Max Leverage</span>
+                  <span className="text-white font-mono font-semibold">{mechanics.leverage}</span>
+                </div>
+                <div className="flex justify-between border-b border-white/5 pb-2 text-sm">
+                  <span className="text-white/40">Margin Required</span>
+                  <span className="text-white font-mono font-semibold">{mechanics.margin}</span>
+                </div>
+                <p className="text-xs text-white/40 leading-relaxed mt-2">
+                  Leverage limits are capped by the Financial Conduct Authority (FCA) to protect retail clients from excessive capital drawdowns.
+                </p>
+              </div>
+            </div>
+
+            {/* Spread Betting */}
+            <div className="bg-white/[0.01] border border-white/5 rounded-2xl p-6 hover:border-[#C8F135]/20 transition-all duration-300">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="p-2 rounded-lg bg-[#C8F135]/10 text-[#C8F135]">
+                  <Scale className="w-5 h-5" />
+                </div>
+                <h3 className="font-sans font-bold text-white text-base">Spread Betting</h3>
+              </div>
+              <div className="space-y-2 font-sans">
+                <div className="flex justify-between border-b border-white/5 pb-2 text-sm">
+                  <span className="text-white/40">Tax Status</span>
+                  <span className="text-[#C8F135] font-bold">100% Tax-Free*</span>
+                </div>
+                <p className="text-xs text-white/60 leading-relaxed">
+                  {mechanics.spreadBetting}
+                </p>
+                <p className="text-[10px] text-white/30 leading-relaxed mt-1">
+                  *Tax treatment depends on individual circumstances and may change. UK jurisdiction only.
+                </p>
+              </div>
+            </div>
+
+            {/* CFDs */}
+            <div className="bg-white/[0.01] border border-white/5 rounded-2xl p-6 hover:border-[#C8F135]/20 transition-all duration-300">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="p-2 rounded-lg bg-[#C8F135]/10 text-[#C8F135]">
+                  <Coins className="w-5 h-5" />
+                </div>
+                <h3 className="font-sans font-bold text-white text-base">CFD Trading</h3>
+              </div>
+              <div className="space-y-2 font-sans">
+                <div className="flex justify-between border-b border-white/5 pb-2 text-sm">
+                  <span className="text-white/40">Typical Spreads</span>
+                  <span className="text-white font-mono font-semibold">{mechanics.avgSpread}</span>
+                </div>
+                <p className="text-xs text-white/60 leading-relaxed">
+                  {mechanics.cfd}
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -353,6 +537,84 @@ export default async function MarketInstrumentPage({ params }: PageProps) {
         </div>
       </section>
 
+      {/* SECTION 5.5: RECOMMENDED BROKERS */}
+      <section className="py-24 max-w-7xl mx-auto px-6 lg:px-16 border-b border-white/5 bg-[#080808]/40">
+        <div className="space-y-4 mb-12 text-center md:text-left">
+          <span className="text-[11px] font-sans font-bold text-white/40 uppercase tracking-widest block">
+            // COMPLIANT BROKER SELECTION
+          </span>
+          <h2 className="text-2xl md:text-3xl font-sans font-extrabold text-white tracking-tight">
+            Recommended Brokers for {instrument.displayPair}
+          </h2>
+          <p className="text-sm text-white/60 font-sans max-w-2xl leading-relaxed">
+            Every listed broker is thoroughly vetted and holds direct authorization from the Financial Conduct Authority (FCA) for UK residents, featuring secure segregated client funds, FSCS protection, and negative balance protection.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {recommendedBrokers.map((broker) => (
+            <div 
+              key={broker.id}
+              className="bg-white/[0.01] rounded-2xl border border-white/5 p-6 lg:p-8 hover:border-[#C8F135]/30 hover:bg-white/[0.02] transition-all duration-300 flex flex-col justify-between group"
+            >
+              <div className="space-y-6">
+                {/* Broker Header */}
+                <div className="flex justify-between items-start">
+                  <div>
+                    <h3 className="text-xl font-bold text-white font-sans">{broker.name}</h3>
+                    <p className="text-xs text-white/50 font-sans mt-1">{broker.oneLine}</p>
+                  </div>
+                  <span className="bg-[#C8F135]/10 text-[#C8F135] border border-[#C8F135]/20 text-[10px] font-mono px-2.5 py-1 rounded-full uppercase tracking-wider font-semibold">
+                    {broker.category} Choice
+                  </span>
+                </div>
+
+                {/* Rating & Stats */}
+                <div className="grid grid-cols-2 gap-4 py-4 border-y border-white/5 font-sans">
+                  <div>
+                    <span className="text-xs text-white/40 block">Minimum Deposit</span>
+                    <span className="text-sm font-bold text-white font-mono mt-0.5 block">{broker.minDeposit}</span>
+                  </div>
+                  <div>
+                    <span className="text-xs text-white/40 block">Typical Spreads</span>
+                    <span className="text-sm font-bold text-white font-mono mt-0.5 block">{broker.spreads}</span>
+                  </div>
+                </div>
+
+                {/* Pros list */}
+                <div className="space-y-2 font-sans">
+                  <span className="text-[10px] uppercase font-mono tracking-wider text-white/40">Key Highlights</span>
+                  {broker.pros.slice(0, 3).map((pro, index) => (
+                    <div key={index} className="flex gap-2.5 items-start">
+                      <CheckCircle className="w-3.5 h-3.5 text-[#C8F135] shrink-0 mt-0.5" />
+                      <span className="text-xs text-white/80">{pro}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="flex gap-3 pt-8 mt-6 border-t border-white/5">
+                <Link
+                  href={broker.affiliateUrl}
+                  target="_blank"
+                  rel="noopener noreferrer sponsored"
+                  className="flex-grow flex items-center justify-center gap-1.5 px-4 py-3 bg-[#C8F135] text-black font-bold text-xs tracking-wider rounded-lg hover:opacity-95 font-sans uppercase transition-all"
+                >
+                  Open Account <ExternalLink className="w-3.5 h-3.5" />
+                </Link>
+                <Link
+                  href={`/compare/spread-betting-vs-cfds`}
+                  className="px-4 py-3 border border-white/10 text-white font-bold text-xs tracking-wider rounded-lg hover:bg-white/5 font-sans uppercase transition-all"
+                >
+                  Review
+                </Link>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
       {/* SECTION 6: DRAWDOWN CONTEXT */}
       <section className="py-24 max-w-5xl mx-auto px-6 lg:px-16">
         <div className="bg-white/[0.02] rounded-2xl border border-white/8 p-8 lg:p-12 border-l-4 border-l-[#C8F135] relative overflow-hidden">
@@ -428,49 +690,143 @@ export default async function MarketInstrumentPage({ params }: PageProps) {
         </div>
       </section>
 
-      {/* SECTION 7: RELATED MARKETS */}
-      <section className="py-24 max-w-7xl mx-auto px-6 lg:px-16 border-t border-white/5">
-        <h2 className="text-xl md:text-2xl font-sans font-bold text-white mb-8">
-          Related Markets
-        </h2>
+      {/* SECTION 7: RELATED CONTENT GRAPH */}
+      <section className="py-24 border-t border-white/5 bg-[#090909]">
+        <div className="max-w-7xl mx-auto px-6 lg:px-16 space-y-16">
+          
+          {/* Related Markets Sub-section */}
+          <div className="space-y-8">
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+              <div>
+                <span className="text-[10px] font-mono font-bold text-[#C8F135] uppercase tracking-widest block mb-1">
+                  // GRAPH CROSS-LINKS
+                </span>
+                <h2 className="text-xl md:text-2xl font-sans font-bold text-white">
+                  Related Markets
+                </h2>
+              </div>
+              <span className="text-xs text-white/40 font-mono">3 SIBLING INSTRUMENTS</span>
+            </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {instrument.relatedSlugs.map(slug => {
-            const rel = getInstrumentBySlug(slug);
-            if (!rel) return null;
-            return (
-              <Link 
-                key={rel.slug}
-                href={`/markets/${rel.category}/${rel.slug}`}
-                className="bg-white/[0.02] rounded-xl border border-white/8 p-6 hover:border-white/20 hover:-translate-y-0.5 transition-all duration-300 flex flex-col justify-between group cursor-pointer"
-              >
-                <div>
-                  <div className="flex justify-between items-center mb-4">
-                    <span className="font-mono text-lg font-bold text-white tracking-tight">
-                      {rel.displayPair}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {getRelatedInstruments(instrument.category as PageCategory, instrument.slug, 3).map(rel => (
+                <Link 
+                  key={rel.slug}
+                  href={`/markets/${rel.category}/${rel.slug}`}
+                  className="bg-white/[0.01] rounded-xl border border-white/5 p-6 hover:border-[#C8F135]/20 hover:-translate-y-0.5 transition-all duration-300 flex flex-col justify-between group cursor-pointer"
+                >
+                  <div>
+                    <div className="flex justify-between items-center mb-4">
+                      <span className="font-mono text-lg font-bold text-white tracking-tight group-hover:text-[#C8F135] transition-colors">
+                        {rel.displayPair}
+                      </span>
+                      <span className="text-[10px] font-mono uppercase bg-white/5 border border-white/10 px-2 py-0.5 rounded text-white/50">
+                        {rel.category}
+                      </span>
+                    </div>
+                    
+                    {/* Mini Chart Embed */}
+                    <div className="w-full h-[180px] rounded-lg overflow-hidden bg-[#0A0A0A]">
+                      <TradingViewMiniChart 
+                        symbol={rel.ticker}
+                        largeChartUrl={`https://drawdown.trading/markets/${rel.category}/${rel.slug}`}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="mt-4 pt-4 border-t border-white/5">
+                    <span className="text-xs text-white/50 block uppercase tracking-wider font-sans font-semibold">
+                      {rel.name}
+                    </span>
+                    <span className="text-xs text-[#C8F135] font-bold block mt-1.5">
+                      View Analysis &rarr;
                     </span>
                   </div>
-                  
-                  {/* Mini Chart Embed */}
-                  <div className="w-full h-[200px] rounded-lg overflow-hidden bg-[#0A0A0A]">
-                    <TradingViewMiniChart 
-                      symbol={rel.ticker}
-                      largeChartUrl={`https://drawdown.trading/markets/${rel.category}/${rel.slug}`}
-                    />
-                  </div>
-                </div>
+                </Link>
+              ))}
+            </div>
+          </div>
 
-                <div className="mt-4 pt-4 border-t border-white/5">
-                  <span className="text-xs text-white/50 block uppercase tracking-wider font-sans font-semibold">
-                    {rel.name}
-                  </span>
-                  <span className="text-xs text-[#C8F135] font-bold block mt-1.5">
-                    View Analysis &rarr;
-                  </span>
+          {/* Sibling Glossary Terms */}
+          {relatedGlossary.length > 0 && (
+            <div className="space-y-8 pt-8 border-t border-white/5">
+              <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+                <div>
+                  <h2 className="text-xl md:text-2xl font-sans font-bold text-white flex items-center gap-2">
+                    <BookOpen className="w-5 h-5 text-[#C8F135]" /> Essential Jargon & Terms
+                  </h2>
+                  <p className="text-xs text-white/50 font-sans mt-1">Core terminology to master before executing high-leverage orders.</p>
                 </div>
-              </Link>
-            );
-          })}
+                <span className="text-xs text-white/40 font-mono">GLOSSARY NODES</span>
+              </div>
+
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                {relatedGlossary.map(term => (
+                  <Link
+                    key={term.slug}
+                    href={`/glossary/${term.slug}`}
+                    className="bg-white/[0.01] border border-white/5 rounded-xl p-5 hover:border-[#C8F135]/20 hover:bg-white/[0.02] transition-all duration-300 group block"
+                  >
+                    <h3 className="text-sm font-sans font-bold text-white group-hover:text-[#C8F135] transition-colors">
+                      {term.term}
+                    </h3>
+                    <p className="text-xs text-white/50 mt-1 line-clamp-2 leading-relaxed">
+                      {term.definition}
+                    </p>
+                    <span className="text-[10px] text-white/30 font-semibold uppercase tracking-widest block mt-3 group-hover:text-[#C8F135] transition-colors">
+                      View Term &rarr;
+                    </span>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Sibling How-To Guides */}
+          {relatedGuides.length > 0 && (
+            <div className="space-y-8 pt-8 border-t border-white/5">
+              <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+                <div>
+                  <h2 className="text-xl md:text-2xl font-sans font-bold text-white flex items-center gap-2">
+                    <HelpCircle className="w-5 h-5 text-[#C8F135]" /> Tactical Guides & How-Tos
+                  </h2>
+                  <p className="text-xs text-white/50 font-sans mt-1">Step-by-step procedural playbooks for applying curriculum elements in real conditions.</p>
+                </div>
+                <span className="text-xs text-white/40 font-mono">PRACTICAL PLAYBOOKS</span>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {relatedGuides.map(guide => (
+                  <Link
+                    key={guide.slug}
+                    href={`/how-to/${guide.slug}`}
+                    className="bg-white/[0.01] border border-white/5 rounded-xl p-6 hover:border-[#C8F135]/20 hover:bg-white/[0.02] transition-all duration-300 group flex flex-col justify-between"
+                  >
+                    <div>
+                      <div className="flex gap-2 items-center mb-3">
+                        <span className="text-[9px] font-mono px-2 py-0.5 bg-[#C8F135]/10 text-[#C8F135] border border-[#C8F135]/20 rounded-full uppercase">
+                          {guide.difficulty}
+                        </span>
+                        <span className="text-[9px] font-mono text-white/40">
+                          {guide.readingTime} MIN READ
+                        </span>
+                      </div>
+                      <h3 className="text-base font-sans font-bold text-white group-hover:text-[#C8F135] transition-colors leading-tight">
+                        {guide.title}
+                      </h3>
+                      <p className="text-xs text-white/50 mt-2 line-clamp-2 leading-relaxed font-sans">
+                        {guide.metaDescription}
+                      </p>
+                    </div>
+                    <span className="text-xs text-white/40 font-bold block mt-4 group-hover:text-[#C8F135] transition-colors">
+                      Read Guide &rarr;
+                    </span>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )}
+
         </div>
       </section>
 

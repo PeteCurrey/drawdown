@@ -5,6 +5,7 @@ import { MacroIntelligenceStrip } from "@/components/home/MacroIntelligenceStrip
 import { ScrollQuoteSection } from "@/components/home/ScrollQuoteSection";
 import { InstitutionalPulseSection } from "@/components/home/InstitutionalPulseSection";
 import { InstitutionalConsensusSection } from "@/components/home/InstitutionalConsensusSection";
+import { MarketCallPromoSection } from "@/components/home/MarketCallPromoSection";
 import { GlobalFluxSection } from "@/components/home/GlobalFluxSection";
 import { MarketPulse } from "@/components/home/MarketPulse";
 import { CurriculumSection } from "@/components/home/CurriculumSection";
@@ -156,6 +157,9 @@ export default async function Home() {
 
         {/* 9. Market Consensus Accumulation Matrix */}
         <InstitutionalConsensusSection />
+
+        {/* Weekly Market Call Free Prediction Game */}
+        <MarketCallPromoSection />
 
         {/* 10. Global Flux Sparklines & TradingView Partnership CTA */}
         <GlobalFluxSection />

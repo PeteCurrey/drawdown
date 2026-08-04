@@ -1,3 +1,13 @@
+export interface ChallengeTier {
+  size: string;
+  fee: string;
+  profitTarget: string;
+  maxDrawdown: string;
+  dailyDrawdown: string;
+  split: string;
+  timeLimit: string;
+}
+
 export interface PropFirm {
   id: string;
   name: string;
@@ -12,6 +22,9 @@ export interface PropFirm {
   cons: string[];
   affiliateUrl: string;
   verdict: string;
+  isPathwayPartner?: boolean;
+  founderVerified?: boolean;
+  challengeTiers?: ChallengeTier[];
 }
 
 export const propFirms: PropFirm[] = [
@@ -28,7 +41,15 @@ export const propFirms: PropFirm[] = [
     pros: ["Longest track record in the industry", "Very reliable payouts", "Excellent proprietary apps"],
     cons: ["Strict daily drawdown rules", "Higher challenge fees than competitors"],
     affiliateUrl: "/go/ftmo",
-    verdict: "The gold standard for prop trading. If you can pass here, you're the real deal."
+    verdict: "The gold standard for prop trading. If you can pass here, you're the real deal.",
+    isPathwayPartner: true,
+    founderVerified: true,
+    challengeTiers: [
+      { size: "$10,000", fee: "€155", profitTarget: "10% (Phase 1) / 5% (Phase 2)", maxDrawdown: "10%", dailyDrawdown: "5%", split: "80/20", timeLimit: "Unlimited" },
+      { size: "$25,000", fee: "€250", profitTarget: "10% (Phase 1) / 5% (Phase 2)", maxDrawdown: "10%", dailyDrawdown: "5%", split: "80/20", timeLimit: "Unlimited" },
+      { size: "$50,000", fee: "€345", profitTarget: "10% (Phase 1) / 5% (Phase 2)", maxDrawdown: "10%", dailyDrawdown: "5%", split: "80/20", timeLimit: "Unlimited" },
+      { size: "$100,000", fee: "€540", profitTarget: "10% (Phase 1) / 5% (Phase 2)", maxDrawdown: "10%", dailyDrawdown: "5%", split: "80/20", timeLimit: "Unlimited" }
+    ]
   },
   {
     id: "the5ers",
@@ -43,7 +64,14 @@ export const propFirms: PropFirm[] = [
     pros: ["Unique hyper-growth scaling plan", "Low entry cost", "Real capital allocation (not just demo)"],
     cons: ["Scaling takes time", "Initial profit splits are lower"],
     affiliateUrl: "/go/the5ers",
-    verdict: "Top Pick. The best choice for disciplined traders who want to scale into millions."
+    verdict: "Top Pick. The best choice for disciplined traders who want to scale into millions.",
+    isPathwayPartner: true,
+    founderVerified: false,
+    challengeTiers: [
+      { size: "$10,000 (High Stakes)", fee: "$39", profitTarget: "8% (Phase 1) / 5% (Phase 2)", maxDrawdown: "10%", dailyDrawdown: "5%", split: "80/20", timeLimit: "Unlimited" },
+      { size: "$20,000 (Bootcamp)", fee: "$95 (€85)", profitTarget: "6% per stage (3 stages)", maxDrawdown: "4%", dailyDrawdown: "None", split: "50/50 to 100/0", timeLimit: "12 Months" },
+      { size: "$100,000 (Bootcamp)", fee: "$225", profitTarget: "6% per stage (3 stages)", maxDrawdown: "4%", dailyDrawdown: "None", split: "50/50 to 100/0", timeLimit: "12 Months" }
+    ]
   },
   {
     id: "funding-pips",
@@ -57,8 +85,16 @@ export const propFirms: PropFirm[] = [
     isRegulated: false,
     pros: ["Most competitive pricing", "Simple rules", "Fast payout processing"],
     cons: ["Relatively new firm", "Smaller maximum funding per account"],
-    affiliateUrl: "https://fundingpips.com",
-    verdict: "The price leader. Great for those starting with limited capital."
+    affiliateUrl: "/go/funding-pips",
+    verdict: "The price leader. Great for those starting with limited capital.",
+    isPathwayPartner: true,
+    founderVerified: false,
+    challengeTiers: [
+      { size: "$5,000", fee: "$32", profitTarget: "8% (Phase 1) / 5% (Phase 2)", maxDrawdown: "10%", dailyDrawdown: "5%", split: "80/20 to 90/10", timeLimit: "Unlimited" },
+      { size: "$10,000", fee: "$60", profitTarget: "8% (Phase 1) / 5% (Phase 2)", maxDrawdown: "10%", dailyDrawdown: "5%", split: "80/20 to 90/10", timeLimit: "Unlimited" },
+      { size: "$25,000", fee: "$139", profitTarget: "8% (Phase 1) / 5% (Phase 2)", maxDrawdown: "10%", dailyDrawdown: "5%", split: "80/20 to 90/10", timeLimit: "Unlimited" },
+      { size: "$100,000", fee: "$399", profitTarget: "8% (Phase 1) / 5% (Phase 2)", maxDrawdown: "10%", dailyDrawdown: "5%", split: "80/20 to 90/10", timeLimit: "Unlimited" }
+    ]
   },
   {
     id: "myfundedfx",

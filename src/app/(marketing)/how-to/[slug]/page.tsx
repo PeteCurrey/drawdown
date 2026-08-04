@@ -2,11 +2,18 @@ import { redirect } from "next/navigation";
 import { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
-import { ChevronRight, Clock, AlertTriangle, ArrowRight, BookOpen } from "lucide-react";
+import { ChevronRight, Clock, AlertTriangle, ArrowRight, BookOpen, Calculator, Activity } from "lucide-react";
 import { TrackPageView } from "@/components/admin/TrackPageView";
 import { DifficultyBadge } from "@/components/how-to/DifficultyBadge";
 import { Prerequisites } from "@/components/how-to/Prerequisites";
 import { createInternalSupabase } from "@/lib/supabase/server";
+import {
+  getCategoryForNode,
+  getRelatedGlossaryTerms,
+  getRelatedHowToGuides,
+  getRelatedInstruments,
+  PageCategory,
+} from "@/lib/taxonomy";
 
 export const dynamicParams = true;
 
@@ -99,6 +106,11 @@ export default async function HowToPage({ params }: Props) {
   if (!page) {
     redirect('/learn-to-trade');
   }
+
+  const category = getCategoryForNode(slug, 'how-to');
+  const relatedTerms = getRelatedGlossaryTerms(category, slug, 4);
+  const relatedMarkets = getRelatedInstruments(category, slug, 3);
+  const relatedGuides = getRelatedHowToGuides(category, slug, 3);
 
 
   // ── JSON-LD: HowTo ──────────────────────────────────────────────────────────
@@ -332,6 +344,124 @@ export default async function HowToPage({ params }: Props) {
               </div>
             </section>
           )}
+
+          {/* POSITION SIZING CALCULATOR CTA */}
+          <section className="mb-24 p-8 lg:p-10 rounded-2xl bg-gradient-to-r from-accent/5 to-accent/[0.01] border border-accent/20 relative overflow-hidden group">
+            <div className="absolute top-0 right-0 p-8 opacity-[0.03] group-hover:opacity-[0.06] transition-opacity duration-300 pointer-events-none select-none">
+              <Calculator className="w-48 h-48 text-accent" />
+            </div>
+            <div className="max-w-2xl space-y-4 relative z-10 font-sans">
+              <span className="text-[10px] font-mono font-bold text-accent uppercase tracking-widest block">
+                // COMPLIANCE & RISK BASICS
+              </span>
+              <h3 className="text-2xl font-sans font-extrabold text-text-primary tracking-tight">
+                Calculate Your Drawdown Risk in Real-Time
+              </h3>
+              <p className="text-sm text-text-secondary leading-relaxed">
+                Risk-first trading dictates that you should never enter a position without knowing your exact downside exposure. Use our FCA-aligned Position Sizing calculator to calculate exact lot sizes, margins, and pip values.
+              </p>
+              <div className="pt-4 flex flex-col sm:flex-row gap-4">
+                <Link
+                  href="/tools"
+                  className="inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-accent text-background-primary text-xs font-mono uppercase tracking-wider font-bold rounded hover:opacity-90 transition-all"
+                >
+                  <Calculator className="w-4.5 h-4.5" /> Launch Risk Calculator
+                </Link>
+                <Link
+                  href="/glossary/position-sizing"
+                  className="inline-flex items-center justify-center px-6 py-3.5 border border-border-slate/40 text-text-primary text-xs font-mono uppercase tracking-wider font-bold rounded hover:bg-white/5 transition-all"
+                >
+                  Read Position Sizing Mechanics
+                </Link>
+              </div>
+            </div>
+          </section>
+
+          {/* RELATED CONTENT GRAPH */}
+          <div className="space-y-12 border-t border-border-slate/30 pt-12 mb-24">
+            
+            {/* Sibling Guides */}
+            {relatedGuides.length > 0 && (
+              <div>
+                <h2 className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary mb-6 flex items-center gap-2">
+                  <BookOpen className="w-4 h-4 text-accent" /> Sister Guides & Playbooks
+                </h2>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                  {relatedGuides.map((g) => (
+                    <Link 
+                      key={g.slug} 
+                      href={`/how-to/${g.slug}`}
+                      className="p-5 bg-background-elevated/20 border border-border-slate/40 rounded-xl hover:border-accent hover:bg-background-elevated/40 transition-all duration-300 group flex flex-col justify-between"
+                    >
+                      <div>
+                        <span className="text-[9px] font-mono px-2 py-0.5 bg-accent/10 text-accent border border-accent/20 rounded-full uppercase inline-block mb-3">
+                          {g.difficulty}
+                        </span>
+                        <h3 className="text-sm font-sans font-bold text-text-primary group-hover:text-accent transition-colors leading-snug">
+                          {g.title}
+                        </h3>
+                        <p className="text-xs text-text-secondary mt-1.5 line-clamp-2 leading-relaxed font-sans">
+                          {g.metaDescription}
+                        </p>
+                      </div>
+                      <span className="text-xs text-text-tertiary font-semibold block mt-4 group-hover:text-accent transition-colors">
+                        Read Guide &rarr;
+                      </span>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Related Tradeable Instruments */}
+            {relatedMarkets.length > 0 && (
+              <div className="pt-8 border-t border-border-slate/20">
+                <h2 className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary mb-6 flex items-center gap-2">
+                  <Activity className="w-4 h-4 text-accent" /> Relevant Markets
+                </h2>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                  {relatedMarkets.map((m) => (
+                    <Link 
+                      key={m.slug} 
+                      href={`/markets/${m.category}/${m.slug}`}
+                      className="p-4 bg-background-elevated/20 border border-border-slate/40 rounded-xl hover:border-accent hover:bg-background-elevated/40 transition-all duration-300 group flex justify-between items-center"
+                    >
+                      <div>
+                        <span className="font-mono text-xs font-bold text-text-primary group-hover:text-accent transition-colors">
+                          {m.displayPair}
+                        </span>
+                        <span className="text-[10px] text-text-tertiary block mt-0.5 font-sans font-medium uppercase tracking-wider">
+                          {m.name}
+                        </span>
+                      </div>
+                      <ArrowRight className="w-4 h-4 text-text-tertiary group-hover:text-accent group-hover:translate-x-0.5 transition-all" />
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Sibling Glossary Terms */}
+            {relatedTerms.length > 0 && (
+              <div className="pt-8 border-t border-border-slate/20">
+                <h2 className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary mb-6 flex items-center gap-2">
+                  <BookOpen className="w-4 h-4 text-accent" /> Sibling Terminology
+                </h2>
+                <div className="flex flex-wrap gap-3">
+                  {relatedTerms.map((t) => (
+                    <Link
+                      key={t.slug}
+                      href={`/glossary/${t.slug}`}
+                      className="px-4 py-2 bg-background-surface/40 backdrop-blur-md border border-border-slate/50 transition-all duration-300 hover:shadow-[0_0_20px_rgba(0,0,0,0.2)] hover:border-border-slate hover:border-accent hover:text-accent text-xs font-mono text-text-secondary"
+                    >
+                      {t.term}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )}
+
+          </div>
 
           {/* Next Step CTA (new field) or generic CTA */}
           {page.nextStep ? (

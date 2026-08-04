@@ -175,7 +175,7 @@ for (const file of mdxFiles) {
         is_published: true,
         author_id: authorId,
         related_post_slugs: fm.internalLinks || [],
-        dark_background: false,
+        dark_background: fm.dark_background ?? false,
       },
       { onConflict: 'slug' }
     )

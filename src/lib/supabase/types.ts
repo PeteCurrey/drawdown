@@ -26,6 +26,9 @@ export interface Database {
           has_onboarded: boolean
           updated_at: string | null
           created_at: string
+          challenge_status: 'not_started' | 'in_progress' | 'passed' | 'failed' | 'funded'
+          challenge_prop_firm_id: string | null
+          challenge_tier: string | null
         }
         Insert: {
           id: string
@@ -43,6 +46,9 @@ export interface Database {
           has_onboarded?: boolean
           updated_at?: string | null
           created_at?: string
+          challenge_status?: 'not_started' | 'in_progress' | 'passed' | 'failed' | 'funded'
+          challenge_prop_firm_id?: string | null
+          challenge_tier?: string | null
         }
         Update: {
           id?: string
@@ -60,6 +66,9 @@ export interface Database {
           has_onboarded?: boolean
           updated_at?: string | null
           created_at?: string
+          challenge_status?: 'not_started' | 'in_progress' | 'passed' | 'failed' | 'funded'
+          challenge_prop_firm_id?: string | null
+          challenge_tier?: string | null
         }
       }
       curriculum_modules: {

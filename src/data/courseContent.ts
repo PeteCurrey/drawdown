@@ -896,7 +896,7 @@ export const courseContent: Record<string, Record<string, ModuleContent>> = {
       notes: `
         <h2>Automated Backtesting and Optimization</h2>
         <p>
-          Once you code your strategy rules in Pine Script, you can run them against a decade of tick data in seconds using TradingView's <strong>Strategy Tester</strong>. This module covers how to interpret the results and stress-test performance.
+          Once you code your strategy rules in Pine Script, you can run them against years of historical price data in seconds using TradingView's <strong>Strategy Tester</strong>. This module covers how to interpret the results and stress-test performance.
         </p>
         <div class="p-6 bg-accent/5 border-l-2 border-accent my-6">
           <strong>Backtest Note:</strong> Do not fall into the trap of over-optimizing parameters (curve fitting) to achieve a perfect backtest curve. We cover manual verification workflows; check out the <a href="/courses/the-backtester/module-2">Manual Backtesting workflow</a> to compare results.

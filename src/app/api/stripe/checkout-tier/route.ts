@@ -32,6 +32,21 @@ export async function POST(request: NextRequest) {
     let mode: "subscription" | "payment" = "subscription";
 
     if (tier === "accelerator") {
+      // Enforce strict seat_cap checks (blocking new checkouts if paid seats >= 15)
+      const { count, error: countError } = await supabase
+        .from("accelerator_enrolments")
+        .select("*", { count: "exact", head: true })
+        .eq("payment_status", "paid");
+
+      if (countError) {
+        console.error("Error counting active seats:", countError);
+      } else if (count !== null && count >= 15) {
+        return NextResponse.json(
+          { error: "THE COHORT HAS REACHED SEAT CAPACITY (15/15). REGISTER TO THE WAITLIST TO SECURE THE NEXT COHORT SLOT." },
+          { status: 403 }
+        );
+      }
+
       priceId = (pricesForTier as any).oneTime[region] || (pricesForTier as any).oneTime["gbp"];
       mode = "payment";
     } else {

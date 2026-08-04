@@ -55,6 +55,8 @@ export default function DashboardPage() {
   const [watchlistItems, setWatchlistItems] = useState<string[]>([]);
   const [watchlistLoading, setWatchlistLoading] = useState(true);
   const [userCurrency, setUserCurrency] = useState<string>("USD");
+  const [hasAccelerator, setHasAccelerator] = useState<boolean>(false);
+  const [acceleratorWeek, setAcceleratorWeek] = useState<number>(1);
 
   // Redesign state: Selected Instrument + Timeframe
   const [selectedInst, setSelectedInst] = useState(INSTRUMENTS_LIST[0]);
@@ -374,6 +376,19 @@ export default function DashboardPage() {
         
         setWatchlistItems(symbolsToFetch);
         setWatchlistLoading(false);
+
+        // Fetch Institutional Accelerator enrolment status
+        const { data: accEnrolment } = await supabase
+          .from("accelerator_enrolments")
+          .select("current_week")
+          .eq("user_id", user.id)
+          .eq("payment_status", "paid")
+          .maybeSingle();
+
+        if (accEnrolment) {
+          setHasAccelerator(true);
+          setAcceleratorWeek((accEnrolment as any).current_week);
+        }
       } catch (err) {
         console.error(err);
       } finally {
@@ -448,7 +463,7 @@ export default function DashboardPage() {
       <InstrumentIntelligenceCard instrument={selectedInst} interval={selectedInterval} />
 
       {/* PHASE 3 — Overview Dashboard Card Grid */}
-      <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+      <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
         
         {/* Card 1: Learning Progress */}
         <div className="bg-white border border-[#EDEDED] rounded-2xl p-5 shadow-[0_2px_12px_rgba(0,0,0,0.06)] flex flex-col justify-between min-h-[220px] transition-all hover:shadow-[0_8px_24px_rgba(0,0,0,0.10)] hover:-translate-y-1 duration-200">
@@ -532,6 +547,71 @@ export default function DashboardPage() {
 
         {/* Card 5: Watchlist Summary */}
         <WatchlistSummary initialSymbols={watchlistItems} userCurrency={userCurrency} />
+
+        {/* Card 6: Weekly Market Call prediction game */}
+        <div className="bg-white border border-[#EDEDED] rounded-2xl p-5 shadow-[0_2px_12px_rgba(0,0,0,0.06)] flex flex-col justify-between min-h-[220px] transition-all hover:shadow-[0_8px_24px_rgba(0,0,0,0.10)] hover:-translate-y-1 duration-200">
+          <div>
+            <div className="flex justify-between items-start mb-4">
+              <h5 className="font-semibold text-sm text-[#1A1A1A]">Market Call</h5>
+              <Link href="/dashboard/market-call" className="text-xs text-[#555550] hover:text-[#1A1A1A]">↗</Link>
+            </div>
+            
+            <div className="space-y-2">
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[8px] font-mono font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 uppercase tracking-wider">
+                <Trophy className="w-2.5 h-2.5 text-emerald-600" /> Free to Play
+              </span>
+              <p className="text-xs text-[#555550] leading-normal line-clamp-3">
+                Forecast week closing directions. Accumulate scoreboard points, build consistency, and win free Edge Tier!
+              </p>
+            </div>
+          </div>
+
+          <div className="pt-3 border-t border-[#EDEDED] flex justify-between items-center text-[9px] font-mono text-[#555550]">
+            <span>Weekly Round</span>
+            <span className="text-[#18B880] font-bold uppercase">LEDGER OPEN</span>
+          </div>
+        </div>
+
+        {/* Card 7: Institutional Accelerator */}
+        {hasAccelerator && (
+          <div className="bg-white border border-[#EDEDED] rounded-2xl p-5 shadow-[0_2px_12px_rgba(0,0,0,0.06)] flex flex-col justify-between min-h-[220px] transition-all hover:shadow-[0_8px_24px_rgba(0,0,0,0.10)] hover:-translate-y-1 duration-200">
+            <div>
+              <div className="flex justify-between items-start mb-4">
+                <h5 className="font-semibold text-sm text-[#1A1A1A]">Accelerator</h5>
+                <Link href="/dashboard/accelerator" className="text-xs text-[#555550] hover:text-[#1A1A1A]">↗</Link>
+              </div>
+              
+              <div className="space-y-3">
+                <div className="text-[10px] font-mono uppercase text-accent tracking-widest leading-none">
+                  // COHORT ACTIVE
+                </div>
+                <p className="text-xs text-[#555550] leading-normal line-clamp-3">
+                  Systematic trading development & performance coaching cohort.
+                </p>
+              </div>
+            </div>
+
+            <div className="space-y-3">
+              <div>
+                <div className="flex justify-between text-[10px] font-mono text-[#555550] mb-1">
+                  <span>Progress</span>
+                  <span>Week {acceleratorWeek} / 6</span>
+                </div>
+                <div className="w-full h-1.5 bg-[#F0F0F0] rounded-full overflow-hidden">
+                  <div 
+                    className="h-full bg-accent transition-all duration-500" 
+                    style={{ width: `${Math.round(((acceleratorWeek - 1) / 6) * 100)}%` }}
+                  />
+                </div>
+              </div>
+              
+              <div className="pt-2 border-t border-[#EDEDED] flex justify-between items-center text-[9px] font-mono text-[#555550]">
+                <span>Status</span>
+                <span className="text-accent font-bold uppercase">WORKSTATION OPEN</span>
+              </div>
+            </div>
+          </div>
+        )}
 
       </section>
 

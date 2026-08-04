@@ -56,7 +56,7 @@ const megaMenus = {
       { name: "AI Trade Journal", desc: "Upload CSV logs to extract emotional profiles", href: "/tools/ai-trade-journal", icon: BookOpen },
       { name: "Risk Calculator", desc: "Kelly allocation relative to drawdown limits", href: "/tools/risk-calculator", icon: Calculator },
       { name: "AI Market Scanner", desc: "Monitors order flow delta across 40+ pairs", href: "/tools/ai-market-scanner", icon: Scan },
-      { name: "Strategy Backtester", desc: "Simulate rules on up to 200 bars of OHLC candle data", href: "/tools/strategy-backtester", icon: LineChart },
+      { name: "Strategy Backtester", desc: "Test strategies against years of historical price data", href: "/tools/strategy-backtester", icon: LineChart },
       { name: "Algo Strategy Builder", desc: "Automatically generate Pine Script & Python", href: "/tools/algo-strategy-builder", icon: Terminal },
       { name: "Daily Intelligence Brief", desc: "Pre-market institutional flow breakdowns", href: "/tools/intelligence-hub", icon: Newspaper }
     ],
@@ -471,8 +471,8 @@ export function Navigation() {
                       src={megaMenus[activeMenu].featured.image}
                       alt={megaMenus[activeMenu].featured.title}
                       className={cn(
-                        "w-full h-full object-cover mix-blend-multiply transition-all duration-700 ease-out group-hover:scale-105",
-                        isDarkPage ? "opacity-40" : "grayscale opacity-85 group-hover:grayscale-0 group-hover:opacity-100"
+                        "w-full h-full object-cover transition-all duration-700 ease-out group-hover:scale-105",
+                        isDarkPage ? "opacity-40" : "opacity-85 group-hover:opacity-100"
                       )}
                     />
                   </div>

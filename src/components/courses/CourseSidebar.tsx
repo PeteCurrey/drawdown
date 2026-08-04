@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import {
   CheckCircle2, Circle, ChevronDown, ChevronRight,
-  Clock, ArrowLeft,
+  Clock, ArrowLeft, Award,
 } from "lucide-react";
 
 interface Lesson {
@@ -196,6 +196,27 @@ export function CourseSidebar({
           );
         })}
       </nav>
+
+      {/* Funded Pathway Teaser */}
+      {["risk-manager", "mind-over-market", "the-edge"].includes(courseSlug) && (
+        <div className="border border-accent/20 bg-accent/5 p-4 rounded-lg space-y-2 mb-4">
+          <div className="flex items-center gap-1.5">
+            <Award className="w-3.5 h-3.5 text-accent animate-pulse" />
+            <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-accent">
+              Funded Pathway Active
+            </span>
+          </div>
+          <p className="text-[10px] leading-relaxed text-white/50 font-serif">
+            Earn up to $200,000 in institutional capital by completing Phase 4.
+          </p>
+          <Link
+            href="/funded-pathway"
+            className="inline-flex items-center gap-1 text-[10px] font-bold font-mono uppercase tracking-widest text-accent hover:underline"
+          >
+            Open Funded Pathway →
+          </Link>
+        </div>
+      )}
 
       {/* Back link */}
       <Link

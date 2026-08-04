@@ -7,9 +7,10 @@ import { cn } from "@/lib/utils";
 interface ShareBarProps {
   title: string;
   className?: string;
+  isDark?: boolean;
 }
 
-export function ShareBar({ title, className }: ShareBarProps) {
+export function ShareBar({ title, className, isDark = false }: ShareBarProps) {
   const [copied, setCopied] = useState(false);
   const [url, setUrl] = useState("");
 
@@ -57,9 +58,16 @@ export function ShareBar({ title, className }: ShareBarProps) {
   ];
 
   return (
-    <div className={cn("flex items-center gap-2 font-mono text-[9px] uppercase tracking-widest text-text-tertiary", className)}>
+    <div className={cn(
+      "flex items-center gap-2 font-mono text-[9px] uppercase tracking-widest",
+      isDark ? "text-zinc-500" : "text-text-tertiary",
+      className
+    )}>
       <span className="font-bold">// SHARE:</span>
-      <div className="flex items-center border border-[#E5E5E5] rounded-none divide-x divide-[#E5E5E5]">
+      <div className={cn(
+        "flex items-center border rounded-none divide-x",
+        isDark ? "border-[#1A1A1A] divide-[#1A1A1A] bg-[#111111]" : "border-[#E5E5E5] divide-[#E5E5E5] bg-white"
+      )}>
         {shareTargets.map((target) => (
           <a
             key={target.name}
@@ -67,7 +75,10 @@ export function ShareBar({ title, className }: ShareBarProps) {
             target="_blank"
             rel="noopener noreferrer"
             title={`Share on ${target.name}`}
-            className="w-8 h-8 flex items-center justify-center hover:bg-neutral-50 hover:text-accent transition-colors"
+            className={cn(
+              "w-8 h-8 flex items-center justify-center transition-colors",
+              isDark ? "hover:bg-[#1A1A1A] hover:text-[#C8F135] text-zinc-400" : "hover:bg-neutral-50 hover:text-accent text-text-tertiary"
+            )}
           >
             {target.icon}
           </a>
@@ -75,7 +86,10 @@ export function ShareBar({ title, className }: ShareBarProps) {
         <button
           onClick={handleCopy}
           title="Copy Link"
-          className="w-8 h-8 flex items-center justify-center hover:bg-neutral-50 hover:text-accent transition-colors cursor-pointer bg-transparent border-none text-text-tertiary"
+          className={cn(
+            "w-8 h-8 flex items-center justify-center transition-colors cursor-pointer bg-transparent border-none",
+            isDark ? "hover:bg-[#1A1A1A] hover:text-[#C8F135] text-zinc-400" : "hover:bg-neutral-50 hover:text-accent text-text-tertiary"
+          )}
         >
           {copied ? <Check className="w-3.5 h-3.5 text-profit" /> : <Link2 className="w-3.5 h-3.5" />}
         </button>

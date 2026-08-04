@@ -64,13 +64,13 @@ export function TradingViewPromoSection() {
 
           <p className="text-sm leading-relaxed max-w-xl" style={{ color: "#B2B5BE" }}>
             Every chart, liquidity zone and order flow layout on Drawdown is built
-            on TradingView. Access real-time tick data, multi-chart layouts, 100+
+            on TradingView. Access real-time market data, multi-chart layouts, 100+
             built-in indicators, Pine Script backtesting, and webhook automation.
           </p>
 
           {/* Feature pills */}
           <div className="flex flex-wrap gap-2 pt-1">
-            {["Real-time tick data", "Multi-chart layouts", "Pine Script", "Webhook alerts"].map((f) => (
+            {["Real-time market data", "Multi-chart layouts", "Pine Script", "Webhook alerts"].map((f) => (
               <span
                 key={f}
                 className="px-2.5 py-1 text-[10px] font-mono uppercase tracking-wider border rounded-none"

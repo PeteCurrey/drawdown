@@ -3,9 +3,16 @@ import { Metadata } from "next";
 import { GLOSSARY_TERMS } from "@/data/seo/glossary";
 import { RichBlock } from "@/lib/data/learn-to-trade";
 import Link from "next/link";
-import { ChevronRight, ArrowRight, BookOpen, Calculator, Play } from "lucide-react";
+import { ChevronRight, ArrowRight, BookOpen, Calculator, Play, HelpCircle, Activity } from "lucide-react";
 import { TrackPageView } from "@/components/admin/TrackPageView";
 import { createInternalSupabase } from "@/lib/supabase/server";
+import {
+  getCategoryForNode,
+  getRelatedGlossaryTerms,
+  getRelatedHowToGuides,
+  getRelatedInstruments,
+  PageCategory,
+} from "@/lib/taxonomy";
 import {
   StatCallout,
   TradeExample,
@@ -148,10 +155,41 @@ export default async function GlossaryTermPage({ params }: Props) {
 
   if (!glossaryTerm) notFound();
 
+  const category = getCategoryForNode(glossaryTerm.slug, 'glossary');
+  const relatedTerms = getRelatedGlossaryTerms(category, glossaryTerm.slug, 4);
+  const relatedGuides = getRelatedHowToGuides(category, glossaryTerm.slug, 3);
+  const relatedMarkets = getRelatedInstruments(category, glossaryTerm.slug, 3);
+
+  // ── JSON-LD: DefinedTerm ──────────────────────────────────────────────────
+  const definedTermSchema = {
+    "@context": "https://schema.org",
+    "@type": "DefinedTerm",
+    "@id": `https://drawdown.trading/glossary/${slug}`,
+    "name": glossaryTerm.term,
+    "description": glossaryTerm.definition,
+    "inDefinedTermSet": "https://drawdown.trading/glossary"
+  };
+
+  // ── JSON-LD: BreadcrumbList ──────────────────────────────────────────────────
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", position: 1, "name": "Home", "item": "https://drawdown.trading" },
+      { "@type": "ListItem", position: 2, "name": "Glossary", "item": "https://drawdown.trading/glossary" },
+      { "@type": "ListItem", position: 3, "name": glossaryTerm.term, "item": `https://drawdown.trading/glossary/${slug}` }
+    ]
+  };
+
   return (
-    <main className="min-h-screen pt-32 pb-20 px-6">
-      <TrackPageView path={`/glossary/${slug}`} />
-      <div className="max-w-3xl mx-auto">
+    <>
+      {/* JSON-LD Schemas */}
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(definedTermSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
+
+      <main className="min-h-screen pt-32 pb-20 px-6">
+        <TrackPageView path={`/glossary/${slug}`} />
+        <div className="max-w-3xl mx-auto">
         {/* Breadcrumbs */}
         <nav className="flex items-center space-x-2 text-[10px] font-mono uppercase tracking-widest text-text-tertiary mb-8">
           <Link href="/" className="hover:text-accent transition-colors">Home</Link>
@@ -229,20 +267,95 @@ export default async function GlossaryTermPage({ params }: Props) {
           )}
         </div>
 
-        {/* Related Terms */}
-        <div className="mb-20">
-          <h2 className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary mb-6">Related Terms</h2>
-          <div className="flex flex-wrap gap-3">
-            {glossaryTerm.relatedTerms.map((t) => (
-              <Link 
-                key={t} 
-                href={`/glossary/${t.toLowerCase().replace(/ /g, '-')}`}
-                className="px-4 py-2 bg-background-surface/40 backdrop-blur-md border border-border-slate/50 transition-all duration-300 hover:shadow-[0_0_20px_rgba(0,0,0,0.2)] hover:border-border-slate hover:-translate-y-0.5 text-xs font-mono text-text-secondary hover:border-border-slate hover:text-accent transition-all"
-              >
-                {t}
-              </Link>
-            ))}
-          </div>
+        {/* Related Content Clusters (Pillar-to-Cluster) */}
+        <div className="space-y-12 border-t border-border-slate/30 pt-12 mb-20">
+          
+          {/* Related Terms (Glossary Sibling cluster) */}
+          {relatedTerms.length > 0 && (
+            <div>
+              <h2 className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary mb-6 flex items-center gap-2">
+                <BookOpen className="w-4 h-4 text-accent" /> Related Terminology
+              </h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {relatedTerms.map((t) => (
+                  <Link 
+                    key={t.slug} 
+                    href={`/glossary/${t.slug}`}
+                    className="p-5 bg-background-elevated/20 border border-border-slate/40 rounded-xl hover:border-accent hover:bg-background-elevated/40 transition-all duration-300 group"
+                  >
+                    <h3 className="text-sm font-sans font-bold text-text-primary group-hover:text-accent transition-colors">
+                      {t.term}
+                    </h3>
+                    <p className="text-xs text-text-secondary mt-1.5 line-clamp-2 leading-relaxed font-sans">
+                      {t.definition}
+                    </p>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Related Markets/Instruments */}
+          {relatedMarkets.length > 0 && (
+            <div className="pt-8 border-t border-border-slate/20">
+              <h2 className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary mb-6 flex items-center gap-2">
+                <Activity className="w-4 h-4 text-accent" /> Tradeable Instruments Affected
+              </h2>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                {relatedMarkets.map((m) => (
+                  <Link 
+                    key={m.slug} 
+                    href={`/markets/${m.category}/${m.slug}`}
+                    className="p-4 bg-background-elevated/20 border border-border-slate/40 rounded-xl hover:border-accent hover:bg-background-elevated/40 transition-all duration-300 group flex justify-between items-center"
+                  >
+                    <div>
+                      <span className="font-mono text-xs font-bold text-text-primary group-hover:text-accent transition-colors">
+                        {m.displayPair}
+                      </span>
+                      <span className="text-[10px] text-text-tertiary block mt-0.5 font-sans font-medium uppercase tracking-wider">
+                        {m.name}
+                      </span>
+                    </div>
+                    <ArrowRight className="w-4 h-4 text-text-tertiary group-hover:text-accent group-hover:translate-x-0.5 transition-all" />
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Related Guides (Tactical How-Tos) */}
+          {relatedGuides.length > 0 && (
+            <div className="pt-8 border-t border-border-slate/20">
+              <h2 className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary mb-6 flex items-center gap-2">
+                <HelpCircle className="w-4 h-4 text-accent" /> Tactical How-To Guides
+              </h2>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                {relatedGuides.map((g) => (
+                  <Link 
+                    key={g.slug} 
+                    href={`/how-to/${g.slug}`}
+                    className="p-5 bg-background-elevated/20 border border-border-slate/40 rounded-xl hover:border-accent hover:bg-background-elevated/40 transition-all duration-300 group flex flex-col justify-between"
+                  >
+                    <div>
+                      <span className="text-[9px] font-mono px-2 py-0.5 bg-accent/10 text-accent border border-accent/20 rounded-full uppercase inline-block mb-3">
+                        {g.difficulty}
+                      </span>
+                      <h3 className="text-sm font-sans font-bold text-text-primary group-hover:text-accent transition-colors leading-snug">
+                        {g.title}
+                      </h3>
+                      <p className="text-xs text-text-secondary mt-1.5 line-clamp-2 leading-relaxed font-sans">
+                        {g.metaDescription}
+                      </p>
+                    </div>
+                    <span className="text-xs text-text-tertiary font-semibold block mt-4 group-hover:text-accent transition-colors">
+                      Read Guide &rarr;
+                    </span>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )}
+
         </div>
 
         {/* Footer CTA */}
@@ -258,5 +371,6 @@ export default async function GlossaryTermPage({ params }: Props) {
         </section>
       </div>
     </main>
-  );
+  </>
+);
 }

@@ -288,38 +288,103 @@ export async function getMarketHistory(
   if (symbol === "BTCUSD") apiSymbol = "BTC/USD";
   if (symbol === "FTSE100") apiSymbol = "FTSE";
 
+  // Determine caching duration based on date age
+  let ttlSeconds = 86400; // 24 hours default
+  if (endDate) {
+    const endDateTime = new Date(endDate).getTime();
+    const threeDaysAgo = Date.now() - 3 * 24 * 60 * 60 * 1000;
+    if (endDateTime < threeDaysAgo) {
+      ttlSeconds = 30 * 24 * 60 * 60; // 30 days for older historical data (will never change)
+    }
+  }
+
   if (keys.length > 0) {
-    for (const key of keys) {
+    let allBars: any[] = [];
+    let currentEndDate = endDate;
+    let keyIndex = 0;
+    const maxPagingAttempts = 10; // Prevent infinite loops
+    let attempts = 0;
+
+    while (allBars.length < outputsize && keyIndex < keys.length && attempts < maxPagingAttempts) {
+      attempts++;
+      const key = keys[keyIndex];
+      const remainingToFetch = outputsize - allBars.length;
+      // Twelve Data allows up to 5000 bars per single time_series request
+      const chunkSize = Math.min(remainingToFetch, 5000);
+
       try {
-        let url = `https://api.twelvedata.com/time_series?symbol=${apiSymbol}&interval=${interval}&outputsize=${outputsize}&apikey=${key}`;
+        let url = `https://api.twelvedata.com/time_series?symbol=${apiSymbol}&interval=${interval}&outputsize=${chunkSize}&apikey=${key}`;
         if (startDate) url += `&start_date=${startDate}`;
-        if (endDate) url += `&end_date=${endDate}`;
+        if (currentEndDate) url += `&end_date=${currentEndDate}`;
 
         const response = await fetch(url);
         const data = await response.json();
-        
-        if (data && data.values && Array.isArray(data.values) && data.values.length >= 20) {
-          const history = data.values.map((v: any) => ({
+
+        if (data && data.status === "error") {
+          console.warn(`[getMarketHistory] Twelve Data error with key index ${keyIndex}: ${data.message}`);
+          if (data.message && (
+            data.message.toLowerCase().includes("credit") || 
+            data.message.toLowerCase().includes("limit") || 
+            data.message.toLowerCase().includes("rate") ||
+            data.message.toLowerCase().includes("api key")
+          )) {
+            keyIndex++;
+            continue; // Retry chunk with next key
+          }
+          break; // Hard error (invalid symbol, etc.) - stop paginating
+        }
+
+        if (data && data.values && Array.isArray(data.values) && data.values.length > 0) {
+          const chunkBars = data.values.map((v: any) => ({
             time: v.datetime,
             open: parseFloat(v.open),
             high: parseFloat(v.high),
             low: parseFloat(v.low),
             close: parseFloat(v.close),
             volume: parseInt(v.volume || "0")
-          })).reverse();
+          })); // descending order (newest first)
 
-          await setCacheData(cacheKey, history, 300); // 5 minutes cache
-          return history;
+          allBars.push(...chunkBars);
+
+          // If we received fewer bars than requested, we reached the start of historical records
+          if (chunkBars.length < chunkSize) {
+            break;
+          }
+
+          // Move currentEndDate backwards to the datetime of the oldest bar in this chunk
+          const oldestBar = chunkBars[chunkBars.length - 1];
+          currentEndDate = oldestBar.time;
+        } else {
+          break;
         }
       } catch (error) {
-        console.warn(`[getMarketHistory] Key ${key.substring(0, 5)}... failed, trying next key.`);
+        console.warn(`[getMarketHistory] Key index ${keyIndex} failed. trying next key. Error:`, error);
+        keyIndex++;
       }
+    }
+
+    // Deduplicate, sort chronologically, and cache
+    if (allBars.length > 0) {
+      const seen = new Set<string>();
+      const uniqueBars: any[] = [];
+      for (const bar of allBars) {
+        if (!seen.has(bar.time)) {
+          seen.add(bar.time);
+          uniqueBars.push(bar);
+        }
+      }
+
+      // Sort oldest first (chronological order)
+      const sorted = uniqueBars.reverse();
+
+      await setCacheData(cacheKey, sorted, ttlSeconds);
+      return sorted;
     }
   }
 
   console.log(`[getMarketHistory] Live feed offline or rate limited. Returning synthetic history for ${symbol}`);
   const fallback = generateFallbackHistory(symbol, interval, outputsize);
-  await setCacheData(cacheKey, fallback, 300);
+  await setCacheData(cacheKey, fallback, ttlSeconds);
   return fallback;
 }
 

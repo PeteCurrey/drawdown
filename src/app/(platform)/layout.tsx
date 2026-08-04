@@ -39,6 +39,7 @@ import {
   Target,
   Sparkles,
   Cpu,
+  Award,
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { OnboardingWizard } from "@/components/dashboard/OnboardingWizard";
@@ -69,6 +70,7 @@ const mainNavLinks = [
 // ─── Platform Navigation (Section 2) ─────────────────────────────────────────
 const platformLinks = [
   { name: "The Wire",            href: "/dashboard/the-wire",  icon: Newspaper, badge: "NEW" },
+  { name: "Weekly Market Call",  href: "/dashboard/market-call", icon: Award, badge: "FREE" },
   { name: "Brokers",             href: "/brokers",             icon: Building2 },
   { name: "Prop Firms",          href: "/prop-firms",          icon: Trophy },
   { name: "Challenge Simulator", href: "/dashboard/simulator",   icon: Target },

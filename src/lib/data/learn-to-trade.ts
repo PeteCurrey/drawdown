@@ -1896,7 +1896,7 @@ export const LEARN_TOPICS: LearnTopic[] = [
   {
     slug: "backtesting-strategies",
     title: "Backtesting",
-    subtitle: "A rigorous mathematical guide to verifying trading edge across historical tick data.",
+    subtitle: "A rigorous mathematical guide to verifying trading edge across historical price data.",
     description: "Most retail traders backtest three weeks of data, get a 70% win rate, and start trading real capital. This guide teaches the institutional approach: statistical sample sizing, MAE optimization, and Monte Carlo stress testing.",
     category: "Strategy",
     difficulty: "Intermediate",

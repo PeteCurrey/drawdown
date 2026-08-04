@@ -11,7 +11,8 @@ export type BadgeType =
   | "disciplined"       // 5-day journal streak
   | "pete_approved"     // Manual award
   | "edge_unlocked"     // Upgraded to Edge tier
-  | "survivor";        // Recovered from 5%+ drawdown
+  | "survivor"          // Recovered from 5%+ drawdown
+  | "verified_caller";   // Won a Weekly Market Call round
 
 const BADGE_METADATA: Record<BadgeType, { title: string; description: string; icon: string }> = {
   first_flight: {
@@ -43,8 +44,14 @@ const BADGE_METADATA: Record<BadgeType, { title: string; description: string; ic
     title: "The Survivor",
     description: "Recovered a 5% drawdown while maintaining risk rules.",
     icon: "🛡️"
+  },
+  verified_caller: {
+    title: "Verified Caller",
+    description: "Won a Weekly Market Call Prediction Leaderboard.",
+    icon: "🔮"
   }
 };
+
 
 export async function awardBadge(userId: string, badgeKey: BadgeType) {
   try {

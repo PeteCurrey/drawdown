@@ -88,7 +88,7 @@ export default async function ModuleMarketingPage({ params }: Props) {
   const priceMap: Record<string, string> = {
     "Free": "0",
     "Foundation": "49",
-    "Edge": "149",
+    "Edge": "99",
     "Floor": "299"
   };
 

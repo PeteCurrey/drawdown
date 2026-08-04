@@ -1,9 +1,17 @@
 /**
- * Single Source of Truth: Product Status Registry
+ * Product Status Registry
+ * =======================
+ * All feature/tool status badges MUST reference this file.
+ * Ensures consistent messaging across pricing tables, tool cards,
+ * and marketing pages.
  *
- * All feature/tool status badges (Beta, Released, Planned, etc.) MUST
- * reference this file rather than hardcoded strings. This ensures consistent
- * messaging across pricing tables, tool cards, and marketing pages.
+ * Rules:
+ *  - Only "released" capabilities appear in current-value checklists.
+ *  - "beta" capabilities display a visible Beta label.
+ *  - "in_development" capabilities appear only in roadmap sections.
+ *  - "planned" capabilities do not have checkout value.
+ *  - "legacy_grandfathered" products are not available for new purchase.
+ *  - "retired" capabilities disappear from marketing pages.
  *
  * @see /methodology/backtesting-engine for the backtester claim evidence card
  */
@@ -11,18 +19,24 @@
 export type ProductStatusId =
   | "released"
   | "beta"
-  | "early_access"
+  | "in_development"
   | "planned"
-  | "deprecated";
+  | "legacy_grandfathered"
+  | "retired";
 
 export interface ProductStatus {
   id: ProductStatusId;
   label: string;
   /** Short description shown in tooltips / methodology cross-references */
   description: string;
-  /** Hex colour for badge background (use CSS vars where possible) */
+  /** Hex colour for badge background */
   color: string;
   textColor: string;
+  /**
+   * If true, this status indicates the feature is NOT currently available
+   * and must not appear in current-value membership checklists.
+   */
+  isUnavailable: boolean;
 }
 
 export const STATUS: Record<ProductStatusId, ProductStatus> = {
@@ -32,6 +46,7 @@ export const STATUS: Record<ProductStatusId, ProductStatus> = {
     description: "Generally available to subscribers on the relevant plan.",
     color: "#14532d",
     textColor: "#86efac",
+    isUnavailable: false,
   },
   beta: {
     id: "beta",
@@ -40,55 +55,80 @@ export const STATUS: Record<ProductStatusId, ProductStatus> = {
       "Actively developed and available to eligible subscribers. Results are hypothetical and subject to change. See methodology for limitations.",
     color: "#1e3a5f",
     textColor: "#93c5fd",
+    isUnavailable: false,
   },
-  early_access: {
-    id: "early_access",
-    label: "Early Access",
+  in_development: {
+    id: "in_development",
+    label: "In Development",
     description:
-      "Available to Edge+ subscribers for early testing. API and interface may change.",
-    color: "#3b1f5e",
-    textColor: "#d8b4fe",
+      "Under active development. Not yet available. Not counted toward current membership value.",
+    color: "#1c2a1c",
+    textColor: "#86efac",
+    isUnavailable: true,
   },
   planned: {
     id: "planned",
     label: "Planned",
-    description: "On the public roadmap. Not yet available.",
+    description:
+      "On the public roadmap. Not yet available. Not counted toward current membership value.",
     color: "#1c1917",
     textColor: "#a8a29e",
+    isUnavailable: true,
   },
-  deprecated: {
-    id: "deprecated",
-    label: "Deprecated",
-    description: "No longer actively maintained. Use the successor feature.",
+  legacy_grandfathered: {
+    id: "legacy_grandfathered",
+    label: "Legacy",
+    description:
+      "No longer available for new purchase. Existing subscribers retain access while their subscription remains active.",
+    color: "#1c1917",
+    textColor: "#fbbf24",
+    isUnavailable: true,
+  },
+  retired: {
+    id: "retired",
+    label: "Retired",
+    description: "No longer available.",
     color: "#450a0a",
     textColor: "#fca5a5",
+    isUnavailable: true,
   },
 };
 
 /**
- * Product registry - maps each Drawdown tool/feature to its canonical status.
+ * Product registry — maps each Drawdown tool/feature to its canonical status.
  * Update here first; pricing pages and tool cards consume this centrally.
+ *
+ * A product CANNOT be "released" on pricing and "planned" on the course roadmap.
+ * A tool CANNOT appear as included if the route is unavailable or non-functional.
  */
 export const PRODUCT_STATUSES = {
   // === Analytics & Research ===
-  investmentCentre: STATUS.released,
-  marketCharts: STATUS.released,
-  economicCalendar: STATUS.released,
-  riskCalculator: STATUS.released,
-  tradeJournal: STATUS.released,
-  signalCentre: STATUS.released,
+  investmentCentre:      STATUS.released,         // included in Edge + Floor
+  marketCharts:          STATUS.released,
+  economicCalendar:      STATUS.released,
+  riskCalculator:        STATUS.released,
+  tradeJournal:          STATUS.released,
+
+  // === Market Intelligence ===
+  marketIntelligenceHub: STATUS.released,         // consumer name for signal centre capability
+  signalCentre:          STATUS.legacy_grandfathered, // internal key — no new purchase
 
   // === AI Features ===
-  aiConsensus: STATUS.released,
-  aiJournalInsights: STATUS.released,
+  aiConsensus:           STATUS.released,
+  aiJournalInsights:     STATUS.released,
 
   // === Backtesting ===
-  strategyBacktester: STATUS.beta,
+  strategyBacktester:    STATUS.beta,
 
-  // === Planned / Upcoming ===
-  automatedAlerts: STATUS.planned,
-  portfolioTracker: STATUS.planned,
-  socialJournal: STATUS.planned,
+  // === In Development ===
+  monteCarloTools:       STATUS.in_development,
+  advancedPerformanceAnalytics: STATUS.in_development,
+
+  // === Planned ===
+  automatedAlerts:       STATUS.planned,
+  portfolioTracker:      STATUS.planned,
+  socialJournal:         STATUS.planned,
+  pineScriptResources:   STATUS.planned,
 } as const;
 
 export type ProductKey = keyof typeof PRODUCT_STATUSES;

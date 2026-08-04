@@ -117,16 +117,12 @@ const FAQS = [
     answer: "No prior coding experience is required. We teach you Pine Script from absolute scratch using our pre-built code blocks. We also provide our custom GPT-powered scripting models to help you translate your visual rules into clean, automated execution code."
   },
   {
-    question: "How does the conditional 14-Day Performance Guarantee work?",
-    answer: "We are committed to helping serious traders achieve consistency. If you participate in the first two weeks and decide the program isn't right for you, we will issue a full refund—provided you submit your completed Week 1 backtesting logs showing 100 manual trades compiled using our statistical backtesting sheets. This protects our intellectual property while assuring your success."
-  },
-  {
     question: "Is this program compliant with UK FCA rules?",
     answer: "Yes. Drawdown Trading is an educational and technology provider. We do not offer financial advice, execute trades on your behalf, or manage capital. The legal modules in Week 5 & 6 are conducted for educational purposes to help you set up compliant corporate structures and understand HMRC-allowable tax shields."
   },
   {
     question: "What is the capital requirement to join?",
-    answer: "The cohort itself costs £1,500 (or 3 monthly payments of £550). Outside of this, you do not need substantial trading capital; we specifically train you to leverage institutional prop firm capital (up to $200,000+) using our evaluation accelerators, meaning you can trade professionally without risking personal assets."
+    answer: "The cohort itself costs £1,500 (or 3 monthly payments of £550, total £1,650). Outside of this, you do not need substantial trading capital; we specifically train you to leverage institutional prop firm capital (up to $200,000+) using our evaluation accelerators, meaning you can trade professionally without risking personal assets."
   }
 ];
 
@@ -370,7 +366,7 @@ export default function InstitutionalAccelerator() {
               <p className="text-sm text-[#9CA3AF] leading-relaxed mb-4">
                 Your trades are scanned and audited by our custom LLM modeling agent. You receive a structured "Monthly Blindspot Analysis" revealing trading-psychology triggers, size slippage, and optimal hour variances.
               </p>
-              <span className="text-xs font-semibold text-[#E2B755] tracking-wide uppercase">Value: £500 / Year</span>
+              <span className="text-xs font-semibold text-[#E2B755] tracking-wide uppercase">Included in Cohort</span>
             </div>
 
             {/* Box 2 */}
@@ -379,12 +375,12 @@ export default function InstitutionalAccelerator() {
                 <div className="p-3 rounded-lg bg-[#E2B755]/10 text-[#E2B755]">
                   <TerminalIcon className="w-5 h-5" />
                 </div>
-                <h4 className="text-lg font-bold text-white">12-Month Drawdown Terminal Access</h4>
+                <h4 className="text-lg font-bold text-white">12-Month Edge Platform Access</h4>
               </div>
               <p className="text-sm text-[#9CA3AF] leading-relaxed mb-4">
-                Gain complete access to the **Drawdown Investment Centre Terminal** including our custom Strategy Backtesting Suite, Monte Carlo stress simulators, and global macro alerts.
+                Gain 12 months complete access to the Drawdown Edge platform including our custom Strategy Backtesting Suite, Monte Carlo stress simulators, and global macro alerts.
               </p>
-              <span className="text-xs font-semibold text-[#E2B755] tracking-wide uppercase">Value: £600 (Included)</span>
+              <span className="text-xs font-semibold text-[#E2B755] tracking-wide uppercase">Included in Cohort</span>
             </div>
 
             {/* Box 3 */}
@@ -398,7 +394,7 @@ export default function InstitutionalAccelerator() {
               <p className="text-sm text-[#9CA3AF] leading-relaxed mb-4">
                 A professional, solicitor-approved corporate structure bundle for UK prop firm traders. Includes template articles of association for setting up a Limited Company to receive funded withdrawals under corporate tax rules.
               </p>
-              <span className="text-xs font-semibold text-[#E2B755] tracking-wide uppercase">Value: £450 (Included)</span>
+              <span className="text-xs font-semibold text-[#E2B755] tracking-wide uppercase">Included in Cohort</span>
             </div>
 
             {/* Box 4 */}
@@ -412,13 +408,13 @@ export default function InstitutionalAccelerator() {
               <p className="text-sm text-[#9CA3AF] leading-relaxed mb-4">
                 A private 45-minute portfolio structuring consultation directly with founder Pete Currey. Review your speculative trading distributions and legally transition them into tax-sheltered wealth shields (ISAs, SIPPs).
               </p>
-              <span className="text-xs font-semibold text-[#E2B755] tracking-wide uppercase">Value: £350 (Included)</span>
+              <span className="text-xs font-semibold text-[#E2B755] tracking-wide uppercase">Included in Cohort</span>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Pricing Card & Guarantee */}
+      {/* Pricing Card & Application Process */}
       <section className="py-20 md:py-28 relative">
         <div className="absolute inset-0 bg-[#E2B755]/2 blur-[100px] pointer-events-none" />
 
@@ -427,53 +423,38 @@ export default function InstitutionalAccelerator() {
             <div className="grid md:grid-cols-12 gap-8 items-center">
               {/* Left pricing info */}
               <div className="md:col-span-7">
-                <span className="text-xs font-bold text-[#E2B755] tracking-widest uppercase block mb-2">Accelerator Enrolment</span>
-                <h3 className="text-2xl md:text-3xl font-bold text-white mb-4">Secure September Cohort Access</h3>
+                <span className="text-xs font-bold text-[#E2B755] tracking-widest uppercase block mb-2">Cohort Enrolment</span>
+                <h3 className="text-2xl md:text-3xl font-bold text-white mb-4">Apply for September Cohort</h3>
                 <p className="text-sm text-[#9CA3AF] leading-relaxed mb-6 font-light">
-                  Secure your seat in our next 15-student live cohort. Under the mentorship of founder Pete Currey, you will receive active trade audits, prop evaluation templates, tax packs, and 12 months of full software licensing.
+                  Enrolment is strictly limited to 15 students per live cohort. All candidates must complete an application dossier detailing trading experience and objectives before manual approval.
                 </p>
 
-                {/* Conditional Guarantee box */}
                 <div className="p-4 rounded-lg bg-[#E2B755]/5 border border-[#E2B755]/10 text-xs text-[#D1D5DB] flex gap-3">
                   <Shield className="w-5 h-5 text-[#E2B755] shrink-0 mt-0.5" />
                   <div>
-                    <span className="font-bold text-white block mb-1">14-Day Performance Guarantee</span>
-                    Participate in the first 2 weeks. If you decide the material isn't right, get a 100% refund upon submitting your completed Week 1 backtesting logs.
+                    <span className="font-bold text-white block mb-1">Admissions Process</span>
+                    Applications are reviewed within 24 business hours. Approved candidates receive a private enrolment link to complete payment and secure their seat.
                   </div>
                 </div>
               </div>
 
               {/* Right pricing callout */}
               <div className="md:col-span-5 text-center md:border-l border-[#333330]/40 md:pl-8">
-                <div className="text-xs text-[#9CA3AF] uppercase font-semibold mb-1">Single Payment Plan</div>
+                <div className="text-xs text-[#9CA3AF] uppercase font-semibold mb-1">Cohort Tuition</div>
                 <div className="text-4xl md:text-5xl font-black text-white mb-2">£1,500</div>
-                <div className="text-xs text-[#E2B755] mb-6">Or 3 monthly payments of £550</div>
+                <div className="text-xs text-[#E2B755] mb-6">Or 3 monthly payments of £550 (£1,650 total)</div>
 
                 <div className="space-y-3">
-                  <DirectUpgradeButton
-                    tier="accelerator"
-                    redirectPath="/dashboard/curriculum"
-                    className="w-full text-xs tracking-widest py-4 font-black"
-                  >
-                    Secure Seat Instantly
-                  </DirectUpgradeButton>
-
-                  <div className="flex items-center my-2 text-neutral-600 font-mono text-[9px] uppercase tracking-widest justify-center">
-                    <span className="h-[1px] bg-neutral-800 flex-grow" />
-                    <span className="mx-2">or</span>
-                    <span className="h-[1px] bg-neutral-800 flex-grow" />
-                  </div>
-
                   <Link 
                     href="/institutional-accelerator/apply" 
-                    className="w-full inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg border border-[#E2B755]/30 hover:border-[#E2B755] text-[#E2B755] font-semibold text-xs tracking-wider transition-all duration-300"
+                    className="w-full inline-flex items-center justify-center gap-2 px-6 py-4 rounded-lg bg-gradient-to-r from-[#E2B755] to-[#C59235] hover:from-[#F3C475] hover:to-[#E2B755] text-[#0B0E12] font-black text-xs tracking-wider transition-all duration-300 shadow-lg shadow-[#E2B755]/10"
                   >
-                    Apply for Selection
+                    Submit Candidate Application <ArrowRight className="w-4 h-4" />
                   </Link>
                 </div>
 
                 <div className="text-[10px] text-[#9CA3AF] mt-3">
-                  Strictly limited to 15 seats. Secure registration.
+                  Capped at 15 seats. Requires manual admissions review.
                 </div>
               </div>
             </div>

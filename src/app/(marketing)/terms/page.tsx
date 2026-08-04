@@ -7,7 +7,7 @@ import Link from "next/link";
 export const metadata = getMetadata({
   title: "Terms and Conditions | Drawdown",
   description: "Terms and Conditions governing the use of Drawdown trading education, quantitative market tools, Signal Centre, and subscription software.",
-  alternates: { canonical: "https://drawdown.trading/terms" },
+  path: "/terms",
 });
 
 export default function TermsPage() {
@@ -124,7 +124,7 @@ export default function TermsPage() {
             </h2>
             <div className="space-y-3 text-[14px] leading-relaxed" style={{ color: "var(--graphite-600)" }}>
               <p>
-                Drawdown offers free access tiers, trial access (where offered), paid subscription tiers (including Signal Centre, Foundation, Edge, and The Floor), and one-off standalone educational products (such as downloadable guides or the Institutional Accelerator program).
+                Drawdown offers free access tiers, paid subscription tiers (Foundation, Edge, and The Floor), and one-off standalone educational products (such as downloadable PDF manuals or the Institutional Accelerator programme). The Signal Centre standalone subscription tier is no longer available for new purchase; existing Signal Centre subscribers retain access under their active subscription on legacy terms.
               </p>
               <p>
                 Feature availability varies by plan. Roadmap items, forthcoming features, or beta tools are provided for preview purposes and do not constitute guaranteed delivery commitments unless expressly agreed in writing.

@@ -149,12 +149,12 @@ const FAQS = [
     a: "The Drawdown Consensus Score aggregates responses from Claude, GPT-4o, and Grok — each analysing the same live data bundle. Claude is weighted 40%, GPT-4o 35%, Grok 25%, based on back-tested signal accuracy. The score runs from 0–100; signals above 75 DCS are considered high-conviction.",
   },
   {
-    q: "Can I access Signal Centre if I already have a Drawdown subscription?",
-    a: "Yes — Foundation, Edge, and Floor plans all include Signal Centre access (with Edge and Floor unlocking additional features like Acuity Expert Ideas). The standalone Signal Centre plan is for traders who want signal intelligence without the full curriculum.",
+    q: "Can I access Signal Centre if I have a Drawdown subscription?",
+    a: "Yes — Market Intelligence Hub (Signal Centre) is included in Foundation (£49/mo), Edge (£99/mo), and Floor (£299/mo) memberships. Standalone subscriptions are retired for new customers.",
   },
   {
-    q: "What happens after the 7-day trial?",
-    a: "You'll be charged £39/mo unless you cancel before the trial ends. No card is required to start — you enter payment details at the end of the trial.",
+    q: "How do existing Signal Centre subscribers retain access?",
+    a: "Existing Signal Centre subscribers are grandfathered and keep full access under their active subscription. If you wish to upgrade to Foundation or Edge to access the curriculum and tools, you can do so from your account billing page.",
   },
 ];
 
@@ -847,13 +847,13 @@ export function SignalCentreMarketingClient() {
             Three AI models. Live market data. One score that tells you when the setup is real.
           </p>
           <Link
-            href="/signup?tier=signal-centre"
+            href="/pricing"
             className="inline-flex items-center gap-2 px-8 py-4 rounded-lg bg-mkt-ink text-white text-sm font-semibold hover:bg-neutral-800 transition-colors font-sans shadow-xl shadow-accent/10"
           >
-            Start Your Free Trial — £39/mo <ArrowRight className="w-4 h-4" />
+            Explore Memberships — From £49/mo <ArrowRight className="w-4 h-4" />
           </Link>
           <p className="text-xs font-mono text-text-tertiary tracking-wider">
-            No card required · Cancel before day 8 to pay nothing
+            Included with Foundation, Edge &amp; Floor memberships · No standalone subscription required
           </p>
         </div>
       </section>

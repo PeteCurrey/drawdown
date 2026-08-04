@@ -6,7 +6,7 @@ import { Cookie, ShieldCheck, CheckCircle2, Sliders } from "lucide-react";
 export const metadata = getMetadata({
   title: "Cookie Policy | Drawdown",
   description: "Drawdown Cookie Policy explaining essential, analytics, functional, and marketing cookie usage and user consent preferences under UK GDPR and PECR.",
-  alternates: { canonical: "https://drawdown.trading/cookies" },
+  path: "/cookies",
 });
 
 export default function CookiePolicyPage() {

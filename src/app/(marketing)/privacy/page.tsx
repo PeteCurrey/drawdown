@@ -7,7 +7,7 @@ import Link from "next/link";
 export const metadata = getMetadata({
   title: "Privacy Policy | Drawdown",
   description: "Drawdown Privacy Policy explaining how Black & Rowan Management Group Limited collects, processes, protects, and retains your data under UK GDPR.",
-  alternates: { canonical: "https://drawdown.trading/privacy" },
+  path: "/privacy",
 });
 
 export default function PrivacyPage() {

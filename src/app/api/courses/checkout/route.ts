@@ -2,6 +2,7 @@ import { createClient } from "@/lib/supabase/server";
 import { createServerClient } from "@supabase/ssr";
 import { type NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
+import { LEGAL_CONFIG } from "@/config/legal";
 
 /**
  * POST /api/courses/checkout
@@ -17,9 +18,17 @@ export async function POST(request: NextRequest) {
     apiVersion: "2023-10-16" as any,
   });
 
-  const { courseSlug } = await request.json();
+  const body = await request.json();
+  const { courseSlug, terms_accepted, immediate_supply_requested, marketing_consent } = body;
+
   if (!courseSlug) {
     return NextResponse.json({ error: "courseSlug required" }, { status: 400 });
+  }
+  if (!terms_accepted) {
+    return NextResponse.json(
+      { error: "You must accept the Terms and Conditions to proceed." },
+      { status: 400 }
+    );
   }
 
   const origin = request.headers.get("origin") ?? process.env.NEXT_PUBLIC_SITE_URL ?? "https://drawdown.trading";
@@ -77,6 +86,17 @@ export async function POST(request: NextRequest) {
         amount_paid_pence:  0,
         access_granted_via: "floor_tier",
       });
+      // Log legal acceptance for floor-tier free grant
+      await admin.from("legal_acceptances" as any).insert({
+        user_id:                        user.id,
+        document_version:               LEGAL_CONFIG.documentVersion,
+        terms_accepted:                 true,
+        privacy_acknowledged:           true,
+        immediate_supply_requested:     !!immediate_supply_requested,
+        digital_content_acknowledgement: !!immediate_supply_requested,
+        marketing_consent:              !!marketing_consent,
+        consent_source:                 "floor_tier_grant",
+      });
       return NextResponse.json({
         granted: true,
         message: "Access granted as part of your Floor subscription.",
@@ -95,11 +115,35 @@ export async function POST(request: NextRequest) {
     cancel_url:  `${origin}/courses/${courseSlug}?purchase=cancelled`,
     metadata: {
       courseSlug,
-      course_id:     (course as any).id,
-      userId:        user?.id ?? "guest",
-      purchase_type: "course",
+      course_id:                       (course as any).id,
+      userId:                          user?.id ?? "guest",
+      purchase_type:                   "course",
+      legal_version:                   LEGAL_CONFIG.documentVersion,
+      terms_accepted:                  "true",
+      immediate_supply_requested:      immediate_supply_requested ? "true" : "false",
+      marketing_consent:               marketing_consent ? "true" : "false",
     },
   });
+
+  // ── Log legal acceptance (service role bypasses RLS) ──────────────────────
+  if (user?.id) {
+    const admin = createServerClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.SUPABASE_SERVICE_ROLE_KEY!,
+      { cookies: { getAll() { return []; }, setAll() {} } }
+    );
+    await admin.from("legal_acceptances" as any).insert({
+      user_id:                         user.id,
+      document_version:                LEGAL_CONFIG.documentVersion,
+      checkout_session_id:             session.id,
+      terms_accepted:                  true,
+      privacy_acknowledged:            true,
+      immediate_supply_requested:      !!immediate_supply_requested,
+      digital_content_acknowledgement: !!immediate_supply_requested,
+      marketing_consent:               !!marketing_consent,
+      consent_source:                  "course_checkout",
+    });
+  }
 
   return NextResponse.json({ checkoutUrl: session.url });
 }

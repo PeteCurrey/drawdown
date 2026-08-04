@@ -1,6 +1,8 @@
 import { createClient } from "@/lib/supabase/server";
+import { createServerClient } from "@supabase/ssr";
 import { type NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
+import { LEGAL_CONFIG } from "@/config/legal";
 
 const PRODUCTS: Record<string, { name: string; baseAmount: number; defaultCurrency: string; description: string; slug: string }> = {
   "prop-survival-kit": {
@@ -46,11 +48,25 @@ export async function POST(request: NextRequest) {
   });
 
   try {
-    const { productId, includeBump = false, bumpProductId, region } = await request.json();
+    const {
+      productId,
+      includeBump = false,
+      bumpProductId,
+      region,
+      terms_accepted,
+      immediate_supply_requested,
+      marketing_consent,
+    } = await request.json();
     const product = PRODUCTS[productId];
 
     if (!product) {
       return NextResponse.json({ error: "Invalid product" }, { status: 400 });
+    }
+    if (!terms_accepted) {
+      return NextResponse.json(
+        { error: "You must accept the Terms and Conditions to proceed." },
+        { status: 400 }
+      );
     }
 
     const supabase = await createClient();
@@ -121,19 +137,43 @@ export async function POST(request: NextRequest) {
       success_url: `${origin}/store/${successSlug}/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${origin}/store/${successSlug}?abandoned=true`,
       metadata: {
-        product_id: productId,
-        user_id: user?.id ?? "guest",
-        userId: user?.id ?? "guest",
-        purchase_type: "course",
-        course_id: courseId,
-        include_bump: String(includeBump),
-        bump_product_id: bumpProductId || "",
+        product_id:                  productId,
+        user_id:                     user?.id ?? "guest",
+        userId:                      user?.id ?? "guest",
+        purchase_type:               "course",
+        course_id:                   courseId,
+        include_bump:                String(includeBump),
+        bump_product_id:             bumpProductId || "",
+        legal_version:               LEGAL_CONFIG.documentVersion,
+        terms_accepted:              "true",
+        immediate_supply_requested:  immediate_supply_requested ? "true" : "false",
+        marketing_consent:           marketing_consent ? "true" : "false",
       },
       ...(user?.email
         ? { customer_email: user.email }
         : { customer_creation: "always" }),
       allow_promotion_codes: true,
     } as any);
+
+    // ── Log legal acceptance ───────────────────────────────────────────────
+    if (user?.id) {
+      const admin = createServerClient(
+        process.env.NEXT_PUBLIC_SUPABASE_URL!,
+        process.env.SUPABASE_SERVICE_ROLE_KEY!,
+        { cookies: { getAll() { return []; }, setAll() {} } }
+      );
+      await admin.from("legal_acceptances" as any).insert({
+        user_id:                         user.id,
+        document_version:                LEGAL_CONFIG.documentVersion,
+        checkout_session_id:             session.id,
+        terms_accepted:                  true,
+        privacy_acknowledged:            true,
+        immediate_supply_requested:      !!immediate_supply_requested,
+        digital_content_acknowledgement: !!immediate_supply_requested,
+        marketing_consent:               !!marketing_consent,
+        consent_source:                  "store_checkout",
+      });
+    }
 
     return NextResponse.json({ url: session.url });
   } catch (err: any) {

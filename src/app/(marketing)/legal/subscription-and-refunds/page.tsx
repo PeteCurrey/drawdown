@@ -7,7 +7,7 @@ import Link from "next/link";
 export const metadata = getMetadata({
   title: "Subscriptions, Cancellations and Refunds | Drawdown",
   description: "Comprehensive plain-English summary of Drawdown subscription terms, automatic renewals, self-service cancellation, 7-day money-back guarantee, and refund procedures.",
-  alternates: { canonical: "https://drawdown.trading/legal/subscription-and-refunds" },
+  path: "/legal/subscription-and-refunds",
 });
 
 export default function SubscriptionAndRefundsPage() {

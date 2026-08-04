@@ -28,9 +28,12 @@ import {
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { STRIPE_CONFIG } from "@/config/stripe";
+import { CheckoutConsentModal } from "@/components/legal/CheckoutConsentModal";
 
 export default function InvestmentCentreMarketingClient() {
   const [showCheckoutModal, setShowCheckoutModal] = useState(false);
+  const [showConsentModal, setShowConsentModal] = useState(false);
+  const [pendingPlanType, setPendingPlanType] = useState<"addon_only" | "bundle" | null>(null);
   const [user, setUser] = useState<any>(null);
   const [subscriptionTier, setSubscriptionTier] = useState<string | null>(null);
   const [loadingUser, setLoadingUser] = useState(true);
@@ -68,8 +71,18 @@ export default function InvestmentCentreMarketingClient() {
     setShowCheckoutModal(true);
   };
 
-  const handleProceedStripeCheckout = async (planType: "addon_only" | "bundle") => {
+  const handleProceedStripeCheckout = async (
+    planType: "addon_only" | "bundle",
+    consentData?: { terms_accepted: boolean; immediate_supply_requested: boolean; marketing_consent: boolean }
+  ) => {
+    if (!consentData) {
+      setPendingPlanType(planType);
+      setShowCheckoutModal(false);
+      setShowConsentModal(true);
+      return;
+    }
     setCheckoutLoading(true);
+    setShowConsentModal(false);
     try {
       if (!user) {
         const redirectUrl = encodeURIComponent("/investment-centre?checkout=true");
@@ -87,6 +100,9 @@ export default function InvestmentCentreMarketingClient() {
         body: JSON.stringify({
           priceId: targetPriceId,
           tier: planType === "addon_only" ? "investment-centre" : "foundation-investment-centre",
+          terms_accepted: consentData.terms_accepted,
+          immediate_supply_requested: consentData.immediate_supply_requested,
+          marketing_consent: consentData.marketing_consent,
         }),
       });
 
@@ -156,13 +172,13 @@ export default function InvestmentCentreMarketingClient() {
           </p>
 
           <div className="pt-4 flex flex-wrap items-center gap-4">
-            <button
-              onClick={handleSubscribeClick}
+            <Link
+              href="/pricing"
               className="bg-[#C8F135] text-black font-extrabold px-8 py-4 text-xs font-mono uppercase tracking-wider hover:bg-[#b3d82a] transition-all flex items-center gap-2.5 rounded"
             >
-              SUBSCRIBE FOR £99/MONTH
+              ACCESS WITH EDGE (£99/MO)
               <ArrowRight className="w-4 h-4" />
-            </button>
+            </Link>
             <a
               href="#specification"
               className="border border-slate-300 hover:border-slate-500 text-slate-700 hover:text-slate-900 px-8 py-4 text-xs font-mono uppercase tracking-wider font-bold transition-all bg-slate-50 hover:bg-slate-100 rounded"
@@ -173,7 +189,7 @@ export default function InvestmentCentreMarketingClient() {
 
           <div className="pt-2 flex items-center gap-2 text-xs text-slate-500 font-mono">
             <ShieldCheck className="w-4 h-4 text-[#5a7a00]" />
-            <span>Requires minimum Foundation membership (£49/mo). Add-on price: £99/mo (Included FREE with The Floor £299/mo).</span>
+            <span>Investment Centre is fully included with Edge (£99/mo) and Floor (£299/mo) memberships.</span>
           </div>
         </div>
       </section>
@@ -387,7 +403,7 @@ export default function InvestmentCentreMarketingClient() {
               The Investment Centre Add-on
             </h2>
             <p className="text-slate-500 text-sm sm:text-base leading-relaxed">
-              The Investment Centre is an advanced institutional platform add-on (£99/mo). To ensure risk discipline, it cannot be purchased as a standalone product — users must hold a minimum of <strong className="text-slate-900">Foundation membership (£49/mo)</strong> or <strong className="text-slate-900">Edge (£149/mo)</strong>, or get <strong className="text-[#5a7a00]">The Floor (£299/mo)</strong> which includes The Investment Centre at no extra charge.
+              The Investment Centre is included with <strong className="text-slate-900">Edge membership (£99/mo)</strong> and <strong className="text-[#5a7a00]">Floor membership (£299/mo)</strong>. It is not available as a standalone product.
             </p>
           </div>
 
@@ -395,12 +411,12 @@ export default function InvestmentCentreMarketingClient() {
           <div className="bg-slate-50 border border-slate-200 rounded-xl p-6 sm:p-8 grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
             <div className="space-y-4">
               <div>
-                <span className="text-xs font-mono text-slate-500 uppercase tracking-widest">Add-on Pricing</span>
+                <span className="text-xs font-mono text-slate-500 uppercase tracking-widest">Edge &amp; Floor Membership</span>
                 <div className="flex items-baseline gap-2 mt-1">
                   <span className="text-4xl sm:text-5xl font-black font-mono text-slate-900">£99</span>
                   <span className="text-sm font-mono text-slate-500">/ month</span>
                 </div>
-                <p className="text-xs text-[#5a7a00] font-mono mt-1">Included FREE in The Floor membership (£299/mo)</p>
+                <p className="text-xs text-[#5a7a00] font-mono mt-1">Included with Edge membership — also included with Floor</p>
               </div>
               <div className="space-y-2 text-xs text-slate-700 font-sans">
                 <div className="flex items-center gap-2">
@@ -465,7 +481,7 @@ export default function InvestmentCentreMarketingClient() {
                 <div className="space-y-3">
                   <div className="p-2.5 bg-amber-50 border border-amber-200 text-amber-700 text-xs rounded font-mono flex items-center gap-2">
                     <AlertCircle className="w-4 h-4 shrink-0 text-amber-500" />
-                    <span>Requires Foundation (£49/mo) or Edge (£149/mo) to add Investment Centre, or Floor (£299/mo) which includes it.</span>
+                    <span>The Investment Centre is included with Edge (£99/mo) and Floor (£299/mo). It is not available as a standalone add-on.</span>
                   </div>
                   <button
                     onClick={() => handleProceedStripeCheckout("bundle")}
@@ -501,10 +517,10 @@ export default function InvestmentCentreMarketingClient() {
                 [MEMBERSHIP RULE ENFORCED]
               </div>
               <h3 className="text-2xl font-extrabold text-slate-900 font-sans tracking-tight">
-                Subscribe to The Investment Centre
+                Access The Investment Centre
               </h3>
               <p className="text-xs text-slate-500 font-sans leading-relaxed">
-                The Investment Centre requires a minimum Foundation membership (£49/mo) to unlock the £99/mo add-on, or is included free in The Floor membership (£299/mo).
+                The Investment Centre is included with Edge (£99/mo) and Floor (£299/mo) memberships. Upgrade to access.
               </p>
             </div>
 
@@ -600,6 +616,17 @@ export default function InvestmentCentreMarketingClient() {
             </div>
           </div>
         </div>
+      )}
+
+      {pendingPlanType && (
+        <CheckoutConsentModal
+          isOpen={showConsentModal}
+          onClose={() => { setShowConsentModal(false); setPendingPlanType(null); }}
+          onConfirm={(consentData) => { if (pendingPlanType) handleProceedStripeCheckout(pendingPlanType, consentData); }}
+          loading={checkoutLoading}
+          productName="Drawdown Investment Centre"
+          priceString="£99/mo"
+        />
       )}
     </div>
   );

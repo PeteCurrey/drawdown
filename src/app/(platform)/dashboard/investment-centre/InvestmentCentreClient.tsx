@@ -27,6 +27,7 @@ import {
   HelpCircle
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
+import { CheckoutConsentModal } from "@/components/legal/CheckoutConsentModal";
 
 export default function InvestmentCentreClient() {
   const [user, setUser] = useState<any>(null);
@@ -34,6 +35,8 @@ export default function InvestmentCentreClient() {
   const [loadingUser, setLoadingUser] = useState(true);
   const [checkoutLoading, setCheckoutLoading] = useState(false);
   const [showPaywallModal, setShowPaywallModal] = useState(false);
+  const [showConsentModal, setShowConsentModal] = useState(false);
+  const [pendingPlanType, setPendingPlanType] = useState<"addon_only" | "floor" | "foundation" | null>(null);
 
   const supabase = createClient();
   const checkoutUrl = "https://investmentcentre.drawdown.trading";
@@ -75,8 +78,18 @@ export default function InvestmentCentreClient() {
     }
   };
 
-  const handleProceedStripeCheckout = async (planType: "addon_only" | "floor" | "foundation") => {
+  const handleProceedStripeCheckout = async (
+    planType: "addon_only" | "floor" | "foundation",
+    consentData?: { terms_accepted: boolean; immediate_supply_requested: boolean; marketing_consent: boolean }
+  ) => {
+    if (!consentData) {
+      setPendingPlanType(planType);
+      setShowPaywallModal(false);
+      setShowConsentModal(true);
+      return;
+    }
     setCheckoutLoading(true);
+    setShowConsentModal(false);
     try {
       if (!user) {
         window.location.href = `/login?redirect=/dashboard/investment-centre`;
@@ -96,6 +109,9 @@ export default function InvestmentCentreClient() {
           tier: targetTier,
           billingCycle: "monthly",
           redirectPath: "/dashboard/investment-centre",
+          terms_accepted: consentData.terms_accepted,
+          immediate_supply_requested: consentData.immediate_supply_requested,
+          marketing_consent: consentData.marketing_consent,
         }),
       });
 
@@ -673,6 +689,17 @@ export default function InvestmentCentreClient() {
 
           </div>
         </div>
+      )}
+
+      {pendingPlanType && (
+        <CheckoutConsentModal
+          isOpen={showConsentModal}
+          onClose={() => { setShowConsentModal(false); setPendingPlanType(null); }}
+          onConfirm={(consentData) => { if (pendingPlanType) handleProceedStripeCheckout(pendingPlanType, consentData); }}
+          loading={checkoutLoading}
+          productName="Drawdown Investment Centre"
+          priceString="£99/mo"
+        />
       )}
 
     </div>

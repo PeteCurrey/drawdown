@@ -7,6 +7,7 @@ import { useRegion } from "@/components/layout/RegionalLayout";
 import { STRIPE_CONFIG } from "@/config/stripe";
 import { REGIONAL_PRICING, type RegionCode } from "@/lib/regions";
 import { GET_DEFAULT_FEATURES, GET_EDGE_FEATURES, GET_FLOOR_FEATURES } from "@/data/pricing";
+import { CheckoutConsentModal } from "@/components/legal/CheckoutConsentModal";
 
 const tiers = [
   {
@@ -37,6 +38,10 @@ export function PricingSection({ floorCap = 15, activeFloorSubs = 0 }: { floorCa
   const [loadingTier, setLoadingTier] = useState<string | null>(null);
   const { region } = useRegion();
 
+  const [showConsent, setShowConsent] = useState(false);
+  const [selectedTier, setSelectedTier] = useState<string | null>(null);
+  const [selectedPriceId, setSelectedPriceId] = useState<string | null>(null);
+
   const getPlanDetails = (tierId: "foundation" | "edge" | "floor") => {
     let currencyKey: "gbp" | "aud" | "usd" | "sgd" | "hkd" = "gbp";
     let symbol = "£";
@@ -64,7 +69,7 @@ export function PricingSection({ floorCap = 15, activeFloorSubs = 0 }: { floorCa
 
     const regionCode: RegionCode = (regionUpper === "UK" || regionUpper === "GB") ? "GB" : regionUpper as RegionCode;
     const regPlan = REGIONAL_PRICING[regionCode]?.[tierId];
-    const baseMonthlyPrice = regPlan ? parseInt(regPlan.price) : (tierId === "foundation" ? 49 : tierId === "edge" ? 149 : 299);
+    const baseMonthlyPrice = regPlan ? parseInt(regPlan.price) : (tierId === "foundation" ? 49 : tierId === "edge" ? 99 : 299);
 
     const priceVal = billingCycle === "monthly" ? baseMonthlyPrice : Math.floor(baseMonthlyPrice * 0.8);
     const activePriceId = billingCycle === "monthly" ? monthlyPriceId : annualPriceId;
@@ -76,18 +81,36 @@ export function PricingSection({ floorCap = 15, activeFloorSubs = 0 }: { floorCa
     };
   };
 
-  const handleSubscribe = async (tierId: string, priceId: string) => {
+  const handleSubscribe = async (tierId: string, priceId: string, consentData?: {
+    terms_accepted: boolean;
+    immediate_supply_requested: boolean;
+    marketing_consent: boolean;
+  }) => {
     if (tierId === "floor" && activeFloorSubs >= floorCap) {
       window.location.href = "/waitlist?tier=floor";
       return;
     }
 
+    if (!consentData) {
+      setSelectedTier(tierId);
+      setSelectedPriceId(priceId);
+      setShowConsent(true);
+      return;
+    }
+
     setLoadingTier(tierId);
+    setShowConsent(false);
     try {
       const response = await fetch("/api/stripe/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ priceId, tier: tierId }),
+        body: JSON.stringify({
+          priceId,
+          tier: tierId,
+          terms_accepted: consentData.terms_accepted,
+          immediate_supply_requested: consentData.immediate_supply_requested,
+          marketing_consent: consentData.marketing_consent,
+        }),
       });
 
       const data = await response.json();
@@ -107,6 +130,7 @@ export function PricingSection({ floorCap = 15, activeFloorSubs = 0 }: { floorCa
   };
 
   return (
+    <>
     <section
       className="w-full py-24 border-b select-none relative z-10"
       style={{ backgroundColor: "var(--paper-0)", borderColor: "var(--line-200)" }}
@@ -185,7 +209,7 @@ export function PricingSection({ floorCap = 15, activeFloorSubs = 0 }: { floorCa
                             borderRadius: 0,
                           }}
                         >
-                          Most Popular
+                          Most Selected
                         </span>
                       )}
                     </div>
@@ -304,7 +328,7 @@ export function PricingSection({ floorCap = 15, activeFloorSubs = 0 }: { floorCa
                 Premium Platform Add-ons
               </h4>
               <p className="text-[12px] leading-relaxed font-sans" style={{ color: "var(--graphite-600)" }}>
-                Scale your analytical edge with stand-alone systems like the institutional Investment Centre Terminal.
+                Scale your analytical edge with the Investment Centre Terminal, included with Edge and Floor memberships.
               </p>
             </div>
           </div>
@@ -324,10 +348,10 @@ export function PricingSection({ floorCap = 15, activeFloorSubs = 0 }: { floorCa
               Detailed Matrix
             </span>
             <h3 className="text-[18px] font-semibold tracking-tight font-display" style={{ color: "var(--ink-950)" }}>
-              Looking for our complete features table or standalone Signal Centre tier?
+              Looking for the complete features table?
             </h3>
             <p className="text-[12px] leading-relaxed font-sans" style={{ color: "var(--graphite-600)" }}>
-              Compare every sub-capability, explore included PDF guides, check out standalone signal feeds, and find the perfect package for your trading desk on our full pricing directory.
+              Compare every sub-capability, explore PDF guide access, and find the right plan on the full pricing page.
             </p>
           </div>
           
@@ -382,5 +406,20 @@ export function PricingSection({ floorCap = 15, activeFloorSubs = 0 }: { floorCa
 
       </div>
     </section>
+
+    {selectedTier && selectedPriceId && (
+      <CheckoutConsentModal
+        isOpen={showConsent}
+        onClose={() => { setShowConsent(false); setSelectedTier(null); setSelectedPriceId(null); }}
+        onConfirm={(consentData) => handleSubscribe(selectedTier, selectedPriceId, consentData)}
+        loading={loadingTier !== null}
+        productName={`Drawdown ${selectedTier.charAt(0).toUpperCase() + selectedTier.slice(1)}`}
+        priceString={(() => {
+          const d = getPlanDetails(selectedTier as "foundation" | "edge" | "floor");
+          return `${d.symbol}${d.price}/mo`;
+        })()}
+      />
+    )}
+    </>
   );
 }

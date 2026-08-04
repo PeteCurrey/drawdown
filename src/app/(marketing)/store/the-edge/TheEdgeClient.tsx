@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { Check, ArrowRight, BookOpen, TrendingUp, Shield, Brain, Clock, Zap, Target, ChevronDown, ChevronUp } from "lucide-react";
+import { CheckoutConsentModal } from "@/components/legal/CheckoutConsentModal";
 
 function useRegion() {
   const [region, setRegion] = useState("uk");
@@ -52,17 +53,34 @@ export default function TheEdgeClient() {
   const { region, currencySymbol } = useRegion();
   const [loading, setLoading] = useState(false);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
+  const [showConsent, setShowConsent] = useState(false);
 
   const PRICE = 59;
   const ACC = "#818cf8";
 
-  const handleCheckout = async () => {
+  const handleCheckout = async (consentData?: {
+    terms_accepted: boolean;
+    immediate_supply_requested: boolean;
+    marketing_consent: boolean;
+  }) => {
+    if (!consentData) {
+      setShowConsent(true);
+      return;
+    }
+
     setLoading(true);
+    setShowConsent(false);
     try {
       const res = await fetch("/api/store/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ productId: "the-edge", region }),
+        body: JSON.stringify({
+          productId: "the-edge",
+          region,
+          terms_accepted: consentData.terms_accepted,
+          immediate_supply_requested: consentData.immediate_supply_requested,
+          marketing_consent: consentData.marketing_consent,
+        }),
       });
       const data = await res.json();
       if (data.url) window.location.href = data.url;
@@ -113,7 +131,7 @@ export default function TheEdgeClient() {
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <button
-              onClick={handleCheckout}
+              onClick={() => handleCheckout()}
               disabled={loading}
               className="px-10 py-4 text-white font-mono font-bold uppercase tracking-widest rounded-xl transition-all hover:opacity-90 hover:scale-[1.02] active:scale-[0.98] disabled:opacity-60"
               style={{ backgroundColor: ACC }}
@@ -269,7 +287,7 @@ export default function TheEdgeClient() {
             </div>
 
             <button
-              onClick={handleCheckout}
+              onClick={() => handleCheckout()}
               disabled={loading}
               className="w-full py-4 text-white font-mono font-bold uppercase tracking-widest rounded-xl transition-all hover:opacity-90 disabled:opacity-60"
               style={{ backgroundColor: ACC }}
@@ -326,7 +344,7 @@ export default function TheEdgeClient() {
             You already know how to trade. Now build the edge that makes you dangerous.
           </p>
           <button
-            onClick={handleCheckout}
+            onClick={() => handleCheckout()}
             disabled={loading}
             className="inline-flex items-center gap-3 px-10 py-4 text-white font-mono font-bold uppercase tracking-widest rounded-xl transition-all hover:opacity-90 hover:scale-[1.02] disabled:opacity-60"
             style={{ backgroundColor: ACC }}
@@ -336,6 +354,15 @@ export default function TheEdgeClient() {
           </button>
         </div>
       </section>
+
+      <CheckoutConsentModal
+        isOpen={showConsent}
+        onClose={() => setShowConsent(false)}
+        onConfirm={handleCheckout}
+        loading={loading}
+        productName="The Edge Manual"
+        priceString={`${currencySymbol}${PRICE} (One-time payment)`}
+      />
     </div>
   );
 }

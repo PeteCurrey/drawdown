@@ -89,14 +89,16 @@ export const STRIPE_CONFIG = {
   },
   plans: {
     'investment-centre': {
-      name: 'The Investment Centre',
+      name: 'The Investment Centre (Legacy Add-on)',
       tier: 'investment-centre',
       requiresMinTier: 'foundation',
       addonPriceGbp: 99,
+      isLegacy: true,
     },
     'signal-centre': {
-      name: 'Signal Centre',
+      name: 'Signal Centre (Legacy Grandfathered)',
       tier: 'signal-centre',
+      isLegacy: true,
     },
     foundation: {
       name: 'Foundation',
@@ -105,6 +107,7 @@ export const STRIPE_CONFIG = {
     edge: {
       name: 'Edge',
       tier: 'edge',
+      legacyPriceIdGbp: process.env.STRIPE_PRICE_EDGE_MONTHLY_GBP_LEGACY_149,
     },
     floor: {
       name: 'The Floor',

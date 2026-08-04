@@ -12,27 +12,27 @@ export interface PricingPlan {
 export const REGIONAL_PRICING: Record<RegionCode, Record<string, PricingPlan>> = {
   GB: {
     foundation: { id: 'foundation', name: 'Foundation', price: '49', currency: 'GBP', symbol: '£', stripePriceId: 'price_GB_foundation' },
-    edge: { id: 'edge', name: 'Edge', price: '149', currency: 'GBP', symbol: '£', stripePriceId: 'price_GB_edge' },
+    edge: { id: 'edge', name: 'Edge', price: '99', currency: 'GBP', symbol: '£', stripePriceId: 'price_GB_edge' },
     floor: { id: 'floor', name: 'Floor', price: '299', currency: 'GBP', symbol: '£', stripePriceId: 'price_GB_floor' },
   },
   AU: {
     foundation: { id: 'foundation', name: 'Foundation', price: '79', currency: 'AUD', symbol: 'A$', stripePriceId: 'price_AU_foundation' },
-    edge: { id: 'edge', name: 'Edge', price: '239', currency: 'AUD', symbol: 'A$', stripePriceId: 'price_AU_edge' },
+    edge: { id: 'edge', name: 'Edge', price: '159', currency: 'AUD', symbol: 'A$', stripePriceId: 'price_AU_edge' },
     floor: { id: 'floor', name: 'Floor', price: '479', currency: 'AUD', symbol: 'A$', stripePriceId: 'price_AU_floor' },
   },
   US: {
     foundation: { id: 'foundation', name: 'Foundation', price: '59', currency: 'USD', symbol: '$', stripePriceId: 'price_US_foundation' },
-    edge: { id: 'edge', name: 'Edge', price: '179', currency: 'USD', symbol: '$', stripePriceId: 'price_US_edge' },
+    edge: { id: 'edge', name: 'Edge', price: '119', currency: 'USD', symbol: '$', stripePriceId: 'price_US_edge' },
     floor: { id: 'floor', name: 'Floor', price: '359', currency: 'USD', symbol: '$', stripePriceId: 'price_US_floor' },
   },
   SG: {
     foundation: { id: 'foundation', name: 'Foundation', price: '79', currency: 'SGD', symbol: 'S$', stripePriceId: 'price_SG_foundation' },
-    edge: { id: 'edge', name: 'Edge', price: '239', currency: 'SGD', symbol: 'S$', stripePriceId: 'price_SG_edge' },
-    floor: { id: 'floor', name: 'Floor', price: '479', currency: 'SGD', symbol: 'S$', stripePriceId: 'price_SG_floor' },
+    edge: { id: 'edge', name: 'Edge', price: '159', currency: 'SGD', symbol: 'S$', stripePriceId: 'price_SG_edge' },
+    floor: { id: 'floor', name: 'Floor', price: '2799', currency: 'HKD', symbol: 'HK$', stripePriceId: 'price_HK_floor' },
   },
   HK: {
     foundation: { id: 'foundation', name: 'Foundation', price: '469', currency: 'HKD', symbol: 'HK$', stripePriceId: 'price_HK_foundation' },
-    edge: { id: 'edge', name: 'Edge', price: '1399', currency: 'HKD', symbol: 'HK$', stripePriceId: 'price_HK_edge' },
+    edge: { id: 'edge', name: 'Edge', price: '949', currency: 'HKD', symbol: 'HK$', stripePriceId: 'price_HK_edge' },
     floor: { id: 'floor', name: 'Floor', price: '2799', currency: 'HKD', symbol: 'HK$', stripePriceId: 'price_HK_floor' },
   },
 };

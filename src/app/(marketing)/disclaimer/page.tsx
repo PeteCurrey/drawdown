@@ -7,7 +7,7 @@ import Link from "next/link";
 export const metadata = getMetadata({
   title: "Risk Disclaimer | Drawdown",
   description: "Important risk warnings, quantitative market signal disclosures, and financial perimeter notices for Drawdown users.",
-  alternates: { canonical: "https://drawdown.trading/disclaimer" },
+  path: "/disclaimer",
 });
 
 export default function DisclaimerPage() {

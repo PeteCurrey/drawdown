@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { CheckCircle2, ShieldAlert, Download, Lock, Zap, ChevronDown, Check } from "lucide-react";
 import Link from "next/link";
 import { PropSurvivalFloatingWidget } from "@/components/ui/PropSurvivalFloatingWidget";
+import { CheckoutConsentModal } from "@/components/legal/CheckoutConsentModal";
 
 import { useRegion } from "@/components/layout/RegionalLayout";
 
@@ -12,14 +13,32 @@ export default function PropSurvivalKitPage() {
   const [includeBump, setIncludeBump] = useState(false);
   const [loading, setLoading] = useState(false);
   const { region, currencySymbol } = useRegion();
+  const [showConsent, setShowConsent] = useState(false);
 
-  const handleCheckout = async () => {
+  const handleCheckout = async (consentData?: {
+    terms_accepted: boolean;
+    immediate_supply_requested: boolean;
+    marketing_consent: boolean;
+  }) => {
+    if (!consentData) {
+      setShowConsent(true);
+      return;
+    }
+
     setLoading(true);
+    setShowConsent(false);
     try {
       const res = await fetch("/api/store/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ productId: "prop-survival-kit", includeBump, region }),
+        body: JSON.stringify({
+          productId: "prop-survival-kit",
+          includeBump,
+          region,
+          terms_accepted: consentData.terms_accepted,
+          immediate_supply_requested: consentData.immediate_supply_requested,
+          marketing_consent: consentData.marketing_consent,
+        }),
       });
       const data = await res.json();
       if (data.url) {
@@ -623,9 +642,8 @@ export default function PropSurvivalKitPage() {
               </div>
             </label>
 
-            {/* Complete Purchase Button */}
             <button
-              onClick={handleCheckout}
+              onClick={() => handleCheckout()}
               disabled={loading}
               className="w-full mt-8 py-5 bg-[#C8F135] text-black font-sans font-black uppercase tracking-[0.2em] text-sm hover:bg-[#d4ff3a] transition-colors disabled:opacity-60 cursor-pointer shadow-xl rounded-xl flex items-center justify-center gap-2"
             >
@@ -638,9 +656,9 @@ export default function PropSurvivalKitPage() {
             </p>
           </div>
 
-          <p className="text-xs text-white/40 leading-relaxed max-w-md mx-auto mt-8 font-sans">
-            <strong className="text-white">100% No-BS 14-Day Guarantee.</strong> If you apply these frameworks and still feel unprepared for your challenge, email us. We will refund your {currencySymbol}49 immediately. No questions asked.
-          </p>
+            <p className="text-xs text-white/40 leading-relaxed max-w-md mx-auto mt-8 font-sans">
+              <strong className="text-white">One-time payment. Yours to keep.</strong> Instant PDF download. If you have any issues with your purchase, contact us at support@drawdown.trading.
+            </p>
 
           {/* Trust Strip */}
           <div className="flex flex-wrap justify-center gap-x-8 gap-y-3 mt-16 pt-8 border-t border-white/5 w-full select-none">
@@ -742,6 +760,15 @@ export default function PropSurvivalKitPage() {
       </section>
 
       <PropSurvivalFloatingWidget />
+
+      <CheckoutConsentModal
+        isOpen={showConsent}
+        onClose={() => setShowConsent(false)}
+        onConfirm={handleCheckout}
+        loading={loading}
+        productName="Prop Firm Survival Kit"
+        priceString={`${currencySymbol}${includeBump ? '68' : '49'} (One-time payment)`}
+      />
     </div>
   );
 }

@@ -9,6 +9,11 @@ import {
   getTheEdgeConfirmationTemplate,
 } from "@/lib/email-templates";
 import { createServiceRoleClient } from "@/lib/supabase/server";
+import {
+  sendSubscriptionWelcomeEmail,
+  sendSubscriptionCancelledEmail,
+  sendPaymentFailedEmail,
+} from "@/lib/legal-emails";
 
 export async function POST(request: NextRequest) {
   const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
@@ -400,6 +405,32 @@ export async function POST(request: NextRequest) {
                 if (rpcErr) console.error("grant_floor_courses failed (non-fatal):", rpcErr);
               });
           }
+
+          // Send welcome legal email
+          const resendKey = process.env.RESEND_API_KEY;
+          const email = session.customer_details?.email || session.customer_email;
+          if (resendKey && email && tier) {
+            try {
+              const amountTotal = session.amount_total ? (session.amount_total / 100).toFixed(2) : "";
+              const currency = session.currency ? session.currency.toUpperCase() : "GBP";
+              const symbol = currency === "GBP" ? "£" : currency + " ";
+              const priceString = amountTotal ? `${symbol}${amountTotal}/mo` : "Subscription Price";
+              
+              const tierLabel = tier.charAt(0).toUpperCase() + tier.slice(1);
+              const immediateSupplyConsented = session.metadata.immediate_supply_requested === "true";
+
+              await sendSubscriptionWelcomeEmail({
+                resendKey,
+                toEmail: email,
+                tierLabel,
+                priceString,
+                immediateSupplyConsented,
+              });
+              console.log(`Sent legal welcome email for tier ${tier} to ${email}`);
+            } catch (emailErr) {
+              console.error("Failed to send welcome legal email:", emailErr);
+            }
+          }
         }
       }
       break;
@@ -459,6 +490,33 @@ export async function POST(request: NextRequest) {
       } else if (!deletedProfiles || deletedProfiles.length === 0) {
         console.error(`Error: subscription delete affected zero rows for customer: ${deletedSubscription.customer}`);
       }
+
+      // Send cancellation email
+      const resendKey = process.env.RESEND_API_KEY;
+      if (resendKey) {
+        try {
+          const stripeCustomer = await stripe.customers.retrieve(deletedSubscription.customer as string);
+          const customerEmail = (stripeCustomer as Stripe.Customer).email;
+          if (customerEmail) {
+            const subTier = deletedSubscription.metadata?.tier || "membership";
+            const tierLabel = subTier.charAt(0).toUpperCase() + subTier.slice(1);
+            const accessUntil = new Date(deletedSubscription.current_period_end * 1000).toLocaleDateString("en-GB", {
+              day: "numeric",
+              month: "long",
+              year: "numeric",
+            });
+            await sendSubscriptionCancelledEmail({
+              resendKey,
+              toEmail: customerEmail,
+              tierLabel,
+              accessUntil,
+            });
+            console.log(`Sent cancellation confirmation email to ${customerEmail}`);
+          }
+        } catch (emailErr) {
+          console.error("Failed to send subscription deleted email:", emailErr);
+        }
+      }
       break;
     }
 
@@ -478,6 +536,37 @@ export async function POST(request: NextRequest) {
         console.error("Error updating profile on payment failed:", failError);
       } else if (!failedProfiles || failedProfiles.length === 0) {
         console.error(`Error: payment failed update affected zero rows for customer: ${failedInvoice.customer}`);
+      }
+
+      // Send payment failed email
+      const resendKey = process.env.RESEND_API_KEY;
+      if (resendKey) {
+        try {
+          const customerEmail = failedInvoice.customer_email || failedInvoice.customer_details?.email;
+          if (customerEmail) {
+            // Find subscription tier
+            let subTier = "membership";
+            if (failedInvoice.subscription) {
+              const stripeSub = await stripe.subscriptions.retrieve(failedInvoice.subscription as string);
+              subTier = stripeSub.metadata?.tier || "membership";
+            }
+            const tierLabel = subTier.charAt(0).toUpperCase() + subTier.slice(1);
+            const amountTotal = failedInvoice.amount_due ? (failedInvoice.amount_due / 100).toFixed(2) : "";
+            const currency = failedInvoice.currency ? failedInvoice.currency.toUpperCase() : "GBP";
+            const symbol = currency === "GBP" ? "£" : currency + " ";
+            const amountString = amountTotal ? `${symbol}${amountTotal}` : "Subscription Fee";
+
+            await sendPaymentFailedEmail({
+              resendKey,
+              toEmail: customerEmail,
+              tierLabel,
+              amountString,
+            });
+            console.log(`Sent payment failed email to ${customerEmail}`);
+          }
+        } catch (emailErr) {
+          console.error("Failed to send payment failed email:", emailErr);
+        }
       }
       break;
     }

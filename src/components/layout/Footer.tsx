@@ -153,9 +153,13 @@ export function Footer() {
               <li><Link href="/contact" className="hover:underline">Contact</Link></li>
               <li><Link href="/methodology" className="hover:underline font-medium" style={{ color: "var(--ink-950)" }}>Data &amp; Methodology</Link></li>
               <li><Link href="/editorial-standards" className="hover:underline">Editorial Standards</Link></li>
+              <li><Link href="/terms" className="hover:underline">Terms &amp; Conditions</Link></li>
               <li><Link href="/privacy" className="hover:underline">Privacy Policy</Link></li>
+              <li><Link href="/cookies" className="hover:underline">Cookie Policy</Link></li>
               <li><Link href="/disclaimer" className="hover:underline">Risk Disclaimer</Link></li>
               <li><Link href="/legal/financial-disclaimer" className="hover:underline">Legal &amp; Tax Disclaimer</Link></li>
+              <li><Link href="/legal/subscription-and-refunds" className="hover:underline">Subscriptions &amp; Refunds</Link></li>
+              <li><Link href="/community-guidelines" className="hover:underline">Community Guidelines</Link></li>
             </ul>
           </div>
 
@@ -167,7 +171,7 @@ export function Footer() {
           {/* Copyright & Region Links */}
           <div className="space-y-3 shrink-0">
             <p className="text-[11px] font-mono uppercase tracking-[0.08em]" style={{ color: "var(--graphite-600)" }}>
-              © 2026 Drawdown Trading Ltd · Chesterfield, Derbyshire, UK
+              © 2026 Black &amp; Rowan Management Group Limited t/a Drawdown · Chesterfield, Derbyshire, UK
             </p>
             <div className="flex items-center gap-3 text-[11px] font-mono uppercase tracking-[0.08em]" style={{ color: "var(--graphite-600)" }}>
               <span className="select-none">Region:</span>

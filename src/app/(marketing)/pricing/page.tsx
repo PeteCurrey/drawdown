@@ -1,89 +1,164 @@
-import type { Metadata } from 'next'
-import PricingPage from './PricingClient'
-import JsonLd from '@/components/seo/JsonLd'
+import type { Metadata } from "next";
+import PricingPage from "./PricingClient";
+import JsonLd from "@/components/seo/JsonLd";
+import { createInternalSupabase } from "@/lib/supabase/server";
+import { PRICING_FAQS } from "@/data/pricing";
 
 export const metadata: Metadata = {
-  title: 'Pricing | Trading Education Subscription Plans',
-  description: 'Simple, honest pricing for serious trading education. Foundation, Edge and Floor tiers. Start free with Phase 1 — upgrade when you\'re ready.',
-  alternates: { canonical: 'https://drawdown.trading/pricing' }
-}
-
-import { createInternalSupabase } from "@/lib/supabase/server";
+  title: "Drawdown Memberships, Courses & Trading Manuals",
+  description:
+    "Compare Drawdown Free, Foundation, Edge and Floor memberships. Permanent trading-manual downloads and the six-week Drawdown Institutional Accelerator. Start free — no card required.",
+  alternates: { canonical: "https://drawdown.trading/pricing" },
+};
 
 export default async function Page() {
   const supabase = createInternalSupabase();
 
-  let floorCap = 15;
+  // Floor capacity — reads from platform_settings if present, falls back to default
+  let floorCap = 20;
   try {
     const { data } = await supabase
-      .from('platform_settings')
-      .select('setting_value')
-      .eq('setting_key', 'floor_cap')
+      .from("platform_settings")
+      .select("setting_value")
+      .eq("setting_key", "floor_cap")
       .single();
     if (data?.setting_value) {
       floorCap = parseInt(data.setting_value as string, 10);
     }
-  } catch(e) {}
+  } catch (_) {}
 
   let activeFloorSubs = 0;
   try {
     const { count } = await supabase
-      .from('profiles')
-      .select('*', { count: 'exact', head: true })
-      .eq('subscription_tier', 'floor')
-      .eq('subscription_status', 'active');
+      .from("profiles")
+      .select("*", { count: "exact", head: true })
+      .eq("subscription_tier", "floor")
+      .eq("subscription_status", "active");
     activeFloorSubs = count || 0;
-  } catch(e) {}
+  } catch (_) {}
+
+  // Build FAQ structured data from the canonical FAQ list in pricing.ts
+  const faqStructuredData = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: PRICING_FAQS.map((faq) => ({
+      "@type": "Question",
+      name: faq.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: faq.answer,
+      },
+    })),
+  };
+
+  // Product structured data — active products only, no invented values
+  const productsStructuredData = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: "Drawdown Membership Plans",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        item: {
+          "@type": "Product",
+          name: "Drawdown Free Membership",
+          description:
+            "Free access to Phase 1 curriculum, risk calculators and the manual trade journal. No card required.",
+          offers: {
+            "@type": "Offer",
+            price: "0",
+            priceCurrency: "GBP",
+            availability: "https://schema.org/InStock",
+            url: "https://drawdown.trading/pricing",
+          },
+        },
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        item: {
+          "@type": "Product",
+          name: "Drawdown Foundation Membership",
+          description:
+            "Foundation curriculum, risk framework, Market Intelligence Hub and core analysis tools.",
+          offers: [
+            {
+              "@type": "Offer",
+              price: "49",
+              priceCurrency: "GBP",
+              billingDuration: "P1M",
+              availability: "https://schema.org/InStock",
+              url: "https://drawdown.trading/pricing",
+            },
+            {
+              "@type": "Offer",
+              price: "490",
+              priceCurrency: "GBP",
+              billingDuration: "P1Y",
+              availability: "https://schema.org/InStock",
+              url: "https://drawdown.trading/pricing",
+            },
+          ],
+        },
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        item: {
+          "@type": "Product",
+          name: "Drawdown Edge Membership",
+          description:
+            "Advanced curriculum, Investment Centre, AI journal review, strategy backtester and advanced briefings.",
+          offers: [
+            {
+              "@type": "Offer",
+              price: "99",
+              priceCurrency: "GBP",
+              billingDuration: "P1M",
+              availability: "https://schema.org/InStock",
+              url: "https://drawdown.trading/pricing",
+            },
+            {
+              "@type": "Offer",
+              price: "990",
+              priceCurrency: "GBP",
+              billingDuration: "P1Y",
+              availability: "https://schema.org/InStock",
+              url: "https://drawdown.trading/pricing",
+            },
+          ],
+        },
+      },
+      {
+        "@type": "ListItem",
+        position: 4,
+        item: {
+          "@type": "Product",
+          name: "Drawdown Floor Membership",
+          description:
+            "Full released platform with Investment Centre, private community channel and defined founder-led process reviews. Capped at 20 members.",
+          offers: {
+            "@type": "Offer",
+            price: "299",
+            priceCurrency: "GBP",
+            billingDuration: "P1M",
+            availability:
+              activeFloorSubs >= floorCap
+                ? "https://schema.org/SoldOut"
+                : "https://schema.org/InStock",
+            url: "https://drawdown.trading/pricing",
+          },
+        },
+      },
+    ],
+  };
 
   return (
     <>
-      <JsonLd data={{
-        "@context": "https://schema.org",
-        "@type": "FAQPage",
-        "mainEntity": [
-          {
-            "@type": "Question",
-            "name": "What is included in the Foundation plan?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "The Foundation plan includes full access to Phases 1-3 of the curriculum, the Risk Calculator, AI Trade Journal and Intelligence Hub tools, and the twice-daily market email briefs."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "What is the difference between Foundation and Edge?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Edge adds Phases 4-6, the AI Market Scanner, Strategy Backtester and Algo Strategy Builder tools, plus access to the community and weekly live sessions with Pete (Coming Soon)."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "What is The Floor?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "The Floor is Drawdown's premium tier offering monthly 1-to-1 mentorship sessions directly with Pete Currey (Coming Soon), unlimited AI tool usage and priority support. Limited seats available."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Is there a free trial?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Phase 1 of the curriculum is permanently free — no trial period, no card required. This gives you a genuine taste of the curriculum quality before committing to a paid plan."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Do you offer refunds?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Yes. If you're not satisfied within 7 days of upgrading to a paid plan, contact us for a full refund — no questions asked."
-            }
-          }
-        ]
-      }} />
+      <JsonLd data={faqStructuredData} />
+      <JsonLd data={productsStructuredData} />
       <PricingPage floorCap={floorCap} activeFloorSubs={activeFloorSubs} />
     </>
-  )
+  );
 }

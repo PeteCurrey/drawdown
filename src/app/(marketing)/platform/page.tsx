@@ -412,7 +412,7 @@ export default function PlatformPage() {
                     <th className="p-4 font-bold text-text-secondary">Feature</th>
                     <th className="p-4 font-bold text-center">Free</th>
                     <th className="p-4 font-bold text-center">Foundation <span className="block text-xs font-normal text-text-tertiary">£49/mo</span></th>
-                    <th className="p-4 font-bold text-center text-accent">Edge <span className="block text-xs font-normal">£149/mo</span></th>
+                    <th className="p-4 font-bold text-center text-accent">Edge <span className="block text-xs font-normal">£99/mo</span></th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-border-slate/30">

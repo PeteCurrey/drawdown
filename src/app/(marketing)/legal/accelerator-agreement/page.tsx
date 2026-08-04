@@ -62,20 +62,16 @@ export default function AcceleratorAgreementPage() {
 
           <section className="space-y-4">
             <h2 className="text-2xl font-sans font-bold uppercase text-text-primary">
-              3. Conditional Performance Refund Policy
+              3. Refund Policy
             </h2>
             <p>
-              The Program is designed strictly for serious and committed traders. To prevent "course-scraping" and protect our core proprietary strategies, we implement a strict <strong>Conditional 14-Day Performance Guarantee</strong>.
+              The Accelerator is a structured live cohort with limited seats and preparation overhead. As a result, refund requests are handled on a case-by-case basis at the sole discretion of Drawdown Trading Ltd. No refunds are guaranteed or implied.
             </p>
             <p>
-              Under this policy, a student may request a full 100% refund within the first 14 calendar days of cohort commencement, subject to providing evidence of active effort:
+              If you believe your circumstances merit a refund, you must submit a written request to <strong>support@drawdown.trading</strong> within 7 calendar days of cohort commencement. Drawdown Trading Ltd will review the request and respond within 5 business days. We do not issue refunds after 7 days from cohort start under any circumstances.
             </p>
-            <ul className="list-disc pl-6 space-y-2">
-              <li>You must submit your completed Week 1 Backtesting sheets, showing a compiled sample of at least 100 manual trades backtested inside TradingView following the rules taught in the initial workshops.</li>
-              <li>You must show completion of the Week 1 quiz and submission of the initial strategy expectancy calculation.</li>
-            </ul>
             <p>
-              If these efforts are documented and submitted, we will immediately process a full refund. Refunds will not be granted after 14 days, or for students who have not completed the initial deliverables.
+              Acceptance of a place following admissions review constitutes agreement to these terms. Accessing cohort workshop recordings, live sessions, or proprietary materials after commencement forfeit any refund eligibility.
             </p>
           </section>
 

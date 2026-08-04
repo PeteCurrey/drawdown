@@ -7,6 +7,7 @@ import {
   ArrowRight, CheckCircle2, Clock, Zap, BookOpen,
   TrendingUp, Terminal, Radio, Shield,
 } from "lucide-react";
+import { CheckoutConsentModal } from "@/components/legal/CheckoutConsentModal";
 
 const MODULES = [
   { num: "01", title: "Your First Script on TradingView",  desc: "Where the code goes, how to open the Pine Script Editor, and how to add your strategy to any chart.", mins: 15, icon: BookOpen  },
@@ -37,14 +38,30 @@ interface DeployAlgoPageContentProps {
 export default function DeployAlgoPageContent({ accessState }: DeployAlgoPageContentProps) {
   const router = useRouter();
   const [busy, setBusy] = useState(false);
+  const [showConsent, setShowConsent] = useState(false);
 
-  async function handleBuy() {
+  async function handleBuy(consentData?: {
+    terms_accepted: boolean;
+    immediate_supply_requested: boolean;
+    marketing_consent: boolean;
+  }) {
+    if (!consentData) {
+      setShowConsent(true);
+      return;
+    }
+
     setBusy(true);
+    setShowConsent(false);
     try {
       const res = await fetch("/api/courses/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ courseSlug: "deploy-your-algo" }),
+        body: JSON.stringify({
+          courseSlug: "deploy-your-algo",
+          terms_accepted: consentData.terms_accepted,
+          immediate_supply_requested: consentData.immediate_supply_requested,
+          marketing_consent: consentData.marketing_consent,
+        }),
       });
       const data = await res.json();
       if (data.alreadyOwned) { router.push(data.redirectUrl); return; }
@@ -103,7 +120,7 @@ export default function DeployAlgoPageContent({ accessState }: DeployAlgoPageCon
             ) : (
               <>
                 <button
-                  onClick={handleBuy}
+                  onClick={() => handleBuy()}
                   disabled={busy}
                   className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-[#C8F135] text-black font-bold text-sm rounded-xl hover:bg-[#b8e020] active:scale-95 transition-all disabled:opacity-60"
                 >
@@ -251,7 +268,7 @@ export default function DeployAlgoPageContent({ accessState }: DeployAlgoPageCon
             ) : (
               <>
                 <button
-                  onClick={handleBuy}
+                  onClick={() => handleBuy()}
                   disabled={busy}
                   className="w-full py-4 bg-[#C8F135] text-black font-bold rounded-xl hover:bg-[#b8e020] active:scale-95 transition-all disabled:opacity-60 text-base"
                 >
@@ -278,6 +295,15 @@ export default function DeployAlgoPageContent({ accessState }: DeployAlgoPageCon
           </div>
         </div>
       </section>
+
+      <CheckoutConsentModal
+        isOpen={showConsent}
+        onClose={() => setShowConsent(false)}
+        onConfirm={handleBuy}
+        loading={busy}
+        productName="Deploy Your Algo Course"
+        priceString="£97 (One-time payment)"
+      />
     </div>
   );
 }

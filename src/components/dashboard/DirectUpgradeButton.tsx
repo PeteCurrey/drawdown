@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { RefreshCw, Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { CheckoutConsentModal } from "@/components/legal/CheckoutConsentModal";
 
 interface DirectUpgradeButtonProps {
   tier: "foundation" | "edge" | "floor" | "signal-centre" | "investment-centre" | "accelerator";
@@ -23,10 +24,21 @@ export default function DirectUpgradeButton({
 }: DirectUpgradeButtonProps) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [showConsent, setShowConsent] = useState(false);
 
-  const handleDirectUpgrade = async () => {
+  const handleDirectUpgrade = async (consentData?: {
+    terms_accepted: boolean;
+    immediate_supply_requested: boolean;
+    marketing_consent: boolean;
+  }) => {
+    if (!consentData) {
+      setShowConsent(true);
+      return;
+    }
+
     setLoading(true);
     setError(null);
+    setShowConsent(false);
     try {
       const response = await fetch("/api/stripe/checkout-tier", {
         method: "POST",
@@ -36,6 +48,9 @@ export default function DirectUpgradeButton({
           billingCycle,
           region,
           redirectPath,
+          terms_accepted: consentData.terms_accepted,
+          immediate_supply_requested: consentData.immediate_supply_requested,
+          marketing_consent: consentData.marketing_consent,
         }),
       });
 
@@ -60,10 +75,18 @@ export default function DirectUpgradeButton({
     }
   };
 
+  const priceDisplay = tier === "accelerator" 
+    ? "£1,495 (One-time payment)" 
+    : tier === "floor" 
+    ? `£299 / ${billingCycle}`
+    : tier === "edge" 
+    ? `£99 / ${billingCycle}` 
+    : `£49 / ${billingCycle}`;
+
   return (
     <div className="w-full flex flex-col items-center">
       <button
-        onClick={handleDirectUpgrade}
+        onClick={() => handleDirectUpgrade()}
         disabled={loading}
         className={cn(
           "relative w-full flex items-center justify-center gap-2 px-8 py-4 text-xs font-bold uppercase tracking-widest transition-all rounded-lg overflow-hidden group shadow-lg active:scale-95 disabled:opacity-80 disabled:cursor-not-allowed",
@@ -96,6 +119,15 @@ export default function DirectUpgradeButton({
           {error}
         </p>
       )}
+
+      <CheckoutConsentModal
+        isOpen={showConsent}
+        onClose={() => setShowConsent(false)}
+        onConfirm={handleDirectUpgrade}
+        loading={loading}
+        productName={`Drawdown ${tier.toUpperCase()}`}
+        priceString={priceDisplay}
+      />
     </div>
   );
 }

@@ -1,7 +1,9 @@
 import { createClient } from "@/lib/supabase/server";
+import { createServerClient } from "@supabase/ssr";
 import { type NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 import { STRIPE_CONFIG } from "@/config/stripe";
+import { LEGAL_CONFIG } from "@/config/legal";
 
 export async function POST(request: NextRequest) {
   const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
@@ -9,10 +11,24 @@ export async function POST(request: NextRequest) {
   });
 
   try {
-    const { tier, billingCycle = "monthly", region = "gbp", redirectPath } = await request.json();
+    const {
+      tier,
+      billingCycle = "monthly",
+      region = "gbp",
+      redirectPath,
+      terms_accepted,
+      immediate_supply_requested,
+      marketing_consent,
+    } = await request.json();
 
     if (!tier || !["foundation", "edge", "floor", "signal-centre", "investment-centre", "accelerator"].includes(tier)) {
       return NextResponse.json({ error: "Invalid plan tier specified" }, { status: 400 });
+    }
+    if (!terms_accepted) {
+      return NextResponse.json(
+        { error: "You must accept the Terms and Conditions to proceed." },
+        { status: 400 }
+      );
     }
 
     const supabase = await createClient();
@@ -86,10 +102,32 @@ export async function POST(request: NextRequest) {
       success_url,
       cancel_url,
       metadata: {
-        userId: user.id,
-        tier: tier,
-        purchase_type: tier === "accelerator" ? "accelerator" : "subscription",
+        userId:                     user.id,
+        tier:                       tier,
+        purchase_type:              tier === "accelerator" ? "accelerator" : "subscription",
+        legal_version:              LEGAL_CONFIG.documentVersion,
+        terms_accepted:             "true",
+        immediate_supply_requested: immediate_supply_requested ? "true" : "false",
+        marketing_consent:          marketing_consent ? "true" : "false",
       },
+    });
+
+    // ── Log legal acceptance ───────────────────────────────────────────────
+    const admin = createServerClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.SUPABASE_SERVICE_ROLE_KEY!,
+      { cookies: { getAll() { return []; }, setAll() {} } }
+    );
+    await admin.from("legal_acceptances" as any).insert({
+      user_id:                         user.id,
+      document_version:                LEGAL_CONFIG.documentVersion,
+      checkout_session_id:             session.id,
+      terms_accepted:                  true,
+      privacy_acknowledged:            true,
+      immediate_supply_requested:      !!immediate_supply_requested,
+      digital_content_acknowledgement: !!immediate_supply_requested,
+      marketing_consent:               !!marketing_consent,
+      consent_source:                  "subscription_checkout",
     });
 
     return NextResponse.json({ url: session.url });

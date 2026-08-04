@@ -28,29 +28,10 @@ export function PropSurvivalFloatingWidget() {
     sessionStorage.setItem("prop-survival-widget-dismissed", "true");
   };
 
-  const handleQuickCheckout = async (e: React.MouseEvent) => {
+  const handleQuickCheckout = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    if (loading) return;
-
-    setLoading(true);
-    try {
-      const res = await fetch("/api/store/checkout", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ productId: "prop-survival-kit", includeBump: false, region }),
-      });
-      const data = await res.json();
-      if (data.url) {
-        window.location.href = data.url;
-      } else {
-        alert("Checkout failed. Please try again.");
-        setLoading(false);
-      }
-    } catch {
-      alert("Checkout failed. Please try again.");
-      setLoading(false);
-    }
+    window.location.href = "/store/prop-survival-kit#purchase-section";
   };
 
   if (!visible) return null;

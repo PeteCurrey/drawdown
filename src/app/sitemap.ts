@@ -111,9 +111,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   // 8. Priority 0.1: Legal & Footer (excluding /login and /signup due to robots tag exclusion)
   const footerRoutes = [
+    "/terms",
     "/privacy",
+    "/cookies",
     "/disclaimer",
-    "/legal/financial-disclaimer"
+    "/legal/financial-disclaimer",
+    "/legal/subscription-and-refunds",
+    "/community-guidelines",
+    "/about",
+    "/contact",
   ].map((route) => ({
     url: `${baseUrl}${route}`,
     lastModified: staticDate,

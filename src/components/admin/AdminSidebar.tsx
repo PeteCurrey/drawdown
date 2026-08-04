@@ -25,6 +25,7 @@ import {
 const NAV_ITEMS = [
   { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
   { href: "/admin/revenue", label: "Revenue & MRR", icon: Target },
+  { href: "/admin/commercial", label: "Commercial Centre", icon: Target },
   { href: "/admin/members", label: "Members Roster", icon: Users },
   { href: "/admin/events", label: "Live Events", icon: MessageSquare },
   { href: "/admin/content", label: "Content Delivery", icon: BookOpen },

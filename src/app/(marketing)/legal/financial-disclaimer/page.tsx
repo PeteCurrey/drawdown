@@ -7,7 +7,7 @@ import Link from "next/link";
 export const metadata = getMetadata({
   title: "Legal, Financial & Tax Disclaimer | Drawdown",
   description: "Comprehensive multi-region legal, financial non-advisory perimeter, trade signals disclosure, and regional tax disclaimers (UK, US, AU, SG, HK, EU).",
-  alternates: { canonical: "https://drawdown.trading/legal/financial-disclaimer" },
+  path: "/legal/financial-disclaimer",
 });
 
 export default function FinancialDisclaimerPage() {

@@ -1,0 +1,108 @@
+{
+  "timestamp": "2026-08-04T19:33:37.679Z",
+  "legacyPriceId": "price_GB_edge_legacy_149",
+  "newEdgePriceId": "price_GB_edge_monthly",
+  "affectedSubscribers": 12,
+  "currentMRR": 1788,
+  "projectedMRR": 1188,
+  "netMRRDifference": -600,
+  "netARRDifference": -7200,
+  "proposedMigrationActions": [
+    {
+      "customerId": "cus_mock_1001",
+      "email": "trader_1@example.com",
+      "subscriptionId": "sub_mock_edge_5001",
+      "oldPrice": 149,
+      "newPrice": 99,
+      "mrrChange": -50
+    },
+    {
+      "customerId": "cus_mock_1002",
+      "email": "trader_2@example.com",
+      "subscriptionId": "sub_mock_edge_5002",
+      "oldPrice": 149,
+      "newPrice": 99,
+      "mrrChange": -50
+    },
+    {
+      "customerId": "cus_mock_1003",
+      "email": "trader_3@example.com",
+      "subscriptionId": "sub_mock_edge_5003",
+      "oldPrice": 149,
+      "newPrice": 99,
+      "mrrChange": -50
+    },
+    {
+      "customerId": "cus_mock_1004",
+      "email": "trader_4@example.com",
+      "subscriptionId": "sub_mock_edge_5004",
+      "oldPrice": 149,
+      "newPrice": 99,
+      "mrrChange": -50
+    },
+    {
+      "customerId": "cus_mock_1005",
+      "email": "trader_5@example.com",
+      "subscriptionId": "sub_mock_edge_5005",
+      "oldPrice": 149,
+      "newPrice": 99,
+      "mrrChange": -50
+    },
+    {
+      "customerId": "cus_mock_1006",
+      "email": "trader_6@example.com",
+      "subscriptionId": "sub_mock_edge_5006",
+      "oldPrice": 149,
+      "newPrice": 99,
+      "mrrChange": -50
+    },
+    {
+      "customerId": "cus_mock_1007",
+      "email": "trader_7@example.com",
+      "subscriptionId": "sub_mock_edge_5007",
+      "oldPrice": 149,
+      "newPrice": 99,
+      "mrrChange": -50
+    },
+    {
+      "customerId": "cus_mock_1008",
+      "email": "trader_8@example.com",
+      "subscriptionId": "sub_mock_edge_5008",
+      "oldPrice": 149,
+      "newPrice": 99,
+      "mrrChange": -50
+    },
+    {
+      "customerId": "cus_mock_1009",
+      "email": "trader_9@example.com",
+      "subscriptionId": "sub_mock_edge_5009",
+      "oldPrice": 149,
+      "newPrice": 99,
+      "mrrChange": -50
+    },
+    {
+      "customerId": "cus_mock_1010",
+      "email": "trader_10@example.com",
+      "subscriptionId": "sub_mock_edge_5010",
+      "oldPrice": 149,
+      "newPrice": 99,
+      "mrrChange": -50
+    },
+    {
+      "customerId": "cus_mock_1011",
+      "email": "trader_11@example.com",
+      "subscriptionId": "sub_mock_edge_5011",
+      "oldPrice": 149,
+      "newPrice": 99,
+      "mrrChange": -50
+    },
+    {
+      "customerId": "cus_mock_1012",
+      "email": "trader_12@example.com",
+      "subscriptionId": "sub_mock_edge_5012",
+      "oldPrice": 149,
+      "newPrice": 99,
+      "mrrChange": -50
+    }
+  ]
+}

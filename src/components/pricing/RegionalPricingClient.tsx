@@ -13,12 +13,13 @@ import {
 import { cn } from "@/lib/utils";
 import { STRIPE_CONFIG } from "@/config/stripe";
 import { 
-  REGIONAL_PRICING, 
+  getRegionalTiers, 
   REGION_CURRENCY_SYMBOL, 
   REGION_PDF_PRICES 
 } from "@/data/pricing";
 import { useRegion } from "@/components/layout/RegionalLayout";
 import { REGIONS_MAP } from "@/lib/seo/hreflang";
+import { CheckoutConsentModal } from "@/components/legal/CheckoutConsentModal";
 
 const FREE_RESOURCES = [
   {
@@ -52,10 +53,12 @@ export function RegionalPricingClient({ floorCap = 15, activeFloorSubs = 0 }: { 
   const [billingCycle, setBillingCycle] = useState<"monthly" | "yearly">("monthly");
   const [loadingTier, setLoadingTier] = useState<string | null>(null);
   const [hoveredTier, setHoveredTier] = useState<string | null>(null);
+  const [showConsent, setShowConsent] = useState(false);
+  const [pendingTier, setPendingTier] = useState<string | null>(null);
 
   const symbol = REGION_CURRENCY_SYMBOL[region] || currencySymbol || "$";
   const pdfPrices = REGION_PDF_PRICES[region] || REGION_PDF_PRICES.uk;
-  const tiers = REGIONAL_PRICING[region] || REGIONAL_PRICING.uk;
+  const tiers = getRegionalTiers(region);
   const currencyCode = REGIONS_MAP[region]?.currency || "USD";
 
   const pdfBooks = [
@@ -97,13 +100,24 @@ export function RegionalPricingClient({ floorCap = 15, activeFloorSubs = 0 }: { 
     },
   ];
 
-  const handleSubscribe = async (tierName: string) => {
+  const handleSubscribe = async (tierName: string, consentData?: {
+    terms_accepted: boolean;
+    immediate_supply_requested: boolean;
+    marketing_consent: boolean;
+  }) => {
     if (tierName === "Floor" && activeFloorSubs >= floorCap) {
       window.location.href = `/waitlist?tier=floor&region=${region}`;
       return;
     }
 
+    if (!consentData) {
+      setPendingTier(tierName);
+      setShowConsent(true);
+      return;
+    }
+
     setLoadingTier(tierName);
+    setShowConsent(false);
     try {
       const tierId = tierName === "Signal Centre"
         ? "signal-centre"
@@ -116,7 +130,14 @@ export function RegionalPricingClient({ floorCap = 15, activeFloorSubs = 0 }: { 
       const response = await fetch("/api/stripe/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ priceId, tier: tierId, region }),
+        body: JSON.stringify({
+          priceId,
+          tier: tierId,
+          region,
+          terms_accepted: consentData.terms_accepted,
+          immediate_supply_requested: consentData.immediate_supply_requested,
+          marketing_consent: consentData.marketing_consent,
+        }),
       });
 
       const data = await response.json();
@@ -136,6 +157,7 @@ export function RegionalPricingClient({ floorCap = 15, activeFloorSubs = 0 }: { 
   };
 
   return (
+    <>
     <div className="pt-28 pb-24 min-h-screen bg-[#FAFAFA] text-slate-900 font-sans">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
 
@@ -224,7 +246,7 @@ export function RegionalPricingClient({ floorCap = 15, activeFloorSubs = 0 }: { 
                   <div className="mb-6 pb-6 border-b border-slate-200">
                     <div className="flex items-baseline gap-1 flex-nowrap whitespace-nowrap overflow-hidden">
                       <span className="text-2xl sm:text-3xl lg:text-3xl xl:text-4xl font-black font-mono text-slate-900 tracking-tight shrink-0">
-                        {symbol}{tier.price[billingCycle].toLocaleString()}
+                        {symbol}{(billingCycle === "monthly" ? tier.monthlyPrice : (tier.hasAnnualOption && tier.annualPrice > 0 ? Math.round(tier.annualPrice / 12) : tier.monthlyPrice)).toLocaleString()}
                       </span>
                       <span className="text-xs text-slate-500 font-mono shrink-0">/month</span>
                     </div>
@@ -262,7 +284,7 @@ export function RegionalPricingClient({ floorCap = 15, activeFloorSubs = 0 }: { 
                     <p className="text-[10px] font-mono font-bold text-slate-500 uppercase tracking-widest mb-3">
                       Included Capabilities:
                     </p>
-                    {tier.features.map((feature, i) => (
+                    {(tier.features ?? tier.releasedFeatures ?? []).map((feature, i) => (
                       <div key={i} className="flex items-start gap-2 text-xs">
                         {feature.included ? (
                           <Check className={cn("w-4 h-4 shrink-0 mt-0.5", feature.accent ? "text-emerald-600 font-bold" : "text-emerald-600")} />
@@ -309,7 +331,7 @@ export function RegionalPricingClient({ floorCap = 15, activeFloorSubs = 0 }: { 
               PDF Guides &amp; Downloadable Library
             </h2>
             <p className="text-slate-600 text-sm font-sans leading-relaxed">
-              Access Pete Currey's complete institutional trading playbook series. Included free with Foundation, Edge, and Floor memberships or available for individual download.
+              Access Pete Currey's complete institutional trading playbook series. Annual Foundation and Edge members receive specified manuals as permanent download entitlements. Available for individual standalone purchase from the store.
             </p>
           </div>
 
@@ -406,5 +428,17 @@ export function RegionalPricingClient({ floorCap = 15, activeFloorSubs = 0 }: { 
         </div>
       </div>
     </div>
+
+    {pendingTier && (
+      <CheckoutConsentModal
+        isOpen={showConsent}
+        onClose={() => { setShowConsent(false); setPendingTier(null); }}
+        onConfirm={(consentData) => { if (pendingTier) handleSubscribe(pendingTier, consentData); }}
+        loading={loadingTier !== null}
+        productName={`Drawdown ${pendingTier}`}
+        priceString={billingCycle === "monthly" ? `from ${symbol}49/mo` : `from ${symbol}39/mo (annual)`}
+      />
+    )}
+    </>
   );
 }

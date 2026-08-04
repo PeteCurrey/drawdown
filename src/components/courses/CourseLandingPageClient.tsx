@@ -168,7 +168,7 @@ export function CourseLandingPageClient({ params }: Props) {
     },
     {
       name: "Edge",
-      price: "£149",
+      price: "£99",
       period: "month",
       desc: "For active traders seeking systematic, AI-powered edge.",
       cta: "Join Edge Tier",

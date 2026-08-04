@@ -88,11 +88,15 @@ export function JournalClient({ initialView, userId }: JournalClientProps) {
     });
     setShowLogModal(false);
     setPrefill(undefined);
+    // Recalculate discipline score and sync to Discord if needed
+    fetch("/api/discipline/evaluate", { method: "POST" }).catch(() => {});
   }
 
   function handleDelete(id: string) {
     setTrades(prev => prev.filter(t => t.id !== id));
     if (selectedTrade?.id === id) setSelectedTrade(null);
+    // Recalculate discipline score and sync to Discord if needed
+    fetch("/api/discipline/evaluate", { method: "POST" }).catch(() => {});
   }
 
   function handleSelectTrade(trade: TradeEntry) {

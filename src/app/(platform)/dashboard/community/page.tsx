@@ -4,6 +4,7 @@ import { IntelligenceFeed } from "@/components/dashboard/IntelligenceFeed";
 import { PetesDailyTakeExcerpt } from "@/components/home/PetesDailyTakeExcerpt";
 import { MessageSquare, Users, TrendingUp, Shield } from "lucide-react";
 import { PageHeader } from "@/components/dashboard/ui/PageHeader";
+import { DisciplineLeaderboard } from "@/components/badges/DisciplineLeaderboard";
 
 export const metadata: Metadata = getMetadata({
   title: "Community Hub — Drawdown Intelligence",
@@ -50,6 +51,9 @@ export default function CommunityPage() {
 
           {/* Sidebar */}
           <div className="lg:col-span-4 space-y-8">
+            {/* Discipline Leaderboard */}
+            <DisciplineLeaderboard />
+
             {/* Stats Card */}
             <div className="p-6 bg-white border border-[#DEDDD8] rounded-xl shadow-[0_4px_16px_rgba(0,0,0,0.04)] space-y-6">
               <h3 className="text-sm font-mono font-bold uppercase tracking-widest text-[#1A1A1A] border-b border-[#DEDDD8] pb-4">Network Status</h3>

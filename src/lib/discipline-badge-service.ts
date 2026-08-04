@@ -5,6 +5,7 @@ import {
   type BadgeStatus,
   type TradeRow,
 } from "@/lib/discipline-scorer";
+import { syncDisciplineBadgeRole } from "@/lib/discord";
 
 // Badge key constants
 export const BADGE_KEYS = {
@@ -94,6 +95,30 @@ export async function evaluateAndPersistBadge(
       .delete()
       .eq("user_id", userId)
       .in("badge_key", Object.values(BADGE_KEYS));
+  }
+
+  // ── Sync to Discord if opt-in enabled and linked ───────────────────────────
+  try {
+    const { data: profile } = await supabase
+      .from("profiles")
+      .select("sync_badges_to_discord")
+      .eq("id", userId)
+      .single();
+
+    const { data: userData } = await supabase.auth.admin.getUserById(userId);
+    const discordId = userData?.user?.user_metadata?.discord_id;
+
+    if (discordId) {
+      if (profile?.sync_badges_to_discord) {
+        // Sync active tier (bronze/silver/gold or null if revoked/not qualified)
+        await syncDisciplineBadgeRole(discordId, tier);
+      } else {
+        // User opted out or disabled — clear roles from Discord
+        await syncDisciplineBadgeRole(discordId, null);
+      }
+    }
+  } catch (discordErr) {
+    console.error("Failed to sync Discord roles during badge update:", discordErr);
   }
 
   return { tier, consecutive_days_passing: consecutiveDaysPassing, score };

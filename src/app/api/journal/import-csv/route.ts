@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
+import { evaluateAndPersistBadge } from "@/lib/discipline-badge-service";
 
 interface ImportedTrade {
   symbol: string;
@@ -127,6 +128,15 @@ export async function POST(request: NextRequest) {
           // fire-and-forget — ignore
         }
       })();
+    }
+
+    // Recalculate discipline score / badge after import
+    if (imported > 0) {
+      try {
+        await evaluateAndPersistBadge(user.id);
+      } catch (err) {
+        console.error("Failed to evaluate badge after CSV import:", err);
+      }
     }
 
     return NextResponse.json({ imported, failed, errors });

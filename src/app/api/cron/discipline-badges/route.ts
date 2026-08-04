@@ -33,7 +33,7 @@ export async function POST(request: NextRequest) {
     if (error) throw new Error(error.message);
 
     // Deduplicate user IDs
-    const userIds = Array.from(
+    const userIds: string[] = Array.from(
       new Set((activeUsers ?? []).map((r: any) => r.user_id as string))
     );
 

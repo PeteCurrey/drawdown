@@ -40,6 +40,7 @@ const megaMenus = {
       { name: "Phases 5-6 (Mastery)", desc: "System Builder & Portfolio Management", href: "/courses", icon: TrendingUp },
       { name: "Start Phase 1 Free", desc: "No credit card or registration required", href: "/courses/ground-zero", icon: Sparkles },
       { name: "Deploy Your Algo", desc: "From generated code to live chart.", href: "/courses/deploy-your-algo", icon: Terminal },
+      { name: "Institutional Accelerator", desc: "Premium 6-Week Live Cohort (£1,500+)", href: "/institutional-accelerator", icon: Award, badge: "COHORT" },
     ],
     featured: {
       image: "/images/nav/phase-01.png",
@@ -170,14 +171,38 @@ export function Navigation() {
 
   const regionPrefix = region === "uk" ? "" : `/${region}`;
 
+  const getLocalizedHref = (href: string) => {
+    if (!regionPrefix) return href;
+    if (href === "/") return regionPrefix;
+
+    const regionalizedPaths = [
+      "/pricing",
+      "/brokers",
+      "/compare",
+      "/prop-firms",
+      "/how-to",
+      "/best",
+      "/tools/tradingview"
+    ];
+
+    const isRegionalized = regionalizedPaths.some(
+      p => href === p || href.startsWith(p + "/")
+    );
+
+    if (isRegionalized) {
+      return `${regionPrefix}${href}`;
+    }
+    return href;
+  };
+
   const navLinks = [
-    { name: "Curriculum", href: `${regionPrefix}/courses` },
-    { name: "Tools", href: `${regionPrefix}/tools` },
-    { name: "Brokers", href: `${regionPrefix}/brokers` },
-    { name: "Prop Firms", href: `${regionPrefix}/prop-firms` },
-    { name: "Markets", href: `${regionPrefix}/markets` },
-    { name: "Pricing", href: `${regionPrefix}/pricing` },
-    { name: "Blog", href: `${regionPrefix}/blog` },
+    { name: "Curriculum", href: getLocalizedHref("/courses") },
+    { name: "Tools", href: getLocalizedHref("/tools") },
+    { name: "Brokers", href: getLocalizedHref("/brokers") },
+    { name: "Prop Firms", href: getLocalizedHref("/prop-firms") },
+    { name: "Markets", href: getLocalizedHref("/markets") },
+    { name: "Pricing", href: getLocalizedHref("/pricing") },
+    { name: "Blog", href: getLocalizedHref("/blog") },
   ];
 
   const handleMouseEnter = (menu: "curriculum" | "tools" | "brokers" | "propFirms") => {
@@ -346,12 +371,7 @@ export function Navigation() {
               <div className="col-span-8 grid grid-cols-2 gap-x-8 gap-y-6">
                 {megaMenus[activeMenu].links.map((link) => {
                   const Icon = link.icon;
-                  const isPropFirmOrStore = 
-                    (link.href.startsWith("/prop-firms") && link.href !== "/prop-firms") || 
-                    link.href.startsWith("/store") || 
-                    (link.href.startsWith("/brokers") && link.href !== "/brokers") || 
-                    link.href.startsWith("/compare");
-                  const finalHref = isPropFirmOrStore ? link.href : `${regionPrefix}${link.href}`;
+                  const finalHref = getLocalizedHref(link.href);
 
                   // Resolve the active accent color based on theme page mode
                   const accentColor = isDarkPage 
@@ -439,11 +459,7 @@ export function Navigation() {
                 }}
               >
                 <Link
-                  href={
-                    megaMenus[activeMenu].featured.href.startsWith("/prop-firms") || megaMenus[activeMenu].featured.href.startsWith("/store")
-                      ? megaMenus[activeMenu].featured.href
-                      : `${regionPrefix}${megaMenus[activeMenu].featured.href}`
-                  }
+                  href={getLocalizedHref(megaMenus[activeMenu].featured.href)}
                   className="flex flex-col h-full transition-all duration-300 group"
                   onClick={() => setActiveMenu(null)}
                 >
@@ -538,12 +554,7 @@ export function Navigation() {
                           <div className="pl-4 pb-4 pt-2 flex flex-col gap-4">
                             {megaMenus[menuKey].links.map((subLink) => {
                               const SubIcon = subLink.icon;
-                              const isPropFirmOrStore = 
-                                (subLink.href.startsWith("/prop-firms") && subLink.href !== "/prop-firms") || 
-                                subLink.href.startsWith("/store") || 
-                                (subLink.href.startsWith("/brokers") && subLink.href !== "/brokers") || 
-                                subLink.href.startsWith("/compare");
-                              const finalSubHref = isPropFirmOrStore ? subLink.href : `${regionPrefix}${subLink.href}`;
+                              const finalSubHref = getLocalizedHref(subLink.href);
 
                               const accentColor = isDarkPage 
                                 ? menuAccents[menuKey].dark 

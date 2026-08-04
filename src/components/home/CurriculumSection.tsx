@@ -174,65 +174,66 @@ export function CurriculumSection() {
         </div>
 
         {/* Premium Institutional Accelerator Strip Card */}
-        <div className="mt-12 p-8 border relative overflow-hidden group transition-all duration-500"
-             style={{
-               borderColor: "rgba(226, 183, 85, 0.2)",
-               background: "linear-gradient(135deg, #0B0E12 0%, #151922 100%)",
-               borderRadius: 0,
-             }}
-        >
-          {/* Subtle gold line at top */}
-          <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-[#E2B755] to-transparent" />
-          
-          {/* Subtle background glow */}
-          <div className="absolute -bottom-20 -right-20 w-80 h-80 bg-[#E2B755]/5 blur-[80px] rounded-full pointer-events-none transition-all duration-500 group-hover:scale-110" />
+        <Link href={`${regionPrefix}/institutional-accelerator`} className="block group mt-12">
+          <div className="p-8 border relative overflow-hidden transition-all duration-500 group-hover:-translate-y-1 group-hover:shadow-[0_12px_40px_rgba(226,183,85,0.12)] cursor-pointer"
+               style={{
+                 borderColor: "rgba(226, 183, 85, 0.2)",
+                 background: "linear-gradient(135deg, #0B0E12 0%, #151922 100%)",
+                 borderRadius: 0,
+               }}
+          >
+            {/* Subtle gold line at top */}
+            <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-[#E2B755] to-transparent opacity-50 group-hover:opacity-100 transition-opacity duration-500" />
+            
+            {/* Subtle background glow */}
+            <div className="absolute -bottom-20 -right-20 w-80 h-80 bg-[#E2B755]/5 blur-[80px] rounded-full pointer-events-none transition-all duration-500 group-hover:scale-125 group-hover:bg-[#E2B755]/10" />
 
-          <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
-            <div className="space-y-3 max-w-3xl">
-              <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 border text-[10px] font-mono font-bold uppercase tracking-wider"
-                   style={{
-                     color: "#E2B755",
-                     borderColor: "rgba(226, 183, 85, 0.25)",
-                     backgroundColor: "rgba(226, 183, 85, 0.08)",
-                     borderRadius: 0,
-                   }}
-              >
-                ★ Premium Executive Cohort
+            <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+              <div className="space-y-3 max-w-3xl">
+                <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 border text-[10px] font-mono font-bold uppercase tracking-wider transition-colors duration-300 group-hover:bg-[rgba(226,183,85,0.15)]"
+                     style={{
+                       color: "#E2B755",
+                       borderColor: "rgba(226, 183, 85, 0.25)",
+                       backgroundColor: "rgba(226, 183, 85, 0.08)",
+                       borderRadius: 0,
+                     }}
+                >
+                  ★ Premium Executive Cohort
+                </div>
+                <h3 className="text-xl md:text-2xl font-display font-semibold tracking-tight text-white leading-tight">
+                  Drawdown Institutional Accelerator
+                </h3>
+                <p className="text-[13px] leading-relaxed text-gray-400 font-sans max-w-2xl">
+                  Move beyond retail speculation. A premium 6-week higher education cohort combining systematic probability, custom Pine Script indicator engineering, live fund-level audits, and UK Limited Company tax structures.
+                </p>
+                <div className="flex flex-wrap gap-x-6 gap-y-2 pt-1 text-[11px] font-mono text-gray-400 uppercase tracking-wider">
+                  <span className="flex items-center gap-1.5 transition-colors duration-300 group-hover:text-gray-300">
+                    <span className="text-[#E2B755]">✓</span> 15-Student Limit
+                  </span>
+                  <span className="flex items-center gap-1.5 transition-colors duration-300 group-hover:text-gray-300">
+                    <span className="text-[#E2B755]">✓</span> Live Audits
+                  </span>
+                  <span className="flex items-center gap-1.5 transition-colors duration-300 group-hover:text-gray-300">
+                    <span className="text-[#E2B755]">✓</span> Tax Compliance Kit
+                  </span>
+                </div>
               </div>
-              <h3 className="text-xl md:text-2xl font-display font-semibold tracking-tight text-white leading-tight">
-                Drawdown Institutional Accelerator
-              </h3>
-              <p className="text-[13px] leading-relaxed text-gray-400 font-sans max-w-2xl">
-                Move beyond retail speculation. A premium 6-week higher education cohort combining systematic probability, custom Pine Script indicator engineering, live fund-level audits, and UK Limited Company tax structures.
-              </p>
-              <div className="flex flex-wrap gap-x-6 gap-y-2 pt-1 text-[11px] font-mono text-gray-400 uppercase tracking-wider">
-                <span className="flex items-center gap-1.5">
-                  <span className="text-[#E2B755]">✓</span> 15-Student Limit
-                </span>
-                <span className="flex items-center gap-1.5">
-                  <span className="text-[#E2B755]">✓</span> Live Audits
-                </span>
-                <span className="flex items-center gap-1.5">
-                  <span className="text-[#E2B755]">✓</span> Tax Compliance Kit
-                </span>
-              </div>
-            </div>
 
-            <div className="flex items-center">
-              <Link
-                href={`${regionPrefix}/institutional-accelerator`}
-                className="inline-flex items-center justify-center gap-2 px-5 py-3 text-[11px] font-mono uppercase tracking-[0.08em] font-bold text-black transition-all duration-300 hover:shadow-lg hover:shadow-[#E2B755]/10"
-                style={{
-                  background: "linear-gradient(to right, #E2B755, #C59235)",
-                  borderRadius: 0,
-                }}
-              >
-                Apply for Cohort
-                <ArrowRight size={12} strokeWidth={2} />
-              </Link>
+              <div className="flex items-center">
+                <div
+                  className="inline-flex items-center justify-center gap-2 px-5 py-3 text-[11px] font-mono uppercase tracking-[0.08em] font-bold text-black transition-all duration-300 group-hover:shadow-lg group-hover:shadow-[#E2B755]/20 group-hover:scale-[1.02]"
+                  style={{
+                    background: "linear-gradient(to right, #E2B755, #C59235)",
+                    borderRadius: 0,
+                  }}
+                >
+                  Apply for Cohort
+                  <ArrowRight size={12} strokeWidth={2} className="transition-transform duration-300 group-hover:translate-x-1" />
+                </div>
+              </div>
             </div>
           </div>
-        </div>
+        </Link>
 
         {/* Explore Link */}
         <div className="mt-12">

@@ -27,7 +27,7 @@ export function MarketCallPromoSection() {
               className="inline-flex items-center gap-1.5 px-3 py-1 text-[10px] font-mono font-bold tracking-wider uppercase rounded"
               style={{ backgroundColor: "rgba(10, 37, 64, 0.05)", border: "1px solid var(--line-200)", color: "var(--signal-navy)" }}
             >
-              <Award className="w-3.5 h-3.5" /> FREE-TO-PLAY GAME
+              <Award className="w-3.5 h-3.5" /> WEEKLY FORECAST CHALLENGE
             </span>
             <h2 
               className="font-display text-[clamp(2rem,4.5vw,3rem)] leading-none tracking-tight font-black"
@@ -43,7 +43,7 @@ export function MarketCallPromoSection() {
               className="text-[15px] leading-relaxed font-sans"
               style={{ color: "var(--graphite-600)" }}
             >
-              Predict the weekly closing direction of primary global instruments. Gain prestige, prove your consistency on a public scoreboard, and compete for a free upgrade to our **Edge Tier**. No capital risk, purely educational.
+              Establish and record your directional forecast on primary global macro instruments each week. Quantify your market anticipation skill, monitor your consistent bias against live settlement data, and earn professional recognition on our scoreboard.
             </p>
             <div className="flex items-center gap-6 text-[11px] font-mono uppercase text-sans" style={{ color: "var(--graphite-600)" }}>
               <span className="flex items-center gap-1.5"><Clock className="w-4 h-4 text-emerald-600" /> Tuesday locks</span>
@@ -78,14 +78,10 @@ export function MarketCallPromoSection() {
                       {item.type}
                     </span>
                   </div>
-
-                  <div className="text-sm font-mono font-bold uppercase py-1" style={{ color: item.drift === "Bullish" ? "var(--mkt-grn)" : "var(--mkt-red)" }}>
-                    {item.indicator}
-                  </div>
                 </div>
 
                 <div className="flex justify-between items-center text-[10px] font-mono border-t pt-4" style={{ borderColor: "var(--line-200)", color: "var(--graphite-600)" }}>
-                  <span>Consensus Bias</span>
+                  <span>Forecast Drift</span>
                   <span className="font-bold">{item.drift}</span>
                 </div>
               </div>
@@ -93,7 +89,7 @@ export function MarketCallPromoSection() {
           })}
         </div>
 
-        {/* Lower Banner: Game Play details & Buttons */}
+        {/* Lower Banner: Forecast challenge details & Buttons */}
         <div 
           className="border p-8 flex flex-col md:flex-row items-center justify-between gap-6"
           style={{ borderColor: "var(--line-200)", backgroundColor: "var(--paper-100)" }}
@@ -103,7 +99,7 @@ export function MarketCallPromoSection() {
               <Award className="w-4 h-4 text-emerald-600" /> Reward: 1 Month of Free Edge Tier (£99/mo value)
             </h4>
             <p className="text-xs font-sans max-w-2xl" style={{ color: "var(--graphite-600)" }}>
-              The highest scoring player with the best accuracy on each week's standings podium automatically earns our prized "Verified Caller" badge and holds full premium access.
+              The highest-scoring participant with the highest forecasting accuracy on each week's scoreboard automatically earns our prized "Verified Caller" badge and premium Edge Tier platform access.
             </p>
           </div>
 
@@ -112,14 +108,14 @@ export function MarketCallPromoSection() {
               href="/market-call"
               className="px-6 py-3 border border-black hover:bg-black/5 font-mono text-[10px] font-bold uppercase tracking-widest text-center transition-colors"
             >
-              How to Play
+              Challenge Guidelines
             </Link>
             
             <Link
               href="/dashboard/market-call"
               className="px-6 py-3 bg-black hover:bg-black/90 text-white font-mono text-[10px] font-bold uppercase tracking-widest text-center transition-colors flex items-center justify-center gap-1.5"
             >
-              Play Now <ArrowRight className="w-3.5 h-3.5" />
+              Submit Your Forecast <ArrowRight className="w-3.5 h-3.5" />
             </Link>
           </div>
         </div>

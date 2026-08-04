@@ -392,7 +392,7 @@ export default function MarketCallPage() {
         <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div className="space-y-3 max-w-2xl">
             <span className="inline-flex items-center gap-1.5 px-3 py-1 text-[10px] font-mono font-bold tracking-wider bg-emerald-500/15 border border-emerald-500/30 text-[#C8F135] uppercase rounded-full">
-              <Flame className="w-3 h-3 text-[#C8F135]" /> Free Weekly Prediction Game
+              <Flame className="w-3 h-3 text-[#C8F135]" /> Weekly Forecast Challenge
             </span>
             <h1 className="text-3xl md:text-4xl font-display font-black tracking-tight text-white leading-tight">
               Weekly Market Call
@@ -440,7 +440,7 @@ export default function MarketCallPage() {
               })}
             </select>
           ) : (
-            <span className="text-xs font-mono text-[#CE6969]">No Active Game Weeks Configured</span>
+            <span className="text-xs font-mono text-[#CE6969]">No Active Forecasting Weeks Configured</span>
           )}
         </div>
 
@@ -711,7 +711,7 @@ export default function MarketCallPage() {
                 <div className="flex items-center justify-between mb-6">
                   <div>
                     <h3 className="font-black text-lg text-[#1A1A1A] tracking-tight">Week {selectedWeek.week_number} Leaderboard</h3>
-                    <p className="text-xs text-[#8A8A85]">Standings of all players during this prediction round.</p>
+                    <p className="text-xs text-[#8A8A85]">Standings of all participants during this forecast round.</p>
                   </div>
                   <div className="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-500">
                     <Trophy className="w-5 h-5" />
@@ -724,7 +724,7 @@ export default function MarketCallPage() {
                       <thead>
                         <tr className="border-b border-[#F5F5F0] text-[#8A8A85] font-mono uppercase tracking-wider">
                           <th className="py-3 px-4 font-bold">Rank</th>
-                          <th className="py-3 px-4 font-bold">Player</th>
+                          <th className="py-3 px-4 font-bold">Participant</th>
                           <th className="py-3 px-4 text-center font-bold">Points</th>
                           <th className="py-3 px-4 text-center font-bold">Accuracy</th>
                           <th className="py-3 px-4 text-right font-bold">Calls</th>
@@ -799,7 +799,7 @@ export default function MarketCallPage() {
           {activeTab === "rules" && (
             <div className="space-y-6 max-w-4xl animate-in fade-in duration-300">
               <div className="bg-white border border-[#EDEDED] rounded-2xl p-8 shadow-sm space-y-6 font-sans">
-                <h3 className="font-black text-xl text-[#1A1A1A] tracking-tight border-b pb-4 border-[#F5F5F0]">Rules of the Game</h3>
+                <h3 className="font-black text-xl text-[#1A1A1A] tracking-tight border-b pb-4 border-[#F5F5F0]">Challenge Rules & FAQ</h3>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-sans">
                   {/* Left Column */}
@@ -837,7 +837,7 @@ export default function MarketCallPage() {
                     Podium Prizes
                   </h5>
                   <p className="text-xs text-[#555550] leading-relaxed">
-                    The top prediction caller each week (the player with highest accumulated points and highest accuracy percentage) wins:
+                    The top prediction caller each week (the participant with the highest accumulated points and highest accuracy percentage) wins:
                   </p>
                   <ul className="list-disc pl-5 text-xs text-[#555550] space-y-2">
                     <li>Our elite profile achievement badge <span className="font-bold text-indigo-700">"Verified Caller"</span> added to their dashboard.</li>
@@ -864,7 +864,7 @@ export default function MarketCallPage() {
           </div>
 
           <p className="text-[11px] text-[#555550] leading-relaxed font-sans">
-            Because direct SQL database execution is blocked by local sandbox firewalls and credentials, this console provides a one-click HTTP bridge to safely trigger cron mutations using your local server session. Use these buttons to step through the entire game flow for testing:
+            Because direct SQL database execution is blocked by local sandbox firewalls and credentials, this console provides a one-click HTTP bridge to safely trigger cron mutations using your local server session. Use these buttons to step through the entire challenge flow for testing:
           </p>
 
           <div className="flex flex-wrap gap-3">
@@ -902,13 +902,13 @@ export default function MarketCallPage() {
       <div className="bg-[#EDEDED]/40 border border-[#DEDDD8] rounded-2xl p-6 text-sans space-y-2">
         <div className="flex items-center gap-2 text-slate-700">
           <AlertTriangle className="w-4 h-4 shrink-0" />
-          <h5 className="font-bold text-xs uppercase tracking-wider">Regulatory Compliance & Game Policy</h5>
+          <h5 className="font-bold text-xs uppercase tracking-wider">Regulatory Compliance & Challenge Policy</h5>
         </div>
         <p className="text-[11px] text-[#555550] leading-relaxed">
-          The Drawdown Market Call game is purely an educational, free-to-play simulation. No real money or currency of any kind is required to play, nor is real capital exchanged or awarded as prizes.
+          The Drawdown Market Call challenge is purely an educational, free-to-participate simulation. No real money or currency of any kind is required to participate, nor is real capital exchanged or awarded as prizes.
         </p>
         <p className="text-[11px] text-[#555550] leading-relaxed">
-          Predictive submissions and aggregate community choices are hidden from public view until the weekly window closes to eliminate front-running and prevent the game from functioning as, or being confused with, an active trade-signals, advisory, or recommendations service. Information displayed does not constitute financial advice.
+          Predictive submissions and aggregate community choices are hidden from public view until the weekly window closes to eliminate front-running and prevent the challenge from functioning as, or being confused with, an active trade-signals, advisory, or recommendations service. Information displayed does not constitute financial advice.
         </p>
       </div>
     </div>

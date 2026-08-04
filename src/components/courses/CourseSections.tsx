@@ -197,7 +197,7 @@ export function SectionE() {
     },
     {
       q: "Do you provide trade signals?",
-      a: "No. Drawdown is an education platform, not a signal service. We teach you to generate your own signals using your own tested edge. Signal services create dependency — we create independence."
+      a: "Yes, Drawdown provides quantitative trade signals, market alerts, and algorithmic pattern recognition tools. However, trade signals are automated data outputs derived from market feeds and risk models — they are not guaranteed outcomes or financial advice. We empower you to interpret market data objectively and apply your own risk parameters."
     },
     {
       q: "Is this suitable for forex, indices, crypto, or all?",

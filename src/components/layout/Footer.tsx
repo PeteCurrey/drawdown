@@ -153,6 +153,7 @@ export function Footer() {
               <li><Link href="/contact" className="hover:underline">Contact</Link></li>
               <li><Link href="/privacy" className="hover:underline">Privacy Policy</Link></li>
               <li><Link href="/disclaimer" className="hover:underline">Risk Disclaimer</Link></li>
+              <li><Link href="/legal/financial-disclaimer" className="hover:underline">Legal &amp; Tax Disclaimer</Link></li>
             </ul>
           </div>
 
@@ -194,7 +195,7 @@ export function Footer() {
           <div className="space-y-2 max-w-2xl font-sans">
             <p className="text-[11px] leading-relaxed" style={{ color: "var(--risk-amber)" }}>
               <span className="font-semibold block mb-0.5 font-mono uppercase tracking-[0.08em]">Risk Warning:</span>
-              Trading financial instruments carries a high level of risk and may not be suitable for all investors. The high degree of leverage can work against you as well as for you. Before deciding to trade, you should carefully consider your investment objectives, level of experience, and risk appetite. The possibility exists that you could sustain a loss of some or all of your initial investment. You should not invest money that you cannot afford to lose. Past performance is not indicative of future results. Drawdown is an educational platform and does not provide financial advice.
+              Trading financial instruments carries a high level of risk and may not be suitable for all investors. The high degree of leverage can work against you as well as for you. Before deciding to trade, you should carefully consider your investment objectives, level of experience, and risk appetite. The possibility exists that you could sustain a loss of some or all of your initial investment. You should not invest money that you cannot afford to lose. Past performance is not indicative of future results. Drawdown does not provide financial advice. Trade signals and quantitative tools represent analytical conclusions derived from data feeds and risk parameters; they are not guaranteed outcomes or financial recommendations.
             </p>
           </div>
 

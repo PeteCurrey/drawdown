@@ -1,72 +1,126 @@
-import { Shield, AlertTriangle, Activity, Target } from "lucide-react";
-import Breadcrumbs from "@/components/layout/Breadcrumbs";
+import { getMetadata } from "@/lib/metadata";
+import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
+import { AlertTriangle, Shield, Activity, FileText } from "lucide-react";
+import Link from "next/link";
+
+export const metadata = getMetadata({
+  title: "US Regulatory Risk Disclaimer",
+  description: "Mandatory CFTC Rule 4.41 and US regulatory disclosures for Drawdown users.",
+});
 
 export default function UnitedStatesDisclaimerPage() {
   return (
-    <main className="pt-28 pb-24 min-h-screen">
-      <div className="max-w-7xl mx-auto px-6">
+    <div className="pt-28 pb-24 min-h-screen select-none" style={{ backgroundColor: "var(--paper-0)", color: "var(--ink-950)" }}>
+      <div className="max-w-[1280px] mx-auto px-6">
         <Breadcrumbs 
-           items={[
-             { label: 'United States', href: '/us' },
-             { label: 'Regulatory Disclaimer', href: '/us/disclaimer' }
-           ]} 
+          items={[
+            { label: 'United States', href: '/us' },
+            { label: 'Regulatory Disclaimer', href: '/us/disclaimer' }
+          ]} 
         />
         
-        <div className="max-w-4xl mt-12 space-y-16">
-          <div className="space-y-6">
-            <div className="flex items-center gap-3 text-warning">
-               <AlertTriangle className="w-8 h-8" />
-               <span className="text-[10px] font-mono uppercase tracking-[0.3em] font-bold">CFTC RULE 4.41</span>
+        <div className="max-w-4xl mx-auto mt-8 space-y-12">
+          {/* Title Banner */}
+          <div className="space-y-4 border-b pb-10" style={{ borderColor: "var(--line-200)" }}>
+            <div className="flex items-center gap-3">
+              <span className="inline-flex items-center gap-2 text-[11px] font-mono uppercase tracking-[0.08em] px-2.5 py-1 border" style={{ backgroundColor: "var(--paper-100)", borderColor: "var(--line-200)", color: "var(--risk-amber)" }}>
+                <AlertTriangle size={14} />
+                CFTC RULE 4.41 MANDATORY DISCLOSURE
+              </span>
             </div>
-            <h1 className="text-4xl md:text-7xl font-sans font-black uppercase leading-none">
-              Risk <span className="text-text-tertiary">Disclosure.</span>
+            <h1 className="font-display text-[clamp(2.25rem,5vw,3.75rem)] leading-[1.05] tracking-[-0.02em] font-semibold">
+              US Risk <span style={{ color: "var(--graphite-600)" }}>Disclosure</span>
             </h1>
+            <p className="text-[13px] font-mono uppercase tracking-[0.08em]" style={{ color: "var(--graphite-600)" }}>
+              Regulatory Perimeter &amp; CFTC / NFA Compliance Statements
+            </p>
           </div>
 
-          <div className="prose prose-drawdown max-w-none space-y-12">
-            <section className="p-8 border border-warning/20 space-y-6">
-               <h2 className="text-xl font-sans font-bold uppercase m-0 text-warning">Mandatory CFTC Disclosure</h2>
-               <p className="text-[10px] font-mono uppercase leading-relaxed text-text-secondary m-0">
-                 HYPOTHETICAL PERFORMANCE RESULTS HAVE MANY INHERENT LIMITATIONS, SOME OF WHICH ARE DESCRIBED BELOW. NO REPRESENTATION IS BEING MADE THAT ANY ACCOUNT WILL OR IS LIKELY TO ACHIEVE PROFITS OR LOSSES SIMILAR TO THOSE SHOWN. IN FACT, THERE ARE FREQUENTLY SHARP DIFFERENCES BETWEEN HYPOTHETICAL PERFORMANCE RESULTS AND THE ACTUAL RESULTS SUBSEQUENTLY ACHIEVED BY ANY PARTICULAR TRADING PROGRAM.
-               </p>
-               <p className="text-[10px] font-mono uppercase leading-relaxed text-text-secondary m-0">
-                 ONE OF THE LIMITATIONS OF HYPOTHETICAL PERFORMANCE RESULTS IS THAT THEY ARE GENERALLY PREPARED WITH THE BENEFIT OF HINDSIGHT. IN ADDITION, HYPOTHETICAL TRADING DOES NOT INVOLVE FINANCIAL RISK, AND NO HYPOTHETICAL TRADING RECORD CAN COMPLETELY ACCOUNT FOR THE IMPACT OF FINANCIAL RISK IN ACTUAL TRADING.
-               </p>
-            </section>
-
-            <section className="space-y-6">
-               <h2 className="text-2xl font-sans font-bold uppercase tracking-tight">No Income Claims</h2>
-               <p className="text-lg text-text-secondary leading-relaxed">
-                 Drawdown does not make any promises, guarantees, or claims regarding your potential income or success in the markets. Trading is a high-risk activity where the majority of retail participants lose money. The education provided is for informational purposes only and should not be construed as financial advice.
-               </p>
-            </section>
-
-            <section className="space-y-6">
-               <h2 className="text-2xl font-sans font-bold uppercase tracking-tight">Not a Registered Advisor</h2>
-               <p className="text-lg text-text-secondary leading-relaxed">
-                 Drawdown is an educational platform and software provider. We are not a registered investment advisor (RIA) with the SEC or a Commodity Trading Advisor (CTA) with the CFTC. We do not manage client funds or provide specific trade signals.
-               </p>
-            </section>
+          {/* CFTC Rule 4.41 Box */}
+          <div className="p-8 border space-y-4" style={{ backgroundColor: "var(--paper-100)", borderColor: "var(--line-200)" }}>
+            <h2 className="text-[13px] font-mono font-bold uppercase tracking-[0.08em]" style={{ color: "var(--risk-amber)" }}>
+              Mandatory CFTC Rule 4.41 Disclosure
+            </h2>
+            <p className="text-[11px] font-mono uppercase leading-relaxed text-justify" style={{ color: "var(--graphite-600)" }}>
+              HYPOTHETICAL PERFORMANCE RESULTS HAVE MANY INHERENT LIMITATIONS, SOME OF WHICH ARE DESCRIBED BELOW. NO REPRESENTATION IS BEING MADE THAT ANY ACCOUNT WILL OR IS LIKELY TO ACHIEVE PROFITS OR LOSSES SIMILAR TO THOSE SHOWN. IN FACT, THERE ARE FREQUENTLY SHARP DIFFERENCES BETWEEN HYPOTHETICAL PERFORMANCE RESULTS AND THE ACTUAL RESULTS SUBSEQUENTLY ACHIEVED BY ANY PARTICULAR TRADING PROGRAM.
+            </p>
+            <p className="text-[11px] font-mono uppercase leading-relaxed text-justify" style={{ color: "var(--graphite-600)" }}>
+              ONE OF THE LIMITATIONS OF HYPOTHETICAL PERFORMANCE RESULTS IS THAT THEY ARE GENERALLY PREPARED WITH THE BENEFIT OF HINDSIGHT. IN ADDITION, HYPOTHETICAL TRADING DOES NOT INVOLVE FINANCIAL RISK, AND NO HYPOTHETICAL TRADING RECORD CAN COMPLETELY ACCOUNT FOR THE IMPACT OF FINANCIAL RISK IN ACTUAL TRADING.
+            </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-12">
-             <div className="p-8 border border-border-slate/50 flex gap-6 items-start">
-                <Shield className="w-8 h-8 text-accent shrink-0" />
-                <div>
-                   <h3 className="font-sans font-bold uppercase mb-2">SEC/FINRA</h3>
-                   <p className="text-xs text-text-tertiary leading-relaxed">We adhere to US securities laws regarding the dissemination of educational materials on equities and options.</p>
+          {/* Content sections */}
+          <div className="space-y-8 font-sans">
+            <section className="space-y-3 border-b pb-8" style={{ borderColor: "var(--line-200)" }}>
+              <h2 className="font-display text-[24px] font-semibold" style={{ color: "var(--ink-950)" }}>
+                No Income Guarantees or Financial Advice
+              </h2>
+              <p className="text-[15px] leading-relaxed" style={{ color: "var(--graphite-600)" }}>
+                Drawdown does not make any promises, guarantees, or income representations regarding your potential results in financial markets. Trading foreign exchange, futures, and derivatives involves high risk. Most retail market participants lose capital. All materials are for educational and analytical context only and do not constitute financial advice.
+              </p>
+            </section>
+
+            <section className="space-y-3 border-b pb-8" style={{ borderColor: "var(--line-200)" }}>
+              <h2 className="font-display text-[24px] font-semibold" style={{ color: "var(--ink-950)" }}>
+                Non-Advisor Status &amp; Trade Signal Disclosures
+              </h2>
+              <p className="text-[15px] leading-relaxed" style={{ color: "var(--graphite-600)" }}>
+                Drawdown is an educational platform and quantitative software provider. We are not a registered investment advisor (RIA) with the SEC or a Commodity Trading Advisor (CTA) with the CFTC. Drawdown does not manage client funds or provide personalized investment advice.
+              </p>
+              <p className="text-[14px] leading-relaxed font-semibold p-4 border" style={{ backgroundColor: "var(--paper-100)", borderColor: "var(--line-200)", color: "var(--ink-950)" }}>
+                Trade signals, indicators, and scanner alerts on Drawdown are automated quantitative conclusions generated from data feeds and risk parameters. They are not guaranteed outcomes or tailored commodity advice. You are solely responsible for your execution decisions.
+              </p>
+            </section>
+
+            {/* Grid for SEC / CFTC */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4">
+              <div className="p-6 border space-y-2" style={{ backgroundColor: "var(--paper-100)", borderColor: "var(--line-200)" }}>
+                <div className="flex items-center gap-2">
+                  <Shield className="w-5 h-5 text-indigo-600" />
+                  <h3 className="font-mono text-[13px] font-bold uppercase tracking-[0.08em]" style={{ color: "var(--ink-950)" }}>
+                    SEC / FINRA Alignment
+                  </h3>
                 </div>
-             </div>
-             <div className="p-8 border border-border-slate/50 flex gap-6 items-start">
-                <Activity className="w-8 h-8 text-accent shrink-0" />
-                <div>
-                   <h3 className="font-sans font-bold uppercase mb-2">CFTC/NFA</h3>
-                   <p className="text-xs text-text-tertiary leading-relaxed">Our forex and futures content is strictly educational and compliant with NFA member guidelines.</p>
+                <p className="text-[13px] leading-relaxed" style={{ color: "var(--graphite-600)" }}>
+                  We adhere to US publishing boundaries regarding educational commentary on equities and options markets.
+                </p>
+              </div>
+
+              <div className="p-6 border space-y-2" style={{ backgroundColor: "var(--paper-100)", borderColor: "var(--line-200)" }}>
+                <div className="flex items-center gap-2">
+                  <Activity className="w-5 h-5 text-indigo-600" />
+                  <h3 className="font-mono text-[13px] font-bold uppercase tracking-[0.08em]" style={{ color: "var(--ink-950)" }}>
+                    CFTC / NFA Guidelines
+                  </h3>
                 </div>
-             </div>
+                <p className="text-[13px] leading-relaxed" style={{ color: "var(--graphite-600)" }}>
+                  Forex and futures content strictly complies with NFA publisher exemption standards for general education.
+                </p>
+              </div>
+            </div>
+
+            {/* Link to Legal & Tax Disclaimer page */}
+            <div className="p-6 border flex items-center justify-between flex-wrap gap-4" style={{ backgroundColor: "var(--paper-100)", borderColor: "var(--line-200)" }}>
+              <div>
+                <span className="text-[11px] font-mono uppercase tracking-[0.08em] block" style={{ color: "var(--graphite-600)" }}>
+                  Detailed US Legal &amp; Tax Overview (IRS Sec 1256 &amp; PDT)
+                </span>
+                <h4 className="font-display text-[18px] font-semibold" style={{ color: "var(--ink-950)" }}>
+                  US Tax &amp; Financial Disclaimer Breakdown
+                </h4>
+              </div>
+              <Link 
+                href="/legal/financial-disclaimer?region=us" 
+                className="px-4 py-2.5 border text-[12px] font-medium font-sans hover:underline"
+                style={{ backgroundColor: "var(--signal-navy)", borderColor: "var(--signal-navy)", color: "#FAFAF9" }}
+              >
+                Read US Tax Disclaimer
+              </Link>
+            </div>
+
           </div>
         </div>
       </div>
-    </main>
+    </div>
   );
 }

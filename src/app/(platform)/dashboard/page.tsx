@@ -548,7 +548,7 @@ export default function DashboardPage() {
         {/* Card 5: Watchlist Summary */}
         <WatchlistSummary initialSymbols={watchlistItems} userCurrency={userCurrency} />
 
-        {/* Card 6: Weekly Market Call prediction game */}
+        {/* Card 6: Weekly Market Call forecasting challenge */}
         <div className="bg-white border border-[#EDEDED] rounded-2xl p-5 shadow-[0_2px_12px_rgba(0,0,0,0.06)] flex flex-col justify-between min-h-[220px] transition-all hover:shadow-[0_8px_24px_rgba(0,0,0,0.10)] hover:-translate-y-1 duration-200">
           <div>
             <div className="flex justify-between items-start mb-4">
@@ -558,10 +558,10 @@ export default function DashboardPage() {
             
             <div className="space-y-2">
               <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[8px] font-mono font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 uppercase tracking-wider">
-                <Trophy className="w-2.5 h-2.5 text-emerald-600" /> Free to Play
+                <Trophy className="w-2.5 h-2.5 text-emerald-600" /> FREE CHALLENGE
               </span>
               <p className="text-xs text-[#555550] leading-normal line-clamp-3">
-                Forecast week closing directions. Accumulate scoreboard points, build consistency, and win free Edge Tier!
+                Forecast weekly closing directions. Accumulate scoreboard points, build consistency, and win free Edge Tier!
               </p>
             </div>
           </div>

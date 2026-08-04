@@ -1,53 +1,89 @@
-import { Shield, AlertTriangle, Activity } from "lucide-react";
-import Breadcrumbs from "@/components/layout/Breadcrumbs";
+import { getMetadata } from "@/lib/metadata";
+import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
+import { AlertTriangle, Shield } from "lucide-react";
+import Link from "next/link";
+
+export const metadata = getMetadata({
+  title: "Hong Kong Regulatory Risk Disclaimer",
+  description: "Securities and Futures Commission (SFC) advisory and regulatory notices for Drawdown users in Hong Kong.",
+});
 
 export default function HongKongDisclaimerPage() {
   return (
-    <main className="pt-28 pb-24 min-h-screen">
-      <div className="max-w-7xl mx-auto px-6">
+    <div className="pt-28 pb-24 min-h-screen select-none" style={{ backgroundColor: "var(--paper-0)", color: "var(--ink-950)" }}>
+      <div className="max-w-[1280px] mx-auto px-6">
         <Breadcrumbs 
-           items={[
-             { label: 'Hong Kong', href: '/hk' },
-             { label: 'Regulatory Disclaimer', href: '/hk/disclaimer' }
-           ]} 
+          items={[
+            { label: 'Hong Kong', href: '/hk' },
+            { label: 'Regulatory Disclaimer', href: '/hk/disclaimer' }
+          ]} 
         />
         
-        <div className="max-w-4xl mt-12 space-y-16">
-          <div className="space-y-6">
-            <div className="flex items-center gap-3 text-warning">
-               <AlertTriangle className="w-8 h-8" />
-               <span className="text-[10px] font-mono uppercase tracking-[0.3em] font-bold">SFC ADVISORY</span>
+        <div className="max-w-4xl mx-auto mt-8 space-y-12">
+          {/* Title Banner */}
+          <div className="space-y-4 border-b pb-10" style={{ borderColor: "var(--line-200)" }}>
+            <div className="flex items-center gap-3">
+              <span className="inline-flex items-center gap-2 text-[11px] font-mono uppercase tracking-[0.08em] px-2.5 py-1 border" style={{ backgroundColor: "var(--paper-100)", borderColor: "var(--line-200)", color: "var(--risk-amber)" }}>
+                <AlertTriangle size={14} />
+                SFC REGULATORY ADVISORY
+              </span>
             </div>
-            <h1 className="text-4xl md:text-7xl font-sans font-black uppercase leading-none">
-              Risk <span className="text-text-tertiary">Disclosure.</span>
+            <h1 className="font-display text-[clamp(2.25rem,5vw,3.75rem)] leading-[1.05] tracking-[-0.02em] font-semibold">
+              Hong Kong Risk <span style={{ color: "var(--graphite-600)" }}>Disclosure</span>
             </h1>
+            <p className="text-[13px] font-mono uppercase tracking-[0.08em]" style={{ color: "var(--graphite-600)" }}>
+              Regulatory Perimeter &amp; SFC Compliance Statements
+            </p>
           </div>
 
-          <div className="prose prose-drawdown max-w-none space-y-12">
-            <section className="space-y-6">
-               <h2 className="text-2xl font-sans font-bold uppercase tracking-tight">Not a Licensed Advisor</h2>
-               <p className="text-lg text-text-secondary leading-relaxed">
-                 Drawdown is an educational platform. We do not hold a license from the Securities and Futures Commission (SFC) of Hong Kong to provide financial advice or manage assets. All materials provided are for educational purposes and do not constitute an offer or solicitation to buy or sell any financial instrument.
-               </p>
+          <div className="space-y-8 font-sans">
+            <section className="space-y-3 border-b pb-8" style={{ borderColor: "var(--line-200)" }}>
+              <h2 className="font-display text-[24px] font-semibold" style={{ color: "var(--ink-950)" }}>
+                Not an SFC Licensed Entity
+              </h2>
+              <p className="text-[15px] leading-relaxed" style={{ color: "var(--graphite-600)" }}>
+                Drawdown is an educational platform and quantitative software provider. We do not hold a license from the Securities and Futures Commission (SFC) of Hong Kong under the Securities and Futures Ordinance (SFO) to provide financial advice (Type 4/5) or manage portfolio assets (Type 9). All materials are strictly educational.
+              </p>
             </section>
 
-            <section className="space-y-6">
-               <h2 className="text-2xl font-sans font-bold uppercase tracking-tight">Leveraged Trading Warning</h2>
-               <p className="text-lg text-text-secondary leading-relaxed">
-                 Trading in securities, futures, and leveraged foreign exchange involves significant risk. The market is volatile and prices can fluctuate widely. It is possible to lose more than your initial investment. You should only trade with risk capital that you can afford to lose.
-               </p>
+            <section className="space-y-3 border-b pb-8" style={{ borderColor: "var(--line-200)" }}>
+              <h2 className="font-display text-[24px] font-semibold" style={{ color: "var(--ink-950)" }}>
+                Leveraged FX &amp; Derivatives Risk Warning
+              </h2>
+              <p className="text-[15px] leading-relaxed" style={{ color: "var(--graphite-600)" }}>
+                Trading securities, futures, and leveraged foreign exchange involves significant capital risk. Prices fluctuate rapidly and losses can exceed initial deposits. Ensure you trade only with risk capital you can afford to lose.
+              </p>
             </section>
 
-            <section className="p-8 bg-background-surface/40 backdrop-blur-md border border-border-slate/50 transition-all duration-300 hover:shadow-[0_0_20px_rgba(0,0,0,0.2)] hover:border-border-slate hover:-translate-y-0.5 flex gap-6 items-start">
-               <Shield className="w-8 h-8 text-accent shrink-0" />
-               <div>
-                  <h3 className="font-sans font-bold uppercase mb-2">SFC Compliance</h3>
-                  <p className="text-xs text-text-tertiary leading-relaxed">We prioritize SFC-licensed brokers (Type 3 Leveraged Foreign Exchange) in our reviews and educational content for Hong Kong residents.</p>
-               </div>
+            <section className="space-y-3 border-b pb-8" style={{ borderColor: "var(--line-200)" }}>
+              <h2 className="font-display text-[24px] font-semibold" style={{ color: "var(--ink-950)" }}>
+                Quantitative Trade Signals Disclosure
+              </h2>
+              <p className="text-[14px] leading-relaxed font-semibold p-4 border" style={{ backgroundColor: "var(--paper-100)", borderColor: "var(--line-200)", color: "var(--ink-950)" }}>
+                Trade signals and market indicators generated by Drawdown are automated quantitative outputs derived from data feeds and risk parameters. They are not guaranteed outcomes or SFC-regulated advisory recommendations.
+              </p>
             </section>
+
+            <div className="p-6 border flex items-center justify-between flex-wrap gap-4" style={{ backgroundColor: "var(--paper-100)", borderColor: "var(--line-200)" }}>
+              <div>
+                <span className="text-[11px] font-mono uppercase tracking-[0.08em] block" style={{ color: "var(--graphite-600)" }}>
+                  HK Inland Revenue Department (IRD) Tax Overview
+                </span>
+                <h4 className="font-display text-[18px] font-semibold" style={{ color: "var(--ink-950)" }}>
+                  Hong Kong Tax &amp; Legal Breakdown
+                </h4>
+              </div>
+              <Link 
+                href="/legal/financial-disclaimer?region=hk" 
+                className="px-4 py-2.5 border text-[12px] font-medium font-sans hover:underline"
+                style={{ backgroundColor: "var(--signal-navy)", borderColor: "var(--signal-navy)", color: "#FAFAF9" }}
+              >
+                Read HK Tax Disclaimer
+              </Link>
+            </div>
           </div>
         </div>
       </div>
-    </main>
+    </div>
   );
 }

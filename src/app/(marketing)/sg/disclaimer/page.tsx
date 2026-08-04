@@ -1,53 +1,89 @@
-import { Shield, AlertTriangle, Activity } from "lucide-react";
-import Breadcrumbs from "@/components/layout/Breadcrumbs";
+import { getMetadata } from "@/lib/metadata";
+import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
+import { AlertTriangle, Shield, Activity } from "lucide-react";
+import Link from "next/link";
+
+export const metadata = getMetadata({
+  title: "Singapore Regulatory Risk Disclaimer",
+  description: "Monetary Authority of Singapore (MAS) advisory and regulatory notices for Drawdown users.",
+});
 
 export default function SingaporeDisclaimerPage() {
   return (
-    <main className="pt-28 pb-24 min-h-screen">
-      <div className="max-w-7xl mx-auto px-6">
+    <div className="pt-28 pb-24 min-h-screen select-none" style={{ backgroundColor: "var(--paper-0)", color: "var(--ink-950)" }}>
+      <div className="max-w-[1280px] mx-auto px-6">
         <Breadcrumbs 
-           items={[
-             { label: 'Singapore', href: '/sg' },
-             { label: 'Regulatory Disclaimer', href: '/sg/disclaimer' }
-           ]} 
+          items={[
+            { label: 'Singapore', href: '/sg' },
+            { label: 'Regulatory Disclaimer', href: '/sg/disclaimer' }
+          ]} 
         />
         
-        <div className="max-w-4xl mt-12 space-y-16">
-          <div className="space-y-6">
-            <div className="flex items-center gap-3 text-warning">
-               <AlertTriangle className="w-8 h-8" />
-               <span className="text-[10px] font-mono uppercase tracking-[0.3em] font-bold">MAS ADVISORY</span>
+        <div className="max-w-4xl mx-auto mt-8 space-y-12">
+          {/* Title Banner */}
+          <div className="space-y-4 border-b pb-10" style={{ borderColor: "var(--line-200)" }}>
+            <div className="flex items-center gap-3">
+              <span className="inline-flex items-center gap-2 text-[11px] font-mono uppercase tracking-[0.08em] px-2.5 py-1 border" style={{ backgroundColor: "var(--paper-100)", borderColor: "var(--line-200)", color: "var(--risk-amber)" }}>
+                <AlertTriangle size={14} />
+                MAS REGULATORY ADVISORY
+              </span>
             </div>
-            <h1 className="text-4xl md:text-7xl font-sans font-black uppercase leading-none">
-              Risk <span className="text-text-tertiary">Disclosure.</span>
+            <h1 className="font-display text-[clamp(2.25rem,5vw,3.75rem)] leading-[1.05] tracking-[-0.02em] font-semibold">
+              Singapore Risk <span style={{ color: "var(--graphite-600)" }}>Disclosure</span>
             </h1>
+            <p className="text-[13px] font-mono uppercase tracking-[0.08em]" style={{ color: "var(--graphite-600)" }}>
+              Regulatory Perimeter &amp; MAS Compliance Statements
+            </p>
           </div>
 
-          <div className="prose prose-drawdown max-w-none space-y-12">
-            <section className="space-y-6">
-               <h2 className="text-2xl font-sans font-bold uppercase tracking-tight">Not a Financial Advisor</h2>
-               <p className="text-lg text-text-secondary leading-relaxed">
-                 Drawdown is an educational platform and software provider. We are not licensed as a financial advisor by the Monetary Authority of Singapore (MAS). The content provided is strictly for educational and informational purposes and does not constitute financial advice, investment recommendations, or an offer to sell securities.
-               </p>
+          <div className="space-y-8 font-sans">
+            <section className="space-y-3 border-b pb-8" style={{ borderColor: "var(--line-200)" }}>
+              <h2 className="font-display text-[24px] font-semibold" style={{ color: "var(--ink-950)" }}>
+                Not a Licensed Financial Adviser (MAS)
+              </h2>
+              <p className="text-[15px] leading-relaxed" style={{ color: "var(--graphite-600)" }}>
+                Drawdown is an educational platform and quantitative software provider. We are not licensed as a financial adviser under the Financial Advisers Act (FAA) by the Monetary Authority of Singapore (MAS). The content, trade signals, and tools provided do not constitute financial advice, investment advice, or an offer to sell securities or derivatives in Singapore.
+              </p>
             </section>
 
-            <section className="space-y-6">
-               <h2 className="text-2xl font-sans font-bold uppercase tracking-tight">High Risk Investment Warning</h2>
-               <p className="text-lg text-text-secondary leading-relaxed">
-                 Trading in leveraged financial instruments such as Forex and CFDs carries a high level of risk and may not be suitable for all investors. You may lose more than your initial deposit. Please ensure you fully understand the risks involved and seek independent advice if necessary.
-               </p>
+            <section className="space-y-3 border-b pb-8" style={{ borderColor: "var(--line-200)" }}>
+              <h2 className="font-display text-[24px] font-semibold" style={{ color: "var(--ink-950)" }}>
+                High-Risk Leveraged Trading Warning
+              </h2>
+              <p className="text-[15px] leading-relaxed" style={{ color: "var(--graphite-600)" }}>
+                Trading leveraged instruments (such as Forex CFDs) carries a high level of risk. MAS leverage limits for retail clients apply (1:20 for forex). You may lose more than your initial capital deposit. Ensure you fully understand the risks involved before entering positions.
+              </p>
             </section>
 
-            <section className="p-8 bg-background-surface/40 backdrop-blur-md border border-border-slate/50 transition-all duration-300 hover:shadow-[0_0_20px_rgba(0,0,0,0.2)] hover:border-border-slate hover:-translate-y-0.5 flex gap-6 items-start">
-               <Shield className="w-8 h-8 text-accent shrink-0" />
-               <div>
-                  <h3 className="font-sans font-bold uppercase mb-2">MAS Compliance</h3>
-                  <p className="text-xs text-text-tertiary leading-relaxed">We strictly recommend MAS-regulated entities for Singaporean residents to ensure the highest level of capital protection and regulatory oversight.</p>
-               </div>
+            <section className="space-y-3 border-b pb-8" style={{ borderColor: "var(--line-200)" }}>
+              <h2 className="font-display text-[24px] font-semibold" style={{ color: "var(--ink-950)" }}>
+                Quantitative Trade Signals Notice
+              </h2>
+              <p className="text-[14px] leading-relaxed font-semibold p-4 border" style={{ backgroundColor: "var(--paper-100)", borderColor: "var(--line-200)", color: "var(--ink-950)" }}>
+                Trade signals and market indicators generated by Drawdown are automated quantitative outputs derived from data feeds and risk parameters. They are not guaranteed outcomes or personalized advisory recommendations.
+              </p>
             </section>
+
+            <div className="p-6 border flex items-center justify-between flex-wrap gap-4" style={{ backgroundColor: "var(--paper-100)", borderColor: "var(--line-200)" }}>
+              <div>
+                <span className="text-[11px] font-mono uppercase tracking-[0.08em] block" style={{ color: "var(--graphite-600)" }}>
+                  IRAS Tax Considerations &amp; SG Legal Disclaimer
+                </span>
+                <h4 className="font-display text-[18px] font-semibold" style={{ color: "var(--ink-950)" }}>
+                  Singapore Tax &amp; Legal Breakdown
+                </h4>
+              </div>
+              <Link 
+                href="/legal/financial-disclaimer?region=sg" 
+                className="px-4 py-2.5 border text-[12px] font-medium font-sans hover:underline"
+                style={{ backgroundColor: "var(--signal-navy)", borderColor: "var(--signal-navy)", color: "#FAFAF9" }}
+              >
+                Read SG Tax Disclaimer
+              </Link>
+            </div>
           </div>
         </div>
       </div>
-    </main>
+    </div>
   );
 }

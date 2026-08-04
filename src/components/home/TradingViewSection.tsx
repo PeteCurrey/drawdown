@@ -7,16 +7,13 @@ import { ArrowRight } from "lucide-react";
 // Official TradingView Logo Ligature (dot, slash, backslash)
 const TradingViewLogo = ({ className = "w-5 h-5" }: { className?: string }) => (
   <svg
-    viewBox="0 0 28 28"
+    viewBox="0 0 24 24"
     xmlns="http://www.w3.org/2000/svg"
     className={className}
     fill="currentColor"
+    aria-hidden="true"
   >
-    <path d="M12.5 17.2a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0zm8.5 0a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" opacity=".15"/>
-    <path d="M14 11.7a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" opacity=".15"/>
-    <path d="M4.5 20h19v2.5h-19z"/>
-    <path d="M10.8 4h3l-4 14.5h-3z"/>
-    <path d="M17.8 4h3l-4 14.5h-3z"/>
+    <path d="M15.8654 8.2789c0 1.3541-1.0978 2.4519-2.452 2.4519-1.354 0-2.4519-1.0978-2.4519-2.452 0-1.354 1.0978-2.4518 2.452-2.4518 1.3541 0 2.4519 1.0977 2.4519 2.4519M5.3655 22l2.452-4.2898h13.9218L24 22H5.3655zm.2452-6.5416L0 22h3.9228l1.6877-2.9531V22h3.6775v-7.3369c0-.5422-.2452-1.0845-.9808-1.0845s-.9808.5423-.9808 1.0845V22H4.713v-6.5416zm4.9039 0v6.5416h3.6775v-3.9228c0-.5422.2452-1.0845.9808-1.0845s.9808.5423.9808 1.0845v3.9228h3.6775v-6.5416H10.514z"/>
   </svg>
 );
 

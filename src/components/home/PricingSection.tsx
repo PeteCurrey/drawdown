@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Check, Shield, ArrowRight } from "lucide-react";
+import { Check, Shield, ArrowRight, BookOpen, Download, Cpu } from "lucide-react";
 import { useRegion } from "@/components/layout/RegionalLayout";
 import { STRIPE_CONFIG } from "@/config/stripe";
 import { REGIONAL_PRICING, type RegionCode } from "@/lib/regions";
@@ -264,6 +264,88 @@ export function PricingSection({ floorCap = 15, activeFloorSubs = 0 }: { floorCa
           })}
         </div>
 
+        {/* Minimalist Core Capabilities Strip */}
+        <div 
+          className="grid grid-cols-1 md:grid-cols-3 gap-6 p-6 border mb-8"
+          style={{
+            borderColor: "var(--line-200)",
+            backgroundColor: "var(--paper-100)",
+            borderRadius: 0,
+          }}
+        >
+          <div className="flex items-start gap-3">
+            <BookOpen size={16} strokeWidth={1.5} className="shrink-0 mt-1" style={{ color: "var(--signal-navy)" }} />
+            <div className="space-y-1">
+              <h4 className="text-[12px] font-mono uppercase tracking-[0.08em] font-semibold" style={{ color: "var(--ink-950)" }}>
+                Structured Education
+              </h4>
+              <p className="text-[12px] leading-relaxed font-sans" style={{ color: "var(--graphite-600)" }}>
+                Phase-based curriculum spanning Ground-Zero foundations to advanced macro news trading &amp; algo deployment.
+              </p>
+            </div>
+          </div>
+
+          <div className="flex items-start gap-3 border-t md:border-t-0 md:border-l pt-4 md:pt-0 md:pl-6" style={{ borderColor: "var(--line-200)" }}>
+            <Download size={16} strokeWidth={1.5} className="shrink-0 mt-1" style={{ color: "var(--signal-navy)" }} />
+            <div className="space-y-1">
+              <h4 className="text-[12px] font-mono uppercase tracking-[0.08em] font-semibold" style={{ color: "var(--ink-950)" }}>
+                Instant PDF Downloads
+              </h4>
+              <p className="text-[12px] leading-relaxed font-sans" style={{ color: "var(--graphite-600)" }}>
+                Unlock Pete Currey's professional playbooks, prop survival kits, risk spreadsheets, and journal templates.
+              </p>
+            </div>
+          </div>
+
+          <div className="flex items-start gap-3 border-t md:border-t-0 md:border-l pt-4 md:pt-0 md:pl-6" style={{ borderColor: "var(--line-200)" }}>
+            <Cpu size={16} strokeWidth={1.5} className="shrink-0 mt-1" style={{ color: "var(--signal-navy)" }} />
+            <div className="space-y-1">
+              <h4 className="text-[12px] font-mono uppercase tracking-[0.08em] font-semibold" style={{ color: "var(--ink-950)" }}>
+                Premium Platform Add-ons
+              </h4>
+              <p className="text-[12px] leading-relaxed font-sans" style={{ color: "var(--graphite-600)" }}>
+                Scale your analytical edge with stand-alone systems like the institutional Investment Centre Terminal.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Full Pricing Directory Navigation Banner */}
+        <div 
+          className="border p-8 mb-12 flex flex-col md:flex-row md:items-center md:justify-between gap-6"
+          style={{
+            borderColor: "var(--line-200)",
+            backgroundColor: "var(--paper-100)",
+            borderRadius: 0,
+          }}
+        >
+          <div className="space-y-2 max-w-2xl">
+            <span className="inline-block text-[10px] font-mono uppercase tracking-[0.08em] px-2 py-0.5 border" style={{ borderColor: "var(--line-200)", color: "var(--graphite-600)" }}>
+              Detailed Matrix
+            </span>
+            <h3 className="text-[18px] font-semibold tracking-tight font-display" style={{ color: "var(--ink-950)" }}>
+              Looking for our complete features table or standalone Signal Centre tier?
+            </h3>
+            <p className="text-[12px] leading-relaxed font-sans" style={{ color: "var(--graphite-600)" }}>
+              Compare every sub-capability, explore included PDF guides, check out standalone signal feeds, and find the perfect package for your trading desk on our full pricing directory.
+            </p>
+          </div>
+          
+          <Link
+            href="/pricing"
+            className="shrink-0 py-3.5 px-6 text-[13px] font-medium uppercase tracking-[0.08em] border transition-colors duration-150 flex items-center justify-center gap-2"
+            style={{
+              backgroundColor: "var(--signal-navy)",
+              color: "#FAFAF9",
+              borderColor: "var(--signal-navy)",
+              borderRadius: 0,
+            }}
+          >
+            Expand Pricing &amp; Plans
+            <ArrowRight size={14} strokeWidth={1.5} />
+          </Link>
+        </div>
+
         {/* Roadmap link for upcoming features */}
         <div className="mb-12 text-center">
           <Link
@@ -292,7 +374,7 @@ export function PricingSection({ floorCap = 15, activeFloorSubs = 0 }: { floorCa
                 Educational Platform Notice
               </h4>
               <p className="text-[12px] leading-relaxed font-sans" style={{ color: "var(--graphite-600)" }}>
-                Subscription tiers represent access levels to educational content and proprietary analysis tools. Drawdown does not provide financial advice or trade signals. All strategies tested or journals analyzed remain the intellectual property of the user. Past performance as logged in the AI Trade Journal is not indicative of future results.
+                Subscription tiers represent access levels to educational content, proprietary quantitative tools, and market signals. Drawdown does not provide financial advice. Trade signals and market analysis represent automated conclusions derived from data feeds and risk parameters; they are not guaranteed outcomes or investment recommendations. All strategies tested or journals analyzed remain the intellectual property of the user. Past performance is not indicative of future results.
               </p>
             </div>
           </div>

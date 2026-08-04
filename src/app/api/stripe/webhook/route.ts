@@ -498,9 +498,9 @@ export async function POST(request: NextRequest) {
           const stripeCustomer = await stripe.customers.retrieve(deletedSubscription.customer as string);
           const customerEmail = (stripeCustomer as Stripe.Customer).email;
           if (customerEmail) {
-            const subTier = deletedSubscription.metadata?.tier || "membership";
+            const subTier = (deletedSubscription as any).metadata?.tier || "membership";
             const tierLabel = subTier.charAt(0).toUpperCase() + subTier.slice(1);
-            const accessUntil = new Date(deletedSubscription.current_period_end * 1000).toLocaleDateString("en-GB", {
+            const accessUntil = new Date(((deletedSubscription as any).current_period_end || Math.floor(Date.now() / 1000)) * 1000).toLocaleDateString("en-GB", {
               day: "numeric",
               month: "long",
               year: "numeric",

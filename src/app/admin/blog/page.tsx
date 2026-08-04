@@ -34,7 +34,7 @@ export default async function AdminBlogPage({ searchParams }: Props) {
     .from("email_sends")
     .select("metadata, status, sent_at, recipient_count")
     .eq("type", "blog_post")
-    .in("status", ["sent", "completed", "pending", "failed"]);
+    ;
 
   // Build a lookup: blog_post_id -> best send record
   const emailSendMap: Record<string, { status: string; sent_at?: string; recipient_count?: number }> = {};

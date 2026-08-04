@@ -881,6 +881,33 @@ export function convertMarkdownToHtml(md: string, postUrl: string = "https://dra
   
   let html = cleaned;
 
+  if (isHtml) {
+    // ── Tiptap HTML path: fix markdown-as-text and clean up JSX tags ──
+    // Tiptap does NOT auto-convert typed markdown syntax to HTML elements.
+    // e.g. typing '## Heading' in Tiptap stores <p>## Heading</p> — fix that here.
+
+    // Convert <p>## heading</p> -> proper heading elements
+    html = html.replace(/<p[^>]*>\s*####\s+(.*?)\s*<\/p>/gi, '<h4>$1</h4>');
+    html = html.replace(/<p[^>]*>\s*###\s+(.*?)\s*<\/p>/gi, '<h3>$1</h3>');
+    html = html.replace(/<p[^>]*>\s*##\s+(.*?)\s*<\/p>/gi, '<h2>$1</h2>');
+    html = html.replace(/<p[^>]*>\s*#\s+(.*?)\s*<\/p>/gi, '<h1>$1</h1>');
+
+    // Convert <p>---</p> -> <hr/>
+    html = html.replace(/<p[^>]*>\s*(?:---|___|\*\*\*)\s*<\/p>/gi, '<hr />');
+
+    // Process inline markdown bold/italic inside text nodes
+    html = html.replace(/\*\*([^*<\n]+)\*\*/g, '<strong>$1</strong>');
+    html = html.replace(/__([^_<\n]+)__/g, '<strong>$1</strong>');
+    html = html.replace(/\*([^*<\n]+)\*/g, '<em>$1</em>');
+
+    // Convert markdown links inside text nodes
+    html = html.replace(/\[([^\]]*)\]\(([^)]*)\)/g, '<a href="$2">$1</a>');
+
+    // Strip any HTML-entity-encoded JSX remnants visible as tag text
+    html = html.replace(/&lt;[A-Z][A-Za-z]+[^&]*\/&gt;/g, '');
+    html = html.replace(/&lt;\/[A-Z][A-Za-z]+&gt;/g, '');
+  }
+
   if (!isHtml) {
     // 1. Normalize line endings
     html = html.replace(/\r\n/g, "\n").replace(/\r/g, "\n");

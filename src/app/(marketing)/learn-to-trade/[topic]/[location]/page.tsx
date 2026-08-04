@@ -1,16 +1,12 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
-import Link from "next/link";
-import { ArrowRight, BookOpen, ChevronRight, GraduationCap, MapPin, ShieldCheck, Zap, AlertTriangle } from "lucide-react";
-import { cn } from "@/lib/utils";
-import { TrackPageView } from "@/components/admin/TrackPageView";
-import { StructuredData } from "@/components/StructuredData";
 import { createInternalSupabase } from "@/lib/supabase/server";
 import { LEARN_TOPICS } from "@/lib/data/learn-to-trade";
 import { UK_LOCATIONS } from "@/lib/data/locations";
+import { LocationPageClient } from "@/components/learn/LocationPageClient";
 
 export const dynamicParams = true;
-export const revalidate = 86400; // 24 hours - content doesn't change often
+export const revalidate = 86400;
 
 interface Props {
   params: Promise<{ topic: string; location: string }>;
@@ -20,359 +16,139 @@ export async function generateStaticParams() {
   const primaryCities = ["london", "manchester", "birmingham"];
   const topTopics = [
     "forex-trading",
-    "day-trading", 
+    "day-trading",
     "prop-firms",
     "spread-betting",
-    "technical-analysis"
+    "technical-analysis",
   ];
-  return topTopics.flatMap(topic => 
-    primaryCities.map(location => ({ topic, location }))
+  return topTopics.flatMap((topic) =>
+    primaryCities.map((location) => ({ topic, location }))
   );
 }
 
-async function getTopicData(topicSlug: string) {
-  try {
-    const supabase = createInternalSupabase();
-    const { data: page, error } = await supabase
-      .from("seo_pages")
-      .select("*")
-      .eq("slug", topicSlug)
-      .eq("page_type", "learn_to_trade")
-      .maybeSingle();
-
-    if (page) {
-      return {
-        title: page.title,
-        slug: page.slug,
-        metaTitle: page.seo_title || `${page.title} | Drawdown`,
-        metaDescription: page.seo_description || "",
-        category: "General",
-        difficulty: "Intermediate" as const,
-        subtitle: page.seo_description || "",
-        description: page.seo_description || "",
-        timeToLearn: "30 mins",
-        riskLevel: "Medium" as const,
-        heroImage: "/images/learn/default.jpg",
-        honestReality: "",
-        content: [
-          {
-            heading: "Overview",
-            text: page.content || "",
-            bullets: [],
-            richBlocks: []
-          }
-        ],
-        richBlocks: [] as any[],
-        faqs: [] as any[]
-      };
-    }
-  } catch (err: any) {
-    console.error(`[Topic] Exception fetching from Supabase for slug ${topicSlug}:`, err.message);
-  }
-
-  return LEARN_TOPICS.find((t) => t.slug === topicSlug) || null;
-}
+const cleanText = (text: string, locName: string, topicTitle: string) => {
+  if (!text) return "";
+  return text
+    .replace(/\$Location/g, locName)
+    .replace(/\$Topic/g, topicTitle)
+    .replace(/\$location/g, locName)
+    .replace(/\$topic/g, topicTitle);
+};
 
 async function getLocationData(topicSlug: string, locationSlug: string) {
-  const topic = await getTopicData(topicSlug);
-  if (!topic) return null;
+  let topicTitle = "";
+  let contentSections: { heading: string; text: string; bullets?: string[] }[] = [];
+  const localTopic = LEARN_TOPICS.find((t) => t.slug === topicSlug);
 
-  let rawLocation = null;
+  if (localTopic) {
+    topicTitle = localTopic.title;
+  } else {
+    try {
+      const supabase = createInternalSupabase();
+      const { data: page } = await supabase
+        .from("seo_pages")
+        .select("*")
+        .eq("slug", topicSlug)
+        .eq("page_type", "learn_to_trade")
+        .maybeSingle();
+      if (page) topicTitle = page.title;
+    } catch (err: any) {
+      console.error(err.message);
+    }
+  }
+
+  if (!topicTitle) return null;
+
+  let locationName = "";
+  let locationContext = "";
 
   try {
     const supabase = createInternalSupabase();
-    const { data: page, error } = await supabase
+    const { data: page } = await supabase
       .from("seo_pages")
       .select("*")
       .eq("slug", locationSlug)
       .eq("page_type", "location")
       .maybeSingle();
-
     if (page) {
-      rawLocation = {
-        name: page.title,
-        slug: page.slug,
-        context: page.seo_description || "",
-      };
+      locationName = page.title;
+      locationContext = page.seo_description || "";
     }
   } catch (err: any) {
-    console.error(`[Location] Exception fetching from Supabase for slug ${locationSlug}:`, err.message);
+    console.error(err.message);
   }
 
-  if (!rawLocation) {
-    rawLocation = UK_LOCATIONS.find((l) => l.slug === locationSlug) || null;
+  if (!locationName) {
+    const localLoc = UK_LOCATIONS.find((l) => l.slug === locationSlug);
+    if (localLoc) {
+      locationName = localLoc.name;
+      locationContext = (localLoc as any).context || "";
+    }
   }
 
-  if (!rawLocation) return null;
+  if (!locationName) return null;
 
-  // Cleanup dollar prefixes and interpolate template placeholders
-  const cleanLocName = rawLocation.name ? (rawLocation.name.startsWith("$") ? rawLocation.name.substring(1) : rawLocation.name) : "";
-  const cleanTopicTitle = topic.title ? (topic.title.startsWith("$") ? topic.title.substring(1) : topic.title) : "";
+  // Strip leading $ from template artefacts
+  const cleanLocName = locationName.startsWith("$") ? locationName.slice(1) : locationName;
+  const cleanTopicTitle = topicTitle.startsWith("$") ? topicTitle.slice(1) : topicTitle;
 
-  const cleanText = (text: string) => {
-    if (!text) return "";
-    return text
-      .replace(/\$Location/g, cleanLocName)
-      .replace(/\$Topic/g, cleanTopicTitle)
-      .replace(/\$location/g, cleanLocName)
-      .replace(/\$topic/g, cleanTopicTitle)
-      .replace(/\$London/g, "London")
-      .replace(/\$Day Trading/g, "Day Trading")
-      .replace(/\$london/gi, "London")
-      .replace(/\$day-trading/gi, "Day Trading")
-      .replace(/\$day trading/gi, "Day Trading");
-  };
+  if (localTopic) {
+    contentSections = localTopic.content.map((sec) => ({
+      heading: sec.heading,
+      text: cleanText(sec.text, cleanLocName, cleanTopicTitle),
+      bullets: sec.bullets?.map((b) => cleanText(b, cleanLocName, cleanTopicTitle)),
+    }));
+  } else {
+    contentSections = [
+      {
+        heading: "Overview",
+        text: cleanText(locationContext, cleanLocName, cleanTopicTitle),
+        bullets: [],
+      },
+    ];
+  }
 
   return {
-    topic: {
-      ...topic,
-      title: cleanTopicTitle,
-      content: topic.content.map((sec) => ({
-        ...sec,
-        text: cleanText(sec.text),
-        bullets: sec.bullets?.map((b) => cleanText(b))
-      }))
-    },
-    location: {
-      name: cleanLocName,
-      slug: rawLocation.slug,
-      context: cleanText(rawLocation.context),
-    }
+    topicTitle: cleanTopicTitle,
+    topicSlug,
+    locationName: cleanLocName,
+    locationSlug,
+    locationContext: cleanText(locationContext, cleanLocName, cleanTopicTitle),
+    contentSections,
   };
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { topic: topicSlug, location: locationSlug } = await params;
   const data = await getLocationData(topicSlug, locationSlug);
-  
   if (!data) return {};
-
-  const { topic, location } = data;
-
   return {
-    title: `${topic.title} in ${location.name} | Learn to Trade`,
-    description: `Learn ${topic.title} from ${location.name} with Drawdown. Structured courses, AI tools, and UK-focused trading education. Start your journey free today.`,
+    title: `${data.topicTitle} in ${data.locationName} | Learn to Trade`,
+    description: `Learn ${data.topicTitle} from ${data.locationName} with Drawdown. Structured courses, AI tools, and UK-focused trading education. Start free today.`,
     alternates: {
       canonical: `https://drawdown.trading/learn-to-trade/${topicSlug}/${locationSlug}`,
     },
-    robots: {
-      index: false,
-      follow: true,
-    },
+    robots: { index: false, follow: true },
   };
 }
 
 export default async function LocationTopicPage({ params }: Props) {
   const { topic: topicSlug, location: locationSlug } = await params;
   const data = await getLocationData(topicSlug, locationSlug);
-
   if (!data) notFound();
 
-  const { topic, location } = data;
-
-  const faqSchema = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [
-      {
-        "@type": "Question",
-        "name": `Are there trading courses in ${location.name}?`,
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": `Yes, while there are some traditional classroom courses in ${location.name}, Drawdown offers a more flexible, professional-grade online alternative. You can access professional-grade ${topic.title} education from anywhere in ${location.name} without the high costs of physical workshops.`
-        }
-      },
-      {
-        "@type": "Question",
-        "name": `Can I learn ${topic.title} from ${location.name}?`,
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": `Absolutely. Drawdown is designed for the modern remote trader. Whether you're in the heart of ${location.name} or the surrounding area, our platform provides all the tools, data, and community support you need to master ${topic.title} online.`
-        }
-      },
-      {
-        "@type": "Question",
-        "name": `How much does it cost to learn trading in ${location.name}?`,
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": `Traditional trading seminars in ${location.name} can cost between £1,000 and £5,000 for a single weekend. Drawdown provides a superior, ongoing education model starting from just £49/month, making professional-grade learning accessible to everyone in the region.`
-        }
-      },
-      {
-        "@type": "Question",
-        "name": `Do I need qualifications to trade from ${location.name}?`,
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": `No formal qualifications are required to start trading from ${location.name}. However, the markets are highly competitive. Professional-grade education and a disciplined approach to risk management are essential for long-term success as a retail trader.`
-        }
-      }
-    ]
-  };
-
   return (
-    <main className="min-h-screen pt-32 pb-20">
-      <TrackPageView path={`/learn-to-trade/${topicSlug}/${locationSlug}`} />
-      <StructuredData type="FAQPage" data={faqSchema} />
-      
-      <div className="max-w-6xl mx-auto px-6">
-        {/* Breadcrumbs */}
-        <nav className="flex items-center space-x-2 text-[10px] font-mono uppercase tracking-widest text-text-tertiary mb-12">
-          <Link href="/" className="hover:text-accent transition-colors">Home</Link>
-          <ChevronRight className="w-3 h-3" />
-          <Link href="/learn-to-trade" className="hover:text-accent transition-colors">Learn</Link>
-          <ChevronRight className="w-3 h-3" />
-          <Link href={`/learn-to-trade/${topicSlug}`} className="hover:text-accent transition-colors">{topic.title}</Link>
-          <ChevronRight className="w-3 h-3" />
-          <span className="text-text-primary">{location.name}</span>
-        </nav>
-
-        {/* Hero Header */}
-        <div className="mb-24">
-          <div className="flex items-center gap-3 mb-6">
-             <MapPin className="w-4 h-4 text-accent" />
-             <span className="text-accent font-mono text-[10px] uppercase tracking-widest">Regional Hub // {location.name}</span>
-          </div>
-          <h1 className="text-5xl md:text-8xl font-sans font-bold uppercase mb-8 text-text-primary leading-[0.85]">
-            {topic.title} in <br /> {location.name}.
-          </h1>
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 mt-12">
-            <div className="lg:col-span-2 space-y-6">
-              <p className="text-2xl text-text-primary font-sans uppercase leading-tight italic border-l-4 border-border-slate/50 pl-8">
-                {location.context}
-              </p>
-              <p className="text-lg text-text-secondary leading-relaxed">
-                While {location.name} has its own unique financial landscape, the beauty of modern markets is that your location no longer dictates your edge. By choosing to learn {topic.title} online with Drawdown, you gain access to professional-grade tools and community intelligence that was once reserved for the square mile.
-              </p>
-              <p className="text-lg text-text-secondary leading-relaxed">
-                We've built Drawdown specifically for traders in hubs like {location.name} who demand professional-level education without the archaic costs of physical classroom seminars.
-              </p>
-            </div>
-            <div className="bg-background-surface/40 backdrop-blur-md border border-border-slate/50 transition-all duration-300 hover:shadow-[0_0_20px_rgba(0,0,0,0.2)] hover:border-border-slate hover:-translate-y-0.5 p-8 space-y-6">
-               <div className="flex items-center gap-2">
-                  <ShieldCheck className="w-5 h-5 text-profit" />
-                  <span className="text-[10px] font-mono uppercase tracking-widest font-bold">UK Compliance</span>
-               </div>
-               <ul className="space-y-4">
-                  {[
-                    "FCA Regulated Platforms",
-                    "Spread Betting Tax Efficiency",
-                    "GBP Denominated Analysis",
-                    "London Session Focus"
-                  ].map(item => (
-                    <li key={item} className="flex items-center gap-3 text-xs text-text-secondary">
-                       <span className="w-1 h-1 bg-accent rounded-full" />
-                       {item}
-                    </li>
-                  ))}
-               </ul>
-            </div>
-          </div>
-        </div>
-
-        {/* Shared Topic Content */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-16 items-start mb-32">
-          <div className="lg:col-span-2 space-y-20">
-            {topic.content.map((section, i) => (
-              <section key={i} className="space-y-8">
-                <h2 className="text-3xl md:text-4xl font-sans font-bold uppercase tracking-tight text-text-primary">
-                  {i + 1}. {section.heading}
-                </h2>
-                <p className="text-text-secondary leading-relaxed text-lg whitespace-pre-line">
-                  {section.text}
-                </p>
-                {section.bullets && (
-                  <ul className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4">
-                    {section.bullets.map((bullet, j) => (
-                      <li key={j} className="flex gap-4 text-text-secondary text-sm p-4 bg-background-surface/40 backdrop-blur-md border border-border-slate/50 transition-all duration-300 hover:shadow-[0_0_20px_rgba(0,0,0,0.2)] hover:border-border-slate hover:-translate-y-0.5/50">
-                        <span className="text-accent font-bold">/</span>
-                        {bullet}
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </section>
-            ))}
-          </div>
-
-          {/* Sidebar */}
-          <aside className="sticky top-32 space-y-12">
-            {/* Why Learn Online */}
-            <div className="p-8 bg-background-surface/40 backdrop-blur-md border border-border-slate/50 transition-all duration-300 hover:shadow-[0_0_20px_rgba(0,0,0,0.2)] hover:border-border-slate hover:-translate-y-0.5/30 space-y-6">
-               <h4 className="text-[10px] font-mono uppercase tracking-widest text-accent font-bold">Why Learn Online?</h4>
-               <div className="space-y-4">
-                  <div className="flex justify-between items-center text-xs pb-2 border-b border-border-slate/30">
-                     <span className="text-text-tertiary">Classroom Course</span>
-                     <span className="text-red-500 font-bold">£1,500+</span>
-                  </div>
-                  <div className="flex justify-between items-center text-xs pb-2 border-b border-border-slate/30">
-                     <span className="text-text-tertiary">Travel & Hotel</span>
-                     <span className="text-red-500 font-bold">£300+</span>
-                  </div>
-                  <div className="flex justify-between items-center text-xs font-bold text-accent">
-                     <span>Drawdown Access</span>
-                     <span>£49/mo</span>
-                  </div>
-               </div>
-               <p className="text-[10px] text-text-tertiary italic leading-relaxed">
-                  Save over £1,700 and get lifetime access to tools that classroom courses can't provide.
-               </p>
-            </div>
-
-            {/* Internal Links */}
-            <div className="space-y-6">
-               <h4 className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary">Other Topics in {location.name}</h4>
-               <div className="grid grid-cols-1 gap-2">
-                  {LEARN_TOPICS.filter(t => t.slug !== topicSlug).slice(0, 5).map(t => (
-                    <Link 
-                      key={t.slug} 
-                      href={`/learn-to-trade/${t.slug}/${locationSlug}`}
-                      className="text-[10px] font-mono uppercase tracking-widest text-text-secondary hover:text-accent transition-colors py-2 border-b border-border-slate/50/30"
-                    >
-                       {t.title}
-                    </Link>
-                  ))}
-               </div>
-            </div>
-          </aside>
-        </div>
-
-        {/* FAQs */}
-        <section className="mb-32">
-           <h2 className="text-4xl font-sans font-bold uppercase mb-16 text-text-primary">Local FAQ: {location.name}</h2>
-           <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-              {faqSchema.mainEntity.map((faq, i) => (
-                <div key={i} className="space-y-4 p-8 bg-background-surface/40 backdrop-blur-md border border-border-slate/50 transition-all duration-300 hover:shadow-[0_0_20px_rgba(0,0,0,0.2)] hover:border-border-slate hover:-translate-y-0.5 hover:border-border-slate/70 transition-all">
-                   <h4 className="text-lg font-sans font-bold uppercase text-text-primary">{faq.name}</h4>
-                   <p className="text-text-secondary leading-relaxed text-sm">{faq.acceptedAnswer.text}</p>
-                </div>
-              ))}
-           </div>
-        </section>
-
-        {/* CTA */}
-        <section className="p-16 bg-mkt-ink text-white relative overflow-hidden text-center">
-           <div className="relative z-10 space-y-8">
-              <h2 className="text-4xl md:text-6xl font-sans font-bold uppercase leading-none">
-                 Start Learning {topic.title} <br /> from {location.name} Today.
-              </h2>
-              <p className="text-lg opacity-80 max-w-2xl mx-auto">
-                 Start learning with Drawdown. No fluff. No gurus. Just process.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
-                 <Link 
-                   href="/signup"
-                   className="px-12 py-6 text-text-primary text-[12px] font-bold uppercase tracking-widest hover:invert transition-all"
-                 >
-                    Join Drawdown Free
-                 </Link>
-              </div>
-           </div>
-           {/* Decorative background number */}
-           <div className="absolute -right-20 -bottom-20 text-[300px] font-sans font-black text-white/10 select-none">
-              {location.name[0]}
-           </div>
-        </section>
-      </div>
-    </main>
+    <LocationPageClient
+      {...data}
+      complianceBadge="UK Compliance"
+      complianceItems={[
+        "FCA Regulated Platforms",
+        "Spread Betting Tax Efficiency",
+        "GBP Denominated Analysis",
+        "London Session Focus",
+      ]}
+      ctaHref="/signup"
+      ctaLabel="Join Drawdown Free"
+    />
   );
 }

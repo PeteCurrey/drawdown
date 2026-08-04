@@ -9,23 +9,24 @@ interface ProTipProps {
 
 export const ProTip: React.FC<ProTipProps> = ({ tip }) => {
   return (
-    <div className="my-8 bg-surface border-l-4 border-profit p-6 md:p-8 rounded-r-lg relative overflow-hidden group">
+    <div 
+      className="my-8 p-6 md:p-8 border border-l-4 transition-all duration-300 hover:shadow-sm"
+      style={{ backgroundColor: "var(--paper-100)", borderColor: "var(--line-200)", borderLeftColor: "var(--signal-navy)" }}
+    >
       <div className="flex items-start gap-4">
-        <div className="mt-1 bg-profit/10 p-2 rounded-lg text-mkt-grn">
-          <Brain size={20} className="animate-pulse" />
+        <div className="mt-1 p-2 border shrink-0" style={{ backgroundColor: "var(--paper-0)", borderColor: "var(--line-200)", color: "var(--signal-navy)" }}>
+          <Brain size={18} />
         </div>
         <div>
-          <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-accent mb-2 block">
-            PETE&apos;S TIP
+          <span className="font-mono text-[11px] uppercase tracking-[0.08em] font-semibold mb-2 block" style={{ color: "var(--signal-navy)" }}>
+            Pete&apos;s Pro Tip
           </span>
-          <p className="font-sans text-base md:text-lg text-white italic leading-relaxed">
+          <p className="font-sans text-base md:text-lg italic leading-relaxed" style={{ color: "var(--ink-950)" }}>
             &quot;{tip}&quot;
           </p>
         </div>
       </div>
-      
-      {/* Subtle corner accent */}
-      <div className="absolute bottom-0 right-0 w-24 h-24 bg-profit/5 rounded-tl-full blur-2xl pointer-events-none group-hover:bg-profit/10 transition-colors duration-500" />
     </div>
   );
 };
+

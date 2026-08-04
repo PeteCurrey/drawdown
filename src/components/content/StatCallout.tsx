@@ -10,23 +10,24 @@ interface StatCalloutProps {
 
 export const StatCallout: React.FC<StatCalloutProps> = ({ stat, context, source }) => {
   return (
-    <div className="my-8 relative overflow-hidden bg-surface border-l-4 border-accent p-6 md:p-8 animate-in fade-in slide-in-from-bottom-4">
+    <div 
+      className="my-8 relative overflow-hidden p-6 md:p-8 border-l-4 transition-all duration-300 hover:shadow-sm"
+      style={{ backgroundColor: "var(--paper-100)", borderColor: "var(--line-200)", borderLeftColor: "var(--signal-navy)" }}
+    >
       <div className="flex flex-col gap-2">
-        <span className="font-mono text-4xl md:text-5xl font-bold text-white tracking-tight">
+        <span className="font-display text-4xl md:text-5xl font-semibold tracking-tight" style={{ color: "var(--ink-950)" }}>
           {stat}
         </span>
-        <p className="font-sans text-sm md:text-base text-mkt-i2 max-w-lg leading-relaxed">
+        <p className="font-sans text-sm md:text-base max-w-lg leading-relaxed" style={{ color: "var(--graphite-600)" }}>
           {context}
         </p>
         {source && (
-          <span className="mt-4 font-sans text-xs text-mkt-i4 uppercase tracking-widest">
+          <span className="mt-2 font-mono text-[11px] uppercase tracking-[0.08em]" style={{ color: "var(--graphite-600)" }}>
             Source: {source}
           </span>
         )}
       </div>
-      
-      {/* Subtle background glow */}
-      <div className="absolute -right-12 -top-12 w-32 h-32 bg-accent/5 rounded-full blur-3xl pointer-events-none" />
     </div>
   );
 };
+

@@ -19,7 +19,8 @@ import {
   Mail,
   Link2,
   FileText,
-  Award
+  Award,
+  GraduationCap
 } from "lucide-react";
 
 const NAV_ITEMS = [
@@ -27,6 +28,8 @@ const NAV_ITEMS = [
   { href: "/admin/revenue", label: "Revenue & MRR", icon: Target },
   { href: "/admin/commercial", label: "Commercial Centre", icon: Target },
   { href: "/admin/members", label: "Members Roster", icon: Users },
+  { href: "/admin/accelerator", label: "Accelerator LMS", icon: GraduationCap },
+  { href: "/admin/applications", label: "Accelerator Waitlist", icon: Inbox },
   { href: "/admin/events", label: "Live Events", icon: MessageSquare },
   { href: "/admin/content", label: "Content Delivery", icon: BookOpen },
   { href: "/admin/emails", label: "Emails History", icon: Mail },
@@ -34,8 +37,6 @@ const NAV_ITEMS = [
   { href: "/admin/blog", label: "Blog Manager", icon: FileText },
   { href: "/admin/intelligence", label: "Intelligence Suite", icon: Brain },
   { href: "/admin/leads", label: "Leads Inbox", icon: Inbox },
-  { href: "/admin/applications", label: "Accelerator Waitlist", icon: Inbox },
-  { href: "/admin/accelerator", label: "Accelerator Cohorts", icon: Award },
   { href: "/admin/partners", label: "Partners", icon: Network },
   { href: "/admin/marketing", label: "Marketing & SEO", icon: Target },
   { href: "/admin/affiliates", label: "Affiliate Manager", icon: Link2 },

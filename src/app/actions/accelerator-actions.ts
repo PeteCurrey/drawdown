@@ -395,32 +395,60 @@ export async function getAcceleratorAdminDashboardAction() {
       return { success: false, error: cohortsError.message };
     }
 
-    // 2. Get active student enrollments (with full profiles)
-    // We use service role to get full details safely if needed, but standard client works too
-    const { data: enrolments, error: enrolmentsError } = await supabase
+    const serviceClient = createServiceRoleClient();
+
+    // 2. Fetch all profiles map for robust joins
+    const { data: allProfiles } = await serviceClient.from("profiles").select("*");
+    const profileMap = new Map((allProfiles || []).map((p: any) => [p.id, p]));
+
+    // 3. Get student enrollments with cohort join, fallback gracefully if profile relationship fails
+    let enrolments: any[] = [];
+    let enrolmentsRes = await supabase
       .from("accelerator_enrolments")
       .select("*, profile:profiles(*), cohort:accelerator_cohorts(*)")
       .order("enrolled_at", { ascending: false });
 
-    if (enrolmentsError) {
-      console.error("Error fetching enrolments:", enrolmentsError);
-      return { success: false, error: enrolmentsError.message };
+    if (enrolmentsRes.error) {
+      // Fallback query without PostgREST profiles relationship
+      const rawRes = await serviceClient
+        .from("accelerator_enrolments")
+        .select("*, cohort:accelerator_cohorts(*)")
+        .order("enrolled_at", { ascending: false });
+
+      if (rawRes.error) {
+        console.error("Error fetching enrolments:", rawRes.error);
+        return { success: false, error: rawRes.error.message };
+      }
+      enrolments = (rawRes.data || []).map((e: any) => ({
+        ...e,
+        profile: profileMap.get(e.user_id) || { display_name: "Student Trader", email: "student@drawdown.trading" }
+      }));
+    } else {
+      enrolments = (enrolmentsRes.data || []).map((e: any) => ({
+        ...e,
+        profile: e.profile || profileMap.get(e.user_id) || { display_name: "Student Trader", email: "student@drawdown.trading" }
+      }));
     }
 
-    // 3. Get all submitted milestones awaiting grading / review
-    const { data: pendingMilestones, error: milestonesError } = await supabase
+    const enrolmentMap = new Map(enrolments.map((e: any) => [e.id, e]));
+
+    // 4. Get all submitted milestones awaiting grading / review
+    let pendingMilestones: any[] = [];
+    const pendingRes = await serviceClient
       .from("accelerator_milestones")
-      .select("*, enrolment:accelerator_enrolments(*, profile:profiles(*))")
+      .select("*")
       .eq("status", "submitted")
       .order("submitted_at", { ascending: true });
 
-    if (milestonesError) {
-      console.error("Error fetching pending milestones:", milestonesError);
-      return { success: false, error: milestonesError.message };
+    if (!pendingRes.error && pendingRes.data) {
+      pendingMilestones = pendingRes.data.map((m: any) => ({
+        ...m,
+        enrolment: enrolmentMap.get(m.enrolment_id)
+      }));
     }
 
-    // 4. Get all student milestones for matrix layout
-    const { data: allMilestones, error: allMilestonesError } = await supabase
+    // 5. Get all student milestones for matrix layout
+    const { data: allMilestones, error: allMilestonesError } = await serviceClient
       .from("accelerator_milestones")
       .select("*");
 
@@ -429,15 +457,18 @@ export async function getAcceleratorAdminDashboardAction() {
       return { success: false, error: allMilestonesError.message };
     }
 
-    // 5. Get personal workshops sessions scheduled
-    const { data: sessions, error: sessionsError } = await supabase
+    // 6. Get personal workshops sessions scheduled
+    let sessions: any[] = [];
+    const sessionsRes = await serviceClient
       .from("accelerator_personal_sessions")
-      .select("*, enrolment:accelerator_enrolments(*, profile:profiles(*))")
+      .select("*")
       .order("scheduled_at", { ascending: true });
 
-    if (sessionsError) {
-      console.error("Error fetching admin sessions:", sessionsError);
-      return { success: false, error: sessionsError.message };
+    if (!sessionsRes.error && sessionsRes.data) {
+      sessions = sessionsRes.data.map((s: any) => ({
+        ...s,
+        enrolment: enrolmentMap.get(s.enrolment_id)
+      }));
     }
 
     return {
@@ -598,3 +629,300 @@ export async function gradeAcceleratorMilestoneAction(
     return { success: false, error: err.message || "An unexpected error occurred." };
   }
 }
+
+/**
+ * Create a new Cohort
+ */
+export async function createCohortAction(input: {
+  name: string;
+  startDate: string;
+  seatCap: number;
+  status: "upcoming" | "active" | "closed";
+}) {
+  try {
+    const supabase = await createClient();
+    const serviceClient = createServiceRoleClient();
+    const { data: { user } } = await supabase.auth.getUser();
+
+    if (!user) return { success: false, error: "Unauthorized" };
+
+    const { data: profile } = await supabase.from("profiles").select("role").eq("id", user.id).single();
+    if (!profile || profile.role !== "admin") return { success: false, error: "Forbidden" };
+
+    const { data: cohort, error } = await serviceClient
+      .from("accelerator_cohorts")
+      .insert({
+        name: input.name,
+        start_date: input.startDate,
+        seat_cap: input.seatCap,
+        status: input.status
+      })
+      .select()
+      .single();
+
+    if (error) return { success: false, error: error.message };
+
+    revalidatePath("/admin/accelerator");
+    revalidatePath("/admin/accelerator/cohorts");
+    return { success: true, cohort };
+  } catch (err: any) {
+    return { success: false, error: err.message || "Failed to create cohort." };
+  }
+}
+
+/**
+ * Update Cohort details
+ */
+export async function updateCohortAction(id: string, input: {
+  name?: string;
+  startDate?: string;
+  seatCap?: number;
+  status?: "upcoming" | "active" | "closed";
+}) {
+  try {
+    const supabase = await createClient();
+    const serviceClient = createServiceRoleClient();
+    const { data: { user } } = await supabase.auth.getUser();
+
+    if (!user) return { success: false, error: "Unauthorized" };
+
+    const { data: profile } = await supabase.from("profiles").select("role").eq("id", user.id).single();
+    if (!profile || profile.role !== "admin") return { success: false, error: "Forbidden" };
+
+    const payload: any = {};
+    if (input.name !== undefined) payload.name = input.name;
+    if (input.startDate !== undefined) payload.start_date = input.startDate;
+    if (input.seatCap !== undefined) payload.seat_cap = input.seatCap;
+    if (input.status !== undefined) payload.status = input.status;
+
+    const { data: cohort, error } = await serviceClient
+      .from("accelerator_cohorts")
+      .update(payload)
+      .eq("id", id)
+      .select()
+      .single();
+
+    if (error) return { success: false, error: error.message };
+
+    revalidatePath("/admin/accelerator");
+    revalidatePath("/admin/accelerator/cohorts");
+    return { success: true, cohort };
+  } catch (err: any) {
+    return { success: false, error: err.message || "Failed to update cohort." };
+  }
+}
+
+/**
+ * Manually Enrol a Student into a Cohort by Email
+ */
+export async function manuallyEnrolStudentAction(input: {
+  email: string;
+  cohortId: string;
+  paymentStatus?: "unpaid" | "paid" | "refunded";
+}) {
+  try {
+    const supabase = await createClient();
+    const serviceClient = createServiceRoleClient();
+    const { data: { user } } = await supabase.auth.getUser();
+
+    if (!user) return { success: false, error: "Unauthorized" };
+
+    const { data: profile } = await supabase.from("profiles").select("role").eq("id", user.id).single();
+    if (!profile || profile.role !== "admin") return { success: false, error: "Forbidden" };
+
+    const targetEmail = input.email.toLowerCase().trim();
+
+    // 1. Find profile by email
+    const { data: targetProfile, error: profileErr } = await serviceClient
+      .from("profiles")
+      .select("id, display_name, email")
+      .eq("email", targetEmail)
+      .maybeSingle();
+
+    let targetUserId = targetProfile?.id;
+
+    // If profile not found by email, check auth.users via service role RPC or listUsers
+    if (!targetUserId) {
+      const { data: usersData } = await serviceClient.auth.admin.listUsers();
+      const matchedUser = usersData.users.find(u => u.email?.toLowerCase() === targetEmail);
+      if (matchedUser) {
+        targetUserId = matchedUser.id;
+      }
+    }
+
+    if (!targetUserId) {
+      return { success: false, error: `No user account found matching "${targetEmail}". Student must sign up on Drawdown first.` };
+    }
+
+    // 2. Insert into accelerator_enrolments
+    const { data: enrolment, error: enrolErr } = await serviceClient
+      .from("accelerator_enrolments")
+      .upsert({
+        user_id: targetUserId,
+        cohort_id: input.cohortId,
+        payment_status: input.paymentStatus || "paid",
+        current_week: 1,
+        enrolled_at: new Date().toISOString()
+      }, { onConflict: "user_id,cohort_id" })
+      .select()
+      .single();
+
+    if (enrolErr) return { success: false, error: enrolErr.message };
+
+    revalidatePath("/admin/accelerator");
+    revalidatePath("/admin/accelerator/students");
+    return { success: true, enrolment };
+  } catch (err: any) {
+    return { success: false, error: err.message || "Failed to enrol student." };
+  }
+}
+
+/**
+ * Update Enrolment Status or Week
+ */
+export async function updateEnrolmentAction(enrolmentId: string, input: {
+  currentWeek?: number;
+  paymentStatus?: "unpaid" | "paid" | "refunded";
+}) {
+  try {
+    const supabase = await createClient();
+    const serviceClient = createServiceRoleClient();
+    const { data: { user } } = await supabase.auth.getUser();
+
+    if (!user) return { success: false, error: "Unauthorized" };
+
+    const { data: profile } = await supabase.from("profiles").select("role").eq("id", user.id).single();
+    if (!profile || profile.role !== "admin") return { success: false, error: "Forbidden" };
+
+    const payload: any = {};
+    if (input.currentWeek !== undefined) payload.current_week = input.currentWeek;
+    if (input.paymentStatus !== undefined) payload.payment_status = input.paymentStatus;
+
+    const { data: enrolment, error } = await serviceClient
+      .from("accelerator_enrolments")
+      .update(payload)
+      .eq("id", enrolmentId)
+      .select()
+      .single();
+
+    if (error) return { success: false, error: error.message };
+
+    revalidatePath("/admin/accelerator");
+    revalidatePath("/admin/accelerator/students");
+    return { success: true, enrolment };
+  } catch (err: any) {
+    return { success: false, error: err.message || "Failed to update enrolment." };
+  }
+}
+
+/**
+ * Update Accelerator Week Curriculum Content
+ */
+export async function updateAcceleratorWeekAction(weekNumber: number, input: {
+  title?: string;
+  quote?: string;
+  coreModules?: string[];
+  milestoneDescription?: string;
+  personalInputDescription?: string;
+  toolingName?: string;
+}) {
+  try {
+    const supabase = await createClient();
+    const serviceClient = createServiceRoleClient();
+    const { data: { user } } = await supabase.auth.getUser();
+
+    if (!user) return { success: false, error: "Unauthorized" };
+
+    const { data: profile } = await supabase.from("profiles").select("role").eq("id", user.id).single();
+    if (!profile || profile.role !== "admin") return { success: false, error: "Forbidden" };
+
+    const payload: any = {};
+    if (input.title !== undefined) payload.title = input.title;
+    if (input.quote !== undefined) payload.quote = input.quote;
+    if (input.coreModules !== undefined) payload.core_modules = input.coreModules;
+    if (input.milestoneDescription !== undefined) payload.milestone_description = input.milestoneDescription;
+    if (input.personalInputDescription !== undefined) payload.personal_input_description = input.personalInputDescription;
+    if (input.toolingName !== undefined) payload.tooling_name = input.toolingName;
+
+    const { data: week, error } = await serviceClient
+      .from("accelerator_weeks")
+      .update(payload)
+      .eq("week_number", weekNumber)
+      .select()
+      .single();
+
+    if (error) return { success: false, error: error.message };
+
+    revalidatePath("/admin/accelerator/curriculum");
+    revalidatePath("/dashboard/accelerator");
+    return { success: true, week };
+  } catch (err: any) {
+    return { success: false, error: err.message || "Failed to update week curriculum." };
+  }
+}
+
+/**
+ * Fetch detailed student information for student page
+ */
+export async function getSingleStudentDetailsAction(enrolmentId: string) {
+  try {
+    const supabase = await createClient();
+    const serviceClient = createServiceRoleClient();
+    const { data: { user } } = await supabase.auth.getUser();
+
+    if (!user) return { success: false, error: "Unauthorized" };
+
+    const { data: profile } = await supabase.from("profiles").select("role").eq("id", user.id).single();
+    if (!profile || profile.role !== "admin") return { success: false, error: "Forbidden" };
+
+    // 1. Fetch enrolment
+    const { data: enrolment, error: enrolErr } = await serviceClient
+      .from("accelerator_enrolments")
+      .select("*, cohort:accelerator_cohorts(*)")
+      .eq("id", enrolmentId)
+      .single();
+
+    if (enrolErr || !enrolment) {
+      return { success: false, error: "Enrolment not found." };
+    }
+
+    // 2. Fetch user profile
+    const { data: studentProfile } = await serviceClient
+      .from("profiles")
+      .select("*")
+      .eq("id", enrolment.user_id)
+      .maybeSingle();
+
+    // 3. Fetch all milestones for this student
+    const { data: milestones } = await serviceClient
+      .from("accelerator_milestones")
+      .select("*")
+      .eq("enrolment_id", enrolmentId)
+      .order("week_number", { ascending: true });
+
+    // 4. Fetch all sessions for this student
+    const { data: sessions } = await serviceClient
+      .from("accelerator_personal_sessions")
+      .select("*")
+      .eq("enrolment_id", enrolmentId)
+      .order("scheduled_at", { ascending: true });
+
+    // 5. Fetch all curriculum weeks
+    const { data: weeks } = await serviceClient
+      .from("accelerator_weeks")
+      .select("*")
+      .order("week_number", { ascending: true });
+
+    return {
+      success: true,
+      enrolment,
+      profile: studentProfile,
+      milestones: milestones || [],
+      sessions: sessions || [],
+      weeks: weeks || []
+    };
+  } catch (err: any) {
+    return { success: false, error: err.message || "Failed to fetch student details." };
+  }
+}
+

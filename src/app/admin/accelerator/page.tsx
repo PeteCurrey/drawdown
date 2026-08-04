@@ -1,10 +1,12 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
 import { 
   getAcceleratorAdminDashboardAction, 
   gradeAcceleratorMilestoneAction 
 } from "@/app/actions/accelerator-actions";
+import { AcceleratorSubNav } from "@/components/admin/AcceleratorSubNav";
 import { 
   Loader2, 
   AlertCircle, 
@@ -18,14 +20,11 @@ import {
   Eye, 
   Calendar, 
   FileText, 
-  Send, 
-  ExternalLink,
-  Plus,
   RefreshCw,
-  TrendingUp,
-  Inbox
+  Inbox,
+  ArrowRight,
+  GraduationCap
 } from "lucide-react";
-import { createClient } from "@/lib/supabase/client";
 
 export default function AdminAcceleratorDashboard() {
   const [loading, setLoading] = useState(true);
@@ -42,15 +41,6 @@ export default function AdminAcceleratorDashboard() {
   const [activeReview, setActiveReview] = useState<any | null>(null);
   const [reviewNotes, setReviewNotes] = useState<string>("");
   const [submittingGrade, setSubmittingGrade] = useState<boolean>(false);
-
-  // UI state - Create personal session/workshop
-  const [schedulingSession, setSchedulingSession] = useState<boolean>(false);
-  const [sessionForm, setSessionForm] = useState({
-    enrolmentId: "",
-    topic: "",
-    meetingUrl: "",
-    scheduledAt: ""
-  });
 
   const loadAdminData = async () => {
     try {
@@ -102,79 +92,56 @@ export default function AdminAcceleratorDashboard() {
     }
   };
 
-  const handleScheduleSession = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!sessionForm.enrolmentId || !sessionForm.topic || !sessionForm.scheduledAt) {
-      alert("Enrolment, Topic, and Scheduled Date/Time are required.");
-      return;
-    }
-
-    setSchedulingSession(true);
-    try {
-      const supabase = createClient();
-      const { error: insertError } = await (supabase
-        .from("accelerator_personal_sessions") as any)
-        .insert({
-          enrolment_id: sessionForm.enrolmentId,
-          topic: sessionForm.topic,
-          meeting_url: sessionForm.meetingUrl || null,
-          scheduled_at: new Date(sessionForm.scheduledAt).toISOString(),
-          status: "scheduled"
-        });
-
-      if (insertError) {
-        alert("Database error: " + insertError.message);
-      } else {
-        setSessionForm({ enrolmentId: "", topic: "", meetingUrl: "", scheduledAt: "" });
-        await loadAdminData();
-        alert("Session scheduled and published successfully.");
-      }
-    } catch (err: any) {
-      alert(err.message || "Error scheduling session.");
-    } finally {
-      setSchedulingSession(false);
-    }
-  };
-
   const getStudentMilestone = (enrolmentId: string, weekNum: number) => {
     return allMilestones.find(m => m.enrolment_id === enrolmentId && m.week_number === weekNum);
   };
 
   if (loading) {
     return (
-      <div className="flex flex-col justify-center items-center gap-4 py-24 min-h-[500px]">
-        <Loader2 className="w-8 h-8 text-neutral-800 animate-spin" />
-        <p className="text-xs font-mono uppercase tracking-widest text-neutral-400">// LOADING ADMIN PLATFORM CORE...</p>
+      <div className="space-y-6">
+        <AcceleratorSubNav />
+        <div className="flex flex-col justify-center items-center gap-4 py-24 min-h-[400px]">
+          <Loader2 className="w-8 h-8 text-neutral-800 animate-spin" />
+          <p className="text-xs font-mono uppercase tracking-widest text-neutral-400">// LOADING ACCELERATOR LMS...</p>
+        </div>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="bg-red-50 border border-red-200 text-red-700 p-6 rounded-xl flex items-center gap-4">
-        <AlertCircle className="w-6 h-6 shrink-0" />
-        <div>
-          <h4 className="font-bold">Error Loading Workspace</h4>
-          <p className="text-xs">{error}</p>
+      <div className="space-y-6">
+        <AcceleratorSubNav />
+        <div className="bg-red-50 border border-red-200 text-red-700 p-6 rounded-xl flex items-center gap-4">
+          <AlertCircle className="w-6 h-6 shrink-0" />
+          <div>
+            <h4 className="font-bold">Error Loading Workspace</h4>
+            <p className="text-xs">{error}</p>
+          </div>
         </div>
       </div>
     );
   }
 
+  const activeEnrolments = enrolments.filter(e => e.payment_status === "paid");
+
   return (
-    <div className="space-y-12">
-      
+    <div className="space-y-8">
+      {/* SECTION SUB-NAV */}
+      <AcceleratorSubNav />
+
       {/* HEADER SECTION */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-6 border-b border-neutral-200">
         <div>
           <span className="text-[9px] font-mono text-neutral-400 uppercase tracking-widest block mb-1">
             // CLINICAL OVERSIGHT CONSOLE
           </span>
-          <h1 className="text-2xl md:text-3xl font-display font-extrabold uppercase tracking-tight text-neutral-900">
-            Institutional Accelerator
+          <h1 className="text-2xl md:text-3xl font-display font-extrabold uppercase tracking-tight text-neutral-900 flex items-center gap-3">
+            <GraduationCap className="w-7 h-7 text-emerald-600" />
+            Accelerator LMS Hub
           </h1>
-          <p className="text-xs text-neutral-500">
-            Manage cohort milestones, student development matrices, and coaching session endpoints.
+          <p className="text-xs text-neutral-500 mt-1">
+            Institutional learning management suite for tracking cohort progression, grading student milestones, and conducting coaching workshops.
           </p>
         </div>
 
@@ -183,54 +150,72 @@ export default function AdminAcceleratorDashboard() {
           className="px-4 py-2 rounded-lg border border-neutral-200 hover:bg-neutral-50 text-neutral-700 font-mono text-[10px] flex items-center gap-2 transition-colors shrink-0"
         >
           <RefreshCw className="w-3.5 h-3.5" />
-          FORCE SYNC FEED
+          FORCE REFRESH
         </button>
       </div>
 
-      {/* ADMIN STAT STRIP */}
+      {/* STAT CARDS STRIP */}
       <section className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <div className="bg-white border border-neutral-200 rounded-xl p-6 shadow-sm">
+        <Link href="/admin/accelerator/students" className="bg-white border border-neutral-200 rounded-xl p-6 shadow-xs hover:border-neutral-400 transition-all group">
           <div className="flex items-center justify-between text-neutral-500 mb-2">
-            <span className="text-[9px] font-mono uppercase tracking-wider">// ENROLLED COHORT</span>
-            <Users className="w-4 h-4" />
+            <span className="text-[9px] font-mono uppercase tracking-wider">// ENROLLED STUDENTS</span>
+            <Users className="w-4 h-4 text-emerald-600 group-hover:scale-110 transition-transform" />
           </div>
-          <p className="text-2xl font-bold font-mono text-neutral-900">{enrolments.filter(e => e.payment_status === "paid").length}</p>
-          <p className="text-[9px] font-mono text-neutral-400 mt-1">Paid & Active Students</p>
-        </div>
+          <p className="text-2xl font-bold font-mono text-neutral-900">{activeEnrolments.length}</p>
+          <p className="text-[9px] font-mono text-neutral-400 mt-1 flex items-center gap-1">
+            <span>View Student Roster</span>
+            <ArrowRight className="w-3 h-3" />
+          </p>
+        </Link>
 
-        <div className="bg-white border border-neutral-200 rounded-xl p-6 shadow-sm">
+        <Link href="/admin/accelerator/milestones" className="bg-white border border-neutral-200 rounded-xl p-6 shadow-xs hover:border-neutral-400 transition-all group">
           <div className="flex items-center justify-between text-neutral-500 mb-2">
             <span className="text-[9px] font-mono uppercase tracking-wider">// REVIEW QUEUE</span>
-            <Inbox className="w-4 h-4 text-orange-500" />
+            <Inbox className="w-4 h-4 text-orange-500 group-hover:scale-110 transition-transform" />
           </div>
           <p className="text-2xl font-bold font-mono text-orange-500">{pendingMilestones.length}</p>
-          <p className="text-[9px] font-mono text-neutral-400 mt-1">Submissions Awaiting Grading</p>
-        </div>
+          <p className="text-[9px] font-mono text-neutral-400 mt-1 flex items-center gap-1">
+            <span>Awaiting Evaluation</span>
+            <ArrowRight className="w-3 h-3" />
+          </p>
+        </Link>
 
-        <div className="bg-white border border-neutral-200 rounded-xl p-6 shadow-sm">
+        <Link href="/admin/accelerator/cohorts" className="bg-white border border-neutral-200 rounded-xl p-6 shadow-xs hover:border-neutral-400 transition-all group">
           <div className="flex items-center justify-between text-neutral-500 mb-2">
-            <span className="text-[9px] font-mono uppercase tracking-wider">// ACTIVE COHORTS</span>
-            <Layers className="w-4 h-4" />
+            <span className="text-[9px] font-mono uppercase tracking-wider">// COHORTS</span>
+            <Layers className="w-4 h-4 text-blue-600 group-hover:scale-110 transition-transform" />
           </div>
           <p className="text-2xl font-bold font-mono text-neutral-900">{cohorts.length}</p>
-          <p className="text-[9px] font-mono text-neutral-400 mt-1">Operational Cohort Segments</p>
-        </div>
+          <p className="text-[9px] font-mono text-neutral-400 mt-1 flex items-center gap-1">
+            <span>Manage Cohort Batches</span>
+            <ArrowRight className="w-3 h-3" />
+          </p>
+        </Link>
 
-        <div className="bg-white border border-neutral-200 rounded-xl p-6 shadow-sm">
+        <Link href="/admin/accelerator/sessions" className="bg-white border border-neutral-200 rounded-xl p-6 shadow-xs hover:border-neutral-400 transition-all group">
           <div className="flex items-center justify-between text-neutral-500 mb-2">
             <span className="text-[9px] font-mono uppercase tracking-wider">// WORKSHOPS</span>
-            <Calendar className="w-4 h-4" />
+            <Calendar className="w-4 h-4 text-purple-600 group-hover:scale-110 transition-transform" />
           </div>
           <p className="text-2xl font-bold font-mono text-neutral-900">{sessions.length}</p>
-          <p className="text-[9px] font-mono text-neutral-400 mt-1">Published coaching clinics</p>
-        </div>
+          <p className="text-[9px] font-mono text-neutral-400 mt-1 flex items-center gap-1">
+            <span>Schedule Clinics</span>
+            <ArrowRight className="w-3 h-3" />
+          </p>
+        </Link>
       </section>
 
-      {/* MILESTONE OBLIGATIONS QUEUE (PENDING REVIEW) */}
+      {/* PENDING MILESTONES REVIEW QUEUE */}
       <section className="space-y-4">
-        <h3 className="text-xs font-mono uppercase tracking-widest text-neutral-400 flex items-center gap-2">
-          // Pending Milestone Reviews ({pendingMilestones.length})
-        </h3>
+        <div className="flex items-center justify-between">
+          <h3 className="text-xs font-mono uppercase tracking-widest text-neutral-400 flex items-center gap-2">
+            // PENDING MILESTONE REVIEWS ({pendingMilestones.length})
+          </h3>
+          <Link href="/admin/accelerator/milestones" className="text-xs font-mono text-emerald-600 hover:underline flex items-center gap-1">
+            <span>View All Milestones</span>
+            <ArrowRight className="w-3.5 h-3.5" />
+          </Link>
+        </div>
 
         {pendingMilestones.length === 0 ? (
           <div className="bg-neutral-50 border border-neutral-200 rounded-xl p-8 text-center text-neutral-400 space-y-2">
@@ -238,7 +223,7 @@ export default function AdminAcceleratorDashboard() {
             <p className="text-xs font-mono uppercase tracking-widest">// ALL MILESTONES REVIEWED // ZERO OBLIGATIONS</p>
           </div>
         ) : (
-          <div className="bg-white border border-neutral-200 rounded-xl overflow-hidden shadow-sm">
+          <div className="bg-white border border-neutral-200 rounded-xl overflow-hidden shadow-xs">
             <div className="overflow-x-auto">
               <table className="w-full text-left border-collapse text-xs">
                 <thead>
@@ -246,17 +231,17 @@ export default function AdminAcceleratorDashboard() {
                     <th className="p-4">// Student</th>
                     <th className="p-4">// Week</th>
                     <th className="p-4">// Submitted At</th>
-                    <th className="p-4">// Attached Deliverable</th>
+                    <th className="p-4">// Deliverable</th>
                     <th className="p-4 text-right">// Actions</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-neutral-100">
-                  {pendingMilestones.map((m: any) => (
+                  {pendingMilestones.slice(0, 5).map((m: any) => (
                     <tr key={m.id} className="hover:bg-neutral-50/50 transition-colors">
                       <td className="p-4">
                         <div>
                           <p className="font-bold text-neutral-900">{m.enrolment?.profile?.display_name || "Anonymous Trader"}</p>
-                          <p className="text-[10px] font-mono text-neutral-400">{m.enrolment?.profile?.email || "no-email@drawdown.trading"}</p>
+                          <p className="text-[10px] font-mono text-neutral-400">{m.enrolment?.profile?.email || "student@drawdown.trading"}</p>
                         </div>
                       </td>
                       <td className="p-4">
@@ -265,11 +250,11 @@ export default function AdminAcceleratorDashboard() {
                         </span>
                       </td>
                       <td className="p-4 text-neutral-500 font-mono">
-                        {new Date(m.submitted_at).toLocaleDateString()} @ {new Date(m.submitted_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                        {new Date(m.submitted_at).toLocaleDateString()}
                       </td>
                       <td className="p-4 font-mono text-[10px] text-neutral-500">
                         {m.submission_content?.file_name ? (
-                          <div className="flex items-center gap-1.5 text-accent font-bold">
+                          <div className="flex items-center gap-1.5 text-emerald-600 font-bold">
                             <FileText className="w-3.5 h-3.5" />
                             <span>{m.submission_content.file_name}</span>
                           </div>
@@ -297,11 +282,17 @@ export default function AdminAcceleratorDashboard() {
 
       {/* COHORT PROGRESS MATRIX GRID */}
       <section className="space-y-4">
-        <h3 className="text-xs font-mono uppercase tracking-widest text-neutral-400">
-          // COHORT DEVELOPMENT MATRIX
-        </h3>
+        <div className="flex items-center justify-between">
+          <h3 className="text-xs font-mono uppercase tracking-widest text-neutral-400">
+            // COHORT PROGRESSION MATRIX
+          </h3>
+          <Link href="/admin/accelerator/students" className="text-xs font-mono text-emerald-600 hover:underline flex items-center gap-1">
+            <span>Detailed Roster View</span>
+            <ArrowRight className="w-3.5 h-3.5" />
+          </Link>
+        </div>
 
-        <div className="bg-white border border-neutral-200 rounded-xl overflow-hidden shadow-sm">
+        <div className="bg-white border border-neutral-200 rounded-xl overflow-hidden shadow-xs">
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse text-xs">
               <thead>
@@ -317,176 +308,69 @@ export default function AdminAcceleratorDashboard() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-neutral-100 font-mono">
-                {enrolments.filter(e => e.payment_status === "paid").map((e: any) => (
-                  <tr key={e.id} className="hover:bg-neutral-50/30 transition-colors">
-                    <td className="p-4">
-                      <div>
-                        <p className="font-sans font-bold text-neutral-900">{e.profile?.display_name || "Anonymous Trader"}</p>
-                        <p className="text-[10px] text-neutral-400">{e.profile?.email}</p>
-                      </div>
+                {activeEnrolments.length === 0 ? (
+                  <tr>
+                    <td colSpan={8} className="p-8 text-center text-neutral-400 font-mono">
+                      No active paid enrolments found.
                     </td>
-                    {[1, 2, 3, 4, 5, 6].map((weekNum) => {
-                      const m = getStudentMilestone(e.id, weekNum);
-                      let content = <span className="text-neutral-300">-</span>;
+                  </tr>
+                ) : (
+                  activeEnrolments.map((e: any) => (
+                    <tr key={e.id} className="hover:bg-neutral-50/30 transition-colors">
+                      <td className="p-4">
+                        <Link href={`/admin/accelerator/students/${e.id}`} className="group hover:underline">
+                          <p className="font-sans font-bold text-neutral-900 group-hover:text-emerald-600 transition-colors">
+                            {e.profile?.display_name || "Anonymous Trader"}
+                          </p>
+                          <p className="text-[10px] text-neutral-400">{e.profile?.email}</p>
+                        </Link>
+                      </td>
+                      {[1, 2, 3, 4, 5, 6].map((weekNum) => {
+                        const m = getStudentMilestone(e.id, weekNum);
+                        let content = <span className="text-neutral-300">-</span>;
 
-                      if (m) {
-                        if (m.status === "cleared") {
+                        if (m) {
+                          if (m.status === "cleared") {
+                            content = (
+                              <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-green-50 text-green-600 border border-green-200" title="Milestone Cleared">
+                                ✓
+                              </span>
+                            );
+                          } else if (m.status === "needs_resubmission") {
+                            content = (
+                              <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-red-50 text-red-600 border border-red-200" title="Needs Resubmission">
+                                !
+                              </span>
+                            );
+                          } else if (m.status === "submitted") {
+                            content = (
+                              <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-orange-50 text-orange-600 border border-orange-200 animate-pulse font-bold" title="Awaiting Review">
+                                ?
+                              </span>
+                            );
+                          }
+                        } else if (weekNum === e.current_week) {
                           content = (
-                            <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-green-50 text-green-600 border border-green-200" title="Milestone Cleared">
-                              ✓
-                            </span>
-                          );
-                        } else if (m.status === "needs_resubmission") {
-                          content = (
-                            <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-red-50 text-red-600 border border-red-200" title="Needs Resubmission">
-                              !
-                            </span>
-                          );
-                        } else if (m.status === "submitted") {
-                          content = (
-                            <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-orange-50 text-orange-600 border border-orange-200 animate-pulse font-bold" title="Awaiting Review">
-                              ?
+                            <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-blue-50 text-blue-600 border border-blue-200 font-bold animate-pulse text-[10px]">
+                              {weekNum}
                             </span>
                           );
                         }
-                      } else if (weekNum === e.current_week) {
-                        content = (
-                          <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-blue-50 text-blue-600 border border-blue-200 font-bold animate-pulse text-[10px]">
-                            {weekNum}
-                          </span>
-                        );
-                      }
 
-                      return (
-                        <td key={weekNum} className="p-4 text-center">
-                          {content}
-                        </td>
-                      );
-                    })}
-                    <td className="p-4 text-right font-bold text-neutral-700">
-                      Week {e.current_week} / 6
-                    </td>
-                  </tr>
-                ))}
+                        return (
+                          <td key={weekNum} className="p-4 text-center">
+                            {content}
+                          </td>
+                        );
+                      })}
+                      <td className="p-4 text-right font-bold text-neutral-700">
+                        Week {e.current_week} / 6
+                      </td>
+                    </tr>
+                  ))
+                )}
               </tbody>
             </table>
-          </div>
-        </div>
-      </section>
-
-      {/* WORKSHOP & COACHING CLINIC SCHEDULER */}
-      <section className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        {/* Scheduler Form */}
-        <div className="bg-white border border-neutral-200 rounded-xl p-6 shadow-sm space-y-4">
-          <div className="flex items-center gap-2 text-neutral-900 pb-3 border-b border-neutral-100">
-            <Calendar className="w-4 h-4 text-neutral-500" />
-            <h4 className="text-xs font-mono uppercase tracking-wider font-bold">Schedule Cohort Workshop</h4>
-          </div>
-
-          <form onSubmit={handleScheduleSession} className="space-y-4 text-xs">
-            <div className="space-y-1">
-              <label className="text-[9px] font-mono uppercase tracking-widest text-neutral-400">Target Student Enrolment</label>
-              <select 
-                required
-                className="w-full bg-neutral-50 border border-neutral-200 rounded-lg px-2.5 py-2"
-                value={sessionForm.enrolmentId}
-                onChange={(e) => setSessionForm({ ...sessionForm, enrolmentId: e.target.value })}
-              >
-                <option value="">-- Select Active Student --</option>
-                {enrolments.filter(e => e.payment_status === "paid").map((e: any) => (
-                  <option key={e.id} value={e.id}>
-                    {e.profile?.display_name || "Anonymous"} ({e.profile?.email}) - Week {e.current_week}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            <div className="space-y-1">
-              <label className="text-[9px] font-mono uppercase tracking-widest text-neutral-400">Clinic / Session Topic</label>
-              <input 
-                type="text"
-                required
-                placeholder="E.g. Pine Script Debugging & Strategy Refinement"
-                className="w-full bg-neutral-50 border border-neutral-200 rounded-lg px-2.5 py-2"
-                value={sessionForm.topic}
-                onChange={(e) => setSessionForm({ ...sessionForm, topic: e.target.value })}
-              />
-            </div>
-
-            <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-1">
-                <label className="text-[9px] font-mono uppercase tracking-widest text-neutral-400">Scheduled Date / Time</label>
-                <input 
-                  type="datetime-local"
-                  required
-                  className="w-full bg-neutral-50 border border-neutral-200 rounded-lg px-2 py-2"
-                  value={sessionForm.scheduledAt}
-                  onChange={(e) => setSessionForm({ ...sessionForm, scheduledAt: e.target.value })}
-                />
-              </div>
-
-              <div className="space-y-1">
-                <label className="text-[9px] font-mono uppercase tracking-widest text-neutral-400">Meeting Room URL (Zoom/Meet)</label>
-                <input 
-                  type="url"
-                  placeholder="https://zoom.us/j/..."
-                  className="w-full bg-neutral-50 border border-neutral-200 rounded-lg px-2.5 py-2"
-                  value={sessionForm.meetingUrl}
-                  onChange={(e) => setSessionForm({ ...sessionForm, meetingUrl: e.target.value })}
-                />
-              </div>
-            </div>
-
-            <button 
-              type="submit"
-              disabled={schedulingSession}
-              className="w-full bg-neutral-950 hover:bg-neutral-900 text-white font-mono text-[10px] font-bold uppercase tracking-widest py-2.5 rounded-lg flex items-center justify-center gap-2"
-            >
-              {schedulingSession ? (
-                <>
-                  <Loader2 className="w-3.5 h-3.5 animate-spin" />
-                  <span>PUBLISHING SESSION ENDPOINT...</span>
-                </>
-              ) : (
-                <>
-                  <Plus className="w-3.5 h-3.5" />
-                  <span>PUBLISH WORKSHOP MEETING</span>
-                </>
-              )}
-            </button>
-          </form>
-        </div>
-
-        {/* Existing / Past Scheduled Sessions */}
-        <div className="bg-white border border-neutral-200 rounded-xl p-6 shadow-sm space-y-4">
-          <div className="flex items-center gap-2 text-neutral-900 pb-3 border-b border-neutral-100">
-            <Clock className="w-4 h-4 text-neutral-500" />
-            <h4 className="text-xs font-mono uppercase tracking-wider font-bold">Upcoming Cohort Workshops</h4>
-          </div>
-
-          <div className="space-y-3 max-h-[300px] overflow-y-auto">
-            {sessions.length === 0 ? (
-              <p className="text-xs text-neutral-400 text-center py-12 font-mono">// ZERO WORKSHOPS SCHEDULED // INDEX EMPTY</p>
-            ) : (
-              sessions.map((s: any) => (
-                <div key={s.id} className="border border-neutral-100 rounded-lg p-3 flex justify-between items-start gap-4">
-                  <div>
-                    <h5 className="text-xs font-bold text-neutral-800 uppercase">{s.topic}</h5>
-                    <p className="text-[10px] font-mono text-neutral-400 mt-1">
-                      Student: {s.enrolment?.profile?.display_name || "Anonymous"} ({s.enrolment?.profile?.email})
-                    </p>
-                    <p className="text-[10px] font-mono text-neutral-500 mt-0.5">
-                      Schedule: {new Date(s.scheduled_at).toLocaleString()}
-                    </p>
-                  </div>
-                  {s.meeting_url && (
-                    <a href={s.meeting_url} target="_blank" rel="noopener noreferrer" className="p-1 text-neutral-400 hover:text-accent border border-transparent hover:border-neutral-100 rounded-lg">
-                      <ExternalLink className="w-4 h-4" />
-                    </a>
-                  )}
-                </div>
-              ))
-            )}
           </div>
         </div>
       </section>
@@ -540,7 +424,7 @@ export default function AdminAcceleratorDashboard() {
               {activeReview.submission_content?.file_url && (
                 <div className="bg-neutral-900 border border-neutral-800 rounded-xl p-4 flex justify-between items-center">
                   <div className="flex items-center gap-3">
-                    <FileText className="w-5 h-5 text-accent" />
+                    <FileText className="w-5 h-5 text-emerald-400" />
                     <div>
                       <p className="text-xs font-bold text-white">Source Script / Deliverable Attachment</p>
                       <p className="text-[10px] font-mono text-neutral-400 mt-0.5">Filename: {activeReview.submission_content.file_name}</p>
@@ -553,7 +437,7 @@ export default function AdminAcceleratorDashboard() {
                     className="px-3 py-1.5 bg-neutral-800 hover:bg-neutral-700 text-white font-mono text-[10px] uppercase font-bold tracking-widest rounded-lg flex items-center gap-1.5 border border-neutral-700 transition-colors"
                   >
                     <span>Download</span>
-                    <ExternalLink className="w-3.5 h-3.5" />
+                    <FileText className="w-3.5 h-3.5" />
                   </a>
                 </div>
               )}
@@ -565,12 +449,12 @@ export default function AdminAcceleratorDashboard() {
                   <textarea 
                     rows={6}
                     required
-                    className="w-full bg-neutral-900 border border-neutral-800 focus:border-accent rounded-lg p-3 text-xs text-white font-mono focus:outline-none resize-none"
+                    className="w-full bg-neutral-900 border border-neutral-800 focus:border-emerald-500 rounded-lg p-3 text-xs text-white font-mono focus:outline-none resize-none"
                     placeholder="Provide professional instruction, specific feedback recommendations, and clinical evaluations here..."
                     value={reviewNotes}
                     onChange={(e) => setReviewNotes(e.target.value)}
                   />
-                  <p className="text-[9px] font-mono text-neutral-500">// Your remarks will be dispatched immediately via automated secure emails and saved to their active student profile database.</p>
+                  <p className="text-[9px] font-mono text-neutral-500">// Remarks are dispatched via automated email notification and logged in student profile.</p>
                 </div>
               </div>
             </div>
@@ -580,7 +464,7 @@ export default function AdminAcceleratorDashboard() {
               <button
                 onClick={() => handleGradeSubmit("needs_resubmission")}
                 disabled={submittingGrade}
-                className="w-full py-3 bg-transparent hover:bg-red-950/20 text-red-400 hover:text-red-300 font-mono text-[10px] font-bold uppercase tracking-widest rounded-xl border border-red-900/40 hover:border-red-900 flex items-center justify-center gap-2"
+                className="w-full py-3 bg-transparent hover:bg-red-950/20 text-red-400 hover:text-red-300 font-mono text-[10px] font-bold uppercase tracking-widest rounded-xl border border-red-900/40 hover:border-red-900 flex items-center justify-center gap-2 cursor-pointer"
               >
                 {submittingGrade ? (
                   <Loader2 className="w-3.5 h-3.5 animate-spin" />
@@ -595,7 +479,7 @@ export default function AdminAcceleratorDashboard() {
               <button
                 onClick={() => handleGradeSubmit("cleared")}
                 disabled={submittingGrade}
-                className="w-full py-3 bg-accent hover:bg-accent-hover text-black font-mono text-[10px] font-bold uppercase tracking-widest rounded-xl flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(24,184,128,0.2)]"
+                className="w-full py-3 bg-emerald-500 hover:bg-emerald-400 text-black font-mono text-[10px] font-bold uppercase tracking-widest rounded-xl flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(16,185,129,0.2)] cursor-pointer"
               >
                 {submittingGrade ? (
                   <Loader2 className="w-3.5 h-3.5 animate-spin" />

@@ -13,11 +13,15 @@ import {
   ChevronRight,
   Loader2,
   ExternalLink,
-  Target
+  Target,
+  Eye,
+  EyeOff
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { createClient } from "@/lib/supabase/client";
 import Link from "next/link";
+import { DisciplineBadge } from "@/components/badges/DisciplineBadge";
+import type { BadgeTier } from "@/lib/discipline-scorer";
  
 export default function ProfileSettingsPage() {
   const [loading, setLoading] = useState(true);
@@ -35,6 +39,13 @@ export default function ProfileSettingsPage() {
   const [isUpdatingPrefs, setIsUpdatingPrefs] = useState(false);
   const [prefsSuccess, setPrefsSuccess] = useState(false);
   const [prefsError, setPrefsError] = useState<string | null>(null);
+
+  // Badge state
+  const [badgeTier, setBadgeTier] = useState<BadgeTier>(null);
+  const [badgeVerifiedSince, setBadgeVerifiedSince] = useState<string | undefined>();
+  const [showPublicly, setShowPublicly] = useState(false);
+  const [syncDiscord, setSyncDiscord] = useState(false);
+  const [savingBadgePrefs, setSavingBadgePrefs] = useState(false);
  
   const supabase = createClient();
  
@@ -47,14 +58,45 @@ export default function ProfileSettingsPage() {
     if (user) {
       setUserId(user.id);
       setUserEmail(user.email || '');
-      const { data } = await supabase
+      const { data } = await (supabase as any)
         .from('profiles')
         .select('*')
         .eq('id', user.id)
         .single();
       setProfile(data);
+      setShowPublicly(data?.show_badges_publicly ?? false);
+      setSyncDiscord(data?.sync_badges_to_discord ?? false);
+
+      // Fetch badge status
+      try {
+        const res = await fetch('/api/discipline/status');
+        if (res.ok) {
+          const { tier, badges } = await res.json();
+          setBadgeTier(tier);
+          const bronze = badges?.find((b: any) => b.badge_key === 'discipline_bronze');
+          if (bronze?.awarded_at) {
+            setBadgeVerifiedSince(new Date(bronze.awarded_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }));
+          }
+        }
+      } catch { /* ignore badge fetch errors */ }
     }
     setLoading(false);
+  }
+
+  async function saveBadgePreferences(publicFlag: boolean, discordFlag: boolean) {
+    setSavingBadgePrefs(true);
+    let resolvedId = userId;
+    if (!resolvedId) {
+      const { data: { user } } = await supabase.auth.getUser();
+      resolvedId = user?.id ?? '';
+    }
+    await (supabase as any).from('profiles').upsert({
+      id: resolvedId,
+      show_badges_publicly: publicFlag,
+      sync_badges_to_discord: discordFlag,
+      updated_at: new Date().toISOString(),
+    });
+    setSavingBadgePrefs(false);
   }
  
   const handleUpdate = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -453,6 +495,71 @@ export default function ProfileSettingsPage() {
               <ShieldCheck className="absolute top-1/2 right-0 -translate-y-1/2 w-48 h-48 text-profit opacity-[0.03] pointer-events-none group-hover:scale-110 transition-transform duration-1000" />
            </div>
  
+           {/* Verified Discipline Badge */}
+           <div className="p-8 bg-background-surface border border-border-slate/50 rounded-xl space-y-6 shadow-[0_8px_32px_rgba(0,0,0,0.04)]">
+              <div className="flex items-center gap-3 border-b border-border-slate/30 pb-4">
+                 <ShieldCheck className="w-4 h-4 text-text-tertiary" />
+                 <h3 className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary">Verified Discipline</h3>
+              </div>
+
+              <DisciplineBadge
+                tier={badgeTier}
+                consecutiveDays={0}
+                verifiedSinceDate={badgeVerifiedSince}
+              />
+
+              {/* Privacy & Discord opt-ins */}
+              <div className="space-y-3 pt-2">
+                <p className="text-[10px] font-mono uppercase tracking-wider text-text-tertiary">Visibility Settings</p>
+
+                <label className="flex items-start gap-3 cursor-pointer">
+                  <div className="relative flex items-center justify-center mt-0.5">
+                    <input
+                      type="checkbox"
+                      checked={showPublicly}
+                      onChange={async (e) => {
+                        setShowPublicly(e.target.checked);
+                        await saveBadgePreferences(e.target.checked, syncDiscord);
+                      }}
+                      className="peer appearance-none w-4 h-4 border border-border-slate/80 rounded bg-background-primary checked:bg-accent checked:border-accent transition-colors"
+                    />
+                    <svg className="absolute w-3 h-3 text-white opacity-0 peer-checked:opacity-100 pointer-events-none" viewBox="0 0 14 10" fill="none">
+                      <path d="M1 5L4.5 8.5L13 1" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  </div>
+                  <div>
+                    <p className="text-sm font-bold text-text-primary">Show badge publicly</p>
+                    <p className="text-[10px] text-text-tertiary">Your handle (not your name) may appear on the opt-in public leaderboard.</p>
+                  </div>
+                </label>
+
+                <label className="flex items-start gap-3 cursor-pointer">
+                  <div className="relative flex items-center justify-center mt-0.5">
+                    <input
+                      type="checkbox"
+                      checked={syncDiscord}
+                      onChange={async (e) => {
+                        setSyncDiscord(e.target.checked);
+                        await saveBadgePreferences(showPublicly, e.target.checked);
+                      }}
+                      className="peer appearance-none w-4 h-4 border border-border-slate/80 rounded bg-background-primary checked:bg-accent checked:border-accent transition-colors"
+                    />
+                    <svg className="absolute w-3 h-3 text-white opacity-0 peer-checked:opacity-100 pointer-events-none" viewBox="0 0 14 10" fill="none">
+                      <path d="M1 5L4.5 8.5L13 1" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  </div>
+                  <div>
+                    <p className="text-sm font-bold text-text-primary">Sync to Discord</p>
+                    <p className="text-[10px] text-text-tertiary">Requires Discord account linked. Grants the Verified Discipline role in the server.</p>
+                  </div>
+                </label>
+
+                {savingBadgePrefs && (
+                  <p className="text-[10px] font-mono text-text-tertiary">Saving…</p>
+                )}
+              </div>
+           </div>
+
            {/* Role Card */}
            <div className="p-8 bg-background-surface border border-border-slate/50 rounded-xl space-y-6 shadow-[0_8px_32px_rgba(0,0,0,0.04)]">
               <div className="flex items-center gap-3 border-b border-border-slate/30 pb-4">

@@ -18,7 +18,8 @@ import {
   Brain,
   Mail,
   Link2,
-  FileText
+  FileText,
+  Award
 } from "lucide-react";
 
 const NAV_ITEMS = [
@@ -32,6 +33,7 @@ const NAV_ITEMS = [
   { href: "/admin/blog", label: "Blog Manager", icon: FileText },
   { href: "/admin/intelligence", label: "Intelligence Suite", icon: Brain },
   { href: "/admin/leads", label: "Leads Inbox", icon: Inbox },
+  { href: "/admin/applications", label: "Accelerator Apps", icon: Award },
   { href: "/admin/partners", label: "Partners", icon: Network },
   { href: "/admin/marketing", label: "Marketing & SEO", icon: Target },
   { href: "/admin/affiliates", label: "Affiliate Manager", icon: Link2 },
@@ -40,6 +42,7 @@ const NAV_ITEMS = [
   { href: "/admin/community", label: "Discord Manager", icon: MessageSquare },
   { href: "/admin/integrations", label: "API Integrations", icon: Settings },
 ];
+
 
 export function AdminSidebar() {
   const pathname = usePathname();

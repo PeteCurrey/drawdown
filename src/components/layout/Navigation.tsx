@@ -35,9 +35,9 @@ import { motion, AnimatePresence } from "framer-motion";
 const megaMenus = {
   curriculum: {
     links: [
-      { name: "Phases 1-2 (Foundation)", desc: "Ground Zero & Chart Reader modules", href: "/courses", icon: BookOpen },
-      { name: "Phases 3-4 (Edge)", desc: "Strategist & Advanced Execution", href: "/courses", icon: Activity },
-      { name: "Phases 5-6 (Mastery)", desc: "System Builder & Portfolio Management", href: "/courses", icon: TrendingUp },
+      { name: "Phases 1-2 (Foundation)", desc: "Ground Zero & Chart Reader modules", href: "/courses/phase-1-2", icon: BookOpen },
+      { name: "Phases 3-4 (Edge)", desc: "Strategist & Advanced Execution", href: "/courses/phase-3-4", icon: Activity },
+      { name: "Phases 5-6 (Mastery)", desc: "System Builder & Portfolio Management", href: "/courses/phase-5-6", icon: TrendingUp },
       { name: "Start Phase 1 Free", desc: "No credit card or registration required", href: "/courses/ground-zero", icon: Sparkles },
       { name: "Deploy Your Algo", desc: "From generated code to live chart.", href: "/courses/deploy-your-algo", icon: Terminal },
       { name: "Institutional Accelerator", desc: "Premium 6-Week Live Cohort (£1,500+)", href: "/institutional-accelerator", icon: Award, badge: "COHORT" },

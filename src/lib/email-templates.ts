@@ -733,3 +733,321 @@ export function getTheEdgeConfirmationTemplate(dashboardUrl: string, tempPasswor
   `;
 }
 
+export function getAcceleratorApplicationConfirmationTemplate(firstName: string = "Trader"): string {
+  return `
+    <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+    <html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <title>Drawdown Institutional Accelerator Application Received</title>
+      <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet" />
+      <style type="text/css" rel="stylesheet" media="all">
+        ${getBaseStyles()}
+      </style>
+    </head>
+    <body>
+      <table class="wrapper" width="100%" cellpadding="0" cellspacing="0" role="presentation">
+        <tr>
+          <td align="center">
+            <table class="main" width="100%" cellpadding="0" cellspacing="0" role="presentation">
+              <!-- Header -->
+              <tr>
+                <td class="header" style="border-bottom: 2px solid #F9771D; background-color: #0F172A; padding: 40px 24px;">
+                  <h1 style="color: #FFFFFF; font-size: 24px; margin: 0; font-family: 'Outfit', sans-serif; letter-spacing: -0.5px;">Drawdown<span style="color: #F9771D;">.</span></h1>
+                  <p style="margin: 6px 0 0 0; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: #94A3B8; font-family: ui-monospace, monospace;">Institutional Accelerator Cohort</p>
+                </td>
+              </tr>
+              
+              <!-- Content -->
+              <tr>
+                <td class="content" style="padding: 36px 30px;">
+                  <p style="color: #0F172A; font-size: 18px; font-weight: 600; margin-bottom: 8px;">Application Received — Welcome to the Gateway, ${firstName}.</p>
+                  <p>Thanks for applying to the <strong>Drawdown Institutional Accelerator (DIA)</strong>. We have successfully received your candidate dossier and our admissions desk is actively reviewing your submission.</p>
+                  
+                  <p>The Accelerator is our highest-tier, high-ticket program (£1,500+ value) designed strictly for serious market practitioners who want to pass prop evaluations, build institutional risk profiles, and manage large-scale capital pools with absolute consistency.</p>
+                  
+                  <div class="accent-bar" style="border-left-color: #F9771D; background-color: #FFF7ED; padding: 18px 20px; border-radius: 4px; margin: 24px 0;">
+                    <p style="margin: 0; font-weight: 600; color: #EA580C; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; font-family: ui-monospace, monospace; margin-bottom: 6px;">📋 WHAT TO EXPECT NEXT</p>
+                    <p style="margin: 0; font-size: 14px; line-height: 1.5; color: #475569;">
+                      Our team manually reviews every candidate profile. Due to the high volume of applications and the strict limit of 15 spots per cohort, we prioritize traders with clear capital objectives and strong psychological alignment. You will receive an email confirmation of your candidate status within 24 to 48 hours.
+                    </p>
+                  </div>
+
+                  <h3 style="font-size: 13px; color: #0F172A; border-bottom: 1px solid #E2E8F0; padding-bottom: 8px; margin-top: 32px; margin-bottom: 16px; font-family: ui-monospace, monospace; letter-spacing: 1.5px;">// CORE CURRICULUM BREADTH</h3>
+                  <p style="font-size: 14px; margin-bottom: 12px;">The Accelerator curriculum represents a significant structural leap in higher financial learning, bypassing retail indicators for raw order-book structures:</p>
+                  
+                  <table width="100%" cellpadding="0" cellspacing="0" role="presentation" style="margin-bottom: 24px;">
+                    <tr>
+                      <td style="padding: 10px 0; border-bottom: 1px solid #F1F5F9; vertical-align: top;" width="35%">
+                        <strong style="color: #0F172A; font-size: 13px; font-family: ui-monospace, monospace; text-transform: uppercase;">Phase 1: Liquidity</strong>
+                      </td>
+                      <td style="padding: 10px 0 10px 15px; border-bottom: 1px solid #F1F5F9; font-size: 13px; color: #475569; line-height: 1.5;">
+                        Order execution theory, Stop Hunt mechanics, Interbank liquidity pools, and algorithmic premium/discount pricing matrices.
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style="padding: 10px 0; border-bottom: 1px solid #F1F5F9; vertical-align: top;">
+                        <strong style="color: #0F172A; font-size: 13px; font-family: ui-monospace, monospace; text-transform: uppercase;">Phase 2: Mechanics</strong>
+                      </td>
+                      <td style="padding: 10px 0 10px 15px; border-bottom: 1px solid #F1F5F9; font-size: 13px; color: #475569; line-height: 1.5;">
+                        Anatomy of High-Probability setups, daily session overlapping flows (London/NY), and executing with institutional order blocks.
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style="padding: 10px 0; border-bottom: 1px solid #F1F5F9; vertical-align: top;">
+                        <strong style="color: #0F172A; font-size: 13px; font-family: ui-monospace, monospace; text-transform: uppercase;">Phase 3: Funding</strong>
+                      </td>
+                      <td style="padding: 10px 0 10px 15px; border-bottom: 1px solid #F1F5F9; font-size: 13px; color: #475569; line-height: 1.5;">
+                        Prop firm parameter mastery, passing evaluation protocols, handling trailing drawdown, and scaling from £10k to £200k+ allocations.
+                      </td>
+                    </tr>
+                  </table>
+
+                  <h3 style="font-size: 13px; color: #0F172A; border-bottom: 1px solid #E2E8F0; padding-bottom: 8px; margin-top: 16px; margin-bottom: 16px; font-family: ui-monospace, monospace; letter-spacing: 1.5px;">// PRE-COHORT ACCELERATOR MEMBERSHIP INCLUDES</h3>
+                  <ul style="padding-left: 20px; font-size: 14px; margin-bottom: 24px;">
+                    <li style="font-size: 14px; margin-bottom: 8px;"><strong>Daily Market Briefings:</strong> Deep dive structural overviews of interbank levels.</li>
+                    <li style="font-size: 14px; margin-bottom: 8px;"><strong>The Intelligence Hub:</strong> Unlimited processing of real-time market narratives.</li>
+                    <li style="font-size: 14px; margin-bottom: 8px;"><strong>Risk Sizing Suite:</strong> Mathematical model trackers protecting against drawdown spirals.</li>
+                  </ul>
+
+                  <p style="font-size: 14px; margin-bottom: 24px;">While our admissions desk conducts your candidate evaluation, you are fully authorized to log into your client portal and begin digesting our foundational pre-study publications.</p>
+
+                  <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top: 24px; margin-bottom: 12px;">
+                    <tr>
+                      <td align="center">
+                        <a href="https://drawdown.trading/dashboard" class="btn-accent" style="background-color: #0F172A; color: #FFFFFF !important; font-family: 'Outfit', sans-serif;" target="_blank">Access Client Dashboard &rarr;</a>
+                      </td>
+                    </tr>
+                  </table>
+                  
+                  <p style="font-size: 14px; margin-top: 24px;">If you have any questions or need to modify your candidate answers, simply reply directly to this email.</p>
+                </td>
+              </tr>
+              
+              <!-- Footer -->
+              <tr>
+                <td class="footer" style="padding: 30px 24px; background-color: #F8FAFC;">
+                  <p style="margin-bottom: 8px; color: #475569; font-weight: 500;">Pete Currey &bull; Founder, Drawdown Trading</p>
+                  <p style="margin-bottom: 16px; color: #64748B;">&copy; ${new Date().getFullYear()} Drawdown. All rights reserved.</p>
+                  <hr style="border: 0; border-top: 1px solid #E2E8F0; margin: 20px 0;" />
+                  <p class="disclaimer">
+                    <strong>RISK WARNING:</strong> Trading financial instruments carries high risk. Most retail traders lose capital. Only risk capital you can afford to lose. All content is for educational use only and does not constitute financial advice.
+                  </p>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+    </body>
+    </html>
+  `;
+}
+
+export interface BlogPostEmailData {
+  title: string;
+  category: string;
+  eyebrow?: string;
+  subtitle?: string;
+  body: string;
+  heroImageUrl?: string;
+  heroImageAlt?: string;
+  slug: string;
+  unsubscribeUrl?: string;
+}
+
+export function formatHtmlForEmail(html: string): string {
+  if (!html) return "";
+
+  let styledHtml = html;
+
+  // Replace default elements from Tiptap with inline styled equivalents for robust rendering in email clients (including Outlook)
+  // We use inline-styles that match Pete's direct style guidelines perfectly (zero border-radius, hairline borders, sans-serif fonts)
+
+  // 1. Headers
+  styledHtml = styledHtml.replace(
+    /<h2[^>]*>/g,
+    `<h2 style="margin: 28px 0 14px 0; font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size: 20px; font-weight: 700; line-height: 1.3; color: #0F172A; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1px solid #E2E8F0; padding-bottom: 6px;">`
+  );
+
+  styledHtml = styledHtml.replace(
+    /<h3[^>]*>/g,
+    `<h3 style="margin: 24px 0 12px 0; font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 700; line-height: 1.35; color: #0F172A; text-transform: uppercase; letter-spacing: 0.5px;">`
+  );
+
+  // 2. Paragraphs
+  styledHtml = styledHtml.replace(
+    /<p[^>]*>/g,
+    `<p style="margin: 0 0 16px 0; font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size: 15px; font-weight: 400; line-height: 1.65; color: #334155;">`
+  );
+
+  // 3. Lists
+  styledHtml = styledHtml.replace(
+    /<ul[^>]*>/g,
+    `<ul style="margin: 0 0 16px 0; padding-left: 20px; font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color: #334155;">`
+  );
+
+  styledHtml = styledHtml.replace(
+    /<ol[^>]*>/g,
+    `<ol style="margin: 0 0 16px 0; padding-left: 20px; font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color: #334155;">`
+  );
+
+  styledHtml = styledHtml.replace(
+    /<li[^>]*>/g,
+    `<li style="margin-bottom: 8px; font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size: 15px; font-weight: 400; line-height: 1.6; color: #334155;">`
+  );
+
+  // 4. Blockquotes
+  styledHtml = styledHtml.replace(
+    /<blockquote[^>]*>/g,
+    `<blockquote style="margin: 20px 0; border-left: 3px solid #F9771D; padding: 14px 16px; font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size: 15px; font-style: italic; color: #0F172A; background-color: #FFFBEB; border-radius: 0 !important;">`
+  );
+
+  // 5. Anchors
+  styledHtml = styledHtml.replace(
+    /<a ([^>]*href="[^"]*"[^>]*)>/g,
+    `<a $1 style="color: #F9771D; text-decoration: underline; font-weight: 500;">`
+  );
+
+  // 6. Strong/Bold
+  styledHtml = styledHtml.replace(
+    /<strong[^>]*>/g,
+    `<strong style="font-weight: 700; color: #0F172A;">`
+  );
+
+  // 7. Horizontal Rules
+  styledHtml = styledHtml.replace(
+    /<hr[^>]*>/g,
+    `<hr style="border: 0; border-top: 1px solid #E2E8F0; margin: 24px 0;" />`
+  );
+
+  // 8. Images inside rich text
+  styledHtml = styledHtml.replace(
+    /<img([^>]*src="[^"]*"[^>]*)>/g,
+    `<img$1 style="display: block; max-width: 100%; height: auto; margin: 20px auto; border: 1px solid #E2E8F0; border-radius: 0 !important; outline: none; text-decoration: none;" />`
+  );
+
+  return styledHtml;
+}
+
+export function getBlogPostEmailTemplate(data: BlogPostEmailData): string {
+  const styledBody = formatHtmlForEmail(data.body);
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL || process.env.NEXT_PUBLIC_SITE_URL || "https://drawdown.trading";
+  const postUrl = `${appUrl}/blog/${data.slug}`;
+  const unsubUrl = data.unsubscribeUrl || "{{unsubscribeUrl}}";
+
+  return `
+    <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+    <html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <title>${data.title}</title>
+      <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet" />
+      <style type="text/css" rel="stylesheet" media="all">
+        ${getBaseStyles()}
+        /* Override border radius to zero for Pete's premium aesthetic */
+        .main, .section-box, .btn-accent, .hero-image-container, blockquote, img {
+          border-radius: 0px !important;
+          border-radius: 0 !important;
+          box-shadow: none !important;
+        }
+      </style>
+    </head>
+    <body>
+      <table class="wrapper" width="100%" cellpadding="0" cellspacing="0" role="presentation" style="background-color: #F1F5F9; padding-top: 40px; padding-bottom: 40px; width: 100% !important; margin: 0;">
+        <tr>
+          <td align="center" style="font-family: 'Outfit', sans-serif;">
+            <table class="main" width="100%" cellpadding="0" cellspacing="0" role="presentation" style="background-color: #FFFFFF; margin: 0 auto; width: 100%; max-width: 600px; border: 1px solid #E2E8F0; border-radius: 0px !important; overflow: hidden; box-shadow: none !important;">
+              <!-- Header with top orange rule accent -->
+              <tr>
+                <td class="header" style="border-top: 2px solid #F9771D; border-bottom: 1px solid #E2E8F0; background-color: #FFFFFF; padding: 32px 24px; text-align: center;">
+                  <h1 style="color: #0F172A; font-size: 24px; margin: 0 0 4px 0; font-family: 'Outfit', sans-serif; font-weight: 700; letter-spacing: -0.5px; text-transform: uppercase;">Drawdown<span style="color: #F9771D;">.</span></h1>
+                  <p style="margin: 0; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: #64748B; font-family: ui-monospace, monospace;">${data.category.toUpperCase()} &bull; Editorial Newsletter</p>
+                </td>
+              </tr>
+              
+              <!-- Content -->
+              <tr>
+                <td class="content" style="padding: 32px 24px; background-color: #FFFFFF; font-family: 'Outfit', sans-serif;">
+                  ${data.eyebrow ? `
+                    <span style="color: #F9771D; font-family: ui-monospace, monospace; font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; display: block; margin-bottom: 8px;">${data.eyebrow}</span>
+                  ` : ''}
+                  
+                  <h2 style="color: #0F172A; font-size: 22px; font-weight: 700; line-height: 1.3; margin: 0 0 10px 0; text-transform: uppercase; font-family: 'Outfit', sans-serif; letter-spacing: 0.5px;">${data.title}</h2>
+                  
+                  ${data.subtitle ? `
+                    <p style="font-size: 15px; line-height: 1.5; color: #64748B; margin: 0 0 24px 0; font-family: 'Outfit', sans-serif;">${data.subtitle}</p>
+                  ` : ''}
+
+                  ${data.heroImageUrl ? `
+                    <div class="hero-image-container" style="margin-bottom: 24px; border-radius: 0px !important; overflow: hidden; border: 1px solid #E2E8F0; background-color: #F8FAFC; text-align: center; box-shadow: none !important;">
+                      <a href="${postUrl}" target="_blank" style="display: block;">
+                        <img src="${data.heroImageUrl}" alt="${data.heroImageAlt || data.title}" class="hero-image" style="width: 100%; height: auto; max-height: 320px; object-fit: cover; display: block; border-radius: 0px !important;" border="0" />
+                      </a>
+                      ${data.heroImageAlt ? `
+                        <div class="hero-caption" style="padding: 8px 12px; font-size: 12px; color: #64748B; background-color: #F8FAFC; border-top: 1px solid #E2E8F0; text-align: left;">
+                          ${data.heroImageAlt}
+                        </div>
+                      ` : ''}
+                    </div>
+                  ` : ''}
+                  
+                  <div class="blog-body" style="margin-top: 24px;">
+                    ${styledBody}
+                  </div>
+
+                  <!-- CTAs with Bulletproof button pattern & Zero border radius -->
+                  <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top: 32px; margin-bottom: 8px;">
+                    <tr>
+                      <td align="center">
+                        <table role="presentation" cellpadding="0" cellspacing="0" border="0">
+                          <tr>
+                            <td style="background-color: #0F172A; border-radius: 0px !important;" class="cta-button">
+                              <!--[if mso]>
+                              <v:rect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word"
+                                href="${postUrl}" style="height:44px; v-text-anchor:middle; width:220px;" stroke="f" fillcolor="#0F172A">
+                                <w:anchorlock/>
+                                <center style="color:#ffffff; font-family:Arial, sans-serif; font-size:12px; font-weight:bold; letter-spacing:0.08em; text-transform:uppercase;">
+                                  READ ON THE WEBSITE &rarr;
+                                </center>
+                              </v:rect>
+                              <![endif]-->
+                              <!--[if !mso]><!-->
+                              <a href="${postUrl}" target="_blank"
+                                style="display: block; padding: 13px 28px; font-family: 'Outfit', sans-serif; font-size: 12px; font-weight: 700; letter-spacing: 0.08em; color: #FFFFFF !important; text-decoration: none; text-transform: uppercase; text-align: center; white-space: nowrap; border-radius: 0px !important; box-shadow: none !important;">
+                                READ ON THE WEBSITE &rarr;
+                              </a>
+                              <!--<![endif]-->
+                            </td>
+                          </tr>
+                        </table>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+              
+              <!-- Footer -->
+              <tr>
+                <td class="footer" style="padding: 30px 24px; text-align: center; color: #64748B; font-size: 11px; border-top: 1px solid #E2E8F0; background-color: #F8FAFC; font-family: 'Outfit', sans-serif;">
+                  <p style="margin-bottom: 8px; color: #475569; font-weight: 500;">Pete Currey &bull; Drawdown Trading</p>
+                  <p style="margin-bottom: 16px; color: #64748B;">&copy; ${new Date().getFullYear()} Drawdown. All rights reserved.</p>
+                  <p style="margin-bottom: 16px;"><a href="${unsubUrl}" style="color: #64748B; text-decoration: underline;">Unsubscribe</a></p>
+                  <hr style="border: 0; border-top: 1px solid #E2E8F0; margin: 20px 0;" />
+                  <p class="disclaimer" style="font-size: 10px; color: #94A3B8; margin-top: 20px; line-height: 1.5; text-align: center;">
+                    <strong>RISK WARNING:</strong> Trading financial instruments carries high risk. Most retail traders lose capital. Only risk capital you can afford to lose. All content is for educational use only and does not constitute financial advice.
+                  </p>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+    </body>
+    </html>
+  `;
+}
+
+

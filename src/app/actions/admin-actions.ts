@@ -3,6 +3,7 @@
 import Anthropic from "@anthropic-ai/sdk";
 import { revalidatePath } from "next/cache";
 import { createInternalSupabase } from "@/lib/supabase/server";
+import { getBlogPostEmailTemplate } from "@/lib/email-templates";
 
 // 1. Trigger Morning Brief Cron
 export async function triggerMorningBriefAction() {
@@ -536,6 +537,191 @@ export async function toggleSubscriberStatusAction(id: string, isActive: boolean
   } catch (err: any) {
     console.error("Exception in toggleSubscriberStatusAction:", err);
     return { success: false, error: err.message || "Failed to update status." };
+  }
+}
+
+// 6. Get Active Subscriber Metrics
+export async function getSubscriberMetricsAction() {
+  const supabase = createInternalSupabase();
+  try {
+    const subscriberEmails = new Set<string>();
+    let newsletterCount = 0;
+    let profilesCount = 0;
+    let emailSubscribersCount = 0;
+
+    // 1. newsletter_subscribers
+    try {
+      const { data } = await supabase
+        .from("newsletter_subscribers")
+        .select("email")
+        .eq("is_active", true);
+      if (data) {
+        data.forEach(s => {
+          if (s.email) {
+            subscriberEmails.add(s.email.toLowerCase().trim());
+            newsletterCount++;
+          }
+        });
+      }
+    } catch (e) {
+      console.warn("Error fetching newsletter_subscribers metrics:", e);
+    }
+
+    // 2. profiles
+    try {
+      const { data } = await supabase
+        .from("profiles")
+        .select("email")
+        .not("email", "is", null);
+      if (data) {
+        data.forEach(p => {
+          if (p.email) {
+            subscriberEmails.add(p.email.toLowerCase().trim());
+            profilesCount++;
+          }
+        });
+      }
+    } catch (e) {
+      console.warn("Error fetching profiles metrics:", e);
+    }
+
+    // 3. email_subscribers
+    try {
+      const { data } = await supabase
+        .from("email_subscribers")
+        .select("email")
+        .eq("is_active", true);
+      if (data) {
+        data.forEach(s => {
+          if (s.email) {
+            subscriberEmails.add(s.email.toLowerCase().trim());
+            emailSubscribersCount++;
+          }
+        });
+      }
+    } catch (e) {
+      console.warn("Error fetching email_subscribers metrics:", e);
+    }
+
+    return {
+      success: true,
+      totalUnique: subscriberEmails.size,
+      breakdown: {
+        newsletterCount,
+        profilesCount,
+        emailSubscribersCount
+      }
+    };
+  } catch (error: any) {
+    console.error("Error in getSubscriberMetricsAction:", error);
+    return { success: false, error: error.message };
+  }
+}
+
+// 7. Send Blog Post Email Action
+export async function sendBlogPostEmailAction(payload: {
+  postId: string;
+  subject: string;
+  eyebrow?: string;
+  subtitle?: string;
+}) {
+  const supabase = createInternalSupabase();
+  const siteUrl = process.env.NEXT_PUBLIC_APP_URL || process.env.NEXT_PUBLIC_SITE_URL || `https://${process.env.VERCEL_URL}` || "http://localhost:3000";
+  const cronSecret = process.env.CRON_SECRET || "dd-sc-cr0n-s3cr3t-x9pQk2mNvR7wJtLh";
+
+  try {
+    // 1. Fetch Blog Post details
+    const { data: post, error: fetchError } = await supabase
+      .from("blog_posts")
+      .select("*")
+      .eq("id", payload.postId)
+      .maybeSingle();
+
+    if (fetchError || !post) {
+      return { success: false, error: fetchError ? fetchError.message : "Blog post not found." };
+    }
+
+    // 2. Generate premium email content HTML
+    const emailHtml = getBlogPostEmailTemplate({
+      title: post.title,
+      category: post.category || "Market Analysis",
+      eyebrow: payload.eyebrow || post.eyebrow || undefined,
+      subtitle: payload.subtitle || post.subtitle || undefined,
+      body: post.body,
+      heroImageUrl: post.hero_image_url || undefined,
+      heroImageAlt: post.hero_image_alt || post.title || undefined,
+      slug: post.slug
+    });
+
+    // 3. Create email_sends pending record
+    const { data: emailSend, error: insertError } = await supabase
+      .from("email_sends")
+      .insert({
+        type: "blog_post",
+        subject: payload.subject,
+        content_html: emailHtml,
+        content_text: payload.subtitle || post.subtitle || payload.subject,
+        status: "pending",
+        metadata: {
+          blog_post_id: post.id,
+          blog_post_slug: post.slug,
+          category: post.category
+        }
+      })
+      .select("id")
+      .single();
+
+    if (insertError || !emailSend) {
+      return { success: false, error: `Failed to register email campaign: ${insertError?.message || "Insert failed"}` };
+    }
+
+    // 4. Trigger dispatch via send-broadcast route
+    const headers: Record<string, string> = {
+      "Authorization": `Bearer ${cronSecret}`,
+      "Content-Type": "application/json",
+      "x-vercel-cron": "1"
+    };
+    const bypassToken = process.env.VERCEL_AUTOMATION_BYPASS_SECRET;
+    const url = bypassToken
+      ? `${siteUrl}/api/email/send-broadcast?x-vercel-protection-bypass=${bypassToken}&x-vercel-set-bypass-cookie=true`
+      : `${siteUrl}/api/email/send-broadcast`;
+
+    const res = await fetch(url, {
+      method: "POST",
+      headers,
+      body: JSON.stringify({
+        emailSendId: emailSend.id,
+        type: "blog_post"
+      }),
+      cache: "no-store"
+    });
+
+    if (!res.ok) {
+      const errText = await res.text();
+      // Mark as failed in DB since HTTP route failed
+      await supabase
+        .from("email_sends")
+        .update({ status: "failed", error_message: errText })
+        .eq("id", emailSend.id);
+        
+      return { success: false, error: `Broadcast dispatch route failed (${res.status}): ${errText}` };
+    }
+
+    const result = await res.json();
+    revalidatePath("/admin");
+    revalidatePath("/admin/emails");
+
+    return { 
+      success: result.success, 
+      recipient_count: result.recipient_count, 
+      status: result.status,
+      emailSendId: emailSend.id,
+      error: result.error 
+    };
+
+  } catch (error: any) {
+    console.error("Exception in sendBlogPostEmailAction:", error);
+    return { success: false, error: error.message || "Failed to trigger email campaign dispatch." };
   }
 }
 

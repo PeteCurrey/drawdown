@@ -13,9 +13,11 @@ import {
   ArrowLeft, Sparkles, Loader2, Save, Upload, X,
   Bold, Italic, Quote, List, ListOrdered, Minus,
   Link2, Image as ImageIcon, Heading2, Heading3,
-  Eye, CheckCircle, AlertCircle, Trash2, Sun, Moon
+  Eye, CheckCircle, AlertCircle, Trash2, Sun, Moon,
+  Mail, Calendar, Users, Send, Settings, Check
 } from "lucide-react";
-import { saveBlogPostAction, generateBlogWithAIAction, deleteBlogPostAction } from "@/app/actions/admin-actions";
+import { saveBlogPostAction, generateBlogWithAIAction, deleteBlogPostAction, getSubscriberMetricsAction, sendBlogPostEmailAction } from "@/app/actions/admin-actions";
+import { getBlogPostEmailTemplate } from "@/lib/email-templates";
 import { createClient } from "@/lib/supabase/client";
 
 const CATEGORIES = [
@@ -162,6 +164,88 @@ export function BlogEditor({ post }: BlogEditorProps) {
   const [seoOpen, setSeoOpen] = useState(true);
   const [socialOpen, setSocialOpen] = useState(false);
   const [advancedOpen, setAdvancedOpen] = useState(false);
+
+  // Email Broadcast UI state
+  const [showEmailModal, setShowEmailModal] = useState(false);
+  const [emailSubject, setEmailSubject] = useState("");
+  const [emailEyebrow, setEmailEyebrow] = useState("");
+  const [emailSubtitle, setEmailSubtitle] = useState("");
+  const [subscriberMetrics, setSubscriberMetrics] = useState<{
+    totalUnique: number;
+    breakdown: {
+      newsletterCount: number;
+      profilesCount: number;
+      emailSubscribersCount: number;
+    };
+  } | null>(null);
+  const [loadingMetrics, setLoadingMetrics] = useState(false);
+  const [sendingEmail, setSendingEmail] = useState(false);
+  const [confirmSendText, setConfirmSendText] = useState("");
+  const [sendResult, setSendResult] = useState<{ success: boolean; recipient_count?: number; error?: string } | null>(null);
+  const [previewDevice, setPreviewDevice] = useState<"desktop" | "mobile">("desktop");
+
+  const fetchMetrics = useCallback(async () => {
+    setLoadingMetrics(true);
+    try {
+      const res = await getSubscriberMetricsAction();
+      if (res.success) {
+        setSubscriberMetrics({
+          totalUnique: res.totalUnique || 0,
+          breakdown: res.breakdown || { newsletterCount: 0, profilesCount: 0, emailSubscribersCount: 0 }
+        });
+      } else {
+        showToast("error", res.error || "Failed to fetch subscriber metrics.");
+      }
+    } catch (err: any) {
+      showToast("error", err.message || "Failed to fetch metrics.");
+    } finally {
+      setLoadingMetrics(false);
+    }
+  }, []);
+
+  const openEmailModal = () => {
+    setEmailSubject(title || post?.title || "");
+    setEmailEyebrow(eyebrow || post?.eyebrow || "");
+    setEmailSubtitle(subtitle || post?.subtitle || "");
+    setConfirmSendText("");
+    setSendResult(null);
+    setShowEmailModal(true);
+    fetchMetrics();
+  };
+
+  const handleSendEmailBroadcast = async () => {
+    if (confirmSendText.trim().toLowerCase() !== "send") {
+      showToast("error", "Please type 'SEND' in the confirmation box to authorize.");
+      return;
+    }
+    if (!post?.id) {
+      showToast("error", "Please save this post before attempting to broadcast.");
+      return;
+    }
+
+    setSendingEmail(true);
+    try {
+      const res = await sendBlogPostEmailAction({
+        postId: post.id,
+        subject: emailSubject || title,
+        eyebrow: emailEyebrow || undefined,
+        subtitle: emailSubtitle || undefined
+      });
+
+      if (res.success) {
+        setSendResult({ success: true, recipient_count: res.recipient_count || 0 });
+        showToast("success", `Email broadcast successfully dispatched to ${res.recipient_count} subscribers!`);
+      } else {
+        setSendResult({ success: false, error: res.error || "Broadcast failed" });
+        showToast("error", res.error || "Broadcast failed to send.");
+      }
+    } catch (err: any) {
+      setSendResult({ success: false, error: err.message || "Broadcast exception" });
+      showToast("error", err.message || "Broadcast failed.");
+    } finally {
+      setSendingEmail(false);
+    }
+  };
 
   // TipTap editor
   const editor = useEditor({
@@ -629,6 +713,36 @@ export function BlogEditor({ post }: BlogEditorProps) {
               )}
             </div>
           </div>
+          
+          {/* Email Broadcast Card */}
+          <div className="bg-white border border-mkt-bd p-6 rounded-xl space-y-4 shadow-[0_2px_8px_rgba(0,0,0,0.04)]">
+            <h3 className="text-xs font-mono uppercase tracking-widest text-mkt-i3 font-bold border-b border-mkt-bd pb-4 flex items-center gap-2">
+              <Mail className="w-4 h-4 text-mkt-grn" />
+              // Email Campaign
+            </h3>
+            
+            {isEdit ? (
+              <div className="space-y-3">
+                <p className="text-xs text-mkt-i3 leading-relaxed">
+                  Send this editorial analysis as a beautifully formatted newsletter broadcast to all subscribed traders.
+                </p>
+                <button
+                  type="button"
+                  onClick={openEmailModal}
+                  className="w-full py-3 bg-neutral-950 hover:bg-neutral-800 text-white text-xs font-mono font-bold uppercase tracking-widest transition-all flex items-center justify-center gap-2 cursor-pointer rounded-lg border border-transparent"
+                >
+                  <Send className="w-4 h-4 text-mkt-grn" />
+                  Configure Broadcast
+                </button>
+              </div>
+            ) : (
+              <div className="p-3 bg-neutral-50 border border-dashed border-mkt-bd text-center">
+                <p className="text-[11px] text-mkt-i3 leading-normal font-sans">
+                  Please save this article to activate the email campaign dispatch system.
+                </p>
+              </div>
+            )}
+          </div>
 
           {/* Publish Settings */}
           <div className="bg-white border border-mkt-bd p-6 rounded-xl space-y-5 shadow-[0_2px_8px_rgba(0,0,0,0.04)]">
@@ -792,6 +906,305 @@ export function BlogEditor({ post }: BlogEditorProps) {
               >
                 {generating ? <><Loader2 className="w-4 h-4 animate-spin" /> Generating…</> : <><Sparkles className="w-4 h-4" /> Generate</>}
               </button>
+            </div>
+          </div>
+        </div>
+      )}
+      
+      {/* Email Broadcast Modal */}
+      {showEmailModal && (
+        <div className="fixed inset-0 z-[350] bg-neutral-900/85 backdrop-blur-md flex items-center justify-center p-4 lg:p-8 animate-in fade-in duration-300">
+          <div className="bg-white border border-mkt-bd w-full max-w-7xl h-[90vh] rounded-xl overflow-hidden shadow-2xl flex flex-col">
+            
+            {/* Modal Header */}
+            <div className="border-b border-mkt-bd px-6 py-4 flex justify-between items-center bg-neutral-50 shrink-0">
+              <div className="flex items-center gap-3">
+                <div className="p-2 bg-neutral-950 text-white rounded">
+                  <Mail className="w-5 h-5 text-mkt-grn" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-display font-black uppercase text-mkt-ink tracking-tight flex items-center gap-2">
+                    Configure Email Broadcast
+                  </h3>
+                  <p className="text-[10px] text-mkt-i3 font-mono uppercase tracking-widest mt-0.5">
+                    CMS Broadcast System &bull; Editorial Dispatcher
+                  </p>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => setShowEmailModal(false)}
+                className="p-1.5 border border-mkt-bd hover:bg-neutral-100 text-mkt-i3 hover:text-mkt-ink rounded-lg transition-all cursor-pointer"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
+            {/* Modal Body: 2-Column Responsive Grid */}
+            <div className="flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-[400px_1fr] divide-y lg:divide-y-0 lg:divide-x divide-mkt-bd">
+              
+              {/* LEFT COLUMN: Configuration Panel */}
+              <div className="p-6 overflow-y-auto space-y-6 flex flex-col justify-between">
+                <div className="space-y-5">
+                  <h4 className="text-xs font-mono uppercase tracking-widest text-mkt-i3 font-bold border-b border-mkt-bd pb-2">
+                    // Configuration
+                  </h4>
+
+                  {/* Subject Line */}
+                  <div className="space-y-1.5">
+                    <label className="text-[10px] font-mono font-bold text-mkt-i3 uppercase tracking-wider block">
+                      Email Subject Line <span className="text-rose-500">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      value={emailSubject}
+                      onChange={(e) => setEmailSubject(e.target.value)}
+                      placeholder="Enter a punchy subject line..."
+                      className="w-full bg-neutral-50 border border-mkt-bd rounded px-3 py-2 text-xs text-mkt-ink font-sans outline-none focus:border-mkt-ink transition-colors"
+                    />
+                  </div>
+
+                  {/* Eyebrow Override */}
+                  <div className="space-y-1.5">
+                    <label className="text-[10px] font-mono font-bold text-mkt-i3 uppercase tracking-wider block">
+                      Eyebrow Label Override (Optional)
+                    </label>
+                    <input
+                      type="text"
+                      value={emailEyebrow}
+                      onChange={(e) => setEmailEyebrow(e.target.value.toUpperCase())}
+                      placeholder={eyebrow || "e.g. SPECIAL BRIEFING"}
+                      className="w-full bg-neutral-50 border border-mkt-bd rounded px-3 py-2 text-xs text-mkt-ink font-mono outline-none focus:border-mkt-ink transition-colors"
+                    />
+                  </div>
+
+                  {/* Subtitle / Preview text */}
+                  <div className="space-y-1.5">
+                    <label className="text-[10px] font-mono font-bold text-mkt-i3 uppercase tracking-wider block">
+                      Subtitle / Preview Text Override
+                    </label>
+                    <textarea
+                      value={emailSubtitle}
+                      onChange={(e) => setEmailSubtitle(e.target.value)}
+                      rows={2}
+                      placeholder={subtitle || "Summary paragraph showing below headline..."}
+                      className="w-full bg-neutral-50 border border-mkt-bd rounded px-3 py-2 text-xs text-mkt-ink font-sans outline-none focus:border-mkt-ink transition-colors resize-none"
+                    />
+                  </div>
+
+                  {/* Subscriber Metrics */}
+                  <div className="space-y-2">
+                    <label className="text-[10px] font-mono font-bold text-mkt-i3 uppercase tracking-wider block">
+                      Target Audience
+                    </label>
+                    <div className="border border-mkt-bd rounded-lg p-4 bg-neutral-50 space-y-3">
+                      {loadingMetrics ? (
+                        <div className="flex items-center justify-center gap-2 py-3 text-xs text-mkt-i3 font-mono">
+                          <Loader2 className="w-4 h-4 animate-spin text-mkt-grn" />
+                          COMPILING AUDIENCE...
+                        </div>
+                      ) : (
+                        <>
+                          <div className="flex items-baseline gap-2">
+                            <span className="text-2xl font-mono font-bold text-neutral-950">
+                              {subscriberMetrics?.totalUnique.toLocaleString() || "0"}
+                            </span>
+                            <span className="text-[10px] font-mono text-mkt-i3 uppercase tracking-wide">
+                              unique active recipients
+                            </span>
+                          </div>
+                          
+                          {subscriberMetrics && (
+                            <div className="space-y-1.5 pt-2 border-t border-mkt-bd text-[10px] font-mono text-mkt-i3 uppercase tracking-wider">
+                              <div className="flex justify-between">
+                                <span>Newsletter Pool:</span>
+                                <span className="font-bold text-mkt-ink">
+                                  {subscriberMetrics.breakdown.newsletterCount.toLocaleString()}
+                                </span>
+                              </div>
+                              <div className="flex justify-between">
+                                <span>Active Profiles:</span>
+                                <span className="font-bold text-mkt-ink">
+                                  {subscriberMetrics.breakdown.profilesCount.toLocaleString()}
+                                </span>
+                              </div>
+                              <div className="flex justify-between">
+                                <span>Subscriber List:</span>
+                                <span className="font-bold text-mkt-ink">
+                                  {subscriberMetrics.breakdown.emailSubscribersCount.toLocaleString()}
+                                </span>
+                              </div>
+                            </div>
+                          )}
+                        </>
+                      )}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Dispatch Security / Actions */}
+                <div className="space-y-4 pt-4 border-t border-mkt-bd col-span-1 shrink-0">
+                  {sendResult ? (
+                    <div className={`p-4 rounded-lg border text-xs font-mono uppercase space-y-2 ${sendResult.success ? "bg-green-50 border-green-200 text-green-800" : "bg-red-50 border-red-200 text-red-800"}`}>
+                      <p className="font-bold">
+                        {sendResult.success ? "✓ BROADCAST SUCCESSFUL" : "⚠ BROADCAST FAILED"}
+                      </p>
+                      {sendResult.success ? (
+                        <p className="normal-case leading-relaxed">
+                          Campaign successfully dispatched to {sendResult.recipient_count} unique active inbox addresses! Track delivery inside the <Link href="/admin/emails" className="underline font-bold hover:text-green-900">Email History</Link> dashboard.
+                        </p>
+                      ) : (
+                        <p className="normal-case leading-relaxed">
+                          Error report: {sendResult.error}
+                        </p>
+                      )}
+                      <button
+                        type="button"
+                        onClick={() => { setSendResult(null); setConfirmSendText(""); }}
+                        className="mt-2 text-[10px] font-bold underline hover:opacity-80 block"
+                      >
+                        Reset Campaign Settings
+                      </button>
+                    </div>
+                  ) : (
+                    <>
+                      <div className="space-y-2">
+                        <div className="p-3 bg-red-50 border border-red-100 rounded-lg text-[11px] text-red-800 font-sans leading-relaxed">
+                          <strong>WARNING:</strong> This will broadcast this blog post instantly as a permanent email newsletter. This action is irreversible.
+                        </div>
+                        <div className="space-y-1">
+                          <label className="text-[9px] font-mono font-bold text-red-600 uppercase tracking-widest block">
+                            Type 'SEND' below to confirm
+                          </label>
+                          <input
+                            type="text"
+                            value={confirmSendText}
+                            onChange={(e) => setConfirmSendText(e.target.value)}
+                            disabled={sendingEmail}
+                            placeholder="Type SEND to authorize..."
+                            className="w-full bg-neutral-50 border border-mkt-bd rounded px-3 py-2 text-xs text-mkt-ink font-mono outline-none focus:border-red-400 transition-colors uppercase"
+                          />
+                        </div>
+                      </div>
+
+                      <button
+                        type="button"
+                        onClick={handleSendEmailBroadcast}
+                        disabled={sendingEmail || confirmSendText.trim().toLowerCase() !== "send"}
+                        className="w-full py-3.5 bg-neutral-950 hover:bg-neutral-800 disabled:opacity-40 disabled:hover:bg-neutral-950 text-white text-xs font-mono font-bold uppercase tracking-widest transition-all flex items-center justify-center gap-2 cursor-pointer rounded-lg border border-transparent shadow-md"
+                      >
+                        {sendingEmail ? (
+                          <>
+                            <Loader2 className="w-4 h-4 animate-spin text-mkt-grn" />
+                            Broadcasting Campaign...
+                          </>
+                        ) : (
+                          <>
+                            <Send className="w-4 h-4 text-mkt-grn" />
+                            Authorize &amp; Send Newsletter
+                          </>
+                        )}
+                      </button>
+                    </>
+                  )}
+                </div>
+              </div>
+
+              {/* RIGHT COLUMN: Live Iframe Preview Panel */}
+              <div className="bg-neutral-100 p-6 overflow-y-auto flex flex-col items-center justify-center gap-4">
+                
+                {/* Preview Controls Bar */}
+                <div className="w-full max-w-[640px] flex justify-between items-center shrink-0">
+                  <div className="flex items-center gap-2">
+                    <span className="text-[10px] font-mono font-bold text-mkt-i3 uppercase tracking-wider">
+                      Live Draft Preview
+                    </span>
+                    <span className="h-4 w-px bg-mkt-bd" />
+                    <span className="text-[9px] font-mono text-mkt-i4 lowercase">
+                      updates dynamically on change
+                    </span>
+                  </div>
+
+                  {/* Device Width Toggles */}
+                  <div className="flex bg-white border border-mkt-bd rounded p-0.5 shadow-sm">
+                    <button
+                      type="button"
+                      onClick={() => setPreviewDevice("desktop")}
+                      className={`px-2.5 py-1 text-[10px] font-mono font-bold uppercase rounded transition-colors ${previewDevice === "desktop" ? "bg-neutral-950 text-white" : "text-mkt-i3 hover:text-mkt-ink"}`}
+                    >
+                      Desktop
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setPreviewDevice("mobile")}
+                      className={`px-2.5 py-1 text-[10px] font-mono font-bold uppercase rounded transition-colors ${previewDevice === "mobile" ? "bg-neutral-950 text-white" : "text-mkt-i3 hover:text-mkt-ink"}`}
+                    >
+                      Mobile
+                    </button>
+                  </div>
+                </div>
+
+                {/* Simulated Email Browser / Device Shell */}
+                <div
+                  className="bg-white border border-mkt-bd shadow-xl flex flex-col transition-all duration-300"
+                  style={{
+                    width: "100%",
+                    maxWidth: previewDevice === "mobile" ? "375px" : "640px",
+                    height: "100%",
+                    maxHeight: "680px",
+                    borderRadius: "8px",
+                    overflow: "hidden"
+                  }}
+                >
+                  {/* Browser Bar */}
+                  <div className="bg-neutral-50 border-b border-mkt-bd px-4 py-3 space-y-1.5 shrink-0 select-none">
+                    <div className="flex items-center justify-between">
+                      {/* Simulated Dots */}
+                      <div className="flex gap-1.5">
+                        <div className="w-2.5 h-2.5 rounded-full bg-red-400" />
+                        <div className="w-2.5 h-2.5 rounded-full bg-yellow-400" />
+                        <div className="w-2.5 h-2.5 rounded-full bg-green-400" />
+                      </div>
+                      <span className="text-[10px] font-mono text-mkt-i4 lowercase tracking-wider">
+                        inbox-simulator.app
+                      </span>
+                      <div className="w-12" /> {/* spacer */}
+                    </div>
+
+                    {/* Email Headers */}
+                    <div className="space-y-1 pt-1 text-[11px] font-sans text-mkt-i3">
+                      <div>
+                        <span className="font-bold text-mkt-ink">From:</span> Pete Currey &bull; Drawdown Trading &lt;editorial@drawdown.trading&gt;
+                      </div>
+                      <div>
+                        <span className="font-bold text-mkt-ink">To:</span> subscribers-broadcast@drawdown.trading
+                      </div>
+                      <div className="truncate">
+                        <span className="font-bold text-mkt-ink">Subject:</span> {emailSubject || title || "(No Subject Provided)"}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Interactive responsive iframe body */}
+                  <div className="flex-1 min-h-0 bg-neutral-100">
+                    <iframe
+                      srcDoc={showEmailModal ? getBlogPostEmailTemplate({
+                        title: emailSubject || title || "Untitled Article",
+                        category: category || "Market Analysis",
+                        eyebrow: emailEyebrow || undefined,
+                        subtitle: emailSubtitle || undefined,
+                        body: editor?.getHTML() || "",
+                        heroImageUrl: heroImageUrl || undefined,
+                        heroImageAlt: heroImageAlt || title || undefined,
+                        slug: slug || "post-slug"
+                      }) : ""}
+                      title="Email Broadcast Live Preview"
+                      className="w-full h-full border-none bg-white"
+                      sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin"
+                    />
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>

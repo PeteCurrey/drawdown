@@ -16,7 +16,7 @@ export default function AcceleratorAgreementPage() {
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded bg-[#E2B755]/10 border border-[#E2B755]/20 text-[#E2B755] text-xs font-semibold uppercase tracking-wider mb-4">
             Cohort Student Agreement
           </div>
-          <h1 className="text-3xl md:text-4xl font-sans font-bold uppercase mb-4 text-white">
+          <h1 className="text-3xl md:text-4xl font-sans font-bold uppercase mb-4 text-text-primary">
             Accelerator Terms of Enrolment
           </h1>
           <p className="text-text-tertiary font-mono uppercase tracking-widest text-xs">
@@ -24,7 +24,7 @@ export default function AcceleratorAgreementPage() {
           </p>
         </header>
 
-        <div className="prose prose-invert prose-drawdown max-w-none space-y-12 text-text-secondary leading-relaxed">
+        <div className="prose prose-drawdown max-w-none space-y-12 text-text-secondary leading-relaxed">
           <section className="space-y-4">
             <h2 className="text-2xl font-sans font-bold uppercase text-text-primary">
               1. Educational Scope & FCA Disclaimer
@@ -41,7 +41,7 @@ export default function AcceleratorAgreementPage() {
           </section>
 
           <section className="space-y-4">
-            <h2 className="text-2xl font-sans font-bold uppercase text-[#E2B755]">
+            <h2 className="text-2xl font-sans font-bold uppercase text-text-primary">
               2. Intellectual Property & Code Licensing
             </h2>
             <p>

@@ -17,7 +17,7 @@ export default function PrivacyPage() {
           <p className="text-text-tertiary font-mono uppercase tracking-widest text-xs">Last Updated: April 14, 2026</p>
         </header>
 
-        <div className="prose prose-invert prose-drawdown max-w-none space-y-12 text-text-secondary leading-relaxed">
+        <div className="prose prose-drawdown max-w-none space-y-12 text-text-secondary leading-relaxed">
           <section className="space-y-4">
             <h2 className="text-2xl font-sans font-bold uppercase text-text-primary">1. Information We Collect</h2>
             <p>

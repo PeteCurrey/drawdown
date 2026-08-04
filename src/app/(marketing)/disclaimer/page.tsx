@@ -21,7 +21,7 @@ export default function DisclaimerPage() {
           <p className="text-text-tertiary font-mono uppercase tracking-widest text-xs">Last Updated: April 14, 2026</p>
         </header>
 
-        <div className="prose prose-invert prose-drawdown max-w-none space-y-12 text-text-secondary leading-relaxed">
+        <div className="prose prose-drawdown max-w-none space-y-12 text-text-secondary leading-relaxed">
           <section className="p-8 bg-warning/5 border border-warning/20 space-y-4">
             <div className="flex items-center gap-2 text-warning mb-2">
               <ShieldAlert className="w-5 h-5" />

@@ -488,8 +488,7 @@ export default async function CurriculumPage() {
                 Secure Seat Instantly — £1,500
               </DirectUpgradeButton>
               <Link
-                href="https://forms.gle/drawdown-accelerator-apply"
-                target="_blank"
+                href="/contact?subject=accelerator"
                 className="px-6 py-2.5 bg-[#0F1319] hover:bg-[#161D26] border border-[#E2B755]/30 hover:border-[#E2B755] text-[#E2B755] text-[10px] font-bold uppercase tracking-widest text-center transition-all rounded whitespace-nowrap font-sans font-extrabold"
               >
                 Apply via Form

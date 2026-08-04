@@ -168,8 +168,7 @@ export default function InstitutionalAccelerator() {
           {/* Action Buttons */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link 
-              href="https://forms.gle/drawdown-accelerator-apply" 
-              target="_blank"
+              href="/contact?subject=accelerator" 
               className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-lg bg-gradient-to-r from-[#E2B755] to-[#C59235] hover:from-[#F3C475] hover:to-[#E2B755] text-[#0B0E12] font-semibold tracking-wide transition-all duration-300 shadow-lg shadow-[#E2B755]/10 hover:shadow-[#E2B755]/20 hover:scale-[1.02]"
             >
               Apply for Sept Cohort
@@ -466,8 +465,7 @@ export default function InstitutionalAccelerator() {
                   </div>
 
                   <Link 
-                    href="https://forms.gle/drawdown-accelerator-apply" 
-                    target="_blank"
+                    href="/contact?subject=accelerator" 
                     className="w-full inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg border border-[#E2B755]/30 hover:border-[#E2B755] text-[#E2B755] font-semibold text-xs tracking-wider transition-all duration-300"
                   >
                     Apply for Selection

@@ -8,6 +8,14 @@ import { cn } from "@/lib/utils";
 
 export default function ContactPage() {
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [subject, setSubject] = useState(() => {
+    if (typeof window !== "undefined") {
+      const sub = new URLSearchParams(window.location.search).get("subject");
+      if (sub === "accelerator") return "Institutional Accelerator Application";
+      return sub || "General Support";
+    }
+    return "General Support";
+  });
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -122,12 +130,18 @@ export default function ContactPage() {
 
                 <div className="space-y-2">
                   <label className="text-[11px] font-sans font-semibold text-text-secondary uppercase tracking-wider block">Reason for Inquiry</label>
-                  <select name="subject" className="w-full bg-background-elevated/40 border border-border-slate/50 focus:border-border-slate/50s rounded-lg px-4 py-3 text-sm text-text-primary font-sans outline-none transition-colors appearance-none cursor-pointer">
+                  <select 
+                    name="subject" 
+                    value={subject}
+                    onChange={(e) => setSubject(e.target.value)}
+                    className="w-full bg-background-elevated/40 border border-border-slate/50 focus:border-border-slate/50s rounded-lg px-4 py-3 text-sm text-text-primary font-sans outline-none transition-colors appearance-none cursor-pointer"
+                  >
                     <option value="General Support">General Support</option>
                     <option value="Tier & Billing Inquiry">Tier & Billing Inquiry</option>
                     <option value="Curriculum Question">Curriculum Question</option>
                     <option value="AI Tool Technical Issue">AI Tool Technical Issue</option>
                     <option value="Corporate & Partnerships">Corporate & Partnerships</option>
+                    <option value="Institutional Accelerator Application">Institutional Accelerator Application</option>
                   </select>
                 </div>
 

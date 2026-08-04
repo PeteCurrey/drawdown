@@ -347,7 +347,7 @@ export const BEST_OF_PAGES: BestOfPage[] = [
       {
         id: 'pepperstone',
         name: 'Pepperstone',
-        description: 'Built for active traders, Pepperstone utilizes Equinix data centers to provide professional-grade execution qualitys.',
+        description: "Built for active traders, Pepperstone utilizes Equinix data centers to provide direct interbank liquidity access.",
         verdict: 'Pete\'s Pick. Lowest latency, raw spreads, professional execution.',
         pros: ['Sub-30ms execution quality', 'Raw spreads from 0.0 pips', 'Multiple high-end platforms'],
         cons: ['Customer service is chat-first', 'Basic mobile app'],

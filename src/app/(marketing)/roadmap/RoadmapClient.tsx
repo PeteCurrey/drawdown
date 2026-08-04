@@ -169,16 +169,16 @@ const ROADMAP_ITEMS: RoadmapItem[] = [
   {
     id: "webhook-bridge",
     phase: "Phase 4: Institutional Scale",
-    title: "Prop Webhook Bridge",
-    subtitle: "Server execution routing",
-    description: "Direct trading execution path from TradingView alert scripts straight to supported prop firm broker accounts.",
+    title: "Prop Webhook Payload Bridge",
+    subtitle: "Alert payload formatter",
+    description: "Formatter for constructing alert payloads sent from TradingView to user broker/prop accounts.",
     status: "planned",
     targetQuarter: "H2 2027",
-    category: "institutional",
+    category: "tools",
     icon: Zap,
     details: [
-      "Sub-100ms ultra-low latency execution routes",
-      "Prop firm consistency-rule compliance protector",
+      "Standardized webhook alert formatting",
+      "Prop firm consistency-rule parameter checks",
       "Encrypted API keys security and multi-terminal sync"
     ]
   }

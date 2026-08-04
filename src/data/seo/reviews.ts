@@ -447,11 +447,11 @@ Insights: A unique tool that shows current trends and news sentiment for every a
     ]
   },
   "ic-markets": {
-    overview: `IC Markets is one of the world's only true "Raw Spread" brokers. Founded in Sydney in 2007, they were built by traders for traders, with a focus on providing professional-grade liquidity and lightning-fast execution.
+    overview: `IC Markets is one of the world's only true "Raw Spread" brokers. Founded in Sydney in 2007, they were built by traders for traders, with a focus on providing direct interbank liquidity access and tight raw spreads.
 
-The core differentiator for IC Markets is their infrastructure. They utilize Equinix NY4 data center servers in New York and LD5 in London, the same infrastructure used by major investment banks. This results in sub-1ms latency and almost zero slippage for most orders.
+The core differentiator for IC Markets is their infrastructure. They utilize Equinix NY4 data center servers in New York and LD5 in London, co-located alongside major financial institutions. This infrastructure is designed to minimize round-trip order times and slippage for most orders (per IC Markets' documented specifications).
 
-While they are not directly FCA regulated for their main global entity, they are heavily regulated by ASIC (Australia) and CySEC (Europe), making them a top choice for serious high-frequency scalpers and algorithmic traders who need the absolute lowest latency and tightest spreads.`,
+While they are not directly FCA regulated for their main global entity, they are heavily regulated by ASIC (Australia) and CySEC (Europe), making them a top choice for serious high-frequency scalpers and algorithmic traders who need tight spreads.`,
     accountTypes: `IC Markets offers three primary account types:
 
 1. Raw Spread (MetaTrader): The most popular choice. Spreads from 0.0 pips with a small commission of $3.50 per lot per side.

@@ -1,21 +1,28 @@
 import { getMetadata } from "@/lib/metadata";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
+import { LEGAL_CONFIG } from "@/config/legal";
 import { AlertTriangle, ShieldAlert, FileText, ArrowRight, Activity, ShieldCheck } from "lucide-react";
 import Link from "next/link";
 
 export const metadata = getMetadata({
-  title: "Risk Disclaimer",
-  description: "Important risk warnings, trade signal disclosures, and regulatory notices for Drawdown users.",
+  title: "Risk Disclaimer | Drawdown",
+  description: "Important risk warnings, quantitative market signal disclosures, and financial perimeter notices for Drawdown users.",
+  alternates: { canonical: "https://drawdown.trading/disclaimer" },
 });
 
 export default function DisclaimerPage() {
   return (
-    <div className="pt-28 pb-24 min-h-screen select-none" style={{ backgroundColor: "var(--paper-0)", color: "var(--ink-950)" }}>
+    <div className="pt-28 pb-24 min-h-screen" style={{ backgroundColor: "var(--paper-0)", color: "var(--ink-950)" }}>
       <div className="max-w-[1280px] mx-auto px-6">
         
         {/* Header Section */}
         <div className="max-w-4xl mx-auto mb-12">
-          <Breadcrumbs />
+          <Breadcrumbs 
+            items={[
+              { label: 'Legal', href: '/terms' },
+              { label: 'Risk Disclaimer', href: '/disclaimer' }
+            ]} 
+          />
           
           <div className="mt-8 space-y-4 border-b pb-12" style={{ borderColor: "var(--line-200)" }}>
             <div className="flex items-center gap-3">
@@ -30,7 +37,7 @@ export default function DisclaimerPage() {
             </h1>
             
             <p className="text-[13px] font-mono uppercase tracking-[0.08em]" style={{ color: "var(--graphite-600)" }}>
-              Last updated: August 4, 2026 · Operational Standards &amp; Risk Parameters
+              Last updated: {LEGAL_CONFIG.effectiveDate} · Operational Standards &amp; Risk Parameters
             </p>
           </div>
         </div>
@@ -54,27 +61,27 @@ export default function DisclaimerPage() {
             </p>
           </div>
 
-          {/* Section 1: Non-Advisory Status & Trade Signal Disclaimer */}
+          {/* Section 1: Non-Advisory Status & Quantitative Market Signals */}
           <section className="space-y-4 pb-8 border-b" style={{ borderColor: "var(--line-200)" }}>
             <div className="flex items-center gap-2 text-[11px] font-mono uppercase tracking-[0.08em]" style={{ color: "var(--signal-navy)" }}>
               <Activity size={16} />
               <span>Section 01</span>
             </div>
             <h2 className="font-display text-[24px] font-semibold tracking-[-0.02em]" style={{ color: "var(--ink-950)" }}>
-              1. Non-Advisory Status &amp; Trade Signal Disclosures
+              1. Non-Advisory Status &amp; Market Signal Scope
             </h2>
             <p className="text-[15px] leading-relaxed" style={{ color: "var(--graphite-600)" }}>
-              <strong>Drawdown does not provide financial advice.</strong> Pete Currey and the Drawdown team are not licensed financial advisors, wealth managers, or registered brokers. No content on the platform should be construed as individualized investment recommendations.
+              <strong>{LEGAL_CONFIG.fullTradingEntity} does not provide financial advice.</strong> Pete Currey and the Drawdown team are not licensed financial advisers, wealth managers, or registered brokers. No content on the platform should be construed as individualized investment recommendations.
             </p>
             <div className="p-6 border space-y-3" style={{ backgroundColor: "var(--paper-100)", borderColor: "var(--line-200)" }}>
               <h3 className="text-[12px] font-mono font-semibold uppercase tracking-[0.08em]" style={{ color: "var(--ink-950)" }}>
-                Quantitative Trade Signals &amp; Model Conclusions
+                Quantitative Market Signals &amp; Model Indicators
               </h3>
               <p className="text-[13px] leading-relaxed" style={{ color: "var(--graphite-600)" }}>
-                Drawdown provides quantitative trade signals, real-time alerts, and technical pattern recognition models across our Signal Centre and analytical tools. All trade signals are automated analytical conclusions derived from processing market data feeds, technical indicators, and statistical risk models.
+                Drawdown publishes general, non-personalised quantitative market signals, technical alerts, and algorithmic pattern indicators across our Signal Centre and analytical tools. These outputs represent data-driven calculations derived from processing market feeds, technical indicators, and statistical risk models.
               </p>
               <p className="text-[13px] leading-relaxed font-semibold" style={{ color: "var(--ink-950)" }}>
-                Trade signals do not constitute guaranteed outcomes or financial recommendations. They reflect statistical probability models derived from historical data. Any trade executed based on these signals remains entirely your responsibility.
+                Market signals do not constitute guaranteed outcomes or financial recommendations. They reflect statistical probability models derived from historical data. Any trade executed based on these signals remains entirely your responsibility.
               </p>
             </div>
           </section>

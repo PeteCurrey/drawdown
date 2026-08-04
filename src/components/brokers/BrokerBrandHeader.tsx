@@ -73,7 +73,7 @@ export function getBrandConfig(brokerId: string): BrandConfig {
         spread: "0.6 pips (EUR/USD)",
         commission: "£0.00 (Spread Betting)",
         totalCostPerLot: "£6.00 / Lot",
-        executionSpeed: "< 50ms"
+        executionSpeed: "Equinix-hosted (per IG spec)"
       }
     };
   }
@@ -81,7 +81,7 @@ export function getBrandConfig(brokerId: string): BrandConfig {
   if (cleanId.includes("ic")) {
     return {
       brandName: "IC Markets",
-      tagline: "True ECN Raw Spreads from 0.0 Pips with Sub-1ms Latency",
+      tagline: "True ECN Raw Spreads from 0.0 Pips — Direct Liquidity Across Equinix Infrastructure",
       badge: "TRUE ECN LIQUIDITY // EQUINIX NY4 SERVERS",
       primaryColor: "#00FF87",
       accentGlow: "rgba(0, 255, 135, 0.22)",
@@ -92,20 +92,20 @@ export function getBrandConfig(brokerId: string): BrandConfig {
       logoLightBg: "/logos/brokers/ic-markets.svg",
       heroPills: [
         "True ECN Raw Spreads",
-        "Sub-1ms NY4 Latency",
+        "Equinix NY4 & LD5 Hosted",
         "ASIC & CySEC Tier-1",
         "Zero Restrictions on EAs"
       ],
       stats: [
         { label: "Raw Spreads", value: "From 0.0 Pips", highlight: true },
-        { label: "Server Latency", value: "< 1ms (NY4 / LD5)" },
+        { label: "Server Location", value: "NY4 / LD5 Equinix" },
         { label: "Commission", value: "$3.50/lot ($7 round-turn)" },
         { label: "Platforms", value: "MT4, MT5, cTrader, TV" }
       ],
       spotlightTitle: "Institutional NY4 Equinix Infrastructure & Deep ECN Pool",
-      spotlightDesc: "IC Markets connects directly to 25+ top-tier liquidity providers inside New York (NY4) and London (LD5) data centers, delivering ultra-tight raw spreads and zero dealing-desk intervention.",
+      spotlightDesc: "IC Markets connects directly to 25+ top-tier liquidity providers inside New York (NY4) and London (LD5) Equinix data centers, delivering ultra-tight raw spreads and zero dealing-desk intervention.",
       spotlightBadges: [
-        { title: "<1ms Execution", desc: "Hosted in Equinix NY4 & LD5 data centers", icon: Clock },
+        { title: "Equinix Hosted", desc: "Servers co-located in Equinix NY4 & LD5 data centers", icon: Clock },
         { title: "Raw 0.0 Pips", desc: "Direct interbank pricing with low $3.50 commission", icon: Sparkles },
         { title: "Scalper Friendly", desc: "No stop-distance limits, unrestricted EA trading", icon: Zap }
       ],
@@ -113,7 +113,7 @@ export function getBrandConfig(brokerId: string): BrandConfig {
         spread: "0.0 pips (EUR/USD)",
         commission: "$7.00 Round-Turn ($3.50/side)",
         totalCostPerLot: "$7.00 / Lot",
-        executionSpeed: "< 1ms"
+        executionSpeed: "Equinix NY4/LD5 (per IC Markets spec)"
       }
     };
   }
@@ -138,12 +138,12 @@ export function getBrandConfig(brokerId: string): BrandConfig {
     ],
     stats: [
       { label: "Razor Spreads", value: "From 0.0 Pips", highlight: true },
-      { label: "Execution Speed", value: "Sub-30ms Average" },
+      { label: "Server Location", value: "Equinix NY4 / LD5" },
       { label: "FCA Regulation", value: "FCA (UK) + ASIC (AU)" },
       { label: "Platforms", value: "TradingView, cTrader, MT4/5" }
     ],
     spotlightTitle: "Direct TradingView Integration & Razor Account Superiority",
-    spotlightDesc: "Pepperstone allows traders to analyze charts and execute orders directly within TradingView without leaving the platform. Combined with their sub-30ms execution speed, it is the setup favored by serious technical traders.",
+    spotlightDesc: "Pepperstone allows traders to analyze charts and execute orders directly within TradingView without leaving the platform. Their Razor account uses Equinix-hosted infrastructure and is favored by serious technical traders.",
     spotlightBadges: [
       { title: "TradingView Direct", desc: "Trade straight from your TradingView charts", icon: Zap },
       { title: "Razor Spreads", desc: "Raw pricing from 0.0 pips with low £2.25 side commission", icon: Sparkles },
@@ -153,7 +153,7 @@ export function getBrandConfig(brokerId: string): BrandConfig {
       spread: "0.0 pips (EUR/USD)",
       commission: "£4.50 Round-Turn (£2.25/side)",
       totalCostPerLot: "£4.50 / Lot",
-      executionSpeed: "< 30ms"
+      executionSpeed: "Equinix NY4/LD5 (per Pepperstone spec)"
     }
   };
 }

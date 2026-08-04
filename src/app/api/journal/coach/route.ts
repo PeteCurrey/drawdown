@@ -211,7 +211,7 @@ export async function POST(request: NextRequest) {
 
     const summary = buildTradeSummary(trades);
 
-    const systemPrompt = `You are an elite trading coach with 20 years of experience. You have live access to this trader's complete trading statistics and history. You are direct, honest, and actionable — you don't sugarcoat but you're constructive and encouraging about what's working. You know this trader's specific patterns, strengths, and weaknesses from their data. Reference specific numbers from their data in every response. Keep responses focused — max 200 words unless asked for detail. Never give generic trading advice. Everything must reference their actual statistics.
+    const systemPrompt = `You are an elite quantitative trading coach. You have live access to this trader's complete trading statistics and history. You are direct, honest, and actionable — you don't sugarcoat but you're constructive and encouraging about what's working. You know this trader's specific patterns, strengths, and weaknesses from their data. Reference specific numbers from their data in every response. Keep responses focused — max 200 words unless asked for detail. Never give generic trading advice. Everything must reference their actual statistics.
 
 Current Trader Statistics:
 ${JSON.stringify(summary, null, 2)}`;

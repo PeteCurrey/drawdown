@@ -1,107 +1,200 @@
-import type { Metadata } from 'next'
-import AboutPage from './AboutClient'
-import JsonLd from '@/components/seo/JsonLd'
-import { TrackPageView } from '@/components/admin/TrackPageView'
+import type { Metadata } from 'next';
+import JsonLd from '@/components/seo/JsonLd';
+import { TrackPageView } from '@/components/admin/TrackPageView';
+import { LEGAL_CONFIG } from '@/config/legal';
+import { ShieldCheck, Scale, Award, TrendingUp, AlertTriangle, CheckCircle2, History, Compass, ShieldAlert } from 'lucide-react';
+import Link from 'next/link';
 
 export const metadata: Metadata = {
-  title: 'About | Pete Currey',
-  description: 'Drawdown was built by Pete Currey — a UK-based trader and entrepreneur who got tired of the trading education industry selling expensive nonsense. Here\'s the honest version.',
-  alternates: { canonical: 'https://drawdown.trading/about' }
-}
+  title: 'About Pete Currey & Drawdown Authority',
+  description: 'The honest origin of Drawdown. Pete Currey has been trading live markets since 2016. Discover our founder journey, risk philosophy, and what we do and do not claim.',
+  alternates: { canonical: 'https://drawdown.trading/about' },
+};
 
-export default function Page() {
+export default function AboutPage() {
   return (
-    <div className="pt-32 bg-background-primary min-h-screen">
+    <div className="pt-28 pb-24 bg-background-primary min-h-screen">
       <TrackPageView path="/about" />
-      <div className="container mx-auto px-6">
+      <div className="container mx-auto px-6 max-w-5xl">
+
         {/* Anti-Guru Manifesto */}
-        <div className="max-w-4xl mx-auto mb-32">
-          <span className="text-accent font-mono tracking-widest uppercase text-sm mb-4 block">
-            OUR MANIFESTO
+        <div className="mb-20">
+          <span className="text-accent font-mono tracking-widest uppercase text-xs mb-4 block">
+            FOUNDER &amp; PLATFORM AUTHORITY
           </span>
-          <h1 className="text-5xl md:text-8xl font-display font-extrabold uppercase leading-tight mb-12 reveal-text">
-            Trading is hard. <br /> 
-            Guru culture <br /> 
-            is <span className="text-accent">toxic.</span>
+          <h1 className="text-4xl md:text-6xl font-display font-extrabold uppercase leading-tight mb-8">
+            Built from real <br /> 
+            market execution. <br /> 
+            Zero <span className="text-accent">hype.</span>
           </h1>
           
-          <div className="space-y-8 text-xl text-text-secondary leading-relaxed font-sans">
+          <div className="space-y-6 text-lg text-text-secondary leading-relaxed font-sans">
             <p>
-              We founded Drawdown because the industry is broken. Every day, thousands of new traders 
-              are lured in with promises of easy money and "secret" signals. 
+              Drawdown was created to solve a widespread problem in trading education: flashy lifestyle marketing, secret "guaranteed" algorithms, and unrealistic expectations sold to retail traders.
             </p>
-            <p className="border-l-4 border-accent pl-8 py-4 bg-background-elevated/50 italic text-text-primary">
-              "The truth is that 90% of retail traders lose money. They lose because they lack 
-              discipline, lack risk management, and are trying to trade someone else's strategy 
-              without understanding the why."
+            <p className="border-l-4 border-accent pl-6 py-3 bg-background-elevated/50 italic text-text-primary">
+              "The reality is that retail trading is a high-stakes business of statistical probabilities. Over 75% of retail accounts lose money — not due to a lack of indicators, but due to poor risk management, emotional overexposure, and chasing unvalidated promises."
             </p>
             <p>
-              Drawdown is the antidote. We don't sell dreams. We don't sell hope. 
-              We sell education, AI-driven tools, and a framework built for sustainability. 
-              A drawdown isn't a failure—it's part of the process. We teach you how to survive it.
+              Drawdown provides structured education, quantitative indicator models, signal analysis, and risk-first journaling software. We focus on process, discipline, and capital preservation.
             </p>
           </div>
         </div>
 
-        {/* Pillars */}
-        <div className="mission-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-32 pt-24 border-t border-border-slate">
-          {[
-            { title: "Honesty", desc: "No fake stats. No promises of wealth. Just the hard truth about markets." },
-            { title: "Discipline", desc: "Process over outcome. We teach you to follow rules, not emotions." },
-            { title: "Edge", desc: "Tools and data that give you a statistical advantage over time." },
-            { title: "Survival", desc: "The only goal is to stay in the game long enough to win." },
-          ].map((item, i) => (
-            <div key={i} className="mission-card space-y-4">
-              <h3 className="text-2xl font-display font-bold uppercase tracking-widest">{item.title}</h3>
-              <p className="text-text-secondary text-sm leading-relaxed">{item.desc}</p>
-            </div>
-          ))}
-        </div>
-
-        {/* The Founder's Journey */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center mb-32 pt-24 border-t border-border-slate">
-          <div className="reveal-text">
-            <h2 className="text-4xl font-display font-bold uppercase mb-8">The Man Behind the Data.</h2>
-            <div className="space-y-6 text-text-secondary leading-relaxed">
-              <p>
-                Pete Currey has been trading live in the markets since 2016 across multiple asset classes. 
-                Based out of Chesterfield, UK, Pete isn't interested in the flashy lifestyle that plagues the trading industry.
-              </p>
-              <p>
-                "I've spent years watching retail traders get chewed up by the markets, mostly because they were sold a lie by a fake guru," Pete says. 
-                "Trading isn't about getting rich quick. It's a high-stakes business of probabilities and risk management."
-              </p>
-              <p>
-                With a deep background in market mechanics, Pete systematically stripped away the noise. No magic indicators, no lifestyle marketing. Just rigorous data analysis, psychological discipline, and a focus on survival.
-              </p>
-              <p className="font-bold text-text-primary">
-                Drawdown was built to combat the fake gurus. It represents years of live market execution since 2016, 
-                distilled into a platform that treats trading with the respect and discipline it demands.
-              </p>
-            </div>
-          </div>
-          <div className="relative group">
-            <div className="aspect-[4/5] bg-background-elevated border border-border-slate overflow-hidden relative">
-              <div className="absolute inset-0 bg-[#06070A] bg-[linear-gradient(to_right,#80808008_1px,transparent_1px),linear-gradient(to_bottom,#80808008_1px,transparent_1px)] bg-[size:32px_32px] opacity-30 group-hover:opacity-40 transition-opacity duration-700" />
-              <div className="absolute inset-0 bg-gradient-to-t from-background-primary via-transparent to-transparent opacity-60" />
-            </div>
-            <div className="absolute -bottom-6 -right-6 p-8 bg-accent text-background-primary font-mono text-xs uppercase tracking-[0.2em] font-bold">
-              CHESTERFIELD // UK
-            </div>
-          </div>
-        </div>
-
-        {/* Closing Mission */}
-        <div className="bg-background-surface p-12 md:p-32 border border-border-slate mb-24 reveal-text text-center">
-          <div className="max-w-3xl mx-auto">
-            <h2 className="text-4xl font-display font-bold uppercase mb-8 italic">"We don't trade for the thrill. We trade for the edge."</h2>
-            <p className="text-xl text-text-secondary leading-relaxed mb-12">
-              Our commitment is to transparency. Every tool we build, every lesson we teach, and every update we push is 
-              focused on one goal: Keeping you in the game long enough to find your consistency.
+        {/* Founder Timeline */}
+        <div className="mb-24 pt-16 border-t border-border-slate space-y-12">
+          <div>
+            <h2 className="text-3xl font-display font-bold uppercase mb-2">The Founder Chronology</h2>
+            <p className="text-text-tertiary font-mono text-xs uppercase tracking-widest">
+              Fact-Checked Timeline · Pete Currey
             </p>
-            <p className="font-mono text-accent uppercase tracking-widest text-sm">// PETE CURREY, FOUNDER</p>
+          </div>
+
+          <div className="space-y-10 font-sans">
+            
+            {/* Timeline Item 1: Before 2016 */}
+            <div className="p-8 bg-background-elevated/40 border border-border-slate/60 space-y-3">
+              <div className="flex items-center justify-between flex-wrap gap-2">
+                <span className="font-mono text-accent text-sm font-bold uppercase tracking-widest">
+                  BEFORE 2016 — COMMERCIAL &amp; OPERATIONAL EXPERIENCE
+                </span>
+                <span className="text-xs font-mono text-text-tertiary uppercase">Business Leadership</span>
+              </div>
+              <p className="text-text-secondary text-sm leading-relaxed">
+                Prior to trading live financial markets full-time, Pete's career focused on commercial business leadership, operational risk evaluation, cash flow management, contract negotiation, and running commercial enterprises. This commercial background provided crucial grounding in cash management, risk exposure, and decision-making under uncertainty, but it was not institutional financial market trading.
+              </p>
+            </div>
+
+            {/* Timeline Item 2: 2016 Live Trading */}
+            <div className="p-8 bg-background-elevated/40 border border-accent/40 space-y-3">
+              <div className="flex items-center justify-between flex-wrap gap-2">
+                <span className="font-mono text-accent text-sm font-bold uppercase tracking-widest">
+                  2016 — LIVE TRADING BEGINS
+                </span>
+                <span className="text-xs font-mono text-accent uppercase">Live Execution Chronology</span>
+              </div>
+              <p className="text-text-primary text-base font-semibold leading-relaxed">
+                Pete began trading live financial markets in 2016.
+              </p>
+              <p className="text-text-secondary text-sm leading-relaxed">
+                This marks the start of Pete's active live-market trading chronology. Moving from simulated analysis to executing real capital across spot FX, index CFDs, and commodities introduced the inescapable reality of real-money trading psychology and execution discipline.
+              </p>
+            </div>
+
+            {/* Timeline Item 3: Market Experience */}
+            <div className="p-8 bg-background-elevated/40 border border-border-slate/60 space-y-3">
+              <div className="flex items-center justify-between flex-wrap gap-2">
+                <span className="font-mono text-accent text-sm font-bold uppercase tracking-widest">
+                  DEVELOPMENT OF MARKET EXPERIENCE
+                </span>
+                <span className="text-xs font-mono text-text-tertiary uppercase">Multi-Asset Execution</span>
+              </div>
+              <p className="text-text-secondary text-sm leading-relaxed">
+                Over years of active execution, Pete traded major foreign exchange pairs (GBP/USD, EUR/USD, AUD/USD), gold and precious metals, equity index derivatives (FTSE 100, S&amp;P 500, DAX 40), and digital assets. This execution provided first-hand experience with market liquidity cycles, news volatility, spread expansion, slippage, and broker execution mechanics.
+              </p>
+            </div>
+
+            {/* Timeline Item 4: Losses & Lessons */}
+            <div className="p-8 bg-background-elevated/40 border border-border-slate/60 space-y-4">
+              <div className="flex items-center justify-between flex-wrap gap-2">
+                <span className="font-mono text-accent text-sm font-bold uppercase tracking-widest">
+                  LOSSES, DRAWDOWNS &amp; REAL LESSONS
+                </span>
+                <span className="text-xs font-mono text-text-tertiary uppercase">Transparent Account of Risk</span>
+              </div>
+              <p className="text-text-secondary text-sm leading-relaxed">
+                Drawdown was not built from a pristine, loss-free trading record. Like every genuine active trader, Pete experienced painful drawdowns, execution mistakes, overleveraged setup losses, and the psychological trap of revenge trading during high-volatility events.
+              </p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs text-text-secondary pt-2">
+                <div className="p-3 bg-background-primary border border-border-slate/40">
+                  <span className="font-bold text-text-primary block mb-1">Leverage Magnifies Error</span>
+                  High effective leverage can turn a routine statistical draw into an account emergency.
+                </div>
+                <div className="p-3 bg-background-primary border border-border-slate/40">
+                  <span className="font-bold text-text-primary block mb-1">Free Margin Discipline</span>
+                  Maintaining sufficient free margin is essential for surviving unexpected market gaps.
+                </div>
+                <div className="p-3 bg-background-primary border border-border-slate/40">
+                  <span className="font-bold text-text-primary block mb-1">Stop Losses Are Mandatory</span>
+                  Discipline is not optional — hard stop-loss limits protect against black-swan movements.
+                </div>
+                <div className="p-3 bg-background-primary border border-border-slate/40">
+                  <span className="font-bold text-text-primary block mb-1">Survival Before Return</span>
+                  Staying in the game precedes long-term consistency. Capital preservation comes first.
+                </div>
+              </div>
+            </div>
+
+            {/* Timeline Item 5: Development of Drawdown */}
+            <div className="p-8 bg-background-elevated/40 border border-border-slate/60 space-y-3">
+              <div className="flex items-center justify-between flex-wrap gap-2">
+                <span className="font-mono text-accent text-sm font-bold uppercase tracking-widest">
+                  DEVELOPMENT OF DRAWDOWN
+                </span>
+                <span className="text-xs font-mono text-text-tertiary uppercase">Platform Origin</span>
+              </div>
+              <p className="text-text-secondary text-sm leading-relaxed">
+                Drawdown was built to combine structured risk education, quantitative indicator models, transparent market analysis, trade journaling, and AI-assisted performance review. It distills real market experience into an objective, data-driven framework.
+              </p>
+            </div>
+
           </div>
         </div>
+
+        {/* Current Risk Framework */}
+        <div className="mb-24 pt-16 border-t border-border-slate space-y-8">
+          <h2 className="text-3xl font-display font-bold uppercase">Current Risk Framework</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-sm">
+            <div className="p-6 bg-background-elevated/40 border border-border-slate space-y-2">
+              <h3 className="font-display font-bold text-text-primary uppercase">1. Predefined Risk</h3>
+              <p className="text-text-secondary text-xs leading-relaxed">
+                Risk per trade is strictly defined before entry (typically 0.5%–1% of total equity). No trades are opened without calculated stop parameters.
+              </p>
+            </div>
+            <div className="p-6 bg-background-elevated/40 border border-border-slate space-y-2">
+              <h3 className="font-display font-bold text-text-primary uppercase">2. Post-Trade Review</h3>
+              <p className="text-text-secondary text-xs leading-relaxed">
+                Every trade is recorded in the AI Trade Journal to audit execution quality, emotional factors, and statistical compliance against the trading plan.
+              </p>
+            </div>
+            <div className="p-6 bg-background-elevated/40 border border-border-slate space-y-2">
+              <h3 className="font-display font-bold text-text-primary uppercase">3. Objective Confluence</h3>
+              <p className="text-text-secondary text-xs leading-relaxed">
+                Decisions rely on multi-factor technical alignment, market data feeds, and quantitative indicators, rejecting single magic indicators or impulse entries.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Explicit Disclosure: What Is NOT Being Claimed */}
+        <div className="p-8 bg-background-elevated/60 border border-border-slate space-y-4 mb-20">
+          <div className="flex items-center gap-2 text-accent font-mono text-xs font-bold uppercase tracking-widest">
+            <ShieldAlert size={16} />
+            <span>Transparency Notice: What Is Not Being Claimed</span>
+          </div>
+          <p className="text-text-primary text-sm leading-relaxed italic">
+            "Drawdown is built from real experience, including mistakes and losses. It is not presented as a perfect trading record."
+          </p>
+          <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-text-secondary list-disc pl-5">
+            <li>No claim of 20 years or two decades of live market trading (live trading began in 2016).</li>
+            <li>No claim of FCA authorisation or regulated financial adviser status.</li>
+            <li>No claim of regulated broker, fund manager, or institutional mandate role.</li>
+            <li>No claim of secret, guaranteed, or loss-proof trading strategies.</li>
+            <li>No claim that past educational results guarantee future performance.</li>
+            <li>No claim of audited institutional investment performance.</li>
+          </ul>
+        </div>
+
+        {/* Footer Authority Box */}
+        <div className="p-8 bg-background-surface border border-border-slate text-center space-y-2">
+          <p className="text-xs font-mono text-text-tertiary uppercase tracking-widest">
+            {LEGAL_CONFIG.fullTradingEntity} · {LEGAL_CONFIG.tradingAddress}
+          </p>
+          <p className="text-xs text-text-secondary">
+            Questions about our platform or founder journey? Contact <a href={`mailto:${LEGAL_CONFIG.supportEmail}`} className="text-accent underline">{LEGAL_CONFIG.supportEmail}</a>.
+          </p>
+        </div>
+
       </div>
     </div>
   );

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Plus, Edit2, Eye, Trash2, ChevronLeft, ChevronRight, Loader2, Moon, Sun } from "lucide-react";
+import { Plus, Edit2, Eye, Trash2, ChevronLeft, ChevronRight, Loader2, Moon, Sun, Mail, MailCheck, Clock, AlertCircle } from "lucide-react";
 import { deleteBlogPostAction, togglePublishAction } from "@/app/actions/admin-actions";
 
 interface BlogPostInfo {
@@ -23,6 +23,7 @@ interface BlogListClientProps {
   totalPages: number;
   from: number;
   to: number;
+  emailSendMap: Record<string, { status: string; sent_at?: string; recipient_count?: number }>;
 }
 
 export function BlogListClient({
@@ -31,7 +32,8 @@ export function BlogListClient({
   currentPage,
   totalPages,
   from,
-  to
+  to,
+  emailSendMap
 }: BlogListClientProps) {
   const [posts, setPosts] = useState<BlogPostInfo[]>(initialPosts);
   const [totalRecords, setTotalRecords] = useState(initialCount);
@@ -106,6 +108,7 @@ export function BlogListClient({
                 <th className="py-3 font-semibold">Category</th>
                 <th className="py-3 font-semibold">Theme</th>
                 <th className="py-3 font-semibold">Status</th>
+                <th className="py-3 font-semibold">Newsletter</th>
                 <th className="py-3 font-semibold text-right">Actions</th>
               </tr>
             </thead>
@@ -157,6 +160,49 @@ export function BlogListClient({
                         )}
                       </button>
                     </td>
+                    <td className="py-4">
+                      {(() => {
+                        const send = emailSendMap[post.id];
+                        if (!send) {
+                          return (
+                            <span className="inline-flex items-center gap-1 px-1.5 py-0.5 text-[8px] font-mono font-bold uppercase border border-mkt-bd text-mkt-i4 bg-neutral-50">
+                              <Mail className="w-2.5 h-2.5" />
+                              Not Sent
+                            </span>
+                          );
+                        }
+                        if (send.status === "sent" || send.status === "completed") {
+                          return (
+                            <div className="space-y-0.5">
+                              <span className="inline-flex items-center gap-1 px-1.5 py-0.5 text-[8px] font-mono font-bold uppercase border border-[#22C55E]/30 text-[#15803d] bg-[#22C55E]/10">
+                                <MailCheck className="w-2.5 h-2.5" />
+                                Sent
+                              </span>
+                              {send.sent_at && (
+                                <p className="text-[9px] text-mkt-i4 font-mono">
+                                  {new Date(send.sent_at).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" })}
+                                  {send.recipient_count ? ` · ${send.recipient_count.toLocaleString()} rcpts` : ""}
+                                </p>
+                              )}
+                            </div>
+                          );
+                        }
+                        if (send.status === "pending") {
+                          return (
+                            <span className="inline-flex items-center gap-1 px-1.5 py-0.5 text-[8px] font-mono font-bold uppercase border border-amber-200 text-amber-700 bg-amber-50">
+                              <Clock className="w-2.5 h-2.5" />
+                              Sending…
+                            </span>
+                          );
+                        }
+                        return (
+                          <span className="inline-flex items-center gap-1 px-1.5 py-0.5 text-[8px] font-mono font-bold uppercase border border-red-200 text-red-600 bg-red-50">
+                            <AlertCircle className="w-2.5 h-2.5" />
+                            Failed
+                          </span>
+                        );
+                      })()}
+                    </td>
                     <td className="py-4 text-right">
                       <div className="flex items-center justify-end gap-2">
                         <Link
@@ -194,7 +240,7 @@ export function BlogListClient({
                 ))
               ) : (
                 <tr>
-                  <td colSpan={6} className="py-12 text-center text-mkt-i4 font-mono">
+                  <td colSpan={7} className="py-12 text-center text-mkt-i4 font-mono">
                     No articles found. <Link href="/admin/blog/new" className="text-mkt-ink underline">Create the first post →</Link>
                   </td>
                 </tr>

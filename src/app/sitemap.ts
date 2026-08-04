@@ -68,9 +68,22 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "/markets",
     "/blog",
     "/trading-tools",
-    "/editorial-standards"
+    "/editorial-standards",
+    "/methodology"
   ].map((route) => ({
     url: `${baseUrl}${route}`,
+    lastModified: staticDate,
+    changeFrequency: "weekly" as const,
+    priority: 0.7,
+  }));
+
+  const methodologySlugs = [
+    "market-prices", "economic-calendar", "central-banks", "news-sentiment",
+    "technical-confluence", "ai-consensus", "position-sizing", "backtesting-engine",
+    "trading-journal", "broker-research", "platform-capabilities"
+  ];
+  const methodologyClaimRoutes = methodologySlugs.map((slug) => ({
+    url: `${baseUrl}/methodology/${slug}`,
     lastModified: staticDate,
     changeFrequency: "weekly" as const,
     priority: 0.7,
@@ -226,6 +239,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...moduleRoutes,
     ...hubRoutes,
     ...platformRoutes,
+    ...methodologyClaimRoutes,
     ...blogRoutes,
     ...aboutRoutes,
     ...footerRoutes,

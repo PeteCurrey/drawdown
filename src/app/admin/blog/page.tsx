@@ -29,6 +29,27 @@ export default async function AdminBlogPage({ searchParams }: Props) {
     console.error("Failed to query blog posts:", error);
   }
 
+  // Fetch all email_sends of type blog_post so we can show newsletter status per post
+  const { data: emailSends } = await (supabase as any)
+    .from("email_sends")
+    .select("metadata, status, sent_at, recipient_count")
+    .eq("type", "blog_post")
+    .in("status", ["sent", "completed", "pending", "failed"]);
+
+  // Build a lookup: blog_post_id -> best send record
+  const emailSendMap: Record<string, { status: string; sent_at?: string; recipient_count?: number }> = {};
+  (emailSends || []).forEach((send: any) => {
+    const blogPostId = send.metadata?.blog_post_id;
+    if (!blogPostId) return;
+    // Prefer most recent sent/completed over pending/failed
+    const existing = emailSendMap[blogPostId];
+    if (!existing) {
+      emailSendMap[blogPostId] = { status: send.status, sent_at: send.sent_at, recipient_count: send.recipient_count };
+    } else if (send.status === "sent" || send.status === "completed") {
+      emailSendMap[blogPostId] = { status: send.status, sent_at: send.sent_at, recipient_count: send.recipient_count };
+    }
+  });
+
   const totalRecords = count || 0;
   const totalPages = Math.ceil(totalRecords / limit);
 
@@ -40,6 +61,7 @@ export default async function AdminBlogPage({ searchParams }: Props) {
       totalPages={totalPages}
       from={from}
       to={to}
+      emailSendMap={emailSendMap}
     />
   );
 }

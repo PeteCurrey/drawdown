@@ -27,7 +27,7 @@ const features: Feature[] = [
   },
   {
     title: "Tax Efficiency",
-    description: "Optimised account models designed to minimise spread betting tax liabilities.",
+    description: "UK tax context — educational comparisons of spread betting, CFDs and investing. Tax treatment depends on individual circumstances and may change.",
   },
   {
     title: "Spread Monitoring",

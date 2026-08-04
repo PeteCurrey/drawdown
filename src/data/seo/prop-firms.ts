@@ -361,7 +361,7 @@ export const PROP_FIRM_REVIEWS: PropFirmReview[] = [
     introduction: 'Lux Trading Firm stands out by allocating actual capital rather than keeping traders on simulated demo environments. Based in London, they offer an institutional pathway for professional traders who want to manage accounts up to $2,500,000.',
     challengeRules: 'Lux requires a 6% profit target with a 6% maximum drawdown limit. There is no daily drawdown limit. However, they require a minimum of 29 trading days to pass their evaluation stages, emphasizing consistency.',
     feeAndRefund: 'Fees are higher than simulated firms, starting at £299 for a $50k account. Fees are refunded upon reaching the first scaling milestone.',
-    tradingConditions: 'Traders access real institutional liquidity with institutional-grade execution speed and raw spreads.',
+    tradingConditions: 'Traders access real institutional liquidity with tight raw spreads sourced directly from Lux\'s liquidity providers.',
     verdict: 'The ideal firm for patient, consistent swing traders who want to manage real capital and transition to asset management.',
     faqs: [
       {

@@ -6,17 +6,16 @@ const PROHIBITED_PATTERNS = [
   { pattern: /sub-1ms/i, label: "sub-1ms latency claim" },
   { pattern: /professional-grade execution/i, label: "professional-grade execution claim" },
   { pattern: /institutional-grade execution/i, label: "institutional-grade execution claim" },
-  // Only scan data/seo files for guaranteed return — not educational content or FCA warnings
-  { pattern: /guaranteed win rate/i, label: "guaranteed win rate claim", excludeInPath: ["content/", "lib/data/"] },
-  { pattern: /guaranteed return/i, label: "guaranteed return claim", excludeInPath: ["content/", "lib/data/"] },
+  { pattern: /guaranteed win rate/i, label: "guaranteed win rate claim" },
+  { pattern: /guaranteed return/i, label: "guaranteed return claim" },
   { pattern: /sub-100ms ultra-low latency/i, label: "ultra-low latency execution claim" }
 ];
 
 const SCAN_DIR = path.join(process.cwd(), "src");
 
-function getFiles(dir) {
+function getFiles(dir: string): string[] {
   const subdirs = fs.readdirSync(dir);
-  const files = [];
+  const files: string[] = [];
 
   for (const subdir of subdirs) {
     const res = path.join(dir, subdir);
@@ -36,7 +35,8 @@ function lintClaims() {
   let totalViolations = 0;
 
   for (const file of files) {
-    if (file.includes("product-status") || file.includes("lint-claims") || file.includes("methodology")) {
+    // Skip config / status files that define prohibited term lists or fallbacks
+    if (file.includes("product-status.ts") || file.includes("lint-claims") || file.includes("methodology")) {
       continue;
     }
 
@@ -44,14 +44,10 @@ function lintClaims() {
     const lines = content.split("\n");
 
     lines.forEach((line, index) => {
-      for (const { pattern, label, excludeInPath } of PROHIBITED_PATTERNS) {
-        // Skip this pattern if the file path matches any exclusion path
-        const relativePath = path.relative(process.cwd(), file);
-        if (excludeInPath && excludeInPath.some((ex) => relativePath.replace(/\\/g, "/").includes(ex))) {
-          continue;
-        }
+      for (const { pattern, label } of PROHIBITED_PATTERNS) {
         if (pattern.test(line)) {
           totalViolations++;
+          const relativePath = path.relative(process.cwd(), file);
           console.error(`❌ [${label}] ${relativePath}:${index + 1}`);
           console.error(`   Line: "${line.trim()}"`);
         }

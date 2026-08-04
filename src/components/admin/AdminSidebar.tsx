@@ -38,6 +38,7 @@ const NAV_ITEMS = [
   { href: "/admin/partners", label: "Partners", icon: Network },
   { href: "/admin/marketing", label: "Marketing & SEO", icon: Target },
   { href: "/admin/affiliates", label: "Affiliate Manager", icon: Link2 },
+  { href: "/admin/methodology", label: "Claims & Methodology", icon: ShieldAlert },
   { href: "/admin/landing-pages", label: "Landing Pages", icon: LayoutTemplate },
   { href: "/admin/seo", label: "SEO Suite", icon: Search },
   { href: "/admin/community", label: "Discord Manager", icon: MessageSquare },

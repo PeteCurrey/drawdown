@@ -20,7 +20,7 @@ const toolCategories = [
   {
     slug: "/investment-centre",
     title: "The Investment Centre",
-    description: "Autonomous cross-asset macro synthesis, tri-model AI council, and risk execution.",
+    description: "Autonomous cross-asset macro synthesis, tri-model AI council, and quantitative risk analysis.",
     icon: Cpu,
     features: ["18 Real-Time Feeds", "1,420 Metrics 24/7", "HMAC Risk Tokens"],
     tier: "Foundation Add-on (£99/mo)",
@@ -29,7 +29,7 @@ const toolCategories = [
   {
     slug: "ai-trade-journal",
     title: "AI Trade Journal",
-    description: "Institutional-grade logging with sentiment analysis and performance attribution.",
+    description: "Advanced trade logging with sentiment analysis and performance attribution.",
     icon: LayoutDashboard,
     features: ["Automated Logging", "Sentiment Tracking", "Visual Equity Curve"],
     tier: "Edge+",
@@ -65,7 +65,7 @@ const toolCategories = [
   {
     slug: "market-charts",
     title: "Technical Charts",
-    description: "High-performance charting with internal institutional indicators and logic.",
+    description: "High-performance charting with proprietary multi-timeframe indicators and logic.",
     icon: BarChart3,
     features: ["Custom Indicators", "Drawing Tools", "Multi-Device Sync"],
     tier: "Foundation+",
@@ -107,7 +107,7 @@ export default function ToolsMarketingPage() {
             </h1>
             
             <p className="text-base text-text-tertiary leading-relaxed max-w-2xl font-sans">
-              Professional-grade tools built by traders, for traders. No generic alerts. No retail noise. Just institutional-grade execution.
+              Precision analytical tools built by traders, for traders. No generic alerts. No retail noise. Just data-led research and risk management.
             </p>
 
             <div className="flex flex-wrap gap-3 pt-2">
@@ -153,8 +153,8 @@ export default function ToolsMarketingPage() {
                   <p className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary">Data-Driven Logic</p>
                 </div>
                 <div>
-                  <div className="text-3xl font-sans font-extrabold text-text-primary mb-2">&lt;1ms</div>
-                  <p className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary">Execution Speed</p>
+                  <div className="text-3xl font-sans font-extrabold text-text-primary mb-2">100%</div>
+                  <p className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary">Transparent Methodology</p>
                 </div>
               </div>
             </div>
@@ -243,13 +243,13 @@ export default function ToolsMarketingPage() {
          <div className="max-w-7xl mx-auto px-6 relative z-10">
             <div className="text-center max-w-3xl mx-auto mb-16">
                <span className="text-[11px] font-sans font-bold text-text-tertiary uppercase tracking-widest block mb-4">
-                 // INSTITUTIONAL STANDARDS
+                 // DATA INTEGRITY &amp; TRANSPARENCY
                </span>
                <h2 className="text-3xl md:text-5xl font-sans font-extrabold tracking-tight text-text-primary leading-tight">
                  Built for <span className="text-text-primary">Survival.</span>
                </h2>
                <p className="text-text-secondary leading-relaxed text-lg font-sans font-light">
-                 The tools you use dictate the quality of your execution. We don't compromise on speed, accuracy, or data integrity.
+                 The analytical tools you use determine the quality of your research. We don&apos;t compromise on accuracy, transparency, or data integrity.
                </p>
             </div>
 

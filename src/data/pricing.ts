@@ -1,4 +1,5 @@
 import { Region } from "@/lib/seo/hreflang";
+import { PRODUCT_STATUSES } from "@/config/product-status";
 
 export interface PricingTier {
   name: string;
@@ -59,7 +60,7 @@ export const GET_EDGE_FEATURES = () => [
   { name: "Everything in Foundation", included: true },
   { name: "AI Trade Journal", included: true },
   { name: "AI Market Scanner & Alerting", included: true },
-  { name: "AI Strategy Backtester", included: true },
+  { name: "AI Strategy Backtester", included: true, badge: PRODUCT_STATUSES.strategyBacktester.label },
   { name: "AI Daily Briefing", included: true },
 ];
 

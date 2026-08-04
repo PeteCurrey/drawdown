@@ -151,6 +151,8 @@ export function Footer() {
             <ul className="space-y-3 text-[13px] font-sans" style={{ color: "var(--graphite-600)" }}>
               <li><Link href="/about" className="hover:underline">About Us</Link></li>
               <li><Link href="/contact" className="hover:underline">Contact</Link></li>
+              <li><Link href="/methodology" className="hover:underline font-medium" style={{ color: "var(--ink-950)" }}>Data &amp; Methodology</Link></li>
+              <li><Link href="/editorial-standards" className="hover:underline">Editorial Standards</Link></li>
               <li><Link href="/privacy" className="hover:underline">Privacy Policy</Link></li>
               <li><Link href="/disclaimer" className="hover:underline">Risk Disclaimer</Link></li>
               <li><Link href="/legal/financial-disclaimer" className="hover:underline">Legal &amp; Tax Disclaimer</Link></li>
@@ -196,6 +198,10 @@ export function Footer() {
             <p className="text-[11px] leading-relaxed" style={{ color: "var(--risk-amber)" }}>
               <span className="font-semibold block mb-0.5 font-mono uppercase tracking-[0.08em]">Risk Warning:</span>
               Trading financial instruments carries a high level of risk and may not be suitable for all investors. The high degree of leverage can work against you as well as for you. Before deciding to trade, you should carefully consider your investment objectives, level of experience, and risk appetite. The possibility exists that you could sustain a loss of some or all of your initial investment. You should not invest money that you cannot afford to lose. Past performance is not indicative of future results. Drawdown does not provide financial advice. Trade signals and quantitative tools represent analytical conclusions derived from data feeds and risk parameters; they are not guaranteed outcomes or financial recommendations.
+            </p>
+            <p className="text-[11px] leading-relaxed" style={{ color: "var(--graphite-600)" }}>
+              Drawdown does not route, execute, or hold funds. All trades are placed independently by users through their own brokers.{" "}
+              <Link href="/methodology" className="underline hover:opacity-80">View our Data &amp; Methodology Centre</Link> for full evidence and source attribution behind every platform claim.
             </p>
           </div>
 

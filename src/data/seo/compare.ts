@@ -85,7 +85,7 @@ export const COMPARISON_PAGES: ComparisonPage[] = [
     sections: [
       {
         title: 'Execution Quality',
-        content: 'Pepperstone is built for the active day trader. Their raw spread model and Equinix NY4 infrastructure mean you get professional-grade execution. IG, while fast, is more focused on providing a stable, all-in-one ecosystem for multi-asset traders.'
+        content: 'Pepperstone is built for the active day trader. Their raw spread model and Equinix NY4 infrastructure deliver direct interbank liquidity access and tight spreads. IG, while fast, is more focused on providing a stable, all-in-one ecosystem for multi-asset traders.'
       }
     ],
     whoShouldChooseA: ['Multi-asset traders', 'Traders needing guaranteed stops', 'Long-term spread bettors'],

@@ -1,7 +1,8 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { motion, useReducedMotion } from "framer-motion";
 import { ShieldCheck, Scale, Award, TrendingUp, AlertTriangle, CheckCircle2, ShieldAlert } from "lucide-react";
 import { LEGAL_CONFIG } from "@/config/legal";
@@ -113,26 +114,49 @@ export default function AboutClient() {
         </div>
       </section>
 
-      {/* Philosophy / Quote block */}
+      {/* Philosophy / Quote block with founder photo */}
       <section className="py-16 border-b" style={{ borderColor: "var(--line-200)", backgroundColor: "var(--paper-100)" }}>
         <div className="max-w-[1280px] mx-auto px-6">
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
-            <div className="md:col-span-8">
-              <span className="block text-[10px] font-mono uppercase tracking-[0.08em] mb-2" style={{ color: "var(--graphite-600)" }}>
-                Core Thesis
-              </span>
-              <p className="text-[20px] md:text-[22px] font-medium leading-[1.5] tracking-tight" style={{ color: "var(--ink-950)" }}>
-                "The reality is that retail trading is a high-stakes business of statistical probabilities. Over 75% of retail accounts lose money — not due to a lack of indicators, but due to poor risk management, emotional overexposure, and chasing unvalidated promises."
-              </p>
-              <span className="block text-xs font-mono mt-4" style={{ color: "var(--graphite-600)" }}>
-                — Pete Currey, Founder
-              </span>
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-10 items-center">
+            
+            {/* Founder photo */}
+            <div className="md:col-span-3 flex justify-center md:justify-start">
+              <div className="relative">
+                <div className="w-48 h-48 md:w-56 md:h-56 relative overflow-hidden border-2" style={{ borderColor: "var(--line-200)" }}>
+                  <Image
+                    src="/images/pete-currey-founder.jpg"
+                    alt="Pete Currey, Founder of Drawdown"
+                    fill
+                    className="object-cover object-top"
+                    sizes="(max-width: 768px) 192px, 224px"
+                  />
+                </div>
+                <div className="mt-3 text-center">
+                  <p className="text-[11px] font-mono uppercase tracking-[0.08em] font-bold" style={{ color: "var(--ink-950)" }}>Pete Currey</p>
+                  <p className="text-[10px] font-mono uppercase tracking-[0.08em]" style={{ color: "var(--graphite-600)" }}>Founder · Chesterfield, UK</p>
+                </div>
+              </div>
             </div>
-            <div className="md:col-span-4 p-6 border bg-white" style={{ borderColor: "var(--line-200)" }}>
-              <h4 className="font-display font-semibold text-[13px] uppercase tracking-[0.08em] mb-2">Our Focus</h4>
-              <p className="text-[13px] leading-relaxed" style={{ color: "var(--graphite-600)" }}>
-                Drawdown provides structured education, quantitative indicator models, signal analysis, and risk-first journaling software. We focus entirely on process, discipline, and capital preservation.
-              </p>
+
+            {/* Quote + focus */}
+            <div className="md:col-span-9 space-y-6">
+              <div>
+                <span className="block text-[10px] font-mono uppercase tracking-[0.08em] mb-2" style={{ color: "var(--graphite-600)" }}>
+                  Core Thesis
+                </span>
+                <p className="text-[20px] md:text-[22px] font-medium leading-[1.5] tracking-tight" style={{ color: "var(--ink-950)" }}>
+                  "The reality is that retail trading is a high-stakes business of statistical probabilities. Over 75% of retail accounts lose money — not due to a lack of indicators, but due to poor risk management, emotional overexposure, and chasing unvalidated promises."
+                </p>
+                <span className="block text-xs font-mono mt-4" style={{ color: "var(--graphite-600)" }}>
+                  — Pete Currey, Founder
+                </span>
+              </div>
+              <div className="p-6 border bg-white" style={{ borderColor: "var(--line-200)" }}>
+                <h4 className="font-display font-semibold text-[13px] uppercase tracking-[0.08em] mb-2">Our Focus</h4>
+                <p className="text-[13px] leading-relaxed" style={{ color: "var(--graphite-600)" }}>
+                  Drawdown provides structured education, quantitative indicator models, signal analysis, and risk-first journaling software. We focus entirely on process, discipline, and capital preservation.
+                </p>
+              </div>
             </div>
           </div>
         </div>
@@ -163,14 +187,16 @@ export default function AboutClient() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: "-100px" }}
                   transition={{ duration: 0.4, ease: "easeOut" }}
-                  className="p-8 border relative group transition-colors duration-150"
+                  className="p-8 border relative group transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_12px_40px_rgba(0,0,0,0.07)] cursor-default"
                   style={{
-                    backgroundColor: item.highlighted ? "var(--paper-100)" : "transparent",
+                    backgroundColor: item.highlighted ? "var(--paper-100)" : "var(--paper-0)",
                     borderColor: item.highlighted ? "var(--ink-950)" : "var(--line-200)",
                   }}
                 >
+                  {/* Hover top accent line */}
+                  <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-[var(--signal-navy)] to-transparent opacity-0 group-hover:opacity-60 transition-opacity duration-500" />
                   <div className="flex items-start gap-5">
-                    <div className="p-3 border rounded-none bg-white shrink-0 hidden sm:block" style={{ borderColor: "var(--line-200)" }}>
+                    <div className="p-3 border rounded-none bg-white shrink-0 hidden sm:block transition-all duration-300 group-hover:border-[var(--signal-navy)] group-hover:shadow-sm" style={{ borderColor: "var(--line-200)" }}>
                       <Icon size={18} strokeWidth={1.5} style={{ color: "var(--ink-950)" }} />
                     </div>
                     <div className="space-y-3 w-full">
@@ -182,7 +208,7 @@ export default function AboutClient() {
                           {item.type}
                         </span>
                       </div>
-                      <h3 className="font-display font-semibold text-[18px] tracking-tight" style={{ color: "var(--ink-950)" }}>
+                      <h3 className="font-display font-semibold text-[18px] tracking-tight group-hover:text-[var(--signal-navy)] transition-colors duration-300" style={{ color: "var(--ink-950)" }}>
                         {item.title}
                       </h3>
                       <p className="text-[14px] leading-relaxed" style={{ color: "var(--graphite-600)" }}>
@@ -221,35 +247,27 @@ export default function AboutClient() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="p-8 border bg-white space-y-4" style={{ borderColor: "var(--line-200)" }}>
-              <div className="w-8 h-8 rounded-none border flex items-center justify-center font-mono text-xs font-bold" style={{ borderColor: "var(--line-200)" }}>
-                01
+            {[
+              { num: "01", title: "Predefined Risk", body: "Risk per trade is strictly defined before entry (typically 0.5%–1% of total equity). No trades are opened without calculated stop parameters." },
+              { num: "02", title: "Post-Trade Review", body: "Every trade is recorded in the AI Trade Journal to audit execution quality, emotional factors, and statistical compliance against the trading plan." },
+              { num: "03", title: "Objective Confluence", body: "Decisions rely on multi-factor technical alignment, market data feeds, and quantitative indicators, rejecting single magic indicators or impulse entries." },
+            ].map((card) => (
+              <div
+                key={card.num}
+                className="p-8 border bg-white space-y-4 group relative overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_12px_40px_rgba(0,0,0,0.07)]"
+                style={{ borderColor: "var(--line-200)" }}
+              >
+                {/* Hover top accent line */}
+                <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-[var(--signal-navy)] to-transparent opacity-0 group-hover:opacity-60 transition-opacity duration-500" />
+                <div className="w-8 h-8 rounded-none border flex items-center justify-center font-mono text-xs font-bold transition-all duration-300 group-hover:border-[var(--signal-navy)]" style={{ borderColor: "var(--line-200)" }}>
+                  {card.num}
+                </div>
+                <h3 className="font-display font-semibold text-[16px] uppercase tracking-[0.08em] group-hover:text-[var(--signal-navy)] transition-colors duration-300">{card.title}</h3>
+                <p className="text-[13px] leading-relaxed" style={{ color: "var(--graphite-600)" }}>
+                  {card.body}
+                </p>
               </div>
-              <h3 className="font-display font-semibold text-[16px] uppercase tracking-[0.08em]">Predefined Risk</h3>
-              <p className="text-[13px] leading-relaxed" style={{ color: "var(--graphite-600)" }}>
-                Risk per trade is strictly defined before entry (typically 0.5%–1% of total equity). No trades are opened without calculated stop parameters.
-              </p>
-            </div>
-
-            <div className="p-8 border bg-white space-y-4" style={{ borderColor: "var(--line-200)" }}>
-              <div className="w-8 h-8 rounded-none border flex items-center justify-center font-mono text-xs font-bold" style={{ borderColor: "var(--line-200)" }}>
-                02
-              </div>
-              <h3 className="font-display font-semibold text-[16px] uppercase tracking-[0.08em]">Post-Trade Review</h3>
-              <p className="text-[13px] leading-relaxed" style={{ color: "var(--graphite-600)" }}>
-                Every trade is recorded in the AI Trade Journal to audit execution quality, emotional factors, and statistical compliance against the trading plan.
-              </p>
-            </div>
-
-            <div className="p-8 border bg-white space-y-4" style={{ borderColor: "var(--line-200)" }}>
-              <div className="w-8 h-8 rounded-none border flex items-center justify-center font-mono text-xs font-bold" style={{ borderColor: "var(--line-200)" }}>
-                03
-              </div>
-              <h3 className="font-display font-semibold text-[16px] uppercase tracking-[0.08em]">Objective Confluence</h3>
-              <p className="text-[13px] leading-relaxed" style={{ color: "var(--graphite-600)" }}>
-                Decisions rely on multi-factor technical alignment, market data feeds, and quantitative indicators, rejecting single magic indicators or impulse entries.
-              </p>
-            </div>
+            ))}
           </div>
         </div>
       </section>

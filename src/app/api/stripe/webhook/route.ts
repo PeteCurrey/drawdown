@@ -542,7 +542,11 @@ export async function POST(request: NextRequest) {
       const resendKey = process.env.RESEND_API_KEY;
       if (resendKey) {
         try {
-          const customerEmail = failedInvoice.customer_email || failedInvoice.customer_details?.email;
+          let customerEmail = failedInvoice.customer_email;
+          if (!customerEmail && failedInvoice.customer) {
+            const stripeCustomer = await stripe.customers.retrieve(failedInvoice.customer as string);
+            customerEmail = (stripeCustomer as any).email;
+          }
           if (customerEmail) {
             // Find subscription tier
             let subTier = "membership";

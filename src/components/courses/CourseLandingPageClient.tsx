@@ -196,7 +196,8 @@ export function CourseLandingPageClient({ params }: Props) {
   ];
 
   return (
-    <div className="flex flex-col min-h-screen bg-white text-mkt-ink font-sans selection:bg-neutral-100 selection:text-mkt-ink">
+    <>
+      <div className="flex flex-col min-h-screen bg-white text-mkt-ink font-sans selection:bg-neutral-100 selection:text-mkt-ink">
       <section className="h-screen min-h-[650px] relative flex flex-col justify-center items-center overflow-hidden border-b border-mkt-bd select-none">
         <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(0,0,0,0.015)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,0.015)_1px,transparent_1px)] bg-[size:40px_40px] z-0 pointer-events-none" />
         

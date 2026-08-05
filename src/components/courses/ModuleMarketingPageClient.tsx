@@ -226,7 +226,8 @@ export function ModuleMarketingPageClient({ params }: Props) {
   }
 
   return (
-    <div className="flex flex-col min-h-screen bg-white text-mkt-ink font-sans selection:bg-neutral-100 selection:text-mkt-ink">
+    <>
+      <div className="flex flex-col min-h-screen bg-white text-mkt-ink font-sans selection:bg-neutral-100 selection:text-mkt-ink">
       
       {/* 1. Module Hero Section */}
       <section className="h-[90vh] min-h-[600px] relative flex flex-col justify-center items-center overflow-hidden border-b border-mkt-bd select-none">

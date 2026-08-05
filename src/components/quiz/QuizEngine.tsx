@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
+import { useCurriculumProgress } from "@/hooks/useCurriculumProgress";
 import { cn } from "@/lib/utils";
 import {
   CheckCircle2,
@@ -62,7 +63,9 @@ export function QuizEngine({ questions, moduleKey, onComplete }: QuizEngineProps
     setAnswers(newAnswers);
   }, [selectedAnswer, answers, currentIndex]);
 
-  const handleNext = useCallback(() => {
+  const { markModuleCompleted } = useCurriculumProgress();
+
+  const handleNext = useCallback(async () => {
     if (currentIndex < questions.length - 1) {
       setCurrentIndex((i) => i + 1);
       setSelectedAnswer(null);
@@ -70,8 +73,19 @@ export function QuizEngine({ questions, moduleKey, onComplete }: QuizEngineProps
     } else {
       setQuizState("complete");
       onComplete?.(score, questions.length);
+
+      if (passed && moduleKey) {
+        const parts = moduleKey.split("/");
+        if (parts.length === 2) {
+          const phaseSlug = parts[0];
+          const modNum = parseInt(parts[1].replace("module-", ""), 10);
+          if (!isNaN(modNum)) {
+            await markModuleCompleted(phaseSlug, modNum, percentage);
+          }
+        }
+      }
     }
-  }, [currentIndex, questions.length, onComplete, score]);
+  }, [currentIndex, questions.length, onComplete, score, passed, moduleKey, markModuleCompleted, percentage]);
 
   const handleRestart = useCallback(() => {
     setCurrentIndex(0);

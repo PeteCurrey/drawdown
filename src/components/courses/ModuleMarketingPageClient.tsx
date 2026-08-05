@@ -1,10 +1,14 @@
 "use client";
 
-import { use } from "react";
+import { use, useState, useCallback } from "react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { phases } from "@/data/courses";
 import { courseContent } from "@/data/courseContent";
+import { quizData } from "@/data/quizzes";
+import { QuizEngine } from "@/components/quiz/QuizEngine";
+import { useCurriculumProgress } from "@/hooks/useCurriculumProgress";
+import { PhaseCompletionModal } from "@/components/courses/PhaseCompletionModal";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { cn } from "@/lib/utils";
 import { 
@@ -18,7 +22,8 @@ import {
   Sparkles,
   Shield,
   Layers,
-  ChevronRight
+  ChevronRight,
+  Brain
 } from "lucide-react";
 
 interface Props {
@@ -138,6 +143,9 @@ const DEFAULT_THEME: PhaseTheme = {
 
 export function ModuleMarketingPageClient({ params }: Props) {
   const { slug, moduleSlug } = use(params);
+  const [milestoneOpen, setMilestoneOpen] = useState(false);
+
+  const { getPhaseProgress, markModuleCompleted } = useCurriculumProgress();
 
   // Find parent phase
   const phaseIndex = phases.findIndex(p => p.slug === slug);
@@ -149,6 +157,7 @@ export function ModuleMarketingPageClient({ params }: Props) {
 
   // Parse module index from module-X
   const moduleIndex = parseInt(moduleSlug.replace("module-", "")) - 1;
+  const moduleNumber = moduleIndex + 1;
   const moduleTitle = phase.modules_list[moduleIndex];
 
   if (moduleIndex < 0 || moduleIndex >= phase.modules_list.length || !moduleTitle) {
@@ -163,6 +172,22 @@ export function ModuleMarketingPageClient({ params }: Props) {
 
   const durationText = moduleContentObj?.duration || "25 min read / 15 min video";
   const notesHtml = moduleContentObj?.notes || null;
+
+  // Resolve quiz questions from the static quiz data
+  const quizKey = `${phase.slug}/${moduleSlug}`;
+  const moduleQuizQuestions = quizData[quizKey] ?? [];
+  const hasQuiz = moduleQuizQuestions.length > 0;
+
+  const handleQuizComplete = useCallback(async (score: number, total: number) => {
+    const percentage = Math.round((score / total) * 100);
+    if (percentage >= 70) {
+      const result = await markModuleCompleted(phase.slug, moduleNumber, percentage);
+      const phaseProgress = getPhaseProgress(phase.slug);
+      if (phaseProgress.isFullyCompleted) {
+        setMilestoneOpen(true);
+      }
+    }
+  }, [phase.slug, moduleNumber, markModuleCompleted, getPhaseProgress]);
 
   // Calculate sequential navigation links (Previous / Next)
   let prevLink: { href: string; label: string } | null = null;
@@ -379,6 +404,37 @@ export function ModuleMarketingPageClient({ params }: Props) {
         </div>
       </section>
 
+      {/* Knowledge Check Quiz Section — visible on the marketing module page */}
+      {hasQuiz && (
+        <section id="quiz" className="py-20 bg-white border-b border-mkt-bd scroll-mt-24">
+          <div className="max-w-4xl mx-auto px-6">
+            <div className="space-y-8">
+              <div className="space-y-3">
+                <div className="flex items-center gap-3">
+                  <Brain className="w-5 h-5 text-mkt-i4" />
+                  <span className="text-[10px] font-mono uppercase tracking-[0.3em] text-mkt-i4">03_Knowledge_Check</span>
+                  <div className="h-px flex-grow bg-mkt-bd" />
+                </div>
+                <h2 className="text-2xl font-sans font-extrabold uppercase text-mkt-ink">
+                  Test Your Understanding
+                </h2>
+                <p className="text-sm text-mkt-i3 max-w-2xl">
+                  Complete the quiz below to verify your retention of this module. Score 70% or above to mark this chapter complete. You can retry as many times as needed.
+                </p>
+              </div>
+
+              <div className="p-8 border border-mkt-bd rounded-[14px] bg-[#FAFAFA]">
+                <QuizEngine
+                  questions={moduleQuizQuestions}
+                  moduleKey={quizKey}
+                  onComplete={handleQuizComplete}
+                />
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* 3. Sequential Chapter Traversal Navigation */}
       <section className="py-12 bg-white border-b border-mkt-bd">
         <div className="max-w-7xl mx-auto px-6">
@@ -430,5 +486,13 @@ export function ModuleMarketingPageClient({ params }: Props) {
       </section>
 
     </div>
-  );
+
+    <PhaseCompletionModal
+      isOpen={milestoneOpen}
+      onClose={() => setMilestoneOpen(false)}
+      phaseNumber={phase.id}
+      phaseSlug={phase.slug}
+      phaseName={phase.name}
+    />
+  </>);
 }

@@ -723,7 +723,7 @@ If you've ever closed a winner too early or let a loser run too long, you've exp
 
 When you are in a trade, your brain's amygdala—the 'fear center'—is hyper-active. This shifts your thinking from the rational pre-frontal cortex to the primal 'fight or flight' response. In this state, your ability to process risk is compromised.
 
-Our AI coach monitors your execution quality and frequency to detect this shift. If you start clicking too fast after a loss, that's your amygdala talking. We flag it, and we force a 'Cool Down' period.
+Our AI coach monitors your plan-adherence patterns and frequency to detect this shift. If you start clicking too fast after a loss, that's your amygdala talking. We flag it, and we force a 'Cool Down' period.
 
 ### Gamifying Discipline
 

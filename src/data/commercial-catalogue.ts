@@ -63,6 +63,15 @@ export interface ProductPrice {
   validUntil?: string;
 }
 
+export type WorkflowStage =
+  | "prepare"
+  | "plan"
+  | "execute_elsewhere"
+  | "record"
+  | "review"
+  | "improve"
+  | "repeat_weekly";
+
 export interface ProductEntitlement {
   key: string;
   name: string;
@@ -71,6 +80,7 @@ export interface ProductEntitlement {
   /** Whether the underlying feature is actually available right now */
   featureStatus: "released" | "beta" | "in_development" | "planned" | "retired";
   expiresAfterDays?: number;
+  workflowStages?: WorkflowStage[];
 }
 
 export interface CommercialProduct {

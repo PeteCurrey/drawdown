@@ -7,6 +7,7 @@ import {
   getSurvivalKitConfirmationTemplate,
   getHowToTradeConfirmationTemplate,
   getTheEdgeConfirmationTemplate,
+  getManualBundleConfirmationTemplate,
 } from "@/lib/email-templates";
 import { createServiceRoleClient } from "@/lib/supabase/server";
 import {
@@ -279,6 +280,65 @@ export async function POST(request: NextRequest) {
             });
           } catch (emailErr) {
             console.error("Failed to send the-edge delivery email:", emailErr);
+          }
+        }
+        break;
+      }
+
+      // ── Complete Manual Collection (Bundle) purchase ───────────────────
+      if (productId === "manual-bundle") {
+        const email = session.customer_details?.email || session.customer_email;
+        let resolvedUserId = userId && userId !== "guest" ? userId : null;
+        let isNewUser = false;
+
+        if (!resolvedUserId && email) {
+          const fullName = session.customer_details?.name || email.split("@")[0];
+          const result = await resolveOrCreateGuestUser(email, fullName);
+          resolvedUserId = result.userId;
+          isNewUser = result.isNewUser;
+        }
+
+        if (resolvedUserId) {
+          // Fetch course IDs for all three manuals
+          const { data: courses } = await supabase
+            .from("courses")
+            .select("id, slug")
+            .in("slug", ["prop-firm-survival-kit", "how-to-trade", "the-edge"]);
+
+          if (courses && courses.length > 0) {
+            for (const course of courses) {
+              const { error: courseErr } = await supabase.from("course_purchases").insert({
+                user_id: resolvedUserId,
+                course_id: course.id,
+                stripe_payment_intent_id: session.payment_intent,
+                stripe_session_id: session.id,
+                amount_paid_pence: Math.round((session.amount_total ?? 12900) / courses.length),
+                access_granted_via: "stripe_purchase",
+              });
+              if (courseErr && courseErr.code !== "23505") {
+                console.error(`Error recording course purchase for bundle slug ${course.slug}:`, courseErr);
+              }
+            }
+          }
+        }
+
+        const resendKey = process.env.RESEND_API_KEY;
+        if (resendKey && email) {
+          try {
+            const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://drawdown.trading";
+            const dashboardUrl = `${appUrl}/dashboard/store`;
+            const magicLink = isNewUser ? await getMagicLink(email) : null;
+
+            const emailHtml = getManualBundleConfirmationTemplate(dashboardUrl, undefined, magicLink ?? undefined);
+            const resend = new Resend(resendKey);
+            await resend.emails.send({
+              from: "Pete @ Drawdown <thewire@drawdown.trading>",
+              to: email,
+              subject: "Your Drawdown Manual Bundle is ready",
+              html: emailHtml,
+            });
+          } catch (emailErr) {
+            console.error("Failed to send manual-bundle delivery email:", emailErr);
           }
         }
         break;

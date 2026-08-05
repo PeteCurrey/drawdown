@@ -15,7 +15,7 @@ export const TOOLS: Record<string, ToolConfig> = {
     name: 'AI Trade Journal',
     slug: '/tools/ai-trade-journal',
     tier: 'Edge+',
-    description: 'The institution-grade journal that thinks. AI-powered analysis of your emotional state and execution quality.',
+    description: 'AI-assisted trade review. AI-powered analysis of your emotional state and plan adherence.',
     shortDescription: 'AI-powered trading journal and emotional analysis.'
   },
   'risk-calculator': {

@@ -733,6 +733,83 @@ export function getTheEdgeConfirmationTemplate(dashboardUrl: string, tempPasswor
   `;
 }
 
+export function getManualBundleConfirmationTemplate(dashboardUrl: string, tempPassword?: undefined, magicLink?: string): string {
+  return `
+    <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+    <html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <title>Your Drawdown Manual Bundle</title>
+      <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet" />
+      <style type="text/css" rel="stylesheet" media="all">
+        ${getBaseStyles()}
+      </style>
+    </head>
+    <body>
+      <table class="wrapper" width="100%" cellpadding="0" cellspacing="0" role="presentation">
+        <tr>
+          <td align="center">
+            <table class="main" width="100%" cellpadding="0" cellspacing="0" role="presentation">
+              <!-- Header -->
+              <tr>
+                <td class="header" style="border-bottom: 2px solid #818CF8;">
+                  <h1 style="color: #0F172A; font-size: 24px; margin: 0; font-family: 'Outfit', sans-serif; letter-spacing: -0.5px;">Drawdown<span style="color: #818CF8;">.</span></h1>
+                  <p style="margin: 6px 0 0 0; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: #64748B; font-family: ui-monospace, monospace;">Complete Manual Collection</p>
+                </td>
+              </tr>
+              
+              <!-- Content -->
+              <tr>
+                <td class="content">
+                  <p style="color: #0F172A; font-size: 16px; font-weight: 600;">Your Complete Manual Collection is ready.</p>
+                  <p>Thank you for your purchase. You now have permanent lifetime access to all three of Drawdown's flagship playbooks.</p>
+                  
+                  <div class="section-box" style="border-color: #818CF8; background-color: #EEF2FF;">
+                    <p style="margin-bottom: 8px; font-weight: bold; color: #4F46E5; font-family: ui-monospace, monospace;">// MANUALS INCLUDED:</p>
+                    <ul style="margin: 0; padding-left: 20px; color: #1E293B;">
+                      <li style="color: #1E293B;"><strong>Prop Firm Survival Kit:</strong> The complete evaluation blueprint and decoding protocol.</li>
+                      <li style="color: #1E293B;"><strong>How to Trade Manual:</strong> Pete's institutional 100-page framework.</li>
+                      <li style="color: #1E293B;"><strong>The Edge Manual:</strong> Advanced setups, confluence models, and execution triggers.</li>
+                    </ul>
+                  </div>
+
+                  <p>All manuals have been added to your Drawdown dashboard. Click below to access the store downloads area immediately.</p>
+                  
+                  ${magicLink ? `
+                    <div style="background-color: #F8FAFC; border: 1px dashed #CBD5E1; padding: 20px; border-radius: 6px; margin: 24px 0; text-align: center;">
+                      <p style="margin-bottom: 12px; font-size: 14px; font-weight: 500; color: #0F172A;">Temporary Access Link:</p>
+                      <a href="${magicLink}" class="btn-accent" style="background-color: #818CF8; box-shadow: 0 2px 4px rgba(129, 140, 248, 0.2);">Sign In Instantly</a>
+                      <p style="margin: 12px 0 0 0; font-size: 11px; color: #64748B;">This link will log you in automatically and direct you to your store downloads.</p>
+                    </div>
+                  ` : `
+                    <div style="text-align: center; margin: 30px 0;">
+                      <a href="${dashboardUrl}" class="btn-accent" style="background-color: #818CF8; box-shadow: 0 2px 4px rgba(129, 140, 248, 0.2);">Access Store Downloads</a>
+                    </div>
+                  `}
+
+                  <p style="margin-top: 30px; font-size: 13px; color: #64748B;">If you have any questions or require support, reply directly to this email.</p>
+                </td>
+              </tr>
+              
+              <!-- Footer -->
+              <tr>
+                <td class="footer">
+                  <p style="margin-bottom: 8px; color: #475569; font-weight: 500;">Pete Currey &bull; Drawdown Trading</p>
+                  <p style="margin-bottom: 16px; color: #64748B;">&copy; ${new Date().getFullYear()} Drawdown. All rights reserved.</p>
+                  <hr style="border: 0; border-top: 1px solid #E2E8F0; margin: 20px 0;" />
+                  <p class="disclaimer"><strong>RISK WARNING:</strong> Trading financial instruments carries high risk. Most retail traders lose capital. Only risk capital you can afford to lose. All content is for educational use only and does not constitute financial advice.</p>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+    </body>
+    </html>
+  `;
+}
+
 export function getAcceleratorApplicationConfirmationTemplate(firstName: string = "Trader"): string {
   return `
     <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">

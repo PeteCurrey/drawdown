@@ -26,6 +26,13 @@ const PRODUCTS: Record<string, { name: string; baseAmount: number; defaultCurren
     description: "Pete's advanced playbook — confluence trading, liquidity theory, psychological edge and proprietary setups.",
     slug: "the-edge",
   },
+  "manual-bundle": {
+    name: "Complete Manual Collection (Bundle)",
+    baseAmount: 12900, // £129.00
+    defaultCurrency: "gbp",
+    description: "Get the Prop Firm Survival Kit, How to Trade Manual, and The Edge Manual in one permanent PDF bundle.",
+    slug: "manual-bundle",
+  },
 };
 
 const REGION_CURRENCIES: Record<string, string> = {

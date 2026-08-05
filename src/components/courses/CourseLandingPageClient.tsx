@@ -1,10 +1,13 @@
 "use client";
 
-import { use } from "react";
+import { use, useState } from "react";
 import { phases, phaseIconMap } from "@/data/courses";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { GET_DEFAULT_FEATURES, GET_EDGE_FEATURES, GET_FLOOR_FEATURES } from "@/data/pricing";
+import { useCurriculumProgress } from "@/hooks/useCurriculumProgress";
+import { PhaseProgressBar } from "@/components/courses/PhaseProgressBar";
+import { PhaseCompletionModal } from "@/components/courses/PhaseCompletionModal";
 import { 
   ChevronRight, 
   Clock, 
@@ -143,6 +146,7 @@ const DEFAULT_THEME: PhaseTheme = {
 export function CourseLandingPageClient({ params }: Props) {
   const { slug } = use(params);
   const phase = phases.find(p => p.slug === slug);
+  const [milestoneOpen, setMilestoneOpen] = useState(false);
 
   if (!phase) {
     return notFound();
@@ -150,6 +154,9 @@ export function CourseLandingPageClient({ params }: Props) {
 
   const theme = THEME_MAP[phase.slug] || DEFAULT_THEME;
   const Icon = phaseIconMap[phase.icon] || Shield;
+
+  const { getPhaseProgress, getModuleProgress } = useCurriculumProgress();
+  const phaseProgress = getPhaseProgress(phase.slug);
 
   const currentIndex = phases.findIndex(p => p.slug === phase.slug);
   const prevPhase = currentIndex > 0 ? phases[currentIndex - 1] : null;
@@ -284,23 +291,42 @@ export function CourseLandingPageClient({ params }: Props) {
                   <Target className="w-6 h-6 text-mkt-ink" /> What You Will Master
                 </h3>
 
+                {/* Phase Progress Bar (shown when user has started the phase) */}
+                {phaseProgress.completedModules > 0 && (
+                  <div className="p-4 rounded-xl border border-mkt-bd bg-[#F9F9F9]">
+                    <PhaseProgressBar
+                      completed={phaseProgress.completedModules}
+                      total={phaseProgress.totalModules}
+                      label={`${phase.name} Progress`}
+                      accentColor="bg-emerald-500"
+                    />
+                  </div>
+                )}
+
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {phase.modules_list.map((module, i) => (
-                    <Link 
-                      key={i} 
-                      href={`/courses/${phase.slug}/module-${i + 1}`}
-                      className="p-5 border border-mkt-bd rounded-[14px] bg-[#F9F9F9] hover:bg-white hover:shadow-[0_8px_32px_rgba(0,0,0,0.04)] hover:border-mkt-bds transition-all duration-300 block group"
-                    >
-                      <div className="flex items-start gap-4">
-                        <span className={cn("text-[10px] font-mono font-bold mt-1 shrink-0", theme.color)}>
-                          {(i + 1).toString().padStart(2, '0')}
-                        </span>
-                        <span className="text-xs font-sans font-bold uppercase tracking-tight text-mkt-ink leading-snug group-hover:text-accent transition-colors">
-                          {module}
-                        </span>
-                      </div>
-                    </Link>
-                  ))}
+                  {phase.modules_list.map((module, i) => {
+                    const modProg = getModuleProgress(phase.slug, i + 1);
+                    const isCompleted = modProg?.completed === true;
+                    return (
+                      <Link 
+                        key={i} 
+                        href={`/courses/${phase.slug}/module-${i + 1}`}
+                        className="p-5 border border-mkt-bd rounded-[14px] bg-[#F9F9F9] hover:bg-white hover:shadow-[0_8px_32px_rgba(0,0,0,0.04)] hover:border-mkt-bds transition-all duration-300 block group"
+                      >
+                        <div className="flex items-start gap-4">
+                          <span className={cn("text-[10px] font-mono font-bold mt-1 shrink-0", isCompleted ? "text-emerald-500" : theme.color)}>
+                            {(i + 1).toString().padStart(2, '0')}
+                          </span>
+                          <span className="text-xs font-sans font-bold uppercase tracking-tight text-mkt-ink leading-snug group-hover:text-accent transition-colors flex-1">
+                            {module}
+                          </span>
+                          {isCompleted && (
+                            <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
+                          )}
+                        </div>
+                      </Link>
+                    );
+                  })}
                 </div>
               </div>
 
@@ -534,5 +560,13 @@ export function CourseLandingPageClient({ params }: Props) {
       </section>
 
     </div>
-  );
+
+    <PhaseCompletionModal
+      isOpen={milestoneOpen}
+      onClose={() => setMilestoneOpen(false)}
+      phaseNumber={phase.id}
+      phaseSlug={phase.slug}
+      phaseName={phase.name}
+    />
+  </>);
 }

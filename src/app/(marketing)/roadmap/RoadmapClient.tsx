@@ -30,11 +30,13 @@ interface RoadmapItem {
   title: string;
   subtitle: string;
   description: string;
-  status: "released" | "active" | "planned";
+  status: "released" | "active" | "planned" | "under_review";
   targetQuarter: string;
   category: "core" | "ai" | "tools" | "institutional";
   icon: React.ComponentType<any>;
   details: string[];
+  verifiedDate?: string;
+  methodologyLink?: string;
 }
 
 const ROADMAP_ITEMS: RoadmapItem[] = [
@@ -52,7 +54,9 @@ const ROADMAP_ITEMS: RoadmapItem[] = [
       "Rigorous retail-to-institutional transition blueprints",
       "Interactive knowledge checkmarks at the end of modules",
       "Full video transcript search and keyword parsing"
-    ]
+    ],
+    verifiedDate: "2026-08-01",
+    methodologyLink: "/courses"
   },
   {
     id: "funded-tracker",
@@ -68,7 +72,9 @@ const ROADMAP_ITEMS: RoadmapItem[] = [
       "Multi-account overview trackers for major firm challenge rules",
       "Real-time evaluation percentage target meters",
       "Historical drawdown cushion calculation"
-    ]
+    ],
+    verifiedDate: "2026-08-01",
+    methodologyLink: "/dashboard/accounts"
   },
   {
     id: "risk-watch",
@@ -84,7 +90,9 @@ const ROADMAP_ITEMS: RoadmapItem[] = [
       "Auto-sync of Tier-1 macro alerts directly on trading days",
       "Automated leverage reduction warning before US/UK reports",
       "Historical slippage and spread volatility reports"
-    ]
+    ],
+    verifiedDate: "2026-08-01",
+    methodologyLink: "/dashboard/market-intelligence"
   },
   {
     id: "mentorship-workspace",
@@ -100,7 +108,9 @@ const ROADMAP_ITEMS: RoadmapItem[] = [
       "Seamless inline integration of sessional booking modules",
       "Archived historical notes from past 1-on-1 calls with Pete",
       "Custom pre-session goal forms to direct coaching focus"
-    ]
+    ],
+    verifiedDate: "2026-08-01",
+    methodologyLink: "/dashboard/mentorship"
   },
   {
     id: "ai-journal",
@@ -113,7 +123,7 @@ const ROADMAP_ITEMS: RoadmapItem[] = [
     category: "ai",
     icon: Cpu,
     details: [
-      "Direct API integrations with MT4/MT5/cTrader terminals",
+      "CSV import and manual entry supported. Broker API integrations are under feasibility review.",
       "Behavioral leakage analysis (finding trades born from FOMO)",
       "Automated trade logs auditing based on historical metrics"
     ]
@@ -171,15 +181,13 @@ const ROADMAP_ITEMS: RoadmapItem[] = [
     phase: "Phase 4: Institutional Scale",
     title: "Prop Webhook Payload Bridge",
     subtitle: "Alert payload formatter",
-    description: "Formatter for constructing alert payloads sent from TradingView to user broker/prop accounts.",
-    status: "planned",
+    description: "Under internal feasibility review. Security architecture, data-protection assessment, and broker terms review must complete before this capability enters development.",
+    status: "under_review",
     targetQuarter: "H2 2027",
     category: "tools",
     icon: Zap,
     details: [
-      "Standardized webhook alert formatting",
-      "Prop firm consistency-rule parameter checks",
-      "Encrypted API keys security and multi-terminal sync"
+      "Scope and security model under review"
     ]
   }
 ];
@@ -196,6 +204,7 @@ const STATUSES = [
   { id: "all", label: "All Statuses" },
   { id: "released", label: "Released", color: "text-emerald-500" },
   { id: "active", label: "In Progress", color: "text-amber-500" },
+  { id: "under_review", label: "Under Review", color: "text-amber-600" },
   { id: "planned", label: "Planned", color: "text-slate-400" }
 ];
 
@@ -212,7 +221,7 @@ export default function RoadmapClient() {
   }, [selectedCategory, selectedStatus]);
 
   const stats = useMemo(() => {
-    const counts = { released: 0, active: 0, planned: 0 };
+    const counts = { released: 0, active: 0, planned: 0, under_review: 0 };
     ROADMAP_ITEMS.forEach((item) => {
       counts[item.status]++;
     });
@@ -257,7 +266,7 @@ export default function RoadmapClient() {
             </div>
             <div>
               <span className="block text-[10px] font-mono text-text-tertiary uppercase tracking-wider">In Active Code Development</span>
-              <span className="text-xl font-bold text-text-primary">{stats.active} Core System</span>
+              <span className="text-xl font-bold text-text-primary">{(stats.active || 0) + (stats.under_review || 0)} Core System</span>
             </div>
           </div>
           <div className="flex items-center gap-4 border-t md:border-t-0 md:border-l border-border-slate/50 pt-4 md:pt-0 md:pl-6">
@@ -343,12 +352,17 @@ export default function RoadmapClient() {
                       
                       {item.status === "released" && (
                         <span className="bg-emerald-500/10 text-emerald-600 border border-emerald-500/20 px-2 py-0.5 rounded-full text-[9px] font-mono font-bold uppercase flex items-center gap-1">
-                          <CheckCircle className="w-3 h-3 shrink-0" /> Released
+                          <CheckCircle className="w-3 h-3 shrink-0" /> Released {item.verifiedDate && `(${item.verifiedDate})`}
                         </span>
                       )}
                       {item.status === "active" && (
                         <span className="bg-amber-500/10 text-amber-600 border border-amber-500/20 px-2 py-0.5 rounded-full text-[9px] font-mono font-bold uppercase flex items-center gap-1 animate-pulse">
                           <Sparkles className="w-3 h-3 shrink-0" /> Active Code
+                        </span>
+                      )}
+                      {item.status === "under_review" && (
+                        <span className="bg-amber-600/10 text-amber-700 border border-amber-600/20 px-2 py-0.5 rounded-full text-[9px] font-mono font-bold uppercase flex items-center gap-1">
+                          <Activity className="w-2.5 h-2.5 shrink-0" /> Under Review
                         </span>
                       )}
                       {item.status === "planned" && (
@@ -365,7 +379,9 @@ export default function RoadmapClient() {
                           ? "bg-emerald-500/5 border-emerald-500/10 text-emerald-500" 
                           : item.status === "active"
                             ? "bg-amber-500/5 border-amber-500/10 text-amber-500"
-                            : "bg-slate-500/5 border-border-slate/60 text-text-tertiary"
+                            : item.status === "under_review"
+                              ? "bg-amber-600/5 border-amber-600/10 text-amber-600"
+                              : "bg-slate-500/5 border-border-slate/60 text-text-tertiary"
                       }`}>
                         <IconComponent className="w-5 h-5" />
                       </div>
@@ -376,7 +392,14 @@ export default function RoadmapClient() {
                         <h3 className="text-md font-sans font-extrabold tracking-tight text-text-primary group-hover:text-accent transition-colors">
                           {item.title}
                         </h3>
-                        <span className="block text-[11px] text-text-tertiary mt-0.5">{item.subtitle}</span>
+                        <div className="flex flex-wrap items-center gap-2 mt-1">
+                          <span className="text-[11px] text-text-tertiary">{item.subtitle}</span>
+                          {item.methodologyLink && (
+                            <Link href={item.methodologyLink} className="text-[10px] font-mono text-emerald-600 hover:underline">
+                              // methodology
+                            </Link>
+                          )}
+                        </div>
                       </div>
                     </div>
 

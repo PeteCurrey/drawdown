@@ -249,7 +249,7 @@ export default function AboutClient() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {[
               { num: "01", title: "Predefined Risk", body: "Risk per trade is strictly defined before entry (typically 0.5%–1% of total equity). No trades are opened without calculated stop parameters." },
-              { num: "02", title: "Post-Trade Review", body: "Every trade is recorded in the AI Trade Journal to audit execution quality, emotional factors, and statistical compliance against the trading plan." },
+              { num: "02", title: "Post-Trade Review", body: "Every trade is recorded in the AI Trade Journal to audit plan adherence, emotional factors, and risk-discipline compliance against the original trade plan." },
               { num: "03", title: "Objective Confluence", body: "Decisions rely on multi-factor technical alignment, market data feeds, and quantitative indicators, rejecting single magic indicators or impulse entries." },
             ].map((card) => (
               <div

@@ -121,7 +121,7 @@ export default async function MentorshipPage() {
             Accelerate your scaling journey with targeted, data-backed 1-to-1 support.
           </p>
           <p className="text-sm text-gray-600 leading-relaxed">
-            The 1-to-1 Mentorship program bridges the gap between retail discipline and institutional execution. Work directly with Pete to unpack complex trading logs, optimize risk distribution profiles, and eliminate cognitive trading friction.
+            The 1-to-1 Mentorship program bridges the gap between retail discipline and professional trading discipline and risk management. Work directly with Pete to unpack complex trading logs, optimize risk distribution profiles, and eliminate cognitive trading friction.
           </p>
         </div>
 

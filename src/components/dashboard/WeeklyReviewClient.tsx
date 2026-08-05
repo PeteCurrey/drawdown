@@ -51,7 +51,7 @@ function getISOWeekStart(date = new Date()) {
 }
 
 export function WeeklyReviewClient() {
-  const supabase = createClient();
+  const supabase = createClient() as any;
 
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState<any>(null);

@@ -41,7 +41,7 @@ export function RecordClient() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const planId = searchParams.get("planId");
-  const supabase = createClient();
+  const supabase = createClient() as any;
 
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState<any>(null);

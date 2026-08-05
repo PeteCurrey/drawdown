@@ -573,6 +573,246 @@ export interface Database {
           clicked_at?: string
           ip_hash?: string | null
         }
+      },
+      session_preparations: {
+        Row: {
+          id: string
+          user_id: string
+          daily_loss_limit_reached: boolean
+          weekly_loss_limit_reached: boolean
+          news_watchlist_checked: boolean
+          readiness_score: number
+          readiness_notes: string | null
+          status: 'ready' | 'caution' | 'stand_down'
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          daily_loss_limit_reached: boolean
+          weekly_loss_limit_reached: boolean
+          news_watchlist_checked: boolean
+          readiness_score: number
+          readiness_notes?: string | null
+          status: 'ready' | 'caution' | 'stand_down'
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          daily_loss_limit_reached?: boolean
+          weekly_loss_limit_reached?: boolean
+          news_watchlist_checked?: boolean
+          readiness_score?: number
+          readiness_notes?: string | null
+          status?: 'ready' | 'caution' | 'stand_down'
+          created_at?: string
+        }
+      },
+      trade_plans: {
+        Row: {
+          id: string
+          user_id: string
+          instrument: string
+          direction: 'buy' | 'sell'
+          entry_zone: string
+          invalidation_level: number
+          stop_loss: number
+          proposed_size: number
+          target_logic: string
+          status: 'draft' | 'ready' | 'executed_elsewhere' | 'not_taken'
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          instrument: string
+          direction: 'buy' | 'sell'
+          entry_zone: string
+          invalidation_level: number
+          stop_loss: number
+          proposed_size: number
+          target_logic: string
+          status: 'draft' | 'ready' | 'executed_elsewhere' | 'not_taken'
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          instrument?: string
+          direction?: 'buy' | 'sell'
+          entry_zone?: string
+          invalidation_level?: number
+          stop_loss?: number
+          proposed_size?: number
+          target_logic?: string
+          status?: 'draft' | 'ready' | 'executed_elsewhere' | 'not_taken'
+          created_at?: string
+        }
+      },
+      trade_records: {
+        Row: {
+          id: string
+          user_id: string
+          trade_plan_id: string | null
+          instrument: string
+          direction: 'buy' | 'sell'
+          actual_entry: number
+          actual_exit: number
+          actual_size: number
+          result_amount: number
+          opened_at: string
+          closed_at: string
+          notes: string | null
+          screenshot_url: string | null
+          tags: string[] | null
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          trade_plan_id?: string | null
+          instrument: string
+          direction: 'buy' | 'sell'
+          actual_entry: number
+          actual_exit: number
+          actual_size: number
+          result_amount: number
+          opened_at: string
+          closed_at: string
+          notes?: string | null
+          screenshot_url?: string | null
+          tags?: string[] | null
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          trade_plan_id?: string | null
+          instrument?: string
+          direction?: 'buy' | 'sell'
+          actual_entry?: number
+          actual_exit?: number
+          actual_size?: number
+          result_amount?: number
+          opened_at?: string
+          closed_at?: string
+          notes?: string | null
+          screenshot_url?: string | null
+          tags?: string[] | null
+          created_at?: string
+        }
+      },
+      trade_reviews: {
+        Row: {
+          id: string
+          user_id: string
+          trade_record_id: string
+          plan_adherence_score: number
+          risk_discipline_score: number
+          journal_completeness_score: number
+          process_score: number
+          notes: string | null
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          trade_record_id: string
+          plan_adherence_score: number
+          risk_discipline_score: number
+          journal_completeness_score: number
+          process_score: number
+          notes?: string | null
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          trade_record_id?: string
+          plan_adherence_score?: number
+          risk_discipline_score?: number
+          journal_completeness_score?: number
+          process_score?: number
+          notes?: string | null
+          created_at?: string
+        }
+      },
+      improvement_commitments: {
+        Row: {
+          id: string
+          user_id: string
+          title: string
+          category: 'process' | 'risk' | 'mindset' | 'analysis'
+          status: 'open' | 'in_progress' | 'closed'
+          origin_review_id: string | null
+          target_date: string | null
+          closed_at: string | null
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          title: string
+          category: 'process' | 'risk' | 'mindset' | 'analysis'
+          status: 'open' | 'in_progress' | 'closed'
+          origin_review_id?: string | null
+          target_date?: string | null
+          closed_at?: string | null
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          title?: string
+          category?: 'process' | 'risk' | 'mindset' | 'analysis'
+          status?: 'open' | 'in_progress' | 'closed'
+          origin_review_id?: string | null
+          target_date?: string | null
+          closed_at?: string | null
+          created_at?: string
+        }
+      },
+      weekly_operating_reviews: {
+        Row: {
+          id: string
+          user_id: string
+          week_starting: string
+          sessions_prepared: number
+          stand_downs: number
+          plans_created: number
+          trades_placed: number
+          trades_not_taken: number
+          process_consistency_score: number
+          signed_off: boolean
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          week_starting: string
+          sessions_prepared: number
+          stand_downs: number
+          plans_created: number
+          trades_placed: number
+          trades_not_taken: number
+          process_consistency_score: number
+          signed_off: boolean
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          week_starting?: string
+          sessions_prepared?: number
+          stand_downs?: number
+          plans_created?: number
+          trades_placed?: number
+          trades_not_taken?: number
+          process_consistency_score?: number
+          signed_off?: boolean
+          created_at?: string
+        }
       }
     }
     Views: {

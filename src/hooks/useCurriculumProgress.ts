@@ -65,7 +65,7 @@ export function useCurriculumProgress() {
   const loadProgress = useCallback(async () => {
     setIsLoading(true);
     const localData = getLocalProgress();
-    const supabase = createClient();
+    const supabase = createClient() as any;
 
     try {
       const { data: { user } } = await supabase.auth.getUser();
@@ -101,7 +101,7 @@ export function useCurriculumProgress() {
       });
 
       if (dbRows) {
-        dbRows.forEach(row => {
+        dbRows.forEach((row: any) => {
           const phaseSlug = phaseNumToSlugMap[row.phase];
           if (phaseSlug) {
             const key = makeKey(phaseSlug, row.module);
@@ -118,7 +118,7 @@ export function useCurriculumProgress() {
       }
 
       // If local data had entries not yet in DB, sync them up
-      const unSyncedKeys = Object.keys(localData).filter(k => !dbRows?.some(r => {
+      const unSyncedKeys = Object.keys(localData).filter(k => !dbRows?.some((r: any) => {
         const pSlug = phaseNumToSlugMap[r.phase];
         return makeKey(pSlug, r.module) === k;
       }));

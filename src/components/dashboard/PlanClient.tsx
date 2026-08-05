@@ -48,7 +48,7 @@ interface Preparation {
 }
 
 export function PlanClient() {
-  const supabase = createClient();
+  const supabase = createClient() as any;
   
   // Loading & Base State
   const [loading, setLoading] = useState(true);
@@ -59,7 +59,7 @@ export function PlanClient() {
   const [recentPrep, setRecentPrep] = useState<Preparation | null>(null);
 
   // Form State
-  const [instrument, setInstrument] = useState(INSTRUMENTS_LIST[0]);
+  const [instrument, setInstrument] = useState<string>(INSTRUMENTS_LIST[0]?.slug ?? "");
   const [direction, setDirection] = useState<"long" | "short">("long");
   const [entryPrice, setEntryPrice] = useState("1.27500");
   const [stopLoss, setStopLoss] = useState("1.27200");
@@ -206,7 +206,7 @@ export function PlanClient() {
         user_id: user.id,
         account_id: selectedAccountId,
         preparation_id: recentPrep?.id || null,
-        instrument,
+        instrument: instrument,
         asset_class: instrument.includes("USD") || instrument.includes("JPY") || instrument.includes("EUR") ? "forex" : "index",
         direction,
         setup_id: setupType,
@@ -336,7 +336,7 @@ export function PlanClient() {
               className="w-full bg-background-primary border border-border-slate/50 rounded-lg p-3 text-xs text-text-primary focus:outline-none"
             >
               {INSTRUMENTS_LIST.map(inst => (
-                <option key={inst} value={inst}>{inst}</option>
+                <option key={inst.slug} value={inst.slug}>{inst.slug}</option>
               ))}
             </select>
           </div>

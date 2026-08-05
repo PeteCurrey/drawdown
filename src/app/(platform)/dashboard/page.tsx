@@ -95,7 +95,7 @@ export default function DashboardPage() {
     const loadDashboardData = async () => {
       try {
         setLoading(true);
-        const supabase = createClient();
+        const supabase = createClient() as any;
         const { data: { user } } = await supabase.auth.getUser();
         if (!user) {
           setLoading(false);
@@ -135,7 +135,7 @@ export default function DashboardPage() {
           const merged: Badge[] = allBadges.map(badge => ({
             ...badge,
             earned: earnedKeys.has(badge.key),
-            earnedAt: earnedKeys.get(badge.key) ?? badge.earnedAt,
+            earnedAt: (earnedKeys.get(badge.key) as string | undefined) ?? badge.earnedAt,
           }));
           setEarnedBadges(merged);
         }

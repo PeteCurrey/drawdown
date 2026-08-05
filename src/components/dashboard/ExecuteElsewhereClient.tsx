@@ -24,7 +24,7 @@ interface PlanDetails {
 
 export function ExecuteElsewhereClient({ planId }: { planId: string }) {
   const router = useRouter();
-  const supabase = createClient();
+  const supabase = createClient() as any;
   const [loading, setLoading] = useState(true);
   const [plan, setPlan] = useState<PlanDetails | null>(null);
   

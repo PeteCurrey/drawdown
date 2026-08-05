@@ -41,7 +41,7 @@ interface PlanSnapshot {
 
 export function ReviewClient({ recordId }: { recordId: string }) {
   const router = useRouter();
-  const supabase = createClient();
+  const supabase = createClient() as any;
 
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState<any>(null);

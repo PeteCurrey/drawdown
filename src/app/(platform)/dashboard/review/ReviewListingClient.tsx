@@ -11,7 +11,7 @@ interface Props {
 }
 
 export default function ReviewListingClient({ userId }: Props) {
-  const supabase = createClient();
+  const supabase = createClient() as any;
   const [records, setRecords] = useState<any[]>([]);
   const [reviews, setReviews] = useState<Record<string, any>>({});
   const [loading, setLoading] = useState(true);

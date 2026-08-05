@@ -18,58 +18,14 @@ import { cn } from "@/lib/utils";
 
 const toolCategories = [
   {
-    slug: "/investment-centre",
-    title: "The Investment Centre",
-    description: "Autonomous cross-asset macro synthesis, tri-model AI council, and quantitative risk analysis.",
-    icon: Cpu,
-    features: ["18 Real-Time Feeds", "1,420 Metrics 24/7", "HMAC Risk Tokens"],
-    tier: "Foundation Add-on (£99/mo)",
-    color: "premium"
-  },
-  {
-    slug: "ai-trade-journal",
-    title: "AI Trade Journal",
-    description: "Advanced trade logging with sentiment analysis and performance attribution.",
-    icon: LayoutDashboard,
-    features: ["Automated Logging", "Sentiment Tracking", "Visual Equity Curve"],
-    tier: "Edge+",
-    color: "accent"
-  },
-  {
     slug: "risk-calculator",
     title: "Position Sizer",
     description: "Advanced risk-of-ruin management and complex multi-asset positioning.",
     icon: Percent,
     features: ["Drawdown Modeling", "Margin Optimization", "Position Sizing"],
     tier: "Free",
-    color: "profit"
-  },
-  {
-    slug: "ai-market-scanner",
-    title: "Technical Scanner",
-    description: "Cross-asset technical consensus & price action relative to key macro levels.",
-    icon: Zap,
-    features: ["Macro Correlation", "Technical Consensus", "Multi-Timeframe Scan"],
-    tier: "Edge+",
-    color: "premium"
-  },
-  {
-    slug: "strategy-backtester",
-    title: "Strategy Backtester",
-    description: "Validate your edge on decade-long historical data with rapid precision.",
-    icon: History,
-    features: ["Optimization Engine", "Monte Carlo Sim", "Detailed Stats"],
-    tier: "Edge+",
-    color: "accent"
-  },
-  {
-    slug: "market-charts",
-    title: "Technical Charts",
-    description: "High-performance charting with proprietary multi-timeframe indicators and logic.",
-    icon: BarChart3,
-    features: ["Custom Indicators", "Drawing Tools", "Multi-Device Sync"],
-    tier: "Foundation+",
-    color: "accent"
+    color: "profit",
+    stage: "Stage 1: Prepare"
   },
   {
     slug: "intelligence-hub",
@@ -78,7 +34,48 @@ const toolCategories = [
     icon: Cpu,
     features: ["Pete's Daily Bias", "Macro Calendar", "Sentiment Gauge"],
     tier: "Foundation+",
-    color: "warning"
+    color: "warning",
+    stage: "Stage 1: Prepare"
+  },
+  {
+    slug: "market-charts",
+    title: "Technical Charts",
+    description: "High-performance charting with proprietary multi-timeframe indicators and logic.",
+    icon: BarChart3,
+    features: ["Custom Indicators", "Drawing Tools", "Multi-Device Sync"],
+    tier: "Foundation+",
+    color: "accent",
+    stage: "Stage 2: Plan"
+  },
+  {
+    slug: "strategy-backtester",
+    title: "Strategy Backtester",
+    description: "Validate your edge on decade-long historical data with rapid precision.",
+    icon: History,
+    features: ["Optimization Engine", "Monte Carlo Sim", "Detailed Stats"],
+    tier: "Edge+",
+    color: "accent",
+    stage: "Stage 2: Plan"
+  },
+  {
+    slug: "ai-trade-journal",
+    title: "AI Trade Journal",
+    description: "Advanced trade logging with sentiment analysis and performance attribution.",
+    icon: LayoutDashboard,
+    features: ["Automated Logging", "Sentiment Tracking", "Visual Equity Curve"],
+    tier: "Edge+",
+    color: "accent",
+    stage: "Stage 4: Record"
+  },
+  {
+    slug: "ai-market-scanner",
+    title: "Technical Scanner",
+    description: "Cross-asset technical consensus & price action relative to key macro levels.",
+    icon: Zap,
+    features: ["Macro Correlation", "Technical Consensus", "Multi-Timeframe Scan"],
+    tier: "Edge+",
+    color: "premium",
+    stage: "Stage 5: Review"
   },
   {
     slug: "algo-strategy-builder",
@@ -87,7 +84,18 @@ const toolCategories = [
     icon: Terminal,
     features: ["Natural Language Input", "Pine Script v5", "Python Backtrader"],
     tier: "Floor",
-    color: "premium"
+    color: "premium",
+    stage: "Stage 6: Improve"
+  },
+  {
+    slug: "/investment-centre",
+    title: "The Investment Centre",
+    description: "Autonomous cross-asset macro synthesis, tri-model AI council, and quantitative risk analysis.",
+    icon: Cpu,
+    features: ["18 Real-Time Feeds", "1,420 Metrics 24/7", "HMAC Risk Tokens"],
+    tier: "Foundation Add-on (£99/mo)",
+    color: "premium",
+    stage: "Stage 7: Repeat Weekly"
   }
 ];
 
@@ -180,61 +188,88 @@ export default function ToolsMarketingPage() {
         </div>
       </section>
 
-      {/* Tools Grid Section */}
+      {/* Tools Grouped by Workflow Section */}
       <section className="py-24">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-             {toolCategories.map((tool) => {
-               const Icon = tool.icon;
-               return (
-                 <div key={tool.slug} className="bg-background-surface/40 border border-border-slate/50 backdrop-blur-md rounded-[14px] p-8 transition-all duration-300 hover:shadow-[0_8px_32px_rgba(0,0,0,0.06)] hover:border-border-slate hover:-translate-y-0.5 relative flex flex-col group overflow-hidden">
-                    <div className="text-accent mb-8 flex justify-between items-start">
-                       <div className="p-3 bg-background-elevated/40 border border-border-slate/50 group-hover:border-border-slate group-hover:bg-accent/5 transition-all rounded-lg">
-                          <Icon className="w-8 h-8" />
-                       </div>
-                       <span className={cn(
-                          "text-[8px] font-mono uppercase tracking-widest px-2 py-1 border rounded-md",
-                          tool.tier === "Free" ? "text-profit border-profit/30" : 
-                          tool.tier === "Foundation+" ? "text-accent border-border-slate/50/30" : 
-                          tool.tier === "Edge+" ? "text-premium border-premium/30" :
-                          "text-accent border-border-slate/50/30 bg-accent/5"
-                       )}>
-                          {tool.tier}
-                       </span>
-                    </div>
+        <div className="max-w-7xl mx-auto px-6 space-y-20">
+          {[
+            { id: "Stage 1: Prepare", num: "01", title: "Prepare Stage", desc: "Confirm account risk boundaries, session metrics, and current bias prior to taking any trade." },
+            { id: "Stage 2: Plan", num: "02", title: "Plan Stage", desc: "Draft precise stop, targets, entry conditions, and run decadal backtests to validate your edge." },
+            { id: "Stage 4: Record", num: "04", title: "Record Stage", desc: "Log real fill details, commission drag, slip, trade screenshots, and journal emotional notes." },
+            { id: "Stage 5: Review", num: "05", title: "Review Stage", desc: "Verify plan adherence, compliance metrics, process scores, and generate automated AI summaries." },
+            { id: "Stage 6: Improve", num: "06", title: "Improve Stage", desc: "Focus on one single process optimization commitment at a time alongside targeted lessons." },
+            { id: "Stage 7: Repeat Weekly", num: "07", title: "Repeat Weekly", desc: "Compile sessional statistics, sign off weekly consistency score sheets, and set next week's focus." }
+          ].map((stageGroup) => {
+            const stageTools = toolCategories.filter(tool => tool.stage === stageGroup.id);
+            if (stageTools.length === 0) return null;
 
-                    <h3 className="text-2xl font-sans font-bold uppercase mb-4 text-text-primary group-hover:text-accent transition-colors">
-                       {tool.title}
-                    </h3>
-                    
-                    <p className="text-sm text-text-secondary leading-relaxed mb-8 h-12 font-sans font-light">
-                       {tool.description}
-                    </p>
+            return (
+              <div key={stageGroup.id} className="space-y-8">
+                {/* Stage Header */}
+                <div className="border-b border-border-slate/50 pb-4">
+                  <div className="flex items-center gap-3">
+                    <span className="text-3xl font-black font-mono text-accent opacity-30">{stageGroup.num}</span>
+                    <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-text-tertiary">// {stageGroup.id}</span>
+                  </div>
+                  <h3 className="text-2xl font-sans font-bold uppercase mt-1 text-text-primary">{stageGroup.title}</h3>
+                  <p className="text-sm text-text-secondary max-w-2xl mt-1 font-sans font-light">{stageGroup.desc}</p>
+                </div>
 
-                    <div className="space-y-3 mb-10">
-                       {tool.features.map((feature, i) => (
-                         <div key={i} className="flex items-center gap-3 text-text-tertiary">
-                            <ShieldCheck className="w-4 h-4 text-profit" />
-                            <span className="text-[10px] font-mono uppercase tracking-widest">{feature}</span>
-                         </div>
-                       ))}
-                    </div>
+                {/* Grid of Stage Tools */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                  {stageTools.map((tool) => {
+                    const Icon = tool.icon;
+                    return (
+                      <div key={tool.slug} className="bg-background-surface/40 border border-border-slate/50 backdrop-blur-md rounded-[14px] p-8 transition-all duration-300 hover:shadow-[0_8px_32px_rgba(0,0,0,0.06)] hover:border-border-slate hover:-translate-y-0.5 relative flex flex-col group overflow-hidden">
+                        <div className="text-accent mb-8 flex justify-between items-start">
+                          <div className="p-3 bg-background-elevated/40 border border-border-slate/50 group-hover:border-border-slate group-hover:bg-accent/5 transition-all rounded-lg">
+                            <Icon className="w-8 h-8" />
+                          </div>
+                          <span className={cn(
+                            "text-[8px] font-mono uppercase tracking-widest px-2 py-1 border rounded-md",
+                            tool.tier === "Free" ? "text-profit border-profit/30" : 
+                            tool.tier === "Foundation+" ? "text-accent border-border-slate/50/30" : 
+                            tool.tier === "Edge+" ? "text-premium border-premium/30" :
+                            "text-accent border-border-slate/50/30 bg-accent/5"
+                          )}>
+                            {tool.tier}
+                          </span>
+                        </div>
 
-                    <Link 
-                      href={`/tools/${tool.slug}`}
-                      className="inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.2em] text-accent group-hover:gap-4 transition-all mt-auto pt-4"
-                    >
-                       Learn More <ArrowRight className="w-3 h-3" />
-                    </Link>
+                        <h3 className="text-xl font-sans font-bold uppercase mb-4 text-text-primary group-hover:text-accent transition-colors">
+                          {tool.title}
+                        </h3>
+                        
+                        <p className="text-sm text-text-secondary leading-relaxed mb-8 h-12 font-sans font-light">
+                          {tool.description}
+                        </p>
 
-                    {/* Background Detail */}
-                    <div className="absolute -bottom-8 -right-8 opacity-5 pointer-events-none group-hover:opacity-10 transition-all duration-500 group-hover:scale-110">
-                       <Icon className="w-36 h-36" />
-                    </div>
-                 </div>
-               );
-             })}
-          </div>
+                        <div className="space-y-3 mb-10">
+                          {tool.features.map((feature, i) => (
+                            <div key={i} className="flex items-center gap-3 text-text-tertiary">
+                              <ShieldCheck className="w-4 h-4 text-profit" />
+                              <span className="text-[10px] font-mono uppercase tracking-widest">{feature}</span>
+                            </div>
+                          ))}
+                        </div>
+
+                        <Link 
+                          href={tool.slug.startsWith("/") ? tool.slug : `/tools/${tool.slug}`}
+                          className="inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.2em] text-accent group-hover:gap-4 transition-all mt-auto pt-4"
+                        >
+                          Learn More <ArrowRight className="w-3 h-3" />
+                        </Link>
+
+                        {/* Background Detail */}
+                        <div className="absolute -bottom-8 -right-8 opacity-5 pointer-events-none group-hover:opacity-10 transition-all duration-500 group-hover:scale-110">
+                          <Icon className="w-36 h-36" />
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            );
+          })}
         </div>
       </section>
 

@@ -54,7 +54,7 @@ interface Commitment {
 }
 
 export function ImproveClient() {
-  const supabase = createClient();
+  const supabase = createClient() as any;
 
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState<any>(null);

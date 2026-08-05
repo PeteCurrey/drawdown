@@ -44,7 +44,7 @@ interface RiskPolicy {
 }
 
 export function PrepareClient() {
-  const supabase = createClient();
+  const supabase = createClient() as any;
   
   // Loading & State
   const [loading, setLoading] = useState(true);
@@ -72,7 +72,7 @@ export function PrepareClient() {
 
   // Readiness Checklist Form
   const [sessionType, setSessionType] = useState("london");
-  const [selectedInstrument, setSelectedInstrument] = useState(INSTRUMENTS_LIST[0]);
+  const [selectedInstrument, setSelectedInstrument] = useState<string>(INSTRUMENTS_LIST[0]?.slug ?? "");
   const [sleepRating, setSleepRating] = useState<number>(5);
   const [focusRating, setFocusRating] = useState<number>(5);
   const [fomoRating, setFomoRating] = useState<number>(1); // 1 = low fomo, 5 = high fomo
@@ -604,7 +604,7 @@ export function PrepareClient() {
                 className="w-full bg-background-primary border border-border-slate/50 rounded-lg p-3 text-xs text-text-primary focus:outline-none"
               >
                 {INSTRUMENTS_LIST.map(inst => (
-                  <option key={inst} value={inst}>{inst}</option>
+                  <option key={inst.slug} value={inst.slug}>{inst.slug}</option>
                 ))}
               </select>
             </div>

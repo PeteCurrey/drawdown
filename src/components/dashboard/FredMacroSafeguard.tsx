@@ -6,6 +6,7 @@ import {
   ChevronUp, ChevronDown, HelpCircle, Activity, Landmark as BankIcon, Droplet
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { DataProvenanceLabel } from "@/components/ui/DataProvenanceLabel";
 
 interface IndicatorItem {
   key: string;
@@ -152,9 +153,13 @@ export function FredMacroSafeguard({ variant = "full" }: FredMacroSafeguardProps
           </div>
         </div>
 
-        <div className="pt-3 border-t border-gray-100 flex justify-between items-center text-[9px] font-mono text-gray-400">
-          <span>Shield Level: {risk.score}%</span>
-          <span className="text-[#F9771D] font-bold uppercase">Safe Sessional Guard</span>
+        <div className="pt-3 border-t border-gray-100 flex flex-wrap justify-between items-center gap-2">
+          <DataProvenanceLabel
+            provider="FRED® St. Louis Fed"
+            delayDescription="~1 day"
+            status="delayed"
+          />
+          <span className="text-[9px] font-mono text-gray-400">Shield: {risk.score}%</span>
         </div>
       </div>
     );

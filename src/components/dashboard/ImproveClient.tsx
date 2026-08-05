@@ -32,6 +32,15 @@ const CATEGORY_COLORS: Record<CommitmentCategory, string> = {
   analysis: "border-blue-500/30 bg-blue-500/5 text-blue-400",
 };
 
+// Contextual lesson links — one per category, linking directly into the most
+// relevant curriculum section for that improvement area.
+const CATEGORY_LESSON_LINKS: Record<CommitmentCategory, { label: string; href: string }> = {
+  process:  { label: "Review: Trade Plan Discipline",      href: "/dashboard/curriculum" },
+  risk:     { label: "Read: Position Sizing & Risk Rules", href: "/dashboard/tools/position-sizer" },
+  mindset:  { label: "Open: Psychology Coach",            href: "/dashboard/coach" },
+  analysis: { label: "Study: Market Intelligence",        href: "/dashboard/market-intelligence" },
+};
+
 interface Commitment {
   id: string;
   user_id: string;
@@ -308,6 +317,17 @@ export function ImproveClient() {
               >
                 {c.status === "in_progress" ? "In Progress" : "Start"}
               </button>
+            )}
+
+            {/* Contextual lesson link — one per category, not a list */}
+            {c.status !== "closed" && (
+              <Link
+                href={CATEGORY_LESSON_LINKS[c.category].href}
+                className="shrink-0 text-[9px] font-mono text-text-tertiary hover:text-text-secondary underline underline-offset-2 transition-colors"
+                title={`Relevant resource for ${c.category} improvement`}
+              >
+                {CATEGORY_LESSON_LINKS[c.category].label} →
+              </Link>
             )}
           </div>
         ))}

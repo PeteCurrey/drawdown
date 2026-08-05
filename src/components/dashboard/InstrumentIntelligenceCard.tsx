@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState, useRef } from "react";
 import { cn } from "@/lib/utils";
+import { DataProvenanceLabel } from "@/components/ui/DataProvenanceLabel";
 import { useMarketIntelligence } from "@/hooks/useMarketIntelligence";
 import { useMarketCache } from "@/hooks/useMarketCache";
 import { getAgentBias, isBiasBullish, isBiasBearish } from "@/lib/utils";
@@ -720,6 +721,18 @@ export function InstrumentIntelligenceCard({ instrument, interval = "4h" }: Inst
               })
             )}
           </div>
+        </div>
+
+        {/* Card Footer for Data Provenance */}
+        <div className="mt-6 pt-4 border-t flex items-center justify-between" style={{ borderColor: T.divider }}>
+          <DataProvenanceLabel
+            provider="Twelve Data & FRED®"
+            delayDescription="60s cache"
+            status="cached"
+          />
+          <span className="text-[9px] font-mono" style={{ color: T.textMuted }}>
+            Intelligence Engine v1.0
+          </span>
         </div>
       </div>
     </section>

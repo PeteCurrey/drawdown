@@ -7,6 +7,7 @@ import { ChevronDown, MoreHorizontal, AlertCircle } from "lucide-react";
 import { INSTRUMENT_GROUPS, TIMEFRAMES, type Instrument } from "@/lib/instruments";
 import { useMarketIntelligence } from "@/hooks/useMarketIntelligence";
 import { useMarketCache } from "@/hooks/useMarketCache";
+import { DataProvenanceLabel } from "@/components/ui/DataProvenanceLabel";
 
 /* ─────────────────────────────────────────────────────────────────────────────
    MarketIntelligenceHeroCard
@@ -1023,12 +1024,11 @@ export function MarketIntelligenceHeroCard({
       <div
         className="h-9 flex items-center justify-between px-6 border-t border-[#DEDDD8] bg-[#F8F8F8]"
       >
-        <div className="flex items-center gap-2">
-          <span className="w-1.5 h-1.5 bg-[#18B880] rounded-full animate-pulse" />
-          <span className="text-[10px] font-mono text-[#555550]">
-            {tdInstrument?.fetched_at ? `Live (updated ${new Date(tdInstrument.fetched_at).toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" })})` : "Terminal Connected"}
-          </span>
-        </div>
+        <DataProvenanceLabel
+          provider="Twelve Data"
+          delayDescription="60s cache"
+          status={tdInstrument?.fetched_at ? "live" : "cached"}
+        />
         <div className="flex items-center gap-4">
           <span className="text-[10px] font-mono text-[#8A8A85]">{londonTime || "GMT/BST Sync Active"}</span>
           <Link

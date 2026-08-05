@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useMarketCache } from "@/hooks/useMarketCache";
 import { cn } from "@/lib/utils";
 import { instrumentDecimals } from "@/lib/instruments";
+import { DataProvenanceLabel } from "@/components/ui/DataProvenanceLabel";
 
 interface WatchlistSummaryProps {
   initialSymbols: string[];
@@ -85,8 +86,12 @@ export function WatchlistSummary({ initialSymbols, userCurrency = "USD" }: Watch
         </div>
       </div>
 
-      <div className="pt-3 border-t border-[#EDEDED] flex justify-between items-end">
-        <span className="text-[10px] font-mono text-[#555550]">Watching (Polygon Stream)</span>
+      <div className="pt-3 border-t border-[#EDEDED] flex justify-between items-center">
+        <DataProvenanceLabel 
+          provider="Polygon.io" 
+          delayDescription="1s feed" 
+          status="live" 
+        />
         <span className="text-2xl font-black font-mono leading-none">
           {initialSymbols.length}
         </span>

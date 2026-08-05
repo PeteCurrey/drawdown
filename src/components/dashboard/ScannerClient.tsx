@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, useCallback, useMemo } from "react";
 import Link from "next/link";
+import { DataProvenanceLabel } from "@/components/ui/DataProvenanceLabel";
 import {
   ChevronLeft, ChevronRight, DollarSign, BarChart3, Zap, Gem, Activity,
   Grid3X3, List, Star, Bell, BellRing, ChevronDown, ChevronUp,
@@ -3079,9 +3080,12 @@ export function ScannerClient({ symbol }: ScannerClientProps) {
           </h1>
           <p className="text-sm text-text-tertiary">12 instruments · Live prices · Multi-timeframe signals · AI pattern analysis</p>
         </div>
-        <div className="flex items-center gap-3 px-5 py-3 bg-background-elevated border border-border-slate/50">
-          <div className="w-2 h-2 rounded-full bg-profit animate-pulse" />
-          <span className="text-[10px] font-mono uppercase tracking-widest text-text-primary">Live Data</span>
+        <div className="flex items-center">
+          <DataProvenanceLabel
+            provider="Twelve Data"
+            delayDescription="60s cache"
+            status="cached"
+          />
         </div>
       </header>
       <MarketScannerGrid />

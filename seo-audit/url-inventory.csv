@@ -1,0 +1,135 @@
+URL Path,Page Classification,Governance Action,Target HTTP Status,Notes / Canonical Target,Indexation Status
+/,Index,Keep,200,Core Homepage,Indexable
+/courses,Hub,Keep,200,Course Directory Hub,Indexable
+/learn-to-trade,Hub,Keep,200,Learn Hub,Indexable
+/brokers/all,Directory,Keep,200,Canonical Brokers Directory Hub,Indexable
+/brokers/review-methodology,Methodology,Redirect,301,301 to /methodology/broker-research,Non-Indexable
+/prop-firms,Directory,Keep,200,Prop Firms Directory Hub,Indexable
+/markets,Hub,Keep,200,Markets Hub,Indexable
+/blog,Hub,Keep,200,Blog Directory,Indexable
+/trading-tools,Hub,Keep,200,Tools Directory,Indexable
+/editorial-standards,Legal/E-E-A-T,Keep,200,Editorial Standards & Policy,Indexable
+/methodology,Legal/E-E-A-T,Keep,200,Methodology Central Hub,Indexable
+/methodology/broker-research,Methodology,Keep,200,Broker Research Methodology,Indexable
+/terms,Legal,Keep,200,Terms of Service,Indexable
+/privacy,Legal,Keep,200,Privacy Policy,Indexable
+/cookies,Legal,Keep,200,Cookie Policy,Indexable
+/disclaimer,Legal,Keep,200,General Disclaimer,Indexable
+/legal/financial-disclaimer,Legal,Keep,200,Financial Disclaimer,Indexable
+/legal/subscription-and-refunds,Legal,Keep,200,Refund Policy,Indexable
+/community-guidelines,Legal,Keep,200,Community Guidelines,Indexable
+/about,Company,Keep,200,About Drawdown,Indexable
+/contact,Company,Keep,200,Contact Us,Indexable
+/brokers,Legacy Hub,Redirect,301,301 to /brokers/all (Fixes chain),Non-Indexable
+/brokers/quiz,Legacy Tool,Redirect,301,301 directly to /brokers/all,Non-Indexable
+/brokers/ig-index,Legacy Review,Redirect,301,301 to /brokers/ig-markets-review,Non-Indexable
+/best/broker-for-day-trading-uk,Programmatic /best,Deprecate,404,Page deleted - 404 via notFound(),Non-Indexable
+/best/forex-broker-uk,Programmatic /best,Redirect,302,Temp 302 to /brokers/all until restored,Non-Indexable
+/sg/learn-to-trade/forex/singapore,Programmatic City Doorway,Retired,410,410 Gone via middleware,Non-Indexable
+/hk/learn-to-trade/forex/hong-kong,Programmatic City Doorway,Retired,410,410 Gone via middleware,Non-Indexable
+/us/best/forex-brokers,Regional Programmatic,Retired,410,410 Gone via middleware,Non-Indexable
+/us/how-to/trade-forex,Regional Programmatic,Retired,410,410 Gone via middleware,Non-Indexable
+/glossary/fundamental-analysis,Retired Term,Retired,410,410 Gone via middleware,Non-Indexable
+/glossary/backwardation,Retired Term,Retired,410,410 Gone via middleware,Non-Indexable
+/glossary/spot-price,Retired Term,Retired,410,410 Gone via middleware,Non-Indexable
+/glossary/probability,Retired Term,Retired,410,410 Gone via middleware,Non-Indexable
+/learn-to-trade/forex-trading/hull,City Doorway,Consolidate,301,301 to parent topic /learn-to-trade/forex-trading,Non-Indexable
+/learn-to-trade/forex-trading/preston,City Doorway,Consolidate,301,301 to parent topic /learn-to-trade/forex-trading,Non-Indexable
+/learn-to-trade/forex-trading/exeter,City Doorway,Consolidate,301,301 to parent topic /learn-to-trade/forex-trading,Non-Indexable
+/learn-to-trade/forex-trading/london,City Doorway,Consolidate,301,301 to parent topic /learn-to-trade/forex-trading,Non-Indexable
+/learn-to-trade/forex-trading/manchester,City Doorway,Consolidate,301,301 to parent topic /learn-to-trade/forex-trading,Non-Indexable
+/learn-to-trade/forex-trading/birmingham,City Doorway,Consolidate,301,301 to parent topic /learn-to-trade/forex-trading,Non-Indexable
+/learn-to-trade/forex-trading/leeds,City Doorway,Consolidate,301,301 to parent topic /learn-to-trade/forex-trading,Non-Indexable
+/learn-to-trade/forex-trading/glasgow,City Doorway,Consolidate,301,301 to parent topic /learn-to-trade/forex-trading,Non-Indexable
+/learn-to-trade/forex-trading/bristol,City Doorway,Consolidate,301,301 to parent topic /learn-to-trade/forex-trading,Non-Indexable
+/learn-to-trade/forex-trading/liverpool,City Doorway,Consolidate,301,301 to parent topic /learn-to-trade/forex-trading,Non-Indexable
+/learn-to-trade/day-trading/hull,City Doorway,Consolidate,301,301 to parent topic /learn-to-trade/day-trading,Non-Indexable
+/learn-to-trade/day-trading/preston,City Doorway,Consolidate,301,301 to parent topic /learn-to-trade/day-trading,Non-Indexable
+/learn-to-trade/day-trading/exeter,City Doorway,Consolidate,301,301 to parent topic /learn-to-trade/day-trading,Non-Indexable
+/learn-to-trade/day-trading/london,City Doorway,Consolidate,301,301 to parent topic /learn-to-trade/day-trading,Non-Indexable
+/learn-to-trade/day-trading/manchester,City Doorway,Consolidate,301,301 to parent topic /learn-to-trade/day-trading,Non-Indexable
+/learn-to-trade/day-trading/birmingham,City Doorway,Consolidate,301,301 to parent topic /learn-to-trade/day-trading,Non-Indexable
+/learn-to-trade/day-trading/leeds,City Doorway,Consolidate,301,301 to parent topic /learn-to-trade/day-trading,Non-Indexable
+/learn-to-trade/day-trading/glasgow,City Doorway,Consolidate,301,301 to parent topic /learn-to-trade/day-trading,Non-Indexable
+/learn-to-trade/day-trading/bristol,City Doorway,Consolidate,301,301 to parent topic /learn-to-trade/day-trading,Non-Indexable
+/learn-to-trade/day-trading/liverpool,City Doorway,Consolidate,301,301 to parent topic /learn-to-trade/day-trading,Non-Indexable
+/learn-to-trade/swing-trading/hull,City Doorway,Consolidate,301,301 to parent topic /learn-to-trade/swing-trading,Non-Indexable
+/learn-to-trade/swing-trading/preston,City Doorway,Consolidate,301,301 to parent topic /learn-to-trade/swing-trading,Non-Indexable
+/learn-to-trade/swing-trading/exeter,City Doorway,Consolidate,301,301 to parent topic /learn-to-trade/swing-trading,Non-Indexable
+/learn-to-trade/swing-trading/london,City Doorway,Consolidate,301,301 to parent topic /learn-to-trade/swing-trading,Non-Indexable
+/learn-to-trade/swing-trading/manchester,City Doorway,Consolidate,301,301 to parent topic /learn-to-trade/swing-trading,Non-Indexable
+/learn-to-trade/swing-trading/birmingham,City Doorway,Consolidate,301,301 to parent topic /learn-to-trade/swing-trading,Non-Indexable
+/learn-to-trade/swing-trading/leeds,City Doorway,Consolidate,301,301 to parent topic /learn-to-trade/swing-trading,Non-Indexable
+/learn-to-trade/swing-trading/glasgow,City Doorway,Consolidate,301,301 to parent topic /learn-to-trade/swing-trading,Non-Indexable
+/learn-to-trade/swing-trading/bristol,City Doorway,Consolidate,301,301 to parent topic /learn-to-trade/swing-trading,Non-Indexable
+/learn-to-trade/swing-trading/liverpool,City Doorway,Consolidate,301,301 to parent topic /learn-to-trade/swing-trading,Non-Indexable
+/learn-to-trade/crypto-trading/hull,City Doorway,Consolidate,301,301 to parent topic /learn-to-trade/crypto-trading,Non-Indexable
+/learn-to-trade/crypto-trading/preston,City Doorway,Consolidate,301,301 to parent topic /learn-to-trade/crypto-trading,Non-Indexable
+/learn-to-trade/crypto-trading/exeter,City Doorway,Consolidate,301,301 to parent topic /learn-to-trade/crypto-trading,Non-Indexable
+/learn-to-trade/crypto-trading/london,City Doorway,Consolidate,301,301 to parent topic /learn-to-trade/crypto-trading,Non-Indexable
+/learn-to-trade/crypto-trading/manchester,City Doorway,Consolidate,301,301 to parent topic /learn-to-trade/crypto-trading,Non-Indexable
+/learn-to-trade/crypto-trading/birmingham,City Doorway,Consolidate,301,301 to parent topic /learn-to-trade/crypto-trading,Non-Indexable
+/learn-to-trade/crypto-trading/leeds,City Doorway,Consolidate,301,301 to parent topic /learn-to-trade/crypto-trading,Non-Indexable
+/learn-to-trade/crypto-trading/glasgow,City Doorway,Consolidate,301,301 to parent topic /learn-to-trade/crypto-trading,Non-Indexable
+/learn-to-trade/crypto-trading/bristol,City Doorway,Consolidate,301,301 to parent topic /learn-to-trade/crypto-trading,Non-Indexable
+/learn-to-trade/crypto-trading/liverpool,City Doorway,Consolidate,301,301 to parent topic /learn-to-trade/crypto-trading,Non-Indexable
+/learn-to-trade/options-trading/hull,City Doorway,Consolidate,301,301 to parent topic /learn-to-trade/options-trading,Non-Indexable
+/learn-to-trade/options-trading/preston,City Doorway,Consolidate,301,301 to parent topic /learn-to-trade/options-trading,Non-Indexable
+/learn-to-trade/options-trading/exeter,City Doorway,Consolidate,301,301 to parent topic /learn-to-trade/options-trading,Non-Indexable
+/learn-to-trade/options-trading/london,City Doorway,Consolidate,301,301 to parent topic /learn-to-trade/options-trading,Non-Indexable
+/learn-to-trade/options-trading/manchester,City Doorway,Consolidate,301,301 to parent topic /learn-to-trade/options-trading,Non-Indexable
+/learn-to-trade/options-trading/birmingham,City Doorway,Consolidate,301,301 to parent topic /learn-to-trade/options-trading,Non-Indexable
+/learn-to-trade/options-trading/leeds,City Doorway,Consolidate,301,301 to parent topic /learn-to-trade/options-trading,Non-Indexable
+/learn-to-trade/options-trading/glasgow,City Doorway,Consolidate,301,301 to parent topic /learn-to-trade/options-trading,Non-Indexable
+/learn-to-trade/options-trading/bristol,City Doorway,Consolidate,301,301 to parent topic /learn-to-trade/options-trading,Non-Indexable
+/learn-to-trade/options-trading/liverpool,City Doorway,Consolidate,301,301 to parent topic /learn-to-trade/options-trading,Non-Indexable
+/learn-to-trade/technical-analysis/hull,City Doorway,Consolidate,301,301 to parent topic /learn-to-trade/technical-analysis,Non-Indexable
+/learn-to-trade/technical-analysis/preston,City Doorway,Consolidate,301,301 to parent topic /learn-to-trade/technical-analysis,Non-Indexable
+/learn-to-trade/technical-analysis/exeter,City Doorway,Consolidate,301,301 to parent topic /learn-to-trade/technical-analysis,Non-Indexable
+/learn-to-trade/technical-analysis/london,City Doorway,Consolidate,301,301 to parent topic /learn-to-trade/technical-analysis,Non-Indexable
+/learn-to-trade/technical-analysis/manchester,City Doorway,Consolidate,301,301 to parent topic /learn-to-trade/technical-analysis,Non-Indexable
+/learn-to-trade/technical-analysis/birmingham,City Doorway,Consolidate,301,301 to parent topic /learn-to-trade/technical-analysis,Non-Indexable
+/learn-to-trade/technical-analysis/leeds,City Doorway,Consolidate,301,301 to parent topic /learn-to-trade/technical-analysis,Non-Indexable
+/learn-to-trade/technical-analysis/glasgow,City Doorway,Consolidate,301,301 to parent topic /learn-to-trade/technical-analysis,Non-Indexable
+/learn-to-trade/technical-analysis/bristol,City Doorway,Consolidate,301,301 to parent topic /learn-to-trade/technical-analysis,Non-Indexable
+/learn-to-trade/technical-analysis/liverpool,City Doorway,Consolidate,301,301 to parent topic /learn-to-trade/technical-analysis,Non-Indexable
+/learn-to-trade/risk-management/hull,City Doorway,Consolidate,301,301 to parent topic /learn-to-trade/risk-management,Non-Indexable
+/learn-to-trade/risk-management/preston,City Doorway,Consolidate,301,301 to parent topic /learn-to-trade/risk-management,Non-Indexable
+/learn-to-trade/risk-management/exeter,City Doorway,Consolidate,301,301 to parent topic /learn-to-trade/risk-management,Non-Indexable
+/learn-to-trade/risk-management/london,City Doorway,Consolidate,301,301 to parent topic /learn-to-trade/risk-management,Non-Indexable
+/learn-to-trade/risk-management/manchester,City Doorway,Consolidate,301,301 to parent topic /learn-to-trade/risk-management,Non-Indexable
+/learn-to-trade/risk-management/birmingham,City Doorway,Consolidate,301,301 to parent topic /learn-to-trade/risk-management,Non-Indexable
+/learn-to-trade/risk-management/leeds,City Doorway,Consolidate,301,301 to parent topic /learn-to-trade/risk-management,Non-Indexable
+/learn-to-trade/risk-management/glasgow,City Doorway,Consolidate,301,301 to parent topic /learn-to-trade/risk-management,Non-Indexable
+/learn-to-trade/risk-management/bristol,City Doorway,Consolidate,301,301 to parent topic /learn-to-trade/risk-management,Non-Indexable
+/learn-to-trade/risk-management/liverpool,City Doorway,Consolidate,301,301 to parent topic /learn-to-trade/risk-management,Non-Indexable
+/learn-to-trade/trading-psychology/hull,City Doorway,Consolidate,301,301 to parent topic /learn-to-trade/trading-psychology,Non-Indexable
+/learn-to-trade/trading-psychology/preston,City Doorway,Consolidate,301,301 to parent topic /learn-to-trade/trading-psychology,Non-Indexable
+/learn-to-trade/trading-psychology/exeter,City Doorway,Consolidate,301,301 to parent topic /learn-to-trade/trading-psychology,Non-Indexable
+/learn-to-trade/trading-psychology/london,City Doorway,Consolidate,301,301 to parent topic /learn-to-trade/trading-psychology,Non-Indexable
+/learn-to-trade/trading-psychology/manchester,City Doorway,Consolidate,301,301 to parent topic /learn-to-trade/trading-psychology,Non-Indexable
+/learn-to-trade/trading-psychology/birmingham,City Doorway,Consolidate,301,301 to parent topic /learn-to-trade/trading-psychology,Non-Indexable
+/learn-to-trade/trading-psychology/leeds,City Doorway,Consolidate,301,301 to parent topic /learn-to-trade/trading-psychology,Non-Indexable
+/learn-to-trade/trading-psychology/glasgow,City Doorway,Consolidate,301,301 to parent topic /learn-to-trade/trading-psychology,Non-Indexable
+/learn-to-trade/trading-psychology/bristol,City Doorway,Consolidate,301,301 to parent topic /learn-to-trade/trading-psychology,Non-Indexable
+/learn-to-trade/trading-psychology/liverpool,City Doorway,Consolidate,301,301 to parent topic /learn-to-trade/trading-psychology,Non-Indexable
+/learn-to-trade/algorithmic-trading/hull,City Doorway,Consolidate,301,301 to parent topic /learn-to-trade/algorithmic-trading,Non-Indexable
+/learn-to-trade/algorithmic-trading/preston,City Doorway,Consolidate,301,301 to parent topic /learn-to-trade/algorithmic-trading,Non-Indexable
+/learn-to-trade/algorithmic-trading/exeter,City Doorway,Consolidate,301,301 to parent topic /learn-to-trade/algorithmic-trading,Non-Indexable
+/learn-to-trade/algorithmic-trading/london,City Doorway,Consolidate,301,301 to parent topic /learn-to-trade/algorithmic-trading,Non-Indexable
+/learn-to-trade/algorithmic-trading/manchester,City Doorway,Consolidate,301,301 to parent topic /learn-to-trade/algorithmic-trading,Non-Indexable
+/learn-to-trade/algorithmic-trading/birmingham,City Doorway,Consolidate,301,301 to parent topic /learn-to-trade/algorithmic-trading,Non-Indexable
+/learn-to-trade/algorithmic-trading/leeds,City Doorway,Consolidate,301,301 to parent topic /learn-to-trade/algorithmic-trading,Non-Indexable
+/learn-to-trade/algorithmic-trading/glasgow,City Doorway,Consolidate,301,301 to parent topic /learn-to-trade/algorithmic-trading,Non-Indexable
+/learn-to-trade/algorithmic-trading/bristol,City Doorway,Consolidate,301,301 to parent topic /learn-to-trade/algorithmic-trading,Non-Indexable
+/learn-to-trade/algorithmic-trading/liverpool,City Doorway,Consolidate,301,301 to parent topic /learn-to-trade/algorithmic-trading,Non-Indexable
+/learn-to-trade/prop-firm-trading/hull,City Doorway,Consolidate,301,301 to parent topic /learn-to-trade/prop-firm-trading,Non-Indexable
+/learn-to-trade/prop-firm-trading/preston,City Doorway,Consolidate,301,301 to parent topic /learn-to-trade/prop-firm-trading,Non-Indexable
+/learn-to-trade/prop-firm-trading/exeter,City Doorway,Consolidate,301,301 to parent topic /learn-to-trade/prop-firm-trading,Non-Indexable
+/learn-to-trade/prop-firm-trading/london,City Doorway,Consolidate,301,301 to parent topic /learn-to-trade/prop-firm-trading,Non-Indexable
+/learn-to-trade/prop-firm-trading/manchester,City Doorway,Consolidate,301,301 to parent topic /learn-to-trade/prop-firm-trading,Non-Indexable
+/learn-to-trade/prop-firm-trading/birmingham,City Doorway,Consolidate,301,301 to parent topic /learn-to-trade/prop-firm-trading,Non-Indexable
+/learn-to-trade/prop-firm-trading/leeds,City Doorway,Consolidate,301,301 to parent topic /learn-to-trade/prop-firm-trading,Non-Indexable
+/learn-to-trade/prop-firm-trading/glasgow,City Doorway,Consolidate,301,301 to parent topic /learn-to-trade/prop-firm-trading,Non-Indexable
+/learn-to-trade/prop-firm-trading/bristol,City Doorway,Consolidate,301,301 to parent topic /learn-to-trade/prop-firm-trading,Non-Indexable
+/learn-to-trade/prop-firm-trading/liverpool,City Doorway,Consolidate,301,301 to parent topic /learn-to-trade/prop-firm-trading,Non-Indexable

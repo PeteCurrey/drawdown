@@ -114,6 +114,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: `${data.topicTitle} in ${data.locationName} — Professional Online Training | Drawdown US`,
     description: `Master ${data.topicTitle} from ${data.locationName} with Drawdown. Structured courses, US-regulated data, and professional trading education tailored for the American market.`,
+    // Programmatic geo-targeting page — excluded from sitemap, must also carry noindex
+    robots: { index: false, follow: true },
   };
 }
 

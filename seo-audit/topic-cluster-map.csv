@@ -1,0 +1,15 @@
+Pillar,Sub-topic Title,Primary Search Intent,Canonical URL,Content Owner,Related Tools,Related Research,Review Date
+Risk and Drawdown,Drawdown Mathematics & Recovery,Informational/Calculated,/calculators/drawdown-recovery,Pete Currey,Drawdown Recovery Calculator,/research/risk/non-linear-drawdown-recovery-math,2026-08-01
+Risk and Drawdown,Risk of Ruin Simulation,Informational/Calculated,/calculators/risk-of-ruin,Pete Currey,Risk of Ruin Simulator,/research/risk/non-linear-drawdown-recovery-math,2026-08-01
+Risk and Drawdown,Position Sizing & Risk per Trade,Informational/Practical,/calculators/position-size,Pete Currey,Position Sizing Calculator,/research/risk,2026-08-01
+Risk and Drawdown,Consecutive Loss Distribution,Informational,/research/risk,Pete Currey,Risk of Ruin Simulator,/research/risk/non-linear-drawdown-recovery-math,2026-08-01
+Trading Process,Trade Journalling & Attribution,Informational/Product,/tools/ai-trade-journal,Drawdown Content Group,AI Trade Journal,/research,2026-08-01
+Trading Process,Weekly Trading Preparation & Routine,Informational,/blog/the-trading-routine,Drawdown Content Group,Economic Calendar,/research,2026-08-01
+Trading Process,Trade Invalidation & Stop Loss Rules,Informational,/courses/risk-management,Pete Currey,Position Sizing Calculator,/research/risk,2026-08-01
+Broker Intelligence,FCA Regulated Forex Broker Directory,Commercial/Directory,/brokers/all,Drawdown Research Group,Broker Screener,/research/trading-costs/uk-broker-spread-and-commission-audit,2026-07-20
+Broker Intelligence,Broker Spread & Commission Benchmark,Informational/Research,/research/trading-costs,Drawdown Research Group,Broker Screener,/research/trading-costs/uk-broker-spread-and-commission-audit,2026-07-20
+Broker Intelligence,Broker Research Methodology,Informational/E-E-A-T,/methodology/broker-research,Drawdown Research Group,Broker Screener,/research/broker-testing,2026-07-20
+Strategy Testing,Strategy Backtesting & Friction Models,Informational/Tool,/tools/backtester,Pete Currey,Strategy Backtester,/research,2026-08-01
+Strategy Testing,Overfitting & Walk-Forward Validation,Informational,/courses/backtesting,Pete Currey,Strategy Backtester,/research,2026-08-01
+Prop-Firm Survival,Prop-Firm Challenge Cost Economics,Commercial/Calculated,/calculators/prop-firm-challenge,Drawdown Research Group,Prop Firm Challenge Calculator,/research/prop-firms,2026-08-01
+Prop-Firm Survival,Trailing Drawdown vs Static Rules,Informational/Research,/research/prop-firms,Drawdown Research Group,Prop Firm Challenge Calculator,/research/prop-firms,2026-08-01

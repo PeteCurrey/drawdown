@@ -173,6 +173,11 @@ const nextConfig: NextConfig = {
         destination: "/brokers/ig-markets-review",
         permanent: true,
       },
+      {
+        source: "/brokers/review-methodology",
+        destination: "/methodology/broker-research",
+        permanent: true,
+      },
 
 
 

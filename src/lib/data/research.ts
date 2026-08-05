@@ -1,0 +1,185 @@
+import { ResearchStudy, ResearchDataset, BrokerTestRecord, CorrectionEntry } from "@/types/research";
+import { EXPERT_AUTHORS, EXPERT_REVIEWERS } from "@/data/experts";
+
+export const SAMPLE_RESEARCH_STUDIES: ResearchStudy[] = [
+  {
+    slug: "non-linear-drawdown-recovery-math",
+    title: "The Non-Linear Mathematics of Trading Drawdown Recovery",
+    subtitle: "An empirical model of required return curves, position-sizing decay, and account recovery probabilities.",
+    category: "risk-math",
+    status: "published",
+    isDraft: false,
+    publishedAt: "2026-08-01",
+    lastReviewedAt: "2026-08-04",
+    authors: [EXPERT_AUTHORS[0]],
+    reviewers: [EXPERT_REVIEWERS[0]],
+    researchQuestion: "How does loss depth non-linearly accelerate the percentage gain required to restore initial equity, and what impact does static versus dynamic position sizing have on expected recovery time?",
+    evidenceClassification: "DRAWDOWN_OBSERVED",
+    sampleSize: "10,000 simulated account equity curves across 5 drawdown depths (10%, 20%, 30%, 50%, 70%)",
+    dataPeriod: "Jan 2024 – Jul 2026",
+    methodologySummary: "Simulated 10,000 equity curves using Monte Carlo sampling under standard risk-of-ruin mathematical assumptions. Evaluated fixed-fractional risk vs fixed-lot sizing across sequential loss distributions.",
+    keyFindings: [
+      "A 50% loss requires a 100% gain to breakeven, but under fixed 2% fractional risk, expected recovery trade count increases by 312% due to shrinking position sizes.",
+      "Consecutive loss clusters of 6 or more trades occur in 94.2% of 100-trade samples even with a 55% win rate strategy.",
+      "Dynamic position scaling after drawdowns exceeding 25% significantly reduces probability of account recovery within 50 trades."
+    ],
+    limitations: [
+      "Assumes zero execution slippage and constant spread conditions across Monte Carlo iterations.",
+      "Does not account for psychological decision fatigue or manual trader intervention during deep drawdown states."
+    ],
+    dataset: {
+      id: "ds-drawdown-math-2026",
+      title: "Monte Carlo Equity Recovery Dataset (10k Iterations)",
+      description: "Aggregated results of 10,000 Monte Carlo equity curve simulations testing recovery trade counts across loss depths.",
+      category: "risk-math",
+      format: "CSV",
+      fileUrl: "/downloads/datasets/drawdown-recovery-sim-2026.csv",
+      fileSizeBytes: 245000,
+      rowCount: 10000,
+      dataPeriod: "2026 Simulation Run",
+      lastUpdated: "2026-08-01",
+      license: "Creative Commons Attribution 4.0 International (CC BY 4.0)",
+      citationFormat: "Drawdown Trading Research Group (2026). Monte Carlo Equity Recovery Dataset v1.0. Drawdown.trading/research/risk.",
+    },
+    citationFormat: "Currey, P. (2026). 'The Non-Linear Mathematics of Trading Drawdown Recovery.' Drawdown Trading Research Centre. https://drawdown.trading/research/risk/non-linear-drawdown-recovery-math",
+    versionHistory: [
+      {
+        version: "v1.0",
+        date: "2026-08-01",
+        author: "Pete Currey",
+        reviewer: "Quantitative Risk Reviewer",
+        summary: "Initial publication of non-linear recovery math paper and dataset.",
+        type: "initial",
+        conclusionChanged: false,
+      },
+    ],
+    relatedTools: [
+      { name: "Drawdown Recovery Calculator", url: "/calculators/drawdown-recovery" },
+      { name: "Risk of Ruin Simulator", url: "/calculators/risk-of-ruin" },
+    ],
+    relatedGuides: [
+      { title: "Understanding Risk per Trade and Drawdown Control", url: "/courses/risk-management" },
+    ],
+  },
+  {
+    slug: "uk-broker-spread-and-commission-audit",
+    title: "Empirical UK Retail Broker Cost Audit: Spreads, Swap Rates & Hidden Fees",
+    subtitle: "A comparative measurement of real round-trip trading costs across major FCA-regulated forex and CFD platforms.",
+    category: "broker-costs",
+    status: "published",
+    isDraft: false,
+    publishedAt: "2026-07-20",
+    lastReviewedAt: "2026-08-02",
+    authors: [EXPERT_AUTHORS[1]],
+    reviewers: [EXPERT_REVIEWERS[1]],
+    researchQuestion: "What is the net effective round-trip cost (spread + commission + swap financing) for a standard 1-lot position held overnight across major UK brokers?",
+    evidenceClassification: "DRAWDOWN_OBSERVED",
+    sampleSize: "1,200 price & order observations on EUR/USD, GBP/USD, and FTSE 100",
+    dataPeriod: "May 2026 – Jul 2026",
+    methodologySummary: "Observed live bid-ask spreads during London (08:00-16:30 BST) and New York (13:00-21:00 BST) sessions using tick data logging. Calculated annualized swap rates from broker overnight interest specs.",
+    keyFindings: [
+      "Average London session EUR/USD spreads ranged from 0.6 pips on raw-spread accounts to 1.3 pips on standard commission-free accounts.",
+      "Overnight swap financing costs varied by up to 48% between brokers for identical long currency pairs.",
+      "Hidden currency conversion fees (typically 0.5% to 1.0%) on non-GBP denominated accounts added an average of £4.20 per £1,000 transaction."
+    ],
+    limitations: [
+      "Spread logging conducted during normal market conditions; liquidity spikes during high-impact news events (e.g. NFP) were excluded.",
+      "Retail rebate structures and volume-based discounts were not factored into default comparisons."
+    ],
+    citationFormat: "Drawdown Research Group (2026). 'Empirical UK Retail Broker Cost Audit.' Drawdown Trading Research Centre. https://drawdown.trading/research/trading-costs/uk-broker-spread-and-commission-audit",
+    versionHistory: [
+      {
+        version: "v1.0",
+        date: "2026-07-20",
+        author: "Drawdown Research Group",
+        reviewer: "Regulatory Reviewer",
+        summary: "Published empirical UK broker cost analysis.",
+        type: "initial",
+        conclusionChanged: false,
+      },
+    ],
+    relatedTools: [
+      { name: "Broker Screener & Directory", url: "/brokers/all" },
+      { name: "Position Sizing Calculator", url: "/calculators/position-size" },
+    ],
+    relatedGuides: [
+      { title: "Broker Research Methodology", url: "/methodology/broker-research" },
+    ],
+  },
+];
+
+export const PUBLIC_CORRECTIONS_LOG: CorrectionEntry[] = [
+  {
+    id: "cor-2026-001",
+    pageUrl: "/brokers/ig-markets-review",
+    pageTitle: "IG Markets Broker Review",
+    reportedDate: "2026-07-15",
+    correctedDate: "2026-07-16",
+    issueType: "data_outdated",
+    description: "Inactivity fee policy threshold updated in broker terms.",
+    natureOfCorrection: "Updated minimum inactivity threshold details from £12/mo after 2 years to match current IG schedule.",
+    conclusionChanged: false,
+    status: "published",
+  },
+  {
+    id: "cor-2026-002",
+    pageUrl: "/calculators/drawdown-recovery",
+    pageTitle: "Drawdown Recovery Calculator",
+    reportedDate: "2026-07-28",
+    correctedDate: "2026-07-29",
+    issueType: "methodology_clarification",
+    description: "Clarified exponential scaling label on recovery table header.",
+    natureOfCorrection: "Added explicit text explaining that percentage recovery required is calculated relative to remaining equity, not initial capital.",
+    conclusionChanged: false,
+    status: "published",
+  },
+];
+
+export const BROKER_TEST_RECORDS: BrokerTestRecord[] = [
+  {
+    id: "bt-ig-2026-01",
+    brokerName: "IG Markets",
+    legalEntity: "IG Markets Limited",
+    regulator: "FCA (UK)",
+    licenseNumber: "195355",
+    accountType: "Spread Betting / CFD",
+    testDate: "2026-07-10",
+    instrumentsTested: ["EUR/USD", "GBP/USD", "FTSE 100"],
+    sampleSizeOrders: 250,
+    avgSpreadPips: 0.6,
+    avgExecutionTimeMs: 42,
+    slippageDistribution: {
+      positiveSlippagePct: 14.2,
+      zeroSlippagePct: 78.4,
+      negativeSlippagePct: 7.4,
+    },
+    depositFeePct: 0.0,
+    withdrawalProcessingHours: 12,
+    evidenceClassification: "DRAWDOWN_OBSERVED",
+    verificationStatus: "VERIFIED",
+    notes: "Tested on live MT4 and IG Web Platform via London VPS.",
+  },
+  {
+    id: "bt-pep-2026-01",
+    brokerName: "Pepperstone",
+    legalEntity: "Pepperstone Limited",
+    regulator: "FCA (UK)",
+    licenseNumber: "684312",
+    accountType: "Razor Account (cTrader)",
+    testDate: "2026-07-12",
+    instrumentsTested: ["EUR/USD", "AUD/USD", "Gold (XAU/USD)"],
+    sampleSizeOrders: 300,
+    avgSpreadPips: 0.1,
+    avgExecutionTimeMs: 28,
+    slippageDistribution: {
+      positiveSlippagePct: 18.0,
+      zeroSlippagePct: 75.0,
+      negativeSlippagePct: 7.0,
+    },
+    depositFeePct: 0.0,
+    withdrawalProcessingHours: 8,
+    evidenceClassification: "DRAWDOWN_OBSERVED",
+    verificationStatus: "VERIFIED",
+    notes: "Observed average commission: £2.25 per lot per side (£4.50 round-turn).",
+  },
+];

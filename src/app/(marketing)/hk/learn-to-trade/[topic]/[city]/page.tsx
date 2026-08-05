@@ -97,11 +97,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const { topicLabel, cityLabel } = data;
 
-  return getMetadata({
-    title: `${topicLabel} in ${cityLabel.charAt(0).toUpperCase() + cityLabel.slice(1)} | Drawdown Hong Kong`,
-    description: `Professional ${topicLabel} education and tools for traders in ${cityLabel}. Join the Drawdown community in Hong Kong.`,
-    path: `/hk/learn-to-trade/${topic}/${city}`,
-  });
+  return {
+    ...getMetadata({
+      title: `${topicLabel} in ${cityLabel.charAt(0).toUpperCase() + cityLabel.slice(1)} | Drawdown Hong Kong`,
+      description: `Professional ${topicLabel} education and tools for traders in ${cityLabel}. Join the Drawdown community in Hong Kong.`,
+      path: `/hk/learn-to-trade/${topic}/${city}`,
+    }),
+    // Programmatic geo-targeting page — excluded from sitemap, must also carry noindex
+    robots: { index: false, follow: true },
+  };
 }
 
 export default async function HKLocationPage({ params }: Props) {

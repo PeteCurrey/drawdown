@@ -5,6 +5,7 @@ import { GrainOverlay } from "@/components/ui/GrainOverlay";
 import { ScrollProgress } from "@/components/ui/ScrollProgress";
 import "flag-icons/css/flag-icons.min.css";
 import { getMetadata } from "@/lib/metadata";
+import { LEGAL_CONFIG } from "@/config/legal";
 import "./globals.css";
 
 const syne = Syne({
@@ -109,9 +110,15 @@ export default function RootLayout({
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "Organization",
-              "name": "Drawdown Trading",
+              "name": LEGAL_CONFIG.fullTradingEntity,
+              "legalName": LEGAL_CONFIG.contractingEntity,
               "url": "https://drawdown.trading",
               "logo": "https://drawdown.trading/images/brand/logo.png",
+              "address": {
+                "@type": "PostalAddress",
+                "addressCountry": "GB",
+                "addressLocality": "Chesterfield, Derbyshire"
+              },
               "sameAs": [
                 "https://twitter.com/drawdown_hq",
                 "https://youtube.com/@drawdown"

@@ -40,41 +40,48 @@ import {
   Sparkles,
   Cpu,
   Award,
+  ClipboardCheck,
+  PenLine,
+  TrendingUp,
+  RefreshCw,
+  ArrowUpRight,
+  CheckSquare,
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { OnboardingWizard } from "@/components/dashboard/OnboardingWizard";
 import { TierGate } from "@/components/dashboard/TierGate";
 import { hasAccess, type SubscriptionTier } from "@/lib/tier-access";
 
-// ─── Main Navigation (Top section 1) ──────────────────────────────────────────
-const mainNavLinks = [
-  { name: "Overview",            href: "/dashboard",                           icon: LayoutDashboard },
-  { name: "Market Intelligence",  href: "/dashboard/market-intelligence",        icon: Brain },
-  { name: "Alt-Data & Signals",  href: "/dashboard/intelligence",              icon: Gauge },
-  { name: "The Investment Centre", href: "/dashboard/investment-centre",        icon: Cpu, badge: "£99/MO" },
-  { name: "Curriculum",          href: "/dashboard/curriculum",                icon: Library },
-  { name: "Downloads",           href: "/dashboard/downloads",                 icon: BookOpen },
-  { name: "Weekly Breakdowns",   href: "/dashboard/breakdowns",                icon: Video },
-  { name: "Live Events",         href: "/dashboard/events",                    icon: Calendar },
-  { name: "1-to-1 Mentorship",   href: "/dashboard/mentorship",                icon: UserCircle },
-  { name: "Psychology Coach",    href: "/dashboard/coach",                     icon: Sparkles },
-  { name: "AI Trade Journal",    href: "/dashboard/journal",                   icon: FileText },
-  { name: "Funded Accounts",     href: "/dashboard/accounts",                  icon: Wallet },
-  { name: "Risk Calculator",     href: "/dashboard/tools/position-sizer",      icon: Calculator },
-  { name: "Market Scanner",      href: "/dashboard/tools/technical-scanner",   icon: ScanSearch },
-  { name: "Strategy Backtester",  href: "/dashboard/tools/backtester",          icon: Code },
-  { name: "Algo Builder",        href: "/dashboard/tools/algo-builder",        icon: Terminal },
-  { name: "Signal Centre",       href: "/dashboard/signal-centre",             icon: Zap },
+// ─── Primary Workflow Navigation (The 7-stage OS) ─────────────────────────────
+const workflowNavLinks = [
+  { name: "Today",         href: "/dashboard",                    icon: LayoutDashboard },
+  { name: "Prepare",      href: "/dashboard/prepare",             icon: ClipboardCheck },
+  { name: "Plan",         href: "/dashboard/plan",                icon: PenLine },
+  { name: "Journal",      href: "/dashboard/record",              icon: FileText },
+  { name: "Review",       href: "/dashboard/review",              icon: CheckSquare },
+  { name: "Improve",      href: "/dashboard/improve",             icon: TrendingUp },
+  { name: "Library",      href: "/dashboard/learn",               icon: Library },
 ];
 
-// ─── Platform Navigation (Section 2) ─────────────────────────────────────────
-const platformLinks = [
-  { name: "The Wire",            href: "/dashboard/the-wire",  icon: Newspaper, badge: "NEW" },
-  { name: "Weekly Market Call",  href: "/dashboard/market-call", icon: Award, badge: "FREE" },
-  { name: "Brokers",             href: "/brokers",             icon: Building2 },
-  { name: "Prop Firms",          href: "/prop-firms",          icon: Trophy },
-  { name: "Challenge Simulator", href: "/dashboard/simulator",   icon: Target },
-  { name: "Community",           href: "/dashboard/community", icon: Users },
+// ─── Secondary Tool & Intelligence Navigation ─────────────────────────────────
+const toolNavLinks = [
+  { name: "Markets",          href: "/dashboard/market-intelligence",      icon: Brain },
+  { name: "The Wire",         href: "/dashboard/the-wire",                 icon: Newspaper, badge: "NEW" },
+  { name: "Signal Centre",    href: "/dashboard/signal-centre",            icon: Zap },
+  { name: "Risk Calculator",  href: "/dashboard/tools/position-sizer",     icon: Calculator },
+  { name: "Backtester",       href: "/dashboard/tools/backtester",         icon: Code },
+  { name: "Scanner",          href: "/dashboard/tools/technical-scanner",  icon: ScanSearch },
+  { name: "Funded Accounts",  href: "/dashboard/accounts",                 icon: Wallet },
+  { name: "Brokers",          href: "/brokers",                            icon: Building2 },
+  { name: "Prop Firms",       href: "/prop-firms",                         icon: Trophy },
+  { name: "Community",        href: "/dashboard/community",                icon: Users },
+  { name: "Weekly Breakdowns",href: "/dashboard/breakdowns",               icon: Video },
+  { name: "Live Events",      href: "/dashboard/events",                   icon: Calendar },
+  { name: "Mentorship",       href: "/dashboard/mentorship",               icon: UserCircle },
+  { name: "Psychology Coach", href: "/dashboard/coach",                    icon: Sparkles },
+  { name: "Curriculum",       href: "/dashboard/curriculum",               icon: BookOpen },
+  { name: "Downloads",        href: "/dashboard/downloads",                icon: BookOpen },
+  { name: "Market Call",      href: "/dashboard/market-call",              icon: Award, badge: "FREE" },
 ];
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
@@ -299,16 +306,17 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           </span>
         </div>
 
-        {/* Center: Tabs */}
+        {/* Center: Workflow stage tabs */}
         <div className="hidden md:flex items-center gap-1">
           {[
-            { label: "Overview", href: "/dashboard" },
-            { label: "Market Intelligence", href: "/dashboard/market-intelligence" },
-            { label: "Investment Centre", href: "/dashboard/investment-centre" },
-            { label: "Signal Centre", href: "/dashboard/signal-centre" },
-            { label: "The Wire", href: "/dashboard/the-wire" },
+            { label: "Today",   href: "/dashboard" },
+            { label: "Prepare", href: "/dashboard/prepare" },
+            { label: "Plan",    href: "/dashboard/plan" },
+            { label: "Journal", href: "/dashboard/record" },
+            { label: "Review",  href: "/dashboard/review" },
+            { label: "Improve", href: "/dashboard/improve" },
           ].map(tab => {
-            const isTabActive = pathname === tab.href;
+            const isTabActive = pathname === tab.href || (tab.href !== "/dashboard" && pathname.startsWith(tab.href));
             return (
               <Link
                 key={tab.href}
@@ -385,24 +393,52 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             </button>
           </div>
 
-          {/* Section 1: Main navigation */}
-          <div className="flex-1 overflow-y-auto space-y-0.5 py-2" data-lenis-prevent>
-            {mainNavLinks.map(link => {
-              const isSignalCentreOnly = subscriptionTier === 'signal-centre';
-              const isSignalCentreLink = link.href === '/dashboard/signal-centre';
-              if (isSignalCentreOnly && !isSignalCentreLink) {
-                return <LockedSidebarLink key={link.href} icon={link.icon} name={link.name} />;
-              }
-              return <SidebarLink key={link.href} {...link} />;
-            })}
+          {/* Section 1: Workflow navigation (primary OS stages) */}
+          <div className="flex-1 overflow-y-auto py-2" data-lenis-prevent>
+            
+            {/* Workflow group label */}
+            {!isCollapsed && (
+              <div className={cn(
+                "px-3 mb-1 text-[9px] font-mono uppercase tracking-[0.15em] font-bold",
+                isDarkModulePage ? "text-white/30" : "text-[#888880]"
+              )}>
+                // Workflow
+              </div>
+            )}
+
+            <div className="space-y-0.5">
+              {workflowNavLinks.map(link => {
+                const isSignalCentreOnly = subscriptionTier === 'signal-centre';
+                if (isSignalCentreOnly && link.href !== '/dashboard') {
+                  return <LockedSidebarLink key={link.href} icon={link.icon} name={link.name} />;
+                }
+                return <SidebarLink key={link.href} {...link} />;
+              })}
+            </div>
 
             {/* Divider */}
             <div className={cn("my-3 border-t", isDarkModulePage ? "border-white/10" : "border-[#DEDDD8]")} />
 
-            {/* Section 2: Platform links */}
-            {platformLinks.map(link => (
-              <SidebarLink key={link.href} {...link} />
-            ))}
+            {/* Tools & Intelligence group label */}
+            {!isCollapsed && (
+              <div className={cn(
+                "px-3 mb-1 text-[9px] font-mono uppercase tracking-[0.15em] font-bold",
+                isDarkModulePage ? "text-white/30" : "text-[#888880]"
+              )}>
+                // Resources
+              </div>
+            )}
+
+            <div className="space-y-0.5">
+              {toolNavLinks.map(link => {
+                const isSignalCentreOnly = subscriptionTier === 'signal-centre';
+                const isSignalCentreLink = link.href === '/dashboard/signal-centre';
+                if (isSignalCentreOnly && !isSignalCentreLink) {
+                  return <LockedSidebarLink key={link.href} icon={link.icon} name={link.name} />;
+                }
+                return <SidebarLink key={link.href} {...link} />;
+              })}
+            </div>
           </div>
 
           {/* Bottom links: profile summary / billing */}
@@ -438,7 +474,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         {mobileMenuOpen && (
           <div className="fixed inset-0 bg-[#181818]/95 z-40 md:hidden flex flex-col p-6 animate-in fade-in duration-200">
             <nav className="flex-1 overflow-y-auto space-y-2 text-white">
-              {mainNavLinks.map(link => (
+              <p className="text-[9px] font-mono uppercase tracking-widest text-white/40 mb-2">// Workflow</p>
+              {workflowNavLinks.map(link => (
                 <Link
                   key={link.href}
                   href={link.href}
@@ -450,7 +487,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 </Link>
               ))}
               <div className="border-t border-[#333330] my-4" />
-              {platformLinks.map(link => (
+              <p className="text-[9px] font-mono uppercase tracking-widest text-white/40 mb-2">// Resources</p>
+              {toolNavLinks.map(link => (
                 <Link
                   key={link.href}
                   href={link.href}

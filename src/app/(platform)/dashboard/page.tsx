@@ -62,6 +62,13 @@ export default function DashboardPage() {
   const [selectedInst, setSelectedInst] = useState(INSTRUMENTS_LIST[0]);
   const [selectedInterval, setSelectedInterval] = useState("4h");
 
+  // Workflow stages states
+  const [todayPrep, setTodayPrep] = useState<any>(null);
+  const [activePlans, setActivePlans] = useState<any[]>([]);
+  const [pendingReviews, setPendingReviews] = useState<any[]>([]);
+  const [activeCommitment, setActiveCommitment] = useState<any>(null);
+  const [weeklyReviewDone, setWeeklyReviewDone] = useState<boolean>(false);
+
   // Polling and live feed generation is fully managed by useMarketIntelligence hook
   // within subcomponents to prevent double-fetching and save API rate limits.
 
@@ -365,6 +372,66 @@ export default function DashboardPage() {
           });
         }
 
+        // 1. Fetch today's session prep
+        const todayStr = new Date().toISOString().slice(0, 10);
+        const { data: prepData } = await supabase
+          .from('session_preparations')
+          .select('*')
+          .eq('user_id', user.id)
+          .eq('session_date', todayStr)
+          .maybeSingle();
+        setTodayPrep(prepData);
+
+        // 2. Fetch active trade plans (draft or ready)
+        const { data: plansData } = await supabase
+          .from('trade_plans')
+          .select('*')
+          .eq('user_id', user.id)
+          .in('status', ['draft', 'ready'])
+          .order('created_at', { ascending: false });
+        setActivePlans(plansData || []);
+
+        // 3. Fetch trade records awaiting review
+        const { data: recordsData } = await supabase
+          .from('trade_records')
+          .select('id, trade_plan_id, result_amount, opened_at, closed_at')
+          .eq('user_id', user.id);
+
+        const { data: reviewsData } = await supabase
+          .from('trade_reviews')
+          .select('trade_record_id')
+          .eq('user_id', user.id);
+
+        const reviewedIds = new Set((reviewsData || []).map((r: any) => r.trade_record_id));
+        const pending = (recordsData || []).filter((r: any) => !reviewedIds.has(r.id));
+        setPendingReviews(pending);
+
+        // 4. Fetch active improvement commitment
+        const { data: commitmentsData } = await supabase
+          .from('improvement_commitments')
+          .select('*')
+          .eq('user_id', user.id)
+          .in('status', ['open', 'in_progress', 'active'])
+          .order('created_at', { ascending: false })
+          .limit(1);
+        setActiveCommitment(commitmentsData && commitmentsData.length > 0 ? commitmentsData[0] : null);
+
+        // 5. Fetch weekly review status for this week
+        const d = new Date();
+        const day = d.getDay();
+        const diff = d.getDate() - day + (day === 0 ? -6 : 1);
+        d.setDate(diff);
+        d.setHours(0,0,0,0);
+        const weekStartStr = d.toISOString().slice(0, 10);
+
+        const { data: weeklyData } = await supabase
+          .from('weekly_operating_reviews')
+          .select('id')
+          .eq('user_id', user.id)
+          .eq('week_start', weekStartStr)
+          .maybeSingle();
+        setWeeklyReviewDone(!!weeklyData);
+
         // Fetch active watchlist items from user_watchlists table
         const { data: wlData } = await supabase
           .from('user_watchlists')
@@ -412,280 +479,287 @@ export default function DashboardPage() {
 
   const onboarding = profile?.email_preferences?.onboarding;
 
+  // Resolve 7 Questions & Next CTA
+  const getNextAction = () => {
+    // 1. Prepare today?
+    if (!todayPrep) {
+      return {
+        title: "Start Session Preparation",
+        desc: "You have not completed your session check-in rules or verified daily risk allowance. Prepare before drafting setup plans.",
+        href: "/dashboard/prepare",
+        actionText: "Prepare Workspace",
+        stage: "Stage 1: Prepare"
+      };
+    }
+    // 2. Stood down?
+    if (todayPrep.outcome === 'stand_down') {
+      return {
+        title: "Stand Down Active",
+        desc: "Today's rules or account metrics advised standing down. Focus on the learning curriculum or historical studies.",
+        href: "/dashboard/curriculum",
+        actionText: "Open Curriculum",
+        stage: "Stand Down Enforced"
+      };
+    }
+    // 3. Draft plan?
+    const draftPlan = activePlans.find(p => p.status === 'draft');
+    if (draftPlan) {
+      return {
+        title: "Complete Draft Trade Plan",
+        desc: `You have an unfinished plan for ${draftPlan.instrument}. Define execution zones and calculate invalidation spacing.`,
+        href: "/dashboard/plan",
+        actionText: "Complete Plan",
+        stage: "Stage 2: Plan"
+      };
+    }
+    // 4. Ready plan awaiting execution?
+    const readyPlan = activePlans.find(p => p.status === 'ready');
+    if (readyPlan) {
+      return {
+        title: "Enter Execution Boundary",
+        desc: `Your plan for ${readyPlan.instrument} (${readyPlan.direction.toUpperCase()}) is active. Proceed to execute elsewhere via your broker.`,
+        href: `/dashboard/plan/${readyPlan.id}/execute`,
+        actionText: "Execution Portal",
+        stage: "Stage 3: Execute"
+      };
+    }
+    // 5. Open/unrecorded trades?
+    // In our simplified flow, we check if any executed plans aren't recorded or if records await detail.
+    // Fallback: Awaiting reviews
+    if (pendingReviews.length > 0) {
+      const record = pendingReviews[0];
+      return {
+        title: "Complete Process Review",
+        desc: `Evaluate your process adherence and rule discipline for your latest trade. Outcomes are secondary.`,
+        href: `/dashboard/review/${record.id}`,
+        actionText: "Review Trade",
+        stage: "Stage 5: Review"
+      };
+    }
+    // 6. Weekend review?
+    const today = new Date();
+    const isWeekend = today.getDay() === 0 || today.getDay() === 6;
+    if (isWeekend && !weeklyReviewDone) {
+      return {
+        title: "Perform Weekly Operating Review",
+        desc: "Close the loop on your week. Sign off on process consistency averages, wins, and select next week's improvement rule.",
+        href: "/dashboard/weekly-review",
+        actionText: "Start Weekly Review",
+        stage: "Stage 7: Repeat"
+      };
+    }
+
+    // Default: Check scanner
+    return {
+      title: "Explore Market Scanner",
+      desc: "All today's operating tasks are complete. Monitor session timelines, watchlist alerts, or backtest strategies.",
+      href: "/dashboard/tools/technical-scanner",
+      actionText: "Open Scanner",
+      stage: "Workflow Clear"
+    };
+  };
+
+  const nextAction = getNextAction();
+
   return (
-    <div className="space-y-10 text-[#1A1A1A]">
+    <div className="space-y-8 text-[#1A1A1A]">
       
-      {/* PERSONALIZED GREETING HEADER */}
+      {/* ── Header ───────────────────────────────────────────────────────────── */}
       <PageHeader
-        eyebrow="// TERMINAL TERMINUS"
-        title={<>Welcome back, <span className="text-accent">{name}</span>.</>}
-        description={
-          onboarding?.trading_style ? (
-            <>
-              Monitoring volatility feeds calibrated for your <span className="text-text-primary font-bold uppercase">{onboarding.trading_style.replace(/_/g, ' ')}</span> profile. 
-              Applying <span className="text-text-primary font-bold uppercase">{onboarding.experience_level}</span>-level parameters to scanner watchlists with a target challenge size of <span className="text-accent font-bold">{onboarding.trading_capital.toUpperCase()}</span>.
-            </>
-          ) : (
-            "Your localized market scanner, curriculum milestones, and trade logs are synced."
-          )
-        }
-        badge={
-          onboarding?.trading_goals ? (
-            <div className="shrink-0 p-4 bg-background-elevated border border-border-slate/50 flex items-center gap-3.5 rounded-xl">
-              <div className="w-9 h-9 rounded-full bg-accent/10 flex items-center justify-center text-accent">
-                <Target className="w-4 h-4" />
-              </div>
-              <div>
-                <p className="text-[9px] font-mono uppercase text-text-tertiary tracking-wider">// Active Focus</p>
-                <p className="text-xs font-bold uppercase text-text-primary">{onboarding.trading_goals.replace(/_/g, ' ')}</p>
-              </div>
-            </div>
-          ) : undefined
-        }
+        eyebrow="// OPERATING SYSTEM WORKSPACE"
+        title={<>Today Workspace.</>}
+        description="Solve feature sprawl by giving every capability a defined role in one repeatable discipline workflow."
       />
 
-      {/* HERO: Market Intelligence Card */}
-      <MarketIntelligenceHeroCard
-        instruments={INSTRUMENTS_LIST}
-        initialInstrument={INSTRUMENTS_LIST[0]}
-        selectedInterval={selectedInterval}
-        userCurrency={userCurrency}
-        todayTradeCount={trades.filter((t: any) => {
-          const entry = new Date(t.entry_time);
-          const today = new Date();
-          return entry.toDateString() === today.toDateString();
-        }).length}
-        onInstrumentChange={(inst) => setSelectedInst(inst as any)}
-        onTimeframeChange={setSelectedInterval}
-      />
-
-      {/* INSTRUMENT INTELLIGENCE: Technical detail card — synced to hero instrument selector */}
-      <InstrumentIntelligenceCard instrument={selectedInst} interval={selectedInterval} />
-
-      {/* PHASE 3 — Overview Dashboard Card Grid */}
-      <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
+      {/* ── Today Workspace Grid ──────────────────────────────────────────────── */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         
-        {/* Card 1: Learning Progress */}
-        <div className="bg-white border border-[#EDEDED] rounded-2xl p-5 shadow-[0_2px_12px_rgba(0,0,0,0.06)] flex flex-col justify-between min-h-[220px] transition-all hover:shadow-[0_8px_24px_rgba(0,0,0,0.10)] hover:-translate-y-1 duration-200">
-          <div>
-            <div className="flex justify-between items-start mb-4">
-              <h5 className="font-semibold text-sm text-[#1A1A1A]">Curriculum</h5>
-              <Link href="/dashboard/curriculum" className="text-xs text-[#555550] hover:text-[#1A1A1A]">↗</Link>
-            </div>
-            
-            {/* Course status details */}
-            <div className="space-y-2 mb-4">
-              <div className="flex justify-between items-center text-xs">
-                <span className="text-[#555550]">Phase 1: Ground Zero</span>
-                <span className="font-mono text-[#18B880]">8/8 ✓</span>
-              </div>
-              <div className="flex justify-between items-center text-xs">
-                <span className="text-[#555550]">Phase 2: Chart Reader</span>
-                <span className="font-mono text-[#F9771D]">{learningCard?.progress || 0}%</span>
-              </div>
-            </div>
-          </div>
-
-          <div>
-            <div className="w-full h-px bg-[#F0F0F0] mb-2" />
-            <div className="flex justify-between items-center text-[10px] font-mono text-[#555550]">
-              <span>Active Tier</span>
-              <span className="text-[#F9771D] font-bold">{subscriptionTier.toUpperCase()}</span>
-            </div>
-          </div>
-        </div>
-
-        {/* Card 2: The Wire */}
-        <div className="bg-white border border-[#EDEDED] rounded-2xl p-5 shadow-[0_2px_12px_rgba(0,0,0,0.06)] flex flex-col justify-between min-h-[220px] transition-all hover:shadow-[0_8px_24px_rgba(0,0,0,0.10)] hover:-translate-y-1 duration-200">
-          <div>
-            <div className="flex justify-between items-start mb-4">
-              <h5 className="font-semibold text-sm text-[#1A1A1A]">The Wire</h5>
-              <Link href="/dashboard/the-wire" className="text-xs text-[#555550] hover:text-[#1A1A1A]">↗</Link>
-            </div>
-            
-            <div className="space-y-1.5 text-xs text-[#555550]">
-              <p className="line-clamp-3">
-                {latestBrief ? latestBrief.content_text.slice(0, 120) : "No daily briefing available yet. Check the wire during the London session for the latest macroeconomic updates and technical setups."}
-              </p>
-            </div>
-          </div>
-
-          <div className="pt-3 border-t border-[#EDEDED] flex justify-between items-center text-[9px] font-mono text-[#555550]">
-            <span>Last Updated</span>
-            <span>{latestBrief ? new Date(latestBrief.created_at).toLocaleTimeString() : "07:00 GMT"}</span>
-          </div>
-        </div>
-
-        {/* Card 3: Macro Pulse (FRED/EIA) */}
-        <MacroPulseCard />
-
-        {/* Card 4: AI Terminal Tools */}
-        <div className="bg-white border border-[#EDEDED] rounded-2xl p-5 shadow-[0_2px_12px_rgba(0,0,0,0.06)] flex flex-col justify-between min-h-[220px] transition-all hover:shadow-[0_8px_24px_rgba(0,0,0,0.10)] hover:-translate-y-1 duration-200">
-          <div>
-            <div className="flex justify-between items-start mb-4">
-              <h5 className="font-semibold text-sm text-[#1A1A1A]">AI Terminal Tools</h5>
-              <Link href="/dashboard/tools" className="text-xs text-[#555550] hover:text-[#1A1A1A]">↗</Link>
-            </div>
-            
-            <div className="space-y-1.5 text-xs">
-              <Link href="/dashboard/journal" className="block text-[#555550] hover:text-[#1A1A1A] hover:underline font-mono">
-                › AI Journal
-              </Link>
-              <Link href="/dashboard/tools/position-sizer" className="block text-[#555550] hover:text-[#1A1A1A] hover:underline font-mono">
-                › Position Sizer
-              </Link>
-              <Link href="/dashboard/tools/technical-scanner" className="block text-[#555550] hover:text-[#1A1A1A] hover:underline font-mono">
-                › Confluence Scanner
-              </Link>
-            </div>
-          </div>
-
-          <div className="pt-3 border-t border-[#EDEDED] text-right">
-            <span className="text-[10px] font-mono text-[#555550]">AI Stack Active →</span>
-          </div>
-        </div>
-
-        {/* Card 5: Watchlist Summary */}
-        <WatchlistSummary initialSymbols={watchlistItems} userCurrency={userCurrency} />
-
-        {/* Card 6: Weekly Market Call forecasting challenge */}
-        <div className="bg-white border border-[#EDEDED] rounded-2xl p-5 shadow-[0_2px_12px_rgba(0,0,0,0.06)] flex flex-col justify-between min-h-[220px] transition-all hover:shadow-[0_8px_24px_rgba(0,0,0,0.10)] hover:-translate-y-1 duration-200">
-          <div>
-            <div className="flex justify-between items-start mb-4">
-              <h5 className="font-semibold text-sm text-[#1A1A1A]">Market Call</h5>
-              <Link href="/dashboard/market-call" className="text-xs text-[#555550] hover:text-[#1A1A1A]">↗</Link>
-            </div>
-            
-            <div className="space-y-2">
-              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[8px] font-mono font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 uppercase tracking-wider">
-                <Trophy className="w-2.5 h-2.5 text-emerald-600" /> FREE CHALLENGE
-              </span>
-              <p className="text-xs text-[#555550] leading-normal line-clamp-3">
-                Forecast weekly closing directions. Accumulate scoreboard points, build consistency, and win free Edge Tier!
-              </p>
-            </div>
-          </div>
-
-          <div className="pt-3 border-t border-[#EDEDED] flex justify-between items-center text-[9px] font-mono text-[#555550]">
-            <span>Weekly Round</span>
-            <span className="text-[#18B880] font-bold uppercase">LEDGER OPEN</span>
-          </div>
-        </div>
-
-        {/* Card 7: Institutional Accelerator */}
-        {hasAccelerator && (
-          <div className="bg-white border border-[#EDEDED] rounded-2xl p-5 shadow-[0_2px_12px_rgba(0,0,0,0.06)] flex flex-col justify-between min-h-[220px] transition-all hover:shadow-[0_8px_24px_rgba(0,0,0,0.10)] hover:-translate-y-1 duration-200">
-            <div>
-              <div className="flex justify-between items-start mb-4">
-                <h5 className="font-semibold text-sm text-[#1A1A1A]">Accelerator</h5>
-                <Link href="/dashboard/accelerator" className="text-xs text-[#555550] hover:text-[#1A1A1A]">↗</Link>
-              </div>
-              
-              <div className="space-y-3">
-                <div className="text-[10px] font-mono uppercase text-accent tracking-widest leading-none">
-                  // COHORT ACTIVE
-                </div>
-                <p className="text-xs text-[#555550] leading-normal line-clamp-3">
-                  Systematic trading development & performance coaching cohort.
-                </p>
-              </div>
-            </div>
-
-            <div className="space-y-3">
-              <div>
-                <div className="flex justify-between text-[10px] font-mono text-[#555550] mb-1">
-                  <span>Progress</span>
-                  <span>Week {acceleratorWeek} / 6</span>
-                </div>
-                <div className="w-full h-1.5 bg-[#F0F0F0] rounded-full overflow-hidden">
-                  <div 
-                    className="h-full bg-accent transition-all duration-500" 
-                    style={{ width: `${Math.round(((acceleratorWeek - 1) / 6) * 100)}%` }}
-                  />
-                </div>
-              </div>
-              
-              <div className="pt-2 border-t border-[#EDEDED] flex justify-between items-center text-[9px] font-mono text-[#555550]">
-                <span>Status</span>
-                <span className="text-accent font-bold uppercase">WORKSTATION OPEN</span>
-              </div>
-            </div>
-          </div>
-        )}
-
-      </section>
-
-      {/* Legacy/Detailed Content Containers - keeping data active without templates */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 pt-6">
-        <div className="lg:col-span-2 space-y-10">
+        {/* Main Work Column (2 Cols) */}
+        <div className="lg:col-span-2 space-y-8">
           
-          {/* Account Stats */}
-          <div className="space-y-4">
-            <h4 className="text-[10px] font-mono uppercase tracking-widest text-[#555550]">Performance Analytics</h4>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-              {stats.map((stat, i) => (
-                <div key={i} className="bg-white border border-[#EDEDED] rounded-2xl p-5 shadow-[0_2px_12px_rgba(0,0,0,0.06)]">
-                  <p className="text-[10px] font-mono uppercase tracking-widest text-[#555550] mb-2">{stat.label}</p>
-                  <div className={cn("text-2xl font-mono font-black mb-1", stat.color)}>
-                    {stat.value}
-                  </div>
-                  <p className="text-[9px] font-mono text-[#555550]">{stat.note}</p>
-                </div>
-              ))}
+          {/* Question 7: Next Action (Headline Workspace Card) */}
+          <div className="p-6 bg-[#0E1015] border border-indigo-500/30 rounded-xl relative overflow-hidden text-[#E4E2DD]">
+            <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/5 to-purple-500/5" />
+            <div className="relative space-y-4">
+              <div className="flex justify-between items-center">
+                <span className="text-[9px] font-mono uppercase tracking-widest text-indigo-400">// Next Recommended Action</span>
+                <span className="text-[10px] font-mono bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 px-2 py-0.5 rounded">
+                  {nextAction.stage}
+                </span>
+              </div>
+              <h2 className="text-2xl font-bold uppercase text-white">{nextAction.title}</h2>
+              <p className="text-xs text-[#9A9A95] leading-relaxed max-w-xl">{nextAction.desc}</p>
+              <div className="pt-2">
+                <Link
+                  href={nextAction.href}
+                  className="inline-flex items-center gap-2 px-6 py-3 bg-indigo-500 text-white font-mono font-bold text-xs uppercase tracking-wider rounded-lg hover:bg-indigo-400 transition-colors"
+                >
+                  {nextAction.actionText} <ArrowUpRight className="w-4 h-4" />
+                </Link>
+              </div>
             </div>
           </div>
 
-          {/* AI Signal Synthesis / Consensus */}
-          <section className="pt-4">
-            <MarketConsensus userTier={subscriptionTier} />
-          </section>
+          {/* Question 3, 4, 5: Outstanding Items & Workflow Traversal */}
+          <div className="bg-white border border-[#EDEDED] rounded-xl p-6 space-y-6 shadow-sm">
+            <h3 className="text-xs font-mono font-bold uppercase text-[#555550] tracking-wider">// Active Workflow Status</h3>
+            
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              {/* Daily Prep Status */}
+              <div className="p-4 border border-[#EDEDED] rounded-xl bg-slate-50/50 space-y-2">
+                <div className="text-[9px] font-mono text-[#555550] uppercase tracking-wider">1. Prepare Today</div>
+                <div className="flex items-center gap-2">
+                  <span className={cn("w-2 h-2 rounded-full", todayPrep ? "bg-emerald-500 animate-pulse" : "bg-amber-400")} />
+                  <span className="text-xs font-bold text-[#1A1A1A]">
+                    {todayPrep ? `Prepared (${todayPrep.outcome.toUpperCase()})` : "Not Prepared"}
+                  </span>
+                </div>
+                <Link href="/dashboard/prepare" className="text-[10px] font-mono text-indigo-500 hover:underline block pt-1">
+                  Go to Prep →
+                </Link>
+              </div>
+
+              {/* Plans Created Status */}
+              <div className="p-4 border border-[#EDEDED] rounded-xl bg-slate-50/50 space-y-2">
+                <div className="text-[9px] font-mono text-[#555550] uppercase tracking-wider">2. Trade Plans</div>
+                <div className="flex items-center gap-2">
+                  <span className={cn("w-2 h-2 rounded-full", activePlans.length > 0 ? "bg-indigo-500" : "bg-neutral-300")} />
+                  <span className="text-xs font-bold text-[#1A1A1A]">
+                    {activePlans.length > 0 ? `${activePlans.length} Active Plan(s)` : "No Active Plans"}
+                  </span>
+                </div>
+                <Link href="/dashboard/plan" className="text-[10px] font-mono text-indigo-500 hover:underline block pt-1">
+                  Go to Plan →
+                </Link>
+              </div>
+
+              {/* Pending Reviews Status */}
+              <div className="p-4 border border-[#EDEDED] rounded-xl bg-slate-50/50 space-y-2">
+                <div className="text-[9px] font-mono text-[#555550] uppercase tracking-wider">3. Process Reviews</div>
+                <div className="flex items-center gap-2">
+                  <span className={cn("w-2 h-2 rounded-full", pendingReviews.length > 0 ? "bg-amber-500" : "bg-emerald-500")} />
+                  <span className="text-xs font-bold text-[#1A1A1A]">
+                    {pendingReviews.length > 0 ? `${pendingReviews.length} Review(s) Due` : "All Reviews Completed"}
+                  </span>
+                </div>
+                <Link href="/dashboard/record" className="text-[10px] font-mono text-indigo-500 hover:underline block pt-1">
+                  Go to Journal →
+                </Link>
+              </div>
+            </div>
+          </div>
+
+          {/* Question 2: Market Context (Watchlist only) */}
+          <div className="bg-white border border-[#EDEDED] rounded-xl p-6 space-y-4 shadow-sm">
+            <div className="flex justify-between items-center">
+              <h3 className="text-xs font-mono font-bold uppercase text-[#555550] tracking-wider">// Local Market Context</h3>
+              <span className="text-[10px] text-text-tertiary">Watchlist Instruments Only</span>
+            </div>
+            <WatchlistSummary initialSymbols={watchlistItems} userCurrency={userCurrency} />
+          </div>
+
         </div>
 
-        {/* Sidebar widgets */}
-        <div className="space-y-12">
-          <PsychologyCoach trades={trades} account={account} />
-          <NewsWidget />
-          <EmotionalPnL />
-          <BrokerWidget />
+        {/* Sidebar Info Column (1 Col) */}
+        <div className="space-y-8">
+          
+          {/* Question 1: Risk Snapshot */}
+          <div className="bg-white border border-[#EDEDED] rounded-xl p-6 space-y-4 shadow-sm">
+            <h3 className="text-xs font-mono font-bold uppercase text-[#555550] tracking-wider">// Risk Snapshot</h3>
+            
+            <div className="space-y-3 text-xs">
+              <div className="flex justify-between py-1.5 border-b border-[#F0F0F0]">
+                <span className="text-[#555550]">Active Account</span>
+                <span className="font-bold text-[#1A1A1A]">{account?.account_name || "Demo Account"}</span>
+              </div>
+              <div className="flex justify-between py-1.5 border-b border-[#F0F0F0]">
+                <span className="text-[#555550]">Size / Balance</span>
+                <span className="font-mono text-[#1A1A1A]">
+                  ${account?.current_balance?.toLocaleString() || "100,000"} / ${account?.account_size?.toLocaleString() || "100,000"}
+                </span>
+              </div>
+              <div className="flex justify-between py-1.5 border-b border-[#F0F0F0]">
+                <span className="text-[#555550]">Daily Loss Limit</span>
+                <span className="font-mono text-[#1A1A1A]">-${account?.daily_loss_limit?.toLocaleString() || "5,000"}</span>
+              </div>
+              <div className="flex justify-between py-1.5">
+                <span className="text-[#555550]">Max Drawdown Limit</span>
+                <span className="font-mono text-[#CE6969]">-${account?.max_drawdown_limit?.toLocaleString() || "10,000"}</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Question 6: Weekly Focus */}
+          <div className="bg-white border border-[#EDEDED] rounded-xl p-6 space-y-4 shadow-sm">
+            <h3 className="text-xs font-mono font-bold uppercase text-[#555550] tracking-wider">// Weekly Improvement Focus</h3>
+            
+            {activeCommitment ? (
+              <div className="p-4 bg-amber-50/50 border border-amber-200/50 rounded-lg space-y-2">
+                <span className="text-[9px] font-mono bg-amber-100 text-amber-800 border border-amber-200 px-2 py-0.5 rounded uppercase tracking-wider">
+                  {activeCommitment.category}
+                </span>
+                <p className="text-xs font-bold text-[#1A1A1A] leading-normal">{activeCommitment.title}</p>
+                {activeCommitment.target_date && (
+                  <p className="text-[10px] text-text-tertiary">Due: {new Date(activeCommitment.target_date).toLocaleDateString()}</p>
+                )}
+              </div>
+            ) : (
+              <div className="p-4 border border-dashed border-[#EDEDED] rounded-lg text-center space-y-2">
+                <p className="text-xs text-[#555550]">No active commitment. Formulate one after your next trade review.</p>
+                <Link
+                  href="/dashboard/improve"
+                  className="inline-block text-[10px] font-mono text-indigo-500 hover:underline uppercase tracking-wider"
+                >
+                  Go to Improve →
+                </Link>
+              </div>
+            )}
+          </div>
+
+          {/* Quick Actions Router Panel */}
+          <div className="bg-white border border-[#EDEDED] rounded-xl p-6 space-y-4 shadow-sm">
+            <h3 className="text-xs font-mono font-bold uppercase text-[#555550] tracking-wider">// Quick Operations</h3>
+            <div className="grid grid-cols-2 gap-2">
+              <Link href="/dashboard/prepare" className="p-3 border border-[#EDEDED] rounded-lg text-center hover:bg-slate-50/50 transition-colors">
+                <div className="text-[10px] font-mono text-[#555550] uppercase">1. Prepare</div>
+              </Link>
+              <Link href="/dashboard/plan" className="p-3 border border-[#EDEDED] rounded-lg text-center hover:bg-slate-50/50 transition-colors">
+                <div className="text-[10px] font-mono text-[#555550] uppercase">2. Plan</div>
+              </Link>
+              <Link href="/dashboard/record" className="p-3 border border-[#EDEDED] rounded-lg text-center hover:bg-slate-50/50 transition-colors">
+                <div className="text-[10px] font-mono text-[#555550] uppercase">3. Record</div>
+              </Link>
+              <Link href="/dashboard/weekly-review" className="p-3 border border-[#EDEDED] rounded-lg text-center hover:bg-slate-50/50 transition-colors">
+                <div className="text-[10px] font-mono text-[#555550] uppercase">4. Weekly</div>
+              </Link>
+            </div>
+          </div>
+
         </div>
+
       </div>
 
-      {/* Execution Hub: Watchlist & Alerts */}
-      <section className="space-y-6 pt-6">
-        <h4 className="text-[10px] font-mono uppercase tracking-widest text-[#555550]">Execution Hub</h4>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          <WatchlistManager />
-          <AlertCentre />
-          
-          <div className="bg-white border border-[#EDEDED] rounded-2xl p-8 flex flex-col justify-center items-center text-center space-y-6 shadow-[0_2px_12px_rgba(0,0,0,0.06)]">
-             <div className="w-12 h-12 bg-[#F9771D]/10 border border-[#F9771D]/20 flex items-center justify-center rounded-xl">
-                <Zap className="w-6 h-6 text-[#F9771D] animate-pulse" />
-             </div>
-             <div className="space-y-2">
-                <h5 className="text-sm font-semibold uppercase text-[#1A1A1A]">Ready to Automate?</h5>
-                <p className="text-xs text-[#555550] leading-relaxed px-4">
-                   Use the Algo Strategy Builder to convert your manual rules into professional code.
-                </p>
-             </div>
-             <Link 
-               href="/dashboard/tools/algo-builder"
-               className="px-8 py-3 text-white text-[10px] font-bold uppercase tracking-widest transition-colors bg-[#181818] hover:bg-[#333330] rounded-xl"
-             >
-                Open Algo Builder
-             </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* Achievements at Bottom */}
-      <div className="space-y-6">
-        <h4 className="text-[10px] font-mono uppercase tracking-widest text-[#555550]">Achievements</h4>
-        <div className="p-8 bg-white border border-[#EDEDED] rounded-2xl shadow-[0_2px_12px_rgba(0,0,0,0.06)]">
-          <BadgeGrid badges={earnedBadges} />
-        </div>
+      {/* Market intelligence hero & Technical Timeline elements below for scanner lookup */}
+      <div className="border-t border-[#EDEDED] pt-8 space-y-8">
+        <h3 className="text-xs font-mono font-bold uppercase text-[#555550] tracking-wider">// Session Timeline & Market scanner</h3>
+        
+        <MarketIntelligenceHeroCard
+          instruments={INSTRUMENTS_LIST}
+          initialInstrument={INSTRUMENTS_LIST[0]}
+          selectedInterval={selectedInterval}
+          userCurrency={userCurrency}
+          todayTradeCount={trades.filter((t: any) => {
+            const entry = new Date(t.entry_time);
+            const today = new Date();
+            return entry.toDateString() === today.toDateString();
+          }).length}
+          onInstrumentChange={(inst) => setSelectedInst(inst as any)}
+          onTimeframeChange={setSelectedInterval}
+        />
+        <InstrumentIntelligenceCard instrument={selectedInst} interval={selectedInterval} />
       </div>
 
-      {/* Fixed bottom timeline widget */}
+      {/* Session Timeline bottom widget */}
       <SessionTimeline />
 
     </div>

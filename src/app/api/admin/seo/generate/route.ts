@@ -2,7 +2,26 @@ import { NextRequest, NextResponse } from "next/server";
 import { getAnalysis } from "@/lib/ai";
 import { requireAdmin } from "@/lib/supabase/require-admin";
 
+// ── Phase 1 SEO Freeze ─────────────────────────────────────────────────────
+// Programmatic SEO publishing is frozen. Set PROGRAMMATIC_SEO_PUBLISHING_ENABLED=true
+// in .env.local ONLY after completing the editorial approval process documented
+// in /seo-audit/PROGRAMMATIC_SEO_APPROVAL_PROCESS.md
+const SEO_PUBLISHING_ENABLED = process.env.PROGRAMMATIC_SEO_PUBLISHING_ENABLED === "true";
+
 export async function POST(request: NextRequest) {
+  // Hard freeze gate
+  if (!SEO_PUBLISHING_ENABLED) {
+    return NextResponse.json(
+      {
+        error: "Programmatic SEO publishing is frozen (Phase 1 remediation). Set PROGRAMMATIC_SEO_PUBLISHING_ENABLED=true in .env after completing editorial approval.",
+        frozenAt: "2026-08-05",
+        approvalProcess: "/seo-audit/PROGRAMMATIC_SEO_APPROVAL_PROCESS.md",
+      },
+      { status: 503 }
+    );
+  }
+
+
   const guard = await requireAdmin();
   if ("error" in guard) return guard.error;
 

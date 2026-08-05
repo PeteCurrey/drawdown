@@ -162,8 +162,10 @@ const nextConfig: NextConfig = {
 
       // Broker redirects
       {
+        // Fixed redirect chain: was /brokers/quiz → /brokers → /brokers/all (2-hop chain)
+        // Now points directly to the canonical destination
         source: "/brokers/quiz",
-        destination: "/brokers",
+        destination: "/brokers/all",
         permanent: false,
       },
       {
@@ -250,12 +252,23 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
 
-      // SEO Audit Phase 1 — Group C (Redirect /best/ Day Trading UK)
+
+      // SEO Audit Phase 1 — Group C: /best/ URL remediation
+      // REMOVED: blanket /best/broker-for-day-trading-uk → /brokers (chained to /brokers/all)
+      // Each /best/ URL now either:
+      //   (a) Renders a real page from the seo_pages database
+      //   (b) Returns 404 via notFound() in /best/[slug]/page.tsx
+      //   (c) Gets a specific redirect below to the genuinely equivalent destination
+      // A /best/* URL may only redirect to /brokers/all where the original search
+      // intent was a BROAD broker-directory query. All other intents get topic-specific destinations.
       {
-        source: "/best/broker-for-day-trading-uk",
-        destination: "/brokers",
-        permanent: true,
+        // "best forex broker uk" → broker list filtered to forex
+        source: "/best/forex-broker-uk",
+        destination: "/brokers/all",
+        permanent: false, // temporary until the /best/forex-broker-uk page is restored
       },
+      // Note: /best/broker-for-day-trading-uk is intentionally NOT redirected to /brokers/all.
+      // Its intent is day-trading-specific. Until a proper page exists, it returns 404.
 
 
       // Old blog page redirects

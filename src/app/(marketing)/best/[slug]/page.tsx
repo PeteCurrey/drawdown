@@ -1,4 +1,4 @@
-import { redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 import { brokers, Broker } from "@/data/brokers";
 import { Metadata } from "next";
 import { TrackPageView } from "@/components/admin/TrackPageView";
@@ -130,6 +130,9 @@ export default async function BestOfPage({ params }: Props) {
     // Supabase unavailable or threw
   }
 
-  // ── 2. Redirect to hub. Unconditional. ────────────
-  redirect("/brokers");
+  // ── 2. No published database page found for this slug ─────────────────────
+  // Return 404 (notFound) instead of blanket-redirecting all /best/* slugs to
+  // /brokers/all. That redirect was the root cause of the mass redirect issue.
+  // Google will stop indexing non-existent /best/ URLs gracefully.
+  notFound();
 }

@@ -30,5 +30,5 @@ export async function GET(
   }
 
   // Redirect to affiliate URL
-  return NextResponse.redirect(new URL(broker.affiliateUrl));
+  return NextResponse.redirect(new URL(broker.affiliateUrl, request.url));
 }

@@ -234,7 +234,7 @@ export function getBreakingNewsTemplate(data: BreakingNewsData): string {
               <!-- Footer -->
               <tr>
                 <td class="footer">
-                  <p style="margin-bottom: 8px; color: #475569;">Drawdown Platform Ltd &bull; UK-first Market Intelligence</p>
+                  <p style="margin-bottom: 8px; color: #475569;">Drawdown &bull; Trade the Truth</p>
                   <p style="margin-bottom: 16px; color: #64748B;">&copy; ${new Date().getFullYear()} Drawdown. All rights reserved.</p>
                   <p style="margin-bottom: 16px;"><a href="${data.unsubscribeUrl || '#'}" style="color: #64748B; text-decoration: underline;">Unsubscribe</a></p>
                   <hr style="border: 0; border-top: 1px solid #E2E8F0; margin: 20px 0;" />
@@ -371,7 +371,7 @@ export function getMorningBriefTemplate(data: MorningBriefData): string {
               <!-- Footer -->
               <tr>
                 <td class="footer">
-                  <p style="margin-bottom: 8px; color: #475569;">Drawdown Platform Ltd &bull; UK-first Market Intelligence</p>
+                  <p style="margin-bottom: 8px; color: #475569;">Drawdown &bull; Trade the Truth</p>
                   <p style="margin-bottom: 16px; color: #64748B;">&copy; ${new Date().getFullYear()} Drawdown. All rights reserved.</p>
                   <p style="margin-bottom: 16px;"><a href="${data.unsubscribeUrl}" style="color: #64748B; text-decoration: underline;">Unsubscribe</a></p>
                   <hr style="border: 0; border-top: 1px solid #E2E8F0; margin: 20px 0;" />
@@ -461,7 +461,7 @@ export function getEveningWrapTemplate(data: EveningWrapData): string {
               <!-- Footer -->
               <tr>
                 <td class="footer">
-                  <p style="margin-bottom: 8px; color: #475569;">Drawdown Platform Ltd &bull; UK-first Market Intelligence</p>
+                  <p style="margin-bottom: 8px; color: #475569;">Drawdown &bull; Trade the Truth</p>
                   <p style="margin-bottom: 16px; color: #64748B;">&copy; ${new Date().getFullYear()} Drawdown. All rights reserved.</p>
                   <p style="margin-bottom: 16px;"><a href="${data.unsubscribeUrl}" style="color: #64748B; text-decoration: underline;">Unsubscribe</a></p>
                   <hr style="border: 0; border-top: 1px solid #E2E8F0; margin: 20px 0;" />

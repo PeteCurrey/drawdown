@@ -24,7 +24,7 @@ async function checkAffiliates() {
   } else {
     console.log(`✅ affiliate_links table exists: ${links.length} rows found.`);
     if (links.length > 0) {
-      console.log('Sample links:', JSON.stringify(links.slice(0, 3), null, 2));
+      console.log('Sample links:', JSON.stringify(links, null, 2));
     }
   }
 

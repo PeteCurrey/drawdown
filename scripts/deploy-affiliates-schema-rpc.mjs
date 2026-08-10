@@ -116,7 +116,7 @@ const seedLinks = [
   { slug: 'funding-pips', display_name: 'Funding Pips', type: 'prop_firm', destination_url: 'https://fundingpips.com', commission_type: null, commission_detail: null },
   { slug: 'ig', display_name: 'IG Markets UK', type: 'broker', destination_url: 'https://www.ig.com/uk', commission_type: 'CPA', commission_detail: 'CPA via Impact.com' },
   { slug: 'pepperstone', display_name: 'Pepperstone', type: 'broker', destination_url: 'https://pepperstone.com/en-gb/', commission_type: 'CPA', commission_detail: 'CPA' },
-  { slug: 'ic-markets', display_name: 'IC Markets', type: 'broker', destination_url: 'https://icmarkets.com/en-gb/', commission_type: 'IB', commission_detail: 'IB Revenue Share' },
+  { slug: 'ic-markets', display_name: 'IC Markets', type: 'broker', destination_url: 'https://ic.com/?camp=94624', commission_type: 'IB', commission_detail: 'IB Revenue Share' },
   { slug: 'trading-212', display_name: 'Trading 212', type: 'broker', destination_url: 'https://www.trading212.com', commission_type: 'Referral', commission_detail: 'Referral' },
   { slug: 'xtb', display_name: 'XTB', type: 'broker', destination_url: 'https://www.xtb.com/uk', commission_type: 'CPA', commission_detail: 'CPA' },
   { slug: 'cmc-markets', display_name: 'CMC Markets', type: 'broker', destination_url: 'https://www.cmcmarkets.com/en-gb/', commission_type: 'CPA', commission_detail: 'CPA' },

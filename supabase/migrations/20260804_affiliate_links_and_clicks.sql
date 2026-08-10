@@ -111,7 +111,7 @@ VALUES
   ('funding-pips', 'Funding Pips', 'prop_firm', 'https://fundingpips.com', NULL, NULL),
   ('ig', 'IG Markets UK', 'broker', 'https://www.ig.com/uk', 'CPA', 'CPA via Impact.com'),
   ('pepperstone', 'Pepperstone', 'broker', 'https://pepperstone.com/en-gb/', 'CPA', 'CPA'),
-  ('ic-markets', 'IC Markets', 'broker', 'https://icmarkets.com/en-gb/', 'IB', 'IB Revenue Share'),
+  ('ic-markets', 'IC Markets', 'broker', 'https://ic.com/?camp=94624', 'IB', 'IB Revenue Share'),
   ('trading-212', 'Trading 212', 'broker', 'https://www.trading212.com', 'Referral', 'Referral'),
   ('xtb', 'XTB', 'broker', 'https://www.xtb.com/uk', 'CPA', 'CPA'),
   ('cmc-markets', 'CMC Markets', 'broker', 'https://www.cmcmarkets.com/en-gb/', 'CPA', 'CPA'),

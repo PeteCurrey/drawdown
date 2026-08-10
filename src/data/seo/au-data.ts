@@ -62,7 +62,7 @@ export const AU_BROKERS = [
     afsl: '335692',
     description: 'Sydney-based. Ultra-low latency and raw spreads.',
     pros: ['Raw spreads from 0.0', 'No requotes', 'Deep liquidity'],
-    link: 'https://icmarkets.com'
+    link: '/go/ic-markets'
   },
   {
     slug: 'fp-markets',

@@ -162,7 +162,7 @@ export const brokers: Broker[] = [
     fcaRegulated: false,
     pros: ["Ultra-tight spreads", "Equinix NY4 infrastructure", "No restrictions on scalping"],
     cons: ["Not FCA regulated (ASIC/CySEC)", "Limited education for beginners"],
-    affiliateUrl: "https://www.icmarkets.com",
+    affiliateUrl: "/go/ic-markets",
     category: "Forex"
   },
   {

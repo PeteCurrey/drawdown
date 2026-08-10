@@ -35,7 +35,7 @@ export const brokersAu = [
     maxLeverage: "1:30 (Retail)",
     platforms: ["MT4", "MT5", "cTrader"],
     features: ["True ECN", "Equinix NY4 Data Centre", "60+ Forex Pairs"],
-    affiliateLink: "https://icmarkets.com",
+    affiliateLink: "/go/ic-markets",
     isPartner: true,
   },
   {

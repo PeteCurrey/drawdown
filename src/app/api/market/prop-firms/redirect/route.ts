@@ -40,10 +40,10 @@ export async function GET(request: NextRequest) {
     });
 
     // 2. Redirect to the affiliate URL
-    return NextResponse.redirect(new URL(firm.affiliateUrl));
+    return NextResponse.redirect(new URL(firm.affiliateUrl, request.url));
   } catch (error) {
     console.error("Prop firm redirect logging error:", error);
     // Redirect anyway even if logging fails
-    return NextResponse.redirect(new URL(firm.affiliateUrl));
+    return NextResponse.redirect(new URL(firm.affiliateUrl, request.url));
   }
 }

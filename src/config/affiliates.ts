@@ -44,10 +44,10 @@ export const affiliateLinks: Record<string, {
     hasAffiliateLink: false,
   },
   'ic-markets': {
-    url: 'https://icmarkets.com/en-gb/', // PLACEHOLDER - replace with affiliate URL
+    url: 'https://ic.com/?camp=94624',
     name: 'IC Markets',
     category: 'broker',
-    hasAffiliateLink: false,
+    hasAffiliateLink: true,
   },
   'trading-212': {
     url: 'https://www.trading212.com',

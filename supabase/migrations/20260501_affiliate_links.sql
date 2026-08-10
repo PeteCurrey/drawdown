@@ -78,7 +78,7 @@ INSERT INTO affiliate_links (slug, display_name, type, destination_url, commissi
   ('fundednext',     'FundedNext',            'prop_firm', 'https://fundednext.com',                    'Revenue Share', '15% per challenge'),
   ('ig-markets',     'IG Markets UK',         'broker',    'https://ig.com',                            'CPA',           'CPA via Impact.com'),
   ('pepperstone',    'Pepperstone',           'broker',    'https://pepperstone.com',                   'CPA',           'CPA'),
-  ('ic-markets',     'IC Markets',            'broker',    'https://icmarkets.com',                     'IB',            'IB Revenue Share'),
+  ('ic-markets',     'IC Markets',            'broker',    'https://ic.com/?camp=94624',                'IB',            'IB Revenue Share'),
   ('cmc-markets',    'CMC Markets',           'broker',    'https://cmcmarkets.com',                    'CPA',           'CPA'),
   ('etoro',          'eToro',                 'broker',    'https://etoro.com',                         'CPA',           'CPA'),
   ('xtb',            'XTB',                   'broker',    'https://xtb.com',                           'CPA',           'CPA'),

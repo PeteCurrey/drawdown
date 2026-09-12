@@ -52,36 +52,39 @@ import { OnboardingWizard } from "@/components/dashboard/OnboardingWizard";
 import { TierGate } from "@/components/dashboard/TierGate";
 import { hasAccess, type SubscriptionTier } from "@/lib/tier-access";
 
-// ─── Primary Workflow Navigation (The 7-stage OS) ─────────────────────────────
-const workflowNavLinks = [
+// ─── 1. Primary Operating Loop (Daily Discipline Cadence) ────────────────────
+const operatingLoopNavLinks = [
   { name: "Today",         href: "/dashboard",                    icon: LayoutDashboard },
-  { name: "Prepare",      href: "/dashboard/prepare",             icon: ClipboardCheck },
-  { name: "Plan",         href: "/dashboard/plan",                icon: PenLine },
-  { name: "Journal",      href: "/dashboard/record",              icon: FileText },
-  { name: "Review",       href: "/dashboard/review",              icon: CheckSquare },
-  { name: "Improve",      href: "/dashboard/improve",             icon: TrendingUp },
-  { name: "Library",      href: "/dashboard/learn",               icon: Library },
+  { name: "Prepare",       href: "/dashboard/prepare",             icon: ClipboardCheck },
+  { name: "Plan",          href: "/dashboard/plan",                icon: PenLine },
+  { name: "Journal",       href: "/dashboard/journal",             icon: FileText },
+  { name: "Review",        href: "/dashboard/review",              icon: CheckSquare },
+  { name: "Improve",       href: "/dashboard/improve",             icon: TrendingUp },
 ];
 
-// ─── Secondary Tool & Intelligence Navigation ─────────────────────────────────
-const toolNavLinks = [
-  { name: "Markets",          href: "/dashboard/market-intelligence",      icon: Brain },
-  { name: "The Wire",         href: "/dashboard/the-wire",                 icon: Newspaper, badge: "NEW" },
+// ─── 2. Market Intelligence ──────────────────────────────────────────────────
+const intelligenceNavLinks = [
+  { name: "The Wire",         href: "/dashboard/the-wire",                 icon: Newspaper, badge: "DAILY" },
+  { name: "Market Pulse",     href: "/dashboard/market-intelligence",      icon: Brain },
   { name: "Signal Centre",    href: "/dashboard/signal-centre",            icon: Zap },
-  { name: "Risk Calculator",  href: "/dashboard/tools/position-sizer",     icon: Calculator },
+  { name: "Institutional",    href: "/dashboard/intelligence",             icon: Building2 },
+];
+
+// ─── 3. Analytical Tools ─────────────────────────────────────────────────────
+const toolsNavLinks = [
+  { name: "Position Sizer",   href: "/dashboard/tools/position-sizer",     icon: Calculator },
   { name: "Backtester",       href: "/dashboard/tools/backtester",         icon: Code },
-  { name: "Scanner",          href: "/dashboard/tools/technical-scanner",  icon: ScanSearch },
-  { name: "Funded Accounts",  href: "/dashboard/accounts",                 icon: Wallet },
-  { name: "Brokers",          href: "/brokers",                            icon: Building2 },
-  { name: "Prop Firms",       href: "/prop-firms",                         icon: Trophy },
-  { name: "Community",        href: "/dashboard/community",                icon: Users },
-  { name: "Weekly Breakdowns",href: "/dashboard/breakdowns",               icon: Video },
-  { name: "Live Events",      href: "/dashboard/events",                   icon: Calendar },
-  { name: "Mentorship",       href: "/dashboard/mentorship",               icon: UserCircle },
-  { name: "Psychology Coach", href: "/dashboard/coach",                    icon: Sparkles },
+  { name: "Algo Builder",     href: "/dashboard/tools/algo-builder",       icon: Cpu },
+  { name: "Challenge Sim",    href: "/dashboard/simulator",                icon: Target },
+];
+
+// ─── 4. Academy & Community ──────────────────────────────────────────────────
+const academyNavLinks = [
   { name: "Curriculum",       href: "/dashboard/curriculum",               icon: BookOpen },
-  { name: "Downloads",        href: "/dashboard/downloads",                icon: BookOpen },
-  { name: "Market Call",      href: "/dashboard/market-call",              icon: Award, badge: "FREE" },
+  { name: "Video Vault",      href: "/dashboard/learn",                    icon: Library },
+  { name: "Breakdowns",       href: "/dashboard/breakdowns",               icon: Video },
+  { name: "Live Events",      href: "/dashboard/events",                   icon: Calendar },
+  { name: "Community",        href: "/dashboard/community",                icon: Users },
 ];
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
@@ -307,7 +310,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             { label: "Today",   href: "/dashboard" },
             { label: "Prepare", href: "/dashboard/prepare" },
             { label: "Plan",    href: "/dashboard/plan" },
-            { label: "Journal", href: "/dashboard/record" },
+            { label: "Journal", href: "/dashboard/journal" },
             { label: "Review",  href: "/dashboard/review" },
             { label: "Improve", href: "/dashboard/improve" },
           ].map(tab => {
@@ -384,21 +387,20 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             </button>
           </div>
 
-          {/* Section 1: Workflow navigation (primary OS stages) */}
+          {/* Section: 4-Pillar Platform Navigation */}
           <div className="flex-1 overflow-y-auto py-2" data-lenis-prevent>
             
-            {/* Workflow group label */}
+            {/* 1. Operating Loop */}
             {!isCollapsed && (
               <div className={cn(
-                "px-3 mb-1.5 text-[10px] uppercase tracking-[0.08em] font-semibold",
+                "px-3 mb-1 text-[10px] uppercase tracking-[0.08em] font-semibold",
                 isDarkModulePage ? "text-white/30" : "text-[#888882]"
               )}>
-                Workflow
+                Operating Loop
               </div>
             )}
-
             <div className="space-y-0.5 px-2">
-              {workflowNavLinks.map(link => {
+              {operatingLoopNavLinks.map(link => {
                 const isSignalCentreOnly = subscriptionTier === 'signal-centre';
                 if (isSignalCentreOnly && link.href !== '/dashboard') {
                   return <LockedSidebarLink key={link.href} icon={link.icon} name={link.name} />;
@@ -408,20 +410,19 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             </div>
 
             {/* Divider */}
-            <div className={cn("my-3 border-t", isDarkModulePage ? "border-white/10" : "border-[#E8E6E1]")} />
+            <div className={cn("my-2.5 border-t", isDarkModulePage ? "border-white/10" : "border-[#E8E6E1]")} />
 
-            {/* Tools & Intelligence group label */}
+            {/* 2. Market Intelligence */}
             {!isCollapsed && (
               <div className={cn(
-                "px-3 mb-1.5 text-[10px] uppercase tracking-[0.08em] font-semibold",
+                "px-3 mb-1 text-[10px] uppercase tracking-[0.08em] font-semibold",
                 isDarkModulePage ? "text-white/30" : "text-[#888882]"
               )}>
-                Resources
+                Intelligence
               </div>
             )}
-
             <div className="space-y-0.5 px-2">
-              {toolNavLinks.map(link => {
+              {intelligenceNavLinks.map(link => {
                 const isSignalCentreOnly = subscriptionTier === 'signal-centre';
                 const isSignalCentreLink = link.href === '/dashboard/signal-centre';
                 if (isSignalCentreOnly && !isSignalCentreLink) {
@@ -430,11 +431,55 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 return <SidebarLink key={link.href} {...link} />;
               })}
             </div>
+
+            {/* Divider */}
+            <div className={cn("my-2.5 border-t", isDarkModulePage ? "border-white/10" : "border-[#E8E6E1]")} />
+
+            {/* 3. Analytical Tools */}
+            {!isCollapsed && (
+              <div className={cn(
+                "px-3 mb-1 text-[10px] uppercase tracking-[0.08em] font-semibold",
+                isDarkModulePage ? "text-white/30" : "text-[#888882]"
+              )}>
+                Tools
+              </div>
+            )}
+            <div className="space-y-0.5 px-2">
+              {toolsNavLinks.map(link => {
+                const isSignalCentreOnly = subscriptionTier === 'signal-centre';
+                if (isSignalCentreOnly) {
+                  return <LockedSidebarLink key={link.href} icon={link.icon} name={link.name} />;
+                }
+                return <SidebarLink key={link.href} {...link} />;
+              })}
+            </div>
+
+            {/* Divider */}
+            <div className={cn("my-2.5 border-t", isDarkModulePage ? "border-white/10" : "border-[#E8E6E1]")} />
+
+            {/* 4. Academy & Community */}
+            {!isCollapsed && (
+              <div className={cn(
+                "px-3 mb-1 text-[10px] uppercase tracking-[0.08em] font-semibold",
+                isDarkModulePage ? "text-white/30" : "text-[#888882]"
+              )}>
+                Academy
+              </div>
+            )}
+            <div className="space-y-0.5 px-2">
+              {academyNavLinks.map(link => {
+                const isSignalCentreOnly = subscriptionTier === 'signal-centre';
+                if (isSignalCentreOnly) {
+                  return <LockedSidebarLink key={link.href} icon={link.icon} name={link.name} />;
+                }
+                return <SidebarLink key={link.href} {...link} />;
+              })}
+            </div>
           </div>
 
-          {/* Bottom links: profile summary / billing */}
-          <div className={cn("border-t p-2 space-y-1", isDarkModulePage ? "border-white/10" : "border-[#E8E6E1]")}>
-            <SidebarLink href="/dashboard/profile" icon={CreditCard} name="Billing" />
+          {/* Bottom links: Accounts & Settings */}
+          <div className={cn("border-t p-2 space-y-0.5", isDarkModulePage ? "border-white/10" : "border-[#E8E6E1]")}>
+            <SidebarLink href="/dashboard/accounts" icon={Wallet} name="Accounts" />
             <SidebarLink href="/dashboard/profile" icon={Settings} name="Settings" />
             
             {/* User profile summary widget */}
@@ -462,37 +507,108 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         </aside>
 
         {/* Mobile menu overlay */}
+        {/* Mobile menu overlay */}
         {mobileMenuOpen && (
-          <div className="fixed inset-0 bg-[#181818]/95 z-40 md:hidden flex flex-col p-6 animate-in fade-in duration-200">
-            <nav className="flex-1 overflow-y-auto space-y-2 text-white">
-              <p className="text-[10px] font-semibold uppercase tracking-widest text-white/40 mb-2">Workflow</p>
-              {workflowNavLinks.map(link => (
+          <div className="fixed inset-0 bg-[#181818]/95 z-50 md:hidden flex flex-col p-6 animate-in fade-in duration-200">
+            <div className="flex items-center justify-between pb-4 border-b border-[#333330]">
+              <span className="font-display font-bold text-sm text-white">Drawdown Trading</span>
+              <button
+                onClick={() => setMobileMenuOpen(false)}
+                className="text-xs text-[#8A8A85] hover:text-white px-2 py-1 rounded"
+              >
+                Close ✕
+              </button>
+            </div>
+            <nav className="flex-1 overflow-y-auto space-y-4 text-white py-4" data-lenis-prevent>
+              <div>
+                <p className="text-[10px] font-semibold uppercase tracking-widest text-[#F9771D] mb-1.5">Operating Loop</p>
+                <div className="space-y-1">
+                  {operatingLoopNavLinks.map(link => (
+                    <Link
+                      key={link.href}
+                      href={link.href}
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="flex items-center gap-3 py-2 px-3 rounded-md hover:bg-white/10 text-sm font-medium"
+                    >
+                      <link.icon className="w-4 h-4 text-[#8A8A85]" />
+                      <span>{link.name}</span>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <p className="text-[10px] font-semibold uppercase tracking-widest text-[#8A8A85] mb-1.5">Market Intelligence</p>
+                <div className="space-y-1">
+                  {intelligenceNavLinks.map(link => (
+                    <Link
+                      key={link.href}
+                      href={link.href}
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="flex items-center gap-3 py-2 px-3 rounded-md hover:bg-white/10 text-sm font-medium"
+                    >
+                      <link.icon className="w-4 h-4 text-[#8A8A85]" />
+                      <span>{link.name}</span>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <p className="text-[10px] font-semibold uppercase tracking-widest text-[#8A8A85] mb-1.5">Analytical Tools</p>
+                <div className="space-y-1">
+                  {toolsNavLinks.map(link => (
+                    <Link
+                      key={link.href}
+                      href={link.href}
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="flex items-center gap-3 py-2 px-3 rounded-md hover:bg-white/10 text-sm font-medium"
+                    >
+                      <link.icon className="w-4 h-4 text-[#8A8A85]" />
+                      <span>{link.name}</span>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <p className="text-[10px] font-semibold uppercase tracking-widest text-[#8A8A85] mb-1.5">Academy &amp; Community</p>
+                <div className="space-y-1">
+                  {academyNavLinks.map(link => (
+                    <Link
+                      key={link.href}
+                      href={link.href}
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="flex items-center gap-3 py-2 px-3 rounded-md hover:bg-white/10 text-sm font-medium"
+                    >
+                      <link.icon className="w-4 h-4 text-[#8A8A85]" />
+                      <span>{link.name}</span>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+
+              <div className="pt-2 border-t border-[#333330]">
                 <Link
-                  key={link.href}
-                  href={link.href}
+                  href="/dashboard/accounts"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="flex items-center gap-3 py-3 px-4 rounded-md hover:bg-white/10 text-sm font-medium"
+                  className="flex items-center gap-3 py-2 px-3 rounded-md hover:bg-white/10 text-sm font-medium"
                 >
-                  <link.icon className="w-5 h-5 text-[#8A8A85]" />
-                  <span>{link.name}</span>
+                  <Wallet className="w-4 h-4 text-[#8A8A85]" />
+                  <span>Trading Accounts</span>
                 </Link>
-              ))}
-              <div className="border-t border-[#333330] my-4" />
-              <p className="text-[10px] font-semibold uppercase tracking-widest text-white/40 mb-2">Resources</p>
-              {toolNavLinks.map(link => (
                 <Link
-                  key={link.href}
-                  href={link.href}
+                  href="/dashboard/profile"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="flex items-center gap-3 py-3 px-4 rounded-md hover:bg-white/10 text-sm font-medium"
+                  className="flex items-center gap-3 py-2 px-3 rounded-md hover:bg-white/10 text-sm font-medium"
                 >
-                  <link.icon className="w-5 h-5 text-[#8A8A85]" />
-                  <span>{link.name}</span>
+                  <Settings className="w-4 h-4 text-[#8A8A85]" />
+                  <span>Settings &amp; Billing</span>
                 </Link>
-              ))}
+              </div>
             </nav>
             <div className="pt-4 border-t border-[#333330] flex items-center justify-between">
-              <span className="text-xs text-[#8A8A85]">{profile?.display_name || "Trader"}</span>
+              <span className="text-xs text-[#8A8A85]">{profile?.display_name || "Trader"} ({profile?.subscription_tier?.toUpperCase() || "FREE"})</span>
               <button 
                 onClick={handleLogout}
                 className="text-xs text-[#CE6969] font-bold"
@@ -533,13 +649,12 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       </div>
 
       {/* Mobile Bottom Tab Bar (≤768px viewport) */}
-      <div className={cn("md:hidden fixed bottom-0 left-0 right-0 h-14 flex items-center justify-around z-50 border-t transition-colors", isDarkModulePage ? "bg-[#0d0d0d] border-white/10 text-white" : "bg-[#FAFAF9] border-[#E8E6E1] text-[#1A1A1A]")}>
+      <div className={cn("md:hidden fixed bottom-0 left-0 right-0 h-14 flex items-center justify-around z-40 border-t transition-colors", isDarkModulePage ? "bg-[#0d0d0d] border-white/10 text-white" : "bg-[#FAFAF9] border-[#E8E6E1] text-[#1A1A1A]")}>
         {[
-          { label: "Overview", href: "/dashboard", icon: LayoutDashboard },
-          { label: "Markets", href: "/dashboard/market-intelligence", icon: Brain },
-          { label: "Curriculum", href: "/dashboard/curriculum", icon: Library },
-          { label: "Tools", href: "/dashboard/tools", icon: Wrench },
-          { label: "Settings", href: "/dashboard/profile", icon: Settings },
+          { label: "Today", href: "/dashboard", icon: LayoutDashboard },
+          { label: "Plan", href: "/dashboard/plan", icon: PenLine },
+          { label: "Journal", href: "/dashboard/journal", icon: FileText },
+          { label: "Markets", href: "/dashboard/the-wire", icon: Newspaper },
         ].map(tab => {
           const isTabActive = pathname === tab.href;
           const Icon = tab.icon;
@@ -554,11 +669,23 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                   : (isDarkModulePage ? "text-white/50 hover:text-white" : "text-[#888882] hover:text-[#1A1A1A]")
               )}
             >
-              <Icon className="w-5 h-5 mb-0.5" />
-              <span className="text-[9px] uppercase tracking-tighter">{tab.label}</span>
+              <Icon className="w-4 h-4 mb-0.5" />
+              <span className="text-[9px] uppercase tracking-tight">{tab.label}</span>
             </Link>
           );
         })}
+        <button
+          onClick={() => setMobileMenuOpen(true)}
+          className={cn(
+            "flex flex-col items-center justify-center flex-1 h-full text-[10px] font-medium transition-colors",
+            mobileMenuOpen 
+              ? (isDarkModulePage ? "text-[#C8F135]" : "text-[#F9771D]") 
+              : (isDarkModulePage ? "text-white/50 hover:text-white" : "text-[#888882] hover:text-[#1A1A1A]")
+          )}
+        >
+          <Menu className="w-4 h-4 mb-0.5" />
+          <span className="text-[9px] uppercase tracking-tight">Menu</span>
+        </button>
       </div>
     </div>
   );

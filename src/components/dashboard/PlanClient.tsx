@@ -463,6 +463,19 @@ export function PlanClient() {
               <span className="text-text-tertiary">Reward-to-Risk (RRR)</span>
               <span className="font-mono font-bold text-emerald-500">{calculatedRRR.toFixed(2)}R</span>
             </div>
+            <div className="pt-2 border-t border-border-slate/20">
+              <Link 
+                href="/dashboard/tools/position-sizer"
+                target="_blank"
+                className="flex items-center justify-between text-[11px] text-text-tertiary hover:text-emerald-400 transition-colors"
+              >
+                <span className="flex items-center gap-1.5">
+                  <Calculator className="w-3.5 h-3.5" />
+                  Advanced Position Sizer
+                </span>
+                <span className="font-mono text-[10px]">Open Tool →</span>
+              </Link>
+            </div>
           </div>
         </div>
 

@@ -12,7 +12,8 @@ import {
   CheckCircle2,
   ChevronRight,
   Target,
-  Trophy
+  Trophy,
+  Wallet
 } from "lucide-react";
 import { BrokerWidget } from "@/components/market/BrokerWidget";
 import { NewsWidget } from "@/components/market/NewsWidget";
@@ -520,6 +521,17 @@ export default function DashboardPage() {
 
   // Resolve 7 Questions & Next CTA
   const getNextAction = () => {
+    // 0. Account check (Truth before features & Next Action principle)
+    if (!account) {
+      return {
+        title: "Configure Your Trading Account",
+        desc: "Connect your prop firm challenge, funded account, or personal broker to enable automated drawdown protection and real-time equity tracking.",
+        href: "/dashboard/accounts",
+        actionText: "Add Account",
+        stage: "Stage 0: Setup"
+      };
+    }
+
     // 1. Prepare today?
     if (!todayPrep) {
       return {
@@ -617,6 +629,10 @@ export default function DashboardPage() {
   const currentDrawdownPct = accountSize > 0 && currentDrawdownAmount > 0 
     ? ((currentDrawdownAmount / accountSize) * 100) 
     : 0;
+
+  const maxDrawdownPctLimit = accountSize > 0 && maxDrawdownLimit > 0 
+    ? ((maxDrawdownLimit / accountSize) * 100).toFixed(0) 
+    : "10";
 
   const drawdownProgressPct = maxDrawdownLimit > 0 
     ? Math.min(100, Math.round((currentDrawdownAmount / maxDrawdownLimit) * 100)) 
@@ -861,7 +877,7 @@ export default function DashboardPage() {
                 </Link>
 
                 <Link
-                  href="/dashboard/record"
+                  href="/dashboard/review"
                   className={cn(
                     "p-2.5 rounded-md border text-left transition-colors",
                     pendingReviews.length > 0 ? "bg-[#FFFBEB] border-[rgba(217,119,6,0.2)]" : "bg-[#F0FDF8] border-[rgba(24,184,128,0.2)]"
@@ -996,13 +1012,13 @@ export default function DashboardPage() {
                 Plan
               </Link>
               <Link
-                href="/dashboard/record"
+                href="/dashboard/journal"
                 className="p-1.5 text-center rounded border border-[#E8E6E1] hover:bg-[#F7F7F5] transition-colors text-[10px] font-medium text-[#4A4A47]"
               >
                 Journal
               </Link>
               <Link
-                href="/dashboard/weekly-review"
+                href="/dashboard/review"
                 className="p-1.5 text-center rounded border border-[#E8E6E1] hover:bg-[#F7F7F5] transition-colors text-[10px] font-medium text-[#4A4A47]"
               >
                 Review

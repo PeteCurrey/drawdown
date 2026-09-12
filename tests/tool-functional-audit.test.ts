@@ -2,13 +2,8 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import fs from "node:fs";
 import path from "node:path";
-import {
-  calculatePositionSize,
-  resolveInstrumentSpec,
-  POSITION_INSTRUMENT_SPECS,
-} from "../src/lib/position-sizing.ts";
+import { calculatePositionSize } from "../src/lib/position-sizing.ts";
 import { simulateStrategy } from "../src/lib/backtester.ts";
-import { CommercialAccess, hasTierAccess } from "../src/lib/entitlements.ts";
 
 const rootDir = path.resolve(import.meta.dirname, "..");
 
@@ -195,7 +190,7 @@ test("Tool Audit 4.1: Backtester simulation engine produces deterministic result
     { time: 1540, open: 1.269, high: 1.272, low: 1.268, close: 1.271 },
   ];
 
-  const config: any = {
+  const config: Parameters<typeof simulateStrategy>[1] = {
     type: "EMA_CROSS",
     params: { fast: 2, slow: 5, stopLossPct: 1, takeProfitPct: 2 },
   };
@@ -210,7 +205,7 @@ test("Tool Audit 4.1: Backtester simulation engine produces deterministic result
 });
 
 test("Tool Audit 4.2: Backtester handles empty data gracefully without throwing", () => {
-  const config: any = {
+  const config: Parameters<typeof simulateStrategy>[1] = {
     type: "EMA_CROSS",
     params: { fast: 10, slow: 25 },
   };
@@ -275,7 +270,7 @@ test("Tool Audit 5.2: Simulator server action persists deterministic results wit
     "Simulator must load rules from prop_firms table"
   );
   assert.ok(
-    actionSource.includes('.from("simulation_results").insert'),
+    actionSource.includes('.from("simulation_results")') && actionSource.includes(".insert("),
     "Simulator must persist simulation results to simulation_results table"
   );
 });

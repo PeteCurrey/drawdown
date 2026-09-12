@@ -14,6 +14,8 @@ import {
 import { cn } from "@/lib/utils";
 import { createClient } from "@/lib/supabase/client";
 import { ExtendYourEdge } from "@/components/dashboard/ExtendYourEdge";
+import { getSignalFreshness } from "@/lib/freshness";
+import { TIER_WEIGHT, hasTierAccess } from "@/lib/entitlements";
 
 interface SignalData {
   id: string;
@@ -58,10 +60,8 @@ interface SignalCentreDashboardClientProps {
   closedSignals: ClosedSignal[];
 }
 
-const TIER_WEIGHT: Record<string, number> = { free: 0, 'signal-centre': 1, foundation: 1, edge: 2, floor: 3 };
-
 function tierAtLeast(userTier: string, required: string): boolean {
-  return (TIER_WEIGHT[userTier] ?? 0) >= (TIER_WEIGHT[required] ?? 0);
+  return hasTierAccess(userTier, required);
 }
 
 function getCategory(instrument: string): string {
@@ -594,6 +594,7 @@ function SignalCentreInner({
             const isBullish = s.bias === "BULLISH";
             const ageStr = getAge(s.created_at);
             const isSaved = savedIds.includes(s.id);
+            const freshness = getSignalFreshness({ created_at: s.created_at, timeframe: s.timeframe, is_active: true });
             const dcs = s.dcs_score || Math.round(50 + s.confluence_score * 4);
             const clVerdict = s.ai_consensus?.claude?.verdict;
             const gpVerdict = s.ai_consensus?.gpt4?.verdict;
@@ -637,6 +638,11 @@ function SignalCentreInner({
                         <span className="text-[8px] font-mono bg-gray-100 text-gray-600 border border-gray-200 px-1.5 py-0.5 rounded uppercase font-bold">
                           {s.timeframe}
                         </span>
+                        {freshness === "stale" && (
+                          <span className="text-[8px] font-mono bg-amber-50 text-amber-700 border border-amber-200 px-1.5 py-0.5 rounded uppercase font-bold">
+                            STALE
+                          </span>
+                        )}
                       </div>
                       <span className="text-[9px] font-mono text-gray-400 block mt-1.5">
                         <Clock className="w-2.5 h-2.5 inline mr-0.5" />

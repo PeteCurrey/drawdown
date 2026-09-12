@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { getAnalysis } from "@/lib/ai";
+import { CommercialAccess } from "@/lib/entitlements";
 
 export async function GET(req: NextRequest) {
   try {
@@ -13,13 +14,15 @@ export async function GET(req: NextRequest) {
     // Tier check (Foundation or above)
     const { data: profile } = await supabase
       .from("profiles")
-      .select("subscription_tier")
+      .select("subscription_tier, subscription_status, role")
       .eq("id", user.id)
       .single();
 
     const tier = (profile as any)?.subscription_tier ?? "free";
-    const TIER_WEIGHT: Record<string, number> = { free: 0, foundation: 1, edge: 2, floor: 3 };
-    if ((TIER_WEIGHT[tier] ?? 0) < 1) {
+    const status = (profile as any)?.subscription_status ?? "inactive";
+    const isAdmin = (profile as any)?.role === "admin";
+
+    if (!isAdmin && !CommercialAccess.canAccessSignalCentre(tier, status)) {
       return NextResponse.json({ error: "Access denied. Premium tier required." }, { status: 403 });
     }
 

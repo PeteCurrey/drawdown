@@ -20,38 +20,32 @@ export function PetesDailyTakeExcerpt() {
 
   useEffect(() => {
     async function fetchTake() {
-      // Fetch latest daily brief from Supabase
+      // Authoritative source: daily_briefings (written by cron/daily-report)
+      // daily_briefs is retained for the email newsletter cron only
       const { data } = await (supabase
-        .from("daily_briefs")
-        .select("summary, created_at") as any)
-        .order("created_at", { ascending: false })
+        .from("daily_briefings")
+        .select("macro_narrative, report_date, generated_at") as any)
+        .order("report_date", { ascending: false })
         .limit(1)
         .single();
 
-      if (data) {
+      // Only show if real content exists — never show a hardcoded fallback
+      if (data && data.macro_narrative && data.macro_narrative.trim().length > 20) {
         setTake({
-          content: data.summary,
-          date: new Date(data.created_at).toLocaleDateString("en-GB", {
-            day: "2-digit",
-            month: "short",
-            year: "numeric"
-          })
-        });
-      } else {
-        // Fallback mockup
-        setTake({
-          content: "Major indices are showing strong resilience at key psychological levels despite mixed signals. Watch the upcoming volatility index release closely — any upside surprise will likely trigger a sharp rotation into safety.",
-          date: new Date().toLocaleDateString("en-GB", {
+          content: data.macro_narrative,
+          date: new Date(data.report_date).toLocaleDateString("en-GB", {
             day: "2-digit",
             month: "short",
             year: "numeric"
           })
         });
       }
+      // If no content: return null — the section is hidden (see below)
     }
     fetchTake();
   }, []);
 
+  // Return null (hide section) when no real brief content is available
   if (!take) return null;
 
   return (

@@ -146,7 +146,7 @@ const FAQS = [
   },
   {
     q: "How are the DCS scores calculated?",
-    a: "The Drawdown Consensus Score aggregates responses from Claude, GPT-4o, and Grok — each analysing the same live data bundle. Claude is weighted 40%, GPT-4o 35%, Grok 25%, based on back-tested signal accuracy. The score runs from 0–100; signals above 75 DCS are considered high-conviction.",
+    a: "The Drawdown Consensus Score aggregates responses from Claude, GPT-4o, and Grok — each analysing the same live technical data bundle. Claude is weighted 40%, GPT-4o 35%, Grok 25% (fixed weights). The score runs from 0–100; signals above 75 DCS are considered high-conviction.",
   },
   {
     q: "Can I access Signal Centre if I have a Drawdown subscription?",

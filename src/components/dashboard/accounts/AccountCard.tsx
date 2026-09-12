@@ -26,27 +26,27 @@ export function AccountCard({ account }: AccountCardProps) {
   const StatusIcon = status === 'safe' ? ShieldCheck : status === 'breached' ? ShieldAlert : AlertTriangle;
  
   return (
-    <div className="bg-background-surface border border-border-slate/50 hover:border-accent/40 hover:shadow-[0_8px_32px_rgba(0,0,0,0.06)] rounded-xl transition-all duration-500 group overflow-hidden flex flex-col">
+    <div className="bg-white border border-[#E8E6E1] hover:border-[#F9771D]/60 hover:shadow-xs rounded-lg transition-all flex flex-col overflow-hidden">
       {/* Header */}
-      <div className="p-6 border-b border-border-slate/50 flex justify-between items-start">
+      <div className="p-5 border-b border-[#E8E6E1] flex justify-between items-start">
         <div>
           <div className="flex items-center gap-2 mb-1">
-            <span className="text-[10px] font-mono text-text-tertiary uppercase tracking-widest font-bold">
+            <span className="text-[10px] font-semibold text-[#888882] uppercase tracking-wider">
               {account.prop_firms?.name || "Prop Account"}
             </span>
             <span className={cn(
-              "px-1.5 py-0.5 rounded-md text-[8px] font-bold uppercase tracking-tighter border",
-              account.account_phase === 'funded' ? "text-profit border-profit/30 bg-profit/5" : "text-accent border-accent/30 bg-accent/5"
+              "px-1.5 py-0.5 rounded text-[9px] font-semibold uppercase tracking-wider border",
+              account.account_phase === 'funded' ? "text-[#18B880] border-[rgba(24,184,128,0.2)] bg-[#F0FDF8]" : "text-[#F9771D] border-[rgba(249,119,29,0.2)] bg-[#FFF4EC]"
             )}>
               {account.account_phase.replace('_', ' ')}
             </span>
           </div>
-          <h3 className="text-xl font-display font-bold uppercase text-text-primary group-hover:text-accent transition-colors truncate max-w-[200px]">
+          <h3 className="text-lg font-bold font-display text-[#1A1A1A] truncate max-w-[200px]">
             {account.account_name}
           </h3>
         </div>
         <div className={cn(
-          "px-3 py-1 border text-[10px] font-mono font-bold uppercase tracking-widest flex items-center gap-2",
+          "px-2.5 py-1 border text-[10px] font-semibold uppercase tracking-wider flex items-center gap-1.5 rounded",
           statusColors[status]
         )}>
           <StatusIcon className="w-3.5 h-3.5" />
@@ -55,48 +55,48 @@ export function AccountCard({ account }: AccountCardProps) {
       </div>
  
       {/* Main Stats */}
-      <div className="p-6 grid grid-cols-2 gap-8 border-b border-border-slate/50">
+      <div className="p-5 grid grid-cols-2 gap-6 border-b border-[#E8E6E1]">
         <div>
-          <span className="text-[10px] font-mono text-text-tertiary uppercase tracking-widest block mb-2 font-bold">Equity</span>
-          <div className="text-2xl font-display font-bold text-text-primary">
+          <span className="text-[11px] font-medium text-[#888882] uppercase tracking-[0.06em] block mb-1">Equity</span>
+          <div className="text-xl font-bold font-display text-[#1A1A1A] dd-tabular">
             {formatCurrency(Number(account.current_balance), account.currency)}
           </div>
           <div className="flex items-center gap-1 mt-1">
-            <TrendingUp className={cn("w-3 h-3", Number(snapshot?.daily_pnl || 0) >= 0 ? "text-profit" : "text-loss")} />
-            <span className={cn("text-[10px] font-mono font-bold", Number(snapshot?.daily_pnl || 0) >= 0 ? "text-profit" : "text-loss")}>
+            <TrendingUp className={cn("w-3 h-3", Number(snapshot?.daily_pnl || 0) >= 0 ? "text-[#18B880]" : "text-[#CE6969]")} />
+            <span className={cn("text-[11px] font-semibold dd-tabular", Number(snapshot?.daily_pnl || 0) >= 0 ? "text-[#18B880]" : "text-[#CE6969]")}>
               {formatCurrency(Number(snapshot?.daily_pnl || 0), account.currency)} Today
             </span>
           </div>
         </div>
         <div>
-          <span className="text-[10px] font-mono text-text-tertiary uppercase tracking-widest block mb-2 font-bold">Account Size</span>
-          <div className="text-2xl font-display font-bold text-text-secondary">
+          <span className="text-[11px] font-medium text-[#888882] uppercase tracking-[0.06em] block mb-1">Account Size</span>
+          <div className="text-xl font-bold font-display text-[#4A4A47] dd-tabular">
             {formatCurrency(Number(account.account_size), account.currency)}
           </div>
-          <span className="text-[10px] font-mono text-text-tertiary uppercase tracking-widest mt-1 block">
+          <span className="text-[10px] text-[#888882] uppercase tracking-wider mt-1 block">
             {account.platform.toUpperCase()} Platform
           </span>
         </div>
       </div>
  
       {/* Health Bars */}
-      <div className="p-6 space-y-6 flex-grow">
+      <div className="p-5 space-y-4 flex-grow">
         <div>
-          <div className="flex justify-between items-end mb-2">
-            <span className="text-[10px] font-mono text-text-tertiary uppercase tracking-widest font-bold">Daily Loss Used</span>
+          <div className="flex justify-between items-end mb-1.5">
+            <span className="text-[11px] font-medium text-[#888882]">Daily Loss Used</span>
             <span className={cn(
-              "text-[10px] font-mono font-bold",
-              Number(snapshot?.daily_loss_used_pct || 0) > 80 ? "text-loss" : "text-text-primary"
+              "text-[11px] font-semibold dd-tabular",
+              Number(snapshot?.daily_loss_used_pct || 0) > 80 ? "text-[#CE6969]" : "text-[#1A1A1A]"
             )}>
               {Number(snapshot?.daily_loss_used_pct || 0).toFixed(1)}%
             </span>
           </div>
-          <div className="h-2 bg-background-primary overflow-hidden rounded-full border border-border-slate/30">
+          <div className="h-1.5 bg-[#E8E6E1] overflow-hidden rounded-full">
             <div 
               className={cn(
-                "h-full transition-all duration-1000 rounded-full",
-                Number(snapshot?.daily_loss_used_pct || 0) > 80 ? "bg-loss" : 
-                Number(snapshot?.daily_loss_used_pct || 0) > 50 ? "bg-warning" : "bg-profit"
+                "h-full transition-all duration-700 rounded-full",
+                Number(snapshot?.daily_loss_used_pct || 0) > 80 ? "bg-[#CE6969]" : 
+                Number(snapshot?.daily_loss_used_pct || 0) > 50 ? "bg-[#D97706]" : "bg-[#18B880]"
               )}
               style={{ width: `${Math.min(100, Number(snapshot?.daily_loss_used_pct || 0))}%` }}
             />
@@ -104,21 +104,21 @@ export function AccountCard({ account }: AccountCardProps) {
         </div>
  
         <div>
-          <div className="flex justify-between items-end mb-2">
-            <span className="text-[10px] font-mono text-text-tertiary uppercase tracking-widest font-bold">Max Drawdown Used</span>
+          <div className="flex justify-between items-end mb-1.5">
+            <span className="text-[11px] font-medium text-[#888882]">Max Drawdown Used</span>
             <span className={cn(
-              "text-[10px] font-mono font-bold",
-              Number(snapshot?.max_drawdown_used_pct || 0) > 80 ? "text-loss" : "text-text-primary"
+              "text-[11px] font-semibold dd-tabular",
+              Number(snapshot?.max_drawdown_used_pct || 0) > 80 ? "text-[#CE6969]" : "text-[#1A1A1A]"
             )}>
               {Number(snapshot?.max_drawdown_used_pct || 0).toFixed(1)}%
             </span>
           </div>
-          <div className="h-2 bg-background-primary overflow-hidden rounded-full border border-border-slate/30">
+          <div className="h-1.5 bg-[#E8E6E1] overflow-hidden rounded-full">
             <div 
               className={cn(
-                "h-full transition-all duration-1000 rounded-full",
-                Number(snapshot?.max_drawdown_used_pct || 0) > 80 ? "bg-loss" : 
-                Number(snapshot?.max_drawdown_used_pct || 0) > 50 ? "bg-warning" : "bg-profit"
+                "h-full transition-all duration-700 rounded-full",
+                Number(snapshot?.max_drawdown_used_pct || 0) > 80 ? "bg-[#CE6969]" : 
+                Number(snapshot?.max_drawdown_used_pct || 0) > 50 ? "bg-[#D97706]" : "bg-[#18B880]"
               )}
               style={{ width: `${Math.min(100, Number(snapshot?.max_drawdown_used_pct || 0))}%` }}
             />
@@ -127,22 +127,22 @@ export function AccountCard({ account }: AccountCardProps) {
       </div>
  
       {/* Footer */}
-      <div className="px-6 py-4 bg-background-elevated/20 flex justify-between items-center mt-auto border-t border-border-slate/50">
+      <div className="px-5 py-3 bg-[#FAFAF9] flex justify-between items-center mt-auto border-t border-[#E8E6E1]">
         <div className="flex items-center gap-4">
-          <div className="flex items-center gap-1.5 text-text-tertiary">
+          <div className="flex items-center gap-1.5 text-[#888882]">
             <Clock className="w-3.5 h-3.5" />
-            <span className="text-[10px] font-mono uppercase font-bold">{account.days_traded} Days</span>
+            <span className="text-[10px] font-medium">{account.days_traded} Days</span>
           </div>
-          <div className="flex items-center gap-1.5 text-text-tertiary">
-            <Activity className="w-3.5 h-3.5 text-profit" />
-            <span className="text-[10px] font-mono uppercase font-bold">
+          <div className="flex items-center gap-1.5 text-[#888882]">
+            <Activity className="w-3.5 h-3.5 text-[#18B880]" />
+            <span className="text-[10px] font-medium">
               {account.last_sync_at ? 'Synced' : 'No Data'}
             </span>
           </div>
         </div>
-        <button className="text-[10px] font-bold uppercase tracking-widest text-accent hover:underline">
-          View Details →
-        </button>
+        <span className="text-[11px] font-semibold text-[#F9771D] hover:underline cursor-pointer">
+          Details →
+        </span>
       </div>
     </div>
   );

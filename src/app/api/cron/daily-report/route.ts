@@ -152,7 +152,7 @@ Be direct. No waffle. Write like an institutional macro brief. Bold key numbers 
         method: "POST",
         headers: { "Content-Type": "application/json", "Authorization": `Bearer ${openaiKey}` },
         body: JSON.stringify({
-          model: "gpt-4.1", max_tokens: 300,
+          model: "gpt-4o", max_tokens: 300,
           messages: [{ role: "user", content: macroPrompt }],
         }),
         cache: "no-store",
@@ -160,9 +160,13 @@ Be direct. No waffle. Write like an institutional macro brief. Bold key numbers 
       if (res.ok) {
         const d = await res.json();
         macroNarrative = d.choices?.[0]?.message?.content ?? "";
+        console.info(JSON.stringify({ event: "daily_report_macro_generated", length: macroNarrative.length }));
+      } else {
+        const errText = await res.text();
+        console.error(JSON.stringify({ event: "daily_report_openai_failed", status: res.status, error: errText }));
       }
     } catch (e) {
-      console.error("[daily-report] GPT macro error:", e);
+      console.error(JSON.stringify({ event: "daily_report_openai_error", error: String(e) }));
     }
   }
 
@@ -219,9 +223,12 @@ Return ONLY a JSON array of exactly ${INSTRUMENTS.length} objects, one per instr
           changePct:instrData[i]?.changePct,
           category: INSTRUMENTS[i]?.category,
         }));
+        console.info(JSON.stringify({ event: "daily_report_claude_parsed", count: instrumentBriefs.length }));
+      } else {
+        console.warn(JSON.stringify({ event: "daily_report_claude_json_parse_failed", rawLength: text.length }));
       }
     } catch (e) {
-      console.error("[daily-report] Claude briefs error:", e);
+      console.error(JSON.stringify({ event: "daily_report_claude_error", error: String(e) }));
     }
   }
 

@@ -132,3 +132,28 @@ export const PRODUCT_STATUSES = {
 } as const;
 
 export type ProductKey = keyof typeof PRODUCT_STATUSES;
+
+/**
+ * Provider connection status registry.
+ * Maps data providers to their live connection state based on credentials and active endpoints.
+ * Simulated or unconfigured providers must be marked NOT_CONNECTED.
+ */
+export type ProviderStatus = "CONNECTED" | "NOT_CONNECTED" | "PARTIAL" | "UNAVAILABLE";
+
+export const PROVIDER_STATUS: Record<string, ProviderStatus> = {
+  twelveData:     "CONNECTED",     // NEXT_PUBLIC_TWELVE_DATA_KEY / TWELVE_DATA_KEY present
+  finnhub:        "CONNECTED",     // FINNHUB_API_KEY present  
+  taapi:          "CONNECTED",     // TAAPI_API_KEY present
+  coinGecko:      "CONNECTED",     // Public API
+  binance:        "CONNECTED",     // Public API
+  openai:         "CONNECTED",     // OPENAI_API_KEY present
+  anthropic:      "CONNECTED",     // ANTHROPIC_API_KEY present
+  xai:            "CONNECTED",     // XAI_API_KEY present
+  polygon:        "CONNECTED",     // POLYGON_API_KEY present
+  fred:           "CONNECTED",     // FRED_API_KEY present
+  eia:            "CONNECTED",     // EIA_API_KEY present
+  autochartist:   "NOT_CONNECTED", // No AUTOCHARTIST_API_KEY — simulator disabled
+  tradingCentral: "NOT_CONNECTED", // No TRADING_CENTRAL_API_KEY — simulator disabled
+  glassnode:      "NOT_CONNECTED", // No GLASSNODE_API_KEY — simulator disabled
+  cryptoQuant:    "NOT_CONNECTED", // No CRYPTOQUANT_API_KEY — simulator disabled
+};

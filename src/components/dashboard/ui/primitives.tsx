@@ -11,14 +11,14 @@ interface CardProps {
 }
 
 export function Card({ children, className, padding = "md", hover = false, sharp = false }: CardProps) {
-  const paddingMap = { sm: "p-4", md: "p-6", lg: "p-8" };
+  const paddingMap = { sm: "p-4", md: "p-5", lg: "p-6" };
   return (
     <div
       className={cn(
-        "bg-background-surface border border-border-slate/50 shadow-[0_4px_16px_rgba(0,0,0,0.04)]",
-        sharp ? "rounded-none" : "rounded-xl",
+        "bg-white border border-[#E8E6E1] shadow-[0_1px_3px_rgba(0,0,0,0.04)]",
+        sharp ? "rounded-none" : "rounded-lg",
         paddingMap[padding],
-        hover && "transition-all duration-200 hover:shadow-[0_8px_24px_rgba(0,0,0,0.08)] hover:-translate-y-0.5",
+        hover && "transition-all duration-200 hover:shadow-[0_4px_12px_rgba(0,0,0,0.06)] hover:-translate-y-0.5",
         className
       )}
     >
@@ -42,23 +42,23 @@ export function StatTile({ label, value, change, unit, accent = false, className
   const isDown = typeof change === "number" && change < 0;
   return (
     <div className={cn("flex flex-col gap-1", className)}>
-      <span className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary">{label}</span>
+      <span className="text-[11px] font-medium text-[#888882] uppercase tracking-[0.06em]">{label}</span>
       <div className="flex items-baseline gap-1.5">
         <span
           className={cn(
-            "text-2xl font-black font-mono tracking-tight",
-            accent ? "text-[var(--tool-accent,#F9771D)]" : "text-text-primary"
+            "text-2xl font-bold dd-tabular tracking-tight",
+            accent ? "text-[#F9771D]" : "text-[#1A1A1A]"
           )}
         >
           {value}
         </span>
-        {unit && <span className="text-xs font-mono text-text-tertiary">{unit}</span>}
+        {unit && <span className="text-xs text-[#888882]">{unit}</span>}
       </div>
       {typeof change === "number" && (
         <span
           className={cn(
-            "text-[10px] font-mono font-bold",
-            isUp ? "text-profit" : isDown ? "text-loss" : "text-text-tertiary"
+            "text-[11px] font-semibold dd-tabular",
+            isUp ? "text-[#18B880]" : isDown ? "text-[#CE6969]" : "text-[#888882]"
           )}
         >
           {isUp ? "+" : ""}{change.toFixed(2)}%
@@ -76,17 +76,17 @@ interface BadgeProps {
 
 export function Badge({ children, variant = "accent", size = "sm" }: BadgeProps) {
   const variants = {
-    accent:  "bg-[var(--tool-accent,#F9771D)]/10 text-[var(--tool-accent,#F9771D)] border-[var(--tool-accent,#F9771D)]/20",
-    profit:  "bg-profit/10 text-profit border-profit/20",
-    loss:    "bg-loss/10 text-loss border-loss/20",
-    warning: "bg-warning/10 text-warning border-warning/20",
-    neutral: "bg-background-elevated text-text-tertiary border-border-slate/60",
+    accent:  "bg-[#FFF4EC] text-[#F9771D] border border-[rgba(249,119,29,0.25)]",
+    profit:  "bg-[#F0FDF8] text-[#18B880] border border-[rgba(24,184,128,0.2)]",
+    loss:    "bg-[#FDF2F2] text-[#CE6969] border border-[rgba(206,105,105,0.2)]",
+    warning: "bg-[#FFFBEB] text-[#D97706] border border-[rgba(217,119,6,0.2)]",
+    neutral: "bg-[#F4F3F0] text-[#888882] border border-[#E8E6E1]",
   };
-  const sizes = { sm: "text-[8px] px-1.5 py-0.5", md: "text-[10px] px-2 py-1" };
+  const sizes = { sm: "text-[9px] px-1.5 py-0.5", md: "text-[10px] px-2 py-0.5" };
   return (
     <span
       className={cn(
-        "font-mono font-bold uppercase tracking-wider border rounded-sm",
+        "font-semibold uppercase tracking-wider border rounded",
         variants[variant],
         sizes[size]
       )}
@@ -105,15 +105,15 @@ interface EmptyStateProps {
 
 export function EmptyState({ icon, title, description, action }: EmptyStateProps) {
   return (
-    <div className="flex flex-col items-center justify-center py-16 px-8 text-center space-y-4">
+    <div className="flex flex-col items-center justify-center py-12 px-6 text-center space-y-3">
       {icon && (
-        <div className="w-12 h-12 rounded-full bg-background-elevated border border-border-slate/50 flex items-center justify-center text-text-tertiary">
+        <div className="w-10 h-10 rounded-full bg-[#F4F3F0] border border-[#E8E6E1] flex items-center justify-center text-[#888882]">
           {icon}
         </div>
       )}
       <div className="space-y-1 max-w-xs">
-        <p className="text-sm font-bold uppercase tracking-wide text-text-primary">{title}</p>
-        {description && <p className="text-xs text-text-tertiary leading-relaxed">{description}</p>}
+        <p className="text-sm font-semibold text-[#1A1A1A]">{title}</p>
+        {description && <p className="text-xs text-[#888882] leading-relaxed">{description}</p>}
       </div>
       {action}
     </div>
@@ -130,10 +130,11 @@ export function LoadingSkeleton({ className, sharp = false }: LoadingSkeletonPro
   return (
     <div
       className={cn(
-        "animate-pulse bg-background-elevated",
-        sharp ? "rounded-none" : "rounded-xl",
+        "dd-skeleton",
+        sharp ? "rounded-none" : "rounded-lg",
         className
       )}
     />
   );
 }
+

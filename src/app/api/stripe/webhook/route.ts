@@ -35,6 +35,25 @@ export async function POST(request: NextRequest) {
 
   const supabase = createServiceRoleClient();
 
+  // ── Idempotency check ────────────────────────────────────────────────────────
+  // Avoid double-processing retried webhook deliveries
+  const { error: idempotencyError } = await supabase
+    .from("stripe_events" as any)
+    .insert({
+      event_id: event.id,
+      event_type: event.type,
+      processed_at: new Date().toISOString(),
+    });
+
+  if (idempotencyError) {
+    // Unique violation (23505) indicates event was already handled
+    if (idempotencyError.code === "23505" || idempotencyError.message?.includes("duplicate")) {
+      console.log(`[Stripe Webhook] Duplicate event ${event.id} (${event.type}) skipped.`);
+      return NextResponse.json({ received: true, duplicate: true });
+    }
+    console.warn(`[Stripe Webhook] Warning inserting idempotency log:`, idempotencyError.message);
+  }
+
   const session = event.data.object as any;
 
   switch (event.type) {
@@ -498,15 +517,23 @@ export async function POST(request: NextRequest) {
 
     case "customer.subscription.updated": {
       const subscription = event.data.object as Stripe.Subscription;
-      const subTier = subscription.metadata.tier;
+      const subTier = subscription.metadata?.tier;
+
+      const updatePayload: Record<string, any> = {
+        subscription_status: subscription.status,
+        updated_at: new Date().toISOString(),
+      };
+
+      if (subTier) {
+        updatePayload.subscription_tier = subTier;
+      }
+      if (subscription.status === "canceled" || subscription.status === "unpaid") {
+        updatePayload.subscription_tier = "free";
+      }
 
       const { data: updatedProfiles, error: updateError } = await supabase
         .from("profiles")
-        .update({
-          subscription_status: subscription.status,
-          subscription_tier: subTier,
-          updated_at: new Date().toISOString(),
-        })
+        .update(updatePayload)
         .eq("stripe_customer_id", subscription.customer)
         .select("id");
 

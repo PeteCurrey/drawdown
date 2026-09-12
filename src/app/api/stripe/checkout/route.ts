@@ -2,7 +2,7 @@ import { createClient } from "@/lib/supabase/server";
 import { createServerClient } from "@supabase/ssr";
 import { type NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
-import { STRIPE_CONFIG } from "@/config/stripe";
+import { STRIPE_CONFIG, getTierFromPriceId } from "@/config/stripe";
 import { LEGAL_CONFIG } from "@/config/legal";
 
 export async function POST(request: NextRequest) {
@@ -24,7 +24,18 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const origin = request.headers.get("origin");
+    // Validate tier and priceId alignment
+    const resolvedTier = getTierFromPriceId(priceId);
+    if (resolvedTier && tier && resolvedTier !== tier.toLowerCase()) {
+      return NextResponse.json(
+        { error: "Price ID does not match the requested subscription tier." },
+        { status: 400 }
+      );
+    }
+    const authoritativeTier = resolvedTier || tier || "free";
+
+    const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://www.drawdown.trading";
+    const origin = request.headers.get("origin") || appUrl;
 
     const session = await stripe.checkout.sessions.create({
       customer_email: user.email,
@@ -39,7 +50,7 @@ export async function POST(request: NextRequest) {
       cancel_url: `${origin}/pricing?subscription=cancelled`,
       metadata: {
         userId: user.id,
-        tier: tier,
+        tier: authoritativeTier,
         legal_version:              LEGAL_CONFIG.documentVersion,
         terms_accepted:             "true",
         immediate_supply_requested: immediate_supply_requested ? "true" : "false",

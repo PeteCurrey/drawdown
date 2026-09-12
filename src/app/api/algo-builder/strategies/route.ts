@@ -1,9 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient, createInternalSupabase } from "@/lib/supabase/server";
-
-const TIER_WEIGHT: Record<string, number> = {
-  free: 0, foundation: 1, edge: 2, floor: 3,
-};
+import { CommercialAccess } from "@/lib/entitlements";
 
 // ─── GET — list user's saved strategies ──────────────────────────────────────
 export async function GET() {
@@ -32,13 +29,16 @@ export async function POST(req: NextRequest) {
   // Tier check (floor only)
   const { data: profile } = await supabase
     .from("profiles")
-    .select("subscription_tier")
+    .select("subscription_tier, subscription_status, role")
     .eq("id", user.id)
     .single();
 
   const tier   = (profile as any)?.subscription_tier as string ?? "free";
-  if ((TIER_WEIGHT[tier] ?? 0) < 3) {
-    return NextResponse.json({ error: "Floor subscription required." }, { status: 403 });
+  const status = (profile as any)?.subscription_status as string ?? "inactive";
+  const isAdmin = (profile as any)?.role === "admin";
+
+  if (!isAdmin && !CommercialAccess.canAccessAlgoBuilderExport(tier, status)) {
+    return NextResponse.json({ error: "Active Floor subscription required." }, { status: 403 });
   }
 
   // Count existing strategies — enforce 20-strategy limit at API level

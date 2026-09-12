@@ -3,12 +3,9 @@ import { redirect } from "next/navigation";
 import { Calendar, Video, Clock, Users, Lock } from "lucide-react";
 import Link from "next/link";
 import { PageHeader } from "@/components/dashboard/ui/PageHeader";
+import { hasTierAccess } from "@/lib/entitlements";
 
 export const revalidate = 0;
-
-const TIER_WEIGHT: Record<string, number> = {
-  free: 0, foundation: 1, edge: 2, floor: 3,
-};
 
 export default async function EventsPage() {
   const supabase = await createClient();
@@ -19,14 +16,16 @@ export default async function EventsPage() {
   // ── Tier gate: Edge+ required ────────────────────────────────────────────
   const { data: profile } = await supabase
     .from("profiles")
-    .select("subscription_tier")
+    .select("subscription_tier, subscription_status, role")
     .eq("id", user.id)
     .single();
 
   const tier = (profile as any)?.subscription_tier as string | undefined;
-  const userWeight = TIER_WEIGHT[tier ?? "free"] ?? 0;
+  const status = (profile as any)?.subscription_status as string | undefined;
+  const isAdmin = (profile as any)?.role === "admin";
+  const hasAccess = isAdmin || hasTierAccess(tier, "edge", status);
 
-  if (userWeight < 2) {
+  if (!hasAccess) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh] space-y-8 animate-in fade-in duration-700">
         <div className="p-10 bg-white border border-gray-200 shadow-sm flex flex-col items-center text-center space-y-6 max-w-md w-full rounded-2xl">

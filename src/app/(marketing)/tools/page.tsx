@@ -21,7 +21,7 @@ const toolCategories = [
     title: "The Investment Centre",
     description: "Autonomous cross-asset macro synthesis, tri-model AI council, and quantitative risk analysis.",
     icon: Cpu,
-    features: ["18 Real-Time Feeds", "1,420 Metrics 24/7", "HMAC Risk Tokens"],
+    features: ["Multi-Asset Macro Synthesis", "Tri-Model AI Council", "Quantitative Risk Analysis"],
     tier: "Foundation Add-on (£99/mo)",
     color: "premium"
   },

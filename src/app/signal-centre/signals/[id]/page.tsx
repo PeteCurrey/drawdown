@@ -1,18 +1,30 @@
 import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { PublicSignalDetailClient } from "@/components/signal-centre/PublicSignalDetailClient";
+import { CommercialAccess } from "@/lib/entitlements";
 
 export const metadata = {
   title: "Drawdown Signal Centre · High-Conviction Market Setups",
   description: "Real-time, algorithmic market structural shifts and confluence setups verified on live price history with institutional multi-AI consensus scoring.",
 };
 
-const TIER_WEIGHT: Record<string, number> = {
-  free: 0,
-  foundation: 1,
-  edge: 2,
-  floor: 3,
-};
+function sanitizeSignalForPreview(signal: any) {
+  return {
+    ...signal,
+    entry_price: null,
+    stop_loss: null,
+    take_profit_1: null,
+    take_profit_2: null,
+    rr_ratio: null,
+    claude_analysis: null,
+    gpt4_analysis: null,
+    grok_analysis: null,
+    taapi_data: null,
+    coingecko_data: null,
+    ai_debate: null,
+    rationale: "Upgrade to Foundation, Edge, or Floor to unlock institutional entry levels, stop loss, take profit targets, and complete multi-model AI rationale.",
+  };
+}
 
 export default async function PublicSignalPage({
   params,
@@ -45,7 +57,7 @@ export default async function PublicSignalPage({
     // Fetch profile
     const { data: profileData } = await supabase
       .from("profiles")
-      .select("subscription_tier")
+      .select("subscription_tier, subscription_status, role")
       .eq("id", user.id)
       .single();
     profile = profileData;
@@ -61,12 +73,15 @@ export default async function PublicSignalPage({
   }
 
   const tier = (profile as any)?.subscription_tier as string | undefined;
-  const userWeight = TIER_WEIGHT[tier ?? "free"] ?? 0;
-  const isSubscriber = userWeight >= 2; // Edge or Floor
+  const status = (profile as any)?.subscription_status as string | undefined;
+  const isAdmin = (profile as any)?.role === "admin";
+  const isSubscriber = isAdmin || CommercialAccess.canAccessSignalCentre(tier, status);
+
+  const displaySignal = isSubscriber ? signal : sanitizeSignalForPreview(signal);
 
   return (
     <PublicSignalDetailClient
-      signal={signal}
+      signal={displaySignal}
       isSubscriber={isSubscriber}
       userLoggedIn={!!user}
       initialSaved={isSaved}

@@ -119,3 +119,24 @@ export const STRIPE_CONFIG = {
     },
   }
 } as const;
+
+/**
+ * Resolves a subscription tier from a given Stripe Price ID.
+ * Returns null if the price ID does not match any configured tier.
+ */
+export function getTierFromPriceId(priceId: string): string | null {
+  if (!priceId) return null;
+  for (const [tier, group] of Object.entries(STRIPE_CONFIG.prices)) {
+    for (const cycleConfig of Object.values(group)) {
+      for (const configuredPrice of Object.values(cycleConfig as Record<string, string>)) {
+        if (configuredPrice && configuredPrice === priceId) {
+          return tier;
+        }
+      }
+    }
+  }
+  if (process.env.STRIPE_PRICE_EDGE_MONTHLY_GBP_LEGACY_149 && priceId === process.env.STRIPE_PRICE_EDGE_MONTHLY_GBP_LEGACY_149) {
+    return 'edge';
+  }
+  return null;
+}

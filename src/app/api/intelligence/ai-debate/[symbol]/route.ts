@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
 import Anthropic from "@anthropic-ai/sdk";
+import { createClient } from "@/lib/supabase/server";
+import { CommercialAccess } from "@/lib/entitlements";
 
 // ─── 20-minute module-level cache ─────────────────────────────────────────────
 const CACHE = new Map<string, { data: any; ts: number }>();
@@ -249,6 +251,31 @@ export async function GET(
   req: Request,
   { params }: { params: Promise<{ symbol: string }> }
 ) {
+  // ── Authentication & Entitlement Guard ──────────────────────────────────────
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+
+  if (!user) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("subscription_tier, subscription_status, role")
+    .eq("id", user.id)
+    .single();
+
+  const tier = (profile as any)?.subscription_tier;
+  const status = (profile as any)?.subscription_status;
+  const isAdmin = (profile as any)?.role === "admin";
+
+  if (!isAdmin && !CommercialAccess.canAccessInvestmentCentre(tier, status)) {
+    return NextResponse.json(
+      { error: "Access denied. Active Edge or Floor subscription required for AI Debate." },
+      { status: 403 }
+    );
+  }
+
   const { symbol } = await params;
   const slug   = symbol.toUpperCase();
   const origin = new URL(req.url).origin;

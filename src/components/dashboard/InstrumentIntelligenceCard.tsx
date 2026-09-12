@@ -381,10 +381,9 @@ export function InstrumentIntelligenceCard({ instrument, interval = "4h" }: Inst
   // ─── Render ─────────────────────────────────────────────────────────────────
   return (
     <section
-      className={cn("relative rounded-2xl bg-white overflow-hidden", cardVisible ? "intel-card-enter" : "opacity-0")}
+      className={cn("relative rounded-lg bg-white overflow-hidden border border-[#E8E6E1]", cardVisible ? "intel-card-enter" : "opacity-0")}
       style={{
-        boxShadow: cardBoxShadow,
-        border: `1px solid ${T.divider}`,
+        boxShadow: "0 1px 3px rgba(0,0,0,0.04)",
       }}
     >
       {/* ── Bottom-left corner glow — two layers cross-fade on bias change ── */}

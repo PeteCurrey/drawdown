@@ -392,7 +392,7 @@ Assess the validity of this setup from a professional quantitative perspective. 
           messages: [
             {
               role: "system",
-              content: "You are Grok, built by xAI. You are a trading intelligence model with access to real-time X/Twitter sentiment data. Analyse the provided market data and return your signal assessment as a JSON object with this exact structure: { \"verdict\": \"BULLISH\" | \"BEARISH\" | \"NEUTRAL\", \"confidence\": number (0-100), \"reasoning\": [string, string, string] }"
+              content: "You are Grok, built by xAI. You are a trading intelligence model. Analyse the provided technical indicator data and return your signal assessment as a JSON object with this exact structure: { \"verdict\": \"BULLISH\" | \"BEARISH\" | \"NEUTRAL\", \"confidence\": number (0-100), \"reasoning\": [string, string, string] }"
             },
             { role: "user", content: prompt }
           ],
@@ -421,7 +421,7 @@ Assess the validity of this setup from a professional quantitative perspective. 
           messages: [
             {
               role: "system",
-              content: "You are Grok, an AI trading intelligence model. You have access to real-time social sentiment data from X/Twitter. Incorporate social momentum, retail sentiment, and contrarian indicators in your analysis. Return a JSON object with this exact structure: { \"verdict\": \"BULLISH\" | \"BEARISH\" | \"NEUTRAL\", \"confidence\": number (0-100), \"reasoning\": [string, string, string] }"
+              content: "You are an AI trading intelligence model. Analyse the provided technical indicator data and market context. Return a JSON object with this exact structure: { \"verdict\": \"BULLISH\" | \"BEARISH\" | \"NEUTRAL\", \"confidence\": number (0-100), \"reasoning\": [string, string, string] }"
             },
             { role: "user", content: prompt }
           ]
@@ -580,15 +580,42 @@ export async function runSignalScan() {
   // 1. Fetch economic calendar catalysts once for the batch
   const calendarEvents = await fetchEconomicCalendar();
 
-  // 2. Clear expired signals
+  // 2. Clear expired signals — two conditions:
+  //    a) expires_at has passed (original logic)
+  //    b) created_at is older than the per-timeframe freshness window
+  //       (catches signals whose expires_at was set far in the future but whose
+  //        underlying price data is stale)
+  const FRESHNESS_CUTOFFS: Record<string, number> = {
+    "15M": 2 * 60 * 60 * 1000,    // 2 hours
+    "1H":  4 * 60 * 60 * 1000,    // 4 hours
+    "4H":  12 * 60 * 60 * 1000,   // 12 hours
+    "1D":  48 * 60 * 60 * 1000,   // 48 hours
+  };
+
   const { error: deleteError } = await supabase
     .from("signals")
     .update({ is_active: false })
     .lt("expires_at", new Date().toISOString());
-  
+
   if (deleteError) {
-    console.error("[signal-engine] Error expiring old signals:", deleteError);
+    console.error("[signal-engine] Error expiring old signals by expires_at:", deleteError);
   }
+
+  // Expire stale signals by created_at per timeframe
+  for (const [tf, windowMs] of Object.entries(FRESHNESS_CUTOFFS)) {
+    const cutoff = new Date(Date.now() - windowMs).toISOString();
+    const { error: freshnessError } = await supabase
+      .from("signals")
+      .update({ is_active: false })
+      .eq("timeframe", tf)
+      .eq("is_active", true)
+      .lt("created_at", cutoff);
+
+    if (freshnessError) {
+      console.error(`[signal-engine] Error expiring stale ${tf} signals by created_at:`, freshnessError);
+    }
+  }
+
 
   const batchSymbolsString = Object.values(TD_SYMBOL_MAP).join(",");
   const generatedSignalsCount: Record<string, number> = { "15M": 0, "1H": 0, "4H": 0, "1D": 0 };

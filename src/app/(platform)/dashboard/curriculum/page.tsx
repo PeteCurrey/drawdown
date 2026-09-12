@@ -6,14 +6,7 @@ import { DotProgressBar } from "@/components/dashboard/DotProgressBar";
 import { phases } from "@/data/courses";
 import { PageHeader } from "@/components/dashboard/ui/PageHeader";
 import DirectUpgradeButton from "@/components/dashboard/DirectUpgradeButton";
-
-// ─── Tier access ──────────────────────────────────────────────────────────────
-const TIER_WEIGHT: Record<string, number> = {
-  free:       0,
-  foundation: 1,
-  edge:       2,
-  floor:      3,
-};
+import { TIER_WEIGHT, getEffectiveTierLevel } from "@/lib/entitlements";
 
 // Maps phase slug → integer (matching the course_progress DB schema)
 const PHASE_NUM: Record<string, number> = {
@@ -75,12 +68,14 @@ export default async function CurriculumPage() {
 
   const { data: profile } = await supabase
     .from("profiles")
-    .select("subscription_tier")
+    .select("subscription_tier, subscription_status, role")
     .eq("id", user.id)
     .single();
 
   const tier = (profile as any)?.subscription_tier as string | undefined;
-  const userWeight = TIER_WEIGHT[tier ?? "free"] ?? 0;
+  const status = (profile as any)?.subscription_status as string | undefined;
+  const isAdmin = (profile as any)?.role === "admin";
+  const userWeight = isAdmin ? 4 : getEffectiveTierLevel(tier, status);
   const tierLabel = tier ? tier.charAt(0).toUpperCase() + tier.slice(1) : "Free";
 
   // ── Fetch Standalone Courses & Purchases ───────────────────────────────────

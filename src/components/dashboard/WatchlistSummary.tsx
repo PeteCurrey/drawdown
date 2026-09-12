@@ -50,16 +50,23 @@ export function WatchlistSummary({ initialSymbols, userCurrency = "USD" }: Watch
   }, {} as Record<string, string>);
 
   return (
-    <div className="bg-white border border-[#EDEDED] rounded-2xl p-5 shadow-[0_2px_12px_rgba(0,0,0,0.06)] flex flex-col justify-between min-h-[220px] transition-all hover:shadow-[0_8px_24px_rgba(0,0,0,0.10)] hover:-translate-y-1 duration-200">
+    <div className="bg-white border border-[#E8E6E1] rounded-lg p-4 flex flex-col justify-between min-h-[200px] transition-colors">
       <div>
-        <div className="flex justify-between items-start mb-4">
-          <h5 className="font-semibold text-sm text-[#1A1A1A]">Active Watchlist</h5>
-          <Link href="/dashboard" className="text-xs text-[#555550] hover:text-[#1A1A1A]">↗</Link>
+        <div className="flex justify-between items-center mb-3">
+          <span className="text-[11px] font-semibold uppercase tracking-[0.08em] text-[#888882]">
+            Watchlist
+          </span>
+          <Link 
+            href="/dashboard/tools/technical-scanner" 
+            className="text-[11px] font-medium text-[#888882] hover:text-[#F9771D] transition-colors"
+          >
+            Scanner →
+          </Link>
         </div>
         
-        <div className="space-y-2 text-xs">
+        <div className="divide-y divide-[#F0EEE9] text-xs">
           {initialSymbols.length > 0 ? (
-            hookSlugs.slice(0, 3).map((slug) => {
+            hookSlugs.slice(0, 4).map((slug) => {
               const item = data[slug];
               const poly = polySnapshots[slug];
               const displaySymbol = displayMap[slug];
@@ -81,19 +88,19 @@ export function WatchlistSummary({ initialSymbols, userCurrency = "USD" }: Watch
               );
             })
           ) : (
-            <p className="text-[10px] text-[#555550] font-mono uppercase">Empty watchlist</p>
+            <p className="text-[11px] text-[#888882] py-4 text-center">No watchlist instruments configured</p>
           )}
         </div>
       </div>
 
-      <div className="pt-3 border-t border-[#EDEDED] flex justify-between items-center">
+      <div className="pt-3 mt-3 border-t border-[#F0EEE9] flex justify-between items-center">
         <DataProvenanceLabel 
           provider="Polygon.io" 
-          delayDescription="1s feed" 
+          delayDescription="Live feed" 
           status="live" 
         />
-        <span className="text-2xl font-black font-mono leading-none">
-          {initialSymbols.length}
+        <span className="text-xs font-semibold text-[#888882]">
+          {initialSymbols.length} tracked
         </span>
       </div>
     </div>
@@ -120,25 +127,35 @@ function WatchlistItem({ slug, displaySymbol, price, changePercent, loading }: {
 
   return (
     <div className={cn(
-      "flex justify-between items-center p-1 rounded transition-colors duration-300",
-      flash === "up" ? "bg-profit/20" : flash === "down" ? "bg-loss/20" : "bg-transparent"
+      "flex justify-between items-center py-2 px-1 transition-colors duration-200",
+      flash === "up" ? "bg-[#F0FDF8]" : flash === "down" ? "bg-[#FDF2F2]" : "bg-transparent"
     )}>
-      <span className="flex items-center gap-1.5 truncate pr-2">
-        <span className={isUp ? "text-[#18B880]" : "text-[#CE6969]"}>
-          {isUp ? "🟢" : "🔴"}
+      <div className="flex items-center gap-2 truncate pr-2">
+        <span className={cn(
+          "w-1.5 h-1.5 rounded-full shrink-0",
+          isUp ? "bg-[#18B880]" : "bg-[#CE6969]"
+        )} />
+        <span className="font-semibold text-[12px] text-[#1A1A1A] truncate">{displaySymbol}</span>
+      </div>
+      <div className="flex items-center gap-3 shrink-0">
+        <span className="font-medium text-[12px] dd-tabular text-[#1A1A1A]">
+          {loading || !price ? (
+            <span className="text-[#888882]">—</span>
+          ) : (
+            price.toLocaleString("en-US", {
+              minimumFractionDigits: decimals,
+              maximumFractionDigits: decimals
+            })
+          )}
         </span>
-        <span className="font-medium text-[#1A1A1A] truncate">{displaySymbol}</span>
-      </span>
-      <span className="font-mono text-[#555550] shrink-0">
-        {loading || !price ? (
-          <span className="animate-pulse">—</span>
-        ) : (
-          price.toLocaleString("en-US", {
-            minimumFractionDigits: decimals,
-            maximumFractionDigits: decimals
-          })
-        )}
-      </span>
+        <span className={cn(
+          "text-[10px] font-semibold dd-tabular w-12 text-right",
+          isUp ? "text-[#18B880]" : "text-[#CE6969]"
+        )}>
+          {isUp ? "+" : ""}{changePercent.toFixed(2)}%
+        </span>
+      </div>
     </div>
   );
 }
+

@@ -28,46 +28,45 @@ export function PsychologyCoach({ trades, account }: PsychologyCoachProps) {
 
   if (loading) {
     return (
-      <div className="p-8 bg-background-surface/40 backdrop-blur-md border border-border-slate/50 space-y-6 animate-pulse">
+      <div className="p-6 bg-white border border-[#E8E6E1] rounded-lg space-y-4 animate-pulse">
         <div className="flex items-center gap-3">
-          <Brain className="w-5 h-5 text-text-tertiary" />
-          <div className="h-4 bg-white/5 w-48 rounded" />
+          <Brain className="w-5 h-5 text-[#888882]" />
+          <div className="h-4 bg-[#F4F3F0] w-48 rounded" />
         </div>
         <div className="space-y-3">
-          <div className="h-20 bg-white/5 w-full rounded" />
-          <div className="h-20 bg-white/5 w-full rounded" />
+          <div className="h-16 bg-[#F4F3F0] w-full rounded" />
+          <div className="h-16 bg-[#F4F3F0] w-full rounded" />
         </div>
       </div>
     );
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       <div className="flex justify-between items-center">
-        <div className="flex items-center gap-3">
-          <div className="relative">
-             <Brain className="w-5 h-5 text-accent" />
-             <div className="absolute -top-1 -right-1 w-2 h-2 bg-profit rounded-full animate-ping" />
-          </div>
-          <h4 className="text-[10px] font-mono uppercase tracking-widest text-text-primary">AI Psychology Coach</h4>
+        <div className="flex items-center gap-2.5">
+          <Brain className="w-4 h-4 text-[#F9771D]" />
+          <h4 className="text-[11px] font-semibold uppercase tracking-[0.08em] text-[#888882]">Psychology Coach</h4>
         </div>
-        <span className="text-[8px] font-mono text-text-tertiary uppercase">Analysis: Live</span>
+        <span className="text-[10px] font-medium text-[#888882]">Live Engine</span>
       </div>
 
-      <div className="space-y-4">
+      <div className="space-y-3">
         {patterns.length === 0 ? (
-          <div className="p-8 bg-background-surface/40 backdrop-blur-md border border-profit/30 flex flex-col items-center text-center space-y-4 transition-all duration-300 hover:shadow-[0_0_30px_rgba(0,230,118,0.1)] hover:-translate-y-0.5">
-            <CheckCircle2 className="w-8 h-8 text-profit" />
+          <div className="p-6 bg-white border border-[rgba(24,184,128,0.2)] rounded-lg flex flex-col items-center text-center space-y-3">
+            <div className="w-9 h-9 rounded-full bg-[#F0FDF8] flex items-center justify-center text-[#18B880]">
+              <CheckCircle2 className="w-5 h-5" />
+            </div>
             <div className="space-y-1">
               {trades.length === 0 ? (
                 <>
-                  <p className="text-sm font-display font-bold uppercase">Nothing to Analyse Yet</p>
-                  <p className="text-xs text-text-tertiary">Log your first funded account trades to activate pattern detection.</p>
+                  <p className="text-sm font-semibold text-[#1A1A1A]">Awaiting Trade Data</p>
+                  <p className="text-xs text-[#888882]">Log your first trades in the journal to activate behavioural pattern detection.</p>
                 </>
               ) : (
                 <>
-                  <p className="text-sm font-display font-bold uppercase">Discipline Maintained</p>
-                  <p className="text-xs text-text-tertiary">No negative behavioural patterns detected across your recent trades.</p>
+                  <p className="text-sm font-semibold text-[#1A1A1A]">Discipline Maintained</p>
+                  <p className="text-xs text-[#888882]">No negative behavioural patterns detected across your recent trades.</p>
                 </>
               )}
             </div>
@@ -77,40 +76,40 @@ export function PsychologyCoach({ trades, account }: PsychologyCoachProps) {
             <div 
               key={pattern.id}
               className={cn(
-                "p-6 border-l-4 transition-all hover:translate-x-1",
-                pattern.severity === 'critical' ? "bg-loss/5 border-loss" : 
-                pattern.severity === 'high' ? "bg-warning/5 border-warning" : 
-                "bg-accent/5 border-accent"
+                "p-5 rounded-lg border border-l-4 transition-all",
+                pattern.severity === 'critical' ? "bg-[#FDF2F2] border-[rgba(206,105,105,0.2)] border-l-[#CE6969]" : 
+                pattern.severity === 'high' ? "bg-[#FFFBEB] border-[rgba(217,119,6,0.2)] border-l-[#D97706]" : 
+                "bg-[#FFF4EC] border-[rgba(249,119,29,0.2)] border-l-[#F9771D]"
               )}
             >
-              <div className="flex items-start gap-4">
+              <div className="flex items-start gap-3.5">
                 {pattern.severity === 'critical' ? (
-                  <ShieldAlert className="w-5 h-5 text-loss shrink-0 mt-1" />
+                  <ShieldAlert className="w-5 h-5 text-[#CE6969] shrink-0 mt-0.5" />
                 ) : (
-                  <AlertTriangle className="w-5 h-5 text-warning shrink-0 mt-1" />
+                  <AlertTriangle className="w-5 h-5 text-[#D97706] shrink-0 mt-0.5" />
                 )}
-                <div className="space-y-3">
+                <div className="space-y-2.5 flex-1">
                   <div>
-                    <h5 className="text-sm font-display font-bold uppercase leading-none mb-2">{pattern.name}</h5>
-                    <p className="text-xs text-text-secondary leading-relaxed">
+                    <h5 className="text-sm font-bold text-[#1A1A1A] mb-1">{pattern.name}</h5>
+                    <p className="text-xs text-[#4A4A47] leading-relaxed">
                       {pattern.description}
                     </p>
                   </div>
                   
-                  <div className="p-3 bg-white/5 border border-white/10 space-y-2">
-                    <div className="flex items-center gap-2">
-                       <Zap className="w-3 h-3 text-accent" />
-                       <span className="text-[10px] font-mono uppercase font-bold text-text-primary">Recommendation</span>
+                  <div className="p-3 bg-white rounded border border-[#E8E6E1] space-y-1">
+                    <div className="flex items-center gap-1.5">
+                       <Zap className="w-3 h-3 text-[#F9771D]" />
+                       <span className="text-[10px] font-semibold uppercase tracking-wider text-[#1A1A1A]">Recommendation</span>
                     </div>
-                    <p className="text-[11px] text-text-tertiary italic leading-normal">
+                    <p className="text-xs text-[#4A4A47] leading-relaxed">
                       {pattern.recommendation}
                     </p>
                   </div>
 
-                  <div className="flex items-center justify-between pt-2">
-                     <span className="text-[8px] font-mono text-text-tertiary uppercase">Detected: {new Date(pattern.detectedAt).toLocaleTimeString()}</span>
-                     <button className="text-[8px] font-mono uppercase tracking-widest text-accent hover:underline flex items-center gap-1">
-                        Review Trade <ChevronRight className="w-2 h-2" />
+                  <div className="flex items-center justify-between pt-1 text-[10px] text-[#888882]">
+                     <span>Detected: {new Date(pattern.detectedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+                     <button className="text-[11px] font-semibold text-[#F9771D] hover:underline flex items-center gap-1">
+                        Review Trade <ChevronRight className="w-3 h-3" />
                      </button>
                   </div>
                 </div>
@@ -120,11 +119,12 @@ export function PsychologyCoach({ trades, account }: PsychologyCoachProps) {
         )}
       </div>
 
-      <div className="p-4 bg-background-elevated/50 border border-border-slate/50">
-         <p className="text-[9px] text-text-tertiary text-center leading-relaxed font-mono uppercase tracking-tight">
-            The coach is watching your equity curve in real-time. Stay disciplined.
+      <div className="p-3 bg-[#F7F7F5] border border-[#E8E6E1] rounded-lg text-center">
+         <p className="text-[11px] text-[#888882] font-medium">
+            Coach monitors rule adherence and equity impact in real-time.
          </p>
       </div>
     </div>
   );
 }
+

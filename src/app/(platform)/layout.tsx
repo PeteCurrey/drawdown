@@ -134,7 +134,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         const metaRole = user.user_metadata?.role;
         const metaName = user.user_metadata?.full_name || user.user_metadata?.display_name || user.email?.split("@")[0] || "Trader";
 
-        // 2. If profile is missing or missing tier metadata set in Supabase Auth, auto-provision / sync
+        // 2. If profile is missing in DB, auto-provision with default 'free' tier
         if (!currentProfile) {
           const { data: newProfile } = await (supabase as any)
             .from('profiles')
@@ -142,8 +142,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
               id: user.id,
               display_name: metaName,
               full_name: metaName,
-              subscription_tier: (metaTier || "free").toLowerCase(),
-              role: metaRole || "trader",
+              subscription_tier: "free",
+              subscription_status: "inactive",
+              role: "student",
               email_preferences: {},
               created_at: new Date().toISOString(),
               updated_at: new Date().toISOString(),
@@ -154,16 +155,10 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           currentProfile = newProfile || {
             id: user.id,
             display_name: metaName,
-            subscription_tier: metaTier || "free",
-            role: metaRole || "trader",
+            subscription_tier: "free",
+            subscription_status: "inactive",
+            role: "student",
           };
-        } else if (metaTier && currentProfile.subscription_tier !== metaTier.toLowerCase()) {
-          // Sync tier set in Supabase Auth metadata to profile
-          await (supabase as any)
-            .from('profiles')
-            .update({ subscription_tier: metaTier.toLowerCase() })
-            .eq('id', user.id);
-          currentProfile.subscription_tier = metaTier.toLowerCase();
         }
 
         setProfile(currentProfile);
@@ -247,28 +242,28 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       <Link
         href={href}
         className={cn(
-          "w-full h-10 flex items-center transition-all duration-150 rounded-none relative group",
-          isCollapsed ? "justify-center px-0" : "px-3 gap-3",
+          "w-full h-9 flex items-center transition-all duration-150 relative group rounded-md text-[13px]",
+          isCollapsed ? "justify-center px-0" : "px-3 gap-2.5",
           isActive 
             ? isDarkModulePage
               ? "bg-[#C8F135]/15 text-white font-semibold border-l-[3px] border-[#C8F135]"
-              : "bg-[#1A1A1A]/8 text-[#1A1A1A] font-medium border-l-[3px] border-[#F9771D]" 
+              : "bg-[#FFF4EC] text-[#1A1A1A] font-semibold border-l-[3px] border-[#F9771D]" 
             : isDarkModulePage
               ? "text-white/60 hover:text-white hover:bg-white/5"
-              : "text-[#555550] hover:text-[#1A1A1A] hover:bg-[#1A1A1A]/5"
+              : "text-[#555550] hover:text-[#1A1A1A] hover:bg-[#F0EEE9]/70"
         )}
       >
         <div className="relative">
-          <Icon className={cn("w-5 h-5 shrink-0 transition-colors", isActive ? (isDarkModulePage ? "text-[#C8F135]" : "text-[#1A1A1A]") : (isDarkModulePage ? "text-white/50 group-hover:text-white" : "text-[#555550]"))} />
+          <Icon className={cn("w-4 h-4 shrink-0 transition-colors", isActive ? (isDarkModulePage ? "text-[#C8F135]" : "text-[#F9771D]") : (isDarkModulePage ? "text-white/50 group-hover:text-white" : "text-[#888882] group-hover:text-[#1A1A1A]"))} />
           {isCollapsed && displayBadge && (
-            <span className={cn("absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full border", isDarkModulePage ? "bg-[#C8F135] border-[#0a0a0a]" : "bg-[#F9771D] border-white")} />
+            <span className={cn("absolute -top-1 -right-1 w-2 h-2 rounded-full", isDarkModulePage ? "bg-[#C8F135]" : "bg-[#F9771D]")} />
           )}
         </div>
-        {!isCollapsed && <span className="text-[13px]">{name}</span>}
+        {!isCollapsed && <span className="font-medium truncate">{name}</span>}
         {!isCollapsed && displayBadge && (
           <span className={cn(
-            "ml-auto text-[8px] font-bold font-mono tracking-wider px-1.5 py-0.5 rounded-none",
-            isDarkModulePage ? "bg-[#C8F135] text-black font-bold" : "bg-[#F9771D] text-white"
+            "ml-auto text-[8px] font-semibold tracking-wider px-1.5 py-0.5 rounded",
+            isDarkModulePage ? "bg-[#C8F135] text-black font-bold" : "bg-[#FFF4EC] text-[#F9771D] border border-[rgba(249,119,29,0.25)] font-bold"
           )}>
             {displayBadge}
           </span>
@@ -280,7 +275,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   return (
     <div className={cn(
       "flex flex-col h-screen font-sans antialiased transition-colors duration-200 platform-container",
-      isDarkModulePage ? "bg-[#0a0a0a] text-white dark-mode-page" : "bg-white text-[#1A1A1A]"
+      isDarkModulePage ? "bg-[#0a0a0a] text-white dark-mode-page" : "bg-[#F7F7F5] text-[#1A1A1A]"
     )}>
       {showOnboarding && profile && (
         <OnboardingWizard 
@@ -291,23 +286,23 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
       {/* Top Navigation Bar */}
       <header className={cn(
-        "sticky top-0 z-50 h-14 shrink-0 flex items-center justify-between px-6 transition-colors duration-200",
+        "sticky top-0 z-50 h-13 shrink-0 flex items-center justify-between px-5 transition-colors duration-200",
         isDarkModulePage 
           ? "bg-[#0a0a0a] border-b border-white/10 text-white" 
-          : "bg-white border-b border-[#DEDDD8] text-[#1A1A1A]"
+          : "bg-[#FAFAF9] border-b border-[#E8E6E1] text-[#1A1A1A]"
       )}>
         {/* Left Side: Logo */}
         <div className="flex items-center gap-2">
-          <svg viewBox="0 0 24 24" className={cn("w-6 h-6 transition-colors", isDarkModulePage ? "fill-[#C8F135]" : "fill-[#F9771D]")} xmlns="http://www.w3.org/2000/svg">
+          <svg viewBox="0 0 24 24" className={cn("w-5 h-5 transition-colors", isDarkModulePage ? "fill-[#C8F135]" : "fill-[#F9771D]")} xmlns="http://www.w3.org/2000/svg">
             <path d="M12 2L4 5v6c0 5.5 3.5 10 8 11 4.5-1 8-5.5 8-11V5l-8-3zm0 18.5c-3.3-.9-6-4.5-6-8.5V6.3l6-2.2 6 2.2V12c0 4-2.7 7.6-6 8.5z" />
           </svg>
-          <span className={cn("font-display font-semibold text-base tracking-tight", isDarkModulePage ? "text-white" : "text-[#1A1A1A]")}>
-            Drawdown<sup className={cn("text-[9px] font-normal ml-0.5", isDarkModulePage ? "text-white/40" : "text-[#555550]")}>.uk</sup>
+          <span className={cn("font-display font-bold text-sm tracking-tight", isDarkModulePage ? "text-white" : "text-[#1A1A1A]")}>
+            Drawdown<sup className={cn("text-[9px] font-normal ml-0.5", isDarkModulePage ? "text-white/40" : "text-[#888882]")}>.uk</sup>
           </span>
         </div>
 
         {/* Center: Workflow stage tabs */}
-        <div className="hidden md:flex items-center gap-1">
+        <div className="hidden md:flex items-center gap-1 bg-[#F0EEE9]/60 p-1 rounded-lg border border-[#E8E6E1]/50">
           {[
             { label: "Today",   href: "/dashboard" },
             { label: "Prepare", href: "/dashboard/prepare" },
@@ -322,14 +317,14 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 key={tab.href}
                 href={tab.href}
                 className={cn(
-                  "px-3 py-1.5 text-xs font-medium rounded-[4px] transition-all duration-150",
+                  "px-3 py-1 text-xs font-medium rounded transition-all duration-150",
                   isTabActive 
                     ? isDarkModulePage
                       ? "bg-[#C8F135] text-black font-bold"
-                      : "bg-[#181818] text-white" 
+                      : "bg-white text-[#1A1A1A] font-semibold shadow-xs border border-[#E8E6E1]" 
                     : isDarkModulePage
                       ? "text-white/60 hover:bg-white/10 hover:text-white"
-                      : "text-[#555550] hover:bg-[#C8CBB8]/50 hover:text-[#1A1A1A]"
+                      : "text-[#555550] hover:text-[#1A1A1A] hover:bg-white/50"
                 )}
               >
                 {tab.label}
@@ -339,32 +334,28 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         </div>
 
         {/* Right side controls */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2.5">
           <div className={cn(
-            "hidden md:flex items-center gap-2 pr-2 text-xs font-medium",
-            isDarkModulePage ? "border-r border-white/10 text-white/70" : "border-r border-[#C8CBB8] text-[#555550]"
+            "hidden md:flex items-center gap-2 pr-2.5 text-xs font-medium",
+            isDarkModulePage ? "border-r border-white/10 text-white/70" : "border-r border-[#E8E6E1] text-[#555550]"
           )}>
             <span className={cn("w-1.5 h-1.5 rounded-full animate-pulse", isDarkModulePage ? "bg-[#C8F135]" : "bg-[#18B880]")} />
-            <span>Signal Centre</span>
+            <span className="text-[11px] font-medium text-[#888882]">Signals</span>
           </div>
 
-          <button className={cn("p-2 transition-colors rounded-[4px]", isDarkModulePage ? "hover:bg-white/10 text-white/60 hover:text-white" : "hover:bg-[#C8CBB8]/40 text-[#555550] hover:text-[#1A1A1A]")}>
-            <Settings className="w-4 h-4" />
-          </button>
-          
-          <Link href="/dashboard/the-wire" className={cn("p-2 transition-colors rounded-[4px] relative", isDarkModulePage ? "hover:bg-white/10 text-white/60 hover:text-white" : "hover:bg-[#C8CBB8]/40 text-[#555550] hover:text-[#1A1A1A]")}>
+          <Link href="/dashboard/the-wire" className={cn("p-1.5 transition-colors rounded-md relative", isDarkModulePage ? "hover:bg-white/10 text-white/60 hover:text-white" : "hover:bg-[#F0EEE9] text-[#555550] hover:text-[#1A1A1A]")}>
             <Bell className="w-4 h-4" />
-            <span className={cn("absolute top-1.5 right-1.5 w-1.5 h-1.5 rounded-full", isDarkModulePage ? "bg-[#C8F135]" : "bg-[#F9771D]")} />
+            <span className={cn("absolute top-1 right-1 w-1.5 h-1.5 rounded-full", isDarkModulePage ? "bg-[#C8F135]" : "bg-[#F9771D]")} />
           </Link>
 
-          <Link href="/dashboard/profile" className={cn("w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold font-mono transition-colors", isDarkModulePage ? "bg-[#C8F135] text-black" : "bg-[#181818] text-white")}>
+          <Link href="/dashboard/profile" className={cn("w-7 h-7 rounded-full flex items-center justify-center text-[11px] font-bold font-mono transition-colors", isDarkModulePage ? "bg-[#C8F135] text-black" : "bg-[#1A1A1A] text-white")}>
             {getInitials()}
           </Link>
 
           {/* Mobile hamburger menu */}
           <button 
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className={cn("md:hidden p-2 transition-colors rounded-[4px]", isDarkModulePage ? "hover:bg-white/10 text-white" : "hover:bg-[#C8CBB8]/40 text-[#1A1A1A]")}
+            className={cn("md:hidden p-1.5 transition-colors rounded-md", isDarkModulePage ? "hover:bg-white/10 text-white" : "hover:bg-[#F0EEE9] text-[#1A1A1A]")}
           >
             <Menu className="w-5 h-5" />
           </button>
@@ -379,7 +370,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             "hidden md:flex flex-col transition-all duration-300 z-30 shrink-0",
             isDarkModulePage 
               ? "bg-[#0d0d0d] border-r border-white/10 text-white" 
-              : "bg-white border-r border-[#DEDDD8] text-[#1A1A1A]",
+              : "bg-[#FAFAF9] border-r border-[#E8E6E1] text-[#1A1A1A]",
             isCollapsed ? "w-14" : "w-[220px]"
           )}
         >
@@ -387,7 +378,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           <div className="p-3 flex justify-end">
             <button 
               onClick={() => setIsCollapsed(!isCollapsed)}
-              className={cn("p-1 transition-colors rounded-[4px]", isDarkModulePage ? "hover:bg-white/10 text-white/60 hover:text-white" : "hover:bg-[#C8CBB8]/40 text-[#555550]")}
+              className={cn("p-1 transition-colors rounded-md", isDarkModulePage ? "hover:bg-white/10 text-white/60 hover:text-white" : "hover:bg-[#F0EEE9] text-[#888882] hover:text-[#1A1A1A]")}
             >
               {isCollapsed ? <ChevronRight className="w-4 h-4" /> : <ChevronLeft className="w-4 h-4" />}
             </button>
@@ -399,14 +390,14 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             {/* Workflow group label */}
             {!isCollapsed && (
               <div className={cn(
-                "px-3 mb-1 text-[9px] font-mono uppercase tracking-[0.15em] font-bold",
-                isDarkModulePage ? "text-white/30" : "text-[#888880]"
+                "px-3 mb-1.5 text-[10px] uppercase tracking-[0.08em] font-semibold",
+                isDarkModulePage ? "text-white/30" : "text-[#888882]"
               )}>
-                // Workflow
+                Workflow
               </div>
             )}
 
-            <div className="space-y-0.5">
+            <div className="space-y-0.5 px-2">
               {workflowNavLinks.map(link => {
                 const isSignalCentreOnly = subscriptionTier === 'signal-centre';
                 if (isSignalCentreOnly && link.href !== '/dashboard') {
@@ -417,19 +408,19 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             </div>
 
             {/* Divider */}
-            <div className={cn("my-3 border-t", isDarkModulePage ? "border-white/10" : "border-[#DEDDD8]")} />
+            <div className={cn("my-3 border-t", isDarkModulePage ? "border-white/10" : "border-[#E8E6E1]")} />
 
             {/* Tools & Intelligence group label */}
             {!isCollapsed && (
               <div className={cn(
-                "px-3 mb-1 text-[9px] font-mono uppercase tracking-[0.15em] font-bold",
-                isDarkModulePage ? "text-white/30" : "text-[#888880]"
+                "px-3 mb-1.5 text-[10px] uppercase tracking-[0.08em] font-semibold",
+                isDarkModulePage ? "text-white/30" : "text-[#888882]"
               )}>
-                // Resources
+                Resources
               </div>
             )}
 
-            <div className="space-y-0.5">
+            <div className="space-y-0.5 px-2">
               {toolNavLinks.map(link => {
                 const isSignalCentreOnly = subscriptionTier === 'signal-centre';
                 const isSignalCentreLink = link.href === '/dashboard/signal-centre';
@@ -442,25 +433,25 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           </div>
 
           {/* Bottom links: profile summary / billing */}
-          <div className={cn("border-t p-2 space-y-1", isDarkModulePage ? "border-white/10" : "border-[#DEDDD8]")}>
+          <div className={cn("border-t p-2 space-y-1", isDarkModulePage ? "border-white/10" : "border-[#E8E6E1]")}>
             <SidebarLink href="/dashboard/profile" icon={CreditCard} name="Billing" />
             <SidebarLink href="/dashboard/profile" icon={Settings} name="Settings" />
             
             {/* User profile summary widget */}
             {!isCollapsed && (
-              <div className={cn("p-3 flex items-center gap-2 mt-2 rounded-lg border transition-colors", isDarkModulePage ? "bg-white/5 border-white/10 text-white" : "bg-[#1A1A1A]/5 border-transparent")}>
-                <div className={cn("w-7 h-7 rounded-full text-[10px] flex items-center justify-center font-bold font-mono", isDarkModulePage ? "bg-[#C8F135] text-black" : "bg-[#181818] text-white")}>
+              <div className={cn("p-2.5 flex items-center gap-2.5 mt-2 rounded-lg border transition-colors", isDarkModulePage ? "bg-white/5 border-white/10 text-white" : "bg-white border-[#E8E6E1] text-[#1A1A1A] shadow-xs")}>
+                <div className={cn("w-7 h-7 rounded-full text-[10px] flex items-center justify-center font-bold font-mono", isDarkModulePage ? "bg-[#C8F135] text-black" : "bg-[#1A1A1A] text-white")}>
                   {getInitials()}
                 </div>
                 <div className="min-w-0">
-                  <p className="text-[11px] font-bold truncate">{profile?.display_name || "Trader"}</p>
-                  <span className={cn("text-[8px] font-mono font-black tracking-wider px-1 py-0.2 ml-0 inline-block", isDarkModulePage ? "bg-[#C8F135] text-black font-bold" : "bg-[#F9771D] text-white")}>
+                  <p className="text-[11px] font-semibold truncate leading-tight">{profile?.display_name || "Trader"}</p>
+                  <span className={cn("text-[8px] font-semibold uppercase tracking-wider px-1 py-0.5 rounded inline-block mt-0.5", isDarkModulePage ? "bg-[#C8F135] text-black font-bold" : "bg-[#FFF4EC] text-[#F9771D] border border-[rgba(249,119,29,0.25)]")}>
                     {profile?.subscription_tier?.toUpperCase() || "FREE"}
                   </span>
                 </div>
                 <button 
                   onClick={handleLogout}
-                  className={cn("ml-auto p-1.5 transition-colors rounded-[4px]", isDarkModulePage ? "hover:bg-red-500/20 text-white/50 hover:text-red-400" : "hover:bg-[#CE6969]/10 text-[#555550] hover:text-[#CE6969]")}
+                  className={cn("ml-auto p-1.5 transition-colors rounded-md", isDarkModulePage ? "hover:bg-red-500/20 text-white/50 hover:text-red-400" : "hover:bg-[#FDF2F2] text-[#888882] hover:text-[#CE6969]")}
                   title="Logout"
                 >
                   <LogOut className="w-3.5 h-3.5" />
@@ -474,26 +465,26 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         {mobileMenuOpen && (
           <div className="fixed inset-0 bg-[#181818]/95 z-40 md:hidden flex flex-col p-6 animate-in fade-in duration-200">
             <nav className="flex-1 overflow-y-auto space-y-2 text-white">
-              <p className="text-[9px] font-mono uppercase tracking-widest text-white/40 mb-2">// Workflow</p>
+              <p className="text-[10px] font-semibold uppercase tracking-widest text-white/40 mb-2">Workflow</p>
               {workflowNavLinks.map(link => (
                 <Link
                   key={link.href}
                   href={link.href}
                   onClick={() => setMobileMenuOpen(false)}
-                  className="flex items-center gap-3 py-3 px-4 rounded-none hover:bg-white/10 text-sm font-medium"
+                  className="flex items-center gap-3 py-3 px-4 rounded-md hover:bg-white/10 text-sm font-medium"
                 >
                   <link.icon className="w-5 h-5 text-[#8A8A85]" />
                   <span>{link.name}</span>
                 </Link>
               ))}
               <div className="border-t border-[#333330] my-4" />
-              <p className="text-[9px] font-mono uppercase tracking-widest text-white/40 mb-2">// Resources</p>
+              <p className="text-[10px] font-semibold uppercase tracking-widest text-white/40 mb-2">Resources</p>
               {toolNavLinks.map(link => (
                 <Link
                   key={link.href}
                   href={link.href}
                   onClick={() => setMobileMenuOpen(false)}
-                  className="flex items-center gap-3 py-3 px-4 rounded-none hover:bg-white/10 text-sm font-medium"
+                  className="flex items-center gap-3 py-3 px-4 rounded-md hover:bg-white/10 text-sm font-medium"
                 >
                   <link.icon className="w-5 h-5 text-[#8A8A85]" />
                   <span>{link.name}</span>
@@ -513,8 +504,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         )}
 
         {/* Main Content Area */}
-        <div className={cn("flex-1 overflow-y-auto min-w-0 pb-16 md:pb-0 transition-colors duration-200", isDarkModulePage ? "bg-[#0a0a0a] text-white" : "bg-white text-[#1A1A1A]")} data-lenis-prevent>
-          <main className="p-6 md:p-10 select-text">
+        <div className={cn("flex-1 overflow-y-auto min-w-0 pb-16 md:pb-0 transition-colors duration-200", isDarkModulePage ? "bg-[#0a0a0a] text-white" : "bg-[#F7F7F5] text-[#1A1A1A]")} data-lenis-prevent>
+          <main className="p-6 md:p-8 select-text max-w-[1540px] mx-auto">
             {(() => {
               if (subscriptionTier === 'signal-centre') {
                 const lockedPaths = [
@@ -542,7 +533,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       </div>
 
       {/* Mobile Bottom Tab Bar (≤768px viewport) */}
-      <div className={cn("md:hidden fixed bottom-0 left-0 right-0 h-14 flex items-center justify-around z-50 border-t transition-colors", isDarkModulePage ? "bg-[#0d0d0d] border-white/10 text-white" : "bg-white border-[#DEDDD8] text-[#1A1A1A]")}>
+      <div className={cn("md:hidden fixed bottom-0 left-0 right-0 h-14 flex items-center justify-around z-50 border-t transition-colors", isDarkModulePage ? "bg-[#0d0d0d] border-white/10 text-white" : "bg-[#FAFAF9] border-[#E8E6E1] text-[#1A1A1A]")}>
         {[
           { label: "Overview", href: "/dashboard", icon: LayoutDashboard },
           { label: "Markets", href: "/dashboard/market-intelligence", icon: Brain },
@@ -560,7 +551,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 "flex flex-col items-center justify-center flex-1 h-full text-[10px] font-medium transition-colors",
                 isTabActive 
                   ? (isDarkModulePage ? "text-[#C8F135]" : "text-[#F9771D]") 
-                  : (isDarkModulePage ? "text-white/50 hover:text-white" : "text-[#555550] hover:text-[#1A1A1A]")
+                  : (isDarkModulePage ? "text-white/50 hover:text-white" : "text-[#888882] hover:text-[#1A1A1A]")
               )}
             >
               <Icon className="w-5 h-5 mb-0.5" />

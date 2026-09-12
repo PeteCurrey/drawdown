@@ -6,13 +6,7 @@ import { createClient } from "@/lib/supabase/server";
 import { AlgoBuilderShell } from "@/components/algo-builder/AlgoBuilderShell";
 import { Lock } from "lucide-react";
 import Link from "next/link";
-
-const TIER_WEIGHT: Record<string, number> = {
-  free:       0,
-  foundation: 1,
-  edge:       2,
-  floor:      3,
-};
+import { hasTierAccess } from "@/lib/entitlements";
 
 export const metadata = {
   title: "Algo Strategy Builder · Drawdown",
@@ -34,13 +28,15 @@ export default async function AlgoBuilderPage() {
   // ── 2. Tier gate ─────────────────────────────────────────────────────────
   const { data: profile } = await supabase
     .from("profiles")
-    .select("subscription_tier, display_name")
+    .select("subscription_tier, subscription_status, role, display_name")
     .eq("id", user.id)
     .single();
 
   const tier        = (profile as any)?.subscription_tier as string | undefined;
+  const status      = (profile as any)?.subscription_status as string | undefined;
+  const isAdmin     = (profile as any)?.role === "admin";
   const displayName = (profile as any)?.display_name     as string | undefined;
-  const userWeight  = TIER_WEIGHT[tier ?? "free"] ?? 0;
+  const userWeight  = (isAdmin || hasTierAccess(tier, "floor", status)) ? 3 : 0;
 
   const themeStyles = {
     "--tool-accent": "#7c3aed",

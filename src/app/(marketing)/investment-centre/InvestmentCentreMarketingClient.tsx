@@ -168,7 +168,7 @@ export default function InvestmentCentreMarketingClient() {
           </h1>
 
           <p className="text-slate-500 text-base sm:text-lg leading-relaxed font-sans max-w-3xl">
-            Meridian continuously ingests macro feeds, central bank signals, SEC filings, and alternative dataset joins. Every market delta is evaluated against active investment theses, ranked by explicit salience scoring, and gated through cryptographic HMAC risk tokens before broker execution.
+            Meridian continuously ingests macro feeds, central bank signals, SEC filings, and alternative dataset joins. Every market delta is evaluated against active investment theses and ranked by explicit salience scoring.
           </p>
 
           <div className="pt-4 flex flex-wrap items-center gap-4">
@@ -241,7 +241,7 @@ export default function InvestmentCentreMarketingClient() {
                   Cross-Asset Macro Synthesis &amp; Falsification-Gated Execution
                 </h3>
                 <p className="text-xs sm:text-sm text-slate-400 font-sans leading-relaxed">
-                  Meridian continuously ingests macro feeds, central bank signals, SEC filings, and alternative dataset joins. Every market delta is evaluated against active investment theses, ranked by explicit salience scoring, and gated through cryptographic HMAC risk tokens before broker execution.
+                  Meridian continuously ingests macro feeds, central bank signals, SEC filings, and alternative dataset joins. Every market delta is evaluated against active investment theses and ranked by explicit salience scoring.
                 </p>
                 <div className="flex items-center gap-3 pt-2">
                   <span className="bg-[#C8F135] text-black font-bold px-4 py-2 text-xs uppercase font-mono">
@@ -257,13 +257,13 @@ export default function InvestmentCentreMarketingClient() {
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 border-t border-slate-700/80 pt-8">
                 <div className="bg-slate-800 p-4 border border-slate-700 rounded">
                   <p className="text-[10px] text-slate-500 font-mono uppercase tracking-widest">INGESTION FEEDS</p>
-                  <h4 className="text-base font-bold text-white tracking-wide">18 REAL-TIME</h4>
+                  <h4 className="text-base font-bold text-white tracking-wide">MULTI-SOURCE</h4>
                   <p className="text-[11px] text-slate-400 font-sans">FRED, EIA, SEC, FCA, TwelveData</p>
                 </div>
                 <div className="bg-slate-800 p-4 border border-slate-700 rounded">
                   <p className="text-[10px] text-slate-500 font-mono uppercase tracking-widest">DELTAS EVALUATED (24H)</p>
-                  <h4 className="text-base font-bold text-white tracking-wide">1,420 METRICS</h4>
-                  <p className="text-[11px] text-slate-400 font-sans">Deterministic Salience Pipeline</p>
+                  <h4 className="text-base font-bold text-white tracking-wide">CROSS-ASSET</h4>
+                  <p className="text-[11px] text-slate-400 font-sans">Macro &amp; Market Dynamics</p>
                 </div>
                 <div className="bg-slate-800 p-4 border border-slate-700 rounded">
                   <p className="text-[10px] text-slate-500 font-mono uppercase tracking-widest">COUNCIL SYNTHESIS</p>
@@ -271,9 +271,9 @@ export default function InvestmentCentreMarketingClient() {
                   <p className="text-[11px] text-slate-400 font-sans">Claude 3.5, GPT-4o, Grok-2</p>
                 </div>
                 <div className="bg-slate-800 p-4 border border-slate-700 rounded">
-                  <p className="text-[10px] text-slate-500 font-mono uppercase tracking-widest">BROKER ADAPTER</p>
-                  <h4 className="text-base font-bold text-white tracking-wide">OANDA v20 ACTIVE</h4>
-                  <p className="text-[11px] text-slate-400 font-sans">HMAC RiskToken Protected</p>
+                  <p className="text-[10px] text-slate-500 font-mono uppercase tracking-widest">RISK ENGINE</p>
+                  <h4 className="text-base font-bold text-white tracking-wide">BOUNDED EXECUTION</h4>
+                  <p className="text-[11px] text-slate-400 font-sans">Deterministic Risk Parameters</p>
                 </div>
               </div>
 
@@ -299,8 +299,8 @@ export default function InvestmentCentreMarketingClient() {
                   </div>
                   <div className="bg-slate-800 border border-slate-700 p-4 space-y-2">
                     <span className="text-[10px] text-emerald-400 font-bold">TIER 4 — EXECUTE</span>
-                    <h5 className="text-xs font-bold text-white font-sans">RiskGate &amp; Broker Route</h5>
-                    <p className="text-[11px] text-slate-400 font-sans leading-relaxed">Generates cryptographically signed ApprovalToken. Passes security checks and routes execution payload to Oanda v20 REST endpoints.</p>
+                    <h5 className="text-xs font-bold text-white font-sans">Risk Validation &amp; Order Staging</h5>
+                    <p className="text-[11px] text-slate-400 font-sans leading-relaxed">Enforces explicit maximum loss thresholds, verifies thesis criteria, and prepares structured order parameters.</p>
                   </div>
                 </div>
               </div>
@@ -385,7 +385,7 @@ export default function InvestmentCentreMarketingClient() {
             <span className="text-[#5a7a00] font-mono text-xs font-bold shrink-0 mt-0.5 bg-[#C8F135]/15 px-2 py-1 rounded">PILLAR VIII</span>
             <div className="space-y-1 font-mono">
               <h3 className="text-sm font-bold text-slate-900 uppercase">AUTOMATION &amp; RISK</h3>
-              <p className="text-xs text-slate-500 font-sans">Deterministic 4-tier escalation model, RiskGate HMAC token signing, and Oanda broker execution.</p>
+              <p className="text-xs text-slate-500 font-sans">Deterministic 4-tier escalation model, thesis invalidation checks, and structured risk parameters.</p>
             </div>
           </div>
         </div>
@@ -421,11 +421,11 @@ export default function InvestmentCentreMarketingClient() {
               <div className="space-y-2 text-xs text-slate-700 font-sans">
                 <div className="flex items-center gap-2">
                   <CheckCircle2 className="w-4 h-4 text-[#5a7a00] shrink-0" />
-                  <span>18 Real-Time Macro &amp; Alternative Feeds</span>
+                  <span>Multi-Source Macro &amp; Alternative Feeds</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <CheckCircle2 className="w-4 h-4 text-[#5a7a00] shrink-0" />
-                  <span>1,420 Metrics Evaluated 24/7 (Salience Engine)</span>
+                  <span>Cross-Asset Dynamics Evaluated Across Core Macro Drivers</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <CheckCircle2 className="w-4 h-4 text-[#5a7a00] shrink-0" />
@@ -433,7 +433,7 @@ export default function InvestmentCentreMarketingClient() {
                 </div>
                 <div className="flex items-center gap-2">
                   <CheckCircle2 className="w-4 h-4 text-[#5a7a00] shrink-0" />
-                  <span>OANDA v20 HMAC RiskToken Router</span>
+                  <span>Deterministic Risk Bounds &amp; Invalidation Engine</span>
                 </div>
               </div>
             </div>

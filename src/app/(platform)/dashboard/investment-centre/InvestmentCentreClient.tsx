@@ -189,7 +189,7 @@ export default function InvestmentCentreClient() {
             </h1>
 
             <p className="text-slate-400 text-sm sm:text-base leading-relaxed font-sans max-w-2xl">
-              Meridian unifies 8 multi-asset intelligence pillars — cross-referencing real-time prices, Treasury fiscal flows, US congressional trades, and FCA disclosed shorts with a tri-model AI Council (Claude, GPT-4o, Grok) and a fail-closed HMAC RiskGate.
+              Meridian unifies 8 multi-asset intelligence pillars — cross-referencing real-time prices, Treasury fiscal flows, US congressional trades, and FCA disclosed shorts with a tri-model AI Council (Claude, GPT-4o, Grok) and deterministic risk gating.
             </p>
 
             <div className="flex flex-wrap items-center gap-4 pt-4">
@@ -247,7 +247,7 @@ export default function InvestmentCentreClient() {
               
               <div className="flex items-center justify-between border-b border-slate-800/60 pb-3">
                 <span className="text-slate-500 text-[10px] tracking-wider uppercase">RISK GATE PROTOCOL</span>
-                <span className="text-white font-bold">HMAC-SHA256 SIGNED</span>
+                <span className="text-white font-bold">STRICT RULES ENFORCED</span>
               </div>
               
               <div className="flex items-center justify-between border-b border-slate-800/60 pb-3">
@@ -543,7 +543,7 @@ export default function InvestmentCentreClient() {
                   AUTOMATION &amp; RISK
                 </h3>
                 <p className="text-xs text-slate-500 font-sans leading-relaxed">
-                  Deterministic 4-tier escalation model, RiskGate HMAC token signing, and Oanda broker execution.
+                  Deterministic 4-tier escalation model, thesis invalidation checks, and structured risk parameters.
                 </p>
               </div>
             </div>
@@ -630,7 +630,7 @@ export default function InvestmentCentreClient() {
                 </div>
                 <div className="flex items-center gap-2.5">
                   <CheckCircle2 className="w-4 h-4 text-[#C8F135] shrink-0" />
-                  <span>HMAC-SHA256 Signed OrderIntent Router</span>
+                  <span>Deterministic Risk Bounds &amp; Invalidation Engine</span>
                 </div>
               </div>
             </div>

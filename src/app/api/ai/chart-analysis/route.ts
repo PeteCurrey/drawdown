@@ -3,6 +3,7 @@ import { checkAndLogAiUsage } from "@/lib/supabase/ai-rate-limit";
 import { NextRequest, NextResponse } from "next/server";
 import { getAnalysis } from "@/lib/ai";
 import { PETES_VOICE_PROFILE } from "@/lib/prompts";
+import { CommercialAccess } from "@/lib/entitlements";
 
 export async function POST(request: NextRequest) {
   try {
@@ -20,6 +21,22 @@ export async function POST(request: NextRequest) {
         { status: 429, headers: { "Retry-After": String(rateLimit.retryAfter) } }
       );
     }
+
+    // Tier gate: Foundation or higher required (fail closed)
+    const { data: profile } = await authClient.from("profiles")
+      .select("subscription_tier, subscription_status, role")
+      .eq("id", user.id)
+      .single();
+    const tier = (profile as any)?.subscription_tier;
+    const status = (profile as any)?.subscription_status;
+    const isAdmin = (profile as any)?.role === "admin";
+    if (!isAdmin && !CommercialAccess.canAccessSignalCentre(tier, status)) {
+      return NextResponse.json(
+        { error: "An active Foundation subscription or higher is required." },
+        { status: 403 }
+      );
+    }
+
     const { symbol, indicators } = await request.json();
 
     if (!symbol) {

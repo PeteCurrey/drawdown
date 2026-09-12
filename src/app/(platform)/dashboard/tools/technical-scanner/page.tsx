@@ -3,17 +3,7 @@ import { createClient } from "@/lib/supabase/server";
 import { ScannerClient } from "@/components/dashboard/ScannerClient";
 import { Lock } from "lucide-react";
 import Link from "next/link";
-
-// ─── Tier weights — mirrors the platform-wide definition ─────────────────
-const TIER_WEIGHT: Record<string, number> = {
-  free:       0,
-  foundation: 1,
-  edge:       2,
-  floor:      3,
-};
-
-// ─── Technical Scanner requires Foundation+ ──────────────────────────────
-const REQUIRED_WEIGHT = 1; // "foundation"
+import { hasTierAccess } from "@/lib/entitlements";
 
 export default async function TechnicalScannerPage({
   searchParams,
@@ -33,12 +23,14 @@ export default async function TechnicalScannerPage({
   // ── Tier check ──────────────────────────────────────────────────────────
   const { data: profile } = await supabase
     .from("profiles")
-    .select("subscription_tier")
+    .select("subscription_tier, subscription_status, role")
     .eq("id", user.id)
     .single();
 
   const tier = (profile as any)?.subscription_tier as string | undefined;
-  const userWeight = TIER_WEIGHT[tier ?? "free"] ?? 0;
+  const status = (profile as any)?.subscription_status as string | undefined;
+  const isAdmin = (profile as any)?.role === "admin";
+  const userWeight = (isAdmin || hasTierAccess(tier, "foundation", status)) ? 1 : 0;
 
   const themeStyles = {
     "--tool-accent": "#06b6d4",
@@ -48,7 +40,7 @@ export default async function TechnicalScannerPage({
     "--tool-accent-text": "#0e7490",
   } as React.CSSProperties;
 
-  if (userWeight < REQUIRED_WEIGHT) {
+  if (userWeight < 1) {
     return (
       <div style={themeStyles}>
         <ScannerLockedState tier={tier} />

@@ -27,26 +27,29 @@ export function PageHeader({
   const rightSlot = badge ?? children;
   const isDark = theme === "dark";
 
+  // Clean eyebrow: strip leading '// ' if callers passed it
+  const cleanEyebrow = eyebrow?.replace(/^\/\/\s*/, "");
+
   return (
     <div
       className={cn(
-        "flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b",
-        isDark ? "border-white/10" : "border-[#DEDDD8]",
+        "flex flex-col md:flex-row md:items-center justify-between gap-4 pb-5 border-b",
+        isDark ? "border-white/10" : "border-[#E8E6E1]",
         className
       )}
     >
       <div className="space-y-1">
-        {eyebrow && (
+        {cleanEyebrow && (
           <span
-            className="text-[10px] font-mono font-bold uppercase tracking-[0.2em] block"
-            style={{ color: accentColor || "var(--tool-accent-text, var(--tool-accent, #F9771D))" }}
+            className="text-[11px] font-semibold uppercase tracking-[0.08em] block"
+            style={{ color: accentColor || "var(--dd-accent, #F9771D)" }}
           >
-            // {eyebrow}
+            {cleanEyebrow}
           </span>
         )}
         <h1
           className={cn(
-            "text-2xl md:text-3xl font-display font-bold uppercase tracking-tight",
+            "text-2xl md:text-3xl font-display font-bold tracking-tight",
             isDark ? "text-white" : "text-[#1A1A1A]"
           )}
         >
@@ -69,3 +72,4 @@ export function PageHeader({
     </div>
   );
 }
+

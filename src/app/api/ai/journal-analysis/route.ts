@@ -3,6 +3,7 @@ import { checkAndLogAiUsage } from "@/lib/supabase/ai-rate-limit";
 import { NextRequest, NextResponse } from "next/server";
 import { getAnalysis } from "@/lib/ai";
 import { Database } from "@/lib/supabase/types";
+import { CommercialAccess } from "@/lib/entitlements";
 
 export async function POST(request: NextRequest) {
   try {
@@ -15,6 +16,21 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         { error: "Too many requests. Please try again in an hour." },
         { status: 429, headers: { "Retry-After": String(rateLimit.retryAfter) } }
+      );
+    }
+
+    // Tier gate: Foundation or higher required (fail closed)
+    const { data: profileData } = await authClient.from("profiles")
+      .select("subscription_tier, subscription_status, role")
+      .eq("id", user.id)
+      .single();
+    const tier = (profileData as any)?.subscription_tier;
+    const subStatus = (profileData as any)?.subscription_status;
+    const isAdmin = (profileData as any)?.role === "admin";
+    if (!isAdmin && !CommercialAccess.canAccessSignalCentre(tier, subStatus)) {
+      return NextResponse.json(
+        { error: "An active Foundation subscription or higher is required." },
+        { status: 403 }
       );
     }
 

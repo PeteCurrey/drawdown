@@ -2,11 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import Anthropic from "@anthropic-ai/sdk";
 import { createClient, createInternalSupabase } from "@/lib/supabase/server";
 import type { StrategyConfig } from "@/types/algo-builder";
-
-// ─── Tier gate ────────────────────────────────────────────────────────────────
-const TIER_WEIGHT: Record<string, number> = {
-  free: 0, foundation: 1, edge: 2, floor: 3,
-};
+import { CommercialAccess } from "@/lib/entitlements";
 
 // ─── QuantCoder system prompt ─────────────────────────────────────────────────
 const QUANTCODER_SYSTEM = `You are QuantCoder, an elite quantitative trading code generation AI embedded in the Drawdown trading education platform. You provide systematic trading analysis and code generation, with deep expertise in Pine Script v6 (TradingView) and Python with Backtrader, Pandas, and NumPy.
@@ -152,14 +148,16 @@ export async function POST(req: NextRequest) {
     // ── 2. Tier check ────────────────────────────────────────────────────────
     const { data: profile } = await supabase
       .from("profiles")
-      .select("subscription_tier")
+      .select("subscription_tier, subscription_status, role")
       .eq("id", user.id)
       .single();
 
     const tier   = (profile as any)?.subscription_tier as string ?? "free";
-    const weight = TIER_WEIGHT[tier] ?? 0;
-    if (weight < 3) {
-      return NextResponse.json({ error: "Floor subscription required." }, { status: 403 });
+    const status = (profile as any)?.subscription_status as string ?? "inactive";
+    const isAdmin = (profile as any)?.role === "admin";
+
+    if (!isAdmin && !CommercialAccess.canAccessAlgoBuilderExport(tier, status)) {
+      return NextResponse.json({ error: "Active Floor subscription required." }, { status: 403 });
     }
 
     // ── 3. Parse body ────────────────────────────────────────────────────────

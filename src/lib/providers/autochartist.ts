@@ -1,3 +1,18 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/**
+ * Autochartist provider.
+ *
+ * When AUTOCHARTIST_API_KEY is not configured, this provider returns a
+ * NOT_CONNECTED status. It NEVER generates synthetic pattern data.
+ *
+ * Rule: Simulated third-party data must never be presented as if it came
+ * from that third party. If Autochartist is not connected, there are no
+ * Autochartist patterns.
+ */
+
+export const NOT_CONNECTED = "NOT_CONNECTED" as const;
+export type NotConnected = typeof NOT_CONNECTED;
+
 export interface AutochartistPattern {
   patternName: string;
   direction: "BULLISH" | "BEARISH";
@@ -8,6 +23,8 @@ export interface AutochartistPattern {
 }
 
 export interface AutochartistData {
+  status: "CONNECTED";
+  provider: "Autochartist";
   activePatterns: AutochartistPattern[];
   volatilityForecast: {
     expectedHigh: number;
@@ -21,107 +38,65 @@ export interface AutochartistData {
   };
 }
 
+export interface AutochartistUnavailable {
+  status: NotConnected;
+  provider: "Autochartist";
+  message: string;
+}
+
+export type AutochartistResult = AutochartistData | AutochartistUnavailable;
+
 /**
  * Fetch pattern and volatility forecast data from Autochartist.
- * Integrates a high-fidelity fallback simulator based on price action and ATR.
+ *
+ * Returns NOT_CONNECTED if the API key is not configured.
+ * Never generates synthetic patterns to fill the gap.
  */
 export async function fetchAutochartistData(
   symbol: string,
   timeframe: string,
-  currentPrice: number,
-  atr: number,
-  bias: "BULLISH" | "BEARISH" | "NEUTRAL"
-): Promise<AutochartistData> {
+  _currentPrice: number,
+  _atr: number,
+  _bias: "BULLISH" | "BEARISH" | "NEUTRAL"
+): Promise<AutochartistResult> {
   const apiKey = process.env.AUTOCHARTIST_API_KEY;
-  
-  // Real API Caller template (production ready)
-  if (apiKey) {
-    try {
-      const cleanSymbol = symbol.replace("/", "");
-      const res = await fetch(
-        `https://api.autochartist.com/v1/analysis?symbol=${cleanSymbol}&timeframe=${timeframe}&apikey=${apiKey}`
-      );
-      if (res.ok) {
-        const data = await res.json();
-        if (data && data.patterns) {
-          // Map and return Autochartist payload
-          return data;
-        }
+
+  if (!apiKey) {
+    console.info("[autochartist] AUTOCHARTIST_API_KEY not configured — returning NOT_CONNECTED.");
+    return {
+      status: NOT_CONNECTED,
+      provider: "Autochartist",
+      message: "Autochartist pattern analysis is not currently connected. No pattern data available.",
+    };
+  }
+
+  try {
+    const cleanSymbol = symbol.replace("/", "");
+    const res = await fetch(
+      `https://api.autochartist.com/v1/analysis?symbol=${cleanSymbol}&timeframe=${timeframe}&apikey=${apiKey}`
+    );
+    if (res.ok) {
+      const data = await res.json();
+      if (data && data.patterns) {
+        return {
+          status: "CONNECTED",
+          provider: "Autochartist",
+          ...data,
+        };
       }
-    } catch (e) {
-      console.warn("[autochartist] Real API fetch failed, falling back to simulator:", e);
     }
+    console.warn("[autochartist] API responded but returned no patterns:", res.status);
+    return {
+      status: NOT_CONNECTED,
+      provider: "Autochartist",
+      message: "Autochartist API is reachable but returned no pattern data.",
+    };
+  } catch (e) {
+    console.error("[autochartist] API fetch failed:", e);
+    return {
+      status: NOT_CONNECTED,
+      provider: "Autochartist",
+      message: "Autochartist API request failed.",
+    };
   }
-
-  // ---------------------------------------------------------------------------
-  // High-Fidelity Mathematical Fallback Simulator
-  // ---------------------------------------------------------------------------
-  const activePatterns: AutochartistPattern[] = [];
-  
-  // Generate highly context-appropriate patterns based on the technical bias
-  if (bias === "BULLISH") {
-    activePatterns.push({
-      patternName: "Bullish Flag Pattern",
-      direction: "BULLISH",
-      probability: 88,
-      patternType: "chartpattern",
-      state: "completed",
-      identifiedAt: new Date().toISOString()
-    });
-    activePatterns.push({
-      patternName: "Double Bottom Reversal",
-      direction: "BULLISH",
-      probability: 76,
-      patternType: "chartpattern",
-      state: "completed",
-      identifiedAt: new Date(Date.now() - 3600000).toISOString()
-    });
-  } else if (bias === "BEARISH") {
-    activePatterns.push({
-      patternName: "Bearish Pennant Breakout",
-      direction: "BEARISH",
-      probability: 84,
-      patternType: "chartpattern",
-      state: "completed",
-      identifiedAt: new Date().toISOString()
-    });
-    activePatterns.push({
-      patternName: "Head and Shoulders top",
-      direction: "BEARISH",
-      probability: 79,
-      patternType: "chartpattern",
-      state: "completed",
-      identifiedAt: new Date(Date.now() - 3600000).toISOString()
-    });
-  } else {
-    activePatterns.push({
-      patternName: "Horizontal Channel Consolidation",
-      direction: "BULLISH",
-      probability: 62,
-      patternType: "chartpattern",
-      state: "emerging",
-      identifiedAt: new Date().toISOString()
-    });
-  }
-
-  // Volatility Forecast: expected boundaries using the ATR range
-  const expectedHigh = currentPrice + (1.25 * atr);
-  const expectedLow = currentPrice - (1.25 * atr);
-
-  // Fibonacci Key Levels using the Golden Ratio
-  const keyLevels = {
-    support1: currentPrice - (0.382 * atr * 2),
-    support2: currentPrice - (0.618 * atr * 2),
-    resistance1: currentPrice + (0.382 * atr * 2),
-    resistance2: currentPrice + (0.618 * atr * 2)
-  };
-
-  return {
-    activePatterns,
-    volatilityForecast: {
-      expectedHigh,
-      expectedLow
-    },
-    keyLevels
-  };
 }

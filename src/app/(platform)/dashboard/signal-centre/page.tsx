@@ -1,19 +1,30 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { SignalCentreDashboardClient } from "@/components/signal-centre/SignalCentreDashboardClient";
+import { CommercialAccess } from "@/lib/entitlements";
 
 export const metadata = {
   title: "Signal Centre · Drawdown",
   description: "Real-time, high-conviction sessional confluence signals and technical setups. Three AI models produce a single consensus score on every live market opportunity.",
 };
 
-const TIER_WEIGHT: Record<string, number> = {
-  free: 0,
-  'signal-centre': 1,
-  foundation: 2,
-  edge: 3,
-  floor: 4,
-};
+function sanitizeSignalForPreview(signal: any) {
+  return {
+    ...signal,
+    entry_price: null,
+    stop_loss: null,
+    take_profit_1: null,
+    take_profit_2: null,
+    rr_ratio: null,
+    claude_analysis: null,
+    gpt4_analysis: null,
+    grok_analysis: null,
+    taapi_data: null,
+    coingecko_data: null,
+    ai_debate: null,
+    rationale: "Upgrade to Foundation, Edge, or Floor to unlock institutional entry levels, stop loss, take profit targets, and complete multi-model AI rationale.",
+  };
+}
 
 export default async function SignalCentrePage() {
   const supabase = await createClient();
@@ -25,16 +36,17 @@ export default async function SignalCentrePage() {
     redirect("/login?redirect=/dashboard/signal-centre");
   }
 
-  // Fetch profile
+  // Fetch profile with subscription status
   const { data: profile } = await supabase
     .from("profiles")
-    .select("subscription_tier")
+    .select("subscription_tier, subscription_status, role")
     .eq("id", user.id)
     .single();
 
   const tier = ((profile as any)?.subscription_tier as string | undefined) ?? "free";
-  const userWeight = TIER_WEIGHT[tier] ?? 0;
-  const isSubscriber = userWeight >= 1;
+  const status = (profile as any)?.subscription_status as string | undefined;
+  const isAdmin = (profile as any)?.role === "admin";
+  const isSubscriber = isAdmin || CommercialAccess.canAccessSignalCentre(tier, status);
 
   // Fetch active signals + closed archive + saved watchlist in parallel
   const [signalsRes, closedRes, savedRes] = await Promise.all([
@@ -54,6 +66,9 @@ export default async function SignalCentrePage() {
       .select("signal_id")
       .eq("user_id", user.id),
   ]);
+
+  const rawSignals = signalsRes.data ?? [];
+  const activeSignals = isSubscriber ? rawSignals : rawSignals.map(sanitizeSignalForPreview);
 
   const savedIds = (savedRes.data ?? []).map(s => s.signal_id);
 
@@ -83,7 +98,7 @@ export default async function SignalCentrePage() {
       </header>
 
       <SignalCentreDashboardClient
-        initialSignals={signalsRes.data ?? []}
+        initialSignals={activeSignals}
         initialSavedIds={savedIds}
         isSubscriber={isSubscriber}
         userId={user.id}

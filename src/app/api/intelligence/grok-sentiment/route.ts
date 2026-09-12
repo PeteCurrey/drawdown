@@ -1,14 +1,8 @@
 import { createClient } from "@/lib/supabase/server";
 import { type NextRequest, NextResponse } from "next/server";
+import { CommercialAccess } from "@/lib/entitlements";
 
 export const revalidate = 0;
-
-const TIER_WEIGHT: Record<string, number> = {
-  free: 0,
-  foundation: 1,
-  edge: 2,
-  floor: 3,
-};
 
 export async function GET(request: NextRequest) {
   try {
@@ -22,14 +16,15 @@ export async function GET(request: NextRequest) {
 
     const { data: profile } = await supabase
       .from("profiles")
-      .select("subscription_tier")
+      .select("subscription_tier, subscription_status, role")
       .eq("id", user.id)
       .single();
 
     const tier = (profile as any)?.subscription_tier || "free";
-    const weight = TIER_WEIGHT[tier] || 0;
+    const status = (profile as any)?.subscription_status || "inactive";
+    const isAdmin = (profile as any)?.role === "admin";
 
-    if (weight < 2) {
+    if (!isAdmin && !CommercialAccess.canAccessInvestmentCentre(tier, status)) {
       return NextResponse.json(
         { error: "Upgrade to Edge or Floor to unlock the Grok Sentiment Terminal" },
         { status: 403 }

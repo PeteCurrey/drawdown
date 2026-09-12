@@ -85,34 +85,27 @@ export default function AccountsPage() {
 
   return (
     <div
-      className="space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-700"
-      style={{
-        "--tool-accent": "#65a30d",
-        "--tool-accent-hover": "#4d7c0f",
-        "--tool-accent-tint": "#f7fee7",
-        "--tool-accent-border": "#bef264",
-        "--tool-accent-text": "#3f6212",
-      } as React.CSSProperties}
+      className="space-y-8 animate-in fade-in duration-300"
     >
       <PageHeader
-        eyebrow="// PORTFOLIO ENGINE"
+        eyebrow="Portfolio Engine"
         title="Funded Accounts"
         description="Aggregate your prop firm accounts into a single professional dashboard. Monitor drawdown, track daily limits, and aggregate risk."
         badge={
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2.5">
             <button 
               onClick={() => setIsImportModalOpen(true)}
               disabled={accounts.length === 0}
-              className="flex items-center gap-2 px-4 py-2.5 border border-[#DEDDD8] bg-white text-[#1A1A1A] font-mono font-bold uppercase tracking-widest text-[10px] hover:border-[#1A1A1A] transition-all disabled:opacity-50 rounded-xl"
+              className="flex items-center gap-2 px-3.5 py-2 border border-[#E8E6E1] bg-white text-[#1A1A1A] font-medium text-xs hover:border-[#1A1A1A] transition-all disabled:opacity-50 rounded-md shadow-xs"
             >
-              <Upload className="w-4 h-4" />
+              <Upload className="w-3.5 h-3.5 text-[#888882]" />
               Import Trades
             </button>
             <button 
               onClick={() => setIsAddModalOpen(true)}
-              className="flex items-center gap-2 px-5 py-2.5 bg-[#181818] hover:bg-[#333330] text-white font-mono font-bold uppercase tracking-widest text-[10px] transition-all rounded-xl shadow-sm"
+              className="flex items-center gap-2 px-4 py-2 bg-[#1A1A1A] hover:bg-[#2A2A2A] text-white font-semibold text-xs transition-all rounded-md shadow-xs"
             >
-              <Plus className="w-4 h-4" />
+              <Plus className="w-3.5 h-3.5 text-[#F9771D]" />
               Add Account
             </button>
           </div>
@@ -133,11 +126,12 @@ export default function AccountsPage() {
       />
 
       {isLoading ? (
-        <div className="py-24 flex flex-col items-center justify-center space-y-4">
-          <Loader2 className="w-10 h-10 text-accent animate-spin" />
-          <p className="text-xs font-mono uppercase text-text-tertiary tracking-widest">Decrypting Portfolio Data...</p>
+        <div className="py-20 flex flex-col items-center justify-center space-y-3">
+          <Loader2 className="w-8 h-8 text-[#F9771D] animate-spin" />
+          <p className="text-xs font-medium text-[#888882]">Loading portfolio allocations...</p>
         </div>
       ) : (
+
         <>
           <PortfolioSummary summary={summary} />
 

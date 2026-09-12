@@ -188,15 +188,76 @@
   h2 { font-size: clamp(2rem, 6vw, 3.5rem); }
   h3 { font-size: clamp(1.5rem, 5vw, 2.5rem); }
 
-  /* Enforce Phase 1 flat, zero-radius corporate styling globally across all pages and dashboards */
-  .rounded, .rounded-sm, .rounded-md, .rounded-lg, .rounded-xl, .rounded-2xl, .rounded-3xl {
-    border-radius: 0px !important;
-  }
+  /* NOTE: Border-radius and box-shadow overrides have been removed from global scope.
+   * Use .sq for deliberate sharp corners on marketing elements.
+   * The dashboard platform uses its own --dd-* token system below.
+   */
+}
 
-  /* Flatten drop shadows for clean corporate flat borders */
-  .shadow-sm, .shadow, .shadow-md, .shadow-lg, .shadow-xl, .shadow-2xl {
-    box-shadow: none !important;
-  }
+/* ── Platform (dashboard) design tokens ────────────────────────────────────────
+ * Applied on .platform-container (set on the root shell div in layout.tsx).
+ * These override :root values within the authenticated platform only.
+ * Never leak these tokens into marketing pages.
+ * ──────────────────────────────────────────────────────────────────────────── */
+.platform-container {
+  /* Surface system */
+  --dd-page:          #F7F7F5;   /* warm off-white page base */
+  --dd-surface:       #FFFFFF;   /* panel / card backgrounds */
+  --dd-surface-2:     #FAFAF9;   /* sidebar, header */
+  --dd-surface-3:     #F4F3F0;   /* secondary panel, skeleton */
+
+  /* Border system */
+  --dd-border:        #E8E6E1;   /* primary border — use everywhere */
+  --dd-border-subtle: #F0EEE9;   /* internal dividers */
+
+  /* Text system */
+  --dd-text-1:        #1A1A1A;   /* headlines, key values */
+  --dd-text-2:        #4A4A47;   /* body text */
+  --dd-text-3:        #888882;   /* labels, captions, metadata */
+  --dd-text-4:        #BBBBB5;   /* very subtle / placeholder */
+
+  /* Accent (orange) — surgical use only */
+  --dd-accent:        #F9771D;
+  --dd-accent-hover:  #E06818;
+  --dd-accent-tint:   #FFF4EC;   /* active nav bg, subtle highlight */
+  --dd-accent-border: rgba(249, 119, 29, 0.25);
+
+  /* Semantic */
+  --dd-profit:        #18B880;
+  --dd-loss:          #CE6969;
+  --dd-warning:       #D97706;
+
+  /* Shadow system */
+  --dd-shadow-panel:  0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+  --dd-shadow-raised: 0 4px 12px rgba(0,0,0,0.08);
+
+  /* Radius system */
+  --dd-radius-panel:  8px;
+  --dd-radius-ctrl:   6px;
+  --dd-radius-badge:  4px;
+}
+
+/* Tabular numbers for financial data */
+.dd-tabular {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
+}
+
+/* Platform skeleton shimmer */
+@keyframes dd-shimmer {
+  0%   { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
+
+.dd-skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--dd-surface-3) 25%,
+    #ECEAE6 50%,
+    var(--dd-surface-3) 75%
+  );
+  background-size: 800px 100%;
+  animation: dd-shimmer 1.4s ease-in-out infinite;
 }
 
 

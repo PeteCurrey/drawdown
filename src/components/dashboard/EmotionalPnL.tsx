@@ -114,18 +114,18 @@ export function EmotionalPnL() {
   // ── Loading skeleton ─────────────────────────────────────────────────────
   if (loading) {
     return (
-      <div className="space-y-6">
+      <div className="space-y-4">
         <div className="flex justify-between items-center">
-          <h4 className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary">
+          <h4 className="text-[11px] font-semibold uppercase tracking-[0.08em] text-[#888882]">
             Emotional P&L Correlation
           </h4>
-          <Brain className="w-3 h-3 text-text-tertiary" />
+          <Brain className="w-3.5 h-3.5 text-[#888882]" />
         </div>
-        <div className="p-8 bg-background-surface/40 backdrop-blur-md border border-border-slate/50 space-y-6 animate-pulse">
-          <div className="h-4 bg-white/5 w-32 rounded" />
-          <div className="space-y-4">
-            <div className="h-10 bg-white/5 rounded" />
-            <div className="h-10 bg-white/5 rounded" />
+        <div className="p-6 bg-white border border-[#E8E6E1] rounded-lg space-y-4 animate-pulse">
+          <div className="h-4 bg-[#F4F3F0] w-32 rounded" />
+          <div className="space-y-3">
+            <div className="h-8 bg-[#F4F3F0] rounded" />
+            <div className="h-8 bg-[#F4F3F0] rounded" />
           </div>
         </div>
       </div>
@@ -133,32 +133,32 @@ export function EmotionalPnL() {
   }
 
   // ── Empty state — no trades logged yet ───────────────────────────────────
-  // IMPORTANT: never show demo/placeholder numbers when the user has no trades.
-  // Fake P&L figures here directly contradict the "0 Trades" shown in Account Stats.
   if (!hasData) {
     return (
-      <div className="space-y-6">
+      <div className="space-y-4">
         <div className="flex justify-between items-center">
-          <h4 className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary">
+          <h4 className="text-[11px] font-semibold uppercase tracking-[0.08em] text-[#888882]">
             Emotional P&L Correlation
           </h4>
-          <Brain className="w-3 h-3 text-text-tertiary" />
+          <Brain className="w-3.5 h-3.5 text-[#888882]" />
         </div>
-        <div className="p-8 bg-background-surface/40 backdrop-blur-md border border-border-slate/50 flex flex-col items-center text-center space-y-5 transition-all duration-300 hover:shadow-[0_0_20px_rgba(0,0,0,0.2)] hover:border-border-slate hover:-translate-y-0.5">
-          <BookOpen className="w-7 h-7 text-text-tertiary/50" />
-          <div className="space-y-2">
-            <p className="text-sm font-sans font-bold uppercase text-text-primary">
-              No Trade Data Yet
+        <div className="p-6 bg-white border border-[#E8E6E1] rounded-lg flex flex-col items-center text-center space-y-3">
+          <div className="w-9 h-9 rounded-full bg-[#F4F3F0] flex items-center justify-center text-[#888882]">
+            <BookOpen className="w-4 h-4" />
+          </div>
+          <div className="space-y-1">
+            <p className="text-sm font-semibold text-[#1A1A1A]">
+              No Trade Psychology Data
             </p>
-            <p className="text-xs text-text-tertiary leading-relaxed max-w-xs">
-              Start tagging emotional states when you log trades to see how your psychology correlates with P&L.
+            <p className="text-xs text-[#888882] leading-relaxed max-w-xs">
+              Tag your emotional state when journaling trades to discover psychological performance leaks.
             </p>
           </div>
           <Link
-            href="/dashboard/journal"
-            className="px-6 py-2.5 border border-accent/40 text-accent text-[9px] font-mono uppercase tracking-widest hover:bg-accent/5 transition-colors"
+            href="/dashboard/record"
+            className="text-[11px] font-semibold text-[#F9771D] hover:underline uppercase tracking-wider mt-1"
           >
-            Log a Trade
+            Journal a Trade →
           </Link>
         </div>
       </div>
@@ -169,41 +169,38 @@ export function EmotionalPnL() {
   const maxAbsPnL = Math.max(...data.map(d => Math.abs(d.pnl))) || 1;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       <div className="flex justify-between items-center">
-        {/* "All Time" label distinguishes this from the month-to-date Account Stats above */}
         <div>
-          <h4 className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary">
+          <h4 className="text-[11px] font-semibold uppercase tracking-[0.08em] text-[#888882]">
             Emotional P&L Correlation
           </h4>
-          <span className="text-[8px] font-mono uppercase tracking-widest text-text-tertiary/60">
-            All time
+          <span className="text-[10px] text-[#888882]">
+            All-time correlation
           </span>
         </div>
-        <Brain className="w-3 h-3 text-text-tertiary animate-pulse" />
+        <Brain className="w-3.5 h-3.5 text-[#F9771D]" />
       </div>
 
-      <div className="p-8 bg-background-surface/40 backdrop-blur-md border border-border-slate/50 space-y-8 transition-all duration-300 hover:shadow-[0_0_20px_rgba(0,0,0,0.2)] hover:border-border-slate hover:-translate-y-0.5">
-        <div className="space-y-6">
+      <div className="p-5 bg-white border border-[#E8E6E1] rounded-lg space-y-5">
+        <div className="space-y-4">
           {data.map((item, i) => (
-            <div key={i} className="space-y-2">
-              <div className="flex justify-between items-end text-[10px] font-mono uppercase tracking-widest">
-                <span className="text-text-primary font-bold">
+            <div key={i} className="space-y-1.5">
+              <div className="flex justify-between items-center text-xs">
+                <span className="text-[#1A1A1A] font-semibold">
                   {item.emotion}{" "}
-                  <span className="text-text-tertiary font-normal">({item.count} trade{item.count !== 1 ? "s" : ""})</span>
+                  <span className="text-[#888882] font-normal text-[11px]">({item.count} trade{item.count !== 1 ? "s" : ""})</span>
                 </span>
-                <span className={cn(item.pnl >= 0 ? "text-profit" : "text-loss")}>
+                <span className={cn("font-semibold dd-tabular", item.pnl >= 0 ? "text-[#18B880]" : "text-[#CE6969]")}>
                   {item.pnl >= 0 ? "+" : "-"}
                   {Math.abs(item.pnl).toLocaleString("en-GB", { style: "currency", currency: "GBP" })}
                 </span>
               </div>
-              <div className="h-1.5 bg-background-elevated/50 relative overflow-hidden">
+              <div className="h-1.5 bg-[#F4F3F0] rounded-full overflow-hidden">
                 <div
                   className={cn(
-                    "h-full transition-all duration-1000",
-                    item.pnl >= 0
-                      ? "bg-profit shadow-[0_0_8px_rgba(0,230,118,0.3)]"
-                      : "bg-loss shadow-[0_0_8px_rgba(255,61,87,0.3)]"
+                    "h-full rounded-full transition-all duration-700",
+                    item.pnl >= 0 ? "bg-[#18B880]" : "bg-[#CE6969]"
                   )}
                   style={{ width: `${(Math.abs(item.pnl) / maxAbsPnL) * 100}%` }}
                 />
@@ -212,10 +209,10 @@ export function EmotionalPnL() {
           ))}
         </div>
 
-        <div className="pt-6 border-t border-border-slate/50">
-          <p className="text-[10px] text-text-secondary leading-relaxed font-light">
-            <span className="text-accent font-bold uppercase tracking-widest mr-2 underline decoration-accent/30 decoration-2 underline-offset-4">
-              // AI Insight:
+        <div className="pt-4 border-t border-[#F0EEE9]">
+          <p className="text-xs text-[#4A4A47] leading-relaxed">
+            <span className="text-[#F9771D] font-semibold mr-1.5">
+              Insight:
             </span>
             {insight}
           </p>
@@ -224,3 +221,4 @@ export function EmotionalPnL() {
     </div>
   );
 }
+

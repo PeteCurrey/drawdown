@@ -3,13 +3,7 @@ import { createClient } from "@/lib/supabase/server";
 import Link from "next/link";
 import { ChevronLeft, Play, CheckCircle2, Clock, BookOpen } from "lucide-react";
 import { phases } from "@/data/courses";
-
-const TIER_WEIGHT: Record<string, number> = {
-  free:       0,
-  foundation: 1,
-  edge:       2,
-  floor:      3,
-};
+import { getEffectiveTierLevel } from "@/lib/entitlements";
 
 const PHASE_MIN_WEIGHT: Record<string, number> = {
   "ground-zero":          0, // Free
@@ -42,12 +36,14 @@ export default async function PhaseOverviewPage({ params }: { params: Promise<{ 
 
   const { data: profile } = await supabase
     .from("profiles")
-    .select("subscription_tier")
+    .select("subscription_tier, subscription_status, role")
     .eq("id", user.id)
     .single();
 
   const tier = (profile as any)?.subscription_tier as string | undefined;
-  const userWeight = TIER_WEIGHT[tier ?? "free"] ?? 0;
+  const status = (profile as any)?.subscription_status as string | undefined;
+  const isAdmin = (profile as any)?.role === "admin";
+  const userWeight = isAdmin ? 4 : getEffectiveTierLevel(tier, status);
   const minWeight = PHASE_MIN_WEIGHT[phaseConfig.slug] ?? 0;
 
   if (userWeight < minWeight) redirect("/dashboard/curriculum");

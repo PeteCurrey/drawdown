@@ -27,12 +27,24 @@ import Link from "next/link";
 import { WatchlistSummary } from "@/components/dashboard/WatchlistSummary";
 import { MacroPulseCard } from "@/components/dashboard/MacroPulseCard";
 
-// ─── Custom CyberGuard Aesthetic Components ─────────────────────────────────
 import { MarketIntelligenceHeroCard } from "@/components/dashboard/MarketIntelligenceHeroCard";
 import { InstrumentIntelligenceCard } from "@/components/dashboard/InstrumentIntelligenceCard";
 import { SessionTimeline } from "@/components/dashboard/SessionTimeline";
 import { INSTRUMENTS_LIST } from "@/lib/instruments";
-import { PageHeader } from "@/components/dashboard/ui/PageHeader";
+import {
+  DashboardPanel,
+  DashboardPanelHeader,
+  DashboardMetric,
+  DashboardDataRow,
+  DashboardStatus,
+  DashboardBadge,
+  DashboardEmptyState,
+  DashboardSkeleton,
+  DashboardDivider,
+  DashboardActionLink,
+} from "@/components/dashboard/ui/DashboardShell";
+import { Shield, Activity, Calendar } from "lucide-react";
+
 
 type SubscriptionTier = 'free' | 'foundation' | 'edge' | 'floor';
 
@@ -80,10 +92,12 @@ export default function DashboardPage() {
 
     const fetchBrief = async (supabase: any) => {
       try {
+        // Authoritative source: daily_briefings (written by cron/daily-report)
+        // daily_briefs is retained for the email newsletter cron only
         const { data } = await supabase
-          .from('daily_briefs')
+          .from('daily_briefings')
           .select('*')
-          .order('brief_date', { ascending: false })
+          .order('report_date', { ascending: false })
           .limit(1)
           .single();
         if (data) setLatestBrief(data);
@@ -91,6 +105,7 @@ export default function DashboardPage() {
         setLoadingBrief(false);
       }
     };
+
 
     const loadDashboardData = async () => {
       try {
@@ -254,83 +269,78 @@ export default function DashboardPage() {
         }
 
         if (!activeAcc) {
-          activeAcc = {
-            id: "manual",
-            user_id: user.id,
-            prop_firm_id: "",
-            account_name: "Manual Trading Portfolio",
-            account_size: fetchedTrades.length > 0 ? Number(fetchedTrades[fetchedTrades.length - 1].account_balance_at_entry || 100000) : 100000,
-            current_balance: fetchedTrades.length > 0 ? Number(fetchedTrades[fetchedTrades.length - 1].account_balance_at_entry || 100000) + fetchedTrades.reduce((acc, curr) => acc + (curr.net_pnl || 0), 0) : 100000,
-            daily_loss_limit: 5000,
-            daily_loss_type: 'balance_based' as const,
-            max_drawdown_limit: 10000,
-            max_drawdown_type: 'static' as const,
-            days_traded: new Set(fetchedTrades.map(t => new Date(t.entry_time).toDateString())).size || 0,
-            account_phase: 'funded' as const,
-            account_status: 'active' as const,
-            currency: "USD",
-            platform: 'other' as const,
-            created_at: user.created_at,
-            updated_at: new Date().toISOString()
-          };
+          // No funded account — show honest empty state.
+          // Do NOT fabricate account data, balance, limits, or phase.
+          setAccount(null);
+          setTrades([]);
+          setStats([
+            { label: "Win Rate (MTD)", value: "--", color: "text-[#9A9A95]", note: "No account data" },
+            { label: "Max Drawdown", value: "--", color: "text-[#9A9A95]", note: "No account data" },
+            { label: "Total Profit", value: "--", color: "text-[#9A9A95]", note: "No account data" },
+            { label: "Current Streak", value: "--", color: "text-[#9A9A95]", note: "No account data" },
+          ]);
+        } else {
+          setAccount(activeAcc);
+          setTrades(fetchedTrades);
+
+          const now = new Date();
+          const firstDayOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+          const mtdTrades = fetchedTrades.filter(t => new Date(t.entry_time) >= firstDayOfMonth);
+          const totalMtd = mtdTrades.length;
+          const winningMtd = mtdTrades.filter(t => (t.net_pnl || 0) > 0).length;
+          const winRateMtd = totalMtd > 0 ? (winningMtd / totalMtd) * 100 : 0;
+
+          let maxDrawdown = 0;
+          if (accounts && (accounts as any).length > 0) {
+            const acc = (accounts as any)[0];
+            if (Number(acc.current_balance) < Number(acc.account_size)) {
+              maxDrawdown = ((Number(acc.account_size) - Number(acc.current_balance)) / Number(acc.account_size)) * 100;
+            }
+          } else if (fetchedTrades.length > 0) {
+            const initialBalance = Number(fetchedTrades[fetchedTrades.length - 1].account_balance_at_entry || 0);
+            if (initialBalance > 0) {
+              let runningBal = initialBalance;
+              let peak = initialBalance;
+              let maxDDVal = 0;
+              const sortedOldest = [...fetchedTrades].sort((a, b) => new Date(a.entry_time).getTime() - new Date(b.entry_time).getTime());
+              for (const t of sortedOldest) {
+                runningBal += (t.net_pnl || 0);
+                if (runningBal > peak) peak = runningBal;
+                const dd = peak > 0 ? ((peak - runningBal) / peak) * 100 : 0;
+                if (dd > maxDDVal) maxDDVal = dd;
+              }
+              maxDrawdown = maxDDVal;
+            }
+          }
+
+          const mtdProfit = mtdTrades.reduce((sum, curr) => sum + (curr.net_pnl || 0), 0);
+
+          let currentStreak = 0;
+          let streakType: 'win' | 'loss' | null = null;
+          const sortedNewest = [...fetchedTrades].sort((a, b) => new Date(b.entry_time).getTime() - new Date(a.entry_time).getTime());
+          for (const t of sortedNewest) {
+            const pnlVal = t.net_pnl || 0;
+            if (pnlVal === 0) continue;
+            const isWin = pnlVal > 0;
+            if (streakType === null) {
+              streakType = isWin ? 'win' : 'loss';
+              currentStreak = 1;
+            } else if ((streakType === 'win' && isWin) || (streakType === 'loss' && !isWin)) {
+              currentStreak++;
+            } else {
+              break;
+            }
+          }
+
+          setStats([
+            { label: "Win Rate (MTD)", value: totalMtd > 0 ? `${winRateMtd.toFixed(1)}%` : "0.0%", color: "text-[#18B880]", note: totalMtd > 0 ? `${winningMtd} wins / ${totalMtd} trades` : "No trades this month" },
+            { label: "Max Drawdown", value: `-${maxDrawdown.toFixed(2)}%`, color: "text-[#CE6969]", note: accounts && accounts.length > 0 ? "Active challenge" : "Manual logs" },
+            { label: "Total Profit", value: (mtdProfit >= 0 ? "£" : "-£") + Math.abs(mtdProfit).toLocaleString('en-GB', { minimumFractionDigits: 2, maximumFractionDigits: 2 }), color: mtdProfit >= 0 ? "text-[#18B880]" : "text-[#CE6969]", note: "Net P&L this month" },
+            { label: "Current Streak", value: currentStreak > 0 ? `${currentStreak} ${streakType === 'win' ? 'Wins' : 'Losses'}` : "0 Trades", color: streakType === 'win' ? "text-[#18B880]" : "text-[#CE6969]", note: streakType === 'win' ? "Keep up the discipline" : "Stay calm, review rules" }
+          ]);
         }
 
-        setAccount(activeAcc);
-        setTrades(fetchedTrades);
 
-        const now = new Date();
-        const firstDayOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
-        const mtdTrades = fetchedTrades.filter(t => new Date(t.entry_time) >= firstDayOfMonth);
-        const totalMtd = mtdTrades.length;
-        const winningMtd = mtdTrades.filter(t => (t.net_pnl || 0) > 0).length;
-        const winRateMtd = totalMtd > 0 ? (winningMtd / totalMtd) * 100 : 0;
-
-        let maxDrawdown = 0;
-        if (accounts && (accounts as any).length > 0) {
-          const acc = (accounts as any)[0];
-          if (Number(acc.current_balance) < Number(acc.account_size)) {
-            maxDrawdown = ((Number(acc.account_size) - Number(acc.current_balance)) / Number(acc.account_size)) * 100;
-          }
-        } else if (fetchedTrades.length > 0) {
-          const initialBalance = Number(fetchedTrades[fetchedTrades.length - 1].account_balance_at_entry || 100000);
-          let runningBal = initialBalance;
-          let peak = initialBalance;
-          let maxDDVal = 0;
-          const sortedOldest = [...fetchedTrades].sort((a, b) => new Date(a.entry_time).getTime() - new Date(b.entry_time).getTime());
-          for (const t of sortedOldest) {
-            runningBal += (t.net_pnl || 0);
-            if (runningBal > peak) peak = runningBal;
-            const dd = ((peak - runningBal) / peak) * 100;
-            if (dd > maxDDVal) maxDDVal = dd;
-          }
-          maxDrawdown = maxDDVal;
-        }
-
-        const mtdProfit = mtdTrades.reduce((sum, curr) => sum + (curr.net_pnl || 0), 0);
-
-        let currentStreak = 0;
-        let streakType: 'win' | 'loss' | null = null;
-        const sortedNewest = [...fetchedTrades].sort((a, b) => new Date(b.entry_time).getTime() - new Date(a.entry_time).getTime());
-        for (const t of sortedNewest) {
-          const pnlVal = t.net_pnl || 0;
-          if (pnlVal === 0) continue;
-          const isWin = pnlVal > 0;
-          if (streakType === null) {
-            streakType = isWin ? 'win' : 'loss';
-            currentStreak = 1;
-          } else if ((streakType === 'win' && isWin) || (streakType === 'loss' && !isWin)) {
-            currentStreak++;
-          } else {
-            break;
-          }
-        }
-
-        setStats([
-          { label: "Win Rate (MTD)", value: totalMtd > 0 ? `${winRateMtd.toFixed(1)}%` : "0.0%", color: "text-[#18B880]", note: totalMtd > 0 ? `${winningMtd} wins / ${totalMtd} trades` : "No trades this month" },
-          { label: "Max Drawdown", value: `-${maxDrawdown.toFixed(2)}%`, color: "text-[#CE6969]", note: accounts && accounts.length > 0 ? "Active challenge" : "Manual logs" },
-          { label: "Total Profit", value: (mtdProfit >= 0 ? "£" : "-£") + Math.abs(mtdProfit).toLocaleString('en-GB', { minimumFractionDigits: 2, maximumFractionDigits: 2 }), color: mtdProfit >= 0 ? "text-[#18B880]" : "text-[#CE6969]", note: "Net P&L this month" },
-          { label: "Current Streak", value: currentStreak > 0 ? `${currentStreak} ${streakType === 'win' ? 'Wins' : 'Losses'}` : "0 Trades", color: streakType === 'win' ? "text-[#18B880]" : "text-[#CE6969]", note: streakType === 'win' ? "Keep up the discipline" : "Stay calm, review rules" }
-        ]);
 
         const { data: progress } = await supabase.from('course_progress').select('*').eq('user_id', user.id);
         let nextPh = phases[0];
@@ -468,10 +478,39 @@ export default function DashboardPage() {
 
   if (loading) {
     return (
-      <div className="space-y-10 animate-pulse pt-6 max-w-7xl mx-auto">
-        <div className="h-40 bg-[#181818] rounded-2xl" />
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
-          {[0, 1, 2, 3].map(i => <div key={i} className="h-32 bg-white rounded-2xl shadow-sm" />)}
+      <div className="space-y-6 max-w-[1540px] mx-auto animate-pulse">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 border-b border-[#E8E6E1]">
+          <div className="space-y-2">
+            <DashboardSkeleton height="h-7" className="w-56" />
+            <DashboardSkeleton height="h-4" className="w-80" />
+          </div>
+          <DashboardSkeleton height="h-8" className="w-48" />
+        </div>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          <div className="lg:col-span-7 space-y-6">
+            <div className="bg-white border border-[#E8E6E1] rounded-lg p-6 space-y-4">
+              <DashboardSkeleton height="h-4" className="w-36" />
+              <DashboardSkeleton height="h-10" className="w-64" />
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-4 border-t border-[#F0EEE9]">
+                {[0, 1, 2, 3].map(i => <DashboardSkeleton key={i} height="h-12" />)}
+              </div>
+            </div>
+          </div>
+          <div className="lg:col-span-5 space-y-6">
+            <div className="bg-white border border-[#E8E6E1] rounded-lg p-6 space-y-4">
+              <DashboardSkeleton height="h-4" className="w-32" />
+              <DashboardSkeleton height="h-8" className="w-full" />
+              <DashboardSkeleton height="h-16" className="w-full" />
+            </div>
+          </div>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {[0, 1, 2].map(i => (
+            <div key={i} className="bg-white border border-[#E8E6E1] rounded-lg p-5 space-y-3">
+              <DashboardSkeleton height="h-4" className="w-28" />
+              <DashboardSkeleton height="h-24" className="w-full" />
+            </div>
+          ))}
         </div>
       </div>
     );
@@ -524,8 +563,6 @@ export default function DashboardPage() {
       };
     }
     // 5. Open/unrecorded trades?
-    // In our simplified flow, we check if any executed plans aren't recorded or if records await detail.
-    // Fallback: Awaiting reviews
     if (pendingReviews.length > 0) {
       const record = pendingReviews[0];
       return {
@@ -561,207 +598,460 @@ export default function DashboardPage() {
 
   const nextAction = getNextAction();
 
+  const formattedDate = new Intl.DateTimeFormat("en-GB", {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  }).format(new Date());
+
+  const currencySymbol = userCurrency === "GBP" ? "£" : userCurrency === "EUR" ? "€" : "$";
+
+  // Account calculations
+  const accountSize = Number(account?.account_size || 0);
+  const currentBalance = Number(account?.current_balance || 0);
+  const dailyLossLimit = Number(account?.daily_loss_limit || 0);
+  const maxDrawdownLimit = Number(account?.max_drawdown_limit || 0);
+
+  const currentDrawdownAmount = accountSize > currentBalance ? accountSize - currentBalance : 0;
+  const currentDrawdownPct = accountSize > 0 && currentDrawdownAmount > 0 
+    ? ((currentDrawdownAmount / accountSize) * 100) 
+    : 0;
+
+  const drawdownProgressPct = maxDrawdownLimit > 0 
+    ? Math.min(100, Math.round((currentDrawdownAmount / maxDrawdownLimit) * 100)) 
+    : 0;
+
+  const winRateStat = stats.find(s => s.label.includes("Win Rate"));
+  const profitStat = stats.find(s => s.label.includes("Total Profit"));
+  const streakStat = stats.find(s => s.label.includes("Streak"));
+
   return (
-    <div className="space-y-8 text-[#1A1A1A]">
+    <div className="space-y-6 text-[#1A1A1A]">
       
-      {/* ── Header ───────────────────────────────────────────────────────────── */}
-      <PageHeader
-        eyebrow="// OPERATING SYSTEM WORKSPACE"
-        title={<>Today Workspace.</>}
-        description="Solve feature sprawl by giving every capability a defined role in one repeatable discipline workflow."
-      />
+      {/* ── 1. Top Greeting Bar ────────────────────────────────────────────── */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-5 border-b border-[#E8E6E1]">
+        <div>
+          <h1 className="text-2xl font-bold font-display tracking-tight text-[#1A1A1A]">
+            Good {greeting.toLowerCase()}, {name}
+          </h1>
+          <p className="text-xs text-[#888882] mt-0.5">
+            Your trading operating environment at a glance
+          </p>
+        </div>
+        <div className="flex items-center gap-3">
+          <div className="text-right hidden sm:block">
+            <span className="text-xs font-semibold text-[#1A1A1A] block">{formattedDate}</span>
+            <span className="text-[11px] text-[#888882]">Discipline Operating System</span>
+          </div>
+          <span className="h-6 w-px bg-[#E8E6E1] hidden sm:block" />
+          <DashboardBadge variant="neutral" className="gap-1.5 py-1">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#18B880] animate-pulse" />
+            Active Session
+          </DashboardBadge>
+        </div>
+      </div>
 
-      {/* ── Today Workspace Grid ──────────────────────────────────────────────── */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      {/* ── 2. Primary Workspace (Level 1) ─────────────────────────────────── */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         
-        {/* Main Work Column (2 Cols) */}
-        <div className="lg:col-span-2 space-y-8">
-          
-          {/* Question 7: Next Action (Headline Workspace Card) */}
-          <div className="p-6 bg-[#0E1015] border border-indigo-500/30 rounded-xl relative overflow-hidden text-[#E4E2DD]">
-            <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/5 to-purple-500/5" />
-            <div className="relative space-y-4">
-              <div className="flex justify-between items-center">
-                <span className="text-[9px] font-mono uppercase tracking-widest text-indigo-400">// Next Recommended Action</span>
-                <span className="text-[10px] font-mono bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 px-2 py-0.5 rounded">
-                  {nextAction.stage}
-                </span>
-              </div>
-              <h2 className="text-2xl font-bold uppercase text-white">{nextAction.title}</h2>
-              <p className="text-xs text-[#9A9A95] leading-relaxed max-w-xl">{nextAction.desc}</p>
-              <div className="pt-2">
-                <Link
-                  href={nextAction.href}
-                  className="inline-flex items-center gap-2 px-6 py-3 bg-indigo-500 text-white font-mono font-bold text-xs uppercase tracking-wider rounded-lg hover:bg-indigo-400 transition-colors"
-                >
-                  {nextAction.actionText} <ArrowUpRight className="w-4 h-4" />
-                </Link>
-              </div>
-            </div>
-          </div>
+        {/* Left Anchor: Account & Performance (7 cols) */}
+        <div className="lg:col-span-7">
+          <DashboardPanel elevated className="h-full flex flex-col justify-between">
+            <div>
+              <DashboardPanelHeader
+                label="Account & Performance"
+                action={
+                  account ? (
+                    <Link
+                      href="/dashboard/accounts"
+                      className="text-[11px] font-medium text-[#888882] hover:text-[#F9771D] transition-colors"
+                    >
+                      {account.account_name} · Switch →
+                    </Link>
+                  ) : (
+                    <Link
+                      href="/dashboard/accounts"
+                      className="text-[11px] font-medium text-[#F9771D] hover:underline"
+                    >
+                      + Add Account
+                    </Link>
+                  )
+                }
+              />
 
-          {/* Question 3, 4, 5: Outstanding Items & Workflow Traversal */}
-          <div className="bg-white border border-[#EDEDED] rounded-xl p-6 space-y-6 shadow-sm">
-            <h3 className="text-xs font-mono font-bold uppercase text-[#555550] tracking-wider">// Active Workflow Status</h3>
-            
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              {/* Daily Prep Status */}
-              <div className="p-4 border border-[#EDEDED] rounded-xl bg-slate-50/50 space-y-2">
-                <div className="text-[9px] font-mono text-[#555550] uppercase tracking-wider">1. Prepare Today</div>
-                <div className="flex items-center gap-2">
-                  <span className={cn("w-2 h-2 rounded-full", todayPrep ? "bg-emerald-500 animate-pulse" : "bg-amber-400")} />
-                  <span className="text-xs font-bold text-[#1A1A1A]">
-                    {todayPrep ? `Prepared (${todayPrep.outcome.toUpperCase()})` : "Not Prepared"}
-                  </span>
+              {account ? (
+                <div className="space-y-6">
+                  {/* Dominant Primary Metric */}
+                  <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2">
+                    <div>
+                      <span className="text-[11px] font-semibold text-[#888882] uppercase tracking-[0.08em] block mb-1">
+                        Current Balance
+                      </span>
+                      <div className="flex items-baseline gap-3">
+                        <span className="text-3xl sm:text-4xl font-bold font-display tracking-tight text-[#1A1A1A] dd-tabular">
+                          {currencySymbol}{currentBalance.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                        </span>
+                        <DashboardBadge variant={currentBalance >= accountSize ? "profit" : "warning"}>
+                          {currentBalance >= accountSize ? "In Profit" : "In Drawdown"}
+                        </DashboardBadge>
+                      </div>
+                    </div>
+                    <div className="text-left sm:text-right">
+                      <span className="text-[11px] text-[#888882] block">Account Size</span>
+                      <span className="text-sm font-semibold dd-tabular text-[#4A4A47]">
+                        {currencySymbol}{accountSize.toLocaleString("en-US")}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Restrained Risk Progress Bar */}
+                  <div className="space-y-2 p-3 bg-[#F7F7F5] rounded-lg border border-[#E8E6E1]">
+                    <div className="flex items-center justify-between text-xs">
+                      <span className="font-semibold text-[#4A4A47] flex items-center gap-1.5">
+                        <Shield className="w-3.5 h-3.5 text-[#888882]" />
+                        Risk Status: <span className="text-[#18B880] font-semibold">Within limits</span>
+                      </span>
+                      <span className="font-medium text-[#888882] dd-tabular">
+                        Drawdown: -{currentDrawdownPct.toFixed(2)}% / {maxDrawdownPctLimit}% max
+                      </span>
+                    </div>
+                    <div className="w-full bg-[#E8E6E1] h-1.5 rounded-full overflow-hidden">
+                      <div
+                        className={cn(
+                          "h-full rounded-full transition-all duration-500",
+                          drawdownProgressPct > 75 ? "bg-[#CE6969]" : drawdownProgressPct > 40 ? "bg-[#D97706]" : "bg-[#18B880]"
+                        )}
+                        style={{ width: `${Math.max(2, drawdownProgressPct)}%` }}
+                      />
+                    </div>
+                    <div className="flex justify-between text-[10px] text-[#888882] dd-tabular">
+                      <span>Daily loss: {currencySymbol}{Math.abs(Number(trades[0]?.net_pnl || 0)).toFixed(0)} / {currencySymbol}{dailyLossLimit.toLocaleString("en-US")}</span>
+                      <span>Buffer remaining: {currencySymbol}{(maxDrawdownLimit - currentDrawdownAmount).toLocaleString("en-US", { maximumFractionDigits: 0 })}</span>
+                    </div>
+                  </div>
+
+                  {/* Supporting Performance Metrics */}
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-3 border-t border-[#F0EEE9]">
+                    <DashboardMetric
+                      label="Win Rate (MTD)"
+                      value={winRateStat?.value || "0.0%"}
+                      variant="profit"
+                      size="md"
+                      note={winRateStat?.note}
+                    />
+                    <DashboardMetric
+                      label="MTD Net P&L"
+                      value={profitStat?.value || "£0.00"}
+                      variant={profitStat?.color?.includes("18B880") ? "profit" : "loss"}
+                      size="md"
+                      note="Net profit"
+                    />
+                    <DashboardMetric
+                      label="Current Streak"
+                      value={streakStat?.value || "0"}
+                      variant={streakStat?.color?.includes("18B880") ? "profit" : "default"}
+                      size="md"
+                      note={streakStat?.note}
+                    />
+                    <DashboardMetric
+                      label="Drawdown (MTD)"
+                      value={`-${currentDrawdownPct.toFixed(2)}%`}
+                      variant={currentDrawdownPct > 0 ? "loss" : "muted"}
+                      size="md"
+                      note="From high water"
+                    />
+                  </div>
                 </div>
-                <Link href="/dashboard/prepare" className="text-[10px] font-mono text-indigo-500 hover:underline block pt-1">
-                  Go to Prep →
-                </Link>
-              </div>
-
-              {/* Plans Created Status */}
-              <div className="p-4 border border-[#EDEDED] rounded-xl bg-slate-50/50 space-y-2">
-                <div className="text-[9px] font-mono text-[#555550] uppercase tracking-wider">2. Trade Plans</div>
-                <div className="flex items-center gap-2">
-                  <span className={cn("w-2 h-2 rounded-full", activePlans.length > 0 ? "bg-indigo-500" : "bg-neutral-300")} />
-                  <span className="text-xs font-bold text-[#1A1A1A]">
-                    {activePlans.length > 0 ? `${activePlans.length} Active Plan(s)` : "No Active Plans"}
-                  </span>
+              ) : (
+                <div className="space-y-6">
+                  <DashboardEmptyState
+                    icon={<Wallet className="w-5 h-5" />}
+                    title="No Funded Account Configured"
+                    description="Connect your prop firm challenge, funded account, or personal broker to enable automated drawdown protection and real-time equity tracking."
+                    action={{ label: "Add Account", href: "/dashboard/accounts" }}
+                  />
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-4 border-t border-[#F0EEE9]">
+                    {stats.map((stat, i) => (
+                      <DashboardMetric
+                        key={i}
+                        label={stat.label}
+                        value={stat.value}
+                        variant="muted"
+                        size="md"
+                        note={stat.note}
+                      />
+                    ))}
+                  </div>
                 </div>
-                <Link href="/dashboard/plan" className="text-[10px] font-mono text-indigo-500 hover:underline block pt-1">
-                  Go to Plan →
-                </Link>
-              </div>
-
-              {/* Pending Reviews Status */}
-              <div className="p-4 border border-[#EDEDED] rounded-xl bg-slate-50/50 space-y-2">
-                <div className="text-[9px] font-mono text-[#555550] uppercase tracking-wider">3. Process Reviews</div>
-                <div className="flex items-center gap-2">
-                  <span className={cn("w-2 h-2 rounded-full", pendingReviews.length > 0 ? "bg-amber-500" : "bg-emerald-500")} />
-                  <span className="text-xs font-bold text-[#1A1A1A]">
-                    {pendingReviews.length > 0 ? `${pendingReviews.length} Review(s) Due` : "All Reviews Completed"}
-                  </span>
-                </div>
-                <Link href="/dashboard/record" className="text-[10px] font-mono text-indigo-500 hover:underline block pt-1">
-                  Go to Journal →
-                </Link>
-              </div>
+              )}
             </div>
-          </div>
-
-          {/* Question 2: Market Context (Watchlist only) */}
-          <div className="bg-white border border-[#EDEDED] rounded-xl p-6 space-y-4 shadow-sm">
-            <div className="flex justify-between items-center">
-              <h3 className="text-xs font-mono font-bold uppercase text-[#555550] tracking-wider">// Local Market Context</h3>
-              <span className="text-[10px] text-text-tertiary">Watchlist Instruments Only</span>
-            </div>
-            <WatchlistSummary initialSymbols={watchlistItems} userCurrency={userCurrency} />
-          </div>
-
+          </DashboardPanel>
         </div>
 
-        {/* Sidebar Info Column (1 Col) */}
-        <div className="space-y-8">
-          
-          {/* Question 1: Risk Snapshot */}
-          <div className="bg-white border border-[#EDEDED] rounded-xl p-6 space-y-4 shadow-sm">
-            <h3 className="text-xs font-mono font-bold uppercase text-[#555550] tracking-wider">// Risk Snapshot</h3>
-            
-            <div className="space-y-3 text-xs">
-              <div className="flex justify-between py-1.5 border-b border-[#F0F0F0]">
-                <span className="text-[#555550]">Active Account</span>
-                <span className="font-bold text-[#1A1A1A]">{account?.account_name || "Demo Account"}</span>
-              </div>
-              <div className="flex justify-between py-1.5 border-b border-[#F0F0F0]">
-                <span className="text-[#555550]">Size / Balance</span>
-                <span className="font-mono text-[#1A1A1A]">
-                  ${account?.current_balance?.toLocaleString() || "100,000"} / ${account?.account_size?.toLocaleString() || "100,000"}
+        {/* Right Anchor: Next Recommended Action (5 cols) */}
+        <div className="lg:col-span-5">
+          <DashboardPanel elevated accent className="h-full flex flex-col justify-between">
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <span className="text-[11px] font-semibold uppercase tracking-[0.08em] text-[#888882]">
+                  Next Recommended Action
                 </span>
+                <DashboardBadge variant="stage">
+                  {nextAction.stage}
+                </DashboardBadge>
               </div>
-              <div className="flex justify-between py-1.5 border-b border-[#F0F0F0]">
-                <span className="text-[#555550]">Daily Loss Limit</span>
-                <span className="font-mono text-[#1A1A1A]">-${account?.daily_loss_limit?.toLocaleString() || "5,000"}</span>
+
+              <div>
+                <h3 className="text-xl font-bold font-display text-[#1A1A1A] leading-tight">
+                  {nextAction.title}
+                </h3>
+                <p className="text-xs text-[#4A4A47] leading-relaxed mt-2">
+                  {nextAction.desc}
+                </p>
               </div>
-              <div className="flex justify-between py-1.5">
-                <span className="text-[#555550]">Max Drawdown Limit</span>
-                <span className="font-mono text-[#CE6969]">-${account?.max_drawdown_limit?.toLocaleString() || "10,000"}</span>
+
+              <div>
+                <Link
+                  href={nextAction.href}
+                  className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#1A1A1A] hover:bg-[#2A2A2A] text-white text-xs font-semibold rounded-md transition-colors shadow-xs"
+                >
+                  {nextAction.actionText}
+                  <ArrowUpRight className="w-3.5 h-3.5 text-[#F9771D]" />
+                </Link>
               </div>
             </div>
+
+            {/* Operating System 3-Stage Mini Checklist */}
+            <div className="pt-5 mt-4 border-t border-[#F0EEE9] space-y-2">
+              <span className="text-[10px] font-semibold uppercase tracking-[0.08em] text-[#888882] block">
+                Today&apos;s OS Execution Loop
+              </span>
+              <div className="grid grid-cols-3 gap-2">
+                <Link
+                  href="/dashboard/prepare"
+                  className={cn(
+                    "p-2.5 rounded-md border text-left transition-colors",
+                    todayPrep ? "bg-[#F0FDF8] border-[rgba(24,184,128,0.2)]" : "bg-[#F7F7F5] border-[#E8E6E1] hover:bg-white"
+                  )}
+                >
+                  <div className="flex items-center gap-1.5 mb-1">
+                    <span className={cn("w-1.5 h-1.5 rounded-full", todayPrep ? "bg-[#18B880]" : "bg-[#D97706]")} />
+                    <span className="text-[10px] font-semibold text-[#1A1A1A]">1. Prepare</span>
+                  </div>
+                  <span className="text-[10px] text-[#888882] block truncate">
+                    {todayPrep ? "Prepared" : "Pending"}
+                  </span>
+                </Link>
+
+                <Link
+                  href="/dashboard/plan"
+                  className={cn(
+                    "p-2.5 rounded-md border text-left transition-colors",
+                    activePlans.length > 0 ? "bg-[#FFF4EC] border-[rgba(249,119,29,0.25)]" : "bg-[#F7F7F5] border-[#E8E6E1] hover:bg-white"
+                  )}
+                >
+                  <div className="flex items-center gap-1.5 mb-1">
+                    <span className={cn("w-1.5 h-1.5 rounded-full", activePlans.length > 0 ? "bg-[#F9771D]" : "bg-[#BBBBB5]")} />
+                    <span className="text-[10px] font-semibold text-[#1A1A1A]">2. Plan</span>
+                  </div>
+                  <span className="text-[10px] text-[#888882] block truncate">
+                    {activePlans.length > 0 ? `${activePlans.length} Active` : "None"}
+                  </span>
+                </Link>
+
+                <Link
+                  href="/dashboard/record"
+                  className={cn(
+                    "p-2.5 rounded-md border text-left transition-colors",
+                    pendingReviews.length > 0 ? "bg-[#FFFBEB] border-[rgba(217,119,6,0.2)]" : "bg-[#F0FDF8] border-[rgba(24,184,128,0.2)]"
+                  )}
+                >
+                  <div className="flex items-center gap-1.5 mb-1">
+                    <span className={cn("w-1.5 h-1.5 rounded-full", pendingReviews.length > 0 ? "bg-[#D97706]" : "bg-[#18B880]")} />
+                    <span className="text-[10px] font-semibold text-[#1A1A1A]">3. Review</span>
+                  </div>
+                  <span className="text-[10px] text-[#888882] block truncate">
+                    {pendingReviews.length > 0 ? `${pendingReviews.length} Due` : "Clear"}
+                  </span>
+                </Link>
+              </div>
+            </div>
+          </DashboardPanel>
+        </div>
+
+      </div>
+
+      {/* ── 3. Supporting Intelligence (Level 2) ───────────────────────────── */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        
+        {/* Watchlist Panel */}
+        <div className="flex flex-col">
+          <WatchlistSummary initialSymbols={watchlistItems} userCurrency={userCurrency} />
+        </div>
+
+        {/* Today's Briefing Panel */}
+        <DashboardPanel className="flex flex-col justify-between min-h-[200px]">
+          <div>
+            <DashboardPanelHeader
+              label="Daily Intelligence Brief"
+              action={
+                <Link
+                  href="/dashboard/the-wire"
+                  className="text-[11px] font-medium text-[#888882] hover:text-[#F9771D] transition-colors"
+                >
+                  The Wire →
+                </Link>
+              }
+            />
+
+            {latestBrief ? (
+              <div className="space-y-2.5">
+                <span className="text-[10px] font-semibold text-[#888882] block">
+                  {latestBrief.report_date || formattedDate}
+                </span>
+                <h4 className="text-sm font-bold text-[#1A1A1A] leading-snug line-clamp-2">
+                  {latestBrief.title || latestBrief.headline || "Market Operating Brief"}
+                </h4>
+                <p className="text-xs text-[#4A4A47] leading-relaxed line-clamp-3">
+                  {latestBrief.summary || latestBrief.narrative || latestBrief.key_takeaway || "Review macro drivers, session order flow, and volatility risks before taking positions."}
+                </p>
+              </div>
+            ) : (
+              <div className="py-4 text-center space-y-1">
+                <p className="text-xs font-semibold text-[#1A1A1A]">Briefing Compiling</p>
+                <p className="text-[11px] text-[#888882] leading-relaxed">
+                  The morning intelligence brief is published prior to European session liquidity.
+                </p>
+              </div>
+            )}
           </div>
 
-          {/* Question 6: Weekly Focus */}
-          <div className="bg-white border border-[#EDEDED] rounded-xl p-6 space-y-4 shadow-sm">
-            <h3 className="text-xs font-mono font-bold uppercase text-[#555550] tracking-wider">// Weekly Improvement Focus</h3>
-            
+          <div className="pt-3 mt-3 border-t border-[#F0EEE9] flex justify-between items-center text-xs">
+            <span className="text-[10px] text-[#888882]">Authoritative brief</span>
+            <Link
+              href="/dashboard/the-wire"
+              className="text-[11px] font-semibold text-[#F9771D] hover:text-[#E06818] transition-colors"
+            >
+              Read Briefing →
+            </Link>
+          </div>
+        </DashboardPanel>
+
+        {/* Weekly Focus & Quick Operations Panel */}
+        <DashboardPanel className="flex flex-col justify-between min-h-[200px]">
+          <div>
+            <DashboardPanelHeader
+              label="Weekly Improvement Focus"
+              action={
+                <Link
+                  href="/dashboard/improve"
+                  className="text-[11px] font-medium text-[#888882] hover:text-[#F9771D] transition-colors"
+                >
+                  Improve →
+                </Link>
+              }
+            />
+
             {activeCommitment ? (
-              <div className="p-4 bg-amber-50/50 border border-amber-200/50 rounded-lg space-y-2">
-                <span className="text-[9px] font-mono bg-amber-100 text-amber-800 border border-amber-200 px-2 py-0.5 rounded uppercase tracking-wider">
-                  {activeCommitment.category}
-                </span>
-                <p className="text-xs font-bold text-[#1A1A1A] leading-normal">{activeCommitment.title}</p>
+              <div className="p-3 bg-[#FFFBEB] border border-[rgba(217,119,6,0.2)] rounded-md space-y-1.5">
+                <DashboardBadge variant="warning">
+                  {activeCommitment.category || "Rule Adherence"}
+                </DashboardBadge>
+                <p className="text-xs font-semibold text-[#1A1A1A] leading-snug">
+                  {activeCommitment.title}
+                </p>
                 {activeCommitment.target_date && (
-                  <p className="text-[10px] text-text-tertiary">Due: {new Date(activeCommitment.target_date).toLocaleDateString()}</p>
+                  <p className="text-[10px] text-[#888882]">
+                    Sign-off: {new Date(activeCommitment.target_date).toLocaleDateString("en-GB")}
+                  </p>
                 )}
               </div>
             ) : (
-              <div className="p-4 border border-dashed border-[#EDEDED] rounded-lg text-center space-y-2">
-                <p className="text-xs text-[#555550]">No active commitment. Formulate one after your next trade review.</p>
+              <div className="p-3 bg-[#F7F7F5] border border-[#E8E6E1] rounded-md text-center space-y-1.5">
+                <p className="text-xs text-[#4A4A47] font-medium">No active commitment selected</p>
+                <p className="text-[10px] text-[#888882]">Formulate one in your weekly operating review.</p>
                 <Link
                   href="/dashboard/improve"
-                  className="inline-block text-[10px] font-mono text-indigo-500 hover:underline uppercase tracking-wider"
+                  className="inline-block text-[10px] font-semibold text-[#F9771D] hover:underline uppercase tracking-wider pt-0.5"
                 >
-                  Go to Improve →
+                  Set Focus Rule →
                 </Link>
               </div>
             )}
           </div>
 
-          {/* Quick Actions Router Panel */}
-          <div className="bg-white border border-[#EDEDED] rounded-xl p-6 space-y-4 shadow-sm">
-            <h3 className="text-xs font-mono font-bold uppercase text-[#555550] tracking-wider">// Quick Operations</h3>
-            <div className="grid grid-cols-2 gap-2">
-              <Link href="/dashboard/prepare" className="p-3 border border-[#EDEDED] rounded-lg text-center hover:bg-slate-50/50 transition-colors">
-                <div className="text-[10px] font-mono text-[#555550] uppercase">1. Prepare</div>
+          <div className="pt-3 mt-3 border-t border-[#F0EEE9]">
+            <div className="grid grid-cols-4 gap-1.5">
+              <Link
+                href="/dashboard/prepare"
+                className="p-1.5 text-center rounded border border-[#E8E6E1] hover:bg-[#F7F7F5] transition-colors text-[10px] font-medium text-[#4A4A47]"
+              >
+                Prep
               </Link>
-              <Link href="/dashboard/plan" className="p-3 border border-[#EDEDED] rounded-lg text-center hover:bg-slate-50/50 transition-colors">
-                <div className="text-[10px] font-mono text-[#555550] uppercase">2. Plan</div>
+              <Link
+                href="/dashboard/plan"
+                className="p-1.5 text-center rounded border border-[#E8E6E1] hover:bg-[#F7F7F5] transition-colors text-[10px] font-medium text-[#4A4A47]"
+              >
+                Plan
               </Link>
-              <Link href="/dashboard/record" className="p-3 border border-[#EDEDED] rounded-lg text-center hover:bg-slate-50/50 transition-colors">
-                <div className="text-[10px] font-mono text-[#555550] uppercase">3. Record</div>
+              <Link
+                href="/dashboard/record"
+                className="p-1.5 text-center rounded border border-[#E8E6E1] hover:bg-[#F7F7F5] transition-colors text-[10px] font-medium text-[#4A4A47]"
+              >
+                Journal
               </Link>
-              <Link href="/dashboard/weekly-review" className="p-3 border border-[#EDEDED] rounded-lg text-center hover:bg-slate-50/50 transition-colors">
-                <div className="text-[10px] font-mono text-[#555550] uppercase">4. Weekly</div>
+              <Link
+                href="/dashboard/weekly-review"
+                className="p-1.5 text-center rounded border border-[#E8E6E1] hover:bg-[#F7F7F5] transition-colors text-[10px] font-medium text-[#4A4A47]"
+              >
+                Review
               </Link>
             </div>
           </div>
+        </DashboardPanel>
 
+      </div>
+
+      {/* ── 4. Market Intelligence Workspace (Level 3) ────────────────────── */}
+      <div className="pt-4 space-y-4">
+        <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1 pb-3 border-b border-[#E8E6E1]">
+          <div>
+            <span className="text-[11px] font-semibold uppercase tracking-[0.08em] text-[#F9771D] block">
+              Market Intelligence Workspace
+            </span>
+            <h2 className="text-lg font-bold font-display text-[#1A1A1A]">
+              Directional Bias &amp; Technical Scanner
+            </h2>
+          </div>
+          <span className="text-xs text-[#888882]">
+            Composite scoring: RSI 30% · EMA 30% · Order Flow 25% · Macro 15%
+          </span>
         </div>
-
-      </div>
-
-      {/* Market intelligence hero & Technical Timeline elements below for scanner lookup */}
-      <div className="border-t border-[#EDEDED] pt-8 space-y-8">
-        <h3 className="text-xs font-mono font-bold uppercase text-[#555550] tracking-wider">// Session Timeline & Market scanner</h3>
         
-        <MarketIntelligenceHeroCard
-          instruments={INSTRUMENTS_LIST}
-          initialInstrument={INSTRUMENTS_LIST[0]}
-          selectedInterval={selectedInterval}
-          userCurrency={userCurrency}
-          todayTradeCount={trades.filter((t: any) => {
-            const entry = new Date(t.entry_time);
-            const today = new Date();
-            return entry.toDateString() === today.toDateString();
-          }).length}
-          onInstrumentChange={(inst) => setSelectedInst(inst as any)}
-          onTimeframeChange={setSelectedInterval}
-        />
-        <InstrumentIntelligenceCard instrument={selectedInst} interval={selectedInterval} />
+        <div className="space-y-6">
+          <MarketIntelligenceHeroCard
+            instruments={INSTRUMENTS_LIST}
+            initialInstrument={INSTRUMENTS_LIST[0]}
+            selectedInterval={selectedInterval}
+            userCurrency={userCurrency}
+            todayTradeCount={trades.filter((t: any) => {
+              const entry = new Date(t.entry_time);
+              const today = new Date();
+              return entry.toDateString() === today.toDateString();
+            }).length}
+            onInstrumentChange={(inst) => setSelectedInst(inst as any)}
+            onTimeframeChange={setSelectedInterval}
+          />
+
+          <InstrumentIntelligenceCard instrument={selectedInst} interval={selectedInterval} />
+        </div>
       </div>
 
-      {/* Session Timeline bottom widget */}
+      {/* ── 5. Session Timeline ───────────────────────────────────────────── */}
       <SessionTimeline />
 
     </div>
   );
 }
+

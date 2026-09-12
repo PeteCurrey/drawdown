@@ -498,7 +498,7 @@ export function MarketIntelligenceHeroCard({
     <section
       className={cn(
         "relative overflow-hidden text-[#1A1A1A]",
-        "rounded-xl border border-[#DEDDD8] bg-white shadow-[0_4px_16px_rgba(0,0,0,0.04)]",
+        "rounded-lg border border-[#E8E6E1] bg-white shadow-[0_1px_3px_rgba(0,0,0,0.04)]",
         cardVisible ? "hero-card-enter" : "opacity-0"
       )}
       style={{
@@ -506,29 +506,29 @@ export function MarketIntelligenceHeroCard({
       }}
     >
       {/* ── Header bar ──────────────────────────────────────────────────────── */}
-      <div className="h-[52px] border-b border-[#DEDDD8] flex items-center justify-between px-6">
+      <div className="h-[50px] border-b border-[#E8E6E1] flex items-center justify-between px-5">
         <div className="flex items-center gap-3">
-          <span className="text-[10px] font-mono uppercase tracking-widest text-[#555550]">
+          <span className="text-[11px] font-semibold uppercase tracking-[0.08em] text-[#888882]">
             Market Intelligence
           </span>
-          <div className="w-px h-4 bg-[#DEDDD8]" />
+          <div className="w-px h-3.5 bg-[#E8E6E1]" />
 
           {/* Instrument dropdown */}
           <div className="relative">
             <button
               onClick={() => setDropdownOpen(!dropdownOpen)}
-              className="flex items-center gap-1.5 font-semibold text-sm text-[#1A1A1A] hover:text-[#F9771D] transition-colors"
+              className="flex items-center gap-1.5 font-bold text-sm text-[#1A1A1A] hover:text-[#F9771D] transition-colors"
             >
               {selectedInst.name}
-              <ChevronDown className="w-3 h-3 text-[#555550]" />
+              <ChevronDown className="w-3.5 h-3.5 text-[#888882]" />
             </button>
             {dropdownOpen && (
               <div
-                className="absolute top-full left-0 mt-1 py-1 z-[99] min-w-[160px] rounded-xl border border-[#DEDDD8] bg-white shadow-[0_8px_24px_rgba(0,0,0,0.08)] max-h-72 overflow-y-auto"
+                className="absolute top-full left-0 mt-1 py-1 z-[99] min-w-[170px] rounded-lg border border-[#E8E6E1] bg-white shadow-[0_4px_16px_rgba(0,0,0,0.08)] max-h-72 overflow-y-auto"
               >
                 {INSTRUMENT_GROUPS.map(group => (
                   <div key={group.label}>
-                    <div className="px-3 pt-2 pb-1 text-[9px] font-mono uppercase tracking-widest text-[#555550]">
+                    <div className="px-3 pt-2 pb-1 text-[10px] font-semibold uppercase tracking-wider text-[#888882]">
                       {group.label}
                     </div>
                     {group.items.map(inst => (
@@ -538,8 +538,8 @@ export function MarketIntelligenceHeroCard({
                         className={cn(
                           "w-full text-left px-3 py-1.5 text-xs transition-colors",
                           inst.slug === selectedInst.slug
-                            ? "text-[#F9771D] font-semibold"
-                            : "text-[#555550] hover:text-[#1A1A1A] hover:bg-[#F8F8F8]"
+                            ? "text-[#F9771D] font-bold bg-[#FFF4EC]"
+                            : "text-[#4A4A47] hover:text-[#1A1A1A] hover:bg-[#F7F7F5]"
                         )}
                       >
                         {inst.name}
@@ -552,34 +552,30 @@ export function MarketIntelligenceHeroCard({
           </div>
         </div>
 
-        <div className="flex items-center gap-4">
-          <div className="flex items-center gap-2">
-            <span className="w-2 h-2 bg-[#18B880] rounded-full animate-pulse" />
-            <span className="text-[10px] font-mono uppercase text-[#555550]">Live</span>
+        <div className="flex items-center gap-3">
+          <div className="flex items-center gap-1.5">
+            <span className="w-1.5 h-1.5 bg-[#18B880] rounded-full animate-pulse" />
+            <span className="text-[11px] font-medium text-[#888882]">Live Feed</span>
           </div>
-          <div className="w-px h-4 bg-[#DEDDD8]" />
+          <div className="w-px h-3.5 bg-[#E8E6E1]" />
 
           {/* Timeframe selector */}
-          <div className="flex rounded-none overflow-hidden border border-[#DEDDD8]">
+          <div className="flex bg-[#F7F7F5] p-0.5 rounded-md border border-[#E8E6E1]">
             {TIMEFRAMES.map(tf => (
               <button
                 key={tf.interval}
                 onClick={() => onTimeframeChange?.(tf.interval)}
                 className={cn(
-                  "px-3 py-1.5 text-[12px] font-bold font-mono tracking-wide transition-all",
+                  "px-2.5 py-1 text-[11px] font-semibold tracking-wide transition-all rounded",
                   selectedInterval === tf.interval
-                    ? "bg-[#181818] text-white"
-                    : "text-[#555550] hover:text-[#1A1A1A] hover:bg-[#F8F8F8] bg-white"
+                    ? "bg-white text-[#1A1A1A] shadow-xs font-bold"
+                    : "text-[#888882] hover:text-[#1A1A1A] hover:bg-white/50"
                 )}
               >
                 {tf.label}
               </button>
             ))}
           </div>
-
-          <button className="p-1 hover:bg-[#F8F8F8] rounded-none">
-            <MoreHorizontal className="w-4 h-4 text-[#8A8A85]" />
-          </button>
         </div>
       </div>
 
@@ -587,7 +583,8 @@ export function MarketIntelligenceHeroCard({
       <div className="grid grid-cols-1 lg:grid-cols-12" style={{ height: 380 }}>
 
         {/* ── Col A: Session stats ──────────────────────────────────────────── */}
-        <div className="lg:col-span-3 border-r border-[#DEDDD8] p-6 flex flex-col justify-between">
+        <div className="lg:col-span-3 border-r border-[#E8E6E1] p-6 flex flex-col justify-between">
+
           {/* Session activity */}
           <div>
             <p className="text-[10px] font-mono uppercase tracking-widest text-[#555550] mb-3">
@@ -624,7 +621,7 @@ export function MarketIntelligenceHeroCard({
 
           {/* Open alerts — hidden when empty */}
           {visibleAlerts.length > 0 && (
-            <div className="pt-4 border-t border-[#DEDDD8]">
+            <div className="pt-4 border-t border-[#E8E6E1]">
               <p className="text-[10px] font-mono uppercase tracking-widest text-[#555550] mb-3">
                 Open Alerts
               </p>
@@ -632,7 +629,7 @@ export function MarketIntelligenceHeroCard({
                 {visibleAlerts.map((alert: OpenAlert) => (
                   <div
                     key={alert.label}
-                    className="flex-1 min-w-[56px] rounded-xl py-2 px-3 text-center border border-[#DEDDD8] bg-[#F8F8F8]"
+                    className="flex-1 min-w-[56px] rounded-xl py-2 px-3 text-center border border-[#E8E6E1] bg-[#F8F8F8]"
                   >
                     <p
                       className="text-sm font-bold font-mono tabular-nums"
@@ -655,7 +652,7 @@ export function MarketIntelligenceHeroCard({
         </div>
 
         {/* ── Col B: Gauge ─────────────────────────────────────────────────── */}
-        <div className="lg:col-span-6 flex flex-col items-center justify-center relative border-r border-[#DEDDD8] overflow-hidden py-4">
+        <div className="lg:col-span-6 flex flex-col items-center justify-center relative border-r border-[#E8E6E1] overflow-hidden py-4">
 
           {/* Canvas-style tick rings — rendered as SVG behind the main gauge */}
           <div className="relative w-full flex justify-center" style={{ maxWidth: 340 }}>
@@ -708,7 +705,7 @@ export function MarketIntelligenceHeroCard({
               <path
                 d={`M ${160 - ARC_R} 160 A ${ARC_R} ${ARC_R} 0 0 1 ${160 + ARC_R} 160`}
                 fill="none"
-                stroke="#DEDDD8"
+                stroke="#E8E6E1"
                 strokeWidth={6}
                 strokeLinecap="round"
               />
@@ -776,7 +773,7 @@ export function MarketIntelligenceHeroCard({
                     {/* Node dot on inner ring */}
                     <circle
                       cx={dx} cy={dy} r={2.5}
-                      fill={node.alert ? "#F9771D" : "#DEDDD8"}
+                      fill={node.alert ? "#F9771D" : "#E8E6E1"}
                       className={node.alert ? "alert-node-pulse" : ""}
                     />
 
@@ -787,7 +784,7 @@ export function MarketIntelligenceHeroCard({
                       const py = 160 + pillR * Math.sin(rad);
                       const letterColor = node.letter === "B" ? "#15803d" : node.letter === "S" ? "#CE6969" : "#555550";
                       const pillBg = node.letter === "B" ? "rgba(24,184,128,0.08)" : node.letter === "S" ? "rgba(206,105,105,0.08)" : "rgba(0,0,0,0.04)";
-                      const pillStroke = node.letter === "B" ? "rgba(24,184,128,0.25)" : node.letter === "S" ? "rgba(206,105,105,0.25)" : "#DEDDD8";
+                      const pillStroke = node.letter === "B" ? "rgba(24,184,128,0.25)" : node.letter === "S" ? "rgba(206,105,105,0.25)" : "#E8E6E1";
                       return (
                         <g>
                           <rect
@@ -882,7 +879,7 @@ export function MarketIntelligenceHeroCard({
 
           {/* ── Footer stats ─────────────────────────────────────────────── */}
           <div
-            className="flex justify-center items-center gap-10 w-full px-6 mt-4 pt-4 border-t border-[#DEDDD8]"
+            className="flex justify-center items-center gap-10 w-full px-6 mt-4 pt-4 border-t border-[#E8E6E1]"
           >
             {[
               { label: userCurrency && userCurrency !== "USD" ? `PRICE (${userCurrency})` : "PRICE", value: livePriceStr, color: priceFlash === "up" ? "#18B880" : priceFlash === "down" ? "#CE6969" : "#1A1A1A", isFallback, isPrice: true },
@@ -907,7 +904,7 @@ export function MarketIntelligenceHeroCard({
                       className="group relative flex items-center justify-center cursor-help"
                     >
                       <div className="w-1.5 h-1.5 rounded-full bg-[#F9771D]" />
-                      <div className="absolute bottom-full mb-2 hidden group-hover:block w-48 p-2 text-xs bg-white border border-[#DEDDD8] rounded-xl shadow-lg text-[#555550] text-left z-50">
+                      <div className="absolute bottom-full mb-2 hidden group-hover:block w-48 p-2 text-xs bg-white border border-[#E8E6E1] rounded-xl shadow-lg text-[#555550] text-left z-50">
                         Live price unavailable — showing estimated value
                       </div>
                     </div>
@@ -922,7 +919,7 @@ export function MarketIntelligenceHeroCard({
         <div className="lg:col-span-3 flex flex-col overflow-hidden">
           {/* Feed header */}
           <div
-            className="h-10 flex items-center justify-between px-4 shrink-0 border-b border-[#DEDDD8]"
+            className="h-10 flex items-center justify-between px-4 shrink-0 border-b border-[#E8E6E1]"
           >
             <div className="flex items-center gap-2">
               <span className="text-[11px] font-mono uppercase tracking-widest text-[#555550]">
@@ -1022,7 +1019,7 @@ export function MarketIntelligenceHeroCard({
 
       {/* ── Panel footer bar ────────────────────────────────────────────────── */}
       <div
-        className="h-9 flex items-center justify-between px-6 border-t border-[#DEDDD8] bg-[#F8F8F8]"
+        className="h-9 flex items-center justify-between px-6 border-t border-[#E8E6E1] bg-[#F8F8F8]"
       >
         <DataProvenanceLabel
           provider="Twelve Data"

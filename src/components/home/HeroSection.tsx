@@ -21,11 +21,11 @@ export function HeroSection() {
   };
 
   const REGIONAL_SUB: Record<string, string> = {
-    us: `Structured trading education for American traders. CFTC/NFA compliant insights, USD-normalised analysis, and a documented approach to risk.`,
-    au: `Structured trading education for Australian traders. ASIC-regulated broker coverage, AUD-normalised analysis, and a documented approach to risk.`,
-    sg: `Structured trading education for Singapore traders. MAS-regulated broker coverage, SGD-normalised analysis, and 0% capital gains on individual profits.`,
-    hk: `Structured trading education for Hong Kong traders. SFC-regulated broker coverage, HKD-normalised analysis, and 0% capital gains on individual profits.`,
-    uk: `Live market intelligence. AI-powered tools. Honest education. Built for ${demonym} traders.`,
+    us: `A unified trading operating system for American traders. Connect market context, exact position sizing, trade planning, and journal review into one disciplined loop.`,
+    au: `A unified trading operating system for Australian traders. ASIC-regulated broker coverage, AUD-normalised sizing, and one connected decision workflow.`,
+    sg: `A unified trading operating system for Singapore traders. MAS-regulated broker coverage, SGD-normalised sizing, and structured risk discipline.`,
+    hk: `A unified trading operating system for Hong Kong traders. SFC-regulated broker coverage, HKD-normalised sizing, and unified trade planning.`,
+    uk: `The trading operating system for serious independent traders. Connect your market context, position sizing, trade journal, and review in one unbroken loop.`,
   };
   const sub = REGIONAL_SUB[region] ?? REGIONAL_SUB["uk"];
 
@@ -45,7 +45,7 @@ export function HeroSection() {
       />
 
       <div className="w-full max-w-[1280px] mx-auto px-6 relative z-10">
-        <div className="max-w-2xl space-y-8">
+        <div className="max-w-3xl space-y-8">
 
           {/* Eyebrow */}
           <motion.span
@@ -56,10 +56,10 @@ export function HeroSection() {
             className="block text-[11px] uppercase tracking-[0.08em] font-mono"
             style={{ color: "var(--graphite-600)" }}
           >
-            Trading education · Intelligence tools
+            Trading Operating System · Decision-Support Infrastructure
           </motion.span>
 
-          {/* Headline — confirmed fact, shipped from addendum */}
+          {/* Headline */}
           <motion.h1
             variants={fadeUp}
             custom={1}
@@ -68,9 +68,9 @@ export function HeroSection() {
             className="font-display text-[clamp(2.25rem,5vw,4rem)] leading-[1.08] tracking-[-0.02em] font-semibold"
             style={{ color: "var(--ink-950)" }}
           >
-            Trading live since 2016.{" "}
+            A trading operating system{" "}
             <span style={{ color: "var(--graphite-600)" }}>
-              No shortcuts, no gurus, just the record.
+              for serious independent traders.
             </span>
           </motion.h1>
 
@@ -110,7 +110,7 @@ export function HeroSection() {
               <ArrowRight size={16} strokeWidth={1.5} />
             </Link>
             <Link
-              href={`${regionPrefix}/courses`}
+              href="#operating-loop"
               id="hero-cta-secondary"
               className="inline-flex items-center justify-center gap-2 px-6 py-3.5 text-[14px] font-medium border transition-colors duration-150"
               style={{
@@ -126,7 +126,7 @@ export function HeroSection() {
                 e.currentTarget.style.borderColor = "var(--line-200)";
               }}
             >
-              Explore the curriculum
+              See the operating loop
             </Link>
           </motion.div>
 
@@ -145,11 +145,11 @@ export function HeroSection() {
             </span>
             <span className="flex items-center gap-2">
               <ShieldCheck size={16} strokeWidth={1.5} style={{ color: "var(--signal-navy)" }} />
-              {regShort}-regulated brokers only
+              {regShort}-regulated broker coverage
             </span>
             <span className="flex items-center gap-2">
               <ShieldCheck size={16} strokeWidth={1.5} style={{ color: "var(--signal-navy)" }} />
-              No financial advice — education only
+              No financial advice — decision-support only
             </span>
           </motion.div>
 

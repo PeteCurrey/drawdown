@@ -52,13 +52,14 @@ const megaMenus = {
   },
   tools: {
     links: [
+      { name: "RUN MY TRADE", desc: "Interactive pre-trade sizing, R:R & discipline validation", href: "/dashboard/run-my-trade", icon: Zap, badge: "CORE" },
       { name: "Signal Centre", desc: "AI consensus signals — Claude + GPT-4o + Grok", href: "/signal-centre", icon: Zap, badge: "NEW" },
       { name: "AI Trade Journal", desc: "Upload CSV logs to extract emotional profiles", href: "/tools/ai-trade-journal", icon: BookOpen },
-      { name: "Risk Calculator", desc: "Kelly allocation relative to drawdown limits", href: "/tools/risk-calculator", icon: Calculator },
-      { name: "AI Market Scanner", desc: "Monitors order flow delta across 40+ pairs", href: "/tools/ai-market-scanner", icon: Scan },
-      { name: "Strategy Backtester", desc: "Test strategies against years of historical price data", href: "/tools/strategy-backtester", icon: LineChart },
+      { name: "Risk Calculator", desc: "Exact position sizing relative to drawdown limits", href: "/tools/risk-calculator", icon: Calculator },
+      { name: "Technical Scanner", desc: "Multi-timeframe technical confluence across 13 major pairs", href: "/tools/ai-market-scanner", icon: Scan },
+      { name: "Strategy Backtester", desc: "Test strategies against historical price data", href: "/tools/strategy-backtester", icon: LineChart },
       { name: "Algo Strategy Builder", desc: "Automatically generate Pine Script & Python", href: "/tools/algo-strategy-builder", icon: Terminal },
-      { name: "Daily Intelligence Brief", desc: "Pre-market institutional flow breakdowns", href: "/tools/intelligence-hub", icon: Newspaper }
+      { name: "Daily Intelligence Brief", desc: "Pre-market macroeconomic flow breakdowns", href: "/tools/intelligence-hub", icon: Newspaper }
     ],
     featured: {
       image: "/images/tools/ai-market-scanner.png",

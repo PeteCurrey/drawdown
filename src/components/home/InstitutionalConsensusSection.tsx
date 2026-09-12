@@ -150,13 +150,13 @@ export function InstitutionalConsensusSection() {
               className="text-[15px] leading-relaxed font-sans lg:col-span-6"
               style={{ color: "var(--graphite-600)" }}
             >
-              Aggregate order flow biases, market strength thresholds, and real-time trend alignment parsed directly from active Liquidity nodes.
+              Multi-timeframe technical consensus, momentum thresholds, and trend alignment calculated systematically from daily historical candle series.
             </p>
             <p 
               className="text-[12px] leading-relaxed font-mono lg:col-span-6 border-l pl-6 pt-1"
               style={{ color: "var(--graphite-600)", borderColor: "var(--line-200)" }}
             >
-              Tracks directional consensus of primary global assets. By evaluating the last 50 daily candles of each instrument, the matrix calculates its 20-period Exponential Moving Average (EMA) and 14-period Relative Strength Index (RSI). A consensus score above 60% signals strong professional accumulation.
+              Tracks directional consensus of primary global assets. By evaluating the last 50 daily candles of each instrument, the matrix calculates its 20-period Exponential Moving Average (EMA) and 14-period Relative Strength Index (RSI). A consensus score above 60% indicates sustained bullish technical alignment.
             </p>
           </div>
         </div>

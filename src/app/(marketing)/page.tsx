@@ -2,6 +2,9 @@ import { Navigation } from "@/components/layout/Navigation";
 import { HeroSection } from "@/components/home/HeroSection";
 import { PriceTicker } from "@/components/home/PriceTicker";
 import { MacroIntelligenceStrip } from "@/components/home/MacroIntelligenceStrip";
+import { FragmentedProblemSection } from "@/components/home/FragmentedProblemSection";
+import { OperatingLoopSection } from "@/components/home/OperatingLoopSection";
+import { RunMyTradeShowcase } from "@/components/home/RunMyTradeShowcase";
 import { ScrollQuoteSection } from "@/components/home/ScrollQuoteSection";
 import { InstitutionalPulseSection } from "@/components/home/InstitutionalPulseSection";
 import { InstitutionalConsensusSection } from "@/components/home/InstitutionalConsensusSection";
@@ -101,8 +104,19 @@ export default async function Home() {
         
         {/* Real-time Macro Strip right after pricing ticker to frame the data-driven context */}
         <MacroIntelligenceStrip />
+
+        {/* 3. The Core Fragmented Trading Problem */}
+        <FragmentedProblemSection />
+
+        {/* 4. The 7-Stage Operating Loop */}
+        <div id="operating-loop">
+          <OperatingLoopSection />
+        </div>
+
+        {/* 5. RUN MY TRADE — The Core Interactive Aha Moment */}
+        <RunMyTradeShowcase />
         
-        {/* 3. Positioning Statement ("No Lambos. No Beach Photos.") — hairline border system */}
+        {/* 6. Positioning Statement ("No Lambos. No Beach Photos.") — hairline border system */}
         <section
           className="w-full py-24 md:py-32 border-b select-none"
           style={{ backgroundColor: "var(--paper-0)", borderColor: "var(--line-200)" }}

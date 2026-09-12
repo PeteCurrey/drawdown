@@ -175,6 +175,36 @@ export function PricingSection({ floorCap = 15, activeFloorSubs = 0 }: { floorCa
           </div>
         </div>
 
+        {/* Free Tier Callout Card */}
+        <div
+          className="mb-8 p-6 border flex flex-col md:flex-row items-start md:items-center justify-between gap-6"
+          style={{
+            backgroundColor: "#FFFFFF",
+            borderColor: "var(--line-200)",
+          }}
+        >
+          <div className="space-y-1">
+            <div className="flex items-center gap-2">
+              <span className="px-2 py-0.5 border text-[10px] font-mono uppercase tracking-[0.1em] font-bold bg-emerald-50 text-emerald-700 border-emerald-200">
+                Free Forever
+              </span>
+              <span className="text-xs font-mono font-bold text-gray-900">
+                Stage 01: Free Tier (£0)
+              </span>
+            </div>
+            <p className="text-xs text-gray-600 font-sans leading-relaxed">
+              Includes complete <strong>Phase 1 Ground Zero curriculum</strong>, <strong>RUN MY TRADE pre-trade sizing</strong>, and live macroeconomic briefings. No credit card required. Upgrade to Foundation when you are ready to log trades and access advanced modules.
+            </p>
+          </div>
+
+          <Link
+            href="/signup"
+            className="shrink-0 px-5 py-2.5 text-xs font-mono font-bold uppercase tracking-wider border border-gray-900 bg-white text-gray-900 hover:bg-gray-900 hover:text-white transition-colors"
+          >
+            Start Free Mode &rarr;
+          </Link>
+        </div>
+
         {/* 3 Column Grid — zero border-radius, hairline borders, tabular figures */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch mb-12">
           {tiers.map((tier) => {

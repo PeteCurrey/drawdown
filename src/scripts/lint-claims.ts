@@ -2,13 +2,23 @@ import fs from "fs";
 import path from "path";
 
 const PROHIBITED_PATTERNS = [
+  // Execution/latency fabrications
   { pattern: /<1ms/i, label: "<1ms execution claim" },
   { pattern: /sub-1ms/i, label: "sub-1ms latency claim" },
   { pattern: /professional-grade execution/i, label: "professional-grade execution claim" },
   { pattern: /institutional-grade execution/i, label: "institutional-grade execution claim" },
-  { pattern: /guaranteed win rate/i, label: "guaranteed win rate claim" },
-  { pattern: /guaranteed return/i, label: "guaranteed return claim" },
-  { pattern: /sub-100ms ultra-low latency/i, label: "ultra-low latency execution claim" }
+  { pattern: /sub-100ms ultra-low latency/i, label: "ultra-low latency execution claim" },
+  // Guaranteed performance (affirmative claims only, disclaimers stating "not guaranteed" or "no guaranteed" are allowed)
+  { pattern: /(?<!(?:not|no|never|without)\s+)guaranteed\s+(?:win\s*rate|returns?|profits?)/i, label: "guaranteed return/win-rate claim" },
+  // Unverified historical accuracy percentages (hardcoded stat claims)
+  { pattern: /\b\d+%\s+historical reversal accuracy/i, label: "unverified historical accuracy percentage" },
+  { pattern: /proven statistical edge/i, label: "proven statistical edge claim (requires evidence)" },
+  // Tick-data specificity
+  { pattern: /10\+ years of tick.data/i, label: "10+ years tick-data claim (not verified)" },
+  { pattern: /decade-long historical data/i, label: "decade-long data claim (overstated precision)" },
+  // Fabricated data source claims
+  { pattern: /82% — HIGH/i, label: "hardcoded Acuity confidence score (fabricated)" },
+  { pattern: /Machines spotted the breakout.*human analysts confirm/i, label: "hardcoded Acuity rationale (fabricated)" },
 ];
 
 const SCAN_DIR = path.join(process.cwd(), "src");
@@ -44,6 +54,10 @@ function lintClaims() {
     const lines = content.split("\n");
 
     lines.forEach((line, index) => {
+      // Skip regulatory warning statements or economic bond definitions
+      if (/affiliates must never|government bonds|risk-free rate/i.test(line)) {
+        return;
+      }
       for (const { pattern, label } of PROHIBITED_PATTERNS) {
         if (pattern.test(line)) {
           totalViolations++;

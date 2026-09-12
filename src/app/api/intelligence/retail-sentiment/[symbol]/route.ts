@@ -60,7 +60,7 @@ export async function GET(
           signal,
           crowd_label,
           historical_accuracy_note:
-            "Retail crowding signals have 68% historical reversal accuracy on 2-week horizon",
+            "Retail crowding data provides a contrarian positioning signal when long/short ratios are heavily skewed. This is an observational heuristic derived from MyFXBook community data, not a verified backtest result.",
           fetched_at: new Date().toISOString(),
         });
       }
@@ -79,7 +79,7 @@ export async function GET(
           ? `No data for ${mfxSymbol} in MyFXBook`
           : `No sentiment mapping for ${slug}`,
         historical_accuracy_note:
-          "Retail crowding signals have 68% historical reversal accuracy on 2-week horizon",
+          "Retail crowding data provides a contrarian positioning signal when long/short ratios are heavily skewed. This is an observational heuristic derived from MyFXBook community data, not a verified backtest result.",
       },
       { status: 206 }
     );

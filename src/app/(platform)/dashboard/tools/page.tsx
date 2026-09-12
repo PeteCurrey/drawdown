@@ -46,7 +46,7 @@ const appTools: ToolDef[] = [
   {
     slug: "technical-scanner",
     title: "AI Market Scanner",
-    description: "40+ instruments, 4-timeframe confluence.",
+    description: "13 instruments, 4-timeframe confluence.",
     icon: Zap,
     minTier: "edge",
     bullet: "Real-time sessional trend scanning and alerts"

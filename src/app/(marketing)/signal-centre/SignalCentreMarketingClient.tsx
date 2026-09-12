@@ -122,15 +122,15 @@ const FEATURE_TILES = [
   {
     icon: Archive,
     title: "Signal Archive & Performance",
-    body: "Every signal logged with DCS score, model breakdown, and outcome. Win rate and R:R stats displayed. Full transparency — something most signal providers won't show.",
+    body: "Every signal logged with DCS score, model breakdown, entry levels, and timestamp. Outcome tracking (win/loss against TP1 and SL) is being built. Full transparency — something most signal providers won't show.",
     locked: false,
   },
   {
     icon: ShieldCheck,
     title: "Acuity Expert Ideas",
-    body: "Human analyst trade ideas from Acuity Research (FCA-regulated). Entry, exit, rationale, and chart visual. Machines spotted it, humans confirmed it.",
+    body: "Human analyst trade ideas from Acuity Research (FCA-regulated, FRN: 787261). Entry, exit, rationale, and chart visual. Integration in progress — launching for Edge / Floor members.",
     locked: true,
-    tierBadge: "Edge / Floor",
+    tierBadge: "Coming Soon",
   },
 ];
 

@@ -55,7 +55,7 @@ const toolCategories = [
   {
     slug: "strategy-backtester",
     title: "Strategy Backtester",
-    description: "Validate your edge on decade-long historical data with fast precision.",
+    description: "Validate your edge on historical price data with fast precision.",
     icon: History,
     features: ["Optimization Engine", "Monte Carlo Sim", "Detailed Stats"],
     tier: "Edge+",
@@ -258,7 +258,7 @@ export default function ToolsMarketingPage() {
                   </div>
                   <h3 className="text-xl font-display font-bold uppercase mb-4">Rigorously Backtested</h3>
                   <p className="text-sm text-text-secondary leading-relaxed">
-                     Every indicator and scanner algorithm is tested against 10+ years of tick-data across multiple asset classes before deployment. We don't release theories; we release proven statistical edges.
+                     Every indicator and scanner algorithm is tested against multi-year historical candle data sourced from Twelve Data across multiple asset classes before deployment. Methodology is documented and transparent.
                   </p>
                </div>
 

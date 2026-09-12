@@ -781,32 +781,22 @@ export function PublicSignalDetailClient({
                 <span className="text-xs font-mono font-black text-gray-900 uppercase tracking-wider flex items-center gap-2">
                   <ShieldCheck className="w-4 h-4 text-emerald-500" /> Acuity Expert View
                 </span>
-                <span className="text-[8px] font-mono bg-emerald-50 border border-emerald-200 text-emerald-700 px-1.5 py-0.5 rounded-lg uppercase font-bold">
-                  Human Layer
+                <span className="text-[8px] font-mono bg-amber-50 border border-amber-200 text-amber-700 px-1.5 py-0.5 rounded-lg uppercase font-bold">
+                  Coming Soon
                 </span>
               </div>
               <div className="space-y-3 font-mono text-xs">
                 <div className="flex items-start gap-2 bg-gray-50 border border-gray-200 rounded-xl p-3 leading-normal">
-                  <MessageSquare className="w-4 h-4 text-violet-500 shrink-0 mt-0.5" />
+                  <MessageSquare className="w-4 h-4 text-gray-400 shrink-0 mt-0.5" />
                   <div>
-                    <span className="text-[9px] text-gray-400 uppercase block">Expert Rationale</span>
-                    <p className="text-[11px] text-gray-700 font-semibold mt-1 leading-relaxed">
-                      "Machines spotted the breakout, and human analysts confirm structural alignment. Order block retest is holding strong under low selling volume, offering high-R:R entry criteria."
+                    <span className="text-[9px] text-gray-400 uppercase block">Integration Status</span>
+                    <p className="text-[11px] text-gray-500 font-medium mt-1 leading-relaxed">
+                      Acuity Research analyst stream integration is in progress. Human analyst trade ideas will appear here once the feed is live. FCA FRN: 787261.
                     </p>
                   </div>
                 </div>
-                <div className="grid grid-cols-2 gap-2 text-center text-[10px]">
-                  <div className="bg-emerald-50 border border-emerald-200 p-2.5 rounded-xl">
-                    <span className="text-gray-500 uppercase block text-[8px]">Expert Confidence</span>
-                    <span className="text-emerald-700 font-bold mt-1 block">82% — HIGH</span>
-                  </div>
-                  <div className="bg-blue-50 border border-blue-200 p-2.5 rounded-xl">
-                    <span className="text-gray-500 uppercase block text-[8px]">FCA Regulation</span>
-                    <span className="text-blue-700 font-bold mt-1 block">Registered</span>
-                  </div>
-                </div>
                 <div className="text-[8px] text-gray-400 leading-snug border-t border-gray-100 pt-2">
-                  ℹ️ Compliance disclosure: Trade content and analyst stream powered by Acuity Research Ltd, regulated under FCA FRN: 787261.
+                  ℹ️ Compliance disclosure: Trade content and analyst stream will be powered by Acuity Research Ltd, regulated under FCA FRN: 787261.
                 </div>
               </div>
             </div>

@@ -143,7 +143,7 @@ export default function PlatformPage() {
                   </div>
                   <h3 className="text-2xl font-bold mb-4">AI-Powered Trading Tools</h3>
                   <p className="text-text-secondary leading-relaxed mb-8">
-                    Six purpose-built AI tools that do real work. The Trade Journal detects emotional patterns in your trading history. The Risk Calculator sizes positions precisely. The Market Scanner identifies confluence across 40+ instruments. The Backtester tests your edge against years of historical price data. These aren't generic AI wrappers — they're built specifically for traders.
+                    Six purpose-built AI tools that do real work. The Trade Journal detects emotional patterns in your trading history. The Risk Calculator sizes positions precisely. The Market Scanner identifies confluence across 13 major instruments. The Backtester tests your edge against years of historical price data. These aren't generic AI wrappers — they're built specifically for traders.
                   </p>
                   <Link href="/tools" className="inline-flex items-center gap-2 text-sm font-bold text-purple-600 hover:text-purple-700 transition-colors">
                     See the tools <ArrowRight className="w-4 h-4" />
@@ -235,8 +235,8 @@ export default function PlatformPage() {
                   badge: "EDGE+",
                   badgeColor: "bg-accent/20 text-accent",
                   icon: <Scan className="w-8 h-8 text-green-400" />,
-                  desc: "Scans 40+ instruments across multiple timeframes simultaneously, identifying technical confluence: trend alignment, key structure levels, and momentum conditions. Outputs a ranked watchlist by confluence strength. Replaces 2-3 hours of manual chart analysis each morning. Not a signal service — it identifies candidates for your own analysis.",
-                  feature: "40+ instruments, 4 timeframe confluence analysis"
+                  desc: "Scans 13 major instruments across multiple timeframes simultaneously, identifying technical confluence: trend alignment, key structure levels, and momentum conditions. Outputs a ranked watchlist by confluence strength. Replaces 2-3 hours of manual chart analysis each morning. Not a signal service — it identifies candidates for your own analysis.",
+                  feature: "13 instruments, 4-timeframe confluence analysis"
                 },
                 {
                   name: "Strategy Backtester",

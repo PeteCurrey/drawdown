@@ -25,6 +25,7 @@ export interface CachedMarketData {
   keyLevels?: any;
   emaStack?: any;
   prevClose: number | null;
+  freshness?: "LIVE" | "RECENT" | "STALE" | "UNAVAILABLE";
 }
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "";
@@ -164,7 +165,15 @@ export function useMarketCache(slugs: string[]): Record<string, CachedMarketData
         rows.forEach((row: any) => {
           const targetKey = slugs.find(s => slugMatches(s, row.symbol ?? ""));
           if (targetKey && !resolvedSlugs.has(targetKey)) {
-            resolvedSlugs.add(targetKey);
+            const ageMs = row.fetched_at ? Date.now() - new Date(row.fetched_at).getTime() : Infinity;
+            const freshness: "LIVE" | "RECENT" | "STALE" | "UNAVAILABLE" =
+              ageMs < 60_000 ? "LIVE" : ageMs < 300_000 ? "RECENT" : ageMs < 900_000 ? "STALE" : "UNAVAILABLE";
+
+            // If the cached price is younger than 15 minutes, accept it
+            if (ageMs < 900_000) {
+              resolvedSlugs.add(targetKey);
+            }
+
             nextData[targetKey] = {
               symbol: targetKey,
               price: row.price ?? null,
@@ -177,6 +186,7 @@ export function useMarketCache(slugs: string[]): Record<string, CachedMarketData
               fetched_at: row.fetched_at ?? null,
               loading: false,
               error: false,
+              freshness,
               // These fields are not stored in DB — set to null (not fake)
               atr: null,
               volumePct: null,

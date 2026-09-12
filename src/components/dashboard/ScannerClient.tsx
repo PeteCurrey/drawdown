@@ -604,29 +604,36 @@ function FundamentalsTab({ inst, priceData }: { inst: ScannerInstrument; priceDa
           <p className="text-[9px] font-mono uppercase tracking-widest text-text-tertiary">
             Retail Positioning <span className="text-[8px] normal-case">(contrarian indicator)</span>
           </p>
-          {retailData && (
+          {retailData ? (
             <span className="ml-auto text-[7px] font-mono text-profit border border-profit/20 bg-profit/10 px-1.5 py-0.5 rounded">LIVE</span>
+          ) : (
+            <span className="ml-auto text-[7px] font-mono text-amber-600 border border-amber-500/30 bg-amber-500/10 px-1.5 py-0.5 rounded">FEED OFFLINE</span>
           )}
         </div>
         <div className="space-y-2">
+          {!retailData && (
+            <p className="text-[8px] font-mono text-amber-600/90 mb-1">
+              Live sentiment feed disconnected — retail positioning currently unavailable.
+            </p>
+          )}
           <div className="flex justify-between text-[9px] font-mono mb-1">
-            <span className="text-profit font-bold">{retail.longPct}% Long</span>
-            <span className="text-loss font-bold">{retail.shortPct}% Short</span>
+            <span className={retailData ? "text-profit font-bold" : "text-text-tertiary font-bold"}>{retail.longPct}% Long</span>
+            <span className={retailData ? "text-loss font-bold" : "text-text-tertiary font-bold"}>{retail.shortPct}% Short</span>
           </div>
-          <div className="h-4 rounded-lg overflow-hidden flex border border-border-slate/30">
-            <div className="bg-profit/50 h-full transition-all flex items-center justify-end pr-1" style={{ width: `${retail.longPct}%` }}>
+          <div className="h-4 rounded-lg overflow-hidden flex border border-border-slate/30 opacity-75">
+            <div className={`${retailData ? "bg-profit/50" : "bg-text-tertiary/20"} h-full transition-all flex items-center justify-end pr-1`} style={{ width: `${retail.longPct}%` }}>
               {retail.longPct > 25 && <span className="text-[7px] font-bold text-profit-dark">{retail.longPct}%</span>}
             </div>
-            <div className="bg-loss/50 h-full flex-1 flex items-center justify-start pl-1">
+            <div className={`${retailData ? "bg-loss/50" : "bg-text-tertiary/30"} h-full flex-1 flex items-center justify-start pl-1`}>
               {retail.shortPct > 25 && <span className="text-[7px] font-bold text-loss-dark">{retail.shortPct}%</span>}
             </div>
           </div>
-          {retail.longPct > 70 && (
+          {retailData && retail.longPct > 70 && (
             <p className="text-[9px] font-mono text-warning flex items-center gap-1">
               <AlertTriangle className="w-3 h-3" /> Retail crowded LONG — market may fade this move
             </p>
           )}
-          {retail.shortPct > 70 && (
+          {retailData && retail.shortPct > 70 && (
             <p className="text-[9px] font-mono text-warning flex items-center gap-1">
               <AlertTriangle className="w-3 h-3" /> Retail crowded SHORT — potential short squeeze setup
             </p>

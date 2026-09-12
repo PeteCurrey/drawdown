@@ -467,16 +467,14 @@ Assess the validity of this setup from a professional quantitative perspective. 
   };
 
   // Compute Drawdown Consensus Score (DCS)
-  const cDir = finalClaude.verdict === "BULLISH" ? 1 : finalClaude.verdict === "BEARISH" ? -1 : 0;
-  const gDir = finalGpt4.verdict === "BULLISH" ? 1 : finalGpt4.verdict === "BEARISH" ? -1 : 0;
-  const kDir = finalGrok.verdict === "BULLISH" ? 1 : finalGrok.verdict === "BEARISH" ? -1 : 0;
-
-  const weightedDir = (cDir * 0.4) + (gDir * 0.35) + (kDir * 0.25);
-  const weightedConf = (finalClaude.confidence * 0.4) + (finalGpt4.confidence * 0.35) + (finalGrok.confidence * 0.25);
-  
-  const isAligned = (cDir === gDir && gDir === kDir);
-  const alignmentMultiplier = isAligned ? 1.0 : Math.abs(weightedDir);
-  const dcsScore = Math.max(10, Math.round(weightedConf * alignmentMultiplier));
+  const dcsScore = calculateDcsScore(
+    finalClaude.verdict,
+    finalClaude.confidence,
+    finalGpt4.verdict,
+    finalGpt4.confidence,
+    finalGrok.verdict,
+    finalGrok.confidence
+  );
 
   return {
     claude: finalClaude,
@@ -484,6 +482,102 @@ Assess the validity of this setup from a professional quantitative perspective. 
     grok: finalGrok,
     dcsScore
   };
+}
+
+/**
+ * Pure deterministic calculation of signal levels (entry, stop, targets, R:R).
+ */
+export function calculateSignalLevels(
+  price: number,
+  atr: number,
+  bias: "BULLISH" | "BEARISH"
+) {
+  const stopDistance = 1.5 * atr;
+  const targetDistance = 3.0 * atr;
+  const entry_price = price;
+  const stop_loss = parseFloat((bias === "BULLISH" ? price - stopDistance : price + stopDistance).toFixed(5));
+  const take_profit_1 = parseFloat((bias === "BULLISH" ? price + (1.5 * atr) : price - (1.5 * atr)).toFixed(5));
+  const take_profit_2 = parseFloat((bias === "BULLISH" ? price + targetDistance : price - targetDistance).toFixed(5));
+  const take_profit_3 = parseFloat((bias === "BULLISH" ? price + (4.5 * atr) : price - (4.5 * atr)).toFixed(5));
+
+  const risk = Math.abs(entry_price - stop_loss);
+  const reward = Math.abs(take_profit_2 - entry_price);
+  const rr_ratio = risk > 0 ? parseFloat((reward / risk).toFixed(2)) : 0;
+
+  return {
+    entry_price,
+    stop_loss,
+    take_profit_1,
+    take_profit_2,
+    take_profit_3,
+    rr_ratio,
+  };
+}
+
+/**
+ * Validates the geometric integrity of signal levels.
+ */
+export function validateSignalGeometry(levels: {
+  bias: "BULLISH" | "BEARISH";
+  entry_price: number;
+  stop_loss: number;
+  take_profit_1: number;
+  take_profit_2: number;
+}): { isValid: boolean; errors: string[] } {
+  const errors: string[] = [];
+  const { bias, entry_price, stop_loss, take_profit_1, take_profit_2 } = levels;
+
+  if (entry_price <= 0 || isNaN(entry_price)) {
+    errors.push("Entry price must be a positive number");
+  }
+  if (stop_loss <= 0 || isNaN(stop_loss)) {
+    errors.push("Stop loss must be a positive number");
+  }
+
+  if (bias === "BULLISH") {
+    if (stop_loss >= entry_price) {
+      errors.push(`Long setup stop loss (${stop_loss}) must be strictly below entry (${entry_price})`);
+    }
+    if (take_profit_1 <= entry_price || take_profit_2 <= entry_price) {
+      errors.push(`Long setup targets must be strictly above entry (${entry_price})`);
+    }
+  } else if (bias === "BEARISH") {
+    if (stop_loss <= entry_price) {
+      errors.push(`Short setup stop loss (${stop_loss}) must be strictly above entry (${entry_price})`);
+    }
+    if (take_profit_1 >= entry_price || take_profit_2 >= entry_price) {
+      errors.push(`Short setup targets must be strictly below entry (${entry_price})`);
+    }
+  }
+
+  return {
+    isValid: errors.length === 0,
+    errors,
+  };
+}
+
+/**
+ * Pure calculation of the Drawdown Consensus Score (DCS).
+ * Weighted model consensus: Claude (40%), GPT-4o (35%), Grok (25%).
+ */
+export function calculateDcsScore(
+  claudeVerdict: "BULLISH" | "BEARISH" | "NEUTRAL",
+  claudeConfidence: number,
+  gpt4Verdict: "BULLISH" | "BEARISH" | "NEUTRAL",
+  gpt4Confidence: number,
+  grokVerdict: "BULLISH" | "BEARISH" | "NEUTRAL",
+  grokConfidence: number
+): number {
+  const cDir = claudeVerdict === "BULLISH" ? 1 : claudeVerdict === "BEARISH" ? -1 : 0;
+  const gDir = gpt4Verdict === "BULLISH" ? 1 : gpt4Verdict === "BEARISH" ? -1 : 0;
+  const kDir = grokVerdict === "BULLISH" ? 1 : grokVerdict === "BEARISH" ? -1 : 0;
+
+  const weightedDir = (cDir * 0.4) + (gDir * 0.35) + (kDir * 0.25);
+  const weightedConf = (claudeConfidence * 0.4) + (gpt4Confidence * 0.35) + (grokConfidence * 0.25);
+
+  const isAligned = (cDir === gDir && gDir === kDir);
+  const alignmentMultiplier = isAligned ? 1.0 : Math.abs(weightedDir);
+  return Math.max(10, Math.round(weightedConf * alignmentMultiplier));
 }
 
 /**
@@ -713,6 +807,7 @@ export async function runSignalScan() {
           bbands: { upper: lastBb?.upper ?? currentPrice, middle: lastBb?.middle ?? currentPrice, lower: lastBb?.lower ?? currentPrice, bias: currentPrice > (lastBb?.middle ?? currentPrice) ? "BULLISH" : "BEARISH" },
           cci: { value: lastCci, bias: lastCci > 100 ? "BULLISH" : lastCci < -100 ? "BEARISH" : "NEUTRAL" },
           adx: { value: lastAdx, bias: lastAdx > 25 ? "TRENDING" : "RANGING" },
+          isSimulated,
           values
         };
       }
@@ -786,16 +881,21 @@ export async function runSignalScan() {
             : !f.includes("Golden") && !f.includes("above") && !f.includes(">")
         );
 
-        const stopDistance = 1.5 * tfState.atr;
-        const targetDistance = 3.0 * tfState.atr;
+        const levels = calculateSignalLevels(tfState.price, tfState.atr, bias);
+        const geometryValidation = validateSignalGeometry({
+          bias,
+          entry_price: levels.entry_price,
+          stop_loss: levels.stop_loss,
+          take_profit_1: levels.take_profit_1,
+          take_profit_2: levels.take_profit_2,
+        });
 
-        const entry_price = tfState.price;
-        const stop_loss = bias === "BULLISH" ? tfState.price - stopDistance : tfState.price + stopDistance;
-        const take_profit_1 = bias === "BULLISH" ? tfState.price + (1.5 * tfState.atr) : tfState.price - (1.5 * tfState.atr);
-        const take_profit_2 = bias === "BULLISH" ? tfState.price + targetDistance : tfState.price - targetDistance;
-        const take_profit_3 = bias === "BULLISH" ? tfState.price + (4.5 * tfState.atr) : tfState.price - (4.5 * tfState.atr);
-        const rr_ratio = 2.0;
+        if (!geometryValidation.isValid) {
+          console.error(`[signal-engine] Geometry validation failed for ${drawdownSlug}:`, geometryValidation.errors);
+          continue;
+        }
 
+        const { entry_price, stop_loss, take_profit_1, take_profit_2, take_profit_3, rr_ratio } = levels;
         const catalyst_event = findCatalyst(calendarEvents, drawdownSlug);
         const expires_at = new Date(Date.now() + tf.expiryHours * 3600_000).toISOString();
 
@@ -843,7 +943,10 @@ export async function runSignalScan() {
         }
         
         // Append Autochartist to taapi_data root
+        const isSimulated = Boolean(tfState.isSimulated);
         gridIndicators.autochartist = autochartistData;
+        gridIndicators.is_simulated = isSimulated;
+        gridIndicators.data_source = isSimulated ? "synthetic_simulator" : "live_twelvedata";
 
         // TAAPI indicators (crypto only)
         let taapiData = null;

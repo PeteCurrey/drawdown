@@ -382,9 +382,11 @@ export async function getMarketHistory(
     }
   }
 
-  console.log(`[getMarketHistory] Live feed offline or rate limited. Returning synthetic history for ${symbol}`);
-  const fallback = generateFallbackHistory(symbol, interval, outputsize);
-  await setCacheData(cacheKey, fallback, ttlSeconds);
+  console.warn(`[getMarketHistory] Live feed offline or rate limited. Returning synthetic fallback history for ${symbol}`);
+  const rawFallback = generateFallbackHistory(symbol, interval, outputsize);
+  const fallback = rawFallback.map(bar => ({ ...bar, is_synthetic: true }));
+  // Do NOT cache synthetic data for 24h — cache for 60s maximum so live recovery is immediate
+  await setCacheData(cacheKey, fallback, 60);
   return fallback;
 }
 

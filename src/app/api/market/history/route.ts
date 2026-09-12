@@ -11,6 +11,7 @@ export async function GET(request: NextRequest) {
 
   try {
     const history = await getMarketHistory(symbol, interval, outputsize, startDate, endDate);
+    const isSynthetic = history.length > 0 && Boolean(history[0].is_synthetic);
     const formatted = history.map((item: any) => {
       let timeSecs = 0;
       if (typeof item.time === "number") {
@@ -27,10 +28,25 @@ export async function GET(request: NextRequest) {
         time: timeSecs
       };
     });
-    return NextResponse.json(formatted);
+    return NextResponse.json(formatted, {
+      headers: {
+        "x-data-source": isSynthetic ? "synthetic_fallback" : "twelvedata",
+        "x-is-synthetic": isSynthetic ? "true" : "false",
+        "x-feed-status": isSynthetic ? "UNAVAILABLE" : "LIVE",
+      },
+    });
   } catch (error: any) {
     console.error("API Market History Error:", error);
-    const fallback = generateFallbackHistory(symbol, interval, outputsize);
-    return NextResponse.json(fallback);
+    const fallback = generateFallbackHistory(symbol, interval, outputsize).map(b => ({
+      ...b,
+      is_synthetic: true,
+    }));
+    return NextResponse.json(fallback, {
+      headers: {
+        "x-data-source": "synthetic_fallback",
+        "x-is-synthetic": "true",
+        "x-feed-status": "ERROR",
+      },
+    });
   }
 }

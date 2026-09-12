@@ -81,13 +81,14 @@ export async function POST(request: NextRequest) {
     const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://www.drawdown.trading";
     const origin = request.headers.get("origin") || appUrl;
     
-    // Construct dynamic success and cancel redirects
+    // Construct dynamic success and cancel redirects with safe query separator
+    const separator = redirectPath && redirectPath.includes("?") ? "&" : "?";
     const success_url = redirectPath 
-      ? `${origin}${redirectPath}?subscription=success` 
+      ? `${origin}${redirectPath}${separator}subscription=success` 
       : `${origin}/dashboard?subscription=success`;
 
     const cancel_url = redirectPath 
-      ? `${origin}${redirectPath}?subscription=cancelled` 
+      ? `${origin}${redirectPath}${separator}subscription=cancelled` 
       : `${origin}/pricing?subscription=cancelled`;
 
     const session = await stripe.checkout.sessions.create({

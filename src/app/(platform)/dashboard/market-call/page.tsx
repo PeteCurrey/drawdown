@@ -374,7 +374,7 @@ export default function MarketCallPage() {
       {/* Toast Alert Banner */}
       {toast && (
         <div className={cn(
-          "fixed top-4 right-4 z-50 px-6 py-4 rounded-xl shadow-lg border text-xs font-medium font-sans flex items-center gap-3 animate-in slide-in-from-top duration-300",
+          "fixed top-4 right-4 z-50 px-6 py-4 rounded-[8px] shadow-lg border text-xs font-medium font-sans flex items-center gap-3 animate-in slide-in-from-top duration-300",
           toast.type === "success" && "bg-emerald-50 border-emerald-200 text-emerald-800",
           toast.type === "error" && "bg-rose-50 border-rose-200 text-rose-800",
           toast.type === "info" && "bg-indigo-50 border-indigo-200 text-indigo-800"
@@ -386,25 +386,25 @@ export default function MarketCallPage() {
       )}
 
       {/* Hero Header */}
-      <div className="relative overflow-hidden rounded-2xl bg-[#0d0d0d] border border-white/10 p-8 md:p-10 text-white shadow-xl">
+      <div className="relative overflow-hidden rounded-[8px] bg-[#181818] border border-[#2A2A2A] p-8 md:p-10 text-white shadow-[0_1px_3px_rgba(14,13,10,0.05),0_6px_20px_rgba(14,13,10,0.08)]">
         <div className="absolute top-0 right-0 -mt-12 -mr-12 w-64 h-64 bg-radial-gradient from-emerald-500/20 to-transparent blur-2xl pointer-events-none rounded-full" />
         
         <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div className="space-y-3 max-w-2xl">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 text-[10px] font-mono font-bold tracking-wider bg-emerald-500/15 border border-emerald-500/30 text-[#C8F135] uppercase rounded-full">
-              <Flame className="w-3 h-3 text-[#C8F135]" /> Weekly Forecast Challenge
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 text-[10px] font-mono font-bold tracking-wider bg-white/10 border border-white/15 text-[#F9771D] uppercase rounded-[4px]">
+              <Flame className="w-3 h-3 text-[#F9771D]" /> Weekly Forecast Challenge
             </span>
             <h1 className="text-3xl md:text-4xl font-display font-black tracking-tight text-white leading-tight">
               Weekly Market Call
             </h1>
             <p className="text-xs md:text-sm text-[#8A8A85] leading-relaxed font-sans">
-              Predict the directional outcome of six primary assets before Tuesday close. Acquire points, outperform your peers, climb the weekly standings, and claim 1 Month of <span className="text-[#C8F135] font-semibold">Edge Tier</span> completely free!
+              Predict the directional outcome of six primary assets before Tuesday close. Acquire points, outperform your peers, climb the weekly standings, and claim 1 Month of <span className="text-[#F9771D] font-semibold">Edge Tier</span> completely free!
             </p>
           </div>
 
           {selectedWeek && selectedWeek.status === "active" && (
-            <div className="bg-white/5 border border-white/10 p-5 rounded-xl flex flex-col items-center justify-center text-center min-w-[160px]">
-              <Clock className="w-5 h-5 text-[#C8F135] mb-2 animate-pulse" />
+            <div className="bg-white/5 border border-white/10 p-5 rounded-[8px] flex flex-col items-center justify-center text-center min-w-[160px]">
+              <Clock className="w-5 h-5 text-[#F9771D] mb-2 animate-pulse" />
               <p className="text-[10px] font-mono text-[#8A8A85] uppercase tracking-wider mb-1">Time Remaining</p>
               <div className="text-sm font-mono font-bold text-white tracking-tight">
                 {countdownText || "Calculating..."}
@@ -415,10 +415,10 @@ export default function MarketCallPage() {
       </div>
 
       {/* Week Selector Bar & Navigation Tabs */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-[#DEDDD8] pb-4">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-[#E6E4DE] pb-4">
         {/* Selector */}
         <div className="flex items-center gap-3">
-          <span className="text-xs font-mono font-bold text-[#555550]">Selected Week:</span>
+          <span className="text-xs font-mono font-bold text-[#87877F]">Selected Week:</span>
           {weeks.length > 0 ? (
             <select
               value={selectedWeek?.id || ""}
@@ -426,7 +426,7 @@ export default function MarketCallPage() {
                 const wk = weeks.find(w => w.id === e.target.value);
                 if (wk) setSelectedWeek(wk);
               }}
-              className="bg-white border border-[#DEDDD8] text-[#1A1A1A] font-mono text-xs font-bold px-3 py-1.5 rounded-lg focus:outline-none focus:ring-1 focus:ring-[#F9771D]"
+              className="bg-white border border-[#E6E4DE] text-[#181818] font-mono text-xs font-bold px-3 py-1.5 rounded-[6px] focus:outline-none focus:ring-1 focus:ring-[#F9771D]"
             >
               {weeks.map(w => {
                 let statusText = "Active";
@@ -445,7 +445,7 @@ export default function MarketCallPage() {
         </div>
 
         {/* Tab Buttons */}
-        <div className="flex items-center gap-1.5 bg-[#1A1A1A]/5 p-1 rounded-xl">
+        <div className="flex items-center gap-1.5 bg-[#1A1A1A]/5 p-1 rounded-[8px]">
           {[
             { id: "call", label: "Make Your Call", icon: Unlock },
             { id: "leaderboard", label: "Standings", icon: Trophy },
@@ -458,10 +458,10 @@ export default function MarketCallPage() {
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id as any)}
                 className={cn(
-                  "flex items-center gap-2 px-4 py-2 text-xs font-medium rounded-lg transition-all duration-150",
+                  "flex items-center gap-2 px-4 py-2 text-xs font-medium rounded-[6px] transition-all duration-150",
                   isTabActive 
                     ? "bg-[#181818] text-white shadow-sm"
-                    : "text-[#555550] hover:text-[#1A1A1A]"
+                    : "text-[#87877F] hover:text-[#181818]"
                 )}
               >
                 <Icon className="w-3.5 h-3.5" />
@@ -476,7 +476,7 @@ export default function MarketCallPage() {
       {loading ? (
         <div className="flex flex-col items-center justify-center py-20 space-y-4">
           <RefreshCw className="w-8 h-8 text-[#F9771D] animate-spin" />
-          <p className="text-xs font-mono text-[#555550]">Synchronizing live prediction ledger...</p>
+          <p className="text-xs font-mono text-[#87877F]">Synchronizing live prediction ledger...</p>
         </div>
       ) : (
         <>
@@ -536,20 +536,20 @@ export default function MarketCallPage() {
                       key={q.id}
                       className={cn(
                         "bg-white border rounded-2xl p-5 shadow-[0_2px_12px_rgba(0,0,0,0.06)] flex flex-col justify-between min-h-[300px] transition-all duration-300 hover:shadow-[0_8px_24px_rgba(0,0,0,0.08)]",
-                        userCall ? "border-[#DEDDD8]" : "border-[#EDEDED]"
+                        userCall ? "border-[#E6E4DE]" : "border-[#EDEDED]"
                       )}
                     >
                       {/* Card Header: Asset and Price details */}
                       <div>
                         <div className="flex justify-between items-start mb-4">
                           <div>
-                            <h4 className="font-black text-lg text-[#1A1A1A] tracking-tight">{q.symbol}</h4>
+                            <h4 className="font-black text-lg text-[#181818] tracking-tight">{q.symbol}</h4>
                             <span className="text-[10px] font-mono text-[#8A8A85] uppercase">Asset Class Instrument</span>
                           </div>
 
                           {/* Green/Red live variance indicator badge */}
                           <div className={cn(
-                            "px-2.5 py-1 text-[10px] font-mono font-bold rounded-lg flex items-center gap-1",
+                            "px-2.5 py-1 text-[10px] font-mono font-bold rounded-[6px] flex items-center gap-1",
                             driftPct > 0 && "bg-emerald-50 text-emerald-700 border border-emerald-100",
                             driftPct < 0 && "bg-rose-50 text-rose-700 border border-rose-100",
                             driftPct === 0 && "bg-slate-50 text-slate-700 border border-slate-100"
@@ -563,7 +563,7 @@ export default function MarketCallPage() {
                         <div className="grid grid-cols-2 gap-4 py-4 border-y border-[#F5F5F0] mb-5 text-sans">
                           <div>
                             <span className="block text-[10px] font-mono text-[#8A8A85] uppercase mb-1">Starting Price</span>
-                            <span className="text-sm font-mono font-bold text-[#555550]">
+                            <span className="text-sm font-mono font-bold text-[#87877F]">
                               {refPrice.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 5 })}
                             </span>
                           </div>
@@ -571,7 +571,7 @@ export default function MarketCallPage() {
                             <span className="block text-[10px] font-mono text-[#8A8A85] uppercase mb-1">Current/Close</span>
                             <span className={cn(
                               "text-sm font-mono font-black",
-                              isCurrentHigher ? "text-emerald-600" : "text-[#1A1A1A]"
+                              isCurrentHigher ? "text-emerald-600" : "text-[#181818]"
                             )}>
                               {currentPrice.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 5 })}
                             </span>
@@ -588,10 +588,10 @@ export default function MarketCallPage() {
                               <button
                                 onClick={() => handleSelectChoice(q.id, "higher")}
                                 className={cn(
-                                  "py-3 rounded-xl border font-bold text-xs flex flex-col items-center justify-center gap-1 transition-all duration-150",
+                                  "py-3 rounded-[8px] border font-bold text-xs flex flex-col items-center justify-center gap-1 transition-all duration-150",
                                   userCall === "higher"
                                     ? "bg-emerald-500 border-emerald-600 text-white shadow-[0_4px_12px_rgba(16,185,129,0.25)] hover:bg-emerald-600"
-                                    : "bg-white border-[#DEDDD8] text-[#555550] hover:bg-[#F5F5F0]"
+                                    : "bg-white border-[#E6E4DE] text-[#87877F] hover:bg-[#F5F5F0]"
                                 )}
                               >
                                 <TrendingUp className="w-4 h-4" />
@@ -601,10 +601,10 @@ export default function MarketCallPage() {
                               <button
                                 onClick={() => handleSelectChoice(q.id, "lower")}
                                 className={cn(
-                                  "py-3 rounded-xl border font-bold text-xs flex flex-col items-center justify-center gap-1 transition-all duration-150",
+                                  "py-3 rounded-[8px] border font-bold text-xs flex flex-col items-center justify-center gap-1 transition-all duration-150",
                                   userCall === "lower"
                                     ? "bg-rose-500 border-rose-600 text-white shadow-[0_4px_12px_rgba(239,68,68,0.25)] hover:bg-rose-600"
-                                    : "bg-white border-[#DEDDD8] text-[#555550] hover:bg-[#F5F5F0]"
+                                    : "bg-white border-[#E6E4DE] text-[#87877F] hover:bg-[#F5F5F0]"
                                 )}
                               >
                                 <TrendingDown className="w-4 h-4" />
@@ -616,8 +616,8 @@ export default function MarketCallPage() {
                           // LOCKED / RESOLVED: Display selection outcome and aggregates
                           <div className="space-y-4">
                             {/* User's choice badge */}
-                            <div className="p-3 bg-[#F5F5F0] rounded-xl flex justify-between items-center text-xs">
-                              <span className="font-medium text-[#555550]">Your Prediction:</span>
+                            <div className="p-3 bg-[#F5F5F0] rounded-[8px] flex justify-between items-center text-xs">
+                              <span className="font-medium text-[#87877F]">Your Prediction:</span>
                               {predictionRow ? (
                                 <span className={cn(
                                   "font-bold uppercase flex items-center gap-1.5",
@@ -655,7 +655,7 @@ export default function MarketCallPage() {
                             {/* Final outcome check badge (Resolved only) */}
                             {selectedWeek.status === "resolved" && q.outcome && (
                               <div className={cn(
-                                "p-3 rounded-xl border text-xs flex justify-between items-center font-sans",
+                                "p-3 rounded-[8px] border text-xs flex justify-between items-center font-sans",
                                 predictionRow?.is_correct 
                                   ? "bg-emerald-50 border-emerald-200 text-emerald-800" 
                                   : "bg-slate-50 border-slate-200 text-slate-600"
@@ -687,7 +687,7 @@ export default function MarketCallPage() {
                       <Unlock className="w-5 h-5" />
                     </div>
                     <div>
-                      <h5 className="font-bold text-sm text-[#1A1A1A]">Ready to submit your ledger?</h5>
+                      <h5 className="font-bold text-sm text-[#181818]">Ready to submit your ledger?</h5>
                       <p className="text-xs text-[#8A8A85]">Make sure you selected a prediction for every instrument above.</p>
                     </div>
                   </div>
@@ -695,7 +695,7 @@ export default function MarketCallPage() {
                   <button
                     onClick={submitPredictions}
                     disabled={submitting}
-                    className="w-full md:w-auto px-8 py-3 bg-[#181818] hover:bg-[#333330] text-white text-[11px] font-bold uppercase tracking-widest rounded-xl transition-all shadow-md disabled:opacity-50"
+                    className="w-full md:w-auto px-8 py-3 bg-[#181818] hover:bg-[#333330] text-white text-[11px] font-bold uppercase tracking-widest rounded-[8px] transition-all shadow-md disabled:opacity-50"
                   >
                     {submitting ? "Transmitting selections..." : "Submit Weekly Predictions"}
                   </button>
@@ -710,10 +710,10 @@ export default function MarketCallPage() {
               <div className="bg-white border border-[#EDEDED] rounded-2xl p-6 shadow-[0_2px_12px_rgba(0,0,0,0.04)]">
                 <div className="flex items-center justify-between mb-6">
                   <div>
-                    <h3 className="font-black text-lg text-[#1A1A1A] tracking-tight">Week {selectedWeek.week_number} Leaderboard</h3>
+                    <h3 className="font-black text-lg text-[#181818] tracking-tight">Week {selectedWeek.week_number} Leaderboard</h3>
                     <p className="text-xs text-[#8A8A85]">Standings of all participants during this forecast round.</p>
                   </div>
-                  <div className="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-500">
+                  <div className="w-10 h-10 rounded-[8px] bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-500">
                     <Trophy className="w-5 h-5" />
                   </div>
                 </div>
@@ -751,21 +751,21 @@ export default function MarketCallPage() {
                                   isGold && "bg-amber-100 border-amber-300 text-amber-800",
                                   isSilver && "bg-slate-100 border-slate-300 text-slate-800",
                                   isBronze && "bg-amber-600/10 border-amber-600/30 text-amber-900",
-                                  !isGold && !isSilver && !isBronze && "bg-white border-[#DEDDD8] text-[#555550]"
+                                  !isGold && !isSilver && !isBronze && "bg-white border-[#E6E4DE] text-[#87877F]"
                                 )}>
                                   {idx + 1}
                                 </span>
                               </td>
                               <td className="py-4 px-4 flex items-center gap-3">
-                                <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center font-mono text-xs font-bold text-[#555550]">
+                                <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center font-mono text-xs font-bold text-[#87877F]">
                                   {row.display_name ? row.display_name.slice(0, 2).toUpperCase() : "TR"}
                                 </div>
                                 <div>
-                                  <span className="text-[#1A1A1A] font-bold block">{row.display_name || "Anonymous Trader"}</span>
+                                  <span className="text-[#181818] font-bold block">{row.display_name || "Anonymous Trader"}</span>
                                   {isMe && <span className="text-[9px] font-mono text-[#F9771D] uppercase font-bold">YOUR ENTRY</span>}
                                 </div>
                               </td>
-                              <td className="py-4 px-4 text-center font-mono font-bold text-[#1A1A1A] text-sm">
+                              <td className="py-4 px-4 text-center font-mono font-bold text-[#181818] text-sm">
                                 {row.total_points}
                               </td>
                               <td className="py-4 px-4 text-center">
@@ -776,7 +776,7 @@ export default function MarketCallPage() {
                                   {row.accuracy_pct}%
                                 </span>
                               </td>
-                              <td className="py-4 px-4 text-right font-mono text-[#555550]">
+                              <td className="py-4 px-4 text-right font-mono text-[#87877F]">
                                 {row.correct_predictions} / {row.total_predictions}
                               </td>
                             </tr>
@@ -788,7 +788,7 @@ export default function MarketCallPage() {
                 ) : (
                   <div className="flex flex-col items-center justify-center py-12 space-y-3">
                     <Trophy className="w-8 h-8 text-[#DEDDD8]" />
-                    <p className="text-xs font-mono text-[#555550]">No submissions logged for this round yet.</p>
+                    <p className="text-xs font-mono text-[#87877F]">No submissions logged for this round yet.</p>
                   </div>
                 )}
               </div>
@@ -799,47 +799,47 @@ export default function MarketCallPage() {
           {activeTab === "rules" && (
             <div className="space-y-6 max-w-4xl animate-in fade-in duration-300">
               <div className="bg-white border border-[#EDEDED] rounded-2xl p-8 shadow-sm space-y-6 font-sans">
-                <h3 className="font-black text-xl text-[#1A1A1A] tracking-tight border-b pb-4 border-[#F5F5F0]">Challenge Rules & FAQ</h3>
+                <h3 className="font-black text-xl text-[#181818] tracking-tight border-b pb-4 border-[#F5F5F0]">Challenge Rules & FAQ</h3>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-sans">
                   {/* Left Column */}
                   <div className="space-y-4">
-                    <h5 className="font-bold text-sm text-[#1A1A1A] flex items-center gap-2">
+                    <h5 className="font-bold text-sm text-[#181818] flex items-center gap-2">
                       <span className="w-5 h-5 rounded-full bg-[#181818] text-white inline-flex items-center justify-center text-[10px]">1</span>
                       How Scoring Works
                     </h5>
-                    <p className="text-xs text-[#555550] leading-relaxed">
+                    <p className="text-xs text-[#87877F] leading-relaxed">
                       Every week, we track six core global market assets. Your goal is to predict if each asset will close <span className="font-bold text-emerald-600">HIGHER</span> or <span className="font-bold text-rose-600">LOWER</span> on Friday market close relative to its reference start price on Monday.
                     </p>
-                    <p className="text-xs text-[#555550] leading-relaxed">
+                    <p className="text-xs text-[#87877F] leading-relaxed">
                       Each accurate call awards <span className="font-bold text-black">10 Points</span>. Incorrect predictions award 0 points.
                     </p>
                   </div>
 
                   {/* Right Column */}
                   <div className="space-y-4">
-                    <h5 className="font-bold text-sm text-[#1A1A1A] flex items-center gap-2">
+                    <h5 className="font-bold text-sm text-[#181818] flex items-center gap-2">
                       <span className="w-5 h-5 rounded-full bg-[#181818] text-white inline-flex items-center justify-center text-[10px]">2</span>
                       Rules & Resolution
                     </h5>
-                    <p className="text-xs text-[#555550] leading-relaxed">
+                    <p className="text-xs text-[#87877F] leading-relaxed">
                       The round opens on Monday 00:00 UTC and <span className="font-bold text-black">locks on Tuesday 23:59 UTC</span>. You cannot submit or modify selections after the lock.
                     </p>
-                    <p className="text-xs text-[#555550] leading-relaxed">
+                    <p className="text-xs text-[#87877F] leading-relaxed">
                       Outcomes are resolved automatically on Friday 22:00 UTC based on actual close prices from our live market data feeds.
                     </p>
                   </div>
                 </div>
 
                 <div className="border-t border-[#F5F5F0] pt-6 space-y-4">
-                  <h5 className="font-bold text-sm text-[#1A1A1A] flex items-center gap-2">
+                  <h5 className="font-bold text-sm text-[#181818] flex items-center gap-2">
                     <span className="w-5 h-5 rounded-full bg-[#181818] text-white inline-flex items-center justify-center text-[10px]">3</span>
                     Podium Prizes
                   </h5>
-                  <p className="text-xs text-[#555550] leading-relaxed">
+                  <p className="text-xs text-[#87877F] leading-relaxed">
                     The top prediction caller each week (the participant with the highest accumulated points and highest accuracy percentage) wins:
                   </p>
-                  <ul className="list-disc pl-5 text-xs text-[#555550] space-y-2">
+                  <ul className="list-disc pl-5 text-xs text-[#87877F] space-y-2">
                     <li>Our elite profile achievement badge <span className="font-bold text-indigo-700">"Verified Caller"</span> added to their dashboard.</li>
                     <li><span className="font-bold text-black">1 Month Free of Edge Tier Subscription</span> (normally £99/mo), unlocking real-time institutional and AI signals!</li>
                   </ul>
@@ -852,18 +852,18 @@ export default function MarketCallPage() {
 
       {/* EXCLUSIVE ADMIN CONTROLS SYSTEM */}
       {isAdmin && (
-        <div className="bg-[#1A1A1A]/3 border border-[#DEDDD8] rounded-2xl p-6 space-y-4 animate-in fade-in duration-500">
-          <div className="flex items-center justify-between border-b border-[#DEDDD8] pb-3">
+        <div className="bg-[#1A1A1A]/3 border border-[#E6E4DE] rounded-2xl p-6 space-y-4 animate-in fade-in duration-500">
+          <div className="flex items-center justify-between border-b border-[#E6E4DE] pb-3">
             <div className="flex items-center gap-2 text-sans">
               <Settings className="w-4 h-4 text-[#F9771D]" />
-              <h4 className="text-xs font-mono font-black uppercase tracking-wider text-[#1A1A1A]">Authorized Developer Console</h4>
+              <h4 className="text-xs font-mono font-black uppercase tracking-wider text-[#181818]">Authorized Developer Console</h4>
             </div>
             <span className="px-2 py-0.5 text-[8px] font-mono font-bold bg-amber-100 text-amber-800 border border-amber-300 rounded uppercase">
               Sandboxed / Admin
             </span>
           </div>
 
-          <p className="text-[11px] text-[#555550] leading-relaxed font-sans">
+          <p className="text-[11px] text-[#87877F] leading-relaxed font-sans">
             Because direct SQL database execution is blocked by local sandbox firewalls and credentials, this console provides a one-click HTTP bridge to safely trigger cron mutations using your local server session. Use these buttons to step through the entire challenge flow for testing:
           </p>
 
@@ -871,7 +871,7 @@ export default function MarketCallPage() {
             <button
               onClick={() => handleAdminAction("create-next")}
               disabled={adminLoading}
-              className="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-mono text-[10px] font-bold rounded-lg shadow-sm transition-colors flex items-center gap-1.5 disabled:opacity-50"
+              className="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-mono text-[10px] font-bold rounded-[6px] shadow-sm transition-colors flex items-center gap-1.5 disabled:opacity-50"
             >
               <Unlock className="w-3.5 h-3.5" />
               1. Initialize Active Round
@@ -880,7 +880,7 @@ export default function MarketCallPage() {
             <button
               onClick={() => handleAdminAction("lock")}
               disabled={adminLoading}
-              className="px-4 py-2.5 bg-amber-600 hover:bg-amber-700 text-white font-mono text-[10px] font-bold rounded-lg shadow-sm transition-colors flex items-center gap-1.5 disabled:opacity-50"
+              className="px-4 py-2.5 bg-amber-600 hover:bg-amber-700 text-white font-mono text-[10px] font-bold rounded-[6px] shadow-sm transition-colors flex items-center gap-1.5 disabled:opacity-50"
             >
               <Lock className="w-3.5 h-3.5" />
               2. Force Lock submissions
@@ -889,7 +889,7 @@ export default function MarketCallPage() {
             <button
               onClick={() => handleAdminAction("resolve")}
               disabled={adminLoading}
-              className="px-4 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-mono text-[10px] font-bold rounded-lg shadow-sm transition-colors flex items-center gap-1.5 disabled:opacity-50"
+              className="px-4 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-mono text-[10px] font-bold rounded-[6px] shadow-sm transition-colors flex items-center gap-1.5 disabled:opacity-50"
             >
               <Trophy className="w-3.5 h-3.5" />
               3. Resolve & Score Round
@@ -899,15 +899,15 @@ export default function MarketCallPage() {
       )}
 
       {/* COMPLIANCE DISCLAIMER PANEL */}
-      <div className="bg-[#EDEDED]/40 border border-[#DEDDD8] rounded-2xl p-6 text-sans space-y-2">
+      <div className="bg-[#EDEDED]/40 border border-[#E6E4DE] rounded-2xl p-6 text-sans space-y-2">
         <div className="flex items-center gap-2 text-slate-700">
           <AlertTriangle className="w-4 h-4 shrink-0" />
           <h5 className="font-bold text-xs uppercase tracking-wider">Regulatory Compliance & Challenge Policy</h5>
         </div>
-        <p className="text-[11px] text-[#555550] leading-relaxed">
+        <p className="text-[11px] text-[#87877F] leading-relaxed">
           The Drawdown Market Call challenge is purely an educational, free-to-participate simulation. No real money or currency of any kind is required to participate, nor is real capital exchanged or awarded as prizes.
         </p>
-        <p className="text-[11px] text-[#555550] leading-relaxed">
+        <p className="text-[11px] text-[#87877F] leading-relaxed">
           Predictive submissions and aggregate community choices are hidden from public view until the weekly window closes to eliminate front-running and prevent the challenge from functioning as, or being confused with, an active trade-signals, advisory, or recommendations service. Information displayed does not constitute financial advice.
         </p>
       </div>

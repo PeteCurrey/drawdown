@@ -250,8 +250,8 @@ export function PrepareClient() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-[60vh] text-text-tertiary font-mono">
-        // RETRIEVING OPERATING ENVIRONMENT...
+      <div className="flex items-center justify-center min-h-[60vh] text-[#87877F] text-xs font-medium">
+        Retrieving operating environment…
       </div>
     );
   }
@@ -259,36 +259,36 @@ export function PrepareClient() {
   // 1. Force Account Creation if none exists
   if (accounts.length === 0) {
     return (
-      <div className="max-w-xl mx-auto p-8 border border-border-slate/50 bg-background-elevated/40 rounded-xl space-y-6">
+      <div className="max-w-xl mx-auto p-8 border border-[#E6E4DE] bg-white rounded-[8px] shadow-[0_1px_2px_rgba(14,13,10,0.04),0_2px_8px_rgba(14,13,10,0.05)] space-y-6">
         <div className="space-y-2">
-          <h2 className="text-xl font-bold uppercase text-text-primary flex items-center gap-2">
-            <Wallet className="w-5 h-5 text-emerald-500" /> Let's establish your trading account
+          <h2 className="text-xl font-bold tracking-tight text-[#181818] flex items-center gap-2">
+            <Wallet className="w-5 h-5 text-[#18B880]" /> Let's establish your trading account
           </h2>
-          <p className="text-sm text-text-tertiary leading-relaxed">
+          <p className="text-xs text-[#87877F] leading-relaxed">
             The Drawdown OS workflow requires an active account reference. We do not require broker passwords or credentials.
           </p>
         </div>
 
         <form onSubmit={handleCreateAccount} className="space-y-4 pt-4">
           <div className="space-y-2">
-            <label className="text-[10px] uppercase tracking-wider font-mono text-text-tertiary block">Account Label</label>
+            <label className="text-[10px] uppercase tracking-[0.09em] font-semibold text-[#87877F] block">Account Label</label>
             <input 
               type="text" 
               required
               placeholder="e.g. My Personal Live Account"
               value={newAccountName}
               onChange={e => setNewAccountName(e.target.value)}
-              className="w-full bg-background-primary border border-border-slate/50 rounded-lg p-3 text-sm text-text-primary focus:outline-none focus:border-emerald-500"
+              className="w-full bg-white border border-[#E6E4DE] rounded-[6px] p-3 text-sm text-[#181818] focus:outline-none focus:border-[#F9771D] focus:ring-1 focus:ring-[#F9771D]/20 transition-all placeholder:text-[#87877F]"
             />
           </div>
 
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
-              <label className="text-[10px] uppercase tracking-wider font-mono text-text-tertiary block">Type</label>
+              <label className="text-[10px] uppercase tracking-[0.09em] font-semibold text-[#87877F] block">Type</label>
               <select 
                 value={newAccountType}
                 onChange={e => setNewAccountType(e.target.value as any)}
-                className="w-full bg-background-primary border border-border-slate/50 rounded-lg p-3 text-sm text-text-primary focus:outline-none focus:border-emerald-500"
+                className="w-full bg-white border border-[#E6E4DE] rounded-[6px] p-3 text-sm text-[#181818] focus:outline-none focus:border-[#F9771D] focus:ring-1 focus:ring-[#F9771D]/20 transition-all"
               >
                 <option value="demo">Demo / Paper</option>
                 <option value="personal">Personal Live</option>
@@ -297,43 +297,43 @@ export function PrepareClient() {
               </select>
             </div>
             <div className="space-y-2">
-              <label className="text-[10px] uppercase tracking-wider font-mono text-text-tertiary block">Broker Name</label>
+              <label className="text-[10px] uppercase tracking-[0.09em] font-semibold text-[#87877F] block">Broker Name</label>
               <input 
                 type="text" 
                 placeholder="e.g. Pepperstone"
                 value={newBrokerName}
                 onChange={e => setNewBrokerName(e.target.value)}
-                className="w-full bg-background-primary border border-border-slate/50 rounded-lg p-3 text-sm text-text-primary focus:outline-none focus:border-emerald-500"
+                className="w-full bg-white border border-[#E6E4DE] rounded-[6px] p-3 text-sm text-[#181818] focus:outline-none focus:border-[#F9771D] focus:ring-1 focus:ring-[#F9771D]/20 transition-all placeholder:text-[#87877F]"
               />
             </div>
           </div>
 
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
-              <label className="text-[10px] uppercase tracking-wider font-mono text-text-tertiary block">Currency</label>
+              <label className="text-[10px] uppercase tracking-[0.09em] font-semibold text-[#87877F] block">Currency</label>
               <input 
                 type="text" 
                 required
                 value={newCurrency}
                 onChange={e => setNewCurrency(e.target.value)}
-                className="w-full bg-background-primary border border-border-slate/50 rounded-lg p-3 text-sm text-text-primary focus:outline-none focus:border-emerald-500"
+                className="w-full bg-white border border-[#E6E4DE] rounded-[6px] p-3 text-sm text-[#181818] focus:outline-none focus:border-[#F9771D] focus:ring-1 focus:ring-[#F9771D]/20 transition-all"
               />
             </div>
             <div className="space-y-2">
-              <label className="text-[10px] uppercase tracking-wider font-mono text-text-tertiary block">Starting Balance</label>
+              <label className="text-[10px] uppercase tracking-[0.09em] font-semibold text-[#87877F] block">Starting Balance</label>
               <input 
                 type="number" 
                 required
                 value={newStartingBalance}
                 onChange={e => setNewStartingBalance(e.target.value)}
-                className="w-full bg-background-primary border border-border-slate/50 rounded-lg p-3 text-sm text-text-primary focus:outline-none focus:border-emerald-500"
+                className="w-full bg-white border border-[#E6E4DE] rounded-[6px] p-3 text-sm text-[#181818] focus:outline-none focus:border-[#F9771D] focus:ring-1 focus:ring-[#F9771D]/20 transition-all"
               />
             </div>
           </div>
 
           <button 
             type="submit" 
-            className="w-full bg-emerald-500 text-background-primary font-bold uppercase tracking-wider text-xs py-4 rounded-lg hover:bg-emerald-400 transition-colors"
+            className="w-full bg-[#181818] text-white font-semibold uppercase tracking-wider text-xs py-3.5 rounded-[6px] hover:bg-[#2A2A2A] transition-colors"
           >
             Register Account & Proceed
           </button>
@@ -345,12 +345,12 @@ export function PrepareClient() {
   // 2. Force Risk Policy Creation if none exists
   if (showPolicyForm || !activePolicy) {
     return (
-      <div className="max-w-xl mx-auto p-8 border border-border-slate/50 bg-background-elevated/40 rounded-xl space-y-6">
+      <div className="max-w-xl mx-auto p-8 border border-[#E6E4DE] bg-white rounded-[8px] shadow-[0_1px_2px_rgba(14,13,10,0.04),0_2px_8px_rgba(14,13,10,0.05)] space-y-6">
         <div className="space-y-2">
-          <h2 className="text-xl font-bold uppercase text-text-primary flex items-center gap-2">
-            <ShieldCheck className="w-5 h-5 text-emerald-500" /> Define your Personal Risk Policy
+          <h2 className="text-xl font-bold tracking-tight text-[#181818] flex items-center gap-2">
+            <ShieldCheck className="w-5 h-5 text-[#18B880]" /> Define your Personal Risk Policy
           </h2>
-          <p className="text-sm text-text-tertiary leading-relaxed">
+          <p className="text-xs text-[#87877F] leading-relaxed">
             Specify the risk constraints for this account. The Drawdown OS will compare trade sizes and losses to these values.
           </p>
         </div>
@@ -358,80 +358,80 @@ export function PrepareClient() {
         <form onSubmit={handleCreatePolicy} className="space-y-4 pt-4">
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
-              <label className="text-[10px] uppercase tracking-wider font-mono text-text-tertiary block">Max Risk Per Trade (%)</label>
+              <label className="text-[10px] uppercase tracking-[0.09em] font-semibold text-[#87877F] block">Max Risk Per Trade (%)</label>
               <input 
                 type="number" 
                 step="0.1" 
                 required
                 value={maxRiskPercent}
                 onChange={e => setMaxRiskPercent(e.target.value)}
-                className="w-full bg-background-primary border border-border-slate/50 rounded-lg p-3 text-sm text-text-primary focus:outline-none focus:border-emerald-500"
+                className="w-full bg-white border border-[#E6E4DE] rounded-[6px] p-3 text-sm text-[#181818] focus:outline-none focus:border-[#F9771D] focus:ring-1 focus:ring-[#F9771D]/20 transition-all"
               />
             </div>
             <div className="space-y-2">
-              <label className="text-[10px] uppercase tracking-wider font-mono text-text-tertiary block">Max Risk Per Trade (Amt)</label>
+              <label className="text-[10px] uppercase tracking-[0.09em] font-semibold text-[#87877F] block">Max Risk Per Trade (Amt)</label>
               <input 
                 type="number" 
                 required
                 value={maxRiskAmount}
                 onChange={e => setMaxRiskAmount(e.target.value)}
-                className="w-full bg-background-primary border border-border-slate/50 rounded-lg p-3 text-sm text-text-primary focus:outline-none focus:border-emerald-500"
+                className="w-full bg-white border border-[#E6E4DE] rounded-[6px] p-3 text-sm text-[#181818] focus:outline-none focus:border-[#F9771D] focus:ring-1 focus:ring-[#F9771D]/20 transition-all"
               />
             </div>
           </div>
 
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
-              <label className="text-[10px] uppercase tracking-wider font-mono text-text-tertiary block">Max Daily Loss Limit (%)</label>
+              <label className="text-[10px] uppercase tracking-[0.09em] font-semibold text-[#87877F] block">Max Daily Loss Limit (%)</label>
               <input 
                 type="number" 
                 step="0.1" 
                 required
                 value={maxDailyLossPercent}
                 onChange={e => setMaxDailyLossPercent(e.target.value)}
-                className="w-full bg-background-primary border border-border-slate/50 rounded-lg p-3 text-sm text-text-primary focus:outline-none focus:border-emerald-500"
+                className="w-full bg-white border border-[#E6E4DE] rounded-[6px] p-3 text-sm text-[#181818] focus:outline-none focus:border-[#F9771D] focus:ring-1 focus:ring-[#F9771D]/20 transition-all"
               />
             </div>
             <div className="space-y-2">
-              <label className="text-[10px] uppercase tracking-wider font-mono text-text-tertiary block">Max Weekly Loss Limit (%)</label>
+              <label className="text-[10px] uppercase tracking-[0.09em] font-semibold text-[#87877F] block">Max Weekly Loss Limit (%)</label>
               <input 
                 type="number" 
                 step="0.1" 
                 required
                 value={maxWeeklyLossPercent}
                 onChange={e => setMaxWeeklyLossPercent(e.target.value)}
-                className="w-full bg-background-primary border border-border-slate/50 rounded-lg p-3 text-sm text-text-primary focus:outline-none focus:border-emerald-500"
+                className="w-full bg-white border border-[#E6E4DE] rounded-[6px] p-3 text-sm text-[#181818] focus:outline-none focus:border-[#F9771D] focus:ring-1 focus:ring-[#F9771D]/20 transition-all"
               />
             </div>
           </div>
 
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
-              <label className="text-[10px] uppercase tracking-wider font-mono text-text-tertiary block">Max Trades per Session</label>
+              <label className="text-[10px] uppercase tracking-[0.09em] font-semibold text-[#87877F] block">Max Trades per Session</label>
               <input 
                 type="number" 
                 required
                 value={maxTradesPerSession}
                 onChange={e => setMaxTradesPerSession(e.target.value)}
-                className="w-full bg-background-primary border border-border-slate/50 rounded-lg p-3 text-sm text-text-primary focus:outline-none focus:border-emerald-500"
+                className="w-full bg-white border border-[#E6E4DE] rounded-[6px] p-3 text-sm text-[#181818] focus:outline-none focus:border-[#F9771D] focus:ring-1 focus:ring-[#F9771D]/20 transition-all"
               />
             </div>
             <div className="space-y-2">
-              <label className="text-[10px] uppercase tracking-wider font-mono text-text-tertiary block">Min Planned RRR</label>
+              <label className="text-[10px] uppercase tracking-[0.09em] font-semibold text-[#87877F] block">Min Planned RRR</label>
               <input 
                 type="number" 
                 step="0.1" 
                 required
                 value={minRewardRisk}
                 onChange={e => setMinRewardRisk(e.target.value)}
-                className="w-full bg-background-primary border border-border-slate/50 rounded-lg p-3 text-sm text-text-primary focus:outline-none focus:border-emerald-500"
+                className="w-full bg-white border border-[#E6E4DE] rounded-[6px] p-3 text-sm text-[#181818] focus:outline-none focus:border-[#F9771D] focus:ring-1 focus:ring-[#F9771D]/20 transition-all"
               />
             </div>
           </div>
 
           <button 
             type="submit" 
-            className="w-full bg-emerald-500 text-background-primary font-bold uppercase tracking-wider text-xs py-4 rounded-lg hover:bg-emerald-400 transition-colors"
+            className="w-full bg-[#181818] text-white font-semibold uppercase tracking-wider text-xs py-3.5 rounded-[6px] hover:bg-[#2A2A2A] transition-colors"
           >
             Confirm & Save Policy Rules
           </button>
@@ -443,53 +443,53 @@ export function PrepareClient() {
   // 3. Prep Completed View
   if (prepSaved) {
     return (
-      <div className="max-w-xl mx-auto p-8 border border-border-slate/50 bg-background-elevated/40 rounded-xl space-y-6 text-center">
+      <div className="max-w-xl mx-auto p-8 border border-[#E6E4DE] bg-white rounded-[8px] shadow-[0_1px_2px_rgba(14,13,10,0.04),0_2px_8px_rgba(14,13,10,0.05)] space-y-6 text-center">
         <div className="flex justify-center">
           {savedOutcome === "ready" && (
-            <div className="w-16 h-16 rounded-full bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-500">
-              <ShieldCheck className="w-8 h-8" />
+            <div className="w-14 h-14 rounded-full bg-[#F0FDF8] border border-[rgba(24,184,128,0.25)] flex items-center justify-center text-[#18B880]">
+              <ShieldCheck className="w-7 h-7" />
             </div>
           )}
           {savedOutcome === "caution" && (
-            <div className="w-16 h-16 rounded-full bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-500">
-              <AlertTriangle className="w-8 h-8" />
+            <div className="w-14 h-14 rounded-full bg-amber-50 border border-amber-200 flex items-center justify-center text-amber-600">
+              <AlertTriangle className="w-7 h-7" />
             </div>
           )}
           {savedOutcome === "stand_down" && (
-            <div className="w-16 h-16 rounded-full bg-rose-500/10 border border-rose-500/30 flex items-center justify-center text-rose-500">
-              <ShieldAlert className="w-8 h-8" />
+            <div className="w-14 h-14 rounded-full bg-rose-50 border border-rose-200 flex items-center justify-center text-rose-600">
+              <ShieldAlert className="w-7 h-7" />
             </div>
           )}
         </div>
 
-        <div className="space-y-2">
-          <h2 className="text-xl font-bold uppercase text-text-primary">
+        <div className="space-y-1.5">
+          <h2 className="text-xl font-bold tracking-tight text-[#181818]">
             Session preparation complete
           </h2>
-          <p className="text-xs text-text-tertiary">
+          <p className="text-xs text-[#87877F]">
             Your readiness assessment has been logged to the system registry.
           </p>
         </div>
 
-        <div className="p-4 rounded-lg bg-background-primary/50 text-xs text-text-secondary leading-relaxed border border-border-slate/30">
+        <div className="p-4 rounded-[6px] bg-[#F5F4F1] text-xs text-[#474744] leading-relaxed border border-[#EEECE7]">
           {savedOutcome === "ready" && "Outcome: Ready. Proceed to construct your pre-trade strategy plan."}
           {savedOutcome === "caution" && "Outcome: Caution. Follow the process rules carefully. Consider risk size constraints."}
           {savedOutcome === "stand_down" && "Outcome: Stand Down. Discipline requires stepping back from execution today."}
         </div>
 
-        <div className="pt-4 flex gap-4">
+        <div className="pt-2 flex gap-3">
           <Link 
             href="/dashboard"
-            className="flex-1 border border-border-slate/50 text-text-primary text-xs font-mono uppercase py-4 rounded-lg hover:bg-background-elevated transition-colors"
+            className="flex-1 border border-[#E6E4DE] text-[#181818] text-xs font-semibold uppercase py-3.5 rounded-[6px] hover:bg-[#F5F4F1] transition-colors"
           >
             Dashboard
           </Link>
           {savedOutcome !== "stand_down" ? (
             <Link 
               href="/dashboard/plan"
-              className="flex-1 bg-emerald-500 text-background-primary text-xs font-bold uppercase py-4 rounded-lg hover:bg-emerald-400 transition-colors flex items-center justify-center gap-2"
+              className="flex-1 bg-[#181818] text-white text-xs font-semibold uppercase py-3.5 rounded-[6px] hover:bg-[#2A2A2A] transition-colors flex items-center justify-center gap-2"
             >
-              Construct Strategy Plan <ArrowRight className="w-4 h-4" />
+              Construct Strategy Plan <ArrowRight className="w-4 h-4 text-[#F9771D]" />
             </Link>
           ) : (
             <button
@@ -497,7 +497,7 @@ export function PrepareClient() {
                 setPrepSaved(false);
                 setSavedOutcome(null);
               }}
-              className="flex-1 bg-background-elevated border border-border-slate/50 text-text-secondary text-xs font-bold uppercase py-4 rounded-lg hover:bg-background-elevated/80 transition-colors"
+              className="flex-1 bg-[#F3F2EE] border border-[#E6E4DE] text-[#474744] text-xs font-semibold uppercase py-3.5 rounded-[6px] hover:bg-[#E6E4DE] transition-colors"
             >
               Reset Session Prep
             </button>
@@ -512,60 +512,60 @@ export function PrepareClient() {
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
       {/* Configuration Column */}
       <div className="space-y-6 lg:col-span-1">
-        <div className="p-6 bg-background-elevated/40 border border-border-slate/50 rounded-xl space-y-4">
-          <h2 className="text-xs font-mono font-bold uppercase text-text-primary flex items-center gap-2">
-            <Wallet className="w-4 h-4 text-emerald-500" /> Active Account Context
+        <div className="p-5 bg-white border border-[#E6E4DE] rounded-[8px] shadow-[0_1px_2px_rgba(14,13,10,0.04),0_2px_8px_rgba(14,13,10,0.05)] space-y-4">
+          <h2 className="text-[10px] font-semibold uppercase tracking-[0.09em] text-[#87877F] flex items-center gap-2">
+            <Wallet className="w-4 h-4 text-[#18B880]" /> Active Account Context
           </h2>
           
           <div className="space-y-4">
             <select 
               value={selectedAccountId}
               onChange={e => setSelectedAccountId(e.target.value)}
-              className="w-full bg-background-primary border border-border-slate/50 rounded-lg p-2.5 text-xs text-text-primary focus:outline-none"
+              className="w-full bg-white border border-[#E6E4DE] rounded-[6px] p-2.5 text-xs text-[#181818] focus:outline-none focus:border-[#F9771D]"
             >
               {accounts.map(a => (
                 <option key={a.id} value={a.id}>{a.name} ({a.broker_name || "Self-Managed"})</option>
               ))}
             </select>
             
-            <div className="p-3 bg-background-primary/50 rounded border border-border-slate/20 space-y-2 text-xs">
-              <div className="flex justify-between text-text-tertiary">
+            <div className="p-3 bg-[#F5F4F1] rounded-[6px] border border-[#EEECE7] space-y-2 text-xs">
+              <div className="flex justify-between text-[#87877F]">
                 <span>Account Type</span>
-                <span className="font-mono text-text-secondary">{accounts.find(a => a.id === selectedAccountId)?.account_type}</span>
+                <span className="font-medium text-[#474744]">{accounts.find(a => a.id === selectedAccountId)?.account_type}</span>
               </div>
-              <div className="flex justify-between text-text-tertiary">
+              <div className="flex justify-between text-[#87877F]">
                 <span>Balance Limit</span>
-                <span className="font-mono text-text-secondary">{accounts.find(a => a.id === selectedAccountId)?.currency} {accounts.find(a => a.id === selectedAccountId)?.starting_balance.toLocaleString()}</span>
+                <span className="font-medium dd-tabular text-[#474744]">{accounts.find(a => a.id === selectedAccountId)?.currency} {accounts.find(a => a.id === selectedAccountId)?.starting_balance.toLocaleString()}</span>
               </div>
             </div>
           </div>
         </div>
 
-        <div className="p-6 bg-background-elevated/40 border border-border-slate/50 rounded-xl space-y-4">
-          <h2 className="text-xs font-mono font-bold uppercase text-text-primary flex items-center gap-2">
-            <ShieldCheck className="w-4 h-4 text-emerald-500" /> Active Risk Limits
+        <div className="p-5 bg-white border border-[#E6E4DE] rounded-[8px] shadow-[0_1px_2px_rgba(14,13,10,0.04),0_2px_8px_rgba(14,13,10,0.05)] space-y-4">
+          <h2 className="text-[10px] font-semibold uppercase tracking-[0.09em] text-[#87877F] flex items-center gap-2">
+            <ShieldCheck className="w-4 h-4 text-[#18B880]" /> Active Risk Limits
           </h2>
           
           <div className="space-y-3 text-xs">
-            <div className="flex justify-between border-b border-border-slate/20 pb-2">
-              <span className="text-text-tertiary">Max Risk Per Trade</span>
-              <span className="font-mono font-bold text-text-primary">{activePolicy?.max_risk_per_trade_percent}% / £{activePolicy?.max_risk_per_trade_amount}</span>
+            <div className="flex justify-between border-b border-[#EEECE7] pb-2">
+              <span className="text-[#87877F]">Max Risk Per Trade</span>
+              <span className="font-semibold dd-tabular text-[#181818]">{activePolicy?.max_risk_per_trade_percent}% / £{activePolicy?.max_risk_per_trade_amount}</span>
             </div>
-            <div className="flex justify-between border-b border-border-slate/20 pb-2">
-              <span className="text-text-tertiary">Max Daily Drawdown</span>
-              <span className="font-mono font-bold text-text-primary">{activePolicy?.max_daily_loss_percent}%</span>
+            <div className="flex justify-between border-b border-[#EEECE7] pb-2">
+              <span className="text-[#87877F]">Max Daily Drawdown</span>
+              <span className="font-semibold dd-tabular text-[#181818]">{activePolicy?.max_daily_loss_percent}%</span>
             </div>
-            <div className="flex justify-between border-b border-border-slate/20 pb-2">
-              <span className="text-text-tertiary">Max Weekly Drawdown</span>
-              <span className="font-mono font-bold text-text-primary">{activePolicy?.max_weekly_loss_percent}%</span>
+            <div className="flex justify-between border-b border-[#EEECE7] pb-2">
+              <span className="text-[#87877F]">Max Weekly Drawdown</span>
+              <span className="font-semibold dd-tabular text-[#181818]">{activePolicy?.max_weekly_loss_percent}%</span>
             </div>
-            <div className="flex justify-between border-b border-border-slate/20 pb-2">
-              <span className="text-text-tertiary">Max Session Trades</span>
-              <span className="font-mono font-bold text-text-primary">{activePolicy?.max_trades_per_session}</span>
+            <div className="flex justify-between border-b border-[#EEECE7] pb-2">
+              <span className="text-[#87877F]">Max Session Trades</span>
+              <span className="font-semibold dd-tabular text-[#181818]">{activePolicy?.max_trades_per_session}</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-text-tertiary">Minimum Plan RRR</span>
-              <span className="font-mono font-bold text-text-primary">{activePolicy?.minimum_reward_risk}R</span>
+              <span className="text-[#87877F]">Minimum Plan RRR</span>
+              <span className="font-semibold dd-tabular text-[#181818]">{activePolicy?.minimum_reward_risk}R</span>
             </div>
           </div>
         </div>
@@ -573,23 +573,23 @@ export function PrepareClient() {
 
       {/* Checklist and preparation questions */}
       <div className="lg:col-span-2 space-y-6">
-        <div className="p-6 bg-background-elevated/40 border border-border-slate/50 rounded-xl space-y-6">
+        <div className="p-6 bg-white border border-[#E6E4DE] rounded-[8px] shadow-[0_1px_2px_rgba(14,13,10,0.04),0_2px_8px_rgba(14,13,10,0.05)] space-y-6">
           <div>
-            <h2 className="text-lg font-bold uppercase text-text-primary">
+            <h2 className="text-lg font-bold tracking-tight text-[#181818]">
               Session Readiness Checklist
             </h2>
-            <p className="text-xs text-text-tertiary mt-1">
+            <p className="text-xs text-[#87877F] mt-1">
               Verify your physical, mental, and situational readiness parameters.
             </p>
           </div>
 
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
-              <label className="text-[10px] uppercase tracking-wider font-mono text-text-tertiary block">Trading Session</label>
+              <label className="text-[10px] uppercase tracking-[0.09em] font-semibold text-[#87877F] block">Trading Session</label>
               <select 
                 value={sessionType}
                 onChange={e => setSessionType(e.target.value)}
-                className="w-full bg-background-primary border border-border-slate/50 rounded-lg p-3 text-xs text-text-primary focus:outline-none"
+                className="w-full bg-white border border-[#E6E4DE] rounded-[6px] p-3 text-xs text-[#181818] focus:outline-none focus:border-[#F9771D]"
               >
                 <option value="london">London Open</option>
                 <option value="new_york">New York Session</option>
@@ -597,11 +597,11 @@ export function PrepareClient() {
               </select>
             </div>
             <div className="space-y-2">
-              <label className="text-[10px] uppercase tracking-wider font-mono text-text-tertiary block">Primary Instrument Focus</label>
+              <label className="text-[10px] uppercase tracking-[0.09em] font-semibold text-[#87877F] block">Primary Instrument Focus</label>
               <select 
                 value={selectedInstrument}
                 onChange={e => setSelectedInstrument(e.target.value)}
-                className="w-full bg-background-primary border border-border-slate/50 rounded-lg p-3 text-xs text-text-primary focus:outline-none"
+                className="w-full bg-white border border-[#E6E4DE] rounded-[6px] p-3 text-xs text-[#181818] focus:outline-none focus:border-[#F9771D]"
               >
                 {INSTRUMENTS_LIST.map(inst => (
                   <option key={inst.slug} value={inst.slug}>{inst.slug}</option>
@@ -611,91 +611,91 @@ export function PrepareClient() {
           </div>
 
           {/* Rating sliders */}
-          <div className="space-y-4 pt-4 border-t border-border-slate/20">
+          <div className="space-y-4 pt-4 border-t border-[#EEECE7]">
             <div className="space-y-2">
               <div className="flex justify-between text-xs">
-                <span className="font-bold text-text-secondary">Sleep & Recovery Quality</span>
-                <span className="font-mono text-text-tertiary">{sleepRating} / 5</span>
+                <span className="font-medium text-[#474744]">Sleep & Recovery Quality</span>
+                <span className="font-medium text-[#87877F]">{sleepRating} / 5</span>
               </div>
               <input 
                 type="range" min="1" max="5" value={sleepRating} 
                 onChange={e => setSleepRating(parseInt(e.target.value))}
-                className="w-full accent-emerald-500"
+                className="w-full accent-[#F9771D]"
               />
             </div>
 
             <div className="space-y-2">
               <div className="flex justify-between text-xs">
-                <span className="font-bold text-text-secondary">Mental Focus Level</span>
-                <span className="font-mono text-text-tertiary">{focusRating} / 5</span>
+                <span className="font-medium text-[#474744]">Mental Focus Level</span>
+                <span className="font-medium text-[#87877F]">{focusRating} / 5</span>
               </div>
               <input 
                 type="range" min="1" max="5" value={focusRating} 
                 onChange={e => setFocusRating(parseInt(e.target.value))}
-                className="w-full accent-emerald-500"
+                className="w-full accent-[#F9771D]"
               />
             </div>
 
             <div className="space-y-2">
               <div className="flex justify-between text-xs">
-                <span className="font-bold text-text-secondary">FOMO / Impatience Tendency</span>
-                <span className="font-mono text-text-tertiary">{fomoRating} / 5 (1 = Low, 5 = High)</span>
+                <span className="font-medium text-[#474744]">FOMO / Impatience Tendency</span>
+                <span className="font-medium text-[#87877F]">{fomoRating} / 5 (1 = Low, 5 = High)</span>
               </div>
               <input 
                 type="range" min="1" max="5" value={fomoRating} 
                 onChange={e => setFomoRating(parseInt(e.target.value))}
-                className="w-full accent-emerald-500"
+                className="w-full accent-[#F9771D]"
               />
             </div>
 
             <div className="space-y-2">
               <div className="flex justify-between text-xs">
-                <span className="font-bold text-text-secondary">Desire to Recover Prior Losses</span>
-                <span className="font-mono text-text-tertiary">{recoveryUrgency} / 5</span>
+                <span className="font-medium text-[#474744]">Desire to Recover Prior Losses</span>
+                <span className="font-medium text-[#87877F]">{recoveryUrgency} / 5</span>
               </div>
               <input 
                 type="range" min="1" max="5" value={recoveryUrgency} 
                 onChange={e => setRecoveryUrgency(parseInt(e.target.value))}
-                className="w-full accent-emerald-500"
+                className="w-full accent-[#F9771D]"
               />
             </div>
 
             <div className="space-y-2">
               <div className="flex justify-between text-xs">
-                <span className="font-bold text-text-secondary">Willingness to strictly execute the pre-defined plan</span>
-                <span className="font-mono text-text-tertiary">{followPlanRating} / 5</span>
+                <span className="font-medium text-[#474744]">Willingness to strictly execute the pre-defined plan</span>
+                <span className="font-medium text-[#87877F]">{followPlanRating} / 5</span>
               </div>
               <input 
                 type="range" min="1" max="5" value={followPlanRating} 
                 onChange={e => setFollowPlanRating(parseInt(e.target.value))}
-                className="w-full accent-emerald-500"
+                className="w-full accent-[#F9771D]"
               />
             </div>
           </div>
 
           {/* Outcome guidance indicator */}
-          <div className="pt-4 border-t border-border-slate/20 space-y-4">
-            <div className="text-xs uppercase tracking-wider font-mono text-text-tertiary">
-              // PROCESS DIRECTION
+          <div className="pt-4 border-t border-[#EEECE7] space-y-4">
+            <div className="text-[10px] font-semibold uppercase tracking-[0.09em] text-[#87877F]">
+              Process Direction
             </div>
             
             {currentOutcome === "ready" && (
-              <div className="p-4 rounded-lg border border-emerald-500/30 bg-emerald-500/5 text-xs text-emerald-400 flex gap-3">
-                <ShieldCheck className="w-5 h-5 shrink-0" />
+              <div className="p-4 rounded-[6px] border border-[rgba(24,184,128,0.25)] bg-[#F0FDF8] text-xs text-[#18B880] flex gap-3">
+                <ShieldCheck className="w-5 h-5 shrink-0 text-[#18B880]" />
                 <div>
-                  <span className="font-bold uppercase block">Ready to trade</span>
-                  System flags no psychological limits. Continue onto pre-trade planning.
+                  <span className="font-semibold uppercase block text-[#18B880]">Ready to trade</span>
+                  <span className="text-[#474744]">System flags no psychological limits. Continue onto pre-trade planning.</span>
                 </div>
               </div>
             )}
 
             {currentOutcome === "caution" && (
               <div className="space-y-3">
-                <div className="p-4 rounded-lg border border-amber-500/30 bg-amber-500/5 text-xs text-amber-400 flex gap-3">
-                  <AlertTriangle className="w-5 h-5 shrink-0" />
+                <div className="p-4 rounded-[6px] border border-amber-200 bg-amber-50/60 text-xs text-amber-800 flex gap-3">
+                  <AlertTriangle className="w-5 h-5 shrink-0 text-amber-600" />
                   <div>
-                    <span className="font-bold uppercase block">Caution required</span>
-                    You have marked a strong desire to recover losses or elevated FOMO. Consider pausing before creating a new plan.
+                    <span className="font-semibold uppercase block text-amber-900">Caution required</span>
+                    <span className="text-amber-800">You have marked a strong desire to recover losses or elevated FOMO. Consider pausing before creating a new plan.</span>
                   </div>
                 </div>
                 <input 
@@ -704,17 +704,17 @@ export function PrepareClient() {
                   placeholder="Enter reason to override caution..."
                   value={overrideReason}
                   onChange={e => setOverrideReason(e.target.value)}
-                  className="w-full bg-background-primary border border-border-slate/50 rounded-lg p-3 text-xs text-text-primary focus:outline-none focus:border-amber-500"
+                  className="w-full bg-white border border-[#E6E4DE] rounded-[6px] p-3 text-xs text-[#181818] focus:outline-none focus:border-amber-500"
                 />
               </div>
             )}
 
             {currentOutcome === "stand_down" && (
-              <div className="p-4 rounded-lg border border-rose-500/30 bg-rose-500/5 text-xs text-rose-400 flex gap-3">
-                <ShieldAlert className="w-5 h-5 shrink-0" />
+              <div className="p-4 rounded-[6px] border border-rose-200 bg-rose-50/60 text-xs text-rose-800 flex gap-3">
+                <ShieldAlert className="w-5 h-5 shrink-0 text-rose-600" />
                 <div>
-                  <span className="font-bold uppercase block">Stand Down Advisory</span>
-                  Checklist indicates compromised recovery or plan willingness. System suggests Standing Down today.
+                  <span className="font-semibold uppercase block text-rose-900">Stand Down Advisory</span>
+                  <span className="text-rose-800">Checklist indicates compromised recovery or plan willingness. System suggests Standing Down today.</span>
                 </div>
               </div>
             )}
@@ -724,7 +724,7 @@ export function PrepareClient() {
           <div className="flex gap-4 pt-4">
             <button
               onClick={() => handleSavePrep(true)}
-              className="flex-1 border border-rose-500/40 text-rose-500 text-xs font-bold uppercase py-4 rounded-lg hover:bg-rose-500/10 transition-all"
+              className="flex-1 border border-rose-300 text-rose-600 text-xs font-semibold uppercase py-3.5 rounded-[6px] hover:bg-rose-50 transition-all"
             >
               No Trade Today
             </button>
@@ -732,10 +732,10 @@ export function PrepareClient() {
               onClick={() => handleSavePrep(false)}
               disabled={currentOutcome === "caution" && !overrideReason}
               className={cn(
-                "flex-1 text-background-primary text-xs font-bold uppercase py-4 rounded-lg transition-all",
+                "flex-1 text-white text-xs font-semibold uppercase py-3.5 rounded-[6px] transition-all",
                 currentOutcome === "stand_down" 
-                  ? "bg-rose-500 hover:bg-rose-400" 
-                  : "bg-emerald-500 hover:bg-emerald-400",
+                  ? "bg-rose-600 hover:bg-rose-700" 
+                  : "bg-[#181818] hover:bg-[#2A2A2A]",
                 currentOutcome === "caution" && !overrideReason && "opacity-50 cursor-not-allowed"
               )}
             >

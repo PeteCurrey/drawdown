@@ -10,50 +10,56 @@ function readFile(relPath: string): string {
 }
 
 // ---------------------------------------------------------------------------
-// 1. OnboardingWizard Validation & Navigation Integrity
+// 1. OnboardingWizard Validation & Navigation Integrity (Prompt 07 Activation)
 // ---------------------------------------------------------------------------
 
-test("OnboardingUX: step 1 is blocked if firstName, lastName, or style is missing", () => {
+test("OnboardingUX: step 1 is blocked if primary improvement objective is not selected", () => {
   const wizard = readFile("src/components/dashboard/OnboardingWizard.tsx");
   assert.ok(
-    wizard.includes("(step === 1 && (!firstName || !lastName || !style))"),
-    "Step 1 must disable continuation if firstName, lastName, or style is missing"
+    wizard.includes("(step === 1 && !primaryObjective)"),
+    "Step 1 must disable continuation if primary improvement objective is missing"
+  );
+  assert.ok(
+    wizard.includes("What do you want to"),
+    "Step 1 must ask what the user wants to improve"
   );
 });
 
-test("OnboardingUX: step 2 is blocked if experience level is not selected", () => {
+test("OnboardingUX: step 1 provides all 5 required operational improvement objectives", () => {
+  const wizard = readFile("src/components/dashboard/OnboardingWizard.tsx");
+  assert.ok(wizard.includes('"Risk"'), "Must include Risk objective");
+  assert.ok(wizard.includes('"Strategy"'), "Must include Strategy objective");
+  assert.ok(wizard.includes('"Discipline"'), "Must include Discipline objective");
+  assert.ok(wizard.includes('"Prop Firm Performance"'), "Must include Prop Firm Performance objective");
+  assert.ok(wizard.includes('"Market Analysis"'), "Must include Market Analysis objective");
+});
+
+test("OnboardingUX: step 2 is blocked if primary market is not selected", () => {
   const wizard = readFile("src/components/dashboard/OnboardingWizard.tsx");
   assert.ok(
-    wizard.includes("(step === 2 && !experience)"),
-    "Step 2 must disable continuation if experience is not selected"
+    wizard.includes("(step === 2 && !primaryMarket)"),
+    "Step 2 must disable continuation if primary market is not selected"
   );
   assert.ok(
-    wizard.includes("Experience & Region"),
-    "Step 2 title must be aligned with experience and region"
+    wizard.includes("What do you"),
+    "Step 2 must ask what the user trades most"
   );
 });
 
-test("OnboardingUX: step 3 is blocked if markets are empty or capital is not selected", () => {
+test("OnboardingUX: step 2 provides genuinely supported asset classes", () => {
   const wizard = readFile("src/components/dashboard/OnboardingWizard.tsx");
-  assert.ok(
-    wizard.includes("(step === 3 && (markets.length === 0 || !capital))"),
-    "Step 3 must disable continuation if markets are empty or capital is unselected"
-  );
+  assert.ok(wizard.includes('"FX"'), "Must include FX");
+  assert.ok(wizard.includes('"Indices"'), "Must include Indices");
+  assert.ok(wizard.includes('"Commodities"'), "Must include Commodities");
+  assert.ok(wizard.includes('"Equities"'), "Must include Equities");
+  assert.ok(wizard.includes('"Crypto"'), "Must include Crypto");
 });
 
-test("OnboardingUX: step 4 is blocked if goal is not selected", () => {
+test("OnboardingUX: handleComplete validates selections before submitting", () => {
   const wizard = readFile("src/components/dashboard/OnboardingWizard.tsx");
   assert.ok(
-    wizard.includes("(step === 4 && !goal)"),
-    "Step 4 must disable continuation if trading goal is unselected"
-  );
-});
-
-test("OnboardingUX: handleComplete validates identity before submitting", () => {
-  const wizard = readFile("src/components/dashboard/OnboardingWizard.tsx");
-  assert.ok(
-    wizard.includes("if (!firstName.trim() || !lastName.trim() || !style)"),
-    "handleComplete must guard against submitting with empty required identity fields"
+    wizard.includes("if (!primaryObjective || !primaryMarket) return;"),
+    "handleComplete must guard against submitting with empty required objective/market fields"
   );
   assert.ok(
     wizard.includes("setSubmitError"),
@@ -61,27 +67,27 @@ test("OnboardingUX: handleComplete validates identity before submitting", () => 
   );
 });
 
-test("OnboardingUX: step 5 provides honest summary and direct links to operating loop", () => {
+test("OnboardingUX: step 3 provides honest summary and direct links to operating loop", () => {
   const wizard = readFile("src/components/dashboard/OnboardingWizard.tsx");
   assert.ok(
     wizard.includes('href="/dashboard/accounts"'),
-    "Step 5 must link to Stage 0 Account Setup"
+    "Step 3 must link to Stage 0 Account Setup"
   );
   assert.ok(
     wizard.includes('href="/dashboard/prepare"'),
-    "Step 5 must link to Stage 1 Session Preparation"
+    "Step 3 must link to Stage 1 Session Preparation"
   );
   assert.ok(
     wizard.includes('href="/dashboard/the-wire"'),
-    "Step 5 must link to The Wire"
+    "Step 3 must link to The Wire"
   );
   assert.ok(
     wizard.includes("Launch Terminal"),
-    "Step 5 primary button must offer Launch Terminal CTA"
+    "Step 3 primary button must offer Launch Terminal CTA"
   );
   assert.ok(
     !wizard.includes("animate-pulse"),
-    "Step 5 must not use fake animated verification pulses"
+    "Step 3 must not use fake animated verification pulses"
   );
 });
 

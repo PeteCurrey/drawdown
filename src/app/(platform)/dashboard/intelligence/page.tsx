@@ -114,19 +114,19 @@ export default async function IntelligenceHub() {
   if (!hasAccess) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh] space-y-8 animate-in fade-in duration-700">
-        <div className="p-10 bg-white border border-slate-200 shadow-sm rounded-2xl flex flex-col items-center text-center space-y-6 max-w-md w-full">
-          <div className="w-14 h-14 rounded-full border border-[#1e40af]/20 bg-[#1e40af]/10 flex items-center justify-center">
-            <Lock className="w-6 h-6 text-[#1e40af]" />
+        <div className="p-10 bg-white border border-[#E6E4DE] shadow-[0_1px_2px_rgba(14,13,10,0.04),0_2px_8px_rgba(14,13,10,0.05)] rounded-[8px] flex flex-col items-center text-center space-y-6 max-w-md w-full">
+          <div className="w-12 h-12 rounded-full border border-[#E6E4DE] bg-[#F5F4F1] flex items-center justify-center text-[#181818]">
+            <Lock className="w-6 h-6 text-[#181818]" />
           </div>
           <div className="space-y-2">
-            <p className="text-xs font-bold uppercase tracking-widest text-slate-900">
+            <p className="text-xs font-bold uppercase tracking-widest text-[#181818]">
               Edge Access Required
             </p>
-            <p className="text-xs text-slate-500 leading-relaxed">
+            <p className="text-xs text-[#87877F] leading-relaxed">
               The Intelligence Hub includes insider transaction monitoring,
               political capital flow tracking, and AI signal synthesis. Available
               on Edge and Floor plans. Your current plan is{" "}
-              <span className="font-bold text-slate-900 uppercase">
+              <span className="font-bold text-[#181818] uppercase">
                 {tier ?? "Free"}
               </span>
               .
@@ -141,7 +141,7 @@ export default async function IntelligenceHub() {
             </DirectUpgradeButton>
             <Link
               href="/dashboard"
-              className="w-full flex items-center justify-center px-8 py-3 border border-slate-200 hover:border-[#1e40af] text-[10px] font-mono uppercase tracking-widest text-slate-400 hover:text-slate-900 transition-all rounded-lg"
+              className="w-full flex items-center justify-center px-8 py-3 border border-[#E6E4DE] hover:border-[#181818] text-xs font-semibold uppercase tracking-wider text-[#87877F] hover:text-[#181818] transition-all rounded-[6px]"
             >
               Back to Dashboard
             </Link>
@@ -171,7 +171,7 @@ export default async function IntelligenceHub() {
   return (
     <div className="space-y-10 animate-in fade-in duration-700 pb-24">
       <PageHeader
-        eyebrow="// ALT-DATA & AI SIGNALS"
+        eyebrow="Market Intelligence · Alt-Data"
         title="Alt-Data & Signals"
         description="Real-time tracking of corporate insider conviction, congressional capital flows, and AI signal synthesis across 15 major equities."
       />

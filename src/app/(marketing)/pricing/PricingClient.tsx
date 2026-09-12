@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import {
   Check,
   X,
@@ -389,6 +390,9 @@ export default function PricingPage({
   const [showConsent, setShowConsent] = useState(false);
   const [pendingTier, setPendingTier] = useState<string | null>(null);
 
+  const searchParams = useSearchParams();
+  const redirectPath = searchParams.get("redirect") || undefined;
+
   const tiers = GBP_TIERS;
   const isFloorCapReached = activeFloorSubs >= floorCap;
 
@@ -397,9 +401,9 @@ export default function PricingPage({
     immediate_supply_requested: boolean;
     marketing_consent: boolean;
   }) => {
-    // Free tier → go to register
+    // Free tier → go to register (preserve return path if present)
     if (tierId === "free") {
-      window.location.href = "/register";
+      window.location.href = redirectPath ? `/register?redirect=${encodeURIComponent(redirectPath)}` : "/register";
       return;
     }
 
@@ -433,6 +437,7 @@ export default function PricingPage({
         body: JSON.stringify({
           priceId,
           tier: tierId,
+          redirectPath,
           terms_accepted: consentData.terms_accepted,
           immediate_supply_requested: consentData.immediate_supply_requested,
           marketing_consent: consentData.marketing_consent,
@@ -443,7 +448,10 @@ export default function PricingPage({
       if (data.url) {
         window.location.href = data.url;
       } else if (response.status === 401) {
-        window.location.href = `/login?redirect=/pricing`;
+        const loginRedirect = redirectPath 
+          ? `/pricing?redirect=${encodeURIComponent(redirectPath)}`
+          : "/pricing";
+        window.location.href = `/login?redirect=${encodeURIComponent(loginRedirect)}`;
       } else {
         throw new Error(data.error || "Checkout unavailable. Please try again.");
       }

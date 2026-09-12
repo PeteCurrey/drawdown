@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import PricingPage from "./PricingClient";
 import JsonLd from "@/components/seo/JsonLd";
 import { createInternalSupabase } from "@/lib/supabase/server";
@@ -158,7 +159,9 @@ export default async function Page() {
     <>
       <JsonLd data={faqStructuredData} />
       <JsonLd data={productsStructuredData} />
-      <PricingPage floorCap={floorCap} activeFloorSubs={activeFloorSubs} />
+      <Suspense fallback={<div className="min-h-screen bg-[#FAFAFA]" />}>
+        <PricingPage floorCap={floorCap} activeFloorSubs={activeFloorSubs} />
+      </Suspense>
     </>
   );
 }

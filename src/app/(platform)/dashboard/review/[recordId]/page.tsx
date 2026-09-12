@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { ReviewClient } from "@/components/dashboard/ReviewClient";
+import { PageHeader } from "@/components/dashboard/ui/PageHeader";
 
 export const metadata = {
   title: "Review Trade · Drawdown",
@@ -23,17 +24,11 @@ export default async function ReviewPage({
 
   return (
     <div className="space-y-8 animate-in fade-in duration-500">
-      <header>
-        <span className="text-emerald-500 font-mono text-[10px] uppercase tracking-widest block mb-2">
-          // STAGE_05 // REVIEW
-        </span>
-        <h1 className="text-3xl font-display font-extrabold uppercase text-text-primary">
-          Process <span className="text-emerald-500 italic">Review.</span>
-        </h1>
-        <p className="text-text-secondary text-xs mt-1 max-w-xl">
-          Evaluate process quality, not financial outcome. Profitable deviations are flagged — not celebrated.
-        </p>
-      </header>
+      <PageHeader
+        eyebrow="Stage 5 · Review"
+        title="Process Review"
+        description="Evaluate process quality, not financial outcome. Profitable deviations are flagged — not celebrated."
+      />
 
       <ReviewClient recordId={recordId} />
     </div>

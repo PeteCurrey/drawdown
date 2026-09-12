@@ -105,18 +105,9 @@ export default function AppToolsHub() {
   const tierWeight = { free: 0, foundation: 1, edge: 2, floor: 3 };
 
   return (
-    <div
-      className="space-y-10"
-      style={{
-        "--tool-accent": "#F9771D",
-        "--tool-accent-hover": "#e0600d",
-        "--tool-accent-tint": "#fff7ed",
-        "--tool-accent-border": "#fed7aa",
-        "--tool-accent-text": "#c2410c",
-      } as React.CSSProperties}
-    >
+    <div className="space-y-10">
       <PageHeader
-        eyebrow="// INSTITUTIONAL TOOLS"
+        eyebrow="Execution Systems · Tools"
         title="AI Tools"
         description="Purpose-built for serious traders. Real-time data, institutional precision, zero fluff."
       />
@@ -130,52 +121,52 @@ export default function AppToolsHub() {
             <div 
               key={tool.slug} 
               className={cn(
-                "group p-6 bg-white border border-[#DEDDD8] rounded-xl transition-all duration-300 relative flex flex-col justify-between min-h-[220px] shadow-[0_2px_8px_rgba(0,0,0,0.03)]",
+                "group p-6 bg-white border border-[#E6E4DE] rounded-[8px] transition-all duration-300 relative flex flex-col justify-between min-h-[220px] shadow-[0_1px_2px_rgba(14,13,10,0.04),0_2px_8px_rgba(14,13,10,0.05)]",
                 isLocked
                   ? "opacity-75"
-                  : "hover:shadow-[0_8px_24px_rgba(0,0,0,0.08)] hover:-translate-y-0.5"
+                  : "hover:shadow-[0_4px_16px_rgba(14,13,10,0.08)] hover:-translate-y-0.5"
               )}
             >
               <div>
                 <div className="flex justify-between items-start mb-4">
-                  <div className="p-3 bg-[#181818] border border-[#333330] rounded-none text-white">
+                  <div className="p-2.5 bg-[#F3F2EE] border border-[#E6E4DE] rounded-[6px] text-[#181818]">
                     <Icon className="w-5 h-5" />
                   </div>
                   {isLocked ? (
-                    <div className="flex items-center gap-1.5 px-2 py-0.5 bg-[#F8F8F8] border border-[#DEDDD8] rounded-lg">
-                       <Lock className="w-3 h-3 text-[#555550]" />
-                       <span className="text-[9px] font-mono uppercase tracking-wider text-[#555550]">{tool.minTier.toUpperCase()} Required</span>
+                    <div className="flex items-center gap-1.5 px-2 py-0.5 bg-[#F5F4F1] border border-[#E6E4DE] rounded-[4px]">
+                       <Lock className="w-3 h-3 text-[#87877F]" />
+                       <span className="text-[9px] font-semibold uppercase tracking-wider text-[#87877F]">{tool.minTier.toUpperCase()} Required</span>
                     </div>
                   ) : (
-                    <div className="px-2 py-0.5 border border-[#18B880] bg-[#ecfdf5] text-[#18B880] rounded-lg">
-                       <span className="text-[9px] font-mono uppercase font-bold">Unlocked</span>
+                    <div className="px-2 py-0.5 border border-[rgba(24,184,128,0.25)] bg-[#F0FDF8] text-[#18B880] rounded-[4px]">
+                       <span className="text-[9px] font-semibold uppercase tracking-wider text-[#18B880]">Unlocked</span>
                     </div>
                   )}
                 </div>
 
                 <div className="space-y-1 mb-6">
-                  <h3 className="text-lg font-bold text-[#1A1A1A]">{tool.title}</h3>
-                  <p className="text-xs text-[#555550]">{tool.description}</p>
-                  <p className="text-[10px] font-mono text-[#8A8A85] pt-1">{tool.bullet}</p>
+                  <h3 className="text-base font-bold text-[#181818]">{tool.title}</h3>
+                  <p className="text-xs text-[#87877F]">{tool.description}</p>
+                  <p className="text-[10px] text-[#87877F] pt-1">{tool.bullet}</p>
                 </div>
               </div>
 
               <div>
                 {loading ? (
-                  <div className="w-full h-10 bg-[#C8CBB8] animate-pulse" />
+                  <div className="w-full h-10 bg-[#F3F2EE] rounded-[6px] animate-pulse" />
                 ) : isLocked ? (
                   <Link 
                     href="/pricing"
-                    className="flex items-center justify-center gap-1 w-full py-2.5 bg-[#181818] hover:bg-[#232323] text-white text-[10px] font-bold uppercase tracking-widest rounded-[4px] transition-colors"
+                    className="flex items-center justify-center gap-1.5 w-full py-2.5 bg-[#181818] hover:bg-[#2A2A2A] text-white text-[10px] font-semibold uppercase tracking-wider rounded-[6px] transition-colors"
                   >
                      Unlock with Edge+ <Lock className="w-3 h-3 text-[#F9771D]" />
                    </Link>
                 ) : (
                   <Link 
                     href={tool.slug === 'intelligence' ? '/dashboard/market-intelligence' : `/dashboard/tools/${tool.slug}`}
-                    className="flex items-center justify-between w-full px-5 py-2.5 bg-[#F9771D] hover:bg-[#e0600d] text-white text-[10px] font-bold uppercase tracking-[0.2em] transition-all rounded-[4px]"
+                    className="flex items-center justify-between w-full px-5 py-2.5 bg-[#181818] hover:bg-[#2A2A2A] text-white text-[10px] font-semibold uppercase tracking-wider transition-all rounded-[6px]"
                   >
-                     Open Tool <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                     Open Tool <ArrowRight className="w-4 h-4 text-[#F9771D] transition-transform group-hover:translate-x-1" />
                   </Link>
                 )}
               </div>

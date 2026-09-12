@@ -46,7 +46,7 @@ export default async function EventsPage() {
           <div className="w-full space-y-2 pt-2">
             <Link
               href="/pricing"
-              className="w-full flex items-center justify-center px-8 py-3.5 bg-[#181818] hover:bg-[#333330] text-white text-[10px] font-bold uppercase tracking-widest transition-all rounded-xl shadow-sm"
+              className="w-full flex items-center justify-center px-8 py-3.5 bg-[#181818] hover:bg-[#333330] text-white text-[10px] font-bold uppercase tracking-widest transition-all rounded-[8px] shadow-sm"
             >
               Upgrade to Edge →
             </Link>
@@ -89,7 +89,7 @@ export default async function EventsPage() {
       } as React.CSSProperties}
     >
       <PageHeader
-        eyebrow="// LIVE SESSIONS & MASTERCLASSES"
+        eyebrow="Live Sessions · Masterclasses"
         title="Live Events"
         description="Monthly Q&A sessions, live market analysis, and exclusive masterclasses with Pete."
       />
@@ -98,7 +98,7 @@ export default async function EventsPage() {
       <section>
         <h2 className="text-sm font-bold font-mono text-[#6b7280] uppercase tracking-widest mb-4">Upcoming Sessions</h2>
         {upcomingEvents.length === 0 ? (
-          <div className="bg-white border border-[#e5e7eb] border-dashed rounded-xl p-8 text-center flex flex-col items-center justify-center">
+          <div className="bg-white border border-[#e5e7eb] border-dashed rounded-[8px] p-8 text-center flex flex-col items-center justify-center">
             <Calendar className="w-8 h-8 text-[#9ca3af] mb-3" />
             <p className="text-[#555550] text-sm">No upcoming events scheduled right now.</p>
           </div>
@@ -111,7 +111,7 @@ export default async function EventsPage() {
               const canJoin = minutesUntil <= 15;
 
               return (
-                <div key={event.id} className="bg-white border border-[#e5e7eb] rounded-xl p-6 shadow-sm flex flex-col">
+                <div key={event.id} className="bg-white border border-[#e5e7eb] rounded-[8px] p-6 shadow-sm flex flex-col">
                   <div className="flex justify-between items-start mb-4">
                     <span className="px-2 py-0.5 bg-[#F9771D]/10 text-[#F9771D] text-[10px] font-bold uppercase tracking-widest rounded">
                       {event.event_type.replace('_', ' ')}
@@ -162,11 +162,11 @@ export default async function EventsPage() {
       <section>
         <h2 className="text-sm font-bold font-mono text-[#6b7280] uppercase tracking-widest mb-4">Past Sessions & Replays</h2>
         {pastEvents.length === 0 ? (
-          <div className="bg-white border border-[#e5e7eb] rounded-xl p-8 text-center">
+          <div className="bg-white border border-[#e5e7eb] rounded-[8px] p-8 text-center">
             <p className="text-[#555550] text-sm">Past event replays will appear here.</p>
           </div>
         ) : (
-          <div className="bg-white border border-[#e5e7eb] rounded-xl overflow-hidden">
+          <div className="bg-white border border-[#e5e7eb] rounded-[8px] overflow-hidden">
             <ul className="divide-y divide-[#e5e7eb]">
               {pastEvents.map((event) => (
                 <li key={event.id} className="p-4 sm:px-6 hover:bg-gray-50 flex items-center justify-between gap-4 transition-colors">

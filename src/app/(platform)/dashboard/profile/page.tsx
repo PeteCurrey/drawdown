@@ -21,6 +21,7 @@ import { cn } from "@/lib/utils";
 import { createClient } from "@/lib/supabase/client";
 import Link from "next/link";
 import { DisciplineBadge } from "@/components/badges/DisciplineBadge";
+import { PageHeader } from "@/components/dashboard/ui/PageHeader";
 import type { BadgeTier } from "@/lib/discipline-scorer";
  
 export default function ProfileSettingsPage() {
@@ -229,67 +230,64 @@ export default function ProfileSettingsPage() {
  
   return (
     <div className="max-w-5xl space-y-12 animate-in fade-in duration-700 pb-24">
-      <header className="border-b border-border-slate/50 pb-8">
-        <div className="flex items-center gap-2 text-accent mb-4">
-          <Settings className="w-4 h-4" />
-          <span className="text-[10px] font-mono uppercase tracking-[0.3em]">Identity_Config // v1.0</span>
-        </div>
-        <h1 className="text-4xl font-display font-black uppercase tracking-tight text-text-primary">Profile <span className="text-accent">Settings.</span></h1>
-        <p className="text-sm text-text-tertiary mt-2">Manage your institutional identity, subscription, and market preferences.</p>
-      </header>
+      <PageHeader
+        eyebrow="Account Settings"
+        title="Profile & Preferences"
+        description="Manage your institutional identity, subscription tier, and market preferences."
+      />
  
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
         {/* Left Column: Forms */}
         <div className="lg:col-span-7 space-y-10">
            {/* General Settings */}
            <section className="space-y-6">
-              <div className="flex items-center gap-3 border-b border-border-slate/50 pb-2">
+              <div className="flex items-center gap-3 border-b border-[#E6E4DE] pb-2">
                  <User className="w-4 h-4 text-accent" />
-                 <h2 className="text-xs font-mono font-bold uppercase tracking-widest text-text-secondary">Public Identity</h2>
+                 <h2 className="text-xs font-mono font-bold uppercase tracking-widest text-[#474744]">Public Identity</h2>
               </div>
-              <form onSubmit={handleUpdate} className="grid grid-cols-1 gap-6 bg-background-surface border border-border-slate/50 p-8 rounded-xl shadow-[0_8px_32px_rgba(0,0,0,0.04)]">
+              <form onSubmit={handleUpdate} className="grid grid-cols-1 gap-6 bg-white border border-[#E6E4DE] p-6 rounded-[8px] shadow-[0_1px_2px_rgba(14,13,10,0.04),0_2px_8px_rgba(14,13,10,0.05)]">
                  {/* Display Name */}
                  <div className="space-y-2">
-                    <label className="text-[10px] font-mono uppercase text-text-tertiary block">Display Name</label>
+                    <label className="text-[10px] font-mono uppercase text-[#87877F] block">Display Name</label>
                     <input
                       name="display_name"
                       key={profile?.display_name}
                       defaultValue={profile?.display_name || ''}
                       placeholder="e.g. Maverick Trader"
-                      className="w-full bg-background-primary border border-border-slate/80 p-4 text-sm outline-none focus:border-accent text-text-primary rounded-lg"
+                      className="w-full bg-white border border-[#E6E4DE] p-4 text-sm outline-none focus:border-accent text-[#181818] rounded-[6px]"
                     />
                  </div>
                  {/* Email — read from auth, not profile.id */}
                  <div className="space-y-2">
-                    <label className="text-[10px] font-mono uppercase text-text-tertiary block">Account Email (Immutable)</label>
+                    <label className="text-[10px] font-mono uppercase text-[#87877F] block">Account Email (Immutable)</label>
                     <div className="relative">
-                       <Mail className="w-4 h-4 absolute left-4 top-1/2 -translate-y-1/2 text-text-tertiary/50" />
+                       <Mail className="w-4 h-4 absolute left-4 top-1/2 -translate-y-1/2 text-[#87877F]/50" />
                        <input
                          disabled
                          value={userEmail}
-                         className="w-full bg-background-primary/50 border border-border-slate/80 p-4 pl-12 text-xs font-mono text-text-tertiary cursor-not-allowed rounded-lg"
+                         className="w-full bg-[#F5F4F1] border border-[#E6E4DE] p-4 pl-12 text-xs font-mono text-[#87877F] cursor-not-allowed rounded-[6px]"
                        />
                     </div>
                  </div>
                  {/* Country */}
                  <div className="space-y-2">
-                    <label className="text-[10px] font-mono uppercase text-text-tertiary block">Country</label>
+                    <label className="text-[10px] font-mono uppercase text-[#87877F] block">Country</label>
                     <input
                       name="country"
                       key={profile?.country}
                       defaultValue={profile?.country || ''}
                       placeholder="e.g. United Kingdom"
-                      className="w-full bg-background-primary border border-border-slate/80 p-4 text-sm outline-none focus:border-accent text-text-primary rounded-lg"
+                      className="w-full bg-white border border-[#E6E4DE] p-4 text-sm outline-none focus:border-accent text-[#181818] rounded-[6px]"
                     />
                  </div>
                  {/* Currency */}
                  <div className="space-y-2">
-                    <label className="text-[10px] font-mono uppercase text-text-tertiary block">Base Currency</label>
+                    <label className="text-[10px] font-mono uppercase text-[#87877F] block">Base Currency</label>
                     <select
                       name="currency"
                       key={profile?.currency}
                       defaultValue={profile?.currency || 'GBP'}
-                      className="w-full bg-background-primary border border-border-slate/80 p-4 text-sm outline-none focus:border-accent text-text-primary rounded-lg appearance-none"
+                      className="w-full bg-white border border-[#E6E4DE] p-4 text-sm outline-none focus:border-accent text-[#181818] rounded-[6px] appearance-none"
                     >
                       <option value="GBP">GBP — British Pound</option>
                       <option value="USD">USD — US Dollar</option>
@@ -310,7 +308,7 @@ export default function ProfileSettingsPage() {
                     <button
                       type="submit"
                       disabled={isUpdating}
-                      className="px-8 py-3 bg-[#0A0A0A] hover:bg-neutral-800 text-white text-[10px] font-bold uppercase tracking-widest transition-colors disabled:opacity-50 rounded-lg"
+                      className="px-8 py-3 bg-[#0A0A0A] hover:bg-neutral-800 text-white text-[10px] font-bold uppercase tracking-widest transition-colors disabled:opacity-50 rounded-[6px]"
                     >
                        {isUpdating ? 'Saving...' : 'Save Profile'}
                     </button>
@@ -320,29 +318,29 @@ export default function ProfileSettingsPage() {
  
            {/* Security Settings */}
            <section className="space-y-6">
-              <div className="flex items-center gap-3 border-b border-border-slate/50 pb-2">
+              <div className="flex items-center gap-3 border-b border-[#E6E4DE] pb-2">
                  <ShieldCheck className="w-4 h-4 text-accent" />
-                 <h2 className="text-xs font-mono font-bold uppercase tracking-widest text-text-secondary">Security & Credentials</h2>
+                 <h2 className="text-xs font-mono font-bold uppercase tracking-widest text-[#474744]">Security & Credentials</h2>
               </div>
-              <form onSubmit={handlePasswordUpdate} className="grid grid-cols-1 gap-6 bg-background-surface border border-border-slate/50 p-8 rounded-xl shadow-[0_8px_32px_rgba(0,0,0,0.04)]">
+              <form onSubmit={handlePasswordUpdate} className="grid grid-cols-1 gap-6 bg-white border border-[#E6E4DE] p-6 rounded-[8px] shadow-[0_1px_2px_rgba(14,13,10,0.04),0_2px_8px_rgba(14,13,10,0.05)]">
                  <div className="space-y-2">
-                    <label className="text-[10px] font-mono uppercase text-text-tertiary block">New Password</label>
+                    <label className="text-[10px] font-mono uppercase text-[#87877F] block">New Password</label>
                     <input 
                       type="password"
                       name="password" 
                       required
                       placeholder="••••••••" 
-                      className="w-full bg-background-primary border border-border-slate/80 p-4 text-sm outline-none focus:border-accent text-text-primary rounded-lg" 
+                      className="w-full bg-white border border-[#E6E4DE] p-4 text-sm outline-none focus:border-accent text-[#181818] rounded-[6px]" 
                     />
                  </div>
                  <div className="space-y-2">
-                    <label className="text-[10px] font-mono uppercase text-text-tertiary block">Confirm Password</label>
+                    <label className="text-[10px] font-mono uppercase text-[#87877F] block">Confirm Password</label>
                     <input 
                       type="password"
                       name="confirm_password" 
                       required
                       placeholder="••••••••" 
-                      className="w-full bg-background-primary border border-border-slate/80 p-4 text-sm outline-none focus:border-accent text-text-primary rounded-lg" 
+                      className="w-full bg-white border border-[#E6E4DE] p-4 text-sm outline-none focus:border-accent text-[#181818] rounded-[6px]" 
                     />
                  </div>
                  {passwordError && (
@@ -355,7 +353,7 @@ export default function ProfileSettingsPage() {
                     <button 
                       type="submit" 
                       disabled={isUpdatingPassword}
-                      className="px-8 py-3 bg-[#0A0A0A] hover:bg-neutral-800 text-white text-[10px] font-bold uppercase tracking-widest transition-colors disabled:opacity-50 rounded-lg"
+                      className="px-8 py-3 bg-[#0A0A0A] hover:bg-neutral-800 text-white text-[10px] font-bold uppercase tracking-widest transition-colors disabled:opacity-50 rounded-[6px]"
                     >
                        {isUpdatingPassword ? 'Updating...' : 'Update Password'}
                     </button>
@@ -365,30 +363,30 @@ export default function ProfileSettingsPage() {
  
            {/* Calibration Settings */}
            <section className="space-y-6">
-              <div className="flex items-center gap-3 border-b border-border-slate/50 pb-2">
+              <div className="flex items-center gap-3 border-b border-[#E6E4DE] pb-2">
                  <Target className="w-4 h-4 text-accent" />
-                 <h2 className="text-xs font-mono font-bold uppercase tracking-widest text-text-secondary">Market Calibration</h2>
+                 <h2 className="text-xs font-mono font-bold uppercase tracking-widest text-[#474744]">Market Calibration</h2>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                 <div className="p-6 bg-background-surface border border-border-slate/50 rounded-xl space-y-4 shadow-[0_8px_32px_rgba(0,0,0,0.04)]">
-                    <div className="flex items-center gap-3 text-text-tertiary">
+                 <div className="p-6 bg-white border border-[#E6E4DE] rounded-[8px] space-y-4 shadow-[0_8px_32px_rgba(0,0,0,0.04)]">
+                    <div className="flex items-center gap-3 text-[#87877F]">
                        <Brain className="w-4 h-4" />
                        <span className="text-[10px] font-mono uppercase tracking-widest">Experience Level</span>
                     </div>
-                    <p className="text-sm font-bold uppercase text-text-primary">{profile?.experience_level || 'NOT_CALIBRATED'}</p>
+                    <p className="text-sm font-bold uppercase text-[#181818]">{profile?.experience_level || 'NOT_CALIBRATED'}</p>
                     <button className="text-[9px] font-bold uppercase text-accent hover:underline flex items-center gap-1">
                        Re-Calibrate <ChevronRight className="w-3 h-3" />
                     </button>
                  </div>
-                 <div className="p-6 bg-background-surface border border-border-slate/50 rounded-xl space-y-4 shadow-[0_8px_32px_rgba(0,0,0,0.04)]">
-                    <div className="flex items-center gap-3 text-text-tertiary">
+                 <div className="p-6 bg-white border border-[#E6E4DE] rounded-[8px] space-y-4 shadow-[0_8px_32px_rgba(0,0,0,0.04)]">
+                    <div className="flex items-center gap-3 text-[#87877F]">
                        <Globe className="w-4 h-4" />
                        <span className="text-[10px] font-mono uppercase tracking-widest">Preferred Markets</span>
                     </div>
                     <div className="flex flex-wrap gap-2">
                        {profile?.preferred_markets?.map((m: string) => (
-                         <span key={m} className="px-2 py-0.5 bg-background-primary border border-border-slate text-[9px] font-mono text-text-tertiary uppercase rounded-md">{m}</span>
-                       )) || <span className="text-xs text-text-tertiary">None selected</span>}
+                         <span key={m} className="px-2 py-0.5 bg-white border border-[#E6E4DE] text-[9px] font-mono text-[#87877F] uppercase rounded-md">{m}</span>
+                       )) || <span className="text-xs text-[#87877F]">None selected</span>}
                     </div>
                     <button className="text-[9px] font-bold uppercase text-accent hover:underline flex items-center gap-1">
                        Update focus <ChevronRight className="w-3 h-3" />
@@ -399,11 +397,11 @@ export default function ProfileSettingsPage() {
 
            {/* Email Preferences */}
            <section className="space-y-6">
-              <div className="flex items-center gap-3 border-b border-border-slate/50 pb-2">
+              <div className="flex items-center gap-3 border-b border-[#E6E4DE] pb-2">
                  <Mail className="w-4 h-4 text-accent" />
-                 <h2 className="text-xs font-mono font-bold uppercase tracking-widest text-text-secondary">Email Preferences</h2>
+                 <h2 className="text-xs font-mono font-bold uppercase tracking-widest text-[#474744]">Email Preferences</h2>
               </div>
-              <form onSubmit={handleEmailPrefUpdate} className="grid grid-cols-1 gap-6 bg-background-surface border border-border-slate/50 p-8 rounded-xl shadow-[0_8px_32px_rgba(0,0,0,0.04)]">
+              <form onSubmit={handleEmailPrefUpdate} className="grid grid-cols-1 gap-6 bg-white border border-[#E6E4DE] p-6 rounded-[8px] shadow-[0_1px_2px_rgba(14,13,10,0.04),0_2px_8px_rgba(14,13,10,0.05)]">
                  <div className="space-y-4">
                     {[
                       { id: 'morning_brief', label: 'Morning Brief', desc: 'Pre-market analysis and setup ideas.' },
@@ -419,15 +417,15 @@ export default function ProfileSettingsPage() {
                                 type="checkbox" 
                                 name={item.id}
                                 defaultChecked={checked}
-                                className="peer appearance-none w-4 h-4 border border-border-slate/80 rounded bg-background-primary checked:bg-accent checked:border-accent transition-colors"
+                                className="peer appearance-none w-4 h-4 border border-[#E6E4DE] rounded bg-white checked:bg-accent checked:border-accent transition-colors"
                               />
                               <svg className="absolute w-3 h-3 text-white opacity-0 peer-checked:opacity-100 pointer-events-none" viewBox="0 0 14 10" fill="none">
                                 <path d="M1 5L4.5 8.5L13 1" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                               </svg>
                            </div>
                            <div>
-                              <p className="text-sm font-bold text-text-primary group-hover:text-accent transition-colors">{item.label}</p>
-                              <p className="text-[10px] text-text-tertiary">{item.desc}</p>
+                              <p className="text-sm font-bold text-[#181818] group-hover:text-accent transition-colors">{item.label}</p>
+                              <p className="text-[10px] text-[#87877F]">{item.desc}</p>
                            </div>
                         </label>
                       );
@@ -441,7 +439,7 @@ export default function ProfileSettingsPage() {
                     <button 
                       type="submit" 
                       disabled={isUpdatingPrefs}
-                      className="px-8 py-3 bg-[#0A0A0A] hover:bg-neutral-800 text-white text-[10px] font-bold uppercase tracking-widest transition-colors disabled:opacity-50 rounded-lg"
+                      className="px-8 py-3 bg-[#0A0A0A] hover:bg-neutral-800 text-white text-[10px] font-bold uppercase tracking-widest transition-colors disabled:opacity-50 rounded-[6px]"
                     >
                        {isUpdatingPrefs ? 'Saving...' : 'Save Preferences'}
                     </button>
@@ -453,19 +451,19 @@ export default function ProfileSettingsPage() {
         {/* Right Column: Billing & Status */}
         <div className="lg:col-span-5 space-y-8">
            {/* Subscription Card */}
-           <div className="p-10 bg-background-elevated/50 border border-border-slate/50 relative overflow-hidden rounded-xl shadow-[0_8px_32px_rgba(0,0,0,0.04)] group">
+           <div className="p-10 bg-background-elevated/50 border border-[#E6E4DE] relative overflow-hidden rounded-[8px] shadow-[0_8px_32px_rgba(0,0,0,0.04)] group">
               <div className="relative z-10 space-y-8">
                  <div className="space-y-2">
                     <div className="flex items-center gap-2 text-profit mb-4">
                        <ShieldCheck className="w-5 h-5" />
                        <span className="text-[10px] font-mono uppercase font-bold tracking-widest">Active Membership</span>
                     </div>
-                    <h3 className="text-4xl font-display font-black uppercase tracking-tight text-text-primary">
+                    <h3 className="text-4xl font-display font-black uppercase tracking-tight text-[#181818]">
                       {profile?.subscription_tier
                         ? profile.subscription_tier.charAt(0).toUpperCase() + profile.subscription_tier.slice(1)
                         : 'Free'}
                     </h3>
-                    <p className="text-xs text-text-tertiary uppercase font-mono tracking-widest">
+                    <p className="text-xs text-[#87877F] uppercase font-mono tracking-widest">
                       {profile?.subscription_tier && profile.subscription_tier !== 'free'
                         ? 'Manage billing below'
                         : 'No active subscription'}
@@ -473,7 +471,7 @@ export default function ProfileSettingsPage() {
                  </div>
  
                  <div className="space-y-4">
-                    <button className="w-full py-4 bg-background-primary border border-border-slate/85 text-[10px] font-bold uppercase tracking-widest hover:border-accent transition-all flex items-center justify-center gap-2 rounded-lg">
+                    <button className="w-full py-4 bg-white border border-[#E6E4DE]/85 text-[10px] font-bold uppercase tracking-widest hover:border-accent transition-all flex items-center justify-center gap-2 rounded-[6px]">
                        <CreditCard className="w-4 h-4" /> Manage Subscription <ExternalLink className="w-3 h-3" />
                     </button>
                     {(() => {
@@ -485,7 +483,7 @@ export default function ProfileSettingsPage() {
                          null; // floor — no upgrade available
                        if (!nextTier) return null;
                        return (
-                         <button className="w-full py-4 bg-accent/10 border border-accent/20 text-accent text-[10px] font-bold uppercase tracking-widest hover:bg-accent/20 transition-all rounded-lg">
+                         <button className="w-full py-4 bg-accent/10 border border-accent/20 text-accent text-[10px] font-bold uppercase tracking-widest hover:bg-accent/20 transition-all rounded-[6px]">
                            Upgrade to {nextTier}
                          </button>
                        );
@@ -496,10 +494,10 @@ export default function ProfileSettingsPage() {
            </div>
  
            {/* Verified Discipline Badge */}
-           <div className="p-8 bg-background-surface border border-border-slate/50 rounded-xl space-y-6 shadow-[0_8px_32px_rgba(0,0,0,0.04)]">
-              <div className="flex items-center gap-3 border-b border-border-slate/30 pb-4">
-                 <ShieldCheck className="w-4 h-4 text-text-tertiary" />
-                 <h3 className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary">Verified Discipline</h3>
+           <div className="p-8 bg-white border border-[#E6E4DE] rounded-[8px] space-y-6 shadow-[0_8px_32px_rgba(0,0,0,0.04)]">
+              <div className="flex items-center gap-3 border-b border-[#EEECE7] pb-4">
+                 <ShieldCheck className="w-4 h-4 text-[#87877F]" />
+                 <h3 className="text-[10px] font-mono uppercase tracking-widest text-[#87877F]">Verified Discipline</h3>
               </div>
 
               <DisciplineBadge
@@ -510,7 +508,7 @@ export default function ProfileSettingsPage() {
 
               {/* Privacy & Discord opt-ins */}
               <div className="space-y-3 pt-2">
-                <p className="text-[10px] font-mono uppercase tracking-wider text-text-tertiary">Visibility Settings</p>
+                <p className="text-[10px] font-mono uppercase tracking-wider text-[#87877F]">Visibility Settings</p>
 
                 <label className="flex items-start gap-3 cursor-pointer">
                   <div className="relative flex items-center justify-center mt-0.5">
@@ -521,15 +519,15 @@ export default function ProfileSettingsPage() {
                         setShowPublicly(e.target.checked);
                         await saveBadgePreferences(e.target.checked, syncDiscord);
                       }}
-                      className="peer appearance-none w-4 h-4 border border-border-slate/80 rounded bg-background-primary checked:bg-accent checked:border-accent transition-colors"
+                      className="peer appearance-none w-4 h-4 border border-[#E6E4DE] rounded bg-white checked:bg-accent checked:border-accent transition-colors"
                     />
                     <svg className="absolute w-3 h-3 text-white opacity-0 peer-checked:opacity-100 pointer-events-none" viewBox="0 0 14 10" fill="none">
                       <path d="M1 5L4.5 8.5L13 1" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                     </svg>
                   </div>
                   <div>
-                    <p className="text-sm font-bold text-text-primary">Show badge publicly</p>
-                    <p className="text-[10px] text-text-tertiary">Your handle (not your name) may appear on the opt-in public leaderboard.</p>
+                    <p className="text-sm font-bold text-[#181818]">Show badge publicly</p>
+                    <p className="text-[10px] text-[#87877F]">Your handle (not your name) may appear on the opt-in public leaderboard.</p>
                   </div>
                 </label>
 
@@ -542,29 +540,29 @@ export default function ProfileSettingsPage() {
                         setSyncDiscord(e.target.checked);
                         await saveBadgePreferences(showPublicly, e.target.checked);
                       }}
-                      className="peer appearance-none w-4 h-4 border border-border-slate/80 rounded bg-background-primary checked:bg-accent checked:border-accent transition-colors"
+                      className="peer appearance-none w-4 h-4 border border-[#E6E4DE] rounded bg-white checked:bg-accent checked:border-accent transition-colors"
                     />
                     <svg className="absolute w-3 h-3 text-white opacity-0 peer-checked:opacity-100 pointer-events-none" viewBox="0 0 14 10" fill="none">
                       <path d="M1 5L4.5 8.5L13 1" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                     </svg>
                   </div>
                   <div>
-                    <p className="text-sm font-bold text-text-primary">Sync to Discord</p>
-                    <p className="text-[10px] text-text-tertiary">Requires Discord account linked. Grants the Verified Discipline role in the server.</p>
+                    <p className="text-sm font-bold text-[#181818]">Sync to Discord</p>
+                    <p className="text-[10px] text-[#87877F]">Requires Discord account linked. Grants the Verified Discipline role in the server.</p>
                   </div>
                 </label>
 
                 {savingBadgePrefs && (
-                  <p className="text-[10px] font-mono text-text-tertiary">Saving…</p>
+                  <p className="text-[10px] font-mono text-[#87877F]">Saving…</p>
                 )}
               </div>
            </div>
 
            {/* Role Card */}
-           <div className="p-8 bg-background-surface border border-border-slate/50 rounded-xl space-y-6 shadow-[0_8px_32px_rgba(0,0,0,0.04)]">
-              <div className="flex items-center gap-3 border-b border-border-slate/30 pb-4">
-                 <User className="w-4 h-4 text-text-tertiary" />
-                 <h3 className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary">Access Level</h3>
+           <div className="p-8 bg-white border border-[#E6E4DE] rounded-[8px] space-y-6 shadow-[0_8px_32px_rgba(0,0,0,0.04)]">
+              <div className="flex items-center gap-3 border-b border-[#EEECE7] pb-4">
+                 <User className="w-4 h-4 text-[#87877F]" />
+                 <h3 className="text-[10px] font-mono uppercase tracking-widest text-[#87877F]">Access Level</h3>
               </div>
               <div className="flex justify-between items-center">
                  <span className="text-sm font-bold uppercase text-accent">{profile?.role}</span>
@@ -579,7 +577,7 @@ export default function ProfileSettingsPage() {
            {/* Log Out */}
            <button 
              onClick={() => supabase.auth.signOut().then(() => window.location.href = "/")}
-             className="w-full py-4 border border-loss/20 bg-loss/5 text-loss text-[10px] font-bold uppercase tracking-widest hover:bg-loss hover:text-white transition-all flex items-center justify-center gap-2 rounded-lg"
+             className="w-full py-4 border border-loss/20 bg-loss/5 text-loss text-[10px] font-bold uppercase tracking-widest hover:bg-loss hover:text-white transition-all flex items-center justify-center gap-2 rounded-[6px]"
            >
               <LogOut className="w-4 h-4" /> Terminate Session
            </button>

@@ -89,14 +89,14 @@ export default async function BreakdownsPage() {
       } as React.CSSProperties}
     >
       <PageHeader
-        eyebrow="// MACRO PREP & VIDEO ANALYSIS"
+        eyebrow="Market Intelligence · Analysis"
         title="Weekly Breakdowns"
         description="Actionable market prep and weekly bias sessions to start your trading week with clarity."
       />
 
       {!hasBreakdowns ? (
-        <div className="bg-white border border-[#DEDDD8] rounded-xl p-12 text-center flex flex-col items-center justify-center shadow-[0_4px_16px_rgba(0,0,0,0.04)]">
-          <div className="w-12 h-12 bg-[#eff6ff] border border-[#bfdbfe] rounded-xl flex items-center justify-center mb-4 text-[#1d4ed8]">
+        <div className="bg-white border border-[#E6E4DE] rounded-[8px] p-12 text-center flex flex-col items-center justify-center shadow-[0_4px_16px_rgba(0,0,0,0.04)]">
+          <div className="w-12 h-12 bg-[#eff6ff] border border-[#bfdbfe] rounded-[8px] flex items-center justify-center mb-4 text-[#1d4ed8]">
             <Play className="w-5 h-5" />
           </div>
           <h2 className="text-lg font-bold text-[#1A1A1A] mb-2">First weekly breakdown dropping soon</h2>

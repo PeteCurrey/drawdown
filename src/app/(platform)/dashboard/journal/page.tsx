@@ -30,43 +30,32 @@ export default async function JournalPage({
   const isAdmin = (profile as any)?.role === "admin";
   const hasAccess = isAdmin || hasTierAccess(tier, "foundation", status);
 
-  const themeStyles = {
-    "--tool-accent": "#6366f1",
-    "--tool-accent-hover": "#4f46e5",
-    "--tool-accent-tint": "#f5f7ff",
-    "--tool-accent-border": "#c7d2fe",
-    "--tool-accent-text": "#4338ca",
-  } as React.CSSProperties;
-
   if (!hasAccess) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[60vh] space-y-8 animate-in fade-in duration-700" style={themeStyles}>
-        <div className="p-10 bg-white border border-gray-200 shadow-sm flex flex-col items-center text-center space-y-6 max-w-md w-full rounded-2xl">
-          <div className="w-14 h-14 rounded-full border flex items-center justify-center" style={{ borderColor: "var(--tool-accent-border)", backgroundColor: "var(--tool-accent-tint)" }}>
-            <Lock className="w-6 h-6" style={{ color: "var(--tool-accent)" }} />
+      <div className="flex flex-col items-center justify-center min-h-[60vh] space-y-8 animate-in fade-in duration-700">
+        <div className="p-10 bg-white border border-[#E6E4DE] shadow-[0_1px_2px_rgba(14,13,10,0.04),0_2px_8px_rgba(14,13,10,0.05)] flex flex-col items-center text-center space-y-6 max-w-md w-full rounded-[8px]">
+          <div className="w-12 h-12 rounded-full border border-[#E6E4DE] bg-[#F5F4F1] flex items-center justify-center text-[#181818]">
+            <Lock className="w-5 h-5 text-[#181818]" />
           </div>
           <div className="space-y-2">
-            <p className="text-xs font-bold uppercase tracking-widest text-gray-900">
+            <p className="text-xs font-bold uppercase tracking-widest text-[#181818]">
               Foundation Access Required
             </p>
-            <p className="text-xs text-gray-500 leading-relaxed">
+            <p className="text-xs text-[#87877F] leading-relaxed">
               The AI Trade Journal requires a Foundation plan or above. Your current plan is{" "}
-              <span className="font-bold text-gray-900 uppercase">{tier ?? "Free"}</span>.
+              <span className="font-bold text-[#181818] uppercase">{tier ?? "Free"}</span>.
             </p>
           </div>
           <div className="w-full space-y-2 pt-2">
             <Link
               href="/pricing"
-              className="w-full flex items-center justify-center px-8 py-4 text-white text-[10px] font-bold uppercase tracking-widest transition-all rounded-lg"
-              style={{ backgroundColor: "var(--tool-accent)", boxShadow: "0 4px 12px rgba(99, 102, 241, 0.15)" }}
-              onMouseEnter={e => { e.currentTarget.style.backgroundColor = "var(--tool-accent-hover)"; }}
-              onMouseLeave={e => { e.currentTarget.style.backgroundColor = "var(--tool-accent)"; }}
+              className="w-full flex items-center justify-center px-8 py-3.5 bg-[#181818] hover:bg-[#2A2A2A] text-white text-xs font-semibold uppercase tracking-wider transition-all rounded-[6px]"
             >
               Upgrade to Foundation
             </Link>
             <Link
               href="/dashboard"
-              className="w-full flex items-center justify-center px-8 py-3 border border-gray-200 text-[10px] font-mono uppercase tracking-widest text-gray-500 hover:text-gray-900 transition-all rounded-lg"
+              className="w-full flex items-center justify-center px-8 py-3 border border-[#E6E4DE] hover:border-[#181818] text-xs font-semibold uppercase tracking-wider text-[#87877F] hover:text-[#181818] transition-all rounded-[6px]"
             >
               Back to Dashboard
             </Link>
@@ -79,7 +68,7 @@ export default async function JournalPage({
   const { view } = await searchParams;
 
   return (
-    <div style={themeStyles}>
+    <div>
       <JournalClient initialView={(view as any) ?? "calendar"} userId={user.id} />
     </div>
   );

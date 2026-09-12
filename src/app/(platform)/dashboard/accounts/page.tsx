@@ -96,14 +96,14 @@ export default function AccountsPage() {
             <button 
               onClick={() => setIsImportModalOpen(true)}
               disabled={accounts.length === 0}
-              className="flex items-center gap-2 px-3.5 py-2 border border-[#E8E6E1] bg-white text-[#1A1A1A] font-medium text-xs hover:border-[#1A1A1A] transition-all disabled:opacity-50 rounded-md shadow-xs"
+              className="flex items-center gap-2 px-3.5 py-2 border border-[#E6E4DE] bg-white text-[#181818] font-medium text-xs hover:border-[#1A1A1A] transition-all disabled:opacity-50 rounded-[6px] shadow-xs"
             >
-              <Upload className="w-3.5 h-3.5 text-[#888882]" />
+              <Upload className="w-3.5 h-3.5 text-[#87877F]" />
               Import Trades
             </button>
             <button 
               onClick={() => setIsAddModalOpen(true)}
-              className="flex items-center gap-2 px-4 py-2 bg-[#1A1A1A] hover:bg-[#2A2A2A] text-white font-semibold text-xs transition-all rounded-md shadow-xs"
+              className="flex items-center gap-2 px-4 py-2 bg-[#181818] hover:bg-[#2A2A2A] text-white font-semibold text-xs transition-all rounded-[6px] shadow-xs"
             >
               <Plus className="w-3.5 h-3.5 text-[#F9771D]" />
               Add Account
@@ -128,25 +128,25 @@ export default function AccountsPage() {
       {isLoading ? (
         <div className="py-20 flex flex-col items-center justify-center space-y-3">
           <Loader2 className="w-8 h-8 text-[#F9771D] animate-spin" />
-          <p className="text-xs font-medium text-[#888882]">Loading portfolio allocations...</p>
+          <p className="text-xs font-medium text-[#87877F]">Loading portfolio allocations...</p>
         </div>
       ) : (
 
         <>
           <PortfolioSummary summary={summary} />
 
-          <div className="flex items-center justify-between py-6 border-b border-border-slate">
-            <h2 className="text-xs font-mono uppercase tracking-[0.3em] text-text-tertiary">Active Allocations</h2>
-            <div className="flex bg-background-elevated p-1 border border-border-slate">
+          <div className="flex items-center justify-between py-6 border-b border-[#E6E4DE]">
+            <h2 className="text-xs font-mono uppercase tracking-[0.3em] text-[#87877F]">Active Allocations</h2>
+            <div className="flex bg-[#F3F2EE] p-1 border border-[#E6E4DE]">
               <button 
                 onClick={() => setViewMode("grid")}
-                className={cn("p-2 transition-colors", viewMode === "grid" ? "bg-accent text-background-primary" : "text-text-tertiary hover:text-text-primary")}
+                className={cn("p-2 transition-colors", viewMode === "grid" ? "bg-[#181818] text-white" : "text-[#87877F] hover:text-[#181818]")}
               >
                 <LayoutGrid className="w-4 h-4" />
               </button>
               <button 
                 onClick={() => setViewMode("list")}
-                className={cn("p-2 transition-colors", viewMode === "list" ? "bg-accent text-background-primary" : "text-text-tertiary hover:text-text-primary")}
+                className={cn("p-2 transition-colors", viewMode === "list" ? "bg-[#181818] text-white" : "text-[#87877F] hover:text-[#181818]")}
               >
                 <List className="w-4 h-4" />
               </button>
@@ -154,17 +154,17 @@ export default function AccountsPage() {
           </div>
 
           {accounts.length === 0 ? (
-             <div className="py-24 border-2 border-dashed border-border-slate flex flex-col items-center justify-center text-center px-6">
-                <div className="w-16 h-16 bg-background-elevated flex items-center justify-center mb-6">
-                   <ShieldAlert className="w-8 h-8 text-text-tertiary" />
+             <div className="py-24 border-2 border-dashed border-[#E6E4DE] flex flex-col items-center justify-center text-center px-6">
+                <div className="w-16 h-16 bg-[#F3F2EE] flex items-center justify-center mb-6">
+                   <ShieldAlert className="w-8 h-8 text-[#87877F]" />
                 </div>
                 <h3 className="text-xl font-display font-bold uppercase mb-2">No Accounts Connected</h3>
-                <p className="text-sm text-text-secondary max-w-sm mb-8">
+                <p className="text-sm text-[#474744] max-w-sm mb-8">
                    You haven&apos;t added any funded or challenge accounts yet. Connect your first firm to begin institutional risk monitoring.
                 </p>
                 <button 
                   onClick={() => setIsAddModalOpen(true)}
-                  className="px-8 py-4 bg-accent text-background-primary font-bold uppercase tracking-widest text-[10px] hover:invert transition-all"
+                  className="px-8 py-4 bg-[#181818] text-white font-bold uppercase tracking-widest text-[10px] hover:invert transition-all"
                 >
                    Connect First Account
                 </button>
@@ -180,12 +180,12 @@ export default function AccountsPage() {
 
               <button 
                 onClick={() => setIsAddModalOpen(true)}
-                className="border-2 border-dashed border-border-slate p-12 flex flex-col items-center justify-center text-center group hover:border-accent/40 transition-all"
+                className="border-2 border-dashed border-[#E6E4DE] p-12 flex flex-col items-center justify-center text-center group hover:border-accent/40 transition-all"
               >
-                <div className="w-12 h-12 rounded-full bg-background-elevated flex items-center justify-center mb-4 group-hover:bg-accent/10 transition-colors">
-                  <Plus className="w-6 h-6 text-text-tertiary group-hover:text-accent" />
+                <div className="w-12 h-12 rounded-full bg-[#F3F2EE] flex items-center justify-center mb-4 group-hover:bg-accent/10 transition-colors">
+                  <Plus className="w-6 h-6 text-[#87877F] group-hover:text-accent" />
                 </div>
-                <span className="text-xs font-mono uppercase tracking-widest text-text-tertiary group-hover:text-text-primary">Connect New Account</span>
+                <span className="text-xs font-mono uppercase tracking-widest text-[#87877F] group-hover:text-[#181818]">Connect New Account</span>
               </button>
             </div>
           )}

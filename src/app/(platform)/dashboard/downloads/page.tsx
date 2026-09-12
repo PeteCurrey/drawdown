@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { BookOpen, Download, Lock, Check, Star, ArrowRight } from "lucide-react";
+import { PageHeader } from "@/components/dashboard/ui/PageHeader";
 
 export const metadata: Metadata = {
   title: "Downloads — Drawdown Dashboard",
@@ -112,28 +113,19 @@ export default async function DownloadsPage() {
         "--tool-accent-text": "#555550",
       } as React.CSSProperties}
     >
-      {/* Page Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-[#DEDDD8]">
-        <div className="space-y-1">
-          <span className="text-[10px] font-mono font-bold uppercase tracking-[0.2em] block text-[#555550]">
-            // KNOWLEDGE VAULT
-          </span>
-          <h1 className="text-2xl md:text-3xl font-display font-bold uppercase tracking-tight text-[#1A1A1A]">
-            Your Downloads
-          </h1>
-          <p className="text-xs md:text-sm text-[#555550] max-w-2xl leading-relaxed">
-            Your personal PDF library. Purchase any title to unlock instant access — download to keep forever.
-          </p>
-        </div>
-        <div className="flex items-center gap-3 shrink-0">
-          <div className="flex items-center gap-2 px-4 py-2 bg-[#F8F8F8] border border-[#DEDDD8] rounded-xl">
-            <BookOpen className="w-3.5 h-3.5 text-[#555550]" />
-            <span className="text-[11px] font-mono font-bold uppercase tracking-widest text-[#1A1A1A]">
+      <PageHeader
+        eyebrow="Resources · Downloads"
+        title="Your Downloads"
+        description="Your personal PDF library. Purchase any title to unlock instant access — download to keep forever."
+        badge={
+          <div className="flex items-center gap-2 px-3 py-1.5 bg-[#F5F4F1] border border-[#E6E4DE] rounded-[6px]">
+            <BookOpen className="w-3.5 h-3.5 text-[#87877F]" />
+            <span className="text-xs font-semibold text-[#181818] dd-tabular">
               {ownedCount} / {EBOOKS.length} Owned
             </span>
           </div>
-        </div>
-      </div>
+        }
+      />
 
       {/* Ebook Cards Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -144,7 +136,7 @@ export default async function DownloadsPage() {
           return (
             <div
               key={ebook.id}
-              className="bg-white border border-[#DEDDD8] rounded-2xl overflow-hidden shadow-[0_2px_12px_rgba(0,0,0,0.06)] flex flex-col transition-shadow hover:shadow-[0_4px_24px_rgba(0,0,0,0.1)]"
+              className="bg-white border border-[#E6E4DE] rounded-[8px] overflow-hidden shadow-[0_1px_2px_rgba(14,13,10,0.04),0_2px_8px_rgba(14,13,10,0.05)] flex flex-col transition-shadow hover:shadow-[0_4px_24px_rgba(0,0,0,0.1)]"
             >
               {/* Card Header — accent color block */}
               <div
@@ -184,12 +176,12 @@ export default async function DownloadsPage() {
 
               {/* Card Body */}
               <div className="p-6 flex flex-col flex-1 gap-4">
-                <p className="text-xs text-[#555550] leading-relaxed">{ebook.description}</p>
+                <p className="text-xs text-[#87877F] leading-relaxed">{ebook.description}</p>
 
                 {/* Tags */}
                 <div className="flex flex-wrap gap-1.5">
                   {ebook.tags.map(tag => (
-                    <span key={tag} className="px-2.5 py-1 bg-[#F8F8F8] border border-[#DEDDD8] text-[10px] font-mono font-bold uppercase tracking-widest text-[#555550] rounded-lg">
+                    <span key={tag} className="px-2.5 py-1 bg-[#F5F4F1] border border-[#E6E4DE] text-[10px] font-mono font-bold uppercase tracking-widest text-[#87877F] rounded-lg">
                       {tag}
                     </span>
                   ))}
@@ -197,14 +189,14 @@ export default async function DownloadsPage() {
 
                 {/* Chapter list (owned only) */}
                 {isOwned && (
-                  <div className="space-y-1.5 border-t border-[#DEDDD8] pt-4">
+                  <div className="space-y-1.5 border-t border-[#E6E4DE] pt-4">
                     <p className="text-[9px] font-mono font-bold uppercase tracking-[0.2em] text-[#AAAAAA] mb-2">Contents</p>
                     {ebook.chapters.map((ch, i) => (
                       <div key={i} className="flex items-center gap-2">
                         <span className="w-4 h-4 rounded-full flex items-center justify-center bg-[#F0F9F0] shrink-0">
                           <Check className="w-2.5 h-2.5 text-green-600" />
                         </span>
-                        <span className="text-xs text-[#555550]">{ch}</span>
+                        <span className="text-xs text-[#87877F]">{ch}</span>
                       </div>
                     ))}
                   </div>
@@ -219,13 +211,13 @@ export default async function DownloadsPage() {
                           href={signedUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex items-center justify-center gap-2 w-full px-4 py-3 bg-[#181818] hover:bg-[#2a2a2a] transition-colors text-white text-[11px] font-mono font-bold uppercase tracking-widest rounded-xl"
+                          className="flex items-center justify-center gap-2 w-full px-4 py-3 bg-[#181818] hover:bg-[#2a2a2a] transition-colors text-white text-[11px] font-mono font-bold uppercase tracking-widest rounded-[6px]"
                         >
                           <Download className="w-3.5 h-3.5" />
                           Download PDF
                         </a>
                       ) : (
-                        <div className="text-center py-3 text-xs text-[#555550]">
+                        <div className="text-center py-3 text-xs text-[#87877F]">
                           Download link unavailable — <a href="mailto:pete@drawdown.trading" className="underline">contact support</a>
                         </div>
                       )}
@@ -233,7 +225,7 @@ export default async function DownloadsPage() {
                   ) : (
                     <Link
                       href={ebook.storePath}
-                      className="flex items-center justify-center gap-2 w-full px-4 py-3 bg-[#F8F8F8] hover:bg-[#F0F0F0] border border-[#DEDDD8] hover:border-[#1A1A1A] transition-all text-[#1A1A1A] text-[11px] font-mono font-bold uppercase tracking-widest rounded-xl group"
+                      className="flex items-center justify-center gap-2 w-full px-4 py-3 bg-[#F5F4F1] hover:bg-[#F0F0F0] border border-[#E6E4DE] hover:border-[#1A1A1A] transition-all text-[#181818] text-[11px] font-mono font-bold uppercase tracking-widest rounded-[6px] group"
                     >
                       Unlock for {ebook.price}
                       <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
@@ -248,23 +240,23 @@ export default async function DownloadsPage() {
 
       {/* Upsell Strip */}
       {ownedCount < EBOOKS.length && (
-        <div className="bg-[#F8F8F8] border border-[#DEDDD8] rounded-2xl p-8 flex flex-col md:flex-row items-center justify-between gap-6">
+        <div className="bg-[#F5F4F1] border border-[#E6E4DE] rounded-[8px] p-8 flex flex-col md:flex-row items-center justify-between gap-6">
           <div>
             <div className="flex items-center gap-2 mb-2">
               <Star className="w-4 h-4 text-[#F9771D]" />
-              <span className="text-[10px] font-mono font-bold uppercase tracking-[0.2em] text-[#555550]">Complete the Library</span>
+              <span className="text-[10px] font-mono font-bold uppercase tracking-[0.2em] text-[#87877F]">Complete the Library</span>
             </div>
-            <p className="text-lg font-display font-bold uppercase text-[#1A1A1A]">
+            <p className="text-lg font-display font-bold uppercase text-[#181818]">
               You're {EBOOKS.length - ownedCount} guide{EBOOKS.length - ownedCount > 1 ? 's' : ''} away from the full Drawdown library
             </p>
-            <p className="text-sm text-[#555550] mt-1">Every guide is written by Pete and designed to be read, re-read, and applied to every session.</p>
+            <p className="text-sm text-[#87877F] mt-1">Every guide is written by Pete and designed to be read, re-read, and applied to every session.</p>
           </div>
           <div className="flex flex-col sm:flex-row gap-3 shrink-0">
             {EBOOKS.filter(e => !ownedSlugs.has(e.slug)).map(e => (
               <Link
                 key={e.id}
                 href={e.storePath}
-                className="px-5 py-2.5 bg-[#181818] hover:bg-[#2a2a2a] transition-colors text-white text-[11px] font-mono font-bold uppercase tracking-widest rounded-xl"
+                className="px-5 py-2.5 bg-[#181818] hover:bg-[#2a2a2a] transition-colors text-white text-[11px] font-mono font-bold uppercase tracking-widest rounded-[6px]"
               >
                 Get {e.title}
               </Link>
@@ -275,12 +267,12 @@ export default async function DownloadsPage() {
 
       {/* Fully owned state */}
       {ownedCount === EBOOKS.length && (
-        <div className="bg-[#F8F8F8] border border-[#DEDDD8] rounded-2xl p-8 text-center">
+        <div className="bg-[#F5F4F1] border border-[#E6E4DE] rounded-[8px] p-8 text-center">
           <div className="flex items-center justify-center gap-2 mb-3">
             <Check className="w-5 h-5 text-green-600" />
-            <span className="text-sm font-bold uppercase tracking-widest text-[#1A1A1A]">Complete Library Owned</span>
+            <span className="text-sm font-bold uppercase tracking-widest text-[#181818]">Complete Library Owned</span>
           </div>
-          <p className="text-sm text-[#555550]">You own all 3 guides. New titles will appear here as they're released.</p>
+          <p className="text-sm text-[#87877F]">You own all 3 guides. New titles will appear here as they're released.</p>
         </div>
       )}
     </div>

@@ -14,6 +14,8 @@ export async function POST(request: Request) {
     const { 
       firstName, 
       lastName, 
+      primary_objective,
+      primary_market,
       experience_level, 
       country, 
       currency, 
@@ -28,7 +30,7 @@ export async function POST(request: Request) {
     // Fetch existing profile to get email_preferences
     const { data: profile } = await adminClient
       .from("profiles")
-      .select("email_preferences")
+      .select("email_preferences, full_name, display_name")
       .eq("id", user.id)
       .single();
 
@@ -36,28 +38,37 @@ export async function POST(request: Request) {
     const updatedPrefs = {
       ...existingPrefs,
       onboarding: {
-        experience_level,
-        preferred_markets,
-        trading_style,
-        trading_capital,
-        trading_goals,
+        ...(existingPrefs.onboarding || {}),
+        primary_objective: primary_objective || trading_goals || null,
+        primary_market: primary_market || (preferred_markets && preferred_markets[0]) || null,
+        experience_level: experience_level || null,
+        preferred_markets: preferred_markets || (primary_market ? [primary_market] : []),
+        trading_style: trading_style || null,
+        trading_capital: trading_capital || null,
+        trading_goals: trading_goals || primary_objective || null,
         has_onboarded: true,
+        activation_completed: true,
         completed_at: new Date().toISOString()
       }
     };
 
-    const fullName = `${firstName || ""} ${lastName || ""}`.trim();
+    const fullName = `${firstName || ""} ${lastName || ""}`.trim() || profile?.full_name || profile?.display_name;
     
+    const updatePayload: Record<string, any> = {
+      email_preferences: updatedPrefs,
+      updated_at: new Date().toISOString()
+    };
+
+    if (fullName) {
+      updatePayload.display_name = fullName;
+      updatePayload.full_name = fullName;
+    }
+    if (country) updatePayload.country = country;
+    if (currency) updatePayload.currency = currency;
+
     const { error: updateError } = await adminClient
       .from("profiles")
-      .update({
-        display_name: fullName || null,
-        full_name: fullName || null,
-        country,
-        currency,
-        email_preferences: updatedPrefs,
-        updated_at: new Date().toISOString()
-      })
+      .update(updatePayload)
       .eq("id", user.id);
 
     if (updateError) {

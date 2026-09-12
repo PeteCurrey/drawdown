@@ -197,7 +197,7 @@ export function WeeklyReviewClient() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-[40vh] text-text-tertiary font-mono">
+      <div className="flex items-center justify-center min-h-[40vh] text-[#87877F] font-mono">
         // COMPILING WEEK DATA...
       </div>
     );
@@ -205,37 +205,37 @@ export function WeeklyReviewClient() {
 
   if (saved) {
     return (
-      <div className="max-w-xl mx-auto p-8 border border-border-slate/50 bg-background-elevated/40 rounded-xl space-y-6 text-center">
-        <div className="w-16 h-16 rounded-full bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-500 mx-auto">
+      <div className="max-w-xl mx-auto p-8 border border border-[#E6E4DE] bg-white rounded-[8px] shadow-[0_1px_2px_rgba(14,13,10,0.04),0_2px_8px_rgba(14,13,10,0.05)] space-y-6 text-center">
+        <div className="w-16 h-16 rounded-full bg-[#F0FDF8] border border-[rgba(24,184,128,0.25)] flex items-center justify-center text-[#18B880] mx-auto">
           <RefreshCw className="w-8 h-8" />
         </div>
         <div className="space-y-2">
-          <h2 className="text-xl font-bold uppercase text-text-primary">Week Closed</h2>
-          <p className="text-xs text-text-tertiary">
+          <h2 className="text-xl font-bold uppercase text-[#181818]">Week Closed</h2>
+          <p className="text-xs text-[#87877F]">
             {formatWeekRange()} review saved. The loop resets Monday.
           </p>
-          <div className="text-4xl font-bold font-mono text-emerald-500 py-2">{processScore}</div>
-          <p className="text-xs text-text-tertiary">Process Consistency Score</p>
+          <div className="text-4xl font-bold font-mono text-[#18B880] py-2">{processScore}</div>
+          <p className="text-xs text-[#87877F]">Process Consistency Score</p>
         </div>
         <div className="grid grid-cols-3 gap-3 pt-4 text-xs">
-          <div className="p-3 bg-background-primary border border-border-slate/30 rounded-lg text-center">
-            <div className="font-bold text-text-primary">{weekStats.tradeCount}</div>
-            <div className="text-text-tertiary text-[10px]">Trades</div>
+          <div className="p-3 bg-white border border-[#E6E4DE] rounded-[6px] text-center">
+            <div className="font-bold text-[#181818]">{weekStats.tradeCount}</div>
+            <div className="text-[#87877F] text-[10px]">Trades</div>
           </div>
-          <div className="p-3 bg-background-primary border border-border-slate/30 rounded-lg text-center">
-            <div className={cn("font-bold", weekStats.netResult >= 0 ? "text-emerald-400" : "text-rose-400")}>
+          <div className="p-3 bg-white border border-[#E6E4DE] rounded-[6px] text-center">
+            <div className={cn("font-bold", weekStats.netResult >= 0 ? "text-[#18B880]" : "text-rose-400")}>
               {weekStats.netResult >= 0 ? "+" : ""}£{Math.abs(weekStats.netResult).toFixed(0)}
             </div>
-            <div className="text-text-tertiary text-[10px]">P&L</div>
+            <div className="text-[#87877F] text-[10px]">P&L</div>
           </div>
-          <div className="p-3 bg-background-primary border border-border-slate/30 rounded-lg text-center">
-            <div className="font-bold text-text-primary">{weekStats.closedCommitments}</div>
-            <div className="text-text-tertiary text-[10px]">Commitments Closed</div>
+          <div className="p-3 bg-white border border-[#E6E4DE] rounded-[6px] text-center">
+            <div className="font-bold text-[#181818]">{weekStats.closedCommitments}</div>
+            <div className="text-[#87877F] text-[10px]">Commitments Closed</div>
           </div>
         </div>
         <Link
           href="/dashboard/prepare"
-          className="w-full bg-emerald-500 text-background-primary text-xs font-bold uppercase py-4 rounded-lg hover:bg-emerald-400 transition-colors flex items-center justify-center gap-2 mt-4"
+          className="w-full bg-[#181818] text-white text-xs font-bold uppercase py-4 rounded-[6px] hover:bg-[#2A2A2A] transition-colors flex items-center justify-center gap-2 mt-4"
         >
           Start Next Week <ArrowRight className="w-4 h-4" />
         </Link>
@@ -247,73 +247,73 @@ export function WeeklyReviewClient() {
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
       {/* Left — week stats */}
       <div className="space-y-4">
-        <div className="p-5 bg-background-elevated/30 border border-border-slate/50 rounded-xl">
+        <div className="p-5 bg-[#F3F2EE]/30 border border-[#E6E4DE] rounded-[8px]">
           <div className="flex items-center gap-2 mb-4">
-            <Calendar className="w-4 h-4 text-text-tertiary" />
-            <span className="text-xs font-mono font-bold uppercase text-text-tertiary">This Week</span>
+            <Calendar className="w-4 h-4 text-[#87877F]" />
+            <span className="text-xs font-mono font-bold uppercase text-[#87877F]">This Week</span>
           </div>
-          <div className="text-xs text-text-tertiary mb-4">{formatWeekRange()}</div>
+          <div className="text-xs text-[#87877F] mb-4">{formatWeekRange()}</div>
 
           <div className="space-y-3 text-xs">
-            <div className="flex justify-between py-2 border-b border-border-slate/20">
-              <span className="text-text-tertiary">Trades Taken</span>
-              <span className="font-mono font-bold text-text-primary">{weekStats.tradeCount}</span>
+            <div className="flex justify-between py-2 border-b border-[#EEECE7]">
+              <span className="text-[#87877F]">Trades Taken</span>
+              <span className="font-mono font-bold text-[#181818]">{weekStats.tradeCount}</span>
             </div>
-            <div className="flex justify-between py-2 border-b border-border-slate/20">
-              <span className="text-text-tertiary">Avg Process Score</span>
+            <div className="flex justify-between py-2 border-b border-[#EEECE7]">
+              <span className="text-[#87877F]">Avg Process Score</span>
               <span className={cn("font-mono font-bold",
-                weekStats.avgProcessScore >= 80 ? "text-emerald-400" : weekStats.avgProcessScore >= 60 ? "text-amber-400" : "text-rose-400"
+                weekStats.avgProcessScore >= 80 ? "text-[#18B880]" : weekStats.avgProcessScore >= 60 ? "text-amber-400" : "text-rose-400"
               )}>
                 {weekStats.avgProcessScore || "—"}
               </span>
             </div>
-            <div className="flex justify-between py-2 border-b border-border-slate/20">
-              <span className="text-text-tertiary">Rule Deviations</span>
+            <div className="flex justify-between py-2 border-b border-[#EEECE7]">
+              <span className="text-[#87877F]">Rule Deviations</span>
               <span className={cn("font-mono font-bold",
-                weekStats.ruleDeviations === 0 ? "text-emerald-400" : weekStats.ruleDeviations <= 2 ? "text-amber-400" : "text-rose-400"
+                weekStats.ruleDeviations === 0 ? "text-[#18B880]" : weekStats.ruleDeviations <= 2 ? "text-amber-400" : "text-rose-400"
               )}>
                 {weekStats.ruleDeviations}
               </span>
             </div>
-            <div className="flex justify-between py-2 border-b border-border-slate/20">
-              <span className="text-text-tertiary">Net P&L</span>
+            <div className="flex justify-between py-2 border-b border-[#EEECE7]">
+              <span className="text-[#87877F]">Net P&L</span>
               <span className={cn("font-mono font-bold",
-                weekStats.netResult > 0 ? "text-emerald-400" : weekStats.netResult < 0 ? "text-rose-400" : "text-text-tertiary"
+                weekStats.netResult > 0 ? "text-[#18B880]" : weekStats.netResult < 0 ? "text-rose-400" : "text-[#87877F]"
               )}>
                 {weekStats.netResult >= 0 ? "+" : ""}£{Math.abs(weekStats.netResult).toFixed(2)}
               </span>
             </div>
-            <div className="flex justify-between py-2 border-b border-border-slate/20">
-              <span className="text-text-tertiary">Avg R</span>
-              <span className="font-mono font-bold text-text-primary">
+            <div className="flex justify-between py-2 border-b border-[#EEECE7]">
+              <span className="text-[#87877F]">Avg R</span>
+              <span className="font-mono font-bold text-[#181818]">
                 {weekStats.avgR !== 0 ? `${weekStats.avgR.toFixed(2)}R` : "—"}
               </span>
             </div>
             <div className="flex justify-between py-2">
-              <span className="text-text-tertiary">Commitments Closed</span>
-              <span className="font-mono font-bold text-emerald-400">{weekStats.closedCommitments}</span>
+              <span className="text-[#87877F]">Commitments Closed</span>
+              <span className="font-mono font-bold text-[#18B880]">{weekStats.closedCommitments}</span>
             </div>
           </div>
         </div>
 
         {/* Streak / recent reviews */}
         {recentReviews.length > 0 && (
-          <div className="p-5 bg-background-elevated/30 border border-border-slate/50 rounded-xl">
-            <h3 className="text-xs font-mono font-bold uppercase text-text-tertiary mb-3">Recent Weeks</h3>
+          <div className="p-5 bg-[#F3F2EE]/30 border border-[#E6E4DE] rounded-[8px]">
+            <h3 className="text-xs font-mono font-bold uppercase text-[#87877F] mb-3">Recent Weeks</h3>
             <div className="space-y-2">
               {recentReviews.map(r => (
                 <div key={r.id} className="flex justify-between items-center text-xs py-1">
-                  <span className="text-text-tertiary">
+                  <span className="text-[#87877F]">
                     {new Date(r.week_start).toLocaleDateString("en-GB", { day: "numeric", month: "short" })}
                   </span>
                   <div className="flex items-center gap-3">
                     <span className={cn("font-mono font-bold",
-                      r.process_consistency_score >= 80 ? "text-emerald-400" : r.process_consistency_score >= 60 ? "text-amber-400" : "text-rose-400"
+                      r.process_consistency_score >= 80 ? "text-[#18B880]" : r.process_consistency_score >= 60 ? "text-amber-400" : "text-rose-400"
                     )}>
                       {r.process_consistency_score}
                     </span>
                     <span className={cn("text-[10px]",
-                      r.net_result > 0 ? "text-emerald-400" : r.net_result < 0 ? "text-rose-400" : "text-text-tertiary"
+                      r.net_result > 0 ? "text-[#18B880]" : r.net_result < 0 ? "text-rose-400" : "text-[#87877F]"
                     )}>
                       {r.net_result >= 0 ? "+" : ""}£{Math.abs(r.net_result || 0).toFixed(0)}
                     </span>
@@ -326,10 +326,10 @@ export function WeeklyReviewClient() {
       </div>
 
       {/* Right — Review form */}
-      <div className="lg:col-span-2 p-6 bg-background-elevated/40 border border-border-slate/50 rounded-xl space-y-6">
+      <div className="lg:col-span-2 p-6 bg-white border border-[#E6E4DE] rounded-[8px] shadow-[0_1px_2px_rgba(14,13,10,0.04),0_2px_8px_rgba(14,13,10,0.05)] space-y-6">
         <div>
-          <h2 className="text-lg font-bold uppercase text-text-primary">Weekly Process Review</h2>
-          <p className="text-xs text-text-tertiary mt-1">
+          <h2 className="text-lg font-bold uppercase text-[#181818]">Weekly Process Review</h2>
+          <p className="text-xs text-[#87877F] mt-1">
             Close the loop. Document what you executed well, what you'll improve, and whether you'll trade next week.
           </p>
         </div>
@@ -337,15 +337,15 @@ export function WeeklyReviewClient() {
         {/* Process consistency score */}
         <div className="space-y-2">
           <div className="flex justify-between text-xs">
-            <span className="font-bold text-text-secondary">Process Consistency Score</span>
-            <span className={cn("font-mono font-bold", processScore >= 80 ? "text-emerald-500" : processScore >= 60 ? "text-amber-500" : "text-rose-500")}>
+            <span className="font-bold text-[#474744]">Process Consistency Score</span>
+            <span className={cn("font-mono font-bold", processScore >= 80 ? "text-[#18B880]" : processScore >= 60 ? "text-amber-500" : "text-rose-500")}>
               {processScore} / 100
             </span>
           </div>
           <input type="range" min="0" max="100" value={processScore}
             onChange={e => setProcessScore(parseInt(e.target.value))}
-            className="w-full accent-emerald-500" />
-          <p className="text-[10px] text-text-tertiary">
+            className="w-full accent-[#F9771D]" />
+          <p className="text-[10px] text-[#87877F]">
             {weekStats.avgProcessScore > 0
               ? `Auto-computed from ${weekStats.tradeCount} trade review(s) this week. Adjust if needed.`
               : "No reviewed trades this week. Score manually."}
@@ -353,17 +353,17 @@ export function WeeklyReviewClient() {
         </div>
 
         {/* Key wins */}
-        <div className="space-y-3 pt-4 border-t border-border-slate/20">
-          <label className="text-[10px] uppercase tracking-wider font-mono text-text-tertiary block">Key Process Wins</label>
+        <div className="space-y-3 pt-4 border-t border-[#EEECE7]">
+          <label className="text-[10px] uppercase tracking-wider font-mono text-[#87877F] block">Key Process Wins</label>
           <div className="flex gap-2">
             <input type="text" value={newWin} onChange={e => setNewWin(e.target.value)}
               placeholder="e.g. Waited for confirmation before entry..."
               onKeyDown={e => e.key === "Enter" && addWin()}
-              className="flex-1 bg-background-primary border border-border-slate/50 rounded-lg p-3 text-xs text-text-primary focus:outline-none" />
-            <button onClick={addWin} className="px-3 text-xs border border-border-slate/50 rounded-lg hover:bg-background-elevated transition-colors">Add</button>
+              className="flex-1 bg-white border border-[#E6E4DE] rounded-[6px] p-3 text-xs text-[#181818] focus:outline-none" />
+            <button onClick={addWin} className="px-3 text-xs border border-[#E6E4DE] rounded-[6px] hover:bg-[#F3F2EE] transition-colors">Add</button>
           </div>
           {keyWins.map((w, i) => (
-            <div key={i} className="text-xs text-emerald-400 bg-emerald-500/5 border border-emerald-500/20 px-3 py-2 rounded flex items-center gap-2">
+            <div key={i} className="text-xs text-[#18B880] bg-[#181818]/5 border border-emerald-500/20 px-3 py-2 rounded flex items-center gap-2">
               <ShieldCheck className="w-3 h-3 shrink-0" /> {w}
             </div>
           ))}
@@ -371,13 +371,13 @@ export function WeeklyReviewClient() {
 
         {/* Key learnings */}
         <div className="space-y-3">
-          <label className="text-[10px] uppercase tracking-wider font-mono text-text-tertiary block">Key Learnings</label>
+          <label className="text-[10px] uppercase tracking-wider font-mono text-[#87877F] block">Key Learnings</label>
           <div className="flex gap-2">
             <input type="text" value={newLearning} onChange={e => setNewLearning(e.target.value)}
               placeholder="e.g. Friday session showed thin liquidity — stay out..."
               onKeyDown={e => e.key === "Enter" && addLearning()}
-              className="flex-1 bg-background-primary border border-border-slate/50 rounded-lg p-3 text-xs text-text-primary focus:outline-none" />
-            <button onClick={addLearning} className="px-3 text-xs border border-border-slate/50 rounded-lg hover:bg-background-elevated transition-colors">Add</button>
+              className="flex-1 bg-white border border-[#E6E4DE] rounded-[6px] p-3 text-xs text-[#181818] focus:outline-none" />
+            <button onClick={addLearning} className="px-3 text-xs border border-[#E6E4DE] rounded-[6px] hover:bg-[#F3F2EE] transition-colors">Add</button>
           </div>
           {keyLearnings.map((l, i) => (
             <div key={i} className="text-xs text-amber-400 bg-amber-500/5 border border-amber-500/20 px-3 py-2 rounded flex items-center gap-2">
@@ -388,21 +388,21 @@ export function WeeklyReviewClient() {
 
         {/* Next week plan */}
         <div className="space-y-2">
-          <label className="text-[10px] uppercase tracking-wider font-mono text-text-tertiary block">Plan for Next Week</label>
+          <label className="text-[10px] uppercase tracking-wider font-mono text-[#87877F] block">Plan for Next Week</label>
           <textarea rows={3} value={planNextWeek} onChange={e => setPlanNextWeek(e.target.value)}
             placeholder="Market focus, sessions, risk budget, key setups to watch..."
-            className="w-full bg-background-primary border border-border-slate/50 rounded-lg p-3 text-xs text-text-primary focus:outline-none" />
+            className="w-full bg-white border border-[#E6E4DE] rounded-[6px] p-3 text-xs text-[#181818] focus:outline-none" />
         </div>
 
         {/* Trade next week decision */}
-        <div className="p-4 bg-background-primary/40 border border-border-slate/30 rounded-xl space-y-3">
-          <label className="text-[10px] uppercase tracking-wider font-mono text-text-tertiary block">Will you trade next week?</label>
+        <div className="p-4 bg-white/40 border border-[#E6E4DE] rounded-[8px] space-y-3">
+          <label className="text-[10px] uppercase tracking-wider font-mono text-[#87877F] block">Will you trade next week?</label>
           <div className="flex gap-3">
             <button
               onClick={() => setWillTrade(true)}
               className={cn(
-                "flex-1 py-3 text-xs font-bold rounded-lg border uppercase transition-colors",
-                willTrade ? "border-emerald-500/50 bg-emerald-500/10 text-emerald-400" : "border-border-slate/30 text-text-tertiary"
+                "flex-1 py-3 text-xs font-bold rounded-[6px] border uppercase transition-colors",
+                willTrade ? "border-emerald-500/50 bg-[#181818]/10 text-[#18B880]" : "border-[#E6E4DE] text-[#87877F]"
               )}
             >
               Yes — Trade
@@ -410,8 +410,8 @@ export function WeeklyReviewClient() {
             <button
               onClick={() => setWillTrade(false)}
               className={cn(
-                "flex-1 py-3 text-xs font-bold rounded-lg border uppercase transition-colors",
-                !willTrade ? "border-amber-500/50 bg-amber-500/10 text-amber-400" : "border-border-slate/30 text-text-tertiary"
+                "flex-1 py-3 text-xs font-bold rounded-[6px] border uppercase transition-colors",
+                !willTrade ? "border-amber-500/50 bg-amber-500/10 text-amber-400" : "border-[#E6E4DE] text-[#87877F]"
               )}
             >
               Skip Week
@@ -420,14 +420,14 @@ export function WeeklyReviewClient() {
           {!willTrade && (
             <input type="text" value={skipReason} onChange={e => setSkipReason(e.target.value)}
               placeholder="Reason for skipping (holiday, news week, drawdown limit reached...)"
-              className="w-full bg-background-primary border border-border-slate/50 rounded-lg p-3 text-xs text-text-primary focus:outline-none" />
+              className="w-full bg-white border border-[#E6E4DE] rounded-[6px] p-3 text-xs text-[#181818] focus:outline-none" />
           )}
         </div>
 
         <button
           onClick={handleSave}
           disabled={saving}
-          className="w-full bg-emerald-500 text-background-primary font-bold uppercase tracking-wider text-xs py-4 rounded-lg hover:bg-emerald-400 transition-colors disabled:opacity-50"
+          className="w-full bg-[#181818] text-white font-semibold uppercase tracking-wider text-xs py-4 rounded-[6px] hover:bg-[#2A2A2A] transition-colors disabled:opacity-50"
         >
           {saving ? "Closing Week..." : "Close Week & Commit to Next"}
         </button>

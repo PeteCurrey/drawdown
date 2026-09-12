@@ -32,20 +32,8 @@ export default async function TechnicalScannerPage({
   const isAdmin = (profile as any)?.role === "admin";
   const userWeight = (isAdmin || hasTierAccess(tier, "foundation", status)) ? 1 : 0;
 
-  const themeStyles = {
-    "--tool-accent": "#06b6d4",
-    "--tool-accent-hover": "#0891b2",
-    "--tool-accent-tint": "#ecfeff",
-    "--tool-accent-border": "#a5f3fc",
-    "--tool-accent-text": "#0e7490",
-  } as React.CSSProperties;
-
   if (userWeight < 1) {
-    return (
-      <div style={themeStyles}>
-        <ScannerLockedState tier={tier} />
-      </div>
-    );
+    return <ScannerLockedState tier={tier} />;
   }
 
   // ── Resolve symbol from URL ─────────────────────────────────────────────
@@ -53,7 +41,7 @@ export default async function TechnicalScannerPage({
   const resolvedSymbol = symbol?.toUpperCase().trim() || null;
 
   return (
-    <div style={themeStyles}>
+    <div>
       <ScannerClient symbol={resolvedSymbol} />
     </div>
   );
@@ -63,19 +51,19 @@ export default async function TechnicalScannerPage({
 function ScannerLockedState({ tier }: { tier?: string }) {
   return (
     <div className="flex flex-col items-center justify-center min-h-[60vh] space-y-8 animate-in fade-in duration-700">
-      <div className="p-10 bg-background-surface/40 backdrop-blur-md border border-border-slate/50 flex flex-col items-center text-center space-y-6 max-w-md w-full">
-        <div className="w-14 h-14 rounded-full border border-accent/20 bg-accent/10 flex items-center justify-center">
-          <Lock className="w-6 h-6 text-accent" />
+      <div className="p-10 bg-white border border-[#E6E4DE] rounded-[8px] shadow-[0_1px_2px_rgba(14,13,10,0.04),0_2px_8px_rgba(14,13,10,0.05)] flex flex-col items-center text-center space-y-6 max-w-md w-full">
+        <div className="w-12 h-12 rounded-full border border-[#E6E4DE] bg-[#F5F4F1] flex items-center justify-center text-[#181818]">
+          <Lock className="w-5 h-5 text-[#181818]" />
         </div>
 
         <div className="space-y-2">
-          <p className="text-xs font-bold uppercase tracking-widest text-text-primary">
+          <p className="text-xs font-bold uppercase tracking-widest text-[#181818]">
             Foundation Access Required
           </p>
-          <p className="text-xs text-text-secondary leading-relaxed">
+          <p className="text-xs text-[#87877F] leading-relaxed">
             The Technical Scanner requires a Foundation plan or above. Your current
             plan is{" "}
-            <span className="font-bold text-text-primary uppercase">
+            <span className="font-bold text-[#181818] uppercase">
               {tier ?? "Free"}
             </span>
             .
@@ -85,20 +73,20 @@ function ScannerLockedState({ tier }: { tier?: string }) {
         <div className="w-full space-y-2 pt-2">
           <Link
             href="/pricing"
-            className="w-full flex items-center justify-center px-8 py-4 bg-accent hover:bg-accent-hover text-background-primary text-[10px] font-bold uppercase tracking-widest transition-all"
+            className="w-full flex items-center justify-center px-8 py-3.5 bg-[#181818] hover:bg-[#2A2A2A] text-white text-xs font-semibold uppercase tracking-wider rounded-[6px] transition-all"
           >
             Upgrade to Foundation
           </Link>
           <Link
             href="/dashboard"
-            className="w-full flex items-center justify-center px-8 py-3 border border-border-slate/50 hover:border-accent text-[10px] font-mono uppercase tracking-widest text-text-tertiary hover:text-text-primary transition-all"
+            className="w-full flex items-center justify-center px-8 py-3 border border-[#E6E4DE] hover:border-[#181818] text-xs font-semibold uppercase tracking-wider text-[#87877F] hover:text-[#181818] rounded-[6px] transition-all"
           >
             Back to Dashboard
           </Link>
         </div>
       </div>
 
-      <p className="text-[9px] font-mono text-text-tertiary/50 uppercase tracking-widest">
+      <p className="text-[10px] text-[#87877F] uppercase tracking-widest">
         Technical Scanner · Foundation+ · Live Multi-Timeframe Technical Analysis
       </p>
     </div>

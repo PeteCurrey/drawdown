@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { fetchNews } from "@/lib/news";
 import { TheWireDashboardClient } from "@/components/the-wire/TheWireDashboardClient";
+import { PageHeader } from "@/components/dashboard/ui/PageHeader";
 
 export const metadata = {
   title: "The Wire · Drawdown",
@@ -31,34 +32,19 @@ export default async function TheWirePage() {
     briefsResult.status === "fulfilled" ? (briefsResult.value.data ?? []) : [];
   const news = newsResult.status === "fulfilled" ? newsResult.value : [];
 
-  const themeStyles = {
-    "--tool-accent":        "#14b8a6", // teal-500
-    "--tool-accent-hover":  "#0d9488", // teal-600
-    "--tool-accent-tint":   "#f0fdfa", // teal-50
-    "--tool-accent-border": "#99f6e4", // teal-200
-    "--tool-accent-text":   "#0f766e", // teal-700
-  } as React.CSSProperties;
-
   return (
-    <div className="space-y-8 animate-in fade-in duration-700" style={themeStyles}>
-      {/* Page header — standard tool page pattern */}
-      <header className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-        <div>
-          <span className="text-teal-500 font-mono text-[10px] uppercase tracking-widest block mb-3">
-            // MODULE_TW // THE WIRE
-          </span>
-          <h1 className="text-4xl font-display font-bold uppercase text-text-primary">
-            The <span className="text-teal-500 italic">Wire.</span>
-          </h1>
-          <p className="text-text-secondary text-sm mt-2 max-w-xl">
-            Morning and afternoon intelligence briefs, live market news, and economic calendar — every trading day.
-          </p>
-        </div>
-        <div className="flex items-center gap-2 shrink-0">
-          <span className="w-1.5 h-1.5 rounded-full bg-teal-400 animate-pulse" />
-          <span className="text-xs font-mono uppercase tracking-widest text-text-tertiary">Live Feed Active</span>
-        </div>
-      </header>
+    <div className="space-y-8 animate-in fade-in duration-700">
+      <PageHeader
+        eyebrow="Market Intelligence"
+        title="The Wire"
+        description="Morning and afternoon intelligence briefs, live market news, and economic calendar — every trading day."
+        badge={
+          <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-[4px] bg-[#F0FDF8] border border-[rgba(24,184,128,0.25)]">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#18B880] animate-pulse" />
+            <span className="text-[10px] font-semibold uppercase tracking-[0.09em] text-[#18B880]">Live Feed Active</span>
+          </div>
+        }
+      />
 
       <TheWireDashboardClient
         initialBriefs={briefs as any}

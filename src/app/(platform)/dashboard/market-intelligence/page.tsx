@@ -54,13 +54,13 @@ function fmtPips(spread: number | null, hookSlug: string): string {
 
 // ── Design tokens ─────────────────────────────────────────────────────────────
 const C = {
-  primary:   "#111827", // near-black — 18.1:1 on white
-  secondary: "#6b7280", // gray-500 — 4.6:1 on white
-  positive:  "#16a34a", // green-600 — 5.1:1 on white
-  negative:  "#dc2626", // red-600 — 5.9:1 on white
-  neutral:   "#b45309", // amber-700 — 4.7:1 on white (safer than amber-600 for small text)
-  border:    "#e5e7eb", // gray-200
-  bg:        "#f8f8f8", // off-white page bg
+  primary:   "#181818",
+  secondary: "#87877F",
+  positive:  "#18B880",
+  negative:  "#CE6969",
+  neutral:   "#F9771D",
+  border:    "#E6E4DE",
+  bg:        "#F5F4F1",
   card:      "#ffffff",
 };
 
@@ -76,7 +76,7 @@ function currentSession(): string {
 // ── Sub-components ────────────────────────────────────────────────────────────
 
 function Skel({ className }: { className?: string }) {
-  return <div className={cn("rounded-md animate-pulse bg-gray-100", className)} />;
+  return <div className={cn("rounded-[6px] animate-pulse bg-[#F3F2EE]", className)} />;
 }
 
 interface MetricCardProps {
@@ -96,7 +96,7 @@ function MetricCard({ label, value, sub, subColor, loading, onClick, id, highlig
       id={id}
       onClick={onClick}
       className={cn(
-        "relative bg-white border rounded-xl p-4 flex flex-col justify-between min-h-[88px] group transition-all duration-200",
+        "relative bg-white border rounded-[8px] p-4 flex flex-col justify-between min-h-[88px] group transition-all duration-200",
         onClick ? "cursor-pointer hover:border-gray-300 hover:shadow-sm" : "",
         highlight ? "ring-2 ring-[#111827] border-[#111827]" : "",
       )}
@@ -501,7 +501,7 @@ export default function MarketIntelligencePage() {
       {/* ── Hero panel (white card container) ───────────────────────────────── */}
       <div className="px-6 md:px-10 pt-6">
         <section
-          className="bg-white border rounded-xl overflow-hidden shadow-sm"
+          className="bg-white border rounded-[8px] overflow-hidden shadow-sm"
           style={{ borderColor: C.border }}
         >
           {/* Header */}
@@ -511,7 +511,7 @@ export default function MarketIntelligencePage() {
             <div className="flex items-center gap-4">
               <Link
                 href="/dashboard"
-                className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
+                className="p-2 rounded-lg hover:bg-[#F3F2EE] transition-colors"
                 aria-label="Back to Overview"
               >
                 <ChevronLeft className="w-4 h-4 text-gray-500" />
@@ -528,14 +528,14 @@ export default function MarketIntelligencePage() {
                   <div className="relative">
                     <button
                       onClick={() => setDropdownOpen(!dropdownOpen)}
-                      className="flex items-center gap-1.5 text-[12px] font-mono px-3 py-1 rounded-md transition-colors hover:bg-gray-100 border border-gray-200 text-gray-900 bg-gray-50"
+                      className="flex items-center gap-1.5 text-[12px] font-mono px-3 py-1 rounded-[6px] transition-colors hover:bg-[#F3F2EE] border border-gray-200 text-gray-900 bg-gray-50"
                     >
                       {selectedInst.name}
                       <ChevronDown className="w-3 h-3 text-gray-400" />
                     </button>
                     {dropdownOpen && (
                       <div
-                        className="absolute top-full left-0 mt-1 py-1 z-[99] min-w-[180px] rounded-xl border border-gray-200 shadow-lg bg-white max-h-72 overflow-y-auto"
+                        className="absolute top-full left-0 mt-1 py-1 z-[99] min-w-[180px] rounded-[8px] border border-gray-200 shadow-lg bg-white max-h-72 overflow-y-auto"
                       >
                         {INSTRUMENT_GROUPS.map(group => (
                           <div key={group.label}>
@@ -582,7 +582,7 @@ export default function MarketIntelligencePage() {
                     className={cn(
                       "px-2.5 py-1 text-[11px] font-bold font-mono tracking-wide transition-all",
                       selectedInterval === tf.interval
-                        ? "bg-white text-gray-900 shadow-sm rounded-md"
+                        ? "bg-white text-gray-900 shadow-sm rounded-[6px]"
                         : "text-gray-500 hover:text-gray-900"
                     )}
                   >
@@ -810,7 +810,7 @@ export default function MarketIntelligencePage() {
 
         {/* TradingView Chart */}
         <div
-          className="xl:col-span-2 bg-white rounded-xl overflow-hidden"
+          className="xl:col-span-2 bg-white rounded-[8px] overflow-hidden"
           style={{ border: `1px solid ${C.border}` }}
         >
           {/* Chart header */}
@@ -840,7 +840,7 @@ export default function MarketIntelligencePage() {
               <span className="text-[11px] font-mono" style={{ color: C.secondary }}>
                 {toTVSymbol(hookSlug)}
               </span>
-              <button className="p-1 hover:bg-gray-100 rounded transition-colors">
+              <button className="p-1 hover:bg-[#F3F2EE] rounded transition-colors">
                 <MoreHorizontal className="w-4 h-4" style={{ color: C.secondary }} />
               </button>
             </div>
@@ -868,7 +868,7 @@ export default function MarketIntelligencePage() {
 
           {/* Signal Distribution (replaces hardcoded bars) */}
           <div
-            className="bg-white rounded-xl p-5"
+            className="bg-white rounded-[8px] p-5"
             style={{ border: `1px solid ${C.border}` }}
           >
             <div className="flex items-center justify-between mb-4">
@@ -915,7 +915,7 @@ export default function MarketIntelligencePage() {
           {/* Calendar Events */}
           <div
             id="calendar-section"
-            className="bg-white rounded-xl p-5"
+            className="bg-white rounded-[8px] p-5"
             style={{ border: `1px solid ${C.border}` }}
           >
             <div
@@ -928,7 +928,7 @@ export default function MarketIntelligencePage() {
                   setTzLocal(!tzLocal);
                   localStorage.setItem("mi_tz_local", String(!tzLocal));
                 }}
-                className="text-[10px] font-mono px-2 py-1 rounded-full transition-colors hover:bg-gray-100"
+                className="text-[10px] font-mono px-2 py-1 rounded-full transition-colors hover:bg-[#F3F2EE]"
                 style={{
                   color: tzLocal ? C.primary : C.secondary,
                   border: `1px solid ${C.border}`,

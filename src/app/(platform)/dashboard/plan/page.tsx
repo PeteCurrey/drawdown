@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-import { PlanClient } from "@/components/dashboard/PlanClient";
+import { PlanWorkspace } from "@/components/dashboard/PlanWorkspace";
+import { PageHeader } from "@/components/dashboard/ui/PageHeader";
 
 export const metadata = {
   title: "Construct Strategy Plan · Drawdown",
@@ -17,19 +18,13 @@ export default async function PlanPage() {
 
   return (
     <div className="space-y-8 animate-in fade-in duration-500">
-      <header>
-        <span className="text-emerald-500 font-mono text-[10px] uppercase tracking-widest block mb-2">
-          // STAGE_02 // PLAN
-        </span>
-        <h1 className="text-3xl font-display font-extrabold uppercase text-text-primary">
-          Strategy <span className="text-emerald-500 italic">Planning.</span>
-        </h1>
-        <p className="text-text-secondary text-xs mt-1 max-w-xl">
-          Construct your pre-trade target entry, invalidation parameters, and risk size constraints.
-        </p>
-      </header>
+      <PageHeader
+        eyebrow="Stage 2 · Plan"
+        title="Strategy Planning"
+        description="Construct your pre-trade target entry, invalidation parameters, and risk size constraints."
+      />
 
-      <PlanClient />
+      <PlanWorkspace />
     </div>
   );
 }

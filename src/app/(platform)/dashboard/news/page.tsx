@@ -127,14 +127,14 @@ export default function NewsPage() {
   return (
     <div className="space-y-10 pb-24 animate-in fade-in duration-700">
       <PageHeader
-        eyebrow="// FINANCIAL WIRE"
+        eyebrow="Market Intelligence · News"
         title="World News Feed"
         description="Real-time financial insights from global macroeconomic sources and wire services."
         badge={
           <button 
             onClick={fetchNewsFeed} 
             disabled={loading}
-            className="flex items-center gap-2 px-4 py-2.5 bg-white border border-[#DEDDD8] hover:border-[#1A1A1A] transition-colors text-[10px] font-mono uppercase font-bold tracking-widest text-[#1A1A1A] rounded-xl"
+            className="flex items-center gap-2 px-4 py-2.5 bg-white border border-[#E6E4DE] hover:border-[#1A1A1A] transition-colors text-[10px] font-mono uppercase font-bold tracking-widest text-[#1A1A1A] rounded-[8px]"
           >
             <RefreshCw className={cn("w-3 h-3", loading && "animate-spin")} />
             {loading ? "Refreshing..." : "Refresh Feed"}
@@ -143,9 +143,9 @@ export default function NewsPage() {
       />
 
       {/* Featured Headline Card */}
-      <div className="relative overflow-hidden bg-white border border-[#DEDDD8] rounded-xl h-[320px] group shadow-[0_4px_16px_rgba(0,0,0,0.04)]">
+      <div className="relative overflow-hidden bg-white border border-[#E6E4DE] rounded-[8px] shadow-[0_1px_2px_rgba(14,13,10,0.04)] h-[320px] group shadow-[0_4px_16px_rgba(0,0,0,0.04)]">
         {loading ? (
-          <div className="absolute inset-0 animate-pulse bg-background-surface/40" />
+          <div className="absolute inset-0 animate-pulse bg-[#F5F4F1]" />
         ) : featuredItem ? (
           <AnimatePresence mode="wait">
             <motion.a
@@ -196,7 +196,7 @@ export default function NewsPage() {
             </motion.a>
           </AnimatePresence>
         ) : (
-          <div className="absolute inset-0 flex items-center justify-center text-[10px] font-mono text-text-tertiary uppercase tracking-widest">
+          <div className="absolute inset-0 flex items-center justify-center text-[10px] font-mono text-[#87877F] uppercase tracking-widest">
             No news available
           </div>
         )}
@@ -204,19 +204,19 @@ export default function NewsPage() {
  
       <div className="space-y-6">
         {/* Filter Bar */}
-        <div className="flex items-center gap-4 p-4 bg-background-surface border border-border-slate/50 focus-within:border-accent/60 transition-colors rounded-xl shadow-[0_4px_20px_rgba(0,0,0,0.02)]">
-          <Search className="w-4 h-4 text-text-tertiary" />
+        <div className="flex items-center gap-4 p-4 bg-white border border-[#E6E4DE] focus-within:border-accent/60 transition-colors rounded-[8px] shadow-[0_4px_20px_rgba(0,0,0,0.02)]">
+          <Search className="w-4 h-4 text-[#87877F]" />
           <input 
             type="text" 
             placeholder="SEARCH HEADLINES OR SOURCES..."
-            className="bg-transparent border-none outline-none font-mono text-[10px] uppercase tracking-widest text-text-primary w-full"
+            className="bg-transparent border-none outline-none font-mono text-[10px] uppercase tracking-widest text-[#181818] w-full"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
         </div>
  
         {/* Category Tabs */}
-        <div className="flex overflow-x-auto gap-2 pb-2 scrollbar-none border-b border-border-slate/30">
+        <div className="flex overflow-x-auto gap-2 pb-2 scrollbar-none border-b border-[#EEECE7]">
           {categories.map(cat => {
             const count = news.filter(item => {
               const itemCats = item.categories || [];
@@ -234,13 +234,13 @@ export default function NewsPage() {
                   "px-4 py-2 text-[10px] uppercase font-bold tracking-widest whitespace-nowrap transition-all border-b-2 flex items-center gap-2",
                   activeCategory === cat.id 
                     ? "border-accent text-accent bg-accent/5" 
-                    : "border-transparent text-text-tertiary hover:text-text-primary hover:border-border-slate"
+                    : "border-transparent text-[#87877F] hover:text-[#181818] hover:border-[#E6E4DE]"
                 )}
               >
                 {cat.label}
                 <span className={cn(
                   "px-1.5 py-0.5 rounded-md text-[8px] font-mono font-bold",
-                  activeCategory === cat.id ? "bg-accent/20" : "bg-background-elevated"
+                  activeCategory === cat.id ? "bg-accent/20" : "bg-[#F3F2EE]"
                 )}>
                   {count}
                 </span>
@@ -256,7 +256,7 @@ export default function NewsPage() {
         ) : loading && news.length === 0 ? (
           <div className="space-y-6">
             {[...Array(5)].map((_, i) => (
-              <div key={i} className="h-40 bg-background-surface animate-pulse border border-border-slate/50" />
+              <div key={i} className="h-40 bg-white animate-pulse border border-[#E6E4DE]" />
             ))}
           </div>
         ) : filteredNews.length > 0 ? (
@@ -267,7 +267,7 @@ export default function NewsPage() {
               <article
                 key={i}
                 className={cn(
-                  "group bg-background-surface border border-border-slate/50 hover:border-accent/40 hover:shadow-[0_8px_32px_rgba(0,0,0,0.06)] transition-all duration-300 overflow-hidden",
+                  "group bg-white border border-[#E6E4DE] hover:border-accent/40 hover:shadow-[0_8px_32px_rgba(0,0,0,0.06)] transition-all duration-300 overflow-hidden",
                   isHighImpact && "border-l-2 border-l-accent"
                 )}
               >
@@ -297,7 +297,7 @@ export default function NewsPage() {
                   <div className="flex-grow p-6 md:p-8 space-y-4">
                     <div className="flex flex-col md:flex-row justify-between items-start gap-4">
                       <div className="space-y-2 flex-grow">
-                        <div className="flex items-center gap-3 text-[10px] font-mono uppercase tracking-widest text-text-tertiary flex-wrap">
+                        <div className="flex items-center gap-3 text-[10px] font-mono uppercase tracking-widest text-[#87877F] flex-wrap">
                           <NewsSourceLogo source={item.source} showText={true} size="xs" />
                           <span className="w-1 h-1 bg-border-slate rounded-full" />
                           <div className="flex items-center gap-1.5">
@@ -321,7 +321,7 @@ export default function NewsPage() {
                             "flex items-center gap-2 px-4 py-2 border transition-all text-[10px] font-bold uppercase tracking-widest",
                             explainingId === i 
                               ? "bg-accent text-background-primary border-accent" 
-                              : "bg-background-elevated/40 border-border-slate/80 hover:border-accent hover:text-accent"
+                              : "bg-[#F3F2EE] border-[#E6E4DE] hover:border-accent hover:text-accent"
                           )}
                         >
                           <Sparkles className={cn("w-3 h-3", explainingId === i && "animate-pulse")} />
@@ -331,7 +331,7 @@ export default function NewsPage() {
                           href={item.url} 
                           target="_blank" 
                           rel="noopener noreferrer"
-                          className="p-2 bg-background-elevated/40 border border-border-slate/80 hover:border-text-primary hover:text-text-primary transition-colors text-text-tertiary"
+                          className="p-2 bg-[#F3F2EE] border border-[#E6E4DE] hover:border-text-primary hover:text-[#181818] transition-colors text-[#87877F]"
                         >
                           <ExternalLink className="w-4 h-4" />
                         </a>
@@ -339,14 +339,14 @@ export default function NewsPage() {
                     </div>
  
                     {item.excerpt && (
-                      <p className="text-text-secondary text-sm leading-relaxed max-w-4xl">
+                      <p className="text-[#474744] text-sm leading-relaxed max-w-4xl">
                         {item.excerpt}
                       </p>
                     )}
  
                     {/* AI Explanation Area */}
                     {explainingId === i && (
-                      <div className="pt-6 border-t border-border-slate/30 animate-in fade-in slide-in-from-top-4 duration-300">
+                      <div className="pt-6 border-t border-[#EEECE7] animate-in fade-in slide-in-from-top-4 duration-300">
                         <div className="flex items-start gap-4">
                           <div className="w-8 h-8 bg-accent/10 flex items-center justify-center shrink-0">
                             <Sparkles className="w-4 h-4 text-accent" />
@@ -354,7 +354,7 @@ export default function NewsPage() {
                           <div className="space-y-3 flex-grow">
                             <p className="text-[10px] font-mono uppercase font-bold tracking-widest text-accent">AI Analysis Context</p>
                             {aiExplanations[i] ? (
-                              <div className="prose prose-sm max-w-none text-text-secondary leading-relaxed">
+                              <div className="prose prose-sm max-w-none text-[#474744] leading-relaxed">
                                 {aiExplanations[i].split('\n').map((para, idx) => (
                                   <p key={idx}>{para}</p>
                                 ))}
@@ -366,10 +366,10 @@ export default function NewsPage() {
                                   <div className="w-1.5 h-1.5 bg-accent rounded-full animate-bounce [animation-delay:-0.15s]" />
                                   <div className="w-1.5 h-1.5 bg-accent rounded-full animate-bounce" />
                                 </div>
-                                <span className="text-[10px] font-mono text-text-tertiary uppercase">Analysing the market impact...</span>
+                                <span className="text-[10px] font-mono text-[#87877F] uppercase">Analysing the market impact...</span>
                               </div>
                             )}
-                            <p className="text-[8px] font-mono text-text-tertiary italic">
+                            <p className="text-[8px] font-mono text-[#87877F] italic">
                               This context is AI-generated for educational purposes. Not financial advice.
                             </p>
                           </div>
@@ -382,8 +382,8 @@ export default function NewsPage() {
             );
           })
         ) : (
-          <div className="p-20 text-center border border-dashed border-border-slate/80 bg-background-surface/40">
-            <span className="text-xs font-mono uppercase text-text-tertiary tracking-widest">No articles found matching search criteria.</span>
+          <div className="p-20 text-center border border-dashed border-[#E6E4DE] bg-[#F5F4F1]">
+            <span className="text-xs font-mono uppercase text-[#87877F] tracking-widest">No articles found matching search criteria.</span>
           </div>
         )}
       </div>

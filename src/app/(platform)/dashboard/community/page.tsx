@@ -25,7 +25,7 @@ export default function CommunityPage() {
       } as React.CSSProperties}
     >
       <PageHeader
-        eyebrow="// DISCIPLINE & SIGNAL NETWORK"
+        eyebrow="Network · Community"
         title="Community Hub"
         description="Connect with serious traders, analyze macroeconomic setups, and share execution feedback."
       />
@@ -33,7 +33,7 @@ export default function CommunityPage() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
           {/* Main Feed */}
           <div className="lg:col-span-8 space-y-12">
-            <section className="bg-background-surface border border-border-slate p-8">
+            <section className="bg-background-surface border border-[#E6E4DE] p-8">
               <div className="flex items-center gap-3 mb-8">
                 <MessageSquare className="w-5 h-5 text-accent" />
                 <h2 className="text-2xl font-display font-bold uppercase">The Wire</h2>
@@ -55,8 +55,8 @@ export default function CommunityPage() {
             <DisciplineLeaderboard />
 
             {/* Stats Card */}
-            <div className="p-6 bg-white border border-[#DEDDD8] rounded-xl shadow-[0_4px_16px_rgba(0,0,0,0.04)] space-y-6">
-              <h3 className="text-sm font-mono font-bold uppercase tracking-widest text-[#1A1A1A] border-b border-[#DEDDD8] pb-4">Network Status</h3>
+            <div className="p-6 bg-white border border-[#E6E4DE] rounded-[8px] shadow-[0_4px_16px_rgba(0,0,0,0.04)] space-y-6">
+              <h3 className="text-sm font-mono font-bold uppercase tracking-widest text-[#1A1A1A] border-b border-[#E6E4DE] pb-4">Network Status</h3>
               <div className="space-y-4">
                 <div className="flex justify-between items-center">
                   <div className="flex items-center gap-2">
@@ -83,7 +83,7 @@ export default function CommunityPage() {
             </div>
 
             {/* Resources */}
-            <div className="p-6 bg-[#F8F8F8] border border-[#DEDDD8] rounded-xl space-y-6">
+            <div className="p-6 bg-[#F8F8F8] border border-[#E6E4DE] rounded-[8px] space-y-6">
               <h3 className="text-sm font-mono font-bold uppercase tracking-widest text-[#1A1A1A]">Quick Resources</h3>
               <ul className="space-y-4">
                 <li>

@@ -100,11 +100,11 @@ export default function SimulatorPage() {
       } as React.CSSProperties}
     >
       <PageHeader
-        eyebrow="// HYPOTHETICAL REPLAY"
+        eyebrow="Execution Systems · Simulator"
         title="Challenge Simulator"
         description="Stress-test your real trade logs against institutional prop firm rules. Identify breach conditions before risking real capital."
         badge={
-          <div className="flex items-center gap-2 bg-white p-2 border border-[#DEDDD8] rounded-xl shadow-sm">
+          <div className="flex items-center gap-2 bg-white p-2 border border-[#E6E4DE] rounded-[8px] shadow-sm">
             {steps.map((s, i) => (
               <div key={i} className="flex items-center">
                 <div
@@ -114,7 +114,7 @@ export default function SimulatorPage() {
                       ? "bg-[#18B880] border-[#18B880] text-white"
                       : step === i + 1
                       ? "border-[#f59e0b] text-[#92400e] bg-[#fffbeb] font-bold"
-                      : "border-[#DEDDD8] text-[#555550]"
+                      : "border-[#E6E4DE] text-[#555550]"
                   )}
                 >
                   {step > i + 1 ? <CheckCircle2 className="w-3.5 h-3.5" /> : (i + 1)}
@@ -127,7 +127,7 @@ export default function SimulatorPage() {
       />
 
       {/* Main Container */}
-      <div className="bg-background-surface border border-border-slate overflow-hidden">
+      <div className="bg-background-surface border border-[#E6E4DE] overflow-hidden">
          <div className="p-12 min-h-[500px]">
             
             {/* Step 1: Firm Selection */}
@@ -153,7 +153,7 @@ export default function SimulatorPage() {
                           }}
                           className={cn(
                             "p-8 text-left border transition-all flex flex-col justify-between group",
-                            selectedFirm?.id === firm.id ? "border-accent bg-accent/5 shadow-lg shadow-accent/5" : "border-border-slate hover:border-accent/50"
+                            selectedFirm?.id === firm.id ? "border-accent bg-accent/5 shadow-lg shadow-accent/5" : "border-[#E6E4DE] hover:border-accent/50"
                           )}
                         >
                            <div>
@@ -189,7 +189,7 @@ export default function SimulatorPage() {
                         onClick={() => setAccountSize(size)}
                         className={cn(
                           "py-6 border transition-all font-mono font-bold text-sm",
-                          accountSize === size ? "bg-accent border-accent text-background-primary" : "border-border-slate hover:border-accent/50 text-text-secondary"
+                          accountSize === size ? "bg-accent border-accent text-background-primary" : "border-[#E6E4DE] hover:border-accent/50 text-text-secondary"
                         )}
                       >
                          {formatCurrency(size, "USD").replace('.00', '')}
@@ -197,7 +197,7 @@ export default function SimulatorPage() {
                     ))}
                  </div>
                  
-                 <div className="p-10 bg-background-elevated border border-border-slate flex flex-col md:flex-row gap-12 items-center justify-between">
+                 <div className="p-10 bg-background-elevated border border-[#E6E4DE] flex flex-col md:flex-row gap-12 items-center justify-between">
                     <div className="space-y-6 flex-grow">
                        <h4 className="text-[10px] font-mono text-text-tertiary uppercase tracking-widest">Applied Rules for {selectedFirm?.name}</h4>
                        <div className="grid grid-cols-3 gap-8">
@@ -239,7 +239,7 @@ export default function SimulatorPage() {
                     <p className="text-sm text-text-secondary">Which data set should we replay against the rules?</p>
                  </div>
                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <div className="p-8 border border-border-slate hover:border-accent/40 transition-all flex flex-col justify-between group cursor-pointer" onClick={async () => {
+                    <div className="p-8 border border-[#E6E4DE] hover:border-accent/40 transition-all flex flex-col justify-between group cursor-pointer" onClick={async () => {
                       const userTrades = await getUserTradesForSimulation();
                       setTrades(userTrades as any);
                     }}>
@@ -260,7 +260,7 @@ export default function SimulatorPage() {
                        )}
                     </div>
 
-                    <div className="p-8 border border-dashed border-border-slate hover:border-accent/40 transition-all flex flex-col justify-center items-center text-center gap-4 group cursor-pointer">
+                    <div className="p-8 border border-dashed border-[#E6E4DE] hover:border-accent/40 transition-all flex flex-col justify-center items-center text-center gap-4 group cursor-pointer">
                        <Upload className="w-8 h-8 text-text-tertiary group-hover:text-accent transition-colors" />
                        <div>
                           <h4 className="font-bold uppercase text-sm mb-1">Upload New CSV</h4>
@@ -269,7 +269,7 @@ export default function SimulatorPage() {
                     </div>
                  </div>
 
-                 <div className="flex justify-between items-center pt-8 border-t border-border-slate">
+                 <div className="flex justify-between items-center pt-8 border-t border-[#E6E4DE]">
                     <button onClick={() => setStep(2)} className="text-[10px] font-bold uppercase tracking-widest text-text-tertiary hover:text-text-primary">Back</button>
                     <button 
                       onClick={handleRunSimulation}
@@ -346,23 +346,23 @@ export default function SimulatorPage() {
 
                  {/* Stats Grid */}
                  <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-                    <div className="p-6 bg-background-elevated border border-border-slate">
+                    <div className="p-6 bg-background-elevated border border-[#E6E4DE]">
                        <span className="text-[9px] font-mono text-text-tertiary uppercase block mb-2">Final Balance</span>
                        <div className="text-xl font-display font-bold">{formatCurrency(result.finalBalance, "USD")}</div>
                     </div>
-                    <div className="p-6 bg-background-elevated border border-border-slate">
+                    <div className="p-6 bg-background-elevated border border-[#E6E4DE]">
                        <span className="text-[9px] font-mono text-text-tertiary uppercase block mb-2">Max DD Reached</span>
                        <div className={cn("text-xl font-display font-bold", result.maxDrawdownReached > result.maxDrawdownLimit ? "text-loss" : "")}>
                           {formatCurrency(result.maxDrawdownReached, "USD")}
                        </div>
                     </div>
-                    <div className="p-6 bg-background-elevated border border-border-slate">
+                    <div className="p-6 bg-background-elevated border border-[#E6E4DE]">
                        <span className="text-[9px] font-mono text-text-tertiary uppercase block mb-2">Worst Daily Loss</span>
                        <div className={cn("text-xl font-display font-bold", result.maxDailyLossReached > result.dailyLossLimit ? "text-loss" : "")}>
                           {formatCurrency(result.maxDailyLossReached, "USD")}
                        </div>
                     </div>
-                    <div className="p-6 bg-background-elevated border border-border-slate">
+                    <div className="p-6 bg-background-elevated border border-[#E6E4DE]">
                        <span className="text-[9px] font-mono text-text-tertiary uppercase block mb-2">Trading Days</span>
                        <div className="text-xl font-display font-bold">{result.tradingDays} / {result.minTradingDays}</div>
                     </div>
@@ -406,7 +406,7 @@ export default function SimulatorPage() {
                  <div className="flex justify-center pt-8">
                     <button 
                       onClick={() => setStep(1)}
-                      className="px-10 py-4 border border-border-slate text-[10px] font-bold uppercase tracking-widest hover:bg-background-elevated transition-colors"
+                      className="px-10 py-4 border border-[#E6E4DE] text-[10px] font-bold uppercase tracking-widest hover:bg-background-elevated transition-colors"
                     >
                        Try New Simulation
                     </button>

@@ -10,7 +10,7 @@ export async function POST(request: NextRequest) {
     apiVersion: "2023-10-16" as any,
   });
   try {
-    const { priceId, tier, terms_accepted, immediate_supply_requested, marketing_consent } = await request.json();
+    const { priceId, tier, terms_accepted, immediate_supply_requested, marketing_consent, redirectPath } = await request.json();
     const supabase = await createClient();
     const { data: { user } } = await supabase.auth.getUser();
 
@@ -37,6 +37,15 @@ export async function POST(request: NextRequest) {
     const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://www.drawdown.trading";
     const origin = request.headers.get("origin") || appUrl;
 
+    // Preserve user context on return
+    const separator = redirectPath && redirectPath.includes("?") ? "&" : "?";
+    const success_url = redirectPath
+      ? `${origin}${redirectPath}${separator}subscription=success`
+      : `${origin}/dashboard?subscription=success`;
+    const cancel_url = redirectPath
+      ? `${origin}${redirectPath}${separator}subscription=cancelled`
+      : `${origin}/pricing?subscription=cancelled`;
+
     const session = await stripe.checkout.sessions.create({
       customer_email: user.email,
       line_items: [
@@ -46,8 +55,8 @@ export async function POST(request: NextRequest) {
         },
       ],
       mode: "subscription",
-      success_url: `${origin}/dashboard?subscription=success`,
-      cancel_url: `${origin}/pricing?subscription=cancelled`,
+      success_url,
+      cancel_url,
       metadata: {
         userId: user.id,
         tier: authoritativeTier,

@@ -104,13 +104,13 @@ export default async function MentorshipPage() {
       } as React.CSSProperties}
     >
       <PageHeader
-        eyebrow="// EXCLUSIVE FLOOR COACHING"
+        eyebrow="Executive Coaching · Mentorship"
         title="1-to-1 Mentorship"
         description="Book your monthly 45-minute Floor session. Review your trade logs, refine execution rules, and sharpen your edge."
       />
 
       {/* Premium Explanation & Benefits Section */}
-      <section className="bg-gradient-to-r from-gray-50 to-slate-50/50 border border-[#e5e7eb] rounded-xl p-6 md:p-8 shadow-sm">
+      <section className="bg-gradient-to-r from-gray-50 to-slate-50/50 border border-[#e5e7eb] rounded-[8px] p-6 md:p-8 shadow-sm">
         <div className="max-w-3xl space-y-3">
           <h2 className="text-sm font-mono font-bold uppercase tracking-wider text-amber-600 flex items-center gap-2">
             <span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse" /> 
@@ -166,14 +166,14 @@ export default async function MentorshipPage() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
         <div className="lg:col-span-2 space-y-8">
           {/* Booking Section */}
-          <section className="bg-white border border-[#e5e7eb] rounded-xl p-8 shadow-sm">
+          <section className="bg-white border border-[#e5e7eb] rounded-[8px] p-8 shadow-sm">
             <div className="flex items-center gap-3 mb-6 border-b border-[#e5e7eb] pb-4">
               <Calendar className="w-5 h-5 text-[#1A1A1A]" />
               <h2 className="text-lg font-bold text-[#1A1A1A]">Your Monthly Session</h2>
             </div>
             
             {currentMonthSession ? (
-              <div className="bg-[#f8fafc] border border-[#e2e8f0] rounded-xl p-6">
+              <div className="bg-[#f8fafc] border border-[#e2e8f0] rounded-[8px] p-6">
                 <div className="flex justify-between items-start mb-6">
                   <div>
                     <h3 className="text-sm font-bold text-[#1A1A1A] mb-1">Session Scheduled</h3>
@@ -222,7 +222,7 @@ export default async function MentorshipPage() {
 
         {/* Sidebar */}
         <div className="space-y-8">
-          <div className="bg-[#1A1A1A] text-white rounded-xl p-6 shadow-md border border-[#333]">
+          <div className="bg-[#1A1A1A] text-white rounded-[8px] p-6 shadow-md border border-[#333]">
             <div className="flex items-center gap-2 mb-4">
               <Info className="w-4 h-4 text-[#C8F135]" />
               <h3 className="font-bold text-sm">How to Prepare</h3>
@@ -243,7 +243,7 @@ export default async function MentorshipPage() {
             </ul>
           </div>
 
-          <section className="bg-white border border-[#e5e7eb] rounded-xl overflow-hidden shadow-sm">
+          <section className="bg-white border border-[#e5e7eb] rounded-[8px] overflow-hidden shadow-sm">
             <div className="p-4 bg-gray-50 border-b border-[#e5e7eb]">
               <h2 className="text-xs font-bold font-mono text-[#6b7280] uppercase tracking-widest">Past Sessions</h2>
             </div>

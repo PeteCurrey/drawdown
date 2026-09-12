@@ -210,29 +210,29 @@ export default async function CurriculumPage() {
       } as React.CSSProperties}
     >
       <PageHeader
-        eyebrow="// SYSTEMATIC ACADEMY"
+        eyebrow="Academy · Curriculum"
         title="Curriculum"
         description="Phase-based trading education built in the order you actually need it."
       />
 
       {certificates.length > 0 && (
-        <section className="bg-white border border-[#e5e7eb] rounded-xl p-6 md:p-8 mb-8 shadow-sm">
-          <div className="flex items-center gap-2 mb-6 border-b border-[#e5e7eb] pb-4">
+        <section className="bg-white border border-[#E6E4DE] rounded-[8px] p-6 md:p-8 mb-8 shadow-sm">
+          <div className="flex items-center gap-2 mb-6 border-b border-[#E6E4DE] pb-4">
             <Award className="w-5 h-5 text-[#F9771D]" />
             <h2 className="text-xl font-bold text-[#1A1A1A]">Your Certificates</h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {certificates.map((cert) => (
-              <div key={cert.certificate_number} className="p-4 border border-[#e5e7eb] rounded-lg bg-gray-50 flex flex-col justify-between hover:border-[#F9771D] transition-colors">
+              <div key={cert.certificate_number} className="p-4 border border-[#E6E4DE] rounded-[6px] bg-[#F5F4F1] flex flex-col justify-between hover:border-[#F9771D] transition-colors">
                 <div>
-                  <div className="text-[10px] font-mono font-bold uppercase tracking-widest text-[#6b7280] mb-1">
+                  <div className="text-[10px] font-mono font-bold uppercase tracking-widest text-[#87877F] mb-1">
                     {new Date(cert.issued_at).toLocaleDateString()}
                   </div>
                   <h3 className="font-bold text-[#1A1A1A]">{cert.phase_name}</h3>
                 </div>
-                <div className="mt-4 pt-3 border-t border-[#e5e7eb] flex items-center justify-between">
-                  <span className="text-[10px] font-mono text-[#6b7280]">CERT ID</span>
-                  <span className="text-[10px] font-mono font-bold text-[#111827]">{cert.certificate_number}</span>
+                <div className="mt-4 pt-3 border-t border-[#E6E4DE] flex items-center justify-between">
+                  <span className="text-[10px] font-mono text-[#87877F]">CERT ID</span>
+                  <span className="text-[10px] font-mono font-bold text-[#181818]">{cert.certificate_number}</span>
                 </div>
               </div>
             ))}
@@ -242,28 +242,28 @@ export default async function CurriculumPage() {
 
       {/* ── FIX 1: Progress banner — white background ─────────────────────── */}
       <section
-        className="bg-white border border-[#e5e7eb] rounded-xl p-6 md:p-8 flex flex-col md:flex-row items-center justify-between gap-6"
+        className="bg-white border border-[#E6E4DE] rounded-[8px] p-6 md:p-8 flex flex-col md:flex-row items-center justify-between gap-6"
       >
         <div className="space-y-1 flex-1">
           <div className="flex items-center gap-2">
-            <span className="text-[10px] font-mono text-[#6b7280] uppercase tracking-widest">
+            <span className="text-[10px] font-mono text-[#87877F] uppercase tracking-widest">
               Active Tier
             </span>
             <span className="px-2 py-0.5 bg-[#F9771D] text-white font-bold text-[9px] rounded-[3px]">
               {tierLabel.toUpperCase()}
             </span>
           </div>
-          <p className="text-xs text-[#111827] font-medium">
+          <p className="text-xs text-[#181818] font-medium">
             {totalCompleted} of {totalModules} modules complete
           </p>
         </div>
 
         <div className="w-full md:w-96 flex flex-col gap-1.5 shrink-0">
           <div className="flex items-center justify-between mb-1">
-            <span className="text-[10px] font-mono text-[#6b7280] uppercase tracking-widest">
+            <span className="text-[10px] font-mono text-[#87877F] uppercase tracking-widest">
               Curriculum Progress
             </span>
-            <span className="text-[12px] font-bold text-[#111827]">{overallPct}%</span>
+            <span className="text-[12px] font-bold text-[#181818]">{overallPct}%</span>
           </div>
           {/* Progress bar — white-friendly track */}
           <div className="h-1.5 w-full rounded-full" style={{ background: "#e5e7eb" }}>
@@ -291,7 +291,7 @@ export default async function CurriculumPage() {
           return (
             <div
               key={phase.slug}
-              className="bg-white border border-[#e5e7eb] rounded-xl p-6 shadow-[0_1px_3px_rgba(0,0,0,0.06)] flex flex-col justify-between min-h-[260px] relative transition-all hover:shadow-[0_4px_12px_rgba(0,0,0,0.10)] hover:-translate-y-0.5 duration-200"
+              className="bg-white border border-[#E6E4DE] rounded-[8px] p-6 shadow-[0_1px_2px_rgba(14,13,10,0.04),0_2px_8px_rgba(14,13,10,0.05)] flex flex-col justify-between min-h-[260px] relative transition-all hover:shadow-[0_4px_12px_rgba(0,0,0,0.10)] hover:-translate-y-0.5 duration-200"
             >
               <div>
                 <div className="flex justify-between items-start mb-4 relative">
@@ -333,7 +333,7 @@ export default async function CurriculumPage() {
               </div>
 
               <div className="space-y-4">
-                <div className="flex justify-between items-center text-[10px] font-mono text-[#6b7280]">
+                <div className="flex justify-between items-center text-[10px] font-mono text-[#87877F]">
                   {isLocked ? (
                     <span>{phase.modules_count} Modules · {phase.duration}</span>
                   ) : (
@@ -371,7 +371,7 @@ export default async function CurriculumPage() {
                   <div className="grid grid-cols-2 gap-2">
                     <Link
                       href={phase.reviewRoute}
-                      className="py-2.5 px-2 bg-gray-100 hover:bg-gray-200 text-[#111827] text-[10px] font-bold uppercase tracking-widest rounded-[4px] transition-colors flex items-center justify-center gap-1 text-center truncate"
+                      className="py-2.5 px-2 bg-gray-100 hover:bg-gray-200 text-[#181818] text-[10px] font-bold uppercase tracking-widest rounded-[4px] transition-colors flex items-center justify-center gap-1 text-center truncate"
                       title={`View ${phase.name} Syllabus & Overview`}
                     >
                       Overview →
@@ -411,7 +411,7 @@ export default async function CurriculumPage() {
             {courseList.map((course) => (
               <div
                 key={course.slug}
-                className="bg-white border border-[#e5e7eb] rounded-xl p-6 shadow-[0_1px_3px_rgba(0,0,0,0.06)] flex flex-col justify-between min-h-[220px] relative transition-all hover:shadow-[0_4px_12px_rgba(0,0,0,0.10)] hover:-translate-y-0.5 duration-200"
+                className="bg-white border border-[#E6E4DE] rounded-[8px] p-6 shadow-[0_1px_2px_rgba(14,13,10,0.04),0_2px_8px_rgba(14,13,10,0.05)] flex flex-col justify-between min-h-[220px] relative transition-all hover:shadow-[0_4px_12px_rgba(0,0,0,0.10)] hover:-translate-y-0.5 duration-200"
               >
                 <div>
                   <div className="flex justify-between items-start mb-4">
@@ -454,7 +454,7 @@ export default async function CurriculumPage() {
 
       {/* ── Drawdown Institutional Accelerator (High Ticket Cohort) ──────────────── */}
       <section className="space-y-6 pt-8 border-t border-[#EDEDED]">
-        <div className="p-8 border border-[#E2B755]/30 rounded-xl bg-gradient-to-r from-[#0F1319] via-[#161D26] to-[#0F1319] shadow-lg shadow-[#E2B755]/5 text-white">
+        <div className="p-8 border border-[#E2B755]/30 rounded-[8px] bg-gradient-to-r from-[#0F1319] via-[#161D26] to-[#0F1319] shadow-lg shadow-[#E2B755]/5 text-white">
           <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
             <div className="space-y-4 max-w-3xl">
               <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded bg-[#E2B755]/10 border border-[#E2B755]/20 text-[#E2B755] text-[10px] font-mono font-bold uppercase tracking-widest">

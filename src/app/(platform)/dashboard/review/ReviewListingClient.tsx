@@ -112,10 +112,10 @@ export default function ReviewListingClient({ userId }: Props) {
           <FileText className="w-8 h-8 text-[#C8CBB8] mx-auto" />
           <p className="text-sm text-[#555550]">No trade records yet. Record a trade first, then return here to begin your process review.</p>
           <Link
-            href="/dashboard/record"
+            href="/dashboard/journal"
             className="inline-block text-xs font-mono text-indigo-500 hover:underline uppercase tracking-wider"
           >
-            Go to Journal →
+            Go to AI Trade Journal →
           </Link>
         </div>
       )}

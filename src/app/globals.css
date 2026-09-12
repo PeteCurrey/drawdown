@@ -200,42 +200,61 @@
  * Never leak these tokens into marketing pages.
  * ──────────────────────────────────────────────────────────────────────────── */
 .platform-container {
-  /* Surface system */
-  --dd-page:          #F7F7F5;   /* warm off-white page base */
-  --dd-surface:       #FFFFFF;   /* panel / card backgrounds */
-  --dd-surface-2:     #FAFAF9;   /* sidebar, header */
-  --dd-surface-3:     #F4F3F0;   /* secondary panel, skeleton */
+  /* ── Surface hierarchy ───────────────────────────────────────────────────── */
+  --dd-page:           #F5F4F1;   /* warm off-white page base */
+  --dd-surface:        #FFFFFF;   /* primary panel / card surface */
+  --dd-surface-2:      #FAFAF8;   /* sidebar, header */
+  --dd-surface-inset:  #F3F2EE;   /* inset rows, inner tonal panels */
+  --dd-surface-3:      #EDECEA;   /* skeleton, disabled */
 
-  /* Border system */
-  --dd-border:        #E8E6E1;   /* primary border — use everywhere */
-  --dd-border-subtle: #F0EEE9;   /* internal dividers */
+  /* ── Border hierarchy ────────────────────────────────────────────────────── */
+  --dd-border:         #E6E4DE;   /* primary border */
+  --dd-border-subtle:  #EEECE7;   /* internal dividers, hairlines */
+  --dd-border-strong:  #D4D2CC;   /* emphasized borders */
 
-  /* Text system */
-  --dd-text-1:        #1A1A1A;   /* headlines, key values */
-  --dd-text-2:        #4A4A47;   /* body text */
-  --dd-text-3:        #888882;   /* labels, captions, metadata */
-  --dd-text-4:        #BBBBB5;   /* very subtle / placeholder */
+  /* ── Text hierarchy ──────────────────────────────────────────────────────── */
+  --dd-text-1:         #181818;   /* headlines, dominant values */
+  --dd-text-2:         #474744;   /* body, secondary values */
+  --dd-text-3:         #87877F;   /* labels, captions, metadata */
+  --dd-text-4:         #BBBAB4;   /* very subtle / placeholder */
 
-  /* Accent (orange) — surgical use only */
-  --dd-accent:        #F9771D;
-  --dd-accent-hover:  #E06818;
-  --dd-accent-tint:   #FFF4EC;   /* active nav bg, subtle highlight */
-  --dd-accent-border: rgba(249, 119, 29, 0.25);
+  /* ── Accent — orange, surgical use only ─────────────────────────────────── */
+  --dd-accent:         #F9771D;
+  --dd-accent-hover:   #E06818;
+  --dd-accent-tint:    #FFF4EC;
+  --dd-accent-border:  rgba(249, 119, 29, 0.22);
 
-  /* Semantic */
-  --dd-profit:        #18B880;
-  --dd-loss:          #CE6969;
-  --dd-warning:       #D97706;
+  /* ── Semantic states ─────────────────────────────────────────────────────── */
+  --dd-profit:         #18B880;
+  --dd-profit-tint:    #F0FDF8;
+  --dd-loss:           #CE6969;
+  --dd-loss-tint:      #FDF2F2;
+  --dd-warning:        #D97706;
+  --dd-warning-tint:   #FFFBEB;
 
-  /* Shadow system */
-  --dd-shadow-panel:  0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
-  --dd-shadow-raised: 0 4px 12px rgba(0,0,0,0.08);
+  /* ── Elevation shadow system (warm-tinted, barely visible) ──────────────── */
+  --dd-elev-0: none;
+  --dd-elev-1: 0 1px 2px rgba(14,13,10,0.04), 0 2px 8px rgba(14,13,10,0.05);
+  --dd-elev-2: 0 1px 3px rgba(14,13,10,0.05), 0 6px 20px rgba(14,13,10,0.08);
+  --dd-elev-3: 0 2px 6px rgba(14,13,10,0.06), 0 16px 40px rgba(14,13,10,0.11);
 
-  /* Radius system */
-  --dd-radius-panel:  8px;
-  --dd-radius-ctrl:   6px;
-  --dd-radius-badge:  4px;
+  /* Legacy aliases */
+  --dd-shadow-panel:   var(--dd-elev-1);
+  --dd-shadow-raised:  var(--dd-elev-2);
+
+  /* ── Radius system ───────────────────────────────────────────────────────── */
+  --dd-r-xs:    4px;
+  --dd-r-sm:    6px;
+  --dd-r-md:    8px;
+  --dd-r-lg:   10px;
+  --dd-r-xl:   12px;
+
+  /* Legacy aliases */
+  --dd-radius-panel:  var(--dd-r-md);
+  --dd-radius-ctrl:   var(--dd-r-sm);
+  --dd-radius-badge:  var(--dd-r-xs);
 }
+
 
 /* Tabular numbers for financial data */
 .dd-tabular {

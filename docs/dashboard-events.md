@@ -53,3 +53,17 @@ These events measure how effectively traders complete the 7-stage disciplined tr
 | `account_created` | User links a prop firm or broker account | `{ account_type: 'prop_firm' \| 'live_broker' \| 'demo', currency: string, initial_balance: number }` |
 | `tier_gate_encountered` | User attempts to access a feature above their tier | `{ required_tier: string, current_tier: string, feature_name: string }` |
 | `upgrade_cta_clicked` | User clicks "Upgrade Plan" from locked feature | `{ source_feature: string, required_tier: string }` |
+
+---
+
+## 5. Onboarding & Conversion Events
+
+| Event Name | Trigger | Payload / Properties | Business Objective |
+|---|---|---|---|
+| `onboarding_wizard_started` | Wizard modal renders on first login | `{ user_id: string, initial_tier: string }` | Measure initial onboarding modal activation. |
+| `onboarding_step_completed` | User advances through any of the 5 wizard steps | `{ step_number: number, step_name: string, payload_snapshot: Record<string, any> }` | Pinpoint onboarding drop-off points. |
+| `onboarding_completed` | User successfully completes wizard step 5 | `{ trading_style: string, experience_level: string, capital: string, primary_goal: string }` | Track profile completion rate and calibration accuracy. |
+| `onboarding_wizard_dismissed` | Wizard closed or bypassed | `{ step_reached: number }` | Measure premature abandonment. |
+| `subscription_confirmed_banner_viewed` | Return from Stripe with `?subscription=success` | `{ user_id: string, current_tier: string }` | Track successful conversion return rate. |
+| `subscription_confirmed_banner_dismissed` | User dismisses post-checkout confirmation | `{ time_visible_ms: number }` | Confirm post-checkout acknowledgement. |
+

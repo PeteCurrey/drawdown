@@ -13,7 +13,8 @@ import {
   ChevronRight,
   Target,
   Trophy,
-  Wallet
+  Wallet,
+  X
 } from "lucide-react";
 import { BrokerWidget } from "@/components/market/BrokerWidget";
 import { NewsWidget } from "@/components/market/NewsWidget";
@@ -39,6 +40,7 @@ import {
   DashboardDataRow,
   DashboardStatus,
   DashboardBadge,
+  DashboardRiskBar,
   DashboardEmptyState,
   DashboardSkeleton,
   DashboardDivider,
@@ -81,11 +83,19 @@ export default function DashboardPage() {
   const [pendingReviews, setPendingReviews] = useState<any[]>([]);
   const [activeCommitment, setActiveCommitment] = useState<any>(null);
   const [weeklyReviewDone, setWeeklyReviewDone] = useState<boolean>(false);
+  const [showSubscriptionSuccess, setShowSubscriptionSuccess] = useState<boolean>(false);
 
   // Polling and live feed generation is fully managed by useMarketIntelligence hook
   // within subcomponents to prevent double-fetching and save API rate limits.
 
   useEffect(() => {
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get("subscription") === "success") {
+        setShowSubscriptionSuccess(true);
+      }
+    }
+
     const hour = new Date().getHours();
     if (hour < 12) setGreeting("Morning");
     else if (hour < 18) setGreeting("Afternoon");
@@ -638,29 +648,66 @@ export default function DashboardPage() {
     ? Math.min(100, Math.round((currentDrawdownAmount / maxDrawdownLimit) * 100)) 
     : 0;
 
+  // Real today trades & PnL
+  const todayStart = new Date();
+  todayStart.setHours(0, 0, 0, 0);
+  const todayTrades = trades.filter((t: any) => new Date(t.entry_time) >= todayStart);
+  const todayPnL = todayTrades.reduce((acc: number, t: any) => acc + Number(t.net_pnl || 0), 0);
+  const todayPnLPct = accountSize > 0 ? (todayPnL / accountSize) * 100 : 0;
+  const dailyLossSpent = Math.abs(todayPnL < 0 ? todayPnL : 0);
+  const dailyLossProgressPct = dailyLossLimit > 0 ? Math.min(100, Math.round((dailyLossSpent / dailyLossLimit) * 100)) : 0;
+
+  // Real trade sparkline if trades exist, else subtle smooth ambient curve
+  const sparklineData = (() => {
+    if (!trades || trades.length < 2) {
+      return {
+        line: "M 0 28 Q 25 24, 45 19 T 75 14 T 100 18 T 120 10",
+        area: "M 0 28 Q 25 24, 45 19 T 75 14 T 100 18 T 120 10 L 120 38 L 0 38 Z"
+      };
+    }
+    const sorted = [...trades].sort((a, b) => new Date(a.entry_time).getTime() - new Date(b.entry_time).getTime());
+    let cum = 0;
+    const cums = sorted.slice(-12).map((t) => {
+      cum += Number(t.net_pnl || 0);
+      return cum;
+    });
+    const min = Math.min(...cums);
+    const max = Math.max(...cums);
+    const range = max === min ? 1 : max - min;
+    const pts = cums.map((val, idx) => {
+      const x = (idx / (cums.length - 1)) * 120;
+      const y = 32 - ((val - min) / range) * 24;
+      return `${x.toFixed(1)},${y.toFixed(1)}`;
+    });
+    return {
+      line: `M ${pts.join(" L ")}`,
+      area: `M ${pts.join(" L ")} L 120,38 L 0,38 Z`
+    };
+  })();
+
   const winRateStat = stats.find(s => s.label.includes("Win Rate"));
   const profitStat = stats.find(s => s.label.includes("Total Profit"));
   const streakStat = stats.find(s => s.label.includes("Streak"));
 
   return (
-    <div className="space-y-6 text-[#1A1A1A]">
+    <div className="space-y-6 text-[#181818]">
       
       {/* ── 1. Top Greeting Bar ────────────────────────────────────────────── */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-5 border-b border-[#E8E6E1]">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-5 border-b border-[#E6E4DE]">
         <div>
-          <h1 className="text-2xl font-bold font-display tracking-tight text-[#1A1A1A]">
+          <h1 className="text-2xl font-bold font-display tracking-tight text-[#181818]">
             Good {greeting.toLowerCase()}, {name}
           </h1>
-          <p className="text-xs text-[#888882] mt-0.5">
-            Your trading operating environment at a glance
+          <p className="text-xs text-[#87877F] mt-0.5">
+            Your trading environment at a glance
           </p>
         </div>
         <div className="flex items-center gap-3">
           <div className="text-right hidden sm:block">
-            <span className="text-xs font-semibold text-[#1A1A1A] block">{formattedDate}</span>
-            <span className="text-[11px] text-[#888882]">Discipline Operating System</span>
+            <span className="text-xs font-semibold text-[#181818] block">{formattedDate}</span>
+            <span className="text-[11px] text-[#87877F]">Discipline Operating System</span>
           </div>
-          <span className="h-6 w-px bg-[#E8E6E1] hidden sm:block" />
+          <span className="h-6 w-px bg-[#E6E4DE] hidden sm:block" />
           <DashboardBadge variant="neutral" className="gap-1.5 py-1">
             <span className="w-1.5 h-1.5 rounded-full bg-[#18B880] animate-pulse" />
             Active Session
@@ -668,126 +715,205 @@ export default function DashboardPage() {
         </div>
       </div>
 
+      {/* Post-Stripe Return Confirmation */}
+      {showSubscriptionSuccess && (
+        <div className="flex items-center justify-between p-4 bg-emerald-500/10 border border-emerald-500/30 rounded-none text-xs animate-in fade-in duration-300">
+          <div className="flex items-center gap-3">
+            <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+            <div>
+              <p className="font-semibold text-[#181818]">Subscription Confirmed</p>
+              <p className="text-[#555550] text-[11px] mt-0.5">
+                Your subscription is confirmed. Your platform access will update within a few moments — refresh if features appear locked.
+              </p>
+            </div>
+          </div>
+          <button
+            onClick={() => {
+              setShowSubscriptionSuccess(false);
+              if (typeof window !== "undefined") {
+                const url = new URL(window.location.href);
+                url.searchParams.delete("subscription");
+                window.history.replaceState({}, "", url.pathname + (url.search ? url.search : ""));
+              }
+            }}
+            className="p-1 text-[#87877F] hover:text-[#181818] transition-colors ml-4 shrink-0"
+            title="Dismiss confirmation"
+          >
+            <X className="w-4 h-4" />
+          </button>
+        </div>
+      )}
+
       {/* ── 2. Primary Workspace (Level 1) ─────────────────────────────────── */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         
         {/* Left Anchor: Account & Performance (7 cols) */}
         <div className="lg:col-span-7">
-          <DashboardPanel elevated className="h-full flex flex-col justify-between">
+          <DashboardPanel elevated="md" className="h-full flex flex-col justify-between">
             <div>
-              <DashboardPanelHeader
-                label="Account & Performance"
-                action={
-                  account ? (
-                    <Link
-                      href="/dashboard/accounts"
-                      className="text-[11px] font-medium text-[#888882] hover:text-[#F9771D] transition-colors"
-                    >
-                      {account.account_name} · Switch →
-                    </Link>
-                  ) : (
-                    <Link
-                      href="/dashboard/accounts"
-                      className="text-[11px] font-medium text-[#F9771D] hover:underline"
-                    >
-                      + Add Account
-                    </Link>
-                  )
-                }
-              />
+              {/* Header */}
+              <div className="flex items-center justify-between pb-3 border-b border-[#EEECE7]">
+                <div className="flex items-center gap-2">
+                  <span className="w-1 h-3.5 bg-[#F9771D] rounded-full" />
+                  <span className="text-[10px] font-semibold uppercase tracking-[0.09em] text-[#87877F]">
+                    Account &amp; Performance
+                  </span>
+                </div>
+                {account ? (
+                  <Link
+                    href="/dashboard/accounts"
+                    className="text-[11px] font-medium text-[#87877F] hover:text-[#F9771D] transition-colors flex items-center gap-1"
+                  >
+                    View all accounts <ArrowUpRight className="w-3 h-3" />
+                  </Link>
+                ) : (
+                  <Link
+                    href="/dashboard/accounts"
+                    className="text-[11px] font-medium text-[#F9771D] hover:underline"
+                  >
+                    + Add Account
+                  </Link>
+                )}
+              </div>
 
               {account ? (
-                <div className="space-y-6">
-                  {/* Dominant Primary Metric */}
-                  <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2">
+                <div className="space-y-5 pt-3">
+                  {/* Account Header */}
+                  <div className="flex items-center justify-between">
                     <div>
-                      <span className="text-[11px] font-semibold text-[#888882] uppercase tracking-[0.08em] block mb-1">
-                        Current Balance
-                      </span>
-                      <div className="flex items-baseline gap-3">
-                        <span className="text-3xl sm:text-4xl font-bold font-display tracking-tight text-[#1A1A1A] dd-tabular">
-                          {currencySymbol}{currentBalance.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                      <h3 className="text-sm font-bold text-[#181818]">
+                        {account.account_name || "Funded Account"}
+                      </h3>
+                      <div className="flex items-center gap-2 mt-0.5 text-[11px] text-[#87877F]">
+                        <span>{account.prop_firms?.name || "Prop Challenge"} · {currencySymbol}{(accountSize / 1000).toFixed(0)}K</span>
+                        <span className="inline-flex items-center gap-1 text-[#18B880] font-medium text-[10px]">
+                          <span className="w-1.5 h-1.5 rounded-full bg-[#18B880]" />
+                          Active
                         </span>
-                        <DashboardBadge variant={currentBalance >= accountSize ? "profit" : "warning"}>
-                          {currentBalance >= accountSize ? "In Profit" : "In Drawdown"}
-                        </DashboardBadge>
                       </div>
-                    </div>
-                    <div className="text-left sm:text-right">
-                      <span className="text-[11px] text-[#888882] block">Account Size</span>
-                      <span className="text-sm font-semibold dd-tabular text-[#4A4A47]">
-                        {currencySymbol}{accountSize.toLocaleString("en-US")}
-                      </span>
                     </div>
                   </div>
 
-                  {/* Restrained Risk Progress Bar */}
-                  <div className="space-y-2 p-3 bg-[#F7F7F5] rounded-lg border border-[#E8E6E1]">
-                    <div className="flex items-center justify-between text-xs">
-                      <span className="font-semibold text-[#4A4A47] flex items-center gap-1.5">
-                        <Shield className="w-3.5 h-3.5 text-[#888882]" />
-                        Risk Status: <span className="text-[#18B880] font-semibold">Within limits</span>
-                      </span>
-                      <span className="font-medium text-[#888882] dd-tabular">
-                        Drawdown: -{currentDrawdownPct.toFixed(2)}% / {maxDrawdownPctLimit}% max
-                      </span>
+                  {/* Main Stats Row: Dominant Balance + Mini Sparkline + Right Table */}
+                  <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
+                    {/* Dominant Figure & Delta */}
+                    <div className="md:col-span-4">
+                      <div className="text-[10px] uppercase font-semibold text-[#87877F] tracking-wider mb-1">
+                        Current Equity
+                      </div>
+                      <div className="text-3xl sm:text-4xl font-light font-display tracking-tight text-[#181818] dd-tabular">
+                        {currencySymbol}{currentBalance.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                      </div>
+                      <div className="flex items-center gap-1.5 mt-1">
+                        <span className={cn(
+                          "text-xs font-semibold dd-tabular flex items-center gap-0.5",
+                          todayPnL >= 0 ? "text-[#18B880]" : "text-[#CE6969]"
+                        )}>
+                          {todayPnL >= 0 ? "+ " : "- "}{Math.abs(todayPnLPct).toFixed(2)}% Today
+                        </span>
+                      </div>
                     </div>
-                    <div className="w-full bg-[#E8E6E1] h-1.5 rounded-full overflow-hidden">
-                      <div
-                        className={cn(
-                          "h-full rounded-full transition-all duration-500",
-                          drawdownProgressPct > 75 ? "bg-[#CE6969]" : drawdownProgressPct > 40 ? "bg-[#D97706]" : "bg-[#18B880]"
-                        )}
-                        style={{ width: `${Math.max(2, drawdownProgressPct)}%` }}
-                      />
+
+                    {/* Center Subtle Embedded Sparkline */}
+                    <div className="md:col-span-3 hidden md:flex items-center justify-center h-14">
+                      <svg className="w-full h-12 overflow-visible" viewBox="0 0 120 40">
+                        <defs>
+                          <linearGradient id="accountSparklineGrad" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="0%" stopColor="#F9771D" stopOpacity="0.25" />
+                            <stop offset="100%" stopColor="#F9771D" stopOpacity="0" />
+                          </linearGradient>
+                        </defs>
+                        <path
+                          d={sparklineData.area}
+                          fill="url(#accountSparklineGrad)"
+                        />
+                        <path
+                          d={sparklineData.line}
+                          fill="none"
+                          stroke="#F9771D"
+                          strokeWidth="1.5"
+                          strokeLinecap="round"
+                        />
+                      </svg>
                     </div>
-                    <div className="flex justify-between text-[10px] text-[#888882] dd-tabular">
-                      <span>Daily loss: {currencySymbol}{Math.abs(Number(trades[0]?.net_pnl || 0)).toFixed(0)} / {currencySymbol}{dailyLossLimit.toLocaleString("en-US")}</span>
-                      <span>Buffer remaining: {currencySymbol}{(maxDrawdownLimit - currentDrawdownAmount).toLocaleString("en-US", { maximumFractionDigits: 0 })}</span>
+
+                    {/* Right Financial Data Table */}
+                    <div className="md:col-span-5 bg-[#F5F4F1] rounded-[6px] p-3 border border-[#EEECE7] text-xs space-y-1.5">
+                      <div className="flex justify-between items-center">
+                        <span className="text-[#87877F] text-[11px]">Equity</span>
+                        <span className="font-semibold text-[#181818] dd-tabular">
+                          {currencySymbol}{currentBalance.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                        </span>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <span className="text-[#87877F] text-[11px]">Balance</span>
+                        <span className="font-semibold text-[#181818] dd-tabular">
+                          {currencySymbol}{accountSize.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                        </span>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <span className="text-[#87877F] text-[11px]">P&amp;L (Today)</span>
+                        <span className={cn("font-semibold dd-tabular", todayPnL >= 0 ? "text-[#18B880]" : "text-[#CE6969]")}>
+                          {todayPnL >= 0 ? "+" : ""}{currencySymbol}{todayPnL.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                        </span>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <span className="text-[#87877F] text-[11px]">Drawdown</span>
+                        <span className="font-semibold text-[#474744] dd-tabular">
+                          {currentDrawdownPct.toFixed(2)}%
+                        </span>
+                      </div>
+                      <div className="flex justify-between items-center pt-1 border-t border-[#E6E4DE]">
+                        <span className="text-[#87877F] text-[11px]">Risk Status</span>
+                        <span className="font-semibold text-[#18B880] flex items-center gap-1">
+                          <span className="w-1.5 h-1.5 rounded-full bg-[#18B880]" />
+                          Within limits
+                        </span>
+                      </div>
                     </div>
                   </div>
 
                   {/* Supporting Performance Metrics */}
-                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-3 border-t border-[#F0EEE9]">
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-3 border-t border-[#EEECE7]">
                     <DashboardMetric
                       label="Win Rate (MTD)"
-                      value={winRateStat?.value || "0.0%"}
-                      variant="profit"
+                      value={winRateStat?.value || "--"}
+                      variant="default"
                       size="md"
-                      note={winRateStat?.note}
+                      note={winRateStat?.note || "No account data"}
                     />
                     <DashboardMetric
-                      label="MTD Net P&L"
-                      value={profitStat?.value || "£0.00"}
-                      variant={profitStat?.color?.includes("18B880") ? "profit" : "loss"}
+                      label="Max Drawdown"
+                      value={maxDrawdownLimit > 0 ? `${currentDrawdownPct.toFixed(2)}%` : "--"}
+                      variant="default"
                       size="md"
-                      note="Net profit"
+                      note={account ? `Limit: ${maxDrawdownPctLimit}%` : "No account data"}
+                    />
+                    <DashboardMetric
+                      label="Total Profit"
+                      value={profitStat?.value || "--"}
+                      variant="default"
+                      size="md"
+                      note={profitStat?.note || "No account data"}
                     />
                     <DashboardMetric
                       label="Current Streak"
-                      value={streakStat?.value || "0"}
-                      variant={streakStat?.color?.includes("18B880") ? "profit" : "default"}
+                      value={streakStat?.value || "--"}
+                      variant="default"
                       size="md"
-                      note={streakStat?.note}
-                    />
-                    <DashboardMetric
-                      label="Drawdown (MTD)"
-                      value={`-${currentDrawdownPct.toFixed(2)}%`}
-                      variant={currentDrawdownPct > 0 ? "loss" : "muted"}
-                      size="md"
-                      note="From high water"
+                      note={streakStat?.note || "No account data"}
                     />
                   </div>
                 </div>
               ) : (
-                <div className="space-y-6">
+                <div className="space-y-6 pt-2">
                   <DashboardEmptyState
                     icon={<Wallet className="w-5 h-5" />}
                     title="No Funded Account Configured"
                     description="Connect your prop firm challenge, funded account, or personal broker to enable automated drawdown protection and real-time equity tracking."
                     action={{ label: "Add Account", href: "/dashboard/accounts" }}
                   />
-                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-4 border-t border-[#F0EEE9]">
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-4 border-t border-[#EEECE7]">
                     {stats.map((stat, i) => (
                       <DashboardMetric
                         key={i}
@@ -807,22 +933,25 @@ export default function DashboardPage() {
 
         {/* Right Anchor: Next Recommended Action (5 cols) */}
         <div className="lg:col-span-5">
-          <DashboardPanel elevated accent className="h-full flex flex-col justify-between">
+          <DashboardPanel elevated="md" accent className="h-full flex flex-col justify-between">
             <div className="space-y-4">
-              <div className="flex items-center justify-between">
-                <span className="text-[11px] font-semibold uppercase tracking-[0.08em] text-[#888882]">
-                  Next Recommended Action
-                </span>
+              <div className="flex items-center justify-between pb-2 border-b border-[#EEECE7]">
+                <div className="flex items-center gap-1.5">
+                  <span className="w-1 h-3.5 bg-[#F9771D] rounded-full" />
+                  <span className="text-[10px] font-semibold uppercase tracking-[0.09em] text-[#87877F]">
+                    Next Recommended Action
+                  </span>
+                </div>
                 <DashboardBadge variant="stage">
                   {nextAction.stage}
                 </DashboardBadge>
               </div>
 
-              <div>
-                <h3 className="text-xl font-bold font-display text-[#1A1A1A] leading-tight">
+              <div className="space-y-2">
+                <h3 className="text-xl font-bold font-display text-[#181818] leading-tight">
                   {nextAction.title}
                 </h3>
-                <p className="text-xs text-[#4A4A47] leading-relaxed mt-2">
+                <p className="text-xs text-[#474744] leading-relaxed">
                   {nextAction.desc}
                 </p>
               </div>
@@ -830,7 +959,7 @@ export default function DashboardPage() {
               <div>
                 <Link
                   href={nextAction.href}
-                  className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#1A1A1A] hover:bg-[#2A2A2A] text-white text-xs font-semibold rounded-md transition-colors shadow-xs"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#181818] hover:bg-[#2A2A2A] text-white text-xs font-semibold rounded-[6px] transition-colors shadow-xs"
                 >
                   {nextAction.actionText}
                   <ArrowUpRight className="w-3.5 h-3.5 text-[#F9771D]" />
@@ -839,23 +968,23 @@ export default function DashboardPage() {
             </div>
 
             {/* Operating System 3-Stage Mini Checklist */}
-            <div className="pt-5 mt-4 border-t border-[#F0EEE9] space-y-2">
-              <span className="text-[10px] font-semibold uppercase tracking-[0.08em] text-[#888882] block">
+            <div className="pt-4 mt-4 border-t border-[#EEECE7] space-y-2">
+              <span className="text-[10px] font-semibold uppercase tracking-[0.09em] text-[#87877F] block">
                 Today&apos;s OS Execution Loop
               </span>
               <div className="grid grid-cols-3 gap-2">
                 <Link
                   href="/dashboard/prepare"
                   className={cn(
-                    "p-2.5 rounded-md border text-left transition-colors",
-                    todayPrep ? "bg-[#F0FDF8] border-[rgba(24,184,128,0.2)]" : "bg-[#F7F7F5] border-[#E8E6E1] hover:bg-white"
+                    "p-2.5 rounded-[6px] border text-left transition-colors",
+                    todayPrep ? "bg-[#F0FDF8] border-[rgba(24,184,128,0.2)]" : "bg-[#F5F4F1] border-[#E6E4DE] hover:bg-white"
                   )}
                 >
                   <div className="flex items-center gap-1.5 mb-1">
                     <span className={cn("w-1.5 h-1.5 rounded-full", todayPrep ? "bg-[#18B880]" : "bg-[#D97706]")} />
-                    <span className="text-[10px] font-semibold text-[#1A1A1A]">1. Prepare</span>
+                    <span className="text-[10px] font-semibold text-[#181818]">1. Prepare</span>
                   </div>
-                  <span className="text-[10px] text-[#888882] block truncate">
+                  <span className="text-[10px] text-[#87877F] block truncate">
                     {todayPrep ? "Prepared" : "Pending"}
                   </span>
                 </Link>
@@ -863,15 +992,15 @@ export default function DashboardPage() {
                 <Link
                   href="/dashboard/plan"
                   className={cn(
-                    "p-2.5 rounded-md border text-left transition-colors",
-                    activePlans.length > 0 ? "bg-[#FFF4EC] border-[rgba(249,119,29,0.25)]" : "bg-[#F7F7F5] border-[#E8E6E1] hover:bg-white"
+                    "p-2.5 rounded-[6px] border text-left transition-colors",
+                    activePlans.length > 0 ? "bg-[#FFF4EC] border-[rgba(249,119,29,0.22)]" : "bg-[#F5F4F1] border-[#E6E4DE] hover:bg-white"
                   )}
                 >
                   <div className="flex items-center gap-1.5 mb-1">
-                    <span className={cn("w-1.5 h-1.5 rounded-full", activePlans.length > 0 ? "bg-[#F9771D]" : "bg-[#BBBBB5]")} />
-                    <span className="text-[10px] font-semibold text-[#1A1A1A]">2. Plan</span>
+                    <span className={cn("w-1.5 h-1.5 rounded-full", activePlans.length > 0 ? "bg-[#F9771D]" : "bg-[#BBBAB4]")} />
+                    <span className="text-[10px] font-semibold text-[#181818]">2. Plan</span>
                   </div>
-                  <span className="text-[10px] text-[#888882] block truncate">
+                  <span className="text-[10px] text-[#87877F] block truncate">
                     {activePlans.length > 0 ? `${activePlans.length} Active` : "None"}
                   </span>
                 </Link>
@@ -879,15 +1008,15 @@ export default function DashboardPage() {
                 <Link
                   href="/dashboard/review"
                   className={cn(
-                    "p-2.5 rounded-md border text-left transition-colors",
+                    "p-2.5 rounded-[6px] border text-left transition-colors",
                     pendingReviews.length > 0 ? "bg-[#FFFBEB] border-[rgba(217,119,6,0.2)]" : "bg-[#F0FDF8] border-[rgba(24,184,128,0.2)]"
                   )}
                 >
                   <div className="flex items-center gap-1.5 mb-1">
                     <span className={cn("w-1.5 h-1.5 rounded-full", pendingReviews.length > 0 ? "bg-[#D97706]" : "bg-[#18B880]")} />
-                    <span className="text-[10px] font-semibold text-[#1A1A1A]">3. Review</span>
+                    <span className="text-[10px] font-semibold text-[#181818]">3. Review</span>
                   </div>
-                  <span className="text-[10px] text-[#888882] block truncate">
+                  <span className="text-[10px] text-[#87877F] block truncate">
                     {pendingReviews.length > 0 ? `${pendingReviews.length} Due` : "Clear"}
                   </span>
                 </Link>
@@ -907,86 +1036,146 @@ export default function DashboardPage() {
         </div>
 
         {/* Today's Briefing Panel */}
-        <DashboardPanel className="flex flex-col justify-between min-h-[200px]">
+        <DashboardPanel elevated="sm" className="flex flex-col justify-between min-h-[200px]">
           <div>
-            <DashboardPanelHeader
-              label="Daily Intelligence Brief"
-              action={
-                <Link
-                  href="/dashboard/the-wire"
-                  className="text-[11px] font-medium text-[#888882] hover:text-[#F9771D] transition-colors"
-                >
-                  The Wire →
-                </Link>
-              }
-            />
-
-            {latestBrief ? (
-              <div className="space-y-2.5">
-                <span className="text-[10px] font-semibold text-[#888882] block">
-                  {latestBrief.report_date || formattedDate}
+            <div className="flex justify-between items-center mb-3">
+              <div className="flex items-center gap-1.5">
+                <span className="w-1 h-3 bg-[#F9771D] rounded-full" />
+                <span className="text-[10px] font-semibold uppercase tracking-[0.09em] text-[#87877F]">
+                  Daily Intelligence Brief
                 </span>
-                <h4 className="text-sm font-bold text-[#1A1A1A] leading-snug line-clamp-2">
-                  {latestBrief.title || latestBrief.headline || "Market Operating Brief"}
-                </h4>
-                <p className="text-xs text-[#4A4A47] leading-relaxed line-clamp-3">
-                  {latestBrief.summary || latestBrief.narrative || latestBrief.key_takeaway || "Review macro drivers, session order flow, and volatility risks before taking positions."}
-                </p>
               </div>
-            ) : (
-              <div className="py-4 text-center space-y-1">
-                <p className="text-xs font-semibold text-[#1A1A1A]">Briefing Compiling</p>
-                <p className="text-[11px] text-[#888882] leading-relaxed">
-                  The morning intelligence brief is published prior to European session liquidity.
-                </p>
+              <Link
+                href="/dashboard/the-wire"
+                className="text-[11px] font-medium text-[#87877F] hover:text-[#F9771D] transition-colors"
+              >
+                The Wire →
+              </Link>
+            </div>
+
+            <div className="space-y-2">
+              <span className="text-[10px] font-medium text-[#87877F] block">
+                {latestBrief?.report_date || formattedDate}
+              </span>
+              <h4 className="text-sm font-bold text-[#181818] leading-snug line-clamp-2">
+                {latestBrief?.title || latestBrief?.headline || "Market Operating Brief"}
+              </h4>
+              <p className="text-xs text-[#474744] leading-relaxed line-clamp-3">
+                {latestBrief?.summary || latestBrief?.narrative || latestBrief?.key_takeaway || "Review macro drivers, session order flow, and volatility risks before taking positions."}
+              </p>
+
+              {/* Graphic Tag */}
+              <div className="pt-2 flex items-center gap-2.5">
+                <div className="w-10 h-10 rounded-[6px] bg-[#EDECEA] border border-[#E6E4DE] flex items-center justify-center text-[9px] font-bold text-[#87877F]">
+                  MACRO
+                </div>
+                <span className="text-[10px] font-semibold text-[#87877F] px-2 py-0.5 rounded-[4px] bg-[#F3F2EE] border border-[#E6E4DE]">
+                  Macro &amp; FX
+                </span>
               </div>
-            )}
+            </div>
           </div>
 
-          <div className="pt-3 mt-3 border-t border-[#F0EEE9] flex justify-between items-center text-xs">
-            <span className="text-[10px] text-[#888882]">Authoritative brief</span>
+          <div className="pt-3 mt-3 border-t border-[#EEECE7] flex justify-end">
             <Link
               href="/dashboard/the-wire"
-              className="text-[11px] font-semibold text-[#F9771D] hover:text-[#E06818] transition-colors"
+              className="text-[11px] font-semibold text-[#F9771D] hover:text-[#E06818] transition-colors flex items-center gap-1"
             >
               Read Briefing →
             </Link>
           </div>
         </DashboardPanel>
 
-        {/* Weekly Focus & Quick Operations Panel */}
-        <DashboardPanel className="flex flex-col justify-between min-h-[200px]">
-          <div>
-            <DashboardPanelHeader
-              label="Weekly Improvement Focus"
-              action={
-                <Link
-                  href="/dashboard/improve"
-                  className="text-[11px] font-medium text-[#888882] hover:text-[#F9771D] transition-colors"
-                >
-                  Improve →
-                </Link>
-              }
-            />
+        {/* Stacked Col 3: Risk Status + Weekly Focus */}
+        <div className="flex flex-col gap-4">
+          
+          {/* Risk Status Panel */}
+          <DashboardPanel elevated="sm" className="p-4 space-y-3">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-1.5">
+                <Shield className="w-3.5 h-3.5 text-[#18B880]" />
+                <span className="text-[10px] font-semibold uppercase tracking-[0.09em] text-[#87877F]">
+                  Risk Status
+                </span>
+              </div>
+              <Link
+                href="/dashboard/accounts"
+                className="text-[11px] font-medium text-[#87877F] hover:text-[#F9771D] transition-colors"
+              >
+                View details →
+              </Link>
+            </div>
+
+            <div>
+              <span className="text-xs font-bold text-[#181818] block">Within limits</span>
+            </div>
+
+            <div className="space-y-2 text-xs">
+              <div>
+                <div className="flex justify-between text-[11px] mb-1">
+                  <span className="text-[#87877F]">Daily Loss</span>
+                  <span className="font-semibold text-[#181818] dd-tabular">
+                    {currencySymbol}{dailyLossSpent.toFixed(0)} / {currencySymbol}{dailyLossLimit.toLocaleString("en-US")}
+                  </span>
+                </div>
+                <div className="w-full bg-[#E6E4DE] h-1.5 rounded-full overflow-hidden">
+                  <div
+                    className={cn(
+                      "h-full rounded-full transition-all duration-500",
+                      dailyLossProgressPct > 75 ? "bg-[#CE6969]" : "bg-[#18B880]"
+                    )}
+                    style={{ width: `${Math.max(2, dailyLossProgressPct)}%` }}
+                  />
+                </div>
+              </div>
+
+              <div>
+                <div className="flex justify-between text-[11px] mb-1">
+                  <span className="text-[#87877F]">Max Drawdown</span>
+                  <span className="font-semibold text-[#181818] dd-tabular">
+                    {currencySymbol}{currentDrawdownAmount.toFixed(0)} / {currencySymbol}{maxDrawdownLimit.toLocaleString("en-US")}
+                  </span>
+                </div>
+                <div className="w-full bg-[#E6E4DE] h-1.5 rounded-full overflow-hidden">
+                  <div
+                    className={cn(
+                      "h-full rounded-full transition-all duration-500",
+                      drawdownProgressPct > 75 ? "bg-[#CE6969]" : drawdownProgressPct > 40 ? "bg-[#D97706]" : "bg-[#18B880]"
+                    )}
+                    style={{ width: `${Math.max(2, drawdownProgressPct)}%` }}
+                  />
+                </div>
+              </div>
+            </div>
+          </DashboardPanel>
+
+          {/* Weekly Focus Panel */}
+          <DashboardPanel elevated="sm" accent className="p-4 space-y-3">
+            <div className="flex items-center justify-between">
+              <span className="text-[10px] font-semibold uppercase tracking-[0.09em] text-[#87877F]">
+                Weekly Improvement Focus
+              </span>
+              <Link
+                href="/dashboard/improve"
+                className="text-[11px] font-medium text-[#87877F] hover:text-[#F9771D] transition-colors"
+              >
+                Improve →
+              </Link>
+            </div>
 
             {activeCommitment ? (
-              <div className="p-3 bg-[#FFFBEB] border border-[rgba(217,119,6,0.2)] rounded-md space-y-1.5">
+              <div className="space-y-1">
                 <DashboardBadge variant="warning">
                   {activeCommitment.category || "Rule Adherence"}
                 </DashboardBadge>
-                <p className="text-xs font-semibold text-[#1A1A1A] leading-snug">
+                <p className="text-xs font-semibold text-[#181818] leading-snug">
                   {activeCommitment.title}
                 </p>
-                {activeCommitment.target_date && (
-                  <p className="text-[10px] text-[#888882]">
-                    Sign-off: {new Date(activeCommitment.target_date).toLocaleDateString("en-GB")}
-                  </p>
-                )}
               </div>
             ) : (
-              <div className="p-3 bg-[#F7F7F5] border border-[#E8E6E1] rounded-md text-center space-y-1.5">
-                <p className="text-xs text-[#4A4A47] font-medium">No active commitment selected</p>
-                <p className="text-[10px] text-[#888882]">Formulate one in your weekly operating review.</p>
+              <div className="space-y-1">
+                <p className="text-xs text-[#474744] font-medium">No active commitment selected</p>
+                <p className="text-[10px] text-[#87877F]">Formulate one in your weekly operating review.</p>
                 <Link
                   href="/dashboard/improve"
                   className="inline-block text-[10px] font-semibold text-[#F9771D] hover:underline uppercase tracking-wider pt-0.5"
@@ -995,73 +1184,77 @@ export default function DashboardPage() {
                 </Link>
               </div>
             )}
-          </div>
 
-          <div className="pt-3 mt-3 border-t border-[#F0EEE9]">
-            <div className="grid grid-cols-4 gap-1.5">
+            <div className="pt-2 border-t border-[#EEECE7] grid grid-cols-4 gap-1.5">
               <Link
                 href="/dashboard/prepare"
-                className="p-1.5 text-center rounded border border-[#E8E6E1] hover:bg-[#F7F7F5] transition-colors text-[10px] font-medium text-[#4A4A47]"
+                className="p-1.5 text-center rounded-[6px] border border-[#E6E4DE] hover:bg-[#F5F4F1] transition-colors text-[10px] font-medium text-[#474744]"
               >
                 Prep
               </Link>
               <Link
                 href="/dashboard/plan"
-                className="p-1.5 text-center rounded border border-[#E8E6E1] hover:bg-[#F7F7F5] transition-colors text-[10px] font-medium text-[#4A4A47]"
+                className="p-1.5 text-center rounded-[6px] border border-[#E6E4DE] hover:bg-[#F5F4F1] transition-colors text-[10px] font-medium text-[#474744]"
               >
                 Plan
               </Link>
               <Link
                 href="/dashboard/journal"
-                className="p-1.5 text-center rounded border border-[#E8E6E1] hover:bg-[#F7F7F5] transition-colors text-[10px] font-medium text-[#4A4A47]"
+                className="p-1.5 text-center rounded-[6px] border border-[#E6E4DE] hover:bg-[#F5F4F1] transition-colors text-[10px] font-medium text-[#474744]"
               >
                 Journal
               </Link>
               <Link
                 href="/dashboard/review"
-                className="p-1.5 text-center rounded border border-[#E8E6E1] hover:bg-[#F7F7F5] transition-colors text-[10px] font-medium text-[#4A4A47]"
+                className="p-1.5 text-center rounded-[6px] border border-[#E6E4DE] hover:bg-[#F5F4F1] transition-colors text-[10px] font-medium text-[#474744]"
               >
                 Review
               </Link>
             </div>
-          </div>
-        </DashboardPanel>
+          </DashboardPanel>
+
+        </div>
 
       </div>
 
       {/* ── 4. Market Intelligence Workspace (Level 3) ────────────────────── */}
-      <div className="pt-4 space-y-4">
-        <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1 pb-3 border-b border-[#E8E6E1]">
-          <div>
-            <span className="text-[11px] font-semibold uppercase tracking-[0.08em] text-[#F9771D] block">
-              Market Intelligence Workspace
+      <div className="pt-2 space-y-4">
+        <DashboardPanel elevated="md" className="p-5 space-y-5">
+          <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1 pb-4 border-b border-[#EEECE7]">
+            <div>
+              <div className="flex items-center gap-1.5 mb-1">
+                <span className="w-1 h-3.5 bg-[#F9771D] rounded-full" />
+                <span className="text-[10px] font-semibold uppercase tracking-[0.09em] text-[#F9771D]">
+                  Market Intelligence Workspace
+                </span>
+              </div>
+              <h2 className="text-lg font-bold font-display text-[#181818]">
+                Directional Bias &amp; Technical Scanner
+              </h2>
+            </div>
+            <span className="text-xs text-[#87877F]">
+              Composite scoring: RSI 30% · EMA 30% · Order Flow 25% · Macro 15%
             </span>
-            <h2 className="text-lg font-bold font-display text-[#1A1A1A]">
-              Directional Bias &amp; Technical Scanner
-            </h2>
           </div>
-          <span className="text-xs text-[#888882]">
-            Composite scoring: RSI 30% · EMA 30% · Order Flow 25% · Macro 15%
-          </span>
-        </div>
-        
-        <div className="space-y-6">
-          <MarketIntelligenceHeroCard
-            instruments={INSTRUMENTS_LIST}
-            initialInstrument={INSTRUMENTS_LIST[0]}
-            selectedInterval={selectedInterval}
-            userCurrency={userCurrency}
-            todayTradeCount={trades.filter((t: any) => {
-              const entry = new Date(t.entry_time);
-              const today = new Date();
-              return entry.toDateString() === today.toDateString();
-            }).length}
-            onInstrumentChange={(inst) => setSelectedInst(inst as any)}
-            onTimeframeChange={setSelectedInterval}
-          />
+          
+          <div className="space-y-6">
+            <MarketIntelligenceHeroCard
+              instruments={INSTRUMENTS_LIST}
+              initialInstrument={INSTRUMENTS_LIST[0]}
+              selectedInterval={selectedInterval}
+              userCurrency={userCurrency}
+              todayTradeCount={trades.filter((t: any) => {
+                const entry = new Date(t.entry_time);
+                const today = new Date();
+                return entry.toDateString() === today.toDateString();
+              }).length}
+              onInstrumentChange={(inst) => setSelectedInst(inst as any)}
+              onTimeframeChange={setSelectedInterval}
+            />
 
-          <InstrumentIntelligenceCard instrument={selectedInst} interval={selectedInterval} />
-        </div>
+            <InstrumentIntelligenceCard instrument={selectedInst} interval={selectedInterval} />
+          </div>
+        </DashboardPanel>
       </div>
 
       {/* ── 5. Session Timeline ───────────────────────────────────────────── */}

@@ -38,7 +38,7 @@ const CATEGORY_LESSON_LINKS: Record<CommitmentCategory, { label: string; href: s
   process:  { label: "Review: Trade Plan Discipline",      href: "/dashboard/curriculum" },
   risk:     { label: "Read: Position Sizing & Risk Rules", href: "/dashboard/tools/position-sizer" },
   mindset:  { label: "Open: Psychology Coach",            href: "/dashboard/coach" },
-  analysis: { label: "Study: Market Intelligence",        href: "/dashboard/market-intelligence" },
+  analysis: { label: "Study: Market Intelligence",        href: "/dashboard/intelligence" },
 };
 
 interface Commitment {
@@ -259,10 +259,20 @@ export function ImproveClient() {
       {/* Commitment list */}
       <div className="space-y-3">
         {filtered.length === 0 && (
-          <div className="text-center py-12 text-text-tertiary text-xs">
-            {commitments.length === 0
-              ? "No commitments yet. After each trade review, capture one improvement commitment."
-              : "No commitments match the current filter."}
+          <div className="text-center py-12 text-text-tertiary text-xs space-y-3">
+            <p>
+              {commitments.length === 0
+                ? "No commitments yet. After each trade review, capture one improvement commitment."
+                : "No commitments match the current filter."}
+            </p>
+            {commitments.length === 0 && (
+              <Link
+                href="/dashboard/review"
+                className="inline-block text-[11px] font-mono text-emerald-500 hover:underline uppercase tracking-wider"
+              >
+                Complete a Trade Review →
+              </Link>
+            )}
           </div>
         )}
         {filtered.map(c => (

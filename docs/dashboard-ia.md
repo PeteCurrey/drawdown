@@ -154,3 +154,21 @@ Drawdown serves three experience tiers without interface clutter:
 - **Quantitative & Systematic Traders (Advanced)**: Unlocks Strategy Backtester, Algo Strategy Builder (Pine Script/Python), Institutional Flows, and Investment Centre.
 
 Entitlement boundaries fail closed on the server while locked UI cards explain what the capability does and why it matters.
+
+---
+
+## 7. User State Model (States 0–5) & Next Action Engine
+
+The authenticated Drawdown dashboard dynamically evaluates the trader's operational state to surface exactly one primary action:
+
+| State | Condition | Next Action Headline | Target Route | Operational Rationale |
+|---|---|---|---|---|
+| **State 0: Unconfigured Account** | `!account` | "Configure Your Trading Account" | `/dashboard/accounts` | Risk limits, drawdown ceilings, and balance metrics cannot function without a connected account. |
+| **State 1: Daily Preparation Needed** | `account && !todayPrep` | "Start Session Preparation" | `/dashboard/prepare` | Ensures pre-market discipline, daily loss limit verification, and emotional readiness check. |
+| **State 1B: Stand Down Enforced** | `todayPrep?.outcome === 'stand_down'` | "Stand Down Active" | `/dashboard/curriculum` | Rule breach or emotional state requires standing down from market execution. |
+| **State 2: Draft Plan In Progress** | `draftPlan` exists | "Complete Draft Trade Plan" | `/dashboard/plan` | Invalidation level, position sizing, and hypothesis must be finalised before execution. |
+| **State 3: Plan Ready for Execution** | `readyPlan` exists | "Enter Execution Boundary" | `/dashboard/plan/[id]/execute` | Directs trader to execution checklist and manual broker entry boundary. |
+| **State 4: Unrecorded Trade Executed** | Trade recorded but review pending | "Complete Process Review" | `/dashboard/review/[id]` | Process review prioritises rule adherence and risk discipline over raw P&L. |
+| **State 5: Weekend Cycle Closure** | Weekend && `!weeklyReviewDone` | "Perform Weekly Operating Review" | `/dashboard/weekly-review` | Closes operating loop, aggregates weekly discipline scores, and sets improvement commitment. |
+| **State Default: Clear Cadence** | All daily workflow tasks complete | "Explore Market Scanner" | `/dashboard/tools/technical-scanner` | Open scanning and analysis without active operating debt. |
+

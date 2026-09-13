@@ -1,311 +1,132 @@
-import { MetadataRoute } from "next";
-import { siteConfig } from "@/lib/metadata";
-import { getAllPosts } from "@/lib/blog";
-import { phases } from "@/data/courses";
-import { LEARN_TOPICS } from "@/lib/data/learn-to-trade";
-import { getAllSlugs } from "@/lib/markets-config";
-import { expertAnalysis } from "@/data/analysis";
-import { GLOSSARY_TERMS } from "@/data/seo/glossary";
-import { tradingTools } from "@/data/trading-tools";
-import { createInternalSupabase } from "@/lib/supabase/server";
+import type { MetadataRoute } from 'next';
 
-// ── SEO Audit Phase 1 Freeze Guard ────────────────────────────────────────────
-// City/topic programmatic pages (/learn-to-trade/[topic]/[location]) are excluded
-// from the sitemap while their consolidation status is assessed (Phase 5).
-// UK_LOCATIONS import is intentionally removed.
-//
-// Dynamic seo_pages from Supabase are only included when publishing is enabled.
-const SEO_PUBLISHING_ENABLED = process.env.PROGRAMMATIC_SEO_PUBLISHING_ENABLED === "true";
+const BASE_URL = 'https://drawdown.trading';
 
-export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = siteConfig.url;
-  const staticDate = new Date("2026-07-19");
+// ─── Helpers ─────────────────────────────────────────────────────────────────
 
-  // 1. Priority 1.0: Homepage
-  const homeRoute = [
-    {
-      url: `${baseUrl}`,
-      lastModified: staticDate,
-      changeFrequency: "weekly" as const,
-      priority: 1.0,
-    },
-  ];
-
-  // 2. Priority 0.9: /courses, /courses/[all phase slugs]
-  const phaseIndexRoute = {
-    url: `${baseUrl}/courses`,
-    lastModified: staticDate,
-    changeFrequency: "monthly" as const,
-    priority: 0.9,
+function url(
+  path: string,
+  opts: {
+    changeFrequency?: MetadataRoute.Sitemap[number]['changeFrequency'];
+    priority?: number;
+    lastModified?: Date | string;
+  } = {},
+): MetadataRoute.Sitemap[number] {
+  return {
+    url: `${BASE_URL}${path}`,
+    lastModified: opts.lastModified ?? new Date(),
+    changeFrequency: opts.changeFrequency ?? 'monthly',
+    priority: opts.priority ?? 0.5,
   };
-  const phaseRoutes = phases.map((phase) => ({
-    url: `${baseUrl}/courses/${phase.slug}`,
-    lastModified: staticDate,
-    changeFrequency: "monthly" as const,
-    priority: 0.9,
-  }));
+}
 
-  // 3. Priority 0.8: /courses/[phase-slug]/module-[N]
-  const moduleRoutes: MetadataRoute.Sitemap = [];
-  phases.forEach((phase) => {
-    phase.modules_list.forEach((_, idx) => {
-      moduleRoutes.push({
-        url: `${baseUrl}/courses/${phase.slug}/module-${idx + 1}`,
-        lastModified: staticDate,
-        changeFrequency: "monthly" as const,
-        priority: 0.8,
-      });
-    });
-  });
+// ─── Sitemap ─────────────────────────────────────────────────────────────────
 
-  // 4. Priority 0.8: /learn-to-trade/[topic hub pages only]
-  // NOTE: /learn-to-trade/[topic]/[city] sub-pages are intentionally excluded.
-  // They are under Phase 5 consolidation review.
-  const hubRoutes = LEARN_TOPICS.map((topic) => ({
-    url: `${baseUrl}/learn-to-trade/${topic.slug}`,
-    lastModified: staticDate,
-    changeFrequency: "monthly" as const,
-    priority: 0.8,
-  }));
+export default function sitemap(): MetadataRoute.Sitemap {
+  const now = new Date();
 
-  // 5. Priority 0.7: Core hubs and features
-  // NOTE: /brokers is a 301 redirect to /brokers/all — NOT included in sitemap.
-  // Only the canonical destination /brokers/all is listed.
-  const platformRoutes = [
-    "/platform",
-    "/pricing",
-    "/brokers/all",
-    "/prop-firms",
-    "/markets",
-    "/blog",
-    "/trading-tools",
-    "/editorial-standards",
-    "/editorial-policy",
-    "/report-an-error",
-    "/methodology",
-    "/research",
-    "/research/methodology",
-    "/research/datasets",
-    "/research/broker-testing",
-    "/research/trading-costs",
-    "/research/risk",
-    "/research/prop-firms",
-    "/research/corrections",
-    "/research/media",
-    "/calculators/drawdown-recovery",
-    "/calculators/risk-of-ruin",
-    "/best",
-    "/how-to",
-    "/compare",
-    "/glossary",
-  ].map((route) => ({
-    url: `${baseUrl}${route}`,
-    lastModified: staticDate,
-    changeFrequency: "weekly" as const,
-    priority: 0.7,
-  }));
+  return [
+    // ── Core marketing pages ──────────────────────────────────────────────
+    url('/', { changeFrequency: 'weekly', priority: 1.0, lastModified: now }),
+    url('/pricing', { changeFrequency: 'weekly', priority: 0.95, lastModified: now }),
+    url('/platform', { changeFrequency: 'monthly', priority: 0.9, lastModified: now }),
+    url('/signal-centre', { changeFrequency: 'daily', priority: 0.9, lastModified: now }),
+    url('/about', { changeFrequency: 'monthly', priority: 0.8, lastModified: now }),
+    url('/how-it-works', { changeFrequency: 'monthly', priority: 0.8, lastModified: now }),
+    url('/funded-pathway', { changeFrequency: 'monthly', priority: 0.8, lastModified: now }),
+    url('/roadmap', { changeFrequency: 'monthly', priority: 0.7, lastModified: now }),
+    url('/contact', { changeFrequency: 'yearly', priority: 0.6, lastModified: now }),
 
-  const methodologySlugs = [
-    "market-prices",
-    "economic-calendar",
-    "central-banks",
-    "news-sentiment",
-    "technical-confluence",
-    "ai-consensus",
-    "position-sizing",
-    "backtesting-engine",
-    "trading-journal",
-    "broker-research",
-    "platform-capabilities",
+    // ── Tools ─────────────────────────────────────────────────────────────
+    url('/tools', { changeFrequency: 'monthly', priority: 0.85, lastModified: now }),
+    url('/tools/tradingview', { changeFrequency: 'monthly', priority: 0.75, lastModified: now }),
+    url('/tools/investment-centre', { changeFrequency: 'monthly', priority: 0.7, lastModified: now }),
+
+    // ── Calculators ───────────────────────────────────────────────────────
+    url('/calculators', { changeFrequency: 'monthly', priority: 0.8, lastModified: now }),
+    url('/calculators/position-size', { changeFrequency: 'monthly', priority: 0.75, lastModified: now }),
+    url('/calculators/risk', { changeFrequency: 'monthly', priority: 0.75, lastModified: now }),
+    url('/calculators/drawdown', { changeFrequency: 'monthly', priority: 0.75, lastModified: now }),
+    url('/calculators/drawdown-recovery', { changeFrequency: 'monthly', priority: 0.7, lastModified: now }),
+    url('/calculators/pip-value', { changeFrequency: 'monthly', priority: 0.7, lastModified: now }),
+    url('/calculators/compounding', { changeFrequency: 'monthly', priority: 0.7, lastModified: now }),
+    url('/calculators/risk-of-ruin', { changeFrequency: 'monthly', priority: 0.7, lastModified: now }),
+    url('/calculators/prop-firm-daily-loss', { changeFrequency: 'monthly', priority: 0.7, lastModified: now }),
+    url('/calculators/prop-firm-maximum-loss', { changeFrequency: 'monthly', priority: 0.7, lastModified: now }),
+
+    // ── Courses ───────────────────────────────────────────────────────────
+    url('/courses', { changeFrequency: 'monthly', priority: 0.85, lastModified: now }),
+    url('/courses/ground-zero', { changeFrequency: 'monthly', priority: 0.8, lastModified: now }),
+    url('/courses/chart-reader', { changeFrequency: 'monthly', priority: 0.8, lastModified: now }),
+    url('/courses/strategist', { changeFrequency: 'monthly', priority: 0.8, lastModified: now }),
+    url('/courses/risk-manager', { changeFrequency: 'monthly', priority: 0.8, lastModified: now }),
+    url('/courses/mind-over-market', { changeFrequency: 'monthly', priority: 0.8, lastModified: now }),
+    url('/courses/the-edge', { changeFrequency: 'monthly', priority: 0.8, lastModified: now }),
+    url('/courses/fundamental-edge', { changeFrequency: 'monthly', priority: 0.8, lastModified: now }),
+    url('/courses/derivatives-options', { changeFrequency: 'monthly', priority: 0.8, lastModified: now }),
+    url('/courses/phase-1-2', { changeFrequency: 'monthly', priority: 0.7, lastModified: now }),
+    url('/courses/phase-3-4', { changeFrequency: 'monthly', priority: 0.7, lastModified: now }),
+    url('/courses/phase-5-6', { changeFrequency: 'monthly', priority: 0.7, lastModified: now }),
+    url('/courses/prop-firm-survival-kit', { changeFrequency: 'monthly', priority: 0.75, lastModified: now }),
+
+    // ── Brokers ───────────────────────────────────────────────────────────
+    url('/brokers', { changeFrequency: 'monthly', priority: 0.75, lastModified: now }),
+    url('/brokers/all', { changeFrequency: 'monthly', priority: 0.65, lastModified: now }),
+    url('/brokers/best-for-gold', { changeFrequency: 'monthly', priority: 0.65, lastModified: now }),
+
+    // ── Prop firms ────────────────────────────────────────────────────────
+    url('/prop-firms', { changeFrequency: 'monthly', priority: 0.75, lastModified: now }),
+    url('/prop-firms/compare', { changeFrequency: 'monthly', priority: 0.65, lastModified: now }),
+
+    // ── Markets ───────────────────────────────────────────────────────────
+    url('/markets', { changeFrequency: 'weekly', priority: 0.7, lastModified: now }),
+
+    // ── Blog ─────────────────────────────────────────────────────────────
+    url('/blog', { changeFrequency: 'weekly', priority: 0.75, lastModified: now }),
+    url('/blog/coffeezilla-alexg-trading-education', { changeFrequency: 'monthly', priority: 0.65, lastModified: now }),
+    url('/blog/trading-education-business-model', { changeFrequency: 'monthly', priority: 0.65, lastModified: now }),
+    url('/blog/why-trading-gurus-use-demo-accounts', { changeFrequency: 'monthly', priority: 0.65, lastModified: now }),
+
+    // ── Glossary ──────────────────────────────────────────────────────────
+    url('/glossary', { changeFrequency: 'monthly', priority: 0.65, lastModified: now }),
+
+    // ── How-to guides ─────────────────────────────────────────────────────
+    url('/how-to', { changeFrequency: 'monthly', priority: 0.65, lastModified: now }),
+
+    // ── Compare ───────────────────────────────────────────────────────────
+    url('/compare', { changeFrequency: 'monthly', priority: 0.65, lastModified: now }),
+
+    // ── Research ──────────────────────────────────────────────────────────
+    url('/research', { changeFrequency: 'monthly', priority: 0.65, lastModified: now }),
+    url('/research/methodology', { changeFrequency: 'monthly', priority: 0.6, lastModified: now }),
+    url('/research/broker-testing', { changeFrequency: 'monthly', priority: 0.6, lastModified: now }),
+    url('/research/datasets', { changeFrequency: 'monthly', priority: 0.6, lastModified: now }),
+    url('/research/prop-firms', { changeFrequency: 'monthly', priority: 0.6, lastModified: now }),
+    url('/research/risk', { changeFrequency: 'monthly', priority: 0.6, lastModified: now }),
+    url('/research/trading-costs', { changeFrequency: 'monthly', priority: 0.6, lastModified: now }),
+    url('/research/corrections', { changeFrequency: 'monthly', priority: 0.5, lastModified: now }),
+
+    // ── Community & best-of ───────────────────────────────────────────────
+    url('/community', { changeFrequency: 'monthly', priority: 0.7, lastModified: now }),
+    url('/best', { changeFrequency: 'monthly', priority: 0.65, lastModified: now }),
+    url('/best/prop-firm-uk', { changeFrequency: 'monthly', priority: 0.65, lastModified: now }),
+    url('/best/tradingview-review-uk', { changeFrequency: 'monthly', priority: 0.65, lastModified: now }),
+
+    // ── Guides ────────────────────────────────────────────────────────────
+    url('/guides/tradingview', { changeFrequency: 'monthly', priority: 0.6, lastModified: now }),
+
+    // ── Methodology ───────────────────────────────────────────────────────
+    url('/methodology', { changeFrequency: 'monthly', priority: 0.6, lastModified: now }),
+    url('/editorial-standards', { changeFrequency: 'yearly', priority: 0.5, lastModified: now }),
+    url('/editorial-policy', { changeFrequency: 'yearly', priority: 0.5, lastModified: now }),
+
+    // ── Legal / policy ────────────────────────────────────────────────────
+    url('/terms', { changeFrequency: 'yearly', priority: 0.3, lastModified: now }),
+    url('/privacy', { changeFrequency: 'yearly', priority: 0.3, lastModified: now }),
+    url('/disclaimer', { changeFrequency: 'yearly', priority: 0.3, lastModified: now }),
+    url('/cookies', { changeFrequency: 'yearly', priority: 0.3, lastModified: now }),
+    url('/legal/financial-disclaimer', { changeFrequency: 'yearly', priority: 0.3, lastModified: now }),
+    url('/legal/subscription-and-refunds', { changeFrequency: 'yearly', priority: 0.3, lastModified: now }),
+    url('/community-guidelines', { changeFrequency: 'yearly', priority: 0.3, lastModified: now }),
   ];
-  const methodologyClaimRoutes = methodologySlugs.map((slug) => ({
-    url: `${baseUrl}/methodology/${slug}`,
-    lastModified: staticDate,
-    changeFrequency: "weekly" as const,
-    priority: 0.7,
-  }));
-
-  // 6. Priority 0.6: /blog/[all posts]
-  const posts = await getAllPosts();
-  const blogRoutes = posts.map((post) => ({
-    url: `${baseUrl}/blog/${post.slug}`,
-    lastModified: new Date(post.dateModified || post.publishedAt),
-    changeFrequency: "weekly" as const,
-    priority: 0.6,
-  }));
-
-  // 7. Priority 0.5: /about, /contact
-  const aboutRoutes = ["/about", "/contact"].map((route) => ({
-    url: `${baseUrl}${route}`,
-    lastModified: staticDate,
-    changeFrequency: "weekly" as const,
-    priority: 0.5,
-  }));
-
-  // 8. Priority 0.1: Legal & Footer
-  // NOTE: /login and /signup are disallowed in robots.txt — NOT listed here.
-  const footerRoutes = [
-    "/terms",
-    "/privacy",
-    "/cookies",
-    "/disclaimer",
-    "/legal/financial-disclaimer",
-    "/legal/subscription-and-refunds",
-    "/community-guidelines",
-  ].map((route) => ({
-    url: `${baseUrl}${route}`,
-    lastModified: staticDate,
-    changeFrequency: "monthly" as const,
-    priority: 0.1,
-  }));
-
-  // 9. Priority 0.7: Broker review pages
-  // NOTE: /brokers/ig-index is a redirect to /brokers/ig-markets-review — excluded.
-  // NOTE: /brokers/quiz is a redirect — excluded.
-  const brokerReviewSlugs = [
-    "ig-markets-review",
-    "pepperstone-review",
-    "ic-markets-review",
-    "ig-markets",
-    "pepperstone",
-    "ic-markets",
-    "xtb",
-    "trading-212",
-    "spreadex",
-    "plus500",
-    "tastyfx",
-  ];
-  const brokerRoutes = brokerReviewSlugs.map((slug) => ({
-    url: `${baseUrl}/brokers/${slug}`,
-    lastModified: staticDate,
-    changeFrequency: "weekly" as const,
-    priority: 0.7,
-  }));
-
-  // 10. Priority 0.7: Markets Category pages
-  const marketCategoryRoutes = ["forex", "commodities", "indices", "crypto"].map((cat) => ({
-    url: `${baseUrl}/markets/${cat}`,
-    lastModified: staticDate,
-    changeFrequency: "weekly" as const,
-    priority: 0.7,
-  }));
-
-  // 11. Priority 0.7: Individual Market Instruments
-  const marketInstruments = getAllSlugs();
-  const marketInstrumentRoutes = marketInstruments.map((item) => ({
-    url: `${baseUrl}/markets/${item.category}/${item.slug}`,
-    lastModified: staticDate,
-    changeFrequency: "weekly" as const,
-    priority: 0.7,
-  }));
-
-  // 12. Priority 0.6: Market Expert Analysis reports
-  const analysisRoutes = expertAnalysis.map((post) => ({
-    url: `${baseUrl}/markets/analysis/${post.slug}`,
-    lastModified: new Date(post.date),
-    changeFrequency: "weekly" as const,
-    priority: 0.6,
-  }));
-
-  // 13. Priority 0.5: Glossary Term Pages (static list only)
-  const glossaryTermSlugs = new Set<string>();
-  const glossaryRoutes = GLOSSARY_TERMS.map((term) => {
-    glossaryTermSlugs.add(term.slug);
-    return {
-      url: `${baseUrl}/glossary/${term.slug}`,
-      lastModified: staticDate,
-      changeFrequency: "monthly" as const,
-      priority: 0.5,
-    };
-  });
-
-  // 14. Priority 0.6: Trading Tool Reviews
-  const tradingToolRoutes = tradingTools.map((tool) => ({
-    url: `${baseUrl}/trading-tools/${tool.slug}`,
-    lastModified: staticDate,
-    changeFrequency: "weekly" as const,
-    priority: 0.6,
-  }));
-
-  // 15. Dynamic seo_pages from Supabase
-  // FREEZE GUARD: Only included when PROGRAMMATIC_SEO_PUBLISHING_ENABLED=true.
-  // Currently frozen — no seo_pages enter the sitemap until editorial review is complete.
-  const supabaseRoutes: MetadataRoute.Sitemap = [];
-  if (SEO_PUBLISHING_ENABLED) {
-    try {
-      const supabase = createInternalSupabase();
-      const { data: seoPages } = await supabase
-        .from("seo_pages")
-        .select("slug, page_type, updated_at")
-        .eq("is_published", true);
-
-      if (seoPages) {
-        seoPages.forEach((page) => {
-          const lastMod = page.updated_at ? new Date(page.updated_at) : staticDate;
-
-          if (page.page_type === "compare") {
-            supabaseRoutes.push({
-              url: `${baseUrl}/compare/${page.slug}`,
-              lastModified: lastMod,
-              changeFrequency: "weekly" as const,
-              priority: 0.7,
-            });
-          } else if (page.page_type === "best") {
-            supabaseRoutes.push({
-              url: `${baseUrl}/best/${page.slug}`,
-              lastModified: lastMod,
-              changeFrequency: "weekly" as const,
-              priority: 0.7,
-            });
-          } else if (page.page_type === "how-to") {
-            supabaseRoutes.push({
-              url: `${baseUrl}/how-to/${page.slug}`,
-              lastModified: lastMod,
-              changeFrequency: "weekly" as const,
-              priority: 0.7,
-            });
-          } else if (page.page_type === "glossary" && !glossaryTermSlugs.has(page.slug)) {
-            supabaseRoutes.push({
-              url: `${baseUrl}/glossary/${page.slug}`,
-              lastModified: lastMod,
-              changeFrequency: "monthly" as const,
-              priority: 0.5,
-            });
-          }
-        });
-      }
-    } catch (err) {
-      console.error("[Sitemap] Failed to query dynamic Supabase seo_pages:", err);
-    }
-  } else {
-    console.log("[Sitemap] PROGRAMMATIC_SEO_PUBLISHING_ENABLED=false — seo_pages excluded from sitemap.");
-  }
-
-  // Assemble and deduplicate
-  const allRoutes = [
-    ...homeRoute,
-    phaseIndexRoute,
-    ...phaseRoutes,
-    ...moduleRoutes,
-    ...hubRoutes,
-    ...platformRoutes,
-    ...methodologyClaimRoutes,
-    ...blogRoutes,
-    ...aboutRoutes,
-    ...footerRoutes,
-    ...brokerRoutes,
-    ...marketCategoryRoutes,
-    ...marketInstrumentRoutes,
-    ...analysisRoutes,
-    ...glossaryRoutes,
-    ...tradingToolRoutes,
-    ...supabaseRoutes,
-  ];
-
-  const seen = new Set<string>();
-  return allRoutes.filter((route) => {
-    if (seen.has(route.url)) return false;
-    seen.add(route.url);
-    return true;
-  }) as MetadataRoute.Sitemap;
 }

@@ -111,6 +111,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: `${data.topicTitle} in ${data.locationName} — Learn Online | Drawdown AU`,
     description: `Learn ${data.topicTitle} from ${data.locationName} with Drawdown. Structured courses, ASIC-regulated data, and Australian-focused trading education.`,
+    alternates: {
+      canonical: `https://drawdown.trading/au/learn-to-trade/${topicSlug}/${citySlug}`,
+    },
+    robots: { index: false, follow: true },
   };
 }
 

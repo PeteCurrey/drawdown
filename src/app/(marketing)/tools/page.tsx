@@ -1,6 +1,13 @@
 import type { Metadata } from 'next'
 import ToolsPage from './ToolsClient'
 
+export const metadata: Metadata = {
+  title: 'Trading Tools — Risk Calculator, Backtester, Position Sizer | Drawdown',
+  description:
+    'Free and paid trading tools for independent traders. Risk calculator, position sizer, strategy backtester, AI trade journal and market intelligence — built by traders, for traders.',
+  alternates: { canonical: 'https://drawdown.trading/tools' },
+};
+
 import { 
   Wrench, 
   BarChart3, 

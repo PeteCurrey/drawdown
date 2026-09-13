@@ -19,7 +19,41 @@ import { Footer } from "@/components/layout/Footer";
 import { TradingViewSection } from "@/components/home/TradingViewSection";
 import { TrackPageView } from "@/components/admin/TrackPageView";
 import JsonLd from "@/components/seo/JsonLd";
+import type { Metadata } from "next";
 import { createInternalSupabase } from "@/lib/supabase/server";
+
+export const metadata: Metadata = {
+
+  title: "Drawdown — A Trading Operating System for Serious Independent Traders",
+  description:
+    "Risk calculators, pre-trade analysis, AI-assisted journalling, and structured education — all in one platform. Start free. No card required.",
+  alternates: { canonical: "https://drawdown.trading" },
+  openGraph: {
+    title: "Drawdown — A Trading Operating System for Serious Independent Traders",
+    description:
+      "Risk calculators, pre-trade analysis, AI-assisted journalling, and structured education — all in one platform. Start free.",
+    url: "https://drawdown.trading",
+    siteName: "Drawdown",
+    locale: "en_GB",
+    type: "website",
+    images: [
+      {
+        url: "https://drawdown.trading/og/default-og.png",
+        width: 1200,
+        height: 630,
+        alt: "Drawdown — A Trading Operating System",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Drawdown — A Trading Operating System for Serious Independent Traders",
+    description:
+      "Risk calculators, pre-trade analysis, AI-assisted journalling, and structured education. Start free.",
+    images: ["https://drawdown.trading/og/default-og.png"],
+    creator: "@drawdown_hq",
+  },
+};
 
 export default async function Home() {
   const supabase = createInternalSupabase();

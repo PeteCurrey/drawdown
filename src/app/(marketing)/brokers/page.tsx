@@ -1,6 +1,13 @@
 import type { Metadata } from 'next'
 import BrokerComparisonHub from './BrokersClient'
 
+export const metadata: Metadata = {
+  title: 'Best UK Forex Brokers 2026 — FCA Regulated & Independently Reviewed | Drawdown',
+  description:
+    'Compare FCA-regulated UK forex and CFD brokers. Independent reviews covering spreads, platforms, regulation, and suitability for retail traders. No paid placements in rankings.',
+  alternates: { canonical: 'https://drawdown.trading/brokers' },
+};
+
 import { Shield, ArrowRight, Filter, ShieldCheck, CheckCircle2, ChevronRight } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";

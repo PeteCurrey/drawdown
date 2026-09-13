@@ -1,50 +1,42 @@
-import { MetadataRoute } from "next";
-import { siteConfig } from "@/lib/metadata";
+import type { MetadataRoute } from 'next';
 
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: [
       {
-        // Standard crawlers
-        userAgent: "*",
-        allow: "/",
+        userAgent: '*',
+        allow: '/',
         disallow: [
-          // Private auth flows — user disallowed in sitemap too
-          "/admin/",
-          "/dashboard/",
-          "/api/",
-          "/auth/callback",
-          "/auth/",
-          "/login",
-          "/signup",
-          "/account",
-          // Cron endpoints
-          "/api/cron/",
-          // Internal redirect intermediaries — not canonical destinations
-          "/brokers?",     // query-string variants
-          // SSO / webhook endpoints
-          "/api/stripe/",
-          "/api/resend/",
+          '/dashboard/',
+          '/dashboard',
+          '/profile/',
+          '/profile',
+          '/admin/',
+          '/admin',
+          '/partner/',
+          '/partner',
+          '/api/',
+          '/api',
+          // Checkout and payment flows — never indexed
+          '/checkout/',
+          '/checkout',
+          // Internal utility routes
+          '/unsubscribe',
+          '/newsletter/',
+          '/newsletter',
+          // Auth flows — not for indexing
+          '/login',
+          '/signup',
+          '/forgot-password',
+          // Store success/thank-you pages — no index value
+          '/store/the-edge/success',
+          '/store/prop-survival-kit/success',
+          '/store/how-to-trade/success',
+          '/store/manual-bundle/success',
+          '/courses/deploy-your-algo/success',
         ],
       },
-      {
-        // Block AI training crawlers (optional — add/remove as needed)
-        userAgent: "GPTBot",
-        disallow: "/",
-      },
-      {
-        userAgent: "Google-Extended",
-        disallow: "/",
-      },
-      {
-        userAgent: "CCBot",
-        disallow: "/",
-      },
-      {
-        userAgent: "anthropic-ai",
-        disallow: "/",
-      },
     ],
-    sitemap: `${siteConfig.url}/sitemap.xml`,
+    sitemap: 'https://drawdown.trading/sitemap.xml',
   };
 }

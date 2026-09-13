@@ -313,7 +313,7 @@ export default function PlatformPage() {
                   Most trading platforms give you a chart and a buy button. Drawdown gives you context.
                 </p>
                 <p>
-                  The market intelligence hub aggregates data from institutional sources — the same feeds that professional trading desks monitor. Economic calendar events with impact ratings. COT (Commitment of Traders) data showing institutional positioning trends. Volatility windows across major FX pairs, commodities, and indices.
+                  The market intelligence hub aggregates publicly available institutional data — economic calendar events with impact ratings, CFTC Commitment of Traders (COT) reports showing institutional positioning, and volatility windows across major FX pairs, commodities, and indices.
                 </p>
                 <p>
                   The difference between a retail trader and a professional isn't strategy — it's context. Professionals know what the macro environment is, where institutions are positioned, and what events are on the calendar before they place a single trade. Now you do too.
@@ -333,7 +333,7 @@ export default function PlatformPage() {
                     "Institutional sentiment index (COT-derived)",
                     "Institutional consensus positioning — 4 major assets",
                     "Six-hour volatility windows per instrument",
-                    "Live news feed aggregated from 8 institutional sources",
+                    "Live news feed aggregated from multiple curated sources",
                     "Top movers — 1H, 4H, and daily timeframes"
                   ].map((item, idx) => (
                     <li key={idx} className="flex gap-4 items-start">

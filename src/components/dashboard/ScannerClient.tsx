@@ -1203,9 +1203,9 @@ function SmartMoneyTab({ inst, data }: { inst: ScannerInstrument; data: any }) {
           </p>
           <p className="text-[10px] font-mono text-text-secondary leading-relaxed mb-3">
             {signal === "SMART_MONEY_LONG"
-              ? `Smart money (commercials) are net long ${cotData.net_commercial > 0 ? "+" : ""}${cotData.net_commercial?.toLocaleString() ?? ""} contracts while hedge funds are net ${cotData.net_speculator < 0 ? "short" : "long"}. Historically this precedes a bullish move on a 2-4 week horizon.`
+              ? `Smart money (commercials) are net long ${cotData.net_commercial > 0 ? "+" : ""}${cotData.net_commercial?.toLocaleString() ?? ""} contracts while hedge funds are net ${cotData.net_speculator < 0 ? "short" : "long"}. Historically, commercial long positioning has preceded bullish phases — this is one contextual input, not a directional guarantee.`
               : signal === "SMART_MONEY_SHORT"
-              ? `Commercials are net short ${cotData.net_commercial?.toLocaleString() ?? ""} contracts while hedge funds hold longs. Commercial short interest historically precedes bearish moves.`
+              ? `Commercials are net short ${cotData.net_commercial?.toLocaleString() ?? ""} contracts while hedge funds hold longs. Commercial short positioning is often observed ahead of bearish phases — treat this as context, not a confirmed signal.`
               : "Commercial and speculator positioning is broadly balanced. No strong directional signal from COT data this week."}
           </p>
           <div className="flex items-center gap-4">

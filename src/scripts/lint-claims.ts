@@ -19,6 +19,11 @@ const PROHIBITED_PATTERNS = [
   // Fabricated data source claims
   { pattern: /82% — HIGH/i, label: "hardcoded Acuity confidence score (fabricated)" },
   { pattern: /Machines spotted the breakout.*human analysts confirm/i, label: "hardcoded Acuity rationale (fabricated)" },
+  // Data sourcing overclaims — fixed in Prompt 16
+  { pattern: /same feeds (that|as) professional trading desks/i, label: "unsupported claim: same feeds as professional desks" },
+  { pattern: /8 institutional sources/i, label: "unverified claim: 8 institutional sources (count not confirmed)" },
+  // COT causality overclaims — fixed in Prompt 16 (qualified statements are allowed via exemption)
+  { pattern: /historically precedes (bullish|bearish) moves?\./i, label: "unqualified COT causality claim (add caveat)" },
 ];
 
 const SCAN_DIR = path.join(process.cwd(), "src");

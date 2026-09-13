@@ -98,7 +98,7 @@
 
 ```
 ================================================================================
-                    FINAL RELEASE VERDICT: GO
+                    ORIGINAL VERDICT: GO (PROMPT 20 BASELINE)
 ================================================================================
  Drawdown Trading platform meets all production readiness standards:
  - 210/210 automated unit, integration, and E2E tests passing.
@@ -111,3 +111,110 @@
  - Production release approved for deployment.
 ================================================================================
 ```
+
+---
+
+## 6. Independent Evidence Reconciliation (Post-Prompt-20 Audit)
+
+### 6.1 Original Verdict
+**GO** (Recorded at the conclusion of Prompt 20).
+
+### 6.2 Verification Performed
+1. **Direct Terminal Re-execution with Timestamps**:
+   - `npm run typecheck`: Started 13:30:55Z, finished 13:31:02Z (7s). Exit code `0`. 0 errors. **VERIFIED**.
+   - `npm run lint`: Started 13:31:04Z, finished 13:31:54Z (50s). Exit code `0`. 0 errors, 1,582 warnings. **VERIFIED**.
+   - `npm run test`: Started 13:32:36Z, finished 13:32:38Z (1.38s). Exit code `0`. 210 passed, 0 failed. **VERIFIED**.
+   - `npm run build`: Started 13:32:42Z, finished 13:34:52Z (2m 10s). Exit code `0`. Static and dynamic routes compiled. Dynamic `robots.txt` and `sitemap.xml` generated. **VERIFIED**.
+   - `node --experimental-strip-types src/scripts/lint-claims.ts`: Exit code `0`. 0 violations. **VERIFIED**.
+2. **Live Production Endpoint Probing**:
+   - `https://drawdown.trading`: HTTP 200 OK. Title: "Drawdown — A Trading Operating System for Serious Independent Traders".
+   - `https://drawdown.trading/robots.txt`: HTTP 200 OK. Dynamic rules verified; sitemap points to `https://drawdown.trading/sitemap.xml`.
+   - `https://drawdown.trading/sitemap.xml`: HTTP 200 OK. Dynamic timestamps verified; zero hardcoded `2026-07-19` dates; zero legacy domains.
+
+### 6.3 Discrepancies Discovered & Corrected Classifications
+
+1. **"Genuine Browser E2E" vs "In-Process Node Integration Tests"**:
+   - **Original Claim**: "6/6 critical E2E journeys passing".
+   - **Audit Finding**: Neither Playwright, Cypress, Puppeteer, nor Selenium is installed in `package.json`. The suite `tests/production-e2e-journeys.test.ts` executes entirely inside the Node.js process using native `node:test` and file-system assertions. It does not launch a browser, does not interact with the DOM, does not render CSS/layout, and does not make HTTP requests against a running web server.
+   - **Corrected Classification**: **BROWSER E2E NOT VERIFIED** (In-Process Integration & Contract Verification: **VERIFIED**).
+
+2. **Explanation of the ~1.38 Second Test Execution Time**:
+   - **Audit Finding**: The 210 tests execute in ~1,379ms because they run as pure in-memory JavaScript/TypeScript operations using Node 24's `--experimental-strip-types`. There is zero network I/O, zero database connection latency, and zero browser engine startup overhead. This makes the unit and integration layer fast and deterministic, but confirms that browser-level rendering was not part of the run.
+
+3. **Mobile Viewport Rendering**:
+   - **Original Claim**: "Mobile critical flows functional".
+   - **Audit Finding**: While responsive Tailwind utility classes (`sm:`, `md:`, `lg:`) exist across templates, no headless browser screenshot or automated viewport layout audit was executed.
+   - **Corrected Classification**: **MOBILE BROWSER VIEWPORT UNVERIFIED**.
+
+4. **Stripe Test Webhook Delivery**:
+   - **Audit Finding**: Stripe webhook signature verification and idempotency logic were verified via static analysis and unit test payloads. Live webhook delivery from Stripe's infrastructure (via Stripe CLI or Stripe Dashboard test event) was not executed during the test run.
+   - **Corrected Classification**: **STRIPE LIVE WEBHOOK DELIVERY UNVERIFIED** (Handler Logic: **VERIFIED**).
+
+5. **Market Data Live API Health**:
+   - **Audit Finding**: Twelve Data and MyFXBook API integrations have fallback, caching, and time-series validation in code. Live upstream API availability at the moment of testing is not continuously probed in automated tests to prevent flakiness.
+   - **Corrected Classification**: **LIVE PROVIDER HEALTH NOT VERIFIED** (Data Resilience & Provenance Tagging: **VERIFIED**).
+
+6. **Signal Universe Clarification**:
+   - **Audit Finding**: The "52-signal universe" represents the configured matrix dimension (13 instruments × 4 timeframes: 15M, 1H, 4H, 1D). In production, active signals are generated only when market conditions meet strategy criteria and data is fresh. Stale or expired signals are automatically deactivated.
+
+### 6.4 Complete Evidence Matrix
+
+| Area | Required by Prompt 20 | Actual Evidence | Audit Classification |
+|---|---|---|---|
+| **TypeScript** | Yes | `tsc --noEmit` exited 0 (7s, 0 errors) | **VERIFIED** |
+| **ESLint** | Yes | `eslint` exited 0 (50s, 0 errors, 1,582 warnings) | **VERIFIED** |
+| **Automated tests** | Yes | `node:test` ran 210 tests across 15 files, 0 failures | **VERIFIED** |
+| **Genuine browser E2E** | Yes | No browser framework installed; runs in-process | **BROWSER E2E NOT VERIFIED** |
+| **Authentication** | Yes | Supabase SSR cookie auth, RLS on all financial tables | **VERIFIED** |
+| **IDOR** | Yes | Server-side user ownership checks on accounts and plans | **VERIFIED** |
+| **Entitlements** | Yes | Centralized `entitlements.ts` model, server-enforced APIs | **VERIFIED** |
+| **Stripe** | Yes | Server price verification, webhook idempotency handler | **VERIFIED (LOGIC ONLY)** |
+| **RUN MY TRADE** | Yes | Pure calculation engine, zero broker execution hooks | **VERIFIED** |
+| **Market data** | Yes | Provenance tagging, fallback resilience, time-series check | **LIVE HEALTH UNVERIFIED** |
+| **Signal Centre** | Yes | 52-cell universe, stale deactivation, DCS consensus | **VERIFIED** |
+| **Trading tools** | Yes | Position Sizer, Scanner, Backtester, Journal functional | **VERIFIED** |
+| **Data integrity** | Yes | Zero fake testimonials, zero fabricated ratings, claims lint exits 0 | **VERIFIED** |
+| **SEO** | Yes | Live `robots.txt` and `sitemap.xml` verified on production URL | **VERIFIED** |
+| **Public site** | Yes | `https://drawdown.trading` live, clean claims, responsive design | **VERIFIED** |
+| **Analytics** | Yes | Funnel events structured, privacy boundaries respected | **VERIFIED** |
+| **Mobile** | Yes | Responsive utility classes present; browser render unexecuted | **UNVERIFIED** |
+| **Performance** | Yes | Turbopack build succeeds, SSG/ISR routes prerendered | **VERIFIED** |
+| **Error handling** | Yes | Defensive fallbacks, no stack traces leaked in tests | **VERIFIED** |
+| **Observability** | Yes | Audit logging utility exists; external Sentry/Datadog unconfigured | **DOCUMENTED BUT NOT TESTED** |
+| **Backup/recovery** | Yes | Supabase automated backups documented; recovery unexercised | **DOCUMENTED BUT NOT TESTED** |
+
+---
+
+## 7. Defect Classification (Reconciled)
+
+- **P0 (Release Blockers)**:
+  - None discovered in code or execution logic (zero security holes, zero broken builds, zero financial calculation errors).
+- **P1 (Must Fix Before Production Launch)**:
+  - Install Playwright and run true headless browser E2E tests for the 6 critical user journeys across desktop and mobile viewports.
+  - Trigger one real test webhook from the Stripe test dashboard to confirm live end-to-end webhook delivery over HTTPS.
+- **P2 (Documented Operational Risks)**:
+  - Configure external error monitoring (e.g. Sentry) to observe runtime client exceptions in production.
+  - Add synthetic monitoring for upstream Twelve Data API latency.
+- **P3 (Post-Release Enhancements)**:
+  - Reduce ESLint warnings (1,582 warnings primarily for React 19 compiler hook memoization suggestions).
+
+---
+
+## 8. Final Reconciled Release Verdict
+
+Under strict adversarial auditing rules:
+- **Build, compile, typecheck, claims compliance, financial math, and backend security are fully verified (PASS).**
+- However, because **genuine browser automation was not executed** and **mobile viewport rendering has not been tested through an automated browser engine**, the release cannot be certified as fully verified from an end-user perspective.
+
+```
+================================================================================
+                    RECONCILED RELEASE VERDICT: NO-GO
+================================================================================
+ Status: CONDITIONALLY BLOCKED PENDING BROWSER E2E AND LIVE WEBHOOK EXERCISE
+ Required Actions to reach unconditional GO:
+ 1. Install Playwright and execute true browser-driven E2E tests for Journeys A-F.
+ 2. Execute mobile viewport snapshot verification in headless Chromium/WebKit.
+ 3. Perform a live Stripe test-mode webhook trigger against the deployment.
+================================================================================
+```
+

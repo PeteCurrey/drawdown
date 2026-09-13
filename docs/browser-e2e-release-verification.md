@@ -249,3 +249,29 @@ Only live production Stripe keys (`pk_live_...`, `whsec_vx...`) are present in `
 | **Blocker 1** | Genuine browser automation | **RESOLVED** — 27/27 public + 9/9 authenticated |
 | **Blocker 2** | Mobile viewport rendering (browser engine) | **RESOLVED** — 375×812 & 390×844 verified |
 | **Blocker 3** | Live Stripe test-mode webhook delivery | **CLASSIFIED** — handler verified; live push is operational smoke test |
+
+---
+
+## 10. Final Release Decision Addendum: Signal Centre 500 & Stripe Resolution
+
+### 10.1 Signal Centre HTTP 500 Investigation Findings
+- **Investigation**: 10 Playwright Chromium browser loads executed against `https://www.drawdown.trading/dashboard/signal-centre` (5 Free tier, 5 Paid tier).
+- **Result**:
+  - Free tier: 5/5 returned HTTP 500 (Next.js default root error: "This page couldn’t load").
+  - Paid tier: 5/5 returned HTTP 200 OK (Full Signal Centre UI rendered cleanly).
+- **Defect Classification**: **Class A (Confirmed Application Defect)**.
+- **Root Cause**: Unsafe `.toFixed()` and `.toLocaleString()` calls on nullified numeric values (`entry_price`, `stop_loss`, `take_profit_2`, `rr_ratio`) during React Server-Side Rendering (SSR) in `SignalCentreDashboardClient.tsx` and `PublicSignalDetailClient.tsx`.
+- **Code Remediation**:
+  - Added null guards and fallback placeholders (`"—"` and `"─ ─"`) for all numeric calculations.
+  - Added `error.tsx` route error boundary for `/dashboard/signal-centre`.
+  - Verified local build `exit 0` and pushed to `main` as `ee705aa` and `adf5d7a`.
+- **Production Status**: The live Vercel deployment remains on build `dpl_8qJQDNZHxJ5fVSsu7X5mWe9dxmQv` (built 14:08 GMT). Until Vercel completes deployment of `adf5d7a`, the live production server continues to return 500 for Free users.
+
+### 10.2 Stripe Test-Mode Status & Formal Exception
+- **Status**: **UNVERIFIED**. No `sk_test_...` credentials exist in the environment.
+- **Release Exception**: Formally documented in `docs/production-release-gate.md` with full operational test procedure, risk assessment, and mitigation. Awaiting explicit named Release Owner approval from Pete Currey.
+
+### 10.3 Final Verdict Alignment
+Per audit mandate, because the live production deployment serves HTTP 500 for Free users on `/dashboard/signal-centre` and Stripe lacks named release-owner sign-off:
+
+**FINAL RELEASE VERDICT: NO-GO**

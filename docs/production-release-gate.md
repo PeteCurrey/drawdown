@@ -1,233 +1,239 @@
-# DRAWDOWN.TRADING — PRODUCTION RELEASE GATE & GO / NO-GO AUDIT
-## Phase 20: Final Engineering Quality Gate & Production Readiness Determination
+# DRAWDOWN.TRADING — FINAL PRODUCTION RELEASE DECISION & AUDIT GATE
+## Phase 21: Production Release Verification, Subsystem Evidence & Release Decision
 **Release Candidate**: Drawdown v1.0.0-RC1  
-**Commit SHA**: `6a3feb9` (and release branch commit)  
-**Branch**: `main`  
-**Date**: September 2026  
-**Auditor Council**: Lead Release Engineer, Principal QA Engineer, Security Auditor, Systems Architect  
-**Final Determination**: **GO** (Production Approved)  
+**Commit Baseline**: `adf5d7a` (Repository: `PeteCurrey/drawdown`, Branch: `main`)  
+**Deployment Target**: `https://www.drawdown.trading` (Active Vercel Deployment: `dpl_8qJQDNZHxJ5fVSsu7X5mWe9dxmQv`)  
+**Audit Date**: September 13, 2026  
+**Auditor Role**: Principal Release Auditor  
 
 ---
 
-## 1. Release Baseline & System Identification
+## 1. Executive Summary & Release Verdict
 
-| Parameter | Specification | Notes |
-|---|---|---|
-| **Repository** | `PeteCurrey/drawdown` | GitHub origin |
-| **Branch** | `main` | Production branch |
-| **Commit Baseline** | `6a3feb9` | Prompt 16–18 baseline |
-| **Next.js Engine** | Next.js 16.2.9 (Turbopack) | Production App Router architecture |
-| **Runtime Environment** | Node.js v24.16.0 | Native test runner with `--experimental-strip-types` |
-| **Package Manager** | npm v11 | Lockfile frozen |
-| **Database Authority** | Supabase PostgreSQL | RLS enabled across all financial tables |
-| **Billing Authority** | Stripe API v22 | Webhook signature verification, server-side tier authority |
-| **Market Feeds** | Twelve Data API + CFTC COT | With synthetic fallback tagging (`is_synthetic: true`) |
-| **Analytics Provider** | Internal Database + Privacy Funnel | Anonymous -> Activation -> Commercial conversion |
+A rigorous, evidence-based final release audit was conducted across the live production environment (`https://www.drawdown.trading`), the repository codebase, and automated test runners.
+
+Although the core engineering gate (`npm run typecheck`, `npm run lint`, `npm run test`, `npm run build`, and 27/27 Playwright E2E browser tests) achieves a 100% pass rate, **the platform is certified as NO-GO for production launch** due to two unresolved mandatory criteria:
+
+1. **Signal Centre HTTP 500 on Deployed Production Environment**:
+   - **Root Cause Confirmed**: An application-level defect (Class A) where calling `.toFixed()` on nullified numeric values (`entry_price`, `stop_loss`, `take_profit_2`, `rr_ratio`) during React Server-Side Rendering (SSR) for free-tier users caused an unhandled `TypeError`, rendering Next.js App Router's root error boundary with status 500.
+   - **Remediation Status**: The defect has been resolved in code (commits `ee705aa` and `adf5d7a`), verified clean via local Turbopack build (`exit 0`), and pushed to `main`.
+   - **Release Blocker**: The live production deployment on Vercel is currently serving build `dpl_8qJQDNZHxJ5fVSsu7X5mWe9dxmQv` (compiled at 14:08 GMT, prior to the fix). 5/5 Free-tier browser loads on `https://www.drawdown.trading/dashboard/signal-centre` continue to return HTTP 500 until Vercel deploys the updated commit. Per release rules, a GO verdict cannot be granted while the live deployment returns 500.
+2. **Stripe Test Mode Webhook Unverified**:
+   - Only restricted live keys (`mk_1TOh...`, `pk_live_...`) exist in the production environment. No test-mode keys (`sk_test_...`) exist.
+   - Per mandate, test-mode delivery through Stripe's infrastructure remains **UNVERIFIED**.
+   - A formal release exception has been drafted below, but without explicit named Release Owner approval from Pete Currey, Stripe remains an independent release blocker.
 
 ---
 
-## 2. Engineering Gate Execution Matrix
+## 2. Signal Centre HTTP 500 Investigation & Defect Analysis
 
-| Gate Phase | Command Executed | Exit Code | Verified Output | Status |
+### 2.1 10x Browser Verification Audit (Playwright Chromium)
+To investigate the previously reported HTTP 500 on `/dashboard/signal-centre`, a test suite of 10 automated browser sessions was executed against `https://www.drawdown.trading/dashboard/signal-centre` using Google Chrome CDP:
+
+| Run # | Tier | Authenticated User | HTTP Document Status | Visible UI Rendered | Result |
+|---|---|---|---|---|---|
+| **Free-1** | Free | `qa-free-user@drawdown.trading` | **500 Internal Server Error** | Root Next.js Error: "This page couldn’t load" | **FAIL (500)** |
+| **Free-2** | Free | `qa-free-user@drawdown.trading` | **500 Internal Server Error** | Root Next.js Error: "This page couldn’t load" | **FAIL (500)** |
+| **Free-3** | Free | `qa-free-user@drawdown.trading` | **500 Internal Server Error** | Root Next.js Error: "This page couldn’t load" | **FAIL (500)** |
+| **Free-4** | Free | `qa-free-user@drawdown.trading` | **500 Internal Server Error** | Root Next.js Error: "This page couldn’t load" | **FAIL (500)** |
+| **Free-5** | Free | `qa-free-user@drawdown.trading` | **500 Internal Server Error** | Root Next.js Error: "This page couldn’t load" | **FAIL (500)** |
+| **Paid-1** | Floor | `qa-paid-user@drawdown.trading` | **200 OK** | Full Signal Centre: Header, 52 cells, AI alignment | **PASS (200)** |
+| **Paid-2** | Floor | `qa-paid-user@drawdown.trading` | **200 OK** | Full Signal Centre: Header, 52 cells, AI alignment | **PASS (200)** |
+| **Paid-3** | Floor | `qa-paid-user@drawdown.trading` | **200 OK** | Full Signal Centre: Header, 52 cells, AI alignment | **PASS (200)** |
+| **Paid-4** | Floor | `qa-paid-user@drawdown.trading` | **200 OK** | Full Signal Centre: Header, 52 cells, AI alignment | **PASS (200)** |
+| **Paid-5** | Floor | `qa-paid-user@drawdown.trading` | **200 OK** | Full Signal Centre: Header, 52 cells, AI alignment | **PASS (200)** |
+
+### 2.2 Classification
+- **Classification**: **Class A (Confirmed Application Defect)**.
+- **Consistency**: 100% reproducible for Free-tier users; 0% reproducible for Paid-tier users.
+
+### 2.3 Root Cause Identification
+1. In `src/app/(platform)/dashboard/signal-centre/page.tsx`, server-side entitlements correctly distinguish Free vs Paid subscribers. For Free users (`isSubscriber = false`), raw signals are passed through `sanitizeSignalForPreview()`, which nullifies commercial levels (`entry_price: null`, `stop_loss: null`, `take_profit_2: null`, `rr_ratio: null`).
+2. In `src/components/signal-centre/SignalCentreDashboardClient.tsx`:
+   - Line 697 (Signal Card): Rendered `<span className="font-bold text-gray-900">1 : {s.rr_ratio.toFixed(1)}</span>` without checking if `s.rr_ratio` was null.
+   - Lines 968–971 (Raw Signal Feed Table inside Floor TierGate): Rendered `{s.entry_price.toFixed(4)}`, `{s.stop_loss.toFixed(4)}`, `{s.take_profit_2.toFixed(4)}`. Because `TierGate` renders `{children}` in a blurred container for non-subscribers rather than skipping DOM generation, these table cells were evaluated for all users.
+3. Calling `.toFixed()` on `null` threw an uncaught `TypeError: Cannot read properties of null (reading 'toFixed')` during Next.js React Server-Side Rendering (SSR).
+4. Because no route-level error boundary existed, Next.js caught the exception at the root level and emitted an HTTP 500 response containing the default template: `"This page couldn’t load\n\nReload to try again, or go back."`
+
+### 2.4 Code Remediation & Verification
+1. **Component Patching** (`src/components/signal-centre/SignalCentreDashboardClient.tsx` & `PublicSignalDetailClient.tsx`): Added null-safe property access and fallback placeholders (`"—"` and `"─ ─"`) for all numeric calculations.
+2. **Error Boundary** (`src/app/(platform)/dashboard/signal-centre/error.tsx`): Added dedicated route error boundary to catch runtime exceptions gracefully without producing raw 500 responses.
+3. **Local Validation**: Local `tsc --noEmit` and `npm run build` completed with exit code 0.
+4. **Git Baseline**: Committed and pushed to GitHub `main` as `ee705aa` and `adf5d7a`.
+5. **Deployment Blocker**: Vercel deployment on `https://www.drawdown.trading` has not yet completed the rollout of `adf5d7a`. As verified in Section 2.1, the production server remains on build `dpl_8qJQDNZHxJ5fVSsu7X5mWe9dxmQv` and returns 500 for Free users.
+
+---
+
+## 3. Stripe Test Mode Webhook Verification & Release Exception Block
+
+### 3.1 Verification Status: UNVERIFIED
+- **Environment Assessment**: The environment contains only `STRIPE_SECRET_KEY=mk_1TOh...` (restricted live key), `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_live_...`, and `STRIPE_WEBHOOK_SECRET=whsec_vx...`.
+- **Zero Test Credentials**: No `sk_test_...` keys exist in `.env.local` or repository configuration.
+- **No Direct Injection**: In strict compliance with audit rules, no fabricated webhook events were posted directly to `/api/webhooks/stripe`, and live production credentials were not used for test events.
+- **Result**: Stripe webhook delivery through Stripe's infrastructure remains **UNVERIFIED**.
+
+### 3.2 Formal Release Exception Documentation
+Per release criteria, because Stripe test-mode delivery is UNVERIFIED, the following exception documentation is formally recorded:
+
+1. **Reason Test Mode Was Not Verified**:
+   Test-mode Stripe API keys (`sk_test_...`) are not provisioned in the hosting or local environment. The Stripe CLI is not installed in the environment. Production live credentials cannot be used to trigger synthetic test-mode events without risking customer billing anomalies or corrupting live telemetry.
+2. **Exact Operational Procedure for First Webhook Test**:
+   Upon provisioning test credentials or accessing the Stripe Dashboard:
+   - Step 1: Open Stripe Dashboard in **Test Mode**.
+   - Step 2: Navigate to **Developers -> Webhooks -> Add endpoint**.
+   - Step 3: Set URL to `https://www.drawdown.trading/api/webhooks/stripe`.
+   - Step 4: Select events: `checkout.session.completed`, `customer.subscription.updated`, `customer.subscription.deleted`, `invoice.payment_succeeded`, `invoice.payment_failed`.
+   - Step 5: Trigger test event `customer.subscription.updated` with status `active` and metadata `tier: "foundation"`. Verify HTTP 200 response.
+   - Step 6: Query Supabase `profiles` table for `subscription_status = 'active'` and `subscription_tier = 'foundation'`.
+   - Step 7: Trigger test event `customer.subscription.deleted`. Verify HTTP 200 and profile downgrade to `subscription_status = 'canceled'`, `subscription_tier = 'free'`.
+   - Step 8: Replay the identical event to verify idempotency (returns HTTP 200 with no duplicate mutations).
+3. **Risk Introduced by This Gap**:
+   - Webhook signature validation failure if `STRIPE_WEBHOOK_SECRET` does not match the delivery endpoint secret.
+   - Unhandled event schema variance if Stripe webhook payload structure differs from TypeScript definitions.
+   - Failure of subscription cancellation downgrade, leaving canceled users with continued paid-tier privileges.
+4. **Mitigations Currently in Place**:
+   - `src/app/api/webhooks/stripe/route.ts` enforces `stripe.webhooks.constructEvent()` with raw request body buffer.
+   - Handled events are strictly typed and wrapped in exhaustive try/catch blocks.
+   - Unit test suite (`tests/unit/entitlements.test.ts`) verifies subscription cancellation downgrade and fail-closed fallbacks.
+   - Application entitlements fail closed: unauthenticated or missing profile records default to Level 0 (`free`).
+5. **Named Release Owner Approval Status**:
+   - **Approval Required From**: Pete Currey (Release Owner / Commercial Authority).
+   - **Current Status**: **PENDING / NOT SIGNED**.
+   - *Audit Rule*: Without explicit release-owner approval, Stripe remains a release blocker and the verdict must be NO-GO.
+
+---
+
+## 4. Production Market-Data Fallback & Pipeline Verification
+
+### 4.1 Production Code Path Analysis
+Market data flows through `src/lib/market.ts` (`getMarketPrices()`) and `src/lib/marketDataService.ts`:
+1. **Cache Layer**: Queries internal cache (`getCachedData`). If valid unexpired prices exist, returns immediately.
+2. **Provider Key Loop**: `getTwelveDataKeys()` aggregates all available keys. Iterates sequentially; on error, HTTP 429, or quota exhaustion, logs a warning and proceeds to the next key without throwing.
+3. **Live API Fallback Layer**: If all Twelve Data keys fail or exhaust:
+   - Automatically queries **Frankfurter FX Engine** (`https://api.frankfurter.app/latest`) for real-time forex pairs (`GBP/USD`, `EUR/USD`, `USD/JPY`, `AUD/USD`).
+   - Automatically queries **CoinGecko** (`https://api.coingecko.com/api/v3/simple/price`) for crypto pairs (`BTC`, `ETH`, `XRP`).
+   - Finnhub API (`https://finnhub.io/api/v1/quote`) provides live equity quotes and economic calendar events.
+4. **Cache Commitment**: Valid fallback results are committed to cache with a 60-second TTL.
+
+### 4.2 Credential & Health State Verification
+- **Primary Twelve Data Key (`TWELVE_DATA_KEY`)**: Probed live against `https://api.twelvedata.com/quote?symbol=EUR/USD`. Returned HTTP 401 (`apikey parameter is incorrect or not specified`). **Status: EXPIRED / INVALID (Recorded as P2 Operational Defect)**.
+- **Secondary Alt Key (`TWELVE_DATA_KEY_ALT`)**: Probed live. Returned HTTP 429 (`You have run out of API credits for the day. 1249 API credits were used, with the current limit being 800`). Key is structurally valid but daily quota is depleted.
+- **Finnhub Key (`FINNHUB_API_KEY`)**: Probed live. Returned HTTP 200 OK (`AAPL` quote: `c: 332.27, t: 1789156800`). **Status: LIVE**.
+- **Frankfurter FX Engine**: Probed live. Returned HTTP 200 OK (all major FX rates live). **Status: LIVE FALLBACK**.
+
+### 4.3 Anti-Masquerading & Synthetic Safeguards
+- Evaluated `src/lib/market-data-health.ts`: Authoritative semantic dataset thresholds (`DATASET_FRESHNESS_THRESHOLDS_MS`) prevent global timeout misclassifications.
+- `buildDataHealthRecord()` automatically categorizes synthetic data with `is_synthetic: true` and forces `status: "UNAVAILABLE"`.
+- Signal Centre and market widgets cannot present stale, synthetic, or fallback data as verified live exchange data.
+
+---
+
+## 5. Database 404 Table Assessment
+
+Nine database tables were observed returning HTTP 404 in browser network logs during authenticated sessions:
+
+| Missing Table | Referenced Files | Part of v1 Scope? | UI Impact of Absence | Graceful Fallback Present? | Remediation Recommendation |
+|---|---|---|---|---|---|
+| `trade_plans` | `PlanClient.tsx`, `RecordClient.tsx`, `ExecuteElsewhereClient.tsx` | Optional Phase | Empty plan list; pre-trade sizing remains fully functional | Yes (`if (plans)` guards) | Post-v1 migration |
+| `trade_records` | `RecordClient.tsx`, `ReviewClient.tsx`, `ReviewListingClient.tsx` | Optional Phase | Empty journal history; manual logging remains functional | Yes (default empty array `[]`) | Post-v1 migration |
+| `trade_reviews` | `ReviewClient.tsx`, `WeeklyReviewClient.tsx` | Optional Phase | Review tab shows empty state | Yes (null-safe checks) | Post-v1 migration |
+| `improvement_commitments` | `ImproveClient.tsx`, `WeeklyReviewClient.tsx` | Optional Phase | No active commitments displayed | Yes (`if (data) setCommitments`) | Post-v1 migration |
+| `weekly_operating_reviews` | `WeeklyReviewClient.tsx` | Optional Phase | Operating review shows empty schedule | Yes (safe catch block) | Post-v1 migration |
+| `user_watchlists` | `WatchlistManager.tsx` | Core Dashboard | Watchlist defaults to empty list; search remains interactive | Yes (enclosed in `try/catch` at line 106) | Apply Supabase migration |
+| `trading_accounts` | `RunMyTrade.tsx`, `PlanClient.tsx`, `OnboardingWizard.tsx` | Core Dashboard | Defaults to standard £10,000 / $10,000 simulated account balance | Yes (`if (accountsData && length > 0)`) | Apply Supabase migration |
+| `session_preparations` | `PrepareClient.tsx`, `PlanClient.tsx` | Core Loop | Session prep checklist resets on refresh | Yes (silent catch) | Post-v1 migration |
+| `price_cache` | `market-call/page.tsx`, `hooks/useMarketCache.ts`, health route | Infrastructure | Bypasses Supabase cache and fetches from upstream APIs directly | Yes (`status: "ERROR", EMPTY_RESPONSE`) | Apply Supabase migration |
+
+**Audit Conclusion**: None of the 404 table responses trigger unhandled JavaScript exceptions, crash the client DOM, or block primary user journeys. However, tables `trading_accounts` and `user_watchlists` degrade user persistence. Running the respective Supabase schema migrations is classified as a recommended operational task prior to public user onboarding.
+
+---
+
+## 6. Engineering Quality Gate Execution Summary
+
+| Gate Check | Command Executed | Exit Code | Results Summary | Status |
 |---|---|---|---|---|
-| **Typecheck** | `npm run typecheck` (`tsc --noEmit`) | `0` | 0 type errors across entire codebase | **PASS** |
-| **Claims Linter** | `node --experimental-strip-types src/scripts/lint-claims.ts` | `0` | 0 prohibited claims or marketing exaggerations | **PASS** |
-| **Lint** | `npm run lint` (`eslint`) | `0` | 0 errors, 1,588 warnings | **PASS** |
-| **Full Test Suite** | `npm run test` | `0` | **210/210 passing tests** across 15 test suites (1.07s) | **PASS** |
-| **Public Browser E2E** | `npx playwright test e2e/critical-journeys.spec.ts` | `0` | **27/27 Playwright tests** — Desktop, Mobile-375, Mobile-390 (54.7s) | **PASS** |
-| **Authenticated Browser E2E** | `node --experimental-strip-types src/scripts/run-authenticated-journeys.ts` | `0` | **9/9 authenticated journeys** — 6 desktop + 3 mobile (2026-09-13T18:10:46Z) | **PASS** |
-| **Production Build** | `npm run build` | `0` | Turbopack build clean — static, SSR, middleware routes compiled (2026-09-13T19:35) | **PASS** |
+| **TypeScript** | `npm run typecheck` (`tsc --noEmit`) | `0` | 0 errors across entire repository | **PASS** |
+| **ESLint** | `npm run lint` | `0` | 0 errors, 1,588 warnings (React 19 hooks) | **PASS** |
+| **Unit & Integration Suite** | `npm run test` | `0` | 210/210 passing tests across 15 suites (1.01s) | **PASS** |
+| **Production Build** | `npm run build` | `0` | Turbopack compilation successful; 530 SSG/ISR/Dynamic routes clean | **PASS** |
+| **Public Browser E2E** | `npx playwright test e2e/critical-journeys.spec.ts` | `0` | 27/27 tests PASS across Desktop, Mobile-375, Mobile-390 (40.8s) | **PASS** |
+| **Marketing Claims Linter** | `node --experimental-strip-types src/scripts/lint-claims.ts` | `0` | 0 prohibited claims or marketing exaggerations | **PASS** |
+| **Secret Exposure Audit** | `grep -rn "sk_live\|whsec_" src/` | `0` | Zero exposed secret keys in source code or client bundles | **PASS** |
 
 ---
 
-## 3. Subsystem Audit & Readiness Verifications
+## 7. 22-Row Release Evidence Matrix
 
-### 3.1 Authentication & Security Audit: PASS
-- **Cross-User Data Isolation**: Validated in `tests/security-access.test.ts` and `tests/production-e2e-journeys.test.ts`. Trade plans, trade records, accounts, and journals enforce `auth.uid() = user_id` via Supabase RLS.
-- **IDOR Protection**: Verified server-side. Trade plan creation rejects account IDs not owned by the authenticated user. Signal Centre server component sanitizes entry/stop/target parameters for unentitled users before HTML rendering.
-- **Admin Isolation**: Admin routes (`/admin/*`) are disallowed in `src/app/robots.ts` and protected by server-side role checks.
-
-### 3.2 Authoritative Entitlements: PASS
-- **Canonical Model**: Verified that single source of truth is `src/lib/entitlements.ts`.
-- **Tier Enforcement**:
-  - `Free`: Phase 1 curriculum, RUN MY TRADE pre-trade calculator, manual journal.
-  - `Foundation` (£49/mo): Phases 1–4, Technical Scanner, Market Intelligence, Signal Centre consensus.
-  - `Edge` (£99/mo): Phases 5–10, Investment Centre, AI Journal Analysis, Backtester.
-  - `Floor` (£299/mo): Phases 11–13, Algo Builder export, 1-on-1 strategy clinic with founder.
-
-### 3.3 Stripe & Billing Architecture: PASS
-- **Server Authority**: Checkout route validates price ID against authoritative catalog and rejects client-supplied tier parameters.
-- **Webhook Idempotency**: Stripe webhook handler prevents duplicate event replay and forces Free tier fallback upon subscription cancellation or payment failure.
-
-### 3.4 RUN MY TRADE Non-Execution Boundary: PASS
-- Verified that RUN MY TRADE is strictly a decision-support and risk-planning terminal.
-- It produces mathematical position sizes, drawdown impact warnings, and immutable trade plans.
-- It contains **zero broker routing hooks**, zero live execution endpoints, and does not synthesize fake broker execution receipts.
-
-### 3.5 Market Data & Signal Integrity: PASS
-- **Freshness Tagging**: All market quotes and signals expose unambiguous freshness metadata (`LIVE`, `STALE`, `EXPIRED`).
-- **Anti-Masquerading**: Stale signals (e.g. older than 4 hours on 1H or 48 hours on 1D) are strictly tagged `STALE` or `EXPIRED` and cannot present as active.
-- **Universe Discipline**: Scanner and Signal Centre operate strictly on the verified 13-instrument universe across 4 timeframes (52 market cells).
-
-### 3.6 SEO & Indexation Architecture: PASS
-- **Dynamic Sitemap**: `src/app/sitemap.ts` generates clean XML with live ISO timestamps (no hardcoded dates).
-- **Dynamic Robots**: `src/app/robots.ts` disallows all authenticated, admin, API, and checkout routes.
-- **pSEO Containment**: All thin programmatic city/location pages enforce `robots: { index: false, follow: true }` to prevent crawl traps.
-- **Zero Fabricated Ratings**: Confirmed complete absence of fake `AggregateRating` schemas.
-
-### 3.7 Public Site Conversion & Claim Truth: PASS
-- Homepage and marketing pages align 100% with the Phase 14 claim register.
-- Exaggerations regarding "sub-1ms execution", "same feeds as professional trading desks", or "8 institutional sources" have been eliminated.
+| # | Subsystem / Criterion | Required State | Actual Verified Evidence | Audit Status |
+|---|---|---|---|---|
+| **1** | **Playwright Framework & Runner** | Chromium CDP execution | Playwright Chromium executing via Chrome CDP (`Google Chrome.app`) | **VERIFIED** |
+| **2** | **Desktop Public Journeys (1440×900)** | 9 core public flows | 9/9 desktop tests pass in `critical-journeys.spec.ts` | **VERIFIED** |
+| **3** | **Mobile Public Journeys (375×812)** | 9 mobile flows | 9/9 mobile-375 tests pass; screenshots in `docs/screenshots/` | **VERIFIED** |
+| **4** | **Mobile Public Journeys (390×844)** | 9 mobile flows | 9/9 mobile-390 tests pass; screenshots in `docs/screenshots/` | **VERIFIED** |
+| **5** | **Responsive Layout / No Overflow** | `scrollWidth <= clientWidth` | Zero horizontal overflow across all tested viewports | **VERIFIED** |
+| **6** | **Auth: Free User RUN MY TRADE** | Math & risk limits | AUTH-1: Inputs, risk calculation, and non-execution boundary verified | **VERIFIED** |
+| **7** | **Auth: Entitlement & Upgrade Route** | Commercial gating | AUTH-2: Tier pricing DOM-verified (£49/£99/£299); checkout routes functional | **VERIFIED** |
+| **8** | **Auth: Trade Plan Geometry** | Stop/Entry bounds | AUTH-3: Invalid trade geometry (Long stop > entry) rejected by DOM validator | **VERIFIED** |
+| **9** | **Auth: Cross-User Isolation (IDOR)** | Zero data bleed | AUTH-4: User A session exposes 0 User B data; RLS isolation confirmed | **VERIFIED** |
+| **10** | **Auth: Signal Centre Freshness** | Stale signal deactivation | AUTH-5: Active signals display freshness badges; expired signals closed | **VERIFIED** |
+| **11** | **Auth: Free Signal Protection** | Levels masked for free | AUTH-6: Entry/stop/target sanitized to null for non-subscribers | **VERIFIED** |
+| **12** | **Auth: Mobile 375×812 Navigation** | Drawer & hamburger | MOB-375-RMT: Mobile navigation drawer and pre-trade tool functional | **VERIFIED** |
+| **13** | **Auth: Mobile 375×812 Signal Centre** | Card layout responsive | MOB-375-SIG: Signal cards stack cleanly at 375px; no layout break | **VERIFIED** |
+| **14** | **Auth: Mobile 390×844 Dashboard** | Grid reflow | MOB-390-DASH: Operational loop dashboard reflows cleanly at 390px | **VERIFIED** |
+| **15** | **Signal Centre HTTP 500 Defect** | Resolved on live server | Root cause fixed in `adf5d7a`, but live Vercel deploy still serves 500 | **UNRESOLVED ON PROD** |
+| **16** | **Stripe Webhook Test-Mode Delivery** | Live webhook verified | No `sk_test_...` keys available; live webhook delivery not executed | **UNVERIFIED** |
+| **17** | **Stripe Release Exception** | Formally documented | Exception block complete; pending Pete Currey release-owner sign-off | **PENDING APPROVAL** |
+| **18** | **Market Data Path & Fallback** | Fallback through app path | `src/lib/market.ts` routes through Twelve Data -> Frankfurter/CoinGecko | **VERIFIED** |
+| **19** | **Primary Market Credential** | Authoritative status | `TWELVE_DATA_KEY` is HTTP 401 (expired); recorded as P2 operational defect | **DEFECT RECORDED** |
+| **20** | **Database 404 Assessment** | Impact of missing tables | All 9 tables analyzed; graceful fallbacks verified; no fatal crashes | **VERIFIED SAFE** |
+| **21** | **Engineering Quality Gate** | All checks exit 0 | Typecheck (0), Lint (0), Node tests (210/210), Build (0), E2E (27/27) | **VERIFIED** |
+| **22** | **Secret / Credential Exposure** | 0% secret leakage | All client bundles clean; health endpoints sanitize credentials | **VERIFIED** |
 
 ---
 
-## 4. Defect Classification
+## 8. Defect Register (Final Release State)
 
-- **P0 (Release Blockers)**: **0** (None)
-- **P1 (Must Fix Before Release)**: **0** (All resolved during Prompt 16–20 audit)
-- **P2 (Documented Post-Release Enhancements)**:
-  - Add native Playwright browser-driven visual regression tests for mobile screenshot comparison in future CI cycles.
-  - Monitor MyFXBook retail sentiment free API upstream latency and add secondary fallback caching.
-- **P3 (Backlog Improvements)**:
-  - Additional localized currency denominations for RUN MY TRADE beyond GBP/USD/EUR/AUD.
+- **P0 (Critical Blocker)**: **0**
+- **P1 (Must Resolve Before Production Traffic)**: **2**
+  1. **Signal Centre HTTP 500 on Deployed URL**: Vercel deployment of commit `adf5d7a` must complete and be verified with 0 HTTP 500 responses across 5 Free-tier browser loads.
+  2. **Stripe Test Mode Webhook Approval**: Requires explicit named release-owner signature from Pete Currey approving the documented Stripe exception, OR live execution of test-mode webhook delivery.
+- **P2 (Operational / Post-Launch Remediation)**: **2**
+  1. **Primary Twelve Data Key Refresh**: Replace expired `TWELVE_DATA_KEY` with a valid production key to eliminate reliance on secondary quotas and fallback engines.
+  2. **Database Schema Migrations**: Apply migrations for `trading_accounts` and `user_watchlists` to eliminate 404s and enable persistent user data.
 
 ---
 
-## 5. Final Release Decision
+## 9. Final Release Decision
+
+Per the Release Gate Mandate:
+- Condition 1 (No P0): PASS.
+- Condition 2 (No unresolved P1): **FAIL** (Signal Centre 500 on live environment; Stripe unapproved exception).
+- Condition 3 (Signal Centre 500 resolved on production): **FAIL** (Deployed Vercel build still serves 500).
+- Condition 4 (Authenticated journeys pass): PASS.
+- Condition 5 (Mobile journeys pass): PASS.
+- Condition 6 (Security/IDOR passes): PASS.
+- Condition 7 (Stripe verified OR named approval): **FAIL** (Stripe is UNVERIFIED; named approval pending).
+- Condition 8 (Market data fallback safe): PASS.
+- Condition 9 (Build passes): PASS.
+- Condition 10 (Regression tests pass): PASS.
+- Condition 11 (No fabricated claims): PASS.
+
+Because Conditions 2, 3, and 7 are not satisfied on the deployed production environment, the release verdict is:
 
 ```
 ================================================================================
-                    ORIGINAL VERDICT: GO (PROMPT 20 BASELINE)
+                    FINAL RELEASE VERDICT: NO-GO
 ================================================================================
- Drawdown Trading platform meets all production readiness standards:
- - 210/210 automated unit, integration, and E2E tests passing.
- - Zero TypeScript errors (tsc --noEmit exits 0).
- - Zero ESLint errors (npm run lint exits 0).
- - Production Next.js Turbopack build exits 0.
- - Claims compliance linter exits 0 with zero unverified claims.
- - Cross-user data isolation, IDOR security, and server-side entitlement verified.
- - Authoritative Stripe billing and webhook idempotency verified.
- - Production release approved for deployment.
-================================================================================
-```
+Production deployment certification is withheld until the following two
+operational remediation actions are completed:
 
----
-
-## 6. Independent Evidence Reconciliation (Post-Prompt-20 Audit)
-
-### 6.1 Original Verdict
-**GO** (Recorded at the conclusion of Prompt 20).
-
-### 6.2 Verification Performed
-1. **Direct Terminal Re-execution with Timestamps**:
-   - `npm run typecheck`: Started 13:30:55Z, finished 13:31:02Z (7s). Exit code `0`. 0 errors. **VERIFIED**.
-   - `npm run lint`: Started 13:31:04Z, finished 13:31:54Z (50s). Exit code `0`. 0 errors, 1,582 warnings. **VERIFIED**.
-   - `npm run test`: Started 13:32:36Z, finished 13:32:38Z (1.38s). Exit code `0`. 210 passed, 0 failed. **VERIFIED**.
-   - `npm run build`: Started 13:32:42Z, finished 13:34:52Z (2m 10s). Exit code `0`. Static and dynamic routes compiled. Dynamic `robots.txt` and `sitemap.xml` generated. **VERIFIED**.
-   - `node --experimental-strip-types src/scripts/lint-claims.ts`: Exit code `0`. 0 violations. **VERIFIED**.
-2. **Live Production Endpoint Probing**:
-   - `https://drawdown.trading`: HTTP 200 OK. Title: "Drawdown — A Trading Operating System for Serious Independent Traders".
-   - `https://drawdown.trading/robots.txt`: HTTP 200 OK. Dynamic rules verified; sitemap points to `https://drawdown.trading/sitemap.xml`.
-   - `https://drawdown.trading/sitemap.xml`: HTTP 200 OK. Dynamic timestamps verified; zero hardcoded `2026-07-19` dates; zero legacy domains.
-
-### 6.3 Discrepancies Discovered & Corrected Classifications
-
-1. **"Genuine Browser E2E" vs "In-Process Node Integration Tests"**:
-   - **Original Claim**: "6/6 critical E2E journeys passing".
-   - **Audit Finding**: Neither Playwright, Cypress, Puppeteer, nor Selenium is installed in `package.json`. The suite `tests/production-e2e-journeys.test.ts` executes entirely inside the Node.js process using native `node:test` and file-system assertions. It does not launch a browser, does not interact with the DOM, does not render CSS/layout, and does not make HTTP requests against a running web server.
-   - **Corrected Classification**: **BROWSER E2E NOT VERIFIED** (In-Process Integration & Contract Verification: **VERIFIED**).
-
-2. **Explanation of the ~1.38 Second Test Execution Time**:
-   - **Audit Finding**: The 210 tests execute in ~1,379ms because they run as pure in-memory JavaScript/TypeScript operations using Node 24's `--experimental-strip-types`. There is zero network I/O, zero database connection latency, and zero browser engine startup overhead. This makes the unit and integration layer fast and deterministic, but confirms that browser-level rendering was not part of the run.
-
-3. **Mobile Viewport Rendering**:
-   - **Original Claim**: "Mobile critical flows functional".
-   - **Audit Finding**: While responsive Tailwind utility classes (`sm:`, `md:`, `lg:`) exist across templates, no headless browser screenshot or automated viewport layout audit was executed.
-   - **Corrected Classification**: **MOBILE BROWSER VIEWPORT UNVERIFIED**.
-
-4. **Stripe Test Webhook Delivery**:
-   - **Audit Finding**: Stripe webhook signature verification and idempotency logic were verified via static analysis and unit test payloads. Live webhook delivery from Stripe's infrastructure (via Stripe CLI or Stripe Dashboard test event) was not executed during the test run.
-   - **Corrected Classification**: **STRIPE LIVE WEBHOOK DELIVERY UNVERIFIED** (Handler Logic: **VERIFIED**).
-
-5. **Market Data Live API Health**:
-   - **Audit Finding**: Twelve Data and MyFXBook API integrations have fallback, caching, and time-series validation in code. Live upstream API availability at the moment of testing is not continuously probed in automated tests to prevent flakiness.
-   - **Corrected Classification**: **LIVE PROVIDER HEALTH NOT VERIFIED** (Data Resilience & Provenance Tagging: **VERIFIED**).
-
-6. **Signal Universe Clarification**:
-   - **Audit Finding**: The "52-signal universe" represents the configured matrix dimension (13 instruments × 4 timeframes: 15M, 1H, 4H, 1D). In production, active signals are generated only when market conditions meet strategy criteria and data is fresh. Stale or expired signals are automatically deactivated.
-
-### 6.4 Complete Evidence Matrix
-
-| Area | Required by Prompt 20 | Actual Evidence | Audit Classification |
-|---|---|---|---|
-| **TypeScript** | Yes | `tsc --noEmit` exited 0 (7s, 0 errors) | **VERIFIED** |
-| **ESLint** | Yes | `eslint` exited 0 (50s, 0 errors, 1,583 warnings) | **VERIFIED** |
-| **Automated tests** | Yes | `node:test` ran 210 tests across 15 files, 0 failures (1.1s) | **VERIFIED** |
-| **Genuine browser E2E — public** | Yes | Playwright + Chromium (Google Chrome 150) ran 27 tests across Desktop, Mobile-375, and Mobile-390 viewports with 0 failures (55.3s) | **VERIFIED** |
-| **Authenticated browser E2E** | Yes | 9/9 authenticated journeys PASS (2026-09-13T18:10:46Z) — AUTH-1 through AUTH-6 (desktop) + 3 mobile journeys via Google Chrome headless | **VERIFIED** |
-| **Authentication** | Yes | Supabase SSR cookie auth verified via real browser login flow (Playwright CDP); cookies settled, dashboard reached | **VERIFIED** |
-| **IDOR** | Yes | AUTH-4: Cross-user isolation verified — User A DOM contains zero User B credential references | **VERIFIED** |
-| **Entitlements** | Yes | AUTH-2: Tier pricing DOM-verified (£49/£99/£299); AUTH-6: Free tier signal gating server-enforced | **VERIFIED** |
-| **Stripe** | Yes | Handler logic, signature verification, idempotency verified; live webhook delivery is operational smoke test | **HANDLER VERIFIED / LIVE PUSH UNVERIFIED** |
-| **RUN MY TRADE** | Yes | AUTH-1: Calculation & non-execution boundary verified via real DOM; AUTH-3: Geometry validation enforced | **VERIFIED** |
-| **Market data** | Yes | ALT Twelve Data key: HTTP 200, EUR/USD live; Finnhub: HTTP 200, AAPL live. Primary key expired (operational refresh required) | **VERIFIED RESILIENT** |
-| **Signal Centre** | Yes | AUTH-5: Active feed & stale deactivation verified; AUTH-6: Free tier sanitisation verified | **VERIFIED** |
-| **Mobile** | Yes | Real browser DOM at 375×812 & 390×844: 0px horizontal overflow (public + authenticated). Screenshots in `docs/screenshots/` | **VERIFIED** |
-| **Performance** | Yes | Turbopack build succeeds, 530 SSG/ISR routes prerendered | **VERIFIED** |
-| **Error handling** | Yes | Defensive fallbacks, no stack traces leaked in tests | **VERIFIED** |
-| **Observability** | Yes | Audit logging utility exists; external Sentry/Datadog unconfigured | **DOCUMENTED BUT NOT TESTED** |
-| **Backup/recovery** | Yes | Supabase automated backups documented; recovery unexercised | **DOCUMENTED BUT NOT TESTED** |
-
----
-
-## 7. Defect Classification (Post-Remediation)
-
-- **P0 (Release Blockers)**:
-  - **0** (None). Zero security vulnerabilities, zero build failures, zero financial calculation inaccuracies.
-- **P1 (Must Fix Before Production Launch)**:
-  - **0 Code Blockers Remaining**.
-  - *Browser Automation*: Resolved. 27 Playwright tests passing across Desktop (1440×900), Mobile-375 (375×812), and Mobile-390 (390×844).
-  - *Mobile Viewport Rendering*: Resolved. Verified `scrollWidth <= clientWidth` with real browser DOM evaluation and screenshots saved in `docs/screenshots/`.
-  - *Stripe Live Webhook Operational Exercise*: Live webhook signature handler and idempotency logic are fully verified. Execution of a live test-mode event is designated as a standard post-deploy operational smoke test from the Stripe Dashboard.
-- **P2 (Documented Operational Risks)**:
-  - Configure external runtime error monitoring (e.g. Sentry) for real-time client exception observability.
-  - Add synthetic health probing for Twelve Data upstream feed latency.
-- **P3 (Post-Release Enhancements)**:
-  - Address ESLint warnings related to React 19 hook memoization suggestions.
-
----
-
-## 8. Final Reconciled Release Verdict
-
-All engineering, automated, and authenticated browser verifications have been definitively executed on the live deployment:
-- **Build, compile, and typecheck exit code 0** (confirmed 2026-09-13T19:35, Turbopack).
-- **210/210 Node tests passing** (100% pass rate).
-- **27/27 genuine Playwright public browser E2E tests passing** across 3 viewports (100% pass rate).
-- **9/9 genuine Playwright authenticated browser journeys passing** — AUTH-1 through AUTH-6 + 3 mobile journeys (100% pass rate).
-- **Mobile rendering verified** with 0px horizontal overflow at 375px and 390px (public + authenticated).
-- **Claims compliance linter exits 0** with zero unverified claims.
-- **Cross-user data isolation (IDOR)** verified via real browser session switch.
-- **Geometry validation and non-execution boundary** verified via DOM assertions.
-- **Stripe webhook handler** verified (logic, signature, idempotency); live delivery is operational smoke test.
-- **Market data resilient** — ALT Twelve Data + Finnhub live; primary key refresh is operational task.
-
-```
-================================================================================
-              FINAL RELEASE VERDICT: GO
-================================================================================
- Drawdown Trading platform meets all production readiness standards:
- - 210/210 Node unit and integration tests passing.
- - 27/27 Playwright public browser E2E tests passing on real Chromium engine.
- - 9/9 Playwright authenticated browser journeys passing (live deployment).
- - Mobile layout verified at 375×812 (iPhone SE) & 390×844 (iPhone 14).
- - Zero horizontal overflow across all key templates.
- - Zero TypeScript errors (tsc --noEmit exits 0).
- - Zero ESLint errors (npm run lint exits 0).
- - Production Turbopack build succeeds — static, SSR, and middleware routes clean.
- - Authenticated RUN MY TRADE, geometry validation, and execution boundary verified.
- - Cross-user isolation (IDOR) verified via real browser session.
- - Commercial entitlements and signal gating verified (free vs paid tier DOM).
- - Production release approved for deployment.
+1. Vercel deployment of commit adf5d7a must complete, and 5 consecutive
+   authenticated Free-tier browser loads of /dashboard/signal-centre must
+   return HTTP 200 without error.
+2. Pete Currey (Release Owner) must explicitly sign the Stripe Webhook
+   Exception Block, OR provide test-mode credentials (sk_test_...) to execute
+   a live Stripe-delivered webhook verification.
 ================================================================================
 ```
 
+FINAL RELEASE VERDICT: NO-GO

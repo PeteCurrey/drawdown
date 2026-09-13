@@ -694,7 +694,9 @@ function SignalCentreInner({
                       </div>
                       <div className="flex justify-between border-t border-gray-100 pt-1.5 mt-1.5">
                         <span className="text-gray-400">R:R Ratio:</span>
-                        <span className="font-bold text-gray-900">1 : {s.rr_ratio.toFixed(1)}</span>
+                        <span className="font-bold text-gray-900">
+                          {canSeeExact && s.rr_ratio != null ? `1 : ${s.rr_ratio.toFixed(1)}` : (s.rr_ratio != null ? `1 : ${s.rr_ratio.toFixed(1)}` : "─ ─ ─ ─")}
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -965,10 +967,10 @@ function SignalCentreInner({
                           {s.bias}
                         </span>
                       </td>
-                      <td className="px-3 py-2 text-gray-700 whitespace-nowrap">{s.entry_price.toFixed(4)}</td>
-                      <td className="px-3 py-2 text-red-600 whitespace-nowrap">{s.stop_loss.toFixed(4)}</td>
-                      <td className="px-3 py-2 text-emerald-600 whitespace-nowrap">{s.take_profit_2.toFixed(4)}</td>
-                      <td className="px-3 py-2 text-gray-600 whitespace-nowrap">{s.atr?.toFixed(4)}</td>
+                      <td className="px-3 py-2 text-gray-700 whitespace-nowrap">{s.entry_price != null ? s.entry_price.toFixed(4) : "—"}</td>
+                      <td className="px-3 py-2 text-red-600 whitespace-nowrap">{s.stop_loss != null ? s.stop_loss.toFixed(4) : "—"}</td>
+                      <td className="px-3 py-2 text-emerald-600 whitespace-nowrap">{s.take_profit_2 != null ? s.take_profit_2.toFixed(4) : "—"}</td>
+                      <td className="px-3 py-2 text-gray-600 whitespace-nowrap">{s.atr != null ? s.atr.toFixed(4) : "—"}</td>
                       <td className="px-3 py-2 font-bold text-amber-700">{s.dcs_score || Math.round(50 + s.confluence_score * 4)}%</td>
                       <td className="px-3 py-2 text-gray-400 whitespace-nowrap">{new Date(s.expires_at).toLocaleString()}</td>
                     </tr>

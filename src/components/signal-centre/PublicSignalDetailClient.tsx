@@ -174,11 +174,12 @@ export function PublicSignalDetailClient({
     keyLevels: { support1: signal.entry_price * 0.99, support2: signal.entry_price * 0.98, resistance1: signal.entry_price * 1.01, resistance2: signal.entry_price * 1.02 },
   };
 
+  const basePrice = signal.entry_price ?? 100;
   const tradingCentral = signal.coingecko_data?.tradingCentral || {
     tcConsensusScore: Math.round(45 + signal.confluence_score * 5),
     tcSentiment: signal.bias,
-    analystSignal: `Long positions above ${(signal.entry_price * 0.99).toFixed(2)} with targets at ${(signal.entry_price * 1.025).toFixed(2)} and ${(signal.entry_price * 1.04).toFixed(2)}.`,
-    keyLevels: { pivot: signal.entry_price, resistance1: signal.entry_price * 1.01, resistance2: signal.entry_price * 1.02, support1: signal.entry_price * 0.99, support2: signal.entry_price * 0.98 },
+    analystSignal: `Long positions above ${(basePrice * 0.99).toFixed(2)} with targets at ${(basePrice * 1.025).toFixed(2)} and ${(basePrice * 1.04).toFixed(2)}.`,
+    keyLevels: { pivot: basePrice, resistance1: basePrice * 1.01, resistance2: basePrice * 1.02, support1: basePrice * 0.99, support2: basePrice * 0.98 },
   };
 
   const onchain = signal.coinglass_data?.onchain || {
@@ -631,7 +632,9 @@ export function PublicSignalDetailClient({
               <div className="flex items-center justify-between border-b border-gray-100 pb-3">
                 <div>
                   <span className="text-[9px] font-mono text-gray-400 uppercase tracking-widest block">Risk / Reward</span>
-                  <span className="text-sm font-mono font-bold text-gray-900 mt-1 block">1 : {signal.rr_ratio.toFixed(1)}</span>
+                  <span className="text-sm font-mono font-bold text-gray-900 mt-1 block">
+                    {signal.rr_ratio != null ? `1 : ${signal.rr_ratio.toFixed(1)}` : "─ ─"}
+                  </span>
                 </div>
                 <span className="text-[9px] font-mono text-gray-400">Target 2 Confluence</span>
               </div>

@@ -10,22 +10,39 @@ export const metadata = {
 };
 
 function sanitizeSignalForPreview(signal: any) {
+  // Return only safe, flat, preview-appropriate fields for free-tier users.
+  // Nullify all complex nested objects to prevent RSC serialization issues
+  // and to enforce server-side data sanitisation before client render.
   return {
-    ...signal,
+    id: signal.id,
+    instrument: signal.instrument,
+    timeframe: signal.timeframe,
+    bias: signal.bias,
+    confluence_score: signal.confluence_score,
+    dcs_score: signal.dcs_score,
+    is_active: signal.is_active,
+    created_at: signal.created_at,
+    expires_at: signal.expires_at,
+    atr: signal.atr,
+    // Nullified for free tier — requires Foundation or above
     entry_price: null,
     stop_loss: null,
     take_profit_1: null,
     take_profit_2: null,
+    take_profit_3: null,
     rr_ratio: null,
-    claude_analysis: null,
-    gpt4_analysis: null,
-    grok_analysis: null,
+    // Complex AI/analytics fields — not exposed to free tier
     taapi_data: null,
     coingecko_data: null,
-    ai_debate: null,
+    coinglass_data: null,
+    ai_consensus: null,
+    catalyst_event: null,
+    confluence_factors: [],
+    // Upgrade prompt
     rationale: "Upgrade to Foundation, Edge, or Floor to unlock institutional entry levels, stop loss, take profit targets, and complete multi-model AI rationale.",
   };
 }
+
 
 export default async function SignalCentrePage() {
   const supabase = await createClient();

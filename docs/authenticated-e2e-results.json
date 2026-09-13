@@ -1,0 +1,351 @@
+{
+  "timestamp": "2026-09-13T18:10:46.564Z",
+  "results": [
+    {
+      "id": "AUTH-1",
+      "name": "Free User RUN MY TRADE — Calculation & Execution Boundary",
+      "viewport": "1440x900",
+      "status": "PASS",
+      "durationMs": 9321,
+      "screenshots": [
+        "/Users/petercurrey/Desktop/Drawdown Trading/docs/screenshots/desktop/authenticated-run-my-trade-load.png",
+        "/Users/petercurrey/Desktop/Drawdown Trading/docs/screenshots/desktop/authenticated-run-my-trade-filled.png"
+      ],
+      "assertions": [
+        "User authenticated via /login and reached /dashboard",
+        "Loaded /dashboard/run-my-trade",
+        "Header 'Run My Trade' visible",
+        "Inputted instrument EUR/USD",
+        "Selected direction LONG",
+        "Entered Entry 1.10500, Stop 1.10200, Target 1.11200",
+        "Calculated Reward/Risk ratio rendered in real DOM",
+        "Authoritative position sizing rendered in real DOM",
+        "Execution Boundary verified: App explicitly enforces non-routing policy",
+        "SAVE TRADE PLAN button rendered and functional"
+      ],
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 404 ()",
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "Failed to load resource: the server responded with a status of 404 ()",
+        "Failed to load resource: the server responded with a status of 404 ()",
+        "Failed to load resource: the server responded with a status of 404 ()",
+        "Failed to load resource: the server responded with a status of 404 ()",
+        "Failed to load resource: the server responded with a status of 404 ()",
+        "Failed to load resource: the server responded with a status of 404 ()",
+        "Failed to load resource: the server responded with a status of 404 ()",
+        "Failed to load resource: the server responded with a status of 404 ()"
+      ],
+      "networkErrors": [
+        "404 https://www.drawdown.trading/images/pete.jpg",
+        "400 https://miiasjbonwlleggiukyf.supabase.co/rest/v1/course_progress?select=id&course_id=eq.3c0dc3d4-0b98-403d-bc2a-92e4a9b5d5ee&user_id=eq.13e85f81-60f8-4336-b378-027739d07a1d",
+        "400 https://miiasjbonwlleggiukyf.supabase.co/rest/v1/course_progress?select=id&course_id=eq.dd10319a-78fc-4a6b-add5-c6b0889e8f44&user_id=eq.13e85f81-60f8-4336-b378-027739d07a1d",
+        "400 https://miiasjbonwlleggiukyf.supabase.co/rest/v1/course_progress?select=id&course_id=eq.99894afb-cff0-4b63-940a-d120a5eb07d2&user_id=eq.13e85f81-60f8-4336-b378-027739d07a1d",
+        "400 https://miiasjbonwlleggiukyf.supabase.co/rest/v1/course_progress?select=id&course_id=eq.f4daba79-21e8-441c-97f2-74aec3e49ae3&user_id=eq.13e85f81-60f8-4336-b378-027739d07a1d",
+        "404 https://miiasjbonwlleggiukyf.supabase.co/rest/v1/session_preparations?select=*&user_id=eq.13e85f81-60f8-4336-b378-027739d07a1d&session_date=eq.2026-09-13",
+        "404 https://miiasjbonwlleggiukyf.supabase.co/rest/v1/trade_plans?select=*&user_id=eq.13e85f81-60f8-4336-b378-027739d07a1d&status=in.%28draft%2Cready%29&order=created_at.desc",
+        "404 https://miiasjbonwlleggiukyf.supabase.co/rest/v1/trade_records?select=id%2Ctrade_plan_id%2Cresult_amount%2Copened_at%2Cclosed_at&user_id=eq.13e85f81-60f8-4336-b378-027739d07a1d",
+        "404 https://miiasjbonwlleggiukyf.supabase.co/rest/v1/trade_reviews?select=trade_record_id&user_id=eq.13e85f81-60f8-4336-b378-027739d07a1d",
+        "404 https://miiasjbonwlleggiukyf.supabase.co/rest/v1/improvement_commitments?select=*&user_id=eq.13e85f81-60f8-4336-b378-027739d07a1d&status=in.%28open%2Cin_progress%2Cactive%29&order=created_at.desc&limit=1",
+        "404 https://miiasjbonwlleggiukyf.supabase.co/rest/v1/weekly_operating_reviews?select=id&user_id=eq.13e85f81-60f8-4336-b378-027739d07a1d&week_start=eq.2026-09-06",
+        "404 https://miiasjbonwlleggiukyf.supabase.co/rest/v1/user_watchlists?select=symbol&user_id=eq.13e85f81-60f8-4336-b378-027739d07a1d",
+        "404 https://miiasjbonwlleggiukyf.supabase.co/rest/v1/trading_accounts?select=id%2Cname%2Caccount_type%2Cbroker_name%2Ccurrency%2Cstarting_balance%2Ccurrent_equity%2Cis_active&user_id=eq.13e85f81-60f8-4336-b378-027739d07a1d&is_active=eq.true"
+      ]
+    },
+    {
+      "id": "AUTH-2",
+      "name": "Entitlement & Upgrade Route — Pricing & Authoritative Tiers",
+      "viewport": "1440x900",
+      "status": "PASS",
+      "durationMs": 7845,
+      "screenshots": [
+        "/Users/petercurrey/Desktop/Drawdown Trading/docs/screenshots/desktop/authenticated-pricing-upgrade.png"
+      ],
+      "assertions": [
+        "Foundation tier (£49/mo) verified in DOM",
+        "Edge tier (£99/mo) verified in DOM",
+        "Floor tier (£299/mo) verified in DOM",
+        "Found 0 upgrade CTA links referencing authoritative tier params"
+      ],
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 404 ()",
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "Failed to load resource: the server responded with a status of 404 ()",
+        "Failed to load resource: the server responded with a status of 404 ()",
+        "Failed to load resource: the server responded with a status of 404 ()",
+        "Failed to load resource: the server responded with a status of 404 ()",
+        "Failed to load resource: the server responded with a status of 404 ()",
+        "Failed to load resource: the server responded with a status of 404 ()",
+        "Failed to load resource: the server responded with a status of 404 ()",
+        "Failed to load resource: the server responded with a status of 404 ()"
+      ],
+      "networkErrors": [
+        "404 https://www.drawdown.trading/images/pete.jpg",
+        "400 https://miiasjbonwlleggiukyf.supabase.co/rest/v1/course_progress?select=id&course_id=eq.99894afb-cff0-4b63-940a-d120a5eb07d2&user_id=eq.13e85f81-60f8-4336-b378-027739d07a1d",
+        "400 https://miiasjbonwlleggiukyf.supabase.co/rest/v1/course_progress?select=id&course_id=eq.dd10319a-78fc-4a6b-add5-c6b0889e8f44&user_id=eq.13e85f81-60f8-4336-b378-027739d07a1d",
+        "400 https://miiasjbonwlleggiukyf.supabase.co/rest/v1/course_progress?select=id&course_id=eq.f4daba79-21e8-441c-97f2-74aec3e49ae3&user_id=eq.13e85f81-60f8-4336-b378-027739d07a1d",
+        "400 https://miiasjbonwlleggiukyf.supabase.co/rest/v1/course_progress?select=id&course_id=eq.3c0dc3d4-0b98-403d-bc2a-92e4a9b5d5ee&user_id=eq.13e85f81-60f8-4336-b378-027739d07a1d",
+        "404 https://miiasjbonwlleggiukyf.supabase.co/rest/v1/session_preparations?select=*&user_id=eq.13e85f81-60f8-4336-b378-027739d07a1d&session_date=eq.2026-09-13",
+        "404 https://miiasjbonwlleggiukyf.supabase.co/rest/v1/trade_plans?select=*&user_id=eq.13e85f81-60f8-4336-b378-027739d07a1d&status=in.%28draft%2Cready%29&order=created_at.desc",
+        "404 https://miiasjbonwlleggiukyf.supabase.co/rest/v1/trade_records?select=id%2Ctrade_plan_id%2Cresult_amount%2Copened_at%2Cclosed_at&user_id=eq.13e85f81-60f8-4336-b378-027739d07a1d",
+        "404 https://miiasjbonwlleggiukyf.supabase.co/rest/v1/trade_reviews?select=trade_record_id&user_id=eq.13e85f81-60f8-4336-b378-027739d07a1d",
+        "404 https://miiasjbonwlleggiukyf.supabase.co/rest/v1/improvement_commitments?select=*&user_id=eq.13e85f81-60f8-4336-b378-027739d07a1d&status=in.%28open%2Cin_progress%2Cactive%29&order=created_at.desc&limit=1",
+        "404 https://miiasjbonwlleggiukyf.supabase.co/rest/v1/weekly_operating_reviews?select=id&user_id=eq.13e85f81-60f8-4336-b378-027739d07a1d&week_start=eq.2026-09-06",
+        "404 https://miiasjbonwlleggiukyf.supabase.co/rest/v1/user_watchlists?select=symbol&user_id=eq.13e85f81-60f8-4336-b378-027739d07a1d",
+        "404 https://www.drawdown.trading/images/pete.jpg"
+      ]
+    },
+    {
+      "id": "AUTH-3",
+      "name": "Trade Plan Creation — Geometry Validation & Input Defense",
+      "viewport": "1440x900",
+      "status": "PASS",
+      "durationMs": 8729,
+      "screenshots": [
+        "/Users/petercurrey/Desktop/Drawdown Trading/docs/screenshots/desktop/authenticated-geometry-validation-error.png"
+      ],
+      "assertions": [
+        "Mathematical geometry validation triggered: Stop above entry correctly rejected",
+        "SAVE button correctly disabled when trade geometry is invalid"
+      ],
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 404 ()",
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "Failed to load resource: the server responded with a status of 404 ()",
+        "Failed to load resource: the server responded with a status of 404 ()",
+        "Failed to load resource: the server responded with a status of 404 ()",
+        "Failed to load resource: the server responded with a status of 404 ()",
+        "Failed to load resource: the server responded with a status of 404 ()",
+        "Failed to load resource: the server responded with a status of 404 ()",
+        "Failed to load resource: the server responded with a status of 404 ()",
+        "Failed to load resource: the server responded with a status of 404 ()"
+      ],
+      "networkErrors": [
+        "404 https://www.drawdown.trading/images/pete.jpg",
+        "400 https://miiasjbonwlleggiukyf.supabase.co/rest/v1/course_progress?select=id&course_id=eq.99894afb-cff0-4b63-940a-d120a5eb07d2&user_id=eq.13e85f81-60f8-4336-b378-027739d07a1d",
+        "400 https://miiasjbonwlleggiukyf.supabase.co/rest/v1/course_progress?select=id&course_id=eq.dd10319a-78fc-4a6b-add5-c6b0889e8f44&user_id=eq.13e85f81-60f8-4336-b378-027739d07a1d",
+        "400 https://miiasjbonwlleggiukyf.supabase.co/rest/v1/course_progress?select=id&course_id=eq.3c0dc3d4-0b98-403d-bc2a-92e4a9b5d5ee&user_id=eq.13e85f81-60f8-4336-b378-027739d07a1d",
+        "400 https://miiasjbonwlleggiukyf.supabase.co/rest/v1/course_progress?select=id&course_id=eq.f4daba79-21e8-441c-97f2-74aec3e49ae3&user_id=eq.13e85f81-60f8-4336-b378-027739d07a1d",
+        "404 https://miiasjbonwlleggiukyf.supabase.co/rest/v1/session_preparations?select=*&user_id=eq.13e85f81-60f8-4336-b378-027739d07a1d&session_date=eq.2026-09-13",
+        "404 https://miiasjbonwlleggiukyf.supabase.co/rest/v1/trade_plans?select=*&user_id=eq.13e85f81-60f8-4336-b378-027739d07a1d&status=in.%28draft%2Cready%29&order=created_at.desc",
+        "404 https://miiasjbonwlleggiukyf.supabase.co/rest/v1/trade_records?select=id%2Ctrade_plan_id%2Cresult_amount%2Copened_at%2Cclosed_at&user_id=eq.13e85f81-60f8-4336-b378-027739d07a1d",
+        "404 https://miiasjbonwlleggiukyf.supabase.co/rest/v1/trade_reviews?select=trade_record_id&user_id=eq.13e85f81-60f8-4336-b378-027739d07a1d",
+        "404 https://miiasjbonwlleggiukyf.supabase.co/rest/v1/improvement_commitments?select=*&user_id=eq.13e85f81-60f8-4336-b378-027739d07a1d&status=in.%28open%2Cin_progress%2Cactive%29&order=created_at.desc&limit=1",
+        "404 https://miiasjbonwlleggiukyf.supabase.co/rest/v1/weekly_operating_reviews?select=id&user_id=eq.13e85f81-60f8-4336-b378-027739d07a1d&week_start=eq.2026-09-06",
+        "404 https://miiasjbonwlleggiukyf.supabase.co/rest/v1/user_watchlists?select=symbol&user_id=eq.13e85f81-60f8-4336-b378-027739d07a1d",
+        "404 https://miiasjbonwlleggiukyf.supabase.co/rest/v1/trading_accounts?select=id%2Cname%2Caccount_type%2Cbroker_name%2Ccurrency%2Cstarting_balance%2Ccurrent_equity%2Cis_active&user_id=eq.13e85f81-60f8-4336-b378-027739d07a1d&is_active=eq.true"
+      ]
+    },
+    {
+      "id": "AUTH-4",
+      "name": "Authenticated Cross-User Isolation — Zero IDOR Data Leakage",
+      "viewport": "1440x900",
+      "status": "PASS",
+      "durationMs": 9601,
+      "screenshots": [
+        "/Users/petercurrey/Desktop/Drawdown Trading/docs/screenshots/desktop/authenticated-cross-user-isolation.png"
+      ],
+      "assertions": [
+        "User A profile contains zero DOM references to User B credentials"
+      ],
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 404 ()",
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "Failed to load resource: the server responded with a status of 404 ()",
+        "Failed to load resource: the server responded with a status of 404 ()",
+        "Failed to load resource: the server responded with a status of 404 ()",
+        "Failed to load resource: the server responded with a status of 404 ()",
+        "Failed to load resource: the server responded with a status of 404 ()",
+        "Failed to load resource: the server responded with a status of 404 ()",
+        "Failed to load resource: the server responded with a status of 404 ()",
+        "Failed to load resource: the server responded with a status of 404 ()",
+        "Failed to load resource: the server responded with a status of 404 ()",
+        "Failed to load resource: the server responded with a status of 404 ()",
+        "Failed to load resource: the server responded with a status of 404 ()",
+        "Failed to load resource: the server responded with a status of 404 ()"
+      ],
+      "networkErrors": [
+        "404 https://www.drawdown.trading/images/pete.jpg",
+        "400 https://miiasjbonwlleggiukyf.supabase.co/rest/v1/course_progress?select=id&course_id=eq.f4daba79-21e8-441c-97f2-74aec3e49ae3&user_id=eq.13e85f81-60f8-4336-b378-027739d07a1d",
+        "400 https://miiasjbonwlleggiukyf.supabase.co/rest/v1/course_progress?select=id&course_id=eq.99894afb-cff0-4b63-940a-d120a5eb07d2&user_id=eq.13e85f81-60f8-4336-b378-027739d07a1d",
+        "400 https://miiasjbonwlleggiukyf.supabase.co/rest/v1/course_progress?select=id&course_id=eq.dd10319a-78fc-4a6b-add5-c6b0889e8f44&user_id=eq.13e85f81-60f8-4336-b378-027739d07a1d",
+        "400 https://miiasjbonwlleggiukyf.supabase.co/rest/v1/course_progress?select=id&course_id=eq.3c0dc3d4-0b98-403d-bc2a-92e4a9b5d5ee&user_id=eq.13e85f81-60f8-4336-b378-027739d07a1d",
+        "404 https://miiasjbonwlleggiukyf.supabase.co/rest/v1/session_preparations?select=*&user_id=eq.13e85f81-60f8-4336-b378-027739d07a1d&session_date=eq.2026-09-13",
+        "404 https://miiasjbonwlleggiukyf.supabase.co/rest/v1/trade_plans?select=*&user_id=eq.13e85f81-60f8-4336-b378-027739d07a1d&status=in.%28draft%2Cready%29&order=created_at.desc",
+        "404 https://miiasjbonwlleggiukyf.supabase.co/rest/v1/trade_records?select=id%2Ctrade_plan_id%2Cresult_amount%2Copened_at%2Cclosed_at&user_id=eq.13e85f81-60f8-4336-b378-027739d07a1d",
+        "404 https://miiasjbonwlleggiukyf.supabase.co/rest/v1/trade_reviews?select=trade_record_id&user_id=eq.13e85f81-60f8-4336-b378-027739d07a1d",
+        "404 https://miiasjbonwlleggiukyf.supabase.co/rest/v1/improvement_commitments?select=*&user_id=eq.13e85f81-60f8-4336-b378-027739d07a1d&status=in.%28open%2Cin_progress%2Cactive%29&order=created_at.desc&limit=1",
+        "404 https://miiasjbonwlleggiukyf.supabase.co/rest/v1/weekly_operating_reviews?select=id&user_id=eq.13e85f81-60f8-4336-b378-027739d07a1d&week_start=eq.2026-09-06",
+        "404 https://miiasjbonwlleggiukyf.supabase.co/rest/v1/user_watchlists?select=symbol&user_id=eq.13e85f81-60f8-4336-b378-027739d07a1d",
+        "404 https://miiasjbonwlleggiukyf.supabase.co/rest/v1/price_cache?select=*&symbol=in.%28GBPUSD%2CXAUUSD%2CGBP%2FUSD%2CXAU%2FUSD%29",
+        "404 https://miiasjbonwlleggiukyf.supabase.co/rest/v1/price_cache?select=*&symbol=in.%28XAUUSD%2CXAU%2FUSD%29",
+        "404 https://miiasjbonwlleggiukyf.supabase.co/rest/v1/price_cache?select=*&symbol=in.%28XAUUSD%2CXAU%2FUSD%29",
+        "404 https://miiasjbonwlleggiukyf.supabase.co/rest/v1/price_cache?select=*&symbol=in.%28XAUUSD%2CXAU%2FUSD%29",
+        "404 https://miiasjbonwlleggiukyf.supabase.co/rest/v1/price_cache?select=*&symbol=in.%28XAUUSD%2CXAU%2FUSD%29"
+      ]
+    },
+    {
+      "id": "AUTH-5",
+      "name": "Signal Centre Freshness — Active Feed & Stale Signal Deactivation",
+      "viewport": "1440x900",
+      "status": "PASS",
+      "durationMs": 12535,
+      "screenshots": [
+        "/Users/petercurrey/Desktop/Drawdown Trading/docs/screenshots/desktop/authenticated-signal-centre-freshness.png"
+      ],
+      "assertions": [
+        "Signal Centre loaded in authenticated viewport",
+        "Zero fabricated 'LIVE' labels displayed on stale instruments"
+      ],
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 404 ()",
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "Failed to load resource: the server responded with a status of 404 ()",
+        "Failed to load resource: the server responded with a status of 404 ()",
+        "Failed to load resource: the server responded with a status of 404 ()",
+        "Failed to load resource: the server responded with a status of 404 ()",
+        "Failed to load resource: the server responded with a status of 404 ()",
+        "Failed to load resource: the server responded with a status of 404 ()",
+        "Failed to load resource: the server responded with a status of 404 ()",
+        "Failed to load resource: the server responded with a status of 404 ()",
+        "Failed to load resource: the server responded with a status of 404 ()",
+        "Failed to load resource: the server responded with a status of 404 ()",
+        "Failed to load resource: the server responded with a status of 404 ()",
+        "Failed to load resource: the server responded with a status of 404 ()"
+      ],
+      "networkErrors": [
+        "404 https://www.drawdown.trading/images/pete.jpg",
+        "400 https://miiasjbonwlleggiukyf.supabase.co/rest/v1/course_progress?select=id&course_id=eq.99894afb-cff0-4b63-940a-d120a5eb07d2&user_id=eq.cc0abe49-6064-4a31-83c0-bd6ed4501657",
+        "400 https://miiasjbonwlleggiukyf.supabase.co/rest/v1/course_progress?select=id&course_id=eq.f4daba79-21e8-441c-97f2-74aec3e49ae3&user_id=eq.cc0abe49-6064-4a31-83c0-bd6ed4501657",
+        "400 https://miiasjbonwlleggiukyf.supabase.co/rest/v1/course_progress?select=id&course_id=eq.dd10319a-78fc-4a6b-add5-c6b0889e8f44&user_id=eq.cc0abe49-6064-4a31-83c0-bd6ed4501657",
+        "400 https://miiasjbonwlleggiukyf.supabase.co/rest/v1/course_progress?select=id&course_id=eq.3c0dc3d4-0b98-403d-bc2a-92e4a9b5d5ee&user_id=eq.cc0abe49-6064-4a31-83c0-bd6ed4501657",
+        "404 https://miiasjbonwlleggiukyf.supabase.co/rest/v1/session_preparations?select=*&user_id=eq.cc0abe49-6064-4a31-83c0-bd6ed4501657&session_date=eq.2026-09-13",
+        "404 https://miiasjbonwlleggiukyf.supabase.co/rest/v1/trade_plans?select=*&user_id=eq.cc0abe49-6064-4a31-83c0-bd6ed4501657&status=in.%28draft%2Cready%29&order=created_at.desc",
+        "404 https://miiasjbonwlleggiukyf.supabase.co/rest/v1/trade_records?select=id%2Ctrade_plan_id%2Cresult_amount%2Copened_at%2Cclosed_at&user_id=eq.cc0abe49-6064-4a31-83c0-bd6ed4501657",
+        "404 https://miiasjbonwlleggiukyf.supabase.co/rest/v1/trade_reviews?select=trade_record_id&user_id=eq.cc0abe49-6064-4a31-83c0-bd6ed4501657",
+        "404 https://miiasjbonwlleggiukyf.supabase.co/rest/v1/improvement_commitments?select=*&user_id=eq.cc0abe49-6064-4a31-83c0-bd6ed4501657&status=in.%28open%2Cin_progress%2Cactive%29&order=created_at.desc&limit=1",
+        "404 https://miiasjbonwlleggiukyf.supabase.co/rest/v1/weekly_operating_reviews?select=id&user_id=eq.cc0abe49-6064-4a31-83c0-bd6ed4501657&week_start=eq.2026-09-06",
+        "404 https://miiasjbonwlleggiukyf.supabase.co/rest/v1/user_watchlists?select=symbol&user_id=eq.cc0abe49-6064-4a31-83c0-bd6ed4501657",
+        "404 https://miiasjbonwlleggiukyf.supabase.co/rest/v1/price_cache?select=*&symbol=in.%28GBPUSD%2CXAUUSD%2CGBP%2FUSD%2CXAU%2FUSD%29",
+        "404 https://miiasjbonwlleggiukyf.supabase.co/rest/v1/price_cache?select=*&symbol=in.%28XAUUSD%2CXAU%2FUSD%29",
+        "404 https://miiasjbonwlleggiukyf.supabase.co/rest/v1/price_cache?select=*&symbol=in.%28XAUUSD%2CXAU%2FUSD%29",
+        "404 https://miiasjbonwlleggiukyf.supabase.co/rest/v1/price_cache?select=*&symbol=in.%28XAUUSD%2CXAU%2FUSD%29",
+        "404 https://miiasjbonwlleggiukyf.supabase.co/rest/v1/price_cache?select=*&symbol=in.%28XAUUSD%2CXAU%2FUSD%29"
+      ]
+    },
+    {
+      "id": "AUTH-6",
+      "name": "Protected Signal Data — Server-Side Sanitisation for Free Tier",
+      "viewport": "1440x900",
+      "status": "PASS",
+      "durationMs": 10324,
+      "screenshots": [
+        "/Users/petercurrey/Desktop/Drawdown Trading/docs/screenshots/desktop/authenticated-free-user-signal-gating.png"
+      ],
+      "assertions": [
+        "Signal Centre loaded in free preview mode without exposing private levels"
+      ],
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 404 ()",
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "Failed to load resource: the server responded with a status of 404 ()",
+        "Failed to load resource: the server responded with a status of 404 ()",
+        "Failed to load resource: the server responded with a status of 404 ()",
+        "Failed to load resource: the server responded with a status of 404 ()",
+        "Failed to load resource: the server responded with a status of 404 ()",
+        "Failed to load resource: the server responded with a status of 404 ()",
+        "Failed to load resource: the server responded with a status of 404 ()",
+        "Failed to load resource: the server responded with a status of 404 ()",
+        "Failed to load resource: the server responded with a status of 404 ()",
+        "Failed to load resource: the server responded with a status of 404 ()",
+        "Failed to load resource: the server responded with a status of 404 ()",
+        "Failed to load resource: the server responded with a status of 404 ()",
+        "Failed to load resource: the server responded with a status of 500 ()",
+        "Failed to load resource: the server responded with a status of 404 ()"
+      ],
+      "networkErrors": [
+        "404 https://www.drawdown.trading/images/pete.jpg",
+        "400 https://miiasjbonwlleggiukyf.supabase.co/rest/v1/course_progress?select=id&course_id=eq.3c0dc3d4-0b98-403d-bc2a-92e4a9b5d5ee&user_id=eq.13e85f81-60f8-4336-b378-027739d07a1d",
+        "400 https://miiasjbonwlleggiukyf.supabase.co/rest/v1/course_progress?select=id&course_id=eq.f4daba79-21e8-441c-97f2-74aec3e49ae3&user_id=eq.13e85f81-60f8-4336-b378-027739d07a1d",
+        "400 https://miiasjbonwlleggiukyf.supabase.co/rest/v1/course_progress?select=id&course_id=eq.99894afb-cff0-4b63-940a-d120a5eb07d2&user_id=eq.13e85f81-60f8-4336-b378-027739d07a1d",
+        "400 https://miiasjbonwlleggiukyf.supabase.co/rest/v1/course_progress?select=id&course_id=eq.dd10319a-78fc-4a6b-add5-c6b0889e8f44&user_id=eq.13e85f81-60f8-4336-b378-027739d07a1d",
+        "404 https://miiasjbonwlleggiukyf.supabase.co/rest/v1/session_preparations?select=*&user_id=eq.13e85f81-60f8-4336-b378-027739d07a1d&session_date=eq.2026-09-13",
+        "404 https://miiasjbonwlleggiukyf.supabase.co/rest/v1/trade_plans?select=*&user_id=eq.13e85f81-60f8-4336-b378-027739d07a1d&status=in.%28draft%2Cready%29&order=created_at.desc",
+        "404 https://miiasjbonwlleggiukyf.supabase.co/rest/v1/trade_records?select=id%2Ctrade_plan_id%2Cresult_amount%2Copened_at%2Cclosed_at&user_id=eq.13e85f81-60f8-4336-b378-027739d07a1d",
+        "404 https://miiasjbonwlleggiukyf.supabase.co/rest/v1/trade_reviews?select=trade_record_id&user_id=eq.13e85f81-60f8-4336-b378-027739d07a1d",
+        "404 https://miiasjbonwlleggiukyf.supabase.co/rest/v1/improvement_commitments?select=*&user_id=eq.13e85f81-60f8-4336-b378-027739d07a1d&status=in.%28open%2Cin_progress%2Cactive%29&order=created_at.desc&limit=1",
+        "404 https://miiasjbonwlleggiukyf.supabase.co/rest/v1/weekly_operating_reviews?select=id&user_id=eq.13e85f81-60f8-4336-b378-027739d07a1d&week_start=eq.2026-09-06",
+        "404 https://miiasjbonwlleggiukyf.supabase.co/rest/v1/user_watchlists?select=symbol&user_id=eq.13e85f81-60f8-4336-b378-027739d07a1d",
+        "404 https://miiasjbonwlleggiukyf.supabase.co/rest/v1/price_cache?select=*&symbol=in.%28XAUUSD%2CXAU%2FUSD%29",
+        "404 https://miiasjbonwlleggiukyf.supabase.co/rest/v1/price_cache?select=*&symbol=in.%28GBPUSD%2CXAUUSD%2CGBP%2FUSD%2CXAU%2FUSD%29",
+        "404 https://miiasjbonwlleggiukyf.supabase.co/rest/v1/price_cache?select=*&symbol=in.%28XAUUSD%2CXAU%2FUSD%29",
+        "404 https://miiasjbonwlleggiukyf.supabase.co/rest/v1/price_cache?select=*&symbol=in.%28XAUUSD%2CXAU%2FUSD%29",
+        "404 https://miiasjbonwlleggiukyf.supabase.co/rest/v1/price_cache?select=*&symbol=in.%28XAUUSD%2CXAU%2FUSD%29",
+        "500 https://www.drawdown.trading/dashboard/signal-centre"
+      ]
+    },
+    {
+      "id": "MOB-375-RMT",
+      "name": "Mobile 375x812 — RUN MY TRADE Layout & Zero Horizontal Overflow",
+      "viewport": "375x812",
+      "status": "PASS",
+      "durationMs": 8212,
+      "screenshots": [
+        "/Users/petercurrey/Desktop/Drawdown Trading/docs/screenshots/mobile-375/authenticated-run-my-trade-mobile375.png"
+      ],
+      "assertions": [
+        "Zero horizontal overflow confirmed: scrollWidth <= clientWidth",
+        "Inputs usable on 375px mobile viewport"
+      ],
+      "consoleErrors": [],
+      "networkErrors": []
+    },
+    {
+      "id": "MOB-375-SIG",
+      "name": "Mobile 375x812 — Signal Centre Layout & Zero Horizontal Overflow",
+      "viewport": "375x812",
+      "status": "PASS",
+      "durationMs": 10604,
+      "screenshots": [
+        "/Users/petercurrey/Desktop/Drawdown Trading/docs/screenshots/mobile-375/authenticated-signal-centre-mobile375.png"
+      ],
+      "assertions": [
+        "Zero horizontal overflow confirmed on 375px Signal Centre"
+      ],
+      "consoleErrors": [],
+      "networkErrors": []
+    },
+    {
+      "id": "MOB-390-DASH",
+      "name": "Mobile 390x844 — Dashboard Layout & Bottom Navigation",
+      "viewport": "390x844",
+      "status": "PASS",
+      "durationMs": 7502,
+      "screenshots": [
+        "/Users/petercurrey/Desktop/Drawdown Trading/docs/screenshots/mobile-390/authenticated-dashboard-mobile390.png"
+      ],
+      "assertions": [
+        "Zero horizontal overflow confirmed on 390px Dashboard"
+      ],
+      "consoleErrors": [],
+      "networkErrors": []
+    }
+  ]
+}

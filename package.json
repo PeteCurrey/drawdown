@@ -11,7 +11,8 @@
     "test": "node --experimental-strip-types --test 'tests/**/*.test.ts'",
     "test:unit": "node --experimental-strip-types --test 'tests/financial-calculations.test.ts' 'tests/tool-functional-audit.test.ts' 'tests/signal-freshness.test.ts'",
     "test:integration": "node --experimental-strip-types --test 'tests/security-access.test.ts' 'tests/entitlements.test.ts' 'tests/run-my-trade.test.ts' 'tests/conversion-architecture.test.ts' 'tests/market-data-health.test.ts' 'tests/signal-centre-integrity.test.ts' 'tests/seo-technical-audit.test.ts'",
-    "test:e2e": "node --experimental-strip-types --test 'tests/production-e2e-journeys.test.ts'"
+    "test:e2e": "node --experimental-strip-types --test 'tests/production-e2e-journeys.test.ts'",
+    "test:e2e:browser": "playwright test"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.88.0",
@@ -62,6 +63,7 @@
     "zustand": "^5.0.12"
   },
   "devDependencies": {
+    "@playwright/test": "^1.42.1",
     "@tailwindcss/postcss": "^4",
     "@types/canvas-confetti": "^1.9.0",
     "@types/dotenv": "^6.1.1",

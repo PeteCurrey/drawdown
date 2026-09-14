@@ -1,7 +1,9 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
-export default async function middleware(request: NextRequest) {
+// Next.js 16: renamed from middleware.ts → proxy.ts, default export → named "proxy" export.
+// See: https://nextjs.org/docs/messages/middleware-to-proxy
+export async function proxy(request: NextRequest) {
   let response = NextResponse.next({
     request: {
       headers: request.headers,
@@ -80,10 +82,8 @@ export default async function middleware(request: NextRequest) {
   }
 
   // ── Early return for public routes — no Supabase network call needed ───────
-  // supabase.auth.getUser() makes a network round-trip to validate the JWT.
-  // Running it on every public-page request (homepage, pricing, blog, etc.)
-  // causes middleware to exceed Vercel Edge Runtime's 1.5 s CPU budget.
-  // We only pay the cost when the route genuinely requires auth state.
+  // supabase.auth.getUser() makes a network round-trip on every request.
+  // Only pay this cost when the route genuinely requires auth state.
   if (!isProtectedRoute && !isAuthPage) {
     return response;
   }

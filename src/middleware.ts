@@ -16,39 +16,12 @@ export default async function middleware(request: NextRequest) {
     return response;
   }
 
-  const supabase = createServerClient(
-    supabaseUrl,
-    supabaseAnonKey,
-    {
-      cookies: {
-        getAll() {
-          return request.cookies.getAll();
-        },
-        setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value }) =>
-            request.cookies.set(name, value)
-          );
-          response = NextResponse.next({
-            request,
-          });
-          cookiesToSet.forEach(({ name, value, options }) =>
-            response.cookies.set(name, value, options)
-          );
-        },
-      },
-    }
-  );
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
   const path = request.nextUrl.pathname;
-
-  // SEO Audit Phase 1 — Return 410 Gone for retired/unsupported regional city pages and specific retired glossary slugs
-  // IMPORTANT: Only the 4 slugs below are genuinely retired. All other /glossary/[slug] paths must
-  // reach the page component — do NOT add a broad glossary catch-all here.
   const pathParts = path.split("/").filter(Boolean);
+
+  // ── SEO: 410 Gone for retired regional city pages and retired glossary slugs ──
+  // IMPORTANT: Only the 4 slugs below are genuinely retired. All other /glossary/[slug]
+  // paths must reach the page component — do NOT add a broad glossary catch-all here.
   const RETIRED_GLOSSARY_SLUGS = new Set([
     "fundamental-analysis",
     "backwardation",
@@ -65,7 +38,7 @@ export default async function middleware(request: NextRequest) {
     return new NextResponse(null, { status: 410, statusText: "Gone" });
   }
 
-  // Handle regional prefix 301 redirects (excluding working sub-folders)
+  // ── Regional prefix 301 redirects (excluding working sub-folders) ─────────
   const regions = [
     { prefix: "/au/", exclude: ["best", "brokers", "compare", "courses", "disclaimer", "how-to", "learn-to-trade", "markets", "platform", "pricing", "prop-firms", "tools"] },
     { prefix: "/us/", exclude: ["best", "brokers", "compare", "courses", "disclaimer", "how-to", "learn-to-trade", "markets", "platform", "pricing", "prop-firms", "tools"] },
@@ -91,7 +64,7 @@ export default async function middleware(request: NextRequest) {
     }
   }
 
-  // Define protected routes
+  // ── Route classification ───────────────────────────────────────────────────
   const isProtectedRoute =
     path.startsWith("/dashboard") ||
     (path.startsWith("/learn/") && path.split("/").length > 3) || // Gate /learn/[phase]/[id] but not /learn or /learn/[phase]
@@ -100,9 +73,46 @@ export default async function middleware(request: NextRequest) {
     path.startsWith("/admin") ||
     path.startsWith("/partner");
 
+  const isAuthPage = path === "/login" || path === "/signup";
+
   if (path.startsWith("/learn-to-trade")) {
     return response;
   }
+
+  // ── Early return for public routes — no Supabase network call needed ───────
+  // supabase.auth.getUser() makes a network round-trip to validate the JWT.
+  // Running it on every public-page request (homepage, pricing, blog, etc.)
+  // causes middleware to exceed Vercel Edge Runtime's 1.5 s CPU budget.
+  // We only pay the cost when the route genuinely requires auth state.
+  if (!isProtectedRoute && !isAuthPage) {
+    return response;
+  }
+
+  // ── Auth check — only reached for protected routes and login/signup ────────
+  const supabase = createServerClient(
+    supabaseUrl,
+    supabaseAnonKey,
+    {
+      cookies: {
+        getAll() {
+          return request.cookies.getAll();
+        },
+        setAll(cookiesToSet) {
+          cookiesToSet.forEach(({ name, value }) =>
+            request.cookies.set(name, value)
+          );
+          response = NextResponse.next({ request });
+          cookiesToSet.forEach(({ name, value, options }) =>
+            response.cookies.set(name, value, options)
+          );
+        },
+      },
+    }
+  );
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (isProtectedRoute && !user) {
     return NextResponse.redirect(new URL("/login", request.url));
@@ -122,7 +132,7 @@ export default async function middleware(request: NextRequest) {
   }
 
   // Redirect to dashboard if logged in and trying to access auth pages
-  if ((path === "/login" || path === "/signup") && user) {
+  if (isAuthPage && user) {
     return NextResponse.redirect(new URL("/dashboard", request.url));
   }
 

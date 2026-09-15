@@ -8,7 +8,8 @@ import {
   CheckCircle2,
   TrendingUp,
   TrendingDown,
-  ShieldCheck
+  ShieldCheck,
+  AlertCircle
 } from "lucide-react";
 import { AnimatedMetric } from "@/components/ui/AnimatedMetric";
 
@@ -131,9 +132,11 @@ export function RunMyTradeShowcase() {
             }}
           >
             <div className="flex items-center gap-3">
-              <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
+              {/* Removed animate-pulse dot — static indicator, not a live system */}
+              <span className="w-2.5 h-2.5 rounded-full bg-gray-400" />
               <span className="font-mono text-xs font-bold text-gray-900 tracking-wider">
-                RUN_MY_TRADE // LIVE DEMO ENGINE
+                {/* FIX 1: Removed "LIVE" and "ENGINE" — this is sample data, not a connected system */}
+                RUN_MY_TRADE // SAMPLE DATA · CALCULATOR ONLY
               </span>
             </div>
             <div className="flex items-center gap-2">
@@ -145,7 +148,8 @@ export function RunMyTradeShowcase() {
                   color: "var(--graphite-600)"
                 }}
               >
-                Deterministic Sizing Engine · Real-time Math
+                {/* FIX 1: "Real-time Math" replaced — no live data, just local arithmetic */}
+                Client-Side Arithmetic · No Market Connection
               </span>
             </div>
           </div>
@@ -187,31 +191,32 @@ export function RunMyTradeShowcase() {
                 </div>
               </div>
 
-              {/* 2. Direction Toggle */}
+              {/* 2. Direction Toggle — FIX 3: neutral outline styling, not a green/red order ticket */}
               <div>
                 <label className="text-[10px] font-mono uppercase tracking-wider text-gray-500 block mb-2 font-bold">
-                  Trade Bias
+                  {/* FIX 3: relabelled from "Trade Bias" to "Direction" to read as a calculator input */}
+                  Direction
                 </label>
                 <div className="grid grid-cols-2 gap-2">
                   <button
                     onClick={() => setDirection("LONG")}
                     className={`flex items-center justify-center gap-2 py-2.5 border font-mono text-xs font-bold transition-all duration-150 rounded-[5px] active:translate-y-0.5 ${
                       direction === "LONG"
-                        ? "bg-emerald-600 text-white border-emerald-600 shadow-sm"
-                        : "bg-white text-gray-700 border-gray-200 hover:border-gray-300"
+                        ? "bg-gray-900 text-white border-gray-900 shadow-sm"
+                        : "bg-white text-gray-700 border-gray-200 hover:border-gray-400"
                     }`}
                   >
-                    <TrendingUp size={14} /> LONG
+                    <TrendingUp size={14} /> Long ↑
                   </button>
                   <button
                     onClick={() => setDirection("SHORT")}
                     className={`flex items-center justify-center gap-2 py-2.5 border font-mono text-xs font-bold transition-all duration-150 rounded-[5px] active:translate-y-0.5 ${
                       direction === "SHORT"
-                        ? "bg-rose-600 text-white border-rose-600 shadow-sm"
-                        : "bg-white text-gray-700 border-gray-200 hover:border-gray-300"
+                        ? "bg-gray-900 text-white border-gray-900 shadow-sm"
+                        : "bg-white text-gray-700 border-gray-200 hover:border-gray-400"
                     }`}
                   >
-                    <TrendingDown size={14} /> SHORT
+                    <TrendingDown size={14} /> Short ↓
                   </button>
                 </div>
               </div>
@@ -421,14 +426,31 @@ export function RunMyTradeShowcase() {
                 </div>
               </div>
 
+              {/* FIX 2: Execution disclaimer directly attached to this widget */}
+              <div
+                className="mt-6 flex items-start gap-2.5 px-4 py-3 border rounded-[6px]"
+                style={{
+                  backgroundColor: "var(--paper-100)",
+                  borderColor: "var(--line-200)",
+                }}
+              >
+                <AlertCircle size={13} className="text-gray-400 shrink-0 mt-0.5" />
+                <p className="text-[11px] font-mono text-gray-500 leading-relaxed">
+                  This calculator does not place, route, or execute any trade. It does not connect to any broker or exchange. Every figure shown is computed entirely from the inputs you select above — no live market data is used. Drawdown does not route orders or hold client funds. All execution occurs at your independent broker terminal.
+                </p>
+              </div>
+
               {/* Bottom CTA Row (LEVEL 4 Action Trigger) */}
               <div 
-                className="mt-8 pt-6 border-t flex flex-col sm:flex-row items-center justify-between gap-4" 
+                className="mt-6 pt-5 border-t flex flex-col sm:flex-row items-center justify-between gap-4" 
                 style={{ borderColor: "var(--line-200)" }}
               >
-                <div className="text-[11px] font-mono text-gray-500">
-                  ℹ️ Decision-support infrastructure. Does not predict trade outcome.
+                {/* FIX 2: Old one-liner "Decision-support infrastructure" replaced by the panel above.
+                    Keeping a short label here for layout balance only. */}
+                <div className="text-[11px] font-mono text-gray-400">
+                  Sample data · For planning purposes only
                 </div>
+                {/* FIX 4: CTA reworded — signals planning/calculation, not order submission */}
                 <Link
                   href="/signup"
                   className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 bg-gray-900 text-white font-mono text-xs font-bold uppercase tracking-wider hover:bg-black transition-all duration-150 rounded-[6px] active:translate-y-0.5"
@@ -436,7 +458,7 @@ export function RunMyTradeShowcase() {
                     boxShadow: "0 1px 2px rgba(11, 14, 18, 0.08), 0 4px 12px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.15)"
                   }}
                 >
-                  Run My Trade in Free Account <ArrowRight size={14} />
+                  Plan My Position — Free Account <ArrowRight size={14} />
                 </Link>
               </div>
             </div>

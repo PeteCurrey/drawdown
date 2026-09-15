@@ -103,7 +103,7 @@ export function RunMyTradeShowcase() {
             className="font-display text-[clamp(2.25rem,4vw,3.5rem)] leading-[1.08] tracking-[-0.02em] font-semibold"
             style={{ color: "var(--ink-950)" }}
           >
-            RUN MY TRADE: The Aha Moment.
+            PLAN MY TRADE: The Aha Moment.
           </h2>
           <p
             className="text-[17px] leading-[1.6] font-sans"
@@ -136,7 +136,7 @@ export function RunMyTradeShowcase() {
               <span className="w-2.5 h-2.5 rounded-full bg-gray-400" />
               <span className="font-mono text-xs font-bold text-gray-900 tracking-wider">
                 {/* FIX 1: Removed "LIVE" and "ENGINE" — this is sample data, not a connected system */}
-                RUN_MY_TRADE // SAMPLE DATA · CALCULATOR ONLY
+                PLAN_MY_TRADE // SAMPLE DATA · CALCULATOR ONLY
               </span>
             </div>
             <div className="flex items-center gap-2">

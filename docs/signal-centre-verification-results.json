@@ -1,0 +1,1199 @@
+[
+  {
+    "id": "free-desktop-run-1",
+    "tier": "free",
+    "viewport": {
+      "width": 1440,
+      "height": 900
+    },
+    "httpStatus": 500,
+    "pageTitle": "",
+    "is500": true,
+    "isErrorFallback": true,
+    "networkErrors": [
+      {
+        "url": "https://www.drawdown.trading/images/pete.jpg",
+        "status": 404
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/course_progress?select=id&course_id=eq.99894afb-cff0-4b63-940a-d120a5eb07d2&user_id=eq.13e85f81-60f8-4336-b378-027739d07a1d",
+        "status": 400
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/course_progress?select=id&course_id=eq.dd10319a-78fc-4a6b-add5-c6b0889e8f44&user_id=eq.13e85f81-60f8-4336-b378-027739d07a1d",
+        "status": 400
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/course_progress?select=id&course_id=eq.3c0dc3d4-0b98-403d-bc2a-92e4a9b5d5ee&user_id=eq.13e85f81-60f8-4336-b378-027739d07a1d",
+        "status": 400
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/course_progress?select=id&course_id=eq.f4daba79-21e8-441c-97f2-74aec3e49ae3&user_id=eq.13e85f81-60f8-4336-b378-027739d07a1d",
+        "status": 400
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/session_preparations?select=*&user_id=eq.13e85f81-60f8-4336-b378-027739d07a1d&session_date=eq.2026-09-13",
+        "status": 404
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/trade_plans?select=*&user_id=eq.13e85f81-60f8-4336-b378-027739d07a1d&status=in.%28draft%2Cready%29&order=created_at.desc",
+        "status": 404
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/trade_records?select=id%2Ctrade_plan_id%2Cresult_amount%2Copened_at%2Cclosed_at&user_id=eq.13e85f81-60f8-4336-b378-027739d07a1d",
+        "status": 404
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/trade_reviews?select=trade_record_id&user_id=eq.13e85f81-60f8-4336-b378-027739d07a1d",
+        "status": 404
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/improvement_commitments?select=*&user_id=eq.13e85f81-60f8-4336-b378-027739d07a1d&status=in.%28open%2Cin_progress%2Cactive%29&order=created_at.desc&limit=1",
+        "status": 404
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/weekly_operating_reviews?select=id&user_id=eq.13e85f81-60f8-4336-b378-027739d07a1d&week_start=eq.2026-09-06",
+        "status": 404
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/user_watchlists?select=symbol&user_id=eq.13e85f81-60f8-4336-b378-027739d07a1d",
+        "status": 404
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/price_cache?select=*&symbol=in.%28XAUUSD%2CXAU%2FUSD%29",
+        "status": 404
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/price_cache?select=*&symbol=in.%28GBPUSD%2CXAUUSD%2CGBP%2FUSD%2CXAU%2FUSD%29",
+        "status": 404
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/price_cache?select=*&symbol=in.%28XAUUSD%2CXAU%2FUSD%29",
+        "status": 404
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/price_cache?select=*&symbol=in.%28XAUUSD%2CXAU%2FUSD%29",
+        "status": 404
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/price_cache?select=*&symbol=in.%28XAUUSD%2CXAU%2FUSD%29",
+        "status": 404
+      },
+      {
+        "url": "https://www.drawdown.trading/dashboard/signal-centre",
+        "status": 500
+      }
+    ],
+    "consoleErrors": [
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "Failed to load resource: the server responded with a status of 400 ()",
+      "Failed to load resource: the server responded with a status of 400 ()",
+      "Failed to load resource: the server responded with a status of 400 ()",
+      "Failed to load resource: the server responded with a status of 400 ()",
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "Failed to load resource: the server responded with a status of 500 ()",
+      "Failed to load resource: the server responded with a status of 404 ()"
+    ],
+    "screenshotPath": "docs/screenshots/verification/free-desktop-run-1.png",
+    "domContentSummary": "This page couldn’t load Reload to try again, or go back. Reload Back",
+    "gatingCheck": {
+      "hasEntryPrice": false,
+      "hasStopLoss": false,
+      "hasTakeProfit": false,
+      "hasRestrictedAnalysis": false
+    }
+  },
+  {
+    "id": "free-desktop-run-2",
+    "tier": "free",
+    "viewport": {
+      "width": 1440,
+      "height": 900
+    },
+    "httpStatus": 500,
+    "pageTitle": "",
+    "is500": true,
+    "isErrorFallback": true,
+    "networkErrors": [
+      {
+        "url": "https://www.drawdown.trading/images/pete.jpg",
+        "status": 404
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/course_progress?select=id&course_id=eq.99894afb-cff0-4b63-940a-d120a5eb07d2&user_id=eq.13e85f81-60f8-4336-b378-027739d07a1d",
+        "status": 400
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/course_progress?select=id&course_id=eq.f4daba79-21e8-441c-97f2-74aec3e49ae3&user_id=eq.13e85f81-60f8-4336-b378-027739d07a1d",
+        "status": 400
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/course_progress?select=id&course_id=eq.dd10319a-78fc-4a6b-add5-c6b0889e8f44&user_id=eq.13e85f81-60f8-4336-b378-027739d07a1d",
+        "status": 400
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/course_progress?select=id&course_id=eq.3c0dc3d4-0b98-403d-bc2a-92e4a9b5d5ee&user_id=eq.13e85f81-60f8-4336-b378-027739d07a1d",
+        "status": 400
+      },
+      {
+        "url": "https://www.drawdown.trading/dashboard/signal-centre",
+        "status": 500
+      }
+    ],
+    "consoleErrors": [
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "Failed to load resource: the server responded with a status of 400 ()",
+      "Failed to load resource: the server responded with a status of 400 ()",
+      "Failed to load resource: the server responded with a status of 400 ()",
+      "Failed to load resource: the server responded with a status of 400 ()",
+      "Failed to load resource: the server responded with a status of 500 ()"
+    ],
+    "screenshotPath": "docs/screenshots/verification/free-desktop-run-2.png",
+    "domContentSummary": "This page couldn’t load Reload to try again, or go back. Reload Back",
+    "gatingCheck": {
+      "hasEntryPrice": false,
+      "hasStopLoss": false,
+      "hasTakeProfit": false,
+      "hasRestrictedAnalysis": false
+    }
+  },
+  {
+    "id": "free-desktop-run-3",
+    "tier": "free",
+    "viewport": {
+      "width": 1440,
+      "height": 900
+    },
+    "httpStatus": 500,
+    "pageTitle": "",
+    "is500": true,
+    "isErrorFallback": true,
+    "networkErrors": [
+      {
+        "url": "https://www.drawdown.trading/images/pete.jpg",
+        "status": 404
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/course_progress?select=id&course_id=eq.3c0dc3d4-0b98-403d-bc2a-92e4a9b5d5ee&user_id=eq.13e85f81-60f8-4336-b378-027739d07a1d",
+        "status": 400
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/course_progress?select=id&course_id=eq.f4daba79-21e8-441c-97f2-74aec3e49ae3&user_id=eq.13e85f81-60f8-4336-b378-027739d07a1d",
+        "status": 400
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/course_progress?select=id&course_id=eq.dd10319a-78fc-4a6b-add5-c6b0889e8f44&user_id=eq.13e85f81-60f8-4336-b378-027739d07a1d",
+        "status": 400
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/course_progress?select=id&course_id=eq.99894afb-cff0-4b63-940a-d120a5eb07d2&user_id=eq.13e85f81-60f8-4336-b378-027739d07a1d",
+        "status": 400
+      },
+      {
+        "url": "https://www.drawdown.trading/dashboard/signal-centre",
+        "status": 500
+      }
+    ],
+    "consoleErrors": [
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "Failed to load resource: the server responded with a status of 400 ()",
+      "Failed to load resource: the server responded with a status of 400 ()",
+      "Failed to load resource: the server responded with a status of 400 ()",
+      "Failed to load resource: the server responded with a status of 400 ()",
+      "Failed to load resource: the server responded with a status of 500 ()"
+    ],
+    "screenshotPath": "docs/screenshots/verification/free-desktop-run-3.png",
+    "domContentSummary": "This page couldn’t load Reload to try again, or go back. Reload Back",
+    "gatingCheck": {
+      "hasEntryPrice": false,
+      "hasStopLoss": false,
+      "hasTakeProfit": false,
+      "hasRestrictedAnalysis": false
+    }
+  },
+  {
+    "id": "free-desktop-run-4",
+    "tier": "free",
+    "viewport": {
+      "width": 1440,
+      "height": 900
+    },
+    "httpStatus": 500,
+    "pageTitle": "",
+    "is500": true,
+    "isErrorFallback": true,
+    "networkErrors": [
+      {
+        "url": "https://www.drawdown.trading/images/pete.jpg",
+        "status": 404
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/course_progress?select=id&course_id=eq.99894afb-cff0-4b63-940a-d120a5eb07d2&user_id=eq.13e85f81-60f8-4336-b378-027739d07a1d",
+        "status": 400
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/course_progress?select=id&course_id=eq.f4daba79-21e8-441c-97f2-74aec3e49ae3&user_id=eq.13e85f81-60f8-4336-b378-027739d07a1d",
+        "status": 400
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/course_progress?select=id&course_id=eq.dd10319a-78fc-4a6b-add5-c6b0889e8f44&user_id=eq.13e85f81-60f8-4336-b378-027739d07a1d",
+        "status": 400
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/course_progress?select=id&course_id=eq.3c0dc3d4-0b98-403d-bc2a-92e4a9b5d5ee&user_id=eq.13e85f81-60f8-4336-b378-027739d07a1d",
+        "status": 400
+      },
+      {
+        "url": "https://www.drawdown.trading/dashboard/signal-centre",
+        "status": 500
+      }
+    ],
+    "consoleErrors": [
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "Failed to load resource: the server responded with a status of 400 ()",
+      "Failed to load resource: the server responded with a status of 400 ()",
+      "Failed to load resource: the server responded with a status of 400 ()",
+      "Failed to load resource: the server responded with a status of 400 ()",
+      "Failed to load resource: the server responded with a status of 500 ()"
+    ],
+    "screenshotPath": "docs/screenshots/verification/free-desktop-run-4.png",
+    "domContentSummary": "This page couldn’t load Reload to try again, or go back. Reload Back",
+    "gatingCheck": {
+      "hasEntryPrice": false,
+      "hasStopLoss": false,
+      "hasTakeProfit": false,
+      "hasRestrictedAnalysis": false
+    }
+  },
+  {
+    "id": "free-desktop-run-5",
+    "tier": "free",
+    "viewport": {
+      "width": 1440,
+      "height": 900
+    },
+    "httpStatus": 500,
+    "pageTitle": "",
+    "is500": true,
+    "isErrorFallback": true,
+    "networkErrors": [
+      {
+        "url": "https://www.drawdown.trading/images/pete.jpg",
+        "status": 404
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/course_progress?select=id&course_id=eq.dd10319a-78fc-4a6b-add5-c6b0889e8f44&user_id=eq.13e85f81-60f8-4336-b378-027739d07a1d",
+        "status": 400
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/course_progress?select=id&course_id=eq.3c0dc3d4-0b98-403d-bc2a-92e4a9b5d5ee&user_id=eq.13e85f81-60f8-4336-b378-027739d07a1d",
+        "status": 400
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/course_progress?select=id&course_id=eq.99894afb-cff0-4b63-940a-d120a5eb07d2&user_id=eq.13e85f81-60f8-4336-b378-027739d07a1d",
+        "status": 400
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/course_progress?select=id&course_id=eq.f4daba79-21e8-441c-97f2-74aec3e49ae3&user_id=eq.13e85f81-60f8-4336-b378-027739d07a1d",
+        "status": 400
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/session_preparations?select=*&user_id=eq.13e85f81-60f8-4336-b378-027739d07a1d&session_date=eq.2026-09-13",
+        "status": 404
+      },
+      {
+        "url": "https://www.drawdown.trading/dashboard/signal-centre",
+        "status": 500
+      }
+    ],
+    "consoleErrors": [
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "Failed to load resource: the server responded with a status of 400 ()",
+      "Failed to load resource: the server responded with a status of 400 ()",
+      "Failed to load resource: the server responded with a status of 400 ()",
+      "Failed to load resource: the server responded with a status of 400 ()",
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "Failed to load resource: the server responded with a status of 500 ()"
+    ],
+    "screenshotPath": "docs/screenshots/verification/free-desktop-run-5.png",
+    "domContentSummary": "This page couldn’t load Reload to try again, or go back. Reload Back",
+    "gatingCheck": {
+      "hasEntryPrice": false,
+      "hasStopLoss": false,
+      "hasTakeProfit": false,
+      "hasRestrictedAnalysis": false
+    }
+  },
+  {
+    "id": "paid-desktop-run-1",
+    "tier": "paid",
+    "viewport": {
+      "width": 1440,
+      "height": 900
+    },
+    "httpStatus": 200,
+    "pageTitle": "Signal Centre · Drawdown",
+    "is500": false,
+    "isErrorFallback": false,
+    "networkErrors": [
+      {
+        "url": "https://www.drawdown.trading/images/pete.jpg",
+        "status": 404
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/course_progress?select=id&course_id=eq.f4daba79-21e8-441c-97f2-74aec3e49ae3&user_id=eq.cc0abe49-6064-4a31-83c0-bd6ed4501657",
+        "status": 400
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/course_progress?select=id&course_id=eq.dd10319a-78fc-4a6b-add5-c6b0889e8f44&user_id=eq.cc0abe49-6064-4a31-83c0-bd6ed4501657",
+        "status": 400
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/course_progress?select=id&course_id=eq.99894afb-cff0-4b63-940a-d120a5eb07d2&user_id=eq.cc0abe49-6064-4a31-83c0-bd6ed4501657",
+        "status": 400
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/course_progress?select=id&course_id=eq.3c0dc3d4-0b98-403d-bc2a-92e4a9b5d5ee&user_id=eq.cc0abe49-6064-4a31-83c0-bd6ed4501657",
+        "status": 400
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/session_preparations?select=*&user_id=eq.cc0abe49-6064-4a31-83c0-bd6ed4501657&session_date=eq.2026-09-13",
+        "status": 404
+      }
+    ],
+    "consoleErrors": [
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "Failed to load resource: the server responded with a status of 400 ()",
+      "Failed to load resource: the server responded with a status of 400 ()",
+      "Failed to load resource: the server responded with a status of 400 ()",
+      "Failed to load resource: the server responded with a status of 400 ()",
+      "Failed to load resource: the server responded with a status of 404 ()"
+    ],
+    "screenshotPath": "docs/screenshots/verification/paid-desktop-run-1.png",
+    "domContentSummary": "Drawdown.uk Today Prepare Plan Journal Review Improve Signals QF OPERATING LOOP Today Prepare Plan Journal Review Improve INTELLIGENCE The Wire DAILY Market Pul",
+    "gatingCheck": {
+      "hasEntryPrice": false,
+      "hasStopLoss": true,
+      "hasTakeProfit": true,
+      "hasRestrictedAnalysis": false
+    }
+  },
+  {
+    "id": "paid-desktop-run-2",
+    "tier": "paid",
+    "viewport": {
+      "width": 1440,
+      "height": 900
+    },
+    "httpStatus": 200,
+    "pageTitle": "Signal Centre · Drawdown",
+    "is500": false,
+    "isErrorFallback": false,
+    "networkErrors": [
+      {
+        "url": "https://www.drawdown.trading/images/pete.jpg",
+        "status": 404
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/course_progress?select=id&course_id=eq.f4daba79-21e8-441c-97f2-74aec3e49ae3&user_id=eq.cc0abe49-6064-4a31-83c0-bd6ed4501657",
+        "status": 400
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/course_progress?select=id&course_id=eq.99894afb-cff0-4b63-940a-d120a5eb07d2&user_id=eq.cc0abe49-6064-4a31-83c0-bd6ed4501657",
+        "status": 400
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/course_progress?select=id&course_id=eq.dd10319a-78fc-4a6b-add5-c6b0889e8f44&user_id=eq.cc0abe49-6064-4a31-83c0-bd6ed4501657",
+        "status": 400
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/course_progress?select=id&course_id=eq.3c0dc3d4-0b98-403d-bc2a-92e4a9b5d5ee&user_id=eq.cc0abe49-6064-4a31-83c0-bd6ed4501657",
+        "status": 400
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/session_preparations?select=*&user_id=eq.cc0abe49-6064-4a31-83c0-bd6ed4501657&session_date=eq.2026-09-13",
+        "status": 404
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/trade_plans?select=*&user_id=eq.cc0abe49-6064-4a31-83c0-bd6ed4501657&status=in.%28draft%2Cready%29&order=created_at.desc",
+        "status": 404
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/trade_records?select=id%2Ctrade_plan_id%2Cresult_amount%2Copened_at%2Cclosed_at&user_id=eq.cc0abe49-6064-4a31-83c0-bd6ed4501657",
+        "status": 404
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/trade_reviews?select=trade_record_id&user_id=eq.cc0abe49-6064-4a31-83c0-bd6ed4501657",
+        "status": 404
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/improvement_commitments?select=*&user_id=eq.cc0abe49-6064-4a31-83c0-bd6ed4501657&status=in.%28open%2Cin_progress%2Cactive%29&order=created_at.desc&limit=1",
+        "status": 404
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/weekly_operating_reviews?select=id&user_id=eq.cc0abe49-6064-4a31-83c0-bd6ed4501657&week_start=eq.2026-09-06",
+        "status": 404
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/user_watchlists?select=symbol&user_id=eq.cc0abe49-6064-4a31-83c0-bd6ed4501657",
+        "status": 404
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/price_cache?select=*&symbol=in.%28GBPUSD%2CXAUUSD%2CGBP%2FUSD%2CXAU%2FUSD%29",
+        "status": 404
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/price_cache?select=*&symbol=in.%28XAUUSD%2CXAU%2FUSD%29",
+        "status": 404
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/price_cache?select=*&symbol=in.%28XAUUSD%2CXAU%2FUSD%29",
+        "status": 404
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/price_cache?select=*&symbol=in.%28XAUUSD%2CXAU%2FUSD%29",
+        "status": 404
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/price_cache?select=*&symbol=in.%28XAUUSD%2CXAU%2FUSD%29",
+        "status": 404
+      }
+    ],
+    "consoleErrors": [
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "Failed to load resource: the server responded with a status of 400 ()",
+      "Failed to load resource: the server responded with a status of 400 ()",
+      "Failed to load resource: the server responded with a status of 400 ()",
+      "Failed to load resource: the server responded with a status of 400 ()",
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "Failed to load resource: the server responded with a status of 404 ()"
+    ],
+    "screenshotPath": "docs/screenshots/verification/paid-desktop-run-2.png",
+    "domContentSummary": "Drawdown.uk Today Prepare Plan Journal Review Improve Signals QF OPERATING LOOP Today Prepare Plan Journal Review Improve INTELLIGENCE The Wire DAILY Market Pul",
+    "gatingCheck": {
+      "hasEntryPrice": false,
+      "hasStopLoss": true,
+      "hasTakeProfit": true,
+      "hasRestrictedAnalysis": false
+    }
+  },
+  {
+    "id": "paid-desktop-run-3",
+    "tier": "paid",
+    "viewport": {
+      "width": 1440,
+      "height": 900
+    },
+    "httpStatus": 200,
+    "pageTitle": "Signal Centre · Drawdown",
+    "is500": false,
+    "isErrorFallback": false,
+    "networkErrors": [
+      {
+        "url": "https://www.drawdown.trading/images/pete.jpg",
+        "status": 404
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/course_progress?select=id&course_id=eq.f4daba79-21e8-441c-97f2-74aec3e49ae3&user_id=eq.cc0abe49-6064-4a31-83c0-bd6ed4501657",
+        "status": 400
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/course_progress?select=id&course_id=eq.99894afb-cff0-4b63-940a-d120a5eb07d2&user_id=eq.cc0abe49-6064-4a31-83c0-bd6ed4501657",
+        "status": 400
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/course_progress?select=id&course_id=eq.dd10319a-78fc-4a6b-add5-c6b0889e8f44&user_id=eq.cc0abe49-6064-4a31-83c0-bd6ed4501657",
+        "status": 400
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/course_progress?select=id&course_id=eq.3c0dc3d4-0b98-403d-bc2a-92e4a9b5d5ee&user_id=eq.cc0abe49-6064-4a31-83c0-bd6ed4501657",
+        "status": 400
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/session_preparations?select=*&user_id=eq.cc0abe49-6064-4a31-83c0-bd6ed4501657&session_date=eq.2026-09-13",
+        "status": 404
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/trade_plans?select=*&user_id=eq.cc0abe49-6064-4a31-83c0-bd6ed4501657&status=in.%28draft%2Cready%29&order=created_at.desc",
+        "status": 404
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/trade_records?select=id%2Ctrade_plan_id%2Cresult_amount%2Copened_at%2Cclosed_at&user_id=eq.cc0abe49-6064-4a31-83c0-bd6ed4501657",
+        "status": 404
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/trade_reviews?select=trade_record_id&user_id=eq.cc0abe49-6064-4a31-83c0-bd6ed4501657",
+        "status": 404
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/improvement_commitments?select=*&user_id=eq.cc0abe49-6064-4a31-83c0-bd6ed4501657&status=in.%28open%2Cin_progress%2Cactive%29&order=created_at.desc&limit=1",
+        "status": 404
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/weekly_operating_reviews?select=id&user_id=eq.cc0abe49-6064-4a31-83c0-bd6ed4501657&week_start=eq.2026-09-06",
+        "status": 404
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/user_watchlists?select=symbol&user_id=eq.cc0abe49-6064-4a31-83c0-bd6ed4501657",
+        "status": 404
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/price_cache?select=*&symbol=in.%28GBPUSD%2CXAUUSD%2CGBP%2FUSD%2CXAU%2FUSD%29",
+        "status": 404
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/price_cache?select=*&symbol=in.%28XAUUSD%2CXAU%2FUSD%29",
+        "status": 404
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/price_cache?select=*&symbol=in.%28XAUUSD%2CXAU%2FUSD%29",
+        "status": 404
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/price_cache?select=*&symbol=in.%28XAUUSD%2CXAU%2FUSD%29",
+        "status": 404
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/price_cache?select=*&symbol=in.%28XAUUSD%2CXAU%2FUSD%29",
+        "status": 404
+      }
+    ],
+    "consoleErrors": [
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "Failed to load resource: the server responded with a status of 400 ()",
+      "Failed to load resource: the server responded with a status of 400 ()",
+      "Failed to load resource: the server responded with a status of 400 ()",
+      "Failed to load resource: the server responded with a status of 400 ()",
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "Failed to load resource: the server responded with a status of 404 ()"
+    ],
+    "screenshotPath": "docs/screenshots/verification/paid-desktop-run-3.png",
+    "domContentSummary": "Drawdown.uk Today Prepare Plan Journal Review Improve Signals QF OPERATING LOOP Today Prepare Plan Journal Review Improve INTELLIGENCE The Wire DAILY Market Pul",
+    "gatingCheck": {
+      "hasEntryPrice": false,
+      "hasStopLoss": true,
+      "hasTakeProfit": true,
+      "hasRestrictedAnalysis": false
+    }
+  },
+  {
+    "id": "paid-desktop-run-4",
+    "tier": "paid",
+    "viewport": {
+      "width": 1440,
+      "height": 900
+    },
+    "httpStatus": 200,
+    "pageTitle": "Signal Centre · Drawdown",
+    "is500": false,
+    "isErrorFallback": false,
+    "networkErrors": [
+      {
+        "url": "https://www.drawdown.trading/images/pete.jpg",
+        "status": 404
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/course_progress?select=id&course_id=eq.dd10319a-78fc-4a6b-add5-c6b0889e8f44&user_id=eq.cc0abe49-6064-4a31-83c0-bd6ed4501657",
+        "status": 400
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/course_progress?select=id&course_id=eq.99894afb-cff0-4b63-940a-d120a5eb07d2&user_id=eq.cc0abe49-6064-4a31-83c0-bd6ed4501657",
+        "status": 400
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/course_progress?select=id&course_id=eq.f4daba79-21e8-441c-97f2-74aec3e49ae3&user_id=eq.cc0abe49-6064-4a31-83c0-bd6ed4501657",
+        "status": 400
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/course_progress?select=id&course_id=eq.3c0dc3d4-0b98-403d-bc2a-92e4a9b5d5ee&user_id=eq.cc0abe49-6064-4a31-83c0-bd6ed4501657",
+        "status": 400
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/session_preparations?select=*&user_id=eq.cc0abe49-6064-4a31-83c0-bd6ed4501657&session_date=eq.2026-09-13",
+        "status": 404
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/trade_plans?select=*&user_id=eq.cc0abe49-6064-4a31-83c0-bd6ed4501657&status=in.%28draft%2Cready%29&order=created_at.desc",
+        "status": 404
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/trade_records?select=id%2Ctrade_plan_id%2Cresult_amount%2Copened_at%2Cclosed_at&user_id=eq.cc0abe49-6064-4a31-83c0-bd6ed4501657",
+        "status": 404
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/trade_reviews?select=trade_record_id&user_id=eq.cc0abe49-6064-4a31-83c0-bd6ed4501657",
+        "status": 404
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/improvement_commitments?select=*&user_id=eq.cc0abe49-6064-4a31-83c0-bd6ed4501657&status=in.%28open%2Cin_progress%2Cactive%29&order=created_at.desc&limit=1",
+        "status": 404
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/weekly_operating_reviews?select=id&user_id=eq.cc0abe49-6064-4a31-83c0-bd6ed4501657&week_start=eq.2026-09-06",
+        "status": 404
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/user_watchlists?select=symbol&user_id=eq.cc0abe49-6064-4a31-83c0-bd6ed4501657",
+        "status": 404
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/price_cache?select=*&symbol=in.%28GBPUSD%2CXAUUSD%2CGBP%2FUSD%2CXAU%2FUSD%29",
+        "status": 404
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/price_cache?select=*&symbol=in.%28XAUUSD%2CXAU%2FUSD%29",
+        "status": 404
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/price_cache?select=*&symbol=in.%28XAUUSD%2CXAU%2FUSD%29",
+        "status": 404
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/price_cache?select=*&symbol=in.%28XAUUSD%2CXAU%2FUSD%29",
+        "status": 404
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/price_cache?select=*&symbol=in.%28XAUUSD%2CXAU%2FUSD%29",
+        "status": 404
+      },
+      {
+        "url": "https://www.drawdown.trading/api/signals/scan",
+        "status": 429
+      }
+    ],
+    "consoleErrors": [
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "Failed to load resource: the server responded with a status of 400 ()",
+      "Failed to load resource: the server responded with a status of 400 ()",
+      "Failed to load resource: the server responded with a status of 400 ()",
+      "Failed to load resource: the server responded with a status of 400 ()",
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "Failed to load resource: the server responded with a status of 429 ()"
+    ],
+    "screenshotPath": "docs/screenshots/verification/paid-desktop-run-4.png",
+    "domContentSummary": "Drawdown.uk Today Prepare Plan Journal Review Improve Signals QF OPERATING LOOP Today Prepare Plan Journal Review Improve INTELLIGENCE The Wire DAILY Market Pul",
+    "gatingCheck": {
+      "hasEntryPrice": false,
+      "hasStopLoss": true,
+      "hasTakeProfit": true,
+      "hasRestrictedAnalysis": false
+    }
+  },
+  {
+    "id": "paid-desktop-run-5",
+    "tier": "paid",
+    "viewport": {
+      "width": 1440,
+      "height": 900
+    },
+    "httpStatus": 200,
+    "pageTitle": "Signal Centre · Drawdown",
+    "is500": false,
+    "isErrorFallback": false,
+    "networkErrors": [
+      {
+        "url": "https://www.drawdown.trading/images/pete.jpg",
+        "status": 404
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/course_progress?select=id&course_id=eq.99894afb-cff0-4b63-940a-d120a5eb07d2&user_id=eq.cc0abe49-6064-4a31-83c0-bd6ed4501657",
+        "status": 400
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/course_progress?select=id&course_id=eq.dd10319a-78fc-4a6b-add5-c6b0889e8f44&user_id=eq.cc0abe49-6064-4a31-83c0-bd6ed4501657",
+        "status": 400
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/course_progress?select=id&course_id=eq.f4daba79-21e8-441c-97f2-74aec3e49ae3&user_id=eq.cc0abe49-6064-4a31-83c0-bd6ed4501657",
+        "status": 400
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/course_progress?select=id&course_id=eq.3c0dc3d4-0b98-403d-bc2a-92e4a9b5d5ee&user_id=eq.cc0abe49-6064-4a31-83c0-bd6ed4501657",
+        "status": 400
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/session_preparations?select=*&user_id=eq.cc0abe49-6064-4a31-83c0-bd6ed4501657&session_date=eq.2026-09-13",
+        "status": 404
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/trade_plans?select=*&user_id=eq.cc0abe49-6064-4a31-83c0-bd6ed4501657&status=in.%28draft%2Cready%29&order=created_at.desc",
+        "status": 404
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/trade_records?select=id%2Ctrade_plan_id%2Cresult_amount%2Copened_at%2Cclosed_at&user_id=eq.cc0abe49-6064-4a31-83c0-bd6ed4501657",
+        "status": 404
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/trade_reviews?select=trade_record_id&user_id=eq.cc0abe49-6064-4a31-83c0-bd6ed4501657",
+        "status": 404
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/improvement_commitments?select=*&user_id=eq.cc0abe49-6064-4a31-83c0-bd6ed4501657&status=in.%28open%2Cin_progress%2Cactive%29&order=created_at.desc&limit=1",
+        "status": 404
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/weekly_operating_reviews?select=id&user_id=eq.cc0abe49-6064-4a31-83c0-bd6ed4501657&week_start=eq.2026-09-06",
+        "status": 404
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/user_watchlists?select=symbol&user_id=eq.cc0abe49-6064-4a31-83c0-bd6ed4501657",
+        "status": 404
+      },
+      {
+        "url": "https://www.drawdown.trading/api/signals/scan",
+        "status": 429
+      }
+    ],
+    "consoleErrors": [
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "Failed to load resource: the server responded with a status of 400 ()",
+      "Failed to load resource: the server responded with a status of 400 ()",
+      "Failed to load resource: the server responded with a status of 400 ()",
+      "Failed to load resource: the server responded with a status of 400 ()",
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "Failed to load resource: the server responded with a status of 429 ()"
+    ],
+    "screenshotPath": "docs/screenshots/verification/paid-desktop-run-5.png",
+    "domContentSummary": "Drawdown.uk Today Prepare Plan Journal Review Improve Signals QF OPERATING LOOP Today Prepare Plan Journal Review Improve INTELLIGENCE The Wire DAILY Market Pul",
+    "gatingCheck": {
+      "hasEntryPrice": false,
+      "hasStopLoss": true,
+      "hasTakeProfit": true,
+      "hasRestrictedAnalysis": false
+    }
+  },
+  {
+    "id": "free-mobile-375",
+    "tier": "free",
+    "viewport": {
+      "width": 375,
+      "height": 812
+    },
+    "httpStatus": 500,
+    "pageTitle": "",
+    "is500": true,
+    "isErrorFallback": true,
+    "networkErrors": [
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/course_progress?select=id&course_id=eq.99894afb-cff0-4b63-940a-d120a5eb07d2&user_id=eq.13e85f81-60f8-4336-b378-027739d07a1d",
+        "status": 400
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/course_progress?select=id&course_id=eq.f4daba79-21e8-441c-97f2-74aec3e49ae3&user_id=eq.13e85f81-60f8-4336-b378-027739d07a1d",
+        "status": 400
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/course_progress?select=id&course_id=eq.dd10319a-78fc-4a6b-add5-c6b0889e8f44&user_id=eq.13e85f81-60f8-4336-b378-027739d07a1d",
+        "status": 400
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/course_progress?select=id&course_id=eq.3c0dc3d4-0b98-403d-bc2a-92e4a9b5d5ee&user_id=eq.13e85f81-60f8-4336-b378-027739d07a1d",
+        "status": 400
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/session_preparations?select=*&user_id=eq.13e85f81-60f8-4336-b378-027739d07a1d&session_date=eq.2026-09-13",
+        "status": 404
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/trade_plans?select=*&user_id=eq.13e85f81-60f8-4336-b378-027739d07a1d&status=in.%28draft%2Cready%29&order=created_at.desc",
+        "status": 404
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/trade_records?select=id%2Ctrade_plan_id%2Cresult_amount%2Copened_at%2Cclosed_at&user_id=eq.13e85f81-60f8-4336-b378-027739d07a1d",
+        "status": 404
+      },
+      {
+        "url": "https://www.drawdown.trading/dashboard/signal-centre",
+        "status": 500
+      }
+    ],
+    "consoleErrors": [
+      "Failed to load resource: the server responded with a status of 400 ()",
+      "Failed to load resource: the server responded with a status of 400 ()",
+      "Failed to load resource: the server responded with a status of 400 ()",
+      "Failed to load resource: the server responded with a status of 400 ()",
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "Failed to load resource: the server responded with a status of 500 ()"
+    ],
+    "screenshotPath": "docs/screenshots/verification/free-mobile-375.png",
+    "domContentSummary": "This page couldn’t load Reload to try again, or go back. Reload Back",
+    "gatingCheck": {
+      "hasEntryPrice": false,
+      "hasStopLoss": false,
+      "hasTakeProfit": false,
+      "hasRestrictedAnalysis": false
+    }
+  },
+  {
+    "id": "paid-mobile-375",
+    "tier": "paid",
+    "viewport": {
+      "width": 375,
+      "height": 812
+    },
+    "httpStatus": 200,
+    "pageTitle": "Signal Centre · Drawdown",
+    "is500": false,
+    "isErrorFallback": false,
+    "networkErrors": [
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/course_progress?select=id&course_id=eq.99894afb-cff0-4b63-940a-d120a5eb07d2&user_id=eq.cc0abe49-6064-4a31-83c0-bd6ed4501657",
+        "status": 400
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/course_progress?select=id&course_id=eq.f4daba79-21e8-441c-97f2-74aec3e49ae3&user_id=eq.cc0abe49-6064-4a31-83c0-bd6ed4501657",
+        "status": 400
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/course_progress?select=id&course_id=eq.dd10319a-78fc-4a6b-add5-c6b0889e8f44&user_id=eq.cc0abe49-6064-4a31-83c0-bd6ed4501657",
+        "status": 400
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/course_progress?select=id&course_id=eq.3c0dc3d4-0b98-403d-bc2a-92e4a9b5d5ee&user_id=eq.cc0abe49-6064-4a31-83c0-bd6ed4501657",
+        "status": 400
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/session_preparations?select=*&user_id=eq.cc0abe49-6064-4a31-83c0-bd6ed4501657&session_date=eq.2026-09-13",
+        "status": 404
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/trade_plans?select=*&user_id=eq.cc0abe49-6064-4a31-83c0-bd6ed4501657&status=in.%28draft%2Cready%29&order=created_at.desc",
+        "status": 404
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/trade_records?select=id%2Ctrade_plan_id%2Cresult_amount%2Copened_at%2Cclosed_at&user_id=eq.cc0abe49-6064-4a31-83c0-bd6ed4501657",
+        "status": 404
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/trade_reviews?select=trade_record_id&user_id=eq.cc0abe49-6064-4a31-83c0-bd6ed4501657",
+        "status": 404
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/improvement_commitments?select=*&user_id=eq.cc0abe49-6064-4a31-83c0-bd6ed4501657&status=in.%28open%2Cin_progress%2Cactive%29&order=created_at.desc&limit=1",
+        "status": 404
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/weekly_operating_reviews?select=id&user_id=eq.cc0abe49-6064-4a31-83c0-bd6ed4501657&week_start=eq.2026-09-06",
+        "status": 404
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/user_watchlists?select=symbol&user_id=eq.cc0abe49-6064-4a31-83c0-bd6ed4501657",
+        "status": 404
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/price_cache?select=*&symbol=in.%28XAUUSD%2CXAU%2FUSD%29",
+        "status": 404
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/price_cache?select=*&symbol=in.%28GBPUSD%2CXAUUSD%2CGBP%2FUSD%2CXAU%2FUSD%29",
+        "status": 404
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/price_cache?select=*&symbol=in.%28XAUUSD%2CXAU%2FUSD%29",
+        "status": 404
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/price_cache?select=*&symbol=in.%28XAUUSD%2CXAU%2FUSD%29",
+        "status": 404
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/price_cache?select=*&symbol=in.%28XAUUSD%2CXAU%2FUSD%29",
+        "status": 404
+      }
+    ],
+    "consoleErrors": [
+      "Failed to load resource: the server responded with a status of 400 ()",
+      "Failed to load resource: the server responded with a status of 400 ()",
+      "Failed to load resource: the server responded with a status of 400 ()",
+      "Failed to load resource: the server responded with a status of 400 ()",
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "Failed to load resource: the server responded with a status of 404 ()"
+    ],
+    "screenshotPath": "docs/screenshots/verification/paid-mobile-375.png",
+    "domContentSummary": "Drawdown.uk QF MARKET INTELLIGENCE · CONFLUENCE Signal Centre Multi-model consensus signals via institutional indicators — Claude, GPT-4o, and Grok scoring liv",
+    "gatingCheck": {
+      "hasEntryPrice": false,
+      "hasStopLoss": true,
+      "hasTakeProfit": true,
+      "hasRestrictedAnalysis": false
+    }
+  },
+  {
+    "id": "free-mobile-390",
+    "tier": "free",
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "httpStatus": 500,
+    "pageTitle": "",
+    "is500": true,
+    "isErrorFallback": true,
+    "networkErrors": [
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/course_progress?select=id&course_id=eq.f4daba79-21e8-441c-97f2-74aec3e49ae3&user_id=eq.13e85f81-60f8-4336-b378-027739d07a1d",
+        "status": 400
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/course_progress?select=id&course_id=eq.3c0dc3d4-0b98-403d-bc2a-92e4a9b5d5ee&user_id=eq.13e85f81-60f8-4336-b378-027739d07a1d",
+        "status": 400
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/course_progress?select=id&course_id=eq.dd10319a-78fc-4a6b-add5-c6b0889e8f44&user_id=eq.13e85f81-60f8-4336-b378-027739d07a1d",
+        "status": 400
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/course_progress?select=id&course_id=eq.99894afb-cff0-4b63-940a-d120a5eb07d2&user_id=eq.13e85f81-60f8-4336-b378-027739d07a1d",
+        "status": 400
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/session_preparations?select=*&user_id=eq.13e85f81-60f8-4336-b378-027739d07a1d&session_date=eq.2026-09-13",
+        "status": 404
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/trade_plans?select=*&user_id=eq.13e85f81-60f8-4336-b378-027739d07a1d&status=in.%28draft%2Cready%29&order=created_at.desc",
+        "status": 404
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/trade_records?select=id%2Ctrade_plan_id%2Cresult_amount%2Copened_at%2Cclosed_at&user_id=eq.13e85f81-60f8-4336-b378-027739d07a1d",
+        "status": 404
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/trade_reviews?select=trade_record_id&user_id=eq.13e85f81-60f8-4336-b378-027739d07a1d",
+        "status": 404
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/improvement_commitments?select=*&user_id=eq.13e85f81-60f8-4336-b378-027739d07a1d&status=in.%28open%2Cin_progress%2Cactive%29&order=created_at.desc&limit=1",
+        "status": 404
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/weekly_operating_reviews?select=id&user_id=eq.13e85f81-60f8-4336-b378-027739d07a1d&week_start=eq.2026-09-06",
+        "status": 404
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/user_watchlists?select=symbol&user_id=eq.13e85f81-60f8-4336-b378-027739d07a1d",
+        "status": 404
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/price_cache?select=*&symbol=in.%28GBPUSD%2CXAUUSD%2CGBP%2FUSD%2CXAU%2FUSD%29",
+        "status": 404
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/price_cache?select=*&symbol=in.%28XAUUSD%2CXAU%2FUSD%29",
+        "status": 404
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/price_cache?select=*&symbol=in.%28XAUUSD%2CXAU%2FUSD%29",
+        "status": 404
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/price_cache?select=*&symbol=in.%28XAUUSD%2CXAU%2FUSD%29",
+        "status": 404
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/price_cache?select=*&symbol=in.%28XAUUSD%2CXAU%2FUSD%29",
+        "status": 404
+      },
+      {
+        "url": "https://www.drawdown.trading/dashboard/signal-centre",
+        "status": 500
+      }
+    ],
+    "consoleErrors": [
+      "Failed to load resource: the server responded with a status of 400 ()",
+      "Failed to load resource: the server responded with a status of 400 ()",
+      "Failed to load resource: the server responded with a status of 400 ()",
+      "Failed to load resource: the server responded with a status of 400 ()",
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "Failed to load resource: the server responded with a status of 500 ()"
+    ],
+    "screenshotPath": "docs/screenshots/verification/free-mobile-390.png",
+    "domContentSummary": "This page couldn’t load Reload to try again, or go back. Reload Back",
+    "gatingCheck": {
+      "hasEntryPrice": false,
+      "hasStopLoss": false,
+      "hasTakeProfit": false,
+      "hasRestrictedAnalysis": false
+    }
+  },
+  {
+    "id": "paid-mobile-390",
+    "tier": "paid",
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "httpStatus": 200,
+    "pageTitle": "Signal Centre · Drawdown",
+    "is500": false,
+    "isErrorFallback": false,
+    "networkErrors": [
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/course_progress?select=id&course_id=eq.99894afb-cff0-4b63-940a-d120a5eb07d2&user_id=eq.cc0abe49-6064-4a31-83c0-bd6ed4501657",
+        "status": 400
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/course_progress?select=id&course_id=eq.dd10319a-78fc-4a6b-add5-c6b0889e8f44&user_id=eq.cc0abe49-6064-4a31-83c0-bd6ed4501657",
+        "status": 400
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/course_progress?select=id&course_id=eq.f4daba79-21e8-441c-97f2-74aec3e49ae3&user_id=eq.cc0abe49-6064-4a31-83c0-bd6ed4501657",
+        "status": 400
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/course_progress?select=id&course_id=eq.3c0dc3d4-0b98-403d-bc2a-92e4a9b5d5ee&user_id=eq.cc0abe49-6064-4a31-83c0-bd6ed4501657",
+        "status": 400
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/session_preparations?select=*&user_id=eq.cc0abe49-6064-4a31-83c0-bd6ed4501657&session_date=eq.2026-09-13",
+        "status": 404
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/trade_plans?select=*&user_id=eq.cc0abe49-6064-4a31-83c0-bd6ed4501657&status=in.%28draft%2Cready%29&order=created_at.desc",
+        "status": 404
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/trade_records?select=id%2Ctrade_plan_id%2Cresult_amount%2Copened_at%2Cclosed_at&user_id=eq.cc0abe49-6064-4a31-83c0-bd6ed4501657",
+        "status": 404
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/trade_reviews?select=trade_record_id&user_id=eq.cc0abe49-6064-4a31-83c0-bd6ed4501657",
+        "status": 404
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/improvement_commitments?select=*&user_id=eq.cc0abe49-6064-4a31-83c0-bd6ed4501657&status=in.%28open%2Cin_progress%2Cactive%29&order=created_at.desc&limit=1",
+        "status": 404
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/weekly_operating_reviews?select=id&user_id=eq.cc0abe49-6064-4a31-83c0-bd6ed4501657&week_start=eq.2026-09-06",
+        "status": 404
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/user_watchlists?select=symbol&user_id=eq.cc0abe49-6064-4a31-83c0-bd6ed4501657",
+        "status": 404
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/price_cache?select=*&symbol=in.%28XAUUSD%2CXAU%2FUSD%29",
+        "status": 404
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/price_cache?select=*&symbol=in.%28GBPUSD%2CXAUUSD%2CGBP%2FUSD%2CXAU%2FUSD%29",
+        "status": 404
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/price_cache?select=*&symbol=in.%28XAUUSD%2CXAU%2FUSD%29",
+        "status": 404
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/price_cache?select=*&symbol=in.%28XAUUSD%2CXAU%2FUSD%29",
+        "status": 404
+      },
+      {
+        "url": "https://miiasjbonwlleggiukyf.supabase.co/rest/v1/price_cache?select=*&symbol=in.%28XAUUSD%2CXAU%2FUSD%29",
+        "status": 404
+      },
+      {
+        "url": "https://www.drawdown.trading/api/signals/scan",
+        "status": 429
+      }
+    ],
+    "consoleErrors": [
+      "Failed to load resource: the server responded with a status of 400 ()",
+      "Failed to load resource: the server responded with a status of 400 ()",
+      "Failed to load resource: the server responded with a status of 400 ()",
+      "Failed to load resource: the server responded with a status of 400 ()",
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "Failed to load resource: the server responded with a status of 404 ()",
+      "Failed to load resource: the server responded with a status of 429 ()"
+    ],
+    "screenshotPath": "docs/screenshots/verification/paid-mobile-390.png",
+    "domContentSummary": "Drawdown.uk QF MARKET INTELLIGENCE · CONFLUENCE Signal Centre Multi-model consensus signals via institutional indicators — Claude, GPT-4o, and Grok scoring liv",
+    "gatingCheck": {
+      "hasEntryPrice": false,
+      "hasStopLoss": true,
+      "hasTakeProfit": true,
+      "hasRestrictedAnalysis": false
+    }
+  }
+]

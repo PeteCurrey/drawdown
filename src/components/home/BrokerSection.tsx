@@ -7,36 +7,27 @@ import { useRegion } from "@/components/layout/RegionalLayout";
 import { brokersAu } from "@/data/brokers-au";
 import { brokersUs } from "@/data/brokers-us";
 import { brokersSg, brokersHk } from "@/data/brokers-asia";
+import { brokers as allBrokers } from "@/data/brokers";
+import { FOUNDER_BROKERS } from "@/config/founder";
 
-const ukBrokers = [
-  {
-    id: "ig",
-    name: "IG Markets",
-    logoUrl: "/logos/brokers/ig-markets.svg",
-    bestFor: "Best for UK spread betting",
-    stat: "Spreads from 0.6 pips",
-    features: ["FCA Regulated", "Professional Grade"],
-    regulation: "FCA PROTECTED"
-  },
-  {
-    id: "pepperstone",
-    name: "Pepperstone",
-    logoUrl: "/logos/brokers/pepperstone.svg",
-    bestFor: "Best for forex",
-    stat: "Raw spreads from 0.0 pips",
-    features: ["FCA Regulated", "Fast Execution", "Low Commission"],
-    regulation: "FCA PROTECTED"
-  },
-  {
-    id: "ic-markets",
-    name: "IC Markets",
-    logoUrl: "/logos/brokers/ic-markets.svg",
-    bestFor: "Best for active traders",
-    stat: "Ultra-low commissions",
-    features: ["Global Depth", "Raw Spreads", "High Leverage"],
-    regulation: "GLOBAL DEPTH"
-  }
-];
+// UK homepage broker cards are restricted to FOUNDER_BROKERS only.
+// The copy above these cards states "Where our founder holds a live account,
+// we say so" — so only brokers that are actually in FOUNDER_BROKERS belong here.
+// Pepperstone is excluded: it is not in FOUNDER_BROKERS and has no live
+// affiliate relationship (hasAffiliateLink: false, placeholder URL in
+// config/affiliates.ts).
+const ukBrokers = allBrokers
+  .filter((b) => FOUNDER_BROKERS.includes(b.id))
+  .slice(0, 3)
+  .map((b) => ({
+    id: b.id,
+    name: b.name,
+    logoUrl: b.logo,
+    bestFor: b.oneLine,
+    stat: b.spreads ? `Spreads from ${b.spreads}` : b.minDeposit ? `Min deposit ${b.minDeposit}` : "",
+    features: b.pros.slice(0, 3),
+    regulation: b.fcaRegulated ? "FCA PROTECTED" : "GLOBAL",
+  }));
 
 const brokerBranding: Record<string, { bg: string; glow: string; border: string }> = {
   "ig": {
@@ -208,6 +199,11 @@ export function BrokerSection() {
 
                     <h3 className="text-[16px] font-medium font-sans mb-1" style={{ color: "var(--ink-950)" }}>
                       {broker.name}
+                      {FOUNDER_BROKERS.includes(broker.id) && (
+                        <span className="ml-2 px-2 py-0.5 bg-[var(--ink-950)] text-white text-[9px] font-mono font-bold tracking-tighter uppercase align-middle">
+                          Founder&apos;s Account
+                        </span>
+                      )}
                     </h3>
                     <p className="text-[12px] font-sans mb-4" style={{ color: "var(--graphite-600)" }}>
                       {broker.bestFor}

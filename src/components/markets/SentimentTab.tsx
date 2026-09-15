@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Gauge, Info, TrendingUp, AlertTriangle } from "lucide-react";
+import { Gauge, Info, TrendingUp, AlertTriangle, WifiOff } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export function SentimentTab() {
@@ -12,10 +12,14 @@ export function SentimentTab() {
     async function fetchSentiment() {
       try {
         const res = await fetch("/api/market/sentiment");
+        if (!res.ok) throw new Error(`Sentiment API returned ${res.status}`);
         const data = await res.json();
-        setSentiment(data);
+        if (data && !data.error) {
+          setSentiment(data);
+        }
       } catch (err) {
         console.error("Sentiment Fetch Error:", err);
+        // sentiment stays null — FEED_OFFLINE state renders below
       } finally {
         setLoading(false);
       }
@@ -54,6 +58,17 @@ export function SentimentTab() {
                  <div className="w-32 h-32 rounded-full bg-border-slate/20" />
                  <div className="w-48 h-8 bg-border-slate/10" />
                </div>
+            ) : !sentiment ? (
+              // FEED_OFFLINE — sentiment API failed or returned no data
+              <div className="relative z-10 flex flex-col items-center gap-3 text-center">
+                <WifiOff className="w-8 h-8 text-mkt-i4" />
+                <p className="text-sm font-mono font-bold uppercase tracking-wider text-mkt-ink">
+                  Feed Offline
+                </p>
+                <p className="text-xs font-sans text-mkt-i4">
+                  Sentiment data is currently unavailable. Refresh to retry.
+                </p>
+              </div>
             ) : (
               <>
                 <span className={cn(
@@ -75,13 +90,20 @@ export function SentimentTab() {
           <div className="grid grid-cols-2 gap-4">
              <div className="p-6 bg-[#F7F7F7]/30 border border-mkt-bd">
                 <span className="text-[10px] font-mono uppercase tracking-widest text-mkt-i4 block mb-2">VIX Index</span>
-                <span className="text-2xl font-mono font-bold">{loading ? "--" : sentiment.vix.toFixed(2)}</span>
+                <span className="text-2xl font-mono font-bold">
+                  {loading ? "--" : !sentiment ? "--" : sentiment.vix.toFixed(2)}
+                </span>
                 <p className="text-[10px] font-mono text-mkt-i4 mt-1 uppercase">Volatility Gauge</p>
              </div>
              <div className="p-6 bg-[#F7F7F7]/30 border border-mkt-bd">
-                <span className="text-[10px] font-mono uppercase tracking-widest text-mkt-i4 block mb-2">Momentum</span>
-                <span className="text-2xl font-mono font-bold text-mkt-grn">BULLISH</span>
-                <p className="text-[10px] font-mono text-mkt-i4 mt-1 uppercase">Daily Consensus</p>
+                <span className="text-[10px] font-mono uppercase tracking-widest text-mkt-i4 block mb-2">Fear &amp; Greed</span>
+                <span className={cn(
+                  "text-2xl font-mono font-bold",
+                  !loading && sentiment ? getSentimentColor(sentiment.fearGreed) : "text-mkt-ink"
+                )}>
+                  {loading ? "--" : !sentiment ? "--" : sentiment.label?.toUpperCase() ?? "--"}
+                </span>
+                <p className="text-[10px] font-mono text-mkt-i4 mt-1 uppercase">Daily Reading</p>
              </div>
           </div>
         </div>
@@ -96,7 +118,7 @@ export function SentimentTab() {
                    <div>
                      <p className="text-xs font-bold uppercase tracking-widest mb-2">Contrarian Signal</p>
                      <p className="text-sm text-mkt-i2 leading-relaxed">
-                       In professional trading, "Extreme Fear" can be a powerful buy signal, while "Extreme Greed" often signals a market top. Use this to gauge if retail positioning is overextended.
+                       In professional trading, &quot;Extreme Fear&quot; can be a powerful buy signal, while &quot;Extreme Greed&quot; often signals a market top. Use this to gauge if retail positioning is overextended.
                      </p>
                    </div>
                 </div>
@@ -117,7 +139,7 @@ export function SentimentTab() {
               <div className="relative z-10">
                 <h4 className="text-lg font-sans font-bold uppercase text-accent mb-4">Pete&apos;s Psychological Take</h4>
                 <p className="text-sm text-mkt-i2 leading-relaxed italic mb-6">
-                  "The crowd is currently leaning heavily into the long side on USD, but technical exhaustion is screaming at us from the weekly charts. When everyone is in the same boat, its much easier to capsize. Wait for the squeeze."
+                  &quot;The crowd is currently leaning heavily into the long side on USD, but technical exhaustion is screaming at us from the weekly charts. When everyone is in the same boat, its much easier to capsize. Wait for the squeeze.&quot;
                 </p>
                 <div className="flex items-center gap-3">
                   <div className="w-8 h-8 rounded-sm bg-white border border-mkt-bd flex items-center justify-center">

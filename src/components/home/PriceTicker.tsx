@@ -91,31 +91,42 @@ export function PriceTicker() {
   return (
     <div
       className="w-full h-[44px] flex items-center overflow-hidden border-b select-none relative z-10"
-      style={{ backgroundColor: "var(--paper-0)", borderColor: "var(--line-200)" }}
+      style={{ 
+        backgroundColor: "var(--paper-0)", 
+        borderColor: "var(--line-200)",
+        boxShadow: "inset 0 1px 0 rgba(255, 255, 255, 0.6)"
+      }}
     >
       {/* Dynamic Status Badge — left anchor */}
       <div
-        className="absolute left-0 top-0 bottom-0 flex items-center px-4 border-r z-30"
+        className="absolute left-0 top-0 bottom-0 flex items-center px-4 border-r z-30 shadow-[2px_0_8px_rgba(0,0,0,0.02)]"
         style={{
           backgroundColor: "var(--paper-0)",
           borderColor: "var(--line-200)",
         }}
       >
         <span
-          className="text-[10px] font-mono uppercase tracking-[0.08em] px-2 py-0.5 border"
+          className="text-[10px] font-mono uppercase tracking-[0.08em] px-2.5 py-0.5 border flex items-center gap-1.5"
           style={{
             color: isLive ? "var(--mkt-grn)" : "var(--graphite-600)",
             borderColor: isLive ? "var(--mkt-gbd)" : "var(--line-200)",
             backgroundColor: isLive ? "var(--mkt-gbg)" : "var(--paper-100)",
-            borderRadius: 0,
+            borderRadius: "4px",
           }}
         >
+          <span className={`w-1.5 h-1.5 rounded-full ${isLive ? "bg-emerald-500 animate-pulse" : "bg-gray-400"}`} />
           {isLive ? "Prices Delayed 60s" : "Sample Data"}
         </span>
       </div>
 
-      {/* Marquee */}
-      <div className="flex-grow overflow-hidden flex items-center pl-44 pr-36">
+      {/* Marquee with subtle edge fades */}
+      <div 
+        className="flex-grow overflow-hidden flex items-center pl-44 pr-36"
+        style={{
+          maskImage: "linear-gradient(to right, transparent, black 24px, black calc(100% - 24px), transparent)",
+          WebkitMaskImage: "linear-gradient(to right, transparent, black 24px, black calc(100% - 24px), transparent)",
+        }}
+      >
         <div
           className={shouldReduce ? "flex gap-0 items-center" : "flex items-center animate-marquee-ticker"}
         >
@@ -159,7 +170,7 @@ export function PriceTicker() {
 
       {/* Dynamic Right label */}
       <div
-        className="absolute right-0 top-0 bottom-0 flex items-center px-4 border-l z-30"
+        className="absolute right-0 top-0 bottom-0 flex items-center px-4 border-l z-30 shadow-[-2px_0_8px_rgba(0,0,0,0.02)]"
         style={{
           backgroundColor: "var(--paper-0)",
           borderColor: "var(--line-200)",

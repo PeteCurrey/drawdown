@@ -4,6 +4,7 @@ import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
 import { ArrowRight, ShieldCheck } from "lucide-react";
 import { useRegion } from "@/components/layout/RegionalLayout";
+import { TelemetryGrid } from "@/components/ui/TelemetryGrid";
 
 export function HeroSection() {
   const { region, demonym, regulatoryBody } = useRegion();
@@ -16,7 +17,7 @@ export function HeroSection() {
     visible: (i: number) => ({
       opacity: 1,
       y: 0,
-      transition: { delay: i * 0.08, duration: 0.2, ease: "easeOut" as const },
+      transition: { delay: i * 0.08, duration: 0.24, ease: [0.16, 1, 0.3, 1] as const },
     }),
   };
 
@@ -37,27 +38,47 @@ export function HeroSection() {
         borderColor: "var(--line-200)",
       }}
     >
-      {/* Background candlestick chart — purely decorative, 3% opacity */}
+      {/* Background technical telemetry & coordinate grid */}
+      <TelemetryGrid showCoordinates={true} opacity={0.035} />
+
+      {/* Subtle ambient candlestick chart — purely decorative, 2.5% opacity */}
       <div
         aria-hidden="true"
-        className="absolute inset-0 z-0 pointer-events-none select-none opacity-[0.03]"
+        className="absolute inset-0 z-0 pointer-events-none select-none opacity-[0.025]"
         style={{ backgroundImage: "url('/images/dashboard-preview.png')", backgroundSize: "cover", backgroundPosition: "center" }}
+      />
+
+      {/* Subtle top-right watermark telemetry glow */}
+      <div
+        aria-hidden="true"
+        className="absolute -top-32 -right-32 w-[500px] h-[500px] rounded-full pointer-events-none select-none opacity-40 blur-3xl"
+        style={{ background: "radial-gradient(circle, rgba(22, 33, 62, 0.04) 0%, transparent 70%)" }}
       />
 
       <div className="w-full max-w-[1280px] mx-auto px-6 relative z-10">
         <div className="max-w-3xl space-y-8">
 
-          {/* Eyebrow */}
-          <motion.span
+          {/* Eyebrow with telemetry status indicator */}
+          <motion.div
             variants={fadeUp}
             custom={0}
             initial="hidden"
             animate="visible"
-            className="block text-[11px] uppercase tracking-[0.08em] font-mono"
-            style={{ color: "var(--graphite-600)" }}
+            className="inline-flex items-center gap-2 px-2.5 py-1 rounded-[5px] border"
+            style={{
+              backgroundColor: "#FFFFFF",
+              borderColor: "var(--line-200)",
+              boxShadow: "0 1px 2px rgba(11, 14, 18, 0.02)",
+            }}
           >
-            Trading Operating System · Decision-Support Infrastructure
-          </motion.span>
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+            <span
+              className="text-[11px] uppercase tracking-[0.08em] font-mono font-medium"
+              style={{ color: "var(--graphite-600)" }}
+            >
+              Trading Operating System · Decision-Support Infrastructure
+            </span>
+          </motion.div>
 
           {/* Headline */}
           <motion.h1
@@ -86,7 +107,7 @@ export function HeroSection() {
             {sub}
           </motion.p>
 
-          {/* CTAs — zero border-radius */}
+          {/* CTAs — precision 6px radius with layered depth */}
           <motion.div
             variants={fadeUp}
             custom={3}
@@ -97,13 +118,14 @@ export function HeroSection() {
             <Link
               href={`${regionPrefix}/signup`}
               id="hero-cta-primary"
-              className="inline-flex items-center justify-center gap-2 px-6 py-3.5 text-[14px] font-medium transition-colors duration-150"
+              className="inline-flex items-center justify-center gap-2 px-6 py-3.5 text-[14px] font-medium transition-all duration-200 active:translate-y-0.5"
               style={{
                 backgroundColor: "var(--signal-navy)",
                 color: "#FAFAF9",
-                borderRadius: 0,
+                borderRadius: "6px",
+                boxShadow: "0 1px 2px rgba(11, 14, 18, 0.06), 0 4px 14px rgba(22, 33, 62, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.15)",
               }}
-              onMouseEnter={(e) => (e.currentTarget.style.opacity = "0.88")}
+              onMouseEnter={(e) => (e.currentTarget.style.opacity = "0.92")}
               onMouseLeave={(e) => (e.currentTarget.style.opacity = "1")}
             >
               Start free — no card required
@@ -112,25 +134,28 @@ export function HeroSection() {
             <Link
               href="#operating-loop"
               id="hero-cta-secondary"
-              className="inline-flex items-center justify-center gap-2 px-6 py-3.5 text-[14px] font-medium border transition-colors duration-150"
+              className="inline-flex items-center justify-center gap-2 px-6 py-3.5 text-[14px] font-medium border transition-all duration-200 active:translate-y-0.5"
               style={{
                 color: "var(--ink-950)",
                 borderColor: "var(--line-200)",
-                borderRadius: 0,
-                backgroundColor: "transparent",
+                borderRadius: "6px",
+                backgroundColor: "#FFFFFF",
+                boxShadow: "0 1px 3px rgba(11, 14, 18, 0.03), inset 0 1px 0 rgba(255, 255, 255, 0.8)",
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.borderColor = "var(--ink-950)";
+                e.currentTarget.style.boxShadow = "0 2px 6px rgba(11, 14, 18, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.8)";
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.borderColor = "var(--line-200)";
+                e.currentTarget.style.boxShadow = "0 1px 3px rgba(11, 14, 18, 0.03), inset 0 1px 0 rgba(255, 255, 255, 0.8)";
               }}
             >
               See the operating loop
             </Link>
           </motion.div>
 
-          {/* Trust signals — hairline top rule, IBM Plex Mono */}
+          {/* Trust signals — structural surface, hairline top rule, IBM Plex Mono */}
           <motion.div
             variants={fadeUp}
             custom={4}
@@ -139,15 +164,15 @@ export function HeroSection() {
             className="flex flex-col sm:flex-row flex-wrap gap-x-8 gap-y-3 pt-6 border-t text-[13px]"
             style={{ borderColor: "var(--line-200)", color: "var(--graphite-600)" }}
           >
-            <span className="flex items-center gap-2">
+            <span className="flex items-center gap-2 font-medium">
               <ShieldCheck size={16} strokeWidth={1.5} style={{ color: "var(--signal-navy)" }} />
               Phase 1 free forever
             </span>
-            <span className="flex items-center gap-2">
+            <span className="flex items-center gap-2 font-medium">
               <ShieldCheck size={16} strokeWidth={1.5} style={{ color: "var(--signal-navy)" }} />
               {regShort}-regulated broker coverage
             </span>
-            <span className="flex items-center gap-2">
+            <span className="flex items-center gap-2 font-medium">
               <ShieldCheck size={16} strokeWidth={1.5} style={{ color: "var(--signal-navy)" }} />
               No financial advice — decision-support only
             </span>

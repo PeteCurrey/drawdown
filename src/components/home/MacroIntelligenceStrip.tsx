@@ -79,7 +79,7 @@ export function MacroIntelligenceStrip() {
                   <div 
                     key={i} 
                     className="h-20 animate-pulse border"
-                    style={{ backgroundColor: "var(--paper-0)", borderColor: "var(--line-200)" }}
+                    style={{ backgroundColor: "var(--paper-0)", borderColor: "var(--line-200)", borderRadius: "6px" }}
                   />
                 ))
             : indicators.map((item) => {
@@ -107,15 +107,16 @@ export function MacroIntelligenceStrip() {
                 return (
                   <div
                     key={item.key}
-                    className="border p-3.5 transition-all duration-300 group flex flex-col justify-between"
+                    className="border p-3.5 transition-all duration-200 group flex flex-col justify-between hover:-translate-y-0.5"
                     style={{
-                      backgroundColor: "var(--paper-0)",
+                      backgroundColor: "#FFFFFF",
                       borderColor: "var(--line-200)",
-                      borderRadius: 0,
+                      borderRadius: "6px",
+                      boxShadow: "0 1px 3px rgba(11, 14, 18, 0.03), inset 0 1px 0 rgba(255, 255, 255, 0.9)",
                     }}
                   >
                     <div className="flex items-center justify-between text-[10px] font-mono mb-2" style={{ color: "var(--graphite-600)" }}>
-                      <span className="truncate pr-1">{item.name}</span>
+                      <span className="truncate pr-1 font-medium">{item.name}</span>
                       {isPositive ? (
                         <TrendingUp className="w-3.5 h-3.5 shrink-0" style={{ color: "var(--mkt-grn)" }} />
                       ) : isNegative ? (
@@ -126,18 +127,18 @@ export function MacroIntelligenceStrip() {
                     </div>
 
                     <div className="flex items-baseline justify-between mt-1">
-                      <span className="text-[15px] font-mono font-bold tracking-tight transition-colors duration-300" style={{ color: "var(--ink-950)" }}>
+                      <span className="text-[15px] font-mono tabular-nums font-bold tracking-tight transition-colors duration-300" style={{ color: "var(--ink-950)" }}>
                         {item.value.toLocaleString(undefined, { minimumFractionDigits: 1, maximumFractionDigits: 3 })}
                         <span className="text-[10px] font-normal ml-0.5" style={{ color: "var(--graphite-600)" }}>{item.unit}</span>
                       </span>
 
                       <span
-                        className="text-[9px] font-mono font-semibold px-1.5 py-0.5 border"
+                        className="text-[9px] font-mono tabular-nums font-semibold px-1.5 py-0.5 border"
                         style={{
                           color: trendColor,
                           backgroundColor: trendBg,
                           borderColor: trendBorder,
-                          borderRadius: 0
+                          borderRadius: "4px"
                         }}
                       >
                         {isPositive ? `+${item.change}` : item.change}

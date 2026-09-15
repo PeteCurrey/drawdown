@@ -1,0 +1,1120 @@
+{
+  "config": {
+    "configFile": "/Users/petercurrey/Desktop/Drawdown Trading/playwright.config.ts",
+    "rootDir": "/Users/petercurrey/Desktop/Drawdown Trading/e2e",
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 3
+    },
+    "preserveOutput": "always",
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "docs/playwright-results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 15000
+    },
+    "quiet": false,
+    "projects": [
+      {
+        "outputDir": "/Users/petercurrey/Desktop/Drawdown Trading/docs/screenshots/playwright-output",
+        "repeatEach": 1,
+        "retries": 0,
+        "id": "desktop",
+        "name": "desktop",
+        "testDir": "/Users/petercurrey/Desktop/Drawdown Trading/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 75000
+      },
+      {
+        "outputDir": "/Users/petercurrey/Desktop/Drawdown Trading/docs/screenshots/playwright-output",
+        "repeatEach": 1,
+        "retries": 0,
+        "id": "mobile-375",
+        "name": "mobile-375",
+        "testDir": "/Users/petercurrey/Desktop/Drawdown Trading/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 75000
+      },
+      {
+        "outputDir": "/Users/petercurrey/Desktop/Drawdown Trading/docs/screenshots/playwright-output",
+        "repeatEach": 1,
+        "retries": 0,
+        "id": "mobile-390",
+        "name": "mobile-390",
+        "testDir": "/Users/petercurrey/Desktop/Drawdown Trading/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 75000
+      }
+    ],
+    "shard": null,
+    "updateSnapshots": "missing",
+    "version": "1.42.1",
+    "workers": 4,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "critical-journeys.spec.ts",
+      "file": "critical-journeys.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "Journey A: Homepage loads with correct title and hero CTA",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 75000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "status": "passed",
+                  "duration": 5736,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-13T19:55:53.980Z",
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/Users/petercurrey/Desktop/Drawdown Trading/docs/screenshots/playwright-output/critical-journeys-Journey-A-Homepage-loads-with-correct-title-and-hero-CTA-desktop/test-finished-1.png"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7b59474845f91a7ee47a-403b1a1e919e77e5361f",
+          "file": "critical-journeys.spec.ts",
+          "line": 62,
+          "column": 5
+        },
+        {
+          "title": "Journey B: Pricing page renders tier plans",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 75000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "status": "passed",
+                  "duration": 4284,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-13T19:56:00.647Z",
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/Users/petercurrey/Desktop/Drawdown Trading/docs/screenshots/playwright-output/critical-journeys-Journey-B-Pricing-page-renders-tier-plans-desktop/test-finished-1.png"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7b59474845f91a7ee47a-491a29e419d5889c9725",
+          "file": "critical-journeys.spec.ts",
+          "line": 84,
+          "column": 5
+        },
+        {
+          "title": "Journey C: Login page is publicly accessible",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 75000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "status": "passed",
+                  "duration": 4421,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-13T19:56:04.936Z",
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/Users/petercurrey/Desktop/Drawdown Trading/docs/screenshots/playwright-output/critical-journeys-Journey-C-Login-page-is-publicly-accessible-desktop/test-finished-1.png"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7b59474845f91a7ee47a-c9c4ad94dc0ee58be1a3",
+          "file": "critical-journeys.spec.ts",
+          "line": 115,
+          "column": 5
+        },
+        {
+          "title": "Journey D: /dashboard redirects unauthenticated visitors to /login",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 75000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "status": "passed",
+                  "duration": 4488,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-13T19:56:09.361Z",
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/Users/petercurrey/Desktop/Drawdown Trading/docs/screenshots/playwright-output/critical-journeys-Journey-D-dashboard-redirects-unauthenticated-visitors-to-login-desktop/test-finished-1.png"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7b59474845f91a7ee47a-08b5875ae46876366cb1",
+          "file": "critical-journeys.spec.ts",
+          "line": 141,
+          "column": 5
+        },
+        {
+          "title": "Journey E: robots.txt is served with 200 and contains sitemap",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 75000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "status": "passed",
+                  "duration": 1554,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-13T19:56:13.852Z",
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/Users/petercurrey/Desktop/Drawdown Trading/docs/screenshots/playwright-output/critical-journeys-Journey-E-robots-txt-is-served-with-200-and-contains-sitemap-desktop/test-finished-1.png"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7b59474845f91a7ee47a-a9ffc67d7d737915cc29",
+          "file": "critical-journeys.spec.ts",
+          "line": 160,
+          "column": 5
+        },
+        {
+          "title": "Journey E2: sitemap.xml is served with 200 and is valid XML",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 75000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "status": "passed",
+                  "duration": 2062,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-13T19:56:15.409Z",
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/Users/petercurrey/Desktop/Drawdown Trading/docs/screenshots/playwright-output/critical-journeys-Journey-E2-sitemap-xml-is-served-with-200-and-is-valid-XML-desktop/test-finished-1.png"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7b59474845f91a7ee47a-186748d254dc6ed52ca8",
+          "file": "critical-journeys.spec.ts",
+          "line": 182,
+          "column": 5
+        },
+        {
+          "title": "Journey F: Homepage has canonical URL and og:title meta tag",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 75000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "status": "passed",
+                  "duration": 11633,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-13T19:56:17.472Z",
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7b59474845f91a7ee47a-4ed224708d7b382237b8",
+          "file": "critical-journeys.spec.ts",
+          "line": 209,
+          "column": 5
+        },
+        {
+          "title": "Mobile: Homepage has no horizontal overflow at mobile viewport",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 75000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "status": "passed",
+                  "duration": 10554,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-13T19:56:29.138Z",
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/Users/petercurrey/Desktop/Drawdown Trading/docs/screenshots/playwright-output/critical-journeys-Mobile-Homepage-has-no-horizontal-overflow-at-mobile-viewport-desktop/test-finished-1.png"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7b59474845f91a7ee47a-cfd43fb908b2ae85ad9a",
+          "file": "critical-journeys.spec.ts",
+          "line": 241,
+          "column": 5
+        },
+        {
+          "title": "Mobile: Pricing page has no horizontal overflow at mobile viewport",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 75000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "status": "passed",
+                  "duration": 3368,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-13T19:56:39.733Z",
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/Users/petercurrey/Desktop/Drawdown Trading/docs/screenshots/playwright-output/critical-journeys-Mobile-Pricing-page-has-no-horizontal-overflow-at-mobile-viewport-desktop/test-finished-1.png"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7b59474845f91a7ee47a-07c9c5bae16352434e32",
+          "file": "critical-journeys.spec.ts",
+          "line": 253,
+          "column": 5
+        },
+        {
+          "title": "Journey A: Homepage loads with correct title and hero CTA",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 75000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-375",
+              "projectName": "mobile-375",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "status": "passed",
+                  "duration": 7971,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-13T19:55:53.984Z",
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/Users/petercurrey/Desktop/Drawdown Trading/docs/screenshots/playwright-output/critical-journeys-Journey-A-Homepage-loads-with-correct-title-and-hero-CTA-mobile-375/test-finished-1.png"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7b59474845f91a7ee47a-0a0c8cdd977ab9b51738",
+          "file": "critical-journeys.spec.ts",
+          "line": 62,
+          "column": 5
+        },
+        {
+          "title": "Journey B: Pricing page renders tier plans",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 75000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-375",
+              "projectName": "mobile-375",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "status": "passed",
+                  "duration": 3551,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-13T19:56:02.952Z",
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/Users/petercurrey/Desktop/Drawdown Trading/docs/screenshots/playwright-output/critical-journeys-Journey-B-Pricing-page-renders-tier-plans-mobile-375/test-finished-1.png"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7b59474845f91a7ee47a-b0d9367f63571750e746",
+          "file": "critical-journeys.spec.ts",
+          "line": 84,
+          "column": 5
+        },
+        {
+          "title": "Journey C: Login page is publicly accessible",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 75000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-375",
+              "projectName": "mobile-375",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "status": "passed",
+                  "duration": 3307,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-13T19:56:06.511Z",
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/Users/petercurrey/Desktop/Drawdown Trading/docs/screenshots/playwright-output/critical-journeys-Journey-C-Login-page-is-publicly-accessible-mobile-375/test-finished-1.png"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7b59474845f91a7ee47a-e6b4e2143aef04a23626",
+          "file": "critical-journeys.spec.ts",
+          "line": 115,
+          "column": 5
+        },
+        {
+          "title": "Journey D: /dashboard redirects unauthenticated visitors to /login",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 75000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-375",
+              "projectName": "mobile-375",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "status": "passed",
+                  "duration": 4185,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-13T19:56:09.821Z",
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/Users/petercurrey/Desktop/Drawdown Trading/docs/screenshots/playwright-output/critical-journeys-Journey-D-dashboard-redirects-unauthenticated-visitors-to-login-mobile-375/test-finished-1.png"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7b59474845f91a7ee47a-518652bc30f5d1ca13a9",
+          "file": "critical-journeys.spec.ts",
+          "line": 141,
+          "column": 5
+        },
+        {
+          "title": "Journey E: robots.txt is served with 200 and contains sitemap",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 75000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-375",
+              "projectName": "mobile-375",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "status": "passed",
+                  "duration": 1603,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-13T19:56:14.016Z",
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/Users/petercurrey/Desktop/Drawdown Trading/docs/screenshots/playwright-output/critical-journeys-Journey-E-robots-txt-is-served-with-200-and-contains-sitemap-mobile-375/test-finished-1.png"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7b59474845f91a7ee47a-051df5419dfcb5e5a783",
+          "file": "critical-journeys.spec.ts",
+          "line": 160,
+          "column": 5
+        },
+        {
+          "title": "Journey E2: sitemap.xml is served with 200 and is valid XML",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 75000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-375",
+              "projectName": "mobile-375",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "status": "passed",
+                  "duration": 1991,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-13T19:56:15.631Z",
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/Users/petercurrey/Desktop/Drawdown Trading/docs/screenshots/playwright-output/critical-journeys-Journey-E2-sitemap-xml-is-served-with-200-and-is-valid-XML-mobile-375/test-finished-1.png"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7b59474845f91a7ee47a-57010aee1d57bc0b3f63",
+          "file": "critical-journeys.spec.ts",
+          "line": 182,
+          "column": 5
+        },
+        {
+          "title": "Journey F: Homepage has canonical URL and og:title meta tag",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 75000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-375",
+              "projectName": "mobile-375",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "status": "passed",
+                  "duration": 6632,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-13T19:56:17.625Z",
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/Users/petercurrey/Desktop/Drawdown Trading/docs/screenshots/playwright-output/critical-journeys-Journey-F-Homepage-has-canonical-URL-and-og-title-meta-tag-mobile-375/test-finished-1.png"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7b59474845f91a7ee47a-b01a50ccace511289ebd",
+          "file": "critical-journeys.spec.ts",
+          "line": 209,
+          "column": 5
+        },
+        {
+          "title": "Mobile: Homepage has no horizontal overflow at mobile viewport",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 75000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-375",
+              "projectName": "mobile-375",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "status": "passed",
+                  "duration": 11699,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-13T19:56:24.272Z",
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/Users/petercurrey/Desktop/Drawdown Trading/docs/screenshots/playwright-output/critical-journeys-Mobile-Homepage-has-no-horizontal-overflow-at-mobile-viewport-mobile-375/test-finished-1.png"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7b59474845f91a7ee47a-df9d8960daff4e566a32",
+          "file": "critical-journeys.spec.ts",
+          "line": 241,
+          "column": 5
+        },
+        {
+          "title": "Mobile: Pricing page has no horizontal overflow at mobile viewport",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 75000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-375",
+              "projectName": "mobile-375",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "status": "passed",
+                  "duration": 3802,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-13T19:56:36.015Z",
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/Users/petercurrey/Desktop/Drawdown Trading/docs/screenshots/playwright-output/critical-journeys-Mobile-Pricing-page-has-no-horizontal-overflow-at-mobile-viewport-mobile-375/test-finished-1.png"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7b59474845f91a7ee47a-2e32d839f4a5d9a8e505",
+          "file": "critical-journeys.spec.ts",
+          "line": 253,
+          "column": 5
+        },
+        {
+          "title": "Journey A: Homepage loads with correct title and hero CTA",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 75000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-390",
+              "projectName": "mobile-390",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "status": "passed",
+                  "duration": 4017,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-13T19:55:53.981Z",
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/Users/petercurrey/Desktop/Drawdown Trading/docs/screenshots/playwright-output/critical-journeys-Journey-A-Homepage-loads-with-correct-title-and-hero-CTA-mobile-390/test-finished-1.png"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7b59474845f91a7ee47a-2833671ad5e5997fc722",
+          "file": "critical-journeys.spec.ts",
+          "line": 62,
+          "column": 5
+        },
+        {
+          "title": "Journey B: Pricing page renders tier plans",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 75000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-390",
+              "projectName": "mobile-390",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "status": "passed",
+                  "duration": 4194,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-13T19:55:58.985Z",
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/Users/petercurrey/Desktop/Drawdown Trading/docs/screenshots/playwright-output/critical-journeys-Journey-B-Pricing-page-renders-tier-plans-mobile-390/test-finished-1.png"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7b59474845f91a7ee47a-94cab53c2aea85106341",
+          "file": "critical-journeys.spec.ts",
+          "line": 84,
+          "column": 5
+        },
+        {
+          "title": "Journey C: Login page is publicly accessible",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 75000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-390",
+              "projectName": "mobile-390",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "status": "passed",
+                  "duration": 3397,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-13T19:56:03.184Z",
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/Users/petercurrey/Desktop/Drawdown Trading/docs/screenshots/playwright-output/critical-journeys-Journey-C-Login-page-is-publicly-accessible-mobile-390/test-finished-1.png"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7b59474845f91a7ee47a-2863b7028ab41bb9d2b7",
+          "file": "critical-journeys.spec.ts",
+          "line": 115,
+          "column": 5
+        },
+        {
+          "title": "Journey D: /dashboard redirects unauthenticated visitors to /login",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 75000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-390",
+              "projectName": "mobile-390",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "status": "passed",
+                  "duration": 4595,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-13T19:56:06.584Z",
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/Users/petercurrey/Desktop/Drawdown Trading/docs/screenshots/playwright-output/critical-journeys-Journey-D-dashboard-redirects-unauthenticated-visitors-to-login-mobile-390/test-finished-1.png"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7b59474845f91a7ee47a-c0108b4ceeb7ad7a151c",
+          "file": "critical-journeys.spec.ts",
+          "line": 141,
+          "column": 5
+        },
+        {
+          "title": "Journey E: robots.txt is served with 200 and contains sitemap",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 75000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-390",
+              "projectName": "mobile-390",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "status": "passed",
+                  "duration": 1465,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-13T19:56:11.182Z",
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/Users/petercurrey/Desktop/Drawdown Trading/docs/screenshots/playwright-output/critical-journeys-Journey-E-robots-txt-is-served-with-200-and-contains-sitemap-mobile-390/test-finished-1.png"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7b59474845f91a7ee47a-06282b0e41e241cb2dd3",
+          "file": "critical-journeys.spec.ts",
+          "line": 160,
+          "column": 5
+        },
+        {
+          "title": "Journey E2: sitemap.xml is served with 200 and is valid XML",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 75000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-390",
+              "projectName": "mobile-390",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "status": "passed",
+                  "duration": 1666,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-13T19:56:12.648Z",
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/Users/petercurrey/Desktop/Drawdown Trading/docs/screenshots/playwright-output/critical-journeys-Journey-E2-sitemap-xml-is-served-with-200-and-is-valid-XML-mobile-390/test-finished-1.png"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7b59474845f91a7ee47a-d6b648ddd186c5ce91f2",
+          "file": "critical-journeys.spec.ts",
+          "line": 182,
+          "column": 5
+        },
+        {
+          "title": "Journey F: Homepage has canonical URL and og:title meta tag",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 75000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-390",
+              "projectName": "mobile-390",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "status": "passed",
+                  "duration": 7118,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-13T19:56:14.316Z",
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/Users/petercurrey/Desktop/Drawdown Trading/docs/screenshots/playwright-output/critical-journeys-Journey-F-Homepage-has-canonical-URL-and-og-title-meta-tag-mobile-390/test-finished-1.png"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7b59474845f91a7ee47a-02b10d7eeb584f7d4c48",
+          "file": "critical-journeys.spec.ts",
+          "line": 209,
+          "column": 5
+        },
+        {
+          "title": "Mobile: Homepage has no horizontal overflow at mobile viewport",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 75000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-390",
+              "projectName": "mobile-390",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "status": "passed",
+                  "duration": 12289,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-13T19:56:21.450Z",
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/Users/petercurrey/Desktop/Drawdown Trading/docs/screenshots/playwright-output/critical-journeys-Mobile-Homepage-has-no-horizontal-overflow-at-mobile-viewport-mobile-390/test-finished-1.png"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7b59474845f91a7ee47a-320aaff894185331d73b",
+          "file": "critical-journeys.spec.ts",
+          "line": 241,
+          "column": 5
+        },
+        {
+          "title": "Mobile: Pricing page has no horizontal overflow at mobile viewport",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 75000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "mobile-390",
+              "projectName": "mobile-390",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "status": "passed",
+                  "duration": 3679,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-13T19:56:33.770Z",
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/Users/petercurrey/Desktop/Drawdown Trading/docs/screenshots/playwright-output/critical-journeys-Mobile-Pricing-page-has-no-horizontal-overflow-at-mobile-viewport-mobile-390/test-finished-1.png"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7b59474845f91a7ee47a-cf90d6d494175d5632ff",
+          "file": "critical-journeys.spec.ts",
+          "line": 253,
+          "column": 5
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-09-13T19:55:53.464Z",
+    "duration": 50137.715000000004,
+    "expected": 27,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

@@ -120,10 +120,14 @@ export function OperatingLoopSection() {
             return (
               <div
                 key={idx}
-                className="p-5 border flex flex-col justify-between transition-all hover:border-gray-900"
+                className="p-5 border flex flex-col justify-between transition-all duration-200 hover:-translate-y-1"
                 style={{
-                  backgroundColor: isExecute ? "rgba(15, 23, 42, 0.03)" : "#FFFFFF",
+                  backgroundColor: isExecute ? "rgba(15, 23, 42, 0.025)" : "#FFFFFF",
                   borderColor: isExecute ? "var(--signal-navy)" : "var(--line-200)",
+                  borderRadius: "8px",
+                  boxShadow: isExecute
+                    ? "0 2px 8px rgba(22, 33, 62, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.9)"
+                    : "0 1px 3px rgba(11, 14, 18, 0.03), inset 0 1px 0 rgba(255, 255, 255, 0.9)",
                 }}
               >
                 <div>
@@ -131,12 +135,25 @@ export function OperatingLoopSection() {
                     <span className="font-mono text-xs font-bold text-gray-400">
                       {stage.num}
                     </span>
-                    <span className="text-[9px] font-mono uppercase px-1.5 py-0.5 border bg-gray-50 text-gray-700 font-semibold" style={{ borderColor: "var(--line-200)" }}>
+                    <span 
+                      className="text-[9px] font-mono uppercase px-1.5 py-0.5 border font-semibold rounded-[4px]" 
+                      style={{ 
+                        backgroundColor: isExecute ? "rgba(22, 33, 62, 0.08)" : "var(--paper-100)",
+                        borderColor: isExecute ? "var(--signal-navy)" : "var(--line-200)",
+                        color: isExecute ? "var(--signal-navy)" : "var(--graphite-600)"
+                      }}
+                    >
                       {stage.badge}
                     </span>
                   </div>
 
-                  <div className="w-8 h-8 rounded bg-gray-100 flex items-center justify-center text-gray-900 mb-3">
+                  <div 
+                    className="w-8 h-8 rounded-[6px] flex items-center justify-center text-gray-900 mb-3 border"
+                    style={{
+                      backgroundColor: "var(--paper-100)",
+                      borderColor: "var(--line-200)"
+                    }}
+                  >
                     <Icon size={16} strokeWidth={1.75} />
                   </div>
 
@@ -166,8 +183,10 @@ export function OperatingLoopSection() {
         <div
           className="p-6 border flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6"
           style={{
-            backgroundColor: "#FAFAF9",
+            backgroundColor: "#FFFFFF",
             borderColor: "var(--line-200)",
+            borderRadius: "8px",
+            boxShadow: "0 1px 3px rgba(11, 14, 18, 0.03), inset 0 1px 0 rgba(255, 255, 255, 0.8)",
           }}
         >
           <div className="space-y-1">
@@ -180,7 +199,10 @@ export function OperatingLoopSection() {
           </div>
           <Link
             href="/signup"
-            className="shrink-0 inline-flex items-center gap-2 px-5 py-3 bg-gray-900 text-white font-mono text-xs font-bold uppercase tracking-wider hover:bg-black transition-colors"
+            className="shrink-0 inline-flex items-center gap-2 px-5 py-3 bg-gray-900 text-white font-mono text-xs font-bold uppercase tracking-wider hover:bg-black transition-all duration-150 rounded-[6px] active:translate-y-0.5"
+            style={{
+              boxShadow: "0 1px 2px rgba(11, 14, 18, 0.08), 0 4px 10px rgba(0, 0, 0, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.15)"
+            }}
           >
             Start Free — Run Your First Loop <ArrowRight size={14} />
           </Link>

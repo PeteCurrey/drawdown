@@ -59,6 +59,8 @@ export function FragmentedProblemSection() {
             style={{
               backgroundColor: "rgba(239, 68, 68, 0.02)",
               borderColor: "var(--line-200)",
+              borderRadius: "8px",
+              boxShadow: "0 1px 3px rgba(11, 14, 18, 0.02)",
             }}
           >
             <div>
@@ -91,18 +93,19 @@ export function FragmentedProblemSection() {
               </div>
             </div>
 
-            <div className="mt-8 pt-6 border-t font-mono text-xs text-red-700 bg-red-50/50 p-3 rounded" style={{ borderColor: "var(--line-200)" }}>
+            <div className="mt-8 pt-6 border-t font-mono text-xs text-red-700 bg-red-50/50 p-3 rounded-[5px]" style={{ borderColor: "var(--line-200)" }}>
               ⚠️ Friction causes execution mistakes, position sizing miscalculations, and unrecorded losing streaks.
             </div>
           </div>
 
           {/* Right: The Drawdown Operating System */}
           <div
-            className="lg:col-span-6 p-8 md:p-10 border flex flex-col justify-between"
+            className="lg:col-span-6 p-8 md:p-10 border flex flex-col justify-between transition-all duration-200"
             style={{
-              backgroundColor: "#FAFAF9",
+              backgroundColor: "#FFFFFF",
               borderColor: "var(--line-200)",
-              boxShadow: "0 10px 30px -10px rgba(0,0,0,0.05)",
+              borderRadius: "8px",
+              boxShadow: "0 2px 6px rgba(11, 14, 18, 0.04), 0 16px 36px -8px rgba(11, 14, 18, 0.07), inset 0 1px 0 rgba(255, 255, 255, 0.8)",
             }}
           >
             <div>
@@ -141,7 +144,10 @@ export function FragmentedProblemSection() {
               </div>
               <Link
                 href="/signup"
-                className="shrink-0 inline-flex items-center gap-2 px-4 py-2.5 bg-gray-900 text-white font-mono text-xs font-bold uppercase tracking-wider hover:bg-black transition-colors"
+                className="shrink-0 inline-flex items-center gap-2 px-4 py-2.5 bg-gray-900 text-white font-mono text-xs font-bold uppercase tracking-wider hover:bg-black transition-all duration-150 rounded-[5px] active:translate-y-0.5"
+                style={{
+                  boxShadow: "0 1px 2px rgba(11, 14, 18, 0.08), 0 4px 10px rgba(0, 0, 0, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.15)"
+                }}
               >
                 Experience Free <ArrowRight size={13} />
               </Link>

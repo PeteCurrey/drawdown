@@ -596,51 +596,48 @@
 }
 
 /* ═══════════════════════════════════════════════════════════
-   P1 — MARKETING SURFACE DESIGN TOKENS (dark institutional)
+   P1 — MARKETING SURFACE DESIGN TOKENS (light institutional)
    Applied via class="marketing" on the marketing layout wrapper.
    Do not use these tokens outside the .marketing scope.
    ═══════════════════════════════════════════════════════════ */
 .marketing {
 
   /* ── SURFACES ──────────────────────────────────────────── */
-  --surface-base:    #07090B;   /* outermost section background */
-  --surface-raised:  #0D1014;   /* card / panel background */
-  --surface-overlay: #12161B;   /* hovered card, elevated panel */
-  --surface-inset:   #050709;   /* inset areas, input backgrounds */
+  --surface-base:    #FAFAF9;   /* outermost section background — warm off-white */
+  --surface-raised:  #F1F0EE;   /* card / panel background */
+  --surface-overlay: #E8E7E4;   /* hovered card, elevated panel */
+  --surface-inset:   #F5F4F2;   /* inset areas, input backgrounds */
 
   /* ── TEXT ──────────────────────────────────────────────── */
-  --text-primary:   #F4F6F8;   /* headlines, primary text */
-  --text-secondary: #9AA4B0;   /* body, secondary text */
-  --text-tertiary:  #626C78;   /* labels, captions, eyebrows */
+  --text-primary:   #0B0E12;   /* headlines, primary text — near-black */
+  --text-secondary: #4B5157;   /* body, secondary text */
+  --text-tertiary:  #6B7580;   /* labels, captions, eyebrows */
 
-  /* ── BORDERS (inputs & focus only — use sparingly) ─────── */
-  --border-subtle: rgba(255,255,255,0.06);
-  --border-strong: rgba(255,255,255,0.12);
+  /* ── BORDERS ────────────────────────────────────────────── */
+  --border-subtle: rgba(0,0,0,0.07);
+  --border-strong: rgba(0,0,0,0.13);
 
-  /* ── ACCENT — one brand colour only ────────────────────── */
-  /* Picked from existing palette: signal-navy #16213E is the
-     established brand CTA colour. Converted to a lighter, more
-     legible value on dark backgrounds. */
-  --accent:        #4F7FFF;   /* brand CTAs, active states, links */
-  --accent-hover:  #6B95FF;   /* hover state */
-  --accent-muted:  rgba(79,127,255,0.12); /* badge backgrounds, tints */
+  /* ── ACCENT — brand signal-navy ─────────────────────────── */
+  --accent:        #16213E;   /* brand CTAs, active states, links */
+  --accent-hover:  #243563;   /* hover state */
+  --accent-muted:  rgba(22,33,62,0.08); /* badge backgrounds, tints */
 
   /* ── SEMANTIC — market direction ONLY ──────────────────── */
   /* Never use these on CTAs, badges, or decoration.           */
-  --market-up:   #22C55E;   /* gains / bullish */
-  --market-down: #EF4444;   /* losses / bearish */
-  --market-flat: #F59E0B;   /* neutral / flat / amber */
+  --market-up:   #18B880;   /* gains / bullish */
+  --market-down: #CE6969;   /* losses / bearish */
+  --market-flat: #B8752E;   /* neutral / flat / amber */
 
   /* ── RADII ──────────────────────────────────────────────── */
-  --radius-sm:   8px;    /* inputs, chips */
-  --radius-md:   12px;   /* cards, buttons */
-  --radius-lg:   20px;   /* feature panels, modals */
+  --radius-sm:   8px;
+  --radius-md:   12px;
+  --radius-lg:   20px;
   --radius-pill: 999px;
 
-  /* ── ELEVATION (shadow, not stroke) ────────────────────── */
-  --elev-1: 0 1px 2px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.04);
-  --elev-2: 0 4px 16px -4px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.05);
-  --elev-3: 0 16px 48px -12px rgba(0,0,0,0.65), 0 0 0 1px rgba(255,255,255,0.06);
+  /* ── ELEVATION (light ground — softer shadows) ──────────── */
+  --elev-1: 0 1px 2px rgba(11,14,18,0.04), 0 2px 6px rgba(11,14,18,0.03);
+  --elev-2: 0 2px 8px rgba(11,14,18,0.06), 0 8px 24px rgba(11,14,18,0.06);
+  --elev-3: 0 4px 16px rgba(11,14,18,0.08), 0 16px 40px rgba(11,14,18,0.10);
 
   /* ── SECTION RHYTHM ─────────────────────────────────────── */
   --section-y-mobile:  64px;
@@ -660,10 +657,10 @@
   --mkt-grn: var(--market-up);
   --mkt-red: var(--market-down);
   --mkt-amb: var(--market-flat);
-  --mkt-gbg: rgba(34,197,94,0.10);
-  --mkt-rbg: rgba(239,68,68,0.10);
-  --mkt-gbd: rgba(34,197,94,0.25);
-  --mkt-rbd: rgba(239,68,68,0.25);
+  --mkt-gbg: rgba(24,184,128,0.08);
+  --mkt-rbg: rgba(206,105,105,0.08);
+  --mkt-gbd: rgba(24,184,128,0.20);
+  --mkt-rbd: rgba(206,105,105,0.20);
   --mkt-ink: var(--text-primary);
   --mkt-i2:  var(--text-secondary);
   --mkt-i3:  var(--text-tertiary);

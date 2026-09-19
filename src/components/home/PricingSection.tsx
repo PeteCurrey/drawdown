@@ -8,7 +8,6 @@ import { STRIPE_CONFIG } from "@/config/stripe";
 import { REGIONAL_PRICING, type RegionCode } from "@/lib/regions";
 import { GET_DEFAULT_FEATURES, GET_EDGE_FEATURES, GET_FLOOR_FEATURES } from "@/data/pricing";
 import { CheckoutConsentModal } from "@/components/legal/CheckoutConsentModal";
-import { Reveal } from "@/components/ui/Reveal";
 
 const tiers = [
   {
@@ -139,102 +138,98 @@ export function PricingSection({ floorCap = 15, activeFloorSubs = 0 }: { floorCa
       <div className="max-w-[1280px] mx-auto px-6">
         
         {/* Section Heading */}
-        <Reveal>
-          <div className="mb-16">
-            <span
-              className="block text-[11px] font-mono uppercase tracking-[0.08em] mb-3"
-              style={{ color: "var(--text-tertiary)" }}
-            >
-              Platform Tiers
-            </span>
-            <h2
-              className="type-display-lg font-normal mb-6"
-              style={{ color: "var(--text-primary)" }}
-            >
-              Choose Your Commitment
-            </h2>
-            
-            {/* Toggle */}
-            <div className="flex items-center gap-4">
-              <span
-                className="text-[12px] font-mono uppercase tracking-[0.08em]"
-                style={{ color: billingCycle === "monthly" ? "var(--text-primary)" : "var(--text-tertiary)" }}
-              >
-                Monthly
-              </span>
-              <button
-                onClick={() => setBillingCycle(prev => prev === "monthly" ? "yearly" : "monthly")}
-                className="px-3 py-1 border text-[11px] font-mono uppercase tracking-[0.08em] transition-colors"
-                style={{
-                  borderColor: "var(--border-subtle)",
-                  backgroundColor: "var(--surface-raised)",
-                  color: "var(--text-primary)",
-                  borderRadius: "var(--radius-sm)",
-                }}
-              >
-                Switch to {billingCycle === "monthly" ? "Yearly (Save 20%)" : "Monthly"}
-              </button>
-            </div>
-          </div>
-        </Reveal>
-
-        {/* Free Tier Callout Card */}
-        <Reveal delay={0.05}>
-          <div
-            className="mb-8 p-6 border flex flex-col md:flex-row items-start md:items-center justify-between gap-6"
-            style={{
-              backgroundColor: "var(--surface-raised)",
-              borderColor: "var(--border-subtle)",
-              borderRadius: "var(--radius-md)",
-            }}
+        <div className="mb-16">
+          <span
+            className="block text-[11px] font-mono uppercase tracking-[0.08em] mb-3"
+            style={{ color: "var(--text-tertiary)" }}
           >
-            <div className="space-y-1">
-              <div className="flex items-center gap-2">
-                <span 
-                  className="px-2 py-0.5 border text-[10px] font-mono uppercase tracking-[0.1em] font-bold"
-                  style={{
-                    backgroundColor: "color-mix(in srgb, var(--market-up) 10%, transparent)",
-                    color: "var(--market-up)",
-                    borderColor: "color-mix(in srgb, var(--market-up) 25%, transparent)",
-                    borderRadius: "var(--radius-pill)"
-                  }}
-                >
-                  Free Forever
-                </span>
-                <span className="text-xs font-mono font-bold" style={{ color: "var(--text-primary)" }}>
-                  Stage 01: Free Tier (£0)
-                </span>
-              </div>
-              <p className="text-xs font-sans leading-relaxed" style={{ color: "var(--text-secondary)" }}>
-                Includes complete <strong>Phase 1 Ground Zero curriculum</strong>, <strong>RUN MY TRADE pre-trade sizing</strong>, and live macroeconomic briefings. No credit card required. Upgrade to Foundation when you are ready to log trades and access advanced modules.
-              </p>
-            </div>
-
-            <Link
-              href="/signup"
-              className="shrink-0 px-5 py-2.5 text-xs font-mono font-bold uppercase tracking-wider border transition-colors"
+            Platform Tiers
+          </span>
+          <h2
+            className="type-display-lg font-normal mb-6"
+            style={{ color: "var(--text-primary)" }}
+          >
+            Choose Your Commitment
+          </h2>
+          
+          {/* Toggle */}
+          <div className="flex items-center gap-4">
+            <span
+              className="text-[12px] font-mono uppercase tracking-[0.08em]"
+              style={{ color: billingCycle === "monthly" ? "var(--text-primary)" : "var(--text-tertiary)" }}
+            >
+              Monthly
+            </span>
+            <button
+              onClick={() => setBillingCycle(prev => prev === "monthly" ? "yearly" : "monthly")}
+              className="px-3 py-1 border text-[11px] font-mono uppercase tracking-[0.08em] transition-colors"
               style={{
                 borderColor: "var(--border-subtle)",
-                backgroundColor: "var(--surface-base)",
+                backgroundColor: "var(--surface-raised)",
                 color: "var(--text-primary)",
-                borderRadius: "var(--radius-sm)"
+                borderRadius: "var(--radius-sm)",
               }}
             >
-              Start Free Mode &rarr;
-            </Link>
+              Switch to {billingCycle === "monthly" ? "Yearly (Save 20%)" : "Monthly"}
+            </button>
           </div>
-        </Reveal>
+        </div>
+
+        {/* Free Tier Callout Card */}
+        <div
+          className="mb-8 p-6 border flex flex-col md:flex-row items-start md:items-center justify-between gap-6"
+          style={{
+            backgroundColor: "var(--surface-raised)",
+            borderColor: "var(--border-subtle)",
+            borderRadius: "var(--radius-md)",
+          }}
+        >
+          <div className="space-y-1">
+            <div className="flex items-center gap-2">
+              <span 
+                className="px-2 py-0.5 border text-[10px] font-mono uppercase tracking-[0.1em] font-bold"
+                style={{
+                  backgroundColor: "color-mix(in srgb, var(--market-up) 10%, transparent)",
+                  color: "var(--market-up)",
+                  borderColor: "color-mix(in srgb, var(--market-up) 25%, transparent)",
+                  borderRadius: "var(--radius-pill)"
+                }}
+              >
+                Free Forever
+              </span>
+              <span className="text-xs font-mono font-bold" style={{ color: "var(--text-primary)" }}>
+                Stage 01: Free Tier (£0)
+              </span>
+            </div>
+            <p className="text-xs font-sans leading-relaxed" style={{ color: "var(--text-secondary)" }}>
+              Includes complete <strong>Phase 1 Ground Zero curriculum</strong>, <strong>RUN MY TRADE pre-trade sizing</strong>, and live macroeconomic briefings. No credit card required. Upgrade to Foundation when you are ready to log trades and access advanced modules.
+            </p>
+          </div>
+
+          <Link
+            href="/signup"
+            className="shrink-0 px-5 py-2.5 text-xs font-mono font-bold uppercase tracking-wider border transition-colors"
+            style={{
+              borderColor: "var(--border-subtle)",
+              backgroundColor: "var(--surface-base)",
+              color: "var(--text-primary)",
+              borderRadius: "var(--radius-sm)"
+            }}
+          >
+            Start Free Mode &rarr;
+          </Link>
+        </div>
 
         {/* 3 Column Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch mb-12">
-          {tiers.map((tier, idx) => {
+          {tiers.map((tier) => {
             const { price, symbol, priceId } = getPlanDetails(tier.id);
             const isEdge = tier.id === "edge";
             const isFloorCapped = tier.id === "floor" && activeFloorSubs >= floorCap;
 
             return (
-              <Reveal key={tier.id} delay={idx * 0.08}>
               <div
+                key={tier.id}
                 className="border p-8 flex flex-col justify-between h-full"
                 style={{
                   backgroundColor: isEdge ? "var(--surface-overlay)" : "var(--surface-raised)",
@@ -335,7 +330,6 @@ export function PricingSection({ floorCap = 15, activeFloorSubs = 0 }: { floorCa
                   </div>
                 </div>
               </div>
-              </Reveal>
             );
           })}
         </div>

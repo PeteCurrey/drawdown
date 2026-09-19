@@ -5,7 +5,7 @@ import { FragmentedProblemSection } from "@/components/home/FragmentedProblemSec
 import { OperatingLoopSection } from "@/components/home/OperatingLoopSection";
 import { RunMyTradeShowcase } from "@/components/home/RunMyTradeShowcase";
 import { MarketIntelligenceSection } from "@/components/home/MarketIntelligenceSection";
-import { TheWireSection } from "@/components/home/TheWireSection";
+import { MarketPulse } from "@/components/home/MarketPulse";
 import { CurriculumSection } from "@/components/home/CurriculumSection";
 import { ScrollQuoteSection } from "@/components/home/ScrollQuoteSection";
 import { BrokerEcosystemSection } from "@/components/home/BrokerEcosystemSection";
@@ -147,8 +147,8 @@ export default async function Home() {
         {/* 6. Market Intelligence Briefing */}
         <MarketIntelligenceSection />
 
-        {/* 7. The Wire — 3-Column Financial Editorial */}
-        <TheWireSection />
+        {/* 7. Live Market Briefing — news feed, economic calendar, top movers */}
+        <MarketPulse />
 
         {/* 8. Curriculum — The 6 Phases */}
         <CurriculumSection />

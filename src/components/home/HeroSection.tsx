@@ -72,8 +72,8 @@ export function HeroSection() {
               custom={1}
               initial="hidden"
               animate="visible"
-              className="type-display-xl font-normal tracking-tight"
-              style={{ color: "var(--text-primary)" }}
+              className="type-display-xl font-extralight tracking-tight"
+              style={{ color: "var(--text-primary)", fontWeight: 200 }}
             >
               A disciplined operating system for serious independent traders.
             </motion.h1>

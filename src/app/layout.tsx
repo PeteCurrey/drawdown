@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Instrument_Serif, Inter, JetBrains_Mono, Syne, IBM_Plex_Mono, IBM_Plex_Sans } from "next/font/google";
+import { Work_Sans, Instrument_Serif, Inter, JetBrains_Mono, Syne, IBM_Plex_Mono, IBM_Plex_Sans } from "next/font/google";
 import { SmoothScroll } from "@/components/providers/SmoothScroll";
 import { GrainOverlay } from "@/components/ui/GrainOverlay";
 import { ScrollProgress } from "@/components/ui/ScrollProgress";
@@ -7,6 +7,13 @@ import "flag-icons/css/flag-icons.min.css";
 import { getMetadata } from "@/lib/metadata";
 import { LEGAL_CONFIG } from "@/config/legal";
 import "./globals.css";
+
+const workSans = Work_Sans({
+  variable: "--font-work-sans",
+  subsets: ["latin"],
+  weight: ["200", "300", "400", "500", "600"],
+  display: "swap",
+});
 
 const instrumentSerif = Instrument_Serif({
   variable: "--font-instrument-serif",
@@ -78,7 +85,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${instrumentSerif.variable} ${inter.variable} ${jetbrainsMono.variable} ${syne.variable} ${ibmPlexMono.variable} ${ibmPlexSans.variable} antialiased`}
+      className={`${workSans.variable} ${instrumentSerif.variable} ${inter.variable} ${jetbrainsMono.variable} ${syne.variable} ${ibmPlexMono.variable} ${ibmPlexSans.variable} antialiased`}
       suppressHydrationWarning
     >
       <head>

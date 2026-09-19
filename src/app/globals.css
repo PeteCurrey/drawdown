@@ -29,11 +29,11 @@
   --color-border: #C8CBB8;
   --color-border-dark: #333330;
 
-  --font-display: var(--font-instrument-serif), ui-serif, Georgia, serif;
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-work-sans), 'Work Sans', -apple-system, sans-serif;
+  --font-sans: var(--font-work-sans), 'Work Sans', -apple-system, sans-serif;
   --font-mono: var(--font-mono), ui-monospace, monospace;
   --font-ibm-mono: var(--font-ibm-mono), ui-monospace, monospace;
-  --font-ibm-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-ibm-sans: var(--font-work-sans), 'Work Sans', -apple-system, sans-serif;
 
   --ease-premium: cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -98,8 +98,8 @@
   --text-primary: #1A1A1A;
   --text-secondary: #555550;
   --text-tertiary: #555550;
-  --foreground: #1A1A1A;
-  font-family: var(--font-sans, sans-serif);
+  font-family: var(--font-work-sans), 'Work Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-weight: 300;
 
   /* ── Semantic profit / loss / warning ──────────────────────────────────────
    *  Used by ALL routes. Never use arbitrary green/red/amber — use these.  */
@@ -693,11 +693,12 @@
   --foreground:   var(--text-primary);
 
   /* ── P2 TYPOGRAPHY ──────────────────────────────────────── */
-  --font-display: var(--font-instrument-serif), ui-serif, Georgia, serif;
-  --font-sans:    var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-display: var(--font-work-sans), 'Work Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-sans:    var(--font-work-sans), 'Work Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-mono:    var(--font-mono), ui-monospace, SFMono-Regular, monospace;
 
   font-family: var(--font-sans);
+  font-weight: 300;
 
   /* ── P2 FLUID TYPE SCALE TOKENS ──────────────────────────── */
   --text-display-xl: clamp(2.75rem, 5.5vw, 4.5rem);
@@ -724,62 +725,88 @@
   --track-label:      0.02em;
 }
 
+/* ── SITE-WIDE WORK SANS LIGHT & H1 EXTRA LIGHT RULES ─────── */
+body,
+html,
+.marketing {
+  font-family: var(--font-work-sans), 'Work Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-weight: 300;
+}
+
+/* All main H1 titles site-wide use Work Sans Extra Light (weight: 200) */
+h1,
+.marketing h1,
+.type-display-xl,
+h1.type-display-xl,
+h1.font-display {
+  font-family: var(--font-work-sans), 'Work Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+  font-weight: 200 !important;
+  letter-spacing: -0.025em;
+}
+
 /* ── P2 MARKETING TYPE UTILITIES & RULES ─────────────────── */
 .marketing .type-display-xl,
 .type-display-xl {
-  font-family: var(--font-display);
+  font-family: var(--font-work-sans), 'Work Sans', sans-serif;
   font-size: clamp(2.75rem, 5.5vw, 4.5rem);
   line-height: 1.02;
   letter-spacing: -0.03em;
+  font-weight: 200;
 }
 
 .marketing .type-display-lg,
 .type-display-lg {
-  font-family: var(--font-display);
+  font-family: var(--font-work-sans), 'Work Sans', sans-serif;
   font-size: clamp(2.25rem, 4vw, 3.25rem);
   line-height: 1.06;
   letter-spacing: -0.025em;
+  font-weight: 300;
 }
 
 .marketing .type-h2,
 .type-h2 {
-  font-family: var(--font-display);
+  font-family: var(--font-work-sans), 'Work Sans', sans-serif;
   font-size: clamp(1.75rem, 3vw, 2.5rem);
   line-height: 1.12;
   letter-spacing: -0.02em;
+  font-weight: 300;
 }
 
 .marketing .type-h3,
 .type-h3 {
-  font-family: var(--font-sans);
+  font-family: var(--font-work-sans), 'Work Sans', sans-serif;
   font-size: 1.25rem;
   line-height: 1.3;
   letter-spacing: -0.01em;
+  font-weight: 300;
 }
 
 .marketing .type-body-lg,
 .type-body-lg {
-  font-family: var(--font-sans);
+  font-family: var(--font-work-sans), 'Work Sans', sans-serif;
   font-size: 1.125rem;
   line-height: 1.65;
   max-width: 68ch;
+  font-weight: 300;
 }
 
 .marketing .type-body,
 .type-body {
-  font-family: var(--font-sans);
+  font-family: var(--font-work-sans), 'Work Sans', sans-serif;
   font-size: 1rem;
   line-height: 1.6;
   max-width: 68ch;
+  font-weight: 300;
 }
 
 .marketing .type-label,
 .type-label {
-  font-family: var(--font-sans);
+  font-family: var(--font-work-sans), 'Work Sans', sans-serif;
   font-size: 0.8125rem;
   line-height: 1.4;
   letter-spacing: 0.02em;
   text-transform: uppercase;
+  font-weight: 400;
 }
 
 .marketing .type-mono-data,
@@ -793,6 +820,7 @@
 /* Rule: Body copy max-width 68ch */
 .marketing p {
   max-width: 68ch;
+  font-weight: 300;
 }
 
 /* Rule: Tabular figures on all numeric data */
@@ -803,11 +831,11 @@
   font-feature-settings: "tnum";
 }
 
-/* Rule: Marketing display titles use Instrument Serif */
+/* Rule: Marketing display titles use Work Sans */
 .marketing h1,
 .marketing h2.font-display,
 .marketing .font-display {
-  font-family: var(--font-display);
+  font-family: var(--font-work-sans), 'Work Sans', sans-serif;
 }
 
 /* Rule: Consistent 1.5px stroke width across all marketing icons */

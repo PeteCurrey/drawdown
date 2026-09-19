@@ -4,10 +4,10 @@ import { useEffect, useState } from "react";
 import { useReducedMotion } from "framer-motion";
 
 // ─────────────────────────────────────────────────────────────────────────────
-// LIVE DATA PIPELINE INJECTION
+// MARKET TICKER STRIP
 //
-// Dynamically fetches rates from the `/api/market/prices` endpoint with a
-// 30-second interval refresh, falling back to clean static averages if offline.
+// Dense financial data strip fetching quotes from `/api/market/prices` every
+// 30 seconds with clean tabular monospace numerals and hairline instrument dividers.
 // ─────────────────────────────────────────────────────────────────────────────
 
 interface TickerItem {
@@ -16,16 +16,17 @@ interface TickerItem {
   price: string;
   change: string;
   positive: boolean;
+  isZero: boolean;
 }
 
 const sampleItems: TickerItem[] = [
-  { symbol: "GBPUSD", displaySymbol: "GBP/USD", price: "1.2714",  change: "+0.18%", positive: true  },
-  { symbol: "EURUSD", displaySymbol: "EUR/USD", price: "1.0862",  change: "-0.09%", positive: false },
-  { symbol: "USDJPY", displaySymbol: "USD/JPY", price: "157.34",  change: "+0.22%", positive: true  },
-  { symbol: "EURGBP", displaySymbol: "EUR/GBP", price: "0.8545",  change: "-0.12%", positive: false },
-  { symbol: "XAUUSD", displaySymbol: "XAU/USD", price: "2,338.40", change: "+0.41%", positive: true  },
-  { symbol: "US500",  displaySymbol: "S&P 500", price: "5,471.05", change: "+0.33%", positive: true  },
-  { symbol: "BTCUSD", displaySymbol: "BTC/USD", price: "67,240.00", change: "-0.88%", positive: false },
+  { symbol: "GBPUSD", displaySymbol: "GBP/USD", price: "1.2714",   change: "+0.18%", positive: true,  isZero: false },
+  { symbol: "EURUSD", displaySymbol: "EUR/USD", price: "1.0862",   change: "-0.09%", positive: false, isZero: false },
+  { symbol: "USDJPY", displaySymbol: "USD/JPY", price: "157.34",   change: "+0.22%", positive: true,  isZero: false },
+  { symbol: "EURGBP", displaySymbol: "EUR/GBP", price: "0.8545",   change: "-0.12%", positive: false, isZero: false },
+  { symbol: "XAUUSD", displaySymbol: "XAU/USD", price: "2,338.40", change: "+0.41%", positive: true,  isZero: false },
+  { symbol: "US500",  displaySymbol: "S&P 500", price: "5,471.05", change: "+0.33%", positive: true,  isZero: false },
+  { symbol: "BTCUSD", displaySymbol: "BTC/USD", price: "67,240.00", change: "-0.88%", positive: false, isZero: false },
 ];
 
 export function PriceTicker() {
@@ -48,22 +49,24 @@ export function PriceTicker() {
                 let formattedPrice = String(live.price);
                 if (item.symbol.includes("BTC")) {
                   formattedPrice = live.price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-                } else if (item.symbol.includes("XAU")) {
+                } else if (item.symbol.includes("XAU") || item.symbol === "US500") {
                   formattedPrice = live.price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-                } else if (item.symbol === "US500") {
-                  formattedPrice = live.price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                } else if (item.symbol === "USDJPY" || item.symbol.includes("JPY")) {
+                  formattedPrice = live.price.toFixed(2);
                 } else {
                   formattedPrice = live.price.toFixed(4);
                 }
 
                 const changeVal = live.changePercent || 0;
-                const formattedChange = `${changeVal >= 0 ? "+" : ""}${changeVal.toFixed(2)}%`;
+                const isZero = Math.abs(changeVal) < 0.0001;
+                const formattedChange = `${changeVal > 0 ? "+" : ""}${changeVal.toFixed(2)}%`;
 
                 return {
                   ...item,
                   price: formattedPrice,
                   change: formattedChange,
-                  positive: changeVal >= 0
+                  positive: changeVal > 0,
+                  isZero
                 };
               }
               return item;
@@ -85,113 +88,98 @@ export function PriceTicker() {
     };
   }, []);
 
-  // Duplicate once for seamless scroll
-  const marqueeItems = [...items, ...items];
+  // Duplicate items for seamless continuous marquee loop
+  const marqueeItems = [...items, ...items, ...items];
 
   return (
     <div
-      className="w-full h-[44px] flex items-center overflow-hidden border-b select-none relative z-10"
+      className="w-full h-[34px] flex items-center overflow-hidden border-b select-none relative z-10"
       style={{ 
         backgroundColor: "var(--surface-base)", 
         borderColor: "var(--border-subtle)",
-        boxShadow: "inset 0 1px 0 rgba(255, 255, 255, 0.6)"
       }}
     >
-      {/* Dynamic Status Badge — left anchor */}
+      {/* Left status label - plain inline text in --text-tertiary, no pill, no border-radius */}
       <div
-        className="absolute left-0 top-0 bottom-0 flex items-center px-4 border-r z-30 shadow-[2px_0_8px_rgba(0,0,0,0.02)]"
+        className="shrink-0 h-full flex items-center px-4 border-r z-20"
         style={{
           backgroundColor: "var(--surface-base)",
           borderColor: "var(--border-subtle)",
         }}
       >
         <span
-          className="text-[10px] font-mono uppercase tracking-[0.08em] px-2.5 py-0.5 border flex items-center gap-1.5"
-          style={{
-            color: isLive ? "var(--market-up)" : "var(--text-secondary)",
-            borderColor: isLive ? "color-mix(in srgb, var(--market-up) 25%, transparent)" : "var(--border-subtle)",
-            backgroundColor: isLive ? "color-mix(in srgb, var(--market-up) 10%, transparent)" : "var(--surface-raised)",
-            borderRadius: "var(--radius-md)",
-          }}
+          className="text-[9.5px] font-mono uppercase tracking-[0.12em] font-medium"
+          style={{ color: "var(--text-tertiary)" }}
         >
-          <span className={`w-1.5 h-1.5 rounded-full ${isLive ? "bg-emerald-500 animate-pulse" : "bg-gray-400"}`} />
-          {isLive ? "Prices Delayed 60s" : "Sample Data"}
+          {isLive ? "Prices Delayed 60s" : "Delayed 60s"}
         </span>
       </div>
 
-      {/* Marquee with subtle edge fades */}
+      {/* Marquee with subtle right edge fade */}
       <div 
-        className="flex-grow overflow-hidden flex items-center pl-44 pr-36"
+        className="flex-grow overflow-hidden flex items-center h-full"
         style={{
-          maskImage: "linear-gradient(to right, transparent, black 24px, black calc(100% - 24px), transparent)",
-          WebkitMaskImage: "linear-gradient(to right, transparent, black 24px, black calc(100% - 24px), transparent)",
+          maskImage: "linear-gradient(to right, black calc(100% - 32px), transparent)",
+          WebkitMaskImage: "linear-gradient(to right, black calc(100% - 32px), transparent)",
         }}
       >
         <div
-          className={shouldReduce ? "flex gap-0 items-center" : "flex items-center animate-marquee-ticker"}
+          className={shouldReduce ? "flex items-center h-full" : "flex items-center h-full animate-marquee-ticker"}
         >
-          {marqueeItems.map((item, i) => (
-            <div key={i} className="flex items-center gap-2 pr-10 shrink-0">
-              {/* Symbol */}
-              <span
-                className="text-[11px] font-mono tabular-nums"
-                style={{ color: "var(--text-secondary)" }}
-              >
-                {item.displaySymbol}
-              </span>
-              {/* Price */}
-              <span
-                className="text-[11px] font-mono tabular-nums font-medium"
-                style={{ color: "var(--text-primary)" }}
-              >
-                {item.price}
-              </span>
-              {/* Change */}
-              <span
-                className="text-[11px] font-mono tabular-nums"
-                style={{
-                  color: item.positive ? "var(--market-up)" : "var(--market-down)",
-                }}
-              >
-                {item.change}
-              </span>
-              {/* Hairline separator */}
-              <span
-                className="pl-8"
-                style={{ color: "var(--border-subtle)" }}
-                aria-hidden="true"
-              >
-                |
-              </span>
-            </div>
-          ))}
-        </div>
-      </div>
+          {marqueeItems.map((item, i) => {
+            const glyph = item.isZero ? "" : item.positive ? "▲ " : "▼ ";
+            const changeColor = item.isZero 
+              ? "var(--text-tertiary)" 
+              : item.positive 
+              ? "var(--market-up)" 
+              : "var(--market-down)";
 
-      {/* Dynamic Right label */}
-      <div
-        className="absolute right-0 top-0 bottom-0 flex items-center px-4 border-l z-30 shadow-[-2px_0_8px_rgba(0,0,0,0.02)]"
-        style={{
-          backgroundColor: "var(--surface-base)",
-          borderColor: "var(--border-subtle)",
-        }}
-      >
-        <span
-          className="text-[10px] font-mono uppercase tracking-[0.08em]"
-          style={{ color: "var(--text-secondary)" }}
-        >
-          {isLive ? "Institutional Price Feeds" : "Not Live — For Illustration Only"}
-        </span>
+            return (
+              <div 
+                key={i} 
+                className="flex items-center gap-2 px-3.5 h-full border-r shrink-0"
+                style={{ borderColor: "var(--border-subtle)" }}
+              >
+                {/* Symbol */}
+                <span
+                  className="text-[11px] font-mono font-medium tracking-tight"
+                  style={{ color: "var(--text-secondary)" }}
+                >
+                  {item.displaySymbol}
+                </span>
+
+                {/* Price (Tabular Mono) */}
+                <span
+                  className="text-[11px] font-mono tabular-nums font-semibold"
+                  style={{ color: "var(--text-primary)" }}
+                >
+                  {item.price}
+                </span>
+
+                {/* % Change (Direct color, optional triangle glyph, zero pill/fill) */}
+                <span
+                  className="text-[10.5px] font-mono tabular-nums font-medium"
+                  style={{ color: changeColor }}
+                >
+                  {glyph}{item.change}
+                </span>
+              </div>
+            );
+          })}
+        </div>
       </div>
 
       <style dangerouslySetInnerHTML={{
         __html: `
         @keyframes marquee-ticker {
           0%   { transform: translateX(0); }
-          100% { transform: translateX(-50%); }
+          100% { transform: translateX(-33.333%); }
         }
         .animate-marquee-ticker {
-          animation: marquee-ticker 40s linear infinite;
+          animation: marquee-ticker 35s linear infinite;
+        }
+        .animate-marquee-ticker:hover {
+          animation-play-state: paused;
         }
       `}} />
     </div>

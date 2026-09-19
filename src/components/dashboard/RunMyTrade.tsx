@@ -498,7 +498,7 @@ export function RunMyTrade({ initialInstrument, onPlanSaved }: RunMyTradeProps) 
             </span>
           </div>
           <h2 className="text-xl sm:text-2xl font-display font-black uppercase text-[#181818] tracking-tight mt-1">
-            Run My Trade
+            Plan My Trade
           </h2>
           <p className="text-xs text-[#87877F] mt-0.5">
             Turn your trade setup into an exact, quantified risk plan before touching your broker.

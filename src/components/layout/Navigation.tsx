@@ -52,7 +52,7 @@ const megaMenus = {
   },
   tools: {
     links: [
-      { name: "RUN MY TRADE", desc: "Interactive pre-trade sizing, R:R & discipline validation", href: "/dashboard/run-my-trade", icon: Zap, badge: "CORE" },
+      { name: "Plan My Trade", desc: "Interactive pre-trade sizing, R:R & discipline validation", href: "/dashboard/run-my-trade", icon: Zap, badge: "CORE" },
       { name: "Signal Centre", desc: "AI consensus signals — Claude + GPT-4o + Grok", href: "/signal-centre", icon: Zap, badge: "NEW" },
       { name: "AI Trade Journal", desc: "Upload CSV logs to extract emotional profiles", href: "/tools/ai-trade-journal", icon: BookOpen },
       { name: "Risk Calculator", desc: "Exact position sizing relative to drawdown limits", href: "/tools/risk-calculator", icon: Calculator },

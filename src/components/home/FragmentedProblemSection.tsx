@@ -16,7 +16,7 @@ const FRAGMENTED_TABS = [
 
 const CONNECTED_WORKFLOW = [
   { stage: "Prepare", solution: "Sessional macro bias, economic calendar, and volatility windows in one workspace" },
-  { stage: "Plan & Size", solution: "Structural stops, exact lot sizes, and drawdown risk calculated simultaneously via RUN MY TRADE" },
+  { stage: "Plan & Size", solution: "Structural stops, exact lot sizes, and drawdown risk calculated simultaneously via Plan My Trade" },
   { stage: "Execute & Record", solution: "One-click snapshot lock of your plan before transmitting orders to your broker" },
   { stage: "Review & Improve", solution: "Weekly process auditing, emotion-pattern recognition, and targeted curriculum drills" },
 ];

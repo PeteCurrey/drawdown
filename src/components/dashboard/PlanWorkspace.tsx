@@ -24,7 +24,7 @@ export function PlanWorkspace() {
           )}
         >
           <Zap className={cn("w-3.5 h-3.5", activeTab === "run-my-trade" ? "text-[#F9771D]" : "text-[#87877F]")} />
-          Run My Trade (Quantified Setup)
+          Plan My Trade (Quantified Setup)
         </button>
 
         <button

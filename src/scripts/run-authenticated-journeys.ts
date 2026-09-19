@@ -75,13 +75,13 @@ async function run() {
   });
 
   // ─────────────────────────────────────────────────────────────────────────────
-  // JOURNEY 1: FREE USER RUN MY TRADE
+  // JOURNEY 1: FREE USER PLAN MY TRADE
   // ─────────────────────────────────────────────────────────────────────────────
   {
     const start = Date.now();
     const jr: JourneyResult = {
       id: "AUTH-1",
-      name: "Free User RUN MY TRADE — Calculation & Execution Boundary",
+      name: "Free User Plan My Trade — Calculation & Execution Boundary",
       viewport: "1440x900",
       status: "FAIL",
       durationMs: 0,
@@ -109,7 +109,7 @@ async function run() {
 
       // Verify header
       const pageText = await page.evaluate(() => document.body.innerText);
-      if (pageText.includes("Run My Trade")) jr.assertions.push("Header 'Run My Trade' visible");
+      if (pageText.includes("Plan My Trade") || pageText.includes("Run My Trade")) jr.assertions.push("Header 'Plan My Trade' visible");
 
       // Input instrument
       const instInput = page.locator('input[placeholder*="GBP/USD" i], input[value*="GBP/USD" i], input[type="text"]').first();
@@ -451,13 +451,13 @@ async function run() {
   }
 
   // ─────────────────────────────────────────────────────────────────────────────
-  // MOBILE 375x812: RUN MY TRADE
+  // MOBILE 375x812: PLAN MY TRADE
   // ─────────────────────────────────────────────────────────────────────────────
   {
     const start = Date.now();
     const jr: JourneyResult = {
       id: "MOB-375-RMT",
-      name: "Mobile 375x812 — RUN MY TRADE Layout & Zero Horizontal Overflow",
+      name: "Mobile 375x812 — Plan My Trade Layout & Zero Horizontal Overflow",
       viewport: "375x812",
       status: "FAIL",
       durationMs: 0,

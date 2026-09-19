@@ -3,7 +3,7 @@
  *
  * Authoritative position sizing and risk quantification engine for Drawdown.
  * Provides unified, deterministic calculations for:
- * - RUN MY TRADE decision workflow
+ * - Plan My Trade decision workflow
  * - Strategy Planning (Stage 2)
  * - Risk Calculator (Stage 3 / Analytical Tools)
  * - Server-side validation APIs

@@ -144,7 +144,7 @@ export default async function Home() {
           <OperatingLoopSection />
         </div>
 
-        {/* 6. Live Product Showcase: RUN MY TRADE */}
+        {/* 6. Live Product Showcase: Plan My Trade */}
         <RunMyTradeShowcase />
 
         {/* 7. Market Intelligence Briefing */}

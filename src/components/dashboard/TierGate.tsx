@@ -89,7 +89,7 @@ export function TierGate({
               // ON YOUR CURRENT PLAN ({current})
             </span>
             <p className="text-text-secondary leading-relaxed">
-              Free users have full access to RUN MY TRADE, Position Sizer, Session Preparation, and Manual Trade Journaling.
+              Free users have full access to Plan My Trade, Position Sizer, Session Preparation, and Manual Trade Journaling.
             </p>
           </div>
           <div>

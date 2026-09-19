@@ -163,7 +163,7 @@ export function HeroSection() {
 
           </div>
 
-          {/* Right Column (5 cols): High-Fidelity RUN MY TRADE Calculator Card */}
+          {/* Right Column (5 cols): High-Fidelity PLAN MY TRADE Calculator Card */}
           <div className="lg:col-span-5">
             <div
               className="border p-6 md:p-8 space-y-6 relative"
@@ -179,7 +179,7 @@ export function HeroSection() {
                 <div className="flex items-center gap-2.5">
                   <Calculator className="w-4 h-4 text-[var(--accent)]" strokeWidth={1.5} />
                   <span className="font-mono text-xs font-bold uppercase tracking-wider" style={{ color: "var(--text-primary)" }}>
-                    RUN MY TRADE
+                    PLAN MY TRADE
                   </span>
                 </div>
                 <span

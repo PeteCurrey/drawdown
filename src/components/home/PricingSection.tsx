@@ -202,7 +202,7 @@ export function PricingSection({ floorCap = 15, activeFloorSubs = 0 }: { floorCa
               </span>
             </div>
             <p className="text-xs font-sans leading-relaxed" style={{ color: "var(--text-secondary)" }}>
-              Includes complete <strong>Phase 1 Ground Zero curriculum</strong>, <strong>RUN MY TRADE pre-trade sizing</strong>, and live macroeconomic briefings. No credit card required. Upgrade to Foundation when you are ready to log trades and access advanced modules.
+              Includes complete <strong>Phase 1 Ground Zero curriculum</strong>, <strong>Plan My Trade pre-trade sizing</strong>, and live macroeconomic briefings. No credit card required. Upgrade to Foundation when you are ready to log trades and access advanced modules.
             </p>
           </div>
 

@@ -117,7 +117,7 @@ export function RunMyTradeShowcase() {
               className="type-display-lg font-normal"
               style={{ color: "var(--text-primary)" }}
             >
-              RUN MY TRADE — Pre-Trade Risk Calculation
+              Plan My Trade — Pre-Trade Risk Calculation
             </h2>
             <p
               className="type-body-lg font-normal"
@@ -149,7 +149,7 @@ export function RunMyTradeShowcase() {
             <div className="flex items-center gap-3">
               <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: "var(--text-tertiary)" }} />
               <span className="font-mono text-xs font-bold tracking-wider uppercase" style={{ color: "var(--text-primary)" }}>
-                RUN MY TRADE · SAMPLE CALCULATION
+                PLAN MY TRADE · SAMPLE CALCULATION
               </span>
             </div>
             <div className="flex items-center gap-2">

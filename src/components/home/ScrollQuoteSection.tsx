@@ -87,7 +87,7 @@ export function ScrollQuoteSection() {
     <div
       ref={containerRef}
       className="relative w-full h-[250vh] md:h-[300vh] z-20"
-      style={{ backgroundColor: "var(--surface-base)" }}
+      style={{ backgroundColor: "#0B0E12" }}
     >
       {/* Sticky viewport */}
       <div className="sticky top-0 w-full h-screen flex flex-col justify-center items-center overflow-hidden px-6">
@@ -117,7 +117,7 @@ export function ScrollQuoteSection() {
             ))}
           </p>
 
-          {/* Attribution — no tenure figure here; attribution line only */}
+          {/* Attribution — high contrast on dark background */}
           <div
             ref={attributionRef}
             className="attribution mt-10 md:mt-14"
@@ -128,9 +128,9 @@ export function ScrollQuoteSection() {
               textTransform: "uppercase" as const,
             }}
           >
-            <span style={{ color: "rgba(255,255,255,0.9)" }}>Pete Currey</span>
-            <span style={{ color: "rgba(255,255,255,0.35)", margin: "0 0.5em" }}>—</span>
-            <span style={{ color: "rgba(255,255,255,0.5)" }}>Founder, Drawdown. Trading live since 2016.</span>
+            <span style={{ color: "#FFFFFF" }}>Pete Currey</span>
+            <span style={{ color: "rgba(255,255,255,0.45)", margin: "0 0.5em" }}>—</span>
+            <span style={{ color: "rgba(255,255,255,0.75)" }}>Founder, Drawdown. Trading live since 2016.</span>
           </div>
 
         </div>
@@ -138,13 +138,13 @@ export function ScrollQuoteSection() {
 
       <style dangerouslySetInnerHTML={{ __html: `
         .quote-text .word {
-          color: rgba(255,255,255,0.15);
+          color: rgba(255,255,255,0.25);
           transition: color 0.25s ease;
           /* display: inline keeps words flowing naturally with word-spacing above */
           display: inline;
         }
         .quote-text .word.illuminated {
-          color: rgba(255,255,255,1);
+          color: #FFFFFF;
         }
         .attribution {
           opacity: 0;

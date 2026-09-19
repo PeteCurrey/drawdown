@@ -235,7 +235,7 @@ export function PricingSection({ floorCap = 15, activeFloorSubs = 0 }: { floorCa
                   backgroundColor: isEdge ? "var(--surface-overlay)" : "var(--surface-raised)",
                   borderColor: isEdge ? "var(--accent)" : "var(--border-subtle)",
                   color: "var(--text-primary)",
-                  borderRadius: "var(--radius-lg)",
+                  borderRadius: "var(--radius-md)",
                   boxShadow: isEdge ? "var(--elev-3)" : "var(--elev-1)",
                 }}
               >
@@ -386,7 +386,7 @@ export function PricingSection({ floorCap = 15, activeFloorSubs = 0 }: { floorCa
           style={{
             borderColor: "var(--border-subtle)",
             backgroundColor: "var(--surface-raised)",
-            borderRadius: "var(--radius-lg)",
+            borderRadius: "var(--radius-md)",
           }}
         >
           <div className="space-y-2 max-w-2xl">

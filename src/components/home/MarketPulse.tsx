@@ -181,8 +181,15 @@ export function MarketPulse() {
   const listNews = activeItems.slice(1);
 
   return (
-    <div className="w-full select-none relative overflow-hidden">
-      <div>
+    <section
+      id="market-pulse"
+      className="py-20 md:py-28 border-b relative select-none"
+      style={{
+        backgroundColor: "var(--surface-base)",
+        borderColor: "var(--border-subtle)",
+      }}
+    >
+      <div className="max-w-[1280px] mx-auto px-6">
         
         {/* Section Heading */}
         <div className="mb-16 text-center">
@@ -438,6 +445,6 @@ export function MarketPulse() {
         </div>
 
       </div>
-    </div>
+    </section>
   );
 }

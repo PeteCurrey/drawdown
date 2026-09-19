@@ -68,7 +68,7 @@ export async function proxy(request: NextRequest) {
 
   // ── Route classification ───────────────────────────────────────────────────
   const isProtectedRoute =
-    path.startsWith("/dashboard") ||
+    ((path === "/dashboard" || path.startsWith("/dashboard/")) && !path.startsWith("/dashboard-preview")) ||
     (path.startsWith("/learn/") && path.split("/").length > 3) || // Gate /learn/[phase]/[id] but not /learn or /learn/[phase]
     path.startsWith("/live") ||
     path.startsWith("/profile") ||

@@ -49,7 +49,7 @@ async function applyViaManagementAPI() {
     
     // Try using pg via the connection pooler info
     console.log('\nThe tables need to be created manually in the Supabase Dashboard.');
-    console.log('Please go to: https://supabase.com/dashboard/project/miiasjbonwlleggiukyf/sql/new');
+    console.log('Please go to: https://supabase.com/dashboard/project/fzzmcqqpfhvolugsiagg/sql/new');
     console.log('And run the SQL from: supabase/migrations/20260620200000_blog_cms.sql');
     return false;
   }

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
 import { ArrowRight, ShieldCheck, Calculator, Lock, TrendingUp } from "lucide-react";
@@ -42,6 +43,27 @@ export function HeroSection() {
         borderColor: "var(--border-subtle)",
       }}
     >
+      {/* Faded Client Dashboard Background */}
+      <div 
+        className="absolute inset-0 pointer-events-none select-none overflow-hidden z-0"
+        aria-hidden="true"
+      >
+        <Image
+          src="/images/dashboard-preview.png"
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover object-top opacity-[0.09] mix-blend-multiply filter contrast-125"
+        />
+        <div 
+          className="absolute inset-0"
+          style={{
+            background: "radial-gradient(ellipse at 50% 20%, rgba(250,250,249,0.3) 0%, rgba(250,250,249,0.75) 55%, var(--surface-base) 92%)",
+          }}
+        />
+      </div>
+
       {/* Background grid */}
       <TelemetryGrid opacity={0.03} />
 

@@ -133,22 +133,22 @@ export default async function Home() {
         {/* 2. Consolidated Live Data Strip */}
         <LiveDataStrip />
 
-        {/* 3. The Problem — Fragmented Workflow */}
+        {/* 3. Live Market Briefing — news feed, economic calendar, top movers */}
+        <MarketPulse />
+
+        {/* 4. The Problem — Fragmented Workflow */}
         <FragmentedProblemSection />
 
-        {/* 4. The Operating Loop */}
+        {/* 5. The Operating Loop */}
         <div id="operating-loop">
           <OperatingLoopSection />
         </div>
 
-        {/* 5. Live Product Showcase: RUN MY TRADE */}
+        {/* 6. Live Product Showcase: RUN MY TRADE */}
         <RunMyTradeShowcase />
 
-        {/* 6. Market Intelligence Briefing */}
+        {/* 7. Market Intelligence Briefing */}
         <MarketIntelligenceSection />
-
-        {/* 7. Live Market Briefing — news feed, economic calendar, top movers */}
-        <MarketPulse />
 
         {/* 8. Curriculum — The 6 Phases */}
         <CurriculumSection />

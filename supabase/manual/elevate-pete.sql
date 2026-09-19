@@ -1,7 +1,7 @@
 -- ============================================================
 -- DRAWDOWN SUPERUSER ELEVATION SCRIPT
 -- Run this in the Supabase SQL Editor for project:
--- https://miiasjbonwlleggiukyf.supabase.co
+-- https://fzzmcqqpfhvolugsiagg.supabase.co
 -- ============================================================
 
 -- Step 1: Verify the user exists (check output before running Step 2)

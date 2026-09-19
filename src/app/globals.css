@@ -8,12 +8,13 @@
   --color-text-primary: var(--text-primary);
   --color-text-secondary: var(--text-secondary);
   --color-text-tertiary: var(--text-tertiary);
-  --color-accent: var(--tool-accent, #F9771D);
-  --color-accent-hover: var(--tool-accent-hover, #e0600d);
+  --color-accent: var(--accent, #16213E);
+  --color-accent-hover: var(--accent-hover, #0D1527);
+  --color-signal-navy: #16213E;
   --color-profit: #18B880;
   --color-loss: #CE6969;
-  --color-warning: #F9771D;
-  --color-premium: #F9771D;
+  --color-warning: #B8752E;
+  --color-premium: #16213E;
 
   --color-shell: #D5D8C5;
   --color-dark: #181818;
@@ -51,6 +52,11 @@
   --graphite-600:  #4B5157;   /* secondary text, captions, metadata */
   --line-200:      #DDDBD7;   /* hairline rule / border — 1px only */
   --signal-navy:   #16213E;   /* brand accent: primary CTAs, active states, links */
+  --accent:        #16213E;   /* brand accent: dark matte navy blue */
+  --accent-hover:  #0D1527;
+  --accent-muted:  rgba(22, 33, 62, 0.08);
+  --tool-accent:   #16213E;
+  --tool-accent-hover: #0D1527;
   --risk-amber:    #B8752E;   /* risk/warning states ONLY. Never decorative. */
 
   /* ── Front-end Visual Depth Tokens ──────────────────────────────────────────
@@ -240,11 +246,11 @@
   --dd-text-3:         #87877F;   /* labels, captions, metadata */
   --dd-text-4:         #BBBAB4;   /* very subtle / placeholder */
 
-  /* ── Accent — orange, surgical use only ─────────────────────────────────── */
-  --dd-accent:         #F9771D;
-  --dd-accent-hover:   #E06818;
-  --dd-accent-tint:    #FFF4EC;
-  --dd-accent-border:  rgba(249, 119, 29, 0.22);
+  /* ── Accent — dark matte navy blue ───────────────────────────────────────── */
+  --dd-accent:         #16213E;
+  --dd-accent-hover:   #0D1527;
+  --dd-accent-tint:    rgba(22, 33, 62, 0.08);
+  --dd-accent-border:  rgba(22, 33, 62, 0.22);
 
   /* ── Semantic states ─────────────────────────────────────────────────────── */
   --dd-profit:         #18B880;
@@ -621,10 +627,11 @@
   --border-subtle: rgba(0,0,0,0.07);
   --border-strong: rgba(0,0,0,0.13);
 
-  /* ── ACCENT — brand signal-navy ─────────────────────────── */
+  /* ── ACCENT — dark matte navy blue as per old design ───── */
   --accent:        #16213E;   /* brand CTAs, active states, links */
-  --accent-hover:  #243563;   /* hover state */
+  --accent-hover:  #0D1527;   /* deep matte navy hover */
   --accent-muted:  rgba(22,33,62,0.08); /* badge backgrounds, tints */
+  --accent-border: rgba(22,33,62,0.22);
 
   /* ── SEMANTIC — market direction ONLY ──────────────────── */
   /* Never use these on CTAs, badges, or decoration.           */

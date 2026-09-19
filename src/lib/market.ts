@@ -75,6 +75,66 @@ export interface SentimentData {
   mentions: number;
 }
 
+const YAHOO_PRICE_MAP: Record<string, string> = {
+  "XAUUSD": "GC=F", "XAU/USD": "GC=F", "GOLD": "GC=F",
+  "XAGUSD": "SI=F", "XAG/USD": "SI=F", "SILVER": "SI=F",
+  "GBPUSD": "GBPUSD=X", "GBP/USD": "GBPUSD=X",
+  "EURUSD": "EURUSD=X", "EUR/USD": "EURUSD=X",
+  "USDJPY": "USDJPY=X", "USD/JPY": "USDJPY=X",
+  "EURGBP": "EURGBP=X", "EUR/GBP": "EURGBP=X",
+  "USDCHF": "USDCHF=X", "USD/CHF": "USDCHF=X",
+  "AUDUSD": "AUDUSD=X", "AUD/USD": "AUDUSD=X",
+  "NZDUSD": "NZDUSD=X", "NZD/USD": "NZDUSD=X",
+  "USDCAD": "USDCAD=X", "USD/CAD": "USDCAD=X",
+  "EURJPY": "EURJPY=X", "EUR/JPY": "EURJPY=X",
+  "GBPJPY": "GBPJPY=X", "GBP/JPY": "GBPJPY=X",
+  "CADJPY": "CADJPY=X", "AUDCAD": "AUDCAD=X", "GBPCAD": "GBPCAD=X",
+  "SPX": "^GSPC", "SPX500": "^GSPC", "US500": "^GSPC", "S&P 500": "^GSPC", "S&P500": "^GSPC",
+  "NDX": "^NDX", "NAS100": "^NDX", "NASDAQ": "^NDX",
+  "DJI": "^DJI", "US30": "^DJI",
+  "FTSE": "^FTSE", "UK100": "^FTSE", "FTSE100": "^FTSE",
+  "DAX": "^GDAXI", "GER40": "^GDAXI",
+  "NIKKEI": "^N225", "JPN225": "^N225",
+  "WTIUSD": "CL=F", "WTIOIL": "CL=F", "WTI": "CL=F", "OIL": "CL=F",
+  "BTCUSD": "BTC-USD", "BTC/USD": "BTC-USD", "BITCOIN": "BTC-USD",
+  "ETHUSD": "ETH-USD", "ETH/USD": "ETH-USD", "ETHEREUM": "ETH-USD",
+  "SOLUSD": "SOL-USD", "SOL/USD": "SOL-USD"
+};
+
+async function fetchYahooMarketPrice(rawSymbol: string): Promise<MarketPrice | null> {
+  const cleanSym = rawSymbol.replace("/", "").toUpperCase();
+  const ySym = YAHOO_PRICE_MAP[rawSymbol] || YAHOO_PRICE_MAP[cleanSym] || (cleanSym.length === 6 ? `${cleanSym}=X` : cleanSym);
+  try {
+    const url = `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(ySym)}?interval=1d&range=5d`;
+    const res = await fetch(url, {
+      headers: { "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36" },
+      signal: AbortSignal.timeout(4000),
+    });
+    if (!res.ok) return null;
+    const json = await res.json();
+    const meta = json?.chart?.result?.[0]?.meta;
+    if (!meta) return null;
+    const price = meta.regularMarketPrice;
+    const prevClose = meta.chartPreviousClose;
+    if (typeof price !== "number" || typeof prevClose !== "number" || isNaN(price) || isNaN(prevClose)) return null;
+
+    const change = price - prevClose;
+    const changePercent = prevClose !== 0 ? ((change / prevClose) * 100) : 0;
+
+    return {
+      symbol: rawSymbol,
+      price,
+      change: parseFloat(change.toFixed(4)),
+      changePercent: parseFloat(changePercent.toFixed(2)),
+      volume: meta.regularMarketVolume || 0,
+      high: meta.regularMarketDayHigh,
+      low: meta.regularMarketDayLow,
+    };
+  } catch {
+    return null;
+  }
+}
+
 export async function getMarketPrices(symbols: string[]): Promise<MarketPrice[]> {
   const cacheKey = `prices:${symbols.sort().join(",")}`;
   const cached = await getCachedData(cacheKey);
@@ -135,8 +195,25 @@ export async function getMarketPrices(symbols: string[]): Promise<MarketPrice[]>
     }
   }
 
-  // Free Fallback: Frankfurter (Forex) and CoinGecko (Crypto)
-  if (!apiSuccess) {
+  // Robust Secondary Provider: Yahoo Finance Realtime Chart Feed (Instant Live Fallback, covers forex, commodities, indices, crypto)
+  const symbolsNeeded = symbols.filter(s => !results.some(r => r.symbol === s));
+  if (symbolsNeeded.length > 0) {
+    try {
+      const yahooQuotes = await Promise.all(symbolsNeeded.map(s => fetchYahooMarketPrice(s)));
+      yahooQuotes.forEach(q => {
+        if (q) results.push(q);
+      });
+      if (results.length > 0) {
+        apiSuccess = true;
+      }
+    } catch (err) {
+      console.warn("[getMarketPrices] Yahoo Finance fallback failed:", err);
+    }
+  }
+
+  // Tertiary Free Fallback: Frankfurter (Forex) and CoinGecko (Crypto) for any still-missing symbols
+  const remainingMissing = symbols.filter(s => !results.some(r => r.symbol === s));
+  if (remainingMissing.length > 0) {
     try {
       const fxRes = await fetch("https://api.frankfurter.app/latest?from=GBP&to=USD,EUR,JPY,AUD,CAD,CHF");
       const fxData = fxRes.ok ? await fxRes.json() : null;
@@ -144,7 +221,7 @@ export async function getMarketPrices(symbols: string[]): Promise<MarketPrice[]>
       const cgRes = await fetch("https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,ripple&vs_currencies=usd&include_24hr_change=true");
       const cgData = cgRes.ok ? await cgRes.json() : null;
 
-      for (const symbol of symbols) {
+      for (const symbol of remainingMissing) {
         if (symbol.includes("BTC")) {
           const p = cgData?.bitcoin?.usd;
           const c = cgData?.bitcoin?.usd_24h_change;

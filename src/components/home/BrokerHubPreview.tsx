@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { cn } from "@/lib/utils";
-import { Shield, ChevronRight } from "lucide-react";
+import { Shield, ChevronRight, Check } from "lucide-react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 
@@ -153,7 +153,7 @@ export function BrokerHubPreview() {
         {/* Section Heading */}
         <div className="mb-16 text-center">
           <span className="text-xs font-semibold tracking-widest text-neutral-400 border border-neutral-200 rounded-full px-3 py-1 inline-block uppercase font-sans mb-4">
-            // RECOMMENDED BROKERS
+            RECOMMENDED BROKERS
           </span>
           <h2 className="text-4xl md:text-5xl font-sans font-bold uppercase mb-4 text-[#0A0A0A] leading-tight">
             Recommended Brokers
@@ -229,7 +229,7 @@ export function BrokerHubPreview() {
                 <ul className="space-y-3 mb-8">
                   {broker.features.map((f, i) => (
                     <li key={i} className="flex items-center gap-2 text-sm text-neutral-600 font-sans">
-                      <span className="text-green-600 font-bold">✓</span> {f}
+                      <Check className="w-3.5 h-3.5 text-[var(--market-up)] shrink-0" /> {f}
                     </li>
                   ))}
                 </ul>

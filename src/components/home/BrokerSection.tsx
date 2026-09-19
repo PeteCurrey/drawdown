@@ -70,7 +70,7 @@ const brokerBranding: Record<string, { bg: string; glow: string; border: string 
 const defaultBranding = {
   bg: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80",
   glow: "rgba(10, 37, 64, 0.08)",
-  border: "var(--ink-950)"
+  border: "var(--accent)"
 };
 
 export function BrokerSection() {
@@ -120,7 +120,7 @@ export function BrokerSection() {
   return (
     <section
       className="w-full py-24 border-b select-none relative z-10"
-      style={{ backgroundColor: "var(--paper-0)", borderColor: "var(--line-200)" }}
+      style={{ backgroundColor: "var(--surface-base)", borderColor: "var(--border-subtle)", paddingTop: "var(--section-y-desktop)", paddingBottom: "var(--section-y-desktop)" }}
     >
       <div className="max-w-[1280px] mx-auto px-6">
         
@@ -128,25 +128,25 @@ export function BrokerSection() {
         <div className="mb-16">
           <span
             className="block text-[11px] font-mono uppercase tracking-[0.08em] mb-3"
-            style={{ color: "var(--graphite-600)" }}
+            style={{ color: "var(--text-tertiary)" }}
           >
             Broker recommendations
           </span>
           <h2
-            className="font-display text-[clamp(1.75rem,4vw,3rem)] leading-tight tracking-[-0.02em] font-semibold mb-4"
-            style={{ color: "var(--ink-950)" }}
+            className="type-display-lg font-normal mb-4"
+            style={{ color: "var(--text-primary)" }}
           >
             Recommended Brokers
           </h2>
           <p
-            className="text-[15px] leading-relaxed max-w-xl font-sans"
-            style={{ color: "var(--graphite-600)" }}
+            className="type-body-lg font-normal max-w-xl"
+            style={{ color: "var(--text-secondary)" }}
           >
             Honest recommendations, ranked on merit. Where our founder holds a live account, we say so. We may earn a referral fee — disclosed on every link.
           </p>
         </div>
 
-        {/* Broker Cards Grid — zero border-radius, hairline borders, plain text regulatory labels */}
+        {/* Broker Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {brokers.map((broker) => {
             const brand = brokerBranding[broker.id] || defaultBranding;
@@ -159,10 +159,10 @@ export function BrokerSection() {
                 onMouseEnter={() => setHoveredBrokerId(broker.id)}
                 onMouseLeave={() => setHoveredBrokerId(null)}
                 style={{
-                  backgroundColor: "var(--paper-100)",
-                  borderColor: isHovered ? brand.border : "var(--line-200)",
-                  borderRadius: 0,
-                  boxShadow: isHovered ? `0 0 24px ${brand.glow}, inset 0 0 12px ${brand.glow}` : "none",
+                  backgroundColor: "var(--surface-raised)",
+                  borderColor: isHovered ? brand.border : "var(--border-subtle)",
+                  borderRadius: "var(--radius-md)",
+                  boxShadow: isHovered ? `0 0 24px ${brand.glow}, inset 0 0 12px ${brand.glow}` : "var(--elev-1)",
                 }}
               >
                 {/* Brand-Matching Background Image Layer */}
@@ -181,36 +181,36 @@ export function BrokerSection() {
                 <div className="relative z-10 flex flex-col justify-between h-full w-full">
                   <div>
                     {/* Header: Logo / Name + Plain Text Regulation Label */}
-                    <div className="flex items-center justify-between mb-6 pb-4 border-b" style={{ borderColor: "var(--line-200)" }}>
+                    <div className="flex items-center justify-between mb-6 pb-4 border-b" style={{ borderColor: "var(--border-subtle)" }}>
                       <div className="h-6 flex items-center">
                         {broker.logoUrl ? (
                           <img src={broker.logoUrl} alt={broker.name} className="h-6 object-contain" />
                         ) : (
-                          <span className="font-mono font-bold text-[14px]" style={{ color: "var(--ink-950)" }}>
+                          <span className="font-mono font-bold text-[14px]" style={{ color: "var(--text-primary)" }}>
                             {(broker as any).logoPlaceholder || broker.name}
                           </span>
                         )}
                       </div>
-                      {/* Regulatory label — plain text, no pill/badge */}
-                      <span className="text-[11px] font-mono uppercase tracking-[0.08em]" style={{ color: "var(--graphite-600)" }}>
+                      {/* Regulatory label — plain text */}
+                      <span className="text-[11px] font-mono uppercase tracking-[0.08em]" style={{ color: "var(--text-tertiary)" }}>
                         {broker.regulation}
                       </span>
                     </div>
 
-                    <h3 className="text-[16px] font-medium font-sans mb-1" style={{ color: "var(--ink-950)" }}>
+                    <h3 className="text-[16px] font-medium font-sans mb-1" style={{ color: "var(--text-primary)" }}>
                       {broker.name}
                       {FOUNDER_BROKERS.includes(broker.id) && (
-                        <span className="ml-2 px-2 py-0.5 bg-[var(--ink-950)] text-white text-[9px] font-mono font-bold tracking-tighter uppercase align-middle">
+                        <span className="ml-2 px-2 py-0.5 text-[9px] font-mono font-bold tracking-tighter uppercase align-middle" style={{ backgroundColor: "var(--accent-muted)", color: "var(--accent)", borderRadius: "var(--radius-pill)" }}>
                           Founder&apos;s Account
                         </span>
                       )}
                     </h3>
-                    <p className="text-[12px] font-sans mb-4" style={{ color: "var(--graphite-600)" }}>
+                    <p className="text-[12px] font-sans mb-4" style={{ color: "var(--text-secondary)" }}>
                       {broker.bestFor}
                     </p>
 
-                    <div className="py-2 border-y mb-6" style={{ borderColor: "var(--line-200)" }}>
-                      <span className="text-[13px] font-mono tabular font-medium" style={{ color: "var(--ink-950)" }}>
+                    <div className="py-2 border-y mb-6" style={{ borderColor: "var(--border-subtle)" }}>
+                      <span className="text-[13px] font-mono tabular font-medium" style={{ color: "var(--text-primary)" }}>
                         {broker.stat}
                       </span>
                     </div>
@@ -218,25 +218,25 @@ export function BrokerSection() {
                     {/* Features List */}
                     <ul className="space-y-2 mb-8">
                       {broker.features.map((f, i) => (
-                        <li key={i} className="flex items-center gap-2 text-[13px] font-sans" style={{ color: "var(--graphite-600)" }}>
-                          <Check size={14} strokeWidth={1.5} style={{ color: "var(--ink-950)" }} />
+                        <li key={i} className="flex items-center gap-2 text-[13px] font-sans" style={{ color: "var(--text-secondary)" }}>
+                          <Check size={14} strokeWidth={1.5} style={{ color: "var(--text-primary)" }} />
                           <span>{f}</span>
                         </li>
                       ))}
                     </ul>
                   </div>
 
-                  {/* Action Button — zero radius */}
+                  {/* Action Button */}
                   <a
                     href={`/go/${broker.id}`}
                     target="_blank"
                     rel="noopener sponsored"
                     className="w-full py-3 text-[13px] font-medium text-center border transition-all duration-150 flex items-center justify-center gap-2"
                     style={{
-                      backgroundColor: "var(--signal-navy)",
-                      color: "#FAFAF9",
-                      borderColor: "var(--signal-navy)",
-                      borderRadius: 0,
+                      backgroundColor: "var(--accent)",
+                      color: "var(--surface-base)",
+                      borderColor: "var(--accent)",
+                      borderRadius: "var(--radius-md)",
                     }}
                   >
                     Open Account
@@ -249,14 +249,14 @@ export function BrokerSection() {
         </div>
 
         {/* Prominent Disclosure */}
-        <div className="mt-8 pt-6 border-t flex flex-col sm:flex-row items-center justify-between gap-4" style={{ borderColor: "var(--line-200)" }}>
-          <p className="text-[12px] font-sans" style={{ color: "var(--graphite-600)" }}>
+        <div className="mt-8 pt-6 border-t flex flex-col sm:flex-row items-center justify-between gap-4" style={{ borderColor: "var(--border-subtle)" }}>
+          <p className="text-[12px] font-sans" style={{ color: "var(--text-secondary)" }}>
             Honest recommendations. We may earn a referral fee — disclosed on every link.
           </p>
           <Link
             href={link}
             className="text-[12px] font-mono uppercase tracking-[0.08em] flex items-center gap-1 hover:underline"
-            style={{ color: "var(--ink-950)" }}
+            style={{ color: "var(--text-primary)" }}
           >
             See All Broker Reviews <ChevronRight size={14} strokeWidth={1.5} />
           </Link>

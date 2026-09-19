@@ -12,6 +12,7 @@ import {
   AlertCircle
 } from "lucide-react";
 import { AnimatedMetric } from "@/components/ui/AnimatedMetric";
+import { Reveal } from "@/components/ui/Reveal";
 
 interface DemoPreset {
   pair: string;
@@ -76,102 +77,116 @@ export function RunMyTradeShowcase() {
     };
   }, [accountSize, riskPercent, preset, selectedKey]);
 
+  const btnActive = {
+    backgroundColor: "var(--accent)",
+    color: "var(--surface-base)",
+    borderColor: "var(--accent)",
+  };
+  const btnInactive = {
+    backgroundColor: "var(--surface-inset)",
+    color: "var(--text-secondary)",
+    borderColor: "var(--border-subtle)",
+  };
+
   return (
     <section
-      className="w-full py-24 md:py-32 border-b select-none relative"
+      className="w-full border-b select-none relative"
       style={{
-        backgroundColor: "var(--paper-0)",
-        borderColor: "var(--line-200)",
+        backgroundColor: "var(--surface-base)",
+        borderColor: "var(--border-subtle)",
+        paddingTop: "var(--section-y-desktop)",
+        paddingBottom: "var(--section-y-desktop)",
       }}
     >
-      <div className="max-w-[1280px] mx-auto px-6">
+      <div className="max-w-[1200px] mx-auto px-6">
         {/* Section Header */}
-        <div className="max-w-3xl mb-16 space-y-4">
-          <div 
-            className="inline-flex items-center gap-2 px-3 py-1 border text-[10px] font-mono font-bold uppercase tracking-widest text-[var(--ink-950)]" 
-            style={{ 
-              backgroundColor: "#FFFFFF", 
-              borderColor: "var(--line-200)",
-              borderRadius: "5px",
-              boxShadow: "0 1px 2px rgba(11, 14, 18, 0.02)"
-            }}
-          >
-            <Zap size={12} className="text-amber-500 fill-amber-500" />
-            Interactive Product Demonstration
+        <Reveal>
+          <div className="max-w-3xl mb-16 space-y-4">
+            <div
+              className="inline-flex items-center gap-2 px-3 py-1 text-[10px] font-mono font-bold uppercase tracking-widest"
+              style={{
+                backgroundColor: "var(--accent-muted)",
+                color: "var(--accent)",
+                borderRadius: "var(--radius-pill)",
+              }}
+            >
+              <Zap size={12} />
+              Interactive Product Demonstration
+            </div>
+            <h2
+              className="type-display-lg font-normal"
+              style={{ color: "var(--text-primary)" }}
+            >
+              RUN MY TRADE — Pre-Trade Risk Calculation
+            </h2>
+            <p
+              className="type-body-lg font-normal"
+              style={{ color: "var(--text-secondary)" }}
+            >
+              Never place an unquantified trade again. Enter your idea, see your exact mathematical lot size, verify the risk-to-reward ratio, and lock your plan before opening your broker terminal.
+            </p>
           </div>
-          <h2
-            className="font-display text-[clamp(2.25rem,4vw,3.5rem)] leading-[1.08] tracking-[-0.02em] font-semibold"
-            style={{ color: "var(--ink-950)" }}
-          >
-            PLAN MY TRADE: The Aha Moment.
-          </h2>
-          <p
-            className="text-[17px] leading-[1.6] font-sans"
-            style={{ color: "var(--graphite-600)" }}
-          >
-            Never place an unquantified trade again. Enter your idea, see your exact mathematical lot size, verify the risk-to-reward ratio, and lock your plan before opening your broker terminal.
-          </p>
-        </div>
+        </Reveal>
 
-        {/* Interactive Simulator Shell (LEVEL 1 Structural Chassis) */}
+        {/* Interactive Simulator Shell */}
+        <Reveal delay={0.1}>
         <div
-          className="border overflow-hidden transition-all duration-300"
+          className="overflow-hidden transition-all duration-300"
           style={{
-            backgroundColor: "#FFFFFF",
-            borderColor: "var(--line-200)",
-            borderRadius: "10px",
-            boxShadow: "0 1px 3px rgba(11, 14, 18, 0.04), 0 12px 36px -10px rgba(11, 14, 18, 0.08)",
+            backgroundColor: "var(--surface-raised)",
+            borderRadius: "var(--radius-lg)",
+            boxShadow: "var(--elev-3)",
           }}
         >
           {/* Top Bar / Terminal Header */}
           <div
             className="px-6 py-4 border-b flex flex-wrap items-center justify-between gap-4"
-            style={{ 
-              backgroundColor: "var(--paper-100)",
-              borderColor: "var(--line-200)" 
+            style={{
+              backgroundColor: "var(--surface-overlay)",
+              borderColor: "var(--border-subtle)",
             }}
           >
             <div className="flex items-center gap-3">
-              {/* Removed animate-pulse dot — static indicator, not a live system */}
-              <span className="w-2.5 h-2.5 rounded-full bg-gray-400" />
-              <span className="font-mono text-xs font-bold text-gray-900 tracking-wider">
-                {/* FIX 1: Removed "LIVE" and "ENGINE" — this is sample data, not a connected system */}
-                PLAN_MY_TRADE // SAMPLE DATA · CALCULATOR ONLY
+              <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: "var(--text-tertiary)" }} />
+              <span className="font-mono text-xs font-bold tracking-wider uppercase" style={{ color: "var(--text-primary)" }}>
+                RUN MY TRADE · SAMPLE CALCULATION
               </span>
             </div>
             <div className="flex items-center gap-2">
-              <span 
-                className="text-[10px] font-mono uppercase px-2 py-0.5 border rounded-[4px] font-medium"
+              <span
+                className="text-[10px] font-mono uppercase px-2 py-0.5 font-medium"
                 style={{
-                  backgroundColor: "#FFFFFF",
-                  borderColor: "var(--line-200)",
-                  color: "var(--graphite-600)"
+                  backgroundColor: "var(--surface-inset)",
+                  borderRadius: "var(--radius-pill)",
+                  color: "var(--text-tertiary)",
                 }}
               >
-                {/* FIX 1: "Real-time Math" replaced — no live data, just local arithmetic */}
                 Client-Side Arithmetic · No Market Connection
               </span>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 divide-y lg:divide-y-0 lg:divide-x" style={{ borderColor: "var(--line-200)" }}>
-            {/* Left Controls Column (LEVEL 2 Input Layer) */}
-            <div 
+          <div
+            className="grid grid-cols-1 lg:grid-cols-12 divide-y lg:divide-y-0 lg:divide-x"
+            style={{ borderColor: "var(--border-subtle)" }}
+          >
+            {/* Left Controls Column */}
+            <div
               className="lg:col-span-5 p-6 md:p-8 space-y-6"
-              style={{ backgroundColor: "rgba(250, 250, 249, 0.6)" }}
+              style={{ backgroundColor: "var(--surface-raised)" }}
             >
-              <div className="flex items-center justify-between border-b pb-3" style={{ borderColor: "var(--line-200)" }}>
-                <span className="text-[10px] font-mono uppercase tracking-[0.1em] font-bold text-gray-500">
+              <div className="flex items-center justify-between border-b pb-3" style={{ borderColor: "var(--border-subtle)" }}>
+                <span className="text-[10px] font-mono uppercase tracking-[0.1em] font-bold" style={{ color: "var(--text-tertiary)" }}>
                   Step 1 · Input Parameters
                 </span>
-                <span className="text-[10px] font-mono text-gray-400">
+                <span className="text-[10px] font-mono" style={{ color: "var(--text-tertiary)" }}>
                   PRE-TRADE
                 </span>
               </div>
 
               {/* 1. Instrument Selector */}
               <div>
-                <label className="text-[10px] font-mono uppercase tracking-wider text-gray-500 block mb-2 font-bold">
+                <label className="text-[10px] font-mono uppercase tracking-wider block mb-2 font-bold" style={{ color: "var(--text-tertiary)" }}>
                   Select Instrument
                 </label>
                 <div className="grid grid-cols-3 sm:grid-cols-5 gap-1.5">
@@ -179,11 +194,12 @@ export function RunMyTradeShowcase() {
                     <button
                       key={k}
                       onClick={() => setSelectedKey(k)}
-                      className={`px-3 py-2 text-xs font-mono font-bold border transition-all duration-150 rounded-[5px] active:translate-y-0.5 ${
-                        selectedKey === k
-                          ? "bg-gray-900 text-white border-gray-900 shadow-sm"
-                          : "bg-white text-gray-700 border-gray-200 hover:border-gray-400 hover:bg-gray-50/80"
-                      }`}
+                      className="px-3 py-2 text-xs font-mono font-bold transition-all duration-150 active:translate-y-0.5"
+                      style={{
+                        borderRadius: "var(--radius-sm)",
+                        border: "1px solid",
+                        ...(selectedKey === k ? btnActive : btnInactive),
+                      }}
                     >
                       {PRESETS[k].pair}
                     </button>
@@ -191,30 +207,31 @@ export function RunMyTradeShowcase() {
                 </div>
               </div>
 
-              {/* 2. Direction Toggle — FIX 3: neutral outline styling, not a green/red order ticket */}
+              {/* 2. Direction Toggle */}
               <div>
-                <label className="text-[10px] font-mono uppercase tracking-wider text-gray-500 block mb-2 font-bold">
-                  {/* FIX 3: relabelled from "Trade Bias" to "Direction" to read as a calculator input */}
+                <label className="text-[10px] font-mono uppercase tracking-wider block mb-2 font-bold" style={{ color: "var(--text-tertiary)" }}>
                   Direction
                 </label>
                 <div className="grid grid-cols-2 gap-2">
                   <button
                     onClick={() => setDirection("LONG")}
-                    className={`flex items-center justify-center gap-2 py-2.5 border font-mono text-xs font-bold transition-all duration-150 rounded-[5px] active:translate-y-0.5 ${
-                      direction === "LONG"
-                        ? "bg-gray-900 text-white border-gray-900 shadow-sm"
-                        : "bg-white text-gray-700 border-gray-200 hover:border-gray-400"
-                    }`}
+                    className="flex items-center justify-center gap-2 py-2.5 font-mono text-xs font-bold transition-all duration-150 active:translate-y-0.5"
+                    style={{
+                      borderRadius: "var(--radius-sm)",
+                      border: "1px solid",
+                      ...(direction === "LONG" ? btnActive : btnInactive),
+                    }}
                   >
                     <TrendingUp size={14} /> Long ↑
                   </button>
                   <button
                     onClick={() => setDirection("SHORT")}
-                    className={`flex items-center justify-center gap-2 py-2.5 border font-mono text-xs font-bold transition-all duration-150 rounded-[5px] active:translate-y-0.5 ${
-                      direction === "SHORT"
-                        ? "bg-gray-900 text-white border-gray-900 shadow-sm"
-                        : "bg-white text-gray-700 border-gray-200 hover:border-gray-400"
-                    }`}
+                    className="flex items-center justify-center gap-2 py-2.5 font-mono text-xs font-bold transition-all duration-150 active:translate-y-0.5"
+                    style={{
+                      borderRadius: "var(--radius-sm)",
+                      border: "1px solid",
+                      ...(direction === "SHORT" ? btnActive : btnInactive),
+                    }}
                   >
                     <TrendingDown size={14} /> Short ↓
                   </button>
@@ -223,7 +240,7 @@ export function RunMyTradeShowcase() {
 
               {/* 3. Account Capital */}
               <div>
-                <label className="text-[10px] font-mono uppercase tracking-wider text-gray-500 block mb-2 font-bold">
+                <label className="text-[10px] font-mono uppercase tracking-wider block mb-2 font-bold" style={{ color: "var(--text-tertiary)" }}>
                   Account Equity (GBP)
                 </label>
                 <div className="grid grid-cols-4 gap-1.5">
@@ -231,11 +248,12 @@ export function RunMyTradeShowcase() {
                     <button
                       key={cap}
                       onClick={() => setAccountSize(cap)}
-                      className={`py-2 text-xs font-mono border font-bold transition-all duration-150 rounded-[5px] active:translate-y-0.5 ${
-                        accountSize === cap
-                          ? "bg-gray-900 text-white border-gray-900 shadow-sm"
-                          : "bg-white text-gray-700 border-gray-200 hover:border-gray-400"
-                      }`}
+                      className="py-2 text-xs font-mono font-bold transition-all duration-150 active:translate-y-0.5"
+                      style={{
+                        borderRadius: "var(--radius-sm)",
+                        border: "1px solid",
+                        ...(accountSize === cap ? btnActive : btnInactive),
+                      }}
                     >
                       £{(cap / 1000)}k
                     </button>
@@ -246,10 +264,10 @@ export function RunMyTradeShowcase() {
               {/* 4. Risk Per Trade */}
               <div>
                 <div className="flex justify-between items-center mb-2">
-                  <label className="text-[10px] font-mono uppercase tracking-wider text-gray-500 font-bold">
+                  <label className="text-[10px] font-mono uppercase tracking-wider font-bold" style={{ color: "var(--text-tertiary)" }}>
                     Risk Percentage
                   </label>
-                  <span className="font-mono text-xs font-bold text-gray-900 tabular-nums">
+                  <span className="font-mono text-xs font-bold tabular-nums" style={{ color: "var(--text-primary)" }}>
                     {riskPercent.toFixed(1)}% (<AnimatedMetric value={`£${math.riskAmount}`} />)
                   </span>
                 </div>
@@ -258,11 +276,12 @@ export function RunMyTradeShowcase() {
                     <button
                       key={pct}
                       onClick={() => setRiskPercent(pct)}
-                      className={`py-2 text-xs font-mono border font-bold transition-all duration-150 rounded-[5px] active:translate-y-0.5 ${
-                        riskPercent === pct
-                          ? "bg-gray-900 text-white border-gray-900 shadow-sm"
-                          : "bg-white text-gray-700 border-gray-200 hover:border-gray-400"
-                      }`}
+                      className="py-2 text-xs font-mono font-bold transition-all duration-150 active:translate-y-0.5"
+                      style={{
+                        borderRadius: "var(--radius-sm)",
+                        border: "1px solid",
+                        ...(riskPercent === pct ? btnActive : btnInactive),
+                      }}
                     >
                       {pct}%
                     </button>
@@ -270,192 +289,204 @@ export function RunMyTradeShowcase() {
                 </div>
               </div>
 
-              {/* 5. Planned Price Levels (Inset Precision Monitor) */}
-              <div 
-                className="p-4 border text-xs font-mono space-y-2 rounded-[6px]" 
-                style={{ 
-                  backgroundColor: "#FFFFFF",
-                  borderColor: "var(--line-200)",
-                  boxShadow: "inset 0 1px 2px rgba(0, 0, 0, 0.02)"
+              {/* 5. Planned Price Levels */}
+              <div
+                className="p-4 text-xs font-mono space-y-2"
+                style={{
+                  backgroundColor: "var(--surface-inset)",
+                  borderRadius: "var(--radius-sm)",
                 }}
               >
-                <div className="text-[10px] font-mono uppercase tracking-wider text-gray-400 font-bold pb-1 border-b" style={{ borderColor: "var(--line-200)" }}>
+                <div
+                  className="text-[10px] font-mono uppercase tracking-wider font-bold pb-1 border-b"
+                  style={{ color: "var(--text-tertiary)", borderColor: "var(--border-subtle)" }}
+                >
                   Structural Price Levels
                 </div>
-                <div className="flex justify-between text-gray-600">
+                <div className="flex justify-between" style={{ color: "var(--text-secondary)" }}>
                   <span>Planned Entry:</span>
-                  <span className="font-bold text-gray-900 tabular-nums">{preset.entry.toFixed(preset.decimals)}</span>
+                  <span className="font-bold tabular-nums" style={{ color: "var(--text-primary)" }}>{preset.entry.toFixed(preset.decimals)}</span>
                 </div>
-                <div className="flex justify-between text-red-600">
+                <div className="flex justify-between" style={{ color: "var(--market-down)" }}>
                   <span>Stop Loss ({math.stopPips} {preset.unit}):</span>
                   <span className="font-bold tabular-nums">{preset.stop.toFixed(preset.decimals)}</span>
                 </div>
-                <div className="flex justify-between text-emerald-600">
+                <div className="flex justify-between" style={{ color: "var(--market-up)" }}>
                   <span>Target 1 ({math.targetPips} {preset.unit}):</span>
                   <span className="font-bold tabular-nums">{preset.target.toFixed(preset.decimals)}</span>
                 </div>
               </div>
             </div>
 
-            {/* Right Output / Result Dashboard (LEVEL 3 Validated Output Layer) */}
-            <div className="lg:col-span-7 p-6 md:p-8 bg-white flex flex-col justify-between">
+            {/* Right Output / Result Dashboard */}
+            <div
+              className="lg:col-span-7 p-6 md:p-8 flex flex-col justify-between"
+              style={{ backgroundColor: "var(--surface-overlay)" }}
+            >
               <div className="space-y-6">
-                <div className="flex items-center justify-between border-b pb-3" style={{ borderColor: "var(--line-200)" }}>
+                <div className="flex items-center justify-between border-b pb-3" style={{ borderColor: "var(--border-subtle)" }}>
                   <div>
-                    <span className="text-[10px] font-mono uppercase tracking-wider text-gray-500 font-bold block mb-0.5">
+                    <span className="text-[10px] font-mono uppercase tracking-wider font-bold block mb-0.5" style={{ color: "var(--text-tertiary)" }}>
                       Step 2 · Validated Trade Plan Output
                     </span>
-                    <h3 className="font-display text-xl md:text-2xl font-bold text-gray-900">
+                    <h3 className="font-display text-xl md:text-2xl font-bold" style={{ color: "var(--text-primary)" }}>
                       Calculated Position Parameters
                     </h3>
                   </div>
-                  <div 
-                    className="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1 text-[10px] font-mono font-bold uppercase rounded-[4px] border"
+                  <div
+                    className="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1 text-[10px] font-mono font-bold uppercase"
                     style={{
-                      backgroundColor: "var(--paper-100)",
-                      borderColor: "var(--line-200)",
-                      color: "var(--signal-navy)"
+                      backgroundColor: "var(--accent-muted)",
+                      color: "var(--accent)",
+                      borderRadius: "var(--radius-pill)",
                     }}
                   >
                     <ShieldCheck size={12} /> Model Validated
                   </div>
                 </div>
 
-                {/* 4 Metric Cards with Level 3 Depth */}
+                {/* 4 Metric Cards */}
                 <div className="grid grid-cols-2 gap-3.5">
-                  <div 
-                    className="p-4 border rounded-[8px] transition-all duration-200" 
-                    style={{ 
-                      backgroundColor: "#FFFFFF",
-                      borderColor: "var(--line-200)",
-                      boxShadow: "0 1px 3px rgba(11, 14, 18, 0.03), inset 0 1px 0 rgba(255, 255, 255, 0.8)"
+                  <div
+                    className="p-4 transition-all duration-200"
+                    style={{
+                      backgroundColor: "var(--surface-raised)",
+                      borderRadius: "var(--radius-md)",
+                      boxShadow: "var(--elev-1)",
                     }}
                   >
-                    <span className="text-[10px] font-mono uppercase tracking-wider text-gray-400 block mb-1">Calculated Lot Size</span>
-                    <div className="font-mono text-2xl md:text-3xl font-black text-gray-900 block leading-tight">
-                      <AnimatedMetric value={math.lotSize} /> <span className="text-xs font-normal text-gray-500">lots</span>
+                    <span className="text-[10px] font-mono uppercase tracking-wider block mb-1" style={{ color: "var(--text-tertiary)" }}>Calculated Lot Size</span>
+                    <div className="font-mono text-2xl md:text-3xl font-black block leading-tight" style={{ color: "var(--text-primary)" }}>
+                      <AnimatedMetric value={math.lotSize} /> <span className="text-xs font-normal" style={{ color: "var(--text-tertiary)" }}>lots</span>
                     </div>
-                    <span className="text-[10px] font-mono text-emerald-700 mt-1 block">
+                    <span className="text-[10px] font-mono mt-1 block" style={{ color: "var(--market-up)" }}>
                       Normalized for £{math.riskAmount} risk
                     </span>
                   </div>
 
-                  <div 
-                    className="p-4 border rounded-[8px] transition-all duration-200" 
-                    style={{ 
-                      backgroundColor: "#FFFFFF",
-                      borderColor: "var(--line-200)",
-                      boxShadow: "0 1px 3px rgba(11, 14, 18, 0.03), inset 0 1px 0 rgba(255, 255, 255, 0.8)"
+                  <div
+                    className="p-4 transition-all duration-200"
+                    style={{
+                      backgroundColor: "var(--surface-raised)",
+                      borderRadius: "var(--radius-md)",
+                      boxShadow: "var(--elev-1)",
                     }}
                   >
-                    <span className="text-[10px] font-mono uppercase tracking-wider text-gray-400 block mb-1">Reward / Risk Ratio</span>
-                    <div className="font-mono text-2xl md:text-3xl font-black text-emerald-600 block leading-tight">
+                    <span className="text-[10px] font-mono uppercase tracking-wider block mb-1" style={{ color: "var(--text-tertiary)" }}>Reward / Risk Ratio</span>
+                    <div className="font-mono text-2xl md:text-3xl font-black block leading-tight" style={{ color: "var(--market-up)" }}>
                       1 : <AnimatedMetric value={math.rrRatio} />
                     </div>
-                    <span className="text-[10px] font-mono text-gray-500 mt-1 block">
+                    <span className="text-[10px] font-mono mt-1 block" style={{ color: "var(--text-tertiary)" }}>
                       Potential Gain: +£<AnimatedMetric value={math.potentialProfit} />
                     </span>
                   </div>
 
-                  <div 
-                    className="p-4 border rounded-[8px] transition-all duration-200" 
-                    style={{ 
-                      backgroundColor: "#FFFFFF",
-                      borderColor: "var(--line-200)",
-                      boxShadow: "0 1px 3px rgba(11, 14, 18, 0.03), inset 0 1px 0 rgba(255, 255, 255, 0.8)"
+                  <div
+                    className="p-4 transition-all duration-200"
+                    style={{
+                      backgroundColor: "var(--surface-raised)",
+                      borderRadius: "var(--radius-md)",
+                      boxShadow: "var(--elev-1)",
                     }}
                   >
-                    <span className="text-[10px] font-mono uppercase tracking-wider text-gray-400 block mb-1">Max Drawdown Impact</span>
-                    <div className="font-mono text-xl md:text-2xl font-bold text-gray-900 block leading-tight">
+                    <span className="text-[10px] font-mono uppercase tracking-wider block mb-1" style={{ color: "var(--text-tertiary)" }}>Max Drawdown Impact</span>
+                    <div className="font-mono text-xl md:text-2xl font-bold block leading-tight" style={{ color: "var(--text-primary)" }}>
                       -<AnimatedMetric value={math.drawdownImpact} />%
                     </div>
-                    <span className="text-[10px] font-mono text-gray-500 mt-1 block">
+                    <span className="text-[10px] font-mono mt-1 block" style={{ color: "var(--text-tertiary)" }}>
                       Safe buffer on capital
                     </span>
                   </div>
 
-                  <div 
-                    className="p-4 border rounded-[8px] transition-all duration-200" 
-                    style={{ 
-                      backgroundColor: "#FFFFFF",
-                      borderColor: "var(--line-200)",
-                      boxShadow: "0 1px 3px rgba(11, 14, 18, 0.03), inset 0 1px 0 rgba(255, 255, 255, 0.8)"
+                  <div
+                    className="p-4 transition-all duration-200"
+                    style={{
+                      backgroundColor: "var(--surface-raised)",
+                      borderRadius: "var(--radius-md)",
+                      boxShadow: "var(--elev-1)",
                     }}
                   >
-                    <span className="text-[10px] font-mono uppercase tracking-wider text-gray-400 block mb-1">Discipline Score</span>
-                    <span className="font-mono text-xl md:text-2xl font-bold text-emerald-600 block flex items-center gap-1.5 leading-tight">
-                      <CheckCircle2 size={18} className="text-emerald-500 shrink-0" /> PASS
+                    <span className="text-[10px] font-mono uppercase tracking-wider block mb-1" style={{ color: "var(--text-tertiary)" }}>Discipline Score</span>
+                    <span className="font-mono text-xl md:text-2xl font-bold flex items-center gap-1.5 leading-tight" style={{ color: "var(--market-up)" }}>
+                      <CheckCircle2 size={18} className="shrink-0" /> PASS
                     </span>
-                    <span className="text-[10px] font-mono text-gray-500 mt-1 block">
+                    <span className="text-[10px] font-mono mt-1 block" style={{ color: "var(--text-tertiary)" }}>
                       Pre-trade rules satisfied
                     </span>
                   </div>
                 </div>
 
-                {/* Pre-Trade Validation Checklist (Restrained Confirmation Frame) */}
-                <div 
-                  className="p-4 border space-y-2 rounded-[8px] transition-all duration-200" 
-                  style={{ 
-                    backgroundColor: "var(--paper-100)",
-                    borderColor: "var(--line-200)",
-                    boxShadow: "0 1px 2px rgba(11, 14, 18, 0.02)"
+                {/* Pre-Trade Validation Checklist */}
+                <div
+                  className="p-4 space-y-2 transition-all duration-200"
+                  style={{
+                    backgroundColor: "var(--surface-raised)",
+                    borderRadius: "var(--radius-md)",
                   }}
                 >
                   <div className="flex items-center justify-between">
-                    <span className="text-[10px] font-mono uppercase tracking-wider text-gray-600 block font-bold">
+                    <span className="text-[10px] font-mono uppercase tracking-wider block font-bold" style={{ color: "var(--text-secondary)" }}>
                       Pre-Trade Discipline Checklist
                     </span>
-                    <span className="text-[9px] font-mono uppercase font-semibold text-emerald-700 bg-emerald-50 border border-emerald-200 px-1.5 py-0.5 rounded-[3px]">
+                    <span
+                      className="text-[9px] font-mono uppercase font-semibold px-1.5 py-0.5"
+                      style={{
+                        backgroundColor: "color-mix(in srgb, var(--market-up) 12%, transparent)",
+                        color: "var(--market-up)",
+                        borderRadius: "var(--radius-pill)",
+                      }}
+                    >
                       Validated State
                     </span>
                   </div>
-                  <div className="space-y-1.5 text-xs font-mono text-gray-700">
-                    <div className="flex items-center gap-2 text-emerald-700">
-                      <CheckCircle2 size={13} className="shrink-0 text-emerald-600" />
+                  <div className="space-y-1.5 text-xs font-mono" style={{ color: "var(--market-up)" }}>
+                    <div className="flex items-center gap-2">
+                      <CheckCircle2 size={13} className="shrink-0" />
                       <span>Stop loss is at structural invalidation point (not arbitrary)</span>
                     </div>
-                    <div className="flex items-center gap-2 text-emerald-700">
-                      <CheckCircle2 size={13} className="shrink-0 text-emerald-600" />
+                    <div className="flex items-center gap-2">
+                      <CheckCircle2 size={13} className="shrink-0" />
                       <span>R:R exceeds minimum 1 : 1.5 rule ({math.rrRatio} R:R confirmed)</span>
                     </div>
-                    <div className="flex items-center gap-2 text-emerald-700">
-                      <CheckCircle2 size={13} className="shrink-0 text-emerald-600" />
+                    <div className="flex items-center gap-2">
+                      <CheckCircle2 size={13} className="shrink-0" />
                       <span>Account exposure strictly limited to {riskPercent}% max drawdown</span>
                     </div>
                   </div>
                 </div>
               </div>
 
-              {/* FIX 2: Execution disclaimer directly attached to this widget */}
+              {/* Execution disclaimer — do not alter this copy */}
               <div
-                className="mt-6 flex items-start gap-2.5 px-4 py-3 border rounded-[6px]"
+                className="mt-6 flex items-start gap-2.5 px-4 py-3"
                 style={{
-                  backgroundColor: "var(--paper-100)",
-                  borderColor: "var(--line-200)",
+                  backgroundColor: "var(--surface-raised)",
+                  borderRadius: "var(--radius-sm)",
+                  border: "1px solid var(--border-subtle)",
                 }}
               >
-                <AlertCircle size={13} className="text-gray-400 shrink-0 mt-0.5" />
-                <p className="text-[11px] font-mono text-gray-500 leading-relaxed">
+                <AlertCircle size={13} className="shrink-0 mt-0.5" style={{ color: "var(--text-tertiary)" }} />
+                <p className="text-[11px] font-mono leading-relaxed" style={{ color: "var(--text-tertiary)" }}>
                   This calculator does not place, route, or execute any trade. It does not connect to any broker or exchange. Every figure shown is computed entirely from the inputs you select above — no live market data is used. Drawdown does not route orders or hold client funds. All execution occurs at your independent broker terminal.
                 </p>
               </div>
 
-              {/* Bottom CTA Row (LEVEL 4 Action Trigger) */}
-              <div 
-                className="mt-6 pt-5 border-t flex flex-col sm:flex-row items-center justify-between gap-4" 
-                style={{ borderColor: "var(--line-200)" }}
+              {/* Bottom CTA Row */}
+              <div
+                className="mt-6 pt-5 border-t flex flex-col sm:flex-row items-center justify-between gap-4"
+                style={{ borderColor: "var(--border-subtle)" }}
               >
-                {/* FIX 2: Old one-liner "Decision-support infrastructure" replaced by the panel above.
-                    Keeping a short label here for layout balance only. */}
-                <div className="text-[11px] font-mono text-gray-400">
+                <div className="text-[11px] font-mono" style={{ color: "var(--text-tertiary)" }}>
                   Sample data · For planning purposes only
                 </div>
-                {/* FIX 4: CTA reworded — signals planning/calculation, not order submission */}
                 <Link
                   href="/signup"
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 bg-gray-900 text-white font-mono text-xs font-bold uppercase tracking-wider hover:bg-black transition-all duration-150 rounded-[6px] active:translate-y-0.5"
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 font-mono text-xs font-bold uppercase tracking-wider transition-all duration-150 active:translate-y-0.5"
                   style={{
-                    boxShadow: "0 1px 2px rgba(11, 14, 18, 0.08), 0 4px 12px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.15)"
+                    backgroundColor: "var(--accent)",
+                    color: "var(--surface-base)",
+                    borderRadius: "var(--radius-md)",
+                    boxShadow: "var(--elev-2)",
                   }}
                 >
                   Plan My Position — Free Account <ArrowRight size={14} />
@@ -464,6 +495,7 @@ export function RunMyTradeShowcase() {
             </div>
           </div>
         </div>
+        </Reveal>
       </div>
     </section>
   );

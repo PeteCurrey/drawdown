@@ -83,14 +83,14 @@ export function TradingViewSection() {
   return (
     <section 
       className="w-full bg-[#050505] text-white py-24 select-none relative border-b border-zinc-900"
-      style={{ contentVisibility: "auto" }}
+      style={{ contentVisibility: "auto", paddingTop: "var(--section-y-desktop)", paddingBottom: "var(--section-y-desktop)" }}
     >
       <div className="max-w-[1280px] mx-auto px-6">
         
         {/* Top Monospace Label */}
         <div className="space-y-4 mb-12">
-          <span className="block text-[11px] font-mono uppercase tracking-[0.08em] text-zinc-500">
-            // CHARTING PARTNER
+          <span className="block type-label uppercase text-zinc-500">
+            CHARTING PARTNER
           </span>
           <div className="flex items-center gap-2 text-zinc-400">
             <TradingViewLogo className="w-5 h-5 text-white" />
@@ -105,18 +105,18 @@ export function TradingViewSection() {
           
           {/* Left Column Description Block */}
           <div className="lg:col-span-5 space-y-8">
-            <h2 className="font-display text-[clamp(2rem,4.5vw,3rem)] leading-[1.1] tracking-[-0.03em] font-bold text-white">
+            <h2 className="type-display-lg font-normal text-white">
               The chart platform <br />
               serious traders <br />
               actually use.
             </h2>
 
-            <div className="space-y-4 text-zinc-400 text-[14px] font-sans leading-relaxed">
+            <div className="space-y-4 text-zinc-400 type-body font-normal leading-relaxed">
               <p>
-                Every chart example in the Drawdown curriculum runs on TradingView. We use it ourselves — every session, every analysis, without exception. Sixty million traders globally. Real-time data across every market we teach.
+                Every chart walkthrough and technical setup in the Drawdown curriculum is built on TradingView. It provides real-time multi-asset market data, institutional charting tools, and server-side alerts across every market we cover.
               </p>
               <p>
-                It's the one tool we recommend without reservation.
+                We use it across our daily sessions and recommend it as our standard charting environment.
               </p>
             </div>
 
@@ -130,19 +130,19 @@ export function TradingViewSection() {
               ))}
             </ul>
 
-            {/* Neon Green Call to Action Button */}
+            {/* Call to Action Button */}
             <div className="space-y-4 pt-4">
               <Link
                 href="/go/tradingview"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-[#b6f900] hover:bg-[#a5df00] text-black font-sans font-bold text-[13px] uppercase tracking-wider transition-all duration-200 shadow-[0_0_20px_rgba(182,249,0,0.15)] hover:shadow-[0_0_25px_rgba(182,249,0,0.3)]"
-                style={{ borderRadius: 0 }}
+                style={{ borderRadius: "var(--radius-md)" }}
               >
                 Try TradingView Free →
               </Link>
               <p className="text-[11px] font-sans text-zinc-500 leading-snug">
-                Affiliate link — we earn a commission if you upgrade. We use TradingView ourselves and recommend it without qualification.
+                Partner link — we receive compensation if you subscribe to a paid plan. We use TradingView daily across our analysis and education.
               </p>
             </div>
 
@@ -150,10 +150,10 @@ export function TradingViewSection() {
             <div className="grid grid-cols-3 gap-6 pt-8 border-t border-zinc-900">
               {metrics.map((m, index) => (
                 <div key={index} className="space-y-1">
-                  <div className="text-[20px] font-display font-semibold text-white tracking-tight">
+                  <div className="font-mono tabular-nums text-[20px] font-semibold text-white tracking-tight">
                     {m.value}
                   </div>
-                  <div className="text-[9px] font-mono tracking-widest text-zinc-500 uppercase font-bold">
+                  <div className="type-label tracking-widest text-zinc-500 uppercase font-bold">
                     {m.label}
                   </div>
                 </div>
@@ -166,7 +166,7 @@ export function TradingViewSection() {
           <div className="lg:col-span-7 h-[420px] lg:h-[500px] w-full border border-zinc-900 bg-[#0c0c0e] relative overflow-hidden flex flex-col">
             <div className="absolute top-0 left-0 right-0 h-9 bg-[#131722] border-b border-zinc-900 px-4 flex items-center justify-between z-10">
               <div className="flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-[#10b981] animate-pulse" />
+                <span className="w-2 h-2 rounded-full bg-[var(--market-up)] animate-pulse" />
                 <span className="text-[11px] font-mono font-bold tracking-wider text-zinc-300">LIVE</span>
                 <span className="text-[11px] font-mono tracking-wider text-zinc-400">GBP/USD</span>
                 <span className="text-[11px] font-mono text-zinc-500">1H</span>

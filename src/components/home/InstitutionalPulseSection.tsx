@@ -11,7 +11,7 @@ interface Signal {
   description: string;
   color: string;
   bgColor: string;
-  badgeColor: string;
+  badgeStyle: React.CSSProperties;
 }
 
 export function InstitutionalPulseSection() {
@@ -42,22 +42,34 @@ export function InstitutionalPulseSection() {
         if (Array.isArray(conData) && conData.length > 0) {
           const mappedSignals = conData.slice(0, 4).map((item) => {
             let type = "NEUTRAL";
-            let color = "var(--mkt-amb)";
-            let bgColor = "rgba(245, 158, 11, 0.05)";
-            let badgeColor = "text-mkt-amb bg-amber-50/50 border-amber-200";
+            let color = "var(--market-flat)";
+            let bgColor = "color-mix(in srgb, var(--market-flat) 5%, transparent)";
+            let badgeStyle = {
+              color: "var(--market-flat)",
+              backgroundColor: "color-mix(in srgb, var(--market-flat) 10%, transparent)",
+              borderColor: "color-mix(in srgb, var(--market-flat) 25%, transparent)"
+            };
             let icon = ShieldAlert;
 
             if (item.verdict.toLowerCase().includes("buy")) {
               type = "BULLISH";
-              color = "var(--mkt-grn)";
-              bgColor = "var(--mkt-gbg)";
-              badgeColor = "text-mkt-grn bg-mkt-gbg border-mkt-gbd";
+              color = "var(--market-up)";
+              bgColor = "color-mix(in srgb, var(--market-up) 10%, transparent)";
+              badgeStyle = {
+                color: "var(--market-up)",
+                backgroundColor: "color-mix(in srgb, var(--market-up) 10%, transparent)",
+                borderColor: "color-mix(in srgb, var(--market-up) 25%, transparent)"
+              };
               icon = ArrowUpRight;
             } else if (item.verdict.toLowerCase().includes("sell")) {
               type = "BEARISH";
-              color = "var(--mkt-red)";
-              bgColor = "var(--mkt-rbg)";
-              badgeColor = "text-mkt-red bg-mkt-rbg border-mkt-rbd";
+              color = "var(--market-down)";
+              bgColor = "color-mix(in srgb, var(--market-down) 10%, transparent)";
+              badgeStyle = {
+                color: "var(--market-down)",
+                backgroundColor: "color-mix(in srgb, var(--market-down) 10%, transparent)",
+                borderColor: "color-mix(in srgb, var(--market-down) 25%, transparent)"
+              };
               icon = ArrowDownRight;
             }
 
@@ -68,7 +80,7 @@ export function InstitutionalPulseSection() {
               description: `${item.symbol} is trading ${item.trend.toLowerCase()} of its 20-period EMA. The 14-period RSI is at ${item.rsi}, indicating ${item.trend === "Bullish" ? "positive" : item.trend === "Bearish" ? "negative" : "neutral"} momentum on the daily timeframe.`,
               color,
               bgColor,
-              badgeColor
+              badgeStyle
             };
           });
           setSignals(mappedSignals);
@@ -120,25 +132,22 @@ export function InstitutionalPulseSection() {
   const neutOffset = -(bullLength + bearLength);
 
   return (
-    <section 
-      className="w-full border-b py-24 select-none relative z-10"
-      style={{ backgroundColor: "var(--paper-0)", borderColor: "var(--line-200)" }}
-    >
-      <div className="max-w-[1280px] mx-auto px-6">
+    <div className="w-full select-none relative z-10">
+      <div>
         
         {/* Section Heading */}
         <div className="mb-16">
-          <span className="text-[11px] font-mono uppercase tracking-[0.08em] block mb-3" style={{ color: "var(--graphite-600)" }}>
-            // SENTIMENT & TECHNICAL CONSENSUS
+          <span className="type-label uppercase block mb-3" style={{ color: "var(--text-secondary)" }}>
+            MARKET SENTIMENT
           </span>
-          <h2 className="font-display text-[clamp(1.75rem,4vw,3rem)] leading-tight tracking-[-0.02em] font-semibold mb-4" style={{ color: "var(--ink-950)" }}>
+          <h2 className="type-display-lg font-normal mb-4" style={{ color: "var(--text-primary)" }}>
             Systemic Market Sentiment
           </h2>
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-            <p className="text-[15px] leading-relaxed font-sans lg:col-span-6" style={{ color: "var(--graphite-600)" }}>
+            <p className="type-body-lg font-normal leading-relaxed lg:col-span-6" style={{ color: "var(--text-secondary)" }}>
               Aggregate sentiment and technical consensus data drawn from global risk gauges and EMA/RSI readings across major instruments.
             </p>
-            <p className="text-[12px] leading-relaxed font-mono lg:col-span-6 border-l pl-6 pt-1" style={{ color: "var(--graphite-600)", borderColor: "var(--line-200)" }}>
+            <p className="text-[12px] leading-relaxed font-mono lg:col-span-6 border-l pl-6 pt-1" style={{ color: "var(--text-secondary)", borderColor: "var(--border-subtle)" }}>
               The Market Sentiment Index compiles global risk gauges (such as the Crypto Fear &amp; Greed Index and the VIX Volatility Index) to map macro exposure. Higher bullish weights signal broad buying appetite, while higher VIX values imply market consolidation.
             </p>
           </div>
@@ -149,8 +158,8 @@ export function InstitutionalPulseSection() {
           
           {/* Left Column: Signal Cards or Feed Offline */}
           <div className="lg:col-span-7 space-y-4">
-            <h3 className="text-xs font-mono font-bold uppercase tracking-wider mb-2 flex items-center gap-2 pl-1" style={{ color: "var(--ink-950)" }}>
-              <RefreshCw className="w-4 h-4" style={{ color: "var(--signal-navy)" }} /> Technical Consensus Signals
+            <h3 className="text-xs font-mono font-bold uppercase tracking-wider mb-2 flex items-center gap-2 pl-1" style={{ color: "var(--text-primary)" }}>
+              <RefreshCw className="w-4 h-4" style={{ color: "var(--accent)" }} /> Technical Consensus Signals
             </h3>
 
             {loading ? (
@@ -160,12 +169,12 @@ export function InstitutionalPulseSection() {
                   <div
                     key={i}
                     className="border p-5 flex items-start gap-4 animate-pulse"
-                    style={{ backgroundColor: "var(--paper-100)", borderColor: "var(--line-200)", borderRadius: 0 }}
+                    style={{ backgroundColor: "var(--surface-raised)", borderColor: "var(--border-subtle)", borderRadius: "var(--radius-md)" }}
                   >
-                    <div className="w-10 h-10 shrink-0" style={{ backgroundColor: "var(--line-200)" }} />
+                    <div className="w-10 h-10 shrink-0" style={{ backgroundColor: "var(--border-subtle)", borderRadius: "var(--radius-md)" }} />
                     <div className="flex-grow space-y-2">
-                      <div className="h-3 w-1/2 rounded" style={{ backgroundColor: "var(--line-200)" }} />
-                      <div className="h-3 w-3/4 rounded" style={{ backgroundColor: "var(--line-200)" }} />
+                      <div className="h-3 w-1/2 rounded-md" style={{ backgroundColor: "var(--border-subtle)" }} />
+                      <div className="h-3 w-3/4 rounded-md" style={{ backgroundColor: "var(--border-subtle)" }} />
                     </div>
                   </div>
                 ))}
@@ -174,13 +183,13 @@ export function InstitutionalPulseSection() {
               // FEED_OFFLINE state — no fabricated fallback
               <div
                 className="border p-8 flex flex-col items-center justify-center gap-3 text-center"
-                style={{ backgroundColor: "var(--paper-100)", borderColor: "var(--line-200)", borderRadius: 0, minHeight: 240 }}
+                style={{ backgroundColor: "var(--surface-raised)", borderColor: "var(--border-subtle)", borderRadius: "var(--radius-md)", minHeight: 240 }}
               >
-                <WifiOff className="w-7 h-7" style={{ color: "var(--graphite-600)" }} />
-                <p className="text-sm font-mono font-bold uppercase tracking-wider" style={{ color: "var(--ink-950)" }}>
+                <WifiOff className="w-7 h-7" style={{ color: "var(--text-secondary)" }} />
+                <p className="text-sm font-mono font-bold uppercase tracking-wider" style={{ color: "var(--text-primary)" }}>
                   Signals Unavailable
                 </p>
-                <p className="text-xs font-sans" style={{ color: "var(--graphite-600)" }}>
+                <p className="text-xs font-sans" style={{ color: "var(--text-secondary)" }}>
                   Could not retrieve consensus data. Check back shortly or refresh the page.
                 </p>
               </div>
@@ -192,18 +201,18 @@ export function InstitutionalPulseSection() {
                     key={idx}
                     className="border p-5 transition-all duration-300 flex items-start gap-4"
                     style={{
-                      backgroundColor: "var(--paper-100)",
-                      borderColor: "var(--line-200)",
-                      borderRadius: 0
+                      backgroundColor: "var(--surface-raised)",
+                      borderColor: "var(--border-subtle)",
+                      borderRadius: "var(--radius-md)"
                     }}
                   >
                     {/* Icon Container */}
                     <div 
                       className="w-10 h-10 flex items-center justify-center shrink-0 border"
                       style={{
-                        borderColor: "var(--line-200)",
-                        backgroundColor: "var(--paper-0)",
-                        borderRadius: 0
+                        borderColor: "var(--border-subtle)",
+                        backgroundColor: "var(--surface-base)",
+                        borderRadius: "var(--radius-md)"
                       }}
                     >
                       <Icon className="w-5 h-5" style={{ color: sig.color }} />
@@ -211,17 +220,17 @@ export function InstitutionalPulseSection() {
                     {/* Card Content */}
                     <div className="flex-grow space-y-1">
                       <div className="flex items-center justify-between">
-                        <h4 className="text-sm font-sans font-bold leading-tight" style={{ color: "var(--ink-950)" }}>
+                        <h4 className="text-sm font-sans font-bold leading-tight" style={{ color: "var(--text-primary)" }}>
                           {sig.title}
                         </h4>
                         <span 
-                          className={cn("text-[9px] font-mono font-bold px-2 py-0.5 border uppercase tracking-wider", sig.badgeColor)}
-                          style={{ borderRadius: 0 }}
+                          className="text-[9px] font-mono font-bold px-2 py-0.5 border uppercase tracking-wider"
+                          style={{ borderRadius: "var(--radius-md)", ...sig.badgeStyle }}
                         >
                           {sig.type}
                         </span>
                       </div>
-                      <p className="text-xs leading-relaxed font-sans pr-4" style={{ color: "var(--graphite-600)" }}>
+                      <p className="text-xs leading-relaxed font-sans pr-4" style={{ color: "var(--text-secondary)" }}>
                         {sig.description}
                       </p>
                     </div>
@@ -233,21 +242,21 @@ export function InstitutionalPulseSection() {
 
           {/* Right Column: Sentiment Ring & Sentiment Bars */}
           <div className="lg:col-span-5 space-y-4">
-            <h3 className="text-xs font-mono font-bold uppercase tracking-wider mb-2 flex items-center gap-2 pl-1" style={{ color: "var(--ink-950)" }}>
-              <BarChart2 className="w-4 h-4" style={{ color: "var(--signal-navy)" }} /> Market Sentiment Profile
+            <h3 className="text-xs font-mono font-bold uppercase tracking-wider mb-2 flex items-center gap-2 pl-1" style={{ color: "var(--text-primary)" }}>
+              <BarChart2 className="w-4 h-4" style={{ color: "var(--accent)" }} /> Market Sentiment Profile
             </h3>
 
             {!loading && !sentimentAvailable ? (
               // Sentiment feed offline
               <div
                 className="border p-8 flex flex-col items-center justify-center gap-3 text-center"
-                style={{ backgroundColor: "var(--paper-100)", borderColor: "var(--line-200)", borderRadius: 0, minHeight: 320 }}
+                style={{ backgroundColor: "var(--surface-raised)", borderColor: "var(--border-subtle)", borderRadius: "var(--radius-md)", minHeight: 320 }}
               >
-                <WifiOff className="w-7 h-7" style={{ color: "var(--graphite-600)" }} />
-                <p className="text-sm font-mono font-bold uppercase tracking-wider" style={{ color: "var(--ink-950)" }}>
+                <WifiOff className="w-7 h-7" style={{ color: "var(--text-secondary)" }} />
+                <p className="text-sm font-mono font-bold uppercase tracking-wider" style={{ color: "var(--text-primary)" }}>
                   Sentiment Feed Offline
                 </p>
-                <p className="text-xs font-sans" style={{ color: "var(--graphite-600)" }}>
+                <p className="text-xs font-sans" style={{ color: "var(--text-secondary)" }}>
                   Could not retrieve sentiment data. Refresh to retry.
                 </p>
               </div>
@@ -255,9 +264,9 @@ export function InstitutionalPulseSection() {
               <div 
                 className="border p-6 flex flex-col items-center"
                 style={{
-                  backgroundColor: "var(--paper-100)",
-                  borderColor: "var(--line-200)",
-                  borderRadius: 0
+                  backgroundColor: "var(--surface-raised)",
+                  borderColor: "var(--border-subtle)",
+                  borderRadius: "var(--radius-md)"
                 }}
               >
                 
@@ -269,7 +278,7 @@ export function InstitutionalPulseSection() {
                       cy="60"
                       r={radius}
                       fill="none"
-                      stroke="var(--line-200)"
+                      stroke="var(--border-subtle)"
                       strokeWidth={strokeWidth}
                     />
                     {/* Bullish Arc (Green) */}
@@ -278,7 +287,7 @@ export function InstitutionalPulseSection() {
                       cy="60"
                       r={radius}
                       fill="none"
-                      stroke="var(--mkt-grn)"
+                      stroke="var(--market-up)"
                       strokeWidth={strokeWidth}
                       strokeDasharray={`${bullLength} ${circ}`}
                       strokeDashoffset={bullOffset}
@@ -289,7 +298,7 @@ export function InstitutionalPulseSection() {
                       cy="60"
                       r={radius}
                       fill="none"
-                      stroke="var(--mkt-red)"
+                      stroke="var(--market-down)"
                       strokeWidth={strokeWidth}
                       strokeDasharray={`${bearLength} ${circ}`}
                       strokeDashoffset={bearOffset}
@@ -300,7 +309,7 @@ export function InstitutionalPulseSection() {
                       cy="60"
                       r={radius}
                       fill="none"
-                      stroke="var(--mkt-amb)"
+                      stroke="var(--market-flat)"
                       strokeWidth={strokeWidth}
                       strokeDasharray={`${neutLength} ${circ}`}
                       strokeDashoffset={neutOffset}
@@ -308,10 +317,10 @@ export function InstitutionalPulseSection() {
                   </svg>
                   {/* Center Text */}
                   <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
-                    <span className="text-3xl font-sans font-extrabold tracking-tighter" style={{ color: "var(--ink-950)" }}>
+                    <span className="text-3xl font-mono tabular-nums font-extrabold tracking-tighter" style={{ color: "var(--text-primary)" }}>
                       {`${Math.round(bullPct * 100)}%`}
                     </span>
-                    <span className="text-[10px] font-sans font-bold uppercase tracking-wider" style={{ color: "var(--mkt-grn)" }}>
+                    <span className="text-[10px] font-sans font-bold uppercase tracking-wider" style={{ color: "var(--market-up)" }}>
                       {sentiment?.label || "Bullish"}
                     </span>
                   </div>
@@ -322,33 +331,33 @@ export function InstitutionalPulseSection() {
                   {/* Bullish Bar */}
                   <div className="space-y-1.5">
                     <div className="flex justify-between text-xs">
-                      <span className="font-sans font-medium" style={{ color: "var(--graphite-600)" }}>Bullish Exposure</span>
-                      <span className="font-mono font-bold" style={{ color: "var(--mkt-grn)" }}>{`${Math.round(bullPct * 100)}%`}</span>
+                      <span className="font-sans font-medium" style={{ color: "var(--text-secondary)" }}>Bullish Exposure</span>
+                      <span className="font-mono tabular-nums font-bold" style={{ color: "var(--market-up)" }}>{`${Math.round(bullPct * 100)}%`}</span>
                     </div>
-                    <div className="w-full h-1 bg-neutral-200 rounded-none overflow-hidden">
-                      <div className="h-full rounded-none transition-all duration-500" style={{ width: `${Math.round(bullPct * 100)}%`, backgroundColor: "var(--mkt-grn)" }} />
+                    <div className="w-full h-1 bg-neutral-200 overflow-hidden" style={{ borderRadius: "var(--radius-md)" }}>
+                      <div className="h-full transition-all duration-500" style={{ width: `${Math.round(bullPct * 100)}%`, backgroundColor: "var(--market-up)", borderRadius: "var(--radius-md)" }} />
                     </div>
                   </div>
 
                   {/* Bearish Bar */}
                   <div className="space-y-1.5">
                     <div className="flex justify-between text-xs">
-                      <span className="font-sans font-medium" style={{ color: "var(--graphite-600)" }}>Bearish Exposure</span>
-                      <span className="font-mono font-bold" style={{ color: "var(--mkt-red)" }}>{`${Math.round(bearPct * 100)}%`}</span>
+                      <span className="font-sans font-medium" style={{ color: "var(--text-secondary)" }}>Bearish Exposure</span>
+                      <span className="font-mono tabular-nums font-bold" style={{ color: "var(--market-down)" }}>{`${Math.round(bearPct * 100)}%`}</span>
                     </div>
-                    <div className="w-full h-1 bg-neutral-200 rounded-none overflow-hidden">
-                      <div className="h-full rounded-none transition-all duration-500" style={{ width: `${Math.round(bearPct * 100)}%`, backgroundColor: "var(--mkt-red)" }} />
+                    <div className="w-full h-1 bg-neutral-200 overflow-hidden" style={{ borderRadius: "var(--radius-md)" }}>
+                      <div className="h-full transition-all duration-500" style={{ width: `${Math.round(bearPct * 100)}%`, backgroundColor: "var(--market-down)", borderRadius: "var(--radius-md)" }} />
                     </div>
                   </div>
 
                   {/* Neutral Bar */}
                   <div className="space-y-1.5">
                     <div className="flex justify-between text-xs">
-                      <span className="font-sans font-medium" style={{ color: "var(--graphite-600)" }}>Neutral Exposure</span>
-                      <span className="font-mono font-bold" style={{ color: "var(--mkt-amb)" }}>{`${Math.round(neutPct * 100)}%`}</span>
+                      <span className="font-sans font-medium" style={{ color: "var(--text-secondary)" }}>Neutral Exposure</span>
+                      <span className="font-mono tabular-nums font-bold" style={{ color: "var(--market-flat)" }}>{`${Math.round(neutPct * 100)}%`}</span>
                     </div>
-                    <div className="w-full h-1 bg-neutral-200 rounded-none overflow-hidden">
-                      <div className="h-full rounded-none transition-all duration-500" style={{ width: `${Math.round(neutPct * 100)}%`, backgroundColor: "var(--mkt-amb)" }} />
+                    <div className="w-full h-1 bg-neutral-200 overflow-hidden" style={{ borderRadius: "var(--radius-md)" }}>
+                      <div className="h-full transition-all duration-500" style={{ width: `${Math.round(neutPct * 100)}%`, backgroundColor: "var(--market-flat)", borderRadius: "var(--radius-md)" }} />
                     </div>
                   </div>
                 </div>
@@ -359,6 +368,6 @@ export function InstitutionalPulseSection() {
 
         </div>
       </div>
-    </section>
+    </div>
   );
 }

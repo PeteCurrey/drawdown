@@ -170,7 +170,7 @@ export function AIToolsSection() {
           <div className="lg:col-span-5 space-y-8">
             <div className="space-y-4">
               <span className="text-[11px] font-sans font-bold text-mkt-i4 uppercase tracking-widest block">
-                // SYSTEM CORE
+                SYSTEM CORE
               </span>
               <h2 className="text-3xl md:text-5xl font-sans font-extrabold text-mkt-ink tracking-tight leading-tight">
                 Built by Traders. <br />

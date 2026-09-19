@@ -222,7 +222,7 @@ export function MarketIntelligencePanel({
     <div
       style={{
         background: "#FAFAF8",
-        fontFamily: "'Inter', 'Geist', system-ui, sans-serif",
+        fontFamily: "'Inter', system-ui, sans-serif",
         padding: 24,
         display: "flex",
         flexDirection: "column",

@@ -224,12 +224,12 @@ export function Navigation() {
   };
 
   // Contrast-safe colors
-  const activeColor = isDarkPage ? "var(--paper-0)" : "var(--signal-navy)";
-  const inactiveColor = isDarkPage ? "rgba(255, 255, 255, 0.6)" : "var(--graphite-600)";
-  const hoverColor = isDarkPage ? "var(--paper-0)" : "var(--ink-950)";
-  const headerBg = isDarkPage ? "var(--ink-950)" : "var(--paper-0)";
+  const activeColor = isDarkPage ? "var(--surface-base)" : "var(--accent)";
+  const inactiveColor = isDarkPage ? "var(--text-secondary)" : "var(--text-secondary)";
+  const hoverColor = isDarkPage ? "var(--surface-base)" : "var(--text-primary)";
+  const headerBg = isScrolled ? "var(--surface-raised)" : (isDarkPage ? "var(--text-primary)" : "var(--surface-base)");
   const borderColor = isScrolled 
-    ? (isDarkPage ? "rgba(255, 255, 255, 0.1)" : "var(--line-200)") 
+    ? "var(--border-subtle)" 
     : "transparent";
 
   return (
@@ -241,6 +241,7 @@ export function Navigation() {
       style={{
         backgroundColor: headerBg,
         borderColor: borderColor,
+        backdropFilter: isScrolled ? "blur(12px)" : "none",
       }}
       onMouseLeave={handleMouseLeave}
     >
@@ -249,7 +250,7 @@ export function Navigation() {
           href={region === "uk" ? "/" : `/${region}`}
           onMouseEnter={() => setActiveMenu(null)}
           className="font-display text-[22px] font-semibold tracking-[-0.02em] transition-opacity hover:opacity-80"
-          style={{ color: isDarkPage ? "var(--paper-0)" : "var(--ink-950)" }}
+          style={{ color: isDarkPage ? "var(--surface-base)" : "var(--text-primary)" }}
         >
           Drawdown
         </Link>
@@ -308,9 +309,9 @@ export function Navigation() {
               href="/dashboard"
               className="px-5 py-2 text-[13px] font-medium transition-opacity"
               style={{ 
-                backgroundColor: isDarkPage ? "var(--paper-0)" : "var(--signal-navy)", 
-                color: isDarkPage ? "var(--ink-950)" : "#FAFAF9", 
-                borderRadius: 0 
+                backgroundColor: isDarkPage ? "var(--surface-base)" : "var(--accent)", 
+                color: isDarkPage ? "var(--text-primary)" : "var(--surface-base)", 
+                borderRadius: "var(--radius-md)" 
               }}
             >
               Dashboard
@@ -330,9 +331,9 @@ export function Navigation() {
                 href="/signup"
                 className="px-5 py-2 text-[13px] font-medium transition-opacity hover:opacity-90"
                 style={{ 
-                  backgroundColor: isDarkPage ? "var(--paper-0)" : "var(--signal-navy)", 
-                  color: isDarkPage ? "var(--ink-950)" : "#FAFAF9", 
-                  borderRadius: 0 
+                  backgroundColor: isDarkPage ? "var(--surface-base)" : "var(--accent)", 
+                  color: isDarkPage ? "var(--text-primary)" : "var(--surface-base)", 
+                  borderRadius: "var(--radius-md)" 
                 }}
               >
                 Start Free
@@ -344,7 +345,7 @@ export function Navigation() {
         <button
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           className="lg:hidden p-2"
-          style={{ color: isDarkPage ? "var(--paper-0)" : "var(--ink-950)" }}
+          style={{ color: isDarkPage ? "var(--surface-base)" : "var(--text-primary)" }}
           aria-label="Toggle menu"
         >
           {isMobileMenuOpen ? <X size={20} strokeWidth={1.5} /> : <Menu size={20} strokeWidth={1.5} />}
@@ -360,9 +361,10 @@ export function Navigation() {
               transition={{ duration: 0.15, ease: "easeOut" }}
               className="absolute left-0 right-0 top-[58px] p-8 grid grid-cols-12 gap-8 z-[190] mx-auto border-x border-b shadow-md"
               style={{
-                backgroundColor: headerBg,
-                borderColor: isDarkPage ? "rgba(255, 255, 255, 0.1)" : "var(--line-200)",
-                borderRadius: 0,
+                backgroundColor: "var(--surface-overlay)",
+                borderColor: "var(--border-subtle)",
+                borderRadius: "var(--radius-lg)",
+                boxShadow: "var(--elev-3)",
               }}
               onMouseEnter={() => {
                 if (hoverTimeout) clearTimeout(hoverTimeout);
@@ -419,13 +421,12 @@ export function Navigation() {
                           </span>
                           {(link as any).badge && (
                             <span 
-                              className="text-[10px] font-mono tracking-wider px-1.5 py-0.5 transition-colors duration-300 group-hover:bg-[var(--accent-color)] group-hover:text-white" 
+                              className="text-[10px] font-mono tracking-wider px-1.5 py-0.5 transition-colors duration-300" 
                               style={{ 
-                                backgroundColor: isDarkPage ? "var(--paper-0)" : "var(--ink-950)", 
-                                color: isDarkPage ? "var(--ink-950)" : "var(--paper-0)", 
-                                borderRadius: 0,
-                                "--accent-color": accentColor
-                              } as any}
+                                background: "var(--accent-muted)", 
+                                color: "var(--accent)", 
+                                borderRadius: "var(--radius-pill)",
+                              }}
                             >
                               {(link as any).badge}
                             </span>
@@ -444,8 +445,8 @@ export function Navigation() {
               <div 
                 className="col-span-4 flex flex-col h-full border transition-all duration-300" 
                 style={{ 
-                  borderColor: isDarkPage ? "rgba(255, 255, 255, 0.1)" : "var(--line-200)", 
-                  borderRadius: 0 
+                  borderColor: "var(--border-subtle)", 
+                  borderRadius: "var(--radius-md)" 
                 }}
                 onMouseEnter={(e) => {
                   const accentColor = isDarkPage 
@@ -455,7 +456,7 @@ export function Navigation() {
                   e.currentTarget.style.boxShadow = `0 4px 20px ${accentColor}10`;
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.borderColor = isDarkPage ? "rgba(255, 255, 255, 0.1)" : "var(--line-200)";
+                  e.currentTarget.style.borderColor = "var(--border-subtle)";
                   e.currentTarget.style.boxShadow = "none";
                 }}
               >
@@ -466,7 +467,7 @@ export function Navigation() {
                 >
                   <div 
                     className="h-[140px] w-full border-b relative overflow-hidden" 
-                    style={{ borderColor: isDarkPage ? "rgba(255, 255, 255, 0.1)" : "var(--line-200)" }}
+                    style={{ borderColor: "var(--border-subtle)" }}
                   >
                     <img
                       src={megaMenus[activeMenu].featured.image}
@@ -479,7 +480,7 @@ export function Navigation() {
                   </div>
                   <div 
                     className="p-5 flex flex-col flex-1 transition-colors duration-300" 
-                    style={{ backgroundColor: isDarkPage ? "rgba(255, 255, 255, 0.03)" : "var(--paper-100)" }}
+                    style={{ backgroundColor: "var(--surface-raised)" }}
                   >
                     <span 
                       className="text-[10px] font-mono tracking-wider mb-2 font-semibold transition-colors duration-300 group-hover:text-[var(--accent-color)]" 
@@ -520,7 +521,7 @@ export function Navigation() {
           className="fixed inset-0 top-[58px] z-[199] lg:hidden flex flex-col px-6 py-6 border-t overflow-y-auto"
           style={{
             backgroundColor: headerBg,
-            borderColor: isDarkPage ? "rgba(255, 255, 255, 0.1)" : "var(--line-200)",
+            borderColor: "var(--border-subtle)",
           }}
         >
           <nav className="flex flex-col gap-1">
@@ -533,7 +534,7 @@ export function Navigation() {
 
               if (isMegaMenu) {
                 return (
-                  <div key={link.name} className="flex flex-col border-b" style={{ borderColor: isDarkPage ? "rgba(255, 255, 255, 0.1)" : "var(--line-200)" }}>
+                  <div key={link.name} className="flex flex-col border-b" style={{ borderColor: "var(--border-subtle)" }}>
                     <button
                       onClick={() => toggleMobileExpand(link.name)}
                       className="text-[18px] font-medium py-3 flex items-center justify-between w-full text-left"
@@ -602,7 +603,7 @@ export function Navigation() {
                   className="text-[18px] font-medium py-3 border-b"
                   style={{
                     color: hoverColor,
-                    borderColor: isDarkPage ? "rgba(255, 255, 255, 0.1)" : "var(--line-200)",
+                    borderColor: "var(--border-subtle)",
                   }}
                 >
                   {link.name}
@@ -618,8 +619,8 @@ export function Navigation() {
               className="w-full py-3 text-[14px] font-medium text-center border"
               style={{
                 color: hoverColor,
-                borderColor: isDarkPage ? "rgba(255, 255, 255, 0.1)" : "var(--line-200)",
-                borderRadius: 0,
+                borderColor: "var(--border-subtle)",
+                borderRadius: "var(--radius-md)",
               }}
             >
               Login
@@ -629,9 +630,9 @@ export function Navigation() {
               onClick={() => setIsMobileMenuOpen(false)}
               className="w-full py-3 text-[14px] font-medium text-center"
               style={{
-                backgroundColor: isDarkPage ? "var(--paper-0)" : "var(--signal-navy)",
-                color: isDarkPage ? "var(--ink-950)" : "#FAFAF9",
-                borderRadius: 0,
+                backgroundColor: isDarkPage ? "var(--surface-base)" : "var(--accent)",
+                color: isDarkPage ? "var(--text-primary)" : "var(--surface-base)",
+                borderRadius: "var(--radius-md)",
               }}
             >
               Start Free

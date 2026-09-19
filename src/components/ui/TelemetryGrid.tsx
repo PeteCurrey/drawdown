@@ -8,9 +8,8 @@ interface TelemetryGridProps {
 
 export function TelemetryGrid({
   className = "",
-  showCoordinates = false,
-  opacity = 0.04,
-}: TelemetryGridProps) {
+  opacity = 0.03,
+}: { className?: string; opacity?: number; showCoordinates?: boolean }) {
   return (
     <div
       aria-hidden="true"
@@ -34,7 +33,7 @@ export function TelemetryGrid({
             <path
               d="M 56 0 L 0 0 0 56"
               fill="none"
-              stroke="var(--ink-950)"
+              stroke="var(--border-subtle)"
               strokeWidth="0.75"
               strokeDasharray="2 4"
             />
@@ -42,27 +41,13 @@ export function TelemetryGrid({
             <path
               d="M 0 0 L 4 0 M 0 0 L 0 4"
               fill="none"
-              stroke="var(--ink-950)"
+              stroke="var(--border-subtle)"
               strokeWidth="1"
             />
           </pattern>
         </defs>
         <rect width="100%" height="100%" fill="url(#telemetry-grid-pattern)" />
       </svg>
-
-      {/* Coordinate & Telemetry Labels */}
-      {showCoordinates && (
-        <div className="absolute inset-0 p-6 flex flex-col justify-between font-mono text-[9px] uppercase tracking-[0.2em] text-[var(--graphite-600)]">
-          <div className="flex justify-between items-center">
-            <span>SYS // DECISION_ENGINE</span>
-            <span className="tabular">1.2850 · 1.0820 · 2920.0</span>
-          </div>
-          <div className="flex justify-between items-center">
-            <span>LATENCY: 12ms · DETERMINISTIC</span>
-            <span>COORD: 53.2350° N, 1.4210° W</span>
-          </div>
-        </div>
-      )}
     </div>
   );
 }

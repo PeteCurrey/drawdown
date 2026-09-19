@@ -43,29 +43,29 @@ export function MacroIntelligenceStrip() {
   return (
     <section 
       className="w-full border-b py-8 overflow-hidden select-none"
-      style={{ backgroundColor: "var(--paper-100)", borderColor: "var(--line-200)" }}
+      style={{ backgroundColor: "var(--surface-raised)", borderColor: "var(--border-subtle)" }}
     >
       <div className="max-w-[1280px] mx-auto px-6">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
           <div className="flex items-center gap-2">
-            <div className="w-2 h-2 rounded-none bg-mkt-grn animate-pulse" />
-            <span className="text-[10px] font-mono uppercase tracking-[0.25em] font-bold" style={{ color: "var(--ink-950)" }}>
+            <div className="w-2 h-2 animate-pulse" style={{ backgroundColor: "var(--market-up)", borderRadius: "var(--radius-md)" }} />
+            <span className="type-label uppercase font-bold" style={{ color: "var(--text-primary)" }}>
               REAL-TIME MACRO INTELLIGENCE
             </span>
             <span 
               className="text-[9px] font-mono uppercase tracking-widest border px-2 py-0.5 ml-2 hidden sm:inline-block"
               style={{
-                borderColor: "var(--line-200)",
-                backgroundColor: "var(--paper-0)",
-                color: "var(--graphite-600)"
+                borderColor: "var(--border-subtle)",
+                backgroundColor: "var(--surface-base)",
+                color: "var(--text-secondary)"
               }}
             >
               FRED® & EIA® API Data
             </span>
           </div>
 
-          <div className="flex items-center gap-2 text-[10px] font-mono" style={{ color: "var(--graphite-600)" }}>
-            <ShieldCheck className="w-3.5 h-3.5" style={{ color: "var(--signal-navy)" }} />
+          <div className="flex items-center gap-2 text-[10px] font-mono" style={{ color: "var(--text-secondary)" }}>
+            <ShieldCheck className="w-3.5 h-3.5" style={{ color: "var(--accent)" }} />
             <span>Institutional Central Bank & Commodity Feeds</span>
           </div>
         </div>
@@ -79,7 +79,7 @@ export function MacroIntelligenceStrip() {
                   <div 
                     key={i} 
                     className="h-20 animate-pulse border"
-                    style={{ backgroundColor: "var(--paper-0)", borderColor: "var(--line-200)", borderRadius: "6px" }}
+                    style={{ backgroundColor: "var(--surface-base)", borderColor: "var(--border-subtle)", borderRadius: "var(--radius-md)" }}
                   />
                 ))
             : indicators.map((item) => {
@@ -87,49 +87,49 @@ export function MacroIntelligenceStrip() {
                 const isNegative = item.change < 0;
 
                 const trendColor = isPositive 
-                  ? "var(--mkt-grn)" 
+                  ? "var(--market-up)" 
                   : isNegative 
-                  ? "var(--mkt-red)" 
-                  : "var(--graphite-600)";
+                  ? "var(--market-down)" 
+                  : "var(--text-secondary)";
 
                 const trendBg = isPositive 
-                  ? "var(--mkt-gbg)" 
+                  ? "color-mix(in srgb, var(--market-up) 10%, transparent)" 
                   : isNegative 
-                  ? "var(--mkt-rbg)" 
-                  : "var(--paper-100)";
+                  ? "color-mix(in srgb, var(--market-down) 10%, transparent)" 
+                  : "var(--surface-raised)";
 
                 const trendBorder = isPositive
-                  ? "var(--mkt-gbd)"
+                  ? "color-mix(in srgb, var(--market-up) 25%, transparent)"
                   : isNegative
-                  ? "var(--mkt-rbd)"
-                  : "var(--line-200)";
+                  ? "color-mix(in srgb, var(--market-down) 25%, transparent)"
+                  : "var(--border-subtle)";
 
                 return (
                   <div
                     key={item.key}
                     className="border p-3.5 transition-all duration-200 group flex flex-col justify-between hover:-translate-y-0.5"
                     style={{
-                      backgroundColor: "#FFFFFF",
-                      borderColor: "var(--line-200)",
-                      borderRadius: "6px",
-                      boxShadow: "0 1px 3px rgba(11, 14, 18, 0.03), inset 0 1px 0 rgba(255, 255, 255, 0.9)",
+                      backgroundColor: "var(--surface-raised)",
+                      borderColor: "var(--border-subtle)",
+                      borderRadius: "var(--radius-md)",
+                      boxShadow: "var(--elev-1)",
                     }}
                   >
-                    <div className="flex items-center justify-between text-[10px] font-mono mb-2" style={{ color: "var(--graphite-600)" }}>
+                    <div className="flex items-center justify-between text-[10px] font-mono mb-2" style={{ color: "var(--text-secondary)" }}>
                       <span className="truncate pr-1 font-medium">{item.name}</span>
                       {isPositive ? (
-                        <TrendingUp className="w-3.5 h-3.5 shrink-0" style={{ color: "var(--mkt-grn)" }} />
+                        <TrendingUp className="w-3.5 h-3.5 shrink-0" style={{ color: "var(--market-up)" }} />
                       ) : isNegative ? (
-                        <TrendingDown className="w-3.5 h-3.5 shrink-0" style={{ color: "var(--mkt-red)" }} />
+                        <TrendingDown className="w-3.5 h-3.5 shrink-0" style={{ color: "var(--market-down)" }} />
                       ) : (
                         <Minus className="w-3.5 h-3.5 shrink-0" />
                       )}
                     </div>
 
                     <div className="flex items-baseline justify-between mt-1">
-                      <span className="text-[15px] font-mono tabular-nums font-bold tracking-tight transition-colors duration-300" style={{ color: "var(--ink-950)" }}>
+                      <span className="text-[15px] font-mono tabular-nums font-bold tracking-tight transition-colors duration-300" style={{ color: "var(--text-primary)" }}>
                         {item.value.toLocaleString(undefined, { minimumFractionDigits: 1, maximumFractionDigits: 3 })}
-                        <span className="text-[10px] font-normal ml-0.5" style={{ color: "var(--graphite-600)" }}>{item.unit}</span>
+                        <span className="text-[10px] font-normal ml-0.5" style={{ color: "var(--text-secondary)" }}>{item.unit}</span>
                       </span>
 
                       <span
@@ -138,7 +138,7 @@ export function MacroIntelligenceStrip() {
                           color: trendColor,
                           backgroundColor: trendBg,
                           borderColor: trendBorder,
-                          borderRadius: "4px"
+                          borderRadius: "var(--radius-sm)"
                         }}
                       >
                         {isPositive ? `+${item.change}` : item.change}
@@ -152,4 +152,3 @@ export function MacroIntelligenceStrip() {
     </section>
   );
 }
-

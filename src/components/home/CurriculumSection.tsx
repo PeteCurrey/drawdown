@@ -2,47 +2,48 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Check } from "lucide-react";
 import { phases } from "@/data/courses";
 import { useRegion } from "@/components/layout/RegionalLayout";
+import { Reveal } from "@/components/ui/Reveal";
 
 const phaseBranding: Record<string, { bg: string; border: string; glow: string }> = {
   "01": {
     bg: "https://images.unsplash.com/photo-1642790106117-e829e14a795f?auto=format&fit=crop&w=600&q=80", // Market Mechanics
-    border: "var(--signal-navy)",
-    glow: "rgba(10, 37, 64, 0.15)"
+    border: "var(--accent)",
+    glow: "rgba(79, 127, 255, 0.15)"
   },
   "02": {
     bg: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80", // Technical Foundation
-    border: "var(--signal-navy)",
-    glow: "rgba(10, 37, 64, 0.15)"
+    border: "var(--accent)",
+    glow: "rgba(79, 127, 255, 0.15)"
   },
   "03": {
     bg: "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?auto=format&fit=crop&w=600&q=80", // Risk & Sizing
-    border: "var(--signal-navy)",
-    glow: "rgba(10, 37, 64, 0.15)"
+    border: "var(--accent)",
+    glow: "rgba(79, 127, 255, 0.15)"
   },
   "04": {
     bg: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=600&q=80", // Algorithmic Modeling
-    border: "var(--signal-navy)",
-    glow: "rgba(10, 37, 64, 0.15)"
+    border: "var(--accent)",
+    glow: "rgba(79, 127, 255, 0.15)"
   },
   "05": {
     bg: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=600&q=80", // Execution & APIs
-    border: "var(--signal-navy)",
-    glow: "rgba(10, 37, 64, 0.15)"
+    border: "var(--accent)",
+    glow: "rgba(79, 127, 255, 0.15)"
   },
   "06": {
     bg: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&w=600&q=80", // High-Frequency AI
-    border: "var(--signal-navy)",
-    glow: "rgba(10, 37, 64, 0.15)"
+    border: "var(--accent)",
+    glow: "rgba(79, 127, 255, 0.15)"
   }
 };
 
 const defaultBranding = {
   bg: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80",
-  border: "var(--ink-950)",
-  glow: "rgba(10, 37, 64, 0.08)"
+  border: "var(--border-subtle)",
+  glow: "rgba(79, 127, 255, 0.08)"
 };
 
 export function CurriculumSection() {
@@ -52,55 +53,57 @@ export function CurriculumSection() {
 
   return (
     <section
-      className="w-full py-24 border-b select-none relative z-10"
-      style={{ backgroundColor: "var(--paper-0)", borderColor: "var(--line-200)" }}
+      className="w-full border-b select-none relative z-10"
+      style={{ backgroundColor: "var(--surface-base)", borderColor: "var(--border-subtle)", paddingTop: "var(--section-y-desktop)", paddingBottom: "var(--section-y-desktop)" }}
     >
       <div className="max-w-[1280px] mx-auto px-6">
         
         {/* Section Heading */}
-        <div className="mb-16">
-          <span
-            className="block text-[11px] font-mono uppercase tracking-[0.08em] mb-3"
-            style={{ color: "var(--graphite-600)" }}
-          >
-            Structured learning path
-          </span>
-          <h2
-            className="font-display text-[clamp(1.75rem,4vw,3rem)] leading-tight tracking-[-0.02em] font-semibold mb-4"
-            style={{ color: "var(--ink-950)" }}
-          >
-            The Curriculum
-          </h2>
-          <p
-            className="text-[15px] leading-relaxed max-w-xl font-sans"
-            style={{ color: "var(--graphite-600)" }}
-          >
-            A six-phase learning progression designed to take you from raw market mechanics to high-frequency AI integrations.
-          </p>
-        </div>
+        <Reveal>
+          <div className="mb-16">
+            <span
+              className="block text-[11px] font-mono uppercase tracking-[0.08em] mb-3"
+              style={{ color: "var(--text-tertiary)" }}
+            >
+              Structured learning path
+            </span>
+            <h2
+              className="type-display-lg font-normal mb-4"
+              style={{ color: "var(--text-primary)" }}
+            >
+              The Curriculum
+            </h2>
+            <p
+              className="type-body-lg font-normal"
+              style={{ color: "var(--text-secondary)" }}
+            >
+              A six-phase learning progression designed to take you from raw market mechanics to high-frequency AI integrations.
+            </p>
+          </div>
+        </Reveal>
 
         {/* 6-Phase Grid — 3x2, text-first, hairline dividers, IBM Plex Mono numbers, zero border-radius */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {phases.slice(0, 6).map((phase) => {
+          {phases.slice(0, 6).map((phase, idx) => {
             const isFree = phase.tier === "Free";
             const brand = phaseBranding[phase.number] || defaultBranding;
             const isHovered = hoveredPhaseId === phase.id;
 
             return (
+              <Reveal key={phase.id} delay={idx * 0.07}>
               <Link
                 href={`${regionPrefix}/courses/${phase.slug}`}
-                key={phase.id}
-                className="block group"
+                className="block group h-full"
                 onMouseEnter={() => setHoveredPhaseId(phase.id)}
                 onMouseLeave={() => setHoveredPhaseId(null)}
               >
                 <div
                   className="p-6 border flex flex-col justify-between h-full relative overflow-hidden transition-all duration-300"
                   style={{
-                    borderColor: isHovered ? brand.border : "var(--line-200)",
-                    backgroundColor: "var(--paper-100)",
-                    borderRadius: 0,
-                    boxShadow: isHovered ? `0 0 24px ${brand.glow}, inset 0 0 12px ${brand.glow}` : "none",
+                    borderColor: isHovered ? brand.border : "var(--border-subtle)",
+                    backgroundColor: "var(--surface-raised)",
+                    borderRadius: "var(--radius-md)",
+                    boxShadow: isHovered ? `0 0 24px ${brand.glow}, inset 0 0 12px ${brand.glow}` : "var(--elev-1)",
                   }}
                 >
                   {/* Brand-Matching Background Image Layer */}
@@ -121,18 +124,18 @@ export function CurriculumSection() {
                       {/* Phase Number + Tier Label */}
                       <div className="flex items-center justify-between mb-6">
                         <span
-                          className="text-[28px] font-mono tabular font-medium leading-none"
-                          style={{ color: "var(--ink-950)" }}
+                          className="text-[28px] font-mono tabular-nums font-medium leading-none"
+                          style={{ color: "var(--text-primary)" }}
                         >
                           {phase.number}
                         </span>
                         <span
                           className="text-[10px] font-mono uppercase tracking-[0.08em] px-2 py-0.5 border"
                           style={{
-                            color: isFree ? "var(--signal-navy)" : "var(--graphite-600)",
-                            borderColor: "var(--line-200)",
-                            backgroundColor: "var(--paper-0)",
-                            borderRadius: 0,
+                            color: isFree ? "var(--accent)" : "var(--text-tertiary)",
+                            borderColor: "var(--border-subtle)",
+                            backgroundColor: isFree ? "var(--accent-muted)" : "var(--surface-overlay)",
+                            borderRadius: "var(--radius-pill)",
                           }}
                         >
                           {phase.tier}
@@ -142,13 +145,13 @@ export function CurriculumSection() {
                       {/* Title + Description */}
                       <h3
                         className="text-[16px] font-medium leading-snug mb-2 font-sans group-hover:underline"
-                        style={{ color: "var(--ink-950)" }}
+                        style={{ color: "var(--text-primary)" }}
                       >
                         {phase.name}
                       </h3>
                       <p
                         className="text-[13px] leading-[1.6] font-sans min-h-[56px]"
-                        style={{ color: "var(--graphite-600)" }}
+                        style={{ color: "var(--text-secondary)" }}
                       >
                         {phase.description}
                       </p>
@@ -158,8 +161,8 @@ export function CurriculumSection() {
                     <div
                       className="pt-4 mt-6 border-t flex items-center justify-between text-[11px] font-mono uppercase tracking-[0.08em]"
                       style={{
-                        borderColor: "var(--line-200)",
-                        color: "var(--graphite-600)",
+                        borderColor: "var(--border-subtle)",
+                        color: "var(--text-tertiary)",
                       }}
                     >
                       <span>{phase.modules_count} Modules</span>
@@ -169,6 +172,7 @@ export function CurriculumSection() {
 
                 </div>
               </Link>
+              </Reveal>
             );
           })}
         </div>
@@ -179,7 +183,7 @@ export function CurriculumSection() {
                style={{
                  borderColor: "rgba(226, 183, 85, 0.2)",
                  background: "linear-gradient(135deg, #0B0E12 0%, #151922 100%)",
-                 borderRadius: 0,
+                 borderRadius: "var(--radius-lg)",
                }}
           >
             {/* Subtle gold line at top */}
@@ -195,7 +199,7 @@ export function CurriculumSection() {
                        color: "#E2B755",
                        borderColor: "rgba(226, 183, 85, 0.25)",
                        backgroundColor: "rgba(226, 183, 85, 0.08)",
-                       borderRadius: 0,
+                       borderRadius: "var(--radius-pill)",
                      }}
                 >
                   ★ Premium Executive Cohort
@@ -208,13 +212,13 @@ export function CurriculumSection() {
                 </p>
                 <div className="flex flex-wrap gap-x-6 gap-y-2 pt-1 text-[11px] font-mono text-gray-400 uppercase tracking-wider">
                   <span className="flex items-center gap-1.5 transition-colors duration-300 group-hover:text-gray-300">
-                    <span className="text-[#E2B755]">✓</span> 15-Student Limit
+                    <Check className="w-3.5 h-3.5 text-[#E2B755]" /> 15-Student Limit
                   </span>
                   <span className="flex items-center gap-1.5 transition-colors duration-300 group-hover:text-gray-300">
-                    <span className="text-[#E2B755]">✓</span> Live Audits
+                    <Check className="w-3.5 h-3.5 text-[#E2B755]" /> Live Audits
                   </span>
                   <span className="flex items-center gap-1.5 transition-colors duration-300 group-hover:text-gray-300">
-                    <span className="text-[#E2B755]">✓</span> Tax Compliance Kit
+                    <Check className="w-3.5 h-3.5 text-[#E2B755]" /> Tax Compliance Kit
                   </span>
                 </div>
               </div>
@@ -224,7 +228,7 @@ export function CurriculumSection() {
                   className="inline-flex items-center justify-center gap-2 px-5 py-3 text-[11px] font-mono uppercase tracking-[0.08em] font-bold text-black transition-all duration-300 group-hover:shadow-lg group-hover:shadow-[#E2B755]/20 group-hover:scale-[1.02]"
                   style={{
                     background: "linear-gradient(to right, #E2B755, #C59235)",
-                    borderRadius: 0,
+                    borderRadius: "var(--radius-md)",
                   }}
                 >
                   Apply for Cohort
@@ -240,7 +244,7 @@ export function CurriculumSection() {
           <Link
             href={`${regionPrefix}/courses`}
             className="inline-flex items-center gap-2 text-[12px] font-mono uppercase tracking-[0.08em] hover:underline"
-            style={{ color: "var(--ink-950)" }}
+            style={{ color: "var(--text-primary)" }}
           >
             View the full curriculum
             <ArrowRight size={14} strokeWidth={1.5} />

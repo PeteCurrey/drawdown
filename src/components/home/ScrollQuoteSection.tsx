@@ -87,7 +87,7 @@ export function ScrollQuoteSection() {
     <div
       ref={containerRef}
       className="relative w-full h-[250vh] md:h-[300vh] z-20"
-      style={{ backgroundColor: "var(--ink-950)" }}
+      style={{ backgroundColor: "var(--surface-base)" }}
     >
       {/* Sticky viewport */}
       <div className="sticky top-0 w-full h-screen flex flex-col justify-center items-center overflow-hidden px-6">
@@ -97,9 +97,9 @@ export function ScrollQuoteSection() {
           <p
             className="quote-text"
             style={{
-              fontFamily: "var(--font-display, 'Inter Tight', 'Inter', sans-serif)",
+              fontFamily: "var(--font-display), serif",
               fontSize: "clamp(1.375rem, 4vw, 2.5rem)",
-              fontWeight: 500,
+              fontWeight: 400,
               lineHeight: 1.35,
               letterSpacing: "-0.01em",
               wordSpacing: "0.12em", /* explicit — never rely on flex gap for word spacing */

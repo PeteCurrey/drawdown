@@ -331,7 +331,7 @@ export function LiveNewsSection() {
         {/* Section Heading */}
         <div className="mb-16 text-center">
           <span className="text-[11px] font-sans font-bold text-mkt-i4 uppercase tracking-widest block mb-4">
-            // LIVE MARKET BRIEFING
+            MARKET BRIEFING
           </span>
           <h2 className="text-3xl md:text-5xl font-sans font-extrabold text-mkt-ink tracking-tight mb-4">
             Market Pulse & Intelligence

@@ -64,7 +64,7 @@ export function EconomicCalendarWidget() {
       <div className="container mx-auto px-6 relative z-10">
         <div className="mb-16 text-center">
           <span className="text-[10px] font-mono tracking-widest uppercase text-accent font-bold block mb-4">
-            // ECONOMIC INTELLIGENCE
+            ECONOMIC INTELLIGENCE
           </span>
           <h2 className="text-4xl md:text-5xl font-display font-black uppercase text-text-primary">
             Economic Calendar

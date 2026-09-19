@@ -11,6 +11,7 @@ import {
   TrendingUp,
   ArrowRight
 } from "lucide-react";
+import { Reveal } from "@/components/ui/Reveal";
 
 const LOOP_STAGES = [
   {
@@ -82,130 +83,140 @@ const LOOP_STAGES = [
 export function OperatingLoopSection() {
   return (
     <section
-      className="w-full py-24 md:py-32 border-b select-none"
+      id="operating-loop"
+      className="w-full border-b select-none"
       style={{
-        backgroundColor: "var(--paper-0)",
-        borderColor: "var(--line-200)",
+        backgroundColor: "var(--surface-base)",
+        borderColor: "var(--border-subtle)",
+        paddingTop: "var(--section-y-desktop)",
+        paddingBottom: "var(--section-y-desktop)",
       }}
     >
       <div className="max-w-[1280px] mx-auto px-6">
-        {/* Section Header */}
-        <div className="max-w-3xl mb-16 space-y-4">
-          <span
-            className="block text-[11px] font-mono uppercase tracking-[0.1em]"
-            style={{ color: "var(--graphite-600)" }}
-          >
-            // The Operating Loop
-          </span>
-          <h2
-            className="font-display text-[clamp(2.25rem,4vw,3.5rem)] leading-[1.08] tracking-[-0.02em] font-semibold"
-            style={{ color: "var(--ink-950)" }}
-          >
-            Seven stages. One unbroken loop.
-          </h2>
-          <p
-            className="text-[17px] leading-[1.6] font-sans"
-            style={{ color: "var(--graphite-600)" }}
-          >
-            Drawdown transforms trading from an erratic guessing game into an engineered operating discipline. Every phase connects directly into the next.
-          </p>
-        </div>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+          {/* Sticky Left Sidebar */}
+          <div className="lg:col-span-5 lg:sticky lg:top-28 space-y-8">
+            <Reveal>
+              <div className="space-y-4">
+                <span
+                  className="block type-label uppercase tracking-widest"
+                  style={{ color: "var(--text-secondary)" }}
+                >
+                  THE OPERATING LOOP
+                </span>
+                <h2
+                  className="type-display-lg font-normal tracking-tight"
+                  style={{ color: "var(--text-primary)" }}
+                >
+                  Seven stages. <br />
+                  One unbroken loop.
+                </h2>
+                <p
+                  className="type-body-lg font-normal leading-relaxed"
+                  style={{ color: "var(--text-secondary)" }}
+                >
+                  Drawdown transforms trading from an erratic guessing game into an engineered operating discipline. Every phase connects directly into the next.
+                </p>
+              </div>
 
-        {/* 7-Stage Horizontal Pipeline */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-7 gap-4 items-stretch mb-12">
-          {LOOP_STAGES.map((stage, idx) => {
-            const Icon = stage.icon;
-            const isExecute = stage.title === "EXECUTE";
+              <div className="space-y-4 pt-6">
+                <Link
+                  href="/signup"
+                  className="inline-flex items-center gap-2 px-6 py-3.5 font-sans text-sm font-medium transition-all duration-150 active:translate-y-0.5"
+                  style={{
+                    backgroundColor: "var(--accent)",
+                    color: "var(--surface-base)",
+                    borderRadius: "var(--radius-md)",
+                    boxShadow: "var(--elev-2)",
+                  }}
+                  onMouseEnter={e => (e.currentTarget.style.backgroundColor = "var(--accent-hover)")}
+                  onMouseLeave={e => (e.currentTarget.style.backgroundColor = "var(--accent)")}
+                >
+                  Start Free — Run Your First Loop <ArrowRight size={15} strokeWidth={1.5} />
+                </Link>
 
-            return (
-              <div
-                key={idx}
-                className="p-5 border flex flex-col justify-between transition-all duration-200 hover:-translate-y-1"
-                style={{
-                  backgroundColor: isExecute ? "rgba(15, 23, 42, 0.025)" : "#FFFFFF",
-                  borderColor: isExecute ? "var(--signal-navy)" : "var(--line-200)",
-                  borderRadius: "8px",
-                  boxShadow: isExecute
-                    ? "0 2px 8px rgba(22, 33, 62, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.9)"
-                    : "0 1px 3px rgba(11, 14, 18, 0.03), inset 0 1px 0 rgba(255, 255, 255, 0.9)",
-                }}
-              >
-                <div>
+                {/* Execution Transparency Callout */}
+                <div
+                  className="p-5 border space-y-2 mt-6"
+                  style={{
+                    backgroundColor: "var(--surface-raised)",
+                    borderColor: "var(--border-subtle)",
+                    borderRadius: "var(--radius-md)",
+                    boxShadow: "var(--elev-1)",
+                  }}
+                >
+                  <span className="type-label uppercase font-bold block" style={{ color: "var(--text-secondary)" }}>
+                    Execution Transparency
+                  </span>
+                  <p className="text-xs font-sans leading-relaxed" style={{ color: "var(--text-secondary)" }}>
+                    Drawdown provides analytical decision-support, risk modeling, and journaling infrastructure. Drawdown does not route orders or hold client funds. Actual execution occurs at your independent, regulated broker terminal.
+                  </p>
+                </div>
+              </div>
+            </Reveal>
+          </div>
+
+          {/* Scrolling Right Detail Cards */}
+          <div className="lg:col-span-7 space-y-4 relative">
+            {LOOP_STAGES.map((stage, idx) => {
+              const Icon = stage.icon;
+              const isExecute = stage.title === "EXECUTE";
+
+              return (
+                <Reveal key={idx} delay={0.05}>
+                  <div
+                    className="p-6 md:p-8 border transition-all duration-200 relative overflow-hidden"
+                  style={{
+                    backgroundColor: isExecute ? "var(--surface-overlay)" : "var(--surface-raised)",
+                    borderColor: isExecute ? "var(--accent)" : "var(--border-subtle)",
+                    borderRadius: "var(--radius-md)",
+                    boxShadow: isExecute ? "var(--elev-2)" : "var(--elev-1)",
+                  }}
+                >
                   <div className="flex items-center justify-between mb-4">
-                    <span className="font-mono text-xs font-bold text-gray-400">
-                      {stage.num}
-                    </span>
-                    <span 
-                      className="text-[9px] font-mono uppercase px-1.5 py-0.5 border font-semibold rounded-[4px]" 
-                      style={{ 
-                        backgroundColor: isExecute ? "rgba(22, 33, 62, 0.08)" : "var(--paper-100)",
-                        borderColor: isExecute ? "var(--signal-navy)" : "var(--line-200)",
-                        color: isExecute ? "var(--signal-navy)" : "var(--graphite-600)"
+                    <div className="flex items-center gap-3">
+                      <span className="font-mono tabular-nums text-sm font-bold" style={{ color: "var(--text-secondary)" }}>
+                        {stage.num}
+                      </span>
+                      <h3
+                        className="font-sans text-base font-bold uppercase tracking-wide"
+                        style={{ color: "var(--text-primary)" }}
+                      >
+                        {stage.title}
+                      </h3>
+                    </div>
+                    <span
+                      className="text-[10px] font-mono uppercase px-2.5 py-0.5 border font-semibold"
+                      style={{
+                        backgroundColor: isExecute ? "var(--accent-muted)" : "var(--surface-base)",
+                        borderColor: isExecute ? "var(--accent)" : "var(--border-subtle)",
+                        borderRadius: "var(--radius-pill)",
+                        color: isExecute ? "var(--accent)" : "var(--text-secondary)",
                       }}
                     >
                       {stage.badge}
                     </span>
                   </div>
 
-                  <div 
-                    className="w-8 h-8 rounded-[6px] flex items-center justify-center text-gray-900 mb-3 border"
-                    style={{
-                      backgroundColor: "var(--paper-100)",
-                      borderColor: "var(--line-200)"
-                    }}
-                  >
-                    <Icon size={16} strokeWidth={1.75} />
-                  </div>
-
-                  <h3 className="font-display text-base font-bold text-gray-900 uppercase tracking-tight mb-2">
-                    {stage.title}
-                  </h3>
-
-                  <p className="text-xs font-medium text-gray-800 mb-2 leading-snug">
+                  <p className="text-sm font-medium mb-2 leading-snug" style={{ color: "var(--text-primary)" }}>
                     {stage.action}
                   </p>
 
-                  <p className="text-[11px] text-gray-500 leading-relaxed font-sans mb-4">
+                  <p className="text-xs leading-relaxed font-sans mb-5" style={{ color: "var(--text-secondary)" }}>
                     {stage.details}
                   </p>
-                </div>
 
-                <div className="pt-3 border-t text-[10px] font-mono text-gray-700" style={{ borderColor: "var(--line-200)" }}>
-                  <span className="text-gray-400 block mb-0.5">OUTCOME</span>
-                  {stage.output}
+                  <div className="pt-4 border-t flex items-center justify-between text-xs font-mono" style={{ borderColor: "var(--border-subtle)" }}>
+                    <span className="type-label uppercase" style={{ color: "var(--text-tertiary)" }}>OUTCOME</span>
+                    <span className="font-medium text-right" style={{ color: "var(--text-primary)" }}>
+                      {stage.output}
+                    </span>
+                  </div>
                 </div>
-              </div>
-            );
-          })}
-        </div>
-
-        {/* Explicit Disclosure & Callout */}
-        <div
-          className="p-6 border flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6"
-          style={{
-            backgroundColor: "#FFFFFF",
-            borderColor: "var(--line-200)",
-            borderRadius: "8px",
-            boxShadow: "0 1px 3px rgba(11, 14, 18, 0.03), inset 0 1px 0 rgba(255, 255, 255, 0.8)",
-          }}
-        >
-          <div className="space-y-1">
-            <span className="font-mono text-[10px] font-bold uppercase tracking-wider text-gray-500 block">
-              Architectural Boundary Notice
-            </span>
-            <p className="text-xs text-gray-700 font-sans leading-relaxed max-w-3xl">
-              <strong>Execution Transparency:</strong> Drawdown provides analytical decision-support, risk modeling, and journaling infrastructure. Drawdown does not route orders or hold client funds. Actual execution occurs at your independent, regulated broker terminal.
-            </p>
+                </Reveal>
+              );
+            })}
           </div>
-          <Link
-            href="/signup"
-            className="shrink-0 inline-flex items-center gap-2 px-5 py-3 bg-gray-900 text-white font-mono text-xs font-bold uppercase tracking-wider hover:bg-black transition-all duration-150 rounded-[6px] active:translate-y-0.5"
-            style={{
-              boxShadow: "0 1px 2px rgba(11, 14, 18, 0.08), 0 4px 10px rgba(0, 0, 0, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.15)"
-            }}
-          >
-            Start Free — Run Your First Loop <ArrowRight size={14} />
-          </Link>
         </div>
       </div>
     </section>

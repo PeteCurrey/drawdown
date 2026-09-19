@@ -67,7 +67,7 @@ function getSourceBrandColor(source: string): string {
     "Bloomberg": "#000000",
     "Reuters": "#FF8000",
   };
-  return colors[source] || "var(--signal-navy)";
+  return colors[source] || "var(--accent)";
 }
 
 export function MarketPulse() {
@@ -181,35 +181,32 @@ export function MarketPulse() {
   const listNews = activeItems.slice(1);
 
   return (
-    <section 
-      className="py-24 border-b select-none relative overflow-hidden"
-      style={{ backgroundColor: "var(--paper-0)", borderColor: "var(--line-200)" }}
-    >
-      <div className="max-w-[1280px] mx-auto px-6">
+    <div className="w-full select-none relative overflow-hidden">
+      <div>
         
         {/* Section Heading */}
         <div className="mb-16 text-center">
           <span 
-            className="text-[11px] font-sans font-bold uppercase tracking-widest block mb-4"
-            style={{ color: "var(--graphite-600)" }}
+            className="type-label uppercase block mb-4"
+            style={{ color: "var(--text-secondary)" }}
           >
-            // LIVE MARKET BRIEFING
+            MARKET BRIEFING
           </span>
           <h2 
-            className="text-3xl md:text-5xl font-sans font-extrabold tracking-tight mb-4"
-            style={{ color: "var(--ink-950)" }}
+            className="type-display-lg font-normal mb-4"
+            style={{ color: "var(--text-primary)" }}
           >
             Market Pulse & Intelligence
           </h2>
           <p 
-            className="text-base max-w-xl mx-auto font-sans"
-            style={{ color: "var(--graphite-600)" }}
+            className="type-body-lg font-normal max-w-xl mx-auto"
+            style={{ color: "var(--text-secondary)" }}
           >
             Real-time sentiment monitoring, macro calendars, and raw professional data feeds.
           </p>
           <p 
             className="text-xs max-w-2xl mx-auto font-sans mt-4 leading-relaxed border-t pt-4"
-            style={{ color: "var(--graphite-500)", borderColor: "var(--line-100)" }}
+            style={{ color: "var(--text-tertiary)", borderColor: "var(--border-subtle)" }}
           >
             This panel aggregates global news coverages from Sky News, CNN, Fox News, and BBC, alongside the real-time Economic Calendar and top currency movers. By matching political headlines and central bank speeches with price charts, traders can pinpoint high-impact volatility windows and sentiment shifts.
           </p>
@@ -222,18 +219,18 @@ export function MarketPulse() {
           <div className="lg:col-span-7 space-y-4">
             {loading ? (
               <div className="space-y-6 animate-pulse">
-                <div className="bg-neutral-100 border h-[380px] flex flex-col justify-end p-6" style={{ borderColor: "var(--line-200)" }}>
+                <div className="border h-[380px] flex flex-col justify-end p-6" style={{ backgroundColor: "var(--surface-raised)", borderColor: "var(--border-subtle)", borderRadius: "var(--radius-md)" }}>
                   <div className="space-y-4 w-full">
-                    <div className="h-4 w-24 bg-neutral-200" />
-                    <div className="h-8 w-3/4 bg-neutral-200" />
-                    <div className="h-4 w-5/6 bg-neutral-200" />
+                    <div className="h-4 w-24" style={{ backgroundColor: "var(--surface-overlay)", borderRadius: "var(--radius-sm)" }} />
+                    <div className="h-8 w-3/4" style={{ backgroundColor: "var(--surface-overlay)", borderRadius: "var(--radius-sm)" }} />
+                    <div className="h-4 w-5/6" style={{ backgroundColor: "var(--surface-overlay)", borderRadius: "var(--radius-sm)" }} />
                   </div>
                 </div>
                 {[1, 2].map((i) => (
-                  <div key={i} className="bg-neutral-100 border h-[110px] p-5 flex flex-col justify-end" style={{ borderColor: "var(--line-200)" }}>
+                  <div key={i} className="border h-[110px] p-5 flex flex-col justify-end" style={{ backgroundColor: "var(--surface-raised)", borderColor: "var(--border-subtle)", borderRadius: "var(--radius-md)" }}>
                     <div className="space-y-2 w-full">
-                      <div className="h-3.5 w-32 bg-neutral-200" />
-                      <div className="h-5 w-5/6 bg-neutral-200" />
+                      <div className="h-3.5 w-32" style={{ backgroundColor: "var(--surface-overlay)", borderRadius: "var(--radius-sm)" }} />
+                      <div className="h-5 w-5/6" style={{ backgroundColor: "var(--surface-overlay)", borderRadius: "var(--radius-sm)" }} />
                     </div>
                   </div>
                 ))}
@@ -241,7 +238,7 @@ export function MarketPulse() {
             ) : error || news.length === 0 ? (
               <div 
                 className="p-12 border text-center text-xs"
-                style={{ backgroundColor: "var(--paper-100)", borderColor: "var(--line-200)", color: "var(--graphite-600)" }}
+                style={{ backgroundColor: "var(--surface-raised)", borderColor: "var(--border-subtle)", color: "var(--text-secondary)", borderRadius: "var(--radius-md)" }}
               >
                 No live world news from Sky News, CNN, Fox News, or BBC available right now. Reconnecting to global feeds...
               </div>
@@ -252,8 +249,8 @@ export function MarketPulse() {
                   <div 
                     className="relative overflow-hidden border group h-[380px] flex flex-col justify-end bg-black transition-all duration-300"
                     style={{ 
-                      borderColor: "var(--line-200)",
-                      borderRadius: 0,
+                      borderColor: "var(--border-subtle)",
+                      borderRadius: "var(--radius-md)",
                     }}
                   >
                     {/* Background Image */}
@@ -266,7 +263,7 @@ export function MarketPulse() {
                     
                     {/* Breaking Pill and News Icon */}
                     <div className="flex justify-between items-center z-10 p-6 absolute top-0 left-0 right-0">
-                      <span className="text-[10px] font-bold text-white bg-mkt-red px-2.5 py-1 uppercase tracking-wider font-sans">
+                      <span className="text-[10px] font-bold text-white px-2.5 py-1 uppercase tracking-wider font-sans" style={{ backgroundColor: "var(--market-down)" }}>
                         BREAKING
                       </span>
                       <Newspaper className="w-5 h-5 text-white/70" />
@@ -296,7 +293,7 @@ export function MarketPulse() {
                           rel="noopener noreferrer" 
                           className="text-xs font-bold text-white hover:underline transition-colors flex items-center gap-1"
                         >
-                          Read coverage <ArrowUpRight className="w-3.5 h-3.5 text-mkt-grn" />
+                          Read coverage <ArrowUpRight className="w-3.5 h-3.5" style={{ color: "var(--market-up)" }} />
                         </a>
                       </div>
                     </div>
@@ -314,8 +311,8 @@ export function MarketPulse() {
                         rel="noopener noreferrer"
                         className="relative block overflow-hidden border min-h-[110px] h-[110px] bg-black group transition-all duration-300"
                         style={{ 
-                          borderColor: "var(--line-200)",
-                          borderRadius: 0,
+                          borderColor: "var(--border-subtle)",
+                          borderRadius: "var(--radius-md)",
                         }}
                       >
                         {/* Background Image */}
@@ -332,10 +329,10 @@ export function MarketPulse() {
                             <p className="text-[9px] font-mono text-neutral-300 uppercase tracking-widest">
                               {formatPubDate(item.publishedAt)} &bull; {item.source}
                             </p>
-                            <h4 className="text-sm md:text-base font-sans font-bold text-white group-hover:text-mkt-grn transition-colors duration-150 leading-tight line-clamp-1">
+                            <h4 className="text-sm md:text-base font-sans font-bold text-white transition-colors duration-150 leading-tight line-clamp-1 group-hover:opacity-80">
                               {item.title}
                             </h4>
-                            <p className="text-xs text-neutral-250 leading-normal font-sans line-clamp-1">
+                            <p className="text-xs text-neutral-300 leading-normal font-sans line-clamp-1">
                               {item.excerpt}
                             </p>
                           </div>
@@ -343,7 +340,7 @@ export function MarketPulse() {
 
                         {/* Hover arrow indicator */}
                         <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-350 z-20">
-                          <ArrowUpRight className="w-4 h-4 text-mkt-grn" />
+                          <ArrowUpRight className="w-4 h-4" style={{ color: "var(--market-up)" }} />
                         </div>
                       </a>
                     );
@@ -359,16 +356,16 @@ export function MarketPulse() {
             {/* 1. Economic Calendar */}
             <div 
               className="border p-5 flex flex-col justify-between"
-              style={{ backgroundColor: "var(--paper-100)", borderColor: "var(--line-200)", borderRadius: 0 }}
+              style={{ backgroundColor: "var(--surface-raised)", border: "1px solid var(--border-subtle)", borderRadius: "var(--radius-md)" }}
             >
-              <div className="flex items-center justify-between pb-3 mb-4 border-b" style={{ borderColor: "var(--line-200)" }}>
+              <div className="flex items-center justify-between pb-3 mb-4 border-b" style={{ borderColor: "var(--border-subtle)" }}>
                 <div className="flex items-center gap-2">
-                  <Calendar className="w-4 h-4" style={{ color: "var(--signal-navy)" }} />
-                  <span className="text-[12px] font-sans font-bold uppercase tracking-wider" style={{ color: "var(--ink-950)" }}>
+                  <Calendar className="w-4 h-4" style={{ color: "var(--accent)" }} />
+                  <span className="text-[12px] font-sans font-bold uppercase tracking-wider" style={{ color: "var(--text-primary)" }}>
                     Economic Calendar
                   </span>
                 </div>
-                <span className="text-[9px] font-mono uppercase tracking-wider" style={{ color: "var(--graphite-600)" }}>
+                <span className="text-[9px] font-mono uppercase tracking-wider" style={{ color: "var(--text-tertiary)" }}>
                   TODAY
                 </span>
               </div>
@@ -381,16 +378,16 @@ export function MarketPulse() {
             {/* 2. Top Movers */}
             <div 
               className="border p-5 flex flex-col justify-between"
-              style={{ backgroundColor: "var(--paper-100)", borderColor: "var(--line-200)", borderRadius: 0 }}
+              style={{ backgroundColor: "var(--surface-raised)", border: "1px solid var(--border-subtle)", borderRadius: "var(--radius-md)" }}
             >
-              <div className="flex items-center justify-between pb-3 mb-4 border-b" style={{ borderColor: "var(--line-200)" }}>
+              <div className="flex items-center justify-between pb-3 mb-4 border-b" style={{ borderColor: "var(--border-subtle)" }}>
                 <div className="flex items-center gap-2">
-                  <TrendingUp className="w-4 h-4" style={{ color: "var(--signal-navy)" }} />
-                  <span className="text-[12px] font-sans font-bold uppercase tracking-wider" style={{ color: "var(--ink-950)" }}>
+                  <TrendingUp className="w-4 h-4" style={{ color: "var(--accent)" }} />
+                  <span className="text-[12px] font-sans font-bold uppercase tracking-wider" style={{ color: "var(--text-primary)" }}>
                     Top Movers
                   </span>
                 </div>
-                <span className="text-[9px] font-mono uppercase tracking-wider" style={{ color: "var(--graphite-600)" }}>
+                <span className="text-[9px] font-mono uppercase tracking-wider" style={{ color: "var(--text-tertiary)" }}>
                   24H RANGE
                 </span>
               </div>
@@ -418,15 +415,15 @@ export function MarketPulse() {
                     <div 
                       key={idx}
                       className="flex items-center justify-between py-2.5 border-b last:border-b-0 last:pb-0"
-                      style={{ borderColor: "var(--line-100)" }}
+                      style={{ borderColor: "var(--border-subtle)" }}
                     >
-                      <span className="text-xs font-mono font-bold" style={{ color: "var(--ink-950)" }}>{mvr.symbol}</span>
-                      <span className="text-xs font-mono" style={{ color: "var(--graphite-600)" }}>{displayPrice}</span>
+                      <span className="text-xs font-mono font-bold" style={{ color: "var(--text-primary)" }}>{mvr.symbol}</span>
+                      <span className="text-xs font-mono" style={{ color: "var(--text-secondary)" }}>{displayPrice}</span>
                       {hasData && (
-                        <span className={cn(
-                          "text-xs font-mono font-bold",
-                          isPositive ? "text-mkt-grn" : "text-mkt-red"
-                        )}>
+                        <span 
+                          className="text-xs font-mono font-bold"
+                          style={{ color: isPositive ? "var(--market-up)" : "var(--market-down)" }}
+                        >
                           {displayChange}
                         </span>
                       )}
@@ -441,6 +438,6 @@ export function MarketPulse() {
         </div>
 
       </div>
-    </section>
+    </div>
   );
 }

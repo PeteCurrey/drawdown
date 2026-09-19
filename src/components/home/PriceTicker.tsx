@@ -92,8 +92,8 @@ export function PriceTicker() {
     <div
       className="w-full h-[44px] flex items-center overflow-hidden border-b select-none relative z-10"
       style={{ 
-        backgroundColor: "var(--paper-0)", 
-        borderColor: "var(--line-200)",
+        backgroundColor: "var(--surface-base)", 
+        borderColor: "var(--border-subtle)",
         boxShadow: "inset 0 1px 0 rgba(255, 255, 255, 0.6)"
       }}
     >
@@ -101,17 +101,17 @@ export function PriceTicker() {
       <div
         className="absolute left-0 top-0 bottom-0 flex items-center px-4 border-r z-30 shadow-[2px_0_8px_rgba(0,0,0,0.02)]"
         style={{
-          backgroundColor: "var(--paper-0)",
-          borderColor: "var(--line-200)",
+          backgroundColor: "var(--surface-base)",
+          borderColor: "var(--border-subtle)",
         }}
       >
         <span
           className="text-[10px] font-mono uppercase tracking-[0.08em] px-2.5 py-0.5 border flex items-center gap-1.5"
           style={{
-            color: isLive ? "var(--mkt-grn)" : "var(--graphite-600)",
-            borderColor: isLive ? "var(--mkt-gbd)" : "var(--line-200)",
-            backgroundColor: isLive ? "var(--mkt-gbg)" : "var(--paper-100)",
-            borderRadius: "4px",
+            color: isLive ? "var(--market-up)" : "var(--text-secondary)",
+            borderColor: isLive ? "color-mix(in srgb, var(--market-up) 25%, transparent)" : "var(--border-subtle)",
+            backgroundColor: isLive ? "color-mix(in srgb, var(--market-up) 10%, transparent)" : "var(--surface-raised)",
+            borderRadius: "var(--radius-md)",
           }}
         >
           <span className={`w-1.5 h-1.5 rounded-full ${isLive ? "bg-emerald-500 animate-pulse" : "bg-gray-400"}`} />
@@ -134,23 +134,23 @@ export function PriceTicker() {
             <div key={i} className="flex items-center gap-2 pr-10 shrink-0">
               {/* Symbol */}
               <span
-                className="text-[11px] font-mono tabular"
-                style={{ color: "var(--graphite-600)" }}
+                className="text-[11px] font-mono tabular-nums"
+                style={{ color: "var(--text-secondary)" }}
               >
                 {item.displaySymbol}
               </span>
               {/* Price */}
               <span
-                className="text-[11px] font-mono tabular font-medium"
-                style={{ color: "var(--ink-950)" }}
+                className="text-[11px] font-mono tabular-nums font-medium"
+                style={{ color: "var(--text-primary)" }}
               >
                 {item.price}
               </span>
               {/* Change */}
               <span
-                className="text-[11px] font-mono tabular"
+                className="text-[11px] font-mono tabular-nums"
                 style={{
-                  color: item.positive ? "#18B880" : "#CE6969",
+                  color: item.positive ? "var(--market-up)" : "var(--market-down)",
                 }}
               >
                 {item.change}
@@ -158,7 +158,7 @@ export function PriceTicker() {
               {/* Hairline separator */}
               <span
                 className="pl-8"
-                style={{ color: "var(--line-200)" }}
+                style={{ color: "var(--border-subtle)" }}
                 aria-hidden="true"
               >
                 |
@@ -172,13 +172,13 @@ export function PriceTicker() {
       <div
         className="absolute right-0 top-0 bottom-0 flex items-center px-4 border-l z-30 shadow-[-2px_0_8px_rgba(0,0,0,0.02)]"
         style={{
-          backgroundColor: "var(--paper-0)",
-          borderColor: "var(--line-200)",
+          backgroundColor: "var(--surface-base)",
+          borderColor: "var(--border-subtle)",
         }}
       >
         <span
           className="text-[10px] font-mono uppercase tracking-[0.08em]"
-          style={{ color: "var(--graphite-600)" }}
+          style={{ color: "var(--text-secondary)" }}
         >
           {isLive ? "Institutional Price Feeds" : "Not Live — For Illustration Only"}
         </span>

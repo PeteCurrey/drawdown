@@ -23,13 +23,13 @@ export function PropFirmSection() {
           <div className="flex flex-col lg:flex-row justify-between items-end gap-8 mb-16">
             <div className="max-w-2xl space-y-4">
               <span className="text-xs font-semibold tracking-widest text-neutral-400 border border-neutral-200 rounded-full px-3 py-1 inline-block uppercase font-sans">
-                // INSTITUTIONAL CAPITAL
+                INSTITUTIONAL CAPITAL
               </span>
               <h2 className="text-4xl md:text-5xl font-sans font-bold uppercase text-[#0A0A0A] leading-tight">
                 Prop Firm Directory.
               </h2>
               <p className="text-base font-sans text-neutral-500 leading-relaxed">
-                Scaling your own capital takes years. Prop firms offer a shortcut to funding — if you have a proven edge. We evaluate firms on rules, reliability, and real payout data.
+                Scaling personal capital takes years. Prop firms provide access to external capital — provided you have a systematic, risk-defined process. We evaluate firms on rules, drawdown mechanics, and real payout records.
               </p>
             </div>
             <Link 

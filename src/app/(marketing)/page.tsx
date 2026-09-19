@@ -1,22 +1,16 @@
 import { Navigation } from "@/components/layout/Navigation";
 import { HeroSection } from "@/components/home/HeroSection";
-import { PriceTicker } from "@/components/home/PriceTicker";
-import { MacroIntelligenceStrip } from "@/components/home/MacroIntelligenceStrip";
+import { LiveDataStrip } from "@/components/home/LiveDataStrip";
 import { FragmentedProblemSection } from "@/components/home/FragmentedProblemSection";
 import { OperatingLoopSection } from "@/components/home/OperatingLoopSection";
 import { RunMyTradeShowcase } from "@/components/home/RunMyTradeShowcase";
-import { ScrollQuoteSection } from "@/components/home/ScrollQuoteSection";
-import { InstitutionalPulseSection } from "@/components/home/InstitutionalPulseSection";
-import { InstitutionalConsensusSection } from "@/components/home/InstitutionalConsensusSection";
-import { MarketCallPromoSection } from "@/components/home/MarketCallPromoSection";
-import { GlobalFluxSection } from "@/components/home/GlobalFluxSection";
-import { MarketPulse } from "@/components/home/MarketPulse";
+import { MarketIntelligenceSection } from "@/components/home/MarketIntelligenceSection";
+import { TheWireSection } from "@/components/home/TheWireSection";
 import { CurriculumSection } from "@/components/home/CurriculumSection";
-import { HorizontalScrollSection } from "@/components/home/HorizontalScrollSection";
-import { BrokerSection } from "@/components/home/BrokerSection";
+import { ScrollQuoteSection } from "@/components/home/ScrollQuoteSection";
+import { BrokerEcosystemSection } from "@/components/home/BrokerEcosystemSection";
 import { PricingSection } from "@/components/home/PricingSection";
 import { Footer } from "@/components/layout/Footer";
-import { TradingViewSection } from "@/components/home/TradingViewSection";
 import { TrackPageView } from "@/components/admin/TrackPageView";
 import JsonLd from "@/components/seo/JsonLd";
 import type { Metadata } from "next";
@@ -81,7 +75,7 @@ export default async function Home() {
   } catch {}
 
   return (
-    <div className="flex flex-col min-h-screen" style={{ backgroundColor: "var(--paper-0)", color: "var(--ink-950)" }}>
+    <div className="flex flex-col min-h-screen" style={{ backgroundColor: "var(--surface-base)", color: "var(--text-primary)" }}>
       <TrackPageView path="/" />
       <JsonLd data={{
         "@context": "https://schema.org",
@@ -131,92 +125,41 @@ export default async function Home() {
       {/* 1. Header */}
       <Navigation />
 
-      {/* 2. Hero + Ticker */}
+      {/* Main Content */}
       <main className="flex-grow pt-[58px]">
+        {/* 1. Hero + Value Proposition */}
         <HeroSection />
-        <PriceTicker />
-        
-        {/* Real-time Macro Strip right after pricing ticker to frame the data-driven context */}
-        <MacroIntelligenceStrip />
 
-        {/* 3. The Core Fragmented Trading Problem */}
+        {/* 2. Consolidated Live Data Strip */}
+        <LiveDataStrip />
+
+        {/* 3. The Problem — Fragmented Workflow */}
         <FragmentedProblemSection />
 
-        {/* 4. The 7-Stage Operating Loop */}
+        {/* 4. The Operating Loop */}
         <div id="operating-loop">
           <OperatingLoopSection />
         </div>
 
-        {/* 5. RUN MY TRADE — The Core Interactive Aha Moment */}
+        {/* 5. Live Product Showcase: RUN MY TRADE */}
         <RunMyTradeShowcase />
-        
-        {/* 6. Positioning Statement ("No Lambos. No Beach Photos.") — hairline border system */}
-        <section
-          className="w-full py-24 md:py-32 border-b select-none"
-          style={{ backgroundColor: "var(--paper-0)", borderColor: "var(--line-200)" }}
-        >
-          <div className="max-w-[1280px] mx-auto px-6 text-center">
-            <div className="max-w-2xl mx-auto space-y-6">
-              <span
-                className="block text-[11px] font-mono uppercase tracking-[0.08em]"
-                style={{ color: "var(--graphite-600)" }}
-              >
-                Platform integrity
-              </span>
-              <h2
-                className="font-display text-[clamp(2rem,5vw,3.5rem)] leading-tight tracking-[-0.02em] font-semibold"
-                style={{ color: "var(--ink-950)" }}
-              >
-                No Lambos. No Beach Photos. <br />
-                <span style={{ color: "var(--signal-navy)" }}>Just Data.</span>
-              </h2>
-              <div className="space-y-3 max-w-lg mx-auto">
-                <p
-                  className="text-[16px] leading-[1.6] font-sans"
-                  style={{ color: "var(--graphite-600)" }}
-                >
-                  Trading is a business of probabilities, risk management, and emotional detachment. We don't sell dreams; we provide the data and the discipline to survive the markets.
-                </p>
-                <p
-                  className="text-[12px] font-mono uppercase tracking-[0.08em]"
-                  style={{ color: "var(--graphite-600)" }}
-                >
-                  Chesterfield, UK · Built for traders who value truth over hype
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
 
-        {/* 4. Founder Quote Block */}
-        <ScrollQuoteSection />
+        {/* 6. Market Intelligence Briefing */}
+        <MarketIntelligenceSection />
 
-        {/* 5. Unified News & Live Economic Calendar Hub */}
-        <MarketPulse />
+        {/* 7. The Wire — 3-Column Financial Editorial */}
+        <TheWireSection />
 
-        {/* 6. Curriculum Overview */}
+        {/* 8. Curriculum — The 6 Phases */}
         <CurriculumSection />
 
-        {/* 7. Capabilities Grid */}
-        <HorizontalScrollSection />
+        {/* 9. Founder Pull-Quote */}
+        <ScrollQuoteSection />
 
-        {/* 8. Institutional Sentiment Block */}
-        <InstitutionalPulseSection />
+        {/* 10. Broker & Tool Ecosystem */}
+        <BrokerEcosystemSection />
 
-        {/* 9. Market Consensus Accumulation Matrix */}
-        <InstitutionalConsensusSection />
-
-        {/* Weekly Market Call Free Prediction Game */}
-        <MarketCallPromoSection />
-
-        {/* 10. Global Flux Sparklines & TradingView Partnership CTA */}
-        <GlobalFluxSection />
-        <TradingViewSection />
-
-        {/* 11. Recommended Brokers */}
-        <BrokerSection />
-
-        {/* 12. Pricing Tiers */}
+        {/* 11. Pricing Tiers */}
         <PricingSection floorCap={floorCap} activeFloorSubs={activeFloorSubs} />
       </main>
 

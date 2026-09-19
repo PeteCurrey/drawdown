@@ -1,7 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Check, X, AlertTriangle } from "lucide-react";
+import { Reveal } from "@/components/ui/Reveal";
+import { RevealGroup } from "@/components/ui/RevealGroup";
 
 const FRAGMENTED_TABS = [
   { tab: "Tab 1: TradingView", issue: "Charting & technical drawings isolated from risk parameters" },
@@ -24,135 +26,185 @@ export function FragmentedProblemSection() {
     <section
       className="w-full py-20 md:py-28 border-b select-none"
       style={{
-        backgroundColor: "var(--paper-0)",
-        borderColor: "var(--line-200)",
+        backgroundColor: "var(--surface-base)",
+        borderColor: "var(--border-subtle)",
       }}
     >
       <div className="max-w-[1280px] mx-auto px-6">
         {/* Section Header */}
+        <Reveal>
         <div className="max-w-3xl mb-16 space-y-4">
           <span
-            className="block text-[11px] font-mono uppercase tracking-[0.1em]"
-            style={{ color: "var(--graphite-600)" }}
+            className="block type-label uppercase mb-3"
+            style={{ color: "var(--text-secondary)" }}
           >
-            // The Core Problem
+            THE PROBLEM
           </span>
           <h2
-            className="font-display text-[clamp(2rem,4vw,3.25rem)] leading-[1.12] tracking-[-0.02em] font-semibold"
-            style={{ color: "var(--ink-950)" }}
+            className="type-display-lg font-normal"
+            style={{ color: "var(--text-primary)" }}
           >
             Serious traders are forced to use fragmented tools.
           </h2>
           <p
-            className="text-[17px] leading-[1.6] font-sans"
-            style={{ color: "var(--graphite-600)" }}
+            className="type-body-lg font-normal"
+            style={{ color: "var(--text-secondary)" }}
           >
             Most trading errors do not happen because the chart was wrong. They happen at the seams between disconnected tools — when a rushed lot calculation, a missed economic release, or an emotional impulse overrides your discipline.
           </p>
         </div>
+        </Reveal>
 
         {/* Comparison Grid: Fragmented vs. Operating System */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
           {/* Left: The Fragmented Stack */}
+          <Reveal delay={0.05} className="lg:col-span-6">
           <div
-            className="lg:col-span-6 p-8 md:p-10 border flex flex-col justify-between"
+            className="h-full p-8 md:p-10 border flex flex-col justify-between"
             style={{
-              backgroundColor: "rgba(239, 68, 68, 0.02)",
-              borderColor: "var(--line-200)",
-              borderRadius: "8px",
-              boxShadow: "0 1px 3px rgba(11, 14, 18, 0.02)",
+              backgroundColor: "var(--surface-raised)",
+              borderColor: "var(--border-subtle)",
+              borderRadius: "var(--radius-md)",
+              boxShadow: "var(--elev-1)",
             }}
           >
             <div>
-              <div className="flex items-center justify-between border-b pb-4 mb-6" style={{ borderColor: "var(--line-200)" }}>
+              <div className="flex items-center justify-between border-b pb-4 mb-6" style={{ borderColor: "var(--border-subtle)" }}>
                 <div>
-                  <span className="text-[10px] font-mono uppercase tracking-[0.1em] text-red-600 font-bold block mb-1">
+                  <span 
+                    className="text-[10px] font-mono uppercase tracking-[0.1em] font-bold block mb-1"
+                    style={{ color: "var(--market-down)" }}
+                  >
                     The Fragmented Reality
                   </span>
-                  <h3 className="font-display text-xl font-bold text-gray-900">
+                  <h3 className="font-display text-xl font-bold" style={{ color: "var(--text-primary)" }}>
                     Six Browser Tabs. Zero Accountability.
                   </h3>
                 </div>
-                <div className="w-8 h-8 rounded-full bg-red-50 border border-red-200 flex items-center justify-center text-red-600 font-mono text-xs font-bold">
-                  ✕
+                <div 
+                  className="w-8 h-8 rounded-full border flex items-center justify-center font-mono text-xs font-bold"
+                  style={{
+                    backgroundColor: "color-mix(in srgb, var(--market-down) 10%, transparent)",
+                    borderColor: "color-mix(in srgb, var(--market-down) 25%, transparent)",
+                    color: "var(--market-down)"
+                  }}
+                >
+                  <X className="w-3.5 h-3.5" />
                 </div>
               </div>
 
               <div className="space-y-4">
                 {FRAGMENTED_TABS.map((item, i) => (
                   <div key={i} className="flex items-start gap-3 text-sm">
-                    <div className="w-4 h-4 rounded-full bg-red-100 text-red-600 flex items-center justify-center shrink-0 mt-0.5 text-[10px] font-bold">
-                      ✕
+                    <div 
+                      className="w-4 h-4 rounded-full flex items-center justify-center shrink-0 mt-0.5"
+                      style={{
+                        backgroundColor: "color-mix(in srgb, var(--market-down) 10%, transparent)",
+                        color: "var(--market-down)"
+                      }}
+                    >
+                      <X className="w-2.5 h-2.5" />
                     </div>
                     <div>
-                      <span className="font-mono text-xs font-bold text-gray-900 block">{item.tab}</span>
-                      <span className="text-gray-500 text-xs leading-relaxed">{item.issue}</span>
+                      <span className="font-mono text-xs font-bold block" style={{ color: "var(--text-primary)" }}>{item.tab}</span>
+                      <span className="text-xs leading-relaxed" style={{ color: "var(--text-secondary)" }}>{item.issue}</span>
                     </div>
                   </div>
                 ))}
               </div>
             </div>
 
-            <div className="mt-8 pt-6 border-t font-mono text-xs text-red-700 bg-red-50/50 p-3 rounded-[5px]" style={{ borderColor: "var(--line-200)" }}>
-              ⚠️ Friction causes execution mistakes, position sizing miscalculations, and unrecorded losing streaks.
+            <div 
+              className="mt-8 pt-6 border-t font-mono text-xs p-3 flex items-center gap-2" 
+              style={{ 
+                borderColor: "var(--border-subtle)",
+                color: "var(--market-flat)",
+                backgroundColor: "color-mix(in srgb, var(--market-flat) 10%, transparent)",
+                borderRadius: "var(--radius-sm)"
+              }}
+            >
+              <AlertTriangle className="w-4 h-4 shrink-0 text-[var(--market-flat)]" />
+              <span>Friction causes execution mistakes, position sizing miscalculations, and unrecorded losing streaks.</span>
             </div>
           </div>
+          </Reveal>
 
           {/* Right: The Drawdown Operating System */}
+          <Reveal delay={0.12} className="lg:col-span-6">
           <div
-            className="lg:col-span-6 p-8 md:p-10 border flex flex-col justify-between transition-all duration-200"
+            className="h-full p-8 md:p-10 border flex flex-col justify-between transition-all duration-200"
             style={{
-              backgroundColor: "#FFFFFF",
-              borderColor: "var(--line-200)",
-              borderRadius: "8px",
-              boxShadow: "0 2px 6px rgba(11, 14, 18, 0.04), 0 16px 36px -8px rgba(11, 14, 18, 0.07), inset 0 1px 0 rgba(255, 255, 255, 0.8)",
+              backgroundColor: "var(--surface-raised)",
+              borderColor: "var(--border-subtle)",
+              borderRadius: "var(--radius-md)",
+              boxShadow: "var(--elev-3)",
             }}
           >
             <div>
-              <div className="flex items-center justify-between border-b pb-4 mb-6" style={{ borderColor: "var(--line-200)" }}>
+              <div className="flex items-center justify-between border-b pb-4 mb-6" style={{ borderColor: "var(--border-subtle)" }}>
                 <div>
-                  <span className="text-[10px] font-mono uppercase tracking-[0.1em] text-emerald-600 font-bold block mb-1">
+                  <span 
+                    className="text-[10px] font-mono uppercase tracking-[0.1em] font-bold block mb-1"
+                    style={{ color: "var(--market-up)" }}
+                  >
                     The Drawdown Operating System
                   </span>
-                  <h3 className="font-display text-xl font-bold text-gray-900">
+                  <h3 className="font-display text-xl font-bold" style={{ color: "var(--text-primary)" }}>
                     One Unified Decision Loop
                   </h3>
                 </div>
-                <div className="w-8 h-8 rounded-full bg-emerald-50 border border-emerald-200 flex items-center justify-center text-emerald-600 font-mono text-xs font-bold">
-                  ✓
+                <div 
+                  className="w-8 h-8 rounded-full border flex items-center justify-center font-mono text-xs font-bold"
+                  style={{
+                    backgroundColor: "color-mix(in srgb, var(--market-up) 10%, transparent)",
+                    borderColor: "color-mix(in srgb, var(--market-up) 25%, transparent)",
+                    color: "var(--market-up)"
+                  }}
+                >
+                  <Check className="w-3.5 h-3.5" />
                 </div>
               </div>
 
               <div className="space-y-4">
                 {CONNECTED_WORKFLOW.map((item, i) => (
                   <div key={i} className="flex items-start gap-3 text-sm">
-                    <div className="w-4 h-4 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0 mt-0.5 text-[10px] font-bold">
-                      ✓
+                    <div 
+                      className="w-4 h-4 rounded-full flex items-center justify-center shrink-0 mt-0.5"
+                      style={{
+                        backgroundColor: "color-mix(in srgb, var(--market-up) 10%, transparent)",
+                        color: "var(--market-up)"
+                      }}
+                    >
+                      <Check className="w-2.5 h-2.5" />
                     </div>
                     <div>
-                      <span className="font-mono text-xs font-bold text-gray-900 block uppercase tracking-wider">{item.stage}</span>
-                      <span className="text-gray-600 text-xs leading-relaxed">{item.solution}</span>
+                      <span className="font-mono text-xs font-bold block uppercase tracking-wider" style={{ color: "var(--text-primary)" }}>{item.stage}</span>
+                      <span className="text-xs leading-relaxed" style={{ color: "var(--text-secondary)" }}>{item.solution}</span>
                     </div>
                   </div>
                 ))}
               </div>
             </div>
 
-            <div className="mt-8 pt-6 border-t flex flex-col sm:flex-row items-center justify-between gap-4" style={{ borderColor: "var(--line-200)" }}>
-              <div className="font-mono text-xs text-gray-600">
+            <div className="mt-8 pt-6 border-t flex flex-col sm:flex-row items-center justify-between gap-4" style={{ borderColor: "var(--border-subtle)" }}>
+              <div className="font-mono text-xs" style={{ color: "var(--text-secondary)" }}>
                 Every trade planned, validated, and logged under one strict risk framework.
               </div>
               <Link
                 href="/signup"
-                className="shrink-0 inline-flex items-center gap-2 px-4 py-2.5 bg-gray-900 text-white font-mono text-xs font-bold uppercase tracking-wider hover:bg-black transition-all duration-150 rounded-[5px] active:translate-y-0.5"
+                className="shrink-0 inline-flex items-center gap-2 px-4 py-2.5 font-mono text-xs font-bold uppercase tracking-wider transition-all duration-150 hover:opacity-90 active:translate-y-0.5"
                 style={{
-                  boxShadow: "0 1px 2px rgba(11, 14, 18, 0.08), 0 4px 10px rgba(0, 0, 0, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.15)"
+                  backgroundColor: "var(--accent)",
+                  color: "var(--surface-base)",
+                  borderRadius: "var(--radius-sm)",
+                  boxShadow: "var(--elev-1)"
                 }}
               >
                 Experience Free <ArrowRight size={13} />
               </Link>
             </div>
           </div>
+          </Reveal>
         </div>
       </div>
     </section>

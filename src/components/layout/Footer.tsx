@@ -43,7 +43,7 @@ export function Footer() {
   return (
     <footer
       className="py-16 md:py-24 select-none relative z-10 border-t"
-      style={{ backgroundColor: "var(--paper-0)", borderColor: "var(--line-200)" }}
+      style={{ backgroundColor: "var(--surface-base)", borderColor: "var(--border-subtle)" }}
     >
       <div className="max-w-[1280px] mx-auto px-6">
 
@@ -55,11 +55,11 @@ export function Footer() {
             <Link
               href={region === "uk" ? "/" : `/${region}`}
               className="font-display text-[20px] font-semibold tracking-[-0.02em] block"
-              style={{ color: "var(--ink-950)" }}
+              style={{ color: "var(--text-primary)" }}
             >
               Drawdown
             </Link>
-            <p className="text-[13px] leading-relaxed font-sans" style={{ color: "var(--graphite-600)" }}>
+            <p className="text-[13px] leading-relaxed font-sans" style={{ color: "var(--text-secondary)" }}>
               Trading education for independent traders who value truth over hype. No shortcuts. Just data.
             </p>
 
@@ -73,10 +73,10 @@ export function Footer() {
                   disabled={status === "loading" || status === "success"}
                   className="w-full p-3 text-[12px] font-mono border outline-none font-sans"
                   style={{
-                    backgroundColor: "var(--paper-100)",
-                    borderColor: "var(--line-200)",
-                    color: "var(--ink-950)",
-                    borderRadius: 0,
+                    backgroundColor: "var(--surface-inset)",
+                    borderColor: "var(--border-subtle)",
+                    color: "var(--text-primary)",
+                    borderRadius: "var(--radius-sm) 0 0 var(--radius-sm)",
                   }}
                 />
                 <button
@@ -84,17 +84,17 @@ export function Footer() {
                   disabled={status === "loading" || status === "success"}
                   className="px-4 py-3 border border-l-0 text-[12px] font-medium transition-colors shrink-0"
                   style={{
-                    backgroundColor: "var(--signal-navy)",
-                    borderColor: "var(--signal-navy)",
-                    color: "#FAFAF9",
-                    borderRadius: 0,
+                    backgroundColor: "var(--accent)",
+                    borderColor: "var(--accent)",
+                    color: "var(--surface-base)",
+                    borderRadius: "0 var(--radius-sm) var(--radius-sm) 0",
                   }}
                 >
                   {status === "success" ? <Check size={14} strokeWidth={1.5} /> : <ArrowRight size={14} strokeWidth={1.5} />}
                 </button>
               </div>
               {message && (
-                <p className="text-[11px] font-mono" style={{ color: status === "error" ? "var(--risk-amber)" : "var(--graphite-600)" }}>
+                <p className="text-[11px] font-mono" style={{ color: status === "error" ? "var(--accent-muted)" : "var(--text-secondary)" }}>
                   {message}
                 </p>
               )}
@@ -103,10 +103,10 @@ export function Footer() {
 
           {/* Column 2: Platform */}
           <div>
-            <h4 className="text-[11px] font-mono uppercase tracking-[0.08em] mb-4" style={{ color: "var(--ink-950)" }}>
+            <h4 className="text-[11px] font-mono uppercase tracking-[0.08em] mb-4" style={{ color: "var(--text-primary)" }}>
               Platform
             </h4>
-            <ul className="space-y-3 text-[13px] font-sans" style={{ color: "var(--graphite-600)" }}>
+            <ul className="space-y-3 text-[13px] font-sans" style={{ color: "var(--text-secondary)" }}>
               <li><Link href={`${regionPrefix}/courses`} className="hover:underline">Curriculum</Link></li>
               <li><Link href={`${regionPrefix}/markets`} className="hover:underline">Markets Hub</Link></li>
               <li><Link href={`${regionPrefix}/brokers`} className="hover:underline">Broker Guide</Link></li>
@@ -118,10 +118,10 @@ export function Footer() {
 
           {/* Column 3: Learn */}
           <div>
-            <h4 className="text-[11px] font-mono uppercase tracking-[0.08em] mb-4" style={{ color: "var(--ink-950)" }}>
+            <h4 className="text-[11px] font-mono uppercase tracking-[0.08em] mb-4" style={{ color: "var(--text-primary)" }}>
               Learn
             </h4>
-            <ul className="space-y-3 text-[13px] font-sans" style={{ color: "var(--graphite-600)" }}>
+            <ul className="space-y-3 text-[13px] font-sans" style={{ color: "var(--text-secondary)" }}>
               <li><Link href={`${regionPrefix}/learn-to-trade/day-trading`} className="hover:underline">Day Trading</Link></li>
               <li><Link href={`${regionPrefix}/learn-to-trade/forex-trading`} className="hover:underline">Forex Mastery</Link></li>
               <li><Link href={`${regionPrefix}/learn-to-trade/risk-management`} className="hover:underline">Risk Management</Link></li>
@@ -131,11 +131,11 @@ export function Footer() {
 
           {/* Column 4: Resources (includes Prop Firms reachability) */}
           <div>
-            <h4 className="text-[11px] font-mono uppercase tracking-[0.08em] mb-4" style={{ color: "var(--ink-950)" }}>
+            <h4 className="text-[11px] font-mono uppercase tracking-[0.08em] mb-4" style={{ color: "var(--text-primary)" }}>
               Resources
             </h4>
-            <ul className="space-y-3 text-[13px] font-sans" style={{ color: "var(--graphite-600)" }}>
-              <li><Link href="/prop-firms" className="hover:underline font-medium" style={{ color: "var(--ink-950)" }}>Prop Firms Hub</Link></li>
+            <ul className="space-y-3 text-[13px] font-sans" style={{ color: "var(--text-secondary)" }}>
+              <li><Link href="/prop-firms" className="hover:underline font-medium" style={{ color: "var(--text-primary)" }}>Prop Firms Hub</Link></li>
               <li><Link href="/basic" className="hover:underline">Trading Basics</Link></li>
               <li><Link href="/glossary" className="hover:underline">Glossary</Link></li>
               <li><Link href="/how-to" className="hover:underline">How-To Guides</Link></li>
@@ -145,13 +145,13 @@ export function Footer() {
 
           {/* Column 5: Company */}
           <div>
-            <h4 className="text-[11px] font-mono uppercase tracking-[0.08em] mb-4" style={{ color: "var(--ink-950)" }}>
+            <h4 className="text-[11px] font-mono uppercase tracking-[0.08em] mb-4" style={{ color: "var(--text-primary)" }}>
               Company
             </h4>
-            <ul className="space-y-3 text-[13px] font-sans" style={{ color: "var(--graphite-600)" }}>
+            <ul className="space-y-3 text-[13px] font-sans" style={{ color: "var(--text-secondary)" }}>
               <li><Link href="/about" className="hover:underline">About Us</Link></li>
               <li><Link href="/contact" className="hover:underline">Contact</Link></li>
-              <li><Link href="/methodology" className="hover:underline font-medium" style={{ color: "var(--ink-950)" }}>Data &amp; Methodology</Link></li>
+              <li><Link href="/methodology" className="hover:underline font-medium" style={{ color: "var(--text-primary)" }}>Data &amp; Methodology</Link></li>
               <li><Link href="/editorial-standards" className="hover:underline">Editorial Standards</Link></li>
               <li><Link href="/terms" className="hover:underline">Terms &amp; Conditions</Link></li>
               <li><Link href="/privacy" className="hover:underline">Privacy Policy</Link></li>
@@ -166,14 +166,14 @@ export function Footer() {
         </div>
 
         {/* Bottom Strip: copyright left, risk warning right */}
-        <div className="border-t pt-8 flex flex-col lg:flex-row justify-between items-start gap-8" style={{ borderColor: "var(--line-200)" }}>
+        <div className="border-t pt-8 flex flex-col lg:flex-row justify-between items-start gap-8" style={{ borderColor: "var(--border-subtle)" }}>
 
           {/* Copyright & Region Links */}
           <div className="space-y-3 shrink-0">
-            <p className="text-[11px] font-mono uppercase tracking-[0.08em]" style={{ color: "var(--graphite-600)" }}>
+            <p className="text-[11px] font-mono uppercase tracking-[0.08em]" style={{ color: "var(--text-secondary)" }}>
               © 2026 Black &amp; Rowan Management Group Limited t/a Drawdown · Chesterfield, Derbyshire, UK
             </p>
-            <div className="flex items-center gap-3 text-[11px] font-mono uppercase tracking-[0.08em]" style={{ color: "var(--graphite-600)" }}>
+            <div className="flex items-center gap-3 text-[11px] font-mono uppercase tracking-[0.08em]" style={{ color: "var(--text-secondary)" }}>
               <span className="select-none">Region:</span>
               {[
                 { id: "uk", label: "UK", href: "/" },
@@ -193,7 +193,7 @@ export function Footer() {
                   href={reg.href}
                   className="hover:underline"
                   style={{
-                    color: region === reg.id || (region === "uk" && reg.id === "uk") ? "var(--ink-950)" : "var(--graphite-600)",
+                    color: region === reg.id || (region === "uk" && reg.id === "uk") ? "var(--text-primary)" : "var(--text-secondary)",
                     fontWeight: region === reg.id || (region === "uk" && reg.id === "uk") ? 600 : 400,
                   }}
                 >
@@ -205,11 +205,11 @@ export function Footer() {
 
           {/* Risk Warning — --risk-amber reserved EXCLUSIVELY for risk disclosures */}
           <div className="space-y-2 max-w-2xl font-sans">
-            <p className="text-[11px] leading-relaxed" style={{ color: "var(--risk-amber)" }}>
+            <p className="text-[11px] leading-relaxed" style={{ color: "var(--market-flat)" }}>
               <span className="font-semibold block mb-0.5 font-mono uppercase tracking-[0.08em]">Risk Warning:</span>
               Trading financial instruments carries a high level of risk and may not be suitable for all investors. The high degree of leverage can work against you as well as for you. Before deciding to trade, you should carefully consider your investment objectives, level of experience, and risk appetite. The possibility exists that you could sustain a loss of some or all of your initial investment. You should not invest money that you cannot afford to lose. Past performance is not indicative of future results. Drawdown does not provide financial advice. Trade signals and quantitative tools represent analytical conclusions derived from data feeds and risk parameters; they are not guaranteed outcomes or financial recommendations.
             </p>
-            <p className="text-[11px] leading-relaxed" style={{ color: "var(--graphite-600)" }}>
+            <p className="text-[11px] leading-relaxed" style={{ color: "var(--text-secondary)" }}>
               Drawdown does not route, execute, or hold funds. All trades are placed independently by users through their own brokers.{" "}
               <Link href="/methodology" className="underline hover:opacity-80">View our Data &amp; Methodology Centre</Link> for full evidence and source attribution behind every platform claim.
             </p>

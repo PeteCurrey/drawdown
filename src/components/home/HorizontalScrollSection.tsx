@@ -57,8 +57,8 @@ const features: Feature[] = [
 export function HorizontalScrollSection() {
   return (
     <section
-      className="w-full py-24 border-b select-none relative z-10"
-      style={{ backgroundColor: "var(--paper-0)", borderColor: "var(--line-200)" }}
+      className="w-full border-b select-none relative z-10"
+      style={{ backgroundColor: "var(--surface-base)", borderColor: "var(--border-subtle)", paddingTop: "var(--section-y-desktop)", paddingBottom: "var(--section-y-desktop)" }}
     >
       <div className="max-w-[1280px] mx-auto px-6">
         
@@ -66,37 +66,38 @@ export function HorizontalScrollSection() {
         <div className="mb-16">
           <span
             className="block text-[11px] font-mono uppercase tracking-[0.08em] mb-3"
-            style={{ color: "var(--graphite-600)" }}
+            style={{ color: "var(--text-tertiary)" }}
           >
             Platform capabilities
           </span>
           <h2
-            className="font-display text-[clamp(1.75rem,4vw,3rem)] leading-tight tracking-[-0.02em] font-semibold max-w-2xl"
-            style={{ color: "var(--ink-950)" }}
+            className="type-display-lg font-normal max-w-2xl"
+            style={{ color: "var(--text-primary)" }}
           >
             Everything a serious trader actually needs
           </h2>
         </div>
 
-        {/* Capabilities Grid — 12-column system, zero border-radius, hairline rules */}
+        {/* Capabilities Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {features.map((feat, idx) => {
             const Icon = feat.icon;
             return (
               <div
                 key={idx}
-                className="p-6 border-t flex flex-col justify-between"
+                className="p-6 border flex flex-col justify-between"
                 style={{
-                  borderColor: "var(--line-200)",
-                  backgroundColor: "var(--paper-100)",
-                  borderRadius: 0,
+                  borderColor: "var(--border-subtle)",
+                  backgroundColor: "var(--surface-raised)",
+                  borderRadius: "var(--radius-md)",
+                  boxShadow: "var(--elev-1)",
                 }}
               >
                 <div>
                   {/* Icon header if literal icon exists */}
                   {Icon ? (
-                    <div className="mb-4 text-[var(--ink-950)]">
-                      <Icon size={20} strokeWidth={1.5} style={{ color: "var(--ink-950)" }} />
+                    <div className="mb-4">
+                      <Icon size={20} strokeWidth={1.5} style={{ color: "var(--text-primary)" }} />
                     </div>
                   ) : (
                     <div className="mb-4 h-[20px]" />
@@ -104,13 +105,13 @@ export function HorizontalScrollSection() {
 
                   <h3
                     className="text-[15px] font-medium leading-snug mb-2 font-sans"
-                    style={{ color: "var(--ink-950)" }}
+                    style={{ color: "var(--text-primary)" }}
                   >
                     {feat.title}
                   </h3>
                   <p
                     className="text-[13px] leading-[1.6] font-sans"
-                    style={{ color: "var(--graphite-600)" }}
+                    style={{ color: "var(--text-secondary)" }}
                   >
                     {feat.description}
                   </p>

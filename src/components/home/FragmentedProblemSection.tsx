@@ -4,6 +4,7 @@ import Link from "next/link";
 import { ArrowRight, Check, X, AlertTriangle } from "lucide-react";
 import { Reveal } from "@/components/ui/Reveal";
 import { RevealGroup } from "@/components/ui/RevealGroup";
+import { CardAtmosphere } from "@/components/ui/CardAtmosphere";
 
 const FRAGMENTED_TABS = [
   { tab: "Tab 1: TradingView", issue: "Charting & technical drawings isolated from risk parameters" },
@@ -26,8 +27,8 @@ export function FragmentedProblemSection() {
     <section
       className="w-full py-20 md:py-28 border-b select-none"
       style={{
-        backgroundColor: "var(--surface-base)",
-        borderColor: "var(--border-subtle)",
+        backgroundColor: "#FFFFFF",
+        borderColor: "rgba(0,0,0,0.05)",
       }}
     >
       <div className="max-w-[1280px] mx-auto px-6">
@@ -60,15 +61,18 @@ export function FragmentedProblemSection() {
           {/* Left: The Fragmented Stack */}
           <Reveal delay={0.05} className="lg:col-span-6">
           <div
-            className="h-full p-8 md:p-10 border flex flex-col justify-between"
+            className="h-full p-8 md:p-10 border flex flex-col justify-between group relative overflow-hidden transition-all duration-300 hover:shadow-[var(--elev-2)]"
             style={{
-              backgroundColor: "var(--surface-raised)",
-              borderColor: "var(--border-subtle)",
-              borderRadius: "var(--radius-md)",
+              backgroundColor: "#FFFFFF",
+              borderColor: "rgba(0,0,0,0.06)",
+              borderRadius: "16px",
               boxShadow: "var(--elev-1)",
             }}
           >
-            <div>
+            {/* Atmosphere layer */}
+            <CardAtmosphere pattern="isobar" accentColor="var(--market-down)" />
+
+            <div className="relative z-10">
               <div className="flex items-center justify-between border-b pb-4 mb-6" style={{ borderColor: "var(--border-subtle)" }}>
                 <div>
                   <span 
@@ -115,7 +119,7 @@ export function FragmentedProblemSection() {
             </div>
 
             <div 
-              className="mt-8 pt-6 border-t font-mono text-xs p-3 flex items-center gap-2" 
+              className="mt-8 pt-6 border-t font-mono text-xs p-3 flex items-center gap-2 relative z-10" 
               style={{ 
                 borderColor: "var(--border-subtle)",
                 color: "var(--market-flat)",
@@ -132,15 +136,18 @@ export function FragmentedProblemSection() {
           {/* Right: The Drawdown Operating System */}
           <Reveal delay={0.12} className="lg:col-span-6">
           <div
-            className="h-full p-8 md:p-10 border flex flex-col justify-between transition-all duration-200"
+            className="h-full p-8 md:p-10 border flex flex-col justify-between group relative overflow-hidden transition-all duration-300 hover:shadow-[var(--elev-2)]"
             style={{
-              backgroundColor: "var(--surface-raised)",
-              borderColor: "var(--border-subtle)",
-              borderRadius: "var(--radius-md)",
-              boxShadow: "var(--elev-3)",
+              backgroundColor: "#FFFFFF",
+              borderColor: "rgba(0,0,0,0.06)",
+              borderRadius: "16px",
+              boxShadow: "var(--elev-1)",
             }}
           >
-            <div>
+            {/* Atmosphere layer */}
+            <CardAtmosphere pattern="grid-mesh" accentColor="var(--market-up)" />
+
+            <div className="relative z-10">
               <div className="flex items-center justify-between border-b pb-4 mb-6" style={{ borderColor: "var(--border-subtle)" }}>
                 <div>
                   <span 

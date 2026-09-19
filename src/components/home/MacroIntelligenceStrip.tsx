@@ -6,21 +6,21 @@ import { LayoutGrid, Table } from "lucide-react";
 interface Indicator {
   key: string;
   name: string;
-  value: number;
-  prevValue: number;
+  value: number | null;
+  prevValue: number | null;
   unit: string;
-  change: number;
+  change: number | null;
   direction: "up" | "down" | "flat";
   source: string;
 }
 
 const FALLBACK_INDICATORS: Indicator[] = [
   { key: "fed_rate", name: "Fed Funds Rate", value: 3.63, prevValue: 3.63, unit: "%", change: 0, direction: "flat", source: "FRED (FEDFUNDS)" },
-  { key: "us_cpi", name: "US CPI YoY", value: 334.13, prevValue: 332.81, unit: "%", change: 1.32, direction: "up", source: "FRED (CPIAUCSL)" },
-  { key: "uk_cpi", name: "UK CPI YoY", value: 136.10, prevValue: 135.60, unit: "%", change: 0.50, direction: "up", source: "FRED (GBRCPIALLMINMEI)" },
-  { key: "boe_rate", name: "BoE Base Rate", value: 0.25, prevValue: 0.25, unit: "%", change: 0, direction: "flat", source: "FRED (BOERUKM)" },
-  { key: "wti_oil", name: "WTI Crude Oil", value: 107.02, prevValue: 102.42, unit: "USD/bbl", change: 4.60, direction: "up", source: "EIA (RWTC)" },
+  { key: "boe_rate", name: "BoE Base Rate", value: 3.75, prevValue: 4.00, unit: "%", change: -0.25, direction: "down", source: "Bank of England" },
+  { key: "us_cpi", name: "US CPI YoY", value: 3.35, prevValue: 3.30, unit: "%", change: 0.05, direction: "up", source: "FRED (CPIAUCSL YoY)" },
+  { key: "uk_cpi", name: "UK CPI YoY", value: 3.42, prevValue: 3.67, unit: "%", change: -0.25, direction: "down", source: "FRED (GBRCPIALLMINMEI YoY)" },
   { key: "us_10y", name: "US 10Y Yield", value: 4.94, prevValue: 5.01, unit: "%", change: -0.07, direction: "down", source: "FRED (DGS10)" },
+  { key: "wti_oil", name: "WTI Crude Oil", value: 107.02, prevValue: 102.42, unit: "USD/bbl", change: 4.60, direction: "up", source: "EIA (RWTC)" },
 ];
 
 export function MacroIntelligenceStrip() {
@@ -52,7 +52,7 @@ export function MacroIntelligenceStrip() {
   return (
     <section 
       className="w-full border-b py-5 md:py-6 overflow-hidden select-none"
-      style={{ backgroundColor: "var(--surface-raised)", borderColor: "var(--border-subtle)" }}
+      style={{ backgroundColor: "#FFFFFF", borderColor: "rgba(0,0,0,0.05)" }}
     >
       <div className="max-w-[1280px] mx-auto px-4 sm:px-6">
         {/* Header Bar */}
@@ -64,7 +64,7 @@ export function MacroIntelligenceStrip() {
             >
               MACRO INTELLIGENCE
             </span>
-            <span style={{ color: "var(--border-subtle)" }}>/</span>
+            <span style={{ color: "rgba(0,0,0,0.15)" }}>/</span>
             <span 
               className="text-[10px] font-mono uppercase tracking-widest"
               style={{ color: "var(--text-tertiary)" }}
@@ -76,7 +76,7 @@ export function MacroIntelligenceStrip() {
           {/* View Toggle: Dense Table (Default / Bloomberg-style) vs Flat Cards */}
           <div 
             className="flex items-center border p-0.5 rounded-[4px]"
-            style={{ borderColor: "var(--border-subtle)", backgroundColor: "var(--surface-base)" }}
+            style={{ borderColor: "rgba(0,0,0,0.06)", backgroundColor: "rgba(0,0,0,0.03)" }}
           >
             <button
               type="button"
@@ -87,9 +87,9 @@ export function MacroIntelligenceStrip() {
                   : "hover:text-[var(--text-primary)]"
               }`}
               style={{
-                backgroundColor: viewMode === "table" ? "var(--surface-raised)" : "transparent",
+                backgroundColor: viewMode === "table" ? "#FFFFFF" : "transparent",
                 color: viewMode === "table" ? "var(--text-primary)" : "var(--text-tertiary)",
-                boxShadow: viewMode === "table" ? "0 1px 2px rgba(0,0,0,0.04)" : "none",
+                boxShadow: viewMode === "table" ? "0 1px 2px rgba(0,0,0,0.05)" : "none",
               }}
               title="Dense Financial Table"
             >
@@ -105,9 +105,9 @@ export function MacroIntelligenceStrip() {
                   : "hover:text-[var(--text-primary)]"
               }`}
               style={{
-                backgroundColor: viewMode === "cards" ? "var(--surface-raised)" : "transparent",
+                backgroundColor: viewMode === "cards" ? "#FFFFFF" : "transparent",
                 color: viewMode === "cards" ? "var(--text-primary)" : "var(--text-tertiary)",
-                boxShadow: viewMode === "cards" ? "0 1px 2px rgba(0,0,0,0.04)" : "none",
+                boxShadow: viewMode === "cards" ? "0 1px 2px rgba(0,0,0,0.05)" : "none",
               }}
               title="Flat Metric Cards"
             >
@@ -122,8 +122,8 @@ export function MacroIntelligenceStrip() {
           <div 
             className="w-full border rounded-[6px] overflow-hidden"
             style={{ 
-              borderColor: "var(--border-subtle)", 
-              backgroundColor: "var(--surface-base)",
+              borderColor: "rgba(0,0,0,0.06)", 
+              backgroundColor: "#FFFFFF",
               boxShadow: "none"
             }}
           >
@@ -131,8 +131,8 @@ export function MacroIntelligenceStrip() {
             <div 
               className="grid grid-cols-12 px-4 py-2 border-b text-[10px] font-mono uppercase tracking-wider font-semibold"
               style={{ 
-                borderColor: "var(--border-subtle)", 
-                backgroundColor: "var(--surface-raised)",
+                borderColor: "rgba(0,0,0,0.05)", 
+                backgroundColor: "rgba(0,0,0,0.02)",
                 color: "var(--text-tertiary)"
               }}
             >
@@ -145,26 +145,37 @@ export function MacroIntelligenceStrip() {
             {/* Table Rows */}
             <div className="divide-y" style={{ borderColor: "var(--border-subtle)" }}>
               {indicators.map((item) => {
-                const isPositive = item.change > 0;
-                const isNegative = item.change < 0;
-                const isZero = item.change === 0;
+                const isOffline = item.value === null;
+                const isPositive = !isOffline && item.change !== null && item.change > 0;
+                const isNegative = !isOffline && item.change !== null && item.change < 0;
+                const isZero = !isOffline && (item.change === 0 || item.change === null);
 
-                const trendColor = isPositive 
+                const trendColor = isOffline
+                  ? "var(--text-tertiary)"
+                  : isPositive 
                   ? "var(--market-up)" 
                   : isNegative 
                   ? "var(--market-down)" 
                   : "var(--text-tertiary)";
 
                 const glyph = isPositive ? "▲ " : isNegative ? "▼ " : "";
-                const formattedDelta = isZero ? "0.00" : `${isPositive ? "+" : ""}${item.change.toFixed(2)}`;
+                const formattedDelta = isOffline
+                  ? "OFFLINE"
+                  : isZero
+                  ? "0.00"
+                  : `${isPositive ? "+" : ""}${item.change!.toFixed(2)}`;
 
-                const formattedValue = item.unit === "USD/bbl"
-                  ? `$${item.value.toFixed(2)}`
-                  : `${item.value.toFixed(2)} ${item.unit}`;
+                const formattedValue = isOffline
+                  ? "—"
+                  : item.unit === "USD/bbl"
+                  ? `$${item.value!.toFixed(2)}`
+                  : `${item.value!.toFixed(2)} ${item.unit}`;
 
-                const formattedPrev = item.unit === "USD/bbl"
-                  ? `$${item.prevValue.toFixed(2)}`
-                  : `${item.prevValue.toFixed(2)} ${item.unit}`;
+                const formattedPrev = item.prevValue === null
+                  ? "—"
+                  : item.unit === "USD/bbl"
+                  ? `$${item.prevValue!.toFixed(2)}`
+                  : `${item.prevValue!.toFixed(2)} ${item.unit}`;
 
                 return (
                   <div
@@ -220,32 +231,41 @@ export function MacroIntelligenceStrip() {
           /* Flat Cards Grid (6 items, sharp 6px corners, zero shadow, right-aligned numbers, color-only delta) */
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5">
             {indicators.map((item) => {
-              const isPositive = item.change > 0;
-              const isNegative = item.change < 0;
-              const isZero = item.change === 0;
+              const isOffline = item.value === null;
+              const isPositive = !isOffline && item.change !== null && item.change > 0;
+              const isNegative = !isOffline && item.change !== null && item.change < 0;
+              const isZero = !isOffline && (item.change === 0 || item.change === null);
 
-              const trendColor = isPositive 
+              const trendColor = isOffline
+                ? "var(--text-tertiary)"
+                : isPositive 
                 ? "var(--market-up)" 
                 : isNegative 
                 ? "var(--market-down)" 
                 : "var(--text-tertiary)";
 
               const glyph = isPositive ? "▲ " : isNegative ? "▼ " : "";
-              const formattedDelta = isZero ? "0.00" : `${isPositive ? "+" : ""}${item.change.toFixed(2)}`;
+              const formattedDelta = isOffline
+                ? "OFFLINE"
+                : isZero
+                ? "0.00"
+                : `${isPositive ? "+" : ""}${item.change!.toFixed(2)}`;
 
-              const formattedValue = item.unit === "USD/bbl"
-                ? `$${item.value.toFixed(2)}`
-                : `${item.value.toFixed(2)}${item.unit}`;
+              const formattedValue = isOffline
+                ? "—"
+                : item.unit === "USD/bbl"
+                ? `$${item.value!.toFixed(2)}`
+                : `${item.value!.toFixed(2)}${item.unit}`;
 
               return (
                 <div
                   key={item.key}
-                  className="border p-3 flex flex-col justify-between"
+                  className="border p-3.5 flex flex-col justify-between"
                   style={{
-                    backgroundColor: "var(--surface-base)",
-                    borderColor: "var(--border-subtle)",
-                    borderRadius: "6px",
-                    boxShadow: "none",
+                    backgroundColor: "#FFFFFF",
+                    borderColor: "rgba(0,0,0,0.06)",
+                    borderRadius: "8px",
+                    boxShadow: "0 1px 3px rgba(0,0,0,0.02)",
                   }}
                 >
                   <div className="flex items-center justify-between mb-2">

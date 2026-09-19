@@ -92,8 +92,8 @@ export function RunMyTradeShowcase() {
     <section
       className="w-full border-b select-none relative"
       style={{
-        backgroundColor: "var(--surface-base)",
-        borderColor: "var(--border-subtle)",
+        backgroundColor: "#FFFFFF",
+        borderColor: "rgba(0,0,0,0.05)",
         paddingTop: "var(--section-y-desktop)",
         paddingBottom: "var(--section-y-desktop)",
       }}
@@ -131,19 +131,20 @@ export function RunMyTradeShowcase() {
         {/* Interactive Simulator Shell */}
         <Reveal delay={0.1}>
         <div
-          className="overflow-hidden transition-all duration-300"
+          className="overflow-hidden transition-all duration-300 border"
           style={{
-            backgroundColor: "var(--surface-raised)",
-            borderRadius: "var(--radius-lg)",
-            boxShadow: "var(--elev-3)",
+            backgroundColor: "#FFFFFF",
+            borderColor: "rgba(0,0,0,0.06)",
+            borderRadius: "16px",
+            boxShadow: "0 1px 2px rgba(16,24,40,0.04), 0 12px 32px -8px rgba(16,24,40,0.08)",
           }}
         >
           {/* Top Bar / Terminal Header */}
           <div
             className="px-6 py-4 border-b flex flex-wrap items-center justify-between gap-4"
             style={{
-              backgroundColor: "var(--surface-overlay)",
-              borderColor: "var(--border-subtle)",
+              backgroundColor: "rgba(0,0,0,0.02)",
+              borderColor: "rgba(0,0,0,0.05)",
             }}
           >
             <div className="flex items-center gap-3">

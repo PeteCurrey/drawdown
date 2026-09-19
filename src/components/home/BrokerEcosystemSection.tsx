@@ -238,7 +238,7 @@ export function BrokerEcosystemSection() {
               <div className="lg:col-span-7 h-[380px] lg:h-[420px] w-full border relative overflow-hidden flex flex-col" style={{ borderColor: "var(--border-subtle)", backgroundColor: "#0c0c0e", borderRadius: "var(--radius-md)" }}>
                 <div className="h-9 border-b px-4 flex items-center justify-between z-10" style={{ backgroundColor: "var(--surface-base)", borderColor: "var(--border-subtle)" }}>
                   <div className="flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-[var(--market-up)] animate-pulse" />
+                    <span className="w-2 h-2 rounded-full bg-[var(--market-up)]" />
                     <span className="text-[11px] font-mono font-bold tracking-wider" style={{ color: "var(--text-primary)" }}>LIVE</span>
                     <span className="text-[11px] font-mono tracking-wider" style={{ color: "var(--text-secondary)" }}>GBP/USD</span>
                     <span className="text-[11px] font-mono" style={{ color: "var(--text-tertiary)" }}>1H</span>

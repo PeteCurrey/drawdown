@@ -8,6 +8,7 @@ import { STRIPE_CONFIG } from "@/config/stripe";
 import { REGIONAL_PRICING, type RegionCode } from "@/lib/regions";
 import { GET_DEFAULT_FEATURES, GET_EDGE_FEATURES, GET_FLOOR_FEATURES } from "@/data/pricing";
 import { CheckoutConsentModal } from "@/components/legal/CheckoutConsentModal";
+import { CardAtmosphere } from "@/components/ui/CardAtmosphere";
 
 const tiers = [
   {
@@ -177,14 +178,18 @@ export function PricingSection({ floorCap = 15, activeFloorSubs = 0 }: { floorCa
 
         {/* Free Tier Callout Card */}
         <div
-          className="mb-8 p-6 border flex flex-col md:flex-row items-start md:items-center justify-between gap-6"
+          className="mb-8 p-6 border flex flex-col md:flex-row items-start md:items-center justify-between gap-6 group relative overflow-hidden transition-all duration-300 hover:shadow-[var(--elev-2)]"
           style={{
             backgroundColor: "var(--surface-raised)",
             borderColor: "var(--border-subtle)",
             borderRadius: "var(--radius-md)",
+            boxShadow: "var(--elev-1)",
           }}
         >
-          <div className="space-y-1">
+          {/* Subtle atmosphere background */}
+          <CardAtmosphere pattern="topographic" accentColor="var(--market-up)" />
+
+          <div className="space-y-1 relative z-10">
             <div className="flex items-center gap-2">
               <span 
                 className="px-2 py-0.5 border text-[10px] font-mono uppercase tracking-[0.1em] font-bold"
@@ -208,12 +213,14 @@ export function PricingSection({ floorCap = 15, activeFloorSubs = 0 }: { floorCa
 
           <Link
             href="/signup"
-            className="shrink-0 px-5 py-2.5 text-xs font-mono font-bold uppercase tracking-wider border transition-colors"
+            className="shrink-0 px-5 py-2.5 text-xs font-mono font-bold uppercase tracking-wider border transition-colors relative z-10 active:translate-y-0.5"
             style={{
               borderColor: "var(--border-subtle)",
               backgroundColor: "var(--surface-base)",
               color: "var(--text-primary)",
-              borderRadius: "var(--radius-sm)"
+              borderRadius: "var(--radius-sm)",
+              boxShadow: "inset 0 1px 0 rgba(255,255,255,0.9), 0 1px 2px rgba(16,24,40,0.04)",
+              borderBottom: "1px solid rgba(0,0,0,0.12)",
             }}
           >
             Start Free Mode &rarr;
@@ -230,7 +237,7 @@ export function PricingSection({ floorCap = 15, activeFloorSubs = 0 }: { floorCa
             return (
               <div
                 key={tier.id}
-                className="border p-8 flex flex-col justify-between h-full"
+                className="border p-8 flex flex-col justify-between h-full group relative overflow-hidden transition-all duration-300 hover:shadow-[var(--elev-2)]"
                 style={{
                   backgroundColor: isEdge ? "var(--surface-overlay)" : "var(--surface-raised)",
                   borderColor: isEdge ? "var(--accent)" : "var(--border-subtle)",
@@ -239,7 +246,13 @@ export function PricingSection({ floorCap = 15, activeFloorSubs = 0 }: { floorCa
                   boxShadow: isEdge ? "var(--elev-3)" : "var(--elev-1)",
                 }}
               >
-                <div>
+                {/* Subtle atmosphere background */}
+                <CardAtmosphere
+                  pattern={tier.id === "foundation" ? "dot-matrix" : tier.id === "edge" ? "plotted-curve" : "concentric-rings"}
+                  accentColor="var(--accent)"
+                />
+
+                <div className="relative z-10">
                   <div className="mb-8">
                     <div className="flex items-center justify-between mb-2">
                       <h3 className="text-[20px] font-medium font-sans uppercase tracking-tight" style={{ color: "var(--text-primary)" }}>
@@ -292,12 +305,16 @@ export function PricingSection({ floorCap = 15, activeFloorSubs = 0 }: { floorCa
                   <button
                     onClick={() => handleSubscribe(tier.id, priceId)}
                     disabled={loadingTier !== null}
-                    className="w-full py-3.5 text-[13px] font-medium uppercase tracking-[0.08em] mb-8 border transition-colors duration-150 flex items-center justify-center gap-2"
+                    className="w-full py-3.5 text-[13px] font-medium uppercase tracking-[0.08em] mb-8 border transition-colors duration-150 flex items-center justify-center gap-2 active:translate-y-0.5 cursor-pointer"
                     style={{
                       backgroundColor: isEdge ? "var(--accent)" : "var(--surface-raised)",
                       color: isEdge ? "var(--surface-base)" : "var(--text-primary)",
                       borderColor: isEdge ? "var(--accent)" : "var(--border-subtle)",
                       borderRadius: "var(--radius-md)",
+                      boxShadow: isEdge
+                        ? "inset 0 1px 0 rgba(255,255,255,0.25), 0 1px 2px rgba(16,24,40,0.08), 0 3px 10px rgba(16,24,40,0.12)"
+                        : "inset 0 1px 0 rgba(255,255,255,0.9), 0 1px 2px rgba(16,24,40,0.04)",
+                      borderBottom: isEdge ? "1px solid rgba(0,0,0,0.22)" : "1px solid rgba(0,0,0,0.12)",
                     }}
                   >
                     {loadingTier === tier.id ? "Processing..." : isFloorCapped ? "Join Waitlist" : tier.buttonText}
@@ -336,14 +353,18 @@ export function PricingSection({ floorCap = 15, activeFloorSubs = 0 }: { floorCa
 
         {/* Minimalist Core Capabilities Strip */}
         <div 
-          className="grid grid-cols-1 md:grid-cols-3 gap-6 p-6 border mb-8"
+          className="grid grid-cols-1 md:grid-cols-3 gap-6 p-6 border mb-8 group relative overflow-hidden transition-all duration-300 hover:shadow-[var(--elev-2)]"
           style={{
             borderColor: "var(--border-subtle)",
             backgroundColor: "var(--surface-raised)",
             borderRadius: "var(--radius-md)",
+            boxShadow: "var(--elev-1)",
           }}
         >
-          <div className="flex items-start gap-3">
+          {/* Subtle atmosphere background */}
+          <CardAtmosphere pattern="grid-mesh" accentColor="var(--accent)" />
+
+          <div className="flex items-start gap-3 relative z-10">
             <BookOpen size={16} strokeWidth={1.5} className="shrink-0 mt-1" style={{ color: "var(--accent)" }} />
             <div className="space-y-1">
               <h4 className="text-[12px] font-mono uppercase tracking-[0.08em] font-semibold" style={{ color: "var(--text-primary)" }}>
@@ -355,7 +376,7 @@ export function PricingSection({ floorCap = 15, activeFloorSubs = 0 }: { floorCa
             </div>
           </div>
 
-          <div className="flex items-start gap-3 border-t md:border-t-0 md:border-l pt-4 md:pt-0 md:pl-6" style={{ borderColor: "var(--border-subtle)" }}>
+          <div className="flex items-start gap-3 border-t md:border-t-0 md:border-l pt-4 md:pt-0 md:pl-6 relative z-10" style={{ borderColor: "var(--border-subtle)" }}>
             <Download size={16} strokeWidth={1.5} className="shrink-0 mt-1" style={{ color: "var(--accent)" }} />
             <div className="space-y-1">
               <h4 className="text-[12px] font-mono uppercase tracking-[0.08em] font-semibold" style={{ color: "var(--text-primary)" }}>
@@ -367,7 +388,7 @@ export function PricingSection({ floorCap = 15, activeFloorSubs = 0 }: { floorCa
             </div>
           </div>
 
-          <div className="flex items-start gap-3 border-t md:border-t-0 md:border-l pt-4 md:pt-0 md:pl-6" style={{ borderColor: "var(--border-subtle)" }}>
+          <div className="flex items-start gap-3 border-t md:border-t-0 md:border-l pt-4 md:pt-0 md:pl-6 relative z-10" style={{ borderColor: "var(--border-subtle)" }}>
             <Cpu size={16} strokeWidth={1.5} className="shrink-0 mt-1" style={{ color: "var(--accent)" }} />
             <div className="space-y-1">
               <h4 className="text-[12px] font-mono uppercase tracking-[0.08em] font-semibold" style={{ color: "var(--text-primary)" }}>

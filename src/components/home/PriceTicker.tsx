@@ -1,13 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { useReducedMotion } from "framer-motion";
 
 // ─────────────────────────────────────────────────────────────────────────────
-// MARKET TICKER STRIP
-//
-// Dense financial data strip fetching quotes from `/api/market/prices` every
-// 30 seconds with clean tabular monospace numerals and hairline instrument dividers.
+// MARKET TICKER STRIP — MODERN PREMIUM
 // ─────────────────────────────────────────────────────────────────────────────
 
 interface TickerItem {
@@ -17,16 +15,17 @@ interface TickerItem {
   change: string;
   positive: boolean;
   isZero: boolean;
+  href: string;
 }
 
 const sampleItems: TickerItem[] = [
-  { symbol: "GBPUSD", displaySymbol: "GBP/USD", price: "1.2714",   change: "+0.18%", positive: true,  isZero: false },
-  { symbol: "EURUSD", displaySymbol: "EUR/USD", price: "1.0862",   change: "-0.09%", positive: false, isZero: false },
-  { symbol: "USDJPY", displaySymbol: "USD/JPY", price: "157.34",   change: "+0.22%", positive: true,  isZero: false },
-  { symbol: "EURGBP", displaySymbol: "EUR/GBP", price: "0.8545",   change: "-0.12%", positive: false, isZero: false },
-  { symbol: "XAUUSD", displaySymbol: "XAU/USD", price: "2,338.40", change: "+0.41%", positive: true,  isZero: false },
-  { symbol: "US500",  displaySymbol: "S&P 500", price: "5,471.05", change: "+0.33%", positive: true,  isZero: false },
-  { symbol: "BTCUSD", displaySymbol: "BTC/USD", price: "67,240.00", change: "-0.88%", positive: false, isZero: false },
+  { symbol: "GBPUSD", displaySymbol: "GBP/USD", price: "1.2714",   change: "+0.18%", positive: true,  isZero: false, href: "/markets/forex/gbpusd" },
+  { symbol: "EURUSD", displaySymbol: "EUR/USD", price: "1.0862",   change: "-0.09%", positive: false, isZero: false, href: "/markets/forex/eurusd" },
+  { symbol: "USDJPY", displaySymbol: "USD/JPY", price: "157.34",   change: "+0.22%", positive: true,  isZero: false, href: "/markets/forex/usdjpy" },
+  { symbol: "EURGBP", displaySymbol: "EUR/GBP", price: "0.8545",   change: "-0.12%", positive: false, isZero: false, href: "/markets/forex/eurgbp" },
+  { symbol: "XAUUSD", displaySymbol: "XAU/USD", price: "2,338.40", change: "+0.41%", positive: true,  isZero: false, href: "/markets/commodities/xauusd" },
+  { symbol: "US500",  displaySymbol: "S&P 500", price: "5,471.05", change: "+0.33%", positive: true,  isZero: false, href: "/markets/indices/spx" },
+  { symbol: "BTCUSD", displaySymbol: "BTC/USD", price: "67,240.00", change: "-0.88%", positive: false, isZero: false, href: "/markets/crypto/btcusd" },
 ];
 
 export function PriceTicker() {
@@ -93,41 +92,49 @@ export function PriceTicker() {
 
   return (
     <div
-      className="w-full h-[34px] flex items-center overflow-hidden border-b select-none relative z-10"
+      className="w-full h-[52px] flex items-center overflow-hidden border-t border-b select-none relative z-10"
       style={{ 
-        backgroundColor: "var(--surface-base)", 
-        borderColor: "var(--border-subtle)",
+        backgroundColor: "#FFFFFF", 
+        borderColor: "rgba(0,0,0,0.05)",
+        boxShadow: "0 1px 3px rgba(0,0,0,0.04), 0 8px 24px -12px rgba(0,0,0,0.10)",
       }}
     >
-      {/* Left status label - plain inline text in --text-tertiary, no pill, no border-radius */}
+      {/* Far Left Status Label: Small-caps with subtle 2s pulsing dot */}
       <div
-        className="shrink-0 h-full flex items-center px-4 border-r z-20"
+        className="shrink-0 h-full flex items-center gap-2 px-4 sm:px-6 border-r z-20"
         style={{
-          backgroundColor: "var(--surface-base)",
-          borderColor: "var(--border-subtle)",
+          backgroundColor: "#FFFFFF",
+          borderColor: "rgba(0,0,0,0.05)",
         }}
       >
+        <span 
+          className="w-1.5 h-1.5 rounded-full inline-block"
+          style={{ 
+            backgroundColor: "var(--text-tertiary)",
+            animation: shouldReduce ? "none" : "pulse-opacity 2.8s ease-in-out infinite",
+          }}
+        />
         <span
-          className="text-[9.5px] font-mono uppercase tracking-[0.12em] font-medium"
+          className="text-[10px] font-mono uppercase tracking-[0.14em] font-medium whitespace-nowrap"
           style={{ color: "var(--text-tertiary)" }}
         >
           {isLive ? "Prices Delayed 60s" : "Delayed 60s"}
         </span>
       </div>
 
-      {/* Marquee with subtle right edge fade */}
+      {/* Marquee with subtle 48px left and right edge fade masks */}
       <div 
         className="flex-grow overflow-hidden flex items-center h-full"
         style={{
-          maskImage: "linear-gradient(to right, black calc(100% - 32px), transparent)",
-          WebkitMaskImage: "linear-gradient(to right, black calc(100% - 32px), transparent)",
+          maskImage: "linear-gradient(to right, transparent 0px, black 48px, black calc(100% - 48px), transparent 100%)",
+          WebkitMaskImage: "linear-gradient(to right, transparent 0px, black 48px, black calc(100% - 48px), transparent 100%)",
         }}
       >
         <div
           className={shouldReduce ? "flex items-center h-full" : "flex items-center h-full animate-marquee-ticker"}
         >
           {marqueeItems.map((item, i) => {
-            const glyph = item.isZero ? "" : item.positive ? "▲ " : "▼ ";
+            const glyph = item.isZero ? "" : item.positive ? "▲" : "▼";
             const changeColor = item.isZero 
               ? "var(--text-tertiary)" 
               : item.positive 
@@ -135,34 +142,47 @@ export function PriceTicker() {
               : "var(--market-down)";
 
             return (
-              <div 
-                key={i} 
-                className="flex items-center gap-2 px-3.5 h-full border-r shrink-0"
-                style={{ borderColor: "var(--border-subtle)" }}
-              >
-                {/* Symbol */}
-                <span
-                  className="text-[11px] font-mono font-medium tracking-tight"
-                  style={{ color: "var(--text-secondary)" }}
+              <div key={i} className="flex items-center h-full shrink-0">
+                {/* Clickable instrument link */}
+                <Link
+                  href={item.href}
+                  className="flex items-center gap-3 px-5 py-2 h-[38px] my-auto rounded-[6px] transition-colors duration-120 hover:bg-[rgba(22,33,62,0.02)] cursor-pointer group"
                 >
-                  {item.displaySymbol}
-                </span>
+                  {/* Symbol (small caps) */}
+                  <span
+                    className="text-[11px] font-mono uppercase tracking-wider font-medium"
+                    style={{ color: "var(--text-tertiary)" }}
+                  >
+                    {item.displaySymbol}
+                  </span>
 
-                {/* Price (Tabular Mono) */}
-                <span
-                  className="text-[11px] font-mono tabular-nums font-semibold"
-                  style={{ color: "var(--text-primary)" }}
-                >
-                  {item.price}
-                </span>
+                  {/* Price (Tabular Mono, Semibold) */}
+                  <span
+                    className="text-[12.5px] font-mono tabular-nums font-semibold tracking-tight"
+                    style={{ color: "var(--text-primary)" }}
+                  >
+                    {item.price}
+                  </span>
 
-                {/* % Change (Direct color, optional triangle glyph, zero pill/fill) */}
-                <span
-                  className="text-[10.5px] font-mono tabular-nums font-medium"
-                  style={{ color: changeColor }}
-                >
-                  {glyph}{item.change}
-                </span>
+                  {/* % Change (Mono, Market Colour, small glyph with 0.7 opacity) */}
+                  <span
+                    className="text-[11px] font-mono tabular-nums font-medium flex items-center gap-1"
+                    style={{ color: changeColor }}
+                  >
+                    {glyph && (
+                      <span className="text-[8px] opacity-70 leading-none">
+                        {glyph}
+                      </span>
+                    )}
+                    <span>{item.change}</span>
+                  </span>
+                </Link>
+
+                {/* Short Centred Hairline Separator at 40% Row Height */}
+                <div 
+                  className="h-[20px] w-px self-center shrink-0" 
+                  style={{ backgroundColor: "rgba(0,0,0,0.06)" }} 
+                />
               </div>
             );
           })}
@@ -171,12 +191,16 @@ export function PriceTicker() {
 
       <style dangerouslySetInnerHTML={{
         __html: `
+        @keyframes pulse-opacity {
+          0%, 100% { opacity: 0.5; }
+          50% { opacity: 1.0; }
+        }
         @keyframes marquee-ticker {
           0%   { transform: translateX(0); }
           100% { transform: translateX(-33.333%); }
         }
         .animate-marquee-ticker {
-          animation: marquee-ticker 35s linear infinite;
+          animation: marquee-ticker 38s linear infinite;
         }
         .animate-marquee-ticker:hover {
           animation-play-state: paused;

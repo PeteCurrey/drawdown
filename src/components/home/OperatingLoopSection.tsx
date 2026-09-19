@@ -12,8 +12,19 @@ import {
   ArrowRight
 } from "lucide-react";
 import { Reveal } from "@/components/ui/Reveal";
+import { CardAtmosphere, PatternType } from "@/components/ui/CardAtmosphere";
 
-const LOOP_STAGES = [
+const LOOP_STAGES: Array<{
+  num: string;
+  title: string;
+  badge: string;
+  icon: any;
+  action: string;
+  details: string;
+  output: string;
+  disclosure?: string;
+  pattern: PatternType;
+}> = [
   {
     num: "01",
     title: "PREPARE",
@@ -22,6 +33,7 @@ const LOOP_STAGES = [
     action: "Define context before looking at entries",
     details: "Check macroeconomic calendar releases, high-impact news windows, and multi-timeframe directional bias across major asset classes.",
     output: "Daily trading context established",
+    pattern: "topographic",
   },
   {
     num: "02",
@@ -31,6 +43,7 @@ const LOOP_STAGES = [
     action: "Map technical geometry and invalidation",
     details: "Define entry trigger, structural invalidation stop level, and multi-target take-profit zones with clear mathematical risk-to-reward ratio.",
     output: "Pre-committed price boundaries",
+    pattern: "dot-matrix",
   },
   {
     num: "03",
@@ -40,6 +53,7 @@ const LOOP_STAGES = [
     action: "Calculate lot size and drawdown impact",
     details: "Directly calculate exact position lot sizes based on your actual account balance and maximum drawdown thresholds. Never guess lot sizing.",
     output: "Exact lot size & monetary risk (£)",
+    pattern: "plotted-curve",
   },
   {
     num: "04",
@@ -50,6 +64,7 @@ const LOOP_STAGES = [
     details: "Execute the validated trade parameters through your broker terminal (e.g. TradingView, MT4/5, or spread betting provider).",
     output: "Order filled at external broker",
     disclosure: "Drawdown provides analytical decision-support; trade execution occurs directly at your broker/terminal.",
+    pattern: "grid-mesh",
   },
   {
     num: "05",
@@ -59,6 +74,7 @@ const LOOP_STAGES = [
     action: "Snapshot the plan and trade state",
     details: "Lock your pre-trade plan snapshot, record actual fill price, slippage, commission, and tag psychological/emotional mindset at entry.",
     output: "Immutable trade log with zero hindsight bias",
+    pattern: "candlestick-wave",
   },
   {
     num: "06",
@@ -68,6 +84,7 @@ const LOOP_STAGES = [
     action: "Audit execution against your rules",
     details: "Weekly review calculates true expectancy, process compliance score, emotional leakage patterns, and drawdown recovery metrics.",
     output: "Objective statistical feedback",
+    pattern: "isobar",
   },
   {
     num: "07",
@@ -77,6 +94,7 @@ const LOOP_STAGES = [
     action: "Commit to one weekly discipline fix",
     details: "Target one recurring mistake at a time with curated lessons and risk drills from the Drawdown curriculum.",
     output: "Continuous compounding edge",
+    pattern: "circuit-lines",
   },
 ];
 
@@ -86,8 +104,8 @@ export function OperatingLoopSection() {
       id="operating-loop"
       className="w-full border-b select-none"
       style={{
-        backgroundColor: "var(--surface-base)",
-        borderColor: "var(--border-subtle)",
+        backgroundColor: "#FFFFFF",
+        borderColor: "rgba(0,0,0,0.05)",
         paddingTop: "var(--section-y-desktop)",
         paddingBottom: "var(--section-y-desktop)",
       }}
@@ -125,9 +143,9 @@ export function OperatingLoopSection() {
                   className="inline-flex items-center gap-2 px-6 py-3.5 font-sans text-sm font-medium transition-all duration-150 active:translate-y-0.5"
                   style={{
                     backgroundColor: "var(--accent)",
-                    color: "var(--surface-base)",
+                    color: "#FFFFFF",
                     borderRadius: "var(--radius-md)",
-                    boxShadow: "var(--elev-2)",
+                    boxShadow: "0 2px 8px rgba(16,24,40,0.12)",
                   }}
                   onMouseEnter={e => (e.currentTarget.style.backgroundColor = "var(--accent-hover)")}
                   onMouseLeave={e => (e.currentTarget.style.backgroundColor = "var(--accent)")}
@@ -139,10 +157,10 @@ export function OperatingLoopSection() {
                 <div
                   className="p-5 border space-y-2 mt-6"
                   style={{
-                    backgroundColor: "var(--surface-raised)",
-                    borderColor: "var(--border-subtle)",
-                    borderRadius: "var(--radius-md)",
-                    boxShadow: "var(--elev-1)",
+                    backgroundColor: "#FFFFFF",
+                    borderColor: "rgba(0,0,0,0.06)",
+                    borderRadius: "12px",
+                    boxShadow: "0 1px 3px rgba(16,24,40,0.03)",
                   }}
                 >
                   <span className="type-label uppercase font-bold block" style={{ color: "var(--text-secondary)" }}>
@@ -165,54 +183,59 @@ export function OperatingLoopSection() {
               return (
                 <Reveal key={idx} delay={0.05}>
                   <div
-                    className="p-6 md:p-8 border transition-all duration-200 relative overflow-hidden"
-                  style={{
-                    backgroundColor: isExecute ? "var(--surface-overlay)" : "var(--surface-raised)",
-                    borderColor: isExecute ? "var(--accent)" : "var(--border-subtle)",
-                    borderRadius: "var(--radius-md)",
-                    boxShadow: isExecute ? "var(--elev-2)" : "var(--elev-1)",
-                  }}
-                >
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="flex items-center gap-3">
-                      <span className="font-mono tabular-nums text-sm font-bold" style={{ color: "var(--text-secondary)" }}>
-                        {stage.num}
-                      </span>
-                      <h3
-                        className="font-sans text-base font-bold uppercase tracking-wide"
-                        style={{ color: "var(--text-primary)" }}
-                      >
-                        {stage.title}
-                      </h3>
+                    className="p-6 md:p-8 border transition-all duration-300 relative overflow-hidden group hover:shadow-[var(--elev-2)]"
+                    style={{
+                      backgroundColor: isExecute ? "rgba(22, 33, 62, 0.02)" : "#FFFFFF",
+                      borderColor: isExecute ? "var(--accent)" : "rgba(0,0,0,0.06)",
+                      borderRadius: "12px",
+                      boxShadow: isExecute ? "0 2px 8px rgba(22, 33, 62, 0.06)" : "var(--elev-1)",
+                    }}
+                  >
+                    {/* Subtle atmosphere background revealing on hover */}
+                    <CardAtmosphere pattern={stage.pattern} accentColor="var(--accent)" />
+
+                    <div className="relative z-10">
+                      <div className="flex items-center justify-between mb-4">
+                        <div className="flex items-center gap-3">
+                          <span className="font-mono tabular-nums text-sm font-bold" style={{ color: "var(--text-secondary)" }}>
+                            {stage.num}
+                          </span>
+                          <h3
+                            className="font-sans text-base font-bold uppercase tracking-wide"
+                            style={{ color: "var(--text-primary)" }}
+                          >
+                            {stage.title}
+                          </h3>
+                        </div>
+                        <span
+                          className="text-[10px] font-mono uppercase px-2.5 py-0.5 border font-semibold"
+                          style={{
+                            backgroundColor: isExecute ? "var(--accent-muted)" : "var(--surface-base)",
+                            borderColor: isExecute ? "var(--accent)" : "var(--border-subtle)",
+                            borderRadius: "var(--radius-pill)",
+                            color: isExecute ? "var(--accent)" : "var(--text-secondary)",
+                          }}
+                        >
+                          {stage.badge}
+                        </span>
+                      </div>
+
+                      <p className="text-sm font-medium mb-2 leading-snug" style={{ color: "var(--text-primary)" }}>
+                        {stage.action}
+                      </p>
+
+                      <p className="text-xs leading-relaxed font-sans mb-5" style={{ color: "var(--text-secondary)" }}>
+                        {stage.details}
+                      </p>
+
+                      <div className="pt-4 border-t flex items-center justify-between text-xs font-mono" style={{ borderColor: "var(--border-subtle)" }}>
+                        <span className="type-label uppercase" style={{ color: "var(--text-tertiary)" }}>OUTCOME</span>
+                        <span className="font-medium text-right" style={{ color: "var(--text-primary)" }}>
+                          {stage.output}
+                        </span>
+                      </div>
                     </div>
-                    <span
-                      className="text-[10px] font-mono uppercase px-2.5 py-0.5 border font-semibold"
-                      style={{
-                        backgroundColor: isExecute ? "var(--accent-muted)" : "var(--surface-base)",
-                        borderColor: isExecute ? "var(--accent)" : "var(--border-subtle)",
-                        borderRadius: "var(--radius-pill)",
-                        color: isExecute ? "var(--accent)" : "var(--text-secondary)",
-                      }}
-                    >
-                      {stage.badge}
-                    </span>
                   </div>
-
-                  <p className="text-sm font-medium mb-2 leading-snug" style={{ color: "var(--text-primary)" }}>
-                    {stage.action}
-                  </p>
-
-                  <p className="text-xs leading-relaxed font-sans mb-5" style={{ color: "var(--text-secondary)" }}>
-                    {stage.details}
-                  </p>
-
-                  <div className="pt-4 border-t flex items-center justify-between text-xs font-mono" style={{ borderColor: "var(--border-subtle)" }}>
-                    <span className="type-label uppercase" style={{ color: "var(--text-tertiary)" }}>OUTCOME</span>
-                    <span className="font-medium text-right" style={{ color: "var(--text-primary)" }}>
-                      {stage.output}
-                    </span>
-                  </div>
-                </div>
                 </Reveal>
               );
             })}

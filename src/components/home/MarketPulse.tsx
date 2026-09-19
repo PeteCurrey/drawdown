@@ -185,8 +185,8 @@ export function MarketPulse() {
       id="market-pulse"
       className="py-20 md:py-28 border-b relative select-none"
       style={{
-        backgroundColor: "var(--surface-base)",
-        borderColor: "var(--border-subtle)",
+        background: "linear-gradient(180deg, #FFFFFF 0%, #FCFCFD 100%)",
+        borderColor: "rgba(0,0,0,0.05)",
       }}
     >
       <div className="max-w-[1280px] mx-auto px-6">

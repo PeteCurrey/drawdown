@@ -47,10 +47,10 @@
    *  --risk-amber is reserved EXCLUSIVELY for genuine risk/warning states.
    *  ──────────────────────────────────────────────────────────────────────── */
   --ink-950:       #0B0E12;   /* primary text, near-black */
-  --paper-0:       #FAFAF9;   /* primary background, warm-neutral off-white */
-  --paper-100:     #F1F0EE;   /* panel/section background */
+  --paper-0:       #FFFFFF;   /* primary background, pure white */
+  --paper-100:     #FFFFFF;   /* panel/section background */
   --graphite-600:  #4B5157;   /* secondary text, captions, metadata */
-  --line-200:      #DDDBD7;   /* hairline rule / border — 1px only */
+  --line-200:      rgba(0,0,0,0.06);   /* hairline rule / border — 1px only */
   --signal-navy:   #16213E;   /* brand accent: primary CTAs, active states, links */
   --accent:        #16213E;   /* brand accent: dark matte navy blue */
   --accent-hover:  #0D1527;
@@ -613,10 +613,10 @@
 .marketing {
 
   /* ── SURFACES ──────────────────────────────────────────── */
-  --surface-base:    #FAFAF9;   /* outermost section background — warm off-white */
-  --surface-raised:  #F1F0EE;   /* card / panel background */
-  --surface-overlay: #E8E7E4;   /* hovered card, elevated panel */
-  --surface-inset:   #F5F4F2;   /* inset areas, input backgrounds */
+  --surface-base:    #FFFFFF;   /* outermost section background — pure white default */
+  --surface-raised:  #FFFFFF;   /* card / panel background */
+  --surface-overlay: #F8F9FA;   /* hovered card, elevated panel */
+  --surface-inset:   rgba(0,0,0,0.025);   /* inset areas, input backgrounds */
 
   /* ── TEXT ──────────────────────────────────────────────── */
   --text-primary:   #0B0E12;   /* headlines, primary text — near-black */
@@ -624,8 +624,8 @@
   --text-tertiary:  #6B7580;   /* labels, captions, eyebrows */
 
   /* ── BORDERS ────────────────────────────────────────────── */
-  --border-subtle: rgba(0,0,0,0.07);
-  --border-strong: rgba(0,0,0,0.13);
+  --border-subtle: rgba(0,0,0,0.05);
+  --border-strong: rgba(0,0,0,0.10);
 
   /* ── ACCENT — dark matte navy blue as per old design ───── */
   --accent:        #16213E;   /* brand CTAs, active states, links */
@@ -645,10 +645,10 @@
   --radius-lg:   6px;    /* large feature panels, simulator shells */
   --radius-pill: 999px;
 
-  /* ── ELEVATION (light ground — softer shadows) ──────────── */
-  --elev-1: 0 1px 2px rgba(11,14,18,0.04), 0 2px 6px rgba(11,14,18,0.03);
-  --elev-2: 0 2px 8px rgba(11,14,18,0.06), 0 8px 24px rgba(11,14,18,0.06);
-  --elev-3: 0 4px 16px rgba(11,14,18,0.08), 0 16px 40px rgba(11,14,18,0.10);
+  /* ── ELEVATION (light ground — layered 3-stage shadows with top inner highlight) ──────────── */
+  --elev-1: inset 0 1px 0 rgba(255,255,255,0.9), 0 1px 2px rgba(16,24,40,0.04), 0 2px 6px -2px rgba(16,24,40,0.06);
+  --elev-2: inset 0 1px 0 rgba(255,255,255,0.9), 0 1px 2px rgba(16,24,40,0.04), 0 8px 20px -6px rgba(16,24,40,0.10);
+  --elev-3: inset 0 1px 0 rgba(255,255,255,0.9), 0 1px 2px rgba(16,24,40,0.04), 0 12px 32px -8px rgba(16,24,40,0.12), 0 32px 64px -24px rgba(16,24,40,0.14);
 
   /* ── SECTION RHYTHM ─────────────────────────────────────── */
   --section-y-mobile:  64px;

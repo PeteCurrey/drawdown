@@ -4,16 +4,7 @@ import { useEffect, useRef } from "react";
 import { useReducedMotion } from "framer-motion";
 
 // ─────────────────────────────────────────────────────────────────────────────
-// FOUNDER QUOTE SECTION
-//
-// The previous implementation rendered words as individual <span> elements
-// inside a flex container with gap: 0 — causing browsers to collapse inter-word
-// spacing to zero in certain fallback states. Fixed by rendering the full
-// sentence as a single text node, splitting only for the scroll-illumination
-// animation, and explicitly setting word-spacing in CSS rather than relying
-// on gap.
-//
-// Tenure: "since 2016" — confirmed fact per Phase 1 addendum. Do not change.
+// FOUNDER QUOTE SECTION — LIGHT THEME EDITORIAL
 // ─────────────────────────────────────────────────────────────────────────────
 
 const quoteText =
@@ -75,7 +66,7 @@ export function ScrollQuoteSection() {
     };
 
     window.addEventListener("scroll", throttled, { passive: true });
-    handleScroll(); // set initial state
+    handleScroll(); // Initial check on mount
 
     return () => {
       window.removeEventListener("scroll", throttled);
@@ -86,23 +77,34 @@ export function ScrollQuoteSection() {
   return (
     <div
       ref={containerRef}
-      className="relative w-full h-[250vh] md:h-[300vh] z-20"
-      style={{ backgroundColor: "#0B0E12" }}
+      className="relative w-full h-[250vh] md:h-[300vh] z-20 border-t border-b"
+      style={{ 
+        backgroundColor: "#FFFFFF",
+        borderColor: "rgba(0,0,0,0.05)"
+      }}
     >
+      {/* Soft off-centre 3.5% accent radial tint */}
+      <div 
+        className="absolute inset-0 pointer-events-none select-none"
+        style={{
+          background: "radial-gradient(ellipse 70% 60% at 50% 50%, rgba(22,33,62,0.035), transparent 70%)",
+        }}
+      />
+
       {/* Sticky viewport */}
       <div className="sticky top-0 w-full h-screen flex flex-col justify-center items-center overflow-hidden px-6">
-        <div className="max-w-[880px] w-full text-center">
+        <div className="max-w-[880px] w-full text-center relative z-10">
 
           {/* Pull-quote — word-spacing fixed via explicit inline style */}
           <p
             className="quote-text"
             style={{
               fontFamily: "var(--font-display), serif",
-              fontSize: "clamp(1.375rem, 4vw, 2.5rem)",
+              fontSize: "clamp(1.375rem, 4vw, 2.75rem)",
               fontWeight: 400,
               lineHeight: 1.35,
-              letterSpacing: "-0.01em",
-              wordSpacing: "0.12em", /* explicit — never rely on flex gap for word spacing */
+              letterSpacing: "-0.015em",
+              wordSpacing: "0.12em",
             }}
             aria-label={quoteText}
           >
@@ -117,7 +119,7 @@ export function ScrollQuoteSection() {
             ))}
           </p>
 
-          {/* Attribution — high contrast on dark background */}
+          {/* Attribution */}
           <div
             ref={attributionRef}
             className="attribution mt-10 md:mt-14"
@@ -128,9 +130,9 @@ export function ScrollQuoteSection() {
               textTransform: "uppercase" as const,
             }}
           >
-            <span style={{ color: "#FFFFFF" }}>Pete Currey</span>
-            <span style={{ color: "rgba(255,255,255,0.45)", margin: "0 0.5em" }}>—</span>
-            <span style={{ color: "rgba(255,255,255,0.75)" }}>Founder, Drawdown. Trading live since 2016.</span>
+            <span style={{ color: "var(--text-primary)", fontWeight: 600 }}>Pete Currey</span>
+            <span style={{ color: "rgba(0,0,0,0.2)", margin: "0 0.6em" }}>—</span>
+            <span style={{ color: "var(--text-secondary)" }}>Founder, Drawdown. Trading live since 2016.</span>
           </div>
 
         </div>
@@ -138,13 +140,12 @@ export function ScrollQuoteSection() {
 
       <style dangerouslySetInnerHTML={{ __html: `
         .quote-text .word {
-          color: rgba(255,255,255,0.25);
+          color: rgba(11, 14, 18, 0.22);
           transition: color 0.25s ease;
-          /* display: inline keeps words flowing naturally with word-spacing above */
           display: inline;
         }
         .quote-text .word.illuminated {
-          color: #FFFFFF;
+          color: #0B0E12;
         }
         .attribution {
           opacity: 0;

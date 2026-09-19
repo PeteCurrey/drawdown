@@ -52,14 +52,14 @@ const megaMenus = {
   },
   tools: {
     links: [
-      { name: "Plan My Trade", desc: "Interactive pre-trade sizing, R:R & discipline validation", href: "/dashboard/run-my-trade", icon: Zap, badge: "CORE" },
-      { name: "Signal Centre", desc: "AI consensus signals — Claude + GPT-4o + Grok", href: "/signal-centre", icon: Zap, badge: "NEW" },
+      { name: "Position Size Calculator", desc: "Exact lot sizing, invalidation distance & cash risk", href: "/tools/position-size-calculator", icon: Calculator, badge: "FREE" },
+      { name: "Drawdown Recovery", desc: "Loss asymmetry & break-even trades model", href: "/tools/drawdown-recovery-calculator", icon: Zap, badge: "FREE" },
+      { name: "Pip Value Calculator", desc: "Multi-currency pip & point values across tiers", href: "/tools/pip-value-calculator", icon: Calculator, badge: "FREE" },
+      { name: "Forex Market Hours", desc: "Live session clock with London/NY overlap radar", href: "/tools/forex-market-hours", icon: Newspaper, badge: "LIVE" },
+      { name: "Risk of Ruin Calculator", desc: "Statistical probability of account loss & EV", href: "/tools/risk-of-ruin-calculator", icon: LineChart, badge: "FREE" },
+      { name: "Plan My Trade", desc: "Interactive pre-trade sizing & discipline validation", href: "/dashboard/run-my-trade", icon: Zap, badge: "CORE" },
+      { name: "Signal Centre", desc: "AI consensus signals — Claude + GPT-4o + Grok", href: "/signal-centre", icon: Zap, badge: "AI" },
       { name: "AI Trade Journal", desc: "Upload CSV logs to extract emotional profiles", href: "/tools/ai-trade-journal", icon: BookOpen },
-      { name: "Risk Calculator", desc: "Exact position sizing relative to drawdown limits", href: "/tools/risk-calculator", icon: Calculator },
-      { name: "Technical Scanner", desc: "Multi-timeframe technical confluence across 13 major pairs", href: "/tools/ai-market-scanner", icon: Scan },
-      { name: "Strategy Backtester", desc: "Test strategies against historical price data", href: "/tools/strategy-backtester", icon: LineChart },
-      { name: "Algo Strategy Builder", desc: "Automatically generate Pine Script & Python", href: "/tools/algo-strategy-builder", icon: Terminal },
-      { name: "Daily Intelligence Brief", desc: "Pre-market macroeconomic flow breakdowns", href: "/tools/intelligence-hub", icon: Newspaper }
     ],
     featured: {
       image: "/images/tools/ai-market-scanner.png",

@@ -6,44 +6,45 @@ import { ArrowRight, Check } from "lucide-react";
 import { phases } from "@/data/courses";
 import { useRegion } from "@/components/layout/RegionalLayout";
 import { Reveal } from "@/components/ui/Reveal";
+import { CardAtmosphere, PatternType } from "@/components/ui/CardAtmosphere";
 
-const phaseBranding: Record<string, { bg: string; border: string; glow: string }> = {
+const phaseBranding: Record<string, { pattern: PatternType; border: string; glow: string }> = {
   "01": {
-    bg: "https://images.unsplash.com/photo-1642790106117-e829e14a795f?auto=format&fit=crop&w=600&q=80", // Market Mechanics
+    pattern: "topographic", // Market Mechanics
     border: "var(--accent)",
-    glow: "rgba(79, 127, 255, 0.15)"
+    glow: "rgba(22, 33, 62, 0.08)"
   },
   "02": {
-    bg: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80", // Technical Foundation
+    pattern: "dot-matrix", // Technical Foundation
     border: "var(--accent)",
-    glow: "rgba(79, 127, 255, 0.15)"
+    glow: "rgba(22, 33, 62, 0.08)"
   },
   "03": {
-    bg: "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?auto=format&fit=crop&w=600&q=80", // Risk & Sizing
+    pattern: "plotted-curve", // Risk & Sizing
     border: "var(--accent)",
-    glow: "rgba(79, 127, 255, 0.15)"
+    glow: "rgba(22, 33, 62, 0.08)"
   },
   "04": {
-    bg: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=600&q=80", // Algorithmic Modeling
+    pattern: "circuit-lines", // Algorithmic Modeling
     border: "var(--accent)",
-    glow: "rgba(79, 127, 255, 0.15)"
+    glow: "rgba(22, 33, 62, 0.08)"
   },
   "05": {
-    bg: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=600&q=80", // Execution & APIs
+    pattern: "grid-mesh", // Execution & APIs
     border: "var(--accent)",
-    glow: "rgba(79, 127, 255, 0.15)"
+    glow: "rgba(22, 33, 62, 0.08)"
   },
   "06": {
-    bg: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&w=600&q=80", // High-Frequency AI
+    pattern: "concentric-rings", // High-Frequency AI
     border: "var(--accent)",
-    glow: "rgba(79, 127, 255, 0.15)"
+    glow: "rgba(22, 33, 62, 0.08)"
   }
 };
 
 const defaultBranding = {
-  bg: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80",
+  pattern: "grid-mesh" as PatternType,
   border: "var(--border-subtle)",
-  glow: "rgba(79, 127, 255, 0.08)"
+  glow: "rgba(22, 33, 62, 0.04)"
 };
 
 export function CurriculumSection() {
@@ -98,25 +99,16 @@ export function CurriculumSection() {
                 onMouseLeave={() => setHoveredPhaseId(null)}
               >
                 <div
-                  className="p-6 border flex flex-col justify-between h-full relative overflow-hidden transition-all duration-300"
+                  className="p-6 border flex flex-col justify-between h-full relative overflow-hidden transition-all duration-300 hover:shadow-[var(--elev-2)]"
                   style={{
                     borderColor: isHovered ? brand.border : "var(--border-subtle)",
                     backgroundColor: "var(--surface-raised)",
                     borderRadius: "var(--radius-md)",
-                    boxShadow: isHovered ? `0 0 24px ${brand.glow}, inset 0 0 12px ${brand.glow}` : "var(--elev-1)",
+                    boxShadow: "var(--elev-1)",
                   }}
                 >
-                  {/* Brand-Matching Background Image Layer */}
-                  <div 
-                    className="absolute inset-0 z-0 transition-all duration-500 pointer-events-none"
-                    style={{
-                      backgroundImage: `url(${brand.bg})`,
-                      backgroundSize: "cover",
-                      backgroundPosition: "center",
-                      opacity: isHovered ? 0.12 : 0.03,
-                      mixBlendMode: "luminosity",
-                    }}
-                  />
+                  {/* Subtle, premium abstract atmosphere revealing on hover */}
+                  <CardAtmosphere pattern={brand.pattern} accentColor="var(--accent)" />
 
                   {/* Content Layer */}
                   <div className="relative z-10 flex flex-col justify-between h-full w-full">
@@ -179,55 +171,56 @@ export function CurriculumSection() {
 
         {/* Premium Institutional Accelerator Strip Card */}
         <Link href={`${regionPrefix}/institutional-accelerator`} className="block group mt-12">
-          <div className="p-8 border relative overflow-hidden transition-all duration-500 group-hover:-translate-y-1 group-hover:shadow-[0_12px_40px_rgba(226,183,85,0.12)] cursor-pointer"
+          <div className="p-8 border relative overflow-hidden transition-all duration-300 group-hover:-translate-y-1 group-hover:shadow-[0_12px_40px_rgba(226,183,85,0.16)] cursor-pointer"
                style={{
-                 borderColor: "rgba(226, 183, 85, 0.2)",
-                 background: "linear-gradient(135deg, #0B0E12 0%, #151922 100%)",
+                 borderColor: "rgba(226, 183, 85, 0.35)",
+                 backgroundColor: "#FFFFFF",
+                 boxShadow: "0 1px 3px rgba(0,0,0,0.04), 0 12px 32px -8px rgba(226,183,85,0.12)",
                  borderRadius: "var(--radius-lg)",
                }}
           >
             {/* Subtle gold line at top */}
-            <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-[#E2B755] to-transparent opacity-50 group-hover:opacity-100 transition-opacity duration-500" />
+            <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-[#E2B755] to-transparent opacity-70 group-hover:opacity-100 transition-opacity duration-500" />
             
             {/* Subtle background glow */}
-            <div className="absolute -bottom-20 -right-20 w-80 h-80 bg-[#E2B755]/5 blur-[80px] rounded-full pointer-events-none transition-all duration-500 group-hover:scale-125 group-hover:bg-[#E2B755]/10" />
+            <div className="absolute -bottom-20 -right-20 w-80 h-80 bg-[#E2B755]/10 blur-[80px] rounded-full pointer-events-none transition-all duration-500 group-hover:scale-125 group-hover:bg-[#E2B755]/15" />
 
             <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
               <div className="space-y-3 max-w-3xl">
                 <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 border text-[10px] font-mono font-bold uppercase tracking-wider transition-colors duration-300 group-hover:bg-[rgba(226,183,85,0.15)]"
                      style={{
-                       color: "#E2B755",
-                       borderColor: "rgba(226, 183, 85, 0.25)",
-                       backgroundColor: "rgba(226, 183, 85, 0.08)",
+                       color: "#8C6A18",
+                       borderColor: "rgba(226, 183, 85, 0.35)",
+                       backgroundColor: "rgba(226, 183, 85, 0.10)",
                        borderRadius: "var(--radius-pill)",
                      }}
                 >
                   ★ Premium Executive Cohort
                 </div>
-                <h3 className="text-xl md:text-2xl font-display font-semibold tracking-tight text-white leading-tight">
+                <h3 className="text-xl md:text-2xl font-display font-semibold tracking-tight text-[var(--text-primary)] leading-tight">
                   Drawdown Institutional Accelerator
                 </h3>
-                <p className="text-[13px] leading-relaxed text-gray-400 font-sans max-w-2xl">
+                <p className="text-[13px] leading-relaxed text-[var(--text-secondary)] font-sans max-w-2xl">
                   Move beyond retail speculation. A premium 6-week higher education cohort combining systematic probability, custom Pine Script indicator engineering, live fund-level audits, and UK Limited Company tax structures.
                 </p>
-                <div className="flex flex-wrap gap-x-6 gap-y-2 pt-1 text-[11px] font-mono text-gray-400 uppercase tracking-wider">
-                  <span className="flex items-center gap-1.5 transition-colors duration-300 group-hover:text-gray-300">
-                    <Check className="w-3.5 h-3.5 text-[#E2B755]" /> 15-Student Limit
+                <div className="flex flex-wrap gap-x-6 gap-y-2 pt-1 text-[11px] font-mono text-[var(--text-secondary)] uppercase tracking-wider">
+                  <span className="flex items-center gap-1.5 transition-colors duration-300 group-hover:text-[var(--text-primary)]">
+                    <Check className="w-3.5 h-3.5 text-[#B8871E]" /> 15-Student Limit
                   </span>
-                  <span className="flex items-center gap-1.5 transition-colors duration-300 group-hover:text-gray-300">
-                    <Check className="w-3.5 h-3.5 text-[#E2B755]" /> Live Audits
+                  <span className="flex items-center gap-1.5 transition-colors duration-300 group-hover:text-[var(--text-primary)]">
+                    <Check className="w-3.5 h-3.5 text-[#B8871E]" /> Live Audits
                   </span>
-                  <span className="flex items-center gap-1.5 transition-colors duration-300 group-hover:text-gray-300">
-                    <Check className="w-3.5 h-3.5 text-[#E2B755]" /> Tax Compliance Kit
+                  <span className="flex items-center gap-1.5 transition-colors duration-300 group-hover:text-[var(--text-primary)]">
+                    <Check className="w-3.5 h-3.5 text-[#B8871E]" /> Tax Compliance Kit
                   </span>
                 </div>
               </div>
 
               <div className="flex items-center">
                 <div
-                  className="inline-flex items-center justify-center gap-2 px-5 py-3 text-[11px] font-mono uppercase tracking-[0.08em] font-bold text-black transition-all duration-300 group-hover:shadow-lg group-hover:shadow-[#E2B755]/20 group-hover:scale-[1.02]"
+                  className="inline-flex items-center justify-center gap-2 px-5 py-3 text-[11px] font-mono uppercase tracking-[0.08em] font-bold text-white transition-all duration-300 group-hover:shadow-lg group-hover:shadow-[#E2B755]/25 group-hover:scale-[1.02]"
                   style={{
-                    background: "linear-gradient(to right, #E2B755, #C59235)",
+                    background: "linear-gradient(to right, #C59235, #A8761E)",
                     borderRadius: "var(--radius-md)",
                   }}
                 >

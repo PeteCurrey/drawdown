@@ -126,7 +126,7 @@ export default async function Home() {
       <Navigation />
 
       {/* Main Content */}
-      <main className="flex-grow pt-[58px]">
+      <main className="flex-grow">
         {/* 1. Hero + Value Proposition */}
         <HeroSection />
 

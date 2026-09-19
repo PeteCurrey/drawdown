@@ -227,9 +227,9 @@ export function Navigation() {
   const activeColor = isDarkPage ? "var(--surface-base)" : "var(--accent)";
   const inactiveColor = isDarkPage ? "var(--text-secondary)" : "var(--text-secondary)";
   const hoverColor = isDarkPage ? "var(--surface-base)" : "var(--text-primary)";
-  const headerBg = isScrolled 
+  const headerBg = (isScrolled || isMobileMenuOpen)
     ? (isDarkPage ? "rgba(11, 14, 18, 0.85)" : "rgba(255, 255, 255, 0.85)") 
-    : (isDarkPage ? "#0B0E12" : "#FFFFFF");
+    : "transparent";
   const borderColor = isScrolled 
     ? "var(--border-subtle)" 
     : "transparent";
@@ -237,8 +237,8 @@ export function Navigation() {
   return (
     <header
       className={cn(
-        "fixed top-0 left-0 w-full z-[200] h-[58px] flex items-center select-none transition-all duration-150",
-        isScrolled ? "border-b" : ""
+        "fixed top-0 left-0 w-full z-[200] h-[58px] flex items-center select-none transition-all duration-200",
+        isScrolled ? "border-b shadow-[0_1px_3px_rgba(0,0,0,0.02)]" : "border-b-0"
       )}
       style={{
         backgroundColor: headerBg,

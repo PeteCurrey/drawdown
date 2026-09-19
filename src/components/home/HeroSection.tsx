@@ -37,7 +37,7 @@ export function HeroSection() {
 
   return (
     <section
-      className="relative w-full min-h-[calc(100vh-58px)] flex flex-col justify-center overflow-hidden pt-16 pb-24 md:pt-20 md:pb-28 border-b"
+      className="relative w-full min-h-screen flex flex-col justify-center overflow-hidden pt-[calc(58px+3rem)] pb-24 md:pt-[calc(58px+4rem)] md:pb-28 border-b"
       style={{
         backgroundColor: "var(--surface-base)",
         borderColor: "var(--border-subtle)",

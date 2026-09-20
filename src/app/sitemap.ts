@@ -81,6 +81,22 @@ export default function sitemap(): MetadataRoute.Sitemap {
     // ── Markets ───────────────────────────────────────────────────────────
     url('/markets', { changeFrequency: 'weekly', priority: 0.7, lastModified: now }),
 
+    // ── The Lobby ─────────────────────────────────────────────────────────
+    url('/lobby', { changeFrequency: 'daily', priority: 0.9, lastModified: now }),
+    url('/lobby/archive', { changeFrequency: 'daily', priority: 0.75, lastModified: now }),
+    url('/lobby/markets', { changeFrequency: 'daily', priority: 0.8, lastModified: now }),
+    url('/lobby/brokers', { changeFrequency: 'daily', priority: 0.8, lastModified: now }),
+    url('/lobby/prop-firms', { changeFrequency: 'daily', priority: 0.8, lastModified: now }),
+    url('/lobby/platforms', { changeFrequency: 'daily', priority: 0.8, lastModified: now }),
+    url('/lobby/macro', { changeFrequency: 'daily', priority: 0.8, lastModified: now }),
+    url('/lobby/regulation', { changeFrequency: 'daily', priority: 0.8, lastModified: now }),
+    url('/lobby/trading-technology', { changeFrequency: 'daily', priority: 0.8, lastModified: now }),
+    url('/lobby/trades', { changeFrequency: 'daily', priority: 0.8, lastModified: now }),
+    url('/lobby/drawdown', { changeFrequency: 'daily', priority: 0.8, lastModified: now }),
+    url('/lobby/education', { changeFrequency: 'daily', priority: 0.8, lastModified: now }),
+    url('/lobby/industry', { changeFrequency: 'daily', priority: 0.8, lastModified: now }),
+    url('/lobby/other', { changeFrequency: 'daily', priority: 0.7, lastModified: now }),
+
     // ── Blog ─────────────────────────────────────────────────────────────
     url('/blog', { changeFrequency: 'weekly', priority: 0.75, lastModified: now }),
     url('/blog/coffeezilla-alexg-trading-education', { changeFrequency: 'monthly', priority: 0.65, lastModified: now }),

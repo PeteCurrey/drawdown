@@ -124,7 +124,7 @@ export default function AboutClient() {
               <div className="relative">
                 <div className="w-48 h-48 md:w-56 md:h-56 relative overflow-hidden border-2" style={{ borderColor: "var(--line-200)" }}>
                   <Image
-                    src="/images/pete-currey-founder.jpg"
+                    src="/images/pete-currey-founder.png"
                     alt="Pete Currey, Founder of Drawdown"
                     fill
                     className="object-cover object-top"

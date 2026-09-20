@@ -19,6 +19,7 @@ import {
   Mail,
   Link2,
   FileText,
+  Newspaper,
   Award,
   GraduationCap
 } from "lucide-react";
@@ -31,7 +32,8 @@ const NAV_ITEMS = [
   { href: "/admin/accelerator", label: "Accelerator LMS", icon: GraduationCap },
   { href: "/admin/applications", label: "Accelerator Waitlist", icon: Inbox },
   { href: "/admin/events", label: "Live Events", icon: MessageSquare },
-  { href: "/admin/content", label: "Content Delivery", icon: BookOpen },
+  { href: "/admin/lobby", label: "The Lobby CMS", icon: Newspaper },
+  { href: "/admin/content", label: "Content OS", icon: BookOpen },
   { href: "/admin/emails", label: "Emails History", icon: Mail },
   { href: "/admin/subscribers", label: "Email Subscribers", icon: Users },
   { href: "/admin/blog", label: "Blog Manager", icon: FileText },

@@ -199,6 +199,7 @@ export function Navigation() {
   const navLinks = [
     { name: "Curriculum", href: getLocalizedHref("/courses") },
     { name: "Tools", href: getLocalizedHref("/tools") },
+    { name: "The Lobby", href: "/lobby" },
     { name: "Brokers", href: getLocalizedHref("/brokers") },
     { name: "Prop Firms", href: getLocalizedHref("/prop-firms") },
     { name: "Markets", href: getLocalizedHref("/markets") },

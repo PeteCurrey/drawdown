@@ -1,4 +1,4 @@
-import type { ContentPriority, NewsTrustTier } from "./types.ts";
+import type { ContentPriority, NewsTrustTier } from "./types";
 
 export interface ScoringInput {
   title: string;

@@ -5,7 +5,7 @@ import type {
   NewsVerificationStatus, 
   NewsEditorialStatus, 
   ContentItem 
-} from "./types.ts";
+} from "./types";
 
 /**
  * Valid state transitions for Content Items:

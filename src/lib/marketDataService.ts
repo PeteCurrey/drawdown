@@ -1,7 +1,7 @@
 import { InstrumentConfig, TIMEFRAME_MAP } from './instruments';
 
-const TD_KEY = process.env.NEXT_PUBLIC_TWELVE_DATA_API_KEY || process.env.NEXT_PUBLIC_TWELVE_DATA_KEY || process.env.TWELVE_DATA_KEY || '';
-const FH_KEY = process.env.NEXT_PUBLIC_FINNHUB_API_KEY || process.env.FINNHUB_API_KEY || '';
+const TD_KEY = process.env.TWELVE_DATA_KEY || process.env.TWELVE_DATA_KEY_ALT || process.env.NEXT_PUBLIC_TWELVE_DATA_KEY || '';
+const FH_KEY = process.env.FINNHUB_API_KEY || process.env.NEXT_PUBLIC_FINNHUB_API_KEY || '';
 const TD_BASE = 'https://api.twelvedata.com';
 const FH_BASE = 'https://finnhub.io/api/v1';
 

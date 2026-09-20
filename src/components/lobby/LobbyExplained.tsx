@@ -2,7 +2,7 @@ import Link from "next/link";
 import { HelpCircle, ChevronRight } from "lucide-react";
 import { LobbyEmptyState } from "./LobbyEmptyState";
 import type { LobbyArticle } from "@/types/lobby";
-import { categoryToSlug } from "@/lib/lobby";
+import { categoryToSlug } from "@/lib/lobby-constants";
 
 interface LobbyExplainedProps {
   articles?: LobbyArticle[];

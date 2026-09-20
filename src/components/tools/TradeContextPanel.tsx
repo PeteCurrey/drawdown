@@ -56,12 +56,10 @@ export function TradeContextPanel({
         setPanelATR(atrCacheRef.current.get(symbol)!);
         return;
       }
-      const k = process.env.NEXT_PUBLIC_TWELVE_DATA_KEY ?? "";
-      if (!k) return;
       try {
-        const r = await fetch(`https://api.twelvedata.com/atr?symbol=${symbol}&interval=1day&time_period=14&outputsize=1&apikey=${k}`);
+        const r = await fetch(`/api/market-data/${encodeURIComponent(symbol)}`);
         const d = await r.json();
-        const val = d?.values?.[0]?.atr ? parseFloat(d.values[0].atr) : null;
+        const val = typeof d?.atrCurrent === "number" ? d.atrCurrent : null;
         if (val) { setPanelATR(val); atrCacheRef.current.set(symbol, val); }
       } catch {}
     }, 800);

@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Terminal, Cpu, ArrowUpRight } from "lucide-react";
 import { LobbyEmptyState } from "./LobbyEmptyState";
 import type { LobbyArticle } from "@/types/lobby";
-import { categoryToSlug } from "@/lib/lobby";
+import { categoryToSlug } from "@/lib/lobby-constants";
 
 interface LobbyPlatformSpotlightProps {
   article: LobbyArticle | null;

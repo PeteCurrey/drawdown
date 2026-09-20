@@ -16,8 +16,7 @@ import { PerformanceTab } from "./PerformanceTab";
 // ─── Constants ────────────────────────────────────────────────────────────────
 type TabId = "CALCULATOR" | "PORTFOLIO HEAT" | "ADVANCED SIZING" | "PROP COMPLIANCE" | "PERFORMANCE";
 
-const TD_KEY = () => process.env.NEXT_PUBLIC_TWELVE_DATA_KEY ?? "";
-const TD_BASE = "https://api.twelvedata.com";
+// Removed client-side TD_KEY; market data is routed via internal server API
 
 const CURRENCIES = [
   { code:"GBP", symbol:"£", flag:"🇬🇧" }, { code:"USD", symbol:"$", flag:"🇺🇸" },
@@ -82,30 +81,26 @@ function fmt(n: number, dec = 2, sym = "") { return `${sym}${n.toLocaleString("e
 function fmtPct(n: number) { return `${n >= 0?"+":""}${n.toFixed(2)}%`; }
 
 async function fetchTwelveQuote(symbol: string) {
-  const k = TD_KEY();
-  if (!k) return null;
   const sym = encodeURIComponent(symbol);
   try {
-    const r = await fetch(`${TD_BASE}/quote?symbol=${sym}&apikey=${k}`);
+    const r = await fetch(`/api/market-data/${sym}?priceOnly=true`);
     const d = await r.json();
-    if (d.code || d.status === "error") return null;
+    if (!r.ok || d.error || d.price === null) return null;
     return {
-      price:  parseFloat(d.close ?? d.price ?? "0") || null,
-      bid:    parseFloat(d.bid ?? "0") || null,
-      ask:    parseFloat(d.ask ?? "0") || null,
+      price:  typeof d.price === "number" ? d.price : parseFloat(d.price ?? "0") || null,
+      bid:    typeof d.bid === "number" ? d.bid : parseFloat(d.bid ?? "0") || null,
+      ask:    typeof d.ask === "number" ? d.ask : parseFloat(d.ask ?? "0") || null,
       spread: d.bid && d.ask ? parseFloat(d.ask) - parseFloat(d.bid) : null,
     };
   } catch { return null; }
 }
 
 async function fetchTwelveATR(symbol: string) {
-  const k = TD_KEY();
-  if (!k) return null;
   const sym = encodeURIComponent(symbol);
   try {
-    const r = await fetch(`${TD_BASE}/atr?symbol=${sym}&interval=1day&time_period=14&outputsize=1&apikey=${k}`);
+    const r = await fetch(`/api/market-data/${sym}`);
     const d = await r.json();
-    return d?.values?.[0]?.atr ? parseFloat(d.values[0].atr) : null;
+    return typeof d.atrCurrent === "number" ? d.atrCurrent : null;
   } catch { return null; }
 }
 

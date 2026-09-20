@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Briefcase, ArrowRight } from "lucide-react";
 import { LobbyEmptyState } from "./LobbyEmptyState";
 import type { LobbyPropFirmWatchData } from "@/types/lobby";
-import { DRAWDOWN_ENTITIES } from "@/lib/lobby";
+import { DRAWDOWN_ENTITIES } from "@/lib/lobby-constants";
 
 interface LobbyPropFirmWatchProps {
   entries?: LobbyPropFirmWatchData[];

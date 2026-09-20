@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Building2, ExternalLink } from "lucide-react";
 import { LobbyEmptyState } from "./LobbyEmptyState";
 import type { LobbyBrokerWatchData } from "@/types/lobby";
-import { DRAWDOWN_ENTITIES } from "@/lib/lobby";
+import { DRAWDOWN_ENTITIES } from "@/lib/lobby-constants";
 
 interface LobbyBrokerWatchProps {
   entries?: LobbyBrokerWatchData[];

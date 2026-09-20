@@ -1,7 +1,7 @@
 // src/lib/lobby/intelligence.ts
 // Intelligence ingestion, source registry, event detection and verification foundation for The Lobby
 
-import type { LobbySource, LobbyEventItem, LobbySourceRegistryItem } from "../../types/lobby.ts";
+import type { LobbySource, LobbyEventItem, LobbySourceRegistryItem } from "../../types/lobby";
 
 export type IngestionSourceType = 
   | 'NEWS'

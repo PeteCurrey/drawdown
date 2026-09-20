@@ -1,7 +1,7 @@
 // src/lib/lobby/guardrails.ts
 // Content quality guardrails for The Lobby publishing workflow
 
-import type { LobbyArticle, LobbySource } from "../../types/lobby.ts";
+import type { LobbyArticle, LobbySource } from "../../types/lobby";
 
 export interface GuardrailValidationResult {
   isValid: boolean;

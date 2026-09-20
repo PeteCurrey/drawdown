@@ -3,7 +3,7 @@ import { BookOpen, ArrowRight } from "lucide-react";
 import { LobbyEmptyState } from "./LobbyEmptyState";
 import { LobbyImage } from "./LobbyImage";
 import type { LobbyArticle } from "@/types/lobby";
-import { categoryToSlug, DRAWDOWN_TOOLS } from "@/lib/lobby";
+import { categoryToSlug, DRAWDOWN_TOOLS } from "@/lib/lobby-constants";
 
 interface LobbyDrawdownDeskProps {
   articles?: LobbyArticle[];

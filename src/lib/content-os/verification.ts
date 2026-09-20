@@ -1,4 +1,4 @@
-import type { NewsTrustTier, NewsVerificationStatus } from "./types.ts";
+import type { NewsTrustTier, NewsVerificationStatus } from "./types";
 
 export interface VerificationEvidence {
   primarySource?: {

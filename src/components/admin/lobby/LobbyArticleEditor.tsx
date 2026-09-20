@@ -14,7 +14,7 @@ import type {
   LobbySource,
   LobbyAuditLog 
 } from "@/types/lobby";
-import { LOBBY_CATEGORIES, LOBBY_ARTICLE_TYPES, DRAWDOWN_TOOLS, DRAWDOWN_ENTITIES } from "@/lib/lobby";
+import { LOBBY_CATEGORIES, LOBBY_ARTICLE_TYPES, DRAWDOWN_TOOLS, DRAWDOWN_ENTITIES } from "@/lib/lobby-constants";
 import { validateLobbyArticleGuardrails } from "@/lib/lobby/guardrails";
 import { 
   Save, 

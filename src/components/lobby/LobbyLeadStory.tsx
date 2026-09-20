@@ -2,7 +2,7 @@ import Link from "next/link";
 import { LobbyImage } from "./LobbyImage";
 import { LobbyEmptyState } from "./LobbyEmptyState";
 import type { LobbyArticle } from "@/types/lobby";
-import { categoryToSlug } from "@/lib/lobby";
+import { categoryToSlug } from "@/lib/lobby-constants";
 import { Clock, ShieldCheck } from "lucide-react";
 
 interface LobbyLeadStoryProps {

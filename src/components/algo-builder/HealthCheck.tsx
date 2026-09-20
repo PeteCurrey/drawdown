@@ -171,22 +171,19 @@ export function HealthCheck({
       setPhase(`Fetching 500 bars from Twelve Data for ${instrument}…`);
       const sym      = encodeURIComponent(tdSymbol(instrument));
       const interval = TD_INTERVAL[timeframe] ?? "1h";
-      const key      = process.env.NEXT_PUBLIC_TWELVE_DATA_KEY ?? "";
-
-      if (!key) throw new Error("Twelve Data key not configured.");
-
       const res = await fetch(
-        `https://api.twelvedata.com/time_series?symbol=${sym}&interval=${interval}&outputsize=500&apikey=${key}`
+        `/api/market/history?symbol=${sym}&interval=${interval}&outputsize=500`
       );
-      const json = await res.json();
-
-      if (json.status === "error" || !json.values?.length) {
-        throw new Error(json.message ?? "Could not fetch price data. Check instrument symbol.");
+      if (!res.ok) {
+        throw new Error("Could not fetch price data from market history API.");
+      }
+      const data = await res.json();
+      if (!Array.isArray(data) || data.length === 0) {
+        throw new Error("No price history returned. Check instrument symbol.");
       }
 
-      const closes: number[] = [...json.values]
-        .reverse()
-        .map((v: any) => parseFloat(v.close))
+      const closes: number[] = data
+        .map((b: any) => parseFloat(b.close))
         .filter(Boolean);
 
       if (closes.length < 60) throw new Error("Not enough price history for simulation.");

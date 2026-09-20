@@ -2,7 +2,7 @@ import Link from "next/link";
 import { LobbyImage } from "./LobbyImage";
 import { LobbyEmptyState } from "./LobbyEmptyState";
 import type { LobbyArticle } from "@/types/lobby";
-import { categoryToSlug } from "@/lib/lobby";
+import { categoryToSlug } from "@/lib/lobby-constants";
 import { Zap } from "lucide-react";
 
 interface LobbyWhatsHappeningProps {

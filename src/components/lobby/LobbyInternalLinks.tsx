@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Calculator, ArrowRight, ShieldCheck, Briefcase, Cpu } from "lucide-react";
-import { DRAWDOWN_TOOLS, DRAWDOWN_ENTITIES } from "@/lib/lobby";
+import { DRAWDOWN_TOOLS, DRAWDOWN_ENTITIES } from "@/lib/lobby-constants";
 
 interface LobbyInternalLinksProps {
   toolSlugs?: string[];

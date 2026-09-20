@@ -273,7 +273,7 @@ function SignalsTab({ tech, price, slug, tvSymbol }: { tech: any; price: number 
         <TradingViewTechnicalWidget tvSymbol={tvSymbol} isVisible />
       </div>
       <div className="p-4 text-center text-text-tertiary text-[10px] font-mono">
-        Set NEXT_PUBLIC_TWELVE_DATA_KEY to add our multi-timeframe overlay.
+        Configure TWELVE_DATA_KEY on the server to add our multi-timeframe overlay.
       </div>
     </div>
   );

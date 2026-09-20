@@ -18,6 +18,9 @@ import {
   getLobbyLeadStory, 
   getLobbyArticles 
 } from "@/lib/lobby";
+import { createInternalSupabase } from "@/lib/supabase/server";
+import { getUserPreferences, buildPersonalLobbyFeed, getDefaultPreferences } from "@/lib/lobby-personalisation";
+import { YourLobbyFeed } from "@/components/lobby/YourLobbyFeed";
 
 export const metadata: Metadata = getMetadata({
   title: "The Lobby — Market Intelligence & Trading Industry Publication",
@@ -28,7 +31,13 @@ export const metadata: Metadata = getMetadata({
 
 export const revalidate = 60; // Revalidate every minute for timely market dispatches
 
-export default async function LobbyHomePage() {
+export default async function LobbyHomePage({
+  searchParams
+}: {
+  searchParams?: Promise<{ view?: string }>;
+}) {
+  const params = await searchParams;
+  const isYourLobby = params?.view === "your-lobby";
   // Fetch editorial articles concurrently across sections
   const [
     leadStory,
@@ -72,6 +81,29 @@ export default async function LobbyHomePage() {
     prop_firm_slug: a.related_prop_firm_slugs?.[0]
   }));
 
+  let personalFeedData = null;
+  let userPrefs = getDefaultPreferences("anon");
+  if (isYourLobby) {
+    const supabase = await createInternalSupabase();
+    const { data: { user } } = await supabase.auth.getUser();
+    if (user) {
+      userPrefs = await getUserPreferences(user.id);
+      personalFeedData = buildPersonalLobbyFeed({
+        userName: user.user_metadata?.full_name || user.email?.split("@")[0] || "Trader",
+        preferences: userPrefs,
+        allArticles: allLatestArticles,
+        allEvents: [],
+      });
+    } else {
+      personalFeedData = buildPersonalLobbyFeed({
+        userName: "Guest Trader",
+        preferences: userPrefs,
+        allArticles: allLatestArticles,
+        allEvents: [],
+      });
+    }
+  }
+
   return (
     <div className="w-full bg-[#FFFFFF] min-h-screen text-[#0B0E12] font-sans selection:bg-[#16213E] selection:text-[#FFFFFF]">
       {/* Structured Data: WebSite & Organization */}
@@ -92,41 +124,49 @@ export default async function LobbyHomePage() {
       {/* 2. Secondary Sticky Editorial Navigation */}
       <LobbyNav />
 
-      {/* 3. Dominant Lead Story */}
-      <LobbyLeadStory article={leadStory} />
+      {isYourLobby && personalFeedData ? (
+        <div className="max-w-[1320px] mx-auto px-4 sm:px-6 py-10">
+          <YourLobbyFeed feed={personalFeedData} userPreferences={userPrefs} />
+        </div>
+      ) : (
+        <>
+          {/* 3. Dominant Lead Story */}
+          <LobbyLeadStory article={leadStory} />
 
-      {/* 4. What's Happening & Just In Newsroom Grid */}
-      <LobbyWhatsHappening 
-        articles={whatsHappeningArticles} 
-        justInArticles={justInArticles} 
-      />
+          {/* 4. What's Happening & Just In Newsroom Grid */}
+          <LobbyWhatsHappening 
+            articles={whatsHappeningArticles} 
+            justInArticles={justInArticles} 
+          />
 
-      {/* 5. Coming Up Timetable */}
-      <LobbyComingUp events={[]} />
+          {/* 5. Coming Up Timetable */}
+          <LobbyComingUp events={[]} />
 
-      {/* 6. What's Worth Watching Briefs */}
-      <LobbyWatchlist items={[]} />
+          {/* 6. What's Worth Watching Briefs */}
+          <LobbyWatchlist items={[]} />
 
-      {/* 7. Broker Watch */}
-      <LobbyBrokerWatch entries={brokerWatchData} />
+          {/* 7. Broker Watch */}
+          <LobbyBrokerWatch entries={brokerWatchData} />
 
-      {/* 8. Prop Firm Watch */}
-      <LobbyPropFirmWatch entries={propFirmWatchData} />
+          {/* 8. Prop Firm Watch */}
+          <LobbyPropFirmWatch entries={propFirmWatchData} />
 
-      {/* 9. Platform Spotlight */}
-      <LobbyPlatformSpotlight article={platformArticles[0] || null} />
+          {/* 9. Platform Spotlight */}
+          <LobbyPlatformSpotlight article={platformArticles[0] || null} />
 
-      {/* 10. Trade of the Month */}
-      <LobbyTradeOfTheMonth trade={null} />
+          {/* 10. Trade of the Month */}
+          <LobbyTradeOfTheMonth trade={null} />
 
-      {/* 11. Drawdown Desk Original Research */}
-      <LobbyDrawdownDesk articles={drawdownDeskArticles} />
+          {/* 11. Drawdown Desk Original Research */}
+          <LobbyDrawdownDesk articles={drawdownDeskArticles} />
 
-      {/* 12. Explained Evergreen Education */}
-      <LobbyExplained articles={explainedArticles} />
+          {/* 12. Explained Evergreen Education */}
+          <LobbyExplained articles={explainedArticles} />
 
-      {/* 13. Latest Chronological Stream with Filters */}
-      <LobbyLatestStream initialArticles={allLatestArticles} />
+          {/* 13. Latest Chronological Stream with Filters */}
+          <LobbyLatestStream initialArticles={allLatestArticles} />
+        </>
+      )}
     </div>
   );
 }

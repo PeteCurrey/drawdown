@@ -1,4 +1,4 @@
-import type { NewsCandidate } from "./types.ts";
+import type { NewsCandidate } from "./types";
 
 /**
  * Normalises a URL by stripping tracking parameters, anchors, and trailing slashes.
@@ -35,6 +35,8 @@ export function normaliseTitleTokens(title: string): string {
     .toLowerCase()
     .replace(/[^a-z0-9\s]/g, ' ')
     .split(/\s+/)
+    .filter(token => token.length > 0 && !stopWords.has(token));
+
   // Light financial stemming for identical action concepts (e.g. holds/held -> hold, steps/stepped -> step)
   const stemmed = clean.map(token => {
     if (token === 'holds' || token === 'held' || token === 'holding') return 'hold';

@@ -1,7 +1,6 @@
 import { createServiceRoleClient, createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import { CalendarPlannerService, type InterruptionRecommendation } from "@/lib/content-os/calendar-planner";
 import { 
   Calendar as CalendarIcon, 
   ArrowLeft, 
@@ -9,12 +8,24 @@ import {
   Sparkles, 
   Clock, 
   CheckCircle2, 
-  ExternalLink 
+  ExternalLink,
+  Layers,
+  BarChart2
 } from "lucide-react";
+import { CalendarPlannerService, type InterruptionRecommendation } from "@/lib/content-os/calendar-planner";
 
 export const dynamic = "force-dynamic";
 
-export default async function AdminContentCalendarPage() {
+interface Props {
+  searchParams: Promise<{
+    pillar?: string;
+  }>;
+}
+
+export default async function AdminContentCalendarPage({ searchParams }: Props) {
+  const params = await searchParams;
+  const pillarFilter = params.pillar;
+
   const supabaseUserClient = await createClient();
   const { data: { user } } = await supabaseUserClient.auth.getUser();
 
@@ -42,7 +53,7 @@ export default async function AdminContentCalendarPage() {
     .limit(3);
 
   // Generate rolling 30-day template
-  const slots = CalendarPlannerService.generate30DayTemplate();
+  let slots = CalendarPlannerService.generate30DayTemplate();
 
   // Assign any scheduled items to matching dates
   if (scheduledItems) {
@@ -55,6 +66,10 @@ export default async function AdminContentCalendarPage() {
         }
       }
     });
+  }
+
+  if (pillarFilter) {
+    slots = slots.filter(s => s.pillar.toLowerCase().includes(pillarFilter.toLowerCase()));
   }
 
   // Check for calendar interruptions
@@ -79,16 +94,30 @@ export default async function AdminContentCalendarPage() {
             </Link>
           </div>
           <h1 className="text-3xl font-bold tracking-tight text-mkt-ink">Rolling 30-Day Calendar</h1>
-          <p className="text-sm text-mkt-i3 mt-1">Targeting 4–5 high-quality content opportunities per week across market intelligence, education, and case studies.</p>
+          <p className="text-sm text-mkt-i3 mt-1">4–5 high-quality content opportunities per week across balanced editorial pillars.</p>
         </div>
 
-        <Link
-          href="/admin/content/generator"
-          className="bg-mkt-ink text-white px-4 py-2.5 rounded-lg text-sm font-bold flex items-center gap-2 hover:bg-mkt-i2 transition-colors shadow-sm"
-        >
-          <Sparkles className="w-4 h-4 text-mkt-grn" />
-          Plan & Draft Content
-        </Link>
+        <div className="flex items-center gap-3">
+          <Link
+            href="/admin/content/performance"
+            className="bg-white border border-[#e5e7eb] text-mkt-ink px-3 py-2 rounded-lg text-xs font-bold flex items-center gap-1.5 hover:bg-gray-50 shadow-sm"
+          >
+            <BarChart2 className="w-3.5 h-3.5 text-blue-600" /> Performance
+          </Link>
+          <Link
+            href="/admin/social"
+            className="bg-white border border-[#e5e7eb] text-mkt-ink px-3 py-2 rounded-lg text-xs font-bold flex items-center gap-1.5 hover:bg-gray-50 shadow-sm"
+          >
+            <Layers className="w-3.5 h-3.5 text-purple-600" /> Social Queue
+          </Link>
+          <Link
+            href="/admin/content/generator"
+            className="bg-mkt-ink text-white px-4 py-2 rounded-lg text-xs font-bold flex items-center gap-2 hover:bg-mkt-i2 transition-colors shadow-sm"
+          >
+            <Sparkles className="w-3.5 h-3.5 text-mkt-grn" />
+            Generate Next 30 Days
+          </Link>
+        </div>
       </header>
 
       {/* Breaking News Interruption Banner */}
@@ -105,7 +134,7 @@ export default async function AdminContentCalendarPage() {
             <p className="text-xs text-amber-800 mt-1">{interruption.rationale}</p>
             <div className="flex gap-2 mt-3">
               <Link 
-                href="/admin/content/news"
+                href="/admin/news"
                 className="bg-amber-600 hover:bg-amber-700 text-white text-[11px] font-bold px-3 py-1.5 rounded-lg inline-flex items-center gap-1"
               >
                 Review News Radar
@@ -118,7 +147,7 @@ export default async function AdminContentCalendarPage() {
       {/* Calendar Grid View */}
       <div className="bg-white border border-[#e5e7eb] rounded-xl overflow-hidden shadow-sm">
         <div className="p-4 bg-gray-50 border-b border-[#e5e7eb] flex justify-between items-center">
-          <h2 className="text-xs font-bold font-mono text-[#6b7280] uppercase tracking-widest">30-Day Editorial Allocation Plan</h2>
+          <h2 className="text-xs font-bold font-mono text-[#6b7280] uppercase tracking-widest">Editorial Allocation Plan</h2>
           <span className="text-[10px] font-mono text-[#9ca3af] uppercase">Active Slots: {slots.length}</span>
         </div>
 

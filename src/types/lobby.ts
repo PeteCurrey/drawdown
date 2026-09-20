@@ -139,6 +139,9 @@ export interface LobbyArticle {
   related_prop_firm_slugs: string[];
   related_platform_slugs: string[];
   related_markets: string[];
+  related_entities?: string[];
+  related_tools?: string[];
+  data_confidence?: LobbyConfidence;
   meta_title?: string | null;
   meta_description?: string | null;
   schema_type: 'Article' | 'NewsArticle';
@@ -186,6 +189,10 @@ export interface LobbyEventItem {
   primary_source_url?: string | null;
   corroborating_sources: LobbySource[];
   importance: 'LOW' | 'NORMAL' | 'HIGH' | 'URGENT';
+  currency?: string;
+  impact?: string;
+  event_time?: string;
+  forecast?: string;
   status: 'DETECTED' | 'RESEARCHING' | 'DRAFTED' | 'NEEDS_REVIEW' | 'APPROVED' | 'PUBLISHED' | 'REJECTED';
   article_id?: string | null;
   discovered_at: string;

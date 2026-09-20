@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import type { LobbyArticle, LobbyCategory } from "@/types/lobby";
-import { categoryToSlug } from "@/lib/lobby";
+import { categoryToSlug } from "@/lib/lobby-constants";
 import { LobbyEmptyState } from "./LobbyEmptyState";
 import { Clock, ArrowUpRight } from "lucide-react";
 

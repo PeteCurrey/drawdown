@@ -13,6 +13,8 @@ export interface NavItem {
 
 const LOBBY_NAV_ITEMS: NavItem[] = [
   { name: "HOME", href: "/lobby" },
+  { name: "YOUR LOBBY", href: "/lobby?view=your-lobby" },
+  { name: "THE WIRE", href: "/wire" },
   { name: "WHAT'S HAPPENING", href: "/lobby#whats-happening", sectionId: "whats-happening" },
   { name: "WATCHLIST", href: "/lobby#watchlist", sectionId: "watchlist" },
   { name: "MARKETS", href: "/lobby/markets" },
@@ -25,7 +27,11 @@ const LOBBY_NAV_ITEMS: NavItem[] = [
   { name: "COMING UP", href: "/lobby#coming-up", sectionId: "coming-up" },
 ];
 
-export function LobbyNav() {
+export interface LobbyNavProps {
+  activeCategory?: string;
+}
+
+export function LobbyNav({ activeCategory }: LobbyNavProps = {}) {
   const pathname = usePathname();
 
   const isLobbyHome = pathname === "/lobby";

@@ -11,7 +11,7 @@
  *    be published as factual Lobby or Platform content.
  */
 
-import type {  ConfidenceLevel, SourceReliability, DataObservation, DataEvent  } from "./types";
+import type {  ConfidenceLevel, SourceReliability, DataObservation, DataEvent  } from "./types.ts";
 
 export interface ConfidenceEvaluationParams {
   sourceReliability: SourceReliability;

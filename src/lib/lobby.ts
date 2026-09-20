@@ -7,10 +7,10 @@ import type {
   LobbyCategory, 
   LobbyArticleType, 
   LobbySection 
-} from "../types/lobby";
-import { slugToCategory } from "./lobby-constants";
+} from "../types/lobby.ts";
+import { slugToCategory } from "./lobby-constants.ts";
 
-export * from "./lobby-constants";
+export * from "./lobby-constants.ts";
 
 function getSupabase() {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL || "https://placeholder.supabase.co";

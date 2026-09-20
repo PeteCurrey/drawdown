@@ -9,7 +9,7 @@
  * with rate limiting, circuit breaker protection, and schema normalization.
  */
 
-import { BaseProvider } from "./base";
+import { BaseProvider } from "./base.ts";
 import type {
   SourceCategory,
   SourceReliability,
@@ -21,9 +21,9 @@ import type {
   NormalizedIngestionBundle,
   ProviderHealthReport,
   DataEvent,
-} from "../types";
-import { UniversalFeedParser } from "../rss/parser";
-import { DataNormalizer } from "../normalization";
+} from "../types.ts";
+import { UniversalFeedParser } from "../rss/parser.ts";
+import { DataNormalizer } from "../normalization.ts";
 
 export interface RssFeedConfig {
   id: string;

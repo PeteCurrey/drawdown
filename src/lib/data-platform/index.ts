@@ -5,14 +5,16 @@
  * Drawdown Trading Tools, and Social/Distribution.
  */
 
-export type * from "./types";
-export * from "./credentials";
-export * from "./health";
-export * from "./provenance";
-export * from "./confidence";
-export * from "./normalization";
-export * from "./deduplication";
-export * from "./scheduler";
-export * from "./registry";
-export * from "./pipeline";
-export * from "./providers/index";
+export type * from "./types.ts";
+export * from "./credentials.ts";
+export * from "./health.ts";
+export * from "./provenance.ts";
+export * from "./confidence.ts";
+export * from "./normalization.ts";
+export * from "./deduplication.ts";
+export * from "./scheduler.ts";
+export * from "./registry.ts";
+export * from "./pipeline.ts";
+export * from "./clustering.ts";
+export * from "./alternative/index.ts";
+export * from "./providers/index.ts";

@@ -9,9 +9,10 @@
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
     "test": "node --experimental-strip-types --test 'tests/**/*.test.ts'",
-    "test:unit": "node --experimental-strip-types --test 'tests/financial-calculations.test.ts' 'tests/tool-functional-audit.test.ts' 'tests/signal-freshness.test.ts' 'tests/content-os.test.ts' 'tests/data-platform-infrastructure.test.ts'",
-    "test:data-platform": "node --experimental-strip-types --test 'tests/data-platform-infrastructure.test.ts'",
+    "test:unit": "node --experimental-strip-types --test 'tests/financial-calculations.test.ts' 'tests/tool-functional-audit.test.ts' 'tests/signal-freshness.test.ts' 'tests/content-os.test.ts' 'tests/content-os-phases-2-to-5.test.ts' 'tests/data-platform-infrastructure.test.ts' 'tests/lobby-public-intelligence.test.ts' 'tests/alternative-data-research.test.ts' 'tests/lobby-control-room.test.ts'",
+    "test:data-platform": "node --experimental-strip-types --test 'tests/data-platform-infrastructure.test.ts' 'tests/lobby-public-intelligence.test.ts' 'tests/alternative-data-research.test.ts' 'tests/lobby-control-room.test.ts'",
     "test:content-os": "node --experimental-strip-types --test 'tests/content-os.test.ts'",
+    "test:content-os-phases-2-to-5": "node --experimental-strip-types --test 'tests/content-os-phases-2-to-5.test.ts'",
     "test:integration": "node --experimental-strip-types --test 'tests/security-access.test.ts' 'tests/entitlements.test.ts' 'tests/run-my-trade.test.ts' 'tests/conversion-architecture.test.ts' 'tests/market-data-health.test.ts' 'tests/signal-centre-integrity.test.ts' 'tests/seo-technical-audit.test.ts'",
     "test:e2e": "node --experimental-strip-types --test 'tests/production-e2e-journeys.test.ts'",
     "test:e2e:browser": "playwright test"

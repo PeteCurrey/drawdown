@@ -1,4 +1,4 @@
-import type { VisualFamily, ContentAsset } from "./types";
+import type { VisualFamily, ContentAsset } from "./types.ts";
 
 export interface InstagramAssetSpec {
   aspectRatio: '1:1' | '4:5' | '1.91:1';

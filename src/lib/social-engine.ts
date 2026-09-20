@@ -1,10 +1,10 @@
 // src/lib/social-engine.ts
 // Distribution engine adapting canonical Lobby articles into tailored social formats
 
-import type { LobbyArticle } from "../types/lobby";
-import type { AdaptedSocialDrafts, SocialUtmParams } from "../types/social";
-import { buildUtmUrl } from "./wire";
-import { DRAWDOWN_TOOLS } from "./lobby-constants";
+import type { LobbyArticle } from "../types/lobby.ts";
+import type { AdaptedSocialDrafts, SocialUtmParams } from "../types/social.ts";
+import { buildUtmUrl } from "./wire.ts";
+import { DRAWDOWN_TOOLS } from "./lobby-constants.ts";
 
 /**
  * Generates UTM parameters for a social post.

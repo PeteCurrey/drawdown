@@ -7,7 +7,7 @@
  * Supported Forms: 8-K, 10-Q, 10-K, Form 3, Form 4 (insider ownership), Form 5
  */
 
-import { BaseProvider } from "./base";
+import { BaseProvider } from "./base.ts";
 import type {
   SourceCategory,
   SourceReliability,
@@ -19,9 +19,9 @@ import type {
   NormalizedIngestionBundle,
   ProviderHealthReport,
   DataEvent,
-} from "../types";
-import { UniversalFeedParser } from "../rss/parser";
-import { DataNormalizer } from "../normalization";
+} from "../types.ts";
+import { UniversalFeedParser } from "../rss/parser.ts";
+import { DataNormalizer } from "../normalization.ts";
 
 export class SecEdgarProvider extends BaseProvider {
   readonly id = "sec-edgar";

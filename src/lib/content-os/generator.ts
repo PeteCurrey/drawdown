@@ -1,10 +1,10 @@
 // src/lib/content-os/generator.ts
-import { CalendarPlannerService, type ScheduledSlot } from "./calendar-planner";
-import { EditorialTaxonomyService, DEFAULT_EDITORIAL_PILLARS } from "./taxonomy";
-import { CANONICAL_CONTENT_SERIES } from "./series";
-import { ChannelAdaptationEngine } from "./channel-adapter";
-import { EditorialQAEngine, type QADecision } from "./qa-engine";
-import type { ContentItem, ContentChannel, ContentAsset } from "./types";
+import { CalendarPlannerService, type ScheduledSlot } from "./calendar-planner.ts";
+import { EditorialTaxonomyService, DEFAULT_EDITORIAL_PILLARS } from "./taxonomy.ts";
+import { CANONICAL_CONTENT_SERIES } from "./series.ts";
+import { ChannelAdaptationEngine } from "./channel-adapter.ts";
+import { EditorialQAEngine, type QADecision } from "./qa-engine.ts";
+import type { ContentItem, ContentChannel, ContentAsset } from "./types.ts";
 
 export interface GeneratedPlanItem {
   slot: ScheduledSlot;

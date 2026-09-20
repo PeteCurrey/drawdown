@@ -1,7 +1,7 @@
 // src/lib/content-os/qa-engine.ts
-import type { ContentItem, ContentAsset, ContentChannel } from "./types";
-import { EditorialPolicyService, BANNED_CLICKBAIT_PHRASES, MANDATORY_FCA_DISCLAIMER } from "./editorial-policy";
-import { InstagramAssetValidator } from "./instagram-assets";
+import type { ContentItem, ContentAsset, ContentChannel } from "./types.ts";
+import { EditorialPolicyService, BANNED_CLICKBAIT_PHRASES, MANDATORY_FCA_DISCLAIMER } from "./editorial-policy.ts";
+import { InstagramAssetValidator } from "./instagram-assets.ts";
 
 export type QADecision = 'PASS' | 'WARN' | 'BLOCK';
 

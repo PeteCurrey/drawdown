@@ -12,7 +12,7 @@
  *  - Net Positioning & Week-on-Week Changes
  */
 
-import { BaseProvider } from "./base";
+import { BaseProvider } from "./base.ts";
 import type {
   SourceCategory,
   SourceReliability,
@@ -25,11 +25,12 @@ import type {
   ProviderHealthReport,
   DataObservation,
   DataEvent,
-} from "../types";
-import { DataNormalizer } from "../normalization";
+} from "../types.ts";
+import { DataNormalizer } from "../normalization.ts";
 
 export interface CftcCotRecord {
-  market_name: string;
+  market_name?: string;
+  market_and_exchange_names?: string;
   report_date_as_yyyy_mm_dd: string;
   noncomm_positions_long_all: string;
   noncomm_positions_short_all: string;
@@ -120,7 +121,7 @@ export class CftcCotProvider extends BaseProvider {
     const nowIso = new Date().toISOString();
 
     for (const row of rows) {
-      const marketName = row.market_name || "UNKNOWN_MARKET";
+      const marketName = row.market_and_exchange_names || row.market_name || "UNKNOWN_MARKET";
       const reportDate = row.report_date_as_yyyy_mm_dd;
       if (!reportDate) continue;
 
@@ -139,7 +140,7 @@ export class CftcCotProvider extends BaseProvider {
       observations.push({
         sourceId: this.id,
         entityId,
-        metric: "cot_net_position",
+        metric: "speculative_net_positions",
         value: netPosition,
         unit: "contracts",
         period: "weekly",
@@ -155,6 +156,40 @@ export class CftcCotProvider extends BaseProvider {
           shortContracts,
           netChange,
         },
+      });
+
+      // Observation 2: Gross Long Positions
+      observations.push({
+        sourceId: this.id,
+        entityId,
+        metric: "speculative_long_positions",
+        value: longContracts,
+        unit: "contracts",
+        period: "weekly",
+        observedAt,
+        receivedAt: nowIso,
+        confidence: "VERIFIED",
+        sourceReliability: this.sourceReliability,
+        ingestionState: "NORMALIZED",
+        sourceReference: `https://publicreporting.cftc.gov/resource/6dca-aqww.json`,
+        metadata: { marketName, changeLong },
+      });
+
+      // Observation 3: Gross Short Positions
+      observations.push({
+        sourceId: this.id,
+        entityId,
+        metric: "speculative_short_positions",
+        value: shortContracts,
+        unit: "contracts",
+        period: "weekly",
+        observedAt,
+        receivedAt: nowIso,
+        confidence: "VERIFIED",
+        sourceReliability: this.sourceReliability,
+        ingestionState: "NORMALIZED",
+        sourceReference: `https://publicreporting.cftc.gov/resource/6dca-aqww.json`,
+        metadata: { marketName, changeShort },
       });
 
       // Discrete Event: Significant Positioning Shift (> 10,000 contracts change or extreme flip)

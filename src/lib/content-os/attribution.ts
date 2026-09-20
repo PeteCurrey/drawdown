@@ -62,10 +62,21 @@ export class AttributionEngine {
       counts.set(norm, (counts.get(norm) || 0) + 1);
     });
 
+    // Check 1: Exact topic frequency
     counts.forEach((count, topic) => {
       const percentage = (count / recentTopics.length) * 100;
       if (percentage >= 30 && recentTopics.length >= 6) {
         warnings.push(`Content Fatigue Warning: '${topic}' accounts for ${Math.round(percentage)}% of recent output. Consider broader asset or topic coverage.`);
+      }
+    });
+
+    // Check 2: Major asset / instrument over-exposure (e.g. Bitcoin, Gold, GBP)
+    const trackedAssets = ['bitcoin', 'gold', 'oil', 'ethereum', 'sp500'];
+    trackedAssets.forEach(asset => {
+      const matches = recentTopics.filter(t => t.toLowerCase().includes(asset)).length;
+      const percentage = (matches / recentTopics.length) * 100;
+      if (percentage >= 30 && recentTopics.length >= 5) {
+        warnings.push(`Content Fatigue Warning: ${asset.toUpperCase()}-related posts represent ${Math.round(percentage)}% of recent output. Consider broader asset coverage.`);
       }
     });
 

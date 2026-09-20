@@ -9,7 +9,7 @@
  *  - Upgrades event confidence when corroborated across multiple independent sources.
  */
 
-import type { DataEvent, SourceReliability, ConfidenceLevel } from "./types";
+import type { DataEvent, SourceReliability, ConfidenceLevel } from "./types.ts";
 
 export interface EventCluster {
   id: string;

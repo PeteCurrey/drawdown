@@ -1,5 +1,5 @@
-import type { SocialChannel, VisualFamily } from "./types";
-import { EditorialPolicyService } from "./editorial-policy";
+import type { SocialChannel, VisualFamily } from "./types.ts";
+import { EditorialPolicyService } from "./editorial-policy.ts";
 
 export interface ChannelAdaptationContract {
   article: {

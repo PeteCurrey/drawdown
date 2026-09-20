@@ -5,14 +5,14 @@
  * and live connection state reporting.
  */
 
-import type { DataProvider, SourceCategory, ProviderHealthReport } from "./types";
-import { TwelveDataProvider } from "./providers/twelve-data";
-import { FredProvider } from "./providers/fred";
-import { EiaProvider } from "./providers/eia";
-import { SecEdgarProvider } from "./providers/sec-edgar";
-import { CftcCotProvider } from "./providers/cftc-cot";
-import { CentralBanksProvider } from "./providers/central-banks";
-import { RegulatorsProvider } from "./providers/regulators";
+import type { DataProvider, SourceCategory, ProviderHealthReport } from "./types.ts";
+import { TwelveDataProvider } from "./providers/twelve-data.ts";
+import { FredProvider } from "./providers/fred.ts";
+import { EiaProvider } from "./providers/eia.ts";
+import { SecEdgarProvider } from "./providers/sec-edgar.ts";
+import { CftcCotProvider } from "./providers/cftc-cot.ts";
+import { CentralBanksProvider } from "./providers/central-banks.ts";
+import { RegulatorsProvider } from "./providers/regulators.ts";
 
 export class ProviderRegistry {
   private static providers = new Map<string, DataProvider>();

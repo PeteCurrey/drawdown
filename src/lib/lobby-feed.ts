@@ -16,8 +16,8 @@
  *      • market_watch: Market observations, COT positioning, energy stats
  */
 
-import type { DataEvent, DataObservation, ConfidenceLevel } from "./data-platform/types";
-import { ConfidenceGatekeeper } from "./data-platform/confidence";
+import type { DataEvent, DataObservation, ConfidenceLevel } from "./data-platform/types.ts";
+import { ConfidenceGatekeeper } from "./data-platform/confidence.ts";
 
 export interface LobbyFeedItem {
   id: string;
@@ -47,32 +47,36 @@ export class LobbyFeedService {
       return null;
     }
 
-    // 2. Determine Lobby section
+    // 2. Determine primary Lobby section based on domain
     let section: LobbyFeedItem["section"] = "just_in";
 
-    if (event.severity === "high" || event.severity === "critical") {
-      section = "whats_happening";
+    const eventTime = new Date(event.occurredAt).getTime();
+    const isFuture = eventTime > Date.now();
+
+    if (isFuture) {
+      section = "coming_up";
     } else if (
       event.eventType === "BROKER_REGULATORY_EVENT" ||
-      event.entityIds.some(id => id.startsWith("broker:") || id.startsWith("reg:"))
+      event.eventType.includes("BROKER") ||
+      event.entityIds.some(id => id.startsWith("broker:"))
     ) {
       section = "broker_watch";
     } else if (
       event.eventType === "PROP_FIRM_EVENT" ||
+      event.eventType.includes("PROP") ||
       event.entityIds.some(id => id.startsWith("prop:"))
     ) {
       section = "prop_firm_watch";
     } else if (
-      event.eventType === "CENTRAL_BANK_EVENT" ||
-      event.eventType === "MACRO_SCHEDULE"
+      event.eventType.includes("MARKET") ||
+      event.eventType === "POSITIONING_EVENT" ||
+      event.entityIds.some(id => id.startsWith("market:") || id.startsWith("inst:"))
     ) {
-      const now = Date.now();
-      const eventTime = new Date(event.occurredAt).getTime();
-      if (eventTime > now) {
-        section = "coming_up";
-      } else {
-        section = "just_in";
-      }
+      section = "market_watch";
+    } else if (event.severity === "high" || event.severity === "critical") {
+      section = "whats_happening";
+    } else {
+      section = "just_in";
     }
 
     const tags: string[] = [event.eventType.toLowerCase().replace(/_/g, " ")];
@@ -117,9 +121,14 @@ export class LobbyFeedService {
 
       feed[item.section].push(item);
 
-      // Items that are whats_happening or broker_watch also appear in just_in if recent
+      // High/critical severity items also surface in whats_happening if not already there
+      if ((ev.severity === "high" || ev.severity === "critical") && item.section !== "whats_happening") {
+        feed.whats_happening.push({ ...item, section: "whats_happening" });
+      }
+
+      // All verified items appear in just_in chronological stream
       if (item.section !== "just_in") {
-        feed.just_in.push(item);
+        feed.just_in.push({ ...item, section: "just_in" });
       }
     }
 

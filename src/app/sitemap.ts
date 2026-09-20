@@ -84,6 +84,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     // ── The Lobby ─────────────────────────────────────────────────────────
     url('/lobby', { changeFrequency: 'daily', priority: 0.9, lastModified: now }),
     url('/lobby/archive', { changeFrequency: 'daily', priority: 0.75, lastModified: now }),
+    url('/wire', { changeFrequency: 'daily', priority: 0.85, lastModified: now }),
     url('/lobby/markets', { changeFrequency: 'daily', priority: 0.8, lastModified: now }),
     url('/lobby/brokers', { changeFrequency: 'daily', priority: 0.8, lastModified: now }),
     url('/lobby/prop-firms', { changeFrequency: 'daily', priority: 0.8, lastModified: now }),

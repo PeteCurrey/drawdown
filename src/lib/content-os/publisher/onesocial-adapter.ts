@@ -5,9 +5,9 @@ import type {
   ScheduleResult, 
   DeliveryStatusResult, 
   MetricsResult 
-} from "./types";
-import type { ContentChannel, ContentAsset, SocialChannel } from "../types";
-import { InstagramAssetValidator } from "../instagram-assets";
+} from "./types.ts";
+import type { ContentChannel, ContentAsset, SocialChannel } from "../types.ts";
+import { InstagramAssetValidator } from "../instagram-assets.ts";
 
 /**
  * 1Social Publisher Adapter boundary.

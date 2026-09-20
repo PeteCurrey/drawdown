@@ -1,4 +1,4 @@
-import type { ContentItem, ContentPriority } from "./types";
+import type { ContentItem, ContentPriority } from "./types.ts";
 
 export interface ScheduledSlot {
   slotId: string;

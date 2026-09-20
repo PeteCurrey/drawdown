@@ -20,10 +20,10 @@ import type {
   DataObservation,
   DataEvent,
   IngestionState,
- } from "./types";
-import { DataNormalizer } from "./normalization";
-import { DeduplicationEngine } from "./deduplication";
-import { CredentialManager } from "./credentials";
+ } from "./types.ts";
+import { DataNormalizer } from "./normalization.ts";
+import { DeduplicationEngine } from "./deduplication.ts";
+import { CredentialManager } from "./credentials.ts";
 
 export interface PipelineExecutionResult {
   success: boolean;

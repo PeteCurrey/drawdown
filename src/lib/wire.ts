@@ -8,9 +8,9 @@ import type {
   WireEditionType, 
   CreateWireEditionInput, 
   WireItemInput 
-} from "../types/wire";
-import type { LobbyArticle } from "../types/lobby";
-import { DRAWDOWN_TOOLS } from "./lobby-constants";
+} from "../types/wire.ts";
+import type { LobbyArticle } from "../types/lobby.ts";
+import { DRAWDOWN_TOOLS } from "./lobby-constants.ts";
 
 function getSupabase() {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL || "https://placeholder.supabase.co";

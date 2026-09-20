@@ -1,4 +1,4 @@
-import type { NewsCandidate } from "./types";
+import type { NewsCandidate } from "./types.ts";
 
 /**
  * Normalises a URL by stripping tracking parameters, anchors, and trailing slashes.

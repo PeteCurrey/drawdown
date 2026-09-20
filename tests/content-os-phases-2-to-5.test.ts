@@ -92,6 +92,7 @@ test("Phase 2: Deterministic QA Layer blocks missing source, clickbait, and dupl
 });
 
 test("Phase 2: 'Generate Next 30 Days' produces 4-5 slots/week, passes QA, and preserves existing content", () => {
+  const baseDate = new Date("2026-10-05"); // A known Monday
   const existingItem: ContentItem = {
     id: "existing_1",
     title: "Pre-existing Approved Macro Commentary",
@@ -103,12 +104,13 @@ test("Phase 2: 'Generate Next 30 Days' produces 4-5 slots/week, passes QA, and p
     source_type: "research",
     source_reference: "Official ONS statistics",
     body: "UK inflation overview...",
-    scheduled_at: new Date().toISOString().split('T')[0] + "T08:00:00Z",
+    scheduled_at: "2026-10-05T08:00:00Z",
     created_at: new Date().toISOString(),
     updated_at: new Date().toISOString()
   };
 
   const result = EditorialCalendarGenerator.generate30DayPlan({
+    startDate: baseDate,
     existingScheduled: [existingItem]
   });
 
@@ -119,6 +121,7 @@ test("Phase 2: 'Generate Next 30 Days' produces 4-5 slots/week, passes QA, and p
 
   // Running a second time preserves the already generated plan without duplication
   const secondResult = EditorialCalendarGenerator.generate30DayPlan({
+    startDate: baseDate,
     existingScheduled: [existingItem, ...(result.plan.map(p => p.slot.assignedContentItem!).filter(Boolean))]
   });
   assert.equal(secondResult.newGenerated, 0); // All slots already filled, zero duplicates spawned

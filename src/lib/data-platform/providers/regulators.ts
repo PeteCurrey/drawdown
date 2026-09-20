@@ -16,7 +16,7 @@
  *  - PRA (UK Prudential Regulation Authority)
  */
 
-import { BaseProvider } from "./base";
+import { BaseProvider } from "./base.ts";
 import type {
   SourceCategory,
   SourceReliability,
@@ -29,9 +29,9 @@ import type {
   ProviderHealthReport,
   DataEvent,
   DataEntity,
-} from "../types";
-import { UniversalFeedParser } from "../rss/parser";
-import { DataNormalizer } from "../normalization";
+} from "../types.ts";
+import { UniversalFeedParser } from "../rss/parser.ts";
+import { DataNormalizer } from "../normalization.ts";
 
 export type RegulatorCode = "FCA" | "SEC" | "CFTC" | "ESMA" | "FINRA" | "ASIC" | "CYSEC" | "PRA";
 

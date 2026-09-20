@@ -17,10 +17,10 @@ import type {
   RawFetchResult,
   NormalizedIngestionBundle,
   ProviderHealthReport,
- } from "../types";
-import { CredentialManager } from "../credentials";
-import { ProviderHealthManager } from "../health";
-import { DataNormalizer } from "../normalization";
+ } from "../types.ts";
+import { CredentialManager } from "../credentials.ts";
+import { ProviderHealthManager } from "../health.ts";
+import { DataNormalizer } from "../normalization.ts";
 
 export abstract class BaseProvider implements DataProvider {
   abstract readonly id: string;

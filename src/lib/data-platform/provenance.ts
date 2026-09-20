@@ -8,7 +8,7 @@
  *  - Temporal sanity checks: observedAt cannot be in the future.
  */
 
-import type {  DataObservation, DataEvent, DataSource  } from "./types";
+import type {  DataObservation, DataEvent, DataSource  } from "./types.ts";
 
 export interface ProvenanceValidationResult {
   isValid: boolean;

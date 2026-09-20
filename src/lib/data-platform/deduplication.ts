@@ -8,8 +8,8 @@
  *  4. Derived event: Platform-level inference based on multiple observations.
  */
 
-import type {  DataObservation, DataEvent  } from "./types";
-import { ConfidenceEngine } from "./confidence";
+import type {  DataObservation, DataEvent  } from "./types.ts";
+import { ConfidenceEngine } from "./confidence.ts";
 
 export type IngestionRelationType = "DUPLICATE" | "CORROBORATING" | "RELATED" | "NEW";
 

@@ -1,6 +1,6 @@
 // src/lib/content-os/audit.ts
 import { createServiceRoleClient } from "@/lib/supabase/server";
-import { ContentAuditLog } from "./types";
+import { ContentAuditLog } from "./types.ts";
 
 export interface CreateAuditLogParams {
   entity_type: 'content_item' | 'content_channel' | 'social_delivery' | 'news_candidate';

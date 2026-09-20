@@ -7,8 +7,8 @@
 
 import { z } from "zod";
 import crypto from "crypto";
-import type {  DataObservation, DataEvent, IngestionState  } from "./types";
-import { ProvenanceService } from "./provenance";
+import type {  DataObservation, DataEvent, IngestionState  } from "./types.ts";
+import { ProvenanceService } from "./provenance.ts";
 
 // ─── ZOD SCHEMAS ─────────────────────────────────────────────────────────────
 

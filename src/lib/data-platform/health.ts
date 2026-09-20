@@ -8,8 +8,8 @@
  *  - Fault isolation: prevents third-party outages from crashing the platform
  */
 
-import type {  ProviderHealth, CircuitBreakerState, ProviderHealthReport  } from "./types";
-import { CredentialManager } from "./credentials";
+import type {  ProviderHealth, CircuitBreakerState, ProviderHealthReport  } from "./types.ts";
+import { CredentialManager } from "./credentials.ts";
 
 export interface HealthRecordOptions {
   latencyMs: number;

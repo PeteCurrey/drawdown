@@ -6,7 +6,7 @@
  * Confidence: VERIFIED
  */
 
-import { BaseProvider } from "./base";
+import { BaseProvider } from "./base.ts";
 import type { 
   SourceCategory,
   SourceReliability,
@@ -19,9 +19,9 @@ import type {
   ProviderHealthReport,
   DataObservation,
   DataEntity,
- } from "../types";
-import { CredentialManager } from "../credentials";
-import { DataNormalizer } from "../normalization";
+ } from "../types.ts";
+import { CredentialManager } from "../credentials.ts";
+import { DataNormalizer } from "../normalization.ts";
 
 export interface FredSeriesMetadata {
   id: string;

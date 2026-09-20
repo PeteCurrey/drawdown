@@ -1,4 +1,4 @@
-import type { SocialChannel, ContentChannel, ContentAsset, SocialDeliveryStatus } from "../types";
+import type { SocialChannel, ContentChannel, ContentAsset, SocialDeliveryStatus } from "../types.ts";
 
 export interface PreflightResult {
   ready: boolean;

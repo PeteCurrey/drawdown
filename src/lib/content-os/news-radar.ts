@@ -1,8 +1,8 @@
 // src/lib/content-os/news-radar.ts
-import type { NewsCandidate, NewsTrustTier, ContentPriority } from "./types";
-import { NewsVerificationService, type VerificationEvidence } from "./verification";
-import { EditorialScoringService } from "./scoring";
-import { DeduplicationService } from "./deduplication";
+import type { NewsCandidate, NewsTrustTier, ContentPriority } from "./types.ts";
+import { NewsVerificationService, type VerificationEvidence } from "./verification.ts";
+import { EditorialScoringService } from "./scoring.ts";
+import { DeduplicationService } from "./deduplication.ts";
 
 export interface NewsRadarIngestionItem {
   title: string;

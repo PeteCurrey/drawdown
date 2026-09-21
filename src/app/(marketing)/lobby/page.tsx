@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { getMetadata, siteConfig } from "@/lib/metadata";
 import { StructuredData, defaultOrgSchema } from "@/components/StructuredData";
+import { LobbyHero } from "@/components/lobby/LobbyHero";
 import { LobbyMasthead } from "@/components/lobby/LobbyMasthead";
 import { LobbyNav } from "@/components/lobby/LobbyNav";
 import { LobbyLeadStory } from "@/components/lobby/LobbyLeadStory";
@@ -118,11 +119,16 @@ export default async function LobbyHomePage({
       />
       <StructuredData type="Organization" data={defaultOrgSchema} />
 
-      {/* 1. Broadsheet Masthead */}
-      <LobbyMasthead />
+      {/* 1. Full-Screen Penthouse Hero Section */}
+      <LobbyHero leadStory={leadStory} />
 
-      {/* 2. Secondary Sticky Editorial Navigation */}
-      <LobbyNav />
+      <div id="lobby-content">
+        {/* 2. Secondary Sticky Editorial Navigation */}
+        <LobbyNav />
+
+        {/* 3. Broadsheet Masthead */}
+        <LobbyMasthead />
+      </div>
 
       {isYourLobby && personalFeedData ? (
         <div className="max-w-[1320px] mx-auto px-4 sm:px-6 py-10">

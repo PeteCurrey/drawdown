@@ -39,7 +39,7 @@ export function LobbyNav({ activeCategory }: LobbyNavProps = {}) {
   return (
     <nav 
       aria-label="The Lobby Secondary Navigation"
-      className="sticky top-[58px] z-40 w-full border-b border-[#DEDDD8] bg-[#FFFFFF]/95 backdrop-blur-md transition-colors"
+      className="sticky top-[56px] z-40 w-full border-b border-[#DEDDD8] bg-[#FFFFFF]/95 backdrop-blur-md transition-colors"
     >
       <div className="max-w-[1320px] mx-auto px-4 sm:px-6 flex items-center justify-between h-[44px]">
         {/* Horizontal scroll container with fading edge mask */}

@@ -24,11 +24,19 @@ function readFile(relPath: string): string {
 // ─────────────────────────────────────────────────────────────────────────────
 // 1. Primary & Secondary Navigation Tests
 // ─────────────────────────────────────────────────────────────────────────────
-test("Lobby IA: Navigation.tsx includes The Lobby in primary navLinks", () => {
+test("Lobby IA: Navigation.tsx includes The Lobby header CTA linking to /lobby", () => {
   const navContent = readFile("src/components/layout/Navigation.tsx");
   assert.ok(
-    navContent.includes('{ name: "The Lobby", href: "/lobby" }'),
-    "Primary navigation must include The Lobby with href /lobby"
+    navContent.includes('href="/lobby"'),
+    "Header navigation must include a CTA linking to /lobby"
+  );
+  assert.ok(
+    navContent.includes("The Lobby"),
+    "Header navigation CTA must display 'The Lobby'"
+  );
+  assert.ok(
+    !navContent.includes('{ name: "The Lobby", href: "/lobby" }'),
+    "The Lobby should be elevated to a header CTA rather than a standard navLink"
   );
 });
 
@@ -230,9 +238,9 @@ test("Lobby Intelligence: Structured draft generator maps tools without hallucin
 test("Lobby SEO: sitemap.ts includes /lobby and all controlled categories", async () => {
   const sitemapPath = path.join(rootDir, "src/app/sitemap.ts");
   const { default: sitemap } = await import(sitemapPath);
-  const items = sitemap();
+  const items = await sitemap();
 
-  assert.ok(Array.isArray(items), "sitemap() must return an array synchronously");
+  assert.ok(Array.isArray(items), "sitemap() must return an array");
 
   const urls = items.map((i: any) => i.url);
   assert.ok(urls.includes("https://drawdown.trading/lobby"), "Must include /lobby");

@@ -1,4 +1,4 @@
-import { createInternalSupabase } from '@/lib/supabase/server';
+import { createPublicClient } from './supabase/server.ts';
 
 // ---------------------------------------------------------------------------
 // Fallback hero images keyed by slug (used when hero_image_url is null in DB)
@@ -81,7 +81,7 @@ export interface BlogPost extends BlogMetadata {
 // ---------------------------------------------------------------------------
 export async function getAllPosts(): Promise<BlogMetadata[]> {
   try {
-    const supabase = createInternalSupabase();
+    const supabase = createPublicClient();
     const { data, error } = await supabase
       .from('blog_posts')
       .select(`
@@ -148,7 +148,7 @@ export async function getAllPosts(): Promise<BlogMetadata[]> {
 // ---------------------------------------------------------------------------
 export async function getPostBySlug(slug: string): Promise<BlogPost | null> {
   try {
-    const supabase = createInternalSupabase();
+    const supabase = createPublicClient();
     const { data: post, error } = await supabase
       .from('blog_posts')
       .select(`

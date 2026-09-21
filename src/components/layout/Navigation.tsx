@@ -199,7 +199,6 @@ export function Navigation() {
   const navLinks = [
     { name: "Curriculum", href: getLocalizedHref("/courses") },
     { name: "Tools", href: getLocalizedHref("/tools") },
-    { name: "The Lobby", href: "/lobby" },
     { name: "Brokers", href: getLocalizedHref("/brokers") },
     { name: "Prop Firms", href: getLocalizedHref("/prop-firms") },
     { name: "Markets", href: getLocalizedHref("/markets") },
@@ -307,11 +306,24 @@ export function Navigation() {
           })}
         </nav>
 
-        <div className="hidden lg:flex items-center gap-4" onMouseEnter={() => setActiveMenu(null)}>
+        <div className="hidden lg:flex items-center gap-3" onMouseEnter={() => setActiveMenu(null)}>
+          <Link
+            href="/lobby"
+            className="px-3.5 py-1.5 text-[13px] font-medium font-sans flex items-center gap-2 border transition-all hover:opacity-90"
+            style={{
+              color: isDarkPage ? "var(--surface-base)" : "var(--text-primary)",
+              borderColor: isDarkPage ? "rgba(255, 255, 255, 0.2)" : "var(--border-subtle)",
+              borderRadius: "var(--radius-md)",
+              backgroundColor: isDarkPage ? "rgba(255, 255, 255, 0.05)" : "transparent",
+            }}
+          >
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+            The Lobby
+          </Link>
           {user ? (
             <Link
               href="/dashboard"
-              className="px-5 py-2 text-[13px] font-medium transition-opacity"
+              className="px-5 py-2 text-[13px] font-medium transition-opacity hover:opacity-90"
               style={{ 
                 backgroundColor: isDarkPage ? "var(--surface-base)" : "var(--accent)", 
                 color: isDarkPage ? "var(--text-primary)" : "var(--surface-base)", 
@@ -321,28 +333,17 @@ export function Navigation() {
               Dashboard
             </Link>
           ) : (
-            <>
-              <Link
-                href="/login"
-                className="text-[14px] font-medium transition-colors font-sans"
-                style={{ color: inactiveColor }}
-                onMouseEnter={(e) => (e.currentTarget.style.color = hoverColor)}
-                onMouseLeave={(e) => (e.currentTarget.style.color = inactiveColor)}
-              >
-                Login
-              </Link>
-              <Link
-                href="/signup"
-                className="px-5 py-2 text-[13px] font-medium transition-opacity hover:opacity-90"
-                style={{ 
-                  backgroundColor: isDarkPage ? "var(--surface-base)" : "var(--accent)", 
-                  color: isDarkPage ? "var(--text-primary)" : "var(--surface-base)", 
-                  borderRadius: "var(--radius-md)" 
-                }}
-              >
-                Start Free
-              </Link>
-            </>
+            <Link
+              href="/login"
+              className="px-5 py-2 text-[13px] font-medium transition-opacity hover:opacity-90"
+              style={{ 
+                backgroundColor: isDarkPage ? "var(--surface-base)" : "var(--accent)", 
+                color: isDarkPage ? "var(--text-primary)" : "var(--surface-base)", 
+                borderRadius: "var(--radius-md)" 
+              }}
+            >
+              Login
+            </Link>
           )}
         </div>
 
@@ -618,29 +619,45 @@ export function Navigation() {
 
           <div className="mt-8 flex flex-col gap-3 pb-8">
             <Link
-              href="/login"
+              href="/lobby"
               onClick={() => setIsMobileMenuOpen(false)}
-              className="w-full py-3 text-[14px] font-medium text-center border"
+              className="w-full py-3 text-[14px] font-medium text-center flex items-center justify-center gap-2 border transition-colors"
               style={{
                 color: hoverColor,
                 borderColor: "var(--border-subtle)",
                 borderRadius: "var(--radius-md)",
               }}
             >
-              Login
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+              The Lobby
             </Link>
-            <Link
-              href="/signup"
-              onClick={() => setIsMobileMenuOpen(false)}
-              className="w-full py-3 text-[14px] font-medium text-center"
-              style={{
-                backgroundColor: isDarkPage ? "var(--surface-base)" : "var(--accent)",
-                color: isDarkPage ? "var(--text-primary)" : "var(--surface-base)",
-                borderRadius: "var(--radius-md)",
-              }}
-            >
-              Start Free
-            </Link>
+            {user ? (
+              <Link
+                href="/dashboard"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="w-full py-3 text-[14px] font-medium text-center"
+                style={{
+                  backgroundColor: isDarkPage ? "var(--surface-base)" : "var(--accent)",
+                  color: isDarkPage ? "var(--text-primary)" : "var(--surface-base)",
+                  borderRadius: "var(--radius-md)",
+                }}
+              >
+                Dashboard
+              </Link>
+            ) : (
+              <Link
+                href="/login"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="w-full py-3 text-[14px] font-medium text-center"
+                style={{
+                  backgroundColor: isDarkPage ? "var(--surface-base)" : "var(--accent)",
+                  color: isDarkPage ? "var(--text-primary)" : "var(--surface-base)",
+                  borderRadius: "var(--radius-md)",
+                }}
+              >
+                Login
+              </Link>
+            )}
           </div>
         </div>
       )}

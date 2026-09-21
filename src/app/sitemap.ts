@@ -1,4 +1,5 @@
 import type { MetadataRoute } from 'next';
+import { getAllPosts } from '../lib/blog.ts';
 
 const BASE_URL = 'https://drawdown.trading';
 
@@ -22,10 +23,23 @@ function url(
 
 // ─── Sitemap ─────────────────────────────────────────────────────────────────
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date();
 
-  return [
+  // Fetch dynamic published blog posts from database
+  let dynamicBlogUrls: MetadataRoute.Sitemap = [];
+  try {
+    const posts = await getAllPosts();
+    dynamicBlogUrls = posts.map(post => url(`/blog/${post.slug}`, {
+      changeFrequency: 'monthly',
+      priority: 0.7,
+      lastModified: post.dateModified || post.publishedAt || now,
+    }));
+  } catch (err) {
+    console.error('Error fetching dynamic blog posts for sitemap:', err);
+  }
+
+  const baseRoutes: MetadataRoute.Sitemap = [
     // ── Core marketing pages ──────────────────────────────────────────────
     url('/', { changeFrequency: 'weekly', priority: 1.0, lastModified: now }),
     url('/pricing', { changeFrequency: 'weekly', priority: 0.95, lastModified: now }),
@@ -146,4 +160,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
     url('/legal/subscription-and-refunds', { changeFrequency: 'yearly', priority: 0.3, lastModified: now }),
     url('/community-guidelines', { changeFrequency: 'yearly', priority: 0.3, lastModified: now }),
   ];
+
+  const seenUrls = new Set<string>();
+  const combined: MetadataRoute.Sitemap = [];
+  for (const item of [...baseRoutes, ...dynamicBlogUrls]) {
+    if (!seenUrls.has(item.url)) {
+      seenUrls.add(item.url);
+      combined.push(item);
+    }
+  }
+
+  return combined;
 }

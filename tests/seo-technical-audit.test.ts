@@ -14,7 +14,7 @@ test('SEO: sitemap.ts exports a valid sitemap function', async () => {
   // Verify function returns valid items
   // Dynamically import or evaluate
   const { default: sitemap } = await import(sitemapPath);
-  const items = sitemap();
+  const items = await sitemap();
   assert.ok(Array.isArray(items), 'sitemap() must return an array');
   assert.ok(items.length >= 40, 'sitemap should contain at least 40 key curated routes');
 

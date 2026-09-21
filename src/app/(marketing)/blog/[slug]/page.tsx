@@ -94,17 +94,19 @@ const components = {
 
 function preprocessMDXContent(content: string): string {
   if (!content) return "";
+  const cleanMath = (inner: string) => {
+    return inner
+      .replace(/\\text\{([^}]+)\}/g, '$1')
+      .replace(/\\frac\{([^}]+)\}\{([^}]+)\}/g, '($1)/($2)')
+      .replace(/\\times/g, '×')
+      .replace(/\\div/g, '÷')
+      .replace(/\\%/g, '%')
+      .trim();
+  };
+
   return content
-    .replace(/\$\$([\s\S]*?)\$\$/g, (_, inner) => {
-      const clean = inner
-        .replace(/\\text\{([^}]+)\}/g, '$1')
-        .replace(/\\frac\{([^}]+)\}\{([^}]+)\}/g, '($1)/($2)')
-        .replace(/\\times/g, '×')
-        .replace(/\\div/g, '÷')
-        .replace(/\\%/g, '%')
-        .trim();
-      return `\n\`\`\`\n${clean}\n\`\`\`\n`;
-    })
+    .replace(/\$\$([\s\S]*?)\$\$/g, (_, inner) => `\n\`\`\`\n${cleanMath(inner)}\n\`\`\`\n`)
+    .replace(/\\\[([\s\S]*?)\\\]/g, (_, inner) => `\n\`\`\`\n${cleanMath(inner)}\n\`\`\`\n`)
     .replace(/\\text\{([^}]+)\}/g, '$1')
     .replace(/\\frac\{([^}]+)\}\{([^}]+)\}/g, '($1)/($2)')
     .replace(/\\times/g, '×')

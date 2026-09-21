@@ -17,22 +17,25 @@ import {
   Zap
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { generateBlogDraft, saveBlogDraft } from '@/app/actions/blog';
+import { generateBlogDraft, saveBlogDraftToSupabase } from '@/app/actions/blog';
 
 export default function ContentGeneratorPage() {
   const [topic, setTopic] = useState('');
   const [keywords, setKeywords] = useState('');
-  const [category, setCategory] = useState('Analysis');
+  const [category, setCategory] = useState('Market Analysis');
   const [wordCount, setWordCount] = useState(1200);
   const [isGenerating, setIsGenerating] = useState(false);
   const [draft, setDraft] = useState('');
   const [slug, setSlug] = useState('');
+  const [isPublished, setIsPublished] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
+  const [saveMessage, setSaveMessage] = useState<{ type: 'success' | 'error'; text: string; url?: string } | null>(null);
 
   const handleGenerate = async () => {
     if (!topic) return;
     setIsGenerating(true);
     setDraft('');
+    setSaveMessage(null);
     
     try {
       const res = await generateBlogDraft({
@@ -44,12 +47,15 @@ export default function ContentGeneratorPage() {
       
       if (res.success && res.draft) {
         setDraft(res.draft);
-        // Auto-generate slug
+        // Auto-generate clean slug
         const autoSlug = topic.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
         setSlug(autoSlug);
+      } else {
+        setSaveMessage({ type: 'error', text: res.error || 'Failed to generate draft' });
       }
-    } catch (err) {
+    } catch (err: any) {
       console.error(err);
+      setSaveMessage({ type: 'error', text: err.message || 'Generation error' });
     } finally {
       setIsGenerating(false);
     }
@@ -58,13 +64,33 @@ export default function ContentGeneratorPage() {
   const handleSave = async () => {
     if (!slug || !draft) return;
     setIsSaving(true);
+    setSaveMessage(null);
+
+    // Extract title from draft if available
+    const titleMatch = draft.match(/^#\s+(.+)$/m);
+    const title = titleMatch ? titleMatch[1].trim() : topic;
+
     try {
-      const res = await saveBlogDraft(slug, draft);
+      const res = await saveBlogDraftToSupabase({
+        slug,
+        title,
+        body: draft,
+        category,
+        isPublished,
+      });
+
       if (res.success) {
-        alert("Draft saved to src/content/blog/" + slug + ".mdx");
+        setSaveMessage({
+          type: 'success',
+          text: `Article ${isPublished ? 'published live' : 'saved as draft'} to Supabase!`,
+          url: res.url,
+        });
+      } else {
+        setSaveMessage({ type: 'error', text: res.error || 'Failed to save to Supabase' });
       }
-    } catch (err) {
+    } catch (err: any) {
       console.error(err);
+      setSaveMessage({ type: 'error', text: err.message || 'Save failed' });
     } finally {
       setIsSaving(false);
     }
@@ -110,10 +136,14 @@ export default function ContentGeneratorPage() {
                       onChange={e => setCategory(e.target.value)}
                       className="w-full bg-background-primary border border-border-slate px-4 py-3 text-sm font-mono outline-none focus:border-accent"
                     >
-                       <option>Analysis</option>
+                       <option>Market Analysis</option>
+                       <option>Risk Management</option>
+                       <option>Education</option>
                        <option>Psychology</option>
                        <option>Tools</option>
-                       <option>Case Study</option>
+                       <option>UK Trading</option>
+                       <option>Algorithmic Trading</option>
+                       <option>Inside Drawdown</option>
                     </select>
                  </div>
                  <div className="space-y-2">
@@ -162,26 +192,56 @@ export default function ContentGeneratorPage() {
                  </span>
               </div>
               {draft && (
-                <div className="flex items-center gap-3">
+                <div className="flex flex-wrap items-center gap-3">
                    <div className="flex items-center gap-2">
                       <label className="text-[10px] font-mono text-text-tertiary uppercase">Slug:</label>
                       <input 
                         value={slug}
                         onChange={e => setSlug(e.target.value)}
-                        className="bg-background-elevated border border-border-slate px-3 py-1 text-[10px] font-mono outline-none focus:border-accent w-48"
+                        className="bg-background-elevated border border-border-slate px-3 py-1 text-[10px] font-mono outline-none focus:border-accent w-44"
                       />
                    </div>
+                   <label className="flex items-center gap-1.5 cursor-pointer text-[10px] font-mono text-text-secondary uppercase select-none">
+                      <input
+                        type="checkbox"
+                        checked={isPublished}
+                        onChange={e => setIsPublished(e.target.checked)}
+                        className="rounded border-border-slate bg-background-elevated text-profit focus:ring-0"
+                      />
+                      Publish Live
+                   </label>
                    <button 
                      onClick={handleSave}
                      disabled={isSaving || !slug}
-                     className="flex items-center gap-2 px-6 py-2 bg-profit text-background-primary text-[10px] font-bold uppercase tracking-widest hover:opacity-80 transition-all disabled:opacity-50"
+                     className="flex items-center gap-2 px-5 py-2 bg-profit text-background-primary text-[10px] font-bold uppercase tracking-widest hover:opacity-80 transition-all disabled:opacity-50"
                    >
                      {isSaving ? <Loader2 className="w-3 h-3 animate-spin" /> : <Save className="w-3 h-3" />}
-                     Commit to Blog
+                     Save to Supabase
                    </button>
                 </div>
               )}
            </div>
+
+           {saveMessage && (
+             <div className={cn(
+               "p-4 border text-xs font-mono flex items-center justify-between",
+               saveMessage.type === "success" 
+                 ? "bg-profit/10 border-profit/30 text-profit" 
+                 : "bg-loss/10 border-loss/30 text-loss"
+             )}>
+               <span>{saveMessage.text}</span>
+               {saveMessage.url && (
+                 <a
+                   href={saveMessage.url}
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   className="underline font-bold hover:opacity-80 flex items-center gap-1"
+                 >
+                   View Post &rarr;
+                 </a>
+               )}
+             </div>
+           )}
 
            <div className="w-full min-h-[700px] bg-background-surface border border-border-slate relative group">
               {draft ? (
@@ -194,7 +254,7 @@ export default function ContentGeneratorPage() {
                 <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-12 space-y-4">
                    <Zap className="w-12 h-12 text-border-slate" />
                    <p className="text-text-tertiary text-sm max-w-xs font-mono uppercase">
-                     Enter a topic and keywords to generate an professional-grade blog post in Pete's voice.
+                     Enter a topic and keywords to generate a professional-grade blog post in Pete's voice, saved directly to Supabase.
                    </p>
                 </div>
               )}

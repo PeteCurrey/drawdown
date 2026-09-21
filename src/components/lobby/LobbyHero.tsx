@@ -2,22 +2,13 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowDown, TrendingUp, ShieldAlert, Radio, ChevronRight, Zap } from "lucide-react";
+import { ArrowDown, ShieldAlert, Radio, ChevronRight } from "lucide-react";
 import type { LobbyArticle } from "@/types/lobby";
+import { LobbyTickerTape } from "./LobbyTickerTape";
 
 interface LobbyHeroProps {
   leadStory?: LobbyArticle | null;
 }
-
-const LIVE_TICKERS = [
-  { symbol: "S&P 500", value: "5,864.20", change: "+0.45%", up: true },
-  { symbol: "NASDAQ", value: "18,489.15", change: "+0.87%", up: true },
-  { symbol: "EUR/USD", value: "1.0842", change: "-0.18%", up: false },
-  { symbol: "XAU/USD", value: "$2,748.10", change: "+1.12%", up: true },
-  { symbol: "BTC/USD", value: "$64,250", change: "+2.40%", up: true },
-  { symbol: "US 10Y", value: "4.08%", change: "+0.03", up: true },
-  { symbol: "DXY", value: "101.15", change: "-0.12%", up: false },
-];
 
 export function LobbyHero({ leadStory }: LobbyHeroProps) {
   const scrollToContent = () => {
@@ -46,38 +37,26 @@ export function LobbyHero({ leadStory }: LobbyHeroProps) {
       </div>
 
       {/* 2. Top Live Market Ticker Tape */}
-      <div className="relative z-10 w-full border-b border-white/10 bg-black/40 backdrop-blur-sm overflow-hidden py-2">
-        <div className="max-w-[1440px] mx-auto px-4 sm:px-6 md:px-10 lg:px-16 flex items-center justify-between gap-4">
-          <div className="flex items-center gap-2 shrink-0">
+      <div className="relative z-10 w-full border-b border-white/10 bg-black/50 backdrop-blur-md overflow-hidden">
+        <div className="max-w-[1320px] mx-auto px-4 sm:px-6 flex items-center h-11 sm:h-12">
+          <div className="flex items-center gap-2 shrink-0 pr-3 sm:pr-6 border-r border-white/10 h-full">
             <span className="relative flex h-2 w-2">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
             </span>
-            <span className="text-[10px] font-mono uppercase tracking-[0.16em] text-white/70 font-semibold hidden sm:inline">
+            <span className="text-[10px] font-mono uppercase tracking-[0.16em] text-white/80 font-semibold whitespace-nowrap hidden sm:inline">
               LIVE MARKET FLOW
             </span>
           </div>
 
-          <div className="flex items-center gap-6 overflow-x-auto no-scrollbar scroll-smooth whitespace-nowrap text-xs font-mono">
-            {LIVE_TICKERS.map((ticker) => (
-              <div key={ticker.symbol} className="flex items-center gap-2">
-                <span className="text-white/60 font-medium">{ticker.symbol}</span>
-                <span className="text-white font-semibold">{ticker.value}</span>
-                <span
-                  className={`text-[11px] font-semibold flex items-center ${
-                    ticker.up ? "text-emerald-400" : "text-rose-400"
-                  }`}
-                >
-                  {ticker.change}
-                </span>
-              </div>
-            ))}
+          <div className="flex-1 h-full min-w-0 flex items-center overflow-hidden">
+            <LobbyTickerTape />
           </div>
         </div>
       </div>
 
-      {/* 3. Hero Main Content - Offset to the left */}
-      <div className="relative z-10 w-full max-w-[1440px] px-6 sm:px-10 md:px-16 lg:px-20 py-12 sm:py-16 md:py-20 flex-1 flex flex-col justify-center items-start text-left">
+      {/* 3. Hero Main Content */}
+      <div className="relative z-10 w-full max-w-[1320px] mx-auto px-4 sm:px-6 py-12 sm:py-16 md:py-20 flex-1 flex flex-col justify-center items-start text-left">
         <div className="max-w-2xl">
           {/* Status badge */}
           <div className="inline-flex items-center gap-2.5 px-3 py-1.5 rounded-full bg-black/40 backdrop-blur-md border border-white/15 text-white/90 text-xs font-mono tracking-wider uppercase mb-6 shadow-sm">

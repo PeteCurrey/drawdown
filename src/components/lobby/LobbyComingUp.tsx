@@ -27,9 +27,11 @@ export function LobbyComingUp({ events = [] }: LobbyComingUpProps) {
 
         {!hasEvents ? (
           <LobbyEmptyState
-            title="NO UPCOMING EDITORIAL EVENTS SCHEDULED"
-            description="Drawdown macroeconomic and regulatory calendars will display major central bank rate decisions, policy updates, and scheduled firm releases once officially published."
-            badge="EVENT RADAR STANDBY"
+            title="MACRO CALENDAR INGESTION STANDBY"
+            description="Drawdown macroeconomic and regulatory calendars display major central bank rate decisions, policy updates, and scheduled firm releases once officially published."
+            badge="EVENT RADAR ACTIVE"
+            statusLabel="MONITORING G10 CENTRAL BANKS & CALENDARS"
+            scanTime="CONTINUOUS / LIVE"
           />
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

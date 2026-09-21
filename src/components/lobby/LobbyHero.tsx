@@ -24,11 +24,11 @@ export function LobbyHero({ leadStory }: LobbyHeroProps) {
       <div className="absolute inset-0 z-0">
         <Image
           src="/images/lobby/lobby-hero-penthouse.jpg"
-          alt="Luxury double-height penthouse executive office overlooking New York City skyline at night with Pete Currey at trading desk"
+          alt="Luxury penthouse overlooking the New York City skyline at dusk — executive trading desk with financial charts, modern fireplace and live baseball on wall TV"
           fill
           priority
-          quality={95}
-          className="object-cover object-[65%_center] lg:object-center transform scale-[1.01] transition-transform duration-1000 ease-out"
+          quality={100}
+          className="object-cover object-center transform scale-[1.01] transition-transform duration-1000 ease-out"
           sizes="100vw"
         />
         {/* Softened cinematic ambient overlays to reveal glowing city skyline lights */}

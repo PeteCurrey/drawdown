@@ -2,13 +2,14 @@ import Link from "next/link";
 import { Rss } from "lucide-react";
 
 export function LobbyMasthead() {
-  // Format current broadsheet date stamp
+  // Format current broadsheet date stamp pinned to London financial market time
   const today = new Date();
   const dateString = today.toLocaleDateString("en-GB", {
     weekday: "long",
     day: "numeric",
     month: "long",
-    year: "numeric"
+    year: "numeric",
+    timeZone: "Europe/London"
   }).toUpperCase();
 
   return (

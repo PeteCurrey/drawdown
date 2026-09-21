@@ -19,6 +19,11 @@ import {
   getLobbyLeadStory, 
   getLobbyArticles 
 } from "@/lib/lobby";
+import { 
+  VERIFIED_COMING_UP_EVENTS, 
+  VERIFIED_WATCHLIST_ITEMS, 
+  AUDITED_TRADE_CASE_STUDY 
+} from "@/lib/lobby-editorial-data";
 import { createInternalSupabase } from "@/lib/supabase/server";
 import { getUserPreferences, buildPersonalLobbyFeed, getDefaultPreferences } from "@/lib/lobby-personalisation";
 import { YourLobbyFeed } from "@/components/lobby/YourLobbyFeed";
@@ -146,10 +151,10 @@ export default async function LobbyHomePage({
           />
 
           {/* 5. Coming Up Timetable */}
-          <LobbyComingUp events={[]} />
+          <LobbyComingUp events={VERIFIED_COMING_UP_EVENTS} />
 
           {/* 6. What's Worth Watching Briefs */}
-          <LobbyWatchlist items={[]} />
+          <LobbyWatchlist items={VERIFIED_WATCHLIST_ITEMS} />
 
           {/* 7. Broker Watch */}
           <LobbyBrokerWatch entries={brokerWatchData} />
@@ -161,7 +166,7 @@ export default async function LobbyHomePage({
           <LobbyPlatformSpotlight article={platformArticles[0] || null} />
 
           {/* 10. Trade of the Month */}
-          <LobbyTradeOfTheMonth trade={null} />
+          <LobbyTradeOfTheMonth trade={AUDITED_TRADE_CASE_STUDY} />
 
           {/* 11. Drawdown Desk Original Research */}
           <LobbyDrawdownDesk articles={drawdownDeskArticles} />

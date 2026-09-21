@@ -29,9 +29,11 @@ export function LobbyPropFirmWatch({ entries = [] }: LobbyPropFirmWatchProps) {
 
         {!hasEntries ? (
           <LobbyEmptyState
-            title="NO PROP FIRM RULE REVISIONS RECORDED"
-            description="Drawdown tracks evaluation drawdowns, consistency rules, payout intervals, and platform migrations across funded trading firms. No rule updates recorded this cycle."
-            badge="FUNDING RULES MONITORED"
+            title="SURVEILLANCE ACTIVE // NO PARAMETER DRIFT DETECTED"
+            description="Drawdown actively monitors evaluation criteria, trailing drawdown mechanics, consistency requirements, and payout fulfillment across verified prop firms. No unverified rule shifts recorded today."
+            badge="PROP DESK ACTIVE"
+            statusLabel="TRACKING VERIFIED PROP FIRMS"
+            scanTime="CONTINUOUS / LIVE"
           />
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

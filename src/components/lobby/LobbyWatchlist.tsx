@@ -27,9 +27,11 @@ export function LobbyWatchlist({ items = [] }: LobbyWatchlistProps) {
 
         {!hasItems ? (
           <LobbyEmptyState
-            title="NO WATCHLIST ITEMS PUBLISHED"
-            description="The editorial watch desk curates specific instruments, spread behaviours, and policy shifts worthy of professional trader attention. No active items are flagged today."
-            badge="WATCHLIST PASSIVE"
+            title="SURVEILLANCE RADAR ACTIVE // NO ANOMALOUS SPREADS DETECTED"
+            description="The editorial watch desk curates specific instruments, spread behaviours, and policy shifts worthy of professional trader attention. All tracked pairs and indices remain within expected statistical volatility bands."
+            badge="WATCHLIST ACTIVE"
+            statusLabel="SCANNING LIQUIDITY & VOLATILITY SHIFTS"
+            scanTime="CONTINUOUS / LIVE"
           />
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

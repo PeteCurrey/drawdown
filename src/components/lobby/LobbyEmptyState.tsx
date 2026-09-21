@@ -5,6 +5,8 @@ interface LobbyEmptyStateProps {
   title?: string;
   description?: string;
   badge?: string;
+  scanTime?: string;
+  statusLabel?: string;
   className?: string;
 }
 
@@ -12,6 +14,8 @@ export function LobbyEmptyState({
   title = "NO STORIES PUBLISHED YET",
   description = "Drawdown verified editorial desk has recorded no published stories in this section. Real events and audits will appear here once verified.",
   badge = "AWAITING EDITORIAL DISPATCH",
+  scanTime,
+  statusLabel,
   className
 }: LobbyEmptyStateProps) {
   return (
@@ -34,6 +38,14 @@ export function LobbyEmptyState({
         <p className="text-xs sm:text-sm text-[#4B5157] font-sans leading-relaxed">
           {description}
         </p>
+
+        {(statusLabel || scanTime) && (
+          <div className="mt-4 pt-3 border-t border-[#DEDDD8]/60 flex items-center gap-3 text-[10px] font-mono uppercase tracking-wider text-[#4B5157]">
+            {statusLabel && <span className="text-[#16213E] font-semibold">{statusLabel}</span>}
+            {statusLabel && scanTime && <span>•</span>}
+            {scanTime && <span>LAST SCAN: {scanTime}</span>}
+          </div>
+        )}
       </div>
     </div>
   );

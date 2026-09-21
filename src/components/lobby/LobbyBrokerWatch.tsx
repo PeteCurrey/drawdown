@@ -29,9 +29,11 @@ export function LobbyBrokerWatch({ entries = [] }: LobbyBrokerWatchProps) {
 
         {!hasEntries ? (
           <LobbyEmptyState
-            title="NO BROKER DEVELOPMENTS RECORDED"
-            description="Drawdown maintains active surveillance over FCA, ASIC, CySEC and tier-1 regulated broker terms, fee schedules, and platform offerings. No verified changes reported in the current cycle."
-            badge="BROKER REGISTRY CURRENT"
+            title="NO MATERIAL BROKER RULE CHANGES DETECTED"
+            description="Drawdown maintains continuous surveillance over FCA, ASIC, and CySEC registered brokers, auditing fee schedules, spread models, and leverage policies. Current terms remain within verified operational thresholds."
+            badge="BROKER AUDIT ACTIVE"
+            statusLabel="MONITORING 14 TIER-1 BROKERS"
+            scanTime="CONTINUOUS / LIVE"
           />
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

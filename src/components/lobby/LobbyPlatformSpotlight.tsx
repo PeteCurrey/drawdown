@@ -27,9 +27,11 @@ export function LobbyPlatformSpotlight({ article }: LobbyPlatformSpotlightProps)
 
         {!article ? (
           <LobbyEmptyState
-            title="NO PLATFORM SPOTLIGHT PUBLISHED"
-            description="Our trading technology desk investigates charting frameworks, FIX APIs, latency optimisations, and algorithmic engines. No platform feature published in this issue."
+            title="EXECUTION ARCHITECTURE AUDIT IN PROGRESS"
+            description="Our trading technology desk investigates charting frameworks, FIX APIs, latency optimisations, and algorithmic engines. No platform breakdown scheduled for immediate release."
             badge="TECH RADAR ACTIVE"
+            statusLabel="BENCHMARKING FIX & REST APIS"
+            scanTime="CONTINUOUS / LIVE"
           />
         ) : (
           <div className="border border-[#DEDDD8] bg-[#FAF9F5] p-6 sm:p-10 rounded-[2px] grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">

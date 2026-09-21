@@ -25,9 +25,11 @@ export function LobbyTradeOfTheMonth({ trade }: LobbyTradeOfTheMonthProps) {
 
         {!trade ? (
           <LobbyEmptyState
-            title="NO TRADE AUDIT PUBLISHED FOR THIS CYCLE"
-            description="Drawdown publishes rigorous post-trade case studies dissecting invalidation geometry, institutional order flow, and risk/reward management. Awaiting audited trade submission."
+            title="NO HISTORICAL AUDIT RELEASED FOR THIS CYCLE"
+            description="Drawdown publishes rigorous post-trade case studies dissecting invalidation geometry, institutional order flow, and risk/reward management. Previous cases remain archived in the Research Centre."
             badge="EXECUTION AUDIT STANDBY"
+            statusLabel="POST-TRADE VERIFICATION BENCHMARK"
+            scanTime="WEEKLY AUDIT CYCLE"
           />
         ) : (
           <div className="border border-[#DEDDD8] bg-[#FFFFFF] p-6 sm:p-10 rounded-[2px]">

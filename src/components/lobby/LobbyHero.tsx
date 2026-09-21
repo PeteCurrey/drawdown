@@ -33,7 +33,7 @@ export function LobbyHero({ leadStory }: LobbyHeroProps) {
       <div className="absolute inset-0 z-0">
         <Image
           src="/images/lobby/lobby-hero-penthouse.jpg"
-          alt="Modern penthouse trading office overlooking city skyline at night with Pete Currey at trading desk"
+          alt="Luxury double-height penthouse executive office overlooking New York City skyline at night with Pete Currey at trading desk"
           fill
           priority
           quality={95}

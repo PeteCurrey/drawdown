@@ -33,22 +33,21 @@ export function LobbyHero({ leadStory }: LobbyHeroProps) {
       <div className="absolute inset-0 z-0">
         <Image
           src="/images/lobby/lobby-hero-penthouse.jpg"
-          alt="Modern penthouse trading office overlooking New York City skyline at night"
+          alt="Modern penthouse trading office overlooking city skyline at night with Pete Currey at trading desk"
           fill
           priority
           quality={95}
-          className="object-cover object-center transform scale-[1.02] transition-transform duration-1000 ease-out"
+          className="object-cover object-[65%_center] lg:object-center transform scale-[1.01] transition-transform duration-1000 ease-out"
           sizes="100vw"
         />
-        {/* Multilayered cinematic overlays for crisp readability */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0B0E12] via-[#0B0E12]/60 to-[#0B0E12]/80" />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#0B0E12]/90 via-[#0B0E12]/50 to-transparent" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-transparent via-[#0B0E12]/30 to-[#0B0E12]/90" />
+        {/* Softened cinematic ambient overlays to reveal glowing city skyline lights */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0B0E12] via-transparent to-black/40" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#0B0E12]/80 via-[#0B0E12]/30 to-transparent" />
       </div>
 
       {/* 2. Top Live Market Ticker Tape */}
       <div className="relative z-10 w-full border-b border-white/10 bg-black/40 backdrop-blur-sm overflow-hidden py-2">
-        <div className="max-w-[1320px] mx-auto px-4 sm:px-6 flex items-center justify-between gap-4">
+        <div className="max-w-[1440px] mx-auto px-4 sm:px-6 md:px-10 lg:px-16 flex items-center justify-between gap-4">
           <div className="flex items-center gap-2 shrink-0">
             <span className="relative flex h-2 w-2">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
@@ -77,11 +76,11 @@ export function LobbyHero({ leadStory }: LobbyHeroProps) {
         </div>
       </div>
 
-      {/* 3. Hero Main Content */}
-      <div className="relative z-10 max-w-[1320px] mx-auto px-4 sm:px-6 py-12 sm:py-16 md:py-20 flex-1 flex flex-col justify-center">
-        <div className="max-w-3xl">
+      {/* 3. Hero Main Content - Offset to the left */}
+      <div className="relative z-10 w-full max-w-[1440px] px-6 sm:px-10 md:px-16 lg:px-20 py-12 sm:py-16 md:py-20 flex-1 flex flex-col justify-center items-start text-left">
+        <div className="max-w-2xl">
           {/* Status badge */}
-          <div className="inline-flex items-center gap-2.5 px-3 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-white/90 text-xs font-mono tracking-wider uppercase mb-6">
+          <div className="inline-flex items-center gap-2.5 px-3 py-1.5 rounded-full bg-black/40 backdrop-blur-md border border-white/15 text-white/90 text-xs font-mono tracking-wider uppercase mb-6 shadow-sm">
             <span className="w-2 h-2 rounded-full bg-[#B8752E] animate-pulse"></span>
             <span className="font-semibold text-[#E5A96A]">THE LOBBY</span>
             <span className="text-white/30">•</span>
@@ -93,11 +92,11 @@ export function LobbyHero({ leadStory }: LobbyHeroProps) {
             THE LOBBY
           </h1>
 
-          <p className="mt-4 text-xl sm:text-2xl md:text-3xl font-display font-semibold text-white/90 tracking-tight leading-snug">
+          <p className="mt-4 text-xl sm:text-2xl md:text-3xl font-display font-semibold text-white/90 tracking-tight leading-snug drop-shadow-md">
             Where institutional edge meets unfiltered industry surveillance.
           </p>
 
-          <p className="mt-4 text-sm sm:text-base md:text-lg text-white/70 max-w-2xl font-sans leading-relaxed">
+          <p className="mt-4 text-sm sm:text-base md:text-lg text-white/80 max-w-xl font-sans leading-relaxed drop-shadow">
             Broadsheet investigative reporting, verified broker audit trails, prop firm solvency surveillance, and quantitative market research. Zero marketing noise. Pure institutional signal.
           </p>
 
@@ -113,7 +112,7 @@ export function LobbyHero({ leadStory }: LobbyHeroProps) {
 
             <Link
               href="/wire"
-              className="flex items-center gap-2 px-5 py-3.5 rounded bg-white/10 hover:bg-white/15 backdrop-blur-md border border-white/20 text-white font-mono text-xs sm:text-sm uppercase tracking-wider transition-all"
+              className="flex items-center gap-2 px-5 py-3.5 rounded bg-black/40 hover:bg-white/15 backdrop-blur-md border border-white/20 text-white font-mono text-xs sm:text-sm uppercase tracking-wider transition-all"
             >
               <Radio className="w-4 h-4 text-[#B8752E]" />
               <span>The Wire Live</span>
@@ -121,7 +120,7 @@ export function LobbyHero({ leadStory }: LobbyHeroProps) {
 
             <Link
               href="/lobby/prop-firms"
-              className="hidden sm:flex items-center gap-2 px-5 py-3.5 rounded bg-transparent hover:bg-white/5 border border-white/10 text-white/80 hover:text-white font-mono text-xs sm:text-sm uppercase tracking-wider transition-all"
+              className="hidden sm:flex items-center gap-2 px-5 py-3.5 rounded bg-black/30 hover:bg-white/10 border border-white/15 text-white/80 hover:text-white font-mono text-xs sm:text-sm uppercase tracking-wider transition-all"
             >
               <ShieldAlert className="w-4 h-4 text-emerald-400" />
               <span>Prop Firm Watch</span>

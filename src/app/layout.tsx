@@ -116,7 +116,7 @@ export default function RootLayout({
               "name": LEGAL_CONFIG.fullTradingEntity,
               "legalName": LEGAL_CONFIG.contractingEntity,
               "url": "https://drawdown.trading",
-              "logo": "https://drawdown.trading/images/brand/logo.png",
+              "logo": "https://drawdown.trading/assets/brand/logo.png",
               "address": {
                 "@type": "PostalAddress",
                 "addressCountry": "GB",

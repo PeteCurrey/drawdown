@@ -81,7 +81,7 @@ export default async function Home() {
         "@type": "Organization",
         "name": "Drawdown Trading",
         "url": "https://drawdown.trading",
-        "logo": "https://drawdown.trading/og/default-og.png",
+        "logo": "https://drawdown.trading/assets/brand/logo.png",
         "description": "Phase-based trading education for independent traders. Structured curriculum, AI-powered tools and honest mentorship.",
         "founder": {
           "@type": "Person",

@@ -48,7 +48,7 @@ function TradingViewReviewContent({ region }: { region: Region }) {
       "name": "Drawdown",
       "logo": {
         "@type": "ImageObject",
-        "url": "https://drawdown.trading/logo.png"
+        "url": "https://drawdown.trading/assets/brand/logo.png"
       }
     },
     "datePublished": "2026-06-14",

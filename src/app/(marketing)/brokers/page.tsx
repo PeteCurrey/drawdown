@@ -9,7 +9,7 @@ import { brokers } from '@/data/brokers';
 export const metadata: Metadata = getMetadata({
   title: 'Best UK Forex Brokers 2026 | FCA Regulated, Independently Reviewed',
   description: 'Compare FCA-regulated UK forex and CFD brokers. Independent reviews of spreads, platforms, and trading costs. No paid placements in rankings.',
-  path: '/brokers',
+  path: '/brokers', // sets alternates.canonical
 });
 
 

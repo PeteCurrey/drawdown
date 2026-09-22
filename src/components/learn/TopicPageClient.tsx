@@ -122,7 +122,7 @@ export function TopicPageClient({ topic }: TopicPageClientProps) {
       "url": "https://drawdown.trading",
       "logo": {
         "@type": "ImageObject",
-        "url": "https://drawdown.trading/og/default-og.png"
+        "url": "https://drawdown.trading/assets/brand/logo.png"
       }
     },
     "datePublished": "2026-01-15T08:00:00Z",

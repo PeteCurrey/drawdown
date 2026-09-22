@@ -165,7 +165,7 @@ export default async function BlogPostPage({ params }: Props) {
       "name": "Drawdown",
       "logo": {
         "@type": "ImageObject",
-        "url": "https://drawdown.trading/logo.png"
+        "url": "https://drawdown.trading/assets/brand/logo.png"
       }
     },
     "description": post.excerpt

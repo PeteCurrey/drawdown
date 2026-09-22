@@ -5,6 +5,8 @@ import { tools } from '../data/tools.ts';
 import { brokers } from '../data/brokers.ts';
 import { PROP_FIRM_REVIEWS } from '../data/seo/prop-firms.ts';
 import { createInternalSupabase } from '../lib/supabase/server.ts';
+import { categoryToSlug } from '../lib/lobby-constants.ts';
+import type { LobbyCategory } from '../types/lobby.ts';
 
 const BASE_URL = 'https://drawdown.trading';
 const SITE_BASELINE_DATE = '2026-04-20T00:00:00Z';
@@ -56,7 +58,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     if (articles && articles.length > 0) {
       dynamicLobbyUrls = articles.map((article) =>
-        url(`/lobby/${article.category}/${article.slug}`, {
+        url(`/lobby/${categoryToSlug(article.category as LobbyCategory)}/${article.slug}`, {
           changeFrequency: 'weekly',
           priority: 0.7,
           lastModified: article.updated_at || article.published_at || SITE_BASELINE_DATE,
@@ -141,6 +143,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     // ── Brokers Hub (Note: /brokers 301s to /brokers/all, so only /brokers/all is in sitemap) ──
     url('/brokers/all', { changeFrequency: 'monthly', priority: 0.75, lastModified: SITE_BASELINE_DATE }),
+    url('/brokers/how-to-choose', { changeFrequency: 'monthly', priority: 0.8, lastModified: SITE_BASELINE_DATE }),
 
     // ── Prop Firms Hub & Compare ──────────────────────────────────────────
     url('/prop-firms', { changeFrequency: 'monthly', priority: 0.8, lastModified: SITE_BASELINE_DATE }),

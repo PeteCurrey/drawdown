@@ -1,16 +1,17 @@
 import type { Metadata } from 'next'
-import BrokerComparisonHub from './BrokersClient'
-
-export const metadata: Metadata = {
-  title: 'Best UK Forex Brokers 2026 — FCA Regulated & Independently Reviewed | Drawdown',
-  description:
-    'Compare FCA-regulated UK forex and CFD brokers. Independent reviews covering spreads, platforms, regulation, and suitability for retail traders. No paid placements in rankings.',
-  alternates: { canonical: 'https://drawdown.trading/brokers' },
-};
-
 import { Shield, ArrowRight, Filter, ShieldCheck, CheckCircle2, ChevronRight } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import JsonLd from "@/components/seo/JsonLd";
+import { getMetadata } from '@/lib/metadata';
+import { brokers } from '@/data/brokers';
+
+export const metadata: Metadata = getMetadata({
+  title: 'Best UK Forex Brokers 2026 | FCA Regulated, Independently Reviewed',
+  description: 'Compare FCA-regulated UK forex and CFD brokers. Independent reviews of spreads, platforms, and trading costs. No paid placements in rankings.',
+  path: '/brokers',
+});
+
 
 const topBrokers = [
   {
@@ -56,6 +57,25 @@ const topBrokers = [
 export default function BrokersPage() {
   return (
     <div className="flex flex-col">
+      <JsonLd
+        data={[
+          {
+            "@context": "https://schema.org",
+            "@type": "ItemList",
+            "name": "Best UK Forex Brokers 2026",
+            "url": "https://drawdown.trading/brokers",
+            "description": "FCA-regulated UK forex and CFD brokers ranked on spreads, platforms, and trading costs.",
+            "numberOfItems": brokers.length,
+            "itemListElement": brokers.slice(0, 10).map((b, i) => ({
+              "@type": "ListItem",
+              "position": i + 1,
+              "name": b.name,
+              "url": `https://drawdown.trading/brokers/${b.slug || b.id}`,
+              "description": b.oneLine,
+            })),
+          },
+        ]}
+      />
       {/* Hero Section */}
       <section className="relative pt-32 pb-20 bg-background-primary overflow-hidden border-b border-border-slate">
         <div className="container mx-auto px-6 relative z-10">

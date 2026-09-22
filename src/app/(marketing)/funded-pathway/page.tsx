@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
 import FundedPathwayClient from "./FundedPathwayClient";
 import BreadcrumbSchema from "@/components/seo/BreadcrumbSchema";
+import { getMetadata } from "@/lib/metadata";
+import JsonLd from "@/components/seo/JsonLd";
 
-export const metadata: Metadata = {
-  title: "Funded Account Pathway | Earn Institutional Capital",
-  description: "Stop risking your own capital. Our anti-hype funded pathway guides you through Phase 4 (Risk Manager) to applying with trusted prop firm challenges.",
-  alternates: { canonical: "https://drawdown.trading/funded-pathway" }
-};
+export const metadata: Metadata = getMetadata({
+  title: "Funded Account Pathway | Earn Institutional Capital Without Hype",
+  description: "Stop risking your own capital. The Drawdown funded pathway guides you from Phase 1 (foundations) to prop firm evaluation — with risk management tools built in at every step.",
+  path: "/funded-pathway",
+});
 
 export default function Page() {
   return (

@@ -4,13 +4,15 @@ import PricingPage from "./PricingClient";
 import JsonLd from "@/components/seo/JsonLd";
 import { createInternalSupabase } from "@/lib/supabase/server";
 import { PRICING_FAQS } from "@/data/pricing";
+import { getMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = getMetadata({
   title: "Drawdown Memberships, Courses & Trading Manuals",
   description:
     "Compare Drawdown Free, Foundation, Edge and Floor memberships. Permanent trading-manual downloads and the six-week Drawdown Institutional Accelerator. Start free — no card required.",
-  alternates: { canonical: "https://drawdown.trading/pricing" },
-};
+  path: "/pricing",
+  hasRegionalVariants: true,
+});
 
 export default async function Page() {
   const supabase = createInternalSupabase();

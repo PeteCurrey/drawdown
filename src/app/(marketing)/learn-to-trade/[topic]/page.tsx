@@ -70,7 +70,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     description: topic.metaDescription,
     image: topic.heroImage,
     path: `/learn-to-trade/${topicSlug}`,
-    hasRegionalVariants: true,
   });
 }
 

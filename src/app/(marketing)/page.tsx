@@ -17,13 +17,12 @@ import type { Metadata } from "next";
 import { createInternalSupabase } from "@/lib/supabase/server";
 
 export const metadata: Metadata = {
-
-  title: "Drawdown — A Trading Operating System for Serious Independent Traders",
+  title: "Drawdown — Trading Risk & Operating System",
   description:
     "Risk calculators, pre-trade analysis, AI-assisted journalling, and structured education — all in one platform. Start free. No card required.",
   alternates: { canonical: "https://drawdown.trading" },
   openGraph: {
-    title: "Drawdown — A Trading Operating System for Serious Independent Traders",
+    title: "Drawdown — Trading Risk & Operating System",
     description:
       "Risk calculators, pre-trade analysis, AI-assisted journalling, and structured education — all in one platform. Start free.",
     url: "https://drawdown.trading",
@@ -35,13 +34,13 @@ export const metadata: Metadata = {
         url: "https://drawdown.trading/og/default-og.png",
         width: 1200,
         height: 630,
-        alt: "Drawdown — A Trading Operating System",
+        alt: "Drawdown — Trading Risk & Operating System",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Drawdown — A Trading Operating System for Serious Independent Traders",
+    title: "Drawdown — Trading Risk & Operating System",
     description:
       "Risk calculators, pre-trade analysis, AI-assisted journalling, and structured education. Start free.",
     images: ["https://drawdown.trading/og/default-og.png"],

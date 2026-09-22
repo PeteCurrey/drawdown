@@ -4,12 +4,14 @@ import Link from "next/link";
 import { Activity, ShieldCheck, Download, AlertCircle } from "lucide-react";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { BROKER_TEST_RECORDS } from "@/lib/data/research";
+import { getMetadata } from "@/lib/metadata";
 
-export const metadata = {
+export const metadata = getMetadata({
   title: "Broker Execution & Spread Evidence Centre | Drawdown Research",
   description:
     "Empirical execution speed, spread measurement, and withdrawal friction test records across major regulated forex and CFD brokers.",
-};
+  path: "/research/broker-testing",
+});
 
 export default function BrokerTestingPage() {
   return (

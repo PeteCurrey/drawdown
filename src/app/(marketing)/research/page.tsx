@@ -5,12 +5,14 @@ import { BookOpen, ShieldCheck, Database, FileText, Activity, AlertCircle, Arrow
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { SAMPLE_RESEARCH_STUDIES, PUBLIC_CORRECTIONS_LOG } from "@/lib/data/research";
 import { ContentUpdateHistory } from "@/components/seo/ContentUpdateHistory";
+import { getMetadata } from "@/lib/metadata";
 
-export const metadata = {
+export const metadata = getMetadata({
   title: "Drawdown Research Centre | Evidence-Led Trading & Broker Intelligence",
   description:
     "Original quantitative research, empirical broker cost audits, risk-of-ruin mathematics, and downloadable datasets. Fully evidence-led and transparent.",
-};
+  path: "/research",
+});
 
 export default function ResearchCentrePage() {
   return (

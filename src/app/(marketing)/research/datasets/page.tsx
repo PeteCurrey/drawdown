@@ -4,12 +4,14 @@ import Link from "next/link";
 import { Database, Download, FileText, ShieldCheck } from "lucide-react";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { SAMPLE_RESEARCH_STUDIES } from "@/lib/data/research";
+import { getMetadata } from "@/lib/metadata";
 
-export const metadata = {
+export const metadata = getMetadata({
   title: "First-Party Datasets & Open Research Downloads | Drawdown Research",
   description:
     "Download open-access quantitative trading datasets, Monte Carlo equity simulations, and broker cost measurement data. CC BY 4.0 Licensed.",
-};
+  path: "/research/datasets",
+});
 
 export default function ResearchDatasetsPage() {
   const datasets = SAMPLE_RESEARCH_STUDIES.map((s) => s.dataset).filter(Boolean);

@@ -41,7 +41,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title,
     description,
     path: `/courses/${slug}`,
-    hasRegionalVariants: true,
   });
 }
 

@@ -3,12 +3,14 @@ import Metadata from "next";
 import Link from "next/link";
 import { BookOpen, ShieldCheck, CheckCircle2, AlertTriangle, ArrowRight } from "lucide-react";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
+import { getMetadata } from "@/lib/metadata";
 
-export const metadata = {
+export const metadata = getMetadata({
   title: "Research Methodology & Sampling Standards | Drawdown Research",
   description:
     "The empirical sampling standards, evidence classifications, data verification protocols, and editorial peer-review workflows of Drawdown Trading.",
-};
+  path: "/research/methodology",
+});
 
 export default function ResearchMethodologyPage() {
   return (

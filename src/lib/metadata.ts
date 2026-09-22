@@ -37,11 +37,15 @@ export function getMetadata({
     ? `${cleanTitle} | ${siteConfig.name}`
     : siteConfig.title;
 
-  const url = path !== undefined ? `${siteConfig.url}${path}` : undefined;
+  const cleanPath = path !== undefined
+    ? (path === "/" ? "" : path.startsWith("/") ? path : `/${path}`).replace(/\/+$/, "")
+    : "";
 
+  const url = path !== undefined ? `${siteConfig.url}${cleanPath}` : undefined;
+
+  const validRegionalPaths = new Set(["", "/pricing"]);
   const languages: Record<string, string> = {};
-  if (hasRegionalVariants && path !== undefined) {
-    const cleanPath = path === "/" ? "" : path.startsWith("/") ? path : `/${path}`;
+  if (hasRegionalVariants && path !== undefined && validRegionalPaths.has(cleanPath)) {
     languages['en-GB'] = `${siteConfig.url}${cleanPath}`;
     languages['en-AU'] = `${siteConfig.url}/au${cleanPath}`;
     languages['en-US'] = `${siteConfig.url}/us${cleanPath}`;

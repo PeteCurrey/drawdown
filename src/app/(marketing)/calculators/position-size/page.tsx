@@ -1,27 +1,77 @@
-"use client";
-
-import React, { useState } from "react";
-import { Percent, ChevronRight, HelpCircle, AlertTriangle, ShieldCheck } from "lucide-react";
+import React from "react";
+import Link from "next/link";
+import { Percent, ArrowRight, ShieldAlert, DollarSign, BookOpen, HelpCircle } from "lucide-react";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { LeadMagnet } from "@/components/seo/LeadMagnet";
+import { PositionSizeCalculator } from "@/components/calculators/PositionSizeCalculator";
+import { getMetadata } from "@/lib/metadata";
+import JsonLd from "@/components/seo/JsonLd";
+
+export const metadata = getMetadata({
+  title: "Position Size Calculator | Forex & CFD Lot Sizing",
+  description:
+    "Calculate exact lot sizes and cash exposure for forex, CFDs, and commodities based on account equity, risk percentage, and stop loss distance.",
+  path: "/calculators/position-size",
+});
 
 export default function PositionSizeCalculatorPage() {
-  const [balance, setBalance] = useState<number>(10000);
-  const [riskPercent, setRiskPercent] = useState<number>(1);
-  const [stopLossPips, setStopLossPips] = useState<number>(20);
-  const [pipValue, setPipValue] = useState<number>(10); // Standard lot pip value in currency
-
-  const cashRisk = (balance * riskPercent) / 100;
-  const standardLots = stopLossPips > 0 ? cashRisk / (stopLossPips * pipValue) : 0;
-  const units = standardLots * 100000;
+  const faqs = [
+    {
+      question: "How do I calculate position size in forex?",
+      answer:
+        "Multiply your account equity by your desired risk percentage to find your total cash risk. Then divide that cash risk by your stop loss distance (in pips) multiplied by the pip value per standard lot. Position Size (Lots) = Cash Risk / (Stop Loss Pips × Pip Value).",
+    },
+    {
+      question: "What is the recommended risk percentage per trade?",
+      answer:
+        "Professional institutional standards recommend risking between 0.5% and 1.5% of total account equity per trade. Risking more than 2% rapidly increases the mathematical probability of deep drawdown during normal adverse streak sequences.",
+    },
+    {
+      question: "Why does pip value matter for position sizing?",
+      answer:
+        "Different currency pairs have different pip values depending on your account currency. On a USD account, EUR/USD has a standard lot pip value of $10, whereas USD/JPY fluctuates around $6.50. Factoring in pip value ensures your actual dollar risk matches your intended percentage.",
+    },
+  ];
 
   return (
     <div className="min-h-screen pb-24 pt-32 bg-background-primary text-text-primary">
+      <JsonLd
+        data={[
+          {
+            "@context": "https://schema.org",
+            "@type": "WebApplication",
+            "name": "Position Size Calculator",
+            "url": "https://drawdown.trading/calculators/position-size",
+            "applicationCategory": "FinanceApplication",
+            "operatingSystem": "All",
+            "description":
+              "Calculate standard lot sizes, risk thresholds, and capital exposure in real-time across major forex pairs, CFDs, and commodities.",
+            "offers": {
+              "@type": "Offer",
+              "price": "0",
+              "priceCurrency": "USD",
+            },
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "mainEntity": faqs.map((f) => ({
+              "@type": "Question",
+              "name": f.question,
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": f.answer,
+              },
+            })),
+          },
+        ]}
+      />
+
       <div className="container mx-auto px-6 max-w-5xl">
-        <Breadcrumbs 
+        <Breadcrumbs
           items={[
             { label: "Calculators", href: "/calculators" },
-            { label: "Position Size", href: "/calculators/position-size" }
+            { label: "Position Size", href: "/calculators/position-size" },
           ]}
         />
 
@@ -35,122 +85,105 @@ export default function PositionSizeCalculatorPage() {
             Position Size <span className="text-accent italic">Calculator.</span>
           </h1>
           <p className="text-sm text-text-secondary leading-relaxed">
-            Determine standard lot sizes, risk thresholds, and capital exposure in real-time. Fits all major asset classes.
+            Determine standard lot sizes, risk thresholds, and capital exposure in real-time. Protect your trading equity by aligning every order with your defined monetary risk limit.
           </p>
         </header>
 
         {/* Interactive Calculator Section */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 mb-20">
-          {/* Inputs Panel */}
-          <div className="lg:col-span-5 p-8 border border-border-slate/50 bg-background-surface/40 backdrop-blur-md space-y-6">
-            <h3 className="text-xs font-mono font-black uppercase tracking-widest text-accent">// PARAMETERS</h3>
-            
-            <div className="space-y-2">
-              <label className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary">Account Balance</label>
-              <input 
-                type="number"
-                value={balance}
-                onChange={(e) => setBalance(Number(e.target.value))}
-                className="w-full bg-background-primary border border-border-slate/50 p-4 text-sm font-mono outline-none focus:border-accent"
-              />
-            </div>
+        <PositionSizeCalculator />
 
-            <div className="space-y-2">
-              <div className="flex justify-between items-center text-[10px] font-mono uppercase tracking-widest">
-                <span className="text-text-tertiary">Risk Per Trade</span>
-                <span className="text-accent font-bold">{riskPercent}%</span>
-              </div>
-              <input 
-                type="range"
-                min="0.1"
-                max="5"
-                step="0.1"
-                value={riskPercent}
-                onChange={(e) => setRiskPercent(Number(e.target.value))}
-                className="w-full h-1 bg-background-primary accent-accent appearance-none cursor-pointer"
-              />
-            </div>
-
-            <div className="space-y-2">
-              <label className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary">Stop Loss (Pips / Points)</label>
-              <input 
-                type="number"
-                value={stopLossPips}
-                onChange={(e) => setStopLossPips(Number(e.target.value))}
-                className="w-full bg-background-primary border border-border-slate/50 p-4 text-sm font-mono outline-none focus:border-accent"
-              />
-            </div>
-
-            <div className="space-y-2">
-              <label className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary">Pip Value per Standard Lot ($)</label>
-              <input 
-                type="number"
-                value={pipValue}
-                onChange={(e) => setPipValue(Number(e.target.value))}
-                className="w-full bg-background-primary border border-border-slate/50 p-4 text-sm font-mono outline-none focus:border-accent"
-              />
-            </div>
-          </div>
-
-          {/* Results Panel */}
-          <div className="lg:col-span-7 flex flex-col justify-between gap-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 h-full">
-              <div className="p-8 border border-border-slate/50 bg-background-primary/30 flex flex-col justify-between hover:border-accent transition-colors">
-                <span className="text-[9px] font-mono text-text-tertiary uppercase tracking-widest">Cash Risk</span>
-                <div className="mt-8">
-                  <p className="text-3xl font-sans font-black text-red-500">${cashRisk.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
-                  <p className="text-[9px] font-mono text-text-tertiary mt-2 uppercase tracking-widest">TOTAL EXPOSURE AT RISK</p>
-                </div>
-              </div>
-
-              <div className="p-8 border border-border-slate/50 bg-background-primary/30 flex flex-col justify-between hover:border-accent transition-colors">
-                <span className="text-[9px] font-mono text-text-tertiary uppercase tracking-widest">Recommended Lot Size</span>
-                <div className="mt-8">
-                  <p className="text-3xl font-sans font-black text-accent">{standardLots.toFixed(2)} Lots</p>
-                  <p className="text-[9px] font-mono text-text-tertiary mt-2 uppercase tracking-widest">{units.toLocaleString(undefined, { maximumFractionDigits: 0 })} UNITS OF BASE ASSET</p>
-                </div>
-              </div>
-            </div>
-
-            <div className="p-6 border border-accent/20 bg-accent/5 flex items-start gap-4">
-              <AlertTriangle className="w-5 h-5 text-accent shrink-0 mt-0.5" />
-              <div>
-                <h4 className="text-xs font-bold uppercase tracking-tight text-text-primary">Sizing Precaution</h4>
-                <p className="text-[11px] text-text-secondary leading-relaxed mt-1">
-                  Position sizing rules assume standard pip valuations (e.g. $10 per pip on EUR/USD standard lot). Always verify your broker's exact contract size parameters before opening a trade.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* SEO Article Content */}
-        <article className="prose prose-invert max-w-none text-text-secondary leading-relaxed mb-20 space-y-8 border-t border-border-slate/50/30 pt-16">
-          <h2 className="text-3xl font-sans font-black uppercase text-text-primary">How to Calculate Position Sizes in Trading</h2>
+        {/* SEO Explanatory Content & Formulas */}
+        <article className="prose prose-invert max-w-none text-text-secondary leading-relaxed mb-16 space-y-8 border-t border-border-slate/50/30 pt-16">
+          <h2 className="text-3xl font-sans font-black uppercase text-text-primary">
+            How to Calculate Position Sizes in Trading
+          </h2>
           <p>
-            Correct position sizing is the single most important aspect of risk management. Without it, you are effectively gambling. Even if your strategy has a high win rate, a few oversized trades during a losing streak can wipe out weeks of profits or result in a margin call.
+            Correct position sizing is the mathematical bedrock of sustainable trading. Without disciplined sizing, win rate alone cannot protect your account from ruin. A trader with a 65% win rate who risks 5% per trade will face severe capital depletion during inevitable losing streaks, whereas a trader risking 1% with a 45% win rate and 1:2 risk-to-reward ratio achieves consistent positive expectancy.
           </p>
 
           <h3 className="text-xl font-bold uppercase text-text-primary">The Sizing Formula</h3>
           <p>
-            To compute your optimal position size manually, use the following formula:
+            To compute your optimal lot size manually before placing an order, apply the standard risk-weighted formula:
           </p>
           <div className="bg-background-primary p-6 border border-border-slate/50 font-mono text-xs overflow-x-auto text-text-primary">
-            Position Size (Lots) = Cash Risk Amount / (Stop Loss in Pips × Pip Value per Lot)
+            Position Size (Standard Lots) = (Account Balance × Risk Percentage) / (Stop Loss in Pips × Pip Value per Lot)
           </div>
 
-          <h3 className="text-xl font-bold uppercase text-text-primary">Key Variables Explained:</h3>
+          <h3 className="text-xl font-bold uppercase text-text-primary">Worked Example:</h3>
+          <p>
+            Suppose you have an account balance of <strong>$25,000</strong> and decide to risk <strong>1%</strong> on a EUR/USD long setup with an entry at 1.0850 and an invalidation stop at 1.0825 (a <strong>25-pip stop loss</strong>).
+          </p>
           <ul className="list-disc pl-6 space-y-2">
-            <li><strong>Account Balance:</strong> The total equity in your trading account.</li>
-            <li><strong>Risk Percentage:</strong> The maximum percentage of your account you are willing to lose on a single trade (typically 1% to 2%).</li>
-            <li><strong>Stop Loss distance:</strong> The amount of space between your entry price and your invalidation point, measured in pips or points.</li>
-            <li><strong>Pip Value:</strong> The monetary value of one pip movement for a standard contract size. For major forex pairs on standard accounts, this is typically $10.</li>
+            <li><strong>Cash Risk:</strong> $25,000 × 0.01 = $250.00 total exposure at risk.</li>
+            <li><strong>Stop Loss Distance:</strong> 25 pips.</li>
+            <li><strong>Pip Value:</strong> $10.00 per standard lot on EUR/USD.</li>
+            <li><strong>Calculation:</strong> $250 / (25 × $10) = $250 / $250 = <strong>1.00 Standard Lot (100,000 units)</strong>.</li>
           </ul>
+
+          <h3 className="text-xl font-bold uppercase text-text-primary">Common Position Sizing Pitfalls</h3>
+          <ul className="list-disc pl-6 space-y-2">
+            <li><strong>Fixed lot sizing regardless of stop distance:</strong> Trading a constant 1.00 lot when your stop varies between 10 pips and 60 pips causes random swings in cash risk.</li>
+            <li><strong>Ignoring quote currency exchange rates:</strong> Calculating EUR/GBP or USD/JPY using a flat $10 pip valuation skews your real risk by 10% to 35%.</li>
+            <li><strong>Revenge sizing after a loss:</strong> Increasing lot sizes to recover prior drawdowns accelerates the mathematical probability of account wipeout.</li>
+          </ul>
+
+          {/* Contextual Internal Links Network */}
+          <div className="mt-8 p-6 rounded-xl bg-background-surface/50 border border-border-slate/50 space-y-4">
+            <h4 className="text-sm font-bold uppercase text-text-primary tracking-wider">
+              Connected Risk & Execution Tools
+            </h4>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+              <Link
+                href="/calculators/pip-value"
+                className="flex items-center justify-between p-3 rounded-lg bg-background-primary border border-border-slate/40 hover:border-accent text-text-secondary hover:text-text-primary transition group"
+              >
+                <span>Pip Value Calculator (Currency Conversions)</span>
+                <ArrowRight className="w-3.5 h-3.5 text-accent group-hover:translate-x-0.5 transition-transform" />
+              </Link>
+              <Link
+                href="/calculators/risk"
+                className="flex items-center justify-between p-3 rounded-lg bg-background-primary border border-border-slate/40 hover:border-accent text-text-secondary hover:text-text-primary transition group"
+              >
+                <span>Trading Risk Calculator & Cash Exposure</span>
+                <ArrowRight className="w-3.5 h-3.5 text-accent group-hover:translate-x-0.5 transition-transform" />
+              </Link>
+              <Link
+                href="/blog/kelly-criterion-position-sizing-mastery"
+                className="flex items-center justify-between p-3 rounded-lg bg-background-primary border border-border-slate/40 hover:border-accent text-text-secondary hover:text-text-primary transition group"
+              >
+                <span>Kelly Criterion Position Sizing Guide</span>
+                <ArrowRight className="w-3.5 h-3.5 text-accent group-hover:translate-x-0.5 transition-transform" />
+              </Link>
+              <Link
+                href="/blog/fixed-percentage-vs-fixed-monetary-risk"
+                className="flex items-center justify-between p-3 rounded-lg bg-background-primary border border-border-slate/40 hover:border-accent text-text-secondary hover:text-text-primary transition group"
+              >
+                <span>Fixed Percentage vs Fixed Monetary Risk</span>
+                <ArrowRight className="w-3.5 h-3.5 text-accent group-hover:translate-x-0.5 transition-transform" />
+              </Link>
+            </div>
+          </div>
+
+          {/* Frequently Asked Questions */}
+          <div className="mt-12 space-y-6">
+            <h3 className="text-xl font-bold uppercase text-text-primary flex items-center gap-2">
+              <HelpCircle className="w-5 h-5 text-accent" />
+              Frequently Asked Questions
+            </h3>
+            <div className="space-y-4">
+              {faqs.map((faq, i) => (
+                <div key={i} className="p-5 rounded-lg bg-background-surface/30 border border-border-slate/40 space-y-2">
+                  <h4 className="text-sm font-bold text-text-primary">{faq.question}</h4>
+                  <p className="text-xs text-text-secondary leading-relaxed">{faq.answer}</p>
+                </div>
+              ))}
+            </div>
+          </div>
         </article>
 
         {/* Lead Magnet */}
-        <LeadMagnet 
-          resourceId="risk-guide" 
+        <LeadMagnet
+          resourceId="risk-guide"
           title="Download the Complete Risk Management Guide PDF"
           description="Protect your capital from market swings. This manual covers advanced leverage management, position sizing sheets, and prop challenge protocols."
         />

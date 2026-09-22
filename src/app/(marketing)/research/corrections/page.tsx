@@ -4,12 +4,14 @@ import Link from "next/link";
 import { History, ShieldCheck, AlertCircle, CheckCircle2 } from "lucide-react";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { PUBLIC_CORRECTIONS_LOG } from "@/lib/data/research";
+import { getMetadata } from "@/lib/metadata";
 
-export const metadata = {
+export const metadata = getMetadata({
   title: "Public Corrections Log & Editorial Transparencies | Drawdown Research",
   description:
     "Public record of factual corrections, methodology updates, and data revisions across Drawdown Trading content and reviews.",
-};
+  path: "/research/corrections",
+});
 
 export default function PublicCorrectionsPage() {
   return (

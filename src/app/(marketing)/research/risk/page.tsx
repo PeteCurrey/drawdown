@@ -5,12 +5,14 @@ import { ShieldAlert, Download, Calculator, ArrowRight } from "lucide-react";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { SAMPLE_RESEARCH_STUDIES } from "@/lib/data/research";
 import { DrawdownRecoveryCalculator } from "@/components/calculators/DrawdownRecoveryCalculator";
+import { getMetadata } from "@/lib/metadata";
 
-export const metadata = {
+export const metadata = getMetadata({
   title: "Quantitative Risk & Drawdown Recovery Studies | Drawdown Research",
   description:
     "Mathematical papers and simulations on drawdown recovery, risk-of-ruin models, consecutive loss distributions, and position sizing decay.",
-};
+  path: "/research/risk",
+});
 
 export default function RiskResearchPage() {
   const riskStudies = SAMPLE_RESEARCH_STUDIES.filter((s) => s.category === "risk-math");

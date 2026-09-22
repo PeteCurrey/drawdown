@@ -4,6 +4,8 @@ import { PROP_FIRM_REVIEWS } from "@/data/seo/prop-firms";
 import { PropFirmReviewTemplate } from "@/components/prop-firms/PropFirmReviewTemplate";
 import { TrackPageView } from "@/components/admin/TrackPageView";
 
+import { getMetadata } from "@/lib/metadata";
+
 export const dynamicParams = true;
 export const revalidate = 3600; // hourly cache revalidation
 
@@ -20,10 +22,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const review = PROP_FIRM_REVIEWS.find((r) => r.slug === slug);
   if (!review) notFound();
 
-  return {
+  return getMetadata({
     title: review.title,
     description: review.metaDescription,
-  };
+    path: `/prop-firms/${slug}`,
+  });
 }
 
 export default async function PropFirmReviewPage({ params }: Props) {

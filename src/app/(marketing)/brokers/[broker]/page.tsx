@@ -7,6 +7,8 @@ import { Metadata } from "next";
 import JsonLd from "@/components/seo/JsonLd";
 import BreadcrumbSchema from "@/components/seo/BreadcrumbSchema";
 
+import { getMetadata } from "@/lib/metadata";
+
 export const dynamicParams = true;
 export const revalidate = 3600; // hourly cache revalidation
 
@@ -40,7 +42,7 @@ const BROKER_EXTRA: Record<string, { founded: number; headquarters: string; revi
 };
 
 export function generateStaticParams() {
-  return [];
+  return brokers.map((b) => ({ broker: b.slug || b.id }));
 }
 
 interface Props {
@@ -59,13 +61,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   if (!broker) notFound();
 
-  return {
-    title: `${broker.name} Review 2026 — Is It Worth It? | Drawdown`,
-    description: `Honest 2026 review of ${broker.name}. We analyze spreads, regulation, platforms, and fees to help UK traders decide if it's the right choice.`,
-    alternates: {
-      canonical: `https://drawdown.trading/brokers/${brokerParam}`,
-    },
-  };
+  const canonicalSlug = broker.slug || broker.id;
+
+  return getMetadata({
+    title: `${broker.name} Review 2026 — Fees, Spreads & Safety`,
+    description: `Independent 2026 review of ${broker.name}. We analyze spreads, regulation, execution speed, and trading costs to help traders decide.`,
+    path: `/brokers/${canonicalSlug}`,
+  });
 }
 
 export default async function BrokerReviewPage({ params }: Props) {

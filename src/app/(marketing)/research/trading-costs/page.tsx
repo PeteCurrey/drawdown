@@ -4,12 +4,14 @@ import Link from "next/link";
 import { Activity, ShieldCheck, ArrowRight, DollarSign } from "lucide-react";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { SAMPLE_RESEARCH_STUDIES } from "@/lib/data/research";
+import { getMetadata } from "@/lib/metadata";
 
-export const metadata = {
+export const metadata = getMetadata({
   title: "Trading Cost Studies & Spread Analysis | Drawdown Research",
   description:
     "Empirical audits of round-trip trading costs, commission models, overnight financing swaps, and currency conversion fees across UK brokers.",
-};
+  path: "/research/trading-costs",
+});
 
 export default function TradingCostsResearchPage() {
   const costStudies = SAMPLE_RESEARCH_STUDIES.filter((s) => s.category === "broker-costs");

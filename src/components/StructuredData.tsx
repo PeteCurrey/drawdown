@@ -36,9 +36,9 @@ export const defaultOrgSchema = {
   ],
   contactPoint: {
     "@type": "ContactPoint",
-    "telephone": "+44-000-0000",
-    "contactType": "customer service",
+    "email": "hello@drawdown.trading",
+    "contactType": "customer support",
     "areaServed": "GB",
-    "availableLanguage": "en",
+    "availableLanguage": "English",
   },
 };

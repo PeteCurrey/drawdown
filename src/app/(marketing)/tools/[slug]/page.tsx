@@ -1,6 +1,5 @@
-"use client";
-
-import { useParams, notFound } from "next/navigation";
+import { notFound } from "next/navigation";
+import { Metadata } from "next";
 import { 
   ArrowRight,
   ShieldCheck,
@@ -20,6 +19,28 @@ import { cn } from "@/lib/utils";
 import { tools } from "@/data/tools";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { TrackPageView } from "@/components/admin/TrackPageView";
+import { getMetadata } from "@/lib/metadata";
+import JsonLd from "@/components/seo/JsonLd";
+
+interface Props {
+  params: Promise<{ slug: string }>;
+}
+
+export async function generateStaticParams() {
+  return tools.map((t) => ({ slug: t.slug }));
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { slug } = await params;
+  const tool = tools.find((t) => t.slug === slug);
+  if (!tool) return {};
+
+  return getMetadata({
+    title: `${tool.title} | Professional Trading Tool`,
+    description: tool.description,
+    path: `/tools/${slug}`,
+  });
+}
 
 interface ToolTheme {
   accentColor: string;      // Tailwind text class
@@ -98,9 +119,9 @@ const DEFAULT_THEME: ToolTheme = {
   shadowColor: "shadow-cyan-500/10"
 };
 
-export default function ToolDetailPage() {
-  const { slug } = useParams();
-  const tool = tools.find(t => t.slug === slug);
+export default async function ToolDetailPage({ params }: Props) {
+  const { slug } = await params;
+  const tool = tools.find((t) => t.slug === slug);
 
   if (!tool) {
     notFound();
@@ -148,6 +169,22 @@ export default function ToolDetailPage() {
 
   return (
     <div className="flex flex-col min-h-screen bg-white text-mkt-ink font-sans selection:bg-neutral-100 selection:text-mkt-ink">
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "SoftwareApplication",
+          "name": tool.title,
+          "url": `https://drawdown.trading/tools/${tool.slug}`,
+          "applicationCategory": "FinanceApplication",
+          "operatingSystem": "All",
+          "description": tool.description,
+          "offers": {
+            "@type": "Offer",
+            "price": "49",
+            "priceCurrency": "GBP",
+          },
+        }}
+      />
       <TrackPageView path={`/tools/${tool.slug}`} />
 
       {/* 1. FULL-SCREEN HERO */}

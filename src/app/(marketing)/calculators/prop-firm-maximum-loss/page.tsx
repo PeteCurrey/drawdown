@@ -1,28 +1,77 @@
-"use client";
-
-import React, { useState } from "react";
-import { Calculator, ChevronRight, HelpCircle, AlertTriangle, ShieldCheck } from "lucide-react";
+import React from "react";
+import Link from "next/link";
+import { Calculator, ArrowRight, ShieldAlert, AlertTriangle, BookOpen, HelpCircle } from "lucide-react";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { LeadMagnet } from "@/components/seo/LeadMagnet";
-import { cn } from "@/lib/utils";
+import { PropFirmMaximumLossCalculator } from "@/components/calculators/PropFirmMaximumLossCalculator";
+import { getMetadata } from "@/lib/metadata";
+import JsonLd from "@/components/seo/JsonLd";
+
+export const metadata = getMetadata({
+  title: "Prop Firm Maximum Loss Calculator | Static vs Trailing Breach Buffer",
+  description:
+    "Calculate your total maximum drawdown limit and remaining capital buffer. Compare static and trailing drawdown models for prop firm evaluations.",
+  path: "/calculators/prop-firm-maximum-loss",
+});
 
 export default function PropFirmMaximumLossCalculatorPage() {
-  const [accountSize, setAccountSize] = useState<number>(100000);
-  const [maxLimitPercent, setMaxLimitPercent] = useState<number>(10);
-  const [currentEquity, setCurrentEquity] = useState<number>(98000);
-
-  const allowedMaxLoss = (accountSize * maxLimitPercent) / 100;
-  const maxLossFloor = accountSize - allowedMaxLoss;
-  const distanceToBreach = currentEquity - maxLossFloor;
-  const percentToBreach = accountSize > 0 ? (distanceToBreach / accountSize) * 100 : 0;
+  const faqs = [
+    {
+      question: "What is the difference between static and trailing maximum drawdown?",
+      answer:
+        "Static drawdown sets a permanent loss floor below your initial balance (e.g. $90,000 on a $100,000 account with 10% max loss). Even if your balance grows to $115,000, your loss floor remains at $90,000. In trailing drawdown, the loss floor trails upward as your account balance or open equity reaches new highs, locking in risk.",
+    },
+    {
+      question: "Does maximum loss include open floating losses?",
+      answer:
+        "Yes. Proprietary trading firms monitor maximum drawdown in real-time based on account equity. If your floating open positions breach the maximum loss threshold at any second, your account is automatically liquidated and breached.",
+    },
+    {
+      question: "Which prop firms use static drawdown vs trailing drawdown?",
+      answer:
+        "FTMO, The5ers, and FundingPips use static maximum drawdown based on initial account size. Futures evaluation firms (such as Apex Trader Funding and TradeDay) and some CFD firms use trailing drawdown (often calculated from intraday peak unrealized equity).",
+    },
+  ];
 
   return (
     <div className="min-h-screen pb-24 pt-32 bg-background-primary text-text-primary">
+      <JsonLd
+        data={[
+          {
+            "@context": "https://schema.org",
+            "@type": "WebApplication",
+            "name": "Prop Firm Maximum Loss Calculator",
+            "url": "https://drawdown.trading/calculators/prop-firm-maximum-loss",
+            "applicationCategory": "FinanceApplication",
+            "operatingSystem": "All",
+            "description":
+              "Calculate maximum drawdown limits, static floors, and remaining loss buffers for prop firm evaluations.",
+            "offers": {
+              "@type": "Offer",
+              "price": "0",
+              "priceCurrency": "USD",
+            },
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "mainEntity": faqs.map((f) => ({
+              "@type": "Question",
+              "name": f.question,
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": f.answer,
+              },
+            })),
+          },
+        ]}
+      />
+
       <div className="container mx-auto px-6 max-w-5xl">
-        <Breadcrumbs 
+        <Breadcrumbs
           items={[
             { label: "Calculators", href: "/calculators" },
-            { label: "Prop Firm Maximum Loss", href: "/calculators/prop-firm-maximum-loss" }
+            { label: "Prop Firm Maximum Loss", href: "/calculators/prop-firm-maximum-loss" },
           ]}
         />
 
@@ -36,113 +85,106 @@ export default function PropFirmMaximumLossCalculatorPage() {
             Prop Firm Max Loss <span className="text-accent italic">Calculator.</span>
           </h1>
           <p className="text-sm text-text-secondary leading-relaxed">
-            Calculate your total maximum drawdown boundaries and check your remaining capital buffers.
+            Calculate your total maximum drawdown boundaries and check your remaining capital buffers. Understand exactly how static vs trailing loss floors dictate your trading longevity.
           </p>
         </header>
 
         {/* Interactive Calculator Section */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 mb-20">
-          {/* Inputs Panel */}
-          <div className="lg:col-span-5 p-8 border border-border-slate/50 bg-background-surface/40 backdrop-blur-md space-y-6">
-            <h3 className="text-xs font-mono font-black uppercase tracking-widest text-accent">// PARAMETERS</h3>
+        <PropFirmMaximumLossCalculator />
 
-            <div className="space-y-2">
-              <label className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary">Initial Account Size ($)</label>
-              <input 
-                type="number"
-                value={accountSize}
-                onChange={(e) => setAccountSize(Number(e.target.value))}
-                className="w-full bg-background-primary border border-border-slate/50 p-4 text-sm font-mono outline-none focus:border-accent"
-              />
-            </div>
-
-            <div className="space-y-2">
-              <div className="flex justify-between items-center text-[10px] font-mono uppercase tracking-widest">
-                <span className="text-text-tertiary">Max Drawdown Limit</span>
-                <span className="text-accent font-bold">{maxLimitPercent}%</span>
-              </div>
-              <input 
-                type="range"
-                min="5"
-                max="15"
-                step="0.5"
-                value={maxLimitPercent}
-                onChange={(e) => setMaxLimitPercent(Number(e.target.value))}
-                className="w-full h-1 bg-background-primary accent-accent appearance-none cursor-pointer"
-              />
-            </div>
-
-            <div className="space-y-2">
-              <label className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary">Current Account Equity ($)</label>
-              <input 
-                type="number"
-                value={currentEquity}
-                onChange={(e) => setCurrentEquity(Number(e.target.value))}
-                className="w-full bg-background-primary border border-border-slate/50 p-4 text-sm font-mono outline-none focus:border-accent"
-              />
-            </div>
-          </div>
-
-          {/* Results Panel */}
-          <div className="lg:col-span-7 flex flex-col justify-between gap-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 h-full">
-              <div className="p-8 border border-border-slate/50 bg-background-primary/30 flex flex-col justify-between hover:border-accent transition-colors">
-                <span className="text-[9px] font-mono text-text-tertiary uppercase tracking-widest">Allowed Total Loss</span>
-                <div className="mt-8">
-                  <p className="text-3xl font-sans font-black text-red-500">${allowedMaxLoss.toLocaleString(undefined, { maximumFractionDigits: 2 })}</p>
-                  <p className="text-[9px] font-mono text-text-tertiary mt-2 uppercase tracking-widest">MAX LOSS THRESHOLD</p>
-                </div>
-              </div>
-
-              <div className="p-8 border border-border-slate/50 bg-background-primary/30 flex flex-col justify-between hover:border-accent transition-colors">
-                <span className="text-[9px] font-mono text-text-tertiary uppercase tracking-widest">Max Loss Floor</span>
-                <div className="mt-8">
-                  <p className="text-3xl font-sans font-black text-accent">${maxLossFloor.toLocaleString(undefined, { maximumFractionDigits: 2 })}</p>
-                  <p className="text-[9px] font-mono text-text-tertiary mt-2 uppercase tracking-widest">ABSOLUTE ACCOUNT LIMIT</p>
-                </div>
-              </div>
-            </div>
-
-            <div className="p-8 border border-border-slate/50 bg-background-primary/30 flex flex-col justify-between hover:border-accent transition-colors">
-              <span className="text-[9px] font-mono text-text-tertiary uppercase tracking-widest">Distance to Breach</span>
-              <div className="mt-6 flex justify-between items-end">
-                <div>
-                  <p className={cn(
-                    "text-3xl font-sans font-black",
-                    distanceToBreach <= 2000 ? "text-red-500" : "text-mkt-grn"
-                  )}>
-                    ${distanceToBreach.toLocaleString(undefined, { maximumFractionDigits: 2 })}
-                  </p>
-                  <p className="text-[9px] font-mono text-text-tertiary mt-2 uppercase tracking-widest">SAFETY BALANCE BUFFER</p>
-                </div>
-                <span className="text-xs font-mono font-bold text-accent">{percentToBreach.toFixed(2)}% buffer</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* SEO Article Content */}
-        <article className="prose prose-invert max-w-none text-text-secondary leading-relaxed mb-20 space-y-8 border-t border-border-slate/50/30 pt-16">
-          <h2 className="text-3xl font-sans font-black uppercase text-text-primary">Understanding Maximum Drawdown in Prop Firms</h2>
+        {/* SEO Explanatory Content */}
+        <article className="prose prose-invert max-w-none text-text-secondary leading-relaxed mb-16 space-y-8 border-t border-border-slate/50/30 pt-16">
+          <h2 className="text-3xl font-sans font-black uppercase text-text-primary">
+            Static vs Trailing Drawdown in Proprietary Trading
+          </h2>
           <p>
-            Maximum drawdown (often called the Max Loss Limit) is the overall loss threshold set by prop firms to cap their downside on funded accounts. It defines the point at which your account is closed and your challenge is failed.
+            Understanding the distinction between <strong>static drawdown</strong> and <strong>trailing drawdown</strong> is the difference between keeping a funded account and losing challenge fees. Many traders who pass evaluations fail within their first week because they treat a trailing drawdown rule as if it were static.
           </p>
 
-          <h3 className="text-xl font-bold uppercase text-text-primary">Static vs. Trailing Drawdown</h3>
+          <h3 className="text-xl font-bold uppercase text-text-primary">The Static Maximum Loss Formula</h3>
           <p>
-            Firms implement maximum loss limits in two different ways:
+            In a static rule system (e.g. FTMO Standard 2-Step):
+          </p>
+          <div className="bg-background-primary p-6 border border-border-slate/50 font-mono text-xs overflow-x-auto text-text-primary">
+            Max Loss Floor ($) = Initial Account Balance - (Initial Account Balance × Max Drawdown %)
+            <br />
+            Remaining Buffer ($) = Current Equity - Max Loss Floor
+          </div>
+
+          <h3 className="text-xl font-bold uppercase text-text-primary">Worked Example: Static vs Trailing</h3>
+          <p>
+            Consider a <strong>$100,000 account</strong> with a <strong>10% maximum drawdown ($10,000 buffer)</strong>. You grow the account to <strong>$108,000</strong>:
           </p>
           <ul className="list-disc pl-6 space-y-2">
-            <li><strong>Static Max Loss (e.g. FTMO):</strong> The limit is fixed relative to your starting account size. For a $100k account with a 10% limit, your account floor is always $90,000, regardless of how high your balance grows.</li>
-            <li><strong>Trailing Max Loss (e.g. Apex):</strong> The limit trails your highest achieved balance or equity peak. For a $100k account with a $3,000 trailing limit, if your account grows to $105,000, your loss floor trails up to $102,000. It never moves back down.</li>
+            <li><strong>Under Static Drawdown (FTMO):</strong> The breach floor is fixed at $90,000. With your account at $108,000, your buffer has expanded from $10,000 to <strong>$18,000</strong>. You have significant breathing room.</li>
+            <li><strong>Under Trailing Drawdown (Apex / Intraday Peak):</strong> The floor trails your peak balance. When you reach $108,000, your floor moves up to $108,000 - $10,000 = <strong>$98,000</strong>. Your buffer remains locked at only $10,000. If your trade had a floating peak at $110,000 and retraced to $99,500, you are dangerously close to breach.</li>
           </ul>
+
+          <h3 className="text-xl font-bold uppercase text-text-primary">Risk Management Rules for Funded Accounts</h3>
+          <ul className="list-disc pl-6 space-y-2">
+            <li><strong>Scale down risk as drawdown deepens:</strong> If your remaining buffer drops from $10,000 to $4,000, cut lot sizes in half immediately. Risking the same lot size on a diminished buffer increases risk-of-ruin exponentially.</li>
+            <li><strong>Separate daily limit from maximum limit:</strong> You can breach your daily limit ($5,000) while still having $8,000 of maximum buffer remaining. Always monitor both limits concurrently.</li>
+          </ul>
+
+          {/* Contextual Internal Links Network */}
+          <div className="mt-8 p-6 rounded-xl bg-background-surface/50 border border-border-slate/50 space-y-4">
+            <h4 className="text-sm font-bold uppercase text-text-primary tracking-wider">
+              Connected Prop Firm Risk Tools
+            </h4>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+              <Link
+                href="/calculators/prop-firm-daily-loss"
+                className="flex items-center justify-between p-3 rounded-lg bg-background-primary border border-border-slate/40 hover:border-accent text-text-secondary hover:text-text-primary transition group"
+              >
+                <span>Prop Firm Daily Loss Calculator</span>
+                <ArrowRight className="w-3.5 h-3.5 text-accent group-hover:translate-x-0.5 transition-transform" />
+              </Link>
+              <Link
+                href="/prop-firms"
+                className="flex items-center justify-between p-3 rounded-lg bg-background-primary border border-border-slate/40 hover:border-accent text-text-secondary hover:text-text-primary transition group"
+              >
+                <span>Prop Firm Rules & Evaluation Directory</span>
+                <ArrowRight className="w-3.5 h-3.5 text-accent group-hover:translate-x-0.5 transition-transform" />
+              </Link>
+              <Link
+                href="/calculators/drawdown"
+                className="flex items-center justify-between p-3 rounded-lg bg-background-primary border border-border-slate/40 hover:border-accent text-text-secondary hover:text-text-primary transition group"
+              >
+                <span>Drawdown Probability Modeler</span>
+                <ArrowRight className="w-3.5 h-3.5 text-accent group-hover:translate-x-0.5 transition-transform" />
+              </Link>
+              <Link
+                href="/courses/prop-firm-survival-kit"
+                className="flex items-center justify-between p-3 rounded-lg bg-background-primary border border-border-slate/40 hover:border-accent text-text-secondary hover:text-text-primary transition group"
+              >
+                <span>Prop Firm Survival Kit Course</span>
+                <ArrowRight className="w-3.5 h-3.5 text-accent group-hover:translate-x-0.5 transition-transform" />
+              </Link>
+            </div>
+          </div>
+
+          {/* Frequently Asked Questions */}
+          <div className="mt-12 space-y-6">
+            <h3 className="text-xl font-bold uppercase text-text-primary flex items-center gap-2">
+              <HelpCircle className="w-5 h-5 text-accent" />
+              Frequently Asked Questions
+            </h3>
+            <div className="space-y-4">
+              {faqs.map((faq, i) => (
+                <div key={i} className="p-5 rounded-lg bg-background-surface/30 border border-border-slate/40 space-y-2">
+                  <h4 className="text-sm font-bold text-text-primary">{faq.question}</h4>
+                  <p className="text-xs text-text-secondary leading-relaxed">{faq.answer}</p>
+                </div>
+              ))}
+            </div>
+          </div>
         </article>
 
         {/* Lead Magnet */}
-        <LeadMagnet 
-          resourceId="comparison-sheet" 
-          title="Download the Prop Firm Comparison Sheet Excel Matrix"
-          description="Directly compare maximum drawdown rules, trailing boundaries, and challenge structures across the top prop firms in the industry."
+        <LeadMagnet
+          resourceId="risk-guide"
+          title="Download the Prop Firm Challenge Protocol Guide"
+          description="Protect your challenge fee. Covers strict risk rules, lot-size tables for funded accounts, and daily loss safeguards."
         />
       </div>
     </div>

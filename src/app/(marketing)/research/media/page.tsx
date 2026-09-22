@@ -1,15 +1,18 @@
 import React from "react";
 import Metadata from "next";
 import Link from "next/link";
-import { FileText, Download, Mail, ShieldCheck, UserCheck } from "lucide-react";
+import { FileText, Download, Mail, ShieldCheck, UserCheck, ArrowRight } from "lucide-react";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { EXPERT_AUTHORS } from "@/data/experts";
+import { getMetadata } from "@/lib/metadata";
+import JsonLd from "@/components/seo/JsonLd";
 
-export const metadata = {
+export const metadata = getMetadata({
   title: "Media & Journalist Resource Centre | Drawdown Research",
   description:
-    "Press resources, spokesperson biographies, citation guidelines, and verified data benchmarks for financial journalists and researchers.",
-};
+    "Press resources, spokesperson biographies, citation guidelines, embeddable calculators, and verified data benchmarks for financial journalists and researchers.",
+  path: "/research/media",
+});
 
 export default function MediaCentrePage() {
   return (

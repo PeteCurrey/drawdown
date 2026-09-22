@@ -117,6 +117,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     url('/funded-pathway', { changeFrequency: 'monthly', priority: 0.8, lastModified: SITE_BASELINE_DATE }),
     url('/roadmap', { changeFrequency: 'monthly', priority: 0.7, lastModified: SITE_BASELINE_DATE }),
     url('/contact', { changeFrequency: 'yearly', priority: 0.6, lastModified: SITE_BASELINE_DATE }),
+    url('/press', { changeFrequency: 'monthly', priority: 0.7, lastModified: SITE_BASELINE_DATE }),
 
     // ── Tools Hub ─────────────────────────────────────────────────────────
     url('/tools', { changeFrequency: 'monthly', priority: 0.85, lastModified: SITE_BASELINE_DATE }),

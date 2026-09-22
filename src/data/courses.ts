@@ -1,4 +1,4 @@
-import { ShieldCheck, LineChart, Zap, Lock, BrainCircuit, Play, Globe, Percent, Briefcase, LucideIcon } from "lucide-react";
+import { ShieldCheck, LineChart, Zap, Lock, BrainCircuit, Play, Globe, Percent, Briefcase, type LucideIcon } from "lucide-react";
 
 export interface CoursePhase {
   id: number;

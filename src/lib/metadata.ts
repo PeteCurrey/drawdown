@@ -1,4 +1,4 @@
-import { Metadata } from "next";
+import type { Metadata } from "next";
 
 interface MetadataProps {
   title?: string;
@@ -94,7 +94,7 @@ export function getMetadata({
     metadataBase: new URL(siteConfig.url),
     alternates: {
       canonical: url,
-      languages: hasRegionalVariants && path !== undefined ? languages : undefined,
+      languages: hasRegionalVariants && path !== undefined && Object.keys(languages).length > 0 ? languages : undefined,
     },
     ...(noIndex && {
       robots: {

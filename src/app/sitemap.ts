@@ -1,10 +1,10 @@
 import type { MetadataRoute } from 'next';
-import { getAllPosts } from '../lib/blog';
-import { phases } from '@/data/courses';
-import { tools } from '@/data/tools';
-import { brokers } from '@/data/brokers';
-import { PROP_FIRM_REVIEWS } from '@/data/seo/prop-firms';
-import { createInternalSupabase } from '@/lib/supabase/server';
+import { getAllPosts } from '../lib/blog.ts';
+import { phases } from '../data/courses.ts';
+import { tools } from '../data/tools.ts';
+import { brokers } from '../data/brokers.ts';
+import { PROP_FIRM_REVIEWS } from '../data/seo/prop-firms.ts';
+import { createInternalSupabase } from '../lib/supabase/server.ts';
 
 const BASE_URL = 'https://drawdown.trading';
 const SITE_BASELINE_DATE = '2026-04-20T00:00:00Z';

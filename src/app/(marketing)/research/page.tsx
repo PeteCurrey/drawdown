@@ -6,6 +6,7 @@ import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { SAMPLE_RESEARCH_STUDIES, PUBLIC_CORRECTIONS_LOG } from "@/lib/data/research";
 import { ContentUpdateHistory } from "@/components/seo/ContentUpdateHistory";
 import { getMetadata } from "@/lib/metadata";
+import JsonLd from "@/components/seo/JsonLd";
 
 export const metadata = getMetadata({
   title: "Drawdown Research Centre | Evidence-Led Trading & Broker Intelligence",
@@ -17,6 +18,29 @@ export const metadata = getMetadata({
 export default function ResearchCentrePage() {
   return (
     <div className="min-h-screen bg-background-primary text-text-primary pt-24 pb-16">
+      <JsonLd
+        data={[
+          {
+            "@context": "https://schema.org",
+            "@type": "CollectionPage",
+            "name": "Drawdown Research Centre",
+            "url": "https://drawdown.trading/research",
+            "description": "Original quantitative research, empirical broker cost audits, risk-of-ruin mathematics, and downloadable datasets for traders.",
+            "publisher": {
+              "@type": "Organization",
+              "name": "Drawdown Trading",
+              "url": "https://drawdown.trading",
+            },
+            "breadcrumb": {
+              "@type": "BreadcrumbList",
+              "itemListElement": [
+                { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://drawdown.trading" },
+                { "@type": "ListItem", "position": 2, "name": "Research Centre", "item": "https://drawdown.trading/research" },
+              ],
+            },
+          },
+        ]}
+      />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <Breadcrumbs items={[{ label: "Research Centre", href: "/research" }]} />
 

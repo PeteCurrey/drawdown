@@ -180,13 +180,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     url('/compare', { changeFrequency: 'monthly', priority: 0.7, lastModified: SITE_BASELINE_DATE }),
 
     // ── Research Centre & Studies ─────────────────────────────────────────
-    url('/research', { changeFrequency: 'monthly', priority: 0.75, lastModified: SITE_BASELINE_DATE }),
+    url('/research', { changeFrequency: 'monthly', priority: 0.8, lastModified: SITE_BASELINE_DATE }),
     url('/research/methodology', { changeFrequency: 'monthly', priority: 0.65, lastModified: SITE_BASELINE_DATE }),
     url('/research/broker-testing', { changeFrequency: 'monthly', priority: 0.65, lastModified: SITE_BASELINE_DATE }),
     url('/research/datasets', { changeFrequency: 'monthly', priority: 0.65, lastModified: SITE_BASELINE_DATE }),
     url('/research/prop-firms', { changeFrequency: 'monthly', priority: 0.65, lastModified: SITE_BASELINE_DATE }),
     url('/research/risk', { changeFrequency: 'monthly', priority: 0.65, lastModified: SITE_BASELINE_DATE }),
     url('/research/trading-costs', { changeFrequency: 'monthly', priority: 0.65, lastModified: SITE_BASELINE_DATE }),
+    url('/research/position-sizing', { changeFrequency: 'monthly', priority: 0.7, lastModified: SITE_BASELINE_DATE }),
     url('/research/corrections', { changeFrequency: 'monthly', priority: 0.5, lastModified: SITE_BASELINE_DATE }),
 
     // ── Community & Best-Of ───────────────────────────────────────────────

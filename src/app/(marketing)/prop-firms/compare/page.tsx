@@ -4,12 +4,13 @@ import { ArrowRight, ChevronRight, GitCompare, Shield, Zap, Sparkles, Award, Tar
 import { TrackPageView } from "@/components/admin/TrackPageView";
 import BreadcrumbSchema from "@/components/seo/BreadcrumbSchema";
 import { InteractiveCompareWidget } from "@/components/compare/InteractiveCompareWidget";
+import { getMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
-  title: "Prop Firm Comparisons 2026 | Head-to-Head Evaluation Audits",
-  description: "Interactive side-by-side prop firm comparisons for UK & global traders. Compare FTMO vs The5%ers, Funding Pips vs MyFundedFX, Topstep vs Apex Trader Funding.",
-  alternates: { canonical: "https://drawdown.trading/prop-firms/compare" }
-};
+export const metadata: Metadata = getMetadata({
+  title: "Prop Firm Comparison 2026 | Challenge Rules, Drawdowns & Payouts",
+  description: "Interactive side-by-side prop firm comparisons. Compare FTMO vs The5%ers, Funding Pips vs FXIFY — daily loss limits, trailing vs static drawdowns, and payout splits.",
+  path: "/prop-firms/compare",
+});
 
 export const revalidate = 3600;
 

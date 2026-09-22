@@ -145,6 +145,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // ── Prop Firms Hub & Compare ──────────────────────────────────────────
     url('/prop-firms', { changeFrequency: 'monthly', priority: 0.8, lastModified: SITE_BASELINE_DATE }),
     url('/prop-firms/compare', { changeFrequency: 'monthly', priority: 0.7, lastModified: SITE_BASELINE_DATE }),
+    url('/prop-firms/how-to-pass', { changeFrequency: 'monthly', priority: 0.8, lastModified: SITE_BASELINE_DATE }),
 
     // ── Markets ───────────────────────────────────────────────────────────
     url('/markets', { changeFrequency: 'weekly', priority: 0.75, lastModified: SITE_BASELINE_DATE }),

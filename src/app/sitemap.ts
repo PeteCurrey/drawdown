@@ -121,6 +121,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     url('/tools/tradingview', { changeFrequency: 'monthly', priority: 0.75, lastModified: SITE_BASELINE_DATE }),
     url('/tools/investment-centre', { changeFrequency: 'monthly', priority: 0.7, lastModified: SITE_BASELINE_DATE }),
 
+    // ── Risk Management Authority Hub ─────────────────────────────────────
+    url('/risk-management', { changeFrequency: 'monthly', priority: 0.85, lastModified: SITE_BASELINE_DATE }),
+
     // ── Calculators (All 9 + Hub) ──────────────────────────────────────────
     url('/calculators', { changeFrequency: 'monthly', priority: 0.85, lastModified: SITE_BASELINE_DATE }),
     url('/calculators/position-size', { changeFrequency: 'monthly', priority: 0.8, lastModified: SITE_BASELINE_DATE }),

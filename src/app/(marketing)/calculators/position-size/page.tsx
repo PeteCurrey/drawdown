@@ -257,6 +257,13 @@ export default function PositionSizeCalculatorPage() {
                 <span>Risk of Ruin Simulator</span>
                 <ArrowRight className="w-3.5 h-3.5 text-accent group-hover:translate-x-0.5 transition-transform" />
               </Link>
+              <Link
+                href="/risk-management"
+                className="flex items-center justify-between p-3 rounded-lg bg-background-primary border border-border-slate/40 hover:border-accent text-text-secondary hover:text-text-primary transition group"
+              >
+                <span>Risk Management Framework Guide</span>
+                <ArrowRight className="w-3.5 h-3.5 text-accent group-hover:translate-x-0.5 transition-transform" />
+              </Link>
             </div>
           </div>
 

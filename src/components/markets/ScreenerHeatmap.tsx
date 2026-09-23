@@ -18,7 +18,7 @@ import {
   Sparkles
 } from "lucide-react";
 
-export type HeatmapMetric = "performance" | "rsi" | "bias" | "activity";
+export type HeatmapMetric = "performance" | "rsi" | "bias" | "intensity";
 export type HeatmapLayout = "matrix" | "grid";
 
 interface ScreenerHeatmapProps {
@@ -38,7 +38,8 @@ const CATEGORY_NAMES: Record<MarketCategory, string> = {
   "stocks-us": "US Equities",
 };
 
-// Benchmark assets that deserve visual hierarchy/weight in matrix view
+// Benchmark assets that receive visual hierarchy (CORE tag) in matrix view.
+// NOTE: "CORE" represents Drawdown's editorial watchlist priority, NOT a claim of market capitalization or trading volume.
 const BENCHMARK_SLUGS = new Set([
   "EURUSD",
   "GBPUSD",
@@ -73,9 +74,16 @@ export function ScreenerHeatmap({
     return instruments.filter(i => i.category === activeCategory);
   }, [instruments, activeCategory]);
 
-  // Group by category for Matrix mode
+  // Group by category for Matrix mode across all 6 asset classes
   const categorizedGroups = useMemo(() => {
-    const categories: MarketCategory[] = ["forex", "commodities", "indices", "crypto"];
+    const categories: MarketCategory[] = [
+      "forex",
+      "commodities",
+      "indices",
+      "crypto",
+      "stocks-uk",
+      "stocks-us"
+    ];
     return categories
       .map(cat => ({
         category: cat,
@@ -214,7 +222,7 @@ export function ScreenerHeatmap({
       };
     }
 
-    // Activity Mode: absolute move intensity
+    // Movement Intensity Mode: magnitude of the current 24H price move
     const change = item.changePct ?? 0;
     const absChange = Math.abs(change);
     if (absChange >= 2.0) {
@@ -287,7 +295,10 @@ export function ScreenerHeatmap({
                 {item.displayPair}
               </h4>
               {isFeatured && (
-                <span className="text-[7px] font-mono uppercase px-1 py-0.2 bg-slate-200/80 text-mkt-i2 rounded-2xs font-bold">
+                <span
+                  title="Core Drawdown Market (Editorial Priority)"
+                  className="text-[7px] font-mono uppercase px-1 py-0.2 bg-slate-200/80 text-mkt-i2 rounded-2xs font-bold cursor-help"
+                >
                   CORE
                 </span>
               )}
@@ -377,7 +388,7 @@ export function ScreenerHeatmap({
               </span>
             </div>
             <p className="text-[10px] font-mono text-mkt-i4">
-              Visual intelligence mapping by 24h performance, RSI momentum, and structural MSS bias.
+              Visual intelligence mapping by 24h performance, RSI momentum, structural MSS bias, and movement intensity.
             </p>
           </div>
         </div>
@@ -390,14 +401,15 @@ export function ScreenerHeatmap({
               MAP BY:
             </span>
             {([
-              { id: "performance" as const, label: "24H %" },
-              { id: "rsi" as const, label: "RSI (14)" },
-              { id: "bias" as const, label: "MSS Bias" },
-              { id: "activity" as const, label: "Activity" },
+              { id: "performance" as const, label: "24H %", title: "24-hour percentage price change" },
+              { id: "rsi" as const, label: "RSI (14)", title: "Relative Strength Index (14-period, 1-hour candles)" },
+              { id: "bias" as const, label: "MSS Bias", title: "Market Structure Shift bias (1-hour candle structure)" },
+              { id: "intensity" as const, label: "Intensity", title: "Movement Intensity: Magnitude of the current 24H price move" },
             ]).map((metric) => (
               <button
                 key={metric.id}
                 onClick={() => setMetricMode(metric.id)}
+                title={metric.title}
                 className={cn(
                   "px-2 py-1 text-[9px] font-mono font-bold uppercase tracking-wider rounded-xs transition-colors",
                   metricMode === metric.id
@@ -463,6 +475,17 @@ export function ScreenerHeatmap({
                 <span>OB &gt;70</span>
               </>
             )}
+            {metricMode === "intensity" && (
+              <>
+                <span>0%</span>
+                <div className="flex h-2.5 w-20 rounded-xs overflow-hidden border border-black/10">
+                  <div className="w-1/3 bg-slate-200" />
+                  <div className="w-1/3 bg-accent/40" />
+                  <div className="w-1/3 bg-accent" />
+                </div>
+                <span>&gt;2%</span>
+              </>
+            )}
           </div>
         </div>
       </div>
@@ -476,20 +499,24 @@ export function ScreenerHeatmap({
             { id: "commodities" as const, label: "Commodities" },
             { id: "indices" as const, label: "Indices" },
             { id: "crypto" as const, label: "Crypto" },
-          ].map((tab) => (
-            <button
-              key={tab.id}
-              onClick={() => setCategory(tab.id)}
-              className={cn(
-                "px-2.5 py-1 text-[9px] font-mono font-bold uppercase tracking-wider rounded-xs transition-all",
-                activeCategory === tab.id
-                  ? "bg-slate-200/90 text-mkt-ink font-extrabold"
-                  : "text-mkt-i4 hover:text-mkt-ink hover:bg-slate-100"
-              )}
-            >
-              {tab.label}
-            </button>
-          ))}
+            { id: "stocks-uk" as const, label: "UK Stocks" },
+            { id: "stocks-us" as const, label: "US Stocks" },
+          ]
+            .filter((tab) => tab.id === "all" || instruments.some((i) => i.category === tab.id))
+            .map((tab) => (
+              <button
+                key={tab.id}
+                onClick={() => setCategory(tab.id)}
+                className={cn(
+                  "px-2.5 py-1 text-[9px] font-mono font-bold uppercase tracking-wider rounded-xs transition-all",
+                  activeCategory === tab.id
+                    ? "bg-slate-200/90 text-mkt-ink font-extrabold"
+                    : "text-mkt-i4 hover:text-mkt-ink hover:bg-slate-100"
+                )}
+              >
+                {tab.label}
+              </button>
+            ))}
         </div>
 
         <span className="text-[9px] font-mono text-mkt-i4">
@@ -547,7 +574,7 @@ export function ScreenerHeatmap({
       {/* ── Heatmap Footer Strip ───────────────────────────────────────────── */}
       <div className="px-5 py-2.5 border-t border-mkt-bd/60 bg-slate-50/50 flex flex-wrap items-center justify-between gap-3 text-[9px] font-mono text-mkt-i4">
         <div className="flex items-center gap-2">
-          <span>Active Metric: <strong className="text-mkt-ink uppercase">{metricMode}</strong></span>
+          <span>Active Metric: <strong className="text-mkt-ink uppercase">{metricMode === "intensity" ? "Movement Intensity" : metricMode}</strong></span>
           <span>·</span>
           <span>Layout: <strong className="text-mkt-ink uppercase">{layoutMode}</strong></span>
         </div>

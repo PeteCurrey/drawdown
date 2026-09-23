@@ -77,6 +77,7 @@ export function CategoryScreenerEmbed({ category }: CategoryScreenerEmbedProps) 
             instruments={data}
             initialCategory={category}
             showLockedColumns={false}
+            theme="dark"
           />
         </div>
       )}

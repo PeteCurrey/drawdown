@@ -152,7 +152,7 @@ export function ScreenerMarketPulse({ instruments, lastUpdated }: ScreenerMarket
               Top Mover (24h)
             </span>
             <span className="text-[9px] font-mono font-bold text-accent uppercase">
-              Volatility Leader
+              Top 24H Gainer
             </span>
           </div>
 

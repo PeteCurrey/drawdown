@@ -247,18 +247,30 @@ export function Navigation() {
     setMobileExpanded((prev) => ({ ...prev, [name]: !prev[name] }));
   };
 
-  const isMarketsPage = normalizedPathname === "/markets" || normalizedPathname === "/markets/";
+  const isDarkMarketsHeader = (
+    normalizedPathname === "/markets" ||
+    normalizedPathname === "/markets/" ||
+    normalizedPathname === "/markets/crypto" ||
+    normalizedPathname === "/markets/crypto/" ||
+    normalizedPathname === "/markets/indices" ||
+    normalizedPathname === "/markets/indices/" ||
+    normalizedPathname === "/markets/forex" ||
+    normalizedPathname === "/markets/forex/" ||
+    normalizedPathname === "/markets/commodities" ||
+    normalizedPathname === "/markets/commodities/"
+  );
+  const hasTopTicker = normalizedPathname === "/markets" || normalizedPathname === "/markets/";
 
   // Contrast-safe colors
-  const activeColor = isMarketsPage ? "#FFFFFF" : isDarkPage ? "var(--surface-base)" : "var(--accent)";
-  const inactiveColor = isMarketsPage ? "rgba(255, 255, 255, 0.75)" : isDarkPage ? "var(--text-secondary)" : "var(--text-secondary)";
-  const hoverColor = isMarketsPage ? "#FFFFFF" : isDarkPage ? "var(--surface-base)" : "var(--text-primary)";
-  const headerBg = isMarketsPage
+  const activeColor = isDarkMarketsHeader ? "#FFFFFF" : isDarkPage ? "var(--surface-base)" : "var(--accent)";
+  const inactiveColor = isDarkMarketsHeader ? "rgba(255, 255, 255, 0.75)" : isDarkPage ? "var(--text-secondary)" : "var(--text-secondary)";
+  const hoverColor = isDarkMarketsHeader ? "#FFFFFF" : isDarkPage ? "var(--surface-base)" : "var(--text-primary)";
+  const headerBg = isDarkMarketsHeader
     ? "rgba(10, 10, 10, 0.95)"
     : (isScrolled || isMobileMenuOpen)
     ? (isDarkPage ? "rgba(11, 14, 18, 0.85)" : "rgba(255, 255, 255, 0.85)") 
     : "transparent";
-  const borderColor = isMarketsPage
+  const borderColor = isDarkMarketsHeader
     ? "rgba(255, 255, 255, 0.1)"
     : isScrolled 
     ? "var(--border-subtle)" 
@@ -268,14 +280,14 @@ export function Navigation() {
     <header
       className={cn(
         "fixed left-0 w-full z-[200] h-[58px] flex items-center select-none transition-all duration-200",
-        isMarketsPage ? "top-8 border-b" : "top-0",
-        !isMarketsPage && (isScrolled ? "border-b shadow-[0_1px_3px_rgba(0,0,0,0.02)]" : "border-b-0")
+        hasTopTicker ? "top-8 border-b" : "top-0",
+        !hasTopTicker && (isDarkMarketsHeader || isScrolled ? "border-b shadow-[0_1px_3px_rgba(0,0,0,0.02)]" : "border-b-0")
       )}
       style={{
         backgroundColor: headerBg,
         borderColor: borderColor,
-        backdropFilter: isMarketsPage || isScrolled ? "blur(16px)" : "none",
-        WebkitBackdropFilter: isMarketsPage || isScrolled ? "blur(16px)" : "none",
+        backdropFilter: isDarkMarketsHeader || isScrolled ? "blur(16px)" : "none",
+        WebkitBackdropFilter: isDarkMarketsHeader || isScrolled ? "blur(16px)" : "none",
       }}
       onMouseLeave={handleMouseLeave}
     >
@@ -284,7 +296,7 @@ export function Navigation() {
           href={region === "uk" ? "/" : `/${region}`}
           onMouseEnter={() => setActiveMenu(null)}
           className="font-display text-[22px] font-semibold tracking-[-0.02em] transition-opacity hover:opacity-80 outline-none focus-visible:outline-none"
-          style={{ color: isMarketsPage ? "#FFFFFF" : isDarkPage ? "var(--surface-base)" : "var(--text-primary)" }}
+          style={{ color: isDarkMarketsHeader ? "#FFFFFF" : isDarkPage ? "var(--surface-base)" : "var(--text-primary)" }}
         >
           Drawdown
         </Link>
@@ -342,10 +354,10 @@ export function Navigation() {
             href="/lobby"
             className="px-3.5 py-1.5 text-[13px] font-medium font-sans flex items-center gap-2 border transition-all hover:opacity-90 outline-none focus-visible:outline-none"
             style={{
-              color: isMarketsPage ? "#FFFFFF" : isDarkPage ? "var(--surface-base)" : "var(--text-primary)",
-              borderColor: isMarketsPage ? "rgba(255, 255, 255, 0.2)" : isDarkPage ? "rgba(255, 255, 255, 0.2)" : "var(--border-subtle)",
+              color: isDarkMarketsHeader ? "#FFFFFF" : isDarkPage ? "var(--surface-base)" : "var(--text-primary)",
+              borderColor: isDarkMarketsHeader ? "rgba(255, 255, 255, 0.2)" : isDarkPage ? "rgba(255, 255, 255, 0.2)" : "var(--border-subtle)",
               borderRadius: "var(--radius-md)",
-              backgroundColor: isMarketsPage ? "rgba(255, 255, 255, 0.05)" : isDarkPage ? "rgba(255, 255, 255, 0.05)" : "transparent",
+              backgroundColor: isDarkMarketsHeader ? "rgba(255, 255, 255, 0.05)" : isDarkPage ? "rgba(255, 255, 255, 0.05)" : "transparent",
             }}
           >
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
@@ -356,8 +368,8 @@ export function Navigation() {
               href="/dashboard"
               className="px-5 py-2 text-[13px] font-semibold transition-opacity hover:opacity-90 outline-none focus-visible:outline-none"
               style={{ 
-                backgroundColor: isMarketsPage ? "#FFFFFF" : isDarkPage ? "var(--surface-base)" : "var(--accent)", 
-                color: isMarketsPage ? "#0A0A0A" : isDarkPage ? "var(--text-primary)" : "var(--surface-base)", 
+                backgroundColor: isDarkMarketsHeader ? "#FFFFFF" : isDarkPage ? "var(--surface-base)" : "var(--accent)", 
+                color: isDarkMarketsHeader ? "#0A0A0A" : isDarkPage ? "var(--text-primary)" : "var(--surface-base)", 
                 borderRadius: "var(--radius-md)" 
               }}
             >
@@ -368,8 +380,8 @@ export function Navigation() {
               href="/login"
               className="px-5 py-2 text-[13px] font-semibold transition-opacity hover:opacity-90 outline-none focus-visible:outline-none"
               style={{ 
-                backgroundColor: isMarketsPage ? "#FFFFFF" : isDarkPage ? "var(--surface-base)" : "var(--accent)", 
-                color: isMarketsPage ? "#0A0A0A" : isDarkPage ? "var(--text-primary)" : "var(--surface-base)", 
+                backgroundColor: isDarkMarketsHeader ? "#FFFFFF" : isDarkPage ? "var(--surface-base)" : "var(--accent)", 
+                color: isDarkMarketsHeader ? "#0A0A0A" : isDarkPage ? "var(--text-primary)" : "var(--surface-base)", 
                 borderRadius: "var(--radius-md)" 
               }}
             >
@@ -381,7 +393,7 @@ export function Navigation() {
         <button
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           className="lg:hidden p-2 outline-none focus-visible:outline-none"
-          style={{ color: isMarketsPage ? "#FFFFFF" : isDarkPage ? "var(--surface-base)" : "var(--text-primary)" }}
+          style={{ color: isDarkMarketsHeader ? "#FFFFFF" : isDarkPage ? "var(--surface-base)" : "var(--text-primary)" }}
           aria-label="Toggle menu"
         >
           {isMobileMenuOpen ? <X size={20} strokeWidth={1.5} /> : <Menu size={20} strokeWidth={1.5} />}
@@ -397,10 +409,10 @@ export function Navigation() {
               transition={{ duration: 0.15, ease: "easeOut" }}
               className="absolute left-0 right-0 top-[58px] p-8 grid grid-cols-12 gap-8 z-[190] mx-auto border-x border-b shadow-md"
               style={{
-                backgroundColor: isMarketsPage ? "#0D1117" : "var(--surface-overlay)",
-                borderColor: isMarketsPage ? "rgba(255, 255, 255, 0.1)" : "var(--border-subtle)",
+                backgroundColor: isDarkMarketsHeader ? "#0D1117" : "var(--surface-overlay)",
+                borderColor: isDarkMarketsHeader ? "rgba(255, 255, 255, 0.1)" : "var(--border-subtle)",
                 borderRadius: "var(--radius-lg)",
-                boxShadow: isMarketsPage ? "0 20px 40px rgba(0,0,0,0.6)" : "var(--elev-3)",
+                boxShadow: isDarkMarketsHeader ? "0 20px 40px rgba(0,0,0,0.6)" : "var(--elev-3)",
               }}
               onMouseEnter={() => {
                 if (hoverTimeout) clearTimeout(hoverTimeout);
@@ -423,7 +435,7 @@ export function Navigation() {
                       href={finalHref}
                       className={cn(
                         "group flex gap-4 pl-0 hover:pl-3 border-l-2 border-transparent transition-all duration-300 select-none outline-none focus-visible:outline-none",
-                        isMarketsPage && "hover:bg-white/[0.03] py-1.5 px-2 rounded-r-lg"
+                        isDarkMarketsHeader && "hover:bg-white/[0.03] py-1.5 px-2 rounded-r-lg"
                       )}
                       style={{
                         borderLeftColor: "transparent",
@@ -434,18 +446,18 @@ export function Navigation() {
                       }}
                       onMouseLeave={(e) => {
                         e.currentTarget.style.borderLeftColor = "transparent";
-                        e.currentTarget.style.paddingLeft = isMarketsPage ? "8px" : "0px";
+                        e.currentTarget.style.paddingLeft = isDarkMarketsHeader ? "8px" : "0px";
                       }}
                       onClick={() => setActiveMenu(null)}
                     >
                       <div 
                         className="mt-0.5 shrink-0 transition-colors duration-300" 
-                        style={{ color: isMarketsPage ? "rgba(255, 255, 255, 0.7)" : inactiveColor }}
+                        style={{ color: isDarkMarketsHeader ? "rgba(255, 255, 255, 0.7)" : inactiveColor }}
                         onMouseEnter={(e) => {
                           e.currentTarget.style.color = accentColor;
                         }}
                         onMouseLeave={(e) => {
-                          e.currentTarget.style.color = isMarketsPage ? "rgba(255, 255, 255, 0.7)" : inactiveColor;
+                          e.currentTarget.style.color = isDarkMarketsHeader ? "rgba(255, 255, 255, 0.7)" : inactiveColor;
                         }}
                       >
                         <Icon className="w-5 h-5 transition-colors duration-300 group-hover:text-[var(--accent-color)]" style={{ "--accent-color": accentColor } as any} strokeWidth={1.5} />
@@ -453,7 +465,7 @@ export function Navigation() {
                       <div className="flex flex-col gap-1">
                         <span 
                           className="text-[14px] font-semibold font-sans flex items-center gap-2 transition-colors duration-300" 
-                          style={{ color: isMarketsPage ? "#FFFFFF" : hoverColor }}
+                          style={{ color: isDarkMarketsHeader ? "#FFFFFF" : hoverColor }}
                         >
                           <span className="group-hover:text-[var(--accent-color)] transition-colors duration-300" style={{ "--accent-color": accentColor } as any}>
                             {link.name}
@@ -462,8 +474,8 @@ export function Navigation() {
                             <span 
                               className="text-[10px] font-mono tracking-wider px-1.5 py-0.5 transition-colors duration-300" 
                               style={{ 
-                                background: isMarketsPage ? "rgba(255, 255, 255, 0.1)" : "var(--accent-muted)", 
-                                color: isMarketsPage ? "#FFFFFF" : "var(--accent)", 
+                                background: isDarkMarketsHeader ? "rgba(255, 255, 255, 0.1)" : "var(--accent-muted)", 
+                                color: isDarkMarketsHeader ? "#FFFFFF" : "var(--accent)", 
                                 borderRadius: "var(--radius-pill)",
                               }}
                             >
@@ -474,9 +486,9 @@ export function Navigation() {
                         <span 
                           className={cn(
                             "text-[13px] font-sans transition-colors duration-300",
-                            isMarketsPage ? "group-hover:text-white" : "group-hover:text-gray-900 dark:group-hover:text-white"
+                            isDarkMarketsHeader ? "group-hover:text-white" : "group-hover:text-gray-900 dark:group-hover:text-white"
                           )} 
-                          style={{ color: isMarketsPage ? "rgba(255, 255, 255, 0.7)" : inactiveColor }}
+                          style={{ color: isDarkMarketsHeader ? "rgba(255, 255, 255, 0.7)" : inactiveColor }}
                         >
                           {link.desc}
                         </span>
@@ -490,19 +502,19 @@ export function Navigation() {
               <div 
                 className="col-span-4 flex flex-col h-full border transition-all duration-300" 
                 style={{ 
-                  borderColor: isMarketsPage ? "rgba(255, 255, 255, 0.1)" : "var(--border-subtle)", 
+                  borderColor: isDarkMarketsHeader ? "rgba(255, 255, 255, 0.1)" : "var(--border-subtle)", 
                   borderRadius: "var(--radius-md)",
-                  backgroundColor: isMarketsPage ? "#111418" : "transparent"
+                  backgroundColor: isDarkMarketsHeader ? "#111418" : "transparent"
                 }}
                 onMouseEnter={(e) => {
                   const accentColor = isDarkPage 
                     ? menuAccents[activeMenu].dark 
                     : menuAccents[activeMenu].light;
                   e.currentTarget.style.borderColor = accentColor;
-                  e.currentTarget.style.boxShadow = isMarketsPage ? `0 4px 20px ${accentColor}25` : `0 4px 20px ${accentColor}10`;
+                  e.currentTarget.style.boxShadow = isDarkMarketsHeader ? `0 4px 20px ${accentColor}25` : `0 4px 20px ${accentColor}10`;
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.borderColor = isMarketsPage ? "rgba(255, 255, 255, 0.1)" : "var(--border-subtle)";
+                  e.currentTarget.style.borderColor = isDarkMarketsHeader ? "rgba(255, 255, 255, 0.1)" : "var(--border-subtle)";
                   e.currentTarget.style.boxShadow = "none";
                 }}
               >
@@ -513,25 +525,25 @@ export function Navigation() {
                 >
                   <div 
                     className="h-[140px] w-full border-b relative overflow-hidden" 
-                    style={{ borderColor: isMarketsPage ? "rgba(255, 255, 255, 0.1)" : "var(--border-subtle)" }}
+                    style={{ borderColor: isDarkMarketsHeader ? "rgba(255, 255, 255, 0.1)" : "var(--border-subtle)" }}
                   >
                     <img
                       src={megaMenus[activeMenu].featured.image}
                       alt={megaMenus[activeMenu].featured.title}
                       className={cn(
                         "w-full h-full object-cover transition-all duration-700 ease-out group-hover:scale-105",
-                        isMarketsPage ? "opacity-60 group-hover:opacity-85" : isDarkPage ? "opacity-40" : "opacity-85 group-hover:opacity-100"
+                        isDarkMarketsHeader ? "opacity-60 group-hover:opacity-85" : isDarkPage ? "opacity-40" : "opacity-85 group-hover:opacity-100"
                       )}
                     />
                   </div>
                   <div 
                     className="p-5 flex flex-col flex-1 transition-colors duration-300" 
-                    style={{ backgroundColor: isMarketsPage ? "#111418" : "var(--surface-raised)" }}
+                    style={{ backgroundColor: isDarkMarketsHeader ? "#111418" : "var(--surface-raised)" }}
                   >
                     <span 
                       className="text-[10px] font-mono tracking-wider mb-2 font-semibold transition-colors duration-300 group-hover:text-[var(--accent-color)]" 
                       style={{ 
-                        color: isMarketsPage ? "rgba(255, 255, 255, 0.6)" : inactiveColor,
+                        color: isDarkMarketsHeader ? "rgba(255, 255, 255, 0.6)" : inactiveColor,
                         "--accent-color": isDarkPage ? menuAccents[activeMenu].dark : menuAccents[activeMenu].light
                       } as any}
                     >
@@ -539,23 +551,23 @@ export function Navigation() {
                     </span>
                     <h4 
                       className="text-[15px] font-semibold font-sans mb-1 transition-colors duration-300" 
-                      style={{ color: isMarketsPage ? "#FFFFFF" : hoverColor }}
+                      style={{ color: isDarkMarketsHeader ? "#FFFFFF" : hoverColor }}
                     >
                       {megaMenus[activeMenu].featured.title}
                     </h4>
                     <p 
                       className={cn(
                         "text-[13px] font-sans leading-snug transition-colors duration-300",
-                        isMarketsPage ? "group-hover:text-white/95" : ""
+                        isDarkMarketsHeader ? "group-hover:text-white/95" : ""
                       )} 
-                      style={{ color: isMarketsPage ? "rgba(255, 255, 255, 0.7)" : inactiveColor }}
+                      style={{ color: isDarkMarketsHeader ? "rgba(255, 255, 255, 0.7)" : inactiveColor }}
                     >
                       {megaMenus[activeMenu].featured.desc}
                     </p>
                     <span 
                       className="mt-auto pt-4 text-[12px] font-mono uppercase tracking-wider font-semibold transition-all duration-300 flex items-center gap-1" 
                       style={{ 
-                        color: isMarketsPage ? "#FFFFFF" : hoverColor,
+                        color: isDarkMarketsHeader ? "#FFFFFF" : hoverColor,
                       }}
                     >
                       <span className="group-hover:text-[var(--accent-color)] group-hover:translate-x-1 transition-all duration-300" style={{ "--accent-color": isDarkPage ? menuAccents[activeMenu].dark : menuAccents[activeMenu].light } as any}>
@@ -575,11 +587,11 @@ export function Navigation() {
         <div
           className={cn(
             "fixed inset-0 z-[199] lg:hidden flex flex-col px-6 py-6 border-t overflow-y-auto",
-            isMarketsPage ? "top-[90px]" : "top-[58px]"
+            hasTopTicker ? "top-[90px]" : "top-[58px]"
           )}
           style={{
-            backgroundColor: isMarketsPage ? "#0A0A0A" : headerBg,
-            borderColor: isMarketsPage ? "rgba(255, 255, 255, 0.1)" : "var(--border-subtle)",
+            backgroundColor: isDarkMarketsHeader ? "#0A0A0A" : headerBg,
+            borderColor: isDarkMarketsHeader ? "rgba(255, 255, 255, 0.1)" : "var(--border-subtle)",
           }}
         >
           <nav className="flex flex-col gap-1">
@@ -592,11 +604,11 @@ export function Navigation() {
 
               if (isMegaMenu) {
                 return (
-                  <div key={link.name} className="flex flex-col border-b" style={{ borderColor: isMarketsPage ? "rgba(255, 255, 255, 0.1)" : "var(--border-subtle)" }}>
+                  <div key={link.name} className="flex flex-col border-b" style={{ borderColor: isDarkMarketsHeader ? "rgba(255, 255, 255, 0.1)" : "var(--border-subtle)" }}>
                     <button
                       onClick={() => toggleMobileExpand(link.name)}
                       className="text-[18px] font-medium py-3 flex items-center justify-between w-full text-left outline-none focus-visible:outline-none"
-                      style={{ color: isMarketsPage ? "#FFFFFF" : hoverColor }}
+                      style={{ color: isDarkMarketsHeader ? "#FFFFFF" : hoverColor }}
                     >
                       <span>{link.name}</span>
                       <ChevronDown className={cn("w-5 h-5 transition-transform duration-200", isExpanded && "rotate-180")} />
@@ -635,10 +647,10 @@ export function Navigation() {
                                     <SubIcon className="w-4 h-4" strokeWidth={1.5} />
                                   </div>
                                   <div className="flex flex-col">
-                                    <span className="text-[14px] font-medium font-sans" style={{ color: isMarketsPage ? "#FFFFFF" : hoverColor }}>
+                                    <span className="text-[14px] font-medium font-sans" style={{ color: isDarkMarketsHeader ? "#FFFFFF" : hoverColor }}>
                                       {subLink.name}
                                     </span>
-                                    <span className="text-[12px] font-sans" style={{ color: isMarketsPage ? "rgba(255, 255, 255, 0.7)" : inactiveColor }}>
+                                    <span className="text-[12px] font-sans" style={{ color: isDarkMarketsHeader ? "rgba(255, 255, 255, 0.7)" : inactiveColor }}>
                                       {subLink.desc}
                                     </span>
                                   </div>
@@ -660,8 +672,8 @@ export function Navigation() {
                   onClick={() => setIsMobileMenuOpen(false)}
                   className="text-[18px] font-medium py-3 border-b outline-none focus-visible:outline-none"
                   style={{
-                    color: isMarketsPage ? "#FFFFFF" : hoverColor,
-                    borderColor: isMarketsPage ? "rgba(255, 255, 255, 0.1)" : "var(--border-subtle)",
+                    color: isDarkMarketsHeader ? "#FFFFFF" : hoverColor,
+                    borderColor: isDarkMarketsHeader ? "rgba(255, 255, 255, 0.1)" : "var(--border-subtle)",
                   }}
                 >
                   {link.name}
@@ -676,8 +688,8 @@ export function Navigation() {
               onClick={() => setIsMobileMenuOpen(false)}
               className="w-full py-3 text-[14px] font-medium text-center flex items-center justify-center gap-2 border transition-colors outline-none focus-visible:outline-none"
               style={{
-                color: isMarketsPage ? "#FFFFFF" : hoverColor,
-                borderColor: isMarketsPage ? "rgba(255, 255, 255, 0.2)" : "var(--border-subtle)",
+                color: isDarkMarketsHeader ? "#FFFFFF" : hoverColor,
+                borderColor: isDarkMarketsHeader ? "rgba(255, 255, 255, 0.2)" : "var(--border-subtle)",
                 borderRadius: "var(--radius-md)",
               }}
             >
@@ -690,8 +702,8 @@ export function Navigation() {
                 onClick={() => setIsMobileMenuOpen(false)}
                 className="w-full py-3 text-[14px] font-semibold text-center outline-none focus-visible:outline-none"
                 style={{
-                  backgroundColor: isMarketsPage ? "#FFFFFF" : isDarkPage ? "var(--surface-base)" : "var(--accent)",
-                  color: isMarketsPage ? "#0A0A0A" : isDarkPage ? "var(--text-primary)" : "var(--surface-base)",
+                  backgroundColor: isDarkMarketsHeader ? "#FFFFFF" : isDarkPage ? "var(--surface-base)" : "var(--accent)",
+                  color: isDarkMarketsHeader ? "#0A0A0A" : isDarkPage ? "var(--text-primary)" : "var(--surface-base)",
                   borderRadius: "var(--radius-md)",
                 }}
               >
@@ -703,8 +715,8 @@ export function Navigation() {
                 onClick={() => setIsMobileMenuOpen(false)}
                 className="w-full py-3 text-[14px] font-semibold text-center outline-none focus-visible:outline-none"
                 style={{
-                  backgroundColor: isMarketsPage ? "#FFFFFF" : isDarkPage ? "var(--surface-base)" : "var(--accent)",
-                  color: isMarketsPage ? "#0A0A0A" : isDarkPage ? "var(--text-primary)" : "var(--surface-base)",
+                  backgroundColor: isDarkMarketsHeader ? "#FFFFFF" : isDarkPage ? "var(--surface-base)" : "var(--accent)",
+                  color: isDarkMarketsHeader ? "#0A0A0A" : isDarkPage ? "var(--text-primary)" : "var(--surface-base)",
                   borderRadius: "var(--radius-md)",
                 }}
               >

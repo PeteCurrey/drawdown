@@ -43,14 +43,14 @@ export function ScreenerMarketConditions({
     const decPct = Math.round((decliners.length / total) * 100);
     const unchPct = 100 - advPct - decPct;
 
-    // Movement Activity Tiers
-    const highActivity = valid.filter(i => Math.abs(i.changePct ?? 0) >= 1.5);
-    const moderateActivity = valid.filter(
+    // Movement Intensity Tiers (magnitude of 24H move)
+    const elevatedMove = valid.filter(i => Math.abs(i.changePct ?? 0) >= 1.5);
+    const moderateMove = valid.filter(
       i => Math.abs(i.changePct ?? 0) >= 0.5 && Math.abs(i.changePct ?? 0) < 1.5
     );
-    const compressed = valid.filter(i => Math.abs(i.changePct ?? 0) < 0.5);
+    const lowMove = valid.filter(i => Math.abs(i.changePct ?? 0) < 0.5);
 
-    // Momentum confluences
+    // Structural shifts on 1H candle structure
     const bullishMSS = valid.filter(i => i.bias === "BULLISH");
     const bearishMSS = valid.filter(i => i.bias === "BEARISH");
 
@@ -62,8 +62,8 @@ export function ScreenerMarketConditions({
     const sortedByAbs = [...valid].sort(
       (a, b) => Math.abs(b.changePct ?? 0) - Math.abs(a.changePct ?? 0)
     );
-    const mostActive = sortedByAbs.slice(0, 4);
-    const tightest = [...sortedByAbs].reverse().slice(0, 4);
+    const mostIntense = sortedByAbs.slice(0, 4);
+    const lowestMove = [...sortedByAbs].reverse().slice(0, 4);
 
     // RSI Momentum Rank
     const withRSI = valid.filter(i => i.rsi !== null);
@@ -77,15 +77,15 @@ export function ScreenerMarketConditions({
       advPct,
       decPct,
       unchPct,
-      highActivityCount: highActivity.length,
-      moderateActivityCount: moderateActivity.length,
-      compressedCount: compressed.length,
+      elevatedMoveCount: elevatedMove.length,
+      moderateMoveCount: moderateMove.length,
+      lowMoveCount: lowMove.length,
       bullishMSSCount: bullishMSS.length,
       bearishMSSCount: bearishMSS.length,
       topGainers,
       topDecliners,
-      mostActive,
-      tightest,
+      mostIntense,
+      lowestMove,
       topRSI,
     };
   }, [instruments]);
@@ -109,7 +109,7 @@ export function ScreenerMarketConditions({
             </span>
           </div>
           <p className="text-[11px] font-sans text-mkt-i3">
-            Where is the market moving, where is activity building, and where is volatility expanding?
+            Where is the market moving, where is price movement expanding, and what is the cross-market dispersion?
           </p>
         </div>
 
@@ -180,51 +180,51 @@ export function ScreenerMarketConditions({
           </p>
         </div>
 
-        {/* Pillar 2: Market Activity */}
+        {/* Pillar 2: Movement Intensity */}
         <div className="p-4 sm:p-5 space-y-3">
           <div className="flex items-center justify-between">
             <span className="text-[9px] font-mono uppercase tracking-widest font-bold text-mkt-i3 flex items-center gap-1.5">
               <Activity className="w-3 h-3 text-accent" />
-              Market Activity
+              Movement Intensity
             </span>
             <span className="text-[9px] font-mono font-bold text-mkt-i4">
-              Velocity
+              24H Magnitude
             </span>
           </div>
 
-          {/* Velocity Tiers */}
+          {/* Intensity Tiers */}
           <div className="space-y-1.5">
             <div className="flex items-center justify-between text-[10px] font-mono">
-              <span className="text-mkt-i2">High Velocity (&gt;1.5%)</span>
-              <span className="font-bold text-mkt-ink">{analysis.highActivityCount} assets</span>
+              <span className="text-mkt-i2">Elevated Move (&gt;1.5%)</span>
+              <span className="font-bold text-mkt-ink">{analysis.elevatedMoveCount} assets</span>
             </div>
             <div className="w-full bg-slate-100 h-1.5 rounded-xs overflow-hidden">
               <div
                 className="bg-accent h-full"
-                style={{ width: `${(analysis.highActivityCount / analysis.total) * 100}%` }}
+                style={{ width: `${(analysis.elevatedMoveCount / analysis.total) * 100}%` }}
               />
             </div>
 
             <div className="flex items-center justify-between text-[10px] font-mono pt-1">
               <span className="text-mkt-i4">Moderate (0.5%–1.5%)</span>
-              <span className="font-semibold text-mkt-i2">{analysis.moderateActivityCount}</span>
+              <span className="font-semibold text-mkt-i2">{analysis.moderateMoveCount}</span>
             </div>
             <div className="flex items-center justify-between text-[10px] font-mono">
-              <span className="text-mkt-i4">Compressed (&lt;0.5%)</span>
-              <span className="font-semibold text-mkt-i4">{analysis.compressedCount}</span>
+              <span className="text-mkt-i4">Low Movement (&lt;0.5%)</span>
+              <span className="font-semibold text-mkt-i4">{analysis.lowMoveCount}</span>
             </div>
           </div>
         </div>
 
-        {/* Pillar 3: Momentum Structure */}
+        {/* Pillar 3: Momentum (RSI & MSS) */}
         <div className="p-4 sm:p-5 space-y-3">
           <div className="flex items-center justify-between">
             <span className="text-[9px] font-mono uppercase tracking-widest font-bold text-mkt-i3 flex items-center gap-1.5">
               <Zap className="w-3 h-3 text-accent" />
-              Momentum & MSS
+              Momentum (RSI &amp; MSS)
             </span>
             <span className="text-[9px] font-mono font-bold text-mkt-i4">
-              1H Confluence
+              1H Structure
             </span>
           </div>
 
@@ -251,15 +251,15 @@ export function ScreenerMarketConditions({
           </div>
         </div>
 
-        {/* Pillar 4: Volatility & Dispersion */}
+        {/* Pillar 4: Movement Range */}
         <div className="p-4 sm:p-5 space-y-3">
           <div className="flex items-center justify-between">
             <span className="text-[9px] font-mono uppercase tracking-widest font-bold text-mkt-i3 flex items-center gap-1.5">
               <Gauge className="w-3 h-3 text-accent" />
-              Volatility Range
+              Movement Range
             </span>
             <span className="text-[9px] font-mono font-bold text-mkt-i4">
-              Dispersion
+              Price Dispersion
             </span>
           </div>
 
@@ -277,7 +277,7 @@ export function ScreenerMarketConditions({
               </span>
             </div>
             <div className="flex justify-between items-baseline">
-              <span className="text-mkt-i4">Active Range:</span>
+              <span className="text-mkt-i4">Dispersion Spread:</span>
               <span className="font-mono text-mkt-ink font-bold">
                 {analysis.topGainers[0]?.changePct !== null && analysis.topDecliners[0]?.changePct !== null
                   ? `${((analysis.topGainers[0]?.changePct ?? 0) - (analysis.topDecliners[0]?.changePct ?? 0)).toFixed(2)}% spread`
@@ -366,14 +366,14 @@ export function ScreenerMarketConditions({
           </div>
         </div>
 
-        {/* Leaderboard 3: Momentum Leaders */}
+        {/* Leaderboard 3: RSI Leaders */}
         <div className="p-4 sm:p-5 space-y-3">
           <div className="flex items-center justify-between border-b border-mkt-bd pb-2">
             <span className="text-[10px] font-mono uppercase tracking-widest font-extrabold text-mkt-ink flex items-center gap-1.5">
               <Zap className="w-3.5 h-3.5 text-accent" />
-              Momentum Leaders
+              RSI Leaders
             </span>
-            <span className="text-[8px] font-mono text-mkt-i4 uppercase">RSI (14)</span>
+            <span className="text-[8px] font-mono text-mkt-i4 uppercase">RSI (14) Rank</span>
           </div>
 
           <div className="space-y-1.5">
@@ -409,18 +409,18 @@ export function ScreenerMarketConditions({
           </div>
         </div>
 
-        {/* Leaderboard 4: Compression / Range Watch */}
+        {/* Leaderboard 4: Lowest Movement */}
         <div className="p-4 sm:p-5 space-y-3">
           <div className="flex items-center justify-between border-b border-mkt-bd pb-2">
             <span className="text-[10px] font-mono uppercase tracking-widest font-extrabold text-mkt-ink flex items-center gap-1.5">
               <Layers className="w-3.5 h-3.5 text-mkt-i3" />
-              Compression Watch
+              Lowest Movement
             </span>
-            <span className="text-[8px] font-mono text-mkt-i4 uppercase">Consolidating</span>
+            <span className="text-[8px] font-mono text-mkt-i4 uppercase">Smallest Net Move</span>
           </div>
 
           <div className="space-y-1.5">
-            {analysis.tightest.map((item) => (
+            {analysis.lowestMove.map((item) => (
               <div
                 key={item.slug}
                 onClick={() => onSelect?.(item)}

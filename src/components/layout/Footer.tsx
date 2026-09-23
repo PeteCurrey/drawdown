@@ -5,13 +5,31 @@ import Link from "next/link";
 import { ArrowRight, Check } from "lucide-react";
 import { useRegion } from "@/components/layout/RegionalLayout";
 
-export function Footer() {
+interface FooterProps {
+  theme?: "light" | "dark";
+}
+
+export function Footer({ theme = "light" }: FooterProps) {
   const { region } = useRegion();
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [message, setMessage] = useState("");
 
   const regionPrefix = region === "uk" ? "" : `/${region}`;
+  const isDark = theme === "dark";
+
+  // Colour tokens — hardcoded for dark so they're never affected by light CSS vars
+  const bg          = isDark ? "#0A0A0A"                 : "var(--surface-base)";
+  const borderColor = isDark ? "rgba(255,255,255,0.10)"  : "var(--border-subtle)";
+  const headingColor= isDark ? "#FFFFFF"                 : "var(--text-primary)";
+  const textColor   = isDark ? "rgba(255,255,255,0.55)"  : "var(--text-secondary)";
+  const primaryLink = isDark ? "#FFFFFF"                 : "var(--text-primary)";
+  const inputBg     = isDark ? "rgba(255,255,255,0.06)"  : "var(--surface-inset)";
+  const inputBorder = isDark ? "rgba(255,255,255,0.12)"  : "var(--border-subtle)";
+  const inputText   = isDark ? "#FFFFFF"                 : "var(--text-primary)";
+  const btnBg       = isDark ? "#C8F135"                 : "var(--accent)";
+  const btnText     = isDark ? "#0A0A0A"                 : "var(--surface-base)";
+  const flatColor   = isDark ? "rgba(255,255,255,0.40)"  : "var(--market-flat)";
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -43,7 +61,7 @@ export function Footer() {
   return (
     <footer
       className="py-16 md:py-24 select-none relative z-10 border-t"
-      style={{ backgroundColor: "var(--surface-base)", borderColor: "var(--border-subtle)" }}
+      style={{ backgroundColor: bg, borderColor: borderColor }}
     >
       <div className="max-w-[1280px] mx-auto px-6">
 
@@ -55,11 +73,11 @@ export function Footer() {
             <Link
               href={region === "uk" ? "/" : `/${region}`}
               className="font-display text-[20px] font-semibold tracking-[-0.02em] block"
-              style={{ color: "var(--text-primary)" }}
+              style={{ color: headingColor }}
             >
               Drawdown
             </Link>
-            <p className="text-[13px] leading-relaxed font-sans" style={{ color: "var(--text-secondary)" }}>
+            <p className="text-[13px] leading-relaxed font-sans" style={{ color: textColor }}>
               Trading education for independent traders who value truth over hype. No shortcuts. Just data.
             </p>
 
@@ -73,9 +91,9 @@ export function Footer() {
                   disabled={status === "loading" || status === "success"}
                   className="w-full p-3 text-[12px] font-mono border outline-none font-sans"
                   style={{
-                    backgroundColor: "var(--surface-inset)",
-                    borderColor: "var(--border-subtle)",
-                    color: "var(--text-primary)",
+                    backgroundColor: inputBg,
+                    borderColor: inputBorder,
+                    color: inputText,
                     borderRadius: "var(--radius-sm) 0 0 var(--radius-sm)",
                   }}
                 />
@@ -84,9 +102,9 @@ export function Footer() {
                   disabled={status === "loading" || status === "success"}
                   className="px-4 py-3 border border-l-0 text-[12px] font-medium transition-colors shrink-0"
                   style={{
-                    backgroundColor: "var(--accent)",
-                    borderColor: "var(--accent)",
-                    color: "var(--surface-base)",
+                    backgroundColor: btnBg,
+                    borderColor: btnBg,
+                    color: btnText,
                     borderRadius: "0 var(--radius-sm) var(--radius-sm) 0",
                   }}
                 >
@@ -94,7 +112,7 @@ export function Footer() {
                 </button>
               </div>
               {message && (
-                <p className="text-[11px] font-mono" style={{ color: status === "error" ? "var(--accent-muted)" : "var(--text-secondary)" }}>
+                <p className="text-[11px] font-mono" style={{ color: status === "error" ? "var(--accent-muted)" : textColor }}>
                   {message}
                 </p>
               )}
@@ -103,10 +121,10 @@ export function Footer() {
 
           {/* Column 2: Platform */}
           <div>
-            <h4 className="text-[11px] font-mono uppercase tracking-[0.08em] mb-4" style={{ color: "var(--text-primary)" }}>
+            <h4 className="text-[11px] font-mono uppercase tracking-[0.08em] mb-4" style={{ color: headingColor }}>
               Platform
             </h4>
-            <ul className="space-y-3 text-[13px] font-sans" style={{ color: "var(--text-secondary)" }}>
+            <ul className="space-y-3 text-[13px] font-sans" style={{ color: textColor }}>
               <li><Link href={`${regionPrefix}/courses`} className="hover:underline">Curriculum</Link></li>
               <li><Link href={`${regionPrefix}/markets`} className="hover:underline">Markets Hub</Link></li>
               <li><Link href="/markets/screener" className="hover:underline">Market Screener</Link></li>
@@ -119,10 +137,10 @@ export function Footer() {
 
           {/* Column 3: Learn */}
           <div>
-            <h4 className="text-[11px] font-mono uppercase tracking-[0.08em] mb-4" style={{ color: "var(--text-primary)" }}>
+            <h4 className="text-[11px] font-mono uppercase tracking-[0.08em] mb-4" style={{ color: headingColor }}>
               Learn
             </h4>
-            <ul className="space-y-3 text-[13px] font-sans" style={{ color: "var(--text-secondary)" }}>
+            <ul className="space-y-3 text-[13px] font-sans" style={{ color: textColor }}>
               <li><Link href={`${regionPrefix}/learn-to-trade/day-trading`} className="hover:underline">Day Trading</Link></li>
               <li><Link href={`${regionPrefix}/learn-to-trade/forex-trading`} className="hover:underline">Forex Mastery</Link></li>
               <li><Link href={`${regionPrefix}/learn-to-trade/risk-management`} className="hover:underline">Risk Management</Link></li>
@@ -132,11 +150,11 @@ export function Footer() {
 
           {/* Column 4: Resources (includes Prop Firms reachability) */}
           <div>
-            <h4 className="text-[11px] font-mono uppercase tracking-[0.08em] mb-4" style={{ color: "var(--text-primary)" }}>
+            <h4 className="text-[11px] font-mono uppercase tracking-[0.08em] mb-4" style={{ color: headingColor }}>
               Resources
             </h4>
-            <ul className="space-y-3 text-[13px] font-sans" style={{ color: "var(--text-secondary)" }}>
-              <li><Link href="/prop-firms" className="hover:underline font-medium" style={{ color: "var(--text-primary)" }}>Prop Firms Hub</Link></li>
+            <ul className="space-y-3 text-[13px] font-sans" style={{ color: textColor }}>
+              <li><Link href="/prop-firms" className="hover:underline font-medium" style={{ color: primaryLink }}>Prop Firms Hub</Link></li>
               <li><Link href="/basic" className="hover:underline">Trading Basics</Link></li>
               <li><Link href="/glossary" className="hover:underline">Glossary</Link></li>
               <li><Link href="/how-to" className="hover:underline">How-To Guides</Link></li>
@@ -146,13 +164,13 @@ export function Footer() {
 
           {/* Column 5: Company */}
           <div>
-            <h4 className="text-[11px] font-mono uppercase tracking-[0.08em] mb-4" style={{ color: "var(--text-primary)" }}>
+            <h4 className="text-[11px] font-mono uppercase tracking-[0.08em] mb-4" style={{ color: headingColor }}>
               Company
             </h4>
-            <ul className="space-y-3 text-[13px] font-sans" style={{ color: "var(--text-secondary)" }}>
+            <ul className="space-y-3 text-[13px] font-sans" style={{ color: textColor }}>
               <li><Link href="/about" className="hover:underline">About Us</Link></li>
               <li><Link href="/contact" className="hover:underline">Contact</Link></li>
-              <li><Link href="/methodology" className="hover:underline font-medium" style={{ color: "var(--text-primary)" }}>Data &amp; Methodology</Link></li>
+              <li><Link href="/methodology" className="hover:underline font-medium" style={{ color: primaryLink }}>Data &amp; Methodology</Link></li>
               <li><Link href="/editorial-standards" className="hover:underline">Editorial Standards</Link></li>
               <li><Link href="/terms" className="hover:underline">Terms &amp; Conditions</Link></li>
               <li><Link href="/privacy" className="hover:underline">Privacy Policy</Link></li>
@@ -167,14 +185,14 @@ export function Footer() {
         </div>
 
         {/* Bottom Strip: copyright left, risk warning right */}
-        <div className="border-t pt-8 flex flex-col lg:flex-row justify-between items-start gap-8" style={{ borderColor: "var(--border-subtle)" }}>
+        <div className="border-t pt-8 flex flex-col lg:flex-row justify-between items-start gap-8" style={{ borderColor: borderColor }}>
 
           {/* Copyright & Region Links */}
           <div className="space-y-3 shrink-0">
-            <p className="text-[11px] font-mono uppercase tracking-[0.08em]" style={{ color: "var(--text-secondary)" }}>
+            <p className="text-[11px] font-mono uppercase tracking-[0.08em]" style={{ color: textColor }}>
               © 2026 Black &amp; Rowan Management Group Limited t/a Drawdown · Chesterfield, Derbyshire, UK
             </p>
-            <div className="flex items-center gap-3 text-[11px] font-mono uppercase tracking-[0.08em]" style={{ color: "var(--text-secondary)" }}>
+            <div className="flex items-center gap-3 text-[11px] font-mono uppercase tracking-[0.08em]" style={{ color: textColor }}>
               <span className="select-none">Region:</span>
               {[
                 { id: "uk", label: "UK", href: "/" },
@@ -194,7 +212,7 @@ export function Footer() {
                   href={reg.href}
                   className="hover:underline"
                   style={{
-                    color: region === reg.id || (region === "uk" && reg.id === "uk") ? "var(--text-primary)" : "var(--text-secondary)",
+                    color: region === reg.id || (region === "uk" && reg.id === "uk") ? primaryLink : textColor,
                     fontWeight: region === reg.id || (region === "uk" && reg.id === "uk") ? 600 : 400,
                   }}
                 >
@@ -206,11 +224,11 @@ export function Footer() {
 
           {/* Risk Warning — --risk-amber reserved EXCLUSIVELY for risk disclosures */}
           <div className="space-y-2 max-w-2xl font-sans">
-            <p className="text-[11px] leading-relaxed" style={{ color: "var(--market-flat)" }}>
+            <p className="text-[11px] leading-relaxed" style={{ color: flatColor }}>
               <span className="font-semibold block mb-0.5 font-mono uppercase tracking-[0.08em]">Risk Warning:</span>
               Trading financial instruments carries a high level of risk and may not be suitable for all investors. The high degree of leverage can work against you as well as for you. Before deciding to trade, you should carefully consider your investment objectives, level of experience, and risk appetite. The possibility exists that you could sustain a loss of some or all of your initial investment. You should not invest money that you cannot afford to lose. Past performance is not indicative of future results. Drawdown does not provide financial advice. Trade signals and quantitative tools represent analytical conclusions derived from data feeds and risk parameters; they are not guaranteed outcomes or financial recommendations.
             </p>
-            <p className="text-[11px] leading-relaxed" style={{ color: "var(--text-secondary)" }}>
+            <p className="text-[11px] leading-relaxed" style={{ color: textColor }}>
               Drawdown does not route, execute, or hold funds. All trades are placed independently by users through their own brokers.{" "}
               <Link href="/methodology" className="underline hover:opacity-80">View our Data &amp; Methodology Centre</Link> for full evidence and source attribution behind every platform claim.
             </p>

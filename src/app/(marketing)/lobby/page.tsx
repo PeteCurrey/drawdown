@@ -158,7 +158,7 @@ export default async function LobbyHomePage({
           {/* 4. What's Happening & Just In Newsroom Grid */}
           <LobbyWhatsHappening 
             articles={whatsHappeningArticles} 
-            justInArticles={justInArticles} 
+            justInArticles={mergedJustIn} 
           />
 
           {/* 4.5. Investor Attention (Monitored Specialist Sources) */}
@@ -189,7 +189,7 @@ export default async function LobbyHomePage({
           <LobbyExplained articles={explainedArticles} />
 
           {/* 13. Latest Chronological Stream with Filters */}
-          <LobbyLatestStream initialArticles={allLatestArticles} />
+          <LobbyLatestStream initialArticles={mergedLatest} />
         </>
       )}
     </div>

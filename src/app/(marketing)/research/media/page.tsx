@@ -44,6 +44,15 @@ export default function MediaCentrePage() {
               ],
             },
           },
+          {
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://drawdown.trading" },
+              { "@type": "ListItem", "position": 2, "name": "Research Centre", "item": "https://drawdown.trading/research" },
+              { "@type": "ListItem", "position": 3, "name": "Media Centre", "item": "https://drawdown.trading/research/media" },
+            ],
+          },
         ]}
       />
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">

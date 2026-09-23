@@ -38,7 +38,7 @@ const WEEK_CURRICULUM = [
       "Monte Carlo Simulation: testing historical sequences against sequence luck"
     ],
     deliverable: "Submit your verified 100-trade backtest showing a positive expectancy model.",
-    tool: "Drawdown Strategy Backtester & Monte Carlo Simulator"
+    tool: "Drawdown Strategy Backtester"
   },
   {
     week: "Week 02",
@@ -378,7 +378,7 @@ export default function InstitutionalAccelerator() {
                 <h4 className="text-lg font-bold text-white">12-Month Edge Platform Access</h4>
               </div>
               <p className="text-sm text-[#9CA3AF] leading-relaxed mb-4">
-                Gain 12 months complete access to the Drawdown Edge platform including our custom Strategy Backtesting Suite, Monte Carlo stress simulators, and global macro alerts.
+                Gain 12 months complete access to the Drawdown Edge platform including our custom Strategy Backtesting Suite, risk analysis engines, and global macro alerts.
               </p>
               <span className="text-xs font-semibold text-[#E2B755] tracking-wide uppercase">Included in Cohort</span>
             </div>

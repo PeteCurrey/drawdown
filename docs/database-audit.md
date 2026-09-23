@@ -15,8 +15,20 @@ Last Updated: September 2026 (Prompt 02 Remediation)
 | `profiles` | **ACTIVE** | 1 | User account profiles, subscription tiers, and onboarding metadata. | `000_initial_schema.sql` |
 | `course_progress` | **ACTIVE** | - | Step-by-step progress tracking for educational modules. | `20260621_course_progress_last_step.sql` |
 | `legal_acceptances` | **ACTIVE** | - | Records user acceptance of risk disclosures and terms of service. | `20260805_legal_acceptances.sql` |
+| `data_events` | **ACTIVE** | Ingestion pipeline | Canonical discrete macro/regulatory/corporate events with confidence gating and source attribution. | `20260920000001_intelligence_data_platform.sql` |
+| `data_observations` | **ACTIVE** | Ingestion pipeline | Normalized quantitative time-series snapshots (rates, yields, commodities, quotes). | `20260920000001_intelligence_data_platform.sql`, `20260923000001_provider_run_state.sql` |
+| `data_ingestion_records` | **ACTIVE** | Ingestion pipeline | Lineage and audit log for every fetch execution (request/response hashes, status, latency). | `20260920000001_intelligence_data_platform.sql` |
+| `data_provider_health` | **ACTIVE** | 7 core providers | Serverless-safe schedule tracker & circuit breaker state for provider ingestion runs. | `20260920000001_intelligence_data_platform.sql`, `20260923000001_provider_run_state.sql` |
+| `data_entities` | **ACTIVE** | Canonical entities | Canonical registry of instruments, institutions, indicators, commodities, and entities. | `20260920000001_intelligence_data_platform.sql`, `20260923000001_provider_run_state.sql` |
+| `data_sources` | **ACTIVE** | 7 core sources | Registry of external providers and endpoints with refresh frequency and attribution rules. | `20260920000001_intelligence_data_platform.sql`, `20260923000001_provider_run_state.sql` |
+| `lobby_articles` | **ACTIVE** | Editorial CMS | The Lobby broadsheet articles with strict state machine (DRAFT -> REVIEW -> PUBLISHED -> ARCHIVED). | `20260920120000_the_lobby.sql` |
+| `lobby_article_audit_logs` | **ACTIVE** | Editorial CMS | Immutably audits all article actions, state transitions, actor IDs, and timestamps. | `20260920120000_the_lobby.sql` |
+| `lobby_events` | **ACTIVE** | Editorial pipeline | Clustered and deduplicated raw intelligence events ready for editorial drafting. | `20260920120000_the_lobby.sql` |
 
 ## Security & Row Level Security (RLS)
 
 All sensitive tables (`profiles`, `funded_accounts`, `individual_trades`, `trades`, `signals_saved`, `course_progress`, `legal_acceptances`) have RLS enabled and restrict read/write access to `auth.uid() = user_id`.
-Public read-only tables (`signals`, `daily_briefings`, `seo_pages`, `competitors`) allow public `SELECT` access with insert/update restricted to service role.
+Public read-only tables (`signals`, `daily_briefings`, `seo_pages`, `competitors`, `data_entities`, `data_sources`, `data_provider_health`) allow public `SELECT` access with insert/update restricted to service role.
+`data_events` and `data_observations` enforce confidence gating in RLS: public `SELECT` is restricted to verified events/observations (`confidence IN ('VERIFIED', 'KNOWN', 'INFERRED') AND status/ingestion_state = 'READY'`); `UNKNOWN` or `REJECTED` rows are completely blocked from public access.
+`lobby_articles` public `SELECT` is strictly gated to `status = 'PUBLISHED' AND confidence != 'UNKNOWN'`. Drafts and items under review are accessible only by authenticated staff/admins.
+Service role retains full programmatic administrative control across all platform tables.

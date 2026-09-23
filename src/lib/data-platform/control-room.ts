@@ -227,12 +227,28 @@ export class LobbyControlRoomService {
       const ageSeconds = Math.floor(ageMs / 1000);
 
       let freshnessStatus: CategoryFreshnessItem["freshnessStatus"] = "FRESH";
-      if (cat.name === "markets" && ageSeconds > 300) {
-        freshnessStatus = ageSeconds > 1800 ? "STALE" : "AGING";
-      } else if (ageSeconds > 86400 * 2) {
-        freshnessStatus = "STALE";
-      } else if (ageSeconds > 3600 * 4) {
-        freshnessStatus = "AGING";
+      
+      // Cadence-aware staleness thresholds:
+      if (cat.name === "markets") {
+        // High-frequency market quote feeds
+        if (ageSeconds > 1800) freshnessStatus = "STALE";
+        else if (ageSeconds > 300) freshnessStatus = "AGING";
+      } else if (cat.name === "positioning") {
+        // Weekly schedule (CFTC COT published once per week)
+        if (ageSeconds > 86400 * 10) freshnessStatus = "STALE";
+        else if (ageSeconds > 86400 * 8) freshnessStatus = "AGING";
+      } else if (cat.name === "macro") {
+        // Daily macro releases (must account for weekend gap of 72h)
+        if (ageSeconds > 86400 * 4) freshnessStatus = "STALE";
+        else if (ageSeconds > 86400 * 2) freshnessStatus = "AGING";
+      } else if (cat.name === "corporate" || cat.name === "news" || cat.name === "ais") {
+        // 15-minute cadence feeds
+        if (ageSeconds > 3600 * 6) freshnessStatus = "STALE";
+        else if (ageSeconds > 3600) freshnessStatus = "AGING";
+      } else {
+        // Hourly / general operational feeds
+        if (ageSeconds > 86400) freshnessStatus = "STALE";
+        else if (ageSeconds > 3600 * 6) freshnessStatus = "AGING";
       }
 
       return {

@@ -244,8 +244,8 @@ export default function PlatformPage() {
                   badge: "EDGE+",
                   badgeColor: "bg-accent/20 text-accent",
                   icon: <LineChart className="w-8 h-8 text-amber-400" />,
-                  desc: "Define your strategy rules in plain language: entry conditions, stop loss logic, take profit targets, session filters. The backtester runs your rules against years of historical price data and outputs win rate, expectancy, maximum drawdown, profit factor, and Sharpe ratio. Know whether your strategy has a genuine edge before risking capital on it.",
-                  feature: "Years of historical price data, 12 performance metrics"
+                  desc: "Define your strategy rules in plain language: entry conditions, stop loss logic, take profit targets, session filters. The backtester runs your rules against historical price data and outputs net profit, win rate, maximum drawdown, and profit factor alongside a complete equity curve. Know whether your strategy has a genuine edge before risking capital on it.",
+                  feature: "Historical price data with core performance metrics"
                 },
                 {
                   name: "Daily Intelligence Brief",

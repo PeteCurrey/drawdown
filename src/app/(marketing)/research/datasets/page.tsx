@@ -40,44 +40,54 @@ export default function ResearchDatasetsPage() {
         </div>
 
         <div className="space-y-6">
-          {datasets.map((dataset) => (
-            <div
-              key={dataset!.id}
-              className="bg-background-secondary border border-border-primary/70 rounded-2xl p-6 hover:border-accent/50 transition"
-            >
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
-                <div>
-                  <div className="flex items-center gap-2 mb-1.5">
-                    <span className="px-2 py-0.5 rounded text-[10px] uppercase font-mono font-bold bg-accent/10 text-accent">
-                      {dataset!.format}
-                    </span>
-                    <span className="text-xs text-text-tertiary">
-                      Updated {dataset!.lastUpdated} • {dataset!.rowCount.toLocaleString()} rows
-                    </span>
+          {datasets.length === 0 ? (
+            <div className="bg-background-secondary border border-border-primary/70 rounded-2xl p-8 text-center space-y-3">
+              <Database className="w-8 h-8 text-accent mx-auto opacity-70" />
+              <h2 className="text-lg font-bold text-text-primary">Datasets Under Verification</h2>
+              <p className="text-xs text-text-secondary max-w-lg mx-auto leading-relaxed">
+                Raw research datasets are published only after underlying empirical simulation scripts, random seeds, and statistical findings have completed strict internal reproducibility audits. Verified datasets will appear here upon completion.
+              </p>
+            </div>
+          ) : (
+            datasets.map((dataset) => (
+              <div
+                key={dataset!.id}
+                className="bg-background-secondary border border-border-primary/70 rounded-2xl p-6 hover:border-accent/50 transition"
+              >
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
+                  <div>
+                    <div className="flex items-center gap-2 mb-1.5">
+                      <span className="px-2 py-0.5 rounded text-[10px] uppercase font-mono font-bold bg-accent/10 text-accent">
+                        {dataset!.format}
+                      </span>
+                      <span className="text-xs text-text-tertiary">
+                        Updated {dataset!.lastUpdated} • {dataset!.rowCount.toLocaleString()} rows
+                      </span>
+                    </div>
+                    <h2 className="text-lg font-bold text-text-primary">{dataset!.title}</h2>
                   </div>
-                  <h2 className="text-lg font-bold text-text-primary">{dataset!.title}</h2>
+
+                  <a
+                    href={dataset!.fileUrl}
+                    download
+                    className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl bg-accent text-background-primary text-xs font-bold hover:bg-accent/90 transition shrink-0"
+                  >
+                    <Download className="w-4 h-4" />
+                    Download Dataset ({Math.round(dataset!.fileSizeBytes / 1024)} KB)
+                  </a>
                 </div>
 
-                <a
-                  href={dataset!.fileUrl}
-                  download
-                  className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl bg-accent text-background-primary text-xs font-bold hover:bg-accent/90 transition shrink-0"
-                >
-                  <Download className="w-4 h-4" />
-                  Download Dataset ({Math.round(dataset!.fileSizeBytes / 1024)} KB)
-                </a>
-              </div>
+                <p className="text-xs text-text-secondary leading-relaxed mb-4">
+                  {dataset!.description}
+                </p>
 
-              <p className="text-xs text-text-secondary leading-relaxed mb-4">
-                {dataset!.description}
-              </p>
-
-              <div className="bg-background-primary/50 border border-border-primary/40 rounded-xl p-3 text-xs space-y-1">
-                <span className="font-semibold text-text-primary block">Recommended Citation:</span>
-                <p className="text-text-tertiary font-mono text-[11px]">{dataset!.citationFormat}</p>
+                <div className="bg-background-primary/50 border border-border-primary/40 rounded-xl p-3 text-xs space-y-1">
+                  <span className="font-semibold text-text-primary block">Recommended Citation:</span>
+                  <p className="text-text-tertiary font-mono text-[11px]">{dataset!.citationFormat}</p>
+                </div>
               </div>
-            </div>
-          ))}
+            ))
+          )}
         </div>
       </div>
     </div>

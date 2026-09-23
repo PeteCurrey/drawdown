@@ -18,12 +18,28 @@ export default function AboutPage() {
         "@context": "https://schema.org",
         "@type": "ProfilePage",
         "name": "About Pete Currey & Drawdown Authority",
+        "url": "https://drawdown.trading/about",
         "description": "Discover the founder journey, risk philosophy, and the honest record behind Drawdown.",
         "mainEntity": {
           "@type": "Person",
           "name": "Pete Currey",
-          "jobTitle": "Founder",
-          "description": "Founder of Drawdown, trading live since 2016.",
+          "url": "https://drawdown.trading/about",
+          "jobTitle": "Founder & Head of Research",
+          "description": "Founder of Drawdown, trading live financial markets since 2016.",
+          "worksFor": {
+            "@type": "Organization",
+            "name": "Drawdown",
+            "url": "https://drawdown.trading"
+          },
+          "sameAs": [
+            "https://linkedin.com/in/petercurrey"
+          ],
+          "knowsAbout": [
+            "Trading Risk",
+            "Drawdown",
+            "Position Sizing",
+            "Financial Markets"
+          ],
           "address": {
             "@type": "PostalAddress",
             "addressLocality": "Chesterfield",

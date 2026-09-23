@@ -131,7 +131,7 @@ export default function PositionSizingResearchPage() {
               "url": "https://drawdown.trading",
               "logo": {
                 "@type": "ImageObject",
-                "url": "https://drawdown.trading/logo.png",
+                "url": "https://drawdown.trading/assets/brand/logo.png",
               },
             },
             "isPartOf": {

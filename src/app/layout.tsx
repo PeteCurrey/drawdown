@@ -117,6 +117,11 @@ export default function RootLayout({
               "legalName": LEGAL_CONFIG.contractingEntity,
               "url": "https://drawdown.trading",
               "logo": "https://drawdown.trading/assets/brand/logo.png",
+              "founder": {
+                "@type": "Person",
+                "name": "Pete Currey",
+                "url": "https://drawdown.trading/about"
+              },
               "address": {
                 "@type": "PostalAddress",
                 "addressCountry": "GB",
@@ -124,7 +129,8 @@ export default function RootLayout({
               },
               "sameAs": [
                 "https://twitter.com/drawdown_hq",
-                "https://youtube.com/@drawdown"
+                "https://youtube.com/@drawdown",
+                "https://discord.gg/drawdown"
               ]
             })
           }}

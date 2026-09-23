@@ -27,20 +27,6 @@ export const SAMPLE_RESEARCH_STUDIES: ResearchStudy[] = [
       "Assumes zero execution slippage and constant spread conditions across Monte Carlo iterations.",
       "Does not account for psychological decision fatigue or manual trader intervention during deep drawdown states."
     ],
-    dataset: {
-      id: "ds-drawdown-math-2026",
-      title: "Monte Carlo Equity Recovery Dataset (10k Iterations)",
-      description: "Aggregated results of 10,000 Monte Carlo equity curve simulations testing recovery trade counts across loss depths.",
-      category: "risk-math",
-      format: "CSV",
-      fileUrl: "/downloads/datasets/drawdown-recovery-sim-2026.csv",
-      fileSizeBytes: 245000,
-      rowCount: 10000,
-      dataPeriod: "2026 Simulation Run",
-      lastUpdated: "2026-08-01",
-      license: "Creative Commons Attribution 4.0 International (CC BY 4.0)",
-      citationFormat: "Drawdown Trading Research Group (2026). Monte Carlo Equity Recovery Dataset v1.0. Drawdown.trading/research/risk.",
-    },
     citationFormat: "Currey, P. (2026). 'The Non-Linear Mathematics of Trading Drawdown Recovery.' Drawdown Trading Research Centre. https://drawdown.trading/research/risk/non-linear-drawdown-recovery-math",
     versionHistory: [
       {

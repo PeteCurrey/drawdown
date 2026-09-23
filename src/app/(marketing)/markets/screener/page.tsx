@@ -78,9 +78,9 @@ export default function ScreenerPage() {
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
               <Link
                 href="/pricing"
-                className="inline-flex items-center justify-center gap-2 px-5 py-3 bg-accent text-black font-mono font-bold text-xs uppercase tracking-widest hover:opacity-90 transition-all shadow-sm"
+                className="inline-flex items-center justify-center gap-2 px-5 py-3 bg-accent text-white font-mono font-bold text-xs uppercase tracking-widest hover:opacity-90 transition-all shadow-sm"
               >
-                <ShieldCheck className="w-4 h-4" />
+                <ShieldCheck className="w-4 h-4 text-white" />
                 Unlock Pro Scanner
               </Link>
             </div>

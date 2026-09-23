@@ -9,7 +9,7 @@
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
     "test": "node --experimental-strip-types --test 'tests/**/*.test.ts'",
-    "test:unit": "node --experimental-strip-types --test 'tests/financial-calculations.test.ts' 'tests/tool-functional-audit.test.ts' 'tests/signal-freshness.test.ts' 'tests/content-os.test.ts' 'tests/content-os-phases-2-to-5.test.ts' 'tests/data-platform-infrastructure.test.ts' 'tests/lobby-public-intelligence.test.ts' 'tests/alternative-data-research.test.ts' 'tests/lobby-control-room.test.ts'",
+    "test:unit": "node --experimental-strip-types --test 'tests/financial-calculations.test.ts' 'tests/tool-functional-audit.test.ts' 'tests/signal-freshness.test.ts' 'tests/content-os.test.ts' 'tests/content-os-phases-2-to-5.test.ts' 'tests/social-intelligence-phase1.test.ts' 'tests/data-platform-infrastructure.test.ts' 'tests/lobby-public-intelligence.test.ts' 'tests/alternative-data-research.test.ts' 'tests/lobby-control-room.test.ts'",
     "test:data-platform": "node --experimental-strip-types --test 'tests/data-platform-infrastructure.test.ts' 'tests/lobby-public-intelligence.test.ts' 'tests/alternative-data-research.test.ts' 'tests/lobby-control-room.test.ts'",
     "test:content-os": "node --experimental-strip-types --test 'tests/content-os.test.ts'",
     "test:content-os-phases-2-to-5": "node --experimental-strip-types --test 'tests/content-os-phases-2-to-5.test.ts'",

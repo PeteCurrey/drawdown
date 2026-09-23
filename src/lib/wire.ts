@@ -10,6 +10,7 @@ import type {
   WireItemInput 
 } from "../types/wire.ts";
 import type { LobbyArticle } from "../types/lobby.ts";
+import type { InvestorAttentionItem } from "./lobby";
 import { DRAWDOWN_TOOLS } from "./lobby-constants.ts";
 
 function getSupabase() {
@@ -117,12 +118,14 @@ export function generateWireSlug(type: WireEditionType, date: Date = new Date())
 }
 
 /**
- * Curates a briefing edition draft from a selection of canonical Lobby articles.
+ * Curates a briefing edition draft from a selection of canonical Lobby articles
+ * and optional approved investor attention intelligence items.
  * Never creates duplicate article records; references canonical article IDs directly.
  */
 export function generateWireDraftFromLobby(
   articles: LobbyArticle[],
-  editionType: WireEditionType
+  editionType: WireEditionType,
+  attentionItems?: InvestorAttentionItem[]
 ): {
   edition: CreateWireEditionInput;
   items: WireItemInput[];
@@ -173,6 +176,24 @@ export function generateWireDraftFromLobby(
     };
   });
 
+  // Append approved investor attention items if provided
+  if (attentionItems && attentionItems.length > 0) {
+    let orderOffset = items.length;
+    for (const att of attentionItems) {
+      orderOffset++;
+      items.push({
+        article_id: null,
+        display_order: orderOffset,
+        item_title: `[Investor Attention] ${att.title}`,
+        wire_summary: att.source_claim ? `Source statement: "${att.source_claim}". ${att.drawdown_interpretation || ''}`.trim() : (att.drawdown_interpretation || att.title),
+        why_it_matters: "Monitored external specialist account highlighting market catalysts. Unverified claim separated from facts.",
+        recommended_tool_slug: "signal-centre",
+        market_category: "INVESTOR ATTENTION",
+        source_attribution: att.author_handle ? `@${att.author_handle} (${att.source})` : att.source
+      });
+    }
+  }
+
   return {
     edition: {
       edition_type: editionType,
@@ -180,7 +201,7 @@ export function generateWireDraftFromLobby(
       slug: generateWireSlug(editionType, now),
       subject_line: subject,
       preview_text: preview,
-      editorial_notes: `Generated from ${articles.length} canonical Lobby articles.`
+      editorial_notes: `Generated from ${articles.length} canonical Lobby articles and ${attentionItems?.length || 0} attention items.`
     },
     items
   };

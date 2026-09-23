@@ -173,18 +173,47 @@ export interface ContentMetric {
   created_at: string;
 }
 
+export type SocialSourcePlatform = 'rss' | 'x' | 'linkedin' | 'threads' | 'bluesky' | 'youtube' | 'other';
+
+export type SourceMonitoringStatus = 
+  | 'configured' 
+  | 'connected' 
+  | 'scheduled' 
+  | 'ingested' 
+  | 'failed' 
+  | 'unavailable';
+
+export type SocialSourceCategory =
+  | 'investor'
+  | 'fund_manager'
+  | 'market_commentator'
+  | 'trader'
+  | 'macro'
+  | 'company_executive'
+  | 'financial_news'
+  | 'sector_specialist'
+  | 'strategy_education'
+  | 'market_recap'
+  | string;
+
 export interface NewsSource {
   id: string;
   name: string;
   source_type: NewsSourceType;
   domain: string;
   feed_url: string;
+  platform?: SocialSourcePlatform;
+  account_handle?: string | null;
+  source_category?: SocialSourceCategory;
+  monitoring_status?: SourceMonitoringStatus;
   active: boolean;
   priority: number;
   trust_tier: NewsTrustTier;
   metadata?: Record<string, any>;
   last_fetched_at?: string | null;
+  last_attempted_at?: string | null;
   last_failure_reason?: string | null;
+  error_details?: string | null;
   created_at: string;
   updated_at: string;
 }
@@ -219,6 +248,18 @@ export interface NewsCandidate {
   content_item_id?: string | null;
   processed_at?: string | null;
   raw_payload?: Record<string, any>;
+  // Epistemic separation & social fields
+  source_claim?: string | null;
+  verified_facts?: Array<{
+    claim: string;
+    source: string;
+    source_url?: string;
+    verified_at?: string;
+  }>;
+  drawdown_interpretation?: string | null;
+  platform_post_id?: string | null;
+  author_handle?: string | null;
+  investor_attention_score?: number;
   created_at: string;
   updated_at: string;
 }

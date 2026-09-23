@@ -13,6 +13,8 @@ import {
 
 export const dynamic = "force-dynamic";
 
+import { CandidateReviewClient } from "./CandidateReviewClient";
+
 interface Props {
   params: Promise<{ id: string }>;
 }
@@ -84,6 +86,9 @@ export default async function AdminNewsDetailPage({ params }: Props) {
           </Link>
         </div>
       </header>
+
+      {/* Epistemic Review and Actions Client Component */}
+      <CandidateReviewClient candidate={candidate} />
 
       {/* Verification Report */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">

@@ -29,6 +29,10 @@
       "schedule": "*/15 * * * *"
     },
     {
+      "path": "/api/cron/social-ingest",
+      "schedule": "*/15 * * * *"
+    },
+    {
       "path": "/api/cron/discipline-report",
       "schedule": "0 20 * * 0"
     },

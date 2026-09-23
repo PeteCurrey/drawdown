@@ -199,3 +199,97 @@ export async function searchLobby(query: string, limit: number = 20): Promise<Lo
     return [];
   }
 }
+
+export interface InvestorAttentionItem {
+  id: string;
+  title: string;
+  source: string;
+  source_url: string;
+  author_handle?: string | null;
+  published_at?: string | null;
+  discovered_at: string;
+  entity_references: string[];
+  related_symbols: string[];
+  source_claim?: string | null;
+  verified_facts?: Array<{
+    claim: string;
+    source: string;
+    source_url?: string;
+    verified_at?: string;
+  }>;
+  drawdown_interpretation?: string | null;
+  investor_attention_score?: number;
+}
+
+/**
+ * Retrieves approved social intelligence & investor attention items for The Lobby.
+ * Strictly requires `editorial_status IN ('approved', 'published')`.
+ */
+export async function getInvestorAttentionFeed(options: { limit?: number } = {}): Promise<InvestorAttentionItem[]> {
+  try {
+    const supabase = getSupabase();
+    const limit = options.limit || 6;
+    const { data, error } = await supabase
+      .from("news_candidates")
+      .select("id, title, source, source_url, author_handle, published_at, discovered_at, entity_references, related_symbols, source_claim, verified_facts, drawdown_interpretation, investor_attention_score")
+      .in("editorial_status", ["approved", "published"])
+      .not("source_claim", "is", null)
+      .order("discovered_at", { ascending: false })
+      .limit(limit);
+
+    if (error || !data) return [];
+    return data as InvestorAttentionItem[];
+  } catch (err) {
+    console.error("getInvestorAttentionFeed error:", err);
+    return [];
+  }
+}
+
+/**
+ * Bridges published Drawdown Content OS items directly to The Lobby feeds.
+ * Strictly filters by `status = 'published'`.
+ */
+export async function getContentOSPublishedArticles(options: { limit?: number; category?: string } = {}): Promise<LobbyArticle[]> {
+  try {
+    const supabase = getSupabase();
+    let query = supabase
+      .from("content_items")
+      .select("id, title, slug, body, excerpt, category, content_type, published_at, created_at, updated_at, source_reference")
+      .eq("status", "published")
+      .order("published_at", { ascending: false, nullsFirst: false });
+
+    if (options.limit) {
+      query = query.limit(options.limit);
+    }
+
+    const { data, error } = await query;
+    if (error || !data) return [];
+
+    return data.map((item: any) => ({
+      id: item.id,
+      title: item.title,
+      slug: item.slug,
+      excerpt: item.excerpt || item.body?.slice(0, 200) || "",
+      body: item.body || "",
+      category: (item.category === "risk_and_drawdown" ? "DRAWDOWN" :
+                 item.category === "case_studies" ? "TRADES" :
+                 item.category === "trading_education" ? "EDUCATION" :
+                 item.category === "product_tools" ? "TRADING TECHNOLOGY" : "MARKETS") as any,
+      article_type: "ANALYSIS",
+      section: "just_in",
+      status: "PUBLISHED",
+      importance: "standard",
+      confidence: "VERIFIED",
+      primary_source_name: item.source_reference || "Drawdown Research",
+      published_at: item.published_at || item.created_at,
+      created_at: item.created_at,
+      updated_at: item.updated_at,
+      tags: [item.category]
+    })) as LobbyArticle[];
+  } catch (err) {
+    console.error("getContentOSPublishedArticles error:", err);
+    return [];
+  }
+}
+
+

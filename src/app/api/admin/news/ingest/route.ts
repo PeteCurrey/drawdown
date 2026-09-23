@@ -25,7 +25,7 @@ export async function POST(request: Request) {
     // Fetch existing candidates for deduplication evaluation
     const { data: existingCandidates } = await supabase
       .from("news_candidates")
-      .select("id, source_url, title, duplicate_key, published_at")
+      .select("id, source_url, title, duplicate_key, published_at, platform_post_id, entity_references")
       .order("discovered_at", { ascending: false })
       .limit(200);
 
@@ -37,6 +37,7 @@ export async function POST(request: Request) {
         {
           url: item.url || item.source_url,
           title: item.title,
+          platformPostId: item.platform_post_id || item.platformPostId,
           entityReferences: item.entity_references || [],
           publishedAt: item.published_at
         },
@@ -46,7 +47,7 @@ export async function POST(request: Request) {
       if (dedupeResult.isDuplicate && dedupeResult.matchedCandidateId) {
         // Link to existing parent event
         duplicatesLinked.push({
-          sourceUrl: item.url,
+          sourceUrl: item.url || item.source_url,
           matchedCandidateId: dedupeResult.matchedCandidateId,
           reason: dedupeResult.reason
         });
@@ -69,7 +70,7 @@ export async function POST(request: Request) {
             name: item.source || "Unknown",
             url: item.url || item.source_url,
             trustTier: item.trust_tier || "tier_2_verified",
-            claimText: item.summary || item.title,
+            claimText: item.source_claim || item.summary || item.title,
             publishedAt: item.published_at
           }
         ]
@@ -101,10 +102,18 @@ export async function POST(request: Request) {
         priority_level: scoreResult.priorityLevel,
         scoring_reasons: scoreResult.reasons,
         duplicate_key: dedupeResult.duplicateKey,
+        parent_event_id: dedupeResult.parentEventId || null,
         verification_status: verification.status,
         verification_evidence: verification.evidence,
         editorial_status: "new",
-        raw_payload: item
+        raw_payload: item,
+        // Epistemic Claim vs Fact separation & Social fields
+        source_claim: item.source_claim || (item.author_handle ? (item.summary || item.title) : null),
+        verified_facts: item.verified_facts || [],
+        drawdown_interpretation: item.drawdown_interpretation || null,
+        platform_post_id: item.platform_post_id || item.platformPostId || null,
+        author_handle: item.author_handle || item.authorHandle || null,
+        investor_attention_score: dedupeResult.isCorroboratingAttention ? 75.0 : (item.author_handle ? 50.0 : 0.0),
       };
 
       const { data: newCandidate, error: insertErr } = await supabase

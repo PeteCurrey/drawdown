@@ -11,3 +11,6 @@ export * from "./cftc-cot.ts";
 export * from "./central-banks.ts";
 export * from "./regulators.ts";
 export * from "./rss-feed.ts";
+export * from "./social-provider.ts";
+export * from "./x-provider.ts";
+export * from "./rss-social-adapter.ts";

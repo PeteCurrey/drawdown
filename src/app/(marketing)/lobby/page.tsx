@@ -15,9 +15,12 @@ import { LobbyTradeOfTheMonth } from "@/components/lobby/LobbyTradeOfTheMonth";
 import { LobbyDrawdownDesk } from "@/components/lobby/LobbyDrawdownDesk";
 import { LobbyExplained } from "@/components/lobby/LobbyExplained";
 import { LobbyLatestStream } from "@/components/lobby/LobbyLatestStream";
+import { LobbyInvestorAttention } from "@/components/lobby/LobbyInvestorAttention";
 import { 
   getLobbyLeadStory, 
-  getLobbyArticles 
+  getLobbyArticles,
+  getInvestorAttentionFeed,
+  getContentOSPublishedArticles
 } from "@/lib/lobby";
 import { 
   VERIFIED_COMING_UP_EVENTS, 
@@ -54,7 +57,9 @@ export default async function LobbyHomePage({
     platformArticles,
     drawdownDeskArticles,
     explainedArticles,
-    allLatestArticles
+    allLatestArticles,
+    investorAttentionItems,
+    contentOSArticles
   ] = await Promise.all([
     getLobbyLeadStory(),
     getLobbyArticles({ section: "whats_happening", limit: 4 }),
@@ -65,7 +70,13 @@ export default async function LobbyHomePage({
     getLobbyArticles({ section: "drawdown_desk", limit: 3 }),
     getLobbyArticles({ section: "explained", limit: 4 }),
     getLobbyArticles({ limit: 15 }),
+    getInvestorAttentionFeed({ limit: 6 }),
+    getContentOSPublishedArticles({ limit: 6 })
   ]);
+
+  // Combine Content OS published articles into streams
+  const mergedJustIn = [...contentOSArticles, ...justInArticles].slice(0, 8);
+  const mergedLatest = [...contentOSArticles, ...allLatestArticles].slice(0, 15);
 
   // Extract structured metadata for specialized sections if present in articles
   const brokerWatchData = brokerWatchArticles.map(a => ({
@@ -149,6 +160,9 @@ export default async function LobbyHomePage({
             articles={whatsHappeningArticles} 
             justInArticles={justInArticles} 
           />
+
+          {/* 4.5. Investor Attention (Monitored Specialist Sources) */}
+          <LobbyInvestorAttention items={investorAttentionItems} />
 
           {/* 5. Coming Up Timetable */}
           <LobbyComingUp events={VERIFIED_COMING_UP_EVENTS} />

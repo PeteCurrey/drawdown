@@ -87,29 +87,50 @@ export interface DeduplicationResult {
   matchedCandidateId?: string;
   parentEventId?: string;
   reason?: string;
+  isCorroboratingAttention?: boolean;
+  matchedEntity?: string;
 }
 
 export class DeduplicationService {
   /**
-   * Evaluates an incoming news item against existing candidates.
+   * Evaluates an incoming news or social item against existing candidates.
    * If a duplicate is identified, returns the matched candidate so secondary sources
    * can be attached to the existing event instead of spawning a new editorial candidate.
+   * Also identifies cross-source discussions referring to the same underlying entity.
    */
   static evaluateDuplicate(
     incoming: {
       url: string;
       title: string;
+      platformPostId?: string | null;
       entityReferences?: string[];
       publishedAt?: string | null;
     },
-    existingCandidates: Pick<NewsCandidate, 'id' | 'source_url' | 'title' | 'duplicate_key' | 'published_at'>[]
+    existingCandidates: Array<Pick<NewsCandidate, 'id' | 'source_url' | 'title' | 'duplicate_key' | 'published_at'> & {
+      platform_post_id?: string | null;
+      entity_references?: string[];
+    }>
   ): DeduplicationResult {
     const normIncomingUrl = normaliseUrl(incoming.url);
     const incomingKey = generateDuplicateKey(incoming);
     const incomingTokens = new Set(normaliseTitleTokens(incoming.title).split(' '));
+    const incomingTimestamp = incoming.publishedAt ? new Date(incoming.publishedAt).getTime() : Date.now();
+
+    let relatedEntityMatch: { candidateId: string; entity: string } | null = null;
 
     for (const cand of existingCandidates) {
-      // 1. Exact canonical URL match
+      // 1. Exact platform external post ID match (e.g. tweet ID, bluesky post ID)
+      if (incoming.platformPostId && cand.platform_post_id && incoming.platformPostId === cand.platform_post_id) {
+        return {
+          isDuplicate: true,
+          duplicateKey: incomingKey,
+          matchedCandidateId: cand.id,
+          parentEventId: cand.id,
+          reason: `Exact platform post ID collision (${incoming.platformPostId}) with candidate ${cand.id}`
+        };
+      }
+
+      // 2. Exact canonical URL match
       if (normaliseUrl(cand.source_url) === normIncomingUrl) {
         return {
           isDuplicate: true,
@@ -120,7 +141,7 @@ export class DeduplicationService {
         };
       }
 
-      // 2. Duplicate key match (entity + token window)
+      // 3. Duplicate key match (entity + token window)
       if (cand.duplicate_key === incomingKey) {
         return {
           isDuplicate: true,
@@ -131,7 +152,7 @@ export class DeduplicationService {
         };
       }
 
-      // 3. High Jaccard token similarity (> 0.75) within 48h
+      // 4. High Jaccard token similarity (> 0.75) within 48h
       const candTokens = new Set(normaliseTitleTokens(cand.title).split(' '));
       const intersection = new Set([...incomingTokens].filter(x => candTokens.has(x)));
       const union = new Set([...incomingTokens, ...candTokens]);
@@ -146,6 +167,39 @@ export class DeduplicationService {
           reason: `High semantic title similarity (${Math.round(jaccard * 100)}%) with candidate ${cand.id}`
         };
       }
+
+      // 5. Cross-source entity correlation within 24 hours:
+      // If incoming discusses the same specific entity as an existing recent candidate,
+      // record it so secondary sources can link to the parent event.
+      if (!relatedEntityMatch && incoming.entityReferences && incoming.entityReferences.length > 0) {
+        const candEntities = cand.entity_references || [];
+        const sharedEntities = incoming.entityReferences.filter(e => 
+          e && e.length > 2 && candEntities.some(ce => ce.toLowerCase() === e.toLowerCase())
+        );
+
+        if (sharedEntities.length > 0 && cand.published_at) {
+          const candTimestamp = new Date(cand.published_at).getTime();
+          const ageDiffHours = Math.abs(incomingTimestamp - candTimestamp) / (1000 * 60 * 60);
+
+          if (ageDiffHours <= 24) {
+            relatedEntityMatch = {
+              candidateId: cand.id,
+              entity: sharedEntities[0]
+            };
+          }
+        }
+      }
+    }
+
+    if (relatedEntityMatch) {
+      return {
+        isDuplicate: false, // Not a duplicate post, but a corroborating attention item
+        duplicateKey: incomingKey,
+        parentEventId: relatedEntityMatch.candidateId,
+        isCorroboratingAttention: true,
+        matchedEntity: relatedEntityMatch.entity,
+        reason: `Associated with active entity ${relatedEntityMatch.entity} from candidate ${relatedEntityMatch.candidateId}`
+      };
     }
 
     return {

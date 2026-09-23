@@ -14,6 +14,17 @@ export interface NewsRadarIngestionItem {
   entities?: string[];
   symbols?: string[];
   eventType?: string;
+  sourceClaim?: string;
+  verifiedFacts?: Array<{
+    claim: string;
+    source: string;
+    source_url?: string;
+    verified_at?: string;
+  }>;
+  drawdownInterpretation?: string;
+  platformPostId?: string;
+  authorHandle?: string;
+  sourceCategory?: string;
 }
 
 export interface RadarIngestionReport {
@@ -36,7 +47,10 @@ export class NewsRadarEngine {
    */
   static processIncomingBatch(
     items: NewsRadarIngestionItem[],
-    existingCandidates: Pick<NewsCandidate, 'id' | 'source_url' | 'title' | 'duplicate_key' | 'published_at'>[]
+    existingCandidates: Array<Pick<NewsCandidate, 'id' | 'source_url' | 'title' | 'duplicate_key' | 'published_at'> & {
+      platform_post_id?: string | null;
+      entity_references?: string[];
+    }>
   ): {
     candidatesToInsert: Partial<NewsCandidate>[];
     alerts: Array<{
@@ -65,6 +79,7 @@ export class NewsRadarEngine {
         {
           url: item.url,
           title: item.title,
+          platformPostId: item.platformPostId,
           entityReferences: item.entities || [],
           publishedAt: item.publishedAt
         },
@@ -83,7 +98,7 @@ export class NewsRadarEngine {
             name: item.source,
             url: item.url,
             trustTier: item.trustTier,
-            claimText: item.summary,
+            claimText: item.sourceClaim || item.summary,
             publishedAt: item.publishedAt
           }
         ]
@@ -117,9 +132,17 @@ export class NewsRadarEngine {
         priority_level: score.priorityLevel,
         scoring_reasons: score.reasons,
         duplicate_key: dedupe.duplicateKey,
+        parent_event_id: dedupe.parentEventId || null,
         verification_status: verification.status,
         verification_evidence: verification.evidence,
-        editorial_status: 'new' // Human approval required before draft/publish
+        editorial_status: 'new', // Human approval required before draft/publish
+        // Epistemic claim vs fact separation
+        source_claim: item.sourceClaim || (item.authorHandle ? item.summary : null),
+        verified_facts: item.verifiedFacts || [],
+        drawdown_interpretation: item.drawdownInterpretation || null,
+        platform_post_id: item.platformPostId || null,
+        author_handle: item.authorHandle || null,
+        investor_attention_score: dedupe.isCorroboratingAttention ? 75.0 : (item.authorHandle ? 50.0 : 0.0),
       };
 
       candidatesToInsert.push(candidateRecord);

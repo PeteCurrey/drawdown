@@ -334,10 +334,10 @@ export function InstrumentModal({
             <Link
               href={`/dashboard/tools/technical-scanner?symbol=${row.slug}`}
               className={cn(
-                "flex-1 sm:flex-initial px-5 py-2.5 text-[9px] font-mono font-bold uppercase tracking-widest rounded-xs flex items-center justify-center gap-1.5 shadow-sm transition-colors",
+                "flex-1 sm:flex-initial px-5 py-2.5 text-[9px] font-mono font-bold uppercase tracking-widest rounded-xs flex items-center justify-center gap-1.5 shadow-sm transition-all",
                 isDark
                   ? "bg-[#C8F135] text-black hover:bg-[#b5db2e]"
-                  : "bg-mkt-ink text-white hover:bg-accent hover:text-black"
+                  : "bg-slate-900 text-white hover:bg-accent hover:text-black"
               )}
             >
               Open Technical Scanner <ChevronRight className="w-3.5 h-3.5" />

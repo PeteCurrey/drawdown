@@ -14,6 +14,15 @@ const nextConfig: NextConfig = {
   },
   async redirects() {
     return [
+      // ── www → non-www canonical redirect ────────────────────────────────
+      // Ensures https://www.drawdown.trading/* → https://drawdown.trading/*
+      // so the served domain matches all canonical tags.
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "www.drawdown.trading" }],
+        destination: "https://drawdown.trading/:path*",
+        permanent: true,
+      },
       {
         source: "/register",
         destination: "/signup",
@@ -305,6 +314,20 @@ const nextConfig: NextConfig = {
   },
   async headers() {
     return [
+      // ── Embed routes: allow iframing by third-party publishers ──────────
+      // Must come BEFORE the global rule — Next.js applies the first matching rule.
+      {
+        source: "/embed/:path*",
+        headers: [
+          // Omit X-Frame-Options entirely for embed routes (allows any origin to iframe)
+          // Content-Security-Policy frame-ancestors is the modern replacement
+          { key: "Content-Security-Policy", value: "frame-ancestors *" },
+          { key: "X-Content-Type-Options", value: "nosniff" },
+          { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+          { key: "Strict-Transport-Security", value: "max-age=63072000; includeSubDomains; preload" },
+        ],
+      },
+      // ── Global security headers for all other routes ─────────────────────
       {
         source: "/:path*",
         headers: [

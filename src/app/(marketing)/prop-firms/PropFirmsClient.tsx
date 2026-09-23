@@ -350,6 +350,24 @@ export default function PropFirmsHubPage() {
          </div>
       </section>
 
+      {/* Drawdown workflow CTA */}
+      <section className="py-8 max-w-7xl mx-auto px-6">
+         <div className="p-5 rounded-xl border border-border-primary/50 bg-background-secondary flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div className="space-y-1">
+               <p className="text-sm font-bold text-text-primary">Ready to start your challenge?</p>
+               <p className="text-xs text-text-tertiary leading-relaxed">
+                  Drawdown's risk tools and challenge preparation guides are built specifically for prop firm traders — daily loss buffers, position sizing, and max drawdown tracking.
+               </p>
+            </div>
+            <Link
+               href="/for/prop-firm-traders"
+               className="shrink-0 px-4 py-2 rounded-xl bg-accent text-background-primary text-xs font-semibold hover:bg-accent/90 transition whitespace-nowrap"
+            >
+               See the toolkit →
+            </Link>
+         </div>
+      </section>
+
       {/* Affiliate Disclosure */}
       <section className="py-12">
          <div className="max-w-7xl mx-auto px-6 text-center max-w-4xl">

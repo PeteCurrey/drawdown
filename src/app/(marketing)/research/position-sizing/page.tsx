@@ -225,16 +225,71 @@ export default function PositionSizingResearchPage() {
             </table>
           </div>
           <p className="text-xs text-text-tertiary mt-3">
-            Full simulation code and raw output datasets available at{" "}
-            <Link href="/research/datasets" className="text-accent hover:underline">
-              /research/datasets
-            </Link>
-            . Methodology documentation at{" "}
+            Methodology documentation at{" "}
             <Link href="/research/methodology" className="text-accent hover:underline">
               /research/methodology
             </Link>
-            .
+            . Raw output datasets are not yet published for independent download.
           </p>
+        </section>
+
+        {/* Methodology Assumptions */}
+        <section className="mb-12">
+          <h2 className="text-xl font-bold text-text-primary mb-4">Model Assumptions & Limitations</h2>
+          <p className="text-sm text-text-secondary leading-relaxed mb-4">
+            The following assumptions are embedded in the simulation model. Readers should evaluate conclusions in light of these simplifications.
+          </p>
+          <div className="overflow-x-auto">
+            <table className="w-full text-xs border border-border-primary/50">
+              <thead>
+                <tr className="bg-background-secondary">
+                  <th className="text-left p-3 font-mono uppercase tracking-wider text-text-secondary border-b border-border-primary/50">Assumption</th>
+                  <th className="text-left p-3 font-mono uppercase tracking-wider text-text-secondary border-b border-border-primary/50">Value / Description</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-border-primary/30">
+                {[
+                  {
+                    assumption: "Win/loss distribution",
+                    value: "Bernoulli trials — each trade is an independent binary event (win or loss). No partial outcomes.",
+                  },
+                  {
+                    assumption: "Trade independence",
+                    value: "No autocorrelation between trades. Each trade outcome is independent of all preceding outcomes.",
+                  },
+                  {
+                    assumption: "Spread / transaction costs",
+                    value: "Not modelled. All results assume zero spread and zero commission. Real-world results will be worse.",
+                  },
+                  {
+                    assumption: "Slippage",
+                    value: "Not modelled. Entry and exit prices assumed to match stop and target exactly.",
+                  },
+                  {
+                    assumption: "Overnight financing / swaps",
+                    value: "Not modelled.",
+                  },
+                  {
+                    assumption: "Reward:Risk realisation",
+                    value: "Exact. Simulated RR is always 1.5:1. Partial closures, runner management, and trailing stops are not modelled.",
+                  },
+                  {
+                    assumption: "Position sizing at entry",
+                    value: "Fixed-fractional risk calculated on account balance at trade open. No intra-trade resizing.",
+                  },
+                  {
+                    assumption: "Nature of results",
+                    value: "All outputs are simulated/modelled. They represent probability distributions under the stated assumptions — not observed trading outcomes from real accounts.",
+                  },
+                ].map((row, i) => (
+                  <tr key={i} className="hover:bg-background-secondary/50">
+                    <td className="p-3 font-mono text-text-primary">{row.assumption}</td>
+                    <td className="p-3 text-text-secondary leading-relaxed">{row.value}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </section>
 
         {/* Key Findings */}

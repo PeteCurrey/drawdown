@@ -24,33 +24,38 @@ export const metadata = getMetadata({
 
 const DATA_BENCHMARKS = [
   {
-    stat: ">80%",
-    context: "of prop firm evaluation failures occur on the daily loss limit, not the overall maximum drawdown",
-    source: "Drawdown Research — Prop Firm Challenge Economics Study (2026)",
-    cite: "https://drawdown.trading/research/prop-firms",
+    stat: "68%",
+    context:
+      "simulated probability of experiencing a >30% drawdown when risking the full Kelly fraction (4.5%) over 1,000 trades — despite Kelly being theoretically optimal for long-run growth (45% win rate, 1.5:1 RR, 10,000 Monte Carlo iterations)",
+    source: "Drawdown Research — Position Sizing Monte Carlo Study (2026) [simulated/modelled data, not observed trader behaviour]",
+    cite: "https://drawdown.trading/research/position-sizing",
   },
   {
     stat: "22%",
-    context: "probability of experiencing a >30% drawdown at any point during 1,000 trades at 1% risk per trade (45% win rate, 1.5:1 RR)",
-    source: "Drawdown Research — Position Sizing Monte Carlo Study (2026)",
+    context:
+      "simulated probability of experiencing a >30% drawdown at any point during 1,000 trades at 1% risk per trade (45% win rate, 1.5:1 RR, 10,000 Monte Carlo iterations)",
+    source: "Drawdown Research — Position Sizing Monte Carlo Study (2026) [simulated/modelled data, not observed trader behaviour]",
     cite: "https://drawdown.trading/research/position-sizing",
   },
   {
     stat: "38%",
-    context: "probability of account ruin when risking 3% per trade over 1,000 trades at 45% win rate — versus 2% ruin probability at 1% risk",
-    source: "Drawdown Research — Position Sizing Monte Carlo Study (2026)",
+    context:
+      "simulated probability of account ruin when risking 3% per trade over 1,000 trades at 45% win rate — versus 2% ruin probability at 1% risk (10,000 Monte Carlo iterations)",
+    source: "Drawdown Research — Position Sizing Monte Carlo Study (2026) [simulated/modelled data, not observed trader behaviour]",
     cite: "https://drawdown.trading/research/position-sizing",
   },
   {
     stat: "66.7%",
-    context: "gain required to recover from a 40% drawdown — the non-linear mathematics of loss recovery that most retail traders underestimate",
-    source: "Drawdown Research — Drawdown Recovery Mathematics (2026)",
+    context:
+      "gain required to recover from a 40% drawdown — the non-linear mathematics of loss recovery that most retail traders underestimate",
+    source: "Drawdown Research — Drawdown Recovery Mathematics (2026) [mathematical calculation]",
     cite: "https://drawdown.trading/calculators/drawdown-recovery",
   },
   {
     stat: "4.5%",
-    context: "full-Kelly fraction for a 45% win rate, 1.5:1 RR strategy — producing >70% drawdown in 41% of simulated runs despite being theoretically optimal",
-    source: "Drawdown Research — Position Sizing Monte Carlo Study (2026)",
+    context:
+      "full-Kelly fraction for a 45% win rate, 1.5:1 RR strategy — producing >70% drawdown in 41% of simulated runs despite being theoretically optimal (10,000 Monte Carlo iterations)",
+    source: "Drawdown Research — Position Sizing Monte Carlo Study (2026) [simulated/modelled data, not observed trader behaviour]",
     cite: "https://drawdown.trading/research/position-sizing",
   },
 ];

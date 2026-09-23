@@ -168,12 +168,28 @@ export default function ResearchCentrePage() {
           </div>
         </div>
 
+        {/* Press & Journalist Resources */}
+        <div className="mb-8 p-5 rounded-xl border border-border-primary/50 bg-background-secondary flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div className="space-y-1">
+            <p className="text-sm font-bold text-text-primary">Journalists & researchers</p>
+            <p className="text-xs text-text-tertiary leading-relaxed">
+              Citable data benchmarks, embeddable calculators, spokesperson contact, and citation guidelines are available on the Press page.
+            </p>
+          </div>
+          <Link
+            href="/press"
+            className="shrink-0 px-4 py-2 rounded-xl bg-background-primary border border-border-primary text-xs font-medium text-text-secondary hover:text-text-primary hover:border-accent transition"
+          >
+            Press resources →
+          </Link>
+        </div>
+
         {/* Editorial Transparency Footer Section */}
         <div className="bg-background-secondary border border-border-primary rounded-2xl p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-6">
           <div className="space-y-1">
             <h3 className="text-base font-bold text-text-primary flex items-center gap-2">
               <ShieldCheck className="w-5 h-5 text-accent" />
-              Correction & Editorial Transparency
+              Correction &amp; Editorial Transparency
             </h3>
             <p className="text-xs text-text-tertiary max-w-2xl leading-relaxed">
               We maintain a public corrections log and transparent update history. Spot an error or outdated data point in our research or broker reviews?

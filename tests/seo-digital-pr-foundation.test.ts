@@ -42,6 +42,13 @@ describe("Phase 8 — Linkable Assets & Digital PR Foundation", () => {
         "/research/media/page.tsx must import JsonLd"
       );
     });
+
+    it("renders <JsonLd> component in JSX (not just imported)", () => {
+      assert.ok(
+        src.includes("<JsonLd"),
+        "/research/media/page.tsx must render <JsonLd data={...} /> in its JSX — importing alone is insufficient"
+      );
+    });
   });
 
   describe("/press page", () => {

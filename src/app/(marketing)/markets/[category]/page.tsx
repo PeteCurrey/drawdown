@@ -11,7 +11,7 @@ import {
   getCategoryInstruments, 
   MarketCategory 
 } from "@/lib/markets-config";
-import { TradingViewScreener } from "@/components/markets/TradingViewScreener";
+import { CategoryScreenerEmbed } from "@/components/markets/CategoryScreenerEmbed";
 
 interface PageProps {
   params: Promise<{
@@ -41,13 +41,6 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   };
 }
 
-// Helpers to map category to screener type
-function getScreenerType(category: MarketCategory): "forex" | "crypto_mkt" | "cfd" {
-  if (category === "forex") return "forex";
-  if (category === "crypto") return "crypto_mkt";
-  return "cfd"; // cfd for indices and commodities
-}
-
 export default async function CategoryHubPage({ params }: PageProps) {
   const { category } = await params;
   const cat = category as MarketCategory;
@@ -58,7 +51,6 @@ export default async function CategoryHubPage({ params }: PageProps) {
   }
 
   const instruments = getCategoryInstruments(cat);
-  const screenerType = getScreenerType(cat);
 
   return (
     <div className="flex flex-col bg-[#0A0A0A] text-white min-h-screen selection:bg-[#C8F135] selection:text-black">
@@ -97,9 +89,9 @@ export default async function CategoryHubPage({ params }: PageProps) {
               </div>
             </div>
 
-            {/* Screener Widget */}
+            {/* First-Party Screener Widget */}
             <div className="lg:col-span-7 w-full border border-white/10 rounded-xl overflow-hidden bg-white/[0.01]">
-              <TradingViewScreener screenerType={screenerType} />
+              <CategoryScreenerEmbed category={cat} />
             </div>
           </div>
         </div>

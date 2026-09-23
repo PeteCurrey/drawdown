@@ -13,7 +13,7 @@ import { NextResponse } from "next/server";
 import { tdSymbol } from "@/lib/instruments";
 import { calculateBiasScore } from "@/lib/biasEngine";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 60;
 
 const TD = "https://api.twelvedata.com";
 const FX = "https://api.frankfurter.dev/v1/latest";

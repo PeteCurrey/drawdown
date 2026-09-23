@@ -118,6 +118,9 @@ export function StatsBar() {
             <span className="text-[11px] font-sans font-medium text-mkt-i4 uppercase mt-1 tracking-wider">
               Market Data
             </span>
+            <span className="text-[9px] font-sans text-mkt-i4 mt-0.5 tracking-wide normal-case opacity-70">
+              Updated periodically
+            </span>
           </div>
 
         </div>

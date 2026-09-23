@@ -191,6 +191,23 @@ export default function BacktesterPage() {
         </div>
       </div>
  
+      {/* ── Simulation Methodology Notice — B4 Compliance ─────────────────── */}
+      <div
+        className="flex items-start gap-3 px-5 py-4 rounded-lg border"
+        style={{
+          backgroundColor: "var(--tool-accent-tint)",
+          borderColor: "var(--tool-accent-border)",
+        }}
+      >
+        <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" style={{ color: "var(--tool-accent-text)" }} />
+        <p
+          className="text-[11px] font-mono uppercase tracking-widest leading-relaxed"
+          style={{ color: "var(--tool-accent-text)" }}
+        >
+          Simulates on close prices only — does not model spread, slippage, or liquidity gaps. Results reflect theoretical mechanical rule execution and are not a guarantee of live trading performance.
+        </p>
+      </div>
+
       <div className="max-w-6xl">
         {/* ── STEP 1: DEFINE ────────────────────────────────────────────────── */}
         {step === 'define' && (

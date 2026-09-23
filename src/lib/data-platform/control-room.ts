@@ -103,16 +103,22 @@ export interface SystemAlert {
 }
 
 export class LobbyControlRoomService {
-  // Static state counters for pipeline funnel
+  /**
+   * Pipeline funnel counters — incremented by recordFunnelEvent() during each
+   * cron execution.  These are session-relative: they accumulate within a warm
+   * serverless instance and reset on cold-start.  The persistent source of
+   * truth is data_ingestion_records / data_events in the database.
+   * Initialised at 0 — no fabricated seed values.
+   */
   private static funnelCounts: PipelineFunnelCounts = {
-    raw: 1420,
-    normalized: 1395,
-    deduplicated: 1180,
-    correlated: 420,
-    verified: 310,
-    editorialQueue: 48,
-    published: 285,
-    rejected: 25,
+    raw: 0,
+    normalized: 0,
+    deduplicated: 0,
+    correlated: 0,
+    verified: 0,
+    editorialQueue: 0,
+    published: 0,
+    rejected: 0,
   };
 
   // Recent observations timestamps for freshness tracking

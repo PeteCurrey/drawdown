@@ -18,16 +18,20 @@ import { TradingViewWidget } from "@/components/dashboard/TradingViewWidget";
 import { useMarketCache } from "@/hooks/useMarketCache";
 import { CENTRAL_BANK_RATES, STATIC_RATES_UPDATED } from "@/data/centralBankRates";
 import { CFTC_CODES } from "@/data/cftcCodes";
+import { SCREENER_INSTRUMENTS, MarketCategory as ScreenerMarketCategory } from "@/lib/screener";
+import { FilterBuilder, FilterBuilderState, DEFAULT_FILTER_STATE } from "./scanner/FilterBuilder";
+import { CorrelationMatrix } from "./scanner/CorrelationMatrix";
+import { hasTierAccess } from "@/lib/entitlements";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
-type MarketCategory = "forex" | "commodities" | "indices" | "crypto";
+export type MarketCategory = ScreenerMarketCategory;
 type ViewMode = "grid" | "list";
-type FilterMode = "ALL" | "FOREX" | "INDEX" | "COMMODITY" | "CRYPTO" | "WATCHLIST" | "SIGNALS";
+type FilterMode = "ALL" | "FOREX" | "INDEX" | "COMMODITY" | "CRYPTO" | "STOCKS" | "WATCHLIST" | "SIGNALS" | "CORRELATION";
 type SortMode = "name" | "change" | "atr" | "volume" | "score";
 type CardTab = "SIGNALS" | "FUNDAMENTALS" | "AI BRIEF" | "SMART MONEY";
 
-interface ScannerInstrument {
+export interface ScannerInstrument {
   scannerSlug: string; displayPair: string; tvSymbol: string; category: MarketCategory;
 }
 interface AlertItem {
@@ -41,29 +45,15 @@ interface PatternResult {
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
-export const SCANNER_INSTRUMENTS: ScannerInstrument[] = [
-  { scannerSlug: "EURUSD",  displayPair: "EUR/USD", tvSymbol: "FX:EURUSD",       category: "forex"       },
-  { scannerSlug: "GBPUSD",  displayPair: "GBP/USD", tvSymbol: "FX:GBPUSD",       category: "forex"       },
-  { scannerSlug: "USDJPY",  displayPair: "USD/JPY", tvSymbol: "FX:USDJPY",       category: "forex"       },
-  { scannerSlug: "GBPJPY",  displayPair: "GBP/JPY", tvSymbol: "FX:GBPJPY",       category: "forex"       },
-  { scannerSlug: "XAUUSD",  displayPair: "XAU/USD", tvSymbol: "OANDA:XAUUSD",    category: "commodities" },
-  { scannerSlug: "XAGUSD",  displayPair: "XAG/USD", tvSymbol: "OANDA:XAGUSD",    category: "commodities" },
-  { scannerSlug: "UKX",     displayPair: "UK100",   tvSymbol: "TVC:UKX",         category: "indices"     },
-  { scannerSlug: "SPX",     displayPair: "US500",   tvSymbol: "TVC:SPX",         category: "indices"     },
-  { scannerSlug: "NDX",     displayPair: "NAS100",  tvSymbol: "TVC:NDX",         category: "indices"     },
-  { scannerSlug: "DJI",     displayPair: "US30",    tvSymbol: "TVC:DJI",         category: "indices"     },
-  { scannerSlug: "BTCUSDT", displayPair: "BTC/USD", tvSymbol: "BINANCE:BTCUSDT", category: "crypto"      },
-  { scannerSlug: "ETHUSDT", displayPair: "ETH/USD", tvSymbol: "BINANCE:ETHUSDT", category: "crypto"      },
-  { scannerSlug: "XRPUSDT", displayPair: "XRP/USD", tvSymbol: "BINANCE:XRPUSDT", category: "crypto"      },
-];
+export const SCANNER_INSTRUMENTS: ScannerInstrument[] = SCREENER_INSTRUMENTS;
 
 const ALL_SLUGS = SCANNER_INSTRUMENTS.map(i => i.scannerSlug);
 
 const CATEGORY_ICON: Record<MarketCategory, React.ElementType> = {
-  forex: DollarSign, commodities: Gem, indices: BarChart3, crypto: Zap,
+  forex: DollarSign, commodities: Gem, indices: BarChart3, crypto: Zap, "stocks-uk": Building2, "stocks-us": TrendingUp,
 };
 const CATEGORY_LABEL: Record<MarketCategory, string> = {
-  forex: "Forex", commodities: "Commodity", indices: "Index", crypto: "Crypto",
+  forex: "Forex", commodities: "Commodity", indices: "Index", crypto: "Crypto", "stocks-uk": "UK Stocks", "stocks-us": "US Stocks",
 };
 
 const CONSENSUS_STYLE: Record<Consensus, string> = {
@@ -2443,7 +2433,10 @@ function MarketIntelligenceBar({
 
 // ─── Main Scanner Grid ────────────────────────────────────────────────────────
 
-function MarketScannerGrid() {
+function MarketScannerGrid({ tier, status, isAdmin }: { tier?: string; status?: string; isAdmin?: boolean } = {}) {
+  const canAccessFoundation = isAdmin || hasTierAccess(tier, "foundation", status);
+  const canAccessEdge = isAdmin || hasTierAccess(tier, "edge", status);
+
   const [viewMode, setViewMode] = useState<ViewMode>("grid");
   const [filter, setFilter] = useState<FilterMode>("ALL");
   const [sort, setSort] = useState<SortMode>("name");
@@ -2459,6 +2452,8 @@ function MarketScannerGrid() {
     try { return JSON.parse(localStorage.getItem("scanner-alerts") ?? "[]"); } catch { return []; }
   });
   const [newAlertValue, setNewAlertValue] = useState("");
+  const [advancedFilters, setAdvancedFilters] = useState<FilterBuilderState>(DEFAULT_FILTER_STATE);
+  const [lockedModal, setLockedModal] = useState<{ name: string; tier: "foundation" | "edge" } | null>(null);
 
   // ── Reactive session clock — updates every minute so session badges stay accurate
   const [sessionNow, setSessionNow] = useState(() => new Date());
@@ -2493,29 +2488,68 @@ function MarketScannerGrid() {
     localStorage.setItem("scanner-alerts", JSON.stringify(next));
   };
 
-  const FILTERS: FilterMode[] = ["ALL", "FOREX", "INDEX", "COMMODITY", "CRYPTO", "WATCHLIST", "SIGNALS"];
+  const FILTERS: FilterMode[] = ["ALL", "FOREX", "INDEX", "COMMODITY", "CRYPTO", "STOCKS", "WATCHLIST", "SIGNALS", "CORRELATION"];
   const SORTS: { id: SortMode; label: string }[] = [
     { id: "name", label: "Name" }, { id: "change", label: "% Change" },
     { id: "atr", label: "ATR" },   { id: "volume", label: "Volume" }, { id: "score", label: "Setup Score" },
   ];
 
   const filteredInstruments = SCANNER_INSTRUMENTS.filter(inst => {
-    if (filter === "WATCHLIST") return watchlist.includes(inst.scannerSlug);
-    if (filter === "FOREX")     return inst.category === "forex";
-    if (filter === "INDEX")     return inst.category === "indices";
-    if (filter === "COMMODITY") return inst.category === "commodities";
-    if (filter === "CRYPTO")    return inst.category === "crypto";
-    if (filter === "SIGNALS") {
-      // handled by SignalsTableView — show all for grid fallback
-      return true;
+    if (filter === "WATCHLIST") {
+      if (!watchlist.includes(inst.scannerSlug)) return false;
+    } else if (filter === "FOREX") {
+      if (inst.category !== "forex") return false;
+    } else if (filter === "INDEX") {
+      if (inst.category !== "indices") return false;
+    } else if (filter === "COMMODITY") {
+      if (inst.category !== "commodities") return false;
+    } else if (filter === "CRYPTO") {
+      if (inst.category !== "crypto") return false;
+    } else if (filter === "STOCKS") {
+      if (inst.category !== "stocks-uk" && inst.category !== "stocks-us") return false;
     }
+
+    // Advanced category filter
+    if (advancedFilters.category !== "ALL") {
+      if (advancedFilters.category === "FOREX" && inst.category !== "forex") return false;
+      if (advancedFilters.category === "INDEX" && inst.category !== "indices") return false;
+      if (advancedFilters.category === "COMMODITY" && inst.category !== "commodities") return false;
+      if (advancedFilters.category === "CRYPTO" && inst.category !== "crypto") return false;
+      if (advancedFilters.category === "STOCKS" && inst.category !== "stocks-uk" && inst.category !== "stocks-us") return false;
+    }
+
     // Signal bias filter from intelligence bar
     if (signalBias) {
       const p = priceData[inst.scannerSlug]?.change_pct ?? 0;
-      if (signalBias === "BULL") return p > 0.15;
-      if (signalBias === "BEAR") return p < -0.15;
-      if (signalBias === "NEUT") return p >= -0.15 && p <= 0.15;
+      if (signalBias === "BULL" && p <= 0.15) return false;
+      if (signalBias === "BEAR" && p >= -0.15) return false;
+      if (signalBias === "NEUT" && (p < -0.15 || p > 0.15)) return false;
     }
+
+    // Advanced: RSI range
+    if (advancedFilters.rsiMin > 0 || advancedFilters.rsiMax < 100) {
+      const rsi = priceData[inst.scannerSlug]?.rsi;
+      if (rsi !== null && rsi !== undefined) {
+        if (rsi < advancedFilters.rsiMin || rsi > advancedFilters.rsiMax) return false;
+      }
+    }
+
+    // Advanced: Change %
+    if (advancedFilters.changeMin !== null) {
+      const p = priceData[inst.scannerSlug]?.change_pct ?? 0;
+      if (p < advancedFilters.changeMin) return false;
+    }
+    if (advancedFilters.changeMax !== null) {
+      const p = priceData[inst.scannerSlug]?.change_pct ?? 0;
+      if (p > advancedFilters.changeMax) return false;
+    }
+
+    // Advanced: ATR high volatility
+    if (advancedFilters.atrHighOnly) {
+      const atr = priceData[inst.scannerSlug]?.atr;
+      if (!atr || atr <= 0) return false;
+    }
+
     return true;
   }).sort((a, b) => {
     const da = priceData[a.scannerSlug], db = priceData[b.scannerSlug];
@@ -2524,6 +2558,30 @@ function MarketScannerGrid() {
     if (sort === "volume") return (db?.volumePct ?? 0) - (da?.volumePct ?? 0);
     return a.displayPair.localeCompare(b.displayPair);
   });
+
+  const handleExportCSV = useCallback(() => {
+    const headers = ["Symbol", "Pair", "Category", "Price", "24h Change %", "RSI", "Source"];
+    const rows = filteredInstruments.map(i => {
+      const d = priceData[i.scannerSlug];
+      return [
+        i.scannerSlug,
+        i.displayPair,
+        i.category,
+        d?.price ?? "",
+        d?.change_pct ?? "",
+        d?.rsi ?? "",
+        d?.source ?? ""
+      ];
+    });
+    const csvContent = [headers.join(","), ...rows.map(r => r.map(c => `"${c}"`).join(","))].join("\n");
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `market-scanner-${new Date().toISOString().split("T")[0]}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+  }, [filteredInstruments, priceData]);
 
   // Watchlist pinned to top
   const pinned   = filteredInstruments.filter(i => watchlist.includes(i.scannerSlug));
@@ -2544,6 +2602,19 @@ function MarketScannerGrid() {
         }}
       />
 
+      {/* Advanced FilterBuilder (Foundation+) */}
+      <FilterBuilder
+        filters={advancedFilters}
+        onChange={setAdvancedFilters}
+        onReset={() => setAdvancedFilters(DEFAULT_FILTER_STATE)}
+        canAccessSavedScreens={canAccessFoundation}
+        canAccessExport={canAccessEdge}
+        onExportCSV={handleExportCSV}
+        onLockedFeature={(name, requiredTier) => setLockedModal({ name, tier: requiredTier })}
+        totalResults={sorted.length}
+        totalAvailable={SCANNER_INSTRUMENTS.length}
+      />
+
       {/* Filter tabs — always visible */}
       <div className="flex items-center gap-1 flex-wrap">
         {FILTERS.map(f => (
@@ -2557,6 +2628,8 @@ function MarketScannerGrid() {
 
       {filter === "SIGNALS" ? (
         <SignalsTableView priceData={priceData} />
+      ) : filter === "CORRELATION" ? (
+        <CorrelationMatrix instruments={filteredInstruments} canAccessEdge={canAccessEdge} />
       ) : (
         <>
           {/* Sort + View toggle */}
@@ -2660,6 +2733,53 @@ function MarketScannerGrid() {
         </div>
       )}
       {alertsSlug && <div className="fixed inset-0 bg-black/40 z-40" onClick={() => setAlertsSlug(null)} />}
+
+      {/* Locked Feature Upsell Modal */}
+      {lockedModal && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-in fade-in duration-300"
+          onClick={() => setLockedModal(null)}
+        >
+          <div
+            className="w-full max-w-md bg-background-surface border border-border-slate/70 p-6 space-y-4 shadow-2xl relative"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-center justify-between border-b border-border-slate/40 pb-3">
+              <div className="flex items-center gap-2">
+                <Shield className="w-4 h-4 text-premium" />
+                <h3 className="font-mono text-sm font-bold uppercase tracking-wider text-text-primary">
+                  {lockedModal.tier === "edge" ? "Edge Tier Feature" : "Foundation Tier Feature"}
+                </h3>
+              </div>
+              <button
+                onClick={() => setLockedModal(null)}
+                className="text-text-tertiary hover:text-text-primary p-1"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+            <p className="text-xs font-mono text-text-secondary leading-relaxed">
+              <strong>{lockedModal.name}</strong> is available on the{" "}
+              <span className="uppercase text-premium font-bold">{lockedModal.tier} tier</span> and above.
+              Upgrade your membership to unlock automated preset screening, live data export, and institutional analysis.
+            </p>
+            <div className="flex justify-end gap-2 pt-2">
+              <button
+                onClick={() => setLockedModal(null)}
+                className="px-4 py-2 text-[10px] font-mono uppercase text-text-tertiary border border-border-slate/40"
+              >
+                Cancel
+              </button>
+              <Link
+                href="/pricing"
+                className="px-5 py-2 text-[10px] font-mono font-bold uppercase bg-premium text-black hover:opacity-90"
+              >
+                View Pricing & Upgrade →
+              </Link>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
@@ -3057,9 +3177,14 @@ function SymbolDetail({ instrument }: { instrument: ScannerInstrument }) {
 
 // ─── Root export ──────────────────────────────────────────────────────────────
 
-interface ScannerClientProps { symbol: string | null; }
+interface ScannerClientProps {
+  symbol: string | null;
+  tier?: string;
+  status?: string;
+  isAdmin?: boolean;
+}
 
-export function ScannerClient({ symbol }: ScannerClientProps) {
+export function ScannerClient({ symbol, tier, status, isAdmin }: ScannerClientProps) {
   const instrument = symbol ? SCANNER_INSTRUMENTS.find(i => i.scannerSlug === symbol) ?? null : null;
   if (instrument) return <SymbolDetail instrument={instrument} />;
   if (symbol && !instrument) return (
@@ -3071,7 +3196,7 @@ export function ScannerClient({ symbol }: ScannerClientProps) {
         </Link>
         <p className="text-sm text-text-tertiary font-mono uppercase">Symbol &quot;{symbol}&quot; not recognised.</p>
       </header>
-      <MarketScannerGrid />
+      <MarketScannerGrid tier={tier} status={status} isAdmin={isAdmin} />
     </div>
   );
   return (
@@ -3085,7 +3210,7 @@ export function ScannerClient({ symbol }: ScannerClientProps) {
           <h1 className="text-4xl font-display font-bold uppercase tracking-tight">
             Market <span className="text-premium">Scanner.</span>
           </h1>
-          <p className="text-sm text-text-tertiary">12 instruments · Live prices · Multi-timeframe signals · AI pattern analysis</p>
+          <p className="text-sm text-text-tertiary">38 instruments · Live prices · Multi-timeframe signals · AI pattern analysis</p>
         </div>
         <div className="flex items-center">
           <DataProvenanceLabel
@@ -3095,7 +3220,7 @@ export function ScannerClient({ symbol }: ScannerClientProps) {
           />
         </div>
       </header>
-      <MarketScannerGrid />
+      <MarketScannerGrid tier={tier} status={status} isAdmin={isAdmin} />
     </div>
   );
 }

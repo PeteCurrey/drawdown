@@ -42,7 +42,12 @@ export default async function TechnicalScannerPage({
 
   return (
     <div>
-      <ScannerClient symbol={resolvedSymbol} />
+      <ScannerClient
+        symbol={resolvedSymbol}
+        tier={tier}
+        status={status}
+        isAdmin={isAdmin}
+      />
     </div>
   );
 }

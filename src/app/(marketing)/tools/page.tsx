@@ -64,7 +64,7 @@ const toolCategories = [
     title: "Strategy Backtester",
     description: "Validate your edge on historical price data with fast precision.",
     icon: History,
-    features: ["Optimization Engine", "Monte Carlo Sim", "Detailed Stats"],
+    features: ["Optimization Engine", "Detailed Performance Stats", "Equity Curve"],
     tier: "Edge+",
     color: "accent"
   },

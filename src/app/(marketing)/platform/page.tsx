@@ -119,7 +119,7 @@ export default function PlatformPage() {
                   </div>
                   <h3 className="text-2xl font-bold mb-4">Live Market Intelligence</h3>
                   <p className="text-text-secondary leading-relaxed mb-8">
-                    A real-time market hub updated every 60 seconds. Aggregated from global financial news feeds including Sky News Business, BBC, Investing.com, Yahoo Finance, CNN, Fox Business, ForexLive, and CoinDesk. Economic calendar, top movers, volatility windows, and sentiment data — all in one dashboard. The kind of intelligence retail traders don't usually have access to.
+                    A real-time market hub updated every 60 seconds. News aggregated from multiple curated institutional and financial sources including Sky News Business, BBC Business, Investing.com, Yahoo Finance, CNN Business, Fox Business, Forbes, ForexLive, and CoinDesk. Economic calendar, top movers, volatility windows, and sentiment data — all in one dashboard. The kind of intelligence retail traders don't usually have access to.
                   </p>
                   <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6">
                     <Link href="/markets" className="inline-flex items-center gap-2 text-sm font-bold text-blue-600 hover:text-blue-700 transition-colors">
@@ -262,7 +262,7 @@ export default function PlatformPage() {
                   badge: "FLOOR",
                   badgeColor: "bg-accent/20 text-accent",
                   icon: <Terminal className="w-8 h-8 text-violet-400" />,
-                  desc: "Convert discretionary trading logic into institutional-grade Pine Script v5 or Python Backtrader scripts in seconds. Our code-generator features look-ahead bias checks, built-in dynamic risk modules, and direct execution API hooks. Zero coding experience required.",
+                  desc: "Convert discretionary trading logic into institutional-grade Pine Script v5 or Python Backtrader scripts in seconds. Our code-generator is instructed to avoid look-ahead bias and includes built-in dynamic risk modules. Code is exported for use in your own broker platform — zero coding experience required.",
                   feature: "Pine Script v5 & Python Backtrader code export"
                 }
               ].map((tool, idx) => (

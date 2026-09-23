@@ -1,23 +1,13 @@
 import { NextResponse } from "next/server";
+import { SCREENER_INSTRUMENTS } from "@/lib/screener";
 
 type Signal = "BUY" | "SELL" | "NEUTRAL";
 type Consensus = "STRONG BUY" | "BUY" | "NEUTRAL" | "SELL" | "STRONG SELL";
 
-// Twelve Data symbol map for batch requests
-const TD_MAP: Record<string, string> = {
-  EURUSD:  "EUR/USD",
-  GBPUSD:  "GBP/USD",
-  USDJPY:  "USD/JPY",
-  GBPJPY:  "GBP/JPY",
-  XAGUSD:  "XAG/USD",
-  UKX:     "FTSE",
-  SPX:     "SPX500",
-  NDX:     "QQQ",
-  DJI:     "DJI",
-  BTCUSDT: "BTC/USD",
-  ETHUSDT: "ETH/USD",
-  XRPUSDT: "XRP/USD",
-};
+// Twelve Data symbol map for batch requests across all 38 approved instruments
+const TD_MAP: Record<string, string> = Object.fromEntries(
+  SCREENER_INSTRUMENTS.map((inst) => [inst.scannerSlug, inst.tdSymbol])
+);
 
 const SLUGS = Object.keys(TD_MAP);
 

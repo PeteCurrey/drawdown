@@ -96,6 +96,9 @@ export function StatsCounters() {
         <span className="text-[11px] font-sans font-semibold tracking-wider uppercase text-neutral-400 mt-1">
           Market Data
         </span>
+        <span className="text-[9px] font-sans text-neutral-400 mt-0.5 tracking-wide normal-case opacity-70">
+          Updated periodically
+        </span>
       </div>
       <div className="flex flex-col col-span-2 md:col-span-1 lg:col-span-2">
         <span className="text-4xl font-sans font-bold text-[#0A0A0A]">

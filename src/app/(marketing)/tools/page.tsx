@@ -1,5 +1,4 @@
 import type { Metadata } from 'next'
-import ToolsPage from './ToolsClient'
 
 export const metadata: Metadata = {
   title: 'Trading Tools — Risk Calculator, Backtester, Position Sizer | Drawdown',
@@ -9,7 +8,6 @@ export const metadata: Metadata = {
 };
 
 import { 
-  Wrench, 
   BarChart3, 
   Percent, 
   LayoutDashboard, 
@@ -17,7 +15,8 @@ import {
   Cpu, 
   ArrowRight,
   ShieldCheck,
-  Zap
+  Zap,
+  Terminal
 } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
@@ -30,7 +29,9 @@ const toolCategories = [
     icon: Cpu,
     features: ["Multi-Asset Macro Synthesis", "Tri-Model AI Council", "Quantitative Risk Analysis"],
     tier: "Foundation Add-on (£99/mo)",
-    color: "premium"
+    color: "premium",
+    hoverColorClass: "group-hover:text-purple-600 dark:group-hover:text-purple-400",
+    glowClass: "bg-purple-500",
   },
   {
     slug: "ai-trade-journal",
@@ -39,7 +40,9 @@ const toolCategories = [
     icon: LayoutDashboard,
     features: ["Automated Logging", "Sentiment Tracking", "Visual Equity Curve"],
     tier: "Edge+",
-    color: "accent"
+    color: "accent",
+    hoverColorClass: "group-hover:text-sky-500 dark:group-hover:text-sky-400",
+    glowClass: "bg-sky-500",
   },
   {
     slug: "risk-calculator",
@@ -48,7 +51,9 @@ const toolCategories = [
     icon: Percent,
     features: ["Drawdown Modeling", "Margin Optimization", "Position Sizing"],
     tier: "Free",
-    color: "profit"
+    color: "profit",
+    hoverColorClass: "group-hover:text-emerald-500 dark:group-hover:text-emerald-400",
+    glowClass: "bg-emerald-500",
   },
   {
     slug: "ai-market-scanner",
@@ -57,7 +62,9 @@ const toolCategories = [
     icon: Zap,
     features: ["Macro Correlation", "Technical Consensus", "Multi-Timeframe Scan"],
     tier: "Edge+",
-    color: "premium"
+    color: "premium",
+    hoverColorClass: "group-hover:text-amber-500 dark:group-hover:text-amber-400",
+    glowClass: "bg-amber-500",
   },
   {
     slug: "strategy-backtester",
@@ -66,7 +73,9 @@ const toolCategories = [
     icon: History,
     features: ["Optimization Engine", "Detailed Performance Stats", "Equity Curve"],
     tier: "Edge+",
-    color: "accent"
+    color: "accent",
+    hoverColorClass: "group-hover:text-blue-600 dark:group-hover:text-blue-400",
+    glowClass: "bg-blue-500",
   },
   {
     slug: "market-charts",
@@ -75,7 +84,9 @@ const toolCategories = [
     icon: BarChart3,
     features: ["Custom Indicators", "Drawing Tools", "Multi-Device Sync"],
     tier: "Foundation+",
-    color: "accent"
+    color: "accent",
+    hoverColorClass: "group-hover:text-teal-500 dark:group-hover:text-teal-400",
+    glowClass: "bg-teal-500",
   },
   {
     slug: "intelligence-hub",
@@ -84,16 +95,20 @@ const toolCategories = [
     icon: Cpu,
     features: ["Pete's Daily Bias", "Macro Calendar", "Sentiment Gauge"],
     tier: "Foundation+",
-    color: "warning"
+    color: "warning",
+    hoverColorClass: "group-hover:text-orange-500 dark:group-hover:text-orange-400",
+    glowClass: "bg-orange-500",
   },
   {
     slug: "algo-strategy-builder",
     title: "Algo Strategy Builder",
     description: "Describe your strategy. Get the code. AI-powered conversion of rules to Pine Script or Python.",
-    icon: Cpu,
+    icon: Terminal,
     features: ["Natural Language Input", "Pine Script v5", "Python Backtrader"],
     tier: "Floor",
-    color: "premium"
+    color: "premium",
+    hoverColorClass: "group-hover:text-fuchsia-500 dark:group-hover:text-fuchsia-400",
+    glowClass: "bg-fuchsia-500",
   }
 ];
 
@@ -193,48 +208,67 @@ export default function ToolsMarketingPage() {
                const Icon = tool.icon;
                return (
                  <div key={tool.slug} className="group p-10 bg-background-primary hover:bg-background-elevated transition-all duration-500 relative overflow-hidden">
-                    <div className="text-accent mb-8 flex justify-between items-start">
-                       <div className="p-3 bg-background-elevated border border-border-slate group-hover:border-accent group-hover:bg-accent/5 transition-all">
-                          <Icon className="w-8 h-8" />
+                    <div className="relative z-10">
+                       <div className="text-accent mb-8 flex justify-between items-start">
+                          <div className="p-3 bg-background-elevated border border-border-slate group-hover:border-accent group-hover:bg-accent/5 transition-all">
+                             <Icon className="w-8 h-8" />
+                          </div>
+                          <span className={cn(
+                             "text-[8px] font-mono uppercase tracking-widest px-2 py-1 border",
+                             tool.tier === "Free" ? "text-profit border-profit/30" : 
+                             tool.tier === "Foundation+" ? "text-accent border-accent/30" : 
+                             tool.tier === "Edge+" ? "text-premium border-premium/30" :
+                             "text-accent border-accent/30 bg-accent/5"
+                          )}>
+                             {tool.tier}
+                          </span>
                        </div>
-                       <span className={cn(
-                          "text-[8px] font-mono uppercase tracking-widest px-2 py-1 border",
-                          tool.tier === "Free" ? "text-profit border-profit/30" : 
-                          tool.tier === "Foundation+" ? "text-accent border-accent/30" : 
-                          tool.tier === "Edge+" ? "text-premium border-premium/30" :
-                          "text-accent border-accent/30 bg-accent/5"
-                       )}>
-                          {tool.tier}
-                       </span>
+
+                       <h3 className="text-2xl font-display font-bold uppercase mb-4 text-text-primary group-hover:text-accent transition-colors">
+                          {tool.title}
+                       </h3>
+                       
+                       <p className="text-sm text-text-secondary leading-relaxed mb-8 h-12">
+                          {tool.description}
+                       </p>
+
+                       <div className="space-y-3 mb-10">
+                          {tool.features.map((feature, i) => (
+                            <div key={i} className="flex items-center gap-3 text-text-tertiary">
+                               <ShieldCheck className="w-4 h-4 text-accent/40" />
+                               <span className="text-[10px] font-mono uppercase tracking-widest">{feature}</span>
+                            </div>
+                          ))}
+                       </div>
+
+                       <Link 
+                         href={tool.slug.startsWith("/") ? tool.slug : `/tools/${tool.slug}`}
+                         className="inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.2em] text-accent group-hover:gap-4 transition-all"
+                       >
+                          Learn More <ArrowRight className="w-3 h-3" />
+                       </Link>
                     </div>
 
-                    <h3 className="text-2xl font-display font-bold uppercase mb-4 text-text-primary group-hover:text-accent transition-colors">
-                       {tool.title}
-                    </h3>
-                    
-                    <p className="text-sm text-text-secondary leading-relaxed mb-8 h-12">
-                       {tool.description}
-                    </p>
-
-                    <div className="space-y-3 mb-10">
-                       {tool.features.map((feature, i) => (
-                         <div key={i} className="flex items-center gap-3 text-text-tertiary">
-                            <ShieldCheck className="w-4 h-4 text-accent/40" />
-                            <span className="text-[10px] font-mono uppercase tracking-widest">{feature}</span>
-                         </div>
-                       ))}
-                    </div>
-
-                    <Link 
-                      href={`/tools/${tool.slug}`}
-                      className="inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.2em] text-accent group-hover:gap-4 transition-all"
-                    >
-                       Learn More <ArrowRight className="w-3 h-3" />
-                    </Link>
-
-                    {/* Background Detail */}
-                    <div className="absolute top-0 right-0 p-4 opacity-5 pointer-events-none group-hover:opacity-10 transition-opacity">
-                       <Icon className="w-32 h-32" />
+                    {/* Background Detail — Ambient Bloom & Icon Color Reveal on Hover */}
+                    <div className="absolute top-0 right-0 p-4 pointer-events-none overflow-hidden select-none z-0">
+                       {/* Ambient Glow Bloom */}
+                       <div 
+                         className={cn(
+                           "absolute -top-8 -right-8 w-40 h-40 rounded-full blur-3xl opacity-0 group-hover:opacity-20 transition-opacity duration-700 pointer-events-none",
+                           tool.glowClass
+                         )} 
+                       />
+                       {/* Background Watermark Icon with Color Reveal */}
+                       <div 
+                         className={cn(
+                           "transform transition-all duration-500 ease-out",
+                           "text-text-primary opacity-5",
+                           "group-hover:opacity-30 group-hover:scale-110 group-hover:-rotate-3 group-hover:translate-x-1 group-hover:-translate-y-1",
+                           tool.hoverColorClass
+                         )}
+                       >
+                          <Icon className="w-32 h-32 transition-colors duration-500" />
+                       </div>
                     </div>
                  </div>
                );

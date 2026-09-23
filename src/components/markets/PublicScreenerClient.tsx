@@ -14,11 +14,13 @@ import { ScreenerUpsellRows } from "@/components/markets/ScreenerUpsellRows";
 import { DataProvenanceLabel } from "@/components/ui/DataProvenanceLabel";
 import { RefreshCw, Activity, SlidersHorizontal, Table } from "lucide-react";
 
-export function PublicScreenerClient() {
-  const [data, setData] = useState<ScreenerRow[]>([]);
-  const [loading, setLoading] = useState(true);
+export function PublicScreenerClient({ initialData }: { initialData?: ScreenerRow[] }) {
+  const [data, setData] = useState<ScreenerRow[]>(initialData && initialData.length > 0 ? initialData : []);
+  const [loading, setLoading] = useState(initialData && initialData.length > 0 ? false : true);
   const [isRefreshing, setIsRefreshing] = useState(false);
-  const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
+  const [lastUpdated, setLastUpdated] = useState<Date | null>(
+    initialData && initialData.length > 0 ? new Date() : null
+  );
 
   // Active modal instrument
   const [modalInstrument, setModalInstrument] = useState<ScreenerRow | null>(null);
@@ -39,7 +41,7 @@ export function PublicScreenerClient() {
       const res = await fetch("/api/market/screener");
       if (res.ok) {
         const json = await res.json();
-        if (Array.isArray(json)) {
+        if (Array.isArray(json) && json.length > 0) {
           setData(json);
           setLastUpdated(new Date());
         }
@@ -53,7 +55,10 @@ export function PublicScreenerClient() {
   }
 
   useEffect(() => {
-    loadData();
+    // If no initial server data was passed, fetch immediately
+    if (!initialData || initialData.length === 0) {
+      loadData();
+    }
     const interval = setInterval(() => loadData(), 60_000);
     return () => clearInterval(interval);
   }, []);

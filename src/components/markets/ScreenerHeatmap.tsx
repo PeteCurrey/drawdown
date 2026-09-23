@@ -539,6 +539,11 @@ export function ScreenerHeatmap({
               const benchmarkItems = group.items.filter(i => BENCHMARK_SLUGS.has(i.slug));
               const secondaryItems = group.items.filter(i => !BENCHMARK_SLUGS.has(i.slug));
 
+              const validItems = group.items.filter(i => !i.feed_offline && i.changePct !== null);
+              const avgChange = validItems.length > 0
+                ? validItems.reduce((acc, i) => acc + (i.changePct ?? 0), 0) / validItems.length
+                : null;
+
               return (
                 <div key={group.category} className="space-y-2.5 border-b border-mkt-bd/40 pb-5 last:border-b-0 last:pb-0">
                   {/* Category Cluster Header */}
@@ -548,10 +553,21 @@ export function ScreenerHeatmap({
                       <h3 className="text-xs font-mono font-extrabold uppercase tracking-wider text-mkt-ink">
                         {group.label}
                       </h3>
-                      <span className="text-[8px] font-mono text-mkt-i4">
-                        ({group.items.length} assets)
+                      <span className="text-[8px] font-mono text-mkt-i4 bg-slate-100 px-1.5 py-0.2 rounded-2xs">
+                        {group.items.length} assets
                       </span>
                     </div>
+
+                    {avgChange !== null && (
+                      <span className={cn(
+                        "text-[9px] font-mono font-bold px-1.5 py-0.2 rounded-2xs border",
+                        avgChange >= 0
+                          ? "text-emerald-800 bg-emerald-50 border-emerald-200"
+                          : "text-red-800 bg-red-50 border-red-200"
+                      )}>
+                        {avgChange >= 0 ? "+" : ""}{avgChange.toFixed(2)}% Avg
+                      </span>
+                    )}
                   </div>
 
                   {/* Benchmark & Secondary Grid */}

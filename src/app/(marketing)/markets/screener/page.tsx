@@ -17,14 +17,42 @@ export const metadata: Metadata = {
   },
 };
 
-export default function ScreenerPage() {
+import { ScreenerRow } from "@/lib/screener";
+
+async function getInitialScreenerData(): Promise<ScreenerRow[]> {
+  try {
+    const res = await fetch("https://drawdown.trading/api/market/screener", {
+      next: { revalidate: 60 },
+      signal: AbortSignal.timeout(4000),
+    });
+    if (res.ok) {
+      const data = await res.json();
+      if (Array.isArray(data) && data.length > 0) {
+        return data;
+      }
+    }
+  } catch (err) {
+    // Non-fatal: client-side fetch will hydrate immediately
+    console.warn("[ScreenerPage] Server prefetch fallback to client hydration:", err);
+  }
+  return [];
+}
+
+export default async function ScreenerPage() {
+  const initialData = await getInitialScreenerData();
+
+  const validAssets = initialData.filter(i => !i.feed_offline && i.changePct !== null);
+  const advCount = validAssets.filter(i => (i.changePct ?? 0) > 0).length;
+  const decCount = validAssets.filter(i => (i.changePct ?? 0) < 0).length;
+  const totalCount = initialData.length > 0 ? initialData.length : 32;
+
   return (
     <div className="min-h-screen bg-background-primary text-text-primary selection:bg-accent selection:text-black">
       <TrackPageView path="/markets/screener" />
 
       {/* Header section */}
       <section className="border-b border-border-slate/50 bg-white/40">
-        <div className="max-w-7xl mx-auto px-6 py-10 md:py-14 space-y-6">
+        <div className="max-w-7xl mx-auto px-6 py-8 md:py-12 space-y-6">
           {/* Sub Navigation Strip & Breadcrumbs */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border-slate/60 pb-4">
             <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-text-tertiary">
@@ -84,12 +112,50 @@ export default function ScreenerPage() {
               </Link>
             </div>
           </div>
+
+          {/* Operational Terminal Hero Live-State Strip */}
+          <div className="pt-2">
+            <div className="bg-white border border-border-slate px-4 py-2.5 rounded-xs flex flex-wrap items-center justify-between gap-3 text-[10px] font-mono shadow-2xs">
+              <div className="flex items-center gap-3">
+                <div className="flex items-center gap-2">
+                  <span className="relative flex h-2 w-2">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
+                  </span>
+                  <span className="font-bold uppercase tracking-wider text-text-primary">
+                    Live Stream Feed
+                  </span>
+                </div>
+                <span className="text-border-slate">|</span>
+                <span className="text-text-secondary">
+                  <strong>{totalCount}</strong> Instruments Active
+                </span>
+                <span className="text-border-slate hidden sm:inline">|</span>
+                <span className="text-text-secondary hidden sm:inline">
+                  6 Asset Classes
+                </span>
+              </div>
+
+              <div className="flex items-center gap-4 text-text-tertiary">
+                {validAssets.length > 0 && (
+                  <div className="flex items-center gap-2">
+                    <span className="text-emerald-700 font-bold">▲ {advCount} Advancing</span>
+                    <span>·</span>
+                    <span className="text-red-700 font-bold">▼ {decCount} Declining</span>
+                  </div>
+                )}
+                <span className="bg-slate-100 border border-border-slate/80 text-text-secondary px-2 py-0.5 rounded-xs text-[9px] font-semibold uppercase tracking-wider">
+                  60s Edge Cache
+                </span>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
       {/* Main Screener Section */}
       <main className="max-w-7xl mx-auto px-6 py-8">
-        <PublicScreenerClient />
+        <PublicScreenerClient initialData={initialData} />
       </main>
     </div>
   );

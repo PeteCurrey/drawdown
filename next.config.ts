@@ -14,15 +14,12 @@ const nextConfig: NextConfig = {
   },
   async redirects() {
     return [
-      // ── www → non-www canonical redirect ────────────────────────────────
-      // Ensures https://www.drawdown.trading/* → https://drawdown.trading/*
-      // so the served domain matches all canonical tags.
-      {
-        source: "/:path*",
-        has: [{ type: "host", value: "www.drawdown.trading" }],
-        destination: "https://drawdown.trading/:path*",
-        permanent: true,
-      },
+      // NOTE: www ↔ non-www redirect direction is controlled at the Vercel platform
+      // level (Vercel dashboard → Domains). The application cannot safely add a
+      // www→non-www redirect here because Vercel's platform-level redirect fires
+      // first (before Next.js), creating an infinite loop. To make non-www the
+      // canonical host: go to Vercel → Project → Settings → Domains and set
+      // drawdown.trading as primary with www.drawdown.trading redirecting to it.
       {
         source: "/register",
         destination: "/signup",

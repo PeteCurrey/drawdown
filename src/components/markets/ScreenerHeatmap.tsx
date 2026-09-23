@@ -411,9 +411,9 @@ export function ScreenerHeatmap({
                 onClick={() => setMetricMode(metric.id)}
                 title={metric.title}
                 className={cn(
-                  "px-2 py-1 text-[9px] font-mono font-bold uppercase tracking-wider rounded-xs transition-colors",
+                  "px-2 py-1 text-[9px] font-mono font-bold uppercase tracking-wider rounded-xs transition-all",
                   metricMode === metric.id
-                    ? "bg-mkt-ink text-white shadow-2xs"
+                    ? "bg-slate-900 text-white shadow-sm"
                     : "text-mkt-i3 hover:text-mkt-ink hover:bg-slate-100"
                 )}
               >

@@ -324,9 +324,9 @@ const nextConfig: NextConfig = {
           { key: "Strict-Transport-Security", value: "max-age=63072000; includeSubDomains; preload" },
         ],
       },
-      // ── Global security headers for all other routes ─────────────────────
+      // ── Global security headers for all non-embed routes ─────────────────
       {
-        source: "/:path*",
+        source: "/((?!embed).*)",
         headers: [
           { key: "X-Frame-Options", value: "DENY" },
           { key: "X-Content-Type-Options", value: "nosniff" },

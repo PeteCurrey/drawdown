@@ -1,4 +1,5 @@
-import { INSTRUMENTS, getExchangeRateToAccount, InstrumentSpec } from "./instruments";
+import { INSTRUMENTS, getExchangeRateToAccount } from "./instruments.ts";
+import type { InstrumentSpec } from "./instruments.ts";
 
 export interface PositionCalculationInput {
   symbol: string;

@@ -412,13 +412,90 @@ export function PositionSizeCalculatorClient() {
         {/* Theoretical / Mathematical Breakdown */}
         <ToolFormulaSection
           title="Position Sizing Mathematical Mechanics"
-          description="Position sizing is the single most critical risk management lever in independent trading. While amateur traders fixate on win rate, institutional allocators determine edge through strict R-multiple exposure and lot normalization."
-          formulaLatex="Lot\ Size = \frac{Account\ Equity \times Risk\ \%}{|Entry - Stop|\ (in\ pips) \times Pip\ Value\ per\ Lot}"
+          description="Position sizing is the single most critical risk management lever in independent trading. While amateur traders fixate on win rate, institutional allocators determine edge through strict R-multiple exposure, deterministic pip conversions, and exact contract normalization."
+          formulaLatex="Lot\ Size = \frac{\text{Account Equity} \times \text{Risk \%}}{|\text{Entry} - \text{Stop}| \times \text{Pip Factor} \times \text{Pip Value per Lot (Account Ccy)}}"
+          variables={[
+            {
+              symbol: "B",
+              name: "Account Balance / Equity",
+              unit: "Currency ($/£/€)",
+              description: "Total liquid balance used to establish the cash risk allowance for the trade.",
+            },
+            {
+              symbol: "r",
+              name: "Risk Parameter",
+              unit: "% or Currency",
+              description: "Maximum allowable capital loss should the trade hit technical invalidation.",
+            },
+            {
+              symbol: "Δp",
+              name: "Stop Invalidation Distance",
+              unit: "Pips or Index Points",
+              description: "Absolute distance |Entry - Stop Loss| normalized by instrument pip/tick factor.",
+            },
+            {
+              symbol: "V_pip",
+              name: "Pip Value per Lot",
+              unit: "Account Currency",
+              description: "Monetary return of a 1-pip movement for 1.00 standard contract converted to account currency.",
+            },
+            {
+              symbol: "L",
+              name: "Standard Lot Size",
+              unit: "Standard Contracts",
+              description: "Calculated position volume (1.00 lot = 100k FX units, 100 oz Gold, 5,000 oz Silver, 1 index pt).",
+            },
+          ]}
           steps={[
             "Calculate cash risk budget by multiplying total liquid account balance by the defined fraction at risk (e.g. 1% of £25,000 = £250).",
             "Establish exact structural invalidation by taking the absolute spread between trade entry price and technical stop loss in base pips or index points.",
             "Determine the current monetary value of a single pip for one standard contract (100,000 base currency units) converted into your account denomination.",
             "Divide the cash risk budget by the product of invalidation distance and single-lot pip value to obtain the exact mathematically compliant lot volume.",
+          ]}
+          workedExample={{
+            title: "Institutional Worked Example: EUR/USD Standard Lot Sizing",
+            scenario: "A trader with a $10,000 USD account risks exactly 1.0% ($100 cash risk) on a EUR/USD long position. Entry price is 1.08500 with a technical stop loss at 1.08250.",
+            steps: [
+              { label: "Cash Risk Budget", formula: "$10,000 × 1.0%", value: "$100.00 USD" },
+              { label: "Stop Loss Distance", formula: "|1.08500 - 1.08250| × 10,000", value: "25.0 pips" },
+              { label: "Pip Value per Standard Lot", formula: "100,000 units × 0.0001", value: "$10.00 USD / pip" },
+              { label: "Required Position Volume", formula: "$100.00 ÷ (25.0 pips × $10.00)", value: "0.40 Standard Lots (40,000 EUR)" },
+              { label: "Notional Exposure", formula: "40,000 EUR × 1.08500", value: "$43,400 USD (4.34x Account Leverage)" },
+            ],
+            conclusion: "If the trade hits stop loss at 1.08250, the realized loss is exactly 25.0 pips × $4.00/pip ($10.00 × 0.40) = $100.00 USD (1.00% of equity), preserving risk compliance irrespective of market volatility.",
+          }}
+          assumptions={[
+            "Execution occurs precisely at the stop-loss order price with zero slippage.",
+            "Standard institutional contract specifications apply (100,000 FX units, 100 oz Gold, 5,000 oz Silver, 1,000 bbl Oil).",
+            "Currency conversion rates between quote currency and account currency remain constant across the transaction.",
+            "Liquidity is sufficient to fill the calculated order size without market impact.",
+          ]}
+          limitations={[
+            "Weekend market gaps and illiquid macro announcements (e.g. CPI, NFP, rate decisions) can execute stop orders below requested levels (adverse slippage).",
+            "Variable overnight financing / swap charges are not deducted from the initial lot calculation and will increase total cost for multi-day swing positions.",
+            "Broker contract sizes can vary for proprietary index CFDs (e.g., fractional point values rather than standard $1/pt).",
+          ]}
+          relatedLinks={[
+            {
+              label: "Drawdown Modeler",
+              href: "/calculators/drawdown",
+              description: "Model consecutive loss streaks and capital decay under fixed-fractional sizing",
+            },
+            {
+              label: "Risk of Ruin Calculator",
+              href: "/tools/risk-of-ruin-calculator",
+              description: "Quantify the statistical probability of account ruin over a finite trade sample",
+            },
+            {
+              label: "Drawdown Recovery Calculator",
+              href: "/calculators/drawdown-recovery",
+              description: "Evaluate the non-linear gain required to recover from equity drawdowns",
+            },
+            {
+              label: "Risk Management Knowledge Architecture",
+              href: "/risk-management",
+              description: "Explore the comprehensive institutional curriculum on position sizing and survival math",
+            },
           ]}
           faqs={[
             {

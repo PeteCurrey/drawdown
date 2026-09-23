@@ -322,13 +322,105 @@ export function RiskOfRuinCalculatorClient() {
         {/* Educational Section */}
         <ToolFormulaSection
           title="The Mathematics Behind Risk of Ruin"
-          description="Risk of Ruin was formulated by statisticians and game theorists to model the exact likelihood that an agent playing a positive expectancy game will run out of capital before their edge manifests."
-          formulaLatex="Ruin = \left( \frac{1 - A}{1 + A} \right)^U \quad \text{where} \quad A = \frac{W \times RR - L}{W \times RR + L}"
+          description="Risk of Ruin originates in classical probability theory (gambler's ruin) and quantitative asset management. Formulated by Ralph Vince and Perry Kaufman, this analytical model determines the exact probability that an agent playing a positive expectancy game will breach an absorbing ruin barrier before their statistical edge manifests."
+          formulaLatex="P_{\text{ruin}}(T) = \min\left(1.0, \left( \frac{1 - A}{1 + A} \right)^U \times \left(1 - e^{-T / (10 \times U)}\right)\right) \times 100 \quad \text{where} \quad A = \frac{W \times RR - L}{W \times RR + L}"
+          variables={[
+            {
+              symbol: "W",
+              name: "Win Rate",
+              unit: "Fraction [0.01, 0.99]",
+              description: "Statistical probability of any single independent trade closing in profit.",
+            },
+            {
+              symbol: "L",
+              name: "Loss Rate",
+              unit: "Fraction (1 - W)",
+              description: "Statistical probability of an individual trade closing at a loss.",
+            },
+            {
+              symbol: "RR",
+              name: "Reward-to-Risk (Payoff Ratio)",
+              unit: "Ratio (Target R ÷ Risk R)",
+              description: "Average profit magnitude relative to baseline 1.0 unit risk.",
+            },
+            {
+              symbol: "A",
+              name: "Edge Advantage Coefficient",
+              unit: "Dimensionless [-1.0, 1.0]",
+              description: "Normalized payoff edge margin. Values ≤ 0 denote negative expectancy (ruin = 99.9%).",
+            },
+            {
+              symbol: "U",
+              name: "Units of Risk Capital",
+              unit: "Integer (MaxDD ÷ Risk)",
+              description: "Number of standard fixed-risk trading units available before hitting the ruin threshold.",
+            },
+            {
+              symbol: "N",
+              name: "Consecutive Losses to Ruin",
+              unit: "Trades (ln(1 - MaxDD) ÷ ln(1 - Risk))",
+              description: "Number of back-to-back losing trades required to breach the drawdown threshold under capital decay.",
+            },
+            {
+              symbol: "T",
+              name: "Trade Sample Horizon",
+              unit: "Number of Trades",
+              description: "The evaluation window over which the ruin probability is calculated.",
+            },
+          ]}
           steps={[
-            "Calculate expected value (EV) per trade: EV = (Win Rate × Reward) - (Loss Rate × 1.0).",
-            "Evaluate the edge advantage coefficient (A) as the normalized payoff margin.",
-            "Determine units of risk capital available (U = Max Drawdown ÷ Risk per Trade).",
-            "Compute finite-horizon ruin probability across sample trade horizon.",
+            "Calculate expected value (EV) in R units: EV = (Win Rate × Reward) - (Loss Rate × 1.0). If EV ≤ 0, statistical ruin approaches 100%.",
+            "Evaluate the edge advantage coefficient (A) as the normalized payoff margin between winning edge and loss probability.",
+            "Determine integer units of risk capital available (U = ⌊Max Drawdown % ÷ Risk per Trade %⌋).",
+            "Calculate the consecutive loss threshold under compounding equity decay (N = ⌈ln(1 - MaxDD) ÷ ln(1 - Risk)⌉).",
+            "Compute the asymptotic ruin probability and scale by the finite trade horizon factor (1 - exp(-T / (10 × U))).",
+          ]}
+          workedExample={{
+            title: "Analytical Worked Example: Prop Challenge Survival Modeling",
+            scenario: "A trader with a 50% win rate and 1:1.5 reward-to-risk risks 1.5% per trade on an account with a 25% maximum drawdown threshold over a 100-trade sample horizon.",
+            steps: [
+              { label: "Expected Value (EV)", formula: "(0.50 × 1.5) - (0.50 × 1.0)", value: "+0.25 R (+0.38% EV per trade)" },
+              { label: "Edge Coefficient (A)", formula: "(0.75 - 0.50) ÷ (0.75 + 0.50)", value: "0.2000 (Positive Statistical Edge)" },
+              { label: "Units of Capital (U)", formula: "⌊25% ÷ 1.5%⌋", value: "16 risk units" },
+              { label: "Consecutive Losses to Ruin (N)", formula: "⌈ln(0.75) ÷ ln(0.985)⌉", value: "20 consecutive losses" },
+              { label: "Asymptotic Ruin Probability", formula: "((1 - 0.20) ÷ (1 + 0.20))^16", value: "0.152% (Infinite Horizon)" },
+              { label: "Finite Horizon Factor (100 trades)", formula: "1 - exp(-100 ÷ 160)", value: "0.4647 (Finite Horizon Scalar)" },
+              { label: "Calculated 100-Trade Ruin Probability", formula: "0.152% × 0.4647", value: "0.07% Risk of Ruin" },
+            ],
+            conclusion: "Because risk per trade is restricted to 1.5%, the trader maintains 16 units of risk buffer. Even across 100 trades, the probability of breaching the 25% drawdown limit is negligible (0.07%). If the trader increased risk to 3.0% (8 units), ruin probability would surge to over 3.7%.",
+          }}
+          assumptions={[
+            "Trades represent independent, identically distributed (IID) Bernoulli trials.",
+            "The absorbing ruin barrier stops trading immediately when touched (no capital replenishment).",
+            "Win rate and payoff ratio remain stationary and do not decay during adverse variance.",
+            "Risk per trade is sized as a fixed fraction of current equity without compounding leverage drift.",
+          ]}
+          limitations={[
+            "Financial markets exhibit fat tails (leptokurtosis) and regime shifts; live losing runs often exceed pure Gaussian/Bernoulli predictions.",
+            "Execution slippage and overnight financing drag are not modeled in the analytical payoff equation.",
+            "In prop evaluations with daily drawdown caps, intra-day drawdowns can breach accounts even if multi-day ruin probability is low.",
+          ]}
+          relatedLinks={[
+            {
+              label: "Drawdown Modeler",
+              href: "/calculators/drawdown",
+              description: "Model consecutive loss streaks and capital decay under fixed-fractional sizing",
+            },
+            {
+              label: "Position Size Calculator",
+              href: "/tools/position-size-calculator",
+              description: "Calculate exact lot sizes to keep individual trade risk strictly within survival bounds",
+            },
+            {
+              label: "Drawdown Recovery Calculator",
+              href: "/calculators/drawdown-recovery",
+              description: "Model the exponential gain required to recover from drawdown thresholds",
+            },
+            {
+              label: "Research Paper: Non-Linear Recovery Decay",
+              href: "/research/risk",
+              description: "Peer-reviewed analysis of capital preservation and survival dynamics in trading",
+            },
           ]}
           faqs={[
             {

@@ -17,20 +17,52 @@ export const metadata: Metadata = {
 };
 
 export default function PositionSizeCalculatorPage() {
-  const jsonLdData = {
-    "@context": "https://schema.org",
-    "@type": "WebApplication",
-    "name": "Drawdown Position Size Calculator",
-    "url": "https://drawdown.trading/tools/position-size-calculator",
-    "description": "Calculate exact lot sizes and cash exposure across Forex, Commodities, Indices, and Crypto based on account balance and risk percentage.",
-    "applicationCategory": "FinanceApplication",
-    "operatingSystem": "Any",
-    "offers": {
-      "@type": "Offer",
-      "price": "0",
-      "priceCurrency": "GBP",
+  const faqs = [
+    {
+      question: "Why should I size trades by percentage risk instead of fixed lots?",
+      answer:
+        "Fixed lot sizing causes volatile risk outcomes: a 40-pip stop on EUR/USD risks double what a 20-pip stop does. Sizing dynamically by percentage ensures every trade risks the exact same monetary fraction of capital regardless of market volatility.",
     },
-  };
+    {
+      question: "How does the calculator handle Gold (XAU/USD) vs Forex pairs?",
+      answer:
+        "Standard Forex lots represent 100,000 units where 1 pip = 0.0001 (or 0.01 on JPY). Gold CFDs typically represent 100 troy ounces where a $1.00 move equals $100 per standard lot. The engine automatically adjusts contract multipliers and tick dimensions.",
+    },
+    {
+      question: "What is the recommended risk per trade for funded challenges?",
+      answer:
+        "Most prop firm evaluation rules cap maximum daily drawdown at 4-5% and overall trailing drawdown at 8-10%. To survive an inevitable 5-loss streak without triggering a violation, professional traders restrict risk to 0.5% – 1.0% per trade.",
+    },
+  ];
+
+  const jsonLdData = [
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Drawdown Position Size Calculator",
+      "url": "https://drawdown.trading/tools/position-size-calculator",
+      "description": "Calculate exact lot sizes and cash exposure across Forex, Commodities, Indices, and Crypto based on account balance and risk percentage.",
+      "applicationCategory": "FinanceApplication",
+      "operatingSystem": "Any",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "GBP",
+      },
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": faqs.map((f) => ({
+        "@type": "Question",
+        "name": f.question,
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": f.answer,
+        },
+      })),
+    },
+  ];
 
   return (
     <>

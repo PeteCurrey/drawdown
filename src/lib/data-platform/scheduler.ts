@@ -8,7 +8,8 @@
  *  - Evaluates whether a source is due for ingestion based on last execution time.
  */
 
-import type {  ScheduleInterval  } from "./types.ts";
+import type { ScheduleInterval } from "./types.ts";
+export type { ScheduleInterval };
 
 export const INTERVAL_MILLISECONDS: Record<ScheduleInterval, number> = {
   "realtime": 10_000,          // 10 seconds

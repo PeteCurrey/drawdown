@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { DrawdownRecoveryCalculator } from "@/components/calculators/DrawdownRecoveryCalculator";
 import { CalculatorNextStep } from "@/components/calculators/CalculatorNextStep";
-import { BookOpen, ArrowRight, HelpCircle, Activity, Percent, Users, Table2 } from "lucide-react";
+import { BookOpen, ArrowRight, HelpCircle, Activity, Percent, Users, Table2, ShieldAlert, AlertTriangle } from "lucide-react";
 import { getMetadata } from "@/lib/metadata";
 import JsonLd from "@/components/seo/JsonLd";
 
@@ -140,14 +140,15 @@ export default function DrawdownRecoveryPage() {
               <p>
                 The percentage recovery required is calculated using the formula:
               </p>
-              <div className="p-4 rounded-xl bg-background-primary border border-border-primary/60 font-mono text-accent text-center text-sm">
-                Required Gain % = ( Loss Amount / Remaining Equity ) × 100
+              <div className="p-4 rounded-xl bg-background-primary border border-border-primary/60 font-mono text-accent text-center text-sm space-y-1">
+                <div>Required Gain % = ( Capital Lost / Current Balance ) × 100 = ( Drawdown % / (100 - Drawdown %) ) × 100</div>
+                <div className="text-xs text-text-tertiary">Estimated Trades to Recover = ⌈ Capital Lost / (Current Balance × (Risk % ÷ 100) × EV_R) ⌉</div>
               </div>
 
               {/* Variable Definitions */}
               <h3 className="font-bold text-text-primary text-sm pt-4 flex items-center gap-2">
                 <Table2 className="w-4 h-4 text-accent" />
-                Input Variable Definitions
+                Input Variable Definitions &amp; Units
               </h3>
               <div className="overflow-x-auto">
                 <table className="w-full text-xs text-left border border-border-primary/40">
@@ -160,34 +161,81 @@ export default function DrawdownRecoveryPage() {
                   </thead>
                   <tbody className="divide-y divide-border-primary/30">
                     <tr>
-                      <td className="p-3 font-semibold text-text-primary">Peak Equity</td>
-                      <td className="p-3 font-mono">Currency</td>
-                      <td className="p-3">The high-water mark — highest balance or equity the account has ever reached. This is the recovery target.</td>
+                      <td className="p-3 font-semibold text-text-primary">Starting Balance (Peak)</td>
+                      <td className="p-3 font-mono">Currency (£/$/€)</td>
+                      <td className="p-3">The high-water mark — highest balance or equity the account has reached. This defines the baseline recovery target.</td>
                     </tr>
                     <tr>
-                      <td className="p-3 font-semibold text-text-primary">Current Equity</td>
-                      <td className="p-3 font-mono">Currency</td>
-                      <td className="p-3">Current account equity. The difference between peak and current equity is the drawdown amount in absolute terms.</td>
+                      <td className="p-3 font-semibold text-text-primary">Current Balance</td>
+                      <td className="p-3 font-mono">Currency (£/$/€)</td>
+                      <td className="p-3">Remaining equity in drawdown. The absolute difference (Peak − Current) constitutes the capital lost.</td>
                     </tr>
                     <tr>
-                      <td className="p-3 font-semibold text-text-primary">Drawdown %</td>
-                      <td className="p-3 font-mono">%</td>
-                      <td className="p-3">Calculated as: (Peak − Current) / Peak × 100. This is the input most traders already know intuitively.</td>
+                      <td className="p-3 font-semibold text-text-primary">Risk Per Trade</td>
+                      <td className="p-3 font-mono">% of current equity</td>
+                      <td className="p-3">The percentage risked on subsequent recovery trades, used to establish currency risk per trade.</td>
+                    </tr>
+                    <tr>
+                      <td className="p-3 font-semibold text-text-primary">Win Rate</td>
+                      <td className="p-3 font-mono">% (e.g. 50%)</td>
+                      <td className="p-3">Expected historical trade success rate used in statistical expectancy calculations.</td>
+                    </tr>
+                    <tr>
+                      <td className="p-3 font-semibold text-text-primary">Reward-to-Risk (RR)</td>
+                      <td className="p-3 font-mono">Ratio (e.g. 1.5)</td>
+                      <td className="p-3">Payoff multiple (average winning trade profit divided by average losing trade risk).</td>
+                    </tr>
+                    <tr>
+                      <td className="p-3 font-semibold text-text-primary">Expected Value (EV_R)</td>
+                      <td className="p-3 font-mono">R-multiples</td>
+                      <td className="p-3">Calculated as (Win Rate × RR) − ((1 − Win Rate) × 1.0). Must be positive for recovery to occur.</td>
                     </tr>
                   </tbody>
                 </table>
               </div>
 
-              <h3 className="font-bold text-text-primary text-sm pt-2">Worked Example:</h3>
+              <h3 className="font-bold text-text-primary text-sm pt-2">Comprehensive Worked Example:</h3>
               <p>
-                Suppose an account starts with <strong>£10,000</strong> and suffers a <strong>30% drawdown (£3,000 loss)</strong>. The remaining balance is <strong>£7,000</strong>. To return to the initial £10,000 starting capital, the trader must make £3,000 profit on the remaining £7,000 equity.
+                Suppose a trader starts with <strong>£10,000</strong> and sustains a drawdown down to <strong>£7,500</strong> (£2,500 capital lost, 25.0% drawdown). The strategy operates with a <strong>50% win rate</strong>, <strong>1:1.5 reward-to-risk</strong>, risking <strong>1.0%</strong> per trade:
               </p>
-              <p className="font-semibold text-text-primary">
-                £3,000 Profit / £7,000 Balance = 42.9% Gain Required — not 30%.
-              </p>
+              <ul className="list-disc pl-5 space-y-1.5 text-xs text-text-secondary">
+                <li><strong>Drawdown Percentage:</strong> (£2,500 ÷ £10,000) × 100 = 25.0%.</li>
+                <li><strong>Required Gain to Recover:</strong> (£2,500 ÷ £7,500) × 100 = <strong>33.33%</strong> (non-linear recovery asymmetry).</li>
+                <li><strong>Strategy Expectancy (EV):</strong> (0.50 × 1.5) − (0.50 × 1.0) = +0.25 R per trade.</li>
+                <li><strong>Cash Risk per Trade:</strong> £7,500 × 1.0% = £75.00 per trade.</li>
+                <li><strong>Expected Profit per Trade:</strong> £75.00 × 0.25 R = £18.75.</li>
+                <li><strong>Estimated Trades to Breakeven:</strong> ⌈£2,500 ÷ £18.75⌉ = <strong>134 trades</strong>.</li>
+              </ul>
               <p>
-                This is why the recovery curve accelerates non-linearly beyond 20%: you are always earning back lost capital on a shrinking base.
+                This highlights why recovering from drawdown takes substantially longer than accumulating losses: profits must be generated on a shrunken equity base.
               </p>
+
+              {/* Assumptions & Limitations Grid */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4 border-t border-border-primary/40">
+                <div className="p-4 rounded-xl bg-background-primary border border-border-primary/60 space-y-2">
+                  <h4 className="text-xs font-mono uppercase tracking-wider font-semibold text-text-primary flex items-center gap-1.5">
+                    <ShieldAlert className="w-3.5 h-3.5 text-emerald-500" />
+                    Underlying Assumptions
+                  </h4>
+                  <ul className="list-disc pl-4 space-y-1 text-xs text-text-secondary leading-relaxed">
+                    <li><strong>Fixed-currency risk recovery model:</strong> The trade count estimate assumes a fixed cash risk per trade equal to the initial drawdown level (£75.00), providing a conservative linear recovery estimate rather than compounding.</li>
+                    <li><strong>Positive expectancy required:</strong> If strategy EV ≤ 0, recovery trade count is mathematically undefined (infinite).</li>
+                    <li><strong>Stationary performance parameters:</strong> Win rate and reward-to-risk remain constant throughout recovery.</li>
+                  </ul>
+                </div>
+
+                <div className="p-4 rounded-xl bg-background-primary border border-border-primary/60 space-y-2">
+                  <h4 className="text-xs font-mono uppercase tracking-wider font-semibold text-text-primary flex items-center gap-1.5">
+                    <AlertTriangle className="w-3.5 h-3.5 text-amber-500" />
+                    Practical Limitations
+                  </h4>
+                  <ul className="list-disc pl-4 space-y-1 text-xs text-text-secondary leading-relaxed">
+                    <li><strong>Path dependency &amp; secondary drawdowns:</strong> Real recoveries do not proceed in a straight line; intermittent losing streaks will extend recovery duration.</li>
+                    <li><strong>Execution friction:</strong> Broker commissions, bid-ask spreads, and overnight swap fees reduce net trade profit, increasing necessary trades.</li>
+                    <li><strong>Psychological fatigue:</strong> Executing 100+ recovery trades with zero net profit tests discipline, frequently inducing emotional sizing errors.</li>
+                  </ul>
+                </div>
+              </div>
             </div>
 
             {/* Common Pitfalls */}

@@ -48,6 +48,7 @@ export default async function AdminSocialPublishingPage({ searchParams }: Props)
   const { data: deliveries } = await query;
 
   const hasOneSocialConfigured = !!process.env.ONESOCIAL_API_KEY && process.env.ONESOCIAL_API_KEY !== 'placeholder';
+  const hasInstagramChannelConfigured = !!process.env.ONESOCIAL_INSTAGRAM_CHANNEL_ID;
 
   return (
     <div className="space-y-8 animate-in fade-in duration-500">
@@ -68,17 +69,31 @@ export default async function AdminSocialPublishingPage({ searchParams }: Props)
         </div>
 
         {/* Provider Status Pill */}
-        <div className="flex items-center gap-2 px-3 py-1.5 bg-white border border-[#e5e7eb] rounded-xl shadow-sm text-xs font-mono">
-          <span className="text-[#6b7280]">Provider (1Social):</span>
-          {hasOneSocialConfigured ? (
-            <span className="text-emerald-700 font-bold flex items-center gap-1">
-              <span className="w-2 h-2 rounded-full bg-emerald-500"></span> Connected
-            </span>
-          ) : (
-            <span className="text-amber-700 font-bold flex items-center gap-1">
-              <span className="w-2 h-2 rounded-full bg-amber-500"></span> Isolated / Boundary Mode
-            </span>
-          )}
+        <div className="flex flex-wrap items-center gap-2">
+          <div className="flex items-center gap-2 px-3 py-1.5 bg-white border border-[#e5e7eb] rounded-xl shadow-sm text-xs font-mono">
+            <span className="text-[#6b7280]">Provider (1Social):</span>
+            {hasOneSocialConfigured ? (
+              <span className="text-emerald-700 font-bold flex items-center gap-1">
+                <span className="w-2 h-2 rounded-full bg-emerald-500"></span> Connected
+              </span>
+            ) : (
+              <span className="text-amber-700 font-bold flex items-center gap-1">
+                <span className="w-2 h-2 rounded-full bg-amber-500"></span> Isolated / Boundary Mode
+              </span>
+            )}
+          </div>
+          <div className="flex items-center gap-2 px-3 py-1.5 bg-white border border-[#e5e7eb] rounded-xl shadow-sm text-xs font-mono">
+            <span className="text-[#6b7280]">Target (@drawdowntrading):</span>
+            {hasInstagramChannelConfigured ? (
+              <span className="text-emerald-700 font-bold flex items-center gap-1">
+                <span className="w-2 h-2 rounded-full bg-emerald-500"></span> Configured
+              </span>
+            ) : (
+              <span className="text-[#6b7280] font-bold flex items-center gap-1">
+                <span className="w-2 h-2 rounded-full bg-gray-400"></span> Default Route
+              </span>
+            )}
+          </div>
         </div>
       </header>
 

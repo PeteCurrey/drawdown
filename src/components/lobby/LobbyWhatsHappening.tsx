@@ -4,6 +4,7 @@ import { LobbyEmptyState } from "./LobbyEmptyState";
 import type { LobbyArticle } from "@/types/lobby";
 import { categoryToSlug } from "@/lib/lobby-constants";
 import { Zap } from "lucide-react";
+import { getEditorialFreshness, formatArchiveDate } from "@/lib/lobby-freshness";
 
 interface LobbyWhatsHappeningProps {
   articles: LobbyArticle[];
@@ -105,7 +106,14 @@ export function LobbyWhatsHappening({
                           </p>
                         </div>
                         <div className="mt-3 text-[9px] font-mono text-[#4B5157]">
-                          {story.published_at ? new Date(story.published_at).toLocaleDateString("en-GB", { day: 'numeric', month: 'short' }) : "RECENT"}
+                          {(() => {
+                            const f = getEditorialFreshness(story.published_at);
+                            return f.label ? (
+                              <span className={`px-1 py-0.5 rounded-[2px] ${f.badgeClass}`}>{f.label}</span>
+                            ) : (
+                              formatArchiveDate(story.published_at, { day: "numeric", month: "short" })
+                            );
+                          })()}
                         </div>
                       </article>
                     ))}
@@ -136,18 +144,30 @@ export function LobbyWhatsHappening({
             ) : (
               <ol className="divide-y divide-[#DEDDD8]/70">
                 {justInArticles.map((item) => {
-                  const timeString = item.published_at
-                    ? new Date(item.published_at).toLocaleTimeString("en-GB", {
+                  const freshness = getEditorialFreshness(item.published_at);
+                  // For FRESH items show HH:MM (same-day wire format).
+                  // For RECENT/STALE/AGED show the freshness label instead so readers
+                  // immediately know this is not from today.
+                  const showClockTime = freshness.band === "FRESH" && item.published_at;
+                  const timeDisplay = showClockTime
+                    ? new Date(item.published_at!).toLocaleTimeString("en-GB", {
                         hour: "2-digit",
-                        minute: "2-digit"
+                        minute: "2-digit",
                       })
-                    : "--:--";
+                    : freshness.label ?? formatArchiveDate(item.published_at, { day: "numeric", month: "short" });
 
                   return (
                     <li key={item.id} className="py-3 first:pt-0 group">
                       <div className="flex items-start gap-3">
-                        <time className="text-[11px] font-mono font-bold text-[#16213E] shrink-0 pt-0.5">
-                          {timeString}
+                        <time
+                          dateTime={item.published_at || ""}
+                          className={`text-[11px] font-mono font-bold shrink-0 pt-0.5 ${
+                            freshness.band === "AGED"
+                              ? "text-amber-600"
+                              : "text-[#16213E]"
+                          }`}
+                        >
+                          {timeDisplay}
                         </time>
                         <div className="flex-1 min-w-0">
                           <Link 

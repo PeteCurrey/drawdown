@@ -26,6 +26,18 @@ export class OneSocialAdapter implements SocialPublisher {
     return process.env.ONESOCIAL_API_URL || "https://api.onesocial.co/v1";
   }
 
+  private get instagramChannelId(): string | undefined {
+    return process.env.ONESOCIAL_INSTAGRAM_CHANNEL_ID;
+  }
+
+  private resolveChannelIds(channel: SocialChannel): string[] | undefined {
+    if (channel === 'instagram') {
+      const id = this.instagramChannelId;
+      return id ? [id] : undefined;
+    }
+    return undefined;
+  }
+
   async preflight(channelItem: ContentChannel, assets: ContentAsset[]): Promise<PreflightResult> {
     const errors: string[] = [];
 
@@ -84,13 +96,19 @@ export class OneSocialAdapter implements SocialPublisher {
     }
 
     try {
-      const payload = {
+      const channelIds = this.resolveChannelIds(channelItem.channel);
+
+      const payload: Record<string, any> = {
         channel: channelItem.channel,
         content: channelItem.body,
         headline: channelItem.headline,
         mediaUrls: assets.map(a => a.storage_url),
         idempotencyKey: idempotencyKey || `drawdown_${channelItem.id}_${Date.now()}`
       };
+
+      if (channelIds && channelIds.length > 0) {
+        payload.channelIds = channelIds;
+      }
 
       const response = await fetch(`${this.apiUrl}/posts/publish`, {
         method: "POST",
@@ -173,18 +191,26 @@ export class OneSocialAdapter implements SocialPublisher {
     }
 
     try {
+      const channelIds = this.resolveChannelIds(channelItem.channel);
+
+      const payload: Record<string, any> = {
+        channel: channelItem.channel,
+        content: channelItem.body,
+        mediaUrls: assets.map(a => a.storage_url),
+        scheduledTime: scheduledTime.toISOString()
+      };
+
+      if (channelIds && channelIds.length > 0) {
+        payload.channelIds = channelIds;
+      }
+
       const response = await fetch(`${this.apiUrl}/posts/schedule`, {
         method: "POST",
         headers: {
           "Authorization": `Bearer ${this.apiKey}`,
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({
-          channel: channelItem.channel,
-          content: channelItem.body,
-          mediaUrls: assets.map(a => a.storage_url),
-          scheduledTime: scheduledTime.toISOString()
-        })
+        body: JSON.stringify(payload)
       });
 
       if (!response.ok) {

@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import { Activity, ArrowRight, ShieldAlert, LineChart, BookOpen, HelpCircle, Users, Table2 } from "lucide-react";
+import { Activity, ArrowRight, ShieldAlert, AlertTriangle, LineChart, BookOpen, HelpCircle, Users, Table2 } from "lucide-react";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { LeadMagnet } from "@/components/seo/LeadMagnet";
 import { DrawdownCalculator } from "@/components/calculators/DrawdownCalculator";
@@ -201,10 +201,10 @@ export default function DrawdownCalculatorPage() {
             </p>
             <ul className="list-disc pl-6 space-y-2">
               <li><strong>Loss Probability per Trade:</strong> 100% - 55% = 45% (0.45).</li>
-              <li><strong>Probability of 6 consecutive losses:</strong> (0.45)⁶ = 0.0083 (0.83% chance in any specific sequence, but over 150 trades, the cumulative probability of hitting at least one 6-loss streak exceeds 42%).</li>
-              <li><strong>Account Capital After 6 Losses:</strong> $50,000 × (1 - 0.015)⁶ = $45,671.22.</li>
-              <li><strong>Drawdown Amount:</strong> $4,328.78 (8.66% maximum drawdown).</li>
-              <li><strong>Recovery Required:</strong> +9.47% on remaining equity to return to $50,000.</li>
+              <li><strong>Probability of 6 consecutive losses:</strong> (0.45)⁶ = 0.008304 (0.83% chance in any specific sequence, but over 150 trades, the cumulative probability of hitting at least one 6-loss streak exceeds 42%).</li>
+              <li><strong>Account Capital After 6 Losses:</strong> $50,000 × (1 - 0.015)⁶ = $45,665.41.</li>
+              <li><strong>Drawdown Amount:</strong> $4,334.59 (8.67% maximum drawdown).</li>
+              <li><strong>Recovery Required:</strong> +9.49% on remaining equity ($4,334.59 ÷ $45,665.41) to return to $50,000.</li>
             </ul>
           </div>
 
@@ -212,8 +212,36 @@ export default function DrawdownCalculatorPage() {
           <div className="space-y-3">
             <h3 className="text-xl font-bold uppercase text-text-primary">Capital Decay vs Linear Calculation</h3>
             <p>
-              When sizing positions using fixed fractional equity (e.g. risking 1% of current equity rather than initial starting balance), each loss reduces the dollar risk on subsequent trades. While this dampens catastrophic ruin, it simultaneously demands a larger recovery gain to reach breakeven.
+              When sizing positions using fixed fractional equity (e.g. risking 1.5% of current equity rather than initial starting balance), each loss reduces the dollar risk on subsequent trades. While this dampens catastrophic ruin, it simultaneously demands a larger recovery gain to reach breakeven.
             </p>
+          </div>
+
+          {/* Assumptions & Limitations Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4">
+            <div className="p-5 border border-border-slate/40 bg-background-surface/30 space-y-2">
+              <h4 className="text-xs font-mono uppercase tracking-wider font-semibold text-text-primary flex items-center gap-1.5">
+                <ShieldAlert className="w-4 h-4 text-emerald-500" />
+                Underlying Assumptions
+              </h4>
+              <ul className="list-disc pl-4 space-y-1.5 text-xs text-text-secondary leading-relaxed">
+                <li>Fixed-fractional position sizing: each trade risks an exact fixed percentage of remaining balance.</li>
+                <li>Independent Bernoulli trials: each trade outcome is statistically independent with stationary win rate.</li>
+                <li>Zero execution slippage: trades close exactly at stop invalidation levels.</li>
+                <li>Single continuous losing sequence: isolates the drawdown impact of an uninterrupted run of losses.</li>
+              </ul>
+            </div>
+
+            <div className="p-5 border border-border-slate/40 bg-background-surface/30 space-y-2">
+              <h4 className="text-xs font-mono uppercase tracking-wider font-semibold text-text-primary flex items-center gap-1.5">
+                <AlertTriangle className="w-4 h-4 text-amber-500" />
+                Practical Limitations
+              </h4>
+              <ul className="list-disc pl-4 space-y-1.5 text-xs text-text-secondary leading-relaxed">
+                <li>Regime clustering: market volatility clusters, causing losing trades to arrive in denser streaks than pure independent trials predict.</li>
+                <li>Sample horizon effect: a 6-loss streak with an isolated probability of 0.83% has an cumulative probability exceeding 40% over 150 trades.</li>
+                <li>Spreads and overnight financing: holding costs slightly increase real-world cash decay beyond pure percentage loss models.</li>
+              </ul>
+            </div>
           </div>
 
           {/* Common Pitfalls */}

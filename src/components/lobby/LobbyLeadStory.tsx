@@ -3,7 +3,8 @@ import { LobbyImage } from "./LobbyImage";
 import { LobbyEmptyState } from "./LobbyEmptyState";
 import type { LobbyArticle } from "@/types/lobby";
 import { categoryToSlug } from "@/lib/lobby-constants";
-import { Clock, ShieldCheck } from "lucide-react";
+import { Clock, ShieldCheck, AlertTriangle } from "lucide-react";
+import { getEditorialFreshness, formatArchiveDate } from "@/lib/lobby-freshness";
 
 interface LobbyLeadStoryProps {
   article: LobbyArticle | null;
@@ -26,17 +27,24 @@ export function LobbyLeadStory({ article }: LobbyLeadStoryProps) {
 
   const categorySlug = categoryToSlug(article.category);
   const articleHref = `/lobby/${categorySlug}/${article.slug}`;
-  const pubDate = article.published_at 
-    ? new Date(article.published_at).toLocaleDateString("en-GB", {
-        day: "numeric",
-        month: "short",
-        year: "numeric"
-      })
-    : "RECENT";
+
+  // Editorial freshness — used for the homepage recency signal only.
+  // Archive / search show the true date via formatArchiveDate (unmodified).
+  const freshness = getEditorialFreshness(article.published_at);
+  const trueDateStr = formatArchiveDate(article.published_at);
 
   return (
     <section className="w-full py-8 md:py-12 border-b border-[#DEDDD8] bg-[#FFFFFF]">
       <div className="max-w-[1320px] mx-auto px-4 sm:px-6">
+
+        {/* AGED content warning — visible deprioritise signal for the editorial desk */}
+        {freshness.shouldDeprioritise && (
+          <div className="mb-4 flex items-center gap-2 px-3 py-2 bg-amber-50 border border-amber-200 rounded-[2px] text-[10px] font-mono uppercase tracking-widest text-amber-700">
+            <AlertTriangle className="w-3 h-3 shrink-0" />
+            STALE LEAD — {freshness.label} — Consider updating or rotating this story
+          </div>
+        )}
+
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
           {/* Main Visual Column (7 cols) */}
           <div className="lg:col-span-7">
@@ -104,8 +112,17 @@ export function LobbyLeadStory({ article }: LobbyLeadStoryProps) {
                   </span>
                 )}
               </div>
-              <time dateTime={article.published_at || ""}>
-                {pubDate}
+              {/*
+                Freshness label: FRESH → true date only. RECENT/STALE/AGED → badge + true date.
+                The <time datetime> always carries the machine-readable ISO value for a11y/SEO.
+              */}
+              <time dateTime={article.published_at || ""} className="flex items-center gap-2">
+                {freshness.label && (
+                  <span className={`px-1.5 py-0.5 rounded-[2px] text-[10px] font-mono uppercase tracking-wider ${freshness.badgeClass}`}>
+                    {freshness.label}
+                  </span>
+                )}
+                <span>{trueDateStr}</span>
               </time>
             </div>
           </div>

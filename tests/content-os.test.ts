@@ -356,6 +356,74 @@ test("Content OS: 1Social adapter returns 'unconfirmed' when API key is unconfig
   process.env.ONESOCIAL_API_KEY = originalKey;
 });
 
+test("Content OS: 1Social adapter targets configured Instagram channel ID in payload", async () => {
+  const originalKey = process.env.ONESOCIAL_API_KEY;
+  const originalChannelId = process.env.ONESOCIAL_INSTAGRAM_CHANNEL_ID;
+
+  process.env.ONESOCIAL_API_KEY = "test_key_for_mock_fetch";
+  process.env.ONESOCIAL_INSTAGRAM_CHANNEL_ID = "78a51c1b-2d28-478a-a424-95fcfa5fd0bc";
+
+  const originalFetch = globalThis.fetch;
+  let capturedBody: any = null;
+  let capturedHeaders: any = null;
+
+  globalThis.fetch = (async (url: string | URL | Request, init?: RequestInit) => {
+    capturedHeaders = init?.headers;
+    capturedBody = JSON.parse(init?.body as string);
+    return {
+      ok: true,
+      status: 200,
+      json: async () => ({
+        status: "published",
+        id: "onesocial_post_999",
+        publishedAt: new Date().toISOString()
+      })
+    } as any;
+  }) as typeof globalThis.fetch;
+
+  try {
+    const adapter = new OneSocialAdapter();
+    const channelItem: ContentChannel = {
+      id: "ch_ig_1",
+      content_item_id: "item_ig_1",
+      channel: "instagram",
+      body: "Drawdown Risk Management Framework overview.",
+      hashtags: ["#trading"],
+      media_references: [],
+      status: "ready",
+      provider: "onesocial",
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString()
+    };
+    const assets: ContentAsset[] = [
+      {
+        id: "ast_ig_1",
+        content_item_id: "item_ig_1",
+        asset_type: "image",
+        storage_url: "https://drawdown.trading/assets/slide1.png",
+        aspect_ratio: "4:5",
+        display_order: 0,
+        created_at: new Date().toISOString()
+      }
+    ];
+
+    const result = await adapter.publish(channelItem, assets, "test_idem_key_123");
+
+    assert.equal(result.status, "published");
+    assert.equal(result.providerPostId, "onesocial_post_999");
+    assert.ok(capturedBody);
+    assert.equal(capturedBody.channel, "instagram");
+    assert.deepEqual(capturedBody.channelIds, ["78a51c1b-2d28-478a-a424-95fcfa5fd0bc"]);
+    assert.deepEqual(capturedBody.mediaUrls, ["https://drawdown.trading/assets/slide1.png"]);
+    assert.equal(capturedHeaders["X-Idempotency-Key"], "test_idem_key_123");
+    assert.equal(capturedHeaders["Authorization"], "Bearer test_key_for_mock_fetch");
+  } finally {
+    globalThis.fetch = originalFetch;
+    process.env.ONESOCIAL_API_KEY = originalKey;
+    process.env.ONESOCIAL_INSTAGRAM_CHANNEL_ID = originalChannelId;
+  }
+});
+
 // ─────────────────────────────────────────────────────────────────────────────
 // 9. Calendar Planning & Interruption Detection Tests
 // ─────────────────────────────────────────────────────────────────────────────

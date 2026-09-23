@@ -47,6 +47,13 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
 
+      // Entity category remediation (Pepperstone is an FCA/ASIC broker, not a prop firm)
+      {
+        source: "/prop-firms/pepperstone",
+        destination: "/brokers/pepperstone",
+        permanent: true,
+      },
+
       // Hub Page Redirects
       {
         source: "/brokers",
@@ -54,7 +61,7 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
       {
-        source: "/:region/brokers",
+        source: "/:region(uk|us|au|sg|hk)/brokers",
         destination: "/:region/brokers/all",
         permanent: true,
       },

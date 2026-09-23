@@ -107,7 +107,12 @@ export default function BrokerBridgePage() {
                     <p className="text-sm text-text-primary leading-relaxed italic">
                        "If you're looking for {broker.category === 'Forex' ? 'raw execution and no nonsense' : 'a solid all-round platform'}, {broker.name} is where we send most of our private community members. They don't play games with fills."
                     </p>
-                    <p className="text-[10px] font-mono text-text-tertiary uppercase">— Pete Currey, Founder</p>
+                    <div className="flex items-center gap-2 pt-1">
+                      <div className="w-5 h-5 rounded-full overflow-hidden border border-border-slate/50 shrink-0">
+                        <img src="/images/pete.jpg" alt="Pete Currey" className="w-full h-full object-cover" />
+                      </div>
+                      <p className="text-[10px] font-mono text-text-tertiary uppercase">— Pete Currey, Founder</p>
+                    </div>
                  </div>
               </div>
            </div>

@@ -60,8 +60,14 @@ export default function CommunityPage() {
                     <div key={i} className="p-6 hover:bg-background-elevated/50 transition-colors cursor-pointer group">
                        <div className="flex justify-between items-start mb-2">
                           <div className="flex items-center gap-3">
-                             <div className="w-8 h-8 bg-background-elevated/40 border border-border-slate/50 rounded-full flex items-center justify-center">
-                               {post.admin ? <Shield className="w-3 h-3 text-accent" /> : <Users className="w-3 h-3 text-text-tertiary" />}
+                             <div className="w-8 h-8 bg-background-elevated/40 border border-border-slate/50 rounded-full flex items-center justify-center overflow-hidden shrink-0">
+                               {post.author === "Pete Currey" ? (
+                                 <img src="/images/pete.jpg" alt="Pete Currey" className="w-full h-full object-cover" />
+                               ) : post.admin ? (
+                                 <Shield className="w-3 h-3 text-accent" />
+                               ) : (
+                                 <Users className="w-3 h-3 text-text-tertiary" />
+                               )}
                              </div>
                              <div className="flex flex-col">
                                 <div className="flex items-center gap-2">

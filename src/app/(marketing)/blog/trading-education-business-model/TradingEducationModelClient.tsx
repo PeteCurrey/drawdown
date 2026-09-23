@@ -473,14 +473,14 @@ export function TradingEducationModelClient() {
                     <div className="w-12 h-12 rounded-full bg-[#1A1A1A] border border-[#1A1A1A] overflow-hidden shrink-0 relative">
                       <Image 
                         src="/images/pete.jpg" 
-                        alt="Pete" 
+                        alt="Pete Currey" 
                         fill
-                        className="w-full h-full object-cover grayscale"
+                        className="w-full h-full object-cover"
                       />
                     </div>
                     <div>
                       <h5 className="text-sm font-mono font-bold uppercase text-white leading-tight">
-                        Pete
+                        Pete Currey
                       </h5>
                       <span className="text-[9px] font-mono uppercase tracking-widest text-[#C8F135] block">
                         Founder, Drawdown

@@ -6,6 +6,7 @@ export const EXPERT_AUTHORS: ResearchAuthor[] = [
     name: "Pete Currey",
     role: "Head of Research & Quantitative Analysis",
     bio: "Focuses on quantitative risk modeling, market-data architecture, and empirical broker-cost analysis at Drawdown Trading.",
+    avatarUrl: "/images/pete.jpg",
     linkedinUrl: "https://linkedin.com/in/petercurrey",
   },
   {

@@ -296,7 +296,12 @@ function TradingViewReviewContent({ region }: { region: Region }) {
               <blockquote className="text-text-primary italic text-lg leading-relaxed font-sans">
                 "For most traders starting out: use the free plan for 3-6 months. If you find yourself annoyed by the single chart limitation or needing more indicators, Essential at ~£12/mo is the right upgrade. Plus is the sweet spot for active traders — 4 charts simultaneously and 100 alerts covers most real workflows. Premium is for professionals running systematic approaches who need second-level data and Volume Profile."
               </blockquote>
-              <div className="mt-4 text-sm font-bold text-text-tertiary font-sans">— Pete Currey, Drawdown</div>
+              <div className="mt-4 flex items-center gap-2.5">
+                <div className="w-6 h-6 rounded-full overflow-hidden border border-border-slate/50 shrink-0">
+                  <img src="/images/pete.jpg" alt="Pete Currey" className="w-full h-full object-cover" />
+                </div>
+                <div className="text-sm font-bold text-text-tertiary font-sans">— Pete Currey, Drawdown</div>
+              </div>
             </div>
 
             <div className="pt-2">

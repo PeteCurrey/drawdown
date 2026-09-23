@@ -7,6 +7,7 @@ import type { LobbyArticle, LobbyCategory } from "@/types/lobby";
 import { categoryToSlug } from "@/lib/lobby-constants";
 import { LobbyEmptyState } from "./LobbyEmptyState";
 import { Clock, ArrowUpRight } from "lucide-react";
+import { getEditorialFreshness, formatArchiveDate } from "@/lib/lobby-freshness";
 
 interface LobbyLatestStreamProps {
   initialArticles?: LobbyArticle[];
@@ -85,13 +86,9 @@ export function LobbyLatestStream({ initialArticles = [] }: LobbyLatestStreamPro
           <div className="divide-y divide-[#DEDDD8] border-t border-b border-[#DEDDD8]">
             {filteredArticles.map((article, idx) => {
               const categorySlug = categoryToSlug(article.category);
-              const pubDate = article.published_at
-                ? new Date(article.published_at).toLocaleDateString("en-GB", {
-                    day: "numeric",
-                    month: "short",
-                    year: "numeric"
-                  })
-                : "RECENT";
+              const freshness = getEditorialFreshness(article.published_at);
+              // Archive always shows the true date. Freshness badge is additive — never replaces.
+              const pubDate = formatArchiveDate(article.published_at);
 
               return (
                 <article 
@@ -102,7 +99,14 @@ export function LobbyLatestStream({ initialArticles = [] }: LobbyLatestStreamPro
                     <span className="font-bold text-[#16213E] tracking-wider uppercase">
                       {article.category}
                     </span>
-                    <time dateTime={article.published_at || ""}>{pubDate}</time>
+                    <time dateTime={article.published_at || ""} className="flex flex-col gap-1">
+                      <span>{pubDate}</span>
+                      {freshness.label && (
+                        <span className={`px-1 py-0.5 rounded-[2px] text-[9px] ${freshness.badgeClass}`}>
+                          {freshness.label}
+                        </span>
+                      )}
+                    </time>
                   </div>
 
                   <div className="md:col-span-8">
@@ -121,7 +125,12 @@ export function LobbyLatestStream({ initialArticles = [] }: LobbyLatestStreamPro
                       <Clock className="w-3 h-3" />
                       {article.reading_time_minutes} min
                     </span>
-                    <span className="text-[#0B0E12] font-semibold mt-1">
+                    <span className="text-[#0B0E12] font-semibold mt-1 flex items-center gap-1.5">
+                      {article.author_name === "Pete Currey" && (
+                        <span className="w-4 h-4 rounded-full overflow-hidden inline-block shrink-0">
+                          <img src="/images/pete.jpg" alt="Pete Currey" className="w-full h-full object-cover" />
+                        </span>
+                      )}
                       By {article.author_name}
                     </span>
                   </div>

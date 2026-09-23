@@ -130,7 +130,12 @@ export default async function LobbyCategoryPage({ params }: CategoryPageProps) {
                       <Clock className="w-3 h-3" />
                       {article.reading_time_minutes} min
                     </span>
-                    <span className="text-[#0B0E12] font-semibold mt-1">
+                    <span className="text-[#0B0E12] font-semibold mt-1 flex items-center gap-1.5">
+                      {article.author_name === "Pete Currey" && (
+                        <span className="w-4 h-4 rounded-full overflow-hidden inline-block shrink-0">
+                          <img src="/images/pete.jpg" alt="Pete Currey" className="w-full h-full object-cover" />
+                        </span>
+                      )}
                       By {article.author_name}
                     </span>
                   </div>

@@ -37,8 +37,8 @@ export default function PeteMemoPage({ tier }: Props) {
           </div>
 
           <div className="flex items-center gap-5 pb-12 border-b border-border-slate/50">
-            <div className="w-14 h-14 rounded-full bg-border-slate border border-accent/20 overflow-hidden shrink-0 flex items-center justify-center font-display font-black text-accent text-xl">
-              P
+            <div className="w-14 h-14 rounded-full bg-border-slate border border-accent/20 overflow-hidden shrink-0">
+              <img src="/images/pete.jpg" alt="Pete Currey" className="w-full h-full object-cover" />
             </div>
             <div>
               <p className="text-sm font-bold uppercase text-text-primary tracking-widest">Pete Currey</p>

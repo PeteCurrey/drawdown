@@ -171,7 +171,7 @@ export default function ToolsMarketingPage() {
               <div className="relative bg-background-primary border border-border-slate p-8 shadow-2xl">
                 <div className="flex items-center gap-4 mb-8 pb-8 border-b border-border-slate">
                   <div className="w-12 h-12 rounded-full bg-border-slate overflow-hidden">
-                    <img src="/images/pete.jpg" alt="Pete" className="w-full h-full object-cover grayscale" />
+                    <img src="/images/pete.jpg" alt="Pete Currey" className="w-full h-full object-cover" />
                   </div>
                   <div>
                     <h4 className="text-text-primary font-bold uppercase tracking-widest text-sm">Pete Currey</h4>

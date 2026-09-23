@@ -26,15 +26,23 @@ export function AuthorBio({ author, isDark = false }: AuthorBioProps) {
       <div className="space-y-4">
         <div className="flex items-center gap-4">
           <div className={cn(
-            "w-12 h-12 border rounded-none flex items-center justify-center shadow-sm",
+            "w-12 h-12 border rounded-none flex items-center justify-center shadow-sm overflow-hidden relative shrink-0",
             isDark ? "bg-[#0A0A0A] border-[#1A1A1A]" : "bg-white border-[#E5E5E5]"
           )}>
-            <span className={cn(
-              "text-lg font-mono font-black",
-              isDark ? "text-[#C8F135]" : "text-accent"
-            )}>
-              {isPete ? "PC" : "DT"}
-            </span>
+            {isPete ? (
+              <img
+                src="/images/pete.jpg"
+                alt="Pete Currey"
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <span className={cn(
+                "text-lg font-mono font-black",
+                isDark ? "text-[#C8F135]" : "text-accent"
+              )}>
+                DT
+              </span>
+            )}
           </div>
           <div>
             <h5 className={cn(

@@ -368,8 +368,8 @@ export default async function ToolDetailPage({ params }: Props) {
                   "{tool.sections.peteTake}"
                 </p>
                 <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-full bg-neutral-100 flex items-center justify-center text-[10px] font-bold text-mkt-ink">
-                    P
+                  <div className="w-8 h-8 rounded-full bg-neutral-100 overflow-hidden shrink-0">
+                    <img src="/images/pete.jpg" alt="Pete Currey" className="w-full h-full object-cover" />
                   </div>
                   <div>
                     <span className="text-[9px] font-mono uppercase tracking-widest text-mkt-ink block font-bold">Pete Currey</span>

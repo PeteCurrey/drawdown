@@ -202,7 +202,7 @@ export async function getPostBySlug(slug: string): Promise<BlogPost | null> {
             name: 'Pete Currey',
             role: 'Founder, Drawdown',
             bio: 'Building Drawdown to be the trading education platform that actually tells you the truth.',
-            avatar_url: '',
+            avatar_url: '/images/pete.jpg',
           };
 
     // blog_post_seo may be a single object or an array depending on join type

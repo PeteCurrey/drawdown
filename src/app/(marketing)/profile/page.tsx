@@ -35,8 +35,8 @@ export default function ProfilePage() {
           <div className="lg:col-span-2 space-y-8">
             <div className="bg-background-surface/40 backdrop-blur-md border border-border-slate/50 transition-all duration-300 hover:shadow-[0_0_20px_rgba(0,0,0,0.2)] hover:border-border-slate hover:-translate-y-0.5 p-8 md:p-12 space-y-12">
               <div className="flex items-center gap-8">
-                <div className="w-24 h-24 bg-background-elevated/40 border-2 border-border-slate/50 flex items-center justify-center relative group">
-                  <User className="w-8 h-8 text-text-tertiary group-hover:text-accent transition-colors" />
+                <div className="w-24 h-24 bg-background-elevated/40 border-2 border-border-slate/50 flex items-center justify-center relative group overflow-hidden">
+                  <img src="/images/pete.jpg" alt="Pete Currey" className="w-full h-full object-cover" />
                   <button className="absolute -bottom-2 -right-2 w-8 h-8 bg-mkt-ink text-white flex items-center justify-center hover:bg-accent-hover transition-colors">
                      <Plus className="w-4 h-4" />
                   </button>

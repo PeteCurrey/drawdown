@@ -89,9 +89,16 @@ export default function MediaCentrePage() {
                 key={author.id}
                 className="bg-background-secondary border border-border-primary/70 rounded-2xl p-6 space-y-3"
               >
-                <div>
-                  <h3 className="text-lg font-bold text-text-primary">{author.name}</h3>
-                  <p className="text-xs text-accent font-mono font-semibold">{author.role}</p>
+                <div className="flex items-center gap-4">
+                  {author.avatarUrl && (
+                    <div className="w-12 h-12 rounded-full overflow-hidden border border-border-primary shrink-0 relative bg-background-elevated">
+                      <img src={author.avatarUrl} alt={author.name} className="w-full h-full object-cover" />
+                    </div>
+                  )}
+                  <div>
+                    <h3 className="text-lg font-bold text-text-primary">{author.name}</h3>
+                    <p className="text-xs text-accent font-mono font-semibold">{author.role}</p>
+                  </div>
                 </div>
                 <p className="text-xs text-text-secondary leading-relaxed">{author.bio}</p>
                 {author.linkedinUrl && (

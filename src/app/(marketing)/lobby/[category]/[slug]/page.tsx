@@ -214,15 +214,22 @@ export default async function LobbyArticlePage({ params }: ArticlePageProps) {
 
         {/* Author Byline & Dateline */}
         <div className="py-4 border-t border-b border-[#DEDDD8] flex flex-wrap items-center justify-between gap-4 text-xs font-mono text-[#4B5157] my-8">
-          <div>
-            <span className="uppercase tracking-wider text-[#0B0E12] font-semibold">
-              REPORTED BY {article.author_name}
-            </span>
-            {article.author_role && (
-              <span className="text-[#4B5157]/80 ml-1.5 hidden sm:inline">
-                • {article.author_role}
-              </span>
+          <div className="flex items-center gap-3">
+            {article.author_name === "Pete Currey" && (
+              <div className="w-8 h-8 rounded-full overflow-hidden border border-[#DEDDD8] shrink-0">
+                <img src="/images/pete.jpg" alt="Pete Currey" className="w-full h-full object-cover" />
+              </div>
             )}
+            <div>
+              <span className="uppercase tracking-wider text-[#0B0E12] font-semibold">
+                REPORTED BY {article.author_name}
+              </span>
+              {article.author_role && (
+                <span className="text-[#4B5157]/80 ml-1.5 hidden sm:inline">
+                  • {article.author_role}
+                </span>
+              )}
+            </div>
           </div>
           <div className="flex items-center gap-3">
             <time dateTime={article.published_at || ""}>

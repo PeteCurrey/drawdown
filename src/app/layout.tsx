@@ -120,7 +120,8 @@ export default function RootLayout({
               "founder": {
                 "@type": "Person",
                 "name": "Pete Currey",
-                "url": "https://drawdown.trading/about"
+                "url": "https://drawdown.trading/about",
+                "image": "https://drawdown.trading/images/pete.jpg"
               },
               "address": {
                 "@type": "PostalAddress",

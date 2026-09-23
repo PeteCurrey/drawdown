@@ -270,9 +270,14 @@ export default function PropSurvivalKitPage() {
           <p className="text-xl italic opacity-70 leading-relaxed">
             "I've watched traders with genuinely good strategies lose £3,000 in evaluation fees because they didn't understand a single rule about how their drawdown was being calculated."
           </p>
-          <p className="text-sm opacity-45 mt-4 font-mono font-medium">
-            — Pete Currey, Founder — Drawdown Trading
-          </p>
+          <div className="flex items-center justify-center gap-2.5 mt-4">
+            <div className="w-6 h-6 rounded-full overflow-hidden border border-white/20 shrink-0">
+              <img src="/images/pete.jpg" alt="Pete Currey" className="w-full h-full object-cover" />
+            </div>
+            <p className="text-sm opacity-45 font-mono font-medium">
+              — Pete Currey, Founder — Drawdown Trading
+            </p>
+          </div>
         </div>
       </section>
 

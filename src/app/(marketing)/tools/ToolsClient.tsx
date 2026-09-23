@@ -397,8 +397,13 @@ export default function ToolsMarketingPage() {
                 <blockquote className="text-sm font-sans text-[var(--text-secondary)] italic leading-relaxed">
                   &ldquo;A trader who doesn&apos;t know their exact cash invalidation distance and single-pip conversion before pulling the trigger is not trading — they are gambling with leverage.&rdquo;
                 </blockquote>
-                <div className="text-xs font-mono text-[var(--text-primary)] font-medium pt-1">
-                  — Pete Currey, Founder
+                <div className="flex items-center gap-2.5 pt-2">
+                  <div className="w-6 h-6 rounded-full overflow-hidden border border-slate-200 shrink-0">
+                    <img src="/images/pete.jpg" alt="Pete Currey" className="w-full h-full object-cover" />
+                  </div>
+                  <div className="text-xs font-mono text-[var(--text-primary)] font-medium">
+                    — Pete Currey, Founder
+                  </div>
                 </div>
               </div>
             </div>

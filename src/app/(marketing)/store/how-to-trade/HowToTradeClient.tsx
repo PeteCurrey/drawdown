@@ -194,7 +194,12 @@ export default function HowToTradeClient() {
         <div className="max-w-4xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
             <div>
-              <p className="text-xs font-mono uppercase tracking-[0.3em] mb-4" style={{ color: ACC }}>// PETE CURREY</p>
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-10 h-10 rounded-full overflow-hidden border border-white/20 shrink-0">
+                  <img src="/images/pete.jpg" alt="Pete Currey" className="w-full h-full object-cover" />
+                </div>
+                <p className="text-xs font-mono uppercase tracking-[0.3em]" style={{ color: ACC }}>// PETE CURREY</p>
+              </div>
               <h2 className="text-3xl font-bold uppercase mb-6">Built by a Trader Who Has Actually Done It</h2>
               <div className="space-y-4 text-sm text-[#7A7D85] leading-relaxed">
                 <p>Pete has traded live funded accounts across forex, indices and commodities for years. He built Drawdown because he couldn't find a single resource that taught trading the way he wished he'd been taught when he started.</p>

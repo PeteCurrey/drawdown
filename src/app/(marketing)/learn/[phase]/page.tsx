@@ -193,7 +193,10 @@ export default async function PhasePage({ params }: PageProps) {
         <div className="pt-24 border-t border-border-slate/50/30 flex flex-col items-center text-center space-y-12">
             <div className="space-y-4">
                <p className="text-[10px] font-mono uppercase tracking-[0.3em] text-text-tertiary mb-2">Platform Lead</p>
-               <div className="group">
+               <div className="flex flex-col items-center gap-3">
+                 <div className="w-12 h-12 rounded-full overflow-hidden border border-border-slate">
+                   <img src="/images/pete.jpg" alt="Pete Currey" className="w-full h-full object-cover" />
+                 </div>
                  <p className="font-serif italic text-text-primary tracking-wide opacity-80 group-hover:opacity-100 transition-opacity select-none" style={{ fontFamily: 'serif' }}>
                    Pete Currey
                  </p>

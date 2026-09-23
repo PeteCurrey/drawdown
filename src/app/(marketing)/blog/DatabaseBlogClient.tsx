@@ -280,7 +280,7 @@ export function DatabaseBlogClient({ post, relatedPosts, isDark = true }: Databa
                       src={authorAvatar}
                       alt={post.author}
                       fill
-                      className="object-cover grayscale"
+                      className="object-cover"
                     />
                   ) : (
                     post.author.charAt(0)
@@ -376,7 +376,7 @@ export function DatabaseBlogClient({ post, relatedPosts, isDark = true }: Databa
                           src={authorAvatar} 
                           alt={post.author} 
                           fill
-                          className="w-full h-full object-cover grayscale"
+                          className="w-full h-full object-cover"
                         />
                       ) : (
                         <div className={`w-full h-full flex items-center justify-center ${isDark ? 'bg-[#222]' : 'bg-slate-200'} font-bold ${t.accent}`}>

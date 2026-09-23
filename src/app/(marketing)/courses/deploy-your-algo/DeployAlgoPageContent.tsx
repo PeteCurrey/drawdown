@@ -215,9 +215,14 @@ export default function DeployAlgoPageContent({ accessState }: DeployAlgoPageCon
             This course is the missing manual — the five things I wish someone had told me before I
             spent three hours clicking around TradingView wondering where to paste it."
           </p>
-          <p className="text-[11px] font-mono text-[#C8F135] uppercase tracking-widest">
-            — Pete Currey, Founder // Drawdown
-          </p>
+          <div className="flex items-center gap-3 pt-1">
+            <div className="w-8 h-8 rounded-full overflow-hidden border border-white/20 shrink-0">
+              <img src="/images/pete.jpg" alt="Pete Currey" className="w-full h-full object-cover" />
+            </div>
+            <p className="text-[11px] font-mono text-[#C8F135] uppercase tracking-widest">
+              — Pete Currey, Founder // Drawdown
+            </p>
+          </div>
         </div>
       </section>
 

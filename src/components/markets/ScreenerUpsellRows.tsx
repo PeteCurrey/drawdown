@@ -27,7 +27,7 @@ export function ScreenerUpsellRows() {
         <div className="shrink-0 flex flex-col sm:flex-row gap-3 w-full lg:w-auto">
           <Link
             href="/pricing"
-            className="inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-mkt-ink text-white hover:bg-accent text-[10px] font-mono font-bold uppercase tracking-widest transition-all shadow-sm"
+            className="inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-[#16213E] text-white hover:bg-[#0D1527] text-[10px] font-mono font-bold uppercase tracking-widest transition-all shadow-sm"
           >
             Upgrade to Foundation <ArrowRight className="w-3.5 h-3.5" />
           </Link>

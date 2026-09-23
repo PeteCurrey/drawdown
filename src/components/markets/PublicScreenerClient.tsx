@@ -4,6 +4,7 @@ import { useState, useEffect, useMemo } from "react";
 import { ScreenerRow, MarketCategory } from "@/lib/screener";
 import { ScreenerMarketPulse } from "@/components/markets/ScreenerMarketPulse";
 import { ScreenerHeatmap } from "@/components/markets/ScreenerHeatmap";
+import { ScreenerMarketConditions } from "@/components/markets/ScreenerMarketConditions";
 import {
   ScreenerFilterWorkstation,
   FilterState,
@@ -172,7 +173,16 @@ export function PublicScreenerClient() {
             />
           </div>
 
-          {/* ── 4. Unified Filter Workstation & Quick Screens ────────────────── */}
+          {/* ── 4. Market Conditions (Four Pillars & Leaderboards) ────────────── */}
+          <div className="space-y-2">
+            <ScreenerMarketConditions
+              instruments={data}
+              onSelect={(inst) => setModalInstrument(inst)}
+              selectedSlug={modalInstrument?.slug}
+            />
+          </div>
+
+          {/* ── 5. Unified Filter Workstation & Quick Screens ────────────────── */}
           <div className="pt-2">
             <ScreenerFilterWorkstation
               filters={filters}

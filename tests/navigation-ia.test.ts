@@ -109,3 +109,62 @@ test("IA Docs: drawdown-terminology.md establishes canonical definitions", () =>
   assert.ok(terms.includes("AI Trade Journal"), "must define AI Trade Journal");
   assert.ok(terms.includes("Decision Support"), "must define Signals as decision support");
 });
+
+// ---------------------------------------------------------------------------
+// 5. Phase 2 — Markets Mega-Menu Discoverability (regression guard)
+// ---------------------------------------------------------------------------
+
+test("Phase 2: Navigation.tsx has 'Markets' in both isMegaMenu arrays (desktop + mobile)", () => {
+  const nav = readFile("src/components/layout/Navigation.tsx");
+  const isMegaMenuLines = nav.split("\n").filter(
+    (l) => l.includes("isMegaMenu") && l.includes('"Markets"')
+  );
+  assert.ok(
+    isMegaMenuLines.length >= 2,
+    `'Markets' must appear in at least 2 isMegaMenu checks (desktop + mobile). Found: ${isMegaMenuLines.length}`
+  );
+});
+
+test("Phase 2: Navigation.tsx menuKey type includes 'markets' in both desktop and mobile casts", () => {
+  const nav = readFile("src/components/layout/Navigation.tsx");
+  const marketsCasts = nav.split("\n").filter(
+    (l) => l.includes('"markets"') && l.includes("as ")
+  );
+  assert.ok(
+    marketsCasts.length >= 2,
+    `menuKey type cast must include 'markets' in at least 2 places (desktop + mobile). Found: ${marketsCasts.length}`
+  );
+});
+
+test("Phase 2: Navigation.tsx megaMenus object contains a 'markets' key with a screener link", () => {
+  const nav = readFile("src/components/layout/Navigation.tsx");
+  assert.ok(nav.includes("markets:"), "megaMenus must have a 'markets' key");
+  assert.ok(nav.includes("/markets/screener"), "megaMenus.markets must link to /markets/screener");
+});
+
+test("Phase 2: Navigation.tsx activeMenu and handleMouseEnter types include 'markets'", () => {
+  const nav = readFile("src/components/layout/Navigation.tsx");
+  assert.ok(
+    nav.includes('"markets" | null'),
+    "activeMenu state type must include 'markets'"
+  );
+  assert.ok(
+    nav.includes('"propFirms" | "markets"'),
+    "handleMouseEnter type must include 'markets'"
+  );
+});
+
+test("Phase 2: MarketsHubContent.tsx links to /markets/screener from the hero CTA block", () => {
+  const hub = readFile("src/components/markets/MarketsHubContent.tsx");
+  const screenerRefs = [...hub.matchAll(/\/markets\/screener/g)];
+  assert.ok(
+    screenerRefs.length >= 2,
+    `MarketsHubContent must link to /markets/screener at least twice. Found: ${screenerRefs.length}`
+  );
+});
+
+test("Phase 2: /markets/screener page exists and exports metadata with canonical URL", () => {
+  const page = readFile("src/app/(marketing)/markets/screener/page.tsx");
+  assert.ok(page.includes("metadata"), "screener page.tsx must export metadata for SEO");
+  assert.ok(page.includes("/markets/screener"), "screener page must reference its canonical URL");
+});

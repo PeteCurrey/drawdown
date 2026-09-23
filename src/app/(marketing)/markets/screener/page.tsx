@@ -69,9 +69,8 @@ export default function ScreenerPage() {
               <h1 className="text-3xl md:text-5xl font-sans font-extrabold uppercase tracking-tight text-text-primary">
                 Market <span className="text-accent">Screener.</span>
               </h1>
-              <p className="text-sm md:text-base text-text-secondary leading-relaxed">
-                Real-time scanning across Forex, Commodities, Global Indices, and Cryptocurrencies.
-                Track momentum, 24h performance, and institutional Market Structure Shift (MSS) bias.
+              <p className="text-sm md:text-base font-medium text-text-secondary leading-relaxed">
+                Scan the market. Find what changed. Real-time scanning across Forex, Commodities, Global Indices, and Cryptocurrencies. Track momentum, relative activity, and institutional Market Structure Shift (MSS) bias.
               </p>
             </div>
 

@@ -39,10 +39,12 @@ export function MarketTicker() {
   // Format data for the scrolling marquee (duplicate for seamless loop)
   const items = [...data, ...data, ...data];
 
-  if (data.length === 0 && !error) return <div className="h-8 bg-[#06070A] w-full" />;
+  if (data.length === 0 && !error) {
+    return <div className="fixed top-0 left-0 right-0 z-[210] h-8 bg-[#06070A] border-b border-white/10 w-full select-none" />;
+  }
 
   return (
-    <div className="fixed top-0 left-0 right-0 z-[60] h-8 bg-[#06070A] border-b border-white/5 flex items-center overflow-hidden pointer-events-none select-none">
+    <div className="fixed top-0 left-0 right-0 z-[210] h-8 bg-[#06070A] border-b border-white/10 flex items-center overflow-hidden pointer-events-none select-none">
       <div className="flex animate-marquee whitespace-nowrap items-center">
         {items.map((item, i) => (
           <div key={i} className="flex items-center gap-4 px-8 border-r border-white/5 last:border-r-0">

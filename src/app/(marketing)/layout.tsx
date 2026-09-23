@@ -12,15 +12,15 @@ export default function MarketingLayout({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
-  // Check if current path is a homepage (including regional sub-routes)
   const isHomepage = pathname === "/" || pathname === "/au" || pathname === "/us" || pathname === "/sg" || pathname === "/hk";
   const isLobby = pathname?.startsWith("/lobby");
+  const isMarkets = pathname === "/markets" || pathname?.replace(/^\/(au|us|sg|hk)/, "").replace(/\/$/, "") === "/markets";
 
   return (
     <DynamicRegionalProvider>
       <div className="marketing flex flex-col min-h-screen bg-background-primary text-text-primary">
         {!isHomepage && (isLobby ? <LobbyHeader /> : <Navigation />)}
-        <main className={isHomepage || isLobby ? "flex-grow" : "flex-grow pt-[58px]"}>
+        <main className={isHomepage || isLobby ? "flex-grow" : isMarkets ? "flex-grow pt-[90px]" : "flex-grow pt-[58px]"}>
           {children}
         </main>
         {!isHomepage && <Footer />}

@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import { PublicScreenerClient } from "@/components/markets/PublicScreenerClient";
 import { TrackPageView } from "@/components/admin/TrackPageView";
 import Link from "next/link";
-import { ChevronRight, SlidersHorizontal, ShieldCheck } from "lucide-react";
+import { ChevronRight, SlidersHorizontal, ShieldCheck, Activity, BarChart2 } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Live Market Screener — Forex, Crypto, Commodities & Indices | Drawdown Trading",
@@ -24,14 +24,40 @@ export default function ScreenerPage() {
 
       {/* Header section */}
       <section className="border-b border-border-slate/50 bg-white/40">
-        <div className="max-w-7xl mx-auto px-6 py-12 md:py-16 space-y-6">
-          {/* Breadcrumbs */}
-          <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-text-tertiary">
-            <Link href="/markets" className="hover:text-accent transition-colors">
-              Markets
-            </Link>
-            <ChevronRight className="w-3 h-3 text-text-tertiary/60" />
-            <span className="text-accent font-bold">Screener</span>
+        <div className="max-w-7xl mx-auto px-6 py-10 md:py-14 space-y-6">
+          {/* Sub Navigation Strip & Breadcrumbs */}
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border-slate/60 pb-4">
+            <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-text-tertiary">
+              <Link href="/markets" className="hover:text-accent transition-colors">
+                Markets
+              </Link>
+              <ChevronRight className="w-3 h-3 text-text-tertiary/60" />
+              <span className="text-accent font-bold">Screener</span>
+            </div>
+
+            <div className="flex items-center gap-1.5 text-[10px] font-mono">
+              <Link
+                href="/markets"
+                className="px-3 py-1 text-text-secondary hover:text-text-primary border border-border-slate/70 bg-white/70 hover:bg-white transition-colors uppercase tracking-wider rounded-xs flex items-center gap-1"
+              >
+                <BarChart2 className="w-3 h-3 text-text-tertiary" />
+                Markets Hub
+              </Link>
+              <Link
+                href="/markets/screener"
+                className="px-3 py-1 bg-black text-white font-bold uppercase tracking-wider rounded-xs shadow-2xs flex items-center gap-1"
+              >
+                <SlidersHorizontal className="w-3 h-3 text-accent" />
+                Screener
+              </Link>
+              <Link
+                href="/markets/pulse"
+                className="px-3 py-1 text-text-secondary hover:text-text-primary border border-border-slate/70 bg-white/70 hover:bg-white transition-colors uppercase tracking-wider rounded-xs flex items-center gap-1"
+              >
+                <Activity className="w-3 h-3 text-text-tertiary" />
+                The Pulse
+              </Link>
+            </div>
           </div>
 
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
@@ -63,7 +89,7 @@ export default function ScreenerPage() {
       </section>
 
       {/* Main Screener Section */}
-      <main className="max-w-7xl mx-auto px-6 py-10">
+      <main className="max-w-7xl mx-auto px-6 py-8">
         <PublicScreenerClient />
       </main>
     </div>

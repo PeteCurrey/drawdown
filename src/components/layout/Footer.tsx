@@ -109,6 +109,7 @@ export function Footer() {
             <ul className="space-y-3 text-[13px] font-sans" style={{ color: "var(--text-secondary)" }}>
               <li><Link href={`${regionPrefix}/courses`} className="hover:underline">Curriculum</Link></li>
               <li><Link href={`${regionPrefix}/markets`} className="hover:underline">Markets Hub</Link></li>
+              <li><Link href="/markets/screener" className="hover:underline">Market Screener</Link></li>
               <li><Link href={`${regionPrefix}/brokers`} className="hover:underline">Broker Guide</Link></li>
               <li><Link href={`${regionPrefix}/tools`} className="hover:underline">Trading Tools</Link></li>
               <li><Link href={`${regionPrefix}/pricing`} className="hover:underline">Pricing</Link></li>

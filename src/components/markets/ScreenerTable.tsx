@@ -3,131 +3,210 @@
 import { useState, useMemo, useCallback } from "react";
 import Link from "next/link";
 import {
-  ArrowUpDown, ArrowUp, ArrowDown, Search, Lock, Grid2x2, List,
-  AlertTriangle, TrendingUp, TrendingDown, Minus, ChevronRight,
+  ArrowUpDown, ArrowUp, ArrowDown, Lock,
+  AlertTriangle, TrendingUp, TrendingDown, Minus, ChevronRight, X
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ScreenerRow, MarketCategory } from "@/lib/screener";
 import { TradingViewMiniChart } from "@/components/markets/TradingViewMiniChart";
-import { ScreenerHeatmap } from "@/components/markets/ScreenerHeatmap";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
-type SortKey = "displayPair" | "price" | "changePct" | "rsi";
-type SortDir = "asc" | "desc";
+export type SortKey = "displayPair" | "price" | "changePct" | "rsi" | "bias";
+export type SortDir = "asc" | "desc";
 
 interface ScreenerTableProps {
   instruments: ScreenerRow[];
   initialCategory?: MarketCategory | "all";
   /** Show locked premium columns (Signals, AI Brief) — always true on public screener */
   showLockedColumns?: boolean;
-  /** Controlled from parent for embedded use */
+  /** Optional callback when an instrument is clicked */
+  onSelectInstrument?: (row: ScreenerRow) => void;
+  /** Currently selected instrument slug for row highlight */
+  selectedSlug?: string | null;
+  /** Backwards compatibility for embedded views */
   viewMode?: "table" | "heatmap";
   onViewModeChange?: (mode: "table" | "heatmap") => void;
 }
 
-// ─── Category tabs ────────────────────────────────────────────────────────────
+// ─── Micro-visual Sub-components ──────────────────────────────────────────────
 
-const TABS: { id: MarketCategory | "all"; label: string }[] = [
-  { id: "all",         label: "All"        },
-  { id: "forex",       label: "Forex"      },
-  { id: "commodities", label: "Commodities"},
-  { id: "indices",     label: "Indices"    },
-  { id: "crypto",      label: "Crypto"     },
-  { id: "stocks-uk",   label: "UK Stocks"  },
-  { id: "stocks-us",   label: "US Stocks"  },
-];
-
-// ─── Sub-components ───────────────────────────────────────────────────────────
-
-function FeedOfflineBadge() {
+export function FeedOfflineBadge() {
   return (
-    <span className="inline-flex items-center gap-1 px-1.5 py-0.5 text-[8px] font-mono font-bold uppercase tracking-widest border border-amber-500/40 text-amber-400 bg-amber-500/10">
-      <AlertTriangle className="w-2.5 h-2.5" />
+    <span className="inline-flex items-center gap-1 px-1.5 py-0.5 text-[8px] font-mono font-bold uppercase tracking-wider border border-amber-500/40 text-amber-700 bg-amber-50 rounded-xs">
+      <AlertTriangle className="w-2.5 h-2.5 text-amber-500" />
       FEED_OFFLINE
     </span>
   );
 }
 
-function BiasIcon({ bias }: { bias: ScreenerRow["bias"] }) {
-  if (bias === "BULLISH") return <TrendingUp  className="w-3.5 h-3.5 text-profit" />;
-  if (bias === "BEARISH") return <TrendingDown className="w-3.5 h-3.5 text-loss"  />;
-  return <Minus className="w-3.5 h-3.5 text-mkt-i4" />;
+export function BiasBadge({ bias }: { bias: ScreenerRow["bias"] }) {
+  if (bias === "BULLISH") {
+    return (
+      <span className="inline-flex items-center gap-1 px-2 py-0.5 text-[9px] font-mono font-bold uppercase tracking-wider rounded-xs text-emerald-700 bg-emerald-50 border border-emerald-200">
+        <TrendingUp className="w-3 h-3 text-emerald-600" />
+        Bullish MSS
+      </span>
+    );
+  }
+  if (bias === "BEARISH") {
+    return (
+      <span className="inline-flex items-center gap-1 px-2 py-0.5 text-[9px] font-mono font-bold uppercase tracking-wider rounded-xs text-red-700 bg-red-50 border border-red-200">
+        <TrendingDown className="w-3 h-3 text-red-600" />
+        Bearish MSS
+      </span>
+    );
+  }
+  return (
+    <span className="inline-flex items-center gap-1 px-2 py-0.5 text-[9px] font-mono font-medium uppercase tracking-wider rounded-xs text-mkt-i4 bg-slate-50 border border-mkt-bd">
+      <Minus className="w-3 h-3 text-mkt-i4" />
+      Neutral
+    </span>
+  );
 }
 
-function RSIBar({ rsi }: { rsi: number | null }) {
-  if (rsi === null) return <span className="text-mkt-i4">—</span>;
-  const color = rsi > 70 ? "text-loss" : rsi < 30 ? "text-profit" : "text-mkt-i2";
-  return <span className={cn("font-mono font-bold", color)}>{rsi.toFixed(1)}</span>;
+export function RSIBadge({ rsi }: { rsi: number | null }) {
+  if (rsi === null) return <span className="text-mkt-i4 font-mono">—</span>;
+  
+  if (rsi < 30) {
+    return (
+      <span className="inline-flex items-center px-2 py-0.5 text-[10px] font-mono font-bold rounded-xs text-emerald-700 bg-emerald-50 border border-emerald-300 tabular-nums">
+        {rsi.toFixed(1)} <span className="ml-1 text-[8px] opacity-75 font-normal">OS</span>
+      </span>
+    );
+  }
+  if (rsi > 70) {
+    return (
+      <span className="inline-flex items-center px-2 py-0.5 text-[10px] font-mono font-bold rounded-xs text-red-700 bg-red-50 border border-red-300 tabular-nums">
+        {rsi.toFixed(1)} <span className="ml-1 text-[8px] opacity-75 font-normal">OB</span>
+      </span>
+    );
+  }
+  return (
+    <span className="inline-flex items-center px-2 py-0.5 text-[10px] font-mono font-medium rounded-xs text-mkt-i2 bg-slate-50 border border-mkt-bd/60 tabular-nums">
+      {rsi.toFixed(1)}
+    </span>
+  );
+}
+
+export function ChangeBadge({ changePct, feedOffline }: { changePct: number | null; feedOffline?: boolean }) {
+  if (feedOffline) {
+    return <FeedOfflineBadge />;
+  }
+  if (changePct === null) {
+    return <span className="text-mkt-i4 font-mono">—</span>;
+  }
+  const isPositive = changePct >= 0;
+  return (
+    <span
+      className={cn(
+        "inline-flex items-center justify-end px-2 py-0.5 text-[10px] font-mono font-bold border rounded-xs tabular-nums min-w-[62px]",
+        isPositive
+          ? "text-emerald-700 bg-emerald-50 border-emerald-200"
+          : "text-red-700 bg-red-50 border-red-200"
+      )}
+    >
+      {isPositive ? "+" : ""}{changePct.toFixed(2)}%
+    </span>
+  );
 }
 
 function LockedCell({ label }: { label: string }) {
   return (
-    <span className="inline-flex items-center gap-1 text-[9px] font-mono text-mkt-i4/50 select-none">
-      <Lock className="w-2.5 h-2.5" />
+    <span className="inline-flex items-center gap-1.5 px-2 py-0.5 text-[9px] font-mono font-medium text-mkt-i4/70 bg-slate-100/80 border border-slate-200 rounded-xs select-none">
+      <Lock className="w-2.5 h-2.5 text-mkt-i4/60" />
       {label}
     </span>
   );
 }
 
 function SortIcon({ col, sort, dir }: { col: SortKey; sort: SortKey; dir: SortDir }) {
-  if (sort !== col) return <ArrowUpDown className="w-3 h-3 opacity-30" />;
+  if (sort !== col) return <ArrowUpDown className="w-3 h-3 opacity-30 text-mkt-i4" />;
   return dir === "asc"
-    ? <ArrowUp className="w-3 h-3 text-accent" />
-    : <ArrowDown className="w-3 h-3 text-accent" />;
+    ? <ArrowUp className="w-3 h-3 text-accent stroke-[2.5]" />
+    : <ArrowDown className="w-3 h-3 text-accent stroke-[2.5]" />;
 }
 
 // ─── Mini-chart modal ─────────────────────────────────────────────────────────
 
-function InstrumentModal({
+export function InstrumentModal({
   row,
   onClose,
 }: {
   row: ScreenerRow;
   onClose: () => void;
 }) {
-  // Map scannerSlug → tvSymbol from the SCREENER_INSTRUMENTS table
-  // We receive tvSymbol via ScreenerRow — but the row doesn't carry tvSymbol.
-  // We resolve it from the parent's instruments prop by slug.
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-in fade-in duration-150"
       onClick={onClose}
     >
       <div
-        className="relative w-full max-w-lg mx-4 bg-mkt-bg border border-mkt-bd p-6 space-y-4"
-        onClick={e => e.stopPropagation()}
+        className="relative w-full max-w-xl bg-white border border-mkt-bd p-6 space-y-5 shadow-2xl rounded-xs"
+        onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex justify-between items-start">
+        {/* Header */}
+        <div className="flex justify-between items-start border-b border-mkt-bd/80 pb-4">
           <div>
-            <h3 className="text-lg font-mono font-bold text-mkt-ink">{row.displayPair}</h3>
-            <p className="text-[9px] font-mono text-mkt-i4 uppercase tracking-widest">{row.category}</p>
+            <div className="flex items-center gap-2">
+              <h3 className="text-xl font-mono font-extrabold text-mkt-ink tracking-tight">
+                {row.displayPair}
+              </h3>
+              <span className="text-[9px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 bg-slate-100 text-mkt-i3 border border-slate-200 rounded-xs">
+                {row.category}
+              </span>
+            </div>
+            <p className="text-[10px] font-mono text-mkt-i4 mt-1">
+              Symbol: {row.slug} · 60s Cached Feed
+            </p>
           </div>
           <button
             onClick={onClose}
-            className="text-mkt-i4 hover:text-mkt-ink transition-colors text-sm font-mono"
+            className="text-mkt-i4 hover:text-mkt-ink transition-colors p-1.5 hover:bg-slate-100 rounded-xs"
+            aria-label="Close modal"
           >
-            ✕
+            <X className="w-4 h-4" />
           </button>
         </div>
 
-        <div className="flex gap-6 items-baseline">
-          <span className="text-2xl font-mono font-bold">
-            {row.price !== null ? row.price.toFixed(5).replace(/\.?0+$/, "") : "—"}
-          </span>
-          {row.changePct !== null && (
-            <span className={cn(
-              "text-sm font-mono font-bold",
-              row.changePct >= 0 ? "text-profit" : "text-loss"
-            )}>
-              {row.changePct >= 0 ? "+" : ""}{row.changePct.toFixed(2)}%
+        {/* Quick Metrics Bar */}
+        <div className="grid grid-cols-3 gap-3 p-3 bg-slate-50 border border-mkt-bd/60 rounded-xs">
+          <div>
+            <span className="text-[8px] font-mono uppercase tracking-widest text-mkt-i4 block mb-0.5">
+              Live Price
             </span>
-          )}
-          {row.feed_offline && <FeedOfflineBadge />}
+            <span className="text-lg font-mono font-bold text-mkt-ink tabular-nums">
+              {row.feed_offline
+                ? "—"
+                : row.price !== null
+                ? row.price >= 1000
+                  ? row.price.toLocaleString("en-GB", { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+                  : row.price >= 10
+                  ? row.price.toFixed(3)
+                  : row.price.toFixed(5)
+                : "—"}
+            </span>
+          </div>
+
+          <div>
+            <span className="text-[8px] font-mono uppercase tracking-widest text-mkt-i4 block mb-0.5">
+              24h Change
+            </span>
+            <ChangeBadge changePct={row.changePct} feedOffline={row.feed_offline} />
+          </div>
+
+          <div>
+            <span className="text-[8px] font-mono uppercase tracking-widest text-mkt-i4 block mb-0.5">
+              Structure & RSI
+            </span>
+            <div className="flex items-center gap-1.5">
+              <RSIBadge rsi={row.rsi} />
+            </div>
+          </div>
         </div>
 
-        {/* Mini-chart — reuses existing TradingViewMiniChart component */}
-        <div className="h-48 border border-mkt-bd">
+        {/* Mini-chart */}
+        <div className="h-60 border border-mkt-bd bg-slate-50 rounded-xs overflow-hidden">
           <TradingViewMiniChart
             symbol={row.slug}
             largeChartUrl={`/dashboard/tools/technical-scanner?symbol=${row.slug}`}
@@ -135,19 +214,25 @@ function InstrumentModal({
           />
         </div>
 
-        <div className="flex justify-end gap-3">
-          <button
-            onClick={onClose}
-            className="px-4 py-2 text-[9px] font-mono uppercase tracking-widest border border-mkt-bd text-mkt-i4 hover:border-accent hover:text-accent transition-colors"
-          >
-            Close
-          </button>
-          <Link
-            href={`/dashboard/tools/technical-scanner?symbol=${row.slug}`}
-            className="px-4 py-2 text-[9px] font-mono uppercase tracking-widest bg-mkt-ink text-white hover:bg-accent transition-colors"
-          >
-            Full Analysis →
-          </Link>
+        {/* Modal Actions */}
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-2">
+          <span className="text-[9px] font-mono text-mkt-i4">
+            MSS Bias: <span className="font-bold text-mkt-ink">{row.bias}</span>
+          </span>
+          <div className="flex items-center gap-2 w-full sm:w-auto">
+            <button
+              onClick={onClose}
+              className="flex-1 sm:flex-initial px-4 py-2.5 text-[9px] font-mono uppercase tracking-widest border border-mkt-bd text-mkt-i4 hover:border-slate-400 hover:text-mkt-ink transition-colors rounded-xs"
+            >
+              Close
+            </button>
+            <Link
+              href={`/dashboard/tools/technical-scanner?symbol=${row.slug}`}
+              className="flex-1 sm:flex-initial px-5 py-2.5 text-[9px] font-mono font-bold uppercase tracking-widest bg-mkt-ink text-white hover:bg-accent hover:text-black transition-colors rounded-xs flex items-center justify-center gap-1.5 shadow-sm"
+            >
+              Open Technical Scanner <ChevronRight className="w-3.5 h-3.5" />
+            </Link>
+          </div>
         </div>
       </div>
     </div>
@@ -158,310 +243,301 @@ function InstrumentModal({
 
 export function ScreenerTable({
   instruments,
-  initialCategory = "all",
+  initialCategory,
   showLockedColumns = true,
-  viewMode: controlledViewMode,
-  onViewModeChange,
+  onSelectInstrument,
+  selectedSlug,
 }: ScreenerTableProps) {
-  const [activeTab, setActiveTab] = useState<MarketCategory | "all">(initialCategory);
-  const [search, setSearch]       = useState("");
-  const [sort, setSort]           = useState<SortKey>("changePct");
-  const [sortDir, setSortDir]     = useState<SortDir>("desc");
-  const [modalRow, setModalRow]   = useState<ScreenerRow | null>(null);
-  const [internalView, setInternalView] = useState<"table" | "heatmap">("table");
-
-  const viewMode = controlledViewMode ?? internalView;
-  const setViewMode = onViewModeChange ?? setInternalView;
+  const [sort, setSort] = useState<SortKey>("changePct");
+  const [sortDir, setSortDir] = useState<SortDir>("desc");
+  const [internalModalRow, setInternalModalRow] = useState<ScreenerRow | null>(null);
 
   const handleSort = useCallback((col: SortKey) => {
-    setSort(prev => {
-      if (prev === col) setSortDir(d => d === "asc" ? "desc" : "asc");
-      else { setSortDir("desc"); }
+    setSort((prev) => {
+      if (prev === col) {
+        setSortDir((d) => (d === "asc" ? "desc" : "asc"));
+      } else {
+        setSortDir(col === "displayPair" ? "asc" : "desc");
+      }
       return col;
     });
   }, []);
 
-  const filtered = useMemo(() => {
-    let rows = instruments;
-    if (activeTab !== "all") rows = rows.filter(r => r.category === activeTab);
-    if (search.trim()) {
-      const q = search.toLowerCase();
-      rows = rows.filter(r =>
-        r.slug.toLowerCase().includes(q) || r.displayPair.toLowerCase().includes(q)
-      );
+  const handleRowClick = (row: ScreenerRow) => {
+    if (onSelectInstrument) {
+      onSelectInstrument(row);
+    } else {
+      setInternalModalRow(row);
     }
-    return [...rows].sort((a, b) => {
-      const valA = sort === "displayPair" ? a.displayPair : (a[sort] ?? -Infinity);
-      const valB = sort === "displayPair" ? b.displayPair : (b[sort] ?? -Infinity);
+  };
+
+  const baseRows = useMemo(() => {
+    if (initialCategory && initialCategory !== "all") {
+      return instruments.filter((i) => i.category === initialCategory);
+    }
+    return instruments;
+  }, [instruments, initialCategory]);
+
+  const sortedRows = useMemo(() => {
+    return [...baseRows].sort((a, b) => {
+      let valA: any = a[sort];
+      let valB: any = b[sort];
+
+      if (sort === "displayPair") {
+        valA = a.displayPair;
+        valB = b.displayPair;
+        return sortDir === "asc"
+          ? valA.localeCompare(valB)
+          : valB.localeCompare(valA);
+      }
+
+      valA = valA ?? -Infinity;
+      valB = valB ?? -Infinity;
+
       if (valA === valB) return 0;
       if (sortDir === "asc") return valA < valB ? -1 : 1;
       return valA > valB ? -1 : 1;
     });
-  }, [instruments, activeTab, search, sort, sortDir]);
-
-  // ─── Available tabs (only show tabs that have data) ────────────────────────
-  const availableTabs = useMemo(() => {
-    const cats = new Set(instruments.map(i => i.category));
-    return TABS.filter(t => t.id === "all" || cats.has(t.id as MarketCategory));
-  }, [instruments]);
+  }, [instruments, sort, sortDir]);
 
   return (
-    <div className="space-y-6">
-      {/* ── Toolbar ─────────────────────────────────────────────────────────── */}
-      <div className="flex flex-col gap-4 border-b border-mkt-bd pb-6">
-        {/* Tab row + view toggle */}
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <div className="flex flex-wrap gap-1.5">
-            {availableTabs.map(tab => (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
-                className={cn(
-                  "px-4 py-2 text-[9px] font-mono font-bold uppercase tracking-widest transition-all",
-                  activeTab === tab.id
-                    ? "bg-mkt-ink text-white"
-                    : "bg-transparent text-mkt-i4 border border-mkt-bd hover:border-mkt-bds/40"
-                )}
-              >
-                {tab.label}
-              </button>
-            ))}
-          </div>
-
-          {/* View toggle */}
-          <div className="flex gap-1 border border-mkt-bd">
-            <button
-              onClick={() => setViewMode("table")}
-              className={cn(
-                "p-2 transition-colors",
-                viewMode === "table" ? "bg-mkt-ink text-white" : "text-mkt-i4 hover:text-mkt-ink"
-              )}
-              title="Table view"
-            >
-              <List className="w-3.5 h-3.5" />
-            </button>
-            <button
-              onClick={() => setViewMode("heatmap")}
-              className={cn(
-                "p-2 transition-colors",
-                viewMode === "heatmap" ? "bg-mkt-ink text-white" : "text-mkt-i4 hover:text-mkt-ink"
-              )}
-              title="Heatmap view"
-            >
-              <Grid2x2 className="w-3.5 h-3.5" />
-            </button>
-          </div>
-        </div>
-
-        {/* Search */}
-        <div className="relative w-full md:w-72">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-mkt-i4" />
-          <input
-            type="text"
-            placeholder="Search symbol or name…"
-            value={search}
-            onChange={e => setSearch(e.target.value)}
-            className="w-full bg-white border border-mkt-bd py-2.5 pl-9 pr-4 text-[10px] font-mono uppercase tracking-widest outline-none focus:border-accent transition-colors"
-          />
-        </div>
-      </div>
-
+    <div className="w-full bg-white border border-mkt-bd shadow-sm">
       {/* ── Table (desktop) ─────────────────────────────────────────────────── */}
-      {viewMode === "table" && (
-        <>
-          {/* Desktop table */}
-          <div className="hidden md:block overflow-x-auto">
-            <table className="w-full border-collapse text-[10px] font-mono">
-              <thead>
-                <tr className="border-b border-mkt-bd">
-                  {([
-                    { key: "displayPair", label: "Symbol"    },
-                    { key: "price",       label: "Price"     },
-                    { key: "changePct",   label: "24h %"     },
-                    { key: "rsi",         label: "RSI (14)"  },
-                  ] as { key: SortKey; label: string }[]).map(col => (
-                    <th key={col.key} className="text-left py-3 px-4 font-bold uppercase tracking-widest text-mkt-i4">
-                      <button
-                        onClick={() => handleSort(col.key)}
-                        className="flex items-center gap-1.5 hover:text-mkt-ink transition-colors"
-                      >
-                        {col.label}
-                        <SortIcon col={col.key} sort={sort} dir={sortDir} />
-                      </button>
-                    </th>
-                  ))}
-                  <th className="text-left py-3 px-4 font-bold uppercase tracking-widest text-mkt-i4">Bias</th>
+      <div className="hidden md:block overflow-x-auto">
+        <table className="w-full border-collapse text-[10px] font-mono">
+          <thead>
+            <tr className="border-b border-mkt-bd bg-slate-50/90 sticky top-0 z-10 backdrop-blur-xs">
+              {/* Symbol */}
+              <th className="text-left py-3.5 px-4 font-bold uppercase tracking-wider text-mkt-i3 w-[22%]">
+                <button
+                  onClick={() => handleSort("displayPair")}
+                  className="flex items-center gap-1.5 hover:text-mkt-ink transition-colors"
+                >
+                  Symbol / Asset
+                  <SortIcon col="displayPair" sort={sort} dir={sortDir} />
+                </button>
+              </th>
+
+              {/* Price (Right-aligned) */}
+              <th className="text-right py-3.5 px-4 font-bold uppercase tracking-wider text-mkt-i3 w-[15%]">
+                <button
+                  onClick={() => handleSort("price")}
+                  className="inline-flex items-center gap-1.5 hover:text-mkt-ink transition-colors ml-auto"
+                >
+                  Last Price
+                  <SortIcon col="price" sort={sort} dir={sortDir} />
+                </button>
+              </th>
+
+              {/* 24h % (Right-aligned) */}
+              <th className="text-right py-3.5 px-4 font-bold uppercase tracking-wider text-mkt-i3 w-[14%]">
+                <button
+                  onClick={() => handleSort("changePct")}
+                  className="inline-flex items-center gap-1.5 hover:text-mkt-ink transition-colors ml-auto"
+                >
+                  24h Change
+                  <SortIcon col="changePct" sort={sort} dir={sortDir} />
+                </button>
+              </th>
+
+              {/* RSI (Right-aligned) */}
+              <th className="text-right py-3.5 px-4 font-bold uppercase tracking-wider text-mkt-i3 w-[13%]">
+                <button
+                  onClick={() => handleSort("rsi")}
+                  className="inline-flex items-center gap-1.5 hover:text-mkt-ink transition-colors ml-auto"
+                >
+                  RSI (14)
+                  <SortIcon col="rsi" sort={sort} dir={sortDir} />
+                </button>
+              </th>
+
+              {/* Bias */}
+              <th className="text-left py-3.5 px-4 font-bold uppercase tracking-wider text-mkt-i3 w-[16%]">
+                <button
+                  onClick={() => handleSort("bias")}
+                  className="flex items-center gap-1.5 hover:text-mkt-ink transition-colors"
+                >
+                  1H Structure
+                  <SortIcon col="bias" sort={sort} dir={sortDir} />
+                </button>
+              </th>
+
+              {/* Locked columns */}
+              {showLockedColumns && (
+                <>
+                  <th className="text-left py-3.5 px-4 font-bold uppercase tracking-wider text-mkt-i4/50 select-none w-[10%]">
+                    Signals
+                  </th>
+                  <th className="text-left py-3.5 px-4 font-bold uppercase tracking-wider text-mkt-i4/50 select-none w-[10%]">
+                    AI Brief
+                  </th>
+                </>
+              )}
+
+              {/* Row Action */}
+              <th className="py-3.5 px-4 w-[4%]" />
+            </tr>
+          </thead>
+          <tbody>
+            {sortedRows.map((row) => {
+              const isSelected = selectedSlug === row.slug;
+              return (
+                <tr
+                  key={row.slug}
+                  className={cn(
+                    "border-b border-mkt-bd/40 cursor-pointer transition-colors group",
+                    isSelected ? "bg-accent/10" : "hover:bg-slate-50/90"
+                  )}
+                  onClick={() => handleRowClick(row)}
+                >
+                  {/* Symbol */}
+                  <td className="py-3.5 px-4">
+                    <div className="flex items-center gap-2">
+                      <div>
+                        <p className="font-extrabold text-mkt-ink text-[11px] group-hover:text-accent transition-colors leading-tight">
+                          {row.displayPair}
+                        </p>
+                        <p className="text-[8px] text-mkt-i4 uppercase tracking-widest mt-0.5">
+                          {row.category}
+                        </p>
+                      </div>
+                    </div>
+                  </td>
+
+                  {/* Price (Right-aligned, tabular figures) */}
+                  <td className="py-3.5 px-4 text-right">
+                    {row.feed_offline ? (
+                      <FeedOfflineBadge />
+                    ) : row.price !== null ? (
+                      <span className="font-bold font-mono tabular-nums text-mkt-ink text-[11px]">
+                        {row.price >= 1000
+                          ? row.price.toLocaleString("en-GB", { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+                          : row.price >= 10
+                          ? row.price.toFixed(3)
+                          : row.price.toFixed(5)}
+                      </span>
+                    ) : (
+                      <span className="text-mkt-i4 font-mono">—</span>
+                    )}
+                  </td>
+
+                  {/* 24h % (Right-aligned) */}
+                  <td className="py-3.5 px-4 text-right">
+                    <ChangeBadge changePct={row.changePct} feedOffline={row.feed_offline} />
+                  </td>
+
+                  {/* RSI (Right-aligned) */}
+                  <td className="py-3.5 px-4 text-right">
+                    <RSIBadge rsi={row.rsi} />
+                  </td>
+
+                  {/* Bias */}
+                  <td className="py-3.5 px-4">
+                    <BiasBadge bias={row.bias} />
+                  </td>
+
+                  {/* Locked columns */}
                   {showLockedColumns && (
                     <>
-                      <th className="text-left py-3 px-4 font-bold uppercase tracking-widest text-mkt-i4/40 select-none">
-                        <span className="flex items-center gap-1"><Lock className="w-2.5 h-2.5" />Signals</span>
-                      </th>
-                      <th className="text-left py-3 px-4 font-bold uppercase tracking-widest text-mkt-i4/40 select-none">
-                        <span className="flex items-center gap-1"><Lock className="w-2.5 h-2.5" />AI Brief</span>
-                      </th>
+                      <td className="py-3.5 px-4 opacity-50 select-none">
+                        <LockedCell label="3/5 TF" />
+                      </td>
+                      <td className="py-3.5 px-4 opacity-50 select-none">
+                        <LockedCell label="Brief" />
+                      </td>
                     </>
                   )}
-                  <th className="py-3 px-4" />
+
+                  {/* CTA */}
+                  <td className="py-3.5 px-4 text-right">
+                    <ChevronRight className="w-3.5 h-3.5 text-mkt-i4 group-hover:text-accent group-hover:translate-x-0.5 transition-all inline-block" />
+                  </td>
                 </tr>
-              </thead>
-              <tbody>
-                {filtered.map((row) => (
-                  <tr
-                    key={row.slug}
-                    className="border-b border-mkt-bd/50 hover:bg-mkt-bd/10 cursor-pointer transition-colors group"
-                    onClick={() => setModalRow(row)}
-                  >
-                    {/* Symbol */}
-                    <td className="py-4 px-4">
-                      <div>
-                        <p className="font-bold text-mkt-ink group-hover:text-accent transition-colors">{row.displayPair}</p>
-                        <p className="text-[8px] text-mkt-i4 uppercase">{row.category}</p>
-                      </div>
-                    </td>
+              );
+            })}
+          </tbody>
+        </table>
 
-                    {/* Price */}
-                    <td className="py-4 px-4">
-                      {row.feed_offline ? (
-                        <FeedOfflineBadge />
-                      ) : row.price !== null ? (
-                        <span className="font-bold text-mkt-ink">
-                          {row.price >= 1000
-                            ? row.price.toLocaleString("en-GB", { minimumFractionDigits: 2, maximumFractionDigits: 2 })
-                            : row.price >= 10
-                            ? row.price.toFixed(3)
-                            : row.price.toFixed(5)}
-                        </span>
-                      ) : "—"}
-                    </td>
-
-                    {/* 24h % */}
-                    <td className="py-4 px-4">
-                      {row.changePct !== null ? (
-                        <span className={cn(
-                          "inline-flex px-2 py-0.5 font-bold border",
-                          row.changePct >= 0
-                            ? "text-profit border-profit/20 bg-profit/5"
-                            : "text-loss border-loss/20 bg-loss/5"
-                        )}>
-                          {row.changePct >= 0 ? "+" : ""}{row.changePct.toFixed(2)}%
-                        </span>
-                      ) : "—"}
-                    </td>
-
-                    {/* RSI */}
-                    <td className="py-4 px-4">
-                      <RSIBar rsi={row.rsi} />
-                    </td>
-
-                    {/* Bias */}
-                    <td className="py-4 px-4">
-                      <div className="flex items-center gap-1.5">
-                        <BiasIcon bias={row.bias} />
-                        <span className={cn(
-                          "text-[9px] uppercase font-bold",
-                          row.bias === "BULLISH" ? "text-profit" : row.bias === "BEARISH" ? "text-loss" : "text-mkt-i4"
-                        )}>
-                          {row.bias}
-                        </span>
-                      </div>
-                    </td>
-
-                    {/* Locked columns */}
-                    {showLockedColumns && (
-                      <>
-                        <td className="py-4 px-4 opacity-40 blur-[1px] select-none">
-                          <LockedCell label="3/5 TF" />
-                        </td>
-                        <td className="py-4 px-4 opacity-40 blur-[1px] select-none">
-                          <LockedCell label="View brief" />
-                        </td>
-                      </>
-                    )}
-
-                    {/* CTA */}
-                    <td className="py-4 px-4">
-                      <ChevronRight className="w-3.5 h-3.5 text-mkt-i4 group-hover:text-accent transition-colors" />
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-
-            {filtered.length === 0 && (
-              <div className="py-16 text-center border-b border-mkt-bd">
-                <p className="text-[10px] font-mono text-mkt-i4 uppercase tracking-widest">No instruments match this filter</p>
-              </div>
-            )}
+        {sortedRows.length === 0 && (
+          <div className="py-16 text-center border-b border-mkt-bd">
+            <p className="text-[10px] font-mono text-mkt-i4 uppercase tracking-widest">
+              No instruments match the active filter criteria
+            </p>
           </div>
-
-          {/* Mobile: stacked cards (< 768px) */}
-          <div className="md:hidden space-y-3">
-            {filtered.map((row) => (
-              <div
-                key={row.slug}
-                className="border border-mkt-bd bg-white p-4 cursor-pointer hover:border-mkt-bds/40 transition-all group"
-                onClick={() => setModalRow(row)}
-              >
-                <div className="flex justify-between items-start mb-3">
-                  <div>
-                    <p className="font-bold font-mono text-sm text-mkt-ink group-hover:text-accent transition-colors">{row.displayPair}</p>
-                    <p className="text-[8px] font-mono text-mkt-i4 uppercase">{row.category}</p>
-                  </div>
-                  {row.feed_offline ? (
-                    <FeedOfflineBadge />
-                  ) : row.changePct !== null && (
-                    <span className={cn(
-                      "text-[10px] font-mono font-bold px-2 py-0.5 border",
-                      row.changePct >= 0 ? "text-profit border-profit/20 bg-profit/5" : "text-loss border-loss/20 bg-loss/5"
-                    )}>
-                      {row.changePct >= 0 ? "+" : ""}{row.changePct.toFixed(2)}%
-                    </span>
-                  )}
-                </div>
-                <div className="flex justify-between items-end">
-                  <span className="text-lg font-mono font-bold text-mkt-ink">
-                    {row.price !== null
-                      ? (row.price >= 1000
-                          ? row.price.toLocaleString("en-GB", { minimumFractionDigits: 2, maximumFractionDigits: 2 })
-                          : row.price.toFixed(5).replace(/\.?0+$/, ""))
-                      : "—"}
-                  </span>
-                  <div className="flex items-center gap-3">
-                    {row.rsi !== null && <RSIBar rsi={row.rsi} />}
-                    <BiasIcon bias={row.bias} />
-                  </div>
-                </div>
-              </div>
-            ))}
-
-            {filtered.length === 0 && (
-              <div className="py-10 text-center border border-dashed border-mkt-bd/50">
-                <p className="text-[10px] font-mono text-mkt-i4 uppercase tracking-widest">No instruments match this filter</p>
-              </div>
-            )}
-          </div>
-        </>
-      )}
-
-      {/* ── Heatmap view ────────────────────────────────────────────────────── */}
-      {viewMode === "heatmap" && (
-        <ScreenerHeatmap instruments={filtered} onSelect={setModalRow} />
-      )}
-
-      {/* ── Instrument detail modal ─────────────────────────────────────────── */}
-      {modalRow && (
-        <InstrumentModal row={modalRow} onClose={() => setModalRow(null)} />
-      )}
-
-      {/* ── Footer ──────────────────────────────────────────────────────────── */}
-      <div className="flex items-center justify-between pt-2 border-t border-mkt-bd/50">
-        <p className="text-[8px] font-mono text-mkt-i4 uppercase tracking-widest">
-          {filtered.length} instruments · Live prices · 60s cache · Twelve Data / Yahoo Finance
-        </p>
-        <p className="text-[8px] font-mono text-mkt-i4 uppercase tracking-widest">
-          Not financial advice
-        </p>
+        )}
       </div>
+
+      {/* Mobile: stacked cards (< 768px) */}
+      <div className="md:hidden divide-y divide-mkt-bd/60">
+        {sortedRows.map((row) => (
+          <div
+            key={row.slug}
+            className="p-4 cursor-pointer hover:bg-slate-50 transition-colors group"
+            onClick={() => handleRowClick(row)}
+          >
+            <div className="flex justify-between items-start mb-2.5">
+              <div>
+                <p className="font-extrabold font-mono text-[13px] text-mkt-ink group-hover:text-accent transition-colors leading-tight">
+                  {row.displayPair}
+                </p>
+                <p className="text-[8px] font-mono text-mkt-i4 uppercase tracking-wider mt-0.5">
+                  {row.category}
+                </p>
+              </div>
+              <ChangeBadge changePct={row.changePct} feedOffline={row.feed_offline} />
+            </div>
+
+            <div className="flex justify-between items-center pt-1">
+              <div>
+                <span className="text-[8px] font-mono uppercase tracking-wider text-mkt-i4 block">
+                  Price
+                </span>
+                <span className="text-sm font-mono font-bold text-mkt-ink tabular-nums">
+                  {row.feed_offline
+                    ? "—"
+                    : row.price !== null
+                    ? row.price >= 1000
+                      ? row.price.toLocaleString("en-GB", { minimumFractionDigits: 1, maximumFractionDigits: 2 })
+                      : row.price.toFixed(4)
+                    : "—"}
+                </span>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <RSIBadge rsi={row.rsi} />
+                <BiasBadge bias={row.bias} />
+              </div>
+            </div>
+          </div>
+        ))}
+
+        {sortedRows.length === 0 && (
+          <div className="py-12 text-center">
+            <p className="text-[10px] font-mono text-mkt-i4 uppercase tracking-widest">
+              No instruments match the active filter criteria
+            </p>
+          </div>
+        )}
+      </div>
+
+      {/* ── Table Footer ──────────────────────────────────────────────────────── */}
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 px-5 py-3 border-t border-mkt-bd/60 bg-slate-50/50 text-[9px] font-mono text-mkt-i4">
+        <span>
+          Showing {sortedRows.length} active instruments · Tabular precision alignment
+        </span>
+        <span className="flex items-center gap-1.5">
+          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+          Click any row to view live chart modal & scanner confluence
+        </span>
+      </div>
+
+      {/* ── Internal Modal (if onSelectInstrument not supplied) ──────────────── */}
+      {internalModalRow && (
+        <InstrumentModal
+          row={internalModalRow}
+          onClose={() => setInternalModalRow(null)}
+        />
+      )}
     </div>
   );
 }

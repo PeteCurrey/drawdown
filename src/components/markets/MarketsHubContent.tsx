@@ -95,10 +95,8 @@ export function MarketsHubContent() {
 
   return (
     <div className="flex flex-col bg-[#0A0A0A] text-white min-h-screen selection:bg-[#C8F135] selection:text-black">
-      {/* Top Ticker */}
-      <div className="border-b border-border-slate/50">
-        <MarketTicker />
-      </div>
+      {/* Top Ticker (Fixed to top of screen) */}
+      <MarketTicker />
 
       {/* Hero Section */}
       <section className="relative pt-20 pb-16 bg-[#0A0A0A] overflow-hidden border-b border-white/10">
@@ -120,10 +118,16 @@ export function MarketsHubContent() {
 
             <div className="flex flex-wrap items-center gap-4 pt-2">
               <Link
-                href="/markets/pulse"
+                href="/markets/screener"
                 className="inline-flex items-center gap-2 px-6 py-3.5 bg-[#C8F135] text-black font-bold text-xs uppercase tracking-wider rounded-lg hover:bg-[#b5db2e] transition-colors shadow-lg font-sans"
               >
-                Enter The Pulse (Live Feed) &rarr;
+                Market Screener &rarr;
+              </Link>
+              <Link
+                href="/markets/pulse"
+                className="inline-flex items-center gap-2 px-6 py-3.5 bg-white/5 border border-white/10 text-white font-bold text-xs uppercase tracking-wider rounded-lg hover:bg-white/10 transition-colors font-sans"
+              >
+                The Pulse (Live Feed) &rarr;
               </Link>
               <a
                 href="#categories"
@@ -393,6 +397,22 @@ export function MarketsHubContent() {
                   </p>
                 </div>
               </div>
+
+              <Link
+                href="/markets/screener"
+                className="flex items-start gap-4 bg-white/3 hover:bg-white/5 transition rounded-xl border border-white/8 hover:border-[#C8F135]/40 p-5 relative overflow-hidden group block"
+              >
+                <div className="w-2 h-2 rounded-full bg-[#C8F135] mt-1.5 shrink-0 relative z-10" />
+                <div className="relative z-10 flex-1">
+                  <div className="flex items-center justify-between">
+                    <h3 className="font-semibold text-sm text-white mb-1 font-sans group-hover:text-[#C8F135] transition-colors">Market Screener</h3>
+                    <span className="text-[10px] font-mono text-[#C8F135] opacity-80 uppercase tracking-widest">Scan Now &rarr;</span>
+                  </div>
+                  <p className="text-xs text-white/50 leading-relaxed font-sans">
+                    Scan the market and find what changed. Real-time prices, 24h performance, and MSS bias across 32+ assets.
+                  </p>
+                </div>
+              </Link>
             </div>
           </div>
         </div>

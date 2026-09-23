@@ -191,6 +191,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     url('/research/risk', { changeFrequency: 'monthly', priority: 0.65, lastModified: SITE_BASELINE_DATE }),
     url('/research/trading-costs', { changeFrequency: 'monthly', priority: 0.65, lastModified: SITE_BASELINE_DATE }),
     url('/research/position-sizing', { changeFrequency: 'monthly', priority: 0.7, lastModified: SITE_BASELINE_DATE }),
+    url('/research/media', { changeFrequency: 'monthly', priority: 0.7, lastModified: SITE_BASELINE_DATE }),
     url('/research/corrections', { changeFrequency: 'monthly', priority: 0.5, lastModified: SITE_BASELINE_DATE }),
 
     // ── Community & Best-Of ───────────────────────────────────────────────

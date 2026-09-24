@@ -170,6 +170,66 @@ export function Navigation() {
     setHoverTimeout(t);
   };
 
+  useEffect(() => {
+    const handleScroll = () => setIsScrolled(window.scrollY > 20);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  useEffect(() => {
+    const getUser = async () => {
+      const { data } = await supabase.auth.getUser();
+      setUser(data.user);
+    };
+    getUser();
+  }, [supabase.auth]);
+
+  useEffect(() => {
+    return () => {
+      if (hoverTimeout) clearTimeout(hoverTimeout);
+    };
+  }, [hoverTimeout]);
+
+  const regionPrefix = region === "uk" ? "" : `/${region}`;
+
+  const getLocalizedHref = (href: string) => {
+    if (!regionPrefix) return href;
+    if (href === "/") return regionPrefix;
+
+    const regionalizedPaths = [
+      "/pricing",
+      "/brokers",
+      "/compare",
+      "/prop-firms",
+      "/how-to",
+      "/best",
+      "/tools/tradingview"
+    ];
+
+    const isRegionalized = regionalizedPaths.some(
+      p => href === p || href.startsWith(p + "/")
+    );
+
+    if (isRegionalized) {
+      return `${regionPrefix}${href}`;
+    }
+    return href;
+  };
+
+  const navLinks = [
+    { name: "Curriculum", href: getLocalizedHref("/courses") },
+    { name: "Tools", href: getLocalizedHref("/tools") },
+    { name: "Brokers", href: getLocalizedHref("/brokers") },
+    { name: "Prop Firms", href: getLocalizedHref("/prop-firms") },
+    { name: "Markets", href: getLocalizedHref("/markets") },
+    { name: "Pricing", href: getLocalizedHref("/pricing") },
+    { name: "Blog", href: getLocalizedHref("/blog") },
+  ];
+
+  const toggleMobileExpand = (name: string) => {
+    setMobileExpanded((prev) => ({ ...prev, [name]: !prev[name] }));
+  };
+
 
   // Dynamic theme detection for black-background pages
   const normalizedPathname = pathname ? pathname.replace(/^\/(au|us|sg|hk|ca|de|ae|in|my|ph)/, "").replace(/\/$/, "") : "";

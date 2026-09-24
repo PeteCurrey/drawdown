@@ -22,6 +22,7 @@ import { SCREENER_INSTRUMENTS, MarketCategory as ScreenerMarketCategory } from "
 import { FilterBuilder, FilterBuilderState, DEFAULT_FILTER_STATE } from "./scanner/FilterBuilder";
 import { CorrelationMatrix } from "./scanner/CorrelationMatrix";
 import { hasTierAccess } from "@/lib/entitlements";
+import { motion, animate, useReducedMotion } from "framer-motion";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -201,6 +202,110 @@ function ErrorCard({ label, onRetry }: { label: string; onRetry?: () => void }) 
   );
 }
 
+// STEP 2 & 4: Animated number tweening and live freshness indicator
+function AnimatedPrice({
+  price,
+  slug,
+  feedOffline,
+  decimals,
+}: {
+  price: number | null;
+  slug: string;
+  feedOffline?: boolean;
+  decimals?: number;
+}) {
+  const shouldReduceMotion = useReducedMotion();
+  const [displayPrice, setDisplayPrice] = useState<number | null>(price);
+  const prevPriceRef = useRef<number | null>(price);
+
+  useEffect(() => {
+    if (price === null || feedOffline) {
+      setDisplayPrice(price);
+      prevPriceRef.current = price;
+      return;
+    }
+
+    const prev = prevPriceRef.current;
+    prevPriceRef.current = price;
+
+    if (prev === null || prev === price || shouldReduceMotion) {
+      setDisplayPrice(price);
+      return;
+    }
+
+    // Tween price value smoothly over ~500ms
+    const controls = animate(prev, price, {
+      duration: 0.5,
+      ease: "easeOut",
+      onUpdate: (latest) => {
+        setDisplayPrice(latest);
+      },
+    });
+
+    return () => controls.stop();
+  }, [price, feedOffline, shouldReduceMotion]);
+
+  if (feedOffline || price === null || displayPrice === null) {
+    return <span className="text-text-tertiary font-mono">—</span>;
+  }
+
+  return (
+    <span className="tabular-nums font-mono">
+      {formatPrice(displayPrice, slug)}
+    </span>
+  );
+}
+
+function ChangeBadge({
+  changePct,
+  feedOffline,
+}: {
+  changePct: number | null;
+  feedOffline?: boolean;
+}) {
+  const shouldReduceMotion = useReducedMotion();
+  const [displayVal, setDisplayVal] = useState<number | null>(changePct);
+  const prevValRef = useRef<number | null>(changePct);
+
+  useEffect(() => {
+    if (changePct === null || feedOffline) {
+      setDisplayVal(changePct);
+      prevValRef.current = changePct;
+      return;
+    }
+
+    const prev = prevValRef.current;
+    prevValRef.current = changePct;
+
+    if (prev === null || prev === changePct || shouldReduceMotion) {
+      setDisplayVal(changePct);
+      return;
+    }
+
+    // Tween percentage value over ~500ms
+    const controls = animate(prev, changePct, {
+      duration: 0.5,
+      ease: "easeOut",
+      onUpdate: (latest) => {
+        setDisplayVal(latest);
+      },
+    });
+
+    return () => controls.stop();
+  }, [changePct, feedOffline, shouldReduceMotion]);
+
+  if (feedOffline || changePct === null || displayVal === null) {
+    return <span className="font-mono text-text-tertiary">—</span>;
+  }
+
+  const isUp = displayVal >= 0;
+  return (
+    <span className={cn("font-mono text-xs font-bold tabular-nums", isUp ? "text-profit" : "text-loss")}>
+      {isUp ? "+" : ""}{displayVal.toFixed(2)}%
+    </span>
+  );
+}
+
 // ─── Market Status Bar ────────────────────────────────────────────────────────
 
 function MarketStatusBar({ lastUpdated }: { lastUpdated: Date | null }) {
@@ -214,6 +319,9 @@ function MarketStatusBar({ lastUpdated }: { lastUpdated: Date | null }) {
   const sessions = getActiveSessions(utcTime);
   const utcStr = utcTime.toUTCString().split(" ").slice(4, 5)[0];
   const isWeekend = utcTime.getUTCDay() === 0 || utcTime.getUTCDay() === 6;
+
+  // Freshness: consider cache fresh if updated within last 35 seconds (30s poll interval)
+  const isFresh = lastUpdated ? Date.now() - lastUpdated.getTime() < 35_000 : false;
 
   const SESSION_CONFIG = [
     { name: "ASIA",     open: sessions.includes("ASIA"),     hours: "00:00–09:00" },
@@ -243,7 +351,14 @@ function MarketStatusBar({ lastUpdated }: { lastUpdated: Date | null }) {
           </div>
         ))}
       </div>
-      <div className="ml-auto font-mono text-[9px] text-text-tertiary uppercase tracking-widest">
+      <div className="ml-auto font-mono text-[9px] text-text-tertiary uppercase tracking-widest flex items-center gap-1.5">
+        <span
+          className={cn(
+            "w-1.5 h-1.5 rounded-full transition-opacity duration-300",
+            isFresh ? "bg-emerald-500 animate-pulse opacity-100" : "bg-slate-400 opacity-40"
+          )}
+          title={isFresh ? "Feed fresh (<35s)" : "Sync pending"}
+        />
         Updated {formatTime(lastUpdated)}
       </div>
     </div>
@@ -1428,11 +1543,12 @@ function AITab({ inst, setupScore, tech, data }: {
 // ─── Instrument Card ──────────────────────────────────────────────────────────
 
 function InstrumentCard({
-  inst, data, watchlist, onToggleWatch, alerts, onToggleAlerts, activeSessions, listView,
+  inst, data, watchlist, onToggleWatch, alerts, onToggleAlerts, activeSessions, listView, changedSlugs,
 }: {
   inst: ScannerInstrument; data: any; watchlist: string[];
   onToggleWatch: (s: string) => void; alerts: AlertItem[];
   onToggleAlerts: (s: string) => void; activeSessions: string[]; listView: boolean;
+  changedSlugs?: Map<string, "up" | "down">;
 }) {
   const [expanded, setExpanded] = useState(false);
   const [tab, setTab] = useState<CardTab>("SIGNALS");
@@ -1440,6 +1556,18 @@ function InstrumentCard({
   const setupScore = calcSetupScore(data, tech);
   const watched = watchlist.includes(inst.scannerSlug);
   const alertCount = alerts.filter(a => a.slug === inst.scannerSlug).length;
+
+  const shouldReduceMotion = useReducedMotion();
+  const direction = changedSlugs?.get(inst.scannerSlug);
+  const isProfit = direction === "up";
+  const isLoss = direction === "down";
+  // SC4/SC5 token colors: profit tint (#F0FDF8 / rgba(24,184,128,0.18)) & loss tint (#FDF2F2 / rgba(206,105,105,0.18))
+  const flashBg = isProfit
+    ? "rgba(24, 184, 128, 0.18)"
+    : isLoss
+    ? "rgba(206, 105, 105, 0.18)"
+    : "rgba(0, 0, 0, 0)";
+
   // Fetch upcoming events for next-event indicator on card face
   const [nextEvent, setNextEvent] = useState<{ label: string; minsAway: number } | null>(null);
   useEffect(() => {
@@ -1474,8 +1602,14 @@ function InstrumentCard({
 
   if (listView) {
     return (
-      <div className={cn("border border-border-slate/50 bg-background-surface rounded-xl transition-all overflow-hidden",
-        setupScore >= 70 && "ring-1 ring-amber-400/40 shadow-[0_0_20px_rgba(234,179,8,0.08)]")}>
+      <motion.div
+        animate={{
+          backgroundColor: direction ? [flashBg, "rgba(0, 0, 0, 0)"] : "rgba(0, 0, 0, 0)",
+        }}
+        transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.9, ease: "easeOut" }}
+        className={cn("border border-border-slate/50 bg-background-surface rounded-xl transition-all overflow-hidden",
+          setupScore >= 70 && "ring-1 ring-amber-400/40 shadow-[0_0_20px_rgba(234,179,8,0.08)]")}
+      >
         <div className="flex items-center gap-4 px-4 py-3 cursor-pointer hover:bg-background-elevated/40 transition-colors"
           onClick={() => setExpanded(e => !e)}>
           <div className="flex items-center gap-3 w-28 shrink-0">
@@ -1486,10 +1620,16 @@ function InstrumentCard({
             </div>
           </div>
           <div className="flex-1 font-mono text-sm font-bold text-text-primary">
-            {data.loading ? <span className="animate-pulse">—</span> : data.price ? formatPrice(data.price, inst.scannerSlug) : "—"}
+            {data.loading ? (
+              <span className="animate-pulse">—</span>
+            ) : data.price !== null ? (
+              <AnimatedPrice price={data.price} slug={inst.scannerSlug} feedOffline={data.error} />
+            ) : (
+              "—"
+            )}
           </div>
-          <div className={cn("font-mono text-xs font-bold", isUp ? "text-profit" : "text-loss")}>
-            {data.change_pct != null ? `${isUp ? "+" : ""}${data.change_pct.toFixed(2)}%` : "—"}
+          <div className="font-mono text-xs font-bold">
+            <ChangeBadge changePct={data.change_pct} feedOffline={data.error} />
           </div>
           {tech?.consensus !== "NEUTRAL" && (
             <div className={cn("border px-2 py-0.5 text-[8px] font-bold font-mono uppercase", CONSENSUS_STYLE[tech?.consensus])}>
@@ -1501,13 +1641,19 @@ function InstrumentCard({
         </div>
         <ExpandedPanel show={expanded} tab={tab} setTab={setTab} tabs={tabs}
           inst={inst} data={data} tech={tech} setupScore={setupScore} />
-      </div>
+      </motion.div>
     );
   }
 
   return (
-    <div className={cn("border border-border-slate/50 bg-background-surface rounded-xl flex flex-col transition-all duration-200 overflow-hidden shadow-sm hover:shadow-md hover:-translate-y-0.5",
-      setupScore >= 70 && "ring-1 ring-amber-400/40 shadow-[0_0_24px_rgba(234,179,8,0.10)]")}>
+    <motion.div
+      animate={{
+        backgroundColor: direction ? [flashBg, "rgba(0, 0, 0, 0)"] : "rgba(0, 0, 0, 0)",
+      }}
+      transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.9, ease: "easeOut" }}
+      className={cn("border border-border-slate/50 bg-background-surface rounded-xl flex flex-col transition-all duration-200 overflow-hidden shadow-sm hover:shadow-md hover:-translate-y-0.5",
+        setupScore >= 70 && "ring-1 ring-amber-400/40 shadow-[0_0_24px_rgba(234,179,8,0.10)]")}
+    >
       {/* Card front */}
       <div className="p-4 space-y-3 cursor-pointer" onClick={() => setExpanded(e => !e)}>
         {/* Header row */}
@@ -1534,11 +1680,15 @@ function InstrumentCard({
         {/* Price */}
         <div className="flex items-baseline gap-2">
           <span className="text-xl font-bold font-mono text-text-primary">
-            {data.loading ? <span className="animate-pulse text-text-tertiary">—</span> : data.price ? formatPrice(data.price, inst.scannerSlug) : "—"}
+            {data.loading ? (
+              <span className="animate-pulse text-text-tertiary">—</span>
+            ) : data.price !== null ? (
+              <AnimatedPrice price={data.price} slug={inst.scannerSlug} feedOffline={data.error} />
+            ) : (
+              "—"
+            )}
           </span>
-          <span className={cn("text-xs font-bold font-mono", isUp ? "text-profit" : "text-loss")}>
-            {data.change_pct != null ? `${isUp ? "+" : ""}${data.change_pct.toFixed(2)}%` : ""}
-          </span>
+          <ChangeBadge changePct={data.change_pct} feedOffline={data.error} />
         </div>
         {/* Setup quality bar */}
         <div className="space-y-1">
@@ -2466,6 +2616,81 @@ function MarketScannerGrid({ tier, status, isAdmin }: { tier?: string; status?: 
   const priceData = useMarketCache(ALL_SLUGS);
   const anyLastUpdated = Object.values(priceData).find(d => d.fetched_at)?.fetched_at ?? null;
 
+  // STEP 1 & 2: Diff engine snapshotting previous price/change_pct per symbol
+  // and producing changedSlugs: Map<string, 'up' | 'down'> with staggered wave ladder
+  const prevPriceDataRef = useRef<Record<string, { price: number | null; change_pct: number | null }>>({});
+  const [changedSlugs, setChangedSlugs] = useState<Map<string, "up" | "down">>(new Map());
+  const staggerTimeoutsRef = useRef<NodeJS.Timeout[]>([]);
+
+  useEffect(() => {
+    // Diff current priceData vs previous snapshot
+    const diff = new Map<string, "up" | "down">();
+    const prevMap = prevPriceDataRef.current;
+    const newSnapshot: Record<string, { price: number | null; change_pct: number | null }> = {};
+
+    ALL_SLUGS.forEach((slug) => {
+      const current = priceData[slug];
+      if (!current || current.loading || current.error || current.price === null) {
+        return;
+      }
+
+      newSnapshot[slug] = {
+        price: current.price,
+        change_pct: current.change_pct,
+      };
+
+      const prev = prevMap[slug];
+      if (prev && prev.price !== null) {
+        if (current.price > prev.price) {
+          diff.set(slug, "up");
+        } else if (current.price < prev.price) {
+          diff.set(slug, "down");
+        } else if (current.change_pct !== null && prev.change_pct !== null) {
+          if (current.change_pct > prev.change_pct) diff.set(slug, "up");
+          else if (current.change_pct < prev.change_pct) diff.set(slug, "down");
+        }
+      }
+    });
+
+    prevPriceDataRef.current = newSnapshot;
+
+    // SC5 STEP 3: Stagger the tick trigger across changed rows by 50ms increments
+    // so multi-instrument ticks read as an authentic wave rather than one instant flicker
+    staggerTimeoutsRef.current.forEach((t) => clearTimeout(t));
+    staggerTimeoutsRef.current = [];
+
+    if (diff.size > 0) {
+      const entries = Array.from(diff.entries());
+      entries.forEach(([slug, direction], index) => {
+        const delay = index * 50; // 50ms stagger per instrument
+        const triggerTimer = setTimeout(() => {
+          setChangedSlugs((prev) => {
+            const next = new Map(prev);
+            next.set(slug, direction);
+            return next;
+          });
+
+          // Clear this individual slug after its 950ms flash window finishes
+          const clearTimer = setTimeout(() => {
+            setChangedSlugs((prev) => {
+              if (!prev.has(slug)) return prev;
+              const next = new Map(prev);
+              next.delete(slug);
+              return next;
+            });
+          }, 950);
+          staggerTimeoutsRef.current.push(clearTimer);
+        }, delay);
+
+        staggerTimeoutsRef.current.push(triggerTimer);
+      });
+    }
+
+    return () => {
+      staggerTimeoutsRef.current.forEach((t) => clearTimeout(t));
+    };
+  }, [priceData]);
+
   const toggleWatch = (slug: string) => {
     setWatchlist(prev => {
       const next = prev.includes(slug) ? prev.filter(s => s !== slug) : [...prev, slug];
@@ -2682,7 +2907,8 @@ function MarketScannerGrid({ tier, status, isAdmin }: { tier?: string; status?: 
             <InstrumentCard key={inst.scannerSlug} inst={inst} data={d}
               watchlist={watchlist} onToggleWatch={toggleWatch}
               alerts={allAlerts} onToggleAlerts={s => setAlertsSlug(s === alertsSlug ? null : s)}
-              activeSessions={activeSessions} listView={viewMode === "list"} />
+              activeSessions={activeSessions} listView={viewMode === "list"}
+              changedSlugs={changedSlugs} />
           );
         })}
         {sorted.length === 0 && (

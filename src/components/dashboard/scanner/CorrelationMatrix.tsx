@@ -1,10 +1,11 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import { ScreenerInstrument } from "@/lib/screener";
 import { Lock, Loader2, ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { motion, useReducedMotion } from "framer-motion";
 
 interface CorrelationMatrixProps {
   instruments: Array<{
@@ -112,6 +113,39 @@ export function CorrelationMatrix({ instruments, canAccessEdge }: CorrelationMat
     return m;
   }, [displayInstruments, historyMap]);
 
+  // STEP 3: Correlation matrix cell pulse when correlation shifts by > 0.05 between polls
+  const prevMatrixRef = useRef<Record<string, Record<string, number>>>({});
+  const [shiftedCells, setShiftedCells] = useState<Map<string, "up" | "down">>(new Map());
+  const shouldReduceMotion = useReducedMotion();
+
+  useEffect(() => {
+    const prev = prevMatrixRef.current;
+    const newShifts = new Map<string, "up" | "down">();
+
+    Object.keys(matrix).forEach((slugA) => {
+      Object.keys(matrix[slugA] || {}).forEach((slugB) => {
+        if (slugA === slugB) return;
+        const currentVal = matrix[slugA][slugB];
+        const prevVal = prev[slugA]?.[slugB];
+
+        if (prevVal !== undefined && Math.abs(currentVal - prevVal) >= 0.05) {
+          const key = `${slugA}-${slugB}`;
+          newShifts.set(key, currentVal > prevVal ? "up" : "down");
+        }
+      });
+    });
+
+    prevMatrixRef.current = matrix;
+
+    if (newShifts.size > 0) {
+      setShiftedCells(newShifts);
+      const timer = setTimeout(() => {
+        setShiftedCells(new Map());
+      }, 900);
+      return () => clearTimeout(timer);
+    }
+  }, [matrix]);
+
   if (!canAccessEdge) {
     return (
       <div className="relative border border-border-slate/50 bg-background-surface/80 p-8 text-center space-y-6 overflow-hidden">
@@ -215,6 +249,13 @@ export function CorrelationMatrix({ instruments, canAccessEdge }: CorrelationMat
                   {displayInstruments.map((colInst) => {
                     const r = matrix[rowInst.scannerSlug]?.[colInst.scannerSlug] ?? 0;
                     const isSelf = rowInst.scannerSlug === colInst.scannerSlug;
+                    const cellKey = `${rowInst.scannerSlug}-${colInst.scannerSlug}`;
+                    const shiftDirection = shiftedCells.get(cellKey);
+                    const shiftBg = shiftDirection === "up"
+                      ? "rgba(24, 184, 128, 0.25)"
+                      : shiftDirection === "down"
+                      ? "rgba(206, 105, 105, 0.25)"
+                      : "rgba(0, 0, 0, 0)";
 
                     let cellStyle = "text-text-tertiary bg-white/[0.02]";
                     if (isSelf) {
@@ -230,16 +271,20 @@ export function CorrelationMatrix({ instruments, canAccessEdge }: CorrelationMat
                     }
 
                     return (
-                      <td
+                      <motion.td
                         key={colInst.scannerSlug}
+                        animate={{
+                          backgroundColor: shiftDirection ? [shiftBg, "rgba(0, 0, 0, 0)"] : undefined,
+                        }}
+                        transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.9, ease: "easeOut" }}
                         className={cn(
-                          "p-2 border border-border-slate/30 text-center transition-colors",
+                          "p-2 border border-border-slate/30 text-center transition-colors relative",
                           cellStyle
                         )}
                         title={`${rowInst.displayPair} vs ${colInst.displayPair}: r = ${r.toFixed(3)}`}
                       >
                         {isSelf ? "1.00" : r.toFixed(2)}
-                      </td>
+                      </motion.td>
                     );
                   })}
                 </tr>

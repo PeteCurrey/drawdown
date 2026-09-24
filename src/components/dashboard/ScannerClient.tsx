@@ -1819,7 +1819,7 @@ function InstrumentCard({
       {/* Expanded panel */}
       <ExpandedPanel show={expanded} tab={tab} setTab={setTab} tabs={tabs}
         inst={inst} data={data} tech={tech} setupScore={setupScore} />
-    </div>
+    </motion.div>
   );
 }
 

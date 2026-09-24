@@ -567,7 +567,7 @@ export function ScreenerHeatmap({
         {/* STEP 1: Ambient Scan Sweep (continuous subtle diagonal shimmer, decorative only) */}
         {!shouldReduceMotion && (
           <div
-            className="pointer-events-none absolute inset-0 z-[5] overflow-hidden"
+            className="pointer-events-none absolute inset-0 z-[15] overflow-hidden"
             aria-hidden="true"
           >
             <motion.div
@@ -579,7 +579,7 @@ export function ScreenerHeatmap({
                 duration: 4,
                 ease: "linear",
               }}
-              className="w-1/3 h-full absolute inset-y-0 -skew-x-12 bg-gradient-to-r from-transparent via-slate-400/[0.04] to-transparent"
+              className="w-1/2 h-full absolute inset-y-0 -skew-x-12 bg-gradient-to-r from-transparent via-slate-400/[0.14] to-transparent"
             />
           </div>
         )}

@@ -26,8 +26,8 @@ test("PROMPT SC5: ScreenerHeatmap implements ambient scan sweep and first-paint 
   assert.ok(content.includes('["-100%", "250%"]'));
   assert.ok(content.includes("repeat: Infinity"));
   assert.ok(content.includes("duration: 4"));
-  assert.ok(content.includes("via-slate-400/[0.04]"));
-  assert.ok(content.includes("pointer-events-none absolute inset-0 z-[5]"));
+  assert.ok(content.includes("via-slate-400/[0.14]"));
+  assert.ok(content.includes("pointer-events-none absolute inset-0 z-[15]"));
 
   // Step 4 check: Initial entrance stagger ~20ms
   assert.ok(content.includes("First-paint"));

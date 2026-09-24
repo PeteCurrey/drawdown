@@ -29,6 +29,8 @@ export function PublicScreenerClient({ initialData }: { initialData?: ScreenerRo
   );
   const [changedSlugs, setChangedSlugs] = useState<Map<string, "up" | "down">>(new Map());
   const clearDiffTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  // STEP 3: Stagger timeouts ladder for cascading wave
+  const staggerTimeoutsRef = useRef<NodeJS.Timeout[]>([]);
 
   // STEP 6: Client-side accumulated price history (last ~12 points per slug)
   const [priceHistory, setPriceHistory] = useState<Map<string, number[]>>(() => {
@@ -99,17 +101,36 @@ export function PublicScreenerClient({ initialData }: { initialData?: ScreenerRo
           }
           prevDataRef.current = newMap;
 
-          // Dispatch changedSlugs & schedule 1200ms auto-clear
-          if (clearDiffTimeoutRef.current) {
-            clearTimeout(clearDiffTimeoutRef.current);
-          }
+          // STEP 3: Stagger the tick trigger across changed rows by 50ms increments
+          // so multi-instrument ticks read as an authentic wave rather than one instant flicker
+          staggerTimeoutsRef.current.forEach((t) => clearTimeout(t));
+          staggerTimeoutsRef.current = [];
+
           if (diff.size > 0) {
-            setChangedSlugs(diff);
-            clearDiffTimeoutRef.current = setTimeout(() => {
-              setChangedSlugs(new Map());
-            }, 1200);
-          } else {
-            setChangedSlugs(new Map());
+            const entries = Array.from(diff.entries());
+            entries.forEach(([slug, direction], index) => {
+              const delay = index * 50; // 50ms stagger per instrument
+              const triggerTimer = setTimeout(() => {
+                setChangedSlugs((prev) => {
+                  const next = new Map(prev);
+                  next.set(slug, direction);
+                  return next;
+                });
+
+                // Clear this individual slug after its 950ms flash window finishes
+                const clearTimer = setTimeout(() => {
+                  setChangedSlugs((prev) => {
+                    if (!prev.has(slug)) return prev;
+                    const next = new Map(prev);
+                    next.delete(slug);
+                    return next;
+                  });
+                }, 950);
+                staggerTimeoutsRef.current.push(clearTimer);
+              }, delay);
+
+              staggerTimeoutsRef.current.push(triggerTimer);
+            });
           }
 
           // Accumulate real price points up to 12
@@ -145,6 +166,7 @@ export function PublicScreenerClient({ initialData }: { initialData?: ScreenerRo
     return () => {
       clearInterval(interval);
       if (clearDiffTimeoutRef.current) clearTimeout(clearDiffTimeoutRef.current);
+      staggerTimeoutsRef.current.forEach((t) => clearTimeout(t));
     };
   }, []);
 

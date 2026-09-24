@@ -257,7 +257,7 @@ export function ScreenerHeatmap({
     };
   };
 
-  const renderTile = (item: ScreenerRow, isFeatured = false) => {
+  const renderTile = (item: ScreenerRow, isFeatured = false, index = 0) => {
     const style = getTileStyle(item);
     const isSelected = selectedSlug === item.slug;
     const isBullish = (item.changePct ?? 0) > 0;
@@ -285,14 +285,22 @@ export function ScreenerHeatmap({
             onSelect?.(item);
           }
         }}
+        // STEP 4: First-paint "power-on" sweep (initial-render choreography, ~20ms stagger)
+        initial={shouldReduceMotion ? false : { opacity: 0, scale: 0.96 }}
         animate={{
+          opacity: 1,
+          scale: 1,
           boxShadow: direction
             ? [glowShadow, glowShadow, "0 0 0px rgba(0, 0, 0, 0)"]
             : isSelected
             ? "0 4px 6px -1px rgba(0, 0, 0, 0.1)"
             : "0 0 0px rgba(0, 0, 0, 0)",
         }}
-        transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.6, ease: "easeOut" }}
+        transition={
+          direction
+            ? (shouldReduceMotion ? { duration: 0 } : { duration: 0.6, ease: "easeOut" })
+            : (shouldReduceMotion ? { duration: 0 } : { duration: 0.35, delay: index * 0.02, ease: "easeOut" })
+        }
         className={cn(
           "group relative flex flex-col justify-between p-3 border transition-all duration-150 cursor-pointer select-none rounded-xs",
           style.bg,
@@ -555,7 +563,27 @@ export function ScreenerHeatmap({
       </div>
 
       {/* ── Main Heatmap / Matrix Body ──────────────────────────────────────── */}
-      <div className="p-4 sm:p-5 space-y-6">
+      <div className="relative overflow-hidden p-4 sm:p-5 space-y-6">
+        {/* STEP 1: Ambient Scan Sweep (continuous subtle diagonal shimmer, decorative only) */}
+        {!shouldReduceMotion && (
+          <div
+            className="pointer-events-none absolute inset-0 z-[5] overflow-hidden"
+            aria-hidden="true"
+          >
+            <motion.div
+              animate={{
+                x: ["-100%", "250%"],
+              }}
+              transition={{
+                repeat: Infinity,
+                duration: 4,
+                ease: "linear",
+              }}
+              className="w-1/3 h-full absolute inset-y-0 -skew-x-12 bg-gradient-to-r from-transparent via-slate-400/[0.04] to-transparent"
+            />
+          </div>
+        )}
+
         {filteredInstruments.length === 0 ? (
           <div className="py-16 text-center border border-dashed border-mkt-bd/60 rounded">
             <p className="text-[10px] font-mono text-mkt-i4 uppercase tracking-widest">
@@ -564,8 +592,8 @@ export function ScreenerHeatmap({
           </div>
         ) : layoutMode === "matrix" && activeCategory === "all" ? (
           // ── MATRIX MODE: Grouped into distinct asset class clusters ─────────
-          <div className="space-y-6">
-            {categorizedGroups.map((group) => {
+          <div className="space-y-6 relative z-10">
+            {categorizedGroups.map((group, groupIdx) => {
               const benchmarkItems = group.items.filter(i => BENCHMARK_SLUGS.has(i.slug));
               const secondaryItems = group.items.filter(i => !BENCHMARK_SLUGS.has(i.slug));
 
@@ -573,6 +601,8 @@ export function ScreenerHeatmap({
               const avgChange = validItems.length > 0
                 ? validItems.reduce((acc, i) => acc + (i.changePct ?? 0), 0) / validItems.length
                 : null;
+
+              const baseIdx = groupIdx * 6;
 
               return (
                 <div key={group.category} className="space-y-2.5 border-b border-mkt-bd/40 pb-5 last:border-b-0 last:pb-0">
@@ -602,8 +632,8 @@ export function ScreenerHeatmap({
 
                   {/* Benchmark & Secondary Grid */}
                   <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2 sm:gap-2.5">
-                    {benchmarkItems.map(item => renderTile(item, true))}
-                    {secondaryItems.map(item => renderTile(item, false))}
+                    {benchmarkItems.map((item, bIdx) => renderTile(item, true, baseIdx + bIdx))}
+                    {secondaryItems.map((item, sIdx) => renderTile(item, false, baseIdx + benchmarkItems.length + sIdx))}
                   </div>
                 </div>
               );
@@ -611,8 +641,8 @@ export function ScreenerHeatmap({
           </div>
         ) : (
           // ── FLAT GRID MODE: Continuous responsive grid ─────────────────────
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2 sm:gap-2.5">
-            {filteredInstruments.map(item => renderTile(item, BENCHMARK_SLUGS.has(item.slug)))}
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2 sm:gap-2.5 relative z-10">
+            {filteredInstruments.map((item, idx) => renderTile(item, BENCHMARK_SLUGS.has(item.slug), idx))}
           </div>
         )}
       </div>

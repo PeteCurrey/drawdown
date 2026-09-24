@@ -1,12 +1,12 @@
 "use client";
 
-import { useState, useEffect, useMemo, useCallback } from "react";
+import { useState, useEffect, useMemo, useCallback, useRef } from "react";
 import Link from "next/link";
 import {
   ArrowUpDown, ArrowUp, ArrowDown, Lock,
   AlertTriangle, TrendingUp, TrendingDown, Minus, ChevronRight, X
 } from "lucide-react";
-import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
+import { motion, AnimatePresence, useReducedMotion, animate } from "framer-motion";
 import { LineChart, Line } from "recharts";
 import { cn } from "@/lib/utils";
 import { ScreenerRow, MarketCategory } from "@/lib/screener";
@@ -149,15 +149,47 @@ export function RSIBadge({ rsi, theme = "light" }: { rsi: number | null; theme?:
   );
 }
 
+// STEP 2: Smooth number counting instead of snap (500ms tween via framer-motion animate)
 export function ChangeBadge({ changePct, feedOffline, theme = "light" }: { changePct: number | null; feedOffline?: boolean; theme?: "light" | "dark" }) {
   const isDark = theme === "dark";
+  const shouldReduceMotion = useReducedMotion();
+  const [displayVal, setDisplayVal] = useState<number | null>(changePct);
+  const prevValRef = useRef<number | null>(changePct);
+
+  useEffect(() => {
+    if (changePct === null || feedOffline) {
+      setDisplayVal(changePct);
+      prevValRef.current = changePct;
+      return;
+    }
+
+    const prev = prevValRef.current;
+    prevValRef.current = changePct;
+
+    if (prev === null || prev === changePct || shouldReduceMotion) {
+      setDisplayVal(changePct);
+      return;
+    }
+
+    // Tween percentage value over ~500ms
+    const controls = animate(prev, changePct, {
+      duration: 0.5,
+      ease: "easeOut",
+      onUpdate: (latest) => {
+        setDisplayVal(latest);
+      },
+    });
+
+    return () => controls.stop();
+  }, [changePct, feedOffline, shouldReduceMotion]);
+
   if (feedOffline) {
     return <FeedOfflineBadge theme={theme} />;
   }
-  if (changePct === null) {
+  if (changePct === null || displayVal === null) {
     return <span className={cn("font-mono", isDark ? "text-white/40" : "text-mkt-i4")}>—</span>;
   }
-  const isPositive = changePct >= 0;
+  const isPositive = displayVal >= 0;
   return (
     <span
       className={cn(
@@ -167,7 +199,70 @@ export function ChangeBadge({ changePct, feedOffline, theme = "light" }: { chang
           : (isPositive ? "text-emerald-700 bg-emerald-50 border-emerald-200" : "text-red-700 bg-red-50 border-red-200")
       )}
     >
-      {isPositive ? "+" : ""}{changePct.toFixed(2)}%
+      {isPositive ? "+" : ""}{displayVal.toFixed(2)}%
+    </span>
+  );
+}
+
+// STEP 2: Smooth count-up/count-down on live price values over ~500ms
+export function AnimatedPrice({
+  price,
+  feedOffline,
+  isDark,
+  decimals = 4,
+}: {
+  price: number | null;
+  feedOffline?: boolean;
+  isDark?: boolean;
+  decimals?: number;
+}) {
+  const shouldReduceMotion = useReducedMotion();
+  const [displayPrice, setDisplayPrice] = useState<number | null>(price);
+  const prevPriceRef = useRef<number | null>(price);
+
+  useEffect(() => {
+    if (price === null || feedOffline) {
+      setDisplayPrice(price);
+      prevPriceRef.current = price;
+      return;
+    }
+
+    const prev = prevPriceRef.current;
+    prevPriceRef.current = price;
+
+    if (prev === null || prev === price || shouldReduceMotion) {
+      setDisplayPrice(price);
+      return;
+    }
+
+    // Tween price value smoothly over ~500ms
+    const controls = animate(prev, price, {
+      duration: 0.5,
+      ease: "easeOut",
+      onUpdate: (latest) => {
+        setDisplayPrice(latest);
+      },
+    });
+
+    return () => controls.stop();
+  }, [price, feedOffline, shouldReduceMotion]);
+
+  if (feedOffline) {
+    return <FeedOfflineBadge theme={isDark ? "dark" : "light"} />;
+  }
+  if (price === null || displayPrice === null) {
+    return <span className={cn("font-mono", isDark ? "text-white/40" : "text-mkt-i4")}>—</span>;
+  }
+
+  const formatted = displayPrice >= 1000
+    ? displayPrice.toLocaleString("en-GB", { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+    : displayPrice >= 10
+    ? displayPrice.toFixed(Math.min(decimals, 3))
+    : displayPrice.toFixed(decimals);
+
+  return (
+    <span className={cn("font-bold font-mono tabular-nums text-[11px] inline-block", isDark ? "text-white" : "text-mkt-ink")}>
+      {formatted}
     </span>
   );
 }
@@ -534,7 +629,7 @@ export function ScreenerTable({
             </tr>
           </thead>
           <tbody>
-            {sortedRows.map((row) => {
+            {sortedRows.map((row, index) => {
               const isSelected = selectedSlug === row.slug;
               const direction = changedSlugs?.get(row.slug);
               const isProfit = direction === "up";
@@ -544,15 +639,21 @@ export function ScreenerTable({
                 : isLoss
                 ? (isDark ? "rgba(206, 105, 105, 0.18)" : "#FDF2F2")
                 : "rgba(0, 0, 0, 0)";
-              const yOffset = shouldReduceMotion ? 0 : direction === "down" ? -4 : 4;
 
               return (
                 <motion.tr
                   key={row.slug}
+                  initial={shouldReduceMotion ? false : { opacity: 0, y: 6 }}
                   animate={{
+                    opacity: 1,
+                    y: 0,
                     backgroundColor: direction ? [flashBg, "rgba(0, 0, 0, 0)"] : "rgba(0, 0, 0, 0)",
                   }}
-                  transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.9, ease: "easeOut" }}
+                  transition={
+                    direction
+                      ? (shouldReduceMotion ? { duration: 0 } : { duration: 0.9, ease: "easeOut" })
+                      : (shouldReduceMotion ? { duration: 0 } : { duration: 0.35, delay: index * 0.015, ease: "easeOut" })
+                  }
                   className={cn(
                     "cursor-pointer transition-colors group",
                     isDark
@@ -575,7 +676,7 @@ export function ScreenerTable({
                     </div>
                   </td>
 
-                  {/* Price (Right-aligned, tabular figures) with Micro Sparkline */}
+                  {/* Price (Right-aligned, tabular figures) with Micro Sparkline & AnimatedPrice */}
                   <td className="py-3.5 px-4 text-right">
                     {row.feed_offline ? (
                       <FeedOfflineBadge theme={theme} />
@@ -583,46 +684,22 @@ export function ScreenerTable({
                       <div className="inline-flex items-center justify-end gap-2">
                         {/* STEP 6: Micro sparkline (desktop rows only) */}
                         <MicroSparkline data={priceHistory?.get(row.slug)} />
-                        {/* STEP 3: Framer Motion AnimatePresence key-swap price */}
-                        <div className="relative inline-flex items-center justify-end overflow-hidden">
-                          <AnimatePresence mode="popLayout" initial={false}>
-                            <motion.span
-                              key={`${row.slug}-p-${row.price}`}
-                              initial={shouldReduceMotion ? false : { opacity: 0, y: yOffset }}
-                              animate={{ opacity: 1, y: 0 }}
-                              exit={shouldReduceMotion ? undefined : { opacity: 0, y: -yOffset }}
-                              transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.25, ease: "easeOut" }}
-                              className={cn("font-bold font-mono tabular-nums text-[11px] inline-block", isDark ? "text-white" : "text-mkt-ink")}
-                            >
-                              {row.price >= 1000
-                                ? row.price.toLocaleString("en-GB", { minimumFractionDigits: 2, maximumFractionDigits: 2 })
-                                : row.price >= 10
-                                ? row.price.toFixed(3)
-                                : row.price.toFixed(5)}
-                            </motion.span>
-                          </AnimatePresence>
-                        </div>
+                        {/* STEP 2: Smooth count-up/count-down on live price values */}
+                        <AnimatedPrice
+                          price={row.price}
+                          feedOffline={row.feed_offline}
+                          isDark={isDark}
+                          decimals={row.price >= 1000 ? 2 : row.price >= 10 ? 3 : 5}
+                        />
                       </div>
                     ) : (
                       <span className={cn("font-mono", isDark ? "text-white/40" : "text-mkt-i4")}>—</span>
                     )}
                   </td>
 
-                  {/* 24h % (Right-aligned) with AnimatePresence key-swap */}
+                  {/* 24h % (Right-aligned) with tweened ChangeBadge */}
                   <td className="py-3.5 px-4 text-right">
-                    <div className="relative inline-flex items-center justify-end overflow-hidden">
-                      <AnimatePresence mode="popLayout" initial={false}>
-                        <motion.div
-                          key={`${row.slug}-c-${row.changePct}`}
-                          initial={shouldReduceMotion ? false : { opacity: 0, y: yOffset }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={shouldReduceMotion ? undefined : { opacity: 0, y: -yOffset }}
-                          transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.25, ease: "easeOut" }}
-                        >
-                          <ChangeBadge changePct={row.changePct} feedOffline={row.feed_offline} theme={theme} />
-                        </motion.div>
-                      </AnimatePresence>
-                    </div>
+                    <ChangeBadge changePct={row.changePct} feedOffline={row.feed_offline} theme={theme} />
                   </td>
 
                   {/* RSI (Right-aligned) */}
@@ -668,7 +745,7 @@ export function ScreenerTable({
 
       {/* Mobile: stacked cards (< 768px) */}
       <div className={cn("md:hidden", isDark ? "divide-y divide-white/5" : "divide-y divide-mkt-bd/60")}>
-        {sortedRows.map((row) => {
+        {sortedRows.map((row, index) => {
           const direction = changedSlugs?.get(row.slug);
           const isProfit = direction === "up";
           const isLoss = direction === "down";
@@ -677,15 +754,21 @@ export function ScreenerTable({
             : isLoss
             ? (isDark ? "rgba(206, 105, 105, 0.18)" : "#FDF2F2")
             : "rgba(0, 0, 0, 0)";
-          const yOffset = shouldReduceMotion ? 0 : direction === "down" ? -4 : 4;
 
           return (
             <motion.div
               key={row.slug}
+              initial={shouldReduceMotion ? false : { opacity: 0, y: 6 }}
               animate={{
+                opacity: 1,
+                y: 0,
                 backgroundColor: direction ? [flashBg, "rgba(0, 0, 0, 0)"] : "rgba(0, 0, 0, 0)",
               }}
-              transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.9, ease: "easeOut" }}
+              transition={
+                direction
+                  ? (shouldReduceMotion ? { duration: 0 } : { duration: 0.9, ease: "easeOut" })
+                  : (shouldReduceMotion ? { duration: 0 } : { duration: 0.35, delay: index * 0.015, ease: "easeOut" })
+              }
               className={cn("p-4 cursor-pointer transition-colors group", isDark ? "hover:bg-white/[0.04]" : "hover:bg-slate-50")}
               onClick={() => handleRowClick(row)}
             >
@@ -698,18 +781,8 @@ export function ScreenerTable({
                     {row.category}
                   </p>
                 </div>
-                <div className="relative inline-flex items-center justify-end overflow-hidden">
-                  <AnimatePresence mode="popLayout" initial={false}>
-                    <motion.div
-                      key={`${row.slug}-mc-${row.changePct}`}
-                      initial={shouldReduceMotion ? false : { opacity: 0, y: yOffset }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={shouldReduceMotion ? undefined : { opacity: 0, y: -yOffset }}
-                      transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.25, ease: "easeOut" }}
-                    >
-                      <ChangeBadge changePct={row.changePct} feedOffline={row.feed_offline} theme={theme} />
-                    </motion.div>
-                  </AnimatePresence>
+                <div className="relative inline-flex items-center justify-end">
+                  <ChangeBadge changePct={row.changePct} feedOffline={row.feed_offline} theme={theme} />
                 </div>
               </div>
 
@@ -718,25 +791,13 @@ export function ScreenerTable({
                   <span className={cn("text-[8px] font-mono uppercase tracking-wider block", isDark ? "text-white/40" : "text-mkt-i4")}>
                     Price
                   </span>
-                  <div className="relative inline-flex items-center overflow-hidden">
-                    <AnimatePresence mode="popLayout" initial={false}>
-                      <motion.span
-                        key={`${row.slug}-mp-${row.price}`}
-                        initial={shouldReduceMotion ? false : { opacity: 0, y: yOffset }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={shouldReduceMotion ? undefined : { opacity: 0, y: -yOffset }}
-                        transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.25, ease: "easeOut" }}
-                        className={cn("text-sm font-mono font-bold tabular-nums inline-block", isDark ? "text-white" : "text-mkt-ink")}
-                      >
-                        {row.feed_offline
-                          ? "—"
-                          : row.price !== null
-                          ? row.price >= 1000
-                            ? row.price.toLocaleString("en-GB", { minimumFractionDigits: 1, maximumFractionDigits: 2 })
-                            : row.price.toFixed(4)
-                          : "—"}
-                      </motion.span>
-                    </AnimatePresence>
+                  <div className="relative inline-flex items-center">
+                    <AnimatedPrice
+                      price={row.price}
+                      feedOffline={row.feed_offline}
+                      isDark={isDark}
+                      decimals={row.price !== null && row.price >= 1000 ? 2 : row.price !== null && row.price >= 10 ? 3 : 4}
+                    />
                   </div>
                 </div>
 

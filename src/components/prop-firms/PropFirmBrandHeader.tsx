@@ -200,7 +200,7 @@ export function PropFirmBrandHeader({ review, slug }: PropFirmBrandHeaderProps) 
   const [activeTab, setActiveTab] = useState<"overview" | "calculator">("overview");
 
   return (
-    <header className={`relative pt-32 pb-20 bg-gradient-to-b ${brand.bgGradient} text-white overflow-hidden border-b border-white/10`}>
+    <header className={`relative min-h-screen flex flex-col justify-center pb-20 bg-gradient-to-b ${brand.bgGradient} text-white overflow-hidden border-b border-white/10`}>
       {/* Background ambient radial glow */}
       <div 
         className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[500px] rounded-full blur-[140px] pointer-events-none z-0 opacity-70"
@@ -210,7 +210,7 @@ export function PropFirmBrandHeader({ review, slug }: PropFirmBrandHeaderProps) 
       {/* Grid Pattern overlay */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:3rem_3rem] pointer-events-none z-0" />
 
-      <div className="container mx-auto px-6 relative z-10">
+      <div className="container mx-auto px-6 relative z-10 pt-20">
         {/* Top Breadcrumb & Badge */}
         <div className="flex flex-wrap items-center justify-between gap-4 mb-8">
           <nav className="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-slate-400">

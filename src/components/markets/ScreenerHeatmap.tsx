@@ -18,6 +18,8 @@ import {
   Sparkles
 } from "lucide-react";
 
+import { motion, useReducedMotion } from "framer-motion";
+
 export type HeatmapMetric = "performance" | "rsi" | "bias" | "intensity";
 export type HeatmapLayout = "matrix" | "grid";
 
@@ -27,6 +29,7 @@ interface ScreenerHeatmapProps {
   onSelectCategory?: (category: MarketCategory | "all") => void;
   onSelect?: (instrument: ScreenerRow) => void;
   selectedSlug?: string | null;
+  changedSlugs?: Map<string, "up" | "down">;
 }
 
 const CATEGORY_NAMES: Record<MarketCategory, string> = {
@@ -60,7 +63,9 @@ export function ScreenerHeatmap({
   onSelectCategory,
   onSelect,
   selectedSlug,
+  changedSlugs,
 }: ScreenerHeatmapProps) {
+  const shouldReduceMotion = useReducedMotion();
   const [internalCat, setInternalCat] = useState<MarketCategory | "all">("all");
   const [metricMode, setMetricMode] = useState<HeatmapMetric>("performance");
   const [layoutMode, setLayoutMode] = useState<HeatmapLayout>("matrix");
@@ -258,8 +263,16 @@ export function ScreenerHeatmap({
     const isBullish = (item.changePct ?? 0) > 0;
     const isBearish = (item.changePct ?? 0) < 0;
 
+    // STEP 4: Heatmap tile pulse & one-shot glow
+    const direction = changedSlugs?.get(item.slug);
+    const glowShadow = direction === "up"
+      ? "0 0 14px rgba(24, 184, 128, 0.45)"
+      : direction === "down"
+      ? "0 0 14px rgba(206, 105, 105, 0.45)"
+      : "0 0 0px rgba(0, 0, 0, 0)";
+
     return (
-      <div
+      <motion.div
         key={item.slug}
         onClick={() => onSelect?.(item)}
         onMouseEnter={() => setHoveredInstrument(item)}
@@ -272,6 +285,14 @@ export function ScreenerHeatmap({
             onSelect?.(item);
           }
         }}
+        animate={{
+          boxShadow: direction
+            ? [glowShadow, glowShadow, "0 0 0px rgba(0, 0, 0, 0)"]
+            : isSelected
+            ? "0 4px 6px -1px rgba(0, 0, 0, 0.1)"
+            : "0 0 0px rgba(0, 0, 0, 0)",
+        }}
+        transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.6, ease: "easeOut" }}
         className={cn(
           "group relative flex flex-col justify-between p-3 border transition-all duration-150 cursor-pointer select-none rounded-xs",
           style.bg,
@@ -281,8 +302,17 @@ export function ScreenerHeatmap({
           "hover:-translate-y-0.5 hover:shadow-xs"
         )}
       >
-        {/* Top Edge Indicator Stripe */}
-        <div className={cn("absolute top-0 left-0 right-0 h-1 transition-all", style.stripe)} />
+        {/* Top Edge Indicator Stripe: intensifies for ~600ms on change */}
+        <motion.div
+          animate={{
+            opacity: direction ? [1, 1, 0.85] : 0.85,
+            filter: direction
+              ? ["saturate(2.2) brightness(1.3)", "saturate(2.2) brightness(1.3)", "saturate(1) brightness(1)"]
+              : "saturate(1) brightness(1)",
+          }}
+          transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.6, ease: "easeOut" }}
+          className={cn("absolute top-0 left-0 right-0 h-1 transition-all", style.stripe)}
+        />
 
         {/* Header Row: Symbol & Context */}
         <div className="flex justify-between items-start gap-1">
@@ -366,7 +396,7 @@ export function ScreenerHeatmap({
             </span>
           </div>
         </div>
-      </div>
+      </motion.div>
     );
   };
 

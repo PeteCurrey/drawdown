@@ -1,11 +1,13 @@
 "use client";
 
-import { useState, useMemo, useCallback } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 import Link from "next/link";
 import {
   ArrowUpDown, ArrowUp, ArrowDown, Lock,
   AlertTriangle, TrendingUp, TrendingDown, Minus, ChevronRight, X
 } from "lucide-react";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
+import { LineChart, Line } from "recharts";
 import { cn } from "@/lib/utils";
 import { ScreenerRow, MarketCategory } from "@/lib/screener";
 import { TradingViewMiniChart } from "@/components/markets/TradingViewMiniChart";
@@ -29,6 +31,10 @@ interface ScreenerTableProps {
   onViewModeChange?: (mode: "table" | "heatmap") => void;
   /** Theme mode for dark/light styling */
   theme?: "light" | "dark";
+  /** Map of slugs that changed price on the latest poll ('up' | 'down') */
+  changedSlugs?: Map<string, "up" | "down">;
+  /** Client-side accumulated recent price points (last ~12 per slug) for micro sparklines */
+  priceHistory?: Map<string, number[]>;
 }
 
 // ─── Micro-visual Sub-components ──────────────────────────────────────────────
@@ -163,6 +169,39 @@ export function ChangeBadge({ changePct, feedOffline, theme = "light" }: { chang
     >
       {isPositive ? "+" : ""}{changePct.toFixed(2)}%
     </span>
+  );
+}
+
+// ─── STEP 6: Micro Sparkline (desktop rows only, 12 ticks accumulated) ─────────
+export function MicroSparkline({ data }: { data?: number[] }) {
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+
+  if (!mounted || !data || data.length < 2) {
+    return <div className="w-[60px] h-[20px] inline-block shrink-0" />;
+  }
+
+  // Profit/Loss based on net direction over visible window
+  const isProfit = data[data.length - 1] >= data[0];
+  const stroke = isProfit ? "#18B880" : "#CE6969";
+  const chartData = data.map((price, idx) => ({ idx, price }));
+
+  return (
+    <div
+      className="w-[60px] h-[20px] inline-block shrink-0 overflow-hidden"
+      title={`Tick Trend (${data.length} pts: ${isProfit ? "Net Profit" : "Net Loss"})`}
+    >
+      <LineChart width={60} height={20} data={chartData} margin={{ top: 2, right: 1, bottom: 2, left: 1 }}>
+        <Line
+          type="monotone"
+          dataKey="price"
+          stroke={stroke}
+          strokeWidth={1.5}
+          dot={false}
+          isAnimationActive={false}
+        />
+      </LineChart>
+    </div>
   );
 }
 
@@ -358,7 +397,10 @@ export function ScreenerTable({
   onSelectInstrument,
   selectedSlug,
   theme = "light",
+  changedSlugs,
+  priceHistory,
 }: ScreenerTableProps) {
+  const shouldReduceMotion = useReducedMotion();
   const [sort, setSort] = useState<SortKey>("changePct");
   const [sortDir, setSortDir] = useState<SortDir>("desc");
   const [internalModalRow, setInternalModalRow] = useState<ScreenerRow | null>(null);
@@ -494,9 +536,23 @@ export function ScreenerTable({
           <tbody>
             {sortedRows.map((row) => {
               const isSelected = selectedSlug === row.slug;
+              const direction = changedSlugs?.get(row.slug);
+              const isProfit = direction === "up";
+              const isLoss = direction === "down";
+              const flashBg = isProfit
+                ? (isDark ? "rgba(24, 184, 128, 0.18)" : "#F0FDF8")
+                : isLoss
+                ? (isDark ? "rgba(206, 105, 105, 0.18)" : "#FDF2F2")
+                : "rgba(0, 0, 0, 0)";
+              const yOffset = shouldReduceMotion ? 0 : direction === "down" ? -4 : 4;
+
               return (
-                <tr
+                <motion.tr
                   key={row.slug}
+                  animate={{
+                    backgroundColor: direction ? [flashBg, "rgba(0, 0, 0, 0)"] : "rgba(0, 0, 0, 0)",
+                  }}
+                  transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.9, ease: "easeOut" }}
                   className={cn(
                     "cursor-pointer transition-colors group",
                     isDark
@@ -519,26 +575,54 @@ export function ScreenerTable({
                     </div>
                   </td>
 
-                  {/* Price (Right-aligned, tabular figures) */}
+                  {/* Price (Right-aligned, tabular figures) with Micro Sparkline */}
                   <td className="py-3.5 px-4 text-right">
                     {row.feed_offline ? (
                       <FeedOfflineBadge theme={theme} />
                     ) : row.price !== null ? (
-                      <span className={cn("font-bold font-mono tabular-nums text-[11px]", isDark ? "text-white" : "text-mkt-ink")}>
-                        {row.price >= 1000
-                          ? row.price.toLocaleString("en-GB", { minimumFractionDigits: 2, maximumFractionDigits: 2 })
-                          : row.price >= 10
-                          ? row.price.toFixed(3)
-                          : row.price.toFixed(5)}
-                      </span>
+                      <div className="inline-flex items-center justify-end gap-2">
+                        {/* STEP 6: Micro sparkline (desktop rows only) */}
+                        <MicroSparkline data={priceHistory?.get(row.slug)} />
+                        {/* STEP 3: Framer Motion AnimatePresence key-swap price */}
+                        <div className="relative inline-flex items-center justify-end overflow-hidden">
+                          <AnimatePresence mode="popLayout" initial={false}>
+                            <motion.span
+                              key={`${row.slug}-p-${row.price}`}
+                              initial={shouldReduceMotion ? false : { opacity: 0, y: yOffset }}
+                              animate={{ opacity: 1, y: 0 }}
+                              exit={shouldReduceMotion ? undefined : { opacity: 0, y: -yOffset }}
+                              transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.25, ease: "easeOut" }}
+                              className={cn("font-bold font-mono tabular-nums text-[11px] inline-block", isDark ? "text-white" : "text-mkt-ink")}
+                            >
+                              {row.price >= 1000
+                                ? row.price.toLocaleString("en-GB", { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+                                : row.price >= 10
+                                ? row.price.toFixed(3)
+                                : row.price.toFixed(5)}
+                            </motion.span>
+                          </AnimatePresence>
+                        </div>
+                      </div>
                     ) : (
                       <span className={cn("font-mono", isDark ? "text-white/40" : "text-mkt-i4")}>—</span>
                     )}
                   </td>
 
-                  {/* 24h % (Right-aligned) */}
+                  {/* 24h % (Right-aligned) with AnimatePresence key-swap */}
                   <td className="py-3.5 px-4 text-right">
-                    <ChangeBadge changePct={row.changePct} feedOffline={row.feed_offline} theme={theme} />
+                    <div className="relative inline-flex items-center justify-end overflow-hidden">
+                      <AnimatePresence mode="popLayout" initial={false}>
+                        <motion.div
+                          key={`${row.slug}-c-${row.changePct}`}
+                          initial={shouldReduceMotion ? false : { opacity: 0, y: yOffset }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={shouldReduceMotion ? undefined : { opacity: 0, y: -yOffset }}
+                          transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.25, ease: "easeOut" }}
+                        >
+                          <ChangeBadge changePct={row.changePct} feedOffline={row.feed_offline} theme={theme} />
+                        </motion.div>
+                      </AnimatePresence>
+                    </div>
                   </td>
 
                   {/* RSI (Right-aligned) */}
@@ -567,7 +651,7 @@ export function ScreenerTable({
                   <td className="py-3.5 px-4 text-right">
                     <ChevronRight className={cn("w-3.5 h-3.5 group-hover:translate-x-0.5 transition-all inline-block", isDark ? "text-white/30 group-hover:text-[#C8F135]" : "text-mkt-i4 group-hover:text-accent")} />
                   </td>
-                </tr>
+                </motion.tr>
               );
             })}
           </tbody>
@@ -584,47 +668,86 @@ export function ScreenerTable({
 
       {/* Mobile: stacked cards (< 768px) */}
       <div className={cn("md:hidden", isDark ? "divide-y divide-white/5" : "divide-y divide-mkt-bd/60")}>
-        {sortedRows.map((row) => (
-          <div
-            key={row.slug}
-            className={cn("p-4 cursor-pointer transition-colors group", isDark ? "hover:bg-white/[0.04]" : "hover:bg-slate-50")}
-            onClick={() => handleRowClick(row)}
-          >
-            <div className="flex justify-between items-start mb-2.5">
-              <div>
-                <p className={cn("font-extrabold font-mono text-[13px] transition-colors leading-tight", isDark ? "text-white group-hover:text-[#C8F135]" : "text-mkt-ink group-hover:text-accent")}>
-                  {row.displayPair}
-                </p>
-                <p className={cn("text-[8px] font-mono uppercase tracking-wider mt-0.5", isDark ? "text-white/40" : "text-mkt-i4")}>
-                  {row.category}
-                </p>
-              </div>
-              <ChangeBadge changePct={row.changePct} feedOffline={row.feed_offline} theme={theme} />
-            </div>
+        {sortedRows.map((row) => {
+          const direction = changedSlugs?.get(row.slug);
+          const isProfit = direction === "up";
+          const isLoss = direction === "down";
+          const flashBg = isProfit
+            ? (isDark ? "rgba(24, 184, 128, 0.18)" : "#F0FDF8")
+            : isLoss
+            ? (isDark ? "rgba(206, 105, 105, 0.18)" : "#FDF2F2")
+            : "rgba(0, 0, 0, 0)";
+          const yOffset = shouldReduceMotion ? 0 : direction === "down" ? -4 : 4;
 
-            <div className="flex justify-between items-center pt-1">
-              <div>
-                <span className={cn("text-[8px] font-mono uppercase tracking-wider block", isDark ? "text-white/40" : "text-mkt-i4")}>
-                  Price
-                </span>
-                <span className={cn("text-sm font-mono font-bold tabular-nums", isDark ? "text-white" : "text-mkt-ink")}>
-                  {row.feed_offline
-                    ? "—"
-                    : row.price !== null
-                    ? row.price >= 1000
-                      ? row.price.toLocaleString("en-GB", { minimumFractionDigits: 1, maximumFractionDigits: 2 })
-                      : row.price.toFixed(4)
-                    : "—"}
-                </span>
+          return (
+            <motion.div
+              key={row.slug}
+              animate={{
+                backgroundColor: direction ? [flashBg, "rgba(0, 0, 0, 0)"] : "rgba(0, 0, 0, 0)",
+              }}
+              transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.9, ease: "easeOut" }}
+              className={cn("p-4 cursor-pointer transition-colors group", isDark ? "hover:bg-white/[0.04]" : "hover:bg-slate-50")}
+              onClick={() => handleRowClick(row)}
+            >
+              <div className="flex justify-between items-start mb-2.5">
+                <div>
+                  <p className={cn("font-extrabold font-mono text-[13px] transition-colors leading-tight", isDark ? "text-white group-hover:text-[#C8F135]" : "text-mkt-ink group-hover:text-accent")}>
+                    {row.displayPair}
+                  </p>
+                  <p className={cn("text-[8px] font-mono uppercase tracking-wider mt-0.5", isDark ? "text-white/40" : "text-mkt-i4")}>
+                    {row.category}
+                  </p>
+                </div>
+                <div className="relative inline-flex items-center justify-end overflow-hidden">
+                  <AnimatePresence mode="popLayout" initial={false}>
+                    <motion.div
+                      key={`${row.slug}-mc-${row.changePct}`}
+                      initial={shouldReduceMotion ? false : { opacity: 0, y: yOffset }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={shouldReduceMotion ? undefined : { opacity: 0, y: -yOffset }}
+                      transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.25, ease: "easeOut" }}
+                    >
+                      <ChangeBadge changePct={row.changePct} feedOffline={row.feed_offline} theme={theme} />
+                    </motion.div>
+                  </AnimatePresence>
+                </div>
               </div>
 
-              <div className="flex items-center gap-2">
-                <RSIBadge rsi={row.rsi} theme={theme} />
-                <BiasBadge bias={row.bias} theme={theme} />
+              <div className="flex justify-between items-center pt-1">
+                <div>
+                  <span className={cn("text-[8px] font-mono uppercase tracking-wider block", isDark ? "text-white/40" : "text-mkt-i4")}>
+                    Price
+                  </span>
+                  <div className="relative inline-flex items-center overflow-hidden">
+                    <AnimatePresence mode="popLayout" initial={false}>
+                      <motion.span
+                        key={`${row.slug}-mp-${row.price}`}
+                        initial={shouldReduceMotion ? false : { opacity: 0, y: yOffset }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={shouldReduceMotion ? undefined : { opacity: 0, y: -yOffset }}
+                        transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.25, ease: "easeOut" }}
+                        className={cn("text-sm font-mono font-bold tabular-nums inline-block", isDark ? "text-white" : "text-mkt-ink")}
+                      >
+                        {row.feed_offline
+                          ? "—"
+                          : row.price !== null
+                          ? row.price >= 1000
+                            ? row.price.toLocaleString("en-GB", { minimumFractionDigits: 1, maximumFractionDigits: 2 })
+                            : row.price.toFixed(4)
+                          : "—"}
+                      </motion.span>
+                    </AnimatePresence>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <RSIBadge rsi={row.rsi} theme={theme} />
+                  <BiasBadge bias={row.bias} theme={theme} />
+                </div>
               </div>
-            </div>
-          </div>
-        ))}
+            </motion.div>
+          );
+        })}
 
         {sortedRows.length === 0 && (
           <div className="py-12 text-center">

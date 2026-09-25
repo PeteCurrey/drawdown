@@ -124,6 +124,12 @@ export function MarketsHubContent() {
                 Market Screener &rarr;
               </Link>
               <Link
+                href="/markets/sector-map"
+                className="inline-flex items-center gap-2 px-6 py-3.5 bg-[#18B880] text-black font-bold text-xs uppercase tracking-wider rounded-lg hover:bg-[#159a6b] transition-colors shadow-lg font-sans"
+              >
+                Sector Map (Heatmap) &rarr;
+              </Link>
+              <Link
                 href="/markets/pulse"
                 className="inline-flex items-center gap-2 px-6 py-3.5 bg-white/5 border border-white/10 text-white font-bold text-xs uppercase tracking-wider rounded-lg hover:bg-white/10 transition-colors font-sans"
               >

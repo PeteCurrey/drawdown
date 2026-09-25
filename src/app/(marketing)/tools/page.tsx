@@ -9,6 +9,7 @@ export const metadata: Metadata = {
 
 import { 
   BarChart3, 
+  BarChart2,
   Percent, 
   LayoutDashboard, 
   History, 
@@ -109,6 +110,17 @@ const toolCategories = [
     color: "premium",
     hoverColorClass: "group-hover:text-fuchsia-500 dark:group-hover:text-fuchsia-400",
     glowClass: "bg-fuchsia-500",
+  },
+  {
+    slug: "currency-strength-meter",
+    title: "Currency Strength Meter",
+    description: "Live relative strength ranking for all 8 FX majors — derived from real-time 24h momentum. Free, no sign-up.",
+    icon: BarChart2,
+    features: ["8 Major Currencies", "Live 15s Updates", "Zero New API Calls"],
+    tier: "Free",
+    color: "profit",
+    hoverColorClass: "group-hover:text-emerald-500 dark:group-hover:text-emerald-400",
+    glowClass: "bg-emerald-500",
   }
 ];
 

@@ -26,7 +26,8 @@ import {
   GitBranch,
   FileText,
   HelpCircle,
-  SlidersHorizontal
+  SlidersHorizontal,
+  BarChart2
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { User } from "@supabase/supabase-js";
@@ -57,6 +58,7 @@ const megaMenus = {
       { name: "Drawdown Recovery", desc: "Loss asymmetry & break-even trades model", href: "/tools/drawdown-recovery-calculator", icon: Zap, badge: "FREE" },
       { name: "Pip Value Calculator", desc: "Multi-currency pip & point values across tiers", href: "/tools/pip-value-calculator", icon: Calculator, badge: "FREE" },
       { name: "Forex Market Hours", desc: "Live session clock with London/NY overlap radar", href: "/tools/forex-market-hours", icon: Newspaper, badge: "LIVE" },
+      { name: "Currency Strength Meter", desc: "Live relative strength ranking across 8 FX majors", href: "/tools/currency-strength-meter", icon: BarChart2, badge: "LIVE" },
       { name: "Risk of Ruin Calculator", desc: "Statistical probability of account loss & EV", href: "/tools/risk-of-ruin-calculator", icon: LineChart, badge: "FREE" },
       { name: "Plan My Trade", desc: "Interactive pre-trade sizing & discipline validation", href: "/dashboard/run-my-trade", icon: Zap, badge: "CORE" },
       { name: "Signal Centre", desc: "AI consensus signals — Claude + GPT-4o + Grok", href: "/signal-centre", icon: Zap, badge: "AI" },

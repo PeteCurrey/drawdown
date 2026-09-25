@@ -12,6 +12,7 @@
 import { NextResponse } from "next/server";
 import { tdSymbol } from "@/lib/instruments";
 import { calculateBiasScore } from "@/lib/biasEngine";
+import { isTwelveDataExhausted, tripTwelveDataCircuitBreaker } from "@/lib/market-circuit-breaker";
 
 export const revalidate = 60;
 
@@ -172,24 +173,27 @@ export async function GET(
     let change: number | null = null;
     let source = "unavailable";
 
-    // Try Twelve Data
-    for (const key of keys) {
-      try {
-        const res = await fetch(`${TD}/quote?symbol=${sym}&apikey=${key}`, { cache: "no-store" });
-        const q = await res.json();
-        if (q?.status === "error" || q?.code === 429 || (q?.message && (q.message.includes("credits") || q.message.includes("limit")))) {
-          throw new Error("KEY_EXHAUSTED");
-        }
-        if (!q || q.status === "error" || q.code) throw new Error("BAD_QUOTE");
+    // Try Twelve Data only if circuit breaker is not tripped
+    if (!isTwelveDataExhausted()) {
+      for (const key of keys) {
+        try {
+          const res = await fetch(`${TD}/quote?symbol=${sym}&apikey=${key}`, { cache: "no-store" });
+          const q = await res.json();
+          if (q?.status === "error" || q?.code === 429 || (q?.message && (q.message.includes("credits") || q.message.includes("limit")))) {
+            tripTwelveDataCircuitBreaker();
+            break;
+          }
+          if (!q || q.status === "error" || q.code) throw new Error("BAD_QUOTE");
 
-        price = pf(q.close ?? q.price);
-        const prevClose = pf(q.previous_close);
-        change = (price !== null && prevClose !== null) ? price - prevClose : pf(q.change);
-        changePct = pf(q.percent_change);
-        source = "twelvedata";
-        break;
-      } catch (err: any) {
-        // next key
+          price = pf(q.close ?? q.price);
+          const prevClose = pf(q.previous_close);
+          change = (price !== null && prevClose !== null) ? price - prevClose : pf(q.change);
+          changePct = pf(q.percent_change);
+          source = "twelvedata";
+          break;
+        } catch (err: any) {
+          // next key
+        }
       }
     }
 
@@ -238,35 +242,38 @@ export async function GET(
   let cciData: any = null;
   let tdSuccess = false;
 
-  for (const key of keys) {
-    try {
-      const fetchWithKey = async (urlWithoutKey: string) => {
-        const sep = urlWithoutKey.includes("?") ? "&" : "?";
-        const res = await fetch(`${urlWithoutKey}${sep}apikey=${key}`, { cache: "no-store" });
-        const json = await res.json();
-        if (json && (json.status === "error" || json.code === 429 || (json.message && (json.message.includes("credits") || json.message.includes("limit") || json.message.includes("Rate limit"))))) {
-          throw new Error("KEY_EXHAUSTED");
-        }
-        return json;
-      };
+  if (!isTwelveDataExhausted()) {
+    for (const key of keys) {
+      try {
+        const fetchWithKey = async (urlWithoutKey: string) => {
+          const sep = urlWithoutKey.includes("?") ? "&" : "?";
+          const res = await fetch(`${urlWithoutKey}${sep}apikey=${key}`, { cache: "no-store" });
+          const json = await res.json();
+          if (json && (json.status === "error" || json.code === 429 || (json.message && (json.message.includes("credits") || json.message.includes("limit") || json.message.includes("Rate limit"))))) {
+            tripTwelveDataCircuitBreaker();
+            throw new Error("KEY_EXHAUSTED");
+          }
+          return json;
+        };
 
-      [quoteData, candlesData, atrData, rsiData, macdData, ema50Data, ema200Data, bbData, stochData, cciData] = await Promise.all([
-        fetchWithKey(`${TD}/quote?symbol=${sym}`),
-        fetchWithKey(`${TD}/time_series?symbol=${sym}&interval=${interval}&outputsize=21`),
-        fetchWithKey(`${TD}/atr?symbol=${sym}&interval=${interval}&time_period=14&outputsize=21`),
-        fetchWithKey(`${TD}/rsi?symbol=${sym}&interval=${interval}&time_period=14&outputsize=1`),
-        fetchWithKey(`${TD}/macd?symbol=${sym}&interval=${interval}&outputsize=1`),
-        fetchWithKey(`${TD}/ema?symbol=${sym}&interval=1day&time_period=50&outputsize=1`),
-        fetchWithKey(`${TD}/ema?symbol=${sym}&interval=1day&time_period=200&outputsize=1`),
-        fetchWithKey(`${TD}/bbands?symbol=${sym}&interval=${interval}&time_period=20&series_type=close&outputsize=1`),
-        fetchWithKey(`${TD}/stoch?symbol=${sym}&interval=${interval}&outputsize=1`),
-        fetchWithKey(`${TD}/cci?symbol=${sym}&interval=${interval}&time_period=20&outputsize=1`),
-      ]);
+        [quoteData, candlesData, atrData, rsiData, macdData, ema50Data, ema200Data, bbData, stochData, cciData] = await Promise.all([
+          fetchWithKey(`${TD}/quote?symbol=${sym}`),
+          fetchWithKey(`${TD}/time_series?symbol=${sym}&interval=${interval}&outputsize=21`),
+          fetchWithKey(`${TD}/atr?symbol=${sym}&interval=${interval}&time_period=14&outputsize=21`),
+          fetchWithKey(`${TD}/rsi?symbol=${sym}&interval=${interval}&time_period=14&outputsize=1`),
+          fetchWithKey(`${TD}/macd?symbol=${sym}&interval=${interval}&outputsize=1`),
+          fetchWithKey(`${TD}/ema?symbol=${sym}&interval=1day&time_period=50&outputsize=1`),
+          fetchWithKey(`${TD}/ema?symbol=${sym}&interval=1day&time_period=200&outputsize=1`),
+          fetchWithKey(`${TD}/bbands?symbol=${sym}&interval=${interval}&time_period=20&series_type=close&outputsize=1`),
+          fetchWithKey(`${TD}/stoch?symbol=${sym}&interval=${interval}&outputsize=1`),
+          fetchWithKey(`${TD}/cci?symbol=${sym}&interval=${interval}&time_period=20&outputsize=1`),
+        ]);
 
-      tdSuccess = true;
-      break;
-    } catch (err: any) {
-      // next key
+        tdSuccess = true;
+        break;
+      } catch (err: any) {
+        // next key
+      }
     }
   }
 

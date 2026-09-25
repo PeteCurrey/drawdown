@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { tdSymbol } from "@/lib/instruments";
 import { calculateBiasScore } from "@/lib/biasEngine";
+import { isTwelveDataExhausted, tripTwelveDataCircuitBreaker } from "@/lib/market-circuit-breaker";
 
 export const dynamic = "force-dynamic";
 export const maxDuration = 300; // Vercel max execution time (up to 5 mins on pro)
@@ -52,7 +53,9 @@ const SYMBOLS = [
   "XAU/USD", "XAG/USD", "GBP/USD", "EUR/USD", "USD/JPY", "USD/CHF", "AUD/USD",
   "NZD/USD", "USD/CAD", "EUR/GBP", "EUR/JPY", "GBP/JPY", "CAD/JPY", "AUD/CAD",
   "GBP/CAD", "WTI/USD", "NATGAS", "COPPER", "BTC/USD", "ETH/USD", "SOL/USD",
-  "SPX500", "NAS100", "US30", "UK100", "GER40", "JPN225", "AUS200"
+  "SPX500", "NAS100", "US30", "UK100", "GER40", "JPN225", "AUS200",
+  "EUR/CHF", "XRP/USD", "ADA/USD", "DOGE/USD", "BNB/USD", "LINK/USD",
+  "BARC", "LLOY", "SHEL", "AAPL", "NVDA", "TSLA"
 ];
 
 function getKeys() {
@@ -135,6 +138,9 @@ export async function GET(req: Request) {
   const sourceStats: Record<string, number> = { twelvedata: 0, finnhub: 0, yahoo: 0 };
 
   async function fetchTD(urlWithoutKey: string) {
+    if (isTwelveDataExhausted()) {
+      throw new Error("ALL_TD_KEYS_EXHAUSTED");
+    }
     while (activeTdKeyIdx < tdKeys.length) {
       const key = tdKeys[activeTdKeyIdx];
       const sep = urlWithoutKey.includes("?") ? "&" : "?";
@@ -148,6 +154,7 @@ export async function GET(req: Request) {
       }
       return { data: json, source: 'twelvedata' };
     }
+    tripTwelveDataCircuitBreaker();
     throw new Error("ALL_TD_KEYS_EXHAUSTED");
   }
 
@@ -209,7 +216,11 @@ export async function GET(req: Request) {
               "GBP/CAD": "GBPCAD=X", "SPX500": "^GSPC", "NAS100": "^NDX", "US30": "^DJI",
               "UK100": "^FTSE", "GER40": "^GDAXI", "JPN225": "^N225", "AUS200": "^AXJO",
               "WTI/USD": "CL=F", "NATGAS": "NG=F", "COPPER": "HG=F",
-              "BTC/USD": "BTC-USD", "ETH/USD": "ETH-USD", "SOL/USD": "SOL-USD"
+              "BTC/USD": "BTC-USD", "ETH/USD": "ETH-USD", "SOL/USD": "SOL-USD",
+              "EUR/CHF": "EURCHF=X", "XRP/USD": "XRP-USD", "ADA/USD": "ADA-USD",
+              "DOGE/USD": "DOGE-USD", "BNB/USD": "BNB-USD", "LINK/USD": "LINK-USD",
+              "BARC": "BARC.L", "LLOY": "LLOY.L", "SHEL": "SHEL.L",
+              "AAPL": "AAPL", "NVDA": "NVDA", "TSLA": "TSLA"
             };
             const ySym = YAHOO_MAP[symbol] || YAHOO_MAP[cleanSym] || `${cleanSym}=X`;
             const res = await fetch(`https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(ySym)}?interval=1d&range=5d`, { cache: "no-store" });

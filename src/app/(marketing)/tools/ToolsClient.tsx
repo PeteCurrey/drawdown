@@ -14,6 +14,7 @@ import {
   Zap, 
   Terminal, 
   BarChart3, 
+  BarChart2,
   Clock, 
   Sparkles,
   TrendingDown,
@@ -68,6 +69,15 @@ const flagshipFreeTools = [
     badge: "Live Clock",
     category: "Market Timing",
     highlight: "London/NY Overlap Tracker",
+  },
+  {
+    slug: "currency-strength-meter",
+    title: "Currency Strength Meter",
+    subtitle: "Relative strength ranking for all 8 FX majors, derived from real-time 24h momentum across tracked pairs.",
+    icon: BarChart2,
+    badge: "Live",
+    category: "FX Intelligence",
+    highlight: "14 pairs · 8 currencies · 0 new API calls",
   },
 ];
 

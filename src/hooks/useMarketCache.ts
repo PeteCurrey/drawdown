@@ -48,20 +48,70 @@ const HOOKSLUG_TO_API: Record<string, string> = {
   ASX200:  "ASX200",
 };
 
-// Aliases: dashboard hookSlug → alternative symbols that may appear in price_cache
-const ALIAS_MAP: Record<string, string[]> = {
-  FTSE:   ["UK100", "UKX", "FTSE"],
-  SPX:    ["SPX500", "SPX", "US500"],
-  NDX:    ["NAS100", "NDX", "US100"],
-  DJI:    ["US30", "DJI", "DOW"],
-  NIKKEI: ["JPN225", "NIKKEI"],
-  ASX200: ["AUS200", "ASX200"],
-  DAX:    ["GER40", "DAX"],
-  BTCUSD: ["BTC/USD", "BTCUSDT", "BTCUSD"],
-  ETHUSD: ["ETH/USD", "ETHUSDT", "ETHUSD"],
-  SOLUSD: ["SOL/USD", "SOLUSD"],
-  WTIUSD: ["WTI/USD", "WTIUSD"],
-};
+// Equivalence clusters: all representations of the same instrument
+const EQUIVALENCE_GROUPS: string[][] = [
+  ["UKX", "UK100", "FTSE"],
+  ["SPX", "SPX500", "US500"],
+  ["NDX", "NAS100", "US100"],
+  ["DJI", "US30", "DOW"],
+  ["DAX", "GER40"],
+  ["NIKKEI", "JPN225"],
+  ["ASX200", "AUS200"],
+  ["WTIUSD", "WTI/USD", "WTI", "CL=F"],
+  ["NATGAS", "NG=F"],
+  ["COPPER", "HG=F"],
+  ["XAUUSD", "XAU/USD", "GC=F"],
+  ["XAGUSD", "XAG/USD", "SI=F"],
+  ["EURCHF", "EUR/CHF"],
+  ["BARC", "BARC:LSE", "BARC.L"],
+  ["LLOY", "LLOY:LSE", "LLOY.L"],
+  ["SHEL", "SHEL:LSE", "SHEL.L"],
+];
+
+function normSymbol(s: string): string {
+  return (s || "").replace(/[\/\-_:\s]/g, "").toUpperCase();
+}
+
+// Bidirectional alias index built dynamically
+const BIDIRECTIONAL_MAP = new Map<string, Set<string>>();
+
+function registerEquivalence(a: string, b: string) {
+  const na = normSymbol(a);
+  const nb = normSymbol(b);
+  if (!BIDIRECTIONAL_MAP.has(na)) BIDIRECTIONAL_MAP.set(na, new Set());
+  if (!BIDIRECTIONAL_MAP.has(nb)) BIDIRECTIONAL_MAP.set(nb, new Set());
+  BIDIRECTIONAL_MAP.get(na)!.add(nb).add(na);
+  BIDIRECTIONAL_MAP.get(nb)!.add(na).add(nb);
+}
+
+EQUIVALENCE_GROUPS.forEach(group => {
+  for (let i = 0; i < group.length; i++) {
+    for (let j = 0; j < group.length; j++) {
+      registerEquivalence(group[i], group[j]);
+    }
+  }
+});
+
+export function getExpandedVariants(s: string): string[] {
+  const n = normSymbol(s);
+  const variants = new Set<string>([s, n]);
+  // Handle USDT <-> USD
+  if (n.endsWith("USDT")) {
+    const usd = n.slice(0, -4) + "USD";
+    variants.add(usd);
+    variants.add(n.slice(0, -4) + "/USD");
+  } else if (n.endsWith("USD") && n.length === 6) {
+    variants.add(n + "T");
+    variants.add(n.slice(0, 3) + "/" + n.slice(3));
+  } else if (n.length === 6 && !n.includes("/")) {
+    variants.add(n.slice(0, 3) + "/" + n.slice(3));
+  }
+  const mapped = BIDIRECTIONAL_MAP.get(n);
+  if (mapped) {
+    mapped.forEach(v => variants.add(v));
+  }
+  return Array.from(variants);
+}
 
 function makeEmpty(s: string, loading = true): CachedMarketData {
   return {
@@ -72,12 +122,19 @@ function makeEmpty(s: string, loading = true): CachedMarketData {
   };
 }
 
-function slugMatches(hookSlug: string, rowSymbol: string): boolean {
-  const cleanS = hookSlug.replace("/", "").toUpperCase();
-  const cleanRow = rowSymbol.replace("/", "").toUpperCase();
-  if (cleanS === cleanRow) return true;
-  const aliases = ALIAS_MAP[cleanS] ?? [];
-  return aliases.some(a => a.replace("/", "").toUpperCase() === cleanRow);
+export function slugMatches(hookSlug: string, rowSymbol: string): boolean {
+  const na = normSymbol(hookSlug);
+  const nb = normSymbol(rowSymbol);
+  if (na === nb) return true;
+  // Crypto USDT <-> USD
+  if (na.endsWith("USDT") && na.slice(0, -4) + "USD" === nb) return true;
+  if (nb.endsWith("USDT") && nb.slice(0, -4) + "USD" === na) return true;
+  // Equivalence clusters in either direction
+  const setA = BIDIRECTIONAL_MAP.get(na);
+  if (setA && setA.has(nb)) return true;
+  const setB = BIDIRECTIONAL_MAP.get(nb);
+  if (setB && setB.has(na)) return true;
+  return false;
 }
 
 /**
@@ -142,11 +199,7 @@ export function useMarketCache(slugs: string[]): Record<string, CachedMarketData
     if (slugs.length === 0) return;
 
     // Build an expanded set of symbols to maximise Supabase cache hits
-    const expandedSlugs = Array.from(new Set([
-      ...slugs,
-      ...slugs.map(s => !s.includes("/") && s.length === 6 ? `${s.slice(0, 3)}/${s.slice(3)}` : s),
-      ...slugs.flatMap(s => ALIAS_MAP[s] ?? []),
-    ]));
+    const expandedSlugs = Array.from(new Set(slugs.flatMap(s => getExpandedVariants(s))));
 
     // ── Step 1: Try Supabase price_cache ──────────────────────────────────────
     // Track which slugs we find real data for
@@ -202,17 +255,47 @@ export function useMarketCache(slugs: string[]): Record<string, CachedMarketData
       console.warn("[useMarketCache] Supabase exception:", err.message);
     }
 
-    // ── Step 2: Fetch live prices for any slug still missing ─────────────────
-    // Real data from /api/market-data; no hardcoded fallbacks whatsoever
+    // ── Step 2: Fetch live prices for any slug still missing (Batched single request) ──
     const missingSlugs = slugs.filter(s => !resolvedSlugs.has(s));
 
     if (missingSlugs.length > 0) {
-      const liveResults = await Promise.all(
-        missingSlugs.map(s => fetchLivePrice(s))
-      );
-      liveResults.forEach(result => {
-        nextData[result.symbol] = result;
-      });
+      try {
+        const batchRes = await fetch(
+          `/api/market-data/batch?symbols=${encodeURIComponent(missingSlugs.join(","))}`,
+          { signal: AbortSignal.timeout(8000) }
+        );
+        if (batchRes.ok) {
+          const batchJson = await batchRes.json();
+          missingSlugs.forEach(slug => {
+            const item = batchJson[slug];
+            if (item && item.price !== null) {
+              nextData[slug] = {
+                ...makeEmpty(slug, false),
+                symbol: slug,
+                price: item.price,
+                change_pct: item.changePct ?? null,
+                prevClose: item.prevClose ?? null,
+                source: item.source ?? "batch",
+                fetched_at: item.cached_at ?? new Date().toISOString(),
+                error: false,
+                loading: false,
+                freshness: "LIVE",
+              };
+            }
+          });
+        }
+      } catch (err: any) {
+        console.warn("[useMarketCache] Batched fallback fetch error:", err.message);
+      }
+
+      // Any slug still unpopulated after batch falls back to individual fetchLivePrice as safeguard
+      const stillMissing = missingSlugs.filter(s => !nextData[s]);
+      if (stillMissing.length > 0) {
+        const liveResults = await Promise.all(stillMissing.map(s => fetchLivePrice(s)));
+        liveResults.forEach(result => {
+          nextData[result.symbol] = result;
+        });
+      }
     }
 
     // Merge results — preserve any slugs that somehow weren't processed

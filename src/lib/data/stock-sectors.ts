@@ -1,10 +1,30 @@
+/**
+ * Static reference snapshot — NOT live market data.
+ *
+ * Sector/industry classifications: GICS (Global Industry Classification Standard).
+ * Market-cap figures: approximate reference values (USD billions), sourced ~Sep 2025.
+ * change1D figures: ILLUSTRATIVE ONLY — static placeholders, not real daily moves.
+ * price figures: ILLUSTRATIVE ONLY — static placeholders, not real-time quotes.
+ *
+ * Live equity data requires new API integration pending SC9 credit-budget review.
+ */
+
+/** ISO date of the last manual data update. Displayed visibly on the page. */
+export const DATA_LAST_UPDATED = "September 2025";
+
 export interface StockItem {
   ticker: string;
   name: string;
   sector: string;
   industry: string;
-  marketCap: number; // in USD billions
-  change1D?: number; // percentage change, e.g. +1.42 or -0.85
+  /** Approximate market cap in USD billions — reference/structural data, ~Sep 2025 */
+  marketCap: number;
+  /**
+   * ILLUSTRATIVE ONLY — static placeholder, not a live or historical daily move.
+   * Displayed with an explicit "Illustrative" label on the page.
+   */
+  change1D?: number;
+  /** ILLUSTRATIVE ONLY — static placeholder price, not a real-time quote */
   price?: number;
 }
 
@@ -175,16 +195,30 @@ export function buildTreemapData(stocks: StockItem[], sectorFilter = "All Sector
 }
 
 /**
- * Returns an RGB/Hex background color based on daily % change:
- * Green for positive, Red for negative, Neutral grey/zinc for flat.
+ * Returns light-theme fill and text colours for a treemap tile based on daily % change.
+ * All backgrounds are designed for a white/light-grey page background.
+ *
+ * ⚠️ change values here are ILLUSTRATIVE ONLY — see file-level disclaimer.
  */
-export function getPerformanceColor(change: number | undefined): string {
-  if (change === undefined || isNaN(change)) return "#27272A"; // zinc-800
-  if (change >= 3.0) return "#15803D"; // rich green 700
-  if (change >= 1.5) return "#16A34A"; // green 600
-  if (change > 0.3) return "#22C55E";  // green 500
-  if (change >= -0.3) return "#3F3F46"; // zinc-700
-  if (change > -1.5) return "#EF4444"; // red 500
-  if (change > -3.0) return "#DC2626"; // red 600
-  return "#B91C1C"; // deep red 700
+export function getPerformanceColor(change: number | undefined): {
+  bgColor: string;
+  textColor: string;
+} {
+  if (change === undefined || isNaN(change)) {
+    return { bgColor: "#E2E8F0", textColor: "#475569" }; // slate-200 / slate-600
+  }
+  // Strong positive  ≥ +3 %
+  if (change >= 3.0)  return { bgColor: "#16a34a", textColor: "#ffffff" }; // green-600
+  // Mid positive     ≥ +1.5 %
+  if (change >= 1.5)  return { bgColor: "#4ade80", textColor: "#14532d" }; // green-400 / green-900
+  // Mild positive    > +0.3 %
+  if (change > 0.3)   return { bgColor: "#bbf7d0", textColor: "#166534" }; // green-200 / green-800
+  // Flat
+  if (change >= -0.3) return { bgColor: "#F1F5F9", textColor: "#64748b" }; // slate-100 / slate-500
+  // Mild negative    > −1.5 %
+  if (change > -1.5)  return { bgColor: "#fecaca", textColor: "#7f1d1d" }; // red-200 / red-900
+  // Mid negative     > −3 %
+  if (change > -3.0)  return { bgColor: "#f87171", textColor: "#ffffff" }; // red-400
+  // Strong negative  ≤ −3 %
+  return { bgColor: "#dc2626", textColor: "#ffffff" }; // red-600
 }

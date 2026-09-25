@@ -1,106 +1,121 @@
 import { Metadata } from "next";
 import Link from "next/link";
-import { ArrowLeft, Layers, Compass, TrendingUp, ShieldCheck } from "lucide-react";
+import { ChevronRight, Layers } from "lucide-react";
 import { StockSectorMap } from "@/components/market/StockSectorMap";
-import { STOCK_DATA_V1, buildTreemapData } from "@/lib/data/stock-sectors";
-import { MarketTicker } from "@/components/market/MarketTicker";
+import { STOCK_DATA_V1, buildTreemapData, DATA_LAST_UPDATED } from "@/lib/data/stock-sectors";
+import JsonLd from "@/components/seo/JsonLd";
 
 export const metadata: Metadata = {
-  title: "US Equities Sector Map | Live Market Heatmap | Drawdown Trading",
+  title: "US Equities Sector Map — GICS Reference Heatmap | Drawdown Trading",
   description:
-    "Interactive S&P 500 Stock Sector Map showing GICS sector & industry distribution, market-cap sizing, and real-time daily performance across 55 top US large-cap equities."
+    "Interactive S&P 500 sector map showing GICS sector and industry distribution with approximate market-cap tile sizing across 55 top US large-cap equities. Reference data, not live prices.",
+  alternates: { canonical: "https://drawdown.trading/markets/sector-map" },
+  openGraph: {
+    title: "US Equities Sector Map | Drawdown Trading",
+    description:
+      "Visualise GICS sector allocation and approximate market-cap weighting for 55 S&P 500 large caps. Reference data — not live market prices.",
+    url: "https://drawdown.trading/markets/sector-map",
+    type: "website",
+  },
 };
 
 export default function StockSectorMapPage() {
   const treemapData = buildTreemapData(STOCK_DATA_V1);
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    name: "Drawdown US Equities Sector Map",
+    url: "https://drawdown.trading/markets/sector-map",
+    description:
+      "GICS sector heatmap for US large-cap equities. Tile sizing reflects approximate market capitalisation. Performance figures are illustrative reference data, not live market prices.",
+    applicationCategory: "FinanceApplication",
+    operatingSystem: "Any",
+    offers: { "@type": "Offer", price: "0", priceCurrency: "GBP" },
+  };
+
   return (
-    <div className="min-h-screen bg-[#0A0A0A] text-white selection:bg-[#C8F135] selection:text-black">
-      {/* Top Ticker Bar */}
-      <MarketTicker />
+    <>
+      <JsonLd data={jsonLd} />
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-        {/* Navigation Breadcrumb */}
-        <div className="flex items-center gap-2 mb-6 text-sm text-zinc-400">
-          <Link
-            href="/markets"
-            className="flex items-center gap-1.5 hover:text-[#C8F135] transition-colors"
-          >
-            <ArrowLeft className="w-4 h-4" />
-            <span>Markets Hub</span>
-          </Link>
-          <span className="text-zinc-600">/</span>
-          <span className="text-white font-medium">Stock Sector Map</span>
-        </div>
+      <div className="min-h-screen bg-background-primary text-text-primary selection:bg-accent selection:text-black">
 
-        {/* Hero Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 pb-6 border-b border-zinc-800 gap-4">
-          <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-zinc-900 border border-zinc-800 text-xs font-mono text-[#C8F135] mb-3">
-              <Compass className="w-3.5 h-3.5" />
-              <span>MACRO SECTOR ALLOCATION</span>
+        {/* ── Header ─────────────────────────────────────────────────── */}
+        <section className="border-b border-border-slate/50 bg-white/40">
+          <div className="max-w-7xl mx-auto px-6 py-8 md:py-12 space-y-5">
+
+            {/* Breadcrumb */}
+            <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-text-tertiary">
+              <Link href="/markets" className="hover:text-accent transition-colors">
+                Markets
+              </Link>
+              <ChevronRight className="w-3 h-3 text-text-tertiary/60" />
+              <span className="text-accent font-bold">Sector Map</span>
             </div>
-            <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-white">
-              Stock Sector Map
-            </h1>
-            <p className="text-sm sm:text-base text-zinc-400 mt-2 max-w-2xl">
-              Visualize capital flow, sector rotation, and relative market strength across
-              the top 55 S&P 500 large caps organized by GICS industry classification.
-            </p>
-          </div>
 
-          <div className="flex items-center gap-3">
-            <Link
-              href="/dashboard/market-intelligence"
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 text-sm font-medium text-white transition-colors"
-            >
-              <TrendingUp className="w-4 h-4 text-[#18B880]" />
-              <span>Market Intelligence</span>
-            </Link>
-          </div>
-        </div>
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+              <div className="space-y-3 max-w-2xl">
+                <div className="inline-flex items-center gap-2 px-3 py-1 bg-accent/10 border border-accent/20 text-accent text-xs font-mono font-bold uppercase tracking-widest">
+                  <Layers className="w-3.5 h-3.5" />
+                  GICS Sector Reference
+                </div>
+                <h1 className="text-3xl md:text-5xl font-sans font-extrabold uppercase tracking-tight text-text-primary">
+                  US Equities{" "}
+                  <span className="text-accent">Sector Map.</span>
+                </h1>
+                <p className="text-sm md:text-base font-medium text-text-secondary leading-relaxed">
+                  GICS sector and industry classification for 55 S&amp;P 500 large caps.
+                  Tile area proportional to approximate market capitalisation (~{DATA_LAST_UPDATED}).
+                  Performance figures are illustrative reference values — not live or historical data.
+                </p>
+              </div>
+            </div>
 
-        {/* Treemap Component */}
-        <div className="mb-12">
+            {/* Info strip */}
+            <div className="bg-white border border-border-slate px-4 py-2.5 flex flex-wrap items-center gap-4 text-[10px] font-mono shadow-2xs">
+              <span className="text-text-secondary">
+                <strong className="text-text-primary">55 symbols</strong> · 10 GICS sectors
+              </span>
+              <span className="text-border-slate">|</span>
+              <span className="text-text-secondary">
+                Market-cap sizing: <strong className="text-text-primary">reference data</strong> (~{DATA_LAST_UPDATED})
+              </span>
+              <span className="text-border-slate">|</span>
+              <span className="text-amber-700 font-bold">
+                ⚠ Performance figures are illustrative only — not live prices
+              </span>
+            </div>
+          </div>
+        </section>
+
+        {/* ── Map ────────────────────────────────────────────────────── */}
+        <main className="max-w-7xl mx-auto px-6 py-8">
           <StockSectorMap initialData={treemapData} rawStocks={STOCK_DATA_V1} />
-        </div>
 
-        {/* Explanatory Guide Section */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4 border-t border-zinc-900">
-          <div className="bg-[#111113] p-5 rounded-xl border border-zinc-800/80">
-            <div className="flex items-center gap-2 text-white font-semibold text-sm mb-2">
-              <Layers className="w-4 h-4 text-[#C8F135]" />
-              <h3>GICS Sector Hierarchy</h3>
-            </div>
-            <p className="text-xs text-zinc-400 leading-relaxed">
-              Equities are organized into 9 primary sectors: Information Technology, Financials, Health Care,
-              Consumer Discretionary, Consumer Staples, Energy, Industrials, Utilities, and Real Estate.
+          {/* Methodology note */}
+          <div className="mt-8 border border-border-slate bg-white p-6 space-y-3 text-sm text-text-secondary leading-relaxed">
+            <h2 className="text-base font-mono font-extrabold uppercase tracking-tight text-text-primary">
+              About This Visualisation
+            </h2>
+            <p>
+              Tile area is proportional to approximate <strong>market capitalisation</strong> sourced as
+              reference data (~{DATA_LAST_UPDATED}). This gives an intuitive sense of GICS sector
+              weighting within the S&amp;P 500 but should not be used for precise portfolio weighting.
+            </p>
+            <p>
+              Tile colour reflects the <strong>illustrative % change</strong> values in the static dataset.
+              These are <strong>not</strong> real daily moves, not historical data, and not derived from
+              any live feed. They exist solely to demonstrate the colour-gradient layout of the
+              visualisation.
+            </p>
+            <p className="text-[11px] font-mono text-text-tertiary border-t border-border-slate pt-3">
+              Live equity price and performance data requires additional API integration (Yahoo Finance
+              or equivalent batch feed for 55+ symbols). Deferred pending SC9 Twelve Data
+              credit-budget review and infrastructure scoping.
             </p>
           </div>
-
-          <div className="bg-[#111113] p-5 rounded-xl border border-zinc-800/80">
-            <div className="flex items-center gap-2 text-white font-semibold text-sm mb-2">
-              <TrendingUp className="w-4 h-4 text-[#18B880]" />
-              <h3>Proportional Market Cap</h3>
-            </div>
-            <p className="text-xs text-zinc-400 leading-relaxed">
-              Tile area directly correlates with market capitalization (USD). Mega-caps like Apple, Microsoft,
-              and NVIDIA occupy proportionally larger rectangles reflecting their S&P weighting.
-            </p>
-          </div>
-
-          <div className="bg-[#111113] p-5 rounded-xl border border-zinc-800/80">
-            <div className="flex items-center gap-2 text-white font-semibold text-sm mb-2">
-              <ShieldCheck className="w-4 h-4 text-[#C8F135]" />
-              <h3>Zero-Rate Limit Architecture</h3>
-            </div>
-            <p className="text-xs text-zinc-400 leading-relaxed">
-              Pre-computed market structures eliminate external quota locks and third-party downtime, delivering
-              instant client-side responsiveness.
-            </p>
-          </div>
-        </div>
-      </main>
-    </div>
+        </main>
+      </div>
+    </>
   );
 }

@@ -32,7 +32,7 @@ const appTools: ToolDef[] = [
     title: "AI Trade Journal",
     description: "Launch your institutional logging suite.",
     icon: LayoutDashboard,
-    minTier: "free",
+    minTier: "foundation",
     bullet: "Pattern detection across 6 emotional trading categories"
   },
   {
@@ -48,7 +48,7 @@ const appTools: ToolDef[] = [
     title: "AI Market Scanner",
     description: "13 instruments, 4-timeframe confluence.",
     icon: Zap,
-    minTier: "edge",
+    minTier: "foundation",
     bullet: "Real-time sessional trend scanning and alerts"
   },
   {
@@ -159,11 +159,11 @@ export default function AppToolsHub() {
                     href="/pricing"
                     className="flex items-center justify-center gap-1.5 w-full py-2.5 bg-[#181818] hover:bg-[#2A2A2A] text-white text-[10px] font-semibold uppercase tracking-wider rounded-[6px] transition-colors"
                   >
-                     Unlock with Edge+ <Lock className="w-3 h-3 text-[#F9771D]" />
+                     Unlock with {tool.minTier.charAt(0).toUpperCase() + tool.minTier.slice(1)}+ <Lock className="w-3 h-3 text-[#F9771D]" />
                    </Link>
                 ) : (
                   <Link 
-                    href={tool.slug === 'intelligence' ? '/dashboard/market-intelligence' : `/dashboard/tools/${tool.slug}`}
+                    href={tool.slug === 'journal' ? '/dashboard/journal' : tool.slug === 'intelligence' ? '/dashboard/market-intelligence' : `/dashboard/tools/${tool.slug}`}
                     className="flex items-center justify-between w-full px-5 py-2.5 bg-[#181818] hover:bg-[#2A2A2A] text-white text-[10px] font-semibold uppercase tracking-wider transition-all rounded-[6px]"
                   >
                      Open Tool <ArrowRight className="w-4 h-4 text-[#F9771D] transition-transform group-hover:translate-x-1" />

@@ -287,11 +287,34 @@ export default function SimulatorPage() {
                        )}
                     </div>
 
-                    <div className="p-8 border border-dashed border-[#E6E4DE] hover:border-accent/40 transition-all flex flex-col justify-center items-center text-center gap-4 group cursor-pointer">
-                       <Upload className="w-8 h-8 text-text-tertiary group-hover:text-accent transition-colors" />
+                    <div 
+                      className={cn(
+                        "p-8 border border-dashed transition-all flex flex-col justify-center items-center text-center gap-4 group cursor-pointer",
+                        csvError ? "border-red-400 bg-red-50/50" : "border-[#E6E4DE] hover:border-accent/40"
+                      )}
+                      onClick={() => !isCsvParsing && csvInputRef.current?.click()}
+                    >
+                       <input 
+                         ref={csvInputRef} 
+                         type="file" 
+                         accept=".csv" 
+                         className="hidden" 
+                         onChange={handleCsvUpload} 
+                       />
+                       {isCsvParsing ? (
+                         <Loader2 className="w-8 h-8 text-accent animate-spin" />
+                       ) : (
+                         <Upload className="w-8 h-8 text-text-tertiary group-hover:text-accent transition-colors" />
+                       )}
                        <div>
-                          <h4 className="font-bold uppercase text-sm mb-1">Upload New CSV</h4>
-                          <p className="text-[10px] font-mono text-text-tertiary uppercase">MT4 / MT5 / cTrader Reports</p>
+                          <h4 className="font-bold uppercase text-sm mb-1">
+                            {isCsvParsing ? "Parsing Trade Log..." : "Upload New CSV"}
+                          </h4>
+                          {csvError ? (
+                            <p className="text-[10px] font-mono text-red-500 uppercase">{csvError}</p>
+                          ) : (
+                            <p className="text-[10px] font-mono text-text-tertiary uppercase">MT4 / MT5 / cTrader Reports</p>
+                          )}
                        </div>
                     </div>
                  </div>

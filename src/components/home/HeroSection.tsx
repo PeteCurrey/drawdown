@@ -121,22 +121,22 @@ export function HeroSection() {
         />
       </div>
 
-      {/* Faded Client Dashboard Background */}
+      {/* Faded Avorria Trading Hero Background with Light Overlay */}
       <div 
         className="absolute inset-0 pointer-events-none select-none overflow-hidden z-0"
         aria-hidden="true"
         style={{
-          maskImage: "linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.5) 30%, rgba(0,0,0,0) 65%)",
-          WebkitMaskImage: "linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.5) 30%, rgba(0,0,0,0) 65%)",
+          maskImage: "linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.5) 35%, rgba(0,0,0,0) 70%)",
+          WebkitMaskImage: "linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.5) 35%, rgba(0,0,0,0) 70%)",
         }}
       >
         <Image
-          src="/images/dashboard-preview.png"
-          alt=""
+          src="/images/avorria-trading.jpg"
+          alt="Avorria Trading"
           fill
           priority
           sizes="100vw"
-          className="object-cover object-top opacity-[0.08] mix-blend-multiply filter contrast-125 blur-[1px]"
+          className="object-cover object-center opacity-[0.14] mix-blend-multiply filter contrast-110"
         />
         <div 
           className="absolute inset-0"

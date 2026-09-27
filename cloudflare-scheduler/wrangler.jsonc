@@ -1,0 +1,49 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "drawdown-scheduler",
+  "main": "src/index.ts",
+  "compatibility_date": "2025-02-24",
+  "compatibility_flags": ["nodejs_compat"],
+  "triggers": {
+    "crons": [
+      // Master 5-minute tick — dispatches all 11 jobs at their exact UTC schedules
+      // This respects Cloudflare's free plan limit (max 3-5 cron triggers per worker)
+      "*/5 * * * *"
+    ]
+  },
+  "workflows": [
+    {
+      "name": "drawdown-morning-brief-workflow",
+      "binding": "MORNING_BRIEF_WORKFLOW",
+      "class_name": "MorningBriefWorkflow"
+    },
+    {
+      "name": "drawdown-evening-wrap-workflow",
+      "binding": "EVENING_WRAP_WORKFLOW",
+      "class_name": "EveningWrapWorkflow"
+    },
+    {
+      "name": "drawdown-daily-report-workflow",
+      "binding": "DAILY_REPORT_WORKFLOW",
+      "class_name": "DailyReportWorkflow"
+    }
+  ],
+  "vars": {
+    "ENVIRONMENT": "production",
+    "DRAWDOWN_API_URL": "https://drawdown.io"
+  },
+  "env": {
+    "staging": {
+      "vars": {
+        "ENVIRONMENT": "staging",
+        "DRAWDOWN_API_URL": "https://staging.drawdown.io"
+      }
+    },
+    "development": {
+      "vars": {
+        "ENVIRONMENT": "development",
+        "DRAWDOWN_API_URL": "http://localhost:3000"
+      }
+    }
+  }
+}

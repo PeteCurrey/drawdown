@@ -16,11 +16,16 @@ import { generateIntelligenceSignals } from "@/lib/intelligence-ai";
  * for end users and dashboard components.
  */
 export async function GET(req: Request) {
-  // Simple auth check for internal trigger
+  // Simple auth check for internal trigger (Bearer token or ?secret=)
+  const authHeader = req.headers.get("authorization");
   const { searchParams } = new URL(req.url);
   const secret = searchParams.get("secret");
+  const cronSecret = process.env.CRON_SECRET;
 
-  if (secret !== process.env.CRON_SECRET) {
+  const isAuthorized =
+    Boolean(cronSecret && (authHeader === `Bearer ${cronSecret}` || secret === cronSecret));
+
+  if (!isAuthorized) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 

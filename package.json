@@ -15,7 +15,11 @@
     "test:content-os-phases-2-to-5": "node --experimental-strip-types --test 'tests/content-os-phases-2-to-5.test.ts'",
     "test:integration": "node --experimental-strip-types --test 'tests/security-access.test.ts' 'tests/entitlements.test.ts' 'tests/run-my-trade.test.ts' 'tests/conversion-architecture.test.ts' 'tests/market-data-health.test.ts' 'tests/signal-centre-integrity.test.ts' 'tests/seo-technical-audit.test.ts'",
     "test:e2e": "node --experimental-strip-types --test 'tests/production-e2e-journeys.test.ts'",
-    "test:e2e:browser": "playwright test"
+    "test:e2e:browser": "playwright test",
+    "scheduler:test": "node --experimental-strip-types --test 'cloudflare-scheduler/test/**/*.test.ts'",
+    "scheduler:typecheck": "tsc -p cloudflare-scheduler/tsconfig.json --noEmit",
+    "scheduler:dev": "npx wrangler dev --config cloudflare-scheduler/wrangler.jsonc",
+    "scheduler:deploy": "npx wrangler deploy --config cloudflare-scheduler/wrangler.jsonc"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.88.0",
@@ -66,6 +70,7 @@
     "zustand": "^5.0.12"
   },
   "devDependencies": {
+    "@cloudflare/workers-types": "^5.20260927.1",
     "@playwright/test": "^1.42.1",
     "@tailwindcss/postcss": "^4",
     "@types/canvas-confetti": "^1.9.0",

@@ -1,0 +1,28 @@
+{
+  "name": "drawdown-cloudflare-scheduler",
+  "version": "1.0.0",
+  "description": "Cloudflare Worker & Workflows Scheduler for Drawdown Trading background jobs",
+  "main": "src/index.ts",
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "typecheck": "tsc --noEmit",
+    "test": "node --experimental-strip-types --test 'test/**/*.test.ts'"
+  },
+  "keywords": [
+    "cloudflare",
+    "workers",
+    "workflows",
+    "scheduler",
+    "drawdown"
+  ],
+  "author": "Drawdown Trading",
+  "license": "UNLICENSED",
+  "private": true,
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20250224.0",
+    "typescript": "^5.7.0",
+    "wrangler": "^4.142.0"
+  }
+}

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { cn } from "@/lib/utils";
 import { 
   Zap, 
@@ -24,6 +24,7 @@ import { runSimulationAction, getUserTradesForSimulation, generateAIPrepPlan } f
 import { SimulationResult } from "@/lib/simulator/engine";
 import { formatCurrency } from "@/lib/utils";
 import { PageHeader } from "@/components/dashboard/ui/PageHeader";
+import { parseTradeCSV } from "@/lib/imports/csv-parser";
 
 // Step Components would go here...
 
@@ -38,6 +39,9 @@ export default function SimulatorPage() {
   const [isLoadingFirms, setIsLoadingFirms] = useState(true);
   const [aiPlan, setAiPlan] = useState<string | null>(null);
   const [isGeneratingPlan, setIsGeneratingPlan] = useState(false);
+  const csvInputRef = useRef<HTMLInputElement>(null);
+  const [isCsvParsing, setIsCsvParsing] = useState(false);
+  const [csvError, setCsvError] = useState<string | null>(null);
 
   const supabase = createClient();
 
@@ -77,6 +81,29 @@ export default function SimulatorPage() {
       console.error(err);
     } finally {
       setIsGeneratingPlan(false);
+    }
+  };
+
+  const handleCsvUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setCsvError(null);
+    setIsCsvParsing(true);
+    try {
+      const content = await file.text();
+      const result = await parseTradeCSV(content);
+      if (result.errors.length > 0) {
+        setCsvError(result.errors[0]);
+      } else {
+        setTrades(result.trades as any);
+        setCsvError(null);
+      }
+    } catch {
+      setCsvError("Failed to read file. Please try again.");
+    } finally {
+      setIsCsvParsing(false);
+      // Reset input so the same file can be re-selected
+      if (csvInputRef.current) csvInputRef.current.value = "";
     }
   };
 

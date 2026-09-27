@@ -17,8 +17,8 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
 import {
-  ChevronLeft, ChevronDown, MoreHorizontal, ChevronRight,
-  ExternalLink, Info, Bell, TrendingUp, TrendingDown, Minus,
+  ChevronLeft, ChevronDown, ChevronRight,
+  ExternalLink, Info, TrendingUp, TrendingDown, Minus,
   ArrowUpRight, Flame, Droplet, Percent, Zap, Activity, Sparkles
 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -145,10 +145,9 @@ interface CalEventRowProps {
     prev?: string;
   };
   hookSlug: string;
-  onExpand: (ev: any) => void;
 }
 
-function CalEventRow({ event, hookSlug, onExpand }: CalEventRowProps) {
+function CalEventRow({ event, hookSlug }: CalEventRowProps) {
   const [expanded, setExpanded] = useState(false);
 
   // Convert UTC time to local
@@ -166,10 +165,7 @@ function CalEventRow({ event, hookSlug, onExpand }: CalEventRowProps) {
     <div
       className="border-b last:border-b-0 cursor-pointer"
       style={{ borderColor: C.border }}
-      onClick={() => {
-        setExpanded(!expanded);
-        onExpand(event);
-      }}
+      onClick={() => setExpanded(!expanded)}
     >
       <div className="flex items-start gap-3 py-3 px-1">
         <div className="text-center shrink-0 w-14">
@@ -206,14 +202,6 @@ function CalEventRow({ event, hookSlug, onExpand }: CalEventRowProps) {
             This event can move {hookSlug.includes("USD") ? "USD pairs" : "related currency pairs"} significantly.
             High-impact releases often create sharp 1–3 minute volatility spikes — avoid trading immediately before and after.
           </p>
-          <button
-            className="flex items-center gap-1.5 text-[11px] font-medium rounded-lg px-3 py-1.5 border transition-colors hover:bg-gray-50"
-            style={{ color: C.primary, borderColor: C.border }}
-            onClick={(e) => { e.stopPropagation(); }}
-          >
-            <Bell className="w-3 h-3" />
-            Set Alert
-          </button>
         </div>
       )}
     </div>
@@ -917,9 +905,6 @@ export default function MarketIntelligencePage() {
               <span className="text-[11px] font-mono" style={{ color: C.secondary }}>
                 {toTVSymbol(hookSlug)}
               </span>
-              <button className="p-1 hover:bg-[#F3F2EE] rounded transition-colors">
-                <MoreHorizontal className="w-4 h-4" style={{ color: C.secondary }} />
-              </button>
             </div>
           </div>
 
@@ -1031,9 +1016,6 @@ export default function MarketIntelligencePage() {
                     key={i}
                     event={ev}
                     hookSlug={hookSlug}
-                    onExpand={(event) => {
-                      // Optionally could open a detailed SlideOver
-                    }}
                   />
                 ))}
               </div>

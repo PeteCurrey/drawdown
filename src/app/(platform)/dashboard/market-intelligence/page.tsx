@@ -291,6 +291,22 @@ export default function MarketIntelligencePage() {
   const [macroIndicators, setMacroIndicators] = useState<any>(null);
   const [macroLoading, setMacroLoading] = useState(true);
 
+  // Real CFTC COT data (shared with ScannerClient)
+  const [cotData, setCotData] = useState<any>(null);
+  const [cotLoading, setCotLoading] = useState(true);
+
+  useEffect(() => {
+    setCotLoading(true);
+    fetch(`/api/intelligence/cot/${encodeURIComponent(hookSlug)}`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d) => {
+        if (d && !d.error) setCotData(d);
+        else setCotData(null);
+      })
+      .catch(() => setCotData(null))
+      .finally(() => setCotLoading(false));
+  }, [hookSlug]);
+
   useEffect(() => {
     async function fetchExtraMacro() {
       try {
@@ -472,17 +488,64 @@ export default function MarketIntelligencePage() {
   const macroSub = nextHighImpact ? nextHighImpact.event?.slice(0, 28) + "…" : "Calendar clear";
   const macroColor = nextHighImpact ? C.negative : C.positive;
 
-  // ── COT SlideOver content ─────────────────────────────────────────────────
+  // ── COT SlideOver content (Live CFTC data) ─────────────────────────────────
   const cotContent = (
     <>
+      {cotData ? (
+        <>
+          <SlideOverSection label="CFTC Commitment Breakdown">
+            <div className="space-y-2 mb-3 font-mono">
+              <div className="flex justify-between items-center text-xs">
+                <span className="text-gray-500">Contract</span>
+                <span className="font-bold text-gray-900">{cotData.contract_name}</span>
+              </div>
+              <div className="flex justify-between items-center text-xs">
+                <span className="text-gray-500">Report Date</span>
+                <span className="font-bold text-gray-900">{cotData.report_date}</span>
+              </div>
+              <div className="flex justify-between items-center text-xs">
+                <span className="text-gray-500">COT Index (52w)</span>
+                <span className="font-bold text-[#F9771D]">{cotData.cot_index}/100</span>
+              </div>
+            </div>
+            <div className="grid grid-cols-2 gap-3 p-3 bg-gray-50 rounded-lg border border-gray-100 text-xs font-mono">
+              <div>
+                <p className="text-[10px] text-gray-400 uppercase">Commercials (Smart Money)</p>
+                <p className={cn("text-sm font-bold mt-0.5", (cotData.net_commercial ?? 0) >= 0 ? "text-emerald-600" : "text-red-500")}>
+                  {(cotData.net_commercial ?? 0) > 0 ? "+" : ""}{cotData.net_commercial?.toLocaleString() ?? "—"}
+                </p>
+                <span className="text-[9px] text-gray-400">net contracts</span>
+              </div>
+              <div>
+                <p className="text-[10px] text-gray-400 uppercase">Large Specs (Hedge Funds)</p>
+                <p className={cn("text-sm font-bold mt-0.5", (cotData.net_speculator ?? 0) >= 0 ? "text-blue-600" : "text-red-500")}>
+                  {(cotData.net_speculator ?? 0) > 0 ? "+" : ""}{cotData.net_speculator?.toLocaleString() ?? "—"}
+                </p>
+                <span className="text-[9px] text-gray-400">net contracts</span>
+              </div>
+            </div>
+          </SlideOverSection>
+          <SlideOverSection label="Institutional Signal">
+            <p className="text-xs text-gray-700 leading-relaxed">
+              {cotData.signal === "SMART_MONEY_LONG"
+                ? `Commercial operators are net long ${(cotData.net_commercial ?? 0) > 0 ? "+" : ""}${cotData.net_commercial?.toLocaleString() ?? ""} contracts. Historically, commercial accumulation has preceded bullish market expansion phases.`
+                : cotData.signal === "SMART_MONEY_SHORT"
+                ? `Commercial operators are net short ${cotData.net_commercial?.toLocaleString() ?? ""} contracts. Heavy commercial shorting often signals distribution ahead of structural corrections.`
+                : "Commercial and speculator positioning is broadly balanced without extreme one-sided directional crowding."}
+            </p>
+          </SlideOverSection>
+        </>
+      ) : (
+        <SlideOverSection label="CFTC Coverage">
+          <p className="text-xs text-gray-500">
+            No active CFTC futures contract mapping for {selectedInst.name}. COT reports cover major currencies, metals, and stock indices with regulated futures contracts.
+          </p>
+        </SlideOverSection>
+      )}
       <SlideOverSection label="What is COT Data?">
-        The Commitment of Traders (COT) report is published every Friday by the CFTC (US Commodity Futures Trading Commission).
-        It shows the net long/short positions held by three groups: commercial hedgers, non-commercial speculators (smart money),
-        and retail traders.
-      </SlideOverSection>
-      <SlideOverSection label="How to read it">
-        Focus on the <strong>non-commercial net position</strong>. When speculators are heavily net long, institutional
-        money is bullish. Extreme readings often signal potential reversals.
+        The Commitment of Traders (COT) report is published weekly by the CFTC.
+        It shows the net long/short positions held by commercial hedgers (institutions using futures for business hedging)
+        and non-commercial speculators (hedge funds and CTA trend-followers).
       </SlideOverSection>
     </>
   );
@@ -711,11 +774,25 @@ export default function MarketIntelligencePage() {
           <MetricCard
             id="metric-cot"
             label="COT Data"
-            value="Weekly"
-            sub="COT · CFTC"
-            subColor={C.neutral}
-            loading={false}
-            onClick={() => openSlideOver("COT Data — Commitment of Traders", "CFTC Report", cotContent)}
+            value={
+              cotLoading ? null : cotData ? (
+                cotData.signal === "SMART_MONEY_LONG" ? "Net Long" :
+                cotData.signal === "SMART_MONEY_SHORT" ? "Net Short" :
+                "Balanced"
+              ) : "Unavailable"
+            }
+            sub={
+              cotLoading ? "Loading…" : cotData ? (
+                `COT Idx ${cotData.cot_index}/100`
+              ) : "No CFTC report"
+            }
+            subColor={
+              cotData?.signal === "SMART_MONEY_LONG" ? C.positive :
+              cotData?.signal === "SMART_MONEY_SHORT" ? C.negative :
+              cotData ? C.neutral : C.secondary
+            }
+            loading={cotLoading}
+            onClick={() => openSlideOver("COT Data — Commitment of Traders", selectedInst.name, cotContent)}
           />
 
           {/* Volume */}
@@ -1104,7 +1181,7 @@ export default function MarketIntelligencePage() {
                   <h3 className="text-xs font-bold font-mono uppercase tracking-widest text-slate-900">Squeeze Analytics</h3>
                 </div>
                 <span className="text-[8px] font-mono font-bold text-[#6b21a8] bg-[#faf5ff] border border-[#e9d5ff] px-2 py-0.5 rounded-none uppercase">
-                  TAAPI Live
+                  Bollinger Squeeze (Calculated)
                 </span>
               </div>
               

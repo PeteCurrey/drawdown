@@ -9,11 +9,10 @@ import {
   Terminal, 
   BarChart3, 
   History, 
-  BrainCircuit,
-  AlertCircle,
-  ChevronRight,
-  Loader2,
-  Activity
+  AlertCircle, 
+  ChevronRight, 
+  Loader2, 
+  Activity 
 } from "lucide-react";
  
 type BacktestStep = 'define' | 'params' | 'results';
@@ -644,24 +643,26 @@ export default function BacktesterPage() {
               </div>
             </div>
  
-            {/* AI Strategy Coach — teal-tinted card */}
+            {/* Rule-of-Thumb Assessment — honest mechanical evaluation */}
             <div
               className="p-10 relative overflow-hidden rounded-xl border"
               style={{ backgroundColor: "var(--tool-accent-tint)", borderColor: "var(--tool-accent-border)" }}
             >
-              <div className="absolute top-0 right-0 p-8 opacity-5">
-                <BrainCircuit className="w-32 h-32" style={{ color: C }} />
-              </div>
               <div className="relative z-10 space-y-6 text-left">
                 <div className="flex items-center gap-3" style={{ color: C }}>
-                  <BrainCircuit className="w-5 h-5" />
-                  <span className="text-xs font-mono uppercase font-bold tracking-widest">Pete's Strategic Assessment</span>
+                  <Activity className="w-5 h-5" />
+                  <span className="text-xs font-mono uppercase font-bold tracking-widest">Rule-of-Thumb Assessment</span>
+                  <span className="text-[9px] font-mono text-gray-400 uppercase tracking-widest">(Mechanical Benchmark)</span>
                 </div>
-                <p className="text-lg text-gray-800 leading-relaxed font-sans italic max-w-4xl">
+                <p className="text-sm md:text-base text-gray-800 leading-relaxed font-mono max-w-4xl">
                   {results.totalNetProfit > 0 ? (
-                    `"The data doesn't lie. This strategy has a solid edge with a profit factor of ${results.profitFactor.toFixed(2)}. However, look at that drawdown — ${results.maxDrawdown.toFixed(1)}% is enough to shake most traders. Suggestion: Tighten your trail once you're at 2R profit to protect those gains."`
+                    results.profitFactor >= 1.5 && results.maxDrawdown <= 20 ? (
+                      `Favourable mechanical profile: Profit factor of ${results.profitFactor.toFixed(2)} with net profit of £${results.totalNetProfit.toLocaleString(undefined, { minimumFractionDigits: 2 })}. Maximum drawdown remained contained at ${results.maxDrawdown.toFixed(1)}%. Note: Live execution will experience spread and slippage drag — test with conservative stop margins before live capital deployment.`
+                    ) : (
+                      `Positive return with elevated risk: Strategy generated £${results.totalNetProfit.toLocaleString(undefined, { minimumFractionDigits: 2 })} (profit factor: ${results.profitFactor.toFixed(2)}), but peak drawdown reached ${results.maxDrawdown.toFixed(1)}%. Consider tightening invalidation margins or trailing profit targets to smooth downside variance.`
+                    )
                   ) : (
-                    `"Look, it's a wash. Backtesting is about failing fast so you don't fail in the market. This setup is getting chopped up in ranging periods. My advice? Add a volatility filter or sit on your hands until a clear structural shift (MSS) occurs."`
+                    `Negative mechanical expectancy: Total net return is negative with a profit factor of ${results.profitFactor.toFixed(2)} and maximum drawdown of ${results.maxDrawdown.toFixed(1)}%. The current mechanical logic experienced severe chop during ranging cycles. Consider adding a structural trend filter (e.g. higher timeframe EMA) or a volatility threshold before risking capital.`
                   )}
                 </p>
                 <div className="flex flex-col md:flex-row gap-4 pt-4">
@@ -685,9 +686,12 @@ export default function BacktesterPage() {
                   >
                     Generate Pine/Python Code →
                   </Link>
-                  {/* Download — Journal secondary outline grey */}
-                  <button className="px-6 py-3 border border-gray-200 text-gray-400 text-[10px] font-mono font-bold uppercase tracking-widest hover:text-gray-900 hover:border-gray-400 transition-all rounded-lg">
-                    Download Detailed Report (PDF)
+                  {/* Download / Print */}
+                  <button
+                    onClick={() => window.print()}
+                    className="px-6 py-3 border border-gray-200 text-gray-500 text-[10px] font-mono font-bold uppercase tracking-widest hover:text-gray-900 hover:border-gray-400 transition-all rounded-lg"
+                  >
+                    Print / Save Report
                   </button>
                 </div>
               </div>

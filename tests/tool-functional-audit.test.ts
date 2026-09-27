@@ -160,12 +160,16 @@ test("Tool Audit 3.1: Technical Scanner instruments and data provenance", () => 
   );
 });
 
-test("Tool Audit 3.2: Scanner documents retail sentiment fallback behaviour", () => {
+test("Tool Audit 3.2: Scanner documents retail sentiment fallback behaviour (DB1 compliant)", () => {
   const scannerClient = readFile("src/components/dashboard/ScannerClient.tsx");
-  // Document that RETAIL_MOCK exists as a fallback when retail sentiment API is offline
+  // In DB1, RETAIL_MOCK was removed to prevent silent fabrication; explicit unavailable state is shown
   assert.ok(
-    scannerClient.includes("RETAIL_MOCK"),
-    "Scanner defines RETAIL_MOCK fallback"
+    scannerClient.includes("Retail sentiment unavailable"),
+    "Scanner renders explicit unavailable state when retail sentiment is offline"
+  );
+  assert.ok(
+    !scannerClient.includes("RETAIL_MOCK"),
+    "Scanner must not contain silent RETAIL_MOCK fallback (DB1)"
   );
   assert.ok(
     scannerClient.includes("/api/intelligence/retail-sentiment"),

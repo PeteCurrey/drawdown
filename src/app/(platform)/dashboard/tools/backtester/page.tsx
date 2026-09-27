@@ -1,29 +1,42 @@
-"use client";
- 
-import { useState } from "react";
+// Server Component auth and tier gate for Strategy Backtester
+// Enforces Edge-tier subscription server-side; prevents execution of simulation or candle fetching for unauthorized users.
+
+import { redirect } from "next/navigation";
+import { createClient } from "@/lib/supabase/server";
+import { hasTierAccess } from "@/lib/entitlements";
+import { Lock } from "lucide-react";
 import Link from "next/link";
-import { cn } from "@/lib/utils";
-import { 
-  Play, 
-  Settings, 
-  Terminal, 
-  BarChart3, 
-  History, 
-  AlertCircle, 
-  ChevronRight, 
-  Loader2, 
-  Activity 
-} from "lucide-react";
- 
-type BacktestStep = 'define' | 'params' | 'results';
- 
-import { simulateStrategy, BacktestResult, StrategyConfig } from "@/lib/backtester";
-import { BacktestEquityChart } from "@/components/charts/BacktestEquityChart";
+import { BacktesterClient } from "./BacktesterClient";
 
-// ─── Design token — exact match to Trade Journal (JournalClient.tsx) ──────────
-const C = "var(--tool-accent)";
+export const metadata = {
+  title: "Strategy Backtester · Drawdown",
+  description:
+    "Simulate your trading strategy against historical OHLC data. Test mechanical expectancy, drawdown variance, and profit factor before risking capital.",
+};
 
-export default function BacktesterPage() {
+export default async function BacktesterPage() {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  // ── 1. Auth gate ──────────────────────────────────────────────────────────
+  if (!user) {
+    redirect("/login?redirect=/dashboard/tools/backtester");
+  }
+
+  // ── 2. Tier gate: Edge+ required ──────────────────────────────────────────
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("subscription_tier, subscription_status, role")
+    .eq("id", user.id)
+    .single();
+
+  const tier = (profile as any)?.subscription_tier as string | undefined;
+  const status = (profile as any)?.subscription_status as string | undefined;
+  const isAdmin = (profile as any)?.role === "admin";
+  const hasAccess = isAdmin || hasTierAccess(tier, "edge", status);
+
   const themeStyles = {
     "--tool-accent": "#f43f5e",
     "--tool-accent-hover": "#e11d48",
@@ -32,674 +45,115 @@ export default function BacktesterPage() {
     "--tool-accent-text": "#be123c",
   } as React.CSSProperties;
 
-  const [step, setStep] = useState<BacktestStep>('define');
-  const [isSimulating, setIsSimulating] = useState(false);
-  const [strategy, setStrategy] = useState("");
-  const [results, setResults] = useState<BacktestResult | null>(null);
-  const [symbol, setSymbol] = useState("GBPUSD");
-  const [timeframe, setTimeframe] = useState("1H");
-  const [startingCapital, setStartingCapital] = useState(10000);
-  const [error, setError] = useState<string | null>(null);
-  const [dateRangeText, setDateRangeText] = useState("");
-  const [startDate, setStartDate] = useState("2024-01-01");
-  const [endDate, setEndDate] = useState("2026-04-13");
+  if (!hasAccess) {
+    return (
+      <div style={themeStyles}>
+        <BacktesterLockedState tier={tier} />
+      </div>
+    );
+  }
 
-  // Advanced parameters and bracket order state
-  const [stopLoss, setStopLoss] = useState(2.0); // Stop Loss Percentage
-  const [takeProfit, setTakeProfit] = useState(4.0); // Take Profit Percentage
-  const [fastPeriod, setFastPeriod] = useState(10); // EMA Fast Period
-  const [slowPeriod, setSlowPeriod] = useState(30); // EMA Slow Period
-  const [rsiPeriod, setRsiPeriod] = useState(14); // RSI Period
-  const [rsiOversold, setRsiOversold] = useState(35); // RSI Oversold boundary
-  const [rsiOverbought, setRsiOverbought] = useState(65); // RSI Overbought boundary
-  const [breakoutLookback, setBreakoutLookback] = useState(15); // Breakout Lookback
-  const [breakoutHoldPeriod, setBreakoutHoldPeriod] = useState(8); // Breakout Hold Period
-
-  const formatLocalISO = (date: Date) => {
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
-    return `${year}-${month}-${day}`;
-  };
-
-  const handlePresetClick = (preset: string) => {
-    const today = new Date();
-    setEndDate(formatLocalISO(today));
-
-    let startYear = today.getFullYear();
-    if (preset === '1yr') startYear -= 1;
-    else if (preset === '3yr') startYear -= 3;
-    else if (preset === '5yr') startYear -= 5;
-    else if (preset === 'max') startYear = 2005;
-
-    const start = new Date(today);
-    start.setFullYear(startYear);
-    setStartDate(formatLocalISO(start));
-  };
-
-  const runSimulation = async () => {
-    setIsSimulating(true);
-    setError(null);
-    setResults(null);
-    
-    try {
-      const res = await fetch(`/api/market/history?symbol=${symbol}&interval=${timeframe.toLowerCase()}&outputsize=15000&start_date=${startDate}&end_date=${endDate}`);
-      if (!res.ok) {
-        throw new Error("Failed to fetch market history");
-      }
-      const history = await res.json();
-      if (!Array.isArray(history) || history.length === 0) {
-        throw new Error("HISTORICAL DATA UNAVAILABLE — backtest cannot run.");
-      }
-
-      const lowerStrat = strategy.toLowerCase();
-      let stratType: 'EMA_CROSS' | 'RSI_REVERSAL' | 'BREAKOUT' = 'EMA_CROSS';
-      if (lowerStrat.includes('rsi') || lowerStrat.includes('oversold') || lowerStrat.includes('overbought')) {
-        stratType = 'RSI_REVERSAL';
-      } else if (lowerStrat.includes('breakout') || lowerStrat.includes('high') || lowerStrat.includes('low') || lowerStrat.includes('range')) {
-        stratType = 'BREAKOUT';
-      } else {
-        stratType = 'EMA_CROSS';
-      }
-
-      const config: StrategyConfig = {
-        type: stratType,
-        params: {
-          stopLossPct: stopLoss,
-          takeProfitPct: takeProfit,
-          fast: fastPeriod,
-          slow: slowPeriod,
-          period: rsiPeriod,
-          oversold: rsiOversold,
-          overbought: rsiOverbought,
-          lookback: breakoutLookback,
-          holdPeriod: breakoutHoldPeriod,
-        }
-      };
-
-      const result = simulateStrategy(history, config, startingCapital);
-      setResults(result);
-      
-      const firstCandle = history[0];
-      const lastCandle = history[history.length - 1];
-      const formatTime = (t: number) => {
-        if (!t || Number.isNaN(t)) return "Recent Data";
-        return new Date(t * 1000).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' });
-      };
-      setDateRangeText(`${formatTime(firstCandle?.time)} to ${formatTime(lastCandle?.time)}`);
-      
-      setStep('results');
-    } catch (err: any) {
-      console.error("Backtest simulation error:", err);
-      setError("Unable to run backtest simulation with current inputs. Please try again.");
-    } finally {
-      setIsSimulating(false);
-    }
-  };
- 
   return (
     <div style={themeStyles}>
-      <div className="space-y-10 animate-in fade-in duration-700 pb-24">
-      {/* ── Header — Journal eyebrow + H1 + subtitle pattern ─────────────── */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 border-b border-gray-200 pb-8">
-        <div>
-          {/* Eyebrow — exact match to "AI_JOURNAL // PERFORMANCE" */}
+      <BacktesterClient />
+    </div>
+  );
+}
+
+// ─── Locked state — non-Edge users ───────────────────────────────────────────
+function BacktesterLockedState({ tier }: { tier?: string }) {
+  const C = "#f43f5e"; // Rose / Coral accent
+
+  return (
+    <div className="flex flex-col items-center justify-center min-h-[72vh] space-y-10 animate-in fade-in duration-700 px-4">
+      <div className="max-w-md w-full space-y-8">
+
+        {/* Lock icon — rose pill matching locked state */}
+        <div className="flex justify-center">
+          <div className="relative">
+            <div
+              className="w-20 h-20 flex items-center justify-center border rounded-2xl"
+              style={{ backgroundColor: `${C}15`, borderColor: `${C}40` }}
+            >
+              <Lock className="w-8 h-8" style={{ color: C }} />
+            </div>
+            <span
+              className="absolute -top-1 -right-1 w-3.5 h-3.5 rounded-full animate-pulse"
+              style={{ backgroundColor: C }}
+            />
+          </div>
+        </div>
+
+        {/* Headline */}
+        <div className="text-center space-y-3">
           <p
-            className="text-[10px] font-mono font-bold uppercase tracking-[0.3em] block mb-2"
+            className="text-[10px] font-mono font-bold uppercase tracking-[0.3em]"
             style={{ color: C }}
           >
-            BACKTESTER // STRATEGIC VALIDATION
+            BACKTESTER // EDGE ACCESS REQUIRED
           </p>
-          {/* H1 — near-black bold + teal period, matching "TRADE JOURNAL." */}
-          <h1 className="text-3xl md:text-4xl font-display font-black uppercase text-gray-900 leading-none">
-            Backtester<span style={{ color: C }}>.</span>
+          <h1 className="text-3xl font-display font-bold uppercase text-gray-900">
+            Strategy Backtester
           </h1>
-          {/* Subtitle — #6b7280 text-sm, matches Journal subtitle */}
-          <p className="text-gray-500 text-sm mt-2 max-w-2xl leading-relaxed">
-            Validate your edge against historical data before risking a single pound. Natural language logic meets institutional math.
+          <p className="text-sm text-gray-500 leading-relaxed">
+            Simulate mechanical trading strategies against historical candle data with instant statistical expectancy, drawdown analysis, and profit factor calculation. Available exclusively on{" "}
+            <span className="font-bold" style={{ color: C }}>
+              Edge
+            </span>{" "}
+            and{" "}
+            <span className="font-bold" style={{ color: C }}>
+              Floor
+            </span>{" "}
+            plans.
           </p>
+          {tier && (
+            <p className="text-[11px] text-gray-400 font-mono">
+              CURRENT PLAN:{" "}
+              <span className="text-gray-700 uppercase font-bold">{tier}</span>
+            </p>
+          )}
         </div>
-        
-        {/* ── Step Indicator — teal active dot + text, grey inactive ──────── */}
-        <div className="flex items-center gap-3 shrink-0">
+
+        {/* Feature list — white card */}
+        <div className="bg-white border border-gray-200 rounded-xl p-5 space-y-2.5">
           {[
-            { id: 'define',  label: '1. Logic' },
-            { id: 'params',  label: '2. Input' },
-            { id: 'results', label: '3. Stats'  },
-          ].map((s, i) => {
-            const isActive = step === s.id;
-            return (
-              <div key={s.id} className="flex items-center gap-2">
-                {/* Separator dot between steps */}
-                {i > 0 && (
-                  <div className="w-1 h-1 rounded-full bg-gray-300 mr-1" />
-                )}
-                <div
-                  className={cn("w-1.5 h-1.5 rounded-full transition-colors", isActive && "animate-pulse")}
-                  style={{ backgroundColor: isActive ? C : "#d1d5db" }}
-                />
-                <span
-                  className="text-[10px] font-mono uppercase tracking-widest font-bold transition-colors"
-                  style={{ color: isActive ? C : "#9ca3af" }}
-                >
-                  {s.label}
-                </span>
-              </div>
-            );
-          })}
+            "Multi-year historical OHLC candle data (up to 5,000 bars per query)",
+            "Mechanical strategy simulation (EMA Cross, RSI Reversal, Sessional Breakout)",
+            "Detailed statistical breakdown: Win Rate, Profit Factor, Max Drawdown",
+            "Interactive equity curve visualization and benchmark drawdown metrics",
+            "Rule-of-Thumb mechanical profile assessment",
+            "Direct Pine Script / Python conversion via Algo Builder",
+          ].map((feat) => (
+            <div key={feat} className="flex items-start gap-2.5">
+              <span className="text-xs font-bold mt-0.5 shrink-0" style={{ color: C }}>
+                ✓
+              </span>
+              <span className="text-xs text-gray-600 font-mono leading-snug">{feat}</span>
+            </div>
+          ))}
+        </div>
+
+        {/* CTAs — Rose primary + secondary */}
+        <div className="space-y-2">
+          <Link
+            href="/pricing?source=backtester"
+            className="w-full flex items-center justify-center px-8 py-4 text-[11px] font-mono font-bold uppercase tracking-widest transition-opacity hover:opacity-90 text-white rounded-lg"
+            style={{ backgroundColor: C }}
+          >
+            Upgrade to Edge
+          </Link>
+          <Link
+            href="/dashboard/tools"
+            className="w-full flex items-center justify-center px-8 py-3 border border-gray-200 hover:border-gray-400 text-[10px] font-mono uppercase tracking-widest text-gray-500 hover:text-gray-900 transition-all rounded-lg"
+          >
+            ← Back to Tools
+          </Link>
         </div>
       </div>
- 
-      {/* ── Simulation Methodology Notice — B4 Compliance ─────────────────── */}
-      <div
-        className="flex items-start gap-3 px-5 py-4 rounded-lg border"
-        style={{
-          backgroundColor: "var(--tool-accent-tint)",
-          borderColor: "var(--tool-accent-border)",
-        }}
-      >
-        <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" style={{ color: "var(--tool-accent-text)" }} />
-        <p
-          className="text-[11px] font-mono uppercase tracking-widest leading-relaxed"
-          style={{ color: "var(--tool-accent-text)" }}
-        >
-          Simulates on close prices only — does not model spread, slippage, or liquidity gaps. Results reflect theoretical mechanical rule execution and are not a guarantee of live trading performance.
-        </p>
-      </div>
 
-      <div className="max-w-6xl">
-        {/* ── STEP 1: DEFINE ────────────────────────────────────────────────── */}
-        {step === 'define' && (
-          <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
-            {/* Main strategy composer card — white, Journal card style */}
-            <div className="bg-white border border-gray-200 p-8 md:p-12 space-y-8 rounded-xl shadow-[0_4px_24px_rgba(0,0,0,0.04)]">
-              {/* Section header — teal icon + teal label */}
-              <div className="flex items-center gap-3 mb-2" style={{ color: C }}>
-                <Terminal className="w-5 h-5" />
-                <span className="text-[10px] font-mono font-bold uppercase tracking-[0.3em]">
-                  Strategy Definition (Voice to Code)
-                </span>
-              </div>
-              {/* Textarea — white, Journal input style */}
-              <textarea 
-                value={strategy}
-                onChange={(e) => setStrategy(e.target.value)}
-                placeholder="E.g. Buy when the 20-day EMA crosses above the 50-day EMA and RSI is below 40. Close when RSI hits 70..."
-                className="w-full h-48 bg-white border border-gray-200 p-6 text-sm font-sans text-gray-900 outline-none resize-none placeholder:text-gray-300 leading-relaxed rounded-lg transition-colors"
-                onFocus={e => { e.currentTarget.style.borderColor = C; e.currentTarget.style.boxShadow = `0 0 0 2px ${C}20`; }}
-                onBlur={e =>  { e.currentTarget.style.borderColor = "#e5e7eb"; e.currentTarget.style.boxShadow = "none"; }}
-              />
-              <div className="flex items-center gap-6">
-                {/* Confirm Logic — Journal primary button (teal bg, black text) */}
-                <button 
-                  onClick={() => setStep('params')}
-                  disabled={!strategy}
-                  className="px-8 py-4 text-[10px] font-mono font-bold uppercase tracking-widest transition-all disabled:opacity-50 rounded-lg hover:opacity-90 disabled:cursor-not-allowed"
-                  style={{ backgroundColor: C, color: "#000" }}
-                >
-                  Confirm Logic
-                </button>
-                {/* Helper text — muted grey, no accent colour */}
-                <p className="text-[10px] font-mono text-gray-400 uppercase tracking-widest max-w-xs leading-tight">
-                  Our AI models will translate this into mechanical execution rules.
-                </p>
-              </div>
-            </div>
- 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {/* Institutional Example card — teal-tinted, left border accent */}
-              <div
-                className="p-8 space-y-4 rounded-xl border-l-[3px]"
-                style={{
-                  backgroundColor: "var(--tool-accent-tint)",
-                  borderColor: "var(--tool-accent-border)",
-                  border: "1px solid var(--tool-accent-border)",
-                  borderLeftWidth: 3,
-                  borderLeftColor: "var(--tool-accent)",
-                }}
-              >
-                <h4
-                  className="text-[10px] font-mono font-bold uppercase tracking-[0.3em]"
-                  style={{ color: C }}
-                >
-                  Institutional Example
-                </h4>
-                <p className="text-xs text-gray-700 leading-relaxed italic">
-                  &quot;Buy when price breaks out of the 20-day high with RSI {'='} 60. Exit when price closes below the 10-day EMA.&quot;
-                </p>
-              </div>
-              {/* Disclaimer card — muted grey, no orange */}
-              <div className="p-8 bg-white border border-gray-200 space-y-4 flex items-center gap-4 text-left rounded-xl">
-                <AlertCircle className="w-6 h-6 text-gray-300 shrink-0" />
-                <p className="text-[9px] text-gray-400 leading-relaxed uppercase tracking-widest font-mono">
-                  Simulated performance is not a guarantee of future results. Past performance does not account for slippage.
-                </p>
-              </div>
-            </div>
-          </div>
-        )}
- 
-        {/* ── STEP 2: INPUT / PARAMS ───────────────────────────────────────── */}
-        {step === 'params' && (
-          <div className="bg-white border border-gray-200 p-8 md:p-12 animate-in fade-in slide-in-from-right-4 duration-700 rounded-xl shadow-[0_4px_24px_rgba(0,0,0,0.04)]">
-            {error && (
-              <div className="mb-6 p-4 bg-red-50 border border-red-200 text-red-700 rounded-lg flex items-center gap-3">
-                <AlertCircle className="w-5 h-5 shrink-0" />
-                <span className="text-xs font-mono uppercase tracking-widest font-bold">{error}</span>
-              </div>
-            )}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-12">
-              <div className="space-y-8">
-                <div className="space-y-2">
-                  <label className="text-[10px] font-mono uppercase tracking-widest text-gray-400 block">Select Instrument</label>
-                  <select
-                    value={symbol}
-                    onChange={(e) => setSymbol(e.target.value)}
-                    className="w-full bg-white border border-gray-200 px-4 py-3 text-xs font-mono uppercase outline-none text-gray-900 rounded-lg transition-colors"
-                    onFocus={e => { e.currentTarget.style.borderColor = C; }}
-                    onBlur={e  => { e.currentTarget.style.borderColor = "#e5e7eb"; }}
-                  >
-                    <option value="GBPUSD">GBPUSD (Forex)</option>
-                    <option value="XAUUSD">XAUUSD (Gold)</option>
-                    <option value="BTCUSD">BTCUSD (Crypto)</option>
-                    <option value="FTSE100">FTSE 100 (Index)</option>
-                  </select>
-                </div>
-                <div className="space-y-2">
-                  <label className="text-[10px] font-mono uppercase tracking-widest text-gray-400 block">Timeframe</label>
-                  <div className="grid grid-cols-4 gap-2">
-                    {['15M', '1H', '4H', '1D'].map(tf => (
-                      <button
-                        key={tf}
-                        type="button"
-                        onClick={() => setTimeframe(tf)}
-                        className={cn(
-                          "py-2 border text-[10px] font-bold transition-all rounded-lg",
-                          timeframe === tf
-                            ? "border-[#f43f5e] text-[#f43f5e] bg-[#fff1f2] font-black"
-                            : "border-gray-200 text-gray-500 hover:text-black hover:border-gray-300"
-                        )}
-                      >
-                        {tf}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              </div>
-              <div className="space-y-8">
-                <div className="space-y-2">
-                  <label className="text-[10px] font-mono uppercase tracking-widest text-gray-400 block">Starting Capital (£)</label>
-                  <input
-                    type="number"
-                    value={startingCapital}
-                    onChange={(e) => setStartingCapital(Number(e.target.value))}
-                    className="w-full bg-white border border-gray-200 px-4 py-3 text-xs font-mono outline-none text-gray-900 rounded-lg transition-colors"
-                    onFocus={e => { e.currentTarget.style.borderColor = C; e.currentTarget.style.boxShadow = `0 0 0 2px ${C}20`; }}
-                    onBlur={e =>  { e.currentTarget.style.borderColor = "#e5e7eb"; e.currentTarget.style.boxShadow = "none"; }}
-                  />
-                </div>
-                <div className="space-y-2">
-                  <label className="text-[10px] font-mono uppercase tracking-widest text-gray-400 block">Data Range</label>
-                  <div className="grid grid-cols-2 gap-4">
-                    <input
-                      type="date"
-                      value={startDate}
-                      onChange={(e) => setStartDate(e.target.value)}
-                      className="bg-white border border-gray-200 px-4 py-3 text-xs font-mono outline-none text-gray-900 rounded-lg transition-colors"
-                      onFocus={e => { e.currentTarget.style.borderColor = C; }}
-                      onBlur={e =>  { e.currentTarget.style.borderColor = "#e5e7eb"; }}
-                    />
-                    <input
-                      type="date"
-                      value={endDate}
-                      onChange={(e) => setEndDate(e.target.value)}
-                      className="bg-white border border-gray-200 px-4 py-3 text-xs font-mono outline-none text-gray-900 rounded-lg transition-colors"
-                      onFocus={e => { e.currentTarget.style.borderColor = C; }}
-                      onBlur={e =>  { e.currentTarget.style.borderColor = "#e5e7eb"; }}
-                    />
-                  </div>
-                  <div className="flex flex-wrap gap-2 mt-2">
-                    {[
-                      { label: "1 Year", value: "1yr" },
-                      { label: "3 Years", value: "3yr" },
-                      { label: "5 Years", value: "5yr" },
-                      { label: "Max Available", value: "max" }
-                    ].map(preset => {
-                      const isSelected = (() => {
-                        const today = new Date();
-                        const formattedToday = formatLocalISO(today);
-                        if (endDate !== formattedToday) return false;
-                        
-                        let expectedStartYear = today.getFullYear();
-                        if (preset.value === '1yr') expectedStartYear -= 1;
-                        else if (preset.value === '3yr') expectedStartYear -= 3;
-                        else if (preset.value === '5yr') expectedStartYear -= 5;
-                        else if (preset.value === 'max') expectedStartYear = 2005;
-
-                        const expectedStart = new Date(today);
-                        expectedStart.setFullYear(expectedStartYear);
-                        return startDate === formatLocalISO(expectedStart);
-                      })();
-
-                      return (
-                        <button
-                          key={preset.value}
-                          type="button"
-                          onClick={() => handlePresetClick(preset.value)}
-                          style={{
-                            borderColor: isSelected ? "var(--tool-accent)" : "#e5e7eb",
-                            backgroundColor: isSelected ? "var(--tool-accent-tint)" : "transparent",
-                            color: isSelected ? "var(--tool-accent-text)" : "#6b7280"
-                          }}
-                          className="px-2.5 py-1.5 border text-[9px] font-mono font-bold uppercase tracking-wider rounded-md transition-all hover:border-gray-400"
-                        >
-                          {preset.label}
-                        </button>
-                      );
-                    })}
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Advanced Risk & Parameters Section */}
-            <div className="border-t border-gray-100 pt-8 mt-8 space-y-8 text-left">
-              <div className="space-y-1">
-                <h3 className="text-xs font-mono uppercase font-bold tracking-widest text-gray-800">Advanced Parameters</h3>
-                <p className="text-[10px] text-gray-400 font-mono uppercase tracking-wider">Configure precise risk margins & technical thresholds</p>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-                {/* 1. Bracket Risk Limits */}
-                <div className="space-y-6">
-                  <h4 className="text-[10px] font-mono font-bold uppercase tracking-wider text-gray-400 border-b border-gray-100 pb-2">Bracket Risk Limits</h4>
-                  
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <label className="text-[10px] font-mono uppercase tracking-widest text-gray-400 block">Stop Loss (%)</label>
-                      <input
-                        type="number"
-                        step="0.1"
-                        min="0"
-                        max="20"
-                        value={stopLoss}
-                        onChange={(e) => setStopLoss(Number(e.target.value))}
-                        className="w-full bg-white border border-gray-200 px-4 py-3 text-xs font-mono outline-none text-gray-900 rounded-lg transition-colors"
-                        onFocus={e => { e.currentTarget.style.borderColor = C; }}
-                        onBlur={e =>  { e.currentTarget.style.borderColor = "#e5e7eb"; }}
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <label className="text-[10px] font-mono uppercase tracking-widest text-gray-400 block">Take Profit (%)</label>
-                      <input
-                        type="number"
-                        step="0.1"
-                        min="0"
-                        max="50"
-                        value={takeProfit}
-                        onChange={(e) => setTakeProfit(Number(e.target.value))}
-                        className="w-full bg-white border border-gray-200 px-4 py-3 text-xs font-mono outline-none text-gray-900 rounded-lg transition-colors"
-                        onFocus={e => { e.currentTarget.style.borderColor = C; }}
-                        onBlur={e =>  { e.currentTarget.style.borderColor = "#e5e7eb"; }}
-                      />
-                    </div>
-                  </div>
-                </div>
-
-                {/* 2. Strategy Technical Settings (Dynamic based on strategy text detection) */}
-                <div className="space-y-6">
-                  <h4 className="text-[10px] font-mono font-bold uppercase tracking-wider text-gray-400 border-b border-gray-100 pb-2">
-                    {strategy.toLowerCase().includes('rsi') || strategy.toLowerCase().includes('oversold') || strategy.toLowerCase().includes('overbought')
-                      ? "RSI Technical Settings"
-                      : strategy.toLowerCase().includes('breakout') || strategy.toLowerCase().includes('high') || strategy.toLowerCase().includes('low') || strategy.toLowerCase().includes('range')
-                        ? "Breakout Technical Settings"
-                        : "EMA Cross Settings"
-                    }
-                  </h4>
-
-                  {/* EMA Crossover fields */}
-                  {!(strategy.toLowerCase().includes('rsi') || strategy.toLowerCase().includes('oversold') || strategy.toLowerCase().includes('overbought')) &&
-                    !(strategy.toLowerCase().includes('breakout') || strategy.toLowerCase().includes('high') || strategy.toLowerCase().includes('low') || strategy.toLowerCase().includes('range')) && (
-                    <div className="grid grid-cols-2 gap-4">
-                      <div className="space-y-2">
-                        <label className="text-[10px] font-mono uppercase tracking-widest text-gray-400 block">Fast EMA Period</label>
-                        <input
-                          type="number"
-                          min="1"
-                          max="100"
-                          value={fastPeriod}
-                          onChange={(e) => setFastPeriod(Number(e.target.value))}
-                          className="w-full bg-white border border-gray-200 px-4 py-3 text-xs font-mono outline-none text-gray-900 rounded-lg transition-colors"
-                          onFocus={e => { e.currentTarget.style.borderColor = C; }}
-                          onBlur={e =>  { e.currentTarget.style.borderColor = "#e5e7eb"; }}
-                        />
-                      </div>
-                      <div className="space-y-2">
-                        <label className="text-[10px] font-mono uppercase tracking-widest text-gray-400 block">Slow EMA Period</label>
-                        <input
-                          type="number"
-                          min="1"
-                          max="300"
-                          value={slowPeriod}
-                          onChange={(e) => setSlowPeriod(Number(e.target.value))}
-                          className="w-full bg-white border border-gray-200 px-4 py-3 text-xs font-mono outline-none text-gray-900 rounded-lg transition-colors"
-                          onFocus={e => { e.currentTarget.style.borderColor = C; }}
-                          onBlur={e =>  { e.currentTarget.style.borderColor = "#e5e7eb"; }}
-                        />
-                      </div>
-                    </div>
-                  )}
-
-                  {/* RSI Reversal fields */}
-                  {(strategy.toLowerCase().includes('rsi') || strategy.toLowerCase().includes('oversold') || strategy.toLowerCase().includes('overbought')) && (
-                    <div className="grid grid-cols-3 gap-3">
-                      <div className="space-y-2">
-                        <label className="text-[10px] font-mono uppercase tracking-widest text-gray-400 block">RSI Period</label>
-                        <input
-                          type="number"
-                          min="1"
-                          max="100"
-                          value={rsiPeriod}
-                          onChange={(e) => setRsiPeriod(Number(e.target.value))}
-                          className="w-full bg-white border border-gray-200 px-4 py-3 text-[11px] font-mono outline-none text-gray-900 rounded-lg transition-colors"
-                          onFocus={e => { e.currentTarget.style.borderColor = C; }}
-                          onBlur={e =>  { e.currentTarget.style.borderColor = "#e5e7eb"; }}
-                        />
-                      </div>
-                      <div className="space-y-2">
-                        <label className="text-[10px] font-mono uppercase tracking-widest text-gray-400 block">Oversold Level</label>
-                        <input
-                          type="number"
-                          min="1"
-                          max="50"
-                          value={rsiOversold}
-                          onChange={(e) => setRsiOversold(Number(e.target.value))}
-                          className="w-full bg-white border border-gray-200 px-4 py-3 text-[11px] font-mono outline-none text-gray-900 rounded-lg transition-colors"
-                          onFocus={e => { e.currentTarget.style.borderColor = C; }}
-                          onBlur={e =>  { e.currentTarget.style.borderColor = "#e5e7eb"; }}
-                        />
-                      </div>
-                      <div className="space-y-2">
-                        <label className="text-[10px] font-mono uppercase tracking-widest text-gray-400 block">Overbought Level</label>
-                        <input
-                          type="number"
-                          min="50"
-                          max="99"
-                          value={rsiOverbought}
-                          onChange={(e) => setRsiOverbought(Number(e.target.value))}
-                          className="w-full bg-white border border-gray-200 px-4 py-3 text-[11px] font-mono outline-none text-gray-900 rounded-lg transition-colors"
-                          onFocus={e => { e.currentTarget.style.borderColor = C; }}
-                          onBlur={e =>  { e.currentTarget.style.borderColor = "#e5e7eb"; }}
-                        />
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Breakout settings */}
-                  {(strategy.toLowerCase().includes('breakout') || strategy.toLowerCase().includes('high') || strategy.toLowerCase().includes('low') || strategy.toLowerCase().includes('range')) && (
-                    <div className="grid grid-cols-2 gap-4">
-                      <div className="space-y-2">
-                        <label className="text-[10px] font-mono uppercase tracking-widest text-gray-400 block">Lookback Window</label>
-                        <input
-                          type="number"
-                          min="2"
-                          max="200"
-                          value={breakoutLookback}
-                          onChange={(e) => setBreakoutLookback(Number(e.target.value))}
-                          className="w-full bg-white border border-gray-200 px-4 py-3 text-xs font-mono outline-none text-gray-900 rounded-lg transition-colors"
-                          onFocus={e => { e.currentTarget.style.borderColor = C; }}
-                          onBlur={e =>  { e.currentTarget.style.borderColor = "#e5e7eb"; }}
-                        />
-                      </div>
-                      <div className="space-y-2">
-                        <label className="text-[10px] font-mono uppercase tracking-widest text-gray-400 block">Hold Period (Bars)</label>
-                        <input
-                          type="number"
-                          min="1"
-                          max="100"
-                          value={breakoutHoldPeriod}
-                          onChange={(e) => setBreakoutHoldPeriod(Number(e.target.value))}
-                          className="w-full bg-white border border-gray-200 px-4 py-3 text-xs font-mono outline-none text-gray-900 rounded-lg transition-colors"
-                          onFocus={e => { e.currentTarget.style.borderColor = C; }}
-                          onBlur={e =>  { e.currentTarget.style.borderColor = "#e5e7eb"; }}
-                        />
-                      </div>
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-6 mt-10">
-              {/* Start Simulation — Journal primary button */}
-              <button 
-                onClick={runSimulation}
-                disabled={isSimulating}
-                className="flex items-center gap-3 px-8 py-4 text-[10px] font-mono font-bold uppercase tracking-widest transition-all disabled:opacity-50 rounded-lg hover:opacity-90 disabled:cursor-not-allowed"
-                style={{ backgroundColor: C, color: "#000" }}
-              >
-                {isSimulating
-                  ? <><Loader2 className="w-4 h-4 animate-spin" />Running Simulation...</>
-                  : <><History className="w-4 h-4" />Start Simulation</>}
-              </button>
-              {/* Edit Strategy — Journal secondary link style */}
-              <button
-                onClick={() => setStep('define')}
-                className="text-[10px] font-mono font-bold uppercase tracking-widest text-gray-400 hover:text-gray-900 transition-colors"
-              >
-                ← Edit Strategy
-              </button>
-            </div>
-          </div>
-        )}
- 
-        {/* ── STEP 3: RESULTS / STATS ──────────────────────────────────────── */}
-        {step === 'results' && results && (
-          <div className="space-y-8 animate-in fade-in zoom-in-95 duration-700">
-            {dateRangeText && (
-              <div className="p-6 bg-white border border-gray-200 rounded-xl flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 hover:shadow-[0_4px_16px_rgba(0,0,0,0.04)] transition-all">
-                <div>
-                  <p className="text-[10px] font-mono uppercase tracking-[0.2em] text-gray-400">Backtested Instrument</p>
-                  <p className="text-sm font-display font-bold uppercase text-gray-900 mt-1">{symbol}</p>
-                </div>
-                <div>
-                  <p className="text-[10px] font-mono uppercase tracking-[0.2em] text-gray-400">Historical Data Range</p>
-                  <p className="text-sm font-display font-bold uppercase text-gray-900 mt-1">{dateRangeText}</p>
-                </div>
-              </div>
-            )}
-            {/* Stats overview cards — white, Journal card style */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-              {[
-                {
-                  label: "Net Profit",
-                  value: `£${results.totalNetProfit.toLocaleString(undefined, { minimumFractionDigits: 2 })}`,
-                  color: results.totalNetProfit >= 0 ? "#16a34a" : "#dc2626",
-                },
-                { label: "Win Rate",      value: `${results.winRate.toFixed(1)}%`,    color: "#111827" },
-                { label: "Profit Factor", value: results.profitFactor.toFixed(2),      color: C         },
-                { label: "Max Drawdown",  value: `-${results.maxDrawdown.toFixed(1)}%`, color: "#dc2626" },
-              ].map((stat, i) => (
-                <div key={i} className="p-8 bg-white border border-gray-200 text-center rounded-xl hover:shadow-[0_4px_16px_rgba(0,0,0,0.06)] transition-all">
-                  <p className="text-[10px] font-mono uppercase tracking-widest text-gray-400 mb-2">{stat.label}</p>
-                  <p className="text-3xl font-display font-black" style={{ color: stat.color }}>{stat.value}</p>
-                </div>
-              ))}
-            </div>
- 
-            {/* Equity Chart — white card */}
-            <div className="bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-[0_4px_16px_rgba(0,0,0,0.04)] transition-all">
-              <div className="p-8 border-b border-gray-100">
-                <div className="flex justify-between items-center">
-                  <h3 className="text-xs font-mono uppercase font-bold tracking-widest text-gray-600">Equity Growth History</h3>
-                  <div className="flex items-center gap-2">
-                    <Activity className="w-3 h-3 text-green-500 animate-pulse" />
-                    <span className="text-[9px] font-mono text-green-500 uppercase tracking-widest">Growth Validated</span>
-                  </div>
-                </div>
-              </div>
-              <div className="p-6">
-                <BacktestEquityChart data={results.equityCurve} />
-              </div>
-            </div>
- 
-            {/* Rule-of-Thumb Assessment — honest mechanical evaluation */}
-            <div
-              className="p-10 relative overflow-hidden rounded-xl border"
-              style={{ backgroundColor: "var(--tool-accent-tint)", borderColor: "var(--tool-accent-border)" }}
-            >
-              <div className="relative z-10 space-y-6 text-left">
-                <div className="flex items-center gap-3" style={{ color: C }}>
-                  <Activity className="w-5 h-5" />
-                  <span className="text-xs font-mono uppercase font-bold tracking-widest">Rule-of-Thumb Assessment</span>
-                  <span className="text-[9px] font-mono text-gray-400 uppercase tracking-widest">(Mechanical Benchmark)</span>
-                </div>
-                <p className="text-sm md:text-base text-gray-800 leading-relaxed font-mono max-w-4xl">
-                  {results.totalNetProfit > 0 ? (
-                    results.profitFactor >= 1.5 && results.maxDrawdown <= 20 ? (
-                      `Favourable mechanical profile: Profit factor of ${results.profitFactor.toFixed(2)} with net profit of £${results.totalNetProfit.toLocaleString(undefined, { minimumFractionDigits: 2 })}. Maximum drawdown remained contained at ${results.maxDrawdown.toFixed(1)}%. Note: Live execution will experience spread and slippage drag — test with conservative stop margins before live capital deployment.`
-                    ) : (
-                      `Positive return with elevated risk: Strategy generated £${results.totalNetProfit.toLocaleString(undefined, { minimumFractionDigits: 2 })} (profit factor: ${results.profitFactor.toFixed(2)}), but peak drawdown reached ${results.maxDrawdown.toFixed(1)}%. Consider tightening invalidation margins or trailing profit targets to smooth downside variance.`
-                    )
-                  ) : (
-                    `Negative mechanical expectancy: Total net return is negative with a profit factor of ${results.profitFactor.toFixed(2)} and maximum drawdown of ${results.maxDrawdown.toFixed(1)}%. The current mechanical logic experienced severe chop during ranging cycles. Consider adding a structural trend filter (e.g. higher timeframe EMA) or a volatility threshold before risking capital.`
-                  )}
-                </p>
-                <div className="flex flex-col md:flex-row gap-4 pt-4">
-                  {/* Refine Strategy — Journal outline secondary style with teal */}
-                  <button
-                    onClick={() => setStep('define')}
-                    className="px-6 py-3 text-[10px] font-mono font-bold uppercase tracking-widest transition-all rounded-lg border"
-                    style={{ borderColor: C, color: C }}
-                    onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.backgroundColor = `${C}0d`; }}
-                    onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.backgroundColor = "transparent"; }}
-                  >
-                    Refine Strategy
-                  </button>
-                  {/* Convert to Algo Code — Premium Violet Accent Button */}
-                  <Link
-                    href={`/dashboard/tools/algo-builder?desc=${encodeURIComponent(strategy)}&symbol=${symbol}&timeframe=${timeframe}`}
-                    className="px-6 py-3 text-[10px] font-mono font-bold uppercase tracking-widest transition-all rounded-lg border text-center flex items-center justify-center gap-2"
-                    style={{ borderColor: "#7c3aed", color: "#7c3aed" }}
-                    onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.backgroundColor = "rgba(124, 58, 237, 0.05)"; }}
-                    onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.backgroundColor = "transparent"; }}
-                  >
-                    Generate Pine/Python Code →
-                  </Link>
-                  {/* Download / Print */}
-                  <button
-                    onClick={() => window.print()}
-                    className="px-6 py-3 border border-gray-200 text-gray-500 text-[10px] font-mono font-bold uppercase tracking-widest hover:text-gray-900 hover:border-gray-400 transition-all rounded-lg"
-                  >
-                    Print / Save Report
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-      </div>
+      <p className="text-[9px] font-mono text-gray-300 uppercase tracking-widest">
+        Strategy Backtester · Edge Plan · Execution Systems
+      </p>
     </div>
-  </div>
-);
+  );
 }

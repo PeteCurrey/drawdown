@@ -10,7 +10,9 @@ function readFile(relPath: string) {
 // ─── DB4 Tests: Dead UI Elements ─────────────────────────────────────────────
 
 test("DB4 Step 1: Backtester has functional Print / Save Report wired to window.print", () => {
-  const backtester = readFile("src/app/(platform)/dashboard/tools/backtester/page.tsx");
+  const backtester = fs.existsSync(path.join(process.cwd(), "src/app/(platform)/dashboard/tools/backtester/BacktesterClient.tsx"))
+    ? readFile("src/app/(platform)/dashboard/tools/backtester/BacktesterClient.tsx")
+    : readFile("src/app/(platform)/dashboard/tools/backtester/page.tsx");
   assert.ok(
     backtester.includes("Print / Save Report"),
     "Must have honest Print / Save Report label instead of dead Download PDF"

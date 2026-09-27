@@ -8,7 +8,9 @@ function readFile(relPath: string) {
 }
 
 test("DB3 Step 1: Backtester removes false AI/Pete branding and provides honest Rule-of-Thumb Assessment", () => {
-  const backtester = readFile("src/app/(platform)/dashboard/tools/backtester/page.tsx");
+  const backtester = fs.existsSync(path.join(process.cwd(), "src/app/(platform)/dashboard/tools/backtester/BacktesterClient.tsx"))
+    ? readFile("src/app/(platform)/dashboard/tools/backtester/BacktesterClient.tsx")
+    : readFile("src/app/(platform)/dashboard/tools/backtester/page.tsx");
 
   // False AI and personal persona branding must NOT exist
   assert.ok(

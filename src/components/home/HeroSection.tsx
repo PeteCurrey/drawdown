@@ -121,13 +121,13 @@ export function HeroSection() {
         />
       </div>
 
-      {/* Faded Avorria Trading Hero Background with Light Overlay */}
+      {/* Avorria Trading Hero Background with Light Overlay */}
       <div 
         className="absolute inset-0 pointer-events-none select-none overflow-hidden z-0"
         aria-hidden="true"
         style={{
-          maskImage: "linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.5) 35%, rgba(0,0,0,0) 70%)",
-          WebkitMaskImage: "linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.5) 35%, rgba(0,0,0,0) 70%)",
+          maskImage: "linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.6) 40%, rgba(0,0,0,0) 75%)",
+          WebkitMaskImage: "linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.6) 40%, rgba(0,0,0,0) 75%)",
         }}
       >
         <Image
@@ -136,12 +136,12 @@ export function HeroSection() {
           fill
           priority
           sizes="100vw"
-          className="object-cover object-center opacity-[0.14] mix-blend-multiply filter contrast-110"
+          className="object-cover object-center opacity-[0.22] mix-blend-multiply filter contrast-105"
         />
         <div 
           className="absolute inset-0"
           style={{
-            background: "radial-gradient(ellipse at 50% 20%, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0.7) 45%, #FFFFFF 80%)",
+            background: "radial-gradient(ellipse at 50% 20%, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.55) 45%, #FFFFFF 78%)",
           }}
         />
       </div>

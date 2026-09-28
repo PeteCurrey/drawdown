@@ -333,9 +333,9 @@ export function Navigation() {
   const inactiveColor = isWhiteNavMode ? "rgba(255, 255, 255, 0.75)" : "var(--text-secondary)";
   const hoverColor = isWhiteNavMode ? "#FFFFFF" : "var(--text-primary)";
   const headerBg = isDarkPermanentHeader
-    ? "rgba(10, 10, 10, 0.95)"
+    ? "rgba(10, 10, 10, 0.97)"
     : (isScrolled || isMobileMenuOpen)
-    ? (isDarkPage ? "rgba(11, 14, 18, 0.85)" : "rgba(255, 255, 255, 0.85)") 
+    ? (isDarkPage ? "rgba(11, 14, 18, 0.97)" : "rgba(255, 255, 255, 0.97)") 
     : "transparent";
   const borderColor = isDarkPermanentHeader
     ? "rgba(255, 255, 255, 0.1)"
@@ -353,8 +353,6 @@ export function Navigation() {
       style={{
         backgroundColor: headerBg,
         borderColor: borderColor,
-        backdropFilter: isDarkPermanentHeader || isScrolled ? "blur(16px)" : "none",
-        WebkitBackdropFilter: isDarkPermanentHeader || isScrolled ? "blur(16px)" : "none",
       }}
       onMouseLeave={handleMouseLeave}
     >

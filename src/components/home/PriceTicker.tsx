@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useReducedMotion } from "framer-motion";
 
@@ -32,6 +32,22 @@ export function PriceTicker() {
   const shouldReduce = useReducedMotion();
   const [items, setItems] = useState<TickerItem[]>(sampleItems);
   const [isLive, setIsLive] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
+  const tickerRef = useRef<HTMLDivElement>(null);
+
+  // Pause the infinite marquee animation when the ticker is scrolled out of
+  // view — keeps it out of the active compositor layer and reduces continuous
+  // GPU cost while the user is scrolling lower sections of the page.
+  useEffect(() => {
+    const el = tickerRef.current;
+    if (!el || shouldReduce) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setIsVisible(entry.isIntersecting),
+      { rootMargin: "100px" }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [shouldReduce]);
 
   useEffect(() => {
     let active = true;
@@ -92,6 +108,7 @@ export function PriceTicker() {
 
   return (
     <div
+      ref={tickerRef}
       className="w-full h-[52px] flex items-center overflow-hidden border-t border-b select-none relative z-10"
       style={{ 
         backgroundColor: "#FFFFFF", 
@@ -132,6 +149,7 @@ export function PriceTicker() {
       >
         <div
           className={shouldReduce ? "flex items-center h-full" : "flex items-center h-full animate-marquee-ticker"}
+          style={(!shouldReduce && !isVisible) ? { animationPlayState: "paused" } : undefined}
         >
           {marqueeItems.map((item, i) => {
             const glyph = item.isZero ? "" : item.positive ? "▲" : "▼";

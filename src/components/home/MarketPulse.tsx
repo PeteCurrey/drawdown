@@ -144,34 +144,57 @@ export function MarketPulse() {
     return items;
   }, [news, startIndex]);
 
-  // Embed TradingView calendar widget
+  // Lazy-load TradingView calendar widget — only inject when container is
+  // within 200px of the viewport. Prevents TradingView's iframe RAF loop from
+  // competing with the compositor thread during initial page scroll.
   useEffect(() => {
     const container = calendarContainerRef.current;
     if (!container) return;
-    container.innerHTML = "";
 
-    const widgetDiv = document.createElement("div");
-    widgetDiv.className = "tradingview-widget-container__widget w-full h-full";
-    container.appendChild(widgetDiv);
+    let injected = false;
 
-    const script = document.createElement("script");
-    script.src = "https://s3.tradingview.com/external-embedding/embed-widget-events.js";
-    script.type = "text/javascript";
-    script.async = true;
-    script.innerHTML = JSON.stringify({
-      colorTheme: "light",
-      isTransparent: true,
-      locale: "en",
-      countryFilter: "ar,au,br,ca,cn,fr,de,in,id,it,jp,kr,mx,ru,sa,za,tr,gb,us,eu",
-      importanceFilter: "-1,0,1",
-      width: "100%",
-      height: 450
-    });
+    const mountWidget = () => {
+      if (injected) return;
+      injected = true;
 
-    container.appendChild(script);
+      container.innerHTML = "";
+
+      const widgetDiv = document.createElement("div");
+      widgetDiv.className = "tradingview-widget-container__widget w-full h-full";
+      container.appendChild(widgetDiv);
+
+      const script = document.createElement("script");
+      script.src = "https://s3.tradingview.com/external-embedding/embed-widget-events.js";
+      script.type = "text/javascript";
+      script.async = true;
+      script.innerHTML = JSON.stringify({
+        colorTheme: "light",
+        isTransparent: true,
+        locale: "en",
+        countryFilter: "ar,au,br,ca,cn,fr,de,in,id,it,jp,kr,mx,ru,sa,za,tr,gb,us,eu",
+        importanceFilter: "-1,0,1",
+        width: "100%",
+        height: 450
+      });
+
+      container.appendChild(script);
+    };
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          mountWidget();
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "200px" }
+    );
+
+    observer.observe(container);
 
     return () => {
-      if (container) {
+      observer.disconnect();
+      if (injected && container) {
         container.innerHTML = "";
       }
     };

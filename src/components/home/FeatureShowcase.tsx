@@ -1,15 +1,20 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useRef, useState } from "react";
 import { LayoutDashboard, Calculator, Scan, History, Mail } from "lucide-react";
 import Link from "next/link";
 import { useRegion } from "@/components/layout/RegionalLayout";
 
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
-}
+// ─────────────────────────────────────────────────────────────────────────────
+// FEATURE SHOWCASE — NATIVE CSS SCROLL-SNAP CAROUSEL
+//
+// Previously used GSAP pin:true + scrub, which forced layout recalculations
+// on every scroll tick while the section was pinned (~2,000px of scroll height).
+//
+// Now uses native CSS scroll-snap-type on an overflow-x container. Zero JS
+// scroll work — the browser compositor handles all swiping natively at full
+// frame rate with hardware acceleration.
+// ─────────────────────────────────────────────────────────────────────────────
 
 const features = [
   {
@@ -55,104 +60,124 @@ const features = [
 ];
 
 export function FeatureShowcase() {
-  const scrollRef = useRef<HTMLDivElement>(null);
   const { region } = useRegion();
   const regionPrefix = region === "uk" ? "" : `/${region}`;
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
 
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      const cards = gsap.utils.toArray(".feature-card");
-      
-      gsap.to(cards, {
-        xPercent: -100 * (cards.length - 1),
-        ease: "none",
-        scrollTrigger: {
-          trigger: scrollRef.current,
-          pin: true,
-          pinSpacing: true,
-          scrub: 1,
-          snap: 1 / (cards.length - 1),
-          start: "top 120px",
-          end: () => `+=${cards.length * 400}`,
-          anticipatePin: 1,
-        }
-      });
-    }, scrollRef);
+  // Update active dot on scroll using native scroll position
+  const handleScroll = () => {
+    if (!scrollRef.current) return;
+    const el = scrollRef.current;
+    const cardWidth = el.scrollWidth / features.length;
+    const index = Math.round(el.scrollLeft / cardWidth);
+    setActiveIndex(Math.max(0, Math.min(features.length - 1, index)));
+  };
 
-    return () => ctx.revert();
-  }, []);
+  const scrollTo = (index: number) => {
+    if (!scrollRef.current) return;
+    const cardWidth = scrollRef.current.scrollWidth / features.length;
+    scrollRef.current.scrollTo({ left: cardWidth * index, behavior: "smooth" });
+  };
 
   return (
-    <section ref={scrollRef} className="relative z-10 bg-[#F7F7F7] border-y border-mkt-bd/50">
-      <div className="h-screen flex items-center overflow-hidden">
-        <div className="container mx-auto px-6 mb-12 absolute top-32 left-0 right-0 z-10">
-          <span className="text-accent font-mono tracking-widest uppercase text-sm md:text-xs mb-4 block">
-            PLATFORM TOOLS
-          </span>
-          <h2 className="text-4xl md:text-6xl font-sans font-bold uppercase">
-            Built by Traders. <br /> Enhanced by AI.
-          </h2>
-        </div>
+    <section className="relative z-10 bg-[#F7F7F7] border-y border-mkt-bd/50 py-16 md:py-20">
+      {/* Section header */}
+      <div className="container mx-auto px-6 mb-10">
+        <span className="text-accent font-mono tracking-widest uppercase text-sm md:text-xs mb-4 block">
+          PLATFORM TOOLS
+        </span>
+        <h2 className="text-4xl md:text-6xl font-sans font-bold uppercase">
+          Built by Traders. <br /> Enhanced by AI.
+        </h2>
+      </div>
 
-        <div className="flex gap-8 pl-[10vw] min-w-max">
-          {features.map((feature, i) => (
-            <Link 
-              key={i} 
-              href={`${regionPrefix}/tools/${feature.slug}`}
-              className="feature-card group relative w-[85vw] md:w-[450px] h-[550px] bg-white border border-mkt-bd p-12 flex flex-col justify-between transition-premium hover:border-mkt-bds/50 overflow-hidden rounded-xl"
-            >
-              {/* Feature Background Image (Hover Reveal) */}
-              <div className="absolute inset-0 z-0">
-                <img 
-                  src={feature.image} 
-                  alt="" 
-                  className="w-full h-full object-cover transition-all duration-1000 scale-110 group-hover:scale-100 opacity-0 group-hover:opacity-20"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-background-surface via-background-surface/50 to-transparent" />
-              </div>
+      {/* Native CSS scroll-snap carousel — zero JS scroll work */}
+      <div
+        ref={scrollRef}
+        onScroll={handleScroll}
+        className="flex overflow-x-auto gap-6 pl-[10vw] pr-[10vw] pb-4"
+        style={{
+          scrollSnapType: "x mandatory",
+          WebkitOverflowScrolling: "touch",
+          scrollbarWidth: "none",
+          msOverflowStyle: "none",
+        }}
+      >
+        {features.map((feature, i) => (
+          <Link
+            key={i}
+            href={`${regionPrefix}/tools/${feature.slug}`}
+            className="feature-card group relative flex-shrink-0 w-[85vw] md:w-[450px] h-[550px] bg-white border border-mkt-bd p-12 flex flex-col justify-between transition-premium hover:border-mkt-bds/50 overflow-hidden rounded-xl"
+            style={{ scrollSnapAlign: "start" }}
+          >
+            {/* Feature Background Image (Hover Reveal) */}
+            <div className="absolute inset-0 z-0">
+              <img
+                src={feature.image}
+                alt=""
+                className="w-full h-full object-cover transition-all duration-1000 scale-110 group-hover:scale-100 opacity-0 group-hover:opacity-20"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-background-surface via-background-surface/50 to-transparent" />
+            </div>
 
-              {/* Technical Grid Background */}
-              <div className="absolute inset-0 z-0 opacity-[0.03] pointer-events-none group-hover:opacity-[0.07] transition-opacity duration-1000">
-                <div className="h-full w-full bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]" />
-              </div>
+            {/* Technical Grid Background */}
+            <div className="absolute inset-0 z-0 opacity-[0.03] pointer-events-none group-hover:opacity-[0.07] transition-opacity duration-1000">
+              <div className="h-full w-full bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]" />
+            </div>
 
-              {/* Decorative Corner Accents */}
-              <div className="absolute top-0 right-0 w-16 h-16 border-t border-r border-accent/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-              <div className="absolute bottom-0 left-0 w-16 h-16 border-b border-l border-accent/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            {/* Decorative Corner Accents */}
+            <div className="absolute top-0 right-0 w-16 h-16 border-t border-r border-accent/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            <div className="absolute bottom-0 left-0 w-16 h-16 border-b border-l border-accent/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
-              <div className="relative z-10 flex flex-col h-full justify-between pointer-events-none">
-                <div>
-                  <div className="w-16 h-16 bg-accent/5 border border-accent/10 flex items-center justify-center text-accent mb-12 group-hover:scale-110 group-hover:bg-accent/10 transition-all duration-500">
-                    <feature.icon className="w-8 h-8" />
-                  </div>
-                  <h4 className="text-3xl font-sans font-bold uppercase mb-6 tracking-tight group-hover:text-accent transition-colors">
-                    {feature.name}
-                  </h4>
-                  <p className="text-mkt-i2 leading-relaxed text-sm max-w-sm">
-                    {feature.description}
-                  </p>
+            <div className="relative z-10 flex flex-col h-full justify-between pointer-events-none">
+              <div>
+                <div className="w-16 h-16 bg-accent/5 border border-accent/10 flex items-center justify-center text-accent mb-12 group-hover:scale-110 group-hover:bg-accent/10 transition-all duration-500">
+                  <feature.icon className="w-8 h-8" />
                 </div>
-                
-                <div className="flex justify-between items-end">
-                  <div className="flex flex-col gap-1">
-                    <span className="text-[10px] uppercase font-mono font-bold tracking-widest text-mkt-i4">
-                      Access Tier
-                    </span>
-                    <span className="text-sm md:text-xs font-mono font-bold text-accent">
-                      {feature.tier}
-                    </span>
-                  </div>
-                  <div className="flex items-center gap-4">
-                    <span className="text-[10px] font-mono uppercase tracking-widest text-mkt-i4 group-hover:text-mkt-ink transition-colors">
-                      View Tool
-                    </span>
-                    <div className="w-8 h-[1px] bg-border-slate group-hover:bg-accent group-hover:w-16 transition-all duration-500" />
-                  </div>
+                <h4 className="text-3xl font-sans font-bold uppercase mb-6 tracking-tight group-hover:text-accent transition-colors">
+                  {feature.name}
+                </h4>
+                <p className="text-mkt-i2 leading-relaxed text-sm max-w-sm">
+                  {feature.description}
+                </p>
+              </div>
+
+              <div className="flex justify-between items-end">
+                <div className="flex flex-col gap-1">
+                  <span className="text-[10px] uppercase font-mono font-bold tracking-widest text-mkt-i4">
+                    Access Tier
+                  </span>
+                  <span className="text-sm md:text-xs font-mono font-bold text-accent">
+                    {feature.tier}
+                  </span>
+                </div>
+                <div className="flex items-center gap-4">
+                  <span className="text-[10px] font-mono uppercase tracking-widest text-mkt-i4 group-hover:text-mkt-ink transition-colors">
+                    View Tool
+                  </span>
+                  <div className="w-8 h-[1px] bg-border-slate group-hover:bg-accent group-hover:w-16 transition-all duration-500" />
                 </div>
               </div>
-            </Link>
-          ))}
-        </div>
+            </div>
+          </Link>
+        ))}
+      </div>
+
+      {/* Navigation dots */}
+      <div className="flex justify-center gap-2 mt-6">
+        {features.map((_, i) => (
+          <button
+            key={i}
+            onClick={() => scrollTo(i)}
+            aria-label={`View ${features[i].name}`}
+            className="w-1.5 h-1.5 rounded-full transition-all duration-200 focus:outline-none"
+            style={{
+              backgroundColor: i === activeIndex ? "var(--accent)" : "rgba(0,0,0,0.18)",
+              transform: i === activeIndex ? "scale(1.4)" : "scale(1)",
+            }}
+          />
+        ))}
       </div>
     </section>
   );

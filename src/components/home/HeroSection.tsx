@@ -256,20 +256,22 @@ export function HeroSection() {
           >
             <motion.div
               ref={cardContainerRef}
-              className="p-6 md:p-8 space-y-6 relative group"
+              className="p-6 md:p-8 space-y-6 relative group backdrop-blur-md"
               onMouseMove={handleMouseMove}
               onMouseEnter={() => setIsCardHovered(true)}
               onMouseLeave={handleMouseLeave}
               style={{
-                backgroundColor: "#FFFFFF",
+                backgroundColor: "rgba(255, 255, 255, 0.82)",
+                backdropFilter: "blur(12px)",
+                WebkitBackdropFilter: "blur(12px)",
                 borderRadius: "16px",
                 border: "1px solid rgba(0,0,0,0.06)",
                 borderBottom: "1px solid rgba(0,0,0,0.09)",
-                rotateX: shouldReduce || isTouchDevice ? 0 : rotateX,
-                rotateY: shouldReduce || isTouchDevice ? 0 : rotateY,
                 boxShadow: shouldReduce || isTouchDevice
                   ? "var(--elev-2)"
                   : dynamicShadow,
+                rotateX: shouldReduce || isTouchDevice ? 0 : rotateX,
+                rotateY: shouldReduce || isTouchDevice ? 0 : rotateY,
                 transformStyle: "preserve-3d",
                 willChange: "transform, box-shadow",
               }}

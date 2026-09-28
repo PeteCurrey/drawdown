@@ -261,7 +261,7 @@ export function HeroSection() {
               onMouseEnter={() => setIsCardHovered(true)}
               onMouseLeave={handleMouseLeave}
               style={{
-                backgroundColor: "rgba(255, 255, 255, 0.82)",
+                backgroundColor: "rgba(255, 255, 255, 0.70)",
                 backdropFilter: "blur(12px)",
                 WebkitBackdropFilter: "blur(12px)",
                 borderRadius: "16px",

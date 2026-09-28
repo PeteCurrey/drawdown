@@ -804,7 +804,7 @@ export async function runSignalScan() {
           bbands: { upper: lastBb?.upper ?? currentPrice, middle: lastBb?.middle ?? currentPrice, lower: lastBb?.lower ?? currentPrice, bias: currentPrice > (lastBb?.middle ?? currentPrice) ? "BULLISH" : "BEARISH" },
           cci: { value: lastCci, bias: lastCci > 100 ? "BULLISH" : lastCci < -100 ? "BEARISH" : "NEUTRAL" },
           adx: { value: lastAdx, bias: lastAdx > 25 ? "TRENDING" : "RANGING" },
-          isSimulated,
+          isSimulated: false,
           values
         };
       }

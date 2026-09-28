@@ -5,7 +5,7 @@ import BasicHub from '@/components/basic/BasicHub';
 export const metadata: Metadata = {
   title: 'Trading Basics: Beginner Guides',
   description: 'Plain-English answers to the questions every new trader asks. What is forex? What is leverage? What is a broker? Everything from first principles, no jargon.',
-  alternates: { canonical: 'https://drawdown.trading/basic' },
+  alternates: { canonical: 'https://avorria.com/basic' },
 };
 
 export default function BasicHubPage() {

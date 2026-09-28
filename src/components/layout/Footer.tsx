@@ -75,7 +75,7 @@ export function Footer({ theme = "light" }: FooterProps) {
               className="font-display text-[20px] font-semibold tracking-[-0.02em] block"
               style={{ color: headingColor }}
             >
-              Drawdown
+              Avorria Trading
             </Link>
             <p className="text-[13px] leading-relaxed font-sans" style={{ color: textColor }}>
               Trading education for independent traders who value truth over hype. No shortcuts. Just data.
@@ -190,7 +190,7 @@ export function Footer({ theme = "light" }: FooterProps) {
           {/* Copyright & Region Links */}
           <div className="space-y-3 shrink-0">
             <p className="text-[11px] font-mono uppercase tracking-[0.08em]" style={{ color: textColor }}>
-              © 2026 Black &amp; Rowan Management Group Limited t/a Drawdown · Chesterfield, Derbyshire, UK
+              © 2026 Black &amp; Rowan Management Group Limited t/a Avorria Trading · Chesterfield, Derbyshire, UK
             </p>
             <div className="flex items-center gap-3 text-[11px] font-mono uppercase tracking-[0.08em]" style={{ color: textColor }}>
               <span className="select-none">Region:</span>
@@ -226,10 +226,10 @@ export function Footer({ theme = "light" }: FooterProps) {
           <div className="space-y-2 max-w-2xl font-sans">
             <p className="text-[11px] leading-relaxed" style={{ color: flatColor }}>
               <span className="font-semibold block mb-0.5 font-mono uppercase tracking-[0.08em]">Risk Warning:</span>
-              Trading financial instruments carries a high level of risk and may not be suitable for all investors. The high degree of leverage can work against you as well as for you. Before deciding to trade, you should carefully consider your investment objectives, level of experience, and risk appetite. The possibility exists that you could sustain a loss of some or all of your initial investment. You should not invest money that you cannot afford to lose. Past performance is not indicative of future results. Drawdown does not provide financial advice. Trade signals and quantitative tools represent analytical conclusions derived from data feeds and risk parameters; they are not guaranteed outcomes or financial recommendations.
+              Trading financial instruments carries a high level of risk and may not be suitable for all investors. The high degree of leverage can work against you as well as for you. Before deciding to trade, you should carefully consider your investment objectives, level of experience, and risk appetite. The possibility exists that you could sustain a loss of some or all of your initial investment. You should not invest money that you cannot afford to lose. Past performance is not indicative of future results. Avorria Trading does not provide financial advice. Trade signals and quantitative tools represent analytical conclusions derived from data feeds and risk parameters; they are not guaranteed outcomes or financial recommendations.
             </p>
             <p className="text-[11px] leading-relaxed" style={{ color: textColor }}>
-              Drawdown does not route, execute, or hold funds. All trades are placed independently by users through their own brokers.{" "}
+              Avorria Trading does not route, execute, or hold funds. All trades are placed independently by users through their own brokers.{" "}
               <Link href="/methodology" className="underline hover:opacity-80">View our Data &amp; Methodology Centre</Link> for full evidence and source attribution behind every platform claim.
             </p>
           </div>

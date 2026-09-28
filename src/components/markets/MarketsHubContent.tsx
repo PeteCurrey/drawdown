@@ -336,7 +336,7 @@ export function MarketsHubContent() {
                   <div className="w-full h-[160px] bg-[#0A0A0A] overflow-hidden mt-4">
                     <TradingViewMiniChart 
                       symbol={item.tvSymbol}
-                      largeChartUrl={`https://drawdown.trading/markets/${item.category}/${item.slug}`}
+                      largeChartUrl={`https://avorria.com/markets/${item.category}/${item.slug}`}
                       height={160}
                     />
                   </div>
@@ -499,7 +499,7 @@ export function MarketsHubContent() {
             Want to learn to trade these markets properly?
           </h2>
           <p className="text-base text-white opacity-50 mb-8 max-w-2xl mx-auto font-sans leading-relaxed">
-            The Drawdown curriculum takes you from complete beginner to structured, risk-managed trader across forex, commodities, indices and crypto.
+            The Avorria curriculum takes you from complete beginner to structured, risk-managed trader across forex, commodities, indices and crypto.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link

@@ -2,7 +2,7 @@
  * Drawdown Intelligence Data Platform
  *
  * Provider-agnostic data ingestion architecture powering The Lobby, The Wire,
- * Drawdown Trading Tools, and Social/Distribution.
+ * Avorria Trading Tools, and Social/Distribution.
  */
 
 export type * from "./types.ts";

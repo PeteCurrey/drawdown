@@ -20,7 +20,7 @@ export function LobbyMasthead() {
           <div className="flex items-center gap-3">
             <span>{dateString}</span>
             <span className="text-[#DEDDD8]">•</span>
-            <span className="hidden sm:inline">DRAWDOWN EDITORIAL INTELLIGENCE</span>
+            <span className="hidden sm:inline">AVORRIA EDITORIAL INTELLIGENCE</span>
           </div>
 
           <div className="flex items-center gap-4">

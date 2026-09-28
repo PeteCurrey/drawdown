@@ -421,10 +421,10 @@ export function RunMyTrade({ initialInstrument, onPlanSaved }: RunMyTradeProps) 
                 // EXECUTION BOUNDARY NOTICE
               </span>
               <h3 className="text-sm font-bold uppercase text-[#181818] tracking-tight">
-                Drawdown Does Not Execute Orders
+                Avorria Does Not Execute Orders
               </h3>
               <p className="text-xs text-[#87877F] leading-relaxed">
-                Drawdown is a decision-support and risk-discipline operating system. We never route
+                Avorria is a decision-support and risk-discipline operating system. We never route
                 orders, custody funds, or execute trades. You must place this trade independently on
                 your broker platform (MetaTrader, cTrader, TradingView, Interactive Brokers, etc.).
               </p>
@@ -1020,7 +1020,7 @@ export function RunMyTrade({ initialInstrument, onPlanSaved }: RunMyTradeProps) 
                 </div>
 
                 <p className="text-[10px] font-mono text-[#87877F] leading-relaxed">
-                  Market context is informational only. Drawdown will never overwrite your
+                  Market context is informational only. Avorria will never overwrite your
                   entry, stop, or target parameters.
                 </p>
               </div>

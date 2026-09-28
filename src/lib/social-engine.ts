@@ -69,13 +69,13 @@ export function adaptLobbyArticleToSocial(article: LobbyArticle): AdaptedSocialD
   });
 
   const tool = resolveRelatedTool(article);
-  const toolMention = tool ? `Audit your risk with Drawdown's ${tool.name}: https://drawdown.trading${tool.href}` : undefined;
+  const toolMention = tool ? `Audit your risk with Avorria's ${tool.name}: https://avorria.com${tool.href}` : undefined;
 
   // ─── 1. X (TWITTER) ─────────────────────────────────────────────────────────
-  const xHook = `// DRAWDOWN LOBBY // ${article.category}\n\n${article.title}`;
+  const xHook = `// AVORRIA LOBBY // ${article.category}\n\n${article.title}`;
   const xBullets = [
     `• ${article.excerpt || 'Key industry shift impacting market participants.'}`,
-    `• Verified source: ${article.primary_source_name || 'Drawdown Desk'}`,
+    `• Verified source: ${article.primary_source_name || 'Avorria Desk'}`,
     `• Why it matters: Risk distribution and execution impact across ${article.category.toLowerCase()}.`
   ];
   const xFullPost = `${xHook}\n\n${xBullets.join('\n')}\n\nRead the full report on The Lobby:\n${xLink}${toolMention ? `\n\n${toolMention}` : ''}`;
@@ -86,17 +86,17 @@ export function adaptLobbyArticleToSocial(article: LobbyArticle): AdaptedSocialD
   const linkedinTakeaway = `In institutional and retail trading, information asymmetry creates unpriced downside. Understanding developments in ${article.category.toLowerCase()} is essential for active risk managers.`;
   const linkedinPrompt = `How is your desk or trading strategy adjusting to these developments in ${article.category.toLowerCase()}?`;
   
-  const linkedinFullPost = `${linkedinTitle}\n\n${linkedinCommentary}\n\n${linkedinTakeaway}\n\n${linkedinPrompt}\n\nRead the canonical breakdown on Drawdown's Lobby:\n${linkedinLink}${toolMention ? `\n\n${toolMention}` : ''}`;
+  const linkedinFullPost = `${linkedinTitle}\n\n${linkedinCommentary}\n\n${linkedinTakeaway}\n\n${linkedinPrompt}\n\nRead the canonical breakdown on Avorria's Lobby:\n${linkedinLink}${toolMention ? `\n\n${toolMention}` : ''}`;
 
   // ─── 3. INSTAGRAM ──────────────────────────────────────────────────────────
   const hookSlide = `THE LOBBY\n${article.category}\n\n${article.title}`;
   const slides = [
     hookSlide,
     `THE CONTEXT\n\n${article.excerpt || 'Significant shift observed in market infrastructure.'}`,
-    `THE DATA\n\nPrimary Source: ${article.primary_source_name || 'Drawdown Editorial'}\nConfidence: ${article.confidence || article.data_confidence || 'VERIFIED'}`,
+    `THE DATA\n\nPrimary Source: ${article.primary_source_name || 'Avorria Editorial'}\nConfidence: ${article.confidence || article.data_confidence || 'VERIFIED'}`,
     `THE TAKEAWAY\n\nHow traders can manage exposure and capitalise on volatility.`
   ];
-  const igCaption = `${article.title}\n\n${article.excerpt || ''}\n\nFull analysis, data breakdowns and trade calculations are live on The Lobby.\n\n🔗 Link in bio to read full report.\n\n#trading #markets #riskmanagement #drawdown #propfirm #forex`;
+  const igCaption = `${article.title}\n\n${article.excerpt || ''}\n\nFull analysis, data breakdowns and trade calculations are live on The Lobby.\n\n🔗 Link in bio to read full report.\n\n#trading #markets #riskmanagement #avorria #propfirm #forex`;
 
   return {
     x: {
@@ -120,7 +120,7 @@ export function adaptLobbyArticleToSocial(article: LobbyArticle): AdaptedSocialD
       hookSlide,
       slides,
       caption: igCaption,
-      hashtags: ['#trading', '#markets', '#riskmanagement', '#drawdown', '#propfirm', '#forex'],
+      hashtags: ['#trading', '#markets', '#riskmanagement', '#avorria', '#propfirm', '#forex'],
       cta: 'Link in bio to read full report in The Lobby'
     }
   };

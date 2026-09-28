@@ -39,13 +39,10 @@ export function PropFirmReviewTemplate({ review }: PropFirmReviewTemplateProps) 
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 500) {
-        setShowStickyBar(true);
-      } else {
-        setShowStickyBar(false);
-      }
+      const shouldShow = window.scrollY > 500;
+      setShowStickyBar((prev) => (prev === shouldShow ? prev : shouldShow));
     };
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 

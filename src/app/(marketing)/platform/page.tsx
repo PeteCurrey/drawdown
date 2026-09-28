@@ -13,8 +13,8 @@ export default function PlatformPage() {
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": ["WebPage", "Organization"],
-    name: "Drawdown Trading Platform",
-    url: "https://drawdown.trading/platform",
+    name: "Avorria Trading Platform",
+    url: "https://avorria.com/platform",
     description: "Live market intelligence, AI-powered trading tools, and structured education.",
   };
 
@@ -361,7 +361,7 @@ export default function PlatformPage() {
                   A community of traders who've stopped pretending.
                 </h2>
                 <p className="text-lg text-text-secondary leading-relaxed mb-6">
-                  Every paid tier includes access to the Drawdown community Discord. This is not a signals chat. It's not a place to post your winning trades for dopamine. It's a working community of traders who are building real edges, sharing real analysis, and holding each other accountable to the same standard the curriculum teaches.
+                  Every paid tier includes access to the Avorria community Discord. This is not a signals chat. It's not a place to post your winning trades for dopamine. It's a working community of traders who are building real edges, sharing real analysis, and holding each other accountable to the same standard the curriculum teaches.
                 </p>
                 <p className="text-lg text-text-secondary leading-relaxed">
                   Pete is active in the community. Questions get answered by someone who actually trades — not a community manager reading from a script.

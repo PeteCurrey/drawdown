@@ -5,7 +5,7 @@ import { ShieldCheck, Scale, Database, Search, PenTool, AlertTriangle } from "lu
 import Link from "next/link";
 
 export const metadata = getMetadata({
-  title: "Editorial Standards | Drawdown",
+  title: "Editorial Standards | Avorria",
   description: "Our strict editorial guidelines for ensuring accuracy, objectivity, transparency, and truth in all Drawdown market analysis and publications.",
   path: "/editorial-standards",
 });
@@ -127,7 +127,7 @@ export default function EditorialStandardsPage() {
               <span>Financial Disclaimer</span>
             </div>
             <p className="text-[13px] leading-relaxed" style={{ color: "var(--graphite-600)" }}>
-              Drawdown Trading provides educational resources and market intelligence, not financial advice. Trading foreign exchange on margin carries a high level of risk and may not be suitable for all investors. The high degree of leverage can work against you as well as for you. Before deciding to trade foreign exchange, you should carefully consider your investment objectives, level of experience, and risk appetite. The possibility exists that you could sustain a loss of some or all of your initial investment and therefore you should not invest money that you cannot afford to lose. You should be aware of all the risks associated with foreign exchange trading and seek advice from an independent financial advisor if you have any doubts.
+              Avorria Trading provides educational resources and market intelligence, not financial advice. Trading foreign exchange on margin carries a high level of risk and may not be suitable for all investors. The high degree of leverage can work against you as well as for you. Before deciding to trade foreign exchange, you should carefully consider your investment objectives, level of experience, and risk appetite. The possibility exists that you could sustain a loss of some or all of your initial investment and therefore you should not invest money that you cannot afford to lose. You should be aware of all the risks associated with foreign exchange trading and seek advice from an independent financial advisor if you have any doubts.
             </p>
           </section>
 

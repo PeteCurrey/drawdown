@@ -30,7 +30,7 @@ export const HOW_TO_PAGES_SG: HowToPage[] = [
     introduction: `Mastering ${slug.replace(/-/g, ' ')} is essential for any serious Singaporean trader.`,
     steps: [],
     commonMistakes: [],
-    drawdownApproach: { title: 'The Drawdown Way', content: 'Process over outcome.', ctaText: 'Join Now', ctaLink: '/sg/signup' },
+    drawdownApproach: { title: 'The Avorria Way', content: 'Process over outcome.', ctaText: 'Join Now', ctaLink: '/sg/signup' },
     faqs: []
   }))
 ];

@@ -129,7 +129,7 @@ export function TierGate({
       <p className="text-xs font-mono text-text-tertiary uppercase tracking-widest">
         Upgrade to unlock this section →{" "}
         <Link href={pricingHref} className="text-accent hover:underline">
-          drawdown.trading/pricing
+          avorria.com/pricing
         </Link>
       </p>
     </div>

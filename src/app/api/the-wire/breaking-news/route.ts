@@ -83,7 +83,7 @@ export async function GET(req: NextRequest) {
     if (!apiKey) throw new Error("ANTHROPIC_API_KEY is not configured.");
     const anthropic = new Anthropic({ apiKey });
 
-    const systemPrompt = `You are Pete Currey, founder of Drawdown Trading. Write a short, punchy breaking news alert based on the provided article.
+    const systemPrompt = `You are Pete Currey, founder of Avorria Trading. Write a short, punchy breaking news alert based on the provided article.
 Keep it strictly under 150 words. Focus on market impact and risk. No financial advice. Output ONLY valid JSON:
 {
   "subject": "BREAKING: [Headline]",

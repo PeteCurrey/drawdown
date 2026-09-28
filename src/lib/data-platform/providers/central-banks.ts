@@ -145,7 +145,7 @@ export class CentralBanksProvider extends BaseProvider {
     notes: "Official public sector communications released under respective open government/crown copyright frameworks.",
   };
 
-  private readonly userAgent = "DrawdownIntelligence/1.0 (+https://drawdown.trading; research@drawdown.trading)";
+  private readonly userAgent = "DrawdownIntelligence/1.0 (+https://avorria.com; research@avorria.com)";
 
   protected getCredential(): string | null {
     return "PUBLIC_PRIMARY";

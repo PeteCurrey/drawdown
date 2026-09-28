@@ -47,12 +47,12 @@ export function LobbyInternalLinks({
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {/* Connected Drawdown Tools */}
+        {/* Connected Avorria Tools */}
         {tools.length > 0 && (
           <div>
             <span className="text-xs font-mono uppercase tracking-wider text-[#4B5157] font-semibold flex items-center gap-1.5 mb-3">
               <Calculator className="w-3.5 h-3.5 text-[#16213E]" />
-              Understand &amp; Calculate With Drawdown Tools
+              Understand &amp; Calculate With Avorria Tools
             </span>
             <div className="space-y-2">
               {tools.map(tool => (

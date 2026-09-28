@@ -64,7 +64,7 @@ export function LobbyImage({
                 {category}
               </span>
               <span className="text-[10px] font-mono text-[#4B5157]/60 tracking-wider">
-                DRAWDOWN DESK
+                AVORRIA DESK
               </span>
             </div>
 

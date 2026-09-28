@@ -24,8 +24,9 @@ export async function invokeDrawdownEndpoint(
   const startTime = Date.now();
 
   // Fail-closed verification of environment configuration
-  if (!env.DRAWDOWN_API_URL) {
-    const errorMsg = "Configuration failure: DRAWDOWN_API_URL is missing. Failing closed.";
+  const apiEndpoint = env.AVORRIA_API_URL || env.DRAWDOWN_API_URL;
+  if (!apiEndpoint) {
+    const errorMsg = "Configuration failure: AVORRIA_API_URL or DRAWDOWN_API_URL is missing. Failing closed.";
     console.error(`[Invoker] [${job.id}] ${errorMsg}`);
     return {
       jobId: job.id,
@@ -46,7 +47,7 @@ export async function invokeDrawdownEndpoint(
     };
   }
 
-  const baseUrl = env.DRAWDOWN_API_URL.replace(/\/$/, "");
+  const baseUrl = apiEndpoint.replace(/\/$/, "");
   const targetPath = options?.customPath || job.path;
   const url = new URL(`${baseUrl}${targetPath}`);
 
@@ -65,7 +66,7 @@ export async function invokeDrawdownEndpoint(
   const headers: Record<string, string> = {
     Authorization: `Bearer ${env.CRON_SECRET}`,
     "x-cron-source": "cloudflare-worker",
-    "User-Agent": "Drawdown-Cloudflare-Scheduler/1.0",
+    "User-Agent": "Avorria-Cloudflare-Scheduler/1.0",
     ...(options?.headers || {}),
   };
 

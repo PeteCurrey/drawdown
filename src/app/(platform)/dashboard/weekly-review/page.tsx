@@ -4,7 +4,7 @@ import { WeeklyReviewClient } from "@/components/dashboard/WeeklyReviewClient";
 import { PageHeader } from "@/components/dashboard/ui/PageHeader";
 
 export const metadata = {
-  title: "Weekly Review · Drawdown",
+  title: "Weekly Review · Avorria",
   description: "Close the trading week. Review process consistency, commit to next week's plan, and repeat.",
 };
 

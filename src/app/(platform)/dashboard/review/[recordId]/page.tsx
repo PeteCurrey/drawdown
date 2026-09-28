@@ -4,7 +4,7 @@ import { ReviewClient } from "@/components/dashboard/ReviewClient";
 import { PageHeader } from "@/components/dashboard/ui/PageHeader";
 
 export const metadata = {
-  title: "Review Trade · Drawdown",
+  title: "Review Trade · Avorria",
   description: "Score your process quality against the original plan. Financial outcomes are secondary.",
 };
 

@@ -96,7 +96,7 @@ export function ToolDisclaimer() {
             Educational Platform Disclosure &amp; Risk Notice
           </span>
           <p>
-            Drawdown Trading provides quantitative calculation engines and educational risk models for informational purposes only. We do not provide financial, investment, or trading advice. CFDs, leveraged forex, and spread betting carry high risk of rapid capital loss. 74–89% of retail investor accounts lose money when trading CFDs. Never risk capital you cannot afford to lose entirely.
+            Avorria Trading provides quantitative calculation engines and educational risk models for informational purposes only. We do not provide financial, investment, or trading advice. CFDs, leveraged forex, and spread betting carry high risk of rapid capital loss. 74–89% of retail investor accounts lose money when trading CFDs. Never risk capital you cannot afford to lose entirely.
           </p>
         </div>
       </div>

@@ -111,7 +111,7 @@ export function AuthForm({ mode }: AuthFormProps) {
             "The market rewards discipline and punishes emotion. Learn which one you are."
           </blockquote>
           <p className="text-sm font-sans" style={{ color: "#666666" }}>
-            Pete Currey, Founder — Drawdown Trading
+            Pete Currey, Founder — Avorria Trading
           </p>
 
           <div className="grid grid-cols-3 gap-4 pt-8 border-t" style={{ borderColor: "#1A1A1A" }}>
@@ -203,7 +203,7 @@ export function AuthForm({ mode }: AuthFormProps) {
               <input
                 type="email"
                 required
-                placeholder="trader@drawdown.trading"
+                placeholder="trader@avorria.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="w-full bg-[#F7F7F7] border border-mkt-bd focus:border-mkt-bds rounded-lg px-4 py-3 text-sm text-mkt-ink font-sans outline-none transition-colors placeholder:text-mkt-i4"

@@ -51,7 +51,7 @@ export default function DrawdownRecoveryPage() {
             "@context": "https://schema.org",
             "@type": "WebApplication",
             "name": "Drawdown Recovery Calculator",
-            "url": "https://drawdown.trading/calculators/drawdown-recovery",
+            "url": "https://avorria.com/calculators/drawdown-recovery",
             "applicationCategory": "FinanceApplication",
             "operatingSystem": "All",
             "description":
@@ -254,7 +254,7 @@ export default function DrawdownRecoveryPage() {
             {/* Conversion Module */}
             <CalculatorNextStep
               heading="Manage Your Recovery Inside a Funded Challenge"
-              body="Prop firm evaluations impose profit targets and drawdown limits simultaneously. The Drawdown platform tracks your exact recovery progress against both limits so you know at all times whether recovery is still mathematically viable."
+              body="Prop firm evaluations impose profit targets and drawdown limits simultaneously. The Avorria platform tracks your exact recovery progress against both limits so you know at all times whether recovery is still mathematically viable."
               cta="Track Your Recovery"
               href="/pricing"
             />

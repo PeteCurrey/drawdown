@@ -273,7 +273,7 @@ export function HeroSection() {
                 rotateX: shouldReduce || isTouchDevice ? 0 : rotateX,
                 rotateY: shouldReduce || isTouchDevice ? 0 : rotateY,
                 transformStyle: "preserve-3d",
-                willChange: "transform, box-shadow",
+                willChange: "transform",
               }}
             >
               {/* Card Topbar */}

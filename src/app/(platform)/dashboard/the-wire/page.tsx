@@ -6,7 +6,7 @@ import { TheWireDashboardClient } from "@/components/the-wire/TheWireDashboardCl
 import { PageHeader } from "@/components/dashboard/ui/PageHeader";
 
 export const metadata = {
-  title: "The Wire · Drawdown",
+  title: "The Wire · Avorria",
   description: "Morning and afternoon intelligence briefs, live market news and economic calendar — delivered every trading day to keep you ahead of the session.",
 };
 

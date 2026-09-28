@@ -45,7 +45,7 @@ export const BEST_OF_PAGES_US: BestOfPage[] = [
     bestOverall: { name: 'Interactive Brokers', reason: 'Professional tools and lowest margin rates in the industry.', link: '/go/interactive-brokers' },
     comparisonTable: [],
     sections: [],
-    drawdownApproach: { title: 'The Drawdown Standard', content: 'Compliance is the first layer of edge.', ctaText: 'Join Drawdown', ctaLink: '/us/signup' },
+    drawdownApproach: { title: 'The Avorria Standard', content: 'Compliance is the first layer of edge.', ctaText: 'Join Avorria', ctaLink: '/us/signup' },
     faqs: []
   }))
 ];

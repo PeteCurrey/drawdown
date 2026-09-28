@@ -68,10 +68,13 @@ export async function executeJob(
           params: { triggeredAt: new Date().toISOString(), source: executionSource },
         });
       } else if (job.id === "daily-report" && env.DAILY_REPORT_WORKFLOW) {
-        // Idempotent daily report ID keyed to current date
+        // Idempotent daily report ID keyed to date for scheduled runs, unique for manual triggers
         const dateKey = new Date().toISOString().split("T")[0];
+        const reportInstanceId = executionSource === "manual"
+          ? `daily-report-${dateKey}-${Date.now()}`
+          : `daily-report-${dateKey}`;
         workflowInstance = await env.DAILY_REPORT_WORKFLOW.create({
-          id: `daily-report-${dateKey}`,
+          id: reportInstanceId,
           params: { triggeredAt: new Date().toISOString(), source: executionSource },
         });
       }

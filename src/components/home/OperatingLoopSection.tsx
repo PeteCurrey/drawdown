@@ -92,7 +92,7 @@ const LOOP_STAGES: Array<{
     badge: "Targeted Refinement",
     icon: TrendingUp,
     action: "Commit to one weekly discipline fix",
-    details: "Target one recurring mistake at a time with curated lessons and risk drills from the Drawdown curriculum.",
+    details: "Target one recurring mistake at a time with curated lessons and risk drills from the Avorria curriculum.",
     output: "Continuous compounding edge",
     pattern: "circuit-lines",
   },

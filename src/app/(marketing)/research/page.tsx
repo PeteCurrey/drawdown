@@ -9,7 +9,7 @@ import { getMetadata } from "@/lib/metadata";
 import JsonLd from "@/components/seo/JsonLd";
 
 export const metadata = getMetadata({
-  title: "Drawdown Research Centre | Evidence-Led Trading & Broker Intelligence",
+  title: "Avorria Research Centre | Evidence-Led Trading & Broker Intelligence",
   description:
     "Original quantitative research, empirical broker cost audits, risk-of-ruin mathematics, and downloadable datasets. Fully evidence-led and transparent.",
   path: "/research",
@@ -23,19 +23,19 @@ export default function ResearchCentrePage() {
           {
             "@context": "https://schema.org",
             "@type": "CollectionPage",
-            "name": "Drawdown Research Centre",
-            "url": "https://drawdown.trading/research",
+            "name": "Avorria Research Centre",
+            "url": "https://avorria.com/research",
             "description": "Original quantitative research, empirical broker cost audits, risk-of-ruin mathematics, and downloadable datasets for traders.",
             "publisher": {
               "@type": "Organization",
-              "name": "Drawdown Trading",
-              "url": "https://drawdown.trading",
+              "name": "Avorria Trading",
+              "url": "https://avorria.com",
             },
             "breadcrumb": {
               "@type": "BreadcrumbList",
               "itemListElement": [
-                { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://drawdown.trading" },
-                { "@type": "ListItem", "position": 2, "name": "Research Centre", "item": "https://drawdown.trading/research" },
+                { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://avorria.com" },
+                { "@type": "ListItem", "position": 2, "name": "Research Centre", "item": "https://avorria.com/research" },
               ],
             },
           },
@@ -48,7 +48,7 @@ export default function ResearchCentrePage() {
         <div className="my-8 text-center sm:text-left border-b border-border-primary/60 pb-10">
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-accent/10 border border-accent/20 text-accent text-xs font-mono font-semibold uppercase tracking-wider mb-4">
             <ShieldCheck className="w-3.5 h-3.5" />
-            Drawdown Research Centre • Evidence-Led Intelligence
+            Avorria Research Centre • Evidence-Led Intelligence
           </div>
           <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-text-primary mb-4">
             Independent Trading Research & Empirical Analysis

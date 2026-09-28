@@ -1,10 +1,10 @@
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Trading Tools — Risk Calculator, Backtester, Position Sizer | Drawdown',
+  title: 'Trading Tools — Risk Calculator, Backtester, Position Sizer | Avorria',
   description:
     'Free and paid trading tools for independent traders. Risk calculator, position sizer, strategy backtester, AI trade journal and market intelligence — built by traders, for traders.',
-  alternates: { canonical: 'https://drawdown.trading/tools' },
+  alternates: { canonical: 'https://avorria.com/tools' },
 };
 
 import { 
@@ -167,7 +167,7 @@ export default function ToolsMarketingPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div className="space-y-6">
               <span className="text-[10px] font-mono tracking-widest uppercase text-accent font-bold">
-                // THE DRAWDOWN DIFFERENCE
+                // THE AVORRIA DIFFERENCE
               </span>
               <h2 className="text-3xl md:text-5xl font-display font-black uppercase leading-tight text-text-primary">
                 We Built What <br />

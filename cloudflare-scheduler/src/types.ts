@@ -4,7 +4,8 @@
 export interface Env {
   // Environment Variables
   ENVIRONMENT: "production" | "staging" | "development";
-  DRAWDOWN_API_URL: string;
+  AVORRIA_API_URL?: string;
+  DRAWDOWN_API_URL?: string;
 
   // Cloudflare Encrypted Secrets
   CRON_SECRET: string;

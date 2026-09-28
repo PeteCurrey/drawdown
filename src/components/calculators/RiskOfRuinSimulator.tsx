@@ -63,7 +63,7 @@ Probability of Breaching ${maxAcceptableDD}% Drawdown: ${simulationResults.ruinP
 Consecutive Loss Capital Units: ${simulationResults.unitsToRuin} trades
 --------------------------------------------------
 Disclaimer: Risk of ruin calculations are statistical estimations based on constant parameters. Past performance and historical win rates do not guarantee future performance.
-https://drawdown.trading/calculators/risk-of-ruin`;
+https://avorria.com/calculators/risk-of-ruin`;
 
     const blob = new Blob([textData], { type: "text/plain" });
     const url = URL.createObjectURL(blob);

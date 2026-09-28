@@ -42,7 +42,7 @@ export const CurriculumPreview: React.FC<CurriculumPreviewProps> = ({ highlightP
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-10">
           <div>
             <span className="font-mono text-xs uppercase tracking-widest text-accent mb-2 block">
-              // THE DRAWDOWN PATH
+              // THE AVORRIA PATH
             </span>
             <h3 className="font-display text-2xl md:text-3xl text-white m-0">
               professional-grade Curriculum

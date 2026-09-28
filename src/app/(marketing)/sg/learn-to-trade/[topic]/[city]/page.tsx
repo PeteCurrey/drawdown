@@ -99,8 +99,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   return {
     ...getMetadata({
-      title: `${topicLabel} in ${cityLabel.charAt(0).toUpperCase() + cityLabel.slice(1)} | Drawdown Singapore`,
-      description: `Professional ${topicLabel} education and tools for traders in ${cityLabel}. Join the Drawdown community in Singapore.`,
+      title: `${topicLabel} in ${cityLabel.charAt(0).toUpperCase() + cityLabel.slice(1)} | Avorria Singapore`,
+      description: `Professional ${topicLabel} education and tools for traders in ${cityLabel}. Join the Avorria community in Singapore.`,
       path: `/sg/learn-to-trade/${topic}/${city}`,
     }),
     // Programmatic geo-targeting page — excluded from sitemap, must also carry noindex

@@ -34,7 +34,7 @@ export default function LandingPageBuilder() {
       setFormData(prev => ({
         ...prev,
         heroHeading: "Master the Markets with Institutional Precision",
-        heroSubheading: "Stop trading on emotion. Equip yourself with the Drawdown terminal, featuring real-time footprint analysis and institutional order flow mapping designed for serious retail traders.",
+        heroSubheading: "Stop trading on emotion. Equip yourself with the Avorria terminal, featuring real-time footprint analysis and institutional order flow mapping designed for serious retail traders.",
         seoTitle: "Institutional Trading Tools",
         seoDescription: "Upgrade your edge with Drawdown's professional-grade trading terminal. Get access to real-time order flow and footprint charts."
       }));
@@ -51,7 +51,7 @@ export default function LandingPageBuilder() {
             <ChevronLeft className="w-3 h-3 group-hover:-translate-x-1 transition-transform" /> Back to Pages
           </Link>
           <h1 className="text-3xl font-display font-bold uppercase mb-2">Page Builder</h1>
-          <p className="text-xs text-text-tertiary">Design and generate marketing pages using the Drawdown aesthetic.</p>
+          <p className="text-xs text-text-tertiary">Design and generate marketing pages using the Avorria aesthetic.</p>
         </div>
         <div className="flex gap-4">
           <button className="flex items-center gap-2 px-6 py-3 border border-border-slate hover:border-text-primary transition-colors text-[10px] font-bold uppercase tracking-widest">

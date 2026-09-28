@@ -80,13 +80,13 @@ export async function GET(request: NextRequest) {
 
       // 6. Send Email via Resend
       const { error: emailError } = await resend.emails.send({
-        from: 'Drawdown <thewire@drawdown.co.uk>',
-        to: 'thewire@drawdown.co.uk', // Sentinel address
+        from: 'Avorria Trading <thewire@avorria.com>',
+        to: 'thewire@avorria.com', // Sentinel address
         bcc: recipientEmails,
         subject: `The Wire — Daily Brief: ${subjectLine || today}`,
         html: `
           <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; background: #08090D; color: #E4E2DD; padding: 40px;">
-            <h1 style="color: #00C2FF; text-transform: uppercase; font-size: 24px; letter-spacing: 2px;">Drawdown</h1>
+            <h1 style="color: #00C2FF; text-transform: uppercase; font-size: 24px; letter-spacing: 2px;">Avorria Trading</h1>
             <p style="font-family: monospace; color: #8C8B87; font-size: 10px;">// THE WIRE: ${today}</p>
             <hr style="border: 0; border-top: 1px solid #1A1D24; margin: 20px 0;" />
             <div style="line-height: 1.6; font-size: 16px;">
@@ -96,7 +96,7 @@ export async function GET(request: NextRequest) {
             <p style="font-size: 11px; color: #8C8B87; text-align: center;">
               You received this because you're subscribed to The Wire. 
               <br /><br />
-              © ${new Date().getFullYear()} Drawdown Platform Ltd.
+              © ${new Date().getFullYear()} Avorria Trading.
             </p>
           </div>
         `,

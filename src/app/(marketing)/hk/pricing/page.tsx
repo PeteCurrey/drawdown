@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import { HongKongPricingClient } from "./client";
 
-const SITE_URL = "https://drawdown.trading";
+const SITE_URL = "https://avorria.com";
 
 export const metadata: Metadata = {
-  title: "Drawdown Memberships — Hong Kong Pricing | Drawdown",
+  title: "Avorria Memberships — Hong Kong Pricing | Avorria",
   description: "Compare Drawdown Free, Foundation, Edge and Floor memberships. Pricing shown in HKD for Hong Kong traders.",
   alternates: {
     canonical: `${SITE_URL}/hk/pricing`,

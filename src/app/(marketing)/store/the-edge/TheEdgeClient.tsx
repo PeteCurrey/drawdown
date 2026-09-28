@@ -46,7 +46,7 @@ const faqs = [
   { q: "How long is the PDF?", a: "100 pages. Dense, practical content — no filler. Most traders read it twice: once for the overview, then chapter by chapter as they apply each concept." },
   { q: "Will this work on my broker or prop firm platform?", a: "Yes. The approach is platform-agnostic. The concepts apply wherever you can see a price chart with volume information." },
   { q: "Is this available as a physical copy?", a: "No — it's a PDF for instant delivery. Many traders print it and keep it at their desk." },
-  { q: "What is your refund policy?", a: "Due to the instant digital delivery nature of PDF downloads, we don't offer refunds. Email pete@drawdown.trading before purchasing if you have content questions." },
+  { q: "What is your refund policy?", a: "Due to the instant digital delivery nature of PDF downloads, we don't offer refunds. Email pete@avorria.com before purchasing if you have content questions." },
 ];
 
 export default function TheEdgeClient() {

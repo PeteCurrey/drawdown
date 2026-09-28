@@ -17,9 +17,9 @@ export const EmbedWidgetModal: React.FC<EmbedWidgetModalProps> = ({
   onClose,
 }) => {
   const [copied, setCopied] = useState(false);
-  const embedUrl = `https://drawdown.trading/calculators/${toolSlug}`;
+  const embedUrl = `https://avorria.com/calculators/${toolSlug}`;
   
-  const iframeSnippet = `<iframe src="${embedUrl}?embed=true" width="100%" height="600" frameborder="0" title="${toolTitle} - Drawdown Trading" style="border: 1px solid #2A2F3E; border-radius: 12px;"></iframe>\n<p style="font-size: 12px; color: #8892B0; text-align: center; margin-top: 8px;">Powered by <a href="${embedUrl}" target="_blank" rel="noopener">Drawdown Trading ${toolTitle}</a></p>`;
+  const iframeSnippet = `<iframe src="${embedUrl}?embed=true" width="100%" height="600" frameborder="0" title="${toolTitle} - Avorria Trading" style="border: 1px solid #2A2F3E; border-radius: 12px;"></iframe>\n<p style="font-size: 12px; color: #8892B0; text-align: center; margin-top: 8px;">Powered by <a href="${embedUrl}" target="_blank" rel="noopener">Avorria Trading ${toolTitle}</a></p>`;
 
   const handleCopy = () => {
     navigator.clipboard.writeText(iframeSnippet);
@@ -88,7 +88,7 @@ export const EmbedWidgetModal: React.FC<EmbedWidgetModalProps> = ({
           </h4>
           <ul className="text-text-tertiary space-y-1 list-disc list-inside">
             <li>The embed includes standard responsive styling for web and mobile viewports.</li>
-            <li>Contains a transparent attribution link to the canonical methodology source on Drawdown Trading.</li>
+            <li>Contains a transparent attribution link to the canonical methodology source on Avorria Trading.</li>
             <li>Zero third-party tracking scripts or cookie collection in embedded state.</li>
           </ul>
         </div>

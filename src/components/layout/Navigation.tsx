@@ -145,7 +145,7 @@ const menuAccents = {
     dark: "#A78BFA",  // Vibrant high-contrast lavender
   },
   markets: {
-    light: "#16213E", // Signature Drawdown navy
+    light: "#16213E", // Signature Avorria navy
     dark: "#C8F135",  // High-contrast neon lime for dark markets pages
   }
 };
@@ -173,9 +173,27 @@ export function Navigation() {
   };
 
   useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 20);
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
+    // Use an IntersectionObserver on a tiny sentinel placed 20 px from the top
+    // instead of a per-tick scroll listener.  The Navigation only re-renders
+    // when the sentinel crosses the viewport edge — not on every scroll pixel.
+    const sentinel = document.createElement("div");
+    sentinel.style.cssText =
+      "position:fixed;top:20px;left:0;width:1px;height:1px;pointer-events:none;";
+    document.body.appendChild(sentinel);
+
+    const observer = new IntersectionObserver(
+      ([entry]) => setIsScrolled(!entry.isIntersecting),
+      { threshold: 0 }
+    );
+    observer.observe(sentinel);
+
+    // Sync initial state in case page loads already scrolled
+    setIsScrolled(window.scrollY > 20);
+
+    return () => {
+      observer.disconnect();
+      sentinel.remove();
+    };
   }, []);
 
   useEffect(() => {
@@ -344,10 +362,37 @@ export function Navigation() {
         <Link
           href={region === "uk" ? "/" : `/${region}`}
           onMouseEnter={() => setActiveMenu(null)}
-          className="font-display text-[22px] font-semibold tracking-[-0.02em] transition-opacity hover:opacity-80 outline-none focus-visible:outline-none"
+          className="flex flex-col items-start leading-none transition-opacity hover:opacity-80 outline-none focus-visible:outline-none select-none"
           style={{ color: isWhiteNavMode ? "#FFFFFF" : isDarkPage ? "var(--surface-base)" : "var(--text-primary)" }}
         >
-          Drawdown
+          <span
+            style={{
+              fontFamily: "var(--font-work-sans), 'Work Sans', sans-serif",
+              fontWeight: 200,
+              fontSize: "22px",
+              letterSpacing: "-0.01em",
+              lineHeight: 1,
+              display: "block",
+            }}
+          >
+            Avorria
+          </span>
+          <span
+            style={{
+              fontFamily: "var(--font-work-sans), 'Work Sans', sans-serif",
+              fontWeight: 400,
+              fontSize: "9.5px",
+              letterSpacing: "0.46em",
+              marginRight: "-0.46em",
+              lineHeight: 1,
+              marginTop: "3px",
+              textTransform: "uppercase",
+              opacity: 0.7,
+              display: "block",
+            }}
+          >
+            Trading
+          </span>
         </Link>
 
         <nav className="hidden lg:flex items-center gap-8 h-full">

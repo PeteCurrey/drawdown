@@ -1,5 +1,5 @@
 /**
- * Canonical Entitlements & Commercial Access Engine for Drawdown Trading
+ * Canonical Entitlements & Commercial Access Engine for Avorria Trading
  * 
  * Standards:
  * - FAIL CLOSED: Unauthenticated or unpaid users always resolve to Level 0 (free).

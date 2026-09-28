@@ -4,7 +4,7 @@ import { RunMyTrade } from "@/components/dashboard/RunMyTrade";
 import { PageHeader } from "@/components/dashboard/ui/PageHeader";
 
 export const metadata = {
-  title: "Plan My Trade · Drawdown Operating System",
+  title: "Plan My Trade · Avorria Operating System",
   description: "Quantify risk, calculate exact position size, and verify drawdown limits before placing a trade.",
 };
 

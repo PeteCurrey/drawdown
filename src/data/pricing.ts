@@ -126,7 +126,7 @@ export interface FeatureRow {
 export const GBP_TIERS: PricingTier[] = [
   {
     id: "free",
-    name: "Drawdown Free",
+    name: "Avorria Free",
     shortName: "Free",
     tierKey: "free",
     monthlyPrice: 0,
@@ -665,7 +665,7 @@ export const PRICING_FAQS: FAQ[] = [
   {
     question: "Do planned features count toward the membership price?",
     answer:
-      "No. Drawdown's pricing reflects only features that are currently available. Features listed under 'Coming to Edge' or on the roadmap are not part of the current membership value and do not justify the current price.",
+      "No. Avorria's pricing reflects only features that are currently available. Features listed under 'Coming to Edge' or on the roadmap are not part of the current membership value and do not justify the current price.",
   },
   {
     question: "What happens if I upgrade mid-month?",

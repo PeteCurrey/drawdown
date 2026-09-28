@@ -34,7 +34,7 @@ export const HOW_TO_PAGES_US: HowToPage[] = [
     introduction: `Learning how to ${slug.replace(/-/g, ' ')} correctly is essential for navigating the complex US regulatory environment.`,
     steps: [],
     commonMistakes: [],
-    drawdownApproach: { title: 'The Drawdown Method', content: 'Rule-based execution is the only path.', ctaText: 'Join Now', ctaLink: '/us/signup' },
+    drawdownApproach: { title: 'The Avorria Method', content: 'Rule-based execution is the only path.', ctaText: 'Join Now', ctaLink: '/us/signup' },
     faqs: []
   }))
 ];

@@ -156,10 +156,10 @@ export function BrokerReviewTemplate({ broker, region, breadcrumbs, eyebrow }: B
                      <TrendingUp className="w-12 h-12 text-accent mx-auto" />
                      <h4 className="text-xl font-display font-bold uppercase text-text-primary">Start Smart</h4>
                      <p className="text-sm text-text-secondary leading-relaxed">
-                        Join Drawdown to access automated signal scanners, custom risk management playbooks, and professional analytics.
+                        Join Avorria to access automated signal scanners, custom risk management playbooks, and professional analytics.
                      </p>
                      <Link href="/signup" className="w-full py-4 bg-accent text-[#08090D] font-sans font-black uppercase tracking-widest text-xs block hover:bg-accent-hover transition-colors">
-                        Join Drawdown Free
+                        Join Avorria Free
                      </Link>
                   </div>
                </div>

@@ -52,7 +52,7 @@ export default function PipValueCalculatorPage() {
             "@context": "https://schema.org",
             "@type": "WebApplication",
             "name": "Pip Value Calculator",
-            "url": "https://drawdown.trading/calculators/pip-value",
+            "url": "https://avorria.com/calculators/pip-value",
             "applicationCategory": "FinanceApplication",
             "operatingSystem": "All",
             "description":

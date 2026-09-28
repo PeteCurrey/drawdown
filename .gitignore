@@ -50,3 +50,4 @@ ios/
 # scratch directory for agent
 /scratch/
 
+cloudflare-scheduler/.wrangler/

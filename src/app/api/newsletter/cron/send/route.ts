@@ -63,7 +63,7 @@ export async function GET(request: NextRequest) {
       if (subscribers && subscribers.length > 0) {
          // Batch sending or BCC for smaller lists, but ideally use Resend Audiences
          await resend.emails.send({
-            from: "Pete @ Drawdown <thewire@drawdown.trading>",
+            from: "Pete @ Avorria <thewire@avorria.com>",
             to: subscribers.map(s => s.email),
             subject: edition.subject_line,
             html: html

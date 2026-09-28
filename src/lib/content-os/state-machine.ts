@@ -141,7 +141,7 @@ export class NewsCandidateStateMachine {
   }
 
   static canPublish(verificationStatus: NewsVerificationStatus): boolean {
-    // Phase 1 rule: Only verified candidates can transition to published Drawdown content
+    // Phase 1 rule: Only verified candidates can transition to published Avorria content
     return verificationStatus === 'verified';
   }
 }

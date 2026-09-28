@@ -30,18 +30,21 @@
   ],
   "vars": {
     "ENVIRONMENT": "production",
-    "DRAWDOWN_API_URL": "https://drawdown.io"
+    "AVORRIA_API_URL": "https://avorria.com",
+    "DRAWDOWN_API_URL": "https://avorria.com"
   },
   "env": {
     "staging": {
       "vars": {
         "ENVIRONMENT": "staging",
-        "DRAWDOWN_API_URL": "https://staging.drawdown.io"
+        "AVORRIA_API_URL": "https://staging.avorria.com",
+        "DRAWDOWN_API_URL": "https://staging.avorria.com"
       }
     },
     "development": {
       "vars": {
         "ENVIRONMENT": "development",
+        "AVORRIA_API_URL": "http://localhost:3000",
         "DRAWDOWN_API_URL": "http://localhost:3000"
       }
     }

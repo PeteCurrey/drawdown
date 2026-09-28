@@ -56,7 +56,7 @@ export default async function PartnerPortalPage() {
     { label: "Unpaid Earnings", value: "$1,450", icon: DollarSign, color: "text-profit" },
   ];
  
-  const referralLink = `https://drawdown.trading/signup?ref=${user.id.slice(0, 8)}`;
+  const referralLink = `https://avorria.com/signup?ref=${user.id.slice(0, 8)}`;
  
   return (
     <div className="space-y-12 animate-in fade-in duration-700 pb-24">

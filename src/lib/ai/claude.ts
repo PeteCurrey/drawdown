@@ -55,7 +55,7 @@ export async function generateMarketingContent({
     newsletter: `
       Write a "The Wire" special segment for "${topic}".
       Include a "Market Intel" section and a "Risk Assessment" table.
-      End with a direct CTA to the Drawdown community.
+      End with a direct CTA to the Avorria community.
     `
   };
 

@@ -3,9 +3,9 @@ import { AuthForm } from "@/components/auth/AuthForm";
 
 export const metadata: Metadata = {
   title: 'Sign In',
-  description: 'Sign in to your Drawdown account to access your dashboard, courses and AI trading tools.',
+  description: 'Sign in to your Avorria account to access your dashboard, courses and market intelligence tools.',
   robots: { index: false, follow: false },
-  alternates: { canonical: 'https://drawdown.trading/login' }
+  alternates: { canonical: 'https://avorria.com/login' }
 }
 
 export default function LoginPage() {

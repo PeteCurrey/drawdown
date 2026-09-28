@@ -73,14 +73,14 @@ export async function POST(request: Request) {
       try {
         const resend = new Resend(process.env.RESEND_API_KEY);
         await resend.emails.send({
-          from: "Drawdown <support@drawdown.trading>",
+          from: "Avorria <support@avorria.com>",
           to: [user.email],
-          subject: "Account Deletion Confirmation — Drawdown",
+          subject: "Account Deletion Confirmation — Avorria",
           html: `
             <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; color: #1e293b;">
               <h2 style="color: #0f172a;">Account Deletion Request Processed</h2>
               <p>Hello,</p>
-              <p>Your Drawdown account and associated operational data have been successfully purged as requested.</p>
+              <p>Your Avorria account and associated operational data have been successfully purged as requested.</p>
               <p>If you had an active subscription, it has been cancelled and will not renew.</p>
               <p>If you believe this request was processed in error, please contact us immediately at <a href="mailto:${LEGAL_CONFIG.privacyEmail}">${LEGAL_CONFIG.privacyEmail}</a>.</p>
               <hr style="border: 0; border-top: 1px solid #e2e8f0; margin: 20px 0;" />

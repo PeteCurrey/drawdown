@@ -145,7 +145,7 @@ export class RegulatorsProvider extends BaseProvider {
     notes: "Public statutory regulatory publications and consumer alerts.",
   };
 
-  private readonly userAgent = "DrawdownIntelligence/1.0 (+https://drawdown.trading; research@drawdown.trading)";
+  private readonly userAgent = "DrawdownIntelligence/1.0 (+https://avorria.com; research@avorria.com)";
 
   protected getCredential(): string | null {
     return "PUBLIC_PRIMARY";

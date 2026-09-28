@@ -30,7 +30,7 @@ async function sendLowSuccessAlert(updated: number, total: number, sourceStats: 
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        from: "alerts@drawdown.io",
+        from: "alerts@avorria.com",
         to: [adminEmail],
         subject: `⚠️ Market Scanner: low price update rate (${pct}% of symbols)`,
         text: body,

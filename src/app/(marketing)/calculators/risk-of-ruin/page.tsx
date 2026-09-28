@@ -51,7 +51,7 @@ export default function RiskOfRuinPage() {
             "@context": "https://schema.org",
             "@type": "WebApplication",
             "name": "Risk of Ruin Simulator",
-            "url": "https://drawdown.trading/calculators/risk-of-ruin",
+            "url": "https://avorria.com/calculators/risk-of-ruin",
             "applicationCategory": "FinanceApplication",
             "operatingSystem": "All",
             "description":
@@ -213,7 +213,7 @@ export default function RiskOfRuinPage() {
             {/* Conversion Module */}
             <CalculatorNextStep
               heading="Audit Your Real Edge vs Your Ruin Probability"
-              body="The Drawdown Backtester runs your actual trade history through Monte Carlo simulations to produce your real observed ruin probability — not a theoretical estimate based on assumed win rates."
+              body="The Avorria Backtester runs your actual trade history through Monte Carlo simulations to produce your real observed ruin probability — not a theoretical estimate based on assumed win rates."
               cta="Run Your Backtest"
               href="/pricing"
             />

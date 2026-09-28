@@ -15,7 +15,7 @@ import {
 import { formatGBP } from "@/data/commercial-catalogue";
 
 export const metadata = {
-  title: "Drawdown Store — Premium Playbooks & Courses",
+  title: "Avorria Store — Premium Playbooks & Courses",
   description: "Bespoke systematic manuals, permanent PDF downloads, and systematic mini-courses by Pete Currey.",
 };
 

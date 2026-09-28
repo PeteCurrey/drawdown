@@ -7,7 +7,7 @@ import { PageHeader } from "@/components/dashboard/ui/PageHeader";
 import { DisciplineLeaderboard } from "@/components/badges/DisciplineLeaderboard";
 
 export const metadata: Metadata = getMetadata({
-  title: "Community Hub — Drawdown Intelligence",
+  title: "Community Hub — Avorria Intelligence",
   description: "Join the professional trading community. Live market intelligence, institutional signals, and exclusive updates from the Drawdown team.",
   path: "/community",
 });

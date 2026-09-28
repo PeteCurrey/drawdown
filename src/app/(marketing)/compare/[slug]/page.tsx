@@ -40,7 +40,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       return {
         title: dynamicPage.title,
         description: dynamicPage.seo_description,
-        alternates: { canonical: `https://drawdown.trading/compare/${slug}` },
+        alternates: { canonical: `https://avorria.com/compare/${slug}` },
       };
     }
   } catch {
@@ -83,11 +83,11 @@ export default async function GlobalComparePage({ params }: Props) {
         <>
           <BreadcrumbSchema
             items={[
-              { name: "Home", url: "https://drawdown.trading" },
-              { name: "Compare", url: "https://drawdown.trading/compare" },
+              { name: "Home", url: "https://avorria.com" },
+              { name: "Compare", url: "https://avorria.com/compare" },
               {
                 name: page.title,
-                url: `https://drawdown.trading/compare/${slug}`,
+                url: `https://avorria.com/compare/${slug}`,
               },
             ]}
           />

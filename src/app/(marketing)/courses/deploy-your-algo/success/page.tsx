@@ -73,7 +73,7 @@ export default async function SuccessPage({ searchParams }: PageProps) {
           /* ── Guest checkout: prompt to create account ── */
           <div className="space-y-6">
             <div className="p-6 bg-white/3 border border-white/10 rounded-xl space-y-4 text-left">
-              <p className="text-sm font-bold text-white">Create your Drawdown account to access your course</p>
+              <p className="text-sm font-bold text-white">Create your Avorria account to access your course</p>
               <p className="text-sm text-white/50 leading-relaxed">
                 Your purchase is confirmed. Create a free account with the same email
                 you used at checkout and your course access will be linked automatically.

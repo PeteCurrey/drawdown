@@ -452,7 +452,7 @@ export default async function CurriculumPage() {
         </section>
       )}
 
-      {/* ── Drawdown Institutional Accelerator (High Ticket Cohort) ──────────────── */}
+      {/* ── Avorria Institutional Accelerator (High Ticket Cohort) ──────────────── */}
       <section className="space-y-6 pt-8 border-t border-[#EDEDED]">
         <div className="p-8 border border-[#E2B755]/30 rounded-[8px] bg-gradient-to-r from-[#0F1319] via-[#161D26] to-[#0F1319] shadow-lg shadow-[#E2B755]/5 text-white">
           <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
@@ -461,7 +461,7 @@ export default async function CurriculumPage() {
                 ★ Cohort Active — Limited Seats
               </div>
               <h2 className="text-2xl font-bold font-syne text-white tracking-tight">
-                Drawdown Institutional Accelerator
+                Avorria Institutional Accelerator
               </h2>
               <p className="text-sm text-neutral-300 leading-relaxed font-sans">
                 Ready to ascend to elite prop scaling? Our premium 6-week Live Cohort teaches systematic probability, custom Pine Script strategy engineering, live central-bank macro metrics, and corporate UK tax structuring for six-figure payouts.

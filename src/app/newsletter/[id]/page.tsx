@@ -14,7 +14,7 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
     .single();
 
   return {
-    title: `${edition?.subject_line || 'Newsletter'} | The Wire | Drawdown`,
+    title: `${edition?.subject_line || 'Newsletter'} | The Wire | Avorria`,
   };
 }
 

@@ -88,7 +88,7 @@ const INITIAL_CLAIMS: Claim[] = [
   },
   {
     slug: "platform-capabilities",
-    title: "Drawdown Platform Scope",
+    title: "Avorria Platform Scope",
     short_claim: "Trading education and risk-management research platform",
     approved_wording: "Drawdown is a trading education and risk-management research platform. We do not execute trades, route orders, or hold funds.",
     category: "platform-capability",

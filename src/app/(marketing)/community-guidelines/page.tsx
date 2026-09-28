@@ -5,7 +5,7 @@ import { Users } from "lucide-react";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Community Guidelines | Drawdown",
+  title: "Community Guidelines | Avorria",
   description: "Conduct expectations for Drawdown's Discord server and platform community.",
 };
 
@@ -181,7 +181,7 @@ export default function CommunityGuidelinesPage() {
             </h2>
             <div className="space-y-3 text-[14px] leading-relaxed" style={{ color: "var(--graphite-600)" }}>
               <p>
-                These guidelines may be updated from time to time. Continued participation in Drawdown community spaces constitutes acceptance of the current guidelines. The governing Terms and Conditions remain applicable at all times: <Link href="/terms" className="text-accent underline hover:opacity-80">drawdown.trading/terms</Link>.
+                These guidelines may be updated from time to time. Continued participation in Avorria community spaces constitutes acceptance of the current guidelines. The governing Terms and Conditions remain applicable at all times: <Link href="/terms" className="text-accent underline hover:opacity-80">avorria.com/terms</Link>.
               </p>
             </div>
           </section>

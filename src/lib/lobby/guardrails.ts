@@ -93,7 +93,7 @@ export function validateLobbyArticleGuardrails(
       warnings.push("No hero image attached; will use broadsheet typographic fallback.");
     }
     if (!article.related_tool_slugs || article.related_tool_slugs.length === 0) {
-      warnings.push("No Drawdown tools linked. Consider linking related calculators where applicable.");
+      warnings.push("No Avorria tools linked. Consider linking related calculators where applicable.");
     }
   }
 

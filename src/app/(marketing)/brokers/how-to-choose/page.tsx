@@ -122,7 +122,7 @@ export default function HowToChooseBrokerPage() {
             "@context": "https://schema.org",
             "@type": "HowTo",
             "name": "How to Choose a Forex Broker",
-            "url": "https://drawdown.trading/brokers/how-to-choose",
+            "url": "https://avorria.com/brokers/how-to-choose",
             "description": "A practical guide to selecting a regulated forex or CFD broker based on real trading costs, execution quality, and account protection.",
             "step": CRITERIA.map((c, i) => ({
               "@type": "HowToStep",
@@ -267,10 +267,10 @@ export default function HowToChooseBrokerPage() {
           <div className="flex-1 space-y-2">
             <p className="text-[10px] font-mono uppercase tracking-[0.25em] text-accent">Works with your broker</p>
             <h3 className="text-sm font-bold uppercase tracking-tight text-text-primary">
-              Connect Any FCA-Regulated Broker to the Drawdown Platform
+              Connect Any FCA-Regulated Broker to the Avorria Platform
             </h3>
             <p className="text-xs text-text-secondary leading-relaxed max-w-xl">
-              The Drawdown platform connects to MT4, MT5, and cTrader accounts to provide live risk management, position sizing calculations, and real-time drawdown monitoring regardless of which regulated broker you choose.
+              The Avorria platform connects to MT4, MT5, and cTrader accounts to provide live risk management, position sizing calculations, and real-time drawdown monitoring regardless of which regulated broker you choose.
             </p>
           </div>
           <Link

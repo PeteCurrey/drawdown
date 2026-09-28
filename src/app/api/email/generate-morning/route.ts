@@ -118,7 +118,7 @@ export async function POST(req: NextRequest) {
     const anthropicKey = process.env.ANTHROPIC_API_KEY;
     const openaiKey = process.env.OPENAI_API_KEY;
 
-    const systemPrompt = `You are Pete Currey, founder of Drawdown Trading — a UK-based trading education platform. You write a twice-daily email to traders who are learning to trade seriously.
+    const systemPrompt = `You are Pete Currey, founder of Avorria Trading — a UK-based trading education platform. You write a twice-daily email to traders who are learning to trade seriously.
 
 Your voice: direct, honest, no fluff, anti-guru. You don't hype markets. You don't give signals. You give context, education, and honest assessment. You're a British trader who takes risk management seriously above all else. Use British English spelling (analyse, colour, favour, etc.) and short paragraphs.
 
@@ -190,7 +190,7 @@ Respond ONLY with a valid JSON object matching the schema below. Do NOT add any 
     if (!textContent) {
       console.warn("[generate-morning] AI APIs unavailable or out of credit. Using high-fidelity structured fallback brief.");
       briefJson = {
-        subject_line: `Drawdown Morning Brief · ${dateStr}`,
+        subject_line: `Avorria Morning Brief · ${dateStr}`,
         preview_text: `Live macro snapshot, economic calendar events, and key levels for ${dateStr}.`,
         session_bullets: [
           `GBP/USD tracking key liquidity levels ahead of upcoming UK/US macroeconomic releases.`,
@@ -199,7 +199,7 @@ Respond ONLY with a valid JSON object matching the schema below. Do NOT add any 
         ],
         petes_take: `Good morning, team.\n\nAs we head into today's London session, market participants are eyeing the key macroeconomic releases on the calendar. Keep your risk parameters firm and adhere strictly to your trading plan.\n\nRemember: consistency comes from execution discipline, not guessing market direction. Protect capital first.`,
         one_thing: `Always define your maximum allowable loss before placing an order. Risk management is the only factor entirely under your control.`,
-        blog_title: `Drawdown Morning Brief — ${dateStr}`,
+        blog_title: `Avorria Morning Brief — ${dateStr}`,
         blog_slug: `morning-brief-${dateStr.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`
       };
     } else {
@@ -312,7 +312,7 @@ ${briefJson.one_thing}
         published: true,
         published_at: new Date().toISOString(),
         tags: ["morning-brief", "market-analysis", "automated"],
-        meta_title: `${briefJson.blog_title} | Drawdown`,
+        meta_title: `${briefJson.blog_title} | Avorria Trading`,
         meta_description: briefJson.preview_text
       });
 

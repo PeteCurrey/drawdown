@@ -85,7 +85,7 @@ export function TradingViewSection() {
             
             <div className="space-y-4 text-sm md:text-[15px] text-white/70 leading-relaxed font-sans">
               <p>
-                Every chart example in the Drawdown curriculum runs on TradingView. We use it ourselves — every session, every analysis, without exception. Sixty million traders globally. Real-time data across every market we teach.
+                Every chart example in the Avorria curriculum runs on TradingView. We use it ourselves — every session, every analysis, without exception. Sixty million traders globally. Real-time data across every market we teach.
               </p>
               <p>
                 It's the one tool we recommend without reservation.

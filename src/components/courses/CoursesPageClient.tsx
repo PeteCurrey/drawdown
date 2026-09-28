@@ -549,7 +549,7 @@ export function CoursesPageClient() {
                   ★ Premium Executive Cohort
                 </div>
                 <h3 className="text-2xl md:text-3xl font-display font-semibold tracking-tight text-white leading-tight">
-                  Drawdown Institutional Accelerator
+                  Avorria Institutional Accelerator
                 </h3>
                 <p className="text-[14px] leading-relaxed text-gray-400 font-sans">
                   Move beyond retail speculation. A premium 6-week higher education cohort combining systematic probability, custom Pine Script indicator engineering, live fund-level audits, and direct corporate Limited Company tax compliance structures.

@@ -4,7 +4,7 @@ import { PlanWorkspace } from "@/components/dashboard/PlanWorkspace";
 import { PageHeader } from "@/components/dashboard/ui/PageHeader";
 
 export const metadata = {
-  title: "Construct Strategy Plan · Drawdown",
+  title: "Construct Strategy Plan · Avorria",
   description: "Require planning logic and risk metrics calculation before placing a position elsewhere.",
 };
 

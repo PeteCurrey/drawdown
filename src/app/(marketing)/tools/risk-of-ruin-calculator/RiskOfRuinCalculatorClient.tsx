@@ -440,7 +440,7 @@ export function RiskOfRuinCalculatorClient() {
         <ToolContextualCTA
           toolName="Risk of Ruin Calculator"
           lead="Statistical survival is the only prerequisite for profitability."
-          benefit="The Drawdown curriculum teaches you how to structure risk per trade so your risk of ruin remains below 0.1% across every session."
+          benefit="The Avorria curriculum teaches you how to structure risk per trade so your risk of ruin remains below 0.1% across every session."
         />
 
         <ToolDisclaimer />

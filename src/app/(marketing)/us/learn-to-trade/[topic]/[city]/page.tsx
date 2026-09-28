@@ -112,7 +112,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const data = await getUSCityData(topicSlug, citySlug);
   if (!data) return {};
   return {
-    title: `${data.topicTitle} in ${data.locationName} — Professional Online Training | Drawdown US`,
+    title: `${data.topicTitle} in ${data.locationName} — Professional Online Training | Avorria US`,
     description: `Master ${data.topicTitle} from ${data.locationName} with Drawdown. Structured courses, US-regulated data, and professional trading education tailored for the American market.`,
     // Programmatic geo-targeting page — excluded from sitemap, must also carry noindex
     robots: { index: false, follow: true },
@@ -138,7 +138,7 @@ export default async function UnitedStatesLocationTopicPage({ params }: Props) {
         "NYSE & Nasdaq Integration",
       ]}
       ctaHref="/us/signup"
-      ctaLabel="Join Drawdown US Free"
+      ctaLabel="Join Avorria US Free"
     />
   );
 }

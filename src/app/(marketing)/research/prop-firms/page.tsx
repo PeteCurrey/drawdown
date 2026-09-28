@@ -7,7 +7,7 @@ import { PropFirmChallengeCalculator } from "@/components/calculators/PropFirmCh
 import { getMetadata } from "@/lib/metadata";
 
 export const metadata = getMetadata({
-  title: "Prop-Firm Rule & Challenge Economics Research | Drawdown Research",
+  title: "Prop-Firm Rule & Challenge Economics Research | Avorria Research",
   description:
     "Empirical analysis of prop-firm challenge survival probabilities, trailing drawdown mechanics, consistency rules, and effective break-even costs.",
   path: "/research/prop-firms",

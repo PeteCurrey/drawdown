@@ -50,7 +50,7 @@ export class RssSocialProvider extends SocialProvider {
     retentionAllowed: true,
   };
 
-  private readonly userAgent = "DrawdownIntelligence/1.0 (+https://drawdown.trading; research@drawdown.trading)";
+  private readonly userAgent = "DrawdownIntelligence/1.0 (+https://avorria.com; research@avorria.com)";
 
   protected getCredential(): string | null {
     return "PUBLIC";

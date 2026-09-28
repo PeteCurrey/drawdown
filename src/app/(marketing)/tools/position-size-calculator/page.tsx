@@ -4,14 +4,14 @@ import { PositionSizeCalculatorClient } from "./PositionSizeCalculatorClient";
 import JsonLd from "@/components/seo/JsonLd";
 
 export const metadata: Metadata = {
-  title: "Position Size Calculator — Exact Lot Sizing Across FX, Indices, Gold & Crypto | Drawdown",
+  title: "Position Size Calculator — Exact Lot Sizing Across FX, Indices, Gold & Crypto | Avorria",
   description:
     "Free institutional-grade position size calculator. Calculate exact lot sizing, cash risk, pip values, and drawdown impact for EUR/USD, Gold, S&P 500, Bitcoin, and 15+ markets.",
-  alternates: { canonical: "https://drawdown.trading/tools/position-size-calculator" },
+  alternates: { canonical: "https://avorria.com/tools/position-size-calculator" },
   openGraph: {
-    title: "Position Size Calculator — Drawdown Trading",
+    title: "Position Size Calculator — Avorria Trading",
     description: "Determine exact lot sizes, risk thresholds, and capital exposure in real-time. Transparent mathematical calculations.",
-    url: "https://drawdown.trading/tools/position-size-calculator",
+    url: "https://avorria.com/tools/position-size-calculator",
     type: "website",
   },
 };
@@ -40,7 +40,7 @@ export default function PositionSizeCalculatorPage() {
       "@context": "https://schema.org",
       "@type": "WebApplication",
       "name": "Drawdown Position Size Calculator",
-      "url": "https://drawdown.trading/tools/position-size-calculator",
+      "url": "https://avorria.com/tools/position-size-calculator",
       "description": "Calculate exact lot sizes and cash exposure across Forex, Commodities, Indices, and Crypto based on account balance and risk percentage.",
       "applicationCategory": "FinanceApplication",
       "operatingSystem": "Any",

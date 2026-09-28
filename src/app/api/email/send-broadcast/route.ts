@@ -29,7 +29,7 @@ export async function POST(req: NextRequest) {
     const resendKey = process.env.RESEND_API_KEY;
     const resend = new Resend(resendKey || "re_mock_key");
 
-    let subject = directSubject || "Drawdown Trading Update";
+    let subject = directSubject || "Avorria Trading Update";
     let contentHtml = directHtml || "";
     let contentText = directText || "";
 
@@ -145,7 +145,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ success: true, count: 0, message: "No active subscribers found for this email type." });
     }
 
-    const appUrl = process.env.NEXT_PUBLIC_APP_URL || process.env.NEXT_PUBLIC_SITE_URL || "https://drawdown.trading";
+    const appUrl = process.env.NEXT_PUBLIC_APP_URL || process.env.NEXT_PUBLIC_SITE_URL || "https://avorria.com";
     let recipientCount = subscribers.length;
     let status = "sent";
     let errorMessage = null;
@@ -153,8 +153,8 @@ export async function POST(req: NextRequest) {
 
     // 4. Send via Resend with fallback from address support
     if (resendKey) {
-      const primaryFrom = process.env.RESEND_FROM_EMAIL || "Pete @ Drawdown <thewire@drawdown.trading>";
-      const fallbackFrom = "Drawdown Trading <onboarding@resend.dev>";
+      const primaryFrom = process.env.RESEND_FROM_EMAIL || "Pete @ Avorria <thewire@avorria.com>";
+      const fallbackFrom = "Avorria Trading <onboarding@resend.dev>";
 
       try {
         const chunkSize = 100;

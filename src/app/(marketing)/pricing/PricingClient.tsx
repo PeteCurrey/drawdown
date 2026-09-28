@@ -575,7 +575,7 @@ export default function PricingPage({
               Six-Week Live Cohort
             </p>
             <h2 className="text-2xl md:text-3xl font-bold text-white tracking-tight">
-              The Drawdown Institutional Accelerator
+              The Avorria Institutional Accelerator
             </h2>
             <p className="text-sm text-[#9CA3AF] max-w-xl leading-relaxed">
               A structured six-week programme for serious traders. Maximum 15 accepted participants per cohort.

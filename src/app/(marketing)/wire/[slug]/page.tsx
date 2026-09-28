@@ -21,7 +21,7 @@ export async function generateMetadata({ params }: WireEditionPageProps): Promis
   if (!edition) return { title: "Edition Not Found | The Wire" };
 
   return getMetadata({
-    title: `${edition.title} | The Wire | Drawdown`,
+    title: `${edition.title} | The Wire | Avorria`,
     description: edition.preview_text || `Drawdown curated ${edition.edition_type.toLowerCase()} market intelligence briefing.`,
     path: `/wire/${slug}`,
     hasRegionalVariants: false,
@@ -45,7 +45,7 @@ export default async function WireEditionPage({ params }: WireEditionPageProps) 
           description: edition.preview_text || edition.title,
           datePublished: edition.published_at || edition.created_at,
           dateModified: edition.updated_at,
-          author: { "@type": "Organization", name: "Drawdown Desk" },
+          author: { "@type": "Organization", name: "Avorria Desk" },
           publisher: defaultOrgSchema,
         }}
       />

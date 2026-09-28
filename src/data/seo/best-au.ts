@@ -45,7 +45,7 @@ export const BEST_OF_PAGES_AU: BestOfPage[] = [
     bestOverall: { name: 'Pepperstone', reason: 'Consistently top-tier performance across all metrics.', link: '/go/pepperstone' },
     comparisonTable: [],
     sections: [],
-    drawdownApproach: { title: 'The Drawdown Choice', content: 'We prioritize security and execution above all else.', ctaText: 'Join Drawdown', ctaLink: '/au/signup' },
+    drawdownApproach: { title: 'The Avorria Choice', content: 'We prioritize security and execution above all else.', ctaText: 'Join Avorria', ctaLink: '/au/signup' },
     faqs: []
   }))
 ];

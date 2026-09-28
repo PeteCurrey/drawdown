@@ -241,7 +241,7 @@ export default function AdminAcceleratorDashboard() {
                       <td className="p-4">
                         <div>
                           <p className="font-bold text-neutral-900">{m.enrolment?.profile?.display_name || "Anonymous Trader"}</p>
-                          <p className="text-[10px] font-mono text-neutral-400">{m.enrolment?.profile?.email || "student@drawdown.trading"}</p>
+                          <p className="text-[10px] font-mono text-neutral-400">{m.enrolment?.profile?.email || "student@avorria.com"}</p>
                         </div>
                       </td>
                       <td className="p-4">

@@ -5,7 +5,7 @@ import { CommercialAccess } from "@/lib/entitlements";
 import { PageHeader } from "@/components/dashboard/ui/PageHeader";
 
 export const metadata = {
-  title: "Signal Centre · Drawdown",
+  title: "Signal Centre · Avorria",
   description: "Real-time, high-conviction sessional confluence signals and technical setups. Three AI models produce a single consensus score on every live market opportunity.",
 };
 

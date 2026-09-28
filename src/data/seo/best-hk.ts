@@ -27,7 +27,7 @@ export const BEST_OF_PAGES_HK: BestOfPage[] = [
     bestOverall: { name: 'Interactive Brokers', reason: 'Professional execution and the lowest margin rates available in HK.', link: '/go/interactive-brokers' },
     comparisonTable: [],
     sections: [],
-    drawdownApproach: { title: 'The Drawdown Choice', content: 'Professional standards for serious traders.', ctaText: 'Join Drawdown', ctaLink: '/hk/signup' },
+    drawdownApproach: { title: 'The Avorria Choice', content: 'Professional standards for serious traders.', ctaText: 'Join Avorria', ctaLink: '/hk/signup' },
     faqs: []
   }))
 ];

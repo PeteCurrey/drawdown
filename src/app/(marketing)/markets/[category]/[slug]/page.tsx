@@ -65,7 +65,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     title: instrument.metaTitle,
     description: instrument.metaDescription,
     alternates: {
-      canonical: `https://drawdown.trading/markets/${category}/${slug}`,
+      canonical: `https://avorria.com/markets/${category}/${slug}`,
     },
   };
 }
@@ -203,10 +203,10 @@ export default async function MarketInstrumentPage({ params }: PageProps) {
   const financialProductSchema = {
     "@context": "https://schema.org",
     "@type": "FinancialProduct",
-    "@id": `https://drawdown.trading/markets/${instrument.category}/${instrument.slug}`,
+    "@id": `https://avorria.com/markets/${instrument.category}/${instrument.slug}`,
     "name": `${instrument.name} (${instrument.displayPair})`,
     "description": `Real-time rates, margins, leverage limits, trading conditions, and regulatory costs for trading ${instrument.name} (${instrument.displayPair}) under FCA compliance.`,
-    "feesAndCommissionsSpecification": `https://drawdown.trading/markets/${instrument.category}/${instrument.slug}#specifications`,
+    "feesAndCommissionsSpecification": `https://avorria.com/markets/${instrument.category}/${instrument.slug}#specifications`,
     "offers": {
       "@type": "Offer",
       "priceCurrency": "GBP",
@@ -221,10 +221,10 @@ export default async function MarketInstrumentPage({ params }: PageProps) {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(financialProductSchema) }} />
 
       <BreadcrumbSchema items={[
-        { name: 'Home', url: 'https://drawdown.trading' },
-        { name: 'Markets', url: 'https://drawdown.trading/markets' },
-        { name: instrument.category.toUpperCase(), url: `https://drawdown.trading/markets/${instrument.category}` },
-        { name: instrument.displayPair, url: `https://drawdown.trading/markets/${instrument.category}/${instrument.slug}` }
+        { name: 'Home', url: 'https://avorria.com' },
+        { name: 'Markets', url: 'https://avorria.com/markets' },
+        { name: instrument.category.toUpperCase(), url: `https://avorria.com/markets/${instrument.category}` },
+        { name: instrument.displayPair, url: `https://avorria.com/markets/${instrument.category}/${instrument.slug}` }
       ]} />
       <div className="flex flex-col bg-[#0A0A0A] text-white min-h-screen selection:bg-[#C8F135] selection:text-black">
       
@@ -255,7 +255,7 @@ export default async function MarketInstrumentPage({ params }: PageProps) {
           <div className="w-full max-w-3xl mx-auto pt-6">
             <TradingViewSymbolInfo 
               symbol={instrument.ticker}
-              largeChartUrl={`https://drawdown.trading/markets/${instrument.category}/${instrument.slug}`}
+              largeChartUrl={`https://avorria.com/markets/${instrument.category}/${instrument.slug}`}
             />
           </div>
 
@@ -645,7 +645,7 @@ export default async function MarketInstrumentPage({ params }: PageProps) {
               {[
                 {
                   title: "Structured Learning",
-                  desc: "Follow the Drawdown curriculum from Phase 1. No skipping ahead."
+                  desc: "Follow the Avorria curriculum from Phase 1. No skipping ahead."
                 },
                 {
                   title: "Live Chart Examples",
@@ -729,7 +729,7 @@ export default async function MarketInstrumentPage({ params }: PageProps) {
                     <div className="w-full h-[180px] rounded-lg overflow-hidden bg-[#0A0A0A]">
                       <TradingViewMiniChart 
                         symbol={rel.ticker}
-                        largeChartUrl={`https://drawdown.trading/markets/${rel.category}/${rel.slug}`}
+                        largeChartUrl={`https://avorria.com/markets/${rel.category}/${rel.slug}`}
                       />
                     </div>
                   </div>

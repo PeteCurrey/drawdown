@@ -80,7 +80,7 @@ export const tools: ToolContent[] = [
 
 If you are using a spreadsheet or a generic online logger, you aren't journaling—you're just bookkeeping. True performance attribution requires context. A "Win" in a ranging market is fundamentally different from a "Win" in a trend-extension setup. If you apply the same logic to both, you are gambling with probabilities.
 
-The Drawdown AI Trade Journal was built to solve the **Context Gap**. By pulling professional-grade data feeds (via TwelveData and Finnhub), we overlay your trade data with the actual state of the market at the millisecond of execution. 
+The Avorria AI Trade Journal was built to solve the **Context Gap**. By pulling professional-grade data feeds (via TwelveData and Finnhub), we overlay your trade data with the actual state of the market at the millisecond of execution. 
 
 ### The Mathematics of the 'Why'
 
@@ -108,7 +108,7 @@ We use the same metrics that prop firms use to evaluate their best traders:
 
 ### The Truth about Consistency
 
-Consistency doesn't mean winning every day. It means following a process every day. The Drawdown AI Journal is the only tool that measures **Process Adherence**. We don't just tell you if you won money; we tell you if you followed your rules.
+Consistency doesn't mean winning every day. It means following a process every day. The Avorria AI Journal is the only tool that measures **Process Adherence**. We don't just tell you if you won money; we tell you if you followed your rules.
 
 Because at the end of the day, a lucky win that broke your rules is just a delayed loss. A disciplined loss that followed your rules is a success. This journal teaches you the difference.
       `

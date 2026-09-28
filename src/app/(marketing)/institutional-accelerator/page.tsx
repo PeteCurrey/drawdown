@@ -77,7 +77,7 @@ const WEEK_CURRICULUM = [
       "AI journaling pipelines: parsing trading transcripts for performance anomalies"
     ],
     deliverable: "Deploy your first automated TradingView webhook-to-broker trade loop.",
-    tool: "Drawdown AI Journal API & Pine Script Engine"
+    tool: "Avorria AI Journal API & Pine Script Engine"
   },
   {
     week: "Week 05",
@@ -118,7 +118,7 @@ const FAQS = [
   },
   {
     question: "Is this program compliant with UK FCA rules?",
-    answer: "Yes. Drawdown Trading is an educational and technology provider. We do not offer financial advice, execute trades on your behalf, or manage capital. The legal modules in Week 5 & 6 are conducted for educational purposes to help you set up compliant corporate structures and understand HMRC-allowable tax shields."
+    answer: "Yes. Avorria Trading is an educational and technology provider. We do not offer financial advice, execute trades on your behalf, or manage capital. The legal modules in Week 5 & 6 are conducted for educational purposes to help you set up compliant corporate structures and understand HMRC-allowable tax shields."
   },
   {
     question: "What is the capital requirement to join?",
@@ -151,7 +151,7 @@ export default function InstitutionalAccelerator() {
 
           {/* Typography Header */}
           <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-white mb-6 leading-[1.1] max-w-4xl mx-auto">
-            The Drawdown <br />
+            The Avorria <br />
             <span className="bg-gradient-to-r from-[#E2B755] via-[#F3C475] to-[#C59235] bg-clip-text text-transparent">
               Institutional Accelerator
             </span>
@@ -378,7 +378,7 @@ export default function InstitutionalAccelerator() {
                 <h4 className="text-lg font-bold text-white">12-Month Edge Platform Access</h4>
               </div>
               <p className="text-sm text-[#9CA3AF] leading-relaxed mb-4">
-                Gain 12 months complete access to the Drawdown Edge platform including our custom Strategy Backtesting Suite, risk analysis engines, and global macro alerts.
+                Gain 12 months complete access to the Avorria Edge platform including our custom Strategy Backtesting Suite, risk analysis engines, and global macro alerts.
               </p>
               <span className="text-xs font-semibold text-[#E2B755] tracking-wide uppercase">Included in Cohort</span>
             </div>

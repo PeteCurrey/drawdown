@@ -10,7 +10,7 @@ import { LobbyNav } from "@/components/lobby/LobbyNav";
 import { BookmarkButton } from "@/components/lobby/BookmarkButton";
 
 export const metadata: Metadata = {
-  title: "Saved Stories | The Lobby | Drawdown",
+  title: "Saved Stories | The Lobby | Avorria",
   description: "Your bookmarked articles, market intelligence reports, and trading updates.",
   robots: { index: false, follow: false },
 };

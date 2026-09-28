@@ -197,7 +197,7 @@ export function RegionalBestOfPage({ region, slug, data }: RegionalBestOfPagePro
               Master the business of risk with Drawdown&apos;s professional-grade education.
             </p>
             <Link href="/signup" className="inline-flex items-center space-x-3 bg-white text-mkt-ink px-10 py-5 text-xs font-bold uppercase tracking-[0.2em] hover:bg-text-primary hover:text-background-primary transition-all">
-              <span>Join Drawdown Free</span>
+              <span>Join Avorria Free</span>
               <ArrowRight className="w-4 h-4" />
             </Link>
           </section>

@@ -52,7 +52,7 @@ export default function RiskCalculatorPage() {
             "@context": "https://schema.org",
             "@type": "WebApplication",
             "name": "Trading Risk Calculator",
-            "url": "https://drawdown.trading/calculators/risk",
+            "url": "https://avorria.com/calculators/risk",
             "applicationCategory": "FinanceApplication",
             "operatingSystem": "All",
             "description":
@@ -228,7 +228,7 @@ export default function RiskCalculatorPage() {
           {/* Conversion Module */}
           <CalculatorNextStep
             heading="Real-Time Risk Verification Inside the Platform"
-            body="The Drawdown platform shows your exact cash risk and account risk percentage on every open trade in real time — before and after execution. No manual calculation needed before entering a position."
+            body="The Avorria platform shows your exact cash risk and account risk percentage on every open trade in real time — before and after execution. No manual calculation needed before entering a position."
             cta="Start Tracking"
             href="/pricing"
           />

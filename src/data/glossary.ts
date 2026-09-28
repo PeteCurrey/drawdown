@@ -59,7 +59,7 @@ Even with a 60% win rate, if you risk 10% of your account per trade, a normal lo
   {
     slug: "kelly-criterion",
     title: "Kelly Criterion",
-    seo_title: "Kelly Criterion in Trading | Drawdown Glossary",
+    seo_title: "Kelly Criterion in Trading | Avorria Glossary",
     seo_description: "Understand the Kelly Criterion formula and how it determines the optimal bet size for long-term trading success.",
     content: `
 # Kelly Criterion
@@ -87,7 +87,7 @@ If you buy EUR/USD and buy GBP/USD, you are effectively doubling your risk on th
   {
     slug: "divergence",
     title: "Divergence",
-    seo_title: "Divergence Trading Explained | Drawdown Glossary",
+    seo_title: "Divergence Trading Explained | Avorria Glossary",
     seo_description: "Understand market divergence, how to spot it using oscillators, and why it signals a potential trend reversal.",
     content: `
 # Divergence
@@ -101,7 +101,7 @@ Divergence is often an early warning sign that the momentum behind a trend is ex
   {
     slug: "convergence",
     title: "Convergence",
-    seo_title: "Market Convergence Explained | Drawdown Glossary",
+    seo_title: "Market Convergence Explained | Avorria Glossary",
     seo_description: "Learn what convergence means in technical analysis and how it confirms trend continuation.",
     content: `
 # Convergence
@@ -115,7 +115,7 @@ Convergence gives traders confidence to hold onto winning positions. If price is
   {
     slug: "accumulation",
     title: "Accumulation",
-    seo_title: "Accumulation Phase in Trading | Drawdown Glossary",
+    seo_title: "Accumulation Phase in Trading | Avorria Glossary",
     seo_description: "Understand the accumulation phase of the market cycle and how institutions build positions quietly.",
     content: `
 # Accumulation
@@ -129,7 +129,7 @@ Retail traders often get chopped up in accumulation ranges. By recognizing this 
   {
     slug: "distribution",
     title: "Distribution",
-    seo_title: "Distribution Phase in Trading | Drawdown Glossary",
+    seo_title: "Distribution Phase in Trading | Avorria Glossary",
     seo_description: "Learn how to spot the distribution phase where smart money unloads their positions to retail traders.",
     content: `
 # Distribution
@@ -157,7 +157,7 @@ Price frequently returns to these zones to mitigate (break even) institutional p
   {
     slug: "fair-value-gap",
     title: "Fair Value Gap (FVG)",
-    seo_title: "Fair Value Gap (FVG) Explained | Drawdown Glossary",
+    seo_title: "Fair Value Gap (FVG) Explained | Avorria Glossary",
     seo_description: "Understand Fair Value Gaps, how imbalances are created, and why price is drawn to them like a magnet.",
     content: `
 # Fair Value Gap (FVG)
@@ -171,7 +171,7 @@ The market is an efficient mechanism that seeks to balance itself. Therefore, pr
   {
     slug: "imbalance",
     title: "Imbalance",
-    seo_title: "Market Imbalance Explained | Drawdown Glossary",
+    seo_title: "Market Imbalance Explained | Avorria Glossary",
     seo_description: "Learn what a market imbalance is and how aggressive buying or selling creates inefficiencies.",
     content: `
 # Imbalance
@@ -185,7 +185,7 @@ Imbalances highlight where true institutional intent lies. Similar to an FVG, tr
   {
     slug: "liquidity-grab",
     title: "Liquidity Grab",
-    seo_title: "What is a Liquidity Grab? | Drawdown Glossary",
+    seo_title: "What is a Liquidity Grab? | Avorria Glossary",
     seo_description: "Understand liquidity grabs, stop hunts, and how institutions use retail stop losses to fill massive orders.",
     content: `
 # Liquidity Grab
@@ -213,7 +213,7 @@ A stop hunt usually precedes a sharp reversal in the opposite direction. Traders
   {
     slug: "market-maker",
     title: "Market Maker",
-    seo_title: "What is a Market Maker? | Drawdown Glossary",
+    seo_title: "What is a Market Maker? | Avorria Glossary",
     seo_description: "Understand the role of market makers, how they provide liquidity, and how they profit from the bid-ask spread.",
     content: `
 # Market Maker
@@ -255,7 +255,7 @@ Smart Money dictates the trend. As a retail trader, your job is not to fight Sma
   {
     slug: "retail-trader",
     title: "Retail Trader",
-    seo_title: "Retail Trader Definition | Drawdown Glossary",
+    seo_title: "Retail Trader Definition | Avorria Glossary",
     seo_description: "Learn what a retail trader is, the challenges they face, and how to elevate above the retail mindset.",
     content: `
 # Retail Trader
@@ -269,7 +269,7 @@ Retail traders are often referred to as "dumb money" because they typically lack
   {
     slug: "pip-value",
     title: "Pip Value",
-    seo_title: "How to Calculate Pip Value | Drawdown Glossary",
+    seo_title: "How to Calculate Pip Value | Avorria Glossary",
     seo_description: "Understand what a pip value is in forex trading and why it is critical for accurate risk management.",
     content: `
 # Pip Value
@@ -367,7 +367,7 @@ If a candle closes bullish, but the Delta is heavily negative, it means aggressi
   {
     slug: "footprint-chart",
     title: "Footprint Chart",
-    seo_title: "How to Read Footprint Charts | Drawdown Glossary",
+    seo_title: "How to Read Footprint Charts | Avorria Glossary",
     seo_description: "Discover footprint charts, the ultimate tool for viewing inside a candlestick to see volume distribution.",
     content: `
 # Footprint Chart
@@ -423,7 +423,7 @@ Without backtesting, you do not have a strategy; you have a hypothesis. By rigor
   {
     slug: "engulfing-candle",
     title: "Engulfing Candle",
-    seo_title: "Engulfing Candlestick Pattern | Drawdown Glossary",
+    seo_title: "Engulfing Candlestick Pattern | Avorria Glossary",
     seo_description: "Learn how to spot and trade Bullish and Bearish Engulfing patterns.",
     content: `
 # Engulfing Candle
@@ -437,7 +437,7 @@ It represents a complete shift in momentum and psychology. A bullish engulfing a
   {
     slug: "jump-diffusion",
     title: "Jump Diffusion",
-    seo_title: "Jump Diffusion Model in Trading | Drawdown Glossary",
+    seo_title: "Jump Diffusion Model in Trading | Avorria Glossary",
     seo_description: "Learn about the Jump Diffusion model and how it accounts for sudden, discontinuous price changes in financial markets.",
     content: `
 # Jump Diffusion
@@ -451,7 +451,7 @@ Standard risk models often assume price moves are continuous and normally distri
   {
     slug: "keltner-channel",
     title: "Keltner Channel",
-    seo_title: "How to Use Keltner Channels | Drawdown Glossary",
+    seo_title: "How to Use Keltner Channels | Avorria Glossary",
     seo_description: "Understand the Keltner Channel indicator, how it differs from Bollinger Bands, and how to use it for trend following.",
     content: `
 # Keltner Channel
@@ -465,7 +465,7 @@ Unlike Bollinger Bands which use standard deviation, Keltner Channels use ATR. T
   {
     slug: "unrealised-p-l",
     title: "Unrealised P&L",
-    seo_title: "Unrealised vs Realised P&L | Drawdown Glossary",
+    seo_title: "Unrealised vs Realised P&L | Avorria Glossary",
     seo_description: "Understand the difference between unrealised (floating) profit/loss and realised P&L.",
     content: `
 # Unrealised P&L
@@ -479,7 +479,7 @@ Amateur traders often confuse unrealised profit with actual balance. Until a tra
   {
     slug: "underlying-asset",
     title: "Underlying Asset",
-    seo_title: "What is an Underlying Asset? | Drawdown Glossary",
+    seo_title: "What is an Underlying Asset? | Avorria Glossary",
     seo_description: "Learn what an underlying asset is in the context of derivatives, CFDs, and options.",
     content: `
 # Underlying Asset
@@ -493,7 +493,7 @@ When you trade a CFD or spread bet, you do not own the asset. You are speculatin
   {
     slug: "xau",
     title: "XAU",
-    seo_title: "XAU/USD Trading Explained | Drawdown Glossary",
+    seo_title: "XAU/USD Trading Explained | Avorria Glossary",
     seo_description: "Learn about XAU, the ISO currency code for gold, and how to trade it against the US Dollar.",
     content: `
 # XAU
@@ -507,7 +507,7 @@ Gold is a unique asset that behaves as both a commodity and a currency. It is th
   {
     slug: "xag",
     title: "XAG",
-    seo_title: "XAG/USD Silver Trading | Drawdown Glossary",
+    seo_title: "XAG/USD Silver Trading | Avorria Glossary",
     seo_description: "Understand XAG, the symbol for silver, and its correlation with gold and the US Dollar.",
     content: `
 # XAG
@@ -521,7 +521,7 @@ Silver often moves in high correlation with gold but with significantly higher v
   {
     slug: "expert-advisor",
     title: "Expert Advisor (EA)",
-    seo_title: "What is an Expert Advisor (EA)? | Drawdown Glossary",
+    seo_title: "What is an Expert Advisor (EA)? | Avorria Glossary",
     seo_description: "Learn about Expert Advisors (EAs) in MetaTrader and how they automate trading strategies.",
     content: `
 # Expert Advisor (EA)
@@ -535,7 +535,7 @@ EAs allow for 24/7 market monitoring and execution without human intervention. W
   {
     slug: "pine-script",
     title: "Pine Script",
-    seo_title: "Pine Script for TradingView | Drawdown Glossary",
+    seo_title: "Pine Script for TradingView | Avorria Glossary",
     seo_description: "Understand Pine Script, TradingView's proprietary language for custom indicators and backtesting.",
     content: `
 # Pine Script
@@ -549,7 +549,7 @@ Pine Script is one of the most accessible languages for retail traders to codify
   {
     slug: "walk-forward-testing",
     title: "Walk-Forward Testing",
-    seo_title: "Walk-Forward Analysis in Trading | Drawdown Glossary",
+    seo_title: "Walk-Forward Analysis in Trading | Avorria Glossary",
     seo_description: "Learn how walk-forward testing prevents curve-fitting and validates a strategy for live markets.",
     content: `
 # Walk-Forward Testing
@@ -563,7 +563,7 @@ Most backtests fail because they are "over-fitted" to the past. Walk-forward tes
   {
     slug: "overfitting",
     title: "Overfitting",
-    seo_title: "The Danger of Overfitting in Trading | Drawdown Glossary",
+    seo_title: "The Danger of Overfitting in Trading | Avorria Glossary",
     seo_description: "Understand overfitting (curve-fitting) and why over-optimised strategies fail in live market conditions.",
     content: `
 # Overfitting
@@ -577,7 +577,7 @@ An over-fitted backtest looks like a perfect equity curve with no losses. In rea
   {
     slug: "mean-reversion",
     title: "Mean Reversion",
-    seo_title: "Mean Reversion Trading Strategy | Drawdown Glossary",
+    seo_title: "Mean Reversion Trading Strategy | Avorria Glossary",
     seo_description: "Learn the theory of mean reversion and why asset prices tend to return to their historical average.",
     content: `
 # Mean Reversion
@@ -591,7 +591,7 @@ Markets spend about 70-80% of their time in ranges or mean-reverting states. Und
   {
     slug: "execution-algorithm",
     title: "Execution Algorithm",
-    seo_title: "What is an Execution Algorithm? | Drawdown Glossary",
+    seo_title: "What is an Execution Algorithm? | Avorria Glossary",
     seo_description: "Learn how institutional execution algorithms like TWAP and VWAP work to minimize market impact.",
     content: `
 # Execution Algorithm
@@ -605,7 +605,7 @@ When you see price "grinding" slowly in one direction with very little volatilit
   {
     slug: "api-trading",
     title: "API Trading",
-    seo_title: "API Trading for Retail Traders | Drawdown Glossary",
+    seo_title: "API Trading for Retail Traders | Avorria Glossary",
     seo_description: "Understand API trading and how to connect your algorithms directly to broker execution engines.",
     content: `
 # API Trading
@@ -619,7 +619,7 @@ API trading is the bridge between a strategy idea and a live trading bot. It all
   {
     slug: "latency",
     title: "Latency",
-    seo_title: "Why Latency Matters in Trading | Drawdown Glossary",
+    seo_title: "Why Latency Matters in Trading | Avorria Glossary",
     seo_description: "Understand the impact of latency on execution quality and slippage.",
     content: `
 # Latency
@@ -633,7 +633,7 @@ In fast-moving markets, even a 500ms delay can mean the difference between a pro
   {
     slug: "monte-carlo-simulation",
     title: "Monte Carlo Simulation",
-    seo_title: "Monte Carlo Simulation in Trading | Drawdown Glossary",
+    seo_title: "Monte Carlo Simulation in Trading | Avorria Glossary",
     seo_description: "Learn how Monte Carlo simulations model the probability of different trading outcomes and risk of ruin.",
     content: `
 # Monte Carlo Simulation
@@ -647,7 +647,7 @@ A backtest shows one version of the past. A Monte Carlo simulation shows 5,000 v
   {
     slug: "quant",
     title: "Quant",
-    seo_title: "What is a Quant Trader? | Drawdown Glossary",
+    seo_title: "What is a Quant Trader? | Avorria Glossary",
     seo_description: "Learn about quantitative trading and how quants use mathematics and data to find an edge.",
     content: `
 # Quant

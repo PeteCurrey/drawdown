@@ -290,7 +290,7 @@ test("Content OS: Instagram carousel requires minimum 2 valid slides", () => {
       id: "a1",
       content_item_id: "c1",
       asset_type: "image",
-      storage_url: "https://drawdown.trading/assets/slide1.png",
+      storage_url: "https://avorria.com/assets/slide1.png",
       display_order: 0,
       aspect_ratio: "4:5",
       created_at: new Date().toISOString()

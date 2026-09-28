@@ -3,7 +3,7 @@ import { Check, Download, ArrowRight } from "lucide-react";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Order Confirmed — How to Trade | Drawdown",
+  title: "Order Confirmed — How to Trade | Avorria",
   description: "Your How to Trade PDF guide is on its way. Check your email for the download link.",
 };
 

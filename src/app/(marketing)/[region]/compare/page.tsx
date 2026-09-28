@@ -23,7 +23,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const regionName = REGIONS_MAP[region as Region].label;
 
   return getMetadata({
-    title: `Broker & Platform Comparisons ${regionName} | Drawdown`,
+    title: `Broker & Platform Comparisons ${regionName} | Avorria`,
     description: `Technical side-by-side comparisons of leading trading tools and platforms for traders in ${regionName}.`,
     path: `/${region}/compare`,
     hasRegionalVariants: true,

@@ -5,9 +5,9 @@ import { LEGAL_CONFIG } from '@/config/legal';
 import AboutClient from './AboutClient';
 
 export const metadata: Metadata = {
-  title: 'About Pete Currey & Drawdown Authority',
+  title: 'About Pete Currey & Avorria Authority',
   description: 'The honest origin of Drawdown. Pete Currey has been trading live markets since 2016. Discover our founder journey, risk philosophy, and what we do and do not claim.',
-  alternates: { canonical: 'https://drawdown.trading/about' },
+  alternates: { canonical: 'https://avorria.com/about' },
 };
 
 export default function AboutPage() {
@@ -18,18 +18,18 @@ export default function AboutPage() {
         "@context": "https://schema.org",
         "@type": "ProfilePage",
         "name": "About Pete Currey & Drawdown Authority",
-        "url": "https://drawdown.trading/about",
+        "url": "https://avorria.com/about",
         "description": "Discover the founder journey, risk philosophy, and the honest record behind Drawdown.",
         "mainEntity": {
           "@type": "Person",
           "name": "Pete Currey",
-          "url": "https://drawdown.trading/about",
+          "url": "https://avorria.com/about",
           "jobTitle": "Founder & Head of Research",
           "description": "Founder of Drawdown, trading live financial markets since 2016.",
           "worksFor": {
             "@type": "Organization",
             "name": "Drawdown",
-            "url": "https://drawdown.trading"
+            "url": "https://avorria.com"
           },
           "sameAs": [
             "https://linkedin.com/in/petercurrey"

@@ -60,7 +60,7 @@ export class EditorialCalendarGenerator {
     // Track pillars allocated so far for diversity
     const allocatedSequence: Array<{ pillarKey: string; topic?: string }> = [];
 
-    // Authentic Drawdown content library across all 8 canonical pillars (40 verified pieces, 5 per pillar)
+    // Authentic Avorria content library across all 8 canonical pillars (40 verified pieces, 5 per pillar)
     const pillarTopicBank: Record<string, Array<{ title: string; source: string; body: string; facts: string[]; analysis: string }>> = {
       market_intelligence: [
         {
@@ -102,7 +102,7 @@ export class EditorialCalendarGenerator {
       risk_and_drawdown: [
         {
           title: "The Asymmetry of Account Loss: Why a 50% Drawdown Requires 100% Gain",
-          source: "Drawdown Quantitative Research Archive (Educational Analysis)",
+          source: "Avorria Quantitative Research Archive (Educational Analysis)",
           body: "Loss recovery mathematics is non-linear. Losing capital rapidly impairs compounding capacity and geometric mean returns.",
           facts: ["10% loss requires 11.1% gain to break even", "50% loss requires 100% gain to recover"],
           analysis: "Risk management is the only holy grail in trading. Sizing positions small preserves mathematical survivability and avoids ruin probability."
@@ -116,7 +116,7 @@ export class EditorialCalendarGenerator {
         },
         {
           title: "Maximum Drawdown Duration: Surviving Structural Underwater Periods",
-          source: "Drawdown Statistical Modeling Group",
+          source: "Avorria Statistical Modeling Group",
           body: "Underwater duration (the time spent below prior equity peaks) routinely spans 3 to 5 times longer than peak-to-trough decline phases.",
           facts: ["Median recovery duration is 4.1x the decline duration", "Trader capitulation peaks at 80% through the recovery phase"],
           analysis: "Psychological resilience requires accepting that 60% of all calendar days in a positive-expectancy strategy are spent underwater."
@@ -130,7 +130,7 @@ export class EditorialCalendarGenerator {
         },
         {
           title: "Monte Carlo Ruin Probability: How Fixed Fractional Risk Prevents Blowouts",
-          source: "Drawdown Risk Engineering Research",
+          source: "Avorria Risk Engineering Research",
           body: "Running 1,000 simulated paths with a 50% win rate and 1.5:1 reward demonstrates that risking 5% per trade yields an 84% probability of account ruin within 200 trades.",
           facts: ["Risking 1% per trade reduces ruin probability to less than 0.1%", "Consecutive 8-trade losing streaks occur within every 500 trades"],
           analysis: "Account blowouts are not caused by bad strategy; they are mathematical certainties of over-leveraged bet sizing."
@@ -234,7 +234,7 @@ export class EditorialCalendarGenerator {
         },
         {
           title: "Maximum Adverse Excursion (MAE): Optimising Stop Distance with Edge",
-          source: "John Sweeney Campaign Trading & Drawdown Quantitative Labs",
+          source: "John Sweeney Campaign Trading & Avorria Quantitative Labs",
           body: "Plotting maximum adverse excursion across historical trades reveals that 87% of winning positions never exceeded 1.2 times initial ATR into negative territory.",
           facts: ["Stops wider than 1.5x ATR rarely save losing trades", "Quantifying MAE allows tighter stops without increasing premature stop-outs"],
           analysis: "Use empirical MAE distributions from your trade journal to place stops where the probability of recovery drops below 15%."
@@ -278,7 +278,7 @@ export class EditorialCalendarGenerator {
         },
         {
           title: "Liquidity Sweeps and Stop Runs: Institutional Absorption vs Retail Stops",
-          source: "Drawdown Order Flow Research Desk",
+          source: "Avorria Order Flow Research Desk",
           body: "Institutional orders require resting liquidity pools (clusters of retail stops above equal highs or below equal lows) to fill outsized volume without slippage.",
           facts: ["Liquidity sweeps occur before 72% of major trend reversals", "Price briefly breaches swing pivots before re-entering prior range"],
           analysis: "Do not place stops at obvious chart swing points. Allow buffer for liquidity sweeps or enter on the confirmed reclaim of the level."
@@ -286,36 +286,36 @@ export class EditorialCalendarGenerator {
       ],
       product_tools: [
         {
-          title: "Using the Drawdown Position Sizing Calculator to Enforce 1% Risk",
-          source: "Drawdown Platform Manual (Educational Risk Management Framework)",
+          title: "Using the Avorria Position Sizing Calculator to Enforce 1% Risk",
+          source: "Avorria Platform Manual (Educational Risk Management Framework)",
           body: "How professional prop traders calculate lot sizing across forex, gold, and equity indices in under 10 seconds.",
           facts: ["Computes exact lots based on stop loss distance", "Accounts for base currency exchange conversions"],
           analysis: "Automation eliminates emotional guessing at the moment of order placement. Sizing discipline guarantees survival."
         },
         {
           title: "Historical Value at Risk (VaR) Modeling for Prop Firm Challenges",
-          source: "Drawdown Prop Trading Risk Engine",
+          source: "Avorria Prop Trading Risk Engine",
           body: "Simulating trade sizing against prop firm maximum daily drawdown limits (typically 4% to 5%) prevents catastrophic rule violations.",
           facts: ["Monte Carlo runs on 500 simulated trade paths", "Identifies 99% confidence boundary for maximum concurrent drawdown"],
           analysis: "Prop firm evaluation success requires calibrating trade risk so that 5 consecutive losses do not trigger trailing drawdown limits."
         },
         {
           title: "Trade Journaling: Quantifying Expectancy and Maximum Adverse Excursion",
-          source: "Drawdown Performance Analytics Framework",
+          source: "Avorria Performance Analytics Framework",
           body: "Tracking Maximum Adverse Excursion (MAE) and Maximum Favorable Excursion (MFE) reveals whether stops are placed too tight or profits given back.",
           facts: ["MAE analysis improves stop efficiency by an average of 22%", "MFE data pinpoints optimal trailing exit thresholds"],
           analysis: "A trade journal without quantitative trade path metrics is merely a diary. Quantify your excursions to find your edge."
         },
         {
-          title: "Drawdown Prop Firm Risk Simulator: Passing Evaluations Without Ruin",
-          source: "Drawdown Prop Strategy Engineering",
+          title: "Avorria Prop Firm Risk Simulator: Passing Evaluations Without Ruin",
+          source: "Avorria Prop Strategy Engineering",
           body: "A mathematical breakdown of pass rates based on target profit vs daily drawdown buffer across 100,000 simulated trader trajectories.",
           facts: ["Traders risking 2% per trade experience 89% challenge failure rate", "Traders risking 0.5% per trade with 1:2 RR achieve 4.2x higher pass consistency"],
           analysis: "The secret to passing prop challenges is not high win rates; it is defensive capital preservation during adverse variance clusters."
         },
         {
           title: "Automating Real-Time Trade Checklists: Enforcing Rule Compliance",
-          source: "Drawdown Platform Architecture",
+          source: "Avorria Platform Architecture",
           body: "Pre-trade friction prevents impulsive executions. Requiring 4 core criteria verification before order entry cuts unforced trading errors by 65%.",
           facts: ["Checklists reduce behavioral impulsivity in high-stress environments", "Pre-trade risk confirmation stops revenge executions"],
           analysis: "Systematize your rules into immutable software gates. Discipline is easiest when automated."
@@ -324,35 +324,35 @@ export class EditorialCalendarGenerator {
       weekly_recap: [
         {
           title: "The Week in Markets: Central Bank Divergence and Volatility Shifts",
-          source: "Drawdown Quantitative Terminal & Bloomberg Market Wrap",
+          source: "Avorria Quantitative Terminal & Bloomberg Market Wrap",
           body: "Weekly retrospective covering the top market movements, drawdown events, and key risk levels for the week ahead.",
           facts: ["FTSE finished +0.8%", "Cable tested 1.2950 support"],
           analysis: "Process over outcome. Review your journal entries and risk rules before Monday's London open."
         },
         {
           title: "Weekly Cross-Asset Review: Sovereign Yield Shifts and FX Regimes",
-          source: "Drawdown Research Desk & Reuters Financial Data",
+          source: "Avorria Research Desk & Reuters Financial Data",
           body: "A comprehensive review of 2-year and 10-year yield curve shifts across G7 economies and their corresponding foreign exchange implications.",
           facts: ["US 2Y/10Y yield curve steepened by 14 basis points", "Gold consolidated above key support following geopolitical headlines"],
           analysis: "Cross-asset correlation review prevents over-leveraging into correlated assets posing as independent trades."
         },
         {
           title: "Weekly Execution Retrospective: Market Structure Shifts and Liquidity Regimes",
-          source: "Drawdown Trading Desk Weekly Briefing",
+          source: "Avorria Trading Desk Weekly Briefing",
           body: "Examining structural liquidity shifts across London and New York sessions with key lessons on execution slippage and volatility compression.",
           facts: ["Average daily volume compressed 12% ahead of central bank summits", "Range breakout strategies experienced higher false-positive rates"],
           analysis: "Adapting strategy to market regime is vital. Do not force trend-following setups during liquidity compression phases."
         },
         {
           title: "The Week in Central Banking: Policy Repricing and Bond Market Spreads",
-          source: "Drawdown Macro Terminal & Official Central Bank Transcripts",
+          source: "Avorria Macro Terminal & Official Central Bank Transcripts",
           body: "Synthesizing speeches from the FOMC, ECB Governing Council, and BoE MPC, tracking interest rate probability curves for the quarter ahead.",
           facts: ["Fed funds futures shifted terminal rate expectation by 25 bps", "Sovereign debt spreads widened across European peripherals"],
           analysis: "Central bank communication shapes the macroeconomic liquidity tide. Align swing trades with the policy direction."
         },
         {
           title: "Weekly Trading Desk Review: Volatility Regimes and Trade Post-Mortem",
-          source: "Drawdown Performance Audit Team",
+          source: "Avorria Performance Audit Team",
           body: "A systematic review of execution quality, average adverse excursion, and risk adherence across active market participants over the past 5 trading sessions.",
           facts: ["Winning trades followed planned entry criteria 94% of the time", "Outsized losses were linked to position sizing violations during high-impact news"],
           analysis: "End the week by auditing your worst execution, not your best profit. Elimination of mistakes drives long-term profitability."
@@ -451,7 +451,7 @@ export class EditorialCalendarGenerator {
           id: `asset_${i}_1`,
           content_item_id: `item_${i}`,
           asset_type: 'image',
-          storage_url: `https://drawdown.trading/assets/content/${slug}-slide1.png`,
+          storage_url: `https://avorria.com/assets/content/${slug}-slide1.png`,
           aspect_ratio: '4:5',
           display_order: 0,
           created_at: new Date().toISOString()
@@ -460,7 +460,7 @@ export class EditorialCalendarGenerator {
           id: `asset_${i}_2`,
           content_item_id: `item_${i}`,
           asset_type: 'image',
-          storage_url: `https://drawdown.trading/assets/content/${slug}-slide2.png`,
+          storage_url: `https://avorria.com/assets/content/${slug}-slide2.png`,
           aspect_ratio: '4:5',
           display_order: 1,
           created_at: new Date().toISOString()

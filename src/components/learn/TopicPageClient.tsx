@@ -110,26 +110,26 @@ export function TopicPageClient({ topic }: TopicPageClientProps) {
     "name": topic.title,
     "headline": topic.metaTitle || topic.title,
     "description": topic.metaDescription || topic.description,
-    "image": topic.heroImage.startsWith('http') ? topic.heroImage : `https://drawdown.trading${topic.heroImage}`,
+    "image": topic.heroImage.startsWith('http') ? topic.heroImage : `https://avorria.com${topic.heroImage}`,
     "author": {
       "@type": "Person",
       "name": "Pete Currey",
-      "url": "https://drawdown.trading/about",
+      "url": "https://avorria.com/about",
     },
     "publisher": {
       "@type": "Organization",
-      "name": "Drawdown Trading",
-      "url": "https://drawdown.trading",
+      "name": "Avorria Trading",
+      "url": "https://avorria.com",
       "logo": {
         "@type": "ImageObject",
-        "url": "https://drawdown.trading/assets/brand/logo.png"
+        "url": "https://avorria.com/assets/brand/logo.png"
       }
     },
     "datePublished": "2026-01-15T08:00:00Z",
     "dateModified": "2026-08-04T08:00:00Z",
     "mainEntityOfPage": {
       "@type": "WebPage",
-      "@id": `https://drawdown.trading/learn-to-trade/${topic.slug}`
+      "@id": `https://avorria.com/learn-to-trade/${topic.slug}`
     }
   };
 
@@ -510,7 +510,7 @@ export function TopicPageClient({ topic }: TopicPageClientProps) {
                 className="block w-full py-3 text-center text-[11px] font-mono font-bold uppercase tracking-[0.08em] transition-all hover:opacity-90"
                 style={{ backgroundColor: "var(--paper-0)", color: "var(--ink-950)" }}
               >
-                Join Drawdown Free
+                Join Avorria Free
               </Link>
             </div>
           </aside>

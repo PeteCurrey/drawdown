@@ -46,7 +46,7 @@ const faqs = [
   { q: "Is this a physical book?", a: "No — it's an instant PDF download. You'll receive a link to download immediately after purchase and also via email." },
   { q: "Will this work for forex, indices, commodities?", a: "Yes. The framework is instrument-agnostic. The principles of market structure and execution apply across all liquid markets." },
   { q: "What if I already have some trading experience?", a: "Many experienced traders who read this say it fills in important gaps and helps them articulate why certain setups work. It's a framework, not just a beginner guide." },
-  { q: "Can I get a refund?", a: "Due to the instant digital delivery nature of PDF downloads, we don't offer refunds. If you have questions about the content before purchasing, email pete@drawdown.trading." },
+  { q: "Can I get a refund?", a: "Due to the instant digital delivery nature of PDF downloads, we don't offer refunds. If you have questions about the content before purchasing, email pete@avorria.com." },
 ];
 
 export default function HowToTradeClient() {
@@ -210,7 +210,7 @@ export default function HowToTradeClient() {
               {[
                 "Multiple funded accounts across forex & indices",
                 "Institutional-style analysis applied to retail markets",
-                "100s of traders mentored through the Drawdown platform",
+                "100s of traders mentored through the Avorria platform",
                 "Built a full trading education platform from scratch",
               ].map(item => (
                 <div key={item} className="flex items-start gap-3 p-4 bg-[#0B0C10] border border-[#1A1D24] rounded-lg">

@@ -5,7 +5,7 @@ import { ShieldCheck, Lock, Eye, Download, Trash2, ExternalLink, Mail, CheckCirc
 import Link from "next/link";
 
 export const metadata = getMetadata({
-  title: "Privacy Policy | Drawdown",
+  title: "Privacy Policy | Avorria",
   description: "Drawdown Privacy Policy explaining how Black & Rowan Management Group Limited collects, processes, protects, and retains your data under UK GDPR.",
   path: "/privacy",
 });
@@ -241,7 +241,7 @@ export default function PrivacyPage() {
                   <Trash2 size={16} /> Account Deletion Workflow
                 </h3>
                 <p className="text-[13px]" style={{ color: "var(--graphite-600)" }}>
-                  To permanently delete your Drawdown account and associated operational data, navigate to <strong>Account Settings → Security → Delete Account</strong> or email <span className="text-accent">{LEGAL_CONFIG.privacyEmail}</span>.
+                  To permanently delete your Avorria account and associated operational data, navigate to <strong>Account Settings → Security → Delete Account</strong> or email <span className="text-accent">{LEGAL_CONFIG.privacyEmail}</span>.
                 </p>
               </div>
             </div>

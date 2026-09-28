@@ -178,7 +178,7 @@ export default function PropSurvivalKitPage() {
 
           {/* Subheading */}
           <p className="text-lg md:text-xl lg:text-2xl opacity-60 max-w-2xl mt-8 font-sans leading-relaxed">
-            The Drawdown Prop Firm Survival Kit is what we wish existed when we started. Every rule decoded. Every trap mapped. Every psychological spiral named.
+            The Avorria Prop Firm Survival Kit is what we wish existed when we started. Every rule decoded. Every trap mapped. Every psychological spiral named.
           </p>
 
           {/* Stat Strip */}
@@ -275,7 +275,7 @@ export default function PropSurvivalKitPage() {
               <img src="/images/pete.jpg" alt="Pete Currey" className="w-full h-full object-cover" />
             </div>
             <p className="text-sm opacity-45 font-mono font-medium">
-              — Pete Currey, Founder — Drawdown Trading
+              — Pete Currey, Founder — Avorria Trading
             </p>
           </div>
         </div>
@@ -312,7 +312,7 @@ export default function PropSurvivalKitPage() {
               <div className="flex flex-wrap gap-3 pt-4 select-none">
                 {[
                   "Trading Live Since 2016",
-                  "Founder, Drawdown Trading",
+                  "Founder, Avorria Trading",
                   "UK-Based, FX & Indices",
                   "Phase 1–6 Curriculum Author",
                   "Chesterfield, Derbyshire"
@@ -571,7 +571,7 @@ export default function PropSurvivalKitPage() {
                 PROP FIRM SURVIVAL KIT
               </div>
               <div className="text-[10px] text-white/20 mt-1 font-mono tracking-wide">
-                Drawdown Trading — Pete Currey
+                Avorria Trading — Pete Currey
               </div>
 
               {/* Fake Content Lines */}
@@ -612,7 +612,7 @@ export default function PropSurvivalKitPage() {
             One purchase. Use it on every challenge you ever take.
           </h2>
           <p className="text-base opacity-50 mt-4 mb-12 max-w-xl font-sans leading-relaxed">
-            A one-time download. No subscription. No upsell. The Drawdown Prop Firm Survival Kit — yours to keep.
+            A one-time download. No subscription. No upsell. The Avorria Prop Firm Survival Kit — yours to keep.
           </p>
 
           {/* Stripe Purchase Box */}
@@ -662,7 +662,7 @@ export default function PropSurvivalKitPage() {
           </div>
 
             <p className="text-xs text-white/40 leading-relaxed max-w-md mx-auto mt-8 font-sans">
-              <strong className="text-white">One-time payment. Yours to keep.</strong> Instant PDF download. If you have any issues with your purchase, contact us at support@drawdown.trading.
+              <strong className="text-white">One-time payment. Yours to keep.</strong> Instant PDF download. If you have any issues with your purchase, contact us at support@avorria.com.
             </p>
 
           {/* Trust Strip */}
@@ -753,7 +753,7 @@ export default function PropSurvivalKitPage() {
               href="/courses"
               className="px-8 py-4 border border-white/20 text-white font-semibold rounded-lg hover:bg-white/5 transition font-sans text-sm tracking-wide"
             >
-              Explore the Drawdown Curriculum →
+              Explore the Avorria Curriculum →
             </Link>
           </div>
 

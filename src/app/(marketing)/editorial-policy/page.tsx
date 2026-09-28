@@ -6,9 +6,9 @@ import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { LEGAL_CONFIG } from "@/config/legal";
 
 export const metadata = {
-  title: "Editorial Policy & Standards | Drawdown Trading",
+  title: "Editorial Policy & Standards | Avorria Trading",
   description:
-    "The official editorial independence, AI content policy, source verification, financial disclaimer, and correction standards of Drawdown Trading.",
+    "The official editorial independence, AI content policy, source verification, financial disclaimer, and correction standards of Avorria Trading.",
 };
 
 export default function EditorialPolicyPage() {
@@ -38,7 +38,7 @@ export default function EditorialPolicyPage() {
               1. Editorial Independence & Commercial Relationships
             </h2>
             <p>
-              Drawdown Trading accepts commercial commissions and referral compensation from select broker and software providers. However, affiliate revenue never dictates our numerical rating models, broker test records, or risk research conclusions.
+              Avorria Trading accepts commercial commissions and referral compensation from select broker and software providers. However, affiliate revenue never dictates our numerical rating models, broker test records, or risk research conclusions.
             </p>
             <p>
               Where commercial partner links are included, they are clearly tagged with affiliate disclosures. Brokers cannot pay for favorable reviews or deletion of verified negative findings.

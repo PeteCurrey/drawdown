@@ -207,7 +207,7 @@ export function BrokerEcosystemSection() {
 
                 <div className="space-y-3 type-body font-normal text-sm" style={{ color: "var(--text-secondary)" }}>
                   <p>
-                    Every chart walkthrough and technical setup in the Drawdown curriculum is built on TradingView. It provides real-time multi-asset market data, institutional charting tools, and server-side alerts.
+                    Every chart walkthrough and technical setup in the Avorria curriculum is built on TradingView. It provides real-time multi-asset market data, institutional charting tools, and server-side alerts.
                   </p>
                   <p>
                     We use it across our daily sessions and recommend it as our standard charting environment.

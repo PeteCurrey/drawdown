@@ -52,7 +52,7 @@ export default function DrawdownCalculatorPage() {
             "@context": "https://schema.org",
             "@type": "WebApplication",
             "name": "Drawdown Calculator",
-            "url": "https://drawdown.trading/calculators/drawdown",
+            "url": "https://avorria.com/calculators/drawdown",
             "applicationCategory": "FinanceApplication",
             "operatingSystem": "All",
             "description":
@@ -258,7 +258,7 @@ export default function DrawdownCalculatorPage() {
           {/* Conversion Module */}
           <CalculatorNextStep
             heading="Backtest Your Strategy's Real Drawdown Distribution"
-            body="The Drawdown Backtester runs Monte Carlo simulations on your actual trade history to show the distribution of worst-case drawdown scenarios — not just the single path you experienced."
+            body="The Avorria Backtester runs Monte Carlo simulations on your actual trade history to show the distribution of worst-case drawdown scenarios — not just the single path you experienced."
             cta="Run a Backtest"
             href="/pricing"
           />

@@ -4,7 +4,7 @@ import { LEGAL_CONFIG } from "@/config/legal";
 import { Cookie, ShieldCheck, CheckCircle2, Sliders } from "lucide-react";
 
 export const metadata = getMetadata({
-  title: "Cookie Policy | Drawdown",
+  title: "Cookie Policy | Avorria",
   description: "Drawdown Cookie Policy explaining essential, analytics, functional, and marketing cookie usage and user consent preferences under UK GDPR and PECR.",
   path: "/cookies",
 });

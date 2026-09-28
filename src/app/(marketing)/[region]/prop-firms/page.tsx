@@ -19,7 +19,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: `Prop Firm Reviews & Comparison for ${regionName} Traders | Pass Your Challenge`,
     description: `Honest prop firm reviews and comparison for ${regionName} traders. Ranked by viability, payout reliability, and rule transparency.`,
-    alternates: { canonical: `https://drawdown.trading/${region}/prop-firms` },
+    alternates: { canonical: `https://avorria.com/${region}/prop-firms` },
   };
 }
 
@@ -34,8 +34,8 @@ export default async function RegionalPropFirmsPage({ params }: Props) {
   return (
     <RegionalProvider region={region}>
       <BreadcrumbSchema items={[
-        { name: 'Home', url: `https://drawdown.trading/${region}` },
-        { name: 'Prop Firms', url: `https://drawdown.trading/${region}/prop-firms` }
+        { name: 'Home', url: `https://avorria.com/${region}` },
+        { name: 'Prop Firms', url: `https://avorria.com/${region}/prop-firms` }
       ]} />
       <PropFirmsPage />
     </RegionalProvider>

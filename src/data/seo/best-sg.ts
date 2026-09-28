@@ -27,7 +27,7 @@ export const BEST_OF_PAGES_SG: BestOfPage[] = [
     bestOverall: { name: 'Saxo Markets', reason: 'Professional tools and deep multi-asset liquidity.', link: 'https://home.saxo/en-sg' },
     comparisonTable: [],
     sections: [],
-    drawdownApproach: { title: 'The Drawdown Choice', content: 'Institutional standards for retail traders.', ctaText: 'Join Drawdown', ctaLink: '/sg/signup' },
+    drawdownApproach: { title: 'The Avorria Choice', content: 'Institutional standards for retail traders.', ctaText: 'Join Avorria', ctaLink: '/sg/signup' },
     faqs: []
   }))
 ];

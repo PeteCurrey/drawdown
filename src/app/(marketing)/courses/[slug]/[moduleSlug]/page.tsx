@@ -44,7 +44,7 @@ function getModuleDetails(phaseSlug: string, moduleSlug: string) {
   if (phaseSlug === "ground-zero" && moduleSlug === "module-1") {
     description = "Discover the real reason 90% of retail traders lose money — ESMA-verified data, the four failure behaviours, and the framework to avoid them. Free on Drawdown.";
   } else {
-    description = `Master ${moduleTitle} in Phase ${phase.number} (${phase.name}) of the Drawdown curriculum. Learn institutional risk management & execution setups for UK traders.`;
+    description = `Master ${moduleTitle} in Phase ${phase.number} (${phase.name}) of the Avorria curriculum. Learn institutional risk management & execution setups for UK traders.`;
   }
 
   return {
@@ -62,8 +62,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const details = getModuleDetails(slug, moduleSlug);
   if (!details) return {};
 
-  // Formulate <title> as: [Module Title] | [Phase Name] | Drawdown Trading Education
-  const title = `${details.moduleTitle} | ${details.phase.name} | Drawdown Trading Education`;
+  // Formulate <title> as: [Module Title] | [Phase Name] | Avorria Trading Education
+  const title = `${details.moduleTitle} | ${details.phase.name} | Avorria Trading Education`;
 
   // Formulate OG Image path as /og/courses/[phase-slug]/[module-slug].png
   const ogImagePath = `/og/courses/${slug}/${moduleSlug}.png`;
@@ -100,20 +100,20 @@ export default async function ModuleMarketingPage({ params }: Props) {
     "provider": {
       "@type": "Organization",
       "name": "Drawdown",
-      "url": "https://drawdown.trading",
+      "url": "https://avorria.com",
       "sameAs": ["https://twitter.com/drawdown_hq"]
     },
     "author": {
       "@type": "Person",
       "name": "Pete Currey",
-      "url": "https://drawdown.trading/about"
+      "url": "https://avorria.com/about"
     },
     "educationalLevel": details.educationalLevel,
-    "url": `https://drawdown.trading/courses/${slug}/${moduleSlug}`,
+    "url": `https://avorria.com/courses/${slug}/${moduleSlug}`,
     "isPartOf": {
       "@type": "Course",
       "name": details.phase.name,
-      "url": `https://drawdown.trading/courses/${slug}`
+      "url": `https://avorria.com/courses/${slug}`
     },
     "teaches": teachesOutcome,
     "inLanguage": "en-GB",
@@ -132,25 +132,25 @@ export default async function ModuleMarketingPage({ params }: Props) {
         "@type": "ListItem",
         "position": 1,
         "name": "Home",
-        "item": "https://drawdown.trading"
+        "item": "https://avorria.com"
       },
       {
         "@type": "ListItem",
         "position": 2,
         "name": "Courses",
-        "item": "https://drawdown.trading/courses"
+        "item": "https://avorria.com/courses"
       },
       {
         "@type": "ListItem",
         "position": 3,
         "name": details.phase.name,
-        "item": `https://drawdown.trading/courses/${slug}`
+        "item": `https://avorria.com/courses/${slug}`
       },
       {
         "@type": "ListItem",
         "position": 4,
         "name": details.moduleTitle,
-        "item": `https://drawdown.trading/courses/${slug}/${moduleSlug}`
+        "item": `https://avorria.com/courses/${slug}/${moduleSlug}`
       }
     ]
   };

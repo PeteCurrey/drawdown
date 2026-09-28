@@ -5,7 +5,7 @@ import { AlertTriangle, ShieldAlert, FileText, ArrowRight, Activity, ShieldCheck
 import Link from "next/link";
 
 export const metadata = getMetadata({
-  title: "Risk Disclaimer | Drawdown",
+  title: "Risk Disclaimer | Avorria",
   description: "Important risk warnings, quantitative market signal disclosures, and financial perimeter notices for Drawdown users.",
   path: "/disclaimer",
 });

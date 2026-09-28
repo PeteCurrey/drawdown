@@ -5,7 +5,7 @@ import { RecordClient } from "@/components/dashboard/RecordClient";
 import { PageHeader } from "@/components/dashboard/ui/PageHeader";
 
 export const metadata = {
-  title: "Record Trade · Drawdown",
+  title: "Record Trade · Avorria",
   description: "Record your actual trade execution parameters against the pre-defined strategy plan.",
 };
 

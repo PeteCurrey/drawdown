@@ -1,8 +1,8 @@
 /**
- * Drawdown Commercial Catalogue
+ * Avorria Commercial Catalogue
  * ================================
  * Single source of truth for every product, price, status and entitlement
- * across the Drawdown platform.
+ * across the Avorria platform.
  *
  * Rules:
  *  - Every pricing page, course gate, dashboard upsell and checkout MUST
@@ -230,14 +230,14 @@ export const ENTITLEMENTS: Record<string, ProductEntitlement> = {
   market_intelligence_hub: {
     key: "market_intelligence_hub",
     name: "Market Intelligence Hub",
-    description: "Drawdown market and macro intelligence briefings, The Wire.",
+    description: "Avorria market and macro intelligence briefings, The Wire.",
     accessType: "active_subscription",
     featureStatus: "released",
   },
   community_access: {
     key: "community_access",
     name: "Community Access",
-    description: "Access to the Drawdown member community.",
+    description: "Access to the Avorria member community.",
     accessType: "active_subscription",
     featureStatus: "released",
   },
@@ -360,10 +360,10 @@ export const COMMERCIAL_CATALOGUE: CommercialProduct[] = [
   {
     id: "free",
     slug: "free",
-    name: "Drawdown Free",
+    name: "Avorria Free",
     shortName: "Free",
     description:
-      "Start your trading journey. Experience Drawdown's approach and tools at no cost — no card required.",
+      "Start your trading journey. Experience Avorria's approach and tools at no cost — no card required.",
     productType: "free_membership",
     status: "active",
     availableForNewPurchase: true,
@@ -394,7 +394,7 @@ export const COMMERCIAL_CATALOGUE: CommercialProduct[] = [
       "Drawdown and recovery calculator",
       "Selected market and educational articles",
       "Free worksheets and checklists",
-      "Weekly Drawdown email briefing",
+      "Weekly Avorria email briefing",
       "Basic account dashboard",
       "Public broker and prop-firm research",
     ],
@@ -636,7 +636,7 @@ export const COMMERCIAL_CATALOGUE: CommercialProduct[] = [
   {
     id: "accelerator",
     slug: "institutional-accelerator",
-    name: "Drawdown Institutional Accelerator",
+    name: "Avorria Institutional Accelerator",
     shortName: "Accelerator",
     description:
       "A six-week live cohort programme for serious traders. Application required. Manual acceptance required. Maximum 15 participants per cohort.",
@@ -813,7 +813,7 @@ export const COMMERCIAL_CATALOGUE: CommercialProduct[] = [
     name: "Complete Manual Collection",
     shortName: "Manual Bundle",
     description:
-      "All three Drawdown premium manuals in one permanent-download bundle: Prop Firm Survival Kit, How to Trade Manual and The Edge Manual.",
+      "All three Avorria premium manuals in one permanent-download bundle: Prop Firm Survival Kit, How to Trade Manual and The Edge Manual.",
     productType: "standalone_download",
     status: "active",
     availableForNewPurchase: true,

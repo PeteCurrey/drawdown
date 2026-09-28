@@ -439,7 +439,7 @@ export const HOW_TO_PAGES: HowToPage[] = [
     drawdownApproach: {
       text: 'We provide a printable "Trader Daily Checklist" for all our members to help build this habit.',
       link: '/signup',
-      linkText: 'Join Drawdown Free'
+      linkText: 'Join Avorria Free'
     },
     faqs: [
       { question: 'How long should a routine take?', answer: 'A good pre-market routine should take 20-30 minutes. The post-market review can be done in 10 minutes.' }
@@ -1437,7 +1437,7 @@ export const HOW_TO_PAGES: HowToPage[] = [
       'Switching to live because of boredom or impatience rather than meeting a defined consistency target',
     ],
     drawdownApproach: {
-      text: 'The Drawdown AI Trade Journal works for both demo and live accounts. Log your demo trades now, review the data, and use it to time your switch to live with evidence rather than feeling.',
+      text: 'The Avorria AI Trade Journal works for both demo and live accounts. Log your demo trades now, review the data, and use it to time your switch to live with evidence rather than feeling.',
       link: '/tools/ai-trade-journal',
       linkText: 'Start logging trades for free',
     },
@@ -1513,7 +1513,7 @@ export const HOW_TO_PAGES: HowToPage[] = [
       'Looking at charts passively rather than actively narrating what is happening',
     ],
     drawdownApproach: {
-      text: 'The Drawdown curriculum builds chart reading as a foundation in Phase 1 — Chart Reader. Technical Analysis goes deeper into structure, support, resistance, and timeframe alignment.',
+      text: 'The Avorria curriculum builds chart reading as a foundation in Phase 1 — Chart Reader. Technical Analysis goes deeper into structure, support, resistance, and timeframe alignment.',
       link: '/learn-to-trade/technical-analysis',
       linkText: 'Go deeper on chart reading',
     },

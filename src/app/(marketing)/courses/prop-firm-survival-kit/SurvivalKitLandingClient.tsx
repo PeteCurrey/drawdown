@@ -109,7 +109,7 @@ export default function SurvivalKitLandingClient({
         </h1>
 
         <p className="text-base md:text-lg text-[#9CA3AF] max-w-[560px] leading-relaxed">
-          The Drawdown Prop Firm Survival Kit — now an immersive course. 
+          The Avorria Prop Firm Survival Kit — now an immersive course. 
           Five modules, every rule decoded, every psychological spiral named. 
           Pass each module quiz to complete the kit.
         </p>

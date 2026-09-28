@@ -5,15 +5,15 @@ import Link from "next/link";
 import { ChevronRight, SlidersHorizontal, ShieldCheck, Activity, BarChart2 } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Live Market Screener — Forex, Crypto, Commodities & Indices | Drawdown Trading",
+  title: "Live Market Screener — Forex, Crypto, Commodities & Indices | Avorria Trading",
   description: "Screen 35+ global financial assets with real-time prices, 24h percentage performance, RSI momentum, and Market Structure Shift (MSS) bias. Zero delay, 60s cache.",
   alternates: {
-    canonical: "https://drawdown.trading/markets/screener",
+    canonical: "https://avorria.com/markets/screener",
   },
   openGraph: {
-    title: "Live Market Screener | Drawdown Trading",
+    title: "Live Market Screener | Avorria Trading",
     description: "Real-time institutional technical screener across FX majors, crosses, commodities, equity indices, and crypto.",
-    url: "https://drawdown.trading/markets/screener",
+    url: "https://avorria.com/markets/screener",
   },
 };
 
@@ -21,7 +21,7 @@ import { ScreenerRow } from "@/lib/screener";
 
 async function getInitialScreenerData(): Promise<ScreenerRow[]> {
   try {
-    const res = await fetch("https://drawdown.trading/api/market/screener", {
+    const res = await fetch("https://avorria.com/api/market/screener", {
       next: { revalidate: 60 },
       signal: AbortSignal.timeout(4000),
     });

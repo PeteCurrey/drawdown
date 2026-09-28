@@ -31,7 +31,7 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  const origin = request.headers.get("origin") ?? process.env.NEXT_PUBLIC_SITE_URL ?? "https://drawdown.trading";
+  const origin = request.headers.get("origin") ?? process.env.NEXT_PUBLIC_SITE_URL ?? "https://avorria.com";
 
   // ── Optional auth (guests allowed) ───────────────────────────────────────
   const supabase = await createClient();

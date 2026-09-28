@@ -14,7 +14,7 @@ import { getMetadata } from "@/lib/metadata";
 import JsonLd from "@/components/seo/JsonLd";
 
 export const metadata = getMetadata({
-  title: "Drawdown for Day Traders | Risk Management & Position Sizing Tools",
+  title: "Avorria for Day Traders | Risk Management & Position Sizing Tools",
   description:
     "Professional risk management tools for active day traders: real-time position sizing, session risk tracking, pip value calculation, and drawdown management built for traders who trade daily.",
   path: "/for/day-traders",
@@ -88,13 +88,13 @@ export default function ForDayTradersPage() {
             "@context": "https://schema.org",
             "@type": "WebPage",
             "name": "Drawdown for Day Traders",
-            "url": "https://drawdown.trading/for/day-traders",
+            "url": "https://avorria.com/for/day-traders",
             "description": "Professional risk management tools for active day traders: position sizing, pip value, session risk tracking, and drawdown management.",
             "breadcrumb": {
               "@type": "BreadcrumbList",
               "itemListElement": [
-                { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://drawdown.trading" },
-                { "@type": "ListItem", "position": 2, "name": "For Day Traders", "item": "https://drawdown.trading/for/day-traders" },
+                { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://avorria.com" },
+                { "@type": "ListItem", "position": 2, "name": "For Day Traders", "item": "https://avorria.com/for/day-traders" },
               ],
             },
           },

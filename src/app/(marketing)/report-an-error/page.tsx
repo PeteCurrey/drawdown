@@ -33,7 +33,7 @@ export default function ReportAnErrorPage() {
             Report a Content Error or Outdated Data
           </h1>
           <p className="text-base text-text-secondary leading-relaxed">
-            Drawdown Trading is committed to 100% empirical accuracy. If you notice a factual error, broken calculator formula, or outdated broker fee schedule, please let us know below.
+            Avorria Trading is committed to 100% empirical accuracy. If you notice a factual error, broken calculator formula, or outdated broker fee schedule, please let us know below.
           </p>
         </div>
 
@@ -65,7 +65,7 @@ export default function ReportAnErrorPage() {
               <input
                 type="url"
                 required
-                placeholder="https://drawdown.trading/brokers/ig-markets-review"
+                placeholder="https://avorria.com/brokers/ig-markets-review"
                 value={pageUrl}
                 onChange={(e) => setPageUrl(e.target.value)}
                 className="w-full bg-background-primary border border-border-primary rounded-xl px-4 py-2.5 text-sm text-text-primary focus:outline-none focus:border-accent"

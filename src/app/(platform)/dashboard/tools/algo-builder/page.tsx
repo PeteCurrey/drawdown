@@ -9,7 +9,7 @@ import Link from "next/link";
 import { hasTierAccess } from "@/lib/entitlements";
 
 export const metadata = {
-  title: "Algo Strategy Builder · Drawdown",
+  title: "Algo Strategy Builder · Avorria",
   description:
     "Convert your discretionary trading logic into production Pine Script v6 and Python strategies with QuantCoder AI. No coding experience required.",
 };

@@ -154,7 +154,7 @@ export default function CalculatorsHubPage() {
         <section className="bg-background-primary border border-border-slate/50 p-12 text-center space-y-6">
           <h2 className="text-3xl font-sans font-black text-text-primary uppercase tracking-tight">Need a custom dashboard?</h2>
           <p className="text-text-secondary text-sm max-w-xl mx-auto leading-relaxed">
-            Subscribers gain access to our live API connections and the Drawdown Risk Modeler that hooks directly to your MT4/MT5 trading terminals for automated sizing.
+            Subscribers gain access to our live API connections and the Avorria Risk Modeler that hooks directly to your MT4/MT5 trading terminals for automated sizing.
           </p>
           <div className="pt-4">
             <Link 

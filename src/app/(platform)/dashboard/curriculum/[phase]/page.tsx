@@ -247,7 +247,7 @@ export default async function PhaseOverviewPage({ params }: { params: Promise<{ 
               ★ Executive Pathway
             </span>
             <h4 className="text-xl font-bold font-syne text-white mb-2">
-              Drawdown Institutional Accelerator
+              Avorria Institutional Accelerator
             </h4>
             <p className="font-sans text-xs md:text-sm text-text-secondary leading-relaxed max-w-2xl">
               Now that you are mastering prop firm rules, take your trading to the ultimate level. Our 6-week elite cohort teaches central bank quantitative metrics, automated pinescript alert hooks, and corporate tax structuring to legally trade multiple 6-figure accounts.

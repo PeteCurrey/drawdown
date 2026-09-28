@@ -34,7 +34,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!tool) notFound();
 
   return {
-    title: `${tool.name} Review 2026 — Is It Still the Best? | Drawdown`,
+    title: `${tool.name} Review 2026 — Is It Still the Best? | Avorria`,
     description: `Complete 2026 review of ${tool.name}. We analyze features, pros and cons, pricing, and suitability for active traders.`,
   };
 }
@@ -194,7 +194,7 @@ export default async function TradingToolReviewPage({ params }: Props) {
             <div className="border-t border-border-slate/50 pt-24">
               <LeadMagnet 
                 resourceId="journal-template" 
-                title="Download the Drawdown Trading Journal Template"
+                title="Download the Avorria Trading Journal Template"
                 description="Maximize your journaling efficiency. Sync metrics, trace expectancy, and review consecutive streaks."
               />
             </div>

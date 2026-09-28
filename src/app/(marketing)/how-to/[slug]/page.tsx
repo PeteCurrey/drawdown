@@ -59,7 +59,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       return {
         title: page.metaTitle || page.title,
         description: page.metaDescription,
-        alternates: { canonical: `https://drawdown.trading/how-to/${slug}` },
+        alternates: { canonical: `https://avorria.com/how-to/${slug}` },
         openGraph: {
           title: page.metaTitle || page.title,
           description: page.metaDescription,
@@ -156,13 +156,13 @@ export default async function HowToPage({ params }: Props) {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Home", item: "https://drawdown.trading" },
-      { "@type": "ListItem", position: 2, name: "How-To Guides", item: "https://drawdown.trading/how-to" },
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://avorria.com" },
+      { "@type": "ListItem", position: 2, name: "How-To Guides", item: "https://avorria.com/how-to" },
       {
         "@type": "ListItem",
         position: 3,
         name: page.title,
-        item: `https://drawdown.trading/how-to/${slug}`,
+        item: `https://avorria.com/how-to/${slug}`,
       },
     ],
   };
@@ -314,7 +314,7 @@ export default async function HowToPage({ params }: Props) {
           {/* Drawdown Approach */}
           <section className="mb-24 p-10 bg-background-surface/40 backdrop-blur-md border border-border-slate/50 flex flex-col md:flex-row items-center justify-between gap-8">
             <div className="space-y-4 text-center md:text-left">
-              <h3 className="text-xs font-mono uppercase tracking-[0.3em] text-accent">The Drawdown Way</h3>
+              <h3 className="text-xs font-mono uppercase tracking-[0.3em] text-accent">The Avorria Way</h3>
               <p className="text-text-primary font-medium max-w-lg leading-relaxed">
                 {page.drawdownApproach.text || page.drawdownApproach.content}
               </p>
@@ -491,7 +491,7 @@ export default async function HowToPage({ params }: Props) {
                   className="inline-flex items-center space-x-4 text-text-primary px-12 py-6 text-xs font-bold uppercase tracking-[0.2em] hover:invert transition-all"
                   id="how-to-final-cta"
                 >
-                  <span>Join Drawdown Free</span>
+                  <span>Join Avorria Free</span>
                   <ArrowRight className="w-4 h-4" />
                 </Link>
               </div>

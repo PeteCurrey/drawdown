@@ -133,7 +133,7 @@ export async function getAllPosts(): Promise<BlogMetadata[]> {
         slug: post.slug,
         image: heroSrc,
         heroImage,
-        metaTitle: `${post.title} | Drawdown Blog`,
+        metaTitle: `${post.title} | Avorria Blog`,
         metaDescription: post.subtitle || '',
       } as BlogMetadata;
     });
@@ -235,7 +235,7 @@ export async function getPostBySlug(slug: string): Promise<BlogPost | null> {
       slug: post.slug,
       image: heroSrc,
       heroImage,
-      metaTitle: seo.meta_title || `${post.title} | Drawdown Blog`,
+      metaTitle: seo.meta_title || `${post.title} | Avorria Blog`,
       metaDescription: seo.meta_description || post.subtitle || '',
       content: post.body || '',
       contentFormat,

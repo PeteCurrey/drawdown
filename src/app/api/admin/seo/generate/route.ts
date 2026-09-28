@@ -53,7 +53,7 @@ export async function POST(request: NextRequest) {
            Use Pete's direct, no-nonsense UK trading voice.`;
 
       // Generate content using the AI engine
-      const content = await getAnalysis(prompt, "You are Pete, founder of the Drawdown trading platform.", 'automated' as any);
+      const content = await getAnalysis(prompt, "You are Pete, founder of the Avorria trading platform.", 'automated' as any);
       
       const seoTitle = type === "glossary" ? `${term} Definition | Trading Glossary | Drawdown` : `How to ${term} | Trading Guide | Drawdown`;
       const seoDesc = type === "glossary" ? `Learn what ${term} means in trading, why it matters, and how to use it to protect your capital.` : `Step-by-step guide on how to ${term} like a professional trader.`;

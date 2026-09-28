@@ -29,7 +29,7 @@ export function buildUtmUrl(params: {
   campaign: string;
   content?: string;
 }): string {
-  const base = process.env.NEXT_PUBLIC_SITE_URL || "https://drawdown.trading";
+  const base = process.env.NEXT_PUBLIC_SITE_URL || "https://avorria.com";
   const cleanPath = params.path.startsWith('/') ? params.path : `/${params.path}`;
   
   const url = new URL(`${base}${cleanPath}`);
@@ -139,20 +139,20 @@ export function generateWireDraftFromLobby(
 
   if (editionType === "MORNING") {
     title = `The Morning Wire — ${dateFormatted}`;
-    subject = `Drawdown Morning Wire: Key catalysts and pre-market intelligence (${dateFormatted})`;
+    subject = `Avorria Morning Wire: Key catalysts and pre-market intelligence (${dateFormatted})`;
     preview = `Top market moves, broker updates, and what's worth watching before the open.`;
   } else if (editionType === "EVENING") {
     title = `The Evening Wire — ${dateFormatted}`;
-    subject = `Drawdown Evening Wire: Market close wrap & tomorrow's preview (${dateFormatted})`;
+    subject = `Avorria Evening Wire: Market close wrap & tomorrow's preview (${dateFormatted})`;
     preview = `Institutional summary of today's price action and overnight risk catalysts.`;
   } else {
     title = `The Wire: Breaking Intelligence — ${dateFormatted}`;
     subject = `BREAKING: Market Intelligence Alert`;
-    preview = `High-impact industry development reported by Drawdown.`;
+    preview = `High-impact industry development reported by Avorria Trading.`;
   }
 
   const items: WireItemInput[] = articles.map((art, idx) => {
-    // Pick the most relevant Drawdown tool recommendation based on article content
+    // Pick the most relevant Avorria tool recommendation based on article content
     let toolSlug: string | null = null;
     if (art.category === "MARKETS" || art.category === "MACRO") {
       toolSlug = "forex-market-hours";
@@ -211,7 +211,7 @@ export function generateWireDraftFromLobby(
  * Simple email HTML generator for The Wire briefing newsletter.
  */
 export function renderWireEmailHtml(edition: WireEdition): string {
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://drawdown.trading";
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://avorria.com";
 
   const itemsHtml = (edition.items || []).map((item, index) => {
     const articleLink = item.article 
@@ -290,7 +290,7 @@ export function renderWireEmailHtml(edition: WireEdition): string {
           <div style="border-bottom: 2px solid #ffffff; padding-bottom: 16px; margin-bottom: 28px;">
             <div style="display: flex; justify-content: space-between; align-items: baseline;">
               <span style="font-family: 'Times New Roman', Georgia, serif; font-size: 26px; font-weight: 900; letter-spacing: -0.03em; color: #ffffff;">
-                DRAWDOWN <span style="color: #2563eb;">//</span> THE WIRE
+                AVORRIA <span style="color: #2563eb;">//</span> THE WIRE
               </span>
             </div>
             <div style="margin-top: 8px; font-family: monospace; font-size: 11px; text-transform: uppercase; color: #888; letter-spacing: 0.05em;">
@@ -313,9 +313,9 @@ export function renderWireEmailHtml(edition: WireEdition): string {
 
           <!-- Footer -->
           <div style="border-top: 1px solid #222; padding-top: 24px; margin-top: 32px; font-size: 11px; color: #555; text-align: center; font-family: monospace;">
-            <p style="margin: 0 0 8px 0;">THE WIRE is Drawdown's curated institutional briefing layer.</p>
+            <p style="margin: 0 0 8px 0;">THE WIRE is Avorria's curated institutional briefing layer.</p>
             <p style="margin: 0 0 8px 0;">All stories link to canonical reporting on <a href="${siteUrl}/lobby" style="color: #888;">The Lobby</a>.</p>
-            <p style="margin: 0;">© Drawdown Trading. Educational and analytical purposes only. Not financial advice.</p>
+            <p style="margin: 0;">© Avorria Trading. Educational and analytical purposes only. Not financial advice.</p>
           </div>
         </div>
       </body>

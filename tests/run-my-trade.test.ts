@@ -350,7 +350,7 @@ test("13. Stale and live market data freshness states handled in RunMyTrade UI",
     "RunMyTrade must show STALE badge when data is aged or cached fallback"
   );
   assert.ok(
-    component.includes("Market context is informational only. Drawdown will never overwrite"),
+    component.includes("Market context is informational only. Avorria will never overwrite"),
     "Must display explicit disclaimer that market context does not overwrite user levels"
   );
 });
@@ -406,8 +406,8 @@ test("17. Execution boundary is explicit and non-routing", () => {
     "Must display unambiguous EXECUTE AT BROKER call-to-action"
   );
   assert.ok(
-    component.includes("Drawdown Does Not Execute Orders"),
-    "Must display clear notice that Drawdown never routes orders"
+    component.includes("Avorria Does Not Execute Orders"),
+    "Must display clear notice that Avorria never routes orders"
   );
   assert.ok(
     !component.includes('button className="execute-trade-order"'),

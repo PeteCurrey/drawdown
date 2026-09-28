@@ -113,7 +113,7 @@ export function HowToTemplate({ page, region = 'uk' }: { page: any; region?: str
                <div className="flex items-center gap-4">
                   <Target className="w-8 h-8 text-accent" />
                   <h3 className="text-2xl font-display font-black uppercase m-0 text-text-primary">
-                    {page.drawdownApproach.title || "The Drawdown Approach"}
+                    {page.drawdownApproach.title || "The Avorria Approach"}
                   </h3>
                </div>
                <p className="text-lg text-text-secondary leading-relaxed">

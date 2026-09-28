@@ -249,7 +249,7 @@ export function CoffeezillaAlexGClient() {
                     The model is simple. Step one: build an audience around lifestyle and aspiration, the cars, the watches, the laptop on a beach, the aesthetic of financial freedom. Step two: sell education, because course revenue doesn't have drawdowns. It doesn't get stopped out. It doesn't fluctuate with the dollar index. Every new follower is a potential customer. Step three: layer in affiliate revenue from brokers and prop firms, earning a commission every time your audience signs up for something you recommend.
                   </p>
                   <p>
-                    I want to be completely straight about something here: that is also the Drawdown model. Subscriptions, broker affiliates, prop firm affiliates. I'm not going to pretend otherwise. The difference, the only difference, is that I'm telling you that upfront. Every affiliate link on this site is labelled. The income sources are disclosed. You know exactly how Drawdown makes money before you give us a penny of yours.
+                    I want to be completely straight about something here: that is also the Avorria model. Subscriptions, broker affiliates, prop firm affiliates. I'm not going to pretend otherwise. The difference, the only difference, is that I'm telling you that upfront. Every affiliate link on this site is labelled. The income sources are disclosed. You know exactly how Drawdown makes money before you give us a penny of yours.
                   </p>
                   <p>
                     Transparency isn't a marketing angle here. It's the only defensible position once you understand how the incentives actually work.

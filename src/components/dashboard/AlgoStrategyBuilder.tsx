@@ -377,7 +377,7 @@ export function AlgoStrategyBuilder({ userId, userTier }: AlgoStrategyBuilderPro
     setGeneratedCode("");
     setGeneratorError(null);
 
-    const systemPrompt = `You are the Drawdown.trading Algo Strategy Builder. 
+    const systemPrompt = `You are the Avorria Algo Strategy Builder. 
 Your goal is to convert natural language trading rules into professional-grade code.
 Current Language Target: ${language === "pinescript" ? "Pine Script v5 (TradingView)" : "Python (Backtrader framework)"}.
 

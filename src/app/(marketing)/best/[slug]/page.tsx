@@ -33,7 +33,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       return {
         title: dynamicPage.title,
         description: dynamicPage.seo_description,
-        alternates: { canonical: `https://drawdown.trading/best/${slug}` },
+        alternates: { canonical: `https://avorria.com/best/${slug}` },
       };
     }
   } catch {

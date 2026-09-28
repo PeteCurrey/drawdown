@@ -4,7 +4,7 @@ import { ImproveClient } from "@/components/dashboard/ImproveClient";
 import { PageHeader } from "@/components/dashboard/ui/PageHeader";
 
 export const metadata = {
-  title: "Improve · Drawdown",
+  title: "Improve · Avorria",
   description: "Track improvement commitments formed after each trade review.",
 };
 

@@ -120,7 +120,7 @@ export default function AffiliatesAdminClient({
   }
 
   function copySlug(slug: string) {
-    navigator.clipboard.writeText(`https://drawdown.trading/go/${slug}`);
+    navigator.clipboard.writeText(`https://avorria.com/go/${slug}`);
     setCopied(slug);
     setTimeout(() => setCopied(null), 2000);
   }

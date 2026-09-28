@@ -62,7 +62,7 @@ export default async function LobbyArchivePage({ searchParams }: ArchivePageProp
           </h1>
 
           <p className="mt-2 text-sm text-[#4B5157] font-sans max-w-xl">
-            Complete permanent ledger of Drawdown trading intelligence, broker surveillance, and market mechanics.
+            Complete permanent ledger of Avorria trading intelligence, broker surveillance, and market mechanics.
           </p>
 
           {/* Search Form */}

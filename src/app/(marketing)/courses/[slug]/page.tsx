@@ -60,7 +60,7 @@ export default async function CourseLandingPage({ params }: Props) {
     "provider": {
       "@type": "Organization",
       "name": "Drawdown",
-      "url": "https://drawdown.trading"
+      "url": "https://avorria.com"
     },
     "author": {
       "@type": "Person",
@@ -72,7 +72,7 @@ export default async function CourseLandingPage({ params }: Props) {
       "courseWorkload": isoDuration
     },
     "numberOfCredits": `${phase.modules_count} modules`,
-    "url": `https://drawdown.trading/courses/${phase.slug}`,
+    "url": `https://avorria.com/courses/${phase.slug}`,
     "inLanguage": "en-GB"
   };
 
@@ -81,7 +81,7 @@ export default async function CourseLandingPage({ params }: Props) {
     "itemListElement": phase.modules_list.map((modTitle, idx) => ({
       "@type": "ListItem",
       "position": idx + 1,
-      "url": `https://drawdown.trading/courses/${phase.slug}/module-${idx + 1}`,
+      "url": `https://avorria.com/courses/${phase.slug}/module-${idx + 1}`,
       "name": modTitle
     }))
   };

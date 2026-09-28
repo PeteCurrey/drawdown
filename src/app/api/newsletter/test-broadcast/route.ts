@@ -58,7 +58,7 @@ export async function POST(request: NextRequest) {
   // 5. Send via Resend
   const emails = subscribers.map(s => s.email);
   const { data: sendData, error: sendError } = await resend.emails.send({
-    from: "Pete @ Drawdown <thewire@drawdown.trading>",
+    from: "Pete @ Avorria <thewire@avorria.com>",
     to: emails,
     subject: edition.subject_line,
     html: html

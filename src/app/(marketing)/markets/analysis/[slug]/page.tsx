@@ -83,7 +83,7 @@ export default async function AnalysisPostPage({ params }: Props) {
             <div className="p-12 bg-background-elevated/40 border border-border-slate/50 flex flex-col md:flex-row items-center justify-between gap-8">
               <div className="space-y-2">
                 <h4 className="text-xl font-display font-bold uppercase">Ready to trade this setup?</h4>
-                <p className="text-sm text-text-secondary">Join Drawdown Pro for live professional-grade analysis every day.</p>
+                <p className="text-sm text-text-secondary">Join Avorria Pro for live professional-grade analysis every day.</p>
               </div>
               <Link 
                 href="/signup" 

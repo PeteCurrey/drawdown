@@ -78,7 +78,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: `Stripe price ID is not configured for ${tier} in region ${region}` }, { status: 400 });
     }
 
-    const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://www.drawdown.trading";
+    const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://www.avorria.com";
     const origin = request.headers.get("origin") || appUrl;
     
     // Construct dynamic success and cancel redirects with safe query separator

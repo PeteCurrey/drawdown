@@ -85,7 +85,7 @@ export const TheWireTemplate = ({
               Everything in The Wire connects back to the tools and curriculum inside Drawdown. Phase 1 is free.
             </Text>
             <Section style={buttonWrapper}>
-               <a href="https://drawdown.trading/signup?source=wire_email" style={button}>
+               <a href="https://avorria.com/signup?source=wire_email" style={button}>
                  EXPLORE DRAWDOWN →
                </a>
             </Section>

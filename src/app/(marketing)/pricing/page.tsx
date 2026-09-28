@@ -7,9 +7,9 @@ import { PRICING_FAQS } from "@/data/pricing";
 import { getMetadata } from "@/lib/metadata";
 
 export const metadata: Metadata = getMetadata({
-  title: "Drawdown Memberships, Courses & Trading Manuals",
+  title: "Avorria Memberships, Courses & Trading Manuals",
   description:
-    "Compare Drawdown Free, Foundation, Edge and Floor memberships. Permanent trading-manual downloads and the six-week Drawdown Institutional Accelerator. Start free — no card required.",
+    "Compare Drawdown Free, Foundation, Edge and Floor memberships. Permanent trading-manual downloads and the six-week Avorria Institutional Accelerator. Start free — no card required.",
   path: "/pricing",
   hasRegionalVariants: true,
 });
@@ -73,7 +73,7 @@ export default async function Page() {
             price: "0",
             priceCurrency: "GBP",
             availability: "https://schema.org/InStock",
-            url: "https://drawdown.trading/pricing",
+            url: "https://avorria.com/pricing",
           },
         },
       },
@@ -92,7 +92,7 @@ export default async function Page() {
               priceCurrency: "GBP",
               billingDuration: "P1M",
               availability: "https://schema.org/InStock",
-              url: "https://drawdown.trading/pricing",
+              url: "https://avorria.com/pricing",
             },
             {
               "@type": "Offer",
@@ -100,7 +100,7 @@ export default async function Page() {
               priceCurrency: "GBP",
               billingDuration: "P1Y",
               availability: "https://schema.org/InStock",
-              url: "https://drawdown.trading/pricing",
+              url: "https://avorria.com/pricing",
             },
           ],
         },
@@ -120,7 +120,7 @@ export default async function Page() {
               priceCurrency: "GBP",
               billingDuration: "P1M",
               availability: "https://schema.org/InStock",
-              url: "https://drawdown.trading/pricing",
+              url: "https://avorria.com/pricing",
             },
             {
               "@type": "Offer",
@@ -128,7 +128,7 @@ export default async function Page() {
               priceCurrency: "GBP",
               billingDuration: "P1Y",
               availability: "https://schema.org/InStock",
-              url: "https://drawdown.trading/pricing",
+              url: "https://avorria.com/pricing",
             },
           ],
         },
@@ -150,7 +150,7 @@ export default async function Page() {
               activeFloorSubs >= floorCap
                 ? "https://schema.org/SoldOut"
                 : "https://schema.org/InStock",
-            url: "https://drawdown.trading/pricing",
+            url: "https://avorria.com/pricing",
           },
         },
       },

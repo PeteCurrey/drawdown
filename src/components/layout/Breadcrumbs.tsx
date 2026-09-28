@@ -32,13 +32,13 @@ export function Breadcrumbs({ items }: BreadcrumbsProps = {}) {
         "@type": "ListItem",
         "position": 1,
         "name": "Home",
-        "item": "https://drawdown.trading"
+        "item": "https://avorria.com"
       },
       ...displayItems.map((item, index) => ({
         "@type": "ListItem",
         "position": index + 2,
         "name": item.label.charAt(0).toUpperCase() + item.label.slice(1),
-        "item": `https://drawdown.trading${item.href.startsWith("/") ? "" : "/"}${item.href}`
+        "item": `https://avorria.com${item.href.startsWith("/") ? "" : "/"}${item.href}`
       }))
     ]
   };

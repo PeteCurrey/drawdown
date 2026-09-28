@@ -1,5 +1,5 @@
 /**
- * Drawdown Intelligence Data Platform — Public Intelligence Feed Layer Test Suite
+ * Avorria Intelligence Data Platform — Public Intelligence Feed Layer Test Suite
  *
  * Tests:
  *  1. SEC EDGAR filing adapter & parser

@@ -6,15 +6,15 @@ import { STOCK_DATA_V1, buildTreemapData, DATA_LAST_UPDATED } from "@/lib/data/s
 import JsonLd from "@/components/seo/JsonLd";
 
 export const metadata: Metadata = {
-  title: "US Equities Sector Map — GICS Reference Heatmap | Drawdown Trading",
+  title: "US Equities Sector Map — GICS Reference Heatmap | Avorria Trading",
   description:
     "Interactive S&P 500 sector map showing GICS sector and industry distribution with approximate market-cap tile sizing across 55 top US large-cap equities. Reference data, not live prices.",
-  alternates: { canonical: "https://drawdown.trading/markets/sector-map" },
+  alternates: { canonical: "https://avorria.com/markets/sector-map" },
   openGraph: {
-    title: "US Equities Sector Map | Drawdown Trading",
+    title: "US Equities Sector Map | Avorria Trading",
     description:
       "Visualise GICS sector allocation and approximate market-cap weighting for 55 S&P 500 large caps. Reference data — not live market prices.",
-    url: "https://drawdown.trading/markets/sector-map",
+    url: "https://avorria.com/markets/sector-map",
     type: "website",
   },
 };
@@ -26,7 +26,7 @@ export default function StockSectorMapPage() {
     "@context": "https://schema.org",
     "@type": "WebApplication",
     name: "Drawdown US Equities Sector Map",
-    url: "https://drawdown.trading/markets/sector-map",
+    url: "https://avorria.com/markets/sector-map",
     description:
       "GICS sector heatmap for US large-cap equities. Tile sizing reflects approximate market capitalisation. Performance figures are illustrative reference data, not live market prices.",
     applicationCategory: "FinanceApplication",

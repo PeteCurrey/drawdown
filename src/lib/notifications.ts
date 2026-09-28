@@ -7,7 +7,7 @@ export async function sendTradeSignalEmail(email: string, signal: { title: strin
 
   try {
     await resend.emails.send({
-      from: "Drawdown Intelligence <signals@drawdown.trading>",
+      from: "Avorria Intelligence <signals@avorria.com>",
       to: email,
       subject: `🚨 NEW SIGNAL: ${signal.title}`,
       html: `
@@ -24,7 +24,7 @@ export async function sendTradeSignalEmail(email: string, signal: { title: strin
             </div>
           </div>
           <div style="margin-top: 40px; border-top: 1px solid #333; padding-top: 20px;">
-            <a href="https://drawdown.trading/dashboard/intelligence" style="background: #00C2FF; color: #000; padding: 15px 25px; text-decoration: none; font-weight: bold; font-size: 12px; display: inline-block; text-transform: uppercase;">View Analysis in Dashboard</a>
+            <a href="https://avorria.com/dashboard/intelligence" style="background: #00C2FF; color: #000; padding: 15px 25px; text-decoration: none; font-weight: bold; font-size: 12px; display: inline-block; text-transform: uppercase;">View Analysis in Dashboard</a>
           </div>
           <p style="font-size: 10px; color: #555; margin-top: 40px;">
             This is an automated institutional signal. Please verify with your own technical analysis before execution.

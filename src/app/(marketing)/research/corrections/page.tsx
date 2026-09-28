@@ -7,9 +7,9 @@ import { PUBLIC_CORRECTIONS_LOG } from "@/lib/data/research";
 import { getMetadata } from "@/lib/metadata";
 
 export const metadata = getMetadata({
-  title: "Public Corrections Log & Editorial Transparencies | Drawdown Research",
+  title: "Public Corrections Log & Editorial Transparencies | Avorria Research",
   description:
-    "Public record of factual corrections, methodology updates, and data revisions across Drawdown Trading content and reviews.",
+    "Public record of factual corrections, methodology updates, and data revisions across Avorria Trading content and reviews.",
   path: "/research/corrections",
 });
 

@@ -266,7 +266,7 @@ export function ForexMarketHoursClient() {
         <ToolContextualCTA
           toolName="Forex Market Hours"
           lead="Align execution with true institutional session volume."
-          benefit="The Drawdown Investment Centre terminal provides automated session alerts and pre-market briefings right as London and New York open."
+          benefit="The Avorria Investment Centre terminal provides automated session alerts and pre-market briefings right as London and New York open."
         />
 
         <ToolDisclaimer />

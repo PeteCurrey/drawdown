@@ -8,7 +8,7 @@ import { createInternalSupabase } from '../lib/supabase/server.ts';
 import { categoryToSlug } from '../lib/lobby-constants.ts';
 import type { LobbyCategory } from '../types/lobby.ts';
 
-const BASE_URL = 'https://drawdown.trading';
+const BASE_URL = 'https://avorria.com';
 const SITE_BASELINE_DATE = '2026-04-20T00:00:00Z';
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────

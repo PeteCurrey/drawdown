@@ -37,7 +37,7 @@ export function LobbySourceAttribution({
       </div>
 
       <p className="text-xs text-[#4B5157] font-sans mb-6 leading-relaxed">
-        Drawdown strictly separates factual findings derived from primary documentation (regulatory registers, audited statements, direct corporate filings) from proprietary Drawdown editorial analysis.
+        Avorria strictly separates factual findings derived from primary documentation (regulatory registers, audited statements, direct corporate filings) from proprietary Avorria editorial analysis.
       </p>
 
       <div className="overflow-x-auto">

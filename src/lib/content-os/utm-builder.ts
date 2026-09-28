@@ -9,17 +9,17 @@ export interface UTMParams {
 
 export class UTMBuilder {
   /**
-   * Generates deterministic, traceable Drawdown UTM links.
-   * Format: https://drawdown.trading/[path]?utm_source=[source]&utm_medium=social&utm_campaign=[series]&utm_content=[id]
+   * Generates deterministic, traceable Avorria UTM links.
+   * Format: https://avorria.com/[path]?utm_source=[source]&utm_medium=social&utm_campaign=[series]&utm_content=[id]
    */
   static buildUrl(baseDestination: string, params: UTMParams): string {
     const cleanBase = baseDestination.trim();
     let url: URL;
 
     try {
-      url = new URL(cleanBase.startsWith('http') ? cleanBase : `https://drawdown.trading${cleanBase.startsWith('/') ? cleanBase : `/${cleanBase}`}`);
+      url = new URL(cleanBase.startsWith('http') ? cleanBase : `https://avorria.com${cleanBase.startsWith('/') ? cleanBase : `/${cleanBase}`}`);
     } catch {
-      url = new URL(`https://drawdown.trading/`);
+      url = new URL(`https://avorria.com/`);
     }
 
     url.searchParams.set('utm_source', params.source.toLowerCase().trim());

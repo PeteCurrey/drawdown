@@ -390,7 +390,7 @@ export const BEST_OF_PAGES: BestOfPage[] = [
       { question: 'Is day trading legal in the UK?', answer: 'Yes, day trading is completely legal and regulated in the UK by the FCA.' },
       { question: 'Do UK day traders pay tax?', answer: 'Yes, day trading is usually treated as capital gains or self-employment income depending on your volume. Spread betting is the exception (tax-free).' },
       { question: 'What is the PDT rule and does it apply to UK traders?', answer: 'The Pattern Day Trader (PDT) rule is a US regulation. It does not apply to UK-regulated brokers unless you are trading through a US-registered entity.' },
-      { question: 'How much capital do I need to day trade in the UK?', answer: 'Technically Â£100, but realistically Â£Join Drawdown Free to manage risk effectively on intraday volatility.' },
+      { question: 'How much capital do I need to day trade in the UK?', answer: 'Technically Â£100, but realistically Â£Join Avorria Free to manage risk effectively on intraday volatility.' },
       { question: 'What spread should I expect when day trading forex in the UK?', answer: 'On EURUSD, you should look for spreads under 0.2 pips on a raw account or 0.6 pips on a standard account.' }
     ],
     relatedPages: [
@@ -733,7 +733,7 @@ export const BEST_OF_PAGES: BestOfPage[] = [
     targetKeywords: ['best trading journal', 'best trading journal app'],
     metaDescription: 'If you don\'t track your trades, you aren\'t trading â€” you\'re gambling. We compare the best trading journals, from spreadsheets to AI-powered journals.',
     comparisonTable: [
-      { rank: 1, name: 'Drawdown AI Journal', bestFor: 'Psychology Tracking', keyStat: 'AI Analysis', rating: 5.0, link: '/tools/ai-trade-journal' },
+      { rank: 1, name: 'Avorria AI Journal', bestFor: 'Psychology Tracking', keyStat: 'AI Analysis', rating: 5.0, link: '/tools/ai-trade-journal' },
       { rank: 2, name: 'Edgewonk', bestFor: 'Customization', keyStat: 'Desktop Based', rating: 4.8, link: 'https://edgewonk.com' },
       { rank: 3, name: 'TraderSync', bestFor: 'Mobile Access', keyStat: 'Cloud Sync', rating: 4.7, link: 'https://tradersync.com' },
     ],
@@ -741,9 +741,9 @@ export const BEST_OF_PAGES: BestOfPage[] = [
     reviews: [
       {
         id: 'drawdown-ai-journal',
-        name: 'Drawdown AI Journal',
+        name: 'Avorria AI Journal',
         description: 'We built our journal to solve the biggest problem in trading: hidden emotional bias. By using AI to analyze your comments and market conditions, we identify patterns you didn\'t even know existed.',
-        pros: ['Automated emotional analysis', 'Seamless data import', 'Integrated with Drawdown ecosystem'],
+        pros: ['Automated emotional analysis', 'Seamless data import', 'Integrated with Avorria ecosystem'],
         cons: ['Still in active development'],
         bestFor: 'Traders focused on psychological edge',
         ctaLink: '/tools/ai-trade-journal'
@@ -806,7 +806,7 @@ export const BEST_OF_PAGES: BestOfPage[] = [
     targetKeywords: ['best trading course UK', 'best day trading course UK 2026'],
     metaDescription: 'Don\'t get scammed by Instagram gurus. We provide honest reviews of the top UK trading courses, including Drawdown, LAT, and more.',
     comparisonTable: [
-      { rank: 1, name: 'Drawdown Academy', bestFor: 'Practical Edge', keyStat: '6 Phases', rating: 5.0, link: '/courses' },
+      { rank: 1, name: 'Avorria Academy', bestFor: 'Practical Edge', keyStat: '6 Phases', rating: 5.0, link: '/courses' },
       { rank: 2, name: 'London Academy of Trading', bestFor: 'Accreditation', keyStat: 'Campus Based', rating: 4.7, link: 'https://www.lat.london' },
       { rank: 3, name: 'Warrior Trading', bestFor: 'US Markets', keyStat: 'Live Room', rating: 4.4, link: 'https://www.warriortrading.com' },
     ],
@@ -814,7 +814,7 @@ export const BEST_OF_PAGES: BestOfPage[] = [
     reviews: [
       {
         id: 'drawdown-academy',
-        name: 'Drawdown Academy',
+        name: 'Avorria Academy',
         description: 'We aren\'t unbiased, but we are honest. We built Drawdown to be the course we wish we had: zero fluff, institutional concepts, and a focus on the business of risk management.',
         pros: ['Structured, logic-based curriculum', 'No "get rich quick" promises', 'Integrated with pro tools'],
         cons: ['Not for people who want easy answers'],
@@ -1102,7 +1102,7 @@ export const BEST_OF_PAGES: BestOfPage[] = [
     targetKeywords: ['best AI trading tools', 'AI for trading 2026'],
     metaDescription: 'AI won\'t trade for you, but it will make you a better trader. We compare the best AI tools for sentiment, backtesting, and journaling.',
     comparisonTable: [
-      { rank: 1, name: 'Drawdown AI', bestFor: 'Psychology/Journal', keyStat: 'LLM Analysis', rating: 5.0, link: '/tools/ai-trade-journal' },
+      { rank: 1, name: 'Avorria AI', bestFor: 'Psychology/Journal', keyStat: 'LLM Analysis', rating: 5.0, link: '/tools/ai-trade-journal' },
       { rank: 2, name: 'Trade Ideas', bestFor: 'Stock Scanning', keyStat: "Holly AI", rating: 4.7, link: 'https://trade-ideas.com' },
       { rank: 3, name: 'TrendSpider', bestFor: 'Automated Analysis', keyStat: 'Algorithmic Lines', rating: 4.6, link: 'https://trendspider.com' },
     ],
@@ -1110,7 +1110,7 @@ export const BEST_OF_PAGES: BestOfPage[] = [
     reviews: [
       {
         id: 'drawdown-ai-suite',
-        name: 'Drawdown AI Suite',
+        name: 'Avorria AI Suite',
         description: 'We focus on using AI where it matters most: the human element. Our AI tools analyze your trading behavior to identify the exact moments your psychology starts to break down.',
         pros: ['Deep psychological insight', 'Natural language processing', 'Built for retail traders'],
         cons: ['Still being refined for exotic markets'],
@@ -1170,14 +1170,14 @@ export const BEST_OF_PAGES: BestOfPage[] = [
     topPickId: 'drawdown-academy',
     top3Ids: ['drawdown-academy', 'itp', 'biz-academy'],
     comparisonTable: [
-      { rank: 1, name: 'Drawdown Academy', bestFor: 'Professional Discipline', keyStat: '12-Week Path', rating: 4.9, link: '/learn/academy' },
+      { rank: 1, name: 'Avorria Academy', bestFor: 'Professional Discipline', keyStat: '12-Week Path', rating: 4.9, link: '/learn/academy' },
       { rank: 2, name: 'Institute of Trading', bestFor: 'Macro Analysis', keyStat: 'Institutional', rating: 4.7, link: '#' },
       { rank: 3, name: 'The Alpha Course', bestFor: 'Basics', keyStat: 'Introductory', rating: 4.5, link: '#' },
     ],
     reviews: [
       {
         id: 'drawdown-academy',
-        name: 'Drawdown Academy',
+        name: 'Avorria Academy',
         description: 'Our flagship program focuses on the behavioral and technical reality of the markets. We don\'t sell dreams; we build disciplined risk managers.',
         pros: ['Direct Mentor Access', 'Institutional Risk Engine', 'Lifetime Community'],
         cons: ['Highly Selective', 'Intensive Workload'],
@@ -1270,7 +1270,7 @@ export const BEST_OF_PAGES: BestOfPage[] = [
         ctaLink: '/courses'
       }
     ],
-    methodology: 'Based on the habits of consistently profitable traders in the Drawdown community.',
+    methodology: 'Based on the habits of consistently profitable traders in the Avorria community.',
     faqs: []
   },
   {
@@ -1412,7 +1412,7 @@ export const BEST_OF_PAGES: BestOfPage[] = [
     metaDescription: 'The world of trading Discords is full of scams. We review the few communities actually focused on education and professional networking.',
     introduction: 'Most trading Discords are just "signal groups" designed to take your money. We look for the communities where the goal is to make you an independent trader.',
     comparisonTable: [
-      { rank: 1, name: 'The Drawdown Hub', bestFor: 'UK Education', keyStat: 'Proprietary Tools', rating: 4.9, link: '/signup' },
+      { rank: 1, name: 'The Avorria Hub', bestFor: 'UK Education', keyStat: 'Proprietary Tools', rating: 4.9, link: '/signup' },
       { rank: 2, name: 'Market Wash', bestFor: 'Order Flow', keyStat: 'Live Streams', rating: 4.7, link: '#' },
     ],
     reviews: [
@@ -1420,7 +1420,7 @@ export const BEST_OF_PAGES: BestOfPage[] = [
         id: 'drawdown-discord',
         name: 'Drawdown Community',
         description: 'Our internal community focused on institutional logic and behavioral data. No "lambos," just hard work.',
-        pros: ['Deep educational focus', 'Direct access to experienced traders', 'Integrated with Drawdown tools'],
+        pros: ['Deep educational focus', 'Direct access to experienced traders', 'Integrated with Avorria tools'],
         cons: ['Not for those looking for quick "signals"', 'Monthly fee (unless funded)'],
         bestFor: 'Serious traders looking for a professional environment',
         ctaLink: '/signup'

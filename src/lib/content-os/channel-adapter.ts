@@ -61,7 +61,7 @@ export class ChannelAdaptationEngine {
   }): ChannelAdaptationContract {
     const family: VisualFamily = params.visualFamily || 'MARKET_UPDATE';
     const symbolTag = params.relatedSymbol ? `#${params.relatedSymbol.replace(/[^a-zA-Z0-9]/g, '')}` : '#Markets';
-    const baseHashtags = ['#Drawdown', '#QuantitativeTrading', symbolTag, '#RiskManagement'];
+    const baseHashtags = ['#Avorria', '#QuantitativeTrading', symbolTag, '#RiskManagement'];
 
     // 1. Article representation
     const articleDisclaimer = EditorialPolicyService.enforceDisclaimer('', !!params.requiresDisclaimer);
@@ -73,7 +73,7 @@ export class ChannelAdaptationEngine {
       keyFacts: params.facts,
       analysis: params.analysis,
       sources: params.sources,
-      cta: "Explore real-time data & quantitative signals on Drawdown Trading.",
+      cta: "Explore real-time data & quantitative signals on Avorria Trading.",
       disclaimer: articleDisclaimer
     };
 
@@ -100,12 +100,12 @@ export class ChannelAdaptationEngine {
       {
         slideNumber: 4,
         type: 'takeaway' as const,
-        header: "Drawdown Takeaway",
+        header: "Avorria Takeaway",
         body: "Protect your capital. The market reaction matters less than the historical pattern underneath it."
       }
     ];
 
-    const instagramCaption = `${params.title}\n\n${params.analysis}\n\nKey Facts:\n${params.facts.map(f => `• ${f}`).join('\n')}\n\nSource: ${params.sources.join(', ') || 'Drawdown Quantitative Terminal'}\n\n${baseHashtags.join(' ')}`;
+    const instagramCaption = `${params.title}\n\n${params.analysis}\n\nKey Facts:\n${params.facts.map(f => `• ${f}`).join('\n')}\n\nSource: ${params.sources.join(', ') || 'Avorria Quantitative Terminal'}\n\n${baseHashtags.join(' ')}`;
 
     const instagram = {
       hook: params.title,
@@ -123,7 +123,7 @@ export class ChannelAdaptationEngine {
     const xThread = [
       xPost,
       `Analysis: ${params.analysis.slice(0, 240)}`,
-      `Sources: ${params.sources.join(', ') || 'Primary filings'}. More analysis on drawdown.trading`
+      `Sources: ${params.sources.join(', ') || 'Primary filings'}. More analysis on avorria.com`
     ];
 
     const x = {
@@ -136,7 +136,7 @@ export class ChannelAdaptationEngine {
     const linkedin = {
       longFormCommentary: `${params.title}\n\n${params.facts.map(f => `• ${f}`).join('\n')}\n\nAnalysis & Historical Parallels:\n${params.analysis}\n\nIn trading, market reactions matter far less than the probabilistic patterns underneath them. Risk management first.\n\n${baseHashtags.join(' ')}`,
       sourcesSection: `Primary Sources: ${params.sources.join(', ') || 'Regulatory announcements'}`,
-      cta: "Read full analysis on drawdown.trading"
+      cta: "Read full analysis on avorria.com"
     };
 
     // 5. Threads representation (Conversational, intelligent)

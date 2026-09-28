@@ -68,7 +68,7 @@ Expected EV / Trade: ${calculations.evInR.toFixed(2)} R
 Estimated Trades to Recovery: ${calculations.tradesToRecover || "N/A (Negative EV)"}
 --------------------------------------------------
 Methodology Note: Drawdown recovery is non-linear. As losses deepen, the percentage gain required relative to remaining equity expands exponentially.
-https://drawdown.trading/calculators/drawdown-recovery`;
+https://avorria.com/calculators/drawdown-recovery`;
 
     const blob = new Blob([textData], { type: "text/plain" });
     const url = URL.createObjectURL(blob);

@@ -126,7 +126,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title: `${data.topicTitle} in ${data.locationName} | Learn to Trade`,
     description: `Learn ${data.topicTitle} from ${data.locationName} with Drawdown. Structured courses, AI tools, and UK-focused trading education. Start free today.`,
     alternates: {
-      canonical: `https://drawdown.trading/learn-to-trade/${topicSlug}/${locationSlug}`,
+      canonical: `https://avorria.com/learn-to-trade/${topicSlug}/${locationSlug}`,
     },
     robots: { index: false, follow: true },
   };
@@ -148,7 +148,7 @@ export default async function LocationTopicPage({ params }: Props) {
         "London Session Focus",
       ]}
       ctaHref="/signup"
-      ctaLabel="Join Drawdown Free"
+      ctaLabel="Join Avorria Free"
     />
   );
 }

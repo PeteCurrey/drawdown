@@ -29,7 +29,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: page.metaTitle,
     description: page.metaDescription,
-    alternates: { canonical: `https://drawdown.trading/basic/${slug}` },
+    alternates: { canonical: `https://avorria.com/basic/${slug}` },
     openGraph: {
       title: page.metaTitle,
       description: page.metaDescription,
@@ -51,10 +51,10 @@ export default async function BasicSlugPage({ params }: Props) {
     description: page.instantAnswer,
     inDefinedTermSet: {
       '@type': 'DefinedTermSet',
-      name: 'Drawdown Trading Glossary',
-      url: 'https://drawdown.trading/glossary',
+      name: 'Avorria Trading Glossary',
+      url: 'https://avorria.com/glossary',
     },
-    url: `https://drawdown.trading/basic/${slug}`,
+    url: `https://avorria.com/basic/${slug}`,
   };
 
   const faqSchema = page.faq.length > 0 ? {
@@ -71,10 +71,10 @@ export default async function BasicSlugPage({ params }: Props) {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://drawdown.trading' },
-      { '@type': 'ListItem', position: 2, name: 'Trading Basics', item: 'https://drawdown.trading/basic' },
-      { '@type': 'ListItem', position: 3, name: page.cluster, item: `https://drawdown.trading/basic#${page.cluster.toLowerCase().replace(/\s+/g, '-')}` },
-      { '@type': 'ListItem', position: 4, name: page.title, item: `https://drawdown.trading/basic/${slug}` },
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://avorria.com' },
+      { '@type': 'ListItem', position: 2, name: 'Trading Basics', item: 'https://avorria.com/basic' },
+      { '@type': 'ListItem', position: 3, name: page.cluster, item: `https://avorria.com/basic#${page.cluster.toLowerCase().replace(/\s+/g, '-')}` },
+      { '@type': 'ListItem', position: 4, name: page.title, item: `https://avorria.com/basic/${slug}` },
     ],
   };
 

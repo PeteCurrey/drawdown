@@ -73,7 +73,7 @@ const FALLBACK_CLAIMS_MAP: Record<string, any> = {
   },
   "platform-capabilities": {
     slug: "platform-capabilities",
-    title: "Drawdown Platform Scope",
+    title: "Avorria Platform Scope",
     short_claim: "Trading education and risk-management research platform",
     original_wording: "Professional execution and Direct Market Access platform",
     approved_wording: "Drawdown is a trading education and risk-management research platform. We provide tools, market observations, and educational content. Drawdown does not execute trades, route orders, or manage trading accounts.",
@@ -257,12 +257,12 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
   if (!claim) {
     return {
-      title: "Methodology Claim Not Found | Drawdown Trading",
+      title: "Methodology Claim Not Found | Avorria Trading",
     };
   }
 
   return {
-    title: `${claim.title} - Data & Methodology | Drawdown Trading`,
+    title: `${claim.title} - Data & Methodology | Avorria Trading`,
     description: claim.summary || claim.approved_wording,
   };
 }

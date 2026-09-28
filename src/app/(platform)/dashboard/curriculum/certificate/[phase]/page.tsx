@@ -71,7 +71,7 @@ export default async function CertificatePage({ params }: { params: Promise<{ ph
           <Award className="w-16 h-16 text-accent mb-6" />
           
           <h4 className="text-xs font-mono font-bold uppercase tracking-[0.3em] text-text-tertiary mb-6">
-            Drawdown Trading Academy
+            Avorria Trading Academy
           </h4>
           
           <h1 className="text-5xl md:text-7xl font-bold font-syne text-white mb-10 tracking-tight">

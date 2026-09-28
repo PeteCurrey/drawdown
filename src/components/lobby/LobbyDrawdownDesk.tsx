@@ -20,7 +20,7 @@ export function LobbyDrawdownDesk({ articles = [] }: LobbyDrawdownDeskProps) {
           <div className="flex items-center gap-2">
             <BookOpen className="w-4 h-4 text-[#16213E]" />
             <h2 className="text-xs font-mono font-bold uppercase tracking-[0.16em] text-[#0B0E12]">
-              DRAWDOWN DESK // ORIGINAL RESEARCH &amp; TOOL DISCOVERY
+              AVORRIA DESK // ORIGINAL RESEARCH &amp; TOOL DISCOVERY
             </h2>
           </div>
           <span className="text-[10px] font-mono text-[#4B5157] tracking-wider uppercase">
@@ -31,7 +31,7 @@ export function LobbyDrawdownDesk({ articles = [] }: LobbyDrawdownDeskProps) {
         {!hasArticles ? (
           <LobbyEmptyState
             title="NO DESK INVESTIGATIONS PUBLISHED"
-            description="Drawdown original investigations dissect broker spreads, prop firm liquidation thresholds, and mathematical edge models. Original research reports will be published here."
+            description="Avorria original investigations dissect broker spreads, prop firm liquidation thresholds, and mathematical edge models. Original research reports will be published here."
             badge="INVESTIGATIVE DESK"
           />
         ) : (

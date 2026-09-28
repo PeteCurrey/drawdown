@@ -182,7 +182,7 @@ export default async function LobbyHomePage({
           {/* 10. Trade of the Month */}
           <LobbyTradeOfTheMonth trade={AUDITED_TRADE_CASE_STUDY} />
 
-          {/* 11. Drawdown Desk Original Research */}
+          {/* 11. Avorria Desk Original Research */}
           <LobbyDrawdownDesk articles={drawdownDeskArticles} />
 
           {/* 12. Explained Evergreen Education */}

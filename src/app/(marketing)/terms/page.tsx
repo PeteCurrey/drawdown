@@ -5,8 +5,8 @@ import { ShieldCheck, Scale, AlertTriangle, RefreshCw, FileText, CheckCircle2, A
 import Link from "next/link";
 
 export const metadata = getMetadata({
-  title: "Terms and Conditions | Drawdown",
-  description: "Terms and Conditions governing the use of Drawdown trading education, quantitative market tools, Signal Centre, and subscription software.",
+  title: "Terms and Conditions | Avorria",
+  description: "Terms and Conditions governing the use of Avorria trading education, quantitative market tools, Signal Centre, and subscription software.",
   path: "/terms",
 });
 

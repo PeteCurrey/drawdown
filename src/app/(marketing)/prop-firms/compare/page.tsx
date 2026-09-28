@@ -43,9 +43,9 @@ export default function PropFirmsComparePage() {
     <div className="min-h-screen bg-slate-950 text-white font-sans">
       <TrackPageView path="/prop-firms/compare" />
       <BreadcrumbSchema items={[
-        { name: "Home", url: "https://drawdown.trading" },
-        { name: "Prop Firms", url: "https://drawdown.trading/prop-firms" },
-        { name: "Compare Prop Firms", url: "https://drawdown.trading/prop-firms/compare" }
+        { name: "Home", url: "https://avorria.com" },
+        { name: "Prop Firms", url: "https://avorria.com/prop-firms" },
+        { name: "Compare Prop Firms", url: "https://avorria.com/prop-firms/compare" }
       ]} />
 
       {/* 1. IMMERSIVE AMBIENT HERO SECTION */}

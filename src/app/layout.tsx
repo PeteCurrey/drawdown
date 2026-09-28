@@ -67,20 +67,20 @@ const ibmPlexSans = IBM_Plex_Sans({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://drawdown.trading'),
+  metadataBase: new URL('https://avorria.com'),
   title: {
-    default: 'Drawdown — Trade the Truth',
+    default: 'Avorria Trading — Professional Market Intelligence',
     template: '%s'
   },
-  description: 'Learn to trade properly with structured courses, AI-powered tools and honest mentorship. No gurus. No hype. Just edge.',
+  description: 'Professional market intelligence, quantitative trading tools and structured analysis. Designed for serious independent traders.',
   openGraph: {
-    siteName: 'Drawdown',
+    siteName: 'Avorria Trading',
     locale: 'en_GB',
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    creator: '@drawdown_hq',
+    creator: '@avorriatrading',
   },
   robots: {
     index: true,
@@ -128,13 +128,13 @@ export default function RootLayout({
               "@type": "Organization",
               "name": LEGAL_CONFIG.fullTradingEntity,
               "legalName": LEGAL_CONFIG.contractingEntity,
-              "url": "https://drawdown.trading",
-              "logo": "https://drawdown.trading/assets/brand/logo.png",
+              "url": "https://avorria.com",
+              "logo": "https://avorria.com/assets/brand/logo.png",
               "founder": {
                 "@type": "Person",
                 "name": "Pete Currey",
-                "url": "https://drawdown.trading/about",
-                "image": "https://drawdown.trading/images/pete.jpg"
+                "url": "https://avorria.com/about",
+                "image": "https://avorria.com/images/pete.jpg"
               },
               "address": {
                 "@type": "PostalAddress",
@@ -142,9 +142,9 @@ export default function RootLayout({
                 "addressLocality": "Chesterfield, Derbyshire"
               },
               "sameAs": [
-                "https://twitter.com/drawdown_hq",
-                "https://youtube.com/@drawdown",
-                "https://discord.gg/drawdown"
+                "https://x.com/avorriatrading",
+                "https://youtube.com/@avorriatrading",
+                "https://discord.gg/avorria"
               ]
             })
           }}

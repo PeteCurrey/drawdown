@@ -89,7 +89,7 @@ export function LobbyTradeOfTheMonth({ trade }: LobbyTradeOfTheMonthProps) {
                 </div>
 
                 <div className="mt-4 pt-3 border-t border-[#DEDDD8] text-[10px] font-mono text-[#4B5157]">
-                  Audited by Drawdown Trading Desk
+                  Audited by Avorria Trading Desk
                 </div>
               </div>
             </div>

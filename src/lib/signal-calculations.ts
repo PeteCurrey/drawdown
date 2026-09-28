@@ -93,7 +93,7 @@ export function validateSignalGeometry(levels: {
 }
 
 /**
- * Pure calculation of the Drawdown Consensus Score (DCS).
+ * Pure calculation of the Avorria Consensus Score (DCS).
  * Weighted model consensus: Claude (40%), GPT-4o (35%), Grok (25%).
  */
 export function calculateDcsScore(

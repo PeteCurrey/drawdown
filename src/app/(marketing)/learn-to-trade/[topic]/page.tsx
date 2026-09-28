@@ -30,7 +30,7 @@ async function getTopicData(topicSlug: string): Promise<LearnTopic | null> {
       return {
         title: page.title,
         slug: page.slug,
-        metaTitle: page.seo_title || `${page.title} | Drawdown`,
+        metaTitle: page.seo_title || `${page.title} | Avorria`,
         metaDescription: page.seo_description || "",
         category: "General",
         difficulty: "Intermediate" as const,

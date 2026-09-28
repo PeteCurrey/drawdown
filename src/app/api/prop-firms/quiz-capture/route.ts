@@ -41,19 +41,19 @@ export async function POST(request: NextRequest) {
     const firmName = firmNames[firmMatch] ?? firmMatch;
     const firmLinks: Record<string, string> = {
       ftmo: "/go/ftmo",
-      "the5ers": "https://drawdown.trading/go/the5ers",
-      "funding-pips": "https://drawdown.trading/go/funding-pips",
+      "the5ers": "https://avorria.com/go/the5ers",
+      "funding-pips": "https://avorria.com/go/funding-pips",
     };
-    const firmLink = firmLinks[firmMatch] ?? "https://drawdown.trading/prop-firms";
+    const firmLink = firmLinks[firmMatch] ?? "https://avorria.com/prop-firms";
 
     await resend.emails.send({
-      from: "Pete @ Drawdown <thewire@drawdown.trading>",
+      from: "Pete @ Avorria <thewire@avorria.com>",
       to: email,
       subject: `Your Prop Firm Match: ${firmName}`,
       html: `
         <div style="font-family: sans-serif; background: #0a0a0a; color: #E4E2DD; padding: 40px; max-width: 600px; margin: 0 auto;">
           <p style="font-family: monospace; color: #888; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 24px;">
-            // DRAWDOWN — PROP FIRM MATCH REPORT
+            // AVORRIA — PROP FIRM MATCH REPORT
           </p>
           <h1 style="font-size: 36px; font-weight: 900; text-transform: uppercase; letter-spacing: -1px; margin-bottom: 8px; color: #fff;">
             Your Match:<br/><span style="color: #f59e0b;">${firmName}</span>
@@ -68,13 +68,13 @@ export async function POST(request: NextRequest) {
           <div style="border-top: 1px solid #222; padding-top: 24px; margin-top: 24px;">
             <p style="color: #555; font-size: 11px; line-height: 1.6; font-family: monospace; text-transform: uppercase; letter-spacing: 0.1em;">
               Don't start your evaluation without a math-backed risk model.<br/>
-              <a href="https://drawdown.trading/store/prop-survival-kit" style="color: #f59e0b;">
+              <a href="https://avorria.com/store/prop-survival-kit" style="color: #f59e0b;">
                 Get the £14 Prop Challenge Survival Kit →
               </a>
             </p>
           </div>
           <p style="color: #333; font-size: 10px; margin-top: 32px; font-family: monospace;">
-            You're receiving this because you completed the Drawdown Prop Firm quiz.
+            You're receiving this because you completed the Avorria Prop Firm quiz.
             <a href="{{unsubscribeUrl}}" style="color: #555;">Unsubscribe</a>
           </p>
         </div>

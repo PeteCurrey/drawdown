@@ -124,7 +124,7 @@ export default async function InsiderTrackerLanding() {
             Access professional-grade insider intelligence and build a portfolio backed by the people who know the numbers best.
           </p>
           <Link href="/signup" className="inline-flex items-center space-x-3 text-text-primary px-10 py-5 text-xs font-bold uppercase tracking-[0.2em] hover:scale-105 transition-all">
-            <span>Join Drawdown Now</span>
+            <span>Join Avorria Now</span>
             <ArrowRight className="w-4 h-4" />
           </Link>
         </section>

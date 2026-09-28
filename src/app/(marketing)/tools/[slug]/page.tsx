@@ -174,7 +174,7 @@ export default async function ToolDetailPage({ params }: Props) {
           "@context": "https://schema.org",
           "@type": "SoftwareApplication",
           "name": tool.title,
-          "url": `https://drawdown.trading/tools/${tool.slug}`,
+          "url": `https://avorria.com/tools/${tool.slug}`,
           "applicationCategory": "FinanceApplication",
           "operatingSystem": "All",
           "description": tool.description,

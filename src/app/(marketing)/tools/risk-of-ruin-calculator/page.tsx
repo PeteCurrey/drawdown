@@ -4,14 +4,14 @@ import { RiskOfRuinCalculatorClient } from "./RiskOfRuinCalculatorClient";
 import JsonLd from "@/components/seo/JsonLd";
 
 export const metadata: Metadata = {
-  title: "Risk of Ruin Calculator — Statistical Probability of Account Loss | Drawdown",
+  title: "Risk of Ruin Calculator — Statistical Probability of Account Loss | Avorria",
   description:
     "Calculate your exact statistical probability of ruin and drawdown distribution using the Ralph Vince & Perry Kaufman models. Win rate, R:R, and risk per trade analysis.",
-  alternates: { canonical: "https://drawdown.trading/tools/risk-of-ruin-calculator" },
+  alternates: { canonical: "https://avorria.com/tools/risk-of-ruin-calculator" },
   openGraph: {
     title: "Risk of Ruin Calculator — Quantitative Survival Modeling",
     description: "Discover why even a 60% win rate strategy can lead to account ruin if position sizing exceeds statistical thresholds.",
-    url: "https://drawdown.trading/tools/risk-of-ruin-calculator",
+    url: "https://avorria.com/tools/risk-of-ruin-calculator",
     type: "website",
   },
 };
@@ -35,7 +35,7 @@ export default function RiskOfRuinCalculatorPage() {
       "@context": "https://schema.org",
       "@type": "WebApplication",
       "name": "Drawdown Risk of Ruin Calculator",
-      "url": "https://drawdown.trading/tools/risk-of-ruin-calculator",
+      "url": "https://avorria.com/tools/risk-of-ruin-calculator",
       "description": "Calculate statistical probability of account ruin over a finite trade sample based on win rate, risk per trade, and payoff ratio.",
       "applicationCategory": "FinanceApplication",
       "operatingSystem": "Any",

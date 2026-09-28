@@ -8,10 +8,10 @@ export const metadata: Metadata = {
     title: "Coffeezilla fxAlexG Video & Trading Education",
     description: "We break down the Coffeezilla fxAlexG controversy: undisclosed affiliates, demo accounts, and what it teaches us about finding honest trading education.",
     type: "article",
-    url: "https://drawdown.trading/blog/coffeezilla-alexg-trading-education",
+    url: "https://avorria.com/blog/coffeezilla-alexg-trading-education",
     images: [
       {
-        url: "https://drawdown.trading/images/blog/alexg-bugatti.png",
+        url: "https://avorria.com/images/blog/alexg-bugatti.png",
         width: 1200,
         height: 630,
         alt: "Deep blue and purple Bugatti Chiron",
@@ -33,19 +33,19 @@ export default function CoffeezillaAlexGPage() {
       "worksFor": {
         "@type": "Organization",
         "name": "Drawdown",
-        "url": "https://drawdown.trading"
+        "url": "https://avorria.com"
       }
     },
     "publisher": {
       "@type": "Organization",
       "name": "Drawdown",
-      "url": "https://drawdown.trading"
+      "url": "https://avorria.com"
     },
     "datePublished": "2026-06-20T12:00:00Z",
     "dateModified": "2026-06-20T12:00:00Z",
     "mainEntityOfPage": {
       "@type": "WebPage",
-      "@id": "https://drawdown.trading/blog/coffeezilla-alexg-trading-education"
+      "@id": "https://avorria.com/blog/coffeezilla-alexg-trading-education"
     }
   };
 

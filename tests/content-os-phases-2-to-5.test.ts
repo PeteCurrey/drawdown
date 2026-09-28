@@ -206,7 +206,7 @@ test("Phase 4: Provider timeout or unknown response maintains unconfirmed status
 // ─────────────────────────────────────────────────────────────────────────────
 // PHASE 5: Performance Feedback Loop & Attribution Engine Tests
 // ─────────────────────────────────────────────────────────────────────────────
-test("Phase 5: Deterministic Drawdown UTM Builder produces uniform traceable links", () => {
+test("Phase 5: Deterministic Avorria UTM Builder produces uniform traceable links", () => {
   const url = UTMBuilder.buildUrl("/calculators/position-size", {
     source: "Instagram",
     campaign: "Drawdown 101",
@@ -215,7 +215,7 @@ test("Phase 5: Deterministic Drawdown UTM Builder produces uniform traceable lin
 
   assert.equal(
     url,
-    "https://drawdown.trading/calculators/position-size?utm_source=instagram&utm_medium=social&utm_campaign=drawdown-101&utm_content=asymmetry-of-loss"
+    "https://avorria.com/calculators/position-size?utm_source=instagram&utm_medium=social&utm_campaign=drawdown-101&utm_content=asymmetry-of-loss"
   );
 });
 

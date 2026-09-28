@@ -17,34 +17,34 @@ import type { Metadata } from "next";
 import { createInternalSupabase } from "@/lib/supabase/server";
 
 export const metadata: Metadata = {
-  title: "Drawdown — Trading Risk & Operating System",
+  title: "Avorria Trading — Quantitative Market Intelligence & Operating System",
   description:
     "Risk calculators, pre-trade analysis, AI-assisted journalling, and structured education — all in one platform. Start free. No card required.",
-  alternates: { canonical: "https://drawdown.trading" },
+  alternates: { canonical: "https://avorria.com" },
   openGraph: {
-    title: "Drawdown — Trading Risk & Operating System",
+    title: "Avorria Trading — Quantitative Market Intelligence & Operating System",
     description:
       "Risk calculators, pre-trade analysis, AI-assisted journalling, and structured education — all in one platform. Start free.",
-    url: "https://drawdown.trading",
-    siteName: "Drawdown",
+    url: "https://avorria.com",
+    siteName: "Avorria Trading",
     locale: "en_GB",
     type: "website",
     images: [
       {
-        url: "https://drawdown.trading/og/default-og.png",
+        url: "https://avorria.com/og/default-og.png",
         width: 1200,
         height: 630,
-        alt: "Drawdown — Trading Risk & Operating System",
+        alt: "Avorria Trading — Quantitative Market Intelligence & Operating System",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Drawdown — Trading Risk & Operating System",
+    title: "Avorria Trading — Quantitative Market Intelligence & Operating System",
     description:
       "Risk calculators, pre-trade analysis, AI-assisted journalling, and structured education. Start free.",
-    images: ["https://drawdown.trading/og/default-og.png"],
-    creator: "@drawdown_hq",
+    images: ["https://avorria.com/og/default-og.png"],
+    creator: "@avorriatrading",
   },
 };
 
@@ -79,15 +79,15 @@ export default async function Home() {
       <JsonLd data={{
         "@context": "https://schema.org",
         "@type": "Organization",
-        "name": "Drawdown Trading",
-        "url": "https://drawdown.trading",
-        "logo": "https://drawdown.trading/assets/brand/logo.png",
+        "name": "Avorria Trading",
+        "url": "https://avorria.com",
+        "logo": "https://avorria.com/assets/brand/logo.png",
         "description": "Phase-based trading education for independent traders. Structured curriculum, AI-powered tools and honest mentorship.",
         "founder": {
           "@type": "Person",
           "name": "Pete Currey",
           "jobTitle": "Founder",
-          "url": "https://drawdown.trading/about"
+          "url": "https://avorria.com/about"
         },
         "address": {
           "@type": "PostalAddress",
@@ -98,7 +98,7 @@ export default async function Home() {
         "contactPoint": {
           "@type": "ContactPoint",
           "contactType": "customer support",
-          "email": "hello@drawdown.trading",
+          "email": "hello@avorria.com",
           "availableLanguage": "English"
         },
         "sameAs": [
@@ -110,12 +110,12 @@ export default async function Home() {
         "@context": "https://schema.org",
         "@type": "WebSite",
         "name": "Drawdown",
-        "url": "https://drawdown.trading",
+        "url": "https://avorria.com",
         "potentialAction": {
           "@type": "SearchAction",
           "target": {
             "@type": "EntryPoint",
-            "urlTemplate": "https://drawdown.trading/blog?q={search_term_string}"
+            "urlTemplate": "https://avorria.com/blog?q={search_term_string}"
           },
           "query-input": "required name=search_term_string"
         }

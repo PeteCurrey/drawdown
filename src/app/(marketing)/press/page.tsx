@@ -16,9 +16,9 @@ import { getMetadata } from "@/lib/metadata";
 import JsonLd from "@/components/seo/JsonLd";
 
 export const metadata = getMetadata({
-  title: "Press & Media | Drawdown Trading Research & Data",
+  title: "Press & Media | Avorria Trading Research & Data",
   description:
-    "Journalist resources from Drawdown Trading: original trading research, verified data benchmarks, embeddable calculators, spokesperson details, and citation guidelines.",
+    "Journalist resources from Avorria Trading: original trading research, verified data benchmarks, embeddable calculators, spokesperson details, and citation guidelines.",
   path: "/press",
 });
 
@@ -28,35 +28,35 @@ const DATA_BENCHMARKS = [
     context:
       "simulated probability of experiencing a >30% drawdown when risking the full Kelly fraction (4.5%) over 1,000 trades — despite Kelly being theoretically optimal for long-run growth (45% win rate, 1.5:1 RR, 10,000 Monte Carlo iterations)",
     source: "Drawdown Research — Position Sizing Monte Carlo Study (2026) [simulated/modelled data, not observed trader behaviour]",
-    cite: "https://drawdown.trading/research/position-sizing",
+    cite: "https://avorria.com/research/position-sizing",
   },
   {
     stat: "22%",
     context:
       "simulated probability of experiencing a >30% drawdown at any point during 1,000 trades at 1% risk per trade (45% win rate, 1.5:1 RR, 10,000 Monte Carlo iterations)",
     source: "Drawdown Research — Position Sizing Monte Carlo Study (2026) [simulated/modelled data, not observed trader behaviour]",
-    cite: "https://drawdown.trading/research/position-sizing",
+    cite: "https://avorria.com/research/position-sizing",
   },
   {
     stat: "38%",
     context:
       "simulated probability of account ruin when risking 3% per trade over 1,000 trades at 45% win rate — versus 2% ruin probability at 1% risk (10,000 Monte Carlo iterations)",
     source: "Drawdown Research — Position Sizing Monte Carlo Study (2026) [simulated/modelled data, not observed trader behaviour]",
-    cite: "https://drawdown.trading/research/position-sizing",
+    cite: "https://avorria.com/research/position-sizing",
   },
   {
     stat: "66.7%",
     context:
       "gain required to recover from a 40% drawdown — the non-linear mathematics of loss recovery that most retail traders underestimate",
     source: "Drawdown Research — Drawdown Recovery Mathematics (2026) [mathematical calculation]",
-    cite: "https://drawdown.trading/calculators/drawdown-recovery",
+    cite: "https://avorria.com/calculators/drawdown-recovery",
   },
   {
     stat: "4.5%",
     context:
       "full-Kelly fraction for a 45% win rate, 1.5:1 RR strategy — producing >70% drawdown in 41% of simulated runs despite being theoretically optimal (10,000 Monte Carlo iterations)",
     source: "Drawdown Research — Position Sizing Monte Carlo Study (2026) [simulated/modelled data, not observed trader behaviour]",
-    cite: "https://drawdown.trading/research/position-sizing",
+    cite: "https://avorria.com/research/position-sizing",
   },
 ];
 
@@ -113,23 +113,23 @@ export default function PressPage() {
             "@context": "https://schema.org",
             "@type": "WebPage",
             "name": "Drawdown Press & Media Centre",
-            "url": "https://drawdown.trading/press",
+            "url": "https://avorria.com/press",
             "description": "Journalist resources: original trading research, verified data benchmarks, embeddable calculators, and citation guidelines.",
             "publisher": {
               "@type": "Organization",
-              "name": "Drawdown Trading",
-              "url": "https://drawdown.trading",
+              "name": "Avorria Trading",
+              "url": "https://avorria.com",
               "contactPoint": {
                 "@type": "ContactPoint",
                 "contactType": "Press",
-                "email": "press@drawdown.trading",
+                "email": "press@avorria.com",
               },
             },
             "breadcrumb": {
               "@type": "BreadcrumbList",
               "itemListElement": [
-                { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://drawdown.trading" },
-                { "@type": "ListItem", "position": 2, "name": "Press", "item": "https://drawdown.trading/press" },
+                { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://avorria.com" },
+                { "@type": "ListItem", "position": 2, "name": "Press", "item": "https://avorria.com/press" },
               ],
             },
           },
@@ -153,7 +153,7 @@ export default function PressPage() {
           </p>
           <div className="flex flex-wrap gap-3 pt-2">
             <a
-              href="mailto:press@drawdown.trading"
+              href="mailto:press@avorria.com"
               className="inline-flex items-center gap-2 px-5 py-2.5 bg-accent text-background-primary text-[10px] font-mono font-black uppercase tracking-widest hover:bg-accent/90 transition"
             >
               <Mail className="w-3.5 h-3.5" /> Press Enquiries
@@ -174,7 +174,7 @@ export default function PressPage() {
             Citable Data Benchmarks
           </h2>
           <p className="text-xs text-text-secondary mb-6 leading-relaxed max-w-3xl">
-            The following statistics are drawn from Drawdown's first-party research studies. Each includes a source citation and a link to the full methodology. All may be cited with attribution to "Drawdown Trading Research".
+            The following statistics are drawn from Drawdown's first-party research studies. Each includes a source citation and a link to the full methodology. All may be cited with attribution to "Avorria Trading Research".
           </p>
           <div className="space-y-4">
             {DATA_BENCHMARKS.map((b, i) => (
@@ -198,7 +198,7 @@ export default function PressPage() {
             ))}
           </div>
           <p className="text-[10px] text-text-tertiary mt-4 italic">
-            Citation format: "Drawdown Trading Research [Year]. [Title]. Retrieved from drawdown.trading"
+            Citation format: "Avorria Trading Research [Year]. [Title]. Retrieved from avorria.com"
           </p>
         </section>
 
@@ -227,7 +227,7 @@ export default function PressPage() {
                   </Link>
                 </div>
                 <div className="bg-background-primary border border-border-slate/50 p-3 font-mono text-[10px] text-text-secondary overflow-x-auto">
-                  {`<iframe src="https://drawdown.trading${tool.embedPath}" width="100%" height="420" frameborder="0" title="${tool.name}"></iframe>`}
+                  {`<iframe src="https://avorria.com${tool.embedPath}" width="100%" height="420" frameborder="0" title="${tool.name}"></iframe>`}
                 </div>
               </div>
             ))}
@@ -311,10 +311,10 @@ export default function PressPage() {
             </p>
           </div>
           <a
-            href="mailto:press@drawdown.trading"
+            href="mailto:press@avorria.com"
             className="flex-shrink-0 inline-flex items-center gap-2 px-6 py-3 bg-accent text-background-primary text-[10px] font-mono font-black uppercase tracking-widest hover:bg-accent/90 transition"
           >
-            <Mail className="w-3.5 h-3.5" /> press@drawdown.trading
+            <Mail className="w-3.5 h-3.5" /> press@avorria.com
           </a>
         </section>
       </div>

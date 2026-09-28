@@ -169,7 +169,7 @@ export function RegionalLocationPage({
               Ready to Learn Properly in {cityLabelTitled}?
             </h2>
             <p className="text-lg max-w-xl mx-auto" style={{ color: "var(--paper-0)", opacity: 0.7 }}>
-              Join the Drawdown community and access the same tools and education used by
+              Join the Avorria community and access the same tools and education used by
               professional traders across {regionName}.
             </p>
             <div className="pt-4">
@@ -178,7 +178,7 @@ export function RegionalLocationPage({
                 className="inline-flex items-center gap-4 px-10 py-5 text-xs font-bold uppercase tracking-[0.2em] transition-all hover:opacity-80"
                 style={{ background: "var(--paper-0)", color: "var(--ink-950)" }}
               >
-                <span>Join Drawdown {regionName}</span>
+                <span>Join Avorria {regionName}</span>
                 <ArrowRight className="w-4 h-4" />
               </Link>
             </div>

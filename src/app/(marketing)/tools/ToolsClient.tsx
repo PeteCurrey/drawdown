@@ -305,7 +305,7 @@ export default function ToolsMarketingPage() {
               Complete Operating System
             </span>
             <h2 className="text-2xl md:text-3xl font-display font-medium text-[var(--text-primary)]">
-              Drawdown Platform Suite
+              Avorria Platform Suite
             </h2>
             <p className="text-sm font-sans text-[var(--text-secondary)] mt-1 max-w-2xl">
               Connected decision-support modules designed around the 6-stage professional trading workflow.

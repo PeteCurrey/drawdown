@@ -49,7 +49,7 @@ Quality & Editorial Standards:
 2. Evidence-based: Reference real market mechanisms, math formulas (e.g. drawdown recovery percentage, expectancy), or regulatory facts where relevant.
 3. No fabricated statistics, false quotes, or miraculous win-rate claims.
 4. UK English spelling (e.g., analyse, organise, centre, manoeuvre).
-5. Meaningfully reference Drawdown tools where relevant (Position Sizer, Challenge Simulator, Risk of Ruin Calculator, The Lobby, The Wire).
+5. Meaningfully reference Avorria tools where relevant (Position Sizer, Challenge Simulator, Risk of Ruin Calculator, The Lobby, The Wire).
 
 Structure:
 - Title (Compelling, authoritative, maximum 75 characters)
@@ -58,7 +58,7 @@ Structure:
 - 3 to 4 substantive H2 sections with deep analysis, tables or checklists where useful
 - Practical Implications for Traders (Actionable takeaways)
 - The Final Word (Pete's unvarnished verdict)
-- A natural call-to-action to Drawdown tools
+- A natural call-to-action to Avorria tools
 
 Return clean Markdown body content.
 `;
@@ -173,7 +173,7 @@ export async function saveBlogDraftToSupabase(params: SaveBlogDraftParams) {
     }
 
     // Upsert SEO record
-    const metaTitle = params.metaTitle || `${params.title} | Drawdown Trading`;
+    const metaTitle = params.metaTitle || `${params.title} | Avorria Trading`;
     const metaDescription = params.metaDescription || params.subtitle || params.title;
 
     const { error: seoError } = await supabase
@@ -185,7 +185,7 @@ export async function saveBlogDraftToSupabase(params: SaveBlogDraftParams) {
         og_title: metaTitle,
         og_description: metaDescription,
         focus_keyword: params.focusKeyword || null,
-        canonical_url: `https://drawdown.trading/blog/${cleanSlug}`,
+        canonical_url: `https://avorria.com/blog/${cleanSlug}`,
         schema_type: "mdx",
         no_index: false,
         updated_at: nowIso,

@@ -28,15 +28,31 @@ export function ScrollQuoteSection() {
 
     let animationFrameId: number;
 
-    const handleScroll = () => {
+    // ── Geometry cache ────────────────────────────────────────────────────────
+    // getBoundingClientRect() triggers layout — keep it OUT of the scroll path.
+    // We compute once on mount, then refresh on resize via ResizeObserver.
+    let sectionTopCache = 0;
+    let sectionHeightCache = 0;
+
+    const measureSection = () => {
       if (!containerRef.current) return;
       const rect = containerRef.current.getBoundingClientRect();
-      const scrollTop = window.scrollY || document.documentElement.scrollTop;
-      const sectionTop = rect.top + scrollTop;
-      const sectionHeight = rect.height;
+      sectionTopCache = rect.top + window.scrollY;
+      sectionHeightCache = rect.height;
+    };
+
+    measureSection();
+
+    const resizeObserver = new ResizeObserver(measureSection);
+    if (containerRef.current) resizeObserver.observe(containerRef.current);
+    // ─────────────────────────────────────────────────────────────────────────
+
+    const handleScroll = () => {
+      // Only cheap reads inside the scroll handler
+      const scrollTop = window.scrollY;
       const windowHeight = window.innerHeight;
       const scrollProgress =
-        (scrollTop - sectionTop) / (sectionHeight - windowHeight);
+        (scrollTop - sectionTopCache) / (sectionHeightCache - windowHeight);
       const clamped = Math.max(0, Math.min(1, scrollProgress));
       const n = words.length;
 
@@ -71,6 +87,7 @@ export function ScrollQuoteSection() {
     return () => {
       window.removeEventListener("scroll", throttled);
       cancelAnimationFrame(animationFrameId);
+      resizeObserver.disconnect();
     };
   }, [words.length, shouldReduce]);
 

@@ -6,7 +6,7 @@ import { getLobbyArticles } from "@/lib/lobby";
 import { SocialDistributionClient } from "@/components/admin/lobby/SocialDistributionClient";
 
 export const metadata = {
-  title: "Social Distribution Engine | Drawdown Admin",
+  title: "Social Distribution Engine | Avorria Admin",
   robots: { index: false, follow: false },
 };
 

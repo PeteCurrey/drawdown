@@ -5,15 +5,15 @@ export const EXPERT_AUTHORS: ResearchAuthor[] = [
     id: "pete-currey",
     name: "Pete Currey",
     role: "Head of Research & Quantitative Analysis",
-    bio: "Focuses on quantitative risk modeling, market-data architecture, and empirical broker-cost analysis at Drawdown Trading.",
+    bio: "Focuses on quantitative risk modeling, market-data architecture, and empirical broker-cost analysis at Avorria Trading.",
     avatarUrl: "/images/pete.jpg",
     linkedinUrl: "https://linkedin.com/in/petercurrey",
   },
   {
-    id: "drawdown-research-team",
-    name: "Drawdown Research Group",
+    id: "avorria-research-team",
+    name: "Avorria Research Group",
     role: "Market & Broker Intelligence Team",
-    bio: "Cross-functional team of quantitative researchers, developers, and trading systems analysts at Drawdown Trading.",
+    bio: "Cross-functional team of quantitative researchers, developers, and trading systems analysts at Avorria Trading.",
   },
 ];
 

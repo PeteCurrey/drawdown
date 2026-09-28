@@ -23,7 +23,7 @@ const LOBBY_NAV_ITEMS: NavItem[] = [
   { name: "PLATFORMS", href: "/lobby/platforms" },
   { name: "TRADES", href: "/lobby/trades" },
   { name: "EXPLAINED", href: "/lobby/explained" },
-  { name: "DRAWDOWN DESK", href: "/lobby/drawdown" },
+  { name: "AVORRIA DESK", href: "/lobby/avorria" },
   { name: "COMING UP", href: "/lobby#coming-up", sectionId: "coming-up" },
 ];
 

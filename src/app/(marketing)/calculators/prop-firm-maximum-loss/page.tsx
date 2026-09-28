@@ -52,7 +52,7 @@ export default function PropFirmMaximumLossCalculatorPage() {
             "@context": "https://schema.org",
             "@type": "WebApplication",
             "name": "Prop Firm Maximum Loss Calculator",
-            "url": "https://drawdown.trading/calculators/prop-firm-maximum-loss",
+            "url": "https://avorria.com/calculators/prop-firm-maximum-loss",
             "applicationCategory": "FinanceApplication",
             "operatingSystem": "All",
             "description":
@@ -231,7 +231,7 @@ export default function PropFirmMaximumLossCalculatorPage() {
           {/* Conversion Module */}
           <CalculatorNextStep
             heading="Track Both Drawdown Limits Simultaneously"
-            body="The Drawdown platform displays your real-time remaining daily loss buffer and overall maximum loss buffer side by side — calculated from your actual broker equity feed. Know your exact position before placing any order."
+            body="The Avorria platform displays your real-time remaining daily loss buffer and overall maximum loss buffer side by side — calculated from your actual broker equity feed. Know your exact position before placing any order."
             cta="Connect Your Account"
             href="/pricing"
           />

@@ -3,7 +3,7 @@ import { getMetadata } from "@/lib/metadata";
 import BrokersAllClient from "./BrokersAllClient";
 
 export const metadata: Metadata = getMetadata({
-  title: "Compare Regulated Brokers & Trading Platforms | Drawdown",
+  title: "Compare Regulated Brokers & Trading Platforms | Avorria",
   description:
     "Independent broker and trading platform reviews covering regulation, execution, fees, platforms and capital protection.",
   path: "/brokers/all",

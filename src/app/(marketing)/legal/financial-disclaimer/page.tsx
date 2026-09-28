@@ -5,7 +5,7 @@ import { AlertTriangle, Scale, Activity, Globe, FileText, ShieldCheck, CheckCirc
 import Link from "next/link";
 
 export const metadata = getMetadata({
-  title: "Legal, Financial & Tax Disclaimer | Drawdown",
+  title: "Legal, Financial & Tax Disclaimer | Avorria",
   description: "Comprehensive multi-region legal, financial non-advisory perimeter, trade signals disclosure, and regional tax disclaimers (UK, US, AU, SG, HK, EU).",
   path: "/legal/financial-disclaimer",
 });

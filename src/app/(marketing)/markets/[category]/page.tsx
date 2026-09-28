@@ -36,7 +36,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     title: meta.title,
     description: meta.description,
     alternates: {
-      canonical: `https://drawdown.trading/markets/${category}`
+      canonical: `https://avorria.com/markets/${category}`
     }
   };
 }

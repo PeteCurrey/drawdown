@@ -175,13 +175,13 @@ export async function GET(request: NextRequest) {
       if (email) {
         try {
           await resend.emails.send({
-            from: "Drawdown Alerts <alerts@drawdown.trading>",
+            from: "Avorria Alerts <alerts@avorria.com>",
             to: email,
             subject: notifTitle,
             html: `
               <div style="font-family: monospace; max-width: 480px; margin: 0 auto; padding: 32px; background: #0A0A0A; color: #FFFFFF; border: 1px solid #1A1A1A;">
                 <p style="font-size: 10px; text-transform: uppercase; letter-spacing: 0.2em; color: #6B7280; margin-bottom: 24px;">
-                  Signal_Centre_v2 // Drawdown
+                  Signal_Centre_v2 // Avorria Trading
                 </p>
                 <h1 style="font-size: 20px; text-transform: uppercase; margin-bottom: 8px;">${notifTitle}</h1>
                 <p style="font-size: 13px; color: #D1D5DB; line-height: 1.6; margin-bottom: 24px;">${notifMessage}</p>
@@ -192,7 +192,7 @@ export async function GET(request: NextRequest) {
                   })}</strong>
                 </p>
                 <p style="font-size: 9px; color: #4B5563; margin-top: 32px; border-top: 1px solid #1A1A1A; padding-top: 16px;">
-                  This alert was set on your Drawdown dashboard. You can manage alerts at drawdown.trading/dashboard.
+                  This alert was set on your Avorria dashboard. You can manage alerts at avorria.com/dashboard.
                   Not financial advice.
                 </p>
               </div>

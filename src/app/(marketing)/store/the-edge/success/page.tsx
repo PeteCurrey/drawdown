@@ -3,7 +3,7 @@ import { Check, Download, ArrowRight } from "lucide-react";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Order Confirmed — The Edge Manual | Drawdown",
+  title: "Order Confirmed — The Edge Manual | Avorria",
   description: "Your Edge Manual PDF is on its way. Check your email for the download link.",
 };
 

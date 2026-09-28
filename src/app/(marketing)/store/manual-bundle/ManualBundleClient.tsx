@@ -94,7 +94,7 @@ const faqs = [
   },
   { 
     q: "What is your refund policy?", 
-    a: "Due to the immediate digital delivery nature of PDF manuals, we do not offer refunds once access has been granted. If you have questions before buying, please reach out to support@drawdown.trading." 
+    a: "Due to the immediate digital delivery nature of PDF manuals, we do not offer refunds once access has been granted. If you have questions before buying, please reach out to support@avorria.com." 
   }
 ];
 

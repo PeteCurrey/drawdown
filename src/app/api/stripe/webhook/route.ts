@@ -114,7 +114,7 @@ export async function POST(request: NextRequest) {
 
       // ── Helper: generate a magic-link for a user ──────────────────────────
       async function getMagicLink(email: string): Promise<string> {
-        const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://drawdown.trading";
+        const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://avorria.com";
         try {
           const { data } = await supabase.auth.admin.generateLink({
             type: "magiclink",
@@ -170,7 +170,7 @@ export async function POST(request: NextRequest) {
         if (resendKey && email) {
           try {
             // §1.5: Direct download link replaced by dashboard access
-            const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://drawdown.trading";
+            const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://avorria.com";
             const dashboardUrl = `${appUrl}/dashboard/store`;
             const magicLink = isNewUser ? await getMagicLink(email) : null;
 
@@ -178,7 +178,7 @@ export async function POST(request: NextRequest) {
 
             const resend = new Resend(resendKey);
             await resend.emails.send({
-              from: "Pete @ Drawdown <thewire@drawdown.trading>",
+              from: "Pete @ Avorria <thewire@avorria.com>",
               to: email,
               subject: "Your Prop Challenge Survival Kit is ready",
               html: emailHtml,
@@ -233,14 +233,14 @@ export async function POST(request: NextRequest) {
         const resendKey = process.env.RESEND_API_KEY;
         if (resendKey && email) {
           try {
-            const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://drawdown.trading";
+            const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://avorria.com";
             const dashboardUrl = `${appUrl}/dashboard/store`;
             const magicLink = isNewUser ? await getMagicLink(email) : null;
 
             const emailHtml = getHowToTradeConfirmationTemplate(dashboardUrl, undefined, magicLink ?? undefined);
             const resend = new Resend(resendKey);
             await resend.emails.send({
-              from: "Pete @ Drawdown <thewire@drawdown.trading>",
+              from: "Pete @ Avorria <thewire@avorria.com>",
               to: email,
               subject: "Your How to Trade guide is ready",
               html: emailHtml,
@@ -285,14 +285,14 @@ export async function POST(request: NextRequest) {
         const resendKey = process.env.RESEND_API_KEY;
         if (resendKey && email) {
           try {
-            const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://drawdown.trading";
+            const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://avorria.com";
             const dashboardUrl = `${appUrl}/dashboard/store`;
             const magicLink = isNewUser ? await getMagicLink(email) : null;
 
             const emailHtml = getTheEdgeConfirmationTemplate(dashboardUrl, undefined, magicLink ?? undefined);
             const resend = new Resend(resendKey);
             await resend.emails.send({
-              from: "Pete @ Drawdown <thewire@drawdown.trading>",
+              from: "Pete @ Avorria <thewire@avorria.com>",
               to: email,
               subject: "Your Edge Manual is ready",
               html: emailHtml,
@@ -344,16 +344,16 @@ export async function POST(request: NextRequest) {
         const resendKey = process.env.RESEND_API_KEY;
         if (resendKey && email) {
           try {
-            const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://drawdown.trading";
+            const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://avorria.com";
             const dashboardUrl = `${appUrl}/dashboard/store`;
             const magicLink = isNewUser ? await getMagicLink(email) : null;
 
             const emailHtml = getManualBundleConfirmationTemplate(dashboardUrl, undefined, magicLink ?? undefined);
             const resend = new Resend(resendKey);
             await resend.emails.send({
-              from: "Pete @ Drawdown <thewire@drawdown.trading>",
+              from: "Pete @ Avorria <thewire@avorria.com>",
               to: email,
-              subject: "Your Drawdown Manual Bundle is ready",
+              subject: "Your Avorria Manual Bundle is ready",
               html: emailHtml,
             });
           } catch (emailErr) {
@@ -414,18 +414,18 @@ export async function POST(request: NextRequest) {
         const email = session.customer_details?.email || session.customer_email;
         if (resendKey && email) {
           try {
-            const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://drawdown.trading";
+            const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://avorria.com";
             const dashboardUrl = `${appUrl}/dashboard/curriculum`;
             const resend = new Resend(resendKey);
             await resend.emails.send({
-              from: "Pete @ Drawdown <thewire@drawdown.trading>",
+              from: "Pete @ Avorria <thewire@avorria.com>",
               to: email,
               subject: "Welcome to the Institutional Accelerator Cohort",
               html: `
                 <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 40px 20px; background-color: #0B0E12; color: #ffffff; border: 1px solid #E2B755;">
                   <h1 style="color: #E2B755; text-align: center; font-size: 24px; text-transform: uppercase; tracking-wider; margin-top: 0;">Enrolment Confirmed</h1>
                   <p style="font-size: 16px; line-height: 1.6; color: #D1D5DB; margin-top: 30px;">
-                    Thank you for enrolling in the <strong>Drawdown Institutional Accelerator</strong>.
+                    Thank you for enrolling in the <strong>Avorria Institutional Accelerator</strong>.
                   </p>
                   <p style="font-size: 16px; line-height: 1.6; color: #D1D5DB;">
                     Your premium 6-week Live Cohort access is now active. We are excited to guide you through the process of building an institutional edge, passing prop firm challenges, and optimizing your UK corporate structures.
@@ -442,7 +442,7 @@ export async function POST(request: NextRequest) {
                     <a href="${dashboardUrl}" style="background-color: #E2B755; color: #000000; padding: 15px 35px; text-decoration: none; font-weight: bold; font-size: 14px; border-radius: 4px; text-transform: uppercase; letter-spacing: 1px;">Access Student Dashboard</a>
                   </div>
                   <p style="font-size: 12px; color: #9CA3AF; text-align: center; margin-top: 40px;">
-                    Drawdown Trading Ltd. Educational use only. Non-advisory compliance.
+                    Avorria Trading Ltd. Educational use only. Non-advisory compliance.
                   </p>
                 </div>
               `,

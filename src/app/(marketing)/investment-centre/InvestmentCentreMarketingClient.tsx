@@ -112,11 +112,11 @@ export default function InvestmentCentreMarketingClient() {
       } else if (data.error) {
         alert(`Checkout error: ${data.error}`);
       } else {
-        window.location.href = "https://investmentcentre.drawdown.trading";
+        window.location.href = "https://investmentcentre.avorria.com";
       }
     } catch (err: any) {
       console.error("Stripe checkout error:", err);
-      window.location.href = "https://investmentcentre.drawdown.trading";
+      window.location.href = "https://investmentcentre.avorria.com";
     } finally {
       setCheckoutLoading(false);
     }
@@ -457,7 +457,7 @@ export default function InvestmentCentreMarketingClient() {
                     <span>The Investment Centre is 100% INCLUDED in your Floor Membership!</span>
                   </div>
                   <a
-                    href="https://investmentcentre.drawdown.trading"
+                    href="https://investmentcentre.avorria.com"
                     className="w-full bg-[#C8F135] text-black font-extrabold py-3.5 text-xs font-mono uppercase tracking-wider hover:bg-[#b3d82a] transition-all flex items-center justify-center gap-2 rounded text-center block"
                   >
                     Launch Investment Centre Console →
@@ -529,7 +529,7 @@ export default function InvestmentCentreMarketingClient() {
                 <div className="bg-slate-50 border border-emerald-200 p-4 rounded-lg space-y-3 text-center">
                   <p className="text-xs text-emerald-700 font-bold">You hold The Floor membership! The Investment Centre is fully unlocked for you.</p>
                   <a
-                    href="https://investmentcentre.drawdown.trading"
+                    href="https://investmentcentre.avorria.com"
                     className="w-full bg-[#C8F135] text-black font-extrabold py-3 text-xs uppercase tracking-wider hover:bg-[#b3d82a] transition-all flex items-center justify-center gap-2 rounded text-center block"
                   >
                     Launch Console →
@@ -624,7 +624,7 @@ export default function InvestmentCentreMarketingClient() {
           onClose={() => { setShowConsentModal(false); setPendingPlanType(null); }}
           onConfirm={(consentData) => { if (pendingPlanType) handleProceedStripeCheckout(pendingPlanType, consentData); }}
           loading={checkoutLoading}
-          productName="Drawdown Investment Centre"
+          productName="Avorria Investment Centre"
           priceString="£99/mo"
         />
       )}

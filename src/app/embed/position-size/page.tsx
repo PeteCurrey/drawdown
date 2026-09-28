@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { PositionSizeCalculator } from "@/components/calculators/PositionSizeCalculator";
 
 export const metadata: Metadata = {
-  title: "Position Size Calculator | Drawdown",
+  title: "Position Size Calculator | Avorria",
   robots: { index: false, follow: false },
 };
 
@@ -19,7 +19,7 @@ export default function EmbedPositionSizePage() {
         <div className="mb-4 flex items-center justify-between text-xs text-text-tertiary">
           <span className="font-medium text-text-secondary">Position Size Calculator</span>
           <a
-            href="https://drawdown.trading/calculators/position-size"
+            href="https://avorria.com/calculators/position-size"
             target="_blank"
             rel="noopener noreferrer"
             className="text-accent hover:underline"

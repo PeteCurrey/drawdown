@@ -10,7 +10,7 @@ export interface MorningBriefParams {
 export class MorningBriefWorkflow extends WorkflowEntrypoint<Env, MorningBriefParams> {
   async run(event: WorkflowEvent<MorningBriefParams>, step: WorkflowStep) {
     const env = this.env;
-    const baseUrl = env.DRAWDOWN_API_URL.replace(/\/$/, "");
+    const baseUrl = (env.AVORRIA_API_URL || env.DRAWDOWN_API_URL || "").replace(/\/$/, "");
 
     // Step 1: Generate Morning Brief
     const generationResult = await step.do("generate-morning-brief", async () => {

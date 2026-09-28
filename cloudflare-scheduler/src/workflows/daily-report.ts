@@ -10,7 +10,7 @@ export interface DailyReportParams {
 export class DailyReportWorkflow extends WorkflowEntrypoint<Env, DailyReportParams> {
   async run(event: WorkflowEvent<DailyReportParams>, step: WorkflowStep) {
     const env = this.env;
-    const baseUrl = env.DRAWDOWN_API_URL.replace(/\/$/, "");
+    const baseUrl = (env.AVORRIA_API_URL || env.DRAWDOWN_API_URL || "").replace(/\/$/, "");
 
     // Step 1: Trigger Daily Report Generation (handles multi-model AI & external data sync)
     const reportResult = await step.do("generate-daily-report", async () => {

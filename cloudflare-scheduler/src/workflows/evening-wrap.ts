@@ -10,7 +10,7 @@ export interface EveningWrapParams {
 export class EveningWrapWorkflow extends WorkflowEntrypoint<Env, EveningWrapParams> {
   async run(event: WorkflowEvent<EveningWrapParams>, step: WorkflowStep) {
     const env = this.env;
-    const baseUrl = env.DRAWDOWN_API_URL.replace(/\/$/, "");
+    const baseUrl = (env.AVORRIA_API_URL || env.DRAWDOWN_API_URL || "").replace(/\/$/, "");
 
     // Step 1: Generate Evening Wrap
     const generationResult = await step.do("generate-evening-wrap", async () => {

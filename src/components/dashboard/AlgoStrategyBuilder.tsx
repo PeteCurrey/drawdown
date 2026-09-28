@@ -624,7 +624,7 @@ Tone: Direct, efficient, and focused on risk.`;
                     <div className="space-y-2">
                       <h4 className="text-[10px] font-mono font-bold uppercase text-loss tracking-widest">Legal Disclaimer</h4>
                       <p className="text-[10px] text-text-secondary leading-relaxed uppercase opacity-70">
-                        This tool generates code for educational purposes only. Past performance is not indicative of future results. Drawdown.trading does not provide financial advice. You are responsible for testing any generated code in a demo environment before risking live capital.
+                        This tool generates code for educational purposes only. Past performance is not indicative of future results. Avorria Trading does not provide financial advice. You are responsible for testing any generated code in a demo environment before risking live capital.
                       </p>
                     </div>
                   </div>

@@ -373,12 +373,12 @@ export function YourLobbyFeed({ feed, userPreferences }: YourLobbyFeedProps) {
         </section>
       )}
 
-      {/* ─── RECOMMENDED DRAWDOWN TOOLS ─────────────────────────────────────── */}
+      {/* ─── RECOMMENDED AVORRIA TOOLS ─────────────────────────────────────── */}
       {feed.recommendedTools.length > 0 && (
         <section className="border border-zinc-800 bg-zinc-900/50 p-6">
           <div className="flex items-baseline justify-between mb-4">
             <h3 className="font-mono text-xs uppercase tracking-wider text-zinc-300 font-bold">
-              DRAWDOWN TOOLS FOR YOUR TRADING TODAY
+              AVORRIA TOOLS FOR YOUR TRADING TODAY
             </h3>
             <span className="font-mono text-[10px] text-zinc-400 uppercase">
               EXECUTION & RISK AUDIT

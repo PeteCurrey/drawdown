@@ -80,7 +80,7 @@ test("Phase 2: Deterministic QA Layer blocks missing source, clickbait, and dupl
     title: "EUR/USD Technical Breakdown",
     body: "Testing support near 1.0850.",
     source_type: "original",
-    source_reference: "Drawdown Terminal",
+    source_reference: "Avorria Terminal",
     content_type: "educational"
   };
   const qaDuplicate = EditorialQAEngine.evaluate({
@@ -129,7 +129,7 @@ test("Phase 2: 'Generate Next 30 Days' produces 4-5 slots/week, passes QA, and p
 });
 
 // ─────────────────────────────────────────────────────────────────────────────
-// PHASE 3: Drawdown Financial News Radar Tests
+// PHASE 3: Avorria Financial News Radar Tests
 // ─────────────────────────────────────────────────────────────────────────────
 test("Phase 3: Reproduces Warren Buffett / Berkshire Hathaway leadership transition scenario", () => {
   // Demonstration: SOURCE -> INGEST -> VERIFY -> SCORE -> BRIEF -> DRAFT -> APPROVAL
@@ -186,7 +186,7 @@ test("Phase 4: Provider timeout or unknown response maintains unconfirmed status
       id: "ast_1",
       content_item_id: "item_test",
       asset_type: "image",
-      storage_url: "https://drawdown.trading/assets/valid-slide.png",
+      storage_url: "https://avorria.com/assets/valid-slide.png",
       aspect_ratio: "4:5",
       display_order: 0,
       created_at: new Date().toISOString()

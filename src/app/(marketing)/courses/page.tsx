@@ -21,7 +21,7 @@ export default function CoursesPage() {
         "description": phase.description,
         "provider": {
           "@type": "Organization",
-          "name": "Drawdown",
+          "name": "Avorria",
           "sameAs": "https://avorria.com"
         }
       }

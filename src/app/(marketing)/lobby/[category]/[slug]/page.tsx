@@ -135,7 +135,7 @@ export default async function LobbyArticlePage({ params }: ArticlePageProps) {
       {
         "@type": "ListItem",
         position: 1,
-        name: "Drawdown",
+        name: "Avorria",
         item: siteConfig.url,
       },
       {

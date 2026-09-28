@@ -1,11 +1,11 @@
 /**
- * Drawdown Master Newsletter Template
+ * Avorria Master Newsletter Template
  * Branding: The Wire (Signal Blue accent)
  * Voice: Pete Currey
  */
 
 export function getNewsletterTemplate(content: string, subject: string) {
-  const accentColor = "#F9771D"; // Drawdown Orange
+  const accentColor = "#F9771D"; // Avorria Orange
   const bgColor = "#F1F5F9";
   const surfaceColor = "#FFFFFF";
   const textColor = "#0F172A";
@@ -99,7 +99,7 @@ export function getNewsletterTemplate(content: string, subject: string) {
   <div class="wrapper">
     <div class="container">
       <div class="header">
-        <div class="logo">DRAWDOWN</div>
+        <div class="logo">AVORRIA</div>
         <div class="tagline">// THE WIRE: MORNING INTELLIGENCE</div>
       </div>
       <div class="content">
@@ -110,11 +110,11 @@ export function getNewsletterTemplate(content: string, subject: string) {
           Pete Currey
         </p>
         
-        <a href="https://drawdown.com/dashboard" class="cta-button">Open Dashboard</a>
+        <a href="https://avorria.com/dashboard" class="cta-button">Open Dashboard</a>
       </div>
       <div class="footer">
         <p class="footer-text">
-          &copy; 2026 DRAWDOWN LTD. CHESTERFIELD, UK.<br/>
+          &copy; 2026 AVORRIA LTD. CHESTERFIELD, UK.<br/>
           <span style="font-size: 9px; margin-top: 10px; display: block;">NO HYPE. JUST DATA.</span>
         </p>
         <p style="margin-top: 20px;">

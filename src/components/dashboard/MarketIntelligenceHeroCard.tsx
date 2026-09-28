@@ -127,8 +127,8 @@ export function MarketIntelligenceHeroCard({
   const liveData = useMarketCache([hookSlug]);
   const tdInstrument = liveData[hookSlug];
 
-  // Price: prefer useTwelveData (faster, client-side), fallback to marketData
-  const livePrice = (tdInstrument?.price ?? marketData.quote?.price) ?? null;
+  // Canonical price & indicators: prioritize authoritative marketData route
+  const livePrice = (marketData.quote?.price ?? tdInstrument?.price) ?? null;
 
   // ── Flash animation on price tick ─────────────────────────────────────────
   const prevPriceRef = useRef<number | null>(null);
@@ -146,11 +146,9 @@ export function MarketIntelligenceHeroCard({
   // biasScore: use live value, fall back to placeholder while loading
   const targetBias = marketData.bias?.score ?? selectedInst.defaultPct;
 
-  // Derive change from useMarketCache when available
-  const liveChangePct = tdInstrument?.change_pct ?? marketData.quote?.changePercent ?? null;
-  const isFallback = !tdInstrument || tdInstrument.error || tdInstrument.price === null
-    ? (marketData.is_fallback ?? false)
-    : false;
+  // Derive change from canonical marketData first
+  const liveChangePct = marketData.quote?.changePercent ?? tdInstrument?.change_pct ?? null;
+  const isFallback = marketData.is_fallback ?? false;
 
   const livePriceStr = livePrice
     ? livePrice.toLocaleString("en-US", {
@@ -158,7 +156,7 @@ export function MarketIntelligenceHeroCard({
         maximumFractionDigits: selectedInst.slug.includes("JPY") ? 3 : (selectedInst.slug.includes("XAU") || selectedInst.slug.includes("BTC") ? 2 : 5)
       })
     : "—";
-  const liveRsi = tdInstrument?.rsi ?? marketData.indicators?.rsi ?? null;
+  const liveRsi = marketData.indicators?.rsi ?? tdInstrument?.rsi ?? null;
   const liveRsiStr = liveRsi !== null ? liveRsi.toFixed(1) : "—";
 
   let liveTrend = "—";

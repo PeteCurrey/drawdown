@@ -133,7 +133,7 @@ export function HowToTemplate({ page, region = 'uk' }: { page: any; region?: str
                <div className="p-8 bg-background-surface/40 border border-border-slate/50 backdrop-blur-md space-y-8">
                   <h4 className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary font-bold">// THE PLAYBOOK</h4>
                   <p className="text-sm text-text-secondary leading-relaxed">
-                    This guide is part of the Drawdown Professional Curriculum. Start mastering the business of risk with Drawdown.
+                    This guide is part of the Avorria Professional Curriculum. Start mastering the business of risk with Avorria.
                   </p>
                   <Link href={`${regionPrefix}/courses`} className="w-full py-4 border border-accent hover:bg-accent hover:text-[#08090D] text-accent transition-all text-center text-[10px] font-bold uppercase tracking-widest block">
                      Access Full Curriculum

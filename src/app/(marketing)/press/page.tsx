@@ -112,7 +112,7 @@ export default function PressPage() {
           {
             "@context": "https://schema.org",
             "@type": "WebPage",
-            "name": "Drawdown Press & Media Centre",
+            "name": "Avorria Press & Media Centre",
             "url": "https://avorria.com/press",
             "description": "Journalist resources: original trading research, verified data benchmarks, embeddable calculators, and citation guidelines.",
             "publisher": {
@@ -146,7 +146,7 @@ export default function PressPage() {
             <span className="text-[10px] font-mono uppercase tracking-[0.3em]">Media & Press</span>
           </div>
           <h1 className="text-4xl md:text-6xl font-sans font-black uppercase leading-tight">
-            Drawdown <span className="text-accent italic">Press.</span>
+            Avorria <span className="text-accent italic">Press.</span>
           </h1>
           <p className="text-sm text-text-secondary leading-relaxed max-w-2xl">
             Original quantitative research, verified data benchmarks, and free embeddable trading calculators for financial journalists, content publishers, and researchers. All data is first-party and carries transparent methodology documentation.

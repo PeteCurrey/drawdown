@@ -1,8 +1,8 @@
 /**
- * Drawdown Trading — Critical Browser E2E Journeys
+ * Avorria Trading — Critical Browser E2E Journeys
  *
  * These are genuine browser-automation tests using Playwright/Chromium.
- * They run against the live production deployment at https://drawdown.trading.
+ * They run against the live production deployment at https://avorria.com.
  *
  * They are distinct from the 210 in-process Node tests in tests/*.test.ts which
  * verify logic/contracts. These tests verify that a real browser engine renders
@@ -67,11 +67,11 @@ test("Journey A: Homepage loads with correct title and hero CTA", async ({
   expect(response?.status(), "Homepage must return 200").toBe(200);
 
   const title = await page.title();
-  expect(title, "Title must include Drawdown").toMatch(/drawdown/i);
+  expect(title, "Title must include Avorria").toMatch(/avorria/i);
 
   // The hero section must be present in the DOM
   const heroText = await page.textContent("body");
-  expect(heroText, "Body text must include 'Drawdown'").toMatch(/drawdown/i);
+  expect(heroText, "Body text must include 'Avorria'").toMatch(/avorria/i);
 
   await saveScreenshot(page, "homepage", testInfo);
   await assertNoHorizontalOverflow(page);
@@ -225,7 +225,7 @@ test("Journey F: Homepage has canonical URL and og:title meta tag", async ({
     .catch(() => null);
 
   // At least one of these must be present for SEO correctness
-  const hasCanonical = canonical && canonical.includes("drawdown");
+  const hasCanonical = canonical && canonical.includes("avorria");
   const hasOgTitle = ogTitle && ogTitle.length > 0;
 
   expect(

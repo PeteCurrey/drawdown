@@ -12,7 +12,7 @@ interface AuthorBylineProps {
 
 export function AuthorByline({
   authorName = "Pete Currey",
-  authorRole = "Founder, Drawdown",
+  authorRole = "Founder, Avorria",
   authorLink = "/about",
   date,
   readTime,

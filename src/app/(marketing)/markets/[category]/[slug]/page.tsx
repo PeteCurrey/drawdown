@@ -624,7 +624,7 @@ export default async function MarketInstrumentPage({ params }: PageProps) {
             {/* Left Box */}
             <div className="space-y-6">
               <span className="text-[11px] font-sans font-bold text-[#C8F135] uppercase tracking-widest block">
-                DRAWDOWN CURRICULUM
+                AVORRIA CURRICULUM
               </span>
               <h2 className="text-2xl lg:text-3xl font-sans font-bold text-white leading-tight">
                 How We Teach {instrument.displayPair}

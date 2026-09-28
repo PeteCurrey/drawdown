@@ -122,11 +122,11 @@ export function CoursesPageClient() {
     },
     {
       q: "Can I cancel my subscription at any time?",
-      a: "Yes. Drawdown works on a flat month-to-month subscription with zero minimum commitment or locked terms. You can cancel with a single click inside your billing settings at any point."
+      a: "Yes. Avorria works on a flat month-to-month subscription with zero minimum commitment or locked terms. You can cancel with a single click inside your billing settings at any point."
     },
     {
       q: "Are there live trade alerts or signals?",
-      a: "No. Drawdown is a professional education and data platform, not a retail signal channel. We do not spoonfeed trades. We provide the tools, indicators, and discipline so you can operate as a fully independent, data-driven market participant."
+      a: "No. Avorria is a professional education and data platform, not a retail signal channel. We do not spoonfeed trades. We provide the tools, indicators, and discipline so you can operate as a fully independent, data-driven market participant."
     }
   ];
 
@@ -243,12 +243,12 @@ export function CoursesPageClient() {
               <span className="block text-[11px] font-mono uppercase tracking-wider pt-6 mt-8 border-t" style={{ borderColor: "var(--line-200)", color: "var(--graphite-600)" }}>Cost: £1,000 - £3,000</span>
             </div>
 
-            {/* Drawdown Column */}
+            {/* Avorria Column */}
             <div className="p-8 border flex flex-col justify-between relative overflow-hidden" style={{ borderColor: "var(--signal-navy)", backgroundColor: "var(--paper-0)", borderRadius: 0 }}>
               <div className="absolute top-0 right-0 w-32 h-32 bg-[var(--signal-navy)]/5 blur-[40px] rounded-full pointer-events-none" />
               <div className="space-y-6 relative z-10">
                 <span className="text-[12px] font-mono uppercase tracking-wider" style={{ color: "var(--signal-navy)" }}>
-                  ★ Drawdown Standard
+                  ★ Avorria Standard
                 </span>
                 <ul className="space-y-4 text-[13px] font-sans" style={{ color: "var(--ink-950)" }}>
                   <li className="flex items-start gap-3"><Check size={15} strokeWidth={2.5} className="text-emerald-600 shrink-0 mt-0.5" /> Rigorous 13-phase structural roadmap</li>
@@ -701,7 +701,7 @@ export function CoursesPageClient() {
                 Ready to learn properly?
               </h2>
               <p className="text-[14px] leading-relaxed" style={{ color: "var(--graphite-600)" }}>
-                Start with Phase 1 — Ground Zero. Completely free. No credit card required. Experience why Drawdown is the choice for disciplined, data-driven market participants.
+                Start with Phase 1 — Ground Zero. Completely free. No credit card required. Experience why Avorria is the choice for disciplined, data-driven market participants.
               </p>
               
               <Link

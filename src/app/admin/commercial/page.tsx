@@ -72,7 +72,7 @@ export default async function AdminCommercialPage() {
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
           <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-mkt-i3 block mb-1">
-            // DRAWDOWN SYSTEM CONTROLS
+            // AVORRIA SYSTEM CONTROLS
           </span>
           <h1 className="text-3xl font-display font-extrabold uppercase tracking-tight text-mkt-ink">
             Commercial &amp; Pricing Centre

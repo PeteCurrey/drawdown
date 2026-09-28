@@ -746,17 +746,14 @@ export async function runSignalScan() {
         }
       }
 
-      let isSimulated = false;
+      // NO FAKE DATA. If Twelve Data is unavailable, skip signal generation for this timeframe.
+      // Do not generate signals from synthetic random candles.
       if (!data) {
-        console.log(`[signal-engine] Falling back to high-fidelity price simulator for ${tf.label}...`);
-        data = generateSimulatedTwelveData(tf.label);
-        isSimulated = true;
+        console.warn(`[signal-engine] Twelve Data unavailable for ${tf.label}. Skipping signal generation — no synthetic fallback.`);
+        continue;
       }
 
       for (const [drawdownSlug, tdSym] of Object.entries(TD_SYMBOL_MAP)) {
-        if (isSimulated) {
-          console.warn(`[signal-engine] Live price API unavailable for ${drawdownSlug}. Generating signal from high-fidelity market data model.`);
-        }
 
         const rawSymbolData = data[tdSym];
         if (!rawSymbolData || rawSymbolData.status === "error" || !Array.isArray(rawSymbolData.values)) {

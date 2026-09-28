@@ -41,9 +41,9 @@ export function LobbyInternalLinks({
   if (!hasAny) return null;
 
   return (
-    <aside aria-label="Related Drawdown Intelligence & Tools" className={`my-10 p-6 sm:p-8 bg-[#FAF9F5] border border-[#DEDDD8] rounded-[2px] ${className || ""}`}>
+    <aside aria-label="Related Avorria Intelligence & Tools" className={`my-10 p-6 sm:p-8 bg-[#FAF9F5] border border-[#DEDDD8] rounded-[2px] ${className || ""}`}>
       <div className="text-[10px] font-mono uppercase tracking-[0.2em] text-[#16213E] font-bold mb-4">
-        DRAWDOWN INTELLIGENCE &amp; TOOL CONNECTIONS
+        AVORRIA INTELLIGENCE &amp; TOOL CONNECTIONS
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

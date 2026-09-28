@@ -86,7 +86,7 @@ export async function submitAcceleratorApplicationAction(input: AcceleratorAppli
     if (process.env.RESEND_API_KEY) {
       try {
         const emailRes = await resend.emails.send({
-          from: "Pete @ Drawdown <onboarding@avorria.com>",
+          from: "Pete @ Avorria <onboarding@avorria.com>",
           to: email.toLowerCase().trim(),
           subject: "Your Avorria Institutional Accelerator Candidate Dossier Received",
           html: welcomeHtml
@@ -611,7 +611,7 @@ export async function gradeAcceleratorMilestoneAction(
         }
 
         await resend.emails.send({
-          from: "Pete @ Drawdown <onboarding@avorria.com>",
+          from: "Pete @ Avorria <onboarding@avorria.com>",
           to: studentEmail,
           subject: emailSubject,
           html: emailHtml

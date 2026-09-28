@@ -214,7 +214,7 @@ const { error: seoError } = await supabase
     og_title:         'What Percentage of Traders Actually Make Money?',
     og_description:   'Every UK CFD broker must publish its retail client loss rate. The number is consistently discouraging and rarely explained properly. Here is the full picture.',
     og_image_url:     'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&q=80',
-    canonical_url:    'https://drawdown.trading/blog/percentage-of-traders-make-money',
+    canonical_url:    'https://avorria.com/blog/percentage-of-traders-make-money',
     schema_type:      'BlogPosting',
     no_index:         false,
     focus_keyword:    'percentage of traders that make money',
@@ -234,7 +234,7 @@ console.log(`
 🎉  Done!
     Slug:  ${SLUG}
     ID:    ${postId}
-    URL:   https://drawdown.trading/blog/${SLUG}
+    URL:   https://avorria.com/blog/${SLUG}
     Theme: Dark (#0A0A0A)
     Live:  true
 `);

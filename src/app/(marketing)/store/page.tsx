@@ -92,7 +92,7 @@ const PRODUCTS = [
 
 const FREE_RESOURCES = [
   {
-    title: "Drawdown Risk Management Guide",
+    title: "Avorria Risk Management Guide",
     format: "PDF Document",
     size: "1.4 MB",
     downloadUrl: "/downloads/risk-management-guide.pdf",
@@ -126,7 +126,7 @@ export default function StorePage() {
         <div className="text-center mb-16 space-y-4">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded bg-slate-100 border border-slate-200 text-slate-800 text-xs font-mono font-bold uppercase tracking-widest">
             <ShoppingBag className="w-3.5 h-3.5 text-slate-700" />
-            Drawdown Store
+            Avorria Store
           </div>
           <h1 className="text-4xl md:text-6xl font-black tracking-tight text-slate-900 font-sans">
             Bespoke Manuals &amp; Mini-Courses

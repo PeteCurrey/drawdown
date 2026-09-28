@@ -226,7 +226,7 @@ export default async function TradingToolReviewPage({ params }: Props) {
               <div className="p-8 bg-accent/5 border border-accent/20">
                 <h4 className="text-xl font-sans font-black uppercase text-text-primary mb-4">Official Deal</h4>
                 <p className="text-xs text-text-secondary mb-8 leading-relaxed">
-                  Support Drawdown by visiting {tool.name} using our verified link. Get the best pricing deals.
+                  Support Avorria by visiting {tool.name} using our verified link. Get the best pricing deals.
                 </p>
                 <a 
                   href={tool.affiliateUrl}

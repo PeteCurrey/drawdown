@@ -192,7 +192,7 @@ const { error: seoError } = await supabase
     og_title:         'Is Trading Just Gambling? An Honest Answer',
     og_description:   'The line between trading and gambling is not as clean as either side pretends. An honest look at where it holds and where it blurs.',
     og_image_url:     'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=1200&q=80',
-    canonical_url:    'https://drawdown.trading/blog/is-trading-gambling',
+    canonical_url:    'https://avorria.com/blog/is-trading-gambling',
     schema_type:      'BlogPosting',
     no_index:         false,
     focus_keyword:    'is trading gambling',
@@ -212,7 +212,7 @@ console.log(`
 🎉  Done!
     Slug:  ${SLUG}
     ID:    ${postId}
-    URL:   https://drawdown.trading/blog/${SLUG}
+    URL:   https://avorria.com/blog/${SLUG}
     Theme: Dark (#0A0A0A)
     Live:  true
 `);

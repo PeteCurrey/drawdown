@@ -1061,7 +1061,7 @@ export function RunMyTrade({ initialInstrument, onPlanSaved }: RunMyTradeProps) 
             </button>
 
             <div className="text-center text-[10px] font-mono text-[#87877F]">
-              Drawdown strictly enforces pre-trade discipline. Order routing occurs at your broker.
+              Avorria strictly enforces pre-trade discipline. Order routing occurs at your broker.
             </div>
           </div>
         </div>

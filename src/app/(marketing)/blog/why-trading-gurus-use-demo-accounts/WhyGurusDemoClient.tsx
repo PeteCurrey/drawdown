@@ -187,7 +187,7 @@ export function WhyGurusDemoClient() {
                 </div>
                 <div>
                   <span className="text-sm font-semibold text-white block">Pete</span>
-                  <span className="text-xs text-[#A0A0A0] block">Founder, Drawdown</span>
+                  <span className="text-xs text-[#A0A0A0] block">Founder, Avorria</span>
                 </div>
               </div>
               {/* Meta Row */}

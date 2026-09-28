@@ -28,6 +28,12 @@ export interface ScreenerRow {
   price: number | null;
   /** 24-hour percentage change — null when feed offline */
   changePct: number | null;
+  /** Previous close price for calculating change */
+  prevClose?: number | null;
+  /** Bid price */
+  bid?: number | null;
+  /** Ask price */
+  ask?: number | null;
   /** RSI(14) on 1H — null when feed offline or computation error */
   rsi: number | null;
   /** MSS-derived bias from identifyMSS on 1H OHLCV */
@@ -35,6 +41,8 @@ export interface ScreenerRow {
   /** "twelvedata" | "yahoo" | "synthetic" */
   source: string;
   cached_at: string;
+  /** Provider timestamp if available */
+  provider_timestamp?: string | null;
   /** True when live feed unavailable — UI must show "—" and FEED_OFFLINE badge */
   feed_offline: boolean;
 }

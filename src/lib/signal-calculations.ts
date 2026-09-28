@@ -1,9 +1,9 @@
 /**
- * Pure deterministic calculations and geometric validators for Drawdown Signal Centre.
+ * Pure deterministic calculations and geometric validators for Avorria Signal Centre.
  * Zero external network or database dependencies.
  */
 
-// Symbol mappings between Drawdown slugs and Twelve Data symbols
+// Symbol mappings between Avorria slugs and Twelve Data symbols
 export const TD_SYMBOL_MAP: Record<string, string> = {
   "XAU/USD": "XAU/USD",
   "XAG/USD": "XAG/USD",

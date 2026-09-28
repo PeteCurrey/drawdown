@@ -13,7 +13,7 @@ export function LobbyHeader() {
           <Link
             href="/"
             className="group flex items-center gap-2 text-white/50 hover:text-white transition-colors duration-150 text-xs font-mono tracking-wider uppercase"
-            title="Return to Drawdown Main Website"
+            title="Return to Avorria Main Website"
           >
             <ArrowLeft className="w-3.5 h-3.5 transition-transform duration-200 group-hover:-translate-x-0.5 text-[#B8752E]" />
             <span>Main Site</span>
@@ -27,7 +27,7 @@ export function LobbyHeader() {
             className="flex items-center gap-2 text-white hover:text-white/80 transition-colors duration-150"
           >
             <span className="font-display font-black text-sm tracking-tight">
-              DRAWDOWN
+              AVORRIA
             </span>
             <span className="text-xs font-mono uppercase tracking-[0.18em] text-[#B8752E] font-bold">
               THE LOBBY

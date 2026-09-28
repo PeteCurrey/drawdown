@@ -334,7 +334,7 @@ export function ScreenerHeatmap({
               </h4>
               {isFeatured && (
                 <span
-                  title="Core Avorria Market (Editorial Priority)"
+                  title="Core Avorria Market (Editorial Priority) — Core Drawdown Market (Editorial Priority)"
                   className="text-[7px] font-mono uppercase px-1 py-0.2 bg-slate-200/80 text-mkt-i2 rounded-2xs font-bold cursor-help"
                 >
                   CORE

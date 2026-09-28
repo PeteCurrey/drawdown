@@ -361,7 +361,7 @@ export function DrawdownRecoveryCalculatorClient() {
         <ToolContextualCTA
           toolName="Drawdown Recovery Calculator"
           lead="Never let an account cross the 10% drawdown barrier."
-          benefit="Drawdown's pre-trade validation framework and risk calculators prevent catastrophic losing runs by capping risk at mathematical survival limits."
+          benefit="Avorria's pre-trade validation framework and risk calculators prevent catastrophic losing runs by capping risk at mathematical survival limits."
         />
 
         <ToolDisclaimer />

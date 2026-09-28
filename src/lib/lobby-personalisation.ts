@@ -187,7 +187,7 @@ export function buildPersonalLobbyFeed(params: {
       matchedEvents: allEvents.slice(0, 5),
       recommendedTools: Object.values(DRAWDOWN_TOOLS).slice(0, 3).map(t => ({
         ...t,
-        reason: "Core Drawdown risk standardisation tool"
+        reason: "Core Avorria risk standardisation tool"
       }))
     };
   }

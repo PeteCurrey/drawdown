@@ -161,7 +161,7 @@ const { error: seoError } = await supabase
     og_title:         'Rayner Teo: The Most Underrated Free Trading Education on the Internet',
     og_description:   "No controversy. No drama. No Lamborghini. Just consistently good free trading education. Pete's honest take on Rayner Teo.",
     og_image_url:     'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=1200&q=80',
-    canonical_url:    'https://drawdown.trading/blog/rayner-teo-honest-review',
+    canonical_url:    'https://avorria.com/blog/rayner-teo-honest-review',
     schema_type:      'BlogPosting',
     no_index:         false,
     focus_keyword:    'Rayner Teo review',
@@ -181,7 +181,7 @@ console.log(`
 🎉  Done!
     Slug:  ${SLUG}
     ID:    ${postId}
-    URL:   https://drawdown.trading/blog/${SLUG}
+    URL:   https://avorria.com/blog/${SLUG}
     Theme: Dark (#0A0A0A)
     Live:  true
 `);

@@ -277,7 +277,7 @@ export default function AcceleratorWorkspacePage() {
             </div>
             
             <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight text-white leading-[1.1]">
-              Drawdown <br />
+              Avorria <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent via-emerald-400 to-teal-500">
                 Institutional Accelerator
               </span>

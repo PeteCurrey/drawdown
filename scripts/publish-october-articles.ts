@@ -98,7 +98,7 @@ async function main() {
     console.log(`  ✓ blog_posts inserted (id: ${post.id})`);
 
     // Insert SEO record
-    const canonicalUrl = `https://drawdown.trading/blog/${article.slug}`;
+    const canonicalUrl = `https://avorria.com/blog/${article.slug}`;
     const { error: seoError } = await supabase
       .from("blog_post_seo")
       .insert({

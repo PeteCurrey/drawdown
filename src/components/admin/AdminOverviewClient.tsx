@@ -50,7 +50,7 @@ export function AdminOverviewClient({ stats, recentSends: initialSends, healthMe
   const [customSubject, setCustomSubject] = useState("");
   const [customCategory, setCustomCategory] = useState("morning_brief");
   const [customHtml, setCustomHtml] = useState(
-    `<div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; color: #111;">\n  <h2 style="color: #000; font-size: 20px; font-weight: bold;">Special Update from Drawdown</h2>\n  <p style="font-size: 15px; line-height: 1.6;">Good morning. Here is an important announcement regarding today's session...</p>\n  <p style="font-size: 14px; margin-top: 20px;">Protect your capital,<br/><strong>Pete Currey</strong></p>\n</div>`
+    `<div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; color: #111;">\n  <h2 style="color: #000; font-size: 20px; font-weight: bold;">Special Update from Avorria</h2>\n  <p style="font-size: 15px; line-height: 1.6;">Good morning. Here is an important announcement regarding today's session...</p>\n  <p style="font-size: 14px; margin-top: 20px;">Protect your capital,<br/><strong>Pete Currey</strong></p>\n</div>`
   );
 
   useEffect(() => {

@@ -59,7 +59,7 @@ export default async function CourseLandingPage({ params }: Props) {
     "description": phase.full_description || phase.description,
     "provider": {
       "@type": "Organization",
-      "name": "Drawdown",
+      "name": "Avorria",
       "url": "https://avorria.com"
     },
     "author": {

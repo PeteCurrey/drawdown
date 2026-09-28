@@ -1,8 +1,8 @@
-# Drawdown Signal Centre — Email Template System
+# Avorria Signal Centre — Email Template System
 
 ## Overview
 
-Five files in this directory form the complete email template system for Drawdown's Signal Centre broadcasts. All templates are table-based HTML (Outlook-safe), with all CSS inlined where possible and inline fallbacks in `<style>` blocks for clients that support them.
+Five files in this directory form the complete email template system for Avorria's Signal Centre broadcasts. All templates are table-based HTML (Outlook-safe), with all CSS inlined where possible and inline fallbacks in `<style>` blocks for clients that support them.
 
 ---
 
@@ -50,7 +50,7 @@ Five files in this directory form the complete email template system for Drawdow
 | # | Component | Notes |
 |---|---|---|
 | 1 | **Accent bar** | Full-width top rule. 6px solid on Breaking News; 2px hairline on Morning/Evening |
-| 2 | **Masthead row** | DRAWDOWN wordmark left · vertical hairline · template label right (monospace tracked-caps) |
+| 2 | **Masthead row** | AVORRIA wordmark left · vertical hairline · template label right (monospace tracked-caps) |
 | 3 | **Status pill** | 1px hairline border, `#FAFAFA` fill, accent-coloured dot, monospace tracked-caps text, sharp corners |
 | 4 | **Headline block** | Large navy headline with 2px accent left-rule; optional subheadline in slate grey |
 | 5 | **Body copy** | Up to 3 paragraph blocks in slate grey, 1.65 line-height, sans font |
@@ -110,9 +110,9 @@ When sending via Resend, substitute all `{{PLACEHOLDER}}` tokens with real value
 const html = templateHtml
   .replace(/\{\{HEADLINE_TEXT\}\}/g, alertData.headline)
   .replace(/\{\{BODY_PARAGRAPH_1\}\}/g, alertData.summary)
-  .replace(/\{\{CTA_URL\}\}/g, `https://drawdown.trading/the-wire`)
+  .replace(/\{\{CTA_URL\}\}/g, `https://avorria.com/the-wire`)
   .replace(/\{\{CTA_LABEL\}\}/g, 'View Full Alert')
-  .replace(/\{\{UNSUBSCRIBE_URL\}\}/g, `https://drawdown.trading/unsubscribe?token=${sub.token}`)
+  .replace(/\{\{UNSUBSCRIBE_URL\}\}/g, `https://avorria.com/unsubscribe?token=${sub.token}`)
   // ...etc
 ```
 

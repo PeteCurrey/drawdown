@@ -22,7 +22,7 @@ export async function generateMetadata({ params }: WireEditionPageProps): Promis
 
   return getMetadata({
     title: `${edition.title} | The Wire | Avorria`,
-    description: edition.preview_text || `Drawdown curated ${edition.edition_type.toLowerCase()} market intelligence briefing.`,
+    description: edition.preview_text || `Avorria curated ${edition.edition_type.toLowerCase()} market intelligence briefing.`,
     path: `/wire/${slug}`,
     hasRegionalVariants: false,
   });
@@ -170,7 +170,7 @@ export default async function WireEditionPage({ params }: WireEditionPageProps) 
                         <Wrench className="w-4 h-4" />
                       </div>
                       <div>
-                        <div className="font-mono text-[10px] uppercase text-[#73787E]">RECOMMENDED DRAWDOWN TOOL</div>
+                        <div className="font-mono text-[10px] uppercase text-[#73787E]">RECOMMENDED AVORRIA TOOL</div>
                         <div className="font-sans text-sm font-bold text-[#0B0E12]">{tool.name}</div>
                       </div>
                     </div>

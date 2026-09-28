@@ -146,7 +146,7 @@ const { error: seoError } = await supabase.from('blog_post_seo').insert({
   og_title: 'Do You Need a Licence or Qualification to Trade?',
   og_description: 'No licence needed to trade your own money in the UK. Here is when that stops being true and what actually gates consistent trading outcomes.',
   og_image_url: 'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=1200&q=80',
-  canonical_url: `https://drawdown.trading/blog/${SLUG}`,
+  canonical_url: `https://avorria.com/blog/${SLUG}`,
   schema_type: 'BlogPosting',
   no_index: false,
   focus_keyword: 'do you need a licence to trade',
@@ -154,4 +154,4 @@ const { error: seoError } = await supabase.from('blog_post_seo').insert({
 if (seoError) { console.warn(`⚠️   SEO failed: ${seoError.message}`); }
 else { console.log('✅  blog_post_seo created.'); }
 
-console.log(`\n🎉  Done!\n    Slug:  ${SLUG}\n    ID:    ${postId}\n    URL:   https://drawdown.trading/blog/${SLUG}\n`);
+console.log(`\n🎉  Done!\n    Slug:  ${SLUG}\n    ID:    ${postId}\n    URL:   https://avorria.com/blog/${SLUG}\n`);

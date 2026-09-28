@@ -166,7 +166,7 @@ const { error: seoError } = await supabase
     og_title:         'ICT — Michael Huddleston: Is He Worth Your Time?',
     og_description:   'Millions of followers. Free institutional trading concepts. More controversy than almost anyone in the space. Pete\'s honest take on ICT.',
     og_image_url:     'https://images.unsplash.com/photo-1642790551116-18e150f248e3?w=1200&q=80',
-    canonical_url:    'https://drawdown.trading/blog/ict-michael-huddleston-honest-review',
+    canonical_url:    'https://avorria.com/blog/ict-michael-huddleston-honest-review',
     schema_type:      'BlogPosting',
     no_index:         false,
     focus_keyword:    'ICT Michael Huddleston review',
@@ -186,7 +186,7 @@ console.log(`
 🎉  Done!
     Slug:  ${SLUG}
     ID:    ${postId}
-    URL:   https://drawdown.trading/blog/${SLUG}
+    URL:   https://avorria.com/blog/${SLUG}
     Theme: Dark (#0A0A0A)
     Live:  true
 `);

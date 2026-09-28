@@ -82,7 +82,7 @@ const PDF_BOOKS = [
 
 const FREE_DOWNLOADS = [
   {
-    title: "Drawdown Risk Management Guide",
+    title: "Avorria Risk Management Guide",
     format: "PDF Document",
     size: "1.4 MB",
     downloadUrl: "/downloads/risk-management-guide.pdf",
@@ -758,14 +758,14 @@ export default function PricingPage({
           </h4>
           <p className="text-[11px] text-slate-600 leading-relaxed font-sans">
             Membership tiers represent access levels to educational content, research tools
-            and quantitative analysis features. Drawdown does not provide financial advice.
+            and quantitative analysis features. Avorria does not provide financial advice.
             Market intelligence, signal feeds and analysis tools reflect automated outputs
             derived from data inputs — they are not trade recommendations and outcomes
             are not guaranteed. All strategies tested, journals analysed and plans created
             inside the platform remain the intellectual property of the user.
           </p>
           <p className="text-[11px] text-slate-500 leading-relaxed font-sans mt-2">
-            Prices shown are inclusive of UK VAT where applicable. Drawdown reserves the right
+            Prices shown are inclusive of UK VAT where applicable. Avorria reserves the right
             to update plan features in line with the{" "}
             <Link href="/roadmap" className="underline">
               public product roadmap
@@ -782,7 +782,7 @@ export default function PricingPage({
         onClose={() => { setShowConsent(false); setPendingTier(null); }}
         onConfirm={(consentData) => { if (pendingTier) handleSubscribe(pendingTier, consentData); }}
         loading={loadingTier !== null}
-        productName={`Drawdown ${pendingTier.charAt(0).toUpperCase() + pendingTier.slice(1)}`}
+        productName={`Avorria ${pendingTier.charAt(0).toUpperCase() + pendingTier.slice(1)}`}
         priceString={billingCycle === "monthly" ? "from £49/mo" : "from £39/mo (annual)"}
       />
     )}

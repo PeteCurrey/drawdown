@@ -88,7 +88,7 @@ export function RegionalLocationPage({
                 paddingLeft: "2rem",
               }}
             >
-              {context} Drawdown provides the professional-grade framework you need to master the
+              {context} Avorria provides the professional-grade framework you need to master the
               markets from {cityLabelTitled}.
             </p>
           </header>
@@ -152,7 +152,7 @@ export function RegionalLocationPage({
             </div>
             <p className="text-base leading-relaxed italic" style={{ color: "var(--graphite-600)" }}>
               Most trading courses targeting {cityLabelTitled} are designed to sell you indicators
-              or Telegram signal groups. At Drawdown, we teach process and discipline. If a guide
+              or Telegram signal groups. At Avorria, we teach process and discipline. If a guide
               promises &quot;guaranteed&quot; returns, it is a scam. Period.
             </p>
           </section>

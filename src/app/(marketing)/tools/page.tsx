@@ -178,7 +178,7 @@ export default function ToolsMarketingPage() {
                 The retail trading industry is built on lagging indicators, arbitrary patterns, and false promises. We got tired of using scattered, retail-grade tools to manage serious capital. 
               </p>
               <p className="text-lg text-text-secondary leading-relaxed font-medium">
-                Drawdown's tool suite is engineered from the ground up for precision, speed, and statistical validity. Every scanner, backtester, and journal feature was built because our own trading desk demanded it.
+                Avorria's tool suite is engineered from the ground up for precision, speed, and statistical validity. Every scanner, backtester, and journal feature was built because our own trading desk demanded it.
               </p>
               
               <div className="pt-6 grid grid-cols-2 gap-8">

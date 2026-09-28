@@ -198,7 +198,7 @@ export async function checkAlertThresholds(accountId: string, snapshot: any) {
         // Send Email via Resend
         if (process.env.RESEND_API_KEY) {
           await resend.emails.send({
-            from: "Pete | Drawdown <alerts@avorria.com>",
+            from: "Pete | Avorria <alerts@avorria.com>",
             to: user.email!,
             subject: `⚠️ ${account.account_name} — ${severity}`,
             html: `

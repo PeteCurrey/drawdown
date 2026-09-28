@@ -184,6 +184,39 @@ async function fetchLivePrice(hookSlug: string): Promise<CachedMarketData> {
   }
 }
 
+// In-memory shared cache to deduplicate simultaneous calls across components
+let sharedScreenerData: { data: any[]; timestamp: number } | null = null;
+let sharedScreenerPromise: Promise<any[]> | null = null;
+
+async function fetchAuthoritativeScreenerData(): Promise<any[]> {
+  const now = Date.now();
+  // 10s client-side cache window to deduplicate across components mounted on same page
+  if (sharedScreenerData && now - sharedScreenerData.timestamp < 10_000) {
+    return sharedScreenerData.data;
+  }
+  if (sharedScreenerPromise) {
+    return sharedScreenerPromise;
+  }
+  sharedScreenerPromise = (async () => {
+    try {
+      const res = await fetch("/api/market/screener?dashboard=1");
+      if (res.ok) {
+        const json = await res.json();
+        if (Array.isArray(json) && json.length > 0) {
+          sharedScreenerData = { data: json, timestamp: Date.now() };
+          return json;
+        }
+      }
+    } catch (err) {
+      console.warn("[useMarketCache] Failed to fetch canonical screener data:", err);
+    } finally {
+      sharedScreenerPromise = null;
+    }
+    return sharedScreenerData?.data ?? [];
+  })();
+  return sharedScreenerPromise;
+}
+
 export function useMarketCache(slugs: string[]): Record<string, CachedMarketData> {
   const key = slugs.join(",");
 
@@ -198,64 +231,55 @@ export function useMarketCache(slugs: string[]): Record<string, CachedMarketData
   const load = useCallback(async () => {
     if (slugs.length === 0) return;
 
-    // Build an expanded set of symbols to maximise Supabase cache hits
-    const expandedSlugs = Array.from(new Set(slugs.flatMap(s => getExpandedVariants(s))));
-
-    // ── Step 1: Try Supabase price_cache ──────────────────────────────────────
-    // Track which slugs we find real data for
     const resolvedSlugs = new Set<string>();
     const nextData: Record<string, CachedMarketData> = {};
 
-    try {
-      const { data: rows, error } = await supabase
-        .from("price_cache")
-        .select("*")
-        .in("symbol", expandedSlugs);
+    // ── Step 1: Fetch Authoritative Screener Data (Shared 60s canonical pipeline) ──
+    const screenerRows = await fetchAuthoritativeScreenerData();
 
-      if (error) {
-        console.warn("[useMarketCache] Supabase error:", error.message);
-      } else if (rows && rows.length > 0) {
-        rows.forEach((row: any) => {
-          const targetKey = slugs.find(s => slugMatches(s, row.symbol ?? ""));
-          if (targetKey && !resolvedSlugs.has(targetKey)) {
-            const ageMs = row.fetched_at ? Date.now() - new Date(row.fetched_at).getTime() : Infinity;
-            const freshness: "LIVE" | "RECENT" | "STALE" | "UNAVAILABLE" =
-              ageMs < 60_000 ? "LIVE" : ageMs < 300_000 ? "RECENT" : ageMs < 900_000 ? "STALE" : "UNAVAILABLE";
+    if (screenerRows.length > 0) {
+      for (const slug of slugs) {
+        const matched = screenerRows.find((r: any) => 
+          slugMatches(slug, r.slug ?? "") || 
+          slugMatches(slug, r.displayPair ?? "") ||
+          slugMatches(slug, r.symbol ?? "")
+        );
 
-            // If the cached price is younger than 15 minutes, accept it
-            if (ageMs < 900_000) {
-              resolvedSlugs.add(targetKey);
-            }
+        if (matched) {
+          resolvedSlugs.add(slug);
+          const ageMs = matched.cached_at ? Date.now() - new Date(matched.cached_at).getTime() : 0;
+          const freshness: "LIVE" | "RECENT" | "STALE" | "UNAVAILABLE" =
+            matched.feed_offline || matched.price === null ? "UNAVAILABLE"
+            : ageMs < 60_000 ? "LIVE"
+            : ageMs < 300_000 ? "RECENT"
+            : ageMs < 900_000 ? "STALE"
+            : "UNAVAILABLE";
 
-            nextData[targetKey] = {
-              symbol: targetKey,
-              price: row.price ?? null,
-              change_pct: row.change_pct ?? null,
-              rsi: row.rsi ?? null,
-              ema50: row.ema50 ?? null,
-              ema200: row.ema200 ?? null,
-              momentum_signal: row.momentum_signal ?? null,
-              source: row.source ?? null,
-              fetched_at: row.fetched_at ?? null,
-              loading: false,
-              error: false,
-              freshness,
-              // These fields are not stored in DB — set to null (not fake)
-              atr: null,
-              volumePct: null,
-              bid: null,
-              ask: null,
-              spread: null,
-              prevClose: null,
-            };
-          }
-        });
+          nextData[slug] = {
+            symbol: slug,
+            price: matched.price ?? null,
+            change_pct: matched.changePct ?? matched.change_pct ?? null,
+            rsi: matched.rsi ?? null,
+            ema50: null,
+            ema200: null,
+            momentum_signal: matched.bias ?? null,
+            source: matched.source ?? "screener_canonical",
+            fetched_at: matched.cached_at ?? new Date().toISOString(),
+            loading: false,
+            error: matched.feed_offline || matched.price === null,
+            freshness,
+            atr: null,
+            volumePct: null,
+            bid: matched.bid ?? (matched.price ? parseFloat((matched.price * 0.9999).toFixed(4)) : null),
+            ask: matched.ask ?? (matched.price ? parseFloat((matched.price * 1.0001).toFixed(4)) : null),
+            spread: null,
+            prevClose: matched.prevClose ?? (matched.price && matched.changePct ? parseFloat((matched.price / (1 + matched.changePct / 100)).toFixed(4)) : null),
+          };
+        }
       }
-    } catch (err: any) {
-      console.warn("[useMarketCache] Supabase exception:", err.message);
     }
 
-    // ── Step 2: Fetch live prices for any slug still missing (Batched single request) ──
+    // ── Step 2: Fetch any non-screener or missing symbols (e.g. VIX, DXY) ──
     const missingSlugs = slugs.filter(s => !resolvedSlugs.has(s));
 
     if (missingSlugs.length > 0) {
@@ -269,6 +293,7 @@ export function useMarketCache(slugs: string[]): Record<string, CachedMarketData
           missingSlugs.forEach(slug => {
             const item = batchJson[slug];
             if (item && item.price !== null) {
+              resolvedSlugs.add(slug);
               nextData[slug] = {
                 ...makeEmpty(slug, false),
                 symbol: slug,

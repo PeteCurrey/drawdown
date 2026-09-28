@@ -244,7 +244,7 @@ export async function GET(request: NextRequest) {
       
       <div class="sign-block">
         <div class="sign-val">Pete Currey</div>
-        <div class="sign-title">Founder, Drawdown</div>
+        <div class="sign-title">Founder, Avorria</div>
       </div>
     </div>
   </div>

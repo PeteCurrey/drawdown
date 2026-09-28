@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getMarketHistory, generateFallbackHistory } from "@/lib/market";
+import { getMarketHistory } from "@/lib/market";
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
@@ -11,7 +11,21 @@ export async function GET(request: NextRequest) {
 
   try {
     const history = await getMarketHistory(symbol, interval, outputsize, startDate, endDate);
-    const isSynthetic = history.length > 0 && Boolean(history[0].is_synthetic);
+    
+    if (!history || history.length === 0) {
+      return NextResponse.json(
+        { error: "Historical candle data unavailable from upstream providers", history: [] },
+        {
+          status: 503,
+          headers: {
+            "x-data-source": "unavailable",
+            "x-is-synthetic": "false",
+            "x-feed-status": "OFFLINE",
+          },
+        }
+      );
+    }
+
     const formatted = history.map((item: any) => {
       let timeSecs = 0;
       if (typeof item.time === "number") {
@@ -19,34 +33,34 @@ export async function GET(request: NextRequest) {
       } else {
         timeSecs = Math.floor(new Date(item.time).getTime() / 1000);
       }
-      // Ensure timeSecs is not NaN
       if (Number.isNaN(timeSecs)) {
         timeSecs = Math.floor(Date.now() / 1000);
       }
       return {
         ...item,
-        time: timeSecs
+        time: timeSecs,
       };
     });
+
     return NextResponse.json(formatted, {
       headers: {
-        "x-data-source": isSynthetic ? "synthetic_fallback" : "twelvedata",
-        "x-is-synthetic": isSynthetic ? "true" : "false",
-        "x-feed-status": isSynthetic ? "UNAVAILABLE" : "LIVE",
+        "x-data-source": "twelvedata",
+        "x-is-synthetic": "false",
+        "x-feed-status": "LIVE",
       },
     });
   } catch (error: any) {
     console.error("API Market History Error:", error);
-    const fallback = generateFallbackHistory(symbol, interval, outputsize).map(b => ({
-      ...b,
-      is_synthetic: true,
-    }));
-    return NextResponse.json(fallback, {
-      headers: {
-        "x-data-source": "synthetic_fallback",
-        "x-is-synthetic": "true",
-        "x-feed-status": "ERROR",
-      },
-    });
+    return NextResponse.json(
+      { error: "Failed to retrieve market history from live providers", history: [] },
+      {
+        status: 503,
+        headers: {
+          "x-data-source": "error",
+          "x-is-synthetic": "false",
+          "x-feed-status": "ERROR",
+        },
+      }
+    );
   }
 }

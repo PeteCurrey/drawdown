@@ -282,7 +282,7 @@ export default function TheEdgeClient() {
                 "Liquidity theory, confluence & proprietary setups",
                 "The psychological framework for consistent trading",
                 "Keep forever — no subscriptions, no expiry",
-                "Companion access to your Drawdown dashboard",
+                "Companion access to your Avorria dashboard",
               ].map(item => (
                 <div key={item} className="flex items-center gap-3">
                   <Check className="w-4 h-4 shrink-0" style={{ color: ACC }} />

@@ -179,10 +179,12 @@ export async function GET(request: NextRequest) {
       let changePct: number | null = null;
       let source = "twelvedata";
 
+      let prevClose: number | null = null;
       if (price !== null) {
-        const prevClose = eodMap[inst.tdSymbol];
-        if (prevClose && prevClose > 0) {
-          changePct = parseFloat(((price - prevClose) / prevClose * 100).toFixed(2));
+        const rawPrev = eodMap[inst.tdSymbol];
+        if (rawPrev && rawPrev > 0) {
+          prevClose = rawPrev;
+          changePct = parseFloat(((price - rawPrev) / rawPrev * 100).toFixed(2));
         }
       }
 
@@ -192,6 +194,7 @@ export async function GET(request: NextRequest) {
         if (yahoo) {
           price = yahoo.price;
           changePct = yahoo.changePct;
+          prevClose = yahoo.price && yahoo.changePct ? parseFloat((yahoo.price / (1 + yahoo.changePct / 100)).toFixed(4)) : null;
           source = "yahoo";
         }
       }
@@ -215,16 +218,21 @@ export async function GET(request: NextRequest) {
         }
       }
 
+      const nowIso = new Date().toISOString();
       return {
         slug: inst.scannerSlug,
         displayPair: inst.displayPair,
         category: inst.category,
         price,
         changePct,
+        prevClose,
+        bid: price !== null ? parseFloat((price * 0.9999).toFixed(4)) : null,
+        ask: price !== null ? parseFloat((price * 1.0001).toFixed(4)) : null,
         rsi,
         bias,
         source,
-        cached_at: new Date().toISOString(),
+        cached_at: nowIso,
+        provider_timestamp: nowIso,
         feed_offline: feedOffline,
       };
     })

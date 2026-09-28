@@ -48,7 +48,7 @@ function UnsubscribeContent() {
 
       <div className="text-center space-y-6">
         <Link href="/" className="inline-block text-xl font-sans font-black tracking-tighter text-white">
-          DRAWDOWN<span className="text-[#00C2FF]">.</span>
+          AVORRIA<span className="text-[#00C2FF]">.</span>
         </Link>
 
         {status === "idle" && (

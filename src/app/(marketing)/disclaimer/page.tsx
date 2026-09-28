@@ -6,7 +6,7 @@ import Link from "next/link";
 
 export const metadata = getMetadata({
   title: "Risk Disclaimer | Avorria",
-  description: "Important risk warnings, quantitative market signal disclosures, and financial perimeter notices for Drawdown users.",
+  description: "Important risk warnings, quantitative market signal disclosures, and financial perimeter notices for Avorria users.",
   path: "/disclaimer",
 });
 
@@ -71,14 +71,14 @@ export default function DisclaimerPage() {
               1. Non-Advisory Status &amp; Market Signal Scope
             </h2>
             <p className="text-[15px] leading-relaxed" style={{ color: "var(--graphite-600)" }}>
-              <strong>{LEGAL_CONFIG.fullTradingEntity} does not provide financial advice.</strong> Pete Currey and the Drawdown team are not licensed financial advisers, wealth managers, or registered brokers. No content on the platform should be construed as individualized investment recommendations.
+              <strong>{LEGAL_CONFIG.fullTradingEntity} does not provide financial advice.</strong> Pete Currey and the Avorria team are not licensed financial advisers, wealth managers, or registered brokers. No content on the platform should be construed as individualized investment recommendations.
             </p>
             <div className="p-6 border space-y-3" style={{ backgroundColor: "var(--paper-100)", borderColor: "var(--line-200)" }}>
               <h3 className="text-[12px] font-mono font-semibold uppercase tracking-[0.08em]" style={{ color: "var(--ink-950)" }}>
                 Quantitative Market Signals &amp; Model Indicators
               </h3>
               <p className="text-[13px] leading-relaxed" style={{ color: "var(--graphite-600)" }}>
-                Drawdown publishes general, non-personalised quantitative market signals, technical alerts, and algorithmic pattern indicators across our Signal Centre and analytical tools. These outputs represent data-driven calculations derived from processing market feeds, technical indicators, and statistical risk models.
+                Avorria publishes general, non-personalised quantitative market signals, technical alerts, and algorithmic pattern indicators across our Signal Centre and analytical tools. These outputs represent data-driven calculations derived from processing market feeds, technical indicators, and statistical risk models.
               </p>
               <p className="text-[13px] leading-relaxed font-semibold" style={{ color: "var(--ink-950)" }}>
                 Market signals do not constitute guaranteed outcomes or financial recommendations. They reflect statistical probability models derived from historical data. Any trade executed based on these signals remains entirely your responsibility.
@@ -96,7 +96,7 @@ export default function DisclaimerPage() {
               2. Data Feeds &amp; Market Probabilities
             </h2>
             <p className="text-[15px] leading-relaxed" style={{ color: "var(--graphite-600)" }}>
-              While Drawdown sources pricing data, economic metrics, and market sentiment from reputable tier-1 feeds and trading networks (such as TradingView), we make no warranties regarding uninterrupted availability, timing, or absolute accuracy of live feeds. Financial markets are dynamic, volatile, and subject to unexpected liquidity gaps or slippage. Past performance, backtest calculations, and trade journal records are not guarantees of future trading performance.
+              While Avorria sources pricing data, economic metrics, and market sentiment from reputable tier-1 feeds and trading networks (such as TradingView), we make no warranties regarding uninterrupted availability, timing, or absolute accuracy of live feeds. Financial markets are dynamic, volatile, and subject to unexpected liquidity gaps or slippage. Past performance, backtest calculations, and trade journal records are not guarantees of future trading performance.
             </p>
           </section>
 
@@ -142,7 +142,7 @@ export default function DisclaimerPage() {
           {/* User Acknowledgment Footer */}
           <div className="p-6 border text-center space-y-2" style={{ backgroundColor: "var(--paper-100)", borderColor: "var(--line-200)" }}>
             <p className="text-[12px] font-mono uppercase tracking-[0.08em]" style={{ color: "var(--graphite-600)" }}>
-              By accessing Drawdown, you confirm that you have read, understood, and agreed to these risk warnings and accept full responsibility for your financial decisions.
+              By accessing Avorria, you confirm that you have read, understood, and agreed to these risk warnings and accept full responsibility for your financial decisions.
             </p>
           </div>
 

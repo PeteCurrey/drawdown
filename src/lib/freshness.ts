@@ -1,7 +1,7 @@
 /**
  * Signal and data freshness thresholds.
  *
- * These are the authoritative freshness windows for Drawdown.
+ * These are the authoritative freshness windows for Avorria.
  * Every component that displays time-sensitive data must use these values
  * rather than implementing its own ad-hoc threshold.
  *

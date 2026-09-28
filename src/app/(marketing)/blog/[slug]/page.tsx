@@ -162,7 +162,7 @@ export default async function BlogPostPage({ params }: Props) {
     },
     "publisher": {
       "@type": "Organization",
-      "name": "Drawdown",
+      "name": "Avorria",
       "logo": {
         "@type": "ImageObject",
         "url": "https://avorria.com/assets/brand/logo.png"

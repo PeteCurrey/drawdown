@@ -35,7 +35,7 @@ export function SectionA() {
         </div>
         <div className="p-8 border border-profit/30 rounded-[14px] bg-profit/5 shadow-[0_0_30px_rgba(0,230,118,0.05)] relative overflow-hidden">
           <div className="absolute top-0 right-0 w-32 h-32 bg-profit/10 blur-[40px] rounded-full pointer-events-none" />
-          <h3 className="text-xl font-sans font-bold mb-6 text-text-primary">Drawdown</h3>
+          <h3 className="text-xl font-sans font-bold mb-6 text-text-primary">Avorria</h3>
           <ul className="space-y-4 font-sans text-sm text-text-primary relative z-10">
             <li className="flex items-start gap-3"><Check className="w-5 h-5 text-profit shrink-0 mt-0.5" /> Phase-based progression with clear outcomes</li>
             <li className="flex items-start gap-3"><Check className="w-5 h-5 text-profit shrink-0 mt-0.5" /> Built by a trader, not a marketer</li>
@@ -89,7 +89,7 @@ export function SectionB() {
       <div className="mt-8 p-8 border border-[#E2B755]/20 rounded-[14px] bg-gradient-to-r from-[#111317] via-[#1A1C20] to-[#111317] flex flex-col md:flex-row items-center justify-between gap-6 shadow-lg shadow-[#E2B755]/5">
         <div className="flex-grow">
           <span className="text-[10px] font-mono font-bold text-[#E2B755] uppercase tracking-widest block mb-1">
-            ★ Drawdown Executive Cohort
+            ★ Avorria Executive Cohort
           </span>
           <h4 className="text-xl font-sans font-bold text-white mb-2">
             The Institutional Accelerator
@@ -116,7 +116,7 @@ export function SectionC() {
       <div className="max-w-7xl mx-auto relative z-10 flex flex-col md:flex-row gap-12 items-start">
         <div className="w-full md:w-5/12 shrink-0">
           <blockquote className="text-3xl md:text-4xl font-sans font-medium italic text-white leading-tight">
-            "I built Drawdown because I couldn't find a trading education platform I'd actually recommend to someone I cared about."
+            "I built Avorria because I couldn't find a trading education platform I'd actually recommend to someone I cared about."
           </blockquote>
         </div>
         <div className="w-full md:w-7/12 border-l-2 border-profit pl-6 md:pl-10 space-y-6">
@@ -127,7 +127,7 @@ export function SectionC() {
             Phase 1 is psychology and risk because that's what actually kills accounts. Chart reading comes second because it's useless without the foundation. Every phase exists because I personally traded through the lesson it teaches.
           </p>
           <p className="text-xs font-mono font-bold text-white uppercase tracking-widest pt-4">
-            — Pete Currey, Founder, Drawdown
+            — Pete Currey, Founder, Avorria
           </p>
         </div>
       </div>
@@ -181,7 +181,7 @@ export function SectionE() {
     },
     {
       q: "Is this suitable for UK spread betting?",
-      a: "Yes. The curriculum covers spread betting specifically — the tax advantages, the specific mechanics, and the broker selection process for UK residents. This is one area where Drawdown is specifically stronger than US-focused trading education."
+      a: "Yes. The curriculum covers spread betting specifically — the tax advantages, the specific mechanics, and the broker selection process for UK residents. This is one area where Avorria is specifically stronger than US-focused trading education."
     },
     {
       q: "What's the difference between Foundation, Edge, and Floor tiers?",
@@ -197,7 +197,7 @@ export function SectionE() {
     },
     {
       q: "Do you provide trade signals?",
-      a: "Yes, Drawdown provides quantitative trade signals, market alerts, and algorithmic pattern recognition tools. However, trade signals are automated data outputs derived from market feeds and risk models — they are not guaranteed outcomes or financial advice. We empower you to interpret market data objectively and apply your own risk parameters."
+      a: "Yes, Avorria provides quantitative trade signals, market alerts, and algorithmic pattern recognition tools. However, trade signals are automated data outputs derived from market feeds and risk models — they are not guaranteed outcomes or financial advice. We empower you to interpret market data objectively and apply your own risk parameters."
     },
     {
       q: "Is this suitable for forex, indices, crypto, or all?",

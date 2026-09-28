@@ -1,17 +1,14 @@
 "use client";
 /**
- * useMarketData — single hook for all dashboard card data.
+ * useMarketData — Canonical hook for all market data consumers.
  *
- * Replaces the combination of useTwelveData + useTechnicalData + useExtraSignals
- * for the dashboard hero card and intelligence card. All data fetching is now
- * server-side (see /api/market-data/[symbol]/route.ts) so there are zero
- * client-side Twelve Data calls — no rate limit exposure.
- *
- * The hook polls our own API route every 60 seconds (matching the server cache TTL).
- * On instrument or interval change it immediately re-fetches and shows loading state.
+ * All market data is strictly fetched from /api/market-data/[symbol]
+ * which runs canonicalMarketService with validated mathematical indicator calculations
+ * and the verified 4-pillar composite bias engine.
  */
 
 import { useEffect, useRef, useState } from "react";
+import type { CompositeBiasResult } from "@/lib/biasEngine";
 
 export interface MarketData {
   // ── Price ──────────────────────────────────────────────────────────────────
@@ -41,31 +38,30 @@ export interface MarketData {
   stochK:      number | null;
   stochD:      number | null;
   cci:         number | null;
+  adx:         number | null;
 
   // ── ATR ───────────────────────────────────────────────────────────────────
   atrCurrent:  number | null;
   atrAvg20:    number | null;
-  /** atrCurrent / atrAvg20 — >1.25 elevated, >1.75 high */
   atrRatio:    number | null;
 
   // ── Key levels ────────────────────────────────────────────────────────────
-  /** Swing high over selected interval's last 20 candles */
   resistance:  number | null;
-  /** Swing low over selected interval's last 20 candles */
   support:     number | null;
 
-  // ── Computed ──────────────────────────────────────────────────────────────
-  /** 0–100 composite bias (RSI 30% + EMA 30% + MACD 20% + CCI 10% + BB 10%) */
+  // ── 4-Pillar Composite Bias Engine ─────────────────────────────────────────
   biasScore:   number | null;
-  /** "ABOVE EMA" | "BELOW EMA" | "AT EMA" | "—" */
+  compositeBias: CompositeBiasResult | null;
   trendLabel:  string;
-  /** "above" | "below" | "at" | null */
   trendDir:    "above" | "below" | "at" | null;
 
-  // ── Meta ──────────────────────────────────────────────────────────────────
+  // ── Meta & Provenance ─────────────────────────────────────────────────────
+  source:      string;
+  feedStatus:  "LIVE" | "DELAYED" | "STALE" | "OFFLINE" | "UNAVAILABLE";
   loading:     boolean;
   error:       string | null;
   lastUpdated: Date | null;
+  providerTimestamp: string | null;
   is_fallback: boolean;
 }
 
@@ -76,25 +72,28 @@ const EMPTY: MarketData = {
   rsi: null, macdLine: null, macdSignal: null, macdHist: null,
   ema50: null, ema200: null,
   bbUpper: null, bbMiddle: null, bbLower: null,
-  stochK: null, stochD: null, cci: null,
+  stochK: null, stochD: null, cci: null, adx: null,
   atrCurrent: null, atrAvg20: null, atrRatio: null,
   resistance: null, support: null,
-  biasScore: null, trendLabel: "—", trendDir: null,
-  loading: true, error: null, lastUpdated: null, is_fallback: false,
+  biasScore: null, compositeBias: null, trendLabel: "—", trendDir: null,
+  source: "canonical", feedStatus: "LIVE",
+  loading: true, error: null, lastUpdated: null, providerTimestamp: null, is_fallback: false,
 };
 
-const POLL_MS = 60_000; // 60 s — matches server cache revalidate
+const POLL_MS = 30_000; // 30s poll
 
-export function useMarketData(hookSlug: string, interval: string): MarketData {
+export function useMarketData(
+  hookSlug: string,
+  interval: string = "4h",
+  currency: string = "USD"
+): MarketData {
   const [data, setData] = useState<MarketData>({ ...EMPTY });
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const abortRef = useRef<AbortController | null>(null);
 
   useEffect(() => {
-    // Reset to loading on slug/interval change
     setData({ ...EMPTY, loading: true, error: null });
 
-    // Cancel any in-flight request from the previous render
     if (abortRef.current) abortRef.current.abort();
     if (timerRef.current) clearInterval(timerRef.current);
 
@@ -104,63 +103,86 @@ export function useMarketData(hookSlug: string, interval: string): MarketData {
 
       try {
         const res = await fetch(
-          `/api/market-data/${encodeURIComponent(hookSlug)}?interval=${interval}`,
+          `/api/market-data/${encodeURIComponent(hookSlug)}?interval=${encodeURIComponent(interval)}&currency=${encodeURIComponent(currency)}`,
           { signal: controller.signal }
         );
 
         if (!res.ok) {
-          const text = await res.text().catch(() => "unknown error");
-          setData(prev => ({ ...prev, loading: false, error: `HTTP ${res.status}: ${text}` }));
+          const json = await res.json().catch(() => null);
+          setData(prev => ({
+            ...prev,
+            loading: false,
+            error: json?.error ?? `HTTP ${res.status}`,
+            feedStatus: "OFFLINE",
+            price: null,
+          }));
           return;
         }
 
         const json = await res.json();
 
-        if (json.error) {
-          setData(prev => ({ ...prev, loading: false, error: json.error }));
+        if (json.error && !json.price) {
+          setData(prev => ({
+            ...prev,
+            loading: false,
+            error: json.error,
+            feedStatus: json.feed_status ?? "OFFLINE",
+            price: null,
+          }));
           return;
         }
 
         setData({
-          price:      json.price,
-          prevClose:  json.prevClose,
-          change:     json.change,
-          changePct:  json.changePct,
-          bid:        json.bid ?? null,
-          ask:        json.ask ?? null,
-          spread:     json.spread ?? null,
-          volume:     json.volume,
-          avgVolume:  json.avgVolume,
-          volRatio:   json.volRatio,
-          rsi:        json.rsi,
-          macdLine:   json.macdLine,
-          macdSignal: json.macdSignal,
-          macdHist:   json.macdHist,
-          ema50:      json.ema50,
-          ema200:     json.ema200,
-          bbUpper:    json.bbUpper,
-          bbMiddle:   json.bbMiddle,
-          bbLower:    json.bbLower,
-          stochK:     json.stochK,
-          stochD:     json.stochD,
-          cci:        json.cci,
-          atrCurrent: json.atrCurrent,
-          atrAvg20:   json.atrAvg20,
-          atrRatio:   json.atrRatio,
-          resistance: json.resistance,
-          support:    json.support,
-          biasScore:  json.biasScore,
-          trendLabel: json.trendLabel ?? "—",
-          trendDir:   json.trendDir ?? null,
-          loading:    false,
-          error:      null,
-          lastUpdated: new Date(),
-          is_fallback: json.is_fallback === true,
+          price:         json.price ?? null,
+          prevClose:     json.prevClose ?? null,
+          change:        json.change ?? null,
+          changePct:     json.changePct ?? null,
+          bid:           json.bid ?? null,
+          ask:           json.ask ?? null,
+          spread:        json.spread ?? null,
+          volume:        json.volume ?? null,
+          avgVolume:     json.avgVolume ?? null,
+          volRatio:      json.volRatio ?? null,
+          rsi:           json.rsi ?? null,
+          macdLine:      json.macdLine ?? null,
+          macdSignal:    json.macdSignal ?? null,
+          macdHist:      json.macdHist ?? null,
+          ema50:         json.ema50 ?? null,
+          ema200:        json.ema200 ?? null,
+          bbUpper:       json.bbUpper ?? null,
+          bbMiddle:      json.bbMiddle ?? null,
+          bbLower:       json.bbLower ?? null,
+          stochK:        json.stochK ?? null,
+          stochD:        json.stochD ?? null,
+          cci:           json.cci ?? null,
+          adx:           json.adx ?? null,
+          atrCurrent:    json.atrCurrent ?? null,
+          atrAvg20:      json.atrAvg20 ?? null,
+          atrRatio:      json.atrRatio ?? null,
+          resistance:    json.resistance ?? null,
+          support:       json.support ?? null,
+          biasScore:     json.biasScore ?? null,
+          compositeBias: json.composite_bias ?? null,
+          trendLabel:    json.trendLabel ?? "—",
+          trendDir:      json.trendDir ?? null,
+          source:        json.source ?? "canonical",
+          feedStatus:    json.feed_status ?? (json.price !== null ? "LIVE" : "OFFLINE"),
+          loading:       false,
+          error:         null,
+          lastUpdated:   new Date(),
+          providerTimestamp: json.provider_timestamp ?? null,
+          is_fallback:   json.is_fallback === true,
         });
       } catch (err: any) {
-        if (err?.name === "AbortError") return; // intentional cancel
+        if (err?.name === "AbortError") return;
         console.error("[useMarketData] fetch error:", err);
-        setData(prev => ({ ...prev, loading: false, error: "Failed to load market data" }));
+        setData(prev => ({
+          ...prev,
+          loading: false,
+          error: "Failed to load canonical market data",
+          feedStatus: "OFFLINE",
+          price: null,
+        }));
       }
     };
 
@@ -171,7 +193,7 @@ export function useMarketData(hookSlug: string, interval: string): MarketData {
       if (timerRef.current) clearInterval(timerRef.current);
       if (abortRef.current) abortRef.current.abort();
     };
-  }, [hookSlug, interval]);
+  }, [hookSlug, interval, currency]);
 
   return data;
 }

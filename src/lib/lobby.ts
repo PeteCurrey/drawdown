@@ -280,7 +280,7 @@ export async function getContentOSPublishedArticles(options: { limit?: number; c
       status: "PUBLISHED",
       importance: "standard",
       confidence: "VERIFIED",
-      primary_source_name: item.source_reference || "Drawdown Research",
+      primary_source_name: item.source_reference || "Avorria Research",
       published_at: item.published_at || item.created_at,
       created_at: item.created_at,
       updated_at: item.updated_at,

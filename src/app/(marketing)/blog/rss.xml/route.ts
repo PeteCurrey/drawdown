@@ -8,9 +8,9 @@ export async function GET() {
   const rss = `<?xml version="1.0" encoding="UTF-8" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
 <channel>
-  <title>Drawdown | Market Insights</title>
+  <title>Avorria | Market Insights</title>
   <link>${baseUrl}/blog</link>
-  <description>Professional market analysis, trading education, and honest commentary from the Drawdown team.</description>
+  <description>Professional market analysis, trading education, and honest commentary from the Avorria team.</description>
   <language>en-gb</language>
   <lastBuildDate>${new Date().toUTCString()}</lastBuildDate>
   <atom:link href="${baseUrl}/blog/rss.xml" rel="self" type="application/rss+xml" />

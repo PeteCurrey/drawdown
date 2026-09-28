@@ -65,12 +65,19 @@ const C = {
 };
 
 // ── Session helper ────────────────────────────────────────────────────────────
-function currentSession(): string {
-  const h = new Date().getUTCHours();
-  if (h >= 8 && h < 13) return "LONDON";
-  if (h >= 13 && h < 17) return "LONDON / NY";
-  if (h >= 17 && h < 22) return "NEW YORK";
-  return "ASIAN";
+function currentSession(): { name: string; isOpen: boolean } {
+  const now = new Date();
+  const day = now.getUTCDay();
+  const h = now.getUTCHours();
+  // Forex & commodities close Friday 22:00 UTC and reopen Sunday 22:00 UTC
+  const isWeekend = day === 6 || (day === 0 && h < 22) || (day === 5 && h >= 22);
+  if (isWeekend) {
+    return { name: "MARKETS CLOSED", isOpen: false };
+  }
+  if (h >= 8 && h < 13) return { name: "LONDON", isOpen: true };
+  if (h >= 13 && h < 17) return { name: "LONDON / NY", isOpen: true };
+  if (h >= 17 && h < 22) return { name: "NEW YORK", isOpen: true };
+  return { name: "ASIAN", isOpen: true };
 }
 
 // ── Sub-components ────────────────────────────────────────────────────────────
@@ -408,7 +415,7 @@ export default function MarketIntelligencePage() {
 
   // Derived signal counts for distribution bar
   const signalVals = [
-    md.rsi !== null ? (md.rsi > 60 ? "SELL" : md.rsi < 40 ? "BUY" : "NEUTRAL") : "NEUTRAL",
+    md.rsi !== null ? (md.rsi >= 55 ? "BUY" : md.rsi <= 45 ? "SELL" : "NEUTRAL") : "NEUTRAL",
     md.macdLine !== null && md.macdSignal !== null
       ? (md.macdLine > md.macdSignal ? "BUY" : md.macdLine < md.macdSignal ? "SELL" : "NEUTRAL")
       : "NEUTRAL",
@@ -617,12 +624,20 @@ export default function MarketIntelligencePage() {
             </div>
 
             <div className="flex items-center gap-4">
-              <div className="flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-[#18B880] animate-pulse" />
-                <span className="text-[11px] text-gray-600 font-mono uppercase tracking-wider">
-                  {currentSession()} · Live
-                </span>
-              </div>
+              {(() => {
+                const session = currentSession();
+                return (
+                  <div className="flex items-center gap-2">
+                    <span className={cn(
+                      "w-2 h-2 rounded-full",
+                      session.isOpen ? "bg-[#18B880] animate-pulse" : "bg-[#888882]"
+                    )} />
+                    <span className="text-[11px] text-gray-600 font-mono uppercase tracking-wider">
+                      {session.name} {session.isOpen ? "· Live" : "· Weekend"}
+                    </span>
+                  </div>
+                );
+              })()}
 
               {/* Timeframe selector */}
               <div className="flex gap-1 bg-gray-50 border border-gray-200 p-1 rounded-lg">

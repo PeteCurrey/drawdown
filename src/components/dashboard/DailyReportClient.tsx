@@ -516,7 +516,7 @@ export default function DailyReportClient({ report, isStale, staleDate }: Props)
           <div>
             <div className="flex items-center gap-2 mb-1">
               <span className="text-[8px] font-mono uppercase tracking-[0.3em] text-accent">
-                DRAWDOWN INTELLIGENCE
+                AVORRIA INTELLIGENCE
               </span>
               <span className="text-border-slate text-[8px]">·</span>
               <span className="text-[8px] font-mono uppercase tracking-widest text-text-tertiary">

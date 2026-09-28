@@ -75,7 +75,7 @@ export function PetesDailyTakeExcerpt() {
                   </div>
                   <div className="flex flex-col">
                     <span className="text-[10px] font-mono font-bold uppercase tracking-widest">Pete Currey</span>
-                    <span className="text-[10px] font-mono text-mkt-i4 uppercase tracking-widest">Founder, Drawdown</span>
+                    <span className="text-[10px] font-mono text-mkt-i4 uppercase tracking-widest">Founder, Avorria</span>
                   </div>
                 </div>
 

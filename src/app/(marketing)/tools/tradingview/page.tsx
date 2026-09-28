@@ -45,7 +45,7 @@ function TradingViewReviewContent({ region }: { region: Region }) {
     },
     "publisher": {
       "@type": "Organization",
-      "name": "Drawdown",
+      "name": "Avorria",
       "logo": {
         "@type": "ImageObject",
         "url": "https://avorria.com/assets/brand/logo.png"
@@ -300,7 +300,7 @@ function TradingViewReviewContent({ region }: { region: Region }) {
                 <div className="w-6 h-6 rounded-full overflow-hidden border border-border-slate/50 shrink-0">
                   <img src="/images/pete.jpg" alt="Pete Currey" className="w-full h-full object-cover" />
                 </div>
-                <div className="text-sm font-bold text-text-tertiary font-sans">— Pete Currey, Drawdown</div>
+                <div className="text-sm font-bold text-text-tertiary font-sans">— Pete Currey, Avorria</div>
               </div>
             </div>
 
@@ -479,19 +479,19 @@ function TradingViewReviewContent({ region }: { region: Region }) {
           </section>
         </FadeInSection>
 
-        {/* SECTION 6: HOW DRAWDOWN USES TRADINGVIEW */}
+        {/* SECTION 6: HOW AVORRIA USES TRADINGVIEW */}
         <FadeInSection>
           <section className="space-y-8">
             <div className="space-y-2">
               <span className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary">OUR WORKFLOW</span>
-              <h2 className="text-3xl font-display font-bold text-text-primary">How we integrate TradingView into the Drawdown system.</h2>
+              <h2 className="text-3xl font-display font-bold text-text-primary">How we integrate TradingView into the Avorria system.</h2>
             </div>
             <div className="prose prose-lg prose-neutral text-text-tertiary max-w-none font-sans">
               <p>
                 Every example chart in the Avorria curriculum is built on TradingView. When we reference price levels, structure, or setups in any course module, the chart is from TradingView. This means from Phase 1 onwards, you're learning to read charts in the same environment you'll use when you trade live.
               </p>
               <p>
-                Our setup: TradingView Plus or Premium for multi-chart layouts (4 charts: 15m, 1H, 4H, Daily for the same instrument), clean charts with price action only (no indicators except volume), and direct connection to regulated brokers (like Pepperstone) for execution. The AI Trade Journal on Drawdown runs alongside TradingView — we analyse trades in TradingView, log them in Drawdown.
+                Our setup: TradingView Plus or Premium for multi-chart layouts (4 charts: 15m, 1H, 4H, Daily for the same instrument), clean charts with price action only (no indicators except volume), and direct connection to regulated brokers (like Pepperstone) for execution. The AI Trade Journal on Avorria runs alongside TradingView — we analyse trades in TradingView, log them in Avorria.
               </p>
               <p>
                 You don't need this setup to start. Free TradingView + free Avorria account is a legitimate starting configuration that costs nothing.

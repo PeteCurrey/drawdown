@@ -32,7 +32,7 @@ export default function CoffeezillaAlexGPage() {
       "jobTitle": "Founder",
       "worksFor": {
         "@type": "Organization",
-        "name": "Drawdown",
+        "name": "Avorria",
         "url": "https://avorria.com"
       }
     },

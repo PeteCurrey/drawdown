@@ -54,7 +54,7 @@ export default function FinancialDisclaimerPage() {
               {LEGAL_CONFIG.fullTradingEntity} does not provide financial advice. All content, quantitative models, trade signals, AI trade journal analyses, and educational modules provided across the platform are published for general informational and educational context only.
             </p>
             <p className="text-[13px] leading-relaxed" style={{ color: "var(--graphite-600)" }}>
-              Drawdown is not a financial adviser, broker-dealer, commodity trading adviser, asset manager, or tax consultant. We do not handle client investment funds or execute trades on behalf of users.
+              Avorria is not a financial adviser, broker-dealer, commodity trading adviser, asset manager, or tax consultant. We do not handle client investment funds or execute trades on behalf of users.
             </p>
           </div>
         </div>
@@ -73,7 +73,7 @@ export default function FinancialDisclaimerPage() {
             </h2>
             <div className="space-y-3 text-[14px] leading-relaxed" style={{ color: "var(--graphite-600)" }}>
               <p>
-                No information or tool provided on Drawdown constitutes a recommendation, endorsement, or solicitation to buy, sell, or hold any security, currency pair, futures contract, contract for difference (CFD), spread bet, or digital asset. 
+                No information or tool provided on Avorria constitutes a recommendation, endorsement, or solicitation to buy, sell, or hold any security, currency pair, futures contract, contract for difference (CFD), spread bet, or digital asset. 
               </p>
               <p>
                 Financial decisions require independent evaluation of your financial condition, risk tolerance, and investment objectives. If you require financial advice, you must consult a licensed independent financial advisor (IFA) registered with your local financial regulator.
@@ -93,7 +93,7 @@ export default function FinancialDisclaimerPage() {
             
             <div className="space-y-4 text-[14px] leading-relaxed" style={{ color: "var(--graphite-600)" }}>
               <p>
-                Drawdown offers quantitative trade signals, market alerts, automated pattern discovery scanners, and institutional sentiment tracking tools across our platform and Signal Centre.
+                Avorria offers quantitative trade signals, market alerts, automated pattern discovery scanners, and institutional sentiment tracking tools across our platform and Signal Centre.
               </p>
 
               <div className="p-6 border space-y-3" style={{ backgroundColor: "var(--paper-100)", borderColor: "var(--line-200)" }}>
@@ -129,7 +129,7 @@ export default function FinancialDisclaimerPage() {
             </h2>
 
             <div className="p-4 border text-[13px] font-mono mb-4" style={{ backgroundColor: "var(--paper-100)", borderColor: "var(--line-200)" }}>
-              <span className="font-bold text-slate-900">Tax Advice Disclaimer:</span> Tax treatment depends on individual circumstances and may change. Drawdown does not provide tax, legal, or accounting advice. Consult a qualified accountant or tax adviser.
+              <span className="font-bold text-slate-900">Tax Advice Disclaimer:</span> Tax treatment depends on individual circumstances and may change. Avorria does not provide tax, legal, or accounting advice. Consult a qualified accountant or tax adviser.
             </div>
 
             <div className="space-y-8">
@@ -155,7 +155,7 @@ export default function FinancialDisclaimerPage() {
                 </h3>
                 <div className="space-y-2 text-[13px] leading-relaxed" style={{ color: "var(--graphite-600)" }}>
                   <p>
-                    <strong>CFTC / SEC Perimeter:</strong> Drawdown is not registered as a Commodity Trading Advisor (CTA) with the CFTC or an Investment Advisor with the SEC. CFTC RULE 4.41 applies to hypothetical or simulated performance results.
+                    <strong>CFTC / SEC Perimeter:</strong> Avorria is not registered as a Commodity Trading Advisor (CTA) with the CFTC or an Investment Advisor with the SEC. CFTC RULE 4.41 applies to hypothetical or simulated performance results.
                   </p>
                   <p>
                     <strong>IRS Tax Rules:</strong> Section 1256 contracts (e.g. regulated futures) qualify for 60% long-term / 40% short-term capital gains tax treatment. Wash-sale rules (Sec 1091) and Pattern Day Trader (PDT) rules apply under US jurisdiction.
@@ -170,7 +170,7 @@ export default function FinancialDisclaimerPage() {
                 </h3>
                 <div className="space-y-2 text-[13px] leading-relaxed" style={{ color: "var(--graphite-600)" }}>
                   <p>
-                    Drawdown does not hold AFSL (Australia), MAS (Singapore), SFC (Hong Kong), or MiFID (Europe) financial advisory licences. All materials are educational. International clients are responsible for complying with local regulations and tax reporting rules.
+                    Avorria does not hold AFSL (Australia), MAS (Singapore), SFC (Hong Kong), or MiFID (Europe) financial advisory licences. All materials are educational. International clients are responsible for complying with local regulations and tax reporting rules.
                   </p>
                 </div>
               </div>
@@ -188,7 +188,7 @@ export default function FinancialDisclaimerPage() {
             </h2>
             <div className="space-y-3 text-[14px] leading-relaxed" style={{ color: "var(--graphite-600)" }}>
               <p>
-                Drawdown is an independent educational platform and does not operate as a broker or clearing agent. References to third-party brokers or prop trading firms are provided for convenience. Drawdown may receive affiliate compensation from partner brokers. Drawdown is not responsible for broker trade execution, slippage, platform downtime, or third-party account losses.
+                Avorria is an independent educational platform and does not operate as a broker or clearing agent. References to third-party brokers or prop trading firms are provided for convenience. Avorria may receive affiliate compensation from partner brokers. Avorria is not responsible for broker trade execution, slippage, platform downtime, or third-party account losses.
               </p>
             </div>
           </section>

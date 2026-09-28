@@ -43,7 +43,7 @@ async function runVerification() {
   );
 
   assert(
-    robotsConfig.sitemap === "https://drawdown.trading/sitemap.xml",
+    robotsConfig.sitemap === "https://avorria.com/sitemap.xml",
     "Robots.txt references correct sitemap XML URL",
     `Sitemap URL: ${robotsConfig.sitemap}`
   );
@@ -62,19 +62,19 @@ async function runVerification() {
     );
 
     // Assert redirect URL /brokers is NOT in sitemap, but canonical /brokers/all IS
-    const hasBrokersRedirectUrl = urls.includes("https://drawdown.trading/brokers");
-    const hasBrokersCanonicalUrl = urls.includes("https://drawdown.trading/brokers/all");
+    const hasBrokersRedirectUrl = urls.includes("https://avorria.com/brokers");
+    const hasBrokersCanonicalUrl = urls.includes("https://avorria.com/brokers/all");
 
     assert(
       !hasBrokersRedirectUrl,
       "Sitemap excludes redirect URL (/brokers)",
-      "Found https://drawdown.trading/brokers in sitemap"
+      "Found https://avorria.com/brokers in sitemap"
     );
 
     assert(
       hasBrokersCanonicalUrl,
       "Sitemap includes canonical URL (/brokers/all)",
-      "Missing https://drawdown.trading/brokers/all in sitemap"
+      "Missing https://avorria.com/brokers/all in sitemap"
     );
 
     // Assert no duplicate URLs
@@ -92,7 +92,7 @@ async function runVerification() {
   // 4. Test Legal Entity Central Configuration
   assert(
     LEGAL_CONFIG.contractingEntity === "Black & Rowan Management Group Limited" &&
-    LEGAL_CONFIG.fullTradingEntity === "Black & Rowan Management Group Limited t/a Drawdown" &&
+    LEGAL_CONFIG.fullTradingEntity === "Black & Rowan Management Group Limited t/a Avorria Trading" &&
     LEGAL_CONFIG.tradingAddress === "Chesterfield, Derbyshire, United Kingdom",
     "Central Legal Configuration is accurate and intact",
     `Trading Entity: ${LEGAL_CONFIG.fullTradingEntity}`

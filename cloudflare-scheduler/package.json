@@ -1,7 +1,7 @@
 {
-  "name": "drawdown-cloudflare-scheduler",
+  "name": "avorria-cloudflare-scheduler",
   "version": "1.0.0",
-  "description": "Cloudflare Worker & Workflows Scheduler for Drawdown Trading background jobs",
+  "description": "Cloudflare Worker & Workflows Scheduler for Avorria Trading background jobs",
   "main": "src/index.ts",
   "type": "module",
   "scripts": {
@@ -15,9 +15,9 @@
     "workers",
     "workflows",
     "scheduler",
-    "drawdown"
+    "avorria"
   ],
-  "author": "Drawdown Trading",
+  "author": "Avorria Trading",
   "license": "UNLICENSED",
   "private": true,
   "devDependencies": {

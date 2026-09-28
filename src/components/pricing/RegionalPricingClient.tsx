@@ -23,7 +23,7 @@ import { CheckoutConsentModal } from "@/components/legal/CheckoutConsentModal";
 
 const FREE_RESOURCES = [
   {
-    title: "Drawdown Risk Management Guide",
+    title: "Avorria Risk Management Guide",
     format: "PDF Document",
     size: "1.4 MB",
     downloadUrl: "/downloads/risk-management-guide.pdf",
@@ -423,7 +423,7 @@ export function RegionalPricingClient({ floorCap = 15, activeFloorSubs = 0 }: { 
             {label.toUpperCase()} PLATFORM NOTICE &amp; INTELLECTUAL PROPERTY GUARANTEE
           </h4>
           <p className="text-[11px] text-slate-600 leading-relaxed font-sans">
-            Subscription tiers represent access levels to educational content, institutional research, and quantitative analysis tools. Drawdown does not provide financial advice. Trade signals and market insights represent automated conclusions derived from data feeds and risk parameters; they are not guaranteed outcomes. All strategies tested or journals analyzed remain the intellectual property of the user. Prices denominated in {currencyCode}. 7-day money-back guarantee on all subscription upgrades.
+            Subscription tiers represent access levels to educational content, institutional research, and quantitative analysis tools. Avorria does not provide financial advice. Trade signals and market insights represent automated conclusions derived from data feeds and risk parameters; they are not guaranteed outcomes. All strategies tested or journals analyzed remain the intellectual property of the user. Prices denominated in {currencyCode}. 7-day money-back guarantee on all subscription upgrades.
           </p>
         </div>
       </div>
@@ -435,7 +435,7 @@ export function RegionalPricingClient({ floorCap = 15, activeFloorSubs = 0 }: { 
         onClose={() => { setShowConsent(false); setPendingTier(null); }}
         onConfirm={(consentData) => { if (pendingTier) handleSubscribe(pendingTier, consentData); }}
         loading={loadingTier !== null}
-        productName={`Drawdown ${pendingTier}`}
+        productName={`Avorria ${pendingTier}`}
         priceString={billingCycle === "monthly" ? `from ${symbol}49/mo` : `from ${symbol}39/mo (annual)`}
       />
     )}

@@ -17,18 +17,18 @@ export default function AboutPage() {
       <JsonLd data={{
         "@context": "https://schema.org",
         "@type": "ProfilePage",
-        "name": "About Pete Currey & Drawdown Authority",
+        "name": "About Pete Currey & Avorria Trading",
         "url": "https://avorria.com/about",
-        "description": "Discover the founder journey, risk philosophy, and the honest record behind Drawdown.",
+        "description": "Discover the founder journey, risk philosophy, and the honest record behind Avorria Trading.",
         "mainEntity": {
           "@type": "Person",
           "name": "Pete Currey",
           "url": "https://avorria.com/about",
           "jobTitle": "Founder & Head of Research",
-          "description": "Founder of Drawdown, trading live financial markets since 2016.",
+          "description": "Founder of Avorria Trading, trading live financial markets since 2016.",
           "worksFor": {
             "@type": "Organization",
-            "name": "Drawdown",
+            "name": "Avorria",
             "url": "https://avorria.com"
           },
           "sameAs": [
@@ -36,7 +36,7 @@ export default function AboutPage() {
           ],
           "knowsAbout": [
             "Trading Risk",
-            "Drawdown",
+            "Trading Psychology",
             "Position Sizing",
             "Financial Markets"
           ],

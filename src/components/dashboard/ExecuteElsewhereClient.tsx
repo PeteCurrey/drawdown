@@ -111,7 +111,7 @@ export function ExecuteElsewhereClient({ planId }: { planId: string }) {
           <h3 className="text-xs font-mono font-bold uppercase tracking-wider">Execute Elsewhere Boundary</h3>
         </div>
         <p className="text-xs text-text-secondary leading-relaxed">
-          Place the trade independently through your chosen broker. Drawdown does not execute, route or transmit orders.
+          Place the trade independently through your chosen broker. Avorria does not execute, route or transmit orders.
         </p>
       </div>
 

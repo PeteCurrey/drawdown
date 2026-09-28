@@ -236,7 +236,7 @@ export default function RoadmapClient() {
         {/* Hero Header */}
         <div className="max-w-3xl mb-16">
           <span className="text-[11px] font-sans font-bold text-text-tertiary uppercase tracking-widest block mb-4">
-            // DRAWDOWN SYSTEM ROADMAP
+            // AVORRIA SYSTEM ROADMAP
           </span>
           <h1 className="text-4xl md:text-6xl font-sans font-extrabold tracking-tight text-text-primary leading-tight mb-6">
             Building the Infrastructure <br />

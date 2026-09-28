@@ -56,10 +56,10 @@ export default function AboutClient() {
       ]
     },
     {
-      period: "DEVELOPMENT OF DRAWDOWN",
+      period: "DEVELOPMENT OF AVORRIA",
       type: "Platform Origin",
       title: "Systems Over Promises",
-      desc: "Drawdown was built to combine structured risk education, quantitative indicator models, transparent market analysis, trade journaling, and AI-assisted performance review. It distills real market experience into an objective, data-driven framework.",
+      desc: "Avorria was built to combine structured risk education, quantitative indicator models, transparent market analysis, trade journaling, and AI-assisted performance review. It distils real market experience into an objective, data-driven framework.",
       icon: CheckCircle2,
     }
   ];

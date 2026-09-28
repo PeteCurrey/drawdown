@@ -3,7 +3,7 @@
 import React, { useEffect, useRef, useState } from "react";
 
 /* ─────────────────────────────────────────────────────────────
-   Drawdown — Market Intelligence Panel
+   Avorria — Market Intelligence Panel
    Spec: semicircular gauge + signal card + sources card
    ───────────────────────────────────────────────────────────── */
 

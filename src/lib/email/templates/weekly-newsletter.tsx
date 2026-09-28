@@ -37,7 +37,7 @@ export function getNewsletterTemplate(content: string, title = "The Wire") {
               <!-- Header -->
               <tr>
                 <td class="header">
-                  <h1 style="color: #0F172A; font-size: 28px; margin: 0; letter-spacing: 4px;">DRAWDOWN<span style="color: #F9771D;">.</span></h1>
+                  <h1 style="color: #0F172A; font-size: 28px; margin: 0; letter-spacing: 4px;">AVORRIA<span style="color: #F9771D;">.</span></h1>
                   <p style="margin: 10px 0 0 0; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: #64748B;">Market Intelligence</p>
                 </td>
               </tr>
@@ -69,7 +69,7 @@ export function getNewsletterTemplate(content: string, title = "The Wire") {
               <tr>
                 <td class="footer">
                   <p style="margin: 0 0 10px 0;">This email is for educational purposes only. Not financial advice.</p>
-                  <p style="margin: 0;">&copy; ${new Date().getFullYear()} Drawdown. All rights reserved.</p>
+                  <p style="margin: 0;">&copy; ${new Date().getFullYear()} Avorria. All rights reserved.</p>
                   <p style="margin: 10px 0 0 0;"><a href="#" style="color: #64748B; text-decoration: underline;">Unsubscribe</a></p>
                 </td>
               </tr>

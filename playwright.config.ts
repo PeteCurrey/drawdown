@@ -1,7 +1,7 @@
 import { defineConfig, devices } from "@playwright/test";
 
 /**
- * Drawdown Trading — Playwright Browser E2E Configuration
+ * Avorria Trading — Playwright Browser E2E Configuration
  *
  * Tests run against the live production deployment at https://avorria.com
  * Three viewport profiles:

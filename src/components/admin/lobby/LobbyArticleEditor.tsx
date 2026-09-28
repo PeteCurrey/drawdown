@@ -390,7 +390,7 @@ export function LobbyArticleEditor({ initialArticle, auditLogs = [] }: LobbyArti
                   Documented Sources &amp; Evidence
                 </h3>
                 <p className="text-[11px] text-mkt-i4 font-sans">
-                  Mandatory for News, Broker Watch, and Prop Firm Watch. Separates external facts from Drawdown analysis.
+                  Mandatory for News, Broker Watch, and Prop Firm Watch. Separates external facts from Avorria analysis.
                 </p>
               </div>
               <button

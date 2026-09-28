@@ -67,7 +67,7 @@ export const HOW_TO_PAGES: HowToPage[] = [
       'Following "signals" from unverified sources'
     ],
     drawdownApproach: {
-      text: 'At Drawdown, we believe in a risk-first approach. Before you take your first live trade, we recommend completing our Foundation course.',
+      text: 'At Avorria, we believe in a risk-first approach. Before you take your first live trade, we recommend completing our Foundation course.',
       link: '/learn/foundation',
       linkText: 'View Foundation Course'
     },
@@ -1183,7 +1183,7 @@ export const HOW_TO_PAGES: HowToPage[] = [
     ],
     commonMistakes: ['Over-exposure to a single currency', 'Getting overwhelmed by multiple alerts'],
     drawdownApproach: {
-      text: 'The Drawdown Dashboard aggregates all your risk metrics into a single high-fidelity view.',
+      text: 'The Avorria Dashboard aggregates all your risk metrics into a single high-fidelity view.',
       link: '/dashboard/accounts',
       linkText: 'Manage Portfolio'
     },
@@ -1285,7 +1285,7 @@ export const HOW_TO_PAGES: HowToPage[] = [
       'Opening a live account without checking which account type (spread bet vs CFD) is more tax-efficient for your situation',
     ],
     drawdownApproach: {
-      text: 'Drawdown\'s broker comparison covers only FCA-regulated brokers, with honest notes on spreads, platforms, and who each broker actually suits.',
+      text: 'Avorria\'s broker comparison covers only FCA-regulated brokers, with honest notes on spreads, platforms, and who each broker actually suits.',
       link: '/brokers',
       linkText: 'Compare regulated UK brokers',
     },
@@ -1361,7 +1361,7 @@ export const HOW_TO_PAGES: HowToPage[] = [
       'Not testing the platform on demo before opening a funded account',
     ],
     drawdownApproach: {
-      text: 'Every broker in Drawdown\'s comparison has been checked for FCA authorisation, and the comparisons include typical spreads on common instruments alongside platform and withdrawal notes.',
+      text: 'Every broker in Avorria\'s comparison has been checked for FCA authorisation, and the comparisons include typical spreads on common instruments alongside platform and withdrawal notes.',
       link: '/brokers',
       linkText: 'See our broker comparisons',
     },

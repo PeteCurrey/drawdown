@@ -42,7 +42,7 @@ export default function PeteMemoPage({ tier }: Props) {
             </div>
             <div>
               <p className="text-sm font-bold uppercase text-text-primary tracking-widest">Pete Currey</p>
-              <p className="text-[10px] font-mono text-accent uppercase tracking-widest mt-1">Head of Trading, Drawdown</p>
+              <p className="text-[10px] font-mono text-accent uppercase tracking-widest mt-1">Head of Trading, Avorria</p>
             </div>
           </div>
         </div>

@@ -398,7 +398,7 @@ export function BlogEditor({ post }: BlogEditorProps) {
       setTitle(t || ""); setSlug(s || ""); setCategory(c || "Market Analysis");
       setSubtitle(ex || ""); setEyebrow(ey || "");
       if (b) editor?.commands.setContent(b);
-      setMetaTitle(`${t} | Drawdown`);
+      setMetaTitle(`${t} | Avorria`);
       setMetaDescription(ex?.slice(0, 160) || "");
       setShowAiModal(false);
     } catch (err: any) {
@@ -796,7 +796,7 @@ export function BlogEditor({ post }: BlogEditorProps) {
               <p className="text-[9px] text-mkt-i4 font-sans">
                 {darkBackground
                   ? "Dark #0A0A0A background. Opinion pieces and Pete's voice."
-                  : "Standard blog layout. Used for Drawdown Team posts."}
+                  : "Standard blog layout. Used for Avorria Team posts."}
               </p>
             </div>
 

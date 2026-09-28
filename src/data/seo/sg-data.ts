@@ -23,7 +23,7 @@ export const SG_BROKERS = [
     regulation: 'MAS',
     badge: 'Best Platform',
     description: 'Offering the proprietary Next Generation platform with advanced charting and professional-grade features.',
-    pros: ['Award-winning tech', 'Competitive spreads', '1Join Drawdown Free CFDs'],
+    pros: ['Award-winning tech', 'Competitive spreads', '12,000+ CFDs'],
     link: '/go/cmc-markets'
   },
   {

@@ -27,7 +27,7 @@ export function CookieConsentBanner() {
 
   useEffect(() => {
     // Check stored consent
-    const stored = localStorage.getItem("drawdown_cookie_consent");
+    const stored = localStorage.getItem("avorria_cookie_consent") || localStorage.getItem("drawdown_cookie_consent");
     if (!stored) {
       setIsVisible(true);
     } else {
@@ -54,7 +54,7 @@ export function CookieConsentBanner() {
       timestamp: new Date().toISOString(),
     };
 
-    localStorage.setItem("drawdown_cookie_consent", JSON.stringify(updated));
+    localStorage.setItem("avorria_cookie_consent", JSON.stringify(updated));
     setPreferences(updated);
     setIsVisible(false);
     setShowModal(false);

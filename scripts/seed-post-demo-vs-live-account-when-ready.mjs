@@ -140,7 +140,7 @@ const { error: seoError } = await supabase.from('blog_post_seo').insert({
   og_title: 'Demo Account vs Live Account: When You Are Actually Ready to Switch',
   og_description: 'Most traders switch from demo to live because they are bored, not because they are ready. Here is how to tell the difference.',
   og_image_url: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=1200&q=80',
-  canonical_url: `https://drawdown.trading/blog/${SLUG}`,
+  canonical_url: `https://avorria.com/blog/${SLUG}`,
   schema_type: 'BlogPosting',
   no_index: false,
   focus_keyword: 'demo account vs live account',
@@ -148,4 +148,4 @@ const { error: seoError } = await supabase.from('blog_post_seo').insert({
 if (seoError) { console.warn(`⚠️   SEO insert failed: ${seoError.message}`); }
 else { console.log('✅  blog_post_seo record created.'); }
 
-console.log(`\n🎉  Done!\n    Slug:  ${SLUG}\n    ID:    ${postId}\n    URL:   https://drawdown.trading/blog/${SLUG}\n`);
+console.log(`\n🎉  Done!\n    Slug:  ${SLUG}\n    ID:    ${postId}\n    URL:   https://avorria.com/blog/${SLUG}\n`);

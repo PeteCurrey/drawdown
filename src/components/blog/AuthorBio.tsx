@@ -6,7 +6,7 @@ import { ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface AuthorBioProps {
-  author: "Pete Currey" | "Drawdown Team";
+  author: "Pete Currey" | "Avorria Team" | "Drawdown Team";
   isDark?: boolean;
 }
 
@@ -40,7 +40,7 @@ export function AuthorBio({ author, isDark = false }: AuthorBioProps) {
                 "text-lg font-mono font-black",
                 isDark ? "text-[#C8F135]" : "text-accent"
               )}>
-                DT
+                AT
               </span>
             )}
           </div>

@@ -197,7 +197,7 @@ export function TradingEducationModelClient() {
                 </div>
                 <div>
                   <span className="text-sm font-semibold text-white block">Pete</span>
-                  <span className="text-xs text-[#A0A0A0] block">Founder, Drawdown</span>
+                  <span className="text-xs text-[#A0A0A0] block">Founder, Avorria</span>
                 </div>
               </div>
               {/* Meta Row */}
@@ -351,14 +351,14 @@ export function TradingEducationModelClient() {
               {/* Section 5 */}
               <section className="reveal-section space-y-6">
                 <h2 className="text-2xl sm:text-3xl font-display font-extrabold text-white border-l-4 border-[#C8F135] pl-4 uppercase tracking-tight">
-                  This Is Also How Drawdown Makes Money, And That's Fine
+                  This Is Also How Avorria Makes Money, And That's Fine
                 </h2>
-                <div className="text-[17px] leading-[1.8] text-white/85 space-y-6 font-light font-sans">
+                  <div className="text-[17px] leading-[1.8] text-white/85 space-y-6 font-light font-sans">
                   <p>
-                    Full transparency: Drawdown uses exactly this model. Subscriptions. Broker affiliates. Prop firm affiliates. That's stated here, it's on the site, and every affiliate link is labelled.
+                    Full transparency: Avorria uses exactly this model. Subscriptions. Broker affiliates. Prop firm affiliates. That's stated here, it's on the site, and every affiliate link is labelled.
                   </p>
                   <p>
-                    Not because it's legally required. Because the entire premise of Drawdown is that you should be able to see exactly how the incentives work before you act on any recommendation. When you click a broker link here, you know we earn a referral fee. When you see a prop firm recommended, you know there's a commission attached. That context lets you make a more informed decision about how much weight to give it.
+                    Not because it's legally required. Because the entire premise of Avorria is that you should be able to see exactly how the incentives work before you act on any recommendation. When you click a broker link here, you know we earn a referral fee. When you see a prop firm recommended, you know there's a commission attached. That context lets you make a more informed decision about how much weight to give it.
                   </p>
                   <p>
                     The model isn't the problem. The opacity is.
@@ -370,13 +370,13 @@ export function TradingEducationModelClient() {
               <section className="reveal-section my-12">
                 <div className="disclosure-callout border p-8 sm:p-10 space-y-4 bg-transparent transition-colors">
                   <span className="text-xs font-mono font-bold tracking-widest text-[#C8F135] uppercase block">
-                    // DRAWDOWN DISCLOSURE
+                    // AVORRIA DISCLOSURE
                   </span>
                   <h4 className="text-lg sm:text-xl font-display font-extrabold text-white uppercase tracking-tight">
-                    How Drawdown Makes Money
+                    How Avorria Makes Money
                   </h4>
                   <p className="text-xs sm:text-sm text-[#A0A0A0] font-sans font-light leading-relaxed">
-                    Drawdown earns revenue through paid subscriptions, broker referral commissions, and prop firm referral commissions. Every affiliate link on this site is labelled. Referral relationships are disclosed on broker and prop firm review pages. This post contains no affiliate links.
+                    Avorria earns revenue through paid subscriptions, broker referral commissions, and prop firm referral commissions. Every affiliate link on this site is labelled. Referral relationships are disclosed on broker and prop firm review pages. This post contains no affiliate links.
                   </p>
                 </div>
               </section>

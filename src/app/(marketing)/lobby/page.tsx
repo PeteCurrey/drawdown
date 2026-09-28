@@ -127,7 +127,7 @@ export default async function LobbyHomePage({
       <StructuredData
         type="WebSite"
         data={{
-          name: "The Lobby | Drawdown",
+          name: "The Lobby | Avorria",
           url: `${siteConfig.url}/lobby`,
           description: "What's happening in markets, trading and the businesses built around them.",
           publisher: defaultOrgSchema,

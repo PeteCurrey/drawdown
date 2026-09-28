@@ -12,7 +12,7 @@ import { Search, Clock, ArrowLeft } from "lucide-react";
 
 export const metadata: Metadata = getMetadata({
   title: "The Lobby Archive // Chronological Market Intelligence Index",
-  description: "Browse the complete chronological archive of verified reporting, broker audits, and trading research published on Drawdown The Lobby.",
+  description: "Browse the complete chronological archive of verified reporting, broker audits, and trading research published on Avorria The Lobby.",
   path: "/lobby/archive",
 });
 

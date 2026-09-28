@@ -102,14 +102,14 @@ export default async function Home() {
           "availableLanguage": "English"
         },
         "sameAs": [
-          "https://twitter.com/drawdown_hq",
-          "https://youtube.com/@drawdown"
+          "https://twitter.com/avorriatrading",
+          "https://youtube.com/@avorria"
         ]
       }} />
       <JsonLd data={{
         "@context": "https://schema.org",
         "@type": "WebSite",
-        "name": "Drawdown",
+        "name": "Avorria",
         "url": "https://avorria.com",
         "potentialAction": {
           "@type": "SearchAction",

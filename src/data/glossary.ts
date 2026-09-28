@@ -263,7 +263,7 @@ Smart Money dictates the trend. As a retail trader, your job is not to fight Sma
 **Definition:** An individual investor who trades with their own personal money, rather than on behalf of an institution.
 
 ## Why it matters to traders
-Retail traders are often referred to as "dumb money" because they typically lack access to institutional information, algorithms, and discipline. The goal of platforms like Drawdown is to give retail traders the tools and frameworks to operate like institutions.
+Retail traders are often referred to as "dumb money" because they typically lack access to institutional information, algorithms, and discipline. The goal of platforms like Avorria is to give retail traders the tools and frameworks to operate like institutions.
     `
   },
   {

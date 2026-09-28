@@ -159,7 +159,7 @@ Because at the end of the day, a lucky win that broke your rules is just a delay
 
 The single most important skill in trading is not technical analysis. It is **Position Sizing**. You can have a 90% win rate, but if you don't understand the maths of drawdown, a single string of losses will wipe you out.
 
-The Drawdown Institutional Position Sizer isn't just a calculator; it's a risk management framework designed to protect you from the "Gambler's Ruin".
+The Avorria Institutional Position Sizer isn't just a calculator; it's a risk management framework designed to protect you from the "Gambler's Ruin".
 
 ### ATR: The Volatility Truth
 
@@ -242,7 +242,7 @@ Our scanner identifies these **Institutional Footprints**. Instead of guessing w
 
 No market exists in a vacuum. The FTSE 100 is influenced by the Pound, which is influenced by Gilts, which are influenced by the US Fed. If you are trading one in isolation, you are missing 80% of the picture.
 
-The Drawdown Scanner provides **Multi-Asset Confluence**. We show you if the "Correlation Engine" is working. If the US Dollar is strengthening and Gold is weakening, the "Inverse Correlation" is holding. If they are both rising together, something has changed. Our scanner flags these anomalies immediately.
+The Avorria Scanner provides **Multi-Asset Confluence**. We show you if the "Correlation Engine" is working. If the US Dollar is strengthening and Gold is weakening, the "Inverse Correlation" is holding. If they are both rising together, something has changed. Our scanner flags these anomalies immediately.
 
 ### Timeframe Confluence (The Rule of 3)
 
@@ -303,7 +303,7 @@ By focusing on high-volume zones and multi-asset confluence, you move from being
 
 The difference between a gambler and a professional is the **Certainty of Edge**. A gambler hopes the next trade works. A professional knows that over the next 1,000 trades, they will be profitable because they have the data to prove it.
 
-The Drawdown Strategy Backtester is designed to be the "Truth Machine" for your trading plan.
+The Avorria Strategy Backtester is designed to be the "Truth Machine" for your trading plan.
 
 ### Eliminating Observer Bias
 
@@ -335,7 +335,7 @@ Our engine models **Variable Transaction Costs**. We simulate the widening of sp
     slug: "market-charts",
     title: "Technical Charts",
     tagline: "High-performance data visualisations.",
-    description: "Optimised for speed and clarity. Built-in Drawdown proprietary indicators designed to highlight institutional levels and flow delta.",
+    description: "Optimised for speed and clarity. Built-in Avorria proprietary indicators designed to highlight institutional levels and flow delta.",
     icon: LineChart,
     sections: {
       problem: {
@@ -376,7 +376,7 @@ Our engine models **Variable Transaction Costs**. We simulate the widening of sp
 
 Most retail platforms make money by keeping you engaged, not by making you profitable. They over-complicate the visual experience with hundreds of indicators that ultimately lead to confusion. 
 
-The Drawdown Technical Charts are built on the philosophy of **Subtractive Analysis**. We remove everything that doesn't provide a direct edge, leaving you with a clean, high-performance canvas to track the only thing that matters: Price.
+The Avorria Technical Charts are built on the philosophy of **Subtractive Analysis**. We remove everything that doesn't provide a direct edge, leaving you with a clean, high-performance canvas to track the only thing that matters: Price.
 
 ### The Physics of Price Action
 

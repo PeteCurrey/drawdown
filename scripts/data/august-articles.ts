@@ -23,7 +23,7 @@ export const AUGUST_ARTICLES: ArticleSeed[] = [
     readTime: "7 min read",
     heroImageUrl: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?q=80&w=800",
     focusKeyword: "yen carry trade unwind",
-    metaTitle: "The Anatomy of the August Carry Trade Unwind | Drawdown Trading",
+    metaTitle: "The Anatomy of the August Carry Trade Unwind | Avorria Trading",
     metaDescription: "An unvarnished breakdown of how the rapid yen carry trade unwind triggered cross-asset margin calls and what retail traders must learn about negative skew.",
     relatedPostSlugs: ["spread-betting-leverage-math", "correlation-risk-multi-pair-trading", "truth-about-leverage"],
     body: `
@@ -101,7 +101,7 @@ If you sized your trade assuming a worst-case loss of £500, a triple-slippage e
 
 > "Gurus love teaching patterns on clean 5-minute charts. But markets do not care about chart patterns when the largest institutional carry trade in the world is being liquidated at the market fix. Sizing your risk small enough to survive unexpected macro cascades is the only edge that never expires."
 
-If you were caught off-guard during this unwind, audit your risk geometry immediately inside the [Drawdown Risk of Ruin Calculator](/tools/risk-of-ruin-calculator) and check [The Wire](/wire) for real-time institutional flow updates.
+If you were caught off-guard during this unwind, audit your risk geometry immediately inside the [Avorria Risk of Ruin Calculator](/tools/risk-of-ruin-calculator) and check [The Wire](/wire) for real-time institutional flow updates.
 `
   },
   {
@@ -113,7 +113,7 @@ If you were caught off-guard during this unwind, audit your risk geometry immedi
     readTime: "6 min read",
     heroImageUrl: "https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?q=80&w=800",
     focusKeyword: "volatility risk position sizing",
-    metaTitle: "Why Fixed Monetary Risk Fails Under Volatility Spikes | Drawdown Trading",
+    metaTitle: "Why Fixed Monetary Risk Fails Under Volatility Spikes | Avorria Trading",
     metaDescription: "Discover why standard fixed monetary risk breaks down during volatility regimes and how ATR-calibrated position sizing protects retail trading accounts.",
     relatedPostSlugs: ["fixed-percentage-vs-fixed-monetary-risk", "kelly-criterion-position-sizing-mastery", "the-1-percent-rule"],
     body: `
@@ -180,7 +180,7 @@ Professional desks adjust their exposure dynamically using volatility normalizat
 3. **Scale Allowed Risk Percentage**: If the market is experiencing an extreme volatility spike (Vol Ratio > 2.0), scale down baseline portfolio risk from 1.0% to 0.5% per trade.
 4. **Widen Stop Geometry to Match Structure**: Never compress your stop below 0.5x the hourly ATR.
 
-Before placing any trade in an expanding volatility environment, run your numbers through the [Drawdown Position Size Calculator](/tools/position-size-calculator).
+Before placing any trade in an expanding volatility environment, run your numbers through the [Avorria Position Size Calculator](/tools/position-size-calculator).
 
 ---
 
@@ -200,7 +200,7 @@ Protect your edge by reviewing our foundational breakdown on [Fixed Percentage v
     readTime: "8 min read",
     heroImageUrl: "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?q=80&w=800",
     focusKeyword: "Bank of England split vote GBP USD",
-    metaTitle: "Bank of England August Split Vote: Cable Impact | Drawdown Trading",
+    metaTitle: "Bank of England August Split Vote: Cable Impact | Avorria Trading",
     metaDescription: "An in-depth analysis of the Bank of England's 5-4 split decision, persistent UK services inflation, and the structural implications for GBP/USD (Cable).",
     relatedPostSlugs: ["bank-of-england-rate-decisions-playbook", "trading-the-bank-of-england", "gbpusd-trading-guide"],
     body: `
@@ -277,7 +277,7 @@ Stay on top of live central bank dispatches in [The Lobby Central Banks Feed](/l
     readTime: "9 min read",
     heroImageUrl: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=800",
     focusKeyword: "trailing drawdown prop firm rules",
-    metaTitle: "Trailing Drawdown Traps in Modern Prop Evaluations | Drawdown Trading",
+    metaTitle: "Trailing Drawdown Traps in Modern Prop Evaluations | Avorria Trading",
     metaDescription: "Exposing the mathematical mechanics of high-water mark trailing drawdowns in prop firm challenges and how to protect your capital against evaluation traps.",
     relatedPostSlugs: ["prop-firm-honest-review", "prop-firm-vs-funding-your-own-account", "maximum-drawdown-limits"],
     body: `
@@ -347,7 +347,7 @@ If you choose to trade prop firm evaluations, you must adapt your execution geom
 
 1. **Calculate Risk Against Allowed Drawdown, Never Account Size**: If an evaluation offers £100,000 nominal capital but liquidates at £6,000 drawdown, you do not have a £100,000 account. **You have a £6,000 account.** Sizing 1% (£60 per trade) ensures you can withstand 10 consecutive losses without breaching.
 2. **Take Partial Profits Quickly**: Under trailing rules, letting runners breathe introduces the risk that open pullbacks will drag your floor up. Scale out into strength to lock balance and equity simultaneously.
-3. **Audit the Rulebook with Simulation**: Before paying an evaluation fee, run your historical trade distribution through the [Drawdown Challenge Simulator](/tools/challenge-simulator) to determine the exact probability of hitting the profit target before tripping the trailing floor.
+3. **Audit the Rulebook with Simulation**: Before paying an evaluation fee, run your historical trade distribution through the [Avorria Challenge Simulator](/tools/challenge-simulator) to determine the exact probability of hitting the profit target before tripping the trailing floor.
 
 ---
 
@@ -367,7 +367,7 @@ Learn more about evaluating genuine funding providers in our [Prop Firm Honest R
     readTime: "8 min read",
     heroImageUrl: "https://images.unsplash.com/photo-1508962914676-134849a727f0?q=80&w=800",
     focusKeyword: "Jackson Hole neutral rate R-star",
-    metaTitle: "Jackson Hole 2026: Neutral Rate (R*) Debate | Drawdown Trading",
+    metaTitle: "Jackson Hole 2026: Neutral Rate (R*) Debate | Avorria Trading",
     metaDescription: "An expert macro breakdown of the Jackson Hole Symposium discussions around R-star (neutral interest rate) and its direct impact on sovereign yields and FX.",
     relatedPostSlugs: ["economic-calendar-guide", "bank-of-england-rate-decisions-playbook", "ftse-100-vs-sp500-decoupling"],
     body: `
@@ -447,7 +447,7 @@ Follow real-time macro dispatches and yield curve analysis directly inside [The 
     readTime: "7 min read",
     heroImageUrl: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800",
     focusKeyword: "order flow footprint charts forex",
-    metaTitle: "Order Flow Realities: Footprint Charts in FX | Drawdown Trading",
+    metaTitle: "Order Flow Realities: Footprint Charts in FX | Avorria Trading",
     metaDescription: "An honest, technical assessment of footprint charts, cumulative volume delta (CVD), and the structural reality of decentralized foreign exchange markets.",
     relatedPostSlugs: ["order-flow-delta-footprint-charts", "pine-script-vs-python-algo-builder", "geometry-of-liquid-markets"],
     body: `
@@ -535,7 +535,7 @@ Explore how algorithmic market structure operates in our guide to [Pine Script v
     readTime: "6 min read",
     heroImageUrl: "https://images.unsplash.com/photo-1507413245164-6160d8298b31?q=80&w=800",
     focusKeyword: "summer liquidity trading psychology",
-    metaTitle: "The Psychology of the Summer Liquidity Lull | Drawdown Trading",
+    metaTitle: "The Psychology of the Summer Liquidity Lull | Avorria Trading",
     metaDescription: "Why trading in thin late-August market liquidity destroys retail accounts through boredom, overtrading, and chop, and how professional desks handle it.",
     relatedPostSlugs: ["sunday-routine-risk-mapping-weekly-call", "fomo-trading-anatomy", "cost-of-revenge-trading"],
     body: `
@@ -616,7 +616,7 @@ Learn how to maintain ironclad discipline with our breakdown on [The Anatomy of 
     readTime: "8 min read",
     heroImageUrl: "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?q=80&w=800",
     focusKeyword: "HMRC spread betting tax rules scalping",
-    metaTitle: "Spread Betting Arbitrage & HMRC Tax Rules | Drawdown Trading",
+    metaTitle: "Spread Betting Arbitrage & HMRC Tax Rules | Avorria Trading",
     metaDescription: "An authoritative guide to UK spread betting tax exemption, HMRC commerciality thresholds, high-frequency scalping, and Capital Gains Tax considerations.",
     relatedPostSlugs: ["spread-betting-tax-math-uk-2026", "uk-trading-tax-guide", "spread-betting-vs-cfds"],
     body: `

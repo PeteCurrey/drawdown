@@ -78,7 +78,7 @@ const manuals = [
 const faqs = [
   { 
     q: "How does the bundle work?", 
-    a: "When you buy the bundle, you get lifetime permanent access to all three manuals. They will be added to your Drawdown dashboard immediately under the 'Downloads' section, and you will also receive an email with your download links." 
+    a: "When you buy the bundle, you get lifetime permanent access to all three manuals. They will be added to your Avorria dashboard immediately under the 'Downloads' section, and you will also receive an email with your download links." 
   },
   { 
     q: "How much do I save?", 

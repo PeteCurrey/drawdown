@@ -640,6 +640,8 @@ export function ScreenerTable({
                 ? (isDark ? "rgba(206, 105, 105, 0.18)" : "#FDF2F2")
                 : "rgba(0, 0, 0, 0)";
 
+              const yOffset = shouldReduceMotion ? 0 : direction === "down" ? -4 : 4;
+
               return (
                 <motion.tr
                   key={row.slug}
@@ -684,13 +686,25 @@ export function ScreenerTable({
                       <div className="inline-flex items-center justify-end gap-2">
                         {/* STEP 6: Micro sparkline (desktop rows only) */}
                         <MicroSparkline data={priceHistory?.get(row.slug)} />
-                        {/* STEP 2: Smooth count-up/count-down on live price values */}
-                        <AnimatedPrice
-                          price={row.price}
-                          feedOffline={row.feed_offline}
-                          isDark={isDark}
-                          decimals={row.price >= 1000 ? 2 : row.price >= 10 ? 3 : 5}
-                        />
+                        {/* STEP 2 & 3: Smooth count-up/count-down on live price values with AnimatePresence key-swap */}
+                        <div className="relative inline-flex items-center justify-end overflow-hidden">
+                          <AnimatePresence mode="popLayout" initial={false}>
+                            <motion.div
+                              key={`${row.slug}-p-${row.price}`}
+                              initial={shouldReduceMotion ? false : { opacity: 0, y: yOffset }}
+                              animate={{ opacity: 1, y: 0 }}
+                              exit={shouldReduceMotion ? undefined : { opacity: 0, y: -yOffset }}
+                              transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.25, ease: "easeOut" }}
+                            >
+                              <AnimatedPrice
+                                price={row.price}
+                                feedOffline={row.feed_offline}
+                                isDark={isDark}
+                                decimals={row.price >= 1000 ? 2 : row.price >= 10 ? 3 : 5}
+                              />
+                            </motion.div>
+                          </AnimatePresence>
+                        </div>
                       </div>
                     ) : (
                       <span className={cn("font-mono", isDark ? "text-white/40" : "text-mkt-i4")}>—</span>
@@ -699,7 +713,19 @@ export function ScreenerTable({
 
                   {/* 24h % (Right-aligned) with tweened ChangeBadge */}
                   <td className="py-3.5 px-4 text-right">
-                    <ChangeBadge changePct={row.changePct} feedOffline={row.feed_offline} theme={theme} />
+                    <div className="relative inline-flex items-center justify-end overflow-hidden">
+                      <AnimatePresence mode="popLayout" initial={false}>
+                        <motion.div
+                          key={`${row.slug}-c-${row.changePct}`}
+                          initial={shouldReduceMotion ? false : { opacity: 0, y: yOffset }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={shouldReduceMotion ? undefined : { opacity: 0, y: -yOffset }}
+                          transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.25, ease: "easeOut" }}
+                        >
+                          <ChangeBadge changePct={row.changePct} feedOffline={row.feed_offline} theme={theme} />
+                        </motion.div>
+                      </AnimatePresence>
+                    </div>
                   </td>
 
                   {/* RSI (Right-aligned) */}

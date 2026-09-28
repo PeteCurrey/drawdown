@@ -11,7 +11,7 @@ export const OCTOBER_ARTICLES: ArticleSeed[] = [
     readTime: "9 min read",
     heroImageUrl: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?q=80&w=800",
     focusKeyword: "Q3 2026 earnings season trading strategy",
-    metaTitle: "Q3 2026 Earnings Season Trading Playbook | Drawdown Trading",
+    metaTitle: "Q3 2026 Earnings Season Trading Playbook | Avorria Trading",
     metaDescription: "A systematic playbook for trading Q3 2026 earnings season — event timing, vol crush mechanics, straddle pricing, and how to avoid the most common retail traps.",
     relatedPostSlugs: ["september-seasonality-equities-statistical-edge", "jackson-hole-2026-neutral-rate-debate", "federal-reserve-september-rate-decision-playbook"],
     body: `
@@ -172,7 +172,7 @@ For UK CFD and spread bet traders approaching this earnings cycle:
 - [ ] Read the full earnings press release and management commentary transcript, not just the headline EPS
 - [ ] Check guidance vs consensus for direction signal
 
-Use the [Drawdown Position Size Calculator](/calculators/position-size) to size each earnings trade correctly against your account and current implied volatility environment.
+Use the [Avorria Position Size Calculator](/calculators/position-size) to size each earnings trade correctly against your account and current implied volatility environment.
 
 ---
 
@@ -210,7 +210,7 @@ Trade the aftermath, not the headline. The IV is already priced in.
     readTime: "10 min read",
     heroImageUrl: "https://images.unsplash.com/photo-1529107386315-e1a2ed48a620?q=80&w=800",
     focusKeyword: "UK Autumn Budget 2026 traders",
-    metaTitle: "UK Autumn Budget 2026: Trader Implications & Tax Guide | Drawdown Trading",
+    metaTitle: "UK Autumn Budget 2026: Trader Implications & Tax Guide | Avorria Trading",
     metaDescription: "A complete breakdown of UK Autumn Budget 2026 risks for traders — CGT, NIC changes, ISA rules, infrastructure spending, and which sectors are at risk or reward.",
     relatedPostSlugs: ["spread-betting-arbitrage-hmrc-rules-scalping", "isa-vs-spread-betting-account", "uk-trading-tax-guide"],
     body: `
@@ -374,7 +374,7 @@ The October 2026 Budget is the most material domestic fiscal event for UK trader
     readTime: "8 min read",
     heroImageUrl: "https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?q=80&w=800",
     focusKeyword: "US non-farm payrolls October 2026 Fed",
-    metaTitle: "US Non-Farm Payrolls October 2026 & Fed Implications | Drawdown Trading",
+    metaTitle: "US Non-Farm Payrolls October 2026 & Fed Implications | Avorria Trading",
     metaDescription: "A deep dive into reading US NFP correctly — headline vs participation, revisions, and what October's labour market data means for the Federal Reserve's next move.",
     relatedPostSlugs: ["federal-reserve-september-rate-decision-playbook", "jackson-hole-2026-neutral-rate-debate", "q3-earnings-season-playbook-2026"],
     body: `
@@ -509,7 +509,7 @@ The NFP number will either:
 
 Use the NFP outcome to calibrate your sector positioning for Q3 earnings season. The macro backdrop directly affects earnings guidance quality — CFOs operating in a tighter monetary environment will be more cautious on forward revenue commitments.
 
-For properly sizing your macro trades around high-volatility data events, use the [Drawdown Position Size Calculator](/calculators/position-size) to calculate position sizes that account for the elevated spread and volatility around the release.
+For properly sizing your macro trades around high-volatility data events, use the [Avorria Position Size Calculator](/calculators/position-size) to calculate position sizes that account for the elevated spread and volatility around the release.
 
 ---
 
@@ -527,7 +527,7 @@ NFP is one of the highest-quality systematic trading opportunities in the macro 
     readTime: "9 min read",
     heroImageUrl: "https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?q=80&w=800",
     focusKeyword: "Bank of Japan yen carry trade normalisation 2026",
-    metaTitle: "Bank of Japan Policy Normalisation & Yen Carry Trade Unwind 2026 | Drawdown Trading",
+    metaTitle: "Bank of Japan Policy Normalisation & Yen Carry Trade Unwind 2026 | Avorria Trading",
     metaDescription: "A comprehensive breakdown of the Bank of Japan's policy normalisation path, USDJPY dynamics, carry trade mechanics, and how to position the yen trade correctly.",
     relatedPostSlugs: ["anatomy-august-carry-trade-unwind", "jackson-hole-2026-neutral-rate-debate", "federal-reserve-september-rate-decision-playbook"],
     body: `
@@ -646,7 +646,7 @@ If the BoJ hikes and USDJPY falls 300 pips:
 Gain: 300 × £0.70 × 2 = £420 (+1.4% of account)
 \`\`\`
 
-Use the [Drawdown Position Size Calculator](/calculators/position-size) to stress test your yen positioning against tail-risk scenarios. The August 2026 unwind moved USDJPY 800+ pips over three days — model your maximum loss at that magnitude before allocating.
+Use the [Avorria Position Size Calculator](/calculators/position-size) to stress test your yen positioning against tail-risk scenarios. The August 2026 unwind moved USDJPY 800+ pips over three days — model your maximum loss at that magnitude before allocating.
 
 ---
 
@@ -684,7 +684,7 @@ The entry point matters enormously for risk management. At 147, with the BoJ hik
     readTime: "8 min read",
     heroImageUrl: "https://images.unsplash.com/photo-1610375461246-83df859d849d?q=80&w=800",
     focusKeyword: "gold price 2700 breakout 2026 trading strategy",
-    metaTitle: "Gold at $2,700: Structural Case & Q4 2026 Trading Framework | Drawdown Trading",
+    metaTitle: "Gold at $2,700: Structural Case & Q4 2026 Trading Framework | Avorria Trading",
     metaDescription: "Gold has broken to new all-time highs above $2,700. We break down the macro drivers — central bank demand, real yields, USD dynamics — and how to trade XAUUSD correctly.",
     relatedPostSlugs: ["anatomy-august-carry-trade-unwind", "order-flow-realities-footprint-charts-fx", "position-size-calculator"],
     body: `
@@ -781,7 +781,7 @@ Gain: £5 × 100 = £500 (+2% of account)
 
 Note the precision requirement for JPY-denominated pairs. Gold is denominated in USD, so UK spread betters using GBP accounts will have FX exposure. Your pip value will vary with GBPUSD.
 
-Use the [Drawdown Pip Value Calculator](/calculators/pip-value) to calculate your exact GBP-denominated risk per point for XAUUSD trades.
+Use the [Avorria Pip Value Calculator](/calculators/pip-value) to calculate your exact GBP-denominated risk per point for XAUUSD trades.
 
 ---
 
@@ -839,7 +839,7 @@ Gold at $2,700 is not a bubble. The structural drivers — central bank buying, 
     readTime: "7 min read",
     heroImageUrl: "https://images.unsplash.com/photo-1553729459-efe14ef6055d?q=80&w=800",
     focusKeyword: "prop firm rule changes 2026 challenge evaluation",
-    metaTitle: "Prop Firm Rule Changes October 2026 — What Challenge Traders Must Know | Drawdown Trading",
+    metaTitle: "Prop Firm Rule Changes October 2026 — What Challenge Traders Must Know | Avorria Trading",
     metaDescription: "Major prop firms have updated evaluation rules in October 2026. Our breakdown covers FTMO, The5ers, and others — news on trailing drawdown, scaling plans, and weekend holds.",
     relatedPostSlugs: ["trailing-drawdown-traps-modern-prop-evaluations", "solvency-stress-test-auditing-prop-firm-capital", "prop-firm-honest-review"],
     body: `
@@ -931,7 +931,7 @@ Rule Audit Checklist:
 □ Minimum RRR: what is your average trade RRR? Is it above any stated minimum?
 \`\`\`
 
-**Step 3: Use the Drawdown Prop Firm Challenge Simulator** at [/tools/challenge-simulator](/tools/challenge-simulator) to model your historical performance against the specific rules of your target firm.
+**Step 3: Use the Avorria Prop Firm Challenge Simulator** at [/tools/challenge-simulator](/tools/challenge-simulator) to model your historical performance against the specific rules of your target firm.
 
 ---
 
@@ -963,7 +963,7 @@ The prop firm landscape in 2026 is maturing — the firms that survive long-term
     readTime: "8 min read",
     heroImageUrl: "https://images.unsplash.com/photo-1518186285589-2f7649de83e0?q=80&w=800",
     focusKeyword: "execution latency slippage algorithmic trading backtesting",
-    metaTitle: "Execution Latency, Slippage & Backtesting Reality | Drawdown Trading",
+    metaTitle: "Execution Latency, Slippage & Backtesting Reality | Avorria Trading",
     metaDescription: "Why your backtest beats live performance — a technical breakdown of execution latency, slippage modelling, and how to build realistic simulation assumptions.",
     relatedPostSlugs: ["why-backtest-overfitting-kills-retail-algos", "order-flow-realities-footprint-charts-fx", "drawdown-survival-formula-asymmetric-payoffs"],
     body: `
@@ -1085,7 +1085,7 @@ elif order_direction == "SELL":
 
 Beyond deterministic slippage models, run Monte Carlo simulations on your strategy with randomised slippage drawn from a distribution (not a fixed value). This gives you a range of live performance expectations rather than a single backtest number.
 
-The Drawdown Backtester at [/dashboard/tools/backtester](/dashboard/tools/backtester) applies slippage and commission modelling as part of its simulation engine.
+The Avorria Backtester at [/dashboard/tools/backtester](/dashboard/tools/backtester) applies slippage and commission modelling as part of its simulation engine.
 
 ---
 
@@ -1126,20 +1126,20 @@ Model the friction. It is the difference between a funded account and a blown on
   // ── Article 8 — Fri 31 Oct 2026 ─────────────────────────────────────────
   {
     slug: "drawdown-october-2026-platform-update",
-    title: "Drawdown Platform Update: October 2026 — What's New and What's Coming",
+    title: "Avorria Platform Update: October 2026 — What's New and What's Coming",
     subtitle: "Position sizer improvements, new prop firm challenge simulator features, the social intelligence feed, and what we are building in November.",
-    category: "Inside Drawdown",
+    category: "Inside Avorria",
     publishedAt: "2026-10-31T08:00:00.000Z",
     readTime: "5 min read",
     heroImageUrl: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=800",
-    focusKeyword: "Drawdown Trading platform update October 2026",
-    metaTitle: "Drawdown Platform Update October 2026 — What's New | Drawdown Trading",
-    metaDescription: "The October 2026 Drawdown platform update — position sizer improvements, prop firm challenge simulator enhancements, social intelligence feed launch, and the November roadmap.",
+    focusKeyword: "Avorria Trading platform update October 2026",
+    metaTitle: "Avorria Platform Update October 2026 — What's New | Avorria Trading",
+    metaDescription: "The October 2026 Avorria platform update — position sizer improvements, prop firm challenge simulator enhancements, social intelligence feed launch, and the November roadmap.",
     relatedPostSlugs: ["institutional-market-surveillance-lobby-control-room", "solvency-stress-test-auditing-prop-firm-capital", "drawdown-survival-formula-asymmetric-payoffs"],
     body: `
-# Drawdown Platform Update: October 2026 — What's New and What's Coming
+# Avorria Platform Update: October 2026 — What's New and What's Coming
 
-October has been a significant month for the Drawdown platform. We have shipped substantial improvements to the tools, calculator infrastructure, and intelligence feed — and we have a clear product roadmap for November that builds on the foundations laid over the past three months.
+October has been a significant month for the Avorria platform. We have shipped substantial improvements to the tools, calculator infrastructure, and intelligence feed — and we have a clear product roadmap for November that builds on the foundations laid over the past three months.
 
 This is a transparent, honest account of what we have built, what works, and what we are still developing.
 
@@ -1164,7 +1164,7 @@ The Lobby has been significantly upgraded. The social intelligence ingestion pip
 
 - **Source claim** (what the source actually said)
 - **Verified facts** (independently verifiable data points)
-- **Drawdown interpretation** (our editorial perspective — clearly labelled)
+- **Avorria interpretation** (our editorial perspective — clearly labelled)
 
 This matters because conflating claims with verified facts is how retail traders get trapped by market narratives that are not grounded in data. The Lobby's design enforces this separation structurally.
 
@@ -1172,7 +1172,7 @@ The investor attention feed at the bottom of The Lobby homepage shows monitored 
 
 ### 3. Wire Integration
 
-The Wire (Drawdown's real-time news briefing layer) now includes investor attention items that have passed editorial review. These appear with full source attribution and are explicitly labelled as monitored social commentary rather than independently verified news.
+The Wire (Avorria's real-time news briefing layer) now includes investor attention items that have passed editorial review. These appear with full source attribution and are explicitly labelled as monitored social commentary rather than independently verified news.
 
 ### 4. Sitemap and SEO Infrastructure
 
@@ -1223,17 +1223,17 @@ The Lobby homepage makes multiple Supabase queries (articles, investor attention
 
 ## Transparency on Product Direction
 
-Drawdown is a platform being built by a small team, in public, with transparent communication about what works and what does not. We do not have venture capital backing or a marketing team inflating our capabilities.
+Avorria is a platform being built by a small team, in public, with transparent communication about what works and what does not. We do not have venture capital backing or a marketing team inflating our capabilities.
 
 What we do have: a clear editorial philosophy (data over narrative, honesty over hype), a growing body of genuinely useful trading infrastructure, and a commitment to building tools that serious independent traders can actually rely on.
 
 The November roadmap is ambitious but realistic. We will report back at the end of November with the same honest accounting of what shipped and what did not.
 
-If you are a member with specific tool requests or feedback, the most direct channel is the community forum or the contact form at hello@drawdown.trading. We read everything.
+If you are a member with specific tool requests or feedback, the most direct channel is the community forum or the contact form at hello@avorria.com. We read everything.
 
 ---
 
-October 2026 has been the most productive month for the Drawdown platform since launch. The editorial engine is generating consistent, substantive content. The tools are structurally sound. The intelligence feed is live.
+October 2026 has been the most productive month for the Avorria platform since launch. The editorial engine is generating consistent, substantive content. The tools are structurally sound. The intelligence feed is live.
 
 November is about depth, speed, and live data connectivity. Watch this space.
     `.trim(),

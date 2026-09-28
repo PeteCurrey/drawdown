@@ -1161,7 +1161,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     slug: 'trading-journal',
     definition: 'A record of all trades made, including the rationale, entry/exit points, and psychological state.',
     detailedExplanation: 'A journal is the most powerful tool for improvement, allowing you to identify patterns in your own behavior.',
-    example: 'Pete insists that all Drawdown students maintain a detailed trading journal.',
+    example: 'Pete insists that all Avorria students maintain a detailed trading journal.',
     relatedTerms: ['Psychology', 'Risk Management', 'Drawdown'],
     faqs: []
   },

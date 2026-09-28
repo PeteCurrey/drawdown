@@ -28,7 +28,7 @@ export default function TheEdgeSuccessPage() {
           {[
             { icon: Download, text: "Download the PDF from your email and save it to your device or print it." },
             { icon: Check, text: "Read Chapter 1 today — Understanding Liquidity. It changes how you see every chart." },
-            { icon: ArrowRight, text: "Log into your Drawdown dashboard to access your download at any time and track your progress." },
+            { icon: ArrowRight, text: "Log into your Avorria dashboard to access your download at any time and track your progress." },
           ].map((step, i) => (
             <div key={i} className="flex items-start gap-3">
               <step.icon className="w-4 h-4 mt-0.5 shrink-0 text-[#818cf8]" />

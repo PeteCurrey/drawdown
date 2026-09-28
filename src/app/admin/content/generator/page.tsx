@@ -143,7 +143,7 @@ export default function ContentGeneratorPage() {
                        <option>Tools</option>
                        <option>UK Trading</option>
                        <option>Algorithmic Trading</option>
-                       <option>Inside Drawdown</option>
+                       <option>Inside Avorria</option>
                     </select>
                  </div>
                  <div className="space-y-2">

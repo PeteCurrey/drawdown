@@ -9,7 +9,7 @@ import { getMetadata } from "@/lib/metadata";
 export const metadata: Metadata = getMetadata({
   title: "Avorria Memberships, Courses & Trading Manuals",
   description:
-    "Compare Drawdown Free, Foundation, Edge and Floor memberships. Permanent trading-manual downloads and the six-week Avorria Institutional Accelerator. Start free — no card required.",
+    "Compare Avorria Free, Foundation, Edge and Floor memberships. Permanent trading-manual downloads and the six-week Avorria Institutional Accelerator. Start free — no card required.",
   path: "/pricing",
   hasRegionalVariants: true,
 });
@@ -58,14 +58,14 @@ export default async function Page() {
   const productsStructuredData = {
     "@context": "https://schema.org",
     "@type": "ItemList",
-    name: "Drawdown Membership Plans",
+    name: "Avorria Membership Plans",
     itemListElement: [
       {
         "@type": "ListItem",
         position: 1,
         item: {
           "@type": "Product",
-          name: "Drawdown Free Membership",
+          name: "Avorria Free Membership",
           description:
             "Free access to Phase 1 curriculum, risk calculators and the manual trade journal. No card required.",
           offers: {
@@ -82,7 +82,7 @@ export default async function Page() {
         position: 2,
         item: {
           "@type": "Product",
-          name: "Drawdown Foundation Membership",
+          name: "Avorria Foundation Membership",
           description:
             "Foundation curriculum, risk framework, Market Intelligence Hub and core analysis tools.",
           offers: [
@@ -110,7 +110,7 @@ export default async function Page() {
         position: 3,
         item: {
           "@type": "Product",
-          name: "Drawdown Edge Membership",
+          name: "Avorria Edge Membership",
           description:
             "Advanced curriculum, Investment Centre, AI journal review, strategy backtester and advanced briefings.",
           offers: [
@@ -138,7 +138,7 @@ export default async function Page() {
         position: 4,
         item: {
           "@type": "Product",
-          name: "Drawdown Floor Membership",
+          name: "Avorria Floor Membership",
           description:
             "Full released platform with Investment Centre, private community channel and defined founder-led process reviews. Capped at 20 members.",
           offers: {

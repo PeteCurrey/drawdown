@@ -96,7 +96,7 @@ export function CheckoutConsentModal({
                 className="mt-1 h-4 w-4 shrink-0 rounded border-gray-300 text-blue-600 focus:ring-blue-500 accent-blue-600 cursor-pointer disabled:cursor-not-allowed"
               />
               <span className="text-[13px] leading-relaxed opacity-85 select-none">
-                I accept the Drawdown{" "}
+                I accept the Avorria{" "}
                 <Link href="/terms" target="_blank" className="underline hover:opacity-80">Terms and Conditions</Link>{" "}
                 and acknowledge the{" "}
                 <Link href="/privacy" target="_blank" className="underline hover:opacity-80">Privacy Policy</Link>. I confirm I am aged {LEGAL_CONFIG.minimumCustomerAge} or older. <span className="text-red-500">*</span>
@@ -113,7 +113,7 @@ export function CheckoutConsentModal({
                 className="mt-1 h-4 w-4 shrink-0 rounded border-gray-300 text-blue-600 focus:ring-blue-500 accent-blue-600 cursor-pointer disabled:cursor-not-allowed"
               />
               <span className="text-[13px] leading-relaxed opacity-85 select-none">
-                I request immediate supply and access to my digital content/subscription and agree that by checking this box, <strong>I waive my 14-day statutory right of cancellation</strong> under the UK Consumer Contracts Regulations 2013. I understand that the Drawdown {LEGAL_CONFIG.moneyBackGuaranteeDays}-day money-back guarantee remains fully applicable. <span className="text-red-500">*</span>
+                I request immediate supply and access to my digital content/subscription and agree that by checking this box, <strong>I waive my 14-day statutory right of cancellation</strong> under the UK Consumer Contracts Regulations 2013. I understand that the Avorria {LEGAL_CONFIG.moneyBackGuaranteeDays}-day money-back guarantee remains fully applicable. <span className="text-red-500">*</span>
               </span>
             </label>
 
@@ -127,7 +127,7 @@ export function CheckoutConsentModal({
                 className="mt-1 h-4 w-4 shrink-0 rounded border-gray-300 text-blue-600 focus:ring-blue-500 accent-blue-600 cursor-pointer disabled:cursor-not-allowed"
               />
               <span className="text-[13px] leading-relaxed opacity-85 select-none">
-                I agree to receive general educational articles, quantitative market analysis, and product updates from Drawdown. I can opt out at any time.
+                I agree to receive general educational articles, quantitative market analysis, and product updates from Avorria. I can opt out at any time.
               </span>
             </label>
           </div>

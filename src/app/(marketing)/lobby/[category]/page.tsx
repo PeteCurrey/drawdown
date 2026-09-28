@@ -33,9 +33,11 @@ export async function generateMetadata({ params }: CategoryPageProps): Promise<M
     return { title: "Category Not Found | The Lobby" };
   }
 
+  const displayName = category === "DRAWDOWN" ? "AVORRIA" : category;
+
   return getMetadata({
-    title: `${category} Intelligence & News | The Lobby`,
-    description: `Verified reporting, regulatory audits, and market intelligence regarding ${category} on Drawdown The Lobby.`,
+    title: `${displayName} Intelligence & News | The Lobby`,
+    description: `Verified reporting, regulatory audits, and market intelligence regarding ${displayName} on Avorria The Lobby.`,
     path: `/lobby/${categorySlug}`,
   });
 }
@@ -47,6 +49,8 @@ export default async function LobbyCategoryPage({ params }: CategoryPageProps) {
   if (!category) {
     notFound();
   }
+
+  const displayName = category === "DRAWDOWN" ? "AVORRIA" : category;
 
   const articles = await getLobbyArticles({
     category,
@@ -74,11 +78,11 @@ export default async function LobbyCategoryPage({ params }: CategoryPageProps) {
           </div>
 
           <h1 className="text-3xl sm:text-5xl font-display font-black tracking-[-0.03em] text-[#0B0E12] uppercase">
-            {category}
+            {displayName}
           </h1>
 
           <p className="mt-3 text-sm sm:text-base text-[#4B5157] font-sans max-w-2xl leading-relaxed">
-            Verified reporting, regulatory updates, and investigative intelligence covering {category.toLowerCase()} across global financial markets.
+            Verified reporting, regulatory updates, and investigative intelligence covering {displayName.toLowerCase()} across global financial markets.
           </p>
         </div>
       </header>

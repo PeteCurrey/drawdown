@@ -89,7 +89,7 @@ export default function TradingToolsHubPage() {
         <section className="bg-background-primary border border-border-slate/50 p-12 text-center space-y-6">
           <h2 className="text-3xl font-sans font-black text-text-primary uppercase tracking-tight">Looking for proprietary scanners?</h2>
           <p className="text-text-secondary text-sm max-w-xl mx-auto leading-relaxed">
-            Check out Drawdown's built-in AI tools, trading journals, and risk modelers under our proprietary tech catalog.
+            Check out Avorria's built-in AI tools, trading journals, and risk modelers under our proprietary tech catalog.
           </p>
           <div className="pt-4">
             <Link 

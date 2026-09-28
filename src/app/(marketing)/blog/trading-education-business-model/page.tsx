@@ -32,7 +32,7 @@ export default function TradingEducationBusinessModelPage() {
       "jobTitle": "Founder",
       "worksFor": {
         "@type": "Organization",
-        "name": "Drawdown",
+        "name": "Avorria",
         "url": "https://avorria.com"
       }
     },

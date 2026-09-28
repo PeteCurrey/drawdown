@@ -38,7 +38,7 @@ const CATEGORIES = [
     slug: "crypto" as const,
     name: "Cryptocurrencies",
     count: "24/7 Digital Assets",
-    desc: "High-beta digital assets (Bitcoin, Ethereum, XRP) covered in Drawdown's Phase 1 foundational modules.",
+    desc: "High-beta digital assets (Bitcoin, Ethereum, XRP) covered in Avorria's Phase 1 foundational modules.",
     badge: "Bitcoin, Ethereum, XRP",
     bgImage: "https://images.unsplash.com/photo-1621761191319-c6fb62004040?q=80&w=800"
   }
@@ -369,7 +369,7 @@ export function MarketsHubContent() {
                   Most market data sites bury you in numbers without context. They show you a price, a chart and a gauge — but nothing that helps you understand what you're actually looking at or how to trade it.
                 </p>
                 <p>
-                  Every page in the Drawdown Markets Hub connects live TradingView and Polygon.io data to curriculum context. You can see how we teach each instrument, what drives it fundamentally, when it's most active, and what kinds of setups work on it.
+                  Every page in the Avorria Markets Hub connects live TradingView and Polygon.io data to curriculum context. You can see how we teach each instrument, what drives it fundamentally, when it's most active, and what kinds of setups work on it.
                 </p>
               </div>
               <div className="mt-8">
@@ -506,7 +506,7 @@ export function MarketsHubContent() {
               href="/signup"
               className="bg-[#C8F135] text-black font-semibold px-8 py-3 rounded-lg hover:opacity-95 transition font-sans text-center"
             >
-              Start Free on Drawdown &rarr;
+              Start Free on Avorria &rarr;
             </Link>
             <Link
               href="/courses"

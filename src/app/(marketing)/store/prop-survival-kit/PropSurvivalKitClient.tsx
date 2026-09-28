@@ -298,7 +298,7 @@ export default function PropSurvivalKitPage() {
               
               <div className="text-base opacity-70 leading-relaxed space-y-4 font-sans">
                 <p>
-                  I'm Pete Currey. I built Drawdown because the trading education industry is full of people who profit from your confusion. The Prop Firm Survival Kit isn't a repurposed YouTube script. It's the document I compiled after watching traders in our community repeat the same expensive mistakes — and after making several of them myself.
+                  I'm Pete Currey. I built Avorria because the trading education industry is full of people who profit from your confusion. The Prop Firm Survival Kit isn't a repurposed YouTube script. It's the document I compiled after watching traders in our community repeat the same expensive mistakes — and after making several of them myself.
                 </p>
                 <p>
                   I've been trading live and managing capital in real markets since 2016. I understand what it means to operate with real stakes. When I approached prop trading, I treated it the same way I'd approach any high-stakes professional environment: understand the system first, execute second.
@@ -639,7 +639,7 @@ export default function PropSurvivalKitPage() {
               />
               <div className="flex-1">
                 <p className="text-sm font-bold uppercase text-[#C8F135] flex items-center gap-1.5 tracking-wide">
-                  <Zap className="w-4 h-4 fill-[#C8F135]" /> Add 30 Days of Drawdown Edge
+                  <Zap className="w-4 h-4 fill-[#C8F135]" /> Add 30 Days of Avorria Edge
                 </p>
                 <p className="text-xs text-white/60 mt-1 leading-relaxed font-sans">
                   Yes! Give me 30 days full access to the AI Trade Journal and Market Scanner to execute my challenge flawlessly. (Normally £29/mo, add today for just £19).

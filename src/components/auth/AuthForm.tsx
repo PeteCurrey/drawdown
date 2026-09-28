@@ -102,7 +102,7 @@ export function AuthForm({ mode }: AuthFormProps) {
         {/* Content */}
         <div className="relative z-10">
           <Link href="/" className="text-2xl font-sans font-extrabold tracking-[-0.04em] text-white">
-            Drawdown<span style={{ color: "#16A34A" }}>.</span>
+            Avorria<span style={{ color: "#16A34A" }}>.</span>
           </Link>
         </div>
 
@@ -136,7 +136,7 @@ export function AuthForm({ mode }: AuthFormProps) {
           {/* Mobile logo */}
           <div className="lg:hidden mb-4">
             <Link href="/" className="text-xl font-sans font-extrabold tracking-[-0.04em] text-mkt-ink">
-              Drawdown<span className="text-mkt-grn">.</span>
+              Avorria<span className="text-mkt-grn">.</span>
             </Link>
           </div>
 

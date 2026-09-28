@@ -31,7 +31,7 @@ function getFiles(dir) {
 }
 
 function lintClaims() {
-  console.log("🔍 Running Drawdown Claims Linter...");
+  console.log("🔍 Running Avorria Claims Linter...");
   const files = getFiles(SCAN_DIR);
   let totalViolations = 0;
 

@@ -38,7 +38,7 @@ export default async function WireArchivePage() {
         <div className="max-w-[1320px] mx-auto text-center space-y-4">
           <div className="inline-flex items-center gap-2 px-3 py-1 font-mono text-[11px] uppercase tracking-widest bg-[#EAE8E1] text-[#4B5157] border border-[#DEDDD8]">
             <Sparkles className="w-3 h-3 text-[#2563eb]" />
-            DRAWDOWN BRIEFING LAYER
+            AVORRIA BRIEFING LAYER
           </div>
           <h1 className="font-serif text-4xl sm:text-6xl font-black uppercase tracking-tight text-[#0B0E12]">
             THE WIRE

@@ -136,7 +136,7 @@ const { error: seoError } = await supabase.from('blog_post_seo').insert({
   og_title: 'Prop Firm vs Funding Your Own Account: Which Should You Start With?',
   og_description: 'A prop firm challenge looks like a shortcut to bigger size sooner. It is a trade-off, not a cheat code. Here is how to decide.',
   og_image_url: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=1200&q=80',
-  canonical_url: `https://drawdown.trading/blog/${SLUG}`,
+  canonical_url: `https://avorria.com/blog/${SLUG}`,
   schema_type: 'BlogPosting',
   no_index: false,
   focus_keyword: 'prop firm vs personal trading account',
@@ -144,4 +144,4 @@ const { error: seoError } = await supabase.from('blog_post_seo').insert({
 if (seoError) { console.warn(`⚠️   SEO failed: ${seoError.message}`); }
 else { console.log('✅  blog_post_seo created.'); }
 
-console.log(`\n🎉  Done!\n    Slug:  ${SLUG}\n    ID:    ${postId}\n    URL:   https://drawdown.trading/blog/${SLUG}\n`);
+console.log(`\n🎉  Done!\n    Slug:  ${SLUG}\n    ID:    ${postId}\n    URL:   https://avorria.com/blog/${SLUG}\n`);

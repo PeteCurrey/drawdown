@@ -784,7 +784,7 @@ export const BEST_OF_PAGES: BestOfPage[] = [
         id: 'drawdown-risk-calculator',
         name: 'Drawdown Risk Calculator',
         description: 'Our calculator is built for speed. It handles complex pip value calculations across all major pairs and accounts for your specific account currency automatically.',
-        pros: ['Ultra-fast calculations', 'Works on all devices', 'Integrated with Drawdown terminal'],
+        pros: ['Ultra-fast calculations', 'Works on all devices', 'Integrated with Avorria terminal'],
         cons: ['Basic features (by design)'],
         bestFor: 'Active traders who need to move fast',
         ctaLink: '/tools/risk-calculator'
@@ -804,7 +804,7 @@ export const BEST_OF_PAGES: BestOfPage[] = [
     eyebrow: '// DRAWDOWN GUIDE',
     lastUpdated: '2026-04-22',
     targetKeywords: ['best trading course UK', 'best day trading course UK 2026'],
-    metaDescription: 'Don\'t get scammed by Instagram gurus. We provide honest reviews of the top UK trading courses, including Drawdown, LAT, and more.',
+    metaDescription: 'Don\'t get scammed by Instagram gurus. We provide honest reviews of the top UK trading courses, including Avorria, LAT, and more.',
     comparisonTable: [
       { rank: 1, name: 'Avorria Academy', bestFor: 'Practical Edge', keyStat: '6 Phases', rating: 5.0, link: '/courses' },
       { rank: 2, name: 'London Academy of Trading', bestFor: 'Accreditation', keyStat: 'Campus Based', rating: 4.7, link: 'https://www.lat.london' },
@@ -815,7 +815,7 @@ export const BEST_OF_PAGES: BestOfPage[] = [
       {
         id: 'drawdown-academy',
         name: 'Avorria Academy',
-        description: 'We aren\'t unbiased, but we are honest. We built Drawdown to be the course we wish we had: zero fluff, institutional concepts, and a focus on the business of risk management.',
+        description: 'We aren\'t unbiased, but we are honest. We built Avorria to be the course we wish we had: zero fluff, institutional concepts, and a focus on the business of risk management.',
         pros: ['Structured, logic-based curriculum', 'No "get rich quick" promises', 'Integrated with pro tools'],
         cons: ['Not for people who want easy answers'],
         bestFor: 'Aspiring professional traders',
@@ -1071,7 +1071,7 @@ export const BEST_OF_PAGES: BestOfPage[] = [
     metaDescription: 'You don\'t need a Â£500/month professional data terminal. We curate the best free tools for analysis, risk management, and news.',
     comparisonTable: [
       { rank: 1, name: 'TradingView Free', bestFor: 'Charting', keyStat: 'Cloud Based', rating: 4.9, link: '/go/tradingview' },
-      { rank: 2, name: 'Drawdown Free Hub', bestFor: 'Daily Insight', keyStat: 'AI Analysis', rating: 4.8, link: '/' },
+      { rank: 2, name: 'Avorria Free Hub', bestFor: 'Daily Insight', keyStat: 'AI Analysis', rating: 4.8, link: '/' },
       { rank: 3, name: 'Forex Factory', bestFor: 'News Calendar', keyStat: 'Real-time', rating: 4.7, link: 'https://forexfactory.com' },
     ],
     introduction: 'In the beginning, your overheads should be as close to zero as possible. We have collected the best free tools in the industry that provide professional-grade data without a monthly subscription.',
@@ -1418,7 +1418,7 @@ export const BEST_OF_PAGES: BestOfPage[] = [
     reviews: [
       {
         id: 'drawdown-discord',
-        name: 'Drawdown Community',
+        name: 'Avorria Community',
         description: 'Our internal community focused on institutional logic and behavioral data. No "lambos," just hard work.',
         pros: ['Deep educational focus', 'Direct access to experienced traders', 'Integrated with Avorria tools'],
         cons: ['Not for those looking for quick "signals"', 'Monthly fee (unless funded)'],

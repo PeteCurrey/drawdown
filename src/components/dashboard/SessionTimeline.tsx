@@ -2,9 +2,29 @@
 
 import React, { useEffect, useState } from "react";
 
+interface SessionStatus {
+  isOpen: boolean;
+  name: string;
+}
+
+function getSessionStatus(now: Date): SessionStatus {
+  const day = now.getUTCDay();
+  const hours = now.getUTCHours();
+  // Forex & commodities close Friday 22:00 UTC and reopen Sunday 22:00 UTC
+  const isWeekend = day === 6 || (day === 0 && hours < 22) || (day === 5 && hours >= 22);
+  if (isWeekend) {
+    return { isOpen: false, name: "Markets Closed" };
+  }
+  if (hours >= 8 && hours < 13) return { isOpen: true, name: "London" };
+  if (hours >= 13 && hours < 17) return { isOpen: true, name: "London / NY" };
+  if (hours >= 17 && hours < 22) return { isOpen: true, name: "New York" };
+  return { isOpen: true, name: "Tokyo" };
+}
+
 export function SessionTimeline() {
   const [currentTime, setCurrentTime] = useState<string>("");
   const [markerPct, setMarkerPct] = useState<number>(50);
+  const [session, setSession] = useState<SessionStatus>({ isOpen: true, name: "Active" });
 
   useEffect(() => {
     const updateTime = () => {
@@ -21,6 +41,7 @@ export function SessionTimeline() {
       const minutes = now.getUTCMinutes();
       const totalMinutes = hours * 60 + minutes;
       setMarkerPct((totalMinutes / 1440) * 100);
+      setSession(getSessionStatus(now));
     };
 
     updateTime();
@@ -32,9 +53,13 @@ export function SessionTimeline() {
     <div className="fixed bottom-0 left-0 lg:left-[220px] right-0 h-10 bg-[#FAFAF9] border-t border-[#E8E6E1] flex items-center justify-between px-6 z-40 text-xs text-[#1A1A1A]">
       {/* Left session indicators */}
       <div className="flex items-center gap-2 shrink-0">
-        <span className="w-1.5 h-1.5 rounded-full bg-[#18B880] animate-pulse" />
+        <span className={`w-1.5 h-1.5 rounded-full ${session.isOpen ? "bg-[#18B880] animate-pulse" : "bg-[#888882]"}`} />
         <span className="text-[11px] font-medium text-[#4A4A47]">
-          Session <span className="text-[#18B880] font-semibold">Active</span>
+          {session.isOpen ? (
+            <>Session <span className="text-[#18B880] font-semibold">{session.name} Active</span></>
+          ) : (
+            <span className="text-[#888882] font-semibold">Markets Closed (Weekend)</span>
+          )}
         </span>
       </div>
 

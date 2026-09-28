@@ -40,7 +40,7 @@ export const TheWireTemplate = ({
         <Container style={container}>
           {/* Header */}
           <Section style={header}>
-            <Text style={logo}>DRAWDOWN.</Text>
+            <Text style={logo}>AVORRIA.</Text>
             <Text style={editionLabel}>
               THE WIRE • {type.toUpperCase()}
             </Text>
@@ -62,7 +62,7 @@ export const TheWireTemplate = ({
                 <Section key={section.key} style={petesTakeWrapper}>
                   <Text style={pillLabel}>PETE'S TAKE</Text>
                   <Text style={petesContent}>{section.content}</Text>
-                  <Text style={byline}>— Pete Currey, Founder // Drawdown</Text>
+                  <Text style={byline}>— Pete Currey, Founder // Avorria</Text>
                 </Section>
                );
             }
@@ -82,11 +82,11 @@ export const TheWireTemplate = ({
             <Text style={overline}>// ACCESS THE FULL PLATFORM</Text>
             <Text style={ctaHeadline}>Your edge doesn't end here.</Text>
             <Text style={ctaBody}>
-              Everything in The Wire connects back to the tools and curriculum inside Drawdown. Phase 1 is free.
+              Everything in The Wire connects back to the tools and curriculum inside Avorria. Phase 1 is free.
             </Text>
             <Section style={buttonWrapper}>
                <a href="https://avorria.com/signup?source=wire_email" style={button}>
-                 EXPLORE DRAWDOWN →
+                 EXPLORE AVORRIA →
                </a>
             </Section>
           </Section>
@@ -94,10 +94,10 @@ export const TheWireTemplate = ({
           {/* Footer */}
           <Section style={footer}>
             <Text style={footerText}>
-              © 2026 Drawdown. Established in Chesterfield, UK.
+              © 2026 Avorria. Established in Chesterfield, UK.
             </Text>
             <Text style={footerText}>
-              Drawdown is a trading education platform. Not financial advice.
+              Avorria is a trading education platform. Not financial advice.
             </Text>
             <Text style={footerText}>
               <a href="{{unsubscribeUrl}}" style={footerLink}>Unsubscribe</a> • 

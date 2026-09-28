@@ -99,9 +99,9 @@ export default async function ModuleMarketingPage({ params }: Props) {
     "description": details.description,
     "provider": {
       "@type": "Organization",
-      "name": "Drawdown",
+      "name": "Avorria",
       "url": "https://avorria.com",
-      "sameAs": ["https://twitter.com/drawdown_hq"]
+      "sameAs": ["https://twitter.com/avorriatrading"]
     },
     "author": {
       "@type": "Person",

@@ -148,7 +148,22 @@ export function useMarketIntelligence(
           atr: data.atrCurrent,
         };
 
-        const bias = calculateBiasScore(indicators, price);
+        const bias: BiasScore = data.composite_bias && data.composite_bias.score !== null
+          ? {
+              score: data.composite_bias.score,
+              direction: data.composite_bias.direction === "BULLISH" ? "bullish" : data.composite_bias.direction === "BEARISH" ? "bearish" : "neutral",
+              strength: data.composite_bias.score >= 70 || data.composite_bias.score <= 30 ? "strong" : data.composite_bias.score >= 60 || data.composite_bias.score <= 40 ? "moderate" : "weak",
+              label: data.composite_bias.direction === "BULLISH" ? (data.composite_bias.score >= 75 ? "Strong Bullish" : "Bullish") : data.composite_bias.direction === "BEARISH" ? (data.composite_bias.score <= 25 ? "Strong Bearish" : "Bearish") : "Neutral",
+              conflictNodes: [],
+              nodeSignals: {
+                rsi: (data.rsi ?? 50) >= 55 ? "bullish" : (data.rsi ?? 50) <= 45 ? "bearish" : "neutral",
+                ema: data.price && data.ema50 ? (data.price > data.ema50 ? "bullish" : "bearish") : "neutral",
+              },
+              totalSignals: 4,
+              bullishSignals: data.composite_bias.direction === "BULLISH" ? 3 : 1,
+              bearishSignals: data.composite_bias.direction === "BEARISH" ? 3 : 1,
+            }
+          : calculateBiasScore(indicators, price);
 
         return { quote, indicators, keyLevels, bias, is_fallback: data.is_fallback === true };
       } catch (err: any) {

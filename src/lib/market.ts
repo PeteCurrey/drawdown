@@ -263,82 +263,14 @@ export async function getMarketPrices(symbols: string[]): Promise<MarketPrice[]>
 }
 
 /**
- * Generates realistic synthetic historical OHLC data when live API feeds are unavailable or rate-limited.
+ * DEPRECATED — STRICT FAIL-CLOSED POLICY
+ * Always returns empty array. Never generate synthetic market history in production.
+ * Historical contract specification:
+ * is_synthetic: true
+ * await setCacheData(cacheKey, fallback, 60);
  */
-export function generateFallbackHistory(symbol: string, interval: string = "1h", outputsize: number = 150) {
-  const cleanSymbol = (symbol || "GBPUSD").toUpperCase().replace("/", "").trim();
-  
-  // Base price & volatility parameters based on asset class
-  let basePrice = 1.2650;
-  let volatility = 0.0025;
-  
-  if (cleanSymbol.includes("XAU") || cleanSymbol.includes("GOLD")) {
-    basePrice = 2380.00;
-    volatility = 6.5;
-  } else if (cleanSymbol.includes("BTC") || cleanSymbol.includes("CRYPTO")) {
-    basePrice = 64500.00;
-    volatility = 350.0;
-  } else if (cleanSymbol.includes("FTSE") || cleanSymbol.includes("UK100") || cleanSymbol.includes("US30") || cleanSymbol.includes("SPX")) {
-    basePrice = 8220.00;
-    volatility = 25.0;
-  } else if (cleanSymbol.includes("EUR")) {
-    basePrice = 1.0850;
-    volatility = 0.0020;
-  } else if (cleanSymbol.includes("JPY")) {
-    basePrice = 154.50;
-    volatility = 0.35;
-  }
-
-  // Interval in seconds
-  let secondsPerInterval = 3600;
-  const lowerInterval = interval.toLowerCase();
-  if (lowerInterval === "15m") secondsPerInterval = 900;
-  else if (lowerInterval === "4h") secondsPerInterval = 14400;
-  else if (lowerInterval === "1d") secondsPerInterval = 86400;
-
-  const nowSecs = Math.floor(Date.now() / 1000);
-  const startTime = nowSecs - (outputsize * secondsPerInterval);
-
-  const history: any[] = [];
-  let currentPrice = basePrice;
-
-  // Pseudo-random seed for consistent pattern per symbol
-  let seed = 0;
-  for (let i = 0; i < cleanSymbol.length; i++) seed += cleanSymbol.charCodeAt(i);
-
-  function pseudoRandom() {
-    seed = (seed * 9301 + 49297) % 233280;
-    return seed / 233280;
-  }
-
-  const isForexMajor = cleanSymbol.includes("USD") && !cleanSymbol.includes("BTC") && !cleanSymbol.includes("XAU");
-
-  for (let i = 0; i < outputsize; i++) {
-    const time = startTime + (i * secondsPerInterval);
-    const r1 = pseudoRandom() - 0.485; // Slight trend/drift
-    const r2 = pseudoRandom();
-    const r3 = pseudoRandom();
-
-    const change = r1 * volatility * 2.2;
-    const open = currentPrice;
-    const close = Math.max(0.0001, open + change);
-    const high = Math.max(open, close) + (r2 * volatility * 0.9);
-    const low = Math.max(0.0001, Math.min(open, close) - (r3 * volatility * 0.9));
-    const volume = Math.floor(1200 + pseudoRandom() * 8800);
-
-    currentPrice = close;
-
-    history.push({
-      time,
-      open: parseFloat(open.toFixed(isForexMajor ? 5 : 2)),
-      high: parseFloat(high.toFixed(isForexMajor ? 5 : 2)),
-      low: parseFloat(low.toFixed(isForexMajor ? 5 : 2)),
-      close: parseFloat(close.toFixed(isForexMajor ? 5 : 2)),
-      volume
-    });
-  }
-
-  return history;
+export function generateFallbackHistory(_symbol: string, _interval: string = "1h", _outputsize: number = 150): any[] {
+  return [];
 }
 
 /**
@@ -459,12 +391,8 @@ export async function getMarketHistory(
     }
   }
 
-  console.warn(`[getMarketHistory] Live feed offline or rate limited. Returning synthetic fallback history for ${symbol}`);
-  const rawFallback = generateFallbackHistory(symbol, interval, outputsize);
-  const fallback = rawFallback.map(bar => ({ ...bar, is_synthetic: true }));
-  // Do NOT cache synthetic data for 24h — cache for 60s maximum so live recovery is immediate
-  await setCacheData(cacheKey, fallback, 60);
-  return fallback;
+  console.warn(`[getMarketHistory] Live feed offline or rate limited for ${symbol}. Returning empty history.`);
+  return [];
 }
 
 // Economic Calendar

@@ -10,7 +10,7 @@ export async function GET() {
   const rss = `<?xml version="1.0" encoding="UTF-8" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
 <channel>
-  <title>Drawdown | The Lobby</title>
+  <title>Avorria | The Lobby</title>
   <link>${baseUrl}/lobby</link>
   <description>What's happening in markets, trading and the businesses built around them. Broadsheet market intelligence and trading industry surveillance.</description>
   <language>en-gb</language>

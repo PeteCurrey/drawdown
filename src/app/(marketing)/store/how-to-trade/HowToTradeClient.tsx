@@ -202,7 +202,7 @@ export default function HowToTradeClient() {
               </div>
               <h2 className="text-3xl font-bold uppercase mb-6">Built by a Trader Who Has Actually Done It</h2>
               <div className="space-y-4 text-sm text-[#7A7D85] leading-relaxed">
-                <p>Pete has traded live funded accounts across forex, indices and commodities for years. He built Drawdown because he couldn't find a single resource that taught trading the way he wished he'd been taught when he started.</p>
+                <p>Pete has traded live funded accounts across forex, indices and commodities for years. He built Avorria because he couldn't find a single resource that taught trading the way he wished he'd been taught when he started.</p>
                 <p>This guide isn't recycled YouTube content. It's the exact framework Pete uses — written the way he thinks, structured the way he teaches.</p>
               </div>
             </div>
@@ -285,7 +285,7 @@ export default function HowToTradeClient() {
                 "Market structure, sessions, execution & risk",
                 "Written by a funded trader, not a content creator",
                 "Keep forever — no subscriptions, no expiry",
-                "Companion access to your Drawdown dashboard",
+                "Companion access to your Avorria dashboard",
               ].map(item => (
                 <div key={item} className="flex items-center gap-3">
                   <Check className="w-4 h-4 shrink-0" style={{ color: ACC }} />

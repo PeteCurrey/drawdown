@@ -147,7 +147,7 @@ const { error: seoError } = await supabase.from('blog_post_seo').insert({
   og_title: 'Is Forex Trading Safe? What Regulation Actually Protects You From',
   og_description: '"Safe" is the wrong word. The right question is what FCA regulation specifically protects and what remains entirely your risk.',
   og_image_url: 'https://images.unsplash.com/photo-1507413245164-6160d8298b31?w=1200&q=80',
-  canonical_url: `https://drawdown.trading/blog/${SLUG}`,
+  canonical_url: `https://avorria.com/blog/${SLUG}`,
   schema_type: 'BlogPosting',
   no_index: false,
   focus_keyword: 'is forex trading safe',
@@ -155,4 +155,4 @@ const { error: seoError } = await supabase.from('blog_post_seo').insert({
 if (seoError) { console.warn(`⚠️   SEO failed: ${seoError.message}`); }
 else { console.log('✅  blog_post_seo created.'); }
 
-console.log(`\n🎉  Done!\n    Slug:  ${SLUG}\n    ID:    ${postId}\n    URL:   https://drawdown.trading/blog/${SLUG}\n`);
+console.log(`\n🎉  Done!\n    Slug:  ${SLUG}\n    ID:    ${postId}\n    URL:   https://avorria.com/blog/${SLUG}\n`);

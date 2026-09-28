@@ -1,5 +1,5 @@
 /**
- * Drawdown Trading — Authenticated Browser E2E Journeys
+ * Avorria Trading — Authenticated Browser E2E Journeys
  *
  * Phase: Final Release Clearance — Authenticated Critical Path
  *

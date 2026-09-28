@@ -4,26 +4,14 @@ export const revalidate = 60; // 60s cache
 
 interface SnapshotData {
   symbol: string;
-  price: number;
-  changePercent: number;
-  high?: number;
-  low?: number;
-  volume?: number;
+  price: number | null;
+  changePercent: number | null;
+  high?: number | null;
+  low?: number | null;
+  volume?: number | null;
   source: string;
+  status: "LIVE" | "UNAVAILABLE";
 }
-
-const FALLBACK_PRICES: Record<string, { price: number; changePercent: number }> = {
-  GBPUSD: { price: 1.2845, changePercent: 0.15 },
-  EURUSD: { price: 1.0892, changePercent: -0.08 },
-  USDJPY: { price: 154.20, changePercent: 0.32 },
-  XAUUSD: { price: 2384.50, changePercent: 0.85 },
-  XAGUSD: { price: 28.40, changePercent: 1.12 },
-  BTCUSD: { price: 68420.00, changePercent: 2.45 },
-  ETHUSD: { price: 3450.00, changePercent: 1.80 },
-  SPX: { price: 5480.20, changePercent: 0.42 },
-  NDX: { price: 19850.00, changePercent: 0.65 },
-  UK100: { price: 8220.00, changePercent: -0.15 },
-};
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -38,7 +26,6 @@ export async function GET(request: Request) {
       let data: SnapshotData | null = null;
       if (polygonKey) {
         try {
-          // Normalize symbol format for Polygon
           let endpoint = "";
           const cleanSym = sym.replace("/", "");
 
@@ -47,7 +34,6 @@ export async function GET(request: Request) {
           } else if (["BTCUSD", "ETHUSD", "XRPUSD"].includes(cleanSym)) {
             endpoint = `https://api.polygon.io/v2/snapshot/locale/global/markets/crypto/tickers/X:${cleanSym}?apiKey=${polygonKey}`;
           } else {
-            // General ticker prev close / agg snapshot
             const polyTicker = cleanSym === "XAUUSD" ? "C:XAUUSD" : cleanSym === "SPX" ? "I:SPX" : cleanSym;
             endpoint = `https://api.polygon.io/v2/aggs/ticker/${polyTicker}/prev?adjusted=true&apiKey=${polygonKey}`;
           }
@@ -64,10 +50,11 @@ export async function GET(request: Request) {
                   symbol: sym,
                   price: parseFloat(price.toFixed(4)),
                   changePercent: parseFloat(changePercent.toFixed(2)),
-                  high: t.day?.h,
-                  low: t.day?.l,
-                  volume: t.day?.v,
+                  high: t.day?.h ?? null,
+                  low: t.day?.l ?? null,
+                  volume: t.day?.v ?? null,
                   source: "Polygon.io Realtime",
+                  status: "LIVE",
                 };
               }
             } else if (json.results && json.results.length > 0) {
@@ -79,10 +66,11 @@ export async function GET(request: Request) {
                 symbol: sym,
                 price: parseFloat(price.toFixed(4)),
                 changePercent: parseFloat(changePercent.toFixed(2)),
-                high: r.h,
-                low: r.l,
-                volume: r.v,
+                high: r.h ?? null,
+                low: r.l ?? null,
+                volume: r.v ?? null,
                 source: "Polygon.io Aggs",
+                status: "LIVE",
               };
             }
           }
@@ -91,13 +79,17 @@ export async function GET(request: Request) {
         }
       }
 
+      // FAIL-CLOSED: If no real data, return explicit null/unavailable state. NEVER fabricate static prices.
       if (!data) {
-        const fb = FALLBACK_PRICES[sym] || { price: 100.0, changePercent: 0.0 };
         data = {
           symbol: sym,
-          price: fb.price,
-          changePercent: fb.changePercent,
-          source: polygonKey ? "Fallback (Polygon returned 404/Empty)" : "Mock Data",
+          price: null,
+          changePercent: null,
+          high: null,
+          low: null,
+          volume: null,
+          source: polygonKey ? "Polygon.io (Unavailable)" : "Polygon Unconfigured",
+          status: "UNAVAILABLE",
         };
       }
 

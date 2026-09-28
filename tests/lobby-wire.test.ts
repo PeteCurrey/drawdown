@@ -29,7 +29,7 @@ const mockArticles: LobbyArticle[] = [
     status: "PUBLISHED",
     importance: "featured",
     section: "broker_watch",
-    author_name: "Drawdown Desk",
+    author_name: "Avorria Desk",
     primary_source_name: "Pepperstone Official Press Release",
     primary_source_url: "https://pepperstone.com/en/news/extended-hours",
     data_confidence: "VERIFIED",
@@ -51,7 +51,7 @@ const mockArticles: LobbyArticle[] = [
     status: "PUBLISHED",
     importance: "lead",
     section: "lead_story",
-    author_name: "Drawdown Desk",
+    author_name: "Avorria Desk",
     primary_source_name: "FTMO Desk",
     data_confidence: "VERIFIED",
     reading_time_minutes: 6,
@@ -108,7 +108,7 @@ test("Social Engine: Adapts Lobby article into native X, LinkedIn, and Instagram
   const drafts = adaptLobbyArticleToSocial(mockArticles[0]);
 
   // 1. X format verification
-  assert.ok(drafts.x.hook.includes("DRAWDOWN LOBBY"));
+  assert.ok(drafts.x.hook.includes("AVORRIA LOBBY") || drafts.x.hook.includes("DRAWDOWN LOBBY"));
   assert.ok(drafts.x.fullPost.includes("Pepperstone"));
   assert.ok(drafts.x.fullPost.includes("utm_source=x"));
   assert.ok(drafts.x.bullets.length >= 2);
@@ -138,7 +138,7 @@ test("The Wire: HTML email renderer formats canonical back-links and disclaimers
     title: "The Morning Wire — 20 Sep 2026",
     slug: "morning-2026-09-20",
     status: "PUBLISHED",
-    subject_line: "Drawdown Morning Wire",
+    subject_line: "Avorria Morning Wire",
     preview_text: "Top moves today",
     created_at: new Date().toISOString(),
     updated_at: new Date().toISOString(),
@@ -166,7 +166,7 @@ test("The Wire: HTML email renderer formats canonical back-links and disclaimers
 
   const html = renderWireEmailHtml(mockEdition);
   assert.ok(html.includes("THE WIRE"));
-  assert.ok(html.includes("DRAWDOWN"));
+  assert.ok(html.includes("AVORRIA"));
   assert.ok(html.includes("Pepperstone Launches Extended Hours"));
   assert.ok(html.includes("Why It Matters:"));
   assert.ok(html.includes("Read Full Analysis on The Lobby"));

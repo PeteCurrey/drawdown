@@ -28,7 +28,7 @@ export default function HowToTradeSuccessPage() {
           {[
             { icon: Download, text: "Download the PDF from your email and save it to your device or cloud storage." },
             { icon: Check, text: "Read Chapter 1 today — The Trader's Mindset. It reframes everything." },
-            { icon: ArrowRight, text: "Log into your Drawdown dashboard to track your progress alongside the guide." },
+            { icon: ArrowRight, text: "Log into your Avorria dashboard to track your progress alongside the guide." },
           ].map((step, i) => (
             <div key={i} className="flex items-start gap-3">
               <step.icon className="w-4 h-4 mt-0.5 shrink-0 text-[#F9771D]" />

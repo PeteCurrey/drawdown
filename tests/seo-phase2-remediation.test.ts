@@ -41,8 +41,8 @@ test('SEO Phase 2: Homepage metadata is concise and communicates brand propositi
   const homePath = path.join(process.cwd(), 'src/app/(marketing)/page.tsx');
   const content = fs.readFileSync(homePath, 'utf8');
 
-  assert.ok(content.includes('title: "Drawdown — Trading Risk & Operating System"'), 'Homepage title must be concise Drawdown — Trading Risk & Operating System');
-  assert.ok(content.includes('canonical: "https://drawdown.trading"'), 'Homepage canonical must be https://drawdown.trading');
+  assert.ok(content.includes('title: "Avorria Trading — Quantitative Market Intelligence & Operating System"'), 'Homepage title must be concise Avorria Trading — Quantitative Market Intelligence & Operating System');
+  assert.ok(content.includes('canonical: "https://avorria.com"'), 'Homepage canonical must be https://avorria.com');
 });
 
 test('SEO Phase 2: Tools [slug] is a Server Component with generateMetadata and generateStaticParams', () => {
@@ -75,16 +75,16 @@ test('SEO Phase 2: sitemap includes all 9 calculators, courses, tools, prop-firm
 
   // All 9 calculators
   const expectedCalculators = [
-    'https://drawdown.trading/calculators',
-    'https://drawdown.trading/calculators/position-size',
-    'https://drawdown.trading/calculators/risk',
-    'https://drawdown.trading/calculators/drawdown',
-    'https://drawdown.trading/calculators/drawdown-recovery',
-    'https://drawdown.trading/calculators/pip-value',
-    'https://drawdown.trading/calculators/compounding',
-    'https://drawdown.trading/calculators/risk-of-ruin',
-    'https://drawdown.trading/calculators/prop-firm-daily-loss',
-    'https://drawdown.trading/calculators/prop-firm-maximum-loss',
+    'https://avorria.com/calculators',
+    'https://avorria.com/calculators/position-size',
+    'https://avorria.com/calculators/risk',
+    'https://avorria.com/calculators/drawdown',
+    'https://avorria.com/calculators/drawdown-recovery',
+    'https://avorria.com/calculators/pip-value',
+    'https://avorria.com/calculators/compounding',
+    'https://avorria.com/calculators/risk-of-ruin',
+    'https://avorria.com/calculators/prop-firm-daily-loss',
+    'https://avorria.com/calculators/prop-firm-maximum-loss',
   ];
 
   for (const calcUrl of expectedCalculators) {
@@ -92,14 +92,14 @@ test('SEO Phase 2: sitemap includes all 9 calculators, courses, tools, prop-firm
   }
 
   // Check dynamic routes included
-  assert.ok(urls.includes('https://drawdown.trading/courses/ground-zero'), 'Sitemap must include courses');
-  assert.ok(urls.includes('https://drawdown.trading/tools/ai-trade-journal'), 'Sitemap must include tools');
-  assert.ok(urls.includes('https://drawdown.trading/prop-firms/ftmo'), 'Sitemap must include FTMO review');
-  assert.ok(urls.includes('https://drawdown.trading/brokers/all'), 'Sitemap must include brokers/all');
+  assert.ok(urls.includes('https://avorria.com/courses/ground-zero'), 'Sitemap must include courses');
+  assert.ok(urls.includes('https://avorria.com/tools/ai-trade-journal'), 'Sitemap must include tools');
+  assert.ok(urls.includes('https://avorria.com/prop-firms/ftmo'), 'Sitemap must include FTMO review');
+  assert.ok(urls.includes('https://avorria.com/brokers/all'), 'Sitemap must include brokers/all');
 
   // Check exclusions
-  assert.ok(!urls.includes('https://drawdown.trading/brokers'), 'Sitemap must NOT include /brokers redirecting URL');
-  assert.ok(!urls.includes('https://drawdown.trading/brokers/best-for-gold'), 'Sitemap must NOT include noindex route best-for-gold');
+  assert.ok(!urls.includes('https://avorria.com/brokers'), 'Sitemap must NOT include /brokers redirecting URL');
+  assert.ok(!urls.includes('https://avorria.com/brokers/best-for-gold'), 'Sitemap must NOT include noindex route best-for-gold');
 });
 
 test('SEO Phase 2: hreflang in getMetadata strictly guards against 404 regional pages', async () => {
@@ -109,7 +109,7 @@ test('SEO Phase 2: hreflang in getMetadata strictly guards against 404 regional 
   // When called on homepage with regional variants: valid
   const homeMeta = getMetadata({ path: '/', hasRegionalVariants: true });
   assert.ok(homeMeta.alternates?.languages, 'Homepage must have regional languages');
-  assert.equal(homeMeta.alternates?.languages?.['en-AU'], 'https://drawdown.trading/au');
+  assert.equal(homeMeta.alternates?.languages?.['en-AU'], 'https://avorria.com/au');
 
   // When called on a course or calculator with regional variants: must NOT emit fake regional links
   const courseMeta = getMetadata({ path: '/courses/ground-zero', hasRegionalVariants: true });

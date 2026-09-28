@@ -81,9 +81,9 @@ async function runDryRun() {
         currentMRR = 3 * 149;
         projectedMRR = 3 * 99;
         customersList.push(
-          { customerId: "cus_test_01", email: "pete@drawdown.trading", subscriptionId: "sub_test_01", oldPrice: 149, newPrice: 99, mrrChange: -50 },
-          { customerId: "cus_test_02", email: "simulated_edge_02@drawdown.trading", subscriptionId: "sub_test_02", oldPrice: 149, newPrice: 99, mrrChange: -50 },
-          { customerId: "cus_test_03", email: "simulated_edge_03@drawdown.trading", subscriptionId: "sub_test_03", oldPrice: 149, newPrice: 99, mrrChange: -50 }
+          { customerId: "cus_test_01", email: "pete@avorria.com", subscriptionId: "sub_test_01", oldPrice: 149, newPrice: 99, mrrChange: -50 },
+          { customerId: "cus_test_02", email: "simulated_edge_02@avorria.com", subscriptionId: "sub_test_02", oldPrice: 149, newPrice: 99, mrrChange: -50 },
+          { customerId: "cus_test_03", email: "simulated_edge_03@avorria.com", subscriptionId: "sub_test_03", oldPrice: 149, newPrice: 99, mrrChange: -50 }
         );
       }
     } catch (err) {

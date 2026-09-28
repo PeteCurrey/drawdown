@@ -9,7 +9,7 @@ export function sanitizeLog(message: string, secret?: string): string {
 }
 
 /**
- * Authenticated HTTP invoker for Drawdown API routes.
+ * Authenticated HTTP invoker for Avorria API routes.
  */
 export async function invokeDrawdownEndpoint(
   job: ScheduledJobDefinition,

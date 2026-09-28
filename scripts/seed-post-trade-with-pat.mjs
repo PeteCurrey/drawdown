@@ -69,11 +69,11 @@ const BODY_HTML = `<h2>Who Pat Actually Is</h2>
 
 <p>I would point a beginner toward Trade With Pat without hesitation. Not as the only resource — nobody should rely on a single source for trading education — but as a solid, honest, experience-backed starting point. And in this space, that is a meaningful endorsement.</p>
 
-<h2>Where Drawdown Fits Alongside This</h2>
+<h2>Where Avorria Fits Alongside This</h2>
 
-<p>I built Drawdown because I wanted somewhere that combined structured curriculum, real tools, and honest broker information in one place. Pat's channel is not that — it is a YouTube channel, and a good one. They serve different purposes and I think they complement each other well.</p>
+<p>I built Avorria because I wanted somewhere that combined structured curriculum, real tools, and honest broker information in one place. Pat's channel is not that — it is a YouTube channel, and a good one. They serve different purposes and I think they complement each other well.</p>
 
-<p>If you are learning from Pat and want a structured framework to sit alongside it — risk calculators, an AI trade journal, honest prop firm reviews — that is what Drawdown is here for. Phase one is completely free. No credit card. Come and have a look.</p>`;
+<p>If you are learning from Pat and want a structured framework to sit alongside it — risk calculators, an AI trade journal, honest prop firm reviews — that is what Avorria is here for. Phase one is completely free. No credit card. Come and have a look.</p>`;
 
 // ---------------------------------------------------------------------------
 // Step 1: Resolve Pete's author_id
@@ -153,12 +153,12 @@ const { error: seoError } = await supabase
   .from('blog_post_seo')
   .insert({
     post_id:          postId,
-    meta_title:       'Trade With Pat: What I Actually Think | Drawdown',
+    meta_title:       'Trade With Pat: What I Actually Think | Avorria',
     meta_description: 'Seventeen years trading forex, gold and indices. A free course with no catch. Pete gives his honest take on why Trade With Pat is one of the few trading educators he would recommend without hesitation.',
     og_title:         'Trade With Pat: What I Actually Think',
     og_description:   "Seventeen years in the market. A free course. No Lamborghini in the thumbnail. Pete's honest take on one of the few trading educators worth your time.",
     og_image_url:     'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=1200&q=80',
-    canonical_url:    'https://drawdown.trading/blog/trade-with-pat-honest-review',
+    canonical_url:    'https://avorria.com/blog/trade-with-pat-honest-review',
     schema_type:      'BlogPosting',
     no_index:         false,
     focus_keyword:    'Trade With Pat review',
@@ -178,7 +178,7 @@ console.log(`
 🎉  Done!
     Slug:  ${SLUG}
     ID:    ${postId}
-    URL:   https://drawdown.trading/blog/${SLUG}
+    URL:   https://avorria.com/blog/${SLUG}
     Theme: Dark (#0A0A0A)
     Live:  true
 `);

@@ -126,8 +126,8 @@ export function HeroSection() {
         className="absolute inset-0 pointer-events-none select-none overflow-hidden z-0"
         aria-hidden="true"
         style={{
-          maskImage: "linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.65) 45%, rgba(0,0,0,0) 80%)",
-          WebkitMaskImage: "linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.65) 45%, rgba(0,0,0,0) 80%)",
+          maskImage: "linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.7) 50%, rgba(0,0,0,0) 85%)",
+          WebkitMaskImage: "linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.7) 50%, rgba(0,0,0,0) 85%)",
         }}
       >
         <Image
@@ -136,12 +136,12 @@ export function HeroSection() {
           fill
           priority
           sizes="100vw"
-          className="object-cover object-center opacity-[0.30] mix-blend-multiply filter contrast-105"
+          className="object-cover object-center opacity-[0.38] mix-blend-multiply filter contrast-105"
         />
         <div 
           className="absolute inset-0"
           style={{
-            background: "radial-gradient(ellipse at 50% 20%, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.42) 50%, #FFFFFF 85%)",
+            background: "radial-gradient(ellipse at 50% 20%, rgba(255,255,255,0) 0%, rgba(255,255,255,0.28) 50%, #FFFFFF 88%)",
           }}
         />
       </div>

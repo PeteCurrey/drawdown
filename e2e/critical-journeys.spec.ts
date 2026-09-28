@@ -169,8 +169,8 @@ test("Journey E: robots.txt is served with 200 and contains sitemap", async ({
   expect(content, "robots.txt must reference the sitemap").toMatch(
     /sitemap\.xml/i
   );
-  expect(content, "robots.txt must reference drawdown.trading domain").toMatch(
-    /drawdown\.trading/
+  expect(content, "robots.txt must reference avorria.com domain").toMatch(
+    /avorria\.com/
   );
   // Must not reference vercel.app preview domains in production robots
   expect(
@@ -193,8 +193,8 @@ test("Journey E2: sitemap.xml is served with 200 and is valid XML", async ({
   expect(contentType, "sitemap.xml content type").toMatch(/xml|text/);
 
   const content = await page.textContent("body");
-  expect(content, "sitemap.xml must contain drawdown.trading URLs").toMatch(
-    /drawdown\.trading/
+  expect(content, "sitemap.xml must contain avorria.com URLs").toMatch(
+    /avorria\.com/
   );
   // No hardcoded legacy dates from pre-production era
   expect(content, "sitemap.xml must not contain 2026-07-19 hardcoded date").not.toMatch(

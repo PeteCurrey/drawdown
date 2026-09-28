@@ -3,7 +3,7 @@ import { defineConfig, devices } from "@playwright/test";
 /**
  * Drawdown Trading — Playwright Browser E2E Configuration
  *
- * Tests run against the live production deployment at https://drawdown.trading
+ * Tests run against the live production deployment at https://avorria.com
  * Three viewport profiles:
  *   - desktop:    1440 × 900   (standard widescreen)
  *   - mobile-375: 375 × 812    (iPhone SE / small Android)
@@ -24,7 +24,7 @@ export default defineConfig({
   ],
 
   use: {
-    baseURL: "https://drawdown.trading",
+    baseURL: "https://avorria.com",
     screenshot: "on",
     trace: "retain-on-failure",
     actionTimeout: 20_000,

@@ -103,10 +103,10 @@ test('E2E Journey F: SEO and robots.txt indexation consistency', () => {
   assert.ok(fs.existsSync(sitemapPath));
 
   const robotsContent = fs.readFileSync(robotsPath, 'utf8');
-  assert.ok(robotsContent.includes('https://drawdown.trading/sitemap.xml'));
+  assert.ok(robotsContent.includes('https://avorria.com/sitemap.xml'));
   assert.ok(!robotsContent.includes('vercel.app'));
 
   const sitemapContent = fs.readFileSync(sitemapPath, 'utf8');
-  assert.ok(sitemapContent.includes('https://drawdown.trading'));
+  assert.ok(sitemapContent.includes('https://avorria.com'));
   assert.ok(!sitemapContent.includes('2026-07-19'));
 });

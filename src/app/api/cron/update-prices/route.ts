@@ -113,6 +113,8 @@ function calculateEMA(closes: number[], periods: number): number | null {
   return parseFloat(ema.toFixed(5));
 }
 
+import { startCronRun, completeCronRun } from "@/lib/cron-observability";
+
 export async function GET(req: Request) {
   // Auth guard — must be a Vercel cron call or carry the cron secret.
   // Without this the endpoint is publicly invocable and could be abused.
@@ -132,6 +134,11 @@ export async function GET(req: Request) {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
   const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
   const supabase = createClient(supabaseUrl, supabaseKey);
+
+  const runId = await startCronRun(supabase, {
+    jobName: "update-prices",
+    endpoint: "/api/cron/update-prices"
+  });
 
   let activeTdKeyIdx = 0;
   // Track which data sources contributed to successful updates
@@ -304,6 +311,13 @@ export async function GET(req: Request) {
   }
 
   console.log(`[cron] update-prices complete: ${results.length}/${SYMBOLS.length} updated. Sources:`, sourceStats);
+
+  await completeCronRun(supabase, runId, {
+    status: results.length >= SYMBOLS.length * SUCCESS_THRESHOLD ? "SUCCESS" : "FAILED",
+    recordsProcessed: results.length,
+    errorMessage: results.length < SYMBOLS.length * SUCCESS_THRESHOLD ? `Low update rate: ${results.length}/${SYMBOLS.length}` : null,
+    metadata: { source_stats: sourceStats }
+  });
 
   return NextResponse.json({
     success: true,

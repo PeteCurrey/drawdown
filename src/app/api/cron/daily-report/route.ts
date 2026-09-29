@@ -308,6 +308,8 @@ Return ONLY a JSON array of exactly ${INSTRUMENTS.length} objects, one per instr
   };
 }
 
+import { startCronRun, completeCronRun } from "@/lib/cron-observability";
+
 // ─── Route Handler ────────────────────────────────────────────────────────────
 export async function GET(req: Request) {
   // Verify cron secret
@@ -323,6 +325,11 @@ export async function GET(req: Request) {
     process.env.NEXT_PUBLIC_SUPABASE_URL ?? "",
     process.env.SUPABASE_SERVICE_ROLE_KEY ?? ""
   );
+
+  const runId = await startCronRun(supabase, {
+    jobName: "daily-report",
+    endpoint: "/api/cron/daily-report"
+  });
 
   try {
     const report = await generateDailyReport();
@@ -343,9 +350,27 @@ export async function GET(req: Request) {
 
     if (error) console.error("[daily-report] Supabase upsert error:", error);
 
+    // Optional 30-day retention cleanup for cron_job_runs table
+    try {
+      const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString();
+      await supabase.from("cron_job_runs").delete().lt("started_at", thirtyDaysAgo);
+    } catch (cleanErr) {
+      console.warn("[daily-report] Old cron runs cleanup skipped:", cleanErr);
+    }
+
+    await completeCronRun(supabase, runId, {
+      status: "SUCCESS",
+      recordsProcessed: 1,
+      metadata: { report_date: report.report_date }
+    });
+
     return NextResponse.json({ success: true, report_date: report.report_date, generated_at: report.generated_at });
   } catch (err) {
     console.error("[daily-report] Generation error:", err);
+    await completeCronRun(supabase, runId, {
+      status: "FAILED",
+      errorMessage: String(err)
+    });
     return NextResponse.json({ error: "Report generation failed", detail: String(err) }, { status: 500 });
   }
 }

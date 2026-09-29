@@ -13,12 +13,14 @@ interface LobbyLeadStoryProps {
 export function LobbyLeadStory({ article }: LobbyLeadStoryProps) {
   if (!article) {
     return (
-      <section className="w-full py-8 border-b border-[#DEDDD8]">
+      <section className="w-full py-12 border-b border-[#DEDDD8] bg-[#FAF9F5]">
         <div className="max-w-[1320px] mx-auto px-4 sm:px-6">
           <LobbyEmptyState
-            title="NO LEAD STORY PUBLISHED"
-            description="The editorial desk is currently monitoring live market and broker developments. The lead story will be established once verified."
-            badge="LEAD INTELLIGENCE DESK"
+            title="MARKET LEAD DESK STANDBY // AWAITING VERIFIED DISPATCH"
+            description="The Avorria editorial and intelligence desk enforces a strict 72-hour integrity window on lead dispatches. Real-time regulatory, central bank, and market wire feeds are active; primary lead positioning will resume upon publication of a verified catalyst."
+            badge="EDITORIAL INTEGRITY ACTIVE"
+            statusLabel="MONITORING G10 CENTRAL BANKS & GLOBAL WIRES"
+            scanTime="CONTINUOUS / LIVE"
           />
         </div>
       </section>
@@ -36,14 +38,6 @@ export function LobbyLeadStory({ article }: LobbyLeadStoryProps) {
   return (
     <section className="w-full py-8 md:py-12 border-b border-[#DEDDD8] bg-[#FFFFFF]">
       <div className="max-w-[1320px] mx-auto px-4 sm:px-6">
-
-        {/* AGED content warning — visible deprioritise signal for the editorial desk */}
-        {freshness.shouldDeprioritise && (
-          <div className="mb-4 flex items-center gap-2 px-3 py-2 bg-amber-50 border border-amber-200 rounded-[2px] text-[10px] font-mono uppercase tracking-widest text-amber-700">
-            <AlertTriangle className="w-3 h-3 shrink-0" />
-            STALE LEAD — {freshness.label} — Consider updating or rotating this story
-          </div>
-        )}
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
           {/* Main Visual Column (7 cols) */}

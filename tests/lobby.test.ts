@@ -273,26 +273,22 @@ test("Lobby Integrity: Empty states contain zero fake news or fabricated trades"
   assert.ok(emptyState.includes("NO STORIES PUBLISHED YET"), "Must display honest empty state");
 });
 
-test("Lobby Editorial Data: Coming Up events, Watchlist briefs, and Trade of the Month are structured and verified", async () => {
+test("Lobby Editorial Data: Static events and watchlist items are eliminated in favor of dynamic queries", async () => {
   const editorialModule = await import("../src/lib/lobby-editorial-data.ts");
   
-  // Verify Coming Up events
-  assert.ok(Array.isArray(editorialModule.VERIFIED_COMING_UP_EVENTS), "Coming up events must be an array");
-  assert.ok(editorialModule.VERIFIED_COMING_UP_EVENTS.length >= 4, "Must have at least 4 upcoming scheduled events");
-  for (const ev of editorialModule.VERIFIED_COMING_UP_EVENTS) {
-    assert.ok(ev.event_name && ev.event_name.length > 5, "Event name must be specified");
-    assert.ok(ev.date && ev.time, "Date and time must be specified");
-    assert.ok(["CRITICAL", "HIGH", "MEDIUM", "LOW"].includes(ev.importance), "Must have valid importance");
-  }
+  // Static Coming Up events and Watchlist items must not exist as static arrays in editorial data
+  assert.equal(
+    (editorialModule as any).VERIFIED_COMING_UP_EVENTS,
+    undefined,
+    "Static VERIFIED_COMING_UP_EVENTS must be eliminated to prevent stale dates"
+  );
+  assert.equal(
+    (editorialModule as any).VERIFIED_WATCHLIST_ITEMS,
+    undefined,
+    "Static VERIFIED_WATCHLIST_ITEMS must be eliminated to prevent stale entries"
+  );
 
-  // Verify Watchlist briefs
-  assert.ok(Array.isArray(editorialModule.VERIFIED_WATCHLIST_ITEMS), "Watchlist items must be an array");
-  assert.ok(editorialModule.VERIFIED_WATCHLIST_ITEMS.length >= 3, "Must have at least 3 watchlist items");
-  for (const item of editorialModule.VERIFIED_WATCHLIST_ITEMS) {
-    assert.ok(item.what && item.why_it_matters && item.when, "Watchlist item must have what, why_it_matters, and when");
-  }
-
-  // Verify Trade of the Month audit
+  // Verify Audited Trade of the Month educational case study
   const trade = editorialModule.AUDITED_TRADE_CASE_STUDY;
   assert.ok(trade.instrument, "Trade case study must specify instrument");
   assert.ok(trade.entry && trade.stop && trade.target, "Trade case study must have complete geometric parameters");

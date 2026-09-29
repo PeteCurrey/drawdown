@@ -7,7 +7,11 @@ interface LobbyComingUpProps {
 }
 
 export function LobbyComingUp({ events = [] }: LobbyComingUpProps) {
-  const hasEvents = events.length > 0;
+  // STRICT RULE: If no valid, verified upcoming events exist, hide the section completely.
+  // Never display expired, past, or placeholder calendar items.
+  if (!events || events.length === 0) {
+    return null;
+  }
 
   return (
     <section id="coming-up" className="w-full py-10 border-b border-[#DEDDD8] bg-[#FAF9F5]">
@@ -25,17 +29,8 @@ export function LobbyComingUp({ events = [] }: LobbyComingUpProps) {
           </span>
         </div>
 
-        {!hasEvents ? (
-          <LobbyEmptyState
-            title="MACRO CALENDAR INGESTION STANDBY"
-            description="Drawdown macroeconomic and regulatory calendars display major central bank rate decisions, policy updates, and scheduled firm releases once officially published."
-            badge="EVENT RADAR ACTIVE"
-            statusLabel="MONITORING G10 CENTRAL BANKS & CALENDARS"
-            scanTime="CONTINUOUS / LIVE"
-          />
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {events.map((ev, i) => (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {events.map((ev, i) => (
               <div 
                 key={i} 
                 className="bg-[#FFFFFF] border border-[#DEDDD8] p-5 rounded-[2px] flex flex-col justify-between"
@@ -74,7 +69,6 @@ export function LobbyComingUp({ events = [] }: LobbyComingUpProps) {
               </div>
             ))}
           </div>
-        )}
       </div>
     </section>
   );

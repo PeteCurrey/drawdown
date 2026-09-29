@@ -3,6 +3,9 @@ import { runSignalScan } from "@/lib/signal-engine";
 import { createClient } from "@/lib/supabase/server";
 import { CommercialAccess } from "@/lib/entitlements";
 
+import { startCronRun, completeCronRun } from "@/lib/cron-observability";
+import { createInternalSupabase } from "@/lib/supabase/server";
+
 let lastScanTime = 0;
 const THROTTLE_MS = 60 * 1000; // 60 seconds
 
@@ -16,9 +19,20 @@ async function handleScan() {
     }, { status: 429 });
   }
 
+  const internalSupabase = createInternalSupabase();
+  const runId = await startCronRun(internalSupabase, {
+    jobName: "signal-scan",
+    endpoint: "/api/signals/scan"
+  });
+
   try {
     const results = await runSignalScan();
     lastScanTime = Date.now();
+    await completeCronRun(internalSupabase, runId, {
+      status: "SUCCESS",
+      recordsProcessed: typeof results === "object" && results !== null ? Object.values(results).reduce((a: any, b: any) => (typeof b === "number" ? a + b : a), 0) : 0,
+      metadata: { results }
+    });
     return NextResponse.json({
       success: true,
       message: "Market scan completed successfully.",
@@ -27,6 +41,10 @@ async function handleScan() {
     });
   } catch (err: any) {
     console.error("[api/signals/scan] Scan failed:", err);
+    await completeCronRun(internalSupabase, runId, {
+      status: "FAILED",
+      errorMessage: err.message || "Failed to run signal scan."
+    });
     return NextResponse.json(
       { success: false, error: err.message || "Failed to run signal scan." },
       { status: 500 }

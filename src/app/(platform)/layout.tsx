@@ -105,7 +105,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         const { count, error } = await supabase
           .from("signals")
           .select("*", { count: "exact", head: true })
-          .eq("is_active", true);
+          .eq("is_active", true)
+          .neq("is_test", true)
+          .eq("data_classification", "PRODUCTION_VERIFIED");
         if (!error && count !== null) {
           setActiveSignalCount(count);
         }

@@ -7,6 +7,8 @@ import { NewsVerificationService } from "@/lib/content-os/verification";
 import { EditorialScoringService } from "@/lib/content-os/scoring";
 import { recordContentAudit } from "@/lib/content-os/audit";
 
+import { startCronRun, completeCronRun } from "@/lib/cron-observability";
+
 export const dynamic = "force-dynamic";
 
 export async function GET(req: NextRequest) {
@@ -25,6 +27,10 @@ export async function GET(req: NextRequest) {
   }
 
   const supabase = createServiceRoleClient();
+  const runId = await startCronRun(supabase, {
+    jobName: "social-ingest",
+    endpoint: "/api/cron/social-ingest"
+  });
   const now = new Date().toISOString();
 
   try {
@@ -374,6 +380,12 @@ export async function GET(req: NextRequest) {
       }
     }
 
+    await completeCronRun(supabase, runId, {
+      status: "SUCCESS",
+      recordsProcessed: totalIngested,
+      metadata: { sourcesEvaluated: sources.length, totalDuplicates }
+    });
+
     return NextResponse.json({
       success: true,
       timestamp: now,
@@ -384,6 +396,10 @@ export async function GET(req: NextRequest) {
     });
   } catch (err: any) {
     console.error("[CRON] social-ingest error:", err);
+    await completeCronRun(supabase, runId, {
+      status: "FAILED",
+      errorMessage: err?.message || "Internal error in social-ingest"
+    });
     return NextResponse.json({ error: err?.message || "Internal error" }, { status: 500 });
   }
 }

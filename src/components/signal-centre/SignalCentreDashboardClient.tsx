@@ -190,6 +190,8 @@ function SignalCentreInner({
           .from("signals")
           .select("*")
           .eq("is_active", true)
+          .neq("is_test", true)
+          .eq("data_classification", "PRODUCTION_VERIFIED")
           .order("created_at", { ascending: false });
         if (freshSignals) {
           setSignals((prev) => {
@@ -247,6 +249,8 @@ function SignalCentreInner({
           .from("signals")
           .select("*")
           .eq("is_active", true)
+          .neq("is_test", true)
+          .eq("data_classification", "PRODUCTION_VERIFIED")
           .order("created_at", { ascending: false });
         if (freshSignals && freshSignals.length > 0) {
           setSignals(freshSignals);

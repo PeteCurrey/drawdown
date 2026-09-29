@@ -41,7 +41,7 @@ export default async function DashboardSignalDetailPage({
     .eq("id", id)
     .single();
 
-  if (error || !signal) {
+  if (error || !signal || signal.is_test || (signal.data_classification && signal.data_classification !== "PRODUCTION_VERIFIED")) {
     notFound();
   }
 

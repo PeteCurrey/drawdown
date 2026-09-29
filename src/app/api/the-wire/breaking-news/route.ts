@@ -3,6 +3,8 @@ import { createInternalSupabase } from "@/lib/supabase/server";
 import { getBreakingNewsTemplate } from "@/lib/email-templates";
 import Anthropic from "@anthropic-ai/sdk";
 
+import { startCronRun, completeCronRun } from "@/lib/cron-observability";
+
 export const dynamic = "force-dynamic";
 
 export async function GET(req: NextRequest) {
@@ -16,8 +18,13 @@ export async function GET(req: NextRequest) {
     return new NextResponse("Unauthorized", { status: 401 });
   }
 
+  const supabase = createInternalSupabase();
+  const runId = await startCronRun(supabase, {
+    jobName: "breaking-news",
+    endpoint: "/api/the-wire/breaking-news"
+  });
+
   try {
-    const supabase = createInternalSupabase();
 
     // 2. Rate limit check: max 3 per day (fail-safe if DB table missing)
     let sentTodayCount = 0;
@@ -176,9 +183,19 @@ Keep it strictly under 150 words. Focus on market impact and risk. No financial 
       throw new Error(`Broadcast failed (${sendRes.status}): ${errText}`);
     }
 
+    await completeCronRun(supabase, runId, {
+      status: "SUCCESS",
+      recordsProcessed: 1,
+      metadata: { emailSendId, subject: briefJson.subject }
+    });
+
     return NextResponse.json({ success: true, emailSendId });
   } catch (err: any) {
     console.error("Breaking news cron failed:", err);
+    await completeCronRun(supabase, runId, {
+      status: "FAILED",
+      errorMessage: err.message || "Breaking news cron failed"
+    });
     return NextResponse.json({ error: err.message }, { status: 500 });
   }
 }

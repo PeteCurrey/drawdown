@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import {
@@ -17,14 +17,8 @@ import {
   ShieldCheck,
   ArrowRight,
   Clock,
+  Radio,
 } from "lucide-react";
-
-// ── Mock signal cards for hero ────────────────────────────────────────────────
-const MOCK_SIGNALS = [
-  { instrument: "SPX500", timeframe: "4H", bias: "BULLISH" as const, dcs: 81, catalyst: "FOMC Minutes", age: "12m ago" },
-  { instrument: "USD/JPY", timeframe: "1D", bias: "BEARISH" as const, dcs: 85, catalyst: "BoJ Policy", age: "38m ago" },
-  { instrument: "SOL/USD", timeframe: "4H", bias: "BEARISH" as const, dcs: 84, catalyst: "On-Chain Outflow", age: "2h ago" },
-];
 
 // ── AI model config ───────────────────────────────────────────────────────────
 const AI_MODELS = [
@@ -213,6 +207,33 @@ function HeatCell({ val }: { val: string }) {
 // ── Main Component ────────────────────────────────────────────────────────────
 export function SignalCentreMarketingClient() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
+  const [liveSignals, setLiveSignals] = useState<any[]>([]);
+  const [isLoadingSignals, setIsLoadingSignals] = useState(true);
+
+  useEffect(() => {
+    let isMounted = true;
+    async function fetchPreviewSignals() {
+      try {
+        const res = await fetch("/api/signals/marketing-preview");
+        if (res.ok) {
+          const data = await res.json();
+          if (isMounted) {
+            setLiveSignals(data.signals || []);
+          }
+        }
+      } catch (e) {
+        console.warn("Failed to fetch live preview signals:", e);
+      } finally {
+        if (isMounted) setIsLoadingSignals(false);
+      }
+    }
+    fetchPreviewSignals();
+    const interval = setInterval(fetchPreviewSignals, 30000);
+    return () => {
+      isMounted = false;
+      clearInterval(interval);
+    };
+  }, []);
 
   const scrollTo = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -272,76 +293,103 @@ export function SignalCentreMarketingClient() {
               </p>
             </div>
 
-            {/* RIGHT: Mock signal cards */}
+            {/* RIGHT: Live signal cards (Strictly Real Non-Expired Signals Only) */}
             <div className="lg:col-span-7 space-y-3">
-              {/* Live badge */}
-              <div className="flex items-center gap-2 mb-5">
-                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border border-profit/30 bg-profit/5 text-[10px] font-mono font-bold uppercase tracking-widest text-profit">
-                  <span className="w-1.5 h-1.5 rounded-full bg-profit animate-pulse" />
-                  Live Scan Active
-                </span>
-                <span className="text-[9px] font-mono text-text-tertiary">
-                  3 signals matched · <span className="text-profit">AI consensus running</span>
+              {/* Feed Status Header */}
+              <div className="flex items-center justify-between pb-2 mb-3 border-b border-border-slate/30">
+                <div className="flex items-center gap-2">
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border border-border-slate/40 bg-background-elevated/60 text-[10px] font-mono font-bold uppercase tracking-widest text-text-primary">
+                    <Radio className="w-3 h-3 text-accent" />
+                    Verified Signal Feed
+                  </span>
+                  <span className="text-[9px] font-mono text-text-tertiary">
+                    {liveSignals.length > 0
+                      ? `${liveSignals.length} active non-expired signals`
+                      : "Scanning active instruments"}
+                  </span>
+                </div>
+                <span className="text-[9px] font-mono text-text-tertiary uppercase">
+                  Institutional Confluence
                 </span>
               </div>
 
-              {MOCK_SIGNALS.map((sig) => {
-                const isBull = sig.bias === "BULLISH";
-                return (
-                  <div
-                    key={sig.instrument}
-                    className="group relative bg-background-surface/40 border border-border-slate/50 rounded-2xl p-5 flex items-center gap-5 hover:border-border-slate hover:shadow-[0_4px_20px_rgba(0,0,0,0.06)] hover:-translate-y-0.5 transition-all duration-300 backdrop-blur-sm"
-                  >
-                    {/* Bias bar */}
-                    <div className={cn(
-                      "absolute top-0 left-0 w-0.5 h-full rounded-l-2xl",
-                      isBull ? "bg-profit" : "bg-red-400"
-                    )} />
+              {isLoadingSignals ? (
+                <div className="p-8 border border-border-slate/40 rounded-2xl bg-background-surface/30 text-center">
+                  <p className="text-xs font-mono text-text-tertiary">Loading live market signals...</p>
+                </div>
+              ) : liveSignals.length > 0 ? (
+                liveSignals.map((sig) => {
+                  const isBull = sig.bias === "BULLISH";
+                  return (
+                    <div
+                      key={sig.id || sig.instrument}
+                      className="group relative bg-background-surface/40 border border-border-slate/50 rounded-2xl p-5 flex items-center gap-5 hover:border-border-slate hover:shadow-[0_4px_20px_rgba(0,0,0,0.06)] hover:-translate-y-0.5 transition-all duration-300 backdrop-blur-sm"
+                    >
+                      {/* Bias bar */}
+                      <div className={cn(
+                        "absolute top-0 left-0 w-0.5 h-full rounded-l-2xl",
+                        isBull ? "bg-profit" : "bg-red-400"
+                      )} />
 
-                    <DcsDial value={sig.dcs} isBullish={isBull} />
+                      <DcsDial value={sig.dcs} isBullish={isBull} />
 
-                    <div className="flex-1 min-w-0">
-                      <div className="flex flex-wrap items-center gap-2 mb-1">
-                        <span className="text-base font-mono font-black uppercase text-text-primary">
-                          {sig.instrument}
-                        </span>
-                        <span className="text-[9px] font-mono bg-background-elevated/60 border border-border-slate/40 text-text-tertiary px-2 py-0.5 rounded-md">
-                          {sig.timeframe}
-                        </span>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex flex-wrap items-center gap-2 mb-1">
+                          <span className="text-base font-mono font-black uppercase text-text-primary">
+                            {sig.instrument}
+                          </span>
+                          <span className="text-[9px] font-mono bg-background-elevated/60 border border-border-slate/40 text-text-tertiary px-2 py-0.5 rounded-md">
+                            {sig.timeframe}
+                          </span>
+                          <span className={cn(
+                            "text-[9px] font-mono font-bold px-2 py-0.5 border rounded-md uppercase",
+                            isBull
+                              ? "bg-profit/10 border-profit/30 text-profit"
+                              : "bg-red-50 border-red-200 text-red-600"
+                          )}>
+                            {sig.bias}
+                          </span>
+                        </div>
+                        <p className="text-[11px] font-mono text-text-tertiary truncate">
+                          Catalyst: <span className="text-text-secondary">{sig.catalyst}</span>
+                        </p>
+                      </div>
+
+                      {/* AI alignment dots */}
+                      <div className="shrink-0 flex flex-col items-end gap-1">
+                        <span className="text-[8px] font-mono text-text-tertiary uppercase tracking-widest mb-0.5">AI Consensus</span>
+                        <div className="flex gap-1">
+                          {["bg-orange-400", "bg-teal-400", "bg-fuchsia-400"].map((dot, i) => (
+                            <span key={i} className={cn("w-2 h-2 rounded-full", dot)} />
+                          ))}
+                        </div>
                         <span className={cn(
-                          "text-[9px] font-mono font-bold px-2 py-0.5 border rounded-md uppercase",
-                          isBull
-                            ? "bg-profit/10 border-profit/30 text-profit"
-                            : "bg-red-50 border-red-200 text-red-600"
+                          "text-[9px] font-mono font-black",
+                          sig.dcs >= 80 ? "text-accent" : "text-text-secondary"
                         )}>
-                          {sig.bias}
+                          DCS {sig.dcs}
                         </span>
                       </div>
-                      <p className="text-[11px] font-mono text-text-tertiary">
-                        Catalyst: <span className="text-text-secondary">{sig.catalyst}</span>
-                        <span className="mx-2">·</span>
-                        <Clock className="w-3 h-3 inline mr-0.5 -mt-0.5 text-text-tertiary" />{sig.age}
-                      </p>
                     </div>
-
-                    {/* AI alignment dots */}
-                    <div className="shrink-0 flex flex-col items-end gap-1">
-                      <span className="text-[8px] font-mono text-text-tertiary uppercase tracking-widest mb-0.5">AI Consensus</span>
-                      <div className="flex gap-1">
-                        {["bg-orange-400", "bg-teal-400", "bg-fuchsia-400"].map((dot, i) => (
-                          <span key={i} className={cn("w-2 h-2 rounded-full", dot)} />
-                        ))}
-                      </div>
-                      <span className={cn(
-                        "text-[9px] font-mono font-black",
-                        sig.dcs >= 80 ? "text-accent" : "text-text-secondary"
-                      )}>
-                        DCS {sig.dcs}
-                      </span>
-                    </div>
+                  );
+                })
+              ) : (
+                /* Truthful empty state: Never show fabricated signals */
+                <div className="p-8 border border-border-slate/40 rounded-2xl bg-background-surface/30 text-center space-y-3">
+                  <div className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-background-elevated text-text-tertiary">
+                    <Activity className="w-5 h-5 text-accent" />
                   </div>
-                );
-              })}
+                  <h4 className="text-sm font-mono font-bold text-text-primary uppercase tracking-wider">
+                    No Live Signals Currently Active
+                  </h4>
+                  <p className="text-xs font-sans text-text-secondary max-w-md mx-auto leading-relaxed">
+                    The AI consensus engine evaluates multi-asset instruments across 4 timeframes. Signals are published only when Claude, GPT-4o, and Grok confirm multi-timeframe confluence.
+                  </p>
+                  <p className="text-[10px] font-mono text-text-tertiary pt-2">
+                    Engine scanning every 5 minutes · Active invalidation checks enforced
+                  </p>
+                </div>
+              )}
             </div>
           </div>
         </div>

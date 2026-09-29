@@ -72,11 +72,15 @@ export default async function SignalCentrePage() {
       .from("signals")
       .select("*")
       .eq("is_active", true)
+      .neq("is_test", true)
+      .eq("data_classification", "PRODUCTION_VERIFIED")
       .order("created_at", { ascending: false }),
     supabase
       .from("signals")
       .select("id, instrument, bias, dcs_score, rr_ratio, created_at, expires_at")
       .eq("is_active", false)
+      .neq("is_test", true)
+      .eq("data_classification", "PRODUCTION_VERIFIED")
       .order("created_at", { ascending: false })
       .limit(50),
     supabase

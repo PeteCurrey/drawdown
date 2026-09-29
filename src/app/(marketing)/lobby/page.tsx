@@ -20,11 +20,11 @@ import {
   getLobbyLeadStory, 
   getLobbyArticles,
   getInvestorAttentionFeed,
-  getContentOSPublishedArticles
+  getContentOSPublishedArticles,
+  getLobbyComingUpEvents,
+  getLobbyWatchlistItems
 } from "@/lib/lobby";
 import { 
-  VERIFIED_COMING_UP_EVENTS, 
-  VERIFIED_WATCHLIST_ITEMS, 
   AUDITED_TRADE_CASE_STUDY 
 } from "@/lib/lobby-editorial-data";
 import { createInternalSupabase } from "@/lib/supabase/server";
@@ -47,7 +47,7 @@ export default async function LobbyHomePage({
 }) {
   const params = await searchParams;
   const isYourLobby = params?.view === "your-lobby";
-  // Fetch editorial articles concurrently across sections
+  // Fetch editorial articles and dynamic modules concurrently
   const [
     leadStory,
     whatsHappeningArticles,
@@ -59,7 +59,9 @@ export default async function LobbyHomePage({
     explainedArticles,
     allLatestArticles,
     investorAttentionItems,
-    contentOSArticles
+    contentOSArticles,
+    dynamicComingUpEvents,
+    dynamicWatchlistItems
   ] = await Promise.all([
     getLobbyLeadStory(),
     getLobbyArticles({ section: "whats_happening", limit: 4 }),
@@ -71,7 +73,9 @@ export default async function LobbyHomePage({
     getLobbyArticles({ section: "explained", limit: 4 }),
     getLobbyArticles({ limit: 15 }),
     getInvestorAttentionFeed({ limit: 6 }),
-    getContentOSPublishedArticles({ limit: 6 })
+    getContentOSPublishedArticles({ limit: 6 }),
+    getLobbyComingUpEvents(),
+    getLobbyWatchlistItems()
   ]);
 
   // Combine Content OS published articles into streams
@@ -164,11 +168,11 @@ export default async function LobbyHomePage({
           {/* 4.5. Investor Attention (Monitored Specialist Sources) */}
           <LobbyInvestorAttention items={investorAttentionItems} />
 
-          {/* 5. Coming Up Timetable */}
-          <LobbyComingUp events={VERIFIED_COMING_UP_EVENTS} />
+          {/* 5. Coming Up Timetable (Hides automatically if no valid upcoming events) */}
+          <LobbyComingUp events={dynamicComingUpEvents} />
 
-          {/* 6. What's Worth Watching Briefs */}
-          <LobbyWatchlist items={VERIFIED_WATCHLIST_ITEMS} />
+          {/* 6. What's Worth Watching Briefs (Hides automatically if empty) */}
+          <LobbyWatchlist items={dynamicWatchlistItems} />
 
           {/* 7. Broker Watch */}
           <LobbyBrokerWatch entries={brokerWatchData} />

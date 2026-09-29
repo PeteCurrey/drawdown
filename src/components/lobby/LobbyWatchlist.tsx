@@ -7,7 +7,11 @@ interface LobbyWatchlistProps {
 }
 
 export function LobbyWatchlist({ items = [] }: LobbyWatchlistProps) {
-  const hasItems = items.length > 0;
+  // STRICT RULE: If no valid, active watchlist briefs exist, hide the section completely.
+  // Never display frozen or unverified static items.
+  if (!items || items.length === 0) {
+    return null;
+  }
 
   return (
     <section id="watchlist" className="w-full py-10 border-b border-[#DEDDD8] bg-[#FFFFFF]">
@@ -25,17 +29,8 @@ export function LobbyWatchlist({ items = [] }: LobbyWatchlistProps) {
           </span>
         </div>
 
-        {!hasItems ? (
-          <LobbyEmptyState
-            title="SURVEILLANCE RADAR ACTIVE // NO ANOMALOUS SPREADS DETECTED"
-            description="The editorial watch desk curates specific instruments, spread behaviours, and policy shifts worthy of professional trader attention. All tracked pairs and indices remain within expected statistical volatility bands."
-            badge="WATCHLIST ACTIVE"
-            statusLabel="SCANNING LIQUIDITY & VOLATILITY SHIFTS"
-            scanTime="CONTINUOUS / LIVE"
-          />
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {items.map((item, i) => (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {items.map((item, i) => (
               <div 
                 key={i} 
                 className="border border-[#DEDDD8] bg-[#FFFFFF] p-6 rounded-[2px] flex flex-col justify-between"
@@ -77,7 +72,6 @@ export function LobbyWatchlist({ items = [] }: LobbyWatchlistProps) {
               </div>
             ))}
           </div>
-        )}
       </div>
     </section>
   );

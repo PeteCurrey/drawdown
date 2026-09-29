@@ -51,6 +51,7 @@ import { ProviderRunPersistence } from "@/lib/data-platform/persistence";
 import { LobbyControlRoomService } from "@/lib/data-platform/control-room";
 import { bridgeEventBatchToDrafts } from "@/lib/data-platform/bridge";
 import { createServiceRoleClient } from "@/lib/supabase/server";
+import { startCronRun, completeCronRun } from "@/lib/cron-observability";
 import type {
   DataProvider,
   DataEvent,
@@ -481,6 +482,11 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
   const runStart = Date.now();
   const supabase = createServiceRoleClient();
 
+  const runId = await startCronRun(supabase, {
+    jobName: "lobby-ingest",
+    endpoint: "/api/cron/lobby-ingest"
+  });
+
   // Ensure all default providers are registered (idempotent)
   ProviderRegistry.initDefaultProviders();
   const providers = ProviderRegistry.getAll().filter((p) => p.id in PROVIDER_SCHEDULE);
@@ -509,6 +515,13 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
   }
 
   const durationMs = Date.now() - runStart;
+
+  await completeCronRun(supabase, runId, {
+    status: providersDue === 0 || providersSucceeded > 0 ? "SUCCESS" : "FAILED",
+    recordsProcessed: providersSucceeded,
+    errorMessage: providersDue > 0 && providersSucceeded === 0 ? "All due providers failed" : null,
+    metadata: { providersEvaluated: providers.length, providersDue, providersSucceeded }
+  });
 
   console.log(
     `[lobby-ingest] Run complete in ${durationMs}ms — ` +

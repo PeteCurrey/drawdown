@@ -18,6 +18,11 @@ function getSupabase() {
   return createClient(url, key);
 }
 
+import { 
+  evaluateComingUpEventEligibility,
+  DATASET_FRESHNESS_CONFIG,
+} from "./data-freshness-policy.ts";
+
 export interface GetArticlesOptions {
   category?: LobbyCategory;
   section?: LobbySection;
@@ -25,11 +30,13 @@ export interface GetArticlesOptions {
   importance?: 'lead' | 'featured' | 'standard' | 'bulletin';
   limit?: number;
   offset?: number;
+  excludeStale?: boolean;
 }
 
 /**
  * Retrieves public, published Lobby articles.
- * Strictly enforces `status = 'PUBLISHED'` and `confidence != 'UNKNOWN'`.
+ * Strictly enforces `status = 'PUBLISHED'`, `confidence != 'UNKNOWN'`,
+ * `is_test != true`, and excludes retired records.
  */
 export async function getLobbyArticles(
   options: GetArticlesOptions = {}
@@ -41,6 +48,9 @@ export async function getLobbyArticles(
       .select("*")
       .eq("status", "PUBLISHED")
       .neq("confidence", "UNKNOWN")
+      .neq("is_test", true)
+      .eq("data_classification", "PRODUCTION_VERIFIED")
+      .or(`retire_at.is.null,retire_at.gt.${new Date().toISOString()}`)
       .order("published_at", { ascending: false, nullsFirst: false })
       .order("created_at", { ascending: false });
 
@@ -55,6 +65,10 @@ export async function getLobbyArticles(
     }
     if (options.importance) {
       query = query.eq("importance", options.importance);
+    }
+    if (options.excludeStale) {
+      const cutoff = new Date(Date.now() - DATASET_FRESHNESS_CONFIG.lobby_lead.maxEligibilityAgeMs).toISOString();
+      query = query.gte("published_at", cutoff);
     }
     if (options.limit) {
       const from = options.offset || 0;
@@ -76,17 +90,117 @@ export async function getLobbyArticles(
 
 /**
  * Fetches the current primary Lead Story.
+ * STRICT FRESHNESS & ELIGIBILITY ENFORCEMENT:
+ * Must be <= 72 hours old (from DATASET_FRESHNESS_CONFIG.lobby_lead.maxEligibilityAgeMs).
+ * If no article meets the threshold, returns null.
+ * NEVER returns a stale lead story to the UI.
  */
 export async function getLobbyLeadStory(): Promise<LobbyArticle | null> {
+  const maxAgeMs = DATASET_FRESHNESS_CONFIG.lobby_lead.maxEligibilityAgeMs;
+  const cutoff = new Date(Date.now() - maxAgeMs).toISOString();
+
+  // Try explicit lead section first with strict freshness cutoff
   const leadStories = await getLobbyArticles({
     section: 'lead',
+    excludeStale: true,
     limit: 1
   });
   if (leadStories.length > 0) return leadStories[0];
 
-  // Fallback to latest published featured/lead article
-  const fallback = await getLobbyArticles({ limit: 1 });
+  // Fallback to latest published article from any section, but STILL strictly within the 72h window
+  const fallback = await getLobbyArticles({
+    excludeStale: true,
+    limit: 1
+  });
   return fallback.length > 0 ? fallback[0] : null;
+}
+
+/**
+ * Fetches live upcoming events for the Coming Up timetable.
+ * EVENT-DATE-DRIVEN:
+ * Strictly filters by primary_source_date >= UTC_TODAY.
+ * Excludes past events regardless of article creation date.
+ */
+export async function getLobbyComingUpEvents(): Promise<import("../types/lobby.ts").LobbyComingUpEvent[]> {
+  try {
+    const articles = await getLobbyArticles({
+      section: 'coming_up',
+      limit: 10
+    });
+
+    const nowUtc = new Date();
+    const validEvents: import("../types/lobby.ts").LobbyComingUpEvent[] = [];
+
+    for (const article of articles) {
+      const eventDate = article.primary_source_date || article.editorial_metadata?.event_date;
+      const eligibility = evaluateComingUpEventEligibility(eventDate, nowUtc);
+
+      if (eligibility.isUpcoming && eventDate) {
+        const d = new Date(eventDate);
+        const formattedDate = d.toLocaleDateString("en-GB", {
+          weekday: "long",
+          day: "numeric",
+          month: "long",
+          year: "numeric",
+          timeZone: "UTC",
+        });
+        const formattedTime = d.toLocaleTimeString("en-GB", {
+          hour: "2-digit",
+          minute: "2-digit",
+          timeZone: "UTC",
+        });
+
+        validEvents.push({
+          event_name: article.title,
+          date: formattedDate,
+          time: formattedTime,
+          market_category: article.category || "MACRO",
+          importance: (article.importance === 'lead' ? 'CRITICAL' : article.importance === 'featured' ? 'HIGH' : 'MEDIUM') as any,
+          short_explanation: article.excerpt || article.body.slice(0, 160),
+        });
+      }
+    }
+
+    return validEvents.slice(0, 6);
+  } catch (err) {
+    console.error("getLobbyComingUpEvents error:", err);
+    return [];
+  }
+}
+
+/**
+ * Fetches dynamic watchlist surveillance items from lobby_articles.
+ * Freshness window: published within the last 14 days.
+ */
+export async function getLobbyWatchlistItems(): Promise<import("../types/lobby.ts").LobbyWatchlistItem[]> {
+  try {
+    const cutoff = new Date(Date.now() - DATASET_FRESHNESS_CONFIG.lobby_watchlist.maxEligibilityAgeMs).toISOString();
+    const supabase = getSupabase();
+    
+    const { data, error } = await supabase
+      .from("lobby_articles")
+      .select("*")
+      .eq("status", "PUBLISHED")
+      .eq("section", "watchlist")
+      .neq("is_test", true)
+      .eq("data_classification", "PRODUCTION_VERIFIED")
+      .gte("published_at", cutoff)
+      .or(`retire_at.is.null,retire_at.gt.${new Date().toISOString()}`)
+      .order("published_at", { ascending: false })
+      .limit(6);
+
+    if (error || !data) return [];
+
+    return data.map((a: LobbyArticle) => ({
+      what: a.title,
+      why_it_matters: a.excerpt || a.editorial_metadata?.why_it_matters || "",
+      when: a.editorial_metadata?.when || "Ongoing Surveillance",
+      related_content: a.related_article_slugs?.[0] || undefined,
+    }));
+  } catch (err) {
+    console.error("getLobbyWatchlistItems error:", err);
+    return [];
+  }
 }
 
 /**
@@ -109,6 +223,8 @@ export async function getLobbyArticleBySlug(
       .eq("category", category)
       .eq("status", "PUBLISHED")
       .neq("confidence", "UNKNOWN")
+      .neq("is_test", true)
+      .eq("data_classification", "PRODUCTION_VERIFIED")
       .maybeSingle();
 
     if (error || !data) return null;
@@ -140,6 +256,9 @@ export async function getLobbyArchive(options: {
       .select("*", { count: "exact" })
       .eq("status", "PUBLISHED")
       .neq("confidence", "UNKNOWN")
+      .neq("is_test", true)
+      .eq("data_classification", "PRODUCTION_VERIFIED")
+      .or(`retire_at.is.null,retire_at.gt.${new Date().toISOString()}`)
       .order("published_at", { ascending: false, nullsFirst: false });
 
     if (options.categorySlug) {
@@ -188,6 +307,8 @@ export async function searchLobby(query: string, limit: number = 20): Promise<Lo
       .select("*")
       .eq("status", "PUBLISHED")
       .neq("confidence", "UNKNOWN")
+      .neq("is_test", true)
+      .eq("data_classification", "PRODUCTION_VERIFIED")
       .or(`title.ilike.${cleanQ},excerpt.ilike.${cleanQ},body.ilike.${cleanQ}`)
       .order("published_at", { ascending: false, nullsFirst: false })
       .limit(limit);

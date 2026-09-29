@@ -147,6 +147,9 @@ export interface LobbyArticle {
   schema_type: 'Article' | 'NewsArticle';
   canonical_url?: string | null;
   published_at?: string | null;
+  is_test?: boolean;
+  data_classification?: 'PRODUCTION_VERIFIED' | 'TEST_DEMO' | 'SEEDED' | 'UNCLASSIFIED';
+  retire_at?: string | null;
   created_at: string;
   updated_at: string;
 }

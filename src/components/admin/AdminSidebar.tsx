@@ -21,7 +21,8 @@ import {
   FileText,
   Newspaper,
   Award,
-  GraduationCap
+  GraduationCap,
+  Activity
 } from "lucide-react";
 
 const NAV_ITEMS = [
@@ -49,6 +50,7 @@ const NAV_ITEMS = [
   { href: "/admin/seo", label: "SEO Suite", icon: Search },
   { href: "/admin/community", label: "Discord Manager", icon: MessageSquare },
   { href: "/admin/integrations", label: "API Integrations", icon: Settings },
+  { href: "/admin/system/health", label: "System Data Health", icon: Activity },
 ];
 
 

@@ -211,11 +211,13 @@ export async function GET(req: Request) {
         }
 
         // Live Fallback: Yahoo Finance (0 rate limits, 100% real live data)
-        if (price === null) {
+        // Guard: Do not fall back to Yahoo for spot metals (XAU/USD, XAG/USD).
+        // Yahoo has no spot metal feed; GC=F and SI=F are COMEX futures with a divergence basis.
+        const isSpotMetal = symbol.includes("XAU") || symbol.includes("XAG");
+        if (price === null && !isSpotMetal) {
           try {
             const cleanSym = symbol.replace("/", "").toUpperCase();
             const YAHOO_MAP: Record<string, string> = {
-              "XAU/USD": "GC=F", "XAG/USD": "SI=F",
               "GBP/USD": "GBPUSD=X", "EUR/USD": "EURUSD=X", "USD/JPY": "USDJPY=X",
               "USD/CHF": "USDCHF=X", "AUD/USD": "AUDUSD=X", "NZD/USD": "NZDUSD=X",
               "USD/CAD": "USDCAD=X", "EUR/GBP": "EURGBP=X", "EUR/JPY": "EURJPY=X",

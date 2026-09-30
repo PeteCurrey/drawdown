@@ -16,9 +16,23 @@ export interface ScreenerInstrument {
   tvSymbol: string;
   /** Symbol as accepted by Twelve Data time_series / quote endpoints */
   tdSymbol: string;
-  /** Yahoo Finance fallback symbol */
-  yahooSymbol: string;
+  /**
+   * Yahoo Finance fallback symbol.
+   * NULL means Yahoo Finance has no reliable OTC spot ticker for this instrument.
+   * The screener MUST NOT fall back to Yahoo — it must fail closed (feed_offline: true).
+   *
+   * IMPORTANT: Do NOT assign a futures contract (e.g. GC=F, SI=F) as a fallback
+   * for a spot instrument. COMEX futures carry a ~$20–60 premium over spot that
+   * causes material price errors (proven: GC=F was 4,181.5 while spot was 4,149.79).
+   */
+  yahooSymbol: string | null;
+  /**
+   * Instrument type annotation — enforces that fallbacks do not substitute a
+   * different instrument class (futures vs spot).
+   */
+  instrumentType: "spot" | "index" | "crypto" | "equity";
 }
+
 
 export interface ScreenerRow {
   slug: string;
@@ -49,69 +63,75 @@ export interface ScreenerRow {
 
 // ─── FX Majors (8) ────────────────────────────────────────────────────────────
 const FX_MAJORS: ScreenerInstrument[] = [
-  { scannerSlug: "EURUSD",  displayPair: "EUR/USD", category: "forex", tvSymbol: "FX:EURUSD",  tdSymbol: "EUR/USD", yahooSymbol: "EURUSD=X"  },
-  { scannerSlug: "GBPUSD",  displayPair: "GBP/USD", category: "forex", tvSymbol: "FX:GBPUSD",  tdSymbol: "GBP/USD", yahooSymbol: "GBPUSD=X"  },
-  { scannerSlug: "USDJPY",  displayPair: "USD/JPY", category: "forex", tvSymbol: "FX:USDJPY",  tdSymbol: "USD/JPY", yahooSymbol: "USDJPY=X"  },
-  { scannerSlug: "USDCHF",  displayPair: "USD/CHF", category: "forex", tvSymbol: "FX:USDCHF",  tdSymbol: "USD/CHF", yahooSymbol: "USDCHF=X"  },
-  { scannerSlug: "AUDUSD",  displayPair: "AUD/USD", category: "forex", tvSymbol: "FX:AUDUSD",  tdSymbol: "AUD/USD", yahooSymbol: "AUDUSD=X"  },
-  { scannerSlug: "NZDUSD",  displayPair: "NZD/USD", category: "forex", tvSymbol: "FX:NZDUSD",  tdSymbol: "NZD/USD", yahooSymbol: "NZDUSD=X"  },
-  { scannerSlug: "USDCAD",  displayPair: "USD/CAD", category: "forex", tvSymbol: "FX:USDCAD",  tdSymbol: "USD/CAD", yahooSymbol: "USDCAD=X"  },
-  { scannerSlug: "EURGBP",  displayPair: "EUR/GBP", category: "forex", tvSymbol: "FX:EURGBP",  tdSymbol: "EUR/GBP", yahooSymbol: "EURGBP=X"  },
+  { scannerSlug: "EURUSD",  displayPair: "EUR/USD", category: "forex", tvSymbol: "FX:EURUSD",  tdSymbol: "EUR/USD", yahooSymbol: "EURUSD=X",  instrumentType: "spot" },
+  { scannerSlug: "GBPUSD",  displayPair: "GBP/USD", category: "forex", tvSymbol: "FX:GBPUSD",  tdSymbol: "GBP/USD", yahooSymbol: "GBPUSD=X",  instrumentType: "spot" },
+  { scannerSlug: "USDJPY",  displayPair: "USD/JPY", category: "forex", tvSymbol: "FX:USDJPY",  tdSymbol: "USD/JPY", yahooSymbol: "USDJPY=X",  instrumentType: "spot" },
+  { scannerSlug: "USDCHF",  displayPair: "USD/CHF", category: "forex", tvSymbol: "FX:USDCHF",  tdSymbol: "USD/CHF", yahooSymbol: "USDCHF=X",  instrumentType: "spot" },
+  { scannerSlug: "AUDUSD",  displayPair: "AUD/USD", category: "forex", tvSymbol: "FX:AUDUSD",  tdSymbol: "AUD/USD", yahooSymbol: "AUDUSD=X",  instrumentType: "spot" },
+  { scannerSlug: "NZDUSD",  displayPair: "NZD/USD", category: "forex", tvSymbol: "FX:NZDUSD",  tdSymbol: "NZD/USD", yahooSymbol: "NZDUSD=X",  instrumentType: "spot" },
+  { scannerSlug: "USDCAD",  displayPair: "USD/CAD", category: "forex", tvSymbol: "FX:USDCAD",  tdSymbol: "USD/CAD", yahooSymbol: "USDCAD=X",  instrumentType: "spot" },
+  { scannerSlug: "EURGBP",  displayPair: "EUR/GBP", category: "forex", tvSymbol: "FX:EURGBP",  tdSymbol: "EUR/GBP", yahooSymbol: "EURGBP=X",  instrumentType: "spot" },
 ];
 
 // ─── FX Crosses (6) ───────────────────────────────────────────────────────────
 const FX_CROSSES: ScreenerInstrument[] = [
-  { scannerSlug: "GBPJPY",  displayPair: "GBP/JPY", category: "forex", tvSymbol: "FX:GBPJPY",  tdSymbol: "GBP/JPY", yahooSymbol: "GBPJPY=X"  },
-  { scannerSlug: "EURJPY",  displayPair: "EUR/JPY", category: "forex", tvSymbol: "FX:EURJPY",  tdSymbol: "EUR/JPY", yahooSymbol: "EURJPY=X"  },
-  { scannerSlug: "GBPCAD",  displayPair: "GBP/CAD", category: "forex", tvSymbol: "FX:GBPCAD",  tdSymbol: "GBP/CAD", yahooSymbol: "GBPCAD=X"  },
-  { scannerSlug: "AUDCAD",  displayPair: "AUD/CAD", category: "forex", tvSymbol: "FX:AUDCAD",  tdSymbol: "AUD/CAD", yahooSymbol: "AUDCAD=X"  },
-  { scannerSlug: "CADJPY",  displayPair: "CAD/JPY", category: "forex", tvSymbol: "FX:CADJPY",  tdSymbol: "CAD/JPY", yahooSymbol: "CADJPY=X"  },
-  { scannerSlug: "EURCHF",  displayPair: "EUR/CHF", category: "forex", tvSymbol: "FX:EURCHF",  tdSymbol: "EUR/CHF", yahooSymbol: "EURCHF=X"  },
+  { scannerSlug: "GBPJPY",  displayPair: "GBP/JPY", category: "forex", tvSymbol: "FX:GBPJPY",  tdSymbol: "GBP/JPY", yahooSymbol: "GBPJPY=X",  instrumentType: "spot" },
+  { scannerSlug: "EURJPY",  displayPair: "EUR/JPY", category: "forex", tvSymbol: "FX:EURJPY",  tdSymbol: "EUR/JPY", yahooSymbol: "EURJPY=X",  instrumentType: "spot" },
+  { scannerSlug: "GBPCAD",  displayPair: "GBP/CAD", category: "forex", tvSymbol: "FX:GBPCAD",  tdSymbol: "GBP/CAD", yahooSymbol: "GBPCAD=X",  instrumentType: "spot" },
+  { scannerSlug: "AUDCAD",  displayPair: "AUD/CAD", category: "forex", tvSymbol: "FX:AUDCAD",  tdSymbol: "AUD/CAD", yahooSymbol: "AUDCAD=X",  instrumentType: "spot" },
+  { scannerSlug: "CADJPY",  displayPair: "CAD/JPY", category: "forex", tvSymbol: "FX:CADJPY",  tdSymbol: "CAD/JPY", yahooSymbol: "CADJPY=X",  instrumentType: "spot" },
+  { scannerSlug: "EURCHF",  displayPair: "EUR/CHF", category: "forex", tvSymbol: "FX:EURCHF",  tdSymbol: "EUR/CHF", yahooSymbol: "EURCHF=X",  instrumentType: "spot" },
 ];
 
 // ─── Commodities (4) ──────────────────────────────────────────────────────────
+// XAUUSD and XAGUSD: yahooSymbol is null.
+// Yahoo Finance has no OTC spot gold/silver ticker. GC=F and SI=F are COMEX futures
+// contracts that carry a ~$20–60 premium over spot — using them caused a +$31.71
+// pricing error (4,182.7 vs 4,149.79 spot). When Twelve Data is unavailable for
+// these instruments, the screener MUST return feed_offline:true, never a futures price.
 const COMMODITIES: ScreenerInstrument[] = [
-  { scannerSlug: "XAUUSD",  displayPair: "XAU/USD", category: "commodities", tvSymbol: "OANDA:XAUUSD",  tdSymbol: "XAU/USD", yahooSymbol: "GC=F"   },
-  { scannerSlug: "XAGUSD",  displayPair: "XAG/USD", category: "commodities", tvSymbol: "OANDA:XAGUSD",  tdSymbol: "XAG/USD", yahooSymbol: "SI=F"   },
-  { scannerSlug: "WTIUSD",  displayPair: "WTI Oil",  category: "commodities", tvSymbol: "NYMEX:CL1!",   tdSymbol: "WTI/USD", yahooSymbol: "CL=F"   },
-  { scannerSlug: "NATGAS",  displayPair: "Nat Gas",  category: "commodities", tvSymbol: "NYMEX:NG1!",   tdSymbol: "NATGAS",  yahooSymbol: "NG=F"   },
+  { scannerSlug: "XAUUSD",  displayPair: "XAU/USD", category: "commodities", tvSymbol: "OANDA:XAUUSD",  tdSymbol: "XAU/USD", yahooSymbol: null,    instrumentType: "spot" },
+  { scannerSlug: "XAGUSD",  displayPair: "XAG/USD", category: "commodities", tvSymbol: "OANDA:XAGUSD",  tdSymbol: "XAG/USD", yahooSymbol: null,    instrumentType: "spot" },
+  { scannerSlug: "WTIUSD",  displayPair: "WTI Oil",  category: "commodities", tvSymbol: "NYMEX:CL1!",   tdSymbol: "WTI/USD", yahooSymbol: "CL=F",  instrumentType: "spot" },
+  { scannerSlug: "NATGAS",  displayPair: "Nat Gas",  category: "commodities", tvSymbol: "NYMEX:NG1!",   tdSymbol: "NATGAS",  yahooSymbol: "NG=F",  instrumentType: "spot" },
 ];
 
 // ─── Indices (6) ──────────────────────────────────────────────────────────────
 const INDICES: ScreenerInstrument[] = [
-  { scannerSlug: "UKX",    displayPair: "UK100",  category: "indices", tvSymbol: "TVC:UKX",    tdSymbol: "FTSE",    yahooSymbol: "^FTSE"   },
-  { scannerSlug: "SPX",    displayPair: "US500",  category: "indices", tvSymbol: "TVC:SPX",    tdSymbol: "SPX",     yahooSymbol: "^GSPC"   },
-  { scannerSlug: "NDX",    displayPair: "NAS100", category: "indices", tvSymbol: "TVC:NDX",    tdSymbol: "NDX",     yahooSymbol: "^NDX"    },
-  { scannerSlug: "DJI",    displayPair: "US30",   category: "indices", tvSymbol: "TVC:DJI",    tdSymbol: "DJI",     yahooSymbol: "^DJI"    },
-  { scannerSlug: "DAX",    displayPair: "GER40",  category: "indices", tvSymbol: "XETR:DAX",   tdSymbol: "DAX",     yahooSymbol: "^GDAXI"  },
-  { scannerSlug: "NIKKEI", displayPair: "JPN225", category: "indices", tvSymbol: "TVC:NI225",  tdSymbol: "NIKKEI",  yahooSymbol: "^N225"   },
+  { scannerSlug: "UKX",    displayPair: "UK100",  category: "indices", tvSymbol: "TVC:UKX",    tdSymbol: "FTSE",    yahooSymbol: "^FTSE",   instrumentType: "index" },
+  { scannerSlug: "SPX",    displayPair: "US500",  category: "indices", tvSymbol: "TVC:SPX",    tdSymbol: "SPX",     yahooSymbol: "^GSPC",   instrumentType: "index" },
+  { scannerSlug: "NDX",    displayPair: "NAS100", category: "indices", tvSymbol: "TVC:NDX",    tdSymbol: "NDX",     yahooSymbol: "^NDX",    instrumentType: "index" },
+  { scannerSlug: "DJI",    displayPair: "US30",   category: "indices", tvSymbol: "TVC:DJI",    tdSymbol: "DJI",     yahooSymbol: "^DJI",    instrumentType: "index" },
+  { scannerSlug: "DAX",    displayPair: "GER40",  category: "indices", tvSymbol: "XETR:DAX",   tdSymbol: "DAX",     yahooSymbol: "^GDAXI",  instrumentType: "index" },
+  { scannerSlug: "NIKKEI", displayPair: "JPN225", category: "indices", tvSymbol: "TVC:NI225",  tdSymbol: "NIKKEI",  yahooSymbol: "^N225",   instrumentType: "index" },
 ];
 
 // ─── Crypto (8) ───────────────────────────────────────────────────────────────
 const CRYPTO: ScreenerInstrument[] = [
-  { scannerSlug: "BTCUSDT",  displayPair: "BTC/USD",  category: "crypto", tvSymbol: "BINANCE:BTCUSDT",  tdSymbol: "BTC/USD",  yahooSymbol: "BTC-USD"  },
-  { scannerSlug: "ETHUSDT",  displayPair: "ETH/USD",  category: "crypto", tvSymbol: "BINANCE:ETHUSDT",  tdSymbol: "ETH/USD",  yahooSymbol: "ETH-USD"  },
-  { scannerSlug: "XRPUSDT",  displayPair: "XRP/USD",  category: "crypto", tvSymbol: "BINANCE:XRPUSDT",  tdSymbol: "XRP/USD",  yahooSymbol: "XRP-USD"  },
-  { scannerSlug: "SOLUSDT",  displayPair: "SOL/USD",  category: "crypto", tvSymbol: "BINANCE:SOLUSDT",  tdSymbol: "SOL/USD",  yahooSymbol: "SOL-USD"  },
-  { scannerSlug: "ADAUSDT",  displayPair: "ADA/USD",  category: "crypto", tvSymbol: "BINANCE:ADAUSDT",  tdSymbol: "ADA/USD",  yahooSymbol: "ADA-USD"  },
-  { scannerSlug: "DOGEUSDT", displayPair: "DOGE/USD", category: "crypto", tvSymbol: "BINANCE:DOGEUSDT", tdSymbol: "DOGE/USD", yahooSymbol: "DOGE-USD" },
-  { scannerSlug: "BNBUSDT",  displayPair: "BNB/USD",  category: "crypto", tvSymbol: "BINANCE:BNBUSDT",  tdSymbol: "BNB/USD",  yahooSymbol: "BNB-USD"  },
-  { scannerSlug: "LINKUSDT", displayPair: "LINK/USD", category: "crypto", tvSymbol: "BINANCE:LINKUSDT", tdSymbol: "LINK/USD", yahooSymbol: "LINK-USD" },
+  { scannerSlug: "BTCUSDT",  displayPair: "BTC/USD",  category: "crypto", tvSymbol: "BINANCE:BTCUSDT",  tdSymbol: "BTC/USD",  yahooSymbol: "BTC-USD",  instrumentType: "crypto" },
+  { scannerSlug: "ETHUSDT",  displayPair: "ETH/USD",  category: "crypto", tvSymbol: "BINANCE:ETHUSDT",  tdSymbol: "ETH/USD",  yahooSymbol: "ETH-USD",  instrumentType: "crypto" },
+  { scannerSlug: "XRPUSDT",  displayPair: "XRP/USD",  category: "crypto", tvSymbol: "BINANCE:XRPUSDT",  tdSymbol: "XRP/USD",  yahooSymbol: "XRP-USD",  instrumentType: "crypto" },
+  { scannerSlug: "SOLUSDT",  displayPair: "SOL/USD",  category: "crypto", tvSymbol: "BINANCE:SOLUSDT",  tdSymbol: "SOL/USD",  yahooSymbol: "SOL-USD",  instrumentType: "crypto" },
+  { scannerSlug: "ADAUSDT",  displayPair: "ADA/USD",  category: "crypto", tvSymbol: "BINANCE:ADAUSDT",  tdSymbol: "ADA/USD",  yahooSymbol: "ADA-USD",  instrumentType: "crypto" },
+  { scannerSlug: "DOGEUSDT", displayPair: "DOGE/USD", category: "crypto", tvSymbol: "BINANCE:DOGEUSDT", tdSymbol: "DOGE/USD", yahooSymbol: "DOGE-USD", instrumentType: "crypto" },
+  { scannerSlug: "BNBUSDT",  displayPair: "BNB/USD",  category: "crypto", tvSymbol: "BINANCE:BNBUSDT",  tdSymbol: "BNB/USD",  yahooSymbol: "BNB-USD",  instrumentType: "crypto" },
+  { scannerSlug: "LINKUSDT", displayPair: "LINK/USD", category: "crypto", tvSymbol: "BINANCE:LINKUSDT", tdSymbol: "LINK/USD", yahooSymbol: "LINK-USD", instrumentType: "crypto" },
 ];
 
 // ─── UK Stocks (3) ────────────────────────────────────────────────────────────
 const UK_STOCKS: ScreenerInstrument[] = [
-  { scannerSlug: "BARC", displayPair: "Barclays", category: "stocks-uk", tvSymbol: "LSE:BARC", tdSymbol: "BARC:LSE", yahooSymbol: "BARC.L" },
-  { scannerSlug: "LLOY", displayPair: "Lloyds",   category: "stocks-uk", tvSymbol: "LSE:LLOY", tdSymbol: "LLOY:LSE", yahooSymbol: "LLOY.L" },
-  { scannerSlug: "SHEL", displayPair: "Shell",    category: "stocks-uk", tvSymbol: "LSE:SHEL", tdSymbol: "SHEL:LSE", yahooSymbol: "SHEL.L" },
+  { scannerSlug: "BARC", displayPair: "Barclays", category: "stocks-uk", tvSymbol: "LSE:BARC", tdSymbol: "BARC:LSE", yahooSymbol: "BARC.L", instrumentType: "equity" },
+  { scannerSlug: "LLOY", displayPair: "Lloyds",   category: "stocks-uk", tvSymbol: "LSE:LLOY", tdSymbol: "LLOY:LSE", yahooSymbol: "LLOY.L", instrumentType: "equity" },
+  { scannerSlug: "SHEL", displayPair: "Shell",    category: "stocks-uk", tvSymbol: "LSE:SHEL", tdSymbol: "SHEL:LSE", yahooSymbol: "SHEL.L", instrumentType: "equity" },
 ];
 
 // ─── US Stocks (3) ────────────────────────────────────────────────────────────
 const US_STOCKS: ScreenerInstrument[] = [
-  { scannerSlug: "AAPL", displayPair: "Apple",  category: "stocks-us", tvSymbol: "NASDAQ:AAPL", tdSymbol: "AAPL", yahooSymbol: "AAPL" },
-  { scannerSlug: "NVDA", displayPair: "NVIDIA", category: "stocks-us", tvSymbol: "NASDAQ:NVDA", tdSymbol: "NVDA", yahooSymbol: "NVDA" },
-  { scannerSlug: "TSLA", displayPair: "Tesla",  category: "stocks-us", tvSymbol: "NASDAQ:TSLA", tdSymbol: "TSLA", yahooSymbol: "TSLA" },
+  { scannerSlug: "AAPL", displayPair: "Apple",  category: "stocks-us", tvSymbol: "NASDAQ:AAPL", tdSymbol: "AAPL", yahooSymbol: "AAPL", instrumentType: "equity" },
+  { scannerSlug: "NVDA", displayPair: "NVIDIA", category: "stocks-us", tvSymbol: "NASDAQ:NVDA", tdSymbol: "NVDA", yahooSymbol: "NVDA", instrumentType: "equity" },
+  { scannerSlug: "TSLA", displayPair: "Tesla",  category: "stocks-us", tvSymbol: "NASDAQ:TSLA", tdSymbol: "TSLA", yahooSymbol: "TSLA", instrumentType: "equity" },
 ];
+
 
 /**
  * Full 38-instrument canonical list.

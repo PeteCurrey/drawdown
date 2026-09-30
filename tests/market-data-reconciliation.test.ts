@@ -17,13 +17,18 @@ test("Canonical Registry: Exactly 38 master instruments with uniform schema", ()
     assert.ok(inst.category, `Instrument ${inst.scannerSlug} must have category`);
     assert.ok(inst.tvSymbol, `Instrument ${inst.scannerSlug} must have tvSymbol`);
     assert.ok(inst.tdSymbol, `Instrument ${inst.scannerSlug} must have tdSymbol`);
-    assert.ok(inst.yahooSymbol, `Instrument ${inst.scannerSlug} must have yahooSymbol`);
+    // yahooSymbol may be null for spot metals to prevent futures substitution
+    if (inst.scannerSlug !== "XAUUSD" && inst.scannerSlug !== "XAGUSD") {
+      assert.ok(inst.yahooSymbol, `Instrument ${inst.scannerSlug} must have yahooSymbol`);
+    } else {
+      assert.strictEqual(inst.yahooSymbol, null, `Spot metal ${inst.scannerSlug} must NOT have a futures yahooSymbol`);
+    }
   }
 });
 
 test("Canonical Registry: All 12 required test instruments exist and are correctly mapped", () => {
   const REQUIRED_SYMBOLS = [
-    { slug: "XAUUSD",  display: "XAU/USD",  td: "XAU/USD",  yahoo: "GC=F",     tv: "OANDA:XAUUSD" },
+    { slug: "XAUUSD",  display: "XAU/USD",  td: "XAU/USD",  yahoo: null,       tv: "OANDA:XAUUSD" },
     { slug: "NDX",     display: "NAS100",   td: "NDX",      yahoo: "^NDX",     tv: "TVC:NDX" },
     { slug: "EURUSD",  display: "EUR/USD",  td: "EUR/USD",  yahoo: "EURUSD=X", tv: "FX:EURUSD" },
     { slug: "GBPUSD",  display: "GBP/USD",  td: "GBP/USD",  yahoo: "GBPUSD=X", tv: "FX:GBPUSD" },
@@ -34,7 +39,7 @@ test("Canonical Registry: All 12 required test instruments exist and are correct
     { slug: "DJI",     display: "US30",     td: "DJI",      yahoo: "^DJI",     tv: "TVC:DJI" },
     { slug: "UKX",     display: "UK100",    td: "FTSE",     yahoo: "^FTSE",    tv: "TVC:UKX" },
     { slug: "WTIUSD",  display: "WTI Oil",  td: "WTI/USD",  yahoo: "CL=F",     tv: "NYMEX:CL1!" },
-    { slug: "XAGUSD",  display: "XAG/USD",  td: "XAG/USD",  yahoo: "SI=F",     tv: "OANDA:XAGUSD" },
+    { slug: "XAGUSD",  display: "XAG/USD",  td: "XAG/USD",  yahoo: null,       tv: "OANDA:XAGUSD" },
   ];
 
   for (const item of REQUIRED_SYMBOLS) {

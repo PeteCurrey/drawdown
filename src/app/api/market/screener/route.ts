@@ -188,8 +188,11 @@ export async function GET(request: NextRequest) {
         }
       }
 
-      // Yahoo fallback
-      if (price === null) {
+      // Yahoo fallback — only when a valid spot ticker exists.
+      // yahooSymbol is null for instruments where Yahoo has no OTC spot equivalent
+      // (e.g. XAUUSD/XAGUSD — GC=F/SI=F are COMEX futures, not spot, and carry a
+      // ~$20–60 premium that causes material price errors).
+      if (price === null && inst.yahooSymbol !== null) {
         const yahoo = await fetchYahooPrice(inst.yahooSymbol);
         if (yahoo) {
           price = yahoo.price;
@@ -198,6 +201,7 @@ export async function GET(request: NextRequest) {
           source = "yahoo";
         }
       }
+
 
       const feedOffline = price === null;
 

@@ -76,8 +76,9 @@ export interface SentimentData {
 }
 
 const YAHOO_PRICE_MAP: Record<string, string> = {
-  "XAUUSD": "GC=F", "XAU/USD": "GC=F", "GOLD": "GC=F",
-  "XAGUSD": "SI=F", "XAG/USD": "SI=F", "SILVER": "SI=F",
+  // Note: XAUUSD (Gold) and XAGUSD (Silver) are excluded.
+  // Yahoo Finance only provides COMEX futures (GC=F, SI=F), not spot bullion prices.
+  // Using futures introduces a basis divergence (~$30+) into spot quotes.
   "GBPUSD": "GBPUSD=X", "GBP/USD": "GBPUSD=X",
   "EURUSD": "EURUSD=X", "EUR/USD": "EURUSD=X",
   "USDJPY": "USDJPY=X", "USD/JPY": "USDJPY=X",
@@ -103,6 +104,10 @@ const YAHOO_PRICE_MAP: Record<string, string> = {
 
 async function fetchYahooMarketPrice(rawSymbol: string): Promise<MarketPrice | null> {
   const cleanSym = rawSymbol.replace("/", "").toUpperCase();
+  // Do not fall back to Yahoo for spot metals (no valid Yahoo spot ticker exists)
+  if (cleanSym.startsWith("XAU") || cleanSym.startsWith("XAG") || cleanSym === "GOLD" || cleanSym === "SILVER") {
+    return null;
+  }
   const ySym = YAHOO_PRICE_MAP[rawSymbol] || YAHOO_PRICE_MAP[cleanSym] || (cleanSym.length === 6 ? `${cleanSym}=X` : cleanSym);
   try {
     const url = `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(ySym)}?interval=1d&range=5d`;

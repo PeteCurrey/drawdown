@@ -129,11 +129,11 @@ export interface CanonicalMarketPayload {
 // ── Symbol Mappings ─────────────────────────────────────────────────────────
 
 const YAHOO_SYMBOL_MAP: Record<string, string> = {
-  // Forex & Metals
-  XAUUSD: "GC=F",      // COMEX Gold Futures benchmark for spot correlation
-  "XAU/USD": "GC=F",
-  XAGUSD: "SI=F",      // COMEX Silver Futures benchmark
-  "XAG/USD": "SI=F",
+  // Forex & Metals Note:
+  // Yahoo Finance has NO reliable OTC spot ticker for Gold (XAUUSD) or Silver (XAGUSD).
+  // GC=F and SI=F are COMEX futures contracts that carry a significant futures premium/basis
+  // (e.g. +$31.71 discrepancy), which previously contaminated spot pricing.
+  // For spot metals, Avorria must fail closed to Twelve Data and NEVER substitute futures.
   EURUSD: "EURUSD=X",
   "EUR/USD": "EURUSD=X",
   GBPUSD: "GBPUSD=X",
@@ -392,7 +392,9 @@ export async function getCanonicalMarketData(
   }
 
   // ── Tier 2: Yahoo Finance Realtime Chart Feed ───────────────────────────────
-  if (candles.length === 0) {
+  // Note: Spot metals (XAU, XAG) have no valid Yahoo spot ticker. They MUST NOT fall back to Yahoo.
+  const isSpotMetal = cleanSymbol.startsWith("XAU") || cleanSymbol.startsWith("XAG");
+  if (candles.length === 0 && !isSpotMetal) {
     try {
       const ySymbol = YAHOO_SYMBOL_MAP[cleanSymbol] || `${cleanSymbol}=X`;
       const { interval, range } = toYahooInterval(timeframe);

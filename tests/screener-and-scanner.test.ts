@@ -23,7 +23,11 @@ test("Screener Registry: all instruments have valid mappings", () => {
     assert.ok(inst.category, `Missing category for ${inst.scannerSlug}`);
     assert.ok(inst.tvSymbol, `Missing tvSymbol for ${inst.scannerSlug}`);
     assert.ok(inst.tdSymbol, `Missing tdSymbol for ${inst.scannerSlug}`);
-    assert.ok(inst.yahooSymbol, `Missing yahooSymbol for ${inst.scannerSlug}`);
+    if (inst.scannerSlug !== "XAUUSD" && inst.scannerSlug !== "XAGUSD") {
+      assert.ok(inst.yahooSymbol, `Missing yahooSymbol for ${inst.scannerSlug}`);
+    } else {
+      assert.strictEqual(inst.yahooSymbol, null, `yahooSymbol must be null for ${inst.scannerSlug} to avoid futures fallback`);
+    }
   }
 });
 

@@ -141,8 +141,8 @@ export async function GET(request: NextRequest) {
         return;
       }
 
-      // Yahoo Finance Fallback
-      const yData = await fetchYahooPrice(inst.yahooSymbol);
+      // Yahoo Finance Fallback — only if a valid spot ticker exists (yahooSymbol !== null)
+      const yData = inst.yahooSymbol ? await fetchYahooPrice(inst.yahooSymbol) : null;
       if (yData && yData.price !== null) {
         results[inst.scannerSlug] = {
           symbol: inst.scannerSlug,

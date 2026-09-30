@@ -43,12 +43,12 @@ const PDF_BOOKS = [
     subtitle: "100-page PDF — Permanent Download",
     description:
       "Rule decoder, position sizing calculators and psychological protocols for passing prop firm evaluations.",
-    price: "£49",
+    price: "FREE",
     standaloneUrl: "/store/prop-survival-kit",
     sampleUrl: "/downloads/challenge-checklist.pdf",
-    tags: ["Prop Firms", "Risk Management"],
+    tags: ["Prop Firms", "Free Lead Magnet"],
     accentColor: "#C8F135",
-    includedWith: "Annual Foundation+",
+    includedWith: "Free Lead Magnet",
   },
   {
     id: "how-to-trade",
@@ -393,7 +393,7 @@ export default function PricingPage({
   const searchParams = useSearchParams();
   const redirectPath = searchParams.get("redirect") || undefined;
 
-  const tiers = GBP_TIERS;
+  const tiers = GBP_TIERS.filter((t) => t.id === "free" || t.id === "core");
   const isFloorCapReached = activeFloorSubs >= floorCap;
 
   const handleSubscribe = async (tierId: string, consentData?: {
@@ -407,12 +407,6 @@ export default function PricingPage({
       return;
     }
 
-    // Floor at capacity → waitlist
-    if (tierId === "floor" && isFloorCapReached) {
-      window.location.href = "/waitlist?tier=floor";
-      return;
-    }
-
     if (!consentData) {
       setPendingTier(tierId);
       setShowConsent(true);
@@ -422,8 +416,7 @@ export default function PricingPage({
     setLoadingTier(tierId);
     setShowConsent(false);
     try {
-      const interval =
-        billingCycle === "monthly" ? "monthly" : "annual";
+      const interval = "monthly";
       const priceConfig = (STRIPE_CONFIG.prices as any)[tierId]?.[interval];
       const priceId = priceConfig?.["gbp"];
 
@@ -469,100 +462,41 @@ export default function PricingPage({
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
 
         {/* ── Page Header ── */}
-        <div className="text-center mb-14 space-y-4">
+        <div className="text-center mb-10 space-y-4 max-w-3xl mx-auto">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded bg-slate-100 border border-slate-200 text-slate-800 text-xs font-mono font-bold uppercase tracking-widest">
             <Zap className="w-3.5 h-3.5 text-slate-700" />
-            Memberships &amp; products
+            Commercial Membership
           </div>
-          <h1 className="text-4xl md:text-6xl font-black tracking-tight text-slate-900 font-sans">
-            Choose the level of structure<br className="hidden md:block" /> and support you need.
+          <h1 className="text-4xl md:text-5xl font-black tracking-tight text-slate-900 font-sans">
+            One Core Membership.<br />All Platform Tools.
           </h1>
           <p className="text-base text-slate-600 max-w-2xl mx-auto font-sans leading-relaxed">
-            Start free. Upgrade when the released curriculum, tools and support justify it.
-            Planned features are never counted as current membership value.
+            Start free with our calculators, pre-trade tools, and the Prop Firm Survival Kit. Upgrade to Core for £24.99/month for full access to the live Signal Centre, Quantitative Screener, AI Journal, and curriculum.
           </p>
         </div>
 
-        {/* ── Billing toggle ── */}
-        <div className="flex items-center justify-center gap-4 mb-14">
-          <span
-            className={cn(
-              "text-sm font-sans font-medium transition-colors",
-              billingCycle === "monthly"
-                ? "text-slate-900 font-bold"
-                : "text-slate-500"
-            )}
-          >
-            Monthly
-          </span>
-          <button
-            id="billing-toggle"
-            onClick={() =>
-              setBillingCycle((prev) =>
-                prev === "monthly" ? "yearly" : "monthly"
-              )
-            }
-            aria-pressed={billingCycle === "yearly"}
-            aria-label="Toggle annual billing"
-            className="w-14 h-7 bg-slate-200 border border-slate-300 rounded-full p-0.5 relative transition-colors cursor-pointer"
-          >
-            <div
-              className="absolute top-0.5 left-0.5 w-6 h-6 bg-slate-900 rounded-full transition-transform duration-300 shadow-md"
-              style={{
-                transform:
-                  billingCycle === "yearly"
-                    ? "translateX(28px)"
-                    : "translateX(0)",
-              }}
-            />
-          </button>
-          <span
-            className={cn(
-              "text-sm font-sans font-medium transition-colors flex items-center gap-1.5",
-              billingCycle === "yearly"
-                ? "text-slate-900 font-bold"
-                : "text-slate-500"
-            )}
-          >
-            Annual
-            <span className="text-[10px] font-mono font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
-              2 months free
-            </span>
+        {/* ── Billing Indicator ── */}
+        <div className="flex items-center justify-center gap-2 mb-12">
+          <span className="text-xs font-mono font-bold uppercase tracking-wider text-slate-700 bg-slate-100 border border-slate-200 px-4 py-1.5 rounded-full">
+            Monthly Membership · £24.99/mo · Cancel Anytime
           </span>
         </div>
 
-        {/* ── Tier Cards — 4 columns ── */}
+        {/* ── Tier Cards — 2 columns ── */}
         <div
           id="membership-tiers"
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch mb-10"
+          className="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch mb-16 max-w-4xl mx-auto"
         >
           {tiers.map((tier) => (
             <TierCard
               key={tier.id}
               tier={tier}
-              billingCycle={billingCycle}
+              billingCycle="monthly"
               onSubscribe={handleSubscribe}
               loadingTier={loadingTier}
-              isCapacityReached={isFloorCapReached}
+              isCapacityReached={false}
             />
           ))}
-        </div>
-
-        {/* ── Annual download note ── */}
-        <div className="mb-20 p-4 bg-amber-50 border border-amber-200 rounded-lg max-w-3xl mx-auto">
-          <div className="flex items-start gap-3">
-            <Star className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
-            <div className="text-xs text-amber-900 font-sans leading-relaxed">
-              <span className="font-bold">Annual plan download entitlements</span>{" "}
-              — Manuals marked with a star are permanently yours when purchased
-              via an annual plan. Monthly members can access manuals inside the
-              platform while their subscription is active, or purchase individually at{" "}
-              <Link href="/store" className="underline font-semibold">
-                the store
-              </Link>
-              .
-            </div>
-          </div>
         </div>
 
         {/* ── Accelerator banner ── */}
@@ -782,8 +716,8 @@ export default function PricingPage({
         onClose={() => { setShowConsent(false); setPendingTier(null); }}
         onConfirm={(consentData) => { if (pendingTier) handleSubscribe(pendingTier, consentData); }}
         loading={loadingTier !== null}
-        productName={`Avorria ${pendingTier.charAt(0).toUpperCase() + pendingTier.slice(1)}`}
-        priceString={billingCycle === "monthly" ? "from £49/mo" : "from £39/mo (annual)"}
+        productName={pendingTier === "core" ? "Avorria Core Membership" : `Avorria ${pendingTier ? pendingTier.charAt(0).toUpperCase() + pendingTier.slice(1) : "Core"}`}
+        priceString={pendingTier === "core" ? "£24.99/mo" : "£24.99/mo"}
       />
     )}
     </>

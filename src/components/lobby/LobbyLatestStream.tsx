@@ -79,7 +79,7 @@ export function LobbyLatestStream({ initialArticles = [] }: LobbyLatestStreamPro
         {filteredArticles.length === 0 ? (
           <LobbyEmptyState
             title={activeFilter === "All" ? "NO STORIES PUBLISHED" : `NO ${activeFilter.toUpperCase()} STORIES YET`}
-            description="Stories meeting Drawdown's verification standards will stream chronologically once approved by our editorial desk."
+            description="Stories meeting Avorria's verification standards will stream chronologically once approved by our editorial desk."
             badge="CHRONOLOGICAL INDEX"
           />
         ) : (

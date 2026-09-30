@@ -21,7 +21,11 @@ export async function POST(request: NextRequest) {
       marketing_consent,
     } = await request.json();
 
-    if (!tier || !["foundation", "edge", "floor", "signal-centre", "investment-centre", "accelerator"].includes(tier)) {
+    if (!tier || ![
+      "core",
+      // Legacy tiers — retained for backward compatibility, not shown to new customers
+      "foundation", "edge", "floor", "signal-centre", "investment-centre", "accelerator",
+    ].includes(tier)) {
       return NextResponse.json({ error: "Invalid plan tier specified" }, { status: 400 });
     }
     if (!terms_accepted) {
@@ -65,6 +69,10 @@ export async function POST(request: NextRequest) {
 
       priceId = (pricesForTier as any).oneTime[region] || (pricesForTier as any).oneTime["gbp"];
       mode = "payment";
+    } else if (tier === "core") {
+      // Core is monthly-only (Phase 1). billingCycle is ignored; always use monthly.
+      const corePrices = (pricesForTier as any).monthly;
+      priceId = corePrices[region] || corePrices["gbp"];
     } else {
       const cycleKey = billingCycle === "yearly" ? "annual" : "monthly";
       const pricesForCycle = pricesForTier[cycleKey as keyof typeof pricesForTier];

@@ -155,192 +155,143 @@ export const GBP_TIERS: PricingTier[] = [
     capacity: undefined,
   },
   {
+    id: "core",
+    name: "Avorria Core Membership",
+    shortName: "Core",
+    tierKey: "core",
+    monthlyPrice: 24.99,
+    annualPrice: 0,
+    annualSaving: 0,
+    annualSavingDescription: "",
+    description:
+      "One subscription. Complete access to every released platform tool, quantitative scanner, risk calculator, and curriculum phase.",
+    buttonText: "Join Core Membership",
+    highlight: true,
+    applicationRequired: false,
+    hasAnnualOption: false, // Phase 1 is monthly-only (£24.99/mo)
+    releasedFeatures: [
+      { name: "Everything in Free", included: true },
+      { name: "Complete curriculum access (all released phases)", included: true },
+      { name: "Quantitative Technical Scanner & Market Screener", included: true },
+      { name: "Live Signal Centre feeds & alerts", included: true },
+      { name: "Institutional Investment Centre & macro risk engine", included: true },
+      { name: "AI-assisted Trade Journal & pattern review", included: true },
+      { name: "Strategy Backtester (Beta)", included: true, status: "beta", note: "Beta" },
+      { name: "Algo Strategy Builder Pine Script / Python export", included: true },
+      { name: "Market Intelligence Hub, The Wire & Grok sentiment", included: true },
+      { name: "Watchlists & custom saved screens", included: true },
+      { name: "Private member community & events access", included: true },
+      { name: "Priority support desk", included: true },
+    ],
+    plannedFeatures: [
+      "Monte Carlo risk simulator (in development)",
+      "Automated webhook order execution (planned)",
+    ],
+    accentColor: "rgba(200, 241, 53, 0.08)",
+    borderAccent: "#C8F135",
+    annualPermanentEntitlements: [],
+    capacity: undefined,
+  },
+  // Legacy Tiers — Retained for DB, schema & backward compatibility only.
+  // Not displayed in public customer-facing UI.
+  {
     id: "foundation",
-    name: "Foundation",
+    name: "Foundation (Legacy)",
     shortName: "Foundation",
     tierKey: "foundation",
     monthlyPrice: 49,
     annualPrice: 490,
-    annualSaving: 98, // (49 × 12) − 490 = 588 − 490 = 98
+    annualSaving: 98,
     annualSavingDescription: "Two months at no additional charge",
     description:
-      "For developing traders who need structured education, a risk framework and a repeatable trading-review process.",
+      "Legacy tier. Retained for account compatibility.",
     buttonText: "Start Foundation",
     highlight: false,
     applicationRequired: false,
     hasAnnualOption: true,
     releasedFeatures: [
       { name: "Everything in Free", included: true },
-      {
-        name: "Foundation curriculum: Phase 1 live; Phases 2–4 added as released",
-        included: true,
-        status: "in_development",
-        note: "In development",
-      },
       { name: "Manual trade journal", included: true },
       { name: "Position sizing and exposure tools", included: true },
       { name: "Technical charting access", included: true },
       { name: "Market Intelligence Hub & The Wire", included: true },
-      { name: "General community access", included: true },
-      {
-        name: "Prop Firm Survival Kit (permanent download)",
-        included: true,
-        annualOnly: true,
-        note: "Annual plan",
-      },
-      {
-        name: "How to Trade Manual (permanent download)",
-        included: true,
-        annualOnly: true,
-        note: "Annual plan",
-      },
     ],
     plannedFeatures: [],
     accentColor: "rgba(99, 102, 241, 0.08)",
     borderAccent: "#6366f1",
-    annualPermanentEntitlements: [
-      "prop_firm_survival_kit_download",
-      "how_to_trade_download",
-    ],
+    annualPermanentEntitlements: [],
     capacity: undefined,
   },
   {
     id: "edge",
-    name: "Edge",
+    name: "Edge (Legacy)",
     shortName: "Edge",
     tierKey: "edge",
     monthlyPrice: 99,
     annualPrice: 990,
-    annualSaving: 198, // (99 × 12) − 990 = 1188 − 990 = 198
+    annualSaving: 198,
     annualSavingDescription: "Two months at no additional charge",
     description:
-      "For active traders who require advanced analysis, structured strategy testing and deeper performance-review tools.",
+      "Legacy tier. Retained for account compatibility.",
     buttonText: "Join Edge",
-    highlight: true,
+    highlight: false,
     applicationRequired: false,
     hasAnnualOption: true,
     releasedFeatures: [
       { name: "Everything in Foundation", included: true },
-      {
-        name: "Edge curriculum: Phases 5–10 as released",
-        included: true,
-        status: "in_development",
-        note: "In development",
-      },
       { name: "Investment Centre access", included: true },
       { name: "AI-assisted journal review", included: true },
-      {
-        name: "Strategy backtester",
-        included: true,
-        status: "beta",
-        note: "Beta",
-      },
-      { name: "Advanced market and macro briefings", included: true },
-      { name: "Priority support queue", included: true },
-      {
-        name: "Prop Firm Survival Kit (permanent download)",
-        included: true,
-        annualOnly: true,
-        note: "Annual plan",
-      },
-      {
-        name: "How to Trade Manual (permanent download)",
-        included: true,
-        annualOnly: true,
-        note: "Annual plan",
-      },
-      {
-        name: "The Edge Manual (permanent download)",
-        included: true,
-        annualOnly: true,
-        note: "Annual plan",
-      },
-      {
-        name: "Deploy Your Algo mini-course",
-        included: true,
-        annualOnly: true,
-        note: "Annual plan",
-      },
+      { name: "Strategy backtester", included: true, status: "beta", note: "Beta" },
     ],
-    plannedFeatures: [
-      "Monte Carlo simulation tools (in development)",
-      "Automated market alerts (planned)",
-      "Pine Script strategy development resources (planned)",
-    ],
+    plannedFeatures: [],
     accentColor: "rgba(6, 182, 212, 0.08)",
     borderAccent: "#0891b2",
-    annualPermanentEntitlements: [
-      "prop_firm_survival_kit_download",
-      "how_to_trade_download",
-      "edge_manual_download",
-      "deploy_your_algo_access",
-    ],
+    annualPermanentEntitlements: [],
     capacity: undefined,
   },
   {
     id: "floor",
-    name: "The Floor",
+    name: "The Floor (Legacy)",
     shortName: "Floor",
     tierKey: "floor",
     monthlyPrice: 299,
-    annualPrice: 0, // No public annual checkout at launch
+    annualPrice: 0,
     annualSaving: 0,
     annualSavingDescription: "",
     description:
-      "For serious traders who require the complete released platform plus defined access to founder-led process reviews.",
+      "Legacy tier. Retained for account compatibility.",
     buttonText: "Apply for The Floor",
     highlight: false,
-    applicationRequired: false, // No application required for direct checkout, but capacity-enforced
-    hasAnnualOption: false, // Annual arrangements offered only after application + manual approval
+    applicationRequired: false,
+    hasAnnualOption: false,
     releasedFeatures: [
       { name: "Everything in Edge", included: true },
       { name: "All released curriculum", included: true },
-      { name: "Investment Centre access", included: true },
-      { name: "Private Floor community channel", included: true },
-      { name: "Onboarding and process-mapping call (30 min)", included: true },
-      {
-        name: "Founder-led group trading-process review (monthly)",
-        included: true,
-      },
-      {
-        name: "Individual process and journal review (quarterly, 30 min)",
-        included: true,
-      },
-      {
-        name: "Priority support — target 2 UK business day response",
-        included: true,
-      },
-      { name: "Early access to selected new tools", included: true },
-      {
-        name: "All three premium manual permanent downloads",
-        included: true,
-      },
-      { name: "Deploy Your Algo mini-course", included: true },
+      { name: "Founder reviews", included: true },
     ],
     plannedFeatures: [],
     accentColor: "rgba(200, 241, 53, 0.06)",
     borderAccent: "#C8F135",
-    annualPermanentEntitlements: [
-      "prop_firm_survival_kit_download",
-      "how_to_trade_download",
-      "edge_manual_download",
-      "deploy_your_algo_access",
-    ],
+    annualPermanentEntitlements: [],
     capacity: 20,
   },
 ];
 
-// ─── Backward compatibility feature helpers ───────────────────────────────────
+// ─── Feature helpers ──────────────────────────────────────────────────────────
+export function GET_CORE_FEATURES() {
+  return GBP_TIERS.find((t) => t.id === "core")?.releasedFeatures || [];
+}
+
 export function GET_DEFAULT_FEATURES() {
-  return GBP_TIERS.find((t) => t.id === "foundation")?.releasedFeatures || [];
+  return GET_CORE_FEATURES();
 }
 
 export function GET_EDGE_FEATURES() {
-  return GBP_TIERS.find((t) => t.id === "edge")?.releasedFeatures || [];
+  return GET_CORE_FEATURES();
 }
 
 export function GET_FLOOR_FEATURES() {
-  return GBP_TIERS.find((t) => t.id === "floor")?.releasedFeatures || [];
+  return GET_CORE_FEATURES();
 }
 
 // ─── Regional pricing helper ──────────────────────────────────────────────────
@@ -648,63 +599,38 @@ export interface FAQ {
 
 export const PRICING_FAQS: FAQ[] = [
   {
+    question: "What is included in the £24.99/month Core Membership?",
+    answer:
+      "Avorria Core Membership unlocks complete access to the core platform: the Quantitative Technical Scanner, Market Screener, Signal Centre feeds, Investment Centre macro analysis, AI Trade Journal, Strategy Backtester (Beta), Algo Strategy Builder export, Market Intelligence Hub, The Wire, watchlists, saved screens, and the full multi-phase curriculum. Everything you need to build and execute a disciplined trading process is included.",
+  },
+  {
     question: "Can I cancel my monthly membership?",
     answer:
-      "Yes. You can cancel at any time from your account billing page. Your access continues until the end of the current billing period. No refund is issued for the remaining portion of the period on cancellation.",
+      "Yes. There are no long-term contracts. You can cancel at any time directly from your account settings. Your access continues through the end of your current billing period.",
   },
   {
-    question: "What happens to my downloads if I cancel?",
+    question: "Is there an annual plan available?",
     answer:
-      "Files you have permanently purchased or earned through an annual plan remain yours. Active-membership library access — where you could view manuals inside the platform while subscribed — ends when your subscription ends. If you are unsure which category applies to your downloads, check your account page under Permanent Purchases.",
+      "For Phase 1, Avorria Core Membership is available exclusively on a flexible monthly subscription at £24.99/month. We keep the barrier to entry low and commitment flexible.",
   },
   {
-    question: "Are the manuals included with an annual plan mine to keep?",
+    question: "How do I get the Prop Firm Survival Kit?",
     answer:
-      "Yes. Permanent download entitlements granted through an annual Foundation or Edge plan are yours to keep regardless of whether you subsequently cancel or change your plan.",
+      "The Prop Firm Survival Kit is completely free. You can download the 100-page evaluation blueprint, rule decoder, and position sizing sheets directly by entering your email — no credit card required.",
   },
   {
-    question: "Do planned features count toward the membership price?",
+    question: "Are premium courses and PDF manuals included in Core?",
     answer:
-      "No. Avorria's pricing reflects only features that are currently available. Features listed under 'Coming to Edge' or on the roadmap are not part of the current membership value and do not justify the current price.",
+      "Core Membership includes the complete core platform curriculum and tools. Advanced standalone courses (like Deploy Your Algo and the Institutional Accelerator) and Pete Currey's published trading manuals (How to Trade, The Edge Manual) are separate standalone purchases and are not bundled into the £24.99 subscription.",
   },
   {
-    question: "What happens if I upgrade mid-month?",
+    question: "Does Core Membership include 1-on-1 mentorship or financial advice?",
     answer:
-      "Stripe prorates your billing automatically. You pay only for the days remaining in the current period at the new tier price. Your entitlements update immediately after the upgrade payment is confirmed.",
+      "No. Avorria is an educational and analytical software platform. Core Membership does not include personalized financial advice, trade signals, or individual mentorship. All tools are designed to support your own independent trading discipline.",
   },
   {
-    question: "Can I receive credit for a manual I already purchased?",
+    question: "Is VAT included in the listed price?",
     answer:
-      "Yes. If you purchase a standalone manual and then upgrade to an annual Foundation or annual Edge plan within 30 days, the amount you paid for the manual is credited against the annual plan price at checkout. Credit applies once, cannot exceed the plan price, and cannot be stacked with other promotional credits.",
-  },
-  {
-    question: "Is The Floor financial advice?",
-    answer:
-      "No. Floor founder access covers educational process reviews, journal feedback, platform guidance and general trading-discipline discussions. It does not include personalised financial advice, trade instructions, portfolio management, tax advice, legal advice or guaranteed response during live market events.",
-  },
-  {
-    question: "Is the Accelerator a membership?",
-    answer:
-      "No. The Accelerator is a separate one-time cohort enrolment. It includes 12 months of Edge membership starting on the cohort commencement date, but it is not a recurring subscription. Enrolment requires an application and manual acceptance.",
-  },
-  {
-    question: "What happens if the Accelerator cohort is full?",
-    answer:
-      "When the 15-seat cap is reached, the checkout is closed and a waitlist opens automatically. You can join the waitlist to be notified when the next cohort opens for applications.",
-  },
-  {
-    question: "What happens to legacy Signal Centre subscriptions?",
-    answer:
-      "Existing Signal Centre subscribers keep their access for as long as their subscription remains active. Their price will not increase automatically. Signal Centre is no longer available for new purchase. If you wish, you can upgrade to Foundation, which includes the relevant market intelligence plus education and tools. Once a legacy Signal Centre subscription is cancelled, it cannot be restarted under the legacy plan.",
-  },
-  {
-    question: "Is VAT included in the listed prices?",
-    answer:
-      "All prices shown are inclusive of UK VAT where applicable. Your invoice will show the VAT breakdown.",
-  },
-  {
-    question: "How does the Accelerator instalment plan work?",
-    answer:
-      "The Accelerator instalment option is three monthly payments of £550, totalling £1,650 in all. This is £150 more than the single payment of £1,500. Both the total cost and the saving from paying in full are displayed at checkout before you confirm.",
+      "All prices shown are inclusive of UK VAT where applicable. Your Stripe invoice will display the exact VAT breakdown for accounting purposes.",
   },
 ];

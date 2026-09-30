@@ -33,7 +33,7 @@ import { YourLobbyFeed } from "@/components/lobby/YourLobbyFeed";
 
 export const metadata: Metadata = getMetadata({
   title: "The Lobby — Market Intelligence & Trading Industry Publication",
-  description: "What's happening in markets, trading and the businesses built around them. Broadsheet reporting, verified broker audits, prop firm surveillance, and Drawdown research.",
+  description: "What's happening in markets, trading and the businesses built around them. Broadsheet reporting, verified broker audits, prop firm surveillance, and Avorria research.",
   path: "/lobby",
   hasRegionalVariants: false,
 });

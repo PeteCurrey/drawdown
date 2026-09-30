@@ -461,6 +461,7 @@ export async function POST(request: NextRequest) {
           .upsert({
             id: userId,
             stripe_customer_id: customerId,
+            stripe_subscription_id: session.subscription ?? null,
             subscription_tier: tier,
             subscription_status: "active",
             updated_at: new Date().toISOString(),
@@ -472,11 +473,15 @@ export async function POST(request: NextRequest) {
         } else if (!upsertData || upsertData.length === 0) {
           console.error(`Error: Upsert affected zero rows for userId: ${userId}`);
         } else {
+          // Award edge_unlocked badge for legacy edge/floor tiers
           if (tier === "edge" || tier === "floor") {
             awardBadge(userId, "edge_unlocked").catch((err) =>
               console.error("edge_unlocked badge award failed (non-fatal):", err)
             );
           }
+          // Legacy Floor: auto-grant bundled courses
+          // Core subscription intentionally does NOT auto-grant courses —
+          // paid courses remain separate purchases.
           if (tier === "floor") {
             await supabase
               .rpc("grant_floor_courses", { p_user_id: userId })
@@ -495,7 +500,10 @@ export async function POST(request: NextRequest) {
               const symbol = currency === "GBP" ? "£" : currency + " ";
               const priceString = amountTotal ? `${symbol}${amountTotal}/mo` : "Subscription Price";
               
-              const tierLabel = tier.charAt(0).toUpperCase() + tier.slice(1);
+              // Use "Avorria Core Membership" label for core tier, titlecase for legacy tiers
+              const tierLabel = tier === "core"
+                ? "Avorria Core Membership"
+                : tier.charAt(0).toUpperCase() + tier.slice(1);
               const immediateSupplyConsented = session.metadata.immediate_supply_requested === "true";
 
               await sendSubscriptionWelcomeEmail({
@@ -547,6 +555,8 @@ export async function POST(request: NextRequest) {
           awardBadge(updatedProfile.id, "edge_unlocked").catch((err) =>
             console.error("edge_unlocked badge award failed (non-fatal):", err)
           );
+          // Legacy Floor: grant bundled courses on upgrade.
+          // Core subscribers do NOT get auto-granted courses — paid courses remain separate.
           if (subTier === "floor") {
             await supabase
               .rpc("grant_floor_courses", { p_user_id: updatedProfile.id })

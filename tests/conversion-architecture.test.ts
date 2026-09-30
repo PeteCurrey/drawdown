@@ -101,20 +101,20 @@ test("Conversion: Floor user receives Floor entitlement and inherits all sub-tie
 test("Conversion: Locked UI displays correct upgrade destination", () => {
   const tierGate = readFile("src/components/dashboard/TierGate.tsx");
   assert.ok(
-    tierGate.includes('href="/pricing"'),
+    tierGate.includes('href={pricingHref}') || tierGate.includes('avorria.com/pricing'),
     "TierGate must link to /pricing"
   );
   assert.ok(
-    tierGate.includes("Upgrade to {required}"),
-    "TierGate must include explicit Upgrade CTA"
+    tierGate.includes("Start Membership"),
+    "TierGate must include explicit Start Membership CTA"
   );
   assert.ok(
     tierGate.includes("// WHAT IS THIS?"),
     "TierGate must explain what the locked capability is"
   );
   assert.ok(
-    tierGate.includes("// WHAT {required.toUpperCase()} UNLOCKS"),
-    "TierGate must explain what the upgrade unlocks"
+    tierGate.includes("// WHAT CORE"),
+    "TierGate must explain what Core unlocks"
   );
 
   const lockedCard = readFile("src/components/dashboard/LockedFeatureCard.tsx");
@@ -326,5 +326,50 @@ test("Conversion: Single authoritative entitlement source of truth", () => {
   assert.ok(
     typeof hasTierAccess === "function",
     "hasTierAccess must be exported from entitlements.ts"
+  );
+});
+
+// ---------------------------------------------------------------------------
+// 19. Core subscriber receives Core entitlement & unlocks core features
+// ---------------------------------------------------------------------------
+test("Conversion: Core subscriber receives Core entitlement and unlocks all core tools", () => {
+  assert.equal(hasTierAccess("core", "foundation", "active"), true);
+  assert.equal(hasTierAccess("core", "edge", "active"), true);
+  assert.equal(hasTierAccess("core", "floor", "active"), true);
+  assert.equal(CommercialAccess.canAccessSignalCentre("core", "active"), true);
+  assert.equal(CommercialAccess.canAccessTechnicalScanner("core", "active"), true);
+  assert.equal(CommercialAccess.canAccessMarketIntelligence("core", "active"), true);
+  assert.equal(CommercialAccess.canAccessInvestmentCentre("core", "active"), true);
+  assert.equal(CommercialAccess.canAccessAIJournal("core", "active"), true);
+  assert.equal(CommercialAccess.canAccessBacktester("core", "active"), true);
+  assert.equal(CommercialAccess.canAccessAlgoBuilderExport("core", "active"), true);
+
+  // Core does NOT auto-grant standalone paid courses or 1-on-1 mentorship
+  assert.equal(CommercialAccess.canAccessFullCourses("core", "active"), false);
+  assert.equal(CommercialAccess.canAccessMentorship("core", "active"), false);
+});
+
+// ---------------------------------------------------------------------------
+// 20. Prop Firm Survival Kit is a free lead magnet
+// ---------------------------------------------------------------------------
+test("Conversion: Prop Firm Survival Kit is free lead magnet", () => {
+  const catalogue = readFile("src/data/commercial-catalogue.ts");
+  assert.ok(
+    catalogue.includes('productType: "free_lead_magnet"') || catalogue.includes("productType: 'free_lead_magnet'"),
+    "Prop Firm Survival Kit must be typed as free_lead_magnet in catalogue"
+  );
+  assert.ok(
+    catalogue.includes("amountPence: 0"),
+    "Prop Firm Survival Kit must be £0 amountPence"
+  );
+
+  const survivalKitClient = readFile("src/app/(marketing)/store/prop-survival-kit/PropSurvivalKitClient.tsx");
+  assert.ok(
+    survivalKitClient.includes('fetch("/api/lead/survival-kit"'),
+    "PropSurvivalKitClient must submit to /api/lead/survival-kit"
+  );
+  assert.ok(
+    !survivalKitClient.includes('fetch("/api/store/checkout"'),
+    "PropSurvivalKitClient must not perform paid Stripe checkout"
   );
 });

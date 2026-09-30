@@ -2,52 +2,40 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { CheckCircle2, ShieldAlert, Download, Lock, Zap, ChevronDown, Check } from "lucide-react";
+import { CheckCircle2, ShieldAlert, Download, Mail, ChevronDown, Check } from "lucide-react";
 import Link from "next/link";
 import { PropSurvivalFloatingWidget } from "@/components/ui/PropSurvivalFloatingWidget";
-import { CheckoutConsentModal } from "@/components/legal/CheckoutConsentModal";
-
-import { useRegion } from "@/components/layout/RegionalLayout";
 
 export default function PropSurvivalKitPage() {
-  const [includeBump, setIncludeBump] = useState(false);
+  const [email, setEmail] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [marketingConsent, setMarketingConsent] = useState(false);
   const [loading, setLoading] = useState(false);
-  const { region, currencySymbol } = useRegion();
-  const [showConsent, setShowConsent] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const handleCheckout = async (consentData?: {
-    terms_accepted: boolean;
-    immediate_supply_requested: boolean;
-    marketing_consent: boolean;
-  }) => {
-    if (!consentData) {
-      setShowConsent(true);
+  const handleLeadSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email || !email.includes("@")) {
+      setError("Please enter a valid email address.");
       return;
     }
-
     setLoading(true);
-    setShowConsent(false);
+    setError(null);
     try {
-      const res = await fetch("/api/store/checkout", {
+      const res = await fetch("/api/lead/survival-kit", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          productId: "prop-survival-kit",
-          includeBump,
-          region,
-          terms_accepted: consentData.terms_accepted,
-          immediate_supply_requested: consentData.immediate_supply_requested,
-          marketing_consent: consentData.marketing_consent,
-        }),
+        body: JSON.stringify({ email, firstName, marketingConsent }),
       });
       const data = await res.json();
-      if (data.url) {
-        window.location.href = data.url;
+      if (res.ok && data.success) {
+        setSubmitted(true);
       } else {
-        alert("Checkout failed. Please try again.");
+        setError(data.error || "Something went wrong. Please try again.");
       }
     } catch {
-      alert("Checkout failed. Please try again.");
+      setError("Something went wrong. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -166,7 +154,7 @@ export default function PropSurvivalKitPage() {
         <div className="relative z-10 max-w-5xl mx-auto text-center flex flex-col items-center">
           {/* Eyebrow */}
           <span className="text-xs tracking-widest uppercase opacity-40 font-mono font-semibold">
-            // PROP FIRM SURVIVAL
+            // PROP FIRM SURVIVAL — FREE
           </span>
 
           {/* Heading */}
@@ -178,7 +166,7 @@ export default function PropSurvivalKitPage() {
 
           {/* Subheading */}
           <p className="text-lg md:text-xl lg:text-2xl opacity-60 max-w-2xl mt-8 font-sans leading-relaxed">
-            The Avorria Prop Firm Survival Kit is what we wish existed when we started. Every rule decoded. Every trap mapped. Every psychological spiral named.
+            The Avorria Prop Firm Survival Kit is what we wish existed when we started. Every rule decoded. Every trap mapped. Every psychological spiral named. <strong className="text-white opacity-100">Free. No payment required.</strong>
           </p>
 
           {/* Stat Strip */}
@@ -602,74 +590,123 @@ export default function PropSurvivalKitPage() {
         </div>
       </section>
 
-      {/* SECTION 6 — THE PURCHASE SECTION */}
-      <section id="purchase-section" className="py-24 max-w-4xl mx-auto px-6 relative z-10 scroll-mt-8">
+      {/* SECTION 6 — FREE LEAD CAPTURE */}
+      <section id="get-kit-section" className="py-24 max-w-4xl mx-auto px-6 relative z-10 scroll-mt-8">
         <div className="text-center flex flex-col items-center">
           <span className="text-xs tracking-widest uppercase opacity-40 font-mono font-semibold">
-            // GET THE KIT
+            // GET THE KIT — FREE
           </span>
           <h2 className="text-4xl font-display font-bold mt-4 leading-tight">
-            One purchase. Use it on every challenge you ever take.
+            Enter your email. Get the Survival Kit instantly.
           </h2>
           <p className="text-base opacity-50 mt-4 mb-12 max-w-xl font-sans leading-relaxed">
-            A one-time download. No subscription. No upsell. The Avorria Prop Firm Survival Kit — yours to keep.
+            No payment. No trial. No catch. We send you the Survival Kit and you get a free Avorria account to access it — and all our free trading tools — whenever you need them.
           </p>
 
-          {/* Stripe Purchase Box */}
-          <div className="bg-[#111111] border border-white/10 p-8 text-left shadow-2xl rounded-2xl text-white w-full max-w-lg">
-            <div className="flex justify-between items-center mb-6 pb-6 border-b border-white/10">
-              <div>
-                <h4 className="text-lg font-bold uppercase tracking-tight text-white">
-                  Prop Challenge Survival Kit
-                </h4>
-                <p className="text-xs text-white/50 font-sans mt-0.5">
-                  Digital PDF & Google Sheets Templates
-                </p>
+          {submitted ? (
+            /* Success state */
+            <div className="w-full max-w-lg bg-[#111111] border border-[#C8F135]/30 p-10 rounded-2xl text-center flex flex-col items-center gap-4">
+              <div className="w-14 h-14 rounded-full bg-[#C8F135]/10 border border-[#C8F135]/30 flex items-center justify-center">
+                <CheckCircle2 className="w-7 h-7 text-[#C8F135]" />
               </div>
-              <div className="text-3xl font-mono font-bold text-[#C8F135]">{currencySymbol}49</div>
+              <h3 className="text-xl font-bold">Kit on its way.</h3>
+              <p className="text-sm opacity-60 font-sans leading-relaxed max-w-sm">
+                Check your inbox — we've sent the Survival Kit direct to your email. Create your free Avorria account to access it in your dashboard any time.
+              </p>
+              <Link
+                href="/signup"
+                className="mt-2 inline-flex items-center gap-2 px-6 py-3 bg-[#C8F135] text-black font-bold uppercase tracking-wider text-xs rounded-lg hover:bg-[#d4ff3a] transition-colors"
+              >
+                <Download className="w-4 h-4" />
+                Create Free Account
+              </Link>
             </div>
+          ) : (
+            /* Capture form */
+            <form onSubmit={handleLeadSubmit} className="w-full max-w-lg space-y-4">
+              <div className="bg-[#111111] border border-white/10 p-8 text-left shadow-2xl rounded-2xl text-white">
+                <div className="flex items-center gap-3 mb-6 pb-6 border-b border-white/10">
+                  <div className="w-10 h-10 rounded-xl bg-[#C8F135]/10 border border-[#C8F135]/20 flex items-center justify-center shrink-0">
+                    <Download className="w-5 h-5 text-[#C8F135]" />
+                  </div>
+                  <div>
+                    <h4 className="text-base font-bold uppercase tracking-tight text-white">
+                      Prop Challenge Survival Kit
+                    </h4>
+                    <p className="text-xs text-white/50 font-sans mt-0.5">
+                      PDF + Google Sheets Templates — Free
+                    </p>
+                  </div>
+                  <div className="ml-auto text-2xl font-mono font-bold text-[#C8F135]">FREE</div>
+                </div>
 
-            {/* Bump Offer */}
-            <label className="bg-white/5 border border-white/10 p-5 flex gap-4 items-start cursor-pointer hover:bg-white/10 transition-all duration-300 rounded-xl select-none">
-              <input
-                type="checkbox"
-                checked={includeBump}
-                onChange={(e) => setIncludeBump(e.target.checked)}
-                className="mt-1 w-5 h-5 accent-[#C8F135] cursor-pointer"
-              />
-              <div className="flex-1">
-                <p className="text-sm font-bold uppercase text-[#C8F135] flex items-center gap-1.5 tracking-wide">
-                  <Zap className="w-4 h-4 fill-[#C8F135]" /> Add 30 Days of Avorria Edge
-                </p>
-                <p className="text-xs text-white/60 mt-1 leading-relaxed font-sans">
-                  Yes! Give me 30 days full access to the AI Trade Journal and Market Scanner to execute my challenge flawlessly. (Normally £29/mo, add today for just £19).
+                {/* First name (optional) */}
+                <div className="mb-4">
+                  <label className="block text-xs font-mono uppercase tracking-widest text-white/40 mb-2">
+                    First Name (optional)
+                  </label>
+                  <input
+                    type="text"
+                    value={firstName}
+                    onChange={(e) => setFirstName(e.target.value)}
+                    placeholder="Pete"
+                    className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-sm text-white placeholder:text-white/30 focus:outline-none focus:border-[#C8F135]/50 transition-colors"
+                  />
+                </div>
+
+                {/* Email */}
+                <div className="mb-6">
+                  <label className="block text-xs font-mono uppercase tracking-widest text-white/40 mb-2">
+                    Email Address <span className="text-[#C8F135]">*</span>
+                  </label>
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="you@example.com"
+                    required
+                    className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-sm text-white placeholder:text-white/30 focus:outline-none focus:border-[#C8F135]/50 transition-colors"
+                  />
+                </div>
+
+                {/* Marketing consent */}
+                <label className="flex items-start gap-3 cursor-pointer mb-6 select-none">
+                  <input
+                    type="checkbox"
+                    checked={marketingConsent}
+                    onChange={(e) => setMarketingConsent(e.target.checked)}
+                    className="mt-0.5 w-4 h-4 accent-[#C8F135] cursor-pointer shrink-0"
+                  />
+                  <span className="text-xs text-white/50 font-sans leading-relaxed">
+                    I'd also like to receive Avorria market intelligence updates and trading insights. Unsubscribe any time.
+                  </span>
+                </label>
+
+                {error && (
+                  <p className="text-red-400 text-xs font-mono mb-4">{error}</p>
+                )}
+
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="w-full py-4 bg-[#C8F135] text-black font-sans font-black uppercase tracking-[0.2em] text-sm hover:bg-[#d4ff3a] transition-colors disabled:opacity-60 cursor-pointer shadow-xl rounded-xl flex items-center justify-center gap-2"
+                >
+                  <Mail className="w-4 h-4" />
+                  {loading ? "Sending Kit..." : "Send Me the Survival Kit →"}
+                </button>
+
+                <p className="text-[10px] font-mono uppercase tracking-wider text-white/30 text-center mt-4">
+                  Free. No credit card. No spam.
                 </p>
               </div>
-            </label>
-
-            <button
-              onClick={() => handleCheckout()}
-              disabled={loading}
-              className="w-full mt-8 py-5 bg-[#C8F135] text-black font-sans font-black uppercase tracking-[0.2em] text-sm hover:bg-[#d4ff3a] transition-colors disabled:opacity-60 cursor-pointer shadow-xl rounded-xl flex items-center justify-center gap-2"
-            >
-              <Download className="w-4 h-4" />
-              {loading ? "Redirecting to Checkout..." : `Complete Purchase — ${currencySymbol}${includeBump ? '68' : '49'}`}
-            </button>
-            
-            <p className="text-[10px] font-mono uppercase tracking-wider text-white/40 flex items-center gap-2 mt-4 justify-center">
-              <Lock className="w-3.5 h-3.5 text-[#C8F135]" /> Secure Checkout via Stripe
-            </p>
-          </div>
-
-            <p className="text-xs text-white/40 leading-relaxed max-w-md mx-auto mt-8 font-sans">
-              <strong className="text-white">One-time payment. Yours to keep.</strong> Instant PDF download. If you have any issues with your purchase, contact us at support@avorria.com.
-            </p>
+            </form>
+          )}
 
           {/* Trust Strip */}
           <div className="flex flex-wrap justify-center gap-x-8 gap-y-3 mt-16 pt-8 border-t border-white/5 w-full select-none">
             {[
-              "✓ Instant PDF download",
-              "✓ One-time payment — no subscription",
+              "✓ Instant delivery to your inbox",
+              "✓ No payment required",
               "✓ Works for all major prop firms",
               "✓ UK-focused, FCA-aware context",
               "✓ Built by a trader, not a marketer"
@@ -707,12 +744,12 @@ export default function PropSurvivalKitPage() {
               a: "Probably more useful. Most traders who've failed a challenge failed for one of the seven reasons in Section 4. Reading it after a breach is cheaper than repeating the same mistake on a second evaluation fee."
             },
             {
-              q: "Why isn't this free?",
-              a: "The research, testing and structure behind this took months. Free content gets skimmed. Paid content gets used. If you're spending £100+ on an evaluation fee, the cost of this is a rounding error — and if it prevents one breach, it's returned its value many times over."
+              q: "Why is this free?",
+              a: "Because we'd rather you experience the quality of Avorria's work before committing to anything. The Survival Kit is our introduction — here's what serious trading education looks like. If you find value in it, you'll find even more inside the core Avorria platform."
             },
             {
-              q: "Can I get a refund if it's not what I expected?",
-              a: "Contact us within 7 days. If the document doesn't match what's described on this page, we'll refund it without argument. We've written this page specifically to avoid misaligned expectations — you know exactly what you're getting."
+              q: "What happens after I download it?",
+              a: "You receive the Survival Kit by email and we create a free Avorria account for you. You can log in any time to access the Kit in your downloads, use our free trading tools, and explore the platform. There's no obligation to upgrade — though most people do."
             },
             {
               q: "Is this relevant for UK traders specifically?",
@@ -738,16 +775,16 @@ export default function PropSurvivalKitPage() {
             Stop funding their business model with failed evaluations.
           </h2>
           <p className="text-base opacity-60 mb-8 max-w-lg font-sans leading-relaxed">
-            One document. Built by someone who's done the work. Everything the prop firm doesn't put in their welcome email.
+            One document. Built by someone who's done the work. Everything the prop firm doesn't put in their welcome email. And it won't cost you a penny.
           </p>
 
           {/* Two CTAs */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center w-full sm:w-auto">
             <button 
-              onClick={() => document.getElementById("purchase-section")?.scrollIntoView({ behavior: "smooth" })}
+              onClick={() => document.getElementById("get-kit-section")?.scrollIntoView({ behavior: "smooth" })}
               className="px-8 py-4 bg-[#C8F135] text-black font-semibold rounded-lg hover:bg-[#d4ff3a] transition shadow-md font-sans text-sm tracking-wide"
             >
-              Get the Survival Kit →
+              Get the Survival Kit — Free →
             </button>
             <Link 
               href="/courses"
@@ -765,15 +802,6 @@ export default function PropSurvivalKitPage() {
       </section>
 
       <PropSurvivalFloatingWidget />
-
-      <CheckoutConsentModal
-        isOpen={showConsent}
-        onClose={() => setShowConsent(false)}
-        onConfirm={handleCheckout}
-        loading={loading}
-        productName="Prop Firm Survival Kit"
-        priceString={`${currencySymbol}${includeBump ? '68' : '49'} (One-time payment)`}
-      />
     </div>
   );
 }

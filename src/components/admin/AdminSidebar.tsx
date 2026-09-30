@@ -34,6 +34,7 @@ const NAV_ITEMS = [
   { href: "/admin/applications", label: "Accelerator Waitlist", icon: Inbox },
   { href: "/admin/events", label: "Live Events", icon: MessageSquare },
   { href: "/admin/lobby", label: "The Lobby CMS", icon: Newspaper },
+  { href: "/admin/lobby-inbox", label: "Lobby Inbox", icon: Inbox },
   { href: "/admin/wire", label: "The Wire Briefings", icon: Mail },
   { href: "/admin/lobby/distribution", label: "Social Distribution", icon: Network },
   { href: "/admin/content", label: "Content OS", icon: BookOpen },

@@ -131,17 +131,14 @@ function TierGate({
         <div>
           <p className="text-sm font-bold text-gray-900">{featureName}</p>
           <p className="text-xs text-gray-500 mt-1">
-            Available on <span className={cn("font-bold", tierInfo.color)}>{tierInfo.label}</span> and above
+            Included in <span className="font-bold text-gray-900">Avorria Core Membership</span> (£24.99/mo)
           </p>
         </div>
         <Link
           href="/pricing"
-          className={cn(
-            "inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-[10px] font-mono font-bold uppercase tracking-wider transition-all",
-            tierInfo.bgColor, tierInfo.color, tierInfo.borderColor, "border"
-          )}
+          className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-[10px] font-mono font-bold uppercase tracking-wider transition-all bg-[#0a0a0a] text-white hover:bg-black shadow-sm"
         >
-          Upgrade to {tierInfo.label} <ChevronRight className="w-3 h-3" />
+          Start Core Membership (£24.99/mo) <ChevronRight className="w-3 h-3" />
         </Link>
       </div>
     </div>

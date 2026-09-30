@@ -205,3 +205,25 @@ test("CommercialAccess: accelerator can access all features regardless of status
   assert.equal(CommercialAccess.canAccessMentorship("accelerator", "inactive"), true);
   assert.equal(CommercialAccess.canAccessAlgoBuilderExport("accelerator", "inactive"), true);
 });
+
+test("Entitlements: core tier weight is 1", () => {
+  assert.equal(TIER_WEIGHT["core"], 1);
+});
+
+test("CommercialAccess: core active can access all core platform tools", () => {
+  assert.equal(CommercialAccess.canAccessSignalCentre("core", "active"), true);
+  assert.equal(CommercialAccess.canAccessMarketScreener("core", "active"), true);
+  assert.equal(CommercialAccess.canAccessTechnicalScanner("core", "active"), true);
+  assert.equal(CommercialAccess.canAccessMarketIntelligence("core", "active"), true);
+  assert.equal(CommercialAccess.canAccessInvestmentCentre("core", "active"), true);
+  assert.equal(CommercialAccess.canAccessAIJournal("core", "active"), true);
+  assert.equal(CommercialAccess.canAccessBacktester("core", "active"), true);
+  assert.equal(CommercialAccess.canAccessAlgoBuilderExport("core", "active"), true);
+  assert.equal(CommercialAccess.canAccessWatchlists("core", "active"), true);
+  assert.equal(CommercialAccess.canAccessSavedScreens("core", "active"), true);
+});
+
+test("CommercialAccess: core active does NOT access full courses or mentorship", () => {
+  assert.equal(CommercialAccess.canAccessFullCourses("core", "active"), false);
+  assert.equal(CommercialAccess.canAccessMentorship("core", "active"), false);
+});

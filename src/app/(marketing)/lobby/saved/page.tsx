@@ -35,7 +35,7 @@ export default async function SavedStoriesPage() {
             href="/login?next=/lobby/saved"
             className="inline-block px-6 py-2.5 bg-white text-black font-mono text-xs uppercase font-bold tracking-wider hover:bg-zinc-200 transition-colors"
           >
-            Sign In to Drawdown
+            Sign In to Avorria
           </Link>
         </div>
       </main>

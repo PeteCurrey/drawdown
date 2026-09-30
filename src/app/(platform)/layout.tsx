@@ -19,6 +19,7 @@ import {
   Brain,
   Share2,
   ScanSearch,
+  Compass,
   FileText,
   Calculator,
   Code,
@@ -64,6 +65,7 @@ const operatingLoopNavLinks = [
 
 // ─── 2. Market Intelligence ──────────────────────────────────────────────────
 const intelligenceNavLinks = [
+  { name: "Market Lobby",     href: "/dashboard/market-lobby",             icon: Compass, badge: "NEW" },
   { name: "The Wire",         href: "/dashboard/the-wire",                 icon: Newspaper, badge: "DAILY" },
   { name: "Market Pulse",     href: "/dashboard/market-intelligence",      icon: Brain },
   { name: "Signal Centre",    href: "/dashboard/signal-centre",            icon: Zap },

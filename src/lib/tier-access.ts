@@ -4,6 +4,7 @@
  */
 
 export type SubscriptionTier =
+  | "core"
   | "signal-centre"
   | "foundation"
   | "edge"
@@ -15,6 +16,7 @@ export type SubscriptionTier =
 export const TIER_LEVEL: Record<NonNullable<SubscriptionTier> | "null", number> = {
   null: 0,
   free: 0,
+  core: 1,
   "signal-centre": 1,
   foundation: 2,
   edge: 3,
@@ -23,6 +25,7 @@ export const TIER_LEVEL: Record<NonNullable<SubscriptionTier> | "null", number> 
 
 /** Human-readable tier labels for UI copy. */
 export const TIER_LABELS: Record<NonNullable<SubscriptionTier>, string> = {
+  core: "Core",
   "signal-centre": "Signal Centre",
   foundation: "Foundation",
   edge: "Edge",
@@ -32,6 +35,7 @@ export const TIER_LABELS: Record<NonNullable<SubscriptionTier>, string> = {
 
 /** Tier display colours (Tailwind classes). */
 export const TIER_COLORS: Record<NonNullable<SubscriptionTier>, string> = {
+  core: "text-[#F9771D]",
   "signal-centre": "text-[#C8F135]",
   foundation: "text-indigo-400",
   edge: "text-cyan-400",

@@ -1,5 +1,19 @@
 export const STRIPE_CONFIG = {
   prices: {
+    // ── Core Membership (£24.99/mo) — the new single public subscription ────────
+    // Phase 1: monthly only. Annual plan intentionally not introduced at this stage.
+    // Create these prices in Stripe then set the env vars below.
+    // Target prices: GBP £24.99 | USD $29.99 | EUR €29.99 | CAD C$39.99 | AUD A$49.99
+    core: {
+      monthly: {
+        gbp: process.env.STRIPE_PRICE_CORE_MONTHLY_GBP || 'price_core_monthly_gbp_placeholder',
+        usd: process.env.STRIPE_PRICE_CORE_MONTHLY_USD || 'price_core_monthly_usd_placeholder',
+        eur: process.env.STRIPE_PRICE_CORE_MONTHLY_EUR || 'price_core_monthly_eur_placeholder',
+        cad: process.env.STRIPE_PRICE_CORE_MONTHLY_CAD || 'price_core_monthly_cad_placeholder',
+        aud: process.env.STRIPE_PRICE_CORE_MONTHLY_AUD || 'price_core_monthly_aud_placeholder',
+      },
+      // NOTE: annual key deliberately omitted — Phase 1 is monthly-only
+    },
     'investment-centre': {
       monthly: {
         gbp: process.env.STRIPE_PRICE_INVESTMENT_CENTRE_MONTHLY_GBP || 'price_investment_centre_monthly_gbp_placeholder',
@@ -88,6 +102,14 @@ export const STRIPE_CONFIG = {
     },
   },
   plans: {
+    // ── Active public subscription ────────────────────────────────────────────
+    core: {
+      name: 'Avorria Core Membership',
+      tier: 'core',
+      priceGbp: 24.99,
+      billingCycle: 'monthly',
+    },
+    // ── Legacy tiers — retain for DB compatibility, not shown to new customers ─
     'investment-centre': {
       name: 'The Investment Centre (Legacy Add-on)',
       tier: 'investment-centre',
@@ -103,15 +125,18 @@ export const STRIPE_CONFIG = {
     foundation: {
       name: 'Foundation',
       tier: 'foundation',
+      isLegacy: true,
     },
     edge: {
       name: 'Edge',
       tier: 'edge',
+      isLegacy: true,
       legacyPriceIdGbp: process.env.STRIPE_PRICE_EDGE_MONTHLY_GBP_LEGACY_149,
     },
     floor: {
       name: 'The Floor',
       tier: 'floor',
+      isLegacy: true,
     },
     accelerator: {
       name: 'Institutional Accelerator',

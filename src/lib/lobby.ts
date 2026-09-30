@@ -344,22 +344,71 @@ export interface InvestorAttentionItem {
 
 /**
  * Retrieves approved social intelligence & investor attention items for The Lobby.
- * Strictly requires `editorial_status IN ('approved', 'published')`.
+ * Fetches latest published items from lobby_items (Instagram & monitored sources) first,
+ * supplemented by approved candidates.
  */
 export async function getInvestorAttentionFeed(options: { limit?: number } = {}): Promise<InvestorAttentionItem[]> {
   try {
     const supabase = getSupabase();
     const limit = options.limit || 6;
-    const { data, error } = await supabase
+
+    // 1. Fetch latest published items from lobby_items (Instagram & specialist sources)
+    const { data: lobbyData, error: lobbyError } = await supabase
+      .from("lobby_items")
+      .select(`
+        id,
+        source_id,
+        original_url,
+        posted_at,
+        extracted_claims,
+        verified_facts,
+        status,
+        created_at,
+        monitored_sources:source_id (
+          id,
+          platform,
+          handle
+        )
+      `)
+      .eq("status", "published")
+      .order("posted_at", { ascending: false })
+      .limit(limit);
+
+    const formattedLobbyItems: InvestorAttentionItem[] = (lobbyData || []).map((row: any) => {
+      const claimsObj = row.extracted_claims || {};
+      const claimsList = Array.isArray(claimsObj.claims) ? claimsObj.claims : [];
+      return {
+        id: row.id,
+        title: claimsObj.headline || "Monitored Market Dispatch",
+        source: row.monitored_sources?.platform === "instagram" ? "Instagram" : "Monitored Source",
+        source_url: row.original_url,
+        author_handle: row.monitored_sources?.handle || null,
+        published_at: row.posted_at || row.created_at,
+        discovered_at: row.created_at,
+        entity_references: [],
+        related_symbols: [],
+        source_claim: claimsList[0] || null,
+        verified_facts: Array.isArray(row.verified_facts) ? row.verified_facts : [],
+        drawdown_interpretation: claimsObj.avorria_commentary || null,
+        investor_attention_score: 1.0,
+      };
+    });
+
+    if (formattedLobbyItems.length >= limit) {
+      return formattedLobbyItems.slice(0, limit);
+    }
+
+    // 2. Supplement from news_candidates if more slots available
+    const remainingLimit = limit - formattedLobbyItems.length;
+    const { data: newsData } = await supabase
       .from("news_candidates")
       .select("id, title, source, source_url, author_handle, published_at, discovered_at, entity_references, related_symbols, source_claim, verified_facts, drawdown_interpretation, investor_attention_score")
       .in("editorial_status", ["approved", "published"])
       .not("source_claim", "is", null)
       .order("discovered_at", { ascending: false })
-      .limit(limit);
+      .limit(remainingLimit);
 
-    if (error || !data) return [];
-    return data as InvestorAttentionItem[];
+    return [...formattedLobbyItems, ...((newsData || []) as InvestorAttentionItem[])].slice(0, limit);
   } catch (err) {
     console.error("getInvestorAttentionFeed error:", err);
     return [];

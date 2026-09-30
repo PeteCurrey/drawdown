@@ -15,9 +15,9 @@ const EBOOKS = [
     id: "prop-survival-kit",
     slug: "prop-firm-survival-kit",
     title: "Prop Challenge Survival Kit",
-    subtitle: "The Complete Evaluation Blueprint",
+    subtitle: "The Complete Evaluation Blueprint — Free Lead Magnet",
     description: "Every rule, calculation, and psychological framework you need to pass your prop firm evaluation. Includes the Rule Decoder, Position Sizing Sheets, and the Tilt Protocol.",
-    price: "£49",
+    price: "Free",
     pages: 100,
     accentColor: "#C8F135",
     textColor: "#1A1A1A",
@@ -87,6 +87,9 @@ export default async function DownloadsPage() {
   const ownedSlugs = new Set(
     Array.from(ownedCourseIds).map(id => courseIdToSlug[id]).filter(Boolean)
   );
+
+  // The Prop Firm Survival Kit is a FREE lead magnet / product entitlement for all registered users!
+  ownedSlugs.add("prop-firm-survival-kit");
 
   // Generate signed URLs for owned ebooks
   const signedUrls: Record<string, string> = {};

@@ -22,6 +22,7 @@
 export type CommercialProductType =
   | "free_membership"
   | "recurring_membership"
+  | "free_lead_magnet"
   | "standalone_download"
   | "standalone_course"
   | "cohort_programme"
@@ -404,7 +405,84 @@ export const COMMERCIAL_CATALOGUE: CommercialProduct[] = [
     applicationRequired: false,
   },
 
-  // ── 2. Foundation ─────────────────────────────────────────────────────────
+  // ── 1b. Core Membership (£24.99/mo) — the new public subscription ──────────
+  // This is the ONLY subscription available to new customers from Phase 1 launch.
+  // Foundation / Edge / Floor are legacy tiers retained for DB/webhook compatibility
+  // but must NOT appear in any new customer-facing UI.
+  {
+    id: "core",
+    slug: "core-membership",
+    name: "Avorria Core Membership",
+    shortName: "Core",
+    description:
+      "One subscription. Every released platform tool. Built for traders who are serious about process, consistency and edge.",
+    productType: "recurring_membership",
+    status: "active",
+    availableForNewPurchase: true,
+    currency: "GBP",
+    prices: [
+      {
+        id: "core_monthly_gbp",
+        amountPence: 2499, // £24.99
+        interval: "month",
+        stripePriceId: process.env.STRIPE_PRICE_CORE_MONTHLY_GBP,
+        active: true,
+        taxBehaviour: "inclusive",
+      },
+      // Phase 1: monthly only. No annual price at this stage.
+      // Do NOT add an annual price here until explicitly approved.
+    ],
+    activeMembershipEntitlements: [
+      // Platform tools — all explicitly granted, NOT inherited numerically
+      "phase_1_curriculum",
+      "phase_2_4_curriculum",
+      "phase_5_10_curriculum",
+      "phase_11_13_curriculum",
+      "trade_journal_manual",
+      "position_size_calculator",
+      "risk_reward_calculator",
+      "drawdown_recovery_calculator",
+      "technical_charts",
+      "market_intelligence_hub",
+      "community_access",
+      "investment_centre",
+      "ai_journal_review",
+      "strategy_backtester",
+      "advanced_briefings",
+      "priority_support",
+    ],
+    // Core subscribers do NOT get permanent download entitlements.
+    // PDFs (How to Trade, Edge Manual) remain separate paid purchases.
+    // Prop Firm Survival Kit is a free lead magnet — separate flow.
+    permanentEntitlements: [],
+    releasedFeatures: [
+      "Full curriculum access (all phases released to date)",
+      "Manual trade journal",
+      "Position size calculator",
+      "Risk/reward calculator",
+      "Drawdown and recovery calculator",
+      "Technical charting access",
+      "Market Intelligence Hub & The Wire",
+      "Investment Centre",
+      "AI-assisted journal review",
+      "Strategy backtester (Beta — see methodology for limitations)",
+      "Advanced market and macro briefings",
+      "Community access",
+      "Priority support queue",
+    ],
+    plannedFeatures: [
+      "Monte Carlo simulation tools (in development)",
+      "Automated market alerts (planned)",
+    ],
+    stripeProductId: process.env.STRIPE_PRODUCT_CORE,
+    displayOrder: 2,
+    applicationRequired: false,
+    refundPolicyId: "membership_satisfaction_guarantee",
+    adminNote:
+      "Core is the ONLY subscription offered to new customers. DO NOT show Foundation/Edge/Floor to new visitors. Core does NOT auto-grant paid courses (Deploy Your Algo, Institutional Accelerator) — these remain separate purchases. Core does NOT include mentorship. Prop Firm Survival Kit is a free lead magnet and is obtained separately via email capture, not through the Core checkout.",
+  },
+
+  // ── 2. Foundation (LEGACY — not for new customers) ────────────────────────
   {
     id: "foundation",
     slug: "foundation",
@@ -412,9 +490,9 @@ export const COMMERCIAL_CATALOGUE: CommercialProduct[] = [
     shortName: "Foundation",
     description:
       "For developing traders who need structured education, a risk framework and a repeatable trading-review process.",
-    productType: "recurring_membership",
-    status: "active",
-    availableForNewPurchase: true,
+    productType: "legacy_subscription",
+    status: "legacy_grandfathered",
+    availableForNewPurchase: false,
     currency: "GBP",
     prices: [
       {
@@ -422,7 +500,7 @@ export const COMMERCIAL_CATALOGUE: CommercialProduct[] = [
         amountPence: 4900,
         interval: "month",
         stripePriceId: process.env.STRIPE_PRICE_FOUNDATION_MONTHLY_GBP,
-        active: true,
+        active: false,
         taxBehaviour: "inclusive",
       },
       {
@@ -430,7 +508,7 @@ export const COMMERCIAL_CATALOGUE: CommercialProduct[] = [
         amountPence: 49000, // £490 = 10 × £49 (two months at no additional charge)
         interval: "year",
         stripePriceId: process.env.STRIPE_PRICE_FOUNDATION_ANNUAL_GBP,
-        active: true,
+        active: false,
         taxBehaviour: "inclusive",
       },
     ],
@@ -467,15 +545,15 @@ export const COMMERCIAL_CATALOGUE: CommercialProduct[] = [
       "Signal Centre integration (in development — see roadmap)",
     ],
     stripeProductId: process.env.STRIPE_PRODUCT_FOUNDATION,
-    displayOrder: 2,
+    displayOrder: 20,
     applicationRequired: false,
     refundPolicyId: "membership_satisfaction_guarantee",
     legacyProductIds: [],
     adminNote:
-      "Annual Foundation members receive permanent download entitlement to Prop Firm Survival Kit and How to Trade Manual. Monthly members receive 20% discount on standalone manuals only. Do NOT grant permanent downloads to monthly Foundation members.",
+      "Legacy tier. Not available for new purchase. Retained for database/webhook backwards compatibility.",
   },
 
-  // ── 3. Edge ──────────────────────────────────────────────────────────────
+  // ── 3. Edge (LEGACY — not for new customers) ─────────────────────────────
   {
     id: "edge",
     slug: "edge",
@@ -483,9 +561,9 @@ export const COMMERCIAL_CATALOGUE: CommercialProduct[] = [
     shortName: "Edge",
     description:
       "For active traders who require advanced analysis, structured strategy testing and deeper performance-review tools.",
-    productType: "recurring_membership",
-    status: "active",
-    availableForNewPurchase: true,
+    productType: "legacy_subscription",
+    status: "legacy_grandfathered",
+    availableForNewPurchase: false,
     currency: "GBP",
     prices: [
       {
@@ -493,7 +571,7 @@ export const COMMERCIAL_CATALOGUE: CommercialProduct[] = [
         amountPence: 9900, // £99 — new price (was £149)
         interval: "month",
         stripePriceId: process.env.STRIPE_PRICE_EDGE_MONTHLY_GBP,
-        active: true,
+        active: false,
         taxBehaviour: "inclusive",
       },
       {
@@ -501,7 +579,7 @@ export const COMMERCIAL_CATALOGUE: CommercialProduct[] = [
         amountPence: 99000, // £990 = 10 × £99 (two months at no additional charge)
         interval: "year",
         stripePriceId: process.env.STRIPE_PRICE_EDGE_ANNUAL_GBP,
-        active: true,
+        active: false,
         taxBehaviour: "inclusive",
       },
     ],
@@ -547,15 +625,15 @@ export const COMMERCIAL_CATALOGUE: CommercialProduct[] = [
       "Pine Script strategy development resources (planned)",
     ],
     stripeProductId: process.env.STRIPE_PRODUCT_EDGE,
-    displayOrder: 3,
+    displayOrder: 21,
     applicationRequired: false,
     refundPolicyId: "membership_satisfaction_guarantee",
     legacyProductIds: ["edge_legacy_149"],
     adminNote:
-      "Edge price changed from £149 to £99 per month (£990/yr). Existing £149 customers should migrate to the new price at their next renewal after notification. Annual Edge members receive permanent downloads: Prop Firm Survival Kit, How to Trade Manual, The Edge Manual, Deploy Your Algo.",
+      "Legacy tier. Not available for new purchase. Retained for database/webhook backwards compatibility.",
   },
 
-  // ── 4. Floor ─────────────────────────────────────────────────────────────
+  // ── 4. Floor (LEGACY — not for new customers) ────────────────────────────
   {
     id: "floor",
     slug: "floor",
@@ -563,9 +641,9 @@ export const COMMERCIAL_CATALOGUE: CommercialProduct[] = [
     shortName: "Floor",
     description:
       "For serious traders who require the complete released platform plus defined access to founder-led process reviews and a capped private membership environment.",
-    productType: "recurring_membership",
-    status: "active",
-    availableForNewPurchase: true,
+    productType: "legacy_subscription",
+    status: "legacy_grandfathered",
+    availableForNewPurchase: false,
     currency: "GBP",
     prices: [
       {
@@ -573,11 +651,9 @@ export const COMMERCIAL_CATALOGUE: CommercialProduct[] = [
         amountPence: 29900, // £299
         interval: "month",
         stripePriceId: process.env.STRIPE_PRICE_FLOOR_MONTHLY_GBP,
-        active: true,
+        active: false,
         taxBehaviour: "inclusive",
       },
-      // No public annual checkout at launch. Annual arrangements offered only
-      // after application and manual approval.
     ],
     activeMembershipEntitlements: [
       "phase_1_curriculum",
@@ -623,13 +699,12 @@ export const COMMERCIAL_CATALOGUE: CommercialProduct[] = [
     ],
     plannedFeatures: [],
     stripeProductId: process.env.STRIPE_PRODUCT_FLOOR,
-    displayOrder: 4,
+    displayOrder: 22,
     applicationRequired: false,
-    // Default capacity — configurable via admin. No public annual checkout.
     capacity: 20,
     refundPolicyId: "membership_satisfaction_guarantee",
     adminNote:
-      "Floor founder access covers educational process reviews, journal feedback, platform guidance and general trading-discipline discussions. It does NOT include personalised financial advice, trade instructions or portfolio management. Capacity is 20 active members. When reached, show waitlist CTA and remove live checkout. Annual Floor arrangements offered only after application and manual approval.",
+      "Legacy tier. Not available for new purchase. Retained for database/webhook backwards compatibility.",
   },
 
   // ── 5. Accelerator ───────────────────────────────────────────────────────
@@ -697,39 +772,39 @@ export const COMMERCIAL_CATALOGUE: CommercialProduct[] = [
     id: "prop_firm_survival_kit",
     slug: "prop-firm-survival-kit",
     name: "Prop Firm Survival Kit",
-    shortName: "Prop Kit",
+    shortName: "Survival Kit",
     description:
-      "Rule decoder, position sizing calculators and psychological protocols for passing prop firm evaluations. 100 pages. Permanent download.",
-    productType: "standalone_download",
+      "Rule decoder, drawdown metrics, risk frameworks and psychological protocols for passing prop firm evaluations. 100 pages. Free download.",
+    productType: "free_lead_magnet",
     status: "active",
     availableForNewPurchase: true,
     currency: "GBP",
     prices: [
       {
-        id: "prop_kit_gbp",
-        amountPence: 4900, // £49
-        interval: "one_time",
-        stripePriceId: process.env.STRIPE_PRICE_PROP_KIT_GBP,
+        id: "prop_kit_free",
+        amountPence: 0, // FREE Lead Magnet
+        interval: "none",
+        stripePriceId: undefined,
         active: true,
-        taxBehaviour: "inclusive",
+        taxBehaviour: "unspecified",
       },
     ],
     activeMembershipEntitlements: [],
     permanentEntitlements: ["prop_firm_survival_kit_download"],
     releasedFeatures: [
-      "100-page PDF — permanent download",
-      "Prop firm rule decoder",
-      "Position sizing calculators for evaluation accounts",
-      "Psychological protocols",
-      "30-day credit toward annual Foundation or annual Edge (if upgraded within 30 days)",
+      "100-page PDF — free permanent download",
+      "Prop firm rule decoder & pass checklist",
+      "Position sizing & daily loss drawdown framework",
+      "Psychological protocols for evaluation stages",
+      "Instant access via email — no credit card required",
     ],
     plannedFeatures: [],
-    stripeProductId: process.env.STRIPE_PRODUCT_PROP_KIT,
-    displayOrder: 10,
+    stripeProductId: undefined,
+    displayOrder: 8,
     applicationRequired: false,
-    refundPolicyId: "digital_download_refund",
+    refundPolicyId: undefined,
     adminNote:
-      "Standalone purchase = permanent download. NOT free with monthly Foundation membership. Annual Foundation and above: included as a permanent download entitlement.",
+      "Primary free acquisition asset / lead magnet. Captures email into newsletter_subscribers table with source='prop-firm-survival-kit'. Thank-you page upsells directly into Avorria Core Membership (£24.99/mo).",
   },
 
   {

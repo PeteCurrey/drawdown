@@ -26,7 +26,7 @@ export function LobbyTradeOfTheMonth({ trade }: LobbyTradeOfTheMonthProps) {
         {!trade ? (
           <LobbyEmptyState
             title="NO HISTORICAL AUDIT RELEASED FOR THIS CYCLE"
-            description="Drawdown publishes rigorous post-trade case studies dissecting invalidation geometry, institutional order flow, and risk/reward management. Previous cases remain archived in the Research Centre."
+            description="Avorria publishes rigorous post-trade case studies dissecting invalidation geometry, institutional order flow, and risk/reward management. Previous cases remain archived in the Research Centre."
             badge="EXECUTION AUDIT STANDBY"
             statusLabel="POST-TRADE VERIFICATION BENCHMARK"
             scanTime="WEEKLY AUDIT CYCLE"

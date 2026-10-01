@@ -127,19 +127,25 @@ function deriveBias(history: { time: string; open: number; high: number; low: nu
 
 // ─── FastForex Authoritative Spot Metals Fallback ─────────────────────────────
 // Used for genuine OTC spot bullion (XAU/USD, XAG/USD) when Twelve Data is exhausted.
-async function fetchFastForexSpotPrice(symbol: string): Promise<{ price: number; timestamp: string } | null> {
+async function fetchFastForexSpotPrice(symbol: string): Promise<{ price: number; timestamp: string; debug?: string } | null> {
   const key = process.env.FASTFOREX_API_KEY;
-  if (!key) return null;
+  if (!key) {
+    console.error("[FastForex] FASTFOREX_API_KEY is not set in lambda environment");
+    return null;
+  }
   const clean = symbol.replace(/[\/\-_]/g, "").toUpperCase();
   const base = clean.startsWith("XAU") ? "XAU" : clean.startsWith("XAG") ? "XAG" : null;
   if (!base) return null;
 
+  const url = `https://api.fastforex.io/fetch-one?from=${base}&to=USD&api_key=${key}`;
   try {
-    const res = await fetch(`https://api.fastforex.io/fetch-one?from=${base}&to=USD&api_key=${key}`, {
-      signal: AbortSignal.timeout(4000),
+    const res = await fetch(url, {
+      signal: AbortSignal.timeout(8000), // increased from 4s to 8s
     });
+    const text = await res.text();
+    console.log(`[FastForex] ${base} status=${res.status} body=${text.slice(0, 200)}`);
     if (!res.ok) return null;
-    const json = await res.json();
+    const json = JSON.parse(text);
     const usdPrice = json?.result?.USD;
     if (typeof usdPrice === "number" && !isNaN(usdPrice) && usdPrice > 0) {
       return {
@@ -147,8 +153,9 @@ async function fetchFastForexSpotPrice(symbol: string): Promise<{ price: number;
         timestamp: json.updated || new Date().toISOString(),
       };
     }
-  } catch {
-    // Non-fatal
+    console.error(`[FastForex] ${base} price invalid: ${JSON.stringify(json?.result)}`);
+  } catch (err: unknown) {
+    console.error(`[FastForex] ${base} fetch error: ${err instanceof Error ? err.message : String(err)}`);
   }
   return null;
 }
@@ -231,11 +238,17 @@ export async function GET(request: NextRequest) {
       }
 
       // FastForex Spot Metals Fallback — authoritative OTC spot prices for Gold/Silver
+      let ffDebug: string | undefined;
       if (price === null && (inst.scannerSlug === "XAUUSD" || inst.scannerSlug === "XAGUSD")) {
+        const ffKeyPresent = !!process.env.FASTFOREX_API_KEY;
+        ffDebug = ffKeyPresent ? "key_present_attempting" : "key_missing";
         const ff = await fetchFastForexSpotPrice(inst.scannerSlug);
         if (ff) {
           price = ff.price;
           source = "fastforex";
+          ffDebug = "ok";
+        } else {
+          ffDebug = ffKeyPresent ? "key_present_but_fetch_failed" : "key_missing";
         }
       }
 
@@ -275,6 +288,7 @@ export async function GET(request: NextRequest) {
         cached_at: nowIso,
         provider_timestamp: nowIso,
         feed_offline: feedOffline,
+        ...(ffDebug !== undefined && { ff_debug: ffDebug }),
       };
     })
   );

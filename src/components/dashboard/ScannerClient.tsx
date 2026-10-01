@@ -73,6 +73,7 @@ function formatPrice(price: number, slug: string): string {
   if (slug.includes("JPY")) return price.toFixed(3);
   if (["UKX","SPX","NDX","DJI"].includes(slug)) return price.toLocaleString("en-GB", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   if (["BTCUSDT","ETHUSDT"].includes(slug)) return price.toLocaleString("en-GB", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  if (slug === "XAUUSD") return price.toLocaleString("en-GB", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   if (slug === "XAGUSD" || slug === "XRPUSDT") return price.toFixed(4);
   return price.toFixed(5);
 }

@@ -59,6 +59,7 @@ export interface ScreenerRow {
   provider_timestamp?: string | null;
   /** True when live feed unavailable — UI must show "—" and FEED_OFFLINE badge */
   feed_offline: boolean;
+  ff_debug?: string;
 }
 
 // ─── FX Majors (8) ────────────────────────────────────────────────────────────

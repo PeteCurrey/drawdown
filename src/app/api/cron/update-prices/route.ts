@@ -244,6 +244,8 @@ export async function GET(req: Request) {
           } catch (yErr) {
             console.error(`[cron] Yahoo fallback failed for ${symbol}:`, yErr);
           }
+        }
+
         // Live Fallback: FastForex for spot bullion metals (XAU/USD, XAG/USD)
         if (price === null && isSpotMetal) {
           const ffKey = process.env.FASTFOREX_API_KEY;

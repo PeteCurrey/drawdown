@@ -169,7 +169,7 @@ export async function GET(request: NextRequest) {
       }
 
       // FastForex Fallback for spot metals (XAUUSD, XAGUSD)
-      if (!yData && (inst.scannerSlug === "XAUUSD" || inst.scannerSlug === "XAGUSD")) {
+      if (inst.scannerSlug === "XAUUSD" || inst.scannerSlug === "XAGUSD") {
         const ffData = await fetchFastForexSpotPrice(inst.scannerSlug);
         if (ffData && ffData.price !== null) {
           results[inst.scannerSlug] = {
@@ -185,6 +185,7 @@ export async function GET(request: NextRequest) {
         }
       }
 
+      const yData = inst.yahooSymbol ? await fetchYahooPrice(inst.yahooSymbol) : null;
       if (yData && yData.price !== null) {
         results[inst.scannerSlug] = {
           symbol: inst.scannerSlug,

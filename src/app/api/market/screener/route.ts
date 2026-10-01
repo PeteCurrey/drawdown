@@ -238,20 +238,13 @@ export async function GET(request: NextRequest) {
       }
 
       // FastForex Spot Metals Fallback — authoritative OTC spot prices for Gold/Silver
-      let ffDebug: string | undefined;
       if (price === null && (inst.scannerSlug === "XAUUSD" || inst.scannerSlug === "XAGUSD")) {
-        const ffKeyPresent = !!process.env.FASTFOREX_API_KEY;
-        ffDebug = ffKeyPresent ? "key_present_attempting" : "key_missing";
         const ff = await fetchFastForexSpotPrice(inst.scannerSlug);
         if (ff) {
           price = ff.price;
           source = "fastforex";
-          ffDebug = "ok";
-        } else {
-          ffDebug = ffKeyPresent ? "key_present_but_fetch_failed" : "key_missing";
         }
       }
-
 
       const feedOffline = price === null;
 
@@ -288,7 +281,6 @@ export async function GET(request: NextRequest) {
         cached_at: nowIso,
         provider_timestamp: nowIso,
         feed_offline: feedOffline,
-        ...(ffDebug !== undefined && { ff_debug: ffDebug }),
       };
     })
   );

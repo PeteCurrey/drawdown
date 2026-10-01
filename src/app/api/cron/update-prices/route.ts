@@ -244,6 +244,25 @@ export async function GET(req: Request) {
           } catch (yErr) {
             console.error(`[cron] Yahoo fallback failed for ${symbol}:`, yErr);
           }
+        // Live Fallback: FastForex for spot bullion metals (XAU/USD, XAG/USD)
+        if (price === null && isSpotMetal) {
+          const ffKey = process.env.FASTFOREX_API_KEY;
+          if (ffKey) {
+            try {
+              const base = symbol.includes("XAU") ? "XAU" : "XAG";
+              const res = await fetch(`https://api.fastforex.io/fetch-one?from=${base}&to=USD&api_key=${ffKey}`, { cache: "no-store" });
+              if (res.ok) {
+                const ffData = await res.json();
+                const p = ffData?.result?.USD;
+                if (typeof p === "number" && !isNaN(p) && p > 0) {
+                  price = p;
+                  source = "fastforex";
+                }
+              }
+            } catch (ffErr) {
+              console.error(`[cron] FastForex fallback failed for ${symbol}:`, ffErr);
+            }
+          }
         }
       }
 

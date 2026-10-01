@@ -118,7 +118,7 @@ export interface CanonicalMarketPayload {
   composite_bias: CompositeBiasResult;
   
   // Feed Metadata & Provenance
-  provider: "twelvedata" | "yahoofinance" | "unavailable";
+  provider: "twelvedata" | "yahoofinance" | "fastforex" | "unavailable";
   feed_status: "LIVE" | "DELAYED" | "STALE" | "OFFLINE" | "UNAVAILABLE";
   quote_timestamp: string;
   provider_timestamp: string | null;
@@ -324,7 +324,7 @@ export async function getCanonicalMarketData(
   let quoteChange: number | null = null;
   let quoteChangePct: number | null = null;
   let providerTimestamp: string | null = null;
-  let usedProvider: "twelvedata" | "yahoofinance" | "unavailable" = "unavailable";
+  let usedProvider: "twelvedata" | "yahoofinance" | "fastforex" | "unavailable" = "unavailable";
 
   // ── Step 0: Check for Authoritative Spot Quote from Screener Cache ───────────
   const canonicalQuote = await getCanonicalQuoteFromCache(cleanSymbol);
@@ -337,7 +337,7 @@ export async function getCanonicalMarketData(
       quoteChange = quotePrice - (canonicalQuote.prevClose * fxRate);
     }
     providerTimestamp = canonicalQuote.provider_timestamp || canonicalQuote.cached_at;
-    usedProvider = canonicalQuote.source === "yahoo" ? "yahoofinance" : "twelvedata";
+    usedProvider = canonicalQuote.source === "yahoo" ? "yahoofinance" : canonicalQuote.source === "fastforex" ? "fastforex" : "twelvedata";
   }
 
   // ── Tier 1: Twelve Data API ────────────────────────────────────────────────
@@ -477,6 +477,34 @@ export async function getCanonicalMarketData(
       }
     } catch (e) {
       // Yahoo failure
+    }
+  }
+
+  // ── Tier 3: FastForex Authoritative Spot Metals Fallback ───────────────────
+  // If Twelve Data is unavailable and Yahoo is skipped for spot metals, obtain authoritative OTC quote
+  if (quotePrice === null && (cleanSymbol.startsWith("XAU") || cleanSymbol.startsWith("XAG"))) {
+    const ffKey = process.env.FASTFOREX_API_KEY;
+    if (ffKey) {
+      try {
+        const base = cleanSymbol.startsWith("XAU") ? "XAU" : "XAG";
+        const ffRes = await fetch(`https://api.fastforex.io/fetch-one?from=${base}&to=USD&api_key=${ffKey}`, {
+          cache: "no-store",
+          signal: AbortSignal.timeout(4000),
+        });
+        if (ffRes.ok) {
+          const ffJson = await ffRes.json();
+          const p = ffJson?.result?.USD;
+          if (typeof p === "number" && !isNaN(p) && p > 0) {
+            quotePrice = p * fxRate;
+            quoteBid = quotePrice * 0.9999;
+            quoteAsk = quotePrice * 1.0001;
+            providerTimestamp = ffJson.updated ? new Date(ffJson.updated).toISOString() : new Date().toISOString();
+            usedProvider = "fastforex";
+          }
+        }
+      } catch {
+        // FastForex failure
+      }
     }
   }
 

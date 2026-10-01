@@ -51,6 +51,33 @@ async function fetchYahooPrice(yahooSym: string): Promise<{ price: number; chang
   }
 }
 
+// FastForex fallback for spot bullion metals (XAU, XAG)
+async function fetchFastForexSpotPrice(symbol: string): Promise<{ price: number; timestamp: string } | null> {
+  const key = process.env.FASTFOREX_API_KEY;
+  if (!key) return null;
+  const clean = symbol.replace(/[\/\-_]/g, "").toUpperCase();
+  const base = clean.startsWith("XAU") ? "XAU" : clean.startsWith("XAG") ? "XAG" : null;
+  if (!base) return null;
+
+  try {
+    const res = await fetch(`https://api.fastforex.io/fetch-one?from=${base}&to=USD&api_key=${key}`, {
+      signal: AbortSignal.timeout(4000),
+    });
+    if (!res.ok) return null;
+    const json = await res.json();
+    const usdPrice = json?.result?.USD;
+    if (typeof usdPrice === "number" && !isNaN(usdPrice) && usdPrice > 0) {
+      return {
+        price: usdPrice,
+        timestamp: json.updated || new Date().toISOString(),
+      };
+    }
+  } catch {
+    // Non-fatal
+  }
+  return null;
+}
+
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const rawSymbols = searchParams.get("symbols") ?? "";
@@ -141,8 +168,23 @@ export async function GET(request: NextRequest) {
         return;
       }
 
-      // Yahoo Finance Fallback — only if a valid spot ticker exists (yahooSymbol !== null)
-      const yData = inst.yahooSymbol ? await fetchYahooPrice(inst.yahooSymbol) : null;
+      // FastForex Fallback for spot metals (XAUUSD, XAGUSD)
+      if (!yData && (inst.scannerSlug === "XAUUSD" || inst.scannerSlug === "XAGUSD")) {
+        const ffData = await fetchFastForexSpotPrice(inst.scannerSlug);
+        if (ffData && ffData.price !== null) {
+          results[inst.scannerSlug] = {
+            symbol: inst.scannerSlug,
+            price: ffData.price,
+            changePct: null,
+            prevClose: null,
+            source: "fastforex",
+            cached_at: ffData.timestamp,
+            error: false,
+          };
+          return;
+        }
+      }
+
       if (yData && yData.price !== null) {
         results[inst.scannerSlug] = {
           symbol: inst.scannerSlug,

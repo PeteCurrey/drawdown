@@ -254,6 +254,25 @@ export async function getMarketPrices(symbols: string[]): Promise<MarketPrice[]>
           const usdRate = fxData?.rates?.USD;
           const audRate = fxData?.rates?.AUD;
           if (usdRate && audRate) results.push({ symbol, price: usdRate / audRate, change: 0, changePercent: 0, volume: 0 });
+        } else if (symbol.includes("XAU") || symbol.includes("XAG")) {
+          const ffKey = process.env.FASTFOREX_API_KEY;
+          if (ffKey) {
+            try {
+              const base = symbol.includes("XAU") ? "XAU" : "XAG";
+              const ffRes = await fetch(`https://api.fastforex.io/fetch-one?from=${base}&to=USD&api_key=${ffKey}`, {
+                signal: AbortSignal.timeout(4000),
+              });
+              if (ffRes.ok) {
+                const ffData = await ffRes.json();
+                const p = ffData?.result?.USD;
+                if (typeof p === "number" && !isNaN(p) && p > 0) {
+                  results.push({ symbol, price: p, change: 0, changePercent: 0, volume: 0 });
+                }
+              }
+            } catch {
+              // Non-fatal
+            }
+          }
         }
       }
     } catch (error) {

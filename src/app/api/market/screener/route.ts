@@ -125,6 +125,34 @@ function deriveBias(history: { time: string; open: number; high: number; low: nu
   return "NEUTRAL";
 }
 
+// ─── FastForex Authoritative Spot Metals Fallback ─────────────────────────────
+// Used for genuine OTC spot bullion (XAU/USD, XAG/USD) when Twelve Data is exhausted.
+async function fetchFastForexSpotPrice(symbol: string): Promise<{ price: number; timestamp: string } | null> {
+  const key = process.env.FASTFOREX_API_KEY;
+  if (!key) return null;
+  const clean = symbol.replace(/[\/\-_]/g, "").toUpperCase();
+  const base = clean.startsWith("XAU") ? "XAU" : clean.startsWith("XAG") ? "XAG" : null;
+  if (!base) return null;
+
+  try {
+    const res = await fetch(`https://api.fastforex.io/fetch-one?from=${base}&to=USD&api_key=${key}`, {
+      signal: AbortSignal.timeout(4000),
+    });
+    if (!res.ok) return null;
+    const json = await res.json();
+    const usdPrice = json?.result?.USD;
+    if (typeof usdPrice === "number" && !isNaN(usdPrice) && usdPrice > 0) {
+      return {
+        price: usdPrice,
+        timestamp: json.updated || new Date().toISOString(),
+      };
+    }
+  } catch {
+    // Non-fatal
+  }
+  return null;
+}
+
 // ─── Yahoo Finance fallback price ──────────────────────────────────────────────
 async function fetchYahooPrice(yahooSym: string): Promise<{ price: number; changePct: number } | null> {
   try {
@@ -199,6 +227,15 @@ export async function GET(request: NextRequest) {
           changePct = yahoo.changePct;
           prevClose = yahoo.price && yahoo.changePct ? parseFloat((yahoo.price / (1 + yahoo.changePct / 100)).toFixed(4)) : null;
           source = "yahoo";
+        }
+      }
+
+      // FastForex Spot Metals Fallback — authoritative OTC spot prices for Gold/Silver
+      if (price === null && (inst.scannerSlug === "XAUUSD" || inst.scannerSlug === "XAGUSD")) {
+        const ff = await fetchFastForexSpotPrice(inst.scannerSlug);
+        if (ff) {
+          price = ff.price;
+          source = "fastforex";
         }
       }
 

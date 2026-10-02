@@ -7,15 +7,15 @@ import Link from "next/link";
 import { ChevronRight, BarChart2 } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Currency Strength Meter — Live FX Relative Strength Ranking | Avorria",
+  title: "Currency Strength Meter — Live FX Relative Strength Ranking | Drawdown",
   description:
     "Live relative strength ranking across 8 major currencies (USD, EUR, GBP, JPY, CHF, CAD, AUD, NZD). Derived from real-time 24h % change across all tracked FX pairs. Free, no sign-up required.",
-  alternates: { canonical: "https://avorria.com/tools/currency-strength-meter" },
+  alternates: { canonical: "https://drawdown.trading/tools/currency-strength-meter" },
   openGraph: {
-    title: "Currency Strength Meter — Avorria Trading",
+    title: "Currency Strength Meter — Drawdown Trading",
     description:
       "See which of the 8 FX majors is strongest and weakest right now, ranked by average 24h momentum across all tracked pairs.",
-    url: "https://avorria.com/tools/currency-strength-meter",
+    url: "https://drawdown.trading/tools/currency-strength-meter",
     type: "website",
   },
 };
@@ -25,7 +25,7 @@ export const revalidate = 60;
 
 async function getInitialScreenerData(): Promise<ScreenerRow[]> {
   try {
-    const res = await fetch("https://avorria.com/api/market/screener", {
+    const res = await fetch("https://drawdown.trading/api/market/screener", {
       next: { revalidate: 60 },
       signal: AbortSignal.timeout(4000),
     });
@@ -46,7 +46,7 @@ export default async function CurrencyStrengthMeterPage() {
     "@context": "https://schema.org",
     "@type": "WebApplication",
     name: "Drawdown Currency Strength Meter",
-    url: "https://avorria.com/tools/currency-strength-meter",
+    url: "https://drawdown.trading/tools/currency-strength-meter",
     description:
       "Real-time relative strength ranking of 8 major currencies derived from 24h percentage change across tracked FX pairs.",
     applicationCategory: "FinanceApplication",
@@ -132,7 +132,7 @@ export default async function CurrencyStrengthMeterPage() {
             <p>
               Each currency's <strong>Relative Strength Score</strong> is the simple
               unweighted average of its signed 24h percentage change contribution across
-              all tracked FX pairs in the Avorria screener.
+              all tracked FX pairs in the Drawdown screener.
             </p>
             <p>
               When a currency is the <strong>base</strong> (left side of the pair, e.g. GBP

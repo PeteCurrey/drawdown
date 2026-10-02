@@ -5,8 +5,8 @@ import { Users } from "lucide-react";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Community Guidelines | Avorria",
-  description: "Conduct expectations for Avorria's Discord server and platform community.",
+  title: "Community Guidelines | Drawdown",
+  description: "Conduct expectations for Drawdown's Discord server and platform community.",
 };
 
 export default function CommunityGuidelinesPage() {
@@ -44,7 +44,7 @@ export default function CommunityGuidelinesPage() {
         {/* Introduction */}
         <div className="max-w-4xl mx-auto mb-12">
           <p className="text-[15px] font-sans leading-relaxed" style={{ color: "var(--ink-950)" }}>
-            Avorria's Discord server and platform community exist for members to learn, share ideas, and support one another on their trading journey. These guidelines apply to all community spaces operated by {LEGAL_CONFIG.fullTradingEntity}.
+            Drawdown's Discord server and platform community exist for members to learn, share ideas, and support one another on their trading journey. These guidelines apply to all community spaces operated by {LEGAL_CONFIG.fullTradingEntity}.
           </p>
         </div>
 
@@ -85,7 +85,7 @@ export default function CommunityGuidelinesPage() {
             </h2>
             <div className="space-y-3 text-[14px] leading-relaxed" style={{ color: "var(--graphite-600)" }}>
               <p>
-                Promotion of third-party paid services, signal groups, prop firm referral schemes, broker affiliate links, or any commercial offer is strictly prohibited without prior written consent from Avorria. Unsolicited direct messages promoting services will result in an immediate ban.
+                Promotion of third-party paid services, signal groups, prop firm referral schemes, broker affiliate links, or any commercial offer is strictly prohibited without prior written consent from Drawdown. Unsolicited direct messages promoting services will result in an immediate ban.
               </p>
             </div>
           </section>
@@ -109,7 +109,7 @@ export default function CommunityGuidelinesPage() {
             </h2>
             <div className="space-y-3 text-[14px] leading-relaxed" style={{ color: "var(--graphite-600)" }}>
               <p>
-                Avorria is restricted to individuals aged <strong>{LEGAL_CONFIG.minimumCustomerAge} or over</strong>. By participating in community spaces, you confirm you meet this requirement.
+                Drawdown Trading is restricted to individuals aged <strong>{LEGAL_CONFIG.minimumCustomerAge} or over</strong>. By participating in community spaces, you confirm you meet this requirement.
               </p>
             </div>
           </section>
@@ -133,7 +133,7 @@ export default function CommunityGuidelinesPage() {
             </h2>
             <div className="space-y-3 text-[14px] leading-relaxed" style={{ color: "var(--graphite-600)" }}>
               <p>
-                Premium course materials, member-only content, and proprietary content shared in paid channels must not be redistributed externally without written permission from Avorria. Redistribution violates our Terms and Conditions and may constitute copyright infringement.
+                Premium course materials, member-only content, and proprietary content shared in paid channels must not be redistributed externally without written permission from Drawdown. Redistribution violates our Terms and Conditions and may constitute copyright infringement.
               </p>
             </div>
           </section>
@@ -145,7 +145,7 @@ export default function CommunityGuidelinesPage() {
             </h2>
             <div className="space-y-3 text-[14px] leading-relaxed" style={{ color: "var(--graphite-600)" }}>
               <p>
-                Avorria moderators may warn, mute, kick, or permanently ban members for violations of these guidelines at their reasonable discretion. Appeals can be submitted by email to <a href={`mailto:${LEGAL_CONFIG.supportEmail}`} className="text-accent underline hover:opacity-80">{LEGAL_CONFIG.supportEmail}</a>.
+                Drawdown moderators may warn, mute, kick, or permanently ban members for violations of these guidelines at their reasonable discretion. Appeals can be submitted by email to <a href={`mailto:${LEGAL_CONFIG.supportEmail}`} className="text-accent underline hover:opacity-80">{LEGAL_CONFIG.supportEmail}</a>.
               </p>
             </div>
           </section>
@@ -181,7 +181,7 @@ export default function CommunityGuidelinesPage() {
             </h2>
             <div className="space-y-3 text-[14px] leading-relaxed" style={{ color: "var(--graphite-600)" }}>
               <p>
-                These guidelines may be updated from time to time. Continued participation in Avorria community spaces constitutes acceptance of the current guidelines. The governing Terms and Conditions remain applicable at all times: <Link href="/terms" className="text-accent underline hover:opacity-80">avorria.com/terms</Link>.
+                These guidelines may be updated from time to time. Continued participation in Drawdown community spaces constitutes acceptance of the current guidelines. The governing Terms and Conditions remain applicable at all times: <Link href="/terms" className="text-accent underline hover:opacity-80">drawdown.trading/terms</Link>.
               </p>
             </div>
           </section>

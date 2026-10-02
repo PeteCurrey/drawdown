@@ -75,7 +75,7 @@ export function MarketLobbyClient() {
       <div className="flex flex-col items-center justify-center min-h-[60vh] space-y-4">
         <RefreshCw className="h-8 w-8 animate-spin text-[#F9771D]" />
         <p className="text-xs font-medium text-[#888882] tracking-wider uppercase font-mono">
-          Loading Avorria Market Intelligence...
+          Loading Drawdown Market Intelligence...
         </p>
       </div>
     );

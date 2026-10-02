@@ -131,7 +131,7 @@ function TierGate({
         <div>
           <p className="text-sm font-bold text-gray-900">{featureName}</p>
           <p className="text-xs text-gray-500 mt-1">
-            Included in <span className="font-bold text-gray-900">Avorria Core Membership</span> (£24.99/mo)
+            Included in <span className="font-bold text-gray-900">Drawdown Core Membership</span> (£24.99/mo)
           </p>
         </div>
         <Link

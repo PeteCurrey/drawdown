@@ -5,8 +5,8 @@ import { ShieldCheck, Lock, Eye, Download, Trash2, ExternalLink, Mail, CheckCirc
 import Link from "next/link";
 
 export const metadata = getMetadata({
-  title: "Privacy Policy | Avorria",
-  description: "Avorria Privacy Policy explaining how Black & Rowan Management Group Limited collects, processes, protects, and retains your data under UK GDPR.",
+  title: "Privacy Policy | Drawdown",
+  description: "Drawdown Privacy Policy explaining how Black & Rowan Management Group Limited collects, processes, protects, and retains your data under UK GDPR.",
   path: "/privacy",
 });
 
@@ -62,7 +62,7 @@ export default function PrivacyPage() {
                   Correspondence Address: {LEGAL_CONFIG.tradingAddress}
                 </p>
                 <p className="text-[12px] text-slate-500 italic">
-                  Note: Given the scale and nature of our processing operations, Avorria is not required to appoint a formal Data Protection Officer (DPO). All privacy queries are handled directly by our designated privacy team.
+                  Note: Given the scale and nature of our processing operations, Drawdown Trading is not required to appoint a formal Data Protection Officer (DPO). All privacy queries are handled directly by our designated privacy team.
                 </p>
               </div>
             </div>
@@ -161,7 +161,7 @@ export default function PrivacyPage() {
                 <ul className="list-disc pl-6 space-y-1 text-[13px]">
                   <li><strong>Zero Public Model Training:</strong> Your trade journals, private strategies, and broker statements are NOT used to train public AI models.</li>
                   <li><strong>Pseudonymisation:</strong> Prompts strip personal contact identifiers before processing.</li>
-                  <li><strong>No Automated Decisions with Legal Effects:</strong> AI tools provide analytical feedback only. Avorria does not execute automated trades or make credit decisions.</li>
+                  <li><strong>No Automated Decisions with Legal Effects:</strong> AI tools provide analytical feedback only. Drawdown does not execute automated trades or make credit decisions.</li>
                 </ul>
               </div>
             </div>
@@ -241,7 +241,7 @@ export default function PrivacyPage() {
                   <Trash2 size={16} /> Account Deletion Workflow
                 </h3>
                 <p className="text-[13px]" style={{ color: "var(--graphite-600)" }}>
-                  To permanently delete your Avorria account and associated operational data, navigate to <strong>Account Settings → Security → Delete Account</strong> or email <span className="text-accent">{LEGAL_CONFIG.privacyEmail}</span>.
+                  To permanently delete your Drawdown account and associated operational data, navigate to <strong>Account Settings → Security → Delete Account</strong> or email <span className="text-accent">{LEGAL_CONFIG.privacyEmail}</span>.
                 </p>
               </div>
             </div>

@@ -33,7 +33,7 @@ import { YourLobbyFeed } from "@/components/lobby/YourLobbyFeed";
 
 export const metadata: Metadata = getMetadata({
   title: "The Lobby — Market Intelligence & Trading Industry Publication",
-  description: "What's happening in markets, trading and the businesses built around them. Broadsheet reporting, verified broker audits, prop firm surveillance, and Avorria research.",
+  description: "What's happening in markets, trading and the businesses built around them. Broadsheet reporting, verified broker audits, prop firm surveillance, and Drawdown research.",
   path: "/lobby",
   hasRegionalVariants: false,
 });
@@ -131,7 +131,7 @@ export default async function LobbyHomePage({
       <StructuredData
         type="WebSite"
         data={{
-          name: "The Lobby | Avorria",
+          name: "The Lobby | Drawdown",
           url: `${siteConfig.url}/lobby`,
           description: "What's happening in markets, trading and the businesses built around them.",
           publisher: defaultOrgSchema,
@@ -186,7 +186,7 @@ export default async function LobbyHomePage({
           {/* 10. Trade of the Month */}
           <LobbyTradeOfTheMonth trade={AUDITED_TRADE_CASE_STUDY} />
 
-          {/* 11. Avorria Desk Original Research */}
+          {/* 11. Drawdown Desk Original Research */}
           <LobbyDrawdownDesk articles={drawdownDeskArticles} />
 
           {/* 12. Explained Evergreen Education */}

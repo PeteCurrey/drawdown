@@ -1137,14 +1137,14 @@ export const courseContent: Record<string, Record<string, ModuleContent>> = {
       `
     },
     "module-8": {
-      title: "Using the Avorria AI Backtester Tool — Live Walkthrough",
+      title: "Using the Drawdown AI Backtester Tool — Live Walkthrough",
       duration: "30 min read / 15 min video",
       playbackId: "FuM49N00B9bC2o01Q01q6M6Hh1m16V86S00kUSF02y01y7yA",
       quizKey: "the-backtester/module-8",
       notes: `
-        <h2>The Avorria Backtester Interface</h2>
+        <h2>The Drawdown Backtester Interface</h2>
         <p>
-          In this final module, we walk through a live demonstration of the Avorria AI Backtester tool integrated inside your dashboard.
+          In this final module, we walk through a live demonstration of the Drawdown AI Backtester tool integrated inside your dashboard.
         </p>
         <h3>The Execution Pipeline</h3>
         <p>

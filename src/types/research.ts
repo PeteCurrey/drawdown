@@ -1,5 +1,5 @@
 /**
- * Avorria Research Centre — Type Definitions
+ * Drawdown Research Centre — Type Definitions
  * Evidence-led research, datasets, broker testing, and transparency systems.
  */
 

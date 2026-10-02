@@ -56,7 +56,7 @@ Payout Split:               ${payoutSplitPct}% Trader / ${100 - payoutSplitPct}%
 Net Profit Needed to Recover Fees: £${calculations.netProfitToBreakevenFees.toFixed(2)} (${calculations.breakevenReturnPct.toFixed(2)}% account gain)
 --------------------------------------------------
 Disclaimer: Prop-firm challenges involve trailing drawdown mechanics and strict loss limits. This tool calculates effective monetary break-even metrics based on user parameters.
-https://avorria.com/calculators/prop-firm-challenge`;
+https://drawdown.trading/calculators/prop-firm-challenge`;
 
     const blob = new Blob([textData], { type: "text/plain" });
     const url = URL.createObjectURL(blob);

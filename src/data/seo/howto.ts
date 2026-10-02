@@ -67,7 +67,7 @@ export const HOW_TO_PAGES: HowToPage[] = [
       'Following "signals" from unverified sources'
     ],
     drawdownApproach: {
-      text: 'At Avorria, we believe in a risk-first approach. Before you take your first live trade, we recommend completing our Foundation course.',
+      text: 'At Drawdown, we believe in a risk-first approach. Before you take your first live trade, we recommend completing our Foundation course.',
       link: '/learn/foundation',
       linkText: 'View Foundation Course'
     },
@@ -439,7 +439,7 @@ export const HOW_TO_PAGES: HowToPage[] = [
     drawdownApproach: {
       text: 'We provide a printable "Trader Daily Checklist" for all our members to help build this habit.',
       link: '/signup',
-      linkText: 'Join Avorria Free'
+      linkText: 'Join Drawdown Free'
     },
     faqs: [
       { question: 'How long should a routine take?', answer: 'A good pre-market routine should take 20-30 minutes. The post-market review can be done in 10 minutes.' }
@@ -1183,7 +1183,7 @@ export const HOW_TO_PAGES: HowToPage[] = [
     ],
     commonMistakes: ['Over-exposure to a single currency', 'Getting overwhelmed by multiple alerts'],
     drawdownApproach: {
-      text: 'The Avorria Dashboard aggregates all your risk metrics into a single high-fidelity view.',
+      text: 'The Drawdown Dashboard aggregates all your risk metrics into a single high-fidelity view.',
       link: '/dashboard/accounts',
       linkText: 'Manage Portfolio'
     },
@@ -1285,7 +1285,7 @@ export const HOW_TO_PAGES: HowToPage[] = [
       'Opening a live account without checking which account type (spread bet vs CFD) is more tax-efficient for your situation',
     ],
     drawdownApproach: {
-      text: 'Avorria\'s broker comparison covers only FCA-regulated brokers, with honest notes on spreads, platforms, and who each broker actually suits.',
+      text: 'Drawdown\'s broker comparison covers only FCA-regulated brokers, with honest notes on spreads, platforms, and who each broker actually suits.',
       link: '/brokers',
       linkText: 'Compare regulated UK brokers',
     },
@@ -1361,7 +1361,7 @@ export const HOW_TO_PAGES: HowToPage[] = [
       'Not testing the platform on demo before opening a funded account',
     ],
     drawdownApproach: {
-      text: 'Every broker in Avorria\'s comparison has been checked for FCA authorisation, and the comparisons include typical spreads on common instruments alongside platform and withdrawal notes.',
+      text: 'Every broker in Drawdown\'s comparison has been checked for FCA authorisation, and the comparisons include typical spreads on common instruments alongside platform and withdrawal notes.',
       link: '/brokers',
       linkText: 'See our broker comparisons',
     },
@@ -1437,7 +1437,7 @@ export const HOW_TO_PAGES: HowToPage[] = [
       'Switching to live because of boredom or impatience rather than meeting a defined consistency target',
     ],
     drawdownApproach: {
-      text: 'The Avorria AI Trade Journal works for both demo and live accounts. Log your demo trades now, review the data, and use it to time your switch to live with evidence rather than feeling.',
+      text: 'The Drawdown AI Trade Journal works for both demo and live accounts. Log your demo trades now, review the data, and use it to time your switch to live with evidence rather than feeling.',
       link: '/tools/ai-trade-journal',
       linkText: 'Start logging trades for free',
     },
@@ -1513,7 +1513,7 @@ export const HOW_TO_PAGES: HowToPage[] = [
       'Looking at charts passively rather than actively narrating what is happening',
     ],
     drawdownApproach: {
-      text: 'The Avorria curriculum builds chart reading as a foundation in Phase 1 — Chart Reader. Technical Analysis goes deeper into structure, support, resistance, and timeframe alignment.',
+      text: 'The Drawdown curriculum builds chart reading as a foundation in Phase 1 — Chart Reader. Technical Analysis goes deeper into structure, support, resistance, and timeframe alignment.',
       link: '/learn-to-trade/technical-analysis',
       linkText: 'Go deeper on chart reading',
     },

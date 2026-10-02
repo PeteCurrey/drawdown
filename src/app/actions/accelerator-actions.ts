@@ -86,9 +86,9 @@ export async function submitAcceleratorApplicationAction(input: AcceleratorAppli
     if (process.env.RESEND_API_KEY) {
       try {
         const emailRes = await resend.emails.send({
-          from: "Pete @ Avorria <onboarding@avorria.com>",
+          from: "Pete @ Drawdown Trading <onboarding@drawdown.trading>",
           to: email.toLowerCase().trim(),
-          subject: "Your Avorria Institutional Accelerator Candidate Dossier Received",
+          subject: "Your Drawdown Institutional Accelerator Candidate Dossier Received",
           html: welcomeHtml
         });
 
@@ -116,7 +116,7 @@ export async function submitAcceleratorApplicationAction(input: AcceleratorAppli
     try {
       await supabase.from("email_sends").insert({
         type: "accelerator_onboarding",
-        subject: "Your Avorria Institutional Accelerator Candidate Dossier Received",
+        subject: "Your Drawdown Institutional Accelerator Candidate Dossier Received",
         content_html: welcomeHtml,
         recipient_count: 1,
         resend_broadcast_id: resendMessageId,
@@ -338,12 +338,12 @@ export async function submitAcceleratorMilestoneAction(
             <pre style="background-color: #121212; padding: 20px; border-left: 4px solid #10B981; white-space: pre-wrap; font-family: monospace; color: #F1F5F9;">${textSubmission}</pre>
             ${fileUrl ? `<p style="margin-top: 20px;"><strong>Uploaded Document:</strong> <a href="${fileUrl}" style="color: #10B981; text-decoration: underline;">${fileName}</a></p>` : ""}
             <hr style="border: 0; border-top: 1px solid #334155; margin: 20px 0;" />
-            <p style="font-size: 12px; color: #64748B;">To review and grade this submission, go to the <a href="https://avorria.com/admin/accelerator" style="color: #10B981;">Admin Panel</a>.</p>
+            <p style="font-size: 12px; color: #64748B;">To review and grade this submission, go to the <a href="https://drawdown.trading/admin/accelerator" style="color: #10B981;">Admin Panel</a>.</p>
           </div>
         `;
 
         await resend.emails.send({
-          from: "Drawdown Accelerator <onboarding@avorria.com>",
+          from: "Drawdown Accelerator <onboarding@drawdown.trading>",
           to: ADMIN_EMAIL,
           subject: `[Accelerator Sub] Week ${weekNumber} - ${user.email}`,
           html: emailHtml
@@ -421,12 +421,12 @@ export async function getAcceleratorAdminDashboardAction() {
       }
       enrolments = (rawRes.data || []).map((e: any) => ({
         ...e,
-        profile: profileMap.get(e.user_id) || { display_name: "Student Trader", email: "student@avorria.com" }
+        profile: profileMap.get(e.user_id) || { display_name: "Student Trader", email: "student@drawdown.trading" }
       }));
     } else {
       enrolments = (enrolmentsRes.data || []).map((e: any) => ({
         ...e,
-        profile: e.profile || profileMap.get(e.user_id) || { display_name: "Student Trader", email: "student@avorria.com" }
+        profile: e.profile || profileMap.get(e.user_id) || { display_name: "Student Trader", email: "student@drawdown.trading" }
       }));
     }
 
@@ -591,7 +591,7 @@ export async function gradeAcceleratorMilestoneAction(
               <pre style="background-color: #121212; padding: 20px; border-left: 4px solid #10B981; white-space: pre-wrap; font-family: monospace; color: #F1F5F9;">${reviewNotes || "Excellent work. You have demonstrated clear grasp of the systematic variables and risk rules. Approved."}</pre>
               <hr style="border: 0; border-top: 1px solid #334155; margin: 20px 0;" />
               <p style="font-size: 15px; color: #E2E8F0;">🚀 You have unlocked <strong>Week ${Math.min(milestone.week_number + 1, 6)}</strong>! Log back in to resume your systematic training.</p>
-              <p style="margin-top: 30px;"><a href="https://avorria.com/dashboard/accelerator" style="display: inline-block; background-color: #10B981; color: #000; padding: 12px 24px; font-weight: bold; text-decoration: none; border-radius: 4px;">RESUME WORKSTATION</a></p>
+              <p style="margin-top: 30px;"><a href="https://drawdown.trading/dashboard/accelerator" style="display: inline-block; background-color: #10B981; color: #000; padding: 12px 24px; font-weight: bold; text-decoration: none; border-radius: 4px;">RESUME WORKSTATION</a></p>
             </div>
           `;
         } else {
@@ -605,13 +605,13 @@ export async function gradeAcceleratorMilestoneAction(
               <pre style="background-color: #121212; padding: 20px; border-left: 4px solid #F59E0B; white-space: pre-wrap; font-family: monospace; color: #F1F5F9;">${reviewNotes}</pre>
               <hr style="border: 0; border-top: 1px solid #334155; margin: 20px 0;" />
               <p style="font-size: 14px; color: #E2E8F0;">Please edit your submission or upload the corrected briefing documents directly in your workstation dashboard.</p>
-              <p style="margin-top: 30px;"><a href="https://avorria.com/dashboard/accelerator" style="display: inline-block; background-color: #F59E0B; color: #000; padding: 12px 24px; font-weight: bold; text-decoration: none; border-radius: 4px;">REOPEN SUBMISSION WORKSTATION</a></p>
+              <p style="margin-top: 30px;"><a href="https://drawdown.trading/dashboard/accelerator" style="display: inline-block; background-color: #F59E0B; color: #000; padding: 12px 24px; font-weight: bold; text-decoration: none; border-radius: 4px;">REOPEN SUBMISSION WORKSTATION</a></p>
             </div>
           `;
         }
 
         await resend.emails.send({
-          from: "Pete @ Avorria <onboarding@avorria.com>",
+          from: "Pete @ Drawdown Trading <onboarding@drawdown.trading>",
           to: studentEmail,
           subject: emailSubject,
           html: emailHtml

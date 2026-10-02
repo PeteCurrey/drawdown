@@ -188,14 +188,14 @@ export default function RiskManagementHubPage() {
             "@context": "https://schema.org",
             "@type": "WebPage",
             "name": "Trading Risk Management",
-            "url": "https://avorria.com/risk-management",
+            "url": "https://drawdown.trading/risk-management",
             "description":
               "The complete trading risk management framework covering position sizing, drawdown control, risk-of-ruin analysis, and prop firm compliance.",
             "breadcrumb": {
               "@type": "BreadcrumbList",
               "itemListElement": [
-                { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://avorria.com" },
-                { "@type": "ListItem", "position": 2, "name": "Risk Management", "item": "https://avorria.com/risk-management" },
+                { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://drawdown.trading" },
+                { "@type": "ListItem", "position": 2, "name": "Risk Management", "item": "https://drawdown.trading/risk-management" },
               ],
             },
           },
@@ -361,10 +361,10 @@ export default function RiskManagementHubPage() {
           <div className="flex-1 space-y-2">
             <p className="text-[10px] font-mono uppercase tracking-[0.25em] text-accent">Built into the platform</p>
             <h3 className="text-sm font-bold uppercase tracking-tight text-text-primary">
-              Automated Risk Management in the Avorria Platform
+              Automated Risk Management in the Drawdown Platform
             </h3>
             <p className="text-xs text-text-secondary leading-relaxed max-w-xl">
-              The Avorria platform enforces your risk framework automatically — calculating correct lot sizes before you enter, monitoring live cash risk on all open trades, and alerting you before prop firm daily limits are approached.
+              The Drawdown platform enforces your risk framework automatically — calculating correct lot sizes before you enter, monitoring live cash risk on all open trades, and alerting you before prop firm daily limits are approached.
             </p>
           </div>
           <Link

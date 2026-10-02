@@ -374,7 +374,7 @@ export function CourseLandingPageClient({ params }: Props) {
                   </div>
                   <div>
                     <span className="text-[9px] font-mono uppercase tracking-widest text-mkt-ink block font-bold">Pete Currey</span>
-                    <span className="text-[8px] font-mono uppercase tracking-widest text-mkt-i4 block">Founder // Avorria</span>
+                    <span className="text-[8px] font-mono uppercase tracking-widest text-mkt-i4 block">Founder // Drawdown</span>
                   </div>
                 </div>
               </div>

@@ -7,7 +7,7 @@ import { getLobbyArticles } from "@/lib/lobby";
 import { WireCuratorForm } from "@/components/admin/wire/WireCuratorForm";
 
 export const metadata = {
-  title: "Curate New Wire Edition | Avorria Admin",
+  title: "Curate New Wire Edition | Drawdown Admin",
   robots: { index: false, follow: false },
 };
 

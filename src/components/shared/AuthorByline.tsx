@@ -12,7 +12,7 @@ interface AuthorBylineProps {
 
 export function AuthorByline({
   authorName = "Pete Currey",
-  authorRole = "Founder, Avorria",
+  authorRole = "Founder, Drawdown",
   authorLink = "/about",
   date,
   readTime,
@@ -22,11 +22,11 @@ export function AuthorByline({
     "@type": "Person",
     "name": authorName,
     "jobTitle": authorRole,
-    "url": `https://avorria.com${authorLink}`,
-    ...(authorName === "Pete Currey" ? { "image": "https://avorria.com/images/pete.jpg" } : {}),
+    "url": `https://drawdown.trading${authorLink}`,
+    ...(authorName === "Pete Currey" ? { "image": "https://drawdown.trading/images/pete.jpg" } : {}),
     "worksFor": {
       "@type": "Organization",
-      "name": "Avorria Trading"
+      "name": "Drawdown Trading"
     }
   };
 

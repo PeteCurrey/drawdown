@@ -4,7 +4,7 @@ import { PrepareClient } from "@/components/dashboard/PrepareClient";
 import { PageHeader } from "@/components/dashboard/ui/PageHeader";
 
 export const metadata = {
-  title: "Session Preparation · Avorria",
+  title: "Session Preparation · Drawdown",
   description: "Prepare and evaluate your sessional risk parameters and readiness flags before creating a trading plan.",
 };
 

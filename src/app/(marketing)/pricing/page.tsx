@@ -7,7 +7,7 @@ import { PRICING_FAQS } from "@/data/pricing";
 import { getMetadata } from "@/lib/metadata";
 
 export const metadata: Metadata = getMetadata({
-  title: "Avorria Core Membership — £24.99/month",
+  title: "Drawdown Core Membership — £24.99/month",
   description:
     "One subscription. Complete access to quantitative scanners, market intelligence, backtesting, AI trade journaling, and the complete trading curriculum.",
   path: "/pricing",
@@ -35,14 +35,14 @@ export default async function Page() {
   const productsStructuredData = {
     "@context": "https://schema.org",
     "@type": "ItemList",
-    name: "Avorria Membership Plans",
+    name: "Drawdown Membership Plans",
     itemListElement: [
       {
         "@type": "ListItem",
         position: 1,
         item: {
           "@type": "Product",
-          name: "Avorria Free Access",
+          name: "Drawdown Free Access",
           description:
             "Free access to Phase 1 curriculum, basic risk calculators and manual trade journal. No card required.",
           offers: {
@@ -50,7 +50,7 @@ export default async function Page() {
             price: "0",
             priceCurrency: "GBP",
             availability: "https://schema.org/InStock",
-            url: "https://avorria.com/pricing",
+            url: "https://drawdown.trading/pricing",
           },
         },
       },
@@ -59,7 +59,7 @@ export default async function Page() {
         position: 2,
         item: {
           "@type": "Product",
-          name: "Avorria Core Membership",
+          name: "Drawdown Core Membership",
           description:
             "Complete core platform access: Quantitative Technical Scanner, Market Screener, Signal Centre, Investment Centre, AI Trade Journal, Strategy Backtester, and full curriculum.",
           offers: {
@@ -68,7 +68,7 @@ export default async function Page() {
             priceCurrency: "GBP",
             billingDuration: "P1M",
             availability: "https://schema.org/InStock",
-            url: "https://avorria.com/pricing",
+            url: "https://drawdown.trading/pricing",
           },
         },
       },

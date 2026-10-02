@@ -1,8 +1,8 @@
-# Avorria Trading — Lobby Daily Market Intelligence Architecture Audit
+# Drawdown Trading — Lobby Daily Market Intelligence Architecture Audit
 
 **Document Version:** 1.0.0  
 **Date:** 2026-09-29  
-**Platform:** Avorria Trading ([https://avorria.com](https://avorria.com))  
+**Platform:** Drawdown Trading ([https://drawdown.trading](https://drawdown.trading))  
 **Auditor:** Antigravity Principal Engineering & Commercial Architecture  
 **Status:** Canonical Reference & Architectural Baseline  
 
@@ -10,10 +10,10 @@
 
 ## 1. Executive Summary & Architectural Scope
 
-The Avorria Trading Lobby (`/lobby`) is the primary public editorial and intelligence front door of the platform. Following the commercial migration to **Avorria Core Membership (£24.99/month)** with the **Prop Firm Survival Kit as a 100% free lead magnet**, the Lobby must serve as a high-authority daily market intelligence terminal.
+The Drawdown Trading Lobby (`/lobby`) is the primary public editorial and intelligence front door of the platform. Following the commercial migration to **Drawdown Core Membership (£24.99/month)** with the **Prop Firm Survival Kit as a 100% free lead magnet**, the Lobby must serve as a high-authority daily market intelligence terminal.
 
 ### Strategic Objective
-The objective is to transform `/lobby` from an editorial article list into an Avorria-native, institutional-grade market intelligence terminal combining:
+The objective is to transform `/lobby` from an editorial article list into an Drawdown-native, institutional-grade market intelligence terminal combining:
 1. **Real-time & EOD Canonical Market Data** (Forex, Indices, Commodities, Crypto).
 2. **Retail vs. Institutional Positioning** (Broker sentiment vs. CFTC Commitment of Traders).
 3. **Futures Volume & Open Interest** (CME Group reports and daily bulletins).
@@ -50,7 +50,7 @@ The objective is to transform `/lobby` from an editorial article list into an Av
 
 ## 3. Canonical Market Data Pipeline Audit
 
-Avorria Trading operates an authoritative market data pipeline anchored in `src/lib/instruments.ts`:
+Drawdown Trading operates an authoritative market data pipeline anchored in `src/lib/instruments.ts`:
 
 ### Instrument Universe (`INSTRUMENTS_LIST`)
 - **Forex Majors:** EUR/USD, GBP/USD, USD/JPY, AUD/USD, USD/CAD, USD/CHF, NZD/USD.
@@ -87,13 +87,13 @@ To maintain full compliance and institutional authority, external data sources m
 
 ## 5. Signal Centre Reuse & Integration Strategy
 
-Avorria Trading will **not** build a duplicate or disconnected signal engine for the Lobby.
+Drawdown Trading will **not** build a duplicate or disconnected signal engine for the Lobby.
 
 ### Reuse Principles
 1. **Single Source of Truth:** All signals originate from `public.signals`.
 2. **Public Sanitization (`sanitizeSignalForPreview`):** Public visitors on `/lobby` receive:
    - Instrument, Direction (BUY/SELL), Timeframe, Strategy Tag, and Timestamp.
-   - Entry Price, Stop Loss, and Take Profit levels are redacted (`null`) until the user upgrades to Avorria Core Membership (£24.99/mo).
+   - Entry Price, Stop Loss, and Take Profit levels are redacted (`null`) until the user upgrades to Drawdown Core Membership (£24.99/mo).
 3. **Track Record Integrity:** Verified closed trades (`status = 'closed'`) display real net R-multiple and win rate to establish undeniable institutional credibility.
 
 ---

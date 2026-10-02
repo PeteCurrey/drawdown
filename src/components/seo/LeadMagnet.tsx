@@ -17,7 +17,7 @@ const resources = {
   },
   "risk-guide": {
     filename: "risk-management-guide.pdf",
-    label: "Avorria Risk Management Guide (.pdf)",
+    label: "Drawdown Risk Management Guide (.pdf)",
     source: "lead-magnet-risk-guide"
   },
   "comparison-sheet": {

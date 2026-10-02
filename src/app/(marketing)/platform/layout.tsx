@@ -1,10 +1,10 @@
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "The Platform — Avorria",
+  title: "The Platform — Drawdown",
   description: "Live market intelligence, AI-powered trading tools, and structured education — built for British traders who are serious about getting an edge.",
   alternates: {
-    canonical: "https://avorria.com/platform",
+    canonical: "https://drawdown.trading/platform",
   },
 };
 

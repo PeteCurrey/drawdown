@@ -27,7 +27,7 @@ export const SAMPLE_RESEARCH_STUDIES: ResearchStudy[] = [
       "Assumes zero execution slippage and constant spread conditions across Monte Carlo iterations.",
       "Does not account for psychological decision fatigue or manual trader intervention during deep drawdown states."
     ],
-    citationFormat: "Currey, P. (2026). 'The Non-Linear Mathematics of Trading Drawdown Recovery.' Avorria Trading Research Centre. https://avorria.com/research/risk/non-linear-drawdown-recovery-math",
+    citationFormat: "Currey, P. (2026). 'The Non-Linear Mathematics of Trading Drawdown Recovery.' Drawdown Trading Research Centre. https://drawdown.trading/research/risk/non-linear-drawdown-recovery-math",
     versionHistory: [
       {
         version: "v1.0",
@@ -72,12 +72,12 @@ export const SAMPLE_RESEARCH_STUDIES: ResearchStudy[] = [
       "Spread logging conducted during normal market conditions; liquidity spikes during high-impact news events (e.g. NFP) were excluded.",
       "Retail rebate structures and volume-based discounts were not factored into default comparisons."
     ],
-    citationFormat: "Avorria Research Group (2026). 'Empirical UK Retail Broker Cost Audit.' Avorria Trading Research Centre. https://avorria.com/research/trading-costs/uk-broker-spread-and-commission-audit",
+    citationFormat: "Drawdown Research Group (2026). 'Empirical UK Retail Broker Cost Audit.' Drawdown Trading Research Centre. https://drawdown.trading/research/trading-costs/uk-broker-spread-and-commission-audit",
     versionHistory: [
       {
         version: "v1.0",
         date: "2026-07-20",
-        author: "Avorria Research Group",
+        author: "Drawdown Research Group",
         reviewer: "Regulatory Reviewer",
         summary: "Published empirical UK broker cost analysis.",
         type: "initial",

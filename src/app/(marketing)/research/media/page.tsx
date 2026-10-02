@@ -8,7 +8,7 @@ import { getMetadata } from "@/lib/metadata";
 import JsonLd from "@/components/seo/JsonLd";
 
 export const metadata = getMetadata({
-  title: "Media & Journalist Resource Centre | Avorria Research",
+  title: "Media & Journalist Resource Centre | Drawdown Research",
   description:
     "Press resources, spokesperson biographies, citation guidelines, embeddable calculators, and verified data benchmarks for financial journalists and researchers.",
   path: "/research/media",
@@ -23,24 +23,24 @@ export default function MediaCentrePage() {
             "@context": "https://schema.org",
             "@type": "WebPage",
             "name": "Drawdown Media & Journalist Resource Centre",
-            "url": "https://avorria.com/research/media",
+            "url": "https://drawdown.trading/research/media",
             "description": "Press resources, spokesperson biographies, citation guidelines, embeddable calculators, and verified data benchmarks for financial journalists and researchers.",
             "publisher": {
               "@type": "Organization",
-              "name": "Avorria Trading",
-              "url": "https://avorria.com",
+              "name": "Drawdown Trading",
+              "url": "https://drawdown.trading",
               "contactPoint": {
                 "@type": "ContactPoint",
                 "contactType": "Press",
-                "email": "press@avorria.com",
+                "email": "press@drawdown.trading",
               },
             },
             "breadcrumb": {
               "@type": "BreadcrumbList",
               "itemListElement": [
-                { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://avorria.com" },
-                { "@type": "ListItem", "position": 2, "name": "Research Centre", "item": "https://avorria.com/research" },
-                { "@type": "ListItem", "position": 3, "name": "Media Centre", "item": "https://avorria.com/research/media" },
+                { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://drawdown.trading" },
+                { "@type": "ListItem", "position": 2, "name": "Research Centre", "item": "https://drawdown.trading/research" },
+                { "@type": "ListItem", "position": 3, "name": "Media Centre", "item": "https://drawdown.trading/research/media" },
               ],
             },
           },
@@ -48,9 +48,9 @@ export default function MediaCentrePage() {
             "@context": "https://schema.org",
             "@type": "BreadcrumbList",
             "itemListElement": [
-              { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://avorria.com" },
-              { "@type": "ListItem", "position": 2, "name": "Research Centre", "item": "https://avorria.com/research" },
-              { "@type": "ListItem", "position": 3, "name": "Media Centre", "item": "https://avorria.com/research/media" },
+              { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://drawdown.trading" },
+              { "@type": "ListItem", "position": 2, "name": "Research Centre", "item": "https://drawdown.trading/research" },
+              { "@type": "ListItem", "position": 3, "name": "Media Centre", "item": "https://drawdown.trading/research/media" },
             ],
           },
         ]}
@@ -127,8 +127,8 @@ export default function MediaCentrePage() {
               When referencing Drawdown studies, calculators, or datasets in press coverage:
             </p>
             <ul className="list-disc list-inside space-y-1 text-text-tertiary">
-              <li>Attribute findings to <strong>Avorria Trading Research Group</strong>.</li>
-              <li>Include a direct hypertext link to the canonical research URL (e.g. <code className="text-accent">https://avorria.com/research/[slug]</code>).</li>
+              <li>Attribute findings to <strong>Drawdown Trading Research Group</strong>.</li>
+              <li>Include a direct hypertext link to the canonical research URL (e.g. <code className="text-accent">https://drawdown.trading/research/[slug]</code>).</li>
               <li>Avoid quoting unverified placeholder metrics or unreviewed draft pages.</li>
             </ul>
           </div>
@@ -141,11 +141,11 @@ export default function MediaCentrePage() {
             For urgent commentary, custom dataset requests, or interview bookings, email our research team:
           </p>
           <a
-            href="mailto:legal@avorria.com"
+            href="mailto:legal@drawdown.trading"
             className="inline-flex items-center gap-2 text-xs font-mono font-bold text-accent hover:underline pt-2"
           >
             <Mail className="w-4 h-4" />
-            legal@avorria.com
+            legal@drawdown.trading
           </a>
         </div>
       </div>

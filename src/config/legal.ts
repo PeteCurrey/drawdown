@@ -1,15 +1,15 @@
 /**
- * Central Legal & Business Configuration for Avorria Trading (avorria.com)
- * Contracting Entity: Black & Rowan Management Group Limited t/a Avorria Trading
+ * Central Legal & Business Configuration for Drawdown Trading (drawdown.trading)
+ * Contracting Entity: Black & Rowan Management Group Limited t/a Drawdown Trading
  *
  * IMPORTANT: Do not scatter legal entity assumptions or hard-code contact emails
  * across individual pages. Import from this central configuration file instead.
  */
 
 export const LEGAL_CONFIG = {
-  tradingName: "Avorria Trading",
+  tradingName: "Drawdown Trading",
   contractingEntity: "Black & Rowan Management Group Limited",
-  fullTradingEntity: "Black & Rowan Management Group Limited t/a Avorria Trading",
+  fullTradingEntity: "Black & Rowan Management Group Limited t/a Drawdown Trading",
 
   // Verification Flags & Details
   // Set companyNumberVerified / registeredOfficeVerified to true when official Companies House details are confirmed.
@@ -25,11 +25,11 @@ export const LEGAL_CONFIG = {
   vatNumber: null,
 
   // Contact Channels
-  privacyEmail: "privacy@avorria.com",
-  supportEmail: "support@avorria.com",
-  complaintsEmail: "complaints@avorria.com",
-  legalEmail: "legal@avorria.com",
-  securityEmail: "security@avorria.com",
+  privacyEmail: "privacy@drawdown.trading",
+  supportEmail: "support@drawdown.trading",
+  complaintsEmail: "complaints@drawdown.trading",
+  legalEmail: "legal@drawdown.trading",
+  securityEmail: "security@drawdown.trading",
 
   // Versioning & Dates
   effectiveDate: "August 4, 2026",
@@ -42,7 +42,7 @@ export const LEGAL_CONFIG = {
   jurisdiction: "Courts of England and Wales",
 
   // Authorisation Perimeter Disclosure
-  fcaStatus: "Avorria Trading is not authorised or regulated by the Financial Conduct Authority (FCA). It provides financial education, market research, quantitative analysis tools, and subscription software.",
+  fcaStatus: "Drawdown Trading is not authorised or regulated by the Financial Conduct Authority (FCA). It provides financial education, market research, quantitative analysis tools, and subscription software.",
 
   // Refund Policy Summary
   moneyBackGuaranteeDays: 7,

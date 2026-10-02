@@ -117,7 +117,7 @@ export function FinancialDisclaimerClient() {
               <span>Core Operational Perimeter Notice</span>
             </div>
             <p className="text-[15px] leading-relaxed font-sans" style={{ color: "var(--ink-950)" }}>
-              <strong>Avorria Trading Ltd does not provide financial advice.</strong> All content, quantitative models, trade signals, AI trade journal analyses, and educational modules provided across the platform are published for general informational and educational context only.
+              <strong>Drawdown Trading Ltd does not provide financial advice.</strong> All content, quantitative models, trade signals, AI trade journal analyses, and educational modules provided across the platform are published for general informational and educational context only.
             </p>
             <p className="text-[13px] leading-relaxed" style={{ color: "var(--graphite-600)" }}>
               Drawdown is not a financial adviser, broker-dealer, commodity trading adviser, asset manager, or tax consultant. We do not handle client investment funds or execute trades on behalf of users.
@@ -205,7 +205,7 @@ export function FinancialDisclaimerClient() {
                   
                   <div className="space-y-3 text-[14px] leading-relaxed" style={{ color: "var(--graphite-600)" }}>
                     <p>
-                      <strong>FCA Perimeter:</strong> Avorria Trading Ltd operates strictly within the UK publisher and technology vendor exemption under the Financial Services and Markets Act 2000 (FSMA) and FCA PERG guidance. We do not provide regulated investment advice or manage client investments.
+                      <strong>FCA Perimeter:</strong> Drawdown Trading Ltd operates strictly within the UK publisher and technology vendor exemption under the Financial Services and Markets Act 2000 (FSMA) and FCA PERG guidance. We do not provide regulated investment advice or manage client investments.
                     </p>
                     
                     <h4 className="font-mono text-[13px] font-bold uppercase tracking-[0.08em] pt-2" style={{ color: "var(--ink-950)" }}>
@@ -398,7 +398,7 @@ export function FinancialDisclaimerClient() {
           {/* Bottom Confirmation Strip */}
           <div className="p-6 border text-center space-y-2" style={{ backgroundColor: "var(--paper-100)", borderColor: "var(--line-200)" }}>
             <p className="text-[12px] font-mono uppercase tracking-[0.08em]" style={{ color: "var(--graphite-600)" }}>
-              Avorria Trading Ltd · Chesterfield, UK · Document Reference: LEG-TAX-2026-V1
+              Drawdown Trading Ltd · Chesterfield, UK · Document Reference: LEG-TAX-2026-V1
             </p>
           </div>
 

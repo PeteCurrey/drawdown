@@ -147,7 +147,7 @@ export function BlogEditor({ post }: BlogEditorProps) {
   const [ogDescription, setOgDescription] = useState(post?.seo?.og_description || "");
   const [ogImageUrl, setOgImageUrl] = useState(post?.seo?.og_image_url || "");
   const [canonicalUrl, setCanonicalUrl] = useState(
-    post?.seo?.canonical_url || `https://avorria.com/blog/${post?.slug || ""}`
+    post?.seo?.canonical_url || `https://drawdown.trading/blog/${post?.slug || ""}`
   );
   const [noIndex, setNoIndex] = useState(post?.seo?.no_index ?? false);
   const [focusKeyword, setFocusKeyword] = useState(post?.seo?.focus_keyword || "");
@@ -274,8 +274,8 @@ export function BlogEditor({ post }: BlogEditorProps) {
     if (!isEdit && title) {
       const generated = title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
       setSlug(generated);
-      setMetaTitle(`${title} | Avorria`);
-      setCanonicalUrl(`https://avorria.com/blog/${generated}`);
+      setMetaTitle(`${title} | Drawdown`);
+      setCanonicalUrl(`https://drawdown.trading/blog/${generated}`);
     }
   }, [title, isEdit]);
 
@@ -289,7 +289,7 @@ export function BlogEditor({ post }: BlogEditorProps) {
   // Keep canonical in sync with slug
   useEffect(() => {
     if (slug) {
-      setCanonicalUrl(`https://avorria.com/blog/${slug}`);
+      setCanonicalUrl(`https://drawdown.trading/blog/${slug}`);
     }
   }, [slug]);
 
@@ -398,7 +398,7 @@ export function BlogEditor({ post }: BlogEditorProps) {
       setTitle(t || ""); setSlug(s || ""); setCategory(c || "Market Analysis");
       setSubtitle(ex || ""); setEyebrow(ey || "");
       if (b) editor?.commands.setContent(b);
-      setMetaTitle(`${t} | Avorria`);
+      setMetaTitle(`${t} | Drawdown`);
       setMetaDescription(ex?.slice(0, 160) || "");
       setShowAiModal(false);
     } catch (err: any) {
@@ -411,7 +411,7 @@ export function BlogEditor({ post }: BlogEditorProps) {
   // Google preview (live)
   const previewTitle = metaTitle || title;
   const previewDesc = metaDescription || subtitle;
-  const previewUrl = `avorria.com/blog/${slug || "your-post-slug"}`;
+  const previewUrl = `drawdown.trading/blog/${slug || "your-post-slug"}`;
 
   const SectionToggle = ({ label, open, onToggle }: { label: string; open: boolean; onToggle: () => void }) => (
     <button
@@ -605,7 +605,7 @@ export function BlogEditor({ post }: BlogEditorProps) {
                       </span>
                     </div>
                     <input type="text" value={metaTitle} onChange={(e) => setMetaTitle(e.target.value)}
-                      placeholder={title ? `${title} | Avorria` : "Custom meta title…"}
+                      placeholder={title ? `${title} | Drawdown` : "Custom meta title…"}
                       className={`w-full bg-neutral-50 border rounded px-3 py-2 text-xs text-mkt-ink outline-none transition-colors font-sans ${metaTitle.length > 60 ? "border-red-300 focus:border-red-400" : "border-mkt-bd focus:border-mkt-ink"}`}
                     />
                   </div>
@@ -796,7 +796,7 @@ export function BlogEditor({ post }: BlogEditorProps) {
               <p className="text-[9px] text-mkt-i4 font-sans">
                 {darkBackground
                   ? "Dark #0A0A0A background. Opinion pieces and Pete's voice."
-                  : "Standard blog layout. Used for Avorria Team posts."}
+                  : "Standard blog layout. Used for Drawdown Team posts."}
               </p>
             </div>
 
@@ -1174,10 +1174,10 @@ export function BlogEditor({ post }: BlogEditorProps) {
                     {/* Email Headers */}
                     <div className="space-y-1 pt-1 text-[11px] font-sans text-mkt-i3">
                       <div>
-                        <span className="font-bold text-mkt-ink">From:</span> Pete Currey &bull; Avorria Trading &lt;editorial@avorria.com&gt;
+                        <span className="font-bold text-mkt-ink">From:</span> Pete Currey &bull; Drawdown Trading &lt;editorial@drawdown.trading&gt;
                       </div>
                       <div>
-                        <span className="font-bold text-mkt-ink">To:</span> subscribers-broadcast@avorria.com
+                        <span className="font-bold text-mkt-ink">To:</span> subscribers-broadcast@drawdown.trading
                       </div>
                       <div className="truncate">
                         <span className="font-bold text-mkt-ink">Subject:</span> {emailSubject || title || "(No Subject Provided)"}

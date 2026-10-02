@@ -52,7 +52,7 @@ export default function PositionSizeCalculatorPage() {
             "@context": "https://schema.org",
             "@type": "WebApplication",
             "name": "Position Size Calculator",
-            "url": "https://avorria.com/calculators/position-size",
+            "url": "https://drawdown.trading/calculators/position-size",
             "applicationCategory": "FinanceApplication",
             "operatingSystem": "All",
             "description":
@@ -218,7 +218,7 @@ export default function PositionSizeCalculatorPage() {
           {/* Conversion Module */}
           <CalculatorNextStep
             heading="Trade Journal with Automatic Lot Enforcement"
-            body="Stop sizing manually before every trade. The Avorria Trading Journal records your intended risk percentage and calculated lot size against every executed trade — flagging instances where your broker fill deviates from your planned exposure."
+            body="Stop sizing manually before every trade. The Drawdown Trading Journal records your intended risk percentage and calculated lot size against every executed trade — flagging instances where your broker fill deviates from your planned exposure."
             cta="Open the Journal"
             href="/pricing"
           />

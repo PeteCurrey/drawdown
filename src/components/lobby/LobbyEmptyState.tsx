@@ -12,7 +12,7 @@ interface LobbyEmptyStateProps {
 
 export function LobbyEmptyState({
   title = "NO STORIES PUBLISHED YET",
-  description = "Avorria verified editorial desk has recorded no published stories in this section. Real events and audits will appear here once verified.",
+  description = "Drawdown verified editorial desk has recorded no published stories in this section. Real events and audits will appear here once verified.",
   badge = "AWAITING EDITORIAL DISPATCH",
   scanTime,
   statusLabel,

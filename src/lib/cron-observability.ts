@@ -1,7 +1,7 @@
 /**
  * src/lib/cron-observability.ts
  *
- * Avorria Trading — Cron Run Telemetry & Execution Lifecycle Tracker
+ * Drawdown Trading — Cron Run Telemetry & Execution Lifecycle Tracker
  *
  * Provides startCronRun and completeCronRun helpers for background cron routes.
  * Writes to public.cron_job_runs.

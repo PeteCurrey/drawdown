@@ -19,7 +19,7 @@ const nextConfig: NextConfig = {
       // www→non-www redirect here because Vercel's platform-level redirect fires
       // first (before Next.js), creating an infinite loop. To make non-www the
       // canonical host: go to Vercel → Project → Settings → Domains and set
-      // avorria.com as primary with www.avorria.com redirecting to it.
+      // drawdown.trading as primary with www.drawdown.trading redirecting to it.
       {
         source: "/register",
         destination: "/signup",

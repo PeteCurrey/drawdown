@@ -10,7 +10,7 @@ import { getWireEditions } from "@/lib/wire";
 import type { WireEdition } from "@/types/wire";
 
 export const metadata: Metadata = getMetadata({
-  title: "The Wire — Curated Briefings & Market Dispatches | Avorria",
+  title: "The Wire — Curated Briefings & Market Dispatches | Drawdown",
   description: "Twice-daily curated market briefing layer from Drawdown. Pre-market catalysts, market close wraps, and high-impact trade intelligence linking to canonical Lobby stories.",
   path: "/wire",
   hasRegionalVariants: false,

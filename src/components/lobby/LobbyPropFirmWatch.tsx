@@ -30,7 +30,7 @@ export function LobbyPropFirmWatch({ entries = [] }: LobbyPropFirmWatchProps) {
         {!hasEntries ? (
           <LobbyEmptyState
             title="SURVEILLANCE ACTIVE // NO PARAMETER DRIFT DETECTED"
-            description="Avorria actively monitors evaluation criteria, trailing drawdown mechanics, consistency requirements, and payout fulfillment across verified prop firms. No unverified rule shifts recorded today."
+            description="Drawdown actively monitors evaluation criteria, trailing drawdown mechanics, consistency requirements, and payout fulfillment across verified prop firms. No unverified rule shifts recorded today."
             badge="PROP DESK ACTIVE"
             statusLabel="TRACKING VERIFIED PROP FIRMS"
             scanTime="CONTINUOUS / LIVE"

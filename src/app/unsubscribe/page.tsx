@@ -89,7 +89,7 @@ function UnsubscribeContent() {
                 {email ? <span className="text-white font-medium">{email}</span> : "You"} have been successfully unsubscribed from all active mailings.
               </p>
               <p className="text-xs text-[#5C5B57] pt-2">
-                You can resubscribe at any time from your account settings inside the Avorria Terminal.
+                You can resubscribe at any time from your account settings inside the Drawdown Terminal.
               </p>
             </div>
             <Link

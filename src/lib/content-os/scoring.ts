@@ -71,7 +71,7 @@ export class EditorialScoringService {
         break;
     }
 
-    // 2. Market Relevance (Core Avorria Instruments)
+    // 2. Market Relevance (Core Drawdown Instruments)
     const matchedSymbols = (input.relatedSymbols || []).filter(s => 
       this.CORE_SYMBOLS.has(s.toUpperCase().replace(/[^A-Z]/g, ''))
     );
@@ -89,11 +89,11 @@ export class EditorialScoringService {
       reasons.push(`High materiality trigger detected: "${matchedMateriality.slice(0, 2).join('", "')}".`);
     }
 
-    // 4. Avorria Editorial Audience Angle
+    // 4. Drawdown Editorial Audience Angle
     const matchedAngle = this.DRAWDOWN_THEMATIC_KEYWORDS.filter(kw => fullText.includes(kw));
     if (matchedAngle.length > 0) {
       relevanceScore += 20;
-      reasons.push(`Strong alignment with Avorria risk/discipline pillars (${matchedAngle[0]}).`);
+      reasons.push(`Strong alignment with Drawdown risk/discipline pillars (${matchedAngle[0]}).`);
     }
 
     // 5. Verification status boost
@@ -130,7 +130,7 @@ export class EditorialScoringService {
     } else {
       priorityLevel = 'low';
       if (reasons.length === 0) {
-        reasons.push("Minor market movement with limited Avorria-specific angle.");
+        reasons.push("Minor market movement with limited Drawdown-specific angle.");
       }
     }
 

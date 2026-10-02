@@ -27,7 +27,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   if (!phase) return { title: "Phase Not Found" };
 
   return {
-    title: `Phase ${phase.number}: ${phase.name} | Avorria Academy`,
+    title: `Phase ${phase.number}: ${phase.name} | Drawdown Academy`,
     description: phase.description,
     openGraph: {
       title: `${phase.name} - Professional Trading Education`,

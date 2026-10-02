@@ -38,7 +38,7 @@ const CATEGORIES = [
     slug: "crypto" as const,
     name: "Cryptocurrencies",
     count: "24/7 Digital Assets",
-    desc: "High-beta digital assets (Bitcoin, Ethereum, XRP) covered in Avorria's Phase 1 foundational modules.",
+    desc: "High-beta digital assets (Bitcoin, Ethereum, XRP) covered in Drawdown's Phase 1 foundational modules.",
     badge: "Bitcoin, Ethereum, XRP",
     bgImage: "https://images.unsplash.com/photo-1621761191319-c6fb62004040?q=80&w=800"
   }
@@ -336,7 +336,7 @@ export function MarketsHubContent() {
                   <div className="w-full h-[160px] bg-[#0A0A0A] overflow-hidden mt-4">
                     <TradingViewMiniChart 
                       symbol={item.tvSymbol}
-                      largeChartUrl={`https://avorria.com/markets/${item.category}/${item.slug}`}
+                      largeChartUrl={`https://drawdown.trading/markets/${item.category}/${item.slug}`}
                       height={160}
                     />
                   </div>
@@ -369,7 +369,7 @@ export function MarketsHubContent() {
                   Most market data sites bury you in numbers without context. They show you a price, a chart and a gauge — but nothing that helps you understand what you're actually looking at or how to trade it.
                 </p>
                 <p>
-                  Every page in the Avorria Markets Hub connects live TradingView and Polygon.io data to curriculum context. You can see how we teach each instrument, what drives it fundamentally, when it's most active, and what kinds of setups work on it.
+                  Every page in the Drawdown Markets Hub connects live TradingView and Polygon.io data to curriculum context. You can see how we teach each instrument, what drives it fundamentally, when it's most active, and what kinds of setups work on it.
                 </p>
               </div>
               <div className="mt-8">
@@ -499,14 +499,14 @@ export function MarketsHubContent() {
             Want to learn to trade these markets properly?
           </h2>
           <p className="text-base text-white opacity-50 mb-8 max-w-2xl mx-auto font-sans leading-relaxed">
-            The Avorria curriculum takes you from complete beginner to structured, risk-managed trader across forex, commodities, indices and crypto.
+            The Drawdown curriculum takes you from complete beginner to structured, risk-managed trader across forex, commodities, indices and crypto.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/signup"
               className="bg-[#C8F135] text-black font-semibold px-8 py-3 rounded-lg hover:opacity-95 transition font-sans text-center"
             >
-              Start Free on Avorria &rarr;
+              Start Free on Drawdown &rarr;
             </Link>
             <Link
               href="/courses"

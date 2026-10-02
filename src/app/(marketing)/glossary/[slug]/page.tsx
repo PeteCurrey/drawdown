@@ -89,10 +89,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!glossaryTerm) notFound();
 
   return {
-    title: `What is ${glossaryTerm.term}? — Trading Glossary | Avorria`,
+    title: `What is ${glossaryTerm.term}? — Trading Glossary | Drawdown`,
     description: glossaryTerm.definition,
     alternates: {
-      canonical: `https://avorria.com/glossary/${slug}`,
+      canonical: `https://drawdown.trading/glossary/${slug}`,
     },
   };
 }
@@ -164,10 +164,10 @@ export default async function GlossaryTermPage({ params }: Props) {
   const definedTermSchema = {
     "@context": "https://schema.org",
     "@type": "DefinedTerm",
-    "@id": `https://avorria.com/glossary/${slug}`,
+    "@id": `https://drawdown.trading/glossary/${slug}`,
     "name": glossaryTerm.term,
     "description": glossaryTerm.definition,
-    "inDefinedTermSet": "https://avorria.com/glossary"
+    "inDefinedTermSet": "https://drawdown.trading/glossary"
   };
 
   // ── JSON-LD: BreadcrumbList ──────────────────────────────────────────────────
@@ -175,9 +175,9 @@ export default async function GlossaryTermPage({ params }: Props) {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     "itemListElement": [
-      { "@type": "ListItem", position: 1, "name": "Home", "item": "https://avorria.com" },
-      { "@type": "ListItem", position: 2, "name": "Glossary", "item": "https://avorria.com/glossary" },
-      { "@type": "ListItem", position: 3, "name": glossaryTerm.term, "item": `https://avorria.com/glossary/${slug}` }
+      { "@type": "ListItem", position: 1, "name": "Home", "item": "https://drawdown.trading" },
+      { "@type": "ListItem", position: 2, "name": "Glossary", "item": "https://drawdown.trading/glossary" },
+      { "@type": "ListItem", position: 3, "name": glossaryTerm.term, "item": `https://drawdown.trading/glossary/${slug}` }
     ]
   };
 
@@ -365,7 +365,7 @@ export default async function GlossaryTermPage({ params }: Props) {
             Knowing the terms is just the start. Learning how to apply them is where the edge is found.
           </p>
           <Link href="/signup" className="inline-flex items-center space-x-3 text-text-primary px-10 py-5 text-xs font-bold uppercase tracking-[0.2em] hover:bg-text-primary hover:text-background-primary transition-all">
-            <span>Join Avorria Free</span>
+            <span>Join Drawdown Free</span>
             <ArrowRight className="w-4 h-4" />
           </Link>
         </section>

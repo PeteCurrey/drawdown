@@ -26,7 +26,7 @@ function SuccessContent() {
           <span className="text-text-primary">Now Execute.</span>
         </h1>
         <p className="text-lg text-text-secondary leading-relaxed mb-10">
-          Your <strong className="text-text-primary">Prop Challenge Survival Kit</strong> is ready. Check your inbox — delivery lands within the next 2 minutes. Add <strong className="text-text-primary">thewire@avorria.com</strong> to your contacts to ensure delivery.
+          Your <strong className="text-text-primary">Prop Challenge Survival Kit</strong> is ready. Check your inbox — delivery lands within the next 2 minutes. Add <strong className="text-text-primary">thewire@drawdown.trading</strong> to your contacts to ensure delivery.
         </p>
 
         {/* What's next */}

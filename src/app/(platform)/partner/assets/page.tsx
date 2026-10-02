@@ -107,7 +107,7 @@ export default function PartnerAssetsPage() {
           <div className="space-y-4">
              <h4 className="text-xs font-bold uppercase tracking-widest text-accent">Usage Policy</h4>
              <p className="text-xs text-text-tertiary leading-relaxed">
-                Assets must only be used for the promotion of Avorria Trading. Modification of logos or brand colors is strictly prohibited without prior written consent from the Drawdown compliance team.
+                Assets must only be used for the promotion of Drawdown Trading. Modification of logos or brand colors is strictly prohibited without prior written consent from the Drawdown compliance team.
              </p>
           </div>
           <div className="space-y-4">

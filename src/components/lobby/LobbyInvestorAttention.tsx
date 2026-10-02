@@ -93,7 +93,7 @@ export function LobbyInvestorAttention({ items }: Props) {
             const hasVerifiedFacts = validFacts.length > 0;
             const timeAgo = getTimeAgo(item.discovered_at || item.published_at);
             const assertionText = item.source_claim || (item as any).claim || item.title;
-            const commentary = (item as any).avorria_commentary || item.drawdown_interpretation;
+            const commentary = (item as any).drawdown_commentary || item.drawdown_interpretation;
 
             return (
               <div 
@@ -169,7 +169,7 @@ export function LobbyInvestorAttention({ items }: Props) {
                   {commentary && hasVerifiedFacts && (
                     <div className="mb-4 bg-[#FAF9F5] border border-[#E5E5E5] p-3 rounded">
                       <span className="font-mono text-[9px] uppercase tracking-wider font-bold text-[#525252] block mb-1">
-                        Avorria commentary
+                        Drawdown commentary
                       </span>
                       <p className="text-xs text-[#404040] leading-relaxed">
                         {commentary}

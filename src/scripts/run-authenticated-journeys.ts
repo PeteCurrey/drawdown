@@ -1,8 +1,8 @@
 /**
- * Avorria Trading — Authenticated Browser Journeys Runner
+ * Drawdown Trading — Authenticated Browser Journeys Runner
  *
  * Direct Playwright + Google Chrome runner executing the 6 authenticated journeys
- * and mobile viewports against https://avorria.com.
+ * and mobile viewports against https://drawdown.trading.
  */
 
 import { chromium } from "@playwright/test";
@@ -10,9 +10,9 @@ import type { Page } from "@playwright/test";
 import path from "path";
 import fs from "fs";
 
-const BASE_URL = "https://www.avorria.com";
-const FREE_USER = { email: "qa-free-user@avorria.com", pass: "QA!Free#2026SecureTest" };
-const PAID_USER = { email: "qa-paid-user@avorria.com", pass: "QA!Paid#2026SecureTest" };
+const BASE_URL = "https://www.drawdown.trading";
+const FREE_USER = { email: "qa-free-user@drawdown.trading", pass: "QA!Free#2026SecureTest" };
+const PAID_USER = { email: "qa-paid-user@drawdown.trading", pass: "QA!Paid#2026SecureTest" };
 
 interface JourneyResult {
   id: string;

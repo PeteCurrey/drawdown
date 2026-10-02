@@ -49,7 +49,7 @@ export class SecEdgarProvider extends BaseProvider {
   };
 
   // SEC requires a descriptive User-Agent header with contact info
-  private readonly userAgent = "DrawdownIntelligence research@avorria.com";
+  private readonly userAgent = "DrawdownIntelligence research@drawdown.trading";
 
   protected getCredential(): string | null {
     return "PUBLIC_PRIMARY";

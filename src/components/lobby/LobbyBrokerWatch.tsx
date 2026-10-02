@@ -30,7 +30,7 @@ export function LobbyBrokerWatch({ entries = [] }: LobbyBrokerWatchProps) {
         {!hasEntries ? (
           <LobbyEmptyState
             title="NO MATERIAL BROKER RULE CHANGES DETECTED"
-            description="Avorria maintains continuous surveillance over FCA, ASIC, and CySEC registered brokers, auditing fee schedules, spread models, and leverage policies. Current terms remain within verified operational thresholds."
+            description="Drawdown maintains continuous surveillance over FCA, ASIC, and CySEC registered brokers, auditing fee schedules, spread models, and leverage policies. Current terms remain within verified operational thresholds."
             badge="BROKER AUDIT ACTIVE"
             statusLabel="MONITORING 14 TIER-1 BROKERS"
             scanTime="CONTINUOUS / LIVE"

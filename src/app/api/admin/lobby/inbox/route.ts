@@ -159,7 +159,7 @@ export async function POST(request: NextRequest) {
     });
 
     // 3. Verification against authoritative primary sources (FRED, EIA, Price Feed)
-    const { verified_facts, avorria_commentary } = await verifyClaimsAgainstSources(
+    const { verified_facts, drawdown_commentary } = await verifyClaimsAgainstSources(
       extracted.claims,
       extracted.headline
     );
@@ -167,7 +167,7 @@ export async function POST(request: NextRequest) {
     const payloadClaims = {
       headline: extracted.headline,
       claims: extracted.claims,
-      avorria_commentary,
+      drawdown_commentary,
     };
 
     // 4. Save to lobby_items as status = 'draft'

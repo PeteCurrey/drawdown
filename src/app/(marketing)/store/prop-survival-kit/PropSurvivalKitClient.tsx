@@ -166,7 +166,7 @@ export default function PropSurvivalKitPage() {
 
           {/* Subheading */}
           <p className="text-lg md:text-xl lg:text-2xl opacity-60 max-w-2xl mt-8 font-sans leading-relaxed">
-            The Avorria Prop Firm Survival Kit is what we wish existed when we started. Every rule decoded. Every trap mapped. Every psychological spiral named. <strong className="text-white opacity-100">Free. No payment required.</strong>
+            The Drawdown Prop Firm Survival Kit is what we wish existed when we started. Every rule decoded. Every trap mapped. Every psychological spiral named. <strong className="text-white opacity-100">Free. No payment required.</strong>
           </p>
 
           {/* Stat Strip */}
@@ -263,7 +263,7 @@ export default function PropSurvivalKitPage() {
               <img src="/images/pete.jpg" alt="Pete Currey" className="w-full h-full object-cover" />
             </div>
             <p className="text-sm opacity-45 font-mono font-medium">
-              — Pete Currey, Founder — Avorria Trading
+              — Pete Currey, Founder — Drawdown Trading
             </p>
           </div>
         </div>
@@ -286,7 +286,7 @@ export default function PropSurvivalKitPage() {
               
               <div className="text-base opacity-70 leading-relaxed space-y-4 font-sans">
                 <p>
-                  I'm Pete Currey. I built Avorria because the trading education industry is full of people who profit from your confusion. The Prop Firm Survival Kit isn't a repurposed YouTube script. It's the document I compiled after watching traders in our community repeat the same expensive mistakes — and after making several of them myself.
+                  I'm Pete Currey. I built Drawdown because the trading education industry is full of people who profit from your confusion. The Prop Firm Survival Kit isn't a repurposed YouTube script. It's the document I compiled after watching traders in our community repeat the same expensive mistakes — and after making several of them myself.
                 </p>
                 <p>
                   I've been trading live and managing capital in real markets since 2016. I understand what it means to operate with real stakes. When I approached prop trading, I treated it the same way I'd approach any high-stakes professional environment: understand the system first, execute second.
@@ -300,7 +300,7 @@ export default function PropSurvivalKitPage() {
               <div className="flex flex-wrap gap-3 pt-4 select-none">
                 {[
                   "Trading Live Since 2016",
-                  "Founder, Avorria Trading",
+                  "Founder, Drawdown Trading",
                   "UK-Based, FX & Indices",
                   "Phase 1–6 Curriculum Author",
                   "Chesterfield, Derbyshire"
@@ -559,7 +559,7 @@ export default function PropSurvivalKitPage() {
                 PROP FIRM SURVIVAL KIT
               </div>
               <div className="text-[10px] text-white/20 mt-1 font-mono tracking-wide">
-                Avorria Trading — Pete Currey
+                Drawdown Trading — Pete Currey
               </div>
 
               {/* Fake Content Lines */}
@@ -600,7 +600,7 @@ export default function PropSurvivalKitPage() {
             Enter your email. Get the Survival Kit instantly.
           </h2>
           <p className="text-base opacity-50 mt-4 mb-12 max-w-xl font-sans leading-relaxed">
-            No payment. No trial. No catch. We send you the Survival Kit and you get a free Avorria account to access it — and all our free trading tools — whenever you need them.
+            No payment. No trial. No catch. We send you the Survival Kit and you get a free Drawdown account to access it — and all our free trading tools — whenever you need them.
           </p>
 
           {submitted ? (
@@ -611,7 +611,7 @@ export default function PropSurvivalKitPage() {
               </div>
               <h3 className="text-xl font-bold">Kit on its way.</h3>
               <p className="text-sm opacity-60 font-sans leading-relaxed max-w-sm">
-                Check your inbox — we've sent the Survival Kit direct to your email. Create your free Avorria account to access it in your dashboard any time.
+                Check your inbox — we've sent the Survival Kit direct to your email. Create your free Drawdown account to access it in your dashboard any time.
               </p>
               <Link
                 href="/signup"
@@ -678,7 +678,7 @@ export default function PropSurvivalKitPage() {
                     className="mt-0.5 w-4 h-4 accent-[#C8F135] cursor-pointer shrink-0"
                   />
                   <span className="text-xs text-white/50 font-sans leading-relaxed">
-                    I'd also like to receive Avorria market intelligence updates and trading insights. Unsubscribe any time.
+                    I'd also like to receive Drawdown market intelligence updates and trading insights. Unsubscribe any time.
                   </span>
                 </label>
 
@@ -745,11 +745,11 @@ export default function PropSurvivalKitPage() {
             },
             {
               q: "Why is this free?",
-              a: "Because we'd rather you experience the quality of Avorria's work before committing to anything. The Survival Kit is our introduction — here's what serious trading education looks like. If you find value in it, you'll find even more inside the core Avorria platform."
+              a: "Because we'd rather you experience the quality of Drawdown's work before committing to anything. The Survival Kit is our introduction — here's what serious trading education looks like. If you find value in it, you'll find even more inside the core Drawdown platform."
             },
             {
               q: "What happens after I download it?",
-              a: "You receive the Survival Kit by email and we create a free Avorria account for you. You can log in any time to access the Kit in your downloads, use our free trading tools, and explore the platform. There's no obligation to upgrade — though most people do."
+              a: "You receive the Survival Kit by email and we create a free Drawdown account for you. You can log in any time to access the Kit in your downloads, use our free trading tools, and explore the platform. There's no obligation to upgrade — though most people do."
             },
             {
               q: "Is this relevant for UK traders specifically?",
@@ -790,7 +790,7 @@ export default function PropSurvivalKitPage() {
               href="/courses"
               className="px-8 py-4 border border-white/20 text-white font-semibold rounded-lg hover:bg-white/5 transition font-sans text-sm tracking-wide"
             >
-              Explore the Avorria Curriculum →
+              Explore the Drawdown Curriculum →
             </Link>
           </div>
 

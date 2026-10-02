@@ -129,7 +129,7 @@ test("SC4 Step 4: ScreenerHeatmap animates top-edge stripe and box-shadow glow",
 
 test("SC4 Step 4: CORE editorial priority and dimensions unchanged", () => {
   assert.ok(
-    heatmap.includes("Core Avorria Market (Editorial Priority)"),
+    heatmap.includes("Core Drawdown Market (Editorial Priority)"),
     "CORE editorial tag disclaimer must be preserved"
   );
   assert.ok(

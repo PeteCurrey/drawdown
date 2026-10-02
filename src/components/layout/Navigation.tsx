@@ -145,7 +145,7 @@ const menuAccents = {
     dark: "#A78BFA",  // Vibrant high-contrast lavender
   },
   markets: {
-    light: "#16213E", // Signature Avorria navy
+    light: "#16213E", // Signature Drawdown navy
     dark: "#C8F135",  // High-contrast neon lime for dark markets pages
   }
 };
@@ -373,7 +373,7 @@ export function Navigation() {
               display: "block",
             }}
           >
-            Avorria
+            Drawdown
           </span>
           <span
             style={{

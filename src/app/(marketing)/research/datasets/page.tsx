@@ -7,7 +7,7 @@ import { SAMPLE_RESEARCH_STUDIES } from "@/lib/data/research";
 import { getMetadata } from "@/lib/metadata";
 
 export const metadata = getMetadata({
-  title: "First-Party Datasets & Open Research Downloads | Avorria Research",
+  title: "First-Party Datasets & Open Research Downloads | Drawdown Research",
   description:
     "Download open-access quantitative trading datasets, Monte Carlo equity simulations, and broker cost measurement data. CC BY 4.0 Licensed.",
   path: "/research/datasets",

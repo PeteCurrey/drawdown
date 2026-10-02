@@ -117,7 +117,7 @@ export default function HowToPassPropFirmPage() {
             "@context": "https://schema.org",
             "@type": "HowTo",
             "name": "How to Pass a Prop Firm Challenge",
-            "url": "https://avorria.com/prop-firms/how-to-pass",
+            "url": "https://drawdown.trading/prop-firms/how-to-pass",
             "description":
               "A practical guide to passing prop firm evaluations using correct risk management and position sizing.",
             "step": PHASES.map((p, i) => ({
@@ -283,7 +283,7 @@ export default function HowToPassPropFirmPage() {
               Monitor Both Drawdown Limits in Real Time
             </h3>
             <p className="text-xs text-text-secondary leading-relaxed max-w-xl">
-              The Avorria platform connects to your broker and displays your live daily loss buffer and overall drawdown buffer side by side. Set threshold alerts before you approach breach levels — not after.
+              The Drawdown platform connects to your broker and displays your live daily loss buffer and overall drawdown buffer side by side. Set threshold alerts before you approach breach levels — not after.
             </p>
           </div>
           <Link

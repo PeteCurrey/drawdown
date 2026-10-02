@@ -30,7 +30,7 @@ export const HOW_TO_PAGES_HK: HowToPage[] = [
     introduction: `Mastering ${slug.replace(/-/g, ' ')} is essential for any serious Hong Kong trader.`,
     steps: [],
     commonMistakes: [],
-    drawdownApproach: { title: 'The Avorria Way', content: 'Process is everything.', ctaText: 'Join Now', ctaLink: '/hk/signup' },
+    drawdownApproach: { title: 'The Drawdown Way', content: 'Process is everything.', ctaText: 'Join Now', ctaLink: '/hk/signup' },
     faqs: []
   }))
 ];

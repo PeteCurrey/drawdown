@@ -31,7 +31,7 @@ export function LobbyDrawdownDesk({ articles = [] }: LobbyDrawdownDeskProps) {
         {!hasArticles ? (
           <LobbyEmptyState
             title="NO DESK INVESTIGATIONS PUBLISHED"
-            description="Avorria original investigations dissect broker spreads, prop firm liquidation thresholds, and mathematical edge models. Original research reports will be published here."
+            description="Drawdown original investigations dissect broker spreads, prop firm liquidation thresholds, and mathematical edge models. Original research reports will be published here."
             badge="INVESTIGATIVE DESK"
           />
         ) : (

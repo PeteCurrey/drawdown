@@ -138,7 +138,7 @@ export const phases: CoursePhase[] = [
       "Key Metrics — Win Rate, R:R, Expectancy & Profit Factor Explained",
       "Forward Testing and Walk-Forward Analysis",
       "Monte Carlo Simulation — Stress-Testing Your Strategy Against Randomness",
-      "Using the Avorria AI Backtester Tool — Live Walkthrough"
+      "Using the Drawdown AI Backtester Tool — Live Walkthrough"
     ]
   },
   {

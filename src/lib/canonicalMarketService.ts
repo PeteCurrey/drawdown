@@ -1,5 +1,5 @@
 /**
- * Canonical Market Data Service — Avorria Trading
+ * Canonical Market Data Service — Drawdown Trading
  * 
  * Single authoritative server-side market data pipeline.
  * NO MOCK DATA. NO SYNTHETIC RANDOM WALKS. NO STATIC HARDCODED PRICES.
@@ -133,7 +133,7 @@ const YAHOO_SYMBOL_MAP: Record<string, string> = {
   // Yahoo Finance has NO reliable OTC spot ticker for Gold (XAUUSD) or Silver (XAGUSD).
   // GC=F and SI=F are COMEX futures contracts that carry a significant futures premium/basis
   // (e.g. +$31.71 discrepancy), which previously contaminated spot pricing.
-  // For spot metals, Avorria must fail closed to Twelve Data and NEVER substitute futures.
+  // For spot metals, Drawdown must fail closed to Twelve Data and NEVER substitute futures.
   EURUSD: "EURUSD=X",
   "EUR/USD": "EURUSD=X",
   GBPUSD: "GBPUSD=X",

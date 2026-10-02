@@ -5,7 +5,7 @@ import { Plus, Mail, Clock, Eye, Send, ArrowRight } from "lucide-react";
 import { createInternalSupabase } from "@/lib/supabase/server";
 
 export const metadata = {
-  title: "The Wire Briefings | Avorria Admin",
+  title: "The Wire Briefings | Drawdown Admin",
   robots: { index: false, follow: false },
 };
 

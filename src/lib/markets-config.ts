@@ -22,13 +22,13 @@ export interface MarketInstrument {
 export const CATEGORY_META = {
   forex: {
     title: "Forex Markets | Live FX Charts & Currency Analysis",
-    description: "Live charts and technical analysis for all major forex pairs. GBP/USD, EUR/USD, USD/JPY, GBP/JPY and more — with Avorria curriculum context.",
+    description: "Live charts and technical analysis for all major forex pairs. GBP/USD, EUR/USD, USD/JPY, GBP/JPY and more — with Drawdown curriculum context.",
     intro: "The foreign exchange market is where Drawdown lives. Every major pair, covered with live TradingView charts, technical analysis gauges, and honest context on how we teach each instrument within the curriculum."
   },
   commodities: {
     title: "Commodities Markets | Gold, Silver & Crude Oil Charts",
     description: "Live charts and analysis for major commodities. Gold (XAU/USD), Silver and WTI Crude Oil with key driver breakdowns and economic calendar.",
-    intro: "Commodities add macro depth to any trading toolkit. Gold, Silver and Crude Oil — each covered with live data, key driver breakdowns and curriculum context from the Avorria platform."
+    intro: "Commodities add macro depth to any trading toolkit. Gold, Silver and Crude Oil — each covered with live data, key driver breakdowns and curriculum context from the Drawdown platform."
   },
   indices: {
     title: "Stock Indices | FTSE 100, S&P 500, NASDAQ & Dow Jones Charts",

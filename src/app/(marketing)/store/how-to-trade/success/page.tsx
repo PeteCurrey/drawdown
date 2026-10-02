@@ -3,7 +3,7 @@ import { Check, Download, ArrowRight } from "lucide-react";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Order Confirmed — How to Trade | Avorria",
+  title: "Order Confirmed — How to Trade | Drawdown",
   description: "Your How to Trade PDF guide is on its way. Check your email for the download link.",
 };
 
@@ -28,7 +28,7 @@ export default function HowToTradeSuccessPage() {
           {[
             { icon: Download, text: "Download the PDF from your email and save it to your device or cloud storage." },
             { icon: Check, text: "Read Chapter 1 today — The Trader's Mindset. It reframes everything." },
-            { icon: ArrowRight, text: "Log into your Avorria dashboard to track your progress alongside the guide." },
+            { icon: ArrowRight, text: "Log into your Drawdown dashboard to track your progress alongside the guide." },
           ].map((step, i) => (
             <div key={i} className="flex items-start gap-3">
               <step.icon className="w-4 h-4 mt-0.5 shrink-0 text-[#F9771D]" />

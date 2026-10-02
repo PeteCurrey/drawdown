@@ -8,7 +8,7 @@ export const metadata: Metadata = {
     title: "How the Trading Education Business Model Works",
     description: "An honest look at how the trading education business model works. We analyze course fees, affiliate payouts, broker referrals, and how to spot real value.",
     type: "article",
-    url: "https://avorria.com/blog/trading-education-business-model",
+    url: "https://drawdown.trading/blog/trading-education-business-model",
     images: [
       {
         url: "https://images.unsplash.com/photo-1559526324-593bc073d938?w=1200&q=80",
@@ -32,20 +32,20 @@ export default function TradingEducationBusinessModelPage() {
       "jobTitle": "Founder",
       "worksFor": {
         "@type": "Organization",
-        "name": "Avorria",
-        "url": "https://avorria.com"
+        "name": "Drawdown",
+        "url": "https://drawdown.trading"
       }
     },
     "publisher": {
       "@type": "Organization",
       "name": "Drawdown",
-      "url": "https://avorria.com"
+      "url": "https://drawdown.trading"
     },
     "datePublished": "2026-06-20T12:00:00Z",
     "dateModified": "2026-06-20T12:00:00Z",
     "mainEntityOfPage": {
       "@type": "WebPage",
-      "@id": "https://avorria.com/blog/trading-education-business-model"
+      "@id": "https://drawdown.trading/blog/trading-education-business-model"
     }
   };
 

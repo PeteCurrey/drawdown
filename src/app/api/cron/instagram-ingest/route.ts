@@ -137,7 +137,7 @@ export async function GET(request: NextRequest) {
           caption: media.caption || "",
         });
 
-        const { verified_facts, avorria_commentary } = await verifyClaimsAgainstSources(
+        const { verified_facts, drawdown_commentary } = await verifyClaimsAgainstSources(
           extracted.claims,
           extracted.headline
         );
@@ -149,7 +149,7 @@ export async function GET(request: NextRequest) {
           extracted_claims: {
             headline: extracted.headline,
             claims: extracted.claims,
-            avorria_commentary,
+            drawdown_commentary,
           },
           verified_facts,
           status: "draft", // Saved as draft

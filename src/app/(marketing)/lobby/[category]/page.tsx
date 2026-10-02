@@ -37,7 +37,7 @@ export async function generateMetadata({ params }: CategoryPageProps): Promise<M
 
   return getMetadata({
     title: `${displayName} Intelligence & News | The Lobby`,
-    description: `Verified reporting, regulatory audits, and market intelligence regarding ${displayName} on Avorria The Lobby.`,
+    description: `Verified reporting, regulatory audits, and market intelligence regarding ${displayName} on Drawdown The Lobby.`,
     path: `/lobby/${categorySlug}`,
   });
 }

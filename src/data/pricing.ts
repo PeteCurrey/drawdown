@@ -126,7 +126,7 @@ export interface FeatureRow {
 export const GBP_TIERS: PricingTier[] = [
   {
     id: "free",
-    name: "Avorria Free",
+    name: "Drawdown Free",
     shortName: "Free",
     tierKey: "free",
     monthlyPrice: 0,
@@ -156,7 +156,7 @@ export const GBP_TIERS: PricingTier[] = [
   },
   {
     id: "core",
-    name: "Avorria Core Membership",
+    name: "Drawdown Core Membership",
     shortName: "Core",
     tierKey: "core",
     monthlyPrice: 24.99,
@@ -601,7 +601,7 @@ export const PRICING_FAQS: FAQ[] = [
   {
     question: "What is included in the £24.99/month Core Membership?",
     answer:
-      "Avorria Core Membership unlocks complete access to the core platform: the Quantitative Technical Scanner, Market Screener, Signal Centre feeds, Investment Centre macro analysis, AI Trade Journal, Strategy Backtester (Beta), Algo Strategy Builder export, Market Intelligence Hub, The Wire, watchlists, saved screens, and the full multi-phase curriculum. Everything you need to build and execute a disciplined trading process is included.",
+      "Drawdown Core Membership unlocks complete access to the core platform: the Quantitative Technical Scanner, Market Screener, Signal Centre feeds, Investment Centre macro analysis, AI Trade Journal, Strategy Backtester (Beta), Algo Strategy Builder export, Market Intelligence Hub, The Wire, watchlists, saved screens, and the full multi-phase curriculum. Everything you need to build and execute a disciplined trading process is included.",
   },
   {
     question: "Can I cancel my monthly membership?",
@@ -611,7 +611,7 @@ export const PRICING_FAQS: FAQ[] = [
   {
     question: "Is there an annual plan available?",
     answer:
-      "For Phase 1, Avorria Core Membership is available exclusively on a flexible monthly subscription at £24.99/month. We keep the barrier to entry low and commitment flexible.",
+      "For Phase 1, Drawdown Core Membership is available exclusively on a flexible monthly subscription at £24.99/month. We keep the barrier to entry low and commitment flexible.",
   },
   {
     question: "How do I get the Prop Firm Survival Kit?",
@@ -626,7 +626,7 @@ export const PRICING_FAQS: FAQ[] = [
   {
     question: "Does Core Membership include 1-on-1 mentorship or financial advice?",
     answer:
-      "No. Avorria is an educational and analytical software platform. Core Membership does not include personalized financial advice, trade signals, or individual mentorship. All tools are designed to support your own independent trading discipline.",
+      "No. Drawdown Trading is an educational and analytical software platform. Core Membership does not include personalized financial advice, trade signals, or individual mentorship. All tools are designed to support your own independent trading discipline.",
   },
   {
     question: "Is VAT included in the listed price?",

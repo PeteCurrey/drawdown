@@ -3,8 +3,8 @@ import { Check, Download, ArrowRight } from "lucide-react";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Order Confirmed — Complete Manual Collection | Avorria",
-  description: "Your Avorria Manual Bundle is ready. Check your email for download links.",
+  title: "Order Confirmed — Complete Manual Collection | Drawdown",
+  description: "Your Drawdown Manual Bundle is ready. Check your email for download links.",
 };
 
 export default function ManualBundleSuccessPage() {
@@ -45,7 +45,7 @@ export default function ManualBundleSuccessPage() {
           <p className="text-[10px] font-mono uppercase tracking-widest text-[#555] font-bold">// NEXT STEPS</p>
           {[
             { icon: Download, text: "Save the PDF download links from your email to your local drive or cloud storage." },
-            { icon: ArrowRight, text: "Go to your Avorria dashboard to access the interactive platform tools included." }
+            { icon: ArrowRight, text: "Go to your Drawdown dashboard to access the interactive platform tools included." }
           ].map((step, i) => (
             <div key={i} className="flex items-start gap-3">
               <step.icon className="w-4 h-4 mt-0.5 shrink-0 text-indigo-400" />

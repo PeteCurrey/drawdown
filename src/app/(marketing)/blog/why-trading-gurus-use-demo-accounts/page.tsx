@@ -8,7 +8,7 @@ export const metadata: Metadata = {
     title: "Why Trading Gurus Use Demo Accounts",
     description: "The hate around demo accounts in trading content is mostly misdirected. Here's the honest reason gurus use them, and why undisclosed use is the real issue.",
     type: "article",
-    url: "https://avorria.com/blog/why-trading-gurus-use-demo-accounts",
+    url: "https://drawdown.trading/blog/why-trading-gurus-use-demo-accounts",
     images: [
       {
         url: "https://images.unsplash.com/photo-1642790551116-18e150f248e3?w=1200&q=80",
@@ -32,20 +32,20 @@ export default function WhyTradingGurusUseDemoAccountsPage() {
       "jobTitle": "Founder",
       "worksFor": {
         "@type": "Organization",
-        "name": "Avorria",
-        "url": "https://avorria.com"
+        "name": "Drawdown",
+        "url": "https://drawdown.trading"
       }
     },
     "publisher": {
       "@type": "Organization",
       "name": "Drawdown",
-      "url": "https://avorria.com"
+      "url": "https://drawdown.trading"
     },
     "datePublished": "2026-06-20T12:00:00Z",
     "dateModified": "2026-06-20T12:00:00Z",
     "mainEntityOfPage": {
       "@type": "WebPage",
-      "@id": "https://avorria.com/blog/why-trading-gurus-use-demo-accounts"
+      "@id": "https://drawdown.trading/blog/why-trading-gurus-use-demo-accounts"
     }
   };
 

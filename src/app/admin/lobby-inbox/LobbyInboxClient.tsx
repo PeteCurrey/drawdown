@@ -31,7 +31,7 @@ interface LobbyItem {
   extracted_claims: {
     headline: string;
     claims: string[];
-    avorria_commentary?: string | null;
+    drawdown_commentary?: string | null;
   };
   verified_facts: Array<{
     claim: string;
@@ -459,13 +459,13 @@ export function LobbyInboxClient() {
                 </div>
               )}
 
-              {extractedItem.extracted_claims.avorria_commentary && (
+              {extractedItem.extracted_claims.drawdown_commentary && (
                 <div className="bg-white border border-[#E5E5E5] p-3.5 rounded">
                   <span className="font-mono text-[9px] uppercase tracking-wider font-bold text-[#525252] block mb-1">
-                    Avorria commentary
+                    Drawdown commentary
                   </span>
                   <p className="text-xs text-[#404040]">
-                    {extractedItem.extracted_claims.avorria_commentary}
+                    {extractedItem.extracted_claims.drawdown_commentary}
                   </p>
                 </div>
               )}

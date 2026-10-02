@@ -30,7 +30,7 @@ export function LobbyExplained({ articles = [] }: LobbyExplainedProps) {
         {!hasArticles ? (
           <LobbyEmptyState
             title="NO EXPLAINER GUIDES PUBLISHED"
-            description="Avorria Explained demystifies market liquidity, margin requirements, spread mechanics, and mathematical edge principles. Evergreen primers will appear here."
+            description="Drawdown Explained demystifies market liquidity, margin requirements, spread mechanics, and mathematical edge principles. Evergreen primers will appear here."
             badge="EDUCATION DESK"
           />
         ) : (

@@ -30,7 +30,7 @@ export async function GET(req: NextRequest) {
     const symbol = searchParams.get("symbol") || "GBPUSD";
     const interval = searchParams.get("interval") || "1h";
 
-    const systemPrompt = `You are Avorria Trading's Institutional Market Confluence AI Advisor. 
+    const systemPrompt = `You are Drawdown Trading's Institutional Market Confluence AI Advisor. 
 Analyze the provided instrument technical details and output a professional institutional-grade brief.
 You must return your response in EXACTLY the following JSON format without any markdown wrappers or additional text around the JSON block. Do not wrap it in \`\`\`json or similar.
 

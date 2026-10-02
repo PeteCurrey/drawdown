@@ -38,7 +38,7 @@ export const LOBBY_ARTICLE_TYPES: LobbyArticleType[] = [
  * Converts a controlled category to an SEO-friendly URL slug.
  */
 export function categoryToSlug(category: LobbyCategory): string {
-  if (category === 'DRAWDOWN') return 'avorria';
+  if (category === 'DRAWDOWN') return 'drawdown';
   return category.toLowerCase().replace(/\s+/g, '-');
 }
 
@@ -47,7 +47,7 @@ export function categoryToSlug(category: LobbyCategory): string {
  */
 export function slugToCategory(slug: string): LobbyCategory | null {
   const normalised = slug.toLowerCase().trim();
-  if (normalised === 'avorria' || normalised === 'drawdown') return 'DRAWDOWN';
+  if (normalised === 'drawdown' || normalised === 'drawdown') return 'DRAWDOWN';
   const match = LOBBY_CATEGORIES.find(
     cat => categoryToSlug(cat) === normalised
   );

@@ -8,7 +8,7 @@ import { createInternalSupabase } from '../lib/supabase/server.ts';
 import { categoryToSlug } from '../lib/lobby-constants.ts';
 import type { LobbyCategory } from '../types/lobby.ts';
 
-const BASE_URL = 'https://avorria.com';
+const BASE_URL = 'https://drawdown.trading';
 const SITE_BASELINE_DATE = '2026-04-20T00:00:00Z';
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
@@ -168,7 +168,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     url('/lobby/regulation', { changeFrequency: 'daily', priority: 0.8, lastModified: SITE_BASELINE_DATE }),
     url('/lobby/trading-technology', { changeFrequency: 'daily', priority: 0.8, lastModified: SITE_BASELINE_DATE }),
     url('/lobby/trades', { changeFrequency: 'daily', priority: 0.8, lastModified: SITE_BASELINE_DATE }),
-    url('/lobby/avorria', { changeFrequency: 'daily', priority: 0.8, lastModified: SITE_BASELINE_DATE }),
+    url('/lobby/drawdown', { changeFrequency: 'daily', priority: 0.8, lastModified: SITE_BASELINE_DATE }),
     url('/lobby/education', { changeFrequency: 'daily', priority: 0.8, lastModified: SITE_BASELINE_DATE }),
     url('/lobby/industry', { changeFrequency: 'daily', priority: 0.8, lastModified: SITE_BASELINE_DATE }),
     url('/lobby/other', { changeFrequency: 'daily', priority: 0.7, lastModified: SITE_BASELINE_DATE }),

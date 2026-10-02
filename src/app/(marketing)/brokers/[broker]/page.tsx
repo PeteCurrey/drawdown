@@ -102,9 +102,9 @@ export default async function BrokerReviewPage({ params }: Props) {
     <>
       <TrackPageView path={`/brokers/${brokerParam}`} />
       <BreadcrumbSchema items={[
-        { name: 'Home', url: 'https://avorria.com' },
-        { name: 'Brokers', url: 'https://avorria.com/brokers' },
-        { name: broker.name, url: `https://avorria.com/brokers/${brokerParam}` }
+        { name: 'Home', url: 'https://drawdown.trading' },
+        { name: 'Brokers', url: 'https://drawdown.trading/brokers' },
+        { name: broker.name, url: `https://drawdown.trading/brokers/${brokerParam}` }
       ]} />
       <JsonLd data={{
         "@context": "https://schema.org",
@@ -120,12 +120,12 @@ export default async function BrokerReviewPage({ params }: Props) {
         "author": {
           "@type": "Person",
           "name": "Pete Currey",
-          "url": "https://avorria.com/about"
+          "url": "https://drawdown.trading/about"
         },
         "publisher": {
           "@type": "Organization",
-          "name": "Avorria Trading",
-          "url": "https://avorria.com"
+          "name": "Drawdown Trading",
+          "url": "https://drawdown.trading"
         },
         "itemReviewed": {
           "@type": "FinancialService",
@@ -138,7 +138,7 @@ export default async function BrokerReviewPage({ params }: Props) {
             "addressLocality": extra.headquarters
           }
         },
-        "url": `https://avorria.com/brokers/${brokerParam}`,
+        "url": `https://drawdown.trading/brokers/${brokerParam}`,
         "datePublished": "2026-01-01"
       }} />
       <BrokerReviewTemplate 

@@ -1,11 +1,11 @@
 /**
- * Avorria Master Newsletter Template
+ * Drawdown Master Newsletter Template
  * Branding: The Wire (Signal Blue accent)
  * Voice: Pete Currey
  */
 
 export function getNewsletterTemplate(content: string, subject: string) {
-  const accentColor = "#F9771D"; // Avorria Orange
+  const accentColor = "#F9771D"; // Drawdown Orange
   const bgColor = "#F1F5F9";
   const surfaceColor = "#FFFFFF";
   const textColor = "#0F172A";
@@ -110,7 +110,7 @@ export function getNewsletterTemplate(content: string, subject: string) {
           Pete Currey
         </p>
         
-        <a href="https://avorria.com/dashboard" class="cta-button">Open Dashboard</a>
+        <a href="https://drawdown.trading/dashboard" class="cta-button">Open Dashboard</a>
       </div>
       <div class="footer">
         <p class="footer-text">

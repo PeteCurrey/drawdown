@@ -67,7 +67,7 @@ export async function POST(req: NextRequest) {
     }
 
     // 4. Send Welcome Email
-    const appUrl = process.env.NEXT_PUBLIC_APP_URL || process.env.NEXT_PUBLIC_SITE_URL || "https://avorria.com";
+    const appUrl = process.env.NEXT_PUBLIC_APP_URL || process.env.NEXT_PUBLIC_SITE_URL || "https://drawdown.trading";
     const unsubscribeUrl = `${appUrl}/unsubscribe?token=${subscriber.unsubscribe_token}`;
     const welcomeHtml = getWelcomeTemplate(unsubscribeUrl);
 
@@ -78,7 +78,7 @@ export async function POST(req: NextRequest) {
     if (resendKey) {
       try {
         const emailRes = await resend.emails.send({
-          from: "Pete @ Avorria <thewire@avorria.com>",
+          from: "Pete @ Drawdown Trading <thewire@drawdown.trading>",
           to: email,
           subject: "Welcome to The Wire — your market intelligence starts now",
           html: welcomeHtml

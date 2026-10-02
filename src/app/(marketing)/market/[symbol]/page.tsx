@@ -10,7 +10,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { symbol: rawSymbol } = await params;
   const symbol = rawSymbol.toUpperCase();
   return {
-    title: `${symbol} Live Price, Chart & Analysis | Avorria`,
+    title: `${symbol} Live Price, Chart & Analysis | Drawdown`,
     description: `Track real-time ${symbol} prices, interactive technical charts, and AI-powered market analysis. Build your trading edge with Drawdown's professional tools.`,
     openGraph: {
       images: [`/api/og?symbol=${symbol}`],

@@ -50,13 +50,13 @@ export async function POST(request: NextRequest) {
     // ── 3. Send Survival Kit Delivery Email ────────────────────────────────────
     if (resendKey) {
       try {
-        const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://avorria.com";
+        const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://drawdown.trading";
         const dashboardUrl = `${appUrl}/dashboard/downloads`;
         const emailHtml = getSurvivalKitConfirmationTemplate(dashboardUrl);
 
         const resend = new Resend(resendKey);
         await resend.emails.send({
-          from: "Pete @ Avorria <thewire@avorria.com>",
+          from: "Pete @ Drawdown Trading <thewire@drawdown.trading>",
           to: cleanEmail,
           subject: "Your Prop Challenge Survival Kit is ready",
           html: emailHtml,

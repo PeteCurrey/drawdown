@@ -23,7 +23,7 @@ export function LobbyHero({ leadStory }: LobbyHeroProps) {
       {/* 1. Background Image with Next.js Image Optimization */}
       <div className="absolute inset-0 z-0">
         <Image
-          src="/images/lobby/avorria-trading-hero-penthouse.png"
+          src="/images/lobby/drawdown-trading-hero-penthouse.png"
           alt="Luxury penthouse overlooking the New York City skyline at dusk — executive trading desk with financial charts, modern fireplace and live baseball on wall TV"
           fill
           priority

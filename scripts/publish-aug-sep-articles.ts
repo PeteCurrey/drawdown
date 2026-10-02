@@ -124,7 +124,7 @@ async function main() {
         og_title: article.metaTitle,
         og_description: article.metaDescription,
         og_image_url: article.heroImageUrl,
-        canonical_url: `https://avorria.com/blog/${article.slug}`,
+        canonical_url: `https://drawdown.trading/blog/${article.slug}`,
         focus_keyword: article.focusKeyword,
         schema_type: "mdx",
         no_index: false,
@@ -142,7 +142,7 @@ async function main() {
       title: article.title,
       category: article.category,
       slug: article.slug,
-      url: `https://avorria.com/blog/${article.slug}`,
+      url: `https://drawdown.trading/blog/${article.slug}`,
       status: "PUBLISHED",
     });
   }

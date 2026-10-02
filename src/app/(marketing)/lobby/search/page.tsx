@@ -8,7 +8,7 @@ import { Search, Clock, ArrowLeft } from "lucide-react";
 
 export const metadata: Metadata = getMetadata({
   title: "Search The Lobby // Financial Intelligence Query",
-  description: "Search Avorria's verified articles, broker audits, platform analyses, and educational explainers.",
+  description: "Search Drawdown's verified articles, broker audits, platform analyses, and educational explainers.",
   path: "/lobby/search",
 });
 

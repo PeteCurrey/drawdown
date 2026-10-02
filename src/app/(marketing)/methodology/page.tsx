@@ -5,9 +5,9 @@ import { createClient } from "@supabase/supabase-js";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 
 export const metadata = {
-  title: "Data & Methodology Centre | Avorria Trading",
+  title: "Data & Methodology Centre | Drawdown Trading",
   description:
-    "The central source of truth for every technical, analytical, statistical, market-data, and AI claim across Avorria Trading. Fully evidence-led and transparent.",
+    "The central source of truth for every technical, analytical, statistical, market-data, and AI claim across Drawdown Trading. Fully evidence-led and transparent.",
 };
 
 // Static fallback data in case database is unreachable during SSG/build
@@ -114,7 +114,7 @@ const FALLBACK_CLAIMS = [
   },
   {
     slug: "platform-capabilities",
-    title: "Avorria Platform Scope",
+    title: "Drawdown Platform Scope",
     category: "platform-capability",
     status: "verified",
     evidence_strength: "strong",
@@ -187,7 +187,7 @@ export default async function MethodologyPage() {
           <div className="text-[13px] leading-relaxed font-sans" style={{ color: "var(--graphite-600)" }}>
             <span className="font-bold uppercase font-mono tracking-[0.08em] block mb-2" style={{ color: "var(--ink-950)" }}>Operational Scope Disclosure:</span>
             <p>
-              Avorria Trading is an independent trading education, analytical research, and risk-management tools platform. Drawdown does not route, execute, or transmit orders, and does not hold client funds. All market observations, trade signals, and indicators are non-advisory analytical data.
+              Drawdown Trading is an independent trading education, analytical research, and risk-management tools platform. Drawdown does not route, execute, or transmit orders, and does not hold client funds. All market observations, trade signals, and indicators are non-advisory analytical data.
             </p>
           </div>
         </div>

@@ -61,7 +61,7 @@ export default function PartnersPage() {
         <div className="bg-background-elevated/40 border border-border-slate/50 p-12 md:p-24 mb-24">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
             <div className="space-y-8">
-               <h2 className="text-4xl md:text-5xl font-sans font-bold uppercase">The Avorria <br /> Advantage.</h2>
+               <h2 className="text-4xl md:text-5xl font-sans font-bold uppercase">The Drawdown <br /> Advantage.</h2>
                <div className="space-y-6">
                   {[
                     "Highly engaged UK-based trading audience.",
@@ -102,7 +102,7 @@ export default function PartnersPage() {
         <div className="text-center py-24 border-t border-border-slate/30">
            <h2 className="text-3xl md:text-5xl font-sans font-bold uppercase mb-8">Build the Future of <br /> Trading With Us.</h2>
            <p className="text-text-tertiary mb-12 max-w-xl mx-auto uppercase font-mono tracking-widest text-xs">
-             contact@avorria.com // partner inquiries only
+             contact@drawdown.trading // partner inquiries only
            </p>
            <Link href="/contact" className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-accent hover:underline">
               Get in Touch <ArrowRight className="w-4 h-4" />

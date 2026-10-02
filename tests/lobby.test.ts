@@ -243,14 +243,14 @@ test("Lobby SEO: sitemap.ts includes /lobby and all controlled categories", asyn
   assert.ok(Array.isArray(items), "sitemap() must return an array");
 
   const urls = items.map((i: any) => i.url);
-  assert.ok(urls.includes("https://avorria.com/lobby"), "Must include /lobby");
-  assert.ok(urls.includes("https://avorria.com/lobby/archive"), "Must include /lobby/archive");
+  assert.ok(urls.includes("https://drawdown.trading/lobby"), "Must include /lobby");
+  assert.ok(urls.includes("https://drawdown.trading/lobby/archive"), "Must include /lobby/archive");
 
   for (const cat of LOBBY_CATEGORIES) {
     const slug = categoryToSlug(cat);
     assert.ok(
-      urls.includes(`https://avorria.com/lobby/${slug}`),
-      `Sitemap must include category https://avorria.com/lobby/${slug}`
+      urls.includes(`https://drawdown.trading/lobby/${slug}`),
+      `Sitemap must include category https://drawdown.trading/lobby/${slug}`
     );
   }
 });

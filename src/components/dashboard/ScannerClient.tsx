@@ -396,11 +396,11 @@ function SignalsTab({ tech, price, slug, tvSymbol }: { tech: any; price: number 
       <div className="border-b border-border-slate/20">
         <TradingViewTechnicalWidget tvSymbol={tvSymbol} isVisible />
       </div>
-      {/* Avorria signals overlay — sourced from Twelve Data */}
+      {/* Drawdown signals overlay — sourced from Twelve Data */}
       <div className="p-5 space-y-5">
       {minsAgo !== null && (
         <p className="text-[9px] font-mono text-text-tertiary uppercase tracking-widest flex items-center gap-1">
-          <RefreshCw className="w-2.5 h-2.5" /> Avorria signals · {minsAgo < 1 ? "just now" : `${minsAgo}m ago`}
+          <RefreshCw className="w-2.5 h-2.5" /> Drawdown signals · {minsAgo < 1 ? "just now" : `${minsAgo}m ago`}
         </p>
       )}
       {/* Multi-TF Matrix */}

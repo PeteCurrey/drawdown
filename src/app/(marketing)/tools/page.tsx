@@ -1,10 +1,10 @@
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Trading Tools — Risk Calculator, Backtester, Position Sizer | Avorria',
+  title: 'Trading Tools — Risk Calculator, Backtester, Position Sizer | Drawdown',
   description:
     'Free and paid trading tools for independent traders. Risk calculator, position sizer, strategy backtester, AI trade journal and market intelligence — built by traders, for traders.',
-  alternates: { canonical: 'https://avorria.com/tools' },
+  alternates: { canonical: 'https://drawdown.trading/tools' },
 };
 
 import { 
@@ -178,7 +178,7 @@ export default function ToolsMarketingPage() {
                 The retail trading industry is built on lagging indicators, arbitrary patterns, and false promises. We got tired of using scattered, retail-grade tools to manage serious capital. 
               </p>
               <p className="text-lg text-text-secondary leading-relaxed font-medium">
-                Avorria's tool suite is engineered from the ground up for precision, speed, and statistical validity. Every scanner, backtester, and journal feature was built because our own trading desk demanded it.
+                Drawdown's tool suite is engineered from the ground up for precision, speed, and statistical validity. Every scanner, backtester, and journal feature was built because our own trading desk demanded it.
               </p>
               
               <div className="pt-6 grid grid-cols-2 gap-8">

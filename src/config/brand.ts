@@ -1,5 +1,5 @@
 /**
- * Avorria Trading — Central Brand Configuration
+ * Drawdown Trading — Central Brand Configuration
  *
  * Single source of truth for all brand identity values.
  * Import from this file rather than hardcoding brand strings anywhere else.
@@ -9,45 +9,45 @@
  */
 
 export const BRAND_CONFIG = {
-  name: "Avorria",
-  productName: "Avorria Trading",
-  shortName: "Avorria",
+  name: "Drawdown",
+  productName: "Drawdown Trading",
+  shortName: "Drawdown",
   legalEntity: "Black & Rowan Management Group Limited",
-  fullTradingEntity: "Black & Rowan Management Group Limited t/a Avorria Trading",
+  fullTradingEntity: "Black & Rowan Management Group Limited t/a Drawdown Trading",
 
   tagline: "Professional Market Intelligence & Quantitative Trading Tools",
   coreProposition: "Professional market intelligence, trading tools and actionable market analysis.",
 
-  domain: "https://avorria.com",
-  canonicalHost: "avorria.com",
+  domain: "https://drawdown.trading",
+  canonicalHost: "drawdown.trading",
 
   founder: {
     name: "Pete Currey",
-    role: "Founder, Avorria Trading",
-    bio: "Founder, Avorria Trading. Trading live since 2016.",
-    url: "https://avorria.com/about",
-    image: "https://avorria.com/images/pete.jpg",
+    role: "Founder, Drawdown Trading",
+    bio: "Founder, Drawdown Trading. Trading live since 2016.",
+    url: "https://drawdown.trading/about",
+    image: "https://drawdown.trading/images/pete.jpg",
   },
 
   emails: {
-    support: "support@avorria.com",
-    privacy: "privacy@avorria.com",
-    legal: "legal@avorria.com",
-    complaints: "complaints@avorria.com",
-    security: "security@avorria.com",
-    theWire: "thewire@avorria.com",
-    alerts: "alerts@avorria.com",
-    news: "news@avorria.com",
-    fromName: "Avorria Trading",
-    fromAddress: "Avorria Trading <noreply@avorria.com>",
-    peteFromAddress: "Pete Currey — Avorria Trading <thewire@avorria.com>",
+    support: "support@drawdown.trading",
+    privacy: "privacy@drawdown.trading",
+    legal: "legal@drawdown.trading",
+    complaints: "complaints@drawdown.trading",
+    security: "security@drawdown.trading",
+    theWire: "thewire@drawdown.trading",
+    alerts: "alerts@drawdown.trading",
+    news: "news@drawdown.trading",
+    fromName: "Drawdown Trading",
+    fromAddress: "Drawdown Trading <noreply@drawdown.trading>",
+    peteFromAddress: "Pete Currey — Drawdown Trading <thewire@drawdown.trading>",
   },
 
   social: {
-    twitter: "https://x.com/avorriatrading",
-    twitterHandle: "@avorriatrading",
-    discord: "https://discord.gg/avorria",
-    youtube: "https://youtube.com/@avorriatrading",
+    twitter: "https://x.com/drawdowntrading",
+    twitterHandle: "@drawdowntrading",
+    discord: "https://discord.gg/drawdown",
+    youtube: "https://youtube.com/@drawdowntrading",
   },
 
   assets: {

@@ -198,7 +198,7 @@ export async function checkAlertThresholds(accountId: string, snapshot: any) {
         // Send Email via Resend
         if (process.env.RESEND_API_KEY) {
           await resend.emails.send({
-            from: "Pete | Avorria <alerts@avorria.com>",
+            from: "Pete | Drawdown <alerts@drawdown.trading>",
             to: user.email!,
             subject: `⚠️ ${account.account_name} — ${severity}`,
             html: `
@@ -211,7 +211,7 @@ export async function checkAlertThresholds(accountId: string, snapshot: any) {
                   <p><strong>Value:</strong> ${val.toFixed(1)}%</p>
                   <p><strong>Remaining Drawdown:</strong> $${Number(snapshot.drawdown_remaining).toFixed(2)}</p>
                 </div>
-                <a href="https://avorria.com/dashboard/accounts" style="display: inline-block; background: #000; color: #fff; padding: 15px 30px; text-decoration: none; font-weight: bold; text-transform: uppercase; font-size: 12px;">Open Dashboard</a>
+                <a href="https://drawdown.trading/dashboard/accounts" style="display: inline-block; background: #000; color: #fff; padding: 15px 30px; text-decoration: none; font-weight: bold; text-transform: uppercase; font-size: 12px;">Open Dashboard</a>
                 <p style="font-size: 10px; color: #999; margin-top: 40px;">This is an automated risk alert from Drawdown. Please manage your positions accordingly.</p>
               </div>
             `

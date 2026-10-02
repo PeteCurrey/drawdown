@@ -155,7 +155,7 @@ test('Blog System: sitemap dynamically includes all 108+ published blog posts', 
   assert.ok(blogUrls.length >= 108, `Expected at least 108 blog URLs in sitemap, got ${blogUrls.length}`);
 
   for (const slug of [...HISTORICAL_REQUIRED_SLUGS, ...NEW_2026_EDITORIAL_SLUGS, ...OCTOBER_2026_SLUGS]) {
-    const expectedUrl = `https://avorria.com/blog/${slug}`;
+    const expectedUrl = `https://drawdown.trading/blog/${slug}`;
     const found = items.some(i => i.url === expectedUrl);
     assert.ok(found, `Sitemap must contain ${expectedUrl}`);
   }

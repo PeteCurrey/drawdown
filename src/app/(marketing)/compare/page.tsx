@@ -10,7 +10,7 @@ import { InteractiveCompareWidget } from "@/components/compare/InteractiveCompar
 export const metadata: Metadata = {
   title: "Broker Comparisons 2026 | Head-to-Head Trading Platform Audits",
   description: "Interactive side-by-side broker comparisons for UK & global traders. Compare Pepperstone vs IG, IC Markets vs Pepperstone, CMC vs IG and more.",
-  alternates: { canonical: "https://avorria.com/compare" }
+  alternates: { canonical: "https://drawdown.trading/compare" }
 };
 
 export const revalidate = 3600;
@@ -42,8 +42,8 @@ export default async function CompareHub() {
     <div className="min-h-screen bg-slate-950 text-white font-sans">
       <TrackPageView path="/compare" />
       <BreadcrumbSchema items={[
-        { name: "Home", url: "https://avorria.com" },
-        { name: "Compare Brokers", url: "https://avorria.com/compare" }
+        { name: "Home", url: "https://drawdown.trading" },
+        { name: "Compare Brokers", url: "https://drawdown.trading/compare" }
       ]} />
 
       {/* 1. IMMERSIVE AMBIENT HERO SECTION */}

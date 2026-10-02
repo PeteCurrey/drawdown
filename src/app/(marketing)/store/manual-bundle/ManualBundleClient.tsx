@@ -78,7 +78,7 @@ const manuals = [
 const faqs = [
   { 
     q: "How does the bundle work?", 
-    a: "When you buy the bundle, you get lifetime permanent access to all three manuals. They will be added to your Avorria dashboard immediately under the 'Downloads' section, and you will also receive an email with your download links." 
+    a: "When you buy the bundle, you get lifetime permanent access to all three manuals. They will be added to your Drawdown dashboard immediately under the 'Downloads' section, and you will also receive an email with your download links." 
   },
   { 
     q: "How much do I save?", 
@@ -94,7 +94,7 @@ const faqs = [
   },
   { 
     q: "What is your refund policy?", 
-    a: "Due to the immediate digital delivery nature of PDF manuals, we do not offer refunds once access has been granted. If you have questions before buying, please reach out to support@avorria.com." 
+    a: "Due to the immediate digital delivery nature of PDF manuals, we do not offer refunds once access has been granted. If you have questions before buying, please reach out to support@drawdown.trading." 
   }
 ];
 

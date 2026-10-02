@@ -69,7 +69,7 @@ export const marketDataSources: Record<string, MarketDataSource> = {
   },
   "drawdown-derived-daily": {
     id: "drawdown-derived-daily",
-    providerName: "Avorria Trading",
+    providerName: "Drawdown Trading",
     datasetName: "Sessional Volume and Liquidity Voids",
     sourceType: "drawdown_derived",
     dataNature: "derived",

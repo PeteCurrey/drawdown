@@ -34,7 +34,7 @@ export async function POST(request: NextRequest) {
     }
     const authoritativeTier = resolvedTier || tier || "free";
 
-    const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://www.avorria.com";
+    const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://www.drawdown.trading";
     const origin = request.headers.get("origin") || appUrl;
 
     // Preserve user context on return

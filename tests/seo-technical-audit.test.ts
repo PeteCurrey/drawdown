@@ -9,7 +9,7 @@ test('SEO: sitemap.ts exports a valid sitemap function', async () => {
 
   const content = fs.readFileSync(sitemapPath, 'utf8');
   assert.ok(!content.includes('2026-07-19'), 'Sitemap must not contain hardcoded 2026-07-19 date');
-  assert.ok(content.includes('https://avorria.com'), 'Sitemap base URL must be avorria.com');
+  assert.ok(content.includes('https://drawdown.trading'), 'Sitemap base URL must be drawdown.trading');
 
   // Verify function returns valid items
   // Dynamically import or evaluate
@@ -19,7 +19,7 @@ test('SEO: sitemap.ts exports a valid sitemap function', async () => {
   assert.ok(items.length >= 40, 'sitemap should contain at least 40 key curated routes');
 
   for (const item of items) {
-    assert.ok(item.url.startsWith('https://avorria.com'), `Item URL must be absolute: ${item.url}`);
+    assert.ok(item.url.startsWith('https://drawdown.trading'), `Item URL must be absolute: ${item.url}`);
     if (item.priority !== undefined) {
       assert.ok(item.priority >= 0 && item.priority <= 1, `Priority must be between 0 and 1: ${item.priority}`);
     }
@@ -33,7 +33,7 @@ test('SEO: robots.ts exports valid robots configuration', async () => {
   const { default: robots } = await import(robotsPath);
   const config = robots();
 
-  assert.equal(config.sitemap, 'https://avorria.com/sitemap.xml', 'Robots sitemap must point to canonical domain, not vercel.app');
+  assert.equal(config.sitemap, 'https://drawdown.trading/sitemap.xml', 'Robots sitemap must point to canonical domain, not vercel.app');
 
   const rules = Array.isArray(config.rules) ? config.rules[0] : config.rules;
   assert.ok(rules, 'Robots must have rules defined');

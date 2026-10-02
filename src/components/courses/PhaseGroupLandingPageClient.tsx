@@ -93,7 +93,7 @@ const GROUP_CONFIGS: Record<string, PhaseGroupConfig> = {
     ],
     faqs: [
       { q: "Which tier covers Phases 5 & 6?", a: "Phases 5 & 6 are accessible on our Edge and Floor membership tiers." },
-      { q: "Is the AI Backtester included?", a: "Yes. You get full instructions and integration guides for Avorria's custom AI backtesting tool." },
+      { q: "Is the AI Backtester included?", a: "Yes. You get full instructions and integration guides for Drawdown's custom AI backtesting tool." },
       { q: "Why is backtesting placed here?", a: "Because statistical edge-verification must come immediately after core risk metrics, before attempting live or prop trading." }
     ]
   }
@@ -297,7 +297,7 @@ export function PhaseGroupLandingPageClient({ slug }: { slug: string }) {
             <span className="text-xs font-mono font-bold text-indigo-400 uppercase tracking-widest">// YOUR INSTRUCTOR</span>
             <h3 className="text-2xl md:text-3xl font-display font-bold text-white">Pete Currey — Lead Trader & Founder</h3>
             <p className="text-sm text-slate-300 max-w-2xl leading-relaxed">
-              "Avorria was built to eliminate retail financial noise. My goal is to teach you how financial markets actually function, how institutions position order flow, and how to protect your capital with rigorous mathematical discipline."
+              "Drawdown was built to eliminate retail financial noise. My goal is to teach you how financial markets actually function, how institutions position order flow, and how to protect your capital with rigorous mathematical discipline."
             </p>
             <div className="flex flex-wrap gap-4 pt-2 justify-center lg:justify-start text-xs font-mono text-slate-400">
               <span className="flex items-center gap-1.5"><CheckCircle2 className="w-4 h-4 text-emerald-400" /> 10+ Years Trading Experience</span>

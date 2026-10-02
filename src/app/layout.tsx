@@ -67,20 +67,20 @@ const ibmPlexSans = IBM_Plex_Sans({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://avorria.com'),
+  metadataBase: new URL('https://drawdown.trading'),
   title: {
-    default: 'Avorria Trading — Professional Market Intelligence',
+    default: 'Drawdown Trading — Professional Market Intelligence',
     template: '%s'
   },
   description: 'Professional market intelligence, quantitative trading tools and structured analysis. Designed for serious independent traders.',
   openGraph: {
-    siteName: 'Avorria Trading',
+    siteName: 'Drawdown Trading',
     locale: 'en_GB',
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    creator: '@avorriatrading',
+    creator: '@drawdowntrading',
   },
   robots: {
     index: true,
@@ -128,13 +128,13 @@ export default function RootLayout({
               "@type": "Organization",
               "name": LEGAL_CONFIG.fullTradingEntity,
               "legalName": LEGAL_CONFIG.contractingEntity,
-              "url": "https://avorria.com",
-              "logo": "https://avorria.com/assets/brand/logo.png",
+              "url": "https://drawdown.trading",
+              "logo": "https://drawdown.trading/assets/brand/logo.png",
               "founder": {
                 "@type": "Person",
                 "name": "Pete Currey",
-                "url": "https://avorria.com/about",
-                "image": "https://avorria.com/images/pete.jpg"
+                "url": "https://drawdown.trading/about",
+                "image": "https://drawdown.trading/images/pete.jpg"
               },
               "address": {
                 "@type": "PostalAddress",
@@ -142,9 +142,9 @@ export default function RootLayout({
                 "addressLocality": "Chesterfield, Derbyshire"
               },
               "sameAs": [
-                "https://x.com/avorriatrading",
-                "https://youtube.com/@avorriatrading",
-                "https://discord.gg/avorria"
+                "https://x.com/drawdowntrading",
+                "https://youtube.com/@drawdowntrading",
+                "https://discord.gg/drawdown"
               ]
             })
           }}

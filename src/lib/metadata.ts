@@ -10,14 +10,14 @@ interface MetadataProps {
 }
 
 export const siteConfig = {
-  name: "Avorria Trading",
-  title: "Avorria Trading — Professional Market Intelligence",
+  name: "Drawdown Trading",
+  title: "Drawdown Trading — Professional Market Intelligence",
   description: "Professional market intelligence, quantitative trading tools and structured analysis. Designed for serious independent traders.",
-  url: "https://avorria.com",
+  url: "https://drawdown.trading",
   ogImage: "/og/default-og.png",
   links: {
-    twitter: "https://x.com/avorriatrading",
-    discord: "https://discord.gg/avorria",
+    twitter: "https://x.com/drawdowntrading",
+    discord: "https://discord.gg/drawdown",
   },
 };
 
@@ -31,7 +31,7 @@ export function getMetadata({
   hasRegionalVariants = false,
 }: MetadataProps = {}): Metadata {
   const cleanTitle = title
-    ? title.replace(/\s*([|—–-]\s*Avorria(\s+Trading)?)$/i, "").trim()
+    ? title.replace(/\s*([|—–-]\s*Drawdown(\s+Trading)?)$/i, "").trim()
     : null;
 
   const fullTitle = cleanTitle
@@ -61,7 +61,7 @@ export function getMetadata({
     authors: [
       {
         name: "Pete Currey",
-        url: "https://avorria.com/about",
+        url: "https://drawdown.trading/about",
       },
     ],
     openGraph: {
@@ -85,7 +85,7 @@ export function getMetadata({
       title: fullTitle,
       description,
       images: [image.startsWith('http') ? image : `${siteConfig.url}${image}`],
-      creator: "@avorriatrading",
+      creator: "@drawdowntrading",
     },
     icons: {
       icon: "/favicon.png",

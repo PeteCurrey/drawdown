@@ -9,7 +9,7 @@ import Link from "next/link";
 import { BacktesterClient } from "./BacktesterClient";
 
 export const metadata = {
-  title: "Strategy Backtester · Avorria",
+  title: "Strategy Backtester · Drawdown",
   description:
     "Simulate your trading strategy against historical OHLC data. Test mechanical expectancy, drawdown variance, and profit factor before risking capital.",
 };

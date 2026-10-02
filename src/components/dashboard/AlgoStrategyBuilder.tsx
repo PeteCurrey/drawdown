@@ -377,7 +377,7 @@ export function AlgoStrategyBuilder({ userId, userTier }: AlgoStrategyBuilderPro
     setGeneratedCode("");
     setGeneratorError(null);
 
-    const systemPrompt = `You are the Avorria Algo Strategy Builder. 
+    const systemPrompt = `You are the Drawdown Algo Strategy Builder. 
 Your goal is to convert natural language trading rules into professional-grade code.
 Current Language Target: ${language === "pinescript" ? "Pine Script v5 (TradingView)" : "Python (Backtrader framework)"}.
 
@@ -624,7 +624,7 @@ Tone: Direct, efficient, and focused on risk.`;
                     <div className="space-y-2">
                       <h4 className="text-[10px] font-mono font-bold uppercase text-loss tracking-widest">Legal Disclaimer</h4>
                       <p className="text-[10px] text-text-secondary leading-relaxed uppercase opacity-70">
-                        This tool generates code for educational purposes only. Past performance is not indicative of future results. Avorria Trading does not provide financial advice. You are responsible for testing any generated code in a demo environment before risking live capital.
+                        This tool generates code for educational purposes only. Past performance is not indicative of future results. Drawdown Trading does not provide financial advice. You are responsible for testing any generated code in a demo environment before risking live capital.
                       </p>
                     </div>
                   </div>

@@ -4,7 +4,7 @@ import { PublicSignalDetailClient } from "@/components/signal-centre/PublicSigna
 import { CommercialAccess } from "@/lib/entitlements";
 
 export const metadata = {
-  title: "Avorria Signal Hub · Real-time Institutional Analysis",
+  title: "Drawdown Signal Hub · Real-time Institutional Analysis",
   description: "Advanced quantitative confluence analytics, indicators grid, and dual AI sentiment scoring. Deep-dive signal analysis with full technical context and rationale.",
 };
 

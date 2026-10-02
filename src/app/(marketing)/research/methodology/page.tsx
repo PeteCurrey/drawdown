@@ -6,9 +6,9 @@ import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { getMetadata } from "@/lib/metadata";
 
 export const metadata = getMetadata({
-  title: "Research Methodology & Sampling Standards | Avorria Research",
+  title: "Research Methodology & Sampling Standards | Drawdown Research",
   description:
-    "The empirical sampling standards, evidence classifications, data verification protocols, and editorial peer-review workflows of Avorria Trading.",
+    "The empirical sampling standards, evidence classifications, data verification protocols, and editorial peer-review workflows of Drawdown Trading.",
   path: "/research/methodology",
 });
 
@@ -32,7 +32,7 @@ export default function ResearchMethodologyPage() {
             Empirical Standards & Data Protocols
           </h1>
           <p className="text-base text-text-secondary leading-relaxed">
-            Every study, calculator model, and broker cost audit published by Avorria Trading must adhere to strict evidence classifications, minimum sampling sizes, and transparent peer review.
+            Every study, calculator model, and broker cost audit published by Drawdown Trading must adhere to strict evidence classifications, minimum sampling sizes, and transparent peer review.
           </p>
         </div>
 

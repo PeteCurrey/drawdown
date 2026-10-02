@@ -389,7 +389,7 @@ export async function getInvestorAttentionFeed(options: { limit?: number } = {})
         related_symbols: [],
         source_claim: claimsList[0] || null,
         verified_facts: Array.isArray(row.verified_facts) ? row.verified_facts : [],
-        drawdown_interpretation: claimsObj.avorria_commentary || null,
+        drawdown_interpretation: claimsObj.drawdown_commentary || null,
         investor_attention_score: 1.0,
       };
     });
@@ -450,7 +450,7 @@ export async function getContentOSPublishedArticles(options: { limit?: number; c
       status: "PUBLISHED",
       importance: "standard",
       confidence: "VERIFIED",
-      primary_source_name: item.source_reference || "Avorria Research",
+      primary_source_name: item.source_reference || "Drawdown Research",
       published_at: item.published_at || item.created_at,
       created_at: item.created_at,
       updated_at: item.updated_at,

@@ -14,7 +14,7 @@ import { getMetadata } from "@/lib/metadata";
 import JsonLd from "@/components/seo/JsonLd";
 
 export const metadata = getMetadata({
-  title: "Avorria for Prop Firm Traders | Risk Tools & Challenge Preparation",
+  title: "Drawdown for Prop Firm Traders | Risk Tools & Challenge Preparation",
   description:
     "Risk management tools, challenge preparation guides, and prop firm comparisons — built specifically for traders preparing for or trading a funded evaluation account.",
   path: "/for/prop-firm-traders",
@@ -88,13 +88,13 @@ export default function ForPropFirmTradersPage() {
             "@context": "https://schema.org",
             "@type": "WebPage",
             "name": "Drawdown for Prop Firm Traders",
-            "url": "https://avorria.com/for/prop-firm-traders",
+            "url": "https://drawdown.trading/for/prop-firm-traders",
             "description": "Risk management tools and challenge preparation resources for prop firm evaluation traders.",
             "breadcrumb": {
               "@type": "BreadcrumbList",
               "itemListElement": [
-                { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://avorria.com" },
-                { "@type": "ListItem", "position": 2, "name": "For Prop Firm Traders", "item": "https://avorria.com/for/prop-firm-traders" },
+                { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://drawdown.trading" },
+                { "@type": "ListItem", "position": 2, "name": "For Prop Firm Traders", "item": "https://drawdown.trading/for/prop-firm-traders" },
               ],
             },
           },

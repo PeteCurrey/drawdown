@@ -174,7 +174,7 @@ export default async function ToolDetailPage({ params }: Props) {
           "@context": "https://schema.org",
           "@type": "SoftwareApplication",
           "name": tool.title,
-          "url": `https://avorria.com/tools/${tool.slug}`,
+          "url": `https://drawdown.trading/tools/${tool.slug}`,
           "applicationCategory": "FinanceApplication",
           "operatingSystem": "All",
           "description": tool.description,
@@ -373,7 +373,7 @@ export default async function ToolDetailPage({ params }: Props) {
                   </div>
                   <div>
                     <span className="text-[9px] font-mono uppercase tracking-widest text-mkt-ink block font-bold">Pete Currey</span>
-                    <span className="text-[8px] font-mono uppercase tracking-widest text-mkt-i4 block">Founder // Avorria</span>
+                    <span className="text-[8px] font-mono uppercase tracking-widest text-mkt-i4 block">Founder // Drawdown</span>
                   </div>
                 </div>
               </div>

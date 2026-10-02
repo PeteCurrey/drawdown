@@ -13,7 +13,7 @@ export function LobbyHeader() {
           <Link
             href="/"
             className="group flex items-center gap-2 text-white/50 hover:text-white transition-colors duration-150 text-xs font-mono tracking-wider uppercase"
-            title="Return to Avorria Main Website"
+            title="Return to Drawdown Main Website"
           >
             <ArrowLeft className="w-3.5 h-3.5 transition-transform duration-200 group-hover:-translate-x-0.5 text-[#B8752E]" />
             <span>Main Site</span>

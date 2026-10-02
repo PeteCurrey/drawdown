@@ -5,7 +5,7 @@ import { RefreshCw, CheckCircle2, ShieldCheck, AlertCircle, HelpCircle, ArrowRig
 import Link from "next/link";
 
 export const metadata = getMetadata({
-  title: "Subscriptions, Cancellations and Refunds | Avorria",
+  title: "Subscriptions, Cancellations and Refunds | Drawdown",
   description: "Comprehensive plain-English summary of Drawdown subscription terms, automatic renewals, self-service cancellation, 7-day money-back guarantee, and refund procedures.",
   path: "/legal/subscription-and-refunds",
 });
@@ -100,7 +100,7 @@ export default function SubscriptionAndRefundsPage() {
                   Step-by-Step Cancellation Steps:
                 </h3>
                 <ol className="list-decimal pl-6 space-y-2 text-[13px]">
-                  <li>Log in to your Avorria account dashboard.</li>
+                  <li>Log in to your Drawdown account dashboard.</li>
                   <li>Click on your profile avatar and select <strong>Account Settings → Billing</strong>.</li>
                   <li>Click <strong>Manage Subscription / Cancel Subscription</strong> to open the secure Stripe Customer Portal.</li>
                   <li>Confirm cancellation. An immediate confirmation notice will appear on screen, and a confirmation email will be sent to your inbox.</li>

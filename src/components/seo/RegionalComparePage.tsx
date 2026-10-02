@@ -90,7 +90,7 @@ export function RegionalComparePage({ region, slug, data }: RegionalComparePageP
                 <div className="w-12 h-12 bg-accent/10 rounded-full flex items-center justify-center">
                   <Info className="w-6 h-6 text-accent" />
                 </div>
-                <h2 className="text-2xl font-sans font-bold uppercase">The Avorria Verdict</h2>
+                <h2 className="text-2xl font-sans font-bold uppercase">The Drawdown Verdict</h2>
               </div>
               <p className="text-lg text-mkt-i2 leading-relaxed mb-10">
                 {page.verdict}

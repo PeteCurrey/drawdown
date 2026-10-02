@@ -1,7 +1,7 @@
 /**
  * src/lib/cron-registry.ts
  *
- * Avorria Trading — Authoritative Background Scheduled Job Registry & Observability Engine
+ * Drawdown Trading — Authoritative Background Scheduled Job Registry & Observability Engine
  *
  * Documents all 16 background scheduled routes across the system:
  *  - Cloudflare Scheduler jobs (every 5m, 15m, 30m, daily)

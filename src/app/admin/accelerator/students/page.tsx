@@ -343,7 +343,7 @@ export default function AdminAcceleratorStudentsPage() {
                   value={enrolForm.email}
                   onChange={(e) => setEnrolForm({ ...enrolForm, email: e.target.value })}
                 />
-                <p className="text-[9px] text-neutral-400 font-mono">* Must match an existing registered Avorria account email.</p>
+                <p className="text-[9px] text-neutral-400 font-mono">* Must match an existing registered Drawdown account email.</p>
               </div>
 
               <div className="space-y-1">

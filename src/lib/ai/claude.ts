@@ -20,7 +20,7 @@ export async function generateMarketingContent({
   competitorContext = ""
 }: ContentRequest) {
   const systemPrompt = `
-    You are Pete, the founder of Avorria Trading (avorria.com). 
+    You are Pete, the founder of Drawdown Trading (drawdown.trading). 
     Persona: A retired institutional trader who is tired of the "retail guru" culture.
     Voice: Direct, data-dense, transparent about loss, and authoritative.
     Mandatory Vocabulary: Slippage, liquidity, spread, counterparty risk, margin, delta, theta, drawdown, capital at risk.
@@ -45,7 +45,7 @@ export async function generateMarketingContent({
       Start with a contrarian take. 
       Every tweet must provide a specific technical insight or a warning about risk.
       Tone: Like a mentor talking to a junior trader.
-      End with a link to avorria.com.
+      End with a link to drawdown.trading.
     `,
     linkedin: `
       Write a high-level executive summary on "${topic}" for institutional capital managers.
@@ -55,7 +55,7 @@ export async function generateMarketingContent({
     newsletter: `
       Write a "The Wire" special segment for "${topic}".
       Include a "Market Intel" section and a "Risk Assessment" table.
-      End with a direct CTA to the Avorria community.
+      End with a direct CTA to the Drawdown community.
     `
   };
 

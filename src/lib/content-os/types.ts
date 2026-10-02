@@ -1,5 +1,5 @@
 // src/lib/content-os/types.ts
-// Core domain interfaces and enums for Avorria Content OS (Phase 1)
+// Core domain interfaces and enums for Drawdown Content OS (Phase 1)
 
 export type ContentItemType = 
   | 'evergreen' 

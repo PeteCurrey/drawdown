@@ -37,6 +37,6 @@ export default function robots(): MetadataRoute.Robots {
         ],
       },
     ],
-    sitemap: 'https://avorria.com/sitemap.xml',
+    sitemap: 'https://drawdown.trading/sitemap.xml',
   };
 }

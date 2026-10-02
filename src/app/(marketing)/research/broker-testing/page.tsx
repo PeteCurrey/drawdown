@@ -7,7 +7,7 @@ import { BROKER_TEST_RECORDS } from "@/lib/data/research";
 import { getMetadata } from "@/lib/metadata";
 
 export const metadata = getMetadata({
-  title: "Broker Execution & Spread Evidence Centre | Avorria Research",
+  title: "Broker Execution & Spread Evidence Centre | Drawdown Research",
   description:
     "Empirical execution speed, spread measurement, and withdrawal friction test records across major regulated forex and CFD brokers.",
   path: "/research/broker-testing",

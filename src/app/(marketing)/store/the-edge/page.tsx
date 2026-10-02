@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import TheEdgeClient from "./TheEdgeClient";
 
 export const metadata: Metadata = {
-  title: "The Edge Manual — Advanced Trading Strategy & Proprietary Setups | Avorria",
+  title: "The Edge Manual — Advanced Trading Strategy & Proprietary Setups | Drawdown",
   description: "Stop being technically correct and still losing. Get Pete's advanced 100-page trading playbook covering liquidity theory, confluence, proprietary setups and the psychological edge. Instant PDF download.",
   openGraph: {
     title: "The Edge Manual — Advanced Strategy Playbook",

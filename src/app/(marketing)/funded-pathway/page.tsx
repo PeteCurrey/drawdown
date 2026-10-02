@@ -6,7 +6,7 @@ import JsonLd from "@/components/seo/JsonLd";
 
 export const metadata: Metadata = getMetadata({
   title: "Funded Account Pathway | Earn Institutional Capital Without Hype",
-  description: "Stop risking your own capital. The Avorria funded pathway guides you from Phase 1 (foundations) to prop firm evaluation — with risk management tools built in at every step.",
+  description: "Stop risking your own capital. The Drawdown funded pathway guides you from Phase 1 (foundations) to prop firm evaluation — with risk management tools built in at every step.",
   path: "/funded-pathway",
 });
 
@@ -14,8 +14,8 @@ export default function Page() {
   return (
     <>
       <BreadcrumbSchema items={[
-        { name: "Home", url: "https://avorria.com" },
-        { name: "Funded Pathway", url: "https://avorria.com/funded-pathway" }
+        { name: "Home", url: "https://drawdown.trading" },
+        { name: "Funded Pathway", url: "https://drawdown.trading/funded-pathway" }
       ]} />
       <FundedPathwayClient />
     </>

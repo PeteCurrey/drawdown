@@ -88,7 +88,7 @@ export function RegionalLocationPage({
                 paddingLeft: "2rem",
               }}
             >
-              {context} Avorria provides the professional-grade framework you need to master the
+              {context} Drawdown provides the professional-grade framework you need to master the
               markets from {cityLabelTitled}.
             </p>
           </header>
@@ -152,7 +152,7 @@ export function RegionalLocationPage({
             </div>
             <p className="text-base leading-relaxed italic" style={{ color: "var(--graphite-600)" }}>
               Most trading courses targeting {cityLabelTitled} are designed to sell you indicators
-              or Telegram signal groups. At Avorria, we teach process and discipline. If a guide
+              or Telegram signal groups. At Drawdown, we teach process and discipline. If a guide
               promises &quot;guaranteed&quot; returns, it is a scam. Period.
             </p>
           </section>
@@ -169,7 +169,7 @@ export function RegionalLocationPage({
               Ready to Learn Properly in {cityLabelTitled}?
             </h2>
             <p className="text-lg max-w-xl mx-auto" style={{ color: "var(--paper-0)", opacity: 0.7 }}>
-              Join the Avorria community and access the same tools and education used by
+              Join the Drawdown community and access the same tools and education used by
               professional traders across {regionName}.
             </p>
             <div className="pt-4">
@@ -178,7 +178,7 @@ export function RegionalLocationPage({
                 className="inline-flex items-center gap-4 px-10 py-5 text-xs font-bold uppercase tracking-[0.2em] transition-all hover:opacity-80"
                 style={{ background: "var(--paper-0)", color: "var(--ink-950)" }}
               >
-                <span>Join Avorria {regionName}</span>
+                <span>Join Drawdown {regionName}</span>
                 <ArrowRight className="w-4 h-4" />
               </Link>
             </div>

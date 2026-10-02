@@ -10,7 +10,7 @@ import { LobbyNav } from "@/components/lobby/LobbyNav";
 import { BookmarkButton } from "@/components/lobby/BookmarkButton";
 
 export const metadata: Metadata = {
-  title: "Saved Stories | The Lobby | Avorria",
+  title: "Saved Stories | The Lobby | Drawdown",
   description: "Your bookmarked articles, market intelligence reports, and trading updates.",
   robots: { index: false, follow: false },
 };
@@ -35,7 +35,7 @@ export default async function SavedStoriesPage() {
             href="/login?next=/lobby/saved"
             className="inline-block px-6 py-2.5 bg-white text-black font-mono text-xs uppercase font-bold tracking-wider hover:bg-zinc-200 transition-colors"
           >
-            Sign In to Avorria
+            Sign In to Drawdown
           </Link>
         </div>
       </main>

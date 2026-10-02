@@ -45,7 +45,7 @@ export async function PUT(request: Request, { params }: RouteParams) {
     const body = await request.json();
     const result = await updateLobbyArticle(id, body, {
       id: user.id,
-      email: user.email || "staff@avorria.com"
+      email: user.email || "staff@drawdown.trading"
     });
 
     if (!result.success) {

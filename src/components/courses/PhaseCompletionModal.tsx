@@ -83,7 +83,7 @@ export function PhaseCompletionModal({
               <h4 className="text-sm font-display font-bold uppercase">Funded Pathway Unlocked</h4>
             </div>
             <p className="text-xs text-text-secondary leading-relaxed">
-              With Risk Manager completed, you meet the baseline criteria to enter the **Avorria Funded Pathway**. Evaluate your edge with institutional capital backing up to £200k.
+              With Risk Manager completed, you meet the baseline criteria to enter the **Drawdown Funded Pathway**. Evaluate your edge with institutional capital backing up to £200k.
             </p>
             <Link
               href="/funded-pathway"

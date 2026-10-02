@@ -157,7 +157,7 @@ export async function generateBlogWithAIAction(userPrompt: string) {
   try {
     const anthropic = new Anthropic({ apiKey });
 
-    const systemPrompt = `You are Pete Currey, founder of Avorria Trading — a UK-based trading education platform. You write blog posts for traders who are learning to trade seriously.
+    const systemPrompt = `You are Pete Currey, founder of Drawdown Trading — a UK-based trading education platform. You write blog posts for traders who are learning to trade seriously.
 
 Your voice: direct, honest, no fluff, anti-guru. You don't hype markets. You don't give signals. You give context, education, and honest assessment. You're a British trader who takes risk management seriously above all else. Use British English spelling (analyse, colour, favour, etc.) and short paragraphs.
 
@@ -303,10 +303,10 @@ export async function saveBlogPostAction(payload: {
   postId = postResult.data.id;
 
   // Upsert SEO record
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://avorria.com";
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://drawdown.trading";
   const seoRecord = {
     post_id: postId,
-    meta_title: payload.meta_title || `${payload.title} | Avorria`,
+    meta_title: payload.meta_title || `${payload.title} | Drawdown`,
     meta_description: payload.meta_description || payload.subtitle || "",
     og_title: payload.og_title || payload.meta_title || payload.title,
     og_description: payload.og_description || payload.meta_description || "",

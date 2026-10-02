@@ -4,7 +4,7 @@ import { ExecuteElsewhereClient } from "@/components/dashboard/ExecuteElsewhereC
 import { PageHeader } from "@/components/dashboard/ui/PageHeader";
 
 export const metadata = {
-  title: "Execute Elsewhere Boundary · Avorria",
+  title: "Execute Elsewhere Boundary · Drawdown",
   description: "Independent order placement boundary description.",
 };
 

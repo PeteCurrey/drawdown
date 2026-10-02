@@ -30,7 +30,7 @@ export const HOW_TO_PAGES_AU: HowToPage[] = [
     introduction: `Mastering the art of ${slug.replace(/-/g, ' ')} is a critical skill for any Australian trader.`,
     steps: [],
     commonMistakes: [],
-    drawdownApproach: { title: 'The Avorria Way', content: 'Execution is everything.', ctaText: 'Join Now', ctaLink: '/au/signup' },
+    drawdownApproach: { title: 'The Drawdown Way', content: 'Execution is everything.', ctaText: 'Join Now', ctaLink: '/au/signup' },
     faqs: []
   }))
 ];

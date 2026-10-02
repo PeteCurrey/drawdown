@@ -47,7 +47,7 @@ export class RssFeedProvider extends BaseProvider {
   readonly attribution: AttributionPolicy;
   readonly licensing: LicensePolicy;
 
-  private readonly userAgent = "DrawdownIntelligence/1.0 (+https://avorria.com; research@avorria.com)";
+  private readonly userAgent = "DrawdownIntelligence/1.0 (+https://drawdown.trading; research@drawdown.trading)";
 
   constructor(config: RssFeedConfig) {
     super();

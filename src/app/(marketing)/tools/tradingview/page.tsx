@@ -16,7 +16,7 @@ interface Props {
 export const metadata: Metadata = {
   title: 'TradingView Review 2026 | Honest UK Trader Assessment',
   description: 'Honest TradingView review for UK traders. Used by 60M+ traders worldwide — is the free plan enough? Includes live chart demo and UK-specific context.',
-  alternates: { canonical: 'https://avorria.com/tools/tradingview' }
+  alternates: { canonical: 'https://drawdown.trading/tools/tradingview' }
 }
 
 export default async function TradingViewReviewPage({ params }: Props) {
@@ -45,10 +45,10 @@ function TradingViewReviewContent({ region }: { region: Region }) {
     },
     "publisher": {
       "@type": "Organization",
-      "name": "Avorria",
+      "name": "Drawdown",
       "logo": {
         "@type": "ImageObject",
-        "url": "https://avorria.com/assets/brand/logo.png"
+        "url": "https://drawdown.trading/assets/brand/logo.png"
       }
     },
     "datePublished": "2026-06-14",
@@ -300,7 +300,7 @@ function TradingViewReviewContent({ region }: { region: Region }) {
                 <div className="w-6 h-6 rounded-full overflow-hidden border border-border-slate/50 shrink-0">
                   <img src="/images/pete.jpg" alt="Pete Currey" className="w-full h-full object-cover" />
                 </div>
-                <div className="text-sm font-bold text-text-tertiary font-sans">— Pete Currey, Avorria</div>
+                <div className="text-sm font-bold text-text-tertiary font-sans">— Pete Currey, Drawdown</div>
               </div>
             </div>
 
@@ -331,7 +331,7 @@ function TradingViewReviewContent({ region }: { region: Region }) {
               This is what you'll be working with.
             </h2>
             <p className="text-gray-400 text-sm md:text-base max-w-2xl mx-auto font-sans leading-relaxed">
-              Every example in the Avorria curriculum is built on TradingView. This is GBP/USD on the 1-hour timeframe — exactly how we'd set it up for a London session analysis.
+              Every example in the Drawdown curriculum is built on TradingView. This is GBP/USD on the 1-hour timeframe — exactly how we'd set it up for a London session analysis.
             </p>
           </div>
 
@@ -484,17 +484,17 @@ function TradingViewReviewContent({ region }: { region: Region }) {
           <section className="space-y-8">
             <div className="space-y-2">
               <span className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary">OUR WORKFLOW</span>
-              <h2 className="text-3xl font-display font-bold text-text-primary">How we integrate TradingView into the Avorria system.</h2>
+              <h2 className="text-3xl font-display font-bold text-text-primary">How we integrate TradingView into the Drawdown system.</h2>
             </div>
             <div className="prose prose-lg prose-neutral text-text-tertiary max-w-none font-sans">
               <p>
-                Every example chart in the Avorria curriculum is built on TradingView. When we reference price levels, structure, or setups in any course module, the chart is from TradingView. This means from Phase 1 onwards, you're learning to read charts in the same environment you'll use when you trade live.
+                Every example chart in the Drawdown curriculum is built on TradingView. When we reference price levels, structure, or setups in any course module, the chart is from TradingView. This means from Phase 1 onwards, you're learning to read charts in the same environment you'll use when you trade live.
               </p>
               <p>
-                Our setup: TradingView Plus or Premium for multi-chart layouts (4 charts: 15m, 1H, 4H, Daily for the same instrument), clean charts with price action only (no indicators except volume), and direct connection to regulated brokers (like Pepperstone) for execution. The AI Trade Journal on Avorria runs alongside TradingView — we analyse trades in TradingView, log them in Avorria.
+                Our setup: TradingView Plus or Premium for multi-chart layouts (4 charts: 15m, 1H, 4H, Daily for the same instrument), clean charts with price action only (no indicators except volume), and direct connection to regulated brokers (like Pepperstone) for execution. The AI Trade Journal on Drawdown runs alongside TradingView — we analyse trades in TradingView, log them in Drawdown.
               </p>
               <p>
-                You don't need this setup to start. Free TradingView + free Avorria account is a legitimate starting configuration that costs nothing.
+                You don't need this setup to start. Free TradingView + free Drawdown account is a legitimate starting configuration that costs nothing.
               </p>
             </div>
           </section>

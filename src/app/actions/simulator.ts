@@ -99,7 +99,7 @@ export async function generateAIPrepPlan(simulationId: string) {
     Be direct, specific, and encouraging. Reference their actual numbers. UK English (e.g. use 'capital', 'risk management', 'discipline').
   `;
 
-  const systemPrompt = "You are an elite prop trading mentor for Avorria Trading. Your goal is to help traders pass institutional evaluations.";
+  const systemPrompt = "You are an elite prop trading mentor for Drawdown Trading. Your goal is to help traders pass institutional evaluations.";
 
   // 3. Get Analysis
   // Using 'backtest_coach' scope for now as it's the closest match

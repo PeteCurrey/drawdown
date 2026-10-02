@@ -64,7 +64,7 @@ export function LocationPageClient({
   complianceItems = DEFAULT_COMPLIANCE_ITEMS_UK,
   complianceBadge = "UK Compliance",
   ctaHref = "/signup",
-  ctaLabel = "Join Avorria Free",
+  ctaLabel = "Join Drawdown Free",
   faqs,
   faqSchema,
   regionPrefix = "",
@@ -318,7 +318,7 @@ export function LocationPageClient({
                 Master {topicTitle}
               </h4>
               <p className="text-xs leading-relaxed" style={{ color: "var(--graphite-600)" }}>
-                Join Avorria's structured curriculum and master the business of risk properly.
+                Join Drawdown's structured curriculum and master the business of risk properly.
               </p>
               <Link
                 href={ctaHref}

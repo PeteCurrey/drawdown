@@ -390,7 +390,7 @@ export function LobbyArticleEditor({ initialArticle, auditLogs = [] }: LobbyArti
                   Documented Sources &amp; Evidence
                 </h3>
                 <p className="text-[11px] text-mkt-i4 font-sans">
-                  Mandatory for News, Broker Watch, and Prop Firm Watch. Separates external facts from Avorria analysis.
+                  Mandatory for News, Broker Watch, and Prop Firm Watch. Separates external facts from Drawdown analysis.
                 </p>
               </div>
               <button
@@ -553,7 +553,7 @@ export function LobbyArticleEditor({ initialArticle, auditLogs = [] }: LobbyArti
                 <option value="prop_firm_watch">Prop Firm Watch Feature</option>
                 <option value="platform_spotlight">Platform Spotlight</option>
                 <option value="trade_of_the_month">Trade of the Month</option>
-                <option value="drawdown_desk">Avorria Desk Original</option>
+                <option value="drawdown_desk">Drawdown Desk Original</option>
                 <option value="explained">Explained Educational Primer</option>
               </select>
             </div>
@@ -601,7 +601,7 @@ export function LobbyArticleEditor({ initialArticle, auditLogs = [] }: LobbyArti
 
             <div>
               <label className="block text-[10px] font-mono uppercase text-mkt-i4 mb-1.5">
-                Related Avorria Tools
+                Related Drawdown Tools
               </label>
               <div className="space-y-1.5 max-h-36 overflow-y-auto">
                 {Object.values(DRAWDOWN_TOOLS).map(tool => (

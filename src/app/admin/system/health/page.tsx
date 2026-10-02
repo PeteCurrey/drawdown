@@ -4,7 +4,7 @@ import { SystemHealthClient } from "./SystemHealthClient";
 export const dynamic = "force-dynamic";
 
 export const metadata = {
-  title: "System Data Health & Control Tower | Admin | Avorria",
+  title: "System Data Health & Control Tower | Admin | Drawdown",
   description: "Operational telemetry, data freshness, scheduled job health, and test data quarantine control tower.",
 };
 

@@ -1,5 +1,5 @@
 /**
- * Composite Directional Bias Engine — Avorria Trading
+ * Composite Directional Bias Engine — Drawdown Trading
  * 
  * Implements the verified 4-Pillar Composite Scoring Model:
  * 1. RSI (30% weight) — Momentum & Mean Reversion

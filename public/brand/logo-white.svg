@@ -1,10 +1,10 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 48" fill="none">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 48" fill="none">
   <!-- Monogram Mark -->
   <g transform="translate(4, 6)">
     <path d="M18 2L6 34H13.5L16 27H27.5L30 34H37.5L25.5 2H18ZM21.75 11.5L25.5 21.5H18L21.75 11.5Z" fill="#F9FAFB"/>
     <circle cx="34" cy="8" r="2.5" fill="#3B82F6"/>
   </g>
   <!-- Wordmark -->
-  <text x="52" y="27" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="20" font-weight="700" letter-spacing="0.08em" fill="#F9FAFB">AVORRIA</text>
+  <text x="52" y="27" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="20" font-weight="700" letter-spacing="0.08em" fill="#F9FAFB">DRAWDOWN</text>
   <text x="53" y="38" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="8.5" font-weight="600" letter-spacing="0.28em" fill="#9CA3AF">TRADING</text>
 </svg>

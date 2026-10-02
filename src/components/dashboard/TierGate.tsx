@@ -48,11 +48,11 @@ export function TierGate({
 
       <div className="max-w-md space-y-2">
         <h2 className="text-lg font-semibold text-text-primary tracking-tight font-sans">
-          {featureName ? `${featureName} — ` : ""}Avorria Core Membership
+          {featureName ? `${featureName} — ` : ""}Drawdown Core Membership
         </h2>
         <p className="text-sm text-text-secondary leading-relaxed font-sans">
           This feature is included in{" "}
-          <span className="font-semibold text-text-primary">Avorria Core</span>{" "}
+          <span className="font-semibold text-text-primary">Drawdown Core</span>{" "}
           (£24.99/month). Your current account is{" "}
           <span className="font-semibold text-text-primary">Free</span>.
         </p>
@@ -67,7 +67,7 @@ export function TierGate({
             </span>
             <p className="text-text-secondary leading-relaxed">
               {whatIsIt ||
-                `${featureName || "This feature"} is a core analytical module included in every Avorria Core membership.`}
+                `${featureName || "This feature"} is a core analytical module included in every Drawdown Core membership.`}
             </p>
           </div>
           <div>
@@ -122,7 +122,7 @@ export function TierGate({
       <p className="text-xs font-mono text-text-tertiary uppercase tracking-widest">
         £24.99/month — cancel any time →{" "}
         <Link href={pricingHref} className="text-accent hover:underline">
-          avorria.com/pricing
+          drawdown.trading/pricing
         </Link>
       </p>
     </div>

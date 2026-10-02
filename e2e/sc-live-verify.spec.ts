@@ -22,7 +22,7 @@ const FREE_EMAIL = "qa-free-user@drawdown.trading";
 const FREE_PASS = "QA!Free#2026SecureTest";
 const PAID_EMAIL = "qa-paid-user@drawdown.trading";
 const PAID_PASS = "QA!Paid#2026SecureTest";
-const BASE = process.env.PLAYWRIGHT_BASE_URL || "https://avorria.com";
+const BASE = process.env.PLAYWRIGHT_BASE_URL || "https://drawdown.trading";
 const SC_URL = `${BASE}/dashboard/signal-centre`;
 
 function screenshotDir() {

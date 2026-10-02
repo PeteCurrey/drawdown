@@ -466,7 +466,7 @@ Assess the validity of this setup from a professional quantitative perspective. 
     ]
   };
 
-  // Compute Avorria Consensus Score (DCS)
+  // Compute Drawdown Consensus Score (DCS)
   const dcsScore = calculateDcsScore(
     finalClaude.verdict,
     finalClaude.confidence,
@@ -557,7 +557,7 @@ export function validateSignalGeometry(levels: {
 }
 
 /**
- * Pure calculation of the Avorria Consensus Score (DCS).
+ * Pure calculation of the Drawdown Consensus Score (DCS).
  * Weighted model consensus: Claude (40%), GPT-4o (35%), Grok (25%).
  */
 export function calculateDcsScore(

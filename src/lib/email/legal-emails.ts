@@ -1,6 +1,6 @@
 /**
- * Legal & Transactional Email Helpers for Avorria Trading (avorria.com)
- * Contracting Entity: Black & Rowan Management Group Limited t/a Avorria Trading
+ * Legal & Transactional Email Helpers for Drawdown Trading (drawdown.trading)
+ * Contracting Entity: Black & Rowan Management Group Limited t/a Drawdown Trading
  *
  * All emails sent via Resend. These are required legal transactional emails,
  * not marketing, and therefore do not require marketing opt-in consent.
@@ -10,10 +10,10 @@ import { LEGAL_CONFIG } from "@/config/legal";
 
 const resend = new Resend(process.env.RESEND_API_KEY || "re_mock_key_for_dev_mode");
 
-const FROM_ADDRESS = `Avorria Trading <noreply@avorria.com>`;
+const FROM_ADDRESS = `Drawdown Trading <noreply@drawdown.trading>`;
 const SUPPORT_EMAIL = LEGAL_CONFIG.supportEmail;
 const COMPLAINTS_EMAIL = LEGAL_CONFIG.complaintsEmail;
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://avorria.com";
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://drawdown.trading";
 
 /** Small shared footer appended to every legal/transactional email */
 const legalFooter = `
@@ -48,11 +48,11 @@ export async function sendSubscriptionConfirmation({
   immediateSupplyGranted: boolean;
   stripeCustomerId?: string;
 }) {
-  const subject = `Your Avorria ${tier} subscription is confirmed`;
+  const subject = `Your Drawdown ${tier} subscription is confirmed`;
 
   const html = `
     <div style="font-family:system-ui,-apple-system,sans-serif;max-width:600px;margin:0 auto;color:#111827">
-      <h1 style="font-size:24px;font-weight:700;margin-bottom:8px">Welcome to Avorria Trading${name ? `, ${name}` : ""}!</h1>
+      <h1 style="font-size:24px;font-weight:700;margin-bottom:8px">Welcome to Drawdown Trading${name ? `, ${name}` : ""}!</h1>
       <p style="color:#374151;line-height:1.6">
         Your <strong>${tier}</strong> subscription has been activated.
       </p>
@@ -120,14 +120,14 @@ export async function sendLegalAcceptanceReceipt({
   immediateSupplyRequested: boolean;
   marketingConsent: boolean;
 }) {
-  const subject = "Avorria Trading – Your terms acceptance record";
+  const subject = "Drawdown Trading – Your terms acceptance record";
 
   const html = `
     <div style="font-family:system-ui,-apple-system,sans-serif;max-width:600px;margin:0 auto;color:#111827">
       <h1 style="font-size:22px;font-weight:700;margin-bottom:8px">Terms & Conditions Acceptance Record</h1>
       <p style="color:#374151;line-height:1.6">
         Hi${name ? ` ${name}` : ""},<br/>
-        This email confirms that you accepted the Avorria Terms and Conditions. Keep it for your records.
+        This email confirms that you accepted the Drawdown Terms and Conditions. Keep it for your records.
       </p>
 
       <table style="width:100%;border-collapse:collapse;margin:24px 0;border:1px solid #e5e7eb;border-radius:8px;overflow:hidden">
@@ -178,14 +178,14 @@ export async function sendAnnualRenewalReminder({
   renewalDate: string;
   amount: string;
 }) {
-  const subject = `Your Avorria annual subscription renews on ${renewalDate}`;
+  const subject = `Your Drawdown annual subscription renews on ${renewalDate}`;
 
   const html = `
     <div style="font-family:system-ui,-apple-system,sans-serif;max-width:600px;margin:0 auto;color:#111827">
       <h1 style="font-size:22px;font-weight:700;margin-bottom:8px">Upcoming Annual Renewal</h1>
       <p style="color:#374151;line-height:1.6">
         Hi${name ? ` ${name}` : ""},<br/>
-        Your Avorria <strong>${tier}</strong> annual subscription will renew automatically in 7 days.
+        Your Drawdown <strong>${tier}</strong> annual subscription will renew automatically in 7 days.
       </p>
 
       <table style="width:100%;border-collapse:collapse;margin:24px 0;border:1px solid #e5e7eb;border-radius:8px;overflow:hidden">
@@ -225,14 +225,14 @@ export async function sendCancellationConfirmation({
   tier: string;
   accessEndsAt: string;
 }) {
-  const subject = "Your Avorria subscription has been cancelled";
+  const subject = "Your Drawdown subscription has been cancelled";
 
   const html = `
     <div style="font-family:system-ui,-apple-system,sans-serif;max-width:600px;margin:0 auto;color:#111827">
       <h1 style="font-size:22px;font-weight:700;margin-bottom:8px">Subscription Cancelled</h1>
       <p style="color:#374151;line-height:1.6">
         Hi${name ? ` ${name}` : ""},<br/>
-        Your Avorria <strong>${tier}</strong> subscription has been cancelled. No further payments will be taken.
+        Your Drawdown <strong>${tier}</strong> subscription has been cancelled. No further payments will be taken.
       </p>
 
       <p style="color:#374151;line-height:1.6">
@@ -242,7 +242,7 @@ export async function sendCancellationConfirmation({
 
       <p style="color:#374151;line-height:1.6">
         Changed your mind? You can resubscribe at any time from
-        <a href="${SITE_URL}/pricing" style="color:#2563eb">avorria.com/pricing</a>.
+        <a href="${SITE_URL}/pricing" style="color:#2563eb">drawdown.trading/pricing</a>.
       </p>
 
       ${legalFooter}
@@ -267,7 +267,7 @@ export async function sendRefundConfirmation({
   reason: string;
   refundId: string;
 }) {
-  const subject = "Avorria Trading – Your refund has been processed";
+  const subject = "Drawdown Trading – Your refund has been processed";
 
   const html = `
     <div style="font-family:system-ui,-apple-system,sans-serif;max-width:600px;margin:0 auto;color:#111827">
@@ -316,14 +316,14 @@ export async function sendAccountDeletionConfirmation({
   name?: string;
   deletedAt: string;
 }) {
-  const subject = "Avorria Trading – Your account has been deleted";
+  const subject = "Drawdown Trading – Your account has been deleted";
 
   const html = `
     <div style="font-family:system-ui,-apple-system,sans-serif;max-width:600px;margin:0 auto;color:#111827">
       <h1 style="font-size:22px;font-weight:700;margin-bottom:8px">Account Deleted</h1>
       <p style="color:#374151;line-height:1.6">
         Hi${name ? ` ${name}` : ""},<br/>
-        Your Avorria account has been permanently deleted on <strong>${deletedAt}</strong>.
+        Your Drawdown account has been permanently deleted on <strong>${deletedAt}</strong>.
       </p>
 
       <p style="color:#374151;line-height:1.6">
@@ -339,7 +339,7 @@ export async function sendAccountDeletionConfirmation({
 
       <p style="color:#374151;line-height:1.6">
         You can create a new account at any time at
-        <a href="${SITE_URL}" style="color:#2563eb">avorria.com</a>.
+        <a href="${SITE_URL}" style="color:#2563eb">drawdown.trading</a>.
       </p>
 
       ${legalFooter}

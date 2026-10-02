@@ -9,7 +9,7 @@ export function sanitizeLog(message: string, secret?: string): string {
 }
 
 /**
- * Authenticated HTTP invoker for Avorria API routes.
+ * Authenticated HTTP invoker for Drawdown API routes.
  */
 export async function invokeDrawdownEndpoint(
   job: ScheduledJobDefinition,
@@ -66,7 +66,7 @@ export async function invokeDrawdownEndpoint(
   const headers: Record<string, string> = {
     Authorization: `Bearer ${env.CRON_SECRET}`,
     "x-cron-source": "cloudflare-worker",
-    "User-Agent": "Avorria-Cloudflare-Scheduler/1.0",
+    "User-Agent": "Drawdown-Cloudflare-Scheduler/1.0",
     ...(options?.headers || {}),
   };
 

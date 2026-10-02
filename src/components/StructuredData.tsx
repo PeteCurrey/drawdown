@@ -27,16 +27,16 @@ export function StructuredData({ type, data }: StructuredDataProps) {
  * Helper to generate default Organization schema
  */
 export const defaultOrgSchema = {
-  name: "Avorria Trading",
-  url: "https://avorria.com",
-  logo: "https://avorria.com/assets/brand/logo.png",
+  name: "Drawdown Trading",
+  url: "https://drawdown.trading",
+  logo: "https://drawdown.trading/assets/brand/logo.png",
   sameAs: [
-    "https://x.com/avorriatrading",
-    "https://discord.gg/avorria",
+    "https://x.com/drawdowntrading",
+    "https://discord.gg/drawdown",
   ],
   contactPoint: {
     "@type": "ContactPoint",
-    "email": "support@avorria.com",
+    "email": "support@drawdown.trading",
     "contactType": "customer support",
     "areaServed": "GB",
     "availableLanguage": "English",

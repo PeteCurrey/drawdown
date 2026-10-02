@@ -4,7 +4,7 @@ import { cookies } from "next/headers";
 import ReviewListingClient from "./ReviewListingClient";
 
 export const metadata = {
-  title: "Process Review — Avorria",
+  title: "Process Review — Drawdown",
   description: "Review your plan adherence, risk discipline, and process quality for each completed trade.",
 };
 

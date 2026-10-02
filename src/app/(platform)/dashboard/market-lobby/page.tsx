@@ -6,7 +6,7 @@ import { MarketLobbyClient } from "@/components/market-lobby/MarketLobbyClient";
 export const dynamic = "force-dynamic";
 
 export const metadata = {
-  title: "Market Lobby · Avorria Trading",
+  title: "Market Lobby · Drawdown Trading",
   description: "Cross-asset market discovery, live technical confluences, active session rhythm, and verified signal intelligence.",
 };
 

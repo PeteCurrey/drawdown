@@ -17,7 +17,7 @@ export function LobbyLeadStory({ article }: LobbyLeadStoryProps) {
         <div className="max-w-[1320px] mx-auto px-4 sm:px-6">
           <LobbyEmptyState
             title="MARKET LEAD DESK STANDBY // AWAITING VERIFIED DISPATCH"
-            description="The Avorria editorial and intelligence desk enforces a strict 72-hour integrity window on lead dispatches. Real-time regulatory, central bank, and market wire feeds are active; primary lead positioning will resume upon publication of a verified catalyst."
+            description="The Drawdown editorial and intelligence desk enforces a strict 72-hour integrity window on lead dispatches. Real-time regulatory, central bank, and market wire feeds are active; primary lead positioning will resume upon publication of a verified catalyst."
             badge="EDITORIAL INTEGRITY ACTIVE"
             statusLabel="MONITORING G10 CENTRAL BANKS & GLOBAL WIRES"
             scanTime="CONTINUOUS / LIVE"

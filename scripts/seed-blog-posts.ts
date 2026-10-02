@@ -72,12 +72,12 @@ const POSTS_METADATA = [
     related_post_slugs: ["why-trading-gurus-use-demo-accounts", "trading-education-business-model"],
     client_file: "src/app/(marketing)/blog/coffeezilla-alexg-trading-education/CoffeezillaAlexGClient.tsx",
     seo: {
-      meta_title: "The Coffeezilla Video on fxAlexG: What It Actually Tells Us About Trading Education | Avorria",
+      meta_title: "The Coffeezilla Video on fxAlexG: What It Actually Tells Us About Trading Education | Drawdown",
       meta_description: "Seven and a half million in course revenue. Demo accounts. Undisclosed affiliates. We break down what the fxAlexG situation really tells us about trading education — and what traders should actually do with that information.",
-      og_title: "The Coffeezilla Video on fxAlexG: What It Actually Tells Us About Trading Education | Avorria",
+      og_title: "The Coffeezilla Video on fxAlexG: What It Actually Tells Us About Trading Education | Drawdown",
       og_description: "Seven and a half million in course revenue. Demo accounts. Undisclosed affiliates. We break down what the fxAlexG situation really tells us about trading education — and what traders should actually do with that information.",
-      og_image_url: "https://avorria.com/images/blog/alexg-bugatti.png",
-      canonical_url: "https://avorria.com/blog/coffeezilla-alexg-trading-education",
+      og_image_url: "https://drawdown.trading/images/blog/alexg-bugatti.png",
+      canonical_url: "https://drawdown.trading/blog/coffeezilla-alexg-trading-education",
       focus_keyword: "trading education"
     }
   },
@@ -94,12 +94,12 @@ const POSTS_METADATA = [
     related_post_slugs: ["coffeezilla-alexg-trading-education", "trading-education-business-model"],
     client_file: "src/app/(marketing)/blog/why-trading-gurus-use-demo-accounts/WhyGurusDemoClient.tsx",
     seo: {
-      meta_title: "Why Trading Gurus Use Demo Accounts — And What It Actually Means | Avorria",
+      meta_title: "Why Trading Gurus Use Demo Accounts — And What It Actually Means | Drawdown",
       meta_description: "The hate around demo accounts in trading content is mostly misdirected. Here's the honest reason gurus use them, why the omission is the real problem, and what traders should actually be looking for.",
-      og_title: "Why Trading Gurus Use Demo Accounts — And What It Actually Means | Avorria",
+      og_title: "Why Trading Gurus Use Demo Accounts — And What It Actually Means | Drawdown",
       og_description: "The hate around demo accounts in trading content is mostly misdirected. Here's the honest reason gurus use them, why the omission is the real problem, and what traders should actually be looking for.",
       og_image_url: "https://images.unsplash.com/photo-1642790551116-18e150f248e3?w=1200&q=80",
-      canonical_url: "https://avorria.com/blog/why-trading-gurus-use-demo-accounts",
+      canonical_url: "https://drawdown.trading/blog/why-trading-gurus-use-demo-accounts",
       focus_keyword: "demo accounts"
     }
   },
@@ -116,12 +116,12 @@ const POSTS_METADATA = [
     related_post_slugs: ["coffeezilla-alexg-trading-education", "why-trading-gurus-use-demo-accounts"],
     client_file: "src/app/(marketing)/blog/trading-education-business-model/TradingEducationModelClient.tsx",
     seo: {
-      meta_title: "The Trading Education Business Model: How the Money Is Really Made | Avorria",
+      meta_title: "The Trading Education Business Model: How the Money Is Really Made | Drawdown",
       meta_description: "Courses. Affiliates. Broker referrals. The trading education business model isn't a secret — it's just rarely explained honestly. Here's exactly how it works, who benefits, and what traders should do with that knowledge.",
-      og_title: "The Trading Education Business Model: How the Money Is Really Made | Avorria",
+      og_title: "The Trading Education Business Model: How the Money Is Really Made | Drawdown",
       og_description: "Courses. Affiliates. Broker referrals. The trading education business model isn't a secret — it's just rarely explained honestly. Here's exactly how it works, who benefits, and what traders should do with that knowledge.",
       og_image_url: "https://images.unsplash.com/photo-1559526324-593bc073d938?w=1200&q=80",
-      canonical_url: "https://avorria.com/blog/trading-education-business-model",
+      canonical_url: "https://drawdown.trading/blog/trading-education-business-model",
       focus_keyword: "business model"
     }
   }
@@ -143,8 +143,8 @@ async function seed() {
     .from("author_profiles")
     .upsert({
       name: "Pete",
-      role: "Founder, Avorria",
-      bio: "Building Avorria to be the trading education platform that actually tells you the truth.",
+      role: "Founder, Drawdown",
+      bio: "Building Drawdown to be the trading education platform that actually tells you the truth.",
       avatar_url: "/images/pete.jpg"
     }, { onConflict: "name" })
     .select("id")

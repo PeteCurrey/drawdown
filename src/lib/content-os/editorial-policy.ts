@@ -24,7 +24,7 @@ export interface EditorialEvaluation {
 
 export class EditorialPolicyService {
   /**
-   * Evaluates text against Pete's voice profile and Avorria's factual standards.
+   * Evaluates text against Pete's voice profile and Drawdown's factual standards.
    */
   static evaluateContent(text: string): EditorialEvaluation {
     const lower = text.toLowerCase();

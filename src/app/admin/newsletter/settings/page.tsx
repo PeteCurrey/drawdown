@@ -64,11 +64,11 @@ export default async function NewsletterSettingsPage() {
               <div className="grid grid-cols-2 gap-8">
                  <div className="space-y-2">
                     <label className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary">Sender Name</label>
-                    <div className="p-3 bg-background-elevated border border-border-slate text-xs font-mono uppercase">Pete @ Avorria</div>
+                    <div className="p-3 bg-background-elevated border border-border-slate text-xs font-mono uppercase">Pete @ Drawdown Trading</div>
                  </div>
                  <div className="space-y-2">
                     <label className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary">Reply-To Email</label>
-                    <div className="p-3 bg-background-elevated border border-border-slate text-xs font-mono">support@avorria.com</div>
+                    <div className="p-3 bg-background-elevated border border-border-slate text-xs font-mono">support@drawdown.trading</div>
                  </div>
               </div>
               

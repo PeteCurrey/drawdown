@@ -104,7 +104,7 @@ export const STRIPE_CONFIG = {
   plans: {
     // ── Active public subscription ────────────────────────────────────────────
     core: {
-      name: 'Avorria Core Membership',
+      name: 'Drawdown Core Membership',
       tier: 'core',
       priceGbp: 24.99,
       billingCycle: 'monthly',

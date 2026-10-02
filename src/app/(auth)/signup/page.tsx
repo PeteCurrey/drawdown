@@ -2,10 +2,10 @@ import { Metadata } from "next";
 import { AuthForm } from "@/components/auth/AuthForm";
 
 export const metadata: Metadata = {
-  title: 'Start Free | Join Avorria Trading',
-  description: 'Create your free Avorria account. Access Phase 1 of the curriculum and two AI trading tools — no card required.',
+  title: 'Start Free | Join Drawdown Trading',
+  description: 'Create your free Drawdown account. Access Phase 1 of the curriculum and two AI trading tools — no card required.',
   robots: { index: false, follow: false },
-  alternates: { canonical: 'https://avorria.com/signup' }
+  alternates: { canonical: 'https://drawdown.trading/signup' }
 }
 
 export default function SignupPage() {

@@ -575,7 +575,7 @@ export async function getCongressionalTrading() {
 
     const res = await fetch(
       `https://efts.sec.gov/LATEST/search-index?q=%22periodic+transaction+report%22&forms=PT&dateRange=custom&startdt=${new Date(Date.now() - 60 * 24 * 3600 * 1000).toISOString().slice(0, 10)}&enddt=${new Date().toISOString().slice(0, 10)}`,
-      { headers: { "User-Agent": "avorria.com contact@avorria.com" }, next: { revalidate: 21600 } }
+      { headers: { "User-Agent": "drawdown.trading contact@drawdown.trading" }, next: { revalidate: 21600 } }
     );
     if (!res.ok) throw new Error(`EDGAR HTTP ${res.status}`);
     const data = await res.json();

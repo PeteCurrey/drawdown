@@ -20,7 +20,7 @@ export interface ExtractionAndVerificationResult {
   headline: string;
   extracted_claims: ExtractedClaims;
   verified_facts: VerifiedFact[];
-  avorria_commentary: string | null;
+  drawdown_commentary: string | null;
 }
 
 /**
@@ -54,7 +54,7 @@ export async function extractClaimsWithClaude(params: {
   }
 
   const userPrompt = `
-You are a forensic financial data extraction engine for The Lobby (Avorria).
+You are a forensic financial data extraction engine for The Lobby (Drawdown).
 Your task is to examine the provided post screenshot and/or post caption and extract ONLY what is visibly and explicitly stated.
 
 Caption provided:
@@ -121,7 +121,7 @@ STRICT COMPLIANCE RULES:
 export async function verifyClaimsAgainstSources(
   claims: string[],
   headline: string
-): Promise<{ verified_facts: VerifiedFact[]; avorria_commentary: string | null }> {
+): Promise<{ verified_facts: VerifiedFact[]; drawdown_commentary: string | null }> {
   const verified_facts: VerifiedFact[] = [];
   const fredKey = process.env.FRED_API_KEY;
   const eiaKey = process.env.EIA_API_KEY;
@@ -284,17 +284,17 @@ export async function verifyClaimsAgainstSources(
     }
   }
 
-  // Generate Avorria commentary ONLY if there are verified facts cited.
-  // Rule 3: "label it 'Avorria commentary' and generate it only from the fetched item + cited data (FRED/EIA/price feed). No context line if nothing to cite."
-  let avorria_commentary: string | null = null;
+  // Generate Drawdown commentary ONLY if there are verified facts cited.
+  // Rule 3: "label it 'Drawdown commentary' and generate it only from the fetched item + cited data (FRED/EIA/price feed). No context line if nothing to cite."
+  let drawdown_commentary: string | null = null;
   if (uniqueFacts.length > 0) {
     const citedSources = uniqueFacts.map((f) => f.source).join(" and ");
     const primaryFact = uniqueFacts[0].claim;
-    avorria_commentary = `Surveillance check against official ${citedSources} records: ${primaryFact} External commentary should be contextualised against verified primary settlements.`;
+    drawdown_commentary = `Surveillance check against official ${citedSources} records: ${primaryFact} External commentary should be contextualised against verified primary settlements.`;
   }
 
   return {
     verified_facts: uniqueFacts,
-    avorria_commentary,
+    drawdown_commentary,
   };
 }

@@ -265,7 +265,7 @@ export function PrepareClient() {
             <Wallet className="w-5 h-5 text-[#18B880]" /> Let's establish your trading account
           </h2>
           <p className="text-xs text-[#87877F] leading-relaxed">
-            The Avorria OS workflow requires an active account reference. We do not require broker passwords or credentials.
+            The Drawdown OS workflow requires an active account reference. We do not require broker passwords or credentials.
           </p>
         </div>
 
@@ -351,7 +351,7 @@ export function PrepareClient() {
             <ShieldCheck className="w-5 h-5 text-[#18B880]" /> Define your Personal Risk Policy
           </h2>
           <p className="text-xs text-[#87877F] leading-relaxed">
-            Specify the risk constraints for this account. The Avorria OS will compare trade sizes and losses to these values.
+            Specify the risk constraints for this account. The Drawdown OS will compare trade sizes and losses to these values.
           </p>
         </div>
 

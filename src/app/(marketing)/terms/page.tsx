@@ -5,8 +5,8 @@ import { ShieldCheck, Scale, AlertTriangle, RefreshCw, FileText, CheckCircle2, A
 import Link from "next/link";
 
 export const metadata = getMetadata({
-  title: "Terms and Conditions | Avorria",
-  description: "Terms and Conditions governing the use of Avorria trading education, quantitative market tools, Signal Centre, and subscription software.",
+  title: "Terms and Conditions | Drawdown",
+  description: "Terms and Conditions governing the use of Drawdown Trading education, quantitative market tools, Signal Centre, and subscription software.",
   path: "/terms",
 });
 
@@ -69,20 +69,20 @@ export default function TermsPage() {
         {/* Main Document Body */}
         <div className="max-w-4xl mx-auto space-y-12 font-sans">
 
-          {/* 1. About Avorria */}
+          {/* 1. About Drawdown */}
           <section id="section-1" className="space-y-4 pb-8 border-b" style={{ borderColor: "var(--line-200)" }}>
             <h2 className="font-display text-[24px] font-semibold tracking-[-0.02em]" style={{ color: "var(--ink-950)" }}>
-              1. About Avorria
+              1. About Drawdown
             </h2>
             <div className="space-y-3 text-[14px] leading-relaxed" style={{ color: "var(--graphite-600)" }}>
               <p>
-                Avorria is a trading education platform, quantitative analysis service, software provider, and market intelligence publication operated by <strong>{LEGAL_CONFIG.fullTradingEntity}</strong> ("Avorria", "we", "us", or "our").
+                Drawdown Trading is a trading education platform, quantitative analysis service, software provider, and market intelligence publication operated by <strong>{LEGAL_CONFIG.fullTradingEntity}</strong> ("Drawdown", "we", "us", or "our").
               </p>
               <p>
-                Avorria provides structured education, quantitative indicator models, signal analysis, trade journaling tools, market research, and subscription software. <strong>Avorria is not a broker, investment manager, financial adviser, commodity trading adviser, or regulated trading venue.</strong>
+                Drawdown provides structured education, quantitative indicator models, signal analysis, trade journaling tools, market research, and subscription software. <strong>Drawdown Trading is not a broker, investment manager, financial adviser, commodity trading adviser, or regulated trading venue.</strong>
               </p>
               <p>
-                Avorria does not execute customer trades, hold customer money or trading capital, manage investment portfolios, or provide personalised financial advice. Avorria is not authorised or regulated by the Financial Conduct Authority (FCA) and operates strictly within publisher, technology vendor, and educational provider exemptions under UK law.
+                Drawdown does not execute customer trades, hold customer money or trading capital, manage investment portfolios, or provide personalised financial advice. Drawdown Trading is not authorised or regulated by the Financial Conduct Authority (FCA) and operates strictly within publisher, technology vendor, and educational provider exemptions under UK law.
               </p>
             </div>
           </section>
@@ -94,10 +94,10 @@ export default function TermsPage() {
             </h2>
             <div className="space-y-3 text-[14px] leading-relaxed" style={{ color: "var(--graphite-600)" }}>
               <p>
-                To register an account or subscribe to Avorria, you must be at least <strong>{LEGAL_CONFIG.minimumCustomerAge} years of age</strong> and legally capable of entering into a binding contract under applicable law.
+                To register an account or subscribe to Drawdown, you must be at least <strong>{LEGAL_CONFIG.minimumCustomerAge} years of age</strong> and legally capable of entering into a binding contract under applicable law.
               </p>
               <p>
-                You are solely responsible for ensuring that your access to and use of Avorria complies with all laws, rules, and regulations applicable in your jurisdiction. Avorria reserves the right to restrict or refuse availability in specific countries or jurisdictions where provision would violate local law or regulatory requirements.
+                You are solely responsible for ensuring that your access to and use of Drawdown complies with all laws, rules, and regulations applicable in your jurisdiction. Drawdown reserves the right to restrict or refuse availability in specific countries or jurisdictions where provision would violate local law or regulatory requirements.
               </p>
             </div>
           </section>
@@ -112,7 +112,7 @@ export default function TermsPage() {
                 You must provide accurate, current, and complete information during registration. Accounts are registered to one individual or authorised legal entity. Sharing account credentials, sub-licensing, or selling account access to third parties is strictly prohibited.
               </p>
               <p>
-                You are responsible for maintaining the confidentiality of your authentication credentials and for all activities occurring under your account. You must notify Avorria immediately at <span className="text-accent">{LEGAL_CONFIG.securityEmail}</span> if you suspect any unauthorized access or security breach.
+                You are responsible for maintaining the confidentiality of your authentication credentials and for all activities occurring under your account. You must notify Drawdown immediately at <span className="text-accent">{LEGAL_CONFIG.securityEmail}</span> if you suspect any unauthorized access or security breach.
               </p>
             </div>
           </section>
@@ -124,7 +124,7 @@ export default function TermsPage() {
             </h2>
             <div className="space-y-3 text-[14px] leading-relaxed" style={{ color: "var(--graphite-600)" }}>
               <p>
-                Avorria offers free access tiers, paid subscription tiers (Foundation, Edge, and The Floor), and one-off standalone educational products (such as downloadable PDF manuals or the Institutional Accelerator programme). The Signal Centre standalone subscription tier is no longer available for new purchase; existing Signal Centre subscribers retain access under their active subscription on legacy terms.
+                Drawdown offers free access tiers, paid subscription tiers (Foundation, Edge, and The Floor), and one-off standalone educational products (such as downloadable PDF manuals or the Institutional Accelerator programme). The Signal Centre standalone subscription tier is no longer available for new purchase; existing Signal Centre subscribers retain access under their active subscription on legacy terms.
               </p>
               <p>
                 Feature availability varies by plan. Roadmap items, forthcoming features, or beta tools are provided for preview purposes and do not constitute guaranteed delivery commitments unless expressly agreed in writing.
@@ -139,7 +139,7 @@ export default function TermsPage() {
             </h2>
             <div className="space-y-3 text-[14px] leading-relaxed" style={{ color: "var(--graphite-600)" }}>
               <p>
-                Your contract with Avorria commences upon the earliest of: completing account registration, successful authorization of payment via Stripe checkout, or accessing gated platform services. Upon completion, a confirmation email is dispatched containing your plan details and links to these Terms.
+                Your contract with Drawdown commences upon the earliest of: completing account registration, successful authorization of payment via Stripe checkout, or accessing gated platform services. Upon completion, a confirmation email is dispatched containing your plan details and links to these Terms.
               </p>
             </div>
           </section>
@@ -154,7 +154,7 @@ export default function TermsPage() {
                 Subscriptions are billed in advance on a recurring monthly or annual basis, matching your selected billing cycle. Payment is processed securely via Stripe. 
               </p>
               <p>
-                If a subscription payment fails, Stripe will attempt automated retries over a standard retry window. Access may be temporarily restricted following non-payment. <strong>Deleting an application, logging out, or leaving the Avorria Discord server does not cancel your Stripe subscription.</strong>
+                If a subscription payment fails, Stripe will attempt automated retries over a standard retry window. Access may be temporarily restricted following non-payment. <strong>Deleting an application, logging out, or leaving the Drawdown Discord server does not cancel your Stripe subscription.</strong>
               </p>
             </div>
           </section>
@@ -169,7 +169,7 @@ export default function TermsPage() {
                 <strong>Automatic Renewal Notice:</strong> Paid subscriptions automatically renew at the end of each billing cycle unless you cancel before your next renewal date.
               </p>
               <p>
-                For annual subscriptions and free/discounted trials converting to paid subscriptions, Avorria will send advance email reminders prior to the renewal charge to your registered email address.
+                For annual subscriptions and free/discounted trials converting to paid subscriptions, Drawdown will send advance email reminders prior to the renewal charge to your registered email address.
               </p>
             </div>
           </section>
@@ -201,7 +201,7 @@ export default function TermsPage() {
             </h2>
             <div className="space-y-3 text-[14px] leading-relaxed" style={{ color: "var(--graphite-600)" }}>
               <p>
-                Avorria offers a voluntary <strong>7-day money-back guarantee</strong> on your first initial paid subscription purchase or first paid subscription tier upgrade. This guarantee operates in addition to your statutory consumer rights.
+                Drawdown offers a voluntary <strong>7-day money-back guarantee</strong> on your first initial paid subscription purchase or first paid subscription tier upgrade. This guarantee operates in addition to your statutory consumer rights.
               </p>
               <ul className="list-disc pl-6 space-y-1 text-[13px]">
                 <li>The request must be submitted within 7 calendar days of the initial charge by contacting <span className="text-accent">{LEGAL_CONFIG.supportEmail}</span>.</li>
@@ -219,7 +219,7 @@ export default function TermsPage() {
             </h2>
             <div className="space-y-3 text-[14px] leading-relaxed" style={{ color: "var(--graphite-600)" }}>
               <p>
-                Avorria supplies digital content, quantitative indicators, and online software immediately upon successful checkout. At checkout, you expressly request immediate performance of the subscription service.
+                Drawdown supplies digital content, quantitative indicators, and online software immediately upon successful checkout. At checkout, you expressly request immediate performance of the subscription service.
               </p>
               <p>
                 Nothing in these Terms limits or affects statutory consumer cancellation rights under UK Consumer Contracts Regulations 2013 where applicable. Where statutory cancellation rights apply and are exercised, any refund will account for services supplied prior to cancellation.
@@ -237,7 +237,7 @@ export default function TermsPage() {
                 Prices are displayed in British Pounds Sterling (GBP) unless alternative regional pricing is explicitly shown. Displayed subscription prices specify whether applicable VAT or indirect taxes are included.
               </p>
               <p>
-                Educational materials discussing tax structures (such as UK Spread Betting vs CFD taxation) provide general educational context only. Avorria does not provide personal tax advice. Users are responsible for consulting qualified tax professionals regarding their individual liabilities.
+                Educational materials discussing tax structures (such as UK Spread Betting vs CFD taxation) provide general educational context only. Drawdown does not provide personal tax advice. Users are responsible for consulting qualified tax professionals regarding their individual liabilities.
               </p>
             </div>
           </section>
@@ -249,7 +249,7 @@ export default function TermsPage() {
             </h2>
             <div className="space-y-3 text-[14px] leading-relaxed" style={{ color: "var(--graphite-600)" }}>
               <p>
-                Avorria reserves the right to modify subscription fees. Any price changes will be communicated in advance via email. Price changes do not apply retroactively and take effect only at the start of your subsequent billing renewal period. If you do not agree to a price change, you may cancel your subscription prior to the effective date.
+                Drawdown reserves the right to modify subscription fees. Any price changes will be communicated in advance via email. Price changes do not apply retroactively and take effect only at the start of your subsequent billing renewal period. If you do not agree to a price change, you may cancel your subscription prior to the effective date.
               </p>
             </div>
           </section>
@@ -261,7 +261,7 @@ export default function TermsPage() {
             </h2>
             <div className="space-y-3 text-[14px] leading-relaxed" style={{ color: "var(--graphite-600)" }}>
               <p>
-                All courses, articles, indicators, scanners, and Signal Centre outputs published by Avorria represent <strong>general, non-personalised quantitative market analysis and technical indicators</strong>.
+                All courses, articles, indicators, scanners, and Signal Centre outputs published by Drawdown represent <strong>general, non-personalised quantitative market analysis and technical indicators</strong>.
               </p>
               <p>
                 Outputs are provided to all subscribers on substantially the same basis. They are calculated automatically from third-party price feeds, technical rules, and statistical risk models. <strong>They are not tailored financial recommendations, personal investment advice, or promises of trading profit.</strong> You retain 100% discretion and responsibility for every trade decision.
@@ -294,7 +294,7 @@ export default function TermsPage() {
                 Market data feeds (including TradingView chart embeds and third-party API quotes) are provided "as is". Outages, exchange delays, or price discrepancies between market feeds and specific broker quotes can occur.
               </p>
               <p>
-                Avorria may feature links to external regulated brokers or prop trading firms. Avorria may receive affiliate compensation when users register via external links. Avorria is not responsible for third-party broker accounts, execution slippage, or platform availability.
+                Drawdown may feature links to external regulated brokers or prop trading firms. Drawdown may receive affiliate compensation when users register via external links. Drawdown Trading is not responsible for third-party broker accounts, execution slippage, or platform availability.
               </p>
             </div>
           </section>
@@ -306,10 +306,10 @@ export default function TermsPage() {
             </h2>
             <div className="space-y-3 text-[14px] leading-relaxed" style={{ color: "var(--graphite-600)" }}>
               <p>
-                Avorria and its licensors retain full ownership of all platform branding, curriculum content, proprietary scoring models, codebases, graphics, videos, and documentation.
+                Drawdown and its licensors retain full ownership of all platform branding, curriculum content, proprietary scoring models, codebases, graphics, videos, and documentation.
               </p>
               <p>
-                <strong>User Content Ownership:</strong> You retain sole ownership of your trade journal entries, uploaded broker statements, custom strategy rules, and personal notes. You grant Avorria only a limited, non-exclusive license to process your data solely to deliver platform features to you.
+                <strong>User Content Ownership:</strong> You retain sole ownership of your trade journal entries, uploaded broker statements, custom strategy rules, and personal notes. You grant Drawdown only a limited, non-exclusive license to process your data solely to deliver platform features to you.
               </p>
             </div>
           </section>
@@ -345,7 +345,7 @@ export default function TermsPage() {
             </h2>
             <div className="space-y-3 text-[14px] leading-relaxed" style={{ color: "var(--graphite-600)" }}>
               <p>
-                Avorria may suspend or terminate accounts in cases of payment default, severe acceptable-use violations, security threats, or legal compulsion. Where appropriate, notice and data export opportunities will be provided prior to closure.
+                Drawdown may suspend or terminate accounts in cases of payment default, severe acceptable-use violations, security threats, or legal compulsion. Where appropriate, notice and data export opportunities will be provided prior to closure.
               </p>
             </div>
           </section>
@@ -372,7 +372,7 @@ export default function TermsPage() {
                 Nothing in these Terms excludes or limits liability for death or personal injury caused by negligence, fraud or fraudulent misrepresentation, or any liability that cannot lawfully be limited under UK consumer law.
               </p>
               <p>
-                Avorria is not liable for trading losses, lost profits, or indirect damages resulting from your independent financial decisions or market movements.
+                Drawdown Trading is not liable for trading losses, lost profits, or indirect damages resulting from your independent financial decisions or market movements.
               </p>
             </div>
           </section>
@@ -384,7 +384,7 @@ export default function TermsPage() {
             </h2>
             <div className="space-y-3 text-[14px] leading-relaxed" style={{ color: "var(--graphite-600)" }}>
               <p>
-                You agree to indemnify Avorria against third-party claims resulting directly from your deliberate breach of these Terms, unlawful activity, or infringement of intellectual property.
+                You agree to indemnify Drawdown against third-party claims resulting directly from your deliberate breach of these Terms, unlawful activity, or infringement of intellectual property.
               </p>
             </div>
           </section>

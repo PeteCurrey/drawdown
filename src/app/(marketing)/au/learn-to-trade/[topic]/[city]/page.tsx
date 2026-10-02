@@ -109,10 +109,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const data = await getAUCityData(topicSlug, citySlug);
   if (!data) return {};
   return {
-    title: `${data.topicTitle} in ${data.locationName} — Learn Online | Avorria AU`,
+    title: `${data.topicTitle} in ${data.locationName} — Learn Online | Drawdown AU`,
     description: `Learn ${data.topicTitle} from ${data.locationName} with Drawdown. Structured courses, ASIC-regulated data, and Australian-focused trading education.`,
     alternates: {
-      canonical: `https://avorria.com/au/learn-to-trade/${topicSlug}/${citySlug}`,
+      canonical: `https://drawdown.trading/au/learn-to-trade/${topicSlug}/${citySlug}`,
     },
     robots: { index: false, follow: true },
   };
@@ -137,7 +137,7 @@ export default async function AustralianLocationTopicPage({ params }: Props) {
         "ASX Market Integration",
       ]}
       ctaHref="/au/signup"
-      ctaLabel="Join Avorria AU Free"
+      ctaLabel="Join Drawdown AU Free"
     />
   );
 }

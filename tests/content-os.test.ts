@@ -290,7 +290,7 @@ test("Content OS: Instagram carousel requires minimum 2 valid slides", () => {
       id: "a1",
       content_item_id: "c1",
       asset_type: "image",
-      storage_url: "https://avorria.com/assets/slide1.png",
+      storage_url: "https://drawdown.trading/assets/slide1.png",
       display_order: 0,
       aspect_ratio: "4:5",
       created_at: new Date().toISOString()
@@ -400,7 +400,7 @@ test("Content OS: 1Social adapter targets configured Instagram channel ID in pay
         id: "ast_ig_1",
         content_item_id: "item_ig_1",
         asset_type: "image",
-        storage_url: "https://avorria.com/assets/slide1.png",
+        storage_url: "https://drawdown.trading/assets/slide1.png",
         aspect_ratio: "4:5",
         display_order: 0,
         created_at: new Date().toISOString()
@@ -414,7 +414,7 @@ test("Content OS: 1Social adapter targets configured Instagram channel ID in pay
     assert.ok(capturedBody);
     assert.equal(capturedBody.channel, "instagram");
     assert.deepEqual(capturedBody.channelIds, ["78a51c1b-2d28-478a-a424-95fcfa5fd0bc"]);
-    assert.deepEqual(capturedBody.mediaUrls, ["https://avorria.com/assets/slide1.png"]);
+    assert.deepEqual(capturedBody.mediaUrls, ["https://drawdown.trading/assets/slide1.png"]);
     assert.equal(capturedHeaders["X-Idempotency-Key"], "test_idem_key_123");
     assert.equal(capturedHeaders["Authorization"], "Bearer test_key_for_mock_fetch");
   } finally {

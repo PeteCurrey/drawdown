@@ -52,7 +52,7 @@ export default function CompoundingCalculatorPage() {
             "@context": "https://schema.org",
             "@type": "WebApplication",
             "name": "Trading Compounding Calculator",
-            "url": "https://avorria.com/calculators/compounding",
+            "url": "https://drawdown.trading/calculators/compounding",
             "applicationCategory": "FinanceApplication",
             "operatingSystem": "All",
             "description":
@@ -222,7 +222,7 @@ export default function CompoundingCalculatorPage() {
           {/* Conversion Module */}
           <CalculatorNextStep
             heading="Track Your Actual Equity Curve vs Compound Projection"
-            body="The Avorria platform plots your live equity curve against your compound projection so you can see in real time when adverse variance is pulling you below your growth target — and by how many periods."
+            body="The Drawdown platform plots your live equity curve against your compound projection so you can see in real time when adverse variance is pulling you below your growth target — and by how many periods."
             cta="View the Platform"
             href="/pricing"
           />

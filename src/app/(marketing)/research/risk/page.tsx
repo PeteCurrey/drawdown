@@ -8,7 +8,7 @@ import { DrawdownRecoveryCalculator } from "@/components/calculators/DrawdownRec
 import { getMetadata } from "@/lib/metadata";
 
 export const metadata = getMetadata({
-  title: "Quantitative Risk & Drawdown Recovery Studies | Avorria Research",
+  title: "Quantitative Risk & Drawdown Recovery Studies | Drawdown Research",
   description:
     "Mathematical papers and simulations on drawdown recovery, risk-of-ruin models, consecutive loss distributions, and position sizing decay.",
   path: "/research/risk",

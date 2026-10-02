@@ -46,7 +46,7 @@ const faqs = [
   { q: "Is this a physical book?", a: "No — it's an instant PDF download. You'll receive a link to download immediately after purchase and also via email." },
   { q: "Will this work for forex, indices, commodities?", a: "Yes. The framework is instrument-agnostic. The principles of market structure and execution apply across all liquid markets." },
   { q: "What if I already have some trading experience?", a: "Many experienced traders who read this say it fills in important gaps and helps them articulate why certain setups work. It's a framework, not just a beginner guide." },
-  { q: "Can I get a refund?", a: "Due to the instant digital delivery nature of PDF downloads, we don't offer refunds. If you have questions about the content before purchasing, email pete@avorria.com." },
+  { q: "Can I get a refund?", a: "Due to the instant digital delivery nature of PDF downloads, we don't offer refunds. If you have questions about the content before purchasing, email pete@drawdown.trading." },
 ];
 
 export default function HowToTradeClient() {
@@ -202,7 +202,7 @@ export default function HowToTradeClient() {
               </div>
               <h2 className="text-3xl font-bold uppercase mb-6">Built by a Trader Who Has Actually Done It</h2>
               <div className="space-y-4 text-sm text-[#7A7D85] leading-relaxed">
-                <p>Pete has traded live funded accounts across forex, indices and commodities for years. He built Avorria because he couldn't find a single resource that taught trading the way he wished he'd been taught when he started.</p>
+                <p>Pete has traded live funded accounts across forex, indices and commodities for years. He built Drawdown because he couldn't find a single resource that taught trading the way he wished he'd been taught when he started.</p>
                 <p>This guide isn't recycled YouTube content. It's the exact framework Pete uses — written the way he thinks, structured the way he teaches.</p>
               </div>
             </div>
@@ -210,7 +210,7 @@ export default function HowToTradeClient() {
               {[
                 "Multiple funded accounts across forex & indices",
                 "Institutional-style analysis applied to retail markets",
-                "100s of traders mentored through the Avorria platform",
+                "100s of traders mentored through the Drawdown platform",
                 "Built a full trading education platform from scratch",
               ].map(item => (
                 <div key={item} className="flex items-start gap-3 p-4 bg-[#0B0C10] border border-[#1A1D24] rounded-lg">
@@ -285,7 +285,7 @@ export default function HowToTradeClient() {
                 "Market structure, sessions, execution & risk",
                 "Written by a funded trader, not a content creator",
                 "Keep forever — no subscriptions, no expiry",
-                "Companion access to your Avorria dashboard",
+                "Companion access to your Drawdown dashboard",
               ].map(item => (
                 <div key={item} className="flex items-center gap-3">
                   <Check className="w-4 h-4 shrink-0" style={{ color: ACC }} />

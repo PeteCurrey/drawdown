@@ -68,7 +68,7 @@ export default function BrokerBridgePage() {
                     ))}
                     <span className="text-sm font-mono font-bold ml-2">{broker.rating} / 5.0</span>
                  </div>
-                 <span className="text-[10px] font-mono text-text-tertiary uppercase tracking-widest">Avorria Verified Partner</span>
+                 <span className="text-[10px] font-mono text-text-tertiary uppercase tracking-widest">Drawdown Verified Partner</span>
               </div>
            </div>
 

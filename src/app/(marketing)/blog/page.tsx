@@ -14,8 +14,8 @@ interface Props {
 
 export const metadata: Metadata = {
   title: 'Trading Blog | Market Analysis & Education',
-  description: 'Daily market analysis, trading education and honest commentary from Pete Currey and the Avorria team. No signals. No hype. Just context.',
-  alternates: { canonical: 'https://avorria.com/blog' }
+  description: 'Daily market analysis, trading education and honest commentary from Pete Currey and the Drawdown team. No signals. No hype. Just context.',
+  alternates: { canonical: 'https://drawdown.trading/blog' }
 }
 
 const CATEGORIES = ["All", "Market Analysis", "Education", "Psychology", "Tools", "UK Trading", "Risk Management"];

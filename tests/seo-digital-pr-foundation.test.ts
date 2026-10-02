@@ -149,7 +149,7 @@ describe("Phase 8 — Linkable Assets & Digital PR Foundation", () => {
 
     it("has a press contact email", () => {
       assert.ok(
-        src.includes("press@avorria.com") || src.includes("mailto:press"),
+        src.includes("press@drawdown.trading") || src.includes("mailto:press"),
         "must include press contact email"
       );
     });

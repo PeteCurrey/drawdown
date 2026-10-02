@@ -202,7 +202,7 @@ export function YourLobbyFeed({ feed, userPreferences }: YourLobbyFeedProps) {
                   { key: 'alert_broker_updates', label: 'Watched Broker Changes' },
                   { key: 'alert_prop_firm_updates', label: 'Watched Prop Firm Rules' },
                   { key: 'alert_market_events', label: 'Important Macro Events' },
-                  { key: 'alert_drawdown_updates', label: 'Avorria Tool Releases' },
+                  { key: 'alert_drawdown_updates', label: 'Drawdown Tool Releases' },
                   { key: 'wire_digest_subscribed', label: 'The Wire Email Briefing' },
                 ].map(({ key, label }) => {
                   const active = (prefs as any)[key];

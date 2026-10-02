@@ -6,7 +6,7 @@ import { ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface AuthorBioProps {
-  author: "Pete Currey" | "Avorria Team" | "Drawdown Team";
+  author: "Pete Currey" | "Drawdown Team" | "Drawdown Team";
   isDark?: boolean;
 }
 
@@ -55,7 +55,7 @@ export function AuthorBio({ author, isDark = false }: AuthorBioProps) {
               "text-[9px] font-mono uppercase tracking-widest block",
               isDark ? "text-[#C8F135]" : "text-accent"
             )}>
-              {isPete ? "Founder of Avorria" : "Avorria Research Desk"}
+              {isPete ? "Founder of Drawdown" : "Drawdown Research Desk"}
             </span>
           </div>
         </div>
@@ -64,8 +64,8 @@ export function AuthorBio({ author, isDark = false }: AuthorBioProps) {
           isDark ? "text-zinc-450" : "text-slate-500"
         )}>
           {isPete
-            ? "Professional trader and algorithmic systems architect. Pete built Avorria to strip away retail noise and focus on cold professional risk."
-            : "The Avorria research desk. Composed of professional analysts and systematic developers extracting edge from order flow data."}
+            ? "Professional trader and algorithmic systems architect. Pete built Drawdown to strip away retail noise and focus on cold professional risk."
+            : "The Drawdown research desk. Composed of professional analysts and systematic developers extracting edge from order flow data."}
         </p>
         {isPete && (
           <Link 

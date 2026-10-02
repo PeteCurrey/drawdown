@@ -12,7 +12,7 @@ import { Search, Clock, ArrowLeft } from "lucide-react";
 
 export const metadata: Metadata = getMetadata({
   title: "The Lobby Archive // Chronological Market Intelligence Index",
-  description: "Browse the complete chronological archive of verified reporting, broker audits, and trading research published on Avorria The Lobby.",
+  description: "Browse the complete chronological archive of verified reporting, broker audits, and trading research published on Drawdown The Lobby.",
   path: "/lobby/archive",
 });
 
@@ -62,7 +62,7 @@ export default async function LobbyArchivePage({ searchParams }: ArchivePageProp
           </h1>
 
           <p className="mt-2 text-sm text-[#4B5157] font-sans max-w-xl">
-            Complete permanent ledger of Avorria trading intelligence, broker surveillance, and market mechanics.
+            Complete permanent ledger of Drawdown Trading intelligence, broker surveillance, and market mechanics.
           </p>
 
           {/* Search Form */}

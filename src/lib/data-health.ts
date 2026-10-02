@@ -1,7 +1,7 @@
 /**
  * src/lib/data-health.ts
  *
- * Avorria Trading — Canonical System Health & Data Integrity Engine
+ * Drawdown Trading — Canonical System Health & Data Integrity Engine
  *
  * Single server-side calculation engine providing unified operational telemetry across:
  *  1. Market Data (Twelve Data / Yahoo / Screener Cache / Real-time Quotes)

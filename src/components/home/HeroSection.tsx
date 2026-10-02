@@ -121,7 +121,7 @@ export function HeroSection() {
         />
       </div>
 
-      {/* Avorria Trading Hero Background with Light Overlay */}
+      {/* Drawdown Trading Hero Background with Light Overlay */}
       <div 
         className="absolute inset-0 pointer-events-none select-none overflow-hidden z-0"
         aria-hidden="true"
@@ -131,8 +131,8 @@ export function HeroSection() {
         }}
       >
         <Image
-          src="/images/avorria-trading.jpg"
-          alt="Avorria Trading"
+          src="/images/drawdown-trading.jpg"
+          alt="Drawdown Trading"
           fill
           priority
           sizes="100vw"

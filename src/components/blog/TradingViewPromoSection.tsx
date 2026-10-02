@@ -63,7 +63,7 @@ export function TradingViewPromoSection() {
           </div>
 
           <p className="text-sm leading-relaxed max-w-xl" style={{ color: "#B2B5BE" }}>
-            Every chart, liquidity zone and order flow layout on Avorria is built
+            Every chart, liquidity zone and order flow layout on Drawdown Trading is built
             on TradingView. Access real-time market data, multi-chart layouts, 100+
             built-in indicators, Pine Script backtesting, and webhook automation.
           </p>

@@ -101,7 +101,7 @@ test("Conversion: Floor user receives Floor entitlement and inherits all sub-tie
 test("Conversion: Locked UI displays correct upgrade destination", () => {
   const tierGate = readFile("src/components/dashboard/TierGate.tsx");
   assert.ok(
-    tierGate.includes('href={pricingHref}') || tierGate.includes('avorria.com/pricing'),
+    tierGate.includes('href={pricingHref}') || tierGate.includes('drawdown.trading/pricing'),
     "TierGate must link to /pricing"
   );
   assert.ok(

@@ -145,7 +145,7 @@ export function SentimentTab() {
                   <div className="w-8 h-8 rounded-sm bg-white border border-mkt-bd flex items-center justify-center">
                     <span className="text-xs font-sans font-bold text-accent">P</span>
                   </div>
-                  <span className="text-[10px] font-mono uppercase tracking-widest text-mkt-i4">Senior Strategist // Avorria</span>
+                  <span className="text-[10px] font-mono uppercase tracking-widest text-mkt-i4">Senior Strategist // Drawdown</span>
                 </div>
               </div>
            </div>

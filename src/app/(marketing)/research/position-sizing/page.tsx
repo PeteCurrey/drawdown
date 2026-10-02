@@ -14,7 +14,7 @@ import { getMetadata } from "@/lib/metadata";
 import JsonLd from "@/components/seo/JsonLd";
 
 export const metadata = getMetadata({
-  title: "Position Sizing Research | Fractional Sizing vs Fixed Lots — Avorria Research",
+  title: "Position Sizing Research | Fractional Sizing vs Fixed Lots — Drawdown Research",
   description:
     "Quantitative analysis of fixed-fractional vs fixed-lot position sizing across 1,000-trade Monte Carlo simulations. Data shows probability distributions for account survival under both models at identical win rates.",
   path: "/research/position-sizing",
@@ -115,7 +115,7 @@ export default function PositionSizingResearchPage() {
             "@context": "https://schema.org",
             "@type": "Article",
             "headline": "Position Sizing Research: Fixed-Fractional vs Fixed-Lot Sizing",
-            "url": "https://avorria.com/research/position-sizing",
+            "url": "https://drawdown.trading/research/position-sizing",
             "description":
               "Quantitative analysis of fixed-fractional vs fixed-lot position sizing across 10,000-iteration Monte Carlo simulations at 45% win rate, 1.5:1 RR.",
             "datePublished": publishedDate,
@@ -123,28 +123,28 @@ export default function PositionSizingResearchPage() {
             "author": {
               "@type": "Person",
               "name": "Pete Currey",
-              "url": "https://avorria.com/about",
+              "url": "https://drawdown.trading/about",
             },
             "publisher": {
               "@type": "Organization",
-              "name": "Avorria Trading",
-              "url": "https://avorria.com",
+              "name": "Drawdown Trading",
+              "url": "https://drawdown.trading",
               "logo": {
                 "@type": "ImageObject",
-                "url": "https://avorria.com/assets/brand/logo.png",
+                "url": "https://drawdown.trading/assets/brand/logo.png",
               },
             },
             "isPartOf": {
               "@type": "CollectionPage",
-              "name": "Avorria Research Centre",
-              "url": "https://avorria.com/research",
+              "name": "Drawdown Research Centre",
+              "url": "https://drawdown.trading/research",
             },
             "breadcrumb": {
               "@type": "BreadcrumbList",
               "itemListElement": [
-                { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://avorria.com" },
-                { "@type": "ListItem", "position": 2, "name": "Research Centre", "item": "https://avorria.com/research" },
-                { "@type": "ListItem", "position": 3, "name": "Position Sizing Research", "item": "https://avorria.com/research/position-sizing" },
+                { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://drawdown.trading" },
+                { "@type": "ListItem", "position": 2, "name": "Research Centre", "item": "https://drawdown.trading/research" },
+                { "@type": "ListItem", "position": 3, "name": "Position Sizing Research", "item": "https://drawdown.trading/research/position-sizing" },
               ],
             },
           },

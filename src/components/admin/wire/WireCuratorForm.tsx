@@ -18,7 +18,7 @@ export function WireCuratorForm({ availableArticles }: WireCuratorFormProps) {
   const [editionType, setEditionType] = useState<WireEditionType>("MORNING");
   const [selectedArticleIds, setSelectedArticleIds] = useState<string[]>([]);
   const [title, setTitle] = useState(`The Morning Wire — ${new Date().toLocaleDateString('en-GB')}`);
-  const [subjectLine, setSubjectLine] = useState(`Avorria Morning Wire: Pre-market intelligence and key catalysts`);
+  const [subjectLine, setSubjectLine] = useState(`Drawdown Morning Wire: Pre-market intelligence and key catalysts`);
   const [previewText, setPreviewText] = useState(`Top market moves, broker updates, and what's worth watching before the open.`);
   const [items, setItems] = useState<WireItemInput[]>([]);
   const [saving, setSaving] = useState(false);
@@ -318,7 +318,7 @@ export function WireCuratorForm({ availableArticles }: WireCuratorFormProps) {
                     />
                   </div>
                   <div>
-                    <label className="block text-[11px] font-mono text-zinc-400 mb-1">Recommended Avorria Tool</label>
+                    <label className="block text-[11px] font-mono text-zinc-400 mb-1">Recommended Drawdown Tool</label>
                     <select
                       value={item.recommended_tool_slug || ""}
                       onChange={(e) => updateItem(idx, 'recommended_tool_slug', e.target.value || null)}

@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import { AustralianPricingClient } from "./client";
 
-const SITE_URL = "https://avorria.com";
+const SITE_URL = "https://drawdown.trading";
 
 export const metadata: Metadata = {
-  title: "Avorria Memberships — Australia Pricing | Avorria",
+  title: "Drawdown Memberships — Australia Pricing | Drawdown",
   description: "Compare Drawdown Free, Foundation, Edge and Floor memberships. Pricing shown in AUD for Australian traders.",
   alternates: {
     canonical: `${SITE_URL}/au/pricing`,

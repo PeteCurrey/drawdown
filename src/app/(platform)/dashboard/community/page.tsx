@@ -8,7 +8,7 @@ import { DisciplineLeaderboard } from "@/components/badges/DisciplineLeaderboard
 import { createClient } from "@/lib/supabase/server";
 
 export const metadata: Metadata = getMetadata({
-  title: "Community Hub — Avorria Intelligence",
+  title: "Community Hub — Drawdown Intelligence",
   description: "Connect with serious traders, analyze macroeconomic setups, and share execution feedback.",
   path: "/community",
 });

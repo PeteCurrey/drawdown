@@ -50,7 +50,7 @@ export async function POST(req: NextRequest) {
     const anthropicKey = process.env.ANTHROPIC_API_KEY;
     const openaiKey = process.env.OPENAI_API_KEY;
 
-    const systemPrompt = `You are Pete Currey, founder of Avorria Trading — a UK-based trading education platform. You write a twice-daily email to traders who are learning to trade seriously.
+    const systemPrompt = `You are Pete Currey, founder of Drawdown Trading — a UK-based trading education platform. You write a twice-daily email to traders who are learning to trade seriously.
 
 Your voice: direct, honest, no fluff, anti-guru. You don't hype markets. You don't give signals. You give context, education, and honest assessment. You're a British trader who takes risk management seriously above all else. Use British English spelling (analyse, colour, favour, etc.) and short paragraphs.
 
@@ -120,7 +120,7 @@ Respond ONLY with a valid JSON object matching the schema below. Do NOT add any 
     if (!textContent) {
       console.warn("[generate-evening] AI APIs unavailable or out of credit. Using high-fidelity structured fallback wrap.");
       wrapJson = {
-        subject_line: `Avorria Evening Wrap · ${dateStr}`,
+        subject_line: `Drawdown Evening Wrap · ${dateStr}`,
         preview_text: `Session wrap-up, key market moves, and tomorrow's watchlist for ${dateStr}.`,
         how_it_played_out: `Today's session saw steady price action across FX and equity benchmarks as markets processed the latest macroeconomic data.\n\nLondon and New York sessions displayed clear structural swings, offering disciplined traders well-defined liquidity targets.`,
         tomorrow_watch_list: `Heading into tomorrow's open, monitor the key support and resistance zones on GBP/USD and S&P 500.\n\nKeep an eye on scheduled central bank commentary and key economic releases.`,
@@ -143,7 +143,7 @@ Respond ONLY with a valid JSON object matching the schema below. Do NOT add any 
       }
     }
 
-    const appUrl = process.env.NEXT_PUBLIC_APP_URL || process.env.NEXT_PUBLIC_SITE_URL || "https://avorria.com";
+    const appUrl = process.env.NEXT_PUBLIC_APP_URL || process.env.NEXT_PUBLIC_SITE_URL || "https://drawdown.trading";
     const curriculumLink = `${appUrl}/courses/${wrapJson.curriculum_phase_slug}/module-${wrapJson.curriculum_module_number}`;
 
     // Fetch top market news article for hero image

@@ -4,7 +4,7 @@ import { ControlRoomClient } from "./ControlRoomClient";
 export const dynamic = "force-dynamic";
 
 export const metadata = {
-  title: "Data Control Room | The Lobby Admin | Avorria",
+  title: "Data Control Room | The Lobby Admin | Drawdown",
   description: "Operational telemetry, feed health, and pipeline audit control room.",
 };
 

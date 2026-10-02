@@ -71,7 +71,7 @@ export function ExportBridge({
       `${commentChar} Generated: ${new Date().toISOString().split("T")[0]}`,
       `${commentChar} Instrument: ${instrument || "—"}  |  Timeframe: ${timeframe || "—"}`,
       langLine,
-      `${commentChar} avorria.com  |  Trade the Truth`,
+      `${commentChar} drawdown.trading  |  Trade the Truth`,
       `${commentChar} ─────────────────────────────────────────────────────────`,
       "",
     ].join("\n");

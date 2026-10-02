@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { RiskOfRuinSimulator } from "@/components/calculators/RiskOfRuinSimulator";
 
 export const metadata: Metadata = {
-  title: "Risk of Ruin Calculator | Avorria",
+  title: "Risk of Ruin Calculator | Drawdown",
   robots: { index: false, follow: false },
 };
 
@@ -18,7 +18,7 @@ export default function EmbedRiskOfRuinPage() {
         <div className="mb-4 flex items-center justify-between text-xs text-text-tertiary">
           <span className="font-medium text-text-secondary">Risk of Ruin Calculator</span>
           <a
-            href="https://avorria.com/calculators/risk-of-ruin"
+            href="https://drawdown.trading/calculators/risk-of-ruin"
             target="_blank"
             rel="noopener noreferrer"
             className="text-accent hover:underline"

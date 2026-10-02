@@ -1,6 +1,6 @@
-# Avorria.com Content Authoring Template
+# Drawdown.com Content Authoring Template
 
-This guide and template collection allows authors to write SEO-optimized, highly structured content nodes that integrate directly with the **Pillar-and-Cluster Content Architecture** on avorria.com. 
+This guide and template collection allows authors to write SEO-optimized, highly structured content nodes that integrate directly with the **Pillar-and-Cluster Content Architecture** on drawdown.trading. 
 
 Every page is compiled into static, high-performance HTML utilizing hybrid local configurations and Supabase overrides.
 

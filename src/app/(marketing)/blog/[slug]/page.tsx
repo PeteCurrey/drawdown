@@ -158,14 +158,14 @@ export default async function BlogPostPage({ params }: Props) {
     "author": {
       "@type": "Person",
       "name": post.author,
-      "url": "https://avorria.com/about"
+      "url": "https://drawdown.trading/about"
     },
     "publisher": {
       "@type": "Organization",
-      "name": "Avorria",
+      "name": "Drawdown",
       "logo": {
         "@type": "ImageObject",
-        "url": "https://avorria.com/assets/brand/logo.png"
+        "url": "https://drawdown.trading/assets/brand/logo.png"
       }
     },
     "description": post.excerpt

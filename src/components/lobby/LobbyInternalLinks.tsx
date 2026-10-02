@@ -41,18 +41,18 @@ export function LobbyInternalLinks({
   if (!hasAny) return null;
 
   return (
-    <aside aria-label="Related Avorria Intelligence & Tools" className={`my-10 p-6 sm:p-8 bg-[#FAF9F5] border border-[#DEDDD8] rounded-[2px] ${className || ""}`}>
+    <aside aria-label="Related Drawdown Intelligence & Tools" className={`my-10 p-6 sm:p-8 bg-[#FAF9F5] border border-[#DEDDD8] rounded-[2px] ${className || ""}`}>
       <div className="text-[10px] font-mono uppercase tracking-[0.2em] text-[#16213E] font-bold mb-4">
         AVORRIA INTELLIGENCE &amp; TOOL CONNECTIONS
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {/* Connected Avorria Tools */}
+        {/* Connected Drawdown Tools */}
         {tools.length > 0 && (
           <div>
             <span className="text-xs font-mono uppercase tracking-wider text-[#4B5157] font-semibold flex items-center gap-1.5 mb-3">
               <Calculator className="w-3.5 h-3.5 text-[#16213E]" />
-              Understand &amp; Calculate With Avorria Tools
+              Understand &amp; Calculate With Drawdown Tools
             </span>
             <div className="space-y-2">
               {tools.map(tool => (

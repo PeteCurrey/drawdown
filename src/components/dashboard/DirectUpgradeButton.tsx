@@ -125,7 +125,7 @@ export default function DirectUpgradeButton({
         onClose={() => setShowConsent(false)}
         onConfirm={handleDirectUpgrade}
         loading={loading}
-        productName={`Avorria ${tier.toUpperCase()}`}
+        productName={`Drawdown ${tier.toUpperCase()}`}
         priceString={priceDisplay}
       />
     </div>

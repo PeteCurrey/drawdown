@@ -9,7 +9,7 @@ import { getMetadata } from "@/lib/metadata";
 import JsonLd from "@/components/seo/JsonLd";
 
 export const metadata = getMetadata({
-  title: "Prop Firm Daily Loss Calculator | Avorria Buffer Modeler",
+  title: "Prop Firm Daily Loss Calculator | Drawdown Buffer Modeler",
   description:
     "Calculate your exact daily drawdown safety buffer based on previous day close values to protect funded accounts from rule breaches.",
   path: "/calculators/prop-firm-daily-loss",
@@ -52,7 +52,7 @@ export default function PropFirmDailyLossCalculatorPage() {
             "@context": "https://schema.org",
             "@type": "WebApplication",
             "name": "Prop Firm Daily Loss Calculator",
-            "url": "https://avorria.com/calculators/prop-firm-daily-loss",
+            "url": "https://drawdown.trading/calculators/prop-firm-daily-loss",
             "applicationCategory": "FinanceApplication",
             "operatingSystem": "All",
             "description":
@@ -237,7 +237,7 @@ export default function PropFirmDailyLossCalculatorPage() {
           {/* Conversion Module */}
           <CalculatorNextStep
             heading="Never Breach a Daily Limit Again"
-            body="The Avorria platform tracks your live daily loss buffer in real time against your prop firm's specific midnight baseline. Receive alerts before you approach the breach floor — not after."
+            body="The Drawdown platform tracks your live daily loss buffer in real time against your prop firm's specific midnight baseline. Receive alerts before you approach the breach floor — not after."
             cta="Protect Your Account"
             href="/pricing"
           />

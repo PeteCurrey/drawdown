@@ -40,7 +40,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const regionName = regionData.label;
   
   return getMetadata({
-    title: `Avorria ${regionName} — Trade the Truth`,
+    title: `Drawdown ${regionName} — Trade the Truth`,
     description: `The premium trading education platform for ${regionName} traders. Localized content and regulatory compliance. No gurus. No hype. Just edge.`,
     path: `/${region}`,
     hasRegionalVariants: true,

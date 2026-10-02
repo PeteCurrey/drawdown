@@ -1,7 +1,7 @@
 /**
  * src/lib/data-freshness-policy.ts
  *
- * Avorria Trading — Authoritative Platform Data Freshness & Eligibility Policy
+ * Drawdown Trading — Authoritative Platform Data Freshness & Eligibility Policy
  *
  * Core Principle:
  * TRUTH BEFORE FEATURES.

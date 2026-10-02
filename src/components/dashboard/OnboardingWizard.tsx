@@ -197,7 +197,7 @@ export function OnboardingWizard({ userProfile, onComplete }: Props) {
             <span className="text-[10px] font-mono text-accent uppercase tracking-widest">
               // ACTIVATION
             </span>
-            <h2 className="text-xl font-display font-black uppercase">Avorria OS</h2>
+            <h2 className="text-xl font-display font-black uppercase">Drawdown OS</h2>
           </div>
 
           <div className="space-y-6">
@@ -253,7 +253,7 @@ export function OnboardingWizard({ userProfile, onComplete }: Props) {
                     <span className="text-accent">improve?</span>
                   </h3>
                   <p className="text-xs text-text-secondary">
-                    Select your primary trading focus. This personalises your Avorria experience.
+                    Select your primary trading focus. This personalises your Drawdown experience.
                   </p>
                 </div>
 

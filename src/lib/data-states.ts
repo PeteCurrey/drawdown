@@ -5,7 +5,7 @@
  * Do NOT use placeholder numbers, fake charts, or hardcoded fallbacks to disguise
  * missing or unavailable data.
  *
- * Rule: If Avorria says it is real, it must be real.
+ * Rule: If Drawdown says it is real, it must be real.
  *       If data does not exist, display an honest empty state.
  *       If a provider is unavailable, display that it is unavailable.
  *       If data is stale, display that it is stale.

@@ -133,7 +133,7 @@ export function FragmentedProblemSection() {
           </div>
           </Reveal>
 
-          {/* Right: The Avorria Operating System */}
+          {/* Right: The Drawdown Operating System */}
           <Reveal delay={0.12} className="lg:col-span-6">
           <div
             className="h-full p-8 md:p-10 border flex flex-col justify-between group relative overflow-hidden transition-all duration-300 hover:shadow-[var(--elev-2)]"
@@ -154,7 +154,7 @@ export function FragmentedProblemSection() {
                     className="text-[10px] font-mono uppercase tracking-[0.1em] font-bold block mb-1"
                     style={{ color: "var(--market-up)" }}
                   >
-                    The Avorria Operating System
+                    The Drawdown Operating System
                   </span>
                   <h3 className="font-display text-xl font-bold" style={{ color: "var(--text-primary)" }}>
                     One Unified Decision Loop

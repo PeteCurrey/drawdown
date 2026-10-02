@@ -70,7 +70,7 @@ export function LearnHubClient({ region }: LearnHubClientProps) {
     "position": idx + 1,
     "name": topic.title,
     "description": topic.description,
-    "url": `https://avorria.com${regionPrefix}/learn-to-trade/${topic.slug}`
+    "url": `https://drawdown.trading${regionPrefix}/learn-to-trade/${topic.slug}`
   }));
 
   const faqSchemaData = {
@@ -94,7 +94,7 @@ export function LearnHubClient({ region }: LearnHubClientProps) {
       <JsonLd data={{
         "@context": "https://schema.org",
         "@type": "ItemList",
-        "name": `Avorria Trading Academy - ${regionData.label}`,
+        "name": `Drawdown Trading Academy - ${regionData.label}`,
         "description": "Structured, professional-grade trading education from market microstructure to behavioral risk control.",
         "itemListElement": itemListElement
       }} />
@@ -308,7 +308,7 @@ export function LearnHubClient({ region }: LearnHubClientProps) {
         <section className="mb-24 p-8 md:p-12 border space-y-10" style={{ backgroundColor: "var(--paper-100)", borderColor: "var(--line-200)" }}>
           <div className="max-w-3xl space-y-3">
             <span className="text-[11px] font-mono uppercase tracking-[0.08em] block" style={{ color: "var(--signal-navy)" }}>
-              The Avorria Methodology
+              The Drawdown Methodology
             </span>
             <h2 className="font-display text-[30px] font-semibold tracking-[-0.02em]" style={{ color: "var(--ink-950)" }}>
               The Four Pillars of Institutional Execution

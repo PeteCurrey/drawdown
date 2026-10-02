@@ -3,7 +3,7 @@ import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 
 export const metadata = getMetadata({
   title: "Accelerator Terms of Enrolment",
-  description: "Terms and conditions for enrolling in the Avorria Institutional Accelerator cohort.",
+  description: "Terms and conditions for enrolling in the Drawdown Institutional Accelerator cohort.",
 });
 
 export default function AcceleratorAgreementPage() {
@@ -30,7 +30,7 @@ export default function AcceleratorAgreementPage() {
               1. Educational Scope & FCA Disclaimer
             </h2>
             <p>
-              The Avorria Institutional Accelerator (the "Program") is a 6-week intensive educational and quantitative training cohort. Avorria Trading ("the Company") is not a financial adviser, wealth manager, or investment broker. We do not provide personalized financial, trading, tax, or investment advice.
+              The Drawdown Institutional Accelerator (the "Program") is a 6-week intensive educational and quantitative training cohort. Drawdown Trading ("the Company") is not a financial adviser, wealth manager, or investment broker. We do not provide personalized financial, trading, tax, or investment advice.
             </p>
             <p>
               All materials, indicators, spreadsheets, Pine Script codes, central bank analysis guides, and live session contents are designed strictly for educational, research, and general information purposes. 
@@ -45,7 +45,7 @@ export default function AcceleratorAgreementPage() {
               2. Intellectual Property & Code Licensing
             </h2>
             <p>
-              During the Program, you will gain access to proprietary software tools (including the Avorria Strategy Backtester, AI Journaling Prompt Suite, and custom indicators) and source code (Pine Script libraries, automated alert integrations).
+              During the Program, you will gain access to proprietary software tools (including the Drawdown Strategy Backtester, AI Journaling Prompt Suite, and custom indicators) and source code (Pine Script libraries, automated alert integrations).
             </p>
             <p>
               The Company grants you a individual, non-exclusive, non-transferable, and revocable license to use these resources for personal execution only. You strictly agree <strong>NOT to</strong>:
@@ -65,10 +65,10 @@ export default function AcceleratorAgreementPage() {
               3. Refund Policy
             </h2>
             <p>
-              The Accelerator is a structured live cohort with limited seats and preparation overhead. As a result, refund requests are handled on a case-by-case basis at the sole discretion of Avorria Trading Ltd. No refunds are guaranteed or implied.
+              The Accelerator is a structured live cohort with limited seats and preparation overhead. As a result, refund requests are handled on a case-by-case basis at the sole discretion of Drawdown Trading Ltd. No refunds are guaranteed or implied.
             </p>
             <p>
-              If you believe your circumstances merit a refund, you must submit a written request to <strong>support@avorria.com</strong> within 7 calendar days of cohort commencement. Avorria Trading Ltd will review the request and respond within 5 business days. We do not issue refunds after 7 days from cohort start under any circumstances.
+              If you believe your circumstances merit a refund, you must submit a written request to <strong>support@drawdown.trading</strong> within 7 calendar days of cohort commencement. Drawdown Trading Ltd will review the request and respond within 5 business days. We do not issue refunds after 7 days from cohort start under any circumstances.
             </p>
             <p>
               Acceptance of a place following admissions review constitutes agreement to these terms. Accessing cohort workshop recordings, live sessions, or proprietary materials after commencement forfeit any refund eligibility.

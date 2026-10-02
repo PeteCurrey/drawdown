@@ -1,8 +1,8 @@
 /**
- * Avorria Trading — Critical Browser E2E Journeys
+ * Drawdown Trading — Critical Browser E2E Journeys
  *
  * These are genuine browser-automation tests using Playwright/Chromium.
- * They run against the live production deployment at https://avorria.com.
+ * They run against the live production deployment at https://drawdown.trading.
  *
  * They are distinct from the 210 in-process Node tests in tests/*.test.ts which
  * verify logic/contracts. These tests verify that a real browser engine renders
@@ -67,11 +67,11 @@ test("Journey A: Homepage loads with correct title and hero CTA", async ({
   expect(response?.status(), "Homepage must return 200").toBe(200);
 
   const title = await page.title();
-  expect(title, "Title must include Avorria").toMatch(/avorria/i);
+  expect(title, "Title must include Drawdown").toMatch(/drawdown/i);
 
   // The hero section must be present in the DOM
   const heroText = await page.textContent("body");
-  expect(heroText, "Body text must include 'Avorria'").toMatch(/avorria/i);
+  expect(heroText, "Body text must include 'Drawdown'").toMatch(/drawdown/i);
 
   await saveScreenshot(page, "homepage", testInfo);
   await assertNoHorizontalOverflow(page);
@@ -169,8 +169,8 @@ test("Journey E: robots.txt is served with 200 and contains sitemap", async ({
   expect(content, "robots.txt must reference the sitemap").toMatch(
     /sitemap\.xml/i
   );
-  expect(content, "robots.txt must reference avorria.com domain").toMatch(
-    /avorria\.com/
+  expect(content, "robots.txt must reference drawdown.trading domain").toMatch(
+    /drawdown\.com/
   );
   // Must not reference vercel.app preview domains in production robots
   expect(
@@ -193,8 +193,8 @@ test("Journey E2: sitemap.xml is served with 200 and is valid XML", async ({
   expect(contentType, "sitemap.xml content type").toMatch(/xml|text/);
 
   const content = await page.textContent("body");
-  expect(content, "sitemap.xml must contain avorria.com URLs").toMatch(
-    /avorria\.com/
+  expect(content, "sitemap.xml must contain drawdown.trading URLs").toMatch(
+    /drawdown\.com/
   );
   // No hardcoded legacy dates from pre-production era
   expect(content, "sitemap.xml must not contain 2026-07-19 hardcoded date").not.toMatch(
@@ -225,7 +225,7 @@ test("Journey F: Homepage has canonical URL and og:title meta tag", async ({
     .catch(() => null);
 
   // At least one of these must be present for SEO correctness
-  const hasCanonical = canonical && canonical.includes("avorria");
+  const hasCanonical = canonical && canonical.includes("drawdown");
   const hasOgTitle = ogTitle && ogTitle.length > 0;
 
   expect(

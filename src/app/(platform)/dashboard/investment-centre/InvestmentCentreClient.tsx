@@ -39,7 +39,7 @@ export default function InvestmentCentreClient() {
   const [pendingPlanType, setPendingPlanType] = useState<"addon_only" | "floor" | "foundation" | null>(null);
 
   const supabase = createClient();
-  const checkoutUrl = "https://investmentcentre.avorria.com";
+  const checkoutUrl = "https://investmentcentre.drawdown.trading";
 
   useEffect(() => {
     async function loadUserData() {
@@ -697,7 +697,7 @@ export default function InvestmentCentreClient() {
           onClose={() => { setShowConsentModal(false); setPendingPlanType(null); }}
           onConfirm={(consentData) => { if (pendingPlanType) handleProceedStripeCheckout(pendingPlanType, consentData); }}
           loading={checkoutLoading}
-          productName="Avorria Investment Centre"
+          productName="Drawdown Investment Centre"
           priceString="£99/mo"
         />
       )}

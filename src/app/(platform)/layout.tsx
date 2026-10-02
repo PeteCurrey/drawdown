@@ -304,7 +304,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             <path d="M12 2L4 5v6c0 5.5 3.5 10 8 11 4.5-1 8-5.5 8-11V5l-8-3zm0 18.5c-3.3-.9-6-4.5-6-8.5V6.3l6-2.2 6 2.2V12c0 4-2.7 7.6-6 8.5z" />
           </svg>
           <span className={cn("font-display font-bold text-sm tracking-tight", isDarkModulePage ? "text-white" : "text-[#1A1A1A]")}>
-            Avorria<sup className={cn("text-[9px] font-normal ml-0.5 uppercase tracking-wider", isDarkModulePage ? "text-white/40" : "text-[#888882]")}>Trading</sup>
+            Drawdown<sup className={cn("text-[9px] font-normal ml-0.5 uppercase tracking-wider", isDarkModulePage ? "text-white/40" : "text-[#888882]")}>Trading</sup>
           </span>
         </div>
 
@@ -515,7 +515,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         {mobileMenuOpen && (
           <div className="fixed inset-0 bg-[#181818]/95 z-50 md:hidden flex flex-col p-6 animate-in fade-in duration-200">
             <div className="flex items-center justify-between pb-4 border-b border-[#333330]">
-              <span className="font-display font-bold text-sm text-white">Avorria Trading</span>
+              <span className="font-display font-bold text-sm text-white">Drawdown Trading</span>
               <button
                 onClick={() => setMobileMenuOpen(false)}
                 className="text-xs text-[#8A8A85] hover:text-white px-2 py-1 rounded"

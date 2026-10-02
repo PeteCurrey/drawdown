@@ -4,7 +4,7 @@ import { PublicSignalDetailClient } from "@/components/signal-centre/PublicSigna
 import { CommercialAccess } from "@/lib/entitlements";
 
 export const metadata = {
-  title: "Avorria Signal Centre · High-Conviction Market Setups",
+  title: "Drawdown Signal Centre · High-Conviction Market Setups",
   description: "Real-time, algorithmic market structural shifts and confluence setups verified on live price history with institutional multi-AI consensus scoring.",
 };
 

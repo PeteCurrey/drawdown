@@ -134,7 +134,7 @@ export function PricingSection({
         {/* 2-Column Grid: Free vs Core */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch mb-16 max-w-4xl mx-auto">
           
-          {/* Card 1: Avorria Free */}
+          {/* Card 1: Drawdown Free */}
           <div
             className="border p-8 flex flex-col justify-between h-full group relative overflow-hidden transition-all duration-300 hover:shadow-[var(--elev-2)]"
             style={{
@@ -151,7 +151,7 @@ export function PricingSection({
               <div className="mb-6">
                 <div className="flex items-center justify-between mb-2">
                   <h3 className="text-[20px] font-medium font-sans uppercase tracking-tight" style={{ color: "var(--text-primary)" }}>
-                    Avorria Free
+                    Drawdown Free
                   </h3>
                   <span
                     className="text-[10px] font-mono uppercase tracking-[0.08em] px-2 py-0.5 border"
@@ -221,7 +221,7 @@ export function PricingSection({
             </div>
           </div>
 
-          {/* Card 2: Avorria Core Membership */}
+          {/* Card 2: Drawdown Core Membership */}
           <div
             className="border p-8 flex flex-col justify-between h-full group relative overflow-hidden transition-all duration-300 hover:shadow-[var(--elev-3)]"
             style={{
@@ -238,7 +238,7 @@ export function PricingSection({
               <div className="mb-6">
                 <div className="flex items-center justify-between mb-2">
                   <h3 className="text-[20px] font-medium font-sans uppercase tracking-tight" style={{ color: "var(--text-primary)" }}>
-                    Avorria Core
+                    Drawdown Core
                   </h3>
                   <span
                     className="text-[10px] font-mono uppercase tracking-[0.08em] px-2 py-0.5 border"
@@ -418,7 +418,7 @@ export function PricingSection({
                 Educational Platform Notice
               </h4>
               <p className="text-[12px] leading-relaxed font-sans" style={{ color: "var(--text-secondary)" }}>
-                Avorria Trading does not provide financial advice. Trade signals and market analysis represent automated conclusions derived from data feeds and quantitative risk parameters; they are not guaranteed outcomes or investment recommendations. All strategies tested or journals analyzed remain the intellectual property of the user. Past performance is not indicative of future results.
+                Drawdown Trading does not provide financial advice. Trade signals and market analysis represent automated conclusions derived from data feeds and quantitative risk parameters; they are not guaranteed outcomes or investment recommendations. All strategies tested or journals analyzed remain the intellectual property of the user. Past performance is not indicative of future results.
               </p>
             </div>
           </div>
@@ -433,7 +433,7 @@ export function PricingSection({
         onClose={() => { setShowConsent(false); setSelectedTier(null); setSelectedPriceId(null); }}
         onConfirm={(consentData) => handleSubscribe(selectedTier, selectedPriceId, consentData)}
         loading={loadingTier !== null}
-        productName="Avorria Core Membership"
+        productName="Drawdown Core Membership"
         priceString={`${coreDetails.symbol}${coreDetails.price}/mo`}
       />
     )}

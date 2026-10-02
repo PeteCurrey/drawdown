@@ -2,7 +2,7 @@ import { getMetadata } from "@/lib/metadata";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 
 export const metadata = getMetadata({
-  title: "Corrections Log | Avorria",
+  title: "Corrections Log | Drawdown",
   description: "A transparent, running log of all corrections, clarifications, and amendments made to Drawdown articles, guides, and published analyses.",
   path: "/editorial-standards/corrections",
 });

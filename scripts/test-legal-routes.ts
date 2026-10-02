@@ -1,13 +1,13 @@
 #!/usr/bin/env tsx
 /**
  * Legal Routes Verification Script
- * Black & Rowan Management Group Limited t/a Avorria
+ * Black & Rowan Management Group Limited t/a Drawdown
  *
  * Tests that all legal pages return HTTP 200 and contain the expected
  * server-rendered text (i.e. content is not hidden behind JS loading states).
  *
  * Usage:
- *   npx tsx scripts/test-legal-routes.ts [--base-url https://avorria.com]
+ *   npx tsx scripts/test-legal-routes.ts [--base-url https://drawdown.trading]
  */
 
 const BASE_URL = process.argv.includes("--base-url")
@@ -110,7 +110,7 @@ async function checkRoute(route: RouteCheck): Promise<Result> {
   const url = `${BASE_URL}${route.path}`;
   try {
     const res = await fetch(url, {
-      headers: { "User-Agent": "AvorriaLegalVerifier/1.0" },
+      headers: { "User-Agent": "DrawdownLegalVerifier/1.0" },
       // Follow redirects
       redirect: "follow",
     });

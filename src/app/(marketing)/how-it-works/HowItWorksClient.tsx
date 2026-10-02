@@ -121,7 +121,7 @@ export default function HowItWorksClient() {
       {/* ── Hero ─────────────────────────────────────────────────────────────── */}
       <section className="max-w-4xl mx-auto px-6 py-20 text-center">
         <p className="text-[10px] font-mono uppercase tracking-[0.2em] text-[#888880] mb-4">
-          // The Avorria Operating System
+          // The Drawdown Operating System
         </p>
         <h1 className="text-4xl md:text-5xl font-bold text-[#1A1A1A] leading-tight mb-6">
           A Trading Process You Can Actually Review

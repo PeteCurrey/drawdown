@@ -44,7 +44,7 @@ export async function POST(request: Request) {
     const body = await request.json();
     const result = await createLobbyArticle(body, {
       id: user.id,
-      email: user.email || "staff@avorria.com"
+      email: user.email || "staff@drawdown.trading"
     });
 
     if (!result.success) {

@@ -47,7 +47,7 @@ export function resolveProgrammaticSeo(slug: string): ProgrammaticSeoPage | null
 
     return {
       slug,
-      title: `Best Broker For ${marketName} Trading 2026 — Tested & Reviewed | Avorria`,
+      title: `Best Broker For ${marketName} Trading 2026 — Tested & Reviewed | Drawdown`,
       metaDescription: `Discover the top-rated brokers for trading ${marketName} in 2026. We compare spreads, execution speed, fees, and safety parameters.`,
       introduction: `Trading ${marketName} successfully requires a broker with tight spreads, high liquidity, and minimal execution slippage. In this guide, we analyze the top platforms to help you choose the best partner for your strategy.`,
       topPickId: rankedIds[0],
@@ -90,7 +90,7 @@ export function resolveProgrammaticSeo(slug: string): ProgrammaticSeoPage | null
 
     return {
       slug,
-      title: `Best Broker In ${countryName} 2026 — Top Platforms Reviewed | Avorria`,
+      title: `Best Broker In ${countryName} 2026 — Top Platforms Reviewed | Drawdown`,
       metaDescription: `Compare the best regulated brokers in ${countryName} for 2026. We analyze local regulation, currency fees, and execution features.`,
       introduction: `Finding the right broker in ${countryName} depends heavily on local regulatory compliance, base currency fees, and execution speeds to global liquidity hubs. Here are our top reviewed choices.`,
       topPickId: rankedIds[0],
@@ -132,7 +132,7 @@ export function resolveProgrammaticSeo(slug: string): ProgrammaticSeoPage | null
 
     return {
       slug,
-      title: `Best Broker For ${strategyName} 2026 — Maximise Your Edge | Avorria`,
+      title: `Best Broker For ${strategyName} 2026 — Maximise Your Edge | Drawdown`,
       metaDescription: `Which broker supports ${strategyName} best? We analyze execution speeds, margins, and platform APIs for ${strategyName} systems.`,
       introduction: `Executing a ${strategyName} strategy requires specific broker characteristics. Scalping requires raw spreads; swing trading requires low overnight swaps; and copy trading requires a large community pool. Here are our top picks.`,
       topPickId: rankedIds[0],
@@ -174,7 +174,7 @@ export function resolveProgrammaticSeo(slug: string): ProgrammaticSeoPage | null
 
     return {
       slug,
-      title: `Best Prop Firm For ${styleName} 2026 — Scaling Capital | Avorria`,
+      title: `Best Prop Firm For ${styleName} 2026 — Scaling Capital | Drawdown`,
       metaDescription: `Discover the best funded account challenges for ${styleName}. We compare drawdown guidelines and rules.`,
       introduction: `Managing a prop firm account for ${styleName} requires rules that won't trigger accidental breaches. Some firms restrict weekend holding, news trades, or EA bots. Here are the most flexible choices.`,
       topPickId: rankedIds[0],
@@ -217,7 +217,7 @@ export function resolveProgrammaticSeo(slug: string): ProgrammaticSeoPage | null
 
     return {
       slug,
-      title: `Best Trading Tool For ${usecaseName} 2026 — Complete Stack | Avorria`,
+      title: `Best Trading Tool For ${usecaseName} 2026 — Complete Stack | Drawdown`,
       metaDescription: `Improve your performance with the best tools for ${usecaseName}. We review pricing and features.`,
       introduction: `Your trading stack determines your speed of execution and analysis. Here are the top-rated reviewed tools to master ${usecaseName} in 2026.`,
       topPickId: rankedIds[0],

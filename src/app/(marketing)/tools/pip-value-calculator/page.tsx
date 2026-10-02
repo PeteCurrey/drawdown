@@ -4,14 +4,14 @@ import { PipValueCalculatorClient } from "./PipValueCalculatorClient";
 import JsonLd from "@/components/seo/JsonLd";
 
 export const metadata: Metadata = {
-  title: "Pip Value Calculator — Exact Pip & Point Values Across Currency Pairs | Avorria",
+  title: "Pip Value Calculator — Exact Pip & Point Values Across Currency Pairs | Drawdown",
   description:
     "Free pip value calculator. Calculate the exact monetary value of 1 pip, 10 pips, and 50 pips across Forex pairs, Gold, Oil, Indices, and Crypto in GBP, USD, EUR, AUD, and CAD.",
-  alternates: { canonical: "https://avorria.com/tools/pip-value-calculator" },
+  alternates: { canonical: "https://drawdown.trading/tools/pip-value-calculator" },
   openGraph: {
-    title: "Pip Value Calculator — Avorria Trading",
+    title: "Pip Value Calculator — Drawdown Trading",
     description: "Instant, transparent pip and point value calculation across standard, mini, and micro lots.",
-    url: "https://avorria.com/tools/pip-value-calculator",
+    url: "https://drawdown.trading/tools/pip-value-calculator",
     type: "website",
   },
 };
@@ -21,7 +21,7 @@ export default function PipValueCalculatorPage() {
     "@context": "https://schema.org",
     "@type": "WebApplication",
     "name": "Drawdown Pip Value Calculator",
-    "url": "https://avorria.com/tools/pip-value-calculator",
+    "url": "https://drawdown.trading/tools/pip-value-calculator",
     "description": "Calculate exact pip and point monetary values across 20+ markets and 5 account currencies.",
     "applicationCategory": "FinanceApplication",
     "operatingSystem": "Any",

@@ -1,9 +1,9 @@
 /**
- * Pure deterministic calculations and geometric validators for Avorria Signal Centre.
+ * Pure deterministic calculations and geometric validators for Drawdown Signal Centre.
  * Zero external network or database dependencies.
  */
 
-// Symbol mappings between Avorria slugs and Twelve Data symbols
+// Symbol mappings between Drawdown slugs and Twelve Data symbols
 export const TD_SYMBOL_MAP: Record<string, string> = {
   "XAU/USD": "XAU/USD",
   "XAG/USD": "XAG/USD",
@@ -93,7 +93,7 @@ export function validateSignalGeometry(levels: {
 }
 
 /**
- * Pure calculation of the Avorria Consensus Score (DCS).
+ * Pure calculation of the Drawdown Consensus Score (DCS).
  * Weighted model consensus: Claude (40%), GPT-4o (35%), Grok (25%).
  */
 export function calculateDcsScore(

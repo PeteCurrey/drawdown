@@ -1,5 +1,5 @@
 /**
- * Avorria Trading — Authenticated Browser E2E Journeys
+ * Drawdown Trading — Authenticated Browser E2E Journeys
  *
  * Phase: Final Release Clearance — Authenticated Critical Path
  *
@@ -31,7 +31,7 @@ const FREE_USER_PASSWORD = "QA!Free#2026SecureTest";
 const PAID_USER_EMAIL = "qa-paid-user@drawdown.trading";
 const PAID_USER_PASSWORD = "QA!Paid#2026SecureTest";
 
-const BASE_URL = process.env.PLAYWRIGHT_BASE_URL || "https://avorria.com";
+const BASE_URL = process.env.PLAYWRIGHT_BASE_URL || "https://drawdown.trading";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Helpers

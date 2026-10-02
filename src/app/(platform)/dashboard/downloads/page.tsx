@@ -6,7 +6,7 @@ import { BookOpen, Download, Lock, Check, Star, ArrowRight } from "lucide-react"
 import { PageHeader } from "@/components/dashboard/ui/PageHeader";
 
 export const metadata: Metadata = {
-  title: "Downloads — Avorria Dashboard",
+  title: "Downloads — Drawdown Dashboard",
   description: "Access your purchased PDF guides and unlock new titles from Pete Currey's complete trading library.",
 };
 
@@ -221,7 +221,7 @@ export default async function DownloadsPage() {
                         </a>
                       ) : (
                         <div className="text-center py-3 text-xs text-[#87877F]">
-                          Download link unavailable — <a href="mailto:pete@avorria.com" className="underline">contact support</a>
+                          Download link unavailable — <a href="mailto:pete@drawdown.trading" className="underline">contact support</a>
                         </div>
                       )}
                     </div>

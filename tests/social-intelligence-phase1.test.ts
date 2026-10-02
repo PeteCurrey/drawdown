@@ -167,7 +167,7 @@ test("Phase 1 Wire Integration: Includes approved investor attention items with 
       confidence: "VERIFIED",
       importance: "lead",
       section: "lead",
-      author_name: "Avorria Editorial",
+      author_name: "Drawdown Editorial",
       reading_time_minutes: 3,
       tags: ["boe", "gbp"],
       sources: [],

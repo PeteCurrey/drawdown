@@ -1,8 +1,8 @@
-# Avorria Signal Centre — Email Template System
+# Drawdown Signal Centre — Email Template System
 
 ## Overview
 
-Five files in this directory form the complete email template system for Avorria's Signal Centre broadcasts. All templates are table-based HTML (Outlook-safe), with all CSS inlined where possible and inline fallbacks in `<style>` blocks for clients that support them.
+Five files in this directory form the complete email template system for Drawdown's Signal Centre broadcasts. All templates are table-based HTML (Outlook-safe), with all CSS inlined where possible and inline fallbacks in `<style>` blocks for clients that support them.
 
 ---
 
@@ -110,9 +110,9 @@ When sending via Resend, substitute all `{{PLACEHOLDER}}` tokens with real value
 const html = templateHtml
   .replace(/\{\{HEADLINE_TEXT\}\}/g, alertData.headline)
   .replace(/\{\{BODY_PARAGRAPH_1\}\}/g, alertData.summary)
-  .replace(/\{\{CTA_URL\}\}/g, `https://avorria.com/the-wire`)
+  .replace(/\{\{CTA_URL\}\}/g, `https://drawdown.trading/the-wire`)
   .replace(/\{\{CTA_LABEL\}\}/g, 'View Full Alert')
-  .replace(/\{\{UNSUBSCRIBE_URL\}\}/g, `https://avorria.com/unsubscribe?token=${sub.token}`)
+  .replace(/\{\{UNSUBSCRIBE_URL\}\}/g, `https://drawdown.trading/unsubscribe?token=${sub.token}`)
   // ...etc
 ```
 

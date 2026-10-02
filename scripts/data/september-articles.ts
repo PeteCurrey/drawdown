@@ -10,7 +10,7 @@ export const SEPTEMBER_ARTICLES: ArticleSeed[] = [
     readTime: "7 min read",
     heroImageUrl: "https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?q=80&w=800",
     focusKeyword: "September equity seasonality market data",
-    metaTitle: "September Seasonality in Equities: Edge or Myth? | Avorria Trading",
+    metaTitle: "September Seasonality in Equities: Edge or Myth? | Drawdown Trading",
     metaDescription: "A quantitative investigation into historical September market seasonality on the S&P 500 and FTSE 100, separating statistical reality from retail superstition.",
     relatedPostSlugs: ["ftse-100-playbook", "backtesting-101", "ftse-100-vs-sp500-decoupling"],
     body: `
@@ -82,18 +82,18 @@ Audit your historical testing framework with our guide on [Backtesting 101: How 
   },
   {
     slug: "solvency-stress-test-auditing-prop-firm-capital",
-    title: "The Solvency Stress Test: How Avorria Audits Prop Firm Payout Capital",
+    title: "The Solvency Stress Test: How Drawdown Audits Prop Firm Payout Capital",
     subtitle: "When a prop firm operates 100% on demo servers, where does the money for trader withdrawals actually come from?",
-    category: "Inside Avorria",
+    category: "Inside Drawdown",
     publishedAt: "2026-09-07T10:30:00.000Z",
     readTime: "9 min read",
     heroImageUrl: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=800",
     focusKeyword: "prop firm solvency audit payout capital",
-    metaTitle: "The Solvency Stress Test: Auditing Prop Firm Capital | Avorria Trading",
-    metaDescription: "Inside Avorria's investigative methodology: how we stress-test prop firm balance sheets, payout ledgers, and B-book operational models.",
+    metaTitle: "The Solvency Stress Test: Auditing Prop Firm Capital | Drawdown Trading",
+    metaDescription: "Inside Drawdown's investigative methodology: how we stress-test prop firm balance sheets, payout ledgers, and B-book operational models.",
     relatedPostSlugs: ["prop-firm-auditing-sandbox", "prop-firm-honest-review", "prop-firm-vs-funding-your-own-account"],
     body: `
-# The Solvency Stress Test: How Avorria Audits Prop Firm Payout Capital
+# The Solvency Stress Test: How Drawdown Audits Prop Firm Payout Capital
 
 Over the past three years, the modern retail trading landscape has been reshaped by the explosion of online proprietary evaluation firms. Millions of traders across the UK, Europe, and North America now execute trades on simulated accounts in hopes of securing funded profit splits.
 
@@ -103,7 +103,7 @@ When a trader receives an £8,000 profit split from a simulated account that nev
 
 They came from the evaluation and reset fees paid by other losing retail traders.
 
-Understanding this business model is the starting point for Avorria's rigorous **Prop Firm Solvency Stress Test**.
+Understanding this business model is the starting point for Drawdown's rigorous **Prop Firm Solvency Stress Test**.
 
 ---
 
@@ -127,7 +127,7 @@ However, systemic risk arises when:
 
 ---
 
-## 2. The Four Pillars of Avorria's Solvency Audit
+## 2. The Four Pillars of Drawdown's Solvency Audit
 
 Through [The Lobby Prop Firm Watch](/lobby/prop-firms), our investigative intelligence team evaluates prop firms across four non-negotiable stress criteria:
 
@@ -161,7 +161,7 @@ As long as a firm maintains conservative risk management, maintains capital rese
 
 1. **Withdraw Early and Often**: Never leave accrued profits sitting in a prop firm account as a "safety buffer". The moment your profit split window opens, request your withdrawal immediately to your bank or personal wallet.
 2. **Diversify Across Multiple Independent Firms**: Never concentrate your trading capital in a single prop firm ecosystem. Distribute your evaluation allocations across at least three verified providers.
-3. **Consult Verified Intelligence**: Before spending money on an evaluation fee, check the live risk score in the [Avorria Prop Firm Watch](/lobby/prop-firms).
+3. **Consult Verified Intelligence**: Before spending money on an evaluation fee, check the live risk score in the [Drawdown Prop Firm Watch](/lobby/prop-firms).
 
 ---
 
@@ -181,7 +181,7 @@ Inspect live audit reports in [The Lobby Prop Firm Solvency Room](/lobby/prop-fi
     readTime: "7 min read",
     heroImageUrl: "https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?q=80&w=800",
     focusKeyword: "ECB rate cut EUR GBP cross currency",
-    metaTitle: "ECB Monetary Easing & EUR/GBP Cross Dynamics | Avorria Trading",
+    metaTitle: "ECB Monetary Easing & EUR/GBP Cross Dynamics | Drawdown Trading",
     metaDescription: "An in-depth macro analysis of European Central Bank easing, eurozone industrial data, and the multi-month structural trend in EUR/GBP.",
     relatedPostSlugs: ["bank-of-england-rate-decisions-playbook", "trading-the-bank-of-england", "gbpusd-trading-guide"],
     body: `
@@ -256,7 +256,7 @@ Review our complete currency frameworks in [The Lobby Central Banks Feed](/lobby
     readTime: "8 min read",
     heroImageUrl: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=800",
     focusKeyword: "backtest overfitting quantitative trading",
-    metaTitle: "Why Backtest Overfitting Kills Retail Algos | Avorria Trading",
+    metaTitle: "Why Backtest Overfitting Kills Retail Algos | Drawdown Trading",
     metaDescription: "Exposing the statistical traps of backtest overfitting, curve-fitting, and look-ahead bias in algorithmic trading strategy development.",
     relatedPostSlugs: ["why-your-backtest-is-lying", "fidelity-data-backtest-sandbox", "case-for-full-automation"],
     body: `
@@ -317,9 +317,9 @@ Institutional quantitative desks utilize rigorous statistical safeguards before 
 
 ---
 
-## 4. How Avorria Solves This Problem
+## 4. How Drawdown Solves This Problem
 
-At Avorria Trading, our [High-Fidelity Backtesting Sandbox](/blog/fidelity-data-backtest-sandbox) was specifically built to eliminate backtest illusions:
+At Drawdown Trading, our [High-Fidelity Backtesting Sandbox](/blog/fidelity-data-backtest-sandbox) was specifically built to eliminate backtest illusions:
 - We test strategies against raw, unmanipulated tick-level institutional data.
 - We incorporate dynamic, time-of-day spread models and realistic liquidity slippage.
 - We measure performance by robust mathematical expectancy rather than aesthetic win rate.
@@ -342,7 +342,7 @@ Explore our full breakdown in [Exposing Backtest Lies: How Our High-Fidelity Dat
     readTime: "7 min read",
     heroImageUrl: "https://images.unsplash.com/photo-1505761671935-60b3a7427bad?q=80&w=800",
     focusKeyword: "FCA finfluencer regulations CFD warnings",
-    metaTitle: "FCA Regulatory Update: Finfluencers & CFD Rules | Avorria Trading",
+    metaTitle: "FCA Regulatory Update: Finfluencers & CFD Rules | Drawdown Trading",
     metaDescription: "An authoritative analysis of the Financial Conduct Authority's latest regulatory crackdown on unauthorized financial influencers, illegal promotions, and CFD risks.",
     relatedPostSlugs: ["fca-regulation-explained", "fca-leverage-caps-uk-traders", "coffeezilla-alexg-trading-education"],
     body: `
@@ -397,9 +397,9 @@ While predatory marketing affiliates and scam educators will inevitably face enf
 
 ---
 
-## 4. How Avorria Upholds These Standards
+## 4. How Drawdown Upholds These Standards
 
-At Avorria Trading, our operational philosophy has always been aligned with regulatory transparency:
+At Drawdown Trading, our operational philosophy has always been aligned with regulatory transparency:
 - We are proudly built in the UK under full transparency.
 - We never promise unrealistic returns, miraculous win rates, or effortless wealth.
 - Our entire curriculum and tool suite is built around **drawdown management, risk of ruin mathematics, and institutional market structure**.
@@ -422,7 +422,7 @@ Read our complete breakdown of UK regulatory protections in [FCA Regulation Expl
     readTime: "8 min read",
     heroImageUrl: "https://images.unsplash.com/photo-1508962914676-134849a727f0?q=80&w=800",
     focusKeyword: "Federal Reserve September FOMC rate decision",
-    metaTitle: "Fed September Rate Decision Playbook | Avorria Trading",
+    metaTitle: "Fed September Rate Decision Playbook | Drawdown Trading",
     metaDescription: "The professional trader's playbook for the Federal Reserve FOMC September interest rate decision, Summary of Economic Projections, and Powell press conference.",
     relatedPostSlugs: ["economic-calendar-guide", "bank-of-england-rate-decisions-playbook", "ftse-100-vs-sp500-decoupling"],
     body: `
@@ -497,7 +497,7 @@ Follow live, second-by-second dispatches directly inside [The Wire](/wire) and t
     readTime: "8 min read",
     heroImageUrl: "https://images.unsplash.com/photo-1498084393753-b411b2d26b34?q=80&w=800",
     focusKeyword: "drawdown recovery formula asymmetric payoff",
-    metaTitle: "The Drawdown Survival Formula: Asymmetric Payoffs | Avorria Trading",
+    metaTitle: "The Drawdown Survival Formula: Asymmetric Payoffs | Drawdown Trading",
     metaDescription: "Master the non-linear mathematics of drawdown recovery and learn how to construct asymmetric risk-reward payoffs to protect your capital.",
     relatedPostSlugs: ["the-psychology-of-drawdown-recovery", "the-math-of-ruin-expectancy-calculator", "kelly-criterion-position-sizing-mastery"],
     body: `
@@ -591,25 +591,25 @@ If you find yourself in a drawdown exceeding 10%, execute the following four ste
 
 > "Your first job as a trader is not to make money; it is to protect your capital so you are still in the game tomorrow. When you respect the mathematics of drawdown and build asymmetric setups, market volatility stops being a threat and becomes your greatest opportunity."
 
-Explore our deep dive into [The Psychology of Drawdown Recovery](/blog/the-psychology-of-drawdown-recovery) and audit your system's edge with the [Avorria Expectancy Calculator](/tools/the-math-of-ruin-expectancy-calculator).
+Explore our deep dive into [The Psychology of Drawdown Recovery](/blog/the-psychology-of-drawdown-recovery) and audit your system's edge with the [Drawdown Expectancy Calculator](/tools/the-math-of-ruin-expectancy-calculator).
 `
   },
   {
     slug: "institutional-market-surveillance-lobby-control-room",
     title: "Institutional Market Surveillance: Introducing The Lobby Data Control Room",
-    subtitle: "An inside look at Avorria's multi-source intelligence architecture, circuit breaker telemetry, and verifiable audit trails.",
-    category: "Inside Avorria",
+    subtitle: "An inside look at Drawdown's multi-source intelligence architecture, circuit breaker telemetry, and verifiable audit trails.",
+    category: "Inside Drawdown",
     publishedAt: "2026-09-21T08:00:00.000Z",
     readTime: "9 min read",
     heroImageUrl: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800",
-    focusKeyword: "The Lobby Data Control Room Avorria Intelligence",
-    metaTitle: "Introducing The Lobby Data Control Room | Avorria Trading",
-    metaDescription: "Go behind the scenes of Avorria's internal data control room: our provider-agnostic intelligence pipeline, feed verification, and real-time surveillance.",
+    focusKeyword: "The Lobby Data Control Room Drawdown Intelligence",
+    metaTitle: "Introducing The Lobby Data Control Room | Drawdown Trading",
+    metaDescription: "Go behind the scenes of Drawdown's internal data control room: our provider-agnostic intelligence pipeline, feed verification, and real-time surveillance.",
     relatedPostSlugs: ["anti-hype-engine-visual-rebuild", "sunday-routine-risk-mapping-weekly-call", "clean-commissions-affiliate-dashboard"],
     body: `
 # Institutional Market Surveillance: Introducing The Lobby Data Control Room
 
-For the past several months, the engineering and editorial teams at Avorria have been constructing a foundational piece of market infrastructure: **The Avorria Intelligence Data Platform** and its internal command center, **The Lobby Data Control Room**.
+For the past several months, the engineering and editorial teams at Drawdown have been constructing a foundational piece of market infrastructure: **The Drawdown Intelligence Data Platform** and its internal command center, **The Lobby Data Control Room**.
 
 In an industry flooded with automated scrapers, superficial financial news aggregators, and fabricated trading rumors, our objective has been uncompromising: to build an observable, provider-agnostic intelligence pipeline where every single market signal is audited, verified, and backed by verifiable source provenance.
 
@@ -671,7 +671,7 @@ All API tokens, HMAC signatures, and database credentials reside exclusively in 
 
 ---
 
-## 4. What This Means for Avorria Readers
+## 4. What This Means for Drawdown Readers
 
 When you read a dispatch on [The Lobby](/lobby) or catch a breaking flash on [The Wire](/wire), you are not reading regurgitated social media gossip. You are looking at the output of a professional-grade intelligence engine:
 - **Zero Hallucinations**: Every claim is tied to primary sources.

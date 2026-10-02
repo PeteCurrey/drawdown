@@ -95,7 +95,7 @@ export const STATUS: Record<ProductStatusId, ProductStatus> = {
 };
 
 /**
- * Product registry — maps each Avorria tool/feature to its canonical status.
+ * Product registry — maps each Drawdown tool/feature to its canonical status.
  * Update here first; pricing pages and tool cards consume this centrally.
  *
  * A product CANNOT be "released" on pricing and "planned" on the course roadmap.

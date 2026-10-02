@@ -102,7 +102,7 @@ export function AuthForm({ mode }: AuthFormProps) {
         {/* Content */}
         <div className="relative z-10">
           <Link href="/" className="text-2xl font-sans font-extrabold tracking-[-0.04em] text-white">
-            Avorria<span style={{ color: "#16A34A" }}>.</span>
+            Drawdown<span style={{ color: "#16A34A" }}>.</span>
           </Link>
         </div>
 
@@ -111,7 +111,7 @@ export function AuthForm({ mode }: AuthFormProps) {
             "The market rewards discipline and punishes emotion. Learn which one you are."
           </blockquote>
           <p className="text-sm font-sans" style={{ color: "#666666" }}>
-            Pete Currey, Founder — Avorria Trading
+            Pete Currey, Founder — Drawdown Trading
           </p>
 
           <div className="grid grid-cols-3 gap-4 pt-8 border-t" style={{ borderColor: "#1A1A1A" }}>
@@ -136,7 +136,7 @@ export function AuthForm({ mode }: AuthFormProps) {
           {/* Mobile logo */}
           <div className="lg:hidden mb-4">
             <Link href="/" className="text-xl font-sans font-extrabold tracking-[-0.04em] text-mkt-ink">
-              Avorria<span className="text-mkt-grn">.</span>
+              Drawdown<span className="text-mkt-grn">.</span>
             </Link>
           </div>
 
@@ -203,7 +203,7 @@ export function AuthForm({ mode }: AuthFormProps) {
               <input
                 type="email"
                 required
-                placeholder="trader@avorria.com"
+                placeholder="trader@drawdown.trading"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="w-full bg-[#F7F7F7] border border-mkt-bd focus:border-mkt-bds rounded-lg px-4 py-3 text-sm text-mkt-ink font-sans outline-none transition-colors placeholder:text-mkt-i4"

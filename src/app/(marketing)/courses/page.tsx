@@ -6,7 +6,7 @@ import { phases } from "@/data/courses";
 export const metadata: Metadata = {
   title: "Structured Trading Courses for UK Traders",
   description: "A structured 13-phase trading curriculum built for UK traders. From chart reading to live execution — no shortcuts, no fluff. Start Phase 1 free.",
-  alternates: { canonical: "https://avorria.com/courses" }
+  alternates: { canonical: "https://drawdown.trading/courses" }
 };
 
 export default function CoursesPage() {
@@ -21,8 +21,8 @@ export default function CoursesPage() {
         "description": phase.description,
         "provider": {
           "@type": "Organization",
-          "name": "Avorria",
-          "sameAs": "https://avorria.com"
+          "name": "Drawdown",
+          "sameAs": "https://drawdown.trading"
         }
       }
     }))

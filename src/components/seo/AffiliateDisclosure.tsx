@@ -18,7 +18,7 @@ export function AffiliateDisclosure({ className }: AffiliateDisclosureProps) {
             Professional Transparency
           </span>
           <p className="text-[11px] leading-relaxed text-mkt-i2 uppercase">
-            Avorria may earn a referral commission if you open an account via our links. 
+            Drawdown may earn a referral commission if you open an account via our links. 
             This never influences our recommendations — we only feature brokers and platforms 
             we have personally used or thoroughly evaluated. See our full{" "}
             <a href="/brokers#methodology" className="text-mkt-ink underline underline-offset-4 decoration-accent/30 hover:decoration-accent transition-all">

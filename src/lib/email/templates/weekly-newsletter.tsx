@@ -55,7 +55,7 @@ export function getNewsletterTemplate(content: string, title = "The Wire") {
                         <table border="0" cellspacing="0" cellpadding="0">
                           <tr>
                             <td align="center" bgcolor="#F9771D" style="border-radius: 4px;">
-                              <a href="https://avorria.com/dashboard" target="_blank" style="font-size: 14px; font-weight: bold; font-family: monospace; text-transform: uppercase; letter-spacing: 2px; color: #FFFFFF; text-decoration: none; padding: 15px 30px; display: inline-block;">OPEN TERMINAL</a>
+                              <a href="https://drawdown.trading/dashboard" target="_blank" style="font-size: 14px; font-weight: bold; font-family: monospace; text-transform: uppercase; letter-spacing: 2px; color: #FFFFFF; text-decoration: none; padding: 15px 30px; display: inline-block;">OPEN TERMINAL</a>
                             </td>
                           </tr>
                         </table>
@@ -69,7 +69,7 @@ export function getNewsletterTemplate(content: string, title = "The Wire") {
               <tr>
                 <td class="footer">
                   <p style="margin: 0 0 10px 0;">This email is for educational purposes only. Not financial advice.</p>
-                  <p style="margin: 0;">&copy; ${new Date().getFullYear()} Avorria. All rights reserved.</p>
+                  <p style="margin: 0;">&copy; ${new Date().getFullYear()} Drawdown. All rights reserved.</p>
                   <p style="margin: 10px 0 0 0;"><a href="#" style="color: #64748B; text-decoration: underline;">Unsubscribe</a></p>
                 </td>
               </tr>

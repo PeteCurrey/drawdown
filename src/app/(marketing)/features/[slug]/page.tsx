@@ -16,7 +16,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   if (!feature) return { title: 'Feature Not Found' };
 
   return {
-    title: `${feature.name} | Avorria Platform`,
+    title: `${feature.name} | Drawdown Platform`,
     description: feature.description,
   };
 }
@@ -82,7 +82,7 @@ export default async function FeaturePage({ params }: PageProps) {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div className="space-y-8">
               <div className="inline-flex items-center gap-2 px-3 py-1 bg-accent/10 border border-border-slate/50/20 text-accent text-[10px] font-bold uppercase tracking-widest">
-                <Zap className="w-3 h-3" /> The Avorria Edge
+                <Zap className="w-3 h-3" /> The Drawdown Edge
               </div>
               <h2 className="text-3xl md:text-5xl font-sans font-bold uppercase leading-tight">
                 Not just another technical tool. <br />A strategic advantage.
@@ -150,7 +150,7 @@ export default async function FeaturePage({ params }: PageProps) {
             <div className="relative z-10 max-w-2xl">
               <h2 className="text-3xl font-sans font-bold uppercase mb-6">Built to Professional Standards.</h2>
               <p className="text-text-secondary leading-relaxed mb-10">
-                This feature is fully integrated with the Avorria ecosystem, sharing data with your Trade Journal and Risk Engine to provide a seamless, risk-controlled trading workflow.
+                This feature is fully integrated with the Drawdown ecosystem, sharing data with your Trade Journal and Risk Engine to provide a seamless, risk-controlled trading workflow.
               </p>
               
               <div className="flex flex-col gap-4">

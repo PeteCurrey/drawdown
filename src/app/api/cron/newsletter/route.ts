@@ -50,13 +50,13 @@ export async function GET(request: NextRequest) {
     // 4. Send Email via Resend
     // Note: Resend has a batch send limit per request, but for MVP we send as BCC or individually
     const { data: emailData, error: emailError } = await resend.emails.send({
-      from: 'Avorria Trading <thewire@avorria.com>',
-      to: 'thewire@avorria.com', // Send to self
+      from: 'Drawdown Trading <thewire@drawdown.trading>',
+      to: 'thewire@drawdown.trading', // Send to self
       bcc: recipientEmails, // BCC all subscribers
       subject: `The Wire — Weekly Edition: ${new Date(roundup.week_ending).toLocaleDateString()}`,
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; background: #08090D; color: #E4E2DD; padding: 40px;">
-          <h1 style="color: #00C2FF; text-transform: uppercase; font-size: 24px; letter-spacing: 2px;">Avorria Trading</h1>
+          <h1 style="color: #00C2FF; text-transform: uppercase; font-size: 24px; letter-spacing: 2px;">Drawdown Trading</h1>
           <p style="font-family: monospace; color: #8C8B87; font-size: 10px;">// WEEKLY ROUNDUP: ${roundup.week_ending}</p>
           <hr style="border: 0; border-top: 1px solid #1A1D24; margin: 20px 0;" />
           <div style="line-height: 1.6; font-size: 16px;">
@@ -66,9 +66,9 @@ export async function GET(request: NextRequest) {
           <p style="font-size: 12px; color: #8C8B87; text-align: center;">
             You received this because you're subscribed to The Wire. 
             <br />
-            Manage your subscription in the Avorria Dashboard.
+            Manage your subscription in the Drawdown Dashboard.
             <br /><br />
-            © ${new Date().getFullYear()} Avorria Trading.
+            © ${new Date().getFullYear()} Drawdown Trading.
           </p>
         </div>
       `,

@@ -140,7 +140,7 @@ const FAQS = [
   },
   {
     q: "How are the DCS scores calculated?",
-    a: "The Avorria Consensus Score aggregates responses from Claude, GPT-4o, and Grok — each analysing the same live technical data bundle. Claude is weighted 40%, GPT-4o 35%, Grok 25% (fixed weights). The score runs from 0–100; signals above 75 DCS are considered high-conviction.",
+    a: "The Drawdown Consensus Score aggregates responses from Claude, GPT-4o, and Grok — each analysing the same live technical data bundle. Claude is weighted 40%, GPT-4o 35%, Grok 25% (fixed weights). The score runs from 0–100; signals above 75 DCS are considered high-conviction.",
   },
   {
     q: "Can I access Signal Centre if I have a Drawdown subscription?",
@@ -253,7 +253,7 @@ export function SignalCentreMarketingClient() {
             <div className="lg:col-span-5 space-y-8">
               {/* Eyebrow */}
               <span className="text-[11px] font-sans font-bold text-text-tertiary uppercase tracking-widest block">
-                // Signal Centre — avorria.com
+                // Signal Centre — drawdown.trading
               </span>
 
               {/* Headline */}
@@ -411,7 +411,7 @@ export function SignalCentreMarketingClient() {
           <p className="text-base text-text-secondary leading-relaxed max-w-2xl mb-16 font-sans">
             Three frontier AI models analyse the same live market data simultaneously. Each has a different
             personality, different training weighting, and different data sources. Their outputs are scored,
-            weighted, and shown side-by-side as a proprietary Avorria Consensus Score (DCS) — from 0 to 100.
+            weighted, and shown side-by-side as a proprietary Drawdown Consensus Score (DCS) — from 0 to 100.
             When all three agree with high conviction, DCS is high. That's the signal you act on.
           </p>
 

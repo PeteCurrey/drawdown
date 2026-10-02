@@ -905,7 +905,7 @@ export default function MarketCallPage() {
           <h5 className="font-bold text-xs uppercase tracking-wider">Regulatory Compliance & Challenge Policy</h5>
         </div>
         <p className="text-[11px] text-[#87877F] leading-relaxed">
-          The Avorria Market Call challenge is purely an educational, free-to-participate simulation. No real money or currency of any kind is required to participate, nor is real capital exchanged or awarded as prizes.
+          The Drawdown Market Call challenge is purely an educational, free-to-participate simulation. No real money or currency of any kind is required to participate, nor is real capital exchanged or awarded as prizes.
         </p>
         <p className="text-[11px] text-[#87877F] leading-relaxed">
           Predictive submissions and aggregate community choices are hidden from public view until the weekly window closes to eliminate front-running and prevent the challenge from functioning as, or being confused with, an active trade-signals, advisory, or recommendations service. Information displayed does not constitute financial advice.

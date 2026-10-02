@@ -1,5 +1,5 @@
 /**
- * Avorria Trading — Market Data Health & Reliability Engine
+ * Drawdown Trading — Market Data Health & Reliability Engine
  *
  * Provides authoritative metadata, semantic dataset-aware freshness classification,
  * time-series validation, and health state inspection across all platform market data feeds.

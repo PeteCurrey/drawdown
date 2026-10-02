@@ -1,8 +1,8 @@
 /**
- * Legal / transactional email templates for Avorria Trading subscription events.
+ * Legal / transactional email templates for Drawdown Trading subscription events.
  *
  * Regulated context:
- *  - Operator: Black & Rowan Management Group Limited t/a Avorria Trading
+ *  - Operator: Black & Rowan Management Group Limited t/a Drawdown Trading
  *  - These emails satisfy obligations under:
  *      • Consumer Contracts (Information, Cancellation and Additional Charges)
  *        Regulations 2013 (SI 2013/3134) — reg. 14 distance-contract disclosure
@@ -13,8 +13,8 @@
 
 import { Resend } from "resend";
 
-const FROM_ADDRESS = "Pete @ Avorria Trading <thewire@avorria.com>";
-const APP_URL = process.env.NEXT_PUBLIC_APP_URL || "https://avorria.com";
+const FROM_ADDRESS = "Pete @ Drawdown Trading <thewire@drawdown.trading>";
+const APP_URL = process.env.NEXT_PUBLIC_APP_URL || "https://drawdown.trading";
 
 // ─── Shared layout shell ──────────────────────────────────────────────────────
 
@@ -24,7 +24,7 @@ function emailShell(body: string): string {
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Avorria Trading</title>
+  <title>Drawdown Trading</title>
 </head>
 <body style="margin:0;padding:0;background:#0B0E12;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">
   <table width="100%" cellpadding="0" cellspacing="0" style="background:#0B0E12;">
@@ -51,9 +51,9 @@ function emailShell(body: string): string {
           <tr>
             <td style="padding:24px 32px;border-top:1px solid #1E2328;">
               <p style="font-size:11px;color:#6B7280;line-height:1.7;margin:0;">
-                Black &amp; Rowan Management Group Limited trading as Avorria Trading.<br />
+                Black &amp; Rowan Management Group Limited trading as Drawdown Trading.<br />
                 Educational platform. Not investment advice.<br />
-                This email was sent because you purchased or subscribed via Avorria Trading.
+                This email was sent because you purchased or subscribed via Drawdown Trading.
               </p>
             </td>
           </tr>
@@ -90,8 +90,8 @@ export function getSubscriptionWelcomeTemplate({
         <strong style="color:#D1D5DB;">Your right to cancel:</strong>
         You have 14 days from today to cancel this subscription without giving any reason
         and receive a full refund, provided you have not accessed the digital content.
-        To cancel, email <a href="mailto:legal@avorria.com" style="color:#E2B755;">
-        legal@avorria.com</a> or visit your
+        To cancel, email <a href="mailto:legal@drawdown.trading" style="color:#E2B755;">
+        legal@drawdown.trading</a> or visit your
         <a href="${dashboardUrl}/settings" style="color:#E2B755;">account settings</a>.
       </p>`;
 
@@ -109,7 +109,7 @@ export function getSubscriptionWelcomeTemplate({
         <strong style="color:#D1D5DB;">What you agreed to:</strong>
       </p>
       <ul style="font-size:13px;color:#9CA3AF;line-height:1.8;margin:0;padding-left:20px;">
-        <li>Avorria Trading <a href="${APP_URL}/legal/terms" style="color:#E2B755;">Terms of Service</a>
+        <li>Drawdown Trading <a href="${APP_URL}/legal/terms" style="color:#E2B755;">Terms of Service</a>
             and <a href="${APP_URL}/legal/privacy" style="color:#E2B755;">Privacy Policy</a>
             (accepted at checkout).</li>
         <li>Educational platform only — not financial advice or investment management.</li>
@@ -128,7 +128,7 @@ export function getSubscriptionWelcomeTemplate({
 
     <p style="font-size:12px;color:#6B7280;line-height:1.6;margin:0;">
       If you have a question about your subscription, contact
-      <a href="mailto:support@avorria.com" style="color:#E2B755;">support@avorria.com</a>.
+      <a href="mailto:support@drawdown.trading" style="color:#E2B755;">support@drawdown.trading</a>.
       For billing queries, visit
       <a href="${dashboardUrl}/settings/billing" style="color:#E2B755;">Billing Settings</a>.
     </p>`;
@@ -168,7 +168,7 @@ export function getSubscriptionCancelledTemplate({
     <p style="font-size:13px;color:#9CA3AF;line-height:1.6;margin:0 0 24px;">
       If you believe this cancellation was made in error, or if you cancelled within
       14 days without accessing digital content and are entitled to a refund, please
-      contact <a href="mailto:legal@avorria.com" style="color:#E2B755;">legal@avorria.com</a>
+      contact <a href="mailto:legal@drawdown.trading" style="color:#E2B755;">legal@drawdown.trading</a>
       within 30 days.
     </p>
 
@@ -220,7 +220,7 @@ export function getPaymentFailedTemplate({
 
     <p style="font-size:12px;color:#6B7280;line-height:1.6;margin:0;">
       If you have already updated your card details, no further action is needed.
-      Contact <a href="mailto:support@avorria.com" style="color:#E2B755;">support@avorria.com</a>
+      Contact <a href="mailto:support@drawdown.trading" style="color:#E2B755;">support@drawdown.trading</a>
       if you need help.
     </p>`;
 
@@ -253,7 +253,7 @@ export async function sendSubscriptionWelcomeEmail({
   await resend.emails.send({
     from: FROM_ADDRESS,
     to: toEmail,
-    subject: `Your Avorria ${tierLabel} membership is active`,
+    subject: `Your Drawdown ${tierLabel} membership is active`,
     html,
   });
 }
@@ -279,7 +279,7 @@ export async function sendSubscriptionCancelledEmail({
   await resend.emails.send({
     from: FROM_ADDRESS,
     to: toEmail,
-    subject: `Your Avorria ${tierLabel} subscription has been cancelled`,
+    subject: `Your Drawdown ${tierLabel} subscription has been cancelled`,
     html,
   });
 }
@@ -305,7 +305,7 @@ export async function sendPaymentFailedEmail({
   await resend.emails.send({
     from: FROM_ADDRESS,
     to: toEmail,
-    subject: `Action required: Avorria Trading payment failed`,
+    subject: `Action required: Drawdown Trading payment failed`,
     html,
   });
 }

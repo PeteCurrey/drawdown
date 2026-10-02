@@ -1,4 +1,4 @@
-// Avorria Email Automation Templates
+// Drawdown Email Automation Templates
 // Premium responsive HTML/CSS structures compatible with major clients (Outlook, Gmail, Apple Mail)
 
 export interface EconomicEvent {
@@ -104,7 +104,7 @@ export function getWelcomeTemplate(unsubscribeUrl: string = "#"): string {
     <head>
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-      <title>Welcome to Avorria Trading</title>
+      <title>Welcome to Drawdown Trading</title>
       <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet" />
       <style type="text/css" rel="stylesheet" media="all">
         ${getBaseStyles()}
@@ -118,7 +118,7 @@ export function getWelcomeTemplate(unsubscribeUrl: string = "#"): string {
               <!-- Header -->
               <tr>
                 <td class="header">
-                  <h1 style="color: #0F172A; font-size: 24px; margin: 0; font-family: 'Outfit', sans-serif; letter-spacing: -0.5px;">Avorria<span style="color: #F9771D;">.</span></h1>
+                  <h1 style="color: #0F172A; font-size: 24px; margin: 0; font-family: 'Outfit', sans-serif; letter-spacing: -0.5px;">Drawdown<span style="color: #F9771D;">.</span></h1>
                   <p style="margin: 6px 0 0 0; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: #64748B; font-family: ui-monospace, monospace;">You're in. Here's what happens next.</p>
                 </td>
               </tr>
@@ -126,7 +126,7 @@ export function getWelcomeTemplate(unsubscribeUrl: string = "#"): string {
               <!-- Content -->
               <tr>
                 <td class="content">
-                  <p style="color: #0F172A; font-size: 16px; font-weight: 600;">Thanks for joining Avorria Trading.</p>
+                  <p style="color: #0F172A; font-size: 16px; font-weight: 600;">Thanks for joining Drawdown Trading.</p>
                   <p>This is a trading education platform built by Pete Currey — a UK-based trader who got fed up of the industry selling expensive nonsense to people who deserve better.</p>
                   <p>You'll receive two emails from us every trading day:</p>
                   
@@ -144,7 +144,7 @@ export function getWelcomeTemplate(unsubscribeUrl: string = "#"): string {
                   <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top: 30px; margin-bottom: 10px;">
                     <tr>
                       <td align="center">
-                        <a href="https://avorria.com/courses" class="btn-accent" target="_blank">Start Phase 1 Free &rarr;</a>
+                        <a href="https://drawdown.trading/courses" class="btn-accent" target="_blank">Start Phase 1 Free &rarr;</a>
                       </td>
                     </tr>
                   </table>
@@ -154,8 +154,8 @@ export function getWelcomeTemplate(unsubscribeUrl: string = "#"): string {
               <!-- Footer -->
               <tr>
                 <td class="footer">
-                  <p style="margin-bottom: 8px; color: #475569; font-weight: 500;">Pete Currey &bull; Avorria Trading</p>
-                  <p style="margin-bottom: 16px; color: #64748B;">&copy; ${new Date().getFullYear()} Avorria Trading. All rights reserved.</p>
+                  <p style="margin-bottom: 8px; color: #475569; font-weight: 500;">Pete Currey &bull; Drawdown Trading</p>
+                  <p style="margin-bottom: 16px; color: #64748B;">&copy; ${new Date().getFullYear()} Drawdown Trading. All rights reserved.</p>
                   <p style="margin-bottom: 16px;"><a href="${unsubscribeUrl}" style="color: #64748B; text-decoration: underline;">Unsubscribe</a></p>
                   <hr style="border: 0; border-top: 1px solid #E2E8F0; margin: 20px 0;" />
                   <p class="disclaimer">
@@ -199,7 +199,7 @@ export function getBreakingNewsTemplate(data: BreakingNewsData): string {
               <tr>
                 <td class="header" style="border-bottom: 2px solid #F9771D;">
                   <span style="color: #EA580C; font-family: ui-monospace, monospace; font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; display: inline-block; background-color: #FFEDD5; padding: 4px 12px; border-radius: 4px; margin-bottom: 10px;">🚨 BREAKING NEWS</span>
-                  <h1 style="color: #0F172A; font-size: 22px; margin: 0; font-family: 'Outfit', sans-serif; letter-spacing: -0.5px;">Avorria<span style="color: #F9771D;">.</span></h1>
+                  <h1 style="color: #0F172A; font-size: 22px; margin: 0; font-family: 'Outfit', sans-serif; letter-spacing: -0.5px;">Drawdown<span style="color: #F9771D;">.</span></h1>
                   <p style="margin: 6px 0 0 0; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: #64748B; font-family: ui-monospace, monospace;">The Wire &bull; Instant Market Alert</p>
                 </td>
               </tr>
@@ -224,7 +224,7 @@ export function getBreakingNewsTemplate(data: BreakingNewsData): string {
                   <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top: 28px; margin-bottom: 8px;">
                     <tr>
                       <td align="center">
-                        <a href="https://avorria.com/signal-centre" class="btn-accent" target="_blank">View Live Market Analysis &rarr;</a>
+                        <a href="https://drawdown.trading/signal-centre" class="btn-accent" target="_blank">View Live Market Analysis &rarr;</a>
                       </td>
                     </tr>
                   </table>
@@ -234,8 +234,8 @@ export function getBreakingNewsTemplate(data: BreakingNewsData): string {
               <!-- Footer -->
               <tr>
                 <td class="footer">
-                  <p style="margin-bottom: 8px; color: #475569;">Avorria Trading &bull; Market Intelligence</p>
-                  <p style="margin-bottom: 16px; color: #64748B;">&copy; ${new Date().getFullYear()} Avorria Trading. All rights reserved.</p>
+                  <p style="margin-bottom: 8px; color: #475569;">Drawdown Trading &bull; Market Intelligence</p>
+                  <p style="margin-bottom: 16px; color: #64748B;">&copy; ${new Date().getFullYear()} Drawdown Trading. All rights reserved.</p>
                   <p style="margin-bottom: 16px;"><a href="${data.unsubscribeUrl || '#'}" style="color: #64748B; text-decoration: underline;">Unsubscribe</a></p>
                   <hr style="border: 0; border-top: 1px solid #E2E8F0; margin: 20px 0;" />
                   <p class="disclaimer">
@@ -361,7 +361,7 @@ export function getMorningBriefTemplate(data: MorningBriefData): string {
                   <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top: 20px; margin-bottom: 10px;">
                     <tr>
                       <td align="center">
-                        <a href="https://avorria.com/dashboard" class="btn-accent" target="_blank">View Full Analysis on Avorria &rarr;</a>
+                        <a href="https://drawdown.trading/dashboard" class="btn-accent" target="_blank">View Full Analysis on Drawdown &rarr;</a>
                       </td>
                     </tr>
                   </table>
@@ -371,8 +371,8 @@ export function getMorningBriefTemplate(data: MorningBriefData): string {
               <!-- Footer -->
               <tr>
                 <td class="footer">
-                  <p style="margin-bottom: 8px; color: #475569;">Avorria Trading &bull; Market Intelligence</p>
-                  <p style="margin-bottom: 16px; color: #64748B;">&copy; ${new Date().getFullYear()} Avorria Trading. All rights reserved.</p>
+                  <p style="margin-bottom: 8px; color: #475569;">Drawdown Trading &bull; Market Intelligence</p>
+                  <p style="margin-bottom: 16px; color: #64748B;">&copy; ${new Date().getFullYear()} Drawdown Trading. All rights reserved.</p>
                   <p style="margin-bottom: 16px;"><a href="${data.unsubscribeUrl}" style="color: #64748B; text-decoration: underline;">Unsubscribe</a></p>
                   <hr style="border: 0; border-top: 1px solid #E2E8F0; margin: 20px 0;" />
                   <p class="disclaimer">
@@ -445,7 +445,7 @@ export function getEveningWrapTemplate(data: EveningWrapData): string {
                   <h2 style="font-size: 13px; color: #16A34A; border-bottom: 1px solid #E2E8F0; padding-bottom: 8px; margin-top: 32px; margin-bottom: 16px; font-family: ui-monospace, monospace; letter-spacing: 1px;">// Curriculum Connection</h2>
                   <div class="accent-bar" style="border-left-color: #16A34A; background-color: #F0FDF4; margin-bottom: 30px;">
                     <p style="color: #0F172A; font-style: italic; margin-bottom: 8px; font-weight: 500;">${data.curriculumTopic}</p>
-                    <p style="margin-bottom: 0; font-size: 13px; color: #64748B;">Learn more about this mechanism inside the Avorria modules.</p>
+                    <p style="margin-bottom: 0; font-size: 13px; color: #64748B;">Learn more about this mechanism inside the Drawdown modules.</p>
                   </div>
                   
                   <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top: 20px; margin-bottom: 10px;">
@@ -461,8 +461,8 @@ export function getEveningWrapTemplate(data: EveningWrapData): string {
               <!-- Footer -->
               <tr>
                 <td class="footer">
-                  <p style="margin-bottom: 8px; color: #475569;">Avorria Trading &bull; Market Intelligence</p>
-                  <p style="margin-bottom: 16px; color: #64748B;">&copy; ${new Date().getFullYear()} Avorria Trading. All rights reserved.</p>
+                  <p style="margin-bottom: 8px; color: #475569;">Drawdown Trading &bull; Market Intelligence</p>
+                  <p style="margin-bottom: 16px; color: #64748B;">&copy; ${new Date().getFullYear()} Drawdown Trading. All rights reserved.</p>
                   <p style="margin-bottom: 16px;"><a href="${data.unsubscribeUrl}" style="color: #64748B; text-decoration: underline;">Unsubscribe</a></p>
                   <hr style="border: 0; border-top: 1px solid #E2E8F0; margin: 20px 0;" />
                   <p class="disclaimer">
@@ -500,7 +500,7 @@ export function getSurvivalKitConfirmationTemplate(dashboardUrl: string, tempPas
               <!-- Header -->
               <tr>
                 <td class="header" style="border-bottom: 2px solid #16A34A;">
-                  <h1 style="color: #0F172A; font-size: 24px; margin: 0; font-family: 'Outfit', sans-serif; letter-spacing: -0.5px;">Avorria<span style="color: #16A34A;">.</span></h1>
+                  <h1 style="color: #0F172A; font-size: 24px; margin: 0; font-family: 'Outfit', sans-serif; letter-spacing: -0.5px;">Drawdown<span style="color: #16A34A;">.</span></h1>
                   <p style="margin: 6px 0 0 0; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: #64748B; font-family: ui-monospace, monospace;">Prop Challenge Survival Kit</p>
                 </td>
               </tr>
@@ -531,16 +531,16 @@ export function getSurvivalKitConfirmationTemplate(dashboardUrl: string, tempPas
                   ${magicLink ? `
                   <div class="section-box">
                     <p style="margin-bottom: 8px; font-weight: bold; color: #F9771D; font-family: ui-monospace, monospace;">// YOUR ACCOUNT ACCESS:</p>
-                    <p style="font-size: 14px; margin-bottom: 12px; color: #1E293B;">We created an Avorria account for you. Click the button below to sign in and access your download — no password needed.</p>
+                    <p style="font-size: 14px; margin-bottom: 12px; color: #1E293B;">We created an Drawdown account for you. Click the button below to sign in and access your download — no password needed.</p>
                     <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top: 12px;">
                       <tr><td align="center">
                         <a href="${magicLink}" class="btn-accent" style="background-color: #0F172A;" target="_blank">Sign In to Your Account &rarr;</a>
                       </td></tr>
                     </table>
-                    <p style="font-size: 12px; color: #64748B; margin-top: 12px;">This link expires in 1 hour. After that, use the magic link sign-in on avorria.com/login.</p>
+                    <p style="font-size: 12px; color: #64748B; margin-top: 12px;">This link expires in 1 hour. After that, use the magic link sign-in on drawdown.trading/login.</p>
                   </div>
                   ` : `
-                  <p>Log in to your Avorria account to access your purchase at any time from your dashboard.</p>
+                  <p>Log in to your Drawdown account to access your purchase at any time from your dashboard.</p>
                   `}
                   
                   <p style="font-size: 14px; margin-top: 24px;">If you have any questions or need support, reply directly to this email.</p>
@@ -550,8 +550,8 @@ export function getSurvivalKitConfirmationTemplate(dashboardUrl: string, tempPas
               <!-- Footer -->
               <tr>
                 <td class="footer">
-                  <p style="margin-bottom: 8px; color: #475569; font-weight: 500;">Pete Currey &bull; Avorria Trading</p>
-                  <p style="margin-bottom: 16px; color: #64748B;">&copy; ${new Date().getFullYear()} Avorria Trading. All rights reserved.</p>
+                  <p style="margin-bottom: 8px; color: #475569; font-weight: 500;">Pete Currey &bull; Drawdown Trading</p>
+                  <p style="margin-bottom: 16px; color: #64748B;">&copy; ${new Date().getFullYear()} Drawdown Trading. All rights reserved.</p>
                   <hr style="border: 0; border-top: 1px solid #E2E8F0; margin: 20px 0;" />
                   <p class="disclaimer">
                     <strong>RISK WARNING:</strong> Trading financial instruments carries high risk. Most retail traders lose capital. Only risk capital you can afford to lose. All content is for educational use only and does not constitute financial advice.
@@ -588,7 +588,7 @@ export function getHowToTradeConfirmationTemplate(dashboardUrl: string, tempPass
               <!-- Header -->
               <tr>
                 <td class="header" style="border-bottom: 2px solid #F9771D;">
-                  <h1 style="color: #0F172A; font-size: 24px; margin: 0; font-family: 'Outfit', sans-serif; letter-spacing: -0.5px;">Avorria<span style="color: #F9771D;">.</span></h1>
+                  <h1 style="color: #0F172A; font-size: 24px; margin: 0; font-family: 'Outfit', sans-serif; letter-spacing: -0.5px;">Drawdown<span style="color: #F9771D;">.</span></h1>
                   <p style="margin: 6px 0 0 0; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: #64748B; font-family: ui-monospace, monospace;">How to Trade — 100-Page Framework</p>
                 </td>
               </tr>
@@ -620,16 +620,16 @@ export function getHowToTradeConfirmationTemplate(dashboardUrl: string, tempPass
                   ${magicLink ? `
                   <div class="section-box">
                     <p style="margin-bottom: 8px; font-weight: bold; color: #F9771D; font-family: ui-monospace, monospace;">// YOUR ACCOUNT ACCESS:</p>
-                    <p style="font-size: 14px; margin-bottom: 12px; color: #1E293B;">We created an Avorria account for you. Click the button below to sign in and access your download — no password needed.</p>
+                    <p style="font-size: 14px; margin-bottom: 12px; color: #1E293B;">We created an Drawdown account for you. Click the button below to sign in and access your download — no password needed.</p>
                     <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top: 12px;">
                       <tr><td align="center">
                         <a href="${magicLink}" class="btn-accent" style="background-color: #0F172A;" target="_blank">Sign In to Your Account &rarr;</a>
                       </td></tr>
                     </table>
-                    <p style="font-size: 12px; color: #64748B; margin-top: 12px;">This link expires in 1 hour. After that, use the magic link sign-in on avorria.com/login.</p>
+                    <p style="font-size: 12px; color: #64748B; margin-top: 12px;">This link expires in 1 hour. After that, use the magic link sign-in on drawdown.trading/login.</p>
                   </div>
                   ` : `
-                  <p>Log in to your Avorria account to access your purchase at any time from your dashboard.</p>
+                  <p>Log in to your Drawdown account to access your purchase at any time from your dashboard.</p>
                   `}
                   
                   <p style="font-size: 14px; margin-top: 24px;">If you have any questions, reply directly to this email and Pete will get back to you.</p>
@@ -639,8 +639,8 @@ export function getHowToTradeConfirmationTemplate(dashboardUrl: string, tempPass
               <!-- Footer -->
               <tr>
                 <td class="footer">
-                  <p style="margin-bottom: 8px; color: #475569; font-weight: 500;">Pete Currey &bull; Avorria Trading</p>
-                  <p style="margin-bottom: 16px; color: #64748B;">&copy; ${new Date().getFullYear()} Avorria Trading. All rights reserved.</p>
+                  <p style="margin-bottom: 8px; color: #475569; font-weight: 500;">Pete Currey &bull; Drawdown Trading</p>
+                  <p style="margin-bottom: 16px; color: #64748B;">&copy; ${new Date().getFullYear()} Drawdown Trading. All rights reserved.</p>
                   <hr style="border: 0; border-top: 1px solid #E2E8F0; margin: 20px 0;" />
                   <p class="disclaimer">
                     <strong>RISK WARNING:</strong> Trading financial instruments carries high risk. Most retail traders lose capital. Only risk capital you can afford to lose. All content is for educational use only and does not constitute financial advice.
@@ -677,7 +677,7 @@ export function getTheEdgeConfirmationTemplate(dashboardUrl: string, tempPasswor
               <!-- Header -->
               <tr>
                 <td class="header" style="border-bottom: 2px solid #6366F1;">
-                  <h1 style="color: #0F172A; font-size: 24px; margin: 0; font-family: 'Outfit', sans-serif; letter-spacing: -0.5px;">Avorria<span style="color: #6366F1;">.</span></h1>
+                  <h1 style="color: #0F172A; font-size: 24px; margin: 0; font-family: 'Outfit', sans-serif; letter-spacing: -0.5px;">Drawdown<span style="color: #6366F1;">.</span></h1>
                   <p style="margin: 6px 0 0 0; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: #64748B; font-family: ui-monospace, monospace;">The Edge Manual — Advanced Strategy Playbook</p>
                 </td>
               </tr>
@@ -703,23 +703,23 @@ export function getTheEdgeConfirmationTemplate(dashboardUrl: string, tempPasswor
                   ${magicLink ? `
                   <div class="section-box">
                     <p style="margin-bottom: 8px; font-weight: bold; color: #6366F1; font-family: ui-monospace, monospace;">// YOUR ACCOUNT ACCESS:</p>
-                    <p style="font-size: 14px; margin-bottom: 12px; color: #1E293B;">We created an Avorria account for you. Click below to sign in — no password needed.</p>
+                    <p style="font-size: 14px; margin-bottom: 12px; color: #1E293B;">We created an Drawdown account for you. Click below to sign in — no password needed.</p>
                     <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top: 12px;">
                       <tr><td align="center">
                         <a href="${magicLink}" class="btn-accent" style="background-color: #0F172A;" target="_blank">Sign In to Your Account &rarr;</a>
                       </td></tr>
                     </table>
-                    <p style="font-size: 12px; color: #64748B; margin-top: 12px;">This link expires in 1 hour. After that, use magic link sign-in at avorria.com/login.</p>
+                    <p style="font-size: 12px; color: #64748B; margin-top: 12px;">This link expires in 1 hour. After that, use magic link sign-in at drawdown.trading/login.</p>
                   </div>
-                  ` : `<p>Log in to your Avorria account to access your purchase at any time.</p>`}
+                  ` : `<p>Log in to your Drawdown account to access your purchase at any time.</p>`}
                   <p style="font-size: 14px; margin-top: 24px;">Questions? Reply directly to this email and Pete will get back to you.</p>
                 </td>
               </tr>
               <!-- Footer -->
               <tr>
                 <td class="footer">
-                  <p style="margin-bottom: 8px; color: #475569; font-weight: 500;">Pete Currey &bull; Avorria Trading</p>
-                  <p style="margin-bottom: 16px; color: #64748B;">&copy; ${new Date().getFullYear()} Avorria Trading. All rights reserved.</p>
+                  <p style="margin-bottom: 8px; color: #475569; font-weight: 500;">Pete Currey &bull; Drawdown Trading</p>
+                  <p style="margin-bottom: 16px; color: #64748B;">&copy; ${new Date().getFullYear()} Drawdown Trading. All rights reserved.</p>
                   <hr style="border: 0; border-top: 1px solid #E2E8F0; margin: 20px 0;" />
                   <p class="disclaimer"><strong>RISK WARNING:</strong> Trading financial instruments carries high risk. Most retail traders lose capital. Only risk capital you can afford to lose. All content is for educational use only and does not constitute financial advice.</p>
                 </td>
@@ -740,7 +740,7 @@ export function getManualBundleConfirmationTemplate(dashboardUrl: string, tempPa
     <head>
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-      <title>Your Avorria Manual Bundle</title>
+      <title>Your Drawdown Manual Bundle</title>
       <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet" />
       <style type="text/css" rel="stylesheet" media="all">
         ${getBaseStyles()}
@@ -754,7 +754,7 @@ export function getManualBundleConfirmationTemplate(dashboardUrl: string, tempPa
               <!-- Header -->
               <tr>
                 <td class="header" style="border-bottom: 2px solid #818CF8;">
-                  <h1 style="color: #0F172A; font-size: 24px; margin: 0; font-family: 'Outfit', sans-serif; letter-spacing: -0.5px;">Avorria<span style="color: #818CF8;">.</span></h1>
+                  <h1 style="color: #0F172A; font-size: 24px; margin: 0; font-family: 'Outfit', sans-serif; letter-spacing: -0.5px;">Drawdown<span style="color: #818CF8;">.</span></h1>
                   <p style="margin: 6px 0 0 0; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: #64748B; font-family: ui-monospace, monospace;">Complete Manual Collection</p>
                 </td>
               </tr>
@@ -763,7 +763,7 @@ export function getManualBundleConfirmationTemplate(dashboardUrl: string, tempPa
               <tr>
                 <td class="content">
                   <p style="color: #0F172A; font-size: 16px; font-weight: 600;">Your Complete Manual Collection is ready.</p>
-                  <p>Thank you for your purchase. You now have permanent lifetime access to all three of Avorria's flagship playbooks.</p>
+                  <p>Thank you for your purchase. You now have permanent lifetime access to all three of Drawdown's flagship playbooks.</p>
                   
                   <div class="section-box" style="border-color: #818CF8; background-color: #EEF2FF;">
                     <p style="margin-bottom: 8px; font-weight: bold; color: #4F46E5; font-family: ui-monospace, monospace;">// MANUALS INCLUDED:</p>
@@ -774,7 +774,7 @@ export function getManualBundleConfirmationTemplate(dashboardUrl: string, tempPa
                     </ul>
                   </div>
 
-                  <p>All manuals have been added to your Avorria dashboard. Click below to access the store downloads area immediately.</p>
+                  <p>All manuals have been added to your Drawdown dashboard. Click below to access the store downloads area immediately.</p>
                   
                   ${magicLink ? `
                     <div style="background-color: #F8FAFC; border: 1px dashed #CBD5E1; padding: 20px; border-radius: 6px; margin: 24px 0; text-align: center;">
@@ -795,8 +795,8 @@ export function getManualBundleConfirmationTemplate(dashboardUrl: string, tempPa
               <!-- Footer -->
               <tr>
                 <td class="footer">
-                  <p style="margin-bottom: 8px; color: #475569; font-weight: 500;">Pete Currey &bull; Avorria Trading</p>
-                  <p style="margin-bottom: 16px; color: #64748B;">&copy; ${new Date().getFullYear()} Avorria Trading. All rights reserved.</p>
+                  <p style="margin-bottom: 8px; color: #475569; font-weight: 500;">Pete Currey &bull; Drawdown Trading</p>
+                  <p style="margin-bottom: 16px; color: #64748B;">&copy; ${new Date().getFullYear()} Drawdown Trading. All rights reserved.</p>
                   <hr style="border: 0; border-top: 1px solid #E2E8F0; margin: 20px 0;" />
                   <p class="disclaimer"><strong>RISK WARNING:</strong> Trading financial instruments carries high risk. Most retail traders lose capital. Only risk capital you can afford to lose. All content is for educational use only and does not constitute financial advice.</p>
                 </td>
@@ -817,7 +817,7 @@ export function getAcceleratorApplicationConfirmationTemplate(firstName: string 
     <head>
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-      <title>Avorria Institutional Accelerator Application Received</title>
+      <title>Drawdown Institutional Accelerator Application Received</title>
       <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet" />
       <style type="text/css" rel="stylesheet" media="all">
         ${getBaseStyles()}
@@ -831,7 +831,7 @@ export function getAcceleratorApplicationConfirmationTemplate(firstName: string 
               <!-- Header -->
               <tr>
                 <td class="header" style="border-bottom: 2px solid #F9771D; background-color: #0F172A; padding: 40px 24px;">
-                  <h1 style="color: #FFFFFF; font-size: 24px; margin: 0; font-family: 'Outfit', sans-serif; letter-spacing: -0.5px;">Avorria<span style="color: #F9771D;">.</span></h1>
+                  <h1 style="color: #FFFFFF; font-size: 24px; margin: 0; font-family: 'Outfit', sans-serif; letter-spacing: -0.5px;">Drawdown<span style="color: #F9771D;">.</span></h1>
                   <p style="margin: 6px 0 0 0; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: #94A3B8; font-family: ui-monospace, monospace;">Institutional Accelerator Cohort</p>
                 </td>
               </tr>
@@ -840,7 +840,7 @@ export function getAcceleratorApplicationConfirmationTemplate(firstName: string 
               <tr>
                 <td class="content" style="padding: 36px 30px;">
                   <p style="color: #0F172A; font-size: 18px; font-weight: 600; margin-bottom: 8px;">Application Received — Welcome to the Gateway, ${firstName}.</p>
-                  <p>Thanks for applying to the <strong>Avorria Institutional Accelerator (AIA)</strong>. We have successfully received your candidate dossier and our admissions desk is actively reviewing your submission.</p>
+                  <p>Thanks for applying to the <strong>Drawdown Institutional Accelerator (AIA)</strong>. We have successfully received your candidate dossier and our admissions desk is actively reviewing your submission.</p>
                   
                   <p>The Accelerator is our highest-tier, high-ticket program (£1,500+ value) designed strictly for serious market practitioners who want to pass prop evaluations, build institutional risk profiles, and manage large-scale capital pools with absolute consistency.</p>
                   
@@ -893,7 +893,7 @@ export function getAcceleratorApplicationConfirmationTemplate(firstName: string 
                   <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top: 24px; margin-bottom: 12px;">
                     <tr>
                       <td align="center">
-                        <a href="https://avorria.com/dashboard" class="btn-accent" style="background-color: #0F172A; color: #FFFFFF !important; font-family: 'Outfit', sans-serif;" target="_blank">Access Client Dashboard &rarr;</a>
+                        <a href="https://drawdown.trading/dashboard" class="btn-accent" style="background-color: #0F172A; color: #FFFFFF !important; font-family: 'Outfit', sans-serif;" target="_blank">Access Client Dashboard &rarr;</a>
                       </td>
                     </tr>
                   </table>
@@ -905,8 +905,8 @@ export function getAcceleratorApplicationConfirmationTemplate(firstName: string 
               <!-- Footer -->
               <tr>
                 <td class="footer" style="padding: 30px 24px; background-color: #F8FAFC;">
-                  <p style="margin-bottom: 8px; color: #475569; font-weight: 500;">Pete Currey &bull; Founder, Avorria Trading</p>
-                  <p style="margin-bottom: 16px; color: #64748B;">&copy; ${new Date().getFullYear()} Avorria Trading. All rights reserved.</p>
+                  <p style="margin-bottom: 8px; color: #475569; font-weight: 500;">Pete Currey &bull; Founder, Drawdown Trading</p>
+                  <p style="margin-bottom: 16px; color: #64748B;">&copy; ${new Date().getFullYear()} Drawdown Trading. All rights reserved.</p>
                   <hr style="border: 0; border-top: 1px solid #E2E8F0; margin: 20px 0;" />
                   <p class="disclaimer">
                     <strong>RISK WARNING:</strong> Trading financial instruments carries high risk. Most retail traders lose capital. Only risk capital you can afford to lose. All content is for educational use only and does not constitute financial advice.
@@ -934,7 +934,7 @@ export interface BlogPostEmailData {
   unsubscribeUrl?: string;
 }
 
-export function convertMarkdownToHtml(md: string, postUrl: string = "https://avorria.com"): string {
+export function convertMarkdownToHtml(md: string, postUrl: string = "https://drawdown.trading"): string {
   if (!md) return "";
 
   // Preprocess: If Tiptap has wrapped raw markdown elements or custom components in simple <p> tags, unwrap them!
@@ -1320,9 +1320,9 @@ export function convertMarkdownToHtml(md: string, postUrl: string = "https://avo
         <div style="font-family: ui-monospace, monospace; font-size: 9px; font-weight: 700; color: #00C2FF; letter-spacing: 1px; margin-bottom: 10px; text-transform: uppercase;">📈 // RECOMMENDED TRADING TERMINAL</div>
         <h4 style="margin: 0 0 6px 0; font-family: 'Outfit', sans-serif; font-size: 15px; font-weight: 700; color: #0F172A; text-transform: uppercase;">Unlock Advanced Charts on TradingView</h4>
         <p style="margin: 0 0 16px 0; font-family: 'Outfit', sans-serif; font-size: 12px; color: #475569; line-height: 1.5;">
-          Standardize your risk and trade execution models. Join TradingView via Avorria to get verified premium platform layouts and our private indicators.
+          Standardize your risk and trade execution models. Join TradingView via Drawdown to get verified premium platform layouts and our private indicators.
         </p>
-        <a href="https://www.tradingview.com/?aff=avorria" target="_blank" style="display: inline-block; padding: 10px 18px; background-color: #00C2FF; color: #FFFFFF !important; font-family: ui-monospace, monospace; font-size: 10px; font-weight: bold; text-decoration: none; text-transform: uppercase; border-radius: 0 !important; letter-spacing: 1px;">
+        <a href="https://www.tradingview.com/?aff=drawdown" target="_blank" style="display: inline-block; padding: 10px 18px; background-color: #00C2FF; color: #FFFFFF !important; font-family: ui-monospace, monospace; font-size: 10px; font-weight: bold; text-decoration: none; text-transform: uppercase; border-radius: 0 !important; letter-spacing: 1px;">
           Get TradingView &rarr;
         </a>
       </div>
@@ -1348,7 +1348,7 @@ export function convertMarkdownToHtml(md: string, postUrl: string = "https://avo
   return html;
 }
 
-export function formatHtmlForEmail(html: string, postUrl: string = "https://avorria.com"): string {
+export function formatHtmlForEmail(html: string, postUrl: string = "https://drawdown.trading"): string {
   if (!html) return "";
 
   // Convert raw Markdown and custom MDX components to email-safe HTML first
@@ -1424,7 +1424,7 @@ export function formatHtmlForEmail(html: string, postUrl: string = "https://avor
 }
 
 export function getBlogPostEmailTemplate(data: BlogPostEmailData): string {
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL || process.env.NEXT_PUBLIC_SITE_URL || "https://avorria.com";
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL || process.env.NEXT_PUBLIC_SITE_URL || "https://drawdown.trading";
   const postUrl = `${appUrl}/blog/${data.slug}`;
   const styledBody = formatHtmlForEmail(data.body, postUrl);
   const unsubUrl = data.unsubscribeUrl || "{{unsubscribeUrl}}";
@@ -1455,7 +1455,7 @@ export function getBlogPostEmailTemplate(data: BlogPostEmailData): string {
               <!-- Header with top orange rule accent -->
               <tr>
                 <td class="header" style="border-top: 2px solid #F9771D; border-bottom: 1px solid #E2E8F0; background-color: #FFFFFF; padding: 32px 24px; text-align: center;">
-                  <h1 style="color: #0F172A; font-size: 24px; margin: 0 0 4px 0; font-family: 'Outfit', sans-serif; font-weight: 700; letter-spacing: -0.5px; text-transform: uppercase;">Avorria<span style="color: #F9771D;">.</span></h1>
+                  <h1 style="color: #0F172A; font-size: 24px; margin: 0 0 4px 0; font-family: 'Outfit', sans-serif; font-weight: 700; letter-spacing: -0.5px; text-transform: uppercase;">Drawdown<span style="color: #F9771D;">.</span></h1>
                   <p style="margin: 0; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: #64748B; font-family: ui-monospace, monospace;">${data.category.toUpperCase()} &bull; Editorial Newsletter</p>
                 </td>
               </tr>
@@ -1524,8 +1524,8 @@ export function getBlogPostEmailTemplate(data: BlogPostEmailData): string {
               <!-- Footer -->
               <tr>
                 <td class="footer" style="padding: 30px 24px; text-align: center; color: #64748B; font-size: 11px; border-top: 1px solid #E2E8F0; background-color: #F8FAFC; font-family: 'Outfit', sans-serif;">
-                  <p style="margin-bottom: 8px; color: #475569; font-weight: 500;">Pete Currey &bull; Avorria Trading</p>
-                  <p style="margin-bottom: 16px; color: #64748B;">&copy; ${new Date().getFullYear()} Avorria Trading. All rights reserved.</p>
+                  <p style="margin-bottom: 8px; color: #475569; font-weight: 500;">Pete Currey &bull; Drawdown Trading</p>
+                  <p style="margin-bottom: 16px; color: #64748B;">&copy; ${new Date().getFullYear()} Drawdown Trading. All rights reserved.</p>
                   <p style="margin-bottom: 16px;"><a href="${unsubUrl}" style="color: #64748B; text-decoration: underline;">Unsubscribe</a></p>
                   <hr style="border: 0; border-top: 1px solid #E2E8F0; margin: 20px 0;" />
                   <p class="disclaimer" style="font-size: 10px; color: #94A3B8; margin-top: 20px; line-height: 1.5; text-align: center;">
